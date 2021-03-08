@@ -16,6 +16,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
+  const spanClasses = clsx({ [css.isDisabled]: [rest.disabled] });
   const classes = clsx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
@@ -29,7 +30,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 
   return (
     <Parent {...(tooltip ? { title: tooltip } : {})}>
-      <span className={clsx({ [css.isDisabled]: [rest.disabled] })}>
+      <span className={spanClasses}>
         <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
           {renderContent}
         </Button>

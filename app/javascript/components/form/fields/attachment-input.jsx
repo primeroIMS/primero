@@ -89,8 +89,10 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     );
   };
 
+  const classes = clsx(css.attachment, { [css.document]: isDocument });
+
   return (
-    <div className={clsx(css.attachment, { [css.document]: isDocument })}>
+    <div className={classes}>
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
         <FormHelperText error={error}>{helperText}</FormHelperText>

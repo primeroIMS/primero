@@ -17,16 +17,25 @@ import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
+
 const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const classes = makeStyles(expansionPanelSummaryClasses)();
+  const css = useStyles();
+  const classes = useStylesExpansionPanel();
+  const accordionClasses = clsx(css.alert, css[severity]);
+  const accordionDetailsClasses = clsx({ [css.alertItems]: true });
+  const accordionSummaryClasses = clsx({
+    [css.alertTitle]: true,
+    [css.disableCollapse]: items?.size <= 1
+  });
 
   const renderItems = () => {
     return (
       items?.size > 1 && (
         <AccordionDetails>
-          <ul className={clsx({ [css.alertItems]: true })}>
+          <ul className={accordionDetailsClasses}>
             {items.map(item => (
               <li key={generate.messageKey()}>{item.get("message")}</li>
             ))}
@@ -62,16 +71,13 @@ const Component = ({ title, items, severity }) => {
   };
 
   return (
-    <Accordion className={clsx(css.alert, css[severity])}>
+    <Accordion className={accordionClasses}>
       <AccordionSummary
-        classes={classes}
+        classes={accordionSummaryClasses}
         expandIcon={items?.size > 1 ? <ExpandMoreIcon /> : null}
         aria-controls="record-form-alerts-panel"
         id="record-form-alerts-panel-header"
-        className={clsx({
-          [css.alertTitle]: true,
-          [css.disableCollapse]: items?.size <= 1
-        })}
+        className={classes}
       >
         {renderTitle()}
       </AccordionSummary>

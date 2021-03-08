@@ -20,13 +20,11 @@ const TableValues = ({ columns, values }) => {
   const renderRows = allValues => {
     return allValues.map(value => {
       const { colspan, row } = value;
+      const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
 
       return (
         <MuiThemeProvider key={generateKey()} theme={tableValuesTheme(selector)}>
-          <TableRow
-            className={clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true })}
-            key={`${Math.floor(Math.random() * 10000 + 1)}-data`}
-          >
+          <TableRow className={classes} key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
             {row.map(r => {
               return (
                 <TableCell colSpan={colspan} key={generateKey(value)}>

@@ -28,17 +28,17 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
     setExpanded(!expanded);
   };
 
+  const classes = clsx({
+    [css.heading]: true,
+    [css.error]: renderError()
+  });
+
   if (expandable) {
     return (
       <Accordion elevation={3} expanded={expanded} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Tooltip title={tooltip}>
-            <Typography
-              className={clsx({
-                [css.heading]: true,
-                [css.error]: renderError()
-              })}
-            >
+            <Typography className={classes}>
               <FormSectionTitle formSection={formSection} />
             </Typography>
           </Tooltip>
