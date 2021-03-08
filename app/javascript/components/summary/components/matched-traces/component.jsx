@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { fromJS } from "immutable";
+import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import LoadingIndicator from "../../../loading-indicator";
@@ -23,6 +24,16 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
   const [selectedTraceId, setSelectedTraceId] = useState("");
   const foundMatchedTrace = data.find(matched => matched.get("id") === selectedTraceId)?.toJS();
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearMatchedTraces());
+    };
+  }, []);
+
+  if (isEmpty(record)) {
+    return null;
+  }
+
   const selectedTrace = fromJS({
     case: {
       age: record.get("age"),
@@ -39,12 +50,6 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
     likelihood: "possible",
     score: 0.4136639493462357
   });
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearMatchedTraces());
-    };
-  }, []);
 
   const renderMatchedTraces =
     data.size > 0 &&

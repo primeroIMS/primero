@@ -39,7 +39,9 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
   const matchedTracesLoading = useSelector(state => getLoadingMatchedTraces(state));
 
   useEffect(() => {
-    dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+    if (!mode.isNew) {
+      dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+    }
 
     return () => {
       dispatch(clearPotentialMatches());
