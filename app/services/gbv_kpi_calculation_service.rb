@@ -115,18 +115,25 @@ class GbvKpiCalculationService
   end
 
   def form_responses(form_section_unique_id)
-    # This only preloads subforms at depth 1 (which is most subforms).
-    # Any subforms which are deeper will cause new queries for the subform
-    # and for it's fields.
-    form_section = FormSection
-      .eager_load(fields: { subform: :fields })
-      .find_by(unique_id: form_section_unique_id)
+    form_section = form_section_cache[form_section_unique_id]
 
     form_section_results = access_migrated_forms(form_section_unique_id)
 
     return FormSectionResponseList.new(responses: [], form_section: nil) unless form_section
 
     FormSectionResponseList.new(responses: form_section_results, form_section: form_section)
+  end
+
+  # Cache data so that it can be shared across kpi calculations
+  def form_section_cache
+    # This only preloads subforms at depth 1 (which is most subforms).
+    # Any subforms which are deeper will cause new queries for the subform
+    # and for it's fields.
+    @form_section_cache ||= Hash.new do |cache, form_section_unique_id|
+      cache[form_section_unique_id] = FormSection
+        .eager_load(fields: { subform: :fields })
+        .find_by(unique_id: form_section_unique_id)
+    end
   end
 
   def access_migrated_forms(form_section_unique_id)
