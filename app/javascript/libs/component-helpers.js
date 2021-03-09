@@ -13,33 +13,27 @@ export const dataToJS = data => {
   return data;
 };
 
-export const valuesToSearchableSelect = (data, searchValue, searchLabel, locale) => {
-  const values = dataToJS(data);
+export const valuesToSearchableSelect = (data = [], searchValue, searchLabel, locale) =>
+  data.map(value => {
+    return Object.entries(value).reduce((acum, v) => {
+      const obj = acum;
+      const [key, val] = v;
 
-  const result =
-    values?.map(value => {
-      return Object.entries(value).reduce((acum, v) => {
-        const obj = acum;
-        const [key, val] = v;
+      if (key === searchValue) {
+        obj.value = val;
+      }
 
-        if (key === searchValue) {
-          obj.value = val;
-        }
+      if (key === searchLabel) {
+        obj.label = typeof val === "object" ? displayNameHelper(val, locale) : val;
+      }
 
-        if (key === searchLabel) {
-          obj.label = typeof val === "object" ? displayNameHelper(val, locale) : val;
-        }
+      if (key === "isDisabled") {
+        obj.isDisabled = val;
+      }
 
-        if (key === "isDisabled") {
-          obj.isDisabled = val;
-        }
-
-        return obj;
-      }, {});
-    }) || [];
-
-  return result;
-};
+      return obj;
+    }, {});
+  }) || [];
 
 export const compare = (prev, next) => prev.equals(next);
 

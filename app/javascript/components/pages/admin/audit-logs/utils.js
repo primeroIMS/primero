@@ -1,12 +1,9 @@
-import { dataToJS } from "../../../../libs";
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { TIMESTAMP, USER_NAME } from "./constants";
 
-export const searchableUsers = data => {
-  const users = dataToJS(data);
-
-  return users.reduce((acc, user) => [...acc, { id: user.user_name, display_name: user.user_name }], []);
+export const searchableUsers = (data = []) => {
+  return data.reduce((acc, user) => [...acc, { id: user.get("user_name"), display_name: user.get("user_name") }], []);
 };
 
 export const buildAuditLogsQuery = data => {

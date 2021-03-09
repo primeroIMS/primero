@@ -100,7 +100,7 @@ const Component = ({
           approvalId: requestType,
           body: actionBody,
           message: i18n.t(message, {
-            approval_label: approvalsLabels[requestType]
+            approval_label: approvalsLabels.get(requestType)
           }),
           messageFromQueue: i18n.t("offline_submitted_changes"),
           currentUser: username,

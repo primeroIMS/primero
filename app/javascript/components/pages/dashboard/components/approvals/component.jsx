@@ -71,7 +71,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_ASSESSMENT,
       options: {
         items: approvalsAssessment,
-        sumTitle: approvalsLabels.assessment
+        sumTitle: approvalsLabels.get("assessment")
       }
     },
     {
@@ -79,7 +79,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CASE_PLAN,
       options: {
         items: approvalsCasePlan,
-        sumTitle: approvalsLabels.case_plan
+        sumTitle: approvalsLabels.get("case_plan")
       }
     },
     {
@@ -87,7 +87,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CLOSURE,
       options: {
         items: approvalsClosure,
-        sumTitle: approvalsLabels.closure
+        sumTitle: approvalsLabels.get("closure")
       }
     },
     {
@@ -95,7 +95,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
       options: {
         items: approvalsActionPlan,
-        sumTitle: approvalsLabels.action_plan
+        sumTitle: approvalsLabels.get("action_plan")
       }
     },
     {
@@ -103,7 +103,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
       options: {
         items: approvalsGbvClosure,
-        sumTitle: approvalsLabels.gbv_closure
+        sumTitle: approvalsLabels.get("gbv_closure")
       }
     }
   ];

@@ -19,8 +19,10 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [selectedTraceId, setSelectedTraceId] = useState("");
+
   const foundMatchedTrace = data.find(matched => matched.get("id") === selectedTraceId)?.toJS();
 
   const selectedTrace = fromJS({

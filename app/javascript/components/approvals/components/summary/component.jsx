@@ -17,8 +17,8 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
 
   const renderApprovalValue =
     isRequest && !isResponse
-      ? approvalsLabels[approvalSubform.get("approval_requested_for")]
-      : approvalsLabels[approvalSubform.get("approval_response_for")];
+      ? approvalsLabels.get(approvalSubform.get("approval_requested_for"))
+      : approvalsLabels.get(approvalSubform.get("approval_response_for"));
 
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>

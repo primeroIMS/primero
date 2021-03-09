@@ -126,14 +126,14 @@ const Component = ({
   if (localizedFields && records) {
     translatedRecords = records.map(current => {
       const translatedFields = localizedFields.reduce((acc, field) => {
-        const translatedValue = displayNameHelper(dataToJS(current.get(field)), i18n.locale);
+        const translatedValue = displayNameHelper(current.get(field), i18n.locale);
 
         return acc.merge({
           [field]:
             field === "values"
               ? current
                   .get(field)
-                  .map(value => displayNameHelper(dataToJS(value.get("display_text")), i18n.locale) || "")
+                  .map(value => displayNameHelper(value.get("display_text"), i18n.locale) || "")
                   .join(", ")
               : translatedValue
         });

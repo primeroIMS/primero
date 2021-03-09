@@ -4,7 +4,7 @@ describe("<Form /> - Utils", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    ["submitHandler", "touchedFormData", "whichFormMode", "optionText", "whichOptions", "notVisible"].forEach(
+    ["submitHandler", "touchedFormData", "whichFormMode", "optionText", "notVisible"].forEach(
       property => {
         expect(indexValues).to.have.property(property);
         delete indexValues[property];

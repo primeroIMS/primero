@@ -2,26 +2,10 @@ import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
 import { format } from "date-fns";
 
-import { TICK_FIELD } from "../form";
-import { dataToJS, displayNameHelper } from "../../libs";
+import { displayNameHelper } from "../../libs";
 import { AGE_MAX, DATE_FORMAT } from "../../config";
 
-import { ALLOWED_FIELD_TYPES, DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
-
-export const dependantFields = formSections => {
-  const data = dataToJS(formSections);
-
-  return data[0].fields.reduce((acc, field) => {
-    if ([NAME_FIELD, DESCRIPTION_FIELD].includes(field.name)) {
-      return acc;
-    }
-
-    return {
-      ...acc,
-      [field.name]: field.type === TICK_FIELD ? false : []
-    };
-  }, {});
-};
+import { ALLOWED_FIELD_TYPES, REPORTABLE_TYPES } from "./constants";
 
 export const formatAgeRange = data => data.join(", ").replace(/\../g, "-").replace(`-${AGE_MAX}`, "+");
 
@@ -110,7 +94,7 @@ export const formatReport = report => {
 };
 
 export const formattedFields = (formSections, modules, recordType, locale) => {
-  const formsByModuleAndRecordType = dataToJS(formSections).filter(formSection =>
+  const formsByModuleAndRecordType = formSections.filter(formSection =>
     Array.isArray(modules)
       ? formSection.module_ids.some(mod => modules.includes(mod))
       : formSection.module_ids.includes(modules)
@@ -139,12 +123,13 @@ export const checkValue = filter => {
 };
 
 export const buildUserModules = userModules => {
-  const modules = dataToJS(userModules);
-
-  if (isEmpty(modules)) {
+  if (userModules.isEmpty()) {
     return [];
   }
 
-  // eslint-disable-next-line camelcase
-  return modules.map(({ unique_id, name }) => ({ id: unique_id, display_text: name }));
+  return userModules.reduce((current, prev) => {
+    current.push({ id: prev.get("unique_id"), display_text: prev.get("name") });
+
+    return current;
+  }, []);
 };

@@ -2,7 +2,7 @@ import { fromJS, Map } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
-import { dataToJS, displayNameHelper } from "../../libs";
+import { displayNameHelper } from "../../libs";
 import { getRecordForms } from "../record-form";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
@@ -92,7 +92,7 @@ const lookupValues = (state, optionStringsSource, i18n) =>
         result.push(
           Map({
             id: item.get("id"),
-            display_text: displayNameHelper(dataToJS(item.get("display_text")), i18n.locale)
+            display_text: displayNameHelper(item.get("display_text"), i18n.locale)
           })
         ),
       fromJS([])

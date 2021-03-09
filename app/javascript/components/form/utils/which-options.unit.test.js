@@ -1,43 +1,6 @@
-import { whichOptions, optionText } from "./which-options";
+import { optionText } from "./which-options";
 
 describe("<Form /> - Options", () => {
-  describe("whichOptions()", () => {
-    const options = [{ id: "option-1", display_text: "Option 1" }];
-
-    it("returns lookups if optionStringsSource set", () => {
-      expect(
-        whichOptions({
-          optionStringsSource: "test",
-          lookups: options,
-          i18n: {
-            locale: "en"
-          }
-        })
-      ).to.deep.equal(options);
-    });
-
-    it("returns array of options if options is an array", () => {
-      expect(
-        whichOptions({
-          options
-        })
-      ).to.deep.equal(options);
-    });
-
-    it("returns array of options if options is an object", () => {
-      expect(
-        whichOptions({
-          options: {
-            en: options
-          },
-          i18n: {
-            locale: "en"
-          }
-        })
-      ).to.deep.equal(options);
-    });
-  });
-
   describe("optionText()", () => {
     const locale = "en";
 

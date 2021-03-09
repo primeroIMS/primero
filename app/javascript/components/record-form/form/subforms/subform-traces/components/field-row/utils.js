@@ -1,16 +1,10 @@
 /* eslint-disable camelcase */
-import { isCollection } from "immutable";
+import { isCollection, fromJS } from "immutable";
 
 import { TEXT_FIELD, TEXT_AREA } from "../../../../../../form";
-import { dataToJS } from "../../../../../../../libs";
 
-export const getOptionText = ({ options, value }) => {
-  const plainOptions = dataToJS(options);
-
-  const option = plainOptions.find(optionValue => optionValue.id === value);
-
-  return option?.display_text || value;
-};
+export const getOptionText = ({ options, value }) =>
+  options.find(option => option.get("id") === value, null, fromJS({})).get("display_text", value);
 
 export const isTextField = field => [TEXT_FIELD, TEXT_AREA].includes(field.type);
 

@@ -47,15 +47,15 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   const buildLabelItem = item => {
     switch (item) {
       case "approval_assessment_pending_group":
-        return approvalsLabels.assessment;
+        return approvalsLabels.get("assessment");
       case "approval_case_plan_pending_group":
-        return approvalsLabels.case_plan;
+        return approvalsLabels.get("case_plan");
       case "approval_closure_pending_group":
-        return approvalsLabels.closure;
+        return approvalsLabels.get("closure");
       case "approval_action_plan_pending_group":
-        return approvalsLabels.action_plan;
+        return approvalsLabels.get("action_plan");
       case "approval_gbv_closure_pending_group":
-        return approvalsLabels.gbv_closure;
+        return approvalsLabels.get("gbv_closure");
       default:
         return i18n.t(`dashboard.${item}`);
     }

@@ -129,8 +129,7 @@ const Component = ({ mode }) => {
 
   const pageTitle = formMode.get("isNew")
     ? i18n.t("forms.add")
-    : (selectedForm.get("name") && displayNameHelper(dataToJS(selectedForm.get("name")), i18n.locale)) ||
-      i18n.t("forms.label");
+    : (selectedForm.get("name") && displayNameHelper(selectedForm.get("name"), i18n.locale)) || i18n.t("forms.label");
 
   const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
 
