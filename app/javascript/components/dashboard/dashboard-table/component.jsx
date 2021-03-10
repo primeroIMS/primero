@@ -54,27 +54,24 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
     }
   };
 
-  console.log("COLUMNS", columns);
   const columnsWithNotClickableZeroColumns =
     columns?.length > 0 &&
     columns.map(col => {
-      // if (typeof col.options !== "undefined") {
-      //   return {
-      //     ...col,
-      //     options: {
-      //       ...col.options,
-      //       ...tableCellGreaterThanZero(clickableCell)
-      //     }
-      //   };
-      // }
+      if (typeof col.options !== "undefined") {
+        return {
+          ...col,
+          options: {
+            ...col.options,
+            ...tableCellGreaterThanZero(clickableCell)
+          }
+        };
+      }
 
       return { ...col, options: tableCellGreaterThanZero(clickableCell) };
     });
 
-  console.log(columnsWithNotClickableZeroColumns);
-
   const tableOptions = {
-    columns: columnsWithNotClickableZeroColumns,
+    columns: columnsWithNotClickableZeroColumns || columns,
     options,
     data: dataToJS(data),
     title
