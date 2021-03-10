@@ -4,6 +4,7 @@ import MUIDataTable from "mui-datatables";
 import { useSelector } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import isEqual from "lodash/isEqual";
+import { makeStyles } from "@material-ui/styles";
 
 import { SUBFORM_SECTION } from "../../../../../../../form";
 import { useI18n } from "../../../../../../../i18n";
@@ -13,10 +14,14 @@ import { getFormSections, getFieldsByIds } from "../../../../../forms-list/selec
 import SelectionColumn from "../selection-column";
 
 import { fieldsTableTheme } from "./theme";
+import styles from "./styles.css";
 import { COLUMN_HEADERS, NAME } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields }) => {
   const i18n = useI18n();
+  const css = useStyles();
 
   const optionsColumn = {
     name: "name",
@@ -91,6 +96,8 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
     <MuiThemeProvider theme={fieldsTableTheme}>
       <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
+    // <div className={css.existingTableRoot}>
+    // </div>
   );
 };
 

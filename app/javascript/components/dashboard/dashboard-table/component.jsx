@@ -8,6 +8,7 @@ import { isEqual } from "lodash";
 import { dataToJS, useThemeHelper } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
+import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
 
 import dashboardTableTheme from "./theme";
 
@@ -53,18 +54,33 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
     }
   };
 
+  console.log("COLUMNS", columns);
+  const columnsWithNotClickableZeroColumns =
+    columns?.length > 0 &&
+    columns.map(col => {
+      // if (typeof col.options !== "undefined") {
+      //   return {
+      //     ...col,
+      //     options: {
+      //       ...col.options,
+      //       ...tableCellGreaterThanZero(clickableCell)
+      //     }
+      //   };
+      // }
+
+      return { ...col, options: tableCellGreaterThanZero(clickableCell) };
+    });
+
+  console.log(columnsWithNotClickableZeroColumns);
+
   const tableOptions = {
-    columns,
+    columns: columnsWithNotClickableZeroColumns,
     options,
     data: dataToJS(data),
     title
   };
 
-  return (
-    <MuiThemeProvider theme={theme}>
-      <MUIDataTable {...tableOptions} />
-    </MuiThemeProvider>
-  );
+  return <MUIDataTable {...tableOptions} />;
 };
 
 DashboardTable.displayName = "DashboardTable";

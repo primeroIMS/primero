@@ -1,41 +1,19 @@
 import { useRef } from "react";
 import PropTypes from "prop-types";
-import { createMuiTheme, MuiThemeProvider, useTheme } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { makeStyles } from "@material-ui/styles";
 
-const ITEM_HEIGHT = 48;
+import styles from "./styles.css";
+
+const useStyles = makeStyles(styles);
 
 const ActionMenu = ({ open, onOpen, onClose, items }) => {
-  const currentTheme = useTheme();
-
-  const getMuiTheme = () => {
-    return createMuiTheme({
-      overrides: {
-        MuiListItem: {
-          button: {
-            "&:hover": {
-              backgroundColor: currentTheme.primero.colors.warmGrey1
-            }
-          }
-        },
-        MuiMenuItem: {
-          root: {
-            fontSize: "17px",
-            fontFamily: currentTheme.typography.fontFamily,
-            color: "#231e1f",
-            lineHeight: 1,
-            fontWeight: "normal"
-          }
-        }
-      }
-    });
-  };
-
+  const css = useStyles();
   const moreButtonRef = useRef(null);
 
   return (
-    <MuiThemeProvider theme={{ ...currentTheme, ...getMuiTheme() }}>
+    <>
       <IconButton
         aria-label="More"
         aria-controls="long-menu"
@@ -52,11 +30,9 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
         onClose={onClose}
         keepMounted
         PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
-            width: 200
-          }
+          style: css.paper
         }}
+        classes={{ root: css.root }}
       >
         {items.map(item => {
           return (
@@ -66,7 +42,7 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
           );
         })}
       </Menu>
-    </MuiThemeProvider>
+    </>
   );
 };
 
