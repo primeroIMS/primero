@@ -12,7 +12,7 @@ import { ALERTS_COLUMNS, ALERTS } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
 import PhotoColumnHeader from "./components/photo-column-header";
 
-export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, onlineAndCanViewModal) => {
+export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
 
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
@@ -22,7 +22,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
     // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label, react/prop-types
     const disableColumnOffline = args => {
       const { component: Component, props = {}, value, rowIndex } = args || {};
-      const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || onlineAndCanViewModal;
+      const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
 
       return (
         <ConditionalWrapper
