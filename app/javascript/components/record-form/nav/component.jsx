@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
-import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { INCIDENT_FROM_CASE, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
@@ -23,9 +23,12 @@ import { NavGroup, RecordInformation } from "./components";
 import { getRecordInformationFormIds, RECORD_INFORMATION_GROUP } from "./components/record-information";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   firstTab,
   formNav,
+  hasForms,
   handleToggleNav,
   isNew,
   mobileDisplay,
@@ -40,7 +43,7 @@ const Component = ({
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
@@ -50,7 +53,7 @@ const Component = ({
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule,
-      formName: selectedForm || firstTab.unique_id,
+      formName: selectedForm || firstTab?.unique_id,
       checkVisible: true,
       i18n
     })
@@ -88,6 +91,28 @@ const Component = ({
     }
   };
 
+  const handleWithoutSelectedForm = () => {
+    dispatch(setSelectedForm(firstTab.unique_id));
+    if (currentSelectedRecord !== selectedRecord) {
+      setOpen(firstTab.form_group_id);
+    } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    }
+  };
+
+  const handleFirstTab = () => {
+    if (!selectedForm && firstTab) {
+      handleWithoutSelectedForm();
+    } else if (!selectedRecordForm?.isEmpty()) {
+      setOpen(selectedRecordForm.first().form_group_id);
+    } else if (recordInformationFormIds.includes(selectedForm)) {
+      setOpen(RECORD_INFORMATION_GROUP);
+    } else if (firstTab) {
+      dispatch(setSelectedForm(firstTab.unique_id));
+      setOpen(firstTab.form_group_id);
+    }
+  };
+
   useEffect(() => {
     if (isNew && !selectedForm) {
       dispatch(setSelectedForm(firstTab.unique_id));
@@ -96,22 +121,20 @@ const Component = ({
   }, []);
 
   useEffect(() => {
-    if (!selectedForm) {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      if (currentSelectedRecord !== selectedRecord) {
-        setOpen(firstTab.form_group_id);
-      } else if (!selectedRecordForm?.isEmpty() && open !== selectedRecordForm.first().form_group_id) {
-        setOpen(selectedRecordForm.first().form_group_id);
-      }
-    } else if (!selectedRecordForm?.isEmpty()) {
-      setOpen(selectedRecordForm.first().form_group_id);
-    } else if (recordInformationFormIds.includes(selectedForm)) {
+    if (!hasForms && !selectedForm) {
+      dispatch(setSelectedForm(RECORD_OWNER));
       setOpen(RECORD_INFORMATION_GROUP);
-    } else {
-      dispatch(setSelectedForm(firstTab.unique_id));
-      setOpen(firstTab.form_group_id);
     }
-  }, [firstSelectedForm?.form_group_id]);
+    if (hasForms && selectedForm === RECORD_OWNER) {
+      dispatch(setSelectedForm(""));
+    }
+  }, [hasForms]);
+
+  useEffect(() => {
+    if (hasForms) {
+      handleFirstTab();
+    }
+  }, [firstSelectedForm?.form_group_id, hasForms]);
 
   useEffect(() => {
     // If we are going back
@@ -191,6 +214,7 @@ Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
+  hasForms: PropTypes.bool,
   history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,

@@ -13,8 +13,10 @@ import { useThemeHelper } from "../../../libs";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 

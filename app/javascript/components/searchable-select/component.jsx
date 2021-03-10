@@ -8,6 +8,8 @@ import { NAME } from "./constants";
 import styles from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const SearchableSelect = ({
   defaultValues,
   helperText,
@@ -24,7 +26,7 @@ const SearchableSelect = ({
   InputLabelProps
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const initialValues = (() => {
     if (Array.isArray(defaultValues)) {

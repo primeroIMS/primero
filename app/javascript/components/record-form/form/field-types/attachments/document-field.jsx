@@ -24,6 +24,8 @@ import { useThemeHelper } from "../../../../../libs";
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 
+const useStyles = makeStyles(styles);
+
 const DocumentField = ({
   attachment,
   title,
@@ -37,7 +39,7 @@ const DocumentField = ({
   field
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);

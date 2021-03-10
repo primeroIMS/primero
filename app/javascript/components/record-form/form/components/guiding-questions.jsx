@@ -7,8 +7,10 @@ import { Popover, Typography, Link } from "@material-ui/core";
 import styles from "./styles.css";
 import { GUIDING_QUESTIONS_NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const GuidingQuestions = ({ label, text }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {

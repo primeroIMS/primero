@@ -38,12 +38,14 @@ import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = () => {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const defaultFilterValues = {
     recordType: RECORD_TYPES.cases,
     primeroModule: MODULES.CP

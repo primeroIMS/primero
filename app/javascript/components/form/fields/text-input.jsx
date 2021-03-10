@@ -9,8 +9,10 @@ import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress } = metaInputProps;
   let inputType = "text";

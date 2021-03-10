@@ -52,8 +52,10 @@ import {
 } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const dispatch = useDispatch();

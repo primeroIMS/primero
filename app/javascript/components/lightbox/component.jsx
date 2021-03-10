@@ -6,8 +6,10 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ trigger, image }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const [open, setOpen] = useState(false);
 

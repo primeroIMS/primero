@@ -23,9 +23,11 @@ import { useApp } from "../../../../../application";
 import styles from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ getValues }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 

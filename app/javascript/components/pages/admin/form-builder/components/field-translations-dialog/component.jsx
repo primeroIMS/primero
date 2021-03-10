@@ -21,8 +21,10 @@ import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);

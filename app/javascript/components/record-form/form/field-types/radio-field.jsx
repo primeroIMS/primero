@@ -15,8 +15,10 @@ import { RADIO_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
 import { useMemoizedSelector } from "../../../../libs";
 
+const useStyles = makeStyles(styles);
+
 const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ...rest }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const selectedValue = field.selected_value;

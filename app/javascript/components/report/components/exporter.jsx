@@ -9,8 +9,10 @@ import styles from "./styles.css";
 import { downloadFile, tableToCsv } from "./utils";
 import { DEFAULT_FILE_NAME, NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Exporter = ({ includesGraph }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const handleClickTableExporter = () => {
     const csvBlob = new Blob([tableToCsv("table tr")], { type: "text/csv" });
 

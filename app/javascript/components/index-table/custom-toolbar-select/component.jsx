@@ -10,6 +10,8 @@ import styles from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   displayData,
   fetchRecords,
@@ -22,7 +24,7 @@ const Component = ({
   setSelectedRecords,
   totalRecords
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
 

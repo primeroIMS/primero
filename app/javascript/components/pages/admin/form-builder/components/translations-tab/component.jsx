@@ -18,8 +18,10 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { dialogOpen } = useDialog(FieldTranslationsDialogName);

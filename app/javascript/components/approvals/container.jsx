@@ -8,8 +8,10 @@ import styles from "./styles.css";
 import { NAME } from "./constants";
 import ApprovalPanel from "./components/panel";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const renderApprovals =

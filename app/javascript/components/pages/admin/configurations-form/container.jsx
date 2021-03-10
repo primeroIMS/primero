@@ -38,9 +38,11 @@ import {
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const isEditOrShow = formMode.isEdit || formMode.isShow;
 
   const i18n = useI18n();

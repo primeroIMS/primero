@@ -15,8 +15,10 @@ import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
+const useStyles = makeStyles(styles);
+
 const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
 

@@ -95,4 +95,25 @@ describe("<Summary />", () => {
       expect(findMatchButton.props().rest.disabled).to.be.false;
     });
   });
+
+  context("when is new record", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        Summary,
+        { ...props, mode: { isNew: true } },
+        initialState,
+        [],
+        formProps
+      ));
+    });
+
+    it("should not dispatch fetchmatchedTraces", () => {
+      const calls = component.props().store.getActions();
+      const actions = calls.map(call => call.type);
+      const expectedActions = ["application/FETCH_SANDBOX_UI"];
+
+      expect(calls).to.have.lengthOf(1);
+      expect(actions).to.deep.equal(expectedActions);
+    });
+  });
 });

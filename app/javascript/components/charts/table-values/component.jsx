@@ -10,8 +10,10 @@ import TableHeader from "./components/table-header";
 import styles from "./styles.css";
 import generateKey from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const TableValues = ({ columns, values }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const columnsOfObjects = columns.every(column => typeof column === "object");
   const itemsNo = !isEmpty(columns) && columnsOfObjects && columns?.length >= 2 ? columns[1].items.length : 0;
@@ -20,13 +22,11 @@ const TableValues = ({ columns, values }) => {
   const renderRows = allValues => {
     return allValues.map(value => {
       const { colspan, row } = value;
+      const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
 
       return (
         <MuiThemeProvider key={generateKey()} theme={tableValuesTheme(selector)}>
-          <TableRow
-            className={clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true })}
-            key={`${Math.floor(Math.random() * 10000 + 1)}-data`}
-          >
+          <TableRow className={classes} key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
             {row.map(r => {
               return (
                 <TableCell colSpan={colspan} key={generateKey(value)}>

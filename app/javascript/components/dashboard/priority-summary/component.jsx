@@ -6,8 +6,10 @@ import DashboardChip from "../dashboard-chip";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const PrioritySummary = ({ summary }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const getTitle = status => {

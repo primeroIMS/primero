@@ -21,6 +21,8 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   selectedForm,
   recordType,
@@ -31,7 +33,7 @@ const Component = ({
   hideBack,
   mode
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase

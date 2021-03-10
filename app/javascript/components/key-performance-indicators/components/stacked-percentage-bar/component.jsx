@@ -5,8 +5,10 @@ import styles from "./styles.css";
 import StackedPercentageBarMeter from "./components/stacked-percentage-bar-meter";
 import StackedPercentageBarLabel from "./components/stacked-percentage-bar-label";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ percentages, className }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (percentages.length > 2) throw new Error("StackedPercentageBar components only support a max of 2 percentages");
 

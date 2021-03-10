@@ -5,8 +5,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const showMobileIcon = mobileDisplay ? (
     <IconButton onClick={handleToggleNav}>

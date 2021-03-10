@@ -15,8 +15,10 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const {
     errors,
     setValue,
@@ -70,16 +72,18 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
       <DeleteIcon />
     </IconButton>
   );
+  const classesDragIndicator = clsx([css.fieldColumn, css.dragIndicatorColumn]);
+  const classesTextInput = clsx([css.fieldColumn, css.fieldInput]);
 
   return (
     <Draggable draggableId={option.fieldID} index={index}>
       {provided => (
         <div ref={provided.innerRef} {...provided.draggableProps}>
           <div className={css.fieldRow}>
-            <div className={clsx([css.fieldColumn, css.dragIndicatorColumn])}>
+            <div className={classesDragIndicator}>
               <DragIndicator {...provided.dragHandleProps} />
             </div>
-            <div className={clsx([css.fieldColumn, css.fieldInput])}>
+            <div className={classesTextInput}>
               <TextInput
                 formMethods={formMethods}
                 commonInputProps={{

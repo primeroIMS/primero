@@ -2,10 +2,9 @@ import PropTypes from "prop-types";
 
 const Component = ({ realPercent, index, css }) => {
   const percentage = realPercent * 100;
+  const style = { width: `${percentage}%` };
 
-  return (
-    <div key={index} className={css[`StackedPercentageBar${index + 1}Complete`]} style={{ width: `${percentage}%` }} />
-  );
+  return <div key={index} className={css[`StackedPercentageBar${index + 1}Complete`]} style={style} />;
 };
 
 Component.displayName = "StackedPercentageBarMeter";

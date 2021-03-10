@@ -20,10 +20,12 @@ const Component = ({ approvalSubform, css, isRequest, isResponse }) => {
       ? approvalsLabels.get(approvalSubform.get("approval_requested_for"))
       : approvalsLabels.get(approvalSubform.get("approval_response_for"));
 
+  const classes = clsx(css.chip, css[status]);
+
   const renderStatus = isResponse ? (
     <Grid item md={2} xs={4}>
       <div className={css.approvalsStatus}>
-        <Chip label={i18n.t(`approvals.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
+        <Chip label={i18n.t(`approvals.status.${status}`)} className={classes} size="small" />
       </div>
     </Grid>
   ) : null;
