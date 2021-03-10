@@ -17,8 +17,10 @@ import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);

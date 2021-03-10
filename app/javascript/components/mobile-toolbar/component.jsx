@@ -10,8 +10,10 @@ import { DEMO } from "../application/constants";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const MobileToolbar = ({ openDrawer }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { demo } = useApp();
   const i18n = useI18n();
 

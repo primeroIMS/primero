@@ -15,8 +15,10 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const {
     errors,
     setValue,

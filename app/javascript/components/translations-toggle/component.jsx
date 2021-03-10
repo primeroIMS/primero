@@ -10,11 +10,13 @@ import { selectLocales } from "../application/selectors";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);

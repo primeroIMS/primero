@@ -9,8 +9,10 @@ import { DEMO } from "../application/constants";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ isDemo }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const theme = useTheme();
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const i18n = useI18n();

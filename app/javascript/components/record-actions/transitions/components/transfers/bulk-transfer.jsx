@@ -10,9 +10,11 @@ import styles from "../../styles.css";
 import { BULK_TRANSFER_NAME as NAME } from "./constants";
 import TransferCheckbox from "./transfer-checkbox";
 
+const useStyles = makeStyles(styles);
+
 const BulkTransfer = ({ isBulkTransfer }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [state, setState] = useState(false);
 
   if (!isBulkTransfer) {

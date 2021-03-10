@@ -10,8 +10,10 @@ import TableHeader from "./components/table-header";
 import styles from "./styles.css";
 import generateKey from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const TableValues = ({ columns, values }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const columnsOfObjects = columns.every(column => typeof column === "object");
   const itemsNo = !isEmpty(columns) && columnsOfObjects && columns?.length >= 2 ? columns[1].items.length : 0;

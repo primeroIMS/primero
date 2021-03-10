@@ -5,8 +5,10 @@ import { Box, useMediaQuery } from "@material-ui/core";
 import styles from "./styles.css";
 import { getLogo } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const ModuleLogo = ({ moduleLogo, white }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const theme = useTheme();
   const tabletDisplay = useMediaQuery(theme.breakpoints.only("md"));
   const [fullLogo, smallLogo] = getLogo(moduleLogo, white);

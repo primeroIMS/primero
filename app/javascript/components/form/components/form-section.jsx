@@ -16,8 +16,10 @@ import styles from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
+const useStyles = makeStyles(styles);
+
 const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);

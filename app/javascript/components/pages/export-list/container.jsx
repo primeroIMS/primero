@@ -19,9 +19,11 @@ import styles from "./styles.css";
 import { selectListHeaders } from "./selectors";
 import { NAME, EXPORT_STATUS, EXPORT_COLUMNS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const ExportList = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const recordType = "bulk_exports";
 
   const listHeaders = useSelector(state => selectListHeaders(state, recordType));

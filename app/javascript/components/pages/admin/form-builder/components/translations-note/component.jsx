@@ -11,8 +11,10 @@ import { useI18n } from "../../../../../i18n";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ moduleId, parentForm }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const formGroupLookup = useSelector(

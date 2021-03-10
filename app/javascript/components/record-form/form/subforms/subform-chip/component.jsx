@@ -6,8 +6,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ label, type, ...rest }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const classes = clsx({ [css.subformChip]: true, [css[type]]: true });
 
   return <Chip className={classes} label={label} {...rest} />;

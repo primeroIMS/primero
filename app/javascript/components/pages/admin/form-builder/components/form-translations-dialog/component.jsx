@@ -12,8 +12,10 @@ import { useApp } from "../../../../../application";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./forms";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ getValues, mode, onClose, onSuccess }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = getValues({ nest: true });

@@ -34,8 +34,10 @@ import Actions from "./components/actions";
 import styles from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);

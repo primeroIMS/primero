@@ -4,8 +4,10 @@ import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
 import styles from "../../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ isDragDisabled, ...props }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (

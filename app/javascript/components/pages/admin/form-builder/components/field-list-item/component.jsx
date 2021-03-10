@@ -31,8 +31,10 @@ import { useApp } from "../../../../../application";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();

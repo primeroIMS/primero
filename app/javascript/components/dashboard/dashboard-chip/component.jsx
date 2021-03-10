@@ -5,8 +5,10 @@ import PropTypes from "prop-types";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const DashboardChip = ({ label, type, handleClick }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const handler = typeof handleClick === "function" ? handleClick : null;
   const classes = clsx(css.chip, css[type]);

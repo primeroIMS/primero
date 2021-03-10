@@ -13,10 +13,12 @@ import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const { setValue, watch, register } = formMethods;
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [file, setFile] = useState({
     loading: false,
     data: null,

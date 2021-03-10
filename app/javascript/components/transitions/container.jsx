@@ -11,8 +11,10 @@ import { TRANSITIONS_NAME } from "./constants";
 import renderTransition from "./render-transition";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, handleToggleNav }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const dataTransitions = useSelector(state => selectTransitions(state, recordType, record, isReferral));

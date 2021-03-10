@@ -14,6 +14,8 @@ import usePermissions from "../../../permissions";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
   return Visualizer => {
     const enhance = connect(state => ({ data: selectorsForKPI(identifier, state, defaultData) }), {
@@ -22,7 +24,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
 
     return enhance(({ data, fetchData, dateRanges, ...props }) => {
       const i18n = useI18n();
-      const css = makeStyles(styles)();
+      const css = useStyles();
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
 
       const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);

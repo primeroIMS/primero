@@ -9,8 +9,10 @@ import ButtonText from "../../../button-text";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, tooltip, rest }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;

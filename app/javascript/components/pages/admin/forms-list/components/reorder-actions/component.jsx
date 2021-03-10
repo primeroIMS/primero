@@ -15,9 +15,11 @@ import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../..
 import styles from "./styles.css";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ handleCancel, handleSuccess, open }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const reorderLoading = useSelector(state => getReorderIsLoading(state));
   const errors = useSelector(state => getReorderErrors(state), compare);

@@ -12,8 +12,10 @@ import styles from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const AdminNav = () => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
 

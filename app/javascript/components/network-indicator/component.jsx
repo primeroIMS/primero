@@ -10,8 +10,10 @@ import { useI18n } from "../i18n";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mobile }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx({

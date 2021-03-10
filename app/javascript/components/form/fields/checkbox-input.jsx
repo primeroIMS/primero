@@ -6,8 +6,10 @@ import { Controller } from "react-hook-form";
 import CheckboxGroup from "./checkbox-group";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { control } = formMethods;
   const { name, error, required, label, helperText } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;

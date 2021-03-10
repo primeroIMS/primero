@@ -12,8 +12,10 @@ import { Controller } from "react-hook-form";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const RadioInput = ({ commonInputProps, options, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
   const { control } = formMethods;
 

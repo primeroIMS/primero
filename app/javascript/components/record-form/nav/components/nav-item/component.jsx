@@ -13,6 +13,8 @@ import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   form,
   groupItem,
@@ -26,7 +28,7 @@ const Component = ({
   selectedForm,
   hasError
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;

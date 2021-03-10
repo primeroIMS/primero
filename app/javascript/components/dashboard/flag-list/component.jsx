@@ -7,8 +7,10 @@ import FlagBox from "../flag-box";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const FlagList = ({ flags }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   return (

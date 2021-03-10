@@ -10,9 +10,11 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ open, cancelHandler, children, title }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <Drawer anchor="right" open={open} onClose={cancelHandler} classes={{ paper: css.subformDrawer }}>

@@ -5,8 +5,10 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import styles from "../../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ handleSetFilterValue, options, name, filterValues, id: filterID }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const renderOptions = () =>
     options.map(option => {

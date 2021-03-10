@@ -14,6 +14,8 @@ import styles from "./styles.css";
 import { PRIMERO_IDP } from "./constants";
 import PrimeroIdpLink from "./components/primero-idp-link";
 
+const useStyles = makeStyles(styles);
+
 const showIdps = (identityProviders, dispatch) => {
   const tokenCallback = accessToken => {
     dispatch(attemptIDPLogin(accessToken));
@@ -38,7 +40,7 @@ const showIdps = (identityProviders, dispatch) => {
 
 const Container = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
 
   const identityProviders = useMemoizedSelector(state => getIdentityProviders(state));
