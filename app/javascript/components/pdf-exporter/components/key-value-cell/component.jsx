@@ -94,13 +94,12 @@ const Component = ({
 
     return fieldValue;
   };
+  const kevValueCellClasses = clsx(classes.cell, {
+    [classes.subform]: isSubform
+  });
 
   return (
-    <div
-      className={clsx(classes.cell, {
-        [classes.subform]: isSubform
-      })}
-    >
+    <div className={kevValueCellClasses}>
       <div>{displayName}</div>
       <div>{renderValue(cellValue)}</div>
     </div>

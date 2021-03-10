@@ -2,13 +2,10 @@ import PropTypes from "prop-types";
 
 const Component = ({ realPercent, label, index, css }) => {
   const percentage = realPercent * 100;
+  const style = { width: percentage > 0 ? `${percentage}%` : "auto" };
 
   return (
-    <div
-      key={index}
-      className={css.StackedPercentageBarLabelContainer}
-      style={{ width: percentage > 0 ? `${percentage}%` : "auto" }}
-    >
+    <div key={index} className={css.StackedPercentageBarLabelContainer} style={style}>
       <div>
         <h1 className={css.StackedPercentageBarLabelPercentage}>{`${percentage.toFixed(0)}%`}</h1>
       </div>

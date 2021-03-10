@@ -47,9 +47,10 @@ const TableHeader = ({ columns }) => {
         const repeat = isFirstHeading ? 0 : newColumns[0].items.filter(i => i !== "Total").length;
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells = isFirstHeading ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
+        const classes = clsx({ [css.tableRowHeader]: index === 0 });
 
         return (
-          <TableRow className={clsx({ [css.tableRowHeader]: index === 0 })} key={generateKey("column-row")}>
+          <TableRow className={classes} key={generateKey("column-row")}>
             {allCells.map(cell => {
               if (isEmpty(cell)) {
                 return <TableCell className={css.borderHeadingRight} key={generateKey()} />;

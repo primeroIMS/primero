@@ -328,20 +328,21 @@ const Container = ({ match, mode }) => {
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
+  const containerClasses = clsx(css.recordContainer, {
+    [css.formNavOpen]: toggleNav && mobileDisplay
+  });
+  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = clsx({ [css.demo]: demo });
 
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
         {renderRecordFormToolbar}
-        <div
-          className={clsx(css.recordContainer, {
-            [css.formNavOpen]: toggleNav && mobileDisplay
-          })}
-        >
-          <div className={clsx(css.recordNav, { [css.demo]: demo })}>
+        <div className={containerClasses}>
+          <div className={navContainerClasses}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} ${clsx({ [css.demo]: demo })} record-form-container`}>
+          <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
               externalForms={externalForms}

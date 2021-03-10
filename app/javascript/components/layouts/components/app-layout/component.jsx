@@ -22,7 +22,7 @@ const Component = ({ children }) => {
   const css = useStyles();
   const { demo } = useApp();
   const { theme } = useThemeHelper();
-
+  const classes = clsx({ [css.root]: true, [css.demo]: demo });
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 
   if (!hasPermissions) {
@@ -36,7 +36,7 @@ const Component = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <DemoIndicator isDemo={demo} />
-      <div className={clsx({ [css.root]: true, [css.demo]: demo })}>
+      <div className={classes}>
         <Notifier />
         <Nav />
         <SessionTimeoutDialog />

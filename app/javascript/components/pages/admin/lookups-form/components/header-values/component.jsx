@@ -13,9 +13,10 @@ const Component = ({ hideTranslationColumn }) => {
   const i18n = useI18n();
   const css = useStyles();
   const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
+  const classes = clsx(css.row, css.header);
 
   return (
-    <div className={clsx(css.row, css.header)}>
+    <div className={classes}>
       <div className={css.dragIndicatorContainer} />
       <div>{i18n.t("lookup.english_label")}</div>
       <div className={hide}>{i18n.t("lookup.translation_label")}</div>

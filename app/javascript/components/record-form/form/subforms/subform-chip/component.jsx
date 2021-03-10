@@ -10,8 +10,9 @@ const useStyles = makeStyles(styles);
 
 const Component = ({ label, type, ...rest }) => {
   const css = useStyles();
+  const classes = clsx({ [css.subformChip]: true, [css[type]]: true });
 
-  return <Chip className={clsx({ [css.subformChip]: true, [css[type]]: true })} label={label} {...rest} />;
+  return <Chip className={classes} label={label} {...rest} />;
 };
 
 Component.displayName = NAME;
