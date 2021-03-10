@@ -50,8 +50,10 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ formId, mode, onClose, onSuccess }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();

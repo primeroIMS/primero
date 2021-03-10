@@ -12,9 +12,11 @@ import NAMESPACE from "../../pages/dashboard/namespace";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const loadingIndicatorProps = {
     overlay: true,

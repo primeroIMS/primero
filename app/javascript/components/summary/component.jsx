@@ -27,9 +27,11 @@ import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);

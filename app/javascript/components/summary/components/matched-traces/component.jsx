@@ -16,9 +16,11 @@ import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ data, loading, record, setSelectedForm }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [selectedTraceId, setSelectedTraceId] = useState("");

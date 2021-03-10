@@ -8,8 +8,10 @@ import ListFlagsItemActions from "../list-flags-item-actions";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ flag }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const itemClass = flag?.removed ? css.itemResolved : css.item;
 
   if (!flag) {

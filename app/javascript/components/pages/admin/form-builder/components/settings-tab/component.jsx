@@ -17,8 +17,10 @@ import { whichFormMode } from "../../../../../form";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);

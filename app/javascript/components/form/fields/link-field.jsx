@@ -8,8 +8,10 @@ import InputLabel from "../components/input-label";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { tooltip, href } = metaInputProps;
   const { name, label } = commonInputProps;
   const { control } = formMethods;

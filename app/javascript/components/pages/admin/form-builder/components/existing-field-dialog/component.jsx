@@ -29,9 +29,12 @@ import { FieldsTable } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStylesBase = makeStyles(baseStyles);
+const useStyles = makeStyles(styles);
+
 const Component = ({ parentForm, primeroModule }) => {
-  const baseCss = makeStyles(baseStyles)();
-  const css = makeStyles(styles)();
+  const baseCss = useStylesBase();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { control, register } = useForm();

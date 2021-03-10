@@ -23,9 +23,11 @@ import { NAME } from "./constants";
 import styles from "./styles.css";
 import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { isRTL } = useThemeHelper();
 
   const [selectedIndex, setSelectedIndex] = useState(null);

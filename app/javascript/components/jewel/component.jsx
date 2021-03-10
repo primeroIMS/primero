@@ -5,8 +5,10 @@ import { Brightness1 as Circle } from "@material-ui/icons";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Jewel = ({ value, isForm, isList, isError }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (isList) {
     return <Circle className={css.circleList} />;

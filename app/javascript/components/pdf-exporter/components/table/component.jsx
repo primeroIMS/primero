@@ -13,9 +13,11 @@ import {
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ fields, isSubform, record }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const classes = {
     subform: css.subform,

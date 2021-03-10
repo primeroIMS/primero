@@ -13,8 +13,10 @@ import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ field, traceValue, caseValue, match }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const {
     display_name: displayName,

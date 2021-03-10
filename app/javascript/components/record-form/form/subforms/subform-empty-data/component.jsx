@@ -6,8 +6,10 @@ import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ i18n, subformName }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.emptySubformContainer}>

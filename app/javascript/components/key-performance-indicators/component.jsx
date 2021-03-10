@@ -24,9 +24,11 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
+const useStyles = makeStyles(styles);
+
 const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
 
   return (

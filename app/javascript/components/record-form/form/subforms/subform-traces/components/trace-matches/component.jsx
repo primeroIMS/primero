@@ -19,9 +19,11 @@ import { getOptionText } from "../field-row/utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
 
   const genderOptions = useSelector(state => getOptions(state, LOOKUPS.gender, i18n));

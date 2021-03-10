@@ -10,9 +10,11 @@ import generateKey from "../utils";
 
 import { emptyColumn } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const TableHeader = ({ columns }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   let newColumns = columns;
 
   if (isEmpty(newColumns)) {

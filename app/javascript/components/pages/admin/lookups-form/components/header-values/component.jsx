@@ -7,9 +7,11 @@ import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ hideTranslationColumn }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
 
   return (

@@ -13,8 +13,10 @@ import { useApp } from "../../../application";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ children }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { demo } = useApp();
 
   // TODO: Module hardcoded till we figure out when to switch modules

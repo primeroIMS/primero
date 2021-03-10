@@ -8,9 +8,11 @@ import styles from "../../styles.css";
 import TableRow from "../table-row";
 import { displayNameHelper } from "../../../../../../libs";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <Droppable droppableId={`fs-${collection}`} type="formSection">

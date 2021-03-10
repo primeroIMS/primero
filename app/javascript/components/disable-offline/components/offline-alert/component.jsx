@@ -7,9 +7,11 @@ import { useApp } from "../../../application";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ text }) => {
   const { online } = useApp();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (online) return null;
 

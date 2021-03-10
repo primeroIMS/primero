@@ -3,8 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const PageContent = ({ children }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return <div className={css.content}>{children}</div>;
 };

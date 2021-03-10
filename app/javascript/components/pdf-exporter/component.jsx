@@ -26,6 +26,8 @@ import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
 import Logos from "./components/logos";
 
+const useStyles = makeStyles(styles);
+
 const Component = forwardRef(
   (
     {
@@ -44,7 +46,7 @@ const Component = forwardRef(
     ref
   ) => {
     const i18n = useI18n();
-    const css = makeStyles(styles)();
+    const css = useStyles();
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();

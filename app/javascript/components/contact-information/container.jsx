@@ -9,8 +9,10 @@ import styles from "./styles.css";
 import { selectSupportData } from "./selectors";
 import { BLACK_LISTED_FIELDS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Support = () => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const supportData = useSelector(state => selectSupportData(state));
   const i18n = useI18n();
 

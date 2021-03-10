@@ -7,8 +7,10 @@ import { useMemoizedSelector } from "../../libs";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const AgencyLogo = ({ alwaysFullLogo }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const theme = useTheme();
   const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
   const tabletDisplay = useMediaQuery(theme.breakpoints.down("md"));

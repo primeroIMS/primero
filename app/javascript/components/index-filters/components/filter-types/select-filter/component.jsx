@@ -26,6 +26,8 @@ import handleFilterChange from "../value-handlers";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   addFilterToList,
   filter,
@@ -37,7 +39,7 @@ const Component = ({
   setReset
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();

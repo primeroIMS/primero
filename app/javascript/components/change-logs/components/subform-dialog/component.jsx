@@ -12,6 +12,8 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   recordChanges,
   open,
@@ -24,7 +26,7 @@ const Component = ({
   allAgencies
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const subformTitle = i18n.t("change_logs.changes_subform", {
     subform_name: recordChanges?.subformName
   });

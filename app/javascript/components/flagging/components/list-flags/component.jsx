@@ -10,9 +10,11 @@ import { getActiveFlags, getResolvedFlags } from "../../selectors";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ recordType, record }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const flagsActived = useSelector(state => getActiveFlags(state, record, recordType));
 

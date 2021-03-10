@@ -9,8 +9,10 @@ import styles from "../field-dialog/styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { getValues } = formMethods;
 

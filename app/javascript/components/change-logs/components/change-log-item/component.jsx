@@ -15,8 +15,10 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ item }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { onClick } = item;
   const renderMessage = change => (
