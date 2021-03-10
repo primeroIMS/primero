@@ -59,7 +59,8 @@ describe("<ReferralAction /> - Action Creators", () => {
       type: actions.REFERRAL_DONE,
       api: {
         path: `cases/10/referrals/20`,
-        method: "DELETE",
+        method: "PATCH",
+        body: { data: { status: "done" } },
         successCallback: [
           {
             action: ENQUEUE_SNACKBAR,
@@ -111,7 +112,7 @@ describe("<ReferralAction /> - Action Creators", () => {
 
     context("when a note_on_referral_from_provider is passed", () => {
       it("should return the correct action creator", () => {
-        const data = { note_on_referral_from_provider: "some test notes" };
+        const data = { note_on_referral_from_provider: "some test notes", status: "done" };
 
         expectedAction.api = { ...expectedAction.api, body: { data } };
 
@@ -120,124 +121,136 @@ describe("<ReferralAction /> - Action Creators", () => {
     });
   });
 
-  it("should check that 'referralRejected' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+  describe("referralRejected", () => {
+    beforeEach(() => {
+      stub(generate, "messageKey").returns(4);
+    });
 
-    const args = {
-      message: "Updated successfully",
-      failureMessage: "Updated unsuccessfully",
-      recordId: "10",
-      recordType: "cases",
-      dialogName: "dialog name",
-      transistionId: "20",
-      data: { rejected_reason: "reason 1" }
-    };
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
 
-    const expectedAction = {
-      type: actions.REFERRAL_REJECTED,
-      api: {
-        path: `cases/10/referrals/20`,
-        method: "PATCH",
-        body: { data: { status: REJECTED, rejected_reason: "reason 1" } },
-        successCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.message,
-              options: {
-                variant: "success",
-                key: 4
+    it("should return the correct object", () => {
+      const args = {
+        message: "Updated successfully",
+        failureMessage: "Updated unsuccessfully",
+        recordId: "10",
+        recordType: "cases",
+        dialogName: "dialog name",
+        transistionId: "20",
+        data: { rejected_reason: "reason 1" }
+      };
+
+      const expectedAction = {
+        type: actions.REFERRAL_REJECTED,
+        api: {
+          path: `cases/10/referrals/20`,
+          method: "PATCH",
+          body: { data: { status: REJECTED, rejected_reason: "reason 1" } },
+          successCallback: [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                message: args.message,
+                options: {
+                  variant: "success",
+                  key: 4
+                }
+              }
+            },
+            {
+              action: CLEAR_DIALOG
+            },
+            recordCallback
+          ],
+          failureCallback: [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                message: args.failureMessage,
+                options: {
+                  variant: "error",
+                  key: 4
+                }
+              }
+            },
+            {
+              action: SET_DIALOG_PENDING,
+              payload: {
+                pending: false
               }
             }
-          },
-          {
-            action: CLEAR_DIALOG
-          },
-          recordCallback
-        ],
-        failureCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.failureMessage,
-              options: {
-                variant: "error",
-                key: 4
-              }
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
-          }
-        ]
-      }
-    };
+          ]
+        }
+      };
 
-    expect(actionCreators.referralRejected(args)).to.deep.equal(expectedAction);
-
-    generate.messageKey.restore();
+      expect(actionCreators.referralRejected(args)).to.deep.equal(expectedAction);
+    });
   });
 
-  it("should check that 'referralAccepted' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+  describe("referralAccepted", () => {
+    beforeEach(() => {
+      stub(generate, "messageKey").returns(4);
+    });
 
-    const args = {
-      message: "Updated successfully",
-      failureMessage: "Updated unsuccessfully",
-      recordId: "10",
-      recordType: "cases",
-      dialogName: "dialog name",
-      transistionId: "20",
-      data: { rejected_reason: "reason 1" }
-    };
+    afterEach(() => {
+      generate.messageKey.restore();
+    });
 
-    const expectedAction = {
-      type: actions.REFERRAL_ACCEPTED,
-      api: {
-        path: `cases/10/referrals/20`,
-        method: "PATCH",
-        body: { data: { status: ACCEPTED } },
-        successCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.message,
-              options: {
-                variant: "success",
-                key: 4
+    it("should return the correct object", () => {
+      const args = {
+        message: "Updated successfully",
+        failureMessage: "Updated unsuccessfully",
+        recordId: "10",
+        recordType: "cases",
+        dialogName: "dialog name",
+        transistionId: "20"
+      };
+
+      const expectedAction = {
+        type: actions.REFERRAL_ACCEPTED,
+        api: {
+          path: `cases/10/referrals/20`,
+          method: "PATCH",
+          body: { data: { status: ACCEPTED } },
+          successCallback: [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                message: args.message,
+                options: {
+                  variant: "success",
+                  key: 4
+                }
+              }
+            },
+            {
+              action: CLEAR_DIALOG
+            },
+            recordCallback
+          ],
+          failureCallback: [
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                message: args.failureMessage,
+                options: {
+                  variant: "error",
+                  key: 4
+                }
+              }
+            },
+            {
+              action: SET_DIALOG_PENDING,
+              payload: {
+                pending: false
               }
             }
-          },
-          {
-            action: CLEAR_DIALOG
-          }
-        ],
-        failureCallback: [
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              message: args.failureMessage,
-              options: {
-                variant: "error",
-                key: 4
-              }
-            }
-          },
-          {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
-          }
-        ]
-      }
-    };
+          ]
+        }
+      };
 
-    expect(actionCreators.referralAccepted(args)).to.deep.equal(expectedAction);
-
-    generate.messageKey.restore();
+      expect(actionCreators.referralAccepted(args)).to.deep.equal(expectedAction);
+    });
   });
 });

@@ -19,11 +19,19 @@ class Referral < Transition
     record.save! && save!
   end
 
-  def finish!(rejection_note = nil)
+  def done!(rejection_note = nil)
+    return unless accepted?
+
     self.status = Transition::STATUS_DONE
     current_service_record = service_record
-    mark_rejection(rejection_note, current_service_record)
     mark_service_implemented(current_service_record)
+    mark_rejection(rejection_note, current_service_record)
+    remove_assigned_user
+    record.save! && save!
+  end
+
+  def revoke!
+    self.status = Transition::STATUS_DONE
     remove_assigned_user
     record.save! && save!
   end
@@ -36,14 +44,18 @@ class Referral < Transition
     save!
   end
 
-  def accept_or_reject!(requested_status, rejected_reason = nil)
+  def process!(params)
+    requested_status = params[:status]
+
     return if requested_status == status
 
     case requested_status
     when Transition::STATUS_REJECTED
-      reject!(rejected_reason)
+      reject!(params[:rejected_reason])
     when Transition::STATUS_ACCEPTED
       accept!
+    when Transition::STATUS_DONE
+      done!(params[:rejection_note])
     end
   end
 

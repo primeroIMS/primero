@@ -36,6 +36,7 @@ describe("Verifying config constant", () => {
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
       "DEFAULT_DATE_VALUES",
+      "DONE",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "HTTP_STATUS",
