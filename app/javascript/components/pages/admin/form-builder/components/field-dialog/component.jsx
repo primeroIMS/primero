@@ -348,8 +348,8 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (openFieldDialog && selectedFieldName !== NEW_FIELD && selectedField?.toSeq()?.size) {
-      const currentData = selectedField.toJS();
-      const objectPaths = getObjectPath("", currentData.option_strings_text || []).filter(
+      const currentData = selectedField;
+      const objectPaths = getObjectPath("", currentData.get("option_strings_text", [])).filter(
         option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
       );
 
@@ -362,7 +362,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
         if (!fields[optionStringsTextPath]) {
           register({ name: optionStringsTextPath });
         }
-        const value = get(currentData.option_strings_text, path);
+        const value = get(currentData.get("option_strings_text"), path);
 
         setValue(optionStringsTextPath, value, { shouldDirty: true });
       });

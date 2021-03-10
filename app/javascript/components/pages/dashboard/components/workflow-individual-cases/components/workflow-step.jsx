@@ -12,7 +12,7 @@ import { NAME } from "./constants";
 const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
   const dispatch = useDispatch();
   const getData = workflowStep =>
-    (casesWorkflow.size > 0 && casesWorkflow.toJS().indicators.workflow?.[workflowStep]) || {};
+    (casesWorkflow.size > 0 && casesWorkflow.getIn(["indicators", "workflow", workflowStep], false)) || {};
 
   const workflowData = getData(step.id);
   const handleClick = query => {

@@ -93,7 +93,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     display_name: i18n.t("user.locale"),
     name: "locale",
     type: SELECT_FIELD,
-    option_strings_text: i18n.applicationLocales.toJS()
+    option_strings_text: i18n.applicationLocales
   },
   {
     display_name: i18n.t("user.role_id"),

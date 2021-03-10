@@ -136,8 +136,8 @@ const Component = ({
   ));
 
   const typeOfCasePlanOptions = alertTypes.map(alertType => (
-    <MenuItem key={alertType.get("id")} value={alertType.get("id")}>
-      {alertType.get("display_text")}
+    <MenuItem key={alertType.id} value={alertType.id}>
+      {alertType.display_text}
     </MenuItem>
   ));
 

@@ -155,11 +155,16 @@ export const formatFields = fields => uniq(fields.map(field => field.split(":")[
 export const exportFormsOptions = (forms, locale) =>
   forms
     .filter(form => form.visible && !form.is_nested)
-    .map(form => ({
-      id: form.unique_id,
-      display_text: displayNameHelper(form.name, locale)
-    }))
-    .toJS();
+    .reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("unique_id"),
+          display_text: displayNameHelper(current.get("name"), locale)
+        }
+      ],
+      []
+    );
 
 export const buildAgencyLogoPdfOptions = agencyLogosPdf => {
   if (!agencyLogosPdf) return [];

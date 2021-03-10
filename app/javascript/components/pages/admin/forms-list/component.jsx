@@ -151,7 +151,7 @@ const Component = () => {
 
     batch(() => {
       dispatch(reorderedForms(formsIdsToReorder.toJS()));
-      dispatch(saveFormsReorder(forms.toJS()));
+      dispatch(saveFormsReorder(forms));
     });
   };
 

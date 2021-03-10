@@ -105,8 +105,7 @@ export const formattedFields = (formSections, modules, recordType, locale) => {
   const reportableForm = formName
     ? formsByModuleAndRecordType
         .filter(formSection => formSection.unique_id === formName)
-        // eslint-disable-next-line camelcase
-        ?.toJS()?.[0]?.fields?.[0]?.subform_section_id
+        ?.getIn([0, "fields", 0, "subform_section_id"])
     : [];
 
   return buildFields(formName ? reportableForm : recordTypesForms, locale, Boolean(formName));

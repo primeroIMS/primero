@@ -41,9 +41,9 @@ const Component = ({ mode, lookup }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
   const formMode = whichFormMode(mode);
-  const locales = i18n.applicationLocales.toJS();
-  const localesKeys = locales.map(locale => locale.id);
-  const firstLocaleOption = locales?.[0];
+  const locales = i18n.applicationLocales;
+  const localesKeys = locales.reduce((prev, current) => [...prev, current.get("id")], []);
+  const firstLocaleOption = locales?.first();
   const defaultLocale = firstLocaleOption?.id;
   const validationsSchema = validations(i18n);
   const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
@@ -123,22 +123,23 @@ const Component = ({ mode, lookup }) => {
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
   const renderLookupLocalizedName = () =>
-    locales.length &&
+    !locales.isEmpty() &&
     locales.map(locale => {
-      const show = defaultLocale === locale.id || selectedOption === locale.id;
+      const localeID = locale.get("id");
+      const show = defaultLocale === localeID || selectedOption === localeID;
 
       return (
         <FormSectionField
           field={FieldRecord({
             display_name:
-              defaultLocale === locale.id ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
-            name: `name.${locale.id}`,
+              defaultLocale === localeID ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
+            name: `name.${localeID}`,
             type: TEXT_FIELD,
             required: true,
             showIf: () => show,
             forceShowIf: true
           })}
-          key={`name.${locale.id}`}
+          key={`name.${localeID}`}
           formMode={formMode}
           formMethods={formMethods}
         />
@@ -214,8 +215,8 @@ const Component = ({ mode, lookup }) => {
           name: "options",
           type: SELECT_FIELD,
           option_strings_text: locales,
-          editable: !(locales?.length === 1),
-          disabled: locales?.length === 1
+          editable: !(locales?.count() === 1),
+          disabled: locales?.count() === 1
         })}
         formMode={formMode}
         formMethods={formMethods}

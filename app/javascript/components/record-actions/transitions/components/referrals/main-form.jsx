@@ -165,17 +165,17 @@ const MainForm = ({ formProps, rest }) => {
       label: i18n.t("referral.recipient_label"),
       required: true,
       options: users
-        ? users
-            .valueSeq()
-            .map(user => {
-              const userName = user.get(USER_NAME_FIELD);
+        ? users.valueSeq().reduce((prev, current) => {
+            const userName = current.get(USER_NAME_FIELD);
 
-              return {
+            return [
+              ...prev,
+              {
                 value: userName.toLowerCase(),
                 label: userName
-              };
-            })
-            .toJS()
+              }
+            ];
+          }, [])
         : [],
       onChange: (data, field, form) => {
         const { value } = data;

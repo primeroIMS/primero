@@ -77,10 +77,8 @@ const Component = forwardRef(
     });
     const userSelectedForms = useWatch({ control, name: formsSelectedField, defaultValue: formsSelectedFieldDefault });
 
-    const selectedHeader = headerOptions
-      ?.filter(option => option.get("id") === header)
-      ?.first()
-      ?.get("display_text");
+    // eslint-disable-next-line camelcase
+    const selectedHeader = headerOptions?.filter(option => option.id === header)?.[0]?.display_text;
 
     const formSelectorResults = useSelector(state => {
       if (formsSelectedSelector) {

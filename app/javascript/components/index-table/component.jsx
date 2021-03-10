@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
@@ -43,11 +42,17 @@ const Component = ({
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+
   const [sortDir, setSortDir] = useState();
+
   const data = useSelector(state => getRecords(state, recordType), compare);
   const loading = useSelector(state => getLoading(state, recordType));
   const errors = useSelector(state => getErrors(state, recordType));
   const filters = useSelector(state => getFilters(state, recordType), compare);
+  const allFields = useSelector(state => getFields(state), compare);
+  const allLookups = useSelector(state => getOptions(state), compare);
+  const allAgencies = useSelector(state => selectAgencies(state), compare);
+
   const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
@@ -61,14 +66,10 @@ const Component = ({
   );
   let translatedRecords = [];
 
-  const allFields = useSelector(state => getFields(state), compare);
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const allAgencies = useSelector(state => selectAgencies(state), compare);
-
   let componentColumns = typeof columns === "function" ? columns(data) : columns;
 
   if (allFields.size && records && validRecordTypes) {
-    const columnsName = componentColumns.toJS().map(col => col.name);
+    const columnsName = componentColumns.map(col => col.name);
 
     const fieldWithColumns = allFields.toSeq().filter(fieldName => {
       if (columnsName.includes(fieldName.get("name")) && !isEmpty(fieldName.get("option_strings_source"))) {
@@ -78,14 +79,19 @@ const Component = ({
       return null;
     });
 
-    const columnsWithLookups = uniqBy(fieldWithColumns.toList().toJS(), "option_strings_source");
+    const columnsWithLookups = fieldWithColumns
+      .groupBy(column => column.get("option_strings_source"))
+      .valueSeq()
+      .map(column => column.first());
 
     translatedRecords = records.reduce((accum, record) => {
       const result = record.mapEntries(recordEntry => {
         const [key, value] = recordEntry;
 
         if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
-          const optionStringsSource = columnsWithLookups.find(el => el.name === key).option_strings_source;
+          const optionStringsSource = columnsWithLookups
+            .find(column => column.get("name") === key, null, fromJS({}))
+            .get("option_strings_source");
 
           let recordValue = value;
 
@@ -160,7 +166,7 @@ const Component = ({
       dispatch(
         onTableChange({
           recordType,
-          data: { per, ...defaultFilters.merge(filters).toJS() }
+          data: defaultFilters.merge(filters).merge(fromJS({ per }))
         })
       );
     }
@@ -177,35 +183,29 @@ const Component = ({
   const selectedFilters = (options, action, tableState) => {
     const { sortOrder } = tableState;
 
-    return {
-      ...options,
-      ...(() => {
-        switch (action) {
-          case "sort": {
-            const customSortFields = {
-              photo: "has_photo"
-            };
-            const { direction, name } = sortOrder;
+    switch (action) {
+      case "sort": {
+        const customSortFields = {
+          photo: "has_photo"
+        };
+        const { direction, name } = sortOrder;
 
-            options.order = direction;
+        setSortDir(sortOrder);
 
-            setSortDir(sortOrder);
-            options.order_by = Object.keys(customSortFields).includes(name) ? customSortFields[name] : name;
-            options.page = page === 0 ? 1 : page;
-            break;
-          }
-          case "changePage":
-            options.page = tableState.page >= page ? page + 1 : page - 1;
-            break;
-          default:
-            break;
-        }
-      })()
-    };
+        return options
+          .set("order", direction)
+          .set("order_by", Object.keys(customSortFields).includes(name) ? customSortFields[name] : name)
+          .set("page", page === 0 ? 1 : page);
+      }
+      case "changePage":
+        return options.set("page", tableState.page >= page ? page + 1 : page - 1);
+      default:
+        return options;
+    }
   };
 
   const handleTableChange = (action, tableState) => {
-    const options = { ...defaultFilters.merge(filters).toJS() };
+    const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
 
@@ -213,13 +213,11 @@ const Component = ({
       tableState.page = page - 1;
     }
 
-    options.per = rowsPerPage;
-
     if (validActions.includes(action)) {
       dispatch(
         onTableChange({
           recordType,
-          data: selectedFilters(options, action, tableState)
+          data: selectedFilters(options.set("per", rowsPerPage), action, tableState)
         })
       );
     }
@@ -242,7 +240,7 @@ const Component = ({
       totalRecords={total}
       page={page}
       fetchRecords={onTableChange}
-      selectedFilters={selectedFilters}
+      selectedFilters={defaultFilters.merge(filters)}
     />
   );
 

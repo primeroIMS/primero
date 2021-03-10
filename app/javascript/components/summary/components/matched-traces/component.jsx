@@ -23,7 +23,7 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
   const [open, setOpen] = useState(false);
   const [selectedTraceId, setSelectedTraceId] = useState("");
 
-  const foundMatchedTrace = data.find(matched => matched.get("id") === selectedTraceId)?.toJS();
+  const foundMatchedTrace = data.find(matched => matched.get("id") === selectedTraceId, null, fromJS({}));
 
   const selectedTrace = fromJS({
     case: {
@@ -36,7 +36,7 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
       sex: record.get("sex")
     },
     // eslint-disable-next-line camelcase
-    comparison: foundMatchedTrace?.matched_case_comparison,
+    comparison: foundMatchedTrace.get("matched_case_comparison"),
     trace: foundMatchedTrace,
     likelihood: "possible",
     score: 0.4136639493462357

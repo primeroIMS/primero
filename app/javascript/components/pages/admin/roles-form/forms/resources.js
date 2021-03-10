@@ -21,7 +21,7 @@ export default (resourceActions, roles, i18n, approvalsLabels) =>
         FieldRecord({
           name: `permissions[${resource}]`,
           type: CHECK_BOX_FIELD,
-          option_strings_text: buildPermissionOptions(actions, i18n, resource, approvalsLabels)?.toJS() || []
+          option_strings_text: buildPermissionOptions(actions, i18n, resource, approvalsLabels) || []
         })
       ],
       expandable: true,

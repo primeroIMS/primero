@@ -2,7 +2,6 @@ import { fromJS, Map } from "immutable";
 
 import { RECORD_TYPES } from "../../../../config";
 import { ERROR_FIELD, FieldRecord, FormSectionRecord } from "../../../form";
-import { dataToJS } from "../../../../libs";
 
 import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./forms";
 import { FORM_CHECK_ERRORS, ROLES_PERMISSIONS } from "./constants";

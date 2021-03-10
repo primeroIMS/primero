@@ -6,5 +6,6 @@ export const getFormGroupName = (formGroupLookup, formGroupID) => {
     return "";
   }
 
-  return formGroupLookup?.find(fromGroupLookup => fromGroupLookup.get("id") === formGroupID)?.get("display_text");
+  // eslint-disable-next-line camelcase
+  return formGroupLookup?.find(fromGroupLookup => fromGroupLookup.id === formGroupID)?.display_text;
 };

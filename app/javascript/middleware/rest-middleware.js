@@ -20,6 +20,7 @@ import {
   handleConfiguration,
   isServerOnline
 } from "./utils";
+import { isImmutable } from "immutable";
 
 const defaultFetchOptions = {
   method: "GET",
@@ -46,8 +47,9 @@ function fetchStatus({ store, type }, action, loading) {
 
 function buildPath(path, options, params, external) {
   const endpoint = external ? path : `${options.baseUrl}/${path}`;
+  const urlParams = isImmutable(params) ? params.toJS() : params;
 
-  return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
+  return `${endpoint}${params ? `?${queryParams.toString(urlParams)}` : ""}`;
 }
 
 const deleteFromQueue = async fromQueue => {

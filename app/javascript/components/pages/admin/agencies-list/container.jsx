@@ -32,14 +32,14 @@ const Container = () => {
   const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
 
   const metadata = useSelector(state => getMetadata(state, recordType));
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = {
+  const defaultMetadata = metadata;
+
+  const defaultFilterFields = fromJS({
     [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
   });
+
+  const defaultFilters = defaultMetadata.merge(defaultFilterFields);
+
   const columns = headersToColumns(headers, i18n);
 
   useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });

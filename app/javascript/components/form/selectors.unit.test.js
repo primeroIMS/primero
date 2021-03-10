@@ -68,32 +68,30 @@ describe("Forms - Selectors", () => {
     it("should return all lookup types including customs", () => {
       const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.LOOKUPS, i18n);
 
-      expect(options).to.deep.equal(
-        fromJS([
-          {
-            id: "lookup lookup-1",
-            display_text: "Lookup 1",
-            values: []
-          },
-          {
-            id: "lookup lookup-2",
-            display_text: "Lookup 2",
-            values: []
-          },
-          {
-            id: "Agency",
-            display_text: "agency.label"
-          },
-          {
-            id: "Location",
-            display_text: "location.label"
-          },
-          {
-            id: "User",
-            display_text: "user.label"
-          }
-        ])
-      );
+      expect(options).to.deep.equal([
+        {
+          id: "lookup lookup-1",
+          display_text: "Lookup 1",
+          values: []
+        },
+        {
+          id: "lookup lookup-2",
+          display_text: "Lookup 2",
+          values: []
+        },
+        {
+          id: "Agency",
+          display_text: "agency.label"
+        },
+        {
+          id: "Location",
+          display_text: "location.label"
+        },
+        {
+          id: "User",
+          display_text: "user.label"
+        }
+      ]);
     });
 
     it("should return the options for optionStringsText", () => {
@@ -142,7 +140,7 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options.toJS()).to.deep.equal(expected);
+          expect(options).to.deep.equal(expected);
         });
       });
 
@@ -165,7 +163,7 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options.toJS()).to.deep.equal(expected);
+          expect(options).to.deep.equal(expected);
         });
       });
     });

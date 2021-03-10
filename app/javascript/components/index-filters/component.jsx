@@ -47,13 +47,14 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const [reset, setReset] = useState(false);
   const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const dispatch = useDispatch();
+  const defaultFiltersPlainObject = defaultFilters.toJS();
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFilters.toJS(), filterToList) : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
   });
 
   const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
@@ -173,7 +174,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   useEffect(() => {
     if (rerender) {
-      const filtersToApply = isEmpty(queryParams) ? defaultFilters.toJS() : queryParams;
+      const filtersToApply = isEmpty(queryParams) ? defaultFiltersPlainObject : queryParams;
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
@@ -208,8 +209,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const handleClear = useCallback(() => {
     resetSelectedRecords();
-    methods.reset(defaultFilters.toJS());
-    dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
+    methods.reset(defaultFiltersPlainObject);
+    dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
 
     dispatch(push({}));
 

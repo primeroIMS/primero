@@ -41,7 +41,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     }
   }, [open]);
 
-  if (!form?.toJS()?.length) return [];
+  if (form?.isEmpty()) return [];
 
   const { subform_section_id: subformSectionID, name: subformName } = form
     .first()

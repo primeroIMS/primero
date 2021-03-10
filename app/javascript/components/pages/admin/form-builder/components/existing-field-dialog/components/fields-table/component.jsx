@@ -42,8 +42,8 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
   const fieldIds = formSections
     .valueSeq()
     .map(form => form.get("fields"))
-    .toJS()
-    .flat();
+    .reduce((prev, current) => [...prev, ...current], []);
+
   const fields = useSelector(state => getFieldsByIds(state, fieldIds));
 
   const data = fields
