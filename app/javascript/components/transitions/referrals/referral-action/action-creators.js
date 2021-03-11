@@ -42,9 +42,7 @@ const referralAction = (type, { data, message, failureMessage, recordId, recordT
       },
       {
         action: SET_DIALOG_PENDING,
-        payload: {
-          pending: false
-        }
+        payload: false
       }
     ]
   }

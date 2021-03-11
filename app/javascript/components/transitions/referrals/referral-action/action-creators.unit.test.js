@@ -90,9 +90,7 @@ describe("<ReferralAction /> - Action Creators", () => {
           },
           {
             action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            payload: false
           }
         ]
       }
@@ -176,9 +174,7 @@ describe("<ReferralAction /> - Action Creators", () => {
             },
             {
               action: SET_DIALOG_PENDING,
-              payload: {
-                pending: false
-              }
+              payload: false
             }
           ]
         }
@@ -242,9 +238,7 @@ describe("<ReferralAction /> - Action Creators", () => {
             },
             {
               action: SET_DIALOG_PENDING,
-              payload: {
-                pending: false
-              }
+              payload: false
             }
           ]
         }
