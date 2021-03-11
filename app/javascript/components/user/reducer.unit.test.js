@@ -63,6 +63,9 @@ describe("User - Reducers", () => {
         admin_level_map: { 1: ["province"], 2: ["district"] },
         label_keys: ["district"]
       },
+      roleGroupPermission: "all",
+      userGroupUniqueIds: ["tests"],
+      agencyId: 1,
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
         {
@@ -112,6 +115,8 @@ describe("User - Reducers", () => {
       locale: "en",
       location: "XX",
       agency: 1,
+      role_group_permission: "all",
+      user_group_unique_ids: ["tests"],
       reporting_location_config: {
         field_key: "owned_by_location",
         admin_level: 2,
