@@ -10,8 +10,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.REFERRAL_REJECTED_SUCCESS:
     case actions.REFERRAL_ACCEPTED_SUCCESS:
-    case actions.REFERRAL_DONE_SUCCESS:
-    case actions.REFERRAL_REVOKED_SUCCESS: {
+    case actions.REFERRAL_DONE_SUCCESS: {
       const { data } = payload;
       const index = state.get("data").findIndex(r => r.get("id") === data.id);
 
