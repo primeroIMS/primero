@@ -9,6 +9,8 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   recordChangeLogs,
   setOpen,
@@ -20,7 +22,7 @@ const Component = ({
   allAgencies
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const handleSeeDetails = subformChanges => {
     setOpen(true);

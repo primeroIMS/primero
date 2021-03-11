@@ -9,19 +9,20 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { online } = useApp();
   const i18n = useI18n();
+  const classes = clsx(css.disabledLink, {
+    [css.disabled]: !button
+  });
 
   if (overrideCondition || !online) {
     return (
       <Tooltip title={i18n.t(offlineTextKey || "offline")}>
-        <div
-          className={clsx(css.disabledLink, {
-            [css.disabled]: !button
-          })}
-        >
+        <div className={classes}>
           {!button && <div className={css.disabledElement} />}
           {cloneElement(children, { disabled: true })}
         </div>

@@ -17,9 +17,11 @@ import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const [selectedSavedSearch, setSelectedSavedSearch] = useState(null);
   const [open, setOpenDialog] = useState(false);

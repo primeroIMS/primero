@@ -17,9 +17,11 @@ import styles from "./styles.css";
 import ChangeLog from "./components/change-log";
 import SubformDialog from "./components/subform-dialog";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [open, setOpen] = useState(false);
   const [calculatingChangeLog, setCalculatingChangeLog] = useState(false);
   const [recordChanges, setRecordChanges] = useState({});

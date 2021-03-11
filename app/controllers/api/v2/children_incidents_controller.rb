@@ -13,9 +13,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   end
 
   def new
-    authorize! :read, Incident
-    authorize! :create, Incident
-    authorize! :read, @record
+    authorize_new!
     @incident = IncidentCreationService.incident_from_case(@record, {}, @record.module_id, current_user)
     render 'api/v2/incidents/new'
   end
@@ -28,5 +26,16 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
     @selected_field_names = FieldSelectionService.select_fields_to_show(
       params, Incident, @permitted_field_names, current_user
     )
+  end
+
+  private
+
+  def authorize_new!
+    case_incident =
+      current_user.can?(:read, Incident) ||
+      current_user.can?(:create, Incident) ||
+      current_user.can?(:read, @record) ||
+      current_user.can?(:incident_from_case, Child)
+    raise Errors::ForbiddenOperation unless case_incident
   end
 end

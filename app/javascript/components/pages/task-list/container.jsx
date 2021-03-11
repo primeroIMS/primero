@@ -22,9 +22,11 @@ import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const TaskList = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const recordType = "tasks";
   const dispatch = useDispatch();
   const listHeaders = useSelector(state => selectListHeaders(state, recordType));

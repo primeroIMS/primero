@@ -7,9 +7,11 @@ import styles from "../styles.css";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ children, isBulkFlags, tab, setTab }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
   const filteredTabs = isBulkFlags ? tabs.filter(t => t !== i18n.t("flags.flags_tab")) : tabs;

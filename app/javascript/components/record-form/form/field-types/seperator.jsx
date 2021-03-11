@@ -6,8 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { SEPERATOR_NAME } from "../constants";
 import styles from "../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Seperator = ({ helperText, label, mode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const renderHelperText = () => (mode.isEdit ? <FormHelperText>{helperText}</FormHelperText> : null);
 
   return (

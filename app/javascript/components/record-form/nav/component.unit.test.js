@@ -180,7 +180,8 @@ describe("<Nav />", () => {
     selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
     toggleNav: true,
     recordType: "cases",
-    primeroModule: "primeromodule-cp"
+    primeroModule: "primeromodule-cp",
+    hasForms: true
   };
 
   beforeEach(() => {
@@ -229,7 +230,8 @@ describe("<Nav />", () => {
       "recordType",
       "selectedForm",
       "selectedRecord",
-      "toggleNav"
+      "toggleNav",
+      "hasForms"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];
@@ -553,6 +555,26 @@ describe("<Nav />", () => {
         .pop();
 
       expect(setAction).to.deep.equal(expectedAction);
+    });
+  });
+
+  describe("when the firstTab props is empty", () => {
+    const propsNoFirstTab = {
+      ...props,
+      isNew: false,
+      selectedForm: "",
+      firstTab: null,
+      hasForms: false
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Nav, propsNoFirstTab, initialState));
+    });
+
+    it("should open record information", () => {
+      const navGroup = component.find(NavGroup).first();
+
+      expect(navGroup.props().open).to.equal("record_information");
     });
   });
 });

@@ -7,8 +7,10 @@ import { useMemoizedSelector } from "../../libs";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const AgencyLogo = ({ alwaysFullLogo }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const theme = useTheme();
   const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
   const tabletDisplay = useMediaQuery(theme.breakpoints.down("md"));
@@ -18,15 +20,9 @@ const AgencyLogo = ({ alwaysFullLogo }) => {
       const uniqueId = agency.get("unique_id");
 
       const logo = tabletDisplay && !alwaysFullLogo ? agency.get("logo_icon") : agency.get("logo_full");
+      const style = { backgroundImage: `url(${logo})` };
 
-      return (
-        <div
-          id={`${uniqueId}-logo`}
-          key={uniqueId}
-          className={css.agencyLogo}
-          style={{ backgroundImage: `url(${logo})` }}
-        />
-      );
+      return <div id={`${uniqueId}-logo`} key={uniqueId} className={css.agencyLogo} style={style} />;
     });
   };
 

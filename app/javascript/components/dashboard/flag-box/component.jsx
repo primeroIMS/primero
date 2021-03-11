@@ -7,8 +7,10 @@ import FlagBoxItem from "./components/flag-box-item";
 import { showId } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const FlagBox = ({ flags }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.flagContainer}>

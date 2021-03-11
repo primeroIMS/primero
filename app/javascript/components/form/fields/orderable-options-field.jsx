@@ -17,9 +17,11 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
   const fieldName = name.split(".")[0];
@@ -86,6 +88,9 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
     ) : null;
 
   const renderLastColumn = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
+  const classes = [css.fieldColumn, css.fieldHeader];
+  const fieldHeaderClasses = clsx([...classes, css.fieldInput]);
+  const fieldRowClasses = clsx(classes);
 
   return (
     <div>
@@ -94,11 +99,9 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldHeaderRow}>
-                <div className={clsx([css.fieldColumn, css.fieldInput, css.fieldHeader])}>
-                  {i18n.t("fields.english_text")}
-                </div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{i18n.t("fields.default")}</div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{renderLastColumn}</div>
+                <div className={fieldHeaderClasses}>{i18n.t("fields.english_text")}</div>
+                <div className={fieldRowClasses}>{i18n.t("fields.default")}</div>
+                <div className={fieldRowClasses}>{renderLastColumn}</div>
               </div>
               {renderOptions()}
               {provided.placeholder}

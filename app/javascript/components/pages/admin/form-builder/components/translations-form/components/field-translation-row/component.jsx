@@ -16,8 +16,10 @@ import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
@@ -57,9 +59,11 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
     });
   };
 
+  const classes = clsx(css.fieldTitle, css.translationsRow);
+
   return (
     <>
-      <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+      <Grid item xs={12} md={3} className={classes}>
         {displayName}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>

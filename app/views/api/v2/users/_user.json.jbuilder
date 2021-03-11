@@ -5,6 +5,7 @@ user_hash = user_hash.merge({
   agency_id: user.agency_id,
   module_unique_ids: user.module_unique_ids,
   role_unique_id: user.role.unique_id,
+  role_group_permission: user.role.group_permission,
   user_group_unique_ids: user.user_group_unique_ids,
   identity_provider_unique_id: user.identity_provider&.unique_id,
   agency_office: user.agency_office,

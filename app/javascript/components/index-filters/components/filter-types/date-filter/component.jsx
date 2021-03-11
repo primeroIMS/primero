@@ -20,6 +20,8 @@ import { registerInput, handleMoreFiltersChange, resetSecondaryFilter, setMoreFi
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   addFilterToList,
   filter,
@@ -31,7 +33,7 @@ const Component = ({
   setReset
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();

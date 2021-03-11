@@ -14,7 +14,8 @@ import { SELECT_CHANGE_REASON } from "../constants";
 
 const filter = createFilterOptions();
 
-const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, isShow }) => {
+const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow, formMode }) => {
+  const options = formMode.get("isNew") ? allOptions.filter(option => !option?.disabled) : allOptions;
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -192,12 +193,16 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
   const renderTags = (value, getTagProps) =>
     value.map((option, index) => <Chip label={optionLabel(option)} {...getTagProps({ index })} disabled={disabled} />);
 
-  const getOptionDisabled = () => {
+  const getOptionDisabled = option => {
+    if (option?.disabled) {
+      return true;
+    }
+
     if (Object.is(maxSelectedOptions, null) || Object.is(getValues()[name], null)) {
       return false;
     }
 
-    return getValues()[name].length === maxSelectedOptions;
+    return getValues()[name].length === maxSelectedOptions || option?.disabled;
   };
 
   return (
@@ -215,7 +220,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options, formMethods, i
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
-          getOptionDisabled={getOptionDisabled}
+          getOptionDisabled={option => getOptionDisabled(option)}
           disabled={disabled}
           filterSelectedOptions
           disableClearable={disableClearable}
@@ -247,6 +252,7 @@ SelectInput.propTypes = {
     name: PropTypes.string.isRequired
   }),
   formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object.isRequired,
   isShow: PropTypes.bool,
   metaInputProps: PropTypes.object,
   options: PropTypes.array

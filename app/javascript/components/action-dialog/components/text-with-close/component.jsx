@@ -6,8 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (

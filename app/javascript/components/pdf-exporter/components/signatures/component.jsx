@@ -6,9 +6,11 @@ import { useI18n } from "../../../i18n";
 import styles from "./styles.css";
 import { SIGNATURE_LABELS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ types }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (!types.length) return null;
 

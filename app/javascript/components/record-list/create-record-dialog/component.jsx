@@ -25,8 +25,10 @@ import { FORM_ID, NAME } from "./constants";
 import { searchForm } from "./forms";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const formMode = whichFormMode(FORM_MODE_NEW);
 
   const dispatch = useDispatch();

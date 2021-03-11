@@ -21,13 +21,16 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         module_unique_ids: modules,
         permissions,
         role_unique_id: roleId,
+        role_group_permission: roleGroupPermission,
         list_headers: listHeaders,
         filters,
         permitted_form: permittedForms,
         locale,
         reporting_location_config: reportingLocationConfig,
         location,
-        agencyLogo
+        agencyLogo,
+        user_group_unique_ids: userGroupUniqueIds,
+        agency_id: agencyId
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -42,7 +45,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           locale,
           reportingLocationConfig,
           location,
-          agencyLogo
+          agencyLogo,
+          roleGroupPermission,
+          userGroupUniqueIds,
+          agencyId
         })
       );
     }

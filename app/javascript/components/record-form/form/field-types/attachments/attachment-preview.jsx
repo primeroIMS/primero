@@ -6,8 +6,10 @@ import styles from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const isAudioAttachment = attachment === ATTACHMENT_TYPES.audio;
 
   useEffect(() => {

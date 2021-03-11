@@ -25,6 +25,8 @@ import styles from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   arrayHelpers,
   field,
@@ -38,7 +40,7 @@ const Component = ({
   parentForm
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);

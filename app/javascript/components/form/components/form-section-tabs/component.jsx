@@ -9,8 +9,10 @@ import watchedFormSectionField from "../watched-form-section-field";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ tabs, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const firstEnabled = tabs.findIndex(el => el.disabled === false);
   const [tab, setTab] = useState(firstEnabled);
 

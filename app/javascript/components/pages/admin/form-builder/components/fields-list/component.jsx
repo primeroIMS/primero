@@ -17,6 +17,8 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
@@ -25,7 +27,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
   const copiedFields = useMemoizedSelector(state => getCopiedFields(state));
   const removedFields = useMemoizedSelector(state => getRemovedFields(state));
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
   const {
@@ -105,15 +107,15 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       );
     });
 
-  const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
+  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
+  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
+  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
+
+  const renderColumn = text => isNested && <div className={fieldTypeClasses}>{text}</div>;
 
   if (!fields.size) {
     return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
   }
-
-  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
-  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
-  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
 
   return (
     <>

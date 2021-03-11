@@ -35,11 +35,13 @@ import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
 import { NAME, TEMP_OPTION_ID, FORM_ID } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales.toJS();
   const localesKeys = locales.map(locale => locale.id);

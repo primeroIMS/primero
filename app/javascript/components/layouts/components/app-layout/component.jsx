@@ -16,11 +16,13 @@ import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ children }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { demo } = useApp();
   const { theme } = useThemeHelper();
-
+  const classes = clsx({ [css.root]: true, [css.demo]: demo });
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 
   if (!hasPermissions) {
@@ -34,7 +36,7 @@ const Component = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <DemoIndicator isDemo={demo} />
-      <div className={clsx({ [css.root]: true, [css.demo]: demo })}>
+      <div className={classes}>
         <Notifier />
         <Nav />
         <SessionTimeoutDialog />

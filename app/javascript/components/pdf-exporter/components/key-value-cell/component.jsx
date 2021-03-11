@@ -17,6 +17,8 @@ import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   classes,
   defaultValue,
@@ -29,7 +31,7 @@ const Component = ({
   value
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const isDateField = type === DATE_FIELD;
   const isBooleanField = type === TICK_FIELD;
@@ -92,13 +94,12 @@ const Component = ({
 
     return fieldValue;
   };
+  const kevValueCellClasses = clsx(classes.cell, {
+    [classes.subform]: isSubform
+  });
 
   return (
-    <div
-      className={clsx(classes.cell, {
-        [classes.subform]: isSubform
-      })}
-    >
+    <div className={kevValueCellClasses}>
       <div>{displayName}</div>
       <div>{renderValue(cellValue)}</div>
     </div>

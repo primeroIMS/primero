@@ -13,10 +13,12 @@ import { useDialog } from "../../../action-dialog";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const userName = useSelector(state => currentUser(state));
   const showResolveButton =
     // eslint-disable-next-line camelcase

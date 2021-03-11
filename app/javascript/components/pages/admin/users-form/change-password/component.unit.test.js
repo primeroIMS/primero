@@ -16,6 +16,9 @@ describe("<ChangePassword /> - Component", () => {
     setOpen: () => {},
     commonInputProps: {
       label: "Test label"
+    },
+    parentFormMethods: {
+      setValue() {}
     }
   };
 
@@ -33,7 +36,16 @@ describe("<ChangePassword /> - Component", () => {
 
   it("should have valid props", () => {
     const changePasswordProps = component.find(ChangePassword).props();
-    const expectedProps = ["formMode", "i18n", "open", "pending", "setOpen", "commonInputProps", "formMethods"];
+    const expectedProps = [
+      "formMode",
+      "i18n",
+      "open",
+      "pending",
+      "setOpen",
+      "commonInputProps",
+      "parentFormMethods",
+      "formMethods"
+    ];
 
     expect(Object.keys(changePasswordProps)).to.deep.equals(expectedProps);
   });

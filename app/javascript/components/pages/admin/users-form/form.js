@@ -20,7 +20,14 @@ import {
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity) => [
+const sharedUserFields = (
+  i18n,
+  formMode,
+  hideOnAccountPage,
+  onClickChangePassword,
+  useIdentity,
+  { currentUserGroupPermissions, agencyReadOnUsers }
+) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -110,7 +117,16 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
-    visible: !hideOnAccountPage
+    visible: !hideOnAccountPage,
+    filterOptionSource: (_watchedInputValues, options) => {
+      return options.map(userGroup => {
+        if (!currentUserGroupPermissions.includes(userGroup.get("id"))) {
+          return userGroup.set("disabled", true);
+        }
+
+        return userGroup;
+      });
+    }
   },
   {
     display_name: i18n.t("user.services"),
@@ -136,7 +152,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.AGENCY,
+    option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
     visible: !hideOnAccountPage
   },
   {
@@ -196,10 +212,14 @@ export const form = (
   providers,
   identityOptions,
   onClickChangePassword,
-  hideOnAccountPage = false
+  hideOnAccountPage = false,
+  { agencyReadOnUsers, currentUserGroupPermissions } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
+    currentUserGroupPermissions,
+    agencyReadOnUsers
+  });
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {

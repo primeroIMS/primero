@@ -17,9 +17,11 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG } from "../../constants";
 import { ROUTES } from "../../../../config";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
   const { disabledApplication, online } = useApp();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
 

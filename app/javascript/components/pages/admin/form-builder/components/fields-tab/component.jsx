@@ -15,10 +15,12 @@ import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode, index, tab, formMethods }) => {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const {
     getValues,

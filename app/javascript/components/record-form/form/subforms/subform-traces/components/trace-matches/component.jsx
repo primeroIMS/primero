@@ -19,9 +19,11 @@ import { getOptionText } from "../field-row/utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
 
   const genderOptions = useSelector(state => getOptions(state, LOOKUPS.gender, i18n));
@@ -79,11 +81,11 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
         label: i18n.t("potential_match.score"),
         name: "likelihood",
         options: {
-          customBodyRender: value => (
-            <span className={clsx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely })}>
-              {i18n.t(`potential_match.likelihood_${value}`)}
-            </span>
-          )
+          customBodyRender: value => {
+            const classes = clsx({ [css.likely]: value === POTENTIAL_MATCH_LIKELIHOOD.likely });
+
+            return <span className={classes}>{i18n.t(`potential_match.likelihood_${value}`)}</span>;
+          }
         }
       }
     ],

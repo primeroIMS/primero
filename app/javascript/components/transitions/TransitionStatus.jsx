@@ -8,13 +8,16 @@ import { useI18n } from "../i18n";
 import { TRANSITION_STATUS_NAME as NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const TransitionStatus = ({ status }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
+  const classes = clsx(css.chip, css[status]);
 
   return (
     <div className={css.transtionStatus}>
-      <Chip label={i18n.t(`transition.status.${status}`)} className={clsx(css.chip, css[status])} size="small" />
+      <Chip label={i18n.t(`transition.status.${status}`)} className={classes} size="small" />
     </div>
   );
 };

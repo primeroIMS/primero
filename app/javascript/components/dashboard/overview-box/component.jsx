@@ -15,8 +15,10 @@ import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();

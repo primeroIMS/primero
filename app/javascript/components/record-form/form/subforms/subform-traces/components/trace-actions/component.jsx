@@ -17,9 +17,11 @@ import { FORMS } from "../../constants";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const loading = useSelector(state => getLoadingRecordState(state, recordType));
 
   return (

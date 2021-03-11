@@ -9,13 +9,16 @@ import ButtonText from "../../../button-text";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, tooltip, rest }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
+  const spanClasses = clsx({ [css.isDisabled]: [rest.disabled] });
   const classes = clsx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
@@ -29,7 +32,7 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 
   return (
     <Parent {...(tooltip ? { title: tooltip } : {})}>
-      <span className={clsx({ [css.isDisabled]: [rest.disabled] })}>
+      <span className={spanClasses}>
         <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
           {renderContent}
         </Button>
