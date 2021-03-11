@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getLookupByUniqueId } from "../../../../../form/selectors";
+import { getOptions } from "../../../../../form/selectors";
 import { compare } from "../../../../../../libs";
 import { buildFormGroupUniqueId } from "../../utils";
 import { useI18n } from "../../../../../i18n";
@@ -18,14 +18,14 @@ const Component = ({ moduleId, parentForm }) => {
   const i18n = useI18n();
 
   const formGroupLookup = useSelector(
-    state => getLookupByUniqueId(state, buildFormGroupUniqueId(moduleId, parentForm)),
+    state => getOptions(state, buildFormGroupUniqueId(moduleId, parentForm), i18n, null, null, { fullLookup: true }),
     compare
   );
 
   return (
     <p className={css.translationsNote}>
       <strong>{i18n.t("forms.translations.note")}</strong> {i18n.t("forms.translations.note_form_group")}{" "}
-      <Link to={`/admin/lookups/${formGroupLookup?.get("id")}/edit`}>
+      <Link to={`/admin/lookups/${formGroupLookup.get("id")}/edit`}>
         {i18n.t("forms.translations.edit_form_group")}
       </Link>
     </p>

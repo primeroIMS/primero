@@ -55,7 +55,7 @@ const Component = () => {
   const isLoading = useSelector(state => getIsLoading(state));
   const isReorderEnabled = useSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP), compare);
+  const allFormGroupsLookups = useSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP, i18n), compare);
 
   const { modules } = useApp();
 
@@ -105,9 +105,10 @@ const Component = () => {
 
   const renderFormSections = () =>
     allFormGroupsLookups &&
-    allFormGroupsLookups?.size > 0 &&
+    allFormGroupsLookups?.length > 0 &&
     formSectionsByGroup.map((group, index) => {
-      const { form_group_id: formGroupID } = group.first() || {};
+      const formGroupID = group.get("form_group_id");
+
       const formGroupName = currentFormGroupsLookups[formGroupID];
 
       return (

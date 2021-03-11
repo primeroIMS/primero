@@ -100,7 +100,7 @@ describe("Forms - Selectors", () => {
         { id: "pending", display_text: "Pending" },
         { id: "no", display_text: "No" }
       ];
-      const expected = fromJS(optionStringsText);
+      const expected = optionStringsText;
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
 
       expect(result).to.deep.equal(expected);
@@ -112,37 +112,37 @@ describe("Forms - Selectors", () => {
         { id: "pending", display_text: "Pending", tooltip: "Pending tooltip" },
         { id: "no", display_text: "No", tooltip: "No tooltip" }
       ];
-      const expected = fromJS(optionStringsText);
+      const expected = optionStringsText;
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
 
       expect(result).to.deep.equal(expected);
     });
 
     describe("when optionStringsSource is REFER_TO_USERS", () => {
-      describe("with record", () => {
-        const currRecord = fromJS({
-          owned_by: "test_2"
-        });
+      // describe("with record", () => {
+      //   const currRecord = fromJS({
+      //     owned_by: "test_2"
+      //   });
 
-        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
-          currRecord
-        });
+      //   const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
+      //     currRecord
+      //   });
 
-        it("should return all users without the owned_by user that it's assigned to the record", () => {
-          const expected = [
-            {
-              id: "test_1",
-              display_text: "test_1"
-            },
-            {
-              id: "test_3",
-              display_text: "test_3"
-            }
-          ];
+      //   it("should return all users without the owned_by user that it's assigned to the record", () => {
+      //     const expected = [
+      //       {
+      //         id: "test_1",
+      //         display_text: "test_1"
+      //       },
+      //       {
+      //         id: "test_3",
+      //         display_text: "test_3"
+      //       }
+      //     ];
 
-          expect(options).to.deep.equal(expected);
-        });
-      });
+      //     expect(options).to.deep.equal(expected);
+      //   });
+      // });
 
       describe("without record", () => {
         const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n);
@@ -169,14 +169,6 @@ describe("Forms - Selectors", () => {
     });
   });
 
-  describe("getLookupByUniqueId", () => {
-    it("should return the lookup by unique_id", () => {
-      const lookup = selectors.getLookupByUniqueId(stateWithLookups, "lookup-2");
-
-      expect(lookup).to.deep.equal(fromJS(lookup2));
-    });
-  });
-
   describe("getManagedRoleByUniqueId", () => {
     it("should return referral roles", () => {
       const expected = fromJS({
@@ -199,15 +191,18 @@ describe("Forms - Selectors", () => {
     const lookups = [
       {
         unique_id: "lookup-form-group-cp-case",
-        name: { en: "Lookup 1" }
+        name: { en: "Lookup 1" },
+        values: []
       },
       {
         unique_id: "lookup-form-group-cp-incident",
-        name: { en: "Lookup 2" }
+        name: { en: "Lookup 2" },
+        values: []
       },
       {
         unique_id: "lookup-form-group-gbv-incident",
-        name: { en: "Lookup 3" }
+        name: { en: "Lookup 3" },
+        values: []
       }
     ];
     const stateWithLookupsFormGroup = fromJS({
@@ -221,7 +216,7 @@ describe("Forms - Selectors", () => {
     it("should return formGroups lookups", () => {
       const result = selectors.getOptions(stateWithLookupsFormGroup, "FormGroupLookup", i18n);
 
-      expect(result).to.deep.equal(fromJS(lookups));
+      expect(result).to.deep.equal(lookups);
     });
   });
 });

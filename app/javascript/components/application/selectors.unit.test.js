@@ -267,13 +267,13 @@ describe("Application - Selectors", () => {
 
   describe("getApprovalsLabels", () => {
     it("should return the approvalsLabels", () => {
-      const expectedApprovalsLabels = {
+      const expectedApprovalsLabels = fromJS({
         closure: "Closure",
         case_plan: "Case Plan",
         assessment: "Assessment",
         action_plan: "Action Plan",
         gbv_closure: "GBV Closure"
-      };
+      });
       const approvalsLabels = selectors.getApprovalsLabels(stateWithRecords, "en");
 
       expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);

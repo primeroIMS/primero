@@ -12,7 +12,7 @@ export const filterUsers = (users, mode, record, excludeOwner = false) => {
           const userName = current.get(USER_NAME_FIELD);
 
           if (excludeOwner && mode.isShow && record && userName === record.get("owned_by")) {
-            return {};
+            return prev;
           }
 
           return [

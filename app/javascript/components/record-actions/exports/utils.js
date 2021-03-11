@@ -154,17 +154,17 @@ export const formatFields = fields => uniq(fields.map(field => field.split(":")[
 
 export const exportFormsOptions = (forms, locale) =>
   forms
-    .filter(form => form.visible && !form.is_nested)
-    .reduce(
-      (prev, current) => [
+    .entrySeq()
+    .filter(([, form]) => form.get("visible") && !form.get("is_nested"))
+    .reduce((prev, [index, current]) => {
+      return {
         ...prev,
-        {
+        [index]: {
           id: current.get("unique_id"),
           display_text: displayNameHelper(current.get("name"), locale)
         }
-      ],
-      []
-    );
+      };
+    }, {});
 
 export const buildAgencyLogoPdfOptions = agencyLogosPdf => {
   if (!agencyLogosPdf) return [];

@@ -1,5 +1,6 @@
 import qs from "qs";
 import merge from "deepmerge";
+import { isImmutable } from "immutable";
 
 import subformAwareMerge from "../db/utils/subform-aware-merge";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
@@ -20,7 +21,6 @@ import {
   handleConfiguration,
   isServerOnline
 } from "./utils";
-import { isImmutable } from "immutable";
 
 const defaultFetchOptions = {
   method: "GET",

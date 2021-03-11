@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { List, fromJS } from "immutable";
+import { List } from "immutable";
 import { isEmpty } from "lodash";
 import { makeStyles } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";

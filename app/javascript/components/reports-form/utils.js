@@ -15,38 +15,49 @@ export const getFormName = selectedRecordType => {
 
 export const buildFields = (data, locale, isReportable) => {
   if (isReportable) {
-    if (isEmpty(data)) {
+    if (data.isEmpty()) {
       return [];
     }
-    const formSection = displayNameHelper(data.name, locale);
+    const formSection = displayNameHelper(data.get("name"), locale);
 
-    return data.fields.map(field => ({
-      id: field.name,
-      display_text: displayNameHelper(field.display_name, locale),
-      formSection,
-      type: field.type,
-      option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
-      option_strings_text: field.option_strings_text,
-      tick_box_label: field.tick_box_label?.[locale]
-    }));
+    return data.get("fields").reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("name"),
+          display_text: displayNameHelper(current.get("display_name"), locale),
+          formSection,
+          type: current.get("type"),
+          option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
+          option_strings_text: current.get("option_strings_text"),
+          tick_box_label: current.getIn(["tick_box_label", locale])
+        }
+      ],
+      []
+    );
   }
 
   return data
     .reduce((acc, form) => {
       // eslint-disable-next-line camelcase
-      const { name, fields } = form;
+      const fields = form.get("fields");
+      const name = form.get("name");
 
       const filteredFields = fields
-        .filter(field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible)
-        .map(field => ({
-          id: field.name,
-          display_text: displayNameHelper(field.display_name, locale),
-          formSection: displayNameHelper(name, locale),
-          type: field.type,
-          option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
-          option_strings_text: field.option_strings_text,
-          tick_box_label: field.tick_box_label?.[locale]
-        }));
+        .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible"))
+        .reduce(
+          (prev, current) => ({
+            ...prev,
+            id: current.get("name"),
+            display_text: displayNameHelper(current.get("display_name"), locale),
+            formSection: displayNameHelper(name, locale),
+            type: current.get("type"),
+            option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
+            option_strings_text: current.get("option_strings_text"),
+            tick_box_label: current.getIn(["tick_box_label", locale])
+          }),
+          {}
+        );
 
       return [...acc, filteredFields];
     }, [])
@@ -96,15 +107,17 @@ export const formatReport = report => {
 export const formattedFields = (formSections, modules, recordType, locale) => {
   const formsByModuleAndRecordType = formSections.filter(formSection =>
     Array.isArray(modules)
-      ? formSection.module_ids.some(mod => modules.includes(mod))
-      : formSection.module_ids.includes(modules)
+      ? formSection.get("module_ids").some(mod => modules.includes(mod))
+      : formSection.get("module_ids").includes(modules)
   );
   const formName = getFormName(recordType);
-  const recordTypesForms = formsByModuleAndRecordType.filter(formSection => formSection.parent_form === recordType);
+  const recordTypesForms = formsByModuleAndRecordType.filter(
+    formSection => formSection.get("parent_form") === recordType
+  );
 
   const reportableForm = formName
     ? formsByModuleAndRecordType
-        .filter(formSection => formSection.unique_id === formName)
+        .filter(formSection => formSection.get("unique_id") === formName)
         ?.getIn([0, "fields", 0, "subform_section_id"])
     : [];
 

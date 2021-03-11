@@ -39,7 +39,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
       { name: COLUMNS.HIERARCHY, label: "Hierarchy" }
     ];
 
-    const lookup = fromJS([
+    const lookup = [
       {
         id: "test_1",
         display_text: "Test 1"
@@ -48,7 +48,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
         id: "test_2",
         display_text: "Test 2"
       }
-    ]);
+    ];
 
     describe("when column name is name", () => {
       it("should split name and return last value", () => {

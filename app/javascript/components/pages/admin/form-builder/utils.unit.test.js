@@ -148,7 +148,7 @@ describe("<FormBuilder /> - utils", () => {
           }
         ]
       };
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         formGroupCpCase,
         {
           id: 2,
@@ -173,11 +173,9 @@ describe("<FormBuilder /> - utils", () => {
             }
           ]
         }
-      ]);
+      ];
 
-      expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(
-        fromJS(formGroupCpCase)
-      );
+      expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(formGroupCpCase);
     });
   });
 
@@ -206,7 +204,7 @@ describe("<FormBuilder /> - utils", () => {
           }
         ]
       };
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         formGroupCpCase,
         {
           id: 2,
@@ -231,7 +229,7 @@ describe("<FormBuilder /> - utils", () => {
             }
           ]
         }
-      ]);
+      ];
 
       const result = [
         { id: "group_1", display_text: "Group 1" },

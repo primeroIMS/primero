@@ -210,7 +210,7 @@ describe("<FormsList /> - Utils", () => {
 
   describe("getFormGroups", () => {
     it("should return the correct FormGroups", () => {
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         {
           id: 51,
           unique_id: "lookup-form-group-cp-case",
@@ -241,7 +241,7 @@ describe("<FormsList /> - Utils", () => {
             }
           ]
         }
-      ]);
+      ];
 
       const result = {
         identification_registration: "Identification / Registration",

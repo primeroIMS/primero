@@ -1,13 +1,13 @@
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { fromJS } from "immutable";
 
 import SubformChip from "../../../subform-chip";
-import { getLookupByUniqueId } from "../../../../../../form/selectors";
+import { getOptions } from "../../../../../../form/selectors";
 import { getFieldByName } from "../../../../../selectors";
 import { compare } from "../../../../../../../libs";
 import { useI18n } from "../../../../../../i18n";
 import { TRACING_REQUEST_STATUS_FIELD_NAME } from "../../../../../../../config";
+import { get } from "../../../../../../form/utils";
 
 import { NAME } from "./constants";
 
@@ -15,14 +15,14 @@ const Component = ({ values }) => {
   const i18n = useI18n();
   const tracingRequestStatus = useSelector(state => getFieldByName(state, TRACING_REQUEST_STATUS_FIELD_NAME), compare);
   const tracingRequestStatusLookup = useSelector(
-    state => getLookupByUniqueId(state, tracingRequestStatus.option_strings_source.replace(/lookup /, "")),
+    state => getOptions(state, tracingRequestStatus.option_strings_source, i18n),
     compare
   );
 
-  const status = tracingRequestStatusLookup
-    ?.get("values", fromJS([]))
-    ?.find(option => option.get("id") === values.tracing_request_status)
-    ?.getIn(["display_text", i18n.locale]);
+  const status = get(
+    tracingRequestStatusLookup?.find(option => option.id === values.tracing_request_status),
+    ["display_text", i18n.locale]
+  );
 
   return (
     <>
