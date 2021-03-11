@@ -1,8 +1,7 @@
 const tableCellGreaterThanZero = condition => ({
-  setCellProps: value => {
-    const newValue = parseInt(value, 10);
-    const style =
-      typeof newValue === "number" && newValue > 0 && condition ? { cursor: "pointer" } : { cursor: "auto" };
+  setCellProps: currValue => {
+    const value = parseInt(currValue, 10);
+    const style = typeof value === "number" && value > 0 && condition ? { cursor: "pointer" } : { cursor: "auto" };
 
     return {
       style
