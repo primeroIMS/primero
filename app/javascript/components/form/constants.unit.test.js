@@ -49,6 +49,7 @@ describe("<Form /> - Constants", () => {
 
     [
       "AGENCY",
+      "AGENCY_CURRENT_USER",
       "LOCATION",
       "MODULE",
       "FORM_GROUP",
