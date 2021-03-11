@@ -5,8 +5,8 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
-    'change input[id$="_date_of_birth"]': 'update_age',
-    'change input[id$="_age"]': 'update_date'
+    'change form:not(.incident-form) input[id$="_date_of_birth"]': 'update_age',
+    'change form:not(.incident-form) input[id$="_age"]': 'update_date'
   },
 
   initialize: function() {
@@ -17,13 +17,14 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
     var $context_element = $(this.el);
     //Find every date_of_birth field in order to update the age that there is a change to be wrong
     //according the current year.
-    $context_element.find("input[id$='_date_of_birth']").each(function(x, date_of_birth_el){
+    //incident forms are excluded here because the scope has been expanded to include them and we want to intentionally skip incident forms
+    $context_element.find("form:not(.incident-form) input[id$='_date_of_birth']").each(function(x, date_of_birth_el){
       var $date_of_birth_el = $(date_of_birth_el);
       var date_of_birth_name = $date_of_birth_el.attr("name");
       var date_of_birth_value = $date_of_birth_el.val();
       if (date_of_birth_value != "") {
         var age_name = date_of_birth_name.replace(/date_of_birth\]$/, "age]");
-        $context_element.find("input[name='" + age_name + "']").each(function(x, age_el){
+        $context_element.find("form:not(.incident-form) input[name='" + age_name + "']").each(function(x, age_el){
           try {
             var date_of_birth_date = _primero.dates.parseDate(date_of_birth_value);
             var current_moment_date = moment(new Date);
@@ -48,7 +49,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
     var $age_field = $(event.target);
     //Find the corresponding birth date field related to the age field.
     var date_of_birth_name = $age_field[0].getAttribute("name").replace(/age\]$/, "date_of_birth]")
-    var $date_of_birth_field = $(this.el).find("input[name='" + date_of_birth_name + "']");
+    var $date_of_birth_field = $(this.el).find("form:not(.incident-form) input[name='" + date_of_birth_name + "']");
 
     if ($date_of_birth_field.length > 0) {
       if (isNaN($age_field.val()) || $age_field.val() < 0) {
@@ -77,7 +78,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
     var $date_of_birth_field = $(event.target);
     //Find the corresponding age field related to the birth date field changed.
     var age_name = $date_of_birth_field[0].getAttribute("name").replace(/date_of_birth\]$/, "age]")
-    var $age_field = $(this.el).find("input[name='" + age_name + "']");
+    var $age_field = $(this.el).find("form:not(.incident-form) input[name='" + age_name + "']");
 
     if ($age_field.length > 0) {
       try {
@@ -100,7 +101,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
   },
 
   update_child_fields: function() {
-    var dob = $('input[id$="_date_of_birth"]').val() || $('.key.date_of_birth').parents('.row:first').find('.value').text(),
+    var dob = $('form:not(.incident-form) input[id$="_date_of_birth"]').val() || $('.key.date_of_birth').parents('.row:first').find('.value').text(),
         $field_tag_inputs = $('[data-field-tags]:not([data-field-tags="[]"])'),
         fields = [];
 
