@@ -33,6 +33,14 @@ export const form = (i18n, isShow) => {
           visible: isShow
         }),
         FieldRecord({
+          display_name: i18n.t("configurations.attributes.primero_version"),
+          name: "primero_version",
+          type: TEXT_FIELD,
+          editable: false,
+          disabled: true,
+          visible: isShow
+        }),
+        FieldRecord({
           display_name: i18n.t("configurations.attributes.date_created"),
           name: "created_on",
           type: DATE_FIELD,

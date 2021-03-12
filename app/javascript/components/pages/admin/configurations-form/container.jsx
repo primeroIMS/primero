@@ -129,6 +129,12 @@ const Container = ({ mode }) => {
   }, [errors]);
 
   const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
+  const canApplyConfig = configuration?.get("can_apply", false);
+  const applyActionProps = {
+    actionHandler: handleApply,
+    text: i18n.t("buttons.apply"),
+    ...(!canApplyConfig ? { disabled: true, tooltip: i18n.t("configurations.version_mismatch_tooltip") } : {})
+  };
 
   const renderSendToProductionBtn = isDemoSite && (
     <FormAction actionHandler={handleSend} text={i18n.t("buttons.send")} startIcon={<PublishIcon />} />
@@ -137,7 +143,7 @@ const Container = ({ mode }) => {
   const editButton = formMode.isShow ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
-      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+      <FormAction startIcon={<CheckIcon />} {...applyActionProps} />
       {renderSendToProductionBtn}
     </>
   ) : null;
