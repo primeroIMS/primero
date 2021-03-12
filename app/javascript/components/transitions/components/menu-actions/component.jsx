@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
@@ -17,6 +16,7 @@ import { TRANSFER_APPROVAL_DIALOG } from "../../transfers/constants";
 import { useDialog } from "../../../action-dialog";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, REVOKE_MODAL } from "./constants";
 
@@ -42,8 +42,8 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const setOpenTransitionDialog = open =>
     setDialog({ dialog: transitionType === TRANSITIONS_TYPES.referral ? referralModalName : transferModalName, open });
 
-  const username = useSelector(state => currentUser(state));
-  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+  const username = useMemoizedSelector(state => currentUser(state));
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
   const isInProgress = status === TRANSITION_STATUS.inProgress;
   const isAccepted = status === ACCEPTED;

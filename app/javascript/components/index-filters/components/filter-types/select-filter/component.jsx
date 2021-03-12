@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,6 +21,7 @@ import {
   buildFilterLookups
 } from "../utils";
 import handleFilterChange from "../value-handlers";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -47,15 +47,10 @@ const Component = ({
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookup = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
-
-  const locations = useSelector(state => getLocations(state, optionStringsSource === "Location"));
-
-  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
-  const reportingLocations = useSelector(
-    state => getReportingLocations(state, adminLevel),
-    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
-  );
+  const lookup = useMemoizedSelector(state => getOption(state, optionStringsSource, i18n.locale));
+  const locations = useMemoizedSelector(state => getLocations(state, optionStringsSource === "Location"));
+  const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
+  const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
 
   const lookups = buildFilterLookups(optionStringsSource, locations, reportingLocations, lookup);
 

@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 import clsx from "clsx";
 
 import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
 import { localesToRender } from "../utils";
 import { getSelectedFields } from "../../selectors";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import WatchedFormSectionField from "../../../../../form/components/watched-form-section-field";
 import { useApp } from "../../../../../application";
 
@@ -28,7 +27,7 @@ const Component = ({ mode, formMethods }) => {
   const { limitedProductionSite } = useApp();
   const [selectedLocaleId, setSelectedLocaleId] = useState(null);
 
-  const fields = useSelector(state => getSelectedFields(state, false), compare);
+  const fields = useMemoizedSelector(state => getSelectedFields(state, false));
 
   const { getValues, setValue } = formMethods;
 

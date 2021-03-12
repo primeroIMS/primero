@@ -1,19 +1,19 @@
-import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-
+import { useMemoizedSelector } from "../../libs";
+import DisplayData from "../display-data";
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent } from "../page";
-import DisplayData from "../display-data";
-
-import styles from "./styles.css";
-import { selectSupportData } from "./selectors";
 import { BLACK_LISTED_FIELDS } from "./constants";
+import { selectSupportData } from "./selectors";
+import styles from "./styles.css";
+
+
 
 const useStyles = makeStyles(styles);
 
 const Support = () => {
   const css = useStyles();
-  const supportData = useSelector(state => selectSupportData(state));
+  const supportData = useMemoizedSelector(state => selectSupportData(state));
   const i18n = useI18n();
 
   const renderInformation =

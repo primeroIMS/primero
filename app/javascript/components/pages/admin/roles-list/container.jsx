@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -15,6 +14,7 @@ import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
 import { useMetadata } from "../../../records";
 import usePermissions from "../../../permissions";
 import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -28,7 +28,8 @@ const Container = () => {
     label: i18n.t(label),
     ...rest
   }));
-  const metadata = useSelector(state => getMetadata(state, "roles"));
+  const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
+
   const defaultFilters = metadata;
   const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
   const rolesNewButton = canAddRoles && (

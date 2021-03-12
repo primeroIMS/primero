@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -13,6 +13,7 @@ import { ROUTES } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, FORM_ID } from "./constants";
 import { form } from "./form";
@@ -26,8 +27,8 @@ const Component = ({ mode }) => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
-  const contactInformation = useSelector(state => selectContactInformation(state));
-  const savingRecord = useSelector(state => selectSavingContactInformation(state));
+  const contactInformation = useMemoizedSelector(state => selectContactInformation(state));
+  const savingRecord = useMemoizedSelector(state => selectSavingContactInformation(state));
 
   const handleCancel = () => {
     dispatch(push(ROUTES.contact_information));

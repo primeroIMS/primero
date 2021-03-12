@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { useSelector } from "react-redux";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import isEqual from "lodash/isEqual";
 
@@ -11,6 +10,7 @@ import { headersToColumns } from "../../../../../utils";
 import { getLabelTypeField } from "../../../utils";
 import { getFormSections, getFieldsByIds } from "../../../../../forms-list/selectors";
 import SelectionColumn from "../selection-column";
+import { useMemoizedSelector } from "../../../../../../../../libs";
 
 import { fieldsTableTheme } from "./theme";
 import { COLUMN_HEADERS, NAME } from "./constants";
@@ -38,13 +38,17 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
     optionsColumn,
     { name: "id", options: { filter: false, display: false } }
   ];
-  const formSections = useSelector(state => getFormSections(state, { primeroModule, recordType: parentForm }));
-  const fieldIds = formSections
-    .valueSeq()
-    .map(form => form.get("fields"))
-    .toJS()
-    .flat();
-  const fields = useSelector(state => getFieldsByIds(state, fieldIds));
+
+  const formSections = useMemoizedSelector(state => getFormSections(state, { primeroModule, recordType: parentForm }));
+  const fields = useMemoizedSelector(state => {
+    const fieldIds = formSections
+      .valueSeq()
+      .map(form => form.get("fields"))
+      .toJS()
+      .flat();
+
+    return getFieldsByIds(state, fieldIds);
+  });
 
   const data = fields
     .filter(field => field.get("type") !== SUBFORM_SECTION)

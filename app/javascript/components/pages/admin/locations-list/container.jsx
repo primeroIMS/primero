@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 
@@ -14,6 +14,7 @@ import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import ImportDialog from "./import-dialog";
 import { fetchLocations } from "./action-creators";
@@ -24,9 +25,11 @@ const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = ["admin", RESOURCES.locations];
-  const headers = useSelector(state => getListHeaders(state, RESOURCES.locations));
-  const locationTypes = useSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
+  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.locations));
+  const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultMetadata = metadata?.toJS();
 
   const defaultFilterFields = {

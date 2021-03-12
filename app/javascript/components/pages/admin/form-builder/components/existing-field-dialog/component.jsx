@@ -4,14 +4,14 @@ import { Grid } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import { makeStyles } from "@material-ui/core/styles";
 import { useForm, useWatch } from "react-hook-form";
-import { useSelector, useDispatch, batch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
 import SearchIcon from "@material-ui/icons/Search";
 
 import { enqueueSnackbar } from "../../../../../notifier";
 import ActionButton from "../../../../../action-button";
 import { useI18n } from "../../../../../i18n";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { getSelectedFields } from "../../selectors";
 import { selectExistingFields } from "../../action-creators";
@@ -42,7 +42,7 @@ const Component = ({ parentForm, primeroModule }) => {
 
   const watchedFieldQuery = useWatch({ control, name: "field_query", defaultValue: "" });
 
-  const selectedFields = useSelector(state => getSelectedFields(state, false), compare);
+  const selectedFields = useMemoizedSelector(state => getSelectedFields(state, false));
 
   const [addedFields, setAddedFields] = useState([]);
   const [removedFields, setRemovedFields] = useState([]);

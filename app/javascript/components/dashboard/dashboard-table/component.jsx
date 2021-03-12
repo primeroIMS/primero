@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from "react-redux";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { push } from "connected-react-router";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import { push } from "connected-react-router";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import { isEqual } from "lodash";
-
-import { dataToJS, useThemeHelper } from "../../../libs";
-import { buildFilter } from "../utils";
+import { useDispatch } from "react-redux";
+import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../libs";
 import { getPermissions } from "../../user/selectors";
-
+import { buildFilter } from "../utils";
 import dashboardTableTheme from "./theme";
 
+
+
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
-  const userPermissions = useSelector(state => getPermissions(state), isEqual);
+  const userPermissions = useMemoizedSelector(state => getPermissions(state));
+
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
   const { theme } = useThemeHelper({ theme: dashboardTableTheme(clickableCell) });
 

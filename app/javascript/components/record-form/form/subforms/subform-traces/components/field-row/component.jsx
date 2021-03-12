@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
@@ -8,6 +7,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { getOptions } from "../../../../../../form/selectors";
 import { useI18n } from "../../../../../../i18n";
 import { MATCH_VALUES } from "../../../../../../../config";
+import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
@@ -24,7 +24,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
     option_strings_text: optionStringsText
   } = field;
 
-  const options = useSelector(state => getOptions(state, optionStringSource, i18n, optionStringsText));
+  const options = useMemoizedSelector(state => getOptions(state, optionStringSource, i18n, optionStringsText));
 
   const traceValueLabel = getValueLabel({ options, value: traceValue });
   const caseValueLabel = getValueLabel({ options, value: caseValue });

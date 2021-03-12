@@ -1,10 +1,10 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { compareDesc, parseISO } from "date-fns";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
+import { useMemoizedSelector } from "../../libs";
 
 import { selectTransitions } from "./selectors";
 import { TRANSITIONS_NAME } from "./constants";
@@ -17,7 +17,8 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
   const css = useStyles();
   const i18n = useI18n();
 
-  const dataTransitions = useSelector(state => selectTransitions(state, recordType, record, isReferral));
+  const dataTransitions = useMemoizedSelector(state => selectTransitions(state, recordType, record, isReferral));
+
   const renderDataTransitions =
     dataTransitions &&
     dataTransitions

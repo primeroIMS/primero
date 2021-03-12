@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { List, fromJS } from "immutable";
 import { isEmpty } from "lodash";
 import { makeStyles } from "@material-ui/core";
@@ -14,6 +13,7 @@ import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
+import { useMemoizedSelector } from "../../../../libs";
 
 import styles from "./styles.css";
 
@@ -41,10 +41,7 @@ const Component = ({
   const isAgency = optionsStringSource === "Agency";
   const cellValue = value || defaultValue;
 
-  const lookups = useSelector(
-    state => getOptions(state, optionsStringSource, i18n, options, isAgency),
-    () => hasOptions && !isEmpty(cellValue)
-  );
+  const lookups = useMemoizedSelector(state => getOptions(state, optionsStringSource, i18n, options, isAgency));
 
   const renderValue = fieldValue => {
     if (Array.isArray(fieldValue) || List.isList(fieldValue)) {

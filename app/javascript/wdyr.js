@@ -5,7 +5,7 @@ import * as ReactRedux from "react-redux/lib";
 
 if (process.env.NODE_ENV === "development") {
   whyDidYouRender(React, {
-    // trackAllPureComponents: true,
-    trackExtraHooks: [[ReactRedux, "useSelector"]]
+    trackAllPureComponents: true,
+    trackExtraHooks: [[ReactRedux, "useSelector", "useMemoizedSelector"]]
   });
 }
