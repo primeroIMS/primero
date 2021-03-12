@@ -12,6 +12,7 @@ const useStyles = makeStyles(styles);
 const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handleAttachmentAddition }) => {
   const css = useStyles();
   const isDisabled = !disabled && !mode.isShow;
+  const onClick = () => handleAttachmentAddition(arrayHelpers);
 
   return (
     <div className={css.attachmentHeading}>
@@ -26,7 +27,7 @@ const AttachmentLabel = ({ label, helpText, disabled, mode, arrayHelpers, handle
             text="Add"
             type={ACTION_BUTTON_TYPES.icon}
             rest={{
-              onClick: () => handleAttachmentAddition(arrayHelpers)
+              onClick
             }}
           />
         </div>

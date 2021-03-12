@@ -63,6 +63,7 @@ const Component = ({ mode, formMethods }) => {
   const renderFormField = fieldName => {
     return locales.map(locale => {
       const localeId = locale.get("id");
+      const showIf = value => localeId === value;
 
       return (
         <WatchedFormSectionField
@@ -72,7 +73,7 @@ const Component = ({ mode, formMethods }) => {
             name: `translations.${fieldName}.${localeId}`,
             type: TEXT_FIELD,
             watchedInputs: "selected_locale_id",
-            showIf: value => localeId === value,
+            showIf,
             forceShowIf: true,
             disabled: limitedProductionSite
           })}
@@ -93,6 +94,8 @@ const Component = ({ mode, formMethods }) => {
   }, [i18n]);
 
   const classes = clsx(css.fieldTitle, css.translationsRow);
+
+  const onBlur = event => onEnglishTextChange(event);
 
   return (
     <>
@@ -132,7 +135,7 @@ const Component = ({ mode, formMethods }) => {
               display_name: "",
               name: "translations.name.en",
               type: TEXT_FIELD,
-              onBlur: event => onEnglishTextChange(event),
+              onBlur,
               disabled: limitedProductionSite
             })}
             formMethods={formMethods}
@@ -153,7 +156,7 @@ const Component = ({ mode, formMethods }) => {
               display_name: "",
               name: "translations.description.en",
               type: TEXT_FIELD,
-              onBlur: event => onEnglishTextChange(event),
+              onBlur,
               disabled: limitedProductionSite
             })}
             formMethods={formMethods}

@@ -57,6 +57,9 @@ const Component = ({
     }
   };
 
+  const handleClickViewIncident = () => handleEvent("view");
+  const handleClickEditIncident = () => handleEvent("edit");
+
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
       icon={<VisibilityIcon />}
@@ -64,7 +67,7 @@ const Component = ({
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
-        onClick: () => handleEvent("view")
+        onClick: handleClickViewIncident
       }}
     />
   );
@@ -75,7 +78,7 @@ const Component = ({
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
-        onClick: () => handleEvent("edit")
+        onClick: handleClickEditIncident
       }}
     />
   );

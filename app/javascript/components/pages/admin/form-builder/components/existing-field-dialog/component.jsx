@@ -102,8 +102,8 @@ const Component = ({ parentForm, primeroModule }) => {
     },
     dialogTitle,
     open: dialogOpen,
-    successHandler: () => handleSuccess(),
-    cancelHandler: () => handleClose(),
+    successHandler: handleSuccess,
+    cancelHandler: handleClose,
     omitCloseAfterSuccess: true
   };
 

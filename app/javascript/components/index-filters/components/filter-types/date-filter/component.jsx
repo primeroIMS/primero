@@ -175,13 +175,15 @@ const Component = ({
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
   const renderPickers = ["from", "to"].map(picker => {
+    const onChange = date => handleDatePicker(picker, date);
+
     const props = {
       fullWidth: true,
       margin: "normal",
       format: pickerFormat,
       label: i18n.t(`fields.date_range.${picker}`),
       value: getDateValue(inputValue?.[picker]),
-      onChange: date => handleDatePicker(picker, date),
+      onChange,
       disabled: !selectedField,
       clearLabel: i18n.t("buttons.clear"),
       cancelLabel: i18n.t("buttons.cancel"),

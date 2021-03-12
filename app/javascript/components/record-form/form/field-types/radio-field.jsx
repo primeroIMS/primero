@@ -93,12 +93,10 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       <Field
         {...fieldProps}
         render={({ form }) => {
+          const onChange = (e, val) => form.setFieldValue(fieldProps.name, val, true);
+
           return (
-            <RadioGroup
-              {...fieldProps}
-              value={String(value)}
-              onChange={(e, val) => form.setFieldValue(fieldProps.name, val, true)}
-            >
+            <RadioGroup {...fieldProps} value={String(value)} onChange={onChange}>
               <Box display="flex">{renderOption}</Box>
             </RadioGroup>
           );

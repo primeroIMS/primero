@@ -66,10 +66,12 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
+  const handleShouldUpdate = (nextProps, props) => !isEqual(nextProps, props);
+
   return (
     <FastField
       name={name}
-      shouldUpdate={(nextProps, props) => !isEqual(nextProps, props)}
+      shouldUpdate={handleShouldUpdate}
       render={renderProps => {
         const handleOnClick = () => hideFieldValue();
 

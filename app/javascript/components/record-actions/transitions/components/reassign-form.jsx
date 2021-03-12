@@ -118,11 +118,13 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
             <Field
               name="transitioned_to"
               render={({ field, form, ...other }) => {
+                const handleChange = data => handleTransitionedTo(data, form, field);
+
                 return (
                   <>
                     <SearchableSelect
                       defaultValues={searchableValue(field, searchableSelectProps.options, false)}
-                      onChange={data => handleTransitionedTo(data, form, field)}
+                      onChange={handleChange}
                       {...searchableSelectProps}
                       {...other}
                       onBlur={field.onBlur}

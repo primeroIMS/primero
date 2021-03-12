@@ -76,6 +76,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
   );
   const classesDragIndicator = clsx([css.fieldColumn, css.dragIndicatorColumn]);
   const classesTextInput = clsx([css.fieldColumn, css.fieldInput]);
+  const handleOnBlur = event => handleChange(event, index);
 
   return (
     <Draggable draggableId={option.fieldID} index={index}>
@@ -97,7 +98,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
                   defaultValue: option?.display_text?.en,
                   InputProps: {
                     classes,
-                    onBlur: event => handleChange(event, index)
+                    onBlur: handleOnBlur
                   }
                 }}
               />

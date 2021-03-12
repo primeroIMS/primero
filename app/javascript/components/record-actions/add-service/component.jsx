@@ -47,6 +47,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     .first()
     .fields.find(field => field.name === SERVICES_SUBFORM_NAME);
   const initialFormValues = constructInitialValues([subformSectionID]);
+  const successHandler = () => submitForm(formikRef);
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
@@ -56,7 +57,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     open,
     pending,
     omitCloseAfterSuccess: true,
-    successHandler: () => submitForm(formikRef)
+    successHandler
   };
 
   const fieldsProps = {

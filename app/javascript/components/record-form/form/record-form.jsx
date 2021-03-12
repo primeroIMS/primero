@@ -168,6 +168,9 @@ const RecordForm = ({
 
   if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
+    const handleOnSubmit = values => {
+      onSubmit(initialValues, values);
+    };
 
     return (
       <Formik
@@ -176,9 +179,7 @@ const RecordForm = ({
         validateOnBlur={false}
         validateOnChange={false}
         enableReinitialize
-        onSubmit={values => {
-          onSubmit(initialValues, values);
-        }}
+        onSubmit={handleOnSubmit}
       >
         {({
           handleSubmit,

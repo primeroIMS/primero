@@ -91,11 +91,13 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
       <div className={css.inputField}>
         <FastField
           render={({ form }) => {
+            const handleOnChange = event => handleChange(form, event);
+
             return (
               <input
                 id={fields.attachment}
                 name={fields.attachment}
-                onChange={event => handleChange(form, event)}
+                onChange={handleOnChange}
                 disabled={fieldDisabled()}
                 type="file"
                 accept={acceptedType}

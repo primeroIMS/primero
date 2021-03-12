@@ -58,7 +58,7 @@ const Component = ({ getValues, mode, onClose, onSuccess }) => {
     },
     dialogTitle: i18n.t("forms.translations.edit"),
     open: dialogOpen,
-    cancelHandler: () => handleClose(),
+    cancelHandler: handleClose,
     omitCloseAfterSuccess: true,
     showSuccessButton: !limitedProductionSite
   };

@@ -57,6 +57,14 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
     <FastField
       {...fieldProps}
       render={({ field, form }) => {
+        const onChange = date => {
+          updateAgeField(form, date);
+
+          const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
+
+          return form.setFieldValue(name, formattedDate, true);
+        };
+
         const dateProps = {
           ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (value, key) =>
@@ -74,13 +82,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
               )
             })
           },
-          onChange: date => {
-            updateAgeField(form, date);
-
-            const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
-
-            return form.setFieldValue(name, formattedDate, true);
-          },
+          onChange,
           disableFuture: rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };
