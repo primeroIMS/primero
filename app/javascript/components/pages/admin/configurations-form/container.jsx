@@ -106,6 +106,8 @@ const Container = ({ mode }) => {
 
   const handleSendToProd = configId => dispatch(sentToProduction(configId, i18n.t("configurations.messages.sent")));
 
+  const handleSuccessSentToProd = () => handleSendToProd(id);
+
   useEffect(() => {
     if (isEditOrShow) {
       dispatch(fetchConfiguration(id));
@@ -208,7 +210,7 @@ const Container = ({ mode }) => {
         </ActionDialog>
         <ActionDialog
           open={dialogOpen[SEND_CONFIGURATION_MODAL]}
-          successHandler={() => handleSendToProd(id)}
+          successHandler={handleSuccessSentToProd}
           cancelHandler={dialogClose}
           dialogTitle={i18n.t("configurations.send_header")}
           dialogText={i18n.t("configurations.send_text")}

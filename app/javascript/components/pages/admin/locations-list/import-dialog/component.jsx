@@ -47,7 +47,7 @@ const Component = ({ close, i18n, open, pending }) => {
         form: FORM_ID,
         type: "submit"
       }}
-      cancelHandler={() => close()}
+      cancelHandler={close}
       dialogTitle={i18n.t("location.import_title")}
       confirmButtonLabel={i18n.t("buttons.import")}
       pending={dialogPending}

@@ -16,6 +16,7 @@ const BulkTransfer = ({ isBulkTransfer }) => {
   const i18n = useI18n();
   const css = useStyles();
   const [state, setState] = useState(false);
+  const handleOnChange = () => setState(!state);
 
   if (!isBulkTransfer) {
     return null;
@@ -32,7 +33,7 @@ const BulkTransfer = ({ isBulkTransfer }) => {
           <br />
           <TransferCheckbox
             checked={state}
-            onChange={() => setState(!state)}
+            onChange={handleOnChange}
             label={i18n.t("transfer.consent_override_label")}
           />
         </Grid>

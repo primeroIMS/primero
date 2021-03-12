@@ -136,15 +136,17 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       ].join(" ");
 
       const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
+      const handleClickOpen = () => handleOpenModal(index);
+      const handleClickEdit = () => handleEdit(index);
 
       return (
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleOpenModal(index)}>
+            <IconButton onClick={handleClickOpen}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => handleEdit(index)}>{renderIcon}</IconButton>
+            <IconButton onClick={handleClickEdit}>{renderIcon}</IconButton>
           </Box>
         </Box>
       );

@@ -65,13 +65,11 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
   const statItems = () => {
     return indicators.keySeq().map(item => {
+      const handleButtonClick = () => handleClick(indicators.getIn([item, "query"], []));
+
       return (
         <li key={item}>
-          <button
-            className={css.itemButton}
-            type="button"
-            onClick={() => handleClick(indicators.getIn([item, "query"], []))}
-          >
+          <button className={css.itemButton} type="button" onClick={handleButtonClick}>
             {indicators.getIn([item, "count"])} {buildLabelItem(item)}
           </button>
         </li>

@@ -49,16 +49,12 @@ const ExportList = () => {
                   ) : (
                     <DownloadIcon fontSize="small" />
                   );
+                  const handleClick = () => onRowClick(exportRecord);
 
                   return (
                     <DisableOffline>
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                      <div
-                        className={css.link}
-                        onClick={() => onRowClick(exportRecord)}
-                        role="button"
-                        tabIndex={tableMeta.rowIndex}
-                      >
+                      <div className={css.link} onClick={handleClick} role="button" tabIndex={tableMeta.rowIndex}>
                         {exportIcon}
                         <span>{value}</span>
                       </div>

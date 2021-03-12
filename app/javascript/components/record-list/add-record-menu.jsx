@@ -53,11 +53,15 @@ const AddRecordMenu = ({ recordType }) => {
   const renderMenu = primeroModules =>
     primeroModules?.size > 1 ? (
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        {primeroModules.map(primeroModule => (
-          <MenuItem key={primeroModule.unique_id} component={Button} onClick={() => handleModuleClick(primeroModule)}>
-            {primeroModule.name}
-          </MenuItem>
-        ))}
+        {primeroModules.map(primeroModule => {
+          const handleOnClickMenuItem = () => handleModuleClick(primeroModule);
+
+          return (
+            <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem}>
+              {primeroModule.name}
+            </MenuItem>
+          );
+        })}
       </Menu>
     ) : null;
 

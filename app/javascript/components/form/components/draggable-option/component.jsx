@@ -67,8 +67,10 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
     />
   );
 
+  const handleRemoveClick = () => onRemoveClick(index);
+
   const renderRemoveButton = formMode.get("isNew") && (
-    <IconButton aria-label="delete" className={css.removeIcon} onClick={() => onRemoveClick(index)}>
+    <IconButton aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
       <DeleteIcon />
     </IconButton>
   );

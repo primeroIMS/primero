@@ -169,10 +169,11 @@ const Component = ({ isSubform }) => {
             if (name === SUBFORM_SECTION && isSubform) {
               return null;
             }
+            const handleClickListItem = () => handleListItem(name);
 
             return (
               <Fragment key={field}>
-                <ListItem selected={isItemSelected(name)} onClick={() => handleListItem(name)}>
+                <ListItem selected={isItemSelected(name)} onClick={handleClickListItem}>
                   <ListItemText className={css.label}>
                     <div>{i18n.t(`fields.${name}`)}</div>
                     <div className={css.inputPreviewContainer}>
@@ -180,7 +181,7 @@ const Component = ({ isSubform }) => {
                     </div>
                   </ListItemText>
                   <ListItemSecondaryAction>
-                    <Radio value={name} checked={isItemSelected(name)} onChange={() => handleListItem(name)} />
+                    <Radio value={name} checked={isItemSelected(name)} onChange={handleClickListItem} />
                   </ListItemSecondaryAction>
                 </ListItem>
                 <Divider />

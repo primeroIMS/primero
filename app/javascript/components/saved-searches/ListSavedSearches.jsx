@@ -75,21 +75,26 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
       <h3>{i18n.t("cases.my_filters")}</h3>
       <Divider light />
       <List component="nav">
-        {savedSearches.valueSeq().map(savedSearch => (
-          <ListItem button onClick={() => handleApplyFilter(savedSearch.id)} key={savedSearch.id}>
-            <ListItemText primary={savedSearch.name} />
-            <ListItemSecondaryAction>
-              <ActionButton
-                icon={<DeleteIcon />}
-                type={ACTION_BUTTON_TYPES.icon}
-                rest={{
-                  edge: "end",
-                  onClick: () => handleDeleteFilter(savedSearch.id)
-                }}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+        {savedSearches.valueSeq().map(savedSearch => {
+          const handleClickListItem = () => handleApplyFilter(savedSearch.id);
+          const handleClickDeleteFilter = () => handleDeleteFilter(savedSearch.id);
+
+          return (
+            <ListItem button onClick={handleClickListItem} key={savedSearch.id}>
+              <ListItemText primary={savedSearch.name} />
+              <ListItemSecondaryAction>
+                <ActionButton
+                  icon={<DeleteIcon />}
+                  type={ACTION_BUTTON_TYPES.icon}
+                  rest={{
+                    edge: "end",
+                    onClick: handleClickDeleteFilter
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+          );
+        })}
       </List>
     </div>
   );

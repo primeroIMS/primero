@@ -79,7 +79,7 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("settings.navigation.locations")}>
-        <Menu showMenu actions={actions} disabledCondtion={() => {}} />
+        <Menu showMenu actions={actions} />
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>

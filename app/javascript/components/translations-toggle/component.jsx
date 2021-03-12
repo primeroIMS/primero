@@ -30,6 +30,8 @@ const TranslationsToggle = () => {
     }
   };
 
+  const handleClickMenu = () => handleClose(null);
+
   // TODO: Need better list of locales with direction from backend
   const locales = useSelector(state => selectLocales(state));
 
@@ -49,7 +51,7 @@ const TranslationsToggle = () => {
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
-        onClose={() => handleClose(null)}
+        onClose={handleClickMenu}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center"
@@ -60,11 +62,15 @@ const TranslationsToggle = () => {
         }}
       >
         {locales &&
-          locales.map(l => (
-            <MenuItem key={l} onClick={() => handleClose(l)}>
-              {i18n.t(`home.${l}`)}
-            </MenuItem>
-          ))}
+          locales.map(l => {
+            const handleClickMenuItem = () => handleClose(l);
+
+            return (
+              <MenuItem key={l} onClick={handleClickMenuItem}>
+                {i18n.t(`home.${l}`)}
+              </MenuItem>
+            );
+          })}
       </Menu>
     </>
   );

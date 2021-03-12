@@ -71,6 +71,8 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
       name={name}
       shouldUpdate={(nextProps, props) => !isEqual(nextProps, props)}
       render={renderProps => {
+        const handleOnClick = () => hideFieldValue();
+
         return (
           <>
             <MuiTextField
@@ -88,7 +90,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
               {...fieldProps}
             />
             {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue()}>
+              <ButtonBase className={css.hideNameStyle} onClick={handleOnClick}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}

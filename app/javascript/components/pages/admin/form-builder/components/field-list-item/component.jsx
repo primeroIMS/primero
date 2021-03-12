@@ -101,7 +101,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
     return (
       <>
         {icon}
-        <Button className={className} onClick={() => handleClick()}>
+        <Button className={className} onClick={handleClick}>
           {displayNameHelper(field.get("display_name"), i18n.locale)}
         </Button>
       </>

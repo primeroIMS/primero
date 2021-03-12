@@ -45,6 +45,7 @@ const Component = ({
   const validateAlert = item => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
 
   const showJewel = isNested ? itemsOfGroup?.some(alert => validateAlert(alert)) : validateAlert(formId);
+  const handleOnClick = () => handleClick(handlerArgs);
 
   const formText = () => {
     return (
@@ -66,7 +67,7 @@ const Component = ({
       selected={selectedForm === formId && !isNested}
       button
       key={formId}
-      onClick={() => handleClick(handlerArgs)}
+      onClick={handleOnClick}
       classes={{
         selected: css.navSelected,
         root: css.root

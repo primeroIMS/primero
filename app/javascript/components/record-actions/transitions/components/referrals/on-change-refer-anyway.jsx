@@ -9,6 +9,7 @@ export default (props, setDisabled) => {
     setDisabled(!fieldCheckbox.value);
     formCheckbox.setFieldValue(fieldCheckbox.name, !fieldCheckbox.value, false);
   };
+  const handleOnChange = () => onChange(field, form);
 
-  return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
+  return <Checkbox checked={value} onChange={handleOnChange} />;
 };

@@ -203,16 +203,20 @@ const RecordForm = ({
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
               <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
-                {({ onConfirm, onCancel }) => (
-                  <ActionDialog
-                    open
-                    successHandler={() => handleConfirm(onConfirm)}
-                    cancelHandler={onCancel}
-                    dialogTitle={i18n.t("record_panel.record_information")}
-                    dialogText={i18n.t("messages.confirmation_message")}
-                    confirmButtonLabel={i18n.t("buttons.ok")}
-                  />
-                )}
+                {({ onConfirm, onCancel }) => {
+                  const handleOnSuccess = () => handleConfirm(onConfirm);
+
+                  return (
+                    <ActionDialog
+                      open
+                      successHandler={handleOnSuccess}
+                      cancelHandler={onCancel}
+                      dialogTitle={i18n.t("record_panel.record_information")}
+                      dialogText={i18n.t("messages.confirmation_message")}
+                      confirmButtonLabel={i18n.t("buttons.ok")}
+                    />
+                  );
+                }}
               </NavigationPrompt>
               <ValidationErrors formErrors={errors} forms={forms} />
               {renderFormSections(forms, setFieldValue, handleSubmit, values)}
