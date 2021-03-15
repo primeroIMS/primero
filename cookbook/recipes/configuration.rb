@@ -96,14 +96,17 @@ if node[:primero][:seed][:enabled]
 
   execute 'Reload Scheduler' do
     command 'supervisorctl restart primero-scheduler'
+    retries 10
   end
 
   execute 'Reload Backburner' do
     command 'supervisorctl restart backburner'
+    retries 10
   end
 
   execute 'Reload Couch Watcher' do
     command 'supervisorctl restart couch-watcher'
+    retries 10
   end
 
 end
