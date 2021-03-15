@@ -1,0 +1,47 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $(theme.primero.colors.blue);
+
+  & div:first-child {
+
+    & img {
+      width: 118px;
+    }
+  }
+}
+
+.content {
+  align-self: center;
+  background-color: $(theme.primero.colors.white);
+  border-radius: 10px;
+  margin-top: 4em;
+  width: 70%;
+
+  & .details {
+    max-height: 500px;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  & .actions {
+    background-color: $(theme.primero.colors.warmGrey1);
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    padding: 16px;
+    
+    & span:first-child {
+      flex: 1;
+    }
+  }
+}
+
+.translationToogle {
+  max-width: 16%;
+  margin-top: auto;
+
+  & button, & button > span > svg {
+    color: $(theme.primero.colors.white);
+  }
+}

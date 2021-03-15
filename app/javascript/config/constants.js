@@ -131,6 +131,7 @@ export const ROUTES = {
   cases: "/cases",
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
+  code_of_conduct: "/code_of_conduct",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
@@ -166,7 +167,8 @@ export const PERMITTED_URL = [
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents
+  ROUTES.incidents,
+  ROUTES.code_of_conduct
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
