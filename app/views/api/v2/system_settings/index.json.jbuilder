@@ -9,6 +9,7 @@ json.data do
   json.rtl_locales @system_setting.rtl_locales
   json.reporting_location_config current_user.role.reporting_location_config
   json.approvals_labels FieldI18nService.to_localized_values(@system_setting.approvals_labels_i18n)
+  json.code_of_conduct CodeOfConduct.current
   if @agencies.present?
     json.agencies do
       json.array! @agencies do |agency|
