@@ -43,6 +43,20 @@ describe Api::V2::UsersController, type: :request do
       form_sections: [@form2]
     )
 
+    @role_manage_user = Role.new_with_properties(
+      name: 'Role Manage User',
+      unique_id: 'role-manage-user',
+      permissions: [
+        Permission.new(
+          resource: Permission::USER,
+          actions: [Permission::MANAGE]
+        )
+      ],
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
+    )
+    @role_manage_user.save!
+
     @role = Role.new_with_properties(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -115,6 +129,17 @@ describe Api::V2::UsersController, type: :request do
       agency_id: @agency_b.id,
       role: @role
     )
+
+    @user_d = User.create!(
+      full_name: 'Test User 4',
+      user_name: 'test_user_4',
+      password: 'c12345678',
+      password_confirmation: 'c12345678',
+      email: 'test_4@localhost.com',
+      agency_id: @agency_b.id,
+      role: @role_manage_user,
+      identity_provider_id: @identity_provider_a.id
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -130,9 +155,9 @@ describe Api::V2::UsersController, type: :request do
       get '/api/v2/users'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(3)
+      expect(json['data'].size).to eq(4)
       expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
-        [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
+        [@identity_provider_a.unique_id, @identity_provider_a.unique_id, @identity_provider_a.unique_id]
       )
     end
 
@@ -159,7 +184,7 @@ describe Api::V2::UsersController, type: :request do
       get '/api/v2/users?extended=true'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(3)
+      expect(json['data'].size).to eq(4)
       expect(json['data'][0]['agency_id']).to eq(@agency_a.id)
       expect(json['data'][0]['filters']).not_to be_nil
       expect(json['data'][0]['permissions']).not_to be_nil
@@ -504,6 +529,30 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/users/#{@user_a.id}")
       expect(json['errors'][0]['detail']).to eq('email')
+    end
+
+    it 'does not change certain fields if target user is the current user' do
+      sign_in(@user_d)
+
+      user_name = 'test-user-changed-4'
+
+      params = {
+        data: {
+          role_unique_id: 'test-role-1',
+          identity_provider_unique_id: 'primeroims_2',
+          user_name: user_name
+        }
+      }
+
+      patch "/api/v2/users/#{@user_d.id}", params: params
+
+      @user_d.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@user_d.id)
+      expect(@user_d.role.unique_id).to eq(@role_manage_user.unique_id)
+      expect(@user_d.user_name).not_to eq(user_name)
+      expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
   end
 
