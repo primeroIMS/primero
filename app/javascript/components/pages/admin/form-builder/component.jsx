@@ -6,9 +6,8 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isEqual } from "lodash";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -17,7 +16,7 @@ import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare, dataToJS, displayNameHelper } from "../../../../libs";
+import { dataToJS, displayNameHelper, useMemoizedSelector } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
@@ -69,13 +68,13 @@ const Component = ({ mode }) => {
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
 
-  const errors = useSelector(state => getServerErrors(state), compare);
-  const saving = useSelector(state => getSavingRecord(state), isEqual);
-  const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
-  const selectedForm = useSelector(state => getSelectedForm(state), compare);
-  const isLoading = useSelector(state => getIsLoading(state), isEqual);
-  const selectedField = useSelector(state => getSelectedField(state), compare);
-  const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
+  const errors = useMemoizedSelector(state => getServerErrors(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+  const updatedFormIds = useMemoizedSelector(state => getUpdatedFormIds(state));
+  const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
+  const isLoading = useMemoizedSelector(state => getIsLoading(state));
+  const selectedField = useMemoizedSelector(state => getSelectedField(state));
+  const selectedSubforms = useMemoizedSelector(state => getSelectedSubforms(state));
 
   const methods = useForm({
     resolver: yupResolver(validationSchema(i18n)),

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
@@ -9,7 +9,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
-import { useThemeHelper } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -26,10 +26,11 @@ const Reports = () => {
   const dispatch = useDispatch();
   const { css } = useThemeHelper({ css: styles });
 
-  const reports = useSelector(state => selectReports(state));
-  const isLoading = useSelector(state => selectLoading(state));
-  const reportsPagination = useSelector(state => selectReportsPagination(state));
-  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
+  const reports = useMemoizedSelector(state => selectReports(state));
+  const isLoading = useMemoizedSelector(state => selectLoading(state));
+  const reportsPagination = useMemoizedSelector(state => selectReportsPagination(state));
+  const metadata = useMemoizedSelector(state => getMetadata(state, NAMESPACE));
+
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([

@@ -2,7 +2,7 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
@@ -10,7 +10,7 @@ import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { compare, dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper } from "../../libs";
+import { dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper, useMemoizedSelector } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -44,10 +44,16 @@ const Component = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [sortDir, setSortDir] = useState();
-  const data = useSelector(state => getRecords(state, recordType), compare);
-  const loading = useSelector(state => getLoading(state, recordType));
-  const errors = useSelector(state => getErrors(state, recordType));
-  const filters = useSelector(state => getFilters(state, recordType), compare);
+
+  const data = useMemoizedSelector(state => getRecords(state, recordType));
+  const loading = useMemoizedSelector(state => getLoading(state, recordType));
+  const errors = useMemoizedSelector(state => getErrors(state, recordType));
+  const filters = useMemoizedSelector(state => getFilters(state, recordType));
+  const allFields = useMemoizedSelector(state => getFields(state));
+  const allLookups = useMemoizedSelector(state => getOptions(state));
+  const allAgencies = useMemoizedSelector(state => selectAgencies(state));
+  const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
+
   const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
@@ -59,11 +65,8 @@ const Component = ({
   const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
     recordType
   );
-  let translatedRecords = [];
 
-  const allFields = useSelector(state => getFields(state), compare);
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const allAgencies = useSelector(state => selectAgencies(state), compare);
+  let translatedRecords = [];
 
   let componentColumns = typeof columns === "function" ? columns(data) : columns;
 
@@ -322,7 +325,6 @@ const Component = ({
     data: dataWithAlertsColumn
   };
 
-  const formsAreLoading = useSelector(state => getLoadingState(state));
   const dataIsLoading = loading || formsAreLoading || !allLookups.size > 0;
 
   const loadingIndicatorProps = {

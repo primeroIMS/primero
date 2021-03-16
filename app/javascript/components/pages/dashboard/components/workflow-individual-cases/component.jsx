@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Stepper, Step, StepLabel, StepConnector } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -10,7 +9,7 @@ import { selectModule } from "../../../../application";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES } from "../../../../../config";
-import { displayNameHelper } from "../../../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../../../libs";
 
 import styles from "./styles.css";
 import { NAME, CLOSED } from "./constants";
@@ -26,8 +25,8 @@ const Component = ({ loadingIndicator }) => {
     line: css.connectorLine
   };
 
-  const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
-  const casesWorkflow = useSelector(state => getWorkflowIndividualCases(state));
+  const workflowLabels = useMemoizedSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
+  const casesWorkflow = useMemoizedSelector(state => getWorkflowIndividualCases(state));
 
   const renderSteps = workflowLabels
     ?.filter(step => step.id !== CLOSED)

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -14,6 +14,7 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
+import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
@@ -33,8 +34,8 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
 
-  const lookup = useSelector(state => getLookup(state));
-  const saving = useSelector(state => getSavingLookup(state));
+  const lookup = useMemoizedSelector(state => getLookup(state));
+  const saving = useMemoizedSelector(state => getSavingLookup(state));
 
   useEffect(() => {
     if (isEditOrShow) {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -19,6 +19,7 @@ import { fetchAgencies } from "../agencies-list/action-creators";
 import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
@@ -35,9 +36,10 @@ const Container = () => {
     label: i18n.t(label),
     ...rest
   }));
-  const filterAgencies = useSelector(state => getEnabledAgencies(state));
-  const filterUserGroups = useSelector(state => getUserGroups(state));
-  const metadata = useSelector(state => getMetadata(state, recordType));
+  const filterAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
+  const filterUserGroups = useMemoizedSelector(state => getUserGroups(state));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultMetadata = metadata?.toJS();
   const defaultFilterFields = {
     [DISABLED]: ["false"]

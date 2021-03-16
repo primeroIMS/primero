@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -16,6 +16,7 @@ import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { localizeData, translateFields } from "./utils";
 import { NAME, FORM_ID } from "./constants";
@@ -30,15 +31,16 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
-  const agency = useSelector(state => getAgency(state));
-  const formErrors = useSelector(state => getServerErrors(state));
+
+  const agency = useMemoizedSelector(state => getAgency(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
   const validationSchema = validations(formMode, i18n);
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
-
-  const saving = useSelector(state => getSavingRecord(state));
 
   const handleSubmit = data => {
     const localizedData = localizeData(data, ["name", "description"], i18n);

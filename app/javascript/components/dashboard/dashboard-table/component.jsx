@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
+import { push } from "connected-react-router";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import { push } from "connected-react-router";
-import { isEqual } from "lodash";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 
-import { dataToJS } from "../../../libs";
+import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
 import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
@@ -16,7 +15,7 @@ const useStyles = makeStyles(styles);
 
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
   const css = useStyles();
-  const userPermissions = useSelector(state => getPermissions(state), isEqual);
+  const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 
   const dispatch = useDispatch();

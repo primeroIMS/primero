@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -14,7 +14,7 @@ import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
 import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
-import { compare } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
@@ -53,10 +53,10 @@ const Component = () => {
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
 
-  const isLoading = useSelector(state => getIsLoading(state));
-  const isReorderEnabled = useSelector(state => getReorderEnabled(state));
-  const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP), compare);
+  const isLoading = useMemoizedSelector(state => getIsLoading(state));
+  const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
+  const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
+  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP));
 
   const { modules } = useApp();
 

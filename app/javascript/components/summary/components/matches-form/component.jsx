@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { List, ListItemText } from "@material-ui/core";
@@ -15,14 +15,17 @@ import { RECORD_PATH } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import IndexTable from "../../../index-table";
 import { FORMS } from "../../../record-form/form/subforms/subform-traces/constants";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 import { columns } from "./utils";
 
 const Component = ({ css, i18n, mode, open, record, setSelectedForm, matchedTracesData }) => {
   const dispatch = useDispatch();
-  const data = useSelector(state => getCasesPotentialMatches(state));
-  const loading = useSelector(state => getLoadingCasesPotentialMatches(state));
+
+  const data = useMemoizedSelector(state => getCasesPotentialMatches(state));
+  const loading = useMemoizedSelector(state => getLoadingCasesPotentialMatches(state));
+
   const matchedTracesIds = matchedTracesData.map(matchedTrace => matchedTrace.get("id"));
 
   useEffect(() => {

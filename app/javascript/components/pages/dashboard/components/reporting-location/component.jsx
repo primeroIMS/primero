@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { getReportingLocation } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -10,15 +9,16 @@ import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { getLocations } from "../../../../record-form";
 import { getReportingLocationConfig } from "../../../../user/selectors";
 import { ROUTES } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const locations = useSelector(state => getLocations(state));
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
-  const reportingLocation = useSelector(state => getReportingLocation(state));
+  const locations = useMemoizedSelector(state => getLocations(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const reportingLocation = useMemoizedSelector(state => getReportingLocation(state));
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_REPORTING_LOCATION}>

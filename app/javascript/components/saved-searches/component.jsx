@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { makeStyles, Typography, Box } from "@material-ui/core";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../i18n";
+import { useMemoizedSelector } from "../../libs";
 
 import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
@@ -14,7 +14,7 @@ const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
   const i18n = useI18n();
   const css = useStyles();
 
-  const savedSearches = useSelector(state => selectSavedSearches(state, recordType));
+  const savedSearches = useMemoizedSelector(state => selectSavedSearches(state, recordType));
 
   const listSavedSearchesProps = {
     recordType,

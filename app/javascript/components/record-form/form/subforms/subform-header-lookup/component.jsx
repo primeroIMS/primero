@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
 import { getOption } from "../../../selectors";
 import { SUBFORM_LOOKUP_HEADER_NAME } from "../constants";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { getMultiSelectValues } from "./utils";
 
 const Component = ({ value, optionsStringSource, optionsStringText }) => {
   const i18n = useI18n();
 
-  const optionsStrings = useSelector(state => getOption(state, optionsStringSource, i18n.locale, value));
+  const optionsStrings = useMemoizedSelector(state => getOption(state, optionsStringSource, i18n.locale, value));
 
   if (isEmpty(value)) return <>{value}</>;
 

@@ -1,12 +1,13 @@
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import { object, string } from "yup";
 
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { getErrors, getLoading } from "../../selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, NOTES_FIELD } from "./constants";
 import RequestForm from "./request-form";
@@ -17,8 +18,9 @@ const TransferRequest = ({ open, setOpen, currentRecord, caseId }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formikRef = createRef();
-  const loading = useSelector(state => getLoading(state, ["transitions", NAMESPACE]));
-  const errors = useSelector(state => getErrors(state, ["transitions", NAMESPACE]));
+
+  const loading = useMemoizedSelector(state => getLoading(state, ["transitions", NAMESPACE]));
+  const errors = useMemoizedSelector(state => getErrors(state, ["transitions", NAMESPACE]));
 
   const close = () => setOpen(false);
 
