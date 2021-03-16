@@ -11,18 +11,17 @@ import { getPermissionsByRecord } from "../../../../user/selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
-import { getRecordInformationForms } from "./utils";
+import { getRecordInformationNav } from "./utils";
 
-const Component = ({ open, handleClick, selectedForm, formGroupLookup, match }) => {
+const Component = ({ open, handleClick, selectedForm, formGroupLookup, match, recordAlerts }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
-
-  const recordInformationForms = getRecordInformationForms(i18n, RECORD_TYPES[recordType]);
+  const recordInformationNavs = getRecordInformationNav(i18n, RECORD_TYPES[recordType]);
 
   const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
-  const forms = recordInformationForms.reduce((acum, form) => {
+  const forms = recordInformationNavs.reduce((acum, form) => {
     if (isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions)) {
       return acum.push(form);
     }
@@ -38,6 +37,7 @@ const Component = ({ open, handleClick, selectedForm, formGroupLookup, match }) 
         open={open}
         selectedForm={selectedForm}
         formGroupLookup={formGroupLookup}
+        recordAlerts={recordAlerts}
       />
     </>
   );
@@ -50,6 +50,7 @@ Component.propTypes = {
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
   open: PropTypes.string,
+  recordAlerts: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
