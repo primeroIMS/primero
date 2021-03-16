@@ -1,4 +1,4 @@
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -16,24 +16,23 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
-  const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
-
-  const referralUsers = useSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
-
-  const loading = useSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
-
-  const userName = useSelector(state => currentUser(state));
-
-  const agencies = useSelector(state => getEnabledAgencies(state));
+  const services = useMemoizedSelector(state => getOption(state, "lookup-service-type", i18n.locale));
+  const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
+  const loading = useMemoizedSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
+  const userName = useMemoizedSelector(state => currentUser(state));
+  const agencies = useMemoizedSelector(state => getEnabledAgencies(state));
 
   const handleReferral = () => {
     batch(() => {

@@ -1,14 +1,13 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
-import { compare } from "../../../../../../../libs";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { getFields, getRecordFormsByUniqueId, getOrderedRecordForms } from "../../../../../selectors";
@@ -16,10 +15,13 @@ import { fetchMatchedTraces, getMatchedTraces, selectRecord, setMachedCaseForTra
 import TraceActions from "../trace-actions";
 import FieldRow from "../field-row";
 import { FORMS } from "../../constants";
+import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import styles from "./styles.css";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({
   selectedForm,
@@ -31,20 +33,19 @@ const Component = ({
   hideBack,
   mode
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase
   const matchedCaseId = traceValues?.matched_case_id;
   const i18n = useI18n();
 
-  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, id), compare);
-  const fields = useSelector(state => getFields(state), compare);
-  const forms = useSelector(
-    state => getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases }),
-    compare
+  const record = useMemoizedSelector(state => selectRecord(state, { isShow: true }, recordType, id));
+  const fields = useMemoizedSelector(state => getFields(state));
+  const forms = useMemoizedSelector(state =>
+    getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
   );
-  const subformFamilyDetails = useSelector(state =>
+  const subformFamilyDetails = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       primeroModule: record.get("module_id"),
       recordType: RECORD_TYPES.cases,
@@ -53,7 +54,7 @@ const Component = ({
       checkVisible: false
     })?.first()
   );
-  const hasMatchedTraces = useSelector(state => Boolean(getMatchedTraces(state)?.size));
+  const hasMatchedTraces = useMemoizedSelector(state => Boolean(getMatchedTraces(state)?.size));
 
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseShortId = potentialMatch.getIn(["case", "case_id_display"]);

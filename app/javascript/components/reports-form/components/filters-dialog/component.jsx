@@ -14,11 +14,13 @@ import { ATTRIBUTE, CONSTRAINT, NAME, VALUE, FORM_ID } from "./constants";
 import form from "./form";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) => {
   const formMode = whichFormMode("edit");
 
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const isNew = selectedIndex === null;
 
   const formMethods = useForm();

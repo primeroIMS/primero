@@ -9,9 +9,11 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const NotFound = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.root}>

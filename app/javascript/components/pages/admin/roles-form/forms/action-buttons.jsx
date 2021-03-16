@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -13,12 +12,14 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, WRITE_RECORDS } from "../../../../../libs/permissions";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { useMemoizedSelector } from "../../../../../libs";
 
 const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
 
-  const saving = useSelector(state => getSavingRecord(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />

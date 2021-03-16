@@ -12,8 +12,10 @@ import { useApp } from "../../../../../application";
 import { NAME, GROUP_BY, SORT_BY } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const fieldName = subformField.get("name");

@@ -11,9 +11,11 @@ import { MODULES, RECORD_PATH } from "../../../../../../config/constants";
 import styles from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const nameStyles = clsx({
     [css.formName]: true,
     [css.protected]: !editable

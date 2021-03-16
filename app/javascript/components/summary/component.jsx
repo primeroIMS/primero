@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getIn } from "formik";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
@@ -21,25 +21,31 @@ import {
   getLoadingMatchedTraces
 } from "../records";
 import { RECORD_PATH } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
 import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState(FORMS.matches);
-  const potentialMatch = useSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
-  const matchedTracesData = useSelector(state => getMatchedTraces(state));
-  const matchedTracesLoading = useSelector(state => getLoadingMatchedTraces(state));
+
+  const potentialMatch = useMemoizedSelector(state => getSelectedPotentialMatch(state, RECORD_PATH.cases));
+  const matchedTracesData = useMemoizedSelector(state => getMatchedTraces(state));
+  const matchedTracesLoading = useMemoizedSelector(state => getLoadingMatchedTraces(state));
 
   useEffect(() => {
-    dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+    if (!mode.isNew) {
+      dispatch(fetchMatchedTraces(RECORD_PATH.cases, recordId));
+    }
 
     return () => {
       dispatch(clearPotentialMatches());

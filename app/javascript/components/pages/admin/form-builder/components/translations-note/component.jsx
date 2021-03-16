@@ -1,23 +1,23 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { getLookupByUniqueId } from "../../../../../form/selectors";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { buildFormGroupUniqueId } from "../../utils";
 import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ moduleId, parentForm }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
-  const formGroupLookup = useSelector(
-    state => getLookupByUniqueId(state, buildFormGroupUniqueId(moduleId, parentForm)),
-    compare
+  const formGroupLookup = useMemoizedSelector(state =>
+    getLookupByUniqueId(state, buildFormGroupUniqueId(moduleId, parentForm))
   );
 
   return (

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
@@ -11,15 +11,17 @@ import Jewel from "../../../jewel";
 import styles from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
-import { ConditionalWrapper } from "../../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG } from "../../constants";
 import { ROUTES } from "../../../../config";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
   const { disabledApplication, online } = useApp();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -46,7 +48,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       })
   };
 
-  const userPermissions = useSelector(state => getPermissions(state), isEqual);
+  const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
 
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);

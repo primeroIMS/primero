@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { dataToJS, displayNameHelper } from "../../libs";
+import { getAssignedAgency } from "../user";
 import { getRecordForms } from "../record-form";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
@@ -51,10 +52,19 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
   const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
   const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
 
-  return filteredAgencies.map(agency => ({
+  const allFilteredAgencies = filteredAgencies.map(agency => ({
     id: agency.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
     display_text: agency.getIn(["name", i18n.locale], "")
   }));
+
+  return allFilteredAgencies;
+};
+
+const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOptions }) => {
+  const currentUserAgency = fromJS([getAssignedAgency(state)]);
+  const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
+
+  return allAgencies.filter(agency => currentUserAgency.includes(agency.id));
 };
 
 const locations = (state, i18n, includeAdminLevel = false) =>
@@ -128,10 +138,17 @@ const lookups = (state, { i18n, filterOptions }) => {
   return filterableOptions(filterOptions, lookupList);
 };
 
-const userGroups = state =>
-  getUserGroups(state).map(userGroup =>
+const userGroups = (state, { filterOptions }) => {
+  const applicationUserGroups = getUserGroups(state).map(userGroup =>
     fromJS({ id: userGroup.get("unique_id"), display_text: userGroup.get("name") })
   );
+
+  if (filterOptions) {
+    return filterableOptions(filterOptions, applicationUserGroups);
+  }
+
+  return applicationUserGroups;
+};
 
 const formGroupLookup = (state, { filterOptions }) =>
   filterableOptions(
@@ -158,6 +175,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
       return agencies(state, { ...rest, useUniqueId, i18n });
+    case OPTION_TYPES.AGENCY_CURRENT_USER:
+      return agenciesCurrentUser(state, { ...rest, useUniqueId, i18n });
     case OPTION_TYPES.LOCATION:
       return locations(state, i18n);
     case OPTION_TYPES.REPORTING_LOCATIONS:
@@ -171,7 +190,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest) =
     case OPTION_TYPES.REFER_TO_USERS:
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
-      return userGroups(state);
+      return userGroups(state, { ...rest });
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:

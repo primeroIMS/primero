@@ -1,17 +1,17 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import FlagIcon from "@material-ui/icons/Flag";
-
-import { useDialog } from "../action-dialog";
-import { useI18n } from "../i18n";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { useMemoizedSelector } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
-
-import { FlagForm, ListFlags, FlagDialog, Unflag } from "./components";
+import { useDialog } from "../action-dialog";
+import { useI18n } from "../i18n";
 import { fetchFlags } from "./action-creators";
-import { NAME, FLAG_DIALOG } from "./constants";
+import { FlagDialog, FlagForm, ListFlags, Unflag } from "./components";
+import { FLAG_DIALOG, NAME } from "./constants";
 import { getSelectedFlag } from "./selectors";
+
+
 
 const Component = ({ control, record, recordType }) => {
   const [tab, setTab] = useState(0);
@@ -20,7 +20,7 @@ const Component = ({ control, record, recordType }) => {
 
   const isBulkFlags = Array.isArray(record);
 
-  const selectedFlag = useSelector(state => getSelectedFlag(state));
+  const selectedFlag = useMemoizedSelector(state => getSelectedFlag(state));
 
   const handleOpen = () => {
     setDialog({ dialog: FLAG_DIALOG, open: true });

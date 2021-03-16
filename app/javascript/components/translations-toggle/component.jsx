@@ -1,20 +1,22 @@
 import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 
 import { DropdownDoubleIcon } from "../../images/primero-icons";
 import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
+import { useMemoizedSelector } from "../../libs";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -29,7 +31,7 @@ const TranslationsToggle = () => {
   };
 
   // TODO: Need better list of locales with direction from backend
-  const locales = useSelector(state => selectLocales(state));
+  const locales = useMemoizedSelector(state => selectLocales(state));
 
   return (
     <>

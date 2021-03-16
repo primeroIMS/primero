@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { getSharedFromMyTeam } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -8,12 +7,15 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { ROUTES } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
-  const sharedFromMyTeam = useSelector(state => getSharedFromMyTeam(state));
+
+  const sharedFromMyTeam = useMemoizedSelector(state => getSharedFromMyTeam(state));
+
   const sharedFromMyTeamProps = {
     ...teamSharingTable(sharedFromMyTeam, i18n)
   };

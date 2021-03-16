@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { TextField } from "formik-material-ui";
 import isEmpty from "lodash/isEmpty";
 
@@ -16,6 +16,7 @@ import { useI18n } from "../../../i18n";
 import { applyFilters } from "../../../index-filters/action-creators";
 import { DEFAULT_FILTERS } from "../../../record-list/constants";
 import { filterUsers } from "../utils";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 import { searchableValue } from "./utils";
@@ -33,9 +34,8 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
 
-  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
-
-  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
+  const users = useMemoizedSelector(state => getUsersByTransitionType(state, transitionType));
+  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {

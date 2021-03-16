@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -13,7 +12,7 @@ import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
-import { compare, dataToJS, useThemeHelper } from "../../../../libs";
+import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
 import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
@@ -23,9 +22,11 @@ import { NAME } from "./constants";
 import styles from "./styles.css";
 import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { isRTL } = useThemeHelper();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -64,11 +65,11 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
     }
   };
 
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const location = useSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
-  const agencies = useSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n), compare);
-  const modules = useSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n), compare);
-  const formGroups = useSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n), compare);
+  const allLookups = useMemoizedSelector(state => getOptions(state));
+  const location = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n));
+  const agencies = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n));
+  const modules = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n));
+  const formGroups = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n));
 
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];

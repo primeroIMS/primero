@@ -17,11 +17,11 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
-import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { WRITE_RECORDS, ACTIONS, GROUP_PERMISSIONS } from "../../../../libs/permissions";
 import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
-import { currentUser } from "../../../user/selectors";
+import { currentUser, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 
@@ -50,6 +50,10 @@ const Container = ({ mode }) => {
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
+  const currentUserGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
+  const roleGroupPermission = currentUserGroupPermission === GROUP_PERMISSIONS.GROUP;
+  const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
+  const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -160,7 +164,11 @@ const Container = ({ mode }) => {
       providers,
       identityOptions,
       onClickChangePassword,
-      selectedUserIsLoggedIn
+      selectedUserIsLoggedIn,
+      {
+        currentUserGroupPermissions: roleGroupPermission ? currentUserGroups : [],
+        agencyReadOnUsers
+      }
     ).map(formSection => (
       <FormSection
         formSection={formSection}

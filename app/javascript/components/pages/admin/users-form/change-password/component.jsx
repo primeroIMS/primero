@@ -10,7 +10,7 @@ import { NAME, FORM_ID } from "./constants";
 import changePasswordForm from "./form";
 import validations from "./validations";
 
-function Component({ formMode, i18n, open, pending, close }) {
+function Component({ formMode, i18n, open, pending, close, parentFormMethods }) {
   const [closeConfirmationModal, setCloseConfirmationModal] = useState(false);
 
   const validationSchema = validations(i18n);
@@ -20,14 +20,15 @@ function Component({ formMode, i18n, open, pending, close }) {
   const formMethods = useForm({ ...(validationSchema && { resolver: yupResolver(validationSchema) }) });
 
   const {
-    setValue,
     handleSubmit,
     formState: { isDirty }
   } = formMethods;
 
+  const { setValue } = parentFormMethods;
+
   const onSubmit = data => {
     Object.entries(data).forEach(([key, value]) => {
-      setValue(key.replace("_change", ""), value, { shouldDirty: true });
+      setValue(key, value, { shouldDirty: true });
     });
 
     closeChangePassword();
@@ -92,6 +93,7 @@ Component.propTypes = {
   formMode: PropTypes.object,
   i18n: PropTypes.object,
   open: PropTypes.bool,
+  parentFormMethods: PropTypes.object,
   pending: PropTypes.bool
 };
 

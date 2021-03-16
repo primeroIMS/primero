@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 import merge from "lodash/merge";
@@ -18,6 +18,7 @@ import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
+import { useMemoizedSelector } from "../../libs";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -34,8 +35,10 @@ import Actions from "./components/actions";
 import styles from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
@@ -56,13 +59,11 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     defaultValues: isEmpty(queryParams) ? merge(defaultFilters.toJS(), filterToList) : queryParams
   });
 
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType));
+  const userName = useMemoizedSelector(state => currentUser(state));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
-
-  const filters = useSelector(state => getFiltersByRecordType(state, recordType));
-
-  const userName = useSelector(state => currentUser(state));
 
   const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
 

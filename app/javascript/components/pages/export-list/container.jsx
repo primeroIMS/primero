@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,19 +12,23 @@ import { useI18n } from "../../i18n";
 import { DATE_TIME_FORMAT, FETCH_PARAM } from "../../../config";
 import { getMetadata } from "../../record-list";
 import { useMetadata } from "../../records";
+import { useMemoizedSelector } from "../../../libs";
 
 import { fetchExports } from "./action-creators";
 import styles from "./styles.css";
 import { selectListHeaders } from "./selectors";
 import { NAME, EXPORT_STATUS, EXPORT_COLUMNS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const ExportList = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const recordType = "bulk_exports";
 
-  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
-  const metadata = useSelector(state => getMetadata(state, recordType));
+  const listHeaders = useMemoizedSelector(state => selectListHeaders(state, recordType));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultFilters = metadata;
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 

@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
@@ -21,8 +21,10 @@ import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
@@ -30,7 +32,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const { dialogClose } = useDialog(NAME);
   const { limitedProductionSite } = useApp();
 
-  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
 
   const {
     name: fieldName,

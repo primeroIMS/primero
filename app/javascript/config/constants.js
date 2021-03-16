@@ -98,6 +98,8 @@ export const RECORD_PATH = {
   users: "users"
 };
 
+export const RECORD_INFORMATION_GROUP = "record_information";
+
 export const RECORD_OWNER = "record_owner";
 
 export const TRANSFERS_ASSIGNMENTS = "transfers_assignments";
@@ -244,7 +246,7 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.metadata
   },
-  { to: "/locations", label: "settings.navigation.locations" },
+  { to: "/locations", label: "settings.navigation.locations", permission: MANAGE, recordType: RESOURCES.metadata },
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
@@ -384,6 +386,7 @@ export const SAVE_METHODS = Object.freeze({
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
+export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
 

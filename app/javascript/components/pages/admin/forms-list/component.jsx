@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
@@ -12,13 +12,14 @@ import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
-import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
-import { compare } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import Permission from "../../../application/permission";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -38,22 +39,24 @@ import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = () => {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const defaultFilterValues = {
     recordType: RECORD_TYPES.cases,
     primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
 
-  const isLoading = useSelector(state => getIsLoading(state));
-  const isReorderEnabled = useSelector(state => getReorderEnabled(state));
-  const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP), compare);
+  const isLoading = useMemoizedSelector(state => getIsLoading(state));
+  const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
+  const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
+  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP));
 
   const { modules } = useApp();
 
@@ -158,7 +161,7 @@ const Component = () => {
   const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
 
   return (
-    <>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         <FormAction
           actionHandler={() => handleExport(FORM_EXPORTER_DIALOG)}
@@ -218,7 +221,7 @@ const Component = () => {
           <ReorderActions open={isReorderEnabled} handleCancel={closeReoderActions} handleSuccess={saveReorder} />
         </div>
       </PageContent>
-    </>
+    </Permission>
   );
 };
 

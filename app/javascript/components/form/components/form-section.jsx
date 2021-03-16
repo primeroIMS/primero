@@ -16,8 +16,10 @@ import styles from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
+const useStyles = makeStyles(styles);
+
 const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);
@@ -28,17 +30,17 @@ const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, fo
     setExpanded(!expanded);
   };
 
+  const classes = clsx({
+    [css.heading]: true,
+    [css.error]: renderError()
+  });
+
   if (expandable) {
     return (
       <Accordion elevation={3} expanded={expanded} onChange={handleChange}>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Tooltip title={tooltip}>
-            <Typography
-              className={clsx({
-                [css.heading]: true,
-                [css.error]: renderError()
-              })}
-            >
+            <Typography className={classes}>
               <FormSectionTitle formSection={formSection} />
             </Typography>
           </Tooltip>

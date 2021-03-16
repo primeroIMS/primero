@@ -10,6 +10,8 @@ import SwitchInput from "../../../../../form/fields/switch-input";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   firstLocaleOption,
   index,
@@ -20,7 +22,7 @@ const Component = ({
   formMode,
   formMethods
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const renderTranslationValues = () => {
     return localesKeys.map(localeKey => {

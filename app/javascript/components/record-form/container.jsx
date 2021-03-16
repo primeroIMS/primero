@@ -1,7 +1,7 @@
 import { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { ACTIONS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -65,6 +65,8 @@ import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
 import { compactValues, getRedirectPath } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ match, mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
@@ -77,7 +79,7 @@ const Container = ({ match, mode }) => {
     isShow: mode === "show"
   };
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { params } = match;
@@ -86,8 +88,9 @@ const Container = ({ match, mode }) => {
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
   const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
+  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
-  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
+  const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
@@ -204,7 +207,8 @@ const Container = ({ match, mode }) => {
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
-    primeroModule: selectedModule.primeroModule
+    primeroModule: selectedModule.primeroModule,
+    hasForms: !loadingForm && forms.size > 0
   };
 
   useEffect(() => {
@@ -320,24 +324,25 @@ const Container = ({ match, mode }) => {
     }[externalFormSelected];
   };
 
-  const hasData = Boolean(
-    forms && formNav && firstTab && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam)
-  );
+  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
+  const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
+  const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
+  const containerClasses = clsx(css.recordContainer, {
+    [css.formNavOpen]: toggleNav && mobileDisplay
+  });
+  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = clsx({ [css.demo]: demo });
 
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
-        <RecordFormToolbar {...toolbarProps} />
-        <div
-          className={clsx(css.recordContainer, {
-            [css.formNavOpen]: toggleNav && mobileDisplay
-          })}
-        >
-          <div className={clsx(css.recordNav, { [css.demo]: demo })}>
+        {renderRecordFormToolbar}
+        <div className={containerClasses}>
+          <div className={navContainerClasses}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} ${clsx({ [css.demo]: demo })} record-form-container`}>
+          <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
               externalForms={externalForms}

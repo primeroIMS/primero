@@ -34,9 +34,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       },
       {
         action: "SET_DIALOG_PENDING",
-        payload: {
-          pending: false
-        }
+        payload: false
       }
     ];
 
@@ -62,9 +60,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       },
       {
         action: "SET_DIALOG_PENDING",
-        payload: {
-          pending: false
-        }
+        payload: false
       }
     ];
 
@@ -89,9 +85,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       },
       {
         action: "SET_DIALOG_PENDING",
-        payload: {
-          pending: false
-        }
+        payload: false
       }
     ];
 
@@ -125,9 +119,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       },
       {
         action: "SET_DIALOG_PENDING",
-        payload: {
-          pending: false
-        }
+        payload: false
       }
     ];
 

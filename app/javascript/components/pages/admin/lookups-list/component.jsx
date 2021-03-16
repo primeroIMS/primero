@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 
@@ -8,7 +7,7 @@ import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
-import { useThemeHelper } from "../../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -24,7 +23,9 @@ const Component = () => {
   const i18n = useI18n();
   const { css } = useThemeHelper({ css: styles });
   const recordType = ["admin", "lookups"];
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultFilters = metadata;
   const { limitedProductionSite } = useApp();
 

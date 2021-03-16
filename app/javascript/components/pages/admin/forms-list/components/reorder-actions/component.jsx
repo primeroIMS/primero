@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles, Dialog, DialogActions, CircularProgress } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../../../notifier";
 import { useI18n } from "../../../../../i18n";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../../selectors";
@@ -15,13 +15,16 @@ import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../..
 import styles from "./styles.css";
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ handleCancel, handleSuccess, open }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
-  const reorderLoading = useSelector(state => getReorderIsLoading(state));
-  const errors = useSelector(state => getReorderErrors(state), compare);
-  const reorderPendings = useSelector(state => getReorderPendings(state), compare);
+
+  const reorderLoading = useMemoizedSelector(state => getReorderIsLoading(state));
+  const errors = useMemoizedSelector(state => getReorderErrors(state));
+  const reorderPendings = useMemoizedSelector(state => getReorderPendings(state));
 
   useEffect(() => {
     if (open && !reorderLoading) {
@@ -48,7 +51,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       id="reorder-actions"
       disableEnforceFocus
       open={open}
-      style={{ top: "auto", left: "auto" }}
+      style={css.dialog}
       disableBackdropClick
       hideBackdrop={!reorderLoading}
     >

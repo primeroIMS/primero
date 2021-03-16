@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
 import clsx from "clsx";
 
 import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
 import { localesToRender } from "../utils";
 import { getSelectedFields } from "../../selectors";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import WatchedFormSectionField from "../../../../../form/components/watched-form-section-field";
 import { useApp } from "../../../../../application";
 
@@ -17,8 +16,10 @@ import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode, formMethods }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);
@@ -26,7 +27,7 @@ const Component = ({ mode, formMethods }) => {
   const { limitedProductionSite } = useApp();
   const [selectedLocaleId, setSelectedLocaleId] = useState(null);
 
-  const fields = useSelector(state => getSelectedFields(state, false), compare);
+  const fields = useMemoizedSelector(state => getSelectedFields(state, false));
 
   const { getValues, setValue } = formMethods;
 
@@ -90,6 +91,8 @@ const Component = ({ mode, formMethods }) => {
     }
   }, [i18n]);
 
+  const classes = clsx(css.fieldTitle, css.translationsRow);
+
   return (
     <>
       <FormSectionField
@@ -119,7 +122,7 @@ const Component = ({ mode, formMethods }) => {
         </Grid>
         <Grid item xs={12} md={3} />
 
-        <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+        <Grid item xs={12} md={3} className={classes}>
           {i18n.t("forms.title")}
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>
@@ -140,7 +143,7 @@ const Component = ({ mode, formMethods }) => {
         </Grid>
         <Grid item xs={12} md={3} />
 
-        <Grid item xs={12} md={3} className={clsx(css.fieldTitle, css.translationsRow)}>
+        <Grid item xs={12} md={3} className={classes}>
           {i18n.t("forms.description")}
         </Grid>
         <Grid item xs={12} md={3} className={css.translationsRow}>

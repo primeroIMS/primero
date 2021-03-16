@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
 
@@ -8,6 +8,7 @@ import ActionDialog from "../../../../../action-dialog";
 import Form from "../../../../../form";
 import { exportForms } from "../../action-creators";
 import { getExportedForms } from "../../selectors";
+import { useMemoizedSelector } from "../../../../../../libs";
 
 import validations from "./validations";
 import { NAME, EXPORT_TYPES, EXPORTED_URL, FORM_ID } from "./constants";
@@ -18,7 +19,7 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
   const { recordType, primeroModule } = filters;
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
 
-  const exportedForms = useSelector(state => getExportedForms(state));
+  const exportedForms = useMemoizedSelector(state => getExportedForms(state));
 
   const onSubmit = data => {
     const params = {

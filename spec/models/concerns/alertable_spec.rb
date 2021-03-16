@@ -18,7 +18,7 @@ describe Alertable do
         unique_id: 'test_form',
         name: 'Test Form',
         fields: [
-          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No'),
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No')
         ]
       )
       cp = PrimeroModule.create!(
@@ -174,13 +174,12 @@ describe Alertable do
           changes_field_to_form: { transfer_request: 'transfer_request' }
         )
         SystemSettings.stub(:current).and_return(SystemSettings.first)
-
       end
 
       context 'and the record is edited' do
         before do
           @test_class.name = 'asdfadfadfa'
-          @test_class.data = {transfer_request: [{id: 'test'}]}
+          @test_class.data = { transfer_request: [{ id: 'test' }] }
           @test_class.save
         end
 
@@ -262,5 +261,100 @@ describe Alertable do
       SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
       PrimeroProgram, PrimeroModule, Referral, FormSection
     )
+  end
+
+  context 'when a incident_from_case alert exists' do
+    before do
+      clean_data(
+        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+        PrimeroProgram, PrimeroModule, Referral, FormSection
+      )
+
+      program = PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+
+      form_section = FormSection.create!(
+        unique_id: 'test_form',
+        name: 'Test Form',
+        fields: [
+          Field.new(name: 'national_id_no', type: 'text_field', display_name: 'National ID No')
+        ]
+      )
+
+      cp = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP,
+        name: 'CP',
+        description: 'Child Protection',
+        associated_record_types: %w[case tracing_request incident],
+        primero_program: program,
+        form_sections: [form_section]
+      )
+
+      role_self = Role.create!(
+        name: 'Test Role 3',
+        unique_id: 'test-role-3',
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
+          )
+        ],
+        modules: [cp]
+      )
+      agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+
+      @group_b = UserGroup.create!(name: 'Group2')
+      @group_c = UserGroup.create!(name: 'Group3')
+      @user_a = User.create!(
+        full_name: 'Test User 1',
+        user_name: 'test_user_1',
+        password: 'a12345678',
+        password_confirmation: 'a12345678',
+        email: 'test_user_1@localhost.com',
+        agency_id: agency_a.id,
+        role: role_self,
+        user_groups: [@group_b, @group_c]
+      )
+
+      @test_incident_alerts = Child.create(
+        name: 'bar',
+        data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
+        alerts: [Alert.create(type: 'incident_from_case', alert_for: 'field_change', user_id: @user_a.id)]
+      )
+    end
+
+    context 'and current user is the record owner' do
+      before do
+        Child.any_instance.stub(:last_updated_by).and_return('the_owner')
+        Child.any_instance.stub(:owned_by).and_return('the_owner')
+        SystemSettings.create!(
+          changes_field_to_form: { incident_details: 'incident_from_case' }
+        )
+        SystemSettings.stub(:current).and_return(SystemSettings.first)
+      end
+
+      context 'and the record is edited' do
+        before do
+          @test_incident_alerts.data = { name_first: 'First Name Record' }
+          @test_incident_alerts.save
+        end
+
+        it 'removes the alert' do
+          expect(@test_incident_alerts.alerts?).to be false
+        end
+
+        it 'count alerts by record' do
+          expect(@test_incident_alerts.alert_count).to eq(0)
+        end
+
+        it 'count alerts by user' do
+          expect(Child.alert_count(@user_a)).to eq(0)
+        end
+      end
+    end
   end
 end

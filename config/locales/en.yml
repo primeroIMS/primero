@@ -456,6 +456,7 @@ en:
       You will lose all your current settings and will not be able to get them back unless you have already saved
       them in another Configuration.
     apply_label_bold: Primero will be unavailable to users for a few minutes while changes are loading.
+    version_mismatch_tooltip: You cannot apply this configuration, since it was created using a higher version of Primero than the one your site is running. Please wait to apply this configuration until you are running the latest version of Primero.
     send_header: Send to Production
     send_text: Are you sure? If you click Send, you will send this configuration to your Production site. This configuration will not be applied on Production until an administrator on that site manually applies it.
     attributes:
@@ -465,7 +466,8 @@ en:
       last_applied_by: Last Applied By
       last_applied_on: Last Applied On
       name: Name
-      version: Version
+      version: Configuration Version
+      primero_version: Primero Version
     delete_label: Are you sure you want to do this? This represents all of the settings
       from when this Configuration was created. You will not be able to go back and
       recover these settings once you delete this Configuration.

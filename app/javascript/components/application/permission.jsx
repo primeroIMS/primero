@@ -1,34 +1,41 @@
-import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { withRouter } from "react-router-dom";
+import { Map } from "immutable";
 import PropTypes from "prop-types";
-import { List } from "immutable";
-import { isEqual } from "lodash";
+import { useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import { getPermissions } from "../user/selectors";
+import { INCIDENT_FROM_CASE, MODES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 import { RESOURCES } from "../../libs/permissions";
+import { getPermissions } from "../user/selectors";
 
 const Permission = ({ resources, actions, redirect, children, match }) => {
   const { params } = match;
   const { recordType } = params;
   const type = resources || recordType;
   const dispatch = useDispatch();
-  const allUserPermissions = useSelector(state => getPermissions(state), isEqual);
 
-  const filteredPermissions = allUserPermissions.entrySeq().reduce((acum, curr) => {
-    const [key, value] = curr;
+  const allUserPermissions = useMemoizedSelector(state => getPermissions(state));
 
+  const filteredPermissions = allUserPermissions.entrySeq().reduce((acum, [key, value]) => {
     if ((Array.isArray(type) && type.includes(key)) || type === key) {
-      return { ...acum, [key]: value };
+      return acum.set(key, value);
     }
 
     return acum;
-  }, {});
+  }, Map({}));
+
+  const hasIncidentFromCase =
+    type === RESOURCES.incidents &&
+    children?.props?.mode === MODES.new &&
+    allUserPermissions
+      .entrySeq()
+      .some(([key, value]) => key === RESOURCES.cases && value.some(permission => permission === INCIDENT_FROM_CASE));
 
   const verifyAction = element => (Array.isArray(actions) ? actions.includes(element) : actions === element);
 
   const userHasPermission =
-    List(Object.values(filteredPermissions)).flatten().some(verifyAction) || resources === RESOURCES.any;
+    filteredPermissions.valueSeq().flatten().some(verifyAction) || resources === RESOURCES.any || hasIncidentFromCase;
 
   if (userHasPermission) {
     return children;

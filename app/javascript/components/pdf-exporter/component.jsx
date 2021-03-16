@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { makeStyles, Typography } from "@material-ui/core";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS, isImmutable } from "immutable";
 
 import { useI18n } from "../i18n";
@@ -17,14 +17,16 @@ import {
   INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
 import { getOptions } from "../form/selectors";
+import { useMemoizedSelector } from "../../libs";
 
 import Signatures from "./components/signatures";
-import { getCustomFormTitle } from "./selectors";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
 import styles from "./styles.css";
 import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
 import Logos from "./components/logos";
+
+const useStyles = makeStyles(styles);
 
 const Component = forwardRef(
   (
@@ -44,7 +46,7 @@ const Component = forwardRef(
     ref
   ) => {
     const i18n = useI18n();
-    const css = makeStyles(styles)();
+    const css = useStyles();
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();
@@ -54,11 +56,9 @@ const Component = forwardRef(
 
     const data = isImmutable(record) ? record : fromJS(record);
 
-    const { title = "", condition = false, fields: customFormFields = [] } = customFormProps || {};
-    const isRemote = typeof condition === "boolean" ? condition : watch(condition);
+    const { title = "", condition = false, fields: customFormFields = [] } = customFormProps;
 
-    const customTitle = useSelector(state => getCustomFormTitle(state, title, watch));
-    const headerOptions = useSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
+    const isRemote = typeof condition === "boolean" ? condition : watch(condition);
 
     const {
       [CUSTOM_HEADER]: customHeader,
@@ -71,24 +71,26 @@ const Component = forwardRef(
       control,
       name: [CUSTOM_HEADER, HEADER, SIGNATURES, INCLUDE_IMPLEMENTATION_LOGOS, INCLUDE_AGENCY_LOGO, INCLUDE_OTHER_LOGOS]
     });
+
     const watchedValues = useWatch({
       control,
       name: customFormFields.map(referralField => referralField.name)
     });
     const userSelectedForms = useWatch({ control, name: formsSelectedField, defaultValue: formsSelectedFieldDefault });
 
-    const selectedHeader = headerOptions
-      ?.filter(option => option.get("id") === header)
-      ?.first()
-      ?.get("display_text");
-
-    const formSelectorResults = useSelector(state => {
+    const headerOptions = useMemoizedSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
+    const formSelectorResults = useMemoizedSelector(state => {
       if (formsSelectedSelector) {
         return formsSelectedSelector(state, userSelectedForms);
       }
 
       return fromJS([]);
     });
+
+    const selectedHeader = headerOptions
+      ?.filter(option => option.get("id") === header)
+      ?.first()
+      ?.get("display_text");
 
     const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
 
@@ -163,7 +165,7 @@ const Component = forwardRef(
         </div>
         <div ref={html} className={css.container}>
           {customFormProps && isRemote && (
-            <RenderTable title={customTitle} fields={customFormFields} data={fromJS(watchedValues)} />
+            <RenderTable title={title} fields={customFormFields} data={fromJS(watchedValues)} />
           )}
           {selectedForms?.map(form => (
             <RenderTable
@@ -181,6 +183,10 @@ const Component = forwardRef(
 );
 
 Component.displayName = "PdfExporter";
+
+Component.defaultProps = {
+  customFormProps: {}
+};
 
 Component.propTypes = {
   agenciesWithLogosEnabled: PropTypes.array,

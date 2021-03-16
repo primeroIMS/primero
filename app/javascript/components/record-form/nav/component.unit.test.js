@@ -2,7 +2,7 @@ import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 
-import { APPROVALS, INCIDENT_FROM_CASE, REFERRAL } from "../../../config";
+import { APPROVALS, INCIDENT_FROM_CASE, REFERRAL, RECORD_INFORMATION_GROUP } from "../../../config";
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 import { ConditionalWrapper } from "../../../libs";
@@ -10,7 +10,6 @@ import Actions from "../actions";
 
 import { NavGroup, RecordInformation } from "./components";
 import Nav from "./component";
-import { RECORD_INFORMATION_GROUP } from "./components/record-information/constants";
 
 describe("<Nav />", () => {
   let component;
@@ -181,7 +180,8 @@ describe("<Nav />", () => {
     selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
     toggleNav: true,
     recordType: "cases",
-    primeroModule: "primeromodule-cp"
+    primeroModule: "primeromodule-cp",
+    hasForms: true
   };
 
   beforeEach(() => {
@@ -230,7 +230,8 @@ describe("<Nav />", () => {
       "recordType",
       "selectedForm",
       "selectedRecord",
-      "toggleNav"
+      "toggleNav",
+      "hasForms"
     ].forEach(property => {
       expect(navProps).to.have.property(property);
       delete navProps[property];
@@ -554,6 +555,26 @@ describe("<Nav />", () => {
         .pop();
 
       expect(setAction).to.deep.equal(expectedAction);
+    });
+  });
+
+  describe("when the firstTab props is empty", () => {
+    const propsNoFirstTab = {
+      ...props,
+      isNew: false,
+      selectedForm: "",
+      firstTab: null,
+      hasForms: false
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(Nav, propsNoFirstTab, initialState));
+    });
+
+    it("should open record information", () => {
+      const navGroup = component.find(NavGroup).first();
+
+      expect(navGroup.props().open).to.equal("record_information");
     });
   });
 });

@@ -6,9 +6,8 @@ import { makeStyles, Tab, Tabs } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isEqual } from "lodash";
 
 import { fetchLookups } from "../../../record-form/action-creators";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -17,11 +16,13 @@ import { useI18n } from "../../../i18n";
 import { PageContent, PageHeading } from "../../../page";
 import { submitHandler, whichFormMode } from "../../../form";
 import { ROUTES, SAVE_METHODS, MODES } from "../../../../config";
-import { compare, dataToJS, displayNameHelper } from "../../../../libs";
+import { dataToJS, displayNameHelper, useMemoizedSelector } from "../../../../libs";
 import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 import { useApp } from "../../../application";
+import Permission from "../../../application/permission";
+import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
@@ -52,8 +53,10 @@ import {
 } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ mode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const dispatch = useDispatch();
@@ -65,13 +68,13 @@ const Component = ({ mode }) => {
   const [moduleId, setModuleId] = useState("");
   const [parentForm, setParentForm] = useState("");
 
-  const errors = useSelector(state => getServerErrors(state), compare);
-  const saving = useSelector(state => getSavingRecord(state), isEqual);
-  const updatedFormIds = useSelector(state => getUpdatedFormIds(state), compare);
-  const selectedForm = useSelector(state => getSelectedForm(state), compare);
-  const isLoading = useSelector(state => getIsLoading(state), isEqual);
-  const selectedField = useSelector(state => getSelectedField(state), compare);
-  const selectedSubforms = useSelector(state => getSelectedSubforms(state), compare);
+  const errors = useMemoizedSelector(state => getServerErrors(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+  const updatedFormIds = useMemoizedSelector(state => getUpdatedFormIds(state));
+  const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
+  const isLoading = useMemoizedSelector(state => getIsLoading(state));
+  const selectedField = useMemoizedSelector(state => getSelectedField(state));
+  const selectedSubforms = useMemoizedSelector(state => getSelectedSubforms(state));
 
   const methods = useForm({
     resolver: yupResolver(validationSchema(i18n)),
@@ -230,52 +233,58 @@ const Component = ({ mode }) => {
   }, [tab]);
 
   return (
-    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
-      <PageHeading title={pageTitle}>
-        <FormBuilderActionButtons
-          formMode={formMode}
-          limitedProductionSite={limitedProductionSite}
-          handleSubmit={methods.handleSubmit(onSubmit)}
-          handleCancel={handleCancel}
-        />
-      </PageHeading>
-      <PageContent>
-        <Tabs value={tab} onChange={handleChange}>
-          <Tab label={i18n.t("forms.settings")} />
-          <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
-          <Tab className={css.tabHeader} label={i18n.t("forms.translations.title")} disabled={formMode.get("isNew")} />
-        </Tabs>
-        {tab === 0 && (
-          <SettingsTab
-            tab={tab}
-            index={0}
-            mode={mode}
-            formMethods={methods}
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+      <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
+        <PageHeading title={pageTitle}>
+          <FormBuilderActionButtons
+            formMode={formMode}
             limitedProductionSite={limitedProductionSite}
+            handleSubmit={methods.handleSubmit(onSubmit)}
+            handleCancel={handleCancel}
           />
-        )}
-        {tab === 1 && (
-          <FieldsTab
-            tab={tab}
-            index={1}
-            mode={modeForFieldDialog}
-            formMethods={methods}
-            limitedProductionSite={limitedProductionSite}
-          />
-        )}
-        {tab === 2 && (
-          <TranslationsTab
-            mode={mode}
-            moduleId={moduleId}
-            parentForm={parentForm}
-            selectedField={selectedField}
-            formMethods={methods}
-            index={2}
-            tab={tab}
-          />
-        )}
-      </PageContent>
-    </LoadingIndicator>
+        </PageHeading>
+        <PageContent>
+          <Tabs value={tab} onChange={handleChange}>
+            <Tab label={i18n.t("forms.settings")} />
+            <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
+            <Tab
+              className={css.tabHeader}
+              label={i18n.t("forms.translations.title")}
+              disabled={formMode.get("isNew")}
+            />
+          </Tabs>
+          {tab === 0 && (
+            <SettingsTab
+              tab={tab}
+              index={0}
+              mode={mode}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
+          {tab === 1 && (
+            <FieldsTab
+              tab={tab}
+              index={1}
+              mode={modeForFieldDialog}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
+          {tab === 2 && (
+            <TranslationsTab
+              mode={mode}
+              moduleId={moduleId}
+              parentForm={parentForm}
+              selectedField={selectedField}
+              formMethods={methods}
+              index={2}
+              tab={tab}
+            />
+          )}
+        </PageContent>
+      </LoadingIndicator>
+    </Permission>
   );
 };
 

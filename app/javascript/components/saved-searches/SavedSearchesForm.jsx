@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
@@ -17,6 +17,7 @@ import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { useMemoizedSelector } from "../../libs";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi, buildFiltersState } from "./utils";
@@ -44,7 +45,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
     resolver: yupResolver(validationSchema)
   });
 
-  const userModules = useSelector(state => selectModules(state));
+  const userModules = useMemoizedSelector(state => selectModules(state));
 
   const closeModal = () => {
     setOpen(false);

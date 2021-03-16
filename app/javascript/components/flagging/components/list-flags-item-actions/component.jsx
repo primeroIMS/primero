@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { Divider, makeStyles } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { ResolvedFlagIcon } from "../../../../images/primero-icons";
@@ -10,14 +10,19 @@ import styles from "../styles.css";
 import { UNFLAG_DIALOG } from "../unflag/constants";
 import { setSelectedFlag } from "../../action-creators";
 import { useDialog } from "../../../action-dialog";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
-  const userName = useSelector(state => currentUser(state));
+  const css = useStyles();
+
+  const userName = useMemoizedSelector(state => currentUser(state));
+
   const showResolveButton =
     // eslint-disable-next-line camelcase
     !flag?.removed && userName === flag?.flagged_by;

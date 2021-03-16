@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
@@ -18,18 +17,20 @@ import {
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator, userPermissions }) => {
   const i18n = useI18n();
-  const casesByAssessmentLevel = useSelector(state => getCasesByAssessmentLevel(state));
-  const groupOverview = useSelector(state => getGroupOverview(state));
-  const caseOverview = useSelector(state => getCaseOverview(state));
-  const sharedWithMe = useSelector(state => getSharedWithMe(state));
-  const sharedWithOthers = useSelector(state => getSharedWithOthers(state));
-  const labelsRiskLevel = useSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
-  const caseIncidentOverview = useSelector(state => getCaseIncidentOverview(state));
+
+  const casesByAssessmentLevel = useMemoizedSelector(state => getCasesByAssessmentLevel(state));
+  const groupOverview = useMemoizedSelector(state => getGroupOverview(state));
+  const caseOverview = useMemoizedSelector(state => getCaseOverview(state));
+  const sharedWithMe = useMemoizedSelector(state => getSharedWithMe(state));
+  const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
+  const labelsRiskLevel = useMemoizedSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
+  const caseIncidentOverview = useMemoizedSelector(state => getCaseIncidentOverview(state));
 
   const overviewDashHasData = Boolean(
     casesByAssessmentLevel.size || groupOverview.size || caseOverview.size || sharedWithMe.size || sharedWithOthers.size

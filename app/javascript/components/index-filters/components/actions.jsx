@@ -8,8 +8,10 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Actions = ({ handleSave, handleClear }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const showSave = handleSave && (

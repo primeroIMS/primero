@@ -1,7 +1,6 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
-import { useDispatch, useSelector, batch } from "react-redux";
-import isEqual from "lodash/isEqual";
+import { useDispatch, batch } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import clsx from "clsx";
 import { push } from "connected-react-router";
@@ -13,38 +12,32 @@ import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
 import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
-import { compare } from "../../../libs";
 import { setSelectedForm } from "../../record-form/action-creators";
 import { useMetadata } from "../../records";
+import { useMemoizedSelector } from "../../../libs";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const TaskList = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const recordType = "tasks";
   const dispatch = useDispatch();
-  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
-  const metadata = useSelector(state => getMetadata(state));
+
+  const listHeaders = useMemoizedSelector(state => selectListHeaders(state, recordType));
+  const metadata = useMemoizedSelector(state => getMetadata(state));
+  const lookupServiceType = useMemoizedSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
+  const lookupFollowupType = useMemoizedSelector(state => getOption(state, LOOKUPS.followup_type, i18n.locale));
+  const fields = useMemoizedSelector(state => getFields(state));
+  const forms = useMemoizedSelector(state => getAllForms(state));
+  const fieldNames = useMemoizedSelector(state => getMetadata(state, "field_names"));
+
   const defaultFilters = metadata;
-  const lookupServiceType = useSelector(
-    state => getOption(state, LOOKUPS.service_type, i18n.locale),
-    (prev, actual) => {
-      return isEqual(prev, actual);
-    }
-  );
-  const lookupFollowupType = useSelector(
-    state => getOption(state, LOOKUPS.followup_type, i18n.locale),
-    (prev, actual) => {
-      return isEqual(prev, actual);
-    }
-  );
-  const fields = useSelector(state => getFields(state), compare);
-  const forms = useSelector(state => getAllForms(state), compare);
-  const fieldNames = useSelector(state => getMetadata(state, "field_names"), compare);
 
   useMetadata(recordType, metadata, fetchTasks, FETCH_PARAM.DATA);
 

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Paper, Typography } from "@material-ui/core";
 import { push } from "connected-react-router";
@@ -19,6 +19,7 @@ import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 
 import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
@@ -27,6 +28,8 @@ import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
 import styles from "./styles.css";
+
+const useStyles = makeStyles(styles);
 
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
@@ -37,18 +40,19 @@ const Report = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const { pathname } = useLocation();
   const { setDialog, dialogOpen, dialogClose, pending, setDialogPending } = useDialog(DELETE_MODAL);
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   useEffect(() => {
     dispatch(fetchReport(id));
   }, []);
 
-  const errors = useSelector(state => getErrors(state, namespace));
-  const loading = useSelector(state => getLoading(state, namespace));
-  const report = useSelector(state => getReport(state));
+  const errors = useMemoizedSelector(state => getErrors(state, namespace));
+  const loading = useMemoizedSelector(state => getLoading(state, namespace));
+  const report = useMemoizedSelector(state => getReport(state));
+  const agencies = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
+
   const name = report.getIn(["name", i18n.locale], "");
   const description = report.getIn(["description", i18n.locale], "");
-  const agencies = useSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
 
   const setDeleteModal = open => {
     setDialog({ dialog: DELETE_MODAL, open });

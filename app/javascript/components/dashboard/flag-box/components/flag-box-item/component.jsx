@@ -11,8 +11,10 @@ import { UserArrowIcon } from "../../../../../images/primero-icons";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ date, reason, recordId, title, user }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const handleFlagOpen = id => () => dispatch(push(`${RECORD_PATH.cases}/${id}`));
 

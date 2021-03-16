@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
@@ -17,6 +17,7 @@ import { SAVE_METHODS } from "../../../../config";
 import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
 import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";
 import {
@@ -38,9 +39,11 @@ import {
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const isEditOrShow = formMode.isEdit || formMode.isShow;
 
   const i18n = useI18n();
@@ -50,11 +53,11 @@ const Container = ({ mode }) => {
 
   const validationSchema = validations(formMode, i18n);
 
-  const configuration = useSelector(state => getConfiguration(state));
-  const errors = useSelector(state => getErrors(state));
-  const applying = useSelector(state => getApplying(state));
-  const sending = useSelector(state => getSending(state));
-  const formErrors = useSelector(state => getServerErrors(state));
+  const configuration = useMemoizedSelector(state => getConfiguration(state));
+  const errors = useMemoizedSelector(state => getErrors(state));
+  const applying = useMemoizedSelector(state => getApplying(state));
+  const sending = useMemoizedSelector(state => getSending(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
 
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     APPLY_CONFIGURATION_MODAL,
@@ -127,6 +130,12 @@ const Container = ({ mode }) => {
   }, [errors]);
 
   const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
+  const canApplyConfig = configuration?.get("can_apply", false);
+  const applyActionProps = {
+    actionHandler: handleApply,
+    text: i18n.t("buttons.apply"),
+    ...(!canApplyConfig ? { disabled: true, tooltip: i18n.t("configurations.version_mismatch_tooltip") } : {})
+  };
 
   const renderSendToProductionBtn = isDemoSite && (
     <FormAction actionHandler={handleSend} text={i18n.t("buttons.send")} startIcon={<PublishIcon />} />
@@ -135,7 +144,7 @@ const Container = ({ mode }) => {
   const editButton = formMode.isShow ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
-      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+      <FormAction startIcon={<CheckIcon />} {...applyActionProps} />
       {renderSendToProductionBtn}
     </>
   ) : null;

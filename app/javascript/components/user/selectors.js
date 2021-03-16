@@ -58,3 +58,9 @@ export const getServerErrors = state => {
 };
 
 export const getSavingPassword = state => state.getIn([NAMESPACE, "resetPassword", "saving"], false);
+
+export const getCurrentUserGroupPermission = state => state.getIn([NAMESPACE, "roleGroupPermission"], fromJS([]));
+
+export const getCurrentUserGroupsUniqueIds = state => state.getIn([NAMESPACE, "userGroupUniqueIds"], fromJS([]));
+
+export const getAssignedAgency = state => state.getIn([NAMESPACE, "agencyId"], fromJS([]));

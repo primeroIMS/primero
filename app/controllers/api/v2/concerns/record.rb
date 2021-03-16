@@ -30,7 +30,7 @@ module Api::V2::Concerns::Record
   end
 
   def create
-    authorize! :create, model_class
+    authorize_create!
     @record = model_class.new_with_user(current_user, record_params)
     @record.save!
     select_updated_fields
@@ -118,5 +118,9 @@ module Api::V2::Concerns::Record
 
   def write?
     action_name.in?(%w[create update])
+  end
+
+  def authorize_create!
+    authorize! :create, model_class
   end
 end
