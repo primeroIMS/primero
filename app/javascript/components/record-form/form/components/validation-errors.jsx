@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
-import { compare } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { enqueueSnackbar } from "../../../notifier";
 import { getValidationErrors } from "../../selectors";
 import { setValidationErrors } from "../../action-creators";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
@@ -16,7 +16,9 @@ import { VALIDATION_ERRORS_NAME } from "./constants";
 const ValidationErrors = ({ formErrors, forms }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const errors = useSelector(state => getValidationErrors(state), compare);
+
+  const errors = useMemoizedSelector(state => getValidationErrors(state));
+
   const errorsWithoutEmptySubforms = removeEmptyArrays(formErrors);
 
   useEffect(() => {

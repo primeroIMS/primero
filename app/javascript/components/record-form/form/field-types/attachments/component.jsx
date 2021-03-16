@@ -4,13 +4,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { FieldArray, connect, getIn } from "formik";
 import { Box } from "@material-ui/core";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../../i18n";
 import { ATTACHMENT_FIELD_NAME } from "../../constants";
 import { PHOTO_FIELD, AUDIO_FIELD } from "../../../constants";
 import LoadingIndicator from "../../../../loading-indicator";
 import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments } from "../../../../records";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -22,9 +22,11 @@ import { buildBase64URL } from "./utils";
 // TODO: No link to display / download upload
 const Component = ({ name, field, label, disabled, formik, mode, recordType }) => {
   const i18n = useI18n();
-  const loading = useSelector(state => getLoadingRecordState(state, recordType));
-  const processing = useSelector(state => getIsProcessingAttachments(state, recordType, name));
-  const recordAttachments = useSelector(state => getRecordAttachments(state, recordType));
+
+  const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
+  const processing = useMemoizedSelector(state => getIsProcessingAttachments(state, recordType, name));
+  const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, recordType));
+
   const values = getIn(formik.values, name);
   const attachment = FIELD_ATTACHMENT_TYPES[field.type];
 

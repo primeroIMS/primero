@@ -5,8 +5,20 @@ import isEmpty from "lodash/isEmpty";
 import orderBy from "lodash/orderBy";
 import isEqual from "lodash/isEqual";
 
+import { FormSectionRecord } from "../records";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
-import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
+import {
+  CODE_FIELD,
+  NAME_FIELD,
+  UNIQUE_ID_FIELD,
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../../config";
 import { SUBFORM_SECTION } from "../constants";
 
 import { valuesWithDisplayConditions } from "./subforms/subform-field-array/utils";
@@ -215,3 +227,54 @@ export const isFormDirty = (initialValues, currentValues, fields) => {
 
   return !isEqual(sortSubformsValues(initialValues, fields), sortSubformsValues(currentValues, fields));
 };
+
+export const getRecordInformationForms = i18n => ({
+  [RECORD_OWNER]: FormSectionRecord({
+    unique_id: RECORD_OWNER,
+    name: { [i18n.locale]: i18n.t("forms.record_types.record_information") },
+    order: 1,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [APPROVALS]: FormSectionRecord({
+    unique_id: APPROVALS,
+    name: { [i18n.locale]: i18n.t("forms.record_types.approvals") },
+    order: 2,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [INCIDENT_FROM_CASE]: FormSectionRecord({
+    unique_id: INCIDENT_FROM_CASE,
+    name: { [i18n.locale]: i18n.t("incidents.label") },
+    order: 2,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  }),
+  [REFERRAL]: FormSectionRecord({
+    unique_id: REFERRAL,
+    name: { [i18n.locale]: i18n.t("forms.record_types.referrals") },
+    order: 3,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [TRANSFERS_ASSIGNMENTS]: FormSectionRecord({
+    unique_id: TRANSFERS_ASSIGNMENTS,
+    name: { [i18n.locale]: i18n.t("forms.record_types.transfers_assignments") },
+    order: 4,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  }),
+  [CHANGE_LOGS]: FormSectionRecord({
+    unique_id: CHANGE_LOGS,
+    name: { [i18n.locale]: i18n.t("change_logs.label") },
+    order: 4,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  })
+});

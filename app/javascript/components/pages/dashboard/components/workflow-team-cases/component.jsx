@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { getWorkflowTeamCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -9,15 +8,15 @@ import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES, ROUTES } from "../../../../../config";
 import { selectModule } from "../../../../application";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
-
-  const casesWorkflowTeam = useSelector(state => getWorkflowTeamCases(state));
+  const workflowLabels = useMemoizedSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
+  const casesWorkflowTeam = useMemoizedSelector(state => getWorkflowTeamCases(state));
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_WORKFLOW_TEAM}>

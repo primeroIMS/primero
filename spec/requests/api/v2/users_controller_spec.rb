@@ -57,6 +57,47 @@ describe Api::V2::UsersController, type: :request do
     )
     @role_manage_user.save!
 
+    @super_user_permissions = [
+      Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::REPORT, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
+    ]
+
+    @admin_user_permissions = [
+      Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE]),
+      Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
+    ]
+
+    @super_role = Role.new_with_properties(
+      name: 'Super Role',
+      unique_id: 'super-role',
+      permissions: @super_user_permissions,
+      group_permission: Permission::ALL,
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
+    )
+    @super_role.save!
+
+    @admin_role = Role.new_with_properties(
+      name: 'Admin Role',
+      unique_id: 'admin-role',
+      permissions: @admin_user_permissions,
+      group_permission: Permission::ADMIN_ONLY,
+      module_unique_ids: [@cp.unique_id],
+      form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
+    )
+    @admin_role.save!
+
     @role = Role.new_with_properties(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -64,8 +105,13 @@ describe Api::V2::UsersController, type: :request do
         Permission.new(
           resource: Permission::CASE,
           actions: [Permission::MANAGE]
+        ),
+        Permission.new(
+          resource: Permission::USER,
+          actions: [Permission::READ]
         )
       ],
+      group_permission: Permission::SELF,
       module_unique_ids: [@cp.unique_id],
       form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
@@ -75,6 +121,7 @@ describe Api::V2::UsersController, type: :request do
     @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
 
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
+    @user_group_b = UserGroup.create!(unique_id: 'user-group-2', name: 'user group 2')
 
     @identity_provider_a = IdentityProvider.create!(
       name: 'primero_1',
@@ -127,6 +174,7 @@ describe Api::V2::UsersController, type: :request do
       password_confirmation: 'c12345678',
       email: 'test@localhost.com',
       agency_id: @agency_b.id,
+      user_groups: [@user_group_b],
       role: @role
     )
 
@@ -140,61 +188,149 @@ describe Api::V2::UsersController, type: :request do
       role: @role_manage_user,
       identity_provider_id: @identity_provider_a.id
     )
+
+    @admin_user_a = User.create!(
+      full_name: 'Admin User A',
+      user_name: 'admin_user_a',
+      password: 'c12345678',
+      password_confirmation: 'c12345678',
+      email: 'adminusera@localhost.com',
+      agency_id: @agency_a.id,
+      role: @admin_role
+    )
+
+    @admin_user_b = User.create!(
+      full_name: 'Admin User B',
+      user_name: 'admin_user_b',
+      password: 'c12345678',
+      password_confirmation: 'c12345678',
+      email: 'adminuserb@localhost.com',
+      agency_id: @agency_a.id,
+      user_groups: [@user_group_b],
+      role: @admin_role
+    )
+
+    @super_user = User.create!(
+      full_name: 'Super user',
+      user_name: 'super_user',
+      password: 'c12345678',
+      password_confirmation: 'c12345678',
+      email: 'superuser@localhost.com',
+      agency_id: @agency_a.id,
+      role: @super_role
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/users' do
-    it 'list the users' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
-        ]
-      )
+    context 'when current_user is a super user' do
+      it 'list the users' do
+        login_for_test(permissions: @super_user_permissions)
 
-      get '/api/v2/users'
+        get '/api/v2/users'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
-      expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
-        [@identity_provider_a.unique_id, @identity_provider_a.unique_id, @identity_provider_a.unique_id]
-      )
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(7)
+        expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
+          [@identity_provider_a.unique_id, @identity_provider_a.unique_id, @identity_provider_a.unique_id]
+        )
+      end
+
+      it 'list the users of a specific agency' do
+        login_for_test(permissions: @super_user_permissions)
+
+        get "/api/v2/users?agency=#{@agency_a.id}"
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(5)
+      end
+
+      it 'return modules, agencies, permissions, filters, headers for the extended version' do
+        login_for_test(permissions: @super_user_permissions)
+
+        get '/api/v2/users?extended=true'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(7)
+        expect(json['data'][0]['agency_id']).to eq(@agency_a.id)
+        expect(json['data'][0]['filters']).not_to be_nil
+        expect(json['data'][0]['permissions']).not_to be_nil
+        expect(json['data'][0]['list_headers']).not_to be_nil
+        expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
+        expect(json['data'][0]['permitted_form'].present?).to be_truthy
+        expect(json['data'][0]['agency_logo_full']).not_to be_nil
+        expect(json['data'][0]['agency_logo_icon']).not_to be_nil
+        expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
+        expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
+      end
     end
 
-    it 'list the users of a specific agency' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
-        ]
-      )
+    context 'when current_user is admin' do
+      it 'list the users who are not super users' do
+        login_for_test(permissions: @admin_user_permissions, group_permission: Permission::ADMIN_ONLY)
 
-      get "/api/v2/users?agency=#{@agency_a.id}"
+        get '/api/v2/users'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(6)
+        expect(json['data'].map { |user| user['user_name'] }).to match_array(
+          %w[test_user_1 test_user_2 test_user_3 admin_user_a admin_user_b test_user_4]
+        )
+        expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
+          [@identity_provider_a.unique_id, @identity_provider_a.unique_id, @identity_provider_a.unique_id]
+        )
+      end
     end
 
-    it 'return modules, agencies, permissions, filters, headers for the extended version' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])
-        ]
-      )
+    context 'when current_user has agency_read permission' do
+      it 'list non-admin users who are in the same agency of the current_user' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::AGENCY_READ, Permission::READ])
+          ],
+          agency_id: @agency_a.id
+        )
 
-      get '/api/v2/users?extended=true'
+        get '/api/v2/users'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
-      expect(json['data'][0]['agency_id']).to eq(@agency_a.id)
-      expect(json['data'][0]['filters']).not_to be_nil
-      expect(json['data'][0]['permissions']).not_to be_nil
-      expect(json['data'][0]['list_headers']).not_to be_nil
-      expect(json['data'][0]['permitted_form_unique_ids']).not_to be_nil
-      expect(json['data'][0]['permitted_form'].present?).to be_truthy
-      expect(json['data'][0]['agency_logo_full']).not_to be_nil
-      expect(json['data'][0]['agency_logo_icon']).not_to be_nil
-      expect(json['data'][0]['agency_name']).to eq(@agency_a.name)
-      expect(json['data'][0]['agency_unique_id']).to eq(@agency_a.unique_id)
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(2)
+        expect(json['data'].map { |user| user['user_name'] }).to match_array(%w[test_user_1 test_user_2])
+        expect(json['data'].map { |user| user['identity_provider_unique_id'] }.compact).to eq(
+          [@identity_provider_a.unique_id, @identity_provider_a.unique_id]
+        )
+      end
+    end
+
+    context 'when current_user has group permission' do
+      it 'list non-admin users who are in the same user group of the current_user' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::READ])
+          ],
+          group_permission: Permission::GROUP,
+          user_group_ids: [@user_group_b.id]
+        )
+
+        get '/api/v2/users'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(1)
+        expect(json['data'].map { |user| user['user_name'] }).to match_array(%w[test_user_3])
+      end
+    end
+
+    context 'when current_user has self permission' do
+      it 'list the current user only' do
+        sign_in(@user_c)
+
+        get '/api/v2/users'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(1)
+        expect(json['data'].map { |user| user['user_name'] }).to match_array(%w[test_user_3])
+      end
     end
 
     it 'refuses unauthorized access' do

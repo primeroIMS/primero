@@ -13,8 +13,8 @@ class Api::V2::UsersController < ApplicationApiController
   def index
     authorize! :index, User
     filters = params.permit(:agency, :location, :services, :user_group_ids, disabled: {}).to_h
-    results = User.find_permitted_users(
-      filters.compact, pagination, { user_name: :asc }, current_user
+    results = PermittedUsersService.new(current_user).find_permitted_users(
+      filters.compact, pagination, user_name: :asc
     )
     @users = results[:users]
     @total = results[:total]

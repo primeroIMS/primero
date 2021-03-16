@@ -22,3 +22,13 @@
     text-decoration: underline;
   }
 }
+
+.connectorRoot {
+  margin-bottom: 36px;
+}
+
+.connectorLine {
+  height: 1px;
+  border: 0;
+  background-color: $(theme.primero.colors.warmGrey5);
+}

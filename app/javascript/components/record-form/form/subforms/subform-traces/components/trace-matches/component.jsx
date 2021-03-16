@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { fromJS } from "immutable";
@@ -15,6 +15,7 @@ import { LOOKUPS, POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config
 import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
 import { getOptions } from "../../../../../../form/selectors";
 import { getOptionText } from "../field-row/utils";
+import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -26,7 +27,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const css = useStyles();
   const dispatch = useDispatch();
 
-  const genderOptions = useSelector(state => getOptions(state, LOOKUPS.gender, i18n));
+  const genderOptions = useMemoizedSelector(state => getOptions(state, LOOKUPS.gender, i18n));
 
   const tableOptions = {
     columns: [

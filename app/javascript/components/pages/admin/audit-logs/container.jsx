@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { useEffect } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 
@@ -8,7 +8,7 @@ import { getMetadata } from "../../../record-list";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
-import { compare } from "../../../../libs";
+import { compare, useMemoizedSelector } from "../../../../libs";
 import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
@@ -24,8 +24,9 @@ const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const recordType = ["admin", AUDIT_LOG];
-  const metadata = useSelector(state => getMetadata(state, recordType));
-  const filterUsers = useSelector(state => getFilterUsers(state), compare);
+
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const filterUsers = useMemoizedSelector(state => getFilterUsers(state), compare);
 
   useEffect(() => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));

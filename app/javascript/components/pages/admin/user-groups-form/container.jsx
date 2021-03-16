@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -15,6 +15,7 @@ import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";
 import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-creators";
@@ -31,9 +32,9 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const cantEditUserGroup = usePermissions(NAMESPACE, WRITE_RECORDS);
 
-  const userGroup = useSelector(state => getUserGroup(state));
-  const formErrors = useSelector(state => getServerErrors(state));
-  const saving = useSelector(state => getSavingRecord(state));
+  const userGroup = useMemoizedSelector(state => getUserGroup(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
 
   const validationSchema = validations(formMode, i18n);
 

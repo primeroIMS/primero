@@ -1,20 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
+import { push } from "connected-react-router";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import { push } from "connected-react-router";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import { isEqual } from "lodash";
+import { useDispatch } from "react-redux";
+import { makeStyles } from "@material-ui/styles";
 
-import { dataToJS, useThemeHelper } from "../../../libs";
+import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
+import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
 
-import dashboardTableTheme from "./theme";
+import styles from "./styles.css";
+
+const useStyles = makeStyles(styles);
 
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
-  const userPermissions = useSelector(state => getPermissions(state), isEqual);
+  const css = useStyles();
+  const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
-  const { theme } = useThemeHelper({ theme: dashboardTableTheme(clickableCell) });
 
   const dispatch = useDispatch();
   const options = {
@@ -29,7 +31,6 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
     serverSide: true,
     setTableProps: () => ({ "aria-label": title }),
     customToolbar: () => null,
-    customToolbarSelect: () => null,
     onTableChange: () => null,
     pagination: false,
     selectableRows: "none",
@@ -53,17 +54,33 @@ const DashboardTable = ({ columns, data, query, title, pathname }) => {
     }
   };
 
+  const columnsWithNotClickableZeroCells =
+    columns?.length > 0 &&
+    columns.map(col => {
+      if (typeof col.options !== "undefined") {
+        return {
+          ...col,
+          options: {
+            ...col.options,
+            ...tableCellGreaterThanZero(clickableCell)
+          }
+        };
+      }
+
+      return { ...col, options: tableCellGreaterThanZero(clickableCell) };
+    });
+
   const tableOptions = {
-    columns,
+    columns: columnsWithNotClickableZeroCells || columns,
     options,
     data: dataToJS(data),
     title
   };
 
   return (
-    <MuiThemeProvider theme={theme}>
+    <div className={css.tableContainer}>
       <MUIDataTable {...tableOptions} />
-    </MuiThemeProvider>
+    </div>
   );
 };
 

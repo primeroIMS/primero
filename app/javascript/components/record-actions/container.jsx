@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, MODULES } from "../../config";
@@ -12,6 +12,7 @@ import usePermissions from "../permissions";
 import Menu from "../menu";
 import { getRecordFormsByUniqueId } from "../record-form";
 import { useDialog } from "../action-dialog";
+import { useMemoizedSelector } from "../../libs";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
 import { SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./add-service/constants";
@@ -51,14 +52,9 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     TRANSFER_DIALOG
   ]);
 
-  const isIdSearch = useSelector(state => getFiltersValueByRecordType(state, recordType, ID_SEARCH) || false);
-  const metadata = useSelector(state => getMetadata(state, recordType));
-
-  const handleDialogClick = dialog => {
-    setDialog({ dialog, open: true });
-  };
-
-  const incidentForm = useSelector(state =>
+  const isIdSearch = useMemoizedSelector(state => getFiltersValueByRecordType(state, recordType, ID_SEARCH) || false);
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const incidentForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: INCIDENT_SUBFORM,
@@ -66,8 +62,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
       recordType: RECORD_TYPES[recordType]
     })
   ).first();
-
-  const serviceForm = useSelector(state =>
+  const serviceForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: SERVICES_SUBFORM,
@@ -75,6 +70,10 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
       recordType: RECORD_TYPES[recordType]
     })
   ).first();
+
+  const handleDialogClick = dialog => {
+    setDialog({ dialog, open: true });
+  };
 
   const hasIncidentSubform = subformExists(incidentForm, INCIDENTS_SUBFORM_NAME);
   const hasServiceSubform = subformExists(serviceForm, SERVICES_SUBFORM_NAME);

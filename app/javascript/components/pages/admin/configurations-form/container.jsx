@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
@@ -17,6 +17,7 @@ import { SAVE_METHODS } from "../../../../config";
 import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
 import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";
 import {
@@ -52,11 +53,11 @@ const Container = ({ mode }) => {
 
   const validationSchema = validations(formMode, i18n);
 
-  const configuration = useSelector(state => getConfiguration(state));
-  const errors = useSelector(state => getErrors(state));
-  const applying = useSelector(state => getApplying(state));
-  const sending = useSelector(state => getSending(state));
-  const formErrors = useSelector(state => getServerErrors(state));
+  const configuration = useMemoizedSelector(state => getConfiguration(state));
+  const errors = useMemoizedSelector(state => getErrors(state));
+  const applying = useMemoizedSelector(state => getApplying(state));
+  const sending = useMemoizedSelector(state => getSending(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
 
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     APPLY_CONFIGURATION_MODAL,

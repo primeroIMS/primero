@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
@@ -6,12 +5,15 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useI18n } from "../../../../../i18n";
 import { getSavingRecord } from "../../selectors";
 import { FormAction } from "../../../../../form";
+import { useMemoizedSelector } from "../../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ formMode, handleSubmit, handleCancel, limitedProductionSite }) => {
   const i18n = useI18n();
-  const saving = useSelector(state => getSavingRecord(state));
+
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
       <FormAction

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import qs from "qs";
 import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLocation, withRouter } from "react-router-dom";
 import { array, object, string } from "yup";
 
@@ -105,21 +105,6 @@ const Component = ({
     control
   } = formMethods;
 
-  const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
-  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
-  const appliedFilters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
-  const currentUser = useMemoizedSelector(state => getUser(state, recordType));
-  const agenciesWithLogosEnabled = useMemoizedSelector(state => getAgencyLogos(state, true));
-  const agencyLogosPdf = useMemoizedSelector(state => getAgencyLogosPdf(state, true));
-
-  const totalRecords = metadata?.get("total", 0);
-  const location = useLocation();
-  const queryParams = qs.parse(location.search.replace("?", ""));
-  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
-  const allCurrentRowsSelected =
-    selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
-  const allRecordsSelected = selectedRecordsLength === totalRecords;
-
   const {
     [EXPORT_TYPE_FIELD]: exportType,
     [CUSTOM_FORMAT_TYPE_FIELD]: formatType,
@@ -141,6 +126,29 @@ const Component = ({
     ]
   });
 
+  const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const appliedFilters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
+  const currentUser = useMemoizedSelector(state => getUser(state, recordType));
+  const agenciesWithLogosEnabled = useMemoizedSelector(state => getAgencyLogos(state, true));
+  const agencyLogosPdf = useMemoizedSelector(state => getAgencyLogosPdf(state, true));
+  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
+  const recordTypesForms = useMemoizedSelector(state =>
+    getRecordForms(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: selectedModule || record?.get("module_id"),
+      formsIds: userPermittedFormsIds
+    })
+  );
+
+  const totalRecords = metadata?.get("total", 0);
+  const location = useLocation();
+  const queryParams = qs.parse(location.search.replace("?", ""));
+  const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
+  const allCurrentRowsSelected =
+    selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
+  const allRecordsSelected = selectedRecordsLength === totalRecords;
+
   const { userModules } = useApp();
   const modules = userModules
     // eslint-disable-next-line camelcase
@@ -149,14 +157,7 @@ const Component = ({
       display_text: name
     }))
     .toJS();
-  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
-  const recordTypesForms = useSelector(state =>
-    getRecordForms(state, {
-      recordType: RECORD_TYPES[recordType],
-      primeroModule: selectedModule || record?.get("module_id"),
-      formsIds: userPermittedFormsIds
-    })
-  );
+
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 
   const agencyLogo = {
