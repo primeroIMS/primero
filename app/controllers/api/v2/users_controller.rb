@@ -4,8 +4,8 @@
 class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
-  before_action :user_params, only: %i[create update]
   before_action :load_user, only: %i[show update destroy]
+  before_action :user_params, only: %i[create update]
   before_action :load_extended, only: %i[index show]
   after_action :welcome, only: %i[create]
   after_action :identity_sync, only: %i[create update]
@@ -47,7 +47,7 @@ class Api::V2::UsersController < ApplicationApiController
   protected
 
   def user_params
-    @user_params = params.require(:data).permit(User.permitted_api_params)
+    @user_params = params.require(:data).permit(User.permitted_api_params(current_user, @user))
   end
 
   def load_user

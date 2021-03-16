@@ -78,7 +78,14 @@ class User < ApplicationRecord
 
   class << self
     def hidden_attributes
-      %w[encrypted_password reset_password_token reset_password_sent_at service_account]
+      %w[
+        encrypted_password reset_password_token reset_password_sent_at service_account
+        identity_provider_id unlock_token locked_at failed_attempts role_id
+      ]
+    end
+
+    def self_hidden_attributes
+      %w[role_unique_id identity_provider_unique_id user_name]
     end
 
     def password_parameters
@@ -90,17 +97,23 @@ class User < ApplicationRecord
     end
 
     def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
-    def permitted_api_params
-      (
+    def permitted_api_params(current_user = nil, target_user = nil)
+      permitted_params = (
         User.permitted_attribute_names + User.password_parameters +
         [
-          { user_group_ids: [] }, { user_group_unique_ids: [] },
-          { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
+          { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
+          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id'
         ]
       ) - User.hidden_attributes
+
+      return permitted_params if current_user.nil? || target_user.nil?
+
+      return permitted_params unless current_user.user_name == target_user.user_name
+
+      permitted_params - User.self_hidden_attributes
     end
 
     def last_login_timestamp(user_name)
