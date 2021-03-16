@@ -156,15 +156,16 @@ export const exportFormsOptions = (forms, locale) =>
   forms
     .entrySeq()
     .filter(([, form]) => form.get("visible") && !form.get("is_nested"))
-    .reduce((prev, [index, current]) => {
-      return {
+    .reduce(
+      (prev, [, current]) => [
         ...prev,
-        [index]: {
+        {
           id: current.get("unique_id"),
           display_text: displayNameHelper(current.get("name"), locale)
         }
-      };
-    }, {});
+      ],
+      []
+    );
 
 export const buildAgencyLogoPdfOptions = agencyLogosPdf => {
   if (!agencyLogosPdf) return [];

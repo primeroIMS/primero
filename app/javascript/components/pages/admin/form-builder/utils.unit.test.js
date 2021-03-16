@@ -191,16 +191,12 @@ describe("<FormBuilder /> - utils", () => {
           {
             id: "group_1",
             disabled: false,
-            display_text: {
-              en: "Group 1"
-            }
+            display_text: "Group 1"
           },
           {
             id: "group_2",
             disabled: false,
-            display_text: {
-              en: "Group 2"
-            }
+            display_text: "Group 2"
           }
         ]
       };
@@ -216,16 +212,12 @@ describe("<FormBuilder /> - utils", () => {
             {
               id: "nationality_1",
               disabled: false,
-              display_text: {
-                en: "Nationality 1"
-              }
+              display_text: "Nationality 1"
             },
             {
               id: "nationality_2",
               disabled: false,
-              display_text: {
-                en: "Nationality 2"
-              }
+              display_text: "Nationality 2"
             }
           ]
         }

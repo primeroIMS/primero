@@ -102,7 +102,7 @@ const Component = ({ mode, formMethods }) => {
           type: SELECT_FIELD,
           disableClearable: true,
           onChange: onLocaleIdChange,
-          option_strings_text: locales.toJS()
+          option_strings_text: locales
         })}
         formMethods={formMethods}
         formMode={formMode}

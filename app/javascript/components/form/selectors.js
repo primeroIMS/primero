@@ -105,13 +105,16 @@ const reportingLocations = (state, i18n) =>
     });
 
 const modules = state =>
-  state.getIn(["application", "modules"], fromJS([])).reduce((prev, current) => [
-    ...prev,
-    {
-      id: current.get("unique_id"),
-      display_text: current.get("name")
-    }
-  ]);
+  state.getIn(["application", "modules"], fromJS([])).reduce(
+    (prev, current) => [
+      ...prev,
+      {
+        id: current.get("unique_id"),
+        display_text: current.get("name")
+      }
+    ],
+    []
+  );
 
 const lookupValues = (state, optionStringsSource, i18n, rest) => {
   const { fullLookup } = rest;

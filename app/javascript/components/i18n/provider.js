@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import { format, isDate, parseISO } from "date-fns";
 
@@ -37,11 +36,7 @@ const I18nProvider = ({ children }) => {
   };
 
   const translateLocales = () =>
-    locales?.reduce((prev, value) => {
-      const result = prev.push(fromJS({ id: value, display_text: window.I18n.t(`home.${value}`) }));
-
-      return result;
-    }, fromJS([]));
+    locales?.reduce((prev, value) => [...prev, { id: value, display_text: window.I18n.t(`home.${value}`) }], []);
 
   const localizeDate = (value, dateFormat = DATE_FORMAT) => {
     const date = isDate(value) ? value : parseISO(value);

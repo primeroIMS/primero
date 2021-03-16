@@ -84,7 +84,7 @@ export const setInitialGroupOrder = (formSections, filter) =>
     .map((entry, index) => entry[1].map(formSection => formSection.set("order_form_group", index * ORDER_STEP)))
     .flatten();
 
-export const getFormGroups = (allFormGroupsLookups, moduleId, parentForm, i18n) =>
+export const getFormGroups = (allFormGroupsLookups, moduleId, parentForm) =>
   getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)?.values?.reduce((result, item) => {
-    return { ...result, [item.id]: get(item, ["display_text", i18n.locale], "") };
+    return { ...result, [item.id]: get(item, "display_text", "") };
   }, {});

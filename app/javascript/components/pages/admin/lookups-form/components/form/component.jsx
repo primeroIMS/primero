@@ -11,6 +11,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { isEmpty } from "lodash";
 
 import {
   buildValues,
@@ -44,8 +45,8 @@ const Component = ({ mode, lookup }) => {
   const css = useStyles();
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales;
-  const localesKeys = locales.reduce((prev, current) => [...prev, current.get("id")], []);
-  const firstLocaleOption = locales?.first();
+  const localesKeys = locales.reduce((prev, current) => [...prev, current.id], []);
+  const firstLocaleOption = locales?.[0];
   const defaultLocale = firstLocaleOption?.id;
   const validationsSchema = validations(i18n);
   const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
@@ -125,9 +126,9 @@ const Component = ({ mode, lookup }) => {
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
   const renderLookupLocalizedName = () =>
-    !locales.isEmpty() &&
+    !isEmpty(locales) &&
     locales.map(locale => {
-      const localeID = locale.get("id");
+      const localeID = locale.id;
       const show = defaultLocale === localeID || selectedOption === localeID;
 
       return (
@@ -217,8 +218,8 @@ const Component = ({ mode, lookup }) => {
           name: "options",
           type: SELECT_FIELD,
           option_strings_text: locales,
-          editable: !(locales?.count() === 1),
-          disabled: locales?.count() === 1
+          editable: !(locales?.length === 1),
+          disabled: locales?.length === 1
         })}
         formMode={formMode}
         formMethods={formMethods}

@@ -319,7 +319,7 @@ describe("<RecordActions /> - exports/utils", () => {
         1: Map({ unique_id: "test2", name: { en: "Test2" }, visible: false, is_nested: false }),
         2: Map({ unique_id: "test3", name: { en: "Test3" }, visible: true, is_nested: true })
       });
-      const expected = { 0: { id: "test", display_text: "Test" } };
+      const expected = [{ id: "test", display_text: "Test" }];
 
       expect(utils.exportFormsOptions(forms, "en")).to.deep.equal(expected);
     });

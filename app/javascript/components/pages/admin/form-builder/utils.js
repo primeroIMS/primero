@@ -106,7 +106,7 @@ export const getLookupFormGroup = (allFormGroupsLookups, moduleId, parentForm) =
   );
 };
 
-export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm, i18n) => {
+export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm) => {
   const formGroups = getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm);
 
   if (!isEmpty(formGroups)) {
@@ -115,7 +115,7 @@ export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm, i1
         ...result,
         {
           id: item.id,
-          display_text: get(item, ["display_text", i18n.locale], "")
+          display_text: get(item, "display_text", "")
         }
       ],
       []

@@ -37,17 +37,17 @@ export const buildFields = (data, locale, isReportable) => {
     );
   }
 
-  return data
-    .reduce((acc, form) => {
-      // eslint-disable-next-line camelcase
-      const fields = form.get("fields");
-      const name = form.get("name");
+  return data.reduce((acc, form) => {
+    // eslint-disable-next-line camelcase
+    const fields = form.get("fields");
+    const name = form.get("name");
 
-      const filteredFields = fields
-        .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible"))
-        .reduce(
-          (prev, current) => ({
-            ...prev,
+    const filteredFields = fields
+      .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible"))
+      .reduce(
+        (prev, current) => [
+          ...prev,
+          {
             id: current.get("name"),
             display_text: displayNameHelper(current.get("display_name"), locale),
             formSection: displayNameHelper(name, locale),
@@ -55,13 +55,13 @@ export const buildFields = (data, locale, isReportable) => {
             option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
             option_strings_text: current.get("option_strings_text"),
             tick_box_label: current.getIn(["tick_box_label", locale])
-          }),
-          {}
-        );
+          }
+        ],
+        []
+      );
 
-      return [...acc, filteredFields];
-    }, [])
-    .flat();
+    return [...acc, ...filteredFields];
+  }, []);
 };
 
 export const buildReportFields = (data, type) => {
