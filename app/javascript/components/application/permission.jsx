@@ -50,11 +50,12 @@ const Permission = ({ resources, actions, redirect, children, match }) => {
 Permission.displayName = "Permission";
 
 Permission.defaultProps = {
+  actions: [],
   redirect: false
 };
 
 Permission.propTypes = {
-  actions: PropTypes.oneOfType([PropTypes.array, PropTypes.string]).isRequired,
+  actions: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   children: PropTypes.node.isRequired,
   match: PropTypes.object.isRequired,
   redirect: PropTypes.bool.isRequired,
