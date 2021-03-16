@@ -9,7 +9,7 @@ class PrimeroConfiguration < ApplicationRecord
   validate :validate_configuration_data
   validates :version, uniqueness: { message: 'errors.models.configuration.version.uniqueness' }
 
-  before_create :generate_version
+  before_create :generate_version, :populate_primero_version
 
   def self.new_with_user(created_by = nil)
     new.tap do |config|
@@ -52,6 +52,8 @@ class PrimeroConfiguration < ApplicationRecord
   end
 
   def apply!(applied_by = nil)
+    return unless can_apply?
+
     data.each do |model, model_data|
       model_class = Kernel.const_get(model)
 
@@ -84,6 +86,16 @@ class PrimeroConfiguration < ApplicationRecord
     return if data_is_valid
 
     errors.add(:data, 'errors.models.configuration.data')
+  end
+
+  def can_apply?
+    return true if primero_version.blank?
+
+    Gem::Version.new(Primero::Application::VERSION) >= Gem::Version.new(primero_version)
+  end
+
+  def populate_primero_version
+    self.primero_version = Primero::Application::VERSION
   end
 
   def generate_version
