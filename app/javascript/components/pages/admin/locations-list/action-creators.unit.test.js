@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { RECORD_PATH } from "../../../../config";
 
 import * as actionsCreators from "./action-creators";
@@ -19,11 +21,11 @@ describe("<LocationsList /> - Action Creators", () => {
     const expectedAction = {
       type: actions.LOCATIONS,
       api: {
-        params: { hierarchy: true },
+        params: fromJS({ hierarchy: true }),
         path: RECORD_PATH.locations
       }
     };
 
-    expect(actionsCreators.fetchLocations()).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchLocations().api.params.toJS()).to.deep.equal(expectedAction.api.params.toJS());
   });
 });

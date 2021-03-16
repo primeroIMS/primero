@@ -8,19 +8,21 @@ export const filterUsers = (users, mode, record, excludeOwner = false) => {
   return users
     ? users
         .valueSeq()
-        .map(user => {
-          const userName = user.get(USER_NAME_FIELD);
+        .reduce((prev, current) => {
+          const userName = current.get(USER_NAME_FIELD);
 
           if (excludeOwner && mode.isShow && record && userName === record.get("owned_by")) {
-            return {};
+            return prev;
           }
 
-          return {
-            value: userName.toLowerCase(),
-            label: userName
-          };
-        })
+          return [
+            ...prev,
+            {
+              value: userName.toLowerCase(),
+              label: userName
+            }
+          ];
+        }, [])
         .filter(user => !isEmpty(user))
-        .toJS()
     : [];
 };

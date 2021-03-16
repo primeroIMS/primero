@@ -56,7 +56,7 @@ const Component = () => {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP));
+  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP, i18n));
 
   const { modules } = useApp();
 
@@ -106,9 +106,10 @@ const Component = () => {
 
   const renderFormSections = () =>
     allFormGroupsLookups &&
-    allFormGroupsLookups?.size > 0 &&
+    allFormGroupsLookups?.length > 0 &&
     formSectionsByGroup.map((group, index) => {
-      const { form_group_id: formGroupID } = group.first() || {};
+      const formGroupID = group.first().get("form_group_id");
+
       const formGroupName = currentFormGroupsLookups[formGroupID];
 
       return (
@@ -154,7 +155,7 @@ const Component = () => {
 
     batch(() => {
       dispatch(reorderedForms(formsIdsToReorder.toJS()));
-      dispatch(saveFormsReorder(forms.toJS()));
+      dispatch(saveFormsReorder(forms));
     });
   };
 

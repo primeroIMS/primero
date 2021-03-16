@@ -10,7 +10,6 @@ import get from "lodash/get";
 import orderBy from "lodash/orderBy";
 import { parse } from "date-fns";
 
-import { dataToJS } from "../../libs";
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
 const getColors = () => {
@@ -73,7 +72,7 @@ const getTranslatedKey = (key, field, { agencies, i18n }) => {
   const isBooleanKey = ["true", "false"].includes(key);
 
   if (field?.option_strings_source === "Agency" && agencies) {
-    return dataToJS(agencies).find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
+    return agencies.find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
   }
 
   if (i18n && isBooleanKey) {

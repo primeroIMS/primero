@@ -103,7 +103,7 @@ const Component = ({
           approvalId: requestType,
           body: actionBody,
           message: i18n.t(message, {
-            approval_label: approvalsLabels[requestType]
+            approval_label: approvalsLabels.get(requestType)
           }),
           messageFromQueue: i18n.t("offline_submitted_changes"),
           currentUser: username,
@@ -139,8 +139,8 @@ const Component = ({
   ));
 
   const typeOfCasePlanOptions = alertTypes.map(alertType => (
-    <MenuItem key={alertType.get("id")} value={alertType.get("id")}>
-      {alertType.get("display_text")}
+    <MenuItem key={alertType.id} value={alertType.id}>
+      {alertType.display_text}
     </MenuItem>
   ));
 

@@ -109,7 +109,7 @@ const Component = ({ mode }) => {
       submitAlways: !selectedSubforms?.isEmpty(),
       onSubmit: formData => {
         const mergedData = mergeTranslations(formData);
-        const subforms = selectedSubforms?.toJS();
+        const subforms = selectedSubforms;
         const updatedNewFields = convertToFieldsArray(mergedData.fields || {});
         const body = {
           data: { ...mergedData, ...(updatedNewFields.length && { fields: updatedNewFields }) }
@@ -121,7 +121,7 @@ const Component = ({ mode }) => {
           message: i18n.t(`forms.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
         };
 
-        if (subforms.length > 0) {
+        if (!subforms.isEmpty()) {
           dispatch(saveSubforms(subforms, parentFormParams));
         } else {
           dispatch(saveForm(parentFormParams));
@@ -132,8 +132,7 @@ const Component = ({ mode }) => {
 
   const pageTitle = formMode.get("isNew")
     ? i18n.t("forms.add")
-    : (selectedForm.get("name") && displayNameHelper(dataToJS(selectedForm.get("name")), i18n.locale)) ||
-      i18n.t("forms.label");
+    : (selectedForm.get("name") && displayNameHelper(selectedForm.get("name"), i18n.locale)) || i18n.t("forms.label");
 
   const hasData = formMode.get("isNew") || Boolean(formMode.get("isEdit") && selectedForm?.toSeq()?.size);
 

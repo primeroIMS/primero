@@ -87,10 +87,8 @@ const Component = forwardRef(
       return fromJS([]);
     });
 
-    const selectedHeader = headerOptions
-      ?.filter(option => option.get("id") === header)
-      ?.first()
-      ?.get("display_text");
+    // eslint-disable-next-line camelcase
+    const selectedHeader = headerOptions?.filter(option => option.id === header)?.[0]?.display_text;
 
     const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
 

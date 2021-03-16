@@ -1,8 +1,7 @@
-import { fromJS } from "immutable";
+import { fromJS, Map } from "immutable";
 
 import { RECORD_TYPES } from "../../../../config";
 import { ERROR_FIELD, FieldRecord, FormSectionRecord } from "../../../form";
-import { dataToJS } from "../../../../libs";
 
 import { AssociatedFormSectionsForm, ResourcesForm, RolesMainForm } from "./forms";
 import { FORM_CHECK_ERRORS, ROLES_PERMISSIONS } from "./constants";
@@ -99,19 +98,15 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
       ])
     );
 
-    const initialPermissions = fromJS(
-      Object.entries(dataToJS(selectedUniqueIdsByParentForm)).reduce((acc, curr) => {
-        const [key, value] = curr;
-        const values = value.reduce((valueAcc, currValue) => {
-          const newKey = Object.keys(currValue)[0];
-          const newValue = Object.values(currValue)[0];
+    const initialPermissions = selectedUniqueIdsByParentForm.entrySeq().reduce((acc, [key, value]) => {
+      const values = value.reduce((valueAcc, currValue) => {
+        const [newKey, newValue] = Object.entries(currValue)[0];
 
-          return { ...valueAcc, [newKey]: newValue };
-        });
+        return valueAcc.set(newKey, newValue);
+      }, Map({}));
 
-        return { ...acc, [key]: values };
-      }, {})
-    );
+      return acc.set(key, values);
+    }, Map({}));
 
     return data.set("form_section_read_write", initialPermissions);
   }

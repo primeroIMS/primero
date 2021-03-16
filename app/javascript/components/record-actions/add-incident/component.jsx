@@ -42,7 +42,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     }
   }, [open]);
 
-  if (!form?.toJS()?.length) {
+  if (form?.isEmpty()) {
     return [];
   }
 

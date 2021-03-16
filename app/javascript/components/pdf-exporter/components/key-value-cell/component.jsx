@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { List, fromJS } from "immutable";
+import { List } from "immutable";
 import { isEmpty } from "lodash";
 import { makeStyles } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
@@ -51,14 +51,14 @@ const Component = ({
         .join(", ");
     }
 
-    if (hasOptions && !lookups?.isEmpty() && !isEmpty(fieldValue)) {
+    if (hasOptions && !isEmpty(lookups) && !isEmpty(fieldValue)) {
       return lookups
         .filter(lookup => {
-          const lookupId = fromJS(lookup).get("id");
+          const lookupId = lookup.id;
 
           return List.isList(fieldValue) ? fieldValue.includes(lookupId) : fieldValue === lookupId;
         })
-        .map(lookup => optionText(fromJS(lookup).toJS()));
+        .map(lookup => optionText(lookup));
     }
 
     if (isDateField && fieldValue) {
@@ -67,12 +67,12 @@ const Component = ({
 
     if (isRadioField) {
       return lookups.map(lookup => {
-        const radioButton = lookup.get("id") === String(value) ? <RadioButtonChecked /> : <RadioButtonUnchecked />;
+        const radioButton = lookup.id === String(value) ? <RadioButtonChecked /> : <RadioButtonUnchecked />;
 
         return (
           <div className={css.radioButtons}>
             {radioButton}
-            {lookup.get("display_text")}
+            {lookup.display_text}
           </div>
         );
       });

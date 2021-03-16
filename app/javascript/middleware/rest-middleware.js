@@ -1,5 +1,6 @@
 import qs from "qs";
 import merge from "deepmerge";
+import { isImmutable } from "immutable";
 
 import subformAwareMerge from "../db/utils/subform-aware-merge";
 import { FETCH_TIMEOUT, ROUTES } from "../config";
@@ -46,8 +47,9 @@ function fetchStatus({ store, type }, action, loading) {
 
 function buildPath(path, options, params, external) {
   const endpoint = external ? path : `${options.baseUrl}/${path}`;
+  const urlParams = isImmutable(params) ? params.toJS() : params;
 
-  return `${endpoint}${params ? `?${queryParams.toString(params)}` : ""}`;
+  return `${endpoint}${params ? `?${queryParams.toString(urlParams)}` : ""}`;
 }
 
 const deleteFromQueue = async fromQueue => {

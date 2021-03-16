@@ -40,14 +40,7 @@ const Container = () => {
   const filterUserGroups = useMemoizedSelector(state => getUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = {
-    [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
-  });
+  const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
 
   useEffect(() => {
     if (canListAgencies) {

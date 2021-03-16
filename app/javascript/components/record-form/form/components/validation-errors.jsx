@@ -33,19 +33,23 @@ const ValidationErrors = ({ formErrors, forms }) => {
           .some(fieldName => fieldNames.includes(fieldName))
       );
 
-      const validationErrors = formsWithErrors
-        .map(form => ({
-          unique_id: form.get("unique_id"),
-          form_group_id: form.get("form_group_id"),
-          errors: form
-            .get("fields")
-            .filter(field => fieldNames.includes(field.get("name")))
-            .map(field => ({
-              [field.get("name")]: formErrors[field.get("name")]
-            }))
-            .reduce((acc, current) => ({ ...acc, ...current }), {})
-        }))
-        .toJS();
+      const validationErrors = formsWithErrors.reduce(
+        (prev, current) => [
+          ...prev,
+          {
+            unique_id: current.get("unique_id"),
+            form_group_id: current.get("form_group_id"),
+            errors: current
+              .get("fields")
+              .filter(field => fieldNames.includes(field.get("name")))
+              .map(field => ({
+                [field.get("name")]: formErrors[field.get("name")]
+              }))
+              .reduce((acc, subCurrent) => ({ ...acc, ...subCurrent }), {})
+          }
+        ],
+        []
+      );
 
       dispatch(
         enqueueSnackbar(

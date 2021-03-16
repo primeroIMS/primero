@@ -152,11 +152,16 @@ const Component = ({
   const { userModules } = useApp();
   const modules = userModules
     // eslint-disable-next-line camelcase
-    .map(({ unique_id, name }) => ({
-      id: unique_id,
-      display_text: name
-    }))
-    .toJS();
+    .reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("unique_id"),
+          display_text: current.get("name")
+        }
+      ],
+      []
+    );
 
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
 

@@ -14,7 +14,7 @@ export default ({
   canRequestGbvClosure
 }) => {
   const mapFunction = ([name, ability]) => ({
-    name: approvalsLabels[name],
+    name: approvalsLabels.get(name),
     condition: ability,
     recordType: RECORD_TYPES.all,
     value: APPROVALS_TYPES[name]

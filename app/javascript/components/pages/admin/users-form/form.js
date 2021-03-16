@@ -100,7 +100,7 @@ const sharedUserFields = (
     display_name: i18n.t("user.locale"),
     name: "locale",
     type: SELECT_FIELD,
-    option_strings_text: i18n.applicationLocales.toJS()
+    option_strings_text: i18n.applicationLocales
   },
   {
     display_name: i18n.t("user.role_id"),
@@ -120,8 +120,11 @@ const sharedUserFields = (
     visible: !hideOnAccountPage,
     filterOptionSource: (_watchedInputValues, options) => {
       return options.map(userGroup => {
-        if (!currentUserGroupPermissions.includes(userGroup.get("id"))) {
-          return userGroup.set("disabled", true);
+        if (!currentUserGroupPermissions.includes(userGroup.id)) {
+          return {
+            ...userGroup,
+            disabled: true
+          };
         }
 
         return userGroup;

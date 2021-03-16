@@ -43,16 +43,22 @@ export const reorderedForms = ids => ({
 
 export const saveFormsReorder = forms => ({
   type: actions.SAVE_FORMS_REORDER,
-  api: forms.map(form => ({
-    path: `${RECORD_PATH.forms}/${form.id}`,
-    method: "PATCH",
-    body: {
-      data: {
-        order_form_group: form.order_form_group,
-        order: form.order
+  api: forms.reduce(
+    (prev, current) => [
+      ...prev,
+      {
+        path: `${RECORD_PATH.forms}/${current.get("id")}`,
+        method: "PATCH",
+        body: {
+          data: {
+            order_form_group: current.get("order_form_group"),
+            order: current.get("order")
+          }
+        }
       }
-    }
-  })),
+    ],
+    []
+  ),
   finishedCallback: enableReorder(false)
 });
 

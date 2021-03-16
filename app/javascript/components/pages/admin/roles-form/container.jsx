@@ -70,7 +70,7 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles({ data: metadata?.toJS() }));
+    dispatch(fetchRoles({ data: metadata }));
   }, []);
 
   useEffect(() => {

@@ -34,16 +34,15 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
 
   const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
 
-  const {
-    name: fieldName,
-    display_name: displayName,
-    help_text: helpText,
-    guiding_questions: guidingQuestions,
-    tick_box_label: tickBoxLabel,
-    option_strings_text: optionStringsText
-  } = field.toJS();
+  const fieldName = field.get("name");
+  const displayName = field.get("display_name");
+  const helpText = field.get("help_text");
+  const guidingQuestions = field.get("guiding_questions");
+  const tickBoxLabel = field.get("tick_box_label");
+  const optionStringsText = field.get("option_strings_text");
 
-  const { name, description } = selectedSubform?.toJS() || {};
+  const name = selectedSubform.get("name");
+  const description = selectedSubform.get("description");
 
   const formMethods = useForm({
     defaultValues: {

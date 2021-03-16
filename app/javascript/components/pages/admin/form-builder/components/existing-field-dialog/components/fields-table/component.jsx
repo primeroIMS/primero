@@ -38,17 +38,13 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
     optionsColumn,
     { name: "id", options: { filter: false, display: false } }
   ];
-
   const formSections = useMemoizedSelector(state => getFormSections(state, { primeroModule, recordType: parentForm }));
-  const fields = useMemoizedSelector(state => {
-    const fieldIds = formSections
-      .valueSeq()
-      .map(form => form.get("fields"))
-      .toJS()
-      .flat();
+  const fieldIds = formSections
+    .valueSeq()
+    .map(form => form.get("fields"))
+    .reduce((prev, current) => [...prev, ...current], []);
 
-    return getFieldsByIds(state, fieldIds);
-  });
+  const fields = useMemoizedSelector(state => getFieldsByIds(state, fieldIds));
 
   const data = fields
     .filter(field => field.get("type") !== SUBFORM_SECTION)

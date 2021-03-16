@@ -10,6 +10,7 @@ import { push } from "connected-react-router";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { fromJS } from "immutable";
 
 import { enqueueSnackbar } from "../notifier";
 import { selectModules } from "../login/components/login-form/selectors";
@@ -57,12 +58,12 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
 
     if (filters.length) {
       const body = {
-        data: {
+        data: fromJS({
           name: data.name,
           record_type: recordType,
-          module_ids: userModules.toJS(),
+          module_ids: userModules,
           filters: compact(filters)
-        }
+        })
       };
 
       dispatch(saveSearch(body, i18n.t("saved_search.save_success")));

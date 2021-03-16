@@ -68,7 +68,7 @@
     "dom-to-image-more": "^2.8.0",
     "dompurify": "^2.2.3",
     "enzyme": "^3.11.0",
-    "eslint": "~6.8.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb": "~18.1.0",
     "eslint-config-prettier": "~6.10.1",
     "eslint-import-resolver-alias": "^1.1.2",

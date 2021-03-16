@@ -108,10 +108,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const newSubforms = subformsSaved.map(subformSaved => {
         if (Object.keys(subformSaved).length === 1) {
-          const associatedSubform = state
-            .get("subforms")
-            .toJS()
-            .find(subform => subformSaved.id === subform.id);
+          const associatedSubform = state.get("subforms").find(subform => subformSaved.id === subform.get("id"));
 
           return associatedSubform;
         }

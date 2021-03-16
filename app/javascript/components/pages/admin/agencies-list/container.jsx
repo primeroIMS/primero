@@ -25,23 +25,22 @@ import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
 
 const Container = () => {
+  const recordType = RESOURCES.agencies;
+
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const recordType = RESOURCES.agencies;
 
-  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = {
+  const defaultFilterFields = fromJS({
     [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
   });
+
+  const defaultFilters = metadata.merge(defaultFilterFields);
+
   const columns = headersToColumns(headers, i18n);
 
   useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });

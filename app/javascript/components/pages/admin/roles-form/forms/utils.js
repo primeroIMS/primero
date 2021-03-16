@@ -1,7 +1,5 @@
 import startCase from "lodash/startCase";
 
-import { dataToJS } from "../../../../../libs";
-
 const buildLabel = (element, i18n, resource, approvalsLabel, type) => {
   const approvalLabel = Object.keys(approvalsLabel).filter(approval => element.includes(approval));
 
@@ -20,11 +18,7 @@ export const buildPermissionOptions = (elements = [], i18n, resource, approvalsL
   }));
 
 export const buildAdminLevelSelect = adminLevelMap => {
-  const data = dataToJS(adminLevelMap);
-
-  return Object.entries(data).reduce((acc, obj) => {
-    const [id, text] = obj;
-
+  return adminLevelMap.entrySeq().reduce((acc, [id, text = []]) => {
     return [...acc, { id: parseInt(id, 10), display_text: text.map(value => startCase(value)).join(", ") }];
   }, []);
 };

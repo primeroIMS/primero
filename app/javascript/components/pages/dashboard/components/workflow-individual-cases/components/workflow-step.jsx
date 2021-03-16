@@ -3,6 +3,7 @@ import clsx from "clsx";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { ROUTES } from "../../../../../../config";
 import { buildFilter } from "../../../../../dashboard/utils";
@@ -12,28 +13,28 @@ import { NAME } from "./constants";
 const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
   const dispatch = useDispatch();
   const getData = workflowStep =>
-    (casesWorkflow.size > 0 && casesWorkflow.toJS().indicators.workflow?.[workflowStep]) || {};
+    casesWorkflow.size > 0 && casesWorkflow.getIn(["indicators", "workflow", workflowStep], fromJS({}));
 
   const workflowData = getData(step.id);
-  const handleClick = query => {
+  const count = workflowData.get("count", 0);
+  const query = workflowData.get("query", fromJS({}));
+
+  const handleClick = filter => {
     dispatch(
       push({
         pathname: ROUTES.cases,
-        search: buildFilter(query)
+        search: buildFilter(filter)
       })
     );
   };
-  const clickable = !isEmpty(workflowData) && workflowData?.count > 0;
+
+  const clickable = !isEmpty(workflowData) && count > 0;
   const classes = clsx(css.itemButton, { [css.itemButtonClick]: clickable });
 
   return (
     <div className={css.stepCases} icon={null}>
-      <button
-        className={classes}
-        type="button"
-        onClick={() => (clickable ? handleClick(workflowData.query || {}) : null)}
-      >
-        <span>{workflowData.count || 0}</span> {i18n.t("cases.label")}
+      <button className={classes} type="button" onClick={() => (clickable ? handleClick(query) : null)}>
+        <span>{count}</span> {i18n.t("cases.label")}
       </button>
     </div>
   );
