@@ -27,12 +27,14 @@ const Component = ({
   setSearchValue,
   goToNewCase,
   dataProtectionFields,
-  onSearchCases
+  onSearchCases,
+  openConsentPrompt
 }) => {
   const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
   const methods = useForm();
+
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
   const {
@@ -67,6 +69,10 @@ const Component = ({
       }
     }
   }, [records]);
+
+  if (openConsentPrompt) {
+    return null;
+  }
 
   return (
     <>
@@ -110,6 +116,7 @@ Component.propTypes = {
   i18n: PropTypes.object,
   onCloseDrawer: PropTypes.func,
   onSearchCases: PropTypes.func,
+  openConsentPrompt: PropTypes.bool,
   recordType: PropTypes.string,
   setOpenConsentPrompt: PropTypes.func,
   setSearchValue: PropTypes.func

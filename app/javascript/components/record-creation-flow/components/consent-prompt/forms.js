@@ -17,7 +17,7 @@ const buildConsentAgreementFields = (i18n, consentAgreementFields = []) => {
 };
 
 const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanationsLookup) => {
-  const fields = legitimateBasisLookup.map((legitimateBasis, index) => {
+  const fields = legitimateBasisLookup.reduce((acc, legitimateBasis, index) => {
     const legitimateBasisId = legitimateBasis.get("id");
     const legitimateBasisText = legitimateBasis.get("display_text");
     const legitimateBasisExplanation = legitimateBasisExplanationsLookup
@@ -27,15 +27,18 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
     const boldText = `${legitimateBasisText}:`;
     const displayName = legitimateBasisExplanation ? `${boldText} ${legitimateBasisExplanation}` : legitimateBasisText;
 
-    return {
-      id: legitimateBasisId,
-      display_name: displayName,
-      boldText,
-      includeSeparator: index !== 0
-    };
-  });
+    return [
+      ...acc,
+      {
+        id: legitimateBasisId,
+        display_name: displayName,
+        boldText,
+        includeSeparator: index !== 0
+      }
+    ];
+  }, []);
 
-  return fields?.toJS();
+  return fields;
 };
 
 export const consentPromptForm = (

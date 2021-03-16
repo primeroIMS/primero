@@ -20,7 +20,15 @@ import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
 import styles from "./styles.css";
 import { consentPromptForm } from "./forms";
 
-const Component = ({ i18n, recordType, searchValue, primeroModule, dataProtectionFields, goToNewCase }) => {
+const Component = ({
+  i18n,
+  recordType,
+  searchValue,
+  primeroModule,
+  dataProtectionFields,
+  goToNewCase,
+  openConsentPrompt
+}) => {
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
@@ -36,17 +44,17 @@ const Component = ({ i18n, recordType, searchValue, primeroModule, dataProtectio
   const legitimateBasisExplanationsLookup = useMemoizedSelector(state =>
     getOptions(state, LOOKUPS.legitimate_basis_explanations, i18n)
   );
-
   const consentForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: CONSENT,
       primeroModule,
-      recordType: RECORD_TYPES[recordType]
+      recordType: RECORD_TYPES[recordType],
+      getFirst: true
     })
-  ).first();
+  );
 
-  if (isEmpty(dataProtectionFields)) {
+  if (isEmpty(dataProtectionFields) || !openConsentPrompt) {
     return null;
   }
 
@@ -102,6 +110,7 @@ Component.propTypes = {
   dataProtectionFields: PropTypes.array,
   goToNewCase: PropTypes.func,
   i18n: PropTypes.object.isRequired,
+  openConsentPrompt: PropTypes.bool,
   primeroModule: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   searchValue: PropTypes.string

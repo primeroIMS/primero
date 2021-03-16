@@ -6,6 +6,7 @@ import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
@@ -110,18 +111,17 @@ const RecordForm = ({
 
   useEffect(() => {
     if (dataProtectionInitialValues.size > 0) {
-      const initialDataProtection = Object.entries(dataToJS(dataProtectionInitialValues)).reduce(
-        (accumulator, current) => {
-          const [key, value] = current;
+      const initialDataProtection = dataProtectionInitialValues.reduce((accumulator, values, key) => {
+        if (key !== LEGITIMATE_BASIS) {
+          const consentAgreementFields = values.reduce((acc, curr) => {
+            return { ...acc, [curr]: true };
+          }, {});
 
-          if (key !== LEGITIMATE_BASIS) {
-            return { ...accumulator, ...value.reduce((acc, curr) => ({ ...acc, [curr]: true }), {}) };
-          }
+          return { ...accumulator, ...consentAgreementFields };
+        }
 
-          return { ...accumulator, [key]: value };
-        },
-        {}
-      );
+        return { ...accumulator, [key]: values };
+      }, {});
 
       setInitialValues({ ...initialValues, ...initialDataProtection });
     }

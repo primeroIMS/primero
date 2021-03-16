@@ -25,6 +25,7 @@ const AddRecordMenu = ({ recordType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const { userModules, online } = useApp();
+
   const searchAndCreateWorkflow = useMemoizedSelector(state =>
     getOptionFromAppModule(state, userModules.first().unique_id, SEARCH_AND_CREATE_WORKFLOW)
   );
@@ -57,6 +58,8 @@ const AddRecordMenu = ({ recordType }) => {
     setAnchorEl(null);
   };
 
+  const onClose = () => setModuleUniqueId(null);
+
   const renderMenu = primeroModules =>
     primeroModules?.size > 1 ? (
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
@@ -75,7 +78,7 @@ const AddRecordMenu = ({ recordType }) => {
     searchAndCreateWorkflow && recordType === RECORD_PATH.cases ? (
       <RecordCreationFlow
         open={Boolean(moduleUniqueId)}
-        onClose={() => setModuleUniqueId(null)}
+        onClose={onClose}
         recordType={recordType}
         primeroModule={userModules.first().unique_id}
       />

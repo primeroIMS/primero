@@ -31,8 +31,10 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
   const renderCheckboxes = () =>
     options?.map(option => {
       return (
-        <>
-          {option?.includeSeparator && <Separator commonInputProps={{ label: "" }} />}
+        <div key={`${name}-${option.id}-container`}>
+          {option?.includeSeparator && (
+            <Separator key={`${name}-${option.id}-separator`} commonInputProps={{ label: "" }} />
+          )}
           <FormControlLabel
             key={`${name}-${option.id}`}
             control={
@@ -52,7 +54,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
               />
             }
           />
-        </>
+        </div>
       );
     });
 

@@ -24,9 +24,9 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
-  const canSearchAndCreate = true;
   const [openConsentPrompt, setOpenConsentPrompt] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+
   const dataProtectionFields = useMemoizedSelector(state =>
     getOptionFromAppModule(state, primeroModule, DATA_PROTECTION_FIELDS)
   );
@@ -34,12 +34,10 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
   const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
 
   const onSearchCases = data => {
-    const newSearchParams = !isEmpty(data) ? { ...data, id_search: true } : {};
-
     dispatch(
       applyFilters({
         recordType,
-        data: { ...DEFAULT_FILTERS, ...newSearchParams }
+        data: { ...DEFAULT_FILTERS, ...(!isEmpty(data) && { ...data, id_search: true }) }
       })
     );
   };
@@ -56,24 +54,13 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
   const handleCloseDrawer = () => {
     setOpenConsentPrompt(false);
     onClose();
+
     if (searchValue) {
       onSearchCases();
       setSearchValue("");
     }
   };
 
-  const renderSearchPrompt = canSearchAndCreate && !openConsentPrompt && (
-    <SearchPrompt
-      i18n={i18n}
-      onCloseDrawer={() => handleCloseDrawer()}
-      recordType={recordType}
-      setOpenConsentPrompt={setOpenConsentPrompt}
-      setSearchValue={setSearchValue}
-      goToNewCase={goToNewCase}
-      dataProtectionFields={dataProtectionFields}
-      onSearchCases={onSearchCases}
-    />
-  );
   const renderSkipAndCreate = !openConsentPrompt && (
     <div className={css.skipButtonContainer}>
       <ActionButton
@@ -86,19 +73,9 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
       />
     </div>
   );
-  const renderConsentPrompt = openConsentPrompt && (
-    <ConsentPrompt
-      i18n={i18n}
-      searchValue={searchValue}
-      recordType={recordType}
-      primeroModule={primeroModule}
-      dataProtectionFields={dataProtectionFields}
-      goToNewCase={goToNewCase}
-    />
-  );
 
   return (
-    <Drawer anchor="right" open={open} onClose={() => handleCloseDrawer()} classes={{ paper: css.subformDrawer }}>
+    <Drawer anchor="right" open={open} onClose={handleCloseDrawer} classes={{ paper: css.subformDrawer }}>
       <div className={css.container}>
         <div className={css.title}>
           <h2>{i18n.t("case.create_new_case")}</h2>
@@ -109,13 +86,31 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
             isTransparent
             rest={{
               className: css.button,
-              onClick: () => handleCloseDrawer()
+              onClick: handleCloseDrawer
             }}
           />
         </div>
-        {renderSearchPrompt}
+        <SearchPrompt
+          i18n={i18n}
+          onCloseDrawer={handleCloseDrawer}
+          recordType={recordType}
+          setOpenConsentPrompt={setOpenConsentPrompt}
+          setSearchValue={setSearchValue}
+          goToNewCase={goToNewCase}
+          dataProtectionFields={dataProtectionFields}
+          onSearchCases={onSearchCases}
+          openConsentPrompt={openConsentPrompt}
+        />
         {renderSkipAndCreate}
-        {renderConsentPrompt}
+        <ConsentPrompt
+          i18n={i18n}
+          searchValue={searchValue}
+          recordType={recordType}
+          primeroModule={primeroModule}
+          dataProtectionFields={dataProtectionFields}
+          goToNewCase={goToNewCase}
+          openConsentPrompt={openConsentPrompt}
+        />
       </div>
     </Drawer>
   );

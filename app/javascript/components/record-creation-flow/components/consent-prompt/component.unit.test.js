@@ -39,7 +39,8 @@ describe("<ConsentPrompt />", () => {
     searchValue: "",
     primeroModule: MODULES.CP,
     dataProtectionFields: ["legitimate_basis"],
-    goToNewCase: () => {}
+    goToNewCase: () => {},
+    openConsentPrompt: true
   };
 
   const initialState = fromJS({
