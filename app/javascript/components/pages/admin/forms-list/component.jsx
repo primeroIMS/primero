@@ -56,7 +56,7 @@ const Component = () => {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP));
+  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP, i18n));
 
   const { modules } = useApp();
 

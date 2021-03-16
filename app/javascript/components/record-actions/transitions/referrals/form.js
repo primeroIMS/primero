@@ -42,7 +42,7 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
         const { service } = watchedInputValues;
 
         if (service) {
-          return options.filter(option => option.services.includes(service) && !option.disabled);
+          return options.filter(option => option.get("services").includes(service) && !option.get("disabled"));
         }
 
         return options;

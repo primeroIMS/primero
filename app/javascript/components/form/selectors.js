@@ -20,7 +20,7 @@ const referToUsers = (state, { currRecord }) =>
         const currUser = currRecord.get("owned_by");
 
         if (currUser && currUser === userName) {
-          return {};
+          return [...prev];
         }
       }
 

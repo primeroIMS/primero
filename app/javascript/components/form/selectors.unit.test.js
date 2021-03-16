@@ -119,30 +119,30 @@ describe("Forms - Selectors", () => {
     });
 
     describe("when optionStringsSource is REFER_TO_USERS", () => {
-      // describe("with record", () => {
-      //   const currRecord = fromJS({
-      //     owned_by: "test_2"
-      //   });
+      describe("with record", () => {
+        const currRecord = fromJS({
+          owned_by: "test_2"
+        });
 
-      //   const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
-      //     currRecord
-      //   });
+        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
+          currRecord
+        });
 
-      //   it("should return all users without the owned_by user that it's assigned to the record", () => {
-      //     const expected = [
-      //       {
-      //         id: "test_1",
-      //         display_text: "test_1"
-      //       },
-      //       {
-      //         id: "test_3",
-      //         display_text: "test_3"
-      //       }
-      //     ];
+        it("should return all users without the owned_by user that it's assigned to the record", () => {
+          const expected = [
+            {
+              id: "test_1",
+              display_text: "test_1"
+            },
+            {
+              id: "test_3",
+              display_text: "test_3"
+            }
+          ];
 
-      //     expect(options).to.deep.equal(expected);
-      //   });
-      // });
+          expect(options).to.deep.equal(expected);
+        });
+      });
 
       describe("without record", () => {
         const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n);
