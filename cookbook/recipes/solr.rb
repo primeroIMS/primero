@@ -106,7 +106,9 @@ file "/etc/cron.daily/solr_restart" do
 #!/bin/bash
 
 supervisorctl stop solr
+retries 10
 sleep 10
 supervisorctl start solr
+retries 10
 EOH
 end
