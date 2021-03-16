@@ -130,29 +130,7 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
-    # TODO: Move the logic for find_permitted_users, users_for_assign,
-    #       users_for_referral, users_for_transfer, users_for_transition into services
-
-    def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all.includes(:user_groups, role: :primero_modules)
-      if filters.present?
-        filters = filters.compact
-        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters.except('user_group_ids'))
-        users = filter_with_groups(users, filters)
-      end
-      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-        users = users.where(organization: user.organization)
-      end
-
-      results = { total: users.size }
-      pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
-      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
-      users = users.order(sort) if sort.present?
-      results.merge(users: users)
-    end
-
+    # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
     def users_for_assign(user, model)
       return User.none unless model.present?
 
@@ -498,6 +476,10 @@ class User < ApplicationRecord
   def user_groups_ids=(user_group_ids)
     @refresh_associated_user_groups = true
     super
+  end
+
+  def agency_read?
+    permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   private
