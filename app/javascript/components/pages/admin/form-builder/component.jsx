@@ -22,6 +22,8 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 import { useApp } from "../../../application";
+import Permission from "../../../application/permission";
+import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
@@ -232,52 +234,58 @@ const Component = ({ mode }) => {
   }, [tab]);
 
   return (
-    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
-      <PageHeading title={pageTitle}>
-        <FormBuilderActionButtons
-          formMode={formMode}
-          limitedProductionSite={limitedProductionSite}
-          handleSubmit={methods.handleSubmit(onSubmit)}
-          handleCancel={handleCancel}
-        />
-      </PageHeading>
-      <PageContent>
-        <Tabs value={tab} onChange={handleChange}>
-          <Tab label={i18n.t("forms.settings")} />
-          <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
-          <Tab className={css.tabHeader} label={i18n.t("forms.translations.title")} disabled={formMode.get("isNew")} />
-        </Tabs>
-        {tab === 0 && (
-          <SettingsTab
-            tab={tab}
-            index={0}
-            mode={mode}
-            formMethods={methods}
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+      <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
+        <PageHeading title={pageTitle}>
+          <FormBuilderActionButtons
+            formMode={formMode}
             limitedProductionSite={limitedProductionSite}
+            handleSubmit={methods.handleSubmit(onSubmit)}
+            handleCancel={handleCancel}
           />
-        )}
-        {tab === 1 && (
-          <FieldsTab
-            tab={tab}
-            index={1}
-            mode={modeForFieldDialog}
-            formMethods={methods}
-            limitedProductionSite={limitedProductionSite}
-          />
-        )}
-        {tab === 2 && (
-          <TranslationsTab
-            mode={mode}
-            moduleId={moduleId}
-            parentForm={parentForm}
-            selectedField={selectedField}
-            formMethods={methods}
-            index={2}
-            tab={tab}
-          />
-        )}
-      </PageContent>
-    </LoadingIndicator>
+        </PageHeading>
+        <PageContent>
+          <Tabs value={tab} onChange={handleChange}>
+            <Tab label={i18n.t("forms.settings")} />
+            <Tab className={css.tabHeader} label={i18n.t("forms.fields")} disabled={formMode.get("isNew")} />
+            <Tab
+              className={css.tabHeader}
+              label={i18n.t("forms.translations.title")}
+              disabled={formMode.get("isNew")}
+            />
+          </Tabs>
+          {tab === 0 && (
+            <SettingsTab
+              tab={tab}
+              index={0}
+              mode={mode}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
+          {tab === 1 && (
+            <FieldsTab
+              tab={tab}
+              index={1}
+              mode={modeForFieldDialog}
+              formMethods={methods}
+              limitedProductionSite={limitedProductionSite}
+            />
+          )}
+          {tab === 2 && (
+            <TranslationsTab
+              mode={mode}
+              moduleId={moduleId}
+              parentForm={parentForm}
+              selectedField={selectedField}
+              formMethods={methods}
+              index={2}
+              tab={tab}
+            />
+          )}
+        </PageContent>
+      </LoadingIndicator>
+    </Permission>
   );
 };
 

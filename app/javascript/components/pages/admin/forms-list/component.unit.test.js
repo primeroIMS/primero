@@ -5,6 +5,7 @@ import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
 import { PrimeroModuleRecord } from "../../../application/records";
+import { ACTIONS } from "../../../../libs/permissions";
 
 import FormsList from "./component";
 import ReorderActions from "./components/reorder-actions";
@@ -89,7 +90,12 @@ describe("<FormsList />", () => {
           }
         ]
       }
-    })
+    }),
+    user: {
+      permissions: {
+        metadata: [ACTIONS.MANAGE]
+      }
+    }
   });
 
   beforeEach(() => {

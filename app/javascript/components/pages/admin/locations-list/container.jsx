@@ -6,7 +6,7 @@ import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { getListHeaders } from "../../../user";
-import { RESOURCES } from "../../../../libs/permissions";
+import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
 import { Filters as AdminFilters } from "../components";
 import { getMetadata } from "../../../record-list";
@@ -14,6 +14,7 @@ import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
+import Permission from "../../../application/permission";
 
 import ImportDialog from "./import-dialog";
 import { fetchLocations } from "./action-creators";
@@ -77,7 +78,7 @@ const Container = () => {
   ];
 
   return (
-    <>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("settings.navigation.locations")}>
         <Menu showMenu actions={actions} disabledCondtion={() => {}} />
       </PageHeading>
@@ -92,7 +93,7 @@ const Container = () => {
           </Grid>
         </Grid>
       </PageContent>
-    </>
+    </Permission>
   );
 };
 

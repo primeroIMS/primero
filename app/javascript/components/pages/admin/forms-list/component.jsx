@@ -12,13 +12,14 @@ import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
-import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
+import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { compare } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import Permission from "../../../application/permission";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -160,7 +161,7 @@ const Component = () => {
   const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
 
   return (
-    <>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         <FormAction
           actionHandler={() => handleExport(FORM_EXPORTER_DIALOG)}
@@ -220,7 +221,7 @@ const Component = () => {
           <ReorderActions open={isReorderEnabled} handleCancel={closeReoderActions} handleSuccess={saveReorder} />
         </div>
       </PageContent>
-    </>
+    </Permission>
   );
 };
 
