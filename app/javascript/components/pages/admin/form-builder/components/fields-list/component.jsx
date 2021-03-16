@@ -50,7 +50,7 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       setValue(`${fieldsAttribute}.${name}.order`, field.get("order"), { shouldDirty: true });
 
       i18n.applicationLocales.forEach(locale => {
-        const localeId = locale.get("id");
+        const localeId = locale.id;
         const localizedDisplayName = field.getIn(["display_name", localeId], "");
 
         setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName, { shouldDirty: true });

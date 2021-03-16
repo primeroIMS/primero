@@ -19,17 +19,15 @@ export default (roles, actions, i18n) =>
         type: SELECT_FIELD,
         multi_select: true,
         tooltip: i18n.t("permissions.resource.role.actions.permitted_roles.explanation"),
-        option_strings_text: (roles.get("data") || fromJS([]))
-          .map(role => ({
-            id: role.get("unique_id"),
-            display_text: role.get("name")
-          }))
-          .toJS()
+        option_strings_text: (roles.get("data") || fromJS([])).map(role => ({
+          id: role.get("unique_id"),
+          display_text: role.get("name")
+        }))
       }),
       FieldRecord({
         name: `permissions[role]`,
         type: CHECK_BOX_FIELD,
-        option_strings_text: buildPermissionOptions(actions, i18n, "role").toJS()
+        option_strings_text: buildPermissionOptions(actions, i18n, "role")
       })
     ]
   });

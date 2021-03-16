@@ -1,4 +1,4 @@
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 
 import * as utils from "./utils";
 import { REPORT_FIELD_TYPES } from "./constants";
@@ -13,7 +13,6 @@ describe("<IndexFilters /> - Utils", () => {
         "buildUserModules",
         "buildReportFields",
         "checkValue",
-        "dependantFields",
         "formatAgeRange",
         "formatReport",
         "formattedFields",
@@ -41,7 +40,7 @@ describe("<IndexFilters /> - Utils", () => {
         }
       ];
 
-      const values = List([
+      const values = fromJS([
         {
           name: { en: "testForm" },
           fields: [
@@ -58,37 +57,6 @@ describe("<IndexFilters /> - Utils", () => {
       ]);
 
       expect(utils.buildFields(values, "en", false)).to.deep.equal(expected);
-    });
-  });
-
-  describe("dependantFields()", () => {
-    it("returns compacted object", () => {
-      const expected = {
-        aggregate_by: [],
-        is_graph: false
-      };
-
-      const values = fromJS([
-        {
-          unique_id: "reports",
-          fields: [
-            {
-              name: "name.en",
-              type: "text_field"
-            },
-            {
-              name: "is_graph",
-              type: "tick_box"
-            },
-            {
-              name: "aggregate_by",
-              type: "select_box"
-            }
-          ]
-        }
-      ]);
-
-      expect(utils.dependantFields(values)).to.deep.equal(expected);
     });
   });
 
@@ -183,7 +151,7 @@ describe("<IndexFilters /> - Utils", () => {
 
   describe("buildUserModules()", () => {
     it("should return a list of formatted objects", () => {
-      const modules = List([{ name: "test", unique_id: "test-1" }]);
+      const modules = fromJS([{ name: "test", unique_id: "test-1" }]);
       const expected = [{ id: "test-1", display_text: "test" }];
 
       expect(utils.buildUserModules(modules)).to.deep.equal(expected);

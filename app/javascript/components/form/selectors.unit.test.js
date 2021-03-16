@@ -68,32 +68,30 @@ describe("Forms - Selectors", () => {
     it("should return all lookup types including customs", () => {
       const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.LOOKUPS, i18n);
 
-      expect(options).to.deep.equal(
-        fromJS([
-          {
-            id: "lookup lookup-1",
-            display_text: "Lookup 1",
-            values: []
-          },
-          {
-            id: "lookup lookup-2",
-            display_text: "Lookup 2",
-            values: []
-          },
-          {
-            id: "Agency",
-            display_text: "agency.label"
-          },
-          {
-            id: "Location",
-            display_text: "location.label"
-          },
-          {
-            id: "User",
-            display_text: "user.label"
-          }
-        ])
-      );
+      expect(options).to.deep.equal([
+        {
+          id: "lookup lookup-1",
+          display_text: "Lookup 1",
+          values: []
+        },
+        {
+          id: "lookup lookup-2",
+          display_text: "Lookup 2",
+          values: []
+        },
+        {
+          id: "Agency",
+          display_text: "agency.label"
+        },
+        {
+          id: "Location",
+          display_text: "location.label"
+        },
+        {
+          id: "User",
+          display_text: "user.label"
+        }
+      ]);
     });
 
     it("should return the options for optionStringsText", () => {
@@ -102,7 +100,7 @@ describe("Forms - Selectors", () => {
         { id: "pending", display_text: "Pending" },
         { id: "no", display_text: "No" }
       ];
-      const expected = fromJS(optionStringsText);
+      const expected = optionStringsText;
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
 
       expect(result).to.deep.equal(expected);
@@ -114,7 +112,7 @@ describe("Forms - Selectors", () => {
         { id: "pending", display_text: "Pending", tooltip: "Pending tooltip" },
         { id: "no", display_text: "No", tooltip: "No tooltip" }
       ];
-      const expected = fromJS(optionStringsText);
+      const expected = optionStringsText;
       const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
 
       expect(result).to.deep.equal(expected);
@@ -142,7 +140,7 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options.toJS()).to.deep.equal(expected);
+          expect(options).to.deep.equal(expected);
         });
       });
 
@@ -165,17 +163,9 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options.toJS()).to.deep.equal(expected);
+          expect(options).to.deep.equal(expected);
         });
       });
-    });
-  });
-
-  describe("getLookupByUniqueId", () => {
-    it("should return the lookup by unique_id", () => {
-      const lookup = selectors.getLookupByUniqueId(stateWithLookups, "lookup-2");
-
-      expect(lookup).to.deep.equal(fromJS(lookup2));
     });
   });
 
@@ -201,15 +191,18 @@ describe("Forms - Selectors", () => {
     const lookups = [
       {
         unique_id: "lookup-form-group-cp-case",
-        name: { en: "Lookup 1" }
+        name: { en: "Lookup 1" },
+        values: []
       },
       {
         unique_id: "lookup-form-group-cp-incident",
-        name: { en: "Lookup 2" }
+        name: { en: "Lookup 2" },
+        values: []
       },
       {
         unique_id: "lookup-form-group-gbv-incident",
-        name: { en: "Lookup 3" }
+        name: { en: "Lookup 3" },
+        values: []
       }
     ];
     const stateWithLookupsFormGroup = fromJS({
@@ -223,7 +216,7 @@ describe("Forms - Selectors", () => {
     it("should return formGroups lookups", () => {
       const result = selectors.getOptions(stateWithLookupsFormGroup, "FormGroupLookup", i18n);
 
-      expect(result).to.deep.equal(fromJS(lookups));
+      expect(result).to.deep.equal(lookups);
     });
   });
 });

@@ -152,6 +152,35 @@ describe Incident do
     end
   end
 
+  describe 'add_alert_on_case' do
+    before(:each) do
+      clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule) && module_cp
+
+      Agency.create!(unique_id: 'agency-1', agency_code: 'a1', name: 'Agency')
+
+      SystemSettings.create!(changes_field_to_form: { incident_details: 'incident_from_case' })
+    end
+
+    let(:case_cp) do
+      Child.create!(
+        name: 'Niall McPherson', age: 12, sex: 'male',
+        protection_concerns: %w[unaccompanied separated], ethnicity: 'other',
+        module_id: 'primeromodule-cp', owned_by: 'cp_user'
+      )
+    end
+
+    it 'should add an alert for the case if the incident creator is not the case owner' do
+      incident = Incident.new_with_user(
+        User.new(user_name: 'incident_user', agency_id: Agency.last.id),
+        survivor_code: 'abc123', module_id: 'primeromodule-cp'
+      )
+      incident.case = case_cp
+      incident.save!
+
+      expect(case_cp.alerts.size).to eq(1)
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by,options = {})

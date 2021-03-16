@@ -1,20 +1,21 @@
-import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 import { Map } from "immutable";
-import { isEqual } from "lodash";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
 
-import { getPermissions } from "../user/selectors";
-import { RESOURCES } from "../../libs/permissions";
 import { INCIDENT_FROM_CASE, MODES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
+import { RESOURCES } from "../../libs/permissions";
+import { getPermissions } from "../user/selectors";
 
 const Permission = ({ resources, actions, redirect, children, match }) => {
   const { params } = match;
   const { recordType } = params;
   const type = resources || recordType;
   const dispatch = useDispatch();
-  const allUserPermissions = useSelector(state => getPermissions(state), isEqual);
+
+  const allUserPermissions = useMemoizedSelector(state => getPermissions(state));
 
   const filteredPermissions = allUserPermissions.entrySeq().reduce((acum, [key, value]) => {
     if ((Array.isArray(type) && type.includes(key)) || type === key) {

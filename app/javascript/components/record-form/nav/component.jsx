@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
-import { INCIDENT_FROM_CASE, RECORD_TYPES, RECORD_OWNER } from "../../../config";
+import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
 import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
@@ -20,7 +20,7 @@ import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
-import { getRecordInformationFormIds, RECORD_INFORMATION_GROUP } from "./components/record-information";
+import { getRecordInformationFormIds } from "./components/record-information";
 import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
@@ -194,6 +194,7 @@ const Component = ({
             <RecordInformation
               handleClick={handleClick}
               open={open}
+              recordAlerts={recordAlerts}
               selectedForm={selectedForm}
               formGroupLookup={formGroupLookup}
             />

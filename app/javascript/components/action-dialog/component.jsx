@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Dialog, DialogActions, DialogContent, DialogContentText, Typography } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
-import { useThemeHelper } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useApp } from "../application";
@@ -48,7 +48,7 @@ const ActionDialog = ({
   const { css } = useThemeHelper({ css: styles });
   const { disabledApplication } = useApp();
 
-  const asyncLoading = useSelector(state => {
+  const asyncLoading = useMemoizedSelector(state => {
     if (!fetchLoadingPath) return false;
 
     return getAsyncLoading(state, fetchLoadingPath);

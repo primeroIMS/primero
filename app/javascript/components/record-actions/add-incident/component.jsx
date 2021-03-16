@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { batch, useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
 import ActionDialog from "../../action-dialog";
@@ -14,6 +14,7 @@ import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import Fields from "./fields";
@@ -23,7 +24,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const form = useSelector(state =>
+  const form = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP,
@@ -31,8 +32,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
       checkVisible: false
     })
   );
-
-  const selectedIds = useSelector(state =>
+  const selectedIds = useMemoizedSelector(state =>
     selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record => record.get(ID_FIELD))
   );
 
@@ -42,7 +42,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     }
   }, [open]);
 
-  if (!form?.toJS()?.length) {
+  if (form?.isEmpty()) {
     return [];
   }
 

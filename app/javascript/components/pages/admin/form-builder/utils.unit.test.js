@@ -148,7 +148,7 @@ describe("<FormBuilder /> - utils", () => {
           }
         ]
       };
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         formGroupCpCase,
         {
           id: 2,
@@ -173,11 +173,9 @@ describe("<FormBuilder /> - utils", () => {
             }
           ]
         }
-      ]);
+      ];
 
-      expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(
-        fromJS(formGroupCpCase)
-      );
+      expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(formGroupCpCase);
     });
   });
 
@@ -193,20 +191,16 @@ describe("<FormBuilder /> - utils", () => {
           {
             id: "group_1",
             disabled: false,
-            display_text: {
-              en: "Group 1"
-            }
+            display_text: "Group 1"
           },
           {
             id: "group_2",
             disabled: false,
-            display_text: {
-              en: "Group 2"
-            }
+            display_text: "Group 2"
           }
         ]
       };
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         formGroupCpCase,
         {
           id: 2,
@@ -218,20 +212,16 @@ describe("<FormBuilder /> - utils", () => {
             {
               id: "nationality_1",
               disabled: false,
-              display_text: {
-                en: "Nationality 1"
-              }
+              display_text: "Nationality 1"
             },
             {
               id: "nationality_2",
               disabled: false,
-              display_text: {
-                en: "Nationality 2"
-              }
+              display_text: "Nationality 2"
             }
           ]
         }
-      ]);
+      ];
 
       const result = [
         { id: "group_1", display_text: "Group 1" },

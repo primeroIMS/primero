@@ -1,17 +1,19 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 
 import { filterType } from "../../../../index-filters/utils";
 import { currentUser } from "../../../../user";
 import Actions from "../../../../index-filters/components/actions";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
   const methods = useForm();
-  const userName = useSelector(state => currentUser(state));
+
+  const userName = useMemoizedSelector(state => currentUser(state));
+
   const defaultFiltersKeys = Object.keys(defaultFilters);
   const setDefaultFilters = () =>
     Object.entries(defaultFilters).forEach(defaultFilter => {

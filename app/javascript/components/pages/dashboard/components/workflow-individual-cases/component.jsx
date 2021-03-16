@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
-import { MuiThemeProvider, makeStyles } from "@material-ui/core/styles";
+import { Stepper, Step, StepLabel, StepConnector } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -10,9 +9,8 @@ import { selectModule } from "../../../../application";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES } from "../../../../../config";
-import { displayNameHelper } from "../../../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../../../libs";
 
-import workflowTheme from "./theme";
 import styles from "./styles.css";
 import { NAME, CLOSED } from "./constants";
 import WorkFlowStep from "./components";
@@ -22,8 +20,13 @@ const useStyles = makeStyles(styles);
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const css = useStyles();
-  const workflowLabels = useSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
-  const casesWorkflow = useSelector(state => getWorkflowIndividualCases(state));
+  const stepperConnectorClasses = {
+    root: css.connectorRoot,
+    line: css.connectorLine
+  };
+
+  const workflowLabels = useMemoizedSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
+  const casesWorkflow = useMemoizedSelector(state => getWorkflowIndividualCases(state));
 
   const renderSteps = workflowLabels
     ?.filter(step => step.id !== CLOSED)
@@ -39,9 +42,7 @@ const Component = ({ loadingIndicator }) => {
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_WORKFLOW}>
       <OptionsBox title={i18n.t("dashboard.workflow")} hasData={Boolean(casesWorkflow.size)} {...loadingIndicator}>
-        <MuiThemeProvider theme={workflowTheme}>
-          <Stepper>{renderSteps}</Stepper>
-        </MuiThemeProvider>
+        <Stepper connector={<StepConnector classes={stepperConnectorClasses} />}>{renderSteps}</Stepper>
       </OptionsBox>
     </Permission>
   );

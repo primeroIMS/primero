@@ -86,7 +86,9 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
           expect(response).to have_http_status(200)
           expect(json['data']['name']).to eq('Test')
-          expect(json['data'].compact.keys).to match_array(%w[id name version created_on created_by])
+          expect(json['data'].compact.keys).to match_array(
+            %w[id name version created_on created_by can_apply primero_version]
+          )
           expect(json['data']['created_by']).to eq(fake_user_name)
         end
       end
@@ -103,7 +105,9 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
 
             expect(response).to have_http_status(200)
             expect(json['data']['name']).to eq('Test')
-            expect(json['data'].compact.keys).to match_array(%w[id name version created_on created_by])
+            expect(json['data'].compact.keys).to match_array(
+              %w[id name version created_on created_by can_apply primero_version]
+            )
             expect(json['data']['created_by']).to eq(fake_user_name)
           end
         end

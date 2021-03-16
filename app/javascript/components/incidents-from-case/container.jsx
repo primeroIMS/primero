@@ -8,9 +8,17 @@ import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
-import { ID_FIELD, MODULE_TYPE_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
+import {
+  ID_FIELD,
+  MODULE_TYPE_FIELD,
+  UNIQUE_ID_FIELD,
+  INCIDENT_CASE_ID_DISPLAY_FIELD,
+  INCIDENT_FROM_CASE
+} from "../../config";
 import { usePermissions } from "../user";
 import { fetchIncidentFromCase } from "../records";
+import { getRecordInformationForms } from "../record-form/form/utils";
+import RecordFormAlerts from "../record-form-alerts";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -34,6 +42,7 @@ const Container = ({
   const dispatch = useDispatch();
   const [redirectOpts, setRedirectOpts] = useState({});
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
+  const recordInformationForms = getRecordInformationForms(i18n);
 
   const renderIncidents =
     incidents &&
@@ -93,6 +102,9 @@ const Container = ({
           displayText={i18n.t("incidents.label")}
         />
         <div>{newIncidentBtn}</div>
+      </div>
+      <div className={css.alerts}>
+        <RecordFormAlerts recordType={recordType} form={recordInformationForms[INCIDENT_FROM_CASE]} />
       </div>
       {renderIncidents}
       {renderDialog}

@@ -23,9 +23,7 @@ export default (store, response, json, recordType = null, fromQueue = false, id 
     },
     {
       action: SET_DIALOG_PENDING,
-      payload: {
-        pending: false
-      }
+      payload: false
     }
   ];
 

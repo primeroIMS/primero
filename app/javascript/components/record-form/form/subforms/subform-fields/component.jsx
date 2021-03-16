@@ -1,6 +1,5 @@
 /* eslint-disable  react/no-array-index-key */
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
@@ -19,7 +18,7 @@ import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import { compare, useThemeHelper } from "../../../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
@@ -44,7 +43,9 @@ const Component = ({
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const validationErrors = useSelector(state => getValidationErrors(state), compare);
+
+  const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
+
   // eslint-disable-next-line camelcase
   const parentFormUniqueId = parentForm?.unique_id || "";
 

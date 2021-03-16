@@ -75,25 +75,29 @@ export const saveForm = ({ id, body, saveMethod, message }) => {
 };
 
 export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
-  const subformsRequest = subforms.map(subform => {
+  const subformsRequest = subforms.reduce((prev, current) => {
     const subfomBody = {
-      data: subform
+      data: current
     };
+    const subformID = current?.get("id");
 
-    if (subform?.id) {
+    if (subformID) {
       return {
-        path: getFormRequestPath(subform.id, SAVE_METHODS.update),
+        path: getFormRequestPath(subformID, SAVE_METHODS.update),
         method: METHODS.PATCH,
         body: subfomBody
       };
     }
 
-    return {
-      path: getFormRequestPath("", SAVE_METHODS.new),
-      method: METHODS.POST,
-      body: subfomBody
-    };
-  });
+    return [
+      ...prev,
+      {
+        path: getFormRequestPath("", SAVE_METHODS.new),
+        method: METHODS.POST,
+        body: subfomBody
+      }
+    ];
+  }, []);
 
   return {
     type: actions.SAVE_SUBFORMS,

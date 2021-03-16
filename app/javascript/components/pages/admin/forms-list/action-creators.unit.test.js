@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
@@ -66,14 +68,15 @@ describe("<FormsList /> - Action Creators", () => {
   });
 
   it("should check the 'saveFormsReorder' action creator returns the correct object", () => {
-    const forms = [
+    const forms = fromJS([
       {
         id: 1,
         order_form_group: 10,
         order: 0
       },
       { id: 2, order_form_group: 20, order: 1 }
-    ];
+    ]);
+
     const expected = {
       type: actions.SAVE_FORMS_REORDER,
       api: [

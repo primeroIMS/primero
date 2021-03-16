@@ -2,13 +2,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Divider } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import DisplayData from "../../display-data";
 import { getPermissionsByRecord } from "../../user";
 import { ACTIONS, checkPermissions } from "../../../libs/permissions";
+import { useMemoizedSelector } from "../../../libs";
 
 import TransferRequest from "./transfer-request";
 import { NAME } from "./constants";
@@ -16,7 +16,9 @@ import { NAME } from "./constants";
 const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const i18n = useI18n();
   const [sendRequest, setSendRequest] = useState(false);
-  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
+
   const canRequestTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
 
   const handleOk = () => {
