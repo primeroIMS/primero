@@ -51,7 +51,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const canRevokeTransition = checkPermissions(userPermissions, [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]);
   const isCurrentUserRecipient = transitionedTo === username;
 
-  const showRevokeAction = isInProgress && canRevokeTransition && !isCurrentUserRecipient && showMode;
+  const showRevokeAction = (isInProgress || isAccepted) && canRevokeTransition && !isCurrentUserRecipient && showMode;
 
   const showTransitionAction =
     isInProgress &&
