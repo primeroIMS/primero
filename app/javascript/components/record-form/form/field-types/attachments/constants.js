@@ -42,5 +42,6 @@ export const ATTACHMENT_ACCEPTED_TYPES = Object.freeze({
   document:
     "application/pdf, text/plain, .csv, text/csv, .doc, .docx, .xlsx, application/msword, " +
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document, " +
-    "text/csv application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    "text/csv application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" +
+    "image/jpg, image/jpeg, image/png"
 });

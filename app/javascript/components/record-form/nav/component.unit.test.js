@@ -2,7 +2,7 @@ import { fromJS, Map, OrderedMap } from "immutable";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
 
-import { APPROVALS, INCIDENT_FROM_CASE, REFERRAL } from "../../../config";
+import { APPROVALS, INCIDENT_FROM_CASE, REFERRAL, RECORD_INFORMATION_GROUP } from "../../../config";
 import { setupMountedComponent } from "../../../test";
 import { FormSectionRecord, FieldRecord } from "../records";
 import { ConditionalWrapper } from "../../../libs";
@@ -10,7 +10,6 @@ import Actions from "../actions";
 
 import { NavGroup, RecordInformation } from "./components";
 import Nav from "./component";
-import { RECORD_INFORMATION_GROUP } from "./components/record-information/constants";
 
 describe("<Nav />", () => {
   let component;
