@@ -132,6 +132,7 @@ end
 # Tried stopwaitsecs of supervisor but didn't work.
 execute 'Stop Solr' do
   command 'supervisorctl stop solr'
+  retries 10
   only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
 execute 'sleep' do
@@ -139,6 +140,7 @@ execute 'sleep' do
 end
 execute 'Start Solr' do
   command 'supervisorctl start solr'
+  retries 10
   only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
 # End Hack
