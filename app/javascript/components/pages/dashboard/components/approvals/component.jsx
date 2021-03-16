@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
@@ -21,6 +20,7 @@ import {
   getApprovalsGbvClosure
 } from "../../selectors";
 import { useApp } from "../../../../application";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
@@ -28,16 +28,16 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
 
-  const approvalsAssessmentPending = useSelector(state => getApprovalsAssessmentPending(state));
-  const approvalsCasePlanPending = useSelector(state => getApprovalsClosurePending(state));
-  const approvalsClosurePending = useSelector(state => getApprovalsCasePlanPending(state));
-  const approvalsActionPlanPending = useSelector(state => getApprovalsActionPlanPending(state));
-  const approvalsGbvClosurePending = useSelector(state => getApprovalsGbvClosurePending(state));
-  const approvalsAssessment = useSelector(state => getApprovalsAssessment(state));
-  const approvalsCasePlan = useSelector(state => getApprovalsCasePlan(state));
-  const approvalsClosure = useSelector(state => getApprovalsClosure(state));
-  const approvalsActionPlan = useSelector(state => getApprovalsActionPlan(state));
-  const approvalsGbvClosure = useSelector(state => getApprovalsGbvClosure(state));
+  const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
+  const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
+  const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));
+  const approvalsActionPlanPending = useMemoizedSelector(state => getApprovalsActionPlanPending(state));
+  const approvalsGbvClosurePending = useMemoizedSelector(state => getApprovalsGbvClosurePending(state));
+  const approvalsAssessment = useMemoizedSelector(state => getApprovalsAssessment(state));
+  const approvalsCasePlan = useMemoizedSelector(state => getApprovalsCasePlan(state));
+  const approvalsClosure = useMemoizedSelector(state => getApprovalsClosure(state));
+  const approvalsActionPlan = useMemoizedSelector(state => getApprovalsActionPlan(state));
+  const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
 
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,

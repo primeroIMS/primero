@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import { useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import { object, string } from "yup";
@@ -12,7 +12,7 @@ import { RECORD_TYPES } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
-import { compare } from "../../../../../libs";
+import { useMemoizedSelector } from "../../../../../libs";
 import { OPTION_TYPES } from "../../../../form";
 import { getOptions } from "../../../../form/selectors";
 
@@ -48,13 +48,10 @@ const TransferForm = ({
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
-  const users = useSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
-
-  const hasErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
-
-  const agencies = useSelector(state => selectAgencies(state));
-
-  const locations = useSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n), compare);
+  const users = useMemoizedSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
+  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n));
 
   const canConsentOverride =
     userPermissions &&

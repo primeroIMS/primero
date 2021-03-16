@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -17,6 +17,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -24,21 +25,21 @@ import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
 
 const Container = () => {
+  const recordType = RESOURCES.agencies;
+
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const recordType = RESOURCES.agencies;
-  const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const metadata = useSelector(state => getMetadata(state, recordType));
-  const defaultMetadata = metadata;
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
   const defaultFilterFields = fromJS({
     [DISABLED]: ["false"]
   });
 
-  const defaultFilters = defaultMetadata.merge(defaultFilterFields);
+  const defaultFilters = metadata.merge(defaultFilterFields);
 
   const columns = headersToColumns(headers, i18n);
 

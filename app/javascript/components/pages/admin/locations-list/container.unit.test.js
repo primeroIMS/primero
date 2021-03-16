@@ -37,7 +37,7 @@ describe("<LocationsList />", () => {
       },
       user: {
         permissions: {
-          locations: [ACTIONS.MANAGE]
+          metadata: [ACTIONS.MANAGE]
         },
         listHeaders: {
           locations: listHeaders(NAMESPACE)

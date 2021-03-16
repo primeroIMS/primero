@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -13,6 +12,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { useI18n } from "../../../../../../i18n";
 import { getLoadingRecordState } from "../../../../../../records";
 import { FORMS } from "../../constants";
+import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -22,7 +22,8 @@ const useStyles = makeStyles(styles);
 const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
   const i18n = useI18n();
   const css = useStyles();
-  const loading = useSelector(state => getLoadingRecordState(state, recordType));
+
+  const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
     <div className={css.buttonsRow}>

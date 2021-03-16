@@ -2,7 +2,7 @@
 /* eslint-disable react/no-multi-comp */
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { object, string } from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
@@ -14,6 +14,7 @@ import { setServiceToRefer } from "../../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import MainForm from "./main-form";
 import {
@@ -42,9 +43,13 @@ const ReferralForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
+
+  const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const services = serviceToRefer.get(SERVICE_SECTION_FIELDS.type, "");
-  const agencies = useSelector(state => getEnabledAgencies(state, services));
+
+  const agencies = useMemoizedSelector(state => {
+    return getEnabledAgencies(state, services);
+  });
 
   const referralFromService = serviceToRefer?.size
     ? {

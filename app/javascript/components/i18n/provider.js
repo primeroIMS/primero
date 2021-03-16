@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import { format, isDate, parseISO } from "date-fns";
 
 import localize from "../../libs/date-picker-localization";
 import { DATE_FORMAT } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -14,8 +15,8 @@ import useI18n from "./use-i18n";
 import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
-  const locale = useSelector(state => getLocale(state));
-  const locales = useSelector(state => getLocales(state));
+  const locale = useMemoizedSelector(state => getLocale(state));
+  const locales = useMemoizedSelector(state => getLocales(state));
 
   const dispatch = useDispatch();
 

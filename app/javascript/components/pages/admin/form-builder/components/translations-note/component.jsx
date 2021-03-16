@@ -1,10 +1,9 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { getOptions } from "../../../../../form/selectors";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { buildFormGroupUniqueId } from "../../utils";
 import { useI18n } from "../../../../../i18n";
 
@@ -17,9 +16,8 @@ const Component = ({ moduleId, parentForm }) => {
   const css = useStyles();
   const i18n = useI18n();
 
-  const formGroupLookup = useSelector(
-    state => getOptions(state, buildFormGroupUniqueId(moduleId, parentForm), i18n, null, null, { fullLookup: true }),
-    compare
+  const formGroupLookup = useMemoizedSelector(state =>
+    getOptions(state, buildFormGroupUniqueId(moduleId, parentForm), i18n, null, null, { fullLookup: true })
   );
 
   return (

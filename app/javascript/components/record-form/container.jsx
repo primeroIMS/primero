@@ -1,7 +1,7 @@
 import { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
@@ -88,8 +88,8 @@ const Container = ({ match, mode }) => {
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
   const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
+  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
-  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
   const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
