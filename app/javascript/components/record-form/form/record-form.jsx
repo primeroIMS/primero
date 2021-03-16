@@ -6,7 +6,6 @@ import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
-import { fromJS } from "immutable";
 
 import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
@@ -15,7 +14,7 @@ import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
-import { displayNameHelper, useMemoizedSelector, dataToJS } from "../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getDataProtectionInitialValues } from "../selectors";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";

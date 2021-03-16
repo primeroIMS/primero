@@ -1,6 +1,9 @@
+/* eslint-disable camelcase */
+
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
+import isFunction from "lodash/isFunction";
 
 import { useI18n } from "../../i18n";
 import { optionText } from "../utils/which-options";
@@ -30,6 +33,10 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
 
   const renderCheckboxes = () =>
     options?.map(option => {
+      const text = isFunction(option?.display_name || option?.display_text)
+        ? option?.display_name || option?.display_text
+        : optionText(option, i18n.locale);
+
       return (
         <div key={`${name}-${option.id}-container`}>
           {option?.includeSeparator && (
@@ -46,13 +53,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
                 disabled={disabled}
               />
             }
-            label={
-              <InputLabel
-                text={optionText(option, i18n.locale)}
-                tooltip={option?.tooltip}
-                boldText={option?.boldText}
-              />
-            }
+            label={<InputLabel text={text} tooltip={option?.tooltip} />}
           />
         </div>
       );

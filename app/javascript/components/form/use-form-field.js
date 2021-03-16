@@ -90,8 +90,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     filterOptionSource,
     forceShowIf,
     multipleLimitOne,
-    rawOptions,
-    boldText
+    rawOptions
   } = field;
 
   const i18n = useI18n();
@@ -172,8 +171,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     setOtherFieldValues,
     tooltip,
     type,
-    multipleLimitOne,
-    boldText
+    multipleLimitOne
   };
 
   const Field = (fieldType => {

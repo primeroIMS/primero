@@ -7,7 +7,7 @@ import InputLabel from "../components/input-label";
 const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const { helperText, error, disabled, name, label, className } = commonInputProps;
   const { control } = formMethods;
-  const { tooltip, selectedValue, boldText } = metaInputProps || {};
+  const { tooltip, selectedValue } = metaInputProps || {};
   const checkBoxProps = { defaultValue: selectedValue || false };
 
   return (
@@ -29,7 +29,7 @@ const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
                   disabled={disabled}
                 />
               }
-              label={<InputLabel tooltip={tooltip} text={label} boldText={boldText} />}
+              label={<InputLabel tooltip={tooltip} text={label} />}
               className={className}
             />
           )}
@@ -55,7 +55,6 @@ SwitchInput.propTypes = {
   }),
   formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
-    boldText: PropTypes.string,
     selectedValue: PropTypes.string,
     tooltip: PropTypes.string
   })

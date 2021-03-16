@@ -24,15 +24,19 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
       .find(explanation => explanation.get("id") === legitimateBasisId)
       ?.get("display_text");
 
-    const boldText = `${legitimateBasisText}:`;
-    const displayName = legitimateBasisExplanation ? `${boldText} ${legitimateBasisExplanation}` : legitimateBasisText;
+    const boldText = <b>{legitimateBasisText}</b>;
+
+    const displayName = (
+      <p>
+        {boldText} {legitimateBasisExplanation ? `: ${legitimateBasisExplanation}` : null}
+      </p>
+    );
 
     return [
       ...acc,
       {
         id: legitimateBasisId,
-        display_name: displayName,
-        boldText,
+        display_name: () => displayName,
         includeSeparator: index !== 0
       }
     ];
