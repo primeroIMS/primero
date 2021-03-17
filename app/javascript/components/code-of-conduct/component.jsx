@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { makeStyles } from "@material-ui/core/styles";
-import html2pdf from "html2pdf-dom-to-image-more";
 import { format, parseISO } from "date-fns";
 
 import { ROUTES } from "../../config";
@@ -14,7 +13,7 @@ import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
 
-import { NAME, ID, PDF_OPTIONS, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
+import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
 import styles from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
@@ -49,12 +48,6 @@ const Component = () => {
     dispatch(acceptCodeOfConduct({ userId: currentUser.get(ID), codeOfConductId: applicationCodeOfConduct.get(ID) }));
   };
 
-  const handlePrint = () => {
-    const element = document.getElementById("printPdf");
-
-    html2pdf().set(PDF_OPTIONS).from(element).save();
-  };
-
   const handleCancel = () => setOpen(true);
 
   return (
@@ -71,13 +64,7 @@ const Component = () => {
             <h3>{`${i18n.t("updated")} ${formattedDate}`}</h3>
             <p>{applicationCodeOfConduct.get("content")}</p>
           </div>
-          <Actions
-            css={css}
-            i18n={i18n}
-            handleAccept={handleAcceptCodeOfConduct}
-            handlePrint={handlePrint}
-            handleCancel={handleCancel}
-          />
+          <Actions css={css} i18n={i18n} handleAccept={handleAcceptCodeOfConduct} handleCancel={handleCancel} />
         </div>
         <div className={css.translationToogle}>
           <TranslationsToggle />
