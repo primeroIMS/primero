@@ -23,6 +23,17 @@
     max-height: 500px;
     padding: 16px;
     overflow-y: auto;
+
+    & h2 {
+      margin-bottom: 0;
+    }
+
+    & h3 {
+      margin-top: 0;
+      text-transform: uppercase;
+      color: $(theme.primero.colors.midGrey);
+      font-size: 16px;
+    }
   }
 
   & .actions {

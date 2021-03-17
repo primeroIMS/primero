@@ -109,3 +109,5 @@ export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => 
 
   return useWebhookSyncFor.includes(recordType);
 };
+
+export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduct"], fromJS({}));
