@@ -13,10 +13,6 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("updatingCodeOfConduct", true);
     case actions.ACCEPT_CODE_OF_CONDUCT_SUCCESS:
       return state.set("updatingCodeOfConduct", false);
-    // case actions.ACCEPT_CODE_OF_CONDUCT_FAILURE:
-    //   return state.setIn(["codeOfCondunct", "updating"], false);
-    // case actions.ACCEPT_CODE_OF_CONDUCT_FINISHED:
-    //   return state.setIn(["codeOfCondunct", "updating"], false);
     default:
       return state;
   }

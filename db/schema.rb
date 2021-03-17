@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_000000) do
+ActiveRecord::Schema.define(version: 2021_03_13_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -123,9 +123,10 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
-  create_table "code_of_conducts", force: :cascade do |t|
+  create_table "codes_of_conduct", force: :cascade do |t|
     t.datetime "created_on"
     t.string "created_by"
+    t.string "title"
     t.text "content"
   end
 
@@ -525,6 +526,6 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
-  add_foreign_key "users", "code_of_conducts"
+  add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
