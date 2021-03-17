@@ -16,7 +16,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
+import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
@@ -37,7 +37,7 @@ const Container = () => {
     ...rest
   }));
   const filterAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
-  const filterUserGroups = useMemoizedSelector(state => getUserGroups(state));
+  const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
   const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));

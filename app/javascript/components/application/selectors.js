@@ -84,6 +84,8 @@ export const getApprovalsLabels = (state, locale) => {
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
 
+export const getEnabledUserGroups = state => getUserGroups(state).filter(userGroup => !userGroup.get("disabled"));
+
 export const getRoles = state => state.getIn([NAMESPACE, "roles"], fromJS([]));
 
 export const getRole = (state, uniqueID) =>
