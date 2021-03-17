@@ -30,9 +30,14 @@ class FormSectionResponse < ValueObject
   end
 
   def subform(name)
+    return nil unless form_section
+
     FormSectionResponseList.new(
       responses: Array(field(name)).flatten,
-      form_section: form_section&.fields&.find_by(name: name)&.subform
+      # This is used elsewhere to make use of eager loads but this long
+      # chain of null propagation makes me cringe and indicates there is some
+      # shared responcibility for managing this that shouldn't be here.
+      form_section: form_section.fields.select { |f| f.name.to_sym == name }.first&.subform
     )
   end
 end
