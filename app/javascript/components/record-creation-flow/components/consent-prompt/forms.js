@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export, camelcase */
 import { fromJS } from "immutable";
 
 import { FieldRecord, FormSectionRecord, CHECK_BOX_FIELD } from "../../../form";
@@ -18,11 +18,11 @@ const buildConsentAgreementFields = (i18n, consentAgreementFields = []) => {
 
 const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanationsLookup) => {
   const fields = legitimateBasisLookup.reduce((acc, legitimateBasis, index) => {
-    const legitimateBasisId = legitimateBasis.get("id");
-    const legitimateBasisText = legitimateBasis.get("display_text");
-    const legitimateBasisExplanation = legitimateBasisExplanationsLookup
-      .find(explanation => explanation.get("id") === legitimateBasisId)
-      ?.get("display_text");
+    const legitimateBasisId = legitimateBasis.id;
+    const legitimateBasisText = legitimateBasis.display_text;
+    const legitimateBasisExplanation = legitimateBasisExplanationsLookup.find(
+      explanation => explanation.id === legitimateBasisId
+    )?.display_text;
 
     const boldText = <b>{legitimateBasisText}</b>;
 
