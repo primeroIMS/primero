@@ -7,7 +7,9 @@ import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
 
 const getAppModuleByUniqueId = (state, uniqueId) =>
-  state.getIn(["application", "modules"], fromJS([])).find(module => module.get("unique_id") === uniqueId);
+  state
+    .getIn(["application", "modules"], fromJS([]))
+    .find(module => module.get("unique_id") === uniqueId, null, fromJS([]));
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
