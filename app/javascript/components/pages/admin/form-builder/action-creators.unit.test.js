@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { stub } from "../../../../test";
 import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
@@ -263,5 +265,56 @@ describe("<FormsBuilder /> - Action Creators", () => {
     };
 
     expect(actionCreators.selectExistingFields(payload)).to.deep.equal(expected);
+  });
+
+  it("should check the 'saveSubforms' action creator to return the correct object", () => {
+    stub(generate, "messageKey").returns(4);
+    const fields = [
+      {
+        id: 146,
+        display_name: {
+          en: "Test Field"
+        },
+        type: "select_box",
+        option_strings_text: [
+          {
+            id: "abuse_exploitation",
+            display_text: {
+              en: "Abuse & Exploitation"
+            }
+          },
+          {
+            id: "death_of_caregiver",
+            display_text: {
+              en: "Death of Caregiver"
+            }
+          }
+        ]
+      }
+    ];
+    const body = fromJS({
+      data: {
+        fields
+      }
+    });
+    const subforms = fromJS([
+      {
+        id: 10,
+        unique_id: "care_arrangements_section",
+        fields,
+        editable: true
+      }
+    ]);
+
+    const parentFormParams = {
+      id: 1,
+      saveMethod: "update",
+      body,
+      message: "updated"
+    };
+
+    const result = actionCreators.saveSubforms(subforms, parentFormParams);
+
+    expect(Object.keys(result)).to.deep.equal(["type", "api", "finishedCallback"]);
   });
 });
