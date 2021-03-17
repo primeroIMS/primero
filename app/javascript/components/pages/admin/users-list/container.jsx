@@ -16,14 +16,14 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups } from "../../../application";
+import { fetchUserGroups, getEnabledUserGroups, selectAgencies } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
-import { buildUsersQuery, getFilters } from "./utils";
+import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
@@ -32,13 +32,20 @@ const Container = () => {
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
-  const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
-    label: i18n.t(label),
-    ...rest
-  }));
-  const filterAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
+  const filterAgencies = agencies.filter(agency => !agency.get("disabled"));
+  const agenciesWithId = buildObjectWithIds(agencies);
+
+  const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
+    label: i18n.t(label),
+    ...rest,
+    ...(rest.name === "agency_id"
+      ? { options: { customBodyRender: value => agencyBodyRender(i18n, agenciesWithId, value) } }
+      : {})
+  }));
 
   const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
 
