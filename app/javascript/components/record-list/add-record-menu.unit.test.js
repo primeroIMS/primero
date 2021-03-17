@@ -20,7 +20,11 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
       modules: [
         PrimeroModuleRecord({
           unique_id: "primerotest-1",
-          name: "T1"
+          name: "T1",
+          options: {
+            search_and_create_workflow: false,
+            data_protection_case_create_field_names: []
+          }
         }),
         PrimeroModuleRecord({
           unique_id: "primerotest-2",

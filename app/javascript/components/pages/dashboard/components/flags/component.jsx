@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { push } from "connected-react-router";
 
@@ -11,6 +11,7 @@ import { OptionsBox, FlagBox } from "../../../../dashboard";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { RECORD_PATH } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import styles from "./styles.css";
 import { NAME } from "./constants";
@@ -19,7 +20,9 @@ const useStyles = makeStyles(styles);
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
-  const flags = useSelector(state => getDashboardFlags(state));
+
+  const flags = useMemoizedSelector(state => getDashboardFlags(state));
+
   const css = useStyles();
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));

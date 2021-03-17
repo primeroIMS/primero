@@ -7,6 +7,7 @@ import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
+import { ACTIONS } from "../../../../libs/permissions";
 
 import FormBuilderActionButtons from "./components/action-buttons";
 import FormsBuilder from "./component";
@@ -59,6 +60,12 @@ describe("<FormsBuilder />", () => {
     }
   ];
 
+  const user = {
+    permissions: {
+      metadata: [ACTIONS.MANAGE]
+    }
+  };
+
   const initialState = fromJS({
     application: {
       modules: [
@@ -76,7 +83,8 @@ describe("<FormsBuilder />", () => {
           selectedForm: FormSectionRecord(formSections[0])
         }
       }
-    }
+    },
+    user
   });
 
   describe("when is a new form", () => {
@@ -130,7 +138,8 @@ describe("<FormsBuilder />", () => {
                 selectedForm: FormSectionRecord(formSections[3])
               }
             }
-          }
+          },
+          user
         })
       ));
     });

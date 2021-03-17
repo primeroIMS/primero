@@ -1,0 +1,8 @@
+.tableContainer {
+
+  & div {
+    & div:first-child {
+      min-height: 0;
+    }
+  }
+}

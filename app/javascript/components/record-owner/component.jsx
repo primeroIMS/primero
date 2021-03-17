@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 
@@ -6,13 +5,14 @@ import { FieldRecord, FormSectionField } from "../record-form";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { selectAgencies } from "../application";
-import { compare } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 
 import { NAME, FIELDS } from "./constants";
 
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
-  const agencies = useSelector(state => selectAgencies(state), compare);
+
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
 
   const recordOwnerValues = FIELDS.reduce((acum, field) => {
     let fieldValue = record?.get(field.name);

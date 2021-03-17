@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Dompurify from "dompurify";
 
@@ -6,6 +6,7 @@ import { useI18n } from "../../../../i18n";
 import { getRoleName } from "../../../../application/selectors";
 import ActionDialog from "../../../../action-dialog";
 import { saveUser } from "../action-creators";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
@@ -24,7 +25,9 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const roleName = useSelector(state => getRoleName(state, userData.role_unique_id));
+
+  const roleName = useMemoizedSelector(state => getRoleName(state, userData.role_unique_id));
+
   const sanitizer = Dompurify.sanitize;
 
   const handleOk = () => {

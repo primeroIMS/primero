@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FormControlLabel } from "@material-ui/core";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
@@ -21,7 +21,7 @@ import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selec
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import { getOption, getReportingLocations, getServiceToRefer } from "../../../../record-form";
-import { valuesToSearchableSelect } from "../../../../../libs";
+import { useMemoizedSelector, valuesToSearchableSelect } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";
 
@@ -48,24 +48,15 @@ const MainForm = ({ formProps, rest }) => {
   const { service, agency, location } = values;
   const disableControl = !providedConsent && !disabled;
 
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
-
-  const serviceTypes = useSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
-
-  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
-
-  const reportingLocations = useSelector(
-    state => getReportingLocations(state, adminLevel),
-    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
-  );
-
   const NAMESPACE = ["transitions", "referral"];
 
-  const loading = useSelector(state => getLoading(state, NAMESPACE));
-
-  const agencies = useSelector(state => getEnabledAgencies(state, service));
-
-  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
+  const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
+  const serviceTypes = useMemoizedSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
+  const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
+  const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
+  const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
+  const agencies = useMemoizedSelector(state => getEnabledAgencies(state, service));
+  const users = useMemoizedSelector(state => getUsersByTransitionType(state, transitionType));
 
   const loadReferralUsers = () => {
     const filters = getUserFilters({ service, agency, location });
@@ -100,7 +91,7 @@ const MainForm = ({ formProps, rest }) => {
     }
   }, [users]);
 
-  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
+  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -165,17 +156,17 @@ const MainForm = ({ formProps, rest }) => {
       label: i18n.t("referral.recipient_label"),
       required: true,
       options: users
-        ? users
-            .valueSeq()
-            .map(user => {
-              const userName = user.get(USER_NAME_FIELD);
+        ? users.valueSeq().reduce((prev, current) => {
+            const userName = current.get(USER_NAME_FIELD);
 
-              return {
+            return [
+              ...prev,
+              {
                 value: userName.toLowerCase(),
                 label: userName
-              };
-            })
-            .toJS()
+              }
+            ];
+          }, [])
         : [],
       onChange: (data, field, form) => {
         const { value } = data;

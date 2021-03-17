@@ -36,8 +36,7 @@ export const getColumns = (columns, locationTypes) => {
       ...{
         ...(column.name === COLUMNS.TYPE
           ? {
-              customBodyRender: value =>
-                locationTypes.find(locationType => locationType.get("id") === value).get("display_text")
+              customBodyRender: value => locationTypes.find(locationType => locationType.id === value).display_text
             }
           : {})
       }

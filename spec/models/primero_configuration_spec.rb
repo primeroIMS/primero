@@ -112,5 +112,27 @@ describe PrimeroConfiguration do
       subform_field = FormSection.find_by(unique_id: @form1.unique_id).fields.find { |f| f.name == 'test3' }
       expect(subform_field.subform.unique_id).to eq(subform.unique_id)
     end
+
+    it 'does not apply the configuration if the version is newer' do
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+
+      @form1.update_attributes!(name: 'B')
+      @role1.update_attributes!(name: 'Role2')
+      FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
+      Lookup.create!(unique_id: 'lookupX', name: 'lookupX')
+      Report.create!(
+        record_type: 'case', name_en: 'Test2', unique_id: 'report-test2',
+        aggregate_by: %w[a b], module_id: @module1.unique_id
+      )
+
+      current_configuration.primero_version = "#{Primero::Application::VERSION.split('.').first.to_i + 1}.0.0"
+      current_configuration.apply!
+
+      expect(FormSection.count).to eq(2)
+      expect(Role.count).to eq(1)
+      expect(Lookup.count).to eq(2)
+      expect(Report.count).to eq(2)
+    end
   end
 end

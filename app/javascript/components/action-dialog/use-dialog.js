@@ -1,12 +1,14 @@
 import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { useMemoizedSelector } from "../../libs";
 
 import { selectDialog } from "./selectors";
 import { clearDialog, setDialog, setPending } from "./action-creators";
 
 export const useDialog = dialogs => {
   const dispatch = useDispatch();
-  const dialog = useSelector(state => selectDialog(state));
+  const dialog = useMemoizedSelector(state => selectDialog(state));
   const name = dialog.get("dialog");
   const isOpen = dialog.get("open", false);
   const isPending = dialog.get("pending", false);

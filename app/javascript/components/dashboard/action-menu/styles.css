@@ -1,0 +1,17 @@
+.root {
+  font-size: "17px";
+  color: $(theme.primero.colors.black);
+  line-height: 1;
+  font-weight: "normal";
+
+  & button {
+    &:hover {
+      background-color: $(theme.primero.colors.warmGrey1);
+    }
+  }
+}
+
+.paper {
+  max-height: 216px;
+  width: 200px;
+}

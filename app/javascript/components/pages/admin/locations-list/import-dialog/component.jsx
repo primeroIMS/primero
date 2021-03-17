@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
 import { enqueueSnackbar } from "../../../../notifier";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { clearImportErrors, importLocations } from "./action-creators";
 import { getImportErrors } from "./selectors";
@@ -15,7 +16,7 @@ const Component = ({ close, i18n, open, pending }) => {
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
 
-  const importFailure = useSelector(state => getImportErrors(state));
+  const importFailure = useMemoizedSelector(state => getImportErrors(state));
 
   const onSubmit = data => {
     const body = {

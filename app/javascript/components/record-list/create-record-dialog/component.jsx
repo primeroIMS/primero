@@ -7,9 +7,9 @@ import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { compare } from "../../../libs";
+import { useMemoizedSelector } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { submitHandler, whichFormMode } from "../../form";
@@ -41,7 +41,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
     handleSubmit
   } = methods;
 
-  const record = useSelector(state => getRecordsData(state, recordType), compare);
+  const record = useMemoizedSelector(state => getRecordsData(state, recordType));
 
   const onSubmit = data => {
     submitHandler({

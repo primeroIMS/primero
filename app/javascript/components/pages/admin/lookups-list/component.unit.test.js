@@ -64,7 +64,7 @@ describe("<LookupList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: { total: dataLength, per: 20, page: 2 },
+        params: fromJS({ total: dataLength, per: 20, page: 2 }),
         path: "lookups"
       },
       type: "admin/lookups/FETCH_LOOKUPS"
@@ -75,6 +75,8 @@ describe("<LookupList />", () => {
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
+    expect(component.props().store.getActions()[2].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
   });
 });

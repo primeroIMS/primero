@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
 import Form from "../../../form";
@@ -6,6 +6,7 @@ import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { newPasswordResetRequest } from "../../../pages/admin/users-form/action-creators";
 import { getSavingNewPasswordReset } from "../../../pages/admin/users-form/selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validationSchema } from "./form";
 import { NAME, FORM_ID } from "./constants";
@@ -13,7 +14,8 @@ import { NAME, FORM_ID } from "./constants";
 const Component = ({ open, handleCancel, handleSuccess }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const saving = useSelector(state => getSavingNewPasswordReset(state));
+
+  const saving = useMemoizedSelector(state => getSavingNewPasswordReset(state));
 
   const successButtonProps = {
     color: "primary",

@@ -3,7 +3,6 @@ import { createBrowserHistory } from "history";
 import { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
-import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
 import customMiddleware from "./middleware";
@@ -25,10 +24,6 @@ export default () => {
     customMiddleware.authMiddleware,
     customMiddleware.offlineMiddleware
   ];
-
-  if (process.env.NODE_ENV === "profile") {
-    middleware.push(createLogger({ stateTransformer: state => state.toJS() }));
-  }
 
   const composeEnhancers =
     process.env.NODE_ENV !== "development" || typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

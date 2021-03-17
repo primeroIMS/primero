@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import omit from "lodash/omit";
 import startCase from "lodash/startCase";
@@ -15,6 +15,7 @@ import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { getManagedRoleFormSections } from "../../../form/selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { getReferralSuccess } from "./selectors";
 import { mapServiceFields, customReferralFormProps } from "./utils";
@@ -43,10 +44,10 @@ const Referrals = ({
 
   const [formValues, setFormValues] = useState({});
 
-  const submittedSuccessfully = useSelector(state => getReferralSuccess(state));
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
-  const formErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
-  const recordTypesForms = useSelector(state =>
+  const submittedSuccessfully = useMemoizedSelector(state => getReferralSuccess(state));
+  const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
+  const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
+  const recordTypesForms = useMemoizedSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: record?.get("module_id")

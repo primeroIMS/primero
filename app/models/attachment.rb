@@ -12,7 +12,8 @@ class Attachment < ApplicationRecord
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain application/msword
                               application/vnd.openxmlformats-officedocument.wordprocessingml.document
                               text/csv application/vnd.ms-excel
-                              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet].freeze
+                              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                              image/jpg image/jpeg image/png].freeze
 
   MAX_SIZE = 10.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url

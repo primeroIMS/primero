@@ -74,6 +74,8 @@ module Alertable
 
         remove_alert(form_name)
       end
+
+      remove_alert(alerts_on_change[ALERT_INCIDENT]) if alerts_on_change[ALERT_INCIDENT].present?
     end
 
     def add_alert_on_field_change

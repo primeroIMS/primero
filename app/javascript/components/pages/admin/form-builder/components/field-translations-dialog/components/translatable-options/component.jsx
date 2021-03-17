@@ -17,7 +17,7 @@ const useStyles = makeStyles(styles);
 const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
   const css = useStyles();
   const i18n = useI18n();
-  const locales = i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+  const locales = i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en);
 
   const englishOptions = field.get("option_strings_text") || fromJS([]);
   const englishOptionsSize = englishOptions.reduce(
@@ -61,7 +61,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
   const renderOptions = () =>
     englishOptions.map((option, index) =>
       locales
-        .map(locale => locale.get("id"))
+        .map(locale => locale.id)
         .map(localeId => renderLocalizedOption(localeId, index, option, localeId !== selectedLocaleId))
     );
 

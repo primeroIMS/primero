@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
 import { getRecords } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, REFERRAL_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
@@ -39,7 +39,7 @@ const Transitions = ({
   const isReferDialogOpen = transitionDialogOpen(REFER_DIALOG);
   const isAssignDialogOpen = transitionDialogOpen(ASSIGN_DIALOG);
 
-  const records = useSelector(state => getRecords(state, recordType)).get("data");
+  const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
 
   const selectedIds =
     selectedRecords && records

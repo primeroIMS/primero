@@ -79,7 +79,14 @@ class User < ApplicationRecord
 
   class << self
     def hidden_attributes
-      %w[encrypted_password reset_password_token reset_password_sent_at service_account]
+      %w[
+        encrypted_password reset_password_token reset_password_sent_at service_account
+        identity_provider_id unlock_token locked_at failed_attempts role_id
+      ]
+    end
+
+    def self_hidden_attributes
+      %w[role_unique_id identity_provider_unique_id user_name]
     end
 
     def password_parameters
@@ -91,17 +98,23 @@ class User < ApplicationRecord
     end
 
     def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
-    def permitted_api_params
-      (
+    def permitted_api_params(current_user = nil, target_user = nil)
+      permitted_params = (
         User.permitted_attribute_names + User.password_parameters +
         [
-          { user_group_ids: [] }, { user_group_unique_ids: [] },
-          { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
+          { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
+          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id'
         ]
       ) - User.hidden_attributes
+
+      return permitted_params if current_user.nil? || target_user.nil?
+
+      return permitted_params unless current_user.user_name == target_user.user_name
+
+      permitted_params - User.self_hidden_attributes
     end
 
     def last_login_timestamp(user_name)
@@ -131,29 +144,7 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
-    # TODO: Move the logic for find_permitted_users, users_for_assign,
-    #       users_for_referral, users_for_transfer, users_for_transition into services
-
-    def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all.includes(:user_groups, role: :primero_modules)
-      if filters.present?
-        filters = filters.compact
-        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters.except('user_group_ids'))
-        users = filter_with_groups(users, filters)
-      end
-      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-        users = users.where(organization: user.organization)
-      end
-
-      results = { total: users.size }
-      pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
-      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
-      users = users.order(sort) if sort.present?
-      results.merge(users: users)
-    end
-
+    # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
     def users_for_assign(user, model)
       return User.none unless model.present?
 
@@ -499,6 +490,10 @@ class User < ApplicationRecord
   def user_groups_ids=(user_group_ids)
     @refresh_associated_user_groups = true
     super
+  end
+
+  def agency_read?
+    permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   private

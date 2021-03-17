@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
-import { isImmutable } from "immutable";
 
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -50,8 +49,6 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     return null;
   }
 
-  const options = watchedInputProps?.options || isImmutable(optionSource) ? optionSource?.toJS() : optionSource;
-
   return (
     <div>
       {handleVisibility(watchedInputValues) || (
@@ -60,7 +57,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
             field={field}
             commonInputProps={commonProps}
             metaInputProps={metaProps}
-            options={options}
+            options={optionSource}
             errorsToCheck={errorsToCheck}
             formMethods={formMethods}
             formMode={formMode}

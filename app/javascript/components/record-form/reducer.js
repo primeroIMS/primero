@@ -54,6 +54,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("validationErrors", fromJS(payload));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
+    case Actions.SET_DATA_PROTECTION_INITIAL_VALUES:
+      return state.set("dataProtectionInitialValues", fromJS(payload));
     default:
       return state;
   }

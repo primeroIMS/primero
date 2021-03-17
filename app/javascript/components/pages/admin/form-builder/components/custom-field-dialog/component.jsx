@@ -4,7 +4,7 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import { useSelector, useDispatch, batch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import CustomFieldSelectorDialog from "../custom-field-selector-dialog";
@@ -14,7 +14,7 @@ import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { NAME as EXISTING_FIELD_DIALOG_NAME } from "../existing-field-dialog/constants";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { getSelectedField, getSelectedSubform } from "../../selectors";
 import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage } from "../field-dialog/utils";
 import { mergeOnSelectedSubform } from "../../action-creators";
@@ -33,10 +33,10 @@ const Component = ({ getValues }) => {
 
   const { setDialog, dialogOpen, dialogClose } = useDialog(CUSTOM_FIELD_DIALOG);
 
-  const selectedField = useSelector(state => getSelectedField(state), compare);
+  const selectedField = useMemoizedSelector(state => getSelectedField(state));
+  const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
 
   const isSubform = isSubformField(selectedField);
-  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
   const isSelectedSubform = selectedSubform.toSeq().size > 0 && isSubform;
 
   const handleDialog = () => {

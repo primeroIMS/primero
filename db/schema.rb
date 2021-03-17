@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_000001) do
+ActiveRecord::Schema.define(version: 2021_03_12_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_000001) do
     t.string "applied_by"
     t.datetime "applied_on"
     t.jsonb "data", default: {}
+    t.string "primero_version"
   end
 
   create_table "primero_modules", id: :serial, force: :cascade do |t|
