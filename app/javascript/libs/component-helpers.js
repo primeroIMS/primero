@@ -44,6 +44,8 @@ export const getObjectPath = (path, values) => {
       : getObjectPath(pathWithIndex, value);
   };
 
+  if (!values) return [];
+
   return Object.entries(values)
     .map(([key, value]) => getInnerPath(value, key, typeof values === "object" && !Array.isArray(values)))
     .flat(Infinity);
