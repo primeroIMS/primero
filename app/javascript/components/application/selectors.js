@@ -7,6 +7,12 @@ import NAMESPACE from "./namespace";
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
+export const getAgenciesWithService = (state, service) => {
+  const agencies = selectAgencies(state);
+
+  return service ? agencies.filter(agency => agency.get("services", fromJS([])).includes(service)) : agencies;
+};
+
 export const getEnabledAgencies = (state, service) => {
   const enabledAgencies = state.getIn([NAMESPACE, "agencies"], fromJS([])).filter(agency => !agency.get("disabled"));
 
