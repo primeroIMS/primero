@@ -27,7 +27,8 @@ const AddRecordMenu = ({ recordType }) => {
   const { userModules, online } = useApp();
 
   const searchAndCreateWorkflow = useMemoizedSelector(state =>
-    getOptionFromAppModule(state, userModules.first().unique_id, SEARCH_AND_CREATE_WORKFLOW)
+    // eslint-disable-next-line camelcase
+    getOptionFromAppModule(state, userModules.first()?.unique_id, SEARCH_AND_CREATE_WORKFLOW)
   );
 
   const showDialogOrRedirectNew = primeroModule => {
@@ -80,7 +81,8 @@ const AddRecordMenu = ({ recordType }) => {
         open={Boolean(moduleUniqueId)}
         onClose={onClose}
         recordType={recordType}
-        primeroModule={userModules.first().unique_id}
+        // eslint-disable-next-line camelcase
+        primeroModule={userModules.first()?.unique_id}
       />
     ) : (
       renderDialog(moduleUniqueId)

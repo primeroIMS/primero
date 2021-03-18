@@ -44,7 +44,7 @@ namespace :primero do
   task :export_config_json, %i[file_name] => :environment do |_, args|
     user = User.new(user_name: 'system_operator')
 
-    puts "Building Current Configuration"
+    puts 'Building Current Configuration'
     configuration = PrimeroConfiguration.current(user)
     configuration.name = 'Config Export'
     configuration.description = 'Config Export by System Operator'
@@ -74,13 +74,12 @@ namespace :primero do
       config_data = Importers::JSONImporter.import(file)
       if config_data.blank?
         puts 'ERROR: No json data provided'
-        return
+      else
+        user = User.new(user_name: 'system_operator')
+        configuration = PrimeroConfiguration.new_with_user(user)
+        configuration.attributes = config_data
+        configuration.save!
       end
-
-      user = User.new(user_name: 'system_operator')
-      configuration = PrimeroConfiguration.new_with_user(user)
-      configuration.attributes = config_data
-      configuration.save!
     end
   end
 
@@ -259,7 +258,7 @@ namespace :primero do
 
     metadata_models.each do |m|
       puts "Deleting the database for #{m.name}"
-      m.delete_all
+      m.destroy_all
     end
   end
 
@@ -271,7 +270,7 @@ namespace :primero do
 
     config_data_models.each do |m|
       puts "Deleting the database for #{m.name}"
-      m.delete_all
+      m.destroy_all
     end
   end
 
@@ -322,12 +321,16 @@ namespace :primero do
     puts 'Updating Case ID Display...'
     system_settings = SystemSettings.current
     Child.all.each do |record|
-      puts "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+      before = "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}" \
+               "  case_id_display: #{record.case_id_display}"
+      puts before
 
       record.case_id_code = record.create_case_id_code(system_settings) if record.case_id_code.blank?
       record.case_id_display = record.create_case_id_display(system_settings) if record.case_id_display.blank?
 
-      puts "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  case_id_display: #{record.case_id_display}"
+      after = "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}" \
+              "  case_id_display: #{record.case_id_display}"
+      puys after
 
       if record.changed?
         puts "SAVING #{record.id}..."
@@ -347,7 +350,7 @@ namespace :primero do
   end
 
   desc 'Import Forms from spreadsheets directory'
-  # USAGE: $bundle exec rake db:data:xls_import['/vagrant/tmp/exports/forms_export_case_cp_YYYYMMDD.HHMMSS/','case','primeromodule-cp']
+  # USAGE: $bundle exec rake db:data:xls_import['/path/to/forms_directory/','case','primeromodule-cp']
   # NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form
   task :xls_import, %i[spreadsheet_dir record_type module_id] => :environment do |_, args|
     module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
@@ -366,7 +369,7 @@ namespace :primero do
   desc 'Export translations to JS file(s)'
   task :i18n_js do
     Dir.glob(Rails.root.join('public', 'translations-*.js')).each { |file| File.delete(file) }
-    
+
     require Rails.root.join('config', 'initializers', 'locale.rb')
     require Rails.root.join('config', 'initializers', 'locales_fallbacks.rb')
 
