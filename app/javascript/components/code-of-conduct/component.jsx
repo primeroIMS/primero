@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
+import { isEmpty } from "lodash";
 
 import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
@@ -27,6 +28,7 @@ const Component = () => {
   const primeroModule = "cp";
   const dispatch = useDispatch();
   const location = useLocation();
+
   const [open, setOpen] = useState(false);
 
   const codeOfConductAccepted = useMemoizedSelector(state => getCodeOfConductId(state));
@@ -34,7 +36,7 @@ const Component = () => {
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
 
-  if (!applicationCodeOfConduct && applicationCodeOfConduct.size < 0) {
+  if (isEmpty(applicationCodeOfConduct)) {
     return null;
   }
 
@@ -53,14 +55,11 @@ const Component = () => {
     );
   };
 
+  const hasData = !isEmpty(applicationCodeOfConduct);
   const handleCancel = () => setOpen(true);
 
   return (
-    <LoadingIndicator
-      loading={applicationCodeOfConduct.size < 0}
-      hasData={applicationCodeOfConduct.size > 0}
-      type={NAME}
-    >
+    <LoadingIndicator loading={!hasData} hasData={hasData} type={NAME}>
       <div className={css.container}>
         <ModuleLogo moduleLogo={primeroModule} white />
         <div className={css.content}>
