@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
@@ -32,18 +32,17 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
   const { dialogClose } = useDialog(NAME);
   const { limitedProductionSite } = useApp();
 
-  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
 
-  const {
-    name: fieldName,
-    display_name: displayName,
-    help_text: helpText,
-    guiding_questions: guidingQuestions,
-    tick_box_label: tickBoxLabel,
-    option_strings_text: optionStringsText
-  } = field.toJS();
+  const fieldName = field.get("name");
+  const displayName = field.get("display_name");
+  const helpText = field.get("help_text");
+  const guidingQuestions = field.get("guiding_questions");
+  const tickBoxLabel = field.get("tick_box_label");
+  const optionStringsText = field.get("option_strings_text");
 
-  const { name, description } = selectedSubform?.toJS() || {};
+  const name = selectedSubform.get("name");
+  const description = selectedSubform.get("description");
 
   const formMethods = useForm({
     defaultValues: {

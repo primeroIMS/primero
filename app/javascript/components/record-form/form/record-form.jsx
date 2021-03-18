@@ -7,15 +7,17 @@ import { Box } from "@material-ui/core";
 import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
 
-import { setSelectedForm } from "../action-creators";
+import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
-import { displayNameHelper } from "../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { getDataProtectionInitialValues } from "../selectors";
+import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 
 import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
@@ -46,6 +48,7 @@ const RecordForm = ({
   const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
+  const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
 
   let bindedSetValues = null;
   let formikValues;
@@ -104,6 +107,28 @@ const RecordForm = ({
       bindedSetValues({ ...initialValues, ...formikValues });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (dataProtectionInitialValues.size > 0) {
+      const initialDataProtection = dataProtectionInitialValues.reduce((accumulator, values, key) => {
+        if (key !== LEGITIMATE_BASIS) {
+          const consentAgreementFields = values.reduce((acc, curr) => {
+            return { ...acc, [curr]: true };
+          }, {});
+
+          return { ...accumulator, ...consentAgreementFields };
+        }
+
+        return { ...accumulator, [key]: values };
+      }, {});
+
+      bindedSetValues({ ...initialValues, ...initialDataProtection });
+    }
+
+    return () => {
+      dispatch(clearDataProtectionInitialValues());
+    };
+  }, [dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();

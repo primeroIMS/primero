@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { batch, useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
@@ -14,7 +14,7 @@ import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
-import { compare, getObjectPath, displayNameHelper } from "../../../../../../libs";
+import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
 import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
 import {
   createSelectedField,
@@ -61,12 +61,13 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
 
-  const selectedField = useSelector(state => getSelectedField(state), compare);
-  const selectedSubformField = useSelector(state => getSelectedSubformField(state), compare);
-  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
-  const lastField = useSelector(state => getSelectedFields(state, false), compare)?.last();
+  const selectedField = useMemoizedSelector(state => getSelectedField(state));
+  const selectedSubformField = useMemoizedSelector(state => getSelectedSubformField(state));
+  const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
+  const lastField = useMemoizedSelector(state => getSelectedFields(state, false))?.last();
+  const lookups = useMemoizedSelector(state => getOptions(state));
+
   const selectedFieldName = selectedField?.get("name");
-  const lookups = useSelector(state => getOptions(state), compare);
 
   const isNested = subformContainsFieldName(selectedSubform, selectedFieldName, selectedSubformField);
   const { forms: fieldsForm, validationSchema } = getFormField({
@@ -350,8 +351,8 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (openFieldDialog && selectedFieldName !== NEW_FIELD && selectedField?.toSeq()?.size) {
-      const currentData = selectedField.toJS();
-      const objectPaths = getObjectPath("", currentData.option_strings_text || []).filter(
+      const currentData = selectedField;
+      const objectPaths = getObjectPath("", currentData.get("option_strings_text", [])).filter(
         option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
       );
 
@@ -364,7 +365,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
         if (!fields[optionStringsTextPath]) {
           register({ name: optionStringsTextPath });
         }
-        const value = get(currentData.option_strings_text, path);
+        const value = get(currentData.get("option_strings_text"), path);
 
         setValue(optionStringsTextPath, value, { shouldDirty: true });
       });

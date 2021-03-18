@@ -30,6 +30,11 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
   const selectedValueFieldName = `${name}.selected_value`;
 
   const optionId = useWatch({ control, name: `${name}.option_strings_text[${index}].id`, defaultValue: option.id });
+  const disabledValue = useWatch({
+    control,
+    name: `${name}.option_strings_text[${index}].disabled`,
+    defaultValue: option?.disabled
+  });
   const selectedValue = useWatch({ control, name: `${name}.selected_value`, defaultValue: defaultOptionId });
 
   const error = errors ? get(errors, displayTextFieldName) : undefined;
@@ -63,6 +68,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
   const renderCheckbox = formMode.get("isEdit") && (
     <SwitchInput
       commonInputProps={{ name: `${name}.option_strings_text[${index}].disabled` }}
+      metaInputProps={{ selectedValue: disabledValue }}
       formMethods={formMethods}
     />
   );

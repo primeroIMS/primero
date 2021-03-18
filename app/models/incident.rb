@@ -17,7 +17,7 @@ class Incident < ApplicationRecord
     :unique_id, :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
     :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
     :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from,
-    :date_of_incident_to, :individual_details_subform_section,
+    :date_of_incident_to, :individual_details_subform_section, :incident_location,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section
@@ -34,7 +34,7 @@ class Incident < ApplicationRecord
     common_summary_fields + %w[
       date_of_interview date_of_incident violence_type
       incident_location violations social_worker date_of_first_report
-      cp_incident_violence_type cp_incident_date
+      cp_incident_violence_type
       gbv_sexual_violence_type incident_date survivor_code
     ]
   end
@@ -51,6 +51,7 @@ class Incident < ApplicationRecord
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
   after_save :index_record
+  after_create :add_alert_on_case
 
   def index_record
     Sunspot.index!(self.case) if self.case.present?
@@ -103,5 +104,18 @@ class Incident < ApplicationRecord
     return unless incident_case_id.present?
 
     self.case.case_id_display
+  end
+
+  def add_alert_on_case
+    return unless alerts_on_change.present?
+
+    form_name = alerts_on_change[ALERT_INCIDENT]
+
+    return unless form_name.present?
+    return unless self.case.present? && created_by != self.case.owned_by
+
+    self.case.add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
+
+    self.case.save!
   end
 end

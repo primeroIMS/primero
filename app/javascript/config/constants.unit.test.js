@@ -36,6 +36,7 @@ describe("Verifying config constant", () => {
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
       "DEFAULT_DATE_VALUES",
+      "DONE",
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "HTTP_STATUS",
@@ -59,6 +60,7 @@ describe("Verifying config constant", () => {
       "PERMITTED_URL",
       "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
+      "RECORD_INFORMATION_GROUP",
       "RECORD_OWNER",
       "RECORD_PATH",
       "RECORD_TYPES",
@@ -156,7 +158,9 @@ describe("Verifying config constant", () => {
           "reporting_locations",
           "gbv_violence_type",
           "cp_violence_type",
-          "gender"
+          "gender",
+          "legitimate_basis",
+          "legitimate_basis_explanations"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

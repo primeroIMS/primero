@@ -444,4 +444,44 @@ describe("<RecordForm /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle forms/SET_DATA_PROTECTION_INITIAL_VALUES", () => {
+    const dataProtectionInitialValues = {
+      consent_agreements: ["disclosure_other_orgs", "consent_for_services"],
+      legitimate_basis: ["consent", "contract"]
+    };
+
+    const initialState = fromJS({});
+
+    const expected = fromJS({ dataProtectionInitialValues });
+
+    const action = {
+      type: actions.SET_DATA_PROTECTION_INITIAL_VALUES,
+      payload: {
+        consent_agreements: ["disclosure_other_orgs", "consent_for_services"],
+        legitimate_basis: ["consent", "contract"]
+      }
+    };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle forms/CLEAR_DATA_PROTECTION_INITIAL_VALUES", () => {
+    const initialState = fromJS({
+      dataProtectionInitialValues: {
+        consent_agreements: ["disclosure_other_orgs", "consent_for_services"],
+        legitimate_basis: ["consent", "contract"]
+      }
+    });
+
+    const expected = fromJS({});
+
+    const action = { type: actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES };
+
+    const newState = reducer.forms(initialState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

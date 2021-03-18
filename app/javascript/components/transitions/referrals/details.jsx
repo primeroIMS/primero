@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 
@@ -9,6 +8,7 @@ import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
 import { DATE_TIME_FORMAT, LOOKUPS } from "../../../config";
 import { OPTION_TYPES } from "../../form";
 import { getOptions } from "../../form/selectors";
+import { useMemoizedSelector } from "../../../libs";
 
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
@@ -16,7 +16,7 @@ import { referralAgencyName } from "./utils";
 const Details = ({ transition, classes }) => {
   const i18n = useI18n();
 
-  const service = useSelector(state => {
+  const service = useMemoizedSelector(state => {
     const value = getOption(state, LOOKUPS.service_type, i18n.locale).filter(
       option => option.id === transition.service
     );
@@ -24,8 +24,7 @@ const Details = ({ transition, classes }) => {
     // eslint-disable-next-line camelcase
     return value[0]?.display_text;
   });
-
-  const agencies = useSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true));
+  const agencies = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true));
 
   const agencyName = referralAgencyName(transition, agencies);
 

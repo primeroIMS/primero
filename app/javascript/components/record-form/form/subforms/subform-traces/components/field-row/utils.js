@@ -2,15 +2,14 @@
 import { isCollection } from "immutable";
 
 import { TEXT_FIELD, TEXT_AREA } from "../../../../../../form";
-import { dataToJS } from "../../../../../../../libs";
+import { get } from "../../../../../../form/utils";
 
-export const getOptionText = ({ options, value }) => {
-  const plainOptions = dataToJS(options);
-
-  const option = plainOptions.find(optionValue => optionValue.id === value);
-
-  return option?.display_text || value;
-};
+export const getOptionText = ({ options, value }) =>
+  get(
+    options.find(option => get(option, "id") === value, null, {}),
+    "display_text",
+    value
+  );
 
 export const isTextField = field => [TEXT_FIELD, TEXT_AREA].includes(field.type);
 

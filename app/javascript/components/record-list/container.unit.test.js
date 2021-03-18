@@ -6,6 +6,7 @@ import IndexTable from "../index-table";
 import { ACTIONS } from "../../libs/permissions";
 import { setupMountedComponent } from "../../test";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
+import { PrimeroModuleRecord } from "../application/records";
 
 import ViewModal from "./view-modal";
 import RecordList from "./container";
@@ -152,11 +153,11 @@ describe("<RecordList />", () => {
       application: {
         online: true,
         modules: [
-          {
+          PrimeroModuleRecord({
             unique_id: "primeromodule-cp",
             name: "CP",
             associated_record_types: ["case"]
-          }
+          })
         ]
       }
     });

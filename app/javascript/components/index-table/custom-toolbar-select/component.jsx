@@ -67,7 +67,7 @@ const Component = ({
     dispatch(
       fetchRecords({
         recordType,
-        data: { ...selectedFilters, page: currentPage + 1 }
+        data: selectedFilters.set("page", currentPage + 1)
       })
     );
   };
@@ -76,7 +76,7 @@ const Component = ({
     dispatch(
       fetchRecords({
         recordType,
-        data: { ...selectedFilters, page: 1, per: target.value }
+        data: selectedFilters.set("page", 1).set("per", target.value)
       })
     );
 

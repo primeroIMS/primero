@@ -120,7 +120,7 @@ describe("<NavGroup />", () => {
     open: "",
     recordAlerts: {},
     selectedForm: "",
-    formGroupLookup: fromJS([
+    formGroupLookup: [
       {
         id: "record_information",
         display_text: "Record Information"
@@ -129,7 +129,7 @@ describe("<NavGroup />", () => {
         id: "identification_registration",
         display_text: "Identification / Registration"
       }
-    ])
+    ]
   };
 
   beforeEach(() => {

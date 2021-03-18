@@ -11,6 +11,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { isEmpty } from "lodash";
 
 import {
   buildValues,
@@ -43,8 +44,8 @@ const Component = ({ mode, lookup }) => {
   const dispatch = useDispatch();
   const css = useStyles();
   const formMode = whichFormMode(mode);
-  const locales = i18n.applicationLocales.toJS();
-  const localesKeys = locales.map(locale => locale.id);
+  const locales = i18n.applicationLocales;
+  const localesKeys = locales.reduce((prev, current) => [...prev, current.id], []);
   const firstLocaleOption = locales?.[0];
   const defaultLocale = firstLocaleOption?.id;
   const validationsSchema = validations(i18n);
@@ -125,22 +126,23 @@ const Component = ({ mode, lookup }) => {
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
   const renderLookupLocalizedName = () =>
-    locales.length &&
+    !isEmpty(locales) &&
     locales.map(locale => {
-      const show = defaultLocale === locale.id || selectedOption === locale.id;
+      const localeID = locale.id;
+      const show = defaultLocale === localeID || selectedOption === localeID;
 
       return (
         <FormSectionField
           field={FieldRecord({
             display_name:
-              defaultLocale === locale.id ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
-            name: `name.${locale.id}`,
+              defaultLocale === localeID ? i18n.t("lookup.english_label") : i18n.t("lookup.translation_label"),
+            name: `name.${localeID}`,
             type: TEXT_FIELD,
             required: true,
             showIf: () => show,
             forceShowIf: true
           })}
-          key={`name.${locale.id}`}
+          key={`name.${localeID}`}
           formMode={formMode}
           formMethods={formMethods}
         />

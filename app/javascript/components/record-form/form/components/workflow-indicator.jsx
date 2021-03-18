@@ -1,11 +1,10 @@
 /* eslint-disable camelcase */
 import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { selectModule } from "../../../application";
 import { RECORD_TYPES } from "../../../../config";
-import { useThemeHelper, displayNameHelper } from "../../../../libs";
+import { useThemeHelper, displayNameHelper, useMemoizedSelector } from "../../../../libs";
 
 import styles from "./styles.css";
 import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
@@ -14,7 +13,7 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const { css, theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const selectedModuleWorkflow = useSelector(state => selectModule(state, primeroModule));
+  const selectedModuleWorkflow = useMemoizedSelector(state => selectModule(state, primeroModule));
 
   const workflowSteps = selectedModuleWorkflow?.workflows?.[RECORD_TYPES[recordType]]?.filter(
     w =>

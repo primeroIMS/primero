@@ -2,15 +2,14 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
-import uniqBy from "lodash/uniqBy";
 import isEmpty from "lodash/isEmpty";
 import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { compare, dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper } from "../../libs";
+import { dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper, useMemoizedSelector } from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
@@ -43,11 +42,18 @@ const Component = ({
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+
   const [sortDir, setSortDir] = useState();
-  const data = useSelector(state => getRecords(state, recordType), compare);
-  const loading = useSelector(state => getLoading(state, recordType));
-  const errors = useSelector(state => getErrors(state, recordType));
-  const filters = useSelector(state => getFilters(state, recordType), compare);
+
+  const data = useMemoizedSelector(state => getRecords(state, recordType));
+  const loading = useMemoizedSelector(state => getLoading(state, recordType));
+  const errors = useMemoizedSelector(state => getErrors(state, recordType));
+  const filters = useMemoizedSelector(state => getFilters(state, recordType));
+  const allFields = useMemoizedSelector(state => getFields(state));
+  const allLookups = useMemoizedSelector(state => getOptions(state));
+  const allAgencies = useMemoizedSelector(state => selectAgencies(state));
+  const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
+
   const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
@@ -59,16 +65,13 @@ const Component = ({
   const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
     recordType
   );
-  let translatedRecords = [];
 
-  const allFields = useSelector(state => getFields(state), compare);
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const allAgencies = useSelector(state => selectAgencies(state), compare);
+  let translatedRecords = [];
 
   let componentColumns = typeof columns === "function" ? columns(data) : columns;
 
   if (allFields.size && records && validRecordTypes) {
-    const columnsName = componentColumns.toJS().map(col => col.name);
+    const columnsName = componentColumns.map(col => col.name);
 
     const fieldWithColumns = allFields.toSeq().filter(fieldName => {
       if (columnsName.includes(fieldName.get("name")) && !isEmpty(fieldName.get("option_strings_source"))) {
@@ -78,14 +81,19 @@ const Component = ({
       return null;
     });
 
-    const columnsWithLookups = uniqBy(fieldWithColumns.toList().toJS(), "option_strings_source");
+    const columnsWithLookups = fieldWithColumns
+      .groupBy(column => column.get("option_strings_source"))
+      .valueSeq()
+      .map(column => column.first());
 
     translatedRecords = records.reduce((accum, record) => {
       const result = record.mapEntries(recordEntry => {
         const [key, value] = recordEntry;
 
         if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
-          const optionStringsSource = columnsWithLookups.find(el => el.name === key).option_strings_source;
+          const optionStringsSource = columnsWithLookups
+            .find(column => column.get("name") === key, null, fromJS({}))
+            .get("option_strings_source");
 
           let recordValue = value;
 
@@ -126,14 +134,14 @@ const Component = ({
   if (localizedFields && records) {
     translatedRecords = records.map(current => {
       const translatedFields = localizedFields.reduce((acc, field) => {
-        const translatedValue = displayNameHelper(dataToJS(current.get(field)), i18n.locale);
+        const translatedValue = displayNameHelper(current.get(field), i18n.locale);
 
         return acc.merge({
           [field]:
             field === "values"
               ? current
                   .get(field)
-                  .map(value => displayNameHelper(dataToJS(value.get("display_text")), i18n.locale) || "")
+                  .map(value => displayNameHelper(value.get("display_text"), i18n.locale) || "")
                   .join(", ")
               : translatedValue
         });
@@ -160,7 +168,7 @@ const Component = ({
       dispatch(
         onTableChange({
           recordType,
-          data: { per, ...defaultFilters.merge(filters).toJS() }
+          data: defaultFilters.merge(filters).merge(fromJS({ per }))
         })
       );
     }
@@ -177,35 +185,29 @@ const Component = ({
   const selectedFilters = (options, action, tableState) => {
     const { sortOrder } = tableState;
 
-    return {
-      ...options,
-      ...(() => {
-        switch (action) {
-          case "sort": {
-            const customSortFields = {
-              photo: "has_photo"
-            };
-            const { direction, name } = sortOrder;
+    switch (action) {
+      case "sort": {
+        const customSortFields = {
+          photo: "has_photo"
+        };
+        const { direction, name } = sortOrder;
 
-            options.order = direction;
+        setSortDir(sortOrder);
 
-            setSortDir(sortOrder);
-            options.order_by = Object.keys(customSortFields).includes(name) ? customSortFields[name] : name;
-            options.page = page === 0 ? 1 : page;
-            break;
-          }
-          case "changePage":
-            options.page = tableState.page >= page ? page + 1 : page - 1;
-            break;
-          default:
-            break;
-        }
-      })()
-    };
+        return options
+          .set("order", direction)
+          .set("order_by", Object.keys(customSortFields).includes(name) ? customSortFields[name] : name)
+          .set("page", page === 0 ? 1 : page);
+      }
+      case "changePage":
+        return options.set("page", tableState.page >= page ? page + 1 : page - 1);
+      default:
+        return options;
+    }
   };
 
   const handleTableChange = (action, tableState) => {
-    const options = { ...defaultFilters.merge(filters).toJS() };
+    const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
 
@@ -213,13 +215,11 @@ const Component = ({
       tableState.page = page - 1;
     }
 
-    options.per = rowsPerPage;
-
     if (validActions.includes(action)) {
       dispatch(
         onTableChange({
           recordType,
-          data: selectedFilters(options, action, tableState)
+          data: selectedFilters(options.set("per", rowsPerPage), action, tableState)
         })
       );
     }
@@ -242,7 +242,7 @@ const Component = ({
       totalRecords={total}
       page={page}
       fetchRecords={onTableChange}
-      selectedFilters={selectedFilters}
+      selectedFilters={defaultFilters.merge(filters)}
     />
   );
 
@@ -322,7 +322,6 @@ const Component = ({
     data: dataWithAlertsColumn
   };
 
-  const formsAreLoading = useSelector(state => getLoadingState(state));
   const dataIsLoading = loading || formsAreLoading || !allLookups.size > 0;
 
   const loadingIndicatorProps = {

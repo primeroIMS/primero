@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
 
@@ -7,6 +7,7 @@ import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
 import { selectRecord } from "../../../records";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { approvalTransfer } from "./action-creators";
 import { NAME } from "./constants";
@@ -25,7 +26,8 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
-  const record = useSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
+
+  const record = useMemoizedSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
 
   const handleChangeComment = event => {
     setComment(event.target.value);

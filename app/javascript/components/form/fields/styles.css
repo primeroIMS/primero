@@ -156,3 +156,7 @@
 .displayNone {
   display: none;
 }
+
+.separator {
+  border-top: 1px solid $(theme.primero.colors.warmGrey1);
+}

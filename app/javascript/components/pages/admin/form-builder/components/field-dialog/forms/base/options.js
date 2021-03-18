@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { isEmpty } from "lodash";
 
 import {
   FormSectionRecord,
@@ -9,8 +10,7 @@ import {
 } from "../../../../../../../form";
 
 export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite) => {
-  const optionStringsText = field?.get("option_strings_text", fromJS({}));
-  const options = Array.isArray(optionStringsText) ? optionStringsText : optionStringsText?.toJS();
+  const optionStringsText = field?.get("option_strings_text", fromJS([]));
 
   return [
     {
@@ -34,13 +34,11 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
           watchedInputs: `${fieldName}.option_strings_source`,
           disabled: limitedProductionSite,
           filterOptionSource: (watchedInputsValues, lookupOptions) => {
-            const emptyOptions = [{ id: "", display_text: "" }];
-
             if (!watchedInputsValues) return [];
 
-            const lookupSelected = lookupOptions.find(lookup => lookup.get("id") === watchedInputsValues);
+            const lookupSelected = lookupOptions.find(lookup => lookup.id === watchedInputsValues);
 
-            const newSelectOptions = lookupSelected ? emptyOptions.concat(lookupSelected.get("values").toJS()) : [];
+            const newSelectOptions = lookupSelected ? lookupSelected?.values : [];
 
             return newSelectOptions;
           }
@@ -49,8 +47,8 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
     },
     {
       name: i18n.t("fields.create_unique_values"),
-      selected: Boolean(options?.length),
-      disabled: !mode.get("isNew") && !options?.length,
+      selected: !isEmpty(optionStringsText),
+      disabled: !mode.get("isNew") && isEmpty(optionStringsText),
       fields: fromJS([
         FieldRecord({
           display_name: i18n.t("fields.find_lookup"),
@@ -58,7 +56,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
           type: ORDERABLE_OPTIONS_FIELD,
           disabled: mode.get("isEdit"),
           selected_value: field.get("selected_value"),
-          option_strings_text: options,
+          option_strings_text: optionStringsText,
           rawOptions: true
         })
       ])

@@ -1,11 +1,9 @@
-import { fromJS } from "immutable";
-
 import * as utils from "./utils";
 
 describe("<Nav>/components/<NavGroup> - Utils", () => {
   describe("getFormGroupName", () => {
     it("should return the correct FormGroupName", () => {
-      const allFormGroupsLookups = fromJS([
+      const allFormGroupsLookups = [
         {
           id: "identification_registration",
           display_text: "Identification / Registration"
@@ -18,7 +16,7 @@ describe("<Nav>/components/<NavGroup> - Utils", () => {
           id: "record_information",
           display_text: "Record Information"
         }
-      ]);
+      ];
 
       expect(utils.getFormGroupName(allFormGroupsLookups, "identification_registration")).to.be.equal(
         "Identification / Registration"

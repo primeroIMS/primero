@@ -158,7 +158,7 @@ export const translationsFieldForm = ({
           type: SELECT_FIELD,
           required: true,
           selected_value: selectedLocaleId,
-          option_strings_text: locales.toJS(),
+          option_strings_text: locales,
           disableClearable: true
         })
       ]

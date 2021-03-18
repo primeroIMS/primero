@@ -1,4 +1,4 @@
-import { List, Map } from "immutable";
+import { isImmutable, List, Map } from "immutable";
 import { addHours, format, parseISO } from "date-fns";
 
 import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
@@ -13,32 +13,23 @@ export const dataToJS = data => {
   return data;
 };
 
-export const valuesToSearchableSelect = (data, searchValue, searchLabel, locale) => {
-  const values = dataToJS(data);
-
-  const result =
-    values?.map(value => {
-      return Object.entries(value).reduce((acum, v) => {
-        const obj = acum;
-        const [key, val] = v;
-
-        if (key === searchValue) {
-          obj.value = val;
-        }
-
-        if (key === searchLabel) {
-          obj.label = typeof val === "object" ? displayNameHelper(val, locale) : val;
-        }
-
-        if (key === "isDisabled") {
-          obj.isDisabled = val;
-        }
-
-        return obj;
-      }, {});
-    }) || [];
-
-  return result;
+export const valuesToSearchableSelect = (data = [], searchValue, searchLabel, locale) => {
+  return data.reduce((prev, current) => {
+    return [
+      ...prev,
+      (isImmutable(current) ? current.entrySeq() : Object.entries(current)).reduce(
+        (optionPrev, [key, val]) => ({
+          ...optionPrev,
+          ...(key === searchValue && { value: val }),
+          ...(key === "isDisabled" && { isDisabled: val }),
+          ...(key === searchLabel && {
+            label: isImmutable(val) || typeof val === "object" ? displayNameHelper(val, locale) : val
+          })
+        }),
+        {}
+      )
+    ];
+  }, []);
 };
 
 export const compare = (prev, next) => prev.equals(next);
@@ -52,6 +43,8 @@ export const getObjectPath = (path, values) => {
       ? pathWithIndex
       : getObjectPath(pathWithIndex, value);
   };
+
+  if (!values) return [];
 
   return Object.entries(values)
     .map(([key, value]) => getInnerPath(value, key, typeof values === "object" && !Array.isArray(values)))

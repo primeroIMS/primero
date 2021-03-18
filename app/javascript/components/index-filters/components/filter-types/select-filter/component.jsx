@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,8 +8,6 @@ import { useLocation } from "react-router-dom";
 import qs from "qs";
 
 import Panel from "../../panel";
-import { getOption, getLocations, getReportingLocations } from "../../../../record-form";
-import { getReportingLocationConfig } from "../../../../user/selectors";
 import { useI18n } from "../../../../i18n";
 import styles from "../styles.css";
 import {
@@ -18,10 +15,11 @@ import {
   whichOptions,
   handleMoreFiltersChange,
   resetSecondaryFilter,
-  setMoreFilterOnPrimarySection,
-  buildFilterLookups
+  setMoreFilterOnPrimarySection
 } from "../utils";
 import handleFilterChange from "../value-handlers";
+import { useMemoizedSelector } from "../../../../../libs";
+import { getOptions } from "../../../../form/selectors";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -47,17 +45,7 @@ const Component = ({
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookup = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
-
-  const locations = useSelector(state => getLocations(state, optionStringsSource === "Location"));
-
-  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
-  const reportingLocations = useSelector(
-    state => getReportingLocations(state, adminLevel),
-    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
-  );
-
-  const lookups = buildFilterLookups(optionStringsSource, locations, reportingLocations, lookup);
+  const lookups = useMemoizedSelector(state => getOptions(state, optionStringsSource, i18n));
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);

@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { get } from "../../../form/utils";
 import { getLookupFormGroup, getOrderDirection, affectedOrderRange } from "../form-builder/utils";
 
 import { DRAGGING_IDLE_COLOR, DRAGGING_COLOR, ORDER_STEP } from "./constants";
@@ -83,9 +84,7 @@ export const setInitialGroupOrder = (formSections, filter) =>
     .map((entry, index) => entry[1].map(formSection => formSection.set("order_form_group", index * ORDER_STEP)))
     .flatten();
 
-export const getFormGroups = (allFormGroupsLookups, moduleId, parentForm, i18n) =>
-  getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)
-    ?.get("values", fromJS([]))
-    ?.reduce((result, item) => {
-      return { ...result, [item.get("id")]: item.getIn(["display_text", i18n.locale], "") };
-    }, {});
+export const getFormGroups = (allFormGroupsLookups, moduleId, parentForm) =>
+  getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)?.values?.reduce((result, item) => {
+    return { ...result, [item.id]: get(item, "display_text", "") };
+  }, {});

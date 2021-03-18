@@ -1,19 +1,17 @@
-import { dataToJS } from "../../../../libs";
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { AGENCY, DISABLED, USER_GROUP } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
-  const agencies = dataToJS(data);
-
-  return agencies.reduce((acc, agency) => [...acc, { id: agency.id, display_name: agency.name[i18n.locale] }], []);
+  return data.reduce(
+    (acc, agency) => [...acc, { id: agency.get("id"), display_name: agency.getIn(["name", i18n.locale]) }],
+    []
+  );
 };
 
 const userGroupOptions = data => {
-  const userGroups = dataToJS(data);
-
-  return userGroups
-    ? userGroups.reduce((acc, group) => [...acc, { id: group.unique_id, display_name: group.name }], [])
+  return data
+    ? data.reduce((acc, group) => [...acc, { id: group.unique_id, display_name: group.get("name") }], [])
     : [];
 };
 

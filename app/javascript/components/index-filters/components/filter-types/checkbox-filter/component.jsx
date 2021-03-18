@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { FormGroup, FormControlLabel, FormLabel, FormControl, Checkbox } from "@material-ui/core";
-import { useSelector } from "react-redux";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
@@ -16,6 +15,7 @@ import {
   setMoreFilterOnPrimarySection
 } from "../utils";
 import handleFilterChange, { getFilterProps } from "../value-handlers";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
@@ -72,7 +72,7 @@ const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSection
     };
   }, [register, unregister, fieldName]);
 
-  const lookups = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
+  const lookups = useMemoizedSelector(state => getOption(state, optionStringsSource, i18n.locale));
 
   const filterOptions = whichOptions({
     optionStringsSource,

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import {
   getCasesByTaskOverdueAssessment,
@@ -13,16 +12,17 @@ import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { ROUTES } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const casesByTaskOverdueAssessment = useSelector(state => getCasesByTaskOverdueAssessment(state));
-  const casesByTaskOverdueCasePlan = useSelector(state => getCasesByTaskOverdueCasePlan(state));
-  const casesByTaskOverdueServices = useSelector(state => getCasesByTaskOverdueServices(state));
-  const casesByTaskOverdueFollowups = useSelector(state => getCasesByTaskOverdueFollowups(state));
+  const casesByTaskOverdueAssessment = useMemoizedSelector(state => getCasesByTaskOverdueAssessment(state));
+  const casesByTaskOverdueCasePlan = useMemoizedSelector(state => getCasesByTaskOverdueCasePlan(state));
+  const casesByTaskOverdueServices = useMemoizedSelector(state => getCasesByTaskOverdueServices(state));
+  const casesByTaskOverdueFollowups = useMemoizedSelector(state => getCasesByTaskOverdueFollowups(state));
 
   const hasData = taskOverdueHasData(
     casesByTaskOverdueAssessment,

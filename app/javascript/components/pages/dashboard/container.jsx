@@ -1,7 +1,6 @@
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
-import { isEqual } from "lodash";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
@@ -10,6 +9,7 @@ import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
 import usePermissions, { ACTIONS, RESOURCES } from "../../permissions";
 import { RECORD_PATH } from "../../../config";
+import { useMemoizedSelector } from "../../../libs";
 
 import {
   Overview,
@@ -41,11 +41,11 @@ const Dashboard = () => {
     }
   }, []);
 
-  const userPermissions = useSelector(state => getPermissions(state), isEqual);
-  const loading = useSelector(state => getLoading(state, NAMESPACE));
-  const errors = useSelector(state => getErrors(state, NAMESPACE));
-  const loadingFlags = useSelector(state => getLoading(state, [NAMESPACE, "flags"]));
-  const flagsErrors = useSelector(state => getErrors(state, [NAMESPACE, "flags"]));
+  const userPermissions = useMemoizedSelector(state => getPermissions(state));
+  const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
+  const errors = useMemoizedSelector(state => getErrors(state, NAMESPACE));
+  const loadingFlags = useMemoizedSelector(state => getLoading(state, [NAMESPACE, "flags"]));
+  const flagsErrors = useMemoizedSelector(state => getErrors(state, [NAMESPACE, "flags"]));
 
   const indicatorProps = {
     overlay: true,

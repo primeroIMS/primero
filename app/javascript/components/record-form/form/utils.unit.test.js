@@ -17,12 +17,13 @@ describe("Verifying utils", () => {
       "buildCustomLookupsConfig",
       "findOptionDisplayText",
       "getConnectedFields",
+      "getRecordInformationForms",
       "getSubformValues",
       "handleChangeOnServiceUser",
-      "translatedText",
+      "isFormDirty",
       "serviceHasReferFields",
       "serviceIsReferrable",
-      "isFormDirty"
+      "translatedText"
     ].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
@@ -391,6 +392,14 @@ describe("getConnectedFields", () => {
           }
         );
       });
+    });
+  });
+
+  describe("getRecordInformationForms", () => {
+    const i18n = { t: value => value };
+
+    it("should return all the record information forms", () => {
+      expect(Object.keys(helpers.getRecordInformationForms(i18n)).length).to.equal(6);
     });
   });
 });

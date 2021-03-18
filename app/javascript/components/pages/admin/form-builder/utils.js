@@ -1,9 +1,11 @@
 import { fromJS, List } from "immutable";
 import range from "lodash/range";
 import merge from "lodash/merge";
+import isEmpty from "lodash/isEmpty";
 
 import { RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { invalidCharRegexp } from "../../../../libs";
+import { get } from "../../../form/utils";
 
 export const convertToFieldsObject = fields =>
   fields.map(field => ({ [field.name]: field })).reduce((acc, value) => ({ ...acc, ...value }), {});
@@ -65,9 +67,9 @@ export const buildFormGroupUniqueId = (moduleId, parentForm) => {
 export const getSubformFields = (state, subform) =>
   fromJS(
     subform
-      .get("fields")
-      .map(fieldId => state.getIn(["fields", fieldId.toString()]))
-      .map(field =>
+      ?.get("fields")
+      ?.map(fieldId => state.getIn(["fields", fieldId.toString()]))
+      ?.map(field =>
         field.set("on_collapsed_subform", subform.get("collapsed_field_names", fromJS([])).includes(field.get("name")))
       )
   );
@@ -96,22 +98,29 @@ export const validateEnglishName = async value =>
 
 export const getLookupFormGroup = (allFormGroupsLookups, moduleId, parentForm) => {
   if (!moduleId || !parentForm) {
-    return fromJS([]);
+    return [];
   }
 
   return allFormGroupsLookups.find(
-    option => option.get("unique_id") === buildFormGroupUniqueId(moduleId, parentForm.replace("_", "-"))
+    option => option.unique_id === buildFormGroupUniqueId(moduleId, parentForm.replace("_", "-"))
   );
 };
 
-export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm, i18n) =>
-  getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm)
-    ?.get("values", fromJS([]))
-    ?.reduce((result, item) => {
-      result.push({
-        id: item.get("id"),
-        display_text: item.getIn(["display_text", i18n.locale], "")
-      });
+export const formGroupsOptions = (allFormGroupsLookups, moduleId, parentForm) => {
+  const formGroups = getLookupFormGroup(allFormGroupsLookups, moduleId, parentForm);
 
-      return result;
-    }, []);
+  if (!isEmpty(formGroups)) {
+    return formGroups?.values?.reduce(
+      (result, item) => [
+        ...result,
+        {
+          id: item.id,
+          display_text: get(item, "display_text", "")
+        }
+      ],
+      []
+    );
+  }
+
+  return [];
+};

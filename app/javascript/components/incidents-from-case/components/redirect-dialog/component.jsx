@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { REDIRECT_DIALOG } from "../../constants";
 import { getSavingRecord } from "../../../records";
+import { useMemoizedSelector } from "../../../../libs";
 
 const Component = ({ handleSubmit, mode, open, setFieldValue, setRedirectOpts, incidentPath, recordType }) => {
   const i18n = useI18n();
-  const savingRecord = useSelector(state => getSavingRecord(state, recordType));
+
+  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, recordType));
 
   if (!open || mode.isShow) {
     return null;

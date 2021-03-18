@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -13,6 +13,7 @@ import { getRecordAlerts, saveRecord } from "../../records";
 import { currentUser } from "../../user";
 import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
+import { useMemoizedSelector } from "../../../libs";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -43,14 +44,14 @@ const Component = ({
   const [renderCasePlan, setRenderCasePlan] = useState(false);
   const [typeOfCasePlan, setTypeOfCasePlan] = useState("");
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
-  const username = useSelector(state => currentUser(state));
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
+  const username = useMemoizedSelector(state => currentUser(state));
+  const alertTypes = useMemoizedSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   const showTypeOfCasePlan = userModules
     .filter(userModule => userModule.unique_id === MODULES.CP)
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
-  const alertTypes = useSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   useEffect(() => {
     if (requestType === CASE_PLAN) {
@@ -102,7 +103,7 @@ const Component = ({
           approvalId: requestType,
           body: actionBody,
           message: i18n.t(message, {
-            approval_label: approvalsLabels[requestType]
+            approval_label: approvalsLabels.get(requestType)
           }),
           messageFromQueue: i18n.t("offline_submitted_changes"),
           currentUser: username,
@@ -138,8 +139,8 @@ const Component = ({
   ));
 
   const typeOfCasePlanOptions = alertTypes.map(alertType => (
-    <MenuItem key={alertType.get("id")} value={alertType.get("id")}>
-      {alertType.get("display_text")}
+    <MenuItem key={alertType.id} value={alertType.id}>
+      {alertType.display_text}
     </MenuItem>
   ));
 

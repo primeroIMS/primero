@@ -1,6 +1,5 @@
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable, { DateCell } from "../../../index-table";
@@ -12,6 +11,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import Permission from "../../../application/permission";
+import { useMemoizedSelector } from "../../../../libs";
 
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
@@ -21,7 +21,9 @@ import { fetchConfigurations } from "./action-creators";
 const Container = () => {
   const i18n = useI18n();
   const recordType = ["admin", NAMESPACE];
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultFilters = metadata;
 
   const columns = () => {

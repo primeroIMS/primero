@@ -1,0 +1,33 @@
+.subformDrawer {
+  width: 70%;
+}
+
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+
+  & h1 {
+    flex: 1 0 auto;
+    margin: 0;
+  }
+}
+
+.button {
+  color: $(theme.primero.colors.black) !important;
+}
+
+.skipButtonContainer {
+  border-top: 1px solid $(theme.primero.colors.lightGrey);
+  margin-top: 2em;
+  display: flex;
+  justify-content: flex-end;
+
+  & button {
+    margin-top: 1.5em;
+  }
+}
