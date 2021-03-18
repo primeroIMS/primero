@@ -12,8 +12,7 @@ const handleReturnUrl = (store, location) => {
       redirectTo(store, returnUrl);
       store.dispatch(setReturnUrl(""));
     } else {
-      // TODO: Validates if user has accepted "code of conduct" ? push(dashboard) : push(code_of_conduct)
-      redirectTo(store, ROUTES.code_of_conduct);
+      redirectTo(store, ROUTES.dashboard);
     }
   } else {
     if (![ROUTES.login, "/"].includes(location)) {

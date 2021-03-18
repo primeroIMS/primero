@@ -57,7 +57,7 @@ class Field < ApplicationRecord
 
   def self.permitted_api_params
     [
-      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible', 'code_of_conduct_id',
+      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
       { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
       { 'option_strings_text' => [:id, :disabled, display_text: {}] },

@@ -1,3 +1,3 @@
 /* eslint-disable import/prefer-default-export */
 
-export const NAME = "CancelModal";
+export const NAME = "CancelDialog";

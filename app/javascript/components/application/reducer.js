@@ -22,7 +22,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         reporting_location_config: reportingLocationConfig,
         age_ranges: ageRanges,
         approvals_labels: approvalsLabels,
-        code_of_conduct: codesOfConduct
+        code_of_conduct: codesOfConduct,
+        system_options: systemOptions
       } = payload.data;
 
       return state.merge(
@@ -35,7 +36,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           reportingLocationConfig,
           ageRanges,
           approvalsLabels,
-          codesOfConduct
+          codesOfConduct,
+          systemOptions
         })
       );
     }

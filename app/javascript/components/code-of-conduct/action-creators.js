@@ -4,7 +4,7 @@ import { METHODS, RECORD_PATH } from "../../config";
 
 import actions from "./actions";
 
-export const acceptCodeOfConduct = ({ userId, codeOfConductId }) => {
+export const acceptCodeOfConduct = ({ userId, codeOfConductId, path }) => {
   const body = { data: { code_of_conduct_id: codeOfConductId } };
 
   return {
@@ -12,7 +12,11 @@ export const acceptCodeOfConduct = ({ userId, codeOfConductId }) => {
     api: {
       path: `${RECORD_PATH.users}/${userId}`,
       method: METHODS.PATCH,
-      body
+      body,
+      successCallback: {
+        action: "code_of_conduct/REDIRECT",
+        redirect: path
+      }
     }
   };
 };

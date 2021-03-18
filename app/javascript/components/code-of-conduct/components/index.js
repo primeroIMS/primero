@@ -1,2 +1,2 @@
-export { default as CancelModal } from "./cancel-modal";
+export { default as CancelDialog } from "./cancel-dialog";
 export { default as Actions } from "./actions";

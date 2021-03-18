@@ -10,6 +10,7 @@ describe("User - index", () => {
       "checkUserAuthentication",
       "currentUser",
       "fetchAuthenticatedUserData",
+      "getCodeOfConductId",
       "getIsAuthenticated",
       "getListHeaders",
       "getPermissions",

@@ -6,13 +6,11 @@ const DEFAULT_STATE = fromJS({});
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case actions.FETCH_USER_STARTED:
-      return state.set("loading", fromJS(payload)).set("errors", false).set("serverErrors", fromJS([]));
-
     case actions.ACCEPT_CODE_OF_CONDUCT_STARTED:
       return state.set("updatingCodeOfConduct", true);
     case actions.ACCEPT_CODE_OF_CONDUCT_SUCCESS:
-      return state.set("updatingCodeOfConduct", false);
+      // eslint-disable-next-line camelcase
+      return state.set("updatingCodeOfConduct", false).set("codeOfConductId", payload?.data?.code_of_conduct_id);
     default:
       return state;
   }

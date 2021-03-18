@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
+import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
 
@@ -17,7 +17,7 @@ import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
 import styles from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
-import { Actions, CancelModal } from "./components";
+import { Actions, CancelDialog } from "./components";
 
 const useStyles = makeStyles(styles);
 
@@ -26,6 +26,7 @@ const Component = () => {
   const i18n = useI18n();
   const primeroModule = "cp";
   const dispatch = useDispatch();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
 
   const codeOfConductAccepted = useMemoizedSelector(state => getCodeOfConductId(state));
@@ -33,11 +34,9 @@ const Component = () => {
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
 
-  useEffect(() => {
-    if ((!Object.is(updatingCodeOfConduct, null) && !updatingCodeOfConduct) || codeOfConductAccepted) {
-      dispatch(push(ROUTES.dashboard));
-    }
-  }, [updatingCodeOfConduct, codeOfConductAccepted]);
+  if (!applicationCodeOfConduct && applicationCodeOfConduct.size < 0) {
+    return null;
+  }
 
   const formattedDate =
     applicationCodeOfConduct.size > 0
@@ -45,7 +44,13 @@ const Component = () => {
       : "";
 
   const handleAcceptCodeOfConduct = () => {
-    dispatch(acceptCodeOfConduct({ userId: currentUser.get(ID), codeOfConductId: applicationCodeOfConduct.get(ID) }));
+    dispatch(
+      acceptCodeOfConduct({
+        userId: currentUser.get(ID),
+        codeOfConductId: applicationCodeOfConduct.get(ID),
+        path: location?.state?.referrer || ROUTES.dashboard
+      })
+    );
   };
 
   const handleCancel = () => setOpen(true);
@@ -69,7 +74,7 @@ const Component = () => {
         <div className={css.translationToogle}>
           <TranslationsToggle />
         </div>
-        <CancelModal
+        <CancelDialog
           open={open}
           setOpen={setOpen}
           i18n={i18n}

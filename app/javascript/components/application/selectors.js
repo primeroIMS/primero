@@ -119,3 +119,6 @@ export const getOptionFromAppModule = (state, primeroModule, option) =>
     ["options", option],
     option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
   );
+
+export const getCodeOfConductEnabled = state =>
+  state.getIn([NAMESPACE, "systemOptions", "code_of_conduct_enabled"], false);
