@@ -9,36 +9,14 @@
             $ cd ansible
             $ bin/activate
 
-2.  Edit the Ansible inventory file and primero variables.  Refer to the [Deploy](#markdown-header-deploy) section for more info.
+2.  Edit the Ansible inventory file and primero variables.  Refer to the [Deploy](#markdown-header-deploy) section for more info.  Create a copy of the template file and modify to get started quickly.
 
+            (venv) $ cp inventory/inventory.yml.temnplate inventory/inventory.yml
             (venv) $ vim inventory/inventory.yml
 
 
-    The inventory file should include the Primero server you want to deploy to, for example:
+    The inventory file should include the Primero server you want to deploy to. You can refer to this [sample](inventory/inventory.yml.template) for further documentation.
 
-            ---
-            all:
-
-              hosts:
-                primero.example.com:
-                  ansible_user: 'ubuntu'
-                  primero_host: 'primero.example.com'
-                  certbot_domain:
-                  - '{{ primero_host }}'
-                  certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'development_v2'
-                  build_docker_tag: 'latest'
-                  build_docker_container_registry: ''
-                  primero_tag: 'latest'
-                  lets_encrypt_domain: '{{ primero_host }}'
-                  lets_encrypt_email: '{{ certbot_email }}'
-                  use_lets_encrypt: 'true'
-                  nginx_ssl_cert_path: '/etc/letsencrypt/live/primero/fullchain.pem'
-                  nginx_ssl_key_path: '/etc/letsencrypt/live/primero/privkey.pem'
-                  # If you want to seed from a private configuration repo
-                  primero_configuration_repo: 'git@bitbucket.org:quoin/primero-x-configuration.git'
-                  primero_configuration_repo_branch: 'master'
-                  primero_configuration_path: 'directory/of/config/loader/script'
 
 3.  Create the `secrets.yml`.  Refer to the [Deploy](#markdown-header-deploy) section for more info.
 
@@ -200,12 +178,14 @@ It only needs to be run once against any piece of inventory (although it is safe
 
 ### Secrets
 
-Secret management is out of scope for the Primero open source offering. In order to pass secrets to Ansible, the developer must  make a file called `secrets.yml` in the `ansible` directory.
+Solving secret management is left up to the implementing team.
+
+One naive way, is to create an environment file per server and keep it separate from your inventory file. DO NOT CHECK THIS FILE INTO SOURCE CONTROL! The developer can make a file called `secrets.yml` in the `ansible` directory.
 
                 $ cd ansible
                 $ vim secrets.yml
 
-The `secrets.yml` file will contain secrets for primero.  The following variables are required in the is file.  The secrets in this file require a secure random number. To generate, can use the command
+The `secrets.yml` file will contain secrets for Primero.  The following variables are required in the is file.  The secrets in this file require a secure random number. To generate, can use the command
 
 ```
 LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
@@ -219,6 +199,9 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 postgres_password: 'generated_secret'
                 devise_secret_key: 'generated_secret'
                 devise_jwt_secret_key: 'generated_secret'
+                secret_environment_variables:
+                  SMTP_USER: 'secret'
+                  SMTP_PASSWORD: 'secret'
                 ssh_private_key: |
                 -----BEGIN RSA PRIVATE KEY-----
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
@@ -226,3 +209,5 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 -----END RSA PRIVATE KEY-----
 
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
+
+The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings.
