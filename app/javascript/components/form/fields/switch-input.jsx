@@ -55,7 +55,7 @@ SwitchInput.propTypes = {
   }),
   formMethods: PropTypes.object.isRequired,
   metaInputProps: PropTypes.shape({
-    selectedValue: PropTypes.string,
+    selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     tooltip: PropTypes.string
   })
 };
