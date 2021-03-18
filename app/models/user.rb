@@ -556,7 +556,7 @@ class User < ApplicationRecord
   end
 
   def set_code_of_conduct_accepted_on
-    self.code_of_conduct_accepted_on = DateTime.now if code_of_conduct_id.present?
+    self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
   end
 
   def reassociate_groups_or_agencies
