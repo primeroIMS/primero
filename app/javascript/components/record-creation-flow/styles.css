@@ -4,6 +4,19 @@
 
 .container {
   padding: 20px;
+
+  & fieldset {
+    width: 100%;
+    margin-bottom: 1em !important;
+
+    & div {
+      margin: 0 !important;
+
+      & span {
+        font-size: .875rem !important;
+      }
+    }
+  }
 }
 
 .title {

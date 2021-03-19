@@ -27,9 +27,9 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
     const boldText = <b>{legitimateBasisText}</b>;
 
     const displayName = (
-      <p>
+      <span>
         {boldText} {legitimateBasisExplanation ? `: ${legitimateBasisExplanation}` : null}
-      </p>
+      </span>
     );
 
     return [
@@ -60,14 +60,14 @@ export const consentPromptForm = (
       unique_id: "consent_form",
       fields: [
         FieldRecord({
-          display_name: i18n.t("case.consent_agreements"),
+          display_name: `1) ${i18n.t("case.consent_agreements")}`,
           name: "consent_agreements",
           type: CHECK_BOX_FIELD,
           visible: renderConsentAgreementField,
           option_strings_text: buildConsentAgreementFields(i18n, consentAgreementFields)
         }),
         FieldRecord({
-          display_name: i18n.t("case.legitimate_basis"),
+          display_name: `2) ${i18n.t("case.legitimate_basis")}`,
           name: "legitimate_basis",
           type: CHECK_BOX_FIELD,
           visible: renderLegitimateField,
