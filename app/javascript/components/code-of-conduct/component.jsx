@@ -14,7 +14,7 @@ import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
 
-import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
+import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT, MODULE } from "./constants";
 import styles from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
@@ -25,7 +25,7 @@ const useStyles = makeStyles(styles);
 const Component = () => {
   const css = useStyles();
   const i18n = useI18n();
-  const primeroModule = "cp";
+  const primeroModule = MODULE;
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -58,6 +58,17 @@ const Component = () => {
   const hasData = !isEmpty(applicationCodeOfConduct);
   const handleCancel = () => setOpen(true);
 
+  const displayCodeOfConductContent = applicationCodeOfConduct
+    ?.get("content")
+    ?.split("\n")
+    .map(el => {
+      if (isEmpty(el)) {
+        return null;
+      }
+
+      return <p>{el}</p>;
+    });
+
   return (
     <LoadingIndicator loading={!hasData} hasData={hasData} type={NAME}>
       <div className={css.container}>
@@ -66,7 +77,7 @@ const Component = () => {
           <div id="printPdf" className={css.details}>
             <h2>{applicationCodeOfConduct.get("title")}</h2>
             <h3>{`${i18n.t("updated")} ${formattedDate}`}</h3>
-            <p>{applicationCodeOfConduct.get("content")}</p>
+            {displayCodeOfConductContent}
           </div>
           <Actions css={css} i18n={i18n} handleAccept={handleAcceptCodeOfConduct} handleCancel={handleCancel} />
         </div>
