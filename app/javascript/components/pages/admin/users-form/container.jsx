@@ -50,8 +50,6 @@ const Container = ({ mode }) => {
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
-  const currentUserGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
-  const roleGroupPermission = currentUserGroupPermission === GROUP_PERMISSIONS.GROUP;
   const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
   const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
 
@@ -164,7 +162,7 @@ const Container = ({ mode }) => {
       onClickChangePassword,
       selectedUserIsLoggedIn,
       {
-        currentUserGroupPermissions: roleGroupPermission ? currentUserGroups : [],
+        currentUserGroupPermissions: currentUserGroups,
         agencyReadOnUsers
       }
     ).map(formSection => (
