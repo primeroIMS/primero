@@ -57,3 +57,9 @@
     color: $(theme.primero.colors.white);
   }
 }
+
+.text {
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+  padding: 8px;
+}

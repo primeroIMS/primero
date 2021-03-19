@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
+import { Typography } from "@material-ui/core";
 
 import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
@@ -58,17 +59,6 @@ const Component = () => {
   const hasData = !isEmpty(applicationCodeOfConduct);
   const handleCancel = () => setOpen(true);
 
-  const displayCodeOfConductContent = applicationCodeOfConduct
-    ?.get("content")
-    ?.split("\n")
-    .map(el => {
-      if (isEmpty(el)) {
-        return null;
-      }
-
-      return <p>{el}</p>;
-    });
-
   return (
     <LoadingIndicator loading={!hasData} hasData={hasData} type={NAME}>
       <div className={css.container}>
@@ -77,7 +67,7 @@ const Component = () => {
           <div id="printPdf" className={css.details}>
             <h2>{applicationCodeOfConduct.get("title")}</h2>
             <h3>{`${i18n.t("updated")} ${formattedDate}`}</h3>
-            {displayCodeOfConductContent}
+            <Typography className={css.text}>{applicationCodeOfConduct?.get("content")}</Typography>
           </div>
           <Actions css={css} i18n={i18n} handleAccept={handleAcceptCodeOfConduct} handleCancel={handleCancel} />
         </div>
