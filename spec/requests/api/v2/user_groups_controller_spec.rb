@@ -4,7 +4,15 @@ require 'rails_helper'
 
 describe Api::V2::UserGroupsController, type: :request do
   before :each do
-    clean_data(UserGroup)
+    clean_data(UserGroup, Role)
+    @role = Role.create!(
+      name: 'Test Role 1',
+      unique_id: 'test-role-1',
+      group_permission: 'group',
+      permissions: [
+        Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+      ]
+    )
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
     @user_group_b = UserGroup.create!(unique_id: 'user-group-2', name: 'user group 2')
   end
@@ -49,6 +57,21 @@ describe Api::V2::UserGroupsController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/user_groups')
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    it 'should return the user_groups assigned to the current_user when group_permission is "group"' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+        ],
+        role: @role,
+        user_group_ids: [@user_group_a.id]
+      )
+
+      get '/api/v2/user_groups'
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].first['unique_id']).to eq(@user_group_a.unique_id)
     end
   end
 
