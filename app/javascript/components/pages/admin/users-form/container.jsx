@@ -17,11 +17,11 @@ import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
-import { WRITE_RECORDS, ACTIONS, GROUP_PERMISSIONS } from "../../../../libs/permissions";
+import { WRITE_RECORDS, ACTIONS } from "../../../../libs/permissions";
 import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
-import { currentUser, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds } from "../../../user/selectors";
+import { currentUser, getCurrentUserGroupsUniqueIds } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 
