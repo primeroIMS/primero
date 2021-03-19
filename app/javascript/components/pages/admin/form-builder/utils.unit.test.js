@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { expect } from "chai";
 
 import { translateOptions } from "../../../../test";
 import { SAVE_METHODS } from "../../../../config";
