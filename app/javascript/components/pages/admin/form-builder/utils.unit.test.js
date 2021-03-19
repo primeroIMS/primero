@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { expect } from "chai";
 
 import { translateOptions } from "../../../../test";
 import { SAVE_METHODS } from "../../../../config";
@@ -176,6 +177,10 @@ describe("<FormBuilder /> - utils", () => {
       ];
 
       expect(utils.getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(formGroupCpCase);
+    });
+
+    it("returns empty object if missing parent form and module", () => {
+      expect(utils.getLookupFormGroup()).to.deep.equal({});
     });
   });
 
