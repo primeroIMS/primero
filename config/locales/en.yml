@@ -210,7 +210,7 @@ en:
       already_matched: This Inquirer has already been matched to your case.
       already_matched_not_current_case: There is already a case in the system matched to this inquirer.
       not_found_case: No Case found matching "%{search_value}". Create a new Case.
-      introductory_sentence: Please specify the individual’s consent to receive Case Management services and for their data to be stored in Primero.
+      introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
     save: Save Case

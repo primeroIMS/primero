@@ -5,11 +5,10 @@ import { FieldRecord, FormSectionRecord, CHECK_BOX_FIELD } from "../../../form";
 import { displayNameHelper } from "../../../../libs";
 
 const buildConsentAgreementFields = (i18n, consentAgreementFields = []) => {
-  const fields = consentAgreementFields.map((field, index) => {
+  const fields = consentAgreementFields.map(field => {
     return {
       id: field.name,
-      display_name: displayNameHelper(field.display_name, i18n.locale),
-      includeSeparator: index !== 0
+      display_name: displayNameHelper(field.display_name, i18n.locale)
     };
   });
 
@@ -17,7 +16,7 @@ const buildConsentAgreementFields = (i18n, consentAgreementFields = []) => {
 };
 
 const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanationsLookup) => {
-  const fields = legitimateBasisLookup.reduce((acc, legitimateBasis, index) => {
+  const fields = legitimateBasisLookup.reduce((acc, legitimateBasis) => {
     const legitimateBasisId = legitimateBasis.id;
     const legitimateBasisText = legitimateBasis.display_text;
     const legitimateBasisExplanation = legitimateBasisExplanationsLookup.find(
@@ -36,8 +35,7 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
       ...acc,
       {
         id: legitimateBasisId,
-        display_name: () => displayName,
-        includeSeparator: index !== 0
+        display_name: () => displayName
       }
     ];
   }, []);
@@ -60,14 +58,14 @@ export const consentPromptForm = (
       unique_id: "consent_form",
       fields: [
         FieldRecord({
-          display_name: `1) ${i18n.t("case.consent_agreements")}`,
+          display_name: i18n.t("case.consent_agreements"),
           name: "consent_agreements",
           type: CHECK_BOX_FIELD,
           visible: renderConsentAgreementField,
           option_strings_text: buildConsentAgreementFields(i18n, consentAgreementFields)
         }),
         FieldRecord({
-          display_name: `2) ${i18n.t("case.legitimate_basis")}`,
+          display_name: i18n.t("case.legitimate_basis"),
           name: "legitimate_basis",
           type: CHECK_BOX_FIELD,
           visible: renderLegitimateField,
