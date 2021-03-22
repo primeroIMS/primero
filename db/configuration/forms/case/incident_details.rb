@@ -8,7 +8,7 @@ incident_details_subform_fields = [
              "type" => "separator",
              "display_name_en" => "Incident",
             }),
-  Field.new({"name" => "cp_incident_date",
+  Field.new({"name" => "incident_date",
             "type" => "date_field",
             "display_name_en" => "Date of Incident"
             }),
@@ -21,7 +21,7 @@ incident_details_subform_fields = [
              "type" => "text_field",
              "display_name_en" => "If 'Other', please specify"
             }),
-  Field.new({"name" => "cp_incident_location",
+  Field.new({"name" => "incident_location",
              "type" => "select_box",
              "display_name_en" => "Location of the Incident",
              "option_strings_source" => "Location"
@@ -129,7 +129,7 @@ incident_details_subform_section = FormSection.create_or_update!({
   :initial_subforms => 0,
   "name_en" => "Nested Incident Details Subform",
   "description_en" => "Nested Incident Details Subform",
-  "collapsed_field_names" => ["cp_incident_violence_type", "cp_incident_date"]
+  "collapsed_field_names" => ["cp_incident_violence_type", "incident_date"]
 })
 
 incident_details_fields = [

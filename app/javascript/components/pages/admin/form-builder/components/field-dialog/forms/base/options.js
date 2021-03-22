@@ -34,13 +34,11 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
           watchedInputs: `${fieldName}.option_strings_source`,
           disabled: limitedProductionSite,
           filterOptionSource: (watchedInputsValues, lookupOptions) => {
-            const emptyOptions = [{ id: "", display_text: "" }];
-
             if (!watchedInputsValues) return [];
 
             const lookupSelected = lookupOptions.find(lookup => lookup.id === watchedInputsValues);
 
-            const newSelectOptions = lookupSelected ? [...emptyOptions, ...lookupSelected?.values] : [];
+            const newSelectOptions = lookupSelected ? lookupSelected?.values : [];
 
             return newSelectOptions;
           }
