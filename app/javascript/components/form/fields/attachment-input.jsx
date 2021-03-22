@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
-import { PHOTO_FIELD, DOCUMENT_FIELD } from "../constants";
+import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
@@ -25,8 +26,9 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     fileName: ""
   });
 
-  const { type, fileFormat } = metaInputProps;
+  const { type, fileFormat, renderDownloadButton, downloadButtonLabel } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
+
   const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
   const isDocument = attachment === ATTACHMENT_TYPES.document;
   const acceptedTypes = fileFormat || (isDocument ? ".csv" : "*");
@@ -90,8 +92,26 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       </div>
     );
   };
+  const handleDownloadFile = () => {
+    window.open(fileUrl);
+  };
 
-  const classes = clsx(css.attachment, { [css.document]: isDocument });
+  const downloadFile = fileUrl ? (
+    <ActionButton
+      icon={<GetAppIcon />}
+      text={downloadButtonLabel}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        onClick: handleDownloadFile
+      }}
+    />
+  ) : (
+    EMPTY_VALUE
+  );
+
+  const downloadButton = renderDownloadButton && downloadFile;
+
+  const classes = clsx(css.attachment, { [css.document]: isDocument && !renderDownloadButton });
 
   return (
     <div className={classes}>
@@ -113,7 +133,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         <input type="hidden" name={`${name}_file_name`} ref={register} />
         <input type="hidden" name={`${name}_url`} ref={register} />
       </div>
-      {renderPreview()}
+      {!renderDownloadButton && renderPreview()}
+      {downloadButton}
     </div>
   );
 };

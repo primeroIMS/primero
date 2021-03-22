@@ -80,6 +80,9 @@ en:
     pdf_logo_option: Make logo available for PDF exports?
     pdf_logo_option_help: 'Note:  user’s Agency logos are available to them by default, so you only check this if you want this logo to be available to all users.'
     services: Agency Services
+    terms_of_use: Terms of Use
+    terms_of_use_help: Only PDF files permitted.
+    terms_of_use_download_button: Download PDF
   approvals:
     approved_by: Approved By
     case_plan_type_label: Case plan type
@@ -780,6 +783,7 @@ en:
       agency:
         code_present: must not be blank
         logo_format: File should be png
+        terms_of_use_format: File should be png
         name_present: must not be blank
       child:
         age: Age must be between 0 and 130

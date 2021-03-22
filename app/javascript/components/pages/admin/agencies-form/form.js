@@ -9,7 +9,8 @@ import {
   TEXT_AREA,
   SELECT_FIELD,
   PHOTO_FIELD,
-  SEPARATOR
+  SEPARATOR,
+  DOCUMENT_FIELD
 } from "../../../form";
 
 export const validations = () =>
@@ -54,6 +55,15 @@ export const form = (i18n, formMode) => {
           type: SELECT_FIELD,
           multi_select: true,
           option_strings_source: "lookup-service-type"
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.terms_of_use"),
+          name: "terms_of_use",
+          type: DOCUMENT_FIELD,
+          help_text: i18n.t("agency.terms_of_use_help"),
+          fileFormat: "application/pdf",
+          renderDownloadButton: true,
+          downloadButtonLabel: i18n.t("agency.terms_of_use_download_button")
         }),
         FieldRecord({
           display_name: i18n.t("agency.agency_logos"),

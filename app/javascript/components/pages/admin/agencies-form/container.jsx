@@ -111,7 +111,8 @@ const Container = ({ mode }) => {
     ...agency.toJS(),
     ...{
       logo_full_url: agency.get("logo_full"),
-      logo_icon_url: agency.get("logo_icon")
+      logo_icon_url: agency.get("logo_icon"),
+      terms_of_use_url: agency.get("terms_of_use")
     }
   };
 
