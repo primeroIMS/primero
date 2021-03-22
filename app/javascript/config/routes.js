@@ -22,7 +22,8 @@ import {
   UsersForm,
   UsersList,
   ConfigurationsList,
-  ConfigurationsForm
+  ConfigurationsForm,
+  Support
 } from "../components/pages";
 import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
@@ -175,7 +176,7 @@ export default [
       },
       {
         path: ROUTES.support,
-        component: ContactInformation
+        component: Support
       },
       {
         path: `${ROUTES.account}/:id`,

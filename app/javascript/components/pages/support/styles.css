@@ -1,0 +1,26 @@
+.mainSupport {
+  display: flex;
+
+  & nav {
+    min-width: 230px;
+    padding-right: 1em;
+  }
+}
+
+.mobileNav {
+  top: 4em;
+  min-width: 220px;
+}
+
+.item, .selectedItem {
+  border-radius: .5em;
+
+  &:hover {
+    border-radius: .5em;
+  }
+}
+
+.selectedItem {
+   background-color: $(theme.primero.colors.lightBlueMenu) !important;
+}
+
