@@ -73,11 +73,11 @@ const Component = ({ title, items, severity }) => {
   return (
     <Accordion className={accordionClasses}>
       <AccordionSummary
-        classes={accordionSummaryClasses}
+        classes={classes}
         expandIcon={items?.size > 1 ? <ExpandMoreIcon /> : null}
         aria-controls="record-form-alerts-panel"
         id="record-form-alerts-panel-header"
-        className={classes}
+        className={accordionSummaryClasses}
       >
         {renderTitle()}
       </AccordionSummary>

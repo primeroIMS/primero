@@ -19,10 +19,9 @@ const AssignmentsSummary = ({ transition, classes }) => {
     <Grid container spacing={2}>
       <Grid item md={6} xs={10}>
         <div className={classes.wrapper}>
-          <div className={classes.titleHeader}>{i18n.t("transition.type.assign")}</div>
-
           {/* TODO: The date should be localized */}
           <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+          <div className={classes.titleHeader}>{i18n.t("transition.type.assign")}</div>
         </div>
       </Grid>
       {/*  TODO: It has to be modified, on summary should print username */}
