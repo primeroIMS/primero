@@ -1,9 +1,15 @@
 import { Map, fromJS } from "immutable";
 
 import { displayNameHelper } from "../../libs";
+import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
+
+const getAppModuleByUniqueId = (state, uniqueId) =>
+  state
+    .getIn(["application", "modules"], fromJS([]))
+    .find(module => module.get("unique_id") === uniqueId, null, fromJS([]));
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
@@ -100,10 +106,16 @@ export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_u
 export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
 
 export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => {
-  const useWebhookSyncFor = state
-    .getIn(["application", "modules"])
-    .find(module => module.get("unique_id") === primeroModule)
-    ?.getIn(["options", "use_webhook_sync_for"], fromJS([]));
+  const useWebhookSyncFor = getAppModuleByUniqueId(state, primeroModule).getIn(
+    ["options", "use_webhook_sync_for"],
+    fromJS([])
+  );
 
   return useWebhookSyncFor.includes(recordType);
 };
+
+export const getOptionFromAppModule = (state, primeroModule, option) =>
+  getAppModuleByUniqueId(state, primeroModule).getIn(
+    ["options", option],
+    option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
+  );

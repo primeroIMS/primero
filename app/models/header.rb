@@ -21,7 +21,7 @@ class Header < ValueObject
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
   GBV_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   GBV_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
-  CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'cp_incident_date')
+  CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   CP_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
   VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')

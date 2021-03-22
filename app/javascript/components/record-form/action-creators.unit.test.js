@@ -18,11 +18,13 @@ describe("<RecordForm /> - Action Creators", () => {
     const creators = clone(actionCreators);
 
     [
+      "clearDataProtectionInitialValues",
       "clearValidationErrors",
       "fetchAgencies",
       "fetchForms",
       "fetchLookups",
       "fetchOptions",
+      "setDataProtectionInitialValues",
       "setSelectedForm",
       "setServiceToRefer",
       "setValidationErrors"
@@ -147,5 +149,24 @@ describe("<RecordForm /> - Action Creators", () => {
     const expected = { type: actions.CLEAR_VALIDATION_ERRORS };
 
     expect(actionCreators.clearValidationErrors()).to.deep.equals(expected);
+  });
+
+  it("should check the 'setDataProtectionInitialValues' action creator return the correct object", () => {
+    const payload = {
+      legitimate_basis: ["contract"],
+      consent_agreements: ["consent_for_services"]
+    };
+    const expected = {
+      type: actions.SET_DATA_PROTECTION_INITIAL_VALUES,
+      payload
+    };
+
+    expect(actionCreators.setDataProtectionInitialValues(payload)).to.deep.equals(expected);
+  });
+
+  it("should check the 'clearDataProtectionInitialValues' action creator return the correct object", () => {
+    const expected = { type: actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES };
+
+    expect(actionCreators.clearDataProtectionInitialValues()).to.deep.equals(expected);
   });
 });

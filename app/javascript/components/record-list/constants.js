@@ -11,3 +11,4 @@ export const DEFAULT_FILTERS = {
   status: ["open"],
   record_state: ["true"]
 };
+export const SEARCH_AND_CREATE_WORKFLOW = "search_and_create_workflow";

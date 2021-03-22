@@ -32,11 +32,7 @@ class FormSectionResponseList < ValueObject
   def subform_section(name)
     return nil unless form_section
 
-    FormSection
-      .joins(subform_field: :form_section)
-      .find_by(
-        form_sections_fields: { id: form_section.id },
-        fields: { name: name }
-      )
+    # Take adavantage of eager loaded fields and subforms
+    form_section.fields.select { |f| f.name.to_sym == name }.first&.subform
   end
 end

@@ -26,7 +26,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { currentUserGroupPermissions, agencyReadOnUsers }
+  { currentUserGroupPermissions = [], agencyReadOnUsers }
 ) => [
   {
     display_name: i18n.t("user.full_name"),

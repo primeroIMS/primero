@@ -43,9 +43,9 @@ create_or_update_module(
       {
         source: [
           "incident_details",
-          "cp_incident_date"
+          "incident_date"
         ],
-        target: "cp_incident_date"
+        target: "incident_date"
       },
       {
         source: [
@@ -64,9 +64,9 @@ create_or_update_module(
       {
         source: [
           "incident_details",
-          "cp_incident_location"
+          "incident_location"
         ],
-        target: "cp_incident_location"
+        target: "incident_location"
       },
       {
         source: [

@@ -22,7 +22,7 @@ describe("<Form /> - components/<DraggableOption />", () => {
               <DraggableOption
                 name="field_1"
                 index={0}
-                option={{ id: "option_1", display_text: "Display text 1" }}
+                option={{ id: "option_1", display_text: "Display text 1", disabled: true }}
                 defaultOptionId="option_1"
                 formMethods={formMethods}
                 formMode={formMode}

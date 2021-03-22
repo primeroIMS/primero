@@ -30,7 +30,7 @@ cp_incident_fields = [
     "option_strings_source" => "lookup lookup-incident-identification"
   }),
   Field.new({
-    "name" => "cp_incident_date",
+    "name" => "incident_date",
     "type" => "date_field",
     "display_name_en" => "Date of Incident"
   }),
@@ -46,7 +46,7 @@ cp_incident_fields = [
     "display_name_en" => "If 'Other', please specify"
   }),
   Field.new({
-    "name" => "cp_incident_location",
+    "name" => "incident_location",
     "type" => "select_box",
     "display_name_en" => "Location of the Incident",
     "option_strings_source" => "Location"

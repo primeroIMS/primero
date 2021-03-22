@@ -172,18 +172,24 @@ export const getOrderedRecordForms = (state, query) => {
 };
 
 export const getRecordFormsByUniqueId = (state, query) => {
-  const { recordType, primeroModule, formName, checkVisible, i18n, includeNested } = query;
+  const { recordType, primeroModule, formName, checkVisible, i18n, includeNested, getFirst } = query;
 
   if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
     return List([customForms(i18n)[formName]]);
   }
 
-  return getRecordForms(state, {
+  const allRecordForms = getRecordForms(state, {
     recordType,
     primeroModule,
     checkVisible,
     includeNested
   }).filter(f => f.unique_id === formName);
+
+  if (getFirst) {
+    return allRecordForms.first();
+  }
+
+  return allRecordForms;
 };
 
 export const getOption = (state, option, locale, stickyOption = "") => {
@@ -262,3 +268,6 @@ export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 
 export const getFieldByName = (state, name) =>
   state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);
+
+export const getDataProtectionInitialValues = state =>
+  state.getIn([NAMESPACE, "dataProtectionInitialValues"], fromJS({}));

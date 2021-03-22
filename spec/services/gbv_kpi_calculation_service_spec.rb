@@ -8,15 +8,30 @@ describe GbvKpiCalculationService do
   before :each do
     clean_data(FormSection)
 
-    form(:action_plan, [
-           field(:test)
-         ])
+    form(:action_plan_form, [
+      field(:test),
+      field(:action_plan_section, {
+        subform_section: form(:action_plan_section, [
+          field(:test, mandatory_for_completion: true)
+        ])
+      })
+    ])
+  end
+
+  describe 'Performance' do
+    describe '#completed_action_plan' do
+      it 'should only use two queries' do
+        kpis = GbvKpiCalculationService.new(Child.new)
+
+        expect { kpis.completed_action_plan }.to make_queries(2)
+      end
+    end
   end
 
   describe '#form_responses' do
     it "should return a FormSectionResponseList when data isn't present" do
       form_responses = GbvKpiCalculationService.new(Child.new)
-                                               .form_responses(:action_plan)
+                                               .form_responses(:action_plan_form)
 
       expect(form_responses).to be_a(FormSectionResponseList)
       # the record replaces any responses if no responses exist under the
@@ -26,10 +41,10 @@ describe GbvKpiCalculationService do
 
     it 'should return an array of forms if a form is present' do
       form_responses = GbvKpiCalculationService.new(Child.new(data: {
-                                                                action_plan: [{
+                                                                action_plan_form: [{
                                                                   test: 'test'
                                                                 }]
-                                                              })).form_responses(:action_plan)
+                                                              })).form_responses(:action_plan_form)
 
       expect(form_responses.count).to eql(1)
     end
@@ -38,8 +53,8 @@ describe GbvKpiCalculationService do
   describe 'fetching subforms that don\'t exist from form_section_responses' do
     it 'should return an empty form_section_response_list' do
       responses = GbvKpiCalculationService
-                  .new(Child.new(data: { action_plan: [] }))
-                  .form_responses(:action_plan)
+                  .new(Child.new(data: { action_plan_form: [] }))
+                  .form_responses(:action_plan_form)
                   .subform(:test)
 
       expect(responses.count).to eql(0)

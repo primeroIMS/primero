@@ -42,7 +42,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
   };
 
   const onAddOption = () => {
-    append({ id: generateIdForNewOption(), isNew: true, display_text: { en: "" }, disabled: false });
+    append({ id: generateIdForNewOption(), isNew: true, display_text: { en: "" }, disabled: true });
   };
 
   const onRemoveValue = index => {
