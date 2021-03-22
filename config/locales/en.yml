@@ -821,6 +821,10 @@ en:
         password_mismatch: The password fields do not have the same password
         password_length: The password must be at least %{min} characters
         email_uniqueness: A User with this email address already exists. Please enter a different one
+      code_of_conduct:
+        title_present: Title must not be blank
+        content_present: Content must not be blank
+        created_by_present: Created By must not be blank
     not_found: No Record(s) Found
     try_again: Try again
   exports:

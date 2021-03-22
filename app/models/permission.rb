@@ -144,6 +144,7 @@ class Permission < ValueObject
   KPI_SERVICES_PROVIDED = 'kpi_services_provided'
   KPI_SUPERVISOR_TO_CASEWORKER_RATIO = 'kpi_supervisor_to_caseworker_ratio'
   KPI_TIME_FROM_CASE_OPEN_TO_CLOSE = 'kpi_time_from_case_open_to_close'
+  CODE_OF_CONDUCT = 'code_of_conduct'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -198,7 +199,8 @@ class Permission < ValueObject
       KPI_GOAL_PROGRESS_PER_NEED, KPI_NUMBER_OF_CASES, KPI_NUMBER_OF_INCIDENTS,
       KPI_REPORTING_DELAY, KPI_SERVICES_PROVIDED, KPI_SUPERVISOR_TO_CASEWORKER_RATIO,
       KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
-    ]
+    ],
+    CODE_OF_CONDUCT => [MANAGE]
   }.freeze
 
   def initialize(args = {})
@@ -237,7 +239,7 @@ class Permission < ValueObject
 
     def resources
       [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT,
-       DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION, DUPLICATE]
+       DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION, DUPLICATE, CODE_OF_CONDUCT]
     end
 
     def records
