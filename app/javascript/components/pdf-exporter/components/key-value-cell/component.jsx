@@ -70,7 +70,7 @@ const Component = ({
         const radioButton = lookup.id === String(value) ? <RadioButtonChecked /> : <RadioButtonUnchecked />;
 
         return (
-          <div className={css.radioButtons}>
+          <div className={css.radioButtons} key={lookup.id}>
             {radioButton}
             {lookup.display_text}
           </div>

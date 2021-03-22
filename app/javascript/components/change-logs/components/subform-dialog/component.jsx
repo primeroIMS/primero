@@ -71,11 +71,11 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  allAgencies: PropTypes.object,
+  allAgencies: PropTypes.array,
   allFields: PropTypes.object,
   allLookups: PropTypes.object,
   calculatingChangeLog: PropTypes.bool,
-  locations: PropTypes.object,
+  locations: PropTypes.array,
   open: PropTypes.bool.isRequired,
   recordChanges: PropTypes.object,
   setCalculatingChangeLog: PropTypes.func,

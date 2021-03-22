@@ -1,28 +1,26 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
-import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
 
 import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
-import ActionDialog from "../../action-dialog";
 import { constructInitialValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 
-import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
 import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
+import FormikForm from "./formik-form";
 
 const RecordForm = ({
   attachmentForms,
@@ -47,16 +45,16 @@ const RecordForm = ({
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
 
-  let bindedSetValues = null;
-  let formikValues;
-  let bindedResetForm = null;
+  const formikValues = useRef();
+  const bindedSetValues = useRef(null);
+  const bindedResetForm = useRef(null);
 
   const bindSetValues = setValues => {
-    bindedSetValues = setValues;
+    bindedSetValues.current = setValues;
   };
 
   const bindResetForm = resetForm => {
-    bindedResetForm = resetForm;
+    bindedResetForm.current = resetForm;
   };
 
   const buildValidationSchema = formSections => {
@@ -84,8 +82,8 @@ const RecordForm = ({
   }, [record]);
 
   useEffect(() => {
-    if (!isEmpty(initialValues)) {
-      bindedResetForm();
+    if (!isEmpty(initialValues) && bindedResetForm.current) {
+      bindedResetForm.current();
     }
   }, [JSON.stringify(initialValues)]);
 
@@ -94,14 +92,14 @@ const RecordForm = ({
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
         const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-        bindedSetValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+        bindedSetValues.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
   }, [bindedSetValues, incidentFromCase]);
 
   useEffect(() => {
-    if (bindedSetValues && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
-      bindedSetValues({ ...initialValues, ...formikValues });
+    if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
+      bindedSetValues.current({ ...initialValues, ...formikValues.current });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
 
@@ -114,6 +112,11 @@ const RecordForm = ({
       });
     }
   };
+
+  const setFormikValues = values => {
+    formikValues.current = values;
+  };
+
   const renderFormSections = (fs, setFieldValue, handleSubmit, values) => {
     const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
 
@@ -180,45 +183,21 @@ const RecordForm = ({
           onSubmit(initialValues, values);
         }}
       >
-        {({
-          handleSubmit,
-          submitForm,
-          errors,
-          isSubmitting,
-          setValues,
-          setFieldValue,
-          values,
-          touched,
-          resetForm,
-          dirty
-        }) => {
-          bindSubmitForm(submitForm);
-          bindSetValues(setValues);
-          bindResetForm(resetForm);
-
-          setFormTouched(touched);
-          setFormIsSubmitting(isSubmitting);
-          formikValues = values;
-
-          return (
-            <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
-                {({ onConfirm, onCancel }) => (
-                  <ActionDialog
-                    open
-                    successHandler={() => handleConfirm(onConfirm)}
-                    cancelHandler={onCancel}
-                    dialogTitle={i18n.t("record_panel.record_information")}
-                    dialogText={i18n.t("messages.confirmation_message")}
-                    confirmButtonLabel={i18n.t("buttons.ok")}
-                  />
-                )}
-              </NavigationPrompt>
-              <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms, setFieldValue, handleSubmit, values)}
-            </Form>
-          );
-        }}
+        {props => (
+          <FormikForm
+            {...props}
+            handleConfirm={handleConfirm}
+            renderFormSections={renderFormSections}
+            forms={forms}
+            mode={mode}
+            setFormikValues={setFormikValues}
+            setFormIsSubmitting={setFormIsSubmitting}
+            setFormTouched={setFormTouched}
+            bindResetForm={bindResetForm}
+            bindSetValues={bindSetValues}
+            bindSubmitForm={bindSubmitForm}
+          />
+        )}
       </Formik>
     );
   }
@@ -232,7 +211,7 @@ RecordForm.propTypes = {
   attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
   externalForms: PropTypes.func,
-  fetchFromCaseId: PropTypes.string,
+  fetchFromCaseId: PropTypes.bool,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,

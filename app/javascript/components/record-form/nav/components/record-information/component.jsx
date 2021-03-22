@@ -46,7 +46,7 @@ const Component = ({ open, handleClick, selectedForm, formGroupLookup, match, re
 Component.displayName = NAME;
 
 Component.propTypes = {
-  formGroupLookup: PropTypes.object,
+  formGroupLookup: PropTypes.array,
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
   open: PropTypes.string,

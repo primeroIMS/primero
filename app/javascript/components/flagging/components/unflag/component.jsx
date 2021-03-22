@@ -79,7 +79,7 @@ const Component = ({ flag }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  flag: PropTypes.object.isRequired
+  flag: PropTypes.object
 };
 
 export default Component;

@@ -50,7 +50,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     type: type === "numeric_field" ? "number" : "text",
     multiline: type === "textarea",
     name,
-    ...omitBy(rest, (value, key) => ["formSection", "field", "displayName", "linkToForm"].includes(key))
+    ...omitBy(rest, (value, key) => ["formSection", "field", "displayName", "linkToForm", "tickBoxlabel"].includes(key))
   };
 
   const updateDateBirthField = (form, value) => {

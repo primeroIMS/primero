@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { MenuItem } from "@material-ui/core";
+import { forwardRef } from "react";
 
 import DisableOffline from "../../../disable-offline";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = ({ action, disabledCondtion, handleClose }) => {
+const Component = forwardRef(({ action, disabledCondtion, handleClose }, ref) => {
   const { id, disableOffline, name, action: handleAction } = action;
 
   const handleClick = () => {
@@ -14,12 +15,12 @@ const Component = ({ action, disabledCondtion, handleClose }) => {
 
   return (
     <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-      <MenuItem disabled={disabledCondtion(action)} onClick={handleClick}>
+      <MenuItem disabled={disabledCondtion(action)} onClick={handleClick} ref={ref}>
         {name}
       </MenuItem>
     </ConditionalWrapper>
   );
-};
+});
 
 Component.displayName = "MenuItem";
 

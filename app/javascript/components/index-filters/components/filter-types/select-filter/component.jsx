@@ -145,8 +145,6 @@ const Component = ({
         options={filterOptions}
         value={inputValue}
         getOptionSelected={(option, value) => {
-          console.log(filterOptions, value);
-
           return option.id === value.id;
         }}
         renderInput={params => <TextField {...params} fullWidth margin="normal" variant="outlined" />}
