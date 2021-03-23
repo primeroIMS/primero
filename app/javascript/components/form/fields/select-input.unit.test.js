@@ -54,12 +54,17 @@ describe("<Form /> - fields/<SelectInput />", () => {
       { id: 2, display_text: "option-2" },
       { id: 3, display_text: "option-3", disabled: true }
     ];
+    const name = "test_field";
 
-    const inputProps = { label: "Test Field", name: "test_field", disabled: false };
+    const inputProps = { label: "Test Field", name, disabled: false };
 
     context("when a disabled option was selected", () => {
       const { component } = setupMockFormComponent(SelectInput, {
-        props: { options: withDisabledOption, inputProps, metaInputProps: {} },
+        props: {
+          options: withDisabledOption,
+          inputProps,
+          metaInputProps: { watchedInputValues: { [name]: 3 } }
+        },
         defaultValues: { test_field: 3 },
         includeFormMethods: true
       });

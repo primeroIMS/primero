@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
-import { Controller, useWatch } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { isEmpty } from "lodash";
+import { isEmpty, isNil } from "lodash";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
@@ -39,8 +39,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
-  const currentValue = useWatch({ control, name });
-  const [stickyOption, setStickyOption] = useState(currentValue);
+  const currentWatchedValue = watchedInputValues && watchedInputValues[name];
+
+  const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
   const otherFieldValues = useMemoizedSelector(state => {
@@ -212,10 +213,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   };
 
   useEffect(() => {
-    if (currentValue && (!stickyOption || isEmpty(stickyOption))) {
-      setStickyOption(currentValue);
+    if (!isNil(currentWatchedValue) && (isNil(stickyOption) || isEmpty(stickyOption))) {
+      setStickyOption(currentWatchedValue);
     }
-  }, [currentValue]);
+  }, [currentWatchedValue]);
 
   return (
     <Controller
