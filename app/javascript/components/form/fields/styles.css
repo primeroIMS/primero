@@ -160,3 +160,7 @@
 .separator {
   border-top: 1px solid $(theme.primero.colors.warmGrey1);
 }
+
+.downloadButton {
+  padding-top: 10px;
+}

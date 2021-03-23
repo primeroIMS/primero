@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import GetAppIcon from '@material-ui/icons/GetApp';
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
@@ -16,7 +16,7 @@ import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 
-const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
   const { setValue, watch, register } = formMethods;
   const i18n = useI18n();
   const css = useStyles();
@@ -25,6 +25,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     data: null,
     fileName: ""
   });
+  const isShow = formMode.get("isShow");
 
   const { type, fileFormat, renderDownloadButton, downloadButtonLabel } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
@@ -109,9 +110,9 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     EMPTY_VALUE
   );
 
-  const downloadButton = renderDownloadButton && downloadFile;
+  const downloadButton = renderDownloadButton && isShow && downloadFile;
 
-  const classes = clsx(css.attachment, { [css.document]: isDocument && !renderDownloadButton });
+  const classes = clsx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
 
   return (
     <div className={classes}>
@@ -134,7 +135,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         <input type="hidden" name={`${name}_url`} ref={register} />
       </div>
       {!renderDownloadButton && renderPreview()}
-      {downloadButton}
+      <div className={css.downloadButton}>{downloadButton}</div>
     </div>
   );
 };
@@ -144,6 +145,7 @@ AttachmentInput.displayName = "AttachmentInput";
 AttachmentInput.propTypes = {
   commonInputProps: PropTypes.object,
   formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object,
   metaInputProps: PropTypes.object
 };
 

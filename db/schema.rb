@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_000000) do
+ActiveRecord::Schema.define(version: 2021_03_23_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
     t.boolean "disabled", default: false, null: false
     t.boolean "pdf_logo_option", default: false, null: false
     t.boolean "exclude_agency_from_lookups", default: false, null: false
+    t.boolean "terms_of_use_enabled", default: false, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true

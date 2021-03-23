@@ -83,6 +83,7 @@ en:
     terms_of_use: Terms of Use
     terms_of_use_help: Only PDF files permitted.
     terms_of_use_download_button: Download PDF
+    terms_of_use_enabled: Display Terms of Use?
   approvals:
     approved_by: Approved By
     case_plan_type_label: Case plan type

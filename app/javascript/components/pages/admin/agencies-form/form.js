@@ -57,13 +57,34 @@ export const form = (i18n, formMode) => {
           option_strings_source: "lookup-service-type"
         }),
         FieldRecord({
+          display_name: i18n.t("agency.terms_of_use_enabled"),
+          name: "terms_of_use_enabled",
+          type: TICK_FIELD,
+          watchedInputs: ["terms_of_use"],
+          handleWatchedInputs: value => {
+            const { terms_of_use: termsOfUse, terms_of_use_url: termsOfUseUrl } = value;
+
+            return {
+              disabled: !(termsOfUse?.length || termsOfUseUrl) || formMode.get("isShow")
+            };
+          }
+        }),
+        FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),
           name: "terms_of_use",
           type: DOCUMENT_FIELD,
           help_text: i18n.t("agency.terms_of_use_help"),
           fileFormat: "application/pdf",
           renderDownloadButton: true,
-          downloadButtonLabel: i18n.t("agency.terms_of_use_download_button")
+          downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
+          watchedInputs: ["terms_of_use_enabled"],
+          handleWatchedInputs: value => {
+            const { terms_of_use_enabled: termsOfUseEnabled } = value;
+
+            return {
+              visible: termsOfUseEnabled
+            };
+          }
         }),
         FieldRecord({
           display_name: i18n.t("agency.agency_logos"),
