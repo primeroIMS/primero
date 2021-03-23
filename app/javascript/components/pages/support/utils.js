@@ -1,6 +1,7 @@
 import ContactInformation from "../../contact-information";
 import NotImplemented from "../../not-implemented/component";
 
+import { CodeOfConduct } from "./components";
 import { SUPPORT_FORMS } from "./constants";
 
 export const menuList = i18n => [
@@ -14,29 +15,24 @@ export const menuList = i18n => [
   },
   {
     id: SUPPORT_FORMS.termsOfUse,
-    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.termsOfUse}`)
-    // disabled: true
+    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.termsOfUse}`),
+    disabled: true
   },
   {
     id: SUPPORT_FORMS.systemInformation,
-    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.systemInformation}`)
-    // disabled: true
+    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.systemInformation}`),
+    disabled: true
   }
 ];
 
-// eslint-disable-next-line react/display-name
 export const useSupportForm = id => {
-  console.log("id", id);
+  switch (id) {
+    case SUPPORT_FORMS.contactInformation:
+      return ContactInformation;
+    case SUPPORT_FORMS.codeOfConduct:
+      return CodeOfConduct;
 
-  const Form = (formId => {
-    switch (formId) {
-      case SUPPORT_FORMS.contactInformation:
-        return ContactInformation;
-
-      default:
-        return NotImplemented;
-    }
-  })(id);
-
-  return <Form />;
+    default:
+      return NotImplemented;
+  }
 };

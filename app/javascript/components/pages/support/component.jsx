@@ -17,14 +17,16 @@ const useStyles = makeStyles(styles);
 const Component = () => {
   const css = useStyles();
   const i18n = useI18n();
-  const { mobileDisplay } = useThemeHelper();
+
   const renderMenuList = menuList(i18n);
 
+  const { mobileDisplay } = useThemeHelper();
   const [selectedItem, setSelectedItem] = useState(renderMenuList[0].id);
   const [toggleNav, setToggleNav] = useState(false);
+  const Form = useSupportForm(selectedItem);
 
   const handleToggleNav = () => setToggleNav(!toggleNav);
-  const onClick = id => {
+  const handleClick = id => {
     setSelectedItem(id);
 
     if (mobileDisplay) {
@@ -40,29 +42,27 @@ const Component = () => {
       </IconButton>
     );
 
-  const renderForm = useSupportForm(selectedItem);
-
   return (
     <PageContainer>
       <PageHeading title={i18n.t("navigation.support")} prefixAction={prefixAction} />
       <div className={css.mainSupport}>
         <Navigation
           css={css}
-          onClick={onClick}
+          onClick={handleClick}
           handleToggleNav={handleToggleNav}
           menuList={renderMenuList}
           mobileDisplay={mobileDisplay}
           selectedItem={selectedItem}
           toggleNav={toggleNav}
         />
-        <div className={css.form}>{renderForm}</div>
+        <div>
+          <Form />
+        </div>
       </div>
     </PageContainer>
   );
 };
 
 Component.displayName = NAME;
-
-Component.propTypes = {};
 
 export default Component;

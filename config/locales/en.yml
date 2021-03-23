@@ -14,6 +14,7 @@
 en:
   'true': 'Yes'
   'false': 'No'
+  accepted: Accepted
   cancel: Cancel
   code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode

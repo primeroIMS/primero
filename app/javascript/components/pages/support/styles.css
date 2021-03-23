@@ -24,3 +24,19 @@
    background-color: $(theme.primero.colors.lightBlueMenu) !important;
 }
 
+.codeOfConductContainer {
+
+  & h2 {
+    margin: 0;
+  }
+
+  & h3 {
+    margin: 0;
+    text-transform: uppercase;
+    color: $(theme.primero.colors.midGrey);
+  }
+
+  & p {
+    padding: 1em 0 0 0;
+  }
+}
