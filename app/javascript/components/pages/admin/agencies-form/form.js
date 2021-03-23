@@ -12,6 +12,7 @@ import {
   SEPARATOR,
   DOCUMENT_FIELD
 } from "../../../form";
+import { FILE_FORMAT } from "../../../../config";
 
 export const validations = () =>
   object().shape({
@@ -74,7 +75,7 @@ export const form = (i18n, formMode) => {
           name: "terms_of_use",
           type: DOCUMENT_FIELD,
           help_text: i18n.t("agency.terms_of_use_help"),
-          fileFormat: "application/pdf",
+          fileFormat: FILE_FORMAT.pdf,
           renderDownloadButton: true,
           downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
           watchedInputs: ["terms_of_use_enabled"],

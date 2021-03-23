@@ -446,3 +446,7 @@ export const MATCH_VALUES = {
   mismatch: "mismatch",
   blank: "blank"
 };
+
+export const FILE_FORMAT = {
+  pdf: "application/pdf"
+};

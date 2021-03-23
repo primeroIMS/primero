@@ -44,7 +44,6 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
       fileName: data?.fileName
     });
   };
-
   const handleChange = async event => {
     const files = event?.target?.files;
     const selectedFile = files?.[0];
