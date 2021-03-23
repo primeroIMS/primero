@@ -1,10 +1,8 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
-import { Controller, useWatch } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { parseISO } from "date-fns";
-import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
@@ -15,8 +13,6 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const { setValue, control } = formMethods;
   const { name } = commonInputProps;
 
-  const fieldValue = useWatch({ name, control });
-
   const dialogLabels = {
     clearLabel: i18n.t("buttons.clear"),
     cancelLabel: i18n.t("buttons.cancel"),
@@ -24,14 +20,6 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   };
 
   const { dateIncludeTime } = metaInputProps;
-
-  const getDateValue = value => {
-    if (isEmpty(value)) {
-      return value;
-    }
-
-    return dateIncludeTime ? parseISO(value) : parseISO(value.slice(0, 10));
-  };
 
   const handleChange = date => {
     setValue(name, date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "", { shouldDirty: true });
@@ -41,19 +29,10 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return (
-        <DateTimePicker
-          {...dialogLabels}
-          {...commonInputProps}
-          onChange={handleChange}
-          value={getDateValue(fieldValue)}
-        />
-      );
+      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} />;
     }
 
-    return (
-      <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={getDateValue(fieldValue)} />
-    );
+    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} />;
   };
 
   return (
