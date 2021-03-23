@@ -33,6 +33,7 @@ import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
+import CodeOfConduct from "../components/code-of-conduct";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -429,6 +430,10 @@ export default [
         component: NotAuthorized
       }
     ]
+  },
+  {
+    path: ROUTES.code_of_conduct,
+    component: CodeOfConduct
   },
   {
     component: NotFound

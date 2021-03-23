@@ -13,7 +13,7 @@ import { NAME } from "./constants";
 const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
   const dispatch = useDispatch();
   const getData = workflowStep =>
-    casesWorkflow.size > 0 && casesWorkflow.getIn(["indicators", "workflow", workflowStep], fromJS({}));
+    casesWorkflow.size > 0 ? casesWorkflow.getIn(["indicators", "workflow", workflowStep], fromJS({})) : fromJS({});
 
   const workflowData = getData(step.id);
   const count = workflowData.get("count", 0);

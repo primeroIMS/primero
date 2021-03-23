@@ -15,6 +15,7 @@ en:
   'true': 'Yes'
   'false': 'No'
   cancel: Cancel
+  code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
@@ -30,6 +31,7 @@ en:
   select_provider: Select provider
   log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  updated: Updated
   sync:
     success: "%{records} records successfully synced."
     error:
@@ -166,6 +168,7 @@ en:
     mark_for_mobile: Mark for mobile
     new: New
     ok: OK
+    print: Print
     reassign: Assign
     referral: Refer
     referral_again: Refer Again
@@ -1619,6 +1622,8 @@ en:
     logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
     logout_dialog_header: Offline Log Out
+    logout_confirmation_title: Log out confirmation
+    logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports
