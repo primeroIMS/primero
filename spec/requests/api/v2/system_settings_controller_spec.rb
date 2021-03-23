@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::SystemSettingsController, type: :request do
   before :each do
-    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
+    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, CodeOfConduct, SystemSettings)
     I18n.locale = :en
     I18n.default_locale = :en
     I18n.available_locales = %i[en ar fr es]
@@ -44,6 +44,12 @@ describe Api::V2::SystemSettingsController, type: :request do
         use_workflow_assessment: false,
         reporting_location_filter: true
       }
+    )
+    @code_of_conduct = CodeOfConduct.create!(
+      title: 'Code of conduct test',
+      content: 'Some content',
+      created_by: 'test_user',
+      created_on: DateTime.now
     )
     @system_settings = SystemSettings.create(
       case_code_separator: '-',
@@ -99,6 +105,6 @@ describe Api::V2::SystemSettingsController, type: :request do
   end
 
   after :each do
-    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, SystemSettings)
+    clean_data(Field, FormSection, Agency, PrimeroProgram, PrimeroModule, CodeOfConduct, SystemSettings)
   end
 end
