@@ -504,6 +504,14 @@ en:
       system_version: System Version
     info_label: Contact Information
     updated: Contact information was successfully updated.
+  code_of_conduct:
+    field:
+      title: Title
+      content: Content
+      created_on: Created on
+      created_by: Created by
+    info_label: Code of Conduct
+    updated: Code of Conduct was successfully updated.
   dashboard:
     activity: Activity
     admin_only: Click on %{links} to make changes to the application.
@@ -3033,6 +3041,7 @@ en:
       user_groups: User Groups
       users: Users
       roles: Roles
+      code_of_conduct: Code of Conduct
     title: Settings
   system_settings:
     label: System Settings
