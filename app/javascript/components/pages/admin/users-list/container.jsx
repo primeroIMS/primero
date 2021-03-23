@@ -16,7 +16,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledUserGroups, selectAgencies } from "../../../application";
+import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
@@ -33,10 +33,10 @@ const Container = () => {
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const filterAgencies = agencies.filter(agency => !agency.get("disabled"));
   const agenciesWithId = buildObjectWithIds(agencies);
 
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
@@ -87,7 +87,7 @@ const Container = () => {
 
   const filterProps = {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
-    filters: getFilters(i18n, filterAgencies, filterUserGroups, filterPermission),
+    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
