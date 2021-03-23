@@ -26,25 +26,25 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     errors
   };
 
+  const handleClick = queryValue => () => {
+    if (!isEmpty(queryValue)) {
+      dispatch(
+        push({
+          pathname: ROUTES.cases,
+          search: buildFilter(queryValue)
+        })
+      );
+    }
+  };
+
   const dashboardChips = lookup.map(lk => {
     const value = data.getIn(["indicators", indicator, lk.id]);
     const countValue = value ? value.get("count") : 0;
     const queryValue = value ? value.get("query") : [];
 
-    const handleClick = () => {
-      if (!isEmpty(queryValue)) {
-        dispatch(
-          push({
-            pathname: ROUTES.cases,
-            search: buildFilter(queryValue)
-          })
-        );
-      }
-    };
-
     return (
       <li key={lk.id}>
-        <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick} />
+        <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick(queryValue)} />
       </li>
     );
   });

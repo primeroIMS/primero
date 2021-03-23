@@ -64,12 +64,16 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   };
 
   const statItems = () => {
-    return indicators.keySeq().map(item => {
-      const handleButtonClick = () => handleClick(indicators.getIn([item, "query"], []));
+    const handleButtonClick = query => () => handleClick(query);
 
+    return indicators.keySeq().map(item => {
       return (
         <li key={item}>
-          <button className={css.itemButton} type="button" onClick={handleButtonClick}>
+          <button
+            className={css.itemButton}
+            type="button"
+            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
+          >
             {indicators.getIn([item, "count"])} {buildLabelItem(item)}
           </button>
         </li>

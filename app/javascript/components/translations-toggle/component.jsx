@@ -35,6 +35,21 @@ const TranslationsToggle = () => {
   // TODO: Need better list of locales with direction from backend
   const locales = useMemoizedSelector(state => selectLocales(state));
 
+  const renderLocales = () => {
+    const handleClickMenuItem = value => () => handleClose(value);
+
+    return (
+      locales &&
+      locales.map(currLocale => {
+        return (
+          <MenuItem key={currLocale} onClick={handleClickMenuItem(currLocale)}>
+            {i18n.t(`home.${currLocale}`)}
+          </MenuItem>
+        );
+      })
+    );
+  };
+
   return (
     <>
       <Button
@@ -61,16 +76,7 @@ const TranslationsToggle = () => {
           horizontal: "center"
         }}
       >
-        {locales &&
-          locales.map(l => {
-            const handleClickMenuItem = () => handleClose(l);
-
-            return (
-              <MenuItem key={l} onClick={handleClickMenuItem}>
-                {i18n.t(`home.${l}`)}
-              </MenuItem>
-            );
-          })}
+        {renderLocales()}
       </Menu>
     </>
   );

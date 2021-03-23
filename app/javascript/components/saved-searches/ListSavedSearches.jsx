@@ -72,33 +72,35 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
     }
   };
 
+  const renderSavedSearches = () => {
+    const handleClickListItem = id => () => handleApplyFilter(id);
+    const handleClickDeleteFilter = id => () => handleDeleteFilter(id);
+
+    return savedSearches.valueSeq().map(savedSearch => {
+      return (
+        <ListItem button onClick={handleClickListItem(savedSearch.id)} key={savedSearch.id}>
+          <ListItemText primary={savedSearch.name} />
+          <ListItemSecondaryAction>
+            <ActionButton
+              icon={<DeleteIcon />}
+              type={ACTION_BUTTON_TYPES.icon}
+              rest={{
+                edge: "end",
+                onClick: handleClickDeleteFilter(savedSearch.id)
+              }}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>
+      );
+    });
+  };
+
   return (
     <div className={css.listSavedSearches}>
       <ActionDialog {...alertDialogProps} />
       <h3>{i18n.t("cases.my_filters")}</h3>
       <Divider light />
-      <List component="nav">
-        {savedSearches.valueSeq().map(savedSearch => {
-          const handleClickListItem = () => handleApplyFilter(savedSearch.id);
-          const handleClickDeleteFilter = () => handleDeleteFilter(savedSearch.id);
-
-          return (
-            <ListItem button onClick={handleClickListItem} key={savedSearch.id}>
-              <ListItemText primary={savedSearch.name} />
-              <ListItemSecondaryAction>
-                <ActionButton
-                  icon={<DeleteIcon />}
-                  type={ACTION_BUTTON_TYPES.icon}
-                  rest={{
-                    edge: "end",
-                    onClick: handleClickDeleteFilter
-                  }}
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
-      </List>
+      <List component="nav">{renderSavedSearches()}</List>
     </div>
   );
 };

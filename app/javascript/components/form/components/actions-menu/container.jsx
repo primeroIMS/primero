@@ -24,17 +24,19 @@ const Container = ({ actionItems }) => {
     itemAction();
   };
 
-  const actionMenuItems = actionItems
-    .filter(action => typeof action.condition === "undefined" || action.condition)
-    .map(action => {
-      const handleMenuItemClick = () => handleItemAction(action.action);
+  const actionMenuItems = () => {
+    const handleMenuItemClick = currAction => () => handleItemAction(currAction.action);
 
-      return (
-        <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={handleMenuItemClick}>
-          {action.name}
-        </MenuItem>
-      );
-    });
+    return actionItems
+      .filter(action => typeof action.condition === "undefined" || action.condition)
+      .map(action => {
+        return (
+          <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={handleMenuItemClick(action)}>
+            {action.name}
+          </MenuItem>
+        );
+      });
+  };
 
   return (
     <>
@@ -50,7 +52,7 @@ const Container = ({ actionItems }) => {
       />
 
       <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        {actionMenuItems}
+        {actionMenuItems()}
       </Menu>
     </>
   );

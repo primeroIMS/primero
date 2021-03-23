@@ -91,7 +91,7 @@ const Component = ({
     setSelectedIndex(null);
   };
 
-  const handleEdit = index => {
+  const handleEdit = index => () => {
     setDialogIsNew(false);
     setOpen({ open: true, index });
   };
@@ -139,7 +139,7 @@ const Component = ({
                   displayName={displayName}
                   locale={locale}
                   values={values}
-                  onClick={handleEdit}
+                  onClick={handleEdit(index)}
                 />
               </div>
               <div className={css.subformHeaderActions}>
@@ -162,7 +162,7 @@ const Component = ({
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,
-                    onClick: () => handleEdit(index)
+                    onClick: handleEdit(index)
                   }}
                 />
               </div>

@@ -110,6 +110,9 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       return <p>{i18n.t("report.no_filters_added")}</p>;
     }
 
+    const handleClickOpen = index => () => handleOpenModal(index);
+    const handleClickEdit = index => () => handleEdit(index);
+
     return Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
       const { attribute, value } = data;
@@ -135,17 +138,15 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       ].join(" ");
 
       const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
-      const handleClickOpen = () => handleOpenModal(index);
-      const handleClickEdit = () => handleEdit(index);
 
       return (
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={handleClickOpen}>
+            <IconButton onClick={handleClickOpen(index)}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={handleClickEdit}>{renderIcon}</IconButton>
+            <IconButton onClick={handleClickEdit(index)}>{renderIcon}</IconButton>
           </Box>
         </Box>
       );

@@ -174,30 +174,32 @@ const Component = ({
 
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
-  const renderPickers = ["from", "to"].map(picker => {
-    const onChange = date => handleDatePicker(picker, date);
+  const renderPickers = () => {
+    const onChange = picker => date => handleDatePicker(picker, date);
 
-    const props = {
-      fullWidth: true,
-      margin: "normal",
-      format: pickerFormat,
-      label: i18n.t(`fields.date_range.${picker}`),
-      value: getDateValue(inputValue?.[picker]),
-      onChange,
-      disabled: !selectedField,
-      clearLabel: i18n.t("buttons.clear"),
-      cancelLabel: i18n.t("buttons.cancel"),
-      okLabel: i18n.t("buttons.ok")
-    };
+    return ["from", "to"].map(picker => {
+      const props = {
+        fullWidth: true,
+        margin: "normal",
+        format: pickerFormat,
+        label: i18n.t(`fields.date_range.${picker}`),
+        value: getDateValue(inputValue?.[picker]),
+        onChange: onChange(picker),
+        disabled: !selectedField,
+        clearLabel: i18n.t("buttons.clear"),
+        cancelLabel: i18n.t("buttons.cancel"),
+        okLabel: i18n.t("buttons.ok")
+      };
 
-    return (
-      <div key={picker} className={css.dateInput}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
-          {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
-        </MuiPickersUtilsProvider>
-      </div>
-    );
-  });
+      return (
+        <div key={picker} className={css.dateInput}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+            {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
+          </MuiPickersUtilsProvider>
+        </div>
+      );
+    });
+  };
 
   return (
     <Panel
@@ -216,7 +218,7 @@ const Component = ({
             </Select>
           </div>
         )}
-        {renderPickers}
+        {renderPickers()}
       </div>
     </Panel>
   );

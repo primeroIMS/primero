@@ -142,6 +142,39 @@ const Component = ({ isSubform }) => {
     });
   };
 
+  const renderFields = () => {
+    const handleClickListItem = name => () => handleListItem(name);
+
+    return fields.map(field => {
+      const [name, Icon] = field;
+
+      const classes = clsx(css.inputIcon, {
+        [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
+      });
+
+      if (name === SUBFORM_SECTION && isSubform) {
+        return null;
+      }
+
+      return (
+        <Fragment key={field}>
+          <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
+            <ListItemText className={css.label}>
+              <div>{i18n.t(`fields.${name}`)}</div>
+              <div className={css.inputPreviewContainer}>
+                <Icon className={classes} />
+              </div>
+            </ListItemText>
+            <ListItemSecondaryAction>
+              <Radio value={name} checked={isItemSelected(name)} onChange={handleClickListItem(name)} />
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Divider />
+        </Fragment>
+      );
+    });
+  };
+
   return (
     <>
       <ActionDialog
@@ -159,35 +192,7 @@ const Component = ({ isSubform }) => {
             <ListItemSecondaryAction className={css.listHeader}>{i18n.t("forms.select_label")}</ListItemSecondaryAction>
           </ListSubheader>
           <Divider />
-          {fields.map(field => {
-            const [name, Icon] = field;
-
-            const classes = clsx(css.inputIcon, {
-              [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
-            });
-
-            if (name === SUBFORM_SECTION && isSubform) {
-              return null;
-            }
-            const handleClickListItem = () => handleListItem(name);
-
-            return (
-              <Fragment key={field}>
-                <ListItem selected={isItemSelected(name)} onClick={handleClickListItem}>
-                  <ListItemText className={css.label}>
-                    <div>{i18n.t(`fields.${name}`)}</div>
-                    <div className={css.inputPreviewContainer}>
-                      <Icon className={classes} />
-                    </div>
-                  </ListItemText>
-                  <ListItemSecondaryAction>
-                    <Radio value={name} checked={isItemSelected(name)} onChange={handleClickListItem} />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </Fragment>
-            );
-          })}
+          {renderFields()}
         </List>
       </ActionDialog>
     </>

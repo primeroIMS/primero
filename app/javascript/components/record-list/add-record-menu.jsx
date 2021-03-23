@@ -61,20 +61,21 @@ const AddRecordMenu = ({ recordType }) => {
 
   const onClose = () => setModuleUniqueId(null);
 
-  const renderMenu = primeroModules =>
-    primeroModules?.size > 1 ? (
+  const renderMenu = primeroModules => {
+    const handleOnClickMenuItem = primeroModule => () => handleModuleClick(primeroModule);
+
+    return primeroModules?.size > 1 ? (
       <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
         {primeroModules.map(primeroModule => {
-          const handleOnClickMenuItem = () => handleModuleClick(primeroModule);
-
           return (
-            <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem}>
+            <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem(primeroModule)}>
               {primeroModule.name}
             </MenuItem>
           );
         })}
       </Menu>
     ) : null;
+  };
 
   const renderDialog = uniqueId =>
     uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
