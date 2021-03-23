@@ -17,7 +17,7 @@ class Incident < ApplicationRecord
     :unique_id, :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
     :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
     :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from,
-    :date_of_incident_to, :individual_details_subform_section,
+    :date_of_incident_to, :individual_details_subform_section, :incident_location,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section
@@ -34,7 +34,7 @@ class Incident < ApplicationRecord
     common_summary_fields + %w[
       date_of_interview date_of_incident violence_type
       incident_location violations social_worker date_of_first_report
-      cp_incident_violence_type cp_incident_date
+      cp_incident_violence_type
       gbv_sexual_violence_type incident_date survivor_code
     ]
   end

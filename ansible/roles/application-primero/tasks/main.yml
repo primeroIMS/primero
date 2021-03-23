@@ -21,24 +21,10 @@
   - 'always'
 
 - name: 'create the local.env file'
-  copy:
+  template:
+    src: local.env.j2
     dest: '/srv/primero/docker/local.env'
     mode: 'u=rw,go=r'
-    content: |
-      LETS_ENCRYPT_DOMAIN={{ lets_encrypt_domain }}
-      LETS_ENCRYPT_EMAIL={{ lets_encrypt_email }}
-      USE_LETS_ENCRYPT={{ use_lets_encrypt }}
-      PRIMERO_HOST={{ primero_host }}
-      NGINX_CERTIFICATE_NAME=primero
-      NGINX_SSL_CERT_PATH={{ nginx_ssl_cert_path }}
-      NGINX_SSL_KEY_PATH={{ nginx_ssl_key_path }}
-      PRIMERO_SECRET_KEY_BASE={{ primero_secret_key_base }}
-      PRIMERO_MESSAGE_SECRET={{ primero_message_secret }}
-      POSTGRES_PASSWORD={{ postgres_password }}
-      DEVISE_SECRET_KEY={{ devise_secret_key }}
-      DEVISE_JWT_SECRET_KEY={{ devise_jwt_secret_key }}
-      LOCALE_ALL={{ locale_all }}
-      LOCALE_DEFAULT={{ default_locale }}
   become: yes
   tags:
   - 'never'

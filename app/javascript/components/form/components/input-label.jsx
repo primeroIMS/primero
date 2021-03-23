@@ -23,7 +23,7 @@ InputLabel.defaultProps = {
 
 InputLabel.propTypes = {
   i18nTitle: PropTypes.bool,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   tooltip: PropTypes.string
 };
 

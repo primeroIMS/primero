@@ -82,11 +82,14 @@ export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
     const subformID = current?.get("id");
 
     if (subformID) {
-      return {
-        path: getFormRequestPath(subformID, SAVE_METHODS.update),
-        method: METHODS.PATCH,
-        body: subfomBody
-      };
+      return [
+        ...prev,
+        {
+          path: getFormRequestPath(subformID, SAVE_METHODS.update),
+          method: METHODS.PATCH,
+          body: subfomBody
+        }
+      ];
     }
 
     return [

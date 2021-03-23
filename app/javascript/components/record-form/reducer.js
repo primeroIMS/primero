@@ -56,6 +56,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return DEFAULT_STATE;
     case Actions.SET_DATA_PROTECTION_INITIAL_VALUES:
       return state.set("dataProtectionInitialValues", fromJS(payload));
+    case Actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES:
+      return state.delete("dataProtectionInitialValues");
     default:
       return state;
   }
