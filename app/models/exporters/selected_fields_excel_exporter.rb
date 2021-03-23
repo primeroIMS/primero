@@ -70,7 +70,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
       unique_id: 'selected_fields',
       fields: fields
     )
-    form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale), locale)
+    form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale: locale), locale)
     form
   end
 
