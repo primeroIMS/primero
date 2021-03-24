@@ -18,6 +18,7 @@ const agency1 = {
   unique_id: "agency-test-1",
   agency_code: "test1",
   disabled: false,
+  terms_of_use_enabled: true,
   services: ["service_test_1"]
 };
 
@@ -32,6 +33,7 @@ const agency3 = {
   unique_id: "agency-test-3",
   agency_code: "test3",
   disabled: true,
+  terms_of_use_enabled: true,
   services: ["service_test_1"]
 };
 
@@ -407,6 +409,21 @@ describe("Application - Selectors", () => {
       const result = selectors.getLimitedConfigUI(stateWithRecords, MODULES.CP, RECORD_TYPES.cases);
 
       expect(result).to.be.false;
+    });
+  });
+
+  describe("getAgencyTermsOfUse", () => {
+    it("should return only agencies with terms_of_use_enabled", () => {
+      const result = selectors.getAgencyTermsOfUse(
+        fromJS({
+          application: {
+            agencies: [agencyWithLogo, agency1, agency2, agency3]
+          }
+        })
+      );
+      const expected = fromJS([agency1, agency3]);
+
+      expect(result).to.deep.equal(expected);
     });
   });
 });

@@ -1,7 +1,7 @@
 import ContactInformation from "../../contact-information";
 import NotImplemented from "../../not-implemented/component";
 
-import { CodeOfConduct } from "./components";
+import { CodeOfConduct, TermOfUse } from "./components";
 import { SUPPORT_FORMS } from "./constants";
 import * as utils from "./utils";
 
@@ -38,7 +38,6 @@ describe("<Support /> - utils", () => {
           text: "navigation.support_menu.code_of_conduct"
         },
         {
-          disabled: true,
           id: "terms_of_use",
           text: "navigation.support_menu.terms_of_use"
         },
@@ -62,6 +61,10 @@ describe("<Support /> - utils", () => {
 
     it("should return the CodeOfConduct form", () => {
       expect(utils.renderSupportForm(SUPPORT_FORMS.codeOfConduct)).to.be.equal(CodeOfConduct);
+    });
+
+    it("should return TermOfUse component", () => {
+      expect(utils.renderSupportForm(SUPPORT_FORMS.termsOfUse)).to.be.equal(TermOfUse);
     });
 
     it("should return NotImplemented form if it's not a valid form", () => {

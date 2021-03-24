@@ -24,6 +24,7 @@
    background-color: $(theme.primero.colors.lightBlueMenu) !important;
 }
 
+.termsOfUse,
 .codeOfConductContainer {
 
   & h2 {
