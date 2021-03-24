@@ -14,6 +14,8 @@ import {
 } from "../../../form";
 import { FILE_FORMAT } from "../../../../config";
 
+import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
+
 export const validations = () =>
   object().shape({
     agency_code: string().required(),
@@ -59,26 +61,18 @@ export const form = (i18n, formMode) => {
         }),
         FieldRecord({
           display_name: i18n.t("agency.terms_of_use_enabled"),
-          name: "terms_of_use_enabled",
-          type: TICK_FIELD,
-          watchedInputs: ["terms_of_use"],
-          handleWatchedInputs: value => {
-            const { terms_of_use: termsOfUse, terms_of_use_url: termsOfUseUrl } = value;
-
-            return {
-              disabled: !(termsOfUse?.length || termsOfUseUrl) || formMode.get("isShow")
-            };
-          }
+          name: TERMS_OF_USE_ENABLED,
+          type: TICK_FIELD
         }),
         FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),
-          name: "terms_of_use",
+          name: TERMS_OF_USE,
           type: DOCUMENT_FIELD,
           help_text: i18n.t("agency.terms_of_use_help"),
           fileFormat: FILE_FORMAT.pdf,
           renderDownloadButton: true,
           downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
-          watchedInputs: ["terms_of_use_enabled"],
+          watchedInputs: [TERMS_OF_USE_ENABLED],
           handleWatchedInputs: value => {
             const { terms_of_use_enabled: termsOfUseEnabled } = value;
 
