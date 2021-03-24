@@ -47,7 +47,10 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with options", () => {
-      const expected = [{ value: "agency-test-1" }, { value: "agency-test-2" }];
+      const expected = [
+        { value: "agency-test-1", isDisabled: false },
+        { value: "agency-test-2", isDisabled: false }
+      ];
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
 

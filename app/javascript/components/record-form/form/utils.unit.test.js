@@ -12,7 +12,6 @@ describe("Verifying utils", () => {
     const clonedHelpers = { ...helpers };
 
     [
-      "appendDisabledAgency",
       "appendDisabledUser",
       "buildCustomLookupsConfig",
       "findOptionDisplayText",
@@ -23,7 +22,8 @@ describe("Verifying utils", () => {
       "isFormDirty",
       "serviceHasReferFields",
       "serviceIsReferrable",
-      "translatedText"
+      "translatedText",
+      "withStickyOption"
     ].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
@@ -33,32 +33,19 @@ describe("Verifying utils", () => {
   });
 });
 
-describe("appendDisabledAgency", () => {
-  it("should append the agency if not present in the agencies list", () => {
-    const agencies = fromJS([
-      {
-        unique_id: "agency-test-1",
-        agency_code: "test1",
-        disabled: false,
-        services: ["service_test_1"]
-      },
-      {
-        unique_id: "agency-test-2",
-        agency_code: "test2",
-        disabled: false,
-        services: ["service_test_1", "service_test_2"]
-      }
-    ]);
-    const expected = agencies.push(
-      fromJS({
-        unique_id: "agency-test-3",
-        name: "agency-test-3",
-        isDisabled: true
-      })
-    );
-    const options = helpers.appendDisabledAgency(agencies, "agency-test-3");
+describe("withStickyOption", () => {
+  const options = fromJS([
+    { unique_id: "option_1", display_text: "Option 1" },
+    { unique_id: "option_2", display_text: "Option 2" },
+    { unique_id: "option_3", display_text: "Option 3", disabled: true }
+  ]);
 
-    expect(options).to.deep.equal(expected);
+  it("should append a disabled option if sticky", () => {
+    expect(helpers.withStickyOption(options, "option_3")).to.have.sizeOf(3);
+  });
+
+  it("should not append a disabled option if it is not sticky", () => {
+    expect(helpers.withStickyOption(options)).to.have.sizeOf(2);
   });
 });
 
@@ -194,7 +181,7 @@ describe("getConnectedFields", () => {
         locations,
         referralUsers,
         reportingLocations,
-        value: "agency-2",
+        stickyOptionId: "agency-2",
         name: SERVICE_SECTION_FIELDS.implementingAgency
       });
 

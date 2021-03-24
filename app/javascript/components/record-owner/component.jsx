@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 
@@ -18,18 +19,23 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
     let fieldValue = record?.get(field.name);
 
     if (field.option_strings_source === "Agency") {
-      fieldValue = agencies
-        .filter(agency => agency.get("unique_id") === fieldValue)
-        ?.first()
-        ?.get("unique_id");
+      fieldValue = agencies.find(agency => agency.get("unique_id") === fieldValue)?.get("unique_id");
     }
 
     if (fieldValue && field.name === "assigned_user_names") {
       fieldValue = fieldValue.join(", ");
     }
 
-    if (fieldValue && field.name === "created_organization") {
-      fieldValue = typeof fieldValue === "string" ? fieldValue : fieldValue?.get("agency_code");
+    if (fieldValue && ["previously_owned_by_agency", "created_organization"].includes(field.name)) {
+      if (typeof fieldValue === "string") {
+        const agencyName = agencies
+          .find(agency => agency.get("unique_id") === fieldValue, fromJS({}))
+          ?.getIn(["name", i18n.locale]);
+
+        fieldValue = agencyName || fieldValue;
+      } else {
+        fieldValue = fieldValue?.get("agency_code");
+      }
     }
 
     return { ...acum, [field.name]: fieldValue };

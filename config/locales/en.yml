@@ -14,6 +14,7 @@
 en:
   'true': 'Yes'
   'false': 'No'
+  accepted: Accepted
   cancel: Cancel
   code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode
@@ -1641,6 +1642,11 @@ en:
     search: Search
     settings: Settings
     support: Support
+    support_menu:
+      contact_information: Contact Information
+      code_of_conduct: Code of Conduct
+      terms_of_use: Terms of use
+      system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
   notes:
