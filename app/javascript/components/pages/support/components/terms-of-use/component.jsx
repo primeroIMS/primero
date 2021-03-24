@@ -22,6 +22,8 @@ const Component = () => {
 
   const agenciesWithTermsOfUse = useMemoizedSelector(state => getAgencyTermsOfUse(state));
 
+  const handleClick = termsOfUse => () => window.open(termsOfUse);
+
   const renderAgencyWihTermsOfUse = agenciesWithTermsOfUse.map(agency => {
     return (
       <>
@@ -31,9 +33,7 @@ const Component = () => {
           text={i18n.t("agency.terms_of_use_download_button")}
           type={ACTION_BUTTON_TYPES.default}
           rest={{
-            onClick: () => {
-              window.open(agency.get("terms_of_use"));
-            }
+            onClick: handleClick(agency.get("terms_of_use"))
           }}
         />
       </>

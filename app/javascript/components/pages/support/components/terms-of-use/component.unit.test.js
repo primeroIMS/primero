@@ -52,7 +52,6 @@ describe("<TermOfUse />", () => {
   });
 
   it("should render 2 buttons", () => {
-
     expect(component.find(Typography)).to.have.lengthOf(2);
     expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
