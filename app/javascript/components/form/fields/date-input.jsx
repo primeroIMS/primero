@@ -28,14 +28,15 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     return date;
   };
 
-  const currentValue = isEmpty(getValues()[name]) ? null : getValues()[name];
+  const currentValue = getValues(name);
+  const fieldValue = isEmpty(currentValue) ? null : currentValue;
 
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={currentValue} />;
+      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
     }
 
-    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={currentValue} />;
+    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
   };
 
   return (
