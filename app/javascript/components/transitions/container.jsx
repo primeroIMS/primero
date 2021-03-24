@@ -39,11 +39,15 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
 
 Transitions.displayName = TRANSITIONS_NAME;
 
+Transitions.defaultProps = {
+  record: ""
+};
+
 Transitions.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   isReferral: PropTypes.bool.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  record: PropTypes.string.isRequired,
+  record: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   showMode: PropTypes.bool
 };

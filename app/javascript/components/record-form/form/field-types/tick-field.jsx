@@ -74,7 +74,7 @@ TickField.propTypes = {
   helperText: PropTypes.string,
   label: PropTypes.string,
   name: PropTypes.string,
-  tickBoxlabel: PropTypes.object
+  tickBoxlabel: PropTypes.string
 };
 
 export default connect(TickField);

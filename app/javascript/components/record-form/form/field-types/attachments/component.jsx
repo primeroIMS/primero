@@ -133,7 +133,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
             disabled={disabled}
           />
           <LoadingIndicator
-            loading={recordAttachments.size && (processing || loading)}
+            loading={Boolean(recordAttachments.size && (processing || loading))}
             hasData={!processing && !loading}
           >
             {renderField(arrayHelpers)}

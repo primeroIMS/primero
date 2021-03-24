@@ -42,13 +42,10 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   return (
     <Stepper classes={{ root: css.stepper }} activeStep={activeStep || 0}>
       {workflowSteps?.map((s, index) => {
-        const stepProps = {};
         const label = displayNameHelper(s.display_text, locale) || "";
 
-        stepProps.complete = index < activeStep ? true : null;
-
         return (
-          <Step key={s.id} {...stepProps}>
+          <Step key={s.id} complete={Boolean(index < activeStep)}>
             <StepLabel classes={{ label: css.stepLabel, active: css.styleLabelActive }}>{label}</StepLabel>
           </Step>
         );

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { ExpandMore, ExpandLess } from "@material-ui/icons";
+import { forwardRef, useMemo } from "react";
 
 import { useI18n } from "../../i18n";
 import { useApp } from "../../application";
@@ -10,21 +11,25 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
   const i18n = useI18n();
   const { disabledApplication } = useApp();
 
-  const sharedProps = {
+  const Link = useMemo(
+    () =>
+      forwardRef((linkProps, ref) => (
+        <NavLink ref={ref} to={`/admin${item.to}`} {...linkProps} activeClassName="Mui-selected" />
+      )),
+    [item.to]
+  );
+
+  const listItemProps = {
     key: item.to,
     button: true,
-    activeClassName: "Mui-selected",
-    disabled: item.disabled || disabledApplication
+    disabled: item.disabled || disabledApplication,
+    ...(isParent ? { onClick: handleClick } : { component: Link })
   };
-
-  let customProps = {};
-
-  customProps = isParent ? { onClick: handleClick } : { component: NavLink, to: `/admin${item.to}` };
 
   const handleOpen = open ? <ExpandLess /> : <ExpandMore />;
 
   return (
-    <ListItem {...customProps} {...sharedProps}>
+    <ListItem {...listItemProps}>
       <ListItemText className={nestedClass || null}>{i18n.t(item.label)}</ListItemText>
       {isParent ? handleOpen : null}
     </ListItem>

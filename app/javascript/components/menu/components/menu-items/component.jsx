@@ -1,36 +1,32 @@
 import PropTypes from "prop-types";
-import { MenuItem } from "@material-ui/core";
+import { forwardRef } from "react";
 
-import DisableOffline from "../../../disable-offline";
-import { ConditionalWrapper } from "../../../../libs";
+import MenuItem from "../menu-item";
 
-const Component = ({ actions, disabledCondtion, handleClose }) => {
-  // eslint-disable-next-line react/display-name
-  const renderItem = action => {
-    const { id, disableOffline, name, action: handleAction } = action;
-    const handleClick = () => {
-      handleClose();
-      handleAction(id);
-    };
+const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) => (
+  <div>
+    {actions.map(action => (
+      <MenuItem
+        key={action.name}
+        action={action}
+        disabledCondition={disabledCondition}
+        handleClose={handleClose}
+        ref={ref}
+      />
+    ))}
+  </div>
+));
 
-    return (
-      <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button key={name}>
-        <MenuItem disabled={disabledCondtion(action)} onClick={handleClick}>
-          {action.name}
-        </MenuItem>
-      </ConditionalWrapper>
-    );
-  };
-
-  return actions.map(renderItem);
-};
+Component.displayName = "MenuItems";
 
 Component.defaultProps = {
-  disabledCondtion: () => {}
+  actions: [],
+  disabledCondition: () => { }
 };
 
 Component.propTypes = {
-  disabledCondtion: PropTypes.func,
+  actions: PropTypes.array,
+  disabledCondition: PropTypes.func,
   handleClose: PropTypes.func.isRequired
 };
 

@@ -144,7 +144,9 @@ const Component = ({
         onChange={handleChange}
         options={filterOptions}
         value={inputValue}
-        getOptionSelected={(option, value) => option.id === value.id}
+        getOptionSelected={(option, value) => {
+          return option.id === value.id;
+        }}
         renderInput={params => <TextField {...params} fullWidth margin="normal" variant="outlined" />}
       />
     </Panel>
