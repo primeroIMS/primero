@@ -99,17 +99,19 @@ const Component = ({ recordType, record, handleActiveTab }) => {
               <Field
                 name="date"
                 render={({ field, form, ...other }) => {
+                  const handleChangeFlagDate = date => {
+                    const formattedDate = date ? toServerDateFormat(date) : date;
+
+                    return form.setFieldValue(field.name, formattedDate, true);
+                  };
+
                   return (
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
                       <DatePicker
                         {...field}
                         label={i18n.t("flags.flag_date")}
                         value={field.value ? parseISO(field.value) : field.value}
-                        onChange={date => {
-                          const formattedDate = date ? toServerDateFormat(date) : date;
-
-                          return form.setFieldValue(field.name, formattedDate, true);
-                        }}
+                        onChange={handleChangeFlagDate}
                         {...dateInputProps}
                         {...other}
                       />

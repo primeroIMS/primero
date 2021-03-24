@@ -221,6 +221,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setFilterToList(DEFAULT_FILTERS);
   });
 
+  const handleChangeTabs = (event, value) => setTabIndex(value);
+
   return (
     <div className={css.root}>
       <FormProvider {...methods} user={userName}>
@@ -228,7 +230,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
           <Search handleReset={handleClear} />
           <Tabs
             value={tabIndex}
-            onChange={(event, value) => setTabIndex(value)}
+            onChange={handleChangeTabs}
             TabIndicatorProps={{
               style: {
                 backgroundColor: "transparent"

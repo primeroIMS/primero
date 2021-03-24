@@ -14,16 +14,17 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
     setOpen(true);
     setSelectedTraceId(id);
   };
+  const handleClickAccordion = () => handleOnClick(matchedTraceId);
 
   return (
-    <Accordion expanded={false} onChange={() => handleOnClick(matchedTraceId)}>
+    <Accordion expanded={false} onChange={handleClickAccordion}>
       <AccordionSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
         <ActionButton
           text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
           rest={{
-            onClick: () => handleOnClick(matchedTraceId),
+            onClick: handleClickAccordion,
             className: css.link
           }}
         />

@@ -156,7 +156,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     },
     dialogTitle,
     open: openFieldDialog || openTranslationDialog,
-    cancelHandler: () => handleClose(),
+    cancelHandler: handleClose,
     omitCloseAfterSuccess: true,
     showSuccessButton: !limitedProductionSite
   };

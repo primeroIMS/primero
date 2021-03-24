@@ -135,6 +135,10 @@ const Component = ({
     return getOptionName(foundOption, i18n);
   };
 
+  const handleOptionSelected = (option, value) => option.id === value.id;
+  // eslint-disable-next-line react/no-multi-comp, react/display-name
+  const handleRenderInput = params => <TextField {...params} fullWidth margin="normal" variant="outlined" />;
+
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
@@ -144,10 +148,8 @@ const Component = ({
         onChange={handleChange}
         options={filterOptions}
         value={inputValue}
-        getOptionSelected={(option, value) => {
-          return option.id === value.id;
-        }}
-        renderInput={params => <TextField {...params} fullWidth margin="normal" variant="outlined" />}
+        getOptionSelected={handleOptionSelected}
+        renderInput={handleRenderInput}
       />
     </Panel>
   );

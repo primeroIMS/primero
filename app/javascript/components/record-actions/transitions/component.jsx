@@ -124,23 +124,26 @@ const Transitions = ({
         setDisabledTransferButton(false);
         close();
       };
+      const successHandler = () => submitForm(transferFormikRef);
 
       return {
         onClose: transferOnClose,
         confirmButtonLabel: i18n.t("buttons.transfer"),
         open: isTransferDialogOpen,
-        successHandler: () => submitForm(transferFormikRef),
+        successHandler,
         transitionType: TRANSITIONS_TYPES.transfer,
         enabledSuccessButton: disabledTransferButton || providedConsent
       };
     }
 
     if (isAssignDialogOpen) {
+      const successHandler = () => submitForm(assignFormikRef);
+
       return {
         onClose: close,
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
-        successHandler: () => submitForm(assignFormikRef),
+        successHandler,
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }

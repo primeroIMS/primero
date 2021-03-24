@@ -52,6 +52,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
+  const handleCloseSubformTraces = () => setOpenDialog(false);
 
   useEffect(() => {
     if (typeof index === "number") {
@@ -105,7 +106,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
         <SubformTraces
           formSection={formSection}
           openDrawer={open}
-          handleClose={() => setOpenDialog(false)}
+          handleClose={handleCloseSubformTraces}
           field={field}
           formik={formik}
           index={index}

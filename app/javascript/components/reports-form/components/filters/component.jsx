@@ -110,6 +110,9 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       return <p>{i18n.t("report.no_filters_added")}</p>;
     }
 
+    const handleClickOpen = index => () => handleOpenModal(index);
+    const handleClickEdit = index => () => handleEdit(index);
+
     return Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
       const { attribute, value } = data;
@@ -140,10 +143,10 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleOpenModal(index)}>
+            <IconButton onClick={handleClickOpen(index)}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => handleEdit(index)}>{renderIcon}</IconButton>
+            <IconButton onClick={handleClickEdit(index)}>{renderIcon}</IconButton>
           </Box>
         </Box>
       );

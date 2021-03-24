@@ -16,23 +16,27 @@ const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         <Controller
           control={control}
           name={name}
-          render={({ onChange, onBlur, value, ref }) => (
-            <FormControlLabel
-              labelPlacement="end"
-              control={
-                <Checkbox
-                  {...checkBoxProps}
-                  onBlur={onBlur}
-                  onChange={event => onChange(event.target.checked)}
-                  checked={value}
-                  inputRef={ref}
-                  disabled={disabled}
-                />
-              }
-              label={<InputLabel tooltip={tooltip} text={label} />}
-              className={className}
-            />
-          )}
+          render={({ onChange, onBlur, value, ref }) => {
+            const handleChange = event => onChange(event.target.checked);
+
+            return (
+              <FormControlLabel
+                labelPlacement="end"
+                control={
+                  <Checkbox
+                    {...checkBoxProps}
+                    onBlur={onBlur}
+                    onChange={handleChange}
+                    checked={value}
+                    inputRef={ref}
+                    disabled={disabled}
+                  />
+                }
+                label={<InputLabel tooltip={tooltip} text={label} />}
+                className={className}
+              />
+            );
+          }}
           disabled={disabled}
           defaultValue={checkBoxProps.defaultValue}
         />

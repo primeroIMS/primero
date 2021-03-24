@@ -27,13 +27,14 @@ const Component = ({ handleSetFilterValue, options, name, filterValues, id: filt
         </ToggleButton>
       );
     });
+  const handleChange = (event, value) => handleSetFilterValue(filterID, value);
 
   return (
     <ToggleButtonGroup
       name={name}
       color="primary"
       value={filterValues?.[filterID]}
-      onChange={(event, value) => handleSetFilterValue(filterID, value)}
+      onChange={handleChange}
       size="small"
       exclusive
       disabled

@@ -46,7 +46,7 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
         form: FORM_ID,
         type: "submit"
       }}
-      cancelHandler={() => close()}
+      cancelHandler={close}
       dialogTitle={i18n.t("form_export.label")}
       confirmButtonLabel={i18n.t("buttons.export")}
       pending={dialogPending}

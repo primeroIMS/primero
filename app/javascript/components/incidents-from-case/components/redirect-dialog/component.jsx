@@ -24,10 +24,12 @@ const Component = ({ handleSubmit, mode, open, setFieldValue, setRedirectOpts, i
     handleSubmit();
   };
 
+  const handleSuccessClick = () => handleSuccessAction();
+
   return (
     <ActionDialog
       open
-      successHandler={() => handleSuccessAction()}
+      successHandler={handleSuccessClick}
       cancelHandler={handleCloseAction}
       dialogTitle={i18n.t("case.save")}
       dialogText={i18n.t("case.save_text")}

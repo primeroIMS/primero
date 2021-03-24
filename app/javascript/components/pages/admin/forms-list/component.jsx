@@ -160,15 +160,12 @@ const Component = () => {
   };
 
   const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
+  const handleClickExport = () => handleExport(FORM_EXPORTER_DIALOG);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("forms.label")}>
-        <FormAction
-          actionHandler={() => handleExport(FORM_EXPORTER_DIALOG)}
-          text={i18n.t("buttons.export")}
-          startIcon={<SwapVert />}
-        />
+        <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
         {newFormBtn}
       </PageHeading>
       <PageContent>

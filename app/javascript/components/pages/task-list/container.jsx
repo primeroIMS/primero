@@ -182,6 +182,8 @@ const TaskList = () => {
     });
   };
 
+  const handleOnRowClick = record => onRowClick(record);
+
   const options = {
     selectableRows: "none"
   };
@@ -194,7 +196,7 @@ const TaskList = () => {
     onTableChange: fetchTasks,
     targetRecordType: "cases",
     bypassInitialFetch: true,
-    onRowClick: record => onRowClick(record)
+    onRowClick: handleOnRowClick
   };
 
   return (

@@ -31,6 +31,8 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
   const renderDivider = divider && <div className={css.navSeparator} />;
 
+  const onClick = () => dispatch(setDialog({ dialog: LOGOUT_DIALOG, open: true, pending: false }));
+
   const navlinkProps = {
     ...(!disabledApplication &&
       !disabled && {
@@ -44,7 +46,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
       !online &&
       to === ROUTES.logout && {
         to: false,
-        onClick: () => dispatch(setDialog({ dialog: LOGOUT_DIALOG, open: true, pending: false }))
+        onClick
       })
   };
 

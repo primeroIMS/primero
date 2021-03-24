@@ -66,11 +66,15 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
+  const handleShouldUpdate = (nextProps, props) => !isEqual(nextProps, props);
+
   return (
     <FastField
       name={name}
-      shouldUpdate={(nextProps, props) => !isEqual(nextProps, props)}
+      shouldUpdate={handleShouldUpdate}
       render={renderProps => {
+        const handleOnClick = () => hideFieldValue();
+
         return (
           <>
             <MuiTextField
@@ -88,7 +92,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
               {...fieldProps}
             />
             {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase className={css.hideNameStyle} onClick={() => hideFieldValue()}>
+              <ButtonBase className={css.hideNameStyle} onClick={handleOnClick}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}

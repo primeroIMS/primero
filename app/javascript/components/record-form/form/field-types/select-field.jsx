@@ -239,7 +239,11 @@ const SelectField = ({
   return (
     <Field name={name}>
       {/* eslint-disable-next-line no-unused-vars */}
-      {({ f, form }) => <SearchableSelect {...fieldProps} onChange={data => handleChange(data, form)} />}
+      {({ f, form }) => {
+        const onChange = data => handleChange(data, form);
+
+        return <SearchableSelect {...fieldProps} onChange={onChange} />;
+      }}
     </Field>
   );
 };

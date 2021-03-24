@@ -67,6 +67,8 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
       />
     ));
 
+  const handleClose = () => setOpen(false);
+
   return (
     <div className={css.matchedTracesContainer}>
       <h3>{i18n.t("tracing_request.matches")}</h3>
@@ -76,7 +78,7 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
       <SubformDrawer
         title={i18n.t("cases.summary.matched_trace", { trace_id: getShortIdFromUniqueId(selectedTraceId) })}
         open={open}
-        cancelHandler={() => setOpen(false)}
+        cancelHandler={handleClose}
       >
         <TraceComparisonForm
           selectedForm="matched-trace-detail"

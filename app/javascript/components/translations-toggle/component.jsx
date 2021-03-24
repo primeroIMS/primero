@@ -30,8 +30,25 @@ const TranslationsToggle = () => {
     }
   };
 
+  const handleClickMenu = () => handleClose(null);
+
   // TODO: Need better list of locales with direction from backend
   const locales = useMemoizedSelector(state => selectLocales(state));
+
+  const renderLocales = () => {
+    const handleClickMenuItem = value => () => handleClose(value);
+
+    return (
+      locales &&
+      locales.map(currLocale => {
+        return (
+          <MenuItem key={currLocale} onClick={handleClickMenuItem(currLocale)}>
+            {i18n.t(`home.${currLocale}`)}
+          </MenuItem>
+        );
+      })
+    );
+  };
 
   return (
     <>
@@ -49,7 +66,7 @@ const TranslationsToggle = () => {
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
-        onClose={() => handleClose(null)}
+        onClose={handleClickMenu}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center"
@@ -59,12 +76,7 @@ const TranslationsToggle = () => {
           horizontal: "center"
         }}
       >
-        {locales &&
-          locales.map(l => (
-            <MenuItem key={l} onClick={() => handleClose(l)}>
-              {i18n.t(`home.${l}`)}
-            </MenuItem>
-          ))}
+        {renderLocales()}
       </Menu>
     </>
   );

@@ -22,16 +22,22 @@ const PhotoArray = ({ images }) => {
 
   if (!images) return null;
 
-  const renderImages = images.map((image, index) => (
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div key={image} className={css.imgContainer} onClick={() => handleToggle(index)}>
-      <img src={image} alt="Record" className={css.img} />
-    </div>
-  ));
+  const renderImages = () => {
+    const handleOnClick = index => () => handleToggle(index);
+
+    return images.map((image, index) => {
+      return (
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
+        <div key={image} className={css.imgContainer} onClick={handleOnClick(index)}>
+          <img src={image} alt="Record" className={css.img} />
+        </div>
+      );
+    });
+  };
 
   return (
     <>
-      <div className={css.imgsContainer}>{renderImages}</div>
+      <div className={css.imgsContainer}>{renderImages()}</div>
       <Backdrop className={css.backdrop} open={selected.open} onClick={handleClose}>
         <IconButton className={css.backdropClose}>
           <CloseIcon />

@@ -63,28 +63,32 @@ const Component = ({
     </div>
   );
 
+  const onChangePage = (e, currentPage) => {
+    dispatch(
+      fetchRecords({
+        recordType,
+        data: selectedFilters.set("page", currentPage + 1)
+      })
+    );
+  };
+
+  const onChangeRowsPerPage = ({ target }) =>
+    dispatch(
+      fetchRecords({
+        recordType,
+        data: selectedFilters.set("page", 1).set("per", target.value)
+      })
+    );
+
   const paginationProps = {
     count: totalRecords,
     page: page - 1,
     rowsPerPage: perPage,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     component: "div",
-    onChangePage: (e, currentPage) => {
-      dispatch(
-        fetchRecords({
-          recordType,
-          data: selectedFilters.set("page", currentPage + 1)
-        })
-      );
-    },
+    onChangePage,
     className: css.customToolbarPagination,
-    onChangeRowsPerPage: ({ target }) =>
-      dispatch(
-        fetchRecords({
-          recordType,
-          data: selectedFilters.set("page", 1).set("per", target.value)
-        })
-      )
+    onChangeRowsPerPage
   };
 
   return (

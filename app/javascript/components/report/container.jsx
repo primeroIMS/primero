@@ -89,10 +89,13 @@ const Report = ({ mode }) => {
   const editButton = formMode.get("isShow") && canEditReport && (
     <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
   );
+  const handleClickDeleteButton = () => setDeleteModal(true);
+  const handleClickSuccess = () => handleDelete();
+  const handleClickCancel = () => dialogClose();
 
   const cancelButton = formMode.get("isShow") && canDeleteReport && (
     <FormAction
-      actionHandler={() => setDeleteModal(true)}
+      actionHandler={handleClickDeleteButton}
       cancel
       text={i18n.t("buttons.delete")}
       startIcon={<DeleteIcon />}
@@ -121,8 +124,8 @@ const Report = ({ mode }) => {
         <ActionDialog
           open={dialogOpen}
           dialogTitle={i18n.t("reports.delete_report")}
-          successHandler={() => handleDelete()}
-          cancelHandler={() => dialogClose()}
+          successHandler={handleClickSuccess}
+          cancelHandler={handleClickCancel}
           omitCloseAfterSuccess
           maxSize="xs"
           pending={pending}

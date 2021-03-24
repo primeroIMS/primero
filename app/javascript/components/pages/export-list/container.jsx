@@ -34,8 +34,10 @@ const ExportList = () => {
 
   const onRowClick = record => (!isRecordProcessing(record.status) ? window.open(record.export_file, "_self") : null);
 
-  const columns = data =>
-    listHeaders.map(c => {
+  const columns = data => {
+    const handleClick = exportRecord => () => onRowClick(exportRecord);
+
+    return listHeaders.map(c => {
       const options = {
         ...{
           ...(c.name === EXPORT_COLUMNS.fileName
@@ -56,7 +58,7 @@ const ExportList = () => {
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                       <div
                         className={css.link}
-                        onClick={() => onRowClick(exportRecord)}
+                        onClick={handleClick(exportRecord)}
                         role="button"
                         tabIndex={tableMeta.rowIndex}
                       >
@@ -95,6 +97,7 @@ const ExportList = () => {
         options
       };
     });
+  };
 
   const options = {
     selectableRows: "none"

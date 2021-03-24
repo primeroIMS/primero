@@ -73,13 +73,16 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
     />
   );
 
+  const handleRemoveClick = () => onRemoveClick(index);
+
   const renderRemoveButton = formMode.get("isNew") && (
-    <IconButton aria-label="delete" className={css.removeIcon} onClick={() => onRemoveClick(index)}>
+    <IconButton aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
       <DeleteIcon />
     </IconButton>
   );
   const classesDragIndicator = clsx([css.fieldColumn, css.dragIndicatorColumn]);
   const classesTextInput = clsx([css.fieldColumn, css.fieldInput]);
+  const handleOnBlur = event => handleChange(event, index);
 
   return (
     <Draggable draggableId={option.fieldID} index={index}>
@@ -101,7 +104,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
                   defaultValue: option?.display_text?.en,
                   InputProps: {
                     classes,
-                    onBlur: event => handleChange(event, index)
+                    onBlur: handleOnBlur
                   }
                 }}
               />

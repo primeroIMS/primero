@@ -30,6 +30,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
   const renderTranslationFields = () =>
     locales.map(locale => {
       const localeId = locale.get("id");
+      const showIf = () => localeId === selectedLocaleId;
 
       return (
         <FormSectionField
@@ -39,7 +40,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
             name: `fields.${fieldName}.display_name.${localeId}`,
             type: TEXT_FIELD,
             watchedInputs: "selected_locale_id",
-            showIf: () => localeId === selectedLocaleId,
+            showIf,
             forceShowIf: true,
             disabled: limitedProductionSite
           })}

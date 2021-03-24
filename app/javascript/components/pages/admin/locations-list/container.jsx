@@ -83,7 +83,7 @@ const Container = () => {
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("settings.navigation.locations")}>
-        <Menu showMenu actions={actions} disabledCondition={() => {}} />
+        <Menu showMenu actions={actions} />
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>

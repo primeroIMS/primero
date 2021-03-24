@@ -28,10 +28,11 @@ const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
 
   const clickable = !isEmpty(workflowData) && count > 0;
   const classes = clsx(css.itemButton, { [css.itemButtonClick]: clickable });
+  const handleClickButton = () => (clickable ? handleClick(query) : null);
 
   return (
     <div className={css.stepCases} icon={null}>
-      <button className={classes} type="button" onClick={() => (clickable ? handleClick(query) : null)}>
+      <button className={classes} type="button" onClick={handleClickButton}>
         <span>{count}</span> {i18n.t("cases.label")}
       </button>
     </div>

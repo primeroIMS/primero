@@ -51,15 +51,17 @@ const Component = ({ field, values, locale, displayName, index, onClick }) => {
     })
     .filter(i => i);
 
+  const handleClick = () => onClick(index);
+
   if (collapsedFieldNames.length && values.length) {
     return (
       <div className={css.subformHeader}>
-        <Button onClick={() => onClick(index)}>{subformValues}</Button>
+        <Button onClick={handleClick}>{subformValues}</Button>
       </div>
     );
   }
 
-  return <Button onClick={() => onClick(index)}>{displayName?.[locale]}</Button>;
+  return <Button onClick={handleClick}>{displayName?.[locale]}</Button>;
 };
 
 Component.displayName = SUBFORM_HEADER;
