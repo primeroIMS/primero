@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import isEmpty from "lodash/isEmpty";
 
@@ -11,8 +11,10 @@ import localize from "../../../libs/date-picker-localization";
 
 const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const i18n = useI18n();
-  const { getValues, setValue, control } = formMethods;
+  const { setValue, control } = formMethods;
   const { name } = commonInputProps;
+
+  const currentValue = useWatch({ name, control });
 
   const dialogLabels = {
     clearLabel: i18n.t("buttons.clear"),
@@ -28,7 +30,6 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     return date;
   };
 
-  const currentValue = getValues(name);
   const fieldValue = isEmpty(currentValue) ? null : currentValue;
 
   const renderPicker = () => {

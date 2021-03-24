@@ -32,7 +32,7 @@ const Component = ({ mode }) => {
   const loadingCodeOfConduct = useMemoizedSelector(state => getLoadingCodeOfConduct(state));
 
   const handleCancel = () => {
-    dispatch(push(ROUTES.contact_information));
+    dispatch(push(ROUTES.code_of_conduct));
   };
 
   const handleEdit = () => {
