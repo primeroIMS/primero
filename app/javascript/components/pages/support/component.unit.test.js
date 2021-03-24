@@ -5,7 +5,7 @@ import PageContainer, { PageHeading } from "../../page";
 import { setupMountedComponent } from "../../../test";
 import ContactInformation from "../../contact-information";
 
-import { Navigation, CodeOfConduct } from "./components";
+import { Navigation, CodeOfConduct, TermOfUse } from "./components";
 import Support from "./component";
 
 describe("<Support />", () => {
@@ -64,7 +64,7 @@ describe("<Support />", () => {
         .map(listItem => listItem.props())
         .filter(listItem => listItem.disabled);
 
-      expect(disabledListItem).to.have.lengthOf(2);
+      expect(disabledListItem).to.have.lengthOf(1);
     });
 
     it("should render CodeOfConduct component when clicking menu from the Navigation list", () => {
@@ -76,6 +76,14 @@ describe("<Support />", () => {
       codeOfconductMenu.simulate("click");
       expect(component.find(CodeOfConduct)).to.have.lengthOf(1);
       expect(component.find("h2").text()).to.be.equal("Test code of conduct");
+    });
+
+    it("should render TermOfUse component when clicking menu from the Navigation list", () => {
+      const codeOfconductMenu = component.find(ListItem).at(2);
+
+      codeOfconductMenu.simulate("click");
+      expect(component.find(TermOfUse)).to.have.lengthOf(1);
+      expect(component.find("h2").text()).to.be.equal("navigation.support_menu.terms_of_use");
     });
   });
 });

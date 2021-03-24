@@ -1,7 +1,7 @@
 import ContactInformation from "../../contact-information";
 import NotImplemented from "../../not-implemented/component";
 
-import { CodeOfConduct } from "./components";
+import { CodeOfConduct, TermOfUse } from "./components";
 import { SUPPORT_FORMS } from "./constants";
 
 export const menuList = i18n => [
@@ -15,8 +15,7 @@ export const menuList = i18n => [
   },
   {
     id: SUPPORT_FORMS.termsOfUse,
-    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.termsOfUse}`),
-    disabled: true
+    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.termsOfUse}`)
   },
   {
     id: SUPPORT_FORMS.systemInformation,
@@ -31,6 +30,8 @@ export const renderSupportForm = id => {
       return ContactInformation;
     case SUPPORT_FORMS.codeOfConduct:
       return CodeOfConduct;
+    case SUPPORT_FORMS.termsOfUse:
+      return TermOfUse;
 
     default:
       return NotImplemented;
