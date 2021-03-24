@@ -17,7 +17,7 @@ describe("<Support /> - utils", () => {
       expect(clone).to.be.empty;
     });
 
-    ["menuList", "useSupportForm"].forEach(property => {
+    ["menuList", "renderSupportForm"].forEach(property => {
       it(`should exports '${property}'`, () => {
         expect(utils).to.have.property(property);
         delete clone[property];
@@ -55,17 +55,17 @@ describe("<Support /> - utils", () => {
     });
   });
 
-  describe("useSupportForm", () => {
+  describe("renderSupportForm", () => {
     it("should return the ContactInformation form", () => {
-      expect(utils.useSupportForm(SUPPORT_FORMS.contactInformation)).to.be.equal(ContactInformation);
+      expect(utils.renderSupportForm(SUPPORT_FORMS.contactInformation)).to.be.equal(ContactInformation);
     });
 
     it("should return the CodeOfConduct form", () => {
-      expect(utils.useSupportForm(SUPPORT_FORMS.codeOfConduct)).to.be.equal(CodeOfConduct);
+      expect(utils.renderSupportForm(SUPPORT_FORMS.codeOfConduct)).to.be.equal(CodeOfConduct);
     });
 
     it("should return NotImplemented form if it's not a valid form", () => {
-      expect(utils.useSupportForm()).to.be.equal(NotImplemented);
+      expect(utils.renderSupportForm()).to.be.equal(NotImplemented);
     });
   });
 });

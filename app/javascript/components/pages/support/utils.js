@@ -25,7 +25,7 @@ export const menuList = i18n => [
   }
 ];
 
-export const useSupportForm = id => {
+export const renderSupportForm = id => {
   switch (id) {
     case SUPPORT_FORMS.contactInformation:
       return ContactInformation;

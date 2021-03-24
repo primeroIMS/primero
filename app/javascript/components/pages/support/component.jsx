@@ -9,7 +9,7 @@ import { useI18n } from "../../i18n";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { menuList, useSupportForm } from "./utils";
+import { menuList, renderSupportForm } from "./utils";
 import { Navigation } from "./components";
 
 const useStyles = makeStyles(styles);
@@ -17,13 +17,14 @@ const useStyles = makeStyles(styles);
 const Component = () => {
   const css = useStyles();
   const i18n = useI18n();
-
   const renderMenuList = menuList(i18n);
 
   const { mobileDisplay } = useThemeHelper();
+
   const [selectedItem, setSelectedItem] = useState(renderMenuList[0].id);
   const [toggleNav, setToggleNav] = useState(false);
-  const Form = useSupportForm(selectedItem);
+
+  const Form = renderSupportForm(selectedItem);
 
   const handleToggleNav = () => setToggleNav(!toggleNav);
   const handleClick = id => {
