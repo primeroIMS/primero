@@ -49,7 +49,8 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
         "formSection",
         "field",
         "displayName",
-        "linkToForm"
+        "linkToForm",
+        "tickBoxlabel"
       ].includes(key)
     )
   };

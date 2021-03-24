@@ -27,7 +27,8 @@ describe Api::V2::AgenciesController, type: :request do
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
       description_i18n: { en: 'Nationality', es: 'Nacionalidad' },
       logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo
+      logo_full: FilesTestHelper.logo,
+      terms_of_use: FilesTestHelper.pdf_file
     )
     @agency_b = Agency.create!(
       unique_id: 'agency_2',
@@ -90,6 +91,7 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['data'][0]['pdf_logo_option']).to be_truthy
       expect(json['data'][0]['logo_icon']).not_to be_nil
       expect(json['data'][0]['logo_full']).not_to be_nil
+      expect(json['data'][0]['terms_of_use']).not_to be_nil
       expect(json['data'][2]['logo_icon']).not_to be_nil
       expect(json['data'][2]['logo_full']).not_to be_nil
     end

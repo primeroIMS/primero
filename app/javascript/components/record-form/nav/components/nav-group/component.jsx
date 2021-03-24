@@ -63,7 +63,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   currentUser: PropTypes.string,
-  formGroupLookup: PropTypes.object,
+  formGroupLookup: PropTypes.array,
   group: PropTypes.object,
   handleClick: PropTypes.func,
   isNew: PropTypes.bool,

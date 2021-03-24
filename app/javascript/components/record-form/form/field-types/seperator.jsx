@@ -25,7 +25,7 @@ Seperator.displayName = SEPERATOR_NAME;
 Seperator.propTypes = {
   helperText: PropTypes.string,
   label: PropTypes.string,
-  mode: PropTypes.string
+  mode: PropTypes.object
 };
 
 export default Seperator;

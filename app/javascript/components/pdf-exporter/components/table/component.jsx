@@ -58,7 +58,9 @@ const Component = ({ fields, isSubform, record }) => {
         } = field;
 
         if (subformSection) {
-          return renderSubform(field, subformSection, displayName);
+          return (
+            <Fragment key={`keyval-${name}-subform`}>{renderSubform(field, subformSection, displayName)}</Fragment>
+          );
         }
 
         if (!visible || EXCLUDED_FIELD_TYPES.includes(type)) {

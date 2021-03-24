@@ -1,52 +1,48 @@
-import { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { TextField, CircularProgress } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 import { optionLabel } from "../utils";
 
-const Component = ({
-  params,
-  value,
-  mode,
-  helperText,
-  InputLabelProps,
-  isDisabled,
-  isLoading,
-  multiple,
-  TextFieldProps,
-  options
-}) => {
-  const i18n = useI18n();
+const Component = forwardRef(
+  (
+    { params, value, mode, helperText, InputLabelProps, isDisabled, isLoading, multiple, TextFieldProps, options },
+    ref
+  ) => {
+    const i18n = useI18n();
 
-  const { InputProps, ...restTextFieldProps } = TextFieldProps;
-  const disabledPlaceholder = mode?.isShow && !value ? "--" : "";
+    const { InputProps, ...restTextFieldProps } = TextFieldProps;
+    const disabledPlaceholder = mode?.isShow && !value ? "--" : "";
 
-  const inputParams = {
-    ...params,
-    fullWidth: true,
-    helperText,
-    InputLabelProps,
-    placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
-    ...InputProps,
-    ...restTextFieldProps,
-    InputProps: {
-      ...params.InputProps,
-      endAdornment: (
-        <>
-          {isLoading && <CircularProgress color="inherit" size={20} />}
-          {mode?.isShow || params.InputProps.endAdornment}
-        </>
-      )
-    }
-  };
+    const inputParams = {
+      ...params,
+      fullWidth: true,
+      helperText,
+      InputLabelProps,
+      placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
+      ...InputProps,
+      ...restTextFieldProps,
+      InputProps: {
+        ...params.InputProps,
+        endAdornment: (
+          <>
+            {isLoading && <CircularProgress color="inherit" size={20} />}
+            {mode?.isShow || params.InputProps.endAdornment}
+          </>
+        )
+      }
+    };
 
-  useEffect(() => {
-    inputParams.inputProps.ref.current.value = optionLabel(value || "", options);
-  }, [i18n.locale]);
+    const { disableUnderline, ...restInputParams } = inputParams;
 
-  return <TextField {...inputParams} />;
-};
+    useEffect(() => {
+      inputParams.inputProps.ref.current.value = optionLabel(value || "", options);
+    }, [i18n.locale]);
+
+    return <TextField {...restInputParams} inputRef={ref} />;
+  }
+);
 
 Component.displayName = "AutoCompleteInput";
 

@@ -51,3 +51,5 @@ export const SELECT_CHANGE_REASON = Object.freeze({
   selectOption: "select-option",
   createOption: "create-option"
 });
+
+export const EMPTY_VALUE = "--";

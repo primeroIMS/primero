@@ -46,10 +46,10 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  allAgencies: PropTypes.object,
+  allAgencies: PropTypes.array,
   allFields: PropTypes.object,
   allLookups: PropTypes.object,
-  locations: PropTypes.object,
+  locations: PropTypes.array,
   recordChangeLogs: PropTypes.object,
   setCalculatingChangeLog: PropTypes.func,
   setOpen: PropTypes.func,

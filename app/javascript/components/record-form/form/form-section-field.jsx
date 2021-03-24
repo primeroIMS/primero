@@ -139,7 +139,7 @@ FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
   filters: PropTypes.object,
-  formSection: PropTypes.object.isRequired,
+  formSection: PropTypes.object,
   index: PropTypes.number,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,

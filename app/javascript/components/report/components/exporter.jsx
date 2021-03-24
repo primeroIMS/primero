@@ -59,8 +59,12 @@ const Exporter = ({ includesGraph }) => {
 
 Exporter.displayName = NAME;
 
+Exporter.defaultProps = {
+  includesGraph: false
+};
+
 Exporter.propTypes = {
-  includesGraph: PropTypes.bool.isRequired
+  includesGraph: PropTypes.bool
 };
 
 export default Exporter;

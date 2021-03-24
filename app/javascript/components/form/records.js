@@ -69,7 +69,9 @@ export const FieldRecord = Record({
   href: null,
   fileFormat: "",
   filterOptionSource: null,
-  rawOptions: false
+  rawOptions: false,
+  renderDownloadButton: false,
+  downloadButtonLabel: ""
 });
 
 export const FormSectionRecord = Record({
