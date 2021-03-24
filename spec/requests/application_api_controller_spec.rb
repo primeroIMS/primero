@@ -4,12 +4,18 @@ require 'rails_helper'
 
 describe ApplicationApiController, type: :request do
   before(:each) do
-    clean_data(SystemSettings)
+    clean_data(SystemSettings, CodeOfConduct)
+    CodeOfConduct.create!(
+      title: 'Code of conduct test',
+      content: 'Some content',
+      created_by: 'test_user',
+      created_on: DateTime.now
+    )
     SystemSettings.create!
   end
 
   after(:all) do
-    clean_data(SystemSettings)
+    clean_data(SystemSettings, CodeOfConduct)
   end
 
   describe 'Configuration update lock' do
