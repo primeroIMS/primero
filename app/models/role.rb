@@ -69,7 +69,7 @@ class Role < ApplicationRecord
 
     def list(user, external = false)
       if external
-        Role.where(disabled: false).where(referral: true).or(Role.where(transfer: true))
+        Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
       else
         user.permitted_roles_to_manage
       end
