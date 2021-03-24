@@ -28,6 +28,7 @@ class User < ApplicationRecord
   belongs_to :role
   belongs_to :agency, optional: true
   belongs_to :identity_provider, optional: true
+  belongs_to :code_of_conduct, optional: true
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
@@ -47,7 +48,7 @@ class User < ApplicationRecord
 
   before_validation :generate_random_password
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
+  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
   after_update :reassociate_groups_or_agencies
   after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
@@ -552,6 +553,10 @@ class User < ApplicationRecord
 
   def set_agency_services
     self.services = agency.services if agency.present? && services.blank?
+  end
+
+  def set_code_of_conduct_accepted_on
+    self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
   end
 
   def reassociate_groups_or_agencies

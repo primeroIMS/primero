@@ -114,8 +114,13 @@ export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => 
   return useWebhookSyncFor.includes(recordType);
 };
 
+export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduct"], fromJS({}));
+
 export const getOptionFromAppModule = (state, primeroModule, option) =>
   getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", option],
     option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
   );
+
+export const getCodeOfConductEnabled = state =>
+  state.getIn([NAMESPACE, "systemOptions", "code_of_conduct_enabled"], false);
