@@ -98,7 +98,7 @@ export const validateEnglishName = async value =>
 
 export const getLookupFormGroup = (allFormGroupsLookups, moduleId, parentForm) => {
   if (!moduleId || !parentForm) {
-    return [];
+    return {};
   }
 
   return allFormGroupsLookups.find(

@@ -100,8 +100,11 @@ describe("User - Reducers", () => {
         FilterRecord
       ),
       location: "XX",
-      agencyLogo: undefined
+      agencyLogo: undefined,
+      codeOfConductAcceptedOn: "2021-17-03",
+      codeOfConductId: 1
     });
+
     const payload = {
       id: 1,
       full_name: "System Superuser",
@@ -162,7 +165,9 @@ describe("User - Reducers", () => {
         ]
       },
       agency_logo_full: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-full.png",
-      agency_logo_icon: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-icon.png"
+      agency_logo_icon: "/rails/active_storage/blobs/2lkIn19--049c807149445f6bd72621ae500340ac544e85d8/unicef-icon.png",
+      code_of_conduct_accepted_on: "2021-17-03",
+      code_of_conduct_id: 1
     };
     const action = {
       type: Actions.FETCH_USER_DATA_SUCCESS,
