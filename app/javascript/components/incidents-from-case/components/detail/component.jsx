@@ -17,6 +17,8 @@ import { setSelectedForm } from "../../../record-form/action-creators";
 import { setCaseIdForIncident } from "../../../records/action-creators";
 import RedirectDialog from "../redirect-dialog";
 
+import { EDIT, VIEW } from "./constants";
+
 const Component = ({
   css,
   handleSubmit,
@@ -49,7 +51,7 @@ const Component = ({
   };
 
   const handleEvent = modeEvent => {
-    incidentPath = `/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === "view" ? "" : "/edit"}`;
+    incidentPath = `/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === VIEW ? "" : `/${EDIT}`}`;
     if (!mode.isShow) {
       setRedirectOpts({ open: true, incidentPath });
     } else {
@@ -57,13 +59,13 @@ const Component = ({
     }
   };
 
-  const handleClickViewIncident = () => handleEvent("view");
-  const handleClickEditIncident = () => handleEvent("edit");
+  const handleClickViewIncident = () => handleEvent(VIEW);
+  const handleClickEditIncident = () => handleEvent(EDIT);
 
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
       icon={<VisibilityIcon />}
-      text={i18n.t("buttons.view")}
+      text={i18n.t(`buttons.${VIEW}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
@@ -74,7 +76,7 @@ const Component = ({
   const editIncidentBtn = canEditIncidents && (
     <ActionButton
       icon={<CreateIcon />}
-      text={i18n.t("buttons.edit")}
+      text={i18n.t(`buttons.${EDIT}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{
