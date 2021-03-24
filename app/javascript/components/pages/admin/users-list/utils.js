@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { AGENCY, DISABLED, USER_GROUP } from "./constants";
@@ -56,3 +58,12 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     multiple: false
   }
 ];
+
+export const agencyBodyRender = (i18n, agencies, value) =>
+  agencies.get(String(value), fromJS({})).getIn(["name", i18n.locale]);
+
+export const buildObjectWithIds = elems =>
+  elems.reduce(
+    (previousValue, currentValue) => previousValue.merge(fromJS({ [currentValue.get("id")]: currentValue })),
+    fromJS({})
+  );

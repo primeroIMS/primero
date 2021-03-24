@@ -13,6 +13,12 @@ const getAppModuleByUniqueId = (state, uniqueId) =>
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
+export const getAgenciesWithService = (state, service) => {
+  const agencies = selectAgencies(state);
+
+  return service ? agencies.filter(agency => agency.get("services", fromJS([])).includes(service)) : agencies;
+};
+
 export const getEnabledAgencies = (state, service) => {
   const enabledAgencies = state.getIn([NAMESPACE, "agencies"], fromJS([])).filter(agency => !agency.get("disabled"));
 
@@ -89,6 +95,8 @@ export const getApprovalsLabels = (state, locale) => {
 };
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
+
+export const getEnabledUserGroups = state => getUserGroups(state).filter(userGroup => !userGroup.get("disabled"));
 
 export const getRoles = state => state.getIn([NAMESPACE, "roles"], fromJS([]));
 

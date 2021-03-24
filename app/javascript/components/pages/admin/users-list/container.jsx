@@ -16,14 +16,14 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { Filters as AdminFilters } from "../components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
+import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
-import { buildUsersQuery, getFilters } from "./utils";
+import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
@@ -32,13 +32,20 @@ const Container = () => {
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
+  const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
+  const agenciesWithId = buildObjectWithIds(agencies);
+
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
-    ...rest
+    ...rest,
+    ...(rest.name === "agency_id"
+      ? { options: { customBodyRender: value => agencyBodyRender(i18n, agenciesWithId, value) } }
+      : {})
   }));
-  const filterAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
-  const filterUserGroups = useMemoizedSelector(state => getUserGroups(state));
-  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
   const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
 
@@ -80,7 +87,7 @@ const Container = () => {
 
   const filterProps = {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
-    filters: getFilters(i18n, filterAgencies, filterUserGroups, filterPermission),
+    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
