@@ -3,7 +3,6 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useMemoizedSelector } from "../../libs";
 import DisplayData from "../display-data";
 import { useI18n } from "../i18n";
-import PageContainer, { PageContent } from "../page";
 
 import { BLACK_LISTED_FIELDS } from "./constants";
 import { selectSupportData } from "./selectors";
@@ -35,10 +34,10 @@ const Support = () => {
     });
 
   return (
-    <PageContainer>
+    <>
       <h1 className={css.PageTitle}>{i18n.t("contact.info_label")}</h1>
-      <PageContent>{renderInformation}</PageContent>
-    </PageContainer>
+      {renderInformation}
+    </>
   );
 };
 
