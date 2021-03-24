@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Controller } from "react-hook-form";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
@@ -10,7 +11,7 @@ import localize from "../../../libs/date-picker-localization";
 
 const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const i18n = useI18n();
-  const { setValue, control } = formMethods;
+  const { getValues, setValue, control } = formMethods;
   const { name } = commonInputProps;
 
   const dialogLabels = {
@@ -27,12 +28,14 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     return date;
   };
 
+  const currentValue = isEmpty(getValues()[name]) ? null : getValues()[name];
+
   const renderPicker = () => {
     if (dateIncludeTime) {
-      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} />;
+      return <DateTimePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={currentValue} />;
     }
 
-    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} />;
+    return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={currentValue} />;
   };
 
   return (
