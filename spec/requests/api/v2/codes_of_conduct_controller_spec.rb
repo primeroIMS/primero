@@ -103,5 +103,42 @@ describe Api::V2::CodesOfConductController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/codes_of_conduct')
     end
+
+    context 'when a code of conduct already exists' do
+      it 'only updates the created_on and created_by fields if the content did not change' do
+        date_time1 = DateTime.parse('2021/03/12 15:50:55')
+        DateTime.stub(:now).and_return(date_time1)
+
+        created_code_of_conduct = CodeOfConduct.create!(
+          title: 'Some Title',
+          content: 'Some Content',
+          created_by: 'testuser'
+        )
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CODE_OF_CONDUCT, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: { title: 'Some Title', content: 'Some Content' }
+        }
+
+        date_time2 = DateTime.parse('2021/03/12 15:50:55')
+        DateTime.stub(:now).and_return(date_time2)
+
+        post '/api/v2/codes_of_conduct', params: params
+
+        current_code_of_conduct = CodeOfConduct.current
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['title']).to eq(current_code_of_conduct.title)
+        expect(json['data']['content']).to eq(current_code_of_conduct.content)
+        expect(json['data']['created_by']).to eq(current_code_of_conduct.created_by)
+        expect(DateTime.parse(json['data']['created_on'])).to eq(date_time2)
+        expect(created_code_of_conduct.id).to eq(current_code_of_conduct.id)
+      end
+    end
   end
 end
