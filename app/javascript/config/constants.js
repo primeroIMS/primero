@@ -83,6 +83,7 @@ export const RECORD_PATH = {
   cases: "cases",
   configurations: "configurations",
   contact_information: "contact_information",
+  codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
   flags: "flags",
   forms: "forms",
@@ -133,7 +134,7 @@ export const ROUTES = {
   cases: "/cases",
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
-  code_of_conduct: "/code_of_conduct",
+  code_of_conduct: "/admin/code_of_conduct",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
@@ -254,6 +255,12 @@ export const ADMIN_NAV = [
     label: "settings.navigation.contact_information",
     permission: MANAGE,
     recordType: RESOURCES.systems
+  },
+  {
+    to: "/code_of_conduct",
+    label: "settings.navigation.code_of_conduct",
+    permission: MANAGE,
+    recordType: RESOURCES.codes_of_conduct
   },
   {
     to: "/configurations",

@@ -10,6 +10,7 @@ describe("pages - index", () => {
       "AgenciesForm",
       "AgenciesList",
       "AuditLogs",
+      "CodeOfConduct",
       "ConfigurationsList",
       "ConfigurationsForm",
       "Dashboard",

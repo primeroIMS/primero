@@ -23,6 +23,7 @@ import {
   UsersList,
   ConfigurationsList,
   ConfigurationsForm,
+  CodeOfConduct as AdminCodeOfConduct,
   Support
 } from "../components/pages";
 import KeyPerformanceIndicators from "../components/key-performance-indicators";
@@ -268,6 +269,22 @@ export default [
               path: `${ROUTES.contact_information}`,
               component: AdminContactInformation,
               resources: RESOURCES.contact_information,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: `${ROUTES.code_of_conduct}/edit`,
+              component: AdminCodeOfConduct,
+              resources: RESOURCES.codes_of_conduct,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.code_of_conduct}`,
+              component: AdminCodeOfConduct,
+              resources: RESOURCES.code_of_conduct,
               extraProps: {
                 mode: MODES.show
               }

@@ -137,6 +137,10 @@ cp_admin_permissions = [
       Permission::DASH_PROTECTION_CONCERNS_BY_LOCATION,
       Permission::DASH_PROTECTION_CONCERNS
     ]
+  ),
+  Permission.new(
+    resource: Permission::CODE_OF_CONDUCT,
+    actions: [Permission::MANAGE]
   )
 ]
 
@@ -663,6 +667,10 @@ superuser_permissions = [
       Permission::DASH_REPORTING_LOCATION,
       Permission::DASH_PROTECTION_CONCERNS
     ]
+  ),
+  Permission.new(
+    resource: Permission::CODE_OF_CONDUCT,
+    actions: [Permission::MANAGE]
   )
 ]
 

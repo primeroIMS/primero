@@ -108,6 +108,7 @@ export const RESOURCES = {
   cases: "cases",
   configurations: "primero_configurations",
   contact_information: "contact_information",
+  codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
   incidents: "incidents",
   kpis: "kpis",

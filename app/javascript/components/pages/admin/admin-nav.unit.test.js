@@ -25,7 +25,8 @@ describe("<AdminNav />", () => {
           tracing_requests: ["manage"],
           user_groups: ["manage"],
           users: ["manage"],
-          primero_configurations: ["manage"]
+          primero_configurations: ["manage"],
+          codes_of_conduct: ["manage"]
         }
       }
     });
@@ -43,7 +44,7 @@ describe("<AdminNav />", () => {
     });
 
     it("should renders all AdminNavItem menus", () => {
-      expect(component.find(AdminNavItem)).to.have.lengthOf(9);
+      expect(component.find(AdminNavItem)).to.have.lengthOf(10);
     });
   });
 
