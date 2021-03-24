@@ -38,7 +38,7 @@
   border-top: 1px solid $(theme.primero.colors.lightGrey);
   margin-top: 2em;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 
   & button {
     margin-top: 1.5em;

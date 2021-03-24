@@ -236,6 +236,6 @@
 
 @media $(theme.breakpoints.down("sm")) {
   .actionButtonsContainer {
-    width: 95px;
+    width: 115px;
   }
 }
