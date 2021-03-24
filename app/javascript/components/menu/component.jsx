@@ -57,7 +57,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
 
 Component.defaultProps = {
   actions: [],
-  disabledCondition: () => { },
+  disabledCondition: () => {},
   showMenu: false
 };
 

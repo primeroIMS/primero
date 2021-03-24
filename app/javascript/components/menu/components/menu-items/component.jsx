@@ -21,7 +21,7 @@ Component.displayName = "MenuItems";
 
 Component.defaultProps = {
   actions: [],
-  disabledCondition: () => { }
+  disabledCondition: () => {}
 };
 
 Component.propTypes = {
