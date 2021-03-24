@@ -43,7 +43,7 @@ describe("<AdminNav />", () => {
     });
 
     it("should renders all AdminNavItem menus", () => {
-      expect(component.find(AdminNavItem)).to.have.lengthOf(9);
+      expect(component.find(AdminNavItem)).to.have.lengthOf(10);
     });
   });
 

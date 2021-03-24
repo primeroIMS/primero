@@ -135,6 +135,7 @@ describe("Verifying config constant", () => {
       "any",
       "audit_logs",
       "cases",
+      "codes_of_conduct",
       "configurations",
       "contact_information",
       "dashboards",

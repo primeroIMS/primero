@@ -74,7 +74,7 @@ const Component = ({ mode }) => {
   }, []);
 
   return (
-    <Permission resources={RESOURCES.systems} actions={MANAGE} redirect>
+    <Permission resources={RESOURCES.codes_of_conduct} actions={MANAGE} redirect>
       <LoadingIndicator hasData={codeOfConduct?.size > 0} type={NAME}>
         <PageHeading title={pageHeading}>
           {editButton}

@@ -284,7 +284,7 @@ export default [
             {
               path: `${ROUTES.code_of_conduct}`,
               component: AdminCodeOfConduct,
-              resources: RESOURCES.codes_of_conduct,
+              resources: RESOURCES.code_of_conduct,
               extraProps: {
                 mode: MODES.show
               }

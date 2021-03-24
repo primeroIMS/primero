@@ -15,7 +15,10 @@ user_hash = user_hash.merge({
 if @extended
   user_hash = user_hash.merge(
     permissions: {
-      list: user.role.permissions.map { |p| { resource: p.resource.pluralize, actions: p.actions } }
+      list: user.role.permissions.map do |p|
+        resource = p.resource == Permission::CODE_OF_CONDUCT ? 'codes_of_conduct' : p.resource.pluralize
+        { resource: resource, actions: p.actions }
+      end
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,
     permitted_form: user.role.form_section_permission,
