@@ -23,7 +23,8 @@ import {
   UsersList,
   ConfigurationsList,
   ConfigurationsForm,
-  CodeOfConduct as AdminCodeOfConduct
+  CodeOfConduct as AdminCodeOfConduct,
+  Support
 } from "../components/pages";
 import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
@@ -50,7 +51,6 @@ import {
   VIEW_KPIS
 } from "../libs/permissions";
 import Login from "../components/login";
-import ContactInformation from "../components/contact-information";
 
 import { ROUTES, MODES } from "./constants";
 
@@ -177,7 +177,7 @@ export default [
       },
       {
         path: ROUTES.support,
-        component: ContactInformation
+        component: Support
       },
       {
         path: `${ROUTES.account}/:id`,

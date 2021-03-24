@@ -237,6 +237,27 @@ describe("Application - Selectors", () => {
     });
   });
 
+  describe("getAgenciesWithService", () => {
+    it("should return agencies with the selected service", () => {
+      const expected = fromJS([agency2]);
+      const agenciesWithService = selectors.getAgenciesWithService(stateWithRecords, "service_test_2");
+
+      expect(agenciesWithService).to.deep.equal(expected);
+    });
+
+    it("should return empty if there are no agencies with the selected service", () => {
+      const agenciesWithService = selectors.getAgenciesWithService(stateWithRecords, "service_test_5");
+
+      expect(agenciesWithService).to.be.empty;
+    });
+
+    it("should return empty if there are no agencies", () => {
+      const agencies = selectors.getAgenciesWithService(stateWithNoRecords);
+
+      expect(agencies).to.be.empty;
+    });
+  });
+
   describe("getEnabledAgencies", () => {
     it("should return the enabled agencies", () => {
       const expected = fromJS([agencyWithLogo, agency1, agency2]);

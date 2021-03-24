@@ -51,10 +51,7 @@ class PermittedFieldService
     if model_class.included_modules.include?(Webhookable) && user.can?(:sync_external, model_class)
       @permitted_field_names += %w[synced_at sync_status]
     end
-    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
-      @permitted_field_names << 'incident_case_id'
-      @permitted_field_names << 'case_id_display'
-    end
+    @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
@@ -94,5 +91,19 @@ class PermittedFieldService
     overdue_task_fields << 'service_due_dates' if user.can?(:cases_by_task_overdue_services, Dashboard)
     overdue_task_fields << 'followup_due_dates' if user.can?(:cases_by_task_overdue_followups, Dashboard)
     overdue_task_fields
+  end
+
+  def permitted_incident_field_names
+    return [] unless model_class == Incident
+
+    incident_field_names = []
+    incident_field_names << 'incident_date_derived'
+
+    return incident_field_names unless user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
+
+    incident_field_names << 'incident_case_id'
+    incident_field_names << 'case_id_display'
+
+    incident_field_names
   end
 end

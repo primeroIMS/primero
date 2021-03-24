@@ -14,6 +14,7 @@
 en:
   'true': 'Yes'
   'false': 'No'
+  accepted: Accepted
   cancel: Cancel
   code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode
@@ -213,7 +214,7 @@ en:
       already_matched: This Inquirer has already been matched to your case.
       already_matched_not_current_case: There is already a case in the system matched to this inquirer.
       not_found_case: No Case found matching "%{search_value}". Create a new Case.
-      introductory_sentence: Please specify the individual’s consent to receive Case Management services and for their data to be stored in Primero.
+      introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
     save: Save Case
@@ -487,7 +488,7 @@ en:
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
-      sent: Successfully sent configuration to Production.
+      sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
     unavailable_server: Server is temporarily unavailable.
   contact:
@@ -1648,6 +1649,11 @@ en:
     search: Search
     settings: Settings
     support: Support
+    support_menu:
+      contact_information: Contact Information
+      code_of_conduct: Code of Conduct
+      terms_of_use: Terms of use
+      system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
   notes:

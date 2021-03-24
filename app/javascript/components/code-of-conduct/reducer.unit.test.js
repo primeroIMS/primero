@@ -24,14 +24,16 @@ describe("components/connectivity/reducer.js", () => {
   it("should handle ACCEPT_CODE_OF_CONDUCT_SUCCESS", () => {
     const expected = fromJS({
       updatingCodeOfConduct: false,
-      codeOfConductId: 1
+      codeOfConductId: 1,
+      codeOfConductAcceptedOn: "2021-03-24T14:57:46.892Z"
     });
 
     const action = {
       type: actions.ACCEPT_CODE_OF_CONDUCT_SUCCESS,
       payload: {
         data: {
-          code_of_conduct_id: 1
+          code_of_conduct_id: 1,
+          code_of_conduct_accepted_on: "2021-03-24T14:57:46.892Z"
         }
       }
     };

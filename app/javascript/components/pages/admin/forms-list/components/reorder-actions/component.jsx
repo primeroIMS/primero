@@ -51,7 +51,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       id="reorder-actions"
       disableEnforceFocus
       open={open}
-      style={css.dialog}
+      className={css.dialog}
       disableBackdropClick
       hideBackdrop={!reorderLoading}
     >
