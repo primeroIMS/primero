@@ -260,7 +260,7 @@ export const ADMIN_NAV = [
     to: "/code_of_conduct",
     label: "settings.navigation.code_of_conduct",
     permission: MANAGE,
-    recordType: RESOURCES.systems
+    recordType: RESOURCES.codes_of_conduct
   },
   {
     to: "/configurations",
