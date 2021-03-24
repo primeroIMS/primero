@@ -43,16 +43,27 @@ const sortSubformsValues = (values, fields) => {
   return result;
 };
 
-export const appendDisabledAgency = (agencies, agencyUniqueId) =>
-  agencyUniqueId && !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
-    ? agencies.push(
+export const withStickyOption = (options, stickyOptionId, filtersChanged = false) => {
+  const enabledOptions = options
+    .filter(option => !option.get("disabled") || (stickyOptionId && option.get("unique_id") === stickyOptionId))
+    .map(option => option.set("isDisabled", option.get("disabled")));
+
+  if (stickyOptionId) {
+    const stickyOption = enabledOptions.find(option => option.get("unique_id") === stickyOptionId);
+
+    if (!stickyOption && !filtersChanged) {
+      return options.push(
         fromJS({
-          unique_id: agencyUniqueId,
-          name: agencyUniqueId,
+          unique_id: stickyOptionId,
+          name: stickyOptionId,
           isDisabled: true
         })
-      )
-    : agencies;
+      );
+    }
+  }
+
+  return enabledOptions;
+};
 
 export const appendDisabledUser = (users, userName) =>
   userName && !users?.map(user => user.get("user_name")).includes(userName)
@@ -80,7 +91,7 @@ export const handleChangeOnServiceUser = ({
     const userAgency = selectedUser.get("agency");
     const userLocation = selectedUser.get("location");
 
-    if (agencies.find(current => current.get("unique_id") === userAgency)) {
+    if (agencies.find(current => current.get("unique_id") === userAgency && !current.get("disabled"))) {
       form.setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
@@ -118,6 +129,7 @@ export const buildCustomLookupsConfig = ({
   name,
   referralUsers,
   reportingLocations,
+  stickyOptionId,
   value
 }) => ({
   Location: {
@@ -128,10 +140,7 @@ export const buildCustomLookupsConfig = ({
   Agency: {
     fieldLabel: NAME_FIELD,
     fieldValue: UNIQUE_ID_FIELD,
-    options:
-      !filterState?.filtersChanged && name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
-        ? appendDisabledAgency(agencies, value)
-        : agencies
+    options: withStickyOption(agencies, stickyOptionId, filterState?.filtersChanged)
   },
   ReportingLocation: {
     fieldLabel: NAME_FIELD,

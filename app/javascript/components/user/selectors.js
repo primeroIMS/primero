@@ -64,3 +64,7 @@ export const getCurrentUserGroupPermission = state => state.getIn([NAMESPACE, "r
 export const getCurrentUserGroupsUniqueIds = state => state.getIn([NAMESPACE, "userGroupUniqueIds"], fromJS([]));
 
 export const getAssignedAgency = state => state.getIn([NAMESPACE, "agencyId"], fromJS([]));
+
+export const getCodeOfConductId = state => state.getIn([NAMESPACE, "codeOfConductId"], null);
+
+export const getCodeOfConductAccepteOn = state => state.getIn([NAMESPACE, "codeOfConductAcceptedOn"], null);

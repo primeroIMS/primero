@@ -1,5 +1,8 @@
 .container {
   & form {
+    display: flex;
+    flex-direction: column;
+    height: 89vh;
 
     & fieldset {
       margin-bottom: 0;
@@ -45,5 +48,8 @@
 }
 
 .createButtonContainer {
-  margin-top: 2em;
+  margin-top: auto;
+  padding-bottom: 5px;
+  position: fixed;
+  bottom: 0;
 }

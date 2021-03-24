@@ -24,7 +24,9 @@ I18n.fallbacks = {
   'ps-AF': EN_FALLBACK,
   pt: EN_FALLBACK,
   'pt-BR': PT_FALLBACK
-}.with_indifferent_access
+}.map{ |key, val| [key, key == :en ? val : [key.to_sym] + val] }
+ .to_h
+ .with_indifferent_access
 
 
 

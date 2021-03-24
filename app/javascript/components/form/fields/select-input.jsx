@@ -1,11 +1,12 @@
 /* eslint-disable react/no-multi-comp */
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, Chip } from "@material-ui/core";
 import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { isEmpty } from "lodash";
+import { isEmpty, isNil } from "lodash";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
@@ -14,8 +15,7 @@ import { SELECT_CHANGE_REASON } from "../constants";
 
 const filter = createFilterOptions();
 
-const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow, formMode }) => {
-  const options = formMode.get("isNew") ? allOptions.filter(option => !option?.disabled) : allOptions;
+const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
@@ -39,6 +39,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
 
+  const currentWatchedValue = watchedInputValues && watchedInputValues[name];
+
+  const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
   const otherFieldValues = useMemoizedSelector(state => {
@@ -48,6 +51,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 
     return getValueFromOtherField(state, setOtherFieldValues, watchedInputValues);
   });
+
+  const options = allOptions.filter(
+    option => !option?.disabled || (option?.disabled && stickyOption && option.id === stickyOption)
+  );
 
   const fetchAsyncOptions = () => {
     if (asyncOptions) {
@@ -204,6 +211,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 
     return getValues()[name].length === maxSelectedOptions || option?.disabled;
   };
+
+  useEffect(() => {
+    if (!isNil(currentWatchedValue) && (isNil(stickyOption) || isEmpty(stickyOption))) {
+      setStickyOption(currentWatchedValue);
+    }
+  }, [currentWatchedValue]);
 
   return (
     <Controller

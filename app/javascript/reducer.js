@@ -54,6 +54,7 @@ import {
 import { reducer as accountReducer } from "./components/pages/account";
 import { reducer as connectivityReducer } from "./components/connectivity";
 import { reducer as changeLogsReducers } from "./components/change-logs";
+import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -105,7 +106,7 @@ const rootReducer = {
     transferApprovalReducer,
     revokeModalReducer
   ),
-  user: reduceReducers(userReducer, accountReducer),
+  user: reduceReducers(userReducer, accountReducer, codesOfConductReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,

@@ -19,4 +19,12 @@ class UserGroup < ApplicationRecord
 
     users << user
   end
+
+  def self.list(user)
+    if user.role.group_permission == 'group'
+      user.user_groups
+    else
+      UserGroup.all
+    end
+  end
 end

@@ -13,6 +13,12 @@ const getAppModuleByUniqueId = (state, uniqueId) =>
 
 export const selectAgencies = state => state.getIn([NAMESPACE, "agencies"], fromJS([]));
 
+export const getAgenciesWithService = (state, service) => {
+  const agencies = selectAgencies(state);
+
+  return service ? agencies.filter(agency => agency.get("services", fromJS([])).includes(service)) : agencies;
+};
+
 export const getEnabledAgencies = (state, service) => {
   const enabledAgencies = state.getIn([NAMESPACE, "agencies"], fromJS([])).filter(agency => !agency.get("disabled"));
 
@@ -90,6 +96,8 @@ export const getApprovalsLabels = (state, locale) => {
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
 
+export const getEnabledUserGroups = state => getUserGroups(state).filter(userGroup => !userGroup.get("disabled"));
+
 export const getRoles = state => state.getIn([NAMESPACE, "roles"], fromJS([]));
 
 export const getRole = (state, uniqueID) =>
@@ -114,8 +122,13 @@ export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => 
   return useWebhookSyncFor.includes(recordType);
 };
 
+export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduct"], fromJS({}));
+
 export const getOptionFromAppModule = (state, primeroModule, option) =>
   getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", option],
     option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
   );
+
+export const getCodeOfConductEnabled = state =>
+  state.getIn([NAMESPACE, "systemOptions", "code_of_conduct_enabled"], false);

@@ -10,7 +10,7 @@ import { getLocations, getOption, getOptionsAreLoading, getReportingLocations } 
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
 import { useMemoizedSelector, valuesToSearchableSelect } from "../../../../libs";
-import { getEnabledAgencies, getReportingLocationConfig } from "../../../application/selectors";
+import { getAgenciesWithService, getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getLoading } from "../../../index-table";
@@ -54,7 +54,7 @@ const SelectField = ({
   const options = useMemoizedSelector(state => getOption(state, option, i18n.locale, stickyOption));
   const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
   const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
-  const agencies = useMemoizedSelector(state => getEnabledAgencies(state, service));
+  const agencies = useMemoizedSelector(state => getAgenciesWithService(state, service));
   const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
   const locations = useMemoizedSelector(state => getLocations(state, i18n));
   const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
@@ -104,6 +104,8 @@ const SelectField = ({
     referralUsers,
     filterState,
     value,
+    stickyOptionId: stickyOption,
+    locale: i18n.locale,
     name
   });
 
