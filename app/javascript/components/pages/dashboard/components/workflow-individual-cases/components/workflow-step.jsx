@@ -12,10 +12,8 @@ import { NAME } from "./constants";
 
 const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
   const dispatch = useDispatch();
-  const getData = workflowStep =>
-    casesWorkflow.size > 0 ? casesWorkflow.getIn(["indicators", "workflow", workflowStep], fromJS({})) : fromJS({});
 
-  const workflowData = getData(step.id);
+  const workflowData = casesWorkflow.getIn(["indicators", "workflow", step.id], fromJS({}));
   const count = workflowData.get("count", 0);
   const query = workflowData.get("query", fromJS({}));
 
@@ -42,11 +40,16 @@ const WorkFlowStep = ({ step, casesWorkflow, css, i18n }) => {
 
 WorkFlowStep.displayName = NAME;
 
+WorkFlowStep.defaultProps = {
+  casesWorkflow: fromJS({}),
+  step: {}
+};
+
 WorkFlowStep.propTypes = {
   casesWorkflow: PropTypes.object,
   css: PropTypes.object,
   i18n: PropTypes.object,
-  step: PropTypes.object.isRequired
+  step: PropTypes.object
 };
 
 export default WorkFlowStep;

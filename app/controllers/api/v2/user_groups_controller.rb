@@ -7,8 +7,8 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def index
     authorize! :index, UserGroup
-    @total = UserGroup.all.size
-    @user_groups = UserGroup.all
+    @user_groups = UserGroup.list(current_user)
+    @total = @user_groups.size
     @user_groups = @user_groups.paginate(pagination) if pagination?
   end
 
