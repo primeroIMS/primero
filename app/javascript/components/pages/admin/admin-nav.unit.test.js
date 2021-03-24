@@ -25,7 +25,8 @@ describe("<AdminNav />", () => {
           tracing_requests: ["manage"],
           user_groups: ["manage"],
           users: ["manage"],
-          primero_configurations: ["manage"]
+          primero_configurations: ["manage"],
+          codes_of_conduct: ["manage"]
         }
       }
     });
