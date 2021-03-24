@@ -11,7 +11,7 @@ export const validations = i18n =>
     [CONTENT_FIELD]: string().required(
       i18n.t("forms.required_field", { field: i18n.t("code_of_conduct.field.content") })
     ),
-    [TITLE_FIELD]: string().required(i18n.t("forms.required_field", { field: i18n.t("code_of_conduct.field.title") })),
+    [TITLE_FIELD]: string().required(i18n.t("forms.required_field", { field: i18n.t("code_of_conduct.field.title") }))
   });
 
 export const form = i18n => {
