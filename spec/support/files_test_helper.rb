@@ -46,4 +46,8 @@ module FilesTestHelper
   def logo_old_base64
     attachment_base64(Rails.root.join('spec', 'resources', 'unicef-old.png'))
   end
+
+  def pdf_file
+    fixture_file_upload(Rails.root.join('spec', 'resources', 'dummy.pdf'))
+  end
 end

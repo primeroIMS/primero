@@ -41,7 +41,8 @@ describe("<Form /> - index", () => {
       "TICK_FIELD",
       "TOGGLE_FIELD",
       "whichFormMode",
-      "SELECT_CHANGE_REASON"
+      "SELECT_CHANGE_REASON",
+      "EMPTY_VALUE"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

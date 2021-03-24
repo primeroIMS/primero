@@ -272,4 +272,29 @@ describe Agency do
       expect(Agency.with_pdf_logo_option).to eq([agency1])
     end
   end
+
+  describe 'terms_of_use' do
+    it 'should not allow invalid format' do
+      agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
+      agency.terms_of_use.attach(FilesTestHelper.logo)
+      agency.should_not be_valid
+      expect(agency.errors[:terms_of_use].first).to eq('errors.models.agency.terms_of_use_format')
+    end
+
+    it 'should allow valid format' do
+      agency = Agency.new(
+        name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file
+      )
+      agency.should be_valid
+    end
+
+    it 'will not clear out an existing terms_of_use when updating unrelated attributes' do
+      agency = Agency.new(name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file)
+      agency.save
+      expect(agency.terms_of_use.attached?).to be_truthy
+
+      agency.update_properties(name: { en: 'IRC' })
+      expect(agency.terms_of_use.attached?).to be_truthy
+    end
+  end
 end

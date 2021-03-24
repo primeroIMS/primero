@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
+import GetAppIcon from "@material-ui/icons/GetApp";
 
 import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
-import { PHOTO_FIELD, DOCUMENT_FIELD } from "../constants";
+import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
@@ -15,7 +16,7 @@ import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 
-const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
+const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
   const { setValue, watch, register } = formMethods;
   const i18n = useI18n();
   const css = useStyles();
@@ -24,9 +25,11 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     data: null,
     fileName: ""
   });
+  const isShow = formMode.get("isShow");
 
-  const { type, fileFormat } = metaInputProps;
+  const { type, fileFormat, renderDownloadButton, downloadButtonLabel } = metaInputProps;
   const { name, label, disabled, helperText, error } = commonInputProps;
+
   const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
   const isDocument = attachment === ATTACHMENT_TYPES.document;
   const acceptedTypes = fileFormat || (isDocument ? ".csv" : "*");
@@ -41,7 +44,6 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       fileName: data?.fileName
     });
   };
-
   const handleChange = async event => {
     const files = event?.target?.files;
     const selectedFile = files?.[0];
@@ -90,8 +92,26 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       </div>
     );
   };
+  const handleDownloadFile = () => {
+    window.open(fileUrl);
+  };
 
-  const classes = clsx(css.attachment, { [css.document]: isDocument });
+  const downloadFile = fileUrl ? (
+    <ActionButton
+      icon={<GetAppIcon />}
+      text={downloadButtonLabel}
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        onClick: handleDownloadFile
+      }}
+    />
+  ) : (
+    EMPTY_VALUE
+  );
+
+  const downloadButton = renderDownloadButton && isShow && downloadFile;
+
+  const classes = clsx(css.attachment, { [css.document]: isDocument && (!renderDownloadButton || !isShow) });
 
   return (
     <div className={classes}>
@@ -113,7 +133,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         <input type="hidden" name={`${name}_file_name`} ref={register} />
         <input type="hidden" name={`${name}_url`} ref={register} />
       </div>
-      {renderPreview()}
+      {!renderDownloadButton && renderPreview()}
+      <div className={css.downloadButton}>{downloadButton}</div>
     </div>
   );
 };
@@ -123,6 +144,7 @@ AttachmentInput.displayName = "AttachmentInput";
 AttachmentInput.propTypes = {
   commonInputProps: PropTypes.object,
   formMethods: PropTypes.object.isRequired,
+  formMode: PropTypes.object,
   metaInputProps: PropTypes.object
 };
 

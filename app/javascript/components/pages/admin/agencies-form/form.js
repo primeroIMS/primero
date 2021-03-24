@@ -9,8 +9,12 @@ import {
   TEXT_AREA,
   SELECT_FIELD,
   PHOTO_FIELD,
-  SEPARATOR
+  SEPARATOR,
+  DOCUMENT_FIELD
 } from "../../../form";
+import { FILE_FORMAT } from "../../../../config";
+
+import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
 
 export const validations = () =>
   object().shape({
@@ -54,6 +58,28 @@ export const form = (i18n, formMode) => {
           type: SELECT_FIELD,
           multi_select: true,
           option_strings_source: "lookup-service-type"
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.terms_of_use_enabled"),
+          name: TERMS_OF_USE_ENABLED,
+          type: TICK_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.terms_of_use"),
+          name: TERMS_OF_USE,
+          type: DOCUMENT_FIELD,
+          help_text: i18n.t("agency.terms_of_use_help"),
+          fileFormat: FILE_FORMAT.pdf,
+          renderDownloadButton: true,
+          downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
+          watchedInputs: [TERMS_OF_USE_ENABLED],
+          handleWatchedInputs: value => {
+            const { terms_of_use_enabled: termsOfUseEnabled } = value;
+
+            return {
+              visible: termsOfUseEnabled
+            };
+          }
         }),
         FieldRecord({
           display_name: i18n.t("agency.agency_logos"),
