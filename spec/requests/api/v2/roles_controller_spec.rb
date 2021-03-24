@@ -158,9 +158,21 @@ describe Api::V2::RolesController, type: :request do
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
           form_sections: [@form_section_a], modules: [@cp_a]
         )
+        @referral_disabled_role = Role.create!(
+          unique_id: 'role_referral_disabled', name: 'Referral Disabled',
+          referral: true, transfer: false, disabled: true,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
         @transfer_role = Role.create!(
           unique_id: 'role_transfer', name: 'Transfer',
           referral: false, transfer: true,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
+        @transfer_disabled_role = Role.create!(
+          unique_id: 'role_transfer_disabled', name: 'Transfer Disabled',
+          referral: false, transfer: true, disabled: true,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
           form_sections: [@form_section_a], modules: [@cp_a]
         )

@@ -64,7 +64,8 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
       ...prev,
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
-        display_text: current.getIn(["name", i18n.locale], "")
+        display_text: current.getIn(["name", i18n.locale], ""),
+        disabled: current.get("disabled")
       }
     ],
     []

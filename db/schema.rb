@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_000000) do
+ActiveRecord::Schema.define(version: 2021_03_13_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -121,6 +121,13 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+  end
+
+  create_table "codes_of_conduct", force: :cascade do |t|
+    t.datetime "created_on"
+    t.string "created_by"
+    t.string "title"
+    t.text "content"
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -484,7 +491,10 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
     t.string "unlock_token"
     t.datetime "locked_at"
     t.boolean "service_account", default: false, null: false
+    t.datetime "code_of_conduct_accepted_on"
+    t.bigint "code_of_conduct_id"
     t.index ["agency_id"], name: "index_users_on_agency_id"
+    t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -516,5 +526,6 @@ ActiveRecord::Schema.define(version: 2021_03_12_000000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
+  add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end

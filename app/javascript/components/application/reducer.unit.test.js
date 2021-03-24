@@ -7,6 +7,21 @@ import actions from "./actions";
 
 describe("Application - Reducers", () => {
   const defaultState = Map({});
+  const codesOfConduct = {
+    id: 1,
+    title: "First code of conduct",
+    content: "Lorem ipsum",
+    created_on: "2021-03-18T14:27:59.097Z",
+    created_by: "test-user"
+  };
+
+  const systemOptions = {
+    show_alerts: true,
+    welcome_email_enabled: true,
+    code_of_conduct_enabled: true,
+    notification_email_enabled: true,
+    due_date_from_appointment_date: true
+  };
 
   it("should handle SET_USER_IDLE", () => {
     const expected = Map({ userIdle: true });
@@ -94,7 +109,9 @@ describe("Application - Reducers", () => {
           fr: "",
           ar: "GBV Closure-AR"
         }
-      }
+      },
+      codesOfConduct,
+      systemOptions
     });
 
     const action = {
@@ -134,6 +151,7 @@ describe("Application - Reducers", () => {
           ],
           default_locale: "en",
           base_language: "en",
+          code_of_conduct: codesOfConduct,
           primero_version: "2.0.0.1",
           reporting_location_config: {
             admin_level: 2,
@@ -170,7 +188,8 @@ describe("Application - Reducers", () => {
               fr: "",
               ar: "GBV Closure-AR"
             }
-          }
+          },
+          system_options: systemOptions
         }
       }
     };

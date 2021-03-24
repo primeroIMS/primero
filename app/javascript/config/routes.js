@@ -22,7 +22,8 @@ import {
   UsersForm,
   UsersList,
   ConfigurationsList,
-  ConfigurationsForm
+  ConfigurationsForm,
+  Support
 } from "../components/pages";
 import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
@@ -32,6 +33,7 @@ import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
+import CodeOfConduct from "../components/code-of-conduct";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -48,7 +50,6 @@ import {
   VIEW_KPIS
 } from "../libs/permissions";
 import Login from "../components/login";
-import ContactInformation from "../components/contact-information";
 
 import { ROUTES, MODES } from "./constants";
 
@@ -175,7 +176,7 @@ export default [
       },
       {
         path: ROUTES.support,
-        component: ContactInformation
+        component: Support
       },
       {
         path: `${ROUTES.account}/:id`,
@@ -428,6 +429,10 @@ export default [
         component: NotAuthorized
       }
     ]
+  },
+  {
+    path: ROUTES.code_of_conduct,
+    component: CodeOfConduct
   },
   {
     component: NotFound

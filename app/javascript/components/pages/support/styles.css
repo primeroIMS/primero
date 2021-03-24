@@ -1,0 +1,42 @@
+.mainSupport {
+  display: flex;
+
+  & nav {
+    min-width: 230px;
+    padding-right: 1em;
+  }
+}
+
+.mobileNav {
+  top: 4em;
+  min-width: 220px;
+}
+
+.item, .selectedItem {
+  border-radius: .5em;
+
+  &:hover {
+    border-radius: .5em;
+  }
+}
+
+.selectedItem {
+   background-color: $(theme.primero.colors.lightBlueMenu) !important;
+}
+
+.codeOfConductContainer {
+
+  & h2 {
+    margin: 0;
+  }
+
+  & h3 {
+    margin: 0;
+    text-transform: uppercase;
+    color: $(theme.primero.colors.midGrey);
+  }
+
+  & p {
+    padding: 1em 0 0 0;
+  }
+}

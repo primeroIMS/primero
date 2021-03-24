@@ -37,7 +37,8 @@ const colors = {
   stickyGrey: "rgba(251, 251, 251, 0.95)",
   lightGrey2: "#e0e0e0",
   atlantis: "#8bb827",
-  wildSand: "#f5f5f5"
+  wildSand: "#f5f5f5",
+  lightBlueMenu: "#dfeff4"
 };
 
 const overrides = {

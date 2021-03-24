@@ -14,7 +14,9 @@
 en:
   'true': 'Yes'
   'false': 'No'
+  accepted: Accepted
   cancel: Cancel
+  code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
@@ -30,6 +32,7 @@ en:
   select_provider: Select provider
   log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  updated: Updated
   sync:
     success: "%{records} records successfully synced."
     error:
@@ -166,6 +169,7 @@ en:
     mark_for_mobile: Mark for mobile
     new: New
     ok: OK
+    print: Print
     reassign: Assign
     referral: Refer
     referral_again: Refer Again
@@ -210,7 +214,7 @@ en:
       already_matched: This Inquirer has already been matched to your case.
       already_matched_not_current_case: There is already a case in the system matched to this inquirer.
       not_found_case: No Case found matching "%{search_value}". Create a new Case.
-      introductory_sentence: Please specify the individual’s consent to receive Case Management services and for their data to be stored in Primero.
+      introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
       consent_agreements_required: Please select at least one option from consent agreements.
       legitimate_basis_required: Please select at least one option from legitimate basis classifications.
     save: Save Case
@@ -484,7 +488,7 @@ en:
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
-      sent: Successfully sent configuration to Production.
+      sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
     unavailable_server: Server is temporarily unavailable.
   contact:
@@ -1619,6 +1623,8 @@ en:
     logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
     logout_dialog_header: Offline Log Out
+    logout_confirmation_title: Log out confirmation
+    logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
   navigation:
     bulk_exports: Exports
@@ -1631,6 +1637,11 @@ en:
     search: Search
     settings: Settings
     support: Support
+    support_menu:
+      contact_information: Contact Information
+      code_of_conduct: Code of Conduct
+      terms_of_use: Terms of use
+      system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
   notes:

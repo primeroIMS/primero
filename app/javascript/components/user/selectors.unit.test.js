@@ -1,6 +1,8 @@
 import { fromJS } from "immutable";
+import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../../libs/permissions";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../code-of-conduct/constants";
 
 import * as selectors from "./selectors";
 
@@ -253,6 +255,40 @@ describe("User - Selectors", () => {
 
         expect(selectors.getUserLocationsByAdminLevel(updatedState)).to.deep.equal(expected);
       });
+    });
+  });
+
+  describe("getCodeOfConductId", () => {
+    it("should return the id of the accepted code of conduct", () => {
+      const state = fromJS({
+        user: {
+          codeOfConductId: 1
+        }
+      });
+
+      expect(selectors.getCodeOfConductId(state)).to.be.equal(1);
+    });
+
+    it("should return null if the user hasn't accepted the code of conduct", () => {
+      expect(selectors.getCodeOfConductId(fromJS({}))).to.be.null;
+    });
+  });
+
+  describe("getCodeOfConductAccepteOn", () => {
+    it("should return the date of the accepted code of conduct", () => {
+      const state = fromJS({
+        user: {
+          codeOfConductAcceptedOn: "2021-03-23T18:14:19.762Z"
+        }
+      });
+      const date = selectors.getCodeOfConductAccepteOn(state);
+      const formattedDate = format(parseISO(date), CODE_OF_CONDUCT_DATE_FORMAT);
+
+      expect(formattedDate).to.be.equal("March 23, 2021");
+    });
+
+    it("should return null if the user hasn't accepted the code of conduct", () => {
+      expect(selectors.getCodeOfConductAccepteOn(fromJS({}))).to.be.null;
     });
   });
 });
