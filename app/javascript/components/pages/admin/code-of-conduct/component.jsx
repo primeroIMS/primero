@@ -17,7 +17,7 @@ import Permission from "../../../application/permission";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, FORM_ID } from "./constants";
-import { form } from "./form";
+import { form, validations } from "./form";
 import { getCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
 import { fetchCodeOfConduct, saveCodeOfConduct } from "./action-creators";
 
@@ -48,6 +48,7 @@ const Component = ({ mode }) => {
     );
   };
 
+  const formValidations = validations(i18n);
   const pageHeading = i18n.t("code_of_conduct.info_label");
   const editButton = formMode.get("isShow") ? (
     <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
@@ -75,7 +76,7 @@ const Component = ({ mode }) => {
 
   return (
     <Permission resources={RESOURCES.codes_of_conduct} actions={MANAGE} redirect>
-      <LoadingIndicator hasData={codeOfConduct?.size > 0} type={NAME}>
+      <LoadingIndicator hasData={!codeOfConduct.isEmpty()} type={NAME}>
         <PageHeading title={pageHeading}>
           {editButton}
           {saveButton}
@@ -84,9 +85,11 @@ const Component = ({ mode }) => {
           <Form
             useCancelPrompt
             mode={mode}
+            validations={formValidations}
             formSections={form(i18n)}
             onSubmit={handleSubmit}
             initialValues={codeOfConduct.toJS()}
+            submitAllFields
             formID={FORM_ID}
           />
         </PageContent>
