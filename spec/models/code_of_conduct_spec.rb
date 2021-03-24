@@ -5,7 +5,7 @@ describe CodeOfConduct do
     clean_data(CodeOfConduct)
   end
 
-  describe '.new_with_user' do
+  describe '.current_or_new_with_user' do
     before :each do
       clean_data(User)
       @user = User.new(user_name: 'test_user_1')
@@ -13,10 +13,44 @@ describe CodeOfConduct do
     end
 
     it 'should return a valid code of conduct' do
-      code_of_conduct = CodeOfConduct.new_with_user(
+      code_of_conduct = CodeOfConduct.current_or_new_with_user(
         @user, content: 'Some Content', title: 'Some Title'
       )
       expect(code_of_conduct.valid?).to eq(true)
+    end
+
+    it 'should return the current code of conduct if data is equal' do
+      current = CodeOfConduct.create!(
+        created_by: 'test_user_1',
+        title: 'Code of Conduct 1',
+        content: 'Content of the code of conduct 1',
+      )
+
+      code_of_conduct = CodeOfConduct.current_or_new_with_user(
+        @user,
+        content: 'Content of the code of conduct 1',
+        title: 'Code of Conduct 1'
+      )
+
+      expect(code_of_conduct.id).to eq(current.id)
+      expect(code_of_conduct.created_on).not_to be_nil
+    end
+
+    it 'should return a new code of conduct if data is not equal' do
+      CodeOfConduct.create!(
+        created_by: 'primero_cp',
+        title: 'Code of Conduct 1',
+        content: 'Content of the code of conduct 1',
+      )
+
+      code_of_conduct = CodeOfConduct.current_or_new_with_user(
+        @user,
+        title: 'Code of Conduct 2',
+        content: 'Content of the code of conduct 2'
+      )
+
+      expect(code_of_conduct.id).to be_nil
+      expect(code_of_conduct.created_by).to eq(@user.user_name)
     end
   end
 

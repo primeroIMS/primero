@@ -14,7 +14,7 @@ class Api::V2::CodesOfConductController < ApplicationApiController
 
   def create
     authorize! :create, CodeOfConduct
-    @code_of_conduct = CodeOfConduct.new_with_user(current_user, code_of_conduct_params)
+    @code_of_conduct = CodeOfConduct.current_or_new_with_user(current_user, code_of_conduct_params)
     @code_of_conduct.save!
   end
 
