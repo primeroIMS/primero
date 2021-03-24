@@ -160,14 +160,14 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
   });
 
   const showMenu = mode.isShow && !isEmpty(actions);
-  const disabledCondtion = ({ enabledFor, enabledOnSearch }) =>
+  const disabledCondition = ({ enabledFor, enabledOnSearch }) =>
     showListActions && isDisabledAction(enabledFor, enabledOnSearch, isIdSearch, selectedRecords, totalRecords);
 
   const { ability, component, props } = dialogs?.[currentDialog] || {};
 
   return (
     <>
-      <Menu showMenu={showMenu} actions={actions} disabledCondtion={disabledCondtion} />
+      <Menu showMenu={showMenu} actions={actions} disabledCondition={disabledCondition} />
       {ability &&
         createElement(component, {
           ...props,

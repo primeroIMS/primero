@@ -7,7 +7,7 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 
 import { MenuItems } from "./components";
 
-const Component = ({ actions, disabledCondtion, showMenu }) => {
+const Component = ({ actions, disabledCondition, showMenu }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -49,7 +49,7 @@ const Component = ({ actions, disabledCondtion, showMenu }) => {
           horizontal: "left"
         }}
       >
-        <MenuItems actions={actions} disabledCondtion={disabledCondtion} handleClose={handleClose} />
+        <MenuItems actions={actions} disabledCondition={disabledCondition} handleClose={handleClose} />
       </Menu>
     </>
   );
@@ -57,7 +57,7 @@ const Component = ({ actions, disabledCondtion, showMenu }) => {
 
 Component.defaultProps = {
   actions: [],
-  disabledCondtion: () => {},
+  disabledCondition: () => { },
   showMenu: false
 };
 
@@ -65,7 +65,7 @@ Component.displayName = "Menu";
 
 Component.propTypes = {
   actions: PropTypes.array,
-  disabledCondtion: PropTypes.func,
+  disabledCondition: PropTypes.func,
   showMenu: PropTypes.bool
 };
 

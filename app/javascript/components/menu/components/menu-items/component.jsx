@@ -3,13 +3,13 @@ import { forwardRef } from "react";
 
 import MenuItem from "../menu-item";
 
-const Component = forwardRef(({ actions, disabledCondtion, handleClose }, ref) => (
+const Component = forwardRef(({ actions, disabledCondition, handleClose }, ref) => (
   <div>
     {actions.map(action => (
       <MenuItem
         key={action.name}
         action={action}
-        disabledCondtion={disabledCondtion}
+        disabledCondition={disabledCondition}
         handleClose={handleClose}
         ref={ref}
       />
@@ -21,12 +21,12 @@ Component.displayName = "MenuItems";
 
 Component.defaultProps = {
   actions: [],
-  disabledCondtion: () => {}
+  disabledCondition: () => { }
 };
 
 Component.propTypes = {
   actions: PropTypes.array,
-  disabledCondtion: PropTypes.func,
+  disabledCondition: PropTypes.func,
   handleClose: PropTypes.func.isRequired
 };
 

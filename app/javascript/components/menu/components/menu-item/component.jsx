@@ -5,7 +5,7 @@ import { forwardRef } from "react";
 import DisableOffline from "../../../disable-offline";
 import { ConditionalWrapper } from "../../../../libs";
 
-const Component = forwardRef(({ action, disabledCondtion, handleClose }, ref) => {
+const Component = forwardRef(({ action, disabledCondition, handleClose }, ref) => {
   const { id, disableOffline, name, action: handleAction } = action;
 
   const handleClick = () => {
@@ -15,7 +15,7 @@ const Component = forwardRef(({ action, disabledCondtion, handleClose }, ref) =>
 
   return (
     <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
-      <MenuItem disabled={disabledCondtion(action)} onClick={handleClick} ref={ref}>
+      <MenuItem disabled={disabledCondition(action)} onClick={handleClick} ref={ref}>
         {name}
       </MenuItem>
     </ConditionalWrapper>
@@ -30,7 +30,7 @@ Component.defaultProps = {
 
 Component.propTypes = {
   action: PropTypes.object,
-  disabledCondtion: PropTypes.func,
+  disabledCondition: PropTypes.func,
   handleClose: PropTypes.func
 };
 
