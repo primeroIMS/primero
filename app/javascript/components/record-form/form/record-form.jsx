@@ -120,7 +120,7 @@ const RecordForm = ({
         return { ...accumulator, [key]: values };
       }, {});
 
-      bindedSetValues({ ...initialValues, ...initialDataProtection });
+      bindedSetValues.current({ ...initialValues, ...initialDataProtection });
     }
 
     return () => {
