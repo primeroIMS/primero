@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFlags < ActiveRecord::Migration[5.0]
   def change
     create_table :flags do |t|
@@ -13,6 +15,6 @@ class CreateFlags < ActiveRecord::Migration[5.0]
       t.string 'unflagged_by'
       t.date 'unflagged_date'
     end
-    add_index :flags, [:record_type, :record_id]
+    add_index :flags, %i[record_type record_id]
   end
 end

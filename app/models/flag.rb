@@ -10,6 +10,7 @@ class Flag < ApplicationRecord
   belongs_to :record, polymorphic: true
 
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
+  # TODO: Rewrite these queries when we start using record_uuid
   scope :by_record_associated_user, lambda { |params|
     Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
         .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
@@ -28,6 +29,9 @@ class Flag < ApplicationRecord
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
+  # TODO: This is a temporary measure for v2.0.0.37 to ensure that record_uuid will be correctly populated for v2.0.0.38.
+  #       Delete in v2.0.0.38.
+  before_create :copy_record_id
   after_create :flag_history
   after_update :unflag_history
   after_save :index_record
@@ -151,7 +155,7 @@ class Flag < ApplicationRecord
   end
 
   def unflag_history
-    return unless saved_change_to_attribute('removed')[1]
+    return unless saved_change_to_attribute('removed')&.[](1)
 
     saved_changes.map { |k, v| [k, v[1]] }.to_h
     update_flag_history(EVENT_UNFLAG, unflagged_by)
@@ -159,6 +163,12 @@ class Flag < ApplicationRecord
 
   def index_record
     Sunspot.index!(record) if record
+  end
+
+  def copy_record_id
+    return unless record_id
+
+    self.record_uuid ||= record_id
   end
 
   private

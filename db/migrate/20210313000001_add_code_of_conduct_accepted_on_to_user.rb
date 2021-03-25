@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCodeOfConductAcceptedOnToUser < ActiveRecord::Migration[5.2]
   def change
     add_column :users, :code_of_conduct_accepted_on, :datetime

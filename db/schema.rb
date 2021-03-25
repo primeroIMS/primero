@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_23_000000) do
+ActiveRecord::Schema.define(version: 2021_03_25_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2021_03_23_000000) do
     t.boolean "system_generated_followup", default: false, null: false
     t.string "unflagged_by"
     t.date "unflagged_date"
+    t.uuid "record_uuid"
     t.index ["record_type", "record_id"], name: "index_flags_on_record_type_and_record_id"
   end
 
