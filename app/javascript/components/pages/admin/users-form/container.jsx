@@ -45,12 +45,13 @@ const Container = ({ mode }) => {
     USER_CONFIRMATION_DIALOG
   ]);
 
+  const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
+
   const user = useMemoizedSelector(state => getUser(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
   const idp = useMemoizedSelector(state => getIdentityProviders(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
-  const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
   const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
   const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
 
