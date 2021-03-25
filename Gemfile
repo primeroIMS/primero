@@ -17,6 +17,8 @@ gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.4'    # Shares Rails i18n strings with the front end
 gem 'jbuilder',            '~> 2.8'    # JSON templating for the API
+# TODO: Temporarily bundle an older version of mimemagic with Primero until Rails has a fix
+gem 'mimemagic',           path: 'vendor/gems/mimemagic-0.3.6'
 gem 'mini_magick',         '~> 4.9.4'  # Ruby bindings for ImageMagick, resize attachments. TODO: Is this necessary?
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections, optional Faraday dependency
