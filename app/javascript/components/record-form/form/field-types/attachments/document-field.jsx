@@ -48,8 +48,6 @@ const DocumentField = ({
 
   const fields = buildAttachmentFieldsObject(name, index);
 
-  console.log(fields);
-
   if (destroyed) return null;
 
   const removeFunc = () => {
