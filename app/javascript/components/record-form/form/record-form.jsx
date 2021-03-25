@@ -120,7 +120,7 @@ const RecordForm = ({
         return { ...accumulator, [key]: values };
       }, {});
 
-      bindedSetValues({ ...initialValues, ...initialDataProtection });
+      bindedSetValues.current({ ...initialValues, ...initialDataProtection });
     }
 
     return () => {
@@ -209,21 +209,27 @@ const RecordForm = ({
         enableReinitialize
         onSubmit={handleOnSubmit}
       >
-        {props => (
-          <FormikForm
-            {...props}
-            handleConfirm={handleConfirm}
-            renderFormSections={renderFormSections}
-            forms={forms}
-            mode={mode}
-            setFormikValues={setFormikValues}
-            setFormIsSubmitting={setFormIsSubmitting}
-            setFormTouched={setFormTouched}
-            bindResetForm={bindResetForm}
-            bindSetValues={bindSetValues}
-            bindSubmitForm={bindSubmitForm}
-          />
-        )}
+        {props => {
+          // eslint-disable-next-line react/prop-types
+          const { submitForm } = props;
+
+          bindSubmitForm(submitForm);
+
+          return (
+            <FormikForm
+              {...props}
+              handleConfirm={handleConfirm}
+              renderFormSections={renderFormSections}
+              forms={forms}
+              mode={mode}
+              setFormikValues={setFormikValues}
+              setFormIsSubmitting={setFormIsSubmitting}
+              setFormTouched={setFormTouched}
+              bindResetForm={bindResetForm}
+              bindSetValues={bindSetValues}
+            />
+          );
+        }}
       </Formik>
     );
   }
