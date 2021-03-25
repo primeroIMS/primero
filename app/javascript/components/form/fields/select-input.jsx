@@ -53,7 +53,11 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   });
 
   const options = allOptions.filter(
-    option => !option?.disabled || (option?.disabled && stickyOption && option.id === stickyOption)
+    option =>
+      !option?.disabled ||
+      (option?.disabled && stickyOption && Array.isArray(stickyOption)
+        ? stickyOption.includes(option.id)
+        : option.id === stickyOption)
   );
 
   const fetchAsyncOptions = () => {

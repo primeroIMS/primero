@@ -21,7 +21,7 @@ import { WRITE_RECORDS, ACTIONS } from "../../../../libs/permissions";
 import { useDialog } from "../../../action-dialog";
 import { fetchSystemSettings, fetchRoles, fetchUserGroups } from "../../../application";
 import CancelPrompt from "../../../form/components/cancel-prompt";
-import { currentUser, getCurrentUserGroupsUniqueIds } from "../../../user/selectors";
+import { currentUser, getCurrentUserGroupsUniqueIds, getCurrentUserGroupPermission } from "../../../user/selectors";
 import UserActions from "../../../user-actions";
 import { useMemoizedSelector } from "../../../../libs";
 
@@ -52,6 +52,7 @@ const Container = ({ mode }) => {
   const saving = useMemoizedSelector(state => getSavingRecord(state));
   const agencyReadOnUsers = usePermissions(NAMESPACE, [ACTIONS.AGENCY_READ]);
   const currentUserGroups = useMemoizedSelector(state => getCurrentUserGroupsUniqueIds(state));
+  const currentRoleGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
 
   const setPasswordModal = () => {
     setDialog({ dialog: PASSWORD_MODAL, open: true });
@@ -163,7 +164,8 @@ const Container = ({ mode }) => {
       selectedUserIsLoggedIn,
       {
         currentUserGroupPermissions: currentUserGroups,
-        agencyReadOnUsers
+        agencyReadOnUsers,
+        currentRoleGroupPermission
       }
     ).map(formSection => (
       <FormSection

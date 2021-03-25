@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { GROUP_PERMISSIONS } from "../../../../libs/permissions";
 import {
   FormSectionRecord,
   FieldRecord,
@@ -26,7 +27,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { currentUserGroupPermissions = [], agencyReadOnUsers }
+  { currentUserGroupPermissions = [], agencyReadOnUsers, currentRoleGroupPermission }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -118,12 +119,13 @@ const sharedUserFields = (
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
     visible: !hideOnAccountPage,
+    watchedInputs: ["user_group_unique_ids"],
     filterOptionSource: (_watchedInputValues, options) => {
       return options.map(userGroup => {
         if (!currentUserGroupPermissions.includes(userGroup.id)) {
           return {
             ...userGroup,
-            disabled: true
+            disabled: currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
           };
         }
 
@@ -217,12 +219,13 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers, currentUserGroupPermissions } = {}
+  { agencyReadOnUsers, currentUserGroupPermissions, currentRoleGroupPermission } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     currentUserGroupPermissions,
-    agencyReadOnUsers
+    agencyReadOnUsers,
+    currentRoleGroupPermission
   });
   const identityFields = identityUserFields(i18n, identityOptions);
 
