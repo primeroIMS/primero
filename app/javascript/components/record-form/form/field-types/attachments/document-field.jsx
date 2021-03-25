@@ -20,6 +20,7 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useThemeHelper } from "../../../../../libs";
+import TickField from "../tick-field";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -46,6 +47,8 @@ const DocumentField = ({
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
 
   const fields = buildAttachmentFieldsObject(name, index);
+
+  console.log(fields);
 
   if (destroyed) return null;
 
@@ -158,6 +161,13 @@ const DocumentField = ({
             {mode.isShow || deleteButton}
           </div>
 
+          <Box my={2}>
+            <TickField
+              {...supportingInputsProps}
+              label={i18n.t("fields.document.is_current")}
+              name={fields.isCurrent}
+            />
+          </Box>
           <Box my={2}>
             <FastField
               component={TextField}

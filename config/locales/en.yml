@@ -1068,6 +1068,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+      is_current: Is this the current document?
     document_upload_box: Document Upload
     edit_label: Edit Field
     enabled: Enabled?
