@@ -10,7 +10,6 @@ import { ValidationErrors } from "./components";
 
 const FormikForm = ({
   handleSubmit,
-  submitForm,
   errors,
   isSubmitting,
   setValues,
@@ -21,7 +20,6 @@ const FormikForm = ({
   dirty,
   bindResetForm,
   bindSetValues,
-  bindSubmitForm,
   setFormTouched,
   setFormIsSubmitting,
   setFormikValues,
@@ -33,7 +31,6 @@ const FormikForm = ({
   const i18n = useI18n();
 
   useEffect(() => {
-    bindSubmitForm(submitForm);
     bindSetValues(setValues);
     bindResetForm(resetForm);
 
@@ -67,7 +64,6 @@ FormikForm.displayName = "Form";
 FormikForm.propTypes = {
   bindResetForm: PropTypes.func,
   bindSetValues: PropTypes.func,
-  bindSubmitForm: PropTypes.func,
   dirty: PropTypes.bool,
   errors: PropTypes.object,
   forms: PropTypes.object,
@@ -82,7 +78,6 @@ FormikForm.propTypes = {
   setFormIsSubmitting: PropTypes.func,
   setFormTouched: PropTypes.func,
   setValues: PropTypes.func,
-  submitForm: PropTypes.func,
   touched: PropTypes.object,
   values: PropTypes.object
 };
