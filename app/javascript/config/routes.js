@@ -274,7 +274,7 @@ export default [
               }
             },
             {
-              path: `${ROUTES.code_of_conduct}/edit`,
+              path: `${ROUTES.admin_code_of_conduct}/edit`,
               component: AdminCodeOfConduct,
               resources: RESOURCES.codes_of_conduct,
               extraProps: {
@@ -282,9 +282,9 @@ export default [
               }
             },
             {
-              path: `${ROUTES.code_of_conduct}`,
+              path: `${ROUTES.admin_code_of_conduct}`,
               component: AdminCodeOfConduct,
-              resources: RESOURCES.code_of_conduct,
+              resources: RESOURCES.codes_of_conduct,
               extraProps: {
                 mode: MODES.show
               }
