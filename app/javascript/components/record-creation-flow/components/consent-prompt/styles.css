@@ -16,12 +16,6 @@
         margin-bottom: 5px;
       }
     }
-
-    & div {
-      & div {
-        margin: 3px 0;
-      }
-    }
   }
 }
 
