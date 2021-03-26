@@ -2,6 +2,7 @@ import { Card, CardContent, CardActionArea, TablePagination, Box } from "@materi
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
+import { fromJS } from "immutable";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
@@ -9,7 +10,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
-import { useMemoizedSelector, useThemeHelper } from "../../libs";
+import { displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -89,8 +90,12 @@ const Reports = () => {
                   <Card key={report.get("id")} className={css.card} elevation={3}>
                     <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
                       <CardContent className={css.cardContent}>
-                        <h3 className={css.title}>{report.getIn(["name", i18n.locale], "")}</h3>
-                        <p className={css.description}>{report.getIn(["description", i18n.locale], "")}</p>
+                        <h3 className={css.title}>
+                          {displayNameHelper(report.getIn(["name"], fromJS({})), i18n.locale)}
+                        </h3>
+                        <p className={css.description}>
+                          {displayNameHelper(report.getIn(["description"], fromJS({})), i18n.locale)}
+                        </p>
                       </CardContent>
                     </CardActionArea>
                   </Card>
