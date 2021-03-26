@@ -3,8 +3,6 @@
 }
 
 .container {
-  padding: 20px;
-
   & fieldset {
     width: 100%;
     margin-bottom: 1em !important;
@@ -23,6 +21,7 @@
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+  padding: 20px 20px 0 20px;
 
   & h1 {
     flex: 1 0 auto;
@@ -39,6 +38,7 @@
   margin-top: 2em;
   display: flex;
   justify-content: flex-start;
+  padding-left: 20px;
 
   & button {
     margin-top: 1.5em;
