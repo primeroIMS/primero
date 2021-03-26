@@ -49,12 +49,11 @@
 .fieldsContent {
   padding: 0 20px;
   overflow-y: auto;
-  min-height: 650px;
 }
 
 .createButtonContainer {
   bottom: 0;
-  position: fixed;
+  position: sticky;
   width: 100%;
   padding: 1em;
   border-top: 1px solid $(theme.primero.colors.lightGrey2);
