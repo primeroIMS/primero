@@ -16,7 +16,7 @@ describe RecordDataService do
   end
 
   describe 'select_fields' do
-    let(:data) { RecordDataService.select_fields(@record.data, %w[name field2]) }
+    let(:data) { RecordDataService.new.select_fields(@record.data, %w[name field2]) }
 
     it 'discards nil value fields' do
       expect(data.key?('field2')).to be_falsey
@@ -29,27 +29,27 @@ describe RecordDataService do
 
   describe 'embed_user_scope' do
     it 'returns true if the user is the record owner and is scoped to associated records' do
-      data = RecordDataService.embed_user_scope({}, @record, %w[record_in_scope], @user)
+      data = RecordDataService.new.embed_user_scope({}, @record, %w[record_in_scope], @user)
       expect(data['record_in_scope']).to be_truthy
     end
 
     it 'returns false if the user is not the record owner and is scored to associated records' do
       user2 = User.new(user_name: 'user2', role: @role)
-      data =  RecordDataService.embed_user_scope({}, @record, %w[record_in_scope], user2)
+      data =  RecordDataService.new.embed_user_scope({}, @record, %w[record_in_scope], user2)
       expect(data['record_in_scope']).to be_falsey
     end
   end
 
   describe 'embed_hidden_name' do
     it 'masks the hidden name if specified as such on the record' do
-      data =  RecordDataService.embed_hidden_name({}, @record, %w[name])
+      data =  RecordDataService.new.embed_hidden_name({}, @record, %w[name])
       expect(data['name']).to match(/\*+/)
     end
   end
 
   describe 'embed_flag_metadata' do
     it 'injects the flag count' do
-      data = RecordDataService.embed_flag_metadata({}, @record, %w[flag_count])
+      data = RecordDataService.new.embed_flag_metadata({}, @record, %w[flag_count])
       expect(data['flag_count']).to eq(2)
     end
   end
@@ -64,7 +64,7 @@ describe RecordDataService do
     end
 
     it 'injects the paths to the photo' do
-      data = RecordDataService.embed_photo_metadata({}, @record, %w[photos])
+      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photos])
       expect(data['photo']).to match(/.+jorge\.jpg$/)
     end
 
@@ -101,14 +101,14 @@ describe RecordDataService do
     end
 
     it 'it orders attachments by date, nils last' do
-      data = RecordDataService.embed_attachments({}, @record, %w[photos])
+      data = RecordDataService.new.embed_attachments({}, @record, %w[photos])
       expect(data['photos'][0]['file_name']).to eq('unicef.png')
       expect(data['photos'][1]['file_name']).to eq('jorge.jpg')
       expect(data['photos'][2]['file_name']).to eq('jeff.png')
     end
 
     it 'excludes attachments for fields that are not requested' do
-      data = RecordDataService.embed_attachments({}, @record, %w[other_photos])
+      data = RecordDataService.new.embed_attachments({}, @record, %w[other_photos])
       expect(data['photos'].present?).to be_falsey
       expect(data['other_photos'].size).to eq(1)
       expect(data['other_photos'][0]['file_name']).to eq('jeff.png')
@@ -124,7 +124,7 @@ describe RecordDataService do
       @record.incidents = [Incident.create!(data: { incident_date: Date.new(2019, 3, 1),
                                                     description: 'Test 1',
                                                     owned_by: @user.user_name })]
-      data = RecordDataService.embed_associations_as_data({}, @record, %w[incident_details], @user)
+      data = RecordDataService.new.embed_associations_as_data({}, @record, %w[incident_details], @user)
 
       expect(data.key?('incident_details')).to be_truthy
     end
@@ -138,7 +138,7 @@ describe RecordDataService do
       allow(@record).to receive(:sync_status).and_return(AuditLog::SYNCED)
       allow(@record).to receive(:day_of_birth).and_return(60)
 
-      data = RecordDataService.embed_computed_fields({ 'field1' => 'value1' }, @record, %w[synced_at field1])
+      data = RecordDataService.new.embed_computed_fields({ 'field1' => 'value1' }, @record, %w[synced_at field1])
       expect(data.keys).to match_array(%w[synced_at field1])
       expect(data['synced_at']).to eq(synced_at)
     end

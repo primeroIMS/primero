@@ -122,20 +122,8 @@ module Searchable
 
   # Class for allowing Sunspot to eager load record associations
   class RecordDataAccessor < Sunspot::Adapters::DataAccessor
-    def load(id)
-      eager_loaded_class.where(@clazz.primary_key => id).first
-    end
-
     def load_all(ids)
-      eager_loaded_class.where(@clazz.primary_key => ids)
-    end
-
-    private
-
-    def eager_loaded_class
-      # @clazz.eager_load(:alerts, :attachments, :flags)
-      @clazz.includes(:alerts, :attachments, :active_flags)
-      # @clazz.eager_load(:alerts)
+      @clazz.eager_loaded_class.where(@clazz.primary_key => ids)
     end
   end
 end
