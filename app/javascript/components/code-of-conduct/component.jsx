@@ -6,7 +6,7 @@ import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
 import { Typography } from "@material-ui/core";
 
-import { ROUTES } from "../../config";
+import { DATABASE_NAME, ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
@@ -14,8 +14,9 @@ import { useMemoizedSelector } from "../../libs";
 import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
+import { useApp } from "../application";
 
-import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT, MODULE } from "./constants";
+import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
 import styles from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
@@ -26,7 +27,6 @@ const useStyles = makeStyles(styles);
 const Component = () => {
   const css = useStyles();
   const i18n = useI18n();
-  const primeroModule = MODULE;
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -36,6 +36,9 @@ const Component = () => {
   const applicationCodeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
+
+  const { userModules } = useApp();
+  const primeroModule = userModules.size === 1 ? userModules.first() : DATABASE_NAME;
 
   if (isEmpty(applicationCodeOfConduct)) {
     return null;

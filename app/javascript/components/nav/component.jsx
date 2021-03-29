@@ -5,7 +5,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
 
-import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
+import { ROUTES, PERMITTED_URL, APPLICATION_NAV, DATABASE_NAME } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
@@ -38,7 +38,7 @@ const Nav = () => {
   }, []);
 
   const { userModules, demo } = useApp();
-  const module = userModules.first();
+  const module = userModules.size === 1 ? userModules.first() : DATABASE_NAME;
 
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);

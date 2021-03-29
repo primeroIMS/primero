@@ -18,7 +18,7 @@ export const getLogo = (moduleLogo, white = false) => {
         return [white ? MRMLogoWhite : MRMLogo, PrimeroPictorial];
       case "primeromodule-gbv":
         return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
-      case "primeromodule-cpims":
+      case "primeromodule-cp":
         return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
       default:
         return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];
