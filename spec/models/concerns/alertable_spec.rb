@@ -179,7 +179,6 @@ describe Alertable do
       context 'and the record is edited' do
         before do
           @test_class.name = 'asdfadfadfa'
-          @test_class.data = { transfer_request: [{ id: 'test' }] }
           @test_class.save
         end
 

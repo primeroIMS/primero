@@ -68,12 +68,7 @@ module Alertable
       return unless last_updated_by == owned_by && alerts?
       return unless alerts_on_change.present?
 
-      changed_field_names = changes_to_save_for_record.keys
-      alerts_on_change.each do |field_name, form_name|
-        next unless changed_field_names.include?(field_name)
-
-        remove_alert(form_name)
-      end
+      alerts_on_change.each { |_, form_name| remove_alert(form_name) }
 
       remove_alert(alerts_on_change[ALERT_INCIDENT]) if alerts_on_change[ALERT_INCIDENT].present?
     end
