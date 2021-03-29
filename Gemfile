@@ -17,8 +17,6 @@ gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.4'    # Shares Rails i18n strings with the front end
 gem 'jbuilder',            '~> 2.8'    # JSON templating for the API
-# TODO: Temporarily bundle an older version of mimemagic with Primero until Rails has a fix
-gem 'mimemagic',           path: 'vendor/gems/mimemagic-0.3.6'
 gem 'mini_magick',         '~> 4.9.4'  # Ruby bindings for ImageMagick, resize attachments. TODO: Is this necessary?
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections, optional Faraday dependency
@@ -29,7 +27,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
 gem 'rack',                '>= 2.2.0'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '5.2.4.5'
+gem 'rails',               '5.2.5'
 gem 'rake',                '~> 12.3'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
