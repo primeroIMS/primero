@@ -71,7 +71,7 @@ module MigrationHelper
         #If it has already been converted, it should be in one of the id's
         #If it hasn't yet been converted, it should be in one of the display_text
         values = value.map{|val| val.to_s.strip}
-        v = options.select{|o| values.include?(o['id']) || values.include?(o['display_text'].strip)}.map{|option| option['id']}.uniq
+        v = values.map{|val| options.select{|o| o['id'] == val || o['display_text'].strip == val}.first.try(:[], 'id') || val}
       else
         value = value.gsub(/_[0-9]{5}+$/, "") if value.is_a?(String)
         #The to_s is necessary to catch cases where the value is true or false
