@@ -20,6 +20,7 @@ import ActionDialog, { useDialog } from "../action-dialog";
 import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
+import { clearSelectedReport } from "../reports-form/action-creators";
 
 import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
@@ -44,6 +45,10 @@ const Report = ({ mode }) => {
 
   useEffect(() => {
     dispatch(fetchReport(id));
+
+    return () => {
+      dispatch(clearSelectedReport());
+    }
   }, []);
 
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
