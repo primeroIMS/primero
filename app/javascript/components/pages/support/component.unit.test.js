@@ -58,16 +58,16 @@ describe("<Support />", () => {
     });
 
     it("should render 4 ListItem components", () => {
-      expect(component.find(ListItem)).to.have.lengthOf(4);
+      expect(component.find(ListItem)).to.have.lengthOf(3);
     });
 
-    it("should render 2 disabled ListItem", () => {
-      const disabledListItem = component
+    it("should render 1 hidden ListItem", () => {
+      const hiddenListItem = component
         .find(ListItem)
         .map(listItem => listItem.props())
-        .filter(listItem => listItem.disabled);
+        .filter(listItem => listItem.hidden);
 
-      expect(disabledListItem).to.have.lengthOf(1);
+      expect(hiddenListItem).to.have.lengthOf(1);
     });
 
     it("should render CodeOfConduct component when clicking menu from the Navigation list", () => {

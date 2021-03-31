@@ -36,16 +36,16 @@ describe("<Support /> - utils", () => {
         {
           id: "code_of_conduct",
           text: "navigation.support_menu.code_of_conduct",
-          hidden: false
+          disabled: false
         },
         {
           id: "terms_of_use",
           text: "navigation.support_menu.terms_of_use"
         },
         {
-          disabled: true,
           id: "system_information",
-          text: "navigation.support_menu.system_information"
+          text: "navigation.support_menu.system_information",
+          hidden: true
         }
       ];
       const result = utils.menuList(i18n, true);
