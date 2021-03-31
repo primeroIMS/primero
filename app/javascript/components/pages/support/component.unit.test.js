@@ -61,17 +61,8 @@ describe("<Support />", () => {
       expect(component.find(ListItem)).to.have.lengthOf(3);
     });
 
-    it("should render 1 hidden ListItem", () => {
-      const hiddenListItem = component
-        .find(ListItem)
-        .map(listItem => listItem.props())
-        .filter(listItem => listItem.hidden);
-
-      expect(hiddenListItem).to.have.lengthOf(1);
-    });
-
     it("should render CodeOfConduct component when clicking menu from the Navigation list", () => {
-      const codeOfconductMenu = component.find(ListItem).at(1);
+      const codeOfconductMenu = component.find(ListItem).at(2);
 
       expect(component.find("h1").at(1).text()).to.be.equal("contact.info_label");
       expect(component.find(ContactInformation)).to.have.lengthOf(1);
@@ -82,7 +73,7 @@ describe("<Support />", () => {
     });
 
     it("should render TermOfUse component when clicking menu from the Navigation list", () => {
-      const codeOfconductMenu = component.find(ListItem).at(2);
+      const codeOfconductMenu = component.find(ListItem).at(1);
 
       codeOfconductMenu.simulate("click");
       expect(component.find(TermOfUse)).to.have.lengthOf(1);
