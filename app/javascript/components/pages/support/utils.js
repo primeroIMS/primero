@@ -12,7 +12,7 @@ export const menuList = (i18n, codeOfConductEnabled) => [
   {
     id: SUPPORT_FORMS.codeOfConduct,
     text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.codeOfConduct}`),
-    hidden: !codeOfConductEnabled
+    disabled: !codeOfConductEnabled
   },
   {
     id: SUPPORT_FORMS.termsOfUse,
@@ -21,7 +21,7 @@ export const menuList = (i18n, codeOfConductEnabled) => [
   {
     id: SUPPORT_FORMS.systemInformation,
     text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.systemInformation}`),
-    disabled: true
+    hidden: true
   }
 ];
 
