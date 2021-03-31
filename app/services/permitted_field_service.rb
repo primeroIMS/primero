@@ -12,6 +12,7 @@ class PermittedFieldService
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
+    reassigned_transferred_on
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
