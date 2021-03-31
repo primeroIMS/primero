@@ -89,7 +89,10 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       message: i18n.t("forms.translations.no_changes_message"),
       onSubmit: formData => {
         if (onSuccess) {
-          onSuccess(formData, true);
+          // eslint-disable-next-line camelcase
+          const { locale_id, ...currentData } = { ...formData };
+
+          onSuccess(currentData, true);
         }
         handleClose();
       }
