@@ -35,7 +35,8 @@ describe("<Support /> - utils", () => {
         },
         {
           id: "code_of_conduct",
-          text: "navigation.support_menu.code_of_conduct"
+          text: "navigation.support_menu.code_of_conduct",
+          hidden: false
         },
         {
           id: "terms_of_use",
@@ -47,7 +48,7 @@ describe("<Support /> - utils", () => {
           text: "navigation.support_menu.system_information"
         }
       ];
-      const result = utils.menuList(i18n);
+      const result = utils.menuList(i18n, true);
 
       expect(result).to.be.an("array");
       expect(result).to.deep.equals(expected);

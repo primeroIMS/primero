@@ -4,14 +4,15 @@ import NotImplemented from "../../not-implemented/component";
 import { CodeOfConduct, TermOfUse } from "./components";
 import { SUPPORT_FORMS } from "./constants";
 
-export const menuList = i18n => [
+export const menuList = (i18n, codeOfConductEnabled) => [
   {
     id: SUPPORT_FORMS.contactInformation,
     text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.contactInformation}`)
   },
   {
     id: SUPPORT_FORMS.codeOfConduct,
-    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.codeOfConduct}`)
+    text: i18n.t(`navigation.support_menu.${SUPPORT_FORMS.codeOfConduct}`),
+    hidden: !codeOfConductEnabled
   },
   {
     id: SUPPORT_FORMS.termsOfUse,

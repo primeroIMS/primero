@@ -42,6 +42,9 @@ describe("<Support />", () => {
           content: "Lorem ipsum",
           created_on: "2021-03-19T15:21:38.950Z",
           created_by: "primero"
+        },
+        systemOptions: {
+          code_of_conduct_enabled: true
         }
       }
     });

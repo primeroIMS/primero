@@ -15,13 +15,17 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     }
   };
 
-  const renderList = menuList.map(({ id, text, disabled }) => {
+  const renderList = menuList.map(({ id, text, disabled, hidden }) => {
     const handleClick = () => onClick(id);
     const selected = selectedItem === id;
     const classes = {
       button: css.item,
       selected: css.selectedItem
     };
+
+    if (hidden) {
+      return null;
+    }
 
     return (
       <ListItem button key={id} onClick={handleClick} selected={selected} disabled={disabled} classes={classes}>
