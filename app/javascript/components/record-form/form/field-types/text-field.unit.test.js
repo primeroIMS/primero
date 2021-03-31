@@ -146,8 +146,8 @@ describe("<TextField />", () => {
       button.simulate("click");
       const { store } = component.props();
 
-      expect(store.getActions()).to.have.lengthOf(2);
-      expect(store.getActions()[1]).to.deep.equal(expected);
+      expect(store.getActions()).to.have.lengthOf(1);
+      expect(store.getActions()[0]).to.deep.equal(expected);
     });
 
     afterEach(() => {

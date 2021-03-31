@@ -17,7 +17,7 @@ describe("<Summary />", () => {
     record: fromJS({}),
     recordType: "case",
     mobileDisplay: false,
-    handleToggleNav: () => {},
+    handleToggleNav: () => { },
     form: {},
     mode: { isNew: false }
   };
@@ -109,11 +109,8 @@ describe("<Summary />", () => {
 
     it("should not dispatch fetchmatchedTraces", () => {
       const calls = component.props().store.getActions();
-      const actions = calls.map(call => call.type);
-      const expectedActions = ["application/FETCH_SANDBOX_UI"];
 
-      expect(calls).to.have.lengthOf(1);
-      expect(actions).to.deep.equal(expectedActions);
+      expect(calls).to.have.lengthOf(0);
     });
   });
 });
