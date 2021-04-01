@@ -72,6 +72,8 @@ class Kpi::PivotedRangeSearch < Kpi::Search
       .to_a
       .transpose
 
+    return @data = [] if location_codes.nil? || rows.nil?
+
     # Should use pluck but `placename` is a `localized_property` which uses
     # some ruby to get the right value, so we can't delegate to the db only.
     placenames = Location.where(location_code: location_codes)
