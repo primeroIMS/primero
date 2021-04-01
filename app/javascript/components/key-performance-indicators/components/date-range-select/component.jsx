@@ -52,11 +52,20 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
     setTimeout(() => setShowCustomLabel(false), 150);
   };
 
-  const customRangeDates = `${i18n.toTime("key_performance_indicators.date_format", customRange.from)} - ${i18n.toTime("key_performance_indicators.date_format", customRange.to)}`;
+  const customRangeDates = `${i18n.toTime("key_performance_indicators.date_format", customRange.from)} - ${i18n.toTime(
+    "key_performance_indicators.date_format",
+    customRange.to
+  )}`;
 
   return (
     <FormControl>
-      <Select onOpen={handleSelectOpen} onClose={handleSelectClose} onChange={handleSelectChange} value={selectedRange.value} disabled={disabled}>
+      <Select
+        onOpen={handleSelectOpen}
+        onClose={handleSelectClose}
+        onChange={handleSelectChange}
+        value={selectedRange.value}
+        disabled={disabled}
+      >
         {ranges.map(range => (
           <MenuItem key={range.value} value={range.value}>
             {range.name}
