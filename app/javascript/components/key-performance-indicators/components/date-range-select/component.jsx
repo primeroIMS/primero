@@ -19,6 +19,8 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
     )
   );
 
+  const [showCustomLabel, setShowCustomLabel] = useState(false);
+
   const handleSelectChange = event => {
     if (event.target.value === CUSTOM_RANGE) return;
 
@@ -39,11 +41,22 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
     setCustomRange(newRange);
   };
   const handleCustomRangeClick = () => setShowRangePicker(true);
-  const handleDateRangeDialogClose = () => setShowRangePicker(false);
+  const handleDateRangeDialogClose = () => {
+    setShowRangePicker(false);
+    setShowCustomLabel(false);
+  };
+  const handleSelectOpen = () => setShowCustomLabel(true);
+  const handleSelectClose = () => {
+    // This is a little hacky. It's just to that the transition from open
+    // with label isn't as jarring to closed without label
+    setTimeout(() => setShowCustomLabel(false), 150);
+  };
+
+  const customRangeDates = `${i18n.toTime("key_performance_indicators.date_format", customRange.from)} - ${i18n.toTime("key_performance_indicators.date_format", customRange.to)}`;
 
   return (
     <FormControl>
-      <Select onChange={handleSelectChange} value={selectedRange.value} disabled={disabled}>
+      <Select onOpen={handleSelectOpen} onClose={handleSelectClose} onChange={handleSelectChange} value={selectedRange.value} disabled={disabled}>
         {ranges.map(range => (
           <MenuItem key={range.value} value={range.value}>
             {range.name}
@@ -51,8 +64,7 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
         ))}
         {withCustomRange && (
           <MenuItem key={CUSTOM_RANGE} value={customRange.value} onClick={handleCustomRangeClick}>
-            {i18n.toTime("key_performance_indicators.date_format", customRange.from)} -{" "}
-            {i18n.toTime("key_performance_indicators.date_format", customRange.to)}
+            {showCustomLabel ? customRange.name : customRangeDates}
           </MenuItem>
         )}
       </Select>

@@ -1327,6 +1327,8 @@ en:
     feedback: "Feedback"
     other: "Other"
     date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Custom'
     long_date_format: "dd/MM/yyyy"
     time_periods:
       all_time: 'All Time'
