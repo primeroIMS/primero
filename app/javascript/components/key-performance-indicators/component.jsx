@@ -56,9 +56,7 @@ const KeyPerformanceIndicators = () => {
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={12}>
-                  <ReportingDelay
-                    dateRanges={allDateRanges}
-                  />
+                  <ReportingDelay dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
             </div>
