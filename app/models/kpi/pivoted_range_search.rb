@@ -67,11 +67,18 @@ class Kpi::PivotedRangeSearch < Kpi::Search
   end
 
   def data
-    @data ||= pivot_range_counts.map do |value, counts|
-      placename = Location.find_by(location_code: value.upcase)
-                          .placename
+    location_codes, rows = *pivot_range_counts
+      .transform_keys(&:upcase)
+      .to_a
+      .transpose
 
-      { reporting_site: placename }.merge(counts)
+    # Should use pluck but `placename` is a `localized_property` which uses
+    # some ruby to get the right value, so we can't delegate to the db only.
+    placenames = Location.where(location_code: location_codes)
+                         .map(&:placename)
+
+    @data = placenames.zip(rows).map do |placename, row|
+      { reporting_site: placename }.merge(row)
     end
   end
 
