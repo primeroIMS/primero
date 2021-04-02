@@ -3,7 +3,12 @@
 [TOC]
 
 ## TLDR
-
+---
+### Requirements
+ - Python 3: MacOs requires python 3.9
+ - Pip
+ - Virtualenv
+---
 1.  Activate the python venv in order to run ansible.
 
             $ cd ansible

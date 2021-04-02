@@ -1,5 +1,6 @@
-RSpec::Matchers.define :make_queries do |expected|
+# frozen_string_literal: true
 
+RSpec::Matchers.define :make_queries do |expected|
   match do |block|
     count_queries(&block) == expected
   end
@@ -11,10 +12,10 @@ RSpec::Matchers.define :make_queries do |expected|
     @analyser.query_count
   end
 
-  failure_message_for_should do |actual|
+  failure_message do
     <<~MESSAGE
       Expected to run exactly #{expected} queries but ran #{@analyser.query_count}.
-      
+
       Queries Ran:
         #{@analyser.queries.map { |q| "#{q[:name]}: #{q[:sql]}" }.join("\n\n  ")}
 
@@ -22,11 +23,13 @@ RSpec::Matchers.define :make_queries do |expected|
   end
 
   class QueryAnalyser
+    attr_accessor :queries
+
     def initialize
       @queries = []
     end
 
-    def call(name, start, finish, message_id, values)
+    def call(_name, _start, _finish, _message_id, values)
       @queries << values
     end
 
@@ -35,11 +38,7 @@ RSpec::Matchers.define :make_queries do |expected|
     end
 
     def query_count
-      @queries.count { |q| ['CACHE', 'SCHEMA'].exclude?(q[:name]) }
-    end
-
-    def queries
-      @queries
+      @queries.count { |q| %w[CACHE SCHEMA].exclude?(q[:name]) }
     end
   end
 
