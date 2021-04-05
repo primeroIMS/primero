@@ -68,7 +68,8 @@ const getSuccessCallback = ({
       moduleID,
       incidentPath,
       redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
-      redirect: redirect === false ? false : redirect || `/${recordType}`
+      redirect: redirect === false ? false : redirect || `/${recordType}`,
+      preventSyncAfterRedirect: saveMethod === "update"
     },
     ...incidentFromCaseCallbacks
   ];

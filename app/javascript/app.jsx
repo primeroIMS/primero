@@ -31,11 +31,9 @@ const App = () => {
     document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
   });
 
-  useEffect(() => {
-    store.dispatch(fetchSandboxUI());
-    store.dispatch(checkUserAuthentication());
-    store.dispatch(loginSystemSettings());
-  }, []);
+  store.dispatch(fetchSandboxUI());
+  store.dispatch(checkUserAuthentication());
+  store.dispatch(loginSystemSettings());
 
   window.I18n.fallbacks = true;
 

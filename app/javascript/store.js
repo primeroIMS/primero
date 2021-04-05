@@ -1,6 +1,6 @@
 import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
-import { fromJS } from "immutable";
+import Immutable, { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
 import thunkMiddleware from "redux-thunk";
@@ -29,9 +29,12 @@ export default () => {
     process.env.NODE_ENV !== "development" || typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
       : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-          trace: true,
-          traceLimit: 25
-        });
+        trace: true,
+        traceLimit: 25,
+        serialize: {
+          immutable: Immutable
+        }
+      });
 
   const store = createStore(
     combineReducers({

@@ -1,5 +1,21 @@
 import { push } from "connected-react-router";
 
+const redirectConditions = (callback = {}, json) => {
+  const { redirect, redirectWithIdFromResponse, redirectToEdit, incidentPath, moduleID } = callback;
+
+  if (redirectWithIdFromResponse) {
+    return `${redirect}/${json?.data?.id}`;
+  }
+  if (redirectToEdit) {
+    return `${redirect}/${json?.data?.id}/edit`;
+  }
+  if (incidentPath) {
+    return incidentPath === "new" ? `/incidents/${moduleID}/new` : incidentPath;
+  }
+
+  return redirect;
+};
+
 const handleRestCallback = (store, callback, response, json, fromQueue = false) => {
   const isArrayCallback = Array.isArray(callback);
 
@@ -30,19 +46,10 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
       store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
 
       if (isObjectCallback && callback.redirect && !fromQueue) {
-        let { redirect } = callback;
+        const { preventSyncAfterRedirect } = callback;
+        const redirectPath = redirectConditions(callback, json);
 
-        if (callback.redirectWithIdFromResponse) {
-          redirect = `${callback.redirect}/${json?.data?.id}`;
-        }
-        if (callback.redirectToEdit) {
-          redirect = `${callback.redirect}/${json?.data?.id}/edit`;
-        }
-        if (callback.incidentPath) {
-          redirect = callback.incidentPath === "new" ? `/incidents/${callback.moduleID}/new` : callback.incidentPath;
-        }
-
-        store.dispatch(push(redirect));
+        store.dispatch(push(redirectPath, { preventSyncAfterRedirect }));
       }
     }
   }

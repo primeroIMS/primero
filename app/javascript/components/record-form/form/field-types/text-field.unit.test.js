@@ -123,6 +123,7 @@ describe("<TextField />", () => {
               },
               incidentPath: "",
               moduleID: undefined,
+              preventSyncAfterRedirect: true,
               redirectWithIdFromResponse: false,
               redirect: false
             },
