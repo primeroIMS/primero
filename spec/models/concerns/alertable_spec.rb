@@ -112,21 +112,25 @@ describe Alertable do
       )
       @test_class = Child.create(
         name: 'bar',
+        record_user_update: true,
         data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_a.id)]
       )
       @test_class_b = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
       @test_class_c = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, record_state: false },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
       @test_class_d = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, status: Record::STATUS_CLOSED },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
@@ -321,6 +325,7 @@ describe Alertable do
 
       @test_incident_alerts = Child.create(
         name: 'bar',
+        record_user_update: true,
         data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'incident_from_case', alert_for: 'field_change', user_id: @user_a.id)]
       )
