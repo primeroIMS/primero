@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, lookups } from "../../../../test";
+import { setupMountedComponent, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
@@ -8,6 +8,7 @@ import ActionButton from "../../../action-button";
 import RolesList from "./container";
 
 describe("<RolesList />", () => {
+  let stubI18n = null;
   let component;
 
   const dataLength = 30;
@@ -42,6 +43,12 @@ describe("<RolesList />", () => {
       }
     });
 
+    stubI18n = stub(window.I18n, "t")
+      .withArgs("messages.record_list.of")
+      .returns("of")
+      .withArgs("buttons.new")
+      .returns("New");
+
     ({ component } = setupMountedComponent(RolesList, {}, initialState, ["/admin/roles"]));
   });
 
@@ -72,7 +79,7 @@ describe("<RolesList />", () => {
   it("should render new button", () => {
     const newButton = component.find(ActionButton);
 
-    expect(newButton.text()).to.be.equals("buttons.new");
+    expect(newButton.text()).to.be.equals("New");
     expect(newButton).to.have.lengthOf(1);
   });
 
@@ -108,5 +115,11 @@ describe("<RolesList />", () => {
     it("should not render new button", () => {
       expect(componentWithoutManage.find(ActionButton)).to.empty;
     });
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

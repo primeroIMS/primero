@@ -349,6 +349,7 @@ en:
       name: Name
     owned_by: Record Owner
     owned_by_agency: Record Owner Agency
+    photo: Photo
     photos: Photo
     quick_view:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
@@ -1645,6 +1646,12 @@ en:
     logout_confirmation_title: Log out confirmation
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
+    record_list:
+      column_header_tooltip: Sort for %{column}
+      of: of
+      no_match: Sorry, no matching records found
+      rows_per_page: Rows per page
+      sort: Sort
   navigation:
     bulk_exports: Exports
     cases: Cases
