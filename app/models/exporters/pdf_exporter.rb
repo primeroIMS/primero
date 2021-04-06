@@ -170,7 +170,11 @@ module Exporters
         end
       end
 
-      reorder(connect(txt))
+      if include_rtl?(txt) && !self.class.reverse_page_direction
+        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| " #{ar.connect_arabic_letters.reverse!}" }
+      else
+        reorder(connect(txt))
+      end
     end
 
     def print_heading(pdf, _case, start_page, end_page)
