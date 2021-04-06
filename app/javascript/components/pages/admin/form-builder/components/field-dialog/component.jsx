@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -82,7 +83,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     },
     limitedProductionSite
   });
-  const formMethods = useForm({ resolver: yupResolver(validationSchema) });
+  const formMethods = useForm({ resolver: yupResolver(validationSchema), shouldUnregister: false });
   const {
     control,
     reset,
@@ -326,7 +327,13 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
-      const fieldData = toggleHideOnViewPage(transformValues(selectedField.toJS()));
+      const currFormValues = getValues()[selectedField.get("name")];
+      const { disabled, hide_on_view_page } = selectedField.toJS();
+      const data = {
+        ...{ ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page },
+        ...currFormValues
+      };
+      const fieldData = transformValues(data);
 
       const subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
@@ -337,7 +344,6 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
         {
           [selectedFieldName]: {
             ...fieldData,
-            disabled: !fieldData.disabled,
             option_strings_text: fieldData.option_strings_text?.map(option => {
               return { ...option, disabled: !option.disabled };
             })
