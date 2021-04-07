@@ -42,11 +42,9 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     guiding_questions: guidingQuestions,
     tick_box_label: tickBoxLabel,
     option_strings_text: optionStringsText
-  } = reduceMapToObject(field);
+  } = field.toJS();
 
-  console.log("selectedSubform", selectedSubform);
-
-  const { name, description } = selectedSubform?.toJS() || {};
+  const { name, description } = selectedSubform || {};
 
   const formMethods = useForm({
     defaultValues: {

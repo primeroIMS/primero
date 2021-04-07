@@ -2,12 +2,16 @@
 
 import { Map, List } from "immutable";
 
-export const reduceMapToObject = map => {
-  if (map.size <= 0) {
+export const reduceMapToObject = data => {
+  if (data && (data?.length || data?.size) <= 0) {
     return {};
   }
 
-  return map.reduce((accumulator, current, key) => {
+  if (Object.keys(data).length > 0 && (!(data instanceof Map) || !(data instanceof List))) {
+    return data;
+  }
+
+  return data.reduce((accumulator, current, key) => {
     let value = current;
 
     if (current instanceof List) {

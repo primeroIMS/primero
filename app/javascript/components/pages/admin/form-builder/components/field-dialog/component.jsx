@@ -63,6 +63,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
 
   const selectedField = useMemoizedSelector(state => getSelectedField(state));
+
   const selectedSubformField = useMemoizedSelector(state => getSelectedSubformField(state));
   const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
   const lastField = useMemoizedSelector(state => getSelectedFields(state, false))?.last();
@@ -329,10 +330,14 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
       const { disabled, hide_on_view_page } = selectedField.toJS();
+      const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
+
       const data = {
-        ...{ ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page },
-        ...currFormValues
+        ...(selectedSubform.toSeq().size
+          ? { ...currFormValues, ...selectedFormField }
+          : { ...selectedFormField, ...currFormValues })
       };
+
       const fieldData = transformValues(data);
 
       const subform =
