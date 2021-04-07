@@ -10,6 +10,8 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
+import isEmpty from "lodash/isEmpty";
+import mergeWith from "lodash/mergeWith";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -326,17 +328,44 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     ) : null;
   };
 
+  const mergeTranslationKeys = (defaultValues, currValues) => {
+    if (!currValues) {
+      return defaultValues;
+    }
+
+    const translatableOptions = [
+      "display_name",
+      "help_text",
+      "guiding_questions",
+      "tick_box_label",
+      "option_strings_text"
+    ];
+
+    const mergeWithCondition = (a, b) => (isEmpty(b) ? a : b);
+
+    const result = Object.entries(defaultValues).reduce((acc, curr) => {
+      const [key, value] = curr;
+
+      if (translatableOptions.includes(key) && !isEmpty(value)) {
+        const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
+
+        return { ...acc, [key]: mergedValues };
+      }
+
+      return { ...acc, [key]: value };
+    }, {});
+
+    return result;
+  };
+
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
+
       const { disabled, hide_on_view_page } = selectedField.toJS();
       const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
 
-      const data = {
-        ...(selectedSubform.toSeq().size
-          ? { ...currFormValues, ...selectedFormField }
-          : { ...selectedFormField, ...currFormValues })
-      };
+      const data = mergeTranslationKeys(selectedFormField, currFormValues);
 
       const fieldData = transformValues(data);
 
