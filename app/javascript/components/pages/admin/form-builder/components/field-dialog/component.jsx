@@ -10,8 +10,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
-import isEmpty from "lodash/isEmpty";
-import mergeWith from "lodash/mergeWith";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -49,9 +47,10 @@ import {
   transformValues,
   toggleHideOnViewPage,
   buildDataToSave,
-  generateUniqueId
+  generateUniqueId,
+  mergeTranslationKeys
 } from "./utils";
-import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM } from "./constants";
+import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
 const useStyles = makeStyles(styles);
 
@@ -328,40 +327,6 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     ) : null;
   };
 
-  const mergeTranslationKeys = (defaultValues, currValues, isSubform = false) => {
-    if (!currValues) {
-      return defaultValues;
-    }
-
-    const fieldTranslatableOptions = [
-      "display_name",
-      "help_text",
-      "guiding_questions",
-      "tick_box_label",
-      "option_strings_text"
-    ];
-
-    const subformTranslatableOptions = ["name", "description"];
-
-    const translatableOptions = isSubform ? subformTranslatableOptions : fieldTranslatableOptions;
-
-    const mergeWithCondition = (a, b) => (isEmpty(b) ? a : b);
-
-    const result = Object.entries(defaultValues).reduce((acc, curr) => {
-      const [key, value] = curr;
-
-      if (translatableOptions.includes(key) && !isEmpty(value)) {
-        const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
-
-        return { ...acc, [key]: mergedValues };
-      }
-
-      return { ...acc, [key]: value };
-    }, {});
-
-    return result;
-  };
-
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
@@ -384,8 +349,6 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
         };
       }
 
-      const resetOptions = { errors: true, dirtyFields: true, isDirty: true, touched: true };
-
       reset(
         {
           [selectedFieldName]: {
@@ -396,7 +359,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
           },
           ...subform
         },
-        resetOptions
+        RESET_OPTIONS
       );
     }
   }, [openFieldDialog, selectedField]);
