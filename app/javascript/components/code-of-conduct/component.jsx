@@ -6,7 +6,7 @@ import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
 import { Typography } from "@material-ui/core";
 
-import { DATABASE_NAME, ROUTES } from "../../config";
+import { ROUTES } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import ModuleLogo from "../module-logo";
 import { useI18n } from "../i18n";
@@ -37,8 +37,7 @@ const Component = () => {
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
 
-  const { userModules } = useApp();
-  const primeroModule = userModules.size === 1 ? userModules.first() : DATABASE_NAME;
+  const { firstUserModule: primeroModule } = useApp();
 
   if (isEmpty(applicationCodeOfConduct)) {
     return null;

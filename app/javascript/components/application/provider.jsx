@@ -14,7 +14,8 @@ import {
   getApprovalsLabels,
   getDisabledApplication,
   getDemo,
-  getLimitedConfigUI
+  getLimitedConfigUI,
+  getFirstUserModule
 } from "./selectors";
 
 const Context = createContext();
@@ -31,6 +32,7 @@ const ApplicationProvider = ({ children }) => {
   const demo = useMemoizedSelector(state => getDemo(state));
   const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
+  const firstUserModule = useMemoizedSelector(state => getFirstUserModule(state));
 
   useEffect(() => {
     dispatch(fetchSandboxUI());
@@ -44,7 +46,8 @@ const ApplicationProvider = ({ children }) => {
     disabledApplication,
     demo,
     currentUserName,
-    limitedProductionSite
+    limitedProductionSite,
+    firstUserModule
   };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
