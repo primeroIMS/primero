@@ -1,5 +1,6 @@
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
+import uuid from "uuid";
 
 import { toIdentifier } from "../form-builder/components/field-dialog/utils";
 
@@ -59,8 +60,10 @@ export const buildValues = (values, defaultLocale, disabledValues) => {
   const displayTextKeys = Object.keys(values[defaultLocale]);
 
   return displayTextKeys.map(key => {
+    const generatedId = toIdentifier(values.en[key]);
+
     return {
-      id: isNewOption(key) ? toIdentifier(values.en[key]) : key,
+      id: isNewOption(key) ? `${generatedId}_${uuid.v4().substr(-7)}` : key,
       disabled: !disabledValues[key],
       display_text: locales.reduce((acc, locale) => ({ ...acc, [locale]: values[locale][key] }), {})
     };
