@@ -124,7 +124,8 @@ const fields = {
     guiding_questions: "",
     required: true,
     date_validation: "default_date_validation",
-    href: null
+    href: null,
+    show_on_minify_form: true
   },
   2: {
     name: "document_field",
@@ -462,7 +463,7 @@ describe("<RecordForm /> - Selectors", () => {
             order: null,
             required: true,
             selected_value: null,
-            show_on_minify_form: false,
+            show_on_minify_form: true,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
@@ -534,7 +535,7 @@ describe("<RecordForm /> - Selectors", () => {
             order: null,
             required: true,
             selected_value: null,
-            show_on_minify_form: false,
+            show_on_minify_form: true,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
@@ -750,6 +751,24 @@ describe("<RecordForm /> - Selectors", () => {
     it("should return the field if exists", () => {
       const expected = R.FieldRecord(fields["1"]);
       const result = selectors.getFieldByName(stateWithRecords, "name_first");
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getFieldsWithNames", () => {
+    it("should return an object with the field names", () => {
+      const expected = fromJS({ document_field: R.FieldRecord(fields["2"]) });
+      const result = selectors.getFieldsWithNames(stateWithRecords, ["document_field"]);
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
+
+  describe("getMiniFormFields", () => {
+    it("should return show_on_minify_form fields for non nested forms", () => {
+      const expected = fromJS([R.FieldRecord(fields["1"])]);
+      const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp");
 
       expect(result).to.deep.equal(expected);
     });
