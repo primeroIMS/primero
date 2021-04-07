@@ -42,7 +42,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     guiding_questions: guidingQuestions,
     tick_box_label: tickBoxLabel,
     option_strings_text: optionStringsText
-  } = field.toJS();
+  } = reduceMapToObject(field);
 
   const { name, description } = selectedSubform || {};
 

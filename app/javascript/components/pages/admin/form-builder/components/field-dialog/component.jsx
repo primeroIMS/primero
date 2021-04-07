@@ -328,18 +328,22 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     ) : null;
   };
 
-  const mergeTranslationKeys = (defaultValues, currValues) => {
+  const mergeTranslationKeys = (defaultValues, currValues, isSubform = false) => {
     if (!currValues) {
       return defaultValues;
     }
 
-    const translatableOptions = [
+    const fieldTranslatableOptions = [
       "display_name",
       "help_text",
       "guiding_questions",
       "tick_box_label",
       "option_strings_text"
     ];
+
+    const subformTranslatableOptions = ["name", "description"];
+
+    const translatableOptions = isSubform ? subformTranslatableOptions : fieldTranslatableOptions;
 
     const mergeWithCondition = (a, b) => (isEmpty(b) ? a : b);
 
@@ -361,6 +365,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
+      const updatedSubformSection = getValues()?.subform_section;
 
       const { disabled, hide_on_view_page } = selectedField.toJS();
       const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
@@ -369,8 +374,15 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
       const fieldData = transformValues(data);
 
-      const subform =
+      let subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
+
+      if (updatedSubformSection && isSubformField(selectedField)) {
+        subform = {
+          ...subform,
+          subform_section: mergeTranslationKeys(subform.subform_section, updatedSubformSection, true)
+        };
+      }
 
       const resetOptions = { errors: true, dirtyFields: true, isDirty: true, touched: true };
 

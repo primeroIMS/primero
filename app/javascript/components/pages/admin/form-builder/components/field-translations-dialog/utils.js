@@ -7,19 +7,19 @@ export const reduceMapToObject = data => {
     return {};
   }
 
-  if (Object.keys(data).length > 0 && (!(data instanceof Map) || !(data instanceof List))) {
-    return data;
-  }
+  return data
+    .toSeq()
+    .entrySeq()
+    .reduce((accumulator, current) => {
+      const [key, currValue] = current;
+      let value = currValue;
 
-  return data.reduce((accumulator, current, key) => {
-    let value = current;
+      if (current instanceof List) {
+        value = current.reduce((acc, curr) => [...acc, curr], []);
+      } else if (current instanceof Map) {
+        value = current.reduce((acc, curr, k) => ({ ...acc, [k]: curr }), {});
+      }
 
-    if (current instanceof List) {
-      value = current.reduce((acc, curr) => [...acc, curr], []);
-    } else if (current instanceof Map) {
-      value = current.reduce((acc, curr, k) => ({ ...acc, [k]: curr }), {});
-    }
-
-    return { ...accumulator, [key]: value };
-  }, {});
+      return { ...accumulator, [key]: value };
+    }, {});
 };
