@@ -12,9 +12,11 @@ import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
+import { getLocationsAvailable } from "../application/selectors";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
 import { getPermissions } from "../user";
+import usePermissions, { MANAGE, RESOURCES } from "../permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 
@@ -44,6 +46,8 @@ const Nav = () => {
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
   const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+  const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
+  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
   const handleToggleDrawer = open => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -68,7 +72,7 @@ const Nav = () => {
           key={menuEntry.to}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
-          jewelCount={jewel}
+          jewelCount={jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable)}
           username={username}
           closeDrawer={handleToggleDrawer(false)}
         />

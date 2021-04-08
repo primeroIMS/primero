@@ -8,6 +8,7 @@ import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
 import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
+import Jewel from "../jewel";
 
 import Nav from "./component";
 import { FETCH_ALERTS } from "./actions";
@@ -25,7 +26,9 @@ describe("<Nav />", () => {
     dashboards: [ACTIONS.MANAGE, ACTIONS.DASH_TASKS],
     potential_matches: [ACTIONS.MANAGE],
     tracing_requests: [ACTIONS.READ],
-    reports: [ACTIONS.MANAGE]
+    reports: [ACTIONS.MANAGE],
+    metadata: [ACTIONS.MANAGE],
+    users: [ACTIONS.MANAGE]
   };
   const initialState = fromJS({
     ui: { Nav: { drawerOpen: true } },
@@ -101,6 +104,13 @@ describe("<Nav />", () => {
 
     it("renders exports link", () => {
       expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(2);
+    });
+
+    it("renders seetings link with alert", () => {
+      const seetingsLink = component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.admin_users);
+
+      expect(seetingsLink).to.have.lengthOf(2);
+      expect(seetingsLink.find(Jewel)).to.have.lengthOf(2);
     });
   });
 
