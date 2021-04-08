@@ -151,7 +151,10 @@ const Container = ({ mode }) => {
   const pageHeading = user?.size ? `${i18n.t("users.label")} ${user.get("full_name")}` : i18n.t("users.label");
 
   const identityOptions = providers
-    ? providers.reduce((prev, current) => [...prev, { id: current.get("id"), display_text: current.get("name") }], [])
+    ? providers.reduce(
+        (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+        []
+      )
     : [];
 
   const renderFormSections = () =>
