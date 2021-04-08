@@ -102,7 +102,7 @@ export default ({
           handleCreateIncident();
         },
         condition: canCreateIncident,
-        disableOffline: true,
+        disableOffline: false,
         enabledFor: ENABLED_FOR_ONE,
         enabledOnSearch: false,
         name: i18n.t("actions.incident_from_case"),
