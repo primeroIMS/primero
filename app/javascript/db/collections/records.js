@@ -1,3 +1,6 @@
+import { compact } from "lodash";
+import findIndex from "lodash/findIndex";
+
 import DB from "../db";
 
 const Records = {
@@ -9,12 +12,42 @@ const Records = {
     };
   },
 
+  updateCaseIncidents: async data => {
+    const { incident_case_id: caseID } = data;
+    const caseRecord = await Records.find({ collection: "records", db: { id: caseID } });
+
+    if (caseRecord) {
+      const { id, ...incidentData } = data;
+      // eslint-disable-next-line camelcase
+      const incidentDetails = [...caseRecord?.data?.incident_details];
+      const incidentIndex = findIndex(incidentDetails, "unique_id", id);
+      const parsedIncident = { unique_id: id, ...incidentData };
+
+      if (incidentIndex === -1) {
+        incidentDetails.push(parsedIncident);
+      } else {
+        incidentDetails[incidentIndex] = parsedIncident;
+      }
+
+      await Records.save({
+        collection: "records",
+        recordType: "cases",
+        json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+      });
+    }
+  },
+
   save: async ({ collection, json, recordType }) => {
     const { data, metadata } = json;
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
     const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, complete: true };
+
+    // eslint-disable-next-line camelcase
+    if (data?.incident_case_id && recordType === "incidents") {
+      Records.updateCaseIncidents(data);
+    }
 
     if (dataIsArray) {
       await DB.bulkAdd(collection, recordData, {

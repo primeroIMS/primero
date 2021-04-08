@@ -1,5 +1,10 @@
 import { Map, List, fromJS } from "immutable";
 
+const fieldMapModule = (state, moduleID) =>
+  state
+    .getIn(["application", "modules"], fromJS([]))
+    .find(recordModule => recordModule.get("unique_id") === moduleID, null, fromJS({}));
+
 export const selectRecord = (state, mode, recordType, id) => {
   if (mode.isEdit || mode.isShow) {
     const index = state.getIn(["records", recordType, "data"]).findIndex(r => r.get("id") === id);
@@ -40,6 +45,12 @@ export const getIncidentFromCase = state => {
 
 export const getCaseIdForIncident = state => {
   return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
+};
+
+export const getFieldMap = (state, moduleID) => {
+  const mapTo = fieldMapModule(state, moduleID).getIn(["field_map", "map_to"]);
+
+  return fieldMapModule(state, mapTo).getIn(["field_map", "fields"], fromJS([]));
 };
 
 export const getSelectedRecord = (state, recordType) => state.getIn(["records", recordType, "selectedRecord"]);

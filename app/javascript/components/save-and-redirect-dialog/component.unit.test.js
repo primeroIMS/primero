@@ -4,9 +4,9 @@ import { setupMountedComponent } from "../../../../test";
 import ActionDialog from "../../../action-dialog";
 import { RECORD_TYPES } from "../../../../config";
 
-import RedirectDialog from "./component";
+import SaveAndRedirectDialog from "./component";
 
-describe("<RedirectDialog /> - Component", () => {
+describe("<SaveAndRedirectDialog /> - Component", () => {
   let component;
   const props = {
     handleSubmit: () => {},
@@ -19,11 +19,11 @@ describe("<RedirectDialog /> - Component", () => {
   };
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(RedirectDialog, props, fromJS({})));
+    ({ component } = setupMountedComponent(SaveAndRedirectDialog, props, fromJS({})));
   });
 
   it("render RedirectDialog component", () => {
-    expect(component.find(RedirectDialog)).to.have.lengthOf(1);
+    expect(component.find(SaveAndRedirectDialog)).to.have.lengthOf(1);
   });
 
   it("render a ActionDialog", () => {
@@ -31,7 +31,7 @@ describe("<RedirectDialog /> - Component", () => {
   });
 
   it("renders component with valid props", () => {
-    const redirectDialogProps = { ...component.find(RedirectDialog).props() };
+    const redirectDialogProps = { ...component.find(SaveAndRedirectDialog).props() };
 
     ["handleSubmit", "incidentPath", "mode", "open", "recordType", "setFieldValue", "setRedirectOpts"].forEach(
       property => {
