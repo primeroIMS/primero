@@ -1,0 +1,46 @@
+# frozen_string_literal: true
+
+# Uses a cache to interact with Locations
+class LocationService
+  attr_accessor :locations_by_code, :with_cache
+
+  def self.instance
+    new(Rails.env.production?)
+  end
+
+  def initialize(with_cache = false)
+    self.with_cache = with_cache
+    return unless with_cache
+
+    # The assumption here is that the cache will be updated if a new Location is created
+    cache_key = "location_service/#{Location.maximum(:id)}"
+    self.locations_by_code = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
+      Locations.all.map { |loc| [loc.location_code, loc] }.to_h
+    end
+  end
+
+  alias with_cache? with_cache
+
+  def find_by_code(code)
+    if with_cache?
+      locations_by_code[code]
+    else
+      Location.find_by(location_code: code)
+    end
+  end
+
+  def find_by_codes(codes)
+    if with_cache?
+      locations_by_code.slice(*codes).values
+    else
+      Location.where(location_code: codes).to_a
+    end
+  end
+
+  def ancestor_code(code, admin_level)
+    location = find_by_code(code)
+    return unless location && location.admin_level > admin_level
+
+    location.hierarchy[admin_level].location_code
+  end
+end
