@@ -48,7 +48,7 @@ const Report = ({ mode }) => {
 
     return () => {
       dispatch(clearSelectedReport());
-    }
+    };
   }, []);
 
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
