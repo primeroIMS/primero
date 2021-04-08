@@ -3,7 +3,7 @@
 # TODO: This class will need some cleanup/refactor
 # Calculate the permitted fields for a receord based on the user's role
 class PermittedFieldService
-  attr_accessor :user, :model_class, :action_name
+  attr_accessor :user, :model_class, :action_name, :id_search
 
   PERMITTED_CORE_FIELDS = %w[id record_in_scope or not cases_by_date alert_count].freeze
 
@@ -27,10 +27,11 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => %w[record_state], Permission::INCIDENT_FROM_CASE => %w[incident_case_id]
   }.freeze
 
-  def initialize(user, model_class, action_name = nil)
+  def initialize(user, model_class, action_name = nil, id_search = nil)
     self.user = user
     self.model_class = model_class
     self.action_name = action_name
+    self.id_search = id_search
   end
 
   # This is a long series of permission conditions. Sacrificing Rubocop for readability.
@@ -56,6 +57,7 @@ class PermittedFieldService
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
+    @permitted_field_names += model_class.id_search_fields if id_search.present?
     @permitted_field_names
   end
   # rubocop:enable Metrics/AbcSize

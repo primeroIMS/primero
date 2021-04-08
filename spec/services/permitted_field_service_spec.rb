@@ -66,5 +66,13 @@ describe PermittedFieldService, search: true do
     expect((%w[sex age registration_date] - permitted_field_names).empty?).to be true
   end
 
+  it 'returns the permitted fields for id_search = true' do
+    permitted_field_names = PermittedFieldService.new(user, Child, nil, true).permitted_field_names
+
+    expect(
+      (%w[age date_of_birth estimated name module_id sex registration_date] - permitted_field_names).empty?
+    ).to be true
+  end
+
   after(:each) { clean_data(Agency, Role, User, FormSection, Field) }
 end

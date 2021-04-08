@@ -58,8 +58,12 @@ module Record
       name.underscore.downcase
     end
 
+    def id_search_fields
+      %w[age date_of_birth estimated name module_id sex]
+    end
+
     def preview_field_names
-      Field.joins(:form_section).where(
+      id_search_fields + Field.joins(:form_section).where(
         form_sections: { parent_form: parent_form },
         show_on_minify_form: true
       ).pluck(:name)
