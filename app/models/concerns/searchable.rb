@@ -44,7 +44,7 @@ module Searchable
       all_searchable_location_fields.each do |field|
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-            Location.value_for_index(data[field], admin_level)
+            location_service.ancestor_code(data[field], admin_level)
           end
         end
       end
