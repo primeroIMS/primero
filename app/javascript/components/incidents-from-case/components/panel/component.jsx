@@ -11,7 +11,6 @@ import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 import { useMemoizedSelector } from "../../../../libs";
 import { getIncidentAvailable } from "../../../records";
-import { useApp } from "../../../application";
 
 const Component = ({
   incident,
@@ -26,7 +25,6 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
-  const { online } = useApp();
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
@@ -44,8 +42,7 @@ const Component = ({
     incident.get("module_id", false) === MODULES.CP ? LOOKUPS.cp_violence_type : LOOKUPS.gbv_violence_type;
   const incidentType = <LookupValue value={incidentTypeData} optionsStringSource={lookupViolenceType} />;
 
-  const incidentAvailable = useMemoizedSelector(state => getIncidentAvailable(state, incidentUniqueID));
-  const isIncidentAvailable = online ? true : incidentAvailable;
+  const isIncidentAvailable = useMemoizedSelector(state => getIncidentAvailable(state, incidentUniqueID));
 
   const sharedProps = {
     incident,

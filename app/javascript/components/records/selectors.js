@@ -18,10 +18,14 @@ export const selectRecord = (state, mode, recordType, id) => {
 };
 
 export const getIncidentAvailable = (state, id) => {
-  const recordType = RECORD_PATH.incidents;
-  const index = state.getIn(["records", recordType, "data"], fromJS([])).findIndex(r => r.get("id") === id);
+  const online = state.getIn(["connectivity", "online"], false);
+  const index = state.getIn(["records", RECORD_PATH.incidents, "data"], fromJS([])).findIndex(r => r.get("id") === id);
 
-  return state.hasIn(["records", recordType, "data", index]);
+  if (online) {
+    return true;
+  }
+
+  return index > -1;
 };
 
 export const selectRecordAttribute = (state, recordType, id, attribute) => {
