@@ -19,11 +19,13 @@ const Component = ({
   incidentDate,
   incidentUniqueID,
   incidentType,
-  handleCreateIncident
+  handleCreateIncident,
+  incidentAvailable
 }) => {
   const i18n = useI18n();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
+
   const incidentInterviewLabel = i18n.t("incidents.date_of_interview");
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
@@ -34,6 +36,7 @@ const Component = ({
 
   const handleClickViewIncident = () => handleEvent(VIEW);
   const handleClickEditIncident = () => handleEvent(EDIT);
+  const tooltip = !incidentAvailable && i18n.t("unavailable_offline");
 
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
@@ -41,7 +44,9 @@ const Component = ({
       text={i18n.t(`buttons.${VIEW}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
+      tooltip={tooltip}
       rest={{
+        disabled: !incidentAvailable,
         onClick: handleClickViewIncident
       }}
     />
@@ -52,7 +57,9 @@ const Component = ({
       text={i18n.t(`buttons.${EDIT}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
+      tooltip={tooltip}
       rest={{
+        disabled: !incidentAvailable,
         onClick: handleClickEditIncident
       }}
     />
@@ -94,6 +101,7 @@ Component.displayName = NAME_DETAIL;
 Component.propTypes = {
   css: PropTypes.object.isRequired,
   handleCreateIncident: PropTypes.func,
+  incidentAvailable: PropTypes.bool,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,

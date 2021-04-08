@@ -9,6 +9,9 @@ import { NAME_PANEL } from "../../constants";
 import { MODULES, LOOKUPS } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
+import { useMemoizedSelector } from "../../../../libs";
+import { getIncidentAvailable } from "../../../records";
+import { useApp } from "../../../application";
 
 const Component = ({
   incident,
@@ -23,7 +26,7 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
-
+  const { online } = useApp();
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
@@ -40,6 +43,9 @@ const Component = ({
   const lookupViolenceType =
     incident.get("module_id", false) === MODULES.CP ? LOOKUPS.cp_violence_type : LOOKUPS.gbv_violence_type;
   const incidentType = <LookupValue value={incidentTypeData} optionsStringSource={lookupViolenceType} />;
+
+  const incidentAvailable = useMemoizedSelector(state => getIncidentAvailable(state, incidentUniqueID));
+  const isIncidentAvailable = online ? true : incidentAvailable;
 
   const sharedProps = {
     incident,
@@ -70,7 +76,11 @@ const Component = ({
           <IncidentSummary {...sharedProps} />
         </AccordionSummary>
         <AccordionDetails>
-          <IncidentDetail {...sharedProps} handleCreateIncident={handleCreateIncident} />
+          <IncidentDetail
+            {...sharedProps}
+            handleCreateIncident={handleCreateIncident}
+            incidentAvailable={isIncidentAvailable}
+          />
         </AccordionDetails>
       </Accordion>
     </div>

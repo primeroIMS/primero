@@ -129,7 +129,11 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
       return state
         .update("data", u => {
-          return u.push(fromJS(data));
+          if (data) {
+            return u.push(fromJS(data));
+          }
+
+          return u;
         })
         .set("errors", false);
     }

@@ -2,12 +2,13 @@ import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 
 import { ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, MODULE_TYPE_FIELD, RECORD_PATH } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import { useDialog } from "../action-dialog";
 import { get } from "../form/utils";
+import { setSelectedForm } from "../record-form/action-creators";
 
 import { offlineIncidentFromCase } from "./action-creators";
 import { getFieldMap } from "./selectors";
@@ -47,7 +48,10 @@ const useIncidentFromCase = ({ record, mode }) => {
       const incidentPath =
         isString(path) && !isEmpty(path) ? path : `/${RECORD_PATH.incidents}/${record.get(MODULE_TYPE_FIELD)}/new`;
 
-      dispatch(push(incidentPath));
+      batch(() => {
+        dispatch(push(incidentPath));
+        dispatch(setSelectedForm(""));
+      });
     }
 
     setSaveBeforeIncidentRedirect(false);

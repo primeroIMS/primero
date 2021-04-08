@@ -1,8 +1,8 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
-import ActionDialog from "../../../action-dialog";
-import { RECORD_TYPES } from "../../../../config";
+import { setupMountedComponent } from "../../test";
+import ActionDialog from "../action-dialog";
+import { RECORD_TYPES } from "../../config";
 
 import SaveAndRedirectDialog from "./component";
 

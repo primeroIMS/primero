@@ -1,5 +1,7 @@
 import { Map, List, fromJS } from "immutable";
 
+import { RECORD_PATH } from "../../config/constants";
+
 const fieldMapModule = (state, moduleID) =>
   state
     .getIn(["application", "modules"], fromJS([]))
@@ -13,6 +15,13 @@ export const selectRecord = (state, mode, recordType, id) => {
   }
 
   return null;
+};
+
+export const getIncidentAvailable = (state, id) => {
+  const recordType = RECORD_PATH.incidents;
+  const index = state.getIn(["records", recordType, "data"], fromJS([])).findIndex(r => r.get("id") === id);
+
+  return state.hasIn(["records", recordType, "data", index]);
 };
 
 export const selectRecordAttribute = (state, recordType, id, attribute) => {

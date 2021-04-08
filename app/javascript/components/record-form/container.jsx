@@ -148,7 +148,8 @@ const Container = ({ match, mode }) => {
       const body = {
         data: {
           ...compactValues(formValues, initialValues),
-          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
+          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+          ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
       };
       const message = () => {

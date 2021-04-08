@@ -1,7 +1,8 @@
 import { compact } from "lodash";
-import findIndex from "lodash/findIndex";
+import merge from "deepmerge";
 
 import DB from "../db";
+import subformAwareMerge from "../utils/subform-aware-merge";
 
 const Records = {
   find: async ({ collection, recordType, db }) => {
@@ -20,13 +21,15 @@ const Records = {
       const { id, ...incidentData } = data;
       // eslint-disable-next-line camelcase
       const incidentDetails = [...caseRecord?.data?.incident_details];
-      const incidentIndex = findIndex(incidentDetails, "unique_id", id);
+      const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
       const parsedIncident = { unique_id: id, ...incidentData };
 
       if (incidentIndex === -1) {
         incidentDetails.push(parsedIncident);
       } else {
-        incidentDetails[incidentIndex] = parsedIncident;
+        incidentDetails[incidentIndex] = merge(incidentDetails[incidentIndex], parsedIncident, {
+          arrayMerge: subformAwareMerge
+        });
       }
 
       await Records.save({
