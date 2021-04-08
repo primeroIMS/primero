@@ -38,7 +38,8 @@ const RecordForm = ({
   incidentFromCase,
   externalForms,
   fetchFromCaseId,
-  userPermittedFormsIds
+  userPermittedFormsIds,
+  externalComponents
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -227,6 +228,7 @@ const RecordForm = ({
               setFormTouched={setFormTouched}
               bindResetForm={bindResetForm}
               bindSetValues={bindSetValues}
+              externalComponents={externalComponents}
             />
           );
         }}
@@ -242,6 +244,7 @@ RecordForm.displayName = RECORD_FORM_NAME;
 RecordForm.propTypes = {
   attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
+  externalComponents: PropTypes.func,
   externalForms: PropTypes.func,
   fetchFromCaseId: PropTypes.bool,
   forms: PropTypes.object.isRequired,

@@ -27,7 +27,8 @@ import {
   CLEAR_MATCHED_TRACES,
   UNMATCH_CASE_FOR_TRACE,
   CLEAR_POTENTIAL_MATCHES,
-  EXTERNAL_SYNC
+  EXTERNAL_SYNC,
+  OFFLINE_INCIDENT_FROM_CASE
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -200,6 +201,11 @@ export const fetchIncidentFromCase = (caseId, caseIdDisplay, moduleId) => {
     }
   };
 };
+
+export const offlineIncidentFromCase = payload => ({
+  type: `cases/${OFFLINE_INCIDENT_FROM_CASE}`,
+  payload
+});
 
 export const fetchIncidentwitCaseId = caseId => {
   return {
