@@ -48,7 +48,7 @@ Jewel.propTypes = {
   isError: PropTypes.bool,
   isForm: PropTypes.bool,
   isList: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool])
 };
 
 export default Jewel;
