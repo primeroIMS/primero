@@ -26,7 +26,8 @@ class Location < ApplicationRecord
   before_create :hierarchy_defaulted
   before_create :admin_level_from_hierarchy
   before_create :name_from_hierarchy
-  after_update :update_descendent_names
+  before_update :name_from_placename, if: -> { will_save_change_to_attribute?(:placename_i18n) }
+  after_update :update_descendent_names, if: -> { saved_change_to_attribute?(:placename_i18n) }
   after_save :generate_location_files
 
   # This allows us to use the property 'type' on Location, normally reserved by ActiveRecord
@@ -47,13 +48,6 @@ class Location < ApplicationRecord
     def inheritance_column
       'type_inheritance'
     end
-
-  # TODO: Used by IR export
-  #   def find_types_in_hierarchy(location_code, location_types)
-  #     hierarchy = [location_code]
-  #     hierarchy << Location.find_by(location_code: location_code)&.hierarchy_path&.split('.')
-  #     Location.find_by(type: location_types, location_code: hierarchy.flatten.compact)
-  #   end
 
   # TODO: Used by the selected fields exporter. Should really be the same as value_for_index, and some of the other ones
   #   def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
@@ -146,7 +140,7 @@ class Location < ApplicationRecord
     ancestors.map { |lct| [lct.location_code, lct.placename] } << [location_code, placename]
   end
 
-  # TODO: # TODO: Can be queried via cache
+  # TODO: Can be queried via cache
   def hierarchy_from_parent
     return if hierarchy_path
     return unless will_save_change_to_attribute?(:parent_code)
@@ -174,6 +168,14 @@ class Location < ApplicationRecord
     end
   end
 
+  def name_from_placename
+    I18n.available_locales.each do |locale|
+      hierarchical_name = name(locale).split('::')
+      hierarchical_name_to_keep = hierarchical_name[0..-2]
+      name_i18n[locale] = "#{hierarchical_name_to_keep.join('::')}::#{placename(locale)}"
+    end
+  end
+
   def update_descendent_names
     descendents_to_update = descendents.map do |location|
       update_name_from_ancestor_name(location, name_i18n)
@@ -187,7 +189,7 @@ class Location < ApplicationRecord
   end
 
   def update_name_from_ancestor_name(location, ancestor_name_i18n)
-    I18n.avialable_locales.each do |locale|
+    I18n.available_locales.each do |locale|
       hierarchical_name = location.name(locale).split('::')
       hierarchical_name_to_keep = hierarchical_name[(admin_level + 1)..-1]
       location.name_i18n[locale] = "#{ancestor_name_i18n[locale]}::#{hierarchical_name_to_keep.join('::')}"
