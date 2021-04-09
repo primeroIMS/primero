@@ -6,11 +6,14 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { useI18n } from "../../../i18n";
 import { NAME_PANEL } from "../../constants";
-import { MODULES, LOOKUPS } from "../../../../config";
+import { MODULES } from "../../../../config";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
 import { useMemoizedSelector } from "../../../../libs";
 import { getIncidentAvailable } from "../../../records";
+import { getFieldByName } from "../../../record-form/selectors";
+
+import { CP_VIOLENCE_TYPE, GBV_VIOLENCE_TYPE } from "./constants";
 
 const Component = ({
   incident,
@@ -29,8 +32,7 @@ const Component = ({
     setExpanded(!expanded);
   };
 
-  const violationType =
-    incident.get("module_id", false) === MODULES.CP ? "cp_incident_violence_type" : "gbv_sexual_violence_type";
+  const violationType = incident.get("module_id", false) === MODULES.CP ? CP_VIOLENCE_TYPE : GBV_VIOLENCE_TYPE;
   const incidentTypeData = incident.get(violationType, false) || undefined;
   const incidentUniqueID = incident.get("unique_id", false);
   const incidentDateData = incident.get("incident_date", false);
@@ -38,11 +40,15 @@ const Component = ({
 
   const incidentDate = incidentDateData && i18n.localizeDate(incidentDateData);
   const incidentDateInterview = incidentDateInterviewData && i18n.localizeDate(incidentDateInterviewData);
-  const lookupViolenceType =
-    incident.get("module_id", false) === MODULES.CP ? LOOKUPS.cp_violence_type : LOOKUPS.gbv_violence_type;
-  const incidentType = <LookupValue value={incidentTypeData} optionsStringSource={lookupViolenceType} />;
 
   const isIncidentAvailable = useMemoizedSelector(state => getIncidentAvailable(state, incidentUniqueID));
+  const violenceTypeField = useMemoizedSelector(state => getFieldByName(state, violationType));
+
+  const lookupViolenceType = violenceTypeField.option_strings_source?.replace(/lookup /, "");
+
+  const incidentType = lookupViolenceType && (
+    <LookupValue value={incidentTypeData} optionsStringSource={lookupViolenceType} />
+  );
 
   const sharedProps = {
     incident,

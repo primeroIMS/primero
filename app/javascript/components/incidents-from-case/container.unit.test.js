@@ -6,6 +6,8 @@ import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { RECORD_TYPES } from "../../config";
 import RecordFormAlerts from "../record-form-alerts";
+import * as R from "../record-form/records";
+import { mapEntriesToRecord } from "../../libs";
 
 import IncidentSummary from "./components/summary";
 import IncidentDetail from "./components/detail";
@@ -37,6 +39,15 @@ describe("<IncidentFromCase /> - Component", () => {
     recordType: RECORD_TYPES.cases
   };
 
+  const fields = {
+    1: {
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-gbv-sexual-violence-type",
+      display_name: { en: "First Name" }
+    }
+  };
+
   const initialState = fromJS({
     forms: {
       options: {
@@ -63,7 +74,8 @@ describe("<IncidentFromCase /> - Component", () => {
             ]
           }
         ]
-      }
+      },
+      fields: mapEntriesToRecord(fields, R.FieldRecord)
     },
     user: {
       permissions: {
