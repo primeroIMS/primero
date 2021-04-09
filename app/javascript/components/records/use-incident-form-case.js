@@ -16,7 +16,7 @@ const INCIDENT_REDIRECT_DIALOG = "incidentRedirectDialog";
 
 const useIncidentFromCase = ({ record, mode }) => {
   const dispatch = useDispatch();
-  const { dialogOpen, dialogClose, setDialog } = useDialog(INCIDENT_REDIRECT_DIALOG);
+  const { dialogOpen, dialogClose, setDialog, params: dialogParams } = useDialog(INCIDENT_REDIRECT_DIALOG);
 
   const modeNotShow = !mode.isShow;
   const moduleID = record ? record.get(MODULE_TYPE_FIELD) : "";
@@ -54,7 +54,7 @@ const useIncidentFromCase = ({ record, mode }) => {
 
   const handleCreateIncident = path => {
     if (modeNotShow) {
-      setDialog({ dialog: INCIDENT_REDIRECT_DIALOG, open: true, params: { path } });
+      setDialog({ dialog: INCIDENT_REDIRECT_DIALOG, open: true, params: { ...(isString(path) && { path }) } });
     } else {
       setCaseIncidentData(false, path);
     }
@@ -70,7 +70,8 @@ const useIncidentFromCase = ({ record, mode }) => {
     closeRedirectDialog: dialogClose,
     saveBeforeIncidentRedirect,
     setCaseIncidentData,
-    setSaveCaseBeforeRedirect
+    setSaveCaseBeforeRedirect,
+    dialogParams
   };
 };
 
