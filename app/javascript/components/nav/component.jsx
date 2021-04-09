@@ -47,6 +47,7 @@ const Nav = () => {
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
   const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
+
   const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
   const handleToggleDrawer = open => event => {
@@ -67,12 +68,13 @@ const Nav = () => {
     return menuEntries.map(menuEntry => {
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
+      const jewelCount = jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable);
       const renderedMenuEntries = (
         <MenuEntry
           key={menuEntry.to}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
-          jewelCount={jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable)}
+          jewelCount={jewelCount}
           username={username}
           closeDrawer={handleToggleDrawer(false)}
         />

@@ -21,6 +21,7 @@ const AdminNav = () => {
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
+
   const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
   const adminResources = getAdminResources(userPermissions);

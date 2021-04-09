@@ -82,8 +82,9 @@ const Container = () => {
       action: () => handleDialogClick(LOCATIONS_DIALOG)
     }
   ];
+  const itemsForAlert = fromJS([{ message: i18n.t("location.no_location") }]);
   const renderAlertNoLocations = !hasLocationsAvailable && (
-    <InternalAlert items={fromJS([{ message: i18n.t("location.no_location") }])} severity={SEVERITY.info} />
+    <InternalAlert items={itemsForAlert} severity={SEVERITY.info} />
   );
 
   return (
