@@ -53,6 +53,9 @@ const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue)
   return valueTranslated(fieldValue);
 };
 
+export const filterFieldsRecordInformation = field =>
+  FIELDS.filter(fieldInformation => fieldInformation.name === field);
+
 export default (allAgencies, allLookups, locations, i18n, selectedField, field, value) => {
   let fieldDisplayName;
   let fieldValueFrom = value.from;
@@ -61,7 +64,7 @@ export default (allAgencies, allLookups, locations, i18n, selectedField, field, 
   if (field === APPROVALS) {
     fieldDisplayName = i18n.t("forms.record_types.approvals");
   }
-  const fieldRecordInformation = FIELDS.filter(fieldInformation => fieldInformation.name === field);
+  const fieldRecordInformation = filterFieldsRecordInformation(field);
 
   if (fieldRecordInformation.length) {
     fieldDisplayName = i18n.t(`record_information.${field}`);
