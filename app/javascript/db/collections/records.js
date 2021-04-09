@@ -20,7 +20,8 @@ const Records = {
     if (caseRecord) {
       const { id, ...incidentData } = data;
       // eslint-disable-next-line camelcase
-      const incidentDetails = [...caseRecord?.data?.incident_details];
+      const caseIncidentDetails = caseRecord?.data?.incident_details;
+      const incidentDetails = [...(caseIncidentDetails || [])];
       const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
       const parsedIncident = { unique_id: id, ...incidentData };
 

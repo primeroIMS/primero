@@ -5,19 +5,12 @@ import { useCallback, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 
 import { ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, MODULE_TYPE_FIELD, RECORD_PATH } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import { useMemoizedSelector, buildFieldMap } from "../../libs";
 import { useDialog } from "../action-dialog";
-import { get } from "../form/utils";
 import { setSelectedForm } from "../record-form/action-creators";
 
 import { offlineIncidentFromCase } from "./action-creators";
 import { getFieldMap } from "./selectors";
-
-const buildFieldMap = (record, fieldMap) => {
-  return fieldMap.reduce((prev, { source, target }) => {
-    return { ...prev, [target]: get(record, source) };
-  }, {});
-};
 
 const INCIDENT_REDIRECT_DIALOG = "incidentRedirectDialog";
 
@@ -33,28 +26,30 @@ const useIncidentFromCase = ({ record, mode }) => {
   const fieldMap = useMemoizedSelector(state => getFieldMap(state, moduleID));
 
   const setCaseIncidentData = (data, path) => {
-    const formData = data || record;
+    if (!mode.isNew) {
+      const formData = data || record;
 
-    dispatch(
-      offlineIncidentFromCase({
-        moduleID,
-        caseID: record.get(ID_FIELD),
-        caseDisplayID: record.get(INCIDENT_CASE_ID_DISPLAY_FIELD),
-        data: buildFieldMap(formData, fieldMap)
-      })
-    );
+      dispatch(
+        offlineIncidentFromCase({
+          moduleID,
+          caseID: record.get(ID_FIELD),
+          caseDisplayID: record.get(INCIDENT_CASE_ID_DISPLAY_FIELD),
+          data: buildFieldMap(formData, fieldMap)
+        })
+      );
 
-    if (!modeNotShow) {
-      const incidentPath =
-        isString(path) && !isEmpty(path) ? path : `/${RECORD_PATH.incidents}/${record.get(MODULE_TYPE_FIELD)}/new`;
+      if (!modeNotShow) {
+        const incidentPath =
+          isString(path) && !isEmpty(path) ? path : `/${RECORD_PATH.incidents}/${record.get(MODULE_TYPE_FIELD)}/new`;
 
-      batch(() => {
-        dispatch(push(incidentPath));
-        dispatch(setSelectedForm(""));
-      });
+        batch(() => {
+          dispatch(push(incidentPath));
+          dispatch(setSelectedForm(""));
+        });
+      }
+
+      setSaveBeforeIncidentRedirect(false);
     }
-
-    setSaveBeforeIncidentRedirect(false);
   };
 
   const handleCreateIncident = path => {

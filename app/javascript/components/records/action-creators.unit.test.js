@@ -140,7 +140,8 @@ describe("records - Action Creators", () => {
                 }
               },
               redirect: "/cases",
-              redirectWithIdFromResponse: false
+              redirectWithIdFromResponse: false,
+              setCaseIncidentData: ""
             },
             {
               action: "cases/FETCH_RECORD_ALERTS",
@@ -187,7 +188,8 @@ describe("records - Action Creators", () => {
                 }
               },
               redirect: "/cases",
-              redirectWithIdFromResponse: false
+              redirectWithIdFromResponse: false,
+              setCaseIncidentData: ""
             },
             {
               action: "cases/FETCH_RECORD_ALERTS",

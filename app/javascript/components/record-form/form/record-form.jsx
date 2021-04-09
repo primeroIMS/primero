@@ -99,7 +99,7 @@ const RecordForm = ({
         bindedSetValues.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
-  }, [bindedSetValues, incidentFromCase]);
+  }, [bindedSetValues, JSON.stringify(incidentFromCase), recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
