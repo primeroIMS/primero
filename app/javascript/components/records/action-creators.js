@@ -52,7 +52,7 @@ const getSuccessCallback = ({
         ]
       : [];
   const cleanSelectedFormCallback =
-    saveMethod !== "update"
+    saveMethod !== SAVE_METHODS.update
       ? [{ action: cleanSelectedFormActions.type, payload: cleanSelectedFormActions.payload }]
       : [];
   const defaultSuccessCallback = [
@@ -68,6 +68,7 @@ const getSuccessCallback = ({
       },
       moduleID,
       incidentPath,
+      setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
       redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
       redirect: redirect === false ? false : redirect || `/${recordType}`
     },

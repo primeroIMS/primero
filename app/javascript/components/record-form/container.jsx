@@ -342,7 +342,7 @@ const Container = ({ match, mode }) => {
       setFieldValue={setFieldValue}
       handleSubmit={handleFormSubmit}
       values={values}
-      mode={mode}
+      mode={containerMode}
       recordType={recordType}
       setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
     />
