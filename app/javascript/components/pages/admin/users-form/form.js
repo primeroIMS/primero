@@ -98,7 +98,7 @@ const sharedUserFields = (
     onClick: onClickChangePassword
   },
   {
-    display_name: i18n.t("user.locale"),
+    display_name: i18n.t("user.language"),
     name: "locale",
     type: SELECT_FIELD,
     option_strings_text: i18n.applicationLocales
