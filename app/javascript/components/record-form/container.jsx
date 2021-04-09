@@ -109,7 +109,8 @@ const Container = ({ match, mode }) => {
     closeRedirectDialog,
     setSaveCaseBeforeRedirect,
     setCaseIncidentData,
-    saveBeforeIncidentRedirect
+    saveBeforeIncidentRedirect,
+    dialogParams
   } = useIncidentFromCase({
     record,
     mode: containerMode
@@ -345,6 +346,7 @@ const Container = ({ match, mode }) => {
       mode={containerMode}
       recordType={recordType}
       setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
+      incidentPath={dialogParams?.get("path")}
     />
   );
 

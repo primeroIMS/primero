@@ -103,7 +103,7 @@ class Incident < ApplicationRecord
   def case_id_display
     return unless incident_case_id.present?
 
-    self.case.case_id_display
+    self.case&.case_id_display
   end
 
   def add_alert_on_case
