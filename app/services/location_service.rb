@@ -10,7 +10,10 @@ class LocationService
 
   def initialize(with_cache = false)
     self.with_cache = with_cache
-    return unless with_cache
+  end
+
+  def rebuild_cache(force = false)
+    return unless force || locations_by_code.nil?
 
     # The assumption here is that the cache will be updated if a new Location is created
     cache_key = "location_service/#{Location.maximum(:id)}"
@@ -23,6 +26,7 @@ class LocationService
 
   def find_by_code(code)
     if with_cache?
+      rebuild_cache
       locations_by_code[code]
     else
       Location.find_by(location_code: code)
@@ -31,6 +35,7 @@ class LocationService
 
   def find_by_codes(codes)
     if with_cache?
+      rebuild_cache
       locations_by_code.slice(*codes).values
     else
       Location.where(location_code: codes).to_a
@@ -39,8 +44,15 @@ class LocationService
 
   def ancestor_code(code, admin_level)
     location = find_by_code(code)
-    return unless location && location.admin_level > admin_level
+    return unless location && location.admin_level >= admin_level
 
-    location.hierarchy[admin_level].location_code
+    location.hierarchy[admin_level]
+  end
+
+  def ancestor(code, admin_level)
+    ancestor_code = self.ancestor_code(code, admin_level)
+    return unless ancestor_code
+
+    find_by_code(ancestor_code)
   end
 end

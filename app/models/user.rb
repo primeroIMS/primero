@@ -135,13 +135,14 @@ class User < ApplicationRecord
       'full_name'
     end
 
-    # TODO: Review after figuring out front end lookups. We might not need this method.
-    # This method returns a list of id / display_text value pairs
-    # It is used to create the select options list for User fields
-    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
-    #       but that functionality is probably deprecated. Review and delete.
-    def all_names
-      enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
+    # Override the devise method to eager load the user's dependencies
+    def find_for_jwt_authentication(sub)
+      eager_load(role: :primero_modules).find_by(primary_key => sub)
+    end
+
+    # Override the devise method to eager load the user's dependencies
+    def find_for_authentication(tainted_conditions)
+      eager_load(role: :primero_modules).find_by(tainted_conditions)
     end
 
     # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
@@ -244,25 +245,25 @@ class User < ApplicationRecord
   end
 
   def user_location
-    @user_location ||= Location.get_by_location_code(location)
+    @user_location ||= Location.find_by(location_code: location)
   end
 
   def reporting_location
-    location = user_location
-    return nil if location.blank?
+    return @reporting_location if @reporting_location
+    return nil if user_location.blank?
+    return user_location if user_location.admin_level == reporting_location_admin_level
 
-    admin_level = reporting_location_admin_level
-    return location if location.admin_level == admin_level
-
-    location.ancestor_by_admin_level(admin_level)
+    @reporting_location || user_location.ancestor(reporting_location_admin_level)
   end
 
   def reporting_location_admin_level
-    reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+    return @reporting_location_admin_level if @reporting_location_admin_level
+
+    @reporting_location_admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
   def reporting_location_config
-    role&.reporting_location_config
+    @reporting_location_config ||= role&.reporting_location_config
   end
 
   def last_login

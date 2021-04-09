@@ -823,10 +823,10 @@ describe User do
       clean_data(User, Role, Location, SystemSettings)
       allow(I18n).to receive(:available_locales) { %i[en fr] }
 
-      @country = create(:location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
-      @province1 = create(:location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province',
+      @country = create(:location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
+      @province1 = create(:location, hierarchy_path: "#{@country.location_code}.PR01", placename_all: 'Province 1', type: 'province',
                                      location_code: 'PR01')
-      @district = create(:location, hierarchy: [@country.location_code, @province1.location_code],
+      @district = create(:location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.D01",
                                     placename_all: 'District 1', type: 'district', location_code: 'D01')
       @role_province = Role.create!(name: 'Admin',
                                     permissions: [Permission.new(resource: Permission::CASE,

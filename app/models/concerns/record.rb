@@ -8,7 +8,7 @@ module Record
   STATUS_CLOSED = 'closed'
   STATUS_TRANSFERRED = 'transferred'
 
-  attr_accessor :location_service
+  attr_writer :location_service
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
@@ -16,7 +16,6 @@ module Record
     after_initialize :defaults, unless: :persisted?
     before_create :create_identification
     before_save :populate_subform_ids
-    before_save { self.location_service = LocationService.instance }
     after_save :index_nested_reportables
     after_destroy :unindex_nested_reportables
   end
@@ -133,6 +132,10 @@ module Record
           (subform['unique_id'] = SecureRandom.uuid)
       end
     end
+  end
+
+  def location_service
+    @location_service ||= LocationService.instance
   end
 
   def index_nested_reportables

@@ -26,7 +26,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
   def initialize(output_file_path = nil)
     super(output_file_path)
-    @builder = IRBuilder.new(buffer)
+    @builder = IRBuilder.new(self)
   end
 
   def complete
@@ -43,8 +43,6 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   # This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
   # The state of the class represents the individual export.
   class IRBuilder < Exporters::IncidentRecorderExporter
-    # extend Memoist
-
     # Spreadsheet is expecting "M" and "F".
     SEX = { 'male' => I18n.t('exports.incident_recorder_xls.gender.male'),
             'female' => I18n.t('exports.incident_recorder_xls.gender.female') }.freeze
@@ -68,11 +66,14 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       @workbook.close
     end
 
-    def initialize(buffer, locale = nil)
+    attr_accessor :exporter
+
+    def initialize(exporter, locale = nil)
       # TODO: I am dubious that these values are correctly accumulated.
       #      Shouldn't we be trying to fetch all possible values,
       #      rather than all values for incidents getting exported?
       # TODO: discuss with Pavel to see if this needs to change per SL-542
+      self.exporter = exporter
       @districts = {}
       @counties = {}
       @camps = {}
@@ -89,7 +90,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
                  gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
       ).inject({}) { |acc, field| acc.merge(field.name => field) }
 
-      @workbook = WriteXLSX.new(buffer)
+      @workbook = WriteXLSX.new(exporter.buffer)
       @data_worksheet = @workbook.add_worksheet('Incident Data')
       @menu_worksheet = @workbook.add_worksheet('Menu Data')
 
@@ -234,13 +235,6 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       alleged_perpetrators.present? ? alleged_perpetrators : []
     end
 
-    def location_from_hierarchy(location_name, types)
-      return '' if location_name.nil?
-
-      location = Location.find_types_in_hierarchy(location_name, types)
-      location.present? ? location.try(:placename) : ''
-    end
-
     # This sets up a hash where
     #   key   -  an identifier which is translated later and used to print the worksheet headers
     #   value -  either: the field on the incident to display  OR
@@ -280,13 +274,13 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         end,
         'location' => 'incident_location_type',
         'county' => lambda do |model|
-          county_name = location_from_hierarchy(model.data['incident_location'], ['country'])
+          county_name = exporter.location_service.ancestor(model.data['incident_location'], 0)&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @counties[county_name] = county_name if county_name.present?
           county_name
         end,
         'district' => lambda do |model|
-          district_name = location_from_hierarchy(model.data['incident_location'], ['province'])
+          district_name = exporter.location_service.ancestor(model.data['incident_location'], 1)&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @districts[district_name] = district_name if district_name.present?
           district_name

@@ -7,7 +7,7 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
-  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service
+  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service, :location_service
 
   class << self
     def supported_models
@@ -53,6 +53,7 @@ class Exporters::BaseExporter
           end
     self.locale = locale || I18n.locale
     self.field_value_service = FieldValueService.new
+    self.location_service = LocationService.instance
   end
 
   def export(*_args)
