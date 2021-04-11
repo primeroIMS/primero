@@ -87,7 +87,7 @@ class Location < ApplicationRecord
   def update_properties(location_properties)
     location_properties = location_properties.with_indifferent_access if location_properties.is_a?(Hash)
     self.placename_i18n = placename_from_params(location_properties)
-    self.attributes = location_properties.except(*READONLY_ATTRIBUTES)
+    self.attributes = location_properties.except(*(READONLY_ATTRIBUTES + %i[name code placename]))
   end
 
   def placename_from_params(params)
