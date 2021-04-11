@@ -78,7 +78,7 @@ describe Location do
       end
 
       it 'is localized' do
-        expect(@town1.name['fr']).to eq('MyCountry::La Province 1::Town 1')
+        expect(@town1.name('fr')).to eq('MyCountry::La Province 1::Town 1')
       end
     end
   end
@@ -89,8 +89,8 @@ describe Location do
         @country.placename = 'MyCountryXYZ'
         @country.save!
 
-        expect(@country.name).to eq('MyCountryXYZ')
-        expect(@town1.name).to eq('MyCountryXYZ::Province 1::Town 1')
+        expect(@country.reload.name).to eq('MyCountryXYZ')
+        expect(@town1.reload.name).to eq('MyCountryXYZ::Province 1::Town 1')
       end
 
       it 'does not attempt to update the names of the descendents if the type change' do
@@ -110,9 +110,9 @@ describe Location do
     describe 'field updates' do
       it 'rejects updates on admin_level, heirarchy, location_code' do
         @country.update_attributes(admin_level: 1, hierarchy_path: 'MC01.PR08', location_code: 'PR08')
-        expect(@country.admin_level).to eq(0)
-        expect(@country.hierarchy_path).to eq('MC1')
-        expect(@country.location_code).to eq('MC1')
+        expect(@country.reload.admin_level).to eq(0)
+        expect(@country.reload.hierarchy_path).to eq('MC01')
+        expect(@country.reload.location_code).to eq('MC01')
       end
     end
   end
@@ -126,7 +126,7 @@ describe Location do
 
     let(:location_configuration_hash) do
       {
-        'admin_level' => 0, 'placename_i18n' => { 'en' => 'MyCountry2' }, 'type' => 'country',
+        'placename_i18n' => { 'en' => 'MyCountry2' }, 'type' => 'country',
         'location_code' => 'MC01', 'hierarchy_path' => 'MC01'
       }
     end

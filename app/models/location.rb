@@ -7,12 +7,13 @@ class Location < ApplicationRecord
 
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100
+  READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
 
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   scope :by_ancestor, ->(parent_path) { where('hierarchy_path <@ ?', parent_path) }
   scope :by_parent, ->(parent_path) { where('hierarchy_path ~ ?', "#{parent_path}.*{1}") }
-  attr_readonly(:parent_code, :admin_level, :location_code, :hierarchy_path)
+  attr_readonly(*READONLY_ATTRIBUTES)
 
   localize_properties :name, :placename
 
@@ -86,7 +87,7 @@ class Location < ApplicationRecord
   def update_properties(location_properties)
     location_properties = location_properties.with_indifferent_access if location_properties.is_a?(Hash)
     self.placename_i18n = placename_from_params(location_properties)
-    self.attributes = location_properties.slice(:type, :disabled)
+    self.attributes = location_properties.except(*READONLY_ATTRIBUTES)
   end
 
   def placename_from_params(params)
@@ -142,7 +143,7 @@ class Location < ApplicationRecord
 
   # TODO: Can be queried via cache
   def hierarchy_from_parent
-    return if hierarchy_path
+    return if hierarchy_path.present?
     return unless will_save_change_to_attribute?(:parent_code)
 
     parent = Location.find_by(location_code: parent_code)
@@ -171,8 +172,8 @@ class Location < ApplicationRecord
   def name_from_placename
     I18n.available_locales.each do |locale|
       hierarchical_name = name(locale).split('::')
-      hierarchical_name_to_keep = hierarchical_name[0..-2]
-      name_i18n[locale] = "#{hierarchical_name_to_keep.join('::')}::#{placename(locale)}"
+      hierarchical_name = hierarchical_name[0..-2] + [placename(locale)]
+      name_i18n[locale] = hierarchical_name.join('::')
     end
   end
 
@@ -184,15 +185,15 @@ class Location < ApplicationRecord
     return unless descendents_to_update.present?
 
     Location.transaction do
-      descendents_to_update.each(&:save)
+      descendents_to_update.each(&:save!)
     end
   end
 
   def update_name_from_ancestor_name(location, ancestor_name_i18n)
-    I18n.available_locales.each do |locale|
+    I18n.available_locales.map(&:to_s).each do |locale|
       hierarchical_name = location.name(locale).split('::')
-      hierarchical_name_to_keep = hierarchical_name[(admin_level + 1)..-1]
-      location.name_i18n[locale] = "#{ancestor_name_i18n[locale]}::#{hierarchical_name_to_keep.join('::')}"
+      hierarchical_name = [ancestor_name_i18n[locale]] + hierarchical_name[(admin_level + 1)..-1]
+      location.name_i18n[locale] = hierarchical_name.join('::')
     end
   end
 
