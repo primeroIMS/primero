@@ -4,6 +4,7 @@ import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../t
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 import { Filters as AdminFilters } from "../components";
+import InternalAlert from "../../../internal-alert";
 
 import NAMESPACE from "./namespace";
 import actions from "./actions";
@@ -87,5 +88,37 @@ describe("<LocationsList />", () => {
     if (stubI18n) {
       window.I18n.t.restore();
     }
+  });
+
+  describe("when no location loaded", () => {
+    beforeEach(() => {
+      const initialState = fromJS({
+        records: {
+          admin: {
+            locations: {
+              data: [],
+              metadata: { total: 0, per: 20, page: 1 },
+              loading: false,
+              errors: false
+            }
+          }
+        },
+        user: {
+          permissions: {
+            metadata: [ACTIONS.MANAGE]
+          },
+          listHeaders: {
+            locations: listHeaders(NAMESPACE)
+          }
+        }
+      });
+
+      ({ component } = setupMountedComponent(LocationsList, {}, initialState, ["/admin/locations"]));
+    });
+
+    it("renders InternalAlert alert", () => {
+      expect(component.find(InternalAlert).text()).to.equal("location.no_location");
+      expect(component.find(InternalAlert)).to.have.lengthOf(1);
+    });
   });
 });

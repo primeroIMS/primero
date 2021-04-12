@@ -43,17 +43,12 @@ const getSuccessCallback = ({
   moduleID
 }) => {
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
-  const cleanSelectedFormActions = setSelectedForm(null);
   const incidentFromCaseCallbacks =
     RECORD_TYPES[recordType] === RECORD_TYPES.incidents && incidentFromCase
       ? [
           { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
           { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
         ]
-      : [];
-  const cleanSelectedFormCallback =
-    saveMethod !== "update"
-      ? [{ action: cleanSelectedFormActions.type, payload: cleanSelectedFormActions.payload }]
       : [];
   const defaultSuccessCallback = [
     {
@@ -68,6 +63,7 @@ const getSuccessCallback = ({
       },
       moduleID,
       incidentPath,
+      setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
       redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
       redirect: redirect === false ? false : redirect || `/${recordType}`
     },
@@ -83,7 +79,7 @@ const getSuccessCallback = ({
     ];
   }
   if (incidentPath) {
-    return [...defaultSuccessCallback, `cases/${SET_CASE_ID_REDIRECT}`, ...cleanSelectedFormCallback];
+    return [...defaultSuccessCallback, `cases/${SET_CASE_ID_REDIRECT}`];
   }
 
   return defaultSuccessCallback;

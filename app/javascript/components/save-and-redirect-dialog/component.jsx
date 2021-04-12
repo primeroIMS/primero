@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import ActionDialog from "../action-dialog";
 import { getSavingRecord } from "../records";
 import { useMemoizedSelector } from "../../libs";
+import { setSelectedForm } from "../record-form";
 
 import { SAVE_AND_REDIRECT_DIALOG } from "./constants";
 
@@ -18,6 +20,7 @@ const Component = ({
   recordType
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
   const savingRecord = useMemoizedSelector(state => getSavingRecord(state, recordType));
 
@@ -28,6 +31,7 @@ const Component = ({
   const handleSuccessAction = () => {
     setFieldValue("incidentPath", incidentPath);
     setSaveCaseBeforeRedirect(true);
+    dispatch(setSelectedForm(""));
     handleSubmit();
   };
 
