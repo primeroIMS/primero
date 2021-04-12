@@ -26,7 +26,8 @@ const FormikForm = ({
   mode,
   forms,
   renderFormSections,
-  handleConfirm
+  handleConfirm,
+  externalComponents
 }) => {
   const i18n = useI18n();
 
@@ -55,6 +56,7 @@ const FormikForm = ({
       </NavigationPrompt>
       <ValidationErrors formErrors={errors} forms={forms} />
       {renderFormSections(forms, setFieldValue, handleSubmit, values)}
+      {externalComponents({ setFieldValue, values })}
     </Form>
   );
 };
@@ -66,6 +68,7 @@ FormikForm.propTypes = {
   bindSetValues: PropTypes.func,
   dirty: PropTypes.bool,
   errors: PropTypes.object,
+  externalComponents: PropTypes.func,
   forms: PropTypes.object,
   handleConfirm: PropTypes.func,
   handleSubmit: PropTypes.func,

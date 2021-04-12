@@ -128,12 +128,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       });
     }
 
-    if (setOtherFieldValues) {
-      otherFieldValues.forEach(([field, value]) => {
-        setValue(field, value, { shouldDirty: true });
-      });
-    }
-
     return multiSelect || multipleLimitOne
       ? data?.reduce((prev, current) => {
           if (multipleLimitOne && getValues(name).includes(current)) {
@@ -219,6 +213,14 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   useEffect(() => {
     if (!isNil(currentWatchedValue) && (isNil(stickyOption) || isEmpty(stickyOption))) {
       setStickyOption(currentWatchedValue);
+    }
+  }, [currentWatchedValue]);
+
+  useEffect(() => {
+    if (currentWatchedValue && setOtherFieldValues) {
+      otherFieldValues.forEach(([field, value]) => {
+        setValue(field, value, { shouldDirty: true });
+      });
     }
   }, [currentWatchedValue]);
 

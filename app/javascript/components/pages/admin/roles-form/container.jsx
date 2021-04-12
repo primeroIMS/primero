@@ -23,7 +23,7 @@ import { COPY_ROLES } from "../../../../libs/permissions";
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
-import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
+import { clearSelectedRole, fetchRole, saveRole, clearCopyRole } from "./action-creators";
 import { getRole, getCopiedRole } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 import RolesActions from "./roles-actions";
@@ -71,6 +71,12 @@ const Container = ({ mode }) => {
 
   useEffect(() => {
     dispatch(fetchRoles({ data: metadata }));
+
+    return () => {
+      if (isCopiedRole) {
+        dispatch(clearCopyRole());
+      }
+    };
   }, []);
 
   useEffect(() => {

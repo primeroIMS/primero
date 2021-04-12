@@ -1,6 +1,5 @@
 import { createElement } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, MODULES } from "../../config";
@@ -13,6 +12,7 @@ import Menu from "../menu";
 import { getRecordFormsByUniqueId } from "../record-form";
 import { useDialog } from "../action-dialog";
 import { useMemoizedSelector } from "../../libs";
+import useIncidentFromCase from "../records/use-incident-form-case";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
 import { SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./add-service/constants";
@@ -37,7 +37,6 @@ import { isDisabledAction, buildApprovalList, buildActionList, subformExists } f
 const Container = ({ currentPage, mode, record, recordType, selectedRecords, showListActions }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
-  const dispatch = useDispatch();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
     APPROVAL_DIALOG,
     ASSIGN_DIALOG,
@@ -51,6 +50,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     SERVICE_DIALOG,
     TRANSFER_DIALOG
   ]);
+  const { handleCreateIncident } = useIncidentFromCase({ record, mode });
 
   const isIdSearch = useMemoizedSelector(state => getFiltersValueByRecordType(state, recordType, ID_SEARCH) || false);
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
@@ -144,7 +144,6 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canShowExports,
     canTransfer,
     canOnlyExportPdf,
-    dispatch,
     enableState,
     handleDialogClick,
     hasIncidentSubform,
@@ -156,7 +155,8 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     record,
     recordType,
     requestsApproval,
-    showListActions
+    showListActions,
+    handleCreateIncident
   });
 
   const showMenu = mode.isShow && !isEmpty(actions);

@@ -6,6 +6,7 @@ all:
       primero_host: 'primero.example.com'
       primero_tag: 'latest'
       locale_all: 'en,fr,ar'
+      always_pull: true,
       # These 3 variables are used to drive the build task.
       # Can be omitted if pulling images from Dockerhub
       primero_repo_branch: 'development_v2'

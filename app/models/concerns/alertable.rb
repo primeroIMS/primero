@@ -32,7 +32,7 @@ module Alertable
 
   def remove_alert_on_save
     return unless last_updated_by == owned_by && alerts?
-    return unless alerts_on_change.present?
+    return unless alerts_on_change.present? && record_user_update?
 
     remove_field_change_alerts
     remove_alert(alerts_on_change[ALERT_INCIDENT]) if alerts_on_change[ALERT_INCIDENT].present?

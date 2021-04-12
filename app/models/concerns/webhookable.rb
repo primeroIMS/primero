@@ -6,8 +6,7 @@ module Webhookable
 
   included do
     has_many :record_send_logs, as: :record
-    attribute :mark_synced, :boolean
-    attribute :mark_synced_url, :string
+    store_accessor :data, :mark_synced, :mark_synced_url
 
     before_update :log_synced
     after_create { queue_for_webhook(Webhook::CREATE) }
@@ -73,5 +72,7 @@ module Webhookable
       record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
       webhook_status: AuditLog::SYNCED, timestamp: DateTime.now
     )
+    attributes['data'].delete('mark_synced')
+    attributes['data'].delete('mark_synced_url')
   end
 end
