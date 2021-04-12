@@ -426,7 +426,6 @@ describe("Application - Selectors", () => {
       expect(result).to.deep.equal(expected);
     });
   });
-
   describe("getLocationsAvailable", () => {
     it("should return true if exist locations loaded", () => {
       const result = selectors.getLocationsAvailable(
