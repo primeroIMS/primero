@@ -134,3 +134,5 @@ export const getCodeOfConductEnabled = state =>
   state.getIn([NAMESPACE, "systemOptions", "code_of_conduct_enabled"], false);
 
 export const getAgencyTermsOfUse = state => selectAgencies(state).filter(agency => agency.get("terms_of_use_enabled"));
+
+export const getLocationsAvailable = state => !state.getIn(["forms", "options", "locations"], fromJS([])).isEmpty();

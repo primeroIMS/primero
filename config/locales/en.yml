@@ -1521,6 +1521,7 @@ en:
     hierarchy: Hierarchy
     import_title: Import Location
     message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
+    no_location: Please import Locations before creating any User accounts.
   logger:
     approve_form:
       action_plan: Action Plan form
@@ -1645,6 +1646,7 @@ en:
     logout_confirmation_title: Log out confirmation
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
+    not_available: Not available
   navigation:
     bulk_exports: Exports
     cases: Cases
@@ -1659,7 +1661,7 @@ en:
     support_menu:
       contact_information: Contact Information
       code_of_conduct: Code of Conduct
-      terms_of_use: Terms of use
+      terms_of_use: Terms of Use
       system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request

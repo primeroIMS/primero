@@ -49,6 +49,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
+      "LOCATION_PATH",
       "MATCH_VALUES",
       "MAX_ATTACHMENT_SIZE",
       "MAX_IMAGE_SIZE",

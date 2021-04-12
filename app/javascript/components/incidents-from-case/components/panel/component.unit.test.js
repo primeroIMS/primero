@@ -45,6 +45,27 @@ describe("<IncidentPanel /> - Component", () => {
   ];
 
   const initialState = fromJS({
+    application: {
+      modules: [
+        {
+          unique_id: "primeromodule-cp",
+          field_map: {
+            fields: [],
+            map_to: "primeromodule-cp"
+          },
+          name: "CP",
+          associated_record_types: ["case", "tracing_request", "incident"],
+          options: {
+            allow_searchable_ids: true,
+            use_workflow_case_plan: true,
+            use_workflow_assessment: false,
+            reporting_location_filter: true,
+            use_workflow_service_implemented: true
+          },
+          workflows: {}
+        }
+      ]
+    },
     forms: {
       options: {
         lookups: [
