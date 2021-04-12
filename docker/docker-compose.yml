@@ -1,6 +1,20 @@
 ---
 version: '3.8'
 services:
+  nginx:
+    image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - public:/srv/primero/application/public
+      - selfsigned_certs:/certs
+    env_file:
+      - docker/defaults.env
+    depends_on:
+      - application
   postgres:
     image: "primeroims/postgres:${PRIMERO_TAG:-latest}"
     volumes:
@@ -58,8 +72,6 @@ volumes:
   beanstalkd:
   database:
   public:
+  selfsigned_certs:
   solr_cores:
   storage:
-  certbot_certificates:
-  certbot_challenges:
-  selfsigned_certs:

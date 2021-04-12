@@ -2,20 +2,9 @@
 version: '3.8'
 services:
   nginx:
-    image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
-      - 'certbot_certificates:/etc/letsencrypt'
-      - 'certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge'
-      - public:/srv/primero/application/public
-      - selfsigned_certs:/certs
-    env_file:
-      - docker/defaults.env
-      - docker/local.env
-    depends_on:
-      - application
+      - certbot_certificates:/etc/letsencrypt
+      - certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge
   application:
     env_file:
       - docker/defaults.env
@@ -40,3 +29,6 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+volumes:
+  certbot_certificates:
+  certbot_challenges:
