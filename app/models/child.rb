@@ -83,10 +83,10 @@ class Child < ApplicationRecord
     ]
   end
 
-  def self.alert_count_self(current_user_name)
-    records_owned_by = open_enabled_records.owned_by(current_user_name)
+  def self.alert_count_self(current_user)
+    records_owned_by = open_enabled_records.owned_by(current_user.user_name)
     records_referred_users =
-      open_enabled_records.select { |record| record.referred_users.include?(current_user_name) }
+      open_enabled_records.select { |record| record.referred_users.include?(current_user.user_name) }
     (records_referred_users + records_owned_by).uniq.count
   end
 

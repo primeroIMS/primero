@@ -39,12 +39,7 @@ module Alertable
   end
 
   def remove_field_change_alerts
-    changed_field_names = changes_to_save_for_record.keys
-    alerts_on_change.each do |field_name, form_name|
-      next unless changed_field_names.include?(field_name)
-
-      remove_alert(form_name)
-    end
+    alerts_on_change.each { |_, form_name| remove_alert(form_name) }
   end
 
   def add_alert_on_field_change

@@ -187,11 +187,11 @@ describe Alertable do
         end
 
         it 'removes the alert' do
-          expect(@test_class.alerts?).to be false
+          expect(@test_class.reload.alerts?).to be false
         end
 
         it 'count alerts by record' do
-          expect(@test_class.alert_count).to eq(0)
+          expect(@test_class.reload.alert_count).to eq(0)
         end
 
         it 'count alerts by user' do
@@ -348,11 +348,11 @@ describe Alertable do
         end
 
         it 'removes the alert' do
-          expect(@test_incident_alerts.alerts?).to be false
+          expect(@test_incident_alerts.reload.alerts?).to be false
         end
 
         it 'count alerts by record' do
-          expect(@test_incident_alerts.alert_count).to eq(0)
+          expect(@test_incident_alerts.reload.alert_count).to eq(0)
         end
 
         it 'count alerts by user' do
