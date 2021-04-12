@@ -37,13 +37,9 @@ const generateUpdateMessage = (
     };
   }
 
-  let name = fieldDisplayName;
-
-  if (filterFieldsRecordInformation(field)?.length) {
-    name = name || i18n.translations.en.record_information[field];
-  } else {
-    name = field;
-  }
+  const name = filterFieldsRecordInformation(field)?.length
+    ? fieldDisplayName || i18n.translations.en.record_information[field]
+    : field;
 
   return {
     change: {
