@@ -11,8 +11,6 @@ class Location < ApplicationRecord
 
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
-  scope :by_ancestor, ->(parent_path) { where('hierarchy_path <@ ?', parent_path) }
-  scope :by_parent, ->(parent_path) { where('hierarchy_path ~ ?', "#{parent_path}.*{1}") }
   attr_readonly(*READONLY_ATTRIBUTES)
 
   localize_properties :name, :placename
@@ -50,17 +48,17 @@ class Location < ApplicationRecord
       'type_inheritance'
     end
 
-  # TODO: Used by the selected fields exporter. Should really be the same as value_for_index, and some of the other ones
-  #   def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
-  #     return '' if location_code.blank? || ADMIN_LEVELS.exclude?(admin_level)
+    # TODO: Used by the selected fields exporter. Replace
+    # def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
+    #   return '' if location_code.blank? || ADMIN_LEVELS.exclude?(admin_level)
 
-  #     lct = Location.find_by(location_code: location_code)
-  #     if lct.present?
-  #       lct.admin_level == admin_level ? lct.placename : lct.ancestor_by_admin_level(admin_level).try(:placename)
-  #     else
-  #       ''
-  #     end
-  #   end
+    #   lct = Location.find_by(location_code: location_code)
+    #   if lct.present?
+    #     lct.admin_level == admin_level ? lct.placename : lct.ancestor_by_admin_level(admin_level).try(:placename)
+    #   else
+    #     ''
+    #   end
+    # end
 
     def new_with_properties(location_properties)
       Location.new(location_properties.slice(:type, :disabled, :parent_code, :hierarchy_path)).tap do |location|
@@ -106,7 +104,6 @@ class Location < ApplicationRecord
     @hierarchy ||= hierarchy_path.split('.')
   end
 
-  # TODO: Can be queried via cache
   def parent
     return if country?
 
@@ -118,8 +115,7 @@ class Location < ApplicationRecord
     @descendents ||= Location.where('hierarchy_path <@ ?', hierarchy_path).order(:hierarchy_path)[1..-1] || []
   end
 
-  # # # TODO: Make into association
-  # Queried via cache?
+  # TODO: Make into association
   def ancestors
     return [] if country?
 
@@ -141,7 +137,6 @@ class Location < ApplicationRecord
     ancestors.map { |lct| [lct.location_code, lct.placename] } << [location_code, placename]
   end
 
-  # TODO: Can be queried via cache
   def hierarchy_from_parent
     return if hierarchy_path.present?
     return unless will_save_change_to_attribute?(:parent_code)
