@@ -92,7 +92,7 @@ const Nav = () => {
   const drawerContent = (
     <>
       <Hidden smDown implementation="css">
-        <ModuleLogo moduleLogo={module ? module.unique_id : "primero"} username={username} />
+        <ModuleLogo moduleLogo={module} username={username} />
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">

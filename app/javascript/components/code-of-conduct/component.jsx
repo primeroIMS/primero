@@ -15,8 +15,9 @@ import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
 import { useApp } from "../application";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
-import { NAME, ID, CODE_OF_CONDUCT_DATE_FORMAT } from "./constants";
+import { NAME, ID } from "./constants";
 import styles from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";

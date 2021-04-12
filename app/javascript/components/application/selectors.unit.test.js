@@ -4,7 +4,6 @@ import { describe } from "mocha";
 import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
 
-import { PrimeroModuleRecord } from "./records";
 import * as selectors from "./selectors";
 
 const agencyWithLogo = {
@@ -425,34 +424,6 @@ describe("Application - Selectors", () => {
       const expected = fromJS([agency1, agency3]);
 
       expect(result).to.deep.equal(expected);
-    });
-  });
-
-  describe("getFirstUserModule", () => {
-    it("should return the first user module", () => {
-      const testModule = PrimeroModuleRecord({
-        unique_id: "test-1",
-        name: "Test 1"
-      });
-      const state = fromJS({
-        application: {
-          modules: [testModule]
-        },
-        user: {
-          modules: ["test-1"]
-        }
-      });
-      const result = selectors.getFirstUserModule(state);
-      const expected = testModule;
-
-      expect(result).to.deep.equals(expected);
-    });
-
-    it("should return primero if no user module", () => {
-      const state = fromJS({});
-      const expected = "primero";
-
-      expect(selectors.getFirstUserModule(state)).to.deep.equals(expected);
     });
   });
 

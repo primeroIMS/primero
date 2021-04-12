@@ -1,6 +1,5 @@
 import { Map, fromJS } from "immutable";
 
-import { DATABASE_NAME } from "../../config";
 import { displayNameHelper } from "../../libs";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 
@@ -135,11 +134,5 @@ export const getCodeOfConductEnabled = state =>
   state.getIn([NAMESPACE, "systemOptions", "code_of_conduct_enabled"], false);
 
 export const getAgencyTermsOfUse = state => selectAgencies(state).filter(agency => agency.get("terms_of_use_enabled"));
-
-export const getFirstUserModule = state => {
-  const userModules = selectUserModules(state);
-
-  return userModules.size === 1 ? userModules.first() : DATABASE_NAME;
-};
 
 export const getLocationsAvailable = state => !state.getIn(["forms", "options", "locations"], fromJS([])).isEmpty();

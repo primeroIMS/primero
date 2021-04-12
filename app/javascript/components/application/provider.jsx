@@ -6,6 +6,7 @@ import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
 import { useMemoizedSelector } from "../../libs";
+import { getModuleLogoID } from "../module-logo/selectors";
 
 import { fetchSandboxUI } from "./action-creators";
 import {
@@ -14,8 +15,7 @@ import {
   getApprovalsLabels,
   getDisabledApplication,
   getDemo,
-  getLimitedConfigUI,
-  getFirstUserModule
+  getLimitedConfigUI
 } from "./selectors";
 
 const Context = createContext();
@@ -32,7 +32,7 @@ const ApplicationProvider = ({ children }) => {
   const demo = useMemoizedSelector(state => getDemo(state));
   const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
-  const firstUserModule = useMemoizedSelector(state => getFirstUserModule(state));
+  const firstUserModule = useMemoizedSelector(state => getModuleLogoID(state));
 
   useEffect(() => {
     dispatch(fetchSandboxUI());

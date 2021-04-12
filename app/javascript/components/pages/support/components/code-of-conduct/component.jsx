@@ -7,7 +7,7 @@ import styles from "../../../../code-of-conduct/styles.css";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getCodeOfConductAccepteOn } from "../../../../user";
 import { getCodesOfConduct } from "../../../../application/selectors";
-import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../../../code-of-conduct/constants";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../../../../config/constants";
 import parentStyles from "../../styles.css";
 
 import { NAME } from "./constants";
