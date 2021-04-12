@@ -24,6 +24,12 @@ export const FIELDS = Object.freeze({
   SERVICE_RECORD_ID: "service_record_id"
 });
 
+export const USER_FIELDS = Object.freeze({
+  AGENCY: "agency",
+  LOCATION: "location",
+  USER_NAME: "user_name"
+});
+
 export const SERVICE_SECTION_FIELDS = Object.freeze({
   [FIELDS.LOCATION]: "service_delivery_location",
   [FIELDS.AGENCY]: "service_implementing_agency",

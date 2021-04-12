@@ -16,7 +16,6 @@ import {
   APPROVAL_TYPE,
   REQUEST_TYPE
 } from "../constants";
-import { fetchIncidentFromCase } from "../../records";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
 import Notes from "../notes";
 import ToggleEnable from "../toggle-enable";
@@ -44,7 +43,6 @@ export default ({
   canRequest,
   canShowExports,
   canTransfer,
-  dispatch,
   enableState,
   handleDialogClick,
   hasIncidentSubform,
@@ -56,7 +54,8 @@ export default ({
   record,
   recordType,
   requestsApproval,
-  showListActions
+  showListActions,
+  handleCreateIncident
 }) => {
   const formRecordType = i18n.t(`forms.record_types.${RECORD_TYPES[recordType]}`);
 
@@ -100,10 +99,10 @@ export default ({
       },
       {
         action: () => {
-          dispatch(fetchIncidentFromCase(record.get("id"), record.get("case_id_display"), record.get("module_id")));
+          handleCreateIncident();
         },
         condition: canCreateIncident,
-        disableOffline: true,
+        disableOffline: false,
         enabledFor: ENABLED_FOR_ONE,
         enabledOnSearch: false,
         name: i18n.t("actions.incident_from_case"),

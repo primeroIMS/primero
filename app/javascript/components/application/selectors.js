@@ -141,3 +141,5 @@ export const getFirstUserModule = state => {
 
   return userModules.size === 1 ? userModules.first() : DATABASE_NAME;
 };
+
+export const getLocationsAvailable = state => !state.getIn(["forms", "options", "locations"], fromJS([])).isEmpty();

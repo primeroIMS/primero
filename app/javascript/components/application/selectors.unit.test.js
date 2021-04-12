@@ -455,4 +455,43 @@ describe("Application - Selectors", () => {
       expect(selectors.getFirstUserModule(state)).to.deep.equals(expected);
     });
   });
+
+  describe("getLocationsAvailable", () => {
+    it("should return true if exist locations loaded", () => {
+      const result = selectors.getLocationsAvailable(
+        fromJS({
+          forms: {
+            options: {
+              locations: [
+                {
+                  id: 1,
+                  code: "XX",
+                  type: "country",
+                  admin_level: 0,
+                  name: {
+                    en: "Country 1"
+                  }
+                }
+              ]
+            }
+          }
+        })
+      );
+
+      expect(result).to.be.true;
+    });
+    it("should return false if exist locations loaded", () => {
+      const result = selectors.getLocationsAvailable(
+        fromJS({
+          forms: {
+            options: {
+              locations: []
+            }
+          }
+        })
+      );
+
+      expect(result).to.be.false;
+    });
+  });
 });
