@@ -76,9 +76,19 @@
   - 'never'
   - 'configure'
 
+- name: 'Pull docker images'
+  command: |
+    ./compose.prod.sh pull
+  args:
+    chdir: '/srv/primero/docker'
+  when: always_pull is defined
+  tags:
+  - 'never'
+  - 'start'
+
 - name: '(re)start the Docker containers'
   command: |
-    ./compose.prod.sh up -d
+    ./compose.prod.sh up -d --force-recreate --no-build
   args:
     chdir: '/srv/primero/docker'
   environment:

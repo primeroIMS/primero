@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { useMemoizedSelector } from "../../libs";
 
@@ -8,10 +9,13 @@ import { clearDialog, setDialog, setPending } from "./action-creators";
 
 export const useDialog = dialogs => {
   const dispatch = useDispatch();
+
   const dialog = useMemoizedSelector(state => selectDialog(state));
+
   const name = dialog.get("dialog");
   const isOpen = dialog.get("open", false);
   const isPending = dialog.get("pending", false);
+  const dialogParams = dialog.get("params", fromJS({}));
 
   const handleDialog = useCallback(
     params => {
@@ -47,7 +51,8 @@ export const useDialog = dialogs => {
     setDialogPending,
     pending: isPending,
     setDialog: handleDialog,
-    currentDialog: name
+    currentDialog: name,
+    params: dialogParams
   };
 };
 

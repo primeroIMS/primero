@@ -16,6 +16,8 @@ import { useDialog } from "../../../action-dialog";
 import { getOptions } from "../../../form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
+import InternalAlert, { SEVERITY } from "../../../internal-alert";
+import { getLocationsAvailable } from "../../../application/selectors";
 
 import ImportDialog from "./import-dialog";
 import { fetchLocations } from "./action-creators";
@@ -30,6 +32,7 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.locations));
   const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
 
   const defaultMetadata = metadata?.toJS();
 
@@ -79,6 +82,10 @@ const Container = () => {
       action: () => handleDialogClick(LOCATIONS_DIALOG)
     }
   ];
+  const itemsForAlert = fromJS([{ message: i18n.t("location.no_location") }]);
+  const renderAlertNoLocations = !hasLocationsAvailable && (
+    <InternalAlert items={itemsForAlert} severity={SEVERITY.info} />
+  );
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
@@ -89,6 +96,7 @@ const Container = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
             <ImportDialog i18n={i18n} open={dialogOpen} pending={pending} close={dialogClose} />
+            {renderAlertNoLocations}
             <IndexTable title={i18n.t("location.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>

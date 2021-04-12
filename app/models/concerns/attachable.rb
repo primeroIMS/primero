@@ -11,7 +11,8 @@ module Attachable
 
   included do
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
-    has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME) }, as: :record, class_name: 'Attachment'
+    has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
+             as: :record, class_name: 'Attachment'
     validate :maximum_attachments_exceeded
 
     searchable do

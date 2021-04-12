@@ -35,7 +35,7 @@ module Ownable
   end
 
   def owner_fields_for(user)
-    self.owned_by = user&.user_name
+    self.owned_by ||= user&.user_name
     self.owned_by_full_name = user&.full_name
     self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
   end

@@ -162,11 +162,18 @@ describe Incident do
     end
 
     let(:case_cp) do
-      Child.create!(
+      cp_user = User.new(user_name: 'cp_user', agency_id: Agency.last.id)
+      cp_user.save(validate: false)
+
+      case_cp = Child.new_with_user(
+        cp_user,
         name: 'Niall McPherson', age: 12, sex: 'male',
         protection_concerns: %w[unaccompanied separated], ethnicity: 'other',
-        module_id: 'primeromodule-cp', owned_by: 'cp_user'
+        module_id: 'primeromodule-cp'
       )
+      case_cp.save!
+      case_cp.reload
+      case_cp
     end
 
     it 'should add an alert for the case if the incident creator is not the case owner' do
@@ -176,6 +183,8 @@ describe Incident do
       )
       incident.case = case_cp
       incident.save!
+
+      case_cp.reload
 
       expect(case_cp.alerts.size).to eq(1)
     end

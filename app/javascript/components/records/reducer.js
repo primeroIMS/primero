@@ -56,7 +56,8 @@ import {
   CLEAR_MATCHED_TRACES,
   UNMATCH_CASE_FOR_TRACE_SUCCESS,
   CLEAR_POTENTIAL_MATCHES,
-  EXTERNAL_SYNC_SUCCESS
+  EXTERNAL_SYNC_SUCCESS,
+  OFFLINE_INCIDENT_FROM_CASE
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -128,7 +129,11 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
 
       return state
         .update("data", u => {
-          return u.push(fromJS(data));
+          if (data) {
+            return u.push(fromJS(data));
+          }
+
+          return u;
         })
         .set("errors", false);
     }
@@ -168,6 +173,17 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
         ? state.setIn(["incidentFromCase", "data"], fromJS(payload.data))
         : state;
+    case `${namespace}/${OFFLINE_INCIDENT_FROM_CASE}`: {
+      const { caseID, caseDisplayID, data } = payload;
+
+      return state
+        .setIn(
+          ["incidentFromCase", "data"],
+          fromJS({ ...data, [INCIDENT_CASE_ID_DISPLAY_FIELD]: caseDisplayID, [INCIDENT_CASE_ID_FIELD]: caseID })
+        )
+        .setIn(["incidentFromCase", INCIDENT_CASE_ID_FIELD], caseID)
+        .setIn(["incidentFromCase", INCIDENT_CASE_ID_DISPLAY_FIELD], caseDisplayID);
+    }
     case `${namespace}/${SET_CASE_ID_FOR_INCIDENT}`:
       return RECORD_TYPES[namespace] === RECORD_TYPES.cases
         ? state

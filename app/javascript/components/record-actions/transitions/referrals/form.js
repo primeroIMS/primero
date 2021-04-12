@@ -20,7 +20,8 @@ import {
   FIELDS,
   TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
   STATE_REFERRAL_LOADING_PATH,
-  STATE_REFERRAL_USERS_PATH
+  STATE_REFERRAL_USERS_PATH,
+  USER_FIELDS
 } from "./constants";
 
 const commonHandleWatched = {
@@ -65,7 +66,7 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
       type: SELECT_FIELD,
       required: true,
       showIf: values => !values[FIELDS.REMOTE],
-      watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE, FIELDS.TRANSITIONED_TO],
       asyncOptions: true,
       asyncAction: fetchReferralUsers,
       asyncParams: { record_type: RECORD_TYPES[recordType] },
@@ -77,12 +78,20 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
         {
           field: FIELDS.LOCATION,
           path: STATE_REFERRAL_USERS_PATH,
-          key: "location"
+          filterKey: USER_FIELDS.USER_NAME,
+          valueKey: FIELDS.TRANSITIONED_TO,
+          optionStringSource: OPTION_TYPES.REPORTING_LOCATIONS,
+          setWhenEnabledInSource: true,
+          key: USER_FIELDS.LOCATION
         },
         {
           field: FIELDS.AGENCY,
           path: STATE_REFERRAL_USERS_PATH,
-          key: "agency"
+          filterKey: USER_FIELDS.USER_NAME,
+          valueKey: FIELDS.TRANSITIONED_TO,
+          optionStringSource: OPTION_TYPES.AGENCY,
+          setWhenEnabledInSource: true,
+          key: USER_FIELDS.AGENCY
         }
       ],
       order: 7

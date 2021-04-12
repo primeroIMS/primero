@@ -52,7 +52,7 @@ const Component = ({
   };
 
   const { display_text: identityDisplayText } = identityOptions
-    ? identityOptions.find(currentIdentity => currentIdentity.id === userData.identity_provider_id) || {}
+    ? identityOptions.find(currentIdentity => currentIdentity.id === userData.identity_provider_unique_id) || {}
     : "";
 
   const dialogContent = (

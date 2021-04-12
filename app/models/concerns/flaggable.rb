@@ -42,10 +42,13 @@ module Flaggable
   end
   alias flagged flagged?
 
-  def self.batch_flag(records, message, date, user_name)
-    ActiveRecord::Base.transaction do
-      records.each do |record|
-        record.add_flag(message, date, user_name)
+  # ClassMethods
+  module ClassMethods
+    def batch_flag(records, message, date, user_name)
+      ActiveRecord::Base.transaction do
+        records.each do |record|
+          record.add_flag(message, date, user_name)
+        end
       end
     end
   end

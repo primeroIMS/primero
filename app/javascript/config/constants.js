@@ -380,6 +380,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
   ];
 };
 
+export const LOCATION_PATH = "/locations";
+
 export const METHODS = Object.freeze({
   DELETE: "DELETE",
   GET: "GET",

@@ -50,6 +50,7 @@ describe("Application - Reducers", () => {
       modules: [
         {
           unique_id: "primeromodule-cp",
+          field_map: [],
           name: "CP",
           associated_record_types: ["case", "tracing_request", "incident"],
           options: {
@@ -63,6 +64,7 @@ describe("Application - Reducers", () => {
         },
         {
           unique_id: "primeromodule-gbv",
+          field_map: [],
           name: "GBV",
           associated_record_types: ["case", "incident"],
           options: {
@@ -130,6 +132,7 @@ describe("Application - Reducers", () => {
           modules: [
             {
               unique_id: "primeromodule-cp",
+              field_map: [],
               name: "CP",
               associated_record_types: ["case", "tracing_request", "incident"],
               options: {
@@ -143,6 +146,7 @@ describe("Application - Reducers", () => {
             {
               unique_id: "primeromodule-gbv",
               name: "GBV",
+              field_map: [],
               associated_record_types: ["case", "incident"],
               options: {
                 user_group_filter: true

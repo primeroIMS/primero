@@ -85,9 +85,11 @@ const Component = ({
   return (
     <div className={css.container}>
       <form id={FORM_ID} onSubmit={handleSubmit(onSuccess)}>
-        {renderCreateCaseText}
-        <p className={css.introductoryText}>{i18n.t("case.messages.introductory_sentence")}</p>
-        {renderConsentPrompt}
+        <div className={css.fieldsContent}>
+          {renderCreateCaseText}
+          <p className={css.introductoryText}>{i18n.t("case.messages.introductory_sentence")}</p>
+          {renderConsentPrompt}
+        </div>
         <div className={css.createButtonContainer}>
           <ActionButton
             icon={<Add />}
