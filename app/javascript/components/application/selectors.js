@@ -37,8 +37,6 @@ export const selectUserModules = state =>
   state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
     const userModules = state.getIn(["user", "modules"], null);
 
-    console.log(userModules.toJS(), m.unique_id);
-
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
