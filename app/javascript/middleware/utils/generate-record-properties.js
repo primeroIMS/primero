@@ -17,12 +17,13 @@ export default (store, api, isRecord) => {
   const username = store.getState().getIn(["user", "username"], "false");
   const generatedID = uuid.v4();
   const shortID = generatedID.substr(generatedID.length - 7);
+  const recordBody = body?.data || body;
 
   return {
     ...(isRecord && { id }),
     ...(method === METHODS.POST && {
       // eslint-disable-next-line camelcase
-      ...(subform && !body?.unique_id && { unique_id: generatedID }),
+      ...(subform && !recordBody?.unique_id && { unique_id: generatedID }),
       ...(!id &&
         isRecord && {
           id: generatedID,
@@ -35,11 +36,11 @@ export default (store, api, isRecord) => {
           })
         }),
       // eslint-disable-next-line camelcase
-      ...(!body?.owned_by && isRecord && { owned_by: username }),
-      ...(!body?.type && isRecord && { type: recordType }),
+      ...(!recordBody?.owned_by && isRecord && { owned_by: username }),
+      ...(!recordBody?.type && isRecord && { type: recordType }),
       // eslint-disable-next-line camelcase
-      ...(!body?.created_at && isRecord && { created_at: new Date() })
+      ...(!recordBody?.created_at && isRecord && { created_at: new Date() })
     }),
-    ...(isRecord && generateName(body))
+    ...(isRecord && generateName(recordBody))
   };
 };

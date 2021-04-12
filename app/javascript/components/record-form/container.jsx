@@ -19,8 +19,7 @@ import {
   saveRecord,
   selectRecord,
   setSelectedRecord,
-  getCaseIdForIncident,
-  fetchIncidentwitCaseId
+  getCaseIdForIncident
 } from "../records";
 import {
   APPROVALS,
@@ -46,6 +45,8 @@ import { getPermittedFormsIds } from "../user/selectors";
 import Summary from "../summary";
 import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
+import useIncidentFromCase from "../records/use-incident-form-case";
+import SaveAndRedirectDialog from "../save-and-redirect-dialog";
 
 import {
   customForms,
@@ -83,6 +84,7 @@ const Container = ({ mode }) => {
   const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
+
   const recordType = RECORD_TYPES[params.recordType];
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
@@ -100,6 +102,19 @@ const Container = ({ mode }) => {
     i18n,
     renderCustomForms: canViewSummaryForm
   };
+
+  const {
+    handleCreateIncident,
+    redirectDialogOpen,
+    closeRedirectDialog,
+    setSaveCaseBeforeRedirect,
+    setCaseIncidentData,
+    saveBeforeIncidentRedirect,
+    dialogParams
+  } = useIncidentFromCase({
+    record,
+    mode: containerMode
+  });
 
   const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
@@ -129,16 +144,13 @@ const Container = ({ mode }) => {
   const formProps = {
     onSubmit: (initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
-      const { incidentPath } = values;
+      const { incidentPath, ...formValues } = values;
 
-      if (incidentPath) {
-        // eslint-disable-next-line no-param-reassign
-        delete values.incidentPath;
-      }
       const body = {
         data: {
-          ...compactValues(values, initialValues),
-          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
+          ...compactValues(formValues, initialValues),
+          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+          ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
       };
       const message = () => {
@@ -150,6 +162,10 @@ const Container = ({ mode }) => {
       };
 
       batch(() => {
+        if (saveBeforeIncidentRedirect) {
+          setCaseIncidentData(formValues);
+        }
+
         dispatch(
           saveRecord(
             params.recordType,
@@ -254,12 +270,6 @@ const Container = ({ mode }) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (fetchFromCaseId && RECORD_TYPES[params.recordType] === RECORD_TYPES.incidents) {
-      dispatch(fetchIncidentwitCaseId(fetchFromCaseId, selectedModule.primeroModule));
-    }
-  }, [fetchFromCaseId]);
-
   const transitionProps = {
     fetchable: isNotANewCase,
     isReferral: REFERRAL === selectedForm,
@@ -300,6 +310,7 @@ const Container = ({ mode }) => {
           setFieldValue={setFieldValue}
           handleSubmit={handleSubmit}
           recordType={params.recordType}
+          handleCreateIncident={handleCreateIncident}
         />
       ),
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
@@ -327,6 +338,21 @@ const Container = ({ mode }) => {
     }[externalFormSelected];
   };
 
+  // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
+  const externalComponents = ({ setFieldValue, values }) => (
+    <SaveAndRedirectDialog
+      open={redirectDialogOpen}
+      closeRedirectDialog={closeRedirectDialog}
+      setFieldValue={setFieldValue}
+      handleSubmit={handleFormSubmit}
+      values={values}
+      mode={containerMode}
+      recordType={recordType}
+      setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
+      incidentPath={dialogParams?.get("path")}
+    />
+  );
+
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
@@ -349,6 +375,7 @@ const Container = ({ mode }) => {
             <RecordForm
               {...formProps}
               externalForms={externalForms}
+              externalComponents={externalComponents}
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}

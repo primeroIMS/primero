@@ -143,6 +143,7 @@ const Container = ({ mode }) => {
             validations={validationSchema}
             formID={FORM_ID}
             registerFields={[FILTERS_FIELD]}
+            submitAllFields
             renderBottom={formMethods => (
               <ReportFilters
                 allRecordForms={allRecordForms}

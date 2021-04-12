@@ -125,6 +125,7 @@ describe("<TextField />", () => {
               moduleID: undefined,
               preventSyncAfterRedirect: true,
               redirectWithIdFromResponse: false,
+              setCaseIncidentData: "",
               redirect: false
             },
             {

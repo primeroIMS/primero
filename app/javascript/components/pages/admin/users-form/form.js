@@ -230,9 +230,7 @@ export const form = (
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
-    const provider = providers
-      ? providers.find(currentProvider => currentProvider.get("id") === parseInt(value, 10))
-      : null;
+    const provider = providers ? providers.find(currentProvider => currentProvider.get("unique_id") === value) : null;
 
     return {
       ...(formMode.get("isShow") || {

@@ -1,5 +1,7 @@
 import { push } from "connected-react-router";
 
+import setCaseIncidentData from "./set-case-incident-data";
+
 const redirectConditions = (callback = {}, json) => {
   const { redirect, redirectWithIdFromResponse, redirectToEdit, incidentPath, moduleID } = callback;
 
@@ -18,6 +20,10 @@ const redirectConditions = (callback = {}, json) => {
 
 const handleRestCallback = (store, callback, response, json, fromQueue = false) => {
   const isArrayCallback = Array.isArray(callback);
+
+  if (callback?.setCaseIncidentData) {
+    setCaseIncidentData(store, json?.data);
+  }
 
   if (callback && (!fromQueue || callback?.api?.performFromQueue || isArrayCallback)) {
     if (isArrayCallback) {

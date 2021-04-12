@@ -15,7 +15,11 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     }
   };
 
-  const renderList = menuList.map(({ id, text, disabled }) => {
+  const renderList = menuList.map(({ id, text, disabled, hidden }) => {
+    if (hidden) {
+      return null;
+    }
+
     const handleClick = () => onClick(id);
     const selected = selectedItem === id;
     const classes = {

@@ -66,7 +66,7 @@ module Alertable
 
     def remove_alert_on_save
       return unless last_updated_by == owned_by && alerts?
-      return unless alerts_on_change.present?
+      return unless alerts_on_change.present? && record_user_update?
 
       alerts_on_change.each { |_, form_name| remove_alert(form_name) }
 

@@ -35,7 +35,8 @@ describe("libs/index", () => {
       "useThemeHelper",
       "valuesToSearchableSelect",
       "ConditionalWrapper",
-      "useMemoizedSelector"
+      "useMemoizedSelector",
+      "buildFieldMap"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);
