@@ -2,7 +2,6 @@ import { Card, CardContent, CardActionArea, TablePagination, Box } from "@materi
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-import { fromJS } from "immutable";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
@@ -90,12 +89,8 @@ const Reports = () => {
                   <Card key={report.get("id")} className={css.card} elevation={3}>
                     <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
                       <CardContent className={css.cardContent}>
-                        <h3 className={css.title}>
-                          {displayNameHelper(report.getIn(["name"], fromJS({})), i18n.locale)}
-                        </h3>
-                        <p className={css.description}>
-                          {displayNameHelper(report.getIn(["description"], fromJS({})), i18n.locale)}
-                        </p>
+                        <h3 className={css.title}>{displayNameHelper(report.get("name"), i18n.locale)}</h3>
+                        <p className={css.description}>{displayNameHelper(report.get("description"), i18n.locale)}</p>
                       </CardContent>
                     </CardActionArea>
                   </Card>
