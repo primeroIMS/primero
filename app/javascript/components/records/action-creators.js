@@ -134,10 +134,11 @@ export const saveRecord = (
   dialogName = "",
   incidentFromCase = false,
   moduleID,
-  incidentPath = ""
+  incidentPath = "",
+  skipRecordAlerts = false
 ) => {
   const fetchRecordsAlertsCallback =
-    id && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
+    id && !skipRecordAlerts && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
 
   return {
     type: `${recordType}/${SAVE_RECORD}`,
