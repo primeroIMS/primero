@@ -14,7 +14,6 @@ import { useMemoizedSelector } from "../../libs";
 import { getCodeOfConductId, getUser } from "../user";
 import LoadingIndicator from "../loading-indicator";
 import { getCodesOfConduct } from "../application/selectors";
-import { useApp } from "../application";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import { NAME, ID } from "./constants";
@@ -38,7 +37,7 @@ const Component = () => {
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
 
-  const { firstUserModule: primeroModule } = useApp();
+  // const { firstUserModule: primeroModule } = useApp();
 
   if (isEmpty(applicationCodeOfConduct)) {
     return null;
@@ -65,7 +64,7 @@ const Component = () => {
   return (
     <LoadingIndicator loading={!hasData} hasData={hasData} type={NAME}>
       <div className={css.container}>
-        <ModuleLogo moduleLogo={primeroModule} white />
+        <ModuleLogo white />
         <div className={css.content}>
           <div id="printPdf" className={css.details}>
             <h2>{applicationCodeOfConduct.get("title")}</h2>

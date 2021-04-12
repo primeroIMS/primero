@@ -19,7 +19,7 @@ describe("getModuleLogoID", () => {
       }
     });
     const result = getModuleLogoID(state);
-    const expected = testModule;
+    const expected = "test-1";
 
     expect(result).to.deep.equals(expected);
   });

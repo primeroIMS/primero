@@ -29,6 +29,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_TYPES",
       "CHANGE_LOGS",
       "CODE_FIELD",
+      "CODE_OF_CONDUCT_DATE_FORMAT",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",
       "DATE_FORMAT",
@@ -83,7 +84,7 @@ describe("Verifying config constant", () => {
       "TRANSITIONS_DATE_FORMAT",
       "TRANSITION_TYPE",
       "UNIQUE_ID_FIELD",
-      "USER_NAME_FIELD"
+      "USER_NAME_FIELD",
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -129,7 +130,8 @@ describe("Verifying config constant", () => {
         expect(constants.PERMITTED_URL).to.be.an("array");
         expect(constants.MODULES).to.deep.equal({
           CP: "primeromodule-cp",
-          GBV: "primeromodule-gbv"
+          GBV: "primeromodule-gbv",
+          MRM: "primeromodule-mrm"
         });
         expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
           "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],

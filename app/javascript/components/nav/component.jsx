@@ -39,7 +39,7 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { firstUserModule: module, demo } = useApp();
+  const { demo } = useApp();
 
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
@@ -92,7 +92,7 @@ const Nav = () => {
   const drawerContent = (
     <>
       <Hidden smDown implementation="css">
-        <ModuleLogo moduleLogo={module} username={username} />
+        <ModuleLogo username={username} />
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">
