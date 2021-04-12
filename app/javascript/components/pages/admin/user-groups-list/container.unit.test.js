@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, listHeaders, lookups } from "../../../../test";
+import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 
@@ -8,6 +8,7 @@ import NAMESPACE from "./namespace";
 import UserGroupsList from "./container";
 
 describe("<UserGroupsList />", () => {
+  let stubI18n = null;
   let component;
   const dataLength = 30;
   const data = Array.from({ length: dataLength }, (_, i) => ({
@@ -18,6 +19,7 @@ describe("<UserGroupsList />", () => {
   }));
 
   beforeEach(() => {
+    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
     const initialState = fromJS({
       records: {
         user_groups: {
@@ -67,5 +69,11 @@ describe("<UserGroupsList />", () => {
     expect(component.props().store.getActions()[2].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
     expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
     expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });
