@@ -64,6 +64,7 @@ describe Api::V2::PrimeroModulesController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(@primero_module_a.unique_id)
       expect(json['data']['form_section_unique_ids'][0]).to eq(@form_section_a.unique_id)
+      expect(json['data']['field_map']).to be_present
     end
 
     it 'returns 403 if user is not authorized to access' do

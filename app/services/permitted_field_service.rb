@@ -49,7 +49,7 @@ class PermittedFieldService
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
     if model_class.included_modules.include?(Webhookable) && user.can?(:sync_external, model_class)
-      @permitted_field_names += %w[synced_at sync_status]
+      @permitted_field_names += %w[synced_at sync_status mark_synced mark_synced_url]
     end
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)

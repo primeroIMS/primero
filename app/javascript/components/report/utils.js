@@ -315,7 +315,7 @@ const getRowsTableData = data => {
     const qtyOfParentKeys = rows.length;
 
     if (qtyOfParentKeys >= 2) {
-      accum.push([key, value._total]);
+      accum.push([key, true, value._total]);
       const result = Object.keys(value)
         .filter(val => val !== "_total")
         .map(rowDisplayName => {
@@ -325,7 +325,7 @@ const getRowsTableData = data => {
             return get(value[rowDisplayName], child);
           });
 
-          return [rowDisplayName, ...values];
+          return [rowDisplayName, false, ...values];
         });
 
       // Set rest of keys
@@ -334,18 +334,19 @@ const getRowsTableData = data => {
       const valuesAccesor = getAllKeysObject(value);
       const values = valuesAccesor.filter(val => val !== "_total").map(val => get(value, val));
 
-      accum.push([key, ...values, value._total]);
+      accum.push([key, false, ...values, value._total]);
     }
   });
 
   return accum;
 };
 
-const formatRows = (rows, translation) => {
+const formatRows = (rows, translation, columns) => {
   const maxItems = max(rows.map(row => row.length));
 
   return rows.map(row => {
-    const [key, ...rest] = row;
+    // applyRowStyle only gets applied when there are not columns defined in the report
+    const [key, applyRowStyle, ...rest] = row;
 
     const translatedKey =
       translation
@@ -359,7 +360,8 @@ const formatRows = (rows, translation) => {
         .find(option => option.id === key)?.display_text || key;
 
     const result = {
-      colspan: maxItems === row.length ? 0 : maxItems - 1,
+      // eslint-disable-next-line no-nested-ternary
+      colspan: maxItems === row.length ? (applyRowStyle && isEmpty(columns) ? 1 : 0) : maxItems - 2,
       row: [translatedKey, ...rest]
     };
 
@@ -381,7 +383,7 @@ export const buildDataForTable = (report, i18n) => {
 
   const columns = newColumns;
   const rows = report.toJS().fields.filter(field => field.position.type === "horizontal");
-  const values = formatRows(newRows, rows);
+  const values = formatRows(newRows, rows, columns);
 
   return { columns, values };
 };

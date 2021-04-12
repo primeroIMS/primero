@@ -83,7 +83,8 @@ describe("records - Actions", () => {
       "UNMATCH_CASE_FOR_TRACE_FINISHED",
       "UNMATCH_CASE_FOR_TRACE_STARTED",
       "UNMATCH_CASE_FOR_TRACE_SUCCESS",
-      "CLEAR_POTENTIAL_MATCHES"
+      "CLEAR_POTENTIAL_MATCHES",
+      "OFFLINE_INCIDENT_FROM_CASE"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");
