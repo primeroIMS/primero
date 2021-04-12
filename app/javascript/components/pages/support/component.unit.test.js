@@ -42,6 +42,9 @@ describe("<Support />", () => {
           content: "Lorem ipsum",
           created_on: "2021-03-19T15:21:38.950Z",
           created_by: "primero"
+        },
+        systemOptions: {
+          code_of_conduct_enabled: true
         }
       }
     });
@@ -55,20 +58,11 @@ describe("<Support />", () => {
     });
 
     it("should render 4 ListItem components", () => {
-      expect(component.find(ListItem)).to.have.lengthOf(4);
-    });
-
-    it("should render 2 disabled ListItem", () => {
-      const disabledListItem = component
-        .find(ListItem)
-        .map(listItem => listItem.props())
-        .filter(listItem => listItem.disabled);
-
-      expect(disabledListItem).to.have.lengthOf(1);
+      expect(component.find(ListItem)).to.have.lengthOf(3);
     });
 
     it("should render CodeOfConduct component when clicking menu from the Navigation list", () => {
-      const codeOfconductMenu = component.find(ListItem).at(1);
+      const codeOfconductMenu = component.find(ListItem).at(2);
 
       expect(component.find("h1").at(1).text()).to.be.equal("contact.info_label");
       expect(component.find(ContactInformation)).to.have.lengthOf(1);
@@ -79,7 +73,7 @@ describe("<Support />", () => {
     });
 
     it("should render TermOfUse component when clicking menu from the Navigation list", () => {
-      const codeOfconductMenu = component.find(ListItem).at(2);
+      const codeOfconductMenu = component.find(ListItem).at(1);
 
       codeOfconductMenu.simulate("click");
       expect(component.find(TermOfUse)).to.have.lengthOf(1);

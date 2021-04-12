@@ -2,7 +2,6 @@
   & form {
     display: flex;
     flex-direction: column;
-    height: 89vh;
 
     & fieldset {
       margin-bottom: 0;
@@ -15,12 +14,6 @@
       & label {
         margin-top: 5px;
         margin-bottom: 5px;
-      }
-    }
-
-    & div {
-      & div {
-        margin: 3px 0;
       }
     }
   }
@@ -47,9 +40,16 @@
   font-size: $(theme.typography.pxToRem(15));
 }
 
+.fieldsContent {
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
 .createButtonContainer {
-  margin-top: auto;
-  padding-bottom: 5px;
-  position: fixed;
   bottom: 0;
+  position: sticky;
+  width: 100%;
+  padding: 1em;
+  border-top: 1px solid $(theme.primero.colors.lightGrey2);
+  background-color: $(theme.primero.colors.white)
 }

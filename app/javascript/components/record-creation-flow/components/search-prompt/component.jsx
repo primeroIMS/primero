@@ -75,7 +75,7 @@ const Component = ({
   }
 
   return (
-    <>
+    <div className={css.searchPromptFormContainer}>
       <InputLabel shrink htmlFor={QUERY} className={css.inputLabel} required>
         {i18n.t("case.enter_id_number")}
       </InputLabel>
@@ -104,7 +104,7 @@ const Component = ({
         </div>
       </div>
       <FormHelperText>{i18n.t("case.search_helper_text")}</FormHelperText>
-    </>
+    </div>
   );
 };
 

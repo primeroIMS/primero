@@ -13,6 +13,6 @@
 }
 
 .dialog {
-  top: auto;
-  left: auto;
+  top: auto !important;
+  left: auto !important;
 }

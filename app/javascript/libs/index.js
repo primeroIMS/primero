@@ -6,3 +6,4 @@ export { default as keyIn } from "./immutable-helpers";
 export { default as toBase64 } from "./to-base64";
 export { default as displayNameHelper } from "./display-name-helper";
 export { default as useMemoizedSelector } from "./use-memoized-selector";
+export { default as buildFieldMap } from "./build-field-map";
