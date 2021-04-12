@@ -15,9 +15,6 @@ describe("libs/display-name-helper.js", () => {
   it("should return translation for default-locale if we request for a translated locale which is empty", () => {
     expect(displayNameHelper(data, "fr")).to.be.equals("Test value");
   });
-  it("should return translation for default-locale if we request for a translated locale which is empty", () => {
-    expect(displayNameHelper(data, "fr")).to.be.equals("Test value");
-  });
   it("should return translation empty string if data is undefined", () => {
     expect(displayNameHelper(undefined, "fr")).to.be.equals("");
   });
