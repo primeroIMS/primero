@@ -6,7 +6,6 @@ import { ROUTES, RECORD_PATH } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
 import Jewel from "../jewel";
 
@@ -16,9 +15,7 @@ import { FETCH_ALERTS } from "./actions";
 describe("<Nav />", () => {
   let component;
   const ProvidedNav = () => (
-    <ApplicationProvider>
-      <Nav />
-    </ApplicationProvider>
+    <Nav />
   );
   const permissions = {
     cases: [ACTIONS.MANAGE],
