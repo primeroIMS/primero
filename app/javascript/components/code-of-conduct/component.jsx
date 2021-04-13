@@ -37,8 +37,6 @@ const Component = () => {
   const currentUser = useMemoizedSelector(state => getUser(state));
   const updatingCodeOfConduct = useMemoizedSelector(state => selectUpdatingCodeOfConduct(state));
 
-  // const { firstUserModule: primeroModule } = useApp();
-
   if (isEmpty(applicationCodeOfConduct)) {
     return null;
   }

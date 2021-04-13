@@ -17,8 +17,6 @@ const ModuleLogo = ({ moduleLogo, white }) => {
 
   const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));
 
-  console.log(moduleLogoID);
-
   const [fullLogo, smallLogo] = getLogo(moduleLogo || moduleLogoID, white);
 
   return (
