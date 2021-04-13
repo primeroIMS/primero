@@ -1,10 +1,13 @@
 import { fromJS } from "immutable";
 import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 
+import LookupValue from "../../../record-form/form/subforms/subform-header-lookup";
 import { setupMountedComponent } from "../../../../test";
 import IncidentSummary from "../summary";
 import IncidentDetail from "../detail";
-import { RECORD_TYPES, MODULES } from "../../../../config";
+import { RECORD_TYPES } from "../../../../config";
+import * as R from "../../../record-form/records";
+import { mapEntriesToRecord } from "../../../../libs";
 
 import IncidentPanel from "./component";
 
@@ -43,6 +46,15 @@ describe("<IncidentPanel /> - Component", () => {
       }
     }
   ];
+
+  const fields = {
+    1: {
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-gbv-sexual-violence-type",
+      display_name: { en: "First Name" }
+    }
+  };
 
   const initialState = fromJS({
     application: {
@@ -86,7 +98,8 @@ describe("<IncidentPanel /> - Component", () => {
             values
           }
         ]
-      }
+      },
+      fields: mapEntriesToRecord(fields, R.FieldRecord)
     }
   });
 
@@ -113,41 +126,14 @@ describe("<IncidentPanel /> - Component", () => {
   });
 
   describe("with violence-type-lookup", () => {
-    describe("when transition module is GBV", () => {
-      let componentWithGbvViolenceType;
-
-      beforeEach(() => {
-        ({ component: componentWithGbvViolenceType } = setupMountedComponent(IncidentPanel, props, initialState));
-      });
-
-      it("should use lookup-gbv-sexual-violence-type", () => {
-        const { props: incidentDetailProps } = componentWithGbvViolenceType.find(IncidentDetail).props().incidentType;
-        const expected = { value: "test1", optionsStringSource: "lookup-gbv-sexual-violence-type" };
-
-        expect(incidentDetailProps).to.deep.equals(expected);
-      });
+    it("should use the lookup defined in the option_strings_source", () => {
+      expect(component.find(IncidentDetail).find(LookupValue).props().optionsStringSource).to.equal(
+        "lookup-gbv-sexual-violence-type"
+      );
     });
-    describe("with violence-type-lookup", () => {
-      describe("when transition module is CP", () => {
-        let componentWithCpViolenceType;
 
-        beforeEach(() => {
-          const incident = props.incident.set("module_id", MODULES.CP);
-
-          ({ component: componentWithCpViolenceType } = setupMountedComponent(
-            IncidentPanel,
-            { ...props, incident },
-            initialState
-          ));
-        });
-
-        it("should use lookup-gbv-sexual-violence-type", () => {
-          const { props: incidentDetailProps } = componentWithCpViolenceType.find(IncidentDetail).props().incidentType;
-          const expected = { value: "test1", optionsStringSource: "lookup-cp-violence-type" };
-
-          expect(incidentDetailProps).to.deep.equals(expected);
-        });
-      });
+    it("renders the translated value", () => {
+      expect(component.find(IncidentDetail).find(LookupValue).text()).to.equal("Test1");
     });
   });
 

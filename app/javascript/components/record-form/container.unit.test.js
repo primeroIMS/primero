@@ -75,6 +75,12 @@ describe("<RecordForms /> - Component", () => {
       guiding_questions: "",
       required: true,
       date_validation: "default_date_validation"
+    }),
+    2: FieldRecord({
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-cp-sexual-violence-type",
+      display_name: { en: "First Name" }
     })
   });
 
@@ -127,7 +133,24 @@ describe("<RecordForms /> - Component", () => {
       formSections,
       fields,
       loading: false,
-      errors: false
+      errors: false,
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 2,
+              unique_id: "lookup-cp-violence-type",
+              name: {
+                en: "CP Sexual Violence Type"
+              },
+              values: [
+                { id: "cp_test1", display_text: { en: "CP Test1" } },
+                { id: "cp_test2", display_text: { en: "CP Test2" } }
+              ]
+            }
+          ]
+        }
+      }
     }),
     user: fromJS({
       permittedForms: { basic_identity: "rw" },

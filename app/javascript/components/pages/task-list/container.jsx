@@ -7,7 +7,7 @@ import { push } from "connected-react-router";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
-import IndexTable from "../../index-table";
+import IndexTable, { DateCell } from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
@@ -136,7 +136,9 @@ const TaskList = () => {
                         form_name: selectedForm.name[i18n.locale]
                       })}
                     >
-                      <span>{value}</span>
+                      <span>
+                        <DateCell value={value} />
+                      </span>
                     </Tooltip>
                   );
                 }
