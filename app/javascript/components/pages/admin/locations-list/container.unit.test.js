@@ -21,7 +21,11 @@ describe("<LocationsList />", () => {
   }));
 
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
+    stubI18n = stub(window.I18n, "t")
+      .withArgs("messages.record_list.of")
+      .returns("of")
+      .withArgs("location.no_location")
+      .returns("No Location");
     const initialState = fromJS({
       records: {
         admin: {
@@ -117,7 +121,7 @@ describe("<LocationsList />", () => {
     });
 
     it("renders InternalAlert alert", () => {
-      expect(component.find(InternalAlert).text()).to.equal("location.no_location");
+      expect(component.find(InternalAlert).text()).to.equal("No Location");
       expect(component.find(InternalAlert)).to.have.lengthOf(1);
     });
   });
