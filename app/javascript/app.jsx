@@ -8,17 +8,17 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
+import { useEffect } from "react";
 
 import { theme, routes } from "./config";
-import I18nProvider from "./components/i18n";
 import NAMESPACE from "./components/i18n/namespace";
 import { checkUserAuthentication } from "./components/user";
 import { loginSystemSettings } from "./components/login";
-import { ApplicationProvider } from "./components/application";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import CustomSnackbarProvider from "./components/custom-snackbar-provider";
 import styles from "./styles.css";
+import { fetchSandboxUI } from "./components/application/action-creators";
 
 const store = configureStore();
 
@@ -41,8 +41,11 @@ const App = () => {
     document.querySelector("body").setAttribute("class", clsx({ [css.fontLTR]: isRTL }));
   });
 
-  store.dispatch(checkUserAuthentication());
-  store.dispatch(loginSystemSettings());
+  useEffect(() => {
+    store.dispatch(fetchSandboxUI());
+    store.dispatch(checkUserAuthentication());
+    store.dispatch(loginSystemSettings());
+  }, []);
 
   window.I18n.fallbacks = true;
 
@@ -51,17 +54,13 @@ const App = () => {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <I18nProvider>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <ApplicationProvider>
-                <ConnectedRouter history={history}>
-                  <CustomSnackbarProvider>
-                    <ApplicationRoutes routes={routes} />
-                  </CustomSnackbarProvider>
-                </ConnectedRouter>
-              </ApplicationProvider>
-            </MuiPickersUtilsProvider>
-          </I18nProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <ConnectedRouter history={history}>
+              <CustomSnackbarProvider>
+                <ApplicationRoutes routes={routes} />
+              </CustomSnackbarProvider>
+            </ConnectedRouter>
+          </MuiPickersUtilsProvider>
         </Provider>
       </ThemeProvider>
     </StylesProvider>

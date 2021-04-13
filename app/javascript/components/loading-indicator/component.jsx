@@ -1,12 +1,11 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles, Button } from "@material-ui/core";
-
-import ListIcon from "../list-icon";
-import withI18n from "../i18n/with-i18n";
+import { withStyles } from "@material-ui/core";
 
 import Loading from "./loading";
 import styles from "./styles.css";
+import EmptyState from "./components/empty-state";
+import ErrorState from "./components/error-state";
 
 class LoadingIndicator extends Component {
   constructor(props) {
@@ -43,7 +42,6 @@ class LoadingIndicator extends Component {
       emptyIndicator,
       type,
       errors,
-      i18n,
       fromTableList
     } = this.props;
 
@@ -55,22 +53,7 @@ class LoadingIndicator extends Component {
 
     if (error || errors) {
       return (
-        errorIndicator || (
-          <div className={classes.errorContainer}>
-            <div className={classes.error}>
-              {type && <ListIcon icon={type} className={classes.errorIcon} />}
-              <h5 className={classes.errorMessage}>{errorMessage || i18n.t("errors.error_loading")}</h5>
-              <Button
-                variant="outlined"
-                size="small"
-                classes={{ root: classes.errorButton }}
-                onClick={this.handleTryAgain}
-              >
-                {i18n.t("errors.try_again")}
-              </Button>
-            </div>
-          </div>
-        )
+        errorIndicator || <ErrorState errorMessage={errorMessage} handleTryAgain={this.handleTryAgain} type={type} />
       );
     }
 
@@ -79,16 +62,7 @@ class LoadingIndicator extends Component {
     }
 
     if (loading === false && !hasData && !fromTableList) {
-      return (
-        emptyIndicator || (
-          <div className={classes.emptyContainer}>
-            <div className={classes.empty}>
-              <ListIcon icon={type} className={classes.emptyIcon} />
-              <h5 className={classes.emptyMessage}>{emptyMessage || i18n.t("errors.not_found")}</h5>
-            </div>
-          </div>
-        )
-      );
+      return emptyIndicator || <EmptyState type={type} emptyMessage={emptyMessage} />;
     }
 
     return children;
@@ -112,11 +86,10 @@ LoadingIndicator.propTypes = {
   errors: PropTypes.bool,
   fromTableList: PropTypes.bool,
   hasData: PropTypes.bool.isRequired,
-  i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   loadingIndicator: PropTypes.node,
   overlay: PropTypes.bool,
   type: PropTypes.string
 };
 
-export default withI18n(withStyles(styles)(LoadingIndicator));
+export default withStyles(styles)(LoadingIndicator);

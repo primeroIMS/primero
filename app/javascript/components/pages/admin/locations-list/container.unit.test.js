@@ -21,7 +21,11 @@ describe("<LocationsList />", () => {
   }));
 
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
+    stubI18n = stub(window.I18n, "t")
+      .withArgs("messages.record_list.of")
+      .returns("of")
+      .withArgs("location.no_location")
+      .returns("No Location");
     const initialState = fromJS({
       records: {
         admin: {
@@ -74,14 +78,14 @@ describe("<LocationsList />", () => {
     };
 
     expect(indexTable.find("p").at(2).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
 
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(2).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
-    expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
+    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
   });
 
   afterEach(() => {
@@ -117,7 +121,7 @@ describe("<LocationsList />", () => {
     });
 
     it("renders InternalAlert alert", () => {
-      expect(component.find(InternalAlert).text()).to.equal("location.no_location");
+      expect(component.find(InternalAlert).text()).to.equal("No Location");
       expect(component.find(InternalAlert)).to.have.lengthOf(1);
     });
   });

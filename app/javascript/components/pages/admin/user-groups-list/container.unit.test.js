@@ -62,13 +62,13 @@ describe("<UserGroupsList />", () => {
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
-    expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
+    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
   });
 
   afterEach(() => {

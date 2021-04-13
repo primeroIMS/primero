@@ -1,13 +1,10 @@
-import { useContext, createContext, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-import { fetchSandboxUI } from "./action-creators";
 import {
   selectModules,
   selectUserModules,
@@ -17,9 +14,7 @@ import {
   getLimitedConfigUI
 } from "./selectors";
 
-const Context = createContext();
-
-const ApplicationProvider = ({ children }) => {
+const useApp = () => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
@@ -32,11 +27,7 @@ const ApplicationProvider = ({ children }) => {
   const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
 
-  useEffect(() => {
-    dispatch(fetchSandboxUI());
-  }, []);
-
-  const value = {
+  return {
     modules,
     userModules,
     online,
@@ -46,16 +37,6 @@ const ApplicationProvider = ({ children }) => {
     currentUserName,
     limitedProductionSite
   };
-
-  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
-ApplicationProvider.displayName = "ApplicationProvider";
-
-ApplicationProvider.propTypes = {
-  children: PropTypes.node.isRequired
-};
-
-const useApp = () => useContext(Context);
-
-export { ApplicationProvider, useApp };
+export default useApp;

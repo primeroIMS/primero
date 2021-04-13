@@ -46,7 +46,7 @@ describe("<ProvidedForm /> - transfers", () => {
   it("should reload users if any agency, location or user has changed", () => {
     const props = {
       canConsentOverride: true,
-      setDisabled: () => {},
+      setDisabled: () => { },
       recordType: "cases"
     };
     const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);
@@ -64,6 +64,6 @@ describe("<ProvidedForm /> - transfers", () => {
 
     trasnferAnyway.find("input").simulate("change", { target: { checked: true } });
 
-    expect(storeActions[1]).to.deep.equal(expectedAction);
+    expect(storeActions[0]).to.deep.equal(expectedAction);
   });
 });

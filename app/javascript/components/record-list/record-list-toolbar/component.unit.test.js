@@ -4,7 +4,6 @@ import { setupMountedComponent } from "../../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
-import { ApplicationProvider } from "../../application/provider";
 import RecordActions from "../../record-actions";
 import AddRecordMenu from "../add-record-menu";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
@@ -56,7 +55,7 @@ describe("<RecordListToolbar />", () => {
   const props = {
     title: "This is a record list toolbar",
     recordType: RECORD_PATH.cases,
-    handleDrawer: () => {},
+    handleDrawer: () => { },
     mobileDisplay: false,
     currentPage: 0,
     selectedRecords: { 0: [0, 1] },
@@ -131,9 +130,7 @@ describe("<RecordListToolbar />", () => {
   // eslint-disable-next-line react/display-name
   const RecordListToolbarForm = () => {
     return (
-      <ApplicationProvider>
-        <RecordListToolbar {...props} />
-      </ApplicationProvider>
+      <RecordListToolbar {...props} />
     );
   };
 
@@ -166,7 +163,7 @@ describe("<RecordListToolbar />", () => {
     const propsUserWithoutPermssion = {
       title: "This is a record list toolbar",
       recordType: RECORD_PATH.cases,
-      handleDrawer: () => {},
+      handleDrawer: () => { },
       mobileDisplay: false,
       currentPage: 0,
       css: { toolbar: "" }

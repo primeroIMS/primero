@@ -1,9 +1,15 @@
 .mainSupport {
   display: flex;
+  flex: 1;
 
   & nav {
-    min-width: 230px;
+    width: 280px;
     padding-right: 1em;
+  }
+
+  & > div {
+    flex: 1;
+    padding: 0 2em;
   }
 }
 
