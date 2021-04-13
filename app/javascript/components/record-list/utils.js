@@ -51,6 +51,8 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                     columnMeta={columnMeta}
                     handleToggleColumn={handleToggleColumn}
                     key={`photo-column-${name}`}
+                    i18n={i18n}
+                    recordType={recordType}
                   />
                 ),
                 // eslint-disable-next-line react/no-multi-comp, react/display-name

@@ -169,12 +169,18 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   };
 
   // eslint-disable-next-line react/display-name
-  const renderTextField = (params, props) => {
+  const renderTextField = (params, props, fieldValue) => {
+    // Workaround for: https://github.com/mui-org/material-ui/issues/19173
+    const value =
+      !freeSolo && !params.inputProps.value && options && fieldValue
+        ? optionLabel(fieldValue)
+        : params.inputProps.value;
+
     const inputParams = {
       ...params,
       inputProps: {
         ...params.inputProps,
-        value: freeSolo ? optionLabel(params.inputProps.value) : params.inputProps.value
+        value: freeSolo ? optionLabel(params.inputProps.value) : value
       },
       InputProps: {
         ...params.InputProps,
@@ -246,7 +252,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           freeSolo={freeSolo}
           {...filterOptions}
           {...loadingProps}
-          renderInput={params => renderTextField(params, commonProps)}
+          renderInput={params => renderTextField(params, commonProps, fieldValue)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
           value={fieldValue}
         />

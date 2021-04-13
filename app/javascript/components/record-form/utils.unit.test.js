@@ -3,7 +3,7 @@ import { parseISO } from "date-fns";
 import { useFakeTimers } from "../../test";
 
 import { FormSectionRecord, FieldRecord } from "./records";
-import { DATE_FIELD, SELECT_FIELD, TICK_FIELD } from "./constants";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
 import * as utils from "./utils";
 
 describe("<RecordForms /> - utils", () => {
@@ -278,6 +278,115 @@ describe("<RecordForms /> - utils", () => {
 
     afterEach(() => {
       clock.restore();
+    });
+  });
+
+  describe("sortSubformValues", () => {
+    it("should return subforms with display conditions from subform_section_configuration", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  }),
+                  FieldRecord({
+                    display_name: "Test Sub Field Disallowed",
+                    name: "disallowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                fields: ["allowed_field"],
+                display_conditions: [
+                  {
+                    allowed_field: "gerald"
+                  }
+                ]
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [
+          { allowed_field: "stanley", disallowed_field: "test disallowed" },
+          { allowed_field: "gerald", disallowed_field: "test disallowed" }
+        ],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [
+          {
+            allowed_field: "gerald",
+            disallowed_field: "test disallowed"
+          }
+        ]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
+    });
+
+    it("should return subforms sorted by subformSortBy field", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                subform_sort_by: "allowed_field"
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [{ allowed_field: "b" }, { allowed_field: "c" }, { allowed_field: "a" }],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [{ allowed_field: "a" }, { allowed_field: "b" }, { allowed_field: "c" }]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
     });
   });
 });

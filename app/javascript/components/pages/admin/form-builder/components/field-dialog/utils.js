@@ -1,4 +1,6 @@
 import { fromJS } from "immutable";
+import isEmpty from "lodash/isEmpty";
+import mergeWith from "lodash/mergeWith";
 
 import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
@@ -13,7 +15,7 @@ import {
   separatorFieldForm,
   subformField
 } from "./forms";
-import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
+import { DATE_FIELD_CUSTOM_VALUES, SUBFORM_TRANSLATABLE_OPTIONS, FIELD_TRANSLATABLE_OPTIONS } from "./constants";
 
 const getDateValidation = (field, isSubmit) => {
   if (!isSubmit) {
@@ -198,4 +200,25 @@ export const subformContainsFieldName = (subform, fieldName, selectedSubformFiel
       ?.find(field => field.get("name") === fieldName)
       ?.toSeq()?.size
   );
+};
+
+export const mergeTranslationKeys = (defaultValues, currValues, isSubform = false) => {
+  if (!currValues || isEmpty(currValues)) {
+    return defaultValues;
+  }
+
+  const mergeWithCondition = (a, b) => (isEmpty(b) ? a : b);
+  const translatableOptions = isSubform ? SUBFORM_TRANSLATABLE_OPTIONS : FIELD_TRANSLATABLE_OPTIONS;
+
+  return Object.entries(defaultValues).reduce((acc, curr) => {
+    const [key, value] = curr;
+
+    if (translatableOptions.includes(key) && !isEmpty(value)) {
+      const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
+
+      return { ...acc, [key]: mergedValues };
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
 };

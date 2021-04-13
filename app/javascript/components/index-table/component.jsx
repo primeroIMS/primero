@@ -295,6 +295,17 @@ const Component = ({
       }
     },
     customToolbarSelect,
+    textLabels: {
+      body: {
+        noMatch: i18n.t("messages.record_list.no_match"),
+        toolTip: i18n.t("messages.record_list.sort"),
+        columnHeaderTooltip: ({ label }) => i18n.t("messages.record_list.column_header_tooltip", { column: label })
+      },
+      pagination: {
+        rowsPerPage: i18n.t("messages.record_list.rows_per_page"),
+        displayRows: i18n.t("messages.record_list.of")
+      }
+    },
     ...tableOptionsProps
   };
 
