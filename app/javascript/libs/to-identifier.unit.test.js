@@ -16,7 +16,7 @@ describe("toIdentifier", () => {
   });
 
   it("should return the id with identifier if id is not a falsy value", () => {
-    const id = "efg";
+    const id = "E fg";
     const expected = `${id}_${identifier}`;
 
     expect(toIdentifier(id)).to.be.equal(expected);

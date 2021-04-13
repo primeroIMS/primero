@@ -154,12 +154,8 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
-export const toNameLowerCase = data => data.replace(/[^\w]/g, "_").toLowerCase();
-
 export const generateUniqueId = data => {
-  const generatedId = toNameLowerCase(data);
-
-  return toIdentifier(generatedId);
+  return toIdentifier(data);
 };
 
 export const buildDataToSave = (selectedField, data, lastFieldOrder, randomSubformId) => {
