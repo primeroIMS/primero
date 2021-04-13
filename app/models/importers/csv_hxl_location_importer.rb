@@ -62,35 +62,50 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
   def process_row(row)
     hierarchy = []
+    names = {}
     self.total += 1
-    (0..max_admin_level).each { |i| process_row_admin_level(row, i, hierarchy) }
+    (0..max_admin_level).each { |i| process_row_admin_level(row, i, hierarchy, names) }
     self.success_total += 1
   end
 
   # Each row in the csv contains location info for multiple locations
   # Example: it contains the Admin Level 3 location and each of it's parent locations
   # So... loop through each admin_level and pull out location info for that admin_level
-  def process_row_admin_level(row, admin_level = 0, hierarchy = [])
-    location_hash = map_admin_level_data(admin_level, row)
+  def process_row_admin_level(row, admin_level = 0, hierarchy = [], names = {})
+    location_hash = map_admin_level_data(admin_level, row, names)
     location_hash[:type] ||= type_map[admin_level.to_s]&.first
     hierarchy << location_hash[:location_code]
     location_hash[:hierarchy_path] = hierarchy.join('.')
+    location_hash[:name_i18n] = names.reduce({}) { |acc, (key, value)| acc.merge(key => value[0..admin_level].join(':'))}
 
     locations[location_hash[:location_code]] ||= location_hash
   end
 
-  def map_admin_level_data(admin_level, row)
+  def map_admin_level_data(admin_level, row, names)
     admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
-    location_hash = { admin_level: admin_level }
+    location_hash = { admin_level: admin_level, placename_i18n: {} }.with_indifferent_access
     column_map.each do |key, value|
       key_array = key.split('+')
+      attributes = key_array[1..-1]
       next unless key_array.first == admin_level_tag
 
-      raise "#{key} blank" if row[value].blank?
+      attribute_value = row[value]
+      raise "#{key} blank" if attribute_value.blank?
 
-      location_hash[location_attribute(key_array[1..-1]).to_sym] = row[value]
+      if column_name?(attributes)
+        locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
+        location_hash[:placename_i18n][locale] = attribute_value
+        names[locale] ||= []
+        names[locale] << attribute_value
+      else
+        location_hash[:location_code] = attribute_value
+      end
     end
     location_hash
+  end
+
+  def column_name?(key_array)
+    key_array.first == 'name'
   end
 
   def location_attribute(key_array)
@@ -137,22 +152,9 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def create_locations
-    # TODO: This is not good: Location.locations_by_code is global and not thread safe.
-    Location.locations_by_code = locations.map { |key, value| [key, Location.new(value)] }.to_h
-    location_hashes = location_hashes(Location.locations_by_code.values)
-    begin
-      InsertAllService.insert_all(Location, location_hashes, 'location_code')
-    rescue StandardError => e
-      log_errors(I18n.t('imports.csv_hxl_location.messages.insert_all_error', message: "#{e.message[0..200]}..."))
-    end
-    Location.locations_by_code = nil
-  end
-
-  def location_hashes(locations)
-    locations.map do |location|
-      location.set_name_from_hierarchy_placenames
-      location.attributes.except('id')
-    end
+    InsertAllService.insert_all(Location, locations.values, 'location_code')
+  rescue StandardError => e
+    log_errors(I18n.t('imports.csv_hxl_location.messages.insert_all_error', message: "#{e.message[0..200]}..."))
   end
 
   def log_errors(message, opts = {})
