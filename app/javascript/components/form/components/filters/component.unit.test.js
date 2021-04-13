@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 import { FormProvider } from "react-hook-form";
 
-import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS } from "../../../../../libs/permissions";
-import Actions from "../../../../index-filters/components/actions";
-import { FILTER_TYPES } from "../../../../index-filters";
-import { SelectFilter } from "../../../../index-filters/components/filter-types";
+import { setupMountedComponent } from "../../../../test";
+import { ACTIONS } from "../../../../libs/permissions";
+import Actions from "../../../index-filters/components/actions";
+import { FILTER_TYPES } from "../../../index-filters";
+import { SelectFilter } from "../../../index-filters/components/filter-types";
 
 import AdminFilters from "./component";
 

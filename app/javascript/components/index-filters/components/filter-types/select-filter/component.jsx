@@ -38,7 +38,8 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const css = useStyles();
-  const { register, unregister, setValue, getValues } = useFormContext();
+  const formMethods = useFormContext();
+  const { register, unregister, setValue, getValues } = formMethods;
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
   const { options, field_name: fieldName, option_strings_source: optionStringsSource } = filter;
@@ -122,6 +123,10 @@ const Component = ({
 
     if (addFilterToList) {
       addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
+    }
+
+    if (filter.onChange) {
+      filter.onChange(formMethods, value);
     }
   };
 

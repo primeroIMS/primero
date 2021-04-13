@@ -4,7 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 import IndexTable from "../../../index-table";
-import { Filters } from "../components";
+import { FormFilters } from "../../../form";
 
 import AuditLogs from "./container";
 
@@ -30,7 +30,7 @@ describe("<AuditLogs />", () => {
     expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
-  it("renders <Filters /> component", () => {
-    expect(component.find(Filters)).to.have.lengthOf(1);
+  it("renders <FormFilters /> component", () => {
+    expect(component.find(FormFilters)).to.have.lengthOf(1);
   });
 });

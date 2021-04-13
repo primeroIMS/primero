@@ -2,16 +2,15 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
 
-import { filterType } from "../../../../index-filters/utils";
-import { currentUser } from "../../../../user";
-import Actions from "../../../../index-filters/components/actions";
-import { useMemoizedSelector } from "../../../../../libs";
+import { filterType } from "../../../index-filters/utils";
+import { currentUser } from "../../../user";
+import Actions from "../../../index-filters/components/actions";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
   const methods = useForm();
-
   const userName = useMemoizedSelector(state => currentUser(state));
 
   const defaultFiltersKeys = Object.keys(defaultFilters);
@@ -49,8 +48,8 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
   return (
     <div>
       <FormProvider {...methods} user={userName}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <Actions handleClear={onClear} />
+        <form>
+          <Actions handleClear={onClear} handleSubmit={methods.handleSubmit(onSubmit)} />
           {renderFilters()}
         </form>
       </FormProvider>

@@ -1,11 +1,15 @@
 import { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
-import { useMediaQuery } from "@material-ui/core";
+import { IconButton, useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+import FilterListIcon from "@material-ui/icons/FilterList";
 import { withRouter } from "react-router-dom";
 import clsx from "clsx";
+import { isEmpty } from "lodash";
 
+import FilterContainer from "../record-list/filter-container";
+import { FormFilters } from "../form";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
@@ -64,7 +68,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { compactValues, getRedirectPath } from "./utils";
+import { compactValues, getRedirectPath, getFilterProps } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -83,6 +87,9 @@ const Container = ({ match, mode }) => {
   const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
+
+  const [selectedFilters, setSelectedFilters] = useState({});
+  const [drawer, setDrawer] = useState(false);
 
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
@@ -118,6 +125,9 @@ const Container = ({ match, mode }) => {
 
   const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
+  const formFilterList = useMemoizedSelector(state =>
+    getRecordForms(state, { recordType: selectedModule.recordType, primeroModule: selectedModule.primeroModule })
+  );
   const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
   const firstTab = useMemoizedSelector(state => getFirstTab(state, selectedModule));
   const loadingForm = useMemoizedSelector(state => getLoadingState(state));
@@ -318,6 +328,9 @@ const Container = ({ match, mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
+          primeroModule={selectedModule.primeroModule}
+          selectedFilters={selectedFilters}
+          forms={forms}
         />
       ),
       [SUMMARY]: (
@@ -360,6 +373,35 @@ const Container = ({ match, mode }) => {
   const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
   const demoClasses = clsx({ [css.demo]: demo });
 
+  const handleDrawer = () => setDrawer(!drawer);
+
+  const filterContainerProps = {
+    mobileDisplay,
+    drawer,
+    handleDrawer
+  };
+
+  const showFilterIcon = mobileDisplay && handleDrawer && (
+    <IconButton onClick={handleDrawer} color="primary">
+      <FilterListIcon />
+    </IconButton>
+  );
+
+  const filterProps = {
+    ...getFilterProps({ selectedForm, setSelectedFilters, forms: formFilterList, i18n })
+  };
+
+  const recordFormFilter = !isEmpty(filterProps) && (
+    <div className={css.recordFormFilters}>
+      {showFilterIcon}
+      <FilterContainer {...filterContainerProps}>
+        <div className={css.filtersContainer}>
+          <FormFilters initialFilters={selectedFilters} {...filterProps} />
+        </div>
+      </FilterContainer>
+    </div>
+  );
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
@@ -377,6 +419,7 @@ const Container = ({ match, mode }) => {
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}
             />
+            {recordFormFilter}
           </div>
         </div>
       </LoadingIndicator>

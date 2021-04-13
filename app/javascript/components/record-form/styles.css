@@ -41,6 +41,7 @@
   flex: 1;
   padding: 0 3em;
   overflow-y: scroll;
+  display: flex;
 
   &.demo {
     margin-bottom: 35px;
@@ -48,7 +49,18 @@
 
   & form {
     max-width: 700px;
+    flex: 1 1;
   }
+}
+
+.recordFormFilters {
+  flex: 1 1;
+  max-width: 300px;
+}
+
+.filtersContainer {
+  width: 300px;
+  padding: 0 0.6em;
 }
 
 .formNavOpen {
@@ -64,6 +76,11 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
+  .recordFormFilters {
+    text-align: center;
+    flex: 0 1;
+  }
+
   .recordNav {
     width: auto;
     overflow-y: hidden;
