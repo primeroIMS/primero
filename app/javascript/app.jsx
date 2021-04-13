@@ -6,7 +6,6 @@ import rtl from "jss-rtl";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { useEffect } from "react";
 
 import { theme, routes } from "./config";
 import NAMESPACE from "./components/i18n/namespace";
@@ -31,11 +30,9 @@ const App = () => {
     document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
   });
 
-  useEffect(() => {
-    store.dispatch(fetchSandboxUI());
-    store.dispatch(checkUserAuthentication());
-    store.dispatch(loginSystemSettings());
-  }, []);
+  store.dispatch(fetchSandboxUI());
+  store.dispatch(checkUserAuthentication());
+  store.dispatch(loginSystemSettings());
 
   window.I18n.fallbacks = true;
 

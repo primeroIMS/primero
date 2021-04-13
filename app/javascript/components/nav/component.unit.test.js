@@ -14,9 +14,7 @@ import { FETCH_ALERTS } from "./actions";
 
 describe("<Nav />", () => {
   let component;
-  const ProvidedNav = () => (
-    <Nav />
-  );
+  const ProvidedNav = () => <Nav />;
   const permissions = {
     cases: [ACTIONS.MANAGE],
     incidents: [ACTIONS.READ],
