@@ -11,7 +11,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isEmpty, find, pull } from "lodash";
+import isEmpty from "lodash/isEmpty";
+import find from "lodash/find";
+import pull from "lodash/pull";
 
 import {
   buildValues,
