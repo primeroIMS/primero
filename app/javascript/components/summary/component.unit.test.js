@@ -17,7 +17,7 @@ describe("<Summary />", () => {
     record: fromJS({}),
     recordType: "case",
     mobileDisplay: false,
-    handleToggleNav: () => { },
+    handleToggleNav: () => {},
     form: {},
     mode: { isNew: false }
   };

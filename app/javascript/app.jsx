@@ -6,7 +6,6 @@ import rtl from "jss-rtl";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { useEffect } from "react";
 
 import { theme, routes } from "./config";
 import NAMESPACE from "./components/i18n/namespace";

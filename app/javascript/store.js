@@ -29,12 +29,12 @@ export default () => {
     process.env.NODE_ENV !== "development" || typeof window !== "object" || !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
       : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        trace: true,
-        traceLimit: 25,
-        serialize: {
-          immutable: Immutable
-        }
-      });
+          trace: true,
+          traceLimit: 25,
+          serialize: {
+            immutable: Immutable
+          }
+        });
 
   const store = createStore(
     combineReducers({

@@ -1,5 +1,3 @@
-import { useDispatch } from "react-redux";
-
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
@@ -15,7 +13,6 @@ import {
 } from "./selectors";
 
 const useApp = () => {
-  const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
