@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
-import uuid from "uuid";
 import isEmpty from "lodash/isEmpty";
 import mergeWith from "lodash/mergeWith";
 
 import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
+import { toIdentifier } from "../../../../../../libs";
 
 import {
   dateFieldForm,
@@ -154,12 +154,8 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
-export const toIdentifier = data => data.replace(/[^\w]/g, "_").toLowerCase();
-
 export const generateUniqueId = data => {
-  const generatedId = toIdentifier(data);
-
-  return `${generatedId}_${uuid.v4().substr(-7)}`;
+  return toIdentifier(data);
 };
 
 export const buildDataToSave = (selectedField, data, lastFieldOrder, randomSubformId) => {
