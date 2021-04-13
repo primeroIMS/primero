@@ -349,6 +349,7 @@ en:
       name: Name
     owned_by: Record Owner
     owned_by_agency: Record Owner Agency
+    photo: Photo
     photos: Photo
     quick_view:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
@@ -1647,6 +1648,12 @@ en:
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
     not_available: Not available
+    record_list:
+      column_header_tooltip: Sort for %{column}
+      of: of
+      no_match: Sorry, no matching records found
+      rows_per_page: Rows per page
+      sort: Sort
   navigation:
     bulk_exports: Exports
     cases: Cases
@@ -2035,6 +2042,13 @@ en:
               which contains the same fields which appear for that user on the case
               list. Only performed from the case list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the case list or
+              case show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all cases to which the user has access.
+              In the PDF export file, information is listed first by case, and then
+              further organized by the form on which information appears.
+            label: Export case PDF
           export_photowall:
             explanation: Allows the user to export a file from the case list page
               which contains the photos of all cases selected. This export is mainly
@@ -2532,6 +2546,13 @@ en:
               page which contains the same fields which appear for that user on the
               incident list. Only performed from the incident list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the incidents list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all records to which the user
+              has access. In the PDF export file, information is listed first by case,
+              and then further organized by the form on which information appears.
+            label: Export PDF
           export_xls:
             explanation: User can generate a XLS file export from the incidents list
               or incident show pages, which contains a custom set of forms or fields,
@@ -2784,6 +2805,14 @@ en:
               on the tracing request list. Only performed from the tracing request
               list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the tracing requests
+              list or tracing request show pages, which contains all fields to which
+              the current user has access, for one, multiple, or all records to which
+              the user has access. In the PDF export file, information is listed first
+              by case, and then further organized by the form on which information
+              appears.
+            label: Export PDF
           flag:
             explanation: Ability to add a flag to a tracing request. Users with this
               permission can also remove the flags that they have added to a tracing
@@ -3186,6 +3215,7 @@ en:
     identity_provider: Identity Provider
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
+    language: Language
     locale: Locale
     location: Location
     messages:

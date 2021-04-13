@@ -1,7 +1,7 @@
 import { fromJS, OrderedMap } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
-import { setupMountedComponent } from "../../../test";
+import { setupMountedComponent, stub } from "../../../test";
 import { DashboardChip } from "../../dashboard";
 import { ListHeaderRecord } from "../../user/records";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
@@ -9,7 +9,12 @@ import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import TaskList from "./container";
 
 describe("<TaskList />", () => {
+  let stubI18n = null;
   let component;
+
+  beforeEach(() => {
+    stubI18n = stub(window.I18n, "t").withArgs("date.formats.default").returns("%d-%b-%Y");
+  });
 
   before(() => {
     component = setupMountedComponent(
@@ -48,7 +53,7 @@ describe("<TaskList />", () => {
                 record_type: "case",
                 record_id_display: "726b7db",
                 detail: "c",
-                due_date: "23-Sep-2020",
+                due_date: "2019-09-01",
                 type: "follow_up",
                 type_display: "Follow Up - Follow up for Assessment",
                 upcoming_soon: false,
@@ -215,5 +220,11 @@ describe("<TaskList />", () => {
       ...expectedType,
       payload: "assessment"
     });
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

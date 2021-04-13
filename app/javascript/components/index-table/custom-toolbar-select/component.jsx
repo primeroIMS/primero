@@ -80,6 +80,8 @@ const Component = ({
       })
     );
 
+  const handleLabelDisplayRow = ({ from, to, count }) => `${from}-${to} ${i18n.t("messages.record_list.of")} ${count}`;
+
   const paginationProps = {
     count: totalRecords,
     page: page - 1,
@@ -88,7 +90,9 @@ const Component = ({
     component: "div",
     onChangePage,
     className: css.customToolbarPagination,
-    onChangeRowsPerPage
+    onChangeRowsPerPage,
+    labelRowsPerPage: i18n.t("messages.record_list.rows_per_page"),
+    labelDisplayedRows: handleLabelDisplayRow
   };
 
   return (
