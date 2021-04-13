@@ -1,5 +1,6 @@
 import { push } from "connected-react-router";
 
+import isOnline from "./is-online";
 import setCaseIncidentData from "./set-case-incident-data";
 
 const redirectConditions = (callback = {}, json) => {
@@ -55,7 +56,7 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
         const { preventSyncAfterRedirect } = callback;
         const redirectPath = redirectConditions(callback, json);
 
-        store.dispatch(push(redirectPath, { preventSyncAfterRedirect }));
+        store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline }));
       }
     }
   }
