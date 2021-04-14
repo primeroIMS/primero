@@ -10,6 +10,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { isEmpty } from "lodash";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -51,7 +52,6 @@ import {
   mergeTranslationKeys
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
-import { isEmpty } from "lodash";
 
 const useStyles = makeStyles(styles);
 
