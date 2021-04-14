@@ -51,7 +51,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   }, [index]);
 
   const renderEmptyData =
-    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty)).length === orderedValues.length ? (
+    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields
