@@ -2,6 +2,7 @@
 
 # Import HXL Location data into Primero from CSV.
 # https://hxlstandard.org/standard/1-1final/dictionary/
+# rubocop:disable Metrics/ClassLength
 class Importers::CsvHxlLocationImporter < ValueObject
   attr_accessor :column_map, :max_admin_level, :type_map, :locations, :errors,
                 :failures, :total, :success_total, :failure_total
@@ -27,36 +28,45 @@ class Importers::CsvHxlLocationImporter < ValueObject
     rows = CSVSafe.parse(data_io, headers: true)
     return log_errors(I18n.t('imports.csv_hxl_location.messages.csv_parse_error')) if rows.blank?
 
-    rows.each_with_index do |row, i|
+    process_rows(rows)
+  end
+
+  def process_rows(rows)
+    rows.each_with_index do |row, index|
       if column_map.blank?
         map_columns(row)
         next if column_map.blank?
 
-        self.max_admin_level = column_map.keys.map { |key| key.split('+').first }.uniq.map { |a| a.last.to_i }&.max
+        self.max_admin_level = build_max_admin_level
         next
       end
-
-      begin
-        process_row(row)
-      rescue StandardError => e
-        log_errors(I18n.t('imports.csv_hxl_location.messages.error', row_number: i, message: e.message), row: i)
-      end
+      call_process_row(row, index)
     end
+  end
+
+  def call_process_row(row, index)
+    process_row(row)
+  rescue StandardError => e
+    log_errors(I18n.t('imports.csv_hxl_location.messages.error', row_number: index, message: e.message), row: index)
+  end
+
+  def build_max_admin_level
+    return {} if column_map.blank?
+
+    column_map.keys.map { |key| key.split('+').first }.uniq.map { |a| a.last.to_i }&.max
   end
 
   # Set up column mappings based on HXL tags
   def map_columns(row)
     row.each_with_index do |(_key, value), index|
-      next if value.blank?
-
-      next unless value.starts_with?('#')
+      next if value.blank? || !value.starts_with?('#')
 
       if value.include?('name') && !locale_valid?(value)
         log_errors(I18n.t('imports.csv_hxl_location.messages.locale_invalid', column_name: value))
         next
       end
 
-      column_map[value[1..-1]] = index if value.present? && value.starts_with?('#')
+      column_map[value[1..-1]] = index
     end
   end
 
@@ -161,3 +171,4 @@ class Importers::CsvHxlLocationImporter < ValueObject
     failures << opts[:row] if opts[:row].present?
   end
 end
+# rubocop:enable Metrics/ClassLength
