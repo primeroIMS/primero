@@ -76,14 +76,28 @@ class Importers::CsvHxlLocationImporter < ValueObject
     location_hash[:type] ||= type_map[admin_level.to_s]&.first
     hierarchy << location_hash[:location_code]
     location_hash[:hierarchy_path] = hierarchy.join('.')
-    location_hash[:name_i18n] = names.reduce({}) { |acc, (key, value)| acc.merge(key => value[0..admin_level].join(':'))}
-
+    location_hash[:name_i18n] = build_names_i18n(names, admin_level)
     locations[location_hash[:location_code]] ||= location_hash
   end
 
   def map_admin_level_data(admin_level, row, names)
-    admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
     location_hash = { admin_level: admin_level, placename_i18n: {} }.with_indifferent_access
+    add_location_attributes(location_hash, admin_level, row, names)
+    location_hash
+  end
+
+  def column_name?(key_array)
+    key_array.first == 'name'
+  end
+
+  def build_names_i18n(names, admin_level)
+    names.reduce({}) do |acc, (key, value)|
+      acc.merge(key => value[0..admin_level].join(':'))
+    end
+  end
+
+  def add_location_attributes(location_hash, admin_level, row, names)
+    admin_level_tag = admin_level.zero? ? 'country' : "adm#{admin_level}"
     column_map.each do |key, value|
       key_array = key.split('+')
       attributes = key_array[1..-1]
@@ -92,34 +106,19 @@ class Importers::CsvHxlLocationImporter < ValueObject
       attribute_value = row[value]
       raise "#{key} blank" if attribute_value.blank?
 
-      if column_name?(attributes)
-        locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
-        location_hash[:placename_i18n][locale] = attribute_value
-        names[locale] ||= []
-        names[locale] << attribute_value
-      else
-        location_hash[:location_code] = attribute_value
-      end
+      build_names(location_hash, names, attributes, attribute_value)
     end
-    location_hash
   end
 
-  def column_name?(key_array)
-    key_array.first == 'name'
-  end
-
-  def location_attribute(key_array)
-    return name_attribute(key_array) if key_array.first == 'name'
-
-    return 'location_code' if key_array.first == 'code'
-
-    key_array.first
-  end
-
-  def name_attribute(key_array)
-    return 'placename_en' if key_array.size == 1
-
-    "placename_#{locale_from_key(key_array)}"
+  def build_names(location_hash, names, attributes, attribute_value)
+    unless column_name?(attributes)
+      location_hash[:location_code] = attribute_value
+      return
+    end
+    locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
+    location_hash[:placename_i18n][locale] = attribute_value
+    names[locale] ||= []
+    names[locale] << attribute_value
   end
 
   def default_type_map
