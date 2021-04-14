@@ -3191,6 +3191,7 @@ en:
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected
+    requested_by: Requested by
     service_label: Service
     responded_at: Responded At
     status:
