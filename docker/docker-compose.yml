@@ -13,6 +13,7 @@ services:
       - selfsigned_certs:/certs
     env_file:
       - ./defaults.env
+      - ./local.env
     depends_on:
       - application
   postgres:
@@ -23,6 +24,7 @@ services:
       - database:/var/lib/postgresql/data
     env_file:
       - ./defaults.env
+      - ./local.env
   solr:
     image: "primeroims/solr:${PRIMERO_TAG:-latest}"
     build:
@@ -30,6 +32,7 @@ services:
       dockerfile: ./docker/solr/Dockerfile
     env_file:
       - ./defaults.env
+      - ./local.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
@@ -38,6 +41,7 @@ services:
       context: ./beanstalkd
     env_file:
       - ./defaults.env
+      - ./local.env
     volumes:
       - beanstalkd:/var/lib/beanstalkd
   application:
@@ -54,6 +58,7 @@ services:
       - storage:/srv/primero/application/storage
     env_file:
       - ./defaults.env
+      - ./local.env
     stdin_open: true
     tty: true
   backburner:
@@ -66,6 +71,7 @@ services:
       - storage:/srv/primero/application/storage
     env_file:
       - ./defaults.env
+      - ./local.env
     command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
   scheduler:
     image: "primeroims/application:${PRIMERO_TAG:-latest}"
@@ -77,6 +83,7 @@ services:
       - storage:/srv/primero/application/storage
     env_file:
       - ./defaults.env
+      - ./local.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
   beanstalkd:

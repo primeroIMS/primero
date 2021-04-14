@@ -5,30 +5,6 @@ services:
     volumes:
       - certbot_certificates:/etc/letsencrypt
       - certbot_challenges:/usr/share/nginx/html/.well-known/acme-challenge
-  application:
-    env_file:
-      - ./defaults.env
-      - ./local.env
-  solr:
-    env_file:
-      - ./defaults.env
-      - ./local.env
-  beanstalkd:
-    env_file:
-      - ./defaults.env
-      - ./local.env
-  backburner:
-    env_file:
-      - ./defaults.env
-      - ./local.env
-  postgres:
-    env_file:
-      - ./defaults.env
-      - ./local.env
-  scheduler:
-    env_file:
-      - ./defaults.env
-      - ./local.env
 volumes:
   certbot_certificates:
   certbot_challenges:

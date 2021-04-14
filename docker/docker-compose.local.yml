@@ -8,42 +8,19 @@ services:
     volumes:
       - selfsigned_certs:/certs
       - public:/srv/primero/application/public
-    env_file:
-      - ./defaults.env
-      - ./local.env
     environment:
       - USE_LETS_ENCRYPT=false
     depends_on:
       - application
   application:
-    env_file:
-      - ./defaults.env
-      - ./local.env
     ports:
       - "3000:3000"
   solr:
-    env_file:
-      - ./defaults.env
-      - ./local.env
     ports:
       - "8983:8983"
   beanstalkd:
-    env_file:
-      - ./defaults.env
-      - ./local.env
     ports:
       - "11300:11300"
-  backburner:
-    env_file:
-      - ./defaults.env
-      - ./local.env
   postgres:
-    env_file:
-      - ./defaults.env
-      - ./local.env
     ports:
       - "5432:5432"
-  scheduler:
-    env_file:
-      - ./defaults.env
-      - ./local.env
