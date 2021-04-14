@@ -48,6 +48,13 @@ const Component = ({
 
   const lookups = useMemoizedSelector(state => getOptions(state, optionStringsSource, i18n));
 
+  const filterOptions = whichOptions({
+    optionStringsSource,
+    lookups,
+    options,
+    i18n
+  });
+
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
     setInputValue(values);
@@ -72,7 +79,7 @@ const Component = ({
       isMultiSelect: multiple
     });
 
-    const value = lookups.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
+    const value = filterOptions.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
 
     setMoreFilterOnPrimarySection(moreSectionFilters, fieldName, setSecondaryValues, value);
 
@@ -84,7 +91,7 @@ const Component = ({
       const paramValues = queryParams[fieldName];
 
       if (paramValues?.length) {
-        const selected = lookups.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
+        const selected = filterOptions.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
 
         setValue(fieldName, selected);
         setInputValue(selected);
@@ -98,13 +105,6 @@ const Component = ({
       }
     };
   }, [register, unregister, fieldName]);
-
-  const filterOptions = whichOptions({
-    optionStringsSource,
-    lookups,
-    options,
-    i18n
-  });
 
   const handleChange = (event, value) => {
     handleFilterChange({
@@ -134,13 +134,20 @@ const Component = ({
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
+      foundOption = filterOptions.find(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
     return getOptionName(foundOption, i18n);
   };
 
-  const handleOptionSelected = (option, value) => option.id === value.id;
+  const handleOptionSelected = (option, value) => {
+    if (typeof value === "string") {
+      return option.id === value;
+    }
+
+    return option.id === value.id;
+  };
+
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const handleRenderInput = params => <TextField {...params} fullWidth margin="normal" variant="outlined" />;
 

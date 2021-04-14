@@ -9,7 +9,7 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 
-const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
+const Component = ({ filters, onSubmit, clearFields, defaultFilters, initialFilters }) => {
   const methods = useForm();
   const userName = useMemoizedSelector(state => currentUser(state));
 
@@ -34,6 +34,12 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
       setDefaultFilters();
     }
   }, []);
+
+  useEffect(() => {
+    if (initialFilters) {
+      methods.reset(initialFilters);
+    }
+  }, [initialFilters]);
 
   const renderFilters = () => {
     return filters.map(filter => {
@@ -60,13 +66,15 @@ const Component = ({ filters, onSubmit, clearFields, defaultFilters }) => {
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  defaultFilters: {}
+  defaultFilters: {},
+  initialFilters: {}
 };
 
 Component.propTypes = {
   clearFields: PropTypes.array.isRequired,
   defaultFilters: PropTypes.object,
   filters: PropTypes.array.isRequired,
+  initialFilters: PropTypes.object,
   onSubmit: PropTypes.func.isRequired
 };
 
