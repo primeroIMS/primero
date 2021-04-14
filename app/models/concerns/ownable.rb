@@ -12,15 +12,13 @@ module Ownable
                    :associated_user_names
 
     searchable do
-      string :associated_user_names, multiple: true
-      string :associated_user_groups, multiple: true
-      string :associated_user_agencies, multiple: true
-      string :owned_by_groups, multiple: true
-      string :assigned_user_names, multiple: true
-      boolean :not_edited_by_owner
-      %w[
+      %i[
+        associated_user_names associated_user_groups associated_user_agencies owned_by_groups assigned_user_names
+      ].each { |field| string(field, multiple: true) }
+      %i[
         owned_by_agency_id owned_by_location owned_by_agency_office module_id owned_by
-      ].each { |f| string(f, as: "#{f}_sci") }
+      ].each { |field| string(field, as: "#{field}_sci") }
+      boolean :not_edited_by_owner
     end
 
     scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }
@@ -31,24 +29,28 @@ module Ownable
       )
     end)
 
-    before_save :update_ownership
+    before_save :update_associated
+    before_save :update_owned_by
+    before_update :update_previously_owned_by
   end
 
   def owner_fields_for(user)
     self.owned_by ||= user&.user_name
     self.owned_by_full_name = user&.full_name
+    # TODO: Why are we storing this?
     self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
   end
 
-  def owner
-    users_by_association[:owner]
+  def associated_users(reload = false)
+    return @associated_users unless reload || @associated_users.nil?
+
+    @associated_users = User.where(user_name: associated_user_names)
   end
 
-  # TODO: Refactor as association or AREL query after we migrated User
-  # Note this returns all associated users, including the owner
-  def associated_users
-    user_ids = associated_user_names
-    @associated_users ||= user_ids.present? ? User.where(user_name: user_ids) : []
+  def owner(reload = false)
+    return @owner unless reload || @owner.nil?
+
+    @owner = associated_users(reload).find { |u| u.user_name == owned_by }
   end
 
   def module
@@ -59,46 +61,16 @@ module Ownable
     @record_agency ||= Agency.find_by(unique_id: owned_by_agency_id)&.agency_code if owned_by_agency_id
   end
 
-  def users_by_association
-    @users_by_association ||= associated_users.each_with_object({}) do |user, hash|
-      hash[:owner] = user if user.user_name == owned_by
-      hash[:assigned_users] = []
-      # TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
-      # hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
-    end
-  end
-
   def not_edited_by_owner
     (data['last_updated_by'] != data['owned_by']) && data['last_updated_by'].present?
   end
   alias not_edited_by_owner? not_edited_by_owner
 
-  def update_ownership
-    @users_by_association = nil
-    @associated_users = nil
-    @record_agency = nil
-
-    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
-    if owner.blank?
-      # Revert owned by changes and bail if new user doesn't exist
-      self.owned_by = changes_to_save_for_record['owned_by'][0] if changes_to_save_for_record['owned_by'].present?
-      return
-    end
-
-    if owned_by.present? && (new_record? || changes_to_save_for_record['owned_by'].present?)
-      update_owned_by
-      update_previously_owned_by unless new_record? || !will_save_change_to_attribute?('data')
-    end
-
-    if changes_to_save_for_record['assigned_user_names'].present? ||
-       changes_to_save_for_record['owned_by'].present? ||
-       new_record?
-      update_associated_user_groups
-      update_associated_user_agencies
-    end
-  end
-
+  # rubocop:disable Metrics/AbcSize
   def update_owned_by
+    return unless owned_by.present?
+    return unless new_record? || changes_to_save_for_record['owned_by'].present?
+
     self.owned_by_full_name = owner&.full_name
     self.owned_by_agency_id = owner&.organization&.unique_id
     self.owned_by_groups = owner&.user_group_unique_ids
@@ -108,12 +80,24 @@ module Ownable
   end
 
   def update_previously_owned_by
-    self.previously_owned_by = attributes_in_database['data']['owned_by'] || owned_by
-    self.previously_owned_by_full_name = attributes_in_database['data']['owned_by_full_name'] || owned_by_full_name
-    self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id'] || owned_by_agency_id
-    self.previously_owned_by_location = attributes_in_database['data']['owned_by_location'] || owned_by_location
-    self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office'] ||
-                                             owned_by_agency_office
+    return if changes_to_save_for_record['owned_by'].blank?
+
+    self.previously_owned_by = attributes_in_database['data']['owned_by']
+    self.previously_owned_by_full_name = attributes_in_database['data']['owned_by_full_name']
+    self.previously_owned_by_agency = attributes_in_database['data']['owned_by_agency_id']
+    self.previously_owned_by_location = attributes_in_database['data']['owned_by_location']
+    self.previously_owned_by_agency_office = attributes_in_database['data']['owned_by_agency_office']
+  end
+  # rubocop:enable Metrics/AbcSize
+
+  def update_associated
+    return unless changes_to_save_for_record['assigned_user_names'].present? ||
+                  changes_to_save_for_record['owned_by'].present? ||
+                  new_record?
+
+    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
+    update_associated_user_groups
+    update_associated_user_agencies
   end
 
   def update_associated_user_groups
@@ -128,10 +112,11 @@ module Ownable
     ).pluck(:unique_id).uniq
   end
 
+  # TODO: Move to Historical
   def update_last_updated_by(current_user)
     self.last_updated_by = current_user.user_name
     self.last_updated_by_full_name = current_user.full_name
-    self.last_updated_organization = current_user.agency
+    self.last_updated_organization = current_user.agency&.unique_id
     self.last_updated_at = DateTime.now
   end
 end
