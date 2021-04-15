@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
@@ -23,11 +23,10 @@ import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
 
-const Container = ({ dialogRef, formRef, modal }) => {
+const Container = ({ dialogRef, modal }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo } = useApp();
-  const internalFormRef = useRef();
   const { css, mobileDisplay } = useThemeHelper({ css: styles });
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
@@ -36,11 +35,6 @@ const Container = ({ dialogRef, formRef, modal }) => {
 
   const validations = validationSchema(i18n);
   const formSections = form(i18n);
-
-  if (modal) {
-    // eslint-disable-next-line no-param-reassign
-    formRef.current = { ...internalFormRef.current };
-  }
 
   const handleSubmit = values => {
     dispatch(attemptLogin(values));
@@ -110,7 +104,6 @@ Container.defaultProps = {
 
 Container.propTypes = {
   dialogRef: PropTypes.object,
-  formRef: PropTypes.object,
   modal: PropTypes.bool
 };
 
