@@ -4,7 +4,6 @@ import { setupMountedComponent } from "../../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
 import { ACTIONS } from "../../../libs/permissions";
 import { PrimeroModuleRecord } from "../../application/records";
-import { ApplicationProvider } from "../../application/provider";
 import RecordActions from "../../record-actions";
 import AddRecordMenu from "../add-record-menu";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
@@ -130,11 +129,7 @@ describe("<RecordListToolbar />", () => {
   });
   // eslint-disable-next-line react/display-name
   const RecordListToolbarForm = () => {
-    return (
-      <ApplicationProvider>
-        <RecordListToolbar {...props} />
-      </ApplicationProvider>
-    );
+    return <RecordListToolbar {...props} />;
   };
 
   beforeEach(() => {

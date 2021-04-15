@@ -31,6 +31,7 @@
 .recordNav {
   padding: 0 0.5em;
   overflow-y: scroll;
+  width: 280px;
 
   &.demo {
     margin-bottom: 35px;

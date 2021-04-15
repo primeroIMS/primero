@@ -9,7 +9,7 @@ import { batch, useDispatch } from "react-redux";
 import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
-import { constructInitialValues } from "../utils";
+import { constructInitialValues, sortSubformValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper, useMemoizedSelector } from "../../../libs";
@@ -81,7 +81,11 @@ const RecordForm = ({
     const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
 
     if (record) {
-      setInitialValues({ ...initialValues, ...record.toJS(), ...redirectToIncident });
+      const recordFormValues = { ...initialValues, ...record.toJS(), ...redirectToIncident };
+
+      const subformValues = sortSubformValues(recordFormValues, forms.values());
+
+      setInitialValues({ ...recordFormValues, ...subformValues });
     }
   }, [record]);
 
@@ -96,10 +100,10 @@ const RecordForm = ({
       if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
         const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-        bindedSetValues.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+        bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
       }
     }
-  }, [bindedSetValues, JSON.stringify(incidentFromCase), recordType]);
+  }, [bindedResetForm, JSON.stringify(incidentFromCase), recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {

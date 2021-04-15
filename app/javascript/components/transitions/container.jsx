@@ -1,6 +1,8 @@
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import { compareDesc, parseISO } from "date-fns";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -10,14 +12,24 @@ import { selectTransitions } from "./selectors";
 import { TRANSITIONS_NAME } from "./constants";
 import renderTransition from "./render-transition";
 import styles from "./styles.css";
+import { fetchTransitions } from "./action-creators";
 
 const useStyles = makeStyles(styles);
 
-const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, handleToggleNav }) => {
+const Transitions = ({
+  fetchable = false,
+  isReferral,
+  recordType,
+  recordID,
+  showMode,
+  mobileDisplay,
+  handleToggleNav
+}) => {
   const css = useStyles();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
-  const dataTransitions = useMemoizedSelector(state => selectTransitions(state, recordType, record, isReferral));
+  const dataTransitions = useMemoizedSelector(state => selectTransitions(state, recordType, recordID, isReferral));
 
   const renderDataTransitions =
     dataTransitions &&
@@ -29,6 +41,12 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
 
   const transitionTitle = isReferral ? i18n.t("forms.record_types.referrals") : i18n.t("transfer_assignment.title");
 
+  useEffect(() => {
+    if (fetchable && recordID) {
+      dispatch(fetchTransitions(recordType, recordID));
+    }
+  }, []);
+
   return (
     <div>
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={transitionTitle} />
@@ -39,15 +57,12 @@ const Transitions = ({ isReferral, recordType, record, showMode, mobileDisplay, 
 
 Transitions.displayName = TRANSITIONS_NAME;
 
-Transitions.defaultProps = {
-  record: ""
-};
-
 Transitions.propTypes = {
+  fetchable: PropTypes.bool,
   handleToggleNav: PropTypes.func.isRequired,
   isReferral: PropTypes.bool.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  record: PropTypes.string,
+  recordID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   showMode: PropTypes.bool
 };

@@ -10,18 +10,17 @@ import CPIMSLogoWhite from "../../images/cpims-logo-white.png";
 import PrimeroPictorial from "../../images/primero-pictorial.png";
 import GBVPictorial from "../../images/gbv-pictorial.png";
 import CPIMSPictorial from "../../images/cpims-pictorial.png";
+import { MODULES } from "../../config";
 
 export const getLogo = (moduleLogo, white = false) => {
-  return (logo => {
-    switch (logo) {
-      case "primeromodule-mrm":
-        return [white ? MRMLogoWhite : MRMLogo, PrimeroPictorial];
-      case "primeromodule-gbv":
-        return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
-      case "primeromodule-cpims":
-        return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
-      default:
-        return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];
-    }
-  })(moduleLogo);
+  switch (moduleLogo) {
+    case MODULES.MRM:
+      return [white ? MRMLogoWhite : MRMLogo, PrimeroPictorial];
+    case MODULES.GBV:
+      return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
+    case MODULES.CP:
+      return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
+    default:
+      return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];
+  }
 };

@@ -20,6 +20,7 @@ import { useApp } from "../../../../../application";
 import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
+import { reduceMapToObject } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -34,15 +35,16 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
 
   const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
 
-  const fieldName = field.get("name");
-  const displayName = field.get("display_name");
-  const helpText = field.get("help_text");
-  const guidingQuestions = field.get("guiding_questions");
-  const tickBoxLabel = field.get("tick_box_label");
-  const optionStringsText = field.get("option_strings_text");
+  const {
+    name: fieldName,
+    display_name: displayName,
+    help_text: helpText,
+    guiding_questions: guidingQuestions,
+    tick_box_label: tickBoxLabel,
+    option_strings_text: optionStringsText
+  } = reduceMapToObject(field);
 
-  const name = selectedSubform.get("name");
-  const description = selectedSubform.get("description");
+  const { name, description } = selectedSubform || {};
 
   const formMethods = useForm({
     defaultValues: {
@@ -89,7 +91,10 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       message: i18n.t("forms.translations.no_changes_message"),
       onSubmit: formData => {
         if (onSuccess) {
-          onSuccess(formData, true);
+          // eslint-disable-next-line camelcase
+          const { locale_id, ...currentData } = { ...formData };
+
+          onSuccess(currentData, true);
         }
         handleClose();
       }
