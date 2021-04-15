@@ -252,11 +252,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
           {tabIndex === 0 && (
             <>
-              <Actions
-                handleSave={handleSave}
-                handleClear={handleClear}
-                handleSubmit={methods.handleSubmit(handleSubmit)}
-              />
+              <Actions handleSave={handleSave} handleClear={handleClear} />
               {renderFilters()}
               <MoreSection
                 addFilterToList={addFilterToList}

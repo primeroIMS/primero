@@ -4,12 +4,10 @@ import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "l
 import { isDate, format } from "date-fns";
 import orderBy from "lodash/orderBy";
 
-import { API_DATE_FORMAT, CHANGE_LOGS, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
+import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
 import { toServerDateFormat } from "../../libs";
 
-import { changeLogFilters } from "./filters";
 import {
-  FILTER_NAMES,
   SUBFORM_SECTION,
   PHOTO_FIELD,
   AUDIO_FIELD,
@@ -134,22 +132,6 @@ export const getRedirectPath = (mode, params, fetchFromCaseId) => {
   }
 
   return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
-};
-
-export const getFilterProps = ({ selectedForm, setSelectedFilters, i18n, forms }) => {
-  switch (selectedForm) {
-    case CHANGE_LOGS: {
-      return {
-        clearFields: [FILTER_NAMES.form_unique_ids, FILTER_NAMES.field_names],
-        filters: changeLogFilters(forms, i18n),
-        onSubmit: data => {
-          setSelectedFilters(data);
-        }
-      };
-    }
-    default:
-      return {};
-  }
 };
 
 export const sortSubformValues = (record, formMap) => {

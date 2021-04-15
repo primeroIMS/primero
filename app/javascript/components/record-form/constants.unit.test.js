@@ -8,7 +8,6 @@ describe("Verifying config constant", () => {
       "AUDIO_FIELD",
       "DATE_FIELD",
       "DOCUMENT_FIELD",
-      "FILTER_NAMES",
       "NAME",
       "NAME_FIELD",
       "NOT_FUTURE_DATE",

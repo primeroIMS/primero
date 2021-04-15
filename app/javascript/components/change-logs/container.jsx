@@ -9,7 +9,9 @@ import { getOptions } from "../form/selectors";
 import { useI18n } from "../i18n";
 import { getFields } from "../record-form";
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { getOptions as getLookups } from "../record-form/selectors";
+import { getRecordForms, getOptions as getLookups } from "../record-form/selectors";
+import { useFormFilters } from "../form-filters";
+import { RECORD_TYPES } from "../../config";
 
 import { fetchChangeLogs } from "./action-creators";
 import ChangeLog from "./components/change-log";
@@ -21,10 +23,10 @@ import styles from "./styles.css";
 const useStyles = makeStyles(styles);
 
 const Container = ({
-  forms,
+  selectedForm,
   recordID,
   recordType,
-  selectedFilters,
+  primeroModule,
   mobileDisplay,
   handleToggleNav,
   fetchable = false
@@ -32,11 +34,15 @@ const Container = ({
   const i18n = useI18n();
   const css = useStyles();
   const dispatch = useDispatch();
+  const { selectedFilters } = useFormFilters(selectedForm);
 
   const [open, setOpen] = useState(false);
   const [calculatingChangeLog, setCalculatingChangeLog] = useState(false);
   const [recordChanges, setRecordChanges] = useState({});
 
+  const forms = useMemoizedSelector(state =>
+    getRecordForms(state, { recordType: RECORD_TYPES[recordType], primeroModule })
+  );
   const recordChangeLogs = useMemoizedSelector(state =>
     getChangeLogs(state, recordID, recordType, forms, selectedFilters)
   );
@@ -80,18 +86,15 @@ const Container = ({
 
 Container.displayName = NAME;
 
-Container.defaultProps = {
-  selectedFilters: {}
-};
-
 Container.propTypes = {
   fetchable: PropTypes.bool,
   forms: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
+  primeroModule: PropTypes.string,
   recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
-  selectedFilters: PropTypes.object
+  selectedForm: PropTypes.string
 };
 
 export default Container;

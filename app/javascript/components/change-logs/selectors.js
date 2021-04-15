@@ -22,14 +22,15 @@ const filter = (changeLogs, fieldNames) => {
   }, fromJS([]));
 };
 
-export const getChangeLogs = (state, id, recordType, recordForms, filters = {}) => {
+export const getChangeLogs = (state, id, recordType, recordForms, filters) => {
   const changeLogs = state
     .getIn(["records", NAMESPACE, "data"], fromJS([]))
     .filter(log => log.record_type === recordType && log.record_id === id);
 
-  const { form_unique_ids: formUniqueIds, field_names: fieldNames } = filters;
+  const formUniqueIds = filters?.get("form_unique_ids", fromJS([]));
+  const fieldNames = filters?.get("field_names", fromJS([]));
 
-  if (formUniqueIds?.length) {
+  if (formUniqueIds?.size) {
     const formFieldNames = recordForms
       .filter(form => formUniqueIds.includes(form.unique_id))
       .flatMap(form => form.fields.map(field => field.name));
@@ -37,7 +38,7 @@ export const getChangeLogs = (state, id, recordType, recordForms, filters = {}) 
     return filter(changeLogs, formFieldNames);
   }
 
-  if (fieldNames?.length) {
+  if (fieldNames?.size) {
     return filter(changeLogs, fieldNames);
   }
 

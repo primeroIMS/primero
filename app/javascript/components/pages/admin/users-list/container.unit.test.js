@@ -4,7 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 import { SelectFilter, ToggleFilter } from "../../../index-filters/components/filter-types";
-import { FormFilters } from "../../../form";
+import { FiltersForm } from "../../../form-filters/components";
 
 import UsersList from "./container";
 
@@ -42,8 +42,8 @@ describe("<UsersList />", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });
 
-  it("renders FormFilters", () => {
-    expect(component.find(FormFilters)).to.have.length(1);
+  it("renders FiltersForm", () => {
+    expect(component.find(FiltersForm)).to.have.length(1);
   });
 
   it("renders ToggleFilter", () => {

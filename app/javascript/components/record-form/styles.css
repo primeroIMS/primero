@@ -54,16 +54,6 @@
   }
 }
 
-.recordFormFilters {
-  flex: 1 1;
-  max-width: 300px;
-}
-
-.filtersContainer {
-  width: 300px;
-  padding: 0 0.6em;
-}
-
 .formNavOpen {
   & .recordNav {
     flex: 0;
@@ -77,11 +67,6 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
-  .recordFormFilters {
-    text-align: center;
-    flex: 0 1;
-  }
-
   .recordNav {
     width: auto;
     overflow-y: hidden;

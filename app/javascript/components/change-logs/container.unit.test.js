@@ -178,10 +178,11 @@ describe("ChangeLogs - Container", () => {
 
   describe("when filters are selected", () => {
     it("renders only the selected field names", () => {
+      const selectedForm = "changeLog";
       const { component: comp } = setupMountedComponent(
         ChangeLogs,
-        { ...props, selectedFilters: { field_names: ["nationality"] } },
-        defaultState,
+        { ...props, selectedForm },
+        defaultState.setIn(["ui", "formFilters", selectedForm], fromJS({ field_names: ["nationality"] })),
         {}
       );
 

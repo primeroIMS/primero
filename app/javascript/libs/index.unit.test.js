@@ -13,7 +13,9 @@ describe("libs/index", () => {
     });
 
     [
+      "ConditionalWrapper",
       "arrayToObject",
+      "buildFieldMap",
       "compare",
       "dataToJS",
       "displayNameHelper",
@@ -31,13 +33,11 @@ describe("libs/index", () => {
       "normalizeTimezone",
       "rejectKeys",
       "toBase64",
+      "toIdentifier",
       "toServerDateFormat",
-      "useThemeHelper",
-      "valuesToSearchableSelect",
-      "ConditionalWrapper",
       "useMemoizedSelector",
-      "buildFieldMap",
-      "toIdentifier"
+      "useThemeHelper",
+      "valuesToSearchableSelect"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);

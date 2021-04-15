@@ -13,7 +13,7 @@ import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
 import { useMetadata } from "../../../records";
-import { FormFilters } from "../../../form";
+import { FiltersForm } from "../../../form-filters/components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
@@ -115,7 +115,7 @@ const Container = () => {
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <FormFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

@@ -8,7 +8,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { getListHeaders } from "../../../user";
 import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
-import { FormFilters } from "../../../form";
+import { FiltersForm } from "../../../form-filters/components";
 import { getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
@@ -100,7 +100,7 @@ const Container = () => {
             <IndexTable title={i18n.t("location.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <FormFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

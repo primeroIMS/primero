@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
-import { FormFilters } from "../../../form";
+import { FiltersForm } from "../../../form-filters/components";
 import InternalAlert from "../../../internal-alert";
 
 import NAMESPACE from "./namespace";
@@ -59,8 +59,8 @@ describe("<LocationsList />", () => {
     expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
-  it("renders <FormFilters /> component", () => {
-    expect(component.find(FormFilters)).to.have.lengthOf(1);
+  it("renders <FiltersForm /> component", () => {
+    expect(component.find(FiltersForm)).to.have.lengthOf(1);
   });
 
   it("renders <ImportDialog /> component", () => {

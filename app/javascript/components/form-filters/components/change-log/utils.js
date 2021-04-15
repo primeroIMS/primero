@@ -1,7 +1,9 @@
-import { FILTER_TYPES } from "../../index-filters";
-import { FILTER_NAMES } from "../constants";
+/* eslint-disable import/prefer-default-export */
+import { FILTER_TYPES } from "../../../index-filters";
 
-export default (forms, i18n) => [
+import { FILTER_NAMES } from "./constants";
+
+export const getFilters = (forms, i18n) => [
   {
     name: "change_logs.filters.form",
     field_name: FILTER_NAMES.form_unique_ids,

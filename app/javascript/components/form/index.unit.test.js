@@ -20,7 +20,6 @@ describe("<Form /> - index", () => {
       "FORM_MODE_SHOW",
       "FieldRecord",
       "FormAction",
-      "FormFilters",
       "FormSection",
       "FormSectionField",
       "FormSectionRecord",

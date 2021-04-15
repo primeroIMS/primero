@@ -22,7 +22,7 @@ export const registerInput = ({
           setInputValue(data || defaultValue);
 
           // eslint-disable-next-line no-param-reassign
-          ref.current = isMultiSelect && data ? data.map(d => d?.code || d?.id || d) : data;
+          ref.current = isMultiSelect && data ? data.map(value => value?.code || value?.id || value) : data;
 
           if (!data && clearSecondaryInput) {
             clearSecondaryInput();

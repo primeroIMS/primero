@@ -10,7 +10,7 @@ import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 
-const Actions = ({ handleSave, handleClear, handleSubmit }) => {
+const Actions = ({ handleSave, handleClear }) => {
   const css = useStyles();
   const i18n = useI18n();
 
@@ -34,7 +34,7 @@ const Actions = ({ handleSave, handleClear, handleSubmit }) => {
         <ActionButton
           text={i18n.t("filters.apply_filters")}
           type={ACTION_BUTTON_TYPES.default}
-          rest={{ onClick: handleSubmit }}
+          rest={{ type: "submit" }}
         />
       </DisableOffline>
       {showSave}
@@ -55,8 +55,7 @@ const Actions = ({ handleSave, handleClear, handleSubmit }) => {
 
 Actions.propTypes = {
   handleClear: PropTypes.func.isRequired,
-  handleSave: PropTypes.func,
-  handleSubmit: PropTypes.func
+  handleSave: PropTypes.func
 };
 
 Actions.displayName = "Actions";

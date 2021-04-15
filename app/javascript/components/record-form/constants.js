@@ -15,8 +15,3 @@ export const NAME = "RecordForms";
 export const URL_LOOKUPS = "lookups";
 export const NOT_FUTURE_DATE = "not_future_date";
 export const LINK_TO_FORM = "link_to_form";
-
-export const FILTER_NAMES = Object.freeze({
-  form_unique_ids: "form_unique_ids",
-  field_names: "field_names"
-});
