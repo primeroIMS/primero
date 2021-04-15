@@ -14,7 +14,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 
-import { NAME } from "./constants";
+import { NAME, VALIDATE_GROUP_PERMISSION } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
@@ -26,7 +26,10 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilters = metadata;
+  const defaultFilterFields = {
+    [VALIDATE_GROUP_PERMISSION]: true
+  };
+  const defaultFilters = metadata.set(VALIDATE_GROUP_PERMISSION, true);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -34,7 +37,7 @@ const Container = () => {
     ...rest
   }));
 
-  useMetadata(recordType, metadata, fetchUserGroups, "data");
+  useMetadata(recordType, metadata, fetchUserGroups, "data", { defaultFilterFields });
 
   const tableOptions = {
     recordType,

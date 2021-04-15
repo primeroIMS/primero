@@ -19,4 +19,12 @@ class UserGroup < ApplicationRecord
 
     users << user
   end
+
+  def self.list(user, validate_group_permission)
+    if validate_group_permission.present? && user.role.group_permission == 'group'
+      user.user_groups
+    else
+      UserGroup.all
+    end
+  end
 end
