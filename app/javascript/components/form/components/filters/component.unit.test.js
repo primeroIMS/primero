@@ -54,7 +54,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     const adminFiltersProps = { ...component.find(AdminFilters).props() };
 
     expect(component.find(adminFiltersProps)).to.have.lengthOf(1);
-    ["filters", "onSubmit", "clearFields", "defaultFilters"].forEach(property => {
+    ["filters", "onSubmit", "clearFields", "defaultFilters", "initialFilters"].forEach(property => {
       expect(adminFiltersProps).to.have.property(property);
       delete adminFiltersProps[property];
     });
