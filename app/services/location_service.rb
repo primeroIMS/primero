@@ -18,7 +18,7 @@ class LocationService
     # The assumption here is that the cache will be updated if a new Location is created
     cache_key = "location_service/#{Location.maximum(:id)}"
     self.locations_by_code = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
-      Locations.all.map { |loc| [loc.location_code, loc] }.to_h
+      Location.all.map { |loc| [loc.location_code, loc] }.to_h
     end
   end
 
@@ -31,6 +31,14 @@ class LocationService
     else
       Location.find_by(location_code: code)
     end
+  end
+
+  # Ducktyping to support app/services/field_value_service.rb#record_name_value :)
+  def find_by(opts = {})
+    code = opts.with_indifferent_access[:location_code]
+    return unless code.present?
+
+    find_by_code(code)
   end
 
   def find_by_codes(codes)

@@ -51,7 +51,7 @@ class FieldValueService < ValueObject
   end
 
   def record_name_value(class_name, value, opts = {})
-    class_name = 'Location' if class_name == 'ReportingLocation'
+    class_name = location_service if class_name.in?(%w[Location ReportingLocation])
     record_class = Object.const_get(class_name)
     return value unless record_class
 
