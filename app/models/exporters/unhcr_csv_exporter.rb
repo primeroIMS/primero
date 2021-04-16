@@ -33,7 +33,7 @@ class Exporters::UnhcrCSVExporter < Exporters::ConfigurableExporter
         value_from_array(record, generator)
       when Proc
         unhcr_needs_codes_value = export_value(record.unhcr_needs_codes, @fields['unhcr_needs_codes'])
-        generator.call(record: record, codes_value: unhcr_needs_codes_value)
+        generator.call(record: record, codes_value: unhcr_needs_codes_value, location_service: location_service)
       end
     end
     rows << [index + 1] + values
@@ -75,8 +75,8 @@ class Exporters::UnhcrCSVExporter < Exporters::ConfigurableExporter
     end,
     'locations_by_level' => lambda do |params|
       if params[:record].location_current.present?
-        lct = Location.find_by(location_code: params[:record].location_current)
-        lct.location_codes_and_placenames.map { |l| l.join(', ') }.join('; ')
+        tree_locations = params[:location_service].full_tree(params[:record].location_current)
+        tree_locations.reduce('') { |acc, loc| acc + "#{loc.location_code}, #{loc.placename(:en)}; " }
       end
     end,
     'sex' => ['sex'],

@@ -63,4 +63,11 @@ class LocationService
 
     find_by_code(ancestor_code)
   end
+
+  def full_tree(code)
+    location = find_by_code(code)
+    return unless location.present?
+
+    find_by_codes(location.hierarchy)
+  end
 end

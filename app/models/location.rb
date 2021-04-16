@@ -120,11 +120,6 @@ class Location < ApplicationRecord
     ancestors.find { |loc| loc.type == type }
   end
 
-  # TODO: Used solely by the UNHCR exporter
-  def location_codes_and_placenames
-    ancestors.map { |lct| [lct.location_code, lct.placename] } << [location_code, placename]
-  end
-
   def hierarchy_from_parent
     return if hierarchy_path.present?
     return unless will_save_change_to_attribute?(:parent_code)
