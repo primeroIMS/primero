@@ -20,11 +20,13 @@ const getColorsByIndex = index => {
   return getColors()[index];
 };
 
+const isDateRange = date => date.match(/^(\w{2}-)?\w{3}-\d{4} - (\w{2}-)?\w{3}-\d{4}$/);
+
 const getDateFormat = value => {
   if (value.match(/^\w{3}-\d{4}$/)) {
     return "MMM-yyyy";
   }
-  if (value.match(/^(\w{2}-)?\w{3}-\d{4}$/)) {
+  if (value.match(/^(\w{2}-)?\w{3}-\d{4}$/) || isDateRange(value)) {
     return "dd-MMM-yyyy";
   }
 
@@ -32,6 +34,16 @@ const getDateFormat = value => {
 };
 
 const translateDate = (value, i18n, dateFormat) => {
+  if (isDateRange(value)) {
+    const splittedDateRange = value.split(" - ");
+    const dateFrom = parse(splittedDateRange[0], dateFormat, new Date());
+    const dateTo = parse(splittedDateRange[1], dateFormat, new Date());
+
+    const dateFromLocalized = dateFrom ? i18n.localizeDate(dateFrom, dateFormat) : i18n.l(value);
+    const dateToLocalized = dateTo ? i18n.localizeDate(dateTo, dateFormat) : i18n.l(value);
+
+    return `${dateFromLocalized} - ${dateToLocalized}`;
+  }
   const date = parse(value, dateFormat, new Date());
 
   return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
@@ -183,7 +195,8 @@ const translateData = (data, fields, i18n) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        const dateFormat = getDateFormat(key);
+        const dateFormat = getDateFormat(key); // Add regx to return format dd-mm-yyyy
+
         const translation = dateFormat
           ? { display_text: translateDate(key, i18n, dateFormat) }
           : translations.find(t => t.id === key);

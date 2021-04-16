@@ -53,7 +53,8 @@ const Container = ({ mode }) => {
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
-    ...formatReport(report.toJS())
+    ...formatReport(report.toJS()),
+    ...(formMode.isNew ? { group_dates_by: "date" } : {})
   };
 
   useEffect(() => {
