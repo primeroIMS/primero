@@ -2,7 +2,7 @@
 
 # Uses a cache to interact with Locations
 class LocationService
-  attr_accessor :locations_by_code, :with_cache
+  attr_accessor :locations_by_code, :with_cache, :unique_id_attribute
 
   def self.instance
     new(Rails.env.production?)
@@ -10,6 +10,7 @@ class LocationService
 
   def initialize(with_cache = false)
     self.with_cache = with_cache
+    self.unique_id_attribute = 'location_code'
   end
 
   def rebuild_cache(force = false)
@@ -64,9 +65,10 @@ class LocationService
     find_by_code(ancestor_code)
   end
 
-  def full_tree(code)
+  def ancestors(code)
     location = find_by_code(code)
     return unless location.present?
+    return [location] if location.country?
 
     find_by_codes(location.hierarchy)
   end

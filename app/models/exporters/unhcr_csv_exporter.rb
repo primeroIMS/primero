@@ -75,7 +75,7 @@ class Exporters::UnhcrCSVExporter < Exporters::ConfigurableExporter
     end,
     'locations_by_level' => lambda do |params|
       if params[:record].location_current.present?
-        tree_locations = params[:location_service].full_tree(params[:record].location_current)
+        tree_locations = params[:location_service].ancestors(params[:record].location_current)
         tree_locations.reduce('') { |acc, loc| acc + "#{loc.location_code}, #{loc.placename(:en)}; " }
       end
     end,
