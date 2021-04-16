@@ -214,8 +214,6 @@ const translateReportData = (report, i18n) => {
   return translatedReport;
 };
 
-
-
 const translateColumn = (column, value, locale = "en") => {
   if ("option_labels" in column) {
     // const defaultEnTranslation = findInOptionLabels(column.option_labels, value).display_text;
