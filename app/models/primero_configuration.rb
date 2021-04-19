@@ -47,24 +47,35 @@ class PrimeroConfiguration < ApplicationRecord
 
   def apply_with_api_lock!(applied_by = nil)
     SystemSettings.lock_for_configuration_update
-    apply!(applied_by)
+    PrimeroConfiguration.transaction { apply!(applied_by) }
+  rescue StandardError => e
+    Rails.logger.error("Could not apply configuration #{name}:#{version}. Rolling back.")
+    Rails.logger.error([e.message, *e.backtrace].join($RS))
+  ensure
     SystemSettings.unlock_after_configuration_update
   end
 
   def apply!(applied_by = nil)
     return unless can_apply?
 
-    data.each do |model, model_data|
-      model_class = Kernel.const_get(model)
-
-      model_class.sort_configuration_hash(model_data).each do |configuration|
-        model_class.create_or_update!(configuration)
-      end
-    end
+    configure!
     clear_remainder!
     self.applied_on = DateTime.now
     self.applied_by = applied_by&.user_name
     save!
+  end
+
+  private
+
+  def configure!
+    CONFIGURABLE_MODELS.each do |model|
+      next unless data.key?(model)
+
+      model_class = Kernel.const_get(model)
+      model_class.sort_configuration_hash(data[model]).each do |configuration|
+        model_class.create_or_update!(configuration)
+      end
+    end
   end
 
   def clear_remainder!
