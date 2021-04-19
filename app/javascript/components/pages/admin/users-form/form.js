@@ -158,7 +158,10 @@ const sharedUserFields = (
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
+    option_strings_source:
+      agencyReadOnUsers || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+        ? OPTION_TYPES.AGENCY_CURRENT_USER
+        : OPTION_TYPES.AGENCY,
     watchedInputs: ["agency_id"],
     visible: !hideOnAccountPage
   },
