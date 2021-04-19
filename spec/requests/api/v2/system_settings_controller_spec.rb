@@ -65,7 +65,8 @@ describe Api::V2::SystemSettingsController, type: :request do
         assessment: 'Assessment',
         case_plan: 'Case Plan',
         closure: 'Closure'
-      }
+      },
+      export_require_password: true
     )
   end
 

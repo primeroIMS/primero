@@ -9,6 +9,7 @@ json.data do
   json.rtl_locales @system_setting.rtl_locales
   json.reporting_location_config current_user.role.reporting_location_config
   json.approvals_labels FieldI18nService.to_localized_values(@system_setting.approvals_labels_i18n)
+  json.export_require_password ZipService.require_password?
   if code_of_conduct
     json.code_of_conduct do
       json.partial! 'api/v2/codes_of_conduct/code_of_conduct', code_of_conduct: code_of_conduct
