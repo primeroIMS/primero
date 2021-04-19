@@ -65,6 +65,12 @@ class PrimeroConfiguration < ApplicationRecord
     save!
   end
 
+  def can_apply?
+    return true if primero_version.blank?
+
+    Gem::Version.new(Primero::Application::VERSION) >= Gem::Version.new(primero_version)
+  end
+
   private
 
   def configure!
@@ -97,12 +103,6 @@ class PrimeroConfiguration < ApplicationRecord
     return if data_is_valid
 
     errors.add(:data, 'errors.models.configuration.data')
-  end
-
-  def can_apply?
-    return true if primero_version.blank?
-
-    Gem::Version.new(Primero::Application::VERSION) >= Gem::Version.new(primero_version)
   end
 
   def populate_primero_version
