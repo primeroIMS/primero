@@ -118,21 +118,9 @@ const sharedUserFields = (
     type: SELECT_FIELD,
     multi_select: true,
     required: true,
-    option_strings_source: OPTION_TYPES.USER_GROUP, // OPTION_TYPES.USER_GROUP_PERMITTED
+    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
     visible: !hideOnAccountPage,
-    watchedInputs: ["user_group_unique_ids"],
-    filterOptionSource: (_watchedInputValues, options) => {
-      return options.map(userGroup => {
-        if (!currentUserGroupPermissions.includes(userGroup.id)) {
-          return {
-            ...userGroup,
-            disabled: userGroup.disabled || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
-          };
-        }
-
-        return userGroup;
-      });
-    }
+    watchedInputs: ["user_group_unique_ids"]
   },
   {
     display_name: i18n.t("user.services"),

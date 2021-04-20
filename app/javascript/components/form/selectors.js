@@ -4,8 +4,9 @@ import { sortBy } from "lodash";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
-import { getAssignedAgency } from "../user";
+import { getAssignedAgency, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds } from "../user";
 import { getRecordForms } from "../record-form";
+import { GROUP_PERMISSIONS } from "../../libs/permissions";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { get } from "./utils";
@@ -196,6 +197,24 @@ const userGroups = (state, { filterOptions }) => {
   return applicationUserGroups;
 };
 
+const userGroupsPermitted = (state, { filterOptions }) => {
+  const allUserGroups = userGroups(state, { filterOptions });
+  const currentUserGroups = getCurrentUserGroupsUniqueIds(state);
+  const currentRoleGroupPermission = getCurrentUserGroupPermission(state);
+
+  if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
+    return allUserGroups;
+  }
+
+  return allUserGroups.map(userGroup => {
+    if (currentUserGroups.includes(userGroup.id)) {
+      return userGroup;
+    }
+
+    return { ...userGroup, disabled: true };
+  });
+};
+
 const formGroupLookup = (state, i18n, { filterOptions }) =>
   filterableOptions(
     filterOptions,
@@ -271,8 +290,7 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = 
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state, { ...rest });
     case OPTION_TYPES.USER_GROUP_PERMITTED:
-      // Todo
-      return userGroups(state, { ...rest });
+      return userGroupsPermitted(state, { ...rest });
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:

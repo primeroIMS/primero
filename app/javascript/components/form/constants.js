@@ -34,6 +34,7 @@ export const OPTION_TYPES = {
   USER: "User",
   REPORTING_LOCATIONS: "ReportingLocation",
   USER_GROUP: "UserGroup",
+  USER_GROUP_PERMITTED: "UserGroupPermitted",
   ROLE: "Role",
   ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
   REFER_TO_USERS: "ReferToUsers",
