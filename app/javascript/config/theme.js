@@ -87,7 +87,8 @@ const overrides = {
   MuiInput: {
     root: {
       "&:read-only": {
-        color: colors.black
+        color: colors.black,
+        paddingBottom: "3px"
       },
       "&:read-only ::placeholder": {
         color: colors.black,
@@ -259,6 +260,16 @@ const overrides = {
         color: "rgba(0, 0, 0, 0.26)",
         backgroundColor: `${colors.lightGrey} !important`
       }
+    }
+  },
+  MuiAutocomplete: {
+    inputRoot: {
+      '&[class*="MuiInput-root"]': {
+        paddingBottom: "3px"
+      }
+    },
+    tag: {
+      margin: 0
     }
   },
   MuiListItemText: {

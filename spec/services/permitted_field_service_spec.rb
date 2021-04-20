@@ -113,6 +113,13 @@ describe PermittedFieldService, search: true do
     expect((%w[sex age registration_date] - permitted_field_names).empty?).to be true
   end
 
+
+  it 'returns the permitted fields for id_search = true' do
+    permitted_field_names = PermittedFieldService.new(user, Child, nil, true).permitted_field_names
+
+    expect((PermittedFieldService::ID_SEARCH_FIELDS - permitted_field_names).empty?).to be true
+  end
+
   it 'returns the approval field for the corresponding dashboard' do
     permitted_field_names = PermittedFieldService.new(approvals_user, Child).permitted_field_names
     approval_field_names = %w[approval_status_assessment approval_status_case_plan approval_status_closure]

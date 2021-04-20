@@ -31,7 +31,7 @@ describe("<SearchPrompt />", () => {
   });
 
   it("should render a <FormHelperText /> component", () => {
-    const searchHelperText = component.find(FormHelperText).at(1);
+    const searchHelperText = component.find(FormHelperText);
 
     expect(searchHelperText).to.have.lengthOf(1);
     expect(searchHelperText.text()).to.be.equals("case.search_helper_text");
