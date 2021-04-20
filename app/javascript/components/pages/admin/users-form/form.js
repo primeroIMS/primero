@@ -108,7 +108,7 @@ const sharedUserFields = (
     name: "role_unique_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.ROLE,
+    option_strings_source: OPTION_TYPES.ROLE_PERMITTED,
     watchedInputs: ["role_unique_id"],
     visible: !hideOnAccountPage
   },

@@ -4,11 +4,11 @@ import { sortBy } from "lodash";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
-import { getAssignedAgency } from "../user";
+import { getAssignedAgency, getPermittedRoleUniqueIds } from "../user";
 import { getRecordForms } from "../record-form";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
-import { get } from "./utils";
+import { get, buildRoleOptions } from "./utils";
 
 const referToUsers = (state, { currRecord }) =>
   state
@@ -232,14 +232,7 @@ const recordForms = (state, { filterOptions }) => {
   return filterOptions ? filterableOptions(filterOptions, formSections) : formSections;
 };
 
-const roles = state =>
-  getRoles(state).reduce(
-    (prev, current) => [
-      ...prev,
-      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
-    ],
-    []
-  );
+const roles = state => buildRoleOptions(getRoles(state));
 
 const managedRoles = (state, transfer) =>
   state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
@@ -249,6 +242,18 @@ const buildManagedRoles = (state, transfer) =>
     (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
     []
   );
+
+const buildPermittedRoles = state => {
+  const allRoles = getRoles(state);
+  const permittedRoleUniqueIds = getPermittedRoleUniqueIds(state);
+  const permittedRoles = permittedRoleUniqueIds?.isEmpty()
+    ? allRoles
+    : allRoles.map(role =>
+        role.set("disabled", role.get("disabled") || !permittedRoleUniqueIds.includes(role.get("unique_id")))
+      );
+
+  return buildRoleOptions(permittedRoles);
+};
 
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = {}) => {
   switch (optionStringsSource) {
@@ -274,6 +279,8 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = 
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
       return buildManagedRoles(state, "referral");
+    case OPTION_TYPES.ROLE_PERMITTED:
+      return buildPermittedRoles(state);
     case OPTION_TYPES.FORM_GROUP_LOOKUP:
       return formGroupLookup(state, i18n, { ...rest });
     case OPTION_TYPES.RECORD_FORMS:
