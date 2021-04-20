@@ -8,13 +8,13 @@ module Webhookable
     has_many :record_send_logs, as: :record
     store_accessor :data, :mark_synced, :mark_synced_url, :mark_synced_status
 
-    before_update :log_sync_status
+    before_update :log_sync_status, if: :valid_sync_log
+    before_update :clean_sync_attributes, if: :valid_sync_log
     after_create { queue_for_webhook(Webhook::CREATE) }
     after_update { queue_for_webhook(Webhook::UPDATE) }
   end
 
   # We'll give ourselves a rubocop pass on account of custom SQL
-  # rubocop:disable Metrics/MethodLength
   def webhook_status
     return @webhook_status if @webhook_status
 
@@ -38,7 +38,6 @@ module Webhookable
                               .map { |r| [r['destination'], DestringifyService.destringify(r)] }
                               .to_h.with_indifferent_access
   end
-  # rubocop:enable Metrics/MethodLength
 
   def ordered_webhook_status
     @ordered_webhook_status ||= webhook_status.values.sort { |a, b| b[:timestamp] <=> a[:timestamp] }
@@ -65,13 +64,13 @@ module Webhookable
 
   private
 
-  def mark_sync_status
-    status = if mark_synced && mark_synced_url.present?
-               AuditLog::SYNCED
-             else
-               AuditLog::FAILED # is it correct?
-             end
-    mark_synced_status || status
+  def calculate_sync_status
+    synced_status = if mark_synced
+                      AuditLog::SYNCED
+                    else
+                      AuditLog::FAILED
+                    end
+    mark_synced_status || synced_status
   end
 
   def clean_sync_attributes
@@ -81,12 +80,13 @@ module Webhookable
   end
 
   def log_sync_status
-    return if mark_synced_status.blank? && mark_synced.blank? && mark_synced_url.blank?
-
     AuditLog.create(
       record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
-      webhook_status: status, timestamp: DateTime.now
+      webhook_status: calculate_sync_status, timestamp: DateTime.now
     )
-    clean_sync_attributes
+  end
+
+  def valid_sync_log
+    mark_synced_status.present? || mark_synced.present?
   end
 end

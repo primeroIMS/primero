@@ -5,10 +5,11 @@ class AuditLog < ApplicationRecord
   LOGIN = 'login'
   WEBHOOK = 'webhook'
   # Webhook statuses
-  SENDING = 'sending' # Started HTTP send request
-  SENT = 'sent'       # Completed HTTP send request successfully
-  FAILED = 'failed'   # Failed the HTTP send request
-  SYNCED = 'synced'   # The downstream system processed the send request and reverted
+  FAILED = 'failed'        # Failed the HTTP send request
+  NOT_FOUND = 'not_found'  # The HTTP request is successful, but it does not find a record in the external system
+  SENDING = 'sending'      # Started HTTP send request
+  SENT = 'sent'            # Completed HTTP send request successfully
+  SYNCED = 'synced'        # The downstream system processed the send request and reverted
 
   default_scope { order(timestamp: :desc) }
 
