@@ -8,7 +8,6 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
-import { useEffect } from "react";
 
 import { theme, routes } from "./config";
 import NAMESPACE from "./components/i18n/namespace";
@@ -41,11 +40,9 @@ const App = () => {
     document.querySelector("body").setAttribute("class", clsx({ [css.fontLTR]: isRTL }));
   });
 
-  useEffect(() => {
-    store.dispatch(fetchSandboxUI());
-    store.dispatch(checkUserAuthentication());
-    store.dispatch(loginSystemSettings());
-  }, []);
+  store.dispatch(fetchSandboxUI());
+  store.dispatch(checkUserAuthentication());
+  store.dispatch(loginSystemSettings());
 
   window.I18n.fallbacks = true;
 
