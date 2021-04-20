@@ -1,3 +1,6 @@
+import { useContext, createContext } from "react";
+import PropTypes from "prop-types";
+
 import { useI18n } from "../i18n";
 import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
@@ -12,7 +15,9 @@ import {
   getLimitedConfigUI
 } from "./selectors";
 
-const useApp = () => {
+const Context = createContext();
+
+const ApplicationProvider = ({ children }) => {
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
@@ -24,7 +29,7 @@ const useApp = () => {
   const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
 
-  return {
+  const value = {
     modules,
     userModules,
     online,
@@ -34,6 +39,16 @@ const useApp = () => {
     currentUserName,
     limitedProductionSite
   };
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
-export default useApp;
+ApplicationProvider.displayName = "ApplicationProvider";
+
+ApplicationProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+const useApp = () => useContext(Context);
+
+export { ApplicationProvider, useApp };
