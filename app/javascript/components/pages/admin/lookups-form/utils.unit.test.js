@@ -1,4 +1,7 @@
 import { fromJS } from "immutable";
+import uuid from "uuid";
+
+import { stub } from "../../../../test";
 
 import * as utils from "./utils";
 
@@ -121,10 +124,18 @@ describe("<LookupsForm> - utils", () => {
   });
 
   describe("buildValues", () => {
+    beforeEach(() => {
+      stub(uuid, "v4").returns("1234abc");
+    });
+
+    afterEach(() => {
+      uuid.v4.restore();
+    });
+
     it("should return values for a lookup", () => {
       const values = {
-        en: { test: "Test", test_1: "Test 1" },
-        es: { test: "Prueba", test_1: "Prueba 1" }
+        en: { test: "Test", new_option_1: "Test 1" },
+        es: { test: "Prueba", new_option_1: "Prueba 1" }
       };
 
       const disabled = {
@@ -142,7 +153,7 @@ describe("<LookupsForm> - utils", () => {
           }
         },
         {
-          id: "test_1",
+          id: "test_1_1234abc",
           disabled: true,
           display_text: {
             en: "Test 1",

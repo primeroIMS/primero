@@ -14,7 +14,7 @@ import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { setDialog } from "../../../action-dialog";
-import { LOGOUT_DIALOG } from "../../constants";
+import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
 const useStyles = makeStyles(styles);
@@ -27,7 +27,9 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
   const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions } = menuEntry;
 
-  const jewel = jewelCount ? <Jewel value={jewelCount} mobileDisplay={mobileDisplay} /> : null;
+  const jewel = jewelCount ? (
+    <Jewel value={jewelCount} mobileDisplay={mobileDisplay} isForm={name === NAV_SETTINGS} />
+  ) : null;
 
   const renderDivider = divider && <div className={css.navSeparator} />;
 
@@ -79,7 +81,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
 Component.propTypes = {
   closeDrawer: PropTypes.func.isRequired,
-  jewelCount: PropTypes.number,
+  jewelCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
   menuEntry: PropTypes.object.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired

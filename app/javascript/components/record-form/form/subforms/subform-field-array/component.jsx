@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
-import orderBy from "lodash/orderBy";
 
 import SubformTraces from "../subform-traces";
 import SubformFields from "../subform-fields";
@@ -15,7 +14,7 @@ import styles from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-import { isTracesSubform, valuesWithDisplayConditions } from "./utils";
+import { isTracesSubform } from "./utils";
 
 const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, form, isReadWriteForm }) => {
   const {
@@ -26,17 +25,8 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
-  // eslint-disable-next-line camelcase
-  const subformSortBy = subformSectionConfiguration?.subform_sort_by;
-  const storedValues = getIn(formik.values, name);
 
-  const values = valuesWithDisplayConditions(storedValues, displayConditions);
-
-  const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
-
-  useEffect(() => {
-    formik.setValues({ ...formik.values, [name]: orderedValues });
-  }, [JSON.stringify(orderedValues)]);
+  const orderedValues = getIn(formik.values, name);
 
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
@@ -61,7 +51,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
   }, [index]);
 
   const renderEmptyData =
-    orderedValues.filter(currValue => Object.values(currValue).every(isEmpty)).length === orderedValues.length ? (
+    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields

@@ -169,7 +169,7 @@ class Role < ApplicationRecord
   def associate_all_forms
     forms_by_parent = FormSection.all_forms_grouped_by_parent(true)
     role_module_ids = primero_modules.pluck(:unique_id)
-    permissions_with_forms.map do |permission|
+    permissions_with_forms.each do |permission|
       form_sections << forms_by_parent[permission.resource].reject do |form|
         form_sections.include?(form) || reject_form?(form, role_module_ids)
       end

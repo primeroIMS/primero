@@ -70,8 +70,24 @@ describe PermittedFieldService, search: true do
     )
   end
 
+  let(:system_settings) do
+    SystemSettings.create(
+      default_locale: 'en',
+      reporting_location_config: {
+        field_key: 'owned_by_location',
+        admin_level: 1,
+        admin_level_map: {
+          '0' => ['country'],
+          '1' => ['region'],
+          '2' => ['city']
+        }
+      }
+    )
+  end
+
   before(:each) do
-    clean_data(Agency, Role, User, FormSection, Field)
+    clean_data(Agency, Role, User, FormSection, Field, SystemSettings)
+    system_settings
     form
     field
     role.save!
@@ -105,4 +121,45 @@ describe PermittedFieldService, search: true do
   end
 
   after(:each) { clean_data(Agency, Role, User, FormSection, Field) }
+
+  it 'returns the reporting_location field permitted' do
+    permitted_reporting_location_field = PermittedFieldService.new(user, Child).permitted_reporting_location_field.first
+    reporting_location_config = system_settings.reporting_location_config
+
+    expect(permitted_reporting_location_field).to eq(
+      "#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"
+    )
+  end
+
+  it 'returns the reporting_location field permitted for a role with a reporting_location_level set' do
+    role_with_reporting_location = Role.create!(
+      name: 'Test Role 2',
+      unique_id: 'test-role-2',
+      reporting_location_level: 2,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::INCIDENT_FROM_CASE]
+        )
+      ]
+    )
+
+    user_with_reporting_location = User.create!(
+      full_name: 'Test User 2',
+      user_name: 'test_user_2',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user@localhost.com',
+      agency_id: agency.id,
+      role: role_with_reporting_location
+    )
+    permitted_reporting_location_field = PermittedFieldService.new(user_with_reporting_location, Child)
+                                                              .permitted_reporting_location_field.first
+    reporting_location_config = system_settings.reporting_location_config
+
+    expect(permitted_reporting_location_field).to eq(
+      "#{reporting_location_config.field_key}#{role_with_reporting_location.reporting_location_level}"
+    )
+  end
+  after(:each) { clean_data(Agency, Role, User, FormSection, Field, SystemSettings) }
 end

@@ -13,7 +13,7 @@ const searchableAgencies = (data, i18n) => {
 
 const userGroupOptions = data => {
   return data
-    ? data.reduce((acc, group) => [...acc, { id: group.unique_id, display_name: group.get("name") }], [])
+    ? data.reduce((acc, group) => [...acc, { id: group.get("unique_id"), display_name: group.get("name") }], [])
     : [];
 };
 

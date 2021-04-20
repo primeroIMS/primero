@@ -29,7 +29,7 @@ export const saveCodeOfConduct = ({ body, message }) => ({
         }
       },
       redirectWithIdFromResponse: false,
-      redirect: ROUTES.code_of_conduct
+      redirect: ROUTES.admin_code_of_conduct
     }
   }
 });

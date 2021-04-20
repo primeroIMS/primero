@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../../libs/permissions";
-import { CODE_OF_CONDUCT_DATE_FORMAT } from "../code-of-conduct/constants";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import * as selectors from "./selectors";
 

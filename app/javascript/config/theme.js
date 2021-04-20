@@ -260,6 +260,11 @@ const overrides = {
         backgroundColor: `${colors.lightGrey} !important`
       }
     }
+  },
+  MuiListItemText: {
+    root: {
+      wordBreak: "break-word"
+    }
   }
 };
 

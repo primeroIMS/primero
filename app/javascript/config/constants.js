@@ -49,7 +49,8 @@ export const AGE_MAX = 999;
 
 export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
-  GBV: "primeromodule-gbv"
+  GBV: "primeromodule-gbv",
+  MRM: "primeromodule-mrm"
 });
 
 export const MODULE_TYPE_FIELD = "module_id";
@@ -184,6 +185,8 @@ export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODES = {
   edit: "edit",
@@ -379,6 +382,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
     { name: "navigation.logout", to: ROUTES.logout, icon: "logout" }
   ];
 };
+
+export const LOCATION_PATH = "/locations";
 
 export const METHODS = Object.freeze({
   DELETE: "DELETE",

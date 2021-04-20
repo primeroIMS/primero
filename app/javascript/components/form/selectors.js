@@ -182,7 +182,10 @@ const lookups = (state, { i18n, filterOptions }) => {
 
 const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    (prev, current) => [
+      ...prev,
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+    ],
     []
   );
 
@@ -231,7 +234,10 @@ const recordForms = (state, { filterOptions }) => {
 
 const roles = state =>
   getRoles(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    (prev, current) => [
+      ...prev,
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+    ],
     []
   );
 
@@ -319,14 +325,28 @@ export const getOptions = (
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
 
 export const getValueFromOtherField = (state, fields, values) => {
+  if (isEmpty(values)) {
+    return [];
+  }
+
   return fields.reduce((prev, current) => {
-    prev.push([
-      current.field,
-      state
-        .getIn(current.path, fromJS([]))
-        .find(entity => entity[current.key] === values[current.key], null, fromJS({}))
-        .get(current.key, "")
-    ]);
+    const value = state
+      .getIn(current.path, fromJS([]))
+      .find(elem => elem.get(current.filterKey) === values[current.valueKey], fromJS({}))
+      ?.get(current.key, "");
+
+    if (current.optionStringSource && current.setWhenEnabledInSource) {
+      const options = current.optionStringSource
+        ? getOptions(state, current.optionStringSource, window.I18n, null, true)
+        : [];
+      const selectedOption = options.find(option => option.id === value);
+
+      if (selectedOption && !selectedOption.disabled) {
+        prev.push([current.field, value]);
+      }
+    } else {
+      prev.push([current.field, value]);
+    }
 
     return prev;
   }, []);

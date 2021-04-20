@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # TODO: This class will need some cleanup/refactor
-# Calculate the permitted fields for a receord based on the user's role
+# Calculate the permitted fields for a record based on the user's role
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name
 
@@ -12,6 +12,7 @@ class PermittedFieldService
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
+    current_alert_types
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
@@ -49,19 +50,28 @@ class PermittedFieldService
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
     if model_class.included_modules.include?(Webhookable) && user.can?(:sync_external, model_class)
-      @permitted_field_names += %w[synced_at sync_status]
+      @permitted_field_names += %w[synced_at sync_status mark_synced mark_synced_url]
     end
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
+    @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
+
+  def permitted_reporting_location_field
+    reporting_location_config = user.role.reporting_location_config
+
+    return [] if reporting_location_config.blank?
+
+    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+  end
 
   def permitted_approval_field_names
     Approval.types.map do |approval_id|

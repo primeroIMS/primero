@@ -47,7 +47,8 @@ describe("records - Action Creators", () => {
       "clearMatchedTraces",
       "unMatchCaseForTrace",
       "clearPotentialMatches",
-      "externalSync"
+      "externalSync",
+      "offlineIncidentFromCase"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -138,8 +139,10 @@ describe("records - Action Creators", () => {
                   variant: "success"
                 }
               },
+              preventSyncAfterRedirect: true,
               redirect: "/cases",
-              redirectWithIdFromResponse: false
+              redirectWithIdFromResponse: false,
+              setCaseIncidentData: ""
             },
             {
               action: "cases/FETCH_RECORD_ALERTS",
@@ -185,8 +188,10 @@ describe("records - Action Creators", () => {
                   variant: "success"
                 }
               },
+              preventSyncAfterRedirect: true,
               redirect: "/cases",
-              redirectWithIdFromResponse: false
+              redirectWithIdFromResponse: false,
+              setCaseIncidentData: ""
             },
             {
               action: "cases/FETCH_RECORD_ALERTS",

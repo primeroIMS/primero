@@ -23,7 +23,8 @@ describe("<IncidentDetail /> - Component", () => {
     incidentType: "test",
     mode: { isShow: true, isEdit: false },
     setFieldValue: () => {},
-    recordType: RECORD_TYPES.cases
+    recordType: RECORD_TYPES.cases,
+    handleCreateIncident: () => {}
   };
 
   const initialState = fromJS({
@@ -54,28 +55,6 @@ describe("<IncidentDetail /> - Component", () => {
     expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
-  it("should set the selected form and the incident case id when view is clicked", () => {
-    component.find(ActionButton).first().props().rest.onClick();
-    const actions = component.props().store.getActions();
-
-    expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
-    expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-unique-id-1",
-      caseIdDisplay: "case-short-id-1"
-    });
-  });
-
-  it("should set the selected form and the incident case id when edit is clicked", () => {
-    component.find(ActionButton).last().props().rest.onClick();
-    const actions = component.props().store.getActions();
-
-    expect(actions.find(action => action.type === "forms/SET_SELECTED_FORM").payload).to.not.exist;
-    expect(actions.find(action => action.type === "cases/SET_CASE_ID_FOR_INCIDENT").payload).to.deep.equal({
-      caseId: "case-unique-id-1",
-      caseIdDisplay: "case-short-id-1"
-    });
-  });
-
   it("renders component with valid props", () => {
     const incidentDetailProps = { ...component.find(IncidentDetail).props() };
 
@@ -90,7 +69,8 @@ describe("<IncidentDetail /> - Component", () => {
       "incidentType",
       "mode",
       "setFieldValue",
-      "recordType"
+      "recordType",
+      "handleCreateIncident"
     ].forEach(property => {
       expect(incidentDetailProps).to.have.property(property);
       delete incidentDetailProps[property];
