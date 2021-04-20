@@ -65,8 +65,7 @@ describe Api::V2::SystemSettingsController, type: :request do
         assessment: 'Assessment',
         case_plan: 'Case Plan',
         closure: 'Closure'
-      },
-      export_require_password: true
+      }
     )
   end
 
@@ -77,7 +76,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(15)
+      expect(json['data'].size).to eq(16)
       expect(json['data']['default_locale']).to eq('en')
       expect(json['data']['locale']).to eq('en')
       expect(json['data']['rtl_locales']).to contain_exactly('ar')
@@ -88,7 +87,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(17)
+      expect(json['data'].size).to eq(18)
       expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')
