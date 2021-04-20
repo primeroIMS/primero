@@ -15,6 +15,7 @@ module Webhookable
   end
 
   # We'll give ourselves a rubocop pass on account of custom SQL
+  # rubocop:disable Metrics/MethodLength
   def webhook_status
     return @webhook_status if @webhook_status
 
@@ -38,6 +39,7 @@ module Webhookable
                               .map { |r| [r['destination'], DestringifyService.destringify(r)] }
                               .to_h.with_indifferent_access
   end
+  # rubocop:enable Metrics/MethodLength
 
   def ordered_webhook_status
     @ordered_webhook_status ||= webhook_status.values.sort { |a, b| b[:timestamp] <=> a[:timestamp] }
