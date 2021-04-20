@@ -14,6 +14,7 @@ describe("index - pages/dashboard/utils/", () => {
       "teamSharingTable",
       "toApprovalsManager",
       "toCasesBySocialWorkerTable",
+      "toCasesToAssignTable",
       "toData1D",
       "toListTable",
       "toProtectionConcernTable",
