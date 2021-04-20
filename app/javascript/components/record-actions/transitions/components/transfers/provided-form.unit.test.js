@@ -46,7 +46,7 @@ describe("<ProvidedForm /> - transfers", () => {
   it("should reload users if any agency, location or user has changed", () => {
     const props = {
       canConsentOverride: true,
-      setDisabled: () => { },
+      setDisabled: () => {},
       recordType: "cases"
     };
     const { component } = setupMountedComponent(ProvidedForm, props, {}, [], formProps);

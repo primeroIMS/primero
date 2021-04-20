@@ -1,7 +1,7 @@
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 
-import { toIdentifier } from "../form-builder/components/field-dialog/utils";
+import { toIdentifier } from "../../../../libs";
 
 import { TEMP_OPTION_ID } from "./components/form/constants";
 

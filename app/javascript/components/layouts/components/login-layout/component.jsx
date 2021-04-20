@@ -31,7 +31,7 @@ const Component = ({ children }) => {
       <Box className={classes}>
         <div className={css.content}>
           <div className={css.loginHeader}>
-            <ModuleLogo moduleLogo={primeroModule} white />
+            <ModuleLogo white />
           </div>
           <div className={css.authContainer}>
             <div className={css.auth}>

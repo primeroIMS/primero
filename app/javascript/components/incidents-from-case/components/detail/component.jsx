@@ -47,7 +47,8 @@ const Component = ({
       tooltip={tooltip}
       rest={{
         disabled: !incidentAvailable,
-        onClick: handleClickViewIncident
+        onClick: handleClickViewIncident,
+        fullWidth: true
       }}
     />
   );
@@ -60,7 +61,8 @@ const Component = ({
       tooltip={tooltip}
       rest={{
         disabled: !incidentAvailable,
-        onClick: handleClickEditIncident
+        onClick: handleClickEditIncident,
+        fullWidth: true
       }}
     />
   );
