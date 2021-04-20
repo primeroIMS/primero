@@ -85,7 +85,8 @@ class PermittedFieldService
 
   def approval_access?(user, approval_id)
     user.can?(:"request_approval_#{approval_id}", model_class) ||
-      user.can?(:"approve_#{approval_id}", model_class)
+      user.can?(:"approve_#{approval_id}", model_class) ||
+      user.role.permitted_dashboard?("approvals_#{approval_id}")
   end
 
   def permitted_field_names_from_action_name

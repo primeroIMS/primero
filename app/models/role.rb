@@ -95,6 +95,10 @@ class Role < ApplicationRecord
     role_permission.role_unique_ids
   end
 
+  def permitted_dashboard?(dashboard_name)
+    permissions.find { |p| p.resource == Permission::DASHBOARD }&.actions&.include?(dashboard_name)
+  end
+
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
     dashboards = dashboard_permissions&.actions&.map do |action|
