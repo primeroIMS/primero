@@ -13,7 +13,7 @@ describe("<UserGroupsList /> - Action Creators", () => {
   });
 
   it("should check fetchUserGroups return the correct object", () => {
-    const data = { per: 1, validate_group_permission: true };
+    const data = { per: 1, managed: true };
 
     const expectedAction = {
       type: "user_groups/USER_GROUPS",

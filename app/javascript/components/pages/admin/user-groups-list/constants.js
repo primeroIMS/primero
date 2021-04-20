@@ -2,4 +2,4 @@
 
 export const NAME = "UserGroupsList";
 
-export const VALIDATE_GROUP_PERMISSION = "validate_group_permission";
+export const MANAGED = "managed";

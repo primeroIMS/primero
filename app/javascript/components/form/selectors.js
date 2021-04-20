@@ -270,6 +270,9 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = 
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state, { ...rest });
+    case OPTION_TYPES.USER_GROUP_PERMITTED:
+      // Todo
+      return userGroups(state, { ...rest });
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:

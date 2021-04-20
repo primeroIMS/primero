@@ -14,7 +14,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 
-import { NAME, VALIDATE_GROUP_PERMISSION } from "./constants";
+import { NAME, MANAGED } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
@@ -27,9 +27,9 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
   const defaultFilterFields = {
-    [VALIDATE_GROUP_PERMISSION]: true
+    [MANAGED]: true
   };
-  const defaultFilters = metadata.set(VALIDATE_GROUP_PERMISSION, true);
+  const defaultFilters = metadata.set(MANAGED, true);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),

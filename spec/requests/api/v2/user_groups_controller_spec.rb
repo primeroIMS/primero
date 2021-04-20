@@ -68,7 +68,7 @@ describe Api::V2::UserGroupsController, type: :request do
         user_group_ids: [@user_group_a.id]
       )
 
-      get '/api/v2/user_groups', params: { validate_group_permission: true }
+      get '/api/v2/user_groups', params: { managed: true }
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'].first['unique_id']).to eq(@user_group_a.unique_id)
