@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
 import { isDate, format } from "date-fns";
+import orderBy from "lodash/orderBy";
 
 import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
 import { toServerDateFormat } from "../../libs";
@@ -14,6 +16,7 @@ import {
   DATE_FIELD,
   TICK_FIELD
 } from "./constants";
+import { valuesWithDisplayConditions } from "./form/subforms/subform-field-array/utils";
 
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
@@ -129,4 +132,33 @@ export const getRedirectPath = (mode, params, fetchFromCaseId) => {
   }
 
   return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
+};
+
+export const sortSubformValues = (record, formMap) => {
+  const [...forms] = formMap;
+
+  const subformsWithConfiguration = forms.reduce((acc, curr) => {
+    const fields = curr.fields.filter(field => field.type === SUBFORM_SECTION && field.subform_section_configuration);
+
+    return [...acc, ...fields];
+  }, []);
+
+  const recordValues = subformsWithConfiguration.reduce((acc, subform) => {
+    const storedValues = record[subform.name];
+
+    if (!isEmpty(storedValues)) {
+      const { subform_section_configuration: subformSectionConfiguration } = subform;
+      const displayConditions = subformSectionConfiguration?.display_conditions;
+      const subformSortBy = subformSectionConfiguration?.subform_sort_by;
+
+      const values = valuesWithDisplayConditions(storedValues, displayConditions);
+      const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
+
+      return { ...acc, [subform.name]: orderedValues };
+    }
+
+    return acc;
+  }, {});
+
+  return recordValues;
 };

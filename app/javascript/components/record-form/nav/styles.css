@@ -18,6 +18,7 @@
 
 .root {
   transition: none;
+  padding-right: 0;
 
   &:hover {
     border-radius: 4px;

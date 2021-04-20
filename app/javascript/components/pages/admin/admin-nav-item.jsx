@@ -6,8 +6,9 @@ import { forwardRef, useMemo } from "react";
 
 import { useI18n } from "../../i18n";
 import { useApp } from "../../application";
+import Jewel from "../../jewel";
 
-const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
+const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJewel }) => {
   const i18n = useI18n();
   const { disabledApplication } = useApp();
 
@@ -27,11 +28,13 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass }) => {
   };
 
   const handleOpen = open ? <ExpandLess /> : <ExpandMore />;
+  const jewel = renderJewel ? <Jewel value={renderJewel} isForm /> : null;
 
   return (
     <ListItem {...listItemProps}>
       <ListItemText className={nestedClass || null}>{i18n.t(item.label)}</ListItemText>
       {isParent ? handleOpen : null}
+      {jewel}
     </ListItem>
   );
 };
@@ -47,7 +50,8 @@ AdminNavItem.propTypes = {
   isParent: PropTypes.bool,
   item: PropTypes.object.isRequired,
   nestedClass: PropTypes.string,
-  open: PropTypes.bool
+  open: PropTypes.bool,
+  renderJewel: PropTypes.bool
 };
 
 export default AdminNavItem;

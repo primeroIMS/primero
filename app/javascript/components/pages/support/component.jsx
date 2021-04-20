@@ -2,10 +2,12 @@ import { useState } from "react";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
+import isEmpty from "lodash/isEmpty";
 
 import PageContainer, { PageHeading } from "../../page";
-import { useThemeHelper } from "../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import { useI18n } from "../../i18n";
+import { getCodeOfConductEnabled, getCodesOfConduct } from "../../application/selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -17,7 +19,12 @@ const useStyles = makeStyles(styles);
 const Component = () => {
   const css = useStyles();
   const i18n = useI18n();
-  const renderMenuList = menuList(i18n);
+
+  const codeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));
+  const codeOfConductEnabled = useMemoizedSelector(state => getCodeOfConductEnabled(state));
+
+  const disableCodeOfConduct = !codeOfConductEnabled || isEmpty(codeOfConduct);
+  const renderMenuList = menuList(i18n, disableCodeOfConduct);
 
   const { mobileDisplay } = useThemeHelper();
 

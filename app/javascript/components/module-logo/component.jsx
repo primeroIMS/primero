@@ -2,8 +2,11 @@ import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Box, useMediaQuery } from "@material-ui/core";
 
+import { useMemoizedSelector } from "../../libs";
+
 import styles from "./styles.css";
 import { getLogo } from "./utils";
+import { getModuleLogoID } from "./selectors";
 
 const useStyles = makeStyles(styles);
 
@@ -11,7 +14,10 @@ const ModuleLogo = ({ moduleLogo, white }) => {
   const css = useStyles();
   const theme = useTheme();
   const tabletDisplay = useMediaQuery(theme.breakpoints.only("md"));
-  const [fullLogo, smallLogo] = getLogo(moduleLogo, white);
+
+  const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));
+
+  const [fullLogo, smallLogo] = getLogo(moduleLogo || moduleLogoID, white);
 
   return (
     <Box className={css.logoContainer}>

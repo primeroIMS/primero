@@ -6,7 +6,6 @@ describe("<Application /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
-      "ApplicationProvider",
       "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",

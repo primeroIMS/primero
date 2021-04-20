@@ -27,6 +27,8 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => %w[record_state], Permission::INCIDENT_FROM_CASE => %w[incident_case_id]
   }.freeze
 
+  ID_SEARCH_FIELDS = %w[age date_of_birth estimated name module_id sex].freeze
+
   def initialize(user, model_class, action_name = nil, id_search = nil)
     self.user = user
     self.model_class = model_class
@@ -57,13 +59,22 @@ class PermittedFieldService
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
-    @permitted_field_names += model_class.id_search_fields if id_search.present?
+    @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
+    @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
+
+  def permitted_reporting_location_field
+    reporting_location_config = user.role.reporting_location_config
+
+    return [] if reporting_location_config.blank?
+
+    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+  end
 
   def permitted_approval_field_names
     Approval.types.map do |approval_id|

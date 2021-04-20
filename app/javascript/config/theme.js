@@ -271,6 +271,11 @@ const overrides = {
     tag: {
       margin: 0
     }
+  },
+  MuiListItemText: {
+    root: {
+      wordBreak: "break-word"
+    }
   }
 };
 

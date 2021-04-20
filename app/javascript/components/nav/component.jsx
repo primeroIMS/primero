@@ -12,9 +12,11 @@ import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
+import { getLocationsAvailable } from "../application/selectors";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
 import { getPermissions } from "../user";
+import usePermissions, { MANAGE, RESOURCES } from "../permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 
@@ -37,13 +39,15 @@ const Nav = () => {
     dispatch(fetchAlerts());
   }, []);
 
-  const { userModules, demo } = useApp();
-  const module = userModules.first();
+  const { demo } = useApp();
 
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
   const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+  const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
+
+  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
   const handleToggleDrawer = open => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -63,12 +67,13 @@ const Nav = () => {
     return menuEntries.map(menuEntry => {
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
+      const jewelCount = jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable);
       const renderedMenuEntries = (
         <MenuEntry
           key={menuEntry.to}
           menuEntry={menuEntry}
           mobileDisplay={mobileDisplay}
-          jewelCount={jewel}
+          jewelCount={jewelCount}
           username={username}
           closeDrawer={handleToggleDrawer(false)}
         />
@@ -87,7 +92,7 @@ const Nav = () => {
   const drawerContent = (
     <>
       <Hidden smDown implementation="css">
-        <ModuleLogo moduleLogo={module ? module.unique_id : "primero"} username={username} />
+        <ModuleLogo username={username} />
       </Hidden>
       <div className={css.drawerHeaderContainer}>
         <Hidden mdUp implementation="css">

@@ -2,7 +2,7 @@ import generateKey from "../../charts/table-values/utils";
 import { APPROVALS, CREATE_ACTION, SUBFORM, EXCLUDED_LOG_ACTIONS } from "../constants";
 
 import getTranslatedValue from "./get-translated-value";
-import getFieldAndValuesTranslations from "./get-field-and-values-translations";
+import getFieldAndValuesTranslations, { filterFieldsRecordInformation } from "./get-field-and-values-translations";
 
 const generateUpdateMessage = (
   fieldRecord,
@@ -15,7 +15,7 @@ const generateUpdateMessage = (
   handleSeeDetails,
   i18n
 ) => {
-  const fieldsTranslated = getFieldAndValuesTranslations(
+  const { fieldDisplayName, fieldValueFrom, fieldValueTo } = getFieldAndValuesTranslations(
     allAgencies,
     allLookups,
     locations,
@@ -28,20 +28,24 @@ const generateUpdateMessage = (
 
   if (fieldRecord?.get("type") === SUBFORM || field === APPROVALS) {
     const updatedSubform = i18n.t("change_logs.update_subform", {
-      subform_name: fieldsTranslated.fieldDisplayName
+      subform_name: fieldDisplayName
     });
 
     return {
       title: updatedSubform,
-      onClick: () => handleSeeDetails({ value, subformName: fieldsTranslated.fieldDisplayName, commonProps })
+      onClick: () => handleSeeDetails({ value, subformName: fieldDisplayName, commonProps })
     };
   }
 
+  const name = filterFieldsRecordInformation(field)?.length
+    ? fieldDisplayName || i18n.translations.en.record_information[field]
+    : field;
+
   return {
     change: {
-      name: fieldsTranslated.fieldDisplayName || field,
-      from: getTranslatedValue(fieldsTranslated.fieldValueFrom, dateIncludeTime, i18n),
-      to: getTranslatedValue(fieldsTranslated.fieldValueTo, dateIncludeTime, i18n)
+      name,
+      from: getTranslatedValue(fieldValueFrom, dateIncludeTime, i18n),
+      to: getTranslatedValue(fieldValueTo, dateIncludeTime, i18n)
     }
   };
 };

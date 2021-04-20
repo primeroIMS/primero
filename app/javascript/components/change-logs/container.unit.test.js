@@ -16,11 +16,9 @@ describe("ChangeLogs - Container", () => {
   const props = {
     handleToggleNav: () => {},
     mobileDisplay: false,
-    record: fromJS({
-      id: "38c82975-99aa-4798-9c3d-dabea104d992",
-      nationality: ["canada", "australia"]
-    }),
-    recordType: "cases"
+    recordID: "38c82975-99aa-4798-9c3d-dabea104d992",
+    recordType: "cases",
+    fetchable: true
   };
   const defaultState = fromJS({
     records: {
