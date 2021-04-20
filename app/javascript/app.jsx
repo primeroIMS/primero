@@ -6,8 +6,9 @@ import rtl from "jss-rtl";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { useEffect } from "react";
 
+import I18nProvider from "./components/i18n";
+import { ApplicationProvider } from "./components/application";
 import { theme, routes } from "./config";
 import NAMESPACE from "./components/i18n/namespace";
 import { checkUserAuthentication } from "./components/user";
@@ -31,11 +32,9 @@ const App = () => {
     document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
   });
 
-  useEffect(() => {
-    store.dispatch(fetchSandboxUI());
-    store.dispatch(checkUserAuthentication());
-    store.dispatch(loginSystemSettings());
-  }, []);
+  store.dispatch(fetchSandboxUI());
+  store.dispatch(checkUserAuthentication());
+  store.dispatch(loginSystemSettings());
 
   window.I18n.fallbacks = true;
 
@@ -44,13 +43,17 @@ const App = () => {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <ConnectedRouter history={history}>
-              <CustomSnackbarProvider>
-                <ApplicationRoutes routes={routes} />
-              </CustomSnackbarProvider>
-            </ConnectedRouter>
-          </MuiPickersUtilsProvider>
+          <I18nProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <ApplicationProvider>
+                <ConnectedRouter history={history}>
+                  <CustomSnackbarProvider>
+                    <ApplicationRoutes routes={routes} />
+                  </CustomSnackbarProvider>
+                </ConnectedRouter>
+              </ApplicationProvider>
+            </MuiPickersUtilsProvider>
+          </I18nProvider>
         </Provider>
       </ThemeProvider>
     </StylesProvider>
