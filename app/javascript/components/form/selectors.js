@@ -356,4 +356,4 @@ export const getManagedRoleByUniqueId = (state, uniqueID) =>
   managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
 
 export const getManagedRoleFormSections = (state, uniqueID) =>
-  fromJS(getManagedRoleByUniqueId(state, uniqueID).get("form_section_read_write", fromJS({})).keySeq().toArray());
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_read_write", fromJS({})).keySeq().toList();
