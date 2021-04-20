@@ -11,6 +11,7 @@ import orderBy from "lodash/orderBy";
 import { parse } from "date-fns";
 
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
+import { STRING_SOURCES_TYPES } from "../../config";
 
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
@@ -68,11 +69,15 @@ const containsColumns = (columns, data, i18n) => {
   return isEqual(columns, keys);
 };
 
-const getTranslatedKey = (key, field, { agencies, i18n }) => {
+const getTranslatedKey = (key, field, { agencies, i18n, locations }) => {
   const isBooleanKey = ["true", "false"].includes(key);
 
-  if (field?.option_strings_source === "Agency" && agencies) {
+  if (field?.option_strings_source === STRING_SOURCES_TYPES.AGENCY && agencies) {
     return agencies.find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
+  }
+
+  if (field?.option_strings_source === STRING_SOURCES_TYPES.LOCATION && locations) {
+    return locations.find(location => location.id === key.toUpperCase())?.display_text;
   }
 
   if (i18n && isBooleanKey) {
@@ -92,7 +97,7 @@ const sortByDate = (data, multiple = false) => {
   );
 };
 
-const dataSet = (columns, data, i18n, fields, { agencies }) => {
+const dataSet = (columns, data, i18n, fields, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
   const field =
@@ -103,7 +108,7 @@ const dataSet = (columns, data, i18n, fields, { agencies }) => {
   if (!isEmpty(columns)) {
     columns.forEach((column, i) => {
       dataResults.push({
-        label: getTranslatedKey(column, field, { agencies }),
+        label: getTranslatedKey(column, field, { agencies, locations }),
         data: getColumnData(column, data, i18n),
         backgroundColor: getColorsByIndex(i)
       });
@@ -119,7 +124,7 @@ const dataSet = (columns, data, i18n, fields, { agencies }) => {
   return dataResults;
 };
 
-const getLabels = (columns, data, i18n, fields, { agencies }) => {
+const getLabels = (columns, data, i18n, fields, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const currentLabels = [];
   const field = fields.shift();
@@ -129,10 +134,10 @@ const getLabels = (columns, data, i18n, fields, { agencies }) => {
     if (containsColumns(columns, data[key], i18n)) {
       currentLabels.push(keys.filter(label => label !== totalLabel));
     }
-    currentLabels.concat(getLabels(columns, data[key], i18n, fields, { agencies }));
+    currentLabels.concat(getLabels(columns, data[key], i18n, fields, { agencies, locations }));
   });
 
-  return uniq(currentLabels.flat()).map(key => getTranslatedKey(key, field, { agencies }));
+  return uniq(currentLabels.flat()).map(key => getTranslatedKey(key, field, { agencies, locations }));
 };
 
 const translateKeys = (keys, field, locale) => {
@@ -388,7 +393,7 @@ export const buildDataForTable = (report, i18n) => {
   return { columns, values };
 };
 
-export const buildDataForGraph = (report, i18n, { agencies }) => {
+export const buildDataForGraph = (report, i18n, { agencies, locations }) => {
   const reportData = report.toJS();
 
   if (!reportData.report_data) {
@@ -401,9 +406,10 @@ export const buildDataForGraph = (report, i18n, { agencies }) => {
   const graphData = {
     description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
     data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies }),
+      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies, locations }),
       datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
-        agencies
+        agencies,
+        locations
       })
     }
   };

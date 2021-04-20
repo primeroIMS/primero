@@ -16,7 +16,7 @@ export const dashboardTableData = (optionsByIndex, data, indicators, listKey) =>
     const indicatorData = data[indicator];
 
     Object.keys(indicatorData).forEach(key => {
-      const optionLabel = optionsByIndex[key] ? optionsByIndex[key] : key;
+      const optionLabel = optionsByIndex[key.toUpperCase()] ? optionsByIndex[key.toUpperCase()] : key;
 
       if (key) {
         const listKeyValue = { [indicator]: indicatorData[key][listKey] };

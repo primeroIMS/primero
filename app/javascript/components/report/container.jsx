@@ -55,6 +55,7 @@ const Report = ({ mode }) => {
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const report = useMemoizedSelector(state => getReport(state));
   const agencies = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
+  const locations = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.LOCATION, i18n, null));
 
   const name = report.getIn(["name", i18n.locale], "");
   const description = report.getIn(["description", i18n.locale], "");
@@ -121,10 +122,10 @@ const Report = ({ mode }) => {
           {reportDescription}
           {report.get("graph") && (
             <Paper>
-              <BarChartGraphic {...buildDataForGraph(report, i18n, { agencies })} showDetails />
+              <BarChartGraphic {...buildDataForGraph(report, i18n, { agencies, locations })} showDetails />
             </Paper>
           )}
-          <TableValues {...buildDataForTable(report, i18n, { agencies })} />
+          <TableValues {...buildDataForTable(report, i18n, { agencies, locations })} />
         </LoadingIndicator>
         <ActionDialog
           open={dialogOpen}
