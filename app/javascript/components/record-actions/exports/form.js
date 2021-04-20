@@ -26,7 +26,17 @@ import {
   SIGNATURES
 } from "./constants";
 
-export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsOptions, recordType, agencyLogo) => {
+export default (
+  i18n,
+  userPermissions,
+  isShowPage,
+  modules,
+  fields,
+  exportFormsOptions,
+  recordType,
+  agencyLogo,
+  requirePassword
+) => {
   return [
     FieldRecord({
       display_name: i18n.t("encrypt.export_type"),
@@ -174,7 +184,7 @@ export default (i18n, userPermissions, isShowPage, modules, fields, exportFormsO
       display_name: i18n.t("encrypt.password_label"),
       name: PASSWORD_FIELD,
       type: TEXT_FIELD,
-      required: true,
+      required: requirePassword,
       autoFocus: true,
       help_text: {
         [i18n.locale]: i18n.t("encrypt.password_extra_info")
