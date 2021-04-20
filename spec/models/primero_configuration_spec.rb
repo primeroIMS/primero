@@ -4,7 +4,10 @@ require 'rails_helper'
 
 describe PrimeroConfiguration do
   before(:each) do
-    clean_data(FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation, PrimeroModule)
+    clean_data(
+      PrimeroConfiguration, FormSection, Field, Lookup, Agency,
+      Role, UserGroup, Report, ContactInformation, PrimeroModule
+    )
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @lookup1 = Lookup.create!(unique_id: 'lookup1', name: 'lookup1')
     @agency1 = Agency.create!(name: 'irc', agency_code: '12345')
@@ -12,7 +15,7 @@ describe PrimeroConfiguration do
     @module1 = PrimeroModule.create!(
       unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case], form_sections: [@form1]
     )
-    @role1 = Role.create!(name: 'Role', permissions: permissions)
+    @role1 = Role.create!(name: 'Role', permissions: permissions, primero_modules: [@module1])
     @user_group1 = UserGroup.create!(name: 'Test Group')
     @report1 = Report.create!(
       record_type: 'case', name_en: 'Test', unique_id: 'report-test',
@@ -36,10 +39,6 @@ describe PrimeroConfiguration do
   end
 
   describe '#apply!' do
-    before(:each) do
-      clean_data(PrimeroConfiguration)
-    end
-
     it 'resets the configuration to the saved state' do
       current_configuration = PrimeroConfiguration.current
       current_configuration.save!
@@ -133,6 +132,67 @@ describe PrimeroConfiguration do
       expect(Role.count).to eq(1)
       expect(Lookup.count).to eq(2)
       expect(Report.count).to eq(2)
+    end
+
+    it 'creates a new form' do
+      unique_id = 'X'
+      new_form = FormSection.create!(unique_id: unique_id, name: 'X', parent_form: 'case', form_group_id: 'm')
+      @module1.form_sections << new_form
+      @module1.save!
+      @role1.associate_all_forms
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+      new_form.destroy
+      current_configuration.apply!
+
+      expect(FormSection.all.pluck(:unique_id)).to match_array(%w[A X])
+      expect(@role1.form_permissions.count).to eq(2)
+    end
+  end
+
+  describe '#apply_with_api_lock!' do
+    before(:each) { primero_configuration.apply_with_api_lock! }
+
+    describe 'on success' do
+      let(:primero_configuration) do
+        current_configuration = PrimeroConfiguration.current
+        current_configuration.save!
+        current_configuration
+      end
+
+      it 'applied successfully' do
+        expect(primero_configuration.reload.applied_on).not_to be_nil
+      end
+
+      it 'does not leave behind the api lock' do
+        expect(SystemSettings.first.config_update_lock).to be_falsey
+      end
+    end
+
+    describe 'on failure' do
+      # This will generate an exception because the apply! code expects that all model types are present.
+      # The agency specification is valid.
+      let(:primero_configuration_hash) do
+        {
+          'Agency' => [
+            { 'name_i18n' => { 'en' => 'IRC' }, 'unique_id' => 'agency-irc', 'agency_code' => 'IRC' }
+          ]
+        }
+      end
+
+      let(:primero_configuration) do
+        conf = PrimeroConfiguration.new(data: primero_configuration_hash)
+        conf.save(validate: false)
+        conf
+      end
+
+      it 'rolls back the transaction' do
+        expect(Agency.find_by(agency_code: 'IRC')).to be_nil
+      end
+
+      it 'does not leave behind the api lock' do
+        expect(SystemSettings.first.config_update_lock).to be_falsey
+      end
     end
   end
 end
