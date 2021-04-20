@@ -6,6 +6,8 @@ import rtl from "jss-rtl";
 import { Provider } from "react-redux";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import clsx from "clsx";
 
 import I18nProvider from "./components/i18n";
 import { ApplicationProvider } from "./components/application";
@@ -16,6 +18,7 @@ import { loginSystemSettings } from "./components/login";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import CustomSnackbarProvider from "./components/custom-snackbar-provider";
+import styles from "./styles.css";
 import { fetchSandboxUI } from "./components/application/action-creators";
 
 const store = configureStore();
@@ -27,9 +30,16 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
+const useStyles = makeStyles(styles);
 const App = () => {
+  const css = useStyles();
+
   store.subscribe(() => {
-    document.querySelector("body").setAttribute("dir", store.getState().get("ui").get(NAMESPACE).get("dir"));
+    const themeDir = store.getState().get("ui").get(NAMESPACE).get("dir");
+    const isRTL = themeDir === "rtl";
+
+    document.querySelector("body").setAttribute("dir", themeDir);
+    document.querySelector("body").setAttribute("class", clsx({ [css.fontLTR]: isRTL }));
   });
 
   store.dispatch(fetchSandboxUI());
