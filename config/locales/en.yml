@@ -1019,8 +1019,9 @@ en:
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
   sync_record:
-    failed: Sync failed.
+    failed: 'Last Sync: Failed'
     last: 'Last Sync: %{date_time}'
+    not_found: 'Last Sync: Data not found'
     retrieving: Retrieving Data.
     see_details: See Details.
   fields:

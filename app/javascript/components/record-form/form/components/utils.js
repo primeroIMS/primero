@@ -11,6 +11,8 @@ export const buildLabelSync = (syncedStatus, syncedAt, i18n) => {
   switch (syncedStatus) {
     case SYNC_RECORD_STATUS.failed:
       return i18n.t("sync_record.failed");
+    case SYNC_RECORD_STATUS.not_found:
+      return i18n.t("sync_record.not_found");
     case SYNC_RECORD_STATUS.sending:
     case SYNC_RECORD_STATUS.sent:
       return i18n.t("sync_record.retrieving");
