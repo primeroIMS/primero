@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # TODO: This class will need some cleanup/refactor
-# Calculate the permitted fields for a receord based on the user's role
+# Calculate the permitted fields for a record based on the user's role
 class PermittedFieldService
   attr_accessor :user, :model_class, :action_name
 
@@ -12,6 +12,7 @@ class PermittedFieldService
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
+    current_alert_types
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
