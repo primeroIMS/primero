@@ -1,6 +1,6 @@
 import { setupMountedComponent, translateOptions } from "../../test";
 
-import { useI18n } from "./provider";
+import useI18n from "./use-i18n";
 
 describe("I18nProvider - changeLocale", () => {
   after(() => {

@@ -477,7 +477,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+        SearchFilters::Value.new(field_name: 'current_alert_types', value: Alertable::INCIDENT_FROM_CASE)
       ]
     ).freeze
 

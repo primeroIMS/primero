@@ -22,7 +22,9 @@ const Component = ({ children }) => {
   const css = useStyles();
   const { demo } = useApp();
   const { theme } = useThemeHelper();
+
   const classes = clsx({ [css.root]: true, [css.demo]: demo });
+
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 
   if (!hasPermissions) {

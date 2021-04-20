@@ -49,7 +49,7 @@ const Container = ({ mode }) => {
 
   const identityOptions = providers
     ? providers.map(provider => {
-        return { id: provider.get("id"), display_text: provider.get("name") };
+        return { id: provider.get("unique_id"), display_text: provider.get("name") };
       })
     : [];
 

@@ -93,6 +93,7 @@ describe("<RecordForm />", () => {
       recordType: RECORD_TYPES.cases,
       selectedForm: "form_section_1",
       externalForms: () => {},
+      externalComponents: () => {},
       userPermittedFormsIds: fromJS({ basic_identity: "rw" })
     }));
   });
@@ -137,7 +138,8 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "incidents",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
@@ -159,7 +161,8 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "incidents",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
@@ -178,7 +181,8 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "cases",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
@@ -202,7 +206,8 @@ describe("<RecordForm />", () => {
       record: fromJS({ name: "test" }),
       recordType: "cases",
       selectedForm: "form_section_1",
-      incidentFromCase: {}
+      incidentFromCase: {},
+      externalComponents: () => {}
     });
 
     expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
@@ -225,7 +230,8 @@ describe("<RecordForm />", () => {
       "recordType",
       "externalForms",
       "selectedForm",
-      "userPermittedFormsIds"
+      "userPermittedFormsIds",
+      "externalComponents"
     ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];

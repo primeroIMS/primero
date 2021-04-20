@@ -29,6 +29,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_TYPES",
       "CHANGE_LOGS",
       "CODE_FIELD",
+      "CODE_OF_CONDUCT_DATE_FORMAT",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",
       "DATE_FORMAT",
@@ -49,6 +50,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_FROM_CASE",
       "LOCALE_KEYS",
       "LOOKUPS",
+      "LOCATION_PATH",
       "MATCH_VALUES",
       "MAX_ATTACHMENT_SIZE",
       "MAX_IMAGE_SIZE",
@@ -128,7 +130,8 @@ describe("Verifying config constant", () => {
         expect(constants.PERMITTED_URL).to.be.an("array");
         expect(constants.MODULES).to.deep.equal({
           CP: "primeromodule-cp",
-          GBV: "primeromodule-gbv"
+          GBV: "primeromodule-gbv",
+          MRM: "primeromodule-mrm"
         });
         expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
           "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],

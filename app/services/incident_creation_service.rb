@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Instantiates incidents based on a case and some mapping rules
-class IncidentCreationService
+class IncidentCreationService < ValueObject
   DEFAULT_MAPPING = [
     { source: 'survivor_code_no', target: 'survivor_code' },
     { source: 'age', 'target' => 'age' },
@@ -16,6 +16,8 @@ class IncidentCreationService
     { source: 'gbv_disability_type', target: 'disability_type' },
     { source: 'unaccompanied_separated_status', target: 'unaccompanied_separated_status' }
   ].map(&:with_indifferent_access).freeze
+
+  attr_writer :primero_module
 
   def self.incident_from_case(case_record, incident_data = {}, module_id = nil, user = nil)
     IncidentCreationService.new.incident_from_case(case_record, incident_data, module_id, user)
@@ -44,18 +46,31 @@ class IncidentCreationService
     incident.owned_by = case_record&.owned_by
   end
 
-  def field_mapping(module_id)
+  def field_mapping(module_id = nil)
     field_map_for_module(module_id)&.[]('fields') || DEFAULT_MAPPING
   end
 
-  def map_to_module_id(module_id)
-    field_map_for_module(module_id)&.[]('map_to') || module_id
+  def map_to_module_id(module_id = nil)
+    field_map_for_module(module_id)&.[]('map_to') || module_id || primero_module&.unique_id
   end
 
   def field_map_for_module(module_id)
     return @field_map_for_module if @field_map_for_module
 
-    primero_module = module_id && PrimeroModule.find_by(unique_id: module_id)
-    @field_map_for_module = primero_module&.field_map
+    @field_map_for_module ||= primero_module(module_id)&.field_map
+  end
+
+  def field_map
+    {
+      'fields' => field_mapping,
+      'map_to' => map_to_module_id
+    }
+  end
+
+  def primero_module(module_id = nil)
+    return @primero_module if @primero_module
+    return unless module_id
+
+    @primero_module ||= PrimeroModule.find_by(unique_id: module_id)
   end
 end

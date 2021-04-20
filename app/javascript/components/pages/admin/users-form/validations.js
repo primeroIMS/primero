@@ -12,7 +12,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
     // eslint-disable-next-line func-names, consistent-return
     return this.test("isIdpProvider", message, function (value) {
       const providerId = this.resolve(inputRef);
-      const provider = providers.find(currentProvider => currentProvider.get("id") === parseInt(providerId, 10));
+      const provider = providers.find(currentProvider => currentProvider.get("unique_id") === providerId);
 
       if (provider) {
         const regexMatch = new RegExp(`@${provider.get("user_domain")}$`);
@@ -60,9 +60,9 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
   const defaultFieldsValidation = {
     email: string().email(i18n.t("errors.models.user.email")).required().label(i18n.t("user.email")),
     full_name: string().required().label(i18n.t("user.full_name")),
-    identity_provider_id:
+    identity_provider_unique_id:
       useProviders &&
-      number()
+      string()
         .nullable()
         .required(i18n.t("forms.required_field", { field: i18n.t("user.identity_provider") })),
     location: string().nullable().required().label(i18n.t("user.location")),
@@ -77,7 +77,7 @@ export default (formMode, i18n, useIdentityProviders, providers, isMyAccountPage
           .email(i18n.t("errors.models.user.email"))
           .required()
           .label(i18n.t("user.user_name"))
-          .isIdpProvider(ref("identity_provider_id"))
+          .isIdpProvider(ref("identity_provider_unique_id"))
       : string().required().label(i18n.t("user.user_name"))
   };
 

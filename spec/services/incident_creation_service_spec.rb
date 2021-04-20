@@ -112,8 +112,7 @@ describe IncidentCreationService do
     context 'when the module id is not specified' do
       context 'and the case module has a form mapping' do
         before do
-          primero_module = module_cp # To trigger the let() above
-          @incident = IncidentCreationService.incident_from_case(case_cp, {})
+          @incident = module_cp && IncidentCreationService.incident_from_case(case_cp, {})
           @incident.save!
         end
 
@@ -138,8 +137,7 @@ describe IncidentCreationService do
 
       context 'and the case module does not have a form mapping' do
         before do
-          primero_module = module_gbv # To trigger the let() above
-          @incident = IncidentCreationService.incident_from_case(case_gbv, {})
+          @incident = module_gbv && IncidentCreationService.incident_from_case(case_gbv, {})
           @incident.save!
         end
 
@@ -161,6 +159,28 @@ describe IncidentCreationService do
           expect(@incident.data['owned_by']).to eq('user_gbv')
           expect(@incident.data['owned_by_full_name']).to eq('Test User GBV')
         end
+      end
+    end
+  end
+
+  describe 'field_map' do
+    let(:field_map) { service.field_map.with_indifferent_access }
+
+    context 'when the module id is specified' do
+      let(:service) { IncidentCreationService.new(primero_module: module_cp) }
+
+      it 'returns the configured hash of the mapping rules' do
+        expect(field_map['map_to']).to eq('primeromodule-cp')
+        expect(field_map['fields']).to eq(module_cp.field_map['fields'])
+      end
+    end
+
+    context 'when the module id is not specified' do
+      let(:service) { IncidentCreationService.new(primero_module: module_gbv) }
+
+      it 'returns the default hash of the mapping rules' do
+        expect(field_map['map_to']).to eq('primeromodule-gbv')
+        expect(field_map['fields']).to eq(IncidentCreationService::DEFAULT_MAPPING)
       end
     end
   end
