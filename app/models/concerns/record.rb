@@ -63,7 +63,7 @@ module Record
     end
 
     def preview_field_names
-      Field.joins(:form_section).where(
+      PermittedFieldService::ID_SEARCH_FIELDS + Field.joins(:form_section).where(
         form_sections: { parent_form: parent_form },
         show_on_minify_form: true
       ).pluck(:name)

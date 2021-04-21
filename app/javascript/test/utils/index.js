@@ -18,6 +18,8 @@ import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
 
+import { ApplicationProvider } from "../../components/application";
+import I18nProvider from "../../components/i18n";
 import { theme, RECORD_PATH } from "../../config";
 import { whichFormMode } from "../../components/form";
 import { ListHeaderRecord } from "../../components/user/records";
@@ -120,11 +122,15 @@ export const setupMountedComponent = (
 
   const component = createMount()(
     <Provider store={store}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <SnackbarProvider>
-          <RoutedProvider />
-        </SnackbarProvider>
-      </MuiPickersUtilsProvider>
+      <I18nProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <SnackbarProvider>
+            <ApplicationProvider>
+              <RoutedProvider />
+            </ApplicationProvider>
+          </SnackbarProvider>
+        </MuiPickersUtilsProvider>
+      </I18nProvider>
     </Provider>
   );
 

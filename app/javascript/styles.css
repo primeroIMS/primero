@@ -1,0 +1,7 @@
+.fontLTR {
+  font-size: $(theme.typography.pxToRem(15)) !important;
+
+  & label, & input, & span, & div, & th, & p {
+    font-size: $(theme.typography.pxToRem(15)) !important;
+  }
+}
