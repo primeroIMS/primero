@@ -11,11 +11,11 @@ import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useApp } from "../../../application";
-import { DEMO } from "../../../application/constants";
 import { useDialog } from "../../../action-dialog";
 import { NAME as PASSWORD_RESET_DIALOG_NAME } from "../password-reset-dialog/constants";
 import PasswordResetDialog from "../password-reset-dialog";
 import { getUseIdentityProvider } from "../../selectors";
+import utils from "../../utils";
 
 import { NAME, FORM_ID } from "./constants";
 import styles from "./styles.css";
@@ -23,7 +23,7 @@ import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
 
-const Container = ({ dialogRef, modal }) => {
+const Container = ({ modal }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo } = useApp();
@@ -48,22 +48,7 @@ const Container = ({ dialogRef, modal }) => {
     dispatch(enqueueSnackbar(authErrors, { type: "error" }));
   }, [authErrors, dispatch]);
 
-  const title = i18n.t("login.label");
-  const actionButton = i18n.t("buttons.login");
-  const demoTitle = `${i18n.t(DEMO)} ${title}`;
-  const demoActionButton = `${actionButton} ${i18n.t("logger.to")} ${i18n.t(DEMO)}`;
-
-  if (dialogRef) {
-    // eslint-disable-next-line no-param-reassign
-    dialogRef.current = {
-      title,
-      actionButton,
-      ...(demo && {
-        title: demoTitle,
-        actionButton: demoActionButton
-      })
-    };
-  }
+  const { title, actionButton } = utils.loginComponentText(i18n, demo);
 
   const renderForgotPassword = !useIdentityProvider && (
     <>
@@ -77,11 +62,11 @@ const Container = ({ dialogRef, modal }) => {
   return (
     <>
       <div className={css.loginContainer}>
-        {modal || <PageHeading title={demo ? demoTitle : title} whiteHeading />}
+        {modal || <PageHeading title={title} whiteHeading />}
         <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
         {modal || (
           <ActionButton
-            text={demo ? demoActionButton : actionButton}
+            text={actionButton}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               fullWidth: mobileDisplay,
