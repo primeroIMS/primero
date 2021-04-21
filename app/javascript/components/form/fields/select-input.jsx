@@ -6,6 +6,7 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
 import { isEmpty, isNil } from "lodash";
 
 import InputLabel from "../components/input-label";
@@ -13,7 +14,11 @@ import { getLoadingState, getValueFromOtherField } from "../selectors";
 import { useMemoizedSelector } from "../../../libs";
 import { SELECT_CHANGE_REASON } from "../constants";
 
+import styles from "./styles.css";
+
 const filter = createFilterOptions();
+
+const useStyles = makeStyles(styles);
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
@@ -41,6 +46,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
 
+  const css = useStyles();
   const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
@@ -250,6 +256,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           filterSelectedOptions
           disableClearable={disableClearable}
           freeSolo={freeSolo}
+          className={css.selectInput}
           {...filterOptions}
           {...loadingProps}
           renderInput={params => renderTextField(params, commonProps, fieldValue)}

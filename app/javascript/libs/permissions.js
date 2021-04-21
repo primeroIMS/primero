@@ -31,6 +31,7 @@ export const ACTIONS = {
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_CASE_RISK: "case_risk",
+  DASH_CASES_TO_ASSIGN: "dash_cases_to_assign",
   DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",

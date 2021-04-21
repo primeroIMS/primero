@@ -22,7 +22,8 @@ import {
   ReportingLocation,
   ProtectionConcern,
   Flags,
-  CasesBySocialWorker
+  CasesBySocialWorker,
+  CasesToAssign
 } from "./components";
 import NAMESPACE from "./namespace";
 import { NAME } from "./constants";
@@ -70,6 +71,7 @@ const Dashboard = () => {
           <Grid item xl={9} md={8} xs={12}>
             <Overview loadingIndicator={indicatorProps} userPermissions={userPermissions} />
             <WorkflowIndividualCases loadingIndicator={indicatorProps} />
+            <CasesToAssign loadingIndicator={indicatorProps} />
             <Approvals loadingIndicator={indicatorProps} />
             <SharedFromMyTeam loadingIndicator={indicatorProps} />
             <SharedWithMyTeam loadingIndicator={indicatorProps} />

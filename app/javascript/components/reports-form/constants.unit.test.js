@@ -16,6 +16,7 @@ describe("<ReportsForm /> - Constants", () => {
       "GROUP_AGES_FIELD",
       "GROUP_DATES_BY_FIELD",
       "IS_GRAPH_FIELD",
+      "DATE",
       "DISABLED_FIELD",
       "MODULES_FIELD",
       "NAME",

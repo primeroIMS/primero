@@ -16,7 +16,7 @@
   }
 
   & > div:first-of-type {
-    padding: 0 1em 0.65em 0;
+    padding: 0 1em 0 0;
   }
 }
 

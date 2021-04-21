@@ -4,7 +4,7 @@ describe("<AdminFilters /> - pages/admin/components/filters/constants", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["FILTERS_DRAWER", "NAME"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

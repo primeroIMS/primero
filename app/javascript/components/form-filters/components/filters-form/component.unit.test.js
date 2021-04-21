@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 import { FormProvider } from "react-hook-form";
 
-import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS } from "../../../../../libs/permissions";
-import Actions from "../../../../index-filters/components/actions";
-import { FILTER_TYPES } from "../../../../index-filters";
-import { SelectFilter } from "../../../../index-filters/components/filter-types";
+import { setupMountedComponent } from "../../../../test";
+import { ACTIONS } from "../../../../libs/permissions";
+import Actions from "../../../index-filters/components/actions";
+import { FILTER_TYPES } from "../../../index-filters";
+import { SelectFilter } from "../../../index-filters/components/filter-types";
 
 import AdminFilters from "./component";
 
@@ -54,7 +54,16 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
     const adminFiltersProps = { ...component.find(AdminFilters).props() };
 
     expect(component.find(adminFiltersProps)).to.have.lengthOf(1);
-    ["filters", "onSubmit", "clearFields", "defaultFilters"].forEach(property => {
+    [
+      "clearFields",
+      "closeDrawerOnSubmit",
+      "defaultFilters",
+      "filters",
+      "initialFilters",
+      "mobileDisplay",
+      "onSubmit",
+      "showDrawer"
+    ].forEach(property => {
       expect(adminFiltersProps).to.have.property(property);
       delete adminFiltersProps[property];
     });

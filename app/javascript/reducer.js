@@ -56,6 +56,8 @@ import { reducer as connectivityReducer } from "./components/connectivity";
 import { reducer as changeLogsReducers } from "./components/change-logs";
 import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
+import { reducer as drawerReducer } from "./components/drawer";
+import { reducer as formFiltersReducer } from "./components/form-filters";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -113,7 +115,9 @@ const rootReducer = {
     ...navReducer,
     ...i18nReducer,
     ...loginFormReducer,
-    ...dialogReducer
+    ...dialogReducer,
+    ...drawerReducer,
+    ...formFiltersReducer
   }),
   ...recordFormReducer,
   ...notifierReducer,

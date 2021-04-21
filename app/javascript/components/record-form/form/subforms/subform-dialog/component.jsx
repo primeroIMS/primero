@@ -86,7 +86,8 @@ const Component = ({
   const dialogActions =
     field.subform_section_id.unique_id === "services_section" &&
     mode.isShow &&
-    serviceHasReferFields(formik.values.services_section[index]) ? (
+    // eslint-disable-next-line camelcase
+    serviceHasReferFields(formik.values?.services_section?.[index]) ? (
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 

@@ -129,3 +129,5 @@ export const getDashboardFlags = (state, excludeResolved = false) => {
 
   return flags;
 };
+
+export const getCasesToAssign = state => getDashboardByName(state, DASHBOARD_NAMES.CASES_TO_ASSIGN);

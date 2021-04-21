@@ -34,9 +34,7 @@ const Actions = ({ handleSave, handleClear }) => {
         <ActionButton
           text={i18n.t("filters.apply_filters")}
           type={ACTION_BUTTON_TYPES.default}
-          rest={{
-            type: "submit"
-          }}
+          rest={{ type: "submit" }}
         />
       </DisableOffline>
       {showSave}

@@ -13,7 +13,7 @@ import { RECORD_TYPES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 import ActionDialog from "../../action-dialog";
 import { useApp } from "../../application";
-import { getAgencyLogos, getAgencyLogosPdf } from "../../application/selectors";
+import { getAgencyLogos, getAgencyLogosPdf, getExportRequirePassword } from "../../application/selectors";
 import { whichFormMode } from "../../form";
 import FormSectionField from "../../form/components/form-section-field";
 import WatchedFormSectionField from "../../form/components/watched-form-section-field";
@@ -75,16 +75,22 @@ const Component = ({
   const { params } = match;
   const isShowPage = Object.keys(params).length > 0;
 
+  const requirePassword = useMemoizedSelector(state => getExportRequirePassword(state));
+
   const validationSchema = object().shape({
     [EXPORT_TYPE_FIELD]: string().required(i18n.t("encrypt.export_type")),
     [FORM_TO_EXPORT_FIELD]: array().when(EXPORT_TYPE_FIELD, {
       is: value => isPdfExport(value),
       then: array().required(i18n.t("exports.custom_exports.forms"))
     }),
-    [PASSWORD_FIELD]: string().when(EXPORT_TYPE_FIELD, {
-      is: value => !isPdfExport(value),
-      then: string().required(i18n.t("encrypt.password_label"))
-    })
+    ...(requirePassword
+      ? {
+          [PASSWORD_FIELD]: string().when(EXPORT_TYPE_FIELD, {
+            is: value => !isPdfExport(value),
+            then: string().required(i18n.t("encrypt.password_label"))
+          })
+        }
+      : {})
   });
 
   const defaultValues = {
@@ -295,7 +301,8 @@ const Component = ({
     fields,
     exportFormsOptions(recordTypesForms, i18n.locale),
     recordType,
-    agencyLogo
+    agencyLogo,
+    requirePassword
   );
 
   const enabledSuccessButton =
