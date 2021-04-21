@@ -12,6 +12,8 @@ import { parse } from "date-fns";
 
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
+import { DATE_PATTERN } from "./constants";
+
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
 };
@@ -20,13 +22,13 @@ const getColorsByIndex = index => {
   return getColors()[index];
 };
 
-const isDateRange = date => date.match(/^(\w{2}-)?\w{3}-\d{4} - (\w{2}-)?\w{3}-\d{4}$/);
+const isDateRange = date => date.match(new RegExp(`^${DATE_PATTERN} - ${DATE_PATTERN}$`));
 
 const getDateFormat = value => {
   if (value.match(/^\w{3}-\d{4}$/)) {
     return "MMM-yyyy";
   }
-  if (value.match(/^(\w{2}-)?\w{3}-\d{4}$/) || isDateRange(value)) {
+  if (value.match(new RegExp(`^${DATE_PATTERN}$`)) || isDateRange(value)) {
     return "dd-MMM-yyyy";
   }
 
@@ -229,8 +231,6 @@ const translateReportData = (report, i18n) => {
 
 const translateColumn = (column, value, locale = "en") => {
   if ("option_labels" in column) {
-    // const defaultEnTranslation = findInOptionLabels(column.option_labels, value).display_text;
-
     return findInOptionLabels(column.option_labels, value, locale)?.display_text || value;
   }
 

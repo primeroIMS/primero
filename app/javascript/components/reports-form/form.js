@@ -78,7 +78,6 @@ export const form = (i18n, ageHelpText, isNew, userModules) => {
           option_strings_text: buildUserModules(userModules),
           clearDependentValues: [
             RECORD_TYPE_FIELD,
-            // GROUP_DATES_BY_FIELD,
             [GROUP_AGES_FIELD, false],
             [IS_GRAPH_FIELD, false],
             [DISABLED_FIELD, false],
