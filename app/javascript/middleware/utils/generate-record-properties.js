@@ -31,7 +31,6 @@ export default (store, api, isRecord) => {
           record_in_scope: true,
           enabled: true,
           ...(recordType === RECORD_PATH.cases && {
-            case_id_display: shortID,
             workflow: "new"
           })
         }),

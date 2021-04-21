@@ -37,7 +37,8 @@ const Component = ({
     params.recordType === RECORD_PATH.incidents && incidentCaseId && incidentCaseIdDisplay ? (
       <Permission resources={RECORD_PATH.cases} actions={READ_RECORDS}>
         <p className={associatedLinkClass}>
-          {i18n.t("incident.associated_case")} <Link to={`/cases/${incidentCaseId}`}>{incidentCaseIdDisplay}</Link>
+          {i18n.t("incident.associated_case")}{" "}
+          <Link to={`/cases/${incidentCaseId}`}>{incidentCaseIdDisplay || shortId}</Link>
         </p>
       </Permission>
     ) : null;
