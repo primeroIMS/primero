@@ -48,3 +48,24 @@ export const PASSWORD_MODAL = "passwordModal";
 export const PASSWORD_SELF_OPTION = "self";
 export const PASSWORD_USER_OPTION = "user";
 export const FORM_ID = "user-form";
+export const FIELD_NAMES = Object.freeze({
+  FULL_NAME: "full_name",
+  USER_NAME: "user_name",
+  CODE: "code",
+  PASSWORD_SETTING: "password_setting",
+  PASSWORD: "password",
+  PASSWORD_CONFIRMATION: "password_confirmation",
+  CHANGE_PASSWORD: "change_password",
+  LOCALE: "locale",
+  ROLE_UNIQUE_ID: "role_unique_id",
+  USER_GROUP_UNIQUE_IDS: "user_group_unique_ids",
+  SERVICES: "services",
+  PHONE: "phone",
+  EMAIL: "email",
+  AGENCY_ID: "agency_id",
+  AGENCY_OFFICE: "agency_office",
+  POSITION: "position",
+  LOCATION: "location",
+  DISABLED: "disabled",
+  SEND_MAIL: "send_mail"
+});

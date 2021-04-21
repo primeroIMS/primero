@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { LOOKUPS } from "../../../../config";
 import {
   FormSectionRecord,
   FieldRecord,
@@ -15,7 +16,8 @@ import {
   PASSWORD_SELF_OPTION,
   PASSWORD_USER_OPTION,
   USER_GROUP_UNIQUE_IDS,
-  USERGROUP_PRIMERO_GBV
+  USERGROUP_PRIMERO_GBV,
+  FIELD_NAMES
 } from "./constants";
 
 const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
@@ -30,26 +32,26 @@ const sharedUserFields = (
 ) => [
   {
     display_name: i18n.t("user.full_name"),
-    name: "full_name",
+    name: FIELD_NAMES.FULL_NAME,
     type: "text_field",
     required: true,
     autoFocus: true
   },
   {
     display_name: i18n.t("user.user_name"),
-    name: "user_name",
+    name: FIELD_NAMES.USER_NAME,
     type: TEXT_FIELD,
     required: true,
     editable: false
   },
   {
     display_name: i18n.t("user.code"),
-    name: "code",
+    name: FIELD_NAMES.CODE,
     type: TEXT_FIELD
   },
   {
     display_name: i18n.t("user.password_setting.label"),
-    name: "password_setting",
+    name: FIELD_NAMES.PASSWORD_SETTING,
     type: SELECT_FIELD,
     hideOnShow: true,
     required: formMode.get("isNew"),
@@ -62,34 +64,34 @@ const sharedUserFields = (
   },
   {
     display_name: i18n.t("user.password"),
-    name: "password",
+    name: FIELD_NAMES.PASSWORD,
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
     placeholder: passwordPlaceholder(formMode),
-    watchedInputs: "password_setting",
+    watchedInputs: FIELD_NAMES.PASSWORD_SETTING,
     handleWatchedInputs: value => ({
       visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
     })
   },
   {
     display_name: i18n.t("user.password_confirmation"),
-    name: "password_confirmation",
+    name: FIELD_NAMES.PASSWORD_CONFIRMATION,
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
     editable: false,
     placeholder: passwordPlaceholder(formMode),
-    watchedInputs: "password_setting",
+    watchedInputs: FIELD_NAMES.PASSWORD_SETTING,
     handleWatchedInputs: value => ({
       visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
     })
   },
   {
-    name: "change_password",
+    name: FIELD_NAMES.CHANGE_PASSWORD,
     display_name: i18n.t("buttons.change_password"),
     type: DIALOG_TRIGGER,
     hideOnShow: true,
@@ -98,62 +100,62 @@ const sharedUserFields = (
   },
   {
     display_name: i18n.t("user.language"),
-    name: "locale",
+    name: FIELD_NAMES.LOCALE,
     type: SELECT_FIELD,
     option_strings_text: i18n.applicationLocales
   },
   {
     display_name: i18n.t("user.role_id"),
-    name: "role_unique_id",
+    name: FIELD_NAMES.ROLE_UNIQUE_ID,
     type: SELECT_FIELD,
     required: true,
     option_strings_source: OPTION_TYPES.ROLE,
-    watchedInputs: ["role_unique_id"],
+    watchedInputs: [FIELD_NAMES.ROLE_UNIQUE_ID],
     visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.user_group_unique_ids"),
-    name: "user_group_unique_ids",
+    name: FIELD_NAMES.USER_GROUP_UNIQUE_IDS,
     type: SELECT_FIELD,
     multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
     visible: !hideOnAccountPage,
-    watchedInputs: ["user_group_unique_ids"]
+    watchedInputs: [FIELD_NAMES.USER_GROUP_UNIQUE_IDS]
   },
   {
     display_name: i18n.t("user.services"),
-    name: "services",
+    name: FIELD_NAMES.SERVICES,
     type: SELECT_FIELD,
     multi_select: true,
-    option_strings_source: "lookup-service-type",
+    option_strings_source: LOOKUPS.service_type,
     help_text: formMode.get("isNew") ? i18n.t("user.services_help_text") : ""
   },
   {
     display_name: i18n.t("user.phone"),
-    name: "phone",
+    name: FIELD_NAMES.PHONE,
     type: TEXT_FIELD
   },
   {
     display_name: i18n.t("user.email"),
-    name: "email",
+    name: FIELD_NAMES.EMAIL,
     required: true,
     type: TEXT_FIELD
   },
   {
     display_name: i18n.t("user.agency"),
-    name: "agency_id",
+    name: FIELD_NAMES.AGENCY_ID,
     type: SELECT_FIELD,
     required: true,
     option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
-    watchedInputs: ["agency_id"],
+    watchedInputs: [FIELD_NAMES.AGENCY_ID],
     visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.agency_office"),
-    name: "agency_office",
+    name: FIELD_NAMES.AGENCY_OFFICE,
     type: SELECT_FIELD,
-    option_strings_source: "lookup-agency-office",
+    option_strings_source: LOOKUPS.agency_office,
     watchedInputs: USER_GROUP_UNIQUE_IDS,
     handleWatchedInputs: value => ({
       visible: !hideOnAccountPage && value?.includes(USERGROUP_PRIMERO_GBV)
@@ -161,25 +163,25 @@ const sharedUserFields = (
   },
   {
     display_name: i18n.t("user.position"),
-    name: "position",
+    name: FIELD_NAMES.POSITION,
     type: TEXT_FIELD
   },
   {
     display_name: i18n.t("user.location"),
-    name: "location",
+    name: FIELD_NAMES.LOCATION,
     type: SELECT_FIELD,
     option_strings_source: OPTION_TYPES.LOCATION,
     required: true
   },
   {
     display_name: i18n.t("user.disabled"),
-    name: "disabled",
+    name: FIELD_NAMES.DISABLED,
     type: TICK_FIELD,
     visible: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.send_mail"),
-    name: "send_mail",
+    name: FIELD_NAMES.SEND_MAIL,
     type: TICK_FIELD,
     selected_value: formMode.get("isNew")
   }
@@ -196,7 +198,12 @@ const identityUserFields = (i18n, identityOptions) => [
   }
 ];
 
-const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation", "password_setting", "change_password"];
+const EXCLUDED_IDENITITY_FIELDS = [
+  FIELD_NAMES.PASSWORD,
+  FIELD_NAMES.PASSWORD_CONFIRMATION,
+  FIELD_NAMES.PASSWORD_SETTING,
+  FIELD_NAMES.CHANGE_PASSWORD
+];
 
 // eslint-disable-next-line import/prefer-default-export
 export const form = (
@@ -220,9 +227,9 @@ export const form = (
 
     return {
       ...(formMode.get("isShow") || {
-        disabled: value === null || value === "" || (name === "user_name" && !formMode.get("isNew"))
+        disabled: value === null || value === "" || (name === FIELD_NAMES.USER_NAME && !formMode.get("isNew"))
       }),
-      ...(name === "user_name" && {
+      ...(name === FIELD_NAMES.USER_NAME && {
         helperText:
           error?.message ||
           (provider

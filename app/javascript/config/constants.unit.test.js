@@ -154,6 +154,7 @@ describe("Verifying config constant", () => {
         expect(constants.CODE_FIELD).to.equal("code");
         expect(constants.LOOKUPS).to.be.an("object");
         expect(constants.LOOKUPS).to.have.all.keys(
+          "agency_office",
           "risk_level",
           "workflow",
           "service_type",

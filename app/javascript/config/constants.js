@@ -195,6 +195,7 @@ export const MODES = {
 };
 
 export const LOOKUPS = {
+  agency_office: "lookup-agency-office",
   risk_level: "lookup-risk-level",
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",
