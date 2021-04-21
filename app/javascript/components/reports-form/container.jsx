@@ -30,7 +30,8 @@ import {
   FILTERS_FIELD,
   FORM_ID,
   NAME,
-  REPORT_FIELD_TYPES
+  REPORT_FIELD_TYPES,
+  DATE
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
@@ -53,7 +54,8 @@ const Container = ({ mode }) => {
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
-    ...formatReport(report.toJS())
+    ...formatReport(report.toJS()),
+    ...(formMode.isNew ? { group_dates_by: DATE } : {})
   };
 
   useEffect(() => {

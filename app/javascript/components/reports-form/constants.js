@@ -49,3 +49,5 @@ export const DEFAULT_FILTERS = [
 ];
 
 export const NOT_NULL = "not_null";
+
+export const DATE = "date";
