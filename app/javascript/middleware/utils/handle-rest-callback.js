@@ -56,7 +56,7 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
         const { preventSyncAfterRedirect } = callback;
         const redirectPath = redirectConditions(callback, json);
 
-        store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline }));
+        store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline(store) }));
       }
     }
   }
