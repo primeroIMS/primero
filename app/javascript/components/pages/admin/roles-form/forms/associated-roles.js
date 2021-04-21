@@ -15,15 +15,15 @@ export default (actions, i18n) =>
     fields: [
       FieldRecord({
         display_name: i18n.t("permissions.resource.role.actions.permitted_roles.label"),
-        name: "permissions[objects][role]",
+        name: "permissions.objects.role",
         type: SELECT_FIELD,
         multi_select: true,
         tooltip: i18n.t("permissions.resource.role.actions.permitted_roles.explanation"),
-        watchedInputs: ["permissions[objects][role]"],
+        watchedInputs: ["permissions.objects.role"],
         option_strings_source: OPTION_TYPES.ROLE_PERMITTED
       }),
       FieldRecord({
-        name: `permissions[role]`,
+        name: `permissions.role`,
         type: CHECK_BOX_FIELD,
         option_strings_text: buildPermissionOptions(actions, i18n, "role")
       })
