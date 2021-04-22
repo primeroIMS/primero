@@ -52,28 +52,52 @@ const translateDate = (value, i18n, dateFormat) => {
   return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
 };
 
-const getColumnData = (column, data, i18n) => {
+const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
   const totalLabel = i18n.t("report.total");
   const keys = Object.keys(data);
+
+  if (qtyRows >= 2 && qtyColumns > 0) {
+    const firstRow = keys;
+    const secondRow = Object.keys(data[firstRow[0]]).filter(key => key !== totalLabel);
+
+    return keys.reduce((firstRowAccum, firstRowCurr) => {
+      const secondRowAccum = secondRow
+        .map(secondLevel => {
+          return data[firstRowCurr][secondLevel][column][totalLabel];
+        })
+        .reduce((acc, curr) => acc + curr);
+
+      return [...firstRowAccum, secondRowAccum];
+    }, []);
+  }
 
   return keys
     .filter(key => key !== totalLabel)
     .map(key => {
-      const columnValue = data[key][column] ? data[key][column][totalLabel] : getColumnData(column, data[key], i18n);
+      const columnValue = data[key][column]
+        ? data[key][column][totalLabel]
+        : getColumnData(column, data[key], i18n, qtyColumns, qtyRows);
 
       return columnValue;
     })
     .flat();
 };
 
-const getColumns = (data, i18n) => {
+const getColumns = (data, i18n, qtyColumns, qtyRows) => {
   const totalLabel = i18n.t("report.total");
+  const columnsArray = isNested => {
+    return uniq(
+      Object.values(data)
+        .map(currValue => Object.keys(isNested ? Object.values(currValue)[0] : currValue))
+        .flat()
+    ).filter(key => key !== totalLabel);
+  };
 
-  return uniq(
-    Object.values(data)
-      .map(currValue => Object.keys(currValue))
-      .flat()
-  ).filter(key => key !== totalLabel);
+  if (qtyRows >= 2 && qtyColumns > 0) {
+    return columnsArray(true);
+  }
+
+  return columnsArray();
 };
 
 const containsColumns = (columns, data, i18n) => {
@@ -83,14 +107,14 @@ const containsColumns = (columns, data, i18n) => {
   return isEqual(columns, keys);
 };
 
-const getTranslatedKey = (key, field, { agencies, i18n, locations }) => {
+const getTranslatedKey = (key, field, { agencies, i18n, locations } = {}) => {
   const isBooleanKey = ["true", "false"].includes(key);
 
-  if (field?.option_strings_source === STRING_SOURCES_TYPES.AGENCY && agencies) {
+  if (field?.option_strings_source === STRING_SOURCES_TYPES.AGENCY && agencies?.length > 0) {
     return agencies.find(agency => agency.id.toLowerCase() === key.toLowerCase())?.display_text;
   }
 
-  if (field?.option_strings_source === STRING_SOURCES_TYPES.LOCATION && locations) {
+  if (field?.option_strings_source === STRING_SOURCES_TYPES.LOCATION && locations?.length > 0) {
     return locations.find(location => location.id === key.toUpperCase())?.display_text;
   }
 
@@ -111,7 +135,7 @@ const sortByDate = (data, multiple = false) => {
   );
 };
 
-const dataSet = (columns, data, i18n, fields, { agencies, locations }) => {
+const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
   const field =
@@ -123,7 +147,7 @@ const dataSet = (columns, data, i18n, fields, { agencies, locations }) => {
     columns.forEach((column, i) => {
       dataResults.push({
         label: getTranslatedKey(column, field, { agencies, locations }),
-        data: getColumnData(column, data, i18n),
+        data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
         backgroundColor: getColorsByIndex(i)
       });
     });
@@ -138,20 +162,30 @@ const dataSet = (columns, data, i18n, fields, { agencies, locations }) => {
   return dataResults;
 };
 
-const getLabels = (columns, data, i18n, fields, { agencies, locations }) => {
+const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const currentLabels = [];
   const field = fields.shift();
   const keys = sortByDate(Object.keys(data));
 
+  if (qtyRows >= 2 && qtyColumns > 0) {
+    return keys;
+  }
+
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
       currentLabels.push(keys.filter(label => label !== totalLabel));
+    } else {
+      currentLabels.concat(getLabels(columns, data[key], i18n, fields, qtyColumns, qtyRows, { agencies, locations }));
     }
-    currentLabels.concat(getLabels(columns, data[key], i18n, fields, { agencies, locations }));
   });
 
-  return uniq(currentLabels.flat()).map(key => getTranslatedKey(key, field, { agencies, locations }));
+  return uniq(currentLabels.flat()).map(key =>
+    getTranslatedKey(key, field, {
+      agencies,
+      locations
+    })
+  );
 };
 
 const findInOptionLabels = (optionLabels, value, locale = "en") =>
@@ -181,7 +215,7 @@ const translateKeys = (keys, field, locale) => {
   return [];
 };
 
-const translateData = (data, fields, i18n) => {
+const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
   const currentTranslations = {};
   const keys = Object.keys(data);
   const { locale } = i18n;
@@ -208,13 +242,15 @@ const translateData = (data, fields, i18n) => {
           ? { display_text: translateDate(key, i18n, dateFormat) }
           : translations.find(t => t.id === key);
 
-        const translatedKey = translation ? translation.display_text : key;
+        const translatedKey = translation
+          ? translation.display_text
+          : getTranslatedKey(key, field, { agencies, i18n, locations });
 
         if (translation) {
           currentTranslations[translatedKey] = { ...data[key] };
           delete currentTranslations[key];
         }
-        const translatedData = translateData(data[key], [...storedFields], i18n);
+        const translatedData = translateData(data[key], [...storedFields], i18n, { agencies, locations });
 
         currentTranslations[translatedKey] = translatedData;
       }
@@ -224,11 +260,11 @@ const translateData = (data, fields, i18n) => {
   return currentTranslations;
 };
 
-const translateReportData = (report, i18n) => {
+const translateReportData = (report, i18n, { agencies, locations } = {}) => {
   const translatedReport = { ...report };
 
   if (translatedReport.report_data) {
-    translatedReport.report_data = translateData(report.report_data, report.fields, i18n);
+    translatedReport.report_data = translateData(report.report_data, report.fields, i18n, { agencies, locations });
   }
 
   return translatedReport;
@@ -406,9 +442,9 @@ const formatRows = (rows, translation, columns) => {
   });
 };
 
-export const buildDataForTable = (report, i18n) => {
+export const buildDataForTable = (report, i18n, { agencies, locations }) => {
   const { fields } = report.toJS();
-  const translatedReport = translateReportData(report.toJS(), i18n);
+  const translatedReport = translateReportData(report.toJS(), i18n, { agencies, locations });
   const translatedReportWithAllFields = {
     ...translatedReport,
     fields
@@ -432,13 +468,18 @@ export const buildDataForGraph = (report, i18n, { agencies, locations }) => {
   }
   const { fields } = report.toJS();
   const translatedReport = translateReportData(reportData, i18n);
-  const columns = getColumns(translatedReport.report_data, i18n);
+  const qtyColumns = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.vertical).length;
+  const qtyRows = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.horizontal).length;
+  const columns = getColumns(translatedReport.report_data, i18n, qtyColumns, qtyRows);
 
   const graphData = {
     description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
     data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, { agencies, locations }),
-      datasets: dataSet(columns, translatedReport.report_data, i18n, fields, {
+      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, qtyColumns, qtyRows, {
+        agencies,
+        locations
+      }),
+      datasets: dataSet(columns, translatedReport.report_data, i18n, fields, qtyColumns, qtyRows, {
         agencies,
         locations
       })
