@@ -1,4 +1,7 @@
 /* eslint-disable import/prefer-default-export */
+import { fromJS } from "immutable";
+
+import { SEPARATOR } from "../../../form/constants";
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { FILTER_NAMES } from "./constants";
@@ -32,7 +35,11 @@ export const getFilters = (forms, i18n) => [
       setValue(FILTER_NAMES.form_unique_ids, []);
     },
     options: forms
-      .flatMap(form => form.get("fields"))
+      .flatMap(form => form.get("fields", fromJS([])))
+      .filter(field => field.type !== SEPARATOR)
+      .groupBy(field => field.name)
+      .valueSeq()
+      .map(field => field.first())
       .reduce(
         (acc, elem) => [...acc, { id: elem.get("name"), display_text: elem.getIn(["display_name", i18n.locale]) }],
         []
