@@ -88,7 +88,6 @@ Container.defaultProps = {
 };
 
 Container.propTypes = {
-  dialogRef: PropTypes.object,
   modal: PropTypes.bool
 };
 
