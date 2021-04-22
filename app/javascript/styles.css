@@ -4,4 +4,15 @@
   & label, & input, & span, & div, & th, & p {
     font-size: $(theme.typography.pxToRem(15)) !important;
   }
+
+  & table td span {
+
+    & span:first-child {
+      font-size: 1.5rem !important;
+    }
+
+    & span:last-child {
+      font-size: .7rem !important;
+    }
+  }
 }
