@@ -110,7 +110,7 @@ describe PermittedFieldService, search: true do
   it 'returns should include fields for filters' do
     permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names
 
-    expect((%w[sex age registration_date] - permitted_field_names).empty?).to be true
+    expect((%w[sex age registration_date location_current] - permitted_field_names).empty?).to be true
   end
 
 
