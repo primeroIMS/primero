@@ -4,7 +4,12 @@ import { sortBy } from "lodash";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
-import { getAssignedAgency, getCurrentUserGroupPermission, getCurrentUserGroupsUniqueIds } from "../user";
+import {
+  getAssignedAgency,
+  getCurrentUserGroupPermission,
+  getCurrentUserGroupsUniqueIds,
+  getPermittedRoleUniqueIds
+} from "../user";
 import { getRecordForms } from "../record-form";
 import { GROUP_PERMISSIONS } from "../../libs/permissions";
 
