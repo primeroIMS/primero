@@ -30,8 +30,7 @@ import {
   FILTERS_FIELD,
   FORM_ID,
   NAME,
-  REPORT_FIELD_TYPES,
-  DATE
+  REPORT_FIELD_TYPES
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
@@ -54,8 +53,7 @@ const Container = ({ mode }) => {
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
-    ...formatReport(report.toJS()),
-    ...(formMode.isNew ? { group_dates_by: DATE } : {})
+    ...formatReport(report.toJS())
   };
 
   useEffect(() => {
@@ -146,6 +144,7 @@ const Container = ({ mode }) => {
             formID={FORM_ID}
             registerFields={[FILTERS_FIELD]}
             submitAllFields
+            submitAlways
             renderBottom={formMethods => (
               <ReportFilters
                 allRecordForms={allRecordForms}
