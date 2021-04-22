@@ -20,8 +20,8 @@ class UserGroup < ApplicationRecord
     users << user
   end
 
-  def self.list(user, managed)
-    return UserGroup.all if managed.blank? || user.role.group_permission == Permission::ALL
+  def self.list(user, opts = {})
+    return UserGroup.all if opts[:managed].blank? || user.role.group_permission == Permission::ALL
 
     user.user_groups
   end
