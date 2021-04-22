@@ -4,7 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import DateRangeSelect from "./component";
 
 describe("<DateRangeSelect />", () => {
-  const i18n = { t: () => "" };
+  const i18n = { t: () => "", toTime: () => "" };
   const commonDateRanges = CommonDateRanges.from(new Date(), { t: () => {} });
 
   const ranges = [commonDateRanges.Last3Months, commonDateRanges.Last6Months, commonDateRanges.LastYear];

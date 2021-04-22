@@ -67,11 +67,13 @@ class Role < ApplicationRecord
       end
     end
 
-    def list(user, external = false)
-      if external
+    def list(user = nil, options = {})
+      if options[:external]
         Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
+      elsif options[:managed]
+        user&.permitted_roles_to_manage || Role.none
       else
-        user.permitted_roles_to_manage
+        Role.all
       end
     end
   end

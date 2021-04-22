@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { LOOKUPS } from "../../../../config";
+import { GROUP_PERMISSIONS } from "../../../../libs/permissions";
 import {
   FormSectionRecord,
   FieldRecord,
@@ -28,7 +29,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { agencyReadOnUsers }
+  { agencyReadOnUsers, currentRoleGroupPermission }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -109,7 +110,7 @@ const sharedUserFields = (
     name: FIELD_NAMES.ROLE_UNIQUE_ID,
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.ROLE,
+    option_strings_source: OPTION_TYPES.ROLE_PERMITTED,
     watchedInputs: [FIELD_NAMES.ROLE_UNIQUE_ID],
     visible: !hideOnAccountPage
   },
@@ -147,7 +148,10 @@ const sharedUserFields = (
     name: FIELD_NAMES.AGENCY_ID,
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
+    option_strings_source:
+      agencyReadOnUsers || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+        ? OPTION_TYPES.AGENCY_CURRENT_USER
+        : OPTION_TYPES.AGENCY,
     watchedInputs: [FIELD_NAMES.AGENCY_ID],
     visible: !hideOnAccountPage
   },
@@ -214,11 +218,12 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers } = {}
+  { agencyReadOnUsers, currentRoleGroupPermission } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
-    agencyReadOnUsers
+    agencyReadOnUsers,
+    currentRoleGroupPermission
   });
   const identityFields = identityUserFields(i18n, identityOptions);
 

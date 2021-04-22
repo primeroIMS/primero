@@ -254,9 +254,7 @@ const Container = ({ mode }) => {
       }
     });
 
-    return () => {
-      window.history.replaceState({}, document.title);
-    };
+    window.history.replaceState({}, document.title);
   }, [params.id, params.recordType]);
 
   useEffect(() => {

@@ -61,6 +61,7 @@ describe("<Form /> - Constants", () => {
       "USER_GROUP",
       "USER_GROUP_PERMITTED",
       "ROLE_EXTERNAL_REFERRAL",
+      "ROLE_PERMITTED",
       "REFER_TO_USERS",
       "SERVICE_TYPE",
       "FORM_GROUP_LOOKUP",

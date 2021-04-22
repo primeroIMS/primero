@@ -36,6 +36,7 @@ export const OPTION_TYPES = {
   USER_GROUP: "UserGroup",
   USER_GROUP_PERMITTED: "UserGroupPermitted",
   ROLE: "Role",
+  ROLE_PERMITTED: "RolePermitted",
   ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
   REFER_TO_USERS: "ReferToUsers",
   SERVICE_TYPE: "lookup-service-type",
