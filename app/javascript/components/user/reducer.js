@@ -32,7 +32,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         user_group_unique_ids: userGroupUniqueIds,
         agency_id: agencyId,
         code_of_conduct_id: codeOfConductId,
-        code_of_conduct_accepted_on: codeOfConductAcceptedOn
+        code_of_conduct_accepted_on: codeOfConductAcceptedOn,
+        permitted_role_unique_ids: permittedRoleUniqueIds
       } = payload;
       const cleanedPermissions = permissions.list.filter(listItem => !isEmpty(listItem.actions));
 
@@ -52,7 +53,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           userGroupUniqueIds,
           agencyId,
           codeOfConductId,
-          codeOfConductAcceptedOn
+          codeOfConductAcceptedOn,
+          permittedRoleUniqueIds
         })
       );
     }

@@ -201,7 +201,7 @@ describe Api::V2::RolesController, type: :request do
         ]
       )
 
-      get '/api/v2/roles'
+      get '/api/v2/roles?managed=true'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'].map { |role| role['unique_id'] }).to include('role_test_01', 'role_test_02')
