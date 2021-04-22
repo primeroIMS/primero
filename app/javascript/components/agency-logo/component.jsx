@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { memo } from "react";
 
 import { getAgencyLogos } from "../application/selectors";
 import { useMemoizedSelector } from "../../libs";
@@ -39,4 +40,4 @@ AgencyLogo.propTypes = {
   alwaysFullLogo: PropTypes.bool
 };
 
-export default AgencyLogo;
+export default memo(AgencyLogo);

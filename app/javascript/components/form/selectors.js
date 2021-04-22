@@ -182,7 +182,10 @@ const lookups = (state, { i18n, filterOptions }) => {
 
 const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    (prev, current) => [
+      ...prev,
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+    ],
     []
   );
 
@@ -231,7 +234,10 @@ const recordForms = (state, { filterOptions }) => {
 
 const roles = state =>
   getRoles(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    (prev, current) => [
+      ...prev,
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+    ],
     []
   );
 
@@ -350,4 +356,4 @@ export const getManagedRoleByUniqueId = (state, uniqueID) =>
   managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
 
 export const getManagedRoleFormSections = (state, uniqueID) =>
-  getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_read_write", fromJS({})).keySeq().toList();

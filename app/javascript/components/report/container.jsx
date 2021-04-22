@@ -19,7 +19,8 @@ import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../libs";
+import { clearSelectedReport } from "../reports-form/action-creators";
 
 import { buildDataForGraph, buildDataForTable } from "./utils";
 import { getReport } from "./selectors";
@@ -44,6 +45,10 @@ const Report = ({ mode }) => {
 
   useEffect(() => {
     dispatch(fetchReport(id));
+
+    return () => {
+      dispatch(clearSelectedReport());
+    };
   }, []);
 
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
@@ -51,8 +56,8 @@ const Report = ({ mode }) => {
   const report = useMemoizedSelector(state => getReport(state));
   const agencies = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
 
-  const name = report.getIn(["name", i18n.locale], "");
-  const description = report.getIn(["description", i18n.locale], "");
+  const name = displayNameHelper(report.get("name"), i18n.locale);
+  const description = displayNameHelper(report.get("description"), i18n.locale);
 
   const setDeleteModal = open => {
     setDialog({ dialog: DELETE_MODAL, open });

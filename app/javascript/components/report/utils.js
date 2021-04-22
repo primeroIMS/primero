@@ -12,6 +12,8 @@ import { parse } from "date-fns";
 
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 
+import { DATE_PATTERN } from "./constants";
+
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
 };
@@ -20,11 +22,13 @@ const getColorsByIndex = index => {
   return getColors()[index];
 };
 
+const isDateRange = date => date.match(new RegExp(`^${DATE_PATTERN} - ${DATE_PATTERN}$`));
+
 const getDateFormat = value => {
   if (value.match(/^\w{3}-\d{4}$/)) {
     return "MMM-yyyy";
   }
-  if (value.match(/^(\w{2}-)?\w{3}-\d{4}$/)) {
+  if (value.match(new RegExp(`^${DATE_PATTERN}$`)) || isDateRange(value)) {
     return "dd-MMM-yyyy";
   }
 
@@ -32,9 +36,19 @@ const getDateFormat = value => {
 };
 
 const translateDate = (value, i18n, dateFormat) => {
+  if (isDateRange(value)) {
+    const splittedDateRange = value.split(" - ");
+    const dateFrom = parse(splittedDateRange[0], dateFormat, new Date());
+    const dateTo = parse(splittedDateRange[1], dateFormat, new Date());
+
+    const dateFromLocalized = dateFrom ? i18n.localizeDate(dateFrom, dateFormat) : i18n.l(value);
+    const dateToLocalized = dateTo ? i18n.localizeDate(dateTo, dateFormat) : i18n.l(value);
+
+    return `${dateFromLocalized} - ${dateToLocalized}`;
+  }
   const date = parse(value, dateFormat, new Date());
 
-  return date ? i18n.localizeDate(date, dateFormat) : value;
+  return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
 };
 
 const getColumnData = (column, data, i18n) => {
@@ -135,9 +149,23 @@ const getLabels = (columns, data, i18n, fields, { agencies }) => {
   return uniq(currentLabels.flat()).map(key => getTranslatedKey(key, field, { agencies }));
 };
 
+const findInOptionLabels = (optionLabels, value, locale = "en") =>
+  optionLabels[locale].find(option => option.id === value);
+
 const translateKeys = (keys, field, locale) => {
-  if (!isEmpty(field.option_labels)) {
-    const translations = field.option_labels[locale];
+  const { option_labels: optionLabels } = field;
+
+  if (!isEmpty(optionLabels)) {
+    const translations = optionLabels[locale].map(({ id, display_text: displayText }) => {
+      const fallbackDisplayText = isEmpty(displayText)
+        ? findInOptionLabels(optionLabels, id)?.display_text
+        : displayText;
+
+      return {
+        id,
+        display_text: fallbackDisplayText
+      };
+    });
 
     return translations.filter(translation => keys.includes(translation.id));
   }
@@ -158,6 +186,7 @@ const translateData = (data, fields, i18n) => {
     delete currentTranslations._total;
   } else if (!isEmpty(keys)) {
     const field = fields.shift();
+
     const storedFields = [...fields];
     const translations = translateKeys(keys, field, locale);
 
@@ -168,7 +197,8 @@ const translateData = (data, fields, i18n) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        const dateFormat = getDateFormat(key);
+        const dateFormat = getDateFormat(key); // Add regx to return format dd-mm-yyyy
+
         const translation = dateFormat
           ? { display_text: translateDate(key, i18n, dateFormat) }
           : translations.find(t => t.id === key);
@@ -201,7 +231,7 @@ const translateReportData = (report, i18n) => {
 
 const translateColumn = (column, value, locale = "en") => {
   if ("option_labels" in column) {
-    return column.option_labels[locale].find(option => option.id === value)?.display_text || value;
+    return findInOptionLabels(column.option_labels, value, locale)?.display_text || value;
   }
 
   return value;
@@ -302,7 +332,7 @@ const getColumnsTableData = data => {
   return renderColumns;
 };
 
-const getRowsTableData = data => {
+const getRowsTableData = (data, i18n) => {
   if (isEmpty(data.report_data)) {
     return [];
   }
@@ -315,9 +345,9 @@ const getRowsTableData = data => {
     const qtyOfParentKeys = rows.length;
 
     if (qtyOfParentKeys >= 2) {
-      accum.push([key, value._total]);
+      accum.push([key, true, value._total || value.Total]);
       const result = Object.keys(value)
-        .filter(val => val !== "_total")
+        .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
           const childObject = getAllKeysObject(value[rowDisplayName]);
 
@@ -325,27 +355,30 @@ const getRowsTableData = data => {
             return get(value[rowDisplayName], child);
           });
 
-          return [rowDisplayName, ...values];
+          return [rowDisplayName, false, ...values];
         });
 
       // Set rest of keys
       accum.push(...sortByDate(result, true));
     } else {
       const valuesAccesor = getAllKeysObject(value);
-      const values = valuesAccesor.filter(val => val !== "_total").map(val => get(value, val));
+      const values = valuesAccesor
+        .filter(val => !["_total", i18n.t("report.total")].includes(val))
+        .map(val => get(value, val));
 
-      accum.push([key, ...values, value._total]);
+      accum.push([key, false, ...values, value._total || value.Total]);
     }
   });
 
   return accum;
 };
 
-const formatRows = (rows, translation) => {
+const formatRows = (rows, translation, columns) => {
   const maxItems = max(rows.map(row => row.length));
 
   return rows.map(row => {
-    const [key, ...rest] = row;
+    // applyRowStyle only gets applied when there are not columns defined in the report
+    const [key, applyRowStyle, ...rest] = row;
 
     const translatedKey =
       translation
@@ -359,7 +392,8 @@ const formatRows = (rows, translation) => {
         .find(option => option.id === key)?.display_text || key;
 
     const result = {
-      colspan: maxItems === row.length ? 0 : maxItems - 1,
+      // eslint-disable-next-line no-nested-ternary
+      colspan: maxItems === row.length ? (applyRowStyle && isEmpty(columns) ? 1 : 0) : maxItems - 2,
       row: [translatedKey, ...rest]
     };
 
@@ -368,20 +402,19 @@ const formatRows = (rows, translation) => {
 };
 
 export const buildDataForTable = (report, i18n) => {
-  const reportData = report.toJS();
+  const { fields } = report.toJS();
+  const translatedReport = translateReportData(report.toJS(), i18n);
+  const translatedReportWithAllFields = {
+    ...translatedReport,
+    fields
+  };
 
-  const newColumns = getColumnsTableData(report.toJS());
-  const newRows = getRowsTableData(report.toJS());
-
-  const translatedReport = translateReportData(reportData, i18n);
-
-  if (!translatedReport.report_data) {
-    return { columns: [], values: [] };
-  }
+  const newColumns = getColumnsTableData(translatedReportWithAllFields);
+  const newRows = getRowsTableData(translatedReportWithAllFields, i18n);
 
   const columns = newColumns;
-  const rows = report.toJS().fields.filter(field => field.position.type === "horizontal");
-  const values = formatRows(newRows, rows);
+  const rows = report.toJS()?.fields?.filter(field => field.position.type === "horizontal");
+  const values = formatRows(newRows, rows, columns);
 
   return { columns, values };
 };

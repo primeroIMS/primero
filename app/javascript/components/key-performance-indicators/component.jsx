@@ -32,6 +32,12 @@ const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
   const css = useStyles();
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
+  const allDateRanges = [
+    commonDateRanges.Last3Months,
+    commonDateRanges.Last6Months,
+    commonDateRanges.LastYear,
+    commonDateRanges.AllTime
+  ];
 
   return (
     <div>
@@ -42,19 +48,17 @@ const KeyPerformanceIndicators = () => {
             <div>
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <NumberOfCases dateRanges={[commonDateRanges.Last3Months]} />
+                  <NumberOfCases dateRanges={allDateRanges} />
                 </Grid>
 
                 <Grid item className={css.grow} xs={12} md={6}>
-                  <NumberOfIncidents dateRanges={[commonDateRanges.Last3Months]} />
+                  <NumberOfIncidents dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
                 <Grid item className={css.grow} xs={12} md={12}>
-                  <ReportingDelay
-                    dateRanges={[commonDateRanges.Last3Months, commonDateRanges.Last6Months, commonDateRanges.LastYear]}
-                  />
+                  <ReportingDelay dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
             </div>
@@ -64,7 +68,7 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_assessment")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <AssessmentStatus dateRanges={[commonDateRanges.AllTime]} />
+                    <AssessmentStatus dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -82,15 +86,15 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_action_planning")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={6} xl={4}>
-                    <CompletedCaseSafetyPlan dateRanges={[commonDateRanges.AllTime]} />
+                    <CompletedCaseSafetyPlan dateRanges={allDateRanges} />
                   </Grid>
 
                   <Grid item className={css.grow} xs={12} md={6} xl={4}>
-                    <CompletedCaseActionPlan dateRanges={[commonDateRanges.AllTime]} />
+                    <CompletedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
 
                   <Grid item className={css.grow} xs={12} xl={4}>
-                    <CompletedSupervisorApprovedCaseActionPlan dateRanges={[commonDateRanges.AllTime]} />
+                    <CompletedSupervisorApprovedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -104,13 +108,13 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_action_plan_implementation")}</h2>
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <ServicesProvided dateRanges={[commonDateRanges.AllTime]} />
+                    <ServicesProvided dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
                   <Grid item xs={12}>
-                    <AverageReferrals dateRanges={[commonDateRanges.AllTime]} />
+                    <AverageReferrals dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -124,13 +128,13 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_follow_up")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>
-                    <AverageFollowupMeetingsPerCase dateRanges={[commonDateRanges.Last3Months]} />
+                    <AverageFollowupMeetingsPerCase dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <GoalProgressPerNeed dateRanges={[commonDateRanges.AllTime]} />
+                    <GoalProgressPerNeed dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -144,13 +148,13 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_closure")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>
-                    <TimeFromCaseOpenToClose dateRanges={[commonDateRanges.AllTime]} />
+                    <TimeFromCaseOpenToClose dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <CaseClosureRate dateRanges={[commonDateRanges.Last3Months]} />
+                    <CaseClosureRate dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -161,7 +165,7 @@ const KeyPerformanceIndicators = () => {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.feedback")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <ClientSatisfactionRate dateRanges={[commonDateRanges.AllTime]} />
+                    <ClientSatisfactionRate dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -176,13 +180,13 @@ const KeyPerformanceIndicators = () => {
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>
-                    <SupervisorToCaseworkerRatio dateRanges={[commonDateRanges.AllTime]} />
+                    <SupervisorToCaseworkerRatio dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <CaseLoad dateRanges={[commonDateRanges.AllTime]} />
+                    <CaseLoad dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>

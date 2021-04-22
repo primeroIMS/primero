@@ -1,5 +1,4 @@
-import { useContext, createContext, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, createContext } from "react";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../i18n";
@@ -7,7 +6,6 @@ import { useConnectivityStatus } from "../connectivity";
 import { currentUser } from "../user/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-import { fetchSandboxUI } from "./action-creators";
 import {
   selectModules,
   selectUserModules,
@@ -20,7 +18,6 @@ import {
 const Context = createContext();
 
 const ApplicationProvider = ({ children }) => {
-  const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
@@ -31,10 +28,6 @@ const ApplicationProvider = ({ children }) => {
   const demo = useMemoizedSelector(state => getDemo(state));
   const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
   const currentUserName = useMemoizedSelector(state => currentUser(state));
-
-  useEffect(() => {
-    dispatch(fetchSandboxUI());
-  }, []);
 
   const value = {
     modules,

@@ -6,7 +6,6 @@ describe("<Application /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
-      "ApplicationProvider",
       "fetchRoles",
       "fetchSystemPermissions",
       "fetchSystemSettings",
@@ -29,7 +28,8 @@ describe("<Application /> - index", () => {
       "selectUserIdle",
       "selectUserModules",
       "setUserIdle",
-      "useApp"
+      "useApp",
+      "ApplicationProvider"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

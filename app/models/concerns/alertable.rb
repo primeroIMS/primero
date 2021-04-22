@@ -10,6 +10,7 @@ module Alertable
   APPROVAL = 'approval'
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
+  INCIDENT_FROM_CASE = 'incident_from_case'
 
   included do
     searchable do
@@ -66,7 +67,7 @@ module Alertable
 
     def remove_alert_on_save
       return unless last_updated_by == owned_by && alerts?
-      return unless alerts_on_change.present?
+      return unless alerts_on_change.present? && record_user_update?
 
       alerts_on_change.each { |_, form_name| remove_alert(form_name) }
 
@@ -99,12 +100,11 @@ module Alertable
     end
 
     def remove_alert(type = nil)
-      alerts.each do |alert|
-        next unless (type.present? && alert.type == type) &&
-                    [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
-
-        alert.destroy
+      alerts_to_delete = alerts.select do |alert|
+        type.present? && alert.type == type && [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
       end
+
+      alerts.destroy(*alerts_to_delete)
     end
 
     def get_alert(approval_type, system_settings)

@@ -1,5 +1,12 @@
 import { Map, List, fromJS } from "immutable";
 
+import { RECORD_PATH } from "../../config/constants";
+
+const fieldMapModule = (state, moduleID) =>
+  state
+    .getIn(["application", "modules"], fromJS([]))
+    .find(recordModule => recordModule.get("unique_id") === moduleID, null, fromJS({}));
+
 export const selectRecord = (state, mode, recordType, id) => {
   if (mode.isEdit || mode.isShow) {
     const index = state.getIn(["records", recordType, "data"]).findIndex(r => r.get("id") === id);
@@ -8,6 +15,17 @@ export const selectRecord = (state, mode, recordType, id) => {
   }
 
   return null;
+};
+
+export const getIncidentAvailable = (state, id) => {
+  const online = state.getIn(["connectivity", "online"], false);
+  const index = state.getIn(["records", RECORD_PATH.incidents, "data"], fromJS([])).findIndex(r => r.get("id") === id);
+
+  if (online) {
+    return true;
+  }
+
+  return index > -1;
 };
 
 export const selectRecordAttribute = (state, recordType, id, attribute) => {
@@ -40,6 +58,12 @@ export const getIncidentFromCase = state => {
 
 export const getCaseIdForIncident = state => {
   return state.getIn(["records", "cases", "incidentFromCase", "incident_case_id"], false);
+};
+
+export const getFieldMap = (state, moduleID) => {
+  const mapTo = fieldMapModule(state, moduleID).getIn(["field_map", "map_to"]);
+
+  return fieldMapModule(state, mapTo).getIn(["field_map", "fields"], fromJS([]));
 };
 
 export const getSelectedRecord = (state, recordType) => state.getIn(["records", recordType, "selectedRecord"]);

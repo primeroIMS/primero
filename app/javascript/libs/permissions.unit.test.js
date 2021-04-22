@@ -37,6 +37,7 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
+      "DASH_CASES_TO_ASSIGN",
       "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
       "DASH_FLAGS",

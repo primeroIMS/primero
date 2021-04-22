@@ -6,7 +6,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
   const { store } = createMockStore();
   const json = { data: { id: 1234 } };
   const pushAction = path => ({
-    payload: { args: [path], method: "push" },
+    payload: { args: [path, { preventSyncAfterRedirect: undefined }], method: "push" },
     type: "@@router/CALL_HISTORY_METHOD"
   });
 
