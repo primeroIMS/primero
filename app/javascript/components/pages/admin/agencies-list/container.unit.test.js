@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 
 import NAMESPACE from "./namespace";
 import AgenciesList from "./container";
@@ -51,8 +51,8 @@ describe("<AgenciesList />", () => {
     expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
-  it("renders <AdminFilters /> component", () => {
-    expect(component.find(AdminFilters)).to.have.lengthOf(1);
+  it("renders <FiltersForm /> component", () => {
+    expect(component.find(FiltersForm)).to.have.lengthOf(1);
   });
 
   it("should trigger a valid action with next page when clicking next page", () => {

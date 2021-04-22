@@ -1,0 +1,16 @@
+.recordFormFilters {
+  flex: 1 1;
+  max-width: 300px;
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .recordFormFilters {
+    text-align: center;
+    flex: 0 1;
+  }
+
+  .filtersContainer {
+    padding: 0 0.6em;
+    max-width: 300px;
+  }
+}

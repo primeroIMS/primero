@@ -10,6 +10,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
+import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -332,7 +333,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
       const currFormValues = getValues()[selectedField.get("name")];
       const updatedSubformSection = getValues()?.subform_section;
 
-      const { disabled, hide_on_view_page } = selectedField.toJS();
+      const { disabled, hide_on_view_page, option_strings_text } = selectedField.toJS();
       const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
 
       const data = mergeTranslationKeys(selectedFormField, currFormValues);
@@ -354,7 +355,11 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
           [selectedFieldName]: {
             ...fieldData,
             option_strings_text: fieldData.option_strings_text?.map(option => {
-              return { ...option, disabled: !option.disabled };
+              if (!isEmpty(option_strings_text)) {
+                return { ...option, disabled: !option_strings_text.find(({ id }) => option.id === id)?.disabled };
+              }
+
+              return option;
             })
           },
           ...subform
