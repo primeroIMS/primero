@@ -37,7 +37,8 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASE_INCIDENT_OVERVIEW,
         Permission::DASH_WORKFLOW_TEAM,
-        Permission::DASH_CASES_BY_SOCIAL_WORKER
+        Permission::DASH_CASES_BY_SOCIAL_WORKER,
+        Permission::DASH_NATIONAL_ADMIN_SUMMARY
       ]
     )
 
@@ -122,7 +123,7 @@ describe Api::V2::DashboardsController, type: :request do
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(12)
+      expect(json['data'].size).to eq(13)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -187,6 +188,14 @@ describe Api::V2::DashboardsController, type: :request do
                                                                         'cases_by_social_worker_new_or_updated'])
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_total']['foo']['count']).to eq(2)
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_new_or_updated']['foo']['count']).to eq(1)
+
+      national_admin_summary = json['data'].find { |d| d['name'] == 'dashboard.dash_national_admin_summary' }
+      expect(national_admin_summary['indicators'].count).to eq(5)
+      expect(national_admin_summary['indicators']['total']['count']).to eq(2)
+      expect(national_admin_summary['indicators']['new_last_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['new_this_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['closed_last_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['closed_this_week']['count']).to eq(2)
     end
 
     describe 'Test the shared with dashboard', search: true do

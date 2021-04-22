@@ -612,5 +612,45 @@ module Indicators
         SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
       ]
     end
+
+    def self.new_this_week
+      QueriedIndicator.new(
+        name: 'new_this_week',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
+        ]
+      )
+    end
+
+    def self.new_last_week
+      QueriedIndicator.new(
+        name: 'new_last_week',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
+        ]
+      )
+    end
+
+    def self.closed_this_week
+      QueriedIndicator.new(
+        name: 'closed_this_week',
+        record_model: Child,
+        queries: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
+        ].freeze
+      )
+    end
+
+    def self.closed_last_week
+      QueriedIndicator.new(
+        name: 'closed_last_week',
+        record_model: Child,
+        queries: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
+        ].freeze
+      )
+    end
   end
 end
