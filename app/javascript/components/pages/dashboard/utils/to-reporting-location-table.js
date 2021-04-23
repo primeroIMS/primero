@@ -21,7 +21,7 @@ const transformOptionKeys = data => {
 
     return { ...acc, [key]: value };
   }, {});
-}
+};
 
 export const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
   const newOptionsByIndex = transformOptionKeys(optionsByIndex);
