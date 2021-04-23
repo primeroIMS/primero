@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
 import FormFilters from "../form-filters";
@@ -75,6 +75,7 @@ const Container = ({ mode }) => {
   const { demo } = useApp();
   const params = useParams();
   const { state: locationState } = useLocation();
+  const history = useHistory();
 
   const containerMode = {
     isNew: mode === "new",
@@ -254,7 +255,7 @@ const Container = ({ mode }) => {
       }
     });
 
-    window.history.replaceState({}, document.title);
+    history.replace(history.location.pathname, {});
   }, [params.id, params.recordType]);
 
   useEffect(() => {
