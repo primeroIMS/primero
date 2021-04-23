@@ -29,16 +29,18 @@ const Component = ({
     heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
   } else if (mode.isEdit || mode.isShow) {
     heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-      short_id: params.recordType === RECORD_PATH.cases ? caseIdDisplay : shortId || "-------"
+      short_id: params.recordType === RECORD_PATH.cases && caseIdDisplay ? caseIdDisplay : shortId || "-------"
     });
   }
 
+  const caseIncidentShortID = incidentCaseId?.substr(incidentCaseId.length - 7);
+
   const associatedCase =
-    params.recordType === RECORD_PATH.incidents && incidentCaseId && incidentCaseIdDisplay ? (
+    params.recordType === RECORD_PATH.incidents && incidentCaseId ? (
       <Permission resources={RECORD_PATH.cases} actions={READ_RECORDS}>
         <p className={associatedLinkClass}>
           {i18n.t("incident.associated_case")}{" "}
-          <Link to={`/cases/${incidentCaseId}`}>{incidentCaseIdDisplay || shortId}</Link>
+          <Link to={`/cases/${incidentCaseId}`}>{incidentCaseIdDisplay || shortId || caseIncidentShortID}</Link>
         </p>
       </Permission>
     ) : null;
