@@ -96,14 +96,17 @@ const RecordForm = ({
   }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
-    if (bindedSetValues) {
-      if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
-        const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+    if (
+      bindedResetForm &&
+      incidentFromCase?.size &&
+      mode.isNew &&
+      RECORD_TYPES[recordType] === RECORD_TYPES.incidents
+    ) {
+      const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-        bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
-      }
+      bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
     }
-  }, [bindedResetForm, JSON.stringify(incidentFromCase), recordType]);
+  }, [bindedResetForm, incidentFromCase, recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {

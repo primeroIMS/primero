@@ -39,7 +39,7 @@ const generateUpdateMessage = (
 
   const name = filterFieldsRecordInformation(field)?.length
     ? fieldDisplayName || i18n.translations.en.record_information[field]
-    : field;
+    : fieldDisplayName || field;
 
   return {
     change: {

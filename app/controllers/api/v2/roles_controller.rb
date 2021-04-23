@@ -6,7 +6,7 @@ class Api::V2::RolesController < ApplicationApiController
   before_action :load_role, only: %i[show update destroy]
 
   def index
-    @roles = Role.list(current_user, params[:external])
+    @roles = Role.list(current_user, params)
     @total = @roles.size
     @roles = @roles.paginate(pagination) if pagination?
   end

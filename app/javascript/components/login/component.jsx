@@ -8,7 +8,7 @@ import IdpSelection from "./components/idp-selection";
 import LoginForm from "./components/login-form";
 import { getLoading, getUseIdentityProvider } from "./selectors";
 
-const Container = ({ dialogRef, modal }) => {
+const Container = ({ modal }) => {
   const useIdentity = useMemoizedSelector(state => getUseIdentityProvider(state));
   const isLoading = useMemoizedSelector(state => getLoading(state));
 
@@ -16,7 +16,7 @@ const Container = ({ dialogRef, modal }) => {
 
   return (
     <LoadingIndicator loading={isLoading} hasData={!isLoading}>
-      <LoginComponent modal={modal} dialogRef={dialogRef} />
+      <LoginComponent modal={modal} />
     </LoadingIndicator>
   );
 };
@@ -28,7 +28,6 @@ Container.defaultProps = {
 };
 
 Container.propTypes = {
-  dialogRef: PropTypes.object,
   modal: PropTypes.bool
 };
 

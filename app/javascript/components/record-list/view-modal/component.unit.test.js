@@ -8,7 +8,6 @@ import * as R from "../../record-form/records";
 import { RECORD_TYPES } from "../../../config";
 
 import ViewModal from "./component";
-import { COMMON_FIELD_NAMES } from "./constants";
 
 describe("<ViewModal />", () => {
   const formSections = {
@@ -98,25 +97,6 @@ describe("<ViewModal />", () => {
     currentRecord,
     recordType: "cases"
   };
-
-  it("should render the common fields", () => {
-    const initialState = fromJS({
-      user: { permissions: { cases: [] } },
-      forms: {
-        formSections: mapEntriesToRecord(formSections, R.FormSectionRecord),
-        fields: mapEntriesToRecord(fields, R.FieldRecord)
-      }
-    });
-
-    const { component } = setupMountedComponent(ViewModal, props, initialState);
-
-    const fieldNames = component
-      .find(ViewModal)
-      .find(TextField)
-      .map(field => field.props().name);
-
-    expect(fieldNames).to.include.members(Object.values(COMMON_FIELD_NAMES));
-  });
 
   it("should render the mini form fields", () => {
     const initialState = fromJS({

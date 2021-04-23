@@ -52,7 +52,26 @@ import {
 } from "../libs/permissions";
 import Login from "../components/login";
 
-import { ROUTES, MODES } from "./constants";
+import { ROUTES, MODES, RECORD_PATH } from "./constants";
+
+const recordPaths = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests];
+
+const recordRoutes = [
+  [MODES.edit, WRITE_RECORDS, ":id/edit"],
+  [MODES.new, CREATE_RECORDS, ":module/new"],
+  [MODES.show, READ_RECORDS, ":id"]
+]
+  .map(([mode, actions, path]) => {
+    return recordPaths.map(recordPath => ({
+      path: `/:recordType(${recordPath})/${path}`,
+      component: RecordForm,
+      extraProps: {
+        mode
+      },
+      actions
+    }));
+  })
+  .flat();
 
 export default [
   {
@@ -79,30 +98,7 @@ export default [
         path: ROUTES.dashboard,
         component: Dashboard
       },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.edit
-        },
-        actions: WRITE_RECORDS
-      },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.new
-        },
-        actions: CREATE_RECORDS
-      },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:id",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.show
-        },
-        actions: READ_RECORDS
-      },
+      ...recordRoutes,
       {
         path: "/cases",
         component: RecordList,
