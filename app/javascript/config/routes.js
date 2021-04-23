@@ -99,30 +99,6 @@ export default [
         component: Dashboard
       },
       ...recordRoutes,
-      // {
-      //   path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
-      //   component: RecordForm,
-      //   extraProps: {
-      //     mode: MODES.edit
-      //   },
-      //   actions: WRITE_RECORDS
-      // },
-      // {
-      //   path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
-      //   component: RecordForm,
-      //   extraProps: {
-      //     mode: MODES.new
-      //   },
-      //   actions: CREATE_RECORDS
-      // },
-      // {
-      //   path: "/:recordType(cases|incidents|tracing_requests)/:id",
-      //   component: RecordForm,
-      //   extraProps: {
-      //     mode: MODES.show
-      //   },
-      //   actions: READ_RECORDS
-      // },
       {
         path: "/cases",
         component: RecordList,
