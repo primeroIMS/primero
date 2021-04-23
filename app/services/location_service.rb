@@ -2,7 +2,7 @@
 
 # Uses a cache to interact with Locations
 class LocationService
-  attr_accessor :locations_by_code, :with_cache
+  attr_accessor :locations_by_code, :with_cache, :unique_id_attribute
 
   def self.instance
     new(Rails.env.production?)
@@ -10,6 +10,7 @@ class LocationService
 
   def initialize(with_cache = false)
     self.with_cache = with_cache
+    self.unique_id_attribute = 'location_code'
   end
 
   def rebuild_cache(force = false)
@@ -18,7 +19,7 @@ class LocationService
     # The assumption here is that the cache will be updated if a new Location is created
     cache_key = "location_service/#{Location.maximum(:id)}"
     self.locations_by_code = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
-      Locations.all.map { |loc| [loc.location_code, loc] }.to_h
+      Location.all.map { |loc| [loc.location_code, loc] }.to_h
     end
   end
 
@@ -31,6 +32,14 @@ class LocationService
     else
       Location.find_by(location_code: code)
     end
+  end
+
+  # Ducktyping to support app/services/field_value_service.rb#record_name_value :)
+  def find_by(opts = {})
+    code = opts.with_indifferent_access[:location_code]
+    return unless code.present?
+
+    find_by_code(code)
   end
 
   def find_by_codes(codes)
@@ -54,5 +63,13 @@ class LocationService
     return unless ancestor_code
 
     find_by_code(ancestor_code)
+  end
+
+  def ancestors(code)
+    location = find_by_code(code)
+    return unless location.present?
+    return [location] if location.country?
+
+    find_by_codes(location.hierarchy)
   end
 end
