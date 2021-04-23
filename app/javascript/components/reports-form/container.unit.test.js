@@ -78,11 +78,11 @@ describe("<ReportsForm /> - Container", () => {
       "formID",
       "registerFields",
       "submitAllFields",
+      "submitAlways",
       "renderBottom",
       "formErrors",
       "formOptions",
       "mode",
-      "submitAlways",
       "useCancelPrompt"
     ];
 
