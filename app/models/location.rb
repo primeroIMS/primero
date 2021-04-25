@@ -48,18 +48,6 @@ class Location < ApplicationRecord
       'type_inheritance'
     end
 
-    # TODO: Used by the selected fields exporter. Replace
-    # def ancestor_placename_by_name_and_admin_level(location_code, admin_level)
-    #   return '' if location_code.blank? || ADMIN_LEVELS.exclude?(admin_level)
-
-    #   lct = Location.find_by(location_code: location_code)
-    #   if lct.present?
-    #     lct.admin_level == admin_level ? lct.placename : lct.ancestor_by_admin_level(admin_level).try(:placename)
-    #   else
-    #     ''
-    #   end
-    # end
-
     def new_with_properties(location_properties)
       Location.new(location_properties.slice(:type, :disabled, :parent_code, :hierarchy_path)).tap do |location|
         location.location_code = location_properties[:code]
@@ -132,11 +120,6 @@ class Location < ApplicationRecord
     ancestors.find { |loc| loc.type == type }
   end
 
-  # TODO: Used solely by the UNHCR exporter
-  def location_codes_and_placenames
-    ancestors.map { |lct| [lct.location_code, lct.placename] } << [location_code, placename]
-  end
-
   def hierarchy_from_parent
     return if hierarchy_path.present?
     return unless will_save_change_to_attribute?(:parent_code)
@@ -197,11 +180,6 @@ class Location < ApplicationRecord
 
     GenerateLocationFilesJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
-
-  # TODO: used by ancestor_placename_by_name_and_admin_level, which in turn should be expunged
-  # def ancestor_by_admin_level(admin_level)
-  #   Location.find_by(admin_level: admin_level, location_code: hierarchy_path.split('.'))
-  # end
 
   private
 
