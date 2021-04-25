@@ -71,12 +71,19 @@ module Ownable
     return unless owned_by.present?
     return unless new_record? || changes_to_save_for_record['owned_by'].present?
 
-    self.owned_by_full_name = owner&.full_name
-    self.owned_by_agency_id = owner&.organization&.unique_id
-    self.owned_by_groups = owner&.user_group_unique_ids
-    self.owned_by_location = owner&.location
-    self.owned_by_user_code = owner&.code
-    self.owned_by_agency_office = owner&.agency_office
+    new_owner = owner(true)
+    return revert_owned_by unless new_owner
+
+    self.owned_by_full_name = new_owner&.full_name
+    self.owned_by_agency_id = new_owner&.organization&.unique_id
+    self.owned_by_groups = new_owner&.user_group_unique_ids
+    self.owned_by_location = new_owner&.location
+    self.owned_by_user_code = new_owner&.code
+    self.owned_by_agency_office = new_owner&.agency_office
+  end
+
+  def revert_owned_by
+    self.owned_by = changes_to_save_for_record['owned_by'][0]
   end
 
   def update_previously_owned_by

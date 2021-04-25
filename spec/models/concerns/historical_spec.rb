@@ -37,7 +37,8 @@ describe Historical do
     end
 
     it 'should insert a creation history with correct record_changes' do
-      expect(@inst.histories.first.record_changes.size).to eq(16)
+      # TODO: Not a very good test. What changes are expected?
+      expect(@inst.histories.first.record_changes.size).to eq(18)
     end
 
     # TODO: This is disabled for now. OK behavior, no?
