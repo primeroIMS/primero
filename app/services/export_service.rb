@@ -33,9 +33,10 @@ class ExportService
     end
 
     def enqueue(bulk_export, password = '')
-      return log_missing_password(bulk_export) if ZipService.require_password? && password.blank?
+      require_password = ZipService.require_password?
+      return log_missing_password(bulk_export) if require_password && password.blank?
 
-      encrypted_password = EncryptionService.encrypt(password)
+      encrypted_password = require_password ? EncryptionService.encrypt(password) : ''
       BulkExportJob.perform_later(bulk_export.id, encrypted_password)
     end
 

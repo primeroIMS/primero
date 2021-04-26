@@ -14,12 +14,10 @@ class EncryptionService
     end
 
     def encrypt(value)
-      return '' unless ZipService.require_password?
       instance.encrypt(value)
     end
 
     def decrypt(encrypted_value)
-      return '' unless ZipService.require_password?
       instance.decrypt(encrypted_value)
     end
   end
