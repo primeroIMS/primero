@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { displayNameHelper } from "../../../libs";
 import { FIELDS } from "../../record-owner/constants";
 import { OPTION_TYPES } from "../../form/constants";
 import { APPROVALS } from "../constants";
@@ -71,7 +72,7 @@ export default (allAgencies, allLookups, locations, i18n, selectedField, field, 
   }
 
   if (selectedField) {
-    fieldDisplayName = selectedField?.get("display_name")[i18n.locale];
+    fieldDisplayName = displayNameHelper(selectedField?.get("display_name"), i18n.locale);
   }
 
   const selectedFieldOptionsSource = selectedField?.get("option_strings_source");
