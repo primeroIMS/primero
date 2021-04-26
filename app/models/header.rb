@@ -21,7 +21,7 @@ class Header < ValueObject
   DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
   GBV_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   GBV_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
-  CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'cp_incident_date')
+  CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   CP_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
   VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
@@ -49,6 +49,10 @@ class Header < ValueObject
   STATUS = Header.new(name: 'status', field_name: 'status')
   ALERT_COUNT = Header.new(name: 'alert_count', field_name: 'alert_count')
   FLAG_COUNT = Header.new(name: 'flag_count', field_name: 'flag_count')
+  LOCATION_CODE = Header.new(name: 'location.code', field_name: 'code')
+  LOCATION_ADMIN_LEVEL = Header.new(name: 'location.admin_level', field_name: 'admin_level')
+  LOCATION_TYPE = Header.new(name: 'location.type', field_name: 'type')
+  LOCATION_HIERARCHY = Header.new(name: 'location.hierarchy', field_name: 'hierarchy')
 
   class << self
     def get_headers(user, record_type)
@@ -125,6 +129,10 @@ class Header < ValueObject
 
     def user_group_headers
       [USER_GROUP_NAME, DESCRIPTION]
+    end
+
+    def locations_headers
+      [NAME, LOCATION_CODE, LOCATION_ADMIN_LEVEL, LOCATION_TYPE, LOCATION_HIERARCHY]
     end
   end
 

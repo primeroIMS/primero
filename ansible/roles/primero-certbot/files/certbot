@@ -1,0 +1,144 @@
+#! /usr/bin/env python3
+
+
+from __future__ import (print_function,)
+
+
+import argparse
+import os
+import pipes
+import shutil
+import subprocess
+import sys
+import tempfile
+
+
+_CERTBOT_IMAGE = 'certbot/certbot:v1.11.0'
+
+
+def _abspath_join(*args, **kwargs):
+    result = os.path.abspath(os.path.join(*args, **kwargs))
+    return result
+
+
+def _check_call(args, *popenargs, **kwargs):
+    print('+', ' '.join(pipes.quote(a) for a in args))
+    subprocess.check_call(args, *popenargs, **kwargs)
+
+def _deploy_hook(container_renewed_file, certname, certbot_certificates_volume_name):
+    touch_command = ' '.join(['touch', container_renewed_file])
+    # live_cert = '/'.join(['/etc/letsencrypt/live/', certname, 'cert.pem'])
+    # archive_cert = '/'.join(['/etc/letsencrypt/archive/', certname, 'cert.pem'])
+    live_cert_chmod_command = ' '.join(['chmod', 'a+r', '-R', '/etc/letsencrypt/live'])
+    archive_cert_chmod_command = ' '.join(['chmod', 'a+r', '-R', '/etc/letsencrypt/archive'])
+    return ' && '.join([touch_command, live_cert_chmod_command, archive_cert_chmod_command])
+
+def _main(argv):
+    parser = argparse.ArgumentParser(
+        description='Obtain or renew Let\'s Encrypt certificates.',
+        )
+    parser.add_argument(
+        '--force-renewal',
+        action='store_true',
+        dest='force_renewal',
+        )
+    parser.add_argument(
+        '-d',
+        '--domain',
+        action='append',
+        metavar='DOMAIN',
+        dest='domains',
+        )
+    parser.add_argument(
+        '--cert-name',
+        required=True,
+        metavar='CERTNAME',
+        dest='certname',
+        )
+    parser.add_argument(
+        '--dry-run',
+        action='store_true',
+        dest='dry_run',
+        )
+    parser.add_argument(
+        '-m',
+        '--email',
+        required=True,
+        metavar='EMAIL',
+        dest='email',
+        )
+    parser.add_argument(
+        '--test-cert',
+        '--staging',
+        action='store_true',
+        dest='staging',
+        )
+    parser.add_argument(
+        '-p',
+        '--project-name',
+        required=True,
+        metavar='PROJECT_NAME',
+        dest='project_name',
+        )
+    arguments = parser.parse_args(argv[1:])
+    host_dir = tempfile.mkdtemp()
+    try:
+        certbot_certificates_volume_name = ''.join([arguments.project_name, '_certbot_certificates'])
+        certbot_challenges_volume_name = ''.join([arguments.project_name, '_certbot_challenges'])
+        container_dir = '/tmp/deploy-hook-dir'
+        container_renewed_file = os.path.join(container_dir, 'renewed')
+        deploy_hook_command = _deploy_hook(container_renewed_file, arguments.certname, certbot_certificates_volume_name)
+        def generator():
+            yield 'docker'
+            yield 'run'
+            yield '--rm'
+            yield '--interactive'
+            yield '--volume'
+            yield ':'.join([certbot_certificates_volume_name, '/etc/letsencrypt'])
+            yield '--volume'
+            yield ':'.join([certbot_challenges_volume_name, '/usr/share/nginx/html/.well-known/acme-challenge'])
+            yield '--volume'
+            yield ':'.join([host_dir, container_dir])
+            yield _CERTBOT_IMAGE
+            yield 'certonly'
+            yield '--non-interactive'
+            if arguments.force_renewal:
+                yield '--force-renewal'
+            if None is not arguments.domains:
+                for domain in arguments.domains:
+                    yield '--domain'
+                    yield domain
+            yield '--cert-name'
+            yield arguments.certname
+            if arguments.dry_run:
+                yield '--dry-run'
+            yield '--email'
+            yield arguments.email
+            yield '--agree-tos'
+            if arguments.staging:
+                yield '--test-cert'
+            yield '--rsa-key-size'
+            yield '2048'
+            yield '--deploy-hook'
+            yield deploy_hook_command
+            yield '--webroot'
+            yield '--webroot-path'
+            yield '/usr/share/nginx/html'
+        command = list(generator())
+        _check_call(command)
+        host_renewed_file = os.path.join(host_dir, 'renewed')
+        renewed = os.path.exists(host_renewed_file)
+    finally:
+        shutil.rmtree(host_dir)
+    if renewed:
+        nginx_container_name = ''.join([arguments.project_name, '_nginx_1'])
+        _check_call(['docker', 'exec', '--interactive', nginx_container_name, 'update-nginx-conf.sh'])
+        _check_call(['docker', 'exec', '--interactive', nginx_container_name, 'nginx', '-s', 'reload'])
+    return 0
+
+
+if '__main__' == __name__:
+    code = _main(sys.argv)
+    if None is code:
+        code = 0
+    sys.exit(code)

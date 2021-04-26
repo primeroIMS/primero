@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
 import { Photo } from "@material-ui/icons";
@@ -11,8 +10,10 @@ import { FlagIcon } from "../../../images/primero-icons";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const ToggleIconCell = ({ value, icon }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (!value) {
     return null;

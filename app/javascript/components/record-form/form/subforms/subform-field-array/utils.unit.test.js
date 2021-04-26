@@ -1,10 +1,12 @@
+import { TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
+
 import * as helpers from "./utils";
 
 describe("Verifying utils", () => {
   it("should have known utils", () => {
     const clonedHelpers = { ...helpers };
 
-    ["valuesWithDisplayConditions", "fieldsToRender"].forEach(property => {
+    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender"].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
     });
@@ -63,6 +65,37 @@ describe("valuesWithDisplayConditions", () => {
 
     expect(options).to.deep.equal(expected);
   });
+
+  it("should return empty array if values is empty no matters if displayConditions is present", () => {
+    const values = [];
+    const displayConditions = [
+      {
+        relation_is_caregiver: true
+      }
+    ];
+    const options = helpers.valuesWithDisplayConditions(values, displayConditions);
+
+    expect(options).to.be.empty;
+  });
+
+  it("should return values if displayConditions is not present", () => {
+    const values = [
+      {
+        relation: "father",
+        unique_id: "948329b8-b501-47d5-9b3d-64f371e7b9bd",
+        relation_name: "Brady",
+        relation_is_alive: "alive",
+        relation_language: [],
+        relation_religion: [],
+        relation_telephone: 333,
+        relation_nationality: []
+      }
+    ];
+    const displayConditions = [];
+    const options = helpers.valuesWithDisplayConditions(values, displayConditions);
+
+    expect(options).to.deep.equal(values);
+  });
 });
 
 describe("fieldsToRender", () => {
@@ -106,5 +139,15 @@ describe("fieldsToRender", () => {
     const options = helpers.fieldsToRender(listFields, fields);
 
     expect(options).to.deep.equal(expected);
+  });
+});
+
+describe("isTracesSubform", () => {
+  it("should return true if it is the traces subform", () => {
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: TRACES_SUBFORM_UNIQUE_ID })).to.be.true;
+  });
+
+  it("should return false if it is not the traces subform", () => {
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).to.be.false;
   });
 });

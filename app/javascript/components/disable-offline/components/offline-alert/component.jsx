@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,9 +7,11 @@ import { useApp } from "../../../application";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ text }) => {
   const { online } = useApp();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   if (online) return null;
 

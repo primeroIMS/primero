@@ -1,19 +1,19 @@
-import { dataToJS } from "../../../../libs";
+import { fromJS } from "immutable";
+
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { AGENCY, DISABLED, USER_GROUP } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
-  const agencies = dataToJS(data);
-
-  return agencies.reduce((acc, agency) => [...acc, { id: agency.id, display_name: agency.name[i18n.locale] }], []);
+  return data.reduce(
+    (acc, agency) => [...acc, { id: agency.get("id"), display_name: agency.getIn(["name", i18n.locale]) }],
+    []
+  );
 };
 
 const userGroupOptions = data => {
-  const userGroups = dataToJS(data);
-
-  return userGroups
-    ? userGroups.reduce((acc, group) => [...acc, { id: group.unique_id, display_name: group.name }], [])
+  return data
+    ? data.reduce((acc, group) => [...acc, { id: group.get("unique_id"), display_name: group.get("name") }], [])
     : [];
 };
 
@@ -58,3 +58,12 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     multiple: false
   }
 ];
+
+export const agencyBodyRender = (i18n, agencies, value) =>
+  agencies.get(String(value), fromJS({})).getIn(["name", i18n.locale]);
+
+export const buildObjectWithIds = elems =>
+  elems.reduce(
+    (previousValue, currentValue) => previousValue.merge(fromJS({ [currentValue.get("id")]: currentValue })),
+    fromJS({})
+  );

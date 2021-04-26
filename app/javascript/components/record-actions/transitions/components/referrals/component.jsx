@@ -1,17 +1,20 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { object, string } from "yup";
 import { Formik } from "formik";
 import { fromJS } from "immutable";
+import startCase from "lodash/startCase";
 
+import { RECORD_TYPES } from "../../../../../config";
 import { getEnabledAgencies } from "../../../../application";
 import { setServiceToRefer } from "../../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
 import { saveReferral } from "../../action-creators";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import MainForm from "./main-form";
 import {
@@ -40,9 +43,13 @@ const ReferralForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
+
+  const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const services = serviceToRefer.get(SERVICE_SECTION_FIELDS.type, "");
-  const agencies = useSelector(state => getEnabledAgencies(state, services));
+
+  const agencies = useMemoizedSelector(state => {
+    return getEnabledAgencies(state, services);
+  });
 
   const referralFromService = serviceToRefer?.size
     ? {
@@ -116,7 +123,7 @@ const ReferralForm = ({
               consent_overridden: canConsentOverride || values[REFERRAL_FIELD]
             }
           },
-          i18n.t("referral.success", { record_type: recordType, id: recordId })
+          i18n.t("referral.success", { record_type: startCase(RECORD_TYPES[recordType]), id: recordId })
         )
       );
       setSubmitting(false);

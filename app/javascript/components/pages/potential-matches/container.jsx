@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
@@ -12,12 +12,14 @@ import styles from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
+const useStyles = makeStyles(styles);
+
 const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     getPotentialMatches();
   }, []);
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const columns = [

@@ -16,11 +16,14 @@ describe("<ChangePassword /> - Component", () => {
     setOpen: () => {},
     commonInputProps: {
       label: "Test label"
+    },
+    parentFormMethods: {
+      setValue() {}
     }
   };
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(ChangePassword, props));
+    ({ component } = setupMockFormComponent(ChangePassword, { props }));
   });
 
   it("should render 2 ActionDialog components", () => {
@@ -33,7 +36,16 @@ describe("<ChangePassword /> - Component", () => {
 
   it("should have valid props", () => {
     const changePasswordProps = component.find(ChangePassword).props();
-    const expectedProps = ["formMode", "i18n", "open", "pending", "setOpen", "commonInputProps"];
+    const expectedProps = [
+      "formMode",
+      "i18n",
+      "open",
+      "pending",
+      "setOpen",
+      "commonInputProps",
+      "parentFormMethods",
+      "formMethods"
+    ];
 
     expect(Object.keys(changePasswordProps)).to.deep.equals(expectedProps);
   });

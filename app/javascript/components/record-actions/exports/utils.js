@@ -152,21 +152,23 @@ export const isPdfExport = type => type === EXPORT_FORMAT.PDF;
 
 export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));
 
-export const exportFormsOptions = (type, fields, forms, locale) => {
-  if (isCustomExport(type)) {
-    return fields
-      .filter(field => field?.type !== SUBFORM_SECTION && field.visible)
-      .map(field => ({
-        id: field.formSectionId,
-        display_text: field.formSectionName
-      }));
-  }
+export const exportFormsOptions = (forms, locale) =>
+  forms
+    .entrySeq()
+    .filter(([, form]) => form.get("visible") && !form.get("is_nested"))
+    .reduce(
+      (prev, [, current]) => [
+        ...prev,
+        {
+          id: current.get("unique_id"),
+          display_text: displayNameHelper(current.get("name"), locale)
+        }
+      ],
+      []
+    );
 
-  return forms
-    .filter(form => !(form.visible && form.is_nested))
-    .map(form => ({
-      id: form.unique_id,
-      display_text: displayNameHelper(form.name, locale)
-    }))
-    .toJS();
+export const buildAgencyLogoPdfOptions = agencyLogosPdf => {
+  if (!agencyLogosPdf) return [];
+
+  return agencyLogosPdf.reduce((acc, curr) => [...acc, { id: curr.get("id"), display_name: curr.get("name") }], []);
 };

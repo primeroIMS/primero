@@ -61,4 +61,10 @@ class Trace < ApplicationRecord
   def set_unique_id
     self.unique_id = id
   end
+
+  def matched_case_comparison
+    return unless matched_case.present?
+
+    PotentialMatch.new(child: matched_case, trace: self).comparison
+  end
 end

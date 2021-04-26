@@ -1,6 +1,5 @@
 /* eslint-disable prefer-destructuring */
 
-import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS, Map, List, OrderedMap } from "immutable";
 import { CircularProgress } from "@material-ui/core";
@@ -16,9 +15,11 @@ import Approvals from "../approvals";
 import ApprovalPanel from "../approvals/components/panel";
 import IncidentFromCase from "../incidents-from-case";
 import IncidentFromCasePanel from "../incidents-from-case/components/panel";
+import ChangeLogs from "../change-logs";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
+import RecordFormTitle from "./form/record-form-title";
 import RecordForms from "./container";
 import { FormSectionRecord, FieldRecord } from "./records";
 
@@ -74,6 +75,12 @@ describe("<RecordForms /> - Component", () => {
       guiding_questions: "",
       required: true,
       date_validation: "default_date_validation"
+    }),
+    2: FieldRecord({
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-cp-sexual-violence-type",
+      display_name: { en: "First Name" }
     })
   });
 
@@ -109,7 +116,7 @@ describe("<RecordForms /> - Component", () => {
     registration_date: "2019-08-06",
     module_id: "primeromodule-cp",
     short_id: "96f613f",
-    id: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab"
+    id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610"
   };
 
   const rootInitialState = fromJS({
@@ -126,10 +133,27 @@ describe("<RecordForms /> - Component", () => {
       formSections,
       fields,
       loading: false,
-      errors: false
+      errors: false,
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 2,
+              unique_id: "lookup-cp-violence-type",
+              name: {
+                en: "CP Sexual Violence Type"
+              },
+              values: [
+                { id: "cp_test1", display_text: { en: "CP Test1" } },
+                { id: "cp_test2", display_text: { en: "CP Test2" } }
+              ]
+            }
+          ]
+        }
+      }
     }),
     user: fromJS({
-      permittedForms: ["basic_identity"],
+      permittedForms: { basic_identity: "rw" },
       modules: ["primeromodule-cp"]
     }),
     application
@@ -155,9 +179,8 @@ describe("<RecordForms /> - Component", () => {
     ));
   });
 
-  it("renders the PageContainer", done => {
+  it("renders the PageContainer", () => {
     expect(component.find(PageContainer)).to.have.length(1);
-    done();
   });
 
   it("renders the LoadingIndicator", () => {
@@ -195,7 +218,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -246,7 +269,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -272,10 +295,12 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render Approvals without ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
+      expect(component.find(RecordForm).find(Approvals)).to.have.lengthOf(1);
       expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
       expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      expect(component.find(RecordForm).find(Approvals).find(RecordFormTitle).text()).to.be.equal(
+        "forms.record_types.approvals"
+      );
     });
   });
 
@@ -303,7 +328,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       forms: fromJS({
         selectedForm: "approvals",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -311,7 +336,7 @@ describe("<RecordForms /> - Component", () => {
       }),
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -332,15 +357,19 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
     it("should render Approvals with ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(1);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ApprovalPanel)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
+      expect(componentRecordForm.find(Approvals).find(RecordFormTitle).text()).to.be.equal(
+        "forms.record_types.approvals"
+      );
     });
   });
 
@@ -370,7 +399,7 @@ describe("<RecordForms /> - Component", () => {
       },
       forms: {
         selectedForm: "incident_from_case",
-        selectedRecord: "a9e1a7a2-1920-4b41-80d1-df45c26db4ab",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
@@ -378,7 +407,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: {
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       },
       application
     });
@@ -399,16 +428,278 @@ describe("<RecordForms /> - Component", () => {
           mode: MODES.show
         },
         initialState,
-        ["/cases/a9e1a7a2-1920-4b41-80d1-df45c26db4ab"]
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
       ));
     });
 
     it("should render IncidentFromCase with IncidentFromCasePanel", () => {
-      expect(component.find(IncidentFromCase)).to.have.lengthOf(1);
-      expect(component.find(IncidentFromCasePanel)).to.have.lengthOf(1);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(Approvals)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(IncidentFromCase)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
+  describe("when transfers_assignments is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        transitions: {
+          data: [
+            {
+              id: "3dbe3c63-7c6d-44ad-8eb9-fa8de534440f",
+              record_id: "543cff05-4ba1-46a1-b636-a4b2644305bf",
+              record_type: "case",
+              created_at: "2020-10-22T18:44:09.112Z",
+              notes: "",
+              rejected_reason: "",
+              status: "in_progress",
+              type: "Transfer",
+              consent_overridden: true,
+              consent_individual_transfer: false,
+              transitioned_by: "primero",
+              transitioned_to_remote: null,
+              transitioned_to: "primero_cp",
+              service: null,
+              remote: false
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "transfers_assignments",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: { basic_identity: "rw" }
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render Transitions", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal("transfer_assignment.title");
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
+  describe("when referral is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        transitions: {
+          data: [
+            {
+              id: "a4266cf4-b2f5-4cad-9a18-3802f66698ac",
+              record_id: "543cff05-4ba1-46a1-b636-a4b2644305bf",
+              record_type: "case",
+              created_at: "2020-10-15T16:03:23.143Z",
+              notes: "",
+              rejected_reason: "",
+              status: "in_progress",
+              type: "Referral",
+              consent_overridden: true,
+              consent_individual_transfer: false,
+              transitioned_by: "primero",
+              transitioned_to_remote: null,
+              transitioned_to: "primero_cp",
+              service: "safehouse_service",
+              remote: false
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "referral",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: { basic_identity: "rw" }
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render Transitions component for REFERRAL", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Transitions).find(RecordFormTitle).text()).to.equal(
+        "forms.record_types.referrals"
+      );
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
+    });
+  });
+
+  describe("when change_log is the selectedForm", () => {
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        },
+        changeLogs: {
+          data: [
+            {
+              record_id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
+              record_type: "cases",
+              datetime: "2020-12-07T20:28:11Z",
+              user_name: "primero",
+              action: "update",
+              record_changes: [
+                {
+                  family_details_section: {
+                    to: [
+                      {
+                        relation: "mother",
+                        unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
+                        relation_name: "AaAa",
+                        relation_is_alive: "alive"
+                      },
+                      {
+                        relation: "father",
+                        unique_id: "c29598ad-b920-4166-bb99-fe7a2443601b",
+                        relation_name: "bbb",
+                        relation_is_alive: "alive"
+                      }
+                    ],
+                    from: [
+                      {
+                        relation: "mother",
+                        unique_id: "57d99a69-acbc-4b7e-850b-9e873181a778",
+                        relation_name: "AaAA",
+                        relation_is_alive: "alive"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              record_id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
+              record_type: "cases",
+              datetime: "2020-12-04T14:32:03Z",
+              user_name: "primero",
+              action: "create",
+              record_changes: []
+            }
+          ]
+        }
+      },
+      forms: {
+        selectedForm: "change_logs",
+        selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
+        formSections,
+        fields,
+        loading: false,
+        errors: false
+      },
+      user: {
+        modules: ["primeromodule-cp"],
+        permittedForms: { basic_identity: "rw" },
+        permissions: {
+          cases: ["manage"]
+        }
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: MODES.show
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render ChangeLog component", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ChangeLogs)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ChangeLogs).find(RecordFormTitle).text()).to.equal("change_logs.label");
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
+      expect(componentRecordForm.find(IncidentFromCasePanel)).to.be.empty;
+      expect(componentRecordForm.find(Approvals)).to.be.empty;
     });
   });
 
@@ -431,7 +722,7 @@ describe("<RecordForms /> - Component", () => {
       },
       user: fromJS({
         modules: ["primeromodule-cp"],
-        permittedForms: ["basic_identity"]
+        permittedForms: { basic_identity: "rw" }
       }),
       application
     });
@@ -457,10 +748,12 @@ describe("<RecordForms /> - Component", () => {
     });
 
     it("should render Approvals without ApprovalPanel", () => {
-      expect(component.find(Approvals)).to.have.lengthOf(1);
-      expect(component.find(ApprovalPanel)).to.have.lengthOf(0);
-      expect(component.find(Transitions)).to.have.lengthOf(0);
-      expect(component.find(RecordForm)).to.have.lengthOf(0);
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm).to.have.lengthOf(1);
+      expect(componentRecordForm.find(Approvals)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(ApprovalPanel)).to.be.empty;
+      expect(componentRecordForm.find(Transitions)).to.be.empty;
     });
   });
 
@@ -580,7 +873,7 @@ describe("<RecordForms /> - Component", () => {
         errors: false
       }),
       user: fromJS({
-        permittedForms: ["client_feedback"],
+        permittedForms: { client_feedback: "r" },
         modules: ["primeromodule-cp"]
       }),
       application
@@ -608,6 +901,80 @@ describe("<RecordForms /> - Component", () => {
 
     it("should render just one RecordForm ", () => {
       expect(component.find(RecordForm)).to.have.lengthOf(1);
+    });
+  });
+
+  describe("when the user doesn't have any permitted form but has permission to see cases", () => {
+    const allFormSections = OrderedMap({
+      1: FormSectionRecord({
+        id: 1,
+        form_group_id: "identification_registration",
+        form_group_name: {
+          en: "Identification / Registration"
+        },
+        order_form_group: 30,
+        name: {
+          en: "Basic Identity"
+        },
+        order: 10,
+        unique_id: "basic_identity",
+        is_first_tab: true,
+        visible: true,
+        is_nested: false,
+        module_ids: ["primeromodule-cp"],
+        parent_form: "case",
+        fields: [1]
+      })
+    });
+    const initialState = fromJS({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
+      },
+      forms: {
+        selectedForm: "record_owner",
+        formSections: allFormSections
+      },
+      user: {
+        permissions: {
+          cases: ["read"]
+        },
+        permittedForms: {},
+        modules: ["primeromodule-cp"]
+      },
+      application
+    });
+
+    beforeEach(() => {
+      const routedComponent = initialProps => {
+        return (
+          <Route
+            path="/:recordType(cases|incidents|tracing_requests)/:id"
+            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+          />
+        );
+      };
+
+      ({ component } = setupMountedComponent(
+        routedComponent,
+        {
+          mode: "show"
+        },
+        initialState,
+        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+      ));
+    });
+
+    it("should render RecordOwner ", () => {
+      const componentRecordForm = component.find(RecordForm);
+
+      expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
+      expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
+        "forms.record_types.record_information"
+      );
     });
   });
 });

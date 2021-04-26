@@ -22,7 +22,9 @@ export const FieldRecord = Record({
   show_on_minify_form: false,
   order: null,
   subform_section_configuration: null,
-  tick_box_label: {}
+  tick_box_label: {},
+  link_to_form: "",
+  href: null
 });
 
 export const FormSectionRecord = Record({
@@ -38,7 +40,6 @@ export const FormSectionRecord = Record({
   editable: null,
   module_ids: [],
   form_group_id: "",
-  form_group_name: "",
   fields: [],
   is_nested: null,
   subform_prevent_item_removal: false,

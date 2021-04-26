@@ -1,9 +1,11 @@
 import { fromJS } from "immutable";
-import uuid from "uuid";
+import isEmpty from "lodash/isEmpty";
+import mergeWith from "lodash/mergeWith";
 
 import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
+import { toIdentifier } from "../../../../../../libs";
 
 import {
   dateFieldForm,
@@ -13,14 +15,16 @@ import {
   separatorFieldForm,
   subformField
 } from "./forms";
-import { DATE_FIELD_CUSTOM_VALUES } from "./constants";
+import { DATE_FIELD_CUSTOM_VALUES, SUBFORM_TRANSLATABLE_OPTIONS, FIELD_TRANSLATABLE_OPTIONS } from "./constants";
 
 const getDateValidation = (field, isSubmit) => {
   if (!isSubmit) {
     return DATE_FIELD_CUSTOM_VALUES.date_validation[field.date_validation];
   }
 
-  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(obj => obj[1] === field.date_validation)[0];
+  return Object.entries(DATE_FIELD_CUSTOM_VALUES.date_validation).find(
+    obj => obj[1] === Boolean(field.date_validation)
+  )?.[0];
 };
 
 const getSelectedDateValue = (field, isSubmit) => {
@@ -37,8 +41,8 @@ const getSelectedDateValue = (field, isSubmit) => {
   }
 
   return Object.entries(field.date_include_time ? selectedValue.withTime : selectedValue.withoutTime).find(
-    obj => obj[1] === field.selected_value
-  )[0];
+    obj => obj[1] === Boolean(field.selected_value)
+  )?.[0];
 };
 
 const appendSettingsAttributes = (data, selectedField, newFieldName, lastFieldOrder) => {
@@ -150,12 +154,8 @@ export const setSubformData = (field, subform) => {
   return field;
 };
 
-export const toIdentifier = data => data.replace(/[^\w]/g, "_").toLowerCase();
-
 export const generateUniqueId = data => {
-  const generatedId = toIdentifier(data);
-
-  return `${generatedId}_${uuid.v4().substr(-7)}`;
+  return toIdentifier(data);
 };
 
 export const buildDataToSave = (selectedField, data, lastFieldOrder, randomSubformId) => {
@@ -196,4 +196,26 @@ export const subformContainsFieldName = (subform, fieldName, selectedSubformFiel
       ?.find(field => field.get("name") === fieldName)
       ?.toSeq()?.size
   );
+};
+
+export const mergeTranslationKeys = (defaultValues, currValues, isSubform = false) => {
+  if (!currValues || isEmpty(currValues)) {
+    return defaultValues;
+  }
+
+  const mergeWithCondition = (a, b) => (isEmpty(b) ? a : b);
+  const translatableOptions = isSubform ? SUBFORM_TRANSLATABLE_OPTIONS : FIELD_TRANSLATABLE_OPTIONS;
+
+  return Object.entries(defaultValues).reduce((acc, curr) => {
+    const [key, value] = curr;
+
+    if (translatableOptions.includes(key) && !isEmpty(value)) {
+      const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
+      const newValue = key === "option_strings_text" ? Object.values(mergedValues) : mergedValues;
+
+      return { ...acc, [key]: newValue };
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
 };

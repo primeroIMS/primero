@@ -1,30 +1,29 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getLookupByUniqueId } from "../../../../../form/selectors";
-import { compare } from "../../../../../../libs";
+import { getOptions } from "../../../../../form/selectors";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { buildFormGroupUniqueId } from "../../utils";
 import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ moduleId, parentForm }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
-  const formGroupLookup = useSelector(
-    state => getLookupByUniqueId(state, buildFormGroupUniqueId(moduleId, parentForm)),
-    compare
+  const formGroupLookup = useMemoizedSelector(state =>
+    getOptions(state, buildFormGroupUniqueId(moduleId, parentForm), i18n, null, null, { fullLookup: true })
   );
 
   return (
     <p className={css.translationsNote}>
       <strong>{i18n.t("forms.translations.note")}</strong> {i18n.t("forms.translations.note_form_group")}{" "}
-      <Link to={`/admin/lookups/${formGroupLookup?.get("id")}/edit`}>
+      <Link to={`/admin/lookups/${formGroupLookup.get("id")}/edit`}>
         {i18n.t("forms.translations.edit_form_group")}
       </Link>
     </p>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider, makeStyles } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { push } from "connected-react-router";
@@ -11,21 +11,26 @@ import ActionDialog from "../action-dialog";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { useMemoizedSelector } from "../../libs";
 
 import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const [selectedSavedSearch, setSelectedSavedSearch] = useState(null);
   const [open, setOpenDialog] = useState(false);
   const [deleteSavedSearch, setDeleteSavedSearch] = useState(null);
 
-  const selectedSearch = useSelector(state => selectSavedSearchesById(state, recordType, selectedSavedSearch).first());
+  const selectedSearch = useMemoizedSelector(state =>
+    selectSavedSearchesById(state, recordType, selectedSavedSearch).first()
+  );
 
   useEffect(() => {
     if (selectedSavedSearch) {
@@ -67,28 +72,35 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
     }
   };
 
+  const renderSavedSearches = () => {
+    const handleClickListItem = id => () => handleApplyFilter(id);
+    const handleClickDeleteFilter = id => () => handleDeleteFilter(id);
+
+    return savedSearches.valueSeq().map(savedSearch => {
+      return (
+        <ListItem button onClick={handleClickListItem(savedSearch.id)} key={savedSearch.id}>
+          <ListItemText primary={savedSearch.name} />
+          <ListItemSecondaryAction>
+            <ActionButton
+              icon={<DeleteIcon />}
+              type={ACTION_BUTTON_TYPES.icon}
+              rest={{
+                edge: "end",
+                onClick: handleClickDeleteFilter(savedSearch.id)
+              }}
+            />
+          </ListItemSecondaryAction>
+        </ListItem>
+      );
+    });
+  };
+
   return (
     <div className={css.listSavedSearches}>
       <ActionDialog {...alertDialogProps} />
       <h3>{i18n.t("cases.my_filters")}</h3>
       <Divider light />
-      <List component="nav">
-        {savedSearches.valueSeq().map(savedSearch => (
-          <ListItem button onClick={() => handleApplyFilter(savedSearch.id)} key={savedSearch.id}>
-            <ListItemText primary={savedSearch.name} />
-            <ListItemSecondaryAction>
-              <ActionButton
-                icon={<DeleteIcon />}
-                type={ACTION_BUTTON_TYPES.icon}
-                rest={{
-                  edge: "end",
-                  onClick: () => handleDeleteFilter(savedSearch.id)
-                }}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
+      <List component="nav">{renderSavedSearches()}</List>
     </div>
   );
 };

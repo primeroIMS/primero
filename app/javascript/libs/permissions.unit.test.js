@@ -17,7 +17,9 @@ describe("Verifying config constant", () => {
       "ASSIGN",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
+      "CHANGE_LOG",
       "CLOSE",
+      "COPY",
       "CREATE",
       "DASH_CASE_INCIDENT_OVERVIEW",
       "DASH_APPROVALS_ASSESSMENT",
@@ -26,6 +28,7 @@ describe("Verifying config constant", () => {
       "DASH_APPROVALS_CASE_PLAN_PENDING",
       "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_CASES_BY_SOCIAL_WORKER",
       "DASH_APPROVALS_ACTION_PLAN",
       "DASH_APPROVALS_ACTION_PLAN_PENDING",
       "DASH_APPROVALS_GBV_CLOSURE",
@@ -34,8 +37,10 @@ describe("Verifying config constant", () => {
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
+      "DASH_CASES_TO_ASSIGN",
       "DASH_CASE_OVERVIEW",
       "DASH_CASE_RISK",
+      "DASH_FLAGS",
       "DASH_GROUP_OVERVIEW",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
@@ -65,6 +70,22 @@ describe("Verifying config constant", () => {
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
       "INCIDENT_FROM_CASE",
+      "KPI_ASSESSMENT_STATUS",
+      "KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE",
+      "KPI_AVERAGE_REFERRALS",
+      "KPI_CASE_CLOSURE_RATE",
+      "KPI_CASE_LOAD",
+      "KPI_CLIENT_SATISFACTION_RATE",
+      "KPI_COMPLETED_CASE_ACTION_PLANS",
+      "KPI_COMPLETED_CASE_SAFETY_PLANS",
+      "KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS",
+      "KPI_GOAL_PROGRESS_PER_NEED",
+      "KPI_NUMBER_OF_CASES",
+      "KPI_NUMBER_OF_INCIDENTS",
+      "KPI_REPORTING_DELAY",
+      "KPI_SERVICES_PROVIDED",
+      "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
+      "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
       "MANAGE",
       "READ",
       "RECEIVE_REFERRAL",
@@ -81,6 +102,7 @@ describe("Verifying config constant", () => {
       "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
+      "SYNC_EXTERNAL",
       "TRANSFER",
       "VIEW_INCIDENT_FROM_CASE",
       "WRITE"
@@ -114,10 +136,13 @@ describe("Verifying config constant", () => {
       "any",
       "audit_logs",
       "cases",
+      "codes_of_conduct",
       "configurations",
       "contact_information",
       "dashboards",
       "incidents",
+      "kpis",
+      "locations",
       "lookups",
       "metadata",
       "potential_matches",
@@ -397,6 +422,47 @@ describe("Verifying config constant", () => {
 
     expect(permissions).to.be.a("array");
     [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.VIEW_INCIDENT_FROM_CASE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  it("should have SHOW_CHANGE_LOG", () => {
+    const permissions = [...PERMISSIONS.SHOW_CHANGE_LOG];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.CHANGE_LOG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+      expect(permissions).to.include(element);
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(permissions).to.be.empty;
+  });
+
+  describe("allowedExportTypes", () => {
+    it("should return an array with the allowed export types", () => {
+      const expected = List([PERMISSIONS.ACTIONS.EXPORT_PDF, PERMISSIONS.ACTIONS.EXPORT_JSON]);
+      const userPermission = List([
+        PERMISSIONS.ACTIONS.EXPORT_PDF,
+        PERMISSIONS.ACTIONS.EXPORT_JSON,
+        PERMISSIONS.ACTIONS.MANAGE
+      ]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.deep.equals(expected);
+    });
+
+    it("should return an empty array if there are not allowed export types", () => {
+      const userPermission = List([PERMISSIONS.ACTIONS.MANAGE]);
+
+      expect(PERMISSIONS.allowedExportTypes(userPermission)).to.be.empty;
+    });
+  });
+
+  it("should have COPY_ROLES", () => {
+    const permissions = [...PERMISSIONS.COPY_ROLES];
+
+    expect(permissions).to.be.a("array");
+    [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.COPY].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });

@@ -11,19 +11,19 @@ describe("<Search /> index-filters/components/filter-types/search", () => {
   };
 
   it("renders IconButton", () => {
-    const { component } = setupMockFormComponent(Search, props, {});
+    const { component } = setupMockFormComponent(Search, { props, includeFormProvider: true });
 
     expect(component.find(IconButton)).to.have.lengthOf(2);
   });
 
   it("renders SearchIcon", () => {
-    const { component } = setupMockFormComponent(Search, props, {});
+    const { component } = setupMockFormComponent(Search, { props, includeFormProvider: true });
 
     expect(component.find(SearchIcon)).to.have.lengthOf(1);
   });
 
   it("renders InputBase", () => {
-    const { component } = setupMockFormComponent(Search, props, {});
+    const { component } = setupMockFormComponent(Search, { props, includeFormProvider: true });
 
     expect(component.find(InputBase)).to.have.lengthOf(1);
   });

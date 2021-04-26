@@ -90,10 +90,12 @@ class Ability
         true
       # TODO: should this be limited in a more generic way rather than by not agency user admin?
       elsif !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-            (user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::ALL))
+            user.group_permission?(Permission::GROUP)
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).present?
+      elsif user.group_permission?(Permission::ALL)
+        true
       else
         uzer.user_name == user.user_name
       end
@@ -171,6 +173,7 @@ class Ability
         permitted_to_access_record?(user, instance)
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
+      can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
     else
       can actions, resource
     end
@@ -210,10 +213,10 @@ class Ability
     if user.group_permission? Permission::ALL
       true
     elsif user.group_permission? Permission::GROUP
-      allowed_groups = record.associated_users.map(&:user_group_ids).flatten.compact
+      allowed_groups = record&.associated_users&.map(&:user_group_ids)&.flatten&.compact
       (user.user_group_ids & allowed_groups).present?
     else
-      record.associated_user_names.include? user.user_name
+      record&.associated_user_names&.include?(user.user_name)
     end
   end
 

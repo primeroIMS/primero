@@ -7,6 +7,11 @@ describe("<FormsList /> - Actions", () => {
     [
       "CLEAR_FORMS_REORDER",
       "ENABLE_REORDER",
+      "EXPORT_FORMS",
+      "EXPORT_FORMS_FAILURE",
+      "EXPORT_FORMS_FINISHED",
+      "EXPORT_FORMS_STARTED",
+      "EXPORT_FORMS_SUCCESS",
       "RECORD_FORMS",
       "RECORD_FORMS_FAILURE",
       "RECORD_FORMS_FINISHED",

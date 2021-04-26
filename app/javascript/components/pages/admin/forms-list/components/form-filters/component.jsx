@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import clsx from "clsx";
@@ -10,9 +9,11 @@ import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const filters = [
     {
@@ -53,9 +54,10 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
         filterValues={filterValues}
       />
     ));
+  const classes = clsx({ [css.disabledFilters]: disabled });
 
   return (
-    <div className={clsx({ [css.disabledFilters]: disabled })}>
+    <div className={classes}>
       <ActionButton
         text={i18n.t("clear")}
         type={ACTION_BUTTON_TYPES.default}

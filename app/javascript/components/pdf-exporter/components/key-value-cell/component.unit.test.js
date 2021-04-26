@@ -8,19 +8,17 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
   const state = fromJS({
     forms: {
       options: {
-        lookups: {
-          data: [
-            {
-              unique_id: "lookup-1",
-              name: { en: "Lookup 1" },
-              values: [
-                { id: "option-1", display_text: { en: "Option 1" } },
-                { id: "option-2", display_text: { en: "Option 2" } },
-                { id: "option-3", display_text: { en: "Option 3" } }
-              ]
-            }
-          ]
-        }
+        lookups: [
+          {
+            unique_id: "lookup-1",
+            name: { en: "Lookup 1" },
+            values: [
+              { id: "option-1", display_text: { en: "Option 1" } },
+              { id: "option-2", display_text: { en: "Option 2" } },
+              { id: "option-3", display_text: { en: "Option 3" } }
+            ]
+          }
+        ]
       }
     }
   });
@@ -29,7 +27,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
     const props = {
       displayName: "Form 1",
       value: "option-1",
-      optionsStringSource: "lookup lookup-1"
+      optionsStringSource: "lookup lookup-1",
+      classes: {}
     };
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);
@@ -42,7 +41,8 @@ describe("components/record-actions/exports/components/pdf-exporter/components/k
     const props = {
       displayName: "Form 1",
       value: fromJS(["option-1", "option-3"]),
-      optionsStringSource: "lookup lookup-1"
+      optionsStringSource: "lookup lookup-1",
+      classes: {}
     };
 
     const { component } = setupMountedComponent(KeyValueCell, props, state);

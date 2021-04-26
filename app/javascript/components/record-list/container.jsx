@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
-import { batch, useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import qs from "qs";
 
@@ -14,7 +14,7 @@ import Filters, { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
 import { ACTIONS, DISPLAY_VIEW_PAGE, checkPermissions } from "../../libs/permissions";
 import Permission from "../application/permission";
-import { useThemeHelper } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
 import { clearCaseFromIncident } from "../records/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
@@ -23,6 +23,7 @@ import { setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
 import { DEFAULT_METADATA } from "../../config";
+import { useApp } from "../application";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -34,21 +35,26 @@ import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
   const i18n = useI18n();
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
-
+  const { online } = useApp();
   const { url } = match;
   const { search } = location;
   const recordType = url.replace("/", "");
   const dispatch = useDispatch();
-  const headers = useSelector(state => getListHeaders(state, recordType));
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
   const [openViewModal, setOpenViewModal] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
   const [selectedRecords, setSelectedRecords] = useState({});
 
-  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const headers = useMemoizedSelector(state => getListHeaders(state, recordType));
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
+  const filters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
+  const permissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
+  const numberErrorsBulkAssign = useMemoizedSelector(state => getNumberErrorsBulkAssign(state, recordType));
+  const numberRecordsBulkAssign = useMemoizedSelector(state => getNumberBulkAssign(state, recordType));
 
   const canViewModal = checkPermissions(userPermissions, [ACTIONS.DISPLAY_VIEW_PAGE]);
 
@@ -56,11 +62,6 @@ const Container = ({ match, location }) => {
     setOpenViewModal(false);
   };
   const searchParams = new URLSearchParams(search);
-
-  // eslint-disable-next-line camelcase
-  const filters = useSelector(state => getFiltersValuesByRecordType(state, recordType));
-
-  const permissions = useSelector(state => getPermissionsByRecord(state, recordType));
 
   const defaultMetadata = metadata?.toJS();
   const defaultFilterFields = DEFAULT_FILTERS;
@@ -73,10 +74,6 @@ const Container = ({ match, location }) => {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
     restActionParams: { recordType }
   });
-
-  const numberErrorsBulkAssign = useSelector(state => getNumberErrorsBulkAssign(state, recordType));
-
-  const numberRecordsBulkAssign = useSelector(state => getNumberBulkAssign(state, recordType));
 
   useEffect(() => {
     const errorMessages = i18n.t("reassign.multiple_error", {
@@ -112,17 +109,21 @@ const Container = ({ match, location }) => {
     // eslint-disable-next-line camelcase
     filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
+  const recordAvaialble = record => {
+    const allowedToOpenRecord =
+      record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
+
+    return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
+  };
+
   const indexTableProps = {
     recordType,
     defaultFilters,
     bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css),
+    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, online),
     onTableChange: applyFilters,
     onRowClick: record => {
-      const allowedToOpenRecord =
-        record && typeof record.get("record_in_scope") !== "undefined" ? record.get("record_in_scope") : false;
-
-      if (allowedToOpenRecord) {
+      if (recordAvaialble(record)) {
         dispatch(push(`${recordType}/${record.get("id")}`));
       } else if (canViewModal) {
         setCurrentRecord(record);
@@ -130,6 +131,7 @@ const Container = ({ match, location }) => {
       }
     },
     selectedRecords,
+    isRowSelectable: record => recordAvaialble(record) || online,
     setSelectedRecords,
     showCustomToolbar: true
   };

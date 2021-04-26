@@ -1,28 +1,31 @@
 /* eslint-disable react/display-name,  react/no-multi-comp */
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { RadioGroup } from "formik-material-ui";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";
 import { RADIO_FIELD_NAME } from "../constants";
 import styles from "../styles.css";
+import { useMemoizedSelector } from "../../../../libs";
+
+const useStyles = makeStyles(styles);
 
 const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ...rest }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const selectedValue = field.selected_value;
   const option = field.option_strings_source || field.option_strings_text;
 
   const value = getIn(formik.values, name);
-  const [stickyOption] = useState(value);
+  const [stickyOption, setStickyOption] = useState(value);
 
   const radioProps = {
     control: <Radio disabled={disabled} />,
@@ -31,12 +34,24 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
     }
   };
 
-  const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
+  const options = useMemoizedSelector(state => getOption(state, option, i18n.locale, stickyOption));
 
   const fieldProps = {
     name,
-    ...omitBy(rest, (v, k) =>
-      ["InputProps", "helperText", "InputLabelProps", "fullWidth", "recordType", "recordID"].includes(k)
+    ...omitBy(rest, (val, key) =>
+      [
+        "InputProps",
+        "helperText",
+        "InputLabelProps",
+        "fullWidth",
+        "recordType",
+        "recordID",
+        "formSection",
+        "field",
+        "displayName",
+        "linkToForm",
+        "tickBoxlabel"
+      ].includes(key)
     )
   };
 
@@ -49,12 +64,18 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof value !== "undefined" && (!stickyOption || isEmpty(stickyOption))) {
+      setStickyOption(String(value));
+    }
+  }, [value]);
+
   const renderFormControl = opt => {
     const optLabel = typeof opt.display_text === "object" ? opt.display_text[i18n.locale] : opt.display_text;
 
     return (
       <FormControlLabel
-        disabled={opt.isDisabled || mode.isShow}
+        disabled={opt.isDisabled || mode.isShow || disabled}
         key={`${name}-${opt.id}`}
         value={opt.id.toString()}
         label={optLabel}
@@ -67,18 +88,16 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
-      <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
+      <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>
       <Field
         {...fieldProps}
         render={({ form }) => {
+          const onChange = (e, val) => form.setFieldValue(fieldProps.name, val, true);
+
           return (
-            <RadioGroup
-              {...fieldProps}
-              value={String(value)}
-              onChange={(e, val) => form.setFieldValue(fieldProps.name, val, true)}
-            >
+            <RadioGroup {...fieldProps} value={String(value)} onChange={onChange}>
               <Box display="flex">{renderOption}</Box>
             </RadioGroup>
           );

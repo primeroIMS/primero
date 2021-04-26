@@ -2,12 +2,13 @@
 
 # Forms CRUD API.
 class Api::V2::FormSectionsController < ApplicationApiController
+  include Api::V2::Concerns::Export
+
   before_action :form_section_params, only: %i[create update]
 
   def index
     authorize! :index, FormSection
     @form_sections = FormSection.list(params)
-    @form_group_lookups = FormSection.form_group_lookups
   end
 
   def show
@@ -17,7 +18,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
 
   def create
     authorize! :create, FormSection
-    @form_section = FormSection.new_with_properties(form_section_params)
+    @form_section = FormSection.new_with_properties(form_section_params, user: current_user)
     @form_section.save!
     status = params[:data][:id].present? ? 204 : 200
     render :create, status: status
@@ -46,5 +47,9 @@ class Api::V2::FormSectionsController < ApplicationApiController
 
   def model_class
     FormSection
+  end
+
+  def exporter
+    return Exporters::FormExporter if params[:export_type] == 'xlsx'
   end
 end

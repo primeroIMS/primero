@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Chip } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../test";
@@ -46,7 +47,10 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with options", () => {
-      const expected = [{ value: "agency-test-1" }, { value: "agency-test-2" }];
+      const expected = [
+        { value: "agency-test-1", isDisabled: false },
+        { value: "agency-test-2", isDisabled: false }
+      ];
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
 
@@ -68,26 +72,24 @@ describe("<SelectField />", () => {
     const initialState = fromJS({
       forms: {
         options: {
-          lookups: {
-            data: [
-              {
-                id: 20,
-                unique_id: "lookup-service-type",
-                name: {
-                  en: "Service Type"
-                },
-                values: [
-                  {
-                    id: "health_medical_service",
-                    disabled: false,
-                    display_text: {
-                      en: "Health/Medical Service"
-                    }
+          lookups: [
+            {
+              id: 20,
+              unique_id: "lookup-service-type",
+              name: {
+                en: "Service Type"
+              },
+              values: [
+                {
+                  id: "health_medical_service",
+                  disabled: false,
+                  display_text: {
+                    en: "Health/Medical Service"
                   }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         }
       }
     });
@@ -182,6 +184,87 @@ describe("<SelectField />", () => {
       const componentActions = componentSelectUser.props().store.getActions();
 
       expect(componentActions[componentActions.length - 1]).to.deep.equal(expectedAction);
+    });
+  });
+
+  context("when the lookup is yes-no-lookup", () => {
+    const props = {
+      name: "test",
+      field: {
+        option_strings_source: "lookup lookup-yes-no"
+      },
+      label: "Test",
+      mode: whichFormMode("edit"),
+      open: true
+    };
+
+    const initialState = fromJS({
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 93,
+              unique_id: "lookup-yes-no",
+              name: {
+                en: "Yes or No"
+              },
+              values: [
+                {
+                  id: "true",
+                  display_text: {
+                    en: "Yes"
+                  }
+                },
+                {
+                  id: "false",
+                  display_text: {
+                    en: "No"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    });
+
+    const { component } = setupMountedComponent(SelectField, props, initialState, [], {
+      initialValues: { test: false }
+    });
+
+    it("render the select field with the selected option even if the option is boolean", () => {
+      const expected = [{ value: "false", isDisabled: false, label: "No" }];
+
+      const selectField = component.find(SelectField);
+      const searchableSelect = selectField.find(SearchableSelect);
+
+      expect(searchableSelect).to.have.lengthOf(1);
+      expect(searchableSelect.props().defaultValues).to.deep.equal(expected);
+    });
+  });
+
+  context("when a multi select has different value selected", () => {
+    const props = {
+      name: "test",
+      field: {
+        multi_select: true,
+        option_strings_text: [
+          { id: "option_1", display_text: { en: "Option 1" } },
+          { id: "option_2", display_text: { en: "Option 2" } },
+          { id: "option_3", display_text: { en: "Option 3" } }
+        ]
+      },
+      label: "Test",
+      mode: whichFormMode("show"),
+      open: true
+    };
+
+    const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {
+      initialValues: { test: ["option_1", "option_2", "option_3"] }
+    });
+
+    it("renders the correct values", () => {
+      expect(component.find(Chip).map(chip => chip.text())).to.deep.equal(["Option 1", "Option 2", "Option 3"]);
     });
   });
 });

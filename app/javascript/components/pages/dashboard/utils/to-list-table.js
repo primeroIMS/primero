@@ -1,13 +1,13 @@
 import first from "lodash/first";
 
-import { dataToJS } from "../../../../libs";
+import { dataToJS, displayNameHelper } from "../../../../libs";
 import { INDICATOR_NAMES } from "../constants";
 
-const translateSingleLabel = (key, data) => {
+const translateSingleLabel = (key, data, locale) => {
   if (key === "") return key;
 
   // eslint-disable-next-line camelcase
-  return data?.filter(d => d.id === key)[0]?.display_text;
+  return displayNameHelper(data?.filter(d => d.id === key)[0]?.display_text, locale);
 };
 const getFormattedList = (values, listKey) => {
   return values.map(r => {
@@ -19,7 +19,7 @@ const getFormattedList = (values, listKey) => {
   });
 };
 
-export default (data, localeLabels) => {
+export default (data, localeLabels, locale) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
@@ -27,7 +27,7 @@ export default (data, localeLabels) => {
 
     const columns = Object.keys(indicatorData[first(Object.keys(indicatorData))])
       .reduce((acum, value) => {
-        return [...acum, { name: value, label: translateSingleLabel(value, localeLabels) }];
+        return [...acum, { name: value, label: translateSingleLabel(value, localeLabels, locale) }];
       }, [])
       .filter(column => typeof column.label !== "undefined")
       .sort((a, b) => {

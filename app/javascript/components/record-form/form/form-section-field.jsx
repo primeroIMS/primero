@@ -1,6 +1,7 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import {
@@ -11,7 +12,8 @@ import {
   SEPERATOR,
   PHOTO_FIELD,
   AUDIO_FIELD,
-  DOCUMENT_FIELD
+  DOCUMENT_FIELD,
+  LINK_TO_FORM
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
@@ -25,10 +27,23 @@ import TickField from "./field-types/tick-field";
 import Seperator from "./field-types/seperator";
 import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
+import LinkToForm from "./field-types/link-to-form";
 import styles from "./styles.css";
 
-const FormSectionField = ({ name, field, mode, recordType, recordID, filters, index, formSection }) => {
-  const css = makeStyles(styles)();
+const useStyles = makeStyles(styles);
+
+const FormSectionField = ({
+  name,
+  field,
+  mode,
+  recordType,
+  recordID,
+  filters,
+  index,
+  formSection,
+  isReadWriteForm
+}) => {
+  const css = useStyles();
   const i18n = useI18n();
 
   const {
@@ -41,7 +56,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     selected_value: selectedValue,
     hide_on_view_page: hideOnViewPage,
     visible,
-    guiding_questions: guidingQuestions
+    guiding_questions: guidingQuestions,
+    link_to_form: linkToForm
   } = field;
 
   const fieldProps = {
@@ -61,6 +77,7 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
       disableUnderline: mode.isShow
     },
     InputLabelProps: {
+      htmlFor: name,
       shrink: true,
       required,
       classes: {
@@ -69,12 +86,13 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
     },
     label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
-    helperText: helpText ? helpText[i18n.locale] : "",
-    disabled: mode.isShow || disabled,
+    helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
+    disabled: mode.isShow || disabled || isReadWriteForm === false,
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),
     index,
-    displayName
+    displayName,
+    linkToForm
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
@@ -93,6 +111,8 @@ const FormSectionField = ({ name, field, mode, recordType, recordID, filters, in
         return RadioField;
       case SEPERATOR:
         return Seperator;
+      case LINK_TO_FORM:
+        return LinkToForm;
       case PHOTO_FIELD:
       case AUDIO_FIELD:
       case DOCUMENT_FIELD:
@@ -119,8 +139,9 @@ FormSectionField.displayName = FORM_SECTION_FIELD_NAME;
 FormSectionField.propTypes = {
   field: PropTypes.object.isRequired,
   filters: PropTypes.object,
-  formSection: PropTypes.object.isRequired,
+  formSection: PropTypes.object,
   index: PropTypes.number,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,

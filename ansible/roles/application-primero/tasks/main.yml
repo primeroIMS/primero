@@ -1,0 +1,98 @@
+---
+- name: 'Copy Primero deployment private SSH key to remote host'
+  copy:
+    dest: '/root/.ssh/primero_deployment_key'
+    mode: 'u=rw,go='
+    content: '{{ ssh_private_key }}'
+  become: yes
+  when: ssh_private_key is defined
+  tags:
+  - 'always'
+
+- name: 'Pull Primero from Git'
+  git:
+    repo: '{{ primero_repo|default("https://github.com/primeroIMS/primero.git") }}'
+    dest: '/srv/primero/'
+    version: '{{ primero_repo_branch }}'
+    key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
+  become: yes
+  tags:
+  - 'always'
+
+- name: 'create the local.env file'
+  template:
+    src: local.env.j2
+    dest: '/srv/primero/docker/local.env'
+    mode: 'u=rw,go=r'
+  become: yes
+  tags:
+  - 'never'
+  - 'local-env'
+
+- name: 'build the Docker containers'
+  command: |
+    ./build.sh all -t '{{ build_docker_tag }}' -r '{{ build_docker_container_registry }}' -l
+  args:
+    chdir: '/srv/primero/docker'
+  tags:
+  - 'never'
+  - 'build'
+
+- name: 'Pull Primero configuration from Git'
+  git:
+    repo: '{{ primero_configuration_repo }}'
+    dest: '/srv/primero-configuration/'
+    version: '{{ primero_configuration_repo_branch|default("master") }}'
+    key_file: '/root/.ssh/primero_deployment_key'
+    accept_hostkey: 'yes'
+  when: primero_configuration_repo is defined
+  become: yes
+  tags:
+  - 'never'
+  - 'configure'
+
+- name: 'configure Primero with a custom configuration'
+  command: |
+    ./compose.configure.sh /srv/primero-configuration/ '{{ primero_configuration_path }}'
+  args:
+    chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: primero_configuration_path is defined
+  tags:
+  - 'never'
+  - 'configure'
+
+- name: 'configure Primero with the default seeds'
+  command: |
+    ./compose.configure.sh
+  args:
+    chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  when: primero_configuration_path is not defined
+  tags:
+  - 'never'
+  - 'configure'
+
+- name: 'Pull docker images'
+  command: |
+    ./compose.prod.sh pull
+  args:
+    chdir: '/srv/primero/docker'
+  when: always_pull is defined
+  tags:
+  - 'never'
+  - 'start'
+
+- name: '(re)start the Docker containers'
+  command: |
+    ./compose.prod.sh up -d --force-recreate --no-build
+  args:
+    chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+  tags:
+  - 'never'
+  - 'start'

@@ -254,7 +254,23 @@ const initialState = fromJS({
         caseOverview,
         sharedWithMyTeam,
         myCasesIncidents
-      ]
+      ],
+      flags: {
+        loading: false,
+        errors: false,
+        data: [
+          {
+            message: "Reason 1",
+            removed: false,
+            record_type: "cases"
+          },
+          {
+            message: "Reason 2",
+            removed: true,
+            record_type: "cases"
+          }
+        ]
+      }
     }
   }
 });
@@ -402,6 +418,41 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getCaseIncidentOverview(initialState);
 
       expect(values).to.deep.equal(fromJS(myCasesIncidents));
+    });
+  });
+
+  describe("getDashboardFlags", () => {
+    describe("when excludeResolved is false", () => {
+      it("should return all flags", () => {
+        const expected = fromJS([
+          {
+            message: "Reason 1",
+            removed: false,
+            record_type: "cases"
+          },
+          {
+            message: "Reason 2",
+            removed: true,
+            record_type: "cases"
+          }
+        ]);
+
+        expect(selectors.getDashboardFlags(initialState)).to.deep.equal(expected);
+      });
+    });
+
+    describe("when excludeResolved is true", () => {
+      it("should return all flags that are not resolve (removed === true)", () => {
+        const expected = fromJS([
+          {
+            message: "Reason 1",
+            removed: false,
+            record_type: "cases"
+          }
+        ]);
+
+        expect(selectors.getDashboardFlags(initialState, true)).to.deep.equal(expected);
+      });
     });
   });
 });

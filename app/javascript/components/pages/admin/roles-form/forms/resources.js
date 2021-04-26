@@ -6,12 +6,12 @@ import { RESOURCES, FORM_CHECK_ERRORS } from "../constants";
 import { buildPermissionOptions } from "./utils";
 import AssociatedRolesForm from "./associated-roles";
 
-export default (resourceActions, roles, i18n, approvalsLabels) =>
+export default (resourceActions, i18n, approvalsLabels) =>
   RESOURCES.filter(resource => resourceActions.has(resource)).map(resource => {
     const actions = (resourceActions || fromJS({})).get(resource, fromJS([]));
 
     if (resource === "role") {
-      return AssociatedRolesForm(roles, actions, i18n);
+      return AssociatedRolesForm(actions, i18n);
     }
 
     return FormSectionRecord({
@@ -21,7 +21,7 @@ export default (resourceActions, roles, i18n, approvalsLabels) =>
         FieldRecord({
           name: `permissions[${resource}]`,
           type: CHECK_BOX_FIELD,
-          option_strings_text: buildPermissionOptions(actions, i18n, resource, approvalsLabels)?.toJS() || []
+          option_strings_text: buildPermissionOptions(actions, i18n, resource, approvalsLabels) || []
         })
       ],
       expandable: true,

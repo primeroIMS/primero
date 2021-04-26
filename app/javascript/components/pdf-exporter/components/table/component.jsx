@@ -1,38 +1,48 @@
-import React from "react";
+import { memo, Fragment } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
 import isEqual from "lodash/isEqual";
+import { makeStyles } from "@material-ui/styles";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
-import { DATE_FIELD, TICK_FIELD } from "../../../form";
-import { valuesWithDisplayConditions } from "../../../record-form/form/subforms/subform-field-array/utils";
+import {
+  valuesWithDisplayConditions,
+  fieldsToRender
+} from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({ fields, record }) => {
+const useStyles = makeStyles(styles);
+
+const Component = ({ fields, isSubform, record }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
+
+  const classes = {
+    subform: css.subform,
+    cell: css.cell
+  };
 
   const renderSubform = (field, subformSection, displayName) => {
     const { subform_section_configuration: subformSectionConfiguration } = field;
-    const { display_conditions: displayConditions } = subformSectionConfiguration || {};
-    const values = record.get(subformSection.unique_id, []);
+    const { display_conditions: displayConditions, fields: fieldList } = subformSectionConfiguration || {};
+    const values = record.get(field.name, []);
+
     const filteredValues = displayConditions ? valuesWithDisplayConditions(values, displayConditions) : values;
+    const displayFields = fieldsToRender(fieldList, subformSection.fields);
 
     return filteredValues.map((subform, index) => (
-      <div key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
-        <div className={css.subform}>
-          <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
-          <Component fields={subformSection.fields} record={subform} />
-        </div>
-      </div>
+      <Fragment key={record.getIn([subformSection.unique_id, index, "unique_id"])}>
+        <h4>{i18n.getI18nStringFromObject(displayName)}</h4>
+        <Component fields={displayFields} record={subform} isSubform classes={classes} />
+        <div className={css.seperator} />
+      </Fragment>
     ));
   };
 
   return (
-    <div className={css.group}>
+    <>
       {fields.map(field => {
         const {
           name,
@@ -43,11 +53,14 @@ const Component = ({ fields, record }) => {
           option_strings_text: optionsStringsText,
           options,
           type,
-          date_include_time: dateIncludeTime
+          date_include_time: dateIncludeTime,
+          defaultValue
         } = field;
 
         if (subformSection) {
-          return <div key={`keyval-${name}`}>{renderSubform(field, subformSection, displayName)}</div>;
+          return (
+            <Fragment key={`keyval-${name}-subform`}>{renderSubform(field, subformSection, displayName)}</Fragment>
+          );
         }
 
         if (!visible || EXCLUDED_FIELD_TYPES.includes(type)) {
@@ -56,31 +69,40 @@ const Component = ({ fields, record }) => {
 
         return (
           <KeyValueCell
+            defaultValue={defaultValue}
             displayName={i18n.getI18nStringFromObject(displayName)}
             value={record.get(name)}
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
-            isDateField={type === DATE_FIELD}
+            type={type}
             isDateWithTime={dateIncludeTime}
-            isBooleanField={type === TICK_FIELD}
+            isSubform={isSubform}
+            classes={classes}
           />
         );
       })}
-    </div>
+    </>
   );
 };
 
 Component.displayName = "Table";
 
+Component.defaultProps = {
+  isSubform: false
+};
+
 Component.propTypes = {
   fields: PropTypes.array.isRequired,
+  isSubform: PropTypes.bool,
   record: PropTypes.object.isRequired
 };
 
-export default React.memo(Component, (prev, next) => {
-  return isEqual(
-    prev.fields.map(field => field.name),
-    next.fields.map(field => field.name)
+export default memo(Component, (prev, next) => {
+  return (
+    isEqual(
+      prev.fields.map(field => field.name),
+      next.fields.map(field => field.name)
+    ) && isEqual(Object.values(prev.record), Object.values(next.record))
   );
 });

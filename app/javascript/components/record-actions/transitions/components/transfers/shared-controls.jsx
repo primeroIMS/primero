@@ -1,7 +1,6 @@
 import { FormControlLabel } from "@material-ui/core";
 import { Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
-import React from "react";
 
 export default (i18n, disableControl) => {
   const sharedFields = [

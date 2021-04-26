@@ -1,4 +1,5 @@
 import { Menu } from "@material-ui/core";
+import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
@@ -15,6 +16,16 @@ describe("<MenuActions /> - Component", () => {
   describe("Component Menu", () => {
     describe("with referral transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -65,10 +76,63 @@ describe("<MenuActions /> - Component", () => {
           expect(menuChildren).to.have.lengthOf(1);
         });
 
-        it("renders MenuItem with revoke option", () => {
-          const menuChildrenAction = component.find(Menu).props().children[0].props.children;
+        it("should only render the revoke option", () => {
+          const menuChildrenAction = component
+            .find(Menu)
+            .props()
+            .children.map(elem => elem.props.children);
 
-          expect(menuChildrenAction).to.be.equals("actions.revoke");
+          expect(menuChildrenAction).to.deep.equals(["actions.revoke"]);
+        });
+      });
+
+      context("when current user is recipient", () => {
+        const userRecipientState = fromJS(state).setIn(["user", "username"], "primero_cp_ar");
+
+        beforeEach(() => {
+          ({ component } = setupMountedComponent(TransitionActions, props, userRecipientState));
+        });
+
+        it("should render the accept and reject actions", () => {
+          const menuChildrenAction = component
+            .find(Menu)
+            .props()
+            .children.map(elem => elem.props.children);
+
+          expect(menuChildrenAction).to.deep.equals(["buttons.accept", "buttons.reject"]);
+        });
+
+        context("when the referral is accepted", () => {
+          beforeEach(() => {
+            ({ component } = setupMountedComponent(
+              TransitionActions,
+              { ...props, transition: props.transition.set("status", "accepted") },
+              userRecipientState
+            ));
+          });
+
+          it("should only render the done action", () => {
+            const menuChildrenAction = component
+              .find(Menu)
+              .props()
+              .children.map(elem => elem.props.children);
+
+            expect(menuChildrenAction).to.deep.equals(["buttons.done"]);
+          });
+        });
+
+        context("when the referral is rejected", () => {
+          beforeEach(() => {
+            ({ component } = setupMountedComponent(
+              TransitionActions,
+              { ...props, transition: props.transition.set("status", "rejected") },
+              userRecipientState
+            ));
+          });
+
+          it("should not render actions", () => {
+            expect(component.find(Menu)).to.have.lengthOf(0);
+          });
         });
       });
 
@@ -88,6 +152,16 @@ describe("<MenuActions /> - Component", () => {
 
     describe("with transfer transition type", () => {
       const state = {
+        records: {
+          cases: {
+            data: [
+              {
+                id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+                case_id_display: "804d74bc"
+              }
+            ]
+          }
+        },
         ui: {
           dialogs: {
             pending: false,
@@ -162,6 +236,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component RevokeModal", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -219,6 +303,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component TransferApproval", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,
@@ -242,7 +336,7 @@ describe("<MenuActions /> - Component", () => {
         notes: "",
         rejected_reason: "",
         status: "in_progress",
-        type: "Referral",
+        type: "Transfer",
         consent_overridden: true,
         consent_individual_transfer: false,
         transitioned_by: "primero_admin_cp",
@@ -286,6 +380,16 @@ describe("<MenuActions /> - Component", () => {
 
   describe("Component ReferralAction", () => {
     const state = {
+      records: {
+        cases: {
+          data: [
+            {
+              id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+              case_id_display: "804d74bc"
+            }
+          ]
+        }
+      },
       ui: {
         dialogs: {
           pending: false,

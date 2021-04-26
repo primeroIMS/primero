@@ -3,6 +3,8 @@ import domtoimage from "dom-to-image-more";
 
 export const PAGE_MARGIN = 0.5;
 
+export const DEFAULT_RENDERER_OPTIONS = Object.freeze({ scale: window.devicePixelRatio || 1 });
+
 export const HTML_2_PDF_OPTIONS = (values, record, customFilenameField) => ({
   filename: `${values[customFilenameField] || record.get("id")}.pdf`,
   margin: [1.5, PAGE_MARGIN, 1, PAGE_MARGIN],
@@ -14,6 +16,7 @@ export const HTML_2_PDF_OPTIONS = (values, record, customFilenameField) => ({
     class: domtoimage,
     method: "toCanvas",
     options: {
+      ...DEFAULT_RENDERER_OPTIONS,
       quality: 1,
       style: {
         display: "block"
@@ -29,3 +32,5 @@ export const HTML_2_PDF_OPTIONS = (values, record, customFilenameField) => ({
     orientation: "portrait"
   }
 });
+
+export const PDF_HEADER_LOOKUP = "lookup-pdf-header";

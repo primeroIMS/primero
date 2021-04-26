@@ -1,25 +1,49 @@
-.Card {
-  box-shadow: $(theme.primero.shadows[0]);
-  margin-top: 3em;
-  width: 40%;
+.mainSupport {
+  display: flex;
+  flex: 1;
+
+  & nav {
+    width: 280px;
+    padding-right: 1em;
+  }
+
+  & > div {
+    flex: 1;
+    padding: 0 2em;
+  }
 }
 
-.PageTitle {
-  height: 28px;
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(22));
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
-  margin: 25px 0 0 0;
+.mobileNav {
+  top: 4em;
+  min-width: 220px;
 }
 
-.Title {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(15));
-  margin-right: 5px;
-  font-weight: bold;
+.item, .selectedItem {
+  border-radius: .5em;
+
+  &:hover {
+    border-radius: .5em;
+  }
+}
+
+.selectedItem {
+   background-color: $(theme.primero.colors.lightBlueMenu) !important;
+}
+
+.termsOfUse,
+.codeOfConductContainer {
+
+  & h2 {
+    margin: 0;
+  }
+
+  & h3 {
+    margin: 0;
+    text-transform: uppercase;
+    color: $(theme.primero.colors.midGrey);
+  }
+
+  & p {
+    padding: 1em 0 0 0;
+  }
 }

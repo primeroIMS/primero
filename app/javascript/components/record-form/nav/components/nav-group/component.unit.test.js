@@ -1,7 +1,7 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
-import { FormSectionRecord, FieldRecord } from "../../../records";
+import { FormSectionRecord, FieldRecord, NavRecord } from "../../../records";
 import NavItem from "../nav-item";
 
 import NavGroup from "./component";
@@ -79,16 +79,21 @@ describe("<NavGroup />", () => {
   });
 
   const formNav = OrderedMap({
-    1: OrderedMap({
-      1: {
-        group: "basic_identity",
-        groupName: "Basic Identity",
-        groupOrder: 9,
-        name: "Basic Identity",
-        order: 9,
-        formId: "basic_identity",
-        is_first_tab: false
-      }
+    1: NavRecord({
+      group: "identification_registration",
+      groupOrder: 9,
+      name: "Basic Identity",
+      order: 9,
+      formId: "basic_identity",
+      is_first_tab: true
+    }),
+    2: NavRecord({
+      group: "identification_registration",
+      groupOrder: 10,
+      name: "Family Details",
+      order: 10,
+      formId: "family_details",
+      is_first_tab: false
     })
   });
 
@@ -112,9 +117,19 @@ describe("<NavGroup />", () => {
     group: formNav,
     handleClick: () => {},
     isNew: false,
-    open: {},
+    open: "",
     recordAlerts: {},
-    selectedForm: ""
+    selectedForm: "",
+    formGroupLookup: [
+      {
+        id: "record_information",
+        display_text: "Record Information"
+      },
+      {
+        id: "identification_registration",
+        display_text: "Identification / Registration"
+      }
+    ]
   };
 
   beforeEach(() => {
@@ -123,13 +138,14 @@ describe("<NavGroup />", () => {
 
   it("renders a NavItem component />", () => {
     expect(component.find(NavItem)).to.have.lengthOf(1);
+    expect(component.find(NavItem).find("span").at(0).text()).to.equal("Identification / Registration");
   });
 
   it("should render valid props", () => {
     const navGroupProps = { ...component.find(NavGroup).props() };
 
     expect(component.find(NavGroup)).to.have.lengthOf(1);
-    ["group", "handleClick", "isNew", "open", "recordAlerts", "selectedForm"].forEach(property => {
+    ["group", "handleClick", "isNew", "open", "recordAlerts", "selectedForm", "formGroupLookup"].forEach(property => {
       expect(navGroupProps).to.have.property(property);
       delete navGroupProps[property];
     });

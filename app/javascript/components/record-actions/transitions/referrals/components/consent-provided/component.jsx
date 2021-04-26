@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import Alert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,9 +8,11 @@ import { useI18n } from "../../../../../i18n";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ children }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <Alert icon={<CasesIcon className={css.icon} />} classes={{ root: css.alert, message: css.message }}>

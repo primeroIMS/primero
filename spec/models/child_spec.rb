@@ -263,7 +263,7 @@ describe Child do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
       child = Child.create(data: { 'name' => 'Jaco', :created_by => 'mj' })
 
       child.created_organization.should == 'UNICEF'
@@ -364,8 +364,8 @@ describe Child do
       @previous_owner = create :user
       @referral = create :user
 
-      @case = build :child, owned_by: @owner.user_name, previously_owned_by: @previous_owner.user_name,
-                            assigned_user_names: [@referral.user_name]
+      @case = Child.new_with_user(@owner, previously_owned_by: @previous_owner.user_name,
+                                          assigned_user_names: [@referral.user_name])
     end
 
     it 'can fetch the record owner' do
@@ -539,7 +539,7 @@ describe Child do
   describe 'syncing of protection concerns' do
     before do
       Child.destroy_all
-      User.stub(:find_by_user_name).and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
 

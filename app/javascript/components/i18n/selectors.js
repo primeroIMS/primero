@@ -1,5 +1,7 @@
 import { fromJS } from "immutable";
 
+import NAMESPACE from "./namespace";
+
 export const getLocale = state => {
   const defaultLocale = window.I18n.locale;
 
@@ -9,4 +11,6 @@ export const getLocale = state => {
     : defaultLocale;
 };
 
-export const getLocales = state => state.getIn(["application", "locales"], fromJS([]));
+export const getLocales = state => state.getIn(["application", "primero", "locales"], fromJS([]));
+
+export const getAppDirection = state => state.getIn(["ui", NAMESPACE, "dir"], "ltr");

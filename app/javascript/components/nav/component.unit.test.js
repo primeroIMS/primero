@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import React from "react";
 import { NavLink } from "react-router-dom";
 
 import { setupMountedComponent } from "../../test";
@@ -7,26 +6,24 @@ import { ROUTES, RECORD_PATH } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { ApplicationProvider } from "../application/provider";
 import { ACTIONS } from "../../libs/permissions";
+import Jewel from "../jewel";
 
 import Nav from "./component";
 import { FETCH_ALERTS } from "./actions";
 
 describe("<Nav />", () => {
   let component;
-  const ProvidedNav = () => (
-    <ApplicationProvider>
-      <Nav />
-    </ApplicationProvider>
-  );
+  const ProvidedNav = () => <Nav />;
   const permissions = {
     cases: [ACTIONS.MANAGE],
     incidents: [ACTIONS.READ],
     dashboards: [ACTIONS.MANAGE, ACTIONS.DASH_TASKS],
     potential_matches: [ACTIONS.MANAGE],
     tracing_requests: [ACTIONS.READ],
-    reports: [ACTIONS.MANAGE]
+    reports: [ACTIONS.MANAGE],
+    metadata: [ACTIONS.MANAGE],
+    users: [ACTIONS.MANAGE]
   };
   const initialState = fromJS({
     ui: { Nav: { drawerOpen: true } },
@@ -103,6 +100,13 @@ describe("<Nav />", () => {
     it("renders exports link", () => {
       expect(component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.exports)).to.have.lengthOf(2);
     });
+
+    it("renders seetings link with alert", () => {
+      const seetingsLink = component.find(NavLink).findWhere(link => link.prop("to") === ROUTES.admin_users);
+
+      expect(seetingsLink).to.have.lengthOf(2);
+      expect(seetingsLink.find(Jewel)).to.have.lengthOf(2);
+    });
   });
 
   describe("when have restricted permission", () => {
@@ -170,6 +174,46 @@ describe("<Nav />", () => {
       const storeActions = component.props().store.getActions();
 
       expect(storeActions[0]).to.deep.equal(expectedAction);
+    });
+  });
+
+  describe("when offline", () => {
+    const userId = 1;
+    const offlineInitialState = fromJS({
+      ui: { Nav: { drawerOpen: true } },
+      connectivity: {
+        online: false,
+        serverOnline: false
+      },
+      application: {
+        modules: {},
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/some/random.png" }
+          }
+        ]
+      },
+      user: {
+        id: userId,
+        modules: [],
+        agency: "agency_1",
+        permissions: {
+          cases: [ACTIONS.READ]
+        }
+      }
+    });
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(ProvidedNav, { username: "username" }, offlineInitialState));
+    });
+
+    it("renders a disabled my account link", () => {
+      expect(
+        component
+          .find(NavLink)
+          .findWhere(link => link.prop("to") === `${ROUTES.account}/${userId}` && link.prop("disabled"))
+      ).to.have.lengthOf(2);
     });
   });
 });

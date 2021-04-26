@@ -1,0 +1,35 @@
+.closeButton {
+  top: 16px;
+  color: $(theme.primero.colors.darkGrey);
+  right: 8px;
+  position: absolute;
+}
+
+.dialogSubtitle {
+  font-size: $(theme.typography.pxToRem(12));
+  font-weight: bold;
+  color: $(theme.primero.colors.darkGrey);
+  margin-left: 5px;
+}
+
+.dialogTitle {
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+
+  & div:first-of-type {
+    flex: 7;
+  }
+
+  & div:not(:first-of-type) {
+    flex: 0.5;
+  }
+
+  & div:last-of-type {
+
+    & button {
+      top: 10px !important;
+    }
+  }
+
+}

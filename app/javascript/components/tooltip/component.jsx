@@ -1,4 +1,3 @@
-import React from "react";
 import { Tooltip as MuiToolTip } from "@material-ui/core";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -8,9 +7,11 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Tooltip = ({ children, title, i18nTitle }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   const commonTooltipProps = {
     arrow: true,

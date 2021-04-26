@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
@@ -8,11 +7,12 @@ import { saveRecord } from "../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ close, openEnableDialog, record, recordType }) => {
+const Component = ({ close, open, record, recordType }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const enableState = record && !record.get("record_state") ? "enable" : "disable";
   const setValue = record ? !record.get("record_state") : true;
+  const recordTypeWithStatus = `${recordType}.${enableState}`;
 
   const handleOk = () => {
     dispatch(
@@ -24,8 +24,8 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
           record_action: "enable_disable_record"
         },
         record.get("id"),
-        i18n.t(`cases.${enableState}_success`),
-        false,
+        i18n.t(`${recordTypeWithStatus}_success`),
+        i18n.t("offline_submitted_changes"),
         false,
         false
       )
@@ -35,11 +35,11 @@ const Component = ({ close, openEnableDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openEnableDialog}
+      open={open}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t(`cases.${enableState}_dialog_title`)}
-      dialogText={i18n.t(`cases.${enableState}_dialog`)}
+      dialogTitle={i18n.t(`${recordTypeWithStatus}_dialog_title`)}
+      dialogText={i18n.t(`${recordTypeWithStatus}_dialog`)}
       confirmButtonLabel={i18n.t("cases.ok")}
     />
   );
@@ -49,7 +49,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openEnableDialog: PropTypes.bool,
+  open: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string
 };

@@ -1,13 +1,12 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { makeStyles } from "@material-ui/core";
-import isEqual from "lodash/isEqual";
 
-import { compare, getObjectPath } from "../../../../../../libs";
+import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
 import FieldListItem from "../field-list-item";
@@ -18,24 +17,27 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 
-const Component = ({
-  formContextFields,
-  getValues,
-  register,
-  setValue,
-  subformField,
-  subformSortBy,
-  subformGroupBy,
-  unregister
-}) => {
+const useStyles = makeStyles(styles);
+
+const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
-  const fields = useSelector(state => getSelectedFields(state, isNested), compare);
-  const copiedFields = useSelector(state => getCopiedFields(state), compare);
-  const removedFields = useSelector(state => getRemovedFields(state), compare);
-  const css = makeStyles(styles)();
+
+  const fields = useMemoizedSelector(state => getSelectedFields(state, isNested));
+  const copiedFields = useMemoizedSelector(state => getCopiedFields(state));
+  const removedFields = useMemoizedSelector(state => getRemovedFields(state));
+
+  const css = useStyles();
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
+  const {
+    register,
+    setValue,
+    unregister,
+    control: {
+      fieldsRef: { current: formContextFields }
+    }
+  } = formMethods;
 
   useEffect(() => {
     fields.forEach(field => {
@@ -45,19 +47,19 @@ const Component = ({
         register({ name: `${fieldsAttribute}.${name}.order` });
       }
 
-      setValue(`${fieldsAttribute}.${name}.order`, field.get("order"));
+      setValue(`${fieldsAttribute}.${name}.order`, field.get("order"), { shouldDirty: true });
 
       i18n.applicationLocales.forEach(locale => {
-        const localeId = locale.get("id");
+        const localeId = locale.id;
         const localizedDisplayName = field.getIn(["display_name", localeId], "");
 
-        setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName);
+        setValue(`${fieldsAttribute}.${name}.display_name.${localeId}`, localizedDisplayName, { shouldDirty: true });
       });
     });
 
     if (!fields?.toSeq()?.size) {
       register({ name: fieldsAttribute });
-      setValue(fieldsAttribute, []);
+      setValue(fieldsAttribute, [], { shouldDirty: true });
     }
   }, [fields]);
 
@@ -94,8 +96,7 @@ const Component = ({
 
       return (
         <FieldListItem
-          getValues={getValues}
-          setValue={setValue}
+          formMethods={formMethods}
           subformField={subformField}
           field={field}
           index={index}
@@ -106,7 +107,11 @@ const Component = ({
       );
     });
 
-  const renderColumn = text => isNested && <div className={clsx([css.fieldColumn, css.fieldHeader])}>{text}</div>;
+  const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
+  const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
+  const fieldShowClasses = clsx([css.fieldColumn, css.fieldHeader, css.fieldShow]);
+
+  const renderColumn = text => isNested && <div className={fieldTypeClasses}>{text}</div>;
 
   if (!fields.size) {
     return <div className={css.noFiltersAdded}>{i18n.t("forms.no_subform_filters_added")}</div>;
@@ -119,11 +124,11 @@ const Component = ({
           {(provided, snapshot) => (
             <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldRow}>
-                <div className={clsx([css.fieldColumn, css.fieldName, css.fieldHeader])}>{i18n.t("fields.name")}</div>
-                <div className={clsx([css.fieldColumn, css.fieldHeader])}>{i18n.t("fields.type")}</div>
+                <div className={nameClasses}>{i18n.t("fields.name")}</div>
+                <div className={fieldTypeClasses}>{i18n.t("fields.type")}</div>
                 {renderColumn(i18n.t("fields.subform_sort_by"))}
                 {renderColumn(i18n.t("fields.subform_group_by"))}
-                <div className={clsx([css.fieldColumn, css.fieldHeader, css.fieldShow])}>{i18n.t("fields.show")}</div>
+                <div className={fieldShowClasses}>{i18n.t("fields.show")}</div>
               </div>
               {renderFields()}
               {provided.placeholder}
@@ -140,29 +145,10 @@ Component.displayName = NAME;
 Component.whyDidYouRender = true;
 
 Component.propTypes = {
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
-  register: PropTypes.func.isRequired,
-  setValue: PropTypes.func.isRequired,
+  formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,
-  subformSortBy: PropTypes.string,
-  unregister: PropTypes.func.isRequired
+  subformSortBy: PropTypes.string
 };
 
-export default React.memo(Component, (prev, next) => {
-  const equalProps =
-    isEqual(prev.formContextFields, next.formContextFields) &&
-    prev.getValues === next.getValues &&
-    prev.register === next.register &&
-    prev.setValue === next.setValue &&
-    prev.subformSortBy === next.subformSortBy &&
-    prev.subformGroupBy === next.subformGroupBy &&
-    prev.unregister === next.unregister;
-
-  if (prev.subformField) {
-    return equalProps && prev.subformField.equals(next.subformField);
-  }
-
-  return equalProps;
-});
+export default Component;

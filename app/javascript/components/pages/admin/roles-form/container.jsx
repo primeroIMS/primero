@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
@@ -10,42 +10,44 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import { getSystemPermissions, useApp } from "../../../application";
-import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
-import { getRecords } from "../../../index-table";
+import { fetchRoles, getSystemPermissions, useApp } from "../../../application";
 import { getAssignableForms } from "../../../record-form";
-import { compare } from "../../../../libs";
-import ActionDialog from "../../../action-dialog";
-import { getMetadata } from "../../../record-list";
+import { useMemoizedSelector } from "../../../../libs";
 import { getReportingLocationConfig } from "../../../user/selectors";
+import { usePermissions } from "../../../user";
+import { COPY_ROLES } from "../../../../libs/permissions";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
-import { clearSelectedRole, deleteRole, fetchRole, saveRole } from "./action-creators";
-import { getRole } from "./selectors";
-import { NAME } from "./constants";
+import { clearSelectedRole, fetchRole, saveRole, clearCopyRole } from "./action-creators";
+import { getRole, getCopiedRole } from "./selectors";
+import { NAME, FORM_ID } from "./constants";
+import RolesActions from "./roles-actions";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
-  const formRef = useRef();
-  const { approvalsLabels } = useApp();
+  const { approvalsLabels, limitedProductionSite } = useApp();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const roles = useSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]), compare);
-  const metadata = useSelector(state => getMetadata(state, "roles"));
-  const role = useSelector(state => getRole(state), compare);
-  const systemPermissions = useSelector(state => getSystemPermissions(state), compare);
-  const assignableForms = useSelector(state => getAssignableForms(state), compare);
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+
+  const canCopyRole = usePermissions(NAMESPACE, COPY_ROLES);
+  const role = useMemoizedSelector(state => getRole(state));
+  const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
+  const assignableForms = useMemoizedSelector(state => getAssignableForms(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const copiedRole = useMemoizedSelector(state => getCopiedRole(state));
+
   const adminLevelMap = reportingLocationConfig.get("admin_level_map") || fromJS({});
 
   const formsByParentForm = assignableForms.groupBy(assignableForm => assignableForm.get(PARENT_FORM));
 
   const validationSchema = Validations(i18n);
+
+  const isCopiedRole = formMode.get("isNew") && copiedRole.size > 0;
 
   const handleSubmit = data => {
     dispatch(
@@ -63,7 +65,13 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles({ data: metadata?.toJS() }));
+    dispatch(fetchRoles());
+
+    return () => {
+      if (isCopiedRole) {
+        dispatch(clearCopyRole());
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -82,7 +90,6 @@ const Container = ({ mode }) => {
 
   const formsToRender = getFormsToRender({
     systemPermissions,
-    roles,
     formSections: formsByParentForm,
     i18n,
     formMode,
@@ -90,54 +97,40 @@ const Container = ({ mode }) => {
     adminLevelMap
   });
 
-  const initialValues = groupSelectedIdsByParentForm(
-    role.filter(prop => Boolean(prop)),
-    assignableForms
-  ).toJS();
+  const initialValues = isCopiedRole
+    ? copiedRole?.toJS()
+    : groupSelectedIdsByParentForm(
+        role.filter(prop => Boolean(prop)),
+        assignableForms
+      ).toJS();
 
-  const handleSuccess = () => {
-    dispatch(
-      deleteRole({
-        id,
-        message: i18n.t("role.messages.deleted")
-      })
-    );
-    setOpenDeleteDialog(false);
-  };
-
-  const renderOpenDialog = formMode.get("isShow") ? (
-    <ActionDialog
-      open={openDeleteDialog}
-      successHandler={handleSuccess}
-      cancelHandler={() => setOpenDeleteDialog(false)}
-      dialogTitle={i18n.t("role.delete_header")}
-      dialogText={i18n.t("role.messages.confirmation")}
-      confirmButtonLabel={i18n.t("buttons.ok")}
-    />
-  ) : null;
+  const hasData = formMode.get("isNew") || (role?.size > 0 && assignableForms.size > 0);
+  const loading = !role.size || !assignableForms.size;
 
   return (
-    <LoadingIndicator hasData={formMode.get("isNew") || role?.size > 0} loading={!role.size} type={NAMESPACE}>
+    <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
       <PageHeading title={pageHeading}>
         <ActionButtons
           formMode={formMode}
-          formRef={formRef}
+          formID={FORM_ID}
           handleCancel={handleCancel}
-          setOpenDeleteDialog={setOpenDeleteDialog}
+          limitedProductionSite={limitedProductionSite}
         />
+        {!formMode.get("isNew") && <RolesActions canCopyRole={canCopyRole} initialValues={initialValues} />}
       </PageHeading>
       <PageContent>
         <Form
+          formID={FORM_ID}
           useCancelPrompt
           mode={mode}
           formSections={formsToRender}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={initialValues}
+          submitAllFields={isCopiedRole}
+          submitAlways={isCopiedRole}
         />
       </PageContent>
-      {renderOpenDialog}
     </LoadingIndicator>
   );
 };

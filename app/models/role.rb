@@ -4,8 +4,32 @@
 class Role < ApplicationRecord
   include ConfigurationRecord
 
-  has_and_belongs_to_many :form_sections, -> { distinct }
+  SUPER_ROLE_PERMISSIONS = {
+    'case' => ['manage'],
+    'role' => ['manage'],
+    'user' => ['manage'],
+    'agency' => ['manage'],
+    'report' => ['manage'],
+    'system' => ['manage'],
+    'incident' => ['manage'],
+    'metadata' => ['manage'],
+    'user_group' => ['manage']
+  }.freeze
+
+  ADMIN_ROLE_PERMISSIONS = {
+    'role' => ['manage'],
+    'user' => ['manage'],
+    'agency' => ['manage'],
+    'system' => ['manage'],
+    'metadata' => ['manage'],
+    'user_group' => ['manage']
+  }.freeze
+
+  has_many :form_permissions
+  has_many :form_sections, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, -> { distinct }
+
+  has_many :users
 
   alias_attribute :modules, :primero_modules
 
@@ -38,28 +62,26 @@ class Role < ApplicationRecord
     end
 
     def new_with_properties(role_params)
-      role = Role.new(role_params.except(:permissions, :form_section_unique_ids, :module_unique_ids))
-      if role_params[:form_section_unique_ids].present?
-        role.form_sections = FormSection.where(unique_id: role_params[:form_section_unique_ids])
+      Role.new.tap do |role|
+        role.update_properties(role_params)
       end
-      if role_params[:module_unique_ids].present?
-        role.modules = PrimeroModule.where(unique_id: role_params[:module_unique_ids])
-      end
-      role.permissions = Permission::PermissionSerializer.load(role_params[:permissions].to_h)
-      role
     end
 
-    def list(user, external = false)
-      if external
-        Role.where(disabled: false).where(referral: true).or(Role.where(transfer: true))
+    def list(user = nil, options = {})
+      if options[:external]
+        Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
+      elsif options[:managed]
+        user&.permitted_roles_to_manage || Role.none
       else
-        user.permitted_roles_to_manage
+        Role.all
       end
     end
   end
 
-  def permitted_forms(record_type = nil, visible_only = false)
-    form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+  def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
+    forms = form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
+    forms = forms.or(form_sections.where(parent_form: record_type, is_nested: true)) if include_subforms
+    forms
   end
 
   def permitted_roles
@@ -73,6 +95,10 @@ class Role < ApplicationRecord
     return [] unless role_permission&.role_unique_ids&.present?
 
     role_permission.role_unique_ids
+  end
+
+  def permitted_dashboard?(dashboard_name)
+    permissions.find { |p| p.resource == Permission::DASHBOARD }&.actions&.include?(dashboard_name)
   end
 
   def dashboards
@@ -143,9 +169,9 @@ class Role < ApplicationRecord
   end
 
   def associate_all_forms
-    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    forms_by_parent = FormSection.all_forms_grouped_by_parent(true)
     role_module_ids = primero_modules.pluck(:unique_id)
-    permissions_with_forms.map do |permission|
+    permissions_with_forms.each do |permission|
       form_sections << forms_by_parent[permission.resource].reject do |form|
         form_sections.include?(form) || reject_form?(form, role_module_ids)
       end
@@ -169,14 +195,19 @@ class Role < ApplicationRecord
     form_sections.pluck(:unique_id)
   end
 
+  def form_section_permission
+    form_sections.pluck('form_sections.unique_id, form_sections_roles.permission')
+                 .each_with_object({}) { |elem, acc| acc[elem.first] = elem.last }
+  end
+
   def module_unique_ids
     modules.pluck(:unique_id)
   end
 
   def update_properties(role_properties)
     role_properties = role_properties.with_indifferent_access if role_properties.is_a?(Hash)
-    assign_attributes(role_properties.except('permissions', 'form_section_unique_ids', 'module_unique_ids'))
-    update_forms_sections(role_properties['form_section_unique_ids'])
+    assign_attributes(role_properties.except('permissions', 'form_section_read_write', 'module_unique_ids'))
+    update_forms_sections(role_properties['form_section_read_write'])
     update_permissions(role_properties['permissions'])
     update_modules(role_properties['module_unique_ids'])
   end
@@ -184,7 +215,7 @@ class Role < ApplicationRecord
   def configuration_hash
     hash = attributes.except('id', 'permissions')
     hash['permissions'] = Permission::PermissionSerializer.dump(permissions)
-    hash['form_section_unique_ids'] = form_section_unique_ids
+    hash['form_section_read_write'] = form_section_permission
     hash['module_unique_ids'] = module_unique_ids
     hash.with_indifferent_access
   end
@@ -204,16 +235,20 @@ class Role < ApplicationRecord
     false
   end
 
-  def update_forms_sections(form_section_unique_ids)
-    return if form_section_unique_ids.nil?
+  def update_forms_sections(form_section_read_write)
+    return if form_section_read_write.nil?
 
-    self.form_sections = FormSection.where(unique_id: form_section_unique_ids)
+    form_permissions.destroy_all
+    self.form_permissions = form_section_read_write.to_h.map do |key, value|
+      FormPermission.new(form_section: FormSection.find_by(unique_id: key), role: self, permission: value)
+    end
   end
 
   def update_permissions(permissions)
     return if permissions.nil?
 
-    self.permissions = Permission::PermissionSerializer.load(permissions.to_h)
+    permissions = Permission::PermissionSerializer.load(permissions.to_h) unless permissions.is_a?(Array)
+    self.permissions = permissions
   end
 
   def update_modules(module_unique_ids)

@@ -10,10 +10,14 @@ class SystemSettings < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
 
+  TIMEFRAME_HOURS_TO_ASSIGN = 3
+  TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
+
   store_accessor(
     :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :use_identity_provider
+    :welcome_email_enabled, :show_alerts, :code_of_conduct_enabled,
+    :timeframe_hours_to_assign, :timeframe_hours_to_assign_high
   )
 
   localize_properties %i[welcome_email_text approvals_labels]
@@ -96,6 +100,14 @@ class SystemSettings < ApplicationRecord
       errors.add(:admin_level, 'errors.models.reporting_location.admin_level')
     end
     reporting_location_config.valid_admin_level?
+  end
+
+  def timeframe_hours_to_assign
+    super || TIMEFRAME_HOURS_TO_ASSIGN
+  end
+
+  def timeframe_hours_to_assign_high
+    super || TIMEFRAME_HOURS_TO_ASSIGN_HIGH
   end
 
   class << self

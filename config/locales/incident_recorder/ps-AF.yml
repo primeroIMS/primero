@@ -1,0 +1,74 @@
+ps-AF:
+  permissions:
+    permission:
+      export_incident_recorder_xls: " د پیښی ریکارډ کونکی صادرول XLS"
+  exports:
+    incident_recorder_xls:
+      all: د پيښۍ ثبتونکی
+      one: پیښی ثبتونکی
+      selected: د پيښی ثبتونکی ته وتاکل شو
+      'yes': "هو"
+      'no': "نه"
+      gender:
+        male: "نارینه"
+        female: "ښځینه"
+        both: "نارینه او ښځینه"
+      age_group:
+        age: "عمر"
+        61_older: "۶۱ کلن یا د هغه څخه مشر"
+        unknown: "نامعلوم"
+        header: "د مرتکب عمر ډله"
+      age_type:
+        adult: "بالغ"
+        minor: "کوچنی"
+        both: "بالغ او کوچنی"
+        unknown: "نامعلوم"
+        header: "د مرتکب د عمر ډول"
+      headers:
+        incident_id: "د پیښی پيژند"
+        survivor_code: "د ژغورنی کوډ"
+        case_manager_code: "د قضیې د مدیر رمز"
+        case_worker_code: "د قضیې د کارمند رمز"
+        date_of_interview: "د مرکی نیته"
+        date_of_incident: "د پیښی نیټه"
+        date_of_birth: "د پیدایښت نیټه"
+        sex: "جنس"
+        ethnicity: "قومیت"
+        country_of_origin: "اصلی هیواد"
+        marital_status: "مدنی/ازدواجی حالت"
+        displacement_status: "په راپور کی د بی ځایه شوی حالت"
+        disability_type: "ملعول شخص؟"
+        unaccompanied_separated_status: "بی سرپرسته یا هم جلا شوی ماشوم؟"
+        stage_of_displacement: "په پیښه کی د بی ځایه شوی مرحله"
+        time_of_day: "د پيښی ورځ"
+        location: "د پیښی موقیعت"
+        county: "د پيښی ښار"
+        district: "د پیښی ولسوالئ"
+        camp_town: "د پيښی کمپ/ښار"
+        camp: "د پيښی کمپ"
+        gbv_type: "د  جنسیت په وړاندی د تاوتریخوالی ډول"
+        harmful_traditional_practice: "عرفی ناوړه اعمال"
+        goods_money_exchanged: "پیسی،اجناس،مفاد او /د خدماتو تبادله؟"
+        abduction_type: "د اختطاف ډول"
+        previously_reported: "مخکی نوموړی پیښه راپور شوی؟"
+        gbv_previous_incidents: "مخکنی د جنسیت په وړاندی د تاوتریخوالی پیښه؟"
+        number_primary_perpetrators: "نه.لومړنی ادعا شوی مرتکب"
+        perpetrator:
+          sex: "د مرتکب جنسیت"
+          former: "مخکنی پیښه د نوموړی مرتکب سره"
+          relationship: "مرتکب-د پاتی شویو کسانو سره اړیکه"
+          occupation: "د مرتکب دنده"
+          age_group: "د مرتکب عمر ډله"
+          age_type: "د مرتکب د عمر ډول"
+        service:
+          referred_from: "ارجاع شوی تاسو ته له؟"
+          safehouse_referral: "امن کور/پناه ځای"
+          medical_referral: "صحت/صحی خدمات"
+          psycho_referral: "روانی-ټولنیزز خدمات"
+          wants_legal_action: "د حقوقی/قانونی اقدام غوښتنه؟"
+          legal_referral: "د حقوقی مساعدت خدمات"
+          police_referral: "پولیس/نور امنیتی کسان"
+          livelihoods_referral: "د معیشیت برنامه"
+          protection_referral: "ماشوم خوندیتوب خدمتونه/تعلیمی اداری"
+        consent: "رضایت اخیستل شوی"
+        agency_code: "د راپور ورکونی اداری کود"

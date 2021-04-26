@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -10,9 +9,11 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const NotAuthorized = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <div className={css.root}>

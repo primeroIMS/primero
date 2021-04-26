@@ -1,24 +1,15 @@
 ar-JO:
   date:
-    today: 'Today'
-    clear: 'Clear'
-    first_day: 0
+    today: 'اليوم'
+    clear: 'واضح'
     abbr_day_names_short:
-      - الأحد
-      - الإثنين
-      - الثّلاثاء
-      - الأربعاء
+      - الاحد
+      - الاثنين
+      - الثلاثاء
+      - الاربعاء
       - الخميس
       - الجمعة
-      - السّبت
-    abbr_day_names:
-      - الأحد
-      - الإثنين
-      - الثّلاثاء
-      - الأربعاء
-      - الخميس
-      - الجمعة
-      - السّبت
+      - السبت
     abbr_month_names:
       - كانون الثاني
       - شباط
@@ -64,3 +55,5 @@ ar-JO:
       with_time: "%d-%b-%Y %H:%M"
       rtl: "%Y-%b-%d"
       rtl_with_time: "%M:%H %Y-%b-%d"
+  'true': "نعم"
+  'false': "لا"

@@ -10,7 +10,7 @@ describe("<AuditLogs /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["getFilters", "buildUsersQuery"].forEach(property => {
+      ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters"].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
         delete clone[property];

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
@@ -7,8 +6,10 @@ import DashboardChip from "../dashboard-chip";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const PrioritySummary = ({ summary }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const getTitle = status => {

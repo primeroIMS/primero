@@ -10,7 +10,17 @@ import {
   getIncidentFromCase,
   getSavingRecord,
   getLoadingRecordState,
-  getRecordAlerts
+  getRecordAlerts,
+  getCaseIdForIncident,
+  getSelectedRecord,
+  getRecordAttachments,
+  getIsProcessingSomeAttachment,
+  getIsProcessingAttachments,
+  getIsPendingAttachments,
+  getCasesPotentialMatches,
+  getMatchedTraces,
+  getLoadingCasesPotentialMatches,
+  getMatchedTrace
 } from "./selectors";
 
 const record = {
@@ -23,11 +33,61 @@ const record = {
   registration_date: "2020-01-07",
   id: "d9df44fb-95d0-4407-91fd-ed18c19be1ad"
 };
+const potentialMatches = [
+  {
+    likelihood: "likely",
+    score: 1,
+    case: {
+      id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+      case_id_display: "35e4065",
+      name: "Enrique Bunbury"
+    },
+    trace: {
+      id: "12345",
+      inquiry_date: "2021-01-13",
+      tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+      name: "Gustavo Cerati"
+    },
+    comparison: {
+      case_to_trace: [
+        {
+          field_name: "age",
+          match: "mismatch",
+          case_value: 4,
+          trace_value: 10
+        }
+      ]
+    }
+  }
+];
 const stateWithoutRecords = Map({});
 const stateWithRecords = Map({
   records: fromJS({
     cases: {
-      data: [record]
+      data: [record],
+      potentialMatches: {
+        data: potentialMatches,
+        loading: false,
+        errors: false
+      },
+      matchedTraces: {
+        data: [
+          {
+            sex: "male",
+            inquiry_date: "2021-01-13",
+            tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+            name: "Gustavo Cerati",
+            relation_name: null,
+            matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+            inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+            id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+            relation: "brother",
+            age: 10
+          }
+        ],
+        loading: false,
+        errors: false
+      }
     }
   }),
   forms: Map({
@@ -255,11 +315,161 @@ describe("Records - Selectors", () => {
     });
 
     const stateWithIncidentFromCase = fromJS({
-      records: { cases: { incidentFromCase } }
+      records: { cases: { incidentFromCase: { data: incidentFromCase } } }
     });
 
     it("should return the incident when is a new incident", () => {
       expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
+    });
+  });
+
+  describe("getCaseIdForIncident", () => {
+    const stateWithIncidentFromCase = fromJS({
+      records: { cases: { incidentFromCase: { incident_case_id: "123456789" } } }
+    });
+
+    it("should return the incident_case_id when is a new incident", () => {
+      expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
+    });
+  });
+
+  describe("getSelectedRecord", () => {
+    const stateWithSelectedRecord = fromJS({
+      records: { cases: { selectedRecord: "123456789" } }
+    });
+
+    it("should return the selectedRecord", () => {
+      expect(getSelectedRecord(stateWithSelectedRecord, RECORD_PATH.cases)).to.equal("123456789");
+    });
+  });
+
+  describe("getRecordAttachments", () => {
+    const attachmentField = {
+      field: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+    };
+    const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentField } } } });
+
+    it("should return the attachments", () => {
+      expect(getRecordAttachments(stateWithRecordAttachments, RECORD_PATH.cases)).to.deep.equal(
+        fromJS(attachmentField)
+      );
+    });
+  });
+
+  describe("getIsProcessingSomeAttachment", () => {
+    it("should return the true if the some attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] },
+        field_2: { processing: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.true;
+    });
+
+    it("should return the false if the no attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] },
+        field_2: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.false;
+    });
+  });
+
+  describe("getIsProcessingAttachments", () => {
+    it("should return the true if the attachment field has attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+    });
+
+    it("should return the false if the attachment field doesn't have attachments being processed", () => {
+      const attachmentFields = {
+        field_1: { processing: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
+    });
+  });
+
+  describe("getIsPendingAttachments", () => {
+    it("should return the true if the attachment field has pending attachments", () => {
+      const attachmentFields = {
+        field_1: { pending: true, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+    });
+
+    it("should return the false if the attachment field doesn't have pending attachments", () => {
+      const attachmentFields = {
+        field_1: { pending: false, data: [{ id: 1, attachment: "attachment-data" }] }
+      };
+      const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
+
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
+    });
+  });
+
+  describe("getCasesPotentialMatches", () => {
+    it("should return the potentialMatches values", () => {
+      const expected = fromJS(potentialMatches);
+
+      expect(getCasesPotentialMatches(stateWithRecords)).to.deep.equals(expected);
+    });
+
+    it("should return empty object", () => {
+      expect(getCasesPotentialMatches(stateWithoutRecords)).to.be.empty;
+    });
+  });
+
+  describe("getMatchedTraces", () => {
+    it("should return the potentialMatches values", () => {
+      const expected = fromJS([
+        {
+          sex: "male",
+          inquiry_date: "2021-01-13",
+          tracing_request_id: "f6c3483e-d6e6-482e-bd7a-9c5808e0798c",
+          name: "Gustavo Cerati",
+          relation_name: null,
+          matched_case_id: "b216d9a8-5390-4d20-802b-ae415151ddbf",
+          inquirer_id: "dc7a9dde-0b80-4488-b480-35f571c977c3",
+          id: "3d930cd0-de41-4c5b-959e-7bb6ca4b3f3e",
+          relation: "brother",
+          age: 10
+        }
+      ]);
+
+      expect(getMatchedTraces(stateWithRecords)).to.deep.equals(expected);
+    });
+
+    it("should return empty object", () => {
+      expect(getMatchedTraces(stateWithoutRecords)).to.be.empty;
+    });
+  });
+
+  describe("getLoadingCasesPotentialMatches", () => {
+    it("should return the loading value for potentialMatches object", () => {
+      expect(getLoadingCasesPotentialMatches(stateWithRecords)).to.be.false;
+    });
+  });
+
+  describe("getMatchedTrace", () => {
+    it("should return the potentialMatches values", () => {
+      const expected = fromJS(potentialMatches[0]);
+
+      expect(getMatchedTrace(stateWithRecords, "12345")).to.deep.equals(expected);
+    });
+
+    it("should return empty object", () => {
+      expect(getMatchedTrace(stateWithoutRecords)).to.be.empty;
     });
   });
 });

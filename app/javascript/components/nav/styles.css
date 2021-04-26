@@ -1,8 +1,8 @@
 .nav {
-  height: 100%;
+  height: 100vh;
 
   & > div {
-    height: 100%;
+    height: 100vh;
   }
 }
 
@@ -29,22 +29,26 @@
   background: $(theme.primero.colors.lightGrey);
 }
 
-.drawerPaper {
+.drawerPaper, .drawerPaper-demo {
   width: $(theme.primero.components.drawerWidth);
   background: linear-gradient(
       to top,
       $(theme.primero.colors.white),
       $(theme.primero.colors.lightGrey)
     ),
-    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
+  linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
   white-space: nowrap;
   border: none;
   box-shadow: inset -8px 0 5px -5px rgba(0, 0, 0, 0.15);
 }
 
-.drawerPaper[dir="rtl"] {
+.drawerPaper[dir="rtl"], .drawerPaper-demo[dir="rtl"] {
   box-shadow: inset 8px 0 5px -5px rgba(0, 0, 0, 0.15);
+}
+
+.drawerPaper-demo {
+  background: repeating-linear-gradient(45deg, $(theme.primero.colors.lightGrey), $(theme.primero.colors.lightGrey) 10px, $(theme.primero.colors.white) 10px, $(theme.primero.colors.white) 20px);
 }
 
 .listIcon {
@@ -54,6 +58,9 @@
 .listText {
   font-size: 14px;
   font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .navList {
@@ -173,7 +180,7 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
-  .drawerPaper {
+  .drawerPaper, .drawerPaper-demo {
     box-shadow: none
   }
 
@@ -185,7 +192,7 @@
 }
 
 @media $(theme.breakpoints.only("md")) {
-  .drawerPaper {
+  .drawerPaper, .drawerPaper-demo {
     width: 3.8em;
     overflow-x: hidden;
   }

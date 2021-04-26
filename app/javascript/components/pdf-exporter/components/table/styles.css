@@ -1,13 +1,25 @@
-.group {
-  & > div:last-of-type {
-    border-bottom: 1px solid #ddd;
+.cell {
+  display: flex;
+  border-top: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+
+  & > div { 
+    display: flex;
+    flex: 1;
+    padding: 10px;
   }
 
-  & > div:nth-child(even) {
-    background: #f7f7f7;
+  & > div:first-of-type {
+    border-right: 1px solid #ddd;
   }
+}
 
-  & .subform {
-    padding: 10px 20px;
-  }
+.seperator {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.subform {
+  background: #fff;
 }

@@ -30,7 +30,7 @@ module Api::V2::Concerns::Record
   end
 
   def create
-    authorize! :create, model_class
+    authorize_create!
     @record = model_class.new_with_user(current_user, record_params)
     @record.save!
     select_updated_fields
@@ -64,8 +64,9 @@ module Api::V2::Concerns::Record
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
-      params[:record_action]
-    ).permitted_field_names
+      params[:record_action],
+      params[:id_search]
+    ).permitted_field_names(write?)
   end
 
   def select_fields_for_show
@@ -112,5 +113,15 @@ module Api::V2::Concerns::Record
 
   def search_filters
     SearchFilterService.build_filters(params, @permitted_field_names)
+  end
+
+  private
+
+  def write?
+    action_name.in?(%w[create update])
+  end
+
+  def authorize_create!
+    authorize! :create, model_class
   end
 end

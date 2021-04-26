@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 
+import { GROUP_PERMISSIONS } from "../../../../libs/permissions";
 import {
   FormSectionRecord,
   FieldRecord,
@@ -10,9 +11,24 @@ import {
   OPTION_TYPES
 } from "../../../form";
 
-import { IDENTITY_PROVIDER_ID, USER_GROUP_UNIQUE_IDS, USERGROUP_PRIMERO_GBV } from "./constants";
+import {
+  IDENTITY_PROVIDER_ID,
+  PASSWORD_SELF_OPTION,
+  PASSWORD_USER_OPTION,
+  USER_GROUP_UNIQUE_IDS,
+  USERGROUP_PRIMERO_GBV
+} from "./constants";
 
-const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePassword) => [
+const passwordPlaceholder = formMode => (formMode.get("isEdit") ? "•••••" : "");
+
+const sharedUserFields = (
+  i18n,
+  formMode,
+  hideOnAccountPage,
+  onClickChangePassword,
+  useIdentity,
+  { currentUserGroupPermissions = [], agencyReadOnUsers, currentRoleGroupPermission }
+) => [
   {
     display_name: i18n.t("user.full_name"),
     name: "full_name",
@@ -33,13 +49,31 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: TEXT_FIELD
   },
   {
+    display_name: i18n.t("user.password_setting.label"),
+    name: "password_setting",
+    type: SELECT_FIELD,
+    hideOnShow: true,
+    required: formMode.get("isNew"),
+    visible: formMode.get("isNew"),
+    help_text: i18n.t("user.password_setting.help_text"),
+    option_strings_text: [
+      { id: PASSWORD_SELF_OPTION, display_text: i18n.t("user.password_setting.self") },
+      { id: PASSWORD_USER_OPTION, display_text: i18n.t("user.password_setting.user") }
+    ]
+  },
+  {
     display_name: i18n.t("user.password"),
     name: "password",
     type: TEXT_FIELD,
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
     display_name: i18n.t("user.password_confirmation"),
@@ -48,26 +82,34 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     password: true,
     hideOnShow: true,
     required: formMode.get("isNew"),
-    editable: false
+    editable: false,
+    placeholder: passwordPlaceholder(formMode),
+    watchedInputs: "password_setting",
+    handleWatchedInputs: value => ({
+      visible: value === PASSWORD_SELF_OPTION || !formMode.get("isNew")
+    })
   },
   {
-    display_name: "Change password",
+    name: "change_password",
+    display_name: i18n.t("buttons.change_password"),
     type: DIALOG_TRIGGER,
     hideOnShow: true,
+    showIf: () => formMode.get("isEdit") && !useIdentity,
     onClick: onClickChangePassword
   },
   {
-    display_name: i18n.t("user.locale"),
+    display_name: i18n.t("user.language"),
     name: "locale",
     type: SELECT_FIELD,
-    option_strings_text: i18n.applicationLocales.toJS()
+    option_strings_text: i18n.applicationLocales
   },
   {
     display_name: i18n.t("user.role_id"),
     name: "role_unique_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.ROLE,
+    option_strings_source: OPTION_TYPES.ROLE_PERMITTED,
+    watchedInputs: ["role_unique_id"],
     visible: !hideOnAccountPage
   },
   {
@@ -77,7 +119,20 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP,
-    visible: !hideOnAccountPage
+    visible: !hideOnAccountPage,
+    watchedInputs: ["user_group_unique_ids"],
+    filterOptionSource: (_watchedInputValues, options) => {
+      return options.map(userGroup => {
+        if (!currentUserGroupPermissions.includes(userGroup.id)) {
+          return {
+            ...userGroup,
+            disabled: userGroup.disabled || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+          };
+        }
+
+        return userGroup;
+      });
+    }
   },
   {
     display_name: i18n.t("user.services"),
@@ -85,7 +140,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     type: SELECT_FIELD,
     multi_select: true,
     option_strings_source: "lookup-service-type",
-    help_text: i18n.t("user.services_help_text")
+    help_text: formMode.get("isNew") ? i18n.t("user.services_help_text") : ""
   },
   {
     display_name: i18n.t("user.phone"),
@@ -103,7 +158,11 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.AGENCY,
+    option_strings_source:
+      agencyReadOnUsers || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+        ? OPTION_TYPES.AGENCY_CURRENT_USER
+        : OPTION_TYPES.AGENCY,
+    watchedInputs: ["agency_id"],
     visible: !hideOnAccountPage
   },
   {
@@ -113,7 +172,7 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
     option_strings_source: "lookup-agency-office",
     watchedInputs: USER_GROUP_UNIQUE_IDS,
     handleWatchedInputs: value => ({
-      visible: !hideOnAccountPage && value.includes(USERGROUP_PRIMERO_GBV)
+      visible: !hideOnAccountPage && value?.includes(USERGROUP_PRIMERO_GBV)
     })
   },
   {
@@ -137,7 +196,8 @@ const sharedUserFields = (i18n, formMode, hideOnAccountPage, onClickChangePasswo
   {
     display_name: i18n.t("user.send_mail"),
     name: "send_mail",
-    type: TICK_FIELD
+    type: TICK_FIELD,
+    selected_value: formMode.get("isNew")
   }
 ];
 
@@ -152,7 +212,7 @@ const identityUserFields = (i18n, identityOptions) => [
   }
 ];
 
-const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation"];
+const EXCLUDED_IDENITITY_FIELDS = ["password", "password_confirmation", "password_setting", "change_password"];
 
 // eslint-disable-next-line import/prefer-default-export
 export const form = (
@@ -162,20 +222,23 @@ export const form = (
   providers,
   identityOptions,
   onClickChangePassword,
-  hideOnAccountPage = false
+  hideOnAccountPage = false,
+  { agencyReadOnUsers, currentUserGroupPermissions, currentRoleGroupPermission } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
-  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword);
+  const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
+    currentUserGroupPermissions,
+    agencyReadOnUsers,
+    currentRoleGroupPermission
+  });
   const identityFields = identityUserFields(i18n, identityOptions);
 
   const providersDisable = (value, name, { error }) => {
-    const provider = providers
-      ? providers.find(currentProvider => currentProvider.get("id") === parseInt(value, 10))
-      : null;
+    const provider = providers ? providers.find(currentProvider => currentProvider.get("unique_id") === value) : null;
 
     return {
       ...(formMode.get("isShow") || {
-        disabled: value === null || value === ""
+        disabled: value === null || value === "" || (name === "user_name" && !formMode.get("isNew"))
       }),
       ...(name === "user_name" && {
         helperText:

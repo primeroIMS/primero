@@ -36,6 +36,8 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
+  include Webhookable
+  include Kpi::GBVChild
 
   store_accessor(
     :data,
@@ -53,7 +55,8 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section
+    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan,
+    :duplicate
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -94,18 +97,23 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
+  def self.api_path
+    '/api/v2/cases'
+  end
+
   searchable do
     Child.child_matching_field_names.each { |f| text_index(f) }
     Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
     (quicksearch_fields - NAME_FIELDS).each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
-    %w[estimated urgent_protection_concern consent_for_tracing].each { |f| boolean(f) }
+    %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
     %w[status sex national_id_no].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
     string :protection_concerns, multiple: true
+
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
@@ -257,11 +265,11 @@ class Child < ApplicationRecord
     Trace
   end
 
-  def associations_as_data
+  def associations_as_data(current_user = nil)
     return @associations_as_data if @associations_as_data
 
-    incident_details = incidents.map do |incident|
-      incident.data&.select { |_, v| !(v.is_a?(Hash) || v.is_a?(Array)) }
+    incident_details = RecordScopeService.scope_with_user(incidents, current_user).map do |incident|
+      incident.data&.reject { |_, v| RecordMergeDataHashService.array_of_hashes?(v) }
     end.compact || []
     @associations_as_data = { 'incident_details' => incident_details }
   end

@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 
-import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD } from "../form";
+import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD, OPTION_TYPES } from "../form";
 
 import {
   NAME_FIELD,
@@ -19,7 +19,7 @@ import {
   DISABLED_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
-import { formattedFields } from "./utils";
+import { buildUserModules, formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
@@ -31,36 +31,27 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
-  // eslint-disable-next-line no-unused-vars
-  const checkModuleField = (value, name, { methods }) => {
-    const emptyModule = isEmpty(value[MODULES_FIELD]);
-
-    if (name === RECORD_TYPE_FIELD) {
-      const isModuleTouched = Object.keys(methods.control?.formState?.touched).includes(MODULES_FIELD);
-
-      if (isModuleTouched && emptyModule) {
-        methods.reset({
-          [MODULES_FIELD]: [],
-          [RECORD_TYPE_FIELD]: [],
-          [AGGREGATE_BY_FIELD]: [],
-          [DISAGGREGATE_BY_FIELD]: [],
-          [GROUP_AGES_FIELD]: false,
-          [GROUP_DATES_BY_FIELD]: [],
-          [IS_GRAPH_FIELD]: false,
-          [DISABLED_FIELD]: false
-        });
-      }
-    }
-
-    return { disabled: isNew && emptyModule };
-  };
-
-  const checkModuleAndRecordType = value => ({
-    disabled: isNew && (isEmpty(value[MODULES_FIELD]) || isEmpty(value[RECORD_TYPE_FIELD])),
-    groupBy: "formSection",
-    options: formattedFields(allRecordForms, value[MODULES_FIELD], value[RECORD_TYPE_FIELD], i18n.locale)
+export const form = (i18n, ageHelpText, isNew, userModules) => {
+  const checkModuleField = ({ [MODULES_FIELD]: modules }) => ({
+    disabled: isNew && isEmpty(modules)
   });
+
+  const checkModuleAndRecordType = ({ [MODULES_FIELD]: modules = [], [RECORD_TYPE_FIELD]: recordType }, options) =>
+    formattedFields(options, modules, recordType, i18n.locale);
+
+  const aggregateDefaults = {
+    type: SELECT_FIELD,
+    multi_select: true,
+    required: true,
+    groupBy: "formSection",
+    watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
+    maxSelectedOptions: 2,
+    option_strings_source: OPTION_TYPES.RECORD_FORMS,
+    handleWatchedInputs: checkModuleField,
+    filterOptionSource: (watchedInputValues, options) => {
+      return checkModuleAndRecordType(watchedInputValues, options);
+    }
+  };
 
   return fromJS([
     FormSectionRecord({
@@ -84,7 +75,15 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           type: SELECT_FIELD,
           required: true,
           multi_select: true,
-          option_strings_source: "Module"
+          option_strings_text: buildUserModules(userModules),
+          clearDependentValues: [
+            RECORD_TYPE_FIELD,
+            [GROUP_AGES_FIELD, false],
+            [IS_GRAPH_FIELD, false],
+            [DISABLED_FIELD, false],
+            [AGGREGATE_BY_FIELD, []],
+            [DISAGGREGATE_BY_FIELD, []]
+          ]
         }),
         FieldRecord({
           display_name: i18n.t("report.record_type"),
@@ -93,6 +92,10 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
           required: true,
           watchedInputs: [MODULES_FIELD],
           handleWatchedInputs: checkModuleField,
+          clearDependentValues: [
+            [AGGREGATE_BY_FIELD, []],
+            [DISAGGREGATE_BY_FIELD, []]
+          ],
           option_strings_text: Object.entries(REPORTABLE_TYPES).map(item => {
             const [id] = item;
 
@@ -105,20 +108,12 @@ export const form = (i18n, ageHelpText, allRecordForms, isNew) => {
         FieldRecord({
           display_name: i18n.t("report.aggregate_by"),
           name: AGGREGATE_BY_FIELD,
-          type: SELECT_FIELD,
-          multi_select: true,
-          required: true,
-          watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
-          handleWatchedInputs: checkModuleAndRecordType
+          ...aggregateDefaults
         }),
         FieldRecord({
           display_name: i18n.t("report.disaggregate_by"),
           name: DISAGGREGATE_BY_FIELD,
-          type: SELECT_FIELD,
-          multi_select: true,
-          required: true,
-          watchedInputs: [MODULES_FIELD, RECORD_TYPE_FIELD],
-          handleWatchedInputs: checkModuleAndRecordType
+          ...aggregateDefaults
         }),
         FieldRecord({
           display_name: i18n.t("report.group_ages"),

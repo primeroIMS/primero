@@ -1,7 +1,4 @@
 .reorderActions {
-  /*bottom: 1em;
-  right: 5em;
-  padding: 0.5em;*/
   padding: 0;
 }
 
@@ -13,4 +10,9 @@
   &:hover {
     color: $(theme.primero.colors.black);
   }
+}
+
+.dialog {
+  top: auto !important;
+  left: auto !important;
 }

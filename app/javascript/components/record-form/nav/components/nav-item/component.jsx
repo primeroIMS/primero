@@ -1,6 +1,5 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
-import React from "react";
 import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -13,6 +12,8 @@ import styles from "../../styles.css";
 import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({
   form,
@@ -27,7 +28,7 @@ const Component = ({
   selectedForm,
   hasError
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;
@@ -44,6 +45,7 @@ const Component = ({
   const validateAlert = item => !isEmpty(formsWithAlerts) && formsWithAlerts?.includes(item);
 
   const showJewel = isNested ? itemsOfGroup?.some(alert => validateAlert(alert)) : validateAlert(formId);
+  const handleOnClick = () => handleClick(handlerArgs);
 
   const formText = () => {
     return (
@@ -65,7 +67,7 @@ const Component = ({
       selected={selectedForm === formId && !isNested}
       button
       key={formId}
-      onClick={() => handleClick(handlerArgs)}
+      onClick={handleOnClick}
       classes={{
         selected: css.navSelected,
         root: css.root

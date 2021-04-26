@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import { List, Collapse } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
+import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
-import { ADMIN_NAV } from "../../../config/constants";
-import { checkPermissions, RESOURCES } from "../../../libs/permissions";
+import { ADMIN_NAV, LOCATION_PATH } from "../../../config/constants";
+import { checkPermissions, RESOURCES, MANAGE } from "../../../libs/permissions";
+import { useMemoizedSelector } from "../../../libs";
+import { getLocationsAvailable } from "../../application/selectors";
+import usePermissions from "../../permissions";
 
 import styles from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const AdminNav = () => {
-  const css = makeStyles(styles)();
-  const userPermissions = useSelector(state => getPermissions(state));
+  const css = useStyles();
+
+  const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+  const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
+
+  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
+
   const adminResources = getAdminResources(userPermissions);
 
   const [open, setOpen] = useState(false || adminResources[0] === RESOURCES.metadata);
@@ -33,6 +43,7 @@ const AdminNav = () => {
   const renderNavItems = ADMIN_NAV.map(nav => {
     const isParent = "items" in nav;
     const { recordType, permission } = nav;
+    const renderJewel = canManageMetadata && nav.to === LOCATION_PATH && !hasLocationsAvailable;
 
     if (!hasNavPermission(recordType, permission)) {
       return null;
@@ -50,18 +61,18 @@ const AdminNav = () => {
       });
 
       return (
-        <React.Fragment key={`${nav.to}-parent`}>
+        <Fragment key={`${nav.to}-parent`}>
           <AdminNavItem item={nav} open={open} handleClick={handleClick} isParent />
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               {renderChildren}
             </List>
           </Collapse>
-        </React.Fragment>
+        </Fragment>
       );
     }
 
-    return <AdminNavItem key={`${nav.to}-group`} item={nav} />;
+    return <AdminNavItem key={`${nav.to}-group`} item={nav} renderJewel={renderJewel} />;
   });
 
   return <List>{renderNavItems}</List>;

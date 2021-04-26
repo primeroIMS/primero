@@ -1,4 +1,3 @@
-import React from "react";
 import { Backdrop } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
@@ -34,6 +33,9 @@ describe("<Lightbox />", () => {
   });
 
   it("should render image in lightbox", () => {
+    const button = component.find("button").at(0);
+
+    button.simulate("click");
     expect(component.find("img").prop("src")).to.equal("/image.png");
   });
 

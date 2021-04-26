@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Field } from "formik";
 import { TextField } from "formik-material-ui";
@@ -58,6 +57,8 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
         key={f.id}
         name={f.id}
         render={({ field, form, ...other }) => {
+          const handleChange = data => f.onChange(data, field, form);
+
           return (
             <>
               <SearchableSelect
@@ -66,7 +67,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
                 isDisabled={disabled}
                 options={f.options}
                 defaultValues={searchableValue(field)}
-                onChange={data => f.onChange(data, field, form)}
+                onChange={handleChange}
                 TextFieldProps={searchTextFieldProps(f, form)}
                 {...other}
                 onBlur={field.onBlur}

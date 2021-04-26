@@ -32,6 +32,19 @@ describe TracingRequest do
       tracing_request[:id].should_not be_nil
       tracing_request.inquiry_date.should eq('19/Jul/2014')
     end
+
+    it 'should save the traces' do
+      tracing_request = create_tracing_request_with_created_by(
+        'jdoe',
+        'location_last' => 'London',
+        'relation_age' => '6',
+        'tracing_request_subform_section' => [{ 'name': 'Trace Name' }]
+      )
+      tracing_request.save!
+      expect(tracing_request.location_last).to eq('London')
+      expect(tracing_request.relation_age).to eq('6')
+      expect(tracing_request.traces.map(&:name)).to eq(['Trace Name'])
+    end
   end
 
   describe 'managing traces' do
@@ -163,7 +176,7 @@ describe TracingRequest do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
       tracing_request = TracingRequest.create 'relation_name' => 'Jaco', :created_by => 'mj'
 
       tracing_request.created_organization.should == 'UNICEF'

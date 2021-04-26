@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export const NAME = "FlagForm";
+export const MAX_LENGTH_FLAG_REASON = 255;

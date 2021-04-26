@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
-import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
@@ -16,8 +15,10 @@ import { useApp } from "../../application";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -48,28 +49,30 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
   const buildLabelItem = item => {
     switch (item) {
       case "approval_assessment_pending_group":
-        return approvalsLabels.assessment;
+        return approvalsLabels.get("assessment");
       case "approval_case_plan_pending_group":
-        return approvalsLabels.case_plan;
+        return approvalsLabels.get("case_plan");
       case "approval_closure_pending_group":
-        return approvalsLabels.closure;
+        return approvalsLabels.get("closure");
       case "approval_action_plan_pending_group":
-        return approvalsLabels.action_plan;
+        return approvalsLabels.get("action_plan");
       case "approval_gbv_closure_pending_group":
-        return approvalsLabels.gbv_closure;
+        return approvalsLabels.get("gbv_closure");
       default:
         return i18n.t(`dashboard.${item}`);
     }
   };
 
   const statItems = () => {
+    const handleButtonClick = query => () => handleClick(query);
+
     return indicators.keySeq().map(item => {
       return (
         <li key={item}>
           <button
             className={css.itemButton}
             type="button"
-            onClick={() => handleClick(indicators.getIn([item, "query"], []))}
+            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
           >
             {indicators.getIn([item, "count"])} {buildLabelItem(item)}
           </button>

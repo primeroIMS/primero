@@ -4,6 +4,8 @@ import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../record-form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
+import { PrimeroModuleRecord } from "../../../application/records";
+import { ACTIONS } from "../../../../libs/permissions";
 
 import FormsList from "./component";
 import ReorderActions from "./components/reorder-actions";
@@ -46,11 +48,11 @@ describe("<FormsList />", () => {
   const initialState = fromJS({
     application: {
       modules: [
-        {
+        PrimeroModuleRecord({
           unique_id: "primeromodule-cp",
           name: "CP",
           associated_record_types: [RECORD_TYPES.cases, RECORD_TYPES.tracing_requests, RECORD_TYPES.incidents]
-        }
+        })
       ]
     },
     records: {
@@ -58,6 +60,40 @@ describe("<FormsList />", () => {
         forms: {
           formSections: mapEntriesToRecord(formSections, FormSectionRecord, true)
         }
+      }
+    },
+    forms: fromJS({
+      options: {
+        lookups: [
+          {
+            id: 51,
+            unique_id: "lookup-form-group-cp-case",
+            name: {
+              en: "Form Groups - CP Case"
+            },
+            values: [
+              {
+                id: "group_1",
+                disabled: false,
+                display_text: {
+                  en: "Group 1"
+                }
+              },
+              {
+                id: "group_2",
+                disabled: false,
+                display_text: {
+                  en: "Group 2"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }),
+    user: {
+      permissions: {
+        metadata: [ACTIONS.MANAGE]
       }
     }
   });

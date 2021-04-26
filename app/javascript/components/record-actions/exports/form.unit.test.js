@@ -22,15 +22,18 @@ describe("<RecordActions /> - exports/form", () => {
     }
   ];
 
-  it("returns 8 fields", () => {
+  it("returns 14 fields", () => {
     const formFields = exportsForm(
       i18n,
       List([MANAGE]),
       false,
       [{ id: "primeromodule-cp", display_text: "CP" }],
-      fields
+      fields,
+      {},
+      "",
+      {}
     );
 
-    expect(formFields).to.have.lengthOf(8);
+    expect(formFields).to.have.lengthOf(14);
   });
 });

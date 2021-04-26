@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import {
   FormControl,
@@ -9,15 +8,16 @@ import {
   RadioGroup,
   makeStyles
 } from "@material-ui/core";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 import styles from "./styles.css";
 
-const RadioInput = ({ commonInputProps, options }) => {
-  const css = makeStyles(styles)();
-  const { helperText, error, name, label: radioGroupLabel, className } = commonInputProps;
+const useStyles = makeStyles(styles);
 
-  const { control } = useForm();
+const RadioInput = ({ commonInputProps, options, formMethods }) => {
+  const css = useStyles();
+  const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
+  const { control } = formMethods;
 
   return (
     <FormControl error={error} className={className}>
@@ -25,11 +25,18 @@ const RadioInput = ({ commonInputProps, options }) => {
         {radioGroupLabel}
       </FormLabel>
       <Controller
+        control={control}
         as={
-          <RadioGroup aria-label="format" name={name} className={css.rowDirection} control={control}>
+          <RadioGroup aria-label="format" name={name} className={css.rowDirection}>
             {options &&
               options.map(({ id, label }) => (
-                <FormControlLabel key={`form-control-label-${id}`} value={id} label={label} control={<Radio />} />
+                <FormControlLabel
+                  key={`form-control-label-${id}`}
+                  value={id}
+                  label={label}
+                  disabled={disabled}
+                  control={<Radio />}
+                />
               ))}
           </RadioGroup>
         }
@@ -51,6 +58,7 @@ RadioInput.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string
   }),
+  formMethods: PropTypes.object.isRequired,
   options: PropTypes.array
 };
 

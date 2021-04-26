@@ -1,4 +1,5 @@
 import get from "lodash/get";
+import { fromJS } from "immutable";
 
 import { getObjectPath } from "../../../../../libs";
 import { LOCALE_KEYS } from "../../../../../config";
@@ -33,6 +34,14 @@ export const getFiedListItemTheme = currentTheme => ({
         marginLeft: 0,
         marginRight: 0
       }
+    },
+    MuiButton: {
+      root: {
+        "&$disabled": {
+          color: "rgba(0, 0, 0, 0.26)",
+          backgroundColor: "transparent !important"
+        }
+      }
     }
   }
 });
@@ -51,7 +60,7 @@ export const getLabelTypeField = field => {
   return field.get("type") === "date_range" ? "date_range_field" : field.get("type");
 };
 
-export const localesToRender = i18n => i18n.applicationLocales.filter(locale => locale.get("id") !== LOCALE_KEYS.en);
+export const localesToRender = i18n => fromJS(i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en));
 
 export const setFieldDataInFormContext = ({ name, data, fieldsPath, contextFields, register, setValue }) => {
   const transformedValues = transformValues(data);
@@ -66,7 +75,7 @@ export const setFieldDataInFormContext = ({ name, data, fieldsPath, contextField
         register({ name: fieldFullPath });
       }
 
-      setValue(fieldFullPath, isDisabledProp ? !value : value);
+      setValue(fieldFullPath, isDisabledProp ? !value : value, { shouldDirty: true });
     }
   });
 };

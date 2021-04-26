@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { batch, useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
 import ActionDialog from "../../action-dialog";
@@ -12,19 +12,19 @@ import { compactValues } from "../../record-form/utils";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import Fields from "./fields";
 
-const Component = ({ openIncidentDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
+const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const form = useSelector(state =>
+  const form = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP,
@@ -32,18 +32,17 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
       checkVisible: false
     })
   );
-
-  const selectedIds = useSelector(state =>
+  const selectedIds = useMemoizedSelector(state =>
     selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record => record.get(ID_FIELD))
   );
 
   useEffect(() => {
-    if (openIncidentDialog) {
+    if (open) {
       resetForm(formikRef);
     }
-  }, [openIncidentDialog]);
+  }, [open]);
 
-  if (!form?.toJS()?.length) {
+  if (form?.isEmpty()) {
     return [];
   }
 
@@ -51,16 +50,17 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
     .first()
     .fields.find(field => field.name === INCIDENTS_SUBFORM_NAME);
   const initialFormValues = constructInitialValues([subformSectionID]);
+  const successHandler = () => submitForm(formikRef);
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
     dialogTitle: i18n.t("actions.incident_details_from_case"),
     cancelHandler: close,
     onClose: close,
-    open: openIncidentDialog,
+    open,
     pending,
     omitCloseAfterSuccess: true,
-    successHandler: () => submitForm(formikRef)
+    successHandler
   };
 
   const fieldsProps = {
@@ -87,21 +87,24 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
 
       setPending(true);
       selectedIds.forEach(id => {
-        batch(async () => {
-          await dispatch(
+        batch(() => {
+          dispatch(
             saveRecord(
               recordType,
               "update",
               body,
               id,
               i18n.t(`incident.messages.creation_success`),
+              i18n.t("offline_submitted_changes"),
               false,
               false,
+              INCIDENT_DIALOG,
               false,
-              INCIDENT_DIALOG
+              null,
+              "",
+              true
             )
           );
-          dispatch(fetchRecordsAlerts(recordType, id));
         });
       });
       dispatch(fetchAlerts());
@@ -122,7 +125,7 @@ const Component = ({ openIncidentDialog, close, pending, recordType, selectedRow
 
 Component.propTypes = {
   close: PropTypes.func,
-  openIncidentDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,

@@ -1,59 +1,66 @@
-import React, { useEffect, useImperativeHandle, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import PropTypes from "prop-types";
-import { object, string, array } from "yup";
-import { withRouter, useLocation } from "react-router-dom";
-import qs from "qs";
-import { useForm, FormContext } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
+import PropTypes from "prop-types";
+import qs from "qs";
+import { useEffect, useRef } from "react";
+import { useForm, useWatch } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useLocation, withRouter } from "react-router-dom";
+import { array, object, string } from "yup";
 
-import { useI18n } from "../../i18n";
-import ActionDialog from "../../action-dialog";
-import { whichFormMode } from "../../form";
-import submitForm from "../../../libs/submit-form";
 import { RECORD_TYPES } from "../../../config";
+import { useMemoizedSelector } from "../../../libs";
+import ActionDialog from "../../action-dialog";
+import { useApp } from "../../application";
+import { getAgencyLogos, getAgencyLogosPdf, getExportRequirePassword } from "../../application/selectors";
+import { whichFormMode } from "../../form";
+import FormSectionField from "../../form/components/form-section-field";
+import WatchedFormSectionField from "../../form/components/watched-form-section-field";
+import { submitHandler } from "../../form/utils/form-submission";
+import { useI18n } from "../../i18n";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
-import { EXPORT_DIALOG } from "../constants";
-import { getMetadata } from "../../record-list/selectors";
-import FormSectionField from "../../form/components/form-section-field";
-import { submitHandler } from "../../form/utils/form-submission";
-import { getRecordForms } from "../../record-form/selectors";
-import { useApp } from "../../application";
 import PdfExporter from "../../pdf-exporter";
+import { getUser, getPermittedFormsIds } from "../../user/selectors";
+import { getRecordForms } from "../../record-form/selectors";
+import { getMetadata } from "../../record-list/selectors";
 
-import {
-  isCustomExport,
-  isPdfExport,
-  buildFields,
-  exporterFilters,
-  formatFileName,
-  formatFields,
-  exportFormsOptions
-} from "./utils";
+import { saveExport } from "./action-creators";
 import {
   ALL_EXPORT_TYPES,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
   CUSTOM_FORMAT_TYPE_FIELD,
+  CUSTOM_HEADER,
   EXPORT_TYPE_FIELD,
   FIELDS_TO_EXPORT_FIELD,
   FIELD_ID,
   FORMS_ID,
   FORM_TO_EXPORT_FIELD,
+  HEADER,
   INDIVIDUAL_FIELDS_FIELD,
   MODULE_FIELD,
   NAME,
   PASSWORD_FIELD
 } from "./constants";
 import form from "./form";
-import { saveExport } from "./action-creators";
+import {
+  buildFields,
+  exporterFilters,
+  exportFormsOptions,
+  formatFields,
+  formatFileName,
+  isCustomExport,
+  isPdfExport
+} from "./utils";
+
+const FORM_ID = "exports-record-form";
 
 const Component = ({
   close,
   currentPage,
   match,
-  openExportsDialog,
+  open,
   pending,
   record,
   recordType,
@@ -62,12 +69,13 @@ const Component = ({
   userPermissions
 }) => {
   const i18n = useI18n();
-  const formRef = useRef();
   const pdfExporterRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode("edit");
   const { params } = match;
   const isShowPage = Object.keys(params).length > 0;
+
+  const requirePassword = useMemoizedSelector(state => getExportRequirePassword(state));
 
   const validationSchema = object().shape({
     [EXPORT_TYPE_FIELD]: string().required(i18n.t("encrypt.export_type")),
@@ -75,10 +83,14 @@ const Component = ({
       is: value => isPdfExport(value),
       then: array().required(i18n.t("exports.custom_exports.forms"))
     }),
-    [PASSWORD_FIELD]: string().when(EXPORT_TYPE_FIELD, {
-      is: value => !isPdfExport(value),
-      then: string().required(i18n.t("encrypt.password_label"))
-    })
+    ...(requirePassword
+      ? {
+          [PASSWORD_FIELD]: string().when(EXPORT_TYPE_FIELD, {
+            is: value => !isPdfExport(value),
+            then: string().required(i18n.t("encrypt.password_label"))
+          })
+        }
+      : {})
   });
 
   const defaultValues = {
@@ -92,12 +104,48 @@ const Component = ({
     [CUSTOM_EXPORT_FILE_NAME_FIELD]: ""
   };
   const formMethods = useForm({
-    ...(validationSchema && { validationSchema })
+    ...(validationSchema && { resolver: yupResolver(validationSchema) })
+  });
+  const {
+    formState: { dirtyFields },
+    control
+  } = formMethods;
+
+  const {
+    [EXPORT_TYPE_FIELD]: exportType,
+    [CUSTOM_FORMAT_TYPE_FIELD]: formatType,
+    [INDIVIDUAL_FIELDS_FIELD]: individualFields,
+    [FORM_TO_EXPORT_FIELD]: formsToExport,
+    [FIELDS_TO_EXPORT_FIELD]: fieldsToExport,
+    [MODULE_FIELD]: selectedModule
+  } = useWatch({
+    control,
+    name: [
+      MODULE_FIELD,
+      FIELDS_TO_EXPORT_FIELD,
+      FORM_TO_EXPORT_FIELD,
+      EXPORT_TYPE_FIELD,
+      CUSTOM_FORMAT_TYPE_FIELD,
+      INDIVIDUAL_FIELDS_FIELD,
+      CUSTOM_HEADER,
+      HEADER
+    ]
   });
 
-  const records = useSelector(state => getRecords(state, recordType)).get("data");
-  const metadata = useSelector(state => getMetadata(state, recordType));
-  const appliedFilters = useSelector(state => getFiltersValuesByRecordType(state, recordType));
+  const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const appliedFilters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
+  const currentUser = useMemoizedSelector(state => getUser(state, recordType));
+  const agenciesWithLogosEnabled = useMemoizedSelector(state => getAgencyLogos(state, true));
+  const agencyLogosPdf = useMemoizedSelector(state => getAgencyLogosPdf(state, true));
+  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
+  const recordTypesForms = useMemoizedSelector(state =>
+    getRecordForms(state, {
+      recordType: RECORD_TYPES[recordType],
+      primeroModule: selectedModule || record?.get("module_id"),
+      formsIds: userPermittedFormsIds
+    })
+  );
 
   const totalRecords = metadata?.get("total", 0);
   const location = useLocation();
@@ -107,28 +155,27 @@ const Component = ({
     selectedRecordsLength > 0 && records.size > 0 && selectedRecordsLength === records.size;
   const allRecordsSelected = selectedRecordsLength === totalRecords;
 
-  const exportType = formMethods.watch(EXPORT_TYPE_FIELD);
-  const formatType = formMethods.watch(CUSTOM_FORMAT_TYPE_FIELD);
-  const individualFields = formMethods.watch(INDIVIDUAL_FIELDS_FIELD);
-  const formsToExport = formMethods.watch(FORM_TO_EXPORT_FIELD);
-  const fieldsToExport = formMethods.watch(FIELDS_TO_EXPORT_FIELD);
-  const selectedModule = formMethods.watch(MODULE_FIELD);
-
   const { userModules } = useApp();
   const modules = userModules
     // eslint-disable-next-line camelcase
-    .map(({ unique_id, name }) => ({
-      id: unique_id,
-      display_text: name
-    }))
-    .toJS();
-  const recordTypesForms = useSelector(state =>
-    getRecordForms(state, {
-      recordType: RECORD_TYPES[recordType],
-      primeroModule: selectedModule || record?.get("module_id")
-    })
-  );
+    .reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("unique_id"),
+          display_text: current.get("name")
+        }
+      ],
+      []
+    );
+
   const fields = buildFields(recordTypesForms, i18n.locale, individualFields);
+
+  const agencyLogo = {
+    canShowImplemtationLogos: agenciesWithLogosEnabled?.size,
+    canShowAgencyLogos: !isEmpty(currentUser.get("agencyLogo")),
+    agencyLogosPdf
+  };
 
   const handleSubmit = values => {
     if (isPdfExport(values[EXPORT_TYPE_FIELD])) {
@@ -205,8 +252,7 @@ const Component = ({
         i18n.t(message || "exports.queueing", {
           file_name: fileName ? `: ${fileName}.` : "."
         }),
-        i18n.t("exports.go_to_exports"),
-        EXPORT_DIALOG
+        i18n.t("exports.go_to_exports")
       )
     );
   };
@@ -233,17 +279,19 @@ const Component = ({
     }
   }, [individualFields]);
 
-  useImperativeHandle(
-    formRef,
+  const onSubmit = data => {
     submitHandler({
+      data,
       dispatch,
-      formMethods,
+      dirtyFields,
       formMode,
       i18n,
       initialValues: defaultValues,
-      onSubmit: handleSubmit
-    })
-  );
+      onSubmit: formData => {
+        handleSubmit(formData);
+      }
+    });
+  };
 
   const formSections = form(
     i18n,
@@ -251,8 +299,10 @@ const Component = ({
     isShowPage,
     modules,
     fields,
-    exportFormsOptions(exportType, fields, recordTypesForms, i18n.locale),
-    recordType
+    exportFormsOptions(recordTypesForms, i18n.locale),
+    recordType,
+    agencyLogo,
+    requirePassword
   );
 
   const enabledSuccessButton =
@@ -266,26 +316,35 @@ const Component = ({
       enabledSuccessButton={enabledSuccessButton}
       omitCloseAfterSuccess
       onClose={close}
-      open={openExportsDialog}
+      open={open}
       pending={pending}
-      successHandler={() => submitForm(formRef)}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
     >
-      <FormContext {...formMethods} formMode={formMode}>
-        <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
-          {formSections.map(field => {
-            return <FormSectionField field={field} key={field.unique_id} />;
-          })}
-        </form>
-        {isPdfExport(exportType) && (
-          <PdfExporter
-            record={record}
-            forms={recordTypesForms}
-            ref={pdfExporterRef}
-            formsSelectedField={FORM_TO_EXPORT_FIELD}
-            customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
-          />
-        )}
-      </FormContext>
+      <form id={FORM_ID} onSubmit={formMethods.handleSubmit(onSubmit)}>
+        {formSections.map(field => {
+          const FormSectionComponent = field.watchedInputs ? WatchedFormSectionField : FormSectionField;
+
+          return (
+            <FormSectionComponent field={field} key={field.unique_id} formMethods={formMethods} formMode={formMode} />
+          );
+        })}
+      </form>
+      {isPdfExport(exportType) && (
+        <PdfExporter
+          formMethods={formMethods}
+          record={record}
+          forms={recordTypesForms}
+          ref={pdfExporterRef}
+          formsSelectedField={FORM_TO_EXPORT_FIELD}
+          customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+          currentUser={currentUser}
+          agenciesWithLogosEnabled={agenciesWithLogosEnabled}
+          agencyLogosPdf={agencyLogosPdf}
+        />
+      )}
     </ActionDialog>
   );
 };
@@ -293,14 +352,14 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.defaultProps = {
-  openExportsDialog: false
+  open: false
 };
 
 Component.propTypes = {
   close: PropTypes.func,
   currentPage: PropTypes.number,
   match: PropTypes.object,
-  openExportsDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

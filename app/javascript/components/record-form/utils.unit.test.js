@@ -1,5 +1,9 @@
-import { fromJS } from "immutable";
+import { parseISO } from "date-fns";
 
+import { useFakeTimers } from "../../test";
+
+import { FormSectionRecord, FieldRecord } from "./records";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
 import * as utils from "./utils";
 
 describe("<RecordForms /> - utils", () => {
@@ -21,6 +25,29 @@ describe("<RecordForms /> - utils", () => {
         locations: ["loc-1"],
         past_locations: ["loc-2", "loc-3"],
         test_locations: ["loc-4"],
+        same_locations: ["loc-4", "loc-5"],
+        same_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1"
+          },
+          {
+            unique_id: "345",
+            name: "Name 2"
+          }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1",
+            location: ["loc_1", "loc_2"]
+          },
+          {
+            unique_id: "345",
+            name: "Name 2",
+            location: ["loc_1", "loc_2"]
+          }
+        ],
         relatives: [
           {
             unique_id: "234",
@@ -48,6 +75,7 @@ describe("<RecordForms /> - utils", () => {
         past_locations: ["loc-3"],
         future_locations: [],
         test_locations: [],
+        same_locations: ["loc-4", "loc-5"],
         caregiver_number: "",
         incident_details: [
           {
@@ -55,6 +83,16 @@ describe("<RecordForms /> - utils", () => {
             cp_incident_perpetrator_nationality: "",
             cp_incident_perpetrator_occupation: "",
             cp_incident_perpetrator_other_id_no: ""
+          }
+        ],
+        same_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1"
+          },
+          {
+            unique_id: "345",
+            name: "Name 2"
           }
         ],
         relatives: [
@@ -70,6 +108,18 @@ describe("<RecordForms /> - utils", () => {
             unique_id: "125",
             phone: "555-333-5534"
           }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            name: "Name 1",
+            location: []
+          },
+          {
+            unique_id: "345",
+            name: "Name 2",
+            location: ["loc_1", "loc_2", "loc_3"]
+          }
         ]
       };
 
@@ -83,6 +133,7 @@ describe("<RecordForms /> - utils", () => {
           }
         ],
         locations: ["loc-1", "loc-2"],
+        test_locations: [],
         past_locations: ["loc-3"],
         relatives: [
           {
@@ -91,6 +142,16 @@ describe("<RecordForms /> - utils", () => {
           {
             unique_id: "125",
             phone: "555-333-5534"
+          }
+        ],
+        location_relatives: [
+          {
+            unique_id: "123",
+            location: []
+          },
+          {
+            unique_id: "345",
+            location: ["loc_1", "loc_2", "loc_3"]
           }
         ]
       };
@@ -121,22 +182,211 @@ describe("<RecordForms /> - utils", () => {
 
   describe("getRedirectPath", () => {
     it("should return the path to the case id if there is a incidentFromCase", () => {
-      expect(utils.getRedirectPath({ isNew: true }, {}, fromJS({ incident_case_id: "case-id-1" }))).to.equal(
-        "/cases/case-id-1"
-      );
+      expect(utils.getRedirectPath({ isNew: true }, {}, "case-id-1")).to.equal("/cases/case-id-1");
     });
 
     it("should return the path to the incident id if is not new", () => {
-      expect(
-        utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" }),
-        fromJS({})
-      ).to.equal("/incidents/incident-id-1");
+      expect(utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" }), "").to.equal(
+        "/incidents/incident-id-1"
+      );
     });
 
     it("should return the path to incidents if is new", () => {
-      expect(
-        utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, fromJS({}))
-      ).to.equal("/incidents");
+      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal(
+        "/incidents"
+      );
+    });
+  });
+
+  describe("constructInitialValues", () => {
+    let clock = null;
+
+    beforeEach(() => {
+      const today = parseISO("2010-01-05T18:30:00Z");
+
+      clock = useFakeTimers(today);
+    });
+
+    it("should generate default values if they are defined", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              name: "field_2",
+              type: SELECT_FIELD,
+              multi_select: true,
+              selected_value: `["value_1", "value_2"]`
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: TICK_FIELD,
+              selected_value: true
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD,
+              selected_value: "today"
+            })
+          ]
+        })
+      ];
+
+      const expectedInitialValues = {
+        field_1: "default_value_1",
+        field_2: ["value_1", "value_2"],
+        field_3: true,
+        field_4: "2010-01-05"
+      };
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    it("should not generate default values if they are not defined", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1" }),
+            FieldRecord({
+              name: "field_2",
+              type: SELECT_FIELD,
+              multi_select: true
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: TICK_FIELD
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD
+            })
+          ]
+        })
+      ];
+
+      const expectedInitialValues = {
+        field_1: "",
+        field_2: [],
+        field_3: false,
+        field_4: null
+      };
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+  });
+
+  describe("sortSubformValues", () => {
+    it("should return subforms with display conditions from subform_section_configuration", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  }),
+                  FieldRecord({
+                    display_name: "Test Sub Field Disallowed",
+                    name: "disallowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                fields: ["allowed_field"],
+                display_conditions: [
+                  {
+                    allowed_field: "gerald"
+                  }
+                ]
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [
+          { allowed_field: "stanley", disallowed_field: "test disallowed" },
+          { allowed_field: "gerald", disallowed_field: "test disallowed" }
+        ],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [
+          {
+            allowed_field: "gerald",
+            disallowed_field: "test disallowed"
+          }
+        ]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
+    });
+
+    it("should return subforms sorted by subformSortBy field", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                subform_sort_by: "allowed_field"
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [{ allowed_field: "b" }, { allowed_field: "c" }, { allowed_field: "a" }],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [{ allowed_field: "a" }, { allowed_field: "b" }, { allowed_field: "c" }]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
     });
   });
 });

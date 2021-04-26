@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -12,25 +12,30 @@ import { useI18n } from "../../../i18n";
 import { FormAction, whichFormMode } from "../../../form";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../namespace";
-import { fetchSystemSettings } from "../../../application";
+import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
-import bindFormSubmit from "../../../../libs/submit-form";
+import { useMemoizedSelector } from "../../../../libs";
+import Permission from "../../../application/permission";
+import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";
 import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
+import { FORM_ID } from "./components/form/constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const dispatch = useDispatch();
-  const formRef = useRef();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const lookup = useSelector(state => getLookup(state));
-  const saving = useSelector(state => getSavingLookup(state));
+
+  const lookup = useMemoizedSelector(state => getLookup(state));
+  const saving = useMemoizedSelector(state => getSavingLookup(state));
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -68,28 +73,39 @@ const Container = ({ mode }) => {
     <>
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
-        actionHandler={() => bindFormSubmit(formRef)}
         text={i18n.t("buttons.save")}
         savingRecord={saving}
         startIcon={<CheckIcon />}
+        options={{
+          form: FORM_ID,
+          type: "submit",
+          hide: limitedProductionSite
+        }}
       />
     </>
   );
 
   const editButton = formMode.get("isShow") && (
-    <FormAction actionHandler={handleEdit} text={i18n.t("buttons.edit")} startIcon={<CreateIcon />} />
+    <FormAction
+      actionHandler={handleEdit}
+      text={i18n.t("buttons.edit")}
+      startIcon={<CreateIcon />}
+      options={{ hide: limitedProductionSite }}
+    />
   );
 
   return (
-    <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
-      <PageHeading title={pageHeading}>
-        {editButton}
-        {saveButton}
-      </PageHeading>
-      <PageContent>
-        <LookupForm mode={mode} formRef={formRef} lookup={lookup} />
-      </PageContent>
-    </LoadingIndicator>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+      <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
+        <PageHeading title={pageHeading}>
+          {editButton}
+          {saveButton}
+        </PageHeading>
+        <PageContent>
+          <LookupForm mode={mode} lookup={lookup} />
+        </PageContent>
+      </LoadingIndicator>
+    </Permission>
   );
 };
 

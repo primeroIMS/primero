@@ -1,10 +1,6 @@
 import * as moduleToTest from "./index";
 
 describe("libs/index", () => {
-  it("exports an object", () => {
-    expect(moduleToTest).to.be.an("object");
-  });
-
   describe("properties", () => {
     let clone;
 
@@ -17,7 +13,9 @@ describe("libs/index", () => {
     });
 
     [
+      "ConditionalWrapper",
       "arrayToObject",
+      "buildFieldMap",
       "compare",
       "dataToJS",
       "displayNameHelper",
@@ -35,10 +33,11 @@ describe("libs/index", () => {
       "normalizeTimezone",
       "rejectKeys",
       "toBase64",
+      "toIdentifier",
       "toServerDateFormat",
+      "useMemoizedSelector",
       "useThemeHelper",
-      "valuesToSearchableSelect",
-      "ConditionalWrapper"
+      "valuesToSearchableSelect"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(moduleToTest).to.have.property(property);

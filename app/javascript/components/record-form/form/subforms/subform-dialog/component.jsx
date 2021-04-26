@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
@@ -8,12 +8,11 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { serviceHasReferFields } from "../../utils";
+import { getSubformValues, serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
-import { compactValues } from "../../../utils";
+import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
-import { valuesWithDisplayConditions } from "../subform-field-array/utils";
 
 const Component = ({
   arrayHelpers,
@@ -23,38 +22,23 @@ const Component = ({
   formSection,
   i18n,
   index,
-  initialSubformValue,
   isFormShow,
   mode,
   oldValue,
   open,
   setOpen,
   title,
-  recordType
+  isReadWriteForm,
+  orderedValues
 }) => {
+  const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const { subform_section_configuration: subformSectionConfiguration } = field;
-
-  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
-
-  const subformValues = () => {
-    if (isValidIndex) {
-      if (displayConditions) {
-        return valuesWithDisplayConditions(getIn(formik.values, field.name), displayConditions)[index];
-      }
-
-      return getIn(formik.values, `${field.name}[${index}]`);
-    }
-
-    return {};
-  };
-
   const initialSubformValues = {
-    ...initialSubformValue,
-    ...subformValues()
+    ...initialValues,
+    ...getSubformValues(field, index, formik.values, orderedValues)
   };
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
@@ -86,6 +70,7 @@ const Component = ({
       formik.setFieldValue(`${field.name}[${index}]`, values, false);
     } else {
       arrayHelpers.push({ ...initialSubformValues, ...values });
+      formik.setTouched({ [field.name]: true });
     }
 
     // Trigger validations only if the form was already submitted.
@@ -101,16 +86,33 @@ const Component = ({
   const dialogActions =
     field.subform_section_id.unique_id === "services_section" &&
     mode.isShow &&
-    serviceHasReferFields(formik.values.services_section[index]) ? (
-      <SubformMenu index={index} values={formik.values.services_section} recordType={recordType} />
+    // eslint-disable-next-line camelcase
+    serviceHasReferFields(formik.values?.services_section?.[index]) ? (
+      <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
   const renderSubform = (subformField, subformIndex) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
-      return <ServicesSubform field={subformField} index={subformIndex} mode={mode} formSection={formSection} />;
+      return (
+        <ServicesSubform
+          field={subformField}
+          index={subformIndex}
+          mode={mode}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+        />
+      );
     }
 
-    return <SubformDialogFields field={subformField} mode={mode} index={subformIndex} formSection={formSection} />;
+    return (
+      <SubformDialogFields
+        field={subformField}
+        mode={mode}
+        index={subformIndex}
+        formSection={formSection}
+        isReadWriteForm={isReadWriteForm}
+      />
+    );
   };
 
   const modalConfirmationProps = {
@@ -127,6 +129,12 @@ const Component = ({
       setOpenConfirmationModal(true);
     }
   };
+
+  useEffect(() => {
+    if (open) {
+      setInitialValues(constructInitialValues([field.subform_section_id]));
+    }
+  }, [open]);
 
   return (
     <>
@@ -182,12 +190,12 @@ Component.propTypes = {
   formSection: PropTypes.object,
   i18n: PropTypes.object.isRequired,
   index: PropTypes.number,
-  initialSubformValue: PropTypes.object.isRequired,
   isFormShow: PropTypes.bool,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
-  recordType: PropTypes.string,
+  orderedValues: PropTypes.array.isRequired,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired

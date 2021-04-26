@@ -1,0 +1,12 @@
+<h1><%= t('user.onboard_email.greeting', full_name: @user.full_name, locale: @user.locale) %></h1>
+
+<p><%= t('user.onboard_email.body1', locale: @user.locale) %></p>
+<%
+  reset_notification = if !Rails.configuration.x.idp.use_identity_provider || @user&.identity_provider&.primero?
+                          t('user.onboard_email.body2_reset_notification', locale: @user.locale)
+                        else
+                          ''
+                        end
+%>
+<p><%= t('user.onboard_email.body2', host_href: link_to(nil, root_url), reset_notification: reset_notification, locale: @user.locale).html_safe %></p>
+<p><%= t('user.onboard_email.body3', locale: @user.locale) %></p>

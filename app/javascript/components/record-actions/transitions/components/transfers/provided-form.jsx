@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormControlLabel, Grid } from "@material-ui/core";
@@ -12,9 +11,11 @@ import styles from "../../styles.css";
 import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeTransferAnyway from "./on-change-transfer-anyway";
 
+const useStyles = makeStyles(styles);
+
 const ProvidedForm = ({ setDisabled, canConsentOverride, recordType }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
 
   const fieldTransferAnyway = (

@@ -1,12 +1,14 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, lookups } from "../../../../test";
+import { setupMountedComponent, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
+import ActionButton from "../../../action-button";
 
 import RolesList from "./container";
 
 describe("<RolesList />", () => {
+  let stubI18n = null;
   let component;
 
   const dataLength = 30;
@@ -41,28 +43,83 @@ describe("<RolesList />", () => {
       }
     });
 
+    stubI18n = stub(window.I18n, "t")
+      .withArgs("messages.record_list.of")
+      .returns("of")
+      .withArgs("buttons.new")
+      .returns("New");
+
     ({ component } = setupMountedComponent(RolesList, {}, initialState, ["/admin/roles"]));
   });
 
   it("renders record list table", () => {
-    expect(component.find(IndexTable)).to.have.length(1);
+    expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
   it("should trigger a valid action with next page when clicking next page", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: { per: 20, page: 2 },
+        params: fromJS({ per: 20, page: 2, managed: true }),
         path: "roles"
       },
       type: "roles/ROLES"
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
+    expect(component.props().store.getActions()[1].api.params).to.deep.equal(expectAction.api.params);
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  it("should render new button", () => {
+    const newButton = component.find(ActionButton);
+
+    expect(newButton.text()).to.be.equals("New");
+    expect(newButton).to.have.lengthOf(1);
+  });
+
+  describe("when user can't create role", () => {
+    let componentWithoutManage;
+
+    beforeEach(() => {
+      const initialState = fromJS({
+        records: {
+          admin: {
+            roles: {
+              data,
+              metadata: { total: dataLength, per: 20, page: 1 },
+              loading: false,
+              errors: false
+            }
+          }
+        },
+        user: {
+          permissions: {
+            roles: [ACTIONS.READ]
+          }
+        },
+        forms: {
+          options: {
+            lookups: lookups()
+          }
+        }
+      });
+
+      ({ component: componentWithoutManage } = setupMountedComponent(RolesList, {}, initialState, ["/admin/roles"]));
+    });
+    it("should not render new button", () => {
+      expect(componentWithoutManage.find(ActionButton)).to.empty;
+    });
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

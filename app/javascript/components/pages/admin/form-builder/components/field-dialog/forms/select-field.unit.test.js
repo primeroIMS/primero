@@ -8,8 +8,8 @@ describe("selectFieldForm()", () => {
   const fieldData = { name: "select_field_1" };
   const css = { boldLabel: "" };
 
-  it("returns  a select field for manual options", () => {
-    const options = [
+  it("returns a select field for manual options", () => {
+    const options = fromJS([
       {
         id: "option_1",
         display_text: { en: "Display Text Option 1" }
@@ -18,7 +18,7 @@ describe("selectFieldForm()", () => {
         id: "option_2",
         display_text: { en: "Display Text Option 2" }
       }
-    ];
+    ]);
 
     const { forms } = selectFieldForm({
       field: fromJS({

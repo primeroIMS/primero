@@ -16,6 +16,7 @@ describe("<Form /> - Constants", () => {
       "FORM_MODE_NEW",
       "FORM_MODE_SHOW",
       "LABEL_FIELD",
+      "LINK_FIELD",
       "NUMERIC_FIELD",
       "OPTION_TYPES",
       "ORDERABLE_OPTIONS_FIELD",
@@ -31,7 +32,9 @@ describe("<Form /> - Constants", () => {
       "TOGGLE_FIELD",
       "DOCUMENT_FIELD",
       "AUDIO_FIELD",
-      "HIDDEN_FIELD"
+      "HIDDEN_FIELD",
+      "SELECT_CHANGE_REASON",
+      "EMPTY_VALUE"
     ].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
@@ -47,6 +50,7 @@ describe("<Form /> - Constants", () => {
 
     [
       "AGENCY",
+      "AGENCY_CURRENT_USER",
       "LOCATION",
       "MODULE",
       "FORM_GROUP",
@@ -56,8 +60,11 @@ describe("<Form /> - Constants", () => {
       "ROLE",
       "USER_GROUP",
       "ROLE_EXTERNAL_REFERRAL",
+      "ROLE_PERMITTED",
       "REFER_TO_USERS",
-      "SERVICE_TYPE"
+      "SERVICE_TYPE",
+      "FORM_GROUP_LOOKUP",
+      "RECORD_FORMS"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];

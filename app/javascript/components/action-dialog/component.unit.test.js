@@ -1,4 +1,3 @@
-import React from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography } from "@material-ui/core";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
@@ -82,7 +81,10 @@ describe("<ActionDialog />", () => {
       "open",
       "pending",
       "successHandler",
-      "showSuccessButton"
+      "showSuccessButton",
+      "fetchArgs",
+      "disableClose",
+      "hideIcon"
     ].forEach(property => {
       expect(actionDialogProps).to.have.property(property);
       delete actionDialogProps[property];

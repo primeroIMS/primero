@@ -1,4 +1,3 @@
-import { FormContext } from "react-hook-form";
 import { Button } from "@material-ui/core";
 
 import { setupMockFormComponent } from "../../../test";
@@ -12,10 +11,14 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
 
   beforeEach(() => {
     ({ component } = setupMockFormComponent(OrderableOptionsField, {
-      inputProps: {
-        commonInputProps: { name: "field_1" },
-        metaInputProps: { selectedValue: "option_2" },
-        options: [
+      props: {
+        inputProps: {
+          commonInputProps: { name: "field_1" },
+          metaInputProps: { selectedValue: "option_2" }
+        }
+      },
+      defaultValues: {
+        field_1: [
           { id: "option_1", display_text: { en: "Display text 1" } },
           { id: "option_2", display_text: { en: "Display text 2" } },
           { id: "option_3", display_text: { en: "Display text 3" } }
@@ -30,16 +33,32 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
 
   it("render the values for the field", () => {
     const expected = {
-      "field_1.selected_value": undefined,
-      "field_1.option_strings_text[0].display_text.en": "Display text 1",
-      "field_1.option_strings_text[0].id": "option_1",
-      "field_1.option_strings_text[1].display_text.en": "Display text 2",
-      "field_1.option_strings_text[1].id": "option_2",
-      "field_1.option_strings_text[2].display_text.en": "Display text 3",
-      "field_1.option_strings_text[2].id": "option_3"
+      field_1: {
+        option_strings_text: [
+          {
+            display_text: {
+              en: "Display text 1"
+            },
+            id: "option_1"
+          },
+          {
+            display_text: {
+              en: "Display text 2"
+            },
+            id: "option_2"
+          },
+          {
+            display_text: {
+              en: "Display text 3"
+            },
+            id: "option_3"
+          }
+        ],
+        selected_value: false
+      }
     };
-    const formContext = component.find(FormContext);
-    const values = formContext.props().getValues();
+    const { formMethods } = component.find(DraggableOption).at(0).props();
+    const values = formMethods.getValues();
 
     expect(values).to.deep.equal(expected);
   });

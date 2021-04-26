@@ -1,0 +1,212 @@
+#! /usr/bin/env python3
+
+
+import argparse
+import os
+import pipes
+import site
+import subprocess
+import sys
+import tempfile
+import textwrap
+import venv
+
+
+def abspath_join(*args, **kwargs):
+    result = os.path.abspath(os.path.join(*args, **kwargs))
+    return result
+
+
+def print_command(args):
+    print('+', ' '.join(pipes.quote(a) for a in args))
+
+
+def check_call(args, *popenargs, **kwargs):
+    print_command(args)
+    subprocess.check_call(args, *popenargs, **kwargs)
+
+
+def check_call_format(dct, args, *popenargs, **kwargs):
+    check_call([a.format(**dct) for a in args], *popenargs, **kwargs)
+
+
+def check_output(args, *popenargs, **kwargs):
+    print_command(args)
+    output = subprocess.check_output(args, *popenargs, **kwargs)
+    return output
+
+
+def create_venv(paths, system_site_packages=True):
+    command = [sys.executable, '-m', 'venv']
+    kwargs = {
+        'with_pip': True,
+    }
+    if system_site_packages:
+        command.append('--system-site-packages')
+        kwargs['system_site_packages'] = True
+    if os.path.exists(paths.venv_dir):
+        command.append('--upgrade')
+        kwargs['upgrade'] = True
+    if sys.version_info[0] > 3 or (sys.version_info[0] == 3 and sys.version_info[1] >= 6):
+        prompt = os.path.basename(paths.top_dir)
+        command.append('--prompt')
+        command.append(prompt)
+        kwargs['prompt'] = prompt
+    command.append(paths.venv_dir)
+    print_command(command)
+    env_builder = venv.EnvBuilder(**kwargs)
+    env_builder.create(paths.venv_dir)
+
+    # NOTE: `pip` version 19 broke `--system-site-packages` and build
+    # isolation. It puts a mixture of system and venv packages into the PEP 517
+    # isolated build environment. This breaks `cryptography` and other
+    # packages.
+    #
+    # Leaving `pip` and `setuptools` at the host system's default versions will
+    # ensure they are compatible. You may still encounter problems.
+    #
+    # https://github.com/pypa/pip/issues/6264
+    #
+    # check_call([paths.pip_file, 'install', '--upgrade', 'pip', 'setuptools'])
+
+    if os.path.exists(paths.requirements_file) and os.path.getsize(paths.requirements_file) > 0:
+        check_call([paths.pip_file, 'install', '-r', paths.requirements_file])
+
+    if os.path.exists(paths.ansible_galaxy_requirements_file) and os.path.getsize(paths.ansible_galaxy_requirements_file) > 0:
+        check_call([paths.ansible_galaxy_file, 'install', '-r', paths.ansible_galaxy_requirements_file], cwd = paths.ansible_dir)
+
+
+def activate_venv(paths):
+    old_os_path = os.environ.get('PATH', '')
+    os.environ['PATH'] = paths.venv_bin_dir + os.pathsep + old_os_path
+    if sys.platform == 'win32':
+        site_packages = os.path.join(paths.venv_dir, 'Lib', 'site-packages')
+    else:
+        site_packages = os.path.join(paths.venv_dir, 'lib', 'python%s' % sys.version[:3], 'site-packages')
+    prev_sys_path = list(sys.path)
+    site.addsitedir(site_packages)
+    sys.real_prefix = sys.prefix
+    sys.prefix = paths.venv_dir
+    new_sys_path = []
+    for item in list(sys.path):
+        if item not in prev_sys_path:
+            new_sys_path.append(item)
+            sys.path.remove(item)
+    sys.path[:0] = new_sys_path
+
+
+def activate_venv_subshell(paths):
+    os.environ['VIRTUAL_ENV'] = paths.venv_dir
+
+    if 'PATH' not in os.environ:
+        lst = []
+    else:
+        lst = os.environ['PATH'].split(os.pathsep)
+    lst.insert(0, paths.venv_bin_dir)
+    bin_dir = abspath_join(paths.top_dir, 'bin')
+    lst.insert(0, bin_dir)
+    path = os.pathsep.join(lst)
+    os.environ['PATH'] = path
+
+    if 'PYTHONHOME' in os.environ:
+        del os.environ['PYTHONHOME']
+
+    shell = os.getenv('SHELL', '/bin/sh')
+    shell_basename = os.path.basename(shell)
+    args = [shell, shell]
+    if shell_basename in ['bash', 'csh', 'fish', 'ksh', 'sh', 'tcsh', 'zsh']:
+        args.append('-i')
+
+    # This replaces the Python process. This statement will not return.
+    os.execl(*args)
+
+
+class Paths(object):
+    @classmethod
+    def create(cls, script):
+        paths = Paths(script)
+        paths.bin_dir = os.path.dirname(paths.script)
+        paths.top_dir = abspath_join(paths.bin_dir, '..', '..')
+        paths.venv_dir = abspath_join(paths.top_dir, 'venv')
+        paths.venv_bin_dir = abspath_join(paths.venv_dir, 'bin')
+        paths.pip_file = abspath_join(paths.venv_dir, 'bin', 'pip')
+        paths.ansible_dir = abspath_join(paths.top_dir, 'ansible')
+        paths.requirements_file = abspath_join(paths.ansible_dir, 'requirements.txt')
+        paths.ansible_galaxy_file = abspath_join(paths.venv_bin_dir, 'ansible-galaxy')
+        paths.ansible_galaxy_requirements_file = abspath_join(paths.ansible_dir, 'requirements.yml')
+        return paths
+
+    def __init__(self, script):
+        self.script = script
+
+
+class Command(object):
+    @staticmethod
+    def add_common_arguments(parser):
+        pass
+
+    def __init__(self, paths, arguments):
+        self._paths = paths
+        self._arguments = arguments
+
+    def run(self):
+        raise NotImplementedError
+
+
+class CommandSetup(Command):
+    @staticmethod
+    def get_subparser(subparsers):
+        subparser = subparsers.add_parser(
+            'setup',
+            help='setup the venv and ansible-galaxy roles',
+        )
+        Command.add_common_arguments(subparser)
+        subparser.set_defaults(command=CommandSetup)
+        return subparser
+
+    def run(self):
+        create_venv(self._paths)
+        return 0
+
+
+class CommandActivate(Command):
+    @staticmethod
+    def get_subparser(subparsers):
+        subparser = subparsers.add_parser(
+            'activate',
+            help='setup the venv and ansible-galaxy roles and then activate the venv in a Bash sub-shell',
+        )
+        Command.add_common_arguments(subparser)
+        subparser.set_defaults(command=CommandActivate)
+        return subparser
+
+    def run(self):
+        create_venv(self._paths)
+        activate_venv_subshell(self._paths)
+        return 0
+
+
+def _main(argv):
+    paths = Paths.create(__file__)
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(
+        dest='command',
+        metavar='COMMAND',
+    )
+    subparsers.required = True
+    for cls in [CommandSetup, CommandActivate]:
+        cls.get_subparser(subparsers)
+    arguments = parser.parse_args(argv[1:])
+    command = arguments.command(paths, arguments)
+    code = command.run()
+    return code
+
+
+if '__main__' == __name__:
+    command = os.path.basename(__file__)
+    argv = list(sys.argv)
+    argv.insert(1, command)
+    code = _main(argv)
+    if None is code:
+        code = 0
+    sys.exit(code)

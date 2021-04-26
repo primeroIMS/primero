@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
-import { useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,12 +18,15 @@ import {
   setMoreFilterOnPrimarySection
 } from "../utils";
 import handleFilterChange, { valueParser } from "../value-handlers";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
@@ -67,7 +69,7 @@ const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, s
     };
   }, [register, unregister, fieldName]);
 
-  const lookups = useSelector(state => getOption(state, optionStringsSource, i18n.locale));
+  const lookups = useMemoizedSelector(state => getOption(state, optionStringsSource, i18n.locale));
 
   const filterOptions = whichOptions({
     optionStringsSource,

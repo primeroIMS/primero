@@ -1,49 +1,25 @@
 import { RECORD_PATH } from "../../../config";
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
-import {
-  DASHBOARD_FLAGS,
-  CASES_BY_STATUS,
-  CASES_BY_CASE_WORKER,
-  CASES_REGISTRATION,
-  CASES_OVERVIEW,
-  DASHBOARDS,
-  SERVICES_STATUS,
-  OPEN_PAGE_ACTIONS
-} from "./actions";
+import actions from "./actions";
 
-export const fetchFlags = () => {
+export const fetchFlags = (recordType, activeOnly = false) => {
+  const commonPath = `record_type=${recordType}`;
+  const path = activeOnly
+    ? `${RECORD_PATH.flags}?active_only=true&${commonPath}`
+    : `${RECORD_PATH.flags}?${commonPath}`;
+
   return {
-    type: DASHBOARD_FLAGS,
-    payload: {
-      flags: [
-        {
-          id: "#1234",
-          flag_date: "01/01/2019",
-          user: "CP Admin",
-          status: "Please check approval"
-        },
-        {
-          id: "#1235",
-          flag_date: "01/01/2019",
-          user: "CP Manager",
-          status: "To followup"
-        },
-        {
-          id: "#1236",
-          flag_date: "01/01/2019",
-          user: "CP CaseWorker",
-          status: "To followup"
-        }
-      ],
-      totalCount: 10
+    type: actions.DASHBOARD_FLAGS,
+    api: {
+      path
     }
   };
 };
 
 export const fetchCasesByStatus = () => {
   return {
-    type: CASES_BY_STATUS,
+    type: actions.CASES_BY_STATUS,
     payload: {
       casesByStatus: {
         open: "100",
@@ -55,7 +31,7 @@ export const fetchCasesByStatus = () => {
 
 export const fetchCasesByCaseWorker = () => {
   return {
-    type: CASES_BY_CASE_WORKER,
+    type: actions.CASES_BY_CASE_WORKER,
     payload: {
       casesByCaseWorker: [
         {
@@ -79,7 +55,7 @@ export const fetchCasesByCaseWorker = () => {
 
 export const fetchCasesRegistration = () => {
   return {
-    type: CASES_REGISTRATION,
+    type: actions.CASES_REGISTRATION,
     payload: {
       casesRegistration: {
         jan: 150,
@@ -98,7 +74,7 @@ export const fetchCasesRegistration = () => {
 
 export const fetchCasesOverview = () => {
   return {
-    type: CASES_OVERVIEW,
+    type: actions.CASES_OVERVIEW,
     payload: {
       casesOverview: {
         transfers: 4,
@@ -112,7 +88,7 @@ export const fetchCasesOverview = () => {
 
 export const fetchServicesStatus = () => {
   return {
-    type: SERVICES_STATUS,
+    type: actions.SERVICES_STATUS,
     payload: {
       services: {
         caseManagement: [
@@ -132,13 +108,13 @@ export const fetchServicesStatus = () => {
 
 export const openPageActions = payload => {
   return {
-    type: OPEN_PAGE_ACTIONS,
+    type: actions.OPEN_PAGE_ACTIONS,
     payload
   };
 };
 
 export const fetchDashboards = () => ({
-  type: DASHBOARDS,
+  type: actions.DASHBOARDS,
   api: {
     path: RECORD_PATH.dashboards,
     db: {

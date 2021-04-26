@@ -1,0 +1,32 @@
+.searchPromptFormContainer {
+  padding: 0 20px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px solid $(theme.primero.colors.warmGrey4);
+  border-radius: 1em;
+
+  & form {
+    width: 100%;
+    padding-top: 2px;
+    padding-left: 10px;
+
+    & div {
+
+      & div {
+        margin-bottom: 0;
+        margin-top: 2px;
+      }
+    }
+  }
+}
+
+.inputLabel {
+  width: 100%;
+  line-height: 1.5em;
+  position: relative;
+}

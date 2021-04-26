@@ -9,9 +9,9 @@ class Location < ApplicationRecord
   ADMIN_LEVEL_OUT_OF_RANGE = 100
   LIMIT_FOR_API = 200
 
+  attr_writer :parent
   localize_properties :name, :placename
 
-  attr_accessor :parent, :hierarchy
   self.unique_id_attribute = 'location_code'
 
   validates :admin_level, presence: { message: I18n.t('errors.models.location.admin_level_present') },
@@ -25,7 +25,7 @@ class Location < ApplicationRecord
 
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
-  before_save :calculate_admin_level, unless: :top_level?
+  before_save :calculate_admin_level, unless: :skip_calculate_admin_level?
   after_save :update_descendants
   after_save :generate_location_files
 
@@ -174,6 +174,12 @@ class Location < ApplicationRecord
       Location.where('hierarchy_path @> ARRAY[:ltrees]::ltree[]', ltrees: hierarchies.compact.uniq)
               .where(admin_level: admin_level)
     end
+
+    def list(params = {})
+      return all if params.blank?
+
+      where(params)
+    end
   end
 
   def generate_hierarchy_placenames(locales)
@@ -243,10 +249,6 @@ class Location < ApplicationRecord
     hierarchy_path << location_code.to_s
   end
 
-  def parent=(parent)
-    @parent = parent
-  end
-
   def parent
     if hierarchy_path.present?
       # TODO: use self.hierarchy_path.split('.')[-2].upcase.dasherize
@@ -268,6 +270,10 @@ class Location < ApplicationRecord
 
   def admin_level_required?
     top_level? || new_record?
+  end
+
+  def skip_calculate_admin_level?
+    top_level?
   end
 
   # HANDLE WITH CARE

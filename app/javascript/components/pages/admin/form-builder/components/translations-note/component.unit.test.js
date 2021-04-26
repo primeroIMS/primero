@@ -9,18 +9,14 @@ describe("<SettingsTab />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(
-      TranslationsNote,
-      { moduleId: "primeromodule-my-module", parentForm: "parent" },
-      {},
-      fromJS({
+    ({ component } = setupMockFormComponent(TranslationsNote, {
+      props: { moduleId: "primeromodule-my-module", parentForm: "parent" },
+      state: fromJS({
         forms: {
-          options: { lookups: { data: [{ id: 1, unique_id: "lookup-form-group-my-module-parent" }] } }
+          options: { lookups: [{ id: 1, unique_id: "lookup-form-group-my-module-parent" }] }
         }
-      }),
-      {},
-      true
-    ));
+      })
+    }));
   });
 
   it("should render <SettingsTab />", () => {

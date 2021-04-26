@@ -1,10 +1,7 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
-import { batch, useDispatch } from "react-redux";
-import { push } from "connected-react-router";
 
 import { READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../../libs/permissions";
 import { usePermissions } from "../../../user";
@@ -13,51 +10,59 @@ import { NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { setSelectedForm } from "../../../record-form/action-creators";
-import { setCaseIdForIncident } from "../../../records/action-creators";
 
-const Component = ({ css, incidentCaseId, incidentDateInterview, incidentDate, incidentUniqueID, incidentType }) => {
+import { EDIT, VIEW } from "./constants";
+
+const Component = ({
+  css,
+  incidentDateInterview,
+  incidentDate,
+  incidentUniqueID,
+  incidentType,
+  handleCreateIncident,
+  incidentAvailable
+}) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
+
   const incidentInterviewLabel = i18n.t("incidents.date_of_interview");
   const incidentDateLabel = i18n.t("incidents.date_of_incident");
   const incidentTypeLabel = i18n.t("incidents.type_violence");
-  const handleView = () => {
-    batch(() => {
-      dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
-      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}`));
-    });
+
+  const handleEvent = modeEvent => {
+    handleCreateIncident(`/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === VIEW ? "" : `/${EDIT}`}`);
   };
-  const handleEdit = () => {
-    batch(() => {
-      dispatch(setSelectedForm(null));
-      dispatch(setCaseIdForIncident(incidentCaseId));
-      dispatch(push(`/${RESOURCES.incidents}/${incidentUniqueID}/edit`));
-    });
-  };
+
+  const handleClickViewIncident = () => handleEvent(VIEW);
+  const handleClickEditIncident = () => handleEvent(EDIT);
+  const tooltip = !incidentAvailable && i18n.t("unavailable_offline");
 
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
       icon={<VisibilityIcon />}
-      text={i18n.t("buttons.view")}
+      text={i18n.t(`buttons.${VIEW}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
+      tooltip={tooltip}
       rest={{
-        onClick: handleView
+        disabled: !incidentAvailable,
+        onClick: handleClickViewIncident,
+        fullWidth: true
       }}
     />
   );
   const editIncidentBtn = canEditIncidents && (
     <ActionButton
       icon={<CreateIcon />}
-      text={i18n.t("buttons.edit")}
+      text={i18n.t(`buttons.${EDIT}`)}
       type={ACTION_BUTTON_TYPES.default}
       outlined
+      tooltip={tooltip}
       rest={{
-        onClick: handleEdit
+        disabled: !incidentAvailable,
+        onClick: handleClickEditIncident,
+        fullWidth: true
       }}
     />
   );
@@ -97,7 +102,8 @@ Component.displayName = NAME_DETAIL;
 
 Component.propTypes = {
   css: PropTypes.object.isRequired,
-  incidentCaseId: PropTypes.string,
+  handleCreateIncident: PropTypes.func,
+  incidentAvailable: PropTypes.bool,
   incidentDate: PropTypes.string,
   incidentDateInterview: PropTypes.string,
   incidentType: PropTypes.node,

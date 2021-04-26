@@ -1,10 +1,10 @@
-import { FormContext } from "react-hook-form";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { setupMountedComponent, lookups } from "../../../../../../test";
 import SwitchInput from "../../../../../form/fields/switch-input";
+import { LOCALE_KEYS } from "../../../../../../config";
 
 import Form from "./component";
 
@@ -15,17 +15,26 @@ describe("<Form /> - components/form/component", () => {
     mode: "show",
     lookup: fromJS(lookups().data[0])
   };
-
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(Form, props));
+  const initialState = fromJS({
+    application: {
+      primero: {
+        locales: [LOCALE_KEYS.en, "ar"]
+      }
+    }
   });
 
-  it("renders FormContext component", () => {
-    expect(component.find(FormContext)).to.have.lengthOf(1);
+  beforeEach(() => {
+    ({ component } = setupMountedComponent(Form, props, initialState));
   });
 
   it("renders FormSectionField component", () => {
-    expect(component.find(FormSectionField)).to.have.lengthOf(1);
+    expect(component.find(FormSectionField)).to.have.lengthOf(5);
+  });
+
+  it("first value of the FormSectionField should be english", () => {
+    const valuesFirstFormSectionFields = component.find(FormSectionField).first().props().field.option_strings_text[0];
+
+    expect(valuesFirstFormSectionFields.id).to.equal(LOCALE_KEYS.en);
   });
 
   it("renders DragDropContext component", () => {

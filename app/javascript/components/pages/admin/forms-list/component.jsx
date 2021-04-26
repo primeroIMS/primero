@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { makeStyles, Button } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import ListIcon from "@material-ui/icons/List";
+import { makeStyles } from "@material-ui/core";
+import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
@@ -13,10 +12,17 @@ import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 import { usePermissions } from "../../../user";
-import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { FormAction } from "../../../form";
-import { displayNameHelper } from "../../../../libs";
+import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions";
+import { FormAction, OPTION_TYPES } from "../../../form";
+import { useMemoizedSelector } from "../../../../libs";
+import { useDialog } from "../../../action-dialog";
+import { getOptions } from "../../../form/selectors";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import Permission from "../../../application/permission";
 
+import FormExporter from "./components/form-exporter";
+import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
 import NAMESPACE from "./namespace";
 import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
 import {
@@ -29,34 +35,51 @@ import {
   saveFormsReorder
 } from "./action-creators";
 import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
-import { getListStyle } from "./utils";
+import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = () => {
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const defaultFilterValues = {
     recordType: RECORD_TYPES.cases,
     primeroModule: MODULES.CP
   };
   const [filterValues, setFilterValues] = useState(defaultFilterValues);
-  const isLoading = useSelector(state => getIsLoading(state));
-  const isReorderEnabled = useSelector(state => getReorderEnabled(state));
-  const formSectionsByGroup = useSelector(state => getFormSectionsByFormGroup(state, filterValues));
+
+  const isLoading = useMemoizedSelector(state => getIsLoading(state));
+  const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
+  const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
+  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP, i18n));
+
   const { modules } = useApp();
 
   const handleSetFilterValue = (name, value) => {
     setFilterValues({ ...filterValues, ...{ [name]: value } });
   };
 
+  const { primeroModule, recordType } = filterValues;
+  const currentFormGroupsLookups = getFormGroups(allFormGroupsLookups, primeroModule, recordType, i18n);
+
   const handleClearValue = () => {
     setFilterValues(defaultFilterValues);
   };
 
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(FORM_EXPORTER_DIALOG);
+
   const canAddForms = usePermissions(RESOURCES.metadata, CREATE_RECORDS);
+
+  useEffect(() => {
+    if (modules.size > 0) {
+      handleSetFilterValue("primeroModule", modules.first().unique_id);
+    }
+  }, [modules]);
 
   useEffect(() => {
     batch(() => {
@@ -82,12 +105,16 @@ const Component = () => {
   };
 
   const renderFormSections = () =>
+    allFormGroupsLookups &&
+    allFormGroupsLookups?.length > 0 &&
     formSectionsByGroup.map((group, index) => {
-      const { form_group_name: formGroupName, form_group_id: formGroupID } = group.first() || {};
+      const formGroupID = group.first().get("form_group_id");
+
+      const formGroupName = currentFormGroupsLookups[formGroupID];
 
       return (
         <FormGroup
-          name={displayNameHelper(formGroupName, i18n.locale)}
+          name={formGroupName}
           index={index}
           key={formGroupID}
           id={formGroupID}
@@ -98,12 +125,19 @@ const Component = () => {
       );
     });
 
+  const handleExport = dialog => setDialog({ dialog, open: true });
+
   const handleNew = () => {
     dispatch(push(`${pathname}/new`));
   };
 
   const newFormBtn = canAddForms ? (
-    <FormAction actionHandler={handleNew} text={i18n.t("buttons.new")} startIcon={<AddIcon />} />
+    <FormAction
+      actionHandler={handleNew}
+      text={i18n.t("buttons.new")}
+      startIcon={<AddIcon />}
+      options={{ hide: limitedProductionSite }}
+    />
   ) : null;
 
   const onClickReorder = () => {
@@ -121,22 +155,42 @@ const Component = () => {
 
     batch(() => {
       dispatch(reorderedForms(formsIdsToReorder.toJS()));
-      dispatch(saveFormsReorder(forms.toJS()));
+      dispatch(saveFormsReorder(forms));
     });
   };
 
   const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
+  const handleClickExport = () => handleExport(FORM_EXPORTER_DIALOG);
 
   return (
-    <>
-      <PageHeading title={i18n.t("forms.label")}>{newFormBtn}</PageHeading>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+      <PageHeading title={i18n.t("forms.label")}>
+        <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
+        {newFormBtn}
+      </PageHeading>
       <PageContent>
+        <FormExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          filters={filterValues}
+          setPending={setDialogPending}
+        />
         <div className={css.indexContainer}>
           <div className={css.forms}>
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
-              <Button className={css.reorderButton} startIcon={<ListIcon />} size="small" onClick={onClickReorder}>
-                {i18n.t("buttons.reorder")}
-              </Button>
+              <ActionButton
+                icon={<ListIcon />}
+                text={i18n.t("buttons.reorder")}
+                type={ACTION_BUTTON_TYPES.default}
+                className={css.reorderButton}
+                isTransparent
+                rest={{
+                  onClick: onClickReorder,
+                  hide: limitedProductionSite
+                }}
+              />
               <DragDropContext onDragEnd={handleDragEnd}>
                 <Droppable droppableId="droppable" type="formGroup">
                   {(provided, snapshot) => (
@@ -165,7 +219,7 @@ const Component = () => {
           <ReorderActions open={isReorderEnabled} handleCancel={closeReoderActions} handleSuccess={saveReorder} />
         </div>
       </PageContent>
-    </>
+    </Permission>
   );
 };
 

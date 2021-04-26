@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
+import PublishIcon from "@material-ui/icons/Publish";
 import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -13,11 +14,10 @@ import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { SAVE_METHODS } from "../../../../config";
-import bindFormSubmit from "../../../../libs/submit-form";
-import ActionDialog from "../../../action-dialog";
-import { selectDialog, selectDialogPending } from "../../../record-actions/selectors";
-import { setDialog, setPending } from "../../../record-actions/action-creators";
+import ActionDialog, { useDialog } from "../../../action-dialog";
 import { enqueueSnackbar } from "../../../notifier";
+import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";
 import {
@@ -25,39 +25,56 @@ import {
   clearSelectedConfiguration,
   deleteConfiguration,
   fetchConfiguration,
-  saveConfiguration
+  saveConfiguration,
+  sentToProduction
 } from "./action-creators";
-import { getConfiguration, getErrors, getLoading, getServerErrors, getApplying } from "./selectors";
-import { NAME, APPLY_CONFIGURATION_MODAL, DELETE_CONFIGURATION_MODAL } from "./constants";
+import { getConfiguration, getErrors, getServerErrors, getApplying, getSending } from "./selectors";
+import {
+  NAME,
+  APPLY_CONFIGURATION_MODAL,
+  DELETE_CONFIGURATION_MODAL,
+  SEND_CONFIGURATION_MODAL,
+  FORM_ID
+} from "./constants";
 import { buildErrorMessages } from "./utils";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const css = useStyles();
+  const isEditOrShow = formMode.isEdit || formMode.isShow;
+
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const css = makeStyles(styles)();
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const configuration = useSelector(state => getConfiguration(state));
-  const loading = useSelector(state => getLoading(state));
-  const errors = useSelector(state => getErrors(state));
-  const applying = useSelector(state => getApplying(state));
-  const formErrors = useSelector(state => getServerErrors(state));
+  const { demo: isDemoSite } = useApp();
+
   const validationSchema = validations(formMode, i18n);
 
-  const applyModal = useSelector(state => selectDialog(state, APPLY_CONFIGURATION_MODAL));
-  const setApplyModal = open => {
-    dispatch(setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open }));
+  const configuration = useMemoizedSelector(state => getConfiguration(state));
+  const errors = useMemoizedSelector(state => getErrors(state));
+  const applying = useMemoizedSelector(state => getApplying(state));
+  const sending = useMemoizedSelector(state => getSending(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
+
+  const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
+    APPLY_CONFIGURATION_MODAL,
+    DELETE_CONFIGURATION_MODAL,
+    SEND_CONFIGURATION_MODAL
+  ]);
+
+  const setApplyModal = () => {
+    setDialog({ dialog: APPLY_CONFIGURATION_MODAL, open: true });
   };
-  const deleteModal = useSelector(state => selectDialog(state, DELETE_CONFIGURATION_MODAL));
-  const setDeleteModal = open => {
-    dispatch(setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open }));
+
+  const setSendModal = () => {
+    setDialog({ dialog: SEND_CONFIGURATION_MODAL, open: true });
   };
-  const dialogPending = useSelector(state => selectDialogPending(state));
-  const setDialogPending = pending => {
-    dispatch(setPending({ pending }));
+
+  const setDeleteModal = () => {
+    setDialog({ dialog: DELETE_CONFIGURATION_MODAL, open: true });
   };
 
   const handleSubmit = data => {
@@ -72,8 +89,8 @@ const Container = ({ mode }) => {
   };
 
   const handleApplyModal = () => dispatch(applyConfiguration({ id, i18n }));
-  const handleCancelApplyModal = () => setApplyModal(false);
   const handleApply = () => setApplyModal(true);
+  const handleSend = () => setSendModal(true);
 
   const handleSuccessDelete = () => {
     setDialogPending(true);
@@ -86,8 +103,11 @@ const Container = ({ mode }) => {
     );
   };
 
-  const handleCancelDelete = () => setDeleteModal(false);
-  const handleDelete = () => setDeleteModal(true);
+  const handleDelete = () => setDeleteModal();
+
+  const handleSendToProd = configId => dispatch(sentToProduction(configId, i18n.t("configurations.messages.sent")));
+
+  const handleSuccessSentToProd = () => handleSendToProd(id);
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -112,29 +132,43 @@ const Container = ({ mode }) => {
   }, [errors]);
 
   const pageHeading = configuration?.size ? configuration.get("name") : i18n.t("configurations.label_new");
+  const canApplyConfig = configuration?.get("can_apply", false);
+  const applyActionProps = {
+    actionHandler: handleApply,
+    text: i18n.t("buttons.apply"),
+    ...(!canApplyConfig ? { disabled: true, tooltip: i18n.t("configurations.version_mismatch_tooltip") } : {})
+  };
 
-  const editButton = formMode.get("isShow") ? (
+  const renderSendToProductionBtn = isDemoSite && (
+    <FormAction actionHandler={handleSend} text={i18n.t("buttons.send")} startIcon={<PublishIcon />} />
+  );
+
+  const editButton = formMode.isShow ? (
     <>
       <FormAction actionHandler={handleDelete} text={i18n.t("buttons.delete")} startIcon={<DeleteIcon />} />
-      <FormAction actionHandler={handleApply} text={i18n.t("buttons.apply")} startIcon={<CheckIcon />} />
+      <FormAction startIcon={<CheckIcon />} {...applyActionProps} />
+      {renderSendToProductionBtn}
     </>
   ) : null;
 
   const saveButton =
-    formMode.get("isEdit") || formMode.get("isNew") ? (
+    formMode.isEdit || formMode.isNew ? (
       <>
         <FormAction
-          actionHandler={() => bindFormSubmit(formRef)}
           text={i18n.t("buttons.save")}
           savingRecord={applying}
           startIcon={<CheckIcon />}
+          options={{
+            form: FORM_ID,
+            type: "submit"
+          }}
         />
       </>
     ) : null;
 
   return (
     <LoadingIndicator
-      hasData={formMode.get("isNew") || configuration?.size > 0}
+      hasData={formMode.isNew || configuration?.size > 0}
       loading={!configuration?.size}
       type={NAMESPACE}
     >
@@ -152,28 +186,28 @@ const Container = ({ mode }) => {
           mode={mode}
           formSections={form(i18n, formMode.get("isShow"))}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={configuration.toJS()}
           formErrors={formErrors}
+          formID={FORM_ID}
         />
         <ActionDialog
-          open={deleteModal}
+          open={dialogOpen[DELETE_CONFIGURATION_MODAL]}
           successHandler={handleSuccessDelete}
-          cancelHandler={handleCancelDelete}
+          cancelHandler={dialogClose}
           dialogTitle={i18n.t("fields.remove")}
           dialogText={i18n.t("configurations.delete_label")}
           confirmButtonLabel={i18n.t("buttons.delete")}
-          pending={dialogPending}
+          pending={pending}
           omitCloseAfterSuccess
         />
         <ActionDialog
-          open={applyModal}
+          open={dialogOpen[APPLY_CONFIGURATION_MODAL]}
           successHandler={handleApplyModal}
-          cancelHandler={handleCancelApplyModal}
+          cancelHandler={dialogClose}
           dialogTitle={`${i18n.t("buttons.apply")} ${configuration.get("name")}`}
           confirmButtonLabel={i18n.t("buttons.apply")}
-          pending={loading}
+          pending={pending}
           omitCloseAfterSuccess
         >
           <div className={css.applyConfigText}>
@@ -181,6 +215,15 @@ const Container = ({ mode }) => {
             <b>{i18n.t("configurations.apply_label_bold")}</b>
           </div>
         </ActionDialog>
+        <ActionDialog
+          open={dialogOpen[SEND_CONFIGURATION_MODAL]}
+          successHandler={handleSuccessSentToProd}
+          cancelHandler={dialogClose}
+          dialogTitle={i18n.t("configurations.send_header")}
+          dialogText={i18n.t("configurations.send_text")}
+          confirmButtonLabel={i18n.t("buttons.send")}
+          pending={sending}
+        />
       </PageContent>
     </LoadingIndicator>
   );

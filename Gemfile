@@ -25,8 +25,9 @@ gem 'pg',                  '~> 1.1'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.2'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
-gem 'rack',                '~> 2.0'
-gem 'rails',               '5.2.4.4'
+gem 'rack',                '>= 2.2.0'
+gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
+gem 'rails',               '5.2.5'
 gem 'rake',                '~> 12.3'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
@@ -42,10 +43,7 @@ gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is
 gem 'tzinfo',              '~> 1.2'    # Security assertion on implicit dependency.
 gem 'tzinfo-data',         '~> 1.2019' # Security assertion on implicit dependency.
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
-# TODO: We should replace xls exporting with https://github.com/randym/axlsx or
-# https://github.com/Paxa/fast_excel both supports streaming. The last options
-# has less dependencies. Will require some rework of exporter
-gem 'writeexcel',          '~> 1.0' # Exports XLS (not XLSX) documents. Stale!
+gem 'write_xlsx',          '~> 0.85'   # Exports XLSX
 
 group :development, :test do
   gem 'binding_of_caller',          '~> 0.8'
@@ -57,13 +55,17 @@ group :development, :test do
   gem 'json_spec',                  '~> 1.1'
   gem 'letter_opener',              '~> 1.7'
   gem 'listen',                     '~> 3.1'
-  gem 'memory-profiler',            '~> 1.0'
+  gem 'memory_profiler'
   gem 'pry'
   gem 'pry-byebug'
   gem 'rack-mini-profiler',         '>= 1.0.0', require: false
   gem 'rack-test',                  '~> 1.1'
   gem 'rack_session_access',        '~> 0.2'
   gem 'rails-controller-testing',   '~> 1.0'
+  # TODO: This is needed to read .xlsx files for validation in the exporter tests.
+  # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
+  # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
+  gem 'roo',                        '~> 2.8'
   gem 'rspec',                      '~> 3.8'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.1'
@@ -73,6 +75,6 @@ group :development, :test do
   gem 'rubocop-performance',        '~> 1.1'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
-  gem 'sunspot_test',               '~> 0.4', require: false
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
+  gem 'sunspot_test',               '~> 0.4', require: false
 end

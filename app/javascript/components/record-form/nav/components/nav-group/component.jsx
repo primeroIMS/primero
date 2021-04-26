@@ -1,15 +1,27 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { List, Collapse } from "@material-ui/core";
 
 import NavItem from "../nav-item";
 
 import { NAME } from "./constants";
+import { getFormGroupName } from "./utils";
 
-const Component = ({ group, handleClick, isNew, open, recordAlerts, selectedForm, validationErrors }) => {
+const Component = ({
+  group,
+  handleClick,
+  isNew,
+  open,
+  recordAlerts,
+  selectedForm,
+  validationErrors,
+  formGroupLookup
+}) => {
   const [...forms] = group.values();
   const isNested = forms.length > 1;
   const parentForm = forms[0];
+  const { group: formGroupID } = parentForm;
+
+  const groupName = getFormGroupName(formGroupLookup, formGroupID);
 
   const groupHasError = validationErrors?.some(error => error.get("form_group_id") === parentForm.group);
 
@@ -17,7 +29,7 @@ const Component = ({ group, handleClick, isNew, open, recordAlerts, selectedForm
 
   const parentFormProps = {
     form: parentForm,
-    name: isNested ? parentForm.groupName : parentForm.name,
+    name: isNested ? groupName : parentForm.name,
     open: open === parentForm.group,
     isNested,
     hasError: groupHasError
@@ -51,6 +63,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   currentUser: PropTypes.string,
+  formGroupLookup: PropTypes.array,
   group: PropTypes.object,
   handleClick: PropTypes.func,
   isNew: PropTypes.bool,

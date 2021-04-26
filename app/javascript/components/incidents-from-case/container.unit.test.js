@@ -1,13 +1,16 @@
 import { fromJS } from "immutable";
-import { ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { Accordion, AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
+import { RECORD_TYPES } from "../../config";
+import RecordFormAlerts from "../record-form-alerts";
+import * as R from "../record-form/records";
+import { mapEntriesToRecord } from "../../libs";
 
 import IncidentSummary from "./components/summary";
 import IncidentDetail from "./components/detail";
-import IncidentPanel from "./components/panel";
 import IncidentFromCase from "./container";
 
 describe("<IncidentFromCase /> - Component", () => {
@@ -28,9 +31,21 @@ describe("<IncidentFromCase /> - Component", () => {
         unique_id: "e25c5cb1-1257-472e-b2ec-05f568a3b51e"
       }
     ]),
-    css: {},
     mobileDisplay: false,
-    handleToggleNav: () => {}
+    handleToggleNav: () => {},
+    mode: { isShow: false, isEdit: true },
+    setFieldValue: () => {},
+    handleSubmit: () => {},
+    recordType: RECORD_TYPES.cases
+  };
+
+  const fields = {
+    1: {
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-gbv-sexual-violence-type",
+      display_name: { en: "First Name" }
+    }
   };
 
   const initialState = fromJS({
@@ -59,7 +74,8 @@ describe("<IncidentFromCase /> - Component", () => {
             ]
           }
         ]
-      }
+      },
+      fields: mapEntriesToRecord(fields, R.FieldRecord)
     },
     user: {
       permissions: {
@@ -76,10 +92,10 @@ describe("<IncidentFromCase /> - Component", () => {
     expect(component.find(IncidentFromCase)).to.have.length(1);
   });
 
-  it("render a ExpansionPanels", () => {
-    expect(component.find(ExpansionPanel)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(1);
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(1);
+  it("render a Accordions", () => {
+    expect(component.find(Accordion)).to.have.lengthOf(1);
+    expect(component.find(AccordionSummary)).to.have.lengthOf(1);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(1);
   });
 
   it("render a RecordFormTitle", () => {
@@ -102,10 +118,23 @@ describe("<IncidentFromCase /> - Component", () => {
     expect(component.find(IncidentDetail)).to.have.lengthOf(1);
   });
 
-  it("renders component with valid props", () => {
-    const incidentsProps = { ...component.find(IncidentPanel).props() };
+  it("render RecordFormAlerts", () => {
+    expect(component.find(RecordFormAlerts)).to.have.lengthOf(1);
+  });
 
-    ["incident", "incidentCaseId", "css"].forEach(property => {
+  it("renders component with valid props", () => {
+    const incidentsProps = { ...component.find(IncidentFromCase).props() };
+
+    [
+      "record",
+      "incidents",
+      "mobileDisplay",
+      "handleToggleNav",
+      "mode",
+      "setFieldValue",
+      "handleSubmit",
+      "recordType"
+    ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];
     });

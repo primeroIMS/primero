@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Map } from "immutable";
 import pickBy from "lodash/pickBy";
+import isEmpty from "lodash/isEmpty";
 
 import { DEFAULT_METADATA } from "../../config";
 
@@ -16,17 +17,18 @@ const fetchDataIfNotBackButton = (
   history,
   onFetch,
   searchingKey,
-  { dispatch, defaultFilterFields, restActionParams }
+  { dispatch, defaultFilterFields, restActionParams, defaultMetadata }
 ) => {
-  const { per: currentPer, page: currentPage, total: currentTotal } = metadata;
+  const { per: currentPer, page: currentPage, total: currentTotal } = metadata || {};
   const sameLocation = location.pathname === history.location.pathname;
-  const differentPageOrPer = currentPer !== DEFAULT_METADATA.per || currentPage !== DEFAULT_METADATA.page;
+  const meta = isEmpty(defaultMetadata) ? DEFAULT_METADATA : defaultMetadata;
+  const differentPageOrPer = currentPer !== meta.per || currentPage !== meta.page;
 
   if (history.action === "PUSH" && sameLocation && differentPageOrPer) {
     dispatch(
       onFetch({
         ...restActionParams,
-        [searchingKey]: { ...defaultFilterFields, ...DEFAULT_METADATA }
+        [searchingKey]: { ...defaultFilterFields, ...meta }
       })
     );
   } else if (sameLocation && (differentPageOrPer || currentTotal !== "undefined")) {
@@ -95,7 +97,7 @@ export const useMetadata = (
   metadata,
   fetch,
   fetchParam,
-  { defaultFilterFields, restActionParams } = {}
+  { defaultFilterFields, restActionParams, defaultMetadata } = {}
 ) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -105,7 +107,8 @@ export const useMetadata = (
     fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetch, fetchParam, {
       dispatch,
       defaultFilterFields: defaultFilterFields || {},
-      restActionParams: restActionParams || {}
+      restActionParams: restActionParams || {},
+      defaultMetadata: defaultMetadata || {}
     });
   }, [location]);
 
@@ -117,3 +120,5 @@ export const useMetadata = (
     };
   }, []);
 };
+
+export const getShortIdFromUniqueId = uniqueId => uniqueId?.slice(-7);

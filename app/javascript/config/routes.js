@@ -1,13 +1,13 @@
-import Login, {
+import {
   Admin,
   AgenciesForm,
   AgenciesList,
   AuditLogs,
-  ContactInformation,
   Dashboard,
   ExportList,
   FormBuilder,
   FormsList,
+  LocationsList,
   LookupsForm,
   LookupsList,
   NotAuthorized,
@@ -15,21 +15,26 @@ import Login, {
   PotentialMatches,
   RolesForm,
   RolesList,
-  Support,
+  ContactInformation as AdminContactInformation,
   TaskList,
   UserGroupsForm,
   UserGroupsList,
   UsersForm,
   UsersList,
   ConfigurationsList,
-  ConfigurationsForm
+  ConfigurationsForm,
+  CodeOfConduct as AdminCodeOfConduct,
+  Support
 } from "../components/pages";
+import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form";
 import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
+import PasswordReset from "../components/password-reset";
+import CodeOfConduct from "../components/code-of-conduct";
 import { AppLayout, LoginLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -42,10 +47,31 @@ import {
   SHOW_TASKS,
   WRITE_RECORDS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
+import Login from "../components/login";
 
-import { ROUTES, MODES } from "./constants";
+import { ROUTES, MODES, RECORD_PATH } from "./constants";
+
+const recordPaths = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests];
+
+const recordRoutes = [
+  [MODES.edit, WRITE_RECORDS, ":id/edit"],
+  [MODES.new, CREATE_RECORDS, ":module/new"],
+  [MODES.show, READ_RECORDS, ":id"]
+]
+  .map(([mode, actions, path]) => {
+    return recordPaths.map(recordPath => ({
+      path: `/:recordType(${recordPath})/${path}`,
+      component: RecordForm,
+      extraProps: {
+        mode
+      },
+      actions
+    }));
+  })
+  .flat();
 
 export default [
   {
@@ -58,6 +84,10 @@ export default [
       {
         path: ROUTES.logout,
         component: Login
+      },
+      {
+        path: ROUTES.password_reset,
+        component: PasswordReset
       }
     ]
   },
@@ -68,30 +98,7 @@ export default [
         path: ROUTES.dashboard,
         component: Dashboard
       },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.edit
-        },
-        actions: WRITE_RECORDS
-      },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.new
-        },
-        actions: CREATE_RECORDS
-      },
-      {
-        path: "/:recordType(cases|incidents|tracing_requests)/:id",
-        component: RecordForm,
-        extraProps: {
-          mode: MODES.show
-        },
-        actions: READ_RECORDS
-      },
+      ...recordRoutes,
       {
         path: "/cases",
         component: RecordList,
@@ -106,6 +113,12 @@ export default [
         path: "/tracing_requests",
         component: RecordList,
         actions: READ_RECORDS
+      },
+      {
+        path: ROUTES.key_performance_indicators,
+        component: KeyPerformanceIndicators,
+        resources: RESOURCES.kpis,
+        actions: VIEW_KPIS
       },
       {
         path: `${ROUTES.reports}/new`,
@@ -242,7 +255,7 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}/edit`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
               extraProps: {
                 mode: MODES.edit
@@ -250,8 +263,24 @@ export default [
             },
             {
               path: `${ROUTES.contact_information}`,
-              component: ContactInformation,
+              component: AdminContactInformation,
               resources: RESOURCES.contact_information,
+              extraProps: {
+                mode: MODES.show
+              }
+            },
+            {
+              path: `${ROUTES.admin_code_of_conduct}/edit`,
+              component: AdminCodeOfConduct,
+              resources: RESOURCES.codes_of_conduct,
+              extraProps: {
+                mode: MODES.edit
+              }
+            },
+            {
+              path: `${ROUTES.admin_code_of_conduct}`,
+              component: AdminCodeOfConduct,
+              resources: RESOURCES.codes_of_conduct,
               extraProps: {
                 mode: MODES.show
               }
@@ -399,6 +428,11 @@ export default [
               path: ROUTES.configurations,
               component: ConfigurationsList,
               resources: RESOURCES.configurations
+            },
+            {
+              path: ROUTES.locations,
+              component: LocationsList,
+              resources: RESOURCES.locations
             }
           ]
         }
@@ -408,6 +442,10 @@ export default [
         component: NotAuthorized
       }
     ]
+  },
+  {
+    path: ROUTES.code_of_conduct,
+    component: CodeOfConduct
   },
   {
     component: NotFound

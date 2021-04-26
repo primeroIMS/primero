@@ -9,7 +9,14 @@ class PrimeroConfiguration < ApplicationRecord
   validate :validate_configuration_data
   validates :version, uniqueness: { message: 'errors.models.configuration.version.uniqueness' }
 
-  before_create :generate_version
+  before_create :generate_version, :populate_primero_version
+
+  def self.new_with_user(created_by = nil)
+    new.tap do |config|
+      config.created_on = DateTime.now
+      config.created_by = created_by&.user_name
+    end
+  end
 
   def self.current(created_by = nil)
     new.tap do |config|
@@ -26,28 +33,55 @@ class PrimeroConfiguration < ApplicationRecord
     end
   end
 
+  def self.api_path
+    '/api/v2/configurations'
+  end
+
   def apply_later!(applied_by = nil)
     ApplyConfigurationJob.perform_later(id, applied_by.id)
   end
 
+  def promote_later!
+    PrimeroConfigurationSyncJob.perform_later(id)
+  end
+
   def apply_with_api_lock!(applied_by = nil)
     SystemSettings.lock_for_configuration_update
-    apply!(applied_by)
+    PrimeroConfiguration.transaction { apply!(applied_by) }
+  rescue StandardError => e
+    Rails.logger.error("Could not apply configuration #{name}:#{version}. Rolling back.")
+    Rails.logger.error([e.message, *e.backtrace].join($RS))
+  ensure
     SystemSettings.unlock_after_configuration_update
   end
 
   def apply!(applied_by = nil)
-    data.each do |model, model_data|
-      model_class = Kernel.const_get(model)
+    return unless can_apply?
 
-      model_class.sort_configuration_hash(model_data).each do |configuration|
-        model_class.create_or_update!(configuration)
-      end
-    end
+    configure!
     clear_remainder!
     self.applied_on = DateTime.now
     self.applied_by = applied_by&.user_name
     save!
+  end
+
+  def can_apply?
+    return true if primero_version.blank?
+
+    Gem::Version.new(Primero::Application::VERSION) >= Gem::Version.new(primero_version)
+  end
+
+  private
+
+  def configure!
+    CONFIGURABLE_MODELS.each do |model|
+      next unless data.key?(model)
+
+      model_class = Kernel.const_get(model)
+      model_class.sort_configuration_hash(data[model]).each do |configuration|
+        model_class.create_or_update!(configuration)
+      end
+    end
   end
 
   def clear_remainder!
@@ -64,11 +98,15 @@ class PrimeroConfiguration < ApplicationRecord
 
   def validate_configuration_data
     data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
-      valid && (%w[Report Location].include?(model) || data[model].size.positive?)
+      valid && (%w[Report Location].include?(model) || data[model]&.size&.positive?)
     end
     return if data_is_valid
 
     errors.add(:data, 'errors.models.configuration.data')
+  end
+
+  def populate_primero_version
+    self.primero_version = Primero::Application::VERSION
   end
 
   def generate_version

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -14,15 +14,16 @@ import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
-import { fetchUserGroups, getEnabledAgencies, getUserGroups } from "../../../application";
+import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
 import { getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
-import { buildUsersQuery, getFilters } from "./utils";
+import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 
 const Container = () => {
   const i18n = useI18n();
@@ -31,21 +32,22 @@ const Container = () => {
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
+  const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
+  const agenciesWithId = buildObjectWithIds(agencies);
+
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
-    ...rest
+    ...rest,
+    ...(rest.name === "agency_id"
+      ? { options: { customBodyRender: value => agencyBodyRender(i18n, agenciesWithId, value) } }
+      : {})
   }));
-  const filterAgencies = useSelector(state => getEnabledAgencies(state));
-  const filterUserGroups = useSelector(state => getUserGroups(state));
-  const metadata = useSelector(state => getMetadata(state, recordType));
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = {
-    [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
-  });
+
+  const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
 
   useEffect(() => {
     if (canListAgencies) {
@@ -85,7 +87,7 @@ const Container = () => {
 
   const filterProps = {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
-    filters: getFilters(i18n, filterAgencies, filterUserGroups, filterPermission),
+    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
@@ -106,7 +108,7 @@ const Container = () => {
             <IndexTable title={i18n.t("users.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

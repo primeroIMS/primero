@@ -14,7 +14,8 @@ class FormSection < ApplicationRecord
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_one :subform_field,
           class_name: 'Field', dependent: :nullify, foreign_key: 'subform_section_id', inverse_of: :subform
-  has_and_belongs_to_many :roles
+  has_many :form_permissions
+  has_many :roles, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, inverse_of: :form_sections
 
   attr_accessor :module_name
@@ -30,16 +31,11 @@ class FormSection < ApplicationRecord
   after_initialize :defaults, unless: :persisted?
   before_validation :calculate_fields_order, :generate_unique_id
   before_save :sync_form_group
+  after_save :sync_modules
   after_save :calculate_subform_collapsed_fields
 
   def defaults
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
-  end
-
-  def form_group_name_i18n(lookups = nil)
-    return name_i18n if form_group_id.blank?
-
-    Lookup.form_group_name_all(form_group_id, parent_form, module_name, lookups)
   end
 
   def inspect
@@ -57,8 +53,11 @@ class FormSection < ApplicationRecord
       ]
     end
 
-    def new_with_properties(form_params)
-      FormSection.new.tap { |form| form.update_properties(form_params) }
+    def new_with_properties(form_params, opts = {})
+      FormSection.new.tap do |form|
+        form.update_properties(form_params)
+        form.roles << opts[:user]&.role if opts[:user].present?
+      end
     end
 
     # TODO: Used by the RolePermissionsExporter
@@ -79,16 +78,24 @@ class FormSection < ApplicationRecord
       Lookup.where("unique_id like 'lookup-form-group-%'")
     end
 
+    # FormSection.list() breaks the Fields order, so you have to specify the order when selecting the fields
+    # This is due to an issue that breaks ordering when using includes with a where clause
+    # Example:  FormSection.list(params).first.fields.order(:order)
     def list(params = {})
       form_sections = all.includes(:fields, :collapsed_fields, :primero_modules)
       form_sections = form_sections.where(unique_id: params[:unique_id]) if params[:unique_id]
       form_sections = form_sections.where(parent_form: params[:record_type]) if params[:record_type]
       form_sections = form_sections.where(primero_modules: { unique_id: params[:module_id] }) if params[:module_id]
+      form_sections = form_sections.where(is_nested: false) if params[:exclude_subforms]
       form_sections
     end
 
     def sort_configuration_hash(configuration_hash)
       configuration_hash&.sort_by { |hash| hash['is_nested'] ? 0 : 1 }
+    end
+
+    def api_path
+      '/api/v2/forms'
     end
   end
 
@@ -110,6 +117,20 @@ class FormSection < ApplicationRecord
     new_id = form_group_id.parameterize(separator: '_')
     Lookup.add_form_group(new_id, form_group_id, parent_form, module_name)
     self.form_group_id = new_id
+  end
+
+  # If a form's modules changed, update the modules of the subforms
+  def sync_modules
+    subforms.each do |subform|
+      next if subform.primero_modules == primero_modules
+
+      subform.primero_modules = primero_modules
+      subform.save!
+    end
+  end
+
+  def subforms
+    FormSection.where(id: fields.where(type: 'subform').select(:subform_section_id))
   end
 
   def update_translations(locale, form_hash = {})

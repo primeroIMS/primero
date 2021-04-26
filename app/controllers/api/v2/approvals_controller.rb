@@ -1,31 +1,32 @@
-module Api::V2
-  class ApprovalsController < RecordResourceController
-    before_action :approval_params, only: [:update]
+# frozen_string_literal: true
 
-    def update
-      approval = Approval.get!(params[:id], @record, current_user.user_name, @approval_params)
-      authorize! approval_permission, @model_class
-      approval.perform!(@approval_params[:approval_status])
-      updates_for_record(@record)
-    end
+# Create, approve, or deny an approval request
+class Api::V2::ApprovalsController < Api::V2::RecordResourceController
+  before_action :approval_params, only: [:update]
 
-    def update_action_message
-      "#{approval_params[:approval_type]}_#{approval_params[:approval_status]}"
-    end
+  def update
+    approval = Approval.get!(params[:id], @record, current_user.user_name, @approval_params)
+    authorize! approval_permission, @model_class
+    approval.perform!(@approval_params[:approval_status])
+    updates_for_record(@record)
+  end
 
-    private
+  def update_action_message
+    "#{params[:id]}_#{approval_params[:approval_status]}"
+  end
 
-    def approval_params
-      @approval_params ||= params.require(:data).permit(%i[approval_status approval_type notes])
-    end
+  private
 
-    def approval_permission
-      permission_suffix = if @approval_params[:approval_status] == Approval::APPROVAL_STATUS_REQUESTED
-                            'request_approval'
-                          else
-                            'approve'
-                          end
-      "#{permission_suffix}_#{params[:id]}".to_sym
-    end
+  def approval_params
+    @approval_params ||= params.require(:data).permit(%i[approval_status approval_type notes])
+  end
+
+  def approval_permission
+    permission_suffix = if @approval_params[:approval_status] == Approval::APPROVAL_STATUS_REQUESTED
+                          'request_approval'
+                        else
+                          'approve'
+                        end
+    "#{permission_suffix}_#{params[:id]}".to_sym
   end
 end

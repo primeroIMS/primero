@@ -12,6 +12,10 @@
   padding: 10px 0;
 }
 
+.document {
+  display: flex;
+}
+
 .inputField,
 .attachmentInputField {
   display: none;
@@ -139,4 +143,31 @@
   font-weight: bold;
   padding: 0 0 10px 0;
   text-transform: none;
+}
+
+.linkField {
+  color: $(theme.primero.colors.blue);;
+}
+
+.linkFieldLabel {
+  font-size: $(theme.typography.pxToRem(12));
+}
+
+.displayNone {
+  display: none;
+}
+
+.separator {
+  border-top: 1px solid $(theme.primero.colors.warmGrey1);
+}
+
+.downloadButton {
+  padding-top: 10px;
+}
+
+.selectInput {
+  & > div {
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
 }

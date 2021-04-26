@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
@@ -13,9 +13,11 @@ import styles from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
+const useStyles = makeStyles(styles);
+
 const Search = ({ handleReset }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { register, unregister, setValue } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();

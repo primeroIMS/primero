@@ -1,11 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../../../record-actions/actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
+import { fetchRecordCallback } from "../../utils";
 
 import actions from "./actions";
 
-export const approvalTransfer = ({ body, dialogName, message, failureMessage, recordId, recordType, transferId }) => {
+export const approvalTransfer = ({ body, message, failureMessage, recordId, recordType, transferId }) => {
   return {
     type: actions.APPROVE_TRANSFER,
     api: {
@@ -21,23 +22,12 @@ export const approvalTransfer = ({ body, dialogName, message, failureMessage, re
               variant: "success",
               key: generate.messageKey(message)
             }
-          },
-          redirectWithIdFromResponse: false,
-          redirect: false
-        },
-        {
-          action: SET_DIALOG,
-          payload: {
-            dialog: dialogName,
-            open: false
           }
         },
         {
-          action: SET_DIALOG_PENDING,
-          payload: {
-            pending: false
-          }
-        }
+          action: CLEAR_DIALOG
+        },
+        fetchRecordCallback({ recordId, recordType })
       ],
       failureCallback: [
         {

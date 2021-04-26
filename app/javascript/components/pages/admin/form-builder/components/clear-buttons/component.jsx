@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React from "react";
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,21 +7,25 @@ import { useI18n } from "../../../../../i18n";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import ActionButton from "../../../../../action-button";
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
+import { useApp } from "../../../../../application";
 
 import { NAME, GROUP_BY, SORT_BY } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
+  const { limitedProductionSite } = useApp();
   const fieldName = subformField.get("name");
 
   const onClearSortBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_SORT_BY}`, "", { shouldDirty: true });
   };
 
   const onClearGroupBy = () => {
-    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "");
+    setValue(`${fieldName}.${SUBFORM_SECTION_CONFIGURATION}.${SUBFORM_GROUP_BY}`, "", { shouldDirty: true });
   };
 
   const renderClearButton = (fieldBy, onClick) =>
@@ -33,7 +36,8 @@ const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) =>
         type={ACTION_BUTTON_TYPES.default}
         isCancel
         rest={{
-          onClick
+          onClick,
+          hide: limitedProductionSite
         }}
       />
     );

@@ -36,7 +36,7 @@ describe("<MoreSection>", () => {
   };
 
   it("renders MoreSection filters", () => {
-    const { component } = setupMockFormComponent(MoreSection, props, state);
+    const { component } = setupMockFormComponent(MoreSection, { props, state, includeFormProvider: true });
     const lessButton = component.find("button").at(1);
 
     expect(lessButton).to.have.lengthOf(1);
@@ -45,7 +45,7 @@ describe("<MoreSection>", () => {
   });
 
   it("renders valid props for MoreSection component", () => {
-    const { component } = setupMockFormComponent(MoreSection, props);
+    const { component } = setupMockFormComponent(MoreSection, { props, includeFormProvider: true });
 
     const clone = { ...component.find(MoreSection).props() };
 
@@ -70,7 +70,7 @@ describe("<MoreSection>", () => {
   });
 
   it("renders valid props for rendered filters", () => {
-    const { component } = setupMockFormComponent(MoreSection, props);
+    const { component } = setupMockFormComponent(MoreSection, { props, includeFormProvider: true });
 
     const clone = { ...component.find(CheckboxFilter).props() };
 

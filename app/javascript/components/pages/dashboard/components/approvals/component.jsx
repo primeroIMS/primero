@@ -1,6 +1,4 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
@@ -22,6 +20,7 @@ import {
   getApprovalsGbvClosure
 } from "../../selectors";
 import { useApp } from "../../../../application";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
@@ -29,16 +28,16 @@ const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
 
-  const approvalsAssessmentPending = useSelector(state => getApprovalsAssessmentPending(state));
-  const approvalsCasePlanPending = useSelector(state => getApprovalsClosurePending(state));
-  const approvalsClosurePending = useSelector(state => getApprovalsCasePlanPending(state));
-  const approvalsActionPlanPending = useSelector(state => getApprovalsActionPlanPending(state));
-  const approvalsGbvClosurePending = useSelector(state => getApprovalsGbvClosurePending(state));
-  const approvalsAssessment = useSelector(state => getApprovalsAssessment(state));
-  const approvalsCasePlan = useSelector(state => getApprovalsCasePlan(state));
-  const approvalsClosure = useSelector(state => getApprovalsClosure(state));
-  const approvalsActionPlan = useSelector(state => getApprovalsActionPlan(state));
-  const approvalsGbvClosure = useSelector(state => getApprovalsGbvClosure(state));
+  const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
+  const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
+  const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));
+  const approvalsActionPlanPending = useMemoizedSelector(state => getApprovalsActionPlanPending(state));
+  const approvalsGbvClosurePending = useMemoizedSelector(state => getApprovalsGbvClosurePending(state));
+  const approvalsAssessment = useMemoizedSelector(state => getApprovalsAssessment(state));
+  const approvalsCasePlan = useMemoizedSelector(state => getApprovalsCasePlan(state));
+  const approvalsClosure = useMemoizedSelector(state => getApprovalsClosure(state));
+  const approvalsActionPlan = useMemoizedSelector(state => getApprovalsActionPlan(state));
+  const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
 
   const pendingApprovalsItems = toApprovalsManager([
     approvalsAssessmentPending,
@@ -72,7 +71,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_ASSESSMENT,
       options: {
         items: approvalsAssessment,
-        sumTitle: approvalsLabels.assessment
+        sumTitle: approvalsLabels.get("assessment")
       }
     },
     {
@@ -80,7 +79,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CASE_PLAN,
       options: {
         items: approvalsCasePlan,
-        sumTitle: approvalsLabels.case_plan
+        sumTitle: approvalsLabels.get("case_plan")
       }
     },
     {
@@ -88,7 +87,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_CLOSURE,
       options: {
         items: approvalsClosure,
-        sumTitle: approvalsLabels.closure
+        sumTitle: approvalsLabels.get("closure")
       }
     },
     {
@@ -96,7 +95,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
       options: {
         items: approvalsActionPlan,
-        sumTitle: approvalsLabels.action_plan
+        sumTitle: approvalsLabels.get("action_plan")
       }
     },
     {
@@ -104,7 +103,7 @@ const Component = ({ loadingIndicator }) => {
       actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
       options: {
         items: approvalsGbvClosure,
-        sumTitle: approvalsLabels.gbv_closure
+        sumTitle: approvalsLabels.get("gbv_closure")
       }
     }
   ];
@@ -128,13 +127,11 @@ const Component = ({ loadingIndicator }) => {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
-          <Grid item md={12}>
-            <Grid container>{renderDashboards()}</Grid>
-          </Grid>
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
+        <Grid item md={12}>
+          <Grid container>{renderDashboards()}</Grid>
+        </Grid>
+      </OptionsBox>
     </Permission>
   );
 };

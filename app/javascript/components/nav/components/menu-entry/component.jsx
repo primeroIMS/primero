@@ -1,9 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { isEqual } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
@@ -11,19 +11,29 @@ import Jewel from "../../../jewel";
 import styles from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
-import { ConditionalWrapper } from "../../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
+import { setDialog } from "../../../action-dialog";
+import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
+import { ROUTES } from "../../../../config";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
-  const { disabledApplication } = useApp();
-  const css = makeStyles(styles)();
+  const { disabledApplication, online } = useApp();
+  const css = useStyles();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
   const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions } = menuEntry;
 
-  const jewel = jewelCount ? <Jewel value={jewelCount} mobileDisplay={mobileDisplay} /> : null;
+  const jewel = jewelCount ? (
+    <Jewel value={jewelCount} mobileDisplay={mobileDisplay} isForm={name === NAV_SETTINGS} />
+  ) : null;
 
   const renderDivider = divider && <div className={css.navSeparator} />;
+
+  const onClick = () => dispatch(setDialog({ dialog: LOGOUT_DIALOG, open: true, pending: false }));
 
   const navlinkProps = {
     ...(!disabledApplication &&
@@ -33,9 +43,17 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
         activeClassName: css.navActive,
         onClick: closeDrawer,
         disabled: disabledApplication
+      }),
+    ...(!disabledApplication &&
+      !online &&
+      to === ROUTES.logout && {
+        to: false,
+        onClick
       })
   };
-  const userPermissions = useSelector(state => getPermissions(state));
+
+  const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : i18n.t(name);
 
@@ -63,7 +81,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
 
 Component.propTypes = {
   closeDrawer: PropTypes.func.isRequired,
-  jewelCount: PropTypes.number,
+  jewelCount: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool]),
   menuEntry: PropTypes.object.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired

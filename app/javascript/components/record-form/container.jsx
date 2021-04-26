@@ -1,47 +1,81 @@
-import React, { useEffect, memo, useState } from "react";
+import { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
-import { useThemeHelper } from "../../libs";
+import FormFilters from "../form-filters";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
-import Transitions, { fetchTransitions } from "../transitions";
+import Transitions from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
-import { fetchRecord, getIncidentFromCase, saveRecord, selectRecord } from "../records";
+import {
+  clearSelectedRecord,
+  fetchRecord,
+  getIncidentFromCase,
+  saveRecord,
+  selectRecord,
+  setSelectedRecord,
+  getCaseIdForIncident
+} from "../records";
 import {
   APPROVALS,
   RECORD_TYPES,
-  REFERRAL,
   RECORD_OWNER,
   TRANSITION_TYPE,
   RECORD_PATH,
-  INCIDENT_FROM_CASE
+  REFERRAL,
+  INCIDENT_FROM_CASE,
+  CHANGE_LOGS,
+  SUMMARY
 } from "../../config";
+import { ACTIONS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
 import IncidentFromCase from "../incidents-from-case";
-import { getLoadingRecordState } from "../records/selectors";
+import ChangeLogs from "../change-logs";
+import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
-import { fetchRecordsAlerts } from "../records/action-creators";
+import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
+import Summary from "../summary";
+import { RESOURCES } from "../permissions/constants";
+import { useApp } from "../application";
+import useIncidentFromCase from "../records/use-incident-form-case";
+import SaveAndRedirectDialog from "../save-and-redirect-dialog";
 
+import {
+  customForms,
+  getAttachmentForms,
+  getFirstTab,
+  getFormNav,
+  getRecordForms,
+  getLoadingState,
+  getErrors,
+  getSelectedForm
+} from "./selectors";
 import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { getFirstTab, getFormNav, getRecordForms, getLoadingState, getErrors, getSelectedForm } from "./selectors";
 import { compactValues, getRedirectPath } from "./utils";
 
-const Container = ({ match, mode }) => {
+const useStyles = makeStyles(styles);
+
+const Container = ({ mode }) => {
   let submitForm = null;
-  const { theme } = useThemeHelper(styles);
+  const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const { demo } = useApp();
+  const params = useParams();
+  const { state: locationState } = useLocation();
+  const history = useHistory();
 
   const containerMode = {
     isNew: mode === "new",
@@ -49,31 +83,53 @@ const Container = ({ match, mode }) => {
     isShow: mode === "show"
   };
 
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const { params } = match;
+
   const recordType = RECORD_TYPES[params.recordType];
 
-  const incidentFromCase = useSelector(state => getIncidentFromCase(state, recordType));
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
+  const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
+  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
-  const record = useSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
-
-  const userPermittedFormsIds = useSelector(state => getPermittedFormsIds(state));
+  const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
+  const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
-    formsIds: userPermittedFormsIds
+    formsIds: userPermittedFormsIds,
+    i18n,
+    renderCustomForms: canViewSummaryForm
   };
 
-  const formNav = useSelector(state => getFormNav(state, selectedModule));
-  const forms = useSelector(state => getRecordForms(state, selectedModule));
-  const firstTab = useSelector(state => getFirstTab(state, selectedModule));
-  const loadingForm = useSelector(state => getLoadingState(state));
-  const loadingRecord = useSelector(state => getLoadingRecordState(state, params.recordType));
-  const errors = useSelector(state => getErrors(state));
-  const selectedForm = useSelector(state => getSelectedForm(state));
+  const {
+    handleCreateIncident,
+    redirectDialogOpen,
+    closeRedirectDialog,
+    setSaveCaseBeforeRedirect,
+    setCaseIncidentData,
+    saveBeforeIncidentRedirect,
+    dialogParams
+  } = useIncidentFromCase({
+    record,
+    mode: containerMode
+  });
+
+  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
+  const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
+  const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
+  const firstTab = useMemoizedSelector(state => getFirstTab(state, selectedModule));
+  const loadingForm = useMemoizedSelector(state => getLoadingState(state));
+  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
+  const errors = useMemoizedSelector(state => getErrors(state));
+  const selectedForm = useMemoizedSelector(state => getSelectedForm(state));
+  const isProcessingSomeAttachment = useMemoizedSelector(state =>
+    getIsProcessingSomeAttachment(state, params.recordType)
+  );
+  const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, params.recordType));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -90,40 +146,45 @@ const Container = ({ match, mode }) => {
   const formProps = {
     onSubmit: (initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
+      const { incidentPath, ...formValues } = values;
+
       const body = {
         data: {
-          ...compactValues(values, initialValues),
-          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {})
+          ...compactValues(formValues, initialValues),
+          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+          ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
       };
-      const message = queue => {
-        const appendQueue = queue ? "_queue" : "";
-
+      const message = () => {
         return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success${appendQueue}`, {
+          ? i18n.t(`${recordType}.messages.update_success`, {
               record_id: record.get("short_id")
             })
-          : i18n.t(`${recordType}.messages.creation_success${appendQueue}`, recordType);
+          : i18n.t(`${recordType}.messages.creation_success`, recordType);
       };
 
-      batch(async () => {
-        await dispatch(
+      batch(() => {
+        if (saveBeforeIncidentRedirect) {
+          setCaseIncidentData(formValues);
+        }
+
+        dispatch(
           saveRecord(
             params.recordType,
             saveMethod,
             body,
             params.id,
             message(),
-            message(true),
-            getRedirectPath(containerMode, params, incidentFromCase),
+            i18n.t("offline_submitted_changes"),
+            getRedirectPath(containerMode, params, fetchFromCaseId),
             true,
             "",
-            Boolean(incidentFromCase?.size)
+            Boolean(incidentFromCase?.size),
+            selectedModule.primeroModule,
+            incidentPath,
+            i18n.t("offline_submitted_changes")
           )
         );
-        if (containerMode.isEdit) {
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        }
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
@@ -138,6 +199,7 @@ const Container = ({ match, mode }) => {
     mode: containerMode,
     record,
     incidentFromCase,
+    fetchFromCaseId,
     recordType: params.recordType,
     primeroModule: selectedModule.primeroModule
   };
@@ -163,47 +225,56 @@ const Container = ({ match, mode }) => {
     selectedForm,
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
-    primeroModule: selectedModule.primeroModule
+    primeroModule: selectedModule.primeroModule,
+    hasForms: !loadingForm && forms.size > 0
   };
 
   useEffect(() => {
-    if (params.id && (containerMode.isShow || containerMode.isEdit)) {
-      dispatch(fetchRecord(params.recordType, params.id));
-      dispatch(fetchRecordsAlerts(params.recordType, params.id));
+    if (params.id && !loadingRecord && recordAttachments.size && !isProcessingSomeAttachment) {
+      dispatch(clearRecordAttachments(params.id, params.recordType));
     }
-  }, [containerMode.isEdit, containerMode.isShow, dispatch, params.id, params.recordType]);
+  }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 
-  const canRefer = usePermissions(params.recordType, REFERRAL);
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
+  const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
+  const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
+  const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
-    if (!containerMode.isNew && params.recordType === RECORD_PATH.cases) {
-      batch(() => {
-        dispatch(fetchTransitions(params.recordType, params.id));
+    batch(() => {
+      if (params.id) {
+        dispatch(setSelectedRecord(params.recordType, params.id));
 
-        if (canRefer) {
-          dispatch(
-            fetchReferralUsers({
-              record_type: RECORD_TYPES[params.recordType]
-            })
-          );
+        if (!locationState?.preventSyncAfterRedirect) {
+          dispatch(fetchRecord(params.recordType, params.id));
+          dispatch(fetchRecordsAlerts(params.recordType, params.id));
+        }
+      }
+      if (isNotANewCase && canRefer) {
+        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
+      }
+    });
+
+    history.replace(history.location.pathname, {});
+  }, [params.id, params.recordType]);
+
+  useEffect(() => {
+    return () => {
+      batch(() => {
+        dispatch(clearSelectedRecord(params.recordType));
+        dispatch(clearValidationErrors());
+        if (params.id) {
+          dispatch(clearRecordAttachments(params.id, params.recordType));
         }
       });
-    }
-  }, [params.recordType, params.id]);
-
-  useEffect(() => {
-    return () => dispatch(clearValidationErrors());
+    };
   }, []);
 
-  // TODO: When transfer_request be implement change the transition_ype
-  const isRecordOwnerForm = RECORD_OWNER === selectedForm;
-  const isApprovalsForm = APPROVALS === selectedForm;
-  const isTransitions = TRANSITION_TYPE.includes(selectedForm);
-  const isIncidentFromCase = INCIDENT_FROM_CASE === selectedForm;
   const transitionProps = {
+    fetchable: isNotANewCase,
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
-    record: params.id,
+    recordID: params.id,
     showMode: containerMode.isShow,
     mobileDisplay,
     handleToggleNav
@@ -212,52 +283,113 @@ const Container = ({ match, mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  let renderForm;
+  const externalForms = (form, setFieldValue, handleSubmit, values) => {
+    const isTransitions = TRANSITION_TYPE.includes(form);
 
-  if (isRecordOwnerForm) {
-    renderForm = (
-      <RecordOwner
-        record={record}
-        recordType={params.recordType}
-        mobileDisplay={mobileDisplay}
-        handleToggleNav={handleToggleNav}
-      />
-    );
-  } else if (isApprovalsForm) {
-    renderForm = (
-      <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
-    );
-  } else if (isIncidentFromCase) {
-    renderForm = (
-      <IncidentFromCase
-        record={record}
-        incidents={incidentsSubforms}
-        mobileDisplay={mobileDisplay}
-        handleToggleNav={handleToggleNav}
-      />
-    );
-  } else if (isTransitions) {
-    renderForm = <Transitions {...transitionProps} />;
-  } else {
-    renderForm = <RecordForm {...formProps} />;
-  }
+    const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
 
-  const hasData = Boolean(forms && formNav && firstTab && (containerMode.isNew || record));
+    return {
+      [RECORD_OWNER]: (
+        <RecordOwner
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      ),
+      [APPROVALS]: (
+        <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
+      ),
+      [INCIDENT_FROM_CASE]: (
+        <IncidentFromCase
+          record={record}
+          incidents={incidentsSubforms}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          mode={containerMode}
+          setFieldValue={setFieldValue}
+          handleSubmit={handleSubmit}
+          recordType={params.recordType}
+          handleCreateIncident={handleCreateIncident}
+        />
+      ),
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
+      [CHANGE_LOGS]: (
+        <ChangeLogs
+          recordID={params.id}
+          fetchable={canSeeChangeLog}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={selectedModule.primeroModule}
+          selectedForm={selectedForm}
+        />
+      ),
+      [SUMMARY]: (
+        <Summary
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          form={customForms(i18n)[form]}
+          mode={containerMode}
+          userPermittedFormsIds={userPermittedFormsIds}
+          values={values}
+        />
+      )
+    }[externalFormSelected];
+  };
+
+  // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
+  const externalComponents = ({ setFieldValue, values }) => (
+    <SaveAndRedirectDialog
+      open={redirectDialogOpen}
+      closeRedirectDialog={closeRedirectDialog}
+      setFieldValue={setFieldValue}
+      handleSubmit={handleFormSubmit}
+      values={values}
+      mode={containerMode}
+      recordType={recordType}
+      setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
+      incidentPath={dialogParams?.get("path")}
+    />
+  );
+
+  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
+  const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
+  const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
+  const containerClasses = clsx(css.recordContainer, {
+    [css.formNavOpen]: toggleNav && mobileDisplay
+  });
+  const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
+  const demoClasses = clsx({ [css.demo]: demo });
 
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
-        <RecordFormToolbar {...toolbarProps} />
-        <div
-          className={clsx(css.recordContainer, {
-            [css.formNavOpen]: toggleNav && mobileDisplay
-          })}
-        >
-          <div className={css.recordNav}>
+        {renderRecordFormToolbar}
+        <div className={containerClasses}>
+          <div className={navContainerClasses}>
             <Nav {...navProps} />
           </div>
-          <div className={`${css.recordForms} record-form-container`}>{renderForm}</div>
+          <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
+            <RecordForm
+              {...formProps}
+              externalForms={externalForms}
+              externalComponents={externalComponents}
+              selectedForm={selectedForm}
+              attachmentForms={attachmentForms}
+              userPermittedFormsIds={userPermittedFormsIds}
+            />
+            <FormFilters
+              selectedForm={selectedForm}
+              recordType={selectedModule.recordType}
+              primeroModule={selectedModule.primeroModule}
+              formMode={containerMode}
+              showDrawer
+            />
+          </div>
         </div>
       </LoadingIndicator>
     </PageContainer>
@@ -267,8 +399,7 @@ const Container = ({ match, mode }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  match: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired
 };
 
-export default memo(withRouter(Container));
+export default memo(Container);

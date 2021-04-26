@@ -8,15 +8,21 @@ import {
   SHOW_EXPORTS,
   SHOW_TASKS,
   ADMIN_RESOURCES,
-  ADMIN_ACTIONS
+  ADMIN_ACTIONS,
+  VIEW_KPIS
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
+
+export const PASSWORD_MIN_LENGTH = 8;
 
 // Max allowed image size for attachments
 export const MAX_IMAGE_SIZE = 600;
 
+// Max allowed size for attachments
+export const MAX_ATTACHMENT_SIZE = 10485760;
+
 // Time (ms) when fetch request will timeout
-export const FETCH_TIMEOUT = 50000;
+export const FETCH_TIMEOUT = 90000;
 
 // IndexedDB database name
 export const DATABASE_NAME = "primero";
@@ -43,7 +49,8 @@ export const AGE_MAX = 999;
 
 export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
-  GBV: "primeromodule-gbv"
+  GBV: "primeromodule-gbv",
+  MRM: "primeromodule-mrm"
 });
 
 export const MODULE_TYPE_FIELD = "module_id";
@@ -62,6 +69,8 @@ export const DISPLAY_TEXT_FIELD = "display_text";
 export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
+export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
+export const INCIDENT_SHORT_ID_FIELD = "short_id";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -76,17 +85,23 @@ export const RECORD_PATH = {
   cases: "cases",
   configurations: "configurations",
   contact_information: "contact_information",
+  codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
+  flags: "flags",
   forms: "forms",
   incidents: "incidents",
+  locations: "locations",
   lookups: "lookups",
   reports: "reports",
   roles: "roles",
   tasks: "tasks",
   tracing_requests: "tracing_requests",
+  traces: "traces",
   user_groups: "user_groups",
   users: "users"
 };
+
+export const RECORD_INFORMATION_GROUP = "record_information";
 
 export const RECORD_OWNER = "record_owner";
 
@@ -97,6 +112,10 @@ export const REFERRAL = "referral";
 export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
+
+export const CHANGE_LOGS = "change_logs";
+
+export const SUMMARY = "summary";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -117,6 +136,8 @@ export const ROUTES = {
   cases: "/cases",
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
+  code_of_conduct: "/code_of_conduct",
+  admin_code_of_conduct: "/admin/code_of_conduct",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
   exports: "/exports",
@@ -131,10 +152,14 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
   tracing_requests: "/tracing_requests",
-  check_health: "/health/api"
+  check_health: "/health/api",
+  check_server_health: "/health/server",
+  sandbox_ui: "/primero",
+  password_reset: "/password_reset"
 };
 
 export const PERMITTED_URL = [
@@ -144,10 +169,12 @@ export const PERMITTED_URL = [
   ROUTES.login_redirect,
   ROUTES.logout,
   ROUTES.not_authorized,
+  ROUTES.password_reset,
   ROUTES.support,
   ROUTES.cases,
   ROUTES.tracing_requests,
-  ROUTES.incidents
+  ROUTES.incidents,
+  ROUTES.code_of_conduct
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
@@ -159,6 +186,8 @@ export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODES = {
   edit: "edit",
@@ -172,7 +201,12 @@ export const LOOKUPS = {
   service_type: "lookup-service-type",
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
-  reporting_locations: "ReportingLocation"
+  reporting_locations: "ReportingLocation",
+  gbv_violence_type: "lookup-gbv-sexual-violence-type",
+  cp_violence_type: "lookup-cp-violence-type",
+  gender: "lookup-gender",
+  legitimate_basis: "lookup-legitimate-basis",
+  legitimate_basis_explanations: "lookup-legitimate-basis-explanations"
 };
 
 export const ADMIN_NAV = [
@@ -220,12 +254,18 @@ export const ADMIN_NAV = [
     permission: MANAGE,
     recordType: RESOURCES.metadata
   },
-  { to: "/locations", label: "settings.navigation.locations", disabled: true },
+  { to: "/locations", label: "settings.navigation.locations", permission: MANAGE, recordType: RESOURCES.metadata },
   {
     to: "/contact_information",
     label: "settings.navigation.contact_information",
     permission: MANAGE,
     recordType: RESOURCES.systems
+  },
+  {
+    to: "/code_of_conduct",
+    label: "settings.navigation.code_of_conduct",
+    permission: MANAGE,
+    recordType: RESOURCES.codes_of_conduct
   },
   {
     to: "/configurations",
@@ -258,7 +298,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
       to: ROUTES.tasks,
       icon: "tasks",
       resources: RESOURCES.dashboards,
-      actions: SHOW_TASKS
+      actions: SHOW_TASKS,
+      disableOffline: true
     },
     {
       name: "navigation.cases",
@@ -305,6 +346,13 @@ export const APPLICATION_NAV = (permissions, userId) => {
       validateWithUserPermissions: true
     },
     {
+      name: "navigation.key_performance_indicators",
+      to: ROUTES.key_performance_indicators,
+      icon: "key_performance_indicators",
+      resources: RESOURCES.kpis,
+      actions: VIEW_KPIS
+    },
+    {
       name: "navigation.bulk_exports",
       to: ROUTES.exports,
       icon: "exports",
@@ -323,7 +371,7 @@ export const APPLICATION_NAV = (permissions, userId) => {
     //   to: myAccountTo,
     //   icon: "account"
     // },
-    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account" },
+    { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {
       name: "navigation.settings",
       to: adminSettingsOption,
@@ -335,6 +383,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
     { name: "navigation.logout", to: ROUTES.logout, icon: "logout" }
   ];
 };
+
+export const LOCATION_PATH = "/locations";
 
 export const METHODS = Object.freeze({
   DELETE: "DELETE",
@@ -352,6 +402,7 @@ export const SAVE_METHODS = Object.freeze({
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
+export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
 
@@ -385,4 +436,33 @@ export const LOCALE_KEYS = {
 
 export const HTTP_STATUS = {
   invalidRecord: 422
+};
+
+export const DEFAULT_DATE_VALUES = {
+  TODAY: "TODAY",
+  NOW: "NOW"
+};
+
+export const FETCH_PARAM = Object.freeze({
+  DATA: "data",
+  OPTIONS: "options"
+});
+
+export const TRACING_REQUEST_STATUS_FIELD_NAME = "tracing_request_status";
+
+export const TRACES_SUBFORM_UNIQUE_ID = "tracing_request_subform_section";
+
+export const POTENTIAL_MATCH_LIKELIHOOD = {
+  likely: "likely",
+  possible: "possible"
+};
+
+export const MATCH_VALUES = {
+  match: "match",
+  mismatch: "mismatch",
+  blank: "blank"
+};
+
+export const FILE_FORMAT = {
+  pdf: "application/pdf"
 };

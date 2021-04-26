@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { compact } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Dialog, DialogContent, DialogTitle, DialogActions, TextField } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { object, string } from "yup";
@@ -9,13 +9,16 @@ import qs from "qs";
 import { push } from "connected-react-router";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { fromJS } from "immutable";
 
 import { enqueueSnackbar } from "../notifier";
-import { selectModules } from "../pages/login/login-form/selectors";
+import { selectModules } from "../login/components/login-form/selectors";
 import { useI18n } from "../i18n";
 import { ROUTES } from "../../config";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
+import { useMemoizedSelector } from "../../libs";
 
 import { saveSearch } from "./action-creators";
 import { buildFiltersApi, buildFiltersState } from "./utils";
@@ -40,10 +43,10 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState(false);
   const { register, handleSubmit, errors } = useForm({
-    validationSchema
+    resolver: yupResolver(validationSchema)
   });
 
-  const userModules = useSelector(state => selectModules(state));
+  const userModules = useMemoizedSelector(state => selectModules(state));
 
   const closeModal = () => {
     setOpen(false);
@@ -55,12 +58,12 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
 
     if (filters.length) {
       const body = {
-        data: {
+        data: fromJS({
           name: data.name,
           record_type: recordType,
-          module_ids: userModules.toJS(),
+          module_ids: userModules,
           filters: compact(filters)
-        }
+        })
       };
 
       dispatch(saveSearch(body, i18n.t("saved_search.save_success")));

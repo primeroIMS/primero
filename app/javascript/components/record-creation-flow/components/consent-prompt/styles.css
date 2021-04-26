@@ -1,0 +1,55 @@
+.container {
+  & form {
+    display: flex;
+    flex-direction: column;
+
+    & fieldset {
+      margin-bottom: 0;
+
+      & legend {
+        color: $(theme.primero.colors.black);
+        font-weight: bolder;
+      }
+
+      & label {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.introductoryText {
+  font-size: $(theme.typography.pxToRem(16));
+}
+
+.createCaseText {
+  font-weight: bold;
+  padding: 16px;
+  border: 1px solid $(theme.primero.colors.yellow);
+  border-radius: .5em;
+}
+
+
+.introductoryText {
+  font-size: $(theme.typography.pxToRem(16));
+}
+
+.consentLabel {
+  font-weight: bold;
+  font-size: $(theme.typography.pxToRem(15));
+}
+
+.fieldsContent {
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
+.createButtonContainer {
+  bottom: 0;
+  position: sticky;
+  width: 100%;
+  padding: 1em;
+  border-top: 1px solid $(theme.primero.colors.lightGrey2);
+  background-color: $(theme.primero.colors.white)
+}

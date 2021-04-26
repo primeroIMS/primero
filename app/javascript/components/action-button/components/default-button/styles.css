@@ -12,14 +12,14 @@
 }
 
 .outlined {
-  border: 2px solid $(theme.primero.colors.blue);
+  border: 1px solid $(theme.primero.colors.blue);
   color: $(theme.primero.colors.blue);
   background: $(theme.primero.colors.white);
   font-weight: bold;
 
   &:hover {
     color: $(theme.primero.colors.white);
-    border: 2px solid $(theme.primero.colors.blue);
+    border: 1px solid $(theme.primero.colors.blue);
     background: $(theme.primero.colors.blue);
   }
 }
@@ -33,6 +33,10 @@
   background: $(theme.primero.colors.grey);
 }
 
+.isDisabled {
+  cursor: not-allowed;
+}
+
 .buttonProgress {
   position: absolute;
   margin-top: 6px;
@@ -42,9 +46,8 @@
 @media $(theme.breakpoints.down("sm")) {
   .defaultActionButton {
     min-width: 3em;
-    border-radius: 50%;
-    padding: 0;
-    
+    padding: 0 15px;
+
     & span {
 
       & span {

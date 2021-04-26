@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
@@ -10,32 +10,33 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts, saveRecord } from "../../records";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { currentUser } from "../../user";
 import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
+import { useMemoizedSelector } from "../../../libs";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
 import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   close,
-  openRequestDialog,
+  open,
   subMenuItems,
   record,
   recordType,
   pending,
   setPending,
   approvalType,
-  confirmButtonLabel,
-  dialogName
+  confirmButtonLabel
 }) => {
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
   const [approval, setApproval] = useState("approved");
@@ -43,14 +44,14 @@ const Component = ({
   const [renderCasePlan, setRenderCasePlan] = useState(false);
   const [typeOfCasePlan, setTypeOfCasePlan] = useState("");
 
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
-  const username = useSelector(state => currentUser(state));
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
+  const username = useMemoizedSelector(state => currentUser(state));
+  const alertTypes = useMemoizedSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   const showTypeOfCasePlan = userModules
     .filter(userModule => userModule.unique_id === MODULES.CP)
     // eslint-disable-next-line camelcase
     ?.first()?.options?.selectable_approval_types;
-  const alertTypes = useSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
 
   useEffect(() => {
     if (requestType === CASE_PLAN) {
@@ -102,11 +103,11 @@ const Component = ({
           approvalId: requestType,
           body: actionBody,
           message: i18n.t(message, {
-            approval_label: approvalsLabels[requestType]
+            approval_label: approvalsLabels.get(requestType)
           }),
-          failureMessage: i18n.t(`${recordType}.request_approval_failure`),
-          dialogName,
-          username
+          messageFromQueue: i18n.t("offline_submitted_changes"),
+          currentUser: username,
+          failureMessage: i18n.t(`${recordType}.request_approval_failure`)
         })
       );
 
@@ -118,14 +119,12 @@ const Component = ({
             { data: { case_plan_approval_type: typeOfCasePlan } },
             record.get("id"),
             "",
-            false,
+            i18n.t("offline_submitted_changes"),
             false,
             false
           )
         );
       }
-
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
 
       if (recordAlerts?.size <= 0) {
         dispatch(fetchAlerts());
@@ -140,8 +139,8 @@ const Component = ({
   ));
 
   const typeOfCasePlanOptions = alertTypes.map(alertType => (
-    <MenuItem key={alertType.get("id")} value={alertType.get("id")}>
-      {alertType.get("display_text")}
+    <MenuItem key={alertType.id} value={alertType.id}>
+      {alertType.display_text}
     </MenuItem>
   ));
 
@@ -195,7 +194,7 @@ const Component = ({
 
   return (
     <ActionDialog
-      open={openRequestDialog}
+      open={open}
       dialogTitle=""
       successHandler={handleSubmit}
       cancelHandler={handleCancel}
@@ -215,8 +214,7 @@ Component.propTypes = {
   approvalType: PropTypes.string,
   close: PropTypes.func,
   confirmButtonLabel: PropTypes.string,
-  dialogName: PropTypes.string,
-  openRequestDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string,

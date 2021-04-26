@@ -1,3 +1,5 @@
+import { ORIENTATION } from "./constants";
+
 /* eslint-disable import/prefer-default-export */
 export const getLocaleDir = locale => {
   switch (locale) {
@@ -5,8 +7,12 @@ export const getLocaleDir = locale => {
     case "ar-LB":
     case "ku":
     case "zh":
-      return "rtl";
+    case "ar-SD":
+    case "ar-JO":
+    case "fa-AF":
+    case "ps-AF":
+      return ORIENTATION.rtl;
     default:
-      return "ltr";
+      return ORIENTATION.ltr;
   }
 };

@@ -7,8 +7,7 @@ import NAMESPACE from "./namespace";
 import { PrimeroModuleRecord } from "./records";
 
 const DEFAULT_STATE = fromJS({
-  userIdle: false,
-  online: window.navigator.onLine
+  userIdle: false
 });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
@@ -17,35 +16,37 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       const {
         agencies,
         modules,
-        locales,
         default_locale: defaultLocale,
         base_language: baseLanguage,
         primero_version: primeroVersion,
         reporting_location_config: reportingLocationConfig,
         age_ranges: ageRanges,
-        approvals_labels: approvalsLabels
-      } = payload;
+        approvals_labels: approvalsLabels,
+        code_of_conduct: codesOfConduct,
+        system_options: systemOptions,
+        export_require_password: exportRequirePassword
+      } = payload.data;
 
       return state.merge(
         fromJS({
           agencies,
           modules: mapEntriesToRecord(modules, PrimeroModuleRecord),
-          locales,
           defaultLocale,
           baseLanguage,
           primeroVersion,
           reportingLocationConfig,
           ageRanges,
-          approvalsLabels
+          approvalsLabels,
+          codesOfConduct,
+          systemOptions,
+          exportRequirePassword
         })
       );
     }
     case actions.SET_USER_IDLE:
       return state.set("userIdle", payload);
-    case actions.NETWORK_STATUS:
-      return state.set("online", payload);
     case "user/LOGOUT_SUCCESS":
-      return DEFAULT_STATE;
+      return DEFAULT_STATE.set("primero", state.get("primero"));
     case actions.FETCH_SYSTEM_PERMISSIONS_FAILURE:
       return state.set("errors", true);
     case actions.FETCH_SYSTEM_PERMISSIONS_FINISHED:
@@ -77,6 +78,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("disabledApplication", payload);
     case actions.FETCH_MANAGED_ROLES_SUCCESS:
       return state.set("managedRoles", fromJS(payload.data));
+    case actions.FETCH_SANDBOX_UI_SUCCESS:
+      return state.set("primero", fromJS(payload.data));
+    case actions.SET_RETURN_URL:
+      return state.set("returnUrl", fromJS(payload));
     default:
       return state;
   }

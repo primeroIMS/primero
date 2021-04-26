@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
@@ -6,8 +5,11 @@ import { Brightness1 as Circle } from "@material-ui/icons";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Jewel = ({ value, isForm, isList, isError }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
+  const classes = clsx(css.circleForm, css.error);
 
   if (isList) {
     return <Circle className={css.circleList} />;
@@ -17,7 +19,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
     return (
       <>
         {value}
-        <Circle className={clsx(css.circleForm, css.error)} />
+        <Circle className={classes} />
       </>
     );
   }
@@ -27,7 +29,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
       {isForm ? (
         <>
           {value}
-          {isError && <Circle className={clsx(css.circleForm, css.error)} />}
+          {isError && <Circle className={classes} />}
           <Circle className={css.circleForm} />
         </>
       ) : (
@@ -46,7 +48,7 @@ Jewel.propTypes = {
   isError: PropTypes.bool,
   isForm: PropTypes.bool,
   isList: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.bool])
 };
 
 export default Jewel;

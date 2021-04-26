@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { FormContext } from "react-hook-form";
 
 import { setupMountedComponent } from "../../../test";
 import ActionDialog from "../../action-dialog";
@@ -78,7 +77,7 @@ describe("<RecordActions /> - <Exports />", () => {
     }
   });
   const props = {
-    openExportsDialog: true,
+    open: true,
     close: () => {},
     recordType: RECORD_PATH.cases,
     userPermissions: fromJS(["manage"])
@@ -88,12 +87,6 @@ describe("<RecordActions /> - <Exports />", () => {
     const { component } = setupMountedComponent(Exports, props, state);
 
     expect(component.find(ActionDialog)).to.have.lengthOf(1);
-  });
-
-  it("renders FormContext", () => {
-    const { component } = setupMountedComponent(Exports, props, state);
-
-    expect(component.find(FormContext)).to.have.lengthOf(1);
   });
 
   it("should accept valid props", () => {
@@ -114,7 +107,7 @@ describe("<RecordActions /> - <Exports />", () => {
     [
       "close",
       "currentPage",
-      "openExportsDialog",
+      "open",
       "pending",
       "record",
       "recordType",

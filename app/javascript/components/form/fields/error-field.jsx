@@ -1,13 +1,11 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { useFormContext } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 
 import { ERROR_FIELD_NAME } from "./constants";
 
-const ErrorField = ({ errorsToCheck }) => {
-  const { errors } = useFormContext();
+const ErrorField = ({ errorsToCheck, formMethods }) => {
+  const { errors } = formMethods;
 
   if (!errorsToCheck?.size) {
     return false;

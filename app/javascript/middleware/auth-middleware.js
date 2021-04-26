@@ -1,64 +1,46 @@
-import { push } from "connected-react-router";
 import get from "lodash/get";
 
-import { LOGIN_SUCCESS_CALLBACK } from "../components/pages/login/login-form";
-import { signOut } from "../components/pages/login/idp-selection";
-import { Actions, attemptSignout, setAuthenticatedUser } from "../components/user";
-import DB from "../db";
+import { actions } from "../components/login/components/login-form";
+import { Actions } from "../components/user";
 import { ROUTES } from "../config";
 
-import { startSignout } from "./utils";
-
-function redirectTo(store, path) {
-  store.dispatch(push(path));
-}
-
-function logoutSuccessHandler(store) {
-  localStorage.removeItem("user");
-  redirectTo(store, "/login");
-}
-
-async function loginSuccessHandler(store, user) {
-  const { user_name: username, id } = user;
-
-  const userFromDB = await DB.getRecord("user", username);
-
-  if (!userFromDB) {
-    await DB.clearDB();
-  }
-
-  localStorage.setItem("user", JSON.stringify({ username, id }));
-  store.dispatch(setAuthenticatedUser({ username, id }));
-  redirectTo(store, ROUTES.dashboard);
-}
+import {
+  LOGIN_PATTERN,
+  RESET_PATTERN,
+  ROOT_ROUTE,
+  IS_AUTHENTICATED_PATH,
+  USE_IDENTITY_PROVIDER_PATH,
+  LOCATION_CHANGED_ACTION
+} from "./constants";
+import { startSignout, handleReturnUrl, redirectTo, loginSuccessHandler, logoutSuccessHandler } from "./utils";
 
 const authMiddleware = store => next => action => {
-  const routeChanged = action.type === "@@router/LOCATION_CHANGE";
-
+  const state = store.getState();
+  const routeChanged = action.type === LOCATION_CHANGED_ACTION;
   const location = routeChanged && get(action, "payload.location.pathname", false);
+  const isAuthenticated = state.getIn(IS_AUTHENTICATED_PATH, false);
+  const useIdentityProvider = state.getIn(USE_IDENTITY_PROVIDER_PATH, false);
 
-  const isAuthenticated = store.getState().getIn(["user", "isAuthenticated"], false);
-
-  if (routeChanged && location === "/logout") {
-    startSignout(store, attemptSignout, signOut);
+  if (routeChanged && location === ROUTES.logout) {
+    startSignout(store);
   }
 
-  if (["/login", "/"].includes(location) && isAuthenticated) {
+  if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {
     redirectTo(store, ROUTES.dashboard);
   }
 
-  if (action.type === LOGIN_SUCCESS_CALLBACK) {
-    loginSuccessHandler(store, action.payload.json);
+  if ([actions.LOGIN_SUCCESS_CALLBACK, Actions.RESET_PASSWORD_SUCCESS].includes(action.type)) {
+    loginSuccessHandler(store, action?.payload?.json || action?.payload);
   }
 
   if ([Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type)) {
     logoutSuccessHandler(store);
   }
 
-  const searchPattern = /^\/login/;
-
-  if (routeChanged && !searchPattern.test(location) && !isAuthenticated) {
-    redirectTo(store, "/login");
+  if (RESET_PATTERN.test(location) && useIdentityProvider) {
+    redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
+  } else if (routeChanged && !LOGIN_PATTERN.test(location) && !RESET_PATTERN.test(location) && !isAuthenticated) {
+    handleReturnUrl(store, location);
   }
 
   next(action);

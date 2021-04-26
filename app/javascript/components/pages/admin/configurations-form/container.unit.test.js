@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Tooltip } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
@@ -23,7 +24,8 @@ describe("<ConfigurationsForm />", () => {
             created_on: "2020-08-26T15:35:13.720Z",
             created_by: "primero_swims_admin",
             applied_on: null,
-            applied_by: null
+            applied_by: null,
+            can_apply: true
           }
         }
       }
@@ -50,8 +52,8 @@ describe("<ConfigurationsForm />", () => {
       expect(component.find(FormAction)).to.have.lengthOf(2);
     });
 
-    it("should render 5 TextInput components", () => {
-      expect(component.find(TextInput)).to.have.lengthOf(5);
+    it("should render 6 TextInput components", () => {
+      expect(component.find(TextInput)).to.have.lengthOf(6);
     });
 
     it("should render 2 DateInput components", () => {
@@ -59,7 +61,24 @@ describe("<ConfigurationsForm />", () => {
     });
 
     it("should render 2 ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(2);
+      expect(component.find(ActionDialog)).to.have.lengthOf(3);
+    });
+  });
+
+  describe("when the configuration can not be applied", () => {
+    const props = {
+      mode: MODES.show
+    };
+
+    const { component } = setupMountedComponent(
+      ConfigurationsForm,
+      props,
+      initialState.setIn(["records", "admin", "configurations", "selectedConfiguration", "can_apply"], false)
+    );
+
+    it("should render the apply button as disabled", () => {
+      expect(component.find(FormAction).last().props().disabled).to.be.true;
+      expect(component.find(Tooltip)).to.have.lengthOf(1);
     });
   });
 
@@ -82,7 +101,7 @@ describe("<ConfigurationsForm />", () => {
     });
 
     it("should render 2 ActionDialog component", () => {
-      expect(component.find(ActionDialog)).to.have.lengthOf(2);
+      expect(component.find(ActionDialog)).to.have.lengthOf(3);
     });
   });
 });

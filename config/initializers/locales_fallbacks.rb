@@ -1,20 +1,32 @@
 # frozen_string_literal: true
 
-# For defined Primero locales, regional locales such as :"ar-LB" fall back to the
-# simplified language locale (:ar). All locales fall back to :en.
-#
-# Primero uses I18n.default_locale to store the configurable application-wide locale,
-# rather than the real default locale which is assumed/hard-coded to be English (:en).
+I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
-I18n.backend.class.send(:include, I18n::Backend::Fallbacks)
-I18n.fallbacks.clear
+EN_FALLBACK = %i[en]
+AR_FALLBACK = %i[ar en]
+PT_FALLBACK = %i[pt en]
 
-Primero::Application::LOCALES.each do |locale|
-  chain = []
-  region = locale.to_s.split('-')
-  chain << region[0].to_sym if region.size > 1
-  unless locale == :en
-    chain << :en
-    I18n.fallbacks.map(locale => chain)
-  end
-end
+I18n.fallbacks = { 
+  en: EN_FALLBACK,
+  ar: EN_FALLBACK,
+  "ar-LB": AR_FALLBACK,
+  fr: EN_FALLBACK,
+  so: EN_FALLBACK,
+  es: EN_FALLBACK,
+  bn: EN_FALLBACK,
+  id: EN_FALLBACK,
+  my: EN_FALLBACK,
+  th: EN_FALLBACK,
+  ku: AR_FALLBACK,
+  'ar-SD': AR_FALLBACK,
+  'ar-JO': AR_FALLBACK, 
+  'fa-AF': EN_FALLBACK, 
+  'ps-AF': EN_FALLBACK,
+  pt: EN_FALLBACK,
+  'pt-BR': PT_FALLBACK
+}.map{ |key, val| [key, key == :en ? val : [key.to_sym] + val] }
+ .to_h
+ .with_indifferent_access
+
+
+

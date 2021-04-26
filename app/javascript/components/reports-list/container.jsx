@@ -1,8 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
@@ -11,7 +9,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
-import { useThemeHelper } from "../../libs";
+import { displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -26,24 +24,25 @@ import NAMESPACE from "./namespace";
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
 
-  const reports = useSelector(state => selectReports(state));
-  const isLoading = useSelector(state => selectLoading(state));
-  const reportsPagination = useSelector(state => selectReportsPagination(state));
-  const metadata = useSelector(state => getMetadata(state, NAMESPACE));
+  const reports = useMemoizedSelector(state => selectReports(state));
+  const isLoading = useMemoizedSelector(state => selectLoading(state));
+  const reportsPagination = useMemoizedSelector(state => selectReportsPagination(state));
+  const metadata = useMemoizedSelector(state => getMetadata(state, NAMESPACE));
+
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   // const actionMenuItems = fromJS([
   //   {
   //     id: "add-new",
   //     label: "Add New",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Add New")
   //   },
   //   {
   //     id: "arrange-items",
   //     label: "Arrange Items",
-  //     onClick: () => console.log("Do Something")
+  //     onClick: () => console.log("Arrange Items")
   //   },
   //   {
   //     id: "refresh-data",
@@ -90,8 +89,8 @@ const Reports = () => {
                   <Card key={report.get("id")} className={css.card} elevation={3}>
                     <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
                       <CardContent className={css.cardContent}>
-                        <h3 className={css.title}>{report.getIn(["name", i18n.locale], "")}</h3>
-                        <p className={css.description}>{report.getIn(["description", i18n.locale], "")}</p>
+                        <h3 className={css.title}>{displayNameHelper(report.get("name"), i18n.locale)}</h3>
+                        <p className={css.description}>{displayNameHelper(report.get("description"), i18n.locale)}</p>
                       </CardContent>
                     </CardActionArea>
                   </Card>
@@ -109,9 +108,5 @@ const Reports = () => {
 };
 
 Reports.displayName = "Reports";
-
-Reports.propTypes = {
-  location: PropTypes.object.isRequired
-};
 
 export default Reports;

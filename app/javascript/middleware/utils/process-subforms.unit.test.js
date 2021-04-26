@@ -6,7 +6,13 @@ import { SUBFORM_SECTION } from "../../components/form";
 import processSubforms from "./process-subforms";
 
 describe("middleware/utils/process-subforms.js", () => {
-  stub(generate, "messageKey").returns(4);
+  beforeEach(() => {
+    stub(generate, "messageKey").returns(4);
+  });
+
+  afterEach(() => {
+    generate.messageKey?.restore();
+  });
 
   const callback = {
     type: "SAVE_PARENT",
@@ -158,6 +164,4 @@ describe("middleware/utils/process-subforms.js", () => {
       expect(parentFormCallback.api.body.data.fields).to.deep.equals(expectedFields);
     });
   });
-
-  generate.messageKey.restore();
 });

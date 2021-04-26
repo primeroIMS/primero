@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
@@ -15,27 +15,28 @@ import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
 import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
-import bindFormSubmit from "../../../../libs/submit-form";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";
 import { fetchUserGroup, clearSelectedUserGroup, saveUserGroup } from "./action-creators";
 import { getUserGroup, getServerErrors, getSavingRecord } from "./selectors";
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
+
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const userGroup = useSelector(state => getUserGroup(state));
-  const formErrors = useSelector(state => getServerErrors(state));
-  const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
-  const saving = useSelector(state => getSavingRecord(state));
-  const validationSchema = validations(formMode, i18n);
-
   const cantEditUserGroup = usePermissions(NAMESPACE, WRITE_RECORDS);
+
+  const userGroup = useMemoizedSelector(state => getUserGroup(state));
+  const formErrors = useMemoizedSelector(state => getServerErrors(state));
+  const saving = useMemoizedSelector(state => getSavingRecord(state));
+
+  const validationSchema = validations(formMode, i18n);
 
   const handleSubmit = data => {
     dispatch(
@@ -73,7 +74,7 @@ const Container = ({ mode }) => {
       <>
         <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
         <FormAction
-          actionHandler={() => bindFormSubmit(formRef)}
+          options={{ form: FORM_ID, type: "submit" }}
           text={i18n.t("buttons.save")}
           savingRecord={saving}
           startIcon={<CheckIcon />}
@@ -101,11 +102,11 @@ const Container = ({ mode }) => {
       </PageHeading>
       <PageContent>
         <Form
+          formID={FORM_ID}
           useCancelPrompt
           mode={mode}
           formSections={form(i18n, formMode)}
           onSubmit={handleSubmit}
-          ref={formRef}
           validations={validationSchema}
           initialValues={userGroup.toJS()}
           formErrors={formErrors}

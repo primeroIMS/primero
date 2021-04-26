@@ -1,0 +1,46 @@
+.subformDrawer {
+  width: 70%;
+}
+
+.container {
+  & fieldset {
+    width: 100%;
+    margin-bottom: 1em !important;
+
+    & div {
+      margin: 0 !important;
+
+      & span {
+        font-size: .875rem !important;
+      }
+    }
+  }
+}
+
+.title {
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 20px 0 20px;
+
+  & h1 {
+    flex: 1 0 auto;
+    margin: 0;
+  }
+}
+
+.button {
+  color: $(theme.primero.colors.black) !important;
+}
+
+.skipButtonContainer {
+  border-top: 1px solid $(theme.primero.colors.lightGrey);
+  margin-top: 2em;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 20px;
+
+  & button {
+    margin-top: 1.5em;
+  }
+}

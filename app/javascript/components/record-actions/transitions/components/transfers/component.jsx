@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Formik } from "formik";
 import { object, string } from "yup";
@@ -8,11 +8,13 @@ import { object, string } from "yup";
 import { useI18n } from "../../../../i18n";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectAgencies } from "../../../../application/selectors";
-import { getLocations } from "../../../../record-form/selectors";
 import { RECORD_TYPES } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
+import { useMemoizedSelector } from "../../../../../libs";
+import { OPTION_TYPES } from "../../../../form";
+import { getOptions } from "../../../../form/selectors";
 
 import {
   TRANSFER_FIELD,
@@ -34,24 +36,22 @@ const TransferForm = ({
   transferRef,
   setPending,
   disabled,
-  setDisabled
+  setDisabled,
+  mode
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const firstUpdate = React.useRef(true);
+  const firstUpdate = useRef(true);
 
   useEffect(() => {
     dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
   }, []);
 
-  const users = useSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
-
-  const hasErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
-
-  const agencies = useSelector(state => selectAgencies(state));
-
-  const locations = useSelector(state => getLocations(state));
+  const users = useMemoizedSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
+  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
+  const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n));
 
   const canConsentOverride =
     userPermissions &&
@@ -121,7 +121,9 @@ const TransferForm = ({
         i18n,
         dispatch,
         providedConsent,
-        canConsentOverride
+        canConsentOverride,
+        record,
+        mode
       ),
     validateOnBlur: false,
     validateOnChange: false,
@@ -135,6 +137,7 @@ TransferForm.propTypes = {
   disabled: PropTypes.bool,
   handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
+  mode: PropTypes.object,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

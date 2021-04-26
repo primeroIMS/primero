@@ -8,13 +8,14 @@ module Ownable
     store_accessor :data, :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location,
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
                    :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
-                   :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies
+                   :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
+                   :associated_user_names
 
     searchable do
       string :associated_user_names, multiple: true
       string :associated_user_groups, multiple: true
       string :associated_user_agencies, multiple: true
-      integer :owned_by_groups, multiple: true
+      string :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
       boolean :not_edited_by_owner
       %w[
@@ -34,16 +35,13 @@ module Ownable
   end
 
   def owner_fields_for(user)
-    self.owned_by = user&.user_name
+    self.owned_by ||= user&.user_name
     self.owned_by_full_name = user&.full_name
+    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
   end
 
   def owner
     users_by_association[:owner]
-  end
-
-  def associated_user_names
-    ([owned_by] + (assigned_user_names || [])).compact
   end
 
   # TODO: Refactor as association or AREL query after we migrated User
@@ -53,13 +51,12 @@ module Ownable
     @associated_users ||= user_ids.present? ? User.where(user_name: user_ids) : []
   end
 
-  # TODO: Refactor as association or AREL query after we migrated PrimeroModule
   def module
     @record_module ||= PrimeroModule.find_by(unique_id: module_id) if module_id
   end
 
   def owned_by_agency
-    @record_agency ||= Agency.find_by(id: owned_by_agency_id).agency_code if owned_by_agency_id
+    @record_agency ||= Agency.find_by(unique_id: owned_by_agency_id)&.agency_code if owned_by_agency_id
   end
 
   def users_by_association
@@ -80,6 +77,8 @@ module Ownable
     @users_by_association = nil
     @associated_users = nil
     @record_agency = nil
+
+    self.associated_user_names = ([owned_by] + (assigned_user_names || [])).compact.uniq
     if owner.blank?
       # Revert owned by changes and bail if new user doesn't exist
       self.owned_by = changes_to_save_for_record['owned_by'][0] if changes_to_save_for_record['owned_by'].present?
@@ -101,8 +100,8 @@ module Ownable
 
   def update_owned_by
     self.owned_by_full_name = owner&.full_name
-    self.owned_by_agency_id = owner&.organization&.id
-    self.owned_by_groups = owner&.user_group_ids # TODO: This is wrong. This need to the stable unique_id
+    self.owned_by_agency_id = owner&.organization&.unique_id
+    self.owned_by_groups = owner&.user_group_unique_ids
     self.owned_by_location = owner&.location
     self.owned_by_user_code = owner&.code
     self.owned_by_agency_office = owner&.agency_office

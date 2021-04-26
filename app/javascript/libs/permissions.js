@@ -9,7 +9,9 @@ export const ACTIONS = {
   ASSIGN: "assign",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
+  CHANGE_LOG: "change_log",
   CLOSE: "close",
+  COPY: "copy",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
@@ -22,12 +24,15 @@ export const ACTIONS = {
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
   DASH_APPROVALS_GBV_CLOSURE_PENDING: "approvals_gbv_closure_pending",
+  DASH_CASES_BY_SOCIAL_WORKER: "dash_cases_by_social_worker",
   DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
   DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
   DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_CASE_RISK: "case_risk",
+  DASH_CASES_TO_ASSIGN: "dash_cases_to_assign",
+  DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
@@ -57,6 +62,22 @@ export const ACTIONS = {
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   INCIDENT_FROM_CASE: "incident_from_case",
+  KPI_ASSESSMENT_STATUS: "kpi_assessment_status",
+  KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE: "kpi_average_followup_meetings_per_case",
+  KPI_AVERAGE_REFERRALS: "kpi_average_referrals",
+  KPI_CASE_CLOSURE_RATE: "kpi_case_closure_rate",
+  KPI_CASE_LOAD: "kpi_case_load",
+  KPI_CLIENT_SATISFACTION_RATE: "kpi_client_satisfaction_rate",
+  KPI_COMPLETED_CASE_ACTION_PLANS: "kpi_completed_case_action_plans",
+  KPI_COMPLETED_CASE_SAFETY_PLANS: "kpi_completed_case_safety_plans",
+  KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS: "kpi_completed_supervisor_approved_case_action_plans",
+  KPI_GOAL_PROGRESS_PER_NEED: "kpi_goal_progress_per_need",
+  KPI_NUMBER_OF_CASES: "kpi_number_of_cases",
+  KPI_NUMBER_OF_INCIDENTS: "kpi_number_of_incidents",
+  KPI_REPORTING_DELAY: "kpi_reporting_delay",
+  KPI_SERVICES_PROVIDED: "kpi_services_provided",
+  KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
+  KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
@@ -73,6 +94,7 @@ export const ACTIONS = {
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
+  SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
   WRITE: "write"
@@ -87,8 +109,11 @@ export const RESOURCES = {
   cases: "cases",
   configurations: "primero_configurations",
   contact_information: "contact_information",
+  codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
   incidents: "incidents",
+  kpis: "kpis",
+  locations: "locations",
   lookups: "lookups",
   metadata: "metadata",
   potential_matches: "potential_matches",
@@ -134,6 +159,8 @@ export const CREATE_RECORDS = [...MANAGE, ACTIONS.CREATE];
 
 export const WRITE_RECORDS = [...MANAGE, ACTIONS.WRITE];
 
+export const COPY_ROLES = [...MANAGE, ACTIONS.COPY];
+
 export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
 
 export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
@@ -154,7 +181,7 @@ export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
-export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,
@@ -174,8 +201,7 @@ export const APPROVAL = [
   ACTIONS.APPROVE_GBV_CLOSURE
 ];
 
-export const SHOW_EXPORTS = [
-  ...MANAGE,
+export const EXPORTS_PERMISSIONS = [
   ACTIONS.EXPORT_CASE_PDF,
   ACTIONS.EXPORT_CSV,
   ACTIONS.EXPORT_CUSTOM,
@@ -189,6 +215,8 @@ export const SHOW_EXPORTS = [
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
 ];
+
+export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
 
 export const SHOW_APPROVALS = [
   ...MANAGE,
@@ -229,3 +257,35 @@ export const GROUP_PERMISSIONS = {
   GROUP: "group",
   SELF: "self"
 };
+
+export const allowedExportTypes = userPermissions =>
+  userPermissions &&
+  userPermissions.filter(permission => {
+    return EXPORTS_PERMISSIONS.includes(permission);
+  });
+
+export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
+
+export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];
+
+export const VIEW_KPIS = [
+  ACTIONS.READ,
+  ACTIONS.KPI_ASSESSMENT_STATUS,
+  ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
+  ACTIONS.KPI_AVERAGE_REFERRALS,
+  ACTIONS.KPI_CASE_CLOSURE_RATE,
+  ACTIONS.KPI_CASE_LOAD,
+  ACTIONS.KPI_CLIENT_SATISFACTION_RATE,
+  ACTIONS.KPI_COMPLETED_CASE_ACTION_PLANS,
+  ACTIONS.KPI_COMPLETED_CASE_SAFETY_PLANS,
+  ACTIONS.KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
+  ACTIONS.KPI_GOAL_PROGRESS_PER_NEED,
+  ACTIONS.KPI_NUMBER_OF_CASES,
+  ACTIONS.KPI_NUMBER_OF_INCIDENTS,
+  ACTIONS.KPI_REPORTING_DELAY,
+  ACTIONS.KPI_SERVICES_PROVIDED,
+  ACTIONS.KPI_SUPERVISOR_TO_CASEWORKER_RATIO,
+  ACTIONS.KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
+];
+
+export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];

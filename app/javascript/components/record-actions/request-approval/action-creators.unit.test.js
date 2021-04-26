@@ -1,6 +1,8 @@
 import { stub, useFakeTimers } from "../../../test";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { SET_DIALOG, SET_DIALOG_PENDING } from "../actions";
+import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
+import { FETCH_RECORD_ALERTS } from "../../records/actions";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
@@ -26,7 +28,8 @@ describe("<RequestApproval /> - Action Creators", () => {
       approvalId: "bia",
       body: { data: { approval_status: "requested" } },
       message: "Updated successfully",
-      failureMessage: "updated unsuccessfully"
+      failureMessage: "updated unsuccessfully",
+      messageFromQueue: "Message from queue"
     };
 
     const expectedAction = {
@@ -34,7 +37,7 @@ describe("<RequestApproval /> - Action Creators", () => {
       api: {
         path: "cases/10/approvals/bia",
         queueOffline: true,
-        responseExtraParams: {
+        responseRecordValues: {
           requested_by: undefined,
           approval_requested_for: "bia",
           approval_date: new Date("10/01/2020")
@@ -42,6 +45,10 @@ describe("<RequestApproval /> - Action Creators", () => {
         responseRecordArray: true,
         responseRecordID: 10,
         responseRecordKey: "approval_subforms",
+        responseRecordParams: {
+          approval_status_bia: "pending"
+        },
+        id: 10,
         method: "PATCH",
         body: args.body,
         successCallback: [
@@ -49,6 +56,7 @@ describe("<RequestApproval /> - Action Creators", () => {
             action: ENQUEUE_SNACKBAR,
             payload: {
               message: args.message,
+              messageFromQueue: args.messageFromQueue,
               options: {
                 variant: "success",
                 key: generate.messageKey(args.message)
@@ -56,21 +64,21 @@ describe("<RequestApproval /> - Action Creators", () => {
             }
           },
           {
-            action: SET_DIALOG,
-            payload: {
-              dialog: args.dialogName,
-              open: false
-            }
+            action: CLEAR_DIALOG
           },
           {
-            action: SET_DIALOG_PENDING,
-            payload: {
-              pending: false
-            }
+            api: {
+              path: "cases/10/alerts",
+              skipDB: true,
+              performFromQueue: true
+            },
+            action: `cases/${FETCH_RECORD_ALERTS}`
           }
         ],
         db: {
-          recordType: null
+          id: 10,
+          collection: DB_COLLECTIONS_NAMES.RECORDS,
+          recordType: "cases"
         },
         failureCallback: [
           {

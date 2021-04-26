@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,8 +8,10 @@ import SubformDateHeader from "../subform-header-date";
 import styles from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ field, values, locale, displayName, index, onClick }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames
@@ -50,15 +51,17 @@ const Component = ({ field, values, locale, displayName, index, onClick }) => {
     })
     .filter(i => i);
 
+  const handleClick = () => onClick(index);
+
   if (collapsedFieldNames.length && values.length) {
     return (
       <div className={css.subformHeader}>
-        <Button onClick={() => onClick(index)}>{subformValues}</Button>
+        <Button onClick={handleClick}>{subformValues}</Button>
       </div>
     );
   }
 
-  return <Button onClick={() => onClick(index)}>{displayName?.[locale]}</Button>;
+  return <Button onClick={handleClick}>{displayName?.[locale]}</Button>;
 };
 
 Component.displayName = SUBFORM_HEADER;

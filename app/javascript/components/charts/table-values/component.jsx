@@ -1,41 +1,52 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import clsx from "clsx";
+import isEmpty from "lodash/isEmpty";
 
+import tableValuesTheme from "./theme";
+import TableHeader from "./components/table-header";
 import styles from "./styles.css";
+import generateKey from "./utils";
+
+const useStyles = makeStyles(styles);
 
 const TableValues = ({ columns, values }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
-  // eslint-disable-next-line react/no-multi-comp, react/display-name
-  const singleRowRender = rowValues => (
-    <TableRow key={`${rowValues[0]}-${Math.floor(Math.random() * 100 + 1)}-data`}>
-      {rowValues.map(row => (
-        <TableCell key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}>{row}</TableCell>
-      ))}
-    </TableRow>
-  );
+  const columnsOfObjects = columns.every(column => typeof column === "object");
+  const itemsNo = !isEmpty(columns) && columnsOfObjects && columns?.length >= 2 ? columns[1].items.length : 0;
+  const selector = `& td:nth-child(${itemsNo}n + ${itemsNo + 1})`;
 
-  const rowRender = rowValues => {
-    if (Array.isArray(rowValues[0])) {
-      return rowValues.map(row => rowRender(row));
-    }
+  const renderRows = allValues => {
+    return allValues.map(value => {
+      const { colspan, row } = value;
+      const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
 
-    return singleRowRender(rowValues);
+      return (
+        <MuiThemeProvider key={generateKey()} theme={tableValuesTheme(selector)}>
+          <TableRow className={classes} key={`${Math.floor(Math.random() * 10000 + 1)}-data`}>
+            {row.map(r => {
+              return (
+                <TableCell colSpan={colspan} key={generateKey(value)}>
+                  <span>{r}</span>
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        </MuiThemeProvider>
+      );
+    });
   };
 
   return (
     <Paper className={css.root}>
       <Table className={css.table}>
-        <TableHead>
-          <TableRow>
-            {columns.map(column => {
-              return <TableCell key={`${column}-column`}>{column}</TableCell>;
-            })}
-          </TableRow>
+        <TableHead className={css.tableHeader}>
+          <TableHeader columns={columns} />
         </TableHead>
-        <TableBody>{rowRender(values)}</TableBody>
+        <TableBody>{renderRows(values)}</TableBody>
       </Table>
     </Paper>
   );

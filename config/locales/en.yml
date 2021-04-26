@@ -14,20 +14,33 @@
 en:
   'true': 'Yes'
   'false': 'No'
+  accepted: Accepted
   cancel: Cancel
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
+  sandbox_ui: Demo
   description: Description
   form: Form
   name: Name
   offline: Offline
+  unavailable_offline: Unavailable offline
+  online: Online
   yes_label: 'Yes'
+  or_label: or
+  select_provider: Select provider
+  log_in_primero_idp: log in with %{idp_name} username
+  offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
+  updated: Updated
+  sync:
+    success: "%{records} records successfully synced."
+    error:
+      create: Failed to create %{record_type}. Please contact support.
+      update: Update to %{record_type} %{short_id} failed. Please contact support.
 
   actions:
     approvals: Approvals
     button: Actions
-    change_log: Change Log
     close: Close
     description:
       invalid: Invalid record
@@ -52,20 +65,27 @@ en:
     code: Agency Code
     description: Description
     disabled: Disabled
+    exclude_agency_from_lookups: Exclude this agency from lookups and filters
+    exclude_agency_from_lookups_help: Check this if the Agency doesn’t have users (e.g., the Agency was added so the logo could be applied to exports.
     label: Agency
-    logo_enabled: Logo Enabled?
-    logo_enabled_help: Display these logos on the Login page and Navigation menu.
+    logo_enabled: Display this agency’s logo in Primero?
+    logo_enabled_help: Display this agency’s logo in Primero?
     logo_icon: Icon Logo
     logo_icon_help: This will appear on small screen sizes, tablets, and phones. This
       should be a square.
     logo_large: Large Logo
-    logo_large_help: This will appear on large screen sizes. This should be a rectangle,
-      with the length longer than the height.
+    logo_large_help: This will appear on large screen sizes and in PDF exports. This should be a rectangle, with the length longer than the height.
     messages:
       created: Agency was successfully created.
       updated: Agency was successfully updated.
     name: Agency Name
+    pdf_logo_option: Make logo available for PDF exports?
+    pdf_logo_option_help: 'Note:  user’s Agency logos are available to them by default, so you only check this if you want this logo to be available to all users.'
     services: Agency Services
+    terms_of_use: Terms of Use
+    terms_of_use_help: Only PDF files permitted.
+    terms_of_use_download_button: Download PDF
+    terms_of_use_enabled: Display Terms of Use?
   approvals:
     approved_by: Approved By
     case_plan_type_label: Case plan type
@@ -95,6 +115,11 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+  form_export:
+    label: Export Form Configuration
+    include_hidden: Include hidden forms and fields?
+    file_name: Create your own file name (Optional)
+    success_message: Successfully generated the export file
   buttons:
     accept: Accept
     add: Add
@@ -112,8 +137,10 @@ en:
     bundle_import: Configuration Bundle
     cancel: Cancel
     change_password: Change Password
+    check_status: Check Status
     clear_default: Clear default
     clear_selection: Clear selection
+    clear: Clear
     close: Close
     continue: Continue
     create_case: Create Case
@@ -145,6 +172,7 @@ en:
     mark_for_mobile: Mark for mobile
     new: New
     ok: OK
+    print: Print
     reassign: Assign
     referral: Refer
     referral_again: Refer Again
@@ -157,10 +185,13 @@ en:
     save: Save
     save_and_add_service_provision: Save and Add Service Provision
     save_and_return: Save and Return
+    save_continue: Save and Continue
     save_changes: Save changes
     select: Select
+    send: Send
     sort_by_case: Cases
     sort_by_tr: Tracing Requests
+    sync: Sync
     submit: Submit
     transfer: Transfer
     unflag_model: Unflag %{model}
@@ -169,18 +200,33 @@ en:
     update: Update
     view: View
     view_flags_history: View History
+    return_to_case: Return to Case
 
   case:
+    label: Case
     create_new_case: Create New Case
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
     messages:
-      case_disabled: Case is disabled
+      disabled: Case is disabled
       update_success: 'Case %{record_id} was successfully updated.'
       update_success_queue: 'Case %{record_id} was successfully updated in background'
       creation_success: 'Case record successfully created.'
       creation_success_queue: 'Case record successfully created in background.'
+      already_matched: This Inquirer has already been matched to your case.
+      already_matched_not_current_case: There is already a case in the system matched to this inquirer.
+      not_found_case: No Case found matching "%{search_value}". Create a new Case.
+      introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
+      consent_agreements_required: Please select at least one option from consent agreements.
+      legitimate_basis_required: Please select at least one option from legitimate basis classifications.
+    save: Save Case
+    save_text: Before continuing, please save your changes to the Case.
+    skip_and_create: Skip and Create New Case
+    search_existing: Search existing cases
+    search_helper_text: Why? To prevent creation of duplicate cases.
+    consent_agreements: Select all consent agreements that apply
+    legitimate_basis: Select all legitimate basis clasifications that apply
     workflow:
       assessment: Assessment
       case_plan: Case Plan
@@ -219,10 +265,10 @@ en:
     close_success: Successfully closed case
     closure: Closure
     date_of_birth: Date of Birth
-    disable_dialog: Clicking OK will change the status of this case to Disabled
+    disable_dialog: Clicking OK will change the status of this case to Disabled.
     disable_dialog_title: Disable Case
     disable_success: Successfully disabled case
-    enable_dialog: Clicking OK will change the status of this case to Enabled
+    enable_dialog: Clicking OK will change the status of this case to Enabled.
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
@@ -302,6 +348,7 @@ en:
       name: Name
     owned_by: Record Owner
     owned_by_agency: Record Owner Agency
+    photo: Photo
     photos: Photo
     quick_view:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
@@ -311,6 +358,15 @@ en:
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
     referral_done_success: Referral done.
+    referral_accepted_header: Accept Referral
+    referral_accepted: Are you sure? You will now be responsible for completing work
+      associated with this Referral.
+    referral_accepted_success: Referral accepted.
+    referral_rejected: By clicking 'Reject' you are indicating that you are not ready
+      to accept responsibility for this Referral at this time. Please enter a reason
+      that you are rejecting this Referral; once you click ‘Reject’ you will no longer
+      have access to this Case record.
+    referral_rejected_success: Referral rejected.
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -351,6 +407,29 @@ en:
     show_case: 'Case ID: %{short_id}'
     social_worker: Social Worker
     status: Status
+    summary:
+      label: Summary
+      find_match: Find Match
+      matched_trace: 'Match #%{trace_id}'
+      cannot_find_matches: Cannot find matches. Consent has not been obtained from this Case to disclose information for tracing purposes.
+      matched: Matched
+      fields:
+        consent_for_tracing:
+          label: Consent has been obtained to disclose information for tracing purposes
+          help_text: If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests.
+        wishes_child_family_tracing:
+          label: Does child want to trace family members?
+        wishes_reunification:
+          label: Does the child want family reunification?
+          options:
+            yes_as_soon_as_possible: Yes, as soon as possible
+            yes_but_later: Yes, but later
+            not_sure: Not sure
+            'no': 'No'
+        data_confidentiality_link:
+          label: See Data Confidentiality
+        child_wishes_link:
+          label: See Child's Wishes
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.
@@ -362,6 +441,19 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+  change_logs:
+    filters:
+      form: Form
+      field: Field
+    add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
+    changes_subform: 'Changes to “%{subform_name}” subform'
+    create: Created record
+    deleted_subform: 'Removed “%{subform_name}” subform entry #%{short_id}'
+    label: Change Log
+    see_details: See Details.
+    change: 'from “%{from_value}” to “%{to_value}”'
+    updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
+    update_subform: 'Updated “%{subform_name}” subform'
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -375,6 +467,9 @@ en:
       You will lose all your current settings and will not be able to get them back unless you have already saved
       them in another Configuration.
     apply_label_bold: Primero will be unavailable to users for a few minutes while changes are loading.
+    version_mismatch_tooltip: You cannot apply this configuration, since it was created using a higher version of Primero than the one your site is running. Please wait to apply this configuration until you are running the latest version of Primero.
+    send_header: Send to Production
+    send_text: Are you sure? If you click Send, you will send this configuration to your Production site. This configuration will not be applied on Production until an administrator on that site manually applies it.
     attributes:
       created_by: Created By
       date_created: Date Created
@@ -382,7 +477,8 @@ en:
       last_applied_by: Last Applied By
       last_applied_on: Last Applied On
       name: Name
-      version: Version
+      version: Configuration Version
+      primero_version: Primero Version
     delete_label: Are you sure you want to do this? This represents all of the settings
       from when this Configuration was created. You will not be able to go back and
       recover these settings once you delete this Configuration.
@@ -399,6 +495,7 @@ en:
       created: Configuration was successfully created.
       deleted: Configuration was successfully deleted.
       updated: Configuration was successfully updated.
+      sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
     unavailable_server: Server is temporarily unavailable.
   contact:
@@ -415,6 +512,14 @@ en:
       system_version: System Version
     info_label: Contact Information
     updated: Contact information was successfully updated.
+  code_of_conduct:
+    field:
+      title: Title
+      content: Content
+      created_on: Created on
+      created_by: Created by
+    info_label: Code of Conduct
+    updated: Code of Conduct was successfully updated.
   dashboard:
     activity: Activity
     admin_only: Click on %{links} to make changes to the application.
@@ -450,6 +555,8 @@ en:
     approved: Approved
     assessment: Assessment
     awaiting_acceptance: Awaiting acceptance
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: New & Updated
     case_id: 'Case #ID'
     case_management_service: Case Management Service
     case_overview: My Cases
@@ -511,7 +618,7 @@ en:
     count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
       for your acceptance
     current_owner: Current Owner
-    dash_case_incident_overview: My Cases / Incidents
+    dash_case_incident_overview: My Cases
     dash_group_overview: My Group's Cases
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
@@ -525,6 +632,7 @@ en:
     flagged_by: 'Flagged by:'
     flagged_by_me: Flagged By Me
     flagged_by_other: Flagged By Someone Else
+    flagged_cases: Flagged Cases
     follow_up: Follow Up
     forms: FORMS tab
     geographic_area: Geographic Area
@@ -630,6 +738,7 @@ en:
     users: SETTINGS icon
     violence_type: Violence Type
     with_incidents: With Incidents
+    with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
@@ -637,7 +746,7 @@ en:
     worker_count_total:
       one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
       other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-    workflow: Workflow - Individual cases
+    workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
   disabled:
@@ -687,6 +796,11 @@ en:
   errors:
     error_loading: Error Loading Record(s)
     models:
+      agency:
+        code_present: must not be blank
+        logo_format: File should be png
+        terms_of_use_format: File should be png
+        name_present: must not be blank
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
@@ -720,8 +834,14 @@ en:
       role:
         permission_presence: Please select at least one permission
       user:
+        email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: The password fields do not have the same password
+        password_length: The password must be at least %{min} characters
         email_uniqueness: A User with this email address already exists. Please enter a different one
+      code_of_conduct:
+        title_present: Title must not be blank
+        content_present: Content must not be blank
+        created_by_present: Created By must not be blank
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -751,6 +871,13 @@ en:
       module_placeholder: Please select a module.
       select_module: Select Module
       submit: OK
+      header: Header
+      custom_header: Custom Header
+      signatures: Include signature lines for
+      include_implementation_logos: Include implementation logos?
+      include_implementation_logos_help_text: This will include logos which appear in the navigation menu and on the login page.
+      include_agency_logo: Include agency logo?
+      include_other_logos: Include other logos?
     duplicate_id_csv:
       all: Duplicate ID
       female_abbreviation: F
@@ -770,6 +897,32 @@ en:
     forms:
       button: Export Forms
       label: Export
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        option_ids: Option IDs
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
+      options:
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
@@ -782,6 +935,8 @@ en:
     list_view_csv:
       all: Export List View
       selected: Selected to CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: MRM Violations
       one: MRM Violations
@@ -793,6 +948,14 @@ en:
       selected: Selected to PDF
     pdf_exports:
       label: PDF
+      recipient: Recipient
+      case_worker: Case Worker
+      client: Client
+      date: Date
+      recipient_name: Recipient Name
+      recipient_agency: Recipient Agency
+      caseworker_name: Caseworker Name
+      caseworker_agency: Caseworker Agency
     photowall:
       all: Photo Wall
       flag_suspect_record: Flagged as Suspect Record
@@ -844,10 +1007,26 @@ en:
       one: UNHCR
       selected: Selected to UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: Selected to Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Locations were successfully imported
+        no_data: 'Import Not Processed: No data passed in'
+        csv_parse_error: 'Import Not Processed: Error parsing CSV data'
+        error: 'Row %{row_number} Not Processed: %{message}'
+        db_error: 'Error creating %{location_code}: %{message}'
+        locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
+  sync_record:
+    failed: 'Last Sync: Failed'
+    last: 'Last Sync: %{date_time}'
+    not_found: 'Last Sync: Data not found'
+    retrieving: Retrieving Data.
+    see_details: See Details.
   fields:
     action: Action
     actions: Actions
@@ -856,7 +1035,6 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
-    add_new_field: Create new Field
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
@@ -894,6 +1072,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+      is_current: Is this the current document?
     document_upload_box: Document Upload
     edit_label: Edit Field
     enabled: Enabled?
@@ -901,6 +1080,7 @@ en:
     english_text: English Text
     field_name: Field Name
     field_type: Field type
+    attachment_too_large: File should not be larger than 10mb
     file_upload_box:
       add_document_label: Add Document
       add_new_document_button_text: Add another document
@@ -947,6 +1127,7 @@ en:
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
+    remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
     required_field: '%{field} is required'
     search_existing: Search existing fields
@@ -992,6 +1173,7 @@ en:
     flag_added: Flag added successfully
     flag_date: Flag Date
     flag_reason: Flag Reason
+    flag_reason_maximun_label: Maximum 255 characters.
     flag_resolved: Flag resolved
     flags_tab: Flags
     no_flags: No flags found
@@ -1075,6 +1257,7 @@ en:
     ar: العربية
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
     bn: বাংলা
     current_time_zone: Current time zone
     dashboard: Dashboard
@@ -1098,14 +1281,22 @@ en:
     welcome: Welcome to Primero
     zh: 中文
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
+      disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
       pending: Pending Verification
   incidents:
+    disable_dialog: Clicking OK will change the status of this incident to Disabled.
+    disable_dialog_title: Disable Incident
+    disable_success: Successfully disabled incident
+    enable_dialog: Clicking OK will change the status of this incident to Enabled.
+    enable_dialog_title: Enable Incident
+    enable_success: Successfully enabled incidents.
     id: ID#
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
@@ -1130,6 +1321,186 @@ en:
     social_worker: Social Worker
     violence_type: Violence Type
     type_violence: Type of Violence
+  key_performance_indicators:
+    label: "Pulse/KPIs"
+    case_assessment: "Case Assessment"
+    case_action_planning: "Case Action Planning"
+    case_action_plan_implementation: "Case Action Plan Implementation"
+    case_follow_up: "Case Follow-Up"
+    case_closure: "Case Closure"
+    feedback: "Feedback"
+    other: "Other"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Custom'
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'All Time'
+      current_month: "Current Month"
+      last_3_months: "Last 3 Months"
+      last_6_months: "Last 6 Months"
+      last_1_year: "Last Year"
+      0-3days: "0 - 3 Days"
+      4-5days: "4 - 5 Days"
+      6-14days: "6 - 14 Days"
+      15-30days: "15 - 30 Days"
+      1-3months: "1 - 3 Months"
+      4months: "> 3 Months"
+      1-month: "< 1 Month"
+      3-6months: "3 - 6 Months"
+      7-months: "> 6 Months"
+    helptext:
+      helptext: "Learn about this KPI."
+    number_of_cases:
+      title: "1. Number of recorded Cases"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts how many new cases are opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the case was reported to the service provider.
+    number_of_incidents:
+      title: "2. Number of recorded Incidents"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts the number of new incidents opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the incident was reported to the service provider.
+    reporting_delay:
+      title: "3. Reporting Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+      helptext: |
+        This indicator counts and categorizes the number of days that have lapsed between when the
+        survivor experienced GBV and when the survivor first reported it to a service provider. It is
+        calculated based on when the incident was first reported to the User Organization. The data is
+        categorized based on different lengths of time (0-3 days; 4-5 days; 6-14 days; 15-30 days; Over
+        1 month; Over 3 months).
+    service_access_delay:
+      title: "Service Access Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+    assessment_status:
+      title: "4. Assessment Status"
+      completed: "Completed"
+      completed_supervisor_approved: "Completed & Supervisor Approved"
+      helptext: |
+        This indicator calculates the proportion of active cases for which an assessment form was
+        completed. An assessment is considered completed where a set of mandatory fields within the
+        Survivor Assessment form are completed.
+    completed_case_safety_plans:
+      title: "5. Completed Case Safety Plans"
+      completed: "Completed Case Safety Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a safety plan was deemed
+        necessary and completed (ex. intimate partner violence, suicide/homicide risk, child protection).
+        A safety plan is considered completed where a set of mandatory fields within the Safety Plan
+        form are completed.
+    completed_case_action_plans:
+      title: "6. Completed Case Action Plans"
+      completed: "Completed Case Action Plan"
+      label: "Completed Case Action Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed. A case action plan is considered completed where a set of mandatory fields within
+        the Action Plan form are completed.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Case Action Plans Approved by Supervisor"
+      completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed and approved by a supervisor. A case action plan is considered completed when a
+        set of mandatory fields within the Action Plan form are completed. A case plan is considered
+        approved when the caseworker requests approval for the case plan and the supervisor
+        approves the case plan on the platform.
+    services_provided:
+      title: "8. Services Provided"
+      service: "Service"
+      count: "Times Provided"
+      helptext: |
+        This indicator counts the type of service(s) provided to survivors in the case management
+        process. By service provided, we mean the service that is provided by the User organization in-
+        house, not service provided by referrals to other services.
+    average_referrals:
+      title: "9. Average Referrals"
+      label: "Average referrals per case"
+      helptext: |
+        This indicator counts the average number of referrals for each recorded case (for all type of
+        services) across all cases. It includes referrals recorded on the case tab, not only referrals done
+        through the platform.
+    referrals_per_service:
+      title: "Referrals Per Service"
+    average_followup_meetings_per_case:
+      title: "10. Average Follow-Up Meetings per Case"
+      label: "Average follow-up meetings per case"
+      helptext: |
+        This indicator counts the average number of follow-up meetings conducted for every active case
+        per case worker on the platform. A follow-up meeting is a meeting between the caseworker and
+        the survivor following the initial interview/disclosure.
+    goal_progress_per_need:
+      title: "11. Progress Made towards Goals"
+      need: "Need"
+      safety: "Safety"
+      health: "Health"
+      psychosocial: "Psychosocial"
+      justice: "Justice"
+      other: "Other"
+      helptext: |
+        This indicator measures the percentage of cases for which goals have been met or are in
+        progress by type of needs (safety, health, psychosocial, legal/justice). This indicator is informed
+        by the section ‘Progress made towards goals’ under the ‘Follow up’ section of the Action Plan
+        form.
+    time_from_case_open_to_close:
+      title: "12. Time From Case Open To Case Close"
+      time: "Time"
+      percent: "Percentage of Cases"
+      helptext: |
+        This indicator measures how long cases are kept open, how long the case management
+        process takes from the initial report to User Organization to case closure. The length of time is
+        broken down by the following timeframe: less than 1 month; between 1 and 3 months; between
+        3-6 months; more than 6 months.
+    case_closure_rate:
+      title: "13. Case Closure Rate"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator measures the count of cases closed per month per reporting site. A reporting site
+        is understood as the site where the User Organization is providing services and where the
+        incident was reported to the service provider.
+    client_satisfaction_rate:
+      title: "14. Client Satisfaction Rate"
+      label: "Client Satisfaction"
+      helptext: |
+        This indicator measures the percentage of survivors who completed the Client Feedback Survey
+        who are satisfied with the case management services provided to them. This indicator is
+        informed by the completion of the Client Feedback form on GBVIMS+ by a staff member other
+        than the caseworker who provided the service to the survivor.
+    supervisor_to_caseworker_ratio:
+      title: "15. Supervisor To Caseworker Ratio"
+      label: "Caseworkers per supervisor"
+      helptext: |
+        This indicator is the number of caseworkers a supervisor is supervising: the supervisor to case
+        worker ratio. This calculation is based on the system roles allocated on the platform.
+    case_load:
+      title: "16. Case Load"
+      case_load: "Case Load"
+      percent: "percentage of caseworkers with caseload"
+      10cases: "< 10 Cases"
+      20cases: "11 - 20 Cases"
+      21-30cases: "21 - 30 Cases"
+      30cases: "> 30 Cases"
+      helptext: |
+        This indicator measures the average caseload per enabled caseworker based on active cases.
+        The ratio of cases to case workers is divided based on the following breakdown: less than 10
+        open cases, between 10-20 open cases, between 21-30 open cases, more than 30 open cases.
+    date_range_dialog:
+      title: "Custom Date Range"
+      description: "Once this change is applied, data will be selected from between the two dates bellow."
+      apply: 'Apply'
+      from: 'From'
+      to: 'To'
+      aria-labels:
+        from: "Data will be selected after this date"
+        to: "Data will be selected before this date"
+
   location:
     base_types:
       camp: Camp
@@ -1149,6 +1520,14 @@ en:
       village: Village
       zone: Zone
     label: Location
+    name: Name
+    code: Code
+    admin_level: Admin Level
+    type: Type
+    hierarchy: Hierarchy
+    import_title: Import Location
+    message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
+    no_location: Please import Locations before creating any User accounts.
   logger:
     approve_form:
       action_plan: Action Plan form
@@ -1158,13 +1537,22 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    assessment_approved: "%{approval_label} approved for"
+    assessment_requested: "%{approval_label} requested for"
+    bulk_index: List all
     by_user: by user
+    case_plan_approved: "%{approval_label} approved for"
+    case_plan_requested: "%{approval_label} requested for"
+    close: Close
+    closure_approved: "%{approval_label} approved for"
+    closure_requested: "%{approval_label} requested for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
     create_subform: Creating Subform
     destroy: Deleting
     edit: Editing
+    enable_disable_record: Enable / disable
     export: Exporting data for
     flag: Flagging
     flag_records: Flagging
@@ -1173,6 +1561,7 @@ en:
       protect: Hide Name
       view: View Name
     index: Listing Records
+    list: List
     login: Login
     logout: Logout
     lookups_for_field: Lookups for field
@@ -1186,8 +1575,11 @@ en:
     record_state:
       'false': Disabling
       'true': Enabling
+    refer: Refer
+    refer_to: Search for Referral recipient
     referral: Referring
     relinquish_referral: Relinquish referral Done
+    reopen: Reopen
     reopen_case: Reopening
     request_approval:
       action_plan: Request Approval for the Action Plan form
@@ -1200,6 +1592,7 @@ en:
     save_subform: Saving Subform
     search: API Search
     show: Viewing
+    show_alerts: View alerts for
     to: to
     to_user: to user
     transfer: Transfering
@@ -1212,9 +1605,19 @@ en:
     label: Login
     password:
       label: Password
+    password_confirmation:
+      label: Password Confirmation
+    password_match:
+      label: Password Must Match
     provider_title: with %{provider}
     title: Log In
     username: User Name
+    password_reset_modal: Reset Password
+    password_reset_modal_text: Primero will send a password reset link to your email address
+    password_reset_email: Email
+    forgot_password: Forgot your password?
+    email:
+      label: Email
   lookup:
     create: New Lookup
     enabled_label: Enabled?
@@ -1243,18 +1646,35 @@ en:
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
     logout_confirmation: Do you want to continue your session?
+    logout_offline_warning: Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost.
     logout_warning: You will be logged off in 5 minutes
+    logout_dialog_header: Offline Log Out
+    logout_confirmation_title: Log out confirmation
+    logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
+    not_available: Not available
+    record_list:
+      column_header_tooltip: Sort for %{column}
+      of: of
+      no_match: Sorry, no matching records found
+      rows_per_page: Rows per page
+      sort: Sort
   navigation:
     bulk_exports: Exports
     cases: Cases
     home: Home
+    key_performance_indicators: Pulse/KPIs
     incidents: Incidents
     logout: Log out
     reports: Reports
     search: Search
     settings: Settings
     support: Support
+    support_menu:
+      contact_information: Contact Information
+      code_of_conduct: Code of Conduct
+      terms_of_use: Terms of Use
+      system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
   notes:
@@ -1298,6 +1718,7 @@ en:
       close: Close
       consent_override: Consent override
       copy: Copy
+      copy_of: Copy of
       create: Create
       dash_case_incident_overview: My Cases / Incidents
       dash_cases_by_social_worker: View Cases By Social Worker
@@ -1344,11 +1765,13 @@ en:
       incident: Incident
       incident_details_from_case: Add Incident Details to another user's case
       incident_from_case: Create an incident from a case
+      kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match
+      primero_configuration: Configuration
       read: Read
       reassign: Reassign
       receive_referral: Receive Referral
@@ -1374,6 +1797,7 @@ en:
         Details Modal
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
+      sync_external: Sync with an external information management system
       sync_mobile: Sync with mobile device
       system: System
       tracing_request: Tracing Request
@@ -1389,6 +1813,74 @@ en:
       workflow_team: Workflow - Teams cases
       write: Write
     resource:
+      kpi:
+        actions:
+          read:
+            explanation: Ability to access the Pulse/KPIs page.
+            label: Access Pulse/KPIs Page.
+          kpi_assessment_status:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion of them have a completed assessment form.
+            label: Assessment Status
+          kpi_average_followup_meetings_per_case:
+            explanation: Ability to see, for the active cases that the user has access to,
+              the average number of follow-up meetings conducted over a set period of time.
+            label: Average Followup Meetings per Case
+          kpi_average_referrals:
+            explanation: Ability to see, over all active cases that the user has access to,
+              the average number of referrals made to each type of services.
+            label: Average Referrals
+          kpi_case_closure_rate:
+            explanation: Ability to see how many cases were closed at each site per month.
+            label: Case Closure Rate
+          kpi_case_load:
+            explanation: Ability to see the average number of open cases each caseworker has.
+            label: Case Load
+          kpi_client_satisfaction_rate:
+            explanation: Ability to see, for each case that the user has access to, what ratio of
+              survivors who completed the Feedback Survey were satisfied.
+            label: Client Satisfaction Rate
+          kpi_completed_case_action_plans:
+            explanation: Ability to see, for the active cases that the user has access to,
+              what proportion have a completed Case Action Plan.
+            label: Completed Case Action Plans
+          kpi_completed_case_safety_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion required and completed a Saftey Plan.
+            label: Completed Case Safety Plans
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Ability to see, for active cases that the user has access to,
+              what proportion completed a Case Action Plan that was approved by a supervisor.
+            label: Completed Action Plan Approved by Supervisor
+          kpi_goal_progress_per_need:
+            explanation: Ability to see, for cases the user has access to, what percentage
+              of goals in each category of need have been met.
+            label: Progress Made Towards Goals
+          kpi_number_of_cases:
+            explanation: Ability to see how many newly reported cases are opened each month
+              per site.
+            label: Number of Cases
+          kpi_number_of_incidents:
+            explanation: Ability to see how many newly reported incidents are opened each month
+              per site.
+            label: Number of Incidents
+          kpi_reporting_delay:
+            explanation: Ability to see, for all incidents that the user has access to, the number
+              of days lapsed between when the survivor experienced GBV and when the survivor reported
+              it to a service provider.
+            label: Reporting Delay
+          kpi_services_provided:
+            explanation: Ability to see, over all cases the user has access to, what type of services
+              have been provided by the organization in-house.
+            label: Services Provided
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Ability to see the ratio of caseworkers to supervisors.
+            label: Supervisor to Caseworker Ratio
+          kpi_time_from_case_open_to_close:
+            explanation: Ability to see, for all cases that the user has access to, how long
+              case are kept open.
+            label: Time from Case Open to Close
+        label: KPI
       agency:
         actions:
           assign:
@@ -1555,6 +2047,13 @@ en:
               which contains the same fields which appear for that user on the case
               list. Only performed from the case list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the case list or
+              case show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all cases to which the user has access.
+              In the PDF export file, information is listed first by case, and then
+              further organized by the form on which information appears.
+            label: Export case PDF
           export_photowall:
             explanation: Allows the user to export a file from the case list page
               which contains the photos of all cases selected. This export is mainly
@@ -1731,6 +2230,9 @@ en:
               if they also have the "Search for case records owned by other users"
               permission.
             label: Add Service provision to another user's case
+          sync_external:
+            explanation: Ability to sync a Record with an external information management system
+            label: Sync with an external information management system
           sync_mobile:
             explanation: This permission generally allows the user to use the mobile
               application. First, it allows the user to see the "Mark for Mobile"
@@ -1846,6 +2348,9 @@ en:
               manager has their own cases, they should assign these cases to case
               workers on their team.'
             label: (For Managers) Cases I need to assign to people on my team
+          dash_flags:
+            explanation: Shows a list of flags other users have added to my records, as well as flags I have added to other users’ records.
+            label: Flagged Records
           dash_group_overview:
             explanation: Shows a manager the number of open and closed cases managed
               by the users in their team.
@@ -2008,6 +2513,11 @@ en:
           create:
             explanation: Ability to create an incident.
             label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Incident.
+              "Disabled" Incidents do not appear by default in the Incident list.
+              Users can see disabled Incidents in the Incident list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
             explanation: User can generate a PDF file export from the incidents list
               or incident show pages, which contains all fields to which the current
@@ -2041,6 +2551,13 @@ en:
               page which contains the same fields which appear for that user on the
               incident list. Only performed from the incident list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the incidents list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all records to which the user
+              has access. In the PDF export file, information is listed first by case,
+              and then further organized by the form on which information appears.
+            label: Export PDF
           export_xls:
             explanation: User can generate a XLS file export from the incidents list
               or incident show pages, which contains a custom set of forms or fields,
@@ -2125,11 +2642,18 @@ en:
       potential_match:
         actions:
           read:
-            explanation: Ability to see potential matches between tracing requests
-              and cases. This permission is necessary for the user to perform any
-              Family Tracing and Reunification actions.
+            explanation: Represents the link between a Tracing Request and a Case.
+              Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work.
+              Allows user to see the Tracing Summary form on Cases.
             label: View
         label: Potential Match
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Ability to save, apply, and send Configurations.
+              This permission is usually reserved for the system administrator.
+            label: Manage (all permissions for this resource type)
+        label: Configuration
       referral:
         actions:
           refer:
@@ -2179,7 +2703,7 @@ en:
         explanation: 'This will control what level of locations appear for this Role
           in the dashboards, filters, referral modals, and transfer modals. If you
           leave this field blank, this Role will see the system’s default Reporting
-          Location level.  Enter the number assocaited with the desired level as follows:'
+          Location level.'
         label: What location type should be used for reporting for this role?
       role:
         actions:
@@ -2240,6 +2764,11 @@ en:
           create:
             explanation: Ability to create a tracing request
             label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Tracing Request.
+              "Disabled" Tracing Requests do not appear by default in the Tracing Requests list.
+              Users can see disabled Tracing Requests in the Tracing Requests list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
             explanation: User can generate a PDF file export from the tracing requests
               list or tracing request show pages, which contains all fields to which
@@ -2281,6 +2810,14 @@ en:
               on the tracing request list. Only performed from the tracing request
               list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the tracing requests
+              list or tracing request show pages, which contains all fields to which
+              the current user has access, for one, multiple, or all records to which
+              the user has access. In the PDF export file, information is listed first
+              by case, and then further organized by the form on which information
+              appears.
+            label: Export PDF
           flag:
             explanation: Ability to add a flag to a tracing request. Users with this
               permission can also remove the flags that they have added to a tracing
@@ -2386,6 +2923,7 @@ en:
             label: Edit
         label: User Groups
   potential_match:
+    case_id: Case ID
     child_age: Age
     child_gender: Gender
     child_id: child id#
@@ -2393,9 +2931,13 @@ en:
     inquirer_tr_name: tracing request
     inquiry_date: date of inquiry
     name: Name
-    score: score
+    score: Score
     social_worker: Social worker
     social_worker_agency: Agency
+    tracing_request_id: Tracing Request ID
+    trace: Trace
+    likelihood_likely: Likely
+    likelihood_possible: Possible
   potential_matches:
     display: Displaying potential matches for %{type} %{id}
   reassign:
@@ -2408,14 +2950,14 @@ en:
   record_information:
     assigned_user_names: Other Assigned Users
     created_by: Record created by
-    created_by_agency: Created by agency
+    created_organization: Created by agency
     current_owner_separator: Current Owner
     module_id: Module
     owned_by: Caseworker Code
     owned_by_agency_id: Agency
     owned_by_text: Field/Case/Social Worker
-    previous_agency: Previous Agency
     previously_owned_by: Previous Owner
+    previously_owned_by_agency: Previous Agency
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
   record_panel:
@@ -2427,12 +2969,16 @@ en:
     is_remote_label: Are you referring to a remote system?
     location_label: Location
     notes_label: Notes
+    notes_on_referral: Notes on referral
+    note_on_referral_from_provider: Notes on referral from provider
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
+    date: Date
+    rejected_reason: Rejection Reason
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -2516,6 +3062,9 @@ en:
     role_ids_label: Others roles managed by this role
     successfully_updated: Role details are successfully updated.
     transfer_label: Can this role be used for Transfers?
+    hide: Hide
+    read: Show
+    read_write: Show and Edit
   roles:
     label: Roles
   saved_search:
@@ -2541,6 +3090,7 @@ en:
       user_groups: User Groups
       users: Users
       roles: Roles
+      code_of_conduct: Code of Conduct
     title: Settings
   system_settings:
     label: System Settings
@@ -2565,13 +3115,34 @@ en:
       follow_up: Follow Up - %{subtype}
       service: Service - %{subtype}
   tracing_request:
+    label: Tracing Request
+    has_match: Has Match
+    find_match: Find Match
+    back_to_traces: Back to Traces
+    back_to_potential_matches: Back to Potential Matches
+    traces: Traces
+    trace: Trace
+    match: Match
+    matches: Matches
+    unmatch: Un-match
     messages:
+      already_matched: There is already a match in the system with an Inquirer looking for this child.
+      disabled: Tracing Request is disabled
+      nothing_found: Nothing found
       update_success: 'Tracing Request %{record_id} was successfully updated.'
       creation_success: Tracing Request record successfully created.
       update_success_queue: 'Tracing Request %{record_id} was successfully updated in background.'
       creation_success_queue: Tracing Request record successfully created in background.
+      match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
+      unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
   tracing_requests:
     date_of_inquiry: Date of Inquiry
+    disable_dialog_title: Disable Tracing Request
+    disable_dialog: Clicking OK will change the status of this tracing request to Disabled.
+    disable_success: Successfully disabled tracing request
+    enable_dialog: Clicking OK will change the status of this tracing request to Enabled.
+    enable_dialog_title: Enable Tracing Request
+    enable_success: Successfully enabled trancing request.
     id: ID
     filter_by:
       by_date: By Date
@@ -2580,6 +3151,8 @@ en:
       status: Status
     label: Tracing Requests
     name_of_inquirer: Name of Inquirer
+    inquirer: Inquirer
+    name: Name
     register_new_tracing_request: New Tracing Request
     selectable_date_options:
       inquiry_date: Date of Inquiry
@@ -2606,6 +3179,7 @@ en:
   transfer_assignment:
     title: TRANSFERS AND ASSIGNMENTS
   transition:
+    agency_label: Agency
     assigned_by: Assigned By
     consent_individual_transfer_value:
       true_label: 'Yes'
@@ -2622,13 +3196,14 @@ en:
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected
+    requested_by: Requested by
     service_label: Service
+    responded_at: Responded At
     status:
       accepted: Accepted
       done: Done
-      in_progress: In progress
-      inprogress: In progress
-      pending: Pending
+      in_progress: Pending
+      inprogress: Pending
       rejected: Rejected
     type:
       assign: Assign
@@ -2646,6 +3221,7 @@ en:
     identity_provider: Identity Provider
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
+    language: Language
     locale: Locale
     location: Location
     messages:
@@ -2667,6 +3243,14 @@ en:
     organization: Organization
     agency: Agency
     services_help_text: If you do not specify services, this User will be given the same services its Agency has.
+    password_setting:
+      label: How should Primero set the user’s password?
+      self: I will set the password
+      user: User will set the password using the welcome email
+      help_text: Please remember that if you, the administrator, set the password manually, you will need to share it with the user in a secure manner.
+    password_reset_header: Send password reset email
+    password_reset_text: If you click ‘Send,’ this user will receive an email with a link to reset their password.
+    password_reset_request: Send password reset email
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
@@ -2680,12 +3264,39 @@ en:
     welcome_email:
       subject: 'Welcome to %{system}!'
       greeting: 'Welcome to %{system}!'
-      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name and password in order to log on to %{host}.'
-      body_sso: 'You have been added as a %{role_name}. You may now log on to %{host} with your %{agency_name} account %{user_name}. Please contact %{admin_full_name} (%{admin_email}) for further details.'
-      body_with_password: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) to receive your user name. Use the password %{otp} to log on to %{host}, and reset when prompted.'
+      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
+      sso:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Go to %{host} and click %{identity_provider}.'
+        step2: 'Login with your %{identity_provider} account %{user_name}.'
+        step3: 'Use the same password you always use for your %{identity_provider} account.'
+        footer: 'Please contact %{admin_full_name} (%{admin_email}) for further details.'
+      otp:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Please contact %{admin_full_name} (%{admin_email}) to receive your user name.'
+        step2: 'Go to %{host} and click "login with Primero user name.".'
+        step3: 'Login with your user name and the temporary password %{otp}.'
+        step4: 'When prompted, reset your password.'
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
+    password_reset:
+      email_greeting: "Dear %{full_name}"
+      email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
+      email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
+      email_body_link: here
+      request_submitted: "Password reset request submitted"
+      success: "Password successfuly changed"
+      errors:
+        reset_password_token: "Invalid password reset token"
+        password_confirmation: "Passwords must match"
+    onboard_email:
+      subject: "Onboarding to %{system}"
+      greeting: "Dear %{full_name},"
+      body1: "Welcome to Primero!"
+      body2: "You have been designated as the implementing administrator for %{host_href}. %{reset_notification}"
+      body2_reset_notification: "You will receive an additional email prompting you to reset your password."
+      body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
     description: Description
     disabled:

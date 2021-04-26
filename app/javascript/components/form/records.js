@@ -1,5 +1,7 @@
 import { Record, fromJS } from "immutable";
 
+import { SELECT_CHANGE_REASON } from "./constants";
+
 export const FieldRecord = Record({
   internalFormFieldID: null,
   id: null,
@@ -32,6 +34,8 @@ export const FieldRecord = Record({
   watchedInputs: null,
   handleWatchedInputs: null,
   showIf: null,
+  forceShowIf: false,
+  multipleLimitOne: false,
   check_errors: fromJS([]),
   hint: "",
   groupBy: null,
@@ -52,11 +56,22 @@ export const FieldRecord = Record({
   asyncAction: () => {},
   option_strings_source_id_key: null,
   clearDependentValues: null,
+  clearDependentReason: [SELECT_CHANGE_REASON.selectOption, SELECT_CHANGE_REASON.clear],
   form_section_id: null,
   subform_section_configuration: null,
   setOtherFieldValues: null,
   wrapWithComponent: null,
-  onClick: null
+  onClick: null,
+  placeholder: "",
+  maxSelectedOptions: null,
+  onKeyPress: null,
+  currRecord: fromJS({}),
+  href: null,
+  fileFormat: "",
+  filterOptionSource: null,
+  rawOptions: false,
+  renderDownloadButton: false,
+  downloadButtonLabel: ""
 });
 
 export const FormSectionRecord = Record({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,10 +10,13 @@ import styles from "../../styles.css";
 import { BULK_TRANSFER_NAME as NAME } from "./constants";
 import TransferCheckbox from "./transfer-checkbox";
 
+const useStyles = makeStyles(styles);
+
 const BulkTransfer = ({ isBulkTransfer }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const [state, setState] = useState(false);
+  const handleOnChange = () => setState(!state);
 
   if (!isBulkTransfer) {
     return null;
@@ -30,7 +33,7 @@ const BulkTransfer = ({ isBulkTransfer }) => {
           <br />
           <TransferCheckbox
             checked={state}
-            onChange={() => setState(!state)}
+            onChange={handleOnChange}
             label={i18n.t("transfer.consent_override_label")}
           />
         </Grid>

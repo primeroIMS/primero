@@ -21,18 +21,36 @@ class TracingRequest < ApplicationRecord
                  :location_last
   alias inquirer_id tracing_request_id
   after_save :save_traces
+  class << self
+    def quicksearch_fields
+      %w[
+        tracing_request_id short_id relation_name relation_nickname tracing_names
+        tracing_nicknames monitor_number survivor_code
+      ]
+    end
 
-  def self.quicksearch_fields
-    %w[
-      tracing_request_id short_id relation_name relation_nickname tracing_names
-      tracing_nicknames monitor_number survivor_code
-    ]
-  end
+    def summary_field_names
+      common_summary_fields + %w[
+        relation_name inquiry_date tracing_names
+      ]
+    end
 
-  def self.summary_field_names
-    common_summary_fields + %w[
-      relation_name inquiry_date tracing_names
-    ]
+    def minimum_reportable_fields
+      {
+        'boolean' => ['record_state'],
+        'string' => %w[status owned_by],
+        'multistring' => %w[associated_user_names owned_by_groups],
+        'date' => ['inquiry_date']
+      }
+    end
+
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data)
+      traces_data = data.delete('tracing_request_subform_section')
+      new_tracing_request = super_new_with_user(user, data)
+      new_tracing_request.build_or_update_traces(traces_data)
+      new_tracing_request
+    end
   end
 
   searchable do
@@ -44,15 +62,6 @@ class TracingRequest < ApplicationRecord
   def defaults
     super_defaults
     self.inquiry_date ||= Date.today
-  end
-
-  def self.minimum_reportable_fields
-    {
-      'boolean' => ['record_state'],
-      'string' => %w[status owned_by],
-      'multistring' => %w[associated_user_names owned_by_groups],
-      'date' => ['inquiry_date']
-    }
   end
 
   alias super_update_properties update_properties
@@ -82,7 +91,7 @@ class TracingRequest < ApplicationRecord
     end
   end
 
-  def associations_as_data
+  def associations_as_data(_current_user)
     @associations_as_data ||= { 'tracing_request_subform_section' => traces.map(&:data) }
   end
 

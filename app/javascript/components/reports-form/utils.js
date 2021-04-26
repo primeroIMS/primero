@@ -2,26 +2,10 @@ import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
 import { format } from "date-fns";
 
-import { TICK_FIELD } from "../form";
-import { dataToJS, displayNameHelper } from "../../libs";
+import { displayNameHelper } from "../../libs";
 import { AGE_MAX, DATE_FORMAT } from "../../config";
 
-import { ALLOWED_FIELD_TYPES, DESCRIPTION_FIELD, NAME_FIELD, REPORTABLE_TYPES } from "./constants";
-
-export const dependantFields = formSections => {
-  const data = dataToJS(formSections);
-
-  return data[0].fields.reduce((acc, field) => {
-    if ([NAME_FIELD, DESCRIPTION_FIELD].includes(field.name)) {
-      return acc;
-    }
-
-    return {
-      ...acc,
-      [field.name]: field.type === TICK_FIELD ? false : []
-    };
-  }, {});
-};
+import { ALLOWED_FIELD_TYPES, REPORTABLE_TYPES } from "./constants";
 
 export const formatAgeRange = data => data.join(", ").replace(/\../g, "-").replace(`-${AGE_MAX}`, "+");
 
@@ -31,42 +15,53 @@ export const getFormName = selectedRecordType => {
 
 export const buildFields = (data, locale, isReportable) => {
   if (isReportable) {
-    if (isEmpty(data)) {
+    if (data.isEmpty()) {
       return [];
     }
-    const formSection = displayNameHelper(data.name, locale);
+    const formSection = displayNameHelper(data.get("name"), locale);
 
-    return data.fields.map(field => ({
-      id: field.name,
-      display_text: displayNameHelper(field.display_name, locale),
-      formSection,
-      type: field.type,
-      option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
-      option_strings_text: field.option_strings_text,
-      tick_box_label: field.tick_box_label?.[locale]
-    }));
+    return data.get("fields").reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("name"),
+          display_text: displayNameHelper(current.get("display_name"), locale),
+          formSection,
+          type: current.get("type"),
+          option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
+          option_strings_text: current.get("option_strings_text"),
+          tick_box_label: current.getIn(["tick_box_label", locale])
+        }
+      ],
+      []
+    );
   }
 
-  return data
-    .reduce((acc, form) => {
-      // eslint-disable-next-line camelcase
-      const { name, fields } = form;
+  return data.reduce((acc, form) => {
+    // eslint-disable-next-line camelcase
+    const fields = form.get("fields");
+    const name = form.get("name");
 
-      const filteredFields = fields
-        .filter(field => ALLOWED_FIELD_TYPES.includes(field.type) && field.visible)
-        .map(field => ({
-          id: field.name,
-          display_text: displayNameHelper(field.display_name, locale),
-          formSection: displayNameHelper(name, locale),
-          type: field.type,
-          option_strings_source: field.option_strings_source?.replace(/lookup /, ""),
-          option_strings_text: field.option_strings_text,
-          tick_box_label: field.tick_box_label?.[locale]
-        }));
+    const filteredFields = fields
+      .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible"))
+      .reduce(
+        (prev, current) => [
+          ...prev,
+          {
+            id: current.get("name"),
+            display_text: displayNameHelper(current.get("display_name"), locale),
+            formSection: displayNameHelper(name, locale),
+            type: current.get("type"),
+            option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
+            option_strings_text: current.get("option_strings_text"),
+            tick_box_label: current.getIn(["tick_box_label", locale])
+          }
+        ],
+        []
+      );
 
-      return [...acc, filteredFields];
-    }, [])
-    .flat();
+    return [...acc, ...filteredFields];
+  }, []);
 };
 
 export const buildReportFields = (data, type) => {
@@ -109,20 +104,21 @@ export const formatReport = report => {
   }, {});
 };
 
-export const formattedFields = (allFields, modules, recordType, locale) => {
-  const formsByModuleAndRecordType = dataToJS(allFields).filter(formSection =>
+export const formattedFields = (formSections, modules, recordType, locale) => {
+  const formsByModuleAndRecordType = formSections.filter(formSection =>
     Array.isArray(modules)
-      ? formSection.module_ids.some(mod => modules.includes(mod))
-      : formSection.module_ids.includes(modules)
+      ? formSection.get("module_ids").some(mod => modules.includes(mod))
+      : formSection.get("module_ids").includes(modules)
   );
   const formName = getFormName(recordType);
-  const recordTypesForms = formsByModuleAndRecordType.filter(formSection => formSection.parent_form === recordType);
+  const recordTypesForms = formsByModuleAndRecordType.filter(
+    formSection => formSection.get("parent_form") === recordType
+  );
 
   const reportableForm = formName
     ? formsByModuleAndRecordType
-        .filter(formSection => formSection.unique_id === formName)
-        // eslint-disable-next-line camelcase
-        ?.toJS()?.[0]?.fields?.[0]?.subform_section_id
+        .filter(formSection => formSection.get("unique_id") === formName)
+        ?.getIn([0, "fields", 0, "subform_section_id"])
     : [];
 
   return buildFields(formName ? reportableForm : recordTypesForms, locale, Boolean(formName));
@@ -136,4 +132,16 @@ export const checkValue = filter => {
   }
 
   return value;
+};
+
+export const buildUserModules = userModules => {
+  if (userModules.isEmpty()) {
+    return [];
+  }
+
+  return userModules.reduce((current, prev) => {
+    current.push({ id: prev.get("unique_id"), display_text: prev.get("name") });
+
+    return current;
+  }, []);
 };

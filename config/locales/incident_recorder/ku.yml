@@ -24,8 +24,6 @@ ku:
         both: "پێگەيشتو & بچوک"
         unknown: "نەزانراو"
         header: "تەمەنی تاوانباری دیاریکراو"
-      service_referral:
-        undecided: "بریار نەدرابوو لەکاتی ریپۆرتکردن"
       headers:
         incident_id: "ناسنامەی رووداوەکە"
         survivor_code: "کۆدی رزگاربوو"

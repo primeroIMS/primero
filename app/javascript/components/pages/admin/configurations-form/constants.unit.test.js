@@ -16,11 +16,13 @@ describe("configurations-form/constants.js", () => {
       expect(clone).to.be.empty;
     });
 
-    ["APPLY_CONFIGURATION_MODAL", "DELETE_CONFIGURATION_MODAL", "NAME"].forEach(property => {
-      it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
-        delete clone[property];
-      });
-    });
+    ["APPLY_CONFIGURATION_MODAL", "DELETE_CONFIGURATION_MODAL", "NAME", "SEND_CONFIGURATION_MODAL", "FORM_ID"].forEach(
+      property => {
+        it(`exports '${property}'`, () => {
+          expect(constants).to.have.property(property);
+          delete clone[property];
+        });
+      }
+    );
   });
 });

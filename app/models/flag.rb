@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Represents actions to flag a record
 class Flag < ApplicationRecord
   include Indexable
 
@@ -8,9 +9,29 @@ class Flag < ApplicationRecord
 
   belongs_to :record, polymorphic: true
 
+  # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
+  # TODO: Rewrite these queries when we start using record_uuid
+  scope :by_record_associated_user, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
+  }
+
+  scope :by_record_associated_groups, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
+  }
+
+  scope :by_record_agency, lambda { |params|
+    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
+        .where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
+  }
+
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
+  # TODO: This is a temporary measure for v2.0.0.37 to ensure that record_uuid will be correctly populated for v2.0.0.38.
+  #       Delete in v2.0.0.38.
+  before_create :copy_record_id
   after_create :flag_history
   after_update :unflag_history
   after_save :index_record
@@ -78,12 +99,63 @@ class Flag < ApplicationRecord
     end
   end
 
+  class << self
+    def by_owner(query_scope, active_only, record_types, flagged_by)
+      record_types ||= %w[cases incidents tracing_requests]
+      owner = query_scope[:user]['user']
+      return find_by_owner('by_record_associated_user', active_only, record_types, flagged_by, owner: owner) if owner.present?
+
+      group = query_scope[:user]['group']
+      return  find_by_owner('by_record_associated_groups', active_only, record_types, flagged_by, group: group) if group.present?
+
+      agency = query_scope[:user]['agency']
+      return find_by_owner('by_record_agency', active_only, record_types, flagged_by, agency: agency) if agency.present?
+
+      []
+    end
+
+    private
+
+    def find_by_owner(scope_to_use, active_only, record_types, flagged_by, params = {})
+      record_types = %w[cases incidents tracing_requests] if record_types.blank?
+      flags = []
+      record_types.each do |record_type|
+        params[:type] = record_type
+        flags << send(scope_to_use, params).where(where_params(flagged_by, active_only)).select(select_fields(record_type))
+      end
+      mask_flag_names(flags.flatten)
+    end
+
+    def mask_flag_names(flags)
+      flags.each_with_object([]) do |flag, flag_list|
+        flag.name = RecordDataService.visible_name(flag)
+        flag_list << flag
+      end
+    end
+
+    def where_params(flagged_by, active_only)
+      where_params = {}
+      where_params[:flagged_by] = flagged_by if flagged_by.present?
+      where_params[:removed] = false if active_only
+      where_params
+    end
+
+    def select_fields(record_type)
+      (Flag.column_names.map { |column| "flags.#{column}" } +
+         record_fields_for_select.map { |field| "#{record_type}.data -> '#{field}' as #{field}" }).join(', ')
+    end
+
+    def record_fields_for_select
+      %w[short_id name hidden_name owned_by owned_by_agency_id]
+    end
+  end
+
   def flag_history
     update_flag_history(EVENT_FLAG, flagged_by)
   end
 
   def unflag_history
-    return unless saved_change_to_attribute('removed')[1]
+    return unless saved_change_to_attribute('removed')&.[](1)
 
     saved_changes.map { |k, v| [k, v[1]] }.to_h
     update_flag_history(EVENT_UNFLAG, unflagged_by)
@@ -91,6 +163,12 @@ class Flag < ApplicationRecord
 
   def index_record
     Sunspot.index!(record) if record
+  end
+
+  def copy_record_id
+    return unless record_id
+
+    self.record_uuid ||= record_id
   end
 
   private

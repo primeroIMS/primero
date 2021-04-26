@@ -11,11 +11,14 @@ const colors = {
   black: "#231f20",
   solidBlack: "#000000",
   darkGrey: "#595952",
+  lightBlue: "rgba(0, 147, 186, 0.25)",
   blue: "#0093ba",
+  darkBlue: "#048BB0",
   yellow: "#f2c317",
   moonYellow: "#f2b417",
   goldYellow: "#f4ac22",
   red: "#d0021b",
+  redLabelError: "#f44336",
   green: "#839e3c",
   solidGreen: "#7ba024",
   orange: "#e7712d",
@@ -31,7 +34,11 @@ const colors = {
   tundora: "#454545",
   grey: "#4a4a4a",
   contentGrey: "#fbfbfb",
-  stickyGrey: "rgba(251, 251, 251, 0.95)"
+  stickyGrey: "rgba(251, 251, 251, 0.95)",
+  lightGrey2: "#e0e0e0",
+  atlantis: "#8bb827",
+  wildSand: "#f5f5f5",
+  lightBlueMenu: "#dfeff4"
 };
 
 const overrides = {
@@ -40,7 +47,7 @@ const overrides = {
       boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
     }
   },
-  MuiExpansionPanelSummary: {
+  MuiAccordionSummary: {
     content: {
       margin: "0"
     }
@@ -65,10 +72,23 @@ const overrides = {
       position: "relative"
     }
   },
+  MuiInputBase: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    },
+    input: {
+      "&$disabled": {
+        cursor: "not-allowed !important"
+      }
+    }
+  },
   MuiInput: {
     root: {
       "&:read-only": {
-        color: colors.black
+        color: colors.black,
+        paddingBottom: "3px"
       },
       "&:read-only ::placeholder": {
         color: colors.black,
@@ -113,6 +133,11 @@ const overrides = {
     }
   },
   MuiFormControlLabel: {
+    root: {
+      "&$disabled": {
+        cursor: "not-allowed"
+      }
+    },
     label: {
       fontSize: "0.7rem !important",
       "&$disabled": {
@@ -235,6 +260,21 @@ const overrides = {
         color: "rgba(0, 0, 0, 0.26)",
         backgroundColor: `${colors.lightGrey} !important`
       }
+    }
+  },
+  MuiAutocomplete: {
+    inputRoot: {
+      '&[class*="MuiInput-root"]': {
+        paddingBottom: "3px"
+      }
+    },
+    tag: {
+      margin: 0
+    }
+  },
+  MuiListItemText: {
+    root: {
+      wordBreak: "break-word"
     }
   }
 };

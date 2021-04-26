@@ -108,7 +108,7 @@ describe Api::V2::RolesController, type: :request do
       expect(json['data'].first['name']).to be
       expect(json['data'].first['module_unique_ids'].first).to be
       expect(json['data'].first['permissions']).to be
-      expect(json['data'].first['form_section_unique_ids'].first).to be
+      expect(json['data'].first['form_section_read_write'].first).to be
     end
 
     it 'list of the first 100 roles per page' do
@@ -158,9 +158,21 @@ describe Api::V2::RolesController, type: :request do
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
           form_sections: [@form_section_a], modules: [@cp_a]
         )
+        @referral_disabled_role = Role.create!(
+          unique_id: 'role_referral_disabled', name: 'Referral Disabled',
+          referral: true, transfer: false, disabled: true,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
         @transfer_role = Role.create!(
           unique_id: 'role_transfer', name: 'Transfer',
           referral: false, transfer: true,
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
+          form_sections: [@form_section_a], modules: [@cp_a]
+        )
+        @transfer_disabled_role = Role.create!(
+          unique_id: 'role_transfer_disabled', name: 'Transfer Disabled',
+          referral: false, transfer: true, disabled: true,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
           form_sections: [@form_section_a], modules: [@cp_a]
         )
@@ -189,7 +201,7 @@ describe Api::V2::RolesController, type: :request do
         ]
       )
 
-      get '/api/v2/roles'
+      get '/api/v2/roles?managed=true'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'].map { |role| role['unique_id'] }).to include('role_test_01', 'role_test_02')
@@ -269,7 +281,7 @@ describe Api::V2::RolesController, type: :request do
           transfer: false,
           is_manager: true,
           module_unique_ids: [@cp_a.unique_id, @cp_b.unique_id],
-          form_section_unique_ids: %w[A C],
+          form_section_read_write: { A: 'rw', C: 'r' },
           permissions: {
             agency: %w[
               read
@@ -296,7 +308,7 @@ describe Api::V2::RolesController, type: :request do
       post '/api/v2/roles', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
-      expect(json['data']['form_section_unique_ids']).to match_array(params[:data][:form_section_unique_ids])
+      expect(json['data']['form_section_read_write']).to eq('A' => 'rw', 'C' => 'r')
       expect(json['data']['permissions']).to eq(params[:data][:permissions].deep_stringify_keys)
     end
 
@@ -404,7 +416,7 @@ describe Api::V2::RolesController, type: :request do
           disabled: false,
           is_manager: true,
           reporting_location_level: 1,
-          form_section_unique_ids: %w[C],
+          form_section_read_write: { 'C' => 'rw'},
           module_unique_ids: [@cp_b.unique_id],
           permissions: {
             agency: %w[
@@ -452,7 +464,7 @@ describe Api::V2::RolesController, type: :request do
           disabled: false,
           is_manager: true,
           reporting_location_level: 1,
-          form_section_unique_ids: %w[C],
+          form_section_read_write: { C: 'r' },
           module_unique_ids: [@cp_b.unique_id]
         }
       }

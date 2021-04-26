@@ -1,5 +1,6 @@
 import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form";
 
+export const FORM_ID = "reports-form";
 export const NAME = "ReportsForm";
 export const NAME_FIELD = "name.en";
 export const DESCRIPTION_FIELD = "description.en";
@@ -43,7 +44,10 @@ export const REPORT_FIELD_TYPES = Object.freeze({
 
 export const DEFAULT_FILTERS = [
   Object.freeze({ attribute: "status", value: ["open"] }),
-  Object.freeze({ attribute: "record_state", value: ["true"] })
+  Object.freeze({ attribute: "record_state", value: ["true"] }),
+  Object.freeze({ attribute: "consent_reporting", value: ["true"] })
 ];
 
 export const NOT_NULL = "not_null";
+
+export const DATE = "date";

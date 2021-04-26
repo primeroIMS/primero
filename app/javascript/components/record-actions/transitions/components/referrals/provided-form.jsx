@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Grid, FormControlLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,8 +10,10 @@ import styles from "../../styles.css";
 import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeReferAnyway from "./on-change-refer-anyway";
 
+const useStyles = makeStyles(styles);
+
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const fieldReferAnyway = <Field name="referral" render={props => onChangeReferAnyway(props, setDisabled)} />;

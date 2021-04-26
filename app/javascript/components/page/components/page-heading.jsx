@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
 
@@ -6,7 +5,7 @@ import { useThemeHelper } from "../../../libs";
 import styles from "../styles.css";
 
 const PageHeading = ({ title, prefixAction, children, whiteHeading, mobileHeading }) => {
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
   const toolbarClass = mobileDisplay && mobileHeading ? css.toolbarMobile : css.toolbar;
 

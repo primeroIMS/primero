@@ -63,6 +63,23 @@ module Indicators
       scope: OPEN_CLOSED_ENABLED
     ).freeze
 
+    CASES_BY_SOCIAL_WORKER = [
+      FacetedIndicator.new(
+        name: 'cases_by_social_worker_total',
+        record_model: Child,
+        facet: 'owned_by',
+        scope: OPEN_ENABLED
+      ),
+      FacetedIndicator.new(
+        name: 'cases_by_social_worker_new_or_updated',
+        record_model: Child,
+        facet: 'owned_by',
+        scope: OPEN_ENABLED + [
+          SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
+        ]
+      )
+    ]
+
     RISK = FacetedIndicator.new(
       name: 'risk_level',
       facet: 'risk_level',
@@ -455,6 +472,15 @@ module Indicators
       ]
     ).freeze
 
+    WITH_NEW_INCIDENTS = QueriedIndicator.new(
+      name: 'with_new_incidents',
+      record_model: Child,
+      scope_to_owner: true,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'current_alert_types', value: Alertable::INCIDENT_FROM_CASE)
+      ]
+    ).freeze
+
     WITHOUT_INCIDENTS = QueriedIndicator.new(
       name: 'without_incidents',
       record_model: Child,
@@ -509,6 +535,81 @@ module Indicators
             SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
           ]
         )
+      ]
+    end
+
+    def self.cases_to_assign
+      # TODO: Candidate for caching.
+      risk_levels = (Lookup.find_by(unique_id: 'lookup-risk-level')&.lookup_values || []).map { |value| value['id'] }
+      risk_level_indicators(risk_levels) + overdue_risk_level_indicators(risk_levels)
+    end
+
+    def self.risk_level_indicators(risk_levels)
+      [QueriedIndicator.new(
+        name: 'cases_none',
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels)
+        ]
+      )] + risk_levels.map { |risk_level| risk_level_indicator(risk_level) }
+    end
+
+    def self.overdue_risk_level_indicators(risk_levels)
+      [QueriedIndicator.new(
+        name: 'overdue_cases_none',
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: overdue_none_risk_level_queries(risk_levels)
+      )] + risk_levels.map { |risk_level| overdue_risk_level_indicator(risk_level) }
+    end
+
+    def self.risk_level_indicator(risk_level)
+      QueriedIndicator.new(
+        name: "cases_#{risk_level}",
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
+        ]
+      )
+    end
+
+    def self.overdue_risk_level_indicator(risk_level)
+      QueriedIndicator.new(
+        name: "overdue_cases_#{risk_level}",
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: overdue_risk_level_queries(risk_level)
+      )
+    end
+
+    def self.overdue_none_risk_level_queries(risk_levels)
+      OPEN_ENABLED + [
+        SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels),
+        SearchFilters::DateRange.new(
+          field_name: 'reassigned_transferred_on',
+          from: Time.at(0),
+          to: Time.now - SystemSettings.current.timeframe_hours_to_assign.hour
+        )
+      ]
+    end
+
+    def self.overdue_risk_level_queries(risk_level)
+      timeframe = SystemSettings.current.timeframe_hours_to_assign.hour
+      timeframe = SystemSettings.current.timeframe_hours_to_assign_high.hour if risk_level == 'high'
+
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'reassigned_transferred_on',
+          from: Time.at(0),
+          to: Time.now - timeframe
+        ),
+        SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
       ]
     end
   end

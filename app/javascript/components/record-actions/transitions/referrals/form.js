@@ -20,24 +20,34 @@ import {
   FIELDS,
   TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
   STATE_REFERRAL_LOADING_PATH,
-  STATE_REFERRAL_USERS_PATH
+  STATE_REFERRAL_USERS_PATH,
+  USER_FIELDS
 } from "./constants";
 
 const commonHandleWatched = {
   handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({ disabled: !consent })
 };
 
-const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
+const localReferralFields = ({ i18n, recordType, isReferralFromService, record }) =>
   [
     {
       display_name: i18n.t("transfer.agency_label"),
       name: FIELDS.AGENCY,
       type: SELECT_FIELD,
       option_strings_source: OPTION_TYPES.AGENCY,
-      watchedInputs: [FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE, FIELDS.REMOTE],
       showIf: values => !values[FIELDS.REMOTE],
       clearDependentValues: [FIELDS.TRANSITIONED_TO],
       option_strings_source_id_key: "unique_id",
+      filterOptionSource: (watchedInputValues, options) => {
+        const { service } = watchedInputValues;
+
+        if (service) {
+          return options.filter(option => option.get("services").includes(service) && !option.get("disabled"));
+        }
+
+        return options;
+      },
       order: 5
     },
     {
@@ -56,23 +66,32 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService }) =>
       type: SELECT_FIELD,
       required: true,
       showIf: values => !values[FIELDS.REMOTE],
-      watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE, FIELDS.TRANSITIONED_TO],
       asyncOptions: true,
       asyncAction: fetchReferralUsers,
       asyncParams: { record_type: RECORD_TYPES[recordType] },
       asyncParamsFromWatched: TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
       asyncOptionsLoadingPath: STATE_REFERRAL_LOADING_PATH,
       option_strings_source: OPTION_TYPES.REFER_TO_USERS,
+      currRecord: record,
       setOtherFieldValues: [
         {
           field: FIELDS.LOCATION,
           path: STATE_REFERRAL_USERS_PATH,
-          key: "location"
+          filterKey: USER_FIELDS.USER_NAME,
+          valueKey: FIELDS.TRANSITIONED_TO,
+          optionStringSource: OPTION_TYPES.REPORTING_LOCATIONS,
+          setWhenEnabledInSource: true,
+          key: USER_FIELDS.LOCATION
         },
         {
           field: FIELDS.AGENCY,
           path: STATE_REFERRAL_USERS_PATH,
-          key: "agency"
+          filterKey: USER_FIELDS.USER_NAME,
+          valueKey: FIELDS.TRANSITIONED_TO,
+          optionStringSource: OPTION_TYPES.AGENCY,
+          setWhenEnabledInSource: true,
+          key: USER_FIELDS.AGENCY
         }
       ],
       order: 7
@@ -137,7 +156,7 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
 const commonReferralFields = ({ isReferralFromService, isExternalReferralFromService, i18n }) =>
   [
     {
-      display_name: i18n.t("transfer.is_remote_label"),
+      display_name: i18n.t("referral.is_remote_label"),
       name: FIELDS.REMOTE,
       type: TICK_FIELD,
       disabled: isReferralFromService,

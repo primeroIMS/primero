@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { isEmpty } from "lodash";
 
 import {
   FormSectionRecord,
@@ -8,9 +9,8 @@ import {
   SELECT_FIELD
 } from "../../../../../../../form";
 
-export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
-  const optionStringsText = field?.get("option_strings_text", fromJS({}));
-  const options = Array.isArray(optionStringsText) ? optionStringsText : optionStringsText?.toJS();
+export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite) => {
+  const optionStringsText = field?.get("option_strings_text", fromJS([]));
 
   return [
     {
@@ -24,44 +24,31 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           disabled: mode.get("isEdit"),
-          onChange: methods => {
-            methods.reset({ [fieldName]: { selected_value: "" } });
-          }
+          clearDependentValues: [`${fieldName}.selected_value`]
         }),
         FieldRecord({
           display_name: i18n.t("fields.default_value"),
           name: `${fieldName}.selected_value`,
           type: SELECT_FIELD,
-          option_strings_source: mode.get("isEdit") && field.get("option_strings_source"),
-          watchedInputs: [`${fieldName}.option_strings_source`],
-          handleWatchedInputs: value => {
-            const emptyOptions = [{ id: "", display_text: "" }];
-            const lookupSelected = lookups.find(
-              lookup => lookup.get("unique_id") === Object.values(value)[0]?.split(" ")?.pop()
-            );
-            const newSelectOptions = lookupSelected
-              ? emptyOptions.concat(
-                  lookupSelected
-                    .get("values")
-                    .toJS()
-                    .map(lk => ({
-                      id: lk.id,
-                      display_text: lk.display_text[i18n.locale]
-                    }))
-                )
-              : [];
+          option_strings_source: "Lookups",
+          watchedInputs: `${fieldName}.option_strings_source`,
+          disabled: limitedProductionSite,
+          filterOptionSource: (watchedInputsValues, lookupOptions) => {
+            if (!watchedInputsValues) return [];
 
-            return {
-              options: newSelectOptions
-            };
+            const lookupSelected = lookupOptions.find(lookup => lookup.id === watchedInputsValues);
+
+            const newSelectOptions = lookupSelected ? lookupSelected?.values : [];
+
+            return newSelectOptions;
           }
         })
       ])
     },
     {
       name: i18n.t("fields.create_unique_values"),
-      selected: Boolean(options?.length),
-      disabled: !mode.get("isNew") && !options?.length,
+      selected: !isEmpty(optionStringsText),
+      disabled: !mode.get("isNew") && isEmpty(optionStringsText),
       fields: fromJS([
         FieldRecord({
           display_name: i18n.t("fields.find_lookup"),
@@ -69,7 +56,8 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
           type: ORDERABLE_OPTIONS_FIELD,
           disabled: mode.get("isEdit"),
           selected_value: field.get("selected_value"),
-          option_strings_text: options
+          option_strings_text: optionStringsText,
+          rawOptions: true
         })
       ])
     }
@@ -77,21 +65,23 @@ export const optionsTabs = (fieldName, i18n, mode, field, lookups) => {
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = ({ fieldName, i18n, formMode, field, lookups, css }) => {
+export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProductionSite }) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
       name: "options_indications",
-      type: LABEL_FIELD
+      type: LABEL_FIELD,
+      disabled: limitedProductionSite
     }),
     FieldRecord({
       display_name: i18n.t("fields.options_indications_restrictions"),
       name: "options_indications_restrictions",
       inputClassname: css.boldLabel,
-      type: LABEL_FIELD
+      type: LABEL_FIELD,
+      disabled: limitedProductionSite
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, formMode, field, lookups)
+      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite)
     }
   ];
 

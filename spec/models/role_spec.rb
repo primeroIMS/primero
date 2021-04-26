@@ -211,19 +211,11 @@ describe Role do
       it 'should associate all the forms_sections to the role' do
         @role.associate_all_forms
         @role.reload
-        @role.form_sections.size.should eql 2
-        expect(@role.form_sections.to_a).to match_array [@form_section_a, @form_section_b]
+        @role.form_sections.size.should eql 3
+        expect(@role.form_sections.to_a).to match_array [@form_section_a, @form_section_b, @form_section_child]
       end
     end
     context 'when the form_section has subform' do
-      it 'should associate the parent forms_sections only' do
-        @form_section_c =
-          FormSection.create!(unique_id: 'parent', name: 'parent_form', parent_form: 'case', fields: [@field_subform])
-        @role.associate_all_forms
-        @role.reload
-        @role.form_sections.size.should eql 3
-        expect(@role.form_sections).to match_array [@form_section_a, @form_section_b, @form_section_c]
-      end
       it 'Reject forms from another primero-module with the associate_all_forms method' do
         primero_module = create(
           :primero_module, name: 'CP', description: 'Child Protection', associated_record_types: ['case']
@@ -334,7 +326,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: %w[C],
+        form_section_read_write: { A: 'rw' },
         module_unique_ids: [@module_cp.unique_id],
         permissions: {
           agency: %w[
@@ -366,7 +358,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: %w[C],
+        form_section_read_write: { A: 'rw' },
         module_unique_ids: [@module_cp.unique_id]
       }
     end
@@ -378,7 +370,7 @@ describe Role do
         referral: false,
         transfer: false,
         is_manager: true,
-        form_section_unique_ids: %w[C]
+        form_section_read_write: { A: 'rw' }
       }
     end
     let(:properties_without_forms) do
@@ -483,7 +475,7 @@ describe Role do
         configuration_hash = role.configuration_hash
         expect(configuration_hash['name']).to eq(role.name)
         expect(configuration_hash['permissions'][Permission::CASE]).to eq([Permission::READ])
-        expect(configuration_hash['form_section_unique_ids']).to match_array([form1.unique_id, form2.unique_id])
+        expect(configuration_hash['form_section_read_write']).to eq('A' => 'rw', 'B' => 'rw')
         expect(configuration_hash['module_unique_ids']).to eq([module1.unique_id])
       end
     end
@@ -494,13 +486,13 @@ describe Role do
           'unique_id' => 'role-test2',
           'name' => 'Role2',
           'permissions' => { 'case' => ['read'], 'objects' => {} },
-          'form_section_unique_ids' => %w[A B],
+          'form_section_read_write' => { A: 'rw', B: 'r' },
           'module_unique_ids' => [module1.unique_id]
         }
         new_role = Role.create_or_update!(configuration_hash)
         expect(new_role.configuration_hash['unique_id']).to eq(configuration_hash['unique_id'])
         expect(new_role.configuration_hash['permissions']['case']).to eq(['read'])
-        expect(new_role.configuration_hash['form_section_unique_ids']).to contain_exactly('A', 'B')
+        expect(new_role.configuration_hash['form_section_read_write']).to eq('A' => 'rw', 'B' => 'r')
         expect(new_role.configuration_hash['module_unique_ids']).to eq([module1.unique_id])
         expect(new_role.id).not_to eq(role.id)
       end
@@ -510,7 +502,7 @@ describe Role do
           'unique_id' => 'role-test',
           'name' => 'Role',
           'permissions' => { 'case' => %w[read write], 'objects' => {} },
-          'form_section_unique_ids' => %w[A],
+          'form_section_read_write' => { A: 'rw' },
           'module_unique_ids' => [module1.unique_id]
         }
 
@@ -519,6 +511,33 @@ describe Role do
         expect(role2.permissions.size).to eq(1)
         expect(role2.permissions[0].actions).to eq(%w[read write])
         expect(role2.form_section_unique_ids).to eq(%w[A])
+        expect(role2.form_section_permission).to eq('A' => 'rw')
+      end
+    end
+
+    describe '#form_section_permission' do
+      let(:form1) { FormSection.create!(unique_id: 'F1', name: 'F1', parent_form: 'case', form_group_id: 'm') }
+      let(:form2) { FormSection.create!(unique_id: 'F2', name: 'F2', parent_form: 'case', form_group_id: 'n') }
+      let(:role) do
+        Role.new_with_properties(
+          name: 'Role A',
+          unique_id: 'role-A',
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ],
+          form_section_read_write: { form1.unique_id => 'rw', form2.unique_id => 'rw' }
+        )
+      end
+
+      before(:each) do
+        role.save!
+      end
+      it 'returns form_section_permission' do
+        expect(role.form_section_permission).to eq('F1' => 'rw', 'F2' => 'rw')
       end
     end
   end

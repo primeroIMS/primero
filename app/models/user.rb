@@ -9,12 +9,12 @@
 # rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::Allowlist
+  include ConfigurationRecord
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
-  PASSWORD_REGEX = /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
-  attr_accessor :exists_reporting_location
+  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions
   attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
   attr_writer :user_location, :reporting_location
 
@@ -23,9 +23,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :timeoutable, :recoverable, :lockable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
+  self.unique_id_attribute = 'user_name'
+
   belongs_to :role
-  belongs_to :agency
+  belongs_to :agency, optional: true
   belongs_to :identity_provider, optional: true
+  belongs_to :code_of_conduct, optional: true
 
   has_many :saved_searches
   has_and_belongs_to_many :user_groups
@@ -43,9 +46,11 @@ class User < ApplicationRecord
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
+  before_validation :generate_random_password
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale
+  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
   after_update :reassociate_groups_or_agencies
+  after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
   validates :user_name, presence: true, uniqueness: { message: 'errors.models.user.user_name_uniqueness' }
@@ -60,14 +65,13 @@ class User < ApplicationRecord
   validates :password,
             presence: true,
             length: { minimum: 8, message: 'errors.models.user.password_mismatch' },
-            format: { with: PASSWORD_REGEX, message: 'errors.models.user.password_mismatch' },
             confirmation: { message: 'errors.models.user.password_mismatch' },
             if: :password_required?
   validates :password_confirmation,
             presence: { message: 'errors.models.user.password_confirmation' },
             if: :password_required?
   validates :role, presence: { message: 'errors.models.user.role_ids' }
-  validates :agency, presence: { message: 'errors.models.user.organization' }
+  validates :agency, presence: { message: 'errors.models.user.organization' }, unless: :service_account
   validates :identity_provider, presence: { message: 'errors.models.user.identity_provider' }, if: :using_idp?
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
@@ -75,7 +79,14 @@ class User < ApplicationRecord
 
   class << self
     def hidden_attributes
-      %w[encrypted_password reset_password_token reset_password_sent_at]
+      %w[
+        encrypted_password reset_password_token reset_password_sent_at service_account
+        identity_provider_id unlock_token locked_at failed_attempts role_id
+      ]
+    end
+
+    def self_hidden_attributes
+      %w[role_unique_id identity_provider_unique_id user_name]
     end
 
     def password_parameters
@@ -87,17 +98,23 @@ class User < ApplicationRecord
     end
 
     def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ services: [] }]
+      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
-    def permitted_api_params
-      (
+    def permitted_api_params(current_user = nil, target_user = nil)
+      permitted_params = (
         User.permitted_attribute_names + User.password_parameters +
         [
-          { user_group_ids: [] }, { user_group_unique_ids: [] },
-          { module_unique_ids: [] }, :role_unique_id, :identity_provider_unique_id
+          { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
+          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id'
         ]
       ) - User.hidden_attributes
+
+      return permitted_params if current_user.nil? || target_user.nil?
+
+      return permitted_params unless current_user.user_name == target_user.user_name
+
+      permitted_params - User.self_hidden_attributes
     end
 
     def last_login_timestamp(user_name)
@@ -127,29 +144,7 @@ class User < ApplicationRecord
       enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
     end
 
-    # TODO: Move the logic for find_permitted_users, users_for_assign,
-    #       users_for_referral, users_for_transfer, users_for_transition into services
-
-    def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
-      users = User.all.includes(:user_groups, role: :primero_modules)
-      if filters.present?
-        filters = filters.compact
-        filters['disabled'] = filters['disabled'].values if filters['disabled'].present?
-        users = users.where(filters.except('user_group_ids'))
-        users = filter_with_groups(users, filters)
-      end
-      if user.present? && user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
-        users = users.where(organization: user.organization)
-      end
-
-      results = { total: users.size }
-      pagination = { per_page: 20, page: 1 } if pagination.blank?
-      pagination[:offset] = pagination[:per_page] * (pagination[:page] - 1)
-      users = users.limit(pagination[:per_page]).offset(pagination[:offset])
-      users = users.order(sort) if sort.present?
-      results.merge(users: users)
-    end
-
+    # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
     def users_for_assign(user, model)
       return User.none unless model.present?
 
@@ -214,6 +209,10 @@ class User < ApplicationRecord
     associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
   end
 
+  def configuration_hash
+    super.except('encrypted_password', 'reset_password_token', 'reset_password_sent_at', 'unlock_token', 'locked_at')
+  end
+
   def associate_role_unique_id(role_unique_id)
     return unless role_unique_id.present?
 
@@ -237,7 +236,7 @@ class User < ApplicationRecord
   end
 
   def using_idp?
-    Rails.configuration.x.idp.use_identity_provider
+    Rails.configuration.x.idp.use_identity_provider && !service_account
   end
 
   def password_required?
@@ -330,26 +329,39 @@ class User < ApplicationRecord
     @managers
   end
 
-  # This method indicates what records this user can search for.
+  # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
-    user_scope = if can_search_for_all?(record_model, id_search)
+    user_scope = case user_query_scope(record_model, id_search)
+                 when Permission::AGENCY
+                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
+                 when Permission::GROUP
+                   { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::ALL
                    {}
-                 elsif group_permission?(Permission::AGENCY)
-                   { 'agency' => agency.unique_id }
-                 elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-                   { 'group' => user_groups.pluck(:unique_id).compact }
                  else
                    { 'user' => user_name }
                  end
     { user: user_scope, module: module_unique_ids }
   end
 
+  def user_query_scope(record_model = nil, id_search = false)
+    if can_search_for_all?(record_model, id_search)
+      Permission::ALL
+    elsif group_permission?(Permission::AGENCY)
+      Permission::AGENCY
+    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+      Permission::GROUP
+    else
+      Permission::USER
+    end
+  end
+
   def can_search_for_all?(record_model, id_search = false)
-    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search && record_model)
   end
 
   def mobile_login_history
@@ -407,8 +419,9 @@ class User < ApplicationRecord
     modules.select { |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_fields(record_type = nil, visible_forms_only = false)
-    Field.joins(form_section: :roles).where(
+  def permitted_fields(record_type = nil, visible_forms_only = false, writeable = false)
+    permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
+    fields = Field.joins(form_section: :roles).where(
       fields: {
         form_sections: {
           roles: { id: role_id },
@@ -417,10 +430,12 @@ class User < ApplicationRecord
         }.compact
       }
     )
+    fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } }) if writeable
+    fields
   end
 
-  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false)
-    permitted_fields(record_type, visible_forms_only).distinct.pluck(:name)
+  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false, writeable = false)
+    permitted_fields(record_type, visible_forms_only, writeable).distinct.pluck(:name)
   end
 
   def permitted_roles_to_manage
@@ -477,6 +492,10 @@ class User < ApplicationRecord
     super
   end
 
+  def agency_read?
+    permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
   private
 
   def update_owned_by_fields
@@ -492,8 +511,8 @@ class User < ApplicationRecord
 
   def update_child_owned_by_fields(child)
     child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency_id if agency_id_changed?
+    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
+    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
     child.owned_by_agency_office = agency_office if agency_office_changed?
     child.save!
   end
@@ -523,8 +542,21 @@ class User < ApplicationRecord
     user_name.downcase!
   end
 
+  def generate_random_password
+    return unless password_required? && password.blank? && password_confirmation.blank?
+
+    password = "#{SecureRandom.base64(40)}1a"
+    self.password = password
+    self.password_confirmation = password
+    self.should_send_password_reset_instructions = true
+  end
+
   def set_agency_services
     self.services = agency.services if agency.present? && services.blank?
+  end
+
+  def set_code_of_conduct_accepted_on
+    self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
   end
 
   def reassociate_groups_or_agencies

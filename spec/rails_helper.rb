@@ -44,6 +44,17 @@ RSpec.configure do |config|
 
   config.formatter = :progress
 
+  # Provide clean nested contexts e.g.
+  #
+  # describe "..." do
+  #   with "..." do
+  #     it "..." do
+  #       ...
+  #     end
+  #   end
+  # end
+  config.alias_example_group_to :with
+
   # Cleaner backtrace for failure messages
   config.backtrace_exclusion_patterns = [
     %r{/lib\d*/ruby/},

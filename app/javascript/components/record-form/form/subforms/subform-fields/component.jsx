@@ -1,11 +1,12 @@
 /* eslint-disable  react/no-array-index-key */
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
+import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
@@ -17,16 +18,36 @@ import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
-import { compare } from "../../../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
 import styles from "../styles.css";
 
-const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDialogIsNew, setOpen, values }) => {
+import { TracingRequestStatus } from "./components";
+
+const useStyles = makeStyles(styles);
+
+const Component = ({
+  arrayHelpers,
+  field,
+  isTracesSubform,
+  locale,
+  mode,
+  setDialogIsNew,
+  setOpen,
+  values,
+  formik,
+  parentForm
+}) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
+  const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const validationErrors = useSelector(state => getValidationErrors(state, form.unique_id), compare);
+
+  const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
+
+  // eslint-disable-next-line camelcase
+  const parentFormUniqueId = parentForm?.unique_id || "";
 
   const {
     subform_sort_by: subformSortBy,
@@ -50,6 +71,9 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
       if (uniqueId) {
         arrayHelpers.replace(index, { _destroy: true, unique_id: uniqueId });
       } else {
+        if (formik.values[name].length) {
+          formik.setTouched(omit(formik.touched, name));
+        }
         arrayHelpers.remove(index);
       }
 
@@ -67,13 +91,18 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
     setSelectedIndex(null);
   };
 
-  const handleEdit = index => {
+  const handleEdit = index => () => {
     setDialogIsNew(false);
     setOpen({ open: true, index });
   };
 
   const hasError = index =>
-    Boolean(validationErrors?.size && validationErrors.getIn(["errors", subformField.get("unique_id"), index], false));
+    Boolean(
+      validationErrors?.size &&
+        validationErrors
+          .find(error => error.get("unique_id") === parentFormUniqueId)
+          ?.getIn(["errors", subformField.get("unique_id"), index], false)
+    );
 
   if (values && values.length > 0) {
     let sortedValues = [];
@@ -110,10 +139,11 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
                   displayName={displayName}
                   locale={locale}
                   values={values}
-                  onClick={handleEdit}
+                  onClick={handleEdit(index)}
                 />
               </div>
               <div className={css.subformHeaderActions}>
+                {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
@@ -125,14 +155,14 @@ const Component = ({ arrayHelpers, field, form, locale, mode, recordType, setDia
                   />
                 ) : null}
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
-                  <SubformMenu index={index} values={values} recordType={recordType} />
+                  <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
-                  icon={<ArrowIcon />}
+                  icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,
-                    onClick: () => handleEdit(index)
+                    onClick: handleEdit(index)
                   }}
                 />
               </div>
@@ -159,10 +189,11 @@ Component.displayName = SUBFORM_FIELDS;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired,
+  isTracesSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string,
+  parentForm: PropTypes.object.isRequired,
   setDialogIsNew: PropTypes.func.isRequired,
   setOpen: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

@@ -21,7 +21,7 @@ import { DATE_TIME_FIELD, MULTI_SELECT_FIELD } from "./constants";
 describe("<CustomFieldSelectorDialog />", () => {
   let component;
   const initialState = fromJS({
-    ui: { dialogs: { custom_field_selector_dialog: true } }
+    ui: { dialogs: { dialog: "custom_field_selector_dialog", open: true } }
   });
 
   beforeEach(() => {
@@ -55,5 +55,31 @@ describe("<CustomFieldSelectorDialog />", () => {
     expect(component.find(ListSubheader).find(ListItemSecondaryAction).text()).to.equal("forms.select_label");
     expect(component.find(ListItemText)).to.have.lengthOf(12);
     expect(component.find(ListItemText).map(item => item.text())).to.deep.equal(fields);
+  });
+
+  it("should accept valid props", () => {
+    const actionDialogProps = { ...component.find(ActionDialog).props() };
+
+    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    [
+      "cancelButtonProps",
+      "cancelHandler",
+      "children",
+      "confirmButtonLabel",
+      "dialogTitle",
+      "disableBackdropClick",
+      "enabledSuccessButton",
+      "fetchArgs",
+      "omitCloseAfterSuccess",
+      "open",
+      "showSuccessButton",
+      "successHandler",
+      "disableClose",
+      "hideIcon"
+    ].forEach(property => {
+      expect(actionDialogProps).to.have.property(property);
+      delete actionDialogProps[property];
+    });
+    expect(actionDialogProps).to.be.empty;
   });
 });

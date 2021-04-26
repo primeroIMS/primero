@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent, listHeaders, lookups } from "../../../../test";
+import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
 import { ACTIONS } from "../../../../libs/permissions";
 
@@ -8,6 +8,7 @@ import NAMESPACE from "./namespace";
 import UserGroupsList from "./container";
 
 describe("<UserGroupsList />", () => {
+  let stubI18n = null;
   let component;
   const dataLength = 30;
   const data = Array.from({ length: dataLength }, (_, i) => ({
@@ -18,6 +19,7 @@ describe("<UserGroupsList />", () => {
   }));
 
   beforeEach(() => {
+    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
     const initialState = fromJS({
       records: {
         user_groups: {
@@ -53,17 +55,25 @@ describe("<UserGroupsList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: { total: dataLength, per: 20, page: 2 },
+        params: fromJS({ total: dataLength, per: 20, page: 2 }),
         path: NAMESPACE
       },
       type: `${NAMESPACE}/USER_GROUPS`
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2]).to.deep.equals(expectAction);
+    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

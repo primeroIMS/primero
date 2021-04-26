@@ -1,30 +1,23 @@
 import isEmpty from "lodash/isEmpty";
-import { fromJS, OrderedMap } from "immutable";
+import { fromJS, OrderedMap, List } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
+import { MODULES, RECORD_TYPES } from "../../config";
+import generateKey from "../charts/table-values/utils";
 
-import { NavRecord } from "./records";
+import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
+import { NavRecord, FormSectionRecord } from "./records";
 import NAMESPACE from "./namespace";
 
-const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }) => {
-  const allFormSections = state.getIn([NAMESPACE, "formSections"]);
-
-  if (isEmpty(allFormSections)) return null;
-
-  if (all) {
-    return allFormSections;
-  }
-
-  const userFormSection = formsIds ? allFormSections.filter(fs => formsIds.includes(fs.unique_id)) : allFormSections;
-
-  const formSections = userFormSection.filter(
-    fs =>
+const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
+  const formSections = forms.filter(
+    formSection =>
       (Array.isArray(primeroModule)
-        ? fs.module_ids.some(mod => primeroModule.includes(mod))
-        : fs.module_ids.includes(primeroModule)) &&
-      fs.parent_form === recordType &&
-      !fs.is_nested
+        ? formSection.module_ids.some(mod => primeroModule.includes(mod))
+        : formSection.module_ids.includes(primeroModule)) &&
+      formSection.parent_form === recordType &&
+      (!includeNested ? !formSection.is_nested : true)
   );
 
   if (checkVisible === false) {
@@ -32,6 +25,23 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds }
   }
 
   return formSections.filter(fs => fs.visible);
+};
+
+const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, includeNested }) => {
+  const allFormSections = state.getIn([NAMESPACE, "formSections"]);
+  const formsPermitted = formsIds?.keySeq()?.toArray();
+
+  if (isEmpty(allFormSections)) return null;
+
+  if (all) {
+    return allFormSections;
+  }
+
+  const userFormSection = formsPermitted
+    ? allFormSections.filter(fs => formsPermitted.includes(fs.unique_id))
+    : allFormSections;
+
+  return filterForms(userFormSection, { recordType, primeroModule, checkVisible, includeNested });
 };
 
 const isAStickyOption = (opt, stickyOption) =>
@@ -66,6 +76,32 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const customForms = i18n => ({
+  summary: FormSectionRecord({
+    id: generateKey(),
+    unique_id: "summary",
+    description: {
+      [i18n.locale]: i18n.t("cases.summary.label")
+    },
+    name: {
+      [i18n.locale]: i18n.t("cases.summary.label")
+    },
+    visible: true,
+    is_first_tab: false,
+    order: 9,
+    order_form_group: 130,
+    parent_form: RECORD_TYPES.cases,
+    editable: true,
+    module_ids: [MODULES.CP],
+    form_group_id: "tracing",
+    is_nested: false,
+    subform_prevent_item_removal: false,
+    collapsed_field_names: [],
+    subform_append_only: false,
+    initial_subforms: 0
+  })
+});
+
 export const getFirstTab = (state, query) => {
   const selectedForms = forms(state, query);
 
@@ -87,18 +123,31 @@ export const getFormNav = (state, query) => {
 
   if (!selectedForms) return null;
 
-  return selectedForms
-    .map(fs =>
-      NavRecord({
+  const { i18n, renderCustomForms, recordType, primeroModule } = query;
+  let allSelectedForms = selectedForms;
+
+  if (renderCustomForms) {
+    const filteredCustomForms = filterForms(List(Object.values(customForms(i18n))), {
+      recordType,
+      primeroModule,
+      checkVisible: true
+    });
+    const allCustomForms = filteredCustomForms.reduce((acc, form) => ({ ...acc, [form.id]: form }), {});
+
+    allSelectedForms = allSelectedForms.concat(allCustomForms);
+  }
+
+  return allSelectedForms
+    .map(fs => {
+      return NavRecord({
         group: fs.form_group_id,
-        groupName: displayNameHelper(fs.form_group_name, window.I18n.locale),
         groupOrder: fs.order_form_group,
         name: displayNameHelper(fs.name, window.I18n.locale),
         order: fs.order,
         formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
-      })
-    )
+      });
+    })
     .sortBy(fs => fs.order)
     .groupBy(fs => fs.group)
     .sortBy(fs => fs.first().get("groupOrder"));
@@ -113,14 +162,34 @@ export const getRecordForms = (state, query) => {
   return denormalizedForms.valueSeq();
 };
 
-export const getRecordFormsByUniqueId = (state, query) => {
-  const { recordType, primeroModule, formName, checkVisible } = query;
+export const getOrderedRecordForms = (state, query) => {
+  return getRecordForms(state, query)
+    .sortBy(fs => fs.order)
+    .groupBy(fs => fs.group)
+    .sortBy(fs => fs.first().get("groupOrder"))
+    .valueSeq()
+    .flatten();
+};
 
-  return getRecordForms(state, {
+export const getRecordFormsByUniqueId = (state, query) => {
+  const { recordType, primeroModule, formName, checkVisible, i18n, includeNested, getFirst } = query;
+
+  if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
+    return List([customForms(i18n)[formName]]);
+  }
+
+  const allRecordForms = getRecordForms(state, {
     recordType,
     primeroModule,
-    checkVisible
+    checkVisible,
+    includeNested
   }).filter(f => f.unique_id === formName);
+
+  if (getFirst) {
+    return allRecordForms.first();
+  }
+
+  return allRecordForms;
 };
 
 export const getOption = (state, option, locale, stickyOption = "") => {
@@ -128,7 +197,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
 
   if (typeof option === "string") {
     const selectedOptions = state
-      .getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]))
+      .getIn([NAMESPACE, "options", "lookups"], fromJS([]))
       .filter(o => o.get("unique_id") === option.replace(/lookup /, ""))
       .first();
 
@@ -138,7 +207,7 @@ export const getOption = (state, option, locale, stickyOption = "") => {
   return transformOptionSource(options, locale, stickyOption);
 };
 
-export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups", "data"], fromJS([]));
+export const getOptions = state => state.getIn([NAMESPACE, "options", "lookups"], fromJS([]));
 
 export const getLookups = (state, page = 1, per = 20) => {
   const data = state.getIn([NAMESPACE, "options", "lookups"], fromJS({}));
@@ -165,8 +234,6 @@ export const getErrors = state => state.getIn([NAMESPACE, "errors"], false);
 
 export const getSelectedForm = state => state.getIn([NAMESPACE, "selectedForm"]);
 
-export const getSelectedRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);
-
 export const getServiceToRefer = state => state.getIn([NAMESPACE, "serviceToRefer"], fromJS({}));
 
 export const getOptionsAreLoading = state => state.getIn([NAMESPACE, "options", "loading"], false);
@@ -191,6 +258,30 @@ export const getSubformsDisplayName = (state, locale) =>
     .map(fs => fromJS({ [fs.unique_id]: fs.getIn(["name", locale]) }))
     .reduce((acc, next) => acc.merge(next), fromJS({}));
 
-export const getFields = state => state.getIn([NAMESPACE, "fields"]);
+export const getAttachmentForms = state => state.getIn([NAMESPACE, "attachmentMeta", "forms"], fromJS([]));
+
+export const getAttachmentFields = state => state.getIn([NAMESPACE, "attachmentMeta", "fields"], fromJS([]));
+
+export const getFields = state => state.getIn([NAMESPACE, "fields"], fromJS([]));
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
+
+export const getFieldByName = (state, name) =>
+  state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);
+
+export const getFieldsWithNames = (state, names) =>
+  getFields(state)
+    .valueSeq()
+    .filter(field => names.includes(field.name))
+    .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
+
+export const getMiniFormFields = (state, recordType, primeroModule, exclude = []) => {
+  const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false });
+
+  return (recordForms || fromJS([]))
+    .flatMap(form => form.get("fields"))
+    .filter(field => field.show_on_minify_form && !exclude.includes(field.name));
+};
+
+export const getDataProtectionInitialValues = state =>
+  state.getIn([NAMESPACE, "dataProtectionInitialValues"], fromJS({}));

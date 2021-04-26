@@ -1,9 +1,15 @@
-export default (store, attemptSignout, msalSignout) => {
-  const usingIdp = store.getState().getIn(["idp", "use_identity_provider"]);
+import { signOut } from "../../components/login/components/idp-selection";
+import { attemptSignout } from "../../components/user";
+
+export default store => {
+  const usingIdp = store.getState().getIn(["idp", "use_identity_provider"], false);
+  const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
+
+  if (pendingUserLogin) return;
 
   if (usingIdp) {
-    msalSignout();
-  } else {
-    store.dispatch(attemptSignout());
+    signOut();
   }
+
+  store.dispatch(attemptSignout());
 };

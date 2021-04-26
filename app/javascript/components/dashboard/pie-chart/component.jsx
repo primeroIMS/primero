@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { createRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import Chart from "chart.js";
@@ -11,7 +11,7 @@ import { NAME, COLORS } from "./constants";
 
 const PieChart = ({ data, labels, query }) => {
   const dispatch = useDispatch();
-  const chartRef = React.createRef();
+  const chartRef = createRef();
 
   const handleClick = item => {
     if (query) {

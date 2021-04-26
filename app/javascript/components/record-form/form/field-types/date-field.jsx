@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { differenceInYears, parseISO } from "date-fns";
 import { InputAdornment } from "@material-ui/core";
@@ -6,18 +5,28 @@ import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
+import { useEffect, useRef } from "react";
 
 import { toServerDateFormat } from "../../../../libs";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
+import { DATE_FORMAT, DATE_TIME_FORMAT, DEFAULT_DATE_VALUES } from "../../../../config";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
 
 import DateFieldPicker from "./date-field-picker";
 
 const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ...rest }) => {
-  const allowedDefaultValues = ["TODAY", "NOW"];
+  const fieldValue = useRef(null);
+  const formInstance = useRef();
+
+  const allowedDefaultValues = Object.values(DEFAULT_DATE_VALUES);
 
   const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
+
+  useEffect(() => {
+    if (fieldValue.current && formInstance) {
+      formInstance.current.setFieldValue(name, fieldValue.current, true);
+    }
+  }, [fieldValue.current, formInstance]);
 
   const fieldProps = {
     name
@@ -42,7 +51,9 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
     } else if (!value && allowedDefaultValues.includes(selectedValue?.toUpperCase()) && !mode?.isShow) {
       dateValue = new Date();
     }
-    form.setFieldValue(name, dateValue, true);
+
+    formInstance.current = form;
+    fieldValue.current = dateValue;
 
     if (dateIncludeTime || isEmpty(value)) {
       return dateValue;
@@ -58,9 +69,21 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
     <FastField
       {...fieldProps}
       render={({ field, form }) => {
+        const onChange = date => {
+          updateAgeField(form, date);
+
+          const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
+
+          return form.setFieldValue(name, formattedDate, true);
+        };
+
         const dateProps = {
           ...{ ...field, value: getDateValue(form, field) },
-          ...omitBy(rest, (v, k) => ["recordType", "recordID"].includes(k)),
+          ...omitBy(rest, (value, key) =>
+            ["recordType", "recordID", "formSection", "field", "displayName", "linkToForm", "tickBoxlabel"].includes(
+              key
+            )
+          ),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
           clearable: true,
           InputProps: {
@@ -73,13 +96,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
               )
             })
           },
-          onChange: date => {
-            updateAgeField(form, date);
-
-            const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
-
-            return form.setFieldValue(name, formattedDate, true);
-          },
+          onChange,
           disableFuture: rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
           error: !!(fieldError && fieldTouched)
         };

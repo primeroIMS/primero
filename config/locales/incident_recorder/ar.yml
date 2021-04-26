@@ -25,7 +25,7 @@ ar:
         unknown: "غير معروف"
         header: "نوع عمر الجاني المزعوم"
       service_referral:
-        undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
+        undecided: "غير مقرّر"
       headers:
         incident_id: "رمز  الحادثة"
         survivor_code: "رمز الناجية"

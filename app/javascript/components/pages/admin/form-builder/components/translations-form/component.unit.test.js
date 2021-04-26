@@ -1,13 +1,14 @@
 import { fromJS } from "immutable";
-import { FormContext } from "react-hook-form";
 
 import { setupMockFormComponent } from "../../../../../../test";
+import { FormSectionField } from "../../../../../form";
 
 import TranslationsForm from "./component";
 
 describe("<TranslationsForm />", () => {
   let component;
-  const initialState = fromJS({
+
+  const state = fromJS({
     application: { locales: ["en", "fr", "ar"] },
     records: {
       admin: {
@@ -28,7 +29,7 @@ describe("<TranslationsForm />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(TranslationsForm, {}, {}, initialState, {}, true));
+    ({ component } = setupMockFormComponent(TranslationsForm, { props: { mode: "new" }, state }));
   });
 
   it("should render <TranslationsForm />", () => {
@@ -36,7 +37,7 @@ describe("<TranslationsForm />", () => {
   });
 
   it("should update name and description if the translation are updated", () => {
-    const { register, getValues } = component.find(FormContext).props();
+    const { register, getValues } = component.find(FormSectionField).at(0).props().formMethods;
 
     register({ name: "name.en" });
     register({ name: "description.en" });
@@ -51,7 +52,7 @@ describe("<TranslationsForm />", () => {
       .find("input[name='translations.description.en']")
       .simulate("blur", { target: { value: "Updated Description", name: "translations.description.en" } });
 
-    expect(getValues()["name.en"]).to.equal("Updated Name");
-    expect(getValues()["description.en"]).to.equal("Updated Description");
+    expect(getValues().name.en).to.equal("Updated Name");
+    expect(getValues().description.en).to.equal("Updated Description");
   });
 });

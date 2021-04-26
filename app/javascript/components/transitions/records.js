@@ -7,6 +7,7 @@ export const TransitionRecord = Record({
   record_id: null,
   record_type: null,
   created_at: null,
+  responded_at: null,
   notes: "",
   rejected_reason: "",
   status: null,
@@ -17,5 +18,7 @@ export const TransitionRecord = Record({
   transitioned_to_remote: null,
   transitioned_to: null,
   service: null,
-  remote: true
+  remote: true,
+  transitioned_to_agency: null,
+  rejection_note: null
 });

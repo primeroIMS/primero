@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -24,13 +24,19 @@ const Container = ({ actionItems }) => {
     itemAction();
   };
 
-  const actionMenuItems = actionItems
-    .filter(action => typeof action.condition === "undefined" || action.condition)
-    .map(action => (
-      <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={() => handleItemAction(action.action)}>
-        {action.name}
-      </MenuItem>
-    ));
+  const actionMenuItems = () => {
+    const handleMenuItemClick = currAction => () => handleItemAction(currAction.action);
+
+    return actionItems
+      .filter(action => typeof action.condition === "undefined" || action.condition)
+      .map(action => {
+        return (
+          <MenuItem key={action.name} selected={action.name === "Pyxis"} onClick={handleMenuItemClick(action)}>
+            {action.name}
+          </MenuItem>
+        );
+      });
+  };
 
   return (
     <>
@@ -46,7 +52,7 @@ const Container = ({ actionItems }) => {
       />
 
       <Menu id="long-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        {actionMenuItems}
+        {actionMenuItems()}
       </Menu>
     </>
   );

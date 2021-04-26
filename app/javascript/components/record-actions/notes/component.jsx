@@ -1,7 +1,6 @@
-import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { List } from "immutable";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { object, string } from "yup";
 
 import { useI18n } from "../../i18n";
@@ -9,23 +8,26 @@ import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
+import { NOTES_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
-import { NAME } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 
 const validationSchema = object().shape({
   note_subject: string().required(),
   note_text: string().required()
 });
 
-const Component = ({ close, openNotesDialog, record, recordType }) => {
+const Component = ({ close, open, pending, record, recordType, setPending }) => {
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
-  const recordAlerts = useSelector(state => getRecordAlerts(state, recordType));
+
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
 
   const handleSubmit = data => {
+    setPending(true);
+
     batch(async () => {
       await dispatch(
         saveRecord(
@@ -34,21 +36,17 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
           { data: { notes_section: [data] }, record_action: ACTIONS.ADD_NOTE },
           record.get("id"),
           i18n.t(`notes.note_success`),
+          i18n.t("offline_submitted_changes"),
           false,
           false,
-          false
+          NOTES_DIALOG
         )
       );
-      dispatch(fetchRecordsAlerts(recordType, record.get("id")));
     });
+
     if (recordAlerts.size <= 0) {
       dispatch(fetchAlerts());
     }
-    close();
-  };
-
-  const bindFormSubmit = () => {
-    formRef.current.submitForm();
   };
 
   const formSections = List([
@@ -74,18 +72,23 @@ const Component = ({ close, openNotesDialog, record, recordType }) => {
 
   return (
     <ActionDialog
-      open={openNotesDialog}
-      successHandler={bindFormSubmit}
+      open={open}
       dialogTitle={i18n.t("cases.notes_dialog_title")}
       confirmButtonLabel={i18n.t("buttons.save")}
+      omitCloseAfterSuccess
       onClose={close}
+      pending={pending}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
     >
       <Form
         mode={FORM_MODE_DIALOG}
         formSections={formSections}
         onSubmit={handleSubmit}
-        ref={formRef}
         validations={validationSchema}
+        formID={FORM_ID}
       />
     </ActionDialog>
   );
@@ -95,9 +98,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  openNotesDialog: PropTypes.bool,
+  open: PropTypes.bool,
+  pending: PropTypes.bool.isRequired,
   record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  setPending: PropTypes.func.isRequired
 };
 
 export default Component;

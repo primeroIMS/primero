@@ -16,3 +16,17 @@ export const DATE_FIELD_CUSTOM_VALUES = Object.freeze({
     })
   })
 });
+
+export const FIELD_FORM = "field-form";
+
+export const FIELD_TRANSLATABLE_OPTIONS = [
+  "display_name",
+  "help_text",
+  "guiding_questions",
+  "tick_box_label",
+  "option_strings_text"
+];
+
+export const SUBFORM_TRANSLATABLE_OPTIONS = ["name", "description"];
+
+export const RESET_OPTIONS = Object.freeze({ errors: true, dirtyFields: true, isDirty: true, touched: true });

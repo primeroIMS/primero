@@ -1,7 +1,4 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
-import { Grid } from "@material-ui/core";
 
 import { getReportingLocation } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -11,26 +8,27 @@ import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { getLocations } from "../../../../record-form";
 import { getReportingLocationConfig } from "../../../../user/selectors";
+import { ROUTES } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const locations = useSelector(state => getLocations(state));
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
-  const reportingLocation = useSelector(state => getReportingLocation(state));
+  const locations = useMemoizedSelector(state => getLocations(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const reportingLocation = useMemoizedSelector(state => getReportingLocation(state));
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_REPORTING_LOCATION}>
-      <Grid item xl={9} md={8} xs={12}>
-        <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
-          <DashboardTable
-            title={i18n.t("cases.label")}
-            {...toReportingLocationTable(reportingLocation, reportingLocationConfig, i18n, locations)}
-          />
-        </OptionsBox>
-      </Grid>
+      <OptionsBox title={i18n.t("cases.label")} hasData={Boolean(reportingLocation.size)} {...loadingIndicator}>
+        <DashboardTable
+          pathname={ROUTES.cases}
+          title={i18n.t("cases.label")}
+          {...toReportingLocationTable(reportingLocation, reportingLocationConfig, i18n, locations)}
+        />
+      </OptionsBox>
     </Permission>
   );
 };

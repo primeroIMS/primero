@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Radio,
@@ -10,10 +10,10 @@ import {
   Divider,
   makeStyles
 } from "@material-ui/core";
-import { useDispatch, useSelector, batch } from "react-redux";
+import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
   TEXT_FIELD,
   TEXT_AREA,
@@ -25,12 +25,10 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION
 } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
 import { NEW_FIELD } from "../../constants";
 import { setNewField, setTemporarySubform } from "../../action-creators";
-import { selectDialog } from "../../../../../record-actions/selectors";
 import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
   DateInput,
@@ -48,6 +46,8 @@ import {
 
 import styles from "./styles.css";
 import { CUSTOM_FIELD_SELECTOR_DIALOG, DATE_TIME_FIELD, NAME, MULTI_SELECT_FIELD } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const fields = [
   [TEXT_FIELD, TextInput],
@@ -68,12 +68,13 @@ const Component = ({ isSubform }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const css = makeStyles(styles)();
-  const openFieldSelectorDialog = useSelector(state => selectDialog(state, CUSTOM_FIELD_SELECTOR_DIALOG));
+  const css = useStyles();
+
+  const { dialogOpen, dialogClose, setDialog } = useDialog(CUSTOM_FIELD_SELECTOR_DIALOG);
 
   useEffect(() => {
     setSelectedItem("");
-  }, [openFieldSelectorDialog]);
+  }, [dialogOpen]);
 
   const handleListItem = item => {
     setSelectedItem(item);
@@ -100,18 +101,10 @@ const Component = ({ isSubform }) => {
     };
 
     batch(() => {
-      dispatch(
-        setDialog({
-          dialog: CUSTOM_FIELD_SELECTOR_DIALOG,
-          open: false
-        })
-      );
-      dispatch(
-        setDialog({
-          dialog: ADMIN_FIELDS_DIALOG,
-          open: true
-        })
-      );
+      setDialog({
+        dialog: ADMIN_FIELDS_DIALOG,
+        open: true
+      });
       dispatch(
         setNewField(
           {
@@ -141,10 +134,44 @@ const Component = ({ isSubform }) => {
 
   const handleClose = () => {
     batch(() => {
-      dispatch(setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: false }));
+      dialogClose();
+
       if (selectedItem === "") {
-        dispatch(setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true }));
+        setDialog({ dialog: CUSTOM_FIELD_DIALOG, open: true });
       }
+    });
+  };
+
+  const renderFields = () => {
+    const handleClickListItem = name => () => handleListItem(name);
+
+    return fields.map(field => {
+      const [name, Icon] = field;
+
+      const classes = clsx(css.inputIcon, {
+        [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
+      });
+
+      if (name === SUBFORM_SECTION && isSubform) {
+        return null;
+      }
+
+      return (
+        <Fragment key={field}>
+          <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
+            <ListItemText className={css.label}>
+              <div>{i18n.t(`fields.${name}`)}</div>
+              <div className={css.inputPreviewContainer}>
+                <Icon className={classes} />
+              </div>
+            </ListItemText>
+            <ListItemSecondaryAction>
+              <Radio value={name} checked={isItemSelected(name)} onChange={handleClickListItem(name)} />
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Divider />
+        </Fragment>
+      );
     });
   };
 
@@ -152,11 +179,12 @@ const Component = ({ isSubform }) => {
     <>
       <ActionDialog
         dialogTitle={i18n.t("fields.create_field")}
-        open={openFieldSelectorDialog}
+        open={dialogOpen}
         enabledSuccessButton={selectedItem !== ""}
         confirmButtonLabel={i18n.t("buttons.select")}
         successHandler={handleSelected}
         cancelHandler={handleClose}
+        omitCloseAfterSuccess
       >
         <List>
           <ListSubheader>
@@ -164,34 +192,7 @@ const Component = ({ isSubform }) => {
             <ListItemSecondaryAction className={css.listHeader}>{i18n.t("forms.select_label")}</ListItemSecondaryAction>
           </ListSubheader>
           <Divider />
-          {fields.map(field => {
-            const [name, Icon] = field;
-
-            if (name === SUBFORM_SECTION && isSubform) {
-              return null;
-            }
-
-            return (
-              <React.Fragment key={field}>
-                <ListItem selected={isItemSelected(name)} onClick={() => handleListItem(name)}>
-                  <ListItemText className={css.label}>
-                    <div>{i18n.t(`fields.${name}`)}</div>
-                    <div className={css.inputPreviewContainer}>
-                      <Icon
-                        className={clsx(css.inputIcon, {
-                          [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
-                        })}
-                      />
-                    </div>
-                  </ListItemText>
-                  <ListItemSecondaryAction>
-                    <Radio value={name} checked={isItemSelected(name)} onChange={() => handleListItem(name)} />
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider />
-              </React.Fragment>
-            );
-          })}
+          {renderFields()}
         </List>
       </ActionDialog>
     </>

@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
 import { Formik, Field, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { TextField } from "formik-material-ui";
 import isEmpty from "lodash/isEmpty";
 
-import { RECORD_TYPES, USER_NAME_FIELD } from "../../../../config";
+import { RECORD_TYPES } from "../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../selectors";
 import { saveAssignedUser, fetchAssignUsers } from "../action-creators";
 import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
@@ -15,26 +15,27 @@ import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
 import { applyFilters } from "../../../index-filters/action-creators";
 import { DEFAULT_FILTERS } from "../../../record-list/constants";
+import { filterUsers } from "../utils";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 import { searchableValue } from "./utils";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
-const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds }) => {
+const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, mode }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = "reassign";
 
-  const firstUpdate = React.useRef(true);
+  const firstUpdate = useRef(true);
 
   useEffect(() => {
     dispatch(fetchAssignUsers(RECORD_TYPES[recordType]));
   }, []);
 
-  const users = useSelector(state => getUsersByTransitionType(state, transitionType));
-
-  const hasErrors = useSelector(state => getErrorsByTransitionType(state, transitionType));
+  const users = useMemoizedSelector(state => getUsersByTransitionType(state, transitionType));
+  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, transitionType));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -77,19 +78,7 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds }
       }
     },
     excludeEmpty: true,
-    options: users
-      ? users
-          .valueSeq()
-          .map(user => {
-            const userName = user.get(USER_NAME_FIELD);
-
-            return {
-              value: userName.toLowerCase(),
-              label: userName
-            };
-          })
-          .toJS()
-      : []
+    options: filterUsers(users, mode, record, true)
   };
 
   const handleAssign = (values, { setSubmitting }) => {
@@ -129,11 +118,13 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds }
             <Field
               name="transitioned_to"
               render={({ field, form, ...other }) => {
+                const handleChange = data => handleTransitionedTo(data, form, field);
+
                 return (
                   <>
                     <SearchableSelect
                       defaultValues={searchableValue(field, searchableSelectProps.options, false)}
-                      onChange={data => handleTransitionedTo(data, form, field)}
+                      onChange={handleChange}
                       {...searchableSelectProps}
                       {...other}
                       onBlur={field.onBlur}
@@ -159,6 +150,7 @@ ReassignForm.displayName = REASSIGN_FORM_NAME;
 ReassignForm.propTypes = {
   assignRef: PropTypes.object,
   formik: PropTypes.object,
+  mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedIds: PropTypes.array,

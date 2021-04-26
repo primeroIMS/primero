@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name, react/prop-types */
 
 import { Checkbox } from "@material-ui/core";
-import React from "react";
 
 export default (props, setDisabled) => {
   const { field, form } = props;
@@ -10,6 +9,7 @@ export default (props, setDisabled) => {
     setDisabled(!fieldCheckbox.value);
     formCheckbox.setFieldValue(fieldCheckbox.name, !fieldCheckbox.value, false);
   };
+  const handleOnChange = () => onChange(field, form);
 
-  return <Checkbox checked={value} onChange={() => onChange(field, form)} />;
+  return <Checkbox checked={value} onChange={handleOnChange} />;
 };

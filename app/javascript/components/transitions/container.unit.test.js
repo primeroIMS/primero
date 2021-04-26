@@ -1,5 +1,5 @@
 import { Map, List } from "immutable";
-import { ExpansionPanelDetails, ExpansionPanelSummary } from "@material-ui/core";
+import { AccordionDetails, AccordionSummary } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
 
@@ -15,8 +15,9 @@ import TransferRequestDetails from "./transfer_requests/details";
 describe("<Transitions /> - Component", () => {
   let component;
   const props = {
+    fetchable: true,
     recordType: "cases",
-    record: "6b0018e7-d421-4d6b-80bf-ca4cbf488907"
+    recordID: "6b0018e7-d421-4d6b-80bf-ca4cbf488907"
   };
   const initialState = Map({
     records: Map({
@@ -78,17 +79,20 @@ describe("<Transitions /> - Component", () => {
 
   it("renders 2 TransitionPanel", () => {
     expect(component.find(TransitionPanel)).to.have.lengthOf(3);
-    expect(component.find(ExpansionPanelDetails)).to.have.lengthOf(3);
-    expect(component.find(ExpansionPanelSummary)).to.have.lengthOf(3);
+    expect(component.find(AccordionDetails)).to.have.lengthOf(3);
+    expect(component.find(AccordionSummary)).to.have.lengthOf(3);
   });
+
   it("renders a Assignments components", () => {
     expect(component.find(AssignmentsSummary)).to.have.length(1);
     expect(component.find(AssignmentsDetails)).to.have.length(1);
   });
+
   it("renders a Transfers components", () => {
     expect(component.find(TransferSummary)).to.have.length(1);
     expect(component.find(TransferDetails)).to.have.length(1);
   });
+
   it("renders TransferRequests components", () => {
     expect(component.find(TransferRequestSummary)).to.have.lengthOf(1);
     expect(component.find(TransferRequestDetails)).to.have.lengthOf(1);

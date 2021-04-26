@@ -1,6 +1,13 @@
+import { Map } from "immutable";
+import AddIcon from "@material-ui/icons/Add";
+
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import { TRACING_REQUEST_STATUS_FIELD_NAME, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
 import SubformDialog from "../subform-dialog";
+import SubformFields from "../subform-fields";
+import SubformHeader from "../subform-header";
+import SubformDrawer from "../subform-drawer";
 
 import SubformFieldArray from "./component";
 
@@ -30,7 +37,7 @@ describe("<SubformFieldArray />", () => {
     },
     field: FieldRecord({
       name: "family_details_section",
-      displayName: { en: "Family Details" },
+      display_name: { en: "Family Details" },
       subform_section_id: FormSectionRecord({
         unique_id: "family_section",
         fields: [
@@ -45,7 +52,11 @@ describe("<SubformFieldArray />", () => {
             type: "text_field"
           })
         ]
-      })
+      }),
+      subform_section_configuration: {
+        subform_sort_by: "relation_name"
+      },
+      disabled: false
     }),
     formik: {
       values: {
@@ -54,6 +65,7 @@ describe("<SubformFieldArray />", () => {
           { relation_name: "aut", relation_child_is_in_contac: "test B" }
         ]
       },
+      setValues: () => {},
       errors: { services_subform_section: [{ relation_name: "required" }] }
     },
     i18n: { t: value => value, locale: "en" },
@@ -62,9 +74,11 @@ describe("<SubformFieldArray />", () => {
       relation_child_is_in_contact: ""
     },
     mode: {
-      isShow: true
+      isShow: false,
+      isEdit: true
     },
-    recordType: "cases"
+    recordType: "cases",
+    isReadWriteForm: true
   };
 
   const formProps = {
@@ -86,5 +100,53 @@ describe("<SubformFieldArray />", () => {
 
   it("renders the SubformDialog", () => {
     expect(component.find(SubformDialog)).lengthOf(1);
+  });
+
+  it("renders the SubformFields", () => {
+    expect(component.find(SubformFields)).lengthOf(1);
+  });
+
+  it("renders the SubformHeader", () => {
+    expect(component.find(SubformHeader)).lengthOf(2);
+  });
+
+  it("renders the AddIcon", () => {
+    expect(component.find(AddIcon)).lengthOf(1);
+  });
+
+  describe("when is a tracing request and the traces subform", () => {
+    let tracingRequestComponent;
+
+    beforeEach(() => {
+      ({ component: tracingRequestComponent } = setupMountedComponent(
+        SubformFieldArray,
+        {
+          ...props,
+          recordType: "tracing_requests",
+          formSection: {
+            ...props.formSection,
+            unique_id: TRACES_SUBFORM_UNIQUE_ID
+          },
+          mode: {
+            isShow: true
+          }
+        },
+        Map({
+          forms: Map({
+            fields: [{ name: TRACING_REQUEST_STATUS_FIELD_NAME, option_strings_source: "lookup lookup-test" }]
+          })
+        }),
+        [],
+        {}
+      ));
+    });
+
+    it("renders the SubformDrawer", () => {
+      expect(tracingRequestComponent.find(SubformDrawer)).lengthOf(1);
+    });
+
+    it("should not render the SubformDialog", () => {
+      expect(tracingRequestComponent.find(SubformDialog)).lengthOf(0);
+    });
   });
 });

@@ -1,34 +1,40 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React, { useEffect, useImperativeHandle, useRef } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormContext, useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
-import bindFormSubmit from "../../../../../../libs/submit-form";
-import ActionDialog from "../../../../../action-dialog";
+import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
-import { compare } from "../../../../../../libs";
+import { useMemoizedSelector } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
-import { setDialog } from "../../../../../record-actions/action-creators";
 import { getSelectedSubform } from "../../selectors";
 import styles from "../styles.css";
+import { useApp } from "../../../../../application";
 
 import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
-import { NAME } from "./constants";
+import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
+import { reduceMapToObject } from "./utils";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
-  const formRef = useRef();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);
   const locales = localesToRender(i18n);
-  const selectedSubform = useSelector(state => getSelectedSubform(state), compare);
+  const { dialogClose } = useDialog(NAME);
+  const { limitedProductionSite } = useApp();
+
+  const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
+
   const {
     name: fieldName,
     display_name: displayName,
@@ -36,9 +42,9 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     guiding_questions: guidingQuestions,
     tick_box_label: tickBoxLabel,
     option_strings_text: optionStringsText
-  } = field.toJS();
+  } = reduceMapToObject(field);
 
-  const { name, description } = selectedSubform?.toJS() || {};
+  const { name, description } = selectedSubform || {};
 
   const formMethods = useForm({
     defaultValues: {
@@ -51,35 +57,62 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         option_strings_text: optionStringsText
       }
     },
-    validationSchema: validationSchema(i18n)
+    resolver: yupResolver(validationSchema(i18n))
   });
-  const selectedLocaleId = formMethods.watch("locale_id");
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { dirtyFields }
+  } = formMethods;
+
+  const selectedLocaleId = useWatch({
+    control,
+    name: "locale_id"
+  });
 
   const handleClose = () => {
     if (onClose) {
       onClose();
+    } else {
+      dialogClose();
     }
-
-    dispatch(setDialog({ dialog: NAME, open: false }));
   };
 
   const onSubmit = data => {
-    if (onSuccess) {
-      onSuccess(data, true);
-    }
-    handleClose();
+    submitHandler({
+      dispatch,
+      data,
+      dirtyFields,
+      formMode,
+      i18n,
+      initialValues: {},
+      message: i18n.t("forms.translations.no_changes_message"),
+      onSubmit: formData => {
+        if (onSuccess) {
+          // eslint-disable-next-line camelcase
+          const { locale_id, ...currentData } = { ...formData };
+
+          onSuccess(currentData, true);
+        }
+        handleClose();
+      }
+    });
   };
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.update"),
     confirmButtonProps: {
-      icon: <CheckIcon />
+      icon: <CheckIcon />,
+      form: FIELD_TRANSLATIONS_FORM,
+      type: "submit"
     },
     dialogTitle: i18n.t("forms.translations.edit"),
     open,
-    successHandler: () => bindFormSubmit(formRef),
     cancelHandler: () => handleClose(),
-    omitCloseAfterSuccess: true
+    omitCloseAfterSuccess: true,
+    showSuccessButton: !limitedProductionSite
   };
 
   const renderForms = () =>
@@ -92,21 +125,11 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
       field,
       subform: selectedSubform,
       currentValues,
-      isNested
-    }).map(form => <FormSection formSection={form} key={form.unique_id} />);
-
-  useImperativeHandle(
-    formRef,
-    submitHandler({
-      dispatch,
-      formMethods,
-      formMode,
-      i18n,
-      initialValues: {},
-      message: i18n.t("forms.translations.no_changes_message"),
-      onSubmit
-    })
-  );
+      isNested,
+      limitedProductionSite
+    }).map(form => (
+      <FormSection formSection={form} key={form.unique_id} formMode={formMode} formMethods={formMethods} />
+    ));
 
   useEffect(() => {
     if (open) {
@@ -124,7 +147,7 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
           ? { name: currentValues[selectedSubform.get("unique_id")].display_name }
           : {});
 
-      formMethods.reset({
+      reset({
         locale_id: locales?.first()?.get("id"),
         subform_section: {
           name: { ...name, ...subformSection?.name },
@@ -146,12 +169,15 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
 
   return (
     <ActionDialog {...modalProps}>
-      <FormContext {...formMethods} formMode={formMode}>
-        <form className={css.formBuilderDialog}>
-          {renderForms()}
-          <TranslatableOptions field={field} selectedLocaleId={selectedLocaleId} />
-        </form>
-      </FormContext>
+      <form className={css.formBuilderDialog} onSubmit={handleSubmit(onSubmit)} id={FIELD_TRANSLATIONS_FORM}>
+        {renderForms()}
+        <TranslatableOptions
+          field={field}
+          selectedLocaleId={selectedLocaleId}
+          formMethods={formMethods}
+          formMode={formMode}
+        />
+      </form>
     </ActionDialog>
   );
 };

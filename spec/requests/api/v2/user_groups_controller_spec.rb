@@ -4,7 +4,15 @@ require 'rails_helper'
 
 describe Api::V2::UserGroupsController, type: :request do
   before :each do
-    clean_data(UserGroup)
+    clean_data(UserGroup, Role)
+    @role = Role.create!(
+      name: 'Test Role 1',
+      unique_id: 'test-role-1',
+      group_permission: 'group',
+      permissions: [
+        Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+      ]
+    )
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')
     @user_group_b = UserGroup.create!(unique_id: 'user-group-2', name: 'user group 2')
   end

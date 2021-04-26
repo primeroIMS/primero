@@ -1,7 +1,7 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useForm, FormContext } from "react-hook-form";
-import { useSelector, useDispatch } from "react-redux";
+import { useForm, FormProvider } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 import merge from "lodash/merge";
@@ -18,6 +18,7 @@ import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
+import { useMemoizedSelector } from "../../libs";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -34,8 +35,10 @@ import Actions from "./components/actions";
 import styles from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
@@ -47,22 +50,21 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const [reset, setReset] = useState(false);
   const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
   const dispatch = useDispatch();
+  const defaultFiltersPlainObject = defaultFilters.toJS();
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFilters.toJS(), filterToList) : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
   });
 
-  const reportingLocationConfig = useSelector(state => getReportingLocationConfig(state));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+  const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType));
+  const userName = useMemoizedSelector(state => currentUser(state));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
-
-  const filters = useSelector(state => getFiltersByRecordType(state, recordType));
-
-  const userName = useSelector(state => currentUser(state));
 
   const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
 
@@ -173,7 +175,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   useEffect(() => {
     if (rerender) {
-      const filtersToApply = isEmpty(queryParams) ? defaultFilters.toJS() : queryParams;
+      const filtersToApply = isEmpty(queryParams) ? defaultFiltersPlainObject : queryParams;
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
@@ -208,8 +210,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const handleClear = useCallback(() => {
     resetSelectedRecords();
-    methods.reset(defaultFilters.toJS());
-    dispatch(setFilters({ recordType, data: defaultFilters.toJS() }));
+    methods.reset(defaultFiltersPlainObject);
+    dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
 
     dispatch(push({}));
 
@@ -219,14 +221,16 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setFilterToList(DEFAULT_FILTERS);
   });
 
+  const handleChangeTabs = (event, value) => setTabIndex(value);
+
   return (
     <div className={css.root}>
-      <FormContext {...methods} user={userName}>
+      <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search handleReset={handleClear} />
           <Tabs
             value={tabIndex}
-            onChange={(event, value) => setTabIndex(value)}
+            onChange={handleChangeTabs}
             TabIndicatorProps={{
               style: {
                 backgroundColor: "transparent"
@@ -268,7 +272,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
             <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
           )}
         </form>
-      </FormContext>
+      </FormProvider>
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />
     </div>
   );

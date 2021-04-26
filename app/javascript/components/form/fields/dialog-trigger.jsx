@@ -1,12 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Button, Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const { label } = commonInputProps;
   const { onClick } = metaInputProps;
 

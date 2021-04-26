@@ -8,7 +8,7 @@ import FieldsList from "./component";
 describe("<FieldsList />", () => {
   let component;
 
-  const initialState = fromJS({
+  const state = fromJS({
     records: {
       admin: {
         forms: {
@@ -22,7 +22,7 @@ describe("<FieldsList />", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMockFormComponent(FieldsList, { formContextFields: {} }, {}, initialState, {}, true));
+    ({ component } = setupMockFormComponent(FieldsList, { props: { formContextFields: {} }, state }));
   });
 
   it("should render the list items", () => {

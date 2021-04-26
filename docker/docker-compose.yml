@@ -2,25 +2,25 @@
 version: '3'
 services:
   postgres:
-    image: 'primero/postgres:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/postgres:${PRIMERO_TAG:-latest}'
     volumes:
       - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
   solr:
-    image: 'primero/solr:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/solr:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
-    image: 'primero/beanstalkd:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/beanstalkd:${PRIMERO_TAG:-latest}'
     env_file:
       - docker/defaults.env
     volumes:
       - beanstalkd:/var/lib/beanstalkd
   application:
-    image: 'primero/application:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -33,7 +33,7 @@ services:
     stdin_open: true
     tty: true
   backburner:
-    image: 'primero/application:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -44,7 +44,7 @@ services:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
   scheduler:
-    image: 'primero/application:${PRIMERO_TAG:-latest}'
+    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
       - beanstalkd
@@ -57,12 +57,9 @@ services:
 volumes:
   beanstalkd:
   database:
-  certbot_certs:
-  selfsigned_certs:
-  certbot_var:
-  certbot_etc:
   public:
   solr_cores:
   storage:
-  # TODO: Delete the log mount when we finally clean up nginx
-  log:
+  certbot_certificates:
+  certbot_challenges:
+  selfsigned_certs:

@@ -15,3 +15,5 @@ export { default as FormBuilder } from "./form-builder";
 export { default as AuditLogs } from "./audit-logs";
 export { default as ConfigurationsList } from "./configurations-list";
 export { default as ConfigurationsForm } from "./configurations-form";
+export { default as LocationsList } from "./locations-list";
+export { default as CodeOfConduct } from "./code-of-conduct";

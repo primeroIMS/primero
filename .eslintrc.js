@@ -5,8 +5,11 @@ const developmentEnv = process.env.NODE_ENV === "development";
 module.exports = {
   parser: "babel-eslint",
   extends: ["airbnb", "prettier", "prettier/react"],
-  plugins: ["react", "prettier", "react-hooks", "import"],
+  plugins: ["react", "prettier", "react-hooks", "import", "unused-imports"],
   rules: {
+    "react/jsx-uses-react": "off",
+    "unused-imports/no-unused-imports": "error",
+    "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": [
       1,
       {

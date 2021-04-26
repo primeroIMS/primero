@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+/* eslint-disable camelcase */
+import { useEffect } from "react";
+import { batch, useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 
+import { getMetadata } from "../../../record-list";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT } from "../../../../config";
 import { RESOURCES, SHOW_AUDIT_LOGS } from "../../../../libs/permissions";
+import { compare, useMemoizedSelector } from "../../../../libs";
 import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
-import { Filters as AdminFilters } from "../components";
+import { useMetadata } from "../../../records";
+import { FiltersForm } from "../../../form-filters/components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
@@ -19,7 +23,10 @@ import { buildAuditLogsQuery, getFilters } from "./utils";
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const filterUsers = useSelector(state => getFilterUsers(state));
+  const recordType = ["admin", AUDIT_LOG];
+
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const filterUsers = useMemoizedSelector(state => getFilterUsers(state), compare);
 
   useEffect(() => {
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
@@ -45,6 +52,19 @@ const Container = () => {
     }
   };
 
+  useMetadata(recordType, metadata, fetchAuditLogs, "data");
+
+  const logMessageOptions = {
+    customBodyRender: value => {
+      const prefix = value?.prefix?.approval_type
+        ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+        : i18n.t(value?.prefix?.key);
+      const identifier = value?.identifier;
+
+      return `${prefix} ${identifier}`;
+    }
+  };
+
   const tableOptions = {
     columns: [
       {
@@ -64,7 +84,8 @@ const Container = () => {
       },
       {
         label: i18n.t("audit_log.description"),
-        name: "log_message"
+        name: "log_message",
+        options: logMessageOptions
       },
       {
         label: i18n.t("audit_log.record_owner"),
@@ -80,7 +101,9 @@ const Container = () => {
       selectableRows: "none",
       onCellClick: false
     },
-    recordType: ["admin", AUDIT_LOG]
+    recordType,
+    targetRecordType: AUDIT_LOG,
+    bypassInitialFetch: true
   };
 
   return (
@@ -92,7 +115,7 @@ const Container = () => {
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

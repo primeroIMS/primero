@@ -1,4 +1,3 @@
-import React from "react";
 import { Dialog, DialogTitle, DialogContent, IconButton } from "@material-ui/core";
 import { Map } from "immutable";
 
@@ -169,7 +168,11 @@ describe("<TransitionDialog />", () => {
         "children",
         "cancelButtonProps",
         "disableBackdropClick",
-        "showSuccessButton"
+        "showSuccessButton",
+        "fetchArgs",
+        "disableClose",
+        "hideIcon",
+        "confirmButtonProps"
       ].forEach(property => {
         expect(actionDialogProps).to.have.property(property);
         delete actionDialogProps[property];

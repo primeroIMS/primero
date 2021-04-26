@@ -9,7 +9,7 @@ class RecordMergeDataHashService
   def merge_data(old_data, new_data)
     if old_data.is_a?(Hash) && new_data.is_a?(Hash)
       merge_hashes(old_data, new_data)
-    elsif array_of_hashes?(old_data) && array_of_hashes?(new_data)
+    elsif RecordMergeDataHashService.array_of_hashes?(old_data) && RecordMergeDataHashService.array_of_hashes?(new_data)
       merge_array_of_hashes(old_data, new_data).reject { |record| record['_destroy'] }
     else
       new_data
@@ -36,7 +36,7 @@ class RecordMergeDataHashService
     merged_old_data + append
   end
 
-  def array_of_hashes?(value)
+  def self.array_of_hashes?(value)
     value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
   end
 end

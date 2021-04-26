@@ -18,13 +18,20 @@ describe("components/notifier/utils.js", () => {
       expect(utils.generate.messageKey("this-is-a-test", true)).to.equal(expected);
     });
 
-    it("should return generated key if no message", () => {
-      const expected = "d06bb454b66f";
+    context("when no message is passed", () => {
+      beforeEach(() => {
+        stub(uuid, "v4").returns("dd3b8e93-0cce-415b-ad2b-d06bb454b66f");
+      });
 
-      stub(uuid, "v4").returns("dd3b8e93-0cce-415b-ad2b-d06bb454b66f");
-      expect(utils.generate.messageKey(null, false)).to.equal(expected);
+      afterEach(() => {
+        uuid.v4.restore();
+      });
 
-      uuid.v4.restore();
+      it("should return generated key", () => {
+        const expected = "d06bb454b66f";
+
+        expect(utils.generate.messageKey(null, false)).to.equal(expected);
+      });
     });
   });
 });

@@ -1,0 +1,9 @@
+.group {
+  & > div:nth-child(even) {
+    background: #f7f7f7;
+  }
+
+  & > div:last-of-type, & .isSubform {
+    border-bottom: 1px solid #ddd
+  }
+}

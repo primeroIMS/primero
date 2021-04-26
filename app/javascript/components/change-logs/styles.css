@@ -1,0 +1,28 @@
+.root {
+  & li:before {
+    content: none;
+  }
+}
+
+.itemContainer {
+  display: flex;
+  flex-direction: column
+}
+
+.itemHeader {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+.container {
+  overflow: auto;
+}
+
+.seeDetailsStyle {
+  padding-top: 6;
+  color: $(theme.primero.colors.blue);
+}
+
+.detailName {
+  font-style: italic;
+}

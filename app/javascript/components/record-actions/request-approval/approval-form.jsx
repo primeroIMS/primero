@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -18,6 +17,8 @@ import { useI18n } from "../../i18n";
 import { APPROVAL_FORM } from "./constants";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({
   approval,
   close,
@@ -28,7 +29,7 @@ const Component = ({
   selectOptions
 }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
   return (
     <>

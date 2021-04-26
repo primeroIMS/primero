@@ -3,4 +3,4 @@ test:
   database: primero_test
   username: postgres
   password:
-  host: localhost
+  host: primero_postgres

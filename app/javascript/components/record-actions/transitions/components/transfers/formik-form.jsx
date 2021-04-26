@@ -2,11 +2,11 @@
 
 import { Box } from "@material-ui/core";
 import { Form } from "formik";
-import React from "react";
 
-import { USER_NAME_FIELD, UNIQUE_ID_FIELD, CODE_FIELD, NAME_FIELD } from "../../../../../config";
+import { UNIQUE_ID_FIELD, ID_FIELD, DISPLAY_TEXT_FIELD, NAME_FIELD } from "../../../../../config";
 import { valuesToSearchableSelect } from "../../../../../libs";
 import { internalFieldsDirty } from "../utils";
+import { filterUsers } from "../../utils";
 
 import BulkTransfer from "./bulk-transfer";
 import { AGENCY_FIELD, LOCATION_FIELD, TRANSITIONED_TO_FIELD, NOTES_FIELD } from "./constants";
@@ -27,7 +27,9 @@ export default (
   i18n,
   dispatch,
   providedConsent,
-  canConsentOverride
+  canConsentOverride,
+  record,
+  mode
 ) => {
   const { handleSubmit, values, resetForm } = props;
   const { transfer } = values;
@@ -45,7 +47,7 @@ export default (
     {
       id: LOCATION_FIELD,
       label: i18n.t("transfer.location_label"),
-      options: valuesToSearchableSelect(locations, CODE_FIELD, NAME_FIELD, i18n.locale),
+      options: valuesToSearchableSelect(locations, ID_FIELD, DISPLAY_TEXT_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
         sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, dispatch);
@@ -55,19 +57,7 @@ export default (
       id: TRANSITIONED_TO_FIELD,
       label: i18n.t("transfer.recipient_label"),
       required: true,
-      options: users
-        ? users
-            .valueSeq()
-            .map(user => {
-              const userName = user.get(USER_NAME_FIELD);
-
-              return {
-                value: userName.toLowerCase(),
-                label: userName
-              };
-            })
-            .toJS()
-        : [],
+      options: filterUsers(users, mode, record, true),
       onChange: (data, field, form) => {
         sharedOnChange(data, field, form);
       }

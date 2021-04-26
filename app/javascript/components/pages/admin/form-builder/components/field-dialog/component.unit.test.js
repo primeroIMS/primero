@@ -11,8 +11,8 @@ import FieldsList from "../fields-list";
 import FieldDialog from "./component";
 
 describe("<FieldDialog />", () => {
-  const initialState = fromJS({
-    ui: { dialogs: { admin_fields_dialog: true } },
+  const state = fromJS({
+    ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
     records: {
       admin: {
         forms: {
@@ -38,20 +38,26 @@ describe("<FieldDialog />", () => {
   });
 
   it("should render the dialog", () => {
-    const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialState);
+    const { component } = setupMockFormComponent(FieldDialog, {
+      props: { mode: "edit" },
+      state
+    });
 
     expect(component.find(FieldDialog)).to.have.lengthOf(1);
   });
 
   it("should render the FieldList if selectedField is subform", () => {
-    const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialState);
+    const { component } = setupMockFormComponent(FieldDialog, {
+      props: { mode: "edit" },
+      state
+    });
 
     expect(component.find(FieldsList)).to.have.lengthOf(1);
   });
 
   describe("when is new mode", () => {
     const initialStateNewMode = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -66,7 +72,10 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render the dialog", () => {
-      const { component } = setupMockFormComponent(FieldDialog, { mode: "new" }, {}, initialStateNewMode);
+      const { component } = setupMockFormComponent(FieldDialog, {
+        props: { mode: "new" },
+        state: initialStateNewMode
+      });
 
       expect(component.find(FieldDialog).find(DialogTitle).text()).to.equal(`fields.add_field_type`);
     });
@@ -74,7 +83,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is a SELECT_FIELD with option_strings_text", () => {
     const initialStateSelectField = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -116,7 +125,10 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render the FieldDialog with OrderableOptionsField", () => {
-      const { component } = setupMockFormComponent(FieldDialog, { mode: "edit" }, {}, initialStateSelectField);
+      const { component } = setupMockFormComponent(FieldDialog, {
+        props: { mode: "edit", formId: "field-dialog-form" },
+        state: initialStateSelectField
+      });
 
       expect(component.find(FieldDialog)).to.have.lengthOf(1);
       expect(component.find(OrderableOptionsField)).to.have.lengthOf(1);
@@ -128,7 +140,7 @@ describe("<FieldDialog />", () => {
 
   describe("when is edit mode", () => {
     const initialStateEditMode = fromJS({
-      ui: { dialogs: { admin_fields_dialog: true } },
+      ui: { dialogs: { dialog: "admin_fields_dialog", open: true } },
       records: {
         admin: {
           forms: {
@@ -145,23 +157,19 @@ describe("<FieldDialog />", () => {
     });
 
     it("should render text saying the field was copied from another form", () => {
-      const { component } = setupMockFormComponent(
-        FieldDialog,
-        { mode: "edit", formId: "5" },
-        {},
-        initialStateEditMode
-      );
+      const { component } = setupMockFormComponent(FieldDialog, {
+        props: { mode: "edit", formId: "5" },
+        state: initialStateEditMode
+      });
 
       expect(component.find(FieldDialog).find("p").first().text()).to.equal("fields.copy_from_another_form");
     });
 
     it("should not render text saying the field was copied from another form", () => {
-      const { component } = setupMockFormComponent(
-        FieldDialog,
-        { mode: "edit", formId: "1" },
-        {},
-        initialStateEditMode
-      );
+      const { component } = setupMockFormComponent(FieldDialog, {
+        props: { mode: "edit", formId: "1" },
+        state: initialStateEditMode
+      });
 
       expect(component.find(FieldDialog).find("p").first().text()).to.not.equal("fields.copy_from_another_form");
     });

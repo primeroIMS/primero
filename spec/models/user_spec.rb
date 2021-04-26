@@ -198,6 +198,17 @@ describe User do
       user.id.present?.should == true
     end
 
+    it 'should be invalid if an agency is missing' do
+      user = build_user(agency_id: nil)
+      expect(user).to be_invalid
+    end
+
+    it 'should be valid if an agency is missing but this is a system user' do
+      user = build_user(agency_id: nil)
+      user.service_account = true
+      expect(user).to be_valid
+    end
+
     describe 'locale' do
       before do
         @locale_user = build_user
@@ -275,7 +286,6 @@ describe User do
       user.save
       user.password = 'f00f00'
       user.password_confirmation = 'not f00f00'
-
       user.valid?
       expect(user).not_to be_valid
     end
@@ -289,9 +299,14 @@ describe User do
       expect(user).to be_valid
     end
 
-    it 'should reject passwords that do not have at least one alpha and at least 1 numeric character' do
-      user = build_user(password: 'invalid')
-      expect(user).not_to be_valid
+    it 'should allow passwords with all alpha characters' do
+      user = build_user(password: 'allAlpha')
+      expect(user).to be_valid
+    end
+
+    it 'should allow passwords with all numeric characters' do
+      user = build_user(password: '18675309')
+      expect(user).to be_valid
     end
 
     it 'should reject passwords that are less than 8 characters' do
@@ -344,6 +359,41 @@ describe User do
       after :each do
         clean_data(IdentityProvider)
       end
+    end
+  end
+
+  describe 'automatic password generation on user creation for native users' do
+    before(:each) do
+      clean_data(User, Role, Agency)
+      create(:agency)
+      create(:role)
+    end
+
+    it 'generates a random password when a password is not provided on user creation' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      user.save!
+
+      expect(user.password.length).to be > 40
+      expect(user.password_confirmation.length).to be > 40
+      expect(user.password).to eq(user.password_confirmation)
+    end
+
+    it 'does not generate a random password if a password is provided' do
+      password = 'avalidpasswooo00rd'
+      user = build_user(password: password)
+      user.save!
+
+      expect(user.valid_password?(password)).to be_truthy
+    end
+
+    it 'sends a password reset email when a password is generated' do
+      user = build_user
+      user.password = nil
+      user.password_confirmation = nil
+      expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
+      user.save!
     end
   end
 
@@ -826,50 +876,77 @@ describe User do
     end
   end
 
-  describe '#find_permitted_users' do
+  describe '#user_query_scope' do
     before :each do
-      clean_data(Agency, Role, UserGroup, User)
-      @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
-      @agency2 = Agency.create!(name: 'Agency2', agency_code: 'A2')
-      permission_agency_read = Permission.new(
-        resource: Permission::USER, actions: [Permission::AGENCY_READ]
-      )
-      role_agency_read = Role.new(permissions: [permission_agency_read])
-      role_agency_read.save(validate: false)
-
-      permission_cannot = Permission.new(
-        resource: Permission::CASE, actions: [Permission::READ]
-      )
-      role_cannot = Role.new(permissions: [permission_cannot])
-      role_cannot.save(validate: false)
-
-      @group_a = UserGroup.create!(name: 'group A', unique_id: 'group-a')
-      @group_b = UserGroup.create!(name: 'group B', unique_id: 'group-b')
-
-      @user1 = User.new(user_name: 'user1', role: role_agency_read, agency: @agency1, user_groups: [@group_a])
-      @user1.save(validate: false)
-      @user2 = User.new(user_name: 'user2', role: role_cannot, agency: @agency1, user_groups: [@group_a])
-      @user2.save(validate: false)
-      @user3 = User.new(user_name: 'user3', role: role_agency_read, disabled: true,
-                        agency: @agency1, user_groups: [@group_b])
-      @user3.save(validate: false)
-      @user4 = User.new(user_name: 'user4', role: role_cannot, agency: @agency2, user_groups: [@group_b])
-
-      @user4.save(validate: false)
-      @user = User.new(user_name: 'user5', role: role_agency_read, agency: @agency1, user_groups: [@group_a])
-      @user.save(validate: false)
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
+                                        description: 'Default Primero Program')
+      @form_section = FormSection.create!(unique_id: 'test_form', name: 'Test Form',
+                                          fields: [Field.new(name: 'national_id_no', type: 'text_field',
+                                                             display_name: 'National ID No')])
+      @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
+                                  associated_record_types: %w[case tracing_request incident], primero_program: @program,
+                                  form_sections: [@form_section])
+      @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
+                            form_sections: [@form_section], modules: [@cp],
+                            permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+      @group1 = UserGroup.create!(name: 'group 1')
+      @current_user = User.create!(full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
+                                   password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+                                   agency_id: @agency1.id, role: @role1, user_groups: [@group1])
+      @child1 = Child.new_with_user(@current_user, name: 'Child 3')
+      [@child1].each(&:save!)
+      Sunspot.commit
     end
 
-    it 'shows all users with the same agency' do
-      users = User.find_permitted_users(nil, nil, nil, @user)
-
-      expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user5])
-    end
-
-    it 'shows all users with the same user_groups' do
-      users = User.find_permitted_users({ 'user_group_ids' => 'group-a' }, nil, nil, @user)
-
-      expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
+    it 'return the scope of the user' do
+      expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
     end
   end
+
+  describe '#permitted_field_names_from_forms' do
+    let(:form) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm') }
+    let(:field) { Field.create!(name: 'test', display_name: 'test', type: Field::TEXT_FIELD, form_section_id: form.id) }
+    let(:role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::INCIDENT_FROM_CASE]
+          )
+        ],
+        form_section_read_write: { form.unique_id => 'rw' }
+      )
+    end
+    let(:agency) do
+      Agency.create!(
+        name: 'Test Agency',
+        agency_code: 'TA',
+        services: ['Test type']
+      )
+    end
+    subject do
+      User.create!(
+        full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
+        password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+        agency_id: agency.id, role: role
+      )
+    end
+    before(:each) do
+      clean_data(Field, FormSection, Agency, Role, User)
+      form
+      field
+      role.save!
+      agency
+    end
+
+    it 'return permitted field names' do
+      expect(subject.permitted_field_names_from_forms('case')).to match_array([field.name])
+    end
+  end
+  after(:all) { clean_data(Agency, Role, User, FormSection, Field) }
 end

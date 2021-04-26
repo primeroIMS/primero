@@ -8,16 +8,16 @@ import { reducer as navReducer } from "./components/nav";
 import { reducer as notifierReducer } from "./components/notifier";
 import { reducer as dashboardReducer } from "./components/pages/dashboard";
 import { reducer as exportListReducer } from "./components/pages/export-list";
-import { reducer as loginFormReducer } from "./components/pages/login/login-form";
-import { reducer as loginReducer } from "./components/pages/login";
-import { reducer as recordActionsReducer } from "./components/record-actions";
+import { reducer as loginFormReducer } from "./components/login/components/login-form";
+import { reducer as loginReducer } from "./components/login";
+import { reducer as dialogReducer } from "./components/action-dialog";
 import { reducer as requestApprovalReducer } from "./components/record-actions/request-approval";
 import { reducer as bulkTranstionsReducer } from "./components/record-actions/bulk-transtions";
 import { reducer as potentialMatchesReducer } from "./components/pages/potential-matches";
 import { reducer as reportReducer } from "./components/report";
 import { reducer as reportsListReducer } from "./components/reports-list";
 import { reducer as reportFormReducer } from "./components/reports-form";
-import { reducer as supportReducer } from "./components/pages/support";
+import { reducer as supportReducer } from "./components/contact-information";
 import { reducer as taskListReducer } from "./components/pages/task-list";
 import { reducer as usersListReducer } from "./components/pages/admin/users-list";
 import { reducer as usersFormReducer } from "./components/pages/admin/users-form";
@@ -44,9 +44,20 @@ import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lo
 import { reducer as adminFormListReducer } from "./components/pages/admin/forms-list";
 import { reducer as adminFormBuilderReducer } from "./components/pages/admin/form-builder";
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
+import { reducer as kpiReducer } from "./components/key-performance-indicators";
 import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
+import {
+  reducer as locationsListReducer,
+  importReducer as locationsImportReducer
+} from "./components/pages/admin/locations-list";
 import { reducer as accountReducer } from "./components/pages/account";
+import { reducer as connectivityReducer } from "./components/connectivity";
+import { reducer as changeLogsReducers } from "./components/change-logs";
+import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
+import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
+import { reducer as drawerReducer } from "./components/drawer";
+import { reducer as formFiltersReducer } from "./components/form-filters";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -84,28 +95,35 @@ const rootReducer = {
       support: reduceReducers(contactInformationReducer, supportReducer),
       ...flaggingReducer,
       ...savedSearchesReducer,
+      ...changeLogsReducers,
+      codeOfConduct: adminCodeOfConductReducer,
       admin: combineReducers({
         forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
         audit_logs: reduceReducers(AuditLogsReducers),
         roles: reduceReducers(rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers),
-        configurations: reduceReducers(configurationsListReducer, configurationsFormReducer)
-      })
+        configurations: reduceReducers(configurationsListReducer, configurationsFormReducer),
+        locations: reduceReducers(locationsListReducer, locationsImportReducer)
+      }),
+      ...kpiReducer
     }),
     transferApprovalReducer,
     revokeModalReducer
   ),
-  user: reduceReducers(userReducer, accountReducer),
+  user: reduceReducers(userReducer, accountReducer, codesOfConductReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,
     ...loginFormReducer,
-    ...recordActionsReducer
+    ...dialogReducer,
+    ...drawerReducer,
+    ...formFiltersReducer
   }),
   ...recordFormReducer,
   ...notifierReducer,
   ...applicationReducer,
-  ...loginReducer
+  ...loginReducer,
+  ...connectivityReducer
 };
 
 export default rootReducer;

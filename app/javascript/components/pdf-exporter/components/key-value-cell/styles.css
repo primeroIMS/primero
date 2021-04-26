@@ -1,15 +1,9 @@
-.cell {
+.radioButtons {
   display: flex;
-  border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
-  border-left: 1px solid #ddd;
+  align-items: center;
+  margin: 0 1em 0 0;
 
-  & > div {
-    flex: 1;
-    padding: 10px;
-  }
-
-  & > div:first-of-type {
-    border-right: 1px solid #ddd;
-  }
+   & svg {
+     margin: 0 .2em 0 0;
+   }
 }

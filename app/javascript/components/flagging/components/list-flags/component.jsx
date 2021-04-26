@@ -1,23 +1,23 @@
-import React from "react";
-import { List, Box, makeStyles } from "@material-ui/core";
-import PropTypes from "prop-types";
+import { Box, List, makeStyles } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
-import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
+import { useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
+import { getActiveFlags, getResolvedFlags } from "../../selectors";
 import ListFlagsItem from "../list-flags-item";
 import styles from "../styles.css";
-import { getActiveFlags, getResolvedFlags } from "../../selectors";
 
 import { NAME } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const Component = ({ recordType, record }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
-  const flagsActived = useSelector(state => getActiveFlags(state, record, recordType));
-
-  const flagsResolved = useSelector(state => getResolvedFlags(state, record, recordType));
+  const flagsActived = useMemoizedSelector(state => getActiveFlags(state, record, recordType));
+  const flagsResolved = useMemoizedSelector(state => getResolvedFlags(state, record, recordType));
 
   const renderFlagsActived =
     Boolean(flagsActived.size) &&

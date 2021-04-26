@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { batch, useDispatch, useSelector } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -9,34 +8,31 @@ import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
 import { setServiceToRefer } from "../../../action-creators";
 import { getOption } from "../../../selectors";
-import { setDialog } from "../../../../record-actions/action-creators";
+import { setDialog } from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
-import { fetchReferralUsers } from "../../../../record-actions/transitions/action-creators";
 import styles from "../styles.css";
-import { RECORD_TYPES } from "../../../../../config";
 import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
 import DisableOffline from "../../../../disable-offline";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const Component = ({ index, recordType, values }) => {
+const useStyles = makeStyles(styles);
+
+const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
+  const css = useStyles();
 
-  const services = useSelector(state => getOption(state, "lookup-service-type", i18n.locale));
-
-  const referralUsers = useSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
-
-  const loading = useSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
-
-  const userName = useSelector(state => currentUser(state));
-
-  const agencies = useSelector(state => getEnabledAgencies(state));
+  const services = useMemoizedSelector(state => getOption(state, "lookup-service-type", i18n.locale));
+  const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
+  const loading = useMemoizedSelector(state => getLoadingTransitionType(state, REFERRAL_TYPE));
+  const userName = useMemoizedSelector(state => currentUser(state));
+  const agencies = useMemoizedSelector(state => getEnabledAgencies(state));
 
   const handleReferral = () => {
     batch(() => {
@@ -44,10 +40,6 @@ const Component = ({ index, recordType, values }) => {
       dispatch(setDialog({ dialog: REFERRAL_TYPE, open: true }));
     });
   };
-
-  useEffect(() => {
-    if (referralUsers.isEmpty()) dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[recordType] }));
-  }, []);
 
   const {
     service_implementing_agency_individual: serviceImplementingAgencyIndividual,
@@ -75,7 +67,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   index: PropTypes.number.isRequired,
-  recordType: PropTypes.string,
   values: PropTypes.array.isRequired
 };
 

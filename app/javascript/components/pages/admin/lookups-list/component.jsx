@@ -1,20 +1,18 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { push } from "connected-react-router";
 
 import { useI18n } from "../../../i18n";
-import { ROUTES, RECORD_PATH } from "../../../../config";
+import { ROUTES } from "../../../../config";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
-import { useThemeHelper } from "../../../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import { useApp } from "../../../application";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups } from "./action-creators";
@@ -23,11 +21,13 @@ import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
-  const { css } = useThemeHelper(styles);
+  const { css } = useThemeHelper({ css: styles });
   const recordType = ["admin", "lookups"];
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultFilters = metadata;
+  const { limitedProductionSite } = useApp();
 
   const newUserGroupBtn = (
     <ActionButton
@@ -36,18 +36,17 @@ const Component = () => {
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.lookups_new,
-        component: Link
+        component: Link,
+        hide: limitedProductionSite
       }}
     />
   );
 
   useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
-  const onRowClick = data => dispatch(push(`${RECORD_PATH.lookups}/${data?.rowData[0]}`));
-
   const tableOptions = {
     recordType,
-    columns: columns(i18n, css, onRowClick),
+    columns: columns(i18n, css),
     options: {
       selectableRows: "none"
     },

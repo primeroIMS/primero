@@ -1,23 +1,34 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
-import { Divider } from "@material-ui/core";
-import Grid from "@material-ui/core/Grid";
-import { useSelector } from "react-redux";
+import { fromJS } from "immutable";
 
+import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import DisplayData from "../../display-data";
 import { getPermissionsByRecord } from "../../user";
 import { ACTIONS, checkPermissions } from "../../../libs/permissions";
+import { useMemoizedSelector } from "../../../libs";
+import { getFieldsWithNames, getMiniFormFields } from "../../record-form";
+import Form, { FORM_MODE_SHOW } from "../../form";
 
+import viewModalForm from "./form";
 import TransferRequest from "./transfer-request";
-import { NAME } from "./constants";
+import { COMMON_FIELD_NAMES, FORM_ID, NAME } from "./constants";
 
 const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const i18n = useI18n();
   const [sendRequest, setSendRequest] = useState(false);
-  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
+
+  const commonFieldNames = Object.values(COMMON_FIELD_NAMES);
+  const commonFields = useMemoizedSelector(state => getFieldsWithNames(state, commonFieldNames));
+  const miniFormFields = useMemoizedSelector(state =>
+    getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames)
+  );
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
+
   const canRequestTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
+
+  const form = viewModalForm(i18n, commonFields, miniFormFields);
 
   const handleOk = () => {
     setSendRequest(true);
@@ -39,6 +50,10 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
     caseId
   };
 
+  const initialValues = (currentRecord || fromJS({})).reduce((acc, value, key) => ({ ...acc, [key]: value }), {});
+
+  const onSubmit = () => {};
+
   return (
     <>
       <ActionDialog
@@ -50,41 +65,14 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
         onClose={close}
         showSuccessButton={canRequestTransfer}
       >
-        <form>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <DisplayData
-                label={i18n.t("cases.case_worker_code")}
-                value={currentRecord && currentRecord.get("owned_by")}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <DisplayData label={i18n.t("cases.agency")} />
-            </Grid>
-          </Grid>
-          <Divider />
-          <DisplayData label={i18n.t("cases.full_name")} value={currentRecord && currentRecord.get("name")} />
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <DisplayData label={i18n.t("cases.sex")} value={currentRecord && currentRecord.get("sex")} />
-            </Grid>
-            <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.date_of_birth")}
-                value={currentRecord && currentRecord.get("date_of_birth")}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <DisplayData label={i18n.t("cases.age")} value={currentRecord && currentRecord.get("age")} />
-            </Grid>
-            <Grid item xs={3}>
-              <DisplayData
-                label={i18n.t("cases.age_estimated")}
-                value={currentRecord && currentRecord.get("estimated")}
-              />
-            </Grid>
-          </Grid>
-        </form>
+        <Form
+          formID={FORM_ID}
+          onSubmit={onSubmit}
+          useCancelPrompt
+          mode={FORM_MODE_SHOW}
+          formSections={form}
+          initialValues={initialValues}
+        />
       </ActionDialog>
       <TransferRequest {...sendRequestProps} />
     </>

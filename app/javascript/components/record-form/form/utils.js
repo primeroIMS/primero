@@ -1,21 +1,69 @@
 import find from "lodash/find";
 import { fromJS } from "immutable";
+import { getIn } from "formik";
+import isEmpty from "lodash/isEmpty";
+import orderBy from "lodash/orderBy";
+import isEqual from "lodash/isEqual";
 
+import { FormSectionRecord } from "../records";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
-import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
+import {
+  CODE_FIELD,
+  NAME_FIELD,
+  UNIQUE_ID_FIELD,
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../../config";
+import { SUBFORM_SECTION } from "../constants";
 
+import { valuesWithDisplayConditions } from "./subforms/subform-field-array/utils";
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
 
-export const appendDisabledAgency = (agencies, agencyUniqueId) =>
-  agencyUniqueId && !agencies.map(agency => agency.get("unique_id")).includes(agencyUniqueId)
-    ? agencies.push(
+const sortSubformsValues = (values, fields) => {
+  const result = Object.entries(values).reduce((acc, curr) => {
+    const [key, value] = curr;
+    const subformField = fields.find(field => field.name === key && field.type === SUBFORM_SECTION);
+    // eslint-disable-next-line camelcase
+    const sortField = subformField?.subform_section_configuration?.subform_sort_by;
+
+    if (!subformField || !sortField) {
+      return { ...acc, [key]: value };
+    }
+
+    const orderedValues = orderBy(value, [sortField], ["asc"]);
+
+    return { ...acc, [key]: orderedValues };
+  }, {});
+
+  return result;
+};
+
+export const withStickyOption = (options, stickyOptionId, filtersChanged = false) => {
+  const enabledOptions = options
+    .filter(option => !option.get("disabled") || (stickyOptionId && option.get("unique_id") === stickyOptionId))
+    .map(option => option.set("isDisabled", option.get("disabled")));
+
+  if (stickyOptionId) {
+    const stickyOption = enabledOptions.find(option => option.get("unique_id") === stickyOptionId);
+
+    if (!stickyOption && !filtersChanged) {
+      return options.push(
         fromJS({
-          unique_id: agencyUniqueId,
-          name: agencyUniqueId,
+          unique_id: stickyOptionId,
+          name: stickyOptionId,
           isDisabled: true
         })
-      )
-    : agencies;
+      );
+    }
+  }
+
+  return enabledOptions;
+};
 
 export const appendDisabledUser = (users, userName) =>
   userName && !users?.map(user => user.get("user_name")).includes(userName)
@@ -43,7 +91,7 @@ export const handleChangeOnServiceUser = ({
     const userAgency = selectedUser.get("agency");
     const userLocation = selectedUser.get("location");
 
-    if (agencies.find(current => current.get("unique_id") === userAgency)) {
+    if (agencies.find(current => current.get("unique_id") === userAgency && !current.get("disabled"))) {
       form.setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
@@ -81,6 +129,7 @@ export const buildCustomLookupsConfig = ({
   name,
   referralUsers,
   reportingLocations,
+  stickyOptionId,
   value
 }) => ({
   Location: {
@@ -91,10 +140,7 @@ export const buildCustomLookupsConfig = ({
   Agency: {
     fieldLabel: NAME_FIELD,
     fieldValue: UNIQUE_ID_FIELD,
-    options:
-      !filterState?.filtersChanged && name.endsWith(SERVICE_SECTION_FIELDS.implementingAgency)
-        ? appendDisabledAgency(agencies, value)
-        : agencies
+    options: withStickyOption(agencies, stickyOptionId, filterState?.filtersChanged)
   },
   ReportingLocation: {
     fieldLabel: NAME_FIELD,
@@ -160,3 +206,84 @@ export const serviceIsReferrable = (service, services, agencies, users = []) => 
 
   return false;
 };
+
+export const getSubformValues = (field, index, values, orderedValues = []) => {
+  const { subform_section_configuration: subformSectionConfiguration } = field;
+
+  const { display_conditions: displayConditions } = subformSectionConfiguration || {};
+
+  if (index === 0 || index > 0) {
+    if (displayConditions) {
+      return valuesWithDisplayConditions(getIn(values, field.name), displayConditions)[index];
+    }
+
+    return isEmpty(orderedValues) ? getIn(values, `${field.name}[${index}]`) : orderedValues[index];
+  }
+
+  return {};
+};
+
+// This method checks if the form is dirty or not. With the existing behavior
+// of 'dirty' prop from formik when you update a subform, the form never gets
+// 'dirty'. Also, subforms are sorted before comparing them because the subforms
+// that are set into the 'initialValues' they got a different order than current
+// values (formik.getValues()).
+
+export const isFormDirty = (initialValues, currentValues, fields) => {
+  if (isEmpty(fields)) {
+    return false;
+  }
+
+  return !isEqual(sortSubformsValues(initialValues, fields), sortSubformsValues(currentValues, fields));
+};
+
+export const getRecordInformationForms = i18n => ({
+  [RECORD_OWNER]: FormSectionRecord({
+    unique_id: RECORD_OWNER,
+    name: { [i18n.locale]: i18n.t("forms.record_types.record_information") },
+    order: 1,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [APPROVALS]: FormSectionRecord({
+    unique_id: APPROVALS,
+    name: { [i18n.locale]: i18n.t("forms.record_types.approvals") },
+    order: 2,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [INCIDENT_FROM_CASE]: FormSectionRecord({
+    unique_id: INCIDENT_FROM_CASE,
+    name: { [i18n.locale]: i18n.t("incidents.label") },
+    order: 2,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  }),
+  [REFERRAL]: FormSectionRecord({
+    unique_id: REFERRAL,
+    name: { [i18n.locale]: i18n.t("forms.record_types.referrals") },
+    order: 3,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: true
+  }),
+  [TRANSFERS_ASSIGNMENTS]: FormSectionRecord({
+    unique_id: TRANSFERS_ASSIGNMENTS,
+    name: { [i18n.locale]: i18n.t("forms.record_types.transfers_assignments") },
+    order: 4,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  }),
+  [CHANGE_LOGS]: FormSectionRecord({
+    unique_id: CHANGE_LOGS,
+    name: { [i18n.locale]: i18n.t("change_logs.label") },
+    order: 4,
+    form_group_id: RECORD_INFORMATION_GROUP,
+    order_form_group: 0,
+    is_first_tab: false
+  })
+});

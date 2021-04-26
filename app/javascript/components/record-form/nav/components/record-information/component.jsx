@@ -1,8 +1,6 @@
-import React from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import { checkPermissions } from "../../../../../libs/permissions";
@@ -10,18 +8,20 @@ import NavGroup from "../nav-group";
 import { useI18n } from "../../../../i18n";
 import { RECORD_TYPES } from "../../../../../config";
 import { getPermissionsByRecord } from "../../../../user/selectors";
+import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
-import { getRecordInformationForms } from "./utils";
+import { getRecordInformationNav } from "./utils";
 
-const Component = ({ open, handleClick, selectedForm, match }) => {
+const Component = ({ open, handleClick, selectedForm, formGroupLookup, match, recordAlerts }) => {
   const { params } = match;
   const { recordType } = params;
   const i18n = useI18n();
-  const recordInformationForms = getRecordInformationForms(i18n, RECORD_TYPES[recordType]);
+  const recordInformationNavs = getRecordInformationNav(i18n, RECORD_TYPES[recordType]);
 
-  const userPermissions = useSelector(state => getPermissionsByRecord(state, recordType));
-  const forms = recordInformationForms.reduce((acum, form) => {
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
+
+  const forms = recordInformationNavs.reduce((acum, form) => {
     if (isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions)) {
       return acum.push(form);
     }
@@ -31,7 +31,14 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
 
   return (
     <>
-      <NavGroup group={forms} handleClick={handleClick} open={open} selectedForm={selectedForm} />
+      <NavGroup
+        group={forms}
+        handleClick={handleClick}
+        open={open}
+        selectedForm={selectedForm}
+        formGroupLookup={formGroupLookup}
+        recordAlerts={recordAlerts}
+      />
     </>
   );
 };
@@ -39,9 +46,11 @@ const Component = ({ open, handleClick, selectedForm, match }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  formGroupLookup: PropTypes.array,
   handleClick: PropTypes.func,
   match: PropTypes.object.isRequired,
   open: PropTypes.string,
+  recordAlerts: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 

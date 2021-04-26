@@ -16,6 +16,7 @@ describe("<ReportsForm /> - Constants", () => {
       "GROUP_AGES_FIELD",
       "GROUP_DATES_BY_FIELD",
       "IS_GRAPH_FIELD",
+      "DATE",
       "DISABLED_FIELD",
       "MODULES_FIELD",
       "NAME",
@@ -23,7 +24,8 @@ describe("<ReportsForm /> - Constants", () => {
       "NOT_NULL",
       "RECORD_TYPE_FIELD",
       "REPORTABLE_TYPES",
-      "REPORT_FIELD_TYPES"
+      "REPORT_FIELD_TYPES",
+      "FORM_ID"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

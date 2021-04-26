@@ -1,14 +1,14 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import React from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
 
 import { useI18n } from "../../../../../i18n";
 import { SUBFORM_SECTION } from "../../../../../form";
 import { getObjectPath } from "../../../../../../libs";
-import { selectDialog } from "../../../../../record-actions/selectors";
+import { useDialog } from "../../../../../action-dialog";
 import { updateSelectedSubform } from "../../action-creators";
 import TabPanel from "../tab-panel";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
@@ -18,39 +18,39 @@ import styles from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  formContextFields,
-  getValues,
-  index,
-  mode,
-  moduleId,
-  parentForm,
-  register,
-  selectedField,
-  setValue,
-  tab
-}) => {
-  const css = makeStyles(styles)();
+const useStyles = makeStyles(styles);
+
+const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, formMethods }) => {
+  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const openFieldTranslationsDialog = useSelector(state => selectDialog(state, FieldTranslationsDialogName));
+  const { dialogOpen } = useDialog(FieldTranslationsDialogName);
+
+  const {
+    register,
+    setValue,
+    getValues,
+    control: {
+      fieldsRef: { current: fields }
+    }
+  } = formMethods;
 
   const onUpdateFieldTranslations = data => {
     if (selectedField.get("type") !== SUBFORM_SECTION) {
       getObjectPath("", data).forEach(path => {
         const name = `fields.${path}`;
 
-        if (!formContextFields[path]) {
+        if (!fields[path]) {
           register({ name });
         }
 
-        setValue(name, get(data, path));
+        setValue(name, get(data, path), { shouldDirty: true });
       });
     } else {
       const fieldData = { [selectedField.get("name")]: { display_name: data.subform_section.name } };
 
       getObjectPath("", fieldData).forEach(path => {
-        setValue(`fields.${path}`, get(fieldData, path));
+        setValue(`fields.${path}`, get(fieldData, path, { shouldDirty: true }));
       });
 
       dispatch(updateSelectedSubform(data.subform_section));
@@ -58,14 +58,14 @@ const Component = ({
   };
 
   const renderTranslationsDialog = () => {
-    const openDialog = tab === 2 && selectedField?.toSeq()?.size && openFieldTranslationsDialog;
+    const openDialog = tab === 2 && selectedField?.toSeq()?.size && dialogOpen;
 
     const fieldValues = getValues({ nest: true }).fields;
 
     return openDialog ? (
       <FieldTranslationsDialog
         mode={mode}
-        open={openDialog}
+        open={dialogOpen}
         field={selectedField}
         currentValues={fieldValues}
         onSuccess={onUpdateFieldTranslations}
@@ -78,7 +78,7 @@ const Component = ({
       <div className={css.tabTranslations}>
         <h1 className={css.heading}>{i18n.t("forms.translations.title")}</h1>
         <TranslationsNote moduleId={moduleId} parentForm={parentForm} />
-        <TranslationsForm mode={mode} getValues={getValues} setValue={setValue} />
+        <TranslationsForm mode={mode} formMethods={formMethods} />
         {renderTranslationsDialog()}
       </div>
     </TabPanel>
@@ -88,18 +88,13 @@ const Component = ({
 Component.displayName = NAME;
 
 Component.propTypes = {
-  formContextFields: PropTypes.object.isRequired,
-  getValues: PropTypes.func.isRequired,
+  formMethods: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   moduleId: PropTypes.string.isRequired,
   parentForm: PropTypes.string.isRequired,
-  register: PropTypes.func.isRequired,
   selectedField: PropTypes.object.isRequired,
-  setValue: PropTypes.func.isRequired,
   tab: PropTypes.number.isRequired
 };
 
-Component.whyDidYouRender = true;
-
-export default React.memo(Component);
+export default memo(Component);

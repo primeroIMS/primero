@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import { mock } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
@@ -12,15 +12,18 @@ describe("Verifying utils", () => {
     const clonedHelpers = { ...helpers };
 
     [
-      "appendDisabledAgency",
       "appendDisabledUser",
       "buildCustomLookupsConfig",
       "findOptionDisplayText",
       "getConnectedFields",
+      "getRecordInformationForms",
+      "getSubformValues",
       "handleChangeOnServiceUser",
-      "translatedText",
+      "isFormDirty",
       "serviceHasReferFields",
-      "serviceIsReferrable"
+      "serviceIsReferrable",
+      "translatedText",
+      "withStickyOption"
     ].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
@@ -30,32 +33,19 @@ describe("Verifying utils", () => {
   });
 });
 
-describe("appendDisabledAgency", () => {
-  it("should append the agency if not present in the agencies list", () => {
-    const agencies = fromJS([
-      {
-        unique_id: "agency-test-1",
-        agency_code: "test1",
-        disabled: false,
-        services: ["service_test_1"]
-      },
-      {
-        unique_id: "agency-test-2",
-        agency_code: "test2",
-        disabled: false,
-        services: ["service_test_1", "service_test_2"]
-      }
-    ]);
-    const expected = agencies.push(
-      fromJS({
-        unique_id: "agency-test-3",
-        name: "agency-test-3",
-        isDisabled: true
-      })
-    );
-    const options = helpers.appendDisabledAgency(agencies, "agency-test-3");
+describe("withStickyOption", () => {
+  const options = fromJS([
+    { unique_id: "option_1", display_text: "Option 1" },
+    { unique_id: "option_2", display_text: "Option 2" },
+    { unique_id: "option_3", display_text: "Option 3", disabled: true }
+  ]);
 
-    expect(options).to.deep.equal(expected);
+  it("should append a disabled option if sticky", () => {
+    expect(helpers.withStickyOption(options, "option_3")).to.have.sizeOf(3);
+  });
+
+  it("should not append a disabled option if it is not sticky", () => {
+    expect(helpers.withStickyOption(options)).to.have.sizeOf(2);
   });
 });
 
@@ -191,7 +181,7 @@ describe("getConnectedFields", () => {
         locations,
         referralUsers,
         reportingLocations,
-        value: "agency-2",
+        stickyOptionId: "agency-2",
         name: SERVICE_SECTION_FIELDS.implementingAgency
       });
 
@@ -210,6 +200,193 @@ describe("getConnectedFields", () => {
       };
 
       expect(config).to.deep.equal(expected);
+    });
+  });
+
+  describe("getSubformValues", () => {
+    const index = 1;
+    const field = { name: "services_section", subform_section_configuration: {} };
+    const values = {
+      services_section: [
+        {
+          response_type: "response-type-2"
+        },
+        {
+          response_type: "response-type-1"
+        }
+      ]
+    };
+
+    describe("when subforms are not sorted", () => {
+      it("should return the subform object from formik values", () => {
+        const result = helpers.getSubformValues(field, index, values);
+
+        expect(result).to.deep.equal({
+          response_type: "response-type-1"
+        });
+      });
+    });
+
+    describe("when subforms are sorted", () => {
+      it("should return the subform object from orderedValues values and not from formik", () => {
+        const orderedValues = [
+          {
+            response_type: "response-type-1"
+          },
+          {
+            response_type: "response-type-2"
+          }
+        ];
+        const result = helpers.getSubformValues(field, index, values, orderedValues);
+
+        expect(result).to.deep.equal({
+          response_type: "response-type-2"
+        });
+      });
+    });
+
+    describe("isFormDirty", () => {
+      it("should return false if initialValues and currentValues are equals", () => {
+        const initialValues = {
+          field_1: "test"
+        };
+
+        const currentValues = {
+          field_1: "test"
+        };
+
+        const fields = List([
+          {
+            name: "field_1",
+            type: "text_field"
+          }
+        ]);
+
+        expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.false;
+      });
+
+      it("should return true if initialValues and currentValues are not equals", () => {
+        const initialValues = {
+          field_1: "test"
+        };
+
+        const currentValues = {
+          field_1: "test 1"
+        };
+
+        const fields = List([
+          {
+            name: "field_1",
+            type: "text_field"
+          }
+        ]);
+
+        expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.true;
+      });
+
+      describe("with subforms", () => {
+        it(
+          "should return false if initialValues and currentValues are equals, " +
+            "even if currentValues subforms are in a differente order",
+          () => {
+            const initialValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                }
+              ]
+            };
+
+            const currentValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                }
+              ]
+            };
+
+            const fields = List([
+              {
+                name: "field_1"
+              },
+              {
+                name: "subform_1",
+                type: "subform",
+                subform_section_configuration: { subform_sort_by: "order_field" }
+              }
+            ]);
+
+            expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.false;
+          }
+        );
+
+        it(
+          "should return true if initialValues and currentValues subform values are not equals, " +
+            "even if currentValues subforms are in a differente order",
+          () => {
+            const initialValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "b"
+                }
+              ]
+            };
+
+            const currentValues = {
+              field_1: "test",
+              subform_1: [
+                {
+                  subform_value: "test 1",
+                  order_field: "b"
+                },
+                {
+                  subform_value: "test",
+                  order_field: "a"
+                }
+              ]
+            };
+
+            const fields = List([
+              {
+                name: "field_1"
+              },
+              {
+                name: "subform_1",
+                type: "subform",
+                subform_section_configuration: { subform_sort_by: "order_field" }
+              }
+            ]);
+
+            expect(helpers.isFormDirty(initialValues, currentValues, fields)).to.be.true;
+          }
+        );
+      });
+    });
+  });
+
+  describe("getRecordInformationForms", () => {
+    const i18n = { t: value => value };
+
+    it("should return all the record information forms", () => {
+      expect(Object.keys(helpers.getRecordInformationForms(i18n)).length).to.equal(6);
     });
   });
 });

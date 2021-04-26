@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import React from "react";
 import PropTypes from "prop-types";
 import { FormHelperText } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,8 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { SEPERATOR_NAME } from "../constants";
 import styles from "../styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Seperator = ({ helperText, label, mode }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const renderHelperText = () => (mode.isEdit ? <FormHelperText>{helperText}</FormHelperText> : null);
 
   return (
@@ -24,7 +25,7 @@ Seperator.displayName = SEPERATOR_NAME;
 Seperator.propTypes = {
   helperText: PropTypes.string,
   label: PropTypes.string,
-  mode: PropTypes.string
+  mode: PropTypes.object
 };
 
 export default Seperator;

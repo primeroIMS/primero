@@ -91,6 +91,16 @@ describe Reopenable do
     end
   end
 
+  describe 'reopens a closed record that was reopened before' do
+    let(:child) { Child.create!(name: 'test', status: Record::STATUS_CLOSED, case_status_reopened: true) }
+
+    it 'reopens the record' do
+      child.update_attributes(status: Record::STATUS_OPEN)
+      expect(child.status).to eq(Record::STATUS_OPEN)
+      expect(child.case_status_reopened).to eq(true)
+    end
+  end
+
   after :each do
     clean_data(Child)
   end

@@ -1,17 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types";
 import NavigationPrompt from "react-router-navigation-prompt";
-import { useFormContext } from "react-hook-form";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 
-const CancelPrompt = ({ useCancelPrompt }) => {
+const CancelPrompt = ({ useCancelPrompt, dirty, isSubmitted, isShow }) => {
   const i18n = useI18n();
-  const { formState, formMode } = useFormContext();
-  const { dirty, isSubmitted } = formState;
 
-  const promptCancelWhen = dirty && !isSubmitted && !formMode.get("isShow");
+  const promptCancelWhen = dirty && !isSubmitted && !isShow;
 
   if (useCancelPrompt) {
     return (
@@ -35,7 +31,17 @@ const CancelPrompt = ({ useCancelPrompt }) => {
 
 CancelPrompt.displayName = "CancelPrompt";
 
+CancelPrompt.defaultProps = {
+  dirty: false,
+  isShow: false,
+  isSubmitted: false,
+  useCancelPrompt: false
+};
+
 CancelPrompt.propTypes = {
+  dirty: PropTypes.bool,
+  isShow: PropTypes.bool,
+  isSubmitted: PropTypes.bool,
   useCancelPrompt: PropTypes.bool
 };
 

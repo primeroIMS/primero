@@ -1,33 +1,62 @@
 import { push } from "connected-react-router";
 
-const handleRestCallback = (store, successCallback, response, json, fromQueue = false) => {
-  if (successCallback) {
-    if (Array.isArray(successCallback)) {
-      successCallback.forEach(callback => handleRestCallback(store, callback, response, json, fromQueue));
+import isOnline from "./is-online";
+import setCaseIncidentData from "./set-case-incident-data";
+
+const redirectConditions = (callback = {}, json) => {
+  const { redirect, redirectWithIdFromResponse, redirectToEdit, incidentPath, moduleID } = callback;
+
+  if (redirectWithIdFromResponse) {
+    return `${redirect}/${json?.data?.id}`;
+  }
+  if (redirectToEdit) {
+    return `${redirect}/${json?.data?.id}/edit`;
+  }
+  if (incidentPath) {
+    return incidentPath === "new" ? `/incidents/${moduleID}/new` : incidentPath;
+  }
+
+  return redirect;
+};
+
+const handleRestCallback = (store, callback, response, json, fromQueue = false) => {
+  const isArrayCallback = Array.isArray(callback);
+
+  if (callback?.setCaseIncidentData) {
+    setCaseIncidentData(store, json?.data);
+  }
+
+  if (callback && (!fromQueue || callback?.api?.performFromQueue || isArrayCallback)) {
+    if (isArrayCallback) {
+      callback.forEach(cb => {
+        const { dispatchIfStatus } = cb;
+
+        if (dispatchIfStatus && response?.status !== dispatchIfStatus) {
+          return;
+        }
+        handleRestCallback(store, cb, response, json, fromQueue);
+      });
     } else {
-      const isCallbackObject = typeof successCallback === "object";
-      const successPayload = isCallbackObject
+      const isObjectCallback = typeof callback === "object";
+      const isApiCallback = isObjectCallback && "api" in callback;
+
+      const successPayload = isObjectCallback
         ? {
-            type: successCallback.action,
-            payload: successCallback.payload
+            type: callback.action,
+            payload: callback.payload
           }
         : {
-            type: successCallback,
+            type: callback,
             payload: { response, json }
           };
 
-      store.dispatch(successPayload);
+      store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
 
-      if (isCallbackObject && successCallback.redirect && !fromQueue) {
-        let { redirect } = successCallback;
+      if (isObjectCallback && callback.redirect && !fromQueue) {
+        const { preventSyncAfterRedirect } = callback;
+        const redirectPath = redirectConditions(callback, json);
 
-        if (successCallback.redirectWithIdFromResponse) {
-          redirect = `${successCallback.redirect}/${json?.data?.id}`;
-        }
-        if (successCallback.redirectToEdit) {
-          redirect = `${successCallback.redirect}/${json?.data?.id}/edit`;
-        }
-        store.dispatch(push(redirect));
+        store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline(store) }));
       }
     }
   }

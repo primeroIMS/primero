@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 
+import SubformTraces from "../subform-traces";
 import SubformFields from "../subform-fields";
 import SubformDialog from "../subform-dialog";
 import SubformEmptyData from "../subform-empty-data";
@@ -13,9 +14,9 @@ import styles from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
-import { valuesWithDisplayConditions } from "./utils";
+import { isTracesSubform } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mode, recordType, formSection }) => {
+const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, form, isReadWriteForm }) => {
   const {
     display_name: displayName,
     name,
@@ -24,12 +25,13 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
-  const storedValues = getIn(formik.values, name);
-  const values = valuesWithDisplayConditions(storedValues, displayConditions);
+
+  const orderedValues = getIn(formik.values, name);
+
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { css, mobileDisplay } = useThemeHelper(styles);
+  const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
   const handleAddSubform = () => {
     setDialogIsNew(true);
@@ -39,26 +41,32 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
   const title = displayName?.[i18n.locale];
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
+  const isTraces = isTracesSubform(recordType, formSection);
+  const handleCloseSubformTraces = () => setOpenDialog(false);
+
   useEffect(() => {
     if (typeof index === "number") {
-      setSelectedValue(values[index]);
+      setSelectedValue(orderedValues[index]);
     }
   }, [index]);
 
   const renderEmptyData =
-    values.filter(currValue => Object.values(currValue).every(isEmpty)).length === values.length ? (
+    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
-        values={values}
+        values={orderedValues}
         locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
         setDialogIsNew={setDialogIsNew}
-        recordType={recordType}
         form={formSection}
+        recordType={recordType}
+        isTracesSubform={isTraces}
+        formik={formik}
+        parentForm={form}
       />
     );
 
@@ -71,7 +79,7 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && (
             <ActionButton
               icon={<AddIcon />}
               text={renderAddText}
@@ -84,23 +92,36 @@ const Component = ({ arrayHelpers, field, formik, i18n, initialSubformValue, mod
         </div>
       </div>
       {renderEmptyData}
-      <SubformDialog
-        arrayHelpers={arrayHelpers}
-        dialogIsNew={dialogIsNew}
-        field={field}
-        formik={formik}
-        i18n={i18n}
-        index={index}
-        isFormShow={mode.isShow || isDisabled}
-        mode={mode}
-        oldValue={!dialogIsNew ? selectedValue : {}}
-        open={open}
-        setOpen={setOpenDialog}
-        title={title}
-        initialSubformValue={initialSubformValue}
-        formSection={formSection}
-        recordType={recordType}
-      />
+      {isTraces && mode.isShow ? (
+        <SubformTraces
+          formSection={formSection}
+          openDrawer={open}
+          handleClose={handleCloseSubformTraces}
+          field={field}
+          formik={formik}
+          index={index}
+          recordType={recordType}
+          mode={mode}
+        />
+      ) : (
+        <SubformDialog
+          arrayHelpers={arrayHelpers}
+          dialogIsNew={dialogIsNew}
+          field={field}
+          formik={formik}
+          i18n={i18n}
+          index={index}
+          isFormShow={mode.isShow || isDisabled || isReadWriteForm === false}
+          mode={mode}
+          oldValue={!dialogIsNew ? selectedValue : {}}
+          open={open}
+          setOpen={setOpenDialog}
+          title={title}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+          orderedValues={orderedValues}
+        />
+      )}
     </>
   );
 };
@@ -110,12 +131,13 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
-  initialSubformValue: PropTypes.object.isRequired,
+  isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
-  recordType: PropTypes.string
+  recordType: PropTypes.string.isRequired
 };
 
 export default Component;

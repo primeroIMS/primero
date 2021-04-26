@@ -1,21 +1,24 @@
 # frozen_string_literal: true
 
 # TODO: This class will need some cleanup/refactor
-# Calculate the permitted fields for a receord based on the user's role
+# Calculate the permitted fields for a record based on the user's role
 class PermittedFieldService
-  attr_accessor :user, :model_class, :action_name
+  attr_accessor :user, :model_class, :action_name, :id_search
+
+  PERMITTED_CORE_FIELDS = %w[id record_in_scope or not cases_by_date alert_count].freeze
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
     associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents
+    created_at has_incidents short_id record_state sex age registration_date
+    reassigned_transferred_on current_alert_types location_current
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     assigned_user_names created_by created_by_agency module_id owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
-    last_updated_at
+    last_updated_at owned_by_groups previously_owned_by_agency created_organization
   ].freeze
 
   PERMITTED_FIELDS_FOR_ACTION = {
@@ -25,31 +28,53 @@ class PermittedFieldService
     Permission::ENABLE_DISABLE_RECORD => %w[record_state], Permission::INCIDENT_FROM_CASE => %w[incident_case_id]
   }.freeze
 
-  def initialize(user, model_class, action_name = nil)
+  ID_SEARCH_FIELDS = %w[age date_of_birth estimated name module_id sex].freeze
+
+  def initialize(user, model_class, action_name = nil, id_search = nil)
     self.user = user
     self.model_class = model_class
     self.action_name = action_name
+    self.id_search = id_search
   end
 
-  def permitted_field_names
+  # This is a long series of permission conditions. Sacrificing Rubocop for readability.
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
+  def permitted_field_names(writeable = false)
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
-    @permitted_field_names = %w[id record_in_scope or not cases_by_date alert_count]
-    @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form)
+    @permitted_field_names = PERMITTED_CORE_FIELDS
+    @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form, false, writeable)
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
-    @permitted_field_names << 'record_state' if user.can?(:enable_disable_record, model_class)
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
-    if model_class == Incident && user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
-      @permitted_field_names << 'incident_case_id'
+    if model_class.included_modules.include?(Webhookable) && user.can?(:sync_external, model_class)
+      @permitted_field_names += %w[synced_at sync_status mark_synced mark_synced_url mark_synced_status]
     end
+    @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
     @permitted_field_names += permitted_approval_field_names
     @permitted_field_names += permitted_overdue_task_field_names
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
+    @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
+    @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
+
+  def permitted_reporting_location_field
+    reporting_location_config = user.role.reporting_location_config
+
+    return [] if reporting_location_config.blank?
+
+    ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
   end
 
   def permitted_approval_field_names
@@ -64,7 +89,8 @@ class PermittedFieldService
 
   def approval_access?(user, approval_id)
     user.can?(:"request_approval_#{approval_id}", model_class) ||
-      user.can?(:"approve_#{approval_id}", model_class)
+      user.can?(:"approve_#{approval_id}", model_class) ||
+      user.role.permitted_dashboard?("approvals_#{approval_id}")
   end
 
   def permitted_field_names_from_action_name
@@ -80,5 +106,19 @@ class PermittedFieldService
     overdue_task_fields << 'service_due_dates' if user.can?(:cases_by_task_overdue_services, Dashboard)
     overdue_task_fields << 'followup_due_dates' if user.can?(:cases_by_task_overdue_followups, Dashboard)
     overdue_task_fields
+  end
+
+  def permitted_incident_field_names
+    return [] unless model_class == Incident
+
+    incident_field_names = []
+    incident_field_names << 'incident_date_derived'
+
+    return incident_field_names unless user.can?(Permission::INCIDENT_FROM_CASE.to_sym, Child)
+
+    incident_field_names << 'incident_case_id'
+    incident_field_names << 'case_id_display'
+
+    incident_field_names
   end
 end

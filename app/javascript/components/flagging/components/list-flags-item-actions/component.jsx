@@ -1,28 +1,32 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { Divider, makeStyles } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { ResolvedFlagIcon } from "../../../../images/primero-icons";
 import { currentUser } from "../../../user";
 import { FormAction } from "../../../form";
 import styles from "../styles.css";
-import { setDialog } from "../../../record-actions/action-creators";
 import { UNFLAG_DIALOG } from "../unflag/constants";
-import { FLAG_DIALOG } from "../../constants";
 import { setSelectedFlag } from "../../action-creators";
+import { useDialog } from "../../../action-dialog";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = makeStyles(styles)();
-  const userName = useSelector(state => currentUser(state));
+  const css = useStyles();
+
+  const userName = useMemoizedSelector(state => currentUser(state));
+
   const showResolveButton =
     // eslint-disable-next-line camelcase
     !flag?.removed && userName === flag?.flagged_by;
+  const { setDialog } = useDialog(UNFLAG_DIALOG);
 
   if (!flag) {
     return null;
@@ -30,8 +34,7 @@ const Component = ({ flag }) => {
 
   const handleUnflagDialog = () => {
     dispatch(setSelectedFlag(flag.id));
-    dispatch(setDialog({ dialog: FLAG_DIALOG, open: false }));
-    dispatch(setDialog({ dialog: UNFLAG_DIALOG, open: true }));
+    setDialog({ dialog: UNFLAG_DIALOG, open: true });
   };
 
   const renderFlagActions = showResolveButton && (

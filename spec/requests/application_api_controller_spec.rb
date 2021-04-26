@@ -4,12 +4,18 @@ require 'rails_helper'
 
 describe ApplicationApiController, type: :request do
   before(:each) do
-    clean_data(SystemSettings)
+    clean_data(SystemSettings, CodeOfConduct)
+    CodeOfConduct.create!(
+      title: 'Code of conduct test',
+      content: 'Some content',
+      created_by: 'test_user',
+      created_on: DateTime.now
+    )
     SystemSettings.create!
   end
 
   after(:all) do
-    clean_data(SystemSettings)
+    clean_data(SystemSettings, CodeOfConduct)
   end
 
   describe 'Configuration update lock' do
@@ -62,5 +68,28 @@ describe ApplicationApiController, type: :request do
 
       expect(response.headers['X-Content-Type-Options']).to eq('nosniff')
     end
+  end
+
+  describe 'HTTP Basic Auth' do
+    let(:user_name) { 'testuser' }
+    let(:password) { 'testuserpassw0rd!' }
+    let(:basic_auth) { Base64.encode64("#{user_name}:#{password}") }
+
+    before(:each) do
+      clean_data(User, Role)
+      role = Role.new(name: 'Test Role 1', unique_id: 'test-role-1',
+                      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+      role.save(validate: false)
+      @user = User.new(user_name: user_name, password: password, password_confirmation: password, role: role)
+      @user.save(validate: false)
+    end
+
+    it 'works!' do
+      get '/api/v2/cases', headers: { 'Authorization' => "Basic #{basic_auth}" }
+
+      expect(response).to have_http_status(200)
+    end
+
+    after(:each) { clean_data(User, Role) }
   end
 end

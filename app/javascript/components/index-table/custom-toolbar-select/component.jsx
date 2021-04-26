@@ -1,4 +1,3 @@
-import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -10,6 +9,8 @@ import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
 import styles from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
+
+const useStyles = makeStyles(styles);
 
 const Component = ({
   displayData,
@@ -23,7 +24,7 @@ const Component = ({
   setSelectedRecords,
   totalRecords
 }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -62,28 +63,36 @@ const Component = ({
     </div>
   );
 
+  const onChangePage = (e, currentPage) => {
+    dispatch(
+      fetchRecords({
+        recordType,
+        data: selectedFilters.set("page", currentPage + 1)
+      })
+    );
+  };
+
+  const onChangeRowsPerPage = ({ target }) =>
+    dispatch(
+      fetchRecords({
+        recordType,
+        data: selectedFilters.set("page", 1).set("per", target.value)
+      })
+    );
+
+  const handleLabelDisplayRow = ({ from, to, count }) => `${from}-${to} ${i18n.t("messages.record_list.of")} ${count}`;
+
   const paginationProps = {
     count: totalRecords,
     page: page - 1,
     rowsPerPage: perPage,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     component: "div",
-    onChangePage: (e, currentPage) => {
-      dispatch(
-        fetchRecords({
-          recordType,
-          data: { ...selectedFilters, page: currentPage + 1 }
-        })
-      );
-    },
+    onChangePage,
     className: css.customToolbarPagination,
-    onChangeRowsPerPage: ({ target }) =>
-      dispatch(
-        fetchRecords({
-          recordType,
-          data: { ...selectedFilters, page: 1, per: target.value }
-        })
-      )
+    onChangeRowsPerPage,
+    labelRowsPerPage: i18n.t("messages.record_list.rows_per_page"),
+    labelDisplayedRows: handleLabelDisplayRow
   };
 
   return (
@@ -105,7 +114,7 @@ Component.propTypes = {
   page: PropTypes.number,
   perPage: PropTypes.number,
   recordType: PropTypes.string,
-  selectedFilters: PropTypes.object,
+  selectedFilters: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   selectedRecords: PropTypes.object,
   selectedRows: PropTypes.object,
   setSelectedRecords: PropTypes.func,

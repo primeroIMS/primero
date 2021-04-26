@@ -63,11 +63,17 @@
   justify-content: space-between;
 }
 
+.alerts {
+  margin-bottom: 10px;
+}
+
 .buttonsActions {
-  display: flex;
+  display: inline-flex;
   justify-content: flex-end;
   flex-direction: column;
+  gap: .5em;
 }
+
 .buttonsActions > button {
   margin-bottom: 0.5em;
 }

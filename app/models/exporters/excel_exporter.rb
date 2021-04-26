@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
-require 'writeexcel'
+require 'write_xlsx'
 
-# Export records to Excel. Every form ius represented by a new tab.
+# Export records to Excel. Every form is represented by a new tab.
 # Subforms get a dedicated tab.
-# This uses the writeexcel gem which only support XLS (Excel 2008 format)
-# and is a 1000 years old. However it does support buffered output,
-# which is why we are sticking with it for now.
+# Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
   attr_accessor :workbook, :worksheets
 
   class << self
     def id
-      'xls'
+      'xlsx'
     end
 
     def supported_models
@@ -22,7 +20,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def initialize(output_file_path = nil)
     super(output_file_path)
-    self.workbook = WriteExcel.new(buffer)
+    self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
   end
 
@@ -32,6 +30,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     records.each do |record|
       write_record(record)
+      worksheets_reset_written
     end
   end
 
@@ -44,6 +43,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def build_worksheet_with_headers(form)
+    # Do not build the worksheet if the form is already there because
+    # the same form can be referenced by different fields
+    return if worksheets[form.unique_id].present?
+
     worksheet = build_worksheet(form)
     worksheet&.write(0, 0, 'ID')
     form.fields.each_with_index do |field, i|
@@ -80,12 +83,16 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
-    forms.each do |form|
+    # Do not write nested forms here
+    forms.reject(&:is_nested).each do |form|
       write_record_form(record.short_id, record.data, form)
     end
   end
 
   def write_record_form(id, data, form)
+    # Do not write data if already written for this form
+    return if worksheets[form.unique_id][:written] == true
+
     worksheet = worksheets[form.unique_id][:worksheet]
     worksheet&.write(worksheets[form.unique_id][:row], 0, id)
     form.fields.each_with_index do |field, i|
@@ -94,16 +101,32 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
           write_record_form(id, subform_data, field.subform)
         end
       else
-        value = export_value(data[field.name], field)
+        value = export_field_value(data, form, field)
         worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
       end
     end
+    worksheets[form.unique_id][:written] = true
     worksheets[form.unique_id][:row] += 1
+  end
+
+  def export_field_value(data, form, field)
+    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+
+    values = []
+    data[field&.form_section&.unique_id]&.each do |section|
+      values << export_value(section[field.name], field)
+    end
+    values.join(', ')
+  end
+
+  def worksheets_reset_written
+    worksheets.each { |_, value| value[:written] = false }
   end
 
   def export_value(value, field)
     value = super(value, field)
-    return value['name_i18n'][locale.to_s] if field.name == 'created_organization' && value.present?
+    # TODO: This will cause N+1 issue
+    return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s) if field.name == 'created_organization' && value.present?
 
     return value unless value.is_a? Array
 

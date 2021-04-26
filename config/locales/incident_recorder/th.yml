@@ -1,0 +1,74 @@
+th:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "ส่งออกบันทึกเหตุการณ์เป็นไฟล์ XLS"
+  exports:
+    incident_recorder_xls:
+      all: ผู้บันทึกเหตุการณ์
+      one: ผู้บันทึกเหตุการณ์
+      selected: เลือกบันทึกเหตุการณ์
+      'yes': "ใช่"
+      'no': "ไม่ใช่่"
+      gender:
+        male: "ชาย"
+        female: "หญิง"
+        both: "ชายและหญิง"
+      age_group:
+        age: "อายุ"
+        61_older: "ุ61 หรือมากกว่า"
+        unknown: "ไม่มีข้อมูล"
+        header: "ช่วงอายุของผู้ต้องสงสัย"
+      age_type:
+        adult: "ผู้ใหญ่"
+        minor: "ผู้เยาว์"
+        both: "ผู้ใหญ่และผู้เยาว์"
+        unknown: "ไม่มีข้อมูล"
+        header: "ประเภทอายุของผู้ต้องสงสัย"
+      headers:
+        incident_id: "หมายเลขเหตุการณ์"
+        survivor_code: "รหัสผู้รอดชีวิต"
+        case_manager_code: "รหัสของผู้จัดการรายกรณี"
+        case_worker_code: "รหัสผู้ปฏิบัติงาน"
+        date_of_interview: "วันที่สัมภาษณ์"
+        date_of_incident: "วันที่เกิดเหตุ"
+        date_of_birth: "วันเกิด"
+        sex: "เพศ"
+        ethnicity: "เชื้อชาติ"
+        country_of_origin: "ประเทศต้นกําเนิด"
+        marital_status: "สถานะพลเมืองและสถานภาพการสมรส"
+        displacement_status: "สถานะการย้ายถิ่นฐาน ณ วันที่รายงาน"
+        disability_type: "เป็นผู้พิการหรือไม่?"
+        unaccompanied_separated_status: "เป็นเด็กที่เดินทางโดยลําพังหรือแยกจากครอบครัวหรือไม่?"
+        stage_of_displacement: "ช่วงเกิดเหตุอยู่ในขั้นตอนใดของการย้ายถิ่นฐาน?"
+        time_of_day: "เวลาที่เกิดเหตุ"
+        location: "สถานที่เกิดเหตุ"
+        county: "พื้นที่เกิดเหตุ"
+        district: "อำเภอที่เกิดเหตุ"
+        camp_town: "เมืองที่เกิดเหตุ"
+        camp: "แคมป์ที่เกิดเหตุ"
+        gbv_type: "ประเภทของความรุนแรงบนฐานเพศ"
+        harmful_traditional_practice: "ธรรมเนียมปฏิบัติที่เป็นอันตราย"
+        goods_money_exchanged: "มีการแลกเปลี่ยนเงิน สินค้า ผลประโยชน์ และ / หรือบริการ หรือไม่?"
+        abduction_type: "ประเภทของการลักพาตัว"
+        previously_reported: "ได้เคยมีการรายงานเหตุการณ์ที่เกิดขึ้นนี้หรือไม่ ?"
+        gbv_previous_incidents: "เคยมีเหตุการณ์ถูกใช้ความรุนแรงบนฐานเพศหรือไม่?"
+        number_primary_perpetrators: "จำนวนผู้ต้องสงสัย"
+        perpetrator:
+          sex: "เพศของผู้ต้องสงสัย"
+          former: "เหตุการณ์ก่อนหน้านี้ที่เกิดจากผู้ต้องสงสัย  "
+          relationship: "ความสัมพันธ์ระหว่างผู้ต้องสงสัยและผู้เสียหาย"
+          occupation: "อาชีพของผู้ต้องสงสัย"
+          age_group: "ช่วงอายุของผู้ต้องสงสัย"
+          age_type: "ประเภทอายุของผู้ต้องสงสัย"
+        service:
+          referred_from: "ถูกส่งมาจากหน่วยงานใด"
+          safehouse_referral: "ที่พักชั่วคราว"
+          medical_referral: "บริการด้านสุขภาพ"
+          psycho_referral: "บริการด้านจิตเวช"
+          wants_legal_action: "ต้องดำเนินการทางกฎหมายหรือไม่?"
+          legal_referral: "บริการช่วยเหลือด้านกฎหมาย"
+          police_referral: "ตำรวจ / ผู้ดูแลด้านความปลอดภัยอื่น ๆ"
+          livelihoods_referral: "โครงการช่วยเหลือด้านการดํารงชีวิต"
+          protection_referral: "บริการด้านคุ้มครองเด็ก / บริการด้านการศึกษา"
+        consent: "ได้รับความยินยอม"
+        agency_code: "รหัสหน่วยงานที่แจ้งเหตุ"

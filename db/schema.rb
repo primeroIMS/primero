@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_11_000000) do
+ActiveRecord::Schema.define(version: 2021_03_25_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -48,6 +48,9 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.string "services", default: [], array: true
     t.boolean "logo_enabled", default: false, null: false
     t.boolean "disabled", default: false, null: false
+    t.boolean "pdf_logo_option", default: false, null: false
+    t.boolean "exclude_agency_from_lookups", default: false, null: false
+    t.boolean "terms_of_use_enabled", default: false, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
@@ -110,6 +113,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.jsonb "custom_export_params"
     t.string "file_name"
     t.string "password_ciphertext"
+    t.string "type"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -118,6 +122,13 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+  end
+
+  create_table "codes_of_conduct", force: :cascade do |t|
+    t.datetime "created_on"
+    t.string "created_by"
+    t.string "title"
+    t.text "content"
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -177,6 +188,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
+    t.boolean "mandatory_for_completion", default: false, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -194,6 +206,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.boolean "system_generated_followup", default: false, null: false
     t.string "unflagged_by"
     t.date "unflagged_date"
+    t.uuid "record_uuid"
     t.index ["record_type", "record_id"], name: "index_flags_on_record_type_and_record_id"
   end
 
@@ -232,9 +245,11 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.integer "form_section_id"
   end
 
-  create_table "form_sections_roles", id: false, force: :cascade do |t|
+  create_table "form_sections_roles", force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
+    t.string "permission", default: "rw"
+    t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
 
@@ -283,6 +298,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.string "applied_by"
     t.datetime "applied_on"
     t.jsonb "data", default: {}
+    t.string "primero_version"
   end
 
   create_table "primero_modules", id: :serial, force: :cascade do |t|
@@ -392,6 +408,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.jsonb "system_options"
     t.jsonb "approvals_labels_i18n"
     t.boolean "config_update_lock", default: false, null: false
+    t.string "configuration_file_version"
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -426,6 +443,8 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.boolean "consent_overridden", default: false, null: false
     t.boolean "consent_individual_transfer", default: false, null: false
     t.datetime "created_at"
+    t.datetime "responded_at"
+    t.text "rejection_note"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"
   end
@@ -473,13 +492,28 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
     t.integer "failed_attempts", default: 0
     t.string "unlock_token"
     t.datetime "locked_at"
+    t.boolean "service_account", default: false, null: false
+    t.datetime "code_of_conduct_accepted_on"
+    t.bigint "code_of_conduct_id"
     t.index ["agency_id"], name: "index_users_on_agency_id"
+    t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identity_provider_id"], name: "index_users_on_identity_provider_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
+  end
+
+  create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "events", default: []
+    t.string "url"
+    t.string "auth_type"
+    t.string "auth_secret_encrypted"
+    t.string "role_unique_id"
+    t.jsonb "metadata", default: {}
+    t.index ["events"], name: "index_webhooks_on_events", using: :gin
+    t.index ["url"], name: "index_webhooks_on_url", unique: true
   end
 
   create_table "whitelisted_jwts", force: :cascade do |t|
@@ -494,5 +528,6 @@ ActiveRecord::Schema.define(version: 2020_10_11_000000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
+  add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";

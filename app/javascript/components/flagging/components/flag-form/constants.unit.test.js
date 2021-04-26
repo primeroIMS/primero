@@ -4,7 +4,7 @@ describe("FlagForm - Constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    ["NAME"].forEach(property => {
+    ["NAME", "MAX_LENGTH_FLAG_REASON"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

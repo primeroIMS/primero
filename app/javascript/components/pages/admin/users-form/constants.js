@@ -1,5 +1,5 @@
 export const USER_CONFIRMATION_DIALOG = "userConfirmationDialog";
-export const IDENTITY_PROVIDER_ID = "identity_provider_id";
+export const IDENTITY_PROVIDER_ID = "identity_provider_unique_id";
 export const USER_GROUP_UNIQUE_IDS = "user_group_unique_ids";
 export const USERGROUP_PRIMERO_GBV = "usergroup-primero-gbv";
 export const ROLE_OPTIONS = [
@@ -45,3 +45,6 @@ export const ROLE_OPTIONS = [
   { id: "role-superuser", display_text: "Superuser" }
 ];
 export const PASSWORD_MODAL = "passwordModal";
+export const PASSWORD_SELF_OPTION = "self";
+export const PASSWORD_USER_OPTION = "user";
+export const FORM_ID = "user-form";

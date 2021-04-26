@@ -21,7 +21,9 @@ describe("<RolesForm /> - Actions", () => {
       "SAVE_ROLE_FAILURE",
       "SAVE_ROLE_FINISHED",
       "SAVE_ROLE_STARTED",
-      "SAVE_ROLE_SUCCESS"
+      "SAVE_ROLE_SUCCESS",
+      "SET_COPY_ROLE",
+      "CLEAR_COPY_ROLE"
     ].forEach(property => {
       expect(clonedActions).to.have.property(property);
       delete clonedActions[property];

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Field, connect, getIn } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { useApp } from "../../../application";
@@ -9,8 +9,8 @@ import { useI18n } from "../../../i18n";
 import { getLocations, getOption, getOptionsAreLoading, getReportingLocations } from "../../selectors";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
-import { valuesToSearchableSelect } from "../../../../libs";
-import { getEnabledAgencies, getReportingLocationConfig } from "../../../application/selectors";
+import { useMemoizedSelector, valuesToSearchableSelect } from "../../../../libs";
+import { getAgenciesWithService, getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getLoading } from "../../../index-table";
@@ -37,7 +37,9 @@ const SelectField = ({
 
   const option = field.option_strings_source || field.option_strings_text;
   const { multi_select: multiSelect } = field;
-  const value = getIn(formik.values, name);
+  const formikValue = getIn(formik.values, name);
+  const value = typeof formikValue === "boolean" ? String(formikValue) : formikValue;
+
   const defaultEmptyValue = multiSelect ? [] : null;
 
   const selectedValue = field.multi_select ? [field.selected_value] : field.selected_value;
@@ -47,33 +49,16 @@ const SelectField = ({
   const { filterState, setFilterState } = other?.filters || {};
 
   const NAMESPACE = ["transitions", REFERRAL_TYPE];
-  const [stickyOption] = useState(value);
+  const [stickyOption, setStickyOption] = useState(value);
 
-  const options = useSelector(state => getOption(state, option, i18n.locale, stickyOption));
-  const loading = useSelector(state => getLoading(state, NAMESPACE));
-  const agenciesLoading = useSelector(state => getOptionsAreLoading(state));
-
-  const agencies = useSelector(
-    state => getEnabledAgencies(state, service),
-    (agencies1, agencies2) => agencies1.equals(agencies2)
-  );
-
-  const adminLevel = useSelector(state => getReportingLocationConfig(state).get("admin_level"));
-
-  const locations = useSelector(
-    state => getLocations(state, i18n),
-    (locations1, locations2) => locations1.equals(locations2)
-  );
-
-  const reportingLocations = useSelector(
-    state => getReportingLocations(state, adminLevel),
-    (rptLocations1, rptLocations2) => rptLocations1.equals(rptLocations2)
-  );
-
-  const referralUsers = useSelector(
-    state => getUsersByTransitionType(state, REFERRAL_TYPE),
-    (users1, users2) => users1.equals(users2)
-  );
+  const options = useMemoizedSelector(state => getOption(state, option, i18n.locale, stickyOption));
+  const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
+  const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
+  const agencies = useMemoizedSelector(state => getAgenciesWithService(state, service));
+  const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
+  const locations = useMemoizedSelector(state => getLocations(state, i18n));
+  const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
+  const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
 
   const reloadReferralUsers = () => {
     const filters = getUserFilters({ service, agency, location });
@@ -119,6 +104,8 @@ const SelectField = ({
     referralUsers,
     filterState,
     value,
+    stickyOptionId: stickyOption,
+    locale: i18n.locale,
     name
   });
 
@@ -207,7 +194,8 @@ const SelectField = ({
       ? buildOptions().filter(optionObject =>
           multiSelect ? value.includes(String(optionObject.value)) : String(optionObject.value) === value.toString()
         )
-      : defaultEmptyValue
+      : defaultEmptyValue,
+    InputLabelProps
   };
 
   useEffect(() => {
@@ -233,7 +221,13 @@ const SelectField = ({
   }, [location]);
 
   useEffect(() => {
-    if (mode.isNew && selectedValue && (value === null || value?.length === 0)) {
+    if (value && (!stickyOption || isEmpty(stickyOption))) {
+      setStickyOption(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    if (mode.isNew && selectedValue && (isEmpty(value) || value?.size <= 0)) {
       formik.setFieldValue(name, selectedValue, false);
     }
   }, []);
@@ -245,7 +239,11 @@ const SelectField = ({
   return (
     <Field name={name}>
       {/* eslint-disable-next-line no-unused-vars */}
-      {({ f, form }) => <SearchableSelect {...fieldProps} onChange={data => handleChange(data, form)} />}
+      {({ f, form }) => {
+        const onChange = data => handleChange(data, form);
+
+        return <SearchableSelect {...fieldProps} onChange={onChange} />;
+      }}
     </Field>
   );
 };

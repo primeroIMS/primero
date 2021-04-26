@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
-import ArrowIcon from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -12,7 +12,7 @@ import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
-import { compare, dataToJS } from "../../../../libs";
+import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
 import { getOptions as specialOptions } from "../../../form/selectors";
 import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
@@ -22,9 +22,12 @@ import { NAME } from "./constants";
 import styles from "./styles.css";
 import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
+  const { isRTL } = useThemeHelper();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -62,11 +65,11 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
     }
   };
 
-  const allLookups = useSelector(state => getOptions(state), compare);
-  const location = useSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
-  const agencies = useSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n), compare);
-  const modules = useSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n), compare);
-  const formGroups = useSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n), compare);
+  const allLookups = useMemoizedSelector(state => getOptions(state));
+  const location = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n));
+  const agencies = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n));
+  const modules = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n));
+  const formGroups = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n));
 
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
@@ -107,10 +110,15 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
       return <p>{i18n.t("report.no_filters_added")}</p>;
     }
 
+    const handleClickOpen = index => () => handleOpenModal(index);
+    const handleClickEdit = index => () => handleEdit(index);
+
     return Object.entries(indexes).map(filter => {
       const [index, { data }] = filter;
       const { attribute, value } = data;
       const field = fields.find(f => f.id === attribute);
+
+      if (!field) return false;
 
       const constraintLabel = getConstraintLabel(data, field, i18n);
       const lookups = [
@@ -129,16 +137,16 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
         formatValue(value, i18n, { field, lookups })
       ].join(" ");
 
+      const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
+
       return (
         <Box key={index} display="flex" alignItems="center">
           <Box flexGrow={1}>{formattedReportFilterName}</Box>
           <Box>
-            <IconButton onClick={() => handleOpenModal(index)}>
+            <IconButton onClick={handleClickOpen(index)}>
               <DeleteIcon />
             </IconButton>
-            <IconButton onClick={() => handleEdit(index)}>
-              <ArrowIcon />
-            </IconButton>
+            <IconButton onClick={handleClickEdit(index)}>{renderIcon}</IconButton>
           </Box>
         </Box>
       );

@@ -1,6 +1,8 @@
 import { fromJS } from "immutable";
+import { format, parseISO } from "date-fns";
 
 import { ACTIONS } from "../../libs/permissions";
+import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import * as selectors from "./selectors";
 
@@ -10,14 +12,15 @@ const stateWithUser = fromJS({
     isAuthenticated: true,
     username: "primero",
     modules: ["primeromodule-test1", "primeromodule-test2"],
-    permittedForms: ["record_owner", "client_feedback"],
+    permittedForms: { record_owner: "r", client_feedback: "rw" },
     permissions: {
       incidents: [ACTIONS.MANAGE],
       tracing_requests: [ACTIONS.MANAGE],
       cases: [ACTIONS.MANAGE]
     },
     saving: false,
-    serverErrors: ["Test error"]
+    serverErrors: ["Test error"],
+    resetPassword: { saving: true }
   }
 });
 
@@ -100,7 +103,7 @@ describe("User - Selectors", () => {
 
   describe("getPermittedFormsIds", () => {
     it("should return list of permitted forms", () => {
-      const expectedFormsIds = fromJS(["record_owner", "client_feedback"]);
+      const expectedFormsIds = fromJS({ record_owner: "r", client_feedback: "rw" });
       const selector = selectors.getPermittedFormsIds(stateWithUser);
 
       expect(selector).to.deep.equal(expectedFormsIds);
@@ -150,6 +153,142 @@ describe("User - Selectors", () => {
       const user = selectors.getServerErrors(stateWithoutUser);
 
       expect(user).to.deep.equal(fromJS([]));
+    });
+  });
+
+  describe("getSavingPassword", () => {
+    it("should return true if the password reset is being saving", () => {
+      const saving = selectors.getSavingPassword(stateWithUser);
+
+      expect(saving).to.be.true;
+    });
+  });
+
+  describe("getUserLocationsByAdminLevel", () => {
+    const forms = {
+      options: {
+        locations: [
+          {
+            code: "XX",
+            admin_level: 0,
+            type: "country",
+            name: {
+              en: "Country 1"
+            }
+          },
+          {
+            code: "XX01",
+            admin_level: 1,
+            type: "province",
+            name: {
+              en: "Country 1::Province 1"
+            }
+          },
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]
+      }
+    };
+
+    describe("when user doesn't have a location", () => {
+      const state = fromJS({
+        user: {},
+        forms
+      });
+
+      it("should return all locations if the user doesn't have a location", () => {
+        const expected = fromJS(forms.options.locations);
+
+        expect(selectors.getUserLocationsByAdminLevel(state)).to.deep.equal(expected);
+      });
+    });
+
+    describe("when user has a location", () => {
+      const state = fromJS({
+        user: {
+          location: "XX0101"
+        },
+        forms
+      });
+
+      it("should return ONLY a single location if it's last admin_level location", () => {
+        const expected = fromJS([
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]);
+
+        expect(selectors.getUserLocationsByAdminLevel(state)).to.deep.equal(expected);
+      });
+
+      it("should return locations with admin_level greater than or equals to the user's location admin_level", () => {
+        const updatedState = state.setIn(["user", "location"], "XX01");
+        const expected = fromJS([
+          {
+            code: "XX01",
+            admin_level: 1,
+            type: "province",
+            name: {
+              en: "Country 1::Province 1"
+            }
+          },
+          {
+            code: "XX0101",
+            admin_level: 2,
+            type: "district",
+            name: {
+              en: "Country 1::Province 1::District 1"
+            }
+          }
+        ]);
+
+        expect(selectors.getUserLocationsByAdminLevel(updatedState)).to.deep.equal(expected);
+      });
+    });
+  });
+
+  describe("getCodeOfConductId", () => {
+    it("should return the id of the accepted code of conduct", () => {
+      const state = fromJS({
+        user: {
+          codeOfConductId: 1
+        }
+      });
+
+      expect(selectors.getCodeOfConductId(state)).to.be.equal(1);
+    });
+
+    it("should return null if the user hasn't accepted the code of conduct", () => {
+      expect(selectors.getCodeOfConductId(fromJS({}))).to.be.null;
+    });
+  });
+
+  describe("getCodeOfConductAccepteOn", () => {
+    it("should return the date of the accepted code of conduct", () => {
+      const state = fromJS({
+        user: {
+          codeOfConductAcceptedOn: "2021-03-23T18:14:19.762Z"
+        }
+      });
+      const date = selectors.getCodeOfConductAccepteOn(state);
+      const formattedDate = format(parseISO(date), CODE_OF_CONDUCT_DATE_FORMAT);
+
+      expect(formattedDate).to.be.equal("March 23, 2021");
+    });
+
+    it("should return null if the user hasn't accepted the code of conduct", () => {
+      expect(selectors.getCodeOfConductAccepteOn(fromJS({}))).to.be.null;
     });
   });
 });

@@ -21,6 +21,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("saving", false);
     case actions.CLEAR_SELECTED_ROLE:
       return state.set("selectedRole", fromJS({})).set("errors", false).set("serverErrors", fromJS([]));
+    case actions.SET_COPY_ROLE:
+      return state.set("copiedRole", fromJS(payload));
+    case actions.CLEAR_COPY_ROLE:
+      return state.delete("copiedRole");
     default:
       return state;
   }

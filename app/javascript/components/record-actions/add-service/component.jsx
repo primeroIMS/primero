@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { batch, useSelector, useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 
 import ActionDialog from "../../action-dialog";
@@ -13,51 +13,51 @@ import Fields from "../add-incident/fields";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { ACTIONS } from "../../../libs/permissions";
-import { fetchRecordsAlerts } from "../../records/action-creators";
 import { fetchAlerts } from "../../nav/action-creators";
 import { SERVICE_DIALOG } from "../constants";
+import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./constants";
 
-const Component = ({ openServiceDialog, close, pending, recordType, selectedRowsIndex, setPending }) => {
+const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const form = useSelector(state =>
+  const form = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: MODULES.CP,
       formName: SERVICES_SUBFORM
     })
   );
-
-  const selectedIds = useSelector(state =>
+  const selectedIds = useMemoizedSelector(state =>
     selectRecordsByIndexes(state, recordType, selectedRowsIndex).map(record => record.get(ID_FIELD))
   );
 
   useEffect(() => {
-    if (openServiceDialog) {
+    if (open) {
       resetForm(formikRef);
     }
-  }, [openServiceDialog]);
+  }, [open]);
 
-  if (!form?.toJS()?.length) return [];
+  if (form?.isEmpty()) return [];
 
   const { subform_section_id: subformSectionID, name: subformName } = form
     .first()
     .fields.find(field => field.name === SERVICES_SUBFORM_NAME);
   const initialFormValues = constructInitialValues([subformSectionID]);
+  const successHandler = () => submitForm(formikRef);
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
     dialogTitle: i18n.t("actions.services_section_from_case"),
     cancelHandler: close,
     onClose: close,
-    open: openServiceDialog,
+    open,
     pending,
     omitCloseAfterSuccess: true,
-    successHandler: () => submitForm(formikRef)
+    successHandler
   };
 
   const fieldsProps = {
@@ -92,13 +92,12 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
               body,
               id,
               i18n.t(`actions.services_from_case_creation_success`),
-              false,
+              i18n.t("offline_submitted_changes"),
               false,
               false,
               SERVICE_DIALOG
             )
           );
-          dispatch(fetchRecordsAlerts(recordType, id));
         });
       });
       dispatch(fetchAlerts());
@@ -119,7 +118,7 @@ const Component = ({ openServiceDialog, close, pending, recordType, selectedRows
 
 Component.propTypes = {
   close: PropTypes.func,
-  openServiceDialog: PropTypes.bool,
+  open: PropTypes.bool,
   pending: PropTypes.bool,
   records: PropTypes.array,
   recordType: PropTypes.string,

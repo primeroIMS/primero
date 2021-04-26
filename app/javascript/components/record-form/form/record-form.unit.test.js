@@ -91,7 +91,10 @@ describe("<RecordForm />", () => {
         field_2: "Value 2"
       }),
       recordType: RECORD_TYPES.cases,
-      selectedForm: "form_section_1"
+      selectedForm: "form_section_1",
+      externalForms: () => {},
+      externalComponents: () => {},
+      userPermittedFormsIds: fromJS({ basic_identity: "rw" })
     }));
   });
 
@@ -135,7 +138,8 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "incidents",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
@@ -157,7 +161,8 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "incidents",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
@@ -176,11 +181,62 @@ describe("<RecordForm />", () => {
         record: fromJS({}),
         recordType: "cases",
         selectedForm: "form_section_1",
-        incidentFromCase: fromJS(incidentFromCase)
+        incidentFromCase: fromJS(incidentFromCase),
+        externalComponents: () => {}
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
     });
+  });
+
+  it("should set the values from the case if it is a new record", () => {
+    const initialValues = {
+      field_1: "",
+      field_2: "",
+      field_age: ""
+    };
+
+    const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
+      bindSubmitForm: () => {},
+      forms,
+      handleToggleNav: () => {},
+      mobileDisplay: false,
+      mode: { isNew: true, isEdit: false, isShow: false },
+      onSubmit: () => {},
+      record: fromJS({ name: "test" }),
+      recordType: "cases",
+      selectedForm: "form_section_1",
+      incidentFromCase: {},
+      externalComponents: () => {}
+    });
+
+    expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+      ...initialValues,
+      ...{ name: "test" }
+    });
+  });
+
+  it("renders component with valid props", () => {
+    const incidentsProps = { ...component.find(RecordForm).props() };
+
+    [
+      "bindSubmitForm",
+      "forms",
+      "handleToggleNav",
+      "mobileDisplay",
+      "mode",
+      "onSubmit",
+      "record",
+      "recordType",
+      "externalForms",
+      "selectedForm",
+      "userPermittedFormsIds",
+      "externalComponents"
+    ].forEach(property => {
+      expect(incidentsProps).to.have.property(property);
+      delete incidentsProps[property];
+    });
+    expect(incidentsProps).to.be.empty;
   });
 
   afterEach(() => {

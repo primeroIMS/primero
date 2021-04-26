@@ -1,8 +1,9 @@
-import React, { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import omit from "lodash/omit";
+import startCase from "lodash/startCase";
 
 import Form from "../../../form";
 import { useI18n } from "../../../i18n";
@@ -14,9 +15,10 @@ import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
 import { getManagedRoleFormSections } from "../../../form/selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { getReferralSuccess } from "./selectors";
-import { mapServiceFields } from "./utils";
+import { mapServiceFields, customReferralFormProps } from "./utils";
 import {
   TRANSITION_TYPE,
   SERVICE_EXTERNAL_REFERRAL,
@@ -27,7 +29,7 @@ import {
 import { form, validations } from "./form";
 
 const Referrals = ({
-  referralRef,
+  formID,
   providedConsent,
   canConsentOverride,
   record,
@@ -42,10 +44,10 @@ const Referrals = ({
 
   const [formValues, setFormValues] = useState({});
 
-  const submittedSuccessfully = useSelector(state => getReferralSuccess(state));
-  const serviceToRefer = useSelector(state => getServiceToRefer(state));
-  const formErrors = useSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
-  const recordTypesForms = useSelector(state =>
+  const submittedSuccessfully = useMemoizedSelector(state => getReferralSuccess(state));
+  const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
+  const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITION_TYPE));
+  const recordTypesForms = useMemoizedSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: record?.get("module_id")
@@ -81,7 +83,10 @@ const Referrals = ({
             ...(!providedConsent && { consent_overridden: values[FIELDS.CONSENT_INDIVIDUAL_TRANSFER] })
           }
         },
-        i18n.t("referral.success", { record_type: recordType, id: recordID })
+        i18n.t("referral.success", {
+          record_type: startCase(RECORD_TYPES[recordType]),
+          id: record.get("case_id_display")
+        })
       )
     );
   };
@@ -101,18 +106,20 @@ const Referrals = ({
   return (
     <>
       <Form
+        formID={formID}
         submitAllFields
+        submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
-        ref={referralRef}
         validations={validations(i18n)}
         formErrors={formErrors}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService
         }}
-        renderBottom={() => (
+        renderBottom={formMethods => (
           <PdfExporter
+            formMethods={formMethods}
             record={record}
             forms={recordTypesForms}
             ref={pdfExporterRef}
@@ -120,6 +127,7 @@ const Referrals = ({
             formsSelectedField={FIELDS.ROLE}
             formsSelectedSelector={getManagedRoleFormSections}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
+            customFormProps={customReferralFormProps(i18n)}
           />
         )}
       />
@@ -131,11 +139,11 @@ Referrals.displayName = "Referrals";
 
 Referrals.propTypes = {
   canConsentOverride: PropTypes.bool,
+  formID: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  referralRef: PropTypes.object,
   setDisabled: PropTypes.func.isRequired,
   setPending: PropTypes.func.isRequired
 };

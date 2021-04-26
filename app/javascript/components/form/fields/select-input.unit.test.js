@@ -1,5 +1,8 @@
+import { IconButton } from "@material-ui/core";
+import { expect } from "chai";
+
 import { FieldRecord } from "../records";
-import { setupMockFieldComponent } from "../../../test";
+import { setupMockFieldComponent, setupMockFormComponent } from "../../../test";
 
 import SelectInput from "./select-input";
 
@@ -12,7 +15,7 @@ describe("<Form /> - fields/<SelectInput />", () => {
   it("renders select input", () => {
     const { component } = setupMockFieldComponent(SelectInput, FieldRecord, {}, { options });
 
-    expect(component.exists("div[name='test_field_2']")).to.be.true;
+    expect(component.exists("input")).to.be.true;
   });
 
   it("renders help text", () => {
@@ -22,9 +25,12 @@ describe("<Form /> - fields/<SelectInput />", () => {
   });
 
   it("renders errors", () => {
-    const { component } = setupMockFieldComponent(SelectInput, FieldRecord);
-
-    component.find("FormContext").props().setError("test_field_2", "required", "Name is required");
+    const { component } = setupMockFieldComponent(SelectInput, FieldRecord, {}, {}, {}, null, [
+      {
+        name: "test_field_2",
+        message: "Name is required"
+      }
+    ]);
 
     expect(component.someWhere(n => n.find("Mui-error"))).to.be.true;
     expect(component.find("p.MuiFormHelperText-root").at(0).text()).to.include("Name is required");
@@ -40,5 +46,64 @@ describe("<Form /> - fields/<SelectInput />", () => {
     const { component } = setupMockFieldComponent(SelectInput, FieldRecord);
 
     expect(component.find("input").props().autoFocus).to.be.true;
+  });
+
+  describe("when disabled options are present", () => {
+    const withDisabledOption = [
+      { id: 1, display_text: "option-1" },
+      { id: 2, display_text: "option-2" },
+      { id: 3, display_text: "option-3", disabled: true }
+    ];
+    const name = "test_field";
+
+    const inputProps = { label: "Test Field", name, disabled: false };
+
+    context("when a disabled option was selected", () => {
+      const { component } = setupMockFormComponent(SelectInput, {
+        props: {
+          options: withDisabledOption,
+          inputProps,
+          metaInputProps: { watchedInputValues: { [name]: 3 } }
+        },
+        defaultValues: { test_field: 3 },
+        includeFormMethods: true
+      });
+
+      it("should render the disabled option if the selection is cleared", () => {
+        const buttons = component.find(IconButton);
+
+        // clear selection
+        buttons.first().simulate("click");
+        // open dropdown
+        buttons.last().simulate("click");
+
+        const renderedOptions = component.find("ul.MuiAutocomplete-groupUl > li");
+
+        expect(renderedOptions).to.have.lengthOf(3);
+        expect(renderedOptions.last().text()).to.equal("option-3");
+      });
+    });
+
+    context("when a disabled option was not selected", () => {
+      const { component } = setupMockFormComponent(SelectInput, {
+        props: { options: withDisabledOption, inputProps, metaInputProps: {} },
+        defaultValues: {},
+        includeFormMethods: true
+      });
+
+      it("should not render the disabled options", () => {
+        const buttons = component.find(IconButton);
+
+        // clear selection
+        buttons.first().simulate("click");
+        // open dropdown
+        buttons.last().simulate("click");
+
+        const renderedOptions = component.find("ul.MuiAutocomplete-groupUl > li");
+
+        expect(renderedOptions).to.have.lengthOf(2);
+        expect(renderedOptions.map(elem => elem.text())).to.deep.equal(["option-1", "option-2"]);
+      });
+    });
   });
 });

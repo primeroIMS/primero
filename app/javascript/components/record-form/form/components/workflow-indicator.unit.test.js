@@ -25,26 +25,24 @@ describe("<WorkflowIndicator />", () => {
           PrimeroModuleRecord({
             unique_id: "primeromodule-cp",
             workflows: {
-              case: {
-                en: [
-                  {
-                    id: "new",
-                    display_text: "New"
-                  },
-                  {
-                    id: "reopened",
-                    display_text: "Reopened"
-                  },
-                  {
-                    id: "services",
-                    display_text: "Services"
-                  },
-                  {
-                    id: "closed",
-                    display_text: "Closed"
-                  }
-                ]
-              }
+              case: [
+                {
+                  id: "new",
+                  display_text: { en: "New" }
+                },
+                {
+                  id: "reopened",
+                  display_text: { en: "Reopened" }
+                },
+                {
+                  id: "services",
+                  display_text: { en: "Services" }
+                },
+                {
+                  id: "closed",
+                  display_text: { en: "Closed" }
+                }
+              ]
             }
           })
         ]
@@ -88,10 +86,8 @@ describe("<WorkflowIndicator />", () => {
   });
 
   describe("when the mobile is displayed", () => {
-    let stubWindow = null;
-
     beforeEach(() => {
-      stubWindow = stub(window, "matchMedia").returns({ matches: true, addListener: () => {} });
+      stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
     });
 
     it("renders the smaller workflow indicator", () => {
@@ -130,7 +126,7 @@ describe("<WorkflowIndicator />", () => {
     });
 
     afterEach(() => {
-      stubWindow?.restore();
+      window.matchMedia.restore();
     });
   });
 

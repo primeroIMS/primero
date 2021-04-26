@@ -1,4 +1,4 @@
-import React, { cloneElement } from "react";
+import { cloneElement } from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,19 +9,20 @@ import { useI18n } from "../i18n";
 
 import styles from "./styles.css";
 
-const Component = ({ children, button }) => {
-  const css = makeStyles(styles)();
+const useStyles = makeStyles(styles);
+
+const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
+  const css = useStyles();
   const { online } = useApp();
   const i18n = useI18n();
+  const classes = clsx(css.disabledLink, {
+    [css.disabled]: !button
+  });
 
-  if (!online) {
+  if (overrideCondition || !online) {
     return (
-      <Tooltip title={i18n.t("offline")}>
-        <div
-          className={clsx(css.disabledLink, {
-            [css.disabled]: !button
-          })}
-        >
+      <Tooltip title={i18n.t(offlineTextKey || "offline")}>
+        <div className={classes}>
           {!button && <div className={css.disabledElement} />}
           {cloneElement(children, { disabled: true })}
         </div>
@@ -33,12 +34,16 @@ const Component = ({ children, button }) => {
 };
 
 Component.defaultProps = {
-  button: false
+  button: false,
+  offlineTextKey: null,
+  overrideCondition: false
 };
 
 Component.propTypes = {
   button: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  offlineTextKey: PropTypes.string,
+  overrideCondition: PropTypes.bool
 };
 
 Component.displayName = "DisableOffline";

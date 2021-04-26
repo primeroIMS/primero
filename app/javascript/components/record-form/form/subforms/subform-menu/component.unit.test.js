@@ -33,7 +33,7 @@ describe("<SubformMenu />", () => {
     expect(component.find(Button)).lengthOf(0);
   });
 
-  it("render the ReferAction if service is referrable", () => {
+  describe("when the service is referrable", () => {
     const initialState = fromJS({
       application: {
         agencies: [
@@ -48,22 +48,20 @@ describe("<SubformMenu />", () => {
       },
       forms: {
         options: {
-          lookups: {
-            data: [
-              {
-                id: 1,
-                unique_id: "lookup-service-type",
-                values: [
-                  {
-                    id: "service_1",
-                    display_text: {
-                      en: "Service No. 1"
-                    }
+          lookups: [
+            {
+              id: 1,
+              unique_id: "lookup-service-type",
+              values: [
+                {
+                  id: "service_1",
+                  display_text: {
+                    en: "Service No. 1"
                   }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         }
       },
       records: {
@@ -87,8 +85,30 @@ describe("<SubformMenu />", () => {
       }
     });
 
-    const { component } = setupMountedComponent(SubformMenu, props, initialState);
+    it("render the ReferAction if service is referrable and the user has the REFERRAL_FROM_SERVICE permission", () => {
+      const { component } = setupMountedComponent(SubformMenu, props, initialState);
 
-    expect(component.find(Button)).lengthOf(1);
+      expect(component.find(Button)).lengthOf(1);
+    });
+
+    it("render the ReferAction if service is referrable and the user has the REFERRAL permission", () => {
+      const { component } = setupMountedComponent(
+        SubformMenu,
+        props,
+        initialState.setIn(["user", "permissions", "cases"], fromJS([ACTIONS.REFERRAL]))
+      );
+
+      expect(component.find(Button)).lengthOf(1);
+    });
+
+    it("does not render the ReferAction if service is referrable and the user has no permission", () => {
+      const { component } = setupMountedComponent(
+        SubformMenu,
+        props,
+        initialState.setIn(["user", "permissions", "cases"], fromJS([]))
+      );
+
+      expect(component.find(Button)).to.be.empty;
+    });
   });
 });

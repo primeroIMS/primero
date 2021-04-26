@@ -119,6 +119,31 @@ describe RecordDataService do
     end
   end
 
+  describe '.embed_associations_as_data' do
+    it 'return the incident_details for child' do
+      @record.incidents = [Incident.create!(data: { incident_date: Date.new(2019, 3, 1),
+                                                    description: 'Test 1',
+                                                    owned_by: @user.user_name })]
+      data = RecordDataService.embed_associations_as_data({}, @record, %w[incident_details], @user)
+
+      expect(data.key?('incident_details')).to be_truthy
+    end
+  end
+
+  describe '.embed_computed_fields' do
+    let(:synced_at) { DateTime.new(2021, 1, 31, 1, 2, 3) }
+
+    it 'embeds all non-nil permitted computed fields on the record that are not part of the data hash' do
+      allow(@record).to receive(:synced_at).and_return(synced_at)
+      allow(@record).to receive(:sync_status).and_return(AuditLog::SYNCED)
+      allow(@record).to receive(:day_of_birth).and_return(60)
+
+      data = RecordDataService.embed_computed_fields({ 'field1' => 'value1' }, @record, %w[synced_at field1])
+      expect(data.keys).to match_array(%w[synced_at field1])
+      expect(data['synced_at']).to eq(synced_at)
+    end
+  end
+
   after :each do
     clean_data(Role)
   end

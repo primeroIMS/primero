@@ -1,9 +1,9 @@
 import chai from "chai";
 import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import sinonChai from "sinon-chai";
-import chaiImmutable from "chai-immutable";
 import "mutationobserver-shim";
+import chaiImmutable from "chai-immutable";
 import indexedDB from "fake-indexeddb";
 import IDBKeyRange from "fake-indexeddb/lib/FDBKeyRange";
 import IDBRequest from "fake-indexeddb/lib/FDBRequest";
@@ -61,6 +61,7 @@ global.window.I18n = {
   locale: "en",
   t: path => path,
   l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path)),
+  toTime: (path, _) => path,
   localizeDate: date => date
 };
 global.document.documentElement.lang = "en";
@@ -79,13 +80,16 @@ global.localStorage = {
   }
 };
 
-global.window.matchMedia = query => ({
+global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
-  media: query,
+  media: "",
   onchange: null,
   addListener: () => {},
-  removeListener: () => {}
+  removeListener: () => {},
+  ...args
 });
+
+global.window.matchMedia = query => window.defaultMediaQueryList({ media: query });
 
 global.document.createRange = () => ({
   setStart: () => {},
@@ -132,5 +136,7 @@ global.HTMLCanvasElement.prototype.getContext = () => {
     clip() {}
   };
 };
+
+global.cancelAnimationFrame = () => {};
 
 Enzyme.configure({ adapter: new Adapter() });

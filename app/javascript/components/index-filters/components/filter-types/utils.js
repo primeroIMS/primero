@@ -22,7 +22,7 @@ export const registerInput = ({
           setInputValue(data || defaultValue);
 
           // eslint-disable-next-line no-param-reassign
-          ref.current = isMultiSelect && data ? data.map(d => d?.code || d.id) : data;
+          ref.current = isMultiSelect && data ? data.map(value => value?.code || value?.id || value) : data;
 
           if (!data && clearSecondaryInput) {
             clearSecondaryInput();
@@ -96,15 +96,4 @@ export const setMoreFilterOnPrimarySection = (filters, name, setValues, values =
     }
     setValues(name, value);
   }
-};
-
-export const buildFilterLookups = (optionStringsSource, locations, reportingLocations, lookup) => {
-  if (["Location"].includes(optionStringsSource)) {
-    return locations?.toJS();
-  }
-  if (["ReportingLocation"].includes(optionStringsSource)) {
-    return reportingLocations?.toJS();
-  }
-
-  return lookup;
 };

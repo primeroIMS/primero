@@ -96,6 +96,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .set("serverErrors", fromJS([]))
         .set("updatedFormIds", fromJS([]));
     case actions.SAVE_SUBFORMS_SUCCESS: {
+      // TODO: // rewrite this, non-performant code
       const subformsSaved = payload.filter(data => data.ok).map(data => data.json.data);
       const formsIds = subformsSaved.map(formSaved => formSaved.id);
 
@@ -107,10 +108,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const newSubforms = subformsSaved.map(subformSaved => {
         if (Object.keys(subformSaved).length === 1) {
-          const associatedSubform = state
-            .get("subforms")
-            .toJS()
-            .find(subform => subformSaved.id === subform.id);
+          const associatedSubform = state.get("subforms").find(subform => subformSaved.id === subform.get("id"));
 
           return associatedSubform;
         }
@@ -235,8 +233,15 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const fields = subform.get("fields", fromJS([])).map(field => {
         const fieldName = field?.get("name");
+        const mergedField = field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
 
-        return field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
+        if (mergedField.get("option_strings_text")) {
+          const newOptionStringsText = fromJS(mergedField.get("option_strings_text")).toSet().toList();
+
+          return mergedField.set("option_strings_text", newOptionStringsText);
+        }
+
+        return mergedField;
       });
 
       const existingSubforms = state.get("subforms", fromJS([]));
@@ -289,7 +294,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         }, state)
         .set(
           "selectedFields",
-          fromJS(indexes.map(([field, index]) => selectedFields.get(index).mergeDeep(fromJS(payload[field]))))
+          fromJS(
+            indexes.map(([field, index]) => selectedFields.get(index, fromJS({})).mergeDeep(fromJS(payload[field])))
+          )
         );
     }
     case actions.SET_NEW_SUBFORM: {

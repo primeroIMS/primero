@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
 
+import { useApp } from "../application";
 import { useI18n } from "../i18n";
+import { RECORD_TYPES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 
 import { getMessages } from "./selectors";
 import { removeSnackbar } from "./action-creators";
-import SnackbarAction from "./snackbar-action";
+import SnackbarAction from "./components/snackbar-action";
 
 let displayed = [];
 
@@ -22,8 +25,10 @@ const snackbarOptions = {
 const Notifier = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const notifications = useSelector(state => getMessages(state));
+  const { online } = useApp();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
+  const notifications = useMemoizedSelector(state => getMessages(state));
 
   const storeDisplayed = id => {
     displayed = [...displayed, id];
@@ -44,10 +49,13 @@ const Notifier = () => {
         options: { key, onClose, action, ...otherOptions },
         dismissed,
         message,
+        messageParams,
+        messageFromQueue,
         messageKey,
         actionLabel,
         actionUrl,
-        noDismiss
+        noDismiss,
+        recordType
       } = snack;
 
       if (dismissed) {
@@ -58,10 +66,11 @@ const Notifier = () => {
 
       if (displayed.includes(key)) return;
 
-      let snackMessage = message;
+      let snackMessage = !online && messageFromQueue ? messageFromQueue : message;
 
-      if (messageKey) {
-        const translatedMessage = i18n.t(messageKey);
+      if ((online || !messageFromQueue) && messageKey) {
+        const translatedRecordType = recordType ? i18n.t(`${RECORD_TYPES[recordType]}.label`) : "";
+        const translatedMessage = i18n.t(messageKey, { record_type: translatedRecordType, ...messageParams });
 
         if (/^\[missing/.test(translatedMessage)) {
           snackMessage = messageKey;
@@ -89,7 +98,7 @@ const Notifier = () => {
             actionLabel={actionLabel}
             actionUrl={actionUrl}
             closeSnackbar={closeSnackbar}
-            key={snackKey}
+            snackKey={snackKey}
             hideCloseIcon={noDismiss}
           />
         )

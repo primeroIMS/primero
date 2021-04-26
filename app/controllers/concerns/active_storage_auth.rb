@@ -16,17 +16,17 @@ module ActiveStorageAuth
   end
 
   def authenticate_access!
-    authenticate_user! unless agency_logo?
+    authenticate_user! unless public_attached_resource?
   end
 
   def authorize_blob!
     record = @blob&.attachments&.first&.record
-    authorize!(:read, record) unless agency_logo?
+    authorize!(:read, record) unless public_attached_resource?
   end
 
-  def agency_logo?
+  def public_attached_resource?
     @blob&.attachments&.all? do |att|
-      att.record_type == 'Agency' && %w[logo_full logo_icon].include?(att.name)
+      att.record_type == 'Agency' && %w[logo_full logo_icon terms_of_use].include?(att.name)
     end
   end
 end

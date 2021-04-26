@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -9,14 +8,20 @@ import styles from "./styles.css";
 import { NAME } from "./constants";
 import ApprovalPanel from "./components/panel";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const renderApprovals =
     approvals &&
-    approvals.map(approvalSubform => (
-      <ApprovalPanel key={approvalSubform.get("unique_id")} approvalSubform={approvalSubform} css={css} />
+    approvals.map((approvalSubform, index) => (
+      <ApprovalPanel
+        key={approvalSubform.get("unique_id") || `${approvalSubform.get("approval_requested_for")}-${index}`}
+        approvalSubform={approvalSubform}
+        css={css}
+      />
     ));
 
   return (

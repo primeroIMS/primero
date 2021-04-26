@@ -1,59 +1,45 @@
-import React, { useEffect } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
-import { useDispatch, useSelector, batch } from "react-redux";
-import isEqual from "lodash/isEqual";
+import { useDispatch, batch } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
 import clsx from "clsx";
 import { push } from "connected-react-router";
 
 import { useI18n } from "../../i18n";
 import { TasksOverdue, TasksPending } from "../../../images/primero-icons";
-import IndexTable from "../../index-table";
+import IndexTable, { DateCell } from "../../index-table";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 import { DashboardChip } from "../../dashboard";
 import { getOption, getFields, getAllForms } from "../../record-form";
-import { LOOKUPS, RECORD_TYPES } from "../../../config";
-import { compare } from "../../../libs";
+import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
 import { setSelectedForm } from "../../record-form/action-creators";
+import { useMetadata } from "../../records";
+import { useMemoizedSelector } from "../../../libs";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import styles from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const TaskList = () => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const recordType = "tasks";
   const dispatch = useDispatch();
-  const defaultFilters = {
-    per: 20,
-    page: 1
-  };
-  const listHeaders = useSelector(state => selectListHeaders(state, recordType));
 
-  const lookupServiceType = useSelector(
-    state => getOption(state, LOOKUPS.service_type, i18n.locale),
-    (prev, actual) => {
-      return isEqual(prev, actual);
-    }
-  );
+  const listHeaders = useMemoizedSelector(state => selectListHeaders(state, recordType));
+  const metadata = useMemoizedSelector(state => getMetadata(state));
+  const lookupServiceType = useMemoizedSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
+  const lookupFollowupType = useMemoizedSelector(state => getOption(state, LOOKUPS.followup_type, i18n.locale));
+  const fields = useMemoizedSelector(state => getFields(state));
+  const forms = useMemoizedSelector(state => getAllForms(state));
+  const fieldNames = useMemoizedSelector(state => getMetadata(state, "field_names"));
 
-  const lookupFollowupType = useSelector(
-    state => getOption(state, LOOKUPS.followup_type, i18n.locale),
-    (prev, actual) => {
-      return isEqual(prev, actual);
-    }
-  );
+  const defaultFilters = metadata;
 
-  const fields = useSelector(state => getFields(state), compare);
-  const forms = useSelector(state => getAllForms(state), compare);
-  const fieldNames = useSelector(state => getMetadata(state).get("field_names"), compare);
-
-  useEffect(() => {
-    dispatch(fetchTasks({ options: defaultFilters }));
-  }, []);
+  useMetadata(recordType, metadata, fetchTasks, FETCH_PARAM.DATA);
 
   const columns = data => {
     return listHeaders.map(c => {
@@ -150,7 +136,9 @@ const TaskList = () => {
                         form_name: selectedForm.name[i18n.locale]
                       })}
                     >
-                      <span>{value}</span>
+                      <span>
+                        <DateCell value={value} />
+                      </span>
                     </Tooltip>
                   );
                 }
@@ -167,22 +155,26 @@ const TaskList = () => {
     });
   };
 
+  const filterFormsWithModule = (moduleId, subforms) => {
+    const subformKeys = [...subforms.keys()].map(subformKey => parseInt(subformKey, 10));
+    const subformFields = fields.filter(field => subformKeys.includes(field.subform_section_id));
+    const subformFieldKeys = [...subformFields.keys()].map(subformKey => parseInt(subformKey, 10));
+
+    return forms.find(
+      form => form.fields.some(field => subformFieldKeys.includes(field)) && form.module_ids.includes(moduleId)
+    ).unique_id;
+  };
+
   const onRowClick = record => {
-    const fieldName = fieldNames.get(record.get("type"));
-    const selectedField = fields.filter(field => field.name === fieldName);
+    const selectedField = fields.filter(field => field.name === record.get("completion_field"));
 
-    const fieldKey = [...selectedField.keys()][0];
-    const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
+    const fieldKeys = [...selectedField.keys()].map(selected => parseInt(selected, 10));
+    const selectedForms = forms.filter(form => form.get("fields").some(field => fieldKeys.includes(field)));
     const to = Object.keys(RECORD_TYPES).find(key => RECORD_TYPES[key] === record.get("record_type"));
-    let formName = selectedForm.unique_id;
 
-    if (selectedForm.is_nested) {
-      const subformKey = Object.entries(fields.toMap().toJS()).find(
-        field => field[1].subform_section_id === selectedForm.id
-      )[0];
-
-      formName = forms.find(form => form.fields.includes(parseInt(subformKey, 10))).unique_id;
-    }
+    const formName = selectedForms.some(form => form.is_nested)
+      ? filterFormsWithModule(record.get("module_unique_id"), selectedForms)
+      : selectedForms.first().unique_id;
 
     batch(() => {
       dispatch(push(`${to}/${record.get("id")}`));
@@ -191,6 +183,8 @@ const TaskList = () => {
       }
     });
   };
+
+  const handleOnRowClick = record => onRowClick(record);
 
   const options = {
     selectableRows: "none"
@@ -204,7 +198,7 @@ const TaskList = () => {
     onTableChange: fetchTasks,
     targetRecordType: "cases",
     bypassInitialFetch: true,
-    onRowClick: record => onRowClick(record)
+    onRowClick: handleOnRowClick
   };
 
   return (

@@ -37,43 +37,4 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
       payload: true
     });
   });
-
-  it("format payload based on passed key/id", () => {
-    const action = {
-      type: "test-action",
-      api: {
-        responseRecordKey: "test_prop",
-        responseRecordID: 1234
-      }
-    };
-
-    offlineDispatchSuccess(store, action, payload);
-
-    expect(dispatch.getCall(0).returnValue).to.deep.equal({
-      payload: {
-        data: { record: { id: 1234, test_prop: { ...payload.data } } }
-      },
-      type: "test-action_SUCCESS"
-    });
-  });
-
-  it("format payload based on passed key/id (array)", () => {
-    const action = {
-      type: "test-action",
-      api: {
-        responseRecordKey: "test_prop",
-        responseRecordID: 1234,
-        responseRecordArray: true
-      }
-    };
-
-    offlineDispatchSuccess(store, action, payload);
-
-    expect(dispatch.getCall(0).returnValue).to.deep.equal({
-      payload: {
-        data: { record: { id: 1234, test_prop: [{ ...payload.data }] } }
-      },
-      type: "test-action_SUCCESS"
-    });
-  });
 });

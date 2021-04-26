@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -9,8 +8,10 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Actions = ({ handleSave, handleClear }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   const showSave = handleSave && (
@@ -33,9 +34,7 @@ const Actions = ({ handleSave, handleClear }) => {
         <ActionButton
           text={i18n.t("filters.apply_filters")}
           type={ACTION_BUTTON_TYPES.default}
-          rest={{
-            type: "submit"
-          }}
+          rest={{ type: "submit" }}
         />
       </DisableOffline>
       {showSave}

@@ -2,7 +2,6 @@ import { OrderedMap, Map, fromJS } from "immutable";
 
 import { mapEntriesToRecord, listAttachmentFields } from "../../libs";
 
-import { FIELD_ATTACHMENT_TYPES } from "./form/field-types/attachments/constants";
 import NAMESPACE from "./namespace";
 import Actions from "./actions";
 import { FieldRecord, FormSectionRecord } from "./records";
@@ -35,7 +34,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
-          .set("attachmentFields", fromJS(listAttachmentFields(payload.fields, Object.keys(FIELD_ATTACHMENT_TYPES))))
+          .set("attachmentMeta", fromJS(listAttachmentFields(payload.formSections, payload.fields)))
           .set("fields", mapEntriesToRecord(payload.fields, FieldRecord, true))
           .set("formSections", mapEntriesToRecord(payload.formSections, FormSectionRecord, true));
       }
@@ -55,6 +54,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("validationErrors", fromJS(payload));
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
+    case Actions.SET_DATA_PROTECTION_INITIAL_VALUES:
+      return state.set("dataProtectionInitialValues", fromJS(payload));
+    case Actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES:
+      return state.delete("dataProtectionInitialValues");
     default:
       return state;
   }

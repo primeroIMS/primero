@@ -91,7 +91,7 @@ describe Incident do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: 'UNICEF'))
+      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
       incident = Incident.create 'description' => 'My Test Incident Description', :created_by => 'mj'
 
       incident.created_organization.should == 'UNICEF'
@@ -149,6 +149,44 @@ describe Incident do
 
       expect(incident.survivor_code).to eq('xyz123')
       expect(incident.data['age']).to eq(12)
+    end
+  end
+
+  describe 'add_alert_on_case' do
+    before(:each) do
+      clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule) && module_cp
+
+      Agency.create!(unique_id: 'agency-1', agency_code: 'a1', name: 'Agency')
+
+      SystemSettings.create!(changes_field_to_form: { incident_details: 'incident_from_case' })
+    end
+
+    let(:case_cp) do
+      cp_user = User.new(user_name: 'cp_user', agency_id: Agency.last.id)
+      cp_user.save(validate: false)
+
+      case_cp = Child.new_with_user(
+        cp_user,
+        name: 'Niall McPherson', age: 12, sex: 'male',
+        protection_concerns: %w[unaccompanied separated], ethnicity: 'other',
+        module_id: 'primeromodule-cp'
+      )
+      case_cp.save!
+      case_cp.reload
+      case_cp
+    end
+
+    it 'should add an alert for the case if the incident creator is not the case owner' do
+      incident = Incident.new_with_user(
+        User.new(user_name: 'incident_user', agency_id: Agency.last.id),
+        survivor_code: 'abc123', module_id: 'primeromodule-cp'
+      )
+      incident.case = case_cp
+      incident.save!
+
+      case_cp.reload
+
+      expect(case_cp.alerts.size).to eq(1)
     end
   end
 

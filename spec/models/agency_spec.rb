@@ -69,7 +69,7 @@ describe Agency do
       agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
       agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
       agency.should_not be_valid
-      expect(agency.errors[:logo_icon].first).to eq('file should be one of image/png')
+      expect(agency.errors[:logo_icon].first).to eq('errors.models.agency.logo_format')
     end
 
     it 'should allow valid logo uploads' do
@@ -226,11 +226,75 @@ describe Agency do
       it 'updates an existing agency from a configuration hash' do
         configuration_hash2 = configuration_hash.clone
         configuration_hash2['name_i18n']['en'] = 'IRC2*'
+        configuration_hash2['unique_id'] = agency.unique_id
 
         agency2 = Agency.create_or_update!(configuration_hash2)
         expect(agency2.id).to eq(agency.id)
         expect(agency2.name('en')).to eq('IRC2*')
       end
+    end
+  end
+
+  describe '.get_field_using_unique_id' do
+    let(:agency) do
+      Agency.create(
+        name: 'test', agency_code: '12345', unique_id: 'test_unique_id'
+      )
+    end
+    before(:each) do
+      clean_data(Agency)
+      agency
+    end
+
+    it 'returns the value specifed' do
+      expect(Agency.get_field_using_unique_id('test_unique_id', :agency_code)).to eq(agency.agency_code)
+    end
+  end
+
+  describe '.with_pdf_logo_option' do
+    let(:agency1) do
+      Agency.create(
+        name: 'test', agency_code: '12345', unique_id: 'test_unique_id', pdf_logo_option: true, disabled: false
+      )
+    end
+    let(:agency2) do
+      Agency.create(
+        name: 'test2', agency_code: '98765', unique_id: 'test_unique_id2', pdf_logo_option: false, disabled: false
+      )
+    end
+    before(:each) do
+      clean_data(Agency)
+      agency1
+      agency2
+    end
+
+    it 'returns the agency with pdf_logo_option true specifed' do
+      expect(Agency.with_pdf_logo_option).to eq([agency1])
+    end
+  end
+
+  describe 'terms_of_use' do
+    it 'should not allow invalid format' do
+      agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
+      agency.terms_of_use.attach(FilesTestHelper.logo)
+      agency.should_not be_valid
+      expect(agency.errors[:terms_of_use].first).to eq('errors.models.agency.terms_of_use_format')
+    end
+
+    it 'should allow valid format' do
+      agency = Agency.new(
+        name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file
+      )
+      agency.should be_valid
+    end
+
+    it 'will not clear out an existing terms_of_use when updating unrelated attributes' do
+      agency = Agency.new(name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file)
+      agency.save
+      expect(agency.terms_of_use.attached?).to be_truthy
+
+      agency.update_properties(name: { en: 'IRC' })
+      expect(agency.terms_of_use.attached?).to be_truthy
     end
   end
 end

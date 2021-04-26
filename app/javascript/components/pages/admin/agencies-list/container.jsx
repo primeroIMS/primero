@@ -1,5 +1,4 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -12,11 +11,13 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import { useApp } from "../../../application";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -24,21 +25,22 @@ import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
 
 const Container = () => {
+  const recordType = RESOURCES.agencies;
+
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { limitedProductionSite } = useApp();
   const canAddAgencies = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const recordType = RESOURCES.agencies;
-  const headers = useSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const metadata = useSelector(state => getMetadata(state, recordType));
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = {
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
+
+  const defaultFilterFields = fromJS({
     [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
   });
+
+  const defaultFilters = metadata.merge(defaultFilterFields);
+
   const columns = headersToColumns(headers, i18n);
 
   useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });
@@ -66,10 +68,11 @@ const Container = () => {
     <ActionButton
       icon={<AddIcon />}
       text={i18n.t("buttons.new")}
-      type={ACTION_BUTTON_TYPES.default}
+      stype={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.admin_agencies_new,
-        component: Link
+        component: Link,
+        hide: limitedProductionSite
       }}
     />
   ) : null;
@@ -83,7 +86,7 @@ const Container = () => {
             <IndexTable title={i18n.t("agencies.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

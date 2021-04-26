@@ -1,4 +1,3 @@
-import React from "react";
 import { Route } from "react-router-dom";
 import { fromJS } from "immutable";
 
@@ -15,7 +14,8 @@ describe("<RecordInformation />", () => {
   const props = {
     open: "record_information",
     handleClick: () => {},
-    selectedForm: ""
+    selectedForm: "",
+    formGroupLookup: {}
   };
 
   const initialState = fromJS({
@@ -50,6 +50,18 @@ describe("<RecordInformation />", () => {
   });
 
   it("renders a NavItem component />", () => {
-    expect(component.find(NavGroup).find("ul").find(NavItem)).to.have.lengthOf(5);
+    expect(component.find(NavGroup).find("ul").find(NavItem)).to.have.lengthOf(6);
+  });
+
+  it("renders component with valid props", () => {
+    const componentsProps = { ...component.find(RecordInformation).props() };
+
+    ["open", "handleClick", "selectedForm", "formGroupLookup", "match", "history", "location", "staticContext"].forEach(
+      property => {
+        expect(componentsProps).to.have.property(property);
+        delete componentsProps[property];
+      }
+    );
+    expect(componentsProps).to.be.empty;
   });
 });

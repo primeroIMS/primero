@@ -4,10 +4,9 @@ export {
   fetchSystemPermissions,
   fetchUserGroups,
   loadApplicationResources,
-  setNetworkStatus,
   setUserIdle
 } from "./action-creators";
-export { ApplicationProvider, useApp } from "./provider";
+export { useApp, ApplicationProvider } from "./use-app";
 export { default as reducer } from "./reducer";
 export {
   getEnabledAgencies,
@@ -20,6 +19,7 @@ export {
   selectUserIdle,
   selectUserModules,
   getAgency,
-  getUserGroups
+  getUserGroups,
+  getEnabledUserGroups
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

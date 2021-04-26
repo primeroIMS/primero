@@ -3,14 +3,14 @@
 import actions from "./actions";
 import { EXPORT_URL } from "./constants";
 
-export const fetchExports = data => {
-  const { options } = data || {};
+export const fetchExports = params => {
+  const { data } = params || {};
 
   return {
     type: actions.FETCH_EXPORTS,
     api: {
       path: EXPORT_URL,
-      params: options
+      params: data
     }
   };
 };

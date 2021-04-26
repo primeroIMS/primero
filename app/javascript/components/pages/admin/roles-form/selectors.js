@@ -9,3 +9,5 @@ export const getServerErrors = state => state.getIn(["records", "admin", NAMESPA
 export const getLoading = state => state.getIn(["records", "admin", NAMESPACE, "loading"], false);
 
 export const getSavingRecord = state => state.getIn(["records", "admin", NAMESPACE, "saving"], false);
+
+export const getCopiedRole = state => state.getIn(["records", "admin", NAMESPACE, "copiedRole"], fromJS({}));

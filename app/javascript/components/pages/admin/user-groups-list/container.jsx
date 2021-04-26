@@ -1,7 +1,5 @@
-import React from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -14,16 +12,20 @@ import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
-  const headers = useSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
+
   const recordType = RESOURCES.user_groups;
-  const metadata = useSelector(state => getMetadata(state, recordType));
+
+  const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
+  const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+
   const defaultFilters = metadata;
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({

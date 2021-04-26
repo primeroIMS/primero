@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
@@ -9,8 +8,10 @@ import { useI18n } from "../../i18n";
 import AdminNav from "./admin-nav";
 import styles from "./styles.css";
 
+const useStyles = makeStyles(styles);
+
 const Container = ({ routes }) => {
-  const css = makeStyles(styles)();
+  const css = useStyles();
   const i18n = useI18n();
 
   return (

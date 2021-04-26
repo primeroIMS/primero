@@ -1,7 +1,7 @@
-import React from "react";
 import { Box, Divider, Grid, FormControlLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 
+import { DATE_TIME_FORMAT } from "../../../config";
 import { useI18n } from "../../i18n";
 import TransitionUser from "../TransitionUser";
 
@@ -20,6 +20,15 @@ const TransferDetails = ({ transition, classes }) => {
         </Box>
       </Grid>
     ) : null;
+
+  const renderRespondedAt = transition.responded_at ? (
+    <Grid item md={6} xs={12}>
+      <div>
+        <div className={classes.transtionLabel}>{i18n.t("transition.responded_at")}</div>
+        <div className={classes.transtionValue}>{i18n.localizeDate(transition.responded_at, DATE_TIME_FORMAT)}</div>
+      </div>
+    </Grid>
+  ) : null;
 
   return (
     <Grid container spacing={2}>
@@ -62,7 +71,7 @@ const TransferDetails = ({ transition, classes }) => {
           </div>
         </Box>
       </Grid>
-
+      {renderRespondedAt}
       {renderRejected}
       <Grid item md={12} xs={12}>
         <Box>

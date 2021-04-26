@@ -453,7 +453,7 @@ km:
       one: UNHCR
       selected: បាន​ជ្រើសរើស​ទៅ UNHCR
       unknown_abbreviation: U
-    xls:
+    xlsx:
       all: Excel
       one: Excel
       selected: បាន​ជ្រើសរើស​ទៅ Excel

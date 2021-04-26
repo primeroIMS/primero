@@ -5,6 +5,21 @@
   </head>
   <body>
     <h1><%= @email_greeting %></h1>
-    <p><%= @email_body %></p>
+    <% if @email_body.is_a?(String) %>
+      <p><%= @email_body %></p>
+    <% else %>
+      <p><%= @email_body[:header] %></p>
+      <ol>
+        <li><%= @email_body[:step1] %></li>
+        <li><%= @email_body[:step2] %></li>
+        <li><%= @email_body[:step3] %></li>
+        <% if @email_body[:step4].present? %>
+          <li><%= @email_body[:step4] %></li>
+        <% end %>
+      </ol>
+      <% if @email_body[:footer].present? %>
+        <p><%= @email_body[:footer] %></p>
+      <% end %>
+    <% end %>
   </body>
 </html>

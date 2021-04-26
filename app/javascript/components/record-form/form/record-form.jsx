@@ -1,30 +1,31 @@
-import React, { memo, useEffect } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
-import NavigationPrompt from "react-router-navigation-prompt";
 import { batch, useDispatch } from "react-redux";
 
-import { setSelectedForm } from "../action-creators";
+import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
-import ActionDialog from "../../action-dialog";
-import { constructInitialValues } from "../utils";
+import { constructInitialValues, sortSubformValues } from "../utils";
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
-import { displayNameHelper } from "../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { getDataProtectionInitialValues } from "../selectors";
+import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 
-import { ValidationErrors } from "./components";
 import RecordFormTitle from "./record-form-title";
-import { RECORD_FORM_NAME } from "./constants";
+import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
 import FormSectionField from "./form-section-field";
 import SubformField from "./subforms";
 import { fieldValidations } from "./validations";
+import FormikForm from "./formik-form";
 
 const RecordForm = ({
+  attachmentForms,
   bindSubmitForm,
   forms,
   handleToggleNav,
@@ -34,26 +35,39 @@ const RecordForm = ({
   record,
   recordType,
   selectedForm,
-  incidentFromCase
+  incidentFromCase,
+  externalForms,
+  fetchFromCaseId,
+  userPermittedFormsIds,
+  externalComponents
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  let bindedSetValues = null;
+  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [formTouched, setFormTouched] = useState({});
+  const [formIsSubmitting, setFormIsSubmitting] = useState(false);
+  const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
+
+  const formikValues = useRef();
+  const bindedSetValues = useRef(null);
+  const bindedResetForm = useRef(null);
 
   const bindSetValues = setValues => {
-    bindedSetValues = setValues;
+    bindedSetValues.current = setValues;
   };
 
-  let initialFormValues = constructInitialValues(forms.values());
-
-  if (record) {
-    initialFormValues = { ...initialFormValues, ...record.toJS() };
-  }
+  const bindResetForm = resetForm => {
+    bindedResetForm.current = resetForm;
+  };
 
   const buildValidationSchema = formSections => {
     const schema = formSections.reduce((obj, item) => {
-      return Object.assign({}, obj, ...item.fields.map(f => fieldValidations(f, i18n)));
+      return Object.assign(
+        {},
+        obj,
+        ...item.fields.filter(field => !field.disabled).map(field => fieldValidations(field, i18n))
+      );
     }, {});
 
     return object().shape(schema);
@@ -64,12 +78,63 @@ const RecordForm = ({
   }, [selectedForm]);
 
   useEffect(() => {
-    if (bindedSetValues) {
-      if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
-        bindedSetValues({ ...initialFormValues, ...incidentFromCase.toJS() });
-      }
+    const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
+
+    if (record) {
+      const recordFormValues = { ...initialValues, ...record.toJS(), ...redirectToIncident };
+
+      const subformValues = sortSubformValues(recordFormValues, forms.values());
+
+      setInitialValues({ ...recordFormValues, ...subformValues });
     }
-  }, [bindedSetValues, incidentFromCase]);
+  }, [record]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues) && bindedResetForm.current) {
+      bindedResetForm.current();
+    }
+  }, [JSON.stringify(initialValues)]);
+
+  useEffect(() => {
+    if (
+      bindedResetForm &&
+      incidentFromCase?.size &&
+      mode.isNew &&
+      RECORD_TYPES[recordType] === RECORD_TYPES.incidents
+    ) {
+      const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
+
+      bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+    }
+  }, [bindedResetForm, incidentFromCase, recordType]);
+
+  useEffect(() => {
+    if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
+      bindedSetValues.current({ ...initialValues, ...formikValues.current });
+    }
+  }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (dataProtectionInitialValues.size > 0) {
+      const initialDataProtection = dataProtectionInitialValues.reduce((accumulator, values, key) => {
+        if (key !== LEGITIMATE_BASIS) {
+          const consentAgreementFields = values.reduce((acc, curr) => {
+            return { ...acc, [curr]: true };
+          }, {});
+
+          return { ...accumulator, ...consentAgreementFields };
+        }
+
+        return { ...accumulator, [key]: values };
+      }, {});
+
+      bindedSetValues.current({ ...initialValues, ...initialDataProtection });
+    }
+
+    return () => {
+      dispatch(clearDataProtectionInitialValues());
+    };
+  }, [dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
@@ -81,9 +146,21 @@ const RecordForm = ({
     }
   };
 
-  const renderFormSections = fs =>
-    fs.map(form => {
+  const setFormikValues = values => {
+    formikValues.current = values;
+  };
+
+  const renderFormSections = (fs, setFieldValue, handleSubmit, values) => {
+    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
+
+    if (externalRecordForms) {
+      return externalRecordForms;
+    }
+
+    return fs.map(form => {
       if (selectedForm === form.unique_id) {
+        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
+
         return (
           <div key={form.unique_id}>
             <RecordFormTitle
@@ -92,7 +169,7 @@ const RecordForm = ({
               displayText={displayNameHelper(form.name, i18n.locale)}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} />
+            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
 
             {form.fields.map(field => {
               const fieldProps = {
@@ -110,9 +187,9 @@ const RecordForm = ({
               return (
                 <Box my={3} key={field.name}>
                   {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id }} />
+                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
                   ) : (
-                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form }} />
+                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
                   )}
                 </Box>
               );
@@ -123,42 +200,43 @@ const RecordForm = ({
 
       return null;
     });
+  };
 
-  if (!isEmpty(initialFormValues) && !isEmpty(forms)) {
+  if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
+    const handleOnSubmit = values => {
+      onSubmit(initialValues, values);
+    };
 
     return (
       <Formik
-        initialValues={initialFormValues}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         validateOnBlur={false}
         validateOnChange={false}
         enableReinitialize
-        onSubmit={values => {
-          onSubmit(initialFormValues, values);
-        }}
+        onSubmit={handleOnSubmit}
       >
-        {({ handleSubmit, submitForm, errors, dirty, isSubmitting, setValues }) => {
+        {props => {
+          // eslint-disable-next-line react/prop-types
+          const { submitForm } = props;
+
           bindSubmitForm(submitForm);
-          bindSetValues(setValues);
 
           return (
-            <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
-              <NavigationPrompt when={dirty && !isSubmitting && !mode.isShow}>
-                {({ onConfirm, onCancel }) => (
-                  <ActionDialog
-                    open
-                    successHandler={() => handleConfirm(onConfirm)}
-                    cancelHandler={onCancel}
-                    dialogTitle={i18n.t("record_panel.record_information")}
-                    dialogText={i18n.t("messages.confirmation_message")}
-                    confirmButtonLabel={i18n.t("buttons.ok")}
-                  />
-                )}
-              </NavigationPrompt>
-              <ValidationErrors formErrors={errors} forms={forms} />
-              {renderFormSections(forms)}
-            </Form>
+            <FormikForm
+              {...props}
+              handleConfirm={handleConfirm}
+              renderFormSections={renderFormSections}
+              forms={forms}
+              mode={mode}
+              setFormikValues={setFormikValues}
+              setFormIsSubmitting={setFormIsSubmitting}
+              setFormTouched={setFormTouched}
+              bindResetForm={bindResetForm}
+              bindSetValues={bindSetValues}
+              externalComponents={externalComponents}
+            />
           );
         }}
       </Formik>
@@ -171,7 +249,11 @@ const RecordForm = ({
 RecordForm.displayName = RECORD_FORM_NAME;
 
 RecordForm.propTypes = {
+  attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
+  externalComponents: PropTypes.func,
+  externalForms: PropTypes.func,
+  fetchFromCaseId: PropTypes.bool,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,
@@ -180,7 +262,8 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  userPermittedFormsIds: PropTypes.object
 };
 
 export default memo(RecordForm);
