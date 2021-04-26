@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -33,7 +33,7 @@ const Component = ({ mode, index, tab, formMethods }) => {
   const { parent_form: parentForm, module_ids: moduleIds } = getValues({ nest: true });
   const moduleId = moduleIds ? moduleIds[0] : null;
 
-  const onSuccess = useCallback(data => {
+  const onSuccess = data => {
     Object.entries(data).forEach(([fieldName, fieldData]) => {
       setFieldDataInFormContext({
         name: fieldName,
@@ -43,7 +43,7 @@ const Component = ({ mode, index, tab, formMethods }) => {
         setValue
       });
     });
-  }, []);
+  };
 
   return (
     <TabPanel tab={tab} index={index}>
