@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
+# Supporting logic and fields for transitions
 module Transitionable
   extend ActiveSupport::Concern
 
   included do
     has_many :transitions, as: :record
 
-    store_accessor :data,
-      :transfer_status, :reassigned_transferred_on
+    store_accessor :data, :transfer_status, :reassigned_transferred_on
 
     searchable do
       string :transfer_status, as: 'transfer_status_sci'
@@ -25,10 +27,15 @@ module Transitionable
   end
 
   def referrals_for_user(user)
-    if owned_by != user.user_name
-      referrals.where(transitioned_to: user.user_name)
-    else
+    case user.role.group_permission
+    when Permission::SELF
+      referrals_self_scope(user)
+    when Permission::AGENCY, Permission::GROUP
+      referrals_agency_group_scope(user)
+    when Permission::ALL
       referrals
+    else
+      none
     end
   end
 
@@ -40,21 +47,11 @@ module Transitionable
     transitions.where(type: TransferRequest.name)
   end
 
-  def transitions_for_user(user, types=[])
-    unless types.present?
-      types = [Assign.name, Transfer.name, Referral.name, TransferRequest.name]
-    end
-    if (owned_by != user.user_name) && types.include?(Referral.name)
-      types.delete(Referral.name)
-      transitions.where(type: types).or(
-        transitions.where(
-          type: Referral.name,
-          transitioned_to: user.user_name
-        )
-      )
-    else
-      transitions.where(type: types)
-    end
+  def transitions_for_user(user, types = [])
+    types = [Assign.name, Transfer.name, Referral.name, TransferRequest.name] unless types.present?
+    referrals = types.include?(Referral.name) ? referrals_for_user(user) : []
+
+    transitions.where(type: types.reject { |type| type == Referral.name }) + referrals
   end
 
   def transferred_to_users
@@ -71,5 +68,17 @@ module Transitionable
 
   def referred_users_present
     referred_users.present?
+  end
+
+  def referrals_self_scope(user)
+    return referrals if owned_by == user.user_name
+
+    referrals.where(transitioned_to: user.user_name)
+  end
+
+  def referrals_agency_group_scope(user)
+    return referrals if (owner.user_group_unique_ids & user.user_group_unique_ids).present?
+
+    referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name))
   end
 end
