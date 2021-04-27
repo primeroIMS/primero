@@ -84,8 +84,6 @@ FormSection.defaultProps = {
   showTitle: true
 };
 
-FormSection.whyDidYouRender = true;
-
 FormSection.propTypes = {
   disableUnderline: PropTypes.bool,
   formMethods: PropTypes.object.isRequired,
