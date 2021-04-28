@@ -93,6 +93,14 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     # Do not write data if already written for this form
     return if worksheets[form.unique_id][:written] == true
 
+    rows_written = write_record_row(id, data, form)
+    worksheets[form.unique_id][:written] = true
+    worksheets[form.unique_id][:row] += rows_written
+  end
+
+  def write_record_row(id, data, form)
+    # rows_to_write doesn't change here, but does in some of the child classes
+    rows_to_write = 1
     worksheet = worksheets[form.unique_id][:worksheet]
     worksheet&.write(worksheets[form.unique_id][:row], 0, id)
     form.fields.each_with_index do |field, i|
@@ -101,22 +109,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
           write_record_form(id, subform_data, field.subform)
         end
       else
-        value = export_field_value(data, form, field)
+        value = export_value(data[field.name], field)
         worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
       end
     end
-    worksheets[form.unique_id][:written] = true
-    worksheets[form.unique_id][:row] += 1
-  end
-
-  def export_field_value(data, form, field)
-    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
-
-    values = []
-    data[field&.form_section&.unique_id]&.each do |section|
-      values << export_value(section[field.name], field)
-    end
-    values.join(', ')
+    rows_to_write
   end
 
   def worksheets_reset_written

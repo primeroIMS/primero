@@ -84,4 +84,38 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
     form.send(:name=, '__record__', locale)
     form
   end
+
+  def write_record_row(id, data, form)
+    worksheet = worksheets[form.unique_id][:worksheet]
+    rows_to_write = 1
+    field_values = []
+    form.fields.each do |field|
+      if field.type == Field::SUBFORM
+        data[field.name]&.each do |subform_data|
+          write_record_form(id, subform_data, field.subform)
+        end
+      else
+        value = export_field_value(data, form, field)
+        field_values << value
+        rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
+      end
+    end
+    ([id] + field_values).each_with_index do |value, column|
+      value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
+      value_array.each_with_index do |val, i|
+        worksheet&.write((worksheets[form.unique_id][:row] + i), column, val)
+      end
+    end
+    rows_to_write
+  end
+
+  def export_field_value(data, form, field)
+    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+
+    values = []
+    data[field&.form_section&.unique_id]&.each do |section|
+      values << export_value(section[field.name], field)
+    end
+    values
+  end
 end
