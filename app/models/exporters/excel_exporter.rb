@@ -6,7 +6,7 @@ require 'write_xlsx'
 # Subforms get a dedicated tab.
 # Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
-  attr_accessor :workbook, :worksheets
+  attr_accessor :workbook, :worksheets, :rows_to_write
 
   class << self
     def id
@@ -22,6 +22,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     super(output_file_path)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
+    self.rows_to_write = 1
   end
 
   def export(records, user, options = {})
@@ -37,9 +38,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def build_worksheets_with_headers
     return if worksheets.present?
 
-    forms.each do |form|
-      build_worksheet_with_headers(form)
-    end
+    forms.each { |form| build_worksheet_with_headers(form) }
   end
 
   def build_worksheet_with_headers(form)
@@ -93,27 +92,49 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     # Do not write data if already written for this form
     return if worksheets[form.unique_id][:written] == true
 
-    rows_written = write_record_row(id, data, form)
+    write_record_row(id, data, form)
     worksheets[form.unique_id][:written] = true
-    worksheets[form.unique_id][:row] += rows_written
+    worksheets[form.unique_id][:row] += rows_to_write
   end
 
   def write_record_row(id, data, form)
-    # rows_to_write doesn't change here, but does in some of the child classes
-    rows_to_write = 1
+    @rows_to_write = 1
+    form.fields.each { |field| write_record_subform(id, data, field) if field.type == Field::SUBFORM }
     worksheet = worksheets[form.unique_id][:worksheet]
-    worksheet&.write(worksheets[form.unique_id][:row], 0, id)
-    form.fields.each_with_index do |field, i|
-      if field.type == Field::SUBFORM
-        data[field.name]&.each do |subform_data|
-          write_record_form(id, subform_data, field.subform)
-        end
-      else
-        value = export_value(data[field.name], field)
-        worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
-      end
+    ([id] + field_values(data, form)).each_with_index { |value, column| write_value(worksheet, form, value, column) }
+  end
+
+  def field_values(data, form)
+    field_values = []
+    form.fields.each do |field|
+      next if field.type == Field::SUBFORM
+
+      value = export_field_value(data, form, field)
+      field_values << value
+      @rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
     end
-    rows_to_write
+    field_values
+  end
+
+  def export_field_value(data, form, field)
+    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+
+    values = []
+    data[field&.form_section&.unique_id]&.each do |section|
+      values << export_value(section[field.name], field)
+    end
+    values
+  end
+
+  def write_record_subform(id, data, field)
+    data[field.name]&.each do |subform_data|
+      write_record_form(id, subform_data, field.subform)
+    end
+  end
+
+  def write_value(worksheet, form, value, column)
+    value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
+    value_array.each_with_index { |val, i| worksheet&.write((worksheets[form.unique_id][:row] + i), column, val) }
   end
 
   def worksheets_reset_written
@@ -123,9 +144,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def export_value(value, field)
     value = super(value, field)
     # TODO: This will cause N+1 issue
-    return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s) if field.name == 'created_organization' && value.present?
+    if field.name == 'created_organization' && value.present?
+      return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s)
+    end
 
-    return value unless value.is_a? Array
+    return value unless value.is_a?(Array)
 
     value.join(' ||| ')
   end
