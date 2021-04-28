@@ -6,7 +6,7 @@ export {
   loadApplicationResources,
   setUserIdle
 } from "./action-creators";
-export { default as useApp } from "./use-app";
+export { useApp, ApplicationProvider } from "./use-app";
 export { default as reducer } from "./reducer";
 export {
   getEnabledAgencies,

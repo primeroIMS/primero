@@ -47,10 +47,12 @@ const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
       {...rest}
       {...(isEmpty(inputProps) ? {} : { inputProps })}
       helperText={
-        <>
-          {helperText}
-          {renderHint}
-        </>
+        (renderHint || helperText) && (
+          <>
+            {helperText}
+            {renderHint}
+          </>
+        )
       }
       {...textAreaProps}
       defaultValue={defaultValue || ""}

@@ -1,4 +1,7 @@
+import { fromJS } from "immutable";
+
 import { setupMountedComponent } from "../../test";
+import { ACTIONS } from "../../libs/permissions";
 
 import KeyPerformanceIndicators from "./component";
 import NumberOfCases from "./components/number-of-cases";
@@ -19,7 +22,34 @@ import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-r
 import CaseLoad from "./components/case-load";
 
 describe("<KeyPerformanceIndicators />", () => {
-  const { component } = setupMountedComponent(KeyPerformanceIndicators);
+  const { component } = setupMountedComponent(
+    KeyPerformanceIndicators,
+    {},
+    fromJS({
+      user: {
+        permissions: {
+          kpis: [
+            ACTIONS.KPI_ASSESSMENT_STATUS,
+            ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
+            ACTIONS.KPI_AVERAGE_REFERRALS,
+            ACTIONS.KPI_CASE_CLOSURE_RATE,
+            ACTIONS.KPI_CASE_LOAD,
+            ACTIONS.KPI_CLIENT_SATISFACTION_RATE,
+            ACTIONS.KPI_COMPLETED_CASE_ACTION_PLANS,
+            ACTIONS.KPI_COMPLETED_CASE_SAFETY_PLANS,
+            ACTIONS.KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
+            ACTIONS.KPI_GOAL_PROGRESS_PER_NEED,
+            ACTIONS.KPI_NUMBER_OF_CASES,
+            ACTIONS.KPI_NUMBER_OF_INCIDENTS,
+            ACTIONS.KPI_REPORTING_DELAY,
+            ACTIONS.KPI_SERVICES_PROVIDED,
+            ACTIONS.KPI_SUPERVISOR_TO_CASEWORKER_RATIO,
+            ACTIONS.KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
+          ]
+        }
+      }
+    })
+  );
 
   it("should render the NumberOfCases KPI", () => {
     expect(component.find(NumberOfCases).exists()).to.be.true;

@@ -7,7 +7,7 @@ describe Webhookable do
   let(:case_record) { Child.create!(name: 'Test', age: 12, sex: 'male') }
   let(:webhook_url) { 'https://example.com/inbox/abc123' }
 
-  describe '.log_synced' do
+  describe '.log_sync_status' do
     it 'logs a synced status' do
       expect(AuditLog.count.zero?).to be_truthy
       case_record.update_attributes(mark_synced: true, mark_synced_url: webhook_url)
@@ -17,6 +17,36 @@ describe Webhookable do
       send_log = AuditLog.first
       expect(send_log.resource_url).to eq(webhook_url)
       expect(send_log.webhook_status).to eq(AuditLog::SYNCED)
+    end
+
+    it 'logs a not_found status' do
+      expect(AuditLog.count.zero?).to be_truthy
+      case_record.update_attributes(mark_synced_status: 'not_found', mark_synced: true, mark_synced_url: webhook_url)
+
+      expect(case_record.data['mark_synced']).to be_nil
+      expect(case_record.data['mark_synced_status']).to be_nil
+      expect(AuditLog.count).to eq(1)
+      send_log = AuditLog.first
+      expect(send_log.resource_url).to eq(webhook_url)
+      expect(send_log.webhook_status).to eq(AuditLog::NOT_FOUND)
+    end
+
+    it 'logs a failed status' do
+      expect(AuditLog.count.zero?).to be_truthy
+      case_record.update_attributes(mark_synced_status: 'failed', mark_synced: true, mark_synced_url: webhook_url)
+
+      expect(case_record.data['mark_synced']).to be_nil
+      expect(case_record.data['mark_synced_status']).to be_nil
+      expect(AuditLog.count).to eq(1)
+      send_log = AuditLog.first
+      expect(send_log.resource_url).to eq(webhook_url)
+      expect(send_log.webhook_status).to eq(AuditLog::FAILED)
+    end
+
+    it 'if no attributes are being set there is not AuditLog entry' do
+      expect(AuditLog.count.zero?).to be_truthy
+      case_record.update_attributes(name: 'Another name')
+      expect(AuditLog.count.zero?).to be_truthy
     end
   end
 

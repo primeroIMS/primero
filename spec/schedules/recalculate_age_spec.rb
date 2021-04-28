@@ -135,5 +135,15 @@ describe RecalculateAge, search: true do
         expect(@case6.reload.age).to eq(4)
       end
     end
+
+    describe '#recalculate!' do
+      before do
+        RecalculateAge.recalculate!
+      end
+
+      it 'should calculate age with birthday' do
+        expect(@case6.reload.age).to eq(4)
+      end
+    end
   end
 end

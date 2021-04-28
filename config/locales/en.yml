@@ -442,6 +442,9 @@ en:
       access to this case record.
     view_name: View Name
   change_logs:
+    filters:
+      form: Form
+      field: Field
     add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
     changes_subform: 'Changes to “%{subform_name}” subform'
     create: Created record
@@ -1019,8 +1022,9 @@ en:
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
   sync_record:
-    failed: Sync failed.
+    failed: 'Last Sync: Failed'
     last: 'Last Sync: %{date_time}'
+    not_found: 'Last Sync: Data not found'
     retrieving: Retrieving Data.
     see_details: See Details.
   fields:
@@ -1327,6 +1331,8 @@ en:
     feedback: "Feedback"
     other: "Other"
     date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Custom'
     long_date_format: "dd/MM/yyyy"
     time_periods:
       all_time: 'All Time'

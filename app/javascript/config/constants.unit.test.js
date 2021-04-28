@@ -48,6 +48,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_CASE_ID_DISPLAY_FIELD",
       "INCIDENT_FROM_CASE",
+      "INCIDENT_SHORT_ID_FIELD",
       "LOCALE_KEYS",
       "LOOKUPS",
       "LOCATION_PATH",

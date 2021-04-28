@@ -6,16 +6,16 @@ import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../components/notifier";
 import { SET_ATTACHMENT_STATUS } from "../components/records/actions";
 
 import EventManager from "./messenger";
-
-const QUEUE_ADD = "queue-add";
-const QUEUE_FINISHED = "queue-finished";
-const QUEUE_FAILED = "queue-failed";
-const QUEUE_SKIP = "queue-skip";
-const QUEUE_SUCCESS = "queue-success";
-
-const QUEUE_PENDING = "pending";
-const QUEUE_READY = "ready";
-const QUEUE_HALTED = "halted";
+import {
+  QUEUE_PENDING,
+  QUEUE_READY,
+  QUEUE_HALTED,
+  QUEUE_ADD,
+  QUEUE_FINISHED,
+  QUEUE_FAILED,
+  QUEUE_SKIP,
+  QUEUE_SUCCESS
+} from "./constants";
 
 class Queue {
   constructor() {

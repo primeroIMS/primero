@@ -44,7 +44,10 @@ export const REPORT_FIELD_TYPES = Object.freeze({
 
 export const DEFAULT_FILTERS = [
   Object.freeze({ attribute: "status", value: ["open"] }),
-  Object.freeze({ attribute: "record_state", value: ["true"] })
+  Object.freeze({ attribute: "record_state", value: ["true"] }),
+  Object.freeze({ attribute: "consent_reporting", value: ["true"] })
 ];
 
 export const NOT_NULL = "not_null";
+
+export const DATE = "date";

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
+import FormFilters from "../form-filters";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
@@ -74,6 +75,7 @@ const Container = ({ mode }) => {
   const { demo } = useApp();
   const params = useParams();
   const { state: locationState } = useLocation();
+  const history = useHistory();
 
   const containerMode = {
     isNew: mode === "new",
@@ -253,9 +255,7 @@ const Container = ({ mode }) => {
       }
     });
 
-    return () => {
-      window.history.replaceState({}, document.title);
-    };
+    history.replace(history.location.pathname, {});
   }, [params.id, params.recordType]);
 
   useEffect(() => {
@@ -321,6 +321,8 @@ const Container = ({ mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
+          primeroModule={selectedModule.primeroModule}
+          selectedForm={selectedForm}
         />
       ),
       [SUMMARY]: (
@@ -379,6 +381,13 @@ const Container = ({ mode }) => {
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}
+            />
+            <FormFilters
+              selectedForm={selectedForm}
+              recordType={selectedModule.recordType}
+              primeroModule={selectedModule.primeroModule}
+              formMode={containerMode}
+              showDrawer
             />
           </div>
         </div>

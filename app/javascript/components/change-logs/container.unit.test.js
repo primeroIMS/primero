@@ -175,4 +175,18 @@ describe("ChangeLogs - Container", () => {
   it("renders SubformDialog", () => {
     expect(component.find(SubformDialog)).to.have.lengthOf(1);
   });
+
+  describe("when filters are selected", () => {
+    it("renders only the selected field names", () => {
+      const selectedForm = "changeLog";
+      const { component: comp } = setupMountedComponent(
+        ChangeLogs,
+        { ...props, selectedForm },
+        defaultState.setIn(["ui", "formFilters", selectedForm], fromJS({ field_names: ["nationality"] })),
+        {}
+      );
+
+      expect(comp.find(ChangeLogItem)).to.have.lengthOf(1);
+    });
+  });
 });

@@ -211,8 +211,9 @@ export const mergeTranslationKeys = (defaultValues, currValues, isSubform = fals
 
     if (translatableOptions.includes(key) && !isEmpty(value)) {
       const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
+      const newValue = key === "option_strings_text" ? Object.values(mergedValues) : mergedValues;
 
-      return { ...acc, [key]: mergedValues };
+      return { ...acc, [key]: newValue };
     }
 
     return { ...acc, [key]: value };

@@ -14,7 +14,7 @@ import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
 import { getMetadata } from "../../../record-list";
@@ -108,7 +108,7 @@ const Container = () => {
             <IndexTable title={i18n.t("users.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>
