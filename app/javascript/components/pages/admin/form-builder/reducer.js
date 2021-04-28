@@ -255,10 +255,13 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .toSet()
         .toList();
 
+      const subformSectionConfiguration = state.getIn(["selectedField", "subform_section_configuration"], fromJS({}));
+
       const mergedSubform = subform
         .mergeDeep(data)
         .set("fields", fields)
-        .set("collapsed_field_names", collapsedFieldNames);
+        .set("collapsed_field_names", collapsedFieldNames)
+        .set("subform_section_configuration", subformSectionConfiguration);
 
       if (subformIndex < 0) {
         return state.set("selectedSubform", mergedSubform);
