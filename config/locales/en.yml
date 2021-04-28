@@ -3032,6 +3032,10 @@ en:
       not be undone. Click OK to delete report
     label: Reports
     register_new_report: Create Report
+    translations:
+      edit: Edit translations
+      manage: Manage Translations
+      select_language: Select language
   request_transfer:
     notes_label: Notes
     submit_label: Send Request
