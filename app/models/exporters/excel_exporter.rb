@@ -99,37 +99,29 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def write_record_row(id, data, form)
     @rows_to_write = 1
-    form.fields.each { |field| write_record_subform(id, data, field) if field.type == Field::SUBFORM }
     worksheet = worksheets[form.unique_id][:worksheet]
     ([id] + field_values(data, form)).each_with_index { |value, column| write_value(worksheet, form, value, column) }
+    form.subform_fields.each { |field| write_record_form(id, data, field.subform) }
   end
 
   def field_values(data, form)
     field_values = []
-    form.fields.each do |field|
-      next if field.type == Field::SUBFORM
-
-      value = export_field_value(data, form, field)
+    form.non_subform_fields.each do |field|
+      value = export_field_value(data, field)
       field_values << value
       @rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
     end
     field_values
   end
 
-  def export_field_value(data, form, field)
-    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+  def export_field_value(data, field)
+    return export_value(data[field.name], field) unless field.nested?
 
     values = []
     data[field&.form_section&.unique_id]&.each do |section|
       values << export_value(section[field.name], field)
     end
     values
-  end
-
-  def write_record_subform(id, data, field)
-    data[field.name]&.each do |subform_data|
-      write_record_form(id, subform_data, field.subform)
-    end
   end
 
   def write_value(worksheet, form, value, column)
