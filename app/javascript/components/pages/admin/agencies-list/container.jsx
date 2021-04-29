@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -35,9 +34,9 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const defaultFilterFields = fromJS({
+  const defaultFilterFields = {
     [DISABLED]: ["false"]
-  });
+  };
 
   const defaultFilters = metadata.merge(defaultFilterFields);
 

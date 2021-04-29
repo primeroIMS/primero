@@ -27,7 +27,16 @@ const Component = ({
   showDrawer
 }) => {
   const css = useStyles();
-  const methods = useForm();
+  // TODO: Validate "clear"
+  const defaultValues = defaultFilters.reduce((acc, value, key) => {
+    if (["per", "page", "count", "total"].includes(key)) {
+      return acc;
+    }
+
+    return { ...acc, [key]: value /* ?.toJS() */ };
+  }, {});
+  const methods = useForm({ defaultValues });
+
   const { mobileDisplay } = useThemeHelper();
 
   const userName = useMemoizedSelector(state => currentUser(state));

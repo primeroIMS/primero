@@ -1,5 +1,7 @@
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
+import { Grid } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -13,12 +15,15 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
+import { FiltersForm } from "../../../form-filters/components";
+import { getFilters } from "../agencies-list/utils";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const canAddUserGroups = usePermissions(NAMESPACE, CREATE_RECORDS);
 
   const recordType = RESOURCES.user_groups;
@@ -26,7 +31,10 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilters = metadata;
+  const defaultFilterFields = {
+    disabled: ["false"]
+  };
+  const defaultFilters = metadata.merge(defaultFilterFields);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -34,7 +42,14 @@ const Container = () => {
     ...rest
   }));
 
-  useMetadata(recordType, metadata, fetchUserGroups, "data");
+  useMetadata(recordType, metadata, fetchUserGroups, "data", { defaultFilterFields });
+
+  const filterProps = {
+    clearFields: ["disabled"],
+    filters: getFilters(i18n),
+    onSubmit: data => dispatch(fetchUserGroups({ data })),
+    defaultFilters
+  };
 
   const tableOptions = {
     recordType,
@@ -63,7 +78,14 @@ const Container = () => {
     <>
       <PageHeading title={i18n.t("user_groups.label")}>{newUserGroupBtn}</PageHeading>
       <PageContent>
-        <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={9}>
+            <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <FiltersForm {...filterProps} />
+          </Grid>
+        </Grid>
       </PageContent>
     </>
   );

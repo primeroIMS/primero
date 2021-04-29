@@ -6,12 +6,22 @@ class UserGroup < ApplicationRecord
 
   has_and_belongs_to_many :users
 
-  before_create :generate_unique_id
+  scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
 
-  def self.new_with_properties(params, user)
-    user_group = UserGroup.new(params)
-    user_group.add_creating_user(user)
-    user_group
+  before_create :generate_unique_id
+ 
+  class << self
+    def list(params = {})
+      return enabled if params.blank?
+
+      where(params)
+    end
+
+    def new_with_properties(params, user)
+      user_group = UserGroup.new(params)
+      user_group.add_creating_user(user)
+      user_group
+    end
   end
 
   def add_creating_user(user)
