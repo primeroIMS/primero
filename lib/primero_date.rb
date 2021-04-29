@@ -62,7 +62,7 @@ class PrimeroDate < Date
   # This function only deals with dates from the application, which are in local time.
   # It should return a Datetime in UTC for the database
   def self.parse_with_format(value, skip_offset=false)
-    return value if value.is_a?(Date) || (value.is_a? PrimeroDate) || (value.is_a? Time)
+    return value if value.blank? || value.is_a?(Date) || (value.is_a? PrimeroDate) || (value.is_a? Time)
 
     # Separator can be "-" or "/". Valid formats:
     #   "%d-%b-%Y" # 05-Sep-2014 | 05-September-2014 | 5-Sep-2014 | 5-September-2014

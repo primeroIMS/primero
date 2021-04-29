@@ -57,7 +57,7 @@ module DocumentUploader
       uploaded_document = doc['document']
       is_current = doc['is_current']
       description = doc['document_description']
-      date = doc['date']
+      date = PrimeroDate.parse_with_format(doc['date'])
       comments = doc['comments']
 
       if uploaded_document.present?
@@ -115,7 +115,7 @@ module DocumentUploader
             self[form_id][documents_index]['document_description'] = updated_documents[document_key]['document_description']
           end
           if self[form_id][documents_index]['date'] != updated_documents[document_key]['date']
-            self[form_id][documents_index]['date'] = updated_documents[document_key]['date']
+            self[form_id][documents_index]['date'] = PrimeroDate.parse_with_format(updated_documents[document_key]['date'])
           end
           if self[form_id][documents_index]['comments'] != updated_documents[document_key]['comments']
             self[form_id][documents_index]['comments'] = updated_documents[document_key]['comments']
