@@ -18,12 +18,12 @@ describe RecordDataService do
   describe 'select_fields' do
     let(:data) { RecordDataService.select_fields(@record.data, %w[name field2]) }
 
-    it 'discards nil value fields' do
-      expect(data.key?('field2')).to be_falsey
+    it 'does not discard nil value fields' do
+      expect(data.key?('field2')).to be_truthy
     end
 
     it 'selects only the requested fields' do
-      expect(data.keys).to match_array(%w[name])
+      expect(data.keys).to match_array(%w[field2 name])
     end
   end
 
