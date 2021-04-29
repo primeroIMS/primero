@@ -6,7 +6,7 @@ require 'write_xlsx'
 # Subforms get a dedicated tab.
 # Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
-  attr_accessor :workbook, :worksheets, :rows_to_write
+  attr_accessor :workbook, :worksheets
 
   class << self
     def id
@@ -22,7 +22,6 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     super(output_file_path)
     self.workbook = WriteXLSX.new(buffer)
     self.worksheets = {}
-    self.rows_to_write = 1
   end
 
   def export(records, user, options = {})
@@ -92,26 +91,28 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     # Do not write data if already written for this form
     return if worksheets[form.unique_id][:written] == true
 
-    write_record_row(id, data, form)
+    rows_written = write_record_row(id, data, form)
     worksheets[form.unique_id][:written] = true
-    worksheets[form.unique_id][:row] += rows_to_write
+    worksheets[form.unique_id][:row] += rows_written
   end
 
   def write_record_row(id, data, form)
-    @rows_to_write = 1
     worksheet = worksheets[form.unique_id][:worksheet]
-    ([id] + field_values(data, form)).each_with_index { |value, column| write_value(worksheet, form, value, column) }
+    values, rows_to_write = field_values(data, form)
+    ([id] + values).each_with_index { |value, column| write_value(worksheet, form, value, column, rows_to_write) }
     form.subform_fields.each { |field| write_record_form(id, data, field.subform) }
+    rows_to_write
   end
 
   def field_values(data, form)
     field_values = []
+    rows_to_write = 1
     form.non_subform_fields.each do |field|
       value = export_field_value(data, field)
       field_values << value
-      @rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
+      rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
     end
-    field_values
+    [field_values, rows_to_write]
   end
 
   def export_field_value(data, field)
@@ -124,7 +125,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     values
   end
 
-  def write_value(worksheet, form, value, column)
+  def write_value(worksheet, form, value, column, rows_to_write)
     value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
     value_array.each_with_index { |val, i| worksheet&.write((worksheets[form.unique_id][:row] + i), column, val) }
   end
