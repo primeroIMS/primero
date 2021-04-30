@@ -37,6 +37,24 @@ describe PermittedFieldService, search: true do
       form_section_read_write: { form.unique_id => 'rw' }
     )
   end
+  let(:pending_dashboard_role) do
+    Role.new_with_properties(
+      name: 'Test Role 1',
+      unique_id: 'test-role-1',
+      group_permission: Permission::SELF,
+      permissions: [
+        Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_APPROVALS_ASSESSMENT_PENDING,
+            Permission::DASH_APPROVALS_CASE_PLAN_PENDING,
+            Permission::DASH_APPROVALS_CLOSURE_PENDING
+          ]
+        )
+      ],
+      form_section_read_write: { form.unique_id => 'rw' }
+    )
+  end
   let(:agency) do
     Agency.create!(
       name: 'Test Agency',
@@ -66,6 +84,19 @@ describe PermittedFieldService, search: true do
       email: 'test_user_2@localhost.com',
       agency_id: agency.id,
       role: dashboard_role,
+      services: ['Test type']
+    )
+  end
+
+  let(:pending_approvals_user) do
+    User.create!(
+      full_name: 'Test User 3',
+      user_name: 'test_user_3',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'test_user_3@localhost.com',
+      agency_id: agency.id,
+      role: pending_dashboard_role,
       services: ['Test type']
     )
   end
@@ -122,6 +153,13 @@ describe PermittedFieldService, search: true do
 
   it 'returns the approval field for the corresponding dashboard' do
     permitted_field_names = PermittedFieldService.new(approvals_user, Child).permitted_field_names
+    approval_field_names = %w[approval_status_assessment approval_status_case_plan approval_status_closure]
+
+    expect((approval_field_names - permitted_field_names).empty?).to be true
+  end
+
+  it 'returns the approval field for the corresponding pending dashboards' do
+    permitted_field_names = PermittedFieldService.new(pending_approvals_user, Child).permitted_field_names
     approval_field_names = %w[approval_status_assessment approval_status_case_plan approval_status_closure]
 
     expect((approval_field_names - permitted_field_names).empty?).to be true
