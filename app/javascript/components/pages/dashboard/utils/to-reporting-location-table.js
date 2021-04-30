@@ -11,12 +11,25 @@ const reportingLocationLabel = (reportingLocationConfig, i18n) => {
   return `${locationTypes.join(", ")}`;
 };
 
+const transformOptionKeys = data => {
+  return Object.entries(data).reduce((acc, curr) => {
+    const [key, value] = curr;
+
+    if (key.toUpperCase() === key) {
+      return { ...acc, [key.toLowerCase()]: value };
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
+};
+
 export const dashboardTableData = (optionsByIndex, data, indicators, listKey) => {
+  const newOptionsByIndex = transformOptionKeys(optionsByIndex);
   const rows = indicators.reduce((acc, indicator) => {
     const indicatorData = data[indicator];
 
     Object.keys(indicatorData).forEach(key => {
-      const optionLabel = optionsByIndex[key] ? optionsByIndex[key] : key;
+      const optionLabel = newOptionsByIndex[key] ? newOptionsByIndex[key] : key;
 
       if (key) {
         const listKeyValue = { [indicator]: indicatorData[key][listKey] };
