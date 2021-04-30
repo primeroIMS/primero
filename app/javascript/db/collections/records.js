@@ -50,7 +50,7 @@ const Records = {
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
-      Records.updateCaseIncidents(data);
+      await Records.updateCaseIncidents(data);
     }
 
     if (dataIsArray) {
