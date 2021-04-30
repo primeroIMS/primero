@@ -2,6 +2,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -44,11 +45,18 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchUserGroups, "data", { defaultFilterFields });
 
+  const onSubmit = data => {
+    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
+
+    dispatch(fetchUserGroups({ data: { ...data, ...setDefaultFilters } }));
+  };
+
   const filterProps = {
     clearFields: ["disabled"],
     filters: getFilters(i18n),
-    onSubmit: data => dispatch(fetchUserGroups({ data })),
-    defaultFilters
+    onSubmit,
+    defaultFilters,
+    initialFilters: defaultFilterFields
   };
 
   const tableOptions = {

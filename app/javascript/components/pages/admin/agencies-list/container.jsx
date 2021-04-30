@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
+import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -56,11 +57,18 @@ const Container = () => {
     bypassInitialFetch: true
   };
 
+  const onSubmit = data => {
+    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
+
+    dispatch(fetchAgencies({ data: { ...data, ...setDefaultFilters } }));
+  };
+
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
-    onSubmit: data => dispatch(fetchAgencies({ data })),
-    defaultFilters
+    onSubmit,
+    defaultFilters,
+    initialFilters: defaultFilterFields
   };
 
   const newAgencyBtn = canAddAgencies ? (

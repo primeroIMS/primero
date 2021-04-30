@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
+import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -67,11 +68,18 @@ const Container = () => {
     onRowClick: () => {}
   };
 
+  const onSubmit = data => {
+    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
+
+    dispatch(fetchLocations({ data: { ...data, ...setDefaultFilters } }));
+  };
+
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
-    onSubmit: data => dispatch(fetchLocations({ data })),
-    defaultFilters
+    onSubmit,
+    defaultFilters,
+    initialFilters: defaultFilterFields
   };
 
   const actions = [

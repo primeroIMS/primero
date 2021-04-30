@@ -27,15 +27,7 @@ const Component = ({
   showDrawer
 }) => {
   const css = useStyles();
-  // TODO: Validate "clear"
-  const defaultValues = defaultFilters.reduce((acc, value, key) => {
-    if (["per", "page", "count", "total"].includes(key)) {
-      return acc;
-    }
-
-    return { ...acc, [key]: value /* ?.toJS() */ };
-  }, {});
-  const methods = useForm({ defaultValues });
+  const methods = useForm();
 
   const { mobileDisplay } = useThemeHelper();
 
@@ -61,6 +53,7 @@ const Component = ({
     clearFields.map(field => methods.setValue(field, undefined));
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
+      methods.reset(initialFilters);
     }
     onSubmit();
   };
@@ -74,16 +67,11 @@ const Component = ({
   };
 
   useEffect(() => {
+    methods.reset(initialFilters);
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
     }
   }, []);
-
-  useEffect(() => {
-    if (initialFilters) {
-      methods.reset(initialFilters);
-    }
-  }, [initialFilters]);
 
   const renderFilters = () => {
     return filters.map(filter => {

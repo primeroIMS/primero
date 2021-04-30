@@ -12,7 +12,7 @@ class UserGroup < ApplicationRecord
  
   class << self
     def list(params = {})
-      return enabled if params.blank?
+      return all if params.blank?
 
       where(params)
     end
