@@ -20,6 +20,8 @@ import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFilters } from "../agencies-list/utils";
 import { FiltersForm } from "../../../form-filters/components";
+import { DEFAULT_DISABLED_FILTER, DATA, DISABLED } from "../constants";
+import { onSubmitFilters } from "../utils";
 
 import { fetchRoles } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -30,16 +32,13 @@ const Container = () => {
   const { limitedProductionSite } = useApp();
   const recordType = RESOURCES.roles;
 
-  const defaultFilterFields = {
-    disabled: ["false"]
-  };
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest
   }));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
 
-  const defaultFilters = metadata.merge(defaultFilterFields);
+  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
   const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
   const rolesNewButton = canAddRoles && (
     <ActionButton
@@ -54,20 +53,16 @@ const Container = () => {
     />
   );
 
-  useMetadata(recordType, metadata, fetchRoles, "data", { defaultFilterFields });
+  useMetadata(recordType, metadata, fetchRoles, DATA, { defaultFilterFields: DEFAULT_DISABLED_FILTER });
 
-  const onSubmit = data => {
-    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
-
-    dispatch(fetchRoles({ data: { ...data, ...setDefaultFilters } }));
-  };
+  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchRoles);
 
   const filterProps = {
-    clearFields: ["disabled"],
+    clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: defaultFilterFields
+    initialFilters: DEFAULT_DISABLED_FILTER
   };
 
   const tableOptions = {

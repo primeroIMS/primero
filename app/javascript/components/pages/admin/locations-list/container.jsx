@@ -1,14 +1,13 @@
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
-import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { getListHeaders } from "../../../user";
 import { RESOURCES, MANAGE } from "../../../../libs/permissions";
-import { headersToColumns } from "../utils";
+import { headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
 import { getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
@@ -19,6 +18,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
 import { getLocationsAvailable } from "../../../application/selectors";
+import { DEFAULT_DISABLED_FILTER, DATA } from "../constants";
 
 import ImportDialog from "./import-dialog";
 import { fetchLocations } from "./action-creators";
@@ -37,11 +37,8 @@ const Container = () => {
 
   const defaultMetadata = metadata?.toJS();
 
-  const defaultFilterFields = {
-    [DISABLED]: ["false"]
-  };
   const defaultFilters = fromJS({
-    ...defaultFilterFields,
+    ...DEFAULT_DISABLED_FILTER,
     ...defaultMetadata
   });
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
@@ -51,7 +48,10 @@ const Container = () => {
     setDialog({ dialog, open: true });
   };
 
-  useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields, defaultMetadata });
+  useMetadata(recordType, metadata, fetchLocations, DATA, {
+    defaultFilterFields: DEFAULT_DISABLED_FILTER,
+    defaultMetadata
+  });
 
   const tableOptions = {
     recordType,
@@ -68,18 +68,14 @@ const Container = () => {
     onRowClick: () => {}
   };
 
-  const onSubmit = data => {
-    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
-
-    dispatch(fetchLocations({ data: { ...data, ...setDefaultFilters } }));
-  };
+  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchLocations);
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: defaultFilterFields
+    initialFilters: DEFAULT_DISABLED_FILTER
   };
 
   const actions = [

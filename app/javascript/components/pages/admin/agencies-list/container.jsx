@@ -2,7 +2,6 @@ import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
-import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -10,7 +9,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { headersToColumns } from "../utils";
+import { headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
@@ -18,6 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
+import { DEFAULT_DISABLED_FILTER, DATA } from "../constants";
 
 import { fetchAgencies } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
@@ -35,15 +35,11 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const defaultFilterFields = {
-    [DISABLED]: ["false"]
-  };
-
-  const defaultFilters = metadata.merge(defaultFilterFields);
+  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
 
   const columns = headersToColumns(headers, i18n);
 
-  useMetadata(recordType, metadata, fetchAgencies, "data", { defaultFilterFields });
+  useMetadata(recordType, metadata, fetchAgencies, DATA, { defaultFilterFields: DEFAULT_DISABLED_FILTER });
 
   const tableOptions = {
     recordType,
@@ -57,18 +53,14 @@ const Container = () => {
     bypassInitialFetch: true
   };
 
-  const onSubmit = data => {
-    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
-
-    dispatch(fetchAgencies({ data: { ...data, ...setDefaultFilters } }));
-  };
+  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchAgencies);
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: defaultFilterFields
+    initialFilters: DEFAULT_DISABLED_FILTER
   };
 
   const newAgencyBtn = canAddAgencies ? (

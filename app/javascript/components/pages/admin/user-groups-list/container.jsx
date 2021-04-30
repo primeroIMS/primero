@@ -2,7 +2,6 @@ import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { isEmpty } from "lodash";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -18,6 +17,8 @@ import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
 import { getFilters } from "../agencies-list/utils";
+import { DEFAULT_DISABLED_FILTER, DISABLED, DATA } from "../constants";
+import { onSubmitFilters } from "../utils";
 
 import { NAME } from "./constants";
 import { fetchUserGroups } from "./action-creators";
@@ -32,10 +33,7 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilterFields = {
-    disabled: ["false"]
-  };
-  const defaultFilters = metadata.merge(defaultFilterFields);
+  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -43,20 +41,16 @@ const Container = () => {
     ...rest
   }));
 
-  useMetadata(recordType, metadata, fetchUserGroups, "data", { defaultFilterFields });
+  useMetadata(recordType, metadata, fetchUserGroups, DATA, { defaultFilterFields: DEFAULT_DISABLED_FILTER });
 
-  const onSubmit = data => {
-    const setDefaultFilters = isEmpty(data) ? defaultFilterFields : {};
-
-    dispatch(fetchUserGroups({ data: { ...data, ...setDefaultFilters } }));
-  };
+  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchUserGroups);
 
   const filterProps = {
-    clearFields: ["disabled"],
+    clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: defaultFilterFields
+    initialFilters: DEFAULT_DISABLED_FILTER
   };
 
   const tableOptions = {
