@@ -96,8 +96,6 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.defaultProps = {
   selectedFields: []
 };

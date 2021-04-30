@@ -70,6 +70,4 @@ Component.propTypes = {
   tab: PropTypes.number.isRequired
 };
 
-Component.whyDidYouRender = true;
-
 export default memo(Component);

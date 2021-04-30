@@ -223,7 +223,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       const selectedFieldPath = ["selectedFields", selectedFieldIndex];
       const selectedField = state.getIn(selectedFieldPath);
 
-      const mergedField = selectedField.merge(fromJS(transformValues(payload.data[fieldName], true)));
+      const mergedField = selectedField.merge(fromJS(payload.data[fieldName]));
 
       return state.setIn(selectedFieldPath, mergedField).set("selectedField", mergedField);
     }
