@@ -3,6 +3,7 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_EXPORT_FORMS",
   "CLEAR_FORMS_REORDER",
   "ENABLE_REORDER",
   "EXPORT_FORMS",

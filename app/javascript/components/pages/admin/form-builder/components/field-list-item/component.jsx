@@ -163,8 +163,6 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
   field: PropTypes.object.isRequired,
   formMethods: PropTypes.object.isRequired,

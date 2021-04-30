@@ -23,8 +23,6 @@ const TabPanel = ({ tab, index, children }) => {
 
 TabPanel.displayName = NAME;
 
-TabPanel.whyDidYouRender = true;
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number,

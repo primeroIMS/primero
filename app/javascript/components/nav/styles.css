@@ -1,8 +1,8 @@
 .nav {
-  height: 100vh;
+  height: 100%;
 
   & > div {
-    height: 100vh;
+    height: 100%;
   }
 }
 

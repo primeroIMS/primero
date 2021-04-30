@@ -12,7 +12,20 @@ const ToggleInput = ({ commonInputProps, formMethods }) => {
         <FormControlLabel
           disabled={disabled}
           labelPlacement="end"
-          control={<Controller name={name} as={Checkbox} defaultValue={false} control={control} />}
+          control={
+            <Controller
+              name={name}
+              render={params => (
+                <Checkbox
+                  onChange={event => params.onChange(event.target.checked)}
+                  checked={params.value}
+                  name={name}
+                />
+              )}
+              defaultValue={false}
+              control={control}
+            />
+          }
           label={label}
         />
       </FormGroup>

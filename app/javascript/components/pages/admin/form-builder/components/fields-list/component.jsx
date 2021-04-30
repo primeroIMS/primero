@@ -142,8 +142,6 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object,

@@ -43,6 +43,11 @@ describe("Forms - Selectors", () => {
     }
   ];
 
+  const agencies = [
+    { id: 1, name: { en: "Agency 1" } },
+    { id: 2, name: { en: "Agency 2" } }
+  ];
+
   const stateWithLookups = fromJS({
     records: {
       transitions: {
@@ -63,10 +68,12 @@ describe("Forms - Selectors", () => {
       }
     },
     application: {
+      agencies,
       managedRoles: roles,
       roles
     },
     user: {
+      agencyId: 1,
       permittedRoleUniqueIds: ["role-1"]
     }
   });
@@ -173,6 +180,109 @@ describe("Forms - Selectors", () => {
           expect(options).to.deep.equal(expected);
         });
       });
+    });
+
+    describe("when optionStringsSource is USER_GROUP_PERMITTED", () => {
+      const allUserGroups = [
+        {
+          id: 1,
+          unique_id: "test-1",
+          name: "Test 1",
+          disabled: false
+        },
+        {
+          id: 2,
+          unique_id: "test-2",
+          name: "Test 2",
+          disabled: false
+        },
+        {
+          id: 3,
+          unique_id: "test-3",
+          name: "Test 3",
+          disabled: false
+        }
+      ];
+
+      describe("when user group permission is ALL", () => {
+        const state = fromJS({
+          application: {
+            userGroups: allUserGroups
+          },
+          user: {
+            roleGroupPermission: "all"
+          }
+        });
+
+        it("should return all user groups", () => {
+          const expected = [
+            {
+              id: "test-1",
+              display_text: "Test 1",
+              disabled: false
+            },
+            {
+              id: "test-2",
+              display_text: "Test 2",
+              disabled: false
+            },
+            {
+              id: "test-3",
+              display_text: "Test 3",
+              disabled: false
+            }
+          ];
+
+          expect(selectors.getOptions(state, OPTION_TYPES.USER_GROUP_PERMITTED, i18n)).to.deep.equals(expected);
+        });
+      });
+
+      describe("when user group permission is GROUP", () => {
+        const state = fromJS({
+          application: {
+            userGroups: allUserGroups
+          },
+          user: {
+            roleGroupPermission: "group",
+            userGroupUniqueIds: ["test-1"]
+          }
+        });
+
+        it("should return from application user groups only the ones that are assigned to the user", () => {
+          const expected = [
+            {
+              id: "test-1",
+              display_text: "Test 1",
+              disabled: false
+            },
+            {
+              id: "test-2",
+              display_text: "Test 2",
+              disabled: true
+            },
+            {
+              id: "test-3",
+              display_text: "Test 3",
+              disabled: true
+            }
+          ];
+
+          expect(selectors.getOptions(state, OPTION_TYPES.USER_GROUP_PERMITTED, i18n)).to.deep.equals(expected);
+        });
+      });
+    });
+  });
+
+  describe("when optionStringsSource is AGENCY_CURRENT_USER", () => {
+    it("should disabled the agencies that are not permitted for the current user", () => {
+      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.AGENCY_CURRENT_USER, i18n);
+
+      const expected = [
+        { id: 1, display_text: "Agency 1", disabled: false },
+        { id: 2, display_text: "Agency 2", disabled: true }
+      ];
+
+      expect(options).to.deep.equal(expected);
     });
   });
 
