@@ -7,7 +7,7 @@ import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
-import { isEmpty, isNil } from "lodash";
+import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
@@ -222,18 +222,23 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     return getValues()[name].length === maxSelectedOptions || option?.disabled;
   };
 
-  useEffect(() => {
-    if (!isNil(currentWatchedValue) && (isNil(stickyOption) || isEmpty(stickyOption))) {
-      setStickyOption(currentWatchedValue);
-    }
-  }, [currentWatchedValue]);
-
-  useEffect(() => {
+  const updateOtherFields = () => {
     if (currentWatchedValue && setOtherFieldValues) {
       otherFieldValues.forEach(([field, value]) => {
         setValue(field, value, { shouldDirty: true });
       });
     }
+  };
+
+  const updateStickyOption = () => {
+    if (!isNil(currentWatchedValue) && !isNumber(stickyOption) && (isNil(stickyOption) || isEmpty(stickyOption))) {
+      setStickyOption(currentWatchedValue);
+    }
+  };
+
+  useEffect(() => {
+    updateStickyOption();
+    updateOtherFields();
   }, [currentWatchedValue]);
 
   return (

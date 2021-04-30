@@ -82,7 +82,10 @@ const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOpti
   const currentUserAgency = fromJS([getAssignedAgency(state)]);
   const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
 
-  return allAgencies.filter(agency => currentUserAgency.includes(agency.id));
+  return allAgencies.map(agency => ({
+    ...agency,
+    disabled: agency.disabled || !currentUserAgency.includes(agency.id)
+  }));
 };
 
 const locations = (state, i18n, includeAdminLevel = false) =>

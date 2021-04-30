@@ -43,6 +43,11 @@ describe("Forms - Selectors", () => {
     }
   ];
 
+  const agencies = [
+    { id: 1, name: { en: "Agency 1" } },
+    { id: 2, name: { en: "Agency 2" } }
+  ];
+
   const stateWithLookups = fromJS({
     records: {
       transitions: {
@@ -63,10 +68,12 @@ describe("Forms - Selectors", () => {
       }
     },
     application: {
+      agencies,
       managedRoles: roles,
       roles
     },
     user: {
+      agencyId: 1,
       permittedRoleUniqueIds: ["role-1"]
     }
   });
@@ -263,6 +270,19 @@ describe("Forms - Selectors", () => {
           expect(selectors.getOptions(state, OPTION_TYPES.USER_GROUP_PERMITTED, i18n)).to.deep.equals(expected);
         });
       });
+    });
+  });
+
+  describe("when optionStringsSource is AGENCY_CURRENT_USER", () => {
+    it("should disabled the agencies that are not permitted for the current user", () => {
+      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.AGENCY_CURRENT_USER, i18n);
+
+      const expected = [
+        { id: 1, display_text: "Agency 1", disabled: false },
+        { id: 2, display_text: "Agency 2", disabled: true }
+      ];
+
+      expect(options).to.deep.equal(expected);
     });
   });
 
