@@ -489,6 +489,12 @@ module Indicators
       ]
     ).freeze
 
+    NATIONAL_ADMIN_SUMMARY_OPEN = QueriedIndicator.new(
+      name: 'open',
+      record_model: Child,
+      queries: OPEN_ENABLED
+    ).freeze
+
     def self.reporting_location_indicators(role)
       reporting_location_config = role&.reporting_location_config ||
                                   SystemSettings.current.reporting_location_config

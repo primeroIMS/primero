@@ -60,7 +60,7 @@ const BarChart = ({ data, description, showDetails }) => {
               suggestedMin: 0,
               ticks: {
                 callback: value => {
-                  if (value.length > 25) {
+                  if (value?.length > 25) {
                     return value.substr(0, 25).concat("...");
                   }
 

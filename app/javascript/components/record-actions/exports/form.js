@@ -191,7 +191,8 @@ export default (
       },
       password: true,
       watchedInputs: EXPORT_TYPE_FIELD,
-      showIf: value => value && !isPdfExport(value)
+      showIf: value => value && !isPdfExport(value),
+      visible: requirePassword
     }),
     FieldRecord({
       display_name: i18n.t("encrypt.file_name"),

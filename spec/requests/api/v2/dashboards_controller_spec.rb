@@ -191,7 +191,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       national_admin_summary = json['data'].find { |d| d['name'] == 'dashboard.dash_national_admin_summary' }
       expect(national_admin_summary['indicators'].count).to eq(5)
-      expect(national_admin_summary['indicators']['total']['count']).to eq(2)
+      expect(national_admin_summary['indicators']['open']['count']).to eq(2)
       expect(national_admin_summary['indicators']['new_last_week']['count']).to eq(1)
       expect(national_admin_summary['indicators']['new_this_week']['count']).to eq(1)
       expect(national_admin_summary['indicators']['closed_last_week']['count']).to eq(1)

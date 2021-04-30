@@ -258,7 +258,7 @@ class Dashboard < ValueObject
       name: 'dash_national_admin_summary',
       type: 'indicator',
       indicators: [
-        Indicators::Case::OPEN,
+        Indicators::Case::NATIONAL_ADMIN_SUMMARY_OPEN,
         Indicators::Case.new_last_week,
         Indicators::Case.new_this_week,
         Indicators::Case.closed_last_week,

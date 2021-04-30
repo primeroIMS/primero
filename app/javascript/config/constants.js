@@ -70,6 +70,7 @@ export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
+export const INCIDENT_SHORT_ID_FIELD = "short_id";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -195,6 +196,7 @@ export const MODES = {
 };
 
 export const LOOKUPS = {
+  agency_office: "lookup-agency-office",
   risk_level: "lookup-risk-level",
   workflow: "lookup-workflow",
   service_type: "lookup-service-type",

@@ -146,6 +146,7 @@ const Container = ({ mode }) => {
             formID={FORM_ID}
             registerFields={[FILTERS_FIELD]}
             submitAllFields
+            submitAlways
             renderBottom={formMethods => (
               <ReportFilters
                 allRecordForms={allRecordForms}
