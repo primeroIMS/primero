@@ -33,17 +33,20 @@ const Component = ({ mode, index, tab, formMethods }) => {
   const { parent_form: parentForm, module_ids: moduleIds } = getValues({ nest: true });
   const moduleId = moduleIds ? moduleIds[0] : null;
 
-  const onSuccess = useCallback(data => {
-    Object.entries(data).forEach(([fieldName, fieldData]) => {
-      setFieldDataInFormContext({
-        name: fieldName,
-        data: fieldData,
-        contextFields: fields,
-        register,
-        setValue
+  const onSuccess = useCallback(
+    data => {
+      Object.entries(data).forEach(([fieldName, fieldData]) => {
+        setFieldDataInFormContext({
+          name: fieldName,
+          data: fieldData,
+          contextFields: fields,
+          register,
+          setValue
+        });
       });
-    });
-  }, []);
+    },
+    [register]
+  );
 
   return (
     <TabPanel tab={tab} index={index}>
