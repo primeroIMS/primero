@@ -55,7 +55,7 @@ describe("<UserGroupsList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: fromJS({ total: dataLength, per: 20, page: 2 }),
+        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"] }),
         path: NAMESPACE
       },
       type: `${NAMESPACE}/USER_GROUPS`

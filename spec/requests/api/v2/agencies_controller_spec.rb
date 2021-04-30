@@ -119,7 +119,7 @@ describe Api::V2::AgenciesController, type: :request do
 
       get '/api/v2/agencies'
       expect(response).to have_http_status(200)
-      expect(json['data'].count).to eq(2)
+      expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
       expect(json['data'][1]['unique_id']).to eq(@agency_b.unique_id)
