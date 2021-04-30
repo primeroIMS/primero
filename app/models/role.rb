@@ -71,7 +71,9 @@ class Role < ApplicationRecord
       if options[:external]
         Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
       elsif options[:managed]
-        user&.permitted_roles_to_manage || Role.none
+        roles_to_manage = user&.permitted_roles_to_manage || Role.none
+        roles_to_manage = roles_to_manage.where(disabled: options[:disabled].values) if options[:disabled].present?
+        roles_to_manage
       else
         Role.all
       end

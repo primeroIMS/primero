@@ -71,7 +71,7 @@ class Agency < ApplicationRecord
     end
 
     def list(params = {})
-      return enabled if params.blank?
+      return all if params.blank?
 
       where(params)
     end
