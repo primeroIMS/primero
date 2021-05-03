@@ -6,8 +6,6 @@ class UserGroup < ApplicationRecord
 
   has_and_belongs_to_many :users
 
-  scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
-
   before_create :generate_unique_id
  
   class << self
