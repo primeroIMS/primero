@@ -189,8 +189,6 @@ const Component = ({ mode, formMethods }) => {
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired

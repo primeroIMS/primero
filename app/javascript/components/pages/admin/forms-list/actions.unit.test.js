@@ -5,6 +5,7 @@ describe("<FormsList /> - Actions", () => {
     const cloneActions = { ...actions };
 
     [
+      "CLEAR_EXPORT_FORMS",
       "CLEAR_FORMS_REORDER",
       "ENABLE_REORDER",
       "EXPORT_FORMS",

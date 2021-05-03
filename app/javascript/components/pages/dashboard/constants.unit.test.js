@@ -44,6 +44,7 @@ describe("Verifying config constant", () => {
       "CASES_BY_TASK_OVERDUE_SERVICES",
       "CASES_TO_ASSIGN",
       "GROUP_OVERVIEW",
+      "NATIONAL_ADMIN_SUMMARY",
       "PROTECTION_CONCERNS",
       "REPORTING_LOCATION",
       "SHARED_FROM_MY_TEAM",

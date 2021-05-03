@@ -160,7 +160,10 @@ export const generateUniqueId = data => {
 
 export const buildDataToSave = (selectedField, data, lastFieldOrder, randomSubformId) => {
   const fieldName = selectedField?.get("name");
-  const newData = { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled };
+  const newData = transformValues(
+    { ...data, disabled: selectedField?.get("type") === SEPARATOR ? true : data?.disabled },
+    true
+  );
 
   if (fieldName !== NEW_FIELD) {
     return { [fieldName]: newData };

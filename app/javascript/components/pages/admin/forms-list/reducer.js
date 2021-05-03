@@ -15,6 +15,8 @@ const DEFAULT_STATE = Map({
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
+    case actions.CLEAR_EXPORT_FORMS:
+      return state.set("export", fromJS({}));
     case actions.CLEAR_FORMS_REORDER:
       return state.set("reorderedForms", fromJS({}));
     case actions.ENABLE_REORDER:
