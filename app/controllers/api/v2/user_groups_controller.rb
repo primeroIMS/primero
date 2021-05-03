@@ -7,8 +7,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def index
     authorize! :index, UserGroup
-    filters = user_group_filters(permitted_user_group_filters)
-    @user_groups = UserGroup.list(filters)
+    @user_groups = UserGroup.list(current_user, params)
     @total = @user_groups.size
     @user_groups = @user_groups.paginate(pagination) if pagination?
   end
@@ -44,15 +43,5 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def load_user_group
     @user_group = UserGroup.find(record_id)
-  end
-
-  def user_group_filters(params)
-    return if params.blank?
-
-    { disabled: params[:disabled].values }
-  end
-
-  def permitted_user_group_filters
-    params.permit(disabled: {})
   end
 end

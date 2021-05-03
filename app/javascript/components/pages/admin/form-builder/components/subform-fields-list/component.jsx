@@ -43,6 +43,4 @@ Component.propTypes = {
   subformSortBy: PropTypes.string
 };
 
-Component.whyDidYouRender = true;
-
 export default Component;

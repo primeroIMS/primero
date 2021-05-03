@@ -20,7 +20,7 @@ import { getFilters } from "../agencies-list/utils";
 import { DEFAULT_DISABLED_FILTER, DISABLED, DATA } from "../constants";
 import { onSubmitFilters } from "../utils";
 
-import { NAME } from "./constants";
+import { NAME, MANAGED } from "./constants";
 import { fetchUserGroups } from "./action-creators";
 
 const Container = () => {
@@ -33,7 +33,7 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
+  const defaultFilters = metadata.set(MANAGED, true).merge(DEFAULT_DISABLED_FILTER);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -41,7 +41,9 @@ const Container = () => {
     ...rest
   }));
 
-  useMetadata(recordType, metadata, fetchUserGroups, DATA, { defaultFilterFields: DEFAULT_DISABLED_FILTER });
+  useMetadata(recordType, metadata, fetchUserGroups, DATA, {
+    defaultFilterFields: { ...DEFAULT_DISABLED_FILTER, [MANAGED]: true }
+  });
 
   const onSubmit = data => onSubmitFilters(data)(dispatch, fetchUserGroups);
 

@@ -8,6 +8,7 @@ describe("<FormsList /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     [
+      "clearExportForms",
       "clearFormsReorder",
       "enableReorder",
       "fetchForms",
@@ -157,5 +158,13 @@ describe("<FormsList /> - Action Creators", () => {
     };
 
     expect(actionCreators.exportForms({ params, message })).to.deep.equal(expected);
+  });
+
+  it("should check the 'clearExportForms' action creator returns the correct object", () => {
+    const expected = {
+      type: actions.CLEAR_EXPORT_FORMS
+    };
+
+    expect(actionCreators.clearExportForms()).to.deep.equal(expected);
   });
 });

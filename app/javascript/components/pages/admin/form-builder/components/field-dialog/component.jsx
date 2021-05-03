@@ -86,7 +86,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     },
     limitedProductionSite
   });
-  const formMethods = useForm({ resolver: yupResolver(validationSchema), shouldUnregister: false });
+  const formMethods = useForm({ resolver: yupResolver(validationSchema), shouldUnregister: false, mode: "onSubmit" });
   const {
     control,
     reset,
@@ -421,8 +421,6 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 };
 
 Component.displayName = NAME;
-
-Component.whyDidYouRender = true;
 
 Component.propTypes = {
   formId: PropTypes.string.isRequired,

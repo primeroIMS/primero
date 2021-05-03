@@ -15,6 +15,7 @@ class Dashboard < ValueObject
     cases_by_task_overdue_services
     cases_by_task_overdue_followups
     dash_cases_to_assign
+    dash_national_admin_summary
   ].freeze
 
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -249,6 +250,20 @@ class Dashboard < ValueObject
       name: 'dash_cases_to_assign',
       type: 'indicator',
       indicators: Indicators::Case.cases_to_assign
+    )
+  end
+
+  def self.dash_national_admin_summary
+    Dashboard.new(
+      name: 'dash_national_admin_summary',
+      type: 'indicator',
+      indicators: [
+        Indicators::Case::NATIONAL_ADMIN_SUMMARY_OPEN,
+        Indicators::Case.new_last_week,
+        Indicators::Case.new_this_week,
+        Indicators::Case.closed_last_week,
+        Indicators::Case.closed_this_week
+      ]
     )
   end
 end

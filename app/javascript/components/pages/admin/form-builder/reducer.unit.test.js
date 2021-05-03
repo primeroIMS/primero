@@ -577,7 +577,8 @@ describe("<FormsBuilder /> - Reducers", () => {
         { id: 1, name: "field_1", display_name: { en: "Field 1" } },
         { id: 2, name: "field_2", display_name: { en: "Field 2" } }
       ],
-      collapsed_field_names: []
+      collapsed_field_names: [],
+      subform_section_configuration: {}
     };
 
     const updatedSubform = {
@@ -639,7 +640,8 @@ describe("<FormsBuilder /> - Reducers", () => {
           },
           { id: 2, name: "field_2", display_name: { en: "Field 2" } }
         ],
-        collapsed_field_names: ["field_1"]
+        collapsed_field_names: ["field_1"],
+        subform_section_configuration: {}
       };
 
       const expected = fromJS({

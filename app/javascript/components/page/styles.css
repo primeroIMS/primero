@@ -14,7 +14,6 @@
 
 .wrap {
   padding: 1.563em 2em 4em 2em;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 }

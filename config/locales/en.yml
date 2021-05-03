@@ -624,6 +624,7 @@ en:
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
     dash_shared_with_others: Shared With Others
+    dash_national_admin_summary: Administrator Summary
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1740,6 +1741,7 @@ en:
       dash_show_none_values: View None Values
       dash_tasks: View Tasks
       dash_transfers_by_socal_worker: View Transfers By Social Worker
+      dash_national_admin_summary: Administrator Summary
       dashboard: Dashboard
       delete: Delete
       display_view_page: Display View Page
@@ -2412,6 +2414,11 @@ en:
               Cases By Task Overdue" dashboard, since this lets them see the overdue
               tasks for everyone in their user groups.
             label: Tasks Page
+          dash_national_admin_summary:
+            explanation: Shows the total open Cases in the system, number of new Cases
+              created in each of the last two weeks, and number of Cases closed
+              in each of the last two weeks.
+            label: Administrator Summary
           view_protection_concerns_filter:
             explanation: Allows the user to see a protection concerns filter on the
               case list page.
@@ -3032,6 +3039,10 @@ en:
       not be undone. Click OK to delete report
     label: Reports
     register_new_report: Create Report
+    translations:
+      edit: Edit translations
+      manage: Manage Translations
+      select_language: Select language
   request_transfer:
     notes_label: Notes
     submit_label: Send Request
