@@ -1,4 +1,4 @@
-.reportTranslationsDialog {
+.translationsDialog {
   & h1 {
     font-size: $(theme.typography.pxToRem(16));
     text-transform: uppercase;
