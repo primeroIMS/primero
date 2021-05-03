@@ -11,11 +11,16 @@ class UserGroup < ApplicationRecord
   before_create :generate_unique_id
  
   class << self
-    def list(params = {})
-      return all if params.blank?
+    def list(user, opts = {})
+    user_groups = if opts[:managed].blank? || user.role.group_permission == Permission::ALL
+                    UserGroup.all
+                  else
+                    user.user_groups
+                  end
 
-      where(params)
-    end
+    return user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
+    user_groups
+  end
 
     def new_with_properties(params, user)
       user_group = UserGroup.new(params)
@@ -28,16 +33,5 @@ class UserGroup < ApplicationRecord
     return unless [Permission::AGENCY, Permission::GROUP, Permission::SELF].include?(user.role&.group_permission)
 
     users << user
-  end
-
-  def self.list(user, opts = {})
-    user_groups = if opts[:managed].blank? || user.role.group_permission == Permission::ALL
-                    UserGroup.all
-                  else
-                    user.user_groups
-                  end
-
-    return user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
-    user_groups
   end
 end
