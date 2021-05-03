@@ -208,10 +208,11 @@ class Ability
     end
   end
 
-  # TODO: Is this missing Agency level permissions?
   def permitted_to_access_record?(user, record)
     if user.group_permission? Permission::ALL
       true
+    elsif user.group_permission? Permission::AGENCY
+      user.agency_id == record.owner.agency_id
     elsif user.group_permission? Permission::GROUP
       allowed_groups = record&.associated_users&.map(&:user_group_ids)&.flatten&.compact
       (user.user_group_ids & allowed_groups).present?
