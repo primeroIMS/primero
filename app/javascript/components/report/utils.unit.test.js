@@ -24,7 +24,19 @@ describe("<Report /> - utils", () => {
             _total: 43
           }
         },
-        fields: [{}],
+        fields: [
+          {
+            name: "owned_by_agency_id",
+            display_name: {
+              en: "Case Manager's Agency"
+            },
+            position: {
+              type: "horizontal",
+              order: 0
+            },
+            option_strings_source: "Agency"
+          }
+        ],
         id: 148,
         filters: [
           {

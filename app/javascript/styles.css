@@ -5,6 +5,10 @@
     font-size: $(theme.typography.pxToRem(15)) !important;
   }
 
+  & div span h4 {
+      font-size: 1.5rem !important;
+    }
+
   & table td span {
 
     & span:first-child {

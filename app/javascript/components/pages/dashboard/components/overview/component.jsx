@@ -13,7 +13,8 @@ import {
   getSharedWithOthers,
   getGroupOverview,
   getCaseOverview,
-  getCaseIncidentOverview
+  getCaseIncidentOverview,
+  getNationalAdminSummary
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
@@ -31,9 +32,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
   const labelsRiskLevel = useMemoizedSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
   const caseIncidentOverview = useMemoizedSelector(state => getCaseIncidentOverview(state));
+  const nationalAdminSummary = useMemoizedSelector(state => getNationalAdminSummary(state));
 
   const overviewDashHasData = Boolean(
-    casesByAssessmentLevel.size || groupOverview.size || caseOverview.size || sharedWithMe.size || sharedWithOthers.size
+    casesByAssessmentLevel.size ||
+      groupOverview.size ||
+      caseOverview.size ||
+      sharedWithMe.size ||
+      sharedWithOthers.size ||
+      nationalAdminSummary.size
   );
 
   const dashboards = [
@@ -71,6 +78,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       options: {
         items: caseOverview,
         sumTitle: i18n.t("dashboard.case_overview"),
+        withTotal: false
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY,
+      options: {
+        items: nationalAdminSummary,
+        sumTitle: i18n.t("dashboard.dash_national_admin_summary"),
         withTotal: false
       }
     },
