@@ -11,7 +11,9 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import AddIcon from "@material-ui/icons/Add";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
+import find from "lodash/find";
+import pull from "lodash/pull";
 
 import {
   buildValues,
@@ -30,7 +32,7 @@ import HeaderValues from "../header-values";
 import DraggableRow from "../draggable-row";
 import styles from "../styles.css";
 import { saveLookup } from "../../action-creators";
-import { SAVE_METHODS } from "../../../../../../config";
+import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
@@ -45,9 +47,15 @@ const Component = ({ mode, lookup }) => {
   const css = useStyles();
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales;
-  const localesKeys = locales.reduce((prev, current) => [...prev, current.id], []);
-  const firstLocaleOption = locales?.[0];
-  const defaultLocale = firstLocaleOption?.id;
+  const localesKeys = [
+    LOCALE_KEYS.en,
+    ...pull(
+      locales.map(locale => locale.id),
+      LOCALE_KEYS.en
+    )
+  ];
+  const firstLocaleOption = find(locales, ["id", LOCALE_KEYS.en]);
+  const defaultLocale = LOCALE_KEYS.en;
   const validationsSchema = validations(i18n);
   const currentLookupValues = lookup.get(LOOKUP_VALUES, fromJS([]));
 
@@ -126,9 +134,8 @@ const Component = ({ mode, lookup }) => {
   const handleAdd = () => setItems([...items, `${TEMP_OPTION_ID}_${items.length}`]);
 
   const renderLookupLocalizedName = () =>
-    !isEmpty(locales) &&
-    locales.map(locale => {
-      const localeID = locale.id;
+    !isEmpty(localesKeys) &&
+    localesKeys.map(localeID => {
       const show = defaultLocale === localeID || selectedOption === localeID;
 
       return (

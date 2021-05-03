@@ -113,7 +113,8 @@ describe("Application - Reducers", () => {
         }
       },
       codesOfConduct,
-      systemOptions
+      systemOptions,
+      exportRequirePassword: true
     });
 
     const action = {
@@ -166,6 +167,7 @@ describe("Application - Reducers", () => {
           age_ranges: {
             primero: ["0..5", "6..11", "12..17", "18..999"]
           },
+          export_require_password: true,
           approvals_labels: {
             closure: {
               en: "Closure",

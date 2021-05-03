@@ -21,6 +21,7 @@ if @extended
       end
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,
+    permitted_role_unique_ids: user.role.permitted_role_unique_ids,
     permitted_form: user.role.form_section_permission,
     filters: [
       Child.parent_form,

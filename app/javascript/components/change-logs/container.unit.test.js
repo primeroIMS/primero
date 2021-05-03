@@ -16,11 +16,9 @@ describe("ChangeLogs - Container", () => {
   const props = {
     handleToggleNav: () => {},
     mobileDisplay: false,
-    record: fromJS({
-      id: "38c82975-99aa-4798-9c3d-dabea104d992",
-      nationality: ["canada", "australia"]
-    }),
-    recordType: "cases"
+    recordID: "38c82975-99aa-4798-9c3d-dabea104d992",
+    recordType: "cases",
+    fetchable: true
   };
   const defaultState = fromJS({
     records: {
@@ -176,5 +174,19 @@ describe("ChangeLogs - Container", () => {
 
   it("renders SubformDialog", () => {
     expect(component.find(SubformDialog)).to.have.lengthOf(1);
+  });
+
+  describe("when filters are selected", () => {
+    it("renders only the selected field names", () => {
+      const selectedForm = "changeLog";
+      const { component: comp } = setupMountedComponent(
+        ChangeLogs,
+        { ...props, selectedForm },
+        defaultState.setIn(["ui", "formFilters", selectedForm], fromJS({ field_names: ["nationality"] })),
+        {}
+      );
+
+      expect(comp.find(ChangeLogItem)).to.have.lengthOf(1);
+    });
   });
 });

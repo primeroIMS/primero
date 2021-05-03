@@ -269,5 +269,19 @@ export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 export const getFieldByName = (state, name) =>
   state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);
 
+export const getFieldsWithNames = (state, names) =>
+  getFields(state)
+    .valueSeq()
+    .filter(field => names.includes(field.name))
+    .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
+
+export const getMiniFormFields = (state, recordType, primeroModule, exclude = []) => {
+  const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false });
+
+  return (recordForms || fromJS([]))
+    .flatMap(form => form.get("fields"))
+    .filter(field => field.show_on_minify_form && !exclude.includes(field.name));
+};
+
 export const getDataProtectionInitialValues = state =>
   state.getIn([NAMESPACE, "dataProtectionInitialValues"], fromJS({}));

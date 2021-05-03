@@ -139,6 +139,7 @@ describe("records - Action Creators", () => {
                   variant: "success"
                 }
               },
+              preventSyncAfterRedirect: true,
               redirect: "/cases",
               redirectWithIdFromResponse: false,
               setCaseIncidentData: ""
@@ -187,6 +188,7 @@ describe("records - Action Creators", () => {
                   variant: "success"
                 }
               },
+              preventSyncAfterRedirect: true,
               redirect: "/cases",
               redirectWithIdFromResponse: false,
               setCaseIncidentData: ""

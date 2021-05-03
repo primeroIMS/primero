@@ -39,5 +39,12 @@ describe("<RecordForm>/form/components - utils", () => {
 
       expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
     });
+
+    it("build label for not_found status", () => {
+      const syncedStatus = SYNC_RECORD_STATUS.not_found;
+      const expected = "sync_record.not_found";
+
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+    });
   });
 });

@@ -22,6 +22,7 @@ class RecordDataService
     data = embed_photo_metadata(data, record, selected_field_names)
     data = embed_attachments(data, record, selected_field_names)
     data = embed_associations_as_data(data, record, selected_field_names, user)
+    data['last_updated_at'] = record.last_updated_at
     embed_computed_fields(data, record, selected_field_names)
   end
 

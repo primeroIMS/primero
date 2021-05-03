@@ -11,7 +11,7 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
 import { headersToColumns } from "../utils";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -86,7 +86,7 @@ const Container = () => {
             <IndexTable title={i18n.t("agencies.label")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

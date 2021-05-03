@@ -429,6 +429,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['id']).to eq(@case1.id)
       expect(json['data']['age']).to eq(10)
       expect(json['data']['sex']).to eq('female')
+      expect(json['data']['last_updated_at']).to be
 
       case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)

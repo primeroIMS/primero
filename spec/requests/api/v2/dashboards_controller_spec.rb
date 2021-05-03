@@ -12,7 +12,10 @@ describe Api::V2::DashboardsController, type: :request do
       reporting_location_config: {
         admin_level: 2,
         field_key: 'owned_by_location'
-      }
+      },
+      changes_field_to_form: {
+        incident_details: 'incident_from_case'
+      },
     )
 
     SystemSettings.current(true)
@@ -81,9 +84,13 @@ describe Api::V2::DashboardsController, type: :request do
         ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
       }
     )
+
+    child.alerts = [Alert.new(record: child, type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)]
+
     incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
     incident.incident_case_id = child.id
     incident.save
+
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',

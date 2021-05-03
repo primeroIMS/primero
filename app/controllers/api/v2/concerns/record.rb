@@ -68,7 +68,8 @@ module Api::V2::Concerns::Record
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
-      params[:record_action]
+      params[:record_action],
+      params[:id_search]
     ).permitted_field_names(write?)
   end
 

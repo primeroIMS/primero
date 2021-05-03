@@ -49,7 +49,8 @@ export const AGE_MAX = 999;
 
 export const MODULES = Object.freeze({
   CP: "primeromodule-cp",
-  GBV: "primeromodule-gbv"
+  GBV: "primeromodule-gbv",
+  MRM: "primeromodule-mrm"
 });
 
 export const MODULE_TYPE_FIELD = "module_id";
@@ -69,6 +70,7 @@ export const NAME_FIELD = "name";
 export const CODE_FIELD = "code";
 export const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 export const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
+export const INCIDENT_SHORT_ID_FIELD = "short_id";
 
 export const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -184,6 +186,8 @@ export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
 export const MODES = {
   edit: "edit",

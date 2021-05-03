@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import { useLocation, useParams, useHistory } from "react-router-dom";
 import clsx from "clsx";
 
+import FormFilters from "../form-filters";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
-import Transitions, { fetchTransitions } from "../transitions";
+import Transitions from "../transitions";
 import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import {
@@ -42,7 +43,6 @@ import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachme
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
 import { getPermittedFormsIds } from "../user/selectors";
-import { fetchChangeLogs } from "../change-logs/action-creators";
 import Summary from "../summary";
 import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
@@ -68,11 +68,14 @@ import { compactValues, getRedirectPath } from "./utils";
 
 const useStyles = makeStyles(styles);
 
-const Container = ({ match, mode }) => {
+const Container = ({ mode }) => {
   let submitForm = null;
   const { theme } = useThemeHelper({ css: styles });
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const { demo } = useApp();
+  const params = useParams();
+  const { state: locationState } = useLocation();
+  const history = useHistory();
 
   const containerMode = {
     isNew: mode === "new",
@@ -84,7 +87,6 @@ const Container = ({ match, mode }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
 
-  const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
@@ -242,19 +244,18 @@ const Container = ({ match, mode }) => {
     batch(() => {
       if (params.id) {
         dispatch(setSelectedRecord(params.recordType, params.id));
-        dispatch(fetchRecord(params.recordType, params.id));
-        dispatch(fetchRecordsAlerts(params.recordType, params.id));
-        if (canSeeChangeLog) {
-          dispatch(fetchChangeLogs(params.recordType, params.id));
-        }
-        if (isNotANewCase) {
-          dispatch(fetchTransitions(params.recordType, params.id));
+
+        if (!locationState?.preventSyncAfterRedirect) {
+          dispatch(fetchRecord(params.recordType, params.id));
+          dispatch(fetchRecordsAlerts(params.recordType, params.id));
         }
       }
       if (isNotANewCase && canRefer) {
         dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
       }
     });
+
+    history.replace(history.location.pathname, {});
   }, [params.id, params.recordType]);
 
   useEffect(() => {
@@ -270,9 +271,10 @@ const Container = ({ match, mode }) => {
   }, []);
 
   const transitionProps = {
+    fetchable: isNotANewCase,
     isReferral: REFERRAL === selectedForm,
     recordType: params.recordType,
-    record: params.id,
+    recordID: params.id,
     showMode: containerMode.isShow,
     mobileDisplay,
     handleToggleNav
@@ -314,10 +316,13 @@ const Container = ({ match, mode }) => {
       [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
       [CHANGE_LOGS]: (
         <ChangeLogs
-          record={record}
+          recordID={params.id}
+          fetchable={canSeeChangeLog}
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
+          primeroModule={selectedModule.primeroModule}
+          selectedForm={selectedForm}
         />
       ),
       [SUMMARY]: (
@@ -377,6 +382,13 @@ const Container = ({ match, mode }) => {
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}
             />
+            <FormFilters
+              selectedForm={selectedForm}
+              recordType={selectedModule.recordType}
+              primeroModule={selectedModule.primeroModule}
+              formMode={containerMode}
+              showDrawer
+            />
           </div>
         </div>
       </LoadingIndicator>
@@ -387,8 +399,7 @@ const Container = ({ match, mode }) => {
 Container.displayName = NAME;
 
 Container.propTypes = {
-  match: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired
 };
 
-export default memo(withRouter(Container));
+export default memo(Container);

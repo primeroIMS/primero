@@ -98,7 +98,7 @@ const sharedUserFields = (
     onClick: onClickChangePassword
   },
   {
-    display_name: i18n.t("user.locale"),
+    display_name: i18n.t("user.language"),
     name: "locale",
     type: SELECT_FIELD,
     option_strings_text: i18n.applicationLocales
@@ -108,7 +108,8 @@ const sharedUserFields = (
     name: "role_unique_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: OPTION_TYPES.ROLE,
+    option_strings_source: OPTION_TYPES.ROLE_PERMITTED,
+    watchedInputs: ["role_unique_id"],
     visible: !hideOnAccountPage
   },
   {
@@ -125,7 +126,7 @@ const sharedUserFields = (
         if (!currentUserGroupPermissions.includes(userGroup.id)) {
           return {
             ...userGroup,
-            disabled: currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+            disabled: userGroup.disabled || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
           };
         }
 
@@ -157,7 +158,10 @@ const sharedUserFields = (
     name: "agency_id",
     type: SELECT_FIELD,
     required: true,
-    option_strings_source: agencyReadOnUsers ? OPTION_TYPES.AGENCY_CURRENT_USER : OPTION_TYPES.AGENCY,
+    option_strings_source:
+      agencyReadOnUsers || currentRoleGroupPermission !== GROUP_PERMISSIONS.ALL
+        ? OPTION_TYPES.AGENCY_CURRENT_USER
+        : OPTION_TYPES.AGENCY,
     watchedInputs: ["agency_id"],
     visible: !hideOnAccountPage
   },

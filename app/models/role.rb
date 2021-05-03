@@ -67,11 +67,13 @@ class Role < ApplicationRecord
       end
     end
 
-    def list(user, external = false)
-      if external
+    def list(user = nil, options = {})
+      if options[:external]
         Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
+      elsif options[:managed]
+        user&.permitted_roles_to_manage || Role.none
       else
-        user.permitted_roles_to_manage
+        Role.all
       end
     end
   end
@@ -93,6 +95,10 @@ class Role < ApplicationRecord
     return [] unless role_permission&.role_unique_ids&.present?
 
     role_permission.role_unique_ids
+  end
+
+  def permitted_dashboard?(dashboard_name)
+    permissions.find { |p| p.resource == Permission::DASHBOARD }&.actions&.include?(dashboard_name)
   end
 
   def dashboards
@@ -165,7 +171,7 @@ class Role < ApplicationRecord
   def associate_all_forms
     forms_by_parent = FormSection.all_forms_grouped_by_parent(true)
     role_module_ids = primero_modules.pluck(:unique_id)
-    permissions_with_forms.map do |permission|
+    permissions_with_forms.each do |permission|
       form_sections << forms_by_parent[permission.resource].reject do |form|
         form_sections.include?(form) || reject_form?(form, role_module_ids)
       end

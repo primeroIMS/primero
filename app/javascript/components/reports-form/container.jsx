@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { ROUTES, SAVE_METHODS } from "../../config";
@@ -30,7 +30,8 @@ import {
   FILTERS_FIELD,
   FORM_ID,
   NAME,
-  REPORT_FIELD_TYPES
+  REPORT_FIELD_TYPES,
+  DATE
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
@@ -48,12 +49,13 @@ const Container = ({ mode }) => {
 
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
-  const allRecordForms = useMemoizedSelector(state => getRecordForms(state, { all: true }));
+  const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
-    ...formatReport(report.toJS())
+    ...formatReport(report.toJS()),
+    ...(formMode.isNew ? { group_dates_by: DATE } : {})
   };
 
   useEffect(() => {
@@ -144,6 +146,7 @@ const Container = ({ mode }) => {
             formID={FORM_ID}
             registerFields={[FILTERS_FIELD]}
             submitAllFields
+            submitAlways
             renderBottom={formMethods => (
               <ReportFilters
                 allRecordForms={allRecordForms}

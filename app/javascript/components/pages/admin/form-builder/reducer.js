@@ -233,8 +233,15 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const fields = subform.get("fields", fromJS([])).map(field => {
         const fieldName = field?.get("name");
+        const mergedField = field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
 
-        return field.mergeDeep(data.getIn(["fields", fieldName], fromJS({})));
+        if (mergedField.get("option_strings_text")) {
+          const newOptionStringsText = fromJS(mergedField.get("option_strings_text")).toSet().toList();
+
+          return mergedField.set("option_strings_text", newOptionStringsText);
+        }
+
+        return mergedField;
       });
 
       const existingSubforms = state.get("subforms", fromJS([]));

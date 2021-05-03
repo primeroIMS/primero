@@ -15,6 +15,7 @@ import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
   const locale = useMemoizedSelector(state => getLocale(state));
+
   const locales = useMemoizedSelector(state => getLocales(state));
 
   const dispatch = useDispatch();
@@ -71,4 +72,5 @@ I18nProvider.propTypes = {
 };
 
 export default I18nProvider;
+
 export { useI18n };

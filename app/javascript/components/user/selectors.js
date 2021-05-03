@@ -26,6 +26,8 @@ export const getListHeaders = (state, resource) => state.getIn([NAMESPACE, LIST_
 
 export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
 
+export const getPermittedRoleUniqueIds = state => state.getIn([NAMESPACE, "permittedRoleUniqueIds"], fromJS({}));
+
 export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "reportingLocationConfig"], fromJS({}));
 
 export const getUser = state => {

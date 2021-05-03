@@ -1,7 +1,7 @@
 import { fromJS, OrderedMap } from "immutable";
 import MUIDataTable, { TableBodyRow } from "mui-datatables";
 
-import { setupMountedComponent } from "../../../test";
+import { setupMountedComponent, stub } from "../../../test";
 import { DashboardChip } from "../../dashboard";
 import { ListHeaderRecord } from "../../user/records";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
@@ -9,7 +9,12 @@ import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import TaskList from "./container";
 
 describe("<TaskList />", () => {
+  let stubI18n = null;
   let component;
+
+  beforeEach(() => {
+    stubI18n = stub(window.I18n, "t").withArgs("date.formats.default").returns("%d-%b-%Y");
+  });
 
   before(() => {
     component = setupMountedComponent(
@@ -48,7 +53,7 @@ describe("<TaskList />", () => {
                 record_type: "case",
                 record_id_display: "726b7db",
                 detail: "c",
-                due_date: "23-Sep-2020",
+                due_date: "2019-09-01",
                 type: "follow_up",
                 type_display: "Follow Up - Follow up for Assessment",
                 upcoming_soon: false,
@@ -198,22 +203,28 @@ describe("<TaskList />", () => {
     const secondRow = table.find("tr").at(2);
     const expectedType = { type: "forms/SET_SELECTED_FORM" };
 
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
 
     // Simulating click on the first row (type=service) should dispatch an action
     firstRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(4);
-    expect(component.props().store.getActions()[2]).to.deep.equals({
+    expect(component.props().store.getActions()).to.have.lengthOf(3);
+    expect(component.props().store.getActions()[1]).to.deep.equals({
       ...expectedType,
       payload: "cp_incident_record_owner"
     });
 
     // Simulating click on the second row (type=case_plan) should dispatch an action
     secondRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(6);
-    expect(component.props().store.getActions()[4]).to.deep.equals({
+    expect(component.props().store.getActions()).to.have.lengthOf(5);
+    expect(component.props().store.getActions()[3]).to.deep.equals({
       ...expectedType,
       payload: "assessment"
     });
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

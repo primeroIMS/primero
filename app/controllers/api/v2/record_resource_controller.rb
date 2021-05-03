@@ -57,7 +57,7 @@ class Api::V2::RecordResourceController < ApplicationApiController
 
   def record_updated_fields(record)
     # We aren't limiting to permitted fields.
-    # So far the fields triggered by resource updates haven't been sensistive
-    record.saved_changes_to_record.keys
+    # So far the fields triggered by resource updates haven't been sensitive
+    record.saved_changes_to_record.keys + ['last_updated_at']
   end
 end
