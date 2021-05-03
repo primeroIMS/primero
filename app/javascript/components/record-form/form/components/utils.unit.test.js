@@ -23,7 +23,7 @@ describe("<RecordForm>/form/components - utils", () => {
 
     beforeEach(() => {
       syncedAt = "2021-02-10T12:50:32";
-      i18n = { t: val => val, l: val => val };
+      i18n = { t: val => val, localizeDate: val => val };
     });
 
     it("build label for synced status", () => {
