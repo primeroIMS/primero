@@ -42,6 +42,7 @@ describe("Verifying config constant", () => {
       "DASH_CASE_RISK",
       "DASH_FLAGS",
       "DASH_GROUP_OVERVIEW",
+      "DASH_NATIONAL_ADMIN_SUMMARY",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
       "DASH_SHARED_FROM_MY_TEAM",
