@@ -11,7 +11,8 @@ describe IncidentCreationService do
         map_to: 'primeromodule-cp',
         fields: [
           { source: 'ethnicity', target: 'ethnicity' },
-          { source: 'protection_concerns', target: 'protection_concerns' }
+          { source: 'protection_concerns', target: 'protection_concerns' },
+          { source: 'national_id_no', target: 'national_id_no' }
         ]
       }
     )
@@ -44,7 +45,8 @@ describe IncidentCreationService do
     Child.create!(
       name: 'Niall McPherson', age: 12, sex: 'male',
       protection_concerns: %w[unaccompanied separated], ethnicity: 'CP Ethnicity',
-      module_id: 'primeromodule-cp', owned_by: user_cp.user_name, owned_by_full_name: user_cp.full_name
+      module_id: 'primeromodule-cp', owned_by: user_cp.user_name, owned_by_full_name: user_cp.full_name,
+      national_id_no: '01'
     )
   end
   let(:case_gbv) do
@@ -59,7 +61,7 @@ describe IncidentCreationService do
     context 'when the module id is specified' do
       context 'and the module has a form mapping' do
         before do
-          @incident = IncidentCreationService.incident_from_case(case_cp, {}, module_cp.unique_id)
+          @incident = IncidentCreationService.incident_from_case(case_cp, { national_id_no: '05' }, module_cp.unique_id)
           @incident.save!
         end
 
@@ -79,6 +81,10 @@ describe IncidentCreationService do
         it 'copies ownership from the case to the new incident' do
           expect(@incident.data['owned_by']).to eq('user_cp')
           expect(@incident.data['owned_by_full_name']).to eq('Test User CP')
+        end
+
+        it 'does not copy a field from the case if the incident contains a value for it' do
+          expect(@incident.data['national_id_no']).to eq('05')
         end
       end
 
