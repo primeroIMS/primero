@@ -10,6 +10,7 @@ describe("<RecordList /> - constants", () => {
       "ALERTS_COLUMNS",
       "DEFAULT_FILTERS",
       "FILTER_CONTAINER_NAME",
+      "ID_COLUMNS",
       "NAME",
       "SEARCH_AND_CREATE_WORKFLOW"
     ].forEach(property => {
