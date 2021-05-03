@@ -107,7 +107,7 @@ describe Transitionable do
 
   describe 'referrals_for_user' do
     before :each do
-      clean_data(Role, User, Referral)
+      clean_data(Role, User, Referral, Agency)
       permissions = Permission.new(
         resource: Permission::CASE,
         actions: [
@@ -115,19 +115,25 @@ describe Transitionable do
           Permission::REFERRAL, Permission::RECEIVE_REFERRAL
         ]
       )
+
+      @agency = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @role_self = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::SELF)
       @role_self.save(validate: false)
       @role_group = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::GROUP)
       @role_group.save(validate: false)
+      @role_agency = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::AGENCY)
+      @role_agency.save(validate: false)
       @role_all = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::ALL)
       @role_all.save(validate: false)
 
       @user_self = User.new(user_name: 'user1', role: @role_self, user_groups: [@group1])
       @user_self.save(validate: false)
-      @user_group = User.create(user_name: 'user2', role: @role_group, user_groups: [@group2, @group1])
+      @user_group = User.create(user_name: 'user2', role: @role_group, user_groups: [@group2, @group1], agency: @agency)
       @user_group.save(validate: false)
       @user_all = User.new(user_name: 'user3', role: @role_all, user_groups: [@group3])
       @user_all.save(validate: false)
+      @user_agency = User.create(user_name: 'user4', role: @role_agency, agency: @agency)
+      @user_agency.save(validate: false)
 
       @case2 = Child.create(data: {
                               name: 'Test', owned_by: 'user2',
@@ -148,7 +154,7 @@ describe Transitionable do
       @referral6 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case2)
       @referral7 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case3)
       @referral8 = Referral.create!(transitioned_by: 'user2', transitioned_to: 'user2', record: @case3)
-      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case3)
+      @referral9 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case3)
     end
 
     describe 'when group permission for the user is "self"' do
@@ -179,6 +185,20 @@ describe Transitionable do
       end
     end
 
+    describe 'when group permission for the user is "agency"' do
+      it 'and the record owner is in my agency' do
+        transitions = @case2.referrals_for_user(@user_agency)
+        expect(transitions.size).to eq(3)
+        expect(transitions.ids).to include(@referral4.id, @referral5.id, @referral6.id)
+      end
+
+      it 'record owner is NOT in my agency I see only transitions where recipient is in one of my agency.' do
+        transitions = @case3.referrals_for_user(@user_agency)
+        expect(transitions.size).to eq(2)
+        expect(transitions.ids).to include(@referral8.id, @referral9.id)
+      end
+    end
+
     describe 'when group permission for the user is "all"' do
       it 'should see all the referrals' do
         transitions = @case.referrals_for_user(@user_all)
@@ -189,11 +209,6 @@ describe Transitionable do
   end
 
   after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, Agency)
   end
 end

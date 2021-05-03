@@ -26,11 +26,14 @@ module Transitionable
     transitions.where(type: Referral.name)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def referrals_for_user(user)
     case user.role.group_permission
     when Permission::SELF
       referrals_self_scope(user)
-    when Permission::AGENCY, Permission::GROUP
+    when Permission::AGENCY
+      referrals_agency_agency_scope(user)
+    when Permission::GROUP
       referrals_agency_group_scope(user)
     when Permission::ALL
       referrals
@@ -38,6 +41,7 @@ module Transitionable
       none
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def transfers
     transitions.where(type: Transfer.name)
@@ -71,14 +75,20 @@ module Transitionable
   end
 
   def referrals_self_scope(user)
-    return referrals if owned_by == user.user_name
+    return referrals if owner?(user)
 
     referrals.where(transitioned_to: user.user_name)
   end
 
   def referrals_agency_group_scope(user)
-    return referrals if (owner.user_group_unique_ids & user.user_group_unique_ids).present?
+    return referrals if owner?(user) || (owner.user_group_unique_ids & user.user_group_unique_ids).present?
 
     referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name))
+  end
+
+  def referrals_agency_agency_scope(user)
+    return referrals if owner?(user) || user.agency_id == owner.agency_id
+
+    referrals.where(transitioned_to: User.by_agency(user.agency_id).pluck(:user_name))
   end
 end
