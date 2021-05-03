@@ -12,7 +12,7 @@ class UserGroup < ApplicationRecord
  
   class << self
     def list(user, opts = {})
-    user_groups = if opts[:managed].blank? || user.role.group_permission == Permission::ALL
+    user_groups = if user.role.group_permission == Permission::ALL || !opts[:managed]
                     UserGroup.all
                   else
                     user.user_groups
