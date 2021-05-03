@@ -6,7 +6,7 @@ class BulkExportJob < ApplicationJob
 
   def perform(bulk_export_id, encrypted_password)
     bulk_export = BulkExport.find_by(id: bulk_export_id)
-    password = ZipService.require_password? ? EncryptionService.decrypt(encrypted_password) : ''
+    password = EncryptionService.decrypt(encrypted_password)
     return log_bulk_export_missing(bulk_export_id) unless bulk_export.present?
 
     bulk_export.export(password)
