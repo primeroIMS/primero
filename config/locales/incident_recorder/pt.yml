@@ -4,11 +4,11 @@ pt:
       export_incident_recorder_xls: "Exportar registro de incidente xls"
   exports:
     incident_recorder_xls:
-      all: Registro de incidente
-      one: Registro de incidente
-      selected: Selecionado para Registro de Incidente
-      'yes': "Sim"
-      'no': "Não"
+      all:  Registro de incidente
+      one:  Registro de incidente
+      selected:  Selecionado para Registro de Incidente
+      "yes": "Sim"
+      "no": "Não"
       gender:
         male: "M"
         female: "F"
@@ -24,6 +24,8 @@ pt:
         both: "Adulto e Menor"
         unknown: "Desconhecido"
         header: "TIPO DE IDADE DO SUPOSTO INFRATOR"
+      service_referral:
+        undecided: ""
       headers:
         incident_id: "IDENTIFICAÇÃO DO INCIDENTE"
         survivor_code: "CÓDIGO DE SOBREVIVENTE"

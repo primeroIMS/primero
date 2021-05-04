@@ -1,19 +1,47 @@
+# encoding: utf-8
+#
+# This is the English localization file for Primero.  It is based on the sample
+# English localization file found in the repository linked below[1].
+#
+# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://github.com/svenfuchs/rails-i18n/
+# [2] https://yamllint.readthedocs.io/en/stable/
+
+
+---
 th:
   'true': 'ใช่'
   'false': 'ไม่ใช่'
+  accepted: Accepted
   cancel: ยกเลิก
   connection_lost: ขณะนี้กำลังอยู่ในโหมดออฟไลน์
   connected: เชื่อมต่อแล้ว
   clear: ล้างค่า
+  sandbox_ui: ระบบทดลอง
   description: รายละเอียด
   form: แบบฟอร์ม
   name: ชื่อ
   offline: ออฟไลน์
+  unavailable_offline: ไม่สามารถใช้ได้ในการทำงานแบบปิดการเชื่อมต่อ (โหมดออฟไลน์)
+  online: การทำงานแบบเชื่อมต่อ (โหมดออนไลน์)
   yes_label: 'ใช่'
+  or_label: หรือ
+  select_provider: เลือกผู้ให้บริการ
+  log_in_primero_idp: "เข้าสู่ระบบด้วยบัญชีรายชื่อชื่อ %{idp_name}"
+  offline_submitted_changes: ท่านกำลังทำงานอยู่ในระบบปิดการเชื่อมต่อ (โหมดออฟไลน์) ข้อมูลที่เปลี่ยนแปลงจะถูกอัพโหลดไปยังระบบหลักเมื่อมีการเปิดการเชื่อมต่อ (โหมดออนไลน์)
+  updated: Updated
+  sync:
+    success: "ข้อมูลจำนวน %{records} รายการได้ทำการปรับปรุงสำเร็จแล้ว"
+    error:
+      create: "พบปัญหาในการสร้างรายการ %{record_type}. กรุณาติดต่อผู้ดูแลระบบ."
+      update: "ทำการเปลี่ยนแปลงข้อมูลรายการ %{record_type} %{short_id} ไม่สำเร็จ. กรุณาติดต่อผู้ดูแลระบบ."
+
   actions:
     approvals: การอนุมัติ
     button: ดำเนินการ
-    close: 'ปิด '
+    close: "ปิด "
     description:
       invalid: บันทึกไม่ถูกต้อง
       valid: บันทึกถูกต้อง
@@ -33,19 +61,30 @@ th:
   agencies:
     label: หน่วยงาน
   agency:
-    agency_logos: 'โลโก้หน่วยงาน '
+    agency_logos: "โลโก้หน่วยงาน "
     code: รหัสหน่วยงาน
     description: รายละเอียด
     disabled: ปิดการใช้งาน
+    exclude_agency_from_lookups: ไม่แสดงชื่อหน่วยงานนี้เมื่อใช้ฟังก์ชันการค้นหาและกรองข้อมูล
+    exclude_agency_from_lookups_help: "Check this if the Agency doesn’t have users (e.g., the Agency was added so the logo could be applied to exports."
     label: หน่วยงาน
+    logo_enabled: "Display this agency’s logo in Primero?"
+    logo_enabled_help: "Display this agency’s logo in Primero?"
     logo_icon: สัญลักษณ์ไอคอน
     logo_icon_help: ส่วนนี้จะแสดงบนหน้าจอขนาดเล็ก แท้ปเลท และโทรศัพท์มือถือ ควรมีลักษณะเป็นสี่เหลี่ยมจัตุรัส
     logo_large: โลโก้ขนาดใหญ่
+    logo_large_help: "This will appear on large screen sizes and in PDF exports. This should be a rectangle, with the length longer than the height."
     messages:
       created: ทำการสร้างข้อมูลหน่วยงานสำเร็จ
       updated: ทำการปรับปรุงข้อมูลหน่วยงานสำเร็จ
     name: ชื่อหน่วยงาน
+    pdf_logo_option: "Make logo available for PDF exports?"
+    pdf_logo_option_help: 'Note:  user’s Agency logos are available to them by default, so you only check this if you want this logo to be available to all users.'
     services: บริการของหน่วยงาน
+    terms_of_use: Terms of Use
+    terms_of_use_help: Only PDF files permitted.
+    terms_of_use_download_button: Download PDF
+    terms_of_use_enabled: "Display Terms of Use?"
   approvals:
     approved_by: อนุมัติโดย
     case_plan_type_label: ประเภทของแผนการดำเนินงาน
@@ -75,6 +114,11 @@ th:
     retry: การส่งออกไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง
     started_on: เริ่ม
     status: สถานะ
+  form_export:
+    label: Export Form Configuration
+    include_hidden: "Include hidden forms and fields?"
+    file_name: Create your own file name (Optional)
+    success_message: Successfully generated the export file
   buttons:
     accept: ยอมรับ
     add: เพิ่ม
@@ -85,20 +129,22 @@ th:
     approve_action_plan: อนุมัติแผนปฏิบัติงาน
     approve_bia: อนุมัติ BIA
     approve_case_plan: อนุมัติแผนการดำเนินงาน
-    approve_closure: 'อนุมัติการยุติบริการ '
+    approve_closure: "อนุมัติการยุติบริการ "
     approve_gbv_closure: อนุมัติการยุติบริการประเด็นการใช้ความรุนแรงบนฐานเพศ
     back: ย้อนกลับ
     bundle_export: ชุดการกำหนดค่า
     bundle_import: ชุดการกำหนดค่า
     cancel: ยกเลิก
     change_password: เปลี่ยนรหัสผ่าน
+    check_status: Check Status
     clear_default: ล้างค่าเบื้องต้น
     clear_selection: ล้างการเลือก
-    close: 'ปิด '
+    clear: Clear
+    close: "ปิด "
     continue: ต่อเนื่อง
     create_case: สร้างเคส
     create_incident: สร้างบันทึกการแจ้งเหตุ
-    create_new_record: สร้าง %{model}ใหม่
+    create_new_record: "สร้าง %{model}ใหม่"
     delete: ลบทิ้ง
     disable: ปิดการใช้งาน
     disable_photo_wall: ปิดการใช้งานผนังภาพ
@@ -114,7 +160,7 @@ th:
     filter_label: 'ตัวกรอง:'
     filter_restore: กู้คืนการตั้งค่าระบบ
     find_tracing_match: ค้นหาเพื่อจับคู่ที่ตรงกัน
-    flag_model: ทำสัญลักษณ์ "สำคัญ" สำหรับ %{model}
+    flag_model: "ทำสัญลักษณ์ \"สำคัญ\" สำหรับ %{model}"
     flag_records: ทำสัญลักษณ์ "สำคัญ"
     flags: รายการที่มีสัญลักษณ์ "สำคัญ"
     guidance: คำแนะนำเบื้องต้น
@@ -125,6 +171,7 @@ th:
     mark_for_mobile: เลือกสำหรับการใช้งานบนมือถือ
     new: ใหม่
     ok: ตกลง
+    print: Print
     reassign: มอบหมาย
     referral: ส่งต่อ
     referral_again: ส่งต่ออีกครั้ง
@@ -137,27 +184,47 @@ th:
     save: บันทึก
     save_and_add_service_provision: บันทึกและเพิ่มการจัดบริการ
     save_and_return: บันทึกและย้อนกลับ
+    save_continue: Save and Continue
     save_changes: บันทึกการเปลี่ยนแปลง
     select: เลือก
+    send: Send
     sort_by_case: เคส
     sort_by_tr: คำร้องขอให้มีการติดตามตัว
+    sync: Sync
     submit: ส่งข้อมูล
     transfer: ส่งมอบเคส
-    unflag_model: ยกเลิกสัญลักษณ์ "สำคัญ" สำหรับ %{model}
-    unflag_model_history: ประวัติการทำสัญลักษณ์ "สำคัญ"%{model}
+    unflag_model: "ยกเลิกสัญลักษณ์ \"สำคัญ\" สำหรับ %{model}"
+    unflag_model_history: "ประวัติการทำสัญลักษณ์ \"สำคัญ\"%{model}"
     unmark_for_mobile: ยกเลิกการเลือกสำหรับการใช้งานบนมือถือ
     update: ปรับปรุงข้อมูล
     view: แสดงผล
     view_flags_history: แสดงประวัติ
+    return_to_case: Return to Case
+
   case:
+    label: Case
     create_new_case: สร้างเคสใหม่
     enter_id_number: ใส่เลขประจำตัวเพื่อค้นหาบันทึกที่มีอยู่แล้ว
-    id_search_no_results: ไม่เจอข้อมูลที่ตรงกันในระบบสำหรับ %{search_query} กรุณาสร้างใหม่
+    id_search_no_results: "ไม่เจอข้อมูลที่ตรงกันในระบบสำหรับ %{search_query} กรุณาสร้างใหม่"
     messages:
+      disabled: Case is disabled
       update_success: 'ได้ปรับปรุงข้อมูลเคสสำเร็จแล้ว%{record_id}'
       update_success_queue: 'ได้ปรับปรุงข้อมูลเคสใน background สำเร็จแล้ว %{record_id}'
       creation_success: 'สร้างบันทึกสำหรับเคสสำเร็จแล้ว'
       creation_success_queue: 'สร้างบันทึกสำหรับเคสใน background สำเร็จแล้ว '
+      already_matched: This Inquirer has already been matched to your case.
+      already_matched_not_current_case: There is already a case in the system matched to this inquirer.
+      not_found_case: "No Case found matching \"%{search_value}\". Create a new Case."
+      introductory_sentence: Please specify the individual’s consent to receive case management services and for their data to be stored in Primero.
+      consent_agreements_required: Please select at least one option from consent agreements.
+      legitimate_basis_required: Please select at least one option from legitimate basis classifications.
+    save: Save Case
+    save_text: "Before continuing, please save your changes to the Case."
+    skip_and_create: Skip and Create New Case
+    search_existing: Search existing cases
+    search_helper_text: "Why? To prevent creation of duplicate cases."
+    consent_agreements: Select all consent agreements that apply
+    legitimate_basis: Select all legitimate basis clasifications that apply
     workflow:
       assessment: การประเมิน
       case_plan: แผนการดำเนินงานสำหรับเคสนี้
@@ -196,8 +263,10 @@ th:
     close_success: ปิดเคสสำเร็จ
     closure: ยุติบริการ
     date_of_birth: วันเดือนปีเกิด
+    disable_dialog: Clicking OK will change the status of this case to Disabled.
     disable_dialog_title: ปิดการใช้งานข้อมูลเคส
     disable_success: ปิดการใช้งานข้อมูลเคสสำเร็จแล้ว
+    enable_dialog: Clicking OK will change the status of this case to Enabled.
     enable_dialog_title: เปิดการใช้งานข้อมูลเคส
     enable_success: เปิดการใช้งานข้อมูลเคสสำเร็จแล้ว
     export: ส่งออกข้อมูล
@@ -215,13 +284,13 @@ th:
         approved: อนุมัติแล้ว
         pending: รอการอนุมัติ
         rejected: ไม่อนุมัติ
-      bia: 'ประเมินบนหลักประโยชน์สูงสุด '
+      bia: "ประเมินบนหลักประโยชน์สูงสุด "
       by_date: ภายในวันที่
       case_open_date: วันเปิดเคส
       case_plan: แผนการดำเนินงานสำหรับเคสนี้
       closed: ปิดสำเร็จ
       closure: ยุติบริการ
-      current_location: 'ที่อยู่ปัจจุบัน: '
+      current_location: "ที่อยู่ปัจจุบัน: "
       date: วันที่
       displacement_status: สถานภาพการย้ายถิ่น
       district: อำเภอ
@@ -229,21 +298,21 @@ th:
       enabled_disabled: เปิดการทำงาน / ปิดการทำงาน
       female: หญิง
       flag: ได้ทำสัญลักษณ์ "สำคัญ" แล้ว
-      flag_label: ได้ทำสัญลักษณ์ "สำคัญ" หรือไม่?
+      flag_label: "ได้ทำสัญลักษณ์ \"สำคัญ\" หรือไม่?"
       gbv_closure: ยุติบริการประเด็นการใช้ความรุนแรงบนฐานเพศ
       high: สูง
       low: ต่ำ
       male: ชาย
       medium: ปานกลาง
       mobile: โทรศัพท์มือถือ
-      mobile_label: เลือกสำหรับการใช้งานบนมือถือ?
+      mobile_label: "เลือกสำหรับการใช้งานบนมือถือ?"
       my_cases: เคสในความรับผิดชอบของฉัน
       no_action: ไม่มีการดำเนินการ
       no_activity: ไม่มีกิจกรรม
       open: เปิด
       other: อื่นๆ
       photo: รูปภาพ
-      photo_label: มีรูปภาพหรือไม่?
+      photo_label: "มีรูปภาพหรือไม่?"
       protection_concerns: ประเด็นที่ต้องได้รับการคุ้มครอง
       protection_status: สถานะการให้การคุ้มครอง
       record_state: สถานะของการบันทึก
@@ -254,7 +323,7 @@ th:
       social_worker: ผู้ปฏิบัติงานในพื้นที่/ ผู้ดูแลเคส/ นักสังคมสงเคราะห์
       status: สถานะปัจจุบัน
       transferred: ทำการส่งมอบเคสแล้ว
-      type_of_risk: 'ประเภทของความเสี่ยง:'
+      type_of_risk: "ประเภทของความเสี่ยง:"
       urgent_protection_concern: ประเด็นที่ต้องได้รับการคุ้มครองเร่งด่วน
       user_group: กลุ่มผู้ใช้งาน
       workflow: เคสแยกตามขั้นตอนการทำงาน
@@ -277,11 +346,17 @@ th:
       name: ชื่อ
     owned_by: เจ้าของบันทึก
     owned_by_agency: หน่วยงานเจ้าของบันทึก
+    photo: Photo
     photos: รูปภาพ
     quick_view:
       tracing_message: 'บันทึกข้อความ: มีบันทึกในระบบว่ามีคนตามหาเด็กคนนี้ ติดต่อนักสังคมสงเคราะห์ที่ดูแลบันทึกนี้เพื่อดำเนินการต่อหากเป็นความประสงค์ของเด็ก'
     referral_done: เมื่อกด 'เสร็จสิ้น' เป็นการยืนยันว่าคุณได้ทำการส่งต่อความเป็นเจ้าของเคสเรียบร้อยแล้ว ซึ่งจะทำให้คุณไม่สามารถเข้าถึงข้อมูลเคสนี้ได้อีกต่อไป
     referral_done_success: ทำการส่งต่อเสร็จสมบูรณ์
+    referral_accepted_header: Accept Referral
+    referral_accepted: "Are you sure? You will now be responsible for completing work associated with this Referral."
+    referral_accepted_success: Referral accepted.
+    referral_rejected: By clicking 'Reject' you are indicating that you are not ready to accept responsibility for this Referral at this time. Please enter a reason that you are rejecting this Referral; once you click ‘Reject’ you will no longer have access to this Case record.
+    referral_rejected_success: Referral rejected.
     register_new_case: เคสใหม่
     registration_date: วันที่ลงทะเบียน
     rejected_success_action_plan: '%{approval_label} ไม่อนุมัติ'
@@ -295,34 +370,70 @@ th:
     reopen_success: เปิดการทำงานของเคสสำเร็จ
     request_approval_failure: เกิดข้อผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
     request_approval_select: ร้องขอการอนุมัติสำหรับ
-    request_approval_success_action_plan: 'แบบฟอร์มขออนุมัติ%{approval_label} '
-    request_approval_success_assessment: 'แบบฟอร์มขออนุมัติ%{approval_label} '
-    request_approval_success_case_plan: 'แบบฟอร์มขออนุมัติ%{approval_label} '
-    request_approval_success_closure: 'แบบฟอร์มขออนุมัติ%{approval_label} '
-    request_approval_success_gbv_closure: 'แบบฟอร์มขออนุมัติ%{approval_label} '
+    request_approval_success_action_plan: "แบบฟอร์มขออนุมัติ%{approval_label} "
+    request_approval_success_assessment: "แบบฟอร์มขออนุมัติ%{approval_label} "
+    request_approval_success_case_plan: "แบบฟอร์มขออนุมัติ%{approval_label} "
+    request_approval_success_closure: "แบบฟอร์มขออนุมัติ%{approval_label} "
+    request_approval_success_gbv_closure: "แบบฟอร์มขออนุมัติ%{approval_label} "
     request_approval_type_of_case_plan: ประเภทของการอนุมัติแผนการดำเนินงาน
-    request_approve_action_plan: อนุมัติแผนปฏิบัติงานหรือไม่?
-    request_approve_bia: อนุมัติผลการประเมินหรือไม่?
-    request_approve_case_plan: อนุมัติแผนการดำเนินงานหรือไม่?
-    request_approve_closure: อนุมัติการยุติบริการหรือไม่?
-    request_approve_gbv_closure: อนุมัติเพื่อยุติบริการกรณีความรุนแรงบนฐานเพศหรือไม่?
-    revoke_failure: เกิดข้อผิดพลาดขณะเพิกถอน%{transition_type} กรุณาติดต่อผู้ดูแลระบบ
-    revoke_message: เมื่อกดปุ่ม 'เพิกถอน' จะมีการยกเลิก %{transition_type} และ สิทธิของผู้รับในการเข้าถึงข้อมูลเคส
-    revoke_success_message: เคส %{case_id} %{transition_type} ของ %{recipient_username} ถูกเพิกถอนแล้ว
+    request_approve_action_plan: "อนุมัติแผนปฏิบัติงานหรือไม่?"
+    request_approve_bia: "อนุมัติผลการประเมินหรือไม่?"
+    request_approve_case_plan: "อนุมัติแผนการดำเนินงานหรือไม่?"
+    request_approve_closure: "อนุมัติการยุติบริการหรือไม่?"
+    request_approve_gbv_closure: "อนุมัติเพื่อยุติบริการกรณีความรุนแรงบนฐานเพศหรือไม่?"
+    revoke_failure: "เกิดข้อผิดพลาดขณะเพิกถอน%{transition_type} กรุณาติดต่อผู้ดูแลระบบ"
+    revoke_message: "เมื่อกดปุ่ม 'เพิกถอน' จะมีการยกเลิก %{transition_type} และ สิทธิของผู้รับในการเข้าถึงข้อมูลเคส"
+    revoke_success_message: "เคส %{case_id} %{transition_type} ของ %{recipient_username} ถูกเพิกถอนแล้ว"
     save_filter: บันทึก
-    selected_all_records: เลือกเคสทั้งหมดจำนวน %{total_records} ที่ตรงกับเงื่อนไข.
+    selected_all_records: "เลือกเคสทั้งหมดจำนวน %{total_records} ที่ตรงกับเงื่อนไข."
     selected_records: 'เลือก %{select_records} เคส'
     sex: เพศ
     show_case: 'หมายเลขเคส: %{short_id}'
     social_worker: นักสังคมสงเคราะห์
     status: สถานะ
+    summary:
+      label: Summary
+      find_match: Find Match
+      matched_trace: 'Match #%{trace_id}'
+      cannot_find_matches: Cannot find matches. Consent has not been obtained from this Case to disclose information for tracing purposes.
+      matched: Matched
+      fields:
+        consent_for_tracing:
+          label: Consent has been obtained to disclose information for tracing purposes
+          help_text: "If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests."
+        wishes_child_family_tracing:
+          label: "Does child want to trace family members?"
+        wishes_reunification:
+          label: "Does the child want family reunification?"
+          options:
+            yes_as_soon_as_possible: "Yes, as soon as possible"
+            yes_but_later: "Yes, but later"
+            not_sure: Not sure
+            'no': 'No'
+        data_confidentiality_link:
+          label: See Data Confidentiality
+        child_wishes_link:
+          label: See Child's Wishes
     survivor_code: รหัสผู้รอดชีวิต
     transfer_accepted: เมื่อกด 'ยอมรับ' คุณได้ยอมรับเคสนี้ไปอยู่ภายใต้การดูแล ทันทีที่คุณกด 'ยอมรับ' ชื่อของคุณจะปรากฎเป็นเจ้าของเคสนี้ในระบบ
-    transfer_accepted_rejected: 'ปฏิเสธการส่งมอบเคส %{record_id}  '
+    transfer_accepted_rejected: "ปฏิเสธการส่งมอบเคส %{record_id}  "
     transfer_accepted_success: ยอมรับการส่งมอบเคสโดยสมบูรณ์
     transfer_reject_reason_label: เหตุผลในการปฏิเสธ
     transfer_rejected: เมื่อกด 'ปฏิเสธ' แสดงว่าคุณไม่พร้อมที่จะรับผิดชอบเคสนี้ในขณะนี้ โปรดให้เหตุผลที่คุณปฏิเสธเคสนี้ เมื่อคุณกด "ปฏิเสธ" คุณจะไม่สามารถเข้าถึงข้อมูลเคสนี้ได้อีก
     view_name: แสดงชื่อ
+  change_logs:
+    filters:
+      form: ""
+      field: ""
+    add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
+    changes_subform: 'Changes to “%{subform_name}” subform'
+    create: Created record
+    deleted_subform: 'Removed “%{subform_name}” subform entry #%{short_id}'
+    label: Change Log
+    see_details: See Details.
+    change: 'from “%{from_value}” to “%{to_value}”'
+    updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
+    update_subform: 'Updated “%{subform_name}” subform'
   children:
     selectable_date_options:
       assessment_requested_on: วันที่ทำการประเมิน
@@ -332,8 +443,11 @@ th:
       date_of_creation: วันที่สร้างเคส
       registration_date: วันที่ลงทะเบียน
   configurations:
-    apply_label: คุณแน่ใจหรือไม่ที่จะเปลี่ยนแปลงการตั้งค่า? การตั้งค่าใหม่นี้จะถูกนำไปใช้กับระบบ คุณจะสูญเสียการตั้งค่าปัจจุบันทั้งหมดของคุณ ซึ่งไม่สามารถเรียกคืนได้ ยกเว้นแต่คุณจะได้บันทึกไว้ในการตั้งค่าอื่นแล้ว
+    apply_label: "คุณแน่ใจหรือไม่ที่จะเปลี่ยนแปลงการตั้งค่า? การตั้งค่าใหม่นี้จะถูกนำไปใช้กับระบบ คุณจะสูญเสียการตั้งค่าปัจจุบันทั้งหมดของคุณ ซึ่งไม่สามารถเรียกคืนได้ ยกเว้นแต่คุณจะได้บันทึกไว้ในการตั้งค่าอื่นแล้ว"
     apply_label_bold: ระบบจะไม่สามารถใช้งานได้ชั่วคราวในขั้นตอนการเปลี่ยนการตั้งค่า
+    version_mismatch_tooltip: "You cannot apply this configuration, since it was created using a higher version of Primero than the one your site is running. Please wait to apply this configuration until you are running the latest version of Primero."
+    send_header: Send to Production
+    send_text: "Are you sure? If you click Send, you will send this configuration to your Production site. This configuration will not be applied on Production until an administrator on that site manually applies it."
     attributes:
       created_by: สร้างโดย
       date_created: วันที่สร้าง
@@ -341,8 +455,9 @@ th:
       last_applied_by: ปรับปรุงครั้งล่าสุดโดย
       last_applied_on: ปรับปรุงครั้งล่าสุดวันที่
       name: ชื่อ
-      version: เวอร์ชัน
-    delete_label: คุณแน่ใจหรือไม่ว่าต้องการทำต่อ? เนื่องจากการเปลี่ยนแปลงจะมีผลกระทบถึงการตั้งค่าที่เคยเป็นค่าเริ่มต้นทั้งหมดจากเริ่มการตั้งค่า และคุณจะไม่สามารถย้อนกลับและกู้คืนการตั้งค่าเหล่านี้ได้หลังจากลบการกำหนดค่านี้
+      version: Configuration Version
+      primero_version: Primero Version
+    delete_label: "คุณแน่ใจหรือไม่ว่าต้องการทำต่อ? เนื่องจากการเปลี่ยนแปลงจะมีผลกระทบถึงการตั้งค่าที่เคยเป็นค่าเริ่มต้นทั้งหมดจากเริ่มการตั้งค่า และคุณจะไม่สามารถย้อนกลับและกู้คืนการตั้งค่าเหล่านี้ได้หลังจากลบการกำหนดค่านี้"
     explanation: 'การกด ''บันทึก'' จะทำการสร้างบันทึกของการตั้งค่าและการกําหนดค่าปัจจุบัน (ตัวอย่างเช่น บทบาท, หน่วยงาน, แบบฟอร์ม) ณ เวลานี้ และหลังจากที่คุณบันทึก คุณสามารถส่งต่อการเปลี่ยนแปลงเหล่านี้ไปยังระบบ Primero สำรอง ซึ่งถ้าในอนาคต คุณเกิดต้องการยกเลิกการเปลี่ยนแปลงการตั้งค่า คุณสามารถใช้บันทึกการตั้งค่านี้เพื่อเรียกคืนการเปลี่ยนแปลงการตั้งค่าทั้งหมดที่คุณได้ทำไว้ ณ เวลานี้'
     label: การตั้งค่า
     label_new: การตั้งค่าใหม่
@@ -351,6 +466,7 @@ th:
       created: สร้างการตั้งค่าสำเร็จแล้ว
       deleted: ลบการตั้งค่าสำเร็จแล้ว
       updated: เปลี่ยนแปลงการตั้งค่าสำเร็จแล้ว
+      sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: ไม่ได้รับอนุญาต
     unavailable_server: เซอร์เวอร์ไม่สามารถทำงานได้ในเวลานี้
   contact:
@@ -367,9 +483,17 @@ th:
       system_version: เวอร์ชันของระบบ
     info_label: ข้อมูลการติดต่อ
     updated: ปรับปรุงข้อมูลการติดต่อสำเร็จแล้ว
+  code_of_conduct:
+    field:
+      title: Title
+      content: Content
+      created_on: Created on
+      created_by: Created by
+    info_label: Code of Conduct
+    updated: Code of Conduct was successfully updated.
   dashboard:
     activity: กิจกรรม
-    admin_only: คลิกที่ %{links} เพื่อปรับเปลี่ยนในแอปพลิเคชัน
+    admin_only: "คลิกที่ %{links} เพื่อปรับเปลี่ยนในแอปพลิเคชัน"
     all_cases: เคสทั้งหมด
     all_services_implemented: ดำเนินการจัดบริการทั้งหมดแล้ว
     and: 'และ'
@@ -402,6 +526,8 @@ th:
     approved: ได้รับการอนุมัติ
     assessment: การประเมิน
     awaiting_acceptance: อยู่ระหว่างรอการตอบรับ
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: New & Updated
     case_id: 'หมายเลขประจำตัวเคส'
     case_management_service: การจัดการให้บริการรายกรณี
     case_overview: เคสในการดูแลของฉัน
@@ -428,27 +554,28 @@ th:
     count_new_closure_approvals:
       other: '%{stat} <span>%{stat_type}</span>การอนุมัติใหม่'
     count_pending_approval_total:
-      other: คุณมี%{stat} <span>อยู่ระหว่างรอ %{stat_type}</span>การอนุมัติ
+      other: 'คุณมี%{stat} <span>อยู่ระหว่างรอ %{stat_type}</span>การอนุมัติ'
     count_pending_transfers:
-      other: คุณมี%{stat} <span>อยู่ระหว่างรอ</span>การส่งมอบ
+      other: 'คุณมี%{stat} <span>อยู่ระหว่างรอ</span>การส่งมอบ'
     count_records_new:
       other: และ %{stat} <span>ใหม่</span>เคส
     count_records_total:
-      other: คุณมี %{stat} <span>รวมทั้งหมด</span>เคส
+      other: 'คุณมี %{stat} <span>รวมทั้งหมด</span>เคส'
     count_referrals_new:
       other: และมี %{stat} <span>ใหม่ </span> ส่งต่อ
     count_referrals_total:
-      other: คุณมี %{stat} <span>รวมทั้งหมด</span> การส่งต่อ
+      other: 'คุณมี %{stat} <span>รวมทั้งหมด</span> การส่งต่อ'
     count_rejected_approval_total:
-      other: และ %{stat} <span> ไม่อนุมัติ%{stat_type}</span>
+      other: 'และ %{stat} <span> ไม่อนุมัติ%{stat_type}</span>'
     count_rejected_transfers:
-      other: และ%{stat} <span>ปฏิเสธ</span>การส่งมอบ
+      other: 'และ%{stat} <span>ปฏิเสธ</span>การส่งมอบ'
     count_risk_level_new:
       other: และ %{stat} <span>ใหม่</span> <span>%{stat_type} ความเสี่ยง </span> เคส
     count_risk_level_total:
-      other: คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> เคส
-    count_waiting_for_acceptance_transfers: คุณมีเคส %{stat}การส่งมอบ <span>รอ</span> การตอบรับ
+      other: 'คุณมี %{stat} <span>%{stat_type} ความเสี่ยง </span> เคส'
+    count_waiting_for_acceptance_transfers: "คุณมีเคส %{stat}การส่งมอบ <span>รอ</span> การตอบรับ"
     current_owner: เจ้าของปัจจุบัน
+    dash_case_incident_overview: My Cases
     dash_group_overview: เคสที่อยู่ในการดูแลของกลุ่มฉัน
     dash_shared_from_my_team: ส่งมาจากทีมของฉัน
     dash_shared_with_me: ส่งมาให้ฉัน
@@ -462,6 +589,7 @@ th:
     flagged_by: 'ทำสัญลักษณ์ "สำคัญ" โดย'
     flagged_by_me: ทำสัญลักษณ์ "สำคัญ" โดยตัวฉันเอง
     flagged_by_other: ทำสัญลักษณ์ "สำคัญ" โดยผู้อื่น
+    flagged_cases: Flagged Cases
     follow_up: ติดตาม
     forms: แท็บ "แบบฟอร์ม"
     geographic_area: พื้นที่ทางภูมิศาสตร์
@@ -479,11 +607,11 @@ th:
     low_level: ต่ำ
     low_risk: ความสำคัญระดับต่ำ
     manager_count_closed_total:
-      other: และ%{stat} <span>ยุติ</span>เคส
+      other: 'และ%{stat} <span>ยุติ</span>เคส'
     manager_count_open_total:
-      other: คุณมี%{stat} <span>เปิด</span>เคส
+      other: 'คุณมี%{stat} <span>เปิด</span>เคส'
     manager_transfers_totals:
-      other: คุณมี%{stat} <span>%{stat_type}</span>การส่งมอบ
+      other: 'คุณมี%{stat} <span>%{stat_type}</span>การส่งมอบ'
     match_result: ผลลัพธ์การจับคู่
     medium_level: ปานกลาง
     medium_risk: ความสำคัญระดับปานกลาง
@@ -531,7 +659,7 @@ th:
     range8_12: 8-12
     recent_activities: กิจกรรมล่าสุด
     recently_flagged_child: เคสที่เพิ่งจะถูกทำสัญลักษณ์ "สำคัญ"
-    recently_flagged_incident: 'การแจ้งเหตุที่เพิ่งจะถูกทำสัญลักษณ์ "สำคัญ" '
+    recently_flagged_incident: "การแจ้งเหตุที่เพิ่งจะถูกทำสัญลักษณ์ \"สำคัญ\" "
     referrals_by_social_worker: ส่งต่อโดยนักสังคมสงเคราะห์
     registration: ลงทะเบียน
     rejected: ไม่อนุมัติ
@@ -564,11 +692,13 @@ th:
     users: ไอคอน "การตั้งค่า"
     violence_type: ประเภทของความรุนแรง
     with_incidents: มีการแจ้งเหตุ
+    with_new_incidents: With New Incidents
     without_incidents: ไม่มีการแจ้งเหตุ
     worker_count_referrals_total:
-      other: <span>%{case_worker}</span>มีการส่งต่อ %{stat} <span>รวมทั้งหมด</span>
+      other: '<span>%{case_worker}</span>มีการส่งต่อ %{stat} <span>รวมทั้งหมด</span>'
     worker_count_total:
-      other: <span>%{case_worker}</span>มี%{stat} <span>รวม</span>เคส
+      other: '<span>%{case_worker}</span>มี%{stat} <span>รวม</span>เคส'
+    workflow: Workflow
     workflow_team: ขั้นตอนการทำงานสำหรับเคสที่ดำเนินการเป็นทีม
     you_have: 'คุณมี'
   disabled:
@@ -601,19 +731,26 @@ th:
     password_extra_info: รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร รหัสผ่านนี้จะใช้เพื่อเปิดไฟล์ที่ส่งออก
     password_label: กรุณาใส่รหัสผ่านเพื่อเข้าไฟล์
   error_message:
-    address_fields: 'คุณจำเป็นต้องระบุช่องกรอกข้อมูล %{fields} บนแบบฟอร์ม %{forms} '
-    address_form_fields: 'คุณจำเป็นต้องระบุช่องกรอกข้อมูล %{fields} บนแบบฟอร์มนี้ '
+    address_fields: "คุณจำเป็นต้องระบุช่องกรอกข้อมูล %{fields} บนแบบฟอร์ม %{forms} "
+    address_form_fields: "คุณจำเป็นต้องระบุช่องกรอกข้อมูล %{fields} บนแบบฟอร์มนี้ "
     address_subform_fields: 'แบบฟอร์ม %{subform} มีช่องกรอกข้อมูลที่ไม่สามารถใช้งานได้ %{fields} ช่อง'
   error_page:
     not_authorized:
+      code: 403
       server_error: คุณไม่ได้รับอนุญาตให้เข้าถึงหน้านี้
       title: ไม่ได้รับอนุญาต
     not_found:
+      code: 404
       contact_admin: หากคุณเข้ามาด้วยความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
       something_went_wrong: ขออภัย เกิดข้อผิดพลาด!
   errors:
     error_loading: พบปัญหาในการดึงข้อมูล
     models:
+      agency:
+        code_present: must not be blank
+        logo_format: File should be png
+        terms_of_use_format: File should be png
+        name_present: must not be blank
       child:
         age: อายุต้องอยู่ระหว่าง 0 ถึง 130
         date_of_birth: กรุณากรอกวันเกิดที่ถูกต้องในบันทึกนี้
@@ -630,7 +767,7 @@ th:
       lookup:
         being_used: กำลังมีการใช้งานค่าการค้นหานี้ และไม่สามารถลบทิ้งได้
         name_present: ชื่อต้องไม่เว้นว่าง
-        values_ids_blank: 'ไม่มีการกำหนดค่าการค้นหา '
+        values_ids_blank: "ไม่มีการกำหนดค่าการค้นหา "
       primero_module:
         associated_record_types: ต้องมีประเภทของการบันทึกอย่างน้อยหนึ่งประเภทที่เกี่ยวข้องกับหัวข้อ (Module) นี้
         form_section_ids: ต้องมีแบบฟอร์มอย่างน้อยหนึ่งแบบฟอร์มที่เกี่ยวข้องกับหัวข้อ (Module) นี้
@@ -643,8 +780,14 @@ th:
       role:
         permission_presence: โปรดเลือกการอนุญาตอย่างน้อยหนึ่งรายการ
       user:
+        email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: ช่องกรอกรหัสผ่านไม่มีรหัสผ่านเดียวกัน
+        password_length: "The password must be at least %{min} characters"
         email_uniqueness: ที่อยู่อีเมลนี้ได้ถูกใช้แล้วโดยผู้ใช้งานท่านอื่น กรุณาระบุใหม่อีกครั้ง
+      code_of_conduct:
+        title_present: Title must not be blank
+        content_present: Content must not be blank
+        created_by_present: Created By must not be blank
     not_found: ไม่พบรายการที่ค้นหา
     try_again: กรูณาลองอีกครั้ง
   exports:
@@ -674,6 +817,13 @@ th:
       module_placeholder: กรุณาเลือกหัวข้อ (Module)
       select_module: เลือกหัวข้อ (module)
       submit: ตกลง
+      header: Header
+      custom_header: Custom Header
+      signatures: Include signature lines for
+      include_implementation_logos: "Include implementation logos?"
+      include_implementation_logos_help_text: This will include logos which appear in the navigation menu and on the login page.
+      include_agency_logo: "Include agency logo?"
+      include_other_logos: "Include other logos?"
     duplicate_id_csv:
       all: หมายเลขประจำตัวซ้ำ
       female_abbreviation: ญ
@@ -693,6 +843,32 @@ th:
     forms:
       button: ส่งออกแบบฟอร์ม
       label: ส่งออกข้อมูล
+      header:
+        form_group: Form Group
+        form_name: Form Name
+        field_id: Field ID
+        field_type: Field Type
+        field_name: Field Name
+        required: Required
+        on_mobile: On Mobile
+        on_short_form: On Short Form
+        option_ids: Option IDs
+        options: Options
+        help_text: Help Text
+        guiding_questions: Guiding Questions
+        visible: Visible
+        lookup_id: Lookup ID
+        lookup_name: Lookup Name
+        option_id: Option ID
+        option_name: Option Name
+      options:
+        location: Locations
+        agency: Agencies
+        user: Users
+        reportinglocation: Reporting Locations
+        subforms: 'Subform: %{subform_name}'
+        collapsed_fields: 'Collapsed Fields: %{fields}'
+
     go_to_exports: ไปที่หน้า "ส่งออก" เพื่อทำการดาวโหลดไฟล์
     incident_recorder_xls:
       all: ผู้บันทึกการแจ้งเหตุ
@@ -705,6 +881,8 @@ th:
     list_view_csv:
       all: แสดงรายการส่งออก
       selected: เลือกไปยัง CSV
+    messages:
+      no_exporter: No Exporter Specified
     mrm_violation_xls:
       all: การละเมิด MRM
       one: การละเมิด MRM
@@ -716,6 +894,14 @@ th:
       selected: เลือกไปยัง PDF
     pdf_exports:
       label: PDF
+      recipient: Recipient
+      case_worker: Case Worker
+      client: Client
+      date: Date
+      recipient_name: Recipient Name
+      recipient_agency: Recipient Agency
+      caseworker_name: Caseworker Name
+      caseworker_agency: Caseworker Agency
     photowall:
       all: ผนังภาพ
       flag_suspect_record: ทำสัญลักษณ์ "สำคัญ" เนื่องจากแฟ้มข้อมูลมีความน่าสงสัย
@@ -723,9 +909,9 @@ th:
       one: ผนังภาพ
       reunited: กลับมาอยู่ร่วมกัน
       selected: เลือกไปยังผนังภาพ
-      success_message: กำลังทำการสร้าง %{file_name}ผนังภาพ โดยจะไม่รวมเคสที่ไม่มีรูปถ่าย
+      success_message: "กำลังทำการสร้าง %{file_name}ผนังภาพ โดยจะไม่รวมเคสที่ไม่มีรูปถ่าย"
     printed: 'พิมพ์: %{date}'
-    queueing: กำลังสร้างไฟล์ %{file_name} เพื่อการส่งออก
+    queueing: "กำลังสร้างไฟล์ %{file_name} เพื่อการส่งออก"
     selected_xls:
       all: Excel
       one: Excel
@@ -747,7 +933,7 @@ th:
         governorate_country: เขตการปกครอง - ประเทศ
         id: เลขประจำตัว
         individual_progress_id: หมายเลขดำเนินการรายปัจเจก
-        locations_by_level: ที่อยู่ (แคมป์, บล็อก และที่อยู่อื่นที่เกี่ยวข้อง เช่นพิกัด GPS ที่พักพิง)
+        locations_by_level: "ที่อยู่ (แคมป์, บล็อก และที่อยู่อื่นที่เกี่ยวข้อง เช่นพิกัด GPS ที่พักพิง)"
         long_id: รหัสประจำตัวแบบเต็ม
         moha_id: รหัสประจำตัวที่ได้จากกระทรวงมหาดไทย (Ministry of Home Affairs)
         name_of_caregiver: ชื่อ-นามสกุล ของผู้ดูแลเด็ก
@@ -759,7 +945,7 @@ th:
         sex: เพศ
         sex_mapping_m_f_u: เพศ
         short_id: รหัสประจำตัวแบบสั้น
-        vulnerability_code: 'รหัสความเปราะบาง '
+        vulnerability_code: "รหัสความเปราะบาง "
         vulnerability_details_code: รหัสของรายละเอียดความเปราะบาง
       male_abbreviation: ช
       one: UNHCR
@@ -769,6 +955,22 @@ th:
       all: Excel
       one: Excel
       selected: เลือกไปยัง Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Locations were successfully imported
+        no_data: 'Import Not Processed: No data passed in'
+        csv_parse_error: 'Import Not Processed: Error parsing CSV data'
+        error: 'Row %{row_number} Not Processed: %{message}'
+        db_error: 'Error creating %{location_code}: %{message}'
+        locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
+  sync_record:
+    failed: ''
+    last: 'Last Sync: %{date_time}'
+    not_found: ''
+    retrieving: Retrieving Data.
+    see_details: See Details.
   fields:
     action: ดำเนินการ
     actions: ดำเนินการ
@@ -776,12 +978,12 @@ th:
     add_new_field: สร้างช่องกรอกข้อมูลใหม่
     add_existing_field: เพิ่มช่องกรอกข้อมูลที่มีอยู่แล้ว
     add_field: เพิ่มช่องกรอกข้อมูล
-    add_field_type: เพิ่ม %{file_type}
+    add_field_type: "เพิ่ม %{file_type}"
     audio:
       current: เสียงปัจจุบัน
     audio_upload_box: นำเก็บไฟล์ข้อมูลเสียง
     bia_document: เอกสารการประเมินบนฐานประโยชน์สูงสุดของเด็ก (Best Interest Assessment)
-    bid_document: 'เอกสารการตัดสินใจบนฐานประโยชน์สูงสุดของเด็ก (Best Interests Determination) '
+    bid_document: "เอกสารการตัดสินใจบนฐานประโยชน์สูงสุดของเด็ก (Best Interests Determination) "
     check_box: ช่องสำหรับทำเครื่องหมาย
     clear_group_by: ยกเลิกการจัดกลุ่มโดย
     clear_sort_by: ยกเลิกการเรียงลำดับตาม
@@ -790,7 +992,7 @@ th:
     create_unique_values: สร้างค่าที่เป็นเอกลักษณ์
     date_field: ช่องกรอกวันที่
     date_help: วว-ดดด-ปปปป
-    date_help_with_time: วว-ดดด-ปปปป ชม.:นาที
+    date_help_with_time: "วว-ดดด-ปปปป ชม.:นาที"
     date_not_valid: วันที่ไม่ถูกต้อง
     date_range:
       date: วันที่
@@ -800,20 +1002,21 @@ th:
     date_range_field: ช่วงวันที่
     date_time: วัน-เวลา
     db_name: ชื่อฐานข้อมูล
-    default: ใช่ค่าตั้งต้นหรือไม่?
+    default: "ใช่ค่าตั้งต้นหรือไม่?"
     default_date_validation: ยืนยันวันที่
-    default_to_current_date: ตั้งค่าตั้งต้นเป็นวันปัจจุบันหรือไม่?
-    default_to_current_datetime: ตั้งค่าตั้งต้นเป็นวันเวลาปัจจุบันหรือไม่?
+    default_to_current_date: "ตั้งค่าตั้งต้นเป็นวันปัจจุบันหรือไม่?"
+    default_to_current_datetime: "ตั้งค่าตั้งต้นเป็นวันเวลาปัจจุบันหรือไม่?"
     default_value: ตั้งค่าเป็นค่าตั้งต้น
-    deleted: ช่องกรอกข้อมูล %{display_name}ได้ถูกลบทิ้งแล้ว
+    deleted: "ช่องกรอกข้อมูล %{display_name}ได้ถูกลบทิ้งแล้ว"
     detail: รายละเอียด
     disabled: ปิดการใช้งาน
     display_name: แสดงชื่อ
     document:
       comments: ความเห็น
-      current: นี่คือเอกสารปัจจุบันใช่หรือไม่?
+      current: "นี่คือเอกสารปัจจุบันใช่หรือไม่?"
       date: เอกสารลงวันที่
       name: ชื่อเอกสาร
+      is_current: "Is this the current document?"
     document_upload_box: นำเก็บเอกสาร
     edit_label: แก้ไขช่องกรอกข้อมูล
     enabled: เปิดการใช้งานหรือไม่
@@ -821,6 +1024,7 @@ th:
     english_text: ตัวอักษรภาษาอังกฤษ
     field_name: ชื่อช่องกรอกข้อมูล
     field_type: ประเภทของช่องกรอกข้อมูล
+    attachment_too_large: File should not be larger than 10mb
     file_upload_box:
       add_document_label: เพิ่มเอกสาร
       add_new_document_button_text: เพิ่มเอกสารอื่น
@@ -849,7 +1053,7 @@ th:
     not_future_date: ไม่ใช่วันที่ในอนาคต
     number_not_valid: กรุณากรอกข้อมูลเป็นตัวเลข
     numeric_field: ช่องกรอกตัวเลข
-    on_collapsed_subform: ต้องการยุบรวมแบบฟอร์มย่อยหรือไม่?
+    on_collapsed_subform: "ต้องการยุบรวมแบบฟอร์มย่อยหรือไม่?"
     option_strings_add_option: เพิ่มตัวเลือก
     option_strings_source: ค้นหา
     option_strings_text: ตัวเลือก
@@ -862,7 +1066,8 @@ th:
     photo_upload_box: นำเก็บไฟล์ข้อมูลภาพ
     predifined_lookups: ใช้ค่าการค้นหาที่กำหนดไว้ล่วงหน้า
     radio_button: ปุ่มวิทยุ
-    remove: 'ลบออก '
+    remove: "ลบออก "
+    remove_attachment_confirmation: "Are you sure you want to remove this attachment?"
     required: ต้องมี
     required_field: 'ต้องมีข้อมูลในช่อง %{field}'
     search_existing: ค้นหาจากช่องกรอกข้อมูลที่มีอยู่แล้ว
@@ -871,18 +1076,18 @@ th:
     select_multiple: เลือกทั้งหมดที่ตรงตามเงื่อนไข
     select_single: (เลือก...)
     separator: ตัวแบ่งแยก
-    show: แสดงหรือไม่?
+    show: "แสดงหรือไม่?"
     show_on: แสดงบน
     show_on_minify_form: แบบฟอร์มแบบสั้น
     subform: แบบฟอร์มย่อย
     subform_group_by: จัดกลุ่มโดย
-    subform_remove_message: คุณแน่ใจหรือไม่ว่าต้องการลบแบบฟอร์มย่อยนี้ทิ้ง?
+    subform_remove_message: "คุณแน่ใจหรือไม่ว่าต้องการลบแบบฟอร์มย่อยนี้ทิ้ง?"
     subform_section:
       description: คำอธิบายแบบฟอร์มย่อย
       name: ชื่ิอแบบฟอร์มย่อย
-      starts_with_one_entry: ต้องการเริ่มด้วยการใส่ข้อมูลในแบบฟอร์มย่อยก่อนหรือไม่?
+      starts_with_one_entry: "ต้องการเริ่มด้วยการใส่ข้อมูลในแบบฟอร์มย่อยก่อนหรือไม่?"
       subform_append_only: เลือกการเชื่อมต่อข้อมูลกับอุปกรณ์มือถือ
-      subform_prevent_item_removal: ต้องการป้องกันการลบแบบฟอร์มย่อยหรือไม่?
+      subform_prevent_item_removal: "ต้องการป้องกันการลบแบบฟอร์มย่อยหรือไม่?"
     subform_sort_by: เรียงลำดับโดย
     successfully_added: เพิ่มช่องกรอกข้อมูลสำเร็จแล้ว
     tally_field: ช่องกรอกจำนวน
@@ -903,16 +1108,17 @@ th:
     more: มากกว่า
     save_filters: บันทึก
   flags:
-    add_flag_tab: 'เพิ่มการทำสัญลักษณ์ "สำคัญ" '
+    add_flag_tab: "เพิ่มการทำสัญลักษณ์ \"สำคัญ\" "
     date: 'วันที่:'
     flag_added: เพิ่มสัญลักษณ์ "สำคัญ" สำเร็จแล้ว
     flag_date: วันที่ทำสัญลักษณ์ "สำคัญ"
     flag_reason: เหตุผลในการทำสัญลักษณ์ "สำคัญ"
+    flag_reason_maximun_label: Maximum 255 characters.
     flag_resolved: ประเด็นที่ถูกทำสัญลักษณ์ "สำคัญ" ได้รับการจัดการแล้ว
     flags_tab: รายการที่มีสัญลักษณ์ "สำคัญ"
     no_flags: ไม่มีรายการที่ถูกทำสัญลักษณ์ "สำคัญ"
     resolve_button: แก้ไข
-    resolve_flag: 'จัดการประเด็นที่มีสัญลักษณ์ "สำคัญ" '
+    resolve_flag: "จัดการประเด็นที่มีสัญลักษณ์ \"สำคัญ\" "
     resolve_reason: เหตุผลในการจัดการ
     resolved: จัดการประเด็นที่มีสัญลักษณ์ "สำคัญ" เรียบร้อยแล้ว
     resolved_date: 'แก้ไขเรียบร้อยแล้ว'
@@ -971,7 +1177,7 @@ th:
     settings: การตั้งค่า
     show_on: แสดงบน
     subform_need_to_be_added: ข้อมูลเหล่านี้ต้องทำการเพิ่ม
-    subform_not_found: 'ไม่พบแบบฟอร์มย่อย %{subform_name} '
+    subform_not_found: "ไม่พบแบบฟอร์มย่อย %{subform_name} "
     title: ชื่อแบบฟอร์ม
     translations:
       edit: แก้ไขคำแปล
@@ -979,7 +1185,7 @@ th:
       manage: จัดการคำแปล
       no_changes_message: คุณไม่ได้ทำการแก้ไขคำแปล
       note: 'บันทึกข้อความ:'
-      note_form_group: 'เมื่อเพิ่มคําแปลให้กลุ่มแบบฟอร์ม ท่านต้องแก้ไขในส่วนของคำแปลสำหรับการค้นหากลุ่มแบบฟอร์มด้วย '
+      note_form_group: "เมื่อเพิ่มคําแปลให้กลุ่มแบบฟอร์ม ท่านต้องแก้ไขในส่วนของคำแปลสำหรับการค้นหากลุ่มแบบฟอร์มด้วย "
       select_language: เลือกภาษา
       title: คำแปล
     type_label: ประเภท
@@ -989,6 +1195,7 @@ th:
     ar: العربية
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
     bn: বাংলা
     current_time_zone: โซนเวลาปัจจุบัน
     dashboard: กระดานแสดงภาพรวม
@@ -1012,14 +1219,22 @@ th:
     welcome: ยินดีต้อนรับสู่ Primero
     zh: ภาษาจีน
   incident:
+    associated_case: "Associated Case:"
     messages:
       creation_success: สร้างบันทึกข้อมูลการแจ้งเหตุสำเร็จแล้ว
       creation_success_queue: สร้างบันทึกข้อมูลการแจ้งเหตุใน background สำเร็จแล้ว
+      disabled: Incident is disabled
       update_success: 'ทำการปรับปรุงข้อมูลการแจ้งเหตุ %{record_id} สำเร็จแล้ว'
       update_success_queue: 'ทำการปรับปรุงข้อมูลการแจ้งเหตุ %{record_id} ใน background สำเร็จแล้ว'
     violation:
       pending: อยู่ระหว่างรอการตรวจสอบ
   incidents:
+    disable_dialog: Clicking OK will change the status of this incident to Disabled.
+    disable_dialog_title: Disable Incident
+    disable_success: Successfully disabled incident
+    enable_dialog: Clicking OK will change the status of this incident to Enabled.
+    enable_dialog_title: Enable Incident
+    enable_success: Successfully enabled incidents.
     id: หมายเลขประจำตัว
     date_of_interview: วันที่สัมภาษณ์
     date_of_incident: วันที่เกิดเหตุ
@@ -1044,6 +1259,186 @@ th:
     social_worker: นักสังคมสงเคราะห์
     violence_type: ประเภทของความรุนแรง
     type_violence: ประเภทของความรุนแรง
+  key_performance_indicators:
+    label: "Pulse/KPIs"
+    case_assessment: "Case Assessment"
+    case_action_planning: "Case Action Planning"
+    case_action_plan_implementation: "Case Action Plan Implementation"
+    case_follow_up: "Case Follow-Up"
+    case_closure: "Case Closure"
+    feedback: "Feedback"
+    other: "Other"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: ''
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'All Time'
+      current_month: "Current Month"
+      last_3_months: "Last 3 Months"
+      last_6_months: "Last 6 Months"
+      last_1_year: "Last Year"
+      0-3days: "0 - 3 Days"
+      4-5days: "4 - 5 Days"
+      6-14days: "6 - 14 Days"
+      15-30days: "15 - 30 Days"
+      1-3months: "1 - 3 Months"
+      4months: "> 3 Months"
+      1-month: "< 1 Month"
+      3-6months: "3 - 6 Months"
+      7-months: "> 6 Months"
+    helptext:
+      helptext: "Learn about this KPI."
+    number_of_cases:
+      title: "1. Number of recorded Cases"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts how many new cases are opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the case was reported to the service provider.
+    number_of_incidents:
+      title: "2. Number of recorded Incidents"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator counts the number of new incidents opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the incident was reported to the service provider.
+    reporting_delay:
+      title: "3. Reporting Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+      helptext: |
+        This indicator counts and categorizes the number of days that have lapsed between when the
+        survivor experienced GBV and when the survivor first reported it to a service provider. It is
+        calculated based on when the incident was first reported to the User Organization. The data is
+        categorized based on different lengths of time (0-3 days; 4-5 days; 6-14 days; 15-30 days; Over
+        1 month; Over 3 months).
+    service_access_delay:
+      title: "Service Access Delay"
+      delay: "Delay"
+      total_incidents: "Total Incidents"
+    assessment_status:
+      title: "4. Assessment Status"
+      completed: "Completed"
+      completed_supervisor_approved: "Completed & Supervisor Approved"
+      helptext: |
+        This indicator calculates the proportion of active cases for which an assessment form was
+        completed. An assessment is considered completed where a set of mandatory fields within the
+        Survivor Assessment form are completed.
+    completed_case_safety_plans:
+      title: "5. Completed Case Safety Plans"
+      completed: "Completed Case Safety Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a safety plan was deemed
+        necessary and completed (ex. intimate partner violence, suicide/homicide risk, child protection).
+        A safety plan is considered completed where a set of mandatory fields within the Safety Plan
+        form are completed.
+    completed_case_action_plans:
+      title: "6. Completed Case Action Plans"
+      completed: "Completed Case Action Plan"
+      label: "Completed Case Action Plan"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed. A case action plan is considered completed where a set of mandatory fields within
+        the Action Plan form are completed.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Case Action Plans Approved by Supervisor"
+      completed_and_approved: "Completed Case Action Plans Approved by Supervisor"
+      helptext: |
+        This indicator calculates the proportion of active cases for which a Case Action Plan was
+        completed and approved by a supervisor. A case action plan is considered completed when a
+        set of mandatory fields within the Action Plan form are completed. A case plan is considered
+        approved when the caseworker requests approval for the case plan and the supervisor
+        approves the case plan on the platform.
+    services_provided:
+      title: "8. Services Provided"
+      service: "Service"
+      count: "Times Provided"
+      helptext: |
+        This indicator counts the type of service(s) provided to survivors in the case management
+        process. By service provided, we mean the service that is provided by the User organization in-
+        house, not service provided by referrals to other services.
+    average_referrals:
+      title: "9. Average Referrals"
+      label: "Average referrals per case"
+      helptext: |
+        This indicator counts the average number of referrals for each recorded case (for all type of
+        services) across all cases. It includes referrals recorded on the case tab, not only referrals done
+        through the platform.
+    referrals_per_service:
+      title: "Referrals Per Service"
+    average_followup_meetings_per_case:
+      title: "10. Average Follow-Up Meetings per Case"
+      label: "Average follow-up meetings per case"
+      helptext: |
+        This indicator counts the average number of follow-up meetings conducted for every active case
+        per case worker on the platform. A follow-up meeting is a meeting between the caseworker and
+        the survivor following the initial interview/disclosure.
+    goal_progress_per_need:
+      title: "11. Progress Made towards Goals"
+      need: "Need"
+      safety: "Safety"
+      health: "Health"
+      psychosocial: "Psychosocial"
+      justice: "Justice"
+      other: "Other"
+      helptext: |
+        This indicator measures the percentage of cases for which goals have been met or are in
+        progress by type of needs (safety, health, psychosocial, legal/justice). This indicator is informed
+        by the section ‘Progress made towards goals’ under the ‘Follow up’ section of the Action Plan
+        form.
+    time_from_case_open_to_close:
+      title: "12. Time From Case Open To Case Close"
+      time: "Time"
+      percent: "Percentage of Cases"
+      helptext: |
+        This indicator measures how long cases are kept open, how long the case management
+        process takes from the initial report to User Organization to case closure. The length of time is
+        broken down by the following timeframe: less than 1 month; between 1 and 3 months; between
+        3-6 months; more than 6 months.
+    case_closure_rate:
+      title: "13. Case Closure Rate"
+      reporting_site: "Reporting Site"
+      helptext: |
+        This indicator measures the count of cases closed per month per reporting site. A reporting site
+        is understood as the site where the User Organization is providing services and where the
+        incident was reported to the service provider.
+    client_satisfaction_rate:
+      title: "14. Client Satisfaction Rate"
+      label: "Client Satisfaction"
+      helptext: |
+        This indicator measures the percentage of survivors who completed the Client Feedback Survey
+        who are satisfied with the case management services provided to them. This indicator is
+        informed by the completion of the Client Feedback form on GBVIMS+ by a staff member other
+        than the caseworker who provided the service to the survivor.
+    supervisor_to_caseworker_ratio:
+      title: "15. Supervisor To Caseworker Ratio"
+      label: "Caseworkers per supervisor"
+      helptext: |
+        This indicator is the number of caseworkers a supervisor is supervising: the supervisor to case
+        worker ratio. This calculation is based on the system roles allocated on the platform.
+    case_load:
+      title: "16. Case Load"
+      case_load: "Case Load"
+      percent: "percentage of caseworkers with caseload"
+      10cases: "< 10 Cases"
+      20cases: "11 - 20 Cases"
+      21-30cases: "21 - 30 Cases"
+      30cases: "> 30 Cases"
+      helptext: |
+        This indicator measures the average caseload per enabled caseworker based on active cases.
+        The ratio of cases to case workers is divided based on the following breakdown: less than 10
+        open cases, between 10-20 open cases, between 21-30 open cases, more than 30 open cases.
+    date_range_dialog:
+      title: "Custom Date Range"
+      description: "Once this change is applied, data will be selected from between the two dates bellow."
+      apply: 'Apply'
+      from: 'From'
+      to: 'To'
+      aria-labels:
+        from: "Data will be selected after this date"
+        to: "Data will be selected before this date"
+
   location:
     base_types:
       camp: ค่าย
@@ -1063,6 +1458,14 @@ th:
       village: หมู่บ้าน
       zone: เขตพื้นที่
     label: ตำแหน่งที่ตั้ง
+    name: Name
+    code: Code
+    admin_level: Admin Level
+    type: Type
+    hierarchy: Hierarchy
+    import_title: Import Location
+    message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
+    no_location: Please import Locations before creating any User accounts.
   logger:
     approve_form:
       action_plan: แบบฟอร์มสำหรับแผนปฏิบัติงาน
@@ -1072,13 +1475,22 @@ th:
       'false': ไม่อนุมัติ
       gbv_closure: แบบฟอร์มการยุติบริการสำหรับกรณีการใช้ความรุนแรงบนฐานเพศ
       'true': อนุมัติ
+    assessment_approved: "%{approval_label} approved for"
+    assessment_requested: "%{approval_label} requested for"
+    bulk_index: List all
     by_user: โดยผู้ใช้งาน
+    case_plan_approved: "%{approval_label} approved for"
+    case_plan_requested: "%{approval_label} requested for"
+    close: Close
+    closure_approved: "%{approval_label} approved for"
+    closure_requested: "%{approval_label} requested for"
     consent_count: การนับความยินยอม
     copy: คัดลอก
     create: สร้าง
     create_subform: สร้างแบบฟอร์มย่อย
     destroy: ลบ
     edit: กำลังแก้ไข
+    enable_disable_record: Enable / disable
     export: กำลังส่งข้อมูลออกสำหรับ
     flag: ทำสัญลักษณ์ "สำคัญ"
     flag_records: ทำสัญลักษณ์ "สำคัญ"
@@ -1087,6 +1499,7 @@ th:
       protect: ซ่อนชื่อ
       view: แสดงชื่อ
     index: รายการบันทึกข้อมูล
+    list: List
     login: เข้าใช้งาน
     logout: เลิกใช้งาน
     lookups_for_field: ค้นหาช่องกรอกข้อมูล
@@ -1100,8 +1513,11 @@ th:
     record_state:
       'false': ปิดการใช้งาน
       'true': เปิดการใช้งาน
+    refer: Refer
+    refer_to: Search for Referral recipient
     referral: ส่งต่อ
     relinquish_referral: ยกเลิกการส่งต่อสำเร็จ
+    reopen: Reopen
     reopen_case: เปิดการทำงานอีกครั้ง
     request_approval:
       action_plan: ขออนุมัติสำหรับแผนปฏิบัติการ
@@ -1114,21 +1530,32 @@ th:
     save_subform: บันทึกแบบฟอร์มย่อย
     search: ค้นหา API
     show: กำลังแสดงผล
+    show_alerts: View alerts for
     to: ไปยัง
     to_user: ไปยังผู้ใช้งาน
     transfer: อยู่ระหว่างการส่งมอบ
     transfer_status:
       Accepted: ยอมรับการส่งมอบ
       Rejected: ปฏิเสธการส่งมอบ
-    unflag: 'ยกเลิกการทำสัญลักษณ์ "สำคัญ" '
+    unflag: "ยกเลิกการทำสัญลักษณ์ \"สำคัญ\" "
     update: ปรับปรุงข้อมูล
   login:
     label: เข้าใช้งาน
     password:
       label: รหัสผ่าน
-    provider_title: พร้อมกับ %{provider}
+    password_confirmation:
+      label: Password Confirmation
+    password_match:
+      label: Password Must Match
+    provider_title: "พร้อมกับ %{provider}"
     title: เข้าใช้งาน
     username: ชื่อผู้ใช้งาน
+    password_reset_modal: Reset Password
+    password_reset_modal_text: Primero will send a password reset link to your email address
+    password_reset_email: Email
+    forgot_password: "Forgot your password?"
+    email:
+      label: Email
   lookup:
     create: การค้นหาใหม่
     enabled_label: ต้องการเปิดการใช้งานหรือไม่
@@ -1145,28 +1572,45 @@ th:
     translation_label: คำแปล
     values: ตัวเลือก
   messages:
-    alert_items: คุณมี %{items} บันทึกข้อความ
+    alert_items: "คุณมี %{items} บันทึกข้อความ"
     alerts_for:
-      approval: 'รอการอนุมัติสำหรับ %{form_section_name} '
+      approval: "รอการอนุมัติสำหรับ %{form_section_name} "
       field_change: 'รายการ %{form_section_name} ได้มีการปรับปรุงเมื่อ %{alert_time}'
-      transfer_request: มีคำร้องใหม่เพื่อขอส่งมอบเคสลงวันที่ %{date} โดย %{user} จากหน่วยงาน %{agency}
+      transfer_request: "มีคำร้องใหม่เพื่อขอส่งมอบเคสลงวันที่ %{date} โดย %{user} จากหน่วยงาน %{agency}"
     cannot_edit: คุณไม่สามารถแก้ไขรายการนี้ได้
     confirmation_message: หากเลือก "ตกลง" จะยกเลิกการเปลี่ยนแปลงที่ยังไม่ได้บันทึกทั้งหมด และกลับไปที่แถบตัวเลือก หากเลือก "ยกเลิก" จะกลับไปที่บันทึกที่ดำเนินการอยู่
     dashboard_offline: คุณกำลังอยู่ในโหมดออฟไลน์ กระดานแสดงภาพรวมจะทำงานได้เต็มที่เมื่อคุณกลับมาอยู่ในโหมดออนไลน์
     field_name_on_form_name: 'ช่องกรอกข้อมูล %{field_name}'' บนแบบฟอร์ม ''%{form_name}''.'
-    logout_confirmation: คุณต้องการดำเนินการต่อหรือไม่?
+    logout_confirmation: "คุณต้องการดำเนินการต่อหรือไม่?"
+    logout_offline_warning: "Are sure you want to log out? If you do, you will not be able to log back in until you are online again. Any changes you made while offline will be lost."
     logout_warning: คุณกำลังจะออกจากโปรแกรมภายใน 5 นาที
+    logout_dialog_header: Offline Log Out
+    logout_confirmation_title: Log out confirmation
+    logout_confirmation_text: "Are you sure you want to log out?"
     no_changes: ท่านไม่ได้แก้ไขช่องกรอกข้อมูล
+    not_available: Not available
+    record_list:
+      column_header_tooltip: "Sort for %{column}"
+      of: of
+      no_match: "Sorry, no matching records found"
+      rows_per_page: Rows per page
+      sort: Sort
   navigation:
     bulk_exports: ส่งออกข้อมูล
     cases: เคส
     home: หน้าหลัก
+    key_performance_indicators: Pulse/KPIs
     incidents: การแจ้งเหตุ
     logout: ออกจากระบบ
     reports: รายงาน
     search: ค้นหา
     settings: การตั้งค่า
     support: การสนับสนุน
+    support_menu:
+      contact_information: Contact Information
+      code_of_conduct: Code of Conduct
+      terms_of_use: Terms of Use
+      system_information: System Information
     tasks: งานที่ต้องทำ
     tracing_request: คำร้องขอให้มีการติดตามตัว
   notes:
@@ -1187,18 +1631,18 @@ th:
       approvals_case_plan_pending: '%{approval_label} อยู่ระหว่างการรออนุมัติ'
       approvals_closure: '%{approval_label}'
       approvals_closure_pending: '%{approval_label} อยู่ระหว่างการรออนุมัติ'
-      approve_action_plan: อนุมัติ %{approval_label}
-      approve_assessment: อนุมัติแบบฟอร์ม%{approval_label}
-      approve_case_plan: อนุมัติ %{approval_label}
-      approve_closure: อนุมัติแบบฟอร์ม%{approval_label}
-      approve_gbv_closure: อนุมัติแบบฟอร์ม%{approval_label}
+      approve_action_plan: "อนุมัติ %{approval_label}"
+      approve_assessment: "อนุมัติแบบฟอร์ม%{approval_label}"
+      approve_case_plan: "อนุมัติ %{approval_label}"
+      approve_closure: "อนุมัติแบบฟอร์ม%{approval_label}"
+      approve_gbv_closure: "อนุมัติแบบฟอร์ม%{approval_label}"
       assign: มอบหมาย
       assign_within_agency: มอบหมายภายในหน่วยงาน
       assign_within_user_group: มอบหมายภายในกลุ่มผู้ใช้งาน
       audit_log: บันทึกเพื่อการตรวจสอบ
       case: เคส
       case_approvals: การอนุมัติเคส
-      case_assignments_referrals_transfers: 'การมอบหมาย ส่งต่อ และส่งมอบเคส '
+      case_assignments_referrals_transfers: "การมอบหมาย ส่งต่อ และส่งมอบเคส "
       case_exports: นำออกข้อมูลเคส
       case_overview: เคสในการดูแลของฉัน
       case_risk: เคสแยกตามระดับการประเมิน
@@ -1206,10 +1650,11 @@ th:
       cases_by_task_overdue_case_plan: แสดงเคสแยกตามงานในแผนรายกรณีที่เกินกำหนดเวลา
       cases_by_task_overdue_followups: แสดงเคสแยกตามงานจัดบริการที่เกินกำหนดเวลา
       cases_by_task_overdue_services: แสดงเคสแยกตามงานจัดบริการที่เกินกำหนดเวลา
-      cases_managed_other_users: 'เคสที่ดูแลโดยผู้ใช้งานรายอื่น '
-      close: 'ปิด '
-      consent_override: 'ใช้สิทธิ์เพื่อการดำเนินการต่อ แม้จะยังไม่ได้รับความยินยอม '
+      cases_managed_other_users: "เคสที่ดูแลโดยผู้ใช้งานรายอื่น "
+      close: "ปิด "
+      consent_override: "ใช้สิทธิ์เพื่อการดำเนินการต่อ แม้จะยังไม่ได้รับความยินยอม "
       copy: คัดลอก
+      copy_of: Copy of
       create: สร้าง
       dash_case_incident_overview: เคส / การแจ้งเหตุที่อยู่ในการดูแลของฉัน
       dash_cases_by_social_worker: แสดงเคสแยกตามชื่อนักสังคมสงเคราะห์
@@ -1256,26 +1701,28 @@ th:
       incident: การแจ้งเหตุ
       incident_details_from_case: เพิ่มรายละเอียดการแจ้งเหตุในเคสของผู้ใช้งานรายอื่น
       incident_from_case: สร้างข้อมูลการแจ้งเหตุจากเคส
+      kpi: Pulse/KPIs
       lookup: ค้นหา
       manage: จัดการ
       matching_configuration: จับคู๋การตั้งค่า
-      metadata: แบบฟอร์ม, การค้นหา
+      metadata: "แบบฟอร์ม, การค้นหา"
       potential_match: การจับคู่ที่อาจตรงกัน
+      primero_configuration: Configuration
       read: อ่าน
       reassign: มอบหมายใหม่
       receive_referral: ได้รับการส่งต่อ
       receive_transfer: ได้รับการส่งมอบ
       referral: สามารถใช้สำหรับการส่งต่อ
       referral_from_service: ส่งต่อเคสด้วยแบบฟอร์มการให้บริการ
-      remove_assigned_users: 'ลบผู้ใช้งานรายอื่นที่ได้รับมอบหมาย (ในการส่งต่อ) '
+      remove_assigned_users: "ลบผู้ใช้งานรายอื่นที่ได้รับมอบหมาย (ในการส่งต่อ) "
       reopen: เปิดการทำงานอีกครั้ง
       report: รายงาน
       request_approval: ขออนุมัติ
-      request_approval_action_plan: ขออนุมัติ สำหรับ %{approval_label}
-      request_approval_assessment: ขออนุมัติ สำหรับ %{approval_label}
-      request_approval_case_plan: ขออนุมัติ สำหรับ %{approval_label}
-      request_approval_closure: ขออนุมัติ สำหรับ %{approval_label}
-      request_approval_gbv_closure: ขออนุมัติ สำหรับ %{approval_label}
+      request_approval_action_plan: "ขออนุมัติ สำหรับ %{approval_label}"
+      request_approval_assessment: "ขออนุมัติ สำหรับ %{approval_label}"
+      request_approval_case_plan: "ขออนุมัติ สำหรับ %{approval_label}"
+      request_approval_closure: "ขออนุมัติ สำหรับ %{approval_label}"
+      request_approval_gbv_closure: "ขออนุมัติ สำหรับ %{approval_label}"
       request_transfer: คำร้องขอส่งมอบ
       role: บทบาท
       save_search: บันทึกการค้นหา
@@ -1285,6 +1732,7 @@ th:
       service_provision_incident_details: ดูปุ่ม เพิ่มการจัดบริการ บนรายละเอียดของการแจ้งเหตุ
       services_section_from_case: เพิ่มการจัดบริการในเคสของผู้ใช้งานรายอื่น
       specific_roles: เข้าถึงรายละเอียดที่ระบุสำหรับของทบาทต่าง ๆ
+      sync_external: Sync with an external information management system
       sync_mobile: ถ่ายโอนข้อมูลกับอุปกรณ์มือถือ
       system: ระบบ
       tracing_request: คำร้องขอให้มีการติดตามตัว
@@ -1300,6 +1748,60 @@ th:
       workflow_team: ขั้นตอนการทำงานสำหรับเคสที่ดำเนินการเป็นทีม
       write: เขียน
     resource:
+      kpi:
+        actions:
+          read:
+            explanation: Ability to access the Pulse/KPIs page.
+            label: Access Pulse/KPIs Page.
+          kpi_assessment_status:
+            explanation: "Ability to see, for the active cases that the user has access to, what proportion of them have a completed assessment form."
+            label: Assessment Status
+          kpi_average_followup_meetings_per_case:
+            explanation: "Ability to see, for the active cases that the user has access to, the average number of follow-up meetings conducted over a set period of time."
+            label: Average Followup Meetings per Case
+          kpi_average_referrals:
+            explanation: "Ability to see, over all active cases that the user has access to, the average number of referrals made to each type of services."
+            label: Average Referrals
+          kpi_case_closure_rate:
+            explanation: Ability to see how many cases were closed at each site per month.
+            label: Case Closure Rate
+          kpi_case_load:
+            explanation: Ability to see the average number of open cases each caseworker has.
+            label: Case Load
+          kpi_client_satisfaction_rate:
+            explanation: "Ability to see, for each case that the user has access to, what ratio of survivors who completed the Feedback Survey were satisfied."
+            label: Client Satisfaction Rate
+          kpi_completed_case_action_plans:
+            explanation: "Ability to see, for the active cases that the user has access to, what proportion have a completed Case Action Plan."
+            label: Completed Case Action Plans
+          kpi_completed_case_safety_plans:
+            explanation: "Ability to see, for active cases that the user has access to, what proportion required and completed a Saftey Plan."
+            label: Completed Case Safety Plans
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: "Ability to see, for active cases that the user has access to, what proportion completed a Case Action Plan that was approved by a supervisor."
+            label: Completed Action Plan Approved by Supervisor
+          kpi_goal_progress_per_need:
+            explanation: "Ability to see, for cases the user has access to, what percentage of goals in each category of need have been met."
+            label: Progress Made Towards Goals
+          kpi_number_of_cases:
+            explanation: Ability to see how many newly reported cases are opened each month per site.
+            label: Number of Cases
+          kpi_number_of_incidents:
+            explanation: Ability to see how many newly reported incidents are opened each month per site.
+            label: Number of Incidents
+          kpi_reporting_delay:
+            explanation: "Ability to see, for all incidents that the user has access to, the number of days lapsed between when the survivor experienced GBV and when the survivor reported it to a service provider."
+            label: Reporting Delay
+          kpi_services_provided:
+            explanation: "Ability to see, over all cases the user has access to, what type of services have been provided by the organization in-house."
+            label: Services Provided
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Ability to see the ratio of caseworkers to supervisors.
+            label: Supervisor to Caseworker Ratio
+          kpi_time_from_case_open_to_close:
+            explanation: "Ability to see, for all cases that the user has access to, how long case are kept open."
+            label: Time from Case Open to Close
+        label: KPI
       agency:
         actions:
           assign:
@@ -1330,23 +1832,23 @@ th:
             explanation: ผู้ใช้งานสามารถเพิ่มรายการใน "บันทึกข้อความ" ของฟอร์มย่อย (บางครั้งเรียกว่า "ความคิดเห็น") ผู้ใช้งานสามารถกดปุ่ม "เพิ่มบันทึกข้อความ" ในหน้าแสดงรายการเคส วิธีนี้มีประโยชน์อย่างยิ่งสำหรับผู้จัดการที่ไม่มีสิทธิ์แก้ไขข้อมูลของเคส แต่ต้องการเพิ่มบันทึกช่วยเตือนให้ผู้ดูแลเคส ด้วยวิธีการเพิ่มบันทึกนี้จะคล้ายกับการยกธง ข้อดีของการเพิ่มบันทึกคือเมื่อผู้จัดการ เพิ่มบันทึกลงในเคสแล้ว จะมีการแจ้งเตือนไปยังผู้รับผิดชอบเคส เมื่อพวกเขาดูข้อมูลของเคสบนอุปกรณ์มือถือของพวกเขา
             label: เพิ่มบันทึกข้อความในเคส
           approve_action_plan:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติ %{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติ %{approval_label}"
           approve_assessment:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติแบบฟอร์ม%{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติแบบฟอร์ม%{approval_label}"
           approve_bia:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติแบบฟอร์ม%{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติแบบฟอร์ม%{approval_label}"
           approve_case_plan:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติ %{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติ %{approval_label}"
           approve_closure:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติแบบฟอร์ม%{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติแบบฟอร์ม%{approval_label}"
           approve_gbv_closure:
-            explanation: ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้
-            label: อนุมัติแบบฟอร์ม%{approval_label}
+            explanation: "ผู้จัดการสามารถอนุมัติ%{approval_label}สำหรับเคสของผู้ดูแลรายกรณีในทีมได้"
+            label: "อนุมัติแบบฟอร์ม%{approval_label}"
           assign:
             explanation: ผู้ใช้งานสามารถส่งเคสจากเจ้าของเคสเดิม ไปยังผู้ใช้งานอื่นในระบบ โดยไม่ต้องขอความยินยอมจากเด็กสำหรับการดำเนินการนี้ กรณีนี้จะแตกต่างจากการส่งมอบเคส คือผู้รับจะไม่มีสิทธิเลือกตอบรับหรือปฏิเสธเคสที่ได้รับมอบหมาย
             label: มอบหมาย
@@ -1357,11 +1859,11 @@ th:
             explanation: ผู้ใช้งานสามารถส่งเคสจากเจ้าของเคสเดิม ไปยังผู้ใช้งานอื่นในทีมเดียวกัน โดยไม่ต้องขอความยินยอมจากเด็กสำหรับการดำเนินการนี้ กรณีนี้จะแตกต่างจากการส่งมอบเคส คือผู้รับจะไม่มีสิทธิเลือกตอบรับหรือปฏิเสธเคสที่ได้รับมอบหมาย
             label: มอบหมายให้ผู้ใช้งานที่อยู่ภายในกลุ่มผู้ใช้งานเดียวกัน
           change_log:
-            explanation: 'ผู้ใช้งานสามารถเรียกดูประวัติการปรับแก้ข้อมูลทั้งหมดตั้งแต่เริ่มเปิดเคส ซึ่งรวมถึงการบันทึกค่าในทุกช่องกรอกข้อมูล '
+            explanation: "ผู้ใช้งานสามารถเรียกดูประวัติการปรับแก้ข้อมูลทั้งหมดตั้งแต่เริ่มเปิดเคส ซึ่งรวมถึงการบันทึกค่าในทุกช่องกรอกข้อมูล "
             label: บันทึกการเปลี่ยนแปลง
           close:
             explanation: ผู้ใช้งานสามารถเปลี่ยนสถานะของเคสที่เปิดอยู่ให้เป็นยุติได้
-            label: 'ปิด '
+            label: "ปิด "
           consent_override:
             explanation: ผู้ใช้งานสามารถส่งต่อหรือส่งมอบเคส ที่ยังไม่ได้ให้ความยินยอม
             label: ใช้สิทธิ์เพื่อทำการส่งต่อหรือส่งมอบเคส แม้จะยังไม่ได้รับความยินยอม
@@ -1392,11 +1894,14 @@ th:
           export_list_view_csv:
             explanation: ผู้ใช้งานสามารถส่งออกไฟล์เป็น CSV จากหน้าแสดงรายการเคส ซึ่งจะประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่แสดงให้ผู้ใช้งานเห็นจากหน้ารายการเคส และจะสามารถทำการส่งออกไฟล์ได้จากหน้าแสดงรายการเคสเท่านั้น
             label: ส่งออกแถบตัวเลือกเป็นไฟล์ csv
+          export_pdf:
+            explanation: "User can generate a PDF file export from the case list or case show pages, which contains all fields to which the current user has access, for one, multiple, or all cases to which the user has access. In the PDF export file, information is listed first by case, and then further organized by the form on which information appears."
+            label: Export case PDF
           export_photowall:
             explanation: ผู้ใช้งานสามารถส่งออกข้อมูลเป็นไฟล์จากหน้าแสดงรายการเคส ซึ่งจะรวมถึงภาพถ่ายหรือรูปภาพของเคสด้วย การส่งออกข้อมูลในส่วนนี้ใช้สำหรับการติดตามหาครอบครัว และจะสามารถดำเนินการได้จากหน้าแสดงรายการเคสเท่านั้น
-            label: 'ส่งออกผนังภาพ '
+            label: "ส่งออกผนังภาพ "
           export_unhcr_csv:
-            label: 'ส่งออกข้อมูลให้ UNHCR เป็นไฟล์ CSV '
+            label: "ส่งออกข้อมูลให้ UNHCR เป็นไฟล์ CSV "
           export_xls:
             explanation: 'ผู้ใช้งานสามารถสร้างและส่งออกไฟล์เป็น XLS จากหน้าแสดงรายการเคส ซึ่งจะประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการหรือรายการทั้งหมด ซึ่งแต่ละแบบฟอร์มจะถูกแยกไว้คนละแผ่นงานภายใต้ไฟล์ XLS นั้น หมายเหตุ: การส่งออกไฟล์ XLS นี้จะทำการปรับเปลี่ยนให้อักขระที่ไม่ใช่ภาษาละตินสามารถอ่านได้ (เช่น อาหรับ, บังคลาเทศ) ในขณะที่ไฟล์ CSV ไม่สามารถทำได้'
             label: การส่งออกข้อมูลเป็นไฟล์เอ็กเซลล์ (XLS)
@@ -1407,7 +1912,7 @@ th:
             explanation: สิทธิ์ความสามารถในการทำสัญลักษณ์ "สำคัญ" ให้กับเคส โดยจะมีสิทธิ์ในการยกเลิกการทำสัญลักษณ์ "สำคัญ" ได้เช่นกัน
             label: ทำสัญลักษณ์ "สำคัญ"
           import:
-            explanation: อนุญาตให้ผู้ใช้งานสามารถเพิ่มเคสโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการเคสเท่านั้น
+            explanation: "อนุญาตให้ผู้ใช้งานสามารถเพิ่มเคสโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการเคสเท่านั้น"
             label: นำเข้าข้อมูล
           incident_details_from_case:
             explanation: สิทธิ์ความสามารถในการเพิ่มแบบฟอร์มย่อยสำหรับการแจ้งเหตุในเคสที่ท่านค้นหาได้ในระบบได้ แต่ไม่มีสิทธิ์การเข้าถึง  โดยผู้ใช้งานสามารถทำการดังกล่าวได้จากหน้าผลลัพธ์การค้นหาโดยการเลือกหนึ่งหรือหลายรายกรณี จากนั้นเลือก "เพิ่มการแจ้งเหตุ" จากเมนูการดําเนินการ ซึ่งจะเห็นแบบฟอร์มที่แสดงให้เห็นช่องกรอกข้อมูลทั้งหมดในฟอร์มย่อยของการแจ้งเหตุ ซึ่งผู้ใช้งานสามารถกรอกและส่งข้อมูลเกี่ยวกับการจัดบริการได้ เนื่องจากสามารถดําเนินการได้เฉพาะจากหน้าผลลัพธ์การค้นหาเท่านั้น ผู้ที่จะได้รับสิทธิ์นี้จึงควรมีบทบาทที่สามารถทำการ "ค้นหาเคสที่รับผิดชอบโดยผู้ใช้งานอื่น" ด้วย
@@ -1431,7 +1936,7 @@ th:
             explanation: ผู้ใช้งานสามารถให้สิทธิ์การเข้าถึงข้อมูลเคสแก่ผู้ใช้รายอื่นเป็นการชั่วคราว ผู้ที่ได้รับสิทธิ์จากการส่งต่อจะสามารถดําเนินการทั้งหมดต่าง ๆ ได้เช่นเดียวกับเคสของตนเอง เมื่อผู้ที่ได้รับสิทธิ์ไม่ต้องการเข้าถึงข้อมูลเคสนั้นแล้ว ก็สามารถคลิกปุ่ม "เสร็จสิ้น" ในฟอร์มย่อยการส่งต่อและการส่งมอบเคส ซึ่งพวกเขาจะไม่สามารถเข้าถึงข้อมูลเคสนั้นได้อีก ทั้งนี้ท่านสามารถส่งต่อเคสให้กับผู้ใช้ที่มีการกำหนดบทบาทให้รับเคสส่งต่อได้เท่านั้น
             label: การส่งต่อ
           referral_from_service:
-            explanation: ผู้ใช้สามารถเห็นปุ่ม "ส่งต่อ" บนฟอร์มย่อยของการให้บริการ เมื่อผู้ใช้งานกดปุ่มนี้ ตัวช่วยในการส่งต่อจะปรากฎพร้อมช่องรายละเอียดประเภทของการจัดบริการ, หน่วยงาน, ผู้ให้บริการ, และตำแหน่งที่ตั้ง ที่ถูกปิดการใช้งานอยู่ แต่ระบบจะทำการใส่ข้อมูลให้โดยอัตโนมัติหลังจากที่ผู้ใช้งานได้ทำการกดปุ่ม 'ส่งต่อ'
+            explanation: "ผู้ใช้สามารถเห็นปุ่ม \"ส่งต่อ\" บนฟอร์มย่อยของการให้บริการ เมื่อผู้ใช้งานกดปุ่มนี้ ตัวช่วยในการส่งต่อจะปรากฎพร้อมช่องรายละเอียดประเภทของการจัดบริการ, หน่วยงาน, ผู้ให้บริการ, และตำแหน่งที่ตั้ง ที่ถูกปิดการใช้งานอยู่ แต่ระบบจะทำการใส่ข้อมูลให้โดยอัตโนมัติหลังจากที่ผู้ใช้งานได้ทำการกดปุ่ม 'ส่งต่อ'"
             label: ส่งต่อเคสด้วยแบบฟอร์มย่อยการให้การบริการ
           remove_assigned_users:
             explanation: ผู้ใช้งานสามารถทำการลบชื่อผู้ใช้งานรายอื่นออกจากช่อง "ผู้ใช้งานอื่นที่ได้รับมอบหมาย"  โดยรายชื่อผู้ใช้งานจะแสดงขึ้นมาในกรณีที่พวกเขาได้รับการส่งต่อหรือส่งมอบเคส แต่ยังไม่ได้ตอบรับหรือปฏิเสธ  เมื่อคุณลบชื่อผู้ใช้งานออกจากช่อง "ผู้ใช้งานอื่นที่ได้รับมอบหมาย" หมายความว่าคุณได้ทำการยกเลิกสิทธิ์ของพวกเขาในการเข้าถึงข้อมูลเคส ผู้ใช้งานที่มีสิทธิ์นี้จะสามารถยกเลิกการเข้าถึงข้อมูลเคสจากผู้ใช้งานที่เคยได้รับการส่งต่อหรืออยู่ระหว่างรอส่งมอบเคส  หมายเหตุ จะใช้สิทธิ์นี้ได้เมื่อผู้ใช้ปัจจุบันมีสิทธิ์ในการแก้ไขข้อมูลเคสได้ด้วยเท่านั้น
@@ -1440,23 +1945,23 @@ th:
             explanation: อนุญาติให้ผู้ใช้งานสามารถเปิดเคสที่ได้ยุติไปแล้ว
             label: เปิดการทำงานอีกครั้ง
           request_approval_action_plan:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_approval_assessment:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_approval_bia:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_approval_case_plan:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_approval_closure:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_approval_gbv_closure:
-            explanation: ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้
-            label: ขออนุมัติ สำหรับ %{approval_label}
+            explanation: "ผู้ใช้งาน (โดยปกติคือผู้ดูแลรายกรณี) สามารถร้องขอการอนุมัติ%{approval_label}จากผู้จัดการได้"
+            label: "ขออนุมัติ สำหรับ %{approval_label}"
           request_transfer:
             explanation: แสดงปุ่ม "คำร้องขอส่งมอบ" บน "แสดงตัวช่วย" ปุ่มนี้ช่วยให้ผู้ใช้งานสามารถส่งข้อความส่วนตัวผ่านทางอีเมลไปยังเจ้าของเคสคนปัจจุบัน เพื่อร้องขอให้เจ้าของเคสทำการส่งมอบเคสให้แก่ผู้ใช้งานที่ส่งคําขอ สิ่งนี้มีประโยชน์ในสถานการณ์ที่เด็กมีการเปลี่ยนแปลงตำแหน่งที่ตั้งบ่อยครั้ง และผู้ดูแลรายกรณีต้องการให้เจ้าของเคสเดิมส่งข้อมูลเกี่ยวกับตัวเด็ก เพื่อหลีกเลี่ยงการสร้างข้อมูลซ้ำในระบบ
             label: คำร้องขอส่งมอบ
@@ -1464,16 +1969,19 @@ th:
             explanation: อนุญาตให้ผู้ใช้งานทําการค้นหารายการที่ปกติไม่มีสิทธิ์เข้าถึง (เนื่องจากไม่ใช่เจ้าของเคสและการแจ้งเหตุนั้น) หรือ สําหรับผู้จัดการซึ่งไม่ได้อยู่ในกลุ่มเดียวกับเจ้าของข้อมูล ทั้งนี้แม้ว่าผู้ใช้งานจะสามารถเห็นเคสจากผลการค้นหา แต่จะไม่สามารถคลิกเข้าไปในเคสเหล่านั้นเพื่อดูรายละเอียดใด ๆ เกี่ยวกับเคส
             label: ค้นหาแ้ฟ้มข้อมูลภายใต้การดูแลของผู้ใช้งานอื่น
           service_provision_incident_details:
-            explanation: 'ผู้ใช้งานสามารถเห็นปุ่ม "บันทึกและเพิ่มการจัดบริการ" ที่ด้านล่างของตัวช่วยในการเพิ่มการแจ้งเหตุ การคลิกปุ่มนี้จะบันทึกข้อมูลที่กรอกไว้เกี่ยวกับการแจ้งเหตุ และจะนําผู้ใช้งานไปยังตัวช่วยในการเพิ่มการจัดบริการ เนื่องจากการกระทํานี้เชื่อมโยงโดยตรงกับการเพิ่มการแจ้งเหตุและเพิ่มการจัดบริการ จึงควรให้สิทธิ์นี้กับบทบาทที่มีสิทธิ์ "เพิ่มการแจ้งเหตุให้กับเคสของผู้ใช้งานอื่น" และ "เพิ่มการจัดบริการให้กับเคสของผู้ใช้งานอื่น" '
+            explanation: "ผู้ใช้งานสามารถเห็นปุ่ม \"บันทึกและเพิ่มการจัดบริการ\" ที่ด้านล่างของตัวช่วยในการเพิ่มการแจ้งเหตุ การคลิกปุ่มนี้จะบันทึกข้อมูลที่กรอกไว้เกี่ยวกับการแจ้งเหตุ และจะนําผู้ใช้งานไปยังตัวช่วยในการเพิ่มการจัดบริการ เนื่องจากการกระทํานี้เชื่อมโยงโดยตรงกับการเพิ่มการแจ้งเหตุและเพิ่มการจัดบริการ จึงควรให้สิทธิ์นี้กับบทบาทที่มีสิทธิ์ \"เพิ่มการแจ้งเหตุให้กับเคสของผู้ใช้งานอื่น\" และ \"เพิ่มการจัดบริการให้กับเคสของผู้ใช้งานอื่น\" "
             label: ดูปุ่ม เพิ่มการจัดบริการ บนรายละเอียดของการแจ้งเหตุ
           services_section_from_case:
             explanation: สิทธิ์ความสามารถในการเพิ่มแบบฟอร์มย่อยสำหรับการจัดบริการในเคสที่ท่านค้นหาได้ในระบบได้ แต่ไม่มีสิทธิ์การเข้าถึง  โดยผู้ใช้งานสามารถทำการดังกล่าวได้จากหน้าผลลัพธ์การค้นหาโดยการเลือกหนึ่งหรือหลายรายกรณี จากนั้นเลือก "เพิ่มการจัดบริการ" จากเมนูการดําเนินการ ซึ่งจะเห็นแบบฟอร์มที่แสดงให้เห็นช่องกรอกข้อมูลทั้งหมดในฟอร์มย่อยของการจัดบริการ ซึ่งผู้ใช้งานสามารถกรอกและส่งข้อมูลเกี่ยวกับการจัดบริการได้ เนื่องจากสามารถดําเนินการได้เฉพาะจากหน้าผลลัพธ์การค้นหาเท่านั้น ผู้ที่จะได้รับสิทธิ์นี้จึงควรมีบทบาทที่สามารถทำการ "ค้นหาเคสที่รับผิดชอบโดยผู้ใช้งานอื่น" ด้วย
             label: เพิ่มการจัดบริการให้แก่เคสของผู้ใช้งานรายอื่น
+          sync_external:
+            explanation: Ability to sync a Record with an external information management system
+            label: Sync with an external information management system
           sync_mobile:
             explanation: การอนุญาตนี้จะช่วยให้ผู้ใช้งานสามารถใช้แอปพลิเคชันบนมือถือ ขั้นแรกจะช่วยให้ผู้ใช้งานสามารถเห็นฟังก์ชัน "ทําเครื่องหมายสําหรับมือถือ" และ "ยกเลิกการทําเครื่องหมายสําหรับมือถือ" ซึ่งจะปรากฏอยู่ในรายการเคสและหน้าแสดงรายการเคส การระบุเคสสําหรับการใช้งานบนมือถือ ทำให้ข้อมูลของเคสนั้นมีการเชื่อมต่อระหว่างอุปกรณ์เคลื่อนที่ของผู้ใช้และแอปพลิเคชันบนเว็บ โดยการยกเลิกการทําเครื่องหมายสําหรับมือถือคือการหยุดการเชื่อมต่อ ผู้ใช้งานที่ไม่ได้รับสิทธิ์นี้จะไม่สามารถเชื่อมต่ออุปกรณ์เคลื่อนที่กับแอปพลิเคชันบนเว็บโดยวิธีทั่วไป ซึ่งหมายความว่าผู้ใช้งานไม่สามารถใช้แอปพลิเคชันบนอุปกรณ์เคลื่อนที่ในการทำงานกับเคสได้
             label: ถ่ายโอนข้อมูลกับอุปกรณ์มือถือ
           transfer:
-            explanation: 'ผู้ใช้งานสามารถส่งเคสภายใต้ความรับผิดชอบไปยังผู้ใช้งานอื่นในระบบที่ถูกกำหนดให้สามารถรับมอบเคสได้  โดยที่สิทธิ์ในความเป็นเจ้าของเคสจะยังคงไม่เปลี่ยนแปลง จนกว่าผู้รับส่งมอบจะ "ยอมรับ" การส่งมอบนั้น หากผู้รับ "ปฏิเสธ" การส่งมอบ ก็จะไม่มีสิทธิ์ในการเข้าถึงข้อมูลเคส โดยเจ้าของเคสเดิมจะยังคงเป็นเจ้าของเคสอยู่ '
+            explanation: "ผู้ใช้งานสามารถส่งเคสภายใต้ความรับผิดชอบไปยังผู้ใช้งานอื่นในระบบที่ถูกกำหนดให้สามารถรับมอบเคสได้  โดยที่สิทธิ์ในความเป็นเจ้าของเคสจะยังคงไม่เปลี่ยนแปลง จนกว่าผู้รับส่งมอบจะ \"ยอมรับ\" การส่งมอบนั้น หากผู้รับ \"ปฏิเสธ\" การส่งมอบ ก็จะไม่มีสิทธิ์ในการเข้าถึงข้อมูลเคส โดยเจ้าของเคสเดิมจะยังคงเป็นเจ้าของเคสอยู่ "
             label: ส่งมอบเคส
           view_photo:
             explanation: อนุญาตให้ผู้ใช้งานสามารถเห็นภาพถ่ายของเคสจากหน้าแสดงรายการเคส หากไม่มีการอนุญาตนี้ ผู้ใช้งานจะไม่สามารถเห็นช่องแสดง "ภาพถ่าย" จากตารางแสดงรายการเคสหรือไอคอนของภาพถ่ายที่จะปรากฏอยู่ การอนุญาตนี้ทำให้ผู้ใช้งานสามารถดูภาพถ่ายใน "แสดงตัวช่วย"
@@ -1482,41 +1990,41 @@ th:
             explanation: ขณะที่ดูรายละเอียดเคส ผู้ใช้งานสามารถเห็นรายการการแจ้งเหตุที่เกี่ยวข้องกับเคสนั้นได้ พร้อมกับข้อสรุปของแต่ละการแจ้งเหตุ
             label: แสดงข้อมูลการแจ้งเหตุจากเคส
           write:
-            explanation: 'สิทธิ์ความสามารถในการกดปุ่ม "แก้ไข" เพื่อทำข้อมูลเคสให้เป็นปัจจุบัน และกดปุ่ม "บันทึก" '
+            explanation: "สิทธิ์ความสามารถในการกดปุ่ม \"แก้ไข\" เพื่อทำข้อมูลเคสให้เป็นปัจจุบัน และกดปุ่ม \"บันทึก\" "
             label: แก้ไข
         label: เคส
       dashboard:
         actions:
           approvals_action_plan:
             explanation: แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติแผนปฏิบัติการ ทั้งที่อยู่ระหว่างการรออนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ
-            label: ' อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี'
+            label: " อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี"
           approvals_action_plan_pending:
             explanation: แสดงผลจำนวนเคสที่อยู่ในสถานะรอการอนุมัติแผนปฏิบัติการ ของผู้ใช้งานทุกท่านที่อยู่ในทีมของผู้จัดการท่านนี้
-            label: '  %{approval_label} อนุมัติโดยผู้จัดการ'
+            label: "  %{approval_label} อนุมัติโดยผู้จัดการ"
           approvals_assessment:
-            explanation: 'แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติผลการประเมิน ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ '
-            label: ' อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี'
+            explanation: "แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติผลการประเมิน ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ "
+            label: " อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี"
           approvals_assessment_pending:
             explanation: แสดงผลจำนวนเคสที่อยู่ในสถานะรอการอนุมัติผลการประเมิน ของผู้ใช้งานทุกท่านที่อยู่ในทีมของผู้จัดการท่านนี้
-            label: '  %{approval_label} อนุมัติโดยผู้จัดการ'
+            label: "  %{approval_label} อนุมัติโดยผู้จัดการ"
           approvals_case_plan:
             explanation: แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติแผนรายกรณี ทั้งที่อยู่ระหว่างการรออนุมัติ ได้รับอนุมัติแลัว หรือถูกปฏิเสธ
-            label: ' อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี'
+            label: " อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี"
           approvals_case_plan_pending:
             explanation: แสดงผลจำนวนเคสที่อยู่ในสถานะรอการอนุมัติแผนรายกรณี ของผู้ใช้งานทุกท่านที่อยู่ในทีมของผู้จัดการท่านนี้
-            label: '  %{approval_label} อนุมัติโดยผู้จัดการ'
+            label: "  %{approval_label} อนุมัติโดยผู้จัดการ"
           approvals_closure:
-            explanation: 'แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติเพื่อยุติเคส ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ '
-            label: ' อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี'
+            explanation: "แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติเพื่อยุติเคส ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ "
+            label: " อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี"
           approvals_closure_pending:
             explanation: แสดงผลจำนวนเคสที่อยู่ในสถานะรอการอนุมัติการยุติเคส ของผู้ใช้งานทุกท่านที่อยู่ในทีมของผู้จัดการท่านนี้
-            label: '  %{approval_label} อนุมัติโดยผู้จัดการ'
+            label: "  %{approval_label} อนุมัติโดยผู้จัดการ"
           approvals_gbv_closure:
-            explanation: 'แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติเพื่อยุติเคสการใช้ความรุนแรงบนฐานเพศ (GBV) ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ '
-            label: ' อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี'
+            explanation: "แสดงผลจำนวนเคสของผู้ใช้งานปัจจุบัน ที่ได้มีการส่งคำร้องขออนุมัติเพื่อยุติเคสการใช้ความรุนแรงบนฐานเพศ (GBV) ทั้งที่อยู่ระหว่างรอการอนุมัติ ได้รับอนุมัติแล้ว หรือถูกปฏิเสธ "
+            label: " อนุมัติ %{approval_label}ของผู้ดูแลรายกรณี"
           approvals_gbv_closure_pending:
             explanation: แสดงผลจำนวนเคสที่อยู่ในสถานะรอการอนุมัติการยุติเคสความรุนแรงบนฐานเพศ (GBV) ของผู้ใช้งานทุกท่านที่อยู่ในทีมของผู้จัดการท่านนี้
-            label: '  %{approval_label} อนุมัติโดยผู้จัดการ'
+            label: "  %{approval_label} อนุมัติโดยผู้จัดการ"
           case_overview:
             explanation: แถบกระดานแสดงภาพรวมอยู่ด้านบนของหน้า homepage ซึ่งรวมถึงจำนวนเคสทั้งหมดและเคสใหม่
             label: กระดานแสดงภาพรวมทั้งหมด
@@ -1539,13 +2047,16 @@ th:
             explanation: .
             label: ภาพรวม เคส/การแจ้งเหตุในการดูแลของฉัน
           dash_cases_by_social_worker:
-            explanation: 'ตารางแสดงจํานวนเคสทั้งหมดที่อยู่ในสถานะเปิดและจํานวนเคสใหม่ที่อยู่ในความรับผิดชอบของผู้ปฏิบัติงานในทีมแต่ละท่าน  แต่ละแถวจะแสดงรายชื่อผู้ปฏิบัติงาน ในขณะที่ข้อมูลในคอลัมน์จะแสดงจำนวนเคส "ทั้งหมด" และ เคส "ใหม่" '
+            explanation: "ตารางแสดงจํานวนเคสทั้งหมดที่อยู่ในสถานะเปิดและจํานวนเคสใหม่ที่อยู่ในความรับผิดชอบของผู้ปฏิบัติงานในทีมแต่ละท่าน  แต่ละแถวจะแสดงรายชื่อผู้ปฏิบัติงาน ในขณะที่ข้อมูลในคอลัมน์จะแสดงจำนวนเคส \"ทั้งหมด\" และ เคส \"ใหม่\" "
             label: แสดงข้อมูลเคสแยกตามชื่อนักสังคมสงเคราะห์
           dash_cases_to_assign:
             explanation: 'ข้อสําคัญ: สําหรับผู้จัดการเท่านั้น แสดงจํานวนเคสที่อยู่ภายใต้การดูแลของผู้ใช้งานปัจจุบัน (ผู้จัดการ) กระดานแสดงภาพรวมนี้อุปมาว่าผู้จัดการไม่ได้ทำเคสด้วยตัวเอง และหากมีเคสที่ผู้จัดการดำเนินการอยู่เอง ก็ควรมอบหมายเคสนั้นให้ผู้ดูแลรายกรณีท่านอื่นในทีม'
             label: (สำหรับผู้จัดการ) เคสที่ต้องมอบหมายให้ผู้ปฏิบัติงานในทีม
+          dash_flags:
+            explanation: "Shows a list of flags other users have added to my records, as well as flags I have added to other users’ records."
+            label: Flagged Records
           dash_group_overview:
-            explanation: 'แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่อยู่ในสถานเปิดหรือยุติแล้ว ของผู้ใช้งานแต่ละคนภายในทีม '
+            explanation: "แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่อยู่ในสถานเปิดหรือยุติแล้ว ของผู้ใช้งานแต่ละคนภายในทีม "
             label: เคสที่อยู่ในการดูแลของกลุ่มฉัน
           dash_matching_results:
             explanation: คัดค้าน กระดานแสดงภาพรวมไม่ทำงาน และจะถูกยกเลิกใน v2
@@ -1557,27 +2068,25 @@ th:
             explanation: ส่วนนี้จะเหมือนกับส่วน "แสดงประเด็นที่ต้องได้รับการคุ้มครอง" บนกระดานแสดงภาพรวม (dashboard) แต่ผู้ใช้งานสามารถเลือกตำแหน่งที่ตั้งได้จากเมนูตัวเลือก เพื่อแสดงสถิติเกี่ยวกับสถานการณ์ของประเด็นที่ต้องได้รับการคุ้มครองเฉพาะของตำแหน่งที่ตั้งนั้น
             label: แสดงประเด็นที่ต้องได้รับการคุ้มครองแยกตามตำแหน่งที่ตั้ง
           dash_reporting_location:
-            explanation: ตารางแสดงจำนวนเคสในแต่ละตำแหน่งที่ตั้ง (อาจระบุเป็นระดับ "จังหวัด" หรือ "อำเภอ") ซึ่งในแต่ละแถวของตารางจะแสดงรายชื่อตำแหน่งที่ตั้งและคอลัมน์จะแสดงสถานะที่แตกต่างกันสำหรับเคส ("เคสที่เปิดอยู่" "เคสใหม่ (ภายในสัปดาห์ที่ผ่านมา)," "เคสใหม่ (ภายในสัปดาห์นี้)" "เคสที่ยุติแล้ว (ภายในสัปดาห์ที่ผ่านมา)" "เคสที่ยุติแล้ว (ภายในสัปดาห์นี้)") โดยปกติรายงานนี้จะใช้สำหรับผู้จัดการหรือผู้ดูแลระบบ
+            explanation: "ตารางแสดงจำนวนเคสในแต่ละตำแหน่งที่ตั้ง (อาจระบุเป็นระดับ \"จังหวัด\" หรือ \"อำเภอ\") ซึ่งในแต่ละแถวของตารางจะแสดงรายชื่อตำแหน่งที่ตั้งและคอลัมน์จะแสดงสถานะที่แตกต่างกันสำหรับเคส (\"เคสที่เปิดอยู่\" \"เคสใหม่ (ภายในสัปดาห์ที่ผ่านมา),\" \"เคสใหม่ (ภายในสัปดาห์นี้)\" \"เคสที่ยุติแล้ว (ภายในสัปดาห์ที่ผ่านมา)\" \"เคสที่ยุติแล้ว (ภายในสัปดาห์นี้)\") โดยปกติรายงานนี้จะใช้สำหรับผู้จัดการหรือผู้ดูแลระบบ"
             label: เคสแยกตามตำแหน่งที่ตั้งที่รายงานหตุ
           dash_service_provisions:
             explanation: แสดงจํานวนเคสที่มีการเพิ่มการจัดบริการโดยผู้ปฏิบัติงานท่านอื่น ตัวเลขนี้จะปรากฏในกระดานแสดงภาพรวม
             label: เคสแยกตามประเภทการจัดบริการ
           dash_shared_from_my_team:
-            explanation: 'แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่อยู่ภายใต้การดูแลของผู้ใช้งานแต่ละคนภายในทีม ที่ถูกส่งต่อ หรือส่งมอบให้กับผู้ใช้งานอื่น  '
+            explanation: "แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่อยู่ภายใต้การดูแลของผู้ใช้งานแต่ละคนภายในทีม ที่ถูกส่งต่อ หรือส่งมอบให้กับผู้ใช้งานอื่น  "
             label: ส่งมาจากทีมของฉัน
           dash_shared_with_me:
-            explanation: 'แสดงจำนวนเคสที่ถูกส่งต่อ หรือส่งมอบให้กับท่าน '
+            explanation: "แสดงจำนวนเคสที่ถูกส่งต่อ หรือส่งมอบให้กับท่าน "
             label: ส่งมาให้ฉัน
           dash_shared_with_my_team:
-            explanation: 'แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่ถูกส่งต่อ หรือส่งมอบให้กับผู้ใช้งานแต่ละคนภายในทีม '
+            explanation: "แสดงให้ผู้จัดการเห็นถึงจำนวนเคสที่ถูกส่งต่อ หรือส่งมอบให้กับผู้ใช้งานแต่ละคนภายในทีม "
             label: ส่งให้ทีมของฉัน
           dash_shared_with_others:
             explanation: แสดงจำนวนเคสของฉันที่อยู่ระหว่างการส่งต่อ รอส่งมอบ หรือถูกปฏิเสธการส่งมอบ  (โดยทั่วไปแล้วไม่ใช่รายการของผู้จัดการ ยกเว้นพวกเขาจะจัดการเคสด้วยตนเอง)
             label: ส่งให้ผู้อื่น
           dash_show_none_values:
-            explanation: 'เพิ่มหมวด "ไม่มีระดับความเสี่ยง" ให้กับกระดานแสดงภาพรวมทุกหน้าที่แยกเคสตามระดับความเสี่ยง
-
-              หมายเหตุ: เฉพาะสําหรับการกำหนดค่าที่มีตัวเลือกระดับความเสี่ยงอันดับที่สี่เป็น "ไม่มีความเสี่ยง"'
+            explanation: "เพิ่มหมวด \"ไม่มีระดับความเสี่ยง\" ให้กับกระดานแสดงภาพรวมทุกหน้าที่แยกเคสตามระดับความเสี่ยง\nหมายเหตุ: เฉพาะสําหรับการกำหนดค่าที่มีตัวเลือกระดับความเสี่ยงอันดับที่สี่เป็น \"ไม่มีความเสี่ยง\""
             label: แสดงเคสที่ 'ไม่มีระดับความเสี่ยง' บนกระดานแสดงภาพรวมการประเมิน
           dash_tasks:
             explanation: อนุญาตให้ผู้ปฏิบัติงานสามารถดูหน้ารายการภารกิจ สิทธิ์นี้ควรจะให้แก่ผู้ดูแลรายกรณีและผู้ให้บริการ เนื่องจากจะเป็นตัวเลขเฉพาะสําหรับเคสที่คุณรับผิดชอบโดยตรง ผู้จัดการควรได้รับกระดานแสดงภาพรวมของ "แสดงเคสที่เกินกำหนดเวลา" เพื่อช่วยให้เห็นงานที่เลยกําหนดเวลาสําหรับผู้ปฏิบัติงานทุกคนในกลุ่มของตน
@@ -1589,7 +2098,7 @@ th:
             explanation: แสดงจํานวนเคสในแต่ละระดับความเสี่ยงที่ใกล้หรือเลยกําหนดเวลาการให้บริการ สําหรับแต่ละประเภทของการตอบสนอง
             label: แสดงข้อมูลการตอบสนอง
           workflow:
-            explanation: 'ผู้ดูแลรายกรณีสามารถเรียกดูแผนภาพ pie graph ว่ามีกี่เคสที่อยู่ในแต่ละขั้นตอนของการจัดการรายกรณี '
+            explanation: "ผู้ดูแลรายกรณีสามารถเรียกดูแผนภาพ pie graph ว่ามีกี่เคสที่อยู่ในแต่ละขั้นตอนของการจัดการรายกรณี "
             label: แยกเคสตามขั้นตอนการทำงาน
           workflow_team:
             explanation: ผู้จัดการสามารถเรียกดูตารางแสดงจำนวนเคสของนักสังคมสงเคราะห์ในทีม ที่อยู่ในแต่ละขั้นตอนของการจัดการรายกรณี
@@ -1629,10 +2138,10 @@ th:
             explanation: บทบาทนี้จะอนุญาตให้ผู้ใช้งานสามารถเข้าถึบันทึกทั้งหมดที่อยู่ภายใต้ความรับิดชอบของผู้ใช้งานทั้งหมดภายในกลุ่มผู้ใช้งานเดียวกัน ซึ่งจะสามารถเข้าถึงรายการบันทึกของผู้ใช้งาน และกลุ่มผู้ใช้งานที่อยู่ภายในกลุ่มเดียวกันเท่านั้น
             label: เข้าถึงบันทึกหรือผู้ใช้งานทั้งหมดในกลุ่มของฉัน
           self:
-            explanation: 'บทบาทนี้สามารถเข้าถึงข้อมูลภายใต้ความรับผิดชอบของตนเอง (เคส, คำร้องขอให้มีการติดตามตัว หรือข้อมูลการแจ้งเหตุ) และสามารถแก้ไขบัญชีผู้ใช้งานของตนเองได้ '
+            explanation: "บทบาทนี้สามารถเข้าถึงข้อมูลภายใต้ความรับผิดชอบของตนเอง (เคส, คำร้องขอให้มีการติดตามตัว หรือข้อมูลการแจ้งเหตุ) และสามารถแก้ไขบัญชีผู้ใช้งานของตนเองได้ "
             label: เข้าถึงเฉพาะบันทึกหรือผู้ใช้งานของฉัน
-        explanation: ควบคุมว่าข้อมูลใด (เคส, คำร้องขอให้มีการติดตามตัว หรือข้อมูลการแจ้งเหตุ) ที่บทบาทนี้สามารถเข้าถึงได้ ถ้าบทบาทใดมีสิทธิ์ในการเข้าถึงผู้ใช้งานและกลุ่มผู้ใช้งาน ก็จะสามารถควบคุมได้ว่าจะเข้าถึงผู้ใช้งานและกลุ่มผู้ใช้งานใดบ้าง บทบาทที่สามารถเข้าถึง "เฉพาะข้อมูลที่ไม่ใช่เคส" จะสามารถเข้าถึงการกําหนดค่าระบบ เช่นแบบฟอร์ม ผู้ใช้งาน และรายงานเท่านั้น
-        label: บทบาทนี้จะกระทบต่อบันทึกข้อมูลใดบ้าง?
+        explanation: "ควบคุมว่าข้อมูลใด (เคส, คำร้องขอให้มีการติดตามตัว หรือข้อมูลการแจ้งเหตุ) ที่บทบาทนี้สามารถเข้าถึงได้ ถ้าบทบาทใดมีสิทธิ์ในการเข้าถึงผู้ใช้งานและกลุ่มผู้ใช้งาน ก็จะสามารถควบคุมได้ว่าจะเข้าถึงผู้ใช้งานและกลุ่มผู้ใช้งานใดบ้าง บทบาทที่สามารถเข้าถึง \"เฉพาะข้อมูลที่ไม่ใช่เคส\" จะสามารถเข้าถึงการกําหนดค่าระบบ เช่นแบบฟอร์ม ผู้ใช้งาน และรายงานเท่านั้น"
+        label: "บทบาทนี้จะกระทบต่อบันทึกข้อมูลใดบ้าง?"
       incident:
         actions:
           change_log:
@@ -1641,13 +2150,14 @@ th:
           create:
             explanation: สิทธิ์ความสามารถในการเพิ่มการแจ้งเหตุ
             label: สร้าง
+          enable_disable_record:
+            explanation: Ability to disable or enable a Incident. "Disabled" Incidents do not appear by default in the Incident list. Users can see disabled Incidents in the Incident list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
-            explanation: 'ผู้ใช้งานสามารถส่งออกไฟล์เป็น PDF จากหน้ารายการแจ้งเหตุ และหน้าแสดงการแจ้งเหตุ ซึ่งประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการ หรือรายการทั้งหมด หมายเหตุ: ไฟล์ PDF ที่ส่งออก ข้อมูลที่แสดงจะแสดงรายกรณีเป็นอันดับแรก ตามด้วยรายการข้อมูลที่ปรากฎในแบบฟอร์ม
-
-              ผู้ใช้งานสามารถส่งออกไฟล์เป็น PDF จากหน้าแสดงรายการแจ้งเหตุ ซึ่งมีช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานปัจจุบันมีสิทธิเข้าถึง สำหรับหนึ่งเคส หลายเคส หรือทุกเคส ทั้งนี้ข้อมูลในไฟล์ PDF ที่ส่งออก จะเรียงลำดับตามเคส ตามด้วยรายการข้อมูลที่ปรากฎในแบบฟอร์ม'
+            explanation: "ผู้ใช้งานสามารถส่งออกไฟล์เป็น PDF จากหน้ารายการแจ้งเหตุ และหน้าแสดงการแจ้งเหตุ ซึ่งประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการ หรือรายการทั้งหมด หมายเหตุ: ไฟล์ PDF ที่ส่งออก ข้อมูลที่แสดงจะแสดงรายกรณีเป็นอันดับแรก ตามด้วยรายการข้อมูลที่ปรากฎในแบบฟอร์ม\nผู้ใช้งานสามารถส่งออกไฟล์เป็น PDF จากหน้าแสดงรายการแจ้งเหตุ ซึ่งมีช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานปัจจุบันมีสิทธิเข้าถึง สำหรับหนึ่งเคส หลายเคส หรือทุกเคส ทั้งนี้ข้อมูลในไฟล์ PDF ที่ส่งออก จะเรียงลำดับตามเคส ตามด้วยรายการข้อมูลที่ปรากฎในแบบฟอร์ม"
             label: ส่งออกข้อมูลเป็นไฟล์ pdf
           export_csv:
-            explanation: 'ผู้ใช้งานสามารถส่งออกไฟล์เป็น CSV จากหน้าแสดงรายการแจ้งเหตุ ซึ่งจะประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการ หรือรายการทั้งหมดของการแจ้งเหตุ '
+            explanation: "ผู้ใช้งานสามารถส่งออกไฟล์เป็น CSV จากหน้าแสดงรายการแจ้งเหตุ ซึ่งจะประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการ หรือรายการทั้งหมดของการแจ้งเหตุ "
             label: ส่งออกข้อมูลเป็นไฟล์ CSV
           export_custom:
             label: ส่งออกข้อมูลที่กำหนดรายละเอียดเอง
@@ -1660,6 +2170,9 @@ th:
           export_list_view_csv:
             explanation: ผู้ใช้งานสามารถส่งออกไฟล์เป็น CSV จากหน้าแสดงรายการแจ้งเหตุ ซึ่งจะประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่แสดงให้ผู้ใช้งานเห็นจากหน้ารายการแจ้งเหตุ และจะสามารถทำการส่งออกไฟล์ได้จากหน้าแสดงรายการแจ้งเหตุเท่านั้น
             label: ส่งออกแถบตัวเลือกเป็นไฟล์ csv
+          export_pdf:
+            explanation: "User can generate a PDF file export from the incidents list or incident show pages, which contains all fields to which the current user has access, for one, multiple, or all records to which the user has access. In the PDF export file, information is listed first by case, and then further organized by the form on which information appears."
+            label: Export PDF
           export_xls:
             explanation: ผู้ใช้งานสามารถสร้างไฟล์ XLS เพื่อส่งออกข้อมูลการแจ้งเหตุ โดยในตัวไฟล์ที่ถูกส่งออกจะสามารถเลือกฟอร์มหรือช่องกรอกช้อมูลสำหรับหนึ่งเคส หลายเคส หรือทุกเคส ที่ผู้ใช้งานมีสิทธิ์เข้าถึงได้ ในการส่งออกนี้ แต่ละแบบฟอร์มจะแสดงข้อมูลในแท็บของตัวเองภายในไฟล์ XLS ผู้ใช้งานสามารถกำหนดเลือกแบบฟอร์มหรือช่องกรอกข้อมูลที่พวกเขาต้องการส่งออกได้เอง ทั้งนี้ผู้ใช้งานสามารถส่งออกเฉพาะแบบฟอร์มและช่องกรอกข้อมูลที่ตนเองมีสิทธิ์เห็นได้ในโปรแกรมเท่านั้น
             label: การส่งออกข้อมูลเป็นไฟล์เอ็กเซลล์ (XLS)
@@ -1667,7 +2180,7 @@ th:
             explanation: สิทธิ์ความสามารถในการทำสัญลักษณ์ "สำคัญ" ให้กับการแจ้งเหตุ โดยจะมีสิทธิ์ในการยกเลิกการทำสัญลักษณ์ "สำคัญ" ได้เช่นกัน
             label: ทำสัญลักษณ์ "สำคัญ"
           import:
-            explanation: อนุญาตให้ผู้ใช้งานสามารถเพิ่มการแจ้งเหตุโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการแจ้งเหตุเท่านั้น
+            explanation: "อนุญาตให้ผู้ใช้งานสามารถเพิ่มการแจ้งเหตุโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการแจ้งเหตุเท่านั้น"
             label: นำเข้าข้อมูล
           manage:
             explanation: ผู้ใช้งานสามารถดำเนินการทุกอย่างได้เกี่ยวกับการแจ้งเหตุ การให้สิทธิ์ "การจัดการ" หมายรวมถึงทุกอย่าง
@@ -1684,7 +2197,7 @@ th:
         label: การแจ้งเหตุ
       is_manager:
         explanation: นําไปปรับใช้กับบทบาทผู้ใช้งาน ซึ่งโดยทั่วไปจะทำหน้าที่ดูแลผู้ใช้งานท่านอื่น  ซึ่งช่วยให้ผู้ใช้งานท่านนี้สามารถดูกระดานแสดงภาพรวมและตัวกรองต่าง ๆ ซึ่งช่วยให้ผู้ใช้งานสามารถบริหารจัดการทีมงานได้
-        label: เป็นผู้จัดการหรือไม่?
+        label: "เป็นผู้จัดการหรือไม่?"
       matching_configuration:
         actions:
           manage:
@@ -1696,7 +2209,7 @@ th:
           manage:
             explanation: สิทธิ์ความสามารถในการสร้าง แก้ไข แปล และลบแบบฟอร์ม ช่องกรอกข้อมูล และฟังก์ชั่นการค้นหา โดยผู้ใช้งานที่มีสิทธิ์นี้จะสามารถจัดการแบบฟอร์มที่ตนมีสิทธิ์เข้าถึงได้เท่านั้น เช่น ถ้าผู้ดูแลระบบในส่วนกลางมีสิทธิ์เข้าถึงแบบฟอร์มเฉพาะรายการที่เป็นเจ้าของ (Record Owner) แล้ว พวกเขาจะสามารถทำการแก้ไขการกําหนดค่าได้เฉพาะฟอร์มนี้เท่านั้น
             label: สิทธิ์ในการจัดการ (ได้รับสิทธิทั้งหมดในการจัดการทรัพยากรประเภทนี้)
-        label: แบบฟอร์ม, การค้นหา
+        label: "แบบฟอร์ม, การค้นหา"
       module:
         actions:
           cp:
@@ -1710,13 +2223,20 @@ th:
       potential_match:
         actions:
           read:
+            explanation: Represents the link between a Tracing Request and a Case. Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work. Allows user to see the Tracing Summary form on Cases.
             label: แสดงผล
         label: การจับคู่ที่อาจตรงกัน
+      primero_configuration:
+        actions:
+          manage:
+            explanation: "Ability to save, apply, and send Configurations. This permission is usually reserved for the system administrator."
+            label: Manage (all permissions for this resource type)
+        label: Configuration
       referral:
         actions:
           refer:
             explanation: การระบุบทบาทจะปรากฎเป็นทางเลือกสำหรับ "ประเภทของผู้รับ" เมื่อผู้ใช้งานดำเนินการส่งมอบให้หน่วยงานภายนอก หากผู้ใช้งานเลือกบทบาทนี้เป็นประเภทของการส่งมอบ ไฟล์สำหรับส่งออกที่สร้างขึ้นโดย Primero เมื่อผู้ใช้งานเลือกการส่งมอบ จะมีข้อมูลเฉพาะส่วนที่พบอยู่ในฟอร์มที่ผู้รับบทบาทนี้สามารถเข้าถึงได้เท่านั้น ตัวอย่างเช่น หากผู้ัใช้งานเลือก "ผู้ให้บริการด้านการแพทย์" เป็นประเภทของผู้รับ โดยบทบาทของผู้ให้บริการด้านการแพทย์ สามารถเข้าถึงเฉพาะฟอร์มข้อมูลพื้นฐานและฟอร์มประเด็นด้านการคุ้มครอง ดังนั้นไฟล์สำหรับการส่งออกที่จัดเตรียมโดย Primero เพื่อการส่งมอบให้หน่วยงานภายนอกนั้นจะมีเฉพาะข้อมูลที่อยู่ในสองฟอร์มนี้เท่านั้น
-            label: ผู้ใช้บทบาทนี้สามารถดำเนินการส่งต่อภายนอกได้หรือไม่?
+            label: "ผู้ใช้บทบาทนี้สามารถดำเนินการส่งต่อภายนอกได้หรือไม่?"
         label: การส่งต่อ
       report:
         actions:
@@ -1737,7 +2257,8 @@ th:
             label: แก้ไข
         label: รายงาน
       reporting_location_level:
-        label: บทบาทนี้ควรจะรายงานบนฐานของตำแหน่งที่ตั้งประเภทใด?
+        explanation: 'This will control what level of locations appear for this Role in the dashboards, filters, referral modals, and transfer modals. If you leave this field blank, this Role will see the system’s default Reporting Location level.'
+        label: "บทบาทนี้ควรจะรายงานบนฐานของตำแหน่งที่ตั้งประเภทใด?"
       role:
         actions:
           assign:
@@ -1774,11 +2295,14 @@ th:
       tracing_request:
         actions:
           change_log:
-            explanation: 'ผู้ใช้งานสามารถเรียกดูประวัติการปรับแก้ข้อมูลทั้งหมดตั้งแต่เริ่มเปิดเคส ซึ่งรวมถึงการบันทึกค่าในทุกช่องกรอกข้อมูล '
+            explanation: "ผู้ใช้งานสามารถเรียกดูประวัติการปรับแก้ข้อมูลทั้งหมดตั้งแต่เริ่มเปิดเคส ซึ่งรวมถึงการบันทึกค่าในทุกช่องกรอกข้อมูล "
             label: บันทึกการเปลี่ยนแปลง
           create:
             explanation: สามารถสร้างคำร้องขอให้มีการติดตามตัว
             label: สร้าง
+          enable_disable_record:
+            explanation: Ability to disable or enable a Tracing Request. "Disabled" Tracing Requests do not appear by default in the Tracing Requests list. Users can see disabled Tracing Requests in the Tracing Requests list by applying a filter.
+            label: Enable / Disable
           export_case_pdf:
             explanation: ผู้ใช้งานสามารถส่งออกไฟล์เป็น PDF จากหน้าแสดงรายการคำร้องขอให้มีการติดตามตัว ซึ่งประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานปัจจุบันมีสิทธิเข้าถึง ไม่ว่าจะเป็นหนึ่งรายการ หลายรายการ หรือรายการทั้งหมด ทั้งนี้ในไฟล์ PDF ที่ส่งออก มีข้อมูลที่จัดเรียงตามเคส ตามด้วยรายการข้อมูลที่ปรากฎในแบบฟอร์ม
             label: ส่งออกข้อมูลเป็นไฟล์ pdf
@@ -1794,11 +2318,14 @@ th:
           export_list_view_csv:
             explanation: ผู้ใช้งานสามารถส่งออกไฟล์เป็น CSV จากหน้าแสดงรายการคำร้องขอให้มีการติดตามตัว ซึ่งประกอบด้วยช่องกรอกข้อมูลทั้งหมดที่ผู้ใช้งานสามารถมองเห็นได้จากหน้ารายการคำร้องขอให้มีการติดตามตัว และจะสามารถทำการส่งออกไฟล์ได้จากหน้าแสดงรายการคำร้องขอให้มีการติดตามตัวเท่านั้น
             label: ส่งออกแถบตัวเลือกเป็นไฟล์ csv
+          export_pdf:
+            explanation: "User can generate a PDF file export from the tracing requests list or tracing request show pages, which contains all fields to which the current user has access, for one, multiple, or all records to which the user has access. In the PDF export file, information is listed first by case, and then further organized by the form on which information appears."
+            label: Export PDF
           flag:
             explanation: สิทธิ์ความสามารถทำสัญลักษณ์ "สำคัญ" กับคำร้องขอให้มีการติดตามตัว โดยผู้ใช้งานมีสิทธิ์ในการยกเลิกการทำสัญลักษณ์ "สำคัญ" ได้เช่นกัน
             label: ทำสัญลักษณ์ "สำคัญ"
           import:
-            explanation: อนุญาตให้ผู้ใช้งานสามารถเพิ่มเคสโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการเคสเท่านั้น
+            explanation: "อนุญาตให้ผู้ใช้งานสามารถเพิ่มเคสโดยการนําเข้าข้อมูลจากไฟล์ CSV, Excel หรือ JSON และโครงสร้างของไฟล์ที่จะทำการนําเข้าต้องถูกจัดรูปแบบที่ระบุไว้อย่างถูกต้อง ฟังก์ชันนี้ควรจะมอบให้แก่ผู้ดูแลระบบที่มีทักษะทางเทคนิคขั้นสูงและมีความรู้เชิงลึกของการจัดรูปแบบข้อมูลใน Primero และจะสามารถนำเข้าไฟล์ได้จากหน้ารายการเคสเท่านั้น"
             label: นำเข้าข้อมูล
           manage:
             explanation: ผู้ใช้งานสามารถดำเนินการทุกอย่างได้ในคำร้องขอให้มีการติดตามตัว การให้สิทธิ์ "การจัดการ" หมายรวมถึงทุกอย่าง
@@ -1814,7 +2341,7 @@ th:
         actions:
           transfer:
             explanation: การระบุบทบาทจะปรากฎเป็นทางเลือกสำหรับ "ประเภทของผู้รับ" เมื่อผู้ใช้งานดำเนินการส่งมอบให้หน่วยงานภายนอก  หากผู้ใช้งานเลือกบทบาทนี้เป็นประเภทของการส่งมอบ ไฟล์สำหรับส่งออกที่สร้างขึ้นโดย Primero เมื่อผู้ใช้งานเลือกการส่งมอบ จะมีข้อมูลเฉพาะส่วนที่พบอยู่ในฟอร์มที่ผู้รับบทบาทนี้สามารถเข้าถึงได้เท่านั้น ตัวอย่างเช่น หากผู้ัใช้งานเลือก "ผู้ให้บริการด้านการแพทย์" เป็นประเภทของผู้รับ โดยบทบาทของผู้ให้บริการด้านการแพทย์ สามารถเข้าถึงเฉพาะฟอร์มข้อมูลพื้นฐานและฟอร์มประเด็นด้านการคุ้มครอง ดังนั้นไฟล์สำหรับการส่งออกที่จัดเตรียมโดย Primero เพื่อการส่งมอบให้หน่วยงานภายนอกนั้นจะมีเฉพาะข้อมูลที่อยู่ในสองฟอร์มนี้เท่านั้น
-            label: ผู้รับหน้าที่นี้สามารถส่งมอบเคสให้แก่บุคคลภายนอกได้หรือไม่?
+            label: "ผู้รับหน้าที่นี้สามารถส่งมอบเคสให้แก่บุคคลภายนอกได้หรือไม่?"
         label: ส่งมอบเคส
       user:
         actions:
@@ -1856,6 +2383,7 @@ th:
             label: แก้ไข
         label: กลุ่มผู้ใช้งาน
   potential_match:
+    case_id: Case ID
     child_age: อายุ
     child_gender: เพศ
     child_id: หมายเลขประจำตัวเด็ก
@@ -1866,10 +2394,14 @@ th:
     score: คะแนน
     social_worker: นักสังคมสงเคราะห์
     social_worker_agency: หน่วยงาน
+    tracing_request_id: Tracing Request ID
+    trace: Trace
+    likelihood_likely: Likely
+    likelihood_possible: Possible
   potential_matches:
-    display: แสดงการจับคู่ที่อาจตรงกันสำหรับ %{type}%{id}
+    display: "แสดงการจับคู่ที่อาจตรงกันสำหรับ %{type}%{id}"
   reassign:
-    multiple_error: 'เกิดข้อผิดพลาด ยังไม่มีการมอบหมายเคส%{select_records} '
+    multiple_error: "เกิดข้อผิดพลาด ยังไม่มีการมอบหมายเคส%{select_records} "
     multiple_successfully: 'ได้มอบหมายผู้ดูแลให้แก่เคสจำนวน %{select_records} เคสแล้ว'
     notes_label: บันทึกข้อความ
     successfully: มอบหมายงานสำเร็จแล้ว
@@ -1878,13 +2410,15 @@ th:
   record_information:
     assigned_user_names: ผู้ใช้งานท่านอื่น ๆ ที่ได้รับมอบหมายงาน
     created_by: บันทึกนี้ถูกสร้างโดย
+    created_organization: Created by agency
     current_owner_separator: ผู้รับผิดชอบปัจจุบัน
     module_id: หัวข้อ (Module)
     owned_by: รหัสผู้ดูแลรายกรณี
     owned_by_agency_id: หน่วยงาน
     owned_by_text: ผู้ปฏิบัติงานในพื้นที่/ ผู้ดูแลเคส/ นักสังคมสงเคราะห์
     previously_owned_by: ผู้ดูแลก่อนหน้า
-    reassigned_tranferred_on: 'เปลี่ยนผู้รับผิดชอบ / ส่งมอบ '
+    previously_owned_by_agency: Previous Agency
+    reassigned_tranferred_on: "เปลี่ยนผู้รับผิดชอบ / ส่งมอบ "
     record_history_separator: ประวัติการบันทึกข้อมูล
   record_panel:
     record_information: บันทึกข้อมูล
@@ -1895,12 +2429,16 @@ th:
     is_remote_label: คุณต้องการส่งต่อไปยังระบบระยะไกลหรือไม่
     location_label: ตำแหน่งที่ตั้ง
     notes_label: บันทึกข้อความ
+    notes_on_referral: Notes on referral
+    note_on_referral_from_provider: Notes on referral from provider
     provided_consent_label: ไม่มีการให้ความยินยอมในแบบฟอร์ม
     recipient_label: ผู้รับ
-    refer_anyway_label: ยืนยันการส่งต่อหรือไม่?
+    refer_anyway_label: "ยืนยันการส่งต่อหรือไม่?"
     service_label: บริการ
     success: '%{record_type}%{id} การส่งต่อสำเร็จ'
     user_mandatory_label: ต้องมีการระบุผู้รับ
+    date: Date
+    rejected_reason: Rejection Reason
   report:
     aggregate_by: จัดกลุ่มตามแถว
     attribute: คุณลักษณะ
@@ -1909,7 +2447,7 @@ th:
       date: วัน
       month: เดือน
       quarter: ไตรมาส
-      quarter_abbr: ไตรมาสที่ %{quarter}
+      quarter_abbr: "ไตรมาสที่ %{quarter}"
       week: สัปดาห์
       year: ปี
     description: รายละเอียด
@@ -1922,7 +2460,7 @@ th:
       label_new: ตัวกรองรายงานตัวใหม่
       attribute: ตัวกรอง
       value: ด้วยกันกับ
-      not_null: ไม่ว่างเปล่าใช่หรือไม่?
+      not_null: "ไม่ว่างเปล่าใช่หรือไม่?"
       less_than: น้อยกว่า
       greater_than: มากกว่า
       equal_to: เท่ากับ
@@ -1930,10 +2468,10 @@ th:
       is: คือ
       before: ก่อน
       after: หลัง
-      delete_filter_message: คุณแน่ใจหรือไม่ว่าต้องการลบตัวกรองนี้?
+      delete_filter_message: "คุณแน่ใจหรือไม่ว่าต้องการลบตัวกรองนี้?"
     group_ages: ใช้ช่วงอายุ
     group_dates_by: ใช้ช่วงวันที่
-    is_graph: ต้องการสร้างกราฟหรือไม่?
+    is_graph: "ต้องการสร้างกราฟหรือไม่?"
     messages:
       delete_success: ลบรายงานสำเร็จแล้ว
       success: สร้างรายงานสำเร็จแล้ว
@@ -1949,7 +2487,7 @@ th:
     value: ค่า
   reports:
     delete_report: ลบรายงาน
-    delete_report_message: คุณแน่ใจหรือไม่ว่าต้องการลบรายงานนี้? เมื่อลบแล้วจะไม่สามารถยกเลิกได้   กด 'ตกลง' เพื่อลบรายงาน
+    delete_report_message: "คุณแน่ใจหรือไม่ว่าต้องการลบรายงานนี้? เมื่อลบแล้วจะไม่สามารถยกเลิกได้   กด 'ตกลง' เพื่อลบรายงาน"
     label: รายงาน
     register_new_report: สร้างรายงาน
   request_transfer:
@@ -1965,20 +2503,23 @@ th:
     description: รายละเอียด
     edit: แก้ไขบทบาท
     error_in_updating: เกิดข้อผิดพลาดในการปรับปรุงรายละเอียดของบทบาท
-    group_permission_label: บทบาทนี้มีผลกระทบต่อแฟ้มข้อมูลใดบ้าง?
+    group_permission_label: "บทบาทนี้มีผลกระทบต่อแฟ้มข้อมูลใดบ้าง?"
     label: บทบาท
     manager: ผู้จัดการ
     messages:
-      confirmation: คุณแน่ใจหรือไม่ว่าต้องการลบรายงานนี้? เมื่อลบแล้วจะไม่สามารถยกเลิกได้ กด 'ตกลง' เพื่อลบรายงาน
+      confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบรายงานนี้? เมื่อลบแล้วจะไม่สามารถยกเลิกได้ กด 'ตกลง' เพื่อลบรายงาน"
       created: สร้างบทบาทสำเร็จแล้ว
       deleted: ลบบทบาทสำเร็จแล้ว
       updated: ได้ปรับปรุงบทบาทสำเร็จแล้ว
     name: ชื่อ
-    referral_label: ผู้ใช้บทบาทนี้สามารถดำเนินการส่งต่อได้หรือไม่?
-    reporting_location_level_label: บทบาทนี้ควรจะรายงานบนฐานของตำแหน่งที่ตั้งประเภทใด?
+    referral_label: "ผู้ใช้บทบาทนี้สามารถดำเนินการส่งต่อได้หรือไม่?"
+    reporting_location_level_label: "บทบาทนี้ควรจะรายงานบนฐานของตำแหน่งที่ตั้งประเภทใด?"
     role_ids_label: บทบาทอื่นที่ถูกจัดการโดยบทบาทนี้
     successfully_updated: ได้ปรับปรุงรายละเอียดของบทบาทสำเร็จแล้ว
-    transfer_label: ผู้รับหน้าที่นี้สามารถส่งมอบเคสได้หรือไม่?
+    transfer_label: "ผู้รับหน้าที่นี้สามารถส่งมอบเคสได้หรือไม่?"
+    hide: Hide
+    read: Show
+    read_write: Show and Edit
   roles:
     label: บทบาท
   saved_search:
@@ -1987,7 +2528,7 @@ th:
     no_filters: ไม่ได้เลือกตัวคัดกรอง
     save_success: บันทึกการค้นหาสำเร็จแล้ว
     saved_searches_tab: รายการค้นหาที่บันทึกไว้
-    title_description: คุณแน่ใจหรือไม่ว่าต้องการลบรายการค้นหาที่บันทึกไว้นี้?
+    title_description: "คุณแน่ใจหรือไม่ว่าต้องการลบรายการค้นหาที่บันทึกไว้นี้?"
     title_modal: ลบรายการค้นหาที่บันทึกไว้
   saved_searches:
     no_save_searches: ไม่มีรายการค้นหาที่ได้บันทึกไว้
@@ -2004,6 +2545,7 @@ th:
       user_groups: กลุ่มผู้ใช้งาน
       users: ผู้ใช้งาน
       roles: บทบาท
+      code_of_conduct: Code of Conduct
     title: การตั้งค่า
   system_settings:
     label: การตั้งค่าระบบ
@@ -2025,16 +2567,37 @@ th:
     types:
       assessment: การประเมิน
       case_plan: แผนรายกรณี
-      follow_up: ติดตาม - %{subtype}
-      service: จัดบริการ - %{subtype}
+      follow_up: "ติดตาม - %{subtype}"
+      service: "จัดบริการ - %{subtype}"
   tracing_request:
+    label: Tracing Request
+    has_match: Has Match
+    find_match: Find Match
+    back_to_traces: Back to Traces
+    back_to_potential_matches: Back to Potential Matches
+    traces: Traces
+    trace: Trace
+    match: Match
+    matches: Matches
+    unmatch: Un-match
     messages:
+      already_matched: There is already a match in the system with an Inquirer looking for this child.
+      disabled: Tracing Request is disabled
+      nothing_found: Nothing found
       update_success: 'อัปเดตคำร้องขอให้มีการติดตามตัว %{record_id} สำเร็จแล้ว'
       creation_success: สร้างบันทึกคำร้องขอให้มีการติดตามตัวสำเร็จแล้ว
       update_success_queue: ' ปรับปรุงข้อมูลคำร้องขอให้มีการติดตามตัว %{record_id}ใน background สำเร็จแล้ว '
-      creation_success_queue: 'สร้างบันทึกคำร้องขอให้มีการติดตามตัวใน background สำเร็จแล้ว '
+      creation_success_queue: "สร้างบันทึกคำร้องขอให้มีการติดตามตัวใน background สำเร็จแล้ว "
+      match_action: "Successfully matched Trace %{trace_id} with Case %{record_id}."
+      unmatch_action: "Successfully un-matched Trace %{trace_id} and Case %{record_id}."
   tracing_requests:
     date_of_inquiry: วันที่ร้องขอ
+    disable_dialog_title: Disable Tracing Request
+    disable_dialog: Clicking OK will change the status of this tracing request to Disabled.
+    disable_success: Successfully disabled tracing request
+    enable_dialog: Clicking OK will change the status of this tracing request to Enabled.
+    enable_dialog_title: Enable Tracing Request
+    enable_success: Successfully enabled trancing request.
     id: หมายเลขประจำตัว
     filter_by:
       by_date: ภายในวันที่
@@ -2043,6 +2606,8 @@ th:
       status: สถานะ
     label: คำร้องขอให้มีการติดตามตัว
     name_of_inquirer: ชื่อผู้ร้องขอ
+    inquirer: Inquirer
+    name: Name
     register_new_tracing_request: คำร้องใหม่เพื่อขอให้มีการติดตามตัว
     selectable_date_options:
       inquiry_date: วันที่ร้องขอ
@@ -2053,9 +2618,9 @@ th:
     export: ส่งออกข้อมูล
   transfer:
     agency_label: หน่วยงาน
-    consent_from_individual_label: คุณได้รับความยินยอมเพื่อทำการส่งมอบเคสนี้หรือไม่?
+    consent_from_individual_label: "คุณได้รับความยินยอมเพื่อทำการส่งมอบเคสนี้หรือไม่?"
     consent_label: ยังไม่มีข้อมูลการให้ความยินยอม
-    consent_override_label: คุณต้องการใช้สิทธิ์เพื่อแทนที่การตั้งค่านี้หรือไม่?
+    consent_override_label: "คุณต้องการใช้สิทธิ์เพื่อแทนที่การตั้งค่านี้หรือไม่?"
     is_remote_label: คุณจะส่งมอบไปยังระบบระยะไกลหรือไม่
     location_label: ตำแหน่งที่ตั้ง
     notes_label: บันทึกข้อความ
@@ -2063,11 +2628,12 @@ th:
     recipient_label: ผู้รับ
     select_label: เลือก...
     success: ส่งมอบสำเร็จแล้ว
-    transfer_label: ยืนยันการส่งมอบหรือไม่?
+    transfer_label: "ยืนยันการส่งมอบหรือไม่?"
     user_mandatory: ต้องมีการระบุผู้รับ
   transfer_assignment:
     title: การส่งมอบและการมอบหมายงาน
   transition:
+    agency_label: Agency
     assigned_by: มอบหมายโดย
     consent_individual_transfer_value:
       true_label: 'ใช่'
@@ -2078,15 +2644,19 @@ th:
     errors:
       consent: ไม่มีการให้ความยินยอม
       to_user_can_receive: ผู้ใช้งานท่านนี้ไม่สามารถรับข้อมูลนี้ได้
-    individual_consent: ผู้ดูแลเคสได้รับความยินยอมเพื่อทำการส่งมอบเคสนี้หรือไม่?
-    no_consent_share: มีการตั้งค่าให้สามารถเขียนทับความยินยอมในการเปิดเผยข้อมูลหรือไม่?
+    individual_consent: "ผู้ดูแลเคสได้รับความยินยอมเพื่อทำการส่งมอบเคสนี้หรือไม่?"
+    no_consent_share: "มีการตั้งค่าให้สามารถเขียนทับความยินยอมในการเปิดเผยข้อมูลหรือไม่?"
     notes: บันทึกข้อความ
     recipient: ผู้รับ
     rejected: เหตุผลในการไม่อนุมัติ
+    requested_by: Requested by
     service_label: บริการ
+    responded_at: Responded At
     status:
       accepted: ยอมรับ
       done: ดำเนินการเสร็จสิ้น
+      in_progress: Pending
+      inprogress: Pending
       rejected: ไม่อนุมัติ
     type:
       assign: มอบหมาย
@@ -2104,14 +2674,15 @@ th:
     identity_provider: ผู้กำหนดรหัสประจำตัว
     invalid_provider_username: 'รูปแบบชื่อผู้ใช้งานไม่ถูกต้อง ตัวอย่างที่ถูกต้องคือ my.username@%{domain}'
     label: ผู้ใช้งาน
+    language: Language
     locale: ท้องถิ่น
     location: ตำแหน่งที่ตั้ง
     messages:
-      confirmation: คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบผู้ใช้งาน
+      confirmation: "คุณแน่ใจหรือไม่ว่าต้องการลบผู้ใช้งานรายนี้? การลบทิ้งไม่สามารถยกเลิกได้ คลิก ตกลง เพื่อลบผู้ใช้งาน"
       created: สร้างผู้ใช้งานสำเร็จ
       failure: เกิดข้อผิดพลาด กรุณาติดต่อผู้ดูแลระบบ
-      new_confirm_html: ท่านกําลังจะเชิญผู้ใช้งาน %{username}จาก %{identity}เข้าใช้งานระบบ Primero โดยมีบทบาท%{role} ข้อความยืนยันจะถูกส่งไปที่อีเมล %{email}คุณต้องการดําเนินการต่อหรือไม่?
-      new_confirm_non_identity_html: ท่านกําลังจะเชิญผู้ใช้งาน %{username}เข้าใช้งานระบบ Primero โดยมีบทบาท%{role} ข้อความยืนยันจะถูกส่งไปที่อีเมล %{email}คุณต้องการดําเนินการต่อหรือไม่?
+      new_confirm_html: "ท่านกําลังจะเชิญผู้ใช้งาน %{username}จาก %{identity}เข้าใช้งานระบบ Primero โดยมีบทบาท%{role} ข้อความยืนยันจะถูกส่งไปที่อีเมล %{email}คุณต้องการดําเนินการต่อหรือไม่?"
+      new_confirm_non_identity_html: "ท่านกําลังจะเชิญผู้ใช้งาน %{username}เข้าใช้งานระบบ Primero โดยมีบทบาท%{role} ข้อความยืนยันจะถูกส่งไปที่อีเมล %{email}คุณต้องการดําเนินการต่อหรือไม่?"
       not_found: ไม่พบผู้ใช้งานตามหมายเลขประจำตัวนี้
       password_changed_successfully: เปลี่ยนรหัสผ่านสำเร็จแล้ว
       passwords_do_not_match: ไม่ตรงกับรหัสผ่านปัจจุบัน
@@ -2120,22 +2691,60 @@ th:
     organization: องค์กร
     agency: หน่วยงาน
     services_help_text: กรณีที่ท่านไม่ได้กำหนดบริการ ผู้ใช้งานท่านนี้ จะให้บริการเดียวกับที่ตั้งค่าไว้สำหรับตัวหน่วยงาน
+    password_setting:
+      label: "How should Primero set the user’s password?"
+      self: I will set the password
+      user: User will set the password using the welcome email
+      help_text: "Please remember that if you, the administrator, set the password manually, you will need to share it with the user in a secure manner."
+    password_reset_header: Send password reset email
+    password_reset_text: "If you click ‘Send,’ this user will receive an email with a link to reset their password."
+    password_reset_request: Send password reset email
     password: รหัสผ่าน
     password_confirmation: ยืนยันรหัสผ่าน
     phone: โทรศัพท์
     position: ตำแหน่ง
     provider_username_help: 'ตัวอย่างที่ถูกต้อง: my.username@%{domain}'
     role_id: บทบาท
-    send_mail: ได้รับการแจ้งเตือนทางอีเมลหรือไม่?
+    send_mail: "ได้รับการแจ้งเตือนทางอีเมลหรือไม่?"
     user_group_unique_ids: กลุ่มผู้ใช้งาน
     user_name: ชื่อผู้ใช้งาน
     services: บริการ
     welcome_email:
       subject: 'ยินดีต้อนรับสู่ระบบ %{system}!'
       greeting: 'ยินดีต้อนรับสู่ระบบ %{system}!'
+      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
+      sso:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Go to %{host} and click %{identity_provider}.'
+        step2: 'Login with your %{identity_provider} account %{user_name}.'
+        step3: 'Use the same password you always use for your %{identity_provider} account.'
+        footer: 'Please contact %{admin_full_name} (%{admin_email}) for further details.'
+      otp:
+        body: 'You have been added as a %{role_name}.'
+        step1: 'Please contact %{admin_full_name} (%{admin_email}) to receive your user name.'
+        step2: 'Go to %{host} and click "login with Primero user name.".'
+        step3: 'Login with your user name and the temporary password %{otp}.'
+        step4: 'When prompted, reset your password.'
       url_label: Primero
-      enabled_label: ต้องการให้ส่งข้อความต้อนรับทางอีเมลหรือไม่?
+      enabled_label: "ต้องการให้ส่งข้อความต้อนรับทางอีเมลหรือไม่?"
       text_label: ข้อความต้อนรับทางอีเมล
+    password_reset:
+      email_greeting: "Dear %{full_name}"
+      email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
+      email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
+      email_body_link: here
+      request_submitted: "Password reset request submitted"
+      success: "Password successfuly changed"
+      errors:
+        reset_password_token: "Invalid password reset token"
+        password_confirmation: "Passwords must match"
+    onboard_email:
+      subject: "Onboarding to %{system}"
+      greeting: "Dear %{full_name},"
+      body1: "Welcome to Primero!"
+      body2: "You have been designated as the implementing administrator for %{host_href}. %{reset_notification}"
+      body2_reset_notification: "You will receive an additional email prompting you to reset your password."
+      body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
     description: รายละเอียด
     disabled:
@@ -2154,3 +2763,9 @@ th:
       user_name: ชื่อผู้ใช้งาน
       position: ตำแหน่ง
       agency: หน่วยงาน
+  devise:
+    failure:
+      already_authenticated: "You are already signed in."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."

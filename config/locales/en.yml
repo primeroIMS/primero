@@ -577,45 +577,45 @@ en:
     closed_this_week: Closed (this week)
     comprehensive_need_intervention: Comprehensive Response
     count_new_bia_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_new_case_plan_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_new_closure_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_pending_approval_total:
-      one: 'You have %{stat} <span>pending %{stat_type}</span> Approval '
-      other: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
+      one: 'You have %{stat} pending %{stat_type} Approval '
+      other: 'You have %{stat} pending %{stat_type} Approvals '
     count_pending_transfers:
-      one: 'You have %{stat} <span>pending</span> Transfer '
-      other: 'You have %{stat} <span>pending</span> Transfers '
+      one: 'You have %{stat} pending Transfer '
+      other: 'You have %{stat} pending Transfers '
     count_records_new:
-      one: and %{stat} <span>new</span> case
-      other: and %{stat} <span>new</span> cases
+      one: and %{stat} new case
+      other: and %{stat} new cases
     count_records_total:
-      one: 'You have %{stat} <span>total</span> case '
-      other: 'You have %{stat} <span>total</span> cases '
+      one: 'You have %{stat} total case '
+      other: 'You have %{stat} total cases '
     count_referrals_new:
-      one: and %{stat} <span>new</span> referrals
-      other: and %{stat} <span>new</span> referrals
+      one: and %{stat} new referrals
+      other: and %{stat} new referrals
     count_referrals_total:
-      one: 'You have %{stat} <span>total</span> referral '
-      other: 'You have %{stat} <span>total</span> referrals  '
+      one: 'You have %{stat} total referral '
+      other: 'You have %{stat} total referrals  '
     count_rejected_approval_total:
-      one: 'and %{stat} <span>rejected %{stat_type}</span> Approval '
-      other: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
+      one: 'and %{stat} rejected %{stat_type} Approval '
+      other: 'and %{stat} rejected %{stat_type} Approvals '
     count_rejected_transfers:
-      one: 'and %{stat} <span>rejected</span> Transfer '
-      other: 'and %{stat} <span>rejected</span> Transfers '
+      one: 'and %{stat} rejected Transfer '
+      other: 'and %{stat} rejected Transfers '
     count_risk_level_new:
-      one: and %{stat} <span>new</span> <span>%{stat_type} risk</span> case
-      other: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
+      one: and %{stat} new %{stat_type} risk case
+      other: and %{stat} new %{stat_type} risk cases
     count_risk_level_total:
-      one: 'You have %{stat} <span>%{stat_type} risk</span> case '
-      other: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-    count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
+      one: 'You have %{stat} %{stat_type} risk case '
+      other: 'You have %{stat} %{stat_type} risk cases '
+    count_waiting_for_acceptance_transfers: You have %{stat} Transfers waiting
       for your acceptance
     current_owner: Current Owner
     dash_case_incident_overview: My Cases
@@ -624,6 +624,7 @@ en:
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
     dash_shared_with_others: Shared With Others
+    dash_national_admin_summary: Administrator Summary
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -650,14 +651,14 @@ en:
     low_level: Low
     low_risk: Low Priority
     manager_count_closed_total:
-      one: 'and %{stat} <span>closed</span> case '
-      other: 'and %{stat} <span>closed</span> cases '
+      one: 'and %{stat} closed case '
+      other: 'and %{stat} closed cases '
     manager_count_open_total:
-      one: 'You have %{stat} <span>open</span> case '
-      other: 'You have %{stat} <span>open</span> cases '
+      one: 'You have %{stat} open case '
+      other: 'You have %{stat} open cases '
     manager_transfers_totals:
-      one: 'You have %{stat} <span>%{stat_type}</span> Transfer '
-      other: 'You have %{stat} <span>%{stat_type}</span> Transfers '
+      one: 'You have %{stat} %{stat_type} Transfer '
+      other: 'You have %{stat} %{stat_type} Transfers '
     match_result: Matching Results
     medium_level: Medium
     medium_risk: Medium Priority
@@ -710,7 +711,7 @@ en:
     registration: Registration
     rejected: Rejected
     rejected_transfers: Rejected Transfers
-    response: Response <span>(In Progress)</span>
+    response: Response (In Progress)
     scheduled_activities: Scheduled Activities
     score_range: Score Range
     screening_service: Screening Service
@@ -741,11 +742,11 @@ en:
     with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
-      other: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
+      one: '%{case_worker} has %{stat} total referral '
+      other: '%{case_worker} has %{stat} total referrals  '
     worker_count_total:
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
-      other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
+      one: '%{case_worker} has %{stat} total case '
+      other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
@@ -1740,6 +1741,7 @@ en:
       dash_show_none_values: View None Values
       dash_tasks: View Tasks
       dash_transfers_by_socal_worker: View Transfers By Social Worker
+      dash_national_admin_summary: Administrator Summary
       dashboard: Dashboard
       delete: Delete
       display_view_page: Display View Page
@@ -2412,6 +2414,11 @@ en:
               Cases By Task Overdue" dashboard, since this lets them see the overdue
               tasks for everyone in their user groups.
             label: Tasks Page
+          dash_national_admin_summary:
+            explanation: Shows the total open Cases in the system, number of new Cases
+              created in each of the last two weeks, and number of Cases closed
+              in each of the last two weeks.
+            label: Administrator Summary
           view_protection_concerns_filter:
             explanation: Allows the user to see a protection concerns filter on the
               case list page.
@@ -3032,6 +3039,10 @@ en:
       not be undone. Click OK to delete report
     label: Reports
     register_new_report: Create Report
+    translations:
+      edit: Edit translations
+      manage: Manage Translations
+      select_language: Select language
   request_transfer:
     notes_label: Notes
     submit_label: Send Request

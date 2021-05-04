@@ -179,6 +179,33 @@ const caseOverview = {
   }
 };
 
+const nationalAdminSummary = {
+  name: "dashboard.dash_national_admin_summary",
+  type: "indicator",
+  indicators: {
+    total: {
+      count: 4,
+      query: ["record_state=true", "status=open"]
+    },
+    new_last_week: {
+      count: 2,
+      query: ["record_state=true", "status=open", "created_at=2021-04-18T00:00:00Z..2021-04-24T23:59:59Z"]
+    },
+    new_this_week: {
+      count: 2,
+      query: ["record_state=true", "status=open", "created_at=2021-04-25T00:00:00Z..2021-05-01T23:59:59Z"]
+    },
+    closed_last_week: {
+      count: 0,
+      query: ["record_state=true", "status=closed", "created_at=2021-04-18T00:00:00Z..2021-04-24T23:59:59Z"]
+    },
+    closed_this_week: {
+      count: 0,
+      query: ["record_state=true", "status=closed", "created_at=2021-04-25T00:00:00Z..2021-05-01T23:59:59Z"]
+    }
+  }
+};
+
 const sharedWithMyTeam = {
   name: "dashboard.dash_shared_with_my_team",
   type: "indicator",
@@ -253,7 +280,8 @@ const initialState = fromJS({
         groupOverview,
         caseOverview,
         sharedWithMyTeam,
-        myCasesIncidents
+        myCasesIncidents,
+        nationalAdminSummary
       ],
       flags: {
         loading: false,
@@ -402,6 +430,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getCaseOverview(initialState);
 
       expect(values).to.deep.equal(fromJS(caseOverview));
+    });
+  });
+
+  describe("getNationalAdminSummary", () => {
+    it("should return the case overview", () => {
+      const values = selectors.getNationalAdminSummary(initialState);
+
+      expect(values).to.deep.equal(fromJS(nationalAdminSummary));
     });
   });
 
