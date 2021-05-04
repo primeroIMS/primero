@@ -80,7 +80,10 @@ const Container = () => {
       },
       {
         label: i18n.t("audit_log.action"),
-        name: "action"
+        name: "action",
+        options: {
+          customBodyRender: value => i18n.t(`logger.actions.${value}`)
+        }
       },
       {
         label: i18n.t("audit_log.description"),
