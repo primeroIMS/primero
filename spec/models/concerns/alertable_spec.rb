@@ -352,7 +352,7 @@ describe Alertable do
         end
 
         it 'removes the current alert types' do
-          expect(@test_incident_alerts.current_alert_types).to be_empty
+          expect(@test_incident_alerts.reload.current_alert_types).to be_empty
         end
 
         it 'count alerts by record' do
