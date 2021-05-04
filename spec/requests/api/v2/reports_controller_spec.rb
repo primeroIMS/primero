@@ -18,8 +18,7 @@ describe Api::V2::ReportsController, type: :request do
                   display_name_i18n: { en: 'Protection Concerns' },
                   option_strings_source: 'lookup lookup-protection-concerns')
 
-    @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', admin_level: 0, type: 'country',
-                                  hierarchy: 'CN')
+    @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', type: 'country')
     @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                       description: 'Default Primero Program')
     @cp = PrimeroModule.create!(unique_id: 'primeromodule-cp', name: 'CP', description: 'Child Protection',

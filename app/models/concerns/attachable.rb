@@ -11,23 +11,26 @@ module Attachable
 
   included do
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
+    has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
+             as: :record, class_name: 'Attachment'
     validate :maximum_attachments_exceeded
 
     searchable do
-      boolean :has_photo do
-        self.has_photo?
-      end
+      boolean :has_photo
     end
+  end
 
+  def photo?
+    # Because Matz
+    # rubocop:disable Naming/MemoizedInstanceVariableName
+    @has_photo ||= current_photos.size.positive?
+    # rubocop:enable Naming/MemoizedInstanceVariableName
   end
-  def has_photo
-    @has_photo ||= current_photo.count.positive?
-  end
-  alias has_photo? has_photo
-  alias photo? has_photo
+  alias has_photo? photo?
+  alias has_photo photo?
 
   def photo
-    @photo ||= current_photo.first
+    @photo ||= current_photos.first
   end
 
   def photo_url
@@ -38,14 +41,9 @@ module Attachable
 
   private
 
-  def current_photo
-    @current_photo ||= attachments.where(field_name: PHOTOS_FIELD_NAME)
-  end
-
   def maximum_attachments_exceeded
-    return unless attachments.count > (MAX_ATTACHMENTS - 1)
+    return unless attachments.size > (MAX_ATTACHMENTS - 1)
 
     errors[:attachments] << 'errors.attachments.maximum'
   end
-
 end

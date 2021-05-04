@@ -20,8 +20,7 @@ describe Kpi::CaseClosureRate, search: true do
       name: 'London',
       placename: 'London',
       type: 'County',
-      hierarchy_path: 'GBR.01.41',
-      admin_level: 2
+      hierarchy_path: 'GBR.01.41'
     )
 
     form(:gbv_case_closure_form, [

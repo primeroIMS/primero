@@ -9,6 +9,7 @@ class TracingRequest < ApplicationRecord
   include Flaggable
   include Alertable
   include Attachable
+  include EagerLoadable
 
   has_many :traces
   store_accessor :data,
@@ -50,6 +51,11 @@ class TracingRequest < ApplicationRecord
       new_tracing_request = super_new_with_user(user, data)
       new_tracing_request.build_or_update_traces(traces_data)
       new_tracing_request
+    end
+
+    alias super_eager_loaded_class eager_loaded_class
+    def eager_loaded_class
+      super_eager_loaded_class.includes(:traces)
     end
   end
 
