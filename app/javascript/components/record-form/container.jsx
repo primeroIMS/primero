@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { ACTIONS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { READ_RECORDS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -94,7 +94,7 @@ const Container = ({ mode }) => {
   const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
   const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
-  const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
+  const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
