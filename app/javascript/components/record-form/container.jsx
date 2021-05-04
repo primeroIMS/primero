@@ -150,7 +150,7 @@ const Container = ({ mode }) => {
 
       const body = {
         data: {
-          ...compactValues(formValues, initialValues),
+          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : formValues),
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
           ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
