@@ -1,41 +1,155 @@
+# encoding: utf-8
+#
+# This is the English localization file for Primero.  It is based on the sample
+# English localization file found in the repository linked below[1].
+#
+# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://github.com/svenfuchs/rails-i18n/
+# [2] https://yamllint.readthedocs.io/en/stable/
+
+
+---
 es:
   'true': 'Sí'
   'false': 'No'
+  accepted: ""
   cancel: Cancelar
+  connection_lost: ""
+  connected: ""
   clear: Borrar
+  sandbox_ui: ""
   description: Descripción
+  form: ""
+  name: ""
+  offline: ""
+  unavailable_offline: ""
+  online: ""
   yes_label: 'Sí'
+  or_label: ""
+  select_provider: ""
+  log_in_primero_idp: ""
+  offline_submitted_changes: ""
+  updated: ""
+  sync:
+    success: ""
+    error:
+      create: ""
+      update: ""
+
   actions:
+    approvals: ""
     button: Acciones
+    close: ""
     description:
       invalid: Registro inválido
       valid: Registro válido
     disable: Desactivar
     enable: Activar
+    incident_details_from_case: ""
+    incident_from_case: ""
+    next: ""
+    notes: ""
+    previous: ""
+    reopen: ""
+    request_approval: ""
+    revoke: ""
+    save: ""
+    services_from_case_creation_success: ""
+    services_section_from_case: ""
   agencies:
     label: Agencia
   agency:
+    agency_logos: ""
     code: Código de la agencia
+    description: ""
+    disabled: ""
+    exclude_agency_from_lookups: ""
+    exclude_agency_from_lookups_help: ""
+    label: ""
+    logo_enabled: ""
+    logo_enabled_help: ""
+    logo_icon: ""
+    logo_icon_help: ""
+    logo_large: ""
+    logo_large_help: ""
+    messages:
+      created: ""
+      updated: ""
     name: Nombre de la agencia
+    pdf_logo_option: ""
+    pdf_logo_option_help: ''
+    services: ""
+    terms_of_use: ""
+    terms_of_use_help: ""
+    terms_of_use_download_button: ""
+    terms_of_use_enabled: ""
+  approvals:
+    approved_by: ""
+    case_plan_type_label: ""
+    manager_comments_label: ""
+    rejected_by: ""
+    requested_by: ""
+    requested_for_label: ""
+    requested_for_title: ""
+    response_for_label: ""
+    response_for_title: ""
+    action_plan: ""
+    gbv_closure: ""
+    status:
+      approved: ""
+      pending: ""
+      rejected: ""
+      requested: ""
   audit_log:
     action: Acción
     description: Descripción
+    record_owner: ""
+    timestamp: ""
+    user_name: ""
   bulk_export:
+    file_name: ""
     record_type: Tipo
+    retry: ""
+    started_on: ""
     status: Estado
+  form_export:
+    label: ""
+    include_hidden: ""
+    file_name: ""
+    success_message: ""
   buttons:
+    accept: ""
+    add: ""
+    add_another_option: ""
+    add_note: ""
+    apply: ""
+    approvals: ""
+    approve_action_plan: ""
+    approve_bia: ""
     approve_case_plan: Aprobar plan de caso
+    approve_closure: ""
+    approve_gbv_closure: ""
     back: Volver
     bundle_export: Paquete de configuración
     bundle_import: Paquete de configuración
     cancel: Cancelar
     change_password: Cambiar contrase­ña
+    check_status: ""
+    clear_default: ""
+    clear_selection: ""
+    clear: ""
+    close: ""
+    continue: ""
     create_case: Crear caso
     create_incident: Crear incidente
-    create_new_record: Crear nuevo %{model}
+    create_new_record: "Crear nuevo %{model}"
     delete: Eliminar
     disable: Desactivar
     disable_photo_wall: Desactivar pared de fotos
+    done: ""
+    download: ""
     edit: Editar
     edit_subform: Editar Subformulario
     enable: Activar
@@ -44,53 +158,317 @@ es:
     filter: Aplicar filtro
     filter_clear: Eliminar filtros
     filter_label: 'Filtro:'
-    flag_model: Marcar %{model}
+    filter_restore: ""
+    find_tracing_match: ""
+    flag_model: "Marcar %{model}"
     flag_records: Marcar
+    flags: ""
+    guidance: ""
+    guiding_questions: ""
     import: Importar
     login: Iniciar sesión
+    logout: ""
     mark_for_mobile: Marcar para móvil
+    new: ""
     ok: OK
+    print: ""
+    reassign: ""
+    referral: ""
+    referral_again: ""
+    reject: ""
+    remove_referrals: ""
+    reorder: ""
+    request_approval: ""
+    request_transfer: ""
     reunite: Reunir
     save: Guardar
+    save_and_add_service_provision: ""
+    save_and_return: ""
+    save_continue: ""
+    save_changes: ""
+    select: ""
+    send: ""
     sort_by_case: Casos
     sort_by_tr: Solicitudes de localización
+    sync: ""
     submit: Enviar
-    unflag_model: Desmarcar %{model}
+    transfer: ""
+    unflag_model: "Desmarcar %{model}"
+    unflag_model_history: ""
     unmark_for_mobile: Desmarcar para móvil
+    update: ""
     view: Ver
+    view_flags_history: ""
+    return_to_case: ""
+
   case:
+    label: ""
+    create_new_case: ""
+    enter_id_number: ""
+    id_search_no_results: ""
     messages:
+      disabled: ""
       update_success: 'El caso %{record_id} fue actualizado adecuadamente.'
+      update_success_queue: ''
       creation_success: 'El registro de caso se ha generado correctamente.'
+      creation_success_queue: ''
+      already_matched: ""
+      already_matched_not_current_case: ""
+      not_found_case: ""
+      introductory_sentence: ""
+      consent_agreements_required: ""
+      legitimate_basis_required: ""
+    save: ""
+    save_text: ""
+    skip_and_create: ""
+    search_existing: ""
+    search_helper_text: ""
+    consent_agreements: ""
+    legitimate_basis: ""
     workflow:
+      assessment: ""
+      case_plan: ""
       closed: Cerrado
+      created_on: ""
+      in_progress: ""
       new: Nuevo
       on_label: 'activado'
+      reopened: ""
+      service_implemented: ""
+      services_implemented: ""
   cases:
+    action_plan: ""
+    age: ""
+    age_estimated: ""
+    agency: ""
+    apply_filter: ""
+    approval_comments: ""
+    approval_radio: ""
+    approval_radio_accept: ""
+    approval_radio_reject: ""
+    approval_select: ""
+    approved_success_action_plan: ''
+    approved_success_assessment: ''
+    approved_success_bia: ''
+    approved_success_case_plan: ''
+    approved_success_closure: ''
+    approved_success_gbv_closure: ''
+    assessment: ""
+    case_opening_date: ""
+    case_plan: ""
+    case_worker_code: ""
     clear_filter: Borrar
+    close_dialog: ""
+    close_dialog_title: ""
+    close_success: ""
+    closure: ""
+    date_of_birth: ""
+    disable_dialog: ""
+    disable_dialog_title: ""
+    disable_success: ""
+    enable_dialog: ""
+    enable_dialog_title: ""
+    enable_success: ""
     export: Exportar
     filter_by:
+      3month_inactivity: ""
+      action_plan: ""
+      age_0_5: ""
+      age_12_17: ""
+      age_18_more: ""
+      age_6_11: ""
+      age_range: ""
+      agency: ""
+      approval_status: ""
+      approvals:
+        approved: ""
+        pending: ""
+        rejected: ""
+      bia: ""
+      by_date: ""
+      case_open_date: ""
+      case_plan: ""
+      closed: ""
+      closure: ""
+      current_location: ""
       date: Fecha
+      displacement_status: ""
+      district: ""
+      duplicate: ""
+      enabled_disabled: ""
       female: Femenino
-      flag_label: Marcado?
+      flag: ""
+      flag_label: "Marcado?"
+      gbv_closure: ""
+      high: ""
+      low: ""
       male: Masculino
-      mobile_label: ¿Marcado para móvil?
-      photo_label: ¿Tiene foto?
+      medium: ""
+      mobile: ""
+      mobile_label: "¿Marcado para móvil?"
+      my_cases: ""
+      no_action: ""
+      no_activity: ""
+      open: ""
+      other: ""
+      photo: ""
+      photo_label: "¿Tiene foto?"
+      protection_concerns: ""
+      protection_status: ""
+      record_state: ""
+      referred_cases: ""
+      registration_date: ""
+      risk_level: ""
+      sex: ""
+      social_worker: ""
+      status: ""
+      transferred: ""
+      type_of_risk: ""
+      urgent_protection_concern: ""
+      user_group: ""
+      workflow: ""
     flag_summary: Resumen de registros marcados
+    full_name: ""
+    gbv_closure: ""
     hide_name: Ocultar nombre
     hide_name_error: Se ha producido un error al guardar sus cambios. Por favor intente nuevamente.
+    id: ""
     label: Casos
+    my_filters: ""
+    name: ""
+    notes_dialog_title: ""
+    notes_form_notes: ""
+    notes_form_subject: ""
     ok: Ok
     order_by:
       label: Ordenar por
       most_recently: Más recientemente
       name: Nombre
+    owned_by: ""
+    owned_by_agency: ""
+    photo: ""
+    photos: ""
+    quick_view:
+      tracing_message: ''
+    referral_done: ""
+    referral_done_success: ""
+    referral_accepted_header: ""
+    referral_accepted: ""
+    referral_accepted_success: ""
+    referral_rejected: ""
+    referral_rejected_success: ""
     register_new_case: Nuevo caso
+    registration_date: ""
+    rejected_success_action_plan: ''
+    rejected_success_assessment: ''
+    rejected_success_bia: ''
+    rejected_success_case_plan: ''
+    rejected_success_closure: ''
+    rejected_success_gbv_closure: ''
+    reopen_dialog: ""
+    reopen_dialog_title: ""
+    reopen_success: ""
+    request_approval_failure: ""
+    request_approval_select: ""
+    request_approval_success_action_plan: ""
+    request_approval_success_assessment: ""
+    request_approval_success_case_plan: ""
+    request_approval_success_closure: ""
+    request_approval_success_gbv_closure: ""
+    request_approval_type_of_case_plan: ""
+    request_approve_action_plan: ""
+    request_approve_bia: ""
+    request_approve_case_plan: ""
+    request_approve_closure: ""
+    request_approve_gbv_closure: ""
+    revoke_failure: ""
+    revoke_message: ""
+    revoke_success_message: ""
     save_filter: Guardar
-    view_name: ' Ver nombre'
+    selected_all_records: ""
+    selected_records: ''
+    sex: ""
+    show_case: ''
+    social_worker: ""
+    status: ""
+    summary:
+      label: ""
+      find_match: ""
+      matched_trace: ''
+      cannot_find_matches: ""
+      matched: ""
+      fields:
+        consent_for_tracing:
+          label: ""
+          help_text: ""
+        wishes_child_family_tracing:
+          label: ""
+        wishes_reunification:
+          label: ""
+          options:
+            yes_as_soon_as_possible: ""
+            yes_but_later: ""
+            not_sure: ""
+            'no': ''
+        data_confidentiality_link:
+          label: ""
+        child_wishes_link:
+          label: ""
+    survivor_code: ""
+    transfer_accepted: ""
+    transfer_accepted_rejected: ""
+    transfer_accepted_success: ""
+    transfer_reject_reason_label: ""
+    transfer_rejected: ""
+    view_name: " Ver nombre"
+  change_logs:
+    filters:
+      form: ""
+      field: ""
+    add_subform: ''
+    changes_subform: ''
+    create: ""
+    deleted_subform: ''
+    label: ""
+    see_details: ""
+    change: ''
+    updated_subform: ''
+    update_subform: ''
   children:
     selectable_date_options:
+      assessment_requested_on: ""
+      closure_approved_date: ''
       created_at: Fecha de apertura de caso
+      date_case_plan_initiated: ""
+      date_of_creation: ""
+      registration_date: ""
+  configurations:
+    apply_label: ""
+    apply_label_bold: ""
+    version_mismatch_tooltip: ""
+    send_header: ""
+    send_text: ""
+    attributes:
+      created_by: ""
+      date_created: ""
+      description: ""
+      last_applied_by: ""
+      last_applied_on: ""
+      name: ""
+      version: ""
+      primero_version: ""
+    delete_label: ""
+    explanation: ''
+    label: ""
+    label_new: ""
+    messages:
+      applied: ""
+      created: ""
+      deleted: ""
+      updated: ""
+      sent: ""
+    not_allowed: ""
+    unavailable_server: ""
   contact:
     field:
       email: Correo electrónico
@@ -100,62 +478,173 @@ es:
       other_information: Otra información
       phone: Teléfono
       position: Puesto
+      primero_version: ""
       support_forum: Comunidad de Soporte
+      system_version: ""
     info_label: Información de contacto
     updated: La información de contacto se actualizó correctamente.
+  code_of_conduct:
+    field:
+      title: ""
+      content: ""
+      created_on: ""
+      created_by: ""
+    info_label: ""
+    updated: ""
   dashboard:
     activity: Actividad
+    admin_only: ""
     all_cases: Todos los casos
+    all_services_implemented: ""
+    and: ''
+    approval_action_plan_approved: ""
+    approval_action_plan_pending: ""
+    approval_action_plan_pending_group: ""
+    approval_action_plan_rejected: ""
+    approval_assessment_approved: ""
+    approval_assessment_pending: ""
+    approval_assessment_pending_group: ""
+    approval_assessment_rejected: ""
+    approval_case_plan_approved: ""
+    approval_case_plan_pending: ""
+    approval_case_plan_pending_group: ""
+    approval_case_plan_rejected: ""
+    approval_closure_approved: ""
+    approval_closure_pending: ""
+    approval_closure_pending_group: ""
+    approval_closure_rejected: ""
+    approval_gbv_closure_approved: ""
+    approval_gbv_closure_pending: ""
+    approval_gbv_closure_pending_group: ""
+    approval_gbv_closure_rejected: ""
+    approvals: ""
+    approvals_action_plan: ""
+    approvals_assessment: ""
+    approvals_case_plan: ""
+    approvals_closure: ""
+    approvals_gbv_closure: ""
+    approved: ""
+    assessment: ""
+    awaiting_acceptance: ""
+    cases_by_social_worker_total: ""
+    cases_by_social_worker_new_or_updated: ""
     case_id: 'Nº de Identificación del Caso'
+    case_management_service: ""
+    case_overview: ""
+    case_plan: ""
+    case_risk: ""
+    case_stat_by_approval_type: ""
     case_stat_by_assessment_level: Casos por nivel de evaluación
     case_stat_referrals: Referencias
     case_stats: Casos
     case_worker: Trabajador de caso
     cases_by_social_worker: Casos por trabajador social
+    cases_by_task_overdue: ""
+    cases_by_workflow: ""
     cases_this_week: Casos esta semana
+    cases_to_assign: ""
     closed: Cerrado
+    closed_last_week: ""
+    closed_this_week: ""
+    comprehensive_need_intervention: ""
+    count_new_bia_approvals:
+      one: ''
+      other: ''
+    count_new_case_plan_approvals:
+      one: ''
+      other: ''
+    count_new_closure_approvals:
+      one: ''
+      other: ''
+    count_pending_approval_total:
+      one: ''
+      other: ''
+    count_pending_transfers:
+      one: ''
+      other: ''
     count_records_new:
       one: y %{stat} <span>nuevo</span> caso
       other: y %{stat} <span>nuevos</span> casos
     count_records_total:
-      one: Tiene %{stat} <span>caso</span> total
-      other: Tiene %{stat} <span>casos</span> totales
+      one: 'Tiene %{stat} <span>caso</span> total'
+      other: 'Tiene %{stat} <span>casos</span> totales'
     count_referrals_new:
       one: y %{stat} <span>referencia</span> nueva
       other: y %{stat} <span>referencias</span> nuevas
     count_referrals_total:
-      one: Tiene %{stat} <span>referencia</span> total
-      other: Tiene %{stat} <span>referencias</span> totales
+      one: 'Tiene %{stat} <span>referencia</span> total'
+      other: 'Tiene %{stat} <span>referencias</span> totales'
+    count_rejected_approval_total:
+      one: ''
+      other: ''
+    count_rejected_transfers:
+      one: ''
+      other: ''
     count_risk_level_new:
       one: y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> caso
       other: y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> casos
     count_risk_level_total:
-      one: Tiene %{stat} <span>%{stat_type} riesgo </span> caso
-      other: Tiene %{stat} <span>%{stat_type} riesgo </span> casos
+      one: 'Tiene %{stat} <span>%{stat_type} riesgo </span> caso'
+      other: 'Tiene %{stat} <span>%{stat_type} riesgo </span> casos'
+    count_waiting_for_acceptance_transfers: ""
     current_owner: Dueño actual
+    dash_case_incident_overview: ""
+    dash_group_overview: ""
+    dash_shared_from_my_team: ""
+    dash_shared_with_me: ""
+    dash_shared_with_my_team: ""
+    dash_shared_with_others: ""
     date: Fecha
     date_of_incident: Fecha del incidente
     date_of_interview: Fecha de la entrevista
+    due: ""
+    flagged: ""
     flagged_by: 'Marcado por'
     flagged_by_me: Que yo he marcado
     flagged_by_other: Marcados por otra persona
+    flagged_cases: ""
+    follow_up: ""
+    forms: ""
     geographic_area: Área Geográfica
+    group_overview_closed: ""
+    group_overview_open: ""
+    high_level: ""
+    high_risk: ""
+    immediate_response: ""
+    in_progress: ""
     incident_id: 'Nº de Identificación del incidente'
     incident_location: Lugar del incidente
     incident_status_open: Abierto
     last_updated: Ultima actualización
     link_see_all: Ver todos
+    low_level: ""
+    low_risk: ""
     manager_count_closed_total:
-      one: y %{stat} <span>caso</span>cerrado
-      other: y %{stat} <span>casos</span>cerrados
+      one: 'y %{stat} <span>caso</span>cerrado'
+      other: 'y %{stat} <span>casos</span>cerrados'
     manager_count_open_total:
-      one: Tiene %{stat} <span>caso</span> abierto
-      other: Tiene %{stat} <span>casos</span> abiertos
+      one: 'Tiene %{stat} <span>caso</span> abierto'
+      other: 'Tiene %{stat} <span>casos</span> abiertos'
+    manager_transfers_totals:
+      one: ''
+      other: ''
+    match_result: ""
+    medium_level: ""
+    medium_risk: ""
     missed_cases: Casos perdidos
     name: Nombre
     name_or_survivor_code: Nombre o código de sobreviviente
+    near_deadline: ""
+    new: ""
     new_child_assigned_to_you: Casos nuevos asignados a Ud.
+    new_incident: ""
     new_incident_assigned_to_you: Incidentes nuevos asignados
+    new_last_week: ""
+    new_or_updated: ""
+    new_referred: ""
+    new_service_provision: ""
+    new_this_week: ""
+    no_action_risk: ""
     no_case_stats: No hay estadísticas del caso
     no_caseworker_data: No hay información del trabajador de caso
     no_flagged_child: No hay casos marcados
@@ -164,60 +653,161 @@ es:
     no_overdue_activities: No hay actividades vencidas
     no_recent_activities: No hay actividad reciente
     no_scheduled_activities: No hay actividades programadas
+    none_risk: ""
     number_of_victims: Cantidad de víctimas
     number_of_violations: Cantidad de violaciones
     number_of_violations_verified: Violaciones verificadas
     open: Abierto
     open_cases: Casos abiertos
     open_incidents: Abrir incidentes
+    outstanding_transfers: ""
     overdue_activities: Actividades vencidas
+    overdue_cases_to_assign: ""
+    overview: ""
+    pending: ""
+    pending_approvals: ""
+    pending_transfers: ""
     protection_concern: Inquietud sobre protección
+    protection_concerns: ""
+    range12+: ""
+    range4: ""
+    range4_8: ""
+    range8_12: ""
     recent_activities: Actividades recientes
     recently_flagged_child: Casos recientemente marcados
     recently_flagged_incident: Incidentes recientemente marcados
     referrals_by_social_worker: Referidos por el trabajador social
+    registration: ""
+    rejected: ""
+    rejected_transfers: ""
+    response: ""
     scheduled_activities: Actividades programadas
+    score_range: ""
+    screening_service: ""
+    services: ""
+    services_implemented: ""
+    shared_from_my_team_pending_transfers: ""
+    shared_from_my_team_referrals: ""
+    shared_from_my_team_rejected_transfers: ""
+    shared_with_me_new_referrals: ""
+    shared_with_me_total_referrals: ""
+    shared_with_me_transfers_awaiting_acceptance: ""
+    shared_with_my_team_pending_transfers: ""
+    shared_with_my_team_referrals: ""
+    shared_with_others_pending_transfers: ""
+    shared_with_others_referrals: ""
+    shared_with_others_rejected_transfers: ""
     status_of_cases: Estado de los casos
     system_user: Sistema
     total: Total
     total_cases: Total de casos
+    total_referred: ""
     tr_stats: Solicitudes de localización
+    transers_awaiting_acceptance: ""
+    transfers_by_social_worker: ""
+    users: ""
     violence_type: Tipo de violencia
+    with_incidents: ""
+    with_new_incidents: ""
+    without_incidents: ""
     worker_count_referrals_total:
-      one: <span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total
-      other: <span>%{case_worker}</span> tiene %{stat} <span>referencias</span> totales
+      one: '<span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total'
+      other: '<span>%{case_worker}</span> tiene %{stat} <span>referencias</span> totales'
     worker_count_total:
-      one: <span>%{case_worker}</span> tiene %{stat} <span>caso</span>total
-      other: <span>%{case_worker}</span> tiene %{stat} <span>casos</span>totales
+      one: '<span>%{case_worker}</span> tiene %{stat} <span>caso</span>total'
+      other: '<span>%{case_worker}</span> tiene %{stat} <span>casos</span>totales'
+    workflow: ""
+    workflow_team: ""
+    you_have: ''
   disabled:
     status:
       disabled: Desactivado
       enabled: Activado
+  email_notification:
+    assign: ''
+    assign_subject: ''
+    approval_request: ''
+    approval_request_subject: ''
+    approval_response: ''
+    approval_response_subject: ''
+    referral: ''
+    transfer: ''
+    transfer_request_subject: ""
+    transfer_subject: ''
+    referral_subject: ''
+    transfer_request: ''
+    approval_request_html: ''
+    approval_response_html: ''
+    referral_html: ''
+    transfer_html: ''
+    assign_html: ''
+    transfer_request_html: ''
+    transfer_request_notes_html: ''
   encrypt:
+    export_type: ""
     file_name: Cree su propio nombre de archivo (Optativo)
+    password_extra_info: ""
     password_label: Ingrese una contraseña para codificar su archivo.
+  error_message:
+    address_fields: ""
+    address_form_fields: ""
+    address_subform_fields: ''
+  error_page:
+    not_authorized:
+      code: 403
+      server_error: ""
+      title: ""
+    not_found:
+      code: 404
+      contact_admin: ""
+      something_went_wrong: ""
   errors:
+    error_loading: ""
     models:
+      agency:
+        code_present: ""
+        logo_format: ""
+        terms_of_use_format: ""
+        name_present: ""
       child:
         age: La edad debe ser entre 0 y 130
         date_of_birth: Ingrese una fecha de nacimiento válida para este registro de caso
+      export_configuration:
+        opt_out_field_does_not_exist: ""
+        record_type: ""
+      field:
+        translated_options_do_not_match: ""
       location:
         admin_level_present: no puede estar en blanco
         code_present: no puede estar en blanco
         name_present: no puede estar en blanco
+        unique_location_code: ""
       lookup:
         being_used: Esta búsqueda está siendo utilizada y no puede eliminarse
         name_present: El nombre no puede estar en blanco
+        values_ids_blank: ""
       primero_module:
         associated_record_types: Debe asociarse por lo menos un tipo de registro a este módulo
+        form_section_ids: ""
         name_present: El nombre no puede estar en blanco
-        unique_name: Ya existe un módulo con ese nombre, por favor ingrese otro nombre
+        unique_name: "Ya existe un módulo con ese nombre, por favor ingrese otro nombre"
       report:
+        module_presence: ""
+        module_syntax: ""
         name_presence: El nombre no puede estar en blanco
       role:
         permission_presence: Seleccione por lo menos una autorización
       user:
+        email: ""
         password_mismatch: Los campos de contraseña no tienen la misma contraseña
+        password_length: ""
+        email_uniqueness: ""
+      code_of_conduct:
+        title_present: ""
+        content_present: ""
+        created_by_present: ""
+    not_found: ""
+    try_again: ""
   exports:
     case_pdf:
       all: PDF
@@ -227,8 +817,11 @@ es:
       all: CSV
       one: CSV
       selected: Seleccionado a CSV
+    custom:
+      all: ""
     custom_exports:
-      choose_fields: ¿Desea seleccionar campos individuales para un formulario?
+      all: ""
+      choose_fields: "¿Desea seleccionar campos individuales para un formulario?"
       empty_fields_forms: Seleccione algunos formularios o campos a exportar.
       empty_format: Seleccione un formato a exportar.
       empty_module: Seleccione un módulo a exportar.
@@ -242,13 +835,63 @@ es:
       module_placeholder: Seleccione un módulo.
       select_module: Seleccionar módulo
       submit: OK
+      header: ""
+      custom_header: ""
+      signatures: ""
+      include_implementation_logos: ""
+      include_implementation_logos_help_text: ""
+      include_agency_logo: ""
+      include_other_logos: ""
     duplicate_id_csv:
+      all: ""
+      female_abbreviation: ""
       headers:
         age: Edad
         case_id: Identificación de Caso
+        child_name_last_first: ""
+        family_size: ""
+        moha_id: ""
+        national_id_no: ""
+        progress_id: ""
         sex_mapping_m_f_u: Sexo
+      male_abbreviation: ""
+      unknown_abbreviation: ""
+    exported: ""
+    exported_error: ""
     forms:
+      button: ""
       label: Exportar
+      header:
+        form_group: ""
+        form_name: ""
+        field_id: ""
+        field_type: ""
+        field_name: ""
+        required: ""
+        on_mobile: ""
+        on_short_form: ""
+        option_ids: ""
+        options: ""
+        help_text: ""
+        guiding_questions: ""
+        visible: ""
+        lookup_id: ""
+        lookup_name: ""
+        option_id: ""
+        option_name: ""
+      options:
+        location: ""
+        agency: ""
+        user: ""
+        reportinglocation: ""
+        subforms: ''
+        collapsed_fields: ''
+
+    go_to_exports: ""
+    incident_recorder_xls:
+      all: ""
+      one: ""
+      selected: ""
     json:
       all: JSON
       one: JSON
@@ -256,76 +899,214 @@ es:
     list_view_csv:
       all: Exportar lista
       selected: Seleccionado a CSV
+    messages:
+      no_exporter: ""
     mrm_violation_xls:
       all: Violaciones MRM
       one: Violaciones MRM
       selected: Seleccionado a violaciones MRM
     no_records: No hay registros disponibles!
     pdf:
+      all: ""
       one: PDF
       selected: Seleccionado a PDF
     pdf_exports:
       label: PDF
+      recipient: ""
+      case_worker: ""
+      client: ""
+      date: ""
+      recipient_name: ""
+      recipient_agency: ""
+      caseworker_name: ""
+      caseworker_agency: ""
     photowall:
       all: Pared de fotos
+      flag_suspect_record: ""
+      no_photos_available: ""
       one: Pared de fotos
+      reunited: ""
       selected: Seleccionado a pared de fotos
+      success_message: ""
+    printed: ''
+    queueing: ""
     selected_xls:
       all: Excel
       one: Excel
       selected: Seleccionado a Excel
+      selected_fields: ""
     unhcr_csv:
       all: UNHCR
+      female_abbreviation: ""
       headers:
         age: Edad
+        case_status: ""
+        causes_of_separation: ""
+        country_of_origin: ""
+        cpims_code: ""
+        current_care_arrangement: ""
+        date_of_birth: ""
+        date_of_identification: ""
+        family_count_no: ""
+        governorate_country: ""
+        id: ""
+        individual_progress_id: ""
+        locations_by_level: ""
+        long_id: ""
+        moha_id: ""
+        name_of_caregiver: ""
+        name_of_child_last_first: ""
+        primary_protection_concerns: ""
+        progres_id: ""
+        reunification_status: ""
+        secondary_protection_concerns: ""
         sex: Sexo
         sex_mapping_m_f_u: Sexo
+        short_id: ""
+        vulnerability_code: ""
+        vulnerability_details_code: ""
+      male_abbreviation: ""
       one: UNHCR
       selected: Seleccionado a UNHCR
+      unknown_abbreviation: ""
     xlsx:
       all: Excel
       one: Excel
       selected: Seleccionado a Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: ""
+        no_data: ''
+        csv_parse_error: ''
+        error: ''
+        db_error: ''
+        locale_invalid: ''
+        insert_all_error: ''
+  sync_record:
+    failed: ''
+    last: ''
+    not_found: ''
+    retrieving: ""
+    see_details: ""
   fields:
     action: Acción
     actions: Acciones
     add: Agregar
+    add_new_field: ""
+    add_existing_field: ""
+    add_field: ""
+    add_field_type: ""
+    audio:
+      current: ""
+    audio_upload_box: ""
+    bia_document: ""
+    bid_document: ""
     check_box: Marcar casillas
+    clear_group_by: ""
+    clear_sort_by: ""
+    copy_from_another_form: ""
+    create_field: ""
+    create_unique_values: ""
     date_field: Campo de fecha
     date_help: dd-mmm-aaaa
+    date_help_with_time: ""
+    date_not_valid: ""
     date_range:
       date: Fecha
       date_range: Rango de fecha
       from: Desde
       to: Hasta
     date_range_field: Rango de fecha
-    deleted: El campo %{display_name} ha sido eliminado.
+    date_time: ""
+    db_name: ""
+    default: ""
+    default_date_validation: ""
+    default_to_current_date: ""
+    default_to_current_datetime: ""
+    default_value: ""
+    deleted: "El campo %{display_name} ha sido eliminado."
+    detail: ""
+    disabled: ""
     display_name: Desplegar nombre
     document:
       comments: Comentarios
+      current: ""
+      date: ""
+      name: ""
+      is_current: ""
+    document_upload_box: ""
+    edit_label: ""
+    enabled: ""
+    enabled_label: ""
+    english_text: ""
     field_name: Nombre del campo
+    field_type: ""
+    attachment_too_large: ""
     file_upload_box:
+      add_document_label: ""
       add_new_document_button_text: Agregar otro documento
       add_new_photo_button_text: Agregar otra foto
       add_photo_label: Agregar foto
       document_description: Descripción del documento
+      document_file_restrictions_message: ""
       no_file_selected: No hay archivos seleccionados.
-      photo_file_restrictions_message: Los fotos deben ser de menos de 10mb. Los archivos de audio deben ser de menos de 10mb. Mientras más chicos, mejor.
+      photo_file_restrictions_message: "Los fotos deben ser de menos de 10mb. Los archivos de audio deben ser de menos de 10mb. Mientras más chicos, mejor."
+      recorded_audio_label: ""
       select_file_button_text: Seleccionar expediente
+    find_lookup: ""
     form_name: Nombre del formulario
+    future_date_not_valid: ""
+    guidance: ""
+    guiding_questions: ""
     help_text: Texto de ayuda
+    hide_on_view_page: ""
     label: Campos
+    mobile_visible: ""
     move_to: Mover a
+    multi_select: ""
+    multi_select_box: ""
+    must_be_english: ""
+    name: ""
+    not_future_date: ""
+    number_not_valid: ""
     numeric_field: Campo numérico
+    on_collapsed_subform: ""
     option_strings_add_option: Agregar opción
     option_strings_source: Búsquedas
     option_strings_text: Opciones
+    option_strings_text_display: ""
+    option_strings_text_key: ""
+    options_indications_lookup_values: ""
+    options_indications_restrictions: ""
+    options_or_lookup_warning: ""
+    other_documents: ""
+    photo_upload_box: ""
+    predifined_lookups: ""
     radio_button: Botón de radio
     remove: Eliminar
+    remove_attachment_confirmation: ""
+    required: ""
+    required_field: ''
+    search_existing: ""
     select_box: Seleccione desplegar hacia abajo
+    select_date_validation: ""
+    select_multiple: ""
+    select_single: ""
     separator: Separador
+    show: ""
+    show_on: ""
+    show_on_minify_form: ""
     subform: Subformulario
-    subform_remove_message: ¿Está seguro de que desea eliminar este subformulario?
+    subform_group_by: ""
+    subform_remove_message: "¿Está seguro de que desea eliminar este subformulario?"
+    subform_section:
+      description: ""
+      name: ""
+      starts_with_one_entry: ""
+      subform_append_only: ""
+      subform_prevent_item_removal: ""
+    subform_sort_by: ""
     successfully_added: El campo se agregó correctamente
     tally_field: Campo de cuenta
     text_area: Área de texto
@@ -333,92 +1114,540 @@ es:
     textarea: Área de texto
     tick_box: Marcar casilla
     tick_box_label: Marcar etiqueta de casilla
+    translation_text: ""
+    type: ""
     updated: Campo actualizado
+    visibility: ""
+    web_app: ""
+  filters:
+    apply_filters: ""
+    clear_filters: ""
+    less: ""
+    more: ""
+    save_filters: ""
+  flags:
+    add_flag_tab: ""
+    date: ''
+    flag_added: ""
+    flag_date: ""
+    flag_reason: ""
+    flag_reason_maximun_label: ""
+    flag_resolved: ""
+    flags_tab: ""
+    no_flags: ""
+    resolve_button: ""
+    resolve_flag: ""
+    resolve_reason: ""
+    resolved: ""
+    resolved_date: ''
+    resolved_reason: ''
+    title: ""
   followup_reminders:
     system_generated_followup_flag: Consulta de seguimiento obligatoria
   form_section:
+    form_name: ""
+    module: ""
     name: Nombre
+    record_type: ""
     required_field: 'se requiere de %{field}'
   forms:
+    add: ""
+    description: ""
+    fields: ""
+    form_description: ""
+    form_group: ""
+    form_title: ""
+    help_text:
+      must_be_english: ""
+      related_groups: ""
+      summariaze_purpose: ""
+    invalid_characters_field: ''
     label: Formularios
+    manage: ""
     messages:
+      created: ""
+      fields_with_same_name: ""
+      save_success: ""
+      save_with_errors: ""
+      updated: ""
       use_existing: Le instamos a que utilice los formularios existentes ya que así es más fácil compartir y combinar la información entre las instituciones.
+    mobile_app: ""
+    module: ""
+    no_subform_filters_added: ""
+    record_type: ""
     record_types:
+      approvals: ""
       case: Caso
       child: Caso
       incident: Incidente
+      individual_victim: ""
+      potential_match: ""
+      record_information: ""
+      referrals: ""
+      reportable_follow_up: ""
       reportable_protection_concern: Inquietud sobre protección
       reportable_service: Servicio
       tracing_request: Localizando solicitud
+      transfers_assignments: ""
       violation: Violación
+    required_field: ''
+    select_label: ""
+    settings: ""
+    show_on: ""
+    subform_need_to_be_added: ""
+    subform_not_found: ""
+    title: ""
+    translations:
+      edit: ""
+      edit_form_group: ""
+      manage: ""
+      no_changes_message: ""
+      note: ''
+      note_form_group: ""
+      select_language: ""
+      title: ""
+    type_label: ""
+    visibility: ""
+    web_app: ""
   home:
     ar: Árabe
+    ar-JO: ""
+    ar-LB: ""
+    ar-SD: ""
+    bn: ""
     current_time_zone: Zona horaria actual
     dashboard: Tablero
     en: Ingles
     es: Español
     fr: Francés
+    id: ""
+    km: ""
+    ku: ""
     label: Pagina de inicio
     language: Idioma
     manage_system_users: Gestionar sincronización de usuarios en el servidor
+    my: ""
+    pt: ""
     records_need_attention: Hay archivos que requieren de su atención
     ru: Ruso
+    so: ""
+    th: ""
     users: Gestionar usuarios
     view_records: Ver archivos
     welcome: Bienvenido a Primero
     zh: Chino
   incident:
+    associated_case: ""
     messages:
+      creation_success: ""
+      creation_success_queue: ""
+      disabled: ""
       update_success: 'El incidente %{record_id} se actualizó correctamente.'
+      update_success_queue: ''
+    violation:
+      pending: ""
   incidents:
+    disable_dialog: ""
+    disable_dialog_title: ""
+    disable_success: ""
+    enable_dialog: ""
+    enable_dialog_title: ""
+    enable_success: ""
+    id: ""
+    date_of_interview: ""
+    date_of_incident: ""
+    export: ""
     label: Incidentes
     filter_by:
       boys: Niños
+      by_date: ""
       girls: Niñas
+      incident_location: ""
+      unaccompanied_separated_status: ""
       unknown: Se desconoce
+      violence_type: ""
     register_new_incident: Nuevo incidente
+    selectable_date_options:
+      date_of_first_report: ""
+      incident_date_derived: ""
+    selected_records: ''
+    selected_all_records: ''
+    survivor_code: ""
+    show_incident: ''
+    social_worker: ""
+    violence_type: ""
+    type_violence: ""
+  key_performance_indicators:
+    label: ""
+    case_assessment: ""
+    case_action_planning: ""
+    case_action_plan_implementation: ""
+    case_follow_up: ""
+    case_closure: ""
+    feedback: ""
+    other: ""
+    date_format: ""
+    date_range_select:
+      custom_range: ''
+    long_date_format: ""
+    time_periods:
+      all_time: ''
+      current_month: ""
+      last_3_months: ""
+      last_6_months: ""
+      last_1_year: ""
+      0-3days: ""
+      4-5days: ""
+      6-14days: ""
+      15-30days: ""
+      1-3months: ""
+      4months: ""
+      1-month: ""
+      3-6months: ""
+      7-months: ""
+    helptext:
+      helptext: ""
+    number_of_cases:
+      title: ""
+      reporting_site: ""
+      helptext: |
+    number_of_incidents:
+      title: ""
+      reporting_site: ""
+      helptext: |
+    reporting_delay:
+      title: ""
+      delay: ""
+      total_incidents: ""
+      helptext: |
+    service_access_delay:
+      title: ""
+      delay: ""
+      total_incidents: ""
+    assessment_status:
+      title: ""
+      completed: ""
+      completed_supervisor_approved: ""
+      helptext: |
+    completed_case_safety_plans:
+      title: ""
+      completed: ""
+      helptext: |
+    completed_case_action_plans:
+      title: ""
+      completed: ""
+      label: ""
+      helptext: |
+    completed_supervisor_approved_case_action_plans:
+      title: ""
+      completed_and_approved: ""
+      helptext: |
+    services_provided:
+      title: ""
+      service: ""
+      count: ""
+      helptext: |
+    average_referrals:
+      title: ""
+      label: ""
+      helptext: |
+    referrals_per_service:
+      title: ""
+    average_followup_meetings_per_case:
+      title: ""
+      label: ""
+      helptext: |
+    goal_progress_per_need:
+      title: ""
+      need: ""
+      safety: ""
+      health: ""
+      psychosocial: ""
+      justice: ""
+      other: ""
+      helptext: |
+    time_from_case_open_to_close:
+      title: ""
+      time: ""
+      percent: ""
+      helptext: |
+    case_closure_rate:
+      title: ""
+      reporting_site: ""
+      helptext: |
+    client_satisfaction_rate:
+      title: ""
+      label: ""
+      helptext: |
+    supervisor_to_caseworker_ratio:
+      title: ""
+      label: ""
+      helptext: |
+    case_load:
+      title: ""
+      case_load: ""
+      percent: ""
+      10cases: ""
+      20cases: ""
+      21-30cases: ""
+      30cases: ""
+      helptext: |
+    date_range_dialog:
+      title: ""
+      description: ""
+      apply: ''
+      from: ''
+      to: ''
+      aria-labels:
+        from: ""
+        to: ""
+
+  location:
+    base_types:
+      camp: ""
+      chiefdom: ""
+      city: ""
+      country: ""
+      county: ""
+      district: ""
+      governorate: ""
+      locality: ""
+      other: ""
+      province: ""
+      region: ""
+      site: ""
+      state: ""
+      sub-district: ""
+      village: ""
+      zone: ""
+    label: ""
+    name: ""
+    code: ""
+    admin_level: ""
+    type: ""
+    hierarchy: ""
+    import_title: ""
+    message: ""
+    no_location: ""
   logger:
+    approve_form:
+      action_plan: ""
+      bia: ""
+      case_plan: ""
+      closure: ""
+      'false': ""
+      gbv_closure: ""
+      'true': ""
+    assessment_approved: ""
+    assessment_requested: ""
+    bulk_index: ""
+    by_user: ""
+    case_plan_approved: ""
+    case_plan_requested: ""
+    close: ""
+    closure_approved: ""
+    closure_requested: ""
+    consent_count: ""
+    copy: ""
+    create: ""
+    create_subform: ""
+    destroy: ""
+    edit: ""
+    enable_disable_record: ""
+    export: ""
+    flag: ""
+    flag_records: ""
+    graph_data: ""
     hide_name:
       protect: Ocultar nombre
-      view: ' Ver nombre'
+      view: " Ver nombre"
+    index: ""
+    list: ""
     login: Inicio de sesión
     logout: Desconectarse
+    lookups_for_field: ""
     mark_for_mobile:
+      'false': ""
       'true': Marcar para móvil
+    match_record: ""
+    permitted_field_list: ""
+    quick_view: ""
+    reassign: ""
+    record_state:
+      'false': ""
+      'true': ""
+    refer: ""
+    refer_to: ""
+    referral: ""
+    relinquish_referral: ""
+    reopen: ""
+    reopen_case: ""
+    request_approval:
+      action_plan: ""
+      bia: ""
+      case_plan: ""
+      closure: ""
+      gbv_closure: ""
+    request_transfer: ""
+    request_transfer_view: ""
+    save_subform: ""
+    search: ""
+    show: ""
+    show_alerts: ""
     to: a
+    to_user: ""
+    transfer: ""
+    transfer_status:
+      Accepted: ""
+      Rejected: ""
+    unflag: ""
+    update: ""
   login:
     label: Inicio de sesión
     password:
       label: Contraseña
+    password_confirmation:
+      label: ""
+    password_match:
+      label: ""
+    provider_title: ""
+    title: ""
     username: Nombre de usuario
+    password_reset_modal: ""
+    password_reset_modal_text: ""
+    password_reset_email: ""
+    forgot_password: ""
+    email:
+      label: ""
   lookup:
     create: Nueva búsqueda
+    enabled_label: ""
+    english_label: ""
     label: Búsqueda
+    language_label: ""
     messages:
       cannot_create: No pudo generarse la búsqueda
       correct_errors: 'Corrija los siguientes errores y re-envíe:'
+      created: ""
+      updated: ""
     name: Nombre
+    no_options: ""
+    translation_label: ""
     values: Opciones
   messages:
+    alert_items: ""
+    alerts_for:
+      approval: ""
+      field_change: ''
+      transfer_request: ""
+    cannot_edit: ""
     confirmation_message: Al hacer clic en OK se descartarán los cambios no guardados y volverá a la lista. Haga clic en cancelar para volver al registro.
+    dashboard_offline: ""
+    field_name_on_form_name: ''
+    logout_confirmation: ""
+    logout_offline_warning: ""
+    logout_warning: ""
+    logout_dialog_header: ""
+    logout_confirmation_title: ""
+    logout_confirmation_text: ""
+    no_changes: ""
+    not_available: ""
+    record_list:
+      column_header_tooltip: ""
+      of: ""
+      no_match: ""
+      rows_per_page: ""
+      sort: ""
   navigation:
+    bulk_exports: ""
+    cases: ""
+    home: ""
+    key_performance_indicators: ""
+    incidents: ""
+    logout: ""
+    reports: ""
     search: Buscar
+    settings: ""
+    support: ""
+    support_menu:
+      contact_information: ""
+      code_of_conduct: ""
+      terms_of_use: ""
+      system_information: ""
+    tasks: ""
+    tracing_request: ""
+  notes:
+    note_success: ""
   permissions:
     label: Autorizaciones
     permission:
       All: Todos
+      add_note: ""
+      admin_only: ""
+      administrator_read: ""
       agency: Agencia
+      agency_read: ""
       all: Acceso a todos los registros o usuarios
+      approvals_assessment: ''
+      approvals_assessment_pending: ''
+      approvals_case_plan: ''
+      approvals_case_plan_pending: ''
+      approvals_closure: ''
+      approvals_closure_pending: ''
+      approve_action_plan: ""
+      approve_assessment: ""
+      approve_case_plan: ""
+      approve_closure: ""
+      approve_gbv_closure: ""
       assign: Asignar
+      assign_within_agency: ""
+      assign_within_user_group: ""
+      audit_log: ""
       case: Caso
+      case_approvals: ""
+      case_assignments_referrals_transfers: ""
+      case_exports: ""
+      case_overview: ""
+      case_risk: ""
+      cases_by_task_overdue_assessment: ""
+      cases_by_task_overdue_case_plan: ""
+      cases_by_task_overdue_followups: ""
+      cases_by_task_overdue_services: ""
+      cases_managed_other_users: ""
+      close: ""
       consent_override: Aprobar control manual
       copy: Copiar
+      copy_of: ""
       create: Crear
+      dash_case_incident_overview: ""
+      dash_cases_by_social_worker: ""
+      dash_cases_by_task_overdue: ""
+      dash_cases_by_workflow: ""
+      dash_cases_to_assign: ""
+      dash_group_overview: ""
+      dash_manager_transfers: ""
+      dash_matching_results: ""
+      dash_protection_concerns: ""
+      dash_protection_concerns_by_location: ""
+      dash_referrals_by_socal_worker: ""
+      dash_reporting_location: ""
+      dash_service_provisions: ""
+      dash_shared_from_my_team: ""
+      dash_shared_with_me: ""
+      dash_shared_with_my_team: ""
+      dash_shared_with_others: ""
+      dash_show_none_values: ""
+      dash_tasks: ""
+      dash_transfers_by_socal_worker: ""
       dashboard: Tablero
+      delete: ""
+      display_view_page: ""
+      duplicate: ""
       enable_disable_record: Desactivar
       export_case_pdf: Exportar pdf del caso
       export_csv: Exportar csv
       export_custom: Exportar archivo personalizado
+      export_duplicate_id_csv: ""
       export_json: Exportar json
       export_list_view_csv: Exportar lista csv
       export_mrm_violation_xls: Exportar violación mrm xls
@@ -426,117 +1655,1080 @@ es:
       export_photowall: Exportar pared de fotos
       export_unhcr_csv: Exportar unhcr csv
       export_xls: Exportar xls
+      find_tracing_match: ""
       flag: Marcar
       form: Formularios
       group: Acceso a todos los registros o usuarios en mi grupo
+      group_read: ""
       import: Importar
       incident: Incidente
+      incident_details_from_case: ""
+      incident_from_case: ""
+      kpi: ""
       lookup: Búsquedas
       manage: Gestionar
-      metadata: Formularios, búsquedas
+      matching_configuration: ""
+      metadata: "Formularios, búsquedas"
+      potential_match: ""
+      primero_configuration: ""
       read: Leer
+      reassign: ""
+      receive_referral: ""
+      receive_transfer: ""
+      referral: ""
+      referral_from_service: ""
+      remove_assigned_users: ""
+      reopen: ""
       report: Informe
+      request_approval: ""
+      request_approval_action_plan: ""
+      request_approval_assessment: ""
+      request_approval_case_plan: ""
+      request_approval_closure: ""
+      request_approval_gbv_closure: ""
+      request_transfer: ""
       role: Roles
+      save_search: ""
+      saved_search: ""
+      search_owned_by_others: ""
       self: Acceso solo a mis registros o usuario
+      service_provision_incident_details: ""
+      services_section_from_case: ""
       specific_roles: Acceso a listas específicas de roles
+      sync_external: ""
       sync_mobile: Sincronizar con dispositivo móvil
       system: Sistema
       tracing_request: Localizando solicitud
+      transfer: ""
       user: Usuarios
       user_group: Grupos de usuarios
+      view_approvals: ""
+      view_assessment: ""
+      view_photo: ""
+      view_protection_concerns_filter: ""
+      view_response: ""
+      workflow: ""
+      workflow_team: ""
       write: Escribir
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+          kpi_assessment_status:
+            explanation: ""
+            label: ""
+          kpi_average_followup_meetings_per_case:
+            explanation: ""
+            label: ""
+          kpi_average_referrals:
+            explanation: ""
+            label: ""
+          kpi_case_closure_rate:
+            explanation: ""
+            label: ""
+          kpi_case_load:
+            explanation: ""
+            label: ""
+          kpi_client_satisfaction_rate:
+            explanation: ""
+            label: ""
+          kpi_completed_case_action_plans:
+            explanation: ""
+            label: ""
+          kpi_completed_case_safety_plans:
+            explanation: ""
+            label: ""
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: ""
+            label: ""
+          kpi_goal_progress_per_need:
+            explanation: ""
+            label: ""
+          kpi_number_of_cases:
+            explanation: ""
+            label: ""
+          kpi_number_of_incidents:
+            explanation: ""
+            label: ""
+          kpi_reporting_delay:
+            explanation: ""
+            label: ""
+          kpi_services_provided:
+            explanation: ""
+            label: ""
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: ""
+            label: ""
+          kpi_time_from_case_open_to_close:
+            explanation: ""
+            label: ""
+        label: ""
+      agency:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      audit_log:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      case:
+        actions:
+          add_note:
+            explanation: ""
+            label: ""
+          approve_action_plan:
+            explanation: ""
+            label: ""
+          approve_assessment:
+            explanation: ""
+            label: ""
+          approve_bia:
+            explanation: ""
+            label: ""
+          approve_case_plan:
+            explanation: ""
+            label: ""
+          approve_closure:
+            explanation: ""
+            label: ""
+          approve_gbv_closure:
+            explanation: ""
+            label: ""
+          assign:
+            explanation: ""
+            label: ""
+          assign_within_agency:
+            explanation: ""
+            label: ""
+          assign_within_user_group:
+            explanation: ""
+            label: ""
+          change_log:
+            explanation: ""
+            label: ""
+          close:
+            explanation: ""
+            label: ""
+          consent_override:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          display_view_page:
+            explanation: ""
+            label: ""
+          enable_disable_record:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ''
+            label: ""
+          export_custom:
+            explanation: ""
+            label: ""
+          export_duplicate_id_csv:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          export_pdf:
+            explanation: ""
+            label: ""
+          export_photowall:
+            explanation: ""
+            label: ""
+          export_unhcr_csv:
+            label: ""
+          export_xls:
+            explanation: ''
+            label: ""
+          find_tracing_match:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          incident_details_from_case:
+            explanation: ""
+            label: ""
+          incident_from_case:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          receive_referral:
+            explanation: ""
+            label: ""
+          receive_transfer:
+            explanation: ""
+            label: ""
+          referral:
+            explanation: ""
+            label: ""
+          referral_from_service:
+            explanation: ""
+            label: ""
+          remove_assigned_users:
+            explanation: ""
+            label: ""
+          reopen:
+            explanation: ""
+            label: ""
+          request_approval_action_plan:
+            explanation: ""
+            label: ""
+          request_approval_assessment:
+            explanation: ""
+            label: ""
+          request_approval_bia:
+            explanation: ""
+            label: ""
+          request_approval_case_plan:
+            explanation: ""
+            label: ""
+          request_approval_closure:
+            explanation: ""
+            label: ""
+          request_approval_gbv_closure:
+            explanation: ""
+            label: ""
+          request_transfer:
+            explanation: ""
+            label: ""
+          search_owned_by_others:
+            explanation: ""
+            label: ""
+          service_provision_incident_details:
+            explanation: ""
+            label: ""
+          services_section_from_case:
+            explanation: ""
+            label: ""
+          sync_external:
+            explanation: ""
+            label: ""
+          sync_mobile:
+            explanation: ""
+            label: ""
+          transfer:
+            explanation: ""
+            label: ""
+          view_photo:
+            explanation: ""
+            label: ""
+          view_incident_from_case:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: ""
+            label: ""
+          approvals_action_plan_pending:
+            explanation: ""
+            label: ""
+          approvals_assessment:
+            explanation: ""
+            label: ""
+          approvals_assessment_pending:
+            explanation: ""
+            label: ""
+          approvals_case_plan:
+            explanation: ""
+            label: ""
+          approvals_case_plan_pending:
+            explanation: ""
+            label: ""
+          approvals_closure:
+            explanation: ""
+            label: ""
+          approvals_closure_pending:
+            explanation: ""
+            label: ""
+          approvals_gbv_closure:
+            explanation: ""
+            label: ""
+          approvals_gbv_closure_pending:
+            explanation: ""
+            label: ""
+          case_overview:
+            explanation: ""
+            label: ""
+          case_risk:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_assessment:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_case_plan:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_followups:
+            explanation: ""
+            label: ""
+          cases_by_task_overdue_services:
+            explanation: ""
+            label: ""
+          dash_case_incident_overview:
+            explanation: ""
+            label: ""
+          dash_cases_by_social_worker:
+            explanation: ""
+            label: ""
+          dash_cases_to_assign:
+            explanation: ''
+            label: ""
+          dash_flags:
+            explanation: ""
+            label: ""
+          dash_group_overview:
+            explanation: ""
+            label: ""
+          dash_matching_results:
+            explanation: ""
+            label: ""
+          dash_protection_concerns:
+            explanation: ""
+            label: ""
+          dash_protection_concerns_by_location:
+            explanation: ""
+            label: ""
+          dash_reporting_location:
+            explanation: ""
+            label: ""
+          dash_service_provisions:
+            explanation: ""
+            label: ""
+          dash_shared_from_my_team:
+            explanation: ""
+            label: ""
+          dash_shared_with_me:
+            explanation: ""
+            label: ""
+          dash_shared_with_my_team:
+            explanation: ""
+            label: ""
+          dash_shared_with_others:
+            explanation: ""
+            label: ""
+          dash_show_none_values:
+            explanation: ""
+            label: ""
+          dash_tasks:
+            explanation: ""
+            label: ""
+          view_protection_concerns_filter:
+            explanation: ""
+            label: ""
+          view_response:
+            explanation: ""
+            label: ""
+          workflow:
+            explanation: ""
+            label: ""
+          workflow_team:
+            explanation: ""
+            label: ""
+        label: ""
+      disabled:
+        explanation: ""
+        label: ""
+      duplicate:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      forms:
+        case:
+          explanation: ''
+          label: ""
+        incident:
+          explanation: ''
+          label: ""
+        tracing_request:
+          explanation: ''
+          label: ""
+      group:
+        actions:
+          admin_only:
+            explanation: ""
+            label: ""
+          agency:
+            explanation: ""
+            label: ""
+          all:
+            explanation: ""
+            label: ""
+          group:
+            explanation: ""
+            label: ""
+          self:
+            explanation: ""
+            label: ""
+        explanation: ""
+        label: ""
+      incident:
+        actions:
+          change_log:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          enable_disable_record:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ""
+            label: ""
+          export_custom:
+            label: ""
+          export_incident_recorder_xls:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          export_pdf:
+            explanation: ""
+            label: ""
+          export_xls:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          sync_mobile:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      is_manager:
+        explanation: ""
+        label: ""
+      matching_configuration:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      metadata:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      module:
+        actions:
+          cp:
+            label: ""
+          gbv:
+            label: ""
+          mrm:
+            label: ""
+        explanation: ""
+        label: ""
+      potential_match:
+        actions:
+          read:
+            explanation: ""
+            label: ""
+        label: ""
+      primero_configuration:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      referral:
+        actions:
+          refer:
+            explanation: ""
+            label: ""
+        label: ""
+      report:
+        actions:
+          create:
+            explanation: ""
+            label: ""
+          group_read:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      reporting_location_level:
+        explanation: ''
+        label: ""
+      role:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          copy:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          delete:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          permitted_roles:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      system:
+        actions:
+          manage:
+            explanation: ""
+            label: ""
+        label: ""
+      tracing_request:
+        actions:
+          change_log:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          enable_disable_record:
+            explanation: ""
+            label: ""
+          export_case_pdf:
+            explanation: ""
+            label: ""
+          export_csv:
+            explanation: ""
+            label: ""
+          export_custom:
+            explanation: ""
+            label: ""
+          export_json:
+            explanation: ""
+            label: ""
+          export_list_view_csv:
+            explanation: ""
+            label: ""
+          export_pdf:
+            explanation: ""
+            label: ""
+          flag:
+            explanation: ""
+            label: ""
+          import:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ""
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      transfer:
+        actions:
+          transfer:
+            explanation: ""
+            label: ""
+        label: ""
+      user:
+        actions:
+          agency_read:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
+      user_group:
+        actions:
+          assign:
+            explanation: ""
+            label: ""
+          create:
+            explanation: ""
+            label: ""
+          delete:
+            explanation: ""
+            label: ""
+          manage:
+            explanation: ''
+            label: ""
+          read:
+            explanation: ""
+            label: ""
+          write:
+            explanation: ""
+            label: ""
+        label: ""
   potential_match:
+    case_id: ""
     child_age: Edad
+    child_gender: ""
+    child_id: ""
+    inquirer_id: ""
+    inquirer_tr_name: ""
+    inquiry_date: ""
     name: Nombre
+    score: ""
+    social_worker: ""
     social_worker_agency: Agencia
+    tracing_request_id: ""
+    trace: ""
+    likelihood_likely: ""
+    likelihood_possible: ""
+  potential_matches:
+    display: ""
   reassign:
+    multiple_error: ""
+    multiple_successfully: ''
     notes_label: Notas
+    successfully: ""
+    user_mandatory_label: ""
+    users_label: ""
+  record_information:
+    assigned_user_names: ""
+    created_by: ""
+    created_organization: ""
+    current_owner_separator: ""
+    module_id: ""
+    owned_by: ""
+    owned_by_agency_id: ""
+    owned_by_text: ""
+    previously_owned_by: ""
+    previously_owned_by_agency: ""
+    reassigned_tranferred_on: ""
+    record_history_separator: ""
   record_panel:
     record_information: Información del Archivo
   referral:
+    type_of_recipient: ""
+    type_of_referral_required: ""
     agency_label: Agencia
-    is_remote_label: ¿Está refiriendo a un sistema remoto?
+    is_remote_label: "¿Está refiriendo a un sistema remoto?"
     location_label: Localidad
     notes_label: Notas
+    notes_on_referral: ""
+    note_on_referral_from_provider: ""
+    provided_consent_label: ""
+    recipient_label: ""
+    refer_anyway_label: ""
     service_label: Servicio
     success: '%{record_type} %{id} referido correctamente'
+    user_mandatory_label: ""
+    date: ""
+    rejected_reason: ""
   report:
     aggregate_by: Agrupar por fila
+    attribute: ""
+    constraint: ""
     date_ranges:
       date: Día
       month: Mes
+      quarter: ""
+      quarter_abbr: ""
       week: Semana
       year: Año
     description: Descripción
+    disabled:
+      explanation: ""
+      label: ""
     disaggregate_by: Agrupar por columna
     filters:
       label: Filtros del informe
+      label_new: ""
+      attribute: ""
+      value: ""
+      not_null: ""
+      less_than: ""
+      greater_than: ""
+      equal_to: ""
+      not_blank: ""
+      is: ""
+      before: ""
+      after: ""
+      delete_filter_message: ""
     group_ages: Usar rangos de edades
     group_dates_by: Usar rangos de fechas
-    is_graph: ¿Generar gráfico?
+    is_graph: "¿Generar gráfico?"
     messages:
       delete_success: El informe se eliminó correctamente.
+      success: ""
+      updated: ""
     modules: Módulos
     name: Nombre
+    name_mandatory: ""
     no_data: No existe información para este informe
+    no_filters_added: ""
+    not_selected: ""
     record_type: Tipo de registro
     total: Total
+    value: ""
   reports:
+    delete_report: ""
+    delete_report_message: ""
     label: Informes
     register_new_report: Crear informe
   request_transfer:
     notes_label: Notas
+    submit_label: ""
+    success: ""
   role:
+    agency_ids_label: ""
     copy_failure: Error al copiar el rol. Asegúrese de que el nombre no está en conflicto con otro rol.
     copy_success: El rol se copió correctamente.
     create: Crear rol
+    delete_header: ""
     description: Descripción
     edit: Editar rol
     error_in_updating: Error al actualizar la información del rol.
-    group_permission_label: ¿Qué registros afecta este rol?
+    group_permission_label: "¿Qué registros afecta este rol?"
+    label: ""
+    manager: ""
+    messages:
+      confirmation: ""
+      created: ""
+      deleted: ""
+      updated: ""
     name: Nombre
-    referral_label: ¿Puede utilizarse este rol para Referencias?
+    referral_label: "¿Puede utilizarse este rol para Referencias?"
+    reporting_location_level_label: ""
     role_ids_label: Otros roles administrados por este rol
     successfully_updated: La información del rol se actualizó correctamente.
-    transfer_label: ¿Puede utilizarse este rol para Transferencias?
+    transfer_label: "¿Puede utilizarse este rol para Transferencias?"
+    hide: ""
+    read: ""
+    read_write: ""
   roles:
     label: Roles
+  saved_search:
+    deleted: ""
+    filters_tab: ""
+    no_filters: ""
+    save_success: ""
+    saved_searches_tab: ""
+    title_description: ""
+    title_modal: ""
+  saved_searches:
+    no_save_searches: ""
+    save_search: ""
+  settings:
+    navigation:
+      agencies: ""
+      audit_logs: ""
+      configurations: ""
+      contact_information: ""
+      forms: ""
+      locations: ""
+      lookups: ""
+      user_groups: ""
+      users: ""
+      roles: ""
+      code_of_conduct: ""
+    title: ""
   system_settings:
     label: Configuración del sistema
   task:
+    due_date: ""
     id: Nº de ID
+    name: ""
+    priorities:
+      high_level: ""
+      low_level: ""
+      medium_level: ""
+      no_action_level: ""
+    priority: ""
+    status: ""
+    statuses:
+      overdue: ""
+      upcoming_soon: ""
+    type: ""
+    types:
+      assessment: ""
+      case_plan: ""
+      follow_up: ""
+      service: ""
   tracing_request:
+    label: ""
+    has_match: ""
+    find_match: ""
+    back_to_traces: ""
+    back_to_potential_matches: ""
+    traces: ""
+    trace: ""
+    match: ""
+    matches: ""
+    unmatch: ""
     messages:
+      already_matched: ""
+      disabled: ""
+      nothing_found: ""
       update_success: 'La solicitud de localización %{record_id} se actualizó correctamente.'
+      creation_success: ""
+      update_success_queue: ''
+      creation_success_queue: ""
+      match_action: ""
+      unmatch_action: ""
   tracing_requests:
+    date_of_inquiry: ""
+    disable_dialog_title: ""
+    disable_dialog: ""
+    disable_success: ""
+    enable_dialog: ""
+    enable_dialog_title: ""
+    enable_success: ""
+    id: ""
+    filter_by:
+      by_date: ""
+      location_separation: ""
+      separation_cause: ""
+      status: ""
+    label: ""
+    name_of_inquirer: ""
+    inquirer: ""
+    name: ""
     register_new_tracing_request: Nueva solicitud de localización
     selectable_date_options:
       inquiry_date: Fecha de la consulta
+    selected_records: ''
+    selected_all_records: ''
+    show_tracing_request: ''
+    tracing_requests: ""
+    export: ""
   transfer:
     agency_label: Agencia
+    consent_from_individual_label: ""
     consent_label: los registros no han proporcionado consentimiento.
-    consent_override_label: ¿Desea sobreescribir esta configuración?
-    is_remote_label: ¿Está transfiriendo a un sistema remoto?
+    consent_override_label: "¿Desea sobreescribir esta configuración?"
+    is_remote_label: "¿Está transfiriendo a un sistema remoto?"
     location_label: Localidad
     notes_label: Notas
+    provided_consent_label: ""
+    recipient_label: ""
+    select_label: ""
+    success: ""
+    transfer_label: ""
+    user_mandatory: ""
+  transfer_assignment:
+    title: ""
+  transition:
+    agency_label: ""
+    assigned_by: ""
+    consent_individual_transfer_value:
+      true_label: ''
+      false_label: ''
+    consent_overridden_value:
+      false_label: ''
+      true_label: ''
+    errors:
+      consent: ""
+      to_user_can_receive: ""
+    individual_consent: ""
+    no_consent_share: ""
+    notes: ""
+    recipient: ""
+    rejected: ""
+    requested_by: ""
+    service_label: ""
+    responded_at: ""
+    status:
+      accepted: ""
+      done: ""
+      in_progress: ""
+      inprogress: ""
+      rejected: ""
+    type:
+      assign: ""
+      reassign: ""
+      referral: ""
+      external_referral: ""
+      transfer: ""
+      transferRequest: ""
   user:
+    agency_office: ""
+    code: ""
     disabled: Desactivado
+    email: ""
     full_name: Nombre completo
+    identity_provider: ""
+    invalid_provider_username: ''
+    label: ""
+    language: ""
+    locale: ""
     location: Localidad
     messages:
-      confirmation: ¿Está seguro de que desea eliminar este usuario? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el usuario.
+      confirmation: "¿Está seguro de que desea eliminar este usuario? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el usuario."
       created: El usuario se generó correctamente.
+      failure: ""
+      new_confirm_html: ""
+      new_confirm_non_identity_html: ""
       not_found: No se encontró el usuario con la identificación proporcionada
       password_changed_successfully: La contraseña se cambió correctamente
       passwords_do_not_match: no concuerda con la contraseña actual
       time_zone_updated: El cambio se actualizó correctamente.
       updated: El usuario se actualizó correctamente.
     organization: Organización
+    agency: ""
+    services_help_text: ""
+    password_setting:
+      label: ""
+      self: ""
+      user: ""
+      help_text: ""
+    password_reset_header: ""
+    password_reset_text: ""
+    password_reset_request: ""
+    password: ""
+    password_confirmation: ""
+    phone: ""
     position: Puesto
+    provider_username_help: ''
+    role_id: ""
+    send_mail: ""
+    user_group_unique_ids: ""
+    user_name: ""
+    services: ""
+    welcome_email:
+      subject: ''
+      greeting: ''
+      body_native: ''
+      sso:
+        body: ''
+        step1: ''
+        step2: ''
+        step3: ''
+        footer: ''
+      otp:
+        body: ''
+        step1: ''
+        step2: ''
+        step3: ''
+        step4: ''
+      url_label: ""
+      enabled_label: ""
+      text_label: ""
+    password_reset:
+      email_greeting: ""
+      email_body1: ""
+      email_body2: ""
+      email_body_link: ""
+      request_submitted: ""
+      success: ""
+      errors:
+        reset_password_token: ""
+        password_confirmation: ""
+    onboard_email:
+      subject: ""
+      greeting: ""
+      body1: ""
+      body2: ""
+      body2_reset_notification: ""
+      body3: ""
   user_group:
     description: Descripción
+    disabled:
+      explanation: ""
+      label: ""
+    messages:
+      created: ""
+      updated: ""
     name: Nombre
   user_groups:
     label: Grupos de usuarios
   users:
     label: Usuarios
+    headers:
+      full_name: ""
+      user_name: ""
+      position: ""
+      agency: ""
+  devise:
+    failure:
+      already_authenticated: ""
+      invalid: ""
+      locked: ""
+      last_attempt: ""

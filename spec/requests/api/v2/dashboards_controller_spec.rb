@@ -44,10 +44,10 @@ describe Api::V2::DashboardsController, type: :request do
 
     group1 = UserGroup.create!(name: 'Group1')
 
-    Location.create!(placename_en: 'Country', location_code: 'CNT', admin_level: 0, type: 'country', hierarchy_path: '')
-    Location.create!(placename_en: 'State', location_code: 'STE', admin_level: 1, type: 'state', hierarchy_path: 'CTE')
+    Location.create!(placename_en: 'Country', location_code: 'CNT', type: 'country')
+    Location.create!(placename_en: 'State', location_code: 'STE', type: 'state', hierarchy_path: 'CNT.STE')
     Location.create!(placename_en: 'City', location_code: 'CTY',
-                     admin_level: 2, type: 'city', hierarchy_path: 'CTE.STE')
+                     type: 'city', hierarchy_path: 'CNT.STE.CTY')
 
     Lookup.create!(
       unique_id: 'lookup-protection-concerns',
@@ -120,6 +120,7 @@ describe Api::V2::DashboardsController, type: :request do
         group_permission: Permission::SELF,
         permissions: [@permission_case, @permission_dashboard]
       )
+
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
@@ -142,6 +143,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
+
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['cty']['count']).to eq(1)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['cty']['count']).to eq(1)

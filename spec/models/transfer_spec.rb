@@ -28,6 +28,8 @@ describe Transfer do
     @user2.save(validate: false)
   end
 
+  let(:case1) { @case.reload }
+
   describe 'consent' do
     context 'when consent properties are not set' do
       before do
@@ -83,14 +85,14 @@ describe Transfer do
 
       it 'allows the targeted user to have access to this record' do
         expect(@transfer.status).to eq(Transition::STATUS_INPROGRESS)
-        expect(@case.assigned_user_names).to include(@transfer.transitioned_to)
+        expect(case1.assigned_user_names).to include(@transfer.transitioned_to)
       end
 
       it 'does not change ownership of the record' do
-        expect(@case.owned_by).to eq('user1')
-        expect(@case.owned_by_full_name).to eq('Test User One')
-        expect(@case.owned_by_location).to eq('loc012345')
-        expect(@case.owned_by_agency).to eq(@agency1.agency_code)
+        expect(case1.owned_by).to eq('user1')
+        expect(case1.owned_by_full_name).to eq('Test User One')
+        expect(case1.owned_by_location).to eq('loc012345')
+        expect(case1.owned_by_agency).to eq(@agency1.agency_code)
       end
     end
 
@@ -108,7 +110,7 @@ describe Transfer do
         transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
         expect(transfer.valid?).to be_falsey
-        expect(@case.assigned_user_names.present?).to be_falsey
+        expect(case1.assigned_user_names.present?).to be_falsey
       end
     end
   end
@@ -119,41 +121,41 @@ describe Transfer do
       DateTime.stub(:now).and_return(@now)
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
-      @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
-      @transfer.accept!
+      @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case.reload)
+      @transfer.reload.accept!
     end
 
     it 'sets status to Accepted' do
       expect(@transfer.status).to eq(Transition::STATUS_ACCEPTED)
       expect(@transfer.responded_at).to eq(@now)
-      expect(@case.transfer_status).to eq(Transition::STATUS_ACCEPTED)
-      expect(@case.status).to eq(Record::STATUS_OPEN)
+      expect(case1.transfer_status).to eq(Transition::STATUS_ACCEPTED)
+      expect(case1.status).to eq(Record::STATUS_OPEN)
     end
 
     describe 'change ownership' do
       it 'changes owned_by' do
-        expect(@case.owned_by).to eq('user2')
-        expect(@case.previously_owned_by).to eq('user1')
+        expect(case1.owned_by).to eq('user2')
+        expect(case1.previously_owned_by).to eq('user1')
       end
 
       it 'changes owned_by_full_name' do
-        expect(@case.owned_by_full_name).to eq('Test User Two')
-        expect(@case.previously_owned_by_full_name).to eq('Test User One')
+        expect(case1.owned_by_full_name).to eq('Test User Two')
+        expect(case1.previously_owned_by_full_name).to eq('Test User One')
       end
 
       it 'changes owned_by_location' do
-        expect(@case.owned_by_location).to eq('loc8675309')
-        expect(@case.previously_owned_by_location).to eq('loc012345')
+        expect(case1.owned_by_location).to eq('loc8675309')
+        expect(case1.previously_owned_by_location).to eq('loc012345')
       end
 
       it 'changes owned_by_agency' do
-        expect(@case.owned_by_agency).to eq(@agency2.unique_id)
-        expect(@case.previously_owned_by_agency).to eq(@agency1.unique_id)
+        expect(case1.owned_by_agency).to eq(@agency2.unique_id)
+        expect(case1.previously_owned_by_agency).to eq(@agency1.unique_id)
       end
 
       describe 'record history' do
         before do
-          @record_histories = @case.record_histories
+          @record_histories = case1.record_histories
         end
 
         it 'is updated' do
@@ -184,8 +186,10 @@ describe Transfer do
           case_with_incidents.incidents << incident1
           case_with_incidents.incidents << incident2
           case_with_incidents.save!
-          @transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: case_with_incidents)
-          @transfer.accept!
+          @transfer = Transfer.create(
+            transitioned_by: 'user1', transitioned_to: 'user2', record: case_with_incidents.reload
+          )
+          @transfer.reload.accept!
           @incident1 = case_with_incidents.incidents.first
           @incident2 = case_with_incidents.incidents.last
         end
@@ -254,7 +258,7 @@ describe Transfer do
       @case = Child.create(data: { name: 'Test', owned_by: 'user1', module_id: @module_cp.unique_id,
                                    disclosure_other_orgs: true })
       @case2 = Child.create(data: { name: 'Test 2', owned_by: 'user1', module_id: @module_cp.unique_id,
-                                   disclosure_other_orgs: true })
+                                    disclosure_other_orgs: true })
       @rejected_transfer = Transfer.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
     end
 
@@ -285,7 +289,7 @@ describe Transfer do
       it 'changes the status to REJECTED and removes the referred user' do
         @rejected_transfer.reject!
         @rejected_transfer.reload
-  
+
         expect(@rejected_transfer.status).to eq(Transition::STATUS_REJECTED)
         expect(@case.assigned_user_names).not_to include('user2')
       end

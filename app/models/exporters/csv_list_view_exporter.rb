@@ -18,6 +18,11 @@ class Exporters::CSVListViewExporter < Exporters::BaseExporter
     end
   end
 
+  def initialize(output_file_path = nil, locale = nil)
+    super(output_file_path, locale)
+    @record_data_service = RecordDataService.new
+  end
+
   def export(records, user, _options = {})
     list_headers = list_headers(records, user)
 
@@ -49,7 +54,7 @@ class Exporters::CSVListViewExporter < Exporters::BaseExporter
 
   def row(record, list_headers, user)
     field_names = list_headers.map(&:field_name)
-    data = RecordDataService.data(record, user, field_names)
+    data = @record_data_service.data(record, user, field_names)
     header_fields = header_fields(list_headers)
     list_headers.map do |header|
       field = header_fields.find { |f| f.name == header.field_name }

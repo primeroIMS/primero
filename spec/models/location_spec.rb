@@ -3,17 +3,17 @@
 require 'rails_helper'
 
 describe Location do
-  before do
-    Location.delete_all
+  before :each do
+    clean_data(Location)
     allow(I18n).to receive(:available_locales) { %i[en fr] }
 
     @country = create(
-      :location, admin_level: 0, placename_all: 'MyCountry', type: 'country',
-                 location_code: 'MC01', hierarchy_path: 'MC01'
+      :location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
     )
     @province1 = create(
       :location, hierarchy_path: "#{@country.location_code}.PR01",
-                 placename_all: 'Province 1', type: 'province', location_code: 'PR01'
+                 type: 'province', location_code: 'PR01',
+                 placename_i18n: { en: 'Province 1', fr: 'La Province 1' }
     )
     @province2 = create(
       :location, hierarchy_path: "#{@country.location_code}.PR02", type: 'state', location_code: 'PR02'
@@ -30,8 +30,7 @@ describe Location do
                  type: 'city', disabled: false, location_code: 'TW02'
     )
     @town3 = create(
-      :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.TW03",
-                 type: 'city', location_code: 'TW03'
+      :location, parent_code: @province2.location_code, type: 'city', location_code: 'TW03'
     )
     @disabled1 = create(
       :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.D01",
@@ -43,76 +42,91 @@ describe Location do
     )
   end
 
-  describe '#set_name_from_hierarchy_placenames' do
-    before do
-      @district1 = Location.new(
-        hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
-        placename_en: 'District 1', placename_fr: 'French District 1', type: 'district', location_code: 'DI01'
-      )
-      @district1.set_name_from_hierarchy_placenames
-    end
-    it 'populates the names defined in the locales' do
-      expect(@district1.name_en).to eq('MyCountry::Province 1::Town 1::District 1')
-      expect(@district1.name_fr).to eq('MyCountry::Province 1::Town 1::French District 1')
+  describe 'Location creation' do
+    describe 'hierarchy' do
+      it 'is calculated from the hierarchy path' do
+        expect(@town1.hierarchy).to eq(%w[MC01 PR01 TW01])
+      end
+
+      it 'is calculated from the parent if the parent is provided' do
+        expect(@town3.hierarchy).to eq(%w[MC01 PR02 TW03])
+      end
+
+      it 'is defaulted to the current location code for admin 0' do
+        expect(@country.hierarchy).to eq(%w[MC01])
+      end
     end
 
-    it 'does not populate the name fields not defined in the locales' do
-      expect(@district1.try(:name_ar)).to be_nil
+    describe 'admin level' do
+      it 'is calculated from the hierarchy' do
+        expect(@town1.admin_level).to eq(2)
+      end
+
+      it 'indicates a country if it is 0' do
+        expect(@country.country?).to be_truthy
+        expect(@town1.country?).to be_falsey
+      end
+    end
+
+    describe 'name' do
+      it 'is defaulted to placename for countries' do
+        expect(@country.name).to eq(@country.placename)
+      end
+
+      it 'is calculated from the hierarchy' do
+        expect(@town1.name).to eq('MyCountry::Province 1::Town 1')
+      end
+
+      it 'is localized' do
+        expect(@town1.name('fr')).to eq('MyCountry::La Province 1::Town 1')
+      end
     end
   end
 
-  # TODO: add i18n tests
-  it '#generate_hierarchy_placenames' do
-    expect(@town1.generate_hierarchy_placenames([Primero::Application::LOCALE_ENGLISH])).to include(
-      'en' => ['MyCountry', 'Province 1', 'Town 1']
-    )
-  end
+  describe 'Location update' do
+    describe 'descendent names' do
+      it 'updates the names of all of the descendents if the placename has changed' do
+        @country.placename = 'MyCountryXYZ'
+        @country.save!
 
-  it '#name' do
-    expect(@town1.name).to eq('MyCountry::Province 1::Town 1')
-  end
+        expect(@country.reload.name).to eq('MyCountryXYZ')
+        expect(@town1.reload.name).to eq('MyCountryXYZ::Province 1::Town 1')
+      end
 
-  describe 'all names' do
-    it 'returns names for enabled locations' do
-      expect(Location.all_names.count).to eq(7)
-      expect(Location.all_names).to include(
-        { 'id' => @country.location_code, 'display_text' => @country.name },
-        { 'id' => @province1.location_code, 'display_text' => @province1.name },
-        { 'id' => @province2.location_code, 'display_text' => @province2.name },
-        { 'id' => @province3.location_code, 'display_text' => @province3.name },
-        { 'id' => @town1.location_code, 'display_text' => @town1.name },
-        { 'id' => @town2.location_code, 'display_text' => @town2.name },
-        'id' => @town3.location_code, 'display_text' => @town3.name
-      )
+      it 'does not attempt to update the names of the descendents if the type change' do
+        expect(@country).not_to receive(:update_descendent_names)
+        @country.type = 'unrecognized'
+        @country.save!
+      end
+
+      it 'changes its own name when the placename changes' do
+        @town1.placename = 'Pawtucket'
+        expect(@town1.name).to_not eq('MyCountry::Province 1::Pawtucket')
+        @town1.save
+        expect(@town1.name).to eq('MyCountry::Province 1::Pawtucket')
+      end
     end
 
-    it 'does not return names for disabled locations' do
-      expect(Location.all_names).not_to include(@disabled1.name, @disabled2.name)
-    end
-
-    it 'returns all names' do
-      expect(Location.all_names).
-        to match_array([{ 'id' => @country.location_code, 'display_text' => @country.name },
-                        { 'id' => @province1.location_code, 'display_text' => @province1.name },
-                        { 'id' => @province2.location_code, 'display_text' => @province2.name },
-                        { 'id' => @province3.location_code, 'display_text' => @province3.name },
-                        { 'id' => @town1.location_code, 'display_text' => @town1.name },
-                        { 'id' => @town2.location_code, 'display_text' => @town2.name },
-                        { 'id' => @town3.location_code, 'display_text' => @town3.name }])
+    describe 'field updates' do
+      it 'rejects updates on admin_level, heirarchy, location_code' do
+        @country.update_attributes(admin_level: 1, hierarchy_path: 'MC01.PR08', location_code: 'PR08')
+        expect(@country.reload.admin_level).to eq(0)
+        expect(@country.reload.hierarchy_path).to eq('MC01')
+        expect(@country.reload.location_code).to eq('MC01')
+      end
     end
   end
 
   describe '.create_or_update!' do
     let(:location) do
       Location.create!(
-        admin_level: 0, placename_en: 'MyCountry', type: 'country',
-        location_code: 'MC01', hierarchy_path: 'MC01'
+        placename_en: 'MyCountry', type: 'country', location_code: 'MC01', hierarchy_path: 'MC01'
       )
     end
 
     let(:location_configuration_hash) do
       {
-        'admin_level' => 0, 'placename_i18n' => { 'en' => 'MyCountry2' }, 'type' => 'country',
+        'placename_i18n' => { 'en' => 'MyCountry2' }, 'type' => 'country',
         'location_code' => 'MC01', 'hierarchy_path' => 'MC01'
       }
     end
@@ -142,360 +156,84 @@ describe Location do
     end
   end
 
-  it 'sets the #name to #hierarchical_name when saving' do
-    @town1.placename = 'Pawtucket'
-    expect(@town1.name).to_not eq('MyCountry::Province 1::Pawtucket')
-    @town1.save
-    expect(@town1.name).to eq('MyCountry::Province 1::Pawtucket')
-  end
-
-  it 'returns all descendants' do
-    expect(@province1.descendants).to match_array [@town1, @town2]
-    expect(@province2.descendants).to match_array [@town3, @disabled1, @disabled2]
-    expect(@country.descendants).to match_array(
+  it 'returns all descendents' do
+    expect(@province1.descendents).to match_array [@town1, @town2]
+    expect(@province2.descendents).to match_array [@town3, @disabled1, @disabled2]
+    expect(@country.descendents).to match_array(
       [@province1, @province2, @province3, @town1, @town2, @town3, @disabled1, @disabled2]
     )
   end
 
-  it 'should only allow unique location codes' do
-    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
-    country1.save
-
-    state1 = Location.new(
-      placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC"
-    )
-    state1.save
-
-    state2 = Location.new(
-      placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC"
-    )
-    state2.save
-    expect(state2.valid?).to be_falsey
-    expect(state2.errors[:location_code]).to eq(
-      ['A Location with that location code already exists, please enter a different location code']
-    )
-  end
-
-  it 'should allow locations with same placename but different hierachies' do
-    country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
-    country1.save
-    country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
-    country2.save
-
-    state1 = Location.new(
-      placename: 'North Carolina', location_code: 'USNC', type: 'state',
-      hierarchy_path: "#{country1.location_code}.USNC"
-    )
-    state1.save
-
-    state2 = Location.new(
-      placename: 'North Carolina', location_code: 'CANC', type: 'state',
-      hierarchy_path: "#{country2.location_code}.CANC"
-    )
-    state2.save
-    state2.should be_valid
-  end
-
-  it 'should not be valid if placename is empty' do
-    location = Location.new(location_code: 'abc123')
-    location.should_not be_valid
-    location.errors[:placename].should == ['must not be blank']
-  end
-
-  describe 'type by admin level' do
-    context 'when admin level is 0' do
-      it 'returns location type' do
-        expect(Location.type_by_admin_level(0)).to include('country')
-      end
-    end
-
-    context 'when admin level is 1' do
-      it 'returns location type' do
-        expect(Location.type_by_admin_level(1)).to include('province', 'state')
-      end
-    end
-
-    context 'when admin level is 2' do
-      it 'returns location type' do
-        expect(Location.type_by_admin_level(2)).to include('city')
-      end
-    end
-
-    context 'when there are no locations for an admin level' do
-      it 'returns an empty array' do
-        expect(Location.type_by_admin_level(3)).to eq([])
-      end
-    end
-  end
-
-  describe 'ancestor by admin level' do
-    context 'when admin level is 0' do
-      it 'returns the ancestor' do
-        expect(@town3.ancestor_by_admin_level(0)).to eq(@country)
-      end
-    end
-
-    context 'when admin level is 1' do
-      it 'returns the ancestor' do
-        expect(@town3.ancestor_by_admin_level(1)).to eq(@province2)
-      end
-    end
-
-    context 'when admin level is the same as the current locations admin level' do
-      it 'it return itself' do
-        expect(@town3.ancestor_by_admin_level(2)).to eq(@town3)
-      end
-    end
-
-    context 'when admin level is greater than the current locations admin level' do
-      it 'does not return an ancestor' do
-        expect(@town3.ancestor_by_admin_level(3)).to be_nil
-      end
-    end
-
-    context 'when admin level is not in the valid range of admin levels' do
-      it 'does not return an ancestor' do
-        expect(@town3.ancestor_by_admin_level(99)).to be_nil
-      end
-    end
-  end
-
-  describe 'ancestor placename by name and admin level' do
-    context 'when admin level is 0' do
-      it 'returns the ancestor' do
-        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.location_code, 0)).to eq(@country.placename)
-      end
-    end
-
-    context 'when admin level is 1' do
-      it 'returns the ancestor' do
-        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.location_code, 1)).to eq(@province2.placename)
-      end
-    end
-
-    context 'when admin level is the same as the current locations admin level' do
-      it 'returns this locations placename' do
-        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.location_code, 2)).to eq(@town3.placename)
-      end
-    end
-
-    context 'when admin level is greater than the current locations admin level' do
-      it 'does not return an ancestor' do
-        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.location_code, 3)).to be_nil
-      end
-    end
-
-    context 'when admin level is not in the valid range of admin levels' do
-      it 'does not return an ancestor' do
-        expect(Location.ancestor_placename_by_name_and_admin_level(@town3.location_code, 99)).to be_empty
-      end
-    end
-  end
-
-  describe 'admin level' do
-    context 'when location has a parent' do
-      before :each do
-        @location = Location.new(
-          placename: 'MyTown', location_code: 'abc123', hierarchy_path: "#{@country.location_code}.abc123"
-        )
-      end
-
-      it 'calculates admin_level' do
-        expect(@location.calculate_admin_level).to eq((@country.admin_level + 1))
-        expect(@location.admin_level).to eq((@country.admin_level + 1))
-      end
-
-      context 'and admin_level is empty' do
-        it 'is valid' do
-          expect(@location).to be_valid
-        end
-      end
-
-      context 'and admin_level is present' do
-        before :each do
-          @location[:admin_level] = 1
-        end
-        it 'is valid' do
-          expect(@location).to be_valid
-        end
-      end
-
-      context 'and parents admin_level is equal to the max admin_level' do
-        before :each do
-          @country_max = create :location, admin_level: Location::ADMIN_LEVELS.last, placename: 'MaxCountry'
-          @location[:hierarchy_path] = "#{@country_max.location_code}.abc123"
-        end
-
-        it 'calculates admin_level as out of range' do
-          expect(@location.calculate_admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
-          expect(@location.admin_level).to eq(Location::ADMIN_LEVEL_OUT_OF_RANGE)
-        end
-      end
-    end
-
-    context 'when location does not have a parent' do
-      before :each do
-        @location = Location.new(placename: 'MyTown', location_code: 'abc123')
-      end
-
-      context 'and admin_level is empty' do
-        it 'is not valid' do
-          expect(@location).not_to be_valid
-          expect(@location.errors[:admin_level]).to eq(['must not be blank'])
-        end
-
-        it 'does not calculate admin_level' do
-          orig_admin_level = @location.admin_level
-          expect(@location.calculate_admin_level).to be_nil
-          expect(@location.admin_level).to eq(orig_admin_level)
-        end
-      end
-
-      context 'and admin_level is present' do
-        before :each do
-          @location[:admin_level] = 1
-        end
-        it 'is valid' do
-          expect(@location).to be_valid
-        end
-
-        it 'does not calculate admin_level' do
-          orig_admin_level = @location.admin_level
-          expect(@location.calculate_admin_level).to be_nil
-          expect(@location.admin_level).to eq(orig_admin_level)
-        end
-      end
-    end
-  end
-
-  describe 'find_names_by_admin_level_enabled' do
-    before do
-      @another_country = create(:location, admin_level: 0, placename: 'Another Country', type: 'country')
-      @another_province = create(:location,
-                                 hierarchy_path: "#{@another_country.location_code}.AP01",
-                                 type: 'province', location_code: 'AP01')
-      @another_town1 = create(:location,
-                              hierarchy_path: "#{@another_country.location_code}.#{@another_province.location_code}.ATW01",
-                              type: 'city', location_code: 'ATW01')
-      @another_town2 = create(:location,
-                              hierarchy_path: "#{@another_country.location_code}.#{@another_province.location_code}.ATW02",
-                              type: 'city', location_code: 'ATW02')
-    end
-
-    context 'when filter is not present' do
-      it 'finds all location names for admin level' do
-        expected = [{ 'id' => @town1.location_code,
-                      'hierarchy_path' => "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}",
-                      'display_text' => @town1.placename },
-                    { 'id' => @town2.location_code,
-                      'hierarchy_path' => "#{@country.location_code}.#{@province1.location_code}.#{@town2.location_code}",
-                      'display_text' => @town2.placename },
-                    { 'id' => @town3.location_code,
-                      'hierarchy_path' => "#{@country.location_code}.#{@province2.location_code}.#{@town3.location_code}",
-                      'display_text' => @town3.placename },
-                    { 'id' => @another_town1.location_code,
-                      'hierarchy_path' => "#{@another_country.location_code}.#{@another_province.location_code}.ATW01",
-                      'display_text' => @another_town1.placename },
-                    { 'id' => @another_town2.location_code,
-                      'hierarchy_path' => "#{@another_country.location_code}.#{@another_province.location_code}.ATW02",
-                      'display_text' => @another_town2.placename }]
-        expect(Location.find_names_by_admin_level_enabled(2)).to match_array(expected)
-      end
-    end
-
-    context 'when filter is present' do
-      it 'finds all location names for admin level matching filter' do
-        expected = [{ 'id' => @another_town1.location_code,
-                      'hierarchy_path' => "#{@another_country.location_code}.#{@another_province.location_code}.ATW01",
-                      'display_text' => @another_town1.placename },
-                    { 'id' => @another_town2.location_code,
-                      'hierarchy_path' => "#{@another_country.location_code}.#{@another_province.location_code}.ATW02",
-                      'display_text' => @another_town2.placename }]
-        expect(Location.find_names_by_admin_level_enabled(2, [@another_country.location_code])).to match_array(expected)
-      end
-    end
-  end
-
-  it 'should not be valid if location code is empty' do
-    location = Location.new(placename: 'test_location')
-    location.should_not be_valid
-    location.errors[:location_code].should == ['must not be blank']
-  end
-
-  describe 'Batch processing' do
-    before do
-      clean_data(Location)
-    end
-
-    it 'should process in two batches' do
+  describe 'Location validation' do
+    it 'should only allow unique location codes' do
       country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
-      country1.save!
+      country1.save
 
+      state1 = Location.new(
+        placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC"
+      )
+      state1.save
+
+      state2 = Location.new(
+        placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy_path: "#{country1.location_code}.NC"
+      )
+      state2.save
+      expect(state2.valid?).to be_falsey
+      expect(state2.errors[:location_code]).to eq(
+        ['A Location with that location code already exists, please enter a different location code']
+      )
+    end
+
+    it 'should allow locations with same placename but different hierachies' do
+      country1 = Location.new(placename: 'USA', location_code: 'US', type: 'country', admin_level: 0)
+      country1.save
       country2 = Location.new(placename: 'Canada', location_code: 'CA', type: 'country', admin_level: 0)
-      country2.save!
+      country2.save
 
       state1 = Location.new(
         placename: 'North Carolina', location_code: 'USNC', type: 'state',
         hierarchy_path: "#{country1.location_code}.USNC"
       )
-      state1.save!
+      state1.save
 
       state2 = Location.new(
         placename: 'North Carolina', location_code: 'CANC', type: 'state',
         hierarchy_path: "#{country2.location_code}.CANC"
       )
-      state2.save!
-
-      expect(Location.all.paginate(page: 1, per_page: 3)).to include(country1, country2, state1)
-      expect(Location.all.paginate(page: 2, per_page: 3)).to include(state2)
-      Location.should_receive(:all).exactly(1).times.and_call_original
-
-      records = []
-      Location.each_slice(3) do |locations|
-        locations.each { |l| records << l.placename }
-      end
-
-      records.should eq(['USA', 'Canada', 'North Carolina', 'North Carolina'])
+      state2.save
+      state2.should be_valid
     end
 
-    it 'should process in 0 batches' do
-      Location.should_receive(:all).exactly(1).times.and_call_original
-      records = []
-      Location.each_slice(3) do |locations|
-        locations.each { |l| records << l.placename }
-      end
-      records.should eq([])
+    it 'should not be valid if placename is empty' do
+      location = Location.new(location_code: 'abc123')
+      location.should_not be_valid
+      location.errors[:placename].should == ['must not be blank']
+    end
+
+    it 'should not be valid if location code is empty' do
+      location = Location.new(placename: 'test_location')
+      location.should_not be_valid
+      location.errors[:location_code].should == ['must not be blank']
     end
   end
 
-  describe 'hierarchy_path_from_parent_code' do
-    before do
-      @district1 = Location.create(
-        hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
-        placename_en: 'District 1',
-        placename_fr: 'French District 1',
-        type: 'district',
-        location_code: 'DI01'
-      )
+  describe 'ancestors' do
+    describe '.ancestors' do
+      it 'returns all ancestor locations' do
+        expect(@town1.ancestors.map(&:location_code)).to match_array(%w[MC01 PR01 TW01])
+      end
     end
 
-    it 'expect the hierarchy_path generated' do
-      expect(Location.hierarchy_path_from_parent_code(@town1.location_code, 'DI01')).to eql(@district1.hierarchy_path)
+    describe '.ancestor_by_type' do
+      it 'returns the ancestor for a given type' do
+        expect(@town1.ancestor_by_type('country').location_code).to eq(@country.location_code)
+      end
     end
-  end
 
-  describe 'hierarchy' do
-    before do
-      @district1 = Location.create(
-        hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.#{@town1.location_code}.DI01",
-        placename_en: 'District 1',
-        placename_fr: 'French District 1',
-        type: 'district',
-        location_code: 'DI01'
-      )
-    end
-    it 'should print an array of hierarchy' do
-      expect(@district1.hierarchy).to eq(%w[MC01 PR01 TW01])
+    describe '.ancestor' do
+      it 'returns the ancestor for a given admin level' do
+        expect(@town1.ancestor(1).location_code).to eq(@province1.location_code)
+      end
     end
   end
 end

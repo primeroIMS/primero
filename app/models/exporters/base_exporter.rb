@@ -7,7 +7,7 @@ class Exporters::BaseExporter
     Field::DATE_FIELD, Field::DATE_RANGE, Field::TICK_BOX, Field::TALLY_FIELD, Field::SUBFORM
   ].freeze
 
-  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service
+  attr_accessor :locale, :lookups, :fields, :forms, :field_value_service, :location_service
 
   class << self
     def supported_models
@@ -34,15 +34,6 @@ class Exporters::BaseExporter
       exporter_obj.complete
       exporter_obj.buffer.string
     end
-
-    # TODO: Only used by the SelectedFieldsExcelExporter
-    def get_model_location_value(model, property)
-      return unless property.last.is_a?(Hash)
-
-      Location.ancestor_placename_by_name_and_admin_level(
-        model.send(property.first.try(:name)), property.last[:admin_level].to_i
-      )
-    end
   end
 
   def initialize(output_file_path = nil, locale = nil)
@@ -52,7 +43,8 @@ class Exporters::BaseExporter
             StringIO.new
           end
     self.locale = locale || I18n.locale
-    self.field_value_service = FieldValueService.new
+    self.location_service = LocationService.instance
+    self.field_value_service = FieldValueService.new(location_service: location_service)
   end
 
   def export(*_args)

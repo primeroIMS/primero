@@ -9,6 +9,7 @@ module Searchable
   # rubocop:disable Metrics/BlockLength
   included do
     include Indexable
+    Sunspot::Adapters::DataAccessor.register RecordDataAccessor, self
     # Note that the class will need to be reloaded when the fields change.
     searchable do
       extend TextIndexing
@@ -43,7 +44,7 @@ module Searchable
       all_searchable_location_fields.each do |field|
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-            Location.value_for_index(data[field], admin_level)
+            location_service.ancestor_code(data[field], admin_level)
           end
         end
       end
@@ -116,6 +117,13 @@ module Searchable
           send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
         end
       end
+    end
+  end
+
+  # Class for allowing Sunspot to eager load record associations
+  class RecordDataAccessor < Sunspot::Adapters::DataAccessor
+    def load_all(ids)
+      @clazz.eager_loaded_class.where(@clazz.primary_key => ids)
     end
   end
 end

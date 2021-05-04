@@ -334,7 +334,7 @@ describe FieldValueService do
       )
     end
     it 'returns the translated location name' do
-      expect(FieldValueService.value(location_field, 'CT01')).to eq('Country01_en')
+      expect(FieldValueService.value(location_field, 'CT01', location_service: LocationService.instance)).to eq('Country01_en')
     end
   end
 end

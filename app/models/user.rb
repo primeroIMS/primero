@@ -14,8 +14,8 @@ class User < ApplicationRecord
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
 
-  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions
-  attr_reader :refresh_associated_user_groups, :refresh_associated_user_agencies
+  attr_accessor :exists_reporting_location, :should_send_password_reset_instructions,
+                :user_groups_changed
   attr_writer :user_location, :reporting_location
 
   delegate :can?, :cannot?, to: :ability
@@ -31,7 +31,9 @@ class User < ApplicationRecord
   belongs_to :code_of_conduct, optional: true
 
   has_many :saved_searches
-  has_and_belongs_to_many :user_groups
+  has_and_belongs_to_many :user_groups,
+                          after_add: :mark_user_groups_changed,
+                          after_remove: :mark_user_groups_changed
   has_many :audit_logs
 
   scope :enabled, -> { where(disabled: false) }
@@ -48,8 +50,8 @@ class User < ApplicationRecord
 
   before_validation :generate_random_password
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_owned_by_fields, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
-  after_update :reassociate_groups_or_agencies
+  before_save :make_user_name_lowercase, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
+  after_commit :update_associated_records, on: :update
   after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
   validates :full_name, presence: { message: 'errors.models.user.full_name' }
@@ -135,13 +137,14 @@ class User < ApplicationRecord
       'full_name'
     end
 
-    # TODO: Review after figuring out front end lookups. We might not need this method.
-    # This method returns a list of id / display_text value pairs
-    # It is used to create the select options list for User fields
-    # TODO: Used by select fields when you want to make a lookup out of all the agencies,
-    #       but that functionality is probably deprecated. Review and delete.
-    def all_names
-      enabled.map { |r| { id: r.name, display_text: r.name }.with_indifferent_access }
+    # Override the devise method to eager load the user's dependencies
+    def find_for_jwt_authentication(sub)
+      eager_load(role: :primero_modules).find_by(primary_key => sub)
+    end
+
+    # Override the devise method to eager load the user's dependencies
+    def find_for_authentication(tainted_conditions)
+      eager_load(role: :primero_modules).find_by(tainted_conditions)
     end
 
     # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
@@ -244,25 +247,25 @@ class User < ApplicationRecord
   end
 
   def user_location
-    @user_location ||= Location.get_by_location_code(location)
+    @user_location ||= Location.find_by(location_code: location)
   end
 
   def reporting_location
-    location = user_location
-    return nil if location.blank?
+    return @reporting_location if @reporting_location
+    return nil if user_location.blank?
+    return user_location if user_location.admin_level == reporting_location_admin_level
 
-    admin_level = reporting_location_admin_level
-    return location if location.admin_level == admin_level
-
-    location.ancestor_by_admin_level(admin_level)
+    @reporting_location || user_location.ancestor(reporting_location_admin_level)
   end
 
   def reporting_location_admin_level
-    reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+    return @reporting_location_admin_level if @reporting_location_admin_level
+
+    @reporting_location_admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
   def reporting_location_config
-    role&.reporting_location_config
+    @reporting_location_config ||= role&.reporting_location_config
   end
 
   def last_login
@@ -340,8 +343,7 @@ class User < ApplicationRecord
                    { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  when Permission::GROUP
                    { 'group' => user_groups.map(&:unique_id).compact }
-                 when Permission::ALL
-                   {}
+                 when Permission::ALL then {}
                  else
                    { 'user' => user_name }
                  end
@@ -424,9 +426,7 @@ class User < ApplicationRecord
     fields = Field.joins(form_section: :roles).where(
       fields: {
         form_sections: {
-          roles: { id: role_id },
-          parent_form: record_type,
-          visible: (visible_forms_only || nil)
+          roles: { id: role_id }, parent_form: record_type, visible: (visible_forms_only || nil)
         }.compact
       }
     )
@@ -481,41 +481,11 @@ class User < ApplicationRecord
     can?(:approve_gbv_closure, Child) || can?(:request_approval_gbv_closure, Child)
   end
 
-  # If we set something we gonna assume we need to update the user_groups
-  def user_groups=(user_groups)
-    @refresh_associated_user_groups = true
-    super
-  end
-
-  def user_groups_ids=(user_group_ids)
-    @refresh_associated_user_groups = true
-    super
-  end
-
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
   private
-
-  def update_owned_by_fields
-    # TODO: The following gets all the cases by user and updates the
-    # location/district. Performance degrades on save if the user
-    # changes their location.
-    return if ENV['PRIMERO_BOOTSTRAP']
-    return unless location_changed? || @refresh_associated_user_groups || agency_id_changed? || agency_office_changed?
-
-    Child.owned_by(user_name).each { |child| update_child_owned_by_fields(child) }
-    @refresh_associated_user_agencies = agency_id_changed?
-  end
-
-  def update_child_owned_by_fields(child)
-    child.owned_by_location = location if location_changed?
-    child.owned_by_groups = user_group_unique_ids if @refresh_associated_user_groups
-    child.owned_by_agency_id = agency&.unique_id if agency_id_changed?
-    child.owned_by_agency_office = agency_office if agency_office_changed?
-    child.save!
-  end
 
   def set_locale
     self.locale ||= I18n.default_locale.to_s
@@ -523,19 +493,6 @@ class User < ApplicationRecord
 
   def update_reporting_location_code
     self.reporting_location_code = reporting_location&.location_code
-  end
-
-  # TODO: Not sure what location_changed? && user_group_ids_changed? should be
-  def location_changed?
-    changes_to_save['location'].present? && !changes_to_save['location'].eql?([nil, ''])
-  end
-
-  def agency_id_changed?
-    changes_to_save['agency_id'].present?
-  end
-
-  def agency_office_changed?
-    changes_to_save['agency_office'].present? && !changes_to_save['agency_office'].eql?([nil, ''])
   end
 
   def make_user_name_lowercase
@@ -559,18 +516,39 @@ class User < ApplicationRecord
     self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
   end
 
-  def reassociate_groups_or_agencies
-    return unless @refresh_associated_user_groups || @refresh_associated_user_agencies
+  def mark_user_groups_changed(_user_group)
+    self.user_groups_changed = true
+  end
 
-    Child.transaction do
-      Child.associated_with(user_name).find_each(batch_size: 500) do |child|
-        child.update_associated_user_groups if @refresh_associated_user_groups
-        child.update_associated_user_agencies if @refresh_associated_user_agencies
-        child.save!
-      end
+  def update_associated_records
+    return if ENV['PRIMERO_BOOTSTRAP']
+
+    records = []
+    associated_records_for_update.find_each(batch_size: 500) do |record|
+      update_record_ownership_fields(record)
+      record.update_associated_user_groups if user_groups_changed
+      record.update_associated_user_agencies if saved_change_to_attribute?('agency_id')
+      records << record
     end
-    @refresh_associated_user_groups = false
-    @refresh_associated_user_agencies = false
+
+    ActiveRecord::Base.transaction { records.each(&:save!) }
+  end
+
+  def associated_records_for_update
+    if user_groups_changed || saved_change_to_attribute?('agency_id')
+      Child.associated_with(user_name)
+    else
+      Child.owned_by(user_name)
+    end
+  end
+
+  def update_record_ownership_fields(record)
+    return unless record.owned_by == user_name
+
+    record.owned_by_location = location if saved_change_to_attribute?('location')
+    record.owned_by_groups = user_group_unique_ids if user_groups_changed
+    record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
+    record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
   end
 end
 # rubocop:enable Metrics/ClassLength
