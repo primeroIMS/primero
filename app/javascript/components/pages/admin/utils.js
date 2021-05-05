@@ -10,3 +10,11 @@ export const getAdminResources = userPermissions =>
   ADMIN_RESOURCES.filter(
     adminResource => userPermissions.keySeq().includes(adminResource) && userPermissions.get(adminResource).size > 0
   );
+
+export const validateMetadata = (payload, defaultMetadata) => {
+  if (payload.get("per") === null && payload.get("page") === null) {
+    return payload.merge(defaultMetadata);
+  }
+
+  return payload;
+};
