@@ -48,13 +48,14 @@ module Exporters
         data: {
           name: 'Joe', age: 12, sex: 'male',
           registration_date: Date.new(2020, 1, 1),
-          owned_by: @user.user_name }
+          owned_by: @user.user_name, short_id: '123'
+        }
       )
       case2 = Child.new(
         data: {
           name: 'Mo', age: 14, sex: 'male',
           registration_date: Date.new(2020, 1, 1),
-          owned_by: @user.user_name
+          owned_by: @user.user_name, short_id: '456'
         }
       )
       @records = [case1, case2]
@@ -64,16 +65,16 @@ module Exporters
       data = CSVListViewExporter.export(@records, @user)
 
       parsed = CSV.parse(data)
-      expect(parsed[0][0..4]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']
-      expect(parsed[1][1..4]).to eq(%w[Joe 12 Male 01-Jan-2020])
-      expect(parsed[2][1..4]).to eq(%w[Mo 14 Male 01-Jan-2020])
+      expect(parsed[0][1..5]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']
+      expect(parsed[1][1..5]).to eq(%w[123 Joe 12 Male 01-Jan-2020])
+      expect(parsed[2][1..5]).to eq(%w[456 Mo 14 Male 01-Jan-2020])
     end
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
       data = CSVListViewExporter.export([unsafe_record], @user)
       parsed = CSV.parse(data)
-      expect(parsed[1][1..3]).to eq(%w['=10+10 12 Male])
+      expect(parsed[1][2..4]).to eq(%w['=10+10 12 Male])
     end
 
     after :each do
