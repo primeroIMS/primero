@@ -16,7 +16,7 @@ require 'sunspot_test/rspec'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require f }
 
 Mime::Type.register 'application/zip', :mock
 
@@ -137,9 +137,13 @@ def clean_data(*models)
   Sunspot.commit if self.class.metadata&.dig(:search)
 end
 
+def reloaded_model(model)
+  model.class.find(model.id)
+end
+
 def compute_checksum_in_chunks(io)
   Digest::MD5.new.tap do |checksum|
-    while chunk = io.read(5.megabytes)
+    while (chunk = io.read(5.megabytes))
       checksum << chunk
     end
     io.rewind

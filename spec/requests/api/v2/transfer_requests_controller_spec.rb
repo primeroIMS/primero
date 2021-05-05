@@ -35,7 +35,6 @@ describe Api::V2::TransferRequestsController, type: :request do
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
 
   describe 'GET /api/v2/case/:id/transfer_requests' do
-
     before :each do
       @transfer1 = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
     end

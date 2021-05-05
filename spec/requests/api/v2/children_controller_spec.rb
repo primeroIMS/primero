@@ -105,6 +105,9 @@ describe Api::V2::ChildrenController, type: :request do
       case: @case1,
       data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
     )
+    # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
+    reloaded_cases = [@case1, @case2, @case3, @case4].map(&:reload)
+    Sunspot.index(*reloaded_cases)
     Sunspot.commit
   end
 
@@ -181,6 +184,8 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'Search flagged children' do
       @case1.add_flag('This is a flag', Date.today, 'faketest')
+      Sunspot.index(@case1.reload)
+      Sunspot.commit
 
       login_for_test(permissions: permission_flag_record)
       get '/api/v2/cases?flagged=true'
@@ -424,6 +429,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['id']).to eq(@case1.id)
       expect(json['data']['age']).to eq(10)
       expect(json['data']['sex']).to eq('female')
+      expect(json['data']['last_updated_at']).to be
 
       case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)

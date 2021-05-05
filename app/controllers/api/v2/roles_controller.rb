@@ -8,7 +8,7 @@ class Api::V2::RolesController < ApplicationApiController
   def index
     @roles = Role.list(current_user, params)
     @total = @roles.size
-    @roles = @roles.paginate(pagination)
+    @roles = @roles.paginate(pagination) if pagination?
   end
 
   def show
