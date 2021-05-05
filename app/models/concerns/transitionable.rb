@@ -32,9 +32,9 @@ module Transitionable
     when Permission::SELF
       referrals_self_scope(user)
     when Permission::AGENCY
-      referrals_agency_agency_scope(user)
+      referrals_agency_scope(user)
     when Permission::GROUP
-      referrals_agency_group_scope(user)
+      referrals_group_scope(user)
     when Permission::ALL
       referrals
     else
@@ -53,9 +53,9 @@ module Transitionable
 
   def transitions_for_user(user, types = [])
     types = [Assign.name, Transfer.name, Referral.name, TransferRequest.name] unless types.present?
-    referrals = types.include?(Referral.name) ? referrals_for_user(user) : []
+    referrals = types.include?(Referral.name) ? referrals_for_user(user) : transitions.none
 
-    transitions.where(type: types.reject { |type| type == Referral.name }) + referrals
+    transitions.where(type: types.reject { |type| type == Referral.name }).or(referrals)
   end
 
   def transferred_to_users
@@ -80,15 +80,15 @@ module Transitionable
     referrals.where(transitioned_to: user.user_name)
   end
 
-  def referrals_agency_group_scope(user)
-    return referrals if owner?(user) || (owner.user_group_unique_ids & user.user_group_unique_ids).present?
+  def referrals_group_scope(user)
+    return referrals if owner?(user) || (owned_by_groups & user.user_group_unique_ids).present?
 
     referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name))
   end
 
-  def referrals_agency_agency_scope(user)
+  def referrals_agency_scope(user)
     return referrals if owner?(user) || user.agency_id == owner.agency_id
 
-    referrals.where(transitioned_to: User.by_agency(user.agency_id).pluck(:user_name))
+    referrals.where(transitioned_to_agency: user.agency.unique_id)
   end
 end
