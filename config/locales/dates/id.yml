@@ -20,7 +20,7 @@ id:
     - ""
     - ""
     abbr_month_names:
-    -
+    - ~
     - Jan
     - Feb
     - Mar
@@ -42,7 +42,7 @@ id:
     - Friday
     - Saturday
     month_names:
-    -
+    - ~
     - January
     - February
     - March
