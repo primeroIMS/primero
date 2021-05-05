@@ -7,7 +7,7 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def index
     authorize! :index, Agency
-    filters = agency_filters(params.permit(disabled: {}))
+    filters = agency_filters(params.permit(:managed, disabled: {}))
     filter_agencies = Agency.list(filters)
     @total = filter_agencies.size
     @agencies = filter_agencies.paginate(pagination)
@@ -51,7 +51,7 @@ class Api::V2::AgenciesController < ApplicationApiController
   def agency_filters(params)
     return if params.blank?
 
-    { disabled: params[:disabled].values }
+    { disabled: params[:disabled].values, managed: params[:managed] }
   end
 
   def load_agency

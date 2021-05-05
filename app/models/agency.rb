@@ -64,9 +64,14 @@ class Agency < ApplicationRecord
     end
 
     def list(params = {})
-      return all if params.blank?
+      agencies = if params[:managed]
+                   all
+                 else
+                   enabled
+                 end
 
-      where(params)
+      agencies = agencies.where(disabled: params[:disabled]) if params[:disabled].present?
+      agencies
     end
 
     def get_field_using_unique_id(unique_id, field)

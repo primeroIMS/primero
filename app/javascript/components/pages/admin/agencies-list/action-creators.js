@@ -1,4 +1,5 @@
 /* eslint-disable import/prefer-default-export */
+import { isImmutable } from "immutable";
 
 import { RECORD_PATH } from "../../../../config";
 
@@ -11,7 +12,7 @@ export const fetchAgencies = params => {
     type: actions.AGENCIES,
     api: {
       path: RECORD_PATH.agencies,
-      params: data
+      params: isImmutable(data) ? data.set("managed", true) : { ...data, managed: true }
     }
   };
 };
