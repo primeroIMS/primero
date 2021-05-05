@@ -46,7 +46,7 @@ describe("<AgencyForm />", () => {
 
   it("renders heading with action buttons", () => {
     expect(component.find("header h1").contains("agencies.label")).to.be.true;
-    expect(component.find("header button").at(0).contains("agency.translations.manage")).to.be.true;
+    expect(component.find("header button").at(0).contains("agencies.translations.manage")).to.be.true;
     expect(component.find("header button").at(1).contains("buttons.cancel")).to.be.true;
     expect(component.find("header button").at(2).contains("buttons.save")).to.be.true;
   });
