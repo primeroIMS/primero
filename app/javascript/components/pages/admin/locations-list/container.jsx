@@ -35,12 +35,8 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
 
-  const defaultMetadata = metadata?.toJS();
+  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
 
-  const defaultFilters = fromJS({
-    ...DEFAULT_DISABLED_FILTER,
-    ...defaultMetadata
-  });
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
 
@@ -49,8 +45,7 @@ const Container = () => {
   };
 
   useMetadata(recordType, metadata, fetchLocations, DATA, {
-    defaultFilterFields: DEFAULT_DISABLED_FILTER,
-    defaultMetadata
+    defaultFilterFields: DEFAULT_DISABLED_FILTER
   });
 
   const tableOptions = {

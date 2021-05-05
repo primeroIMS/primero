@@ -19,7 +19,9 @@ describe("<AgenciesList /> - Action Creators", () => {
     const expectedAction = {
       type: actions.AGENCIES,
       api: {
-        params: undefined,
+        params: {
+          managed: true
+        },
         path: RECORD_PATH.agencies
       }
     };

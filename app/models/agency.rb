@@ -70,7 +70,7 @@ class Agency < ApplicationRecord
                    enabled
                  end
 
-      agencies = agencies.where(disabled: params[:disabled]) if params[:disabled].present?
+      agencies = agencies.where(disabled: params[:disabled].values) if params[:disabled].present?
       agencies
     end
 
