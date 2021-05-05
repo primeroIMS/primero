@@ -20,3 +20,11 @@ export const onSubmitFilters = data => (dispatch, fetchMethod) => {
 
   dispatch(fetchMethod({ data: { ...data, ...setDefaultFilters } }));
 };
+
+export const validateMetadata = (payload, defaultMetadata) => {
+  if (payload.get("per") === null && payload.get("page") === null) {
+    return payload.merge(defaultMetadata);
+  }
+
+  return payload;
+};

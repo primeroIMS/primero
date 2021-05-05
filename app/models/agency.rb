@@ -55,13 +55,6 @@ class Agency < ApplicationRecord
   before_save :set_logo_enabled
 
   class << self
-    # TODO: This method may be unused.
-    def display_text(agency_id, opts = {})
-      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      agency = Agency.find_by_id(agency_id)
-      (agency.present? ? agency.name(locale) : '')
-    end
-
     def new_with_properties(agency_params)
       agency = Agency.new(agency_params.except(:name, :description))
       agency.name_i18n = agency_params[:name]
@@ -74,12 +67,6 @@ class Agency < ApplicationRecord
       return all if params.blank?
 
       where(params)
-    end
-
-    # TODO: Used by forms, when you want to make a lookup out of all the agencies,
-    #       but that functionality is probably deprecated. Review and delete.
-    def all_names
-      all.map { |r| { id: r.id, display_text: r.name }.with_indifferent_access }
     end
 
     def get_field_using_unique_id(unique_id, field)

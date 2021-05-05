@@ -3,7 +3,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
-import { setupMockFormComponent } from "../../../../test";
+import { setupMockFormComponent } from "../../test";
 
 import ReportTranslationsDialog from "./component";
 import { NAME } from "./constants";

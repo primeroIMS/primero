@@ -1,3 +1,5 @@
+import { DATE_TIME_FORMAT } from "../../../../config";
+
 import { SYNC_RECORD_STATUS } from "./constants";
 
 export const removeEmptyArrays = object =>
@@ -6,7 +8,7 @@ export const removeEmptyArrays = object =>
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
 export const buildLabelSync = (syncedStatus, syncedAt, i18n) => {
-  const lastDate = syncedAt ? i18n.l("date.formats.with_time", syncedAt) : "--";
+  const lastDate = syncedAt ? i18n.localizeDate(syncedAt, DATE_TIME_FORMAT) : "--";
 
   switch (syncedStatus) {
     case SYNC_RECORD_STATUS.failed:

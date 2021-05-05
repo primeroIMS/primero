@@ -74,9 +74,9 @@ describe Api::V2::LocationsController, type: :request do
         .to include(FieldI18nService.strip_i18n_suffix(@locations_D02.slice(:name_i18n))['name'])
       expect(json['data'].map { |c| c['placename'] }[2])
         .to include(FieldI18nService.strip_i18n_suffix(@locations_D02.slice(:placename_i18n))['placename'])
-      expect(json['data'][0]['hierarchy']).to be_empty
-      expect(json['data'][1]['hierarchy']).to eq([@locations_CT01.location_code])
-      expect(json['data'][2]['hierarchy']).to eq([@locations_CT01.location_code])
+      expect(json['data'][0]['hierarchy']).not_to be_empty
+      expect(json['data'][1]['hierarchy']).not_to be_empty
+      expect(json['data'][2]['hierarchy']).not_to be_empty
     end
   end
 
@@ -91,7 +91,7 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to eq(%w[CT01 D02])
+      expect(json['data']['hierarchy']).to eq(%w[CT01 D02 CI01])
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
     end
@@ -106,22 +106,9 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data']['id']).not_to be_nil
       expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to be_empty
+      expect(json['data']['hierarchy']).to eq(['CT02'])
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
-    end
-
-    it 'returns a 422 if admin_level is blank and record is a top level' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
-      params = { data: { code: 'CT02', type: 'country', placename: { en: 'country02_en', es: 'country02_es' },
-                         parent_code: '' } }
-      post '/api/v2/locations', params: params
-
-      expect(response).to have_http_status(422)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/locations')
-      expect(json['errors'][0]['detail']).to eq('admin_level')
-      expect(json['errors'][0]['message']).to eq(['must not be blank'])
     end
 
     it 'returns a 422 if location_code is blank' do
@@ -242,9 +229,7 @@ describe Api::V2::LocationsController, type: :request do
       patch "/api/v2/locations/#{@locations_D02.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['code']).to eq(params[:data][:code])
       expect(json['data']['type']).to eq(params[:data][:type])
-      expect(json['data']['hierarchy']).to eq(['CT01'])
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
     end
@@ -262,35 +247,12 @@ describe Api::V2::LocationsController, type: :request do
       patch "/api/v2/locations/#{@locations_CT01.id}", params: params
 
       expect(response).to have_http_status(200)
-      expect(json['data']['code']).to eq(params[:data][:code])
-      expect(json['data']['hierarchy']).to be_empty
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
       expect(json['data']['placename']['es']).to eq(params[:data][:placename][:es])
 
       child = Location.find(@locations_D02.id)
-      expect(child.hierarchy).to eq(['CT02'])
       expect(child.name_es).to eq('Country02_es::Departament02_es')
       expect(child.name_en).to eq('Country02_en::Departament02_en')
-    end
-
-    it 'updates an existing parent record without admin_level and get a 422' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
-      params = {
-        data: {
-          location_code: 'CT02',
-          type: 'country',
-          admin_level: nil,
-          placename: { en: 'Country02_en', es: 'Country02_es' },
-          parent_code: ''
-        }
-      }
-      patch "/api/v2/locations/#{@locations_CT01.id}", params: params
-
-      expect(response).to have_http_status(422)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/locations/#{@locations_CT01.id}")
-      expect(json['errors'][0]['detail']).to eq('admin_level')
-      expect(json['errors'][0]['message']).to eq(['must not be blank'])
     end
 
     it "returns 403 if user isn't authorized to update records" do

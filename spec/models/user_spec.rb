@@ -767,12 +767,9 @@ describe User do
     it 'should update the associated_user_groups of the records' do
       @associated_user.user_groups = [@group2]
       @associated_user.save!
-      @child1.reload
-      @child2.reload
-      @child3.reload
-      expect(@child1.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
-      expect(@child2.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
-      expect(@child3.associated_user_groups).to include(@group1.unique_id)
+      expect(@child1.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
+      expect(@child2.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
+      expect(@child3.reload.associated_user_groups).to include(@group1.unique_id)
     end
   end
 
@@ -809,12 +806,9 @@ describe User do
     it 'should update the associated_user_agencies of the records' do
       @associated_user.agency = @agency2
       @associated_user.save!
-      @child1.reload
-      @child2.reload
-      @child3.reload
-      expect(@child1.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
-      expect(@child2.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
-      expect(@child3.associated_user_agencies).to include(@agency1.unique_id)
+      expect(@child1.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
+      expect(@child2.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
+      expect(@child3.reload.associated_user_agencies).to include(@agency1.unique_id)
     end
   end
 
@@ -823,10 +817,10 @@ describe User do
       clean_data(User, Role, Location, SystemSettings)
       allow(I18n).to receive(:available_locales) { %i[en fr] }
 
-      @country = create(:location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
-      @province1 = create(:location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province',
-                                     location_code: 'PR01')
-      @district = create(:location, hierarchy: [@country.location_code, @province1.location_code],
+      @country = create(:location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01')
+      @province1 = create(:location, hierarchy_path: "#{@country.location_code}.PR01", placename_all: 'Province 1',
+                                     type: 'province', location_code: 'PR01')
+      @district = create(:location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.D01",
                                     placename_all: 'District 1', type: 'district', location_code: 'D01')
       @role_province = Role.create!(name: 'Admin',
                                     permissions: [Permission.new(resource: Permission::CASE,

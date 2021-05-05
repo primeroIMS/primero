@@ -4,7 +4,7 @@
 # This logic is normally handled on the front end, but use this service
 # when generating server-side exports or sending emails.
 class FieldValueService < ValueObject
-  attr_accessor :lookups
+  attr_accessor :lookups, :location_service
 
   def self.value(field, value, opts = {})
     new(opts).value(field, value, opts)
@@ -51,8 +51,12 @@ class FieldValueService < ValueObject
   end
 
   def record_name_value(class_name, value, opts = {})
-    class_name = 'Location' if class_name == 'ReportingLocation'
-    record_class = Object.const_get(class_name)
+    record_class = if class_name.in?(%w[Location ReportingLocation])
+                     location_service
+                   else
+                     Object.const_get(class_name)
+                   end
+
     return value unless record_class
 
     record = record_class.find_by(record_class.unique_id_attribute => value)

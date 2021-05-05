@@ -3,7 +3,7 @@ import isString from "lodash/isString";
 import { format } from "date-fns";
 
 import { displayNameHelper } from "../../libs";
-import { AGE_MAX, DATE_FORMAT, LOCALE_KEYS } from "../../config";
+import { AGE_MAX, DATE_FORMAT } from "../../config";
 
 import { ALLOWED_FIELD_TYPES, REPORTABLE_TYPES } from "./constants";
 
@@ -145,8 +145,3 @@ export const buildUserModules = userModules => {
     return current;
   }, []);
 };
-
-export const localesToRender = locales => locales.filter(locale => locale.id !== LOCALE_KEYS.en);
-
-export const buildLocaleFields = locales =>
-  locales.flatMap(locale => [`name.${locale.id}`, `description.${locale.id}`]);

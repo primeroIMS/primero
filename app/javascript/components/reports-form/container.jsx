@@ -21,9 +21,10 @@ import PageContainer, { PageContent, PageHeading } from "../page";
 import { getRecordForms } from "../record-form/selectors";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
+import { NAME as TranslationsFormName } from "../translations-dialog/constants";
+import TranslationsDialog from "../translations-dialog";
+import { buildLocaleFields, localesToRender } from "../translations-dialog/utils";
 
-import ReportTranslationsDialog from "./components/translations-dialog";
-import { NAME as TranslationsFormName } from "./components/translations-dialog/constants";
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
 import {
@@ -38,14 +39,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
-import {
-  buildLocaleFields,
-  buildReportFields,
-  checkValue,
-  formatAgeRange,
-  formatReport,
-  localesToRender
-} from "./utils";
+import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -172,7 +166,13 @@ const Container = ({ mode }) => {
                   indexes={indexes}
                   setIndexes={setIndexes}
                 />
-                {dialogOpen && <ReportTranslationsDialog formMethods={formMethods} mode={mode} />}
+                {dialogOpen && (
+                  <TranslationsDialog
+                    dialogTitle={i18n.t("reports.translations.edit")}
+                    formMethods={formMethods}
+                    mode={mode}
+                  />
+                )}
               </>
             )}
           />
