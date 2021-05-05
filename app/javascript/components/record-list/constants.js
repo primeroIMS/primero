@@ -12,3 +12,7 @@ export const DEFAULT_FILTERS = {
   record_state: ["true"]
 };
 export const SEARCH_AND_CREATE_WORKFLOW = "search_and_create_workflow";
+export const ID_COLUMNS = Object.freeze({
+  short_id: "short_id",
+  case_id_display: "case_id_display"
+});
