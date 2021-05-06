@@ -52,9 +52,19 @@ const translateDate = (value, i18n, dateFormat) => {
   return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
 };
 
+const sortByDate = (data, multiple = false) => {
+  return orderBy(
+    data,
+    curr => {
+      return new Date(multiple ? curr[0] : curr);
+    },
+    ["asc"]
+  );
+};
+
 const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
   const totalLabel = i18n.t("report.total");
-  const keys = Object.keys(data);
+  const keys = sortByDate(Object.keys(data));
 
   if (qtyRows >= 2 && qtyColumns > 0) {
     const firstRow = keys;
@@ -125,16 +135,6 @@ const getTranslatedKey = (key, field, { agencies, i18n, locations } = {}) => {
   return key;
 };
 
-const sortByDate = (data, multiple = false) => {
-  return orderBy(
-    data,
-    curr => {
-      return new Date(multiple ? curr[0] : curr);
-    },
-    ["asc"]
-  );
-};
-
 const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
@@ -174,7 +174,15 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
 
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
-      currentLabels.push(keys.filter(label => label !== totalLabel));
+      currentLabels.push(
+        keys
+          .map(current => {
+            const dateFormat = getDateFormat(current);
+
+            return dateFormat ? translateDate(current, i18n, dateFormat) : current;
+          })
+          .filter(label => label !== totalLabel)
+      );
     } else {
       currentLabels.concat(getLabels(columns, data[key], i18n, fields, qtyColumns, qtyRows, { agencies, locations }));
     }
@@ -236,11 +244,8 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        const dateFormat = getDateFormat(key); // Add regx to return format dd-mm-yyyy
-
-        const translation = dateFormat
-          ? { display_text: translateDate(key, i18n, dateFormat) }
-          : translations.find(t => t.id === key);
+        // We are not translating dates here!
+        const translation = translations.find(t => t.id === key);
 
         const translatedKey = translation
           ? translation.display_text
@@ -387,7 +392,7 @@ const getRowsTableData = (data, i18n) => {
 
     if (qtyOfParentKeys >= 2) {
       accum.push([key, true, value._total || value.Total]);
-      const result = Object.keys(value)
+      const result = sortByDate(Object.keys(value))
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
           const childObject = getAllKeysObject(value[rowDisplayName]);
@@ -400,14 +405,26 @@ const getRowsTableData = (data, i18n) => {
         });
 
       // Set rest of keys
-      accum.push(...sortByDate(result, true));
+      const innerRows = [...sortByDate(result, true)].map(innerRow => {
+        const [enDate, ...enValues] = innerRow;
+        const dateFormat = getDateFormat(enDate);
+
+        const dateOrExistingKey = dateFormat ? translateDate(enDate, i18n, dateFormat) : enDate;
+
+        return [dateOrExistingKey, ...enValues];
+      });
+
+      accum.push(...innerRows);
     } else {
       const valuesAccesor = getAllKeysObject(value);
       const values = valuesAccesor
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(val => get(value, val));
 
-      accum.push([key, false, ...values, value._total || value.Total]);
+      const dateFormat = getDateFormat(key);
+      const dateOrKey = dateFormat ? translateDate(key, i18n, dateFormat) : key;
+
+      accum.push([dateOrKey, false, ...values, value._total || value.Total]);
     }
   });
 
