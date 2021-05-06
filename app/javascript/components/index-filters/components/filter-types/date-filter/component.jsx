@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { endOfDay, parseISO, startOfDay } from "date-fns";
+import { endOfDay, startOfDay } from "date-fns";
 import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import { useFormContext } from "react-hook-form";
@@ -18,6 +18,7 @@ import Panel from "../../panel";
 import styles from "../styles.css";
 import { registerInput, handleMoreFiltersChange, resetSecondaryFilter, setMoreFilterOnPrimarySection } from "../utils";
 
+import { getDateValue } from "./utils";
 import { NAME } from "./constants";
 
 const useStyles = makeStyles(styles);
@@ -116,14 +117,6 @@ const Component = ({
     setInputValue(values);
   };
 
-  const getDateValue = value => {
-    if (isEmpty(value)) {
-      return value;
-    }
-
-    return dateIncludeTime ? parseISO(value) : parseISO(value.slice(0, 10));
-  };
-
   useEffect(() => {
     if (selectedField) {
       registerInput({
@@ -183,7 +176,7 @@ const Component = ({
         margin: "normal",
         format: pickerFormat,
         label: i18n.t(`fields.date_range.${picker}`),
-        value: getDateValue(inputValue?.[picker]),
+        value: getDateValue(picker, inputValue, dateIncludeTime),
         onChange: onChange(picker),
         disabled: !selectedField,
         clearLabel: i18n.t("buttons.clear"),
