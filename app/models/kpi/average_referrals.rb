@@ -23,6 +23,18 @@ class Kpi::AverageReferrals < Kpi::Search
   end
 
   def to_json(*_args)
-    { data: { average_referrals: search.stats_response.first.last['mean'] } }
+    {
+      data: {
+        average_referrals: handle_solr_stats_value(search.stats_response.first.last['mean'])
+      }
+    }
+  end
+
+  def handle_solr_stats_value(value)
+    if value == 'NaN' || value.nil?
+      0.0
+    else
+      value
+    end
   end
 end
