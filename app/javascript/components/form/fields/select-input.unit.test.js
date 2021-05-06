@@ -3,6 +3,8 @@ import { expect } from "chai";
 
 import { FieldRecord } from "../records";
 import { setupMockFieldComponent, setupMockFormComponent } from "../../../test";
+import WatchedFormSectionField from "../components/watched-form-section-field";
+import { SELECT_FIELD } from "../constants";
 
 import SelectInput from "./select-input";
 
@@ -56,16 +58,19 @@ describe("<Form /> - fields/<SelectInput />", () => {
     ];
     const name = "test_field";
 
-    const inputProps = { label: "Test Field", name, disabled: false };
-
     context("when a disabled option was selected", () => {
-      const { component } = setupMockFormComponent(SelectInput, {
+      const { component } = setupMockFormComponent(WatchedFormSectionField, {
         props: {
-          options: withDisabledOption,
-          inputProps,
-          metaInputProps: { watchedInputValues: { [name]: 3 } }
+          field: {
+            name,
+            display_name: "Test Field",
+            disabled: false,
+            type: SELECT_FIELD,
+            options: withDisabledOption,
+            watchedInputs: [name]
+          }
         },
-        defaultValues: { test_field: 3 },
+        defaultValues: { [name]: 3 },
         includeFormMethods: true
       });
 
@@ -82,11 +87,35 @@ describe("<Form /> - fields/<SelectInput />", () => {
         expect(renderedOptions).to.have.lengthOf(3);
         expect(renderedOptions.last().text()).to.equal("option-3");
       });
+
+      it("should render the disabled option if the selection is changed", () => {
+        // selects the first option
+        component.find("ul.MuiAutocomplete-groupUl > li").first().simulate("click");
+
+        const buttons = component.find(IconButton);
+
+        // open dropdown
+        buttons.last().simulate("click");
+
+        const renderedOptions = component.find("ul.MuiAutocomplete-groupUl > li");
+
+        expect(renderedOptions).to.have.lengthOf(2);
+        expect(renderedOptions.last().text()).to.equal("option-3");
+      });
     });
 
     context("when a disabled option was not selected", () => {
-      const { component } = setupMockFormComponent(SelectInput, {
-        props: { options: withDisabledOption, inputProps, metaInputProps: {} },
+      const { component } = setupMockFormComponent(WatchedFormSectionField, {
+        props: {
+          field: {
+            name,
+            display_name: "Test Field",
+            disabled: false,
+            type: SELECT_FIELD,
+            options: withDisabledOption,
+            watchedInputs: [name]
+          }
+        },
         defaultValues: {},
         includeFormMethods: true
       });

@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { headersToColumns, getAdminResources } from "./utils";
+import { headersToColumns, getAdminResources, validateMetadata } from "./utils";
 
 describe("pages/admin/utils.js", () => {
   describe("headersToColumns", () => {
@@ -43,6 +43,37 @@ describe("pages/admin/utils.js", () => {
       });
 
       expect(getAdminResources(permissions)).to.be.deep.equal(expected);
+    });
+  });
+
+  describe("validateMetadata", () => {
+    it("should return metadata with defaultMetadata values for per and page", () => {
+      const defaultMetadata = {
+        per: 1,
+        page: 20
+      };
+
+      const expected = fromJS({
+        per: 1,
+        page: 20
+      });
+
+      expect(validateMetadata(fromJS({ per: null, page: null }), defaultMetadata)).to.deep.equal(expected);
+    });
+
+    it("should return metadata if per and page values are not null", () => {
+      const metadata = fromJS({ per: 1, page: 100 });
+      const defaultMetadata = {
+        per: 1,
+        page: 20
+      };
+
+      const expected = fromJS({
+        per: 1,
+        page: 100
+      });
+
+      expect(validateMetadata(metadata, defaultMetadata)).to.deep.equal(expected);
     });
   });
 });

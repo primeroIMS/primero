@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { useDialog } from "../action-dialog";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import { useApp } from "../application";
@@ -20,6 +21,9 @@ import PageContainer, { PageContent, PageHeading } from "../page";
 import { getRecordForms } from "../record-form/selectors";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
+import { NAME as TranslationsFormName } from "../translations-dialog/constants";
+import TranslationsDialog from "../translations-dialog";
+import { buildLocaleFields, localesToRender } from "../translations-dialog/utils";
 
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
@@ -39,6 +43,7 @@ import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./u
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -50,6 +55,8 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
   const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
+
+  const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
@@ -78,6 +85,8 @@ const Container = ({ mode }) => {
       setIndexes(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
     }
   }, [report]);
+
+  const onManageTranslations = () => setDialog({ dialog: TranslationsFormName, open: true });
 
   const onSubmit = data => {
     const { aggregate_by, disaggregate_by } = data;
@@ -119,6 +128,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.isEdit || formMode.isNew) && (
     <>
+      <FormAction actionHandler={onManageTranslations} text={i18n.t("reports.translations.manage")} />
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         text={i18n.t("buttons.save")}
@@ -144,17 +154,26 @@ const Container = ({ mode }) => {
             formMode={formMode}
             validations={validationSchema}
             formID={FORM_ID}
-            registerFields={[FILTERS_FIELD]}
+            registerFields={registeredFields}
             submitAllFields
             submitAlways
             renderBottom={formMethods => (
-              <ReportFilters
-                allRecordForms={allRecordForms}
-                parentFormMethods={formMethods}
-                selectedReport={report}
-                indexes={indexes}
-                setIndexes={setIndexes}
-              />
+              <>
+                <ReportFilters
+                  allRecordForms={allRecordForms}
+                  parentFormMethods={formMethods}
+                  selectedReport={report}
+                  indexes={indexes}
+                  setIndexes={setIndexes}
+                />
+                {dialogOpen && (
+                  <TranslationsDialog
+                    dialogTitle={i18n.t("reports.translations.edit")}
+                    formMethods={formMethods}
+                    mode={mode}
+                  />
+                )}
+              </>
             )}
           />
         </PageContent>

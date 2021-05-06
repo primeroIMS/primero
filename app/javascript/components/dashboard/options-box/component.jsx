@@ -31,7 +31,7 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading,
             {title}
           </Link>
         ) : (
-          title
+          <h4>{title}</h4>
         )
       }
       className={css.title}

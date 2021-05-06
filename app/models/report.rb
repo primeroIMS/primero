@@ -208,7 +208,7 @@ class Report < ApplicationRecord
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          values = Reports::Utils.correct_aggregate_counts(values)
+          Reports::Utils.correct_aggregate_counts(values)
         end
       end
     end
@@ -410,7 +410,7 @@ class Report < ApplicationRecord
       result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
 
-    result = { 'pivot' => result_pivots }
+    { 'pivot' => result_pivots }
   end
 
   def build_solr_filter_query(record_type, filters)
@@ -420,27 +420,26 @@ class Report < ApplicationRecord
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
-        query = nil
         if attribute.present? && value.present?
           if constraint.present?
             value = Date.parse(value.to_s).strftime('%FT%H:%M:%SZ') unless value.to_s.is_number?
-            query = if constraint == '>'
-                      "#{attribute}:[#{value} TO *]"
-                    elsif constraint == '<'
-                      "#{attribute}:[* TO #{value}]"
-                    else
-                      "#{attribute}:\"#{value}\""
-                    end
+            if constraint == '>'
+              "#{attribute}:[#{value} TO *]"
+            elsif constraint == '<'
+              "#{attribute}:[* TO #{value}]"
+            else
+              "#{attribute}:\"#{value}\""
+            end
           else
-            query = if value.respond_to?(:map) && value.size.positive?
-                      '(' + value.map { |v|
-                        if v == 'not_null'
-                          "#{attribute}:[* TO *]"
-                        else
-                          "#{attribute}:\"#{v}\""
-                        end
-                      }.join(' OR ') + ')'
-                    end
+            if value.respond_to?(:map) && value.size.positive?
+              '(' + value.map { |v|
+                if v == 'not_null'
+                  "#{attribute}:[* TO *]"
+                else
+                  "#{attribute}:\"#{v}\""
+                end
+              }.join(' OR ') + ')'
+            end
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"

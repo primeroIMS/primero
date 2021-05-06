@@ -105,6 +105,7 @@ describe Attachment do
             file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), comments: i.to_s
           ).attach!
         end
+        child.reload
       end
 
       it 'disallows attaching more than 100 documents to a single record' do

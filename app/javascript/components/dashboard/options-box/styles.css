@@ -15,9 +15,13 @@
 .title {
   padding: 14px 16px 0 16px;
 
+  & h4 {
+    margin: 0;
+  }
+
   & span {
     font-weight: 900 !important;
-    font-size: $(theme.typography.pxToRem(17)) !important;
+    font-size: 1.2rem;
     text-transform: uppercase;
   }
 }

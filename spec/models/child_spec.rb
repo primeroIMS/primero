@@ -381,11 +381,10 @@ describe Child do
         resource: Permission::CASE,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
-      @location_country = Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI', admin_level: 0)
+      @location_country = Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI')
       @location_region = Location.create!(
         placename: 'Kindia', type: 'region',
-        location_code: 'GUI123', hierarchy: ['GUI'],
-        admin_level: 1
+        location_code: 'GUI123', hierarchy_path: 'GUI.GUI123'
       )
       admin_role = Role.create!(name: 'Admin', permissions: Permission.all_available)
       agency = Agency.create!(agency_code: 'UN', name: 'UNICEF')

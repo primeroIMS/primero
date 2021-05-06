@@ -149,8 +149,6 @@ const Component = ({ parentForm, primeroModule }) => {
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
   parentForm: PropTypes.string.isRequired,
   primeroModule: PropTypes.string.isRequired

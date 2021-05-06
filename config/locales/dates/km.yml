@@ -1,1 +1,70 @@
-km: {}
+km:
+  date:
+    today: ''
+    clear: ''
+    first_day: 0
+    abbr_day_names_short:
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    abbr_day_names:
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    abbr_month_names:
+    - ~
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    day_names:
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    month_names:
+    - ~
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    formats:
+      default: ""
+      with_time: ""
+      rtl: ""
+      rtl_with_time: ""
+  time:
+    formats:
+      default: ""
+      with_time: ""
+      rtl: ""
+      rtl_with_time: ""
+  'true': ""
+  'false': ""

@@ -309,4 +309,28 @@ describe("<FormsList /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle CLEAR_EXPORT_FORMS", () => {
+    const currentState = fromJS({
+      export: {
+        data: {
+          status: "success",
+          export_file_name: "form_export_20210426.102013.xlsx",
+          export_file_url: "relative/path/to/export"
+        }
+      }
+    });
+
+    const expected = fromJS({
+      export: {}
+    });
+
+    const action = {
+      type: actions.CLEAR_EXPORT_FORMS
+    };
+
+    const newState = reducer(currentState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });

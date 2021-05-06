@@ -6,7 +6,7 @@ import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../../../action-dialog";
 import Form from "../../../../../form";
-import { exportForms } from "../../action-creators";
+import { exportForms, clearExportForms } from "../../action-creators";
 import { getExportedForms } from "../../selectors";
 import { useMemoizedSelector } from "../../../../../../libs";
 
@@ -37,6 +37,10 @@ const Component = ({ close, filters, i18n, open, pending, setPending }) => {
     if (exportedForms.size > 0 && !isEmpty(exportedForms.get(EXPORTED_URL))) {
       window.open(exportedForms.get(EXPORTED_URL));
     }
+
+    return () => {
+      dispatch(clearExportForms());
+    };
   }, [exportedForms]);
 
   return (

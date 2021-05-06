@@ -91,3 +91,7 @@ export const exportForms = ({ params, message }) => ({
     ]
   }
 });
+
+export const clearExportForms = () => ({
+  type: actions.CLEAR_EXPORT_FORMS
+});
