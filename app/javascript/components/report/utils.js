@@ -16,7 +16,7 @@ import { STRING_SOURCES_TYPES } from "../../config";
 import { DATE_PATTERN } from "./constants";
 
 const getColors = () => {
-  return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
+  return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue", "orange", "skyblue", "brown"];
 };
 
 const getColorsByIndex = index => {
@@ -144,7 +144,7 @@ const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, l
       : fields.shift();
 
   if (!isEmpty(columns)) {
-    columns.forEach((column, i) => {
+    sortByDate(columns).forEach((column, i) => {
       dataResults.push({
         label: getTranslatedKey(column, field, { agencies, locations }),
         data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
@@ -307,13 +307,15 @@ const getColumnsObjects = (object, countRows) => {
 
 const getAllKeysObject = object => {
   const allKeys = (obj, prefix = "") => {
-    return Object.keys(obj).reduce((acc, el) => {
-      if (typeof obj[el] === "object") {
-        return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
-      }
+    return sortByDate(Object.keys(obj).filter(o => o !== "Total"))
+      .concat("Total")
+      .reduce((acc, el) => {
+        if (typeof obj[el] === "object") {
+          return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
+        }
 
-      return [...acc, prefix + el];
-    }, []);
+        return [...acc, prefix + el];
+      }, []);
   };
 
   return allKeys(object);
@@ -334,7 +336,7 @@ const cleanedKeys = (object, columns) => {
   );
 };
 
-const formatColumns = (formattedKeys, columns) => {
+const formatColumns = (formattedKeys, columns, i18n) => {
   const items = columns.map((column, index) => {
     const columnsHeading = i =>
       formattedKeys.map(c => {
@@ -343,7 +345,11 @@ const formatColumns = (formattedKeys, columns) => {
         return translateColumn(column, splitted[i]);
       });
 
-    const uniqueItems = uniq(columnsHeading(index).concat("Total"));
+    const uniqueItems = sortByDate(uniq(columnsHeading(index).concat("Total"))).map(columnHeading => {
+      const dateFormat = getDateFormat(columnHeading);
+
+      return dateFormat ? translateDate(columnHeading, i18n, dateFormat) : columnHeading;
+    });
 
     return {
       items: uniqueItems
@@ -364,7 +370,7 @@ const formatColumns = (formattedKeys, columns) => {
   });
 };
 
-const getColumnsTableData = data => {
+const getColumnsTableData = (data, i18n) => {
   if (isEmpty(data.report_data)) {
     return [];
   }
@@ -373,7 +379,7 @@ const getColumnsTableData = data => {
   const qtyRows = data.fields.filter(field => field.position.type === "horizontal").length;
   const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
   const cleaned = sortByDate(cleanedKeys(columnsObjects, columns));
-  const renderColumns = formatColumns(cleaned, columns).flat();
+  const renderColumns = formatColumns(cleaned, columns, i18n).flat();
 
   return renderColumns;
 };
@@ -467,7 +473,7 @@ export const buildDataForTable = (report, i18n, { agencies, locations }) => {
     fields
   };
 
-  const newColumns = getColumnsTableData(translatedReportWithAllFields);
+  const newColumns = getColumnsTableData(translatedReportWithAllFields, i18n);
   const newRows = getRowsTableData(translatedReportWithAllFields, i18n);
 
   const columns = newColumns;
