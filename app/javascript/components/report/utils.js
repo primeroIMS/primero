@@ -145,8 +145,12 @@ const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, l
 
   if (!isEmpty(columns)) {
     sortByDate(columns).forEach((column, i) => {
+      const label = getTranslatedKey(column, field, { agencies, locations });
+      const dateFormat = getDateFormat(label);
+      const formattedLabel = dateFormat ? translateDate(label, i18n, dateFormat) : label;
+
       dataResults.push({
-        label: getTranslatedKey(column, field, { agencies, locations }),
+        label: formattedLabel,
         data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
         backgroundColor: getColorsByIndex(i)
       });
