@@ -285,3 +285,7 @@ export const getMiniFormFields = (state, recordType, primeroModule, exclude = []
 
 export const getDataProtectionInitialValues = state =>
   state.getIn([NAMESPACE, "dataProtectionInitialValues"], fromJS({}));
+
+export const getShouldFetchRecord = (state, { id, recordType }) => {
+  return !state.getIn([NAMESPACE, "previousRecord"], fromJS({})).equals(fromJS({ id, recordType }));
+};
