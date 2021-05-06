@@ -121,7 +121,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def build_names(location_hash, names, attributes, attribute_value)
-    unless column_name?(attributes)
+    if attributes.first == 'code'
       location_hash[:location_code] = attribute_value
       return
     end
