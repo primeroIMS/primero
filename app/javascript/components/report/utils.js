@@ -7,13 +7,12 @@ import omit from "lodash/omit";
 import reject from "lodash/reject";
 import max from "lodash/max";
 import get from "lodash/get";
-import orderBy from "lodash/orderBy";
-import { parse } from "date-fns";
 
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 import { STRING_SOURCES_TYPES } from "../../config";
 
-import { DATE_PATTERN } from "./constants";
+import sortByDate from "./utils/sort-by-date";
+import formattedDate from "./utils/formatted-date";
 
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue", "orange", "skyblue", "brown"];
@@ -21,45 +20,6 @@ const getColors = () => {
 
 const getColorsByIndex = index => {
   return getColors()[index];
-};
-
-const isDateRange = date => date.match(new RegExp(`^${DATE_PATTERN} - ${DATE_PATTERN}$`));
-
-const getDateFormat = value => {
-  if (value.match(/^\w{3}-\d{4}$/)) {
-    return "MMM-yyyy";
-  }
-  if (value.match(new RegExp(`^${DATE_PATTERN}$`)) || isDateRange(value)) {
-    return "dd-MMM-yyyy";
-  }
-
-  return null;
-};
-
-const translateDate = (value, i18n, dateFormat) => {
-  if (isDateRange(value)) {
-    const splittedDateRange = value.split(" - ");
-    const dateFrom = parse(splittedDateRange[0], dateFormat, new Date());
-    const dateTo = parse(splittedDateRange[1], dateFormat, new Date());
-
-    const dateFromLocalized = dateFrom ? i18n.localizeDate(dateFrom, dateFormat) : i18n.l(value);
-    const dateToLocalized = dateTo ? i18n.localizeDate(dateTo, dateFormat) : i18n.l(value);
-
-    return `${dateFromLocalized} - ${dateToLocalized}`;
-  }
-  const date = parse(value, dateFormat, new Date());
-
-  return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
-};
-
-const sortByDate = (data, multiple = false) => {
-  return orderBy(
-    data,
-    curr => {
-      return new Date(multiple ? curr[0] : curr);
-    },
-    ["asc"]
-  );
 };
 
 const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
@@ -146,11 +106,9 @@ const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, l
   if (!isEmpty(columns)) {
     sortByDate(columns).forEach((column, i) => {
       const label = getTranslatedKey(column, field, { agencies, locations });
-      const dateFormat = getDateFormat(label);
-      const formattedLabel = dateFormat ? translateDate(label, i18n, dateFormat) : label;
 
       dataResults.push({
-        label: formattedLabel,
+        label: formattedDate(label, i18n),
         data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
         backgroundColor: getColorsByIndex(i)
       });
@@ -181,9 +139,7 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
       currentLabels.push(
         keys
           .map(current => {
-            const dateFormat = getDateFormat(current);
-
-            return dateFormat ? translateDate(current, i18n, dateFormat) : current;
+            return formattedDate(current, i18n);
           })
           .filter(label => label !== totalLabel)
       );
@@ -350,9 +306,7 @@ const formatColumns = (formattedKeys, columns, i18n) => {
       });
 
     const uniqueItems = sortByDate(uniq(columnsHeading(index).concat("Total"))).map(columnHeading => {
-      const dateFormat = getDateFormat(columnHeading);
-
-      return dateFormat ? translateDate(columnHeading, i18n, dateFormat) : columnHeading;
+      return formattedDate(columnHeading, i18n);
     });
 
     return {
@@ -417,9 +371,7 @@ const getRowsTableData = (data, i18n) => {
       // Set rest of keys
       const innerRows = [...sortByDate(result, true)].map(innerRow => {
         const [enDate, ...enValues] = innerRow;
-        const dateFormat = getDateFormat(enDate);
-
-        const dateOrExistingKey = dateFormat ? translateDate(enDate, i18n, dateFormat) : enDate;
+        const dateOrExistingKey = formattedDate(enDate, i18n);
 
         return [dateOrExistingKey, ...enValues];
       });
@@ -430,9 +382,7 @@ const getRowsTableData = (data, i18n) => {
       const values = valuesAccesor
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(val => get(value, val));
-
-      const dateFormat = getDateFormat(key);
-      const dateOrKey = dateFormat ? translateDate(key, i18n, dateFormat) : key;
+      const dateOrKey = formattedDate(key, i18n);
 
       accum.push([dateOrKey, false, ...values, value._total || value.Total]);
     }
