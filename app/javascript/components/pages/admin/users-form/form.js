@@ -112,7 +112,7 @@ const sharedUserFields = (
     required: true,
     option_strings_source: OPTION_TYPES.ROLE_PERMITTED,
     watchedInputs: [FIELD_NAMES.ROLE_UNIQUE_ID],
-    visible: !hideOnAccountPage
+    editable: !hideOnAccountPage
   },
   {
     display_name: i18n.t("user.user_group_unique_ids"),
@@ -121,7 +121,7 @@ const sharedUserFields = (
     multi_select: true,
     required: true,
     option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
-    visible: !hideOnAccountPage,
+    editable: !hideOnAccountPage,
     watchedInputs: [FIELD_NAMES.USER_GROUP_UNIQUE_IDS]
   },
   {

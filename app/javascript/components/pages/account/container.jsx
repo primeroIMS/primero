@@ -5,7 +5,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 import { ROUTES } from "../../../config";
@@ -21,6 +21,7 @@ import { PASSWORD_MODAL } from "../admin/users-form/constants";
 import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
+import { fetchRoles, fetchUserGroups } from "../../application";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
@@ -96,6 +97,13 @@ const Container = ({ mode }) => {
       dispatch(clearCurrentUser());
     };
   }, [id]);
+
+  useEffect(() => {
+    batch(() => {
+      dispatch(fetchRoles());
+      dispatch(fetchUserGroups());
+    });
+  }, []);
 
   const onClickChangePassword = () => setPasswordModal(true);
 
