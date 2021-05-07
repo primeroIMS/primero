@@ -30,7 +30,7 @@ const TableValues = ({ columns, values }) => {
             {row.map(r => {
               return (
                 <TableCell colSpan={colspan} key={generateKey(value)}>
-                  <span>{r}</span>
+                  <span>{r.toString()}</span>
                 </TableCell>
               );
             })}
