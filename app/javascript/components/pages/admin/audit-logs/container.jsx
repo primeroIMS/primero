@@ -54,19 +54,8 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
-  const logMessageOptions = {
-    customBodyRender: value => {
-      const prefix = value?.prefix?.approval_type
-        ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
-        : i18n.t(value?.prefix?.key);
-      const identifier = value?.identifier;
-
-      return `${prefix} ${identifier}`;
-    }
-  };
-
-  const tableOptions = {
-    columns: [
+  const columns = data => {
+    return [
       {
         label: i18n.t("audit_log.timestamp"),
         name: "timestamp",
@@ -88,13 +77,25 @@ const Container = () => {
       {
         label: i18n.t("audit_log.description"),
         name: "log_message",
-        options: logMessageOptions
+        options: {
+          customBodyRender: (value, { rowIndex }) => {
+            const prefix = value?.prefix?.approval_type
+              ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+              : i18n.t(value?.prefix?.key);
+
+            return `${prefix} ${i18n.t(`logger.resources.${data.getIn(["data", rowIndex, "record_type"])}`)}`;
+          }
+        }
       },
       {
         label: i18n.t("audit_log.record_owner"),
         name: "user_name"
       }
-    ],
+    ];
+  };
+
+  const tableOptions = {
+    columns,
     defaultFilters: fromJS({
       per: 100,
       page: 1

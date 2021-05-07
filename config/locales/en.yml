@@ -1623,6 +1623,27 @@ en:
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
+    resources:
+      audit_log: Audit log
+      user: User
+      agency: Agency
+      user_group: User group
+      child: Child
+      alert: Alert
+      form_section: Form
+      lookup: Lookup
+      system_settings: System settings
+      permission: Permission
+      dashboard: Dashboard
+      report: Report
+      bulk_export: Bulk export
+      saved_search: SavedSearch
+      role: Role
+      incident: Incident
+      location: Location
+      primero_configuration: Primero configuration
+      code_of_conduct: Code of conduct
+      task: Task
     record_state:
       'false': Disabling
       'true': Enabling
