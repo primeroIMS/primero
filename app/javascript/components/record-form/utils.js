@@ -1,12 +1,19 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
-import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
+/* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
+import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
 import orderBy from "lodash/orderBy";
 
-import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
-import { toServerDateFormat } from "../../libs";
+import {
+  API_DATE_FORMAT,
+  DEFAULT_DATE_VALUES,
+  FORM_PERMISSION_ACTION,
+  INCIDENT_FROM_CASE,
+  RECORD_PATH,
+  RECORD_TYPES
+} from "../../config";
+import { displayNameHelper, toServerDateFormat } from "../../libs";
 
+import { NavRecord } from "./records";
 import {
   SUBFORM_SECTION,
   PHOTO_FIELD,
@@ -161,4 +168,25 @@ export const sortSubformValues = (record, formMap) => {
   }, {});
 
   return recordValues;
+};
+
+export const buildFormNav = form =>
+  NavRecord({
+    group: form.form_group_id,
+    groupOrder: form.order_form_group,
+    name: displayNameHelper(form.name, window.I18n.locale),
+    order: form.order,
+    formId: form.unique_id,
+    is_first_tab: form.is_first_tab,
+    permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
+    ...(INCIDENT_FROM_CASE === form.unique_id ? { recordTypes: [RECORD_TYPES.cases] } : {})
+  });
+
+export const pickFromDefaultForms = (forms, defaultForms) => {
+  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id);
+
+  return pick(
+    defaultForms,
+    Object.keys(defaultForms).filter(key => !formUniqueIds.includes(key))
+  );
 };

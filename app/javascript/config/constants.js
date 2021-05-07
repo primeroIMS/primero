@@ -5,10 +5,13 @@ import {
   RECORD_RESOURCES,
   READ_RECORDS,
   READ_REPORTS,
+  SHOW_APPROVALS,
+  SHOW_CHANGE_LOG,
   SHOW_EXPORTS,
   SHOW_TASKS,
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
+  VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS
 } from "../libs/permissions";
 import { getAdminResources } from "../components/pages/admin/utils";
@@ -467,3 +470,9 @@ export const MATCH_VALUES = {
 export const FILE_FORMAT = {
   pdf: "application/pdf"
 };
+
+export const FORM_PERMISSION_ACTION = Object.freeze({
+  [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
+  [CHANGE_LOGS]: SHOW_CHANGE_LOG,
+  [APPROVALS]: SHOW_APPROVALS
+});

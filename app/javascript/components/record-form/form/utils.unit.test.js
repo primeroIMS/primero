@@ -16,7 +16,8 @@ describe("Verifying utils", () => {
       "buildCustomLookupsConfig",
       "findOptionDisplayText",
       "getConnectedFields",
-      "getRecordInformationForms",
+      "getDefaultForms",
+      "getDefaultRecordInfoForms",
       "getSubformValues",
       "handleChangeOnServiceUser",
       "isFormDirty",
@@ -382,11 +383,11 @@ describe("getConnectedFields", () => {
     });
   });
 
-  describe("getRecordInformationForms", () => {
+  describe("getDefaultRecordInfoForms", () => {
     const i18n = { t: value => value };
 
     it("should return all the record information forms", () => {
-      expect(Object.keys(helpers.getRecordInformationForms(i18n)).length).to.equal(6);
+      expect(Object.keys(helpers.getDefaultRecordInfoForms(i18n)).length).to.equal(6);
     });
   });
 });

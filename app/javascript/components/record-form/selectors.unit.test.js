@@ -1,9 +1,11 @@
 import { Map, List, OrderedMap, fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";
+import { RECORD_INFORMATION_GROUP } from "../../config";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
+import { getDefaultRecordInfoForms } from "./form/utils";
 
 const formSections = {
   62: {
@@ -772,5 +774,77 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).to.deep.equal(expected);
     });
+  });
+
+  describe("getRecordInformationForms", () => {
+    it("should return the record information forms defined in the state", () => {
+      const recordInformationForms = {
+        61: {
+          id: 61,
+          unique_id: "form_1",
+          name: Map({ en: "Form 1" }),
+          visible: true,
+          is_first_tab: true,
+          order: 1,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        },
+        62: {
+          id: 62,
+          unique_id: "form_2",
+          name: Map({ en: "Form 2" }),
+          visible: true,
+          is_first_tab: true,
+          order: 2,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        }
+      };
+
+      const result = selectors
+        .getRecordInformationForms(
+          fromJS({
+            forms: {
+              formSections: mapEntriesToRecord(recordInformationForms, R.FormSectionRecord)
+            }
+          }),
+          { i18n: { t: v => v, locale: "en" }, recordType: "case", primeroModule: "primeromodule-cp" }
+        )
+        .valueSeq()
+        .map(form => form.unique_id)
+        .toJS();
+
+      expect(result).to.deep.equal(["form_1", "form_2"]);
+    });
+  });
+
+  it("should return the default record information forms if not defined in the state", () => {
+    const i18n = { t: v => v, locale: "en" };
+    const expected = Object.keys(getDefaultRecordInfoForms(i18n));
+    const result = selectors
+      .getRecordInformationForms(fromJS({}), {
+        i18n,
+        recordType: "case",
+        primeroModule: "primeromodule-cp"
+      })
+      .valueSeq()
+      .map(form => form.unique_id)
+      .toJS();
+
+    expect(result).to.include.members(expected);
   });
 });

@@ -50,7 +50,6 @@ import useIncidentFromCase from "../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../save-and-redirect-dialog";
 
 import {
-  customForms,
   getAttachmentForms,
   getFirstTab,
   getFormNav,
@@ -63,6 +62,7 @@ import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
+import { getDefaultForms } from "./form/utils";
 import styles from "./styles.css";
 import { compactValues, getRedirectPath } from "./utils";
 
@@ -310,6 +310,7 @@ const Container = ({ mode }) => {
           setFieldValue={setFieldValue}
           handleSubmit={handleSubmit}
           recordType={params.recordType}
+          primeroModule={selectedModule.primeroModule}
           handleCreateIncident={handleCreateIncident}
         />
       ),
@@ -331,7 +332,7 @@ const Container = ({ mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          form={customForms(i18n)[form]}
+          form={getDefaultForms(i18n)[form]}
           mode={containerMode}
           userPermittedFormsIds={userPermittedFormsIds}
           values={values}
