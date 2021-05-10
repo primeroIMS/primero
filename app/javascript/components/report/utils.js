@@ -13,6 +13,7 @@ import { STRING_SOURCES_TYPES } from "../../config";
 
 import sortByDate from "./utils/sort-by-date";
 import formattedDate from "./utils/formatted-date";
+import { TOTAL } from "./constants";
 
 const getColors = () => {
   return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue", "orange", "skyblue", "brown"];
@@ -204,8 +205,8 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        // We are not translating dates here!
-        const translation = translations.find(t => t.id === key);
+        // NOTE: We are not translating dates here!
+        const translation = translations.find(currTranslation => currTranslation.id === key);
 
         const translatedKey = translation
           ? translation.display_text
@@ -267,8 +268,8 @@ const getColumnsObjects = (object, countRows) => {
 
 const getAllKeysObject = object => {
   const allKeys = (obj, prefix = "") => {
-    return sortByDate(Object.keys(obj).filter(o => o !== "Total"))
-      .concat("Total")
+    return sortByDate(Object.keys(obj).filter(key => key !== TOTAL))
+      .concat(TOTAL)
       .reduce((acc, el) => {
         if (typeof obj[el] === "object") {
           return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
@@ -305,7 +306,7 @@ const formatColumns = (formattedKeys, columns, i18n) => {
         return translateColumn(column, splitted[i]);
       });
 
-    const uniqueItems = sortByDate(uniq(columnsHeading(index).concat("Total"))).map(columnHeading => {
+    const uniqueItems = sortByDate(uniq(columnsHeading(index).concat(TOTAL))).map(columnHeading => {
       return formattedDate(columnHeading, i18n);
     });
 
