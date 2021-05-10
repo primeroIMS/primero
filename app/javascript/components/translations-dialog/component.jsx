@@ -4,19 +4,19 @@ import PropTypes from "prop-types";
 import first from "lodash/first";
 import get from "lodash/get";
 
-import ActionDialog, { useDialog } from "../../../action-dialog";
-import Form from "../../../form";
-import { useI18n } from "../../../i18n";
-import { getObjectPath } from "../../../../libs";
-import { localesToRender } from "../../utils";
+import ActionDialog, { useDialog } from "../action-dialog";
+import Form from "../form";
+import { useI18n } from "../i18n";
+import { getObjectPath } from "../../libs";
 
-import styles from "./styles.css";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./form";
+import { localesToRender } from "./utils";
+import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 
-const Component = ({ formMethods, mode }) => {
+const Component = ({ formMethods, mode, dialogTitle }) => {
   const css = useStyles();
   const i18n = useI18n();
   const validations = validationSchema(i18n);
@@ -36,9 +36,7 @@ const Component = ({ formMethods, mode }) => {
 
   const { dialogOpen, dialogClose } = useDialog(NAME);
 
-  const handleClose = () => {
-    dialogClose();
-  };
+  const handleClose = () => dialogClose();
 
   const handleSubmit = data => {
     getObjectPath("", data).forEach(path => {
@@ -57,7 +55,7 @@ const Component = ({ formMethods, mode }) => {
       form: FORM_ID,
       type: "submit"
     },
-    dialogTitle: i18n.t("reports.translations.edit"),
+    dialogTitle,
     open: dialogOpen,
     cancelHandler: handleClose,
     omitCloseAfterSuccess: true
@@ -73,7 +71,7 @@ const Component = ({ formMethods, mode }) => {
   return (
     <ActionDialog {...modalProps}>
       <Form
-        formClassName={css.reportTranslationsDialog}
+        formClassName={css.translationsDialog}
         formSections={formSections}
         initialValues={initialValues}
         validations={validations}
@@ -89,6 +87,7 @@ const Component = ({ formMethods, mode }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  dialogTitle: PropTypes.string.isRequired,
   formMethods: PropTypes.object.isRequired,
   mode: PropTypes.string.isRequired
 };

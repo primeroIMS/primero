@@ -1,17 +1,17 @@
-import { useEffect, memo, useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useLocation, useParams, useHistory } from "react-router-dom";
 import clsx from "clsx";
+import { fromJS } from "immutable";
 
 import FormFilters from "../form-filters";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { useI18n } from "../i18n";
 import PageContainer from "../page";
 import Transitions from "../transitions";
-import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
 import LoadingIndicator from "../loading-indicator";
 import {
   clearSelectedRecord,
@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { ACTIONS, REFER_FROM_SERVICE, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { ACTIONS, SHOW_FIND_MATCH } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -57,9 +57,10 @@ import {
   getRecordForms,
   getLoadingState,
   getErrors,
-  getSelectedForm
+  getSelectedForm,
+  getShouldFetchRecord
 } from "./selectors";
-import { clearValidationErrors } from "./action-creators";
+import { clearValidationErrors, setPreviousRecord } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -130,6 +131,7 @@ const Container = ({ mode }) => {
     getIsProcessingSomeAttachment(state, params.recordType)
   );
   const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, params.recordType));
+  const shouldFetchRecord = useMemoizedSelector(state => getShouldFetchRecord(state, params));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -150,7 +152,7 @@ const Container = ({ mode }) => {
 
       const body = {
         data: {
-          ...compactValues(formValues, initialValues),
+          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : formValues),
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
           ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
@@ -235,34 +237,38 @@ const Container = ({ mode }) => {
     }
   }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 
-  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
   const isCaseIdEqualParam = params?.id === record?.get("id");
+
+  useEffect(() => {
+    return () => {
+      dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
+    };
+  }, []);
 
   useEffect(() => {
     batch(() => {
       if (params.id) {
         dispatch(setSelectedRecord(params.recordType, params.id));
 
-        if (!locationState?.preventSyncAfterRedirect) {
+        if (!locationState?.preventSyncAfterRedirect && shouldFetchRecord) {
           dispatch(fetchRecord(params.recordType, params.id));
           dispatch(fetchRecordsAlerts(params.recordType, params.id));
+          dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
         }
-      }
-      if (isNotANewCase && canRefer) {
-        dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
       }
     });
 
     history.replace(history.location.pathname, {});
-  }, [params.id, params.recordType]);
+  }, [params.id, params.recordType, shouldFetchRecord]);
 
   useEffect(() => {
     return () => {
       batch(() => {
         dispatch(clearSelectedRecord(params.recordType));
         dispatch(clearValidationErrors());
+
         if (params.id) {
           dispatch(clearRecordAttachments(params.id, params.recordType));
         }
@@ -402,4 +408,4 @@ Container.propTypes = {
   mode: PropTypes.string.isRequired
 };
 
-export default memo(Container);
+export default Container;

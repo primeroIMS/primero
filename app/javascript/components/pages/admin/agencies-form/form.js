@@ -16,15 +16,21 @@ import { FILE_FORMAT } from "../../../../config";
 
 import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
 
-export const validations = () =>
+export const validations = i18n =>
   object().shape({
     agency_code: string().required(),
-    description: string(),
+    description: object(),
     disabled: boolean(),
     logo_enabled: boolean(),
     logo_full_base64: string(),
     logo_full_file_name: string(),
-    name: string().required(),
+    name: object().shape({
+      en: string().required(
+        i18n.t("forms.required_field", {
+          field: i18n.t("agency.name")
+        })
+      )
+    }),
     services: array(),
     telephone: string()
   });
@@ -36,7 +42,7 @@ export const form = (i18n, formMode) => {
       fields: [
         FieldRecord({
           display_name: i18n.t("agency.name"),
-          name: "name",
+          name: "name.en",
           type: TEXT_FIELD,
           required: true,
           autoFocus: true
@@ -49,7 +55,7 @@ export const form = (i18n, formMode) => {
         }),
         FieldRecord({
           display_name: i18n.t("agency.description"),
-          name: "description",
+          name: "description.en",
           type: TEXT_AREA
         }),
         FieldRecord({

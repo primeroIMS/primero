@@ -20,7 +20,7 @@ bn:
     - ""
     - ""
     abbr_month_names:
-    -
+    - ~
     - Jan
     - Feb
     - Mar
@@ -42,7 +42,7 @@ bn:
     - Friday
     - Saturday
     month_names:
-    -
+    - ~
     - January
     - February
     - March

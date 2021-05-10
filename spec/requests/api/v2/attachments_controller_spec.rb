@@ -9,12 +9,14 @@ describe Api::V2::AttachmentsController, type: :request do
       receive(:permitted_field_names).and_return(%w[photos])
     )
     @case = Child.create(data: { name: 'Test' })
+    Sunspot.commit
   end
 
   let(:json) { JSON.parse(response.body) }
   let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
+  let(:records_with_photo) { Child.search { with(:has_photo, true) }.results }
 
-  describe 'POST /api/v2/:record/:id/attachments' do
+  describe 'POST /api/v2/:record/:id/attachments', search: true do
     it 'attaches a file to an existing record' do
       login_for_test
       params = {
@@ -24,10 +26,11 @@ describe Api::V2::AttachmentsController, type: :request do
         }
       }
       post "/api/v2/cases/#{@case.id}/attachments", params: params
-
       expect(response).to have_http_status(200)
       expect(json['data']['file_name']).to eq('jorge.jpg')
       expect(json['data']['record']['id']).to eq(@case.id)
+      expect(records_with_photo.size).to eq(1)
+      expect(records_with_photo.first.id).to eq(@case.id)
 
       expect(audit_params['action']).to eq('attach')
     end

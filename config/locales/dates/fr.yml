@@ -20,7 +20,7 @@ fr:
     - "Vendredi "
     - Samedi
     abbr_month_names:
-    -
+    - ~
     - jan
     - fév
     - mar
@@ -42,7 +42,7 @@ fr:
     - vendredi
     - samedi
     month_names:
-    -
+    - ~
     - janvier
     - février
     - mars

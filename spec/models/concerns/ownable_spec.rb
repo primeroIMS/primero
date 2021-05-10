@@ -70,6 +70,7 @@ describe Ownable do
 
         context 'and new user does not exist' do
           before do
+            @case = reloaded_model(@case)
             @case.owned_by = 'non-existent-user'
             @case.save!
           end
@@ -109,6 +110,7 @@ describe Ownable do
 
         context 'and new user does exist' do
           before do
+            @case = reloaded_model(@case)
             @case.owned_by = 'user2'
             @case.save!
           end
@@ -178,6 +180,7 @@ describe Ownable do
       context 'and owned_by does not change' do
         before do
           @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+          @case = reloaded_model(@case)
           @case.name = 'Another Name'
           @case.save!
         end

@@ -11,14 +11,12 @@ describe("<IndexFilters /> - Utils", () => {
       [
         "buildFields",
         "buildUserModules",
-        "buildLocaleFields",
         "buildReportFields",
         "checkValue",
         "formatAgeRange",
         "formatReport",
         "formattedFields",
-        "getFormName",
-        "localesToRender"
+        "getFormName"
       ].forEach(property => {
         expect(clone).to.have.property(property);
         expect(clone[property]).to.be.a("function");
