@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
@@ -174,6 +175,92 @@ describe("<SubformDialog />", () => {
 
     it("renders the visible FormSectionField", () => {
       expect(component.find(TextField)).lengthOf(1);
+    });
+  });
+
+  describe("when the dialog is open", () => {
+    const subformProps = {
+      arrayHelpers: {},
+      dialogIsNew: true,
+      field: FieldRecord({
+        name: "services_section",
+        subform_section_id: FormSectionRecord({
+          fields: [
+            FieldRecord({
+              name: "option_type",
+              type: "select_box",
+              visible: true,
+              selected_value: "option_2",
+              option_strings_text: [
+                {
+                  id: "option_1",
+                  display_text: { en: "Option 1" }
+                },
+                {
+                  id: "option_2",
+                  display_text: { en: "Option 2" }
+                }
+              ]
+            }),
+            FieldRecord({
+              name: "option_description",
+              type: "text_field",
+              visible: true
+            })
+          ]
+        })
+      }),
+      mode: {
+        isEdit: true
+      },
+      index: 0,
+      i18n: { t: value => value },
+      open: true,
+      setOpen: () => {},
+      title: "Services Section",
+      formSection: {}
+    };
+
+    context("when subform does not have values", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          SubformDialog,
+          {
+            ...subformProps,
+            formik: {
+              values: {}
+            }
+          },
+          {},
+          [],
+          {}
+        ));
+      });
+
+      it("should set the default values", () => {
+        expect(component.find(Autocomplete).props().value).to.equal("option_2");
+      });
+    });
+
+    context("when subform has values", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          SubformDialog,
+          {
+            ...subformProps,
+            formik: {
+              values: { services_section: [{ option_type: "option_1" }] }
+            }
+          },
+          {},
+          [],
+          {}
+        ));
+      });
+
+      it("default values should not be set", () => {
+        expect(component.find(Autocomplete).props().value).to.equal("option_1");
+      });
     });
   });
 
