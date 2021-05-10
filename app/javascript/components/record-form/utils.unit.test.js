@@ -1,8 +1,19 @@
 import { parseISO } from "date-fns";
+import { fromJS } from "immutable";
 
 import { useFakeTimers } from "../../test";
+import {
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../config";
+import { SHOW_APPROVALS } from "../../libs/permissions";
 
-import { FormSectionRecord, FieldRecord } from "./records";
+import { getDefaultRecordInfoForms } from "./form/utils";
+import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
 import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
 import * as utils from "./utils";
 
@@ -387,6 +398,74 @@ describe("<RecordForms /> - utils", () => {
       const result = utils.sortSubformValues(initialValues, forms);
 
       expect(result).to.deep.equals(expected);
+    });
+  });
+
+  describe("buildFormNav", () => {
+    it("should return the nav with the permission_actions if defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Approvals",
+        order: 1,
+        formId: APPROVALS,
+        is_first_tab: true,
+        permission_actions: SHOW_APPROVALS
+      });
+
+      const approvalsForm = FormSectionRecord({
+        unique_id: APPROVALS,
+        form_group_id: "group_1",
+        name: { en: "Approvals" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(approvalsForm)).to.deep.equal(expected);
+    });
+
+    it("should return the nav without permission_actions if not defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Form 1",
+        order: 1,
+        formId: "form_id_1",
+        is_first_tab: true
+      });
+
+      const form = FormSectionRecord({
+        unique_id: "form_id_1",
+        form_group_id: "group_1",
+        name: { en: "Form 1" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(form)).to.deep.equal(expected);
+    });
+  });
+
+  describe("pickFormDefaultForms", () => {
+    it("should return default forms for the not found in the state", () => {
+      const forms = fromJS({
+        1: FormSectionRecord({
+          unique_id: RECORD_OWNER,
+          form_group_id: "group_1",
+          name: { en: "Record Owner in State" },
+          order: 1,
+          order_form_group: 1,
+          is_first_tab: true
+        })
+      });
+
+      const result = Object.keys(
+        utils.pickFromDefaultForms(forms, getDefaultRecordInfoForms({ t: value => value, locale: "en" }))
+      );
+
+      expect(result).to.deep.equal([APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS, CHANGE_LOGS]);
     });
   });
 });

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
+import { fromJS } from "immutable";
 import orderBy from "lodash/orderBy";
 
 import {
@@ -183,7 +184,7 @@ export const buildFormNav = form =>
   });
 
 export const pickFromDefaultForms = (forms, defaultForms) => {
-  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id);
+  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id) || fromJS([]);
 
   return pick(
     defaultForms,

@@ -11,7 +11,7 @@ import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
-import { getRecordFormsByUniqueId, getRecordInformationForms, getValidationErrors } from "../selectors";
+import { getRecordFormsByUniqueId, getRecordInformationFormIds, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
@@ -61,9 +61,7 @@ const Component = ({
     getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n)
   );
   const recordInformationFormIds = useMemoizedSelector(state =>
-    getRecordInformationForms(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
-      .valueSeq()
-      .map(form => form.unique_id)
+    getRecordInformationFormIds(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
   );
 
   const firstSelectedForm = selectedRecordForm?.first();

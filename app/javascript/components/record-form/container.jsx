@@ -42,7 +42,7 @@ import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
-import { getPermittedFormsIds } from "../user/selectors";
+import { getPermissionsByRecord, getPermittedFormsIds } from "../user/selectors";
 import Summary from "../summary";
 import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
@@ -56,13 +56,13 @@ import {
   getRecordForms,
   getLoadingState,
   getErrors,
-  getSelectedForm
+  getSelectedForm,
+  getRecordFormsByUniqueId
 } from "./selectors";
 import { clearValidationErrors } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
-import { getDefaultForms } from "./form/utils";
 import styles from "./styles.css";
 import { compactValues, getRedirectPath } from "./utils";
 
@@ -117,8 +117,8 @@ const Container = ({ mode }) => {
     record,
     mode: containerMode
   });
-
-  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, params.recordType));
+  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule, userPermissions));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
   const firstTab = useMemoizedSelector(state => getFirstTab(state, selectedModule));
@@ -130,6 +130,9 @@ const Container = ({ mode }) => {
     getIsProcessingSomeAttachment(state, params.recordType)
   );
   const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, params.recordType));
+  const summaryForm = useMemoizedSelector(state =>
+    getRecordFormsByUniqueId(state, { ...selectedModule, formName: SUMMARY, getFirst: true })
+  );
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -332,7 +335,7 @@ const Container = ({ mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          form={getDefaultForms(i18n)[form]}
+          form={summaryForm}
           mode={containerMode}
           userPermittedFormsIds={userPermittedFormsIds}
           values={values}

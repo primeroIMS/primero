@@ -7,9 +7,9 @@ import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { useMemoizedSelector } from "../../libs";
 import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
-import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, INCIDENT_FROM_CASE } from "../../config";
+import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 import { usePermissions } from "../user";
-import { getRecordInformationForms } from "../record-form/selectors";
+import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
 
 import styles from "./styles.css";
@@ -32,11 +32,10 @@ const Container = ({
 }) => {
   const css = useStyles();
   const i18n = useI18n();
-  const recordInformationForms = useMemoizedSelector(state =>
-    getRecordInformationForms(state, { i18n, recordType, primeroModule })
-  );
 
-  const incidentFromCaseForm = recordInformationForms.valueSeq().find(form => form.unique_id === INCIDENT_FROM_CASE);
+  const incidentFromCaseForm = useMemoizedSelector(state =>
+    getIncidentFromCaseForm(state, { i18n, recordType, primeroModule })
+  );
 
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
 

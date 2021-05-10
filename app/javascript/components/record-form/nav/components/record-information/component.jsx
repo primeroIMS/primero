@@ -1,9 +1,6 @@
-import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import isEmpty from "lodash/isEmpty";
 import { withRouter } from "react-router-dom";
 
-import { checkPermissions } from "../../../../../libs/permissions";
 import NavGroup from "../nav-group";
 import { useI18n } from "../../../../i18n";
 import { RECORD_TYPES } from "../../../../../config";
@@ -18,31 +15,25 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
   const { recordType } = params;
   const i18n = useI18n();
 
-  const recordInformationNav = useMemoizedSelector(state =>
-    getRecordInformationNav(state, {
-      checkVisible: true,
-      i18n,
-      recordType: RECORD_TYPES[recordType],
-      primeroModule
-    })
-  );
   const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
-  const forms = recordInformationNav
-    .valueSeq()
-    .flatMap(form => form.valueSeq())
-    .reduce((acum, form) => {
-      if (isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions)) {
-        return acum.push(form);
-      }
-
-      return acum;
-    }, fromJS([]));
+  const recordInformationNav = useMemoizedSelector(state =>
+    getRecordInformationNav(
+      state,
+      {
+        checkVisible: true,
+        i18n,
+        recordType: RECORD_TYPES[recordType],
+        primeroModule
+      },
+      userPermissions
+    )
+  );
 
   return (
     <>
       <NavGroup
-        group={forms}
+        group={recordInformationNav}
         handleClick={handleClick}
         open={open}
         selectedForm={selectedForm}

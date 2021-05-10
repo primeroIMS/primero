@@ -3,10 +3,10 @@ import { fromJS, OrderedMap, List } from "immutable";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
-import { RECORD_INFORMATION_GROUP } from "../../config";
+import { checkPermissions } from "../../libs/permissions";
+import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP } from "../../config";
 
 import { getDefaultForms, getDefaultRecordInfoForms } from "./form/utils";
-import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
 import NAMESPACE from "./namespace";
 import { buildFormNav, pickFromDefaultForms } from "./utils";
 
@@ -29,7 +29,10 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
 
 const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, includeNested }) => {
   const allFormSections = state.getIn([NAMESPACE, "formSections"]);
-  const formsPermitted = formsIds?.keySeq()?.toArray();
+  const formsPermitted = formsIds
+    ?.keySeq()
+    ?.toArray()
+    .concat(Object.keys(getDefaultForms(window.I18n)));
 
   if (isEmpty(allFormSections)) return null;
 
@@ -92,8 +95,8 @@ export const getFirstTab = (state, query) => {
   return selectedForms.first();
 };
 
-export const getFormNav = (state, query) => {
-  const selectedForms = forms(state, query);
+export const getFormNav = (state, query, userPermissions) => {
+  const selectedForms = forms(state, query).filter(form => form.form_group_id !== RECORD_INFORMATION_GROUP);
 
   if (!selectedForms) return null;
 
@@ -118,16 +121,11 @@ export const getFormNav = (state, query) => {
   }
 
   return allSelectedForms
-    .map(fs => buildFormNav(fs))
-    .sortBy(fs => fs.order)
-    .groupBy(fs => fs.group)
-    .sortBy(fs => fs.first().get("groupOrder"));
-};
-
-export const getCoreForms = (state, query) => {
-  const selectedForms = forms(state, query);
-
-  return selectedForms?.filter(form => form.core_form);
+    .map(form => buildFormNav(form))
+    .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+    .sortBy(form => form.order)
+    .groupBy(form => form.group)
+    .sortBy(form => form.first().get("groupOrder"));
 };
 
 export const getRecordInformationForms = (state, query) => {
@@ -146,12 +144,21 @@ export const getRecordInformationForms = (state, query) => {
   return recordInformationForms?.size ? recordInformationForms.concat(defaultFormsMap) : defaultFormsMap;
 };
 
-export const getRecordInformationNav = (state, query) =>
+export const getRecordInformationFormIds = (state, query) =>
   getRecordInformationForms(state, query)
-    .map(fs => buildFormNav(fs))
-    .sortBy(fs => fs.order)
-    .groupBy(fs => fs.group)
-    .sortBy(fs => fs.first().get("groupOrder"));
+    .valueSeq()
+    .map(form => form.unique_id);
+
+export const getIncidentFromCaseForm = (state, query) =>
+  getRecordInformationForms(state, query)
+    .valueSeq()
+    .find(form => form.unique_id === INCIDENT_FROM_CASE);
+
+export const getRecordInformationNav = (state, query, userPermissions) =>
+  getRecordInformationForms(state, query)
+    .map(form => buildFormNav(form))
+    .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
+    .sortBy(form => form.order);
 
 export const getRecordForms = (state, query) => {
   const selectedForms = forms(state, query);
@@ -174,16 +181,18 @@ export const getOrderedRecordForms = (state, query) => {
 export const getRecordFormsByUniqueId = (state, query) => {
   const { recordType, primeroModule, formName, checkVisible, i18n, includeNested, getFirst } = query;
 
-  if (CUSTOM_FORM_IDS_NAV.includes(formName)) {
-    return List([getDefaultForms(i18n)[formName]]);
-  }
-
   const allRecordForms = getRecordForms(state, {
     recordType,
     primeroModule,
     checkVisible,
     includeNested
   }).filter(f => f.unique_id === formName);
+
+  const defaultForm = i18n && getDefaultForms(i18n)[formName];
+
+  if (!allRecordForms?.size && defaultForm) {
+    return getFirst ? defaultForm : List([defaultForm]);
+  }
 
   if (getFirst) {
     return allRecordForms.first();
