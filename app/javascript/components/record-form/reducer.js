@@ -48,6 +48,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("selectedForm", payload);
     case Actions.SET_SELECTED_RECORD:
       return state.set("selectedRecord", payload);
+    case Actions.SET_PREVIOUS_RECORD:
+      return state.set("previousRecord", payload);
+    case Actions.CLEAR_PREVIOUS_RECORD:
+      return state.delete("previousRecord");
     case Actions.SET_SERVICE_TO_REFER:
       return state.set("serviceToRefer", fromJS(payload));
     case Actions.SET_VALIDATION_ERRORS:

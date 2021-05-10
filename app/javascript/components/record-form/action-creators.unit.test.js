@@ -27,7 +27,9 @@ describe("<RecordForm /> - Action Creators", () => {
       "setDataProtectionInitialValues",
       "setSelectedForm",
       "setServiceToRefer",
-      "setValidationErrors"
+      "setValidationErrors",
+      "setPreviousRecord",
+      "clearPreviousRecord"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
