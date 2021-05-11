@@ -4,7 +4,7 @@
 # For further information see the following documentation
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 
-return unless Rails.env.production?
+# return unless Rails.env.production?
 
 self_sources = %i[self https]
 

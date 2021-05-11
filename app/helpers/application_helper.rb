@@ -31,7 +31,7 @@ module ApplicationHelper
 
   def csp_property_meta_tag
     if content_security_policy?
-      tag("meta", property: "csp-nonce", content: content_security_policy_nonce)
+      tag("meta", name: "csp-nonce", property: "og:csp-nonce", content: content_security_policy_nonce)
     end
   end
 end
