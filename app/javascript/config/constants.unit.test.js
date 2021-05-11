@@ -60,6 +60,7 @@ describe("Verifying config constant", () => {
       "MODES",
       "MODULES",
       "MODULE_TYPE_FIELD",
+      "MONTH_AND_YEAR_FORMAT",
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",

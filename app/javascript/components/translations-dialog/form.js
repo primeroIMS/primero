@@ -2,7 +2,7 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD } from "../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD, SELECT_FIELD } from "../form";
 
 import { LOCALE_ID } from "./constants";
 
@@ -12,7 +12,7 @@ export const validationSchema = i18n =>
       .nullable()
       .required(
         i18n.t("forms.required_field", {
-          field: i18n.t("reports.translations.select_language")
+          field: i18n.t("select_language")
         })
       )
   });
@@ -23,7 +23,7 @@ export const translationsForm = ({ i18n, locales, currentValues, selectedLocaleI
       unique_id: "edit_translations",
       fields: [
         FieldRecord({
-          display_name: i18n.t("reports.translations.select_language"),
+          display_name: i18n.t("select_language"),
           name: LOCALE_ID,
           type: SELECT_FIELD,
           required: true,
@@ -34,8 +34,8 @@ export const translationsForm = ({ i18n, locales, currentValues, selectedLocaleI
       ]
     }),
     FormSectionRecord({
-      unique_id: `report_name`,
-      name: i18n.t("report.name"),
+      unique_id: `translations_name`,
+      name: i18n.t("name"),
       fields: locales.map(locale =>
         FieldRecord({
           display_name: `${i18n.t("home.en")}: ${currentValues.name?.en}`,
@@ -47,8 +47,8 @@ export const translationsForm = ({ i18n, locales, currentValues, selectedLocaleI
       )
     }),
     FormSectionRecord({
-      unique_id: `report_description`,
-      name: i18n.t("report.description"),
+      unique_id: `translations_description`,
+      name: i18n.t("description"),
       fields: locales.map(locale =>
         FieldRecord({
           display_name: `${i18n.t("home.en")}: ${currentValues.description?.en}`,

@@ -73,6 +73,15 @@ export const setValidationErrors = payload => ({
   payload
 });
 
+export const setPreviousRecord = payload => ({
+  type: Actions.SET_PREVIOUS_RECORD,
+  payload
+});
+
+export const clearPreviousRecord = () => ({
+  type: Actions.CLEAR_PREVIOUS_RECORD
+});
+
 export const clearValidationErrors = () => ({
   type: Actions.CLEAR_VALIDATION_ERRORS
 });

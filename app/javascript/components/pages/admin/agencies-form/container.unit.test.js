@@ -46,12 +46,13 @@ describe("<AgencyForm />", () => {
 
   it("renders heading with action buttons", () => {
     expect(component.find("header h1").contains("agencies.label")).to.be.true;
-    expect(component.find("header button").at(0).contains("buttons.cancel")).to.be.true;
-    expect(component.find("header button").at(1).contains("buttons.save")).to.be.true;
+    expect(component.find("header button").at(0).contains("agencies.translations.manage")).to.be.true;
+    expect(component.find("header button").at(1).contains("buttons.cancel")).to.be.true;
+    expect(component.find("header button").at(2).contains("buttons.save")).to.be.true;
   });
 
   it("renders submit button with valid props", () => {
-    const saveButton = component.find(FormAction).at(1);
+    const saveButton = component.find(FormAction).at(2);
     const saveButtonProps = { ...saveButton.props() };
 
     expect(saveButton).to.have.lengthOf(1);

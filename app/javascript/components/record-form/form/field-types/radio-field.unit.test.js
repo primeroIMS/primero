@@ -1,4 +1,4 @@
-import { Radio } from "@material-ui/core";
+import { FormControlLabel, Radio } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import { RADIO_FIELD } from "../../constants";
@@ -51,5 +51,43 @@ describe("<RadioField />", () => {
     expect(radiosRendered.at(0).props().disabled).to.be.false;
     expect(radiosRendered.at(1).props().disabled).to.be.true;
     expect(radiosRendered.at(2).props().disabled).to.be.false;
+  });
+
+  context("when a the field doesn't have value", () => {
+    const newProps = {
+      ...props,
+      field: {
+        name: "consent_reporting",
+        type: RADIO_FIELD,
+        display_name_en: "Radio test field",
+        option_strings_text: [
+          { id: "true", display_text: { en: "Yes" } },
+          { id: "false", display_text: { en: "No" } }
+        ]
+      },
+      formik: {
+        values: {
+          consent_reporting: null
+        }
+      },
+      name: "consent_reporting"
+    };
+
+    const newFormProps = {
+      initialValues: {
+        consent_reporting: null
+      }
+    };
+
+    const radioComponent = setupMountedComponent(RadioField, newProps, {}, [], newFormProps).component;
+
+    it("render the select field with options included the disabled selected", () => {
+      const radiosRendered = radioComponent.find(FormControlLabel);
+
+      expect(radiosRendered).lengthOf(2);
+      expect(radioComponent.find(Radio)).lengthOf(2);
+      expect(radiosRendered.at(0).text()).to.be.equal("Yes");
+      expect(radiosRendered.at(1).text()).to.be.equal("No");
+    });
   });
 });
