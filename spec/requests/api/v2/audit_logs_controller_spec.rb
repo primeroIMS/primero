@@ -27,7 +27,7 @@ describe Api::V2::AuditLogsController, type: :request do
     )
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
 
-    @user_a = User.create!(
+    @user_a = User.create(
       full_name: 'Test User 1',
       user_name: 'test_user_a',
       password: 'a12345678',
@@ -37,7 +37,7 @@ describe Api::V2::AuditLogsController, type: :request do
       role: role
     )
 
-    @user_b = User.create!(
+    @user_b = User.create(
       full_name: 'Test User 2',
       user_name: 'test_user_2',
       password: 'b12345678',
@@ -47,14 +47,17 @@ describe Api::V2::AuditLogsController, type: :request do
       role: role
     )
 
-    @audit_log_a = AuditLog.create!(user: @user_a, action: 'login', timestamp: '2020-03-02T10:06:50-06:00', metadata: {
+    @audit_log_a = AuditLog.create!(user: @user_a, action: 'login', record_type: 'User', record_id: @user_a.id,
+                                    timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI1', mobile_number: '123-456-7890'
                                     })
-    @audit_log_b = AuditLog.create!(user: @user_b, timestamp: '2020-03-03T10:07:26-06:00')
-    @audit_log_c = AuditLog.create!(user: @user_b, action: 'login', timestamp: '2020-03-02T10:06:50-06:00', metadata: {
+    @audit_log_b = AuditLog.create!(user: @user_b, record_type: 'User', record_id: @user_b.id, timestamp: '2020-03-03T10:07:26-06:00')
+    @audit_log_c = AuditLog.create!(user: @user_b, action: 'login', record_type: 'User', record_id: @user_b.id,
+                                    timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI', mobile_number: '123-456-7890'
                                     })
-    @audit_log_d = AuditLog.create!(user: @user_b, action: 'login', timestamp: '2020-03-02T10:06:50-06:00', metadata: {
+    @audit_log_d = AuditLog.create!(user: @user_b, action: 'login', record_type: 'User', record_id: @user_b.id,
+                                    timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI2', mobile_number: '123-424-7890'
                                     })
   end
@@ -74,7 +77,7 @@ describe Api::V2::AuditLogsController, type: :request do
       log_a = json['data'].select { |al| al['id'] == @audit_log_a.id }.first
       expect(log_a['action']).to eq('login')
       expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
-                                           'identifier' => nil,
+                                           'identifier' => "User '#{@user_a.id}'",
                                            'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_a' } })
     end
 
@@ -100,7 +103,7 @@ describe Api::V2::AuditLogsController, type: :request do
       log_c = json['data'].select { |al| al['id'] == @audit_log_c.id }.first
       expect(log_c['action']).to eq('login')
       expect(log_c['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
-                                           'identifier' => nil,
+                                           'identifier' => "User '#{@user_b.id}'",
                                            'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_2' } })
     end
 
