@@ -81,8 +81,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_record(record)
-    # Do not write nested forms here
-    forms.reject(&:is_nested).each do |form|
+    forms.each do |form|
       write_record_form(record.short_id, record.data, form)
     end
   end
