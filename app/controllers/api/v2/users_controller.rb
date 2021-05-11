@@ -51,7 +51,7 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def load_user
-    @user = User.includes(:role).joins(:role).find(params[:id])
+    @user = User.includes(:role, :user_groups).joins(:role).find(params[:id])
   end
 
   def load_extended
