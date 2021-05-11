@@ -25,7 +25,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.media_src(*media_sources)
   policy.object_src(:none)
   policy.script_src(*self_sources)
-  policy.style_src(*self_sources)
+  policy.style_src(*self_sources + ['unsafe-inline'])
   policy.child_src(*self_sources)
   policy.frame_src(:none)
 
