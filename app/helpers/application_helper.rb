@@ -28,4 +28,10 @@ module ApplicationHelper
 
     file[0].to_json.html_safe
   end
+
+  def csp_property_meta_tag
+    if content_security_policy?
+      tag("meta", property: "csp-nonce", content: content_security_policy_nonce)
+    end
+  end
 end

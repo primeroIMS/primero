@@ -7,6 +7,7 @@
 return unless Rails.env.production?
 
 self_sources = %i[self https]
+
 media_sources =
   case ENV['PRIMERO_STORAGE_TYPE']
   when 'microsoft'
@@ -15,10 +16,12 @@ media_sources =
     self_sources
   end
 
+font_and_image_sources = self_sources + [:data]
+
 Rails.application.config.content_security_policy do |policy|
   policy.default_src(*self_sources)
-  policy.font_src(*self_sources)
-  policy.img_src(*media_sources)
+  policy.font_src(*font_and_image_sources)
+  policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
   policy.object_src(:none)
   policy.script_src(*self_sources)
@@ -32,6 +35,7 @@ end
 
 # If you are using UJS then enable automatic nonce generation
 Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
+Rails.application.config.content_security_policy_nonce_directives = %w(style-src script-src)
 
 # Report CSP violations to a specified URI
 # For further information see the following documentation:
