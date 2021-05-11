@@ -7,54 +7,25 @@ import omit from "lodash/omit";
 import reject from "lodash/reject";
 import max from "lodash/max";
 import get from "lodash/get";
-import orderBy from "lodash/orderBy";
-import { parse } from "date-fns";
 
 import { REPORT_FIELD_TYPES } from "../reports-form/constants";
 import { STRING_SOURCES_TYPES } from "../../config";
 
-import { DATE_PATTERN } from "./constants";
+import sortByDate from "./utils/sort-by-date";
+import formattedDate from "./utils/formatted-date";
+import { TOTAL } from "./constants";
 
 const getColors = () => {
-  return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue"];
+  return ["#e0dfd6", "#595951", "#bcbcab", "green", "red", "yellow", "blue", "orange", "skyblue", "brown"];
 };
 
 const getColorsByIndex = index => {
   return getColors()[index];
 };
 
-const isDateRange = date => date.match(new RegExp(`^${DATE_PATTERN} - ${DATE_PATTERN}$`));
-
-const getDateFormat = value => {
-  if (value.match(/^\w{3}-\d{4}$/)) {
-    return "MMM-yyyy";
-  }
-  if (value.match(new RegExp(`^${DATE_PATTERN}$`)) || isDateRange(value)) {
-    return "dd-MMM-yyyy";
-  }
-
-  return null;
-};
-
-const translateDate = (value, i18n, dateFormat) => {
-  if (isDateRange(value)) {
-    const splittedDateRange = value.split(" - ");
-    const dateFrom = parse(splittedDateRange[0], dateFormat, new Date());
-    const dateTo = parse(splittedDateRange[1], dateFormat, new Date());
-
-    const dateFromLocalized = dateFrom ? i18n.localizeDate(dateFrom, dateFormat) : i18n.l(value);
-    const dateToLocalized = dateTo ? i18n.localizeDate(dateTo, dateFormat) : i18n.l(value);
-
-    return `${dateFromLocalized} - ${dateToLocalized}`;
-  }
-  const date = parse(value, dateFormat, new Date());
-
-  return date ? i18n.localizeDate(date, dateFormat) : i18n.l(value);
-};
-
 const getColumnData = (column, data, i18n, qtyColumns, qtyRows) => {
   const totalLabel = i18n.t("report.total");
-  const keys = Object.keys(data);
+  const keys = sortByDate(Object.keys(data));
 
   if (qtyRows >= 2 && qtyColumns > 0) {
     const firstRow = keys;
@@ -125,16 +96,6 @@ const getTranslatedKey = (key, field, { agencies, i18n, locations } = {}) => {
   return key;
 };
 
-const sortByDate = (data, multiple = false) => {
-  return orderBy(
-    data,
-    curr => {
-      return new Date(multiple ? curr[0] : curr);
-    },
-    ["asc"]
-  );
-};
-
 const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, locations }) => {
   const totalLabel = i18n.t("report.total");
   const dataResults = [];
@@ -144,9 +105,11 @@ const dataSet = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, l
       : fields.shift();
 
   if (!isEmpty(columns)) {
-    columns.forEach((column, i) => {
+    sortByDate(columns).forEach((column, i) => {
+      const label = getTranslatedKey(column, field, { agencies, locations });
+
       dataResults.push({
-        label: getTranslatedKey(column, field, { agencies, locations }),
+        label: formattedDate(label, i18n),
         data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
         backgroundColor: getColorsByIndex(i)
       });
@@ -174,7 +137,13 @@ const getLabels = (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies,
 
   keys.forEach(key => {
     if (containsColumns(columns, data[key], i18n)) {
-      currentLabels.push(keys.filter(label => label !== totalLabel));
+      currentLabels.push(
+        keys
+          .map(current => {
+            return formattedDate(current, i18n);
+          })
+          .filter(label => label !== totalLabel)
+      );
     } else {
       currentLabels.concat(getLabels(columns, data[key], i18n, fields, qtyColumns, qtyRows, { agencies, locations }));
     }
@@ -236,11 +205,8 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        const dateFormat = getDateFormat(key); // Add regx to return format dd-mm-yyyy
-
-        const translation = dateFormat
-          ? { display_text: translateDate(key, i18n, dateFormat) }
-          : translations.find(t => t.id === key);
+        // NOTE: We are not translating dates here!
+        const translation = translations.find(currTranslation => currTranslation.id === key);
 
         const translatedKey = translation
           ? translation.display_text
@@ -302,13 +268,15 @@ const getColumnsObjects = (object, countRows) => {
 
 const getAllKeysObject = object => {
   const allKeys = (obj, prefix = "") => {
-    return Object.keys(obj).reduce((acc, el) => {
-      if (typeof obj[el] === "object") {
-        return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
-      }
+    return sortByDate(Object.keys(obj).filter(key => key !== TOTAL))
+      .concat(TOTAL)
+      .reduce((acc, el) => {
+        if (typeof obj[el] === "object") {
+          return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
+        }
 
-      return [...acc, prefix + el];
-    }, []);
+        return [...acc, prefix + el];
+      }, []);
   };
 
   return allKeys(object);
@@ -329,7 +297,7 @@ const cleanedKeys = (object, columns) => {
   );
 };
 
-const formatColumns = (formattedKeys, columns) => {
+const formatColumns = (formattedKeys, columns, i18n) => {
   const items = columns.map((column, index) => {
     const columnsHeading = i =>
       formattedKeys.map(c => {
@@ -338,7 +306,9 @@ const formatColumns = (formattedKeys, columns) => {
         return translateColumn(column, splitted[i]);
       });
 
-    const uniqueItems = uniq(columnsHeading(index).concat("Total"));
+    const uniqueItems = sortByDate(uniq(columnsHeading(index).concat(TOTAL))).map(columnHeading => {
+      return formattedDate(columnHeading, i18n);
+    });
 
     return {
       items: uniqueItems
@@ -359,7 +329,7 @@ const formatColumns = (formattedKeys, columns) => {
   });
 };
 
-const getColumnsTableData = data => {
+const getColumnsTableData = (data, i18n) => {
   if (isEmpty(data.report_data)) {
     return [];
   }
@@ -368,7 +338,7 @@ const getColumnsTableData = data => {
   const qtyRows = data.fields.filter(field => field.position.type === "horizontal").length;
   const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
   const cleaned = sortByDate(cleanedKeys(columnsObjects, columns));
-  const renderColumns = formatColumns(cleaned, columns).flat();
+  const renderColumns = formatColumns(cleaned, columns, i18n).flat();
 
   return renderColumns;
 };
@@ -387,7 +357,7 @@ const getRowsTableData = (data, i18n) => {
 
     if (qtyOfParentKeys >= 2) {
       accum.push([key, true, value._total || value.Total]);
-      const result = Object.keys(value)
+      const result = sortByDate(Object.keys(value))
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
           const childObject = getAllKeysObject(value[rowDisplayName]);
@@ -400,14 +370,22 @@ const getRowsTableData = (data, i18n) => {
         });
 
       // Set rest of keys
-      accum.push(...sortByDate(result, true));
+      const innerRows = [...sortByDate(result, true)].map(innerRow => {
+        const [enDate, ...enValues] = innerRow;
+        const dateOrExistingKey = formattedDate(enDate, i18n);
+
+        return [dateOrExistingKey, ...enValues];
+      });
+
+      accum.push(...innerRows);
     } else {
       const valuesAccesor = getAllKeysObject(value);
       const values = valuesAccesor
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(val => get(value, val));
+      const dateOrKey = formattedDate(key, i18n);
 
-      accum.push([key, false, ...values, value._total || value.Total]);
+      accum.push([dateOrKey, false, ...values, value._total || value.Total]);
     }
   });
 
@@ -450,7 +428,7 @@ export const buildDataForTable = (report, i18n, { agencies, locations }) => {
     fields
   };
 
-  const newColumns = getColumnsTableData(translatedReportWithAllFields);
+  const newColumns = getColumnsTableData(translatedReportWithAllFields, i18n);
   const newRows = getRowsTableData(translatedReportWithAllFields, i18n);
 
   const columns = newColumns;
