@@ -8,6 +8,5 @@ FormSection.create_or_update!(
   fields: [],
   name_en: 'Incidents',
   description_en: 'Incidents from case',
-  core_form: true,
-  is_first_tab: true
+  core_form: true
 )

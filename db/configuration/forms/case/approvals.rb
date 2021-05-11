@@ -8,6 +8,5 @@ FormSection.create_or_update!(
   fields: [],
   name_en: 'Approvals',
   description_en: 'Approvals',
-  core_form: true,
-  is_first_tab: true
+  core_form: true
 )

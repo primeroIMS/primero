@@ -9,6 +9,5 @@ FormSection.create_or_update!(
   fields: [],
   name_en: 'Transfer and Assignments',
   description_en: 'Transfer and Assignments',
-  core_form: true,
-  is_first_tab: true
+  core_form: true
 )

@@ -8,6 +8,5 @@ FormSection.create_or_update!(
   fields: [],
   name_en: 'Change Log',
   description_en: 'Change Log',
-  core_form: true,
-  is_first_tab: true
+  core_form: true
 )

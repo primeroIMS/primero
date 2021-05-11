@@ -7,6 +7,5 @@ FormSection.create_or_update!(
   form_group_id: 'tracing',
   fields: [],
   name_en: 'Summary',
-  description_en: 'Summary',
-  core_form: true
+  description_en: 'Summary'
 )
