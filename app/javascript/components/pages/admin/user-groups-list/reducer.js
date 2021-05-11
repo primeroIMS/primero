@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { DEFAULT_METADATA } from "../../../../config";
+import { validateMetadata } from "../utils";
 
 import actions from "./actions";
 
@@ -10,8 +11,11 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case actions.USER_GROUPS_STARTED:
       return state.set("loading", fromJS(payload)).set("errors", false);
-    case actions.USER_GROUPS_SUCCESS:
-      return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata));
+    case actions.USER_GROUPS_SUCCESS: {
+      const { data, metadata } = payload;
+
+      return state.set("data", fromJS(data)).set("metadata", validateMetadata(fromJS(metadata), DEFAULT_METADATA));
+    }
     case actions.USER_GROUPS_FAILURE:
       return state.set("errors", true).set("loading", false);
     case actions.USER_GROUPS_FINISHED:

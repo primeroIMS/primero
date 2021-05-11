@@ -7,6 +7,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
+import { useDialog } from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
@@ -17,8 +18,10 @@ import { usePermissions } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
+import { NAME as TranslationsFormName } from "../../../translations-dialog/constants";
+import TranslationsDialog from "../../../translations-dialog";
+import { buildLocaleFields, localesToRender } from "../../../translations-dialog/utils";
 
-import { localizeData, translateFields } from "./utils";
 import { NAME, FORM_ID } from "./constants";
 import { form, validations } from "./form";
 import { fetchAgency, clearSelectedAgency, saveAgency } from "./action-creators";
@@ -31,6 +34,7 @@ const Container = ({ mode }) => {
   const { pathname } = useLocation();
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
+  const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
   const agency = useMemoizedSelector(state => getAgency(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
@@ -38,25 +42,20 @@ const Container = ({ mode }) => {
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = validations(formMode, i18n);
+  const validationSchema = validations(i18n);
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
 
+  const registeredFields = buildLocaleFields(localesToRender(i18n.applicationLocales));
+
   const handleSubmit = data => {
-    const localizedData = localizeData(data, ["name", "description"], i18n);
-
-    if (formMode.get("isNew")) {
-      localizedData.name = {
-        en: "No translation provided",
-        ...localizedData.name
-      };
-    }
-
     dispatch(
       saveAgency({
         id,
         saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
-        body: { data: localizedData },
+        body: {
+          data: formMode.get("isNew") ? { ...data, name: { en: "No translation provided", ...data.name } } : data
+        },
         message: i18n.t(`agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
     );
@@ -69,6 +68,8 @@ const Container = ({ mode }) => {
   const handleCancel = () => {
     dispatch(push(ROUTES.admin_agencies));
   };
+
+  const onManageTranslations = () => setDialog({ dialog: TranslationsFormName, open: true });
 
   useEffect(() => {
     if (isEditOrShow) {
@@ -84,6 +85,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.get("isEdit") || formMode.get("isNew")) && (
     <>
+      <FormAction actionHandler={onManageTranslations} text={i18n.t("agencies.translations.manage")} />
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         options={{ form: FORM_ID, type: "submit", hide: limitedProductionSite }}
@@ -130,8 +132,18 @@ const Container = ({ mode }) => {
           formSections={form(i18n, formMode)}
           onSubmit={handleSubmit}
           validations={validationSchema}
-          initialValues={translateFields(selectedAgency, ["name", "description"], i18n)}
+          registerFields={registeredFields}
+          initialValues={selectedAgency}
           formErrors={formErrors}
+          renderBottom={formMethods =>
+            dialogOpen && (
+              <TranslationsDialog
+                dialogTitle={i18n.t("reports.translations.edit")}
+                formMethods={formMethods}
+                mode={mode}
+              />
+            )
+          }
         />
       </PageContent>
     </LoadingIndicator>

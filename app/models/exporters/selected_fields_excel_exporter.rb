@@ -55,15 +55,17 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
   def constrain_forms_and_fields(records, user, options)
     forms = forms_to_export(records, user)
     field_names = fields_to_export(forms, options).map(&:name)
-    self.forms = forms.map do |form|
-      form_dup = form.dup
-      form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }.map(&:dup)
-      form_dup
-    end
+    self.forms = forms.map { |form| filter_fields(form, field_names) }
     self.forms = self.forms.select { |f| f.fields.size.positive? }
   end
 
   private
+
+  def filter_fields(form, field_names)
+    form_dup = form.dup
+    form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }.map(&:dup)
+    form_dup
+  end
 
   def selected_fields_form(fields)
     form = FormSection.new(

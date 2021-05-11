@@ -37,9 +37,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def build_worksheets_with_headers
     return if worksheets.present?
 
-    forms.each do |form|
-      build_worksheet_with_headers(form)
-    end
+    forms.each { |form| build_worksheet_with_headers(form) }
   end
 
   def build_worksheet_with_headers(form)
@@ -93,30 +91,43 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     # Do not write data if already written for this form
     return if worksheets[form.unique_id][:written] == true
 
-    worksheet = worksheets[form.unique_id][:worksheet]
-    worksheet&.write(worksheets[form.unique_id][:row], 0, id)
-    form.fields.each_with_index do |field, i|
-      if field.type == Field::SUBFORM
-        data[field.name]&.each do |subform_data|
-          write_record_form(id, subform_data, field.subform)
-        end
-      else
-        value = export_field_value(data, form, field)
-        worksheet&.write(worksheets[form.unique_id][:row], i + 1, value)
-      end
-    end
+    rows_written = write_record_row(id, data, form)
     worksheets[form.unique_id][:written] = true
-    worksheets[form.unique_id][:row] += 1
+    worksheets[form.unique_id][:row] += rows_written
   end
 
-  def export_field_value(data, form, field)
-    return export_value(data[field.name], field) unless field.nested? && !form.is_nested
+  def write_record_row(id, data, form)
+    worksheet = worksheets[form.unique_id][:worksheet]
+    values, rows_to_write = field_values(data, form)
+    ([id] + values).each_with_index { |value, column| write_value(worksheet, form, value, column, rows_to_write) }
+    form.subform_fields.each { |field| write_record_form(id, data, field.subform) }
+    rows_to_write
+  end
+
+  def field_values(data, form)
+    field_values = []
+    rows_to_write = 1
+    form.non_subform_fields.each do |field|
+      value = export_field_value(data, field)
+      field_values << value
+      rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
+    end
+    [field_values, rows_to_write]
+  end
+
+  def export_field_value(data, field)
+    return export_value(data[field.name], field) unless field.nested?
 
     values = []
     data[field&.form_section&.unique_id]&.each do |section|
       values << export_value(section[field.name], field)
     end
-    values.join(', ')
+    values
+  end
+
+  def write_value(worksheet, form, value, column, rows_to_write)
+    value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
+    value_array.each_with_index { |val, i| worksheet&.write((worksheets[form.unique_id][:row] + i), column, val) }
   end
 
   def worksheets_reset_written
@@ -126,9 +137,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def export_value(value, field)
     value = super(value, field)
     # TODO: This will cause N+1 issue
-    return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s) if field.name == 'created_organization' && value.present?
+    if field.name == 'created_organization' && value.present?
+      return Agency.get_field_using_unique_id(value, :name_i18n).dig(locale.to_s)
+    end
 
-    return value unless value.is_a? Array
+    return value unless value.is_a?(Array)
 
     value.join(' ||| ')
   end
