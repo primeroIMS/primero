@@ -107,7 +107,7 @@ class Location < ApplicationRecord
   def ancestors
     return [] if country?
 
-    @ancestors ||= Location.where(location_code: hierarchy)
+    @ancestors ||= Location.where(location_code: hierarchy).order(admin_level: :asc)
   end
 
   def ancestor(admin_level)
