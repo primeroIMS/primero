@@ -21,12 +21,12 @@ module Exporters
                                order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'Case Form 3',
                                unique_id: 'cases_test_form_3')
 
-      form_a.fields << Field.new(name: 'subform_field_2', type: Field::SUBFORM, display_name: 'subform field',
+      form_a.fields << Field.new(name: subform.name, type: Field::SUBFORM, display_name: 'subform field',
                                  subform_section_id: subform.id)
       form_a.save!
       #### Build Form Section with subforms fields only ######
 
-      #### Build Form Section with none subforms fields ######
+      #### Build Form Section with no subforms fields ######
       form_b = FormSection.new(name: 'cases_test_form_2', parent_form: 'case', visible: true,
                                order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'Case Form 2',
                                unique_id: 'cases_test_form_2')
@@ -59,9 +59,9 @@ module Exporters
                                unique_id: 'cases_test_form_1')
       form_c.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
       form_c.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
-      form_c.fields << Field.new(name: 'subform_field_1', type: Field::SUBFORM, display_name: 'subform field',
+      form_c.fields << Field.new(name: 'cases_test_subform_1', type: Field::SUBFORM, display_name: 'subform field',
                                  subform_section_id: subform1.id)
-      form_c.fields << Field.new(name: 'subform_field_3', type: Field::SUBFORM, display_name: 'subform 3 field',
+      form_c.fields << Field.new(name: 'cases_test_subform_3', type: Field::SUBFORM, display_name: 'subform 3 field',
                                  subform_section_id: subform3.id)
       form_c.save!
       #### Build Form Section with subforms fields and others kind of fields ######
@@ -82,42 +82,60 @@ module Exporters
       @records = [create(:child, id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
                                  relationship: 'Mother', array_field: %w[option_1 option_2],
                                  arabic_text: "لدّفاع", arabic_array: ["النفط", "المشتّتون"],
-                                 subform_field_1: [{ unique_id: '1', field_1: 'field_1 value',
-                                                     field_2: 'field_2 value' }],
-                                 subform_field_2: [{ unique_id: '2', field_3: 'field_3 value',
-                                                     field_4: 'field_4 value' }],
-                                 subform_field_3: [{ unique_id: '3', field_5: 'field_5 value',
-                                                     field_6: 'field_6 value' }])]
+                                 cases_test_subform_1: [
+                                   { unique_id: '1', field_1: 'field_1 value', field_2: 'field_2 value' }
+                                 ],
+                                 cases_test_subform_2: [
+                                   { unique_id: '2', field_3: 'field_3 value', field_4: 'field_4 value' },
+                                   { unique_id: '22', field_3: 'field_3 value2', field_4: 'field_4 value2' }
+                                 ],
+                                 cases_test_subform_3: [
+                                   { unique_id: '3', field_5: 'field_5 value', field_6: 'field_6 value' },
+                                   { unique_id: '33', field_5: 'field_5 value2', field_6: 'field_6 value2' },
+                                   { unique_id: '333', field_5: 'field_5 value3', field_6: 'field_6 value3' }
+                                 ])]
       @record_id = Child.last.short_id
     end
 
-    it 'converts data to Excel format' do
-      data = ExcelExporter.export(@records, @user)
-      book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
-      sheet = book.sheet(book.sheets.first)
+    describe 'Export' do
+      let(:workbook) do
+        data = ExcelExporter.export(@records, @user)
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
 
-      expect(sheet.row(1)).to eq(%w[ID field_3 field_4])
-      expect(sheet.row(2)).to eq([@record_id, 'field_3 value', 'field_4 value'])
+      it 'contains a worksheet for each form and subform' do
+        expect(workbook.sheets.size).to eq(6)
+        expect(workbook.sheets).to match_array(['cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
+                                                'cases_test_subform_1', 'cases_test_subform_3', 'Test Arabic   .'])
+      end
 
-      sheet = book.sheet(1)
-      expect(sheet.row(1)).to eq(%w[ID relationship array_field])
-      expect(sheet.row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+      it 'prints a header for each form and subform' do
+        expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
+        expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
+        expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name])
+        expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
+        expect(workbook.sheet(4).row(1)).to eq(%w[ID field_5 field_6])
+        expect(workbook.sheet(5).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
+      end
 
-      sheet = book.sheet(2)
-      expect(sheet.row(1)).to eq(%w[ID first_name last_name])
-      expect(sheet.row(2)).to eq([@record_id, 'John', 'Doe'])
+      it 'exports record values for regular forms' do
+        expect(workbook.sheet(1).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'John', 'Doe'])
+      end
 
-      sheet = book.sheet(3)
-      expect(sheet.row(1)).to eq(%w[ID field_1 field_2])
-      expect(sheet.row(2)).to eq([@record_id, 'field_1 value', 'field_2 value'])
+      it 'exports record values for each instance of subforms' do
+        expect(workbook.sheet(0).last_row).to eq(3)
+        expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
+        expect(workbook.sheet(0).row(3)).to eq([@records[0].short_id, 'field_3 value2', 'field_4 value2'])
 
-      sheet = book.sheet(4)
-      expect(sheet.row(1)).to eq(%w[ID field_5 field_6])
-      expect(sheet.row(2)).to eq([@record_id, 'field_5 value', 'field_6 value'])
+        expect(workbook.sheet(3).last_row).to eq(2)
+        expect(workbook.sheet(3).row(2)).to eq([@record_id, 'field_1 value', 'field_2 value'])
 
-      # Arabic form.
-      sheet = book.sheet(5)
-      expect(sheet.row(1)).to eq(['ID', 'arabic text', 'arabic array'])
+        expect(workbook.sheet(4).last_row).to eq(4)
+        expect(workbook.sheet(4).row(2)).to eq([@record_id, 'field_5 value', 'field_6 value'])
+        expect(workbook.sheet(4).row(3)).to eq([@record_id, 'field_5 value2', 'field_6 value2'])
+        expect(workbook.sheet(4).row(4)).to eq([@record_id, 'field_5 value3', 'field_6 value3'])
+      end
     end
   end
 end
