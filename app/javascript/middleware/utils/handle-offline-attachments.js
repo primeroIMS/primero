@@ -1,4 +1,5 @@
 import isEqual from "date-fns/isEqual";
+import merge from "deepmerge";
 
 import { syncIndexedDB } from "../../db";
 import { getAttachmentFields } from "../../components/record-form";
@@ -6,20 +7,9 @@ import { getAttachmentFields } from "../../components/record-form";
 export const buildDBPayload = async (store, action) => {
   const { db, id, body } = action.api;
   const handledBody = { data: { ...body.data } };
-
-  const attachmentFields = getAttachmentFields(store.getState()).toSet();
   const recordDB = await syncIndexedDB({ ...db, id }, {}, "find");
 
-  attachmentFields.forEach(field => {
-    const dbAttachments = recordDB.data[field] || [];
-    const bodyAttachments = handledBody.data[field] || [];
-
-    if (bodyAttachments.length) {
-      handledBody.data[field] = dbAttachments.concat(bodyAttachments);
-    }
-  });
-
-  return handledBody;
+  return merge(recordDB, handledBody);
 };
 
 export const skipSyncedAttachments = async (store, action) => {
