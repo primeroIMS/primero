@@ -1,4 +1,6 @@
+import sortBy from "lodash/sortBy";
 import first from "lodash/first";
+import isUndefined from "lodash/isUndefined";
 
 import { dataToJS, displayNameHelper } from "../../../../libs";
 import { INDICATOR_NAMES } from "../constants";
@@ -29,14 +31,7 @@ export default (data, localeLabels, locale) => {
       .reduce((acum, value) => {
         return [...acum, { name: value, label: translateSingleLabel(value, localeLabels, locale) }];
       }, [])
-      .filter(column => typeof column.label !== "undefined")
-      .sort((a, b) => {
-        const workflowOrder = localeLabels?.map(localeLabel => localeLabel.id);
-        const indexa = workflowOrder.indexOf(a?.name);
-        const indexb = workflowOrder.indexOf(b?.name);
-
-        return indexa - indexb;
-      });
+      .filter(column => !isUndefined(column.label));
 
     const { "": removed, ...rows } = indicatorData;
 
@@ -53,7 +48,20 @@ export default (data, localeLabels, locale) => {
     }, []);
 
     return {
-      columns,
+      columns: sortBy(columns, item => {
+        const labels = localeLabels.map(({ id }) => id);
+        const index = labels.indexOf(item.name);
+
+        if (item.name === "") {
+          return -1;
+        }
+
+        if (!labels.includes(item.name)) {
+          return 0;
+        }
+
+        return index + 1;
+      }),
       data: getFormattedList(values, "count"),
       query: getFormattedList(values, "query")
     };
