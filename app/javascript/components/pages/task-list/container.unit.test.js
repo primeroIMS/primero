@@ -207,7 +207,7 @@ describe("<TaskList />", () => {
 
     // Simulating click on the first row (type=service) should dispatch an action
     firstRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(3);
+    expect(component.props().store.getActions()).to.have.lengthOf(2);
     expect(component.props().store.getActions()[1]).to.deep.equals({
       ...expectedType,
       payload: "cp_incident_record_owner"
