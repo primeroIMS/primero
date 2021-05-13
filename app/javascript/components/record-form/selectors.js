@@ -5,6 +5,8 @@ import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { MODULES, RECORD_TYPES } from "../../config";
 import generateKey from "../charts/table-values/utils";
+import { FieldRecord } from "../form";
+import { OPTION_TYPES } from "../form/constants";
 
 import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
 import { NavRecord, FormSectionRecord } from "./records";
@@ -276,11 +278,18 @@ export const getFieldsWithNames = (state, names) =>
     .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
 
 export const getMiniFormFields = (state, recordType, primeroModule, exclude = []) => {
-  const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false });
+  const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 
   return (recordForms || fromJS([]))
     .flatMap(form => form.get("fields"))
-    .filter(field => field.show_on_minify_form && !exclude.includes(field.name));
+    .filter(field => field.show_on_minify_form && !exclude.includes(field.name))
+    .map(field => {
+      const fieldRecord = FieldRecord(field);
+
+      return fieldRecord.get("option_strings_source") === OPTION_TYPES.AGENCY
+        ? fieldRecord.set("option_strings_source_id_key", "unique_id")
+        : fieldRecord;
+    });
 };
 
 export const getDataProtectionInitialValues = state =>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
@@ -22,7 +22,7 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const commonFieldNames = Object.values(COMMON_FIELD_NAMES);
   const commonFields = useMemoizedSelector(state => getFieldsWithNames(state, commonFieldNames));
   const miniFormFields = useMemoizedSelector(state =>
-    getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames)
+    getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames, true)
   );
   const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
@@ -50,7 +50,10 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
     caseId
   };
 
-  const initialValues = (currentRecord || fromJS({})).reduce((acc, value, key) => ({ ...acc, [key]: value }), {});
+  const initialValues = (currentRecord || fromJS({})).reduce(
+    (acc, value, key) => ({ ...acc, [key]: value instanceof List ? [...value] : value }),
+    {}
+  );
 
   const onSubmit = () => {};
 
