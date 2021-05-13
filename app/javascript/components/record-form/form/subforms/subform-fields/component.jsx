@@ -126,7 +126,12 @@ const Component = ({
     return (
       <>
         {sortedValues.map((sortedValue, index) => {
-          if (values?.[index]?._destroy || isEmpty(sortedValue)) {
+          if (
+            values?.[index]?._destroy ||
+            isEmpty(sortedValue) ||
+            // eslint-disable-next-line camelcase
+            (values?.[index]?._hidden && field?.subform_section_configuration?.display_conditions)
+          ) {
             return false;
           }
 
