@@ -2,6 +2,8 @@
 import { fetchRecord } from "../records";
 import { RECORD_PATH, REJECTED } from "../../config";
 
+// TODO: Should redirect to case (show) in senarios where user still has access. Is user a manager.
+// Is user has group or agency access. Or other existing transfer request/referral for this case.
 export const fetchRecordCallback = ({ recordType, recordId, approvalType = null }) => {
   const callback = fetchRecord(recordType, recordId, true);
 
