@@ -16,7 +16,7 @@ import {
   DATE_FIELD,
   TICK_FIELD
 } from "./constants";
-import { valuesWithDisplayConditions } from "./form/subforms/subform-field-array/utils";
+import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
 
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
@@ -136,7 +136,6 @@ export const getRedirectPath = (mode, params, fetchFromCaseId) => {
 
 export const sortSubformValues = (record, formMap) => {
   const [...forms] = formMap;
-
   const subformsWithConfiguration = forms.reduce((acc, curr) => {
     const fields = curr.fields.filter(field => field.type === SUBFORM_SECTION && field.subform_section_configuration);
 
@@ -151,7 +150,7 @@ export const sortSubformValues = (record, formMap) => {
       const displayConditions = subformSectionConfiguration?.display_conditions;
       const subformSortBy = subformSectionConfiguration?.subform_sort_by;
 
-      const values = valuesWithDisplayConditions(storedValues, displayConditions);
+      const values = valuesWithHiddenAttribute(storedValues, displayConditions);
       const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
 
       return { ...acc, [subform.name]: orderedValues };
