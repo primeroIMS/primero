@@ -222,6 +222,12 @@ describe Location do
       it 'returns all ancestor locations' do
         expect(@town1.ancestors.map(&:location_code)).to match_array(%w[MC01 PR01 TW01])
       end
+      it 'returns the ancestor in asc order' do
+        ancestors_location_code = @town1.ancestors.map(&:location_code)
+        expect(ancestors_location_code[0]).to eq('MC01')
+        expect(ancestors_location_code[1]).to eq('PR01')
+        expect(ancestors_location_code[2]).to eq('TW01')
+      end
     end
 
     describe '.ancestor_by_type' do

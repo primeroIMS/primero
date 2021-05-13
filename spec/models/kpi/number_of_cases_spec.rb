@@ -27,6 +27,15 @@ describe Kpi::NumberOfCases, search: true do
       admin_level: 2
     )
 
+    @manchester = Location.create!(
+      location_code: '40',
+      name: 'Manchester',
+      placename: 'Manchester',
+      type: 'County',
+      hierarchy_path: 'GBR.01.40',
+      admin_level: 2
+    )
+
     Child.create!(data: {
                     module_id: PrimeroModule::GBV,
                     owned_by_location: @london.location_code,
@@ -41,7 +50,22 @@ describe Kpi::NumberOfCases, search: true do
                     created_at: DateTime.parse('2020/10/01')
                   })
 
+    Child.create!(data: {
+                    module_id: PrimeroModule::GBV,
+                    owned_by_location: @manchester.location_code,
+                    owned_by_groups: [group3],
+                    created_at: DateTime.parse('2020/11/01')
+                  })
+
     Sunspot.commit
+  end
+
+  describe 'Performance' do
+    it 'should only use two queries' do
+      kpi = Kpi::NumberOfCases.new(from, to, [group1, group3])
+
+      expect { kpi.to_json }.to make_queries(1)
+    end
   end
 
   with 'No cases' do

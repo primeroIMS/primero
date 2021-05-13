@@ -21,7 +21,7 @@ const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
 
   if (overrideCondition || !online) {
     return (
-      <Tooltip title={i18n.t(offlineTextKey || "offline")}>
+      <Tooltip title={i18n.t(offlineTextKey || "offline")} enterTouchDelay={20}>
         <div className={classes}>
           {!button && <div className={css.disabledElement} />}
           {cloneElement(children, { disabled: true })}

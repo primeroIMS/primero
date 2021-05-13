@@ -15,8 +15,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - su
         "subform_section.name.en",
         "subform_section.description.en",
         "subform_section.subform_append_only",
-        "subform_section.subform_prevent_item_removal",
-        "subform_section.starts_with_one_entry"
+        "subform_section.subform_prevent_item_removal"
       ]);
     });
 

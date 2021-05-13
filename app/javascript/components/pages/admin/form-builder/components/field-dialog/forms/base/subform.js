@@ -26,12 +26,6 @@ export const subformFields = ({ i18n, limitedProductionSite }) => ({
     name: "subform_section.subform_prevent_item_removal",
     type: TICK_FIELD,
     disabled: limitedProductionSite
-  }),
-  starts_with_one_entry: FieldRecord({
-    display_name: i18n.t("fields.subform_section.starts_with_one_entry"),
-    name: "subform_section.starts_with_one_entry",
-    type: TICK_FIELD,
-    disabled: limitedProductionSite
   })
 });
 
