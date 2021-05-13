@@ -89,15 +89,7 @@ const Component = ({
     approvalType === REJECTED ? (
       <>
         <FormLabel component="legend">{i18n.t(`${recordType}.transfer_reject_reason_label`)}</FormLabel>
-        <TextField
-          id="outlined-multiline-static"
-          label=""
-          multiline
-          rows="4"
-          defaultValue=""
-          variant="outlined"
-          onChange={handleChangeComment}
-        />
+        <TextField label="" multiline rows="4" defaultValue="" fullWidth onChange={handleChangeComment} />
       </>
     ) : null;
 

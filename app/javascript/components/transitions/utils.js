@@ -1,9 +1,19 @@
 /* eslint-disable import/prefer-default-export */
 import { fetchRecord } from "../records";
-import { RECORD_PATH } from "../../config";
+import { RECORD_PATH, REJECTED } from "../../config";
 
-export const fetchRecordCallback = ({ recordType, recordId }) => {
+// TODO: Should redirect to case (show) in senarios where user still has access. Is user a manager.
+// Is user has group or agency access. Or other existing transfer request/referral for this case.
+export const fetchRecordCallback = ({ recordType, recordId, approvalType = null }) => {
   const callback = fetchRecord(recordType, recordId, true);
+
+  if (approvalType === REJECTED) {
+    return {
+      action: `${recordType}/REDIRECT`,
+      redirectWithIdFromResponse: false,
+      redirect: `/${RECORD_PATH.cases}`
+    };
+  }
 
   return {
     ...callback,
