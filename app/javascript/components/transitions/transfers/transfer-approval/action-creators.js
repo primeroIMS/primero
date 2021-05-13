@@ -27,7 +27,7 @@ export const approvalTransfer = ({ body, message, failureMessage, recordId, reco
         {
           action: CLEAR_DIALOG
         },
-        fetchRecordCallback({ recordId, recordType })
+        fetchRecordCallback({ recordId, recordType, approvalType: body?.data?.status })
       ],
       failureCallback: [
         {
