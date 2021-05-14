@@ -36,7 +36,12 @@ export const getColumns = (columns, locationTypes) => {
       ...{
         ...(column.name === COLUMNS.TYPE
           ? {
-              customBodyRender: value => locationTypes.find(locationType => locationType.id === value).display_text
+              customBodyRender: value => {
+                // eslint-disable-next-line camelcase
+                const valueDisplayText = locationTypes.find(locationType => locationType.id === value)?.display_text;
+
+                return valueDisplayText || value;
+              }
             }
           : {})
       }
