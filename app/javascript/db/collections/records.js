@@ -1,4 +1,5 @@
-import { compact } from "lodash";
+import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
 import merge from "deepmerge";
 
 import DB from "../db";
@@ -17,28 +18,29 @@ const Records = {
     const { incident_case_id: caseID } = data;
     const caseRecord = await Records.find({ collection: "records", db: { id: caseID } });
 
-    if (caseRecord) {
-      const { id, ...incidentData } = data;
-      // eslint-disable-next-line camelcase
-      const caseIncidentDetails = caseRecord?.data?.incident_details;
-      const incidentDetails = [...(caseIncidentDetails || [])];
-      const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
-      const parsedIncident = { unique_id: id, ...incidentData };
+    if (isEmpty(caseRecord?.data)) {
+      return;
+    }
+    const { id, ...incidentData } = data;
+    // eslint-disable-next-line camelcase
+    const caseIncidentDetails = caseRecord?.data?.incident_details;
+    const incidentDetails = [...(caseIncidentDetails || [])];
+    const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
+    const parsedIncident = { unique_id: id, ...incidentData };
 
-      if (incidentIndex === -1) {
-        incidentDetails.push(parsedIncident);
-      } else {
-        incidentDetails[incidentIndex] = merge(incidentDetails[incidentIndex], parsedIncident, {
-          arrayMerge: subformAwareMerge
-        });
-      }
-
-      await Records.save({
-        collection: "records",
-        recordType: "cases",
-        json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+    if (incidentIndex === -1) {
+      incidentDetails.push(parsedIncident);
+    } else {
+      incidentDetails[incidentIndex] = merge(incidentDetails[incidentIndex], parsedIncident, {
+        arrayMerge: subformAwareMerge
       });
     }
+
+    await Records.save({
+      collection: "records",
+      recordType: "cases",
+      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+    });
   },
 
   save: async ({ collection, json, recordType }) => {
