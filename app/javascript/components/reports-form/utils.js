@@ -1,6 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import isString from "lodash/isString";
 import { format } from "date-fns";
+import uniqBy from "lodash/uniqBy";
 
 import { displayNameHelper } from "../../libs";
 import { AGE_MAX, DATE_FORMAT } from "../../config";
@@ -13,14 +14,14 @@ export const getFormName = selectedRecordType => {
   return /(\w*reportable\w*)$/.test(selectedRecordType) ? REPORTABLE_TYPES[selectedRecordType] : "";
 };
 
-export const buildFields = (data, locale, isReportable) => {
+export const buildFields = (data, locale, isReportable, minimumReportableFields) => {
   if (isReportable) {
-    if (data.isEmpty()) {
+    if (isEmpty(data)) {
       return [];
     }
     const formSection = displayNameHelper(data.get("name"), locale);
 
-    return data.get("fields").reduce(
+    const result = data.get("fields").reduce(
       (prev, current) => [
         ...prev,
         {
@@ -35,6 +36,8 @@ export const buildFields = (data, locale, isReportable) => {
       ],
       []
     );
+
+    return minimumReportableFields ? result.concat(Object.values(minimumReportableFields).flat()) : result;
   }
 
   return data.reduce((acc, form) => {
@@ -104,7 +107,7 @@ export const formatReport = report => {
   }, {});
 };
 
-export const formattedFields = (formSections, modules, recordType, locale) => {
+export const formattedFields = (formSections, modules, recordType, locale, minimumReportableFields) => {
   const formsByModuleAndRecordType = formSections.filter(formSection =>
     Array.isArray(modules)
       ? formSection.get("module_ids").some(mod => modules.includes(mod))
@@ -121,7 +124,7 @@ export const formattedFields = (formSections, modules, recordType, locale) => {
         ?.getIn([0, "fields", 0, "subform_section_id"])
     : [];
 
-  return buildFields(formName ? reportableForm : recordTypesForms, locale, Boolean(formName));
+  return buildFields(formName ? reportableForm : recordTypesForms, locale, Boolean(formName), minimumReportableFields);
 };
 
 export const checkValue = filter => {
@@ -144,4 +147,32 @@ export const buildUserModules = userModules => {
 
     return current;
   }, []);
+};
+
+export const buildMinimumReportableFields = (i18n, forms, fieldsByParentForm) => {
+  const result = Object.entries(fieldsByParentForm).reduce((accumulator, current) => {
+    const [key, fields] = current;
+
+    const filteredForms = forms.filter(form => form.get("parent_form") === key);
+
+    const onlyFields = filteredForms.map(filteredForm => {
+      return filteredForm.fields
+        .filter(field => fields.includes(field.name))
+        .map(field => {
+          return {
+            id: field.get("name"),
+            display_text: displayNameHelper(field.get("display_name"), i18n.locale),
+            formSection: i18n.t("minimum_reportable_fields", { record_type: key }),
+            type: field.get("type"),
+            option_strings_source: field.get("option_strings_source")?.replace(/lookup /, ""),
+            option_strings_text: field.get("option_strings_text"),
+            tick_box_label: field.getIn(["tick_box_label", i18n.locale])
+          };
+        });
+    });
+
+    return { ...accumulator, [key]: [...uniqBy(onlyFields.toJS().flat(), "id")] };
+  }, {});
+
+  return result;
 };

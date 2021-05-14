@@ -39,7 +39,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
-import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
+import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -57,6 +57,14 @@ const Container = ({ mode }) => {
   const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
+
+  const minimumReportableFields = {
+    case: ["status", "sex", "risk_level", "owned_by_agency_id", "owned_by", "workflow", "workflow_status"],
+    incident: ["record_state", "sex", "status", "incident_date_derived"],
+    tracing_request: ["record_state", "status", "inquiry_date"]
+  };
+
+  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms, minimumReportableFields);
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
@@ -117,7 +125,13 @@ const Container = ({ mode }) => {
     );
   };
 
-  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), formMode.isNew, userModules);
+  const formSections = form(
+    i18n,
+    formatAgeRange(primeroAgeRanges),
+    formMode.isNew,
+    userModules,
+    formattedMinimumReportableFields
+  );
   const validationSchema = validations(i18n);
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
