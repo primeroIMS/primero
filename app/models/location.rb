@@ -44,6 +44,10 @@ class Location < ApplicationRecord
       end
     end
 
+    def permitted_api_params
+      %i[id code admin_level type parent_code disabled] + [placename: {}]
+    end
+
     def inheritance_column
       'type_inheritance'
     end
@@ -67,6 +71,21 @@ class Location < ApplicationRecord
       return all if params.blank?
 
       where(params)
+    end
+
+    def update_in_batches(bulk_params)
+      locations_to_update = bulk_params.reduce({}) { |acc, elem| acc.merge(elem[:id].to_i => elem) }
+
+      updated_locations = []
+      Location.transaction do
+        Location.where(id: locations_to_update.keys).in_batches.each_record do |location|
+          location.update_properties(locations_to_update[location.id])
+          location.save!
+          updated_locations << location
+        end
+      end
+
+      updated_locations
     end
   end
 

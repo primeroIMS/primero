@@ -41,6 +41,13 @@ class Api::V2::LocationsController < ApplicationApiController
     @location.destroy!
   end
 
+  def update_bulk
+    authorize! :update, Location
+    @locations = Location.update_in_batches(location_bulk_params)
+    @total = @locations.size
+    render :index
+  end
+
   def per
     @per ||= (params[:per]&.to_i || 100)
   end
@@ -54,7 +61,11 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def location_params
-    params.require(:data).permit(:id, :code, :admin_level, :type, :parent_code, placename: {})
+    params.require(:data).permit(Location.permitted_api_params)
+  end
+
+  def location_bulk_params
+    params.permit(data: Location.permitted_api_params).require(:data)
   end
 
   def importer

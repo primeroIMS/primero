@@ -30,13 +30,15 @@ const Component = ({
 
   const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords;
 
-  const selectedRecordsMessage = i18n.t(`${recordType}.selected_records`, {
+  const recordTypeLabel = Array.isArray(recordType) ? recordType.join(".") : recordType;
+
+  const selectedRecordsMessage = i18n.t(`${recordTypeLabel}.selected_records`, {
     select_records: allRecordsSelected ? totalRecords : selectedRows?.data.length
   });
 
   const selectAllMessage = allRecordsSelected
     ? i18n.t("buttons.clear_selection")
-    : i18n.t(`${recordType}.selected_all_records`, {
+    : i18n.t(`${recordTypeLabel}.selected_all_records`, {
         total_records: totalRecords
       });
 
@@ -113,7 +115,7 @@ Component.propTypes = {
   fetchRecords: PropTypes.func,
   page: PropTypes.number,
   perPage: PropTypes.number,
-  recordType: PropTypes.string,
+  recordType: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   selectedFilters: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   selectedRecords: PropTypes.object,
   selectedRows: PropTypes.object,
