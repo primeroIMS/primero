@@ -126,6 +126,7 @@
     "react-router-navigation-prompt": "^1.8.11",
     "react-svg-loader": "^3.0.3",
     "react-test-renderer": "^16.13.1",
+    "react-window": "^1.8.6",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.0.5",
     "redux-immutable": "^4.0.0",

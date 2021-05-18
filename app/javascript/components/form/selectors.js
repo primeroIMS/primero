@@ -16,7 +16,7 @@ import { GROUP_PERMISSIONS } from "../../libs/permissions";
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { get, buildRoleOptions } from "./utils";
 
-const referToUsers = (state, { currRecord }) =>
+const referToUsers = (state, { currRecord, fullUsers = false }) =>
   state
     .getIn(["records", "transitions", "referral", "users"], fromJS([]))
     .reduce((prev, current) => {
@@ -34,7 +34,8 @@ const referToUsers = (state, { currRecord }) =>
         ...prev,
         {
           id: userName.toLowerCase(),
-          display_text: userName
+          display_text: userName,
+          ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
         }
       ];
     }, [])

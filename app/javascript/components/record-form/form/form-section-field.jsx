@@ -16,10 +16,13 @@ import {
   LINK_TO_FORM
 } from "../constants";
 import Tooltip from "../../tooltip";
-import { ConditionalWrapper, displayNameHelper } from "../../../libs";
+import { ConditionalWrapper, displayNameHelper, useMemoizedSelector } from "../../../libs";
+import { getOptions } from "../../form/selectors";
+import { OPTION_TYPES } from "../../form";
+import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 
 import { GuidingQuestions } from "./components";
-import { FORM_SECTION_FIELD_NAME } from "./constants";
+import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./field-types/date-field";
 import SelectField from "./field-types/select-field";
 import TextField from "./field-types/text-field";
@@ -45,7 +48,6 @@ const FormSectionField = ({
 }) => {
   const css = useStyles();
   const i18n = useI18n();
-
   const {
     type,
     help_text: helpText,
@@ -57,8 +59,31 @@ const FormSectionField = ({
     hide_on_view_page: hideOnViewPage,
     visible,
     guiding_questions: guidingQuestions,
-    link_to_form: linkToForm
+    link_to_form: linkToForm,
+    option_strings_source: optionStringsSource,
+    option_strings_text: optionsStringsText,
+    options
   } = field;
+
+  const isImplementingAgencyIndividual = name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual);
+
+  const filterOptionStringSource = (() => {
+    if (optionStringsSource === CUSTOM_STRINGS_SOURCE.user) {
+      return OPTION_TYPES.REFER_TO_USERS;
+    }
+
+    return optionStringsSource;
+  })();
+
+  const optionsSelector = state =>
+    getOptions(state, filterOptionStringSource, i18n, options || optionsStringsText, false, { fullUsers: true });
+
+  const agencies = useMemoizedSelector(state =>
+    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, false) : []
+  );
+  const reportingLocations = useMemoizedSelector(state =>
+    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []
+  );
 
   const fieldProps = {
     name,
@@ -92,7 +117,9 @@ const FormSectionField = ({
     ...(mode.isShow && { placeholder: "--" }),
     index,
     displayName,
-    linkToForm
+    linkToForm,
+    ...(type === SELECT_FIELD && { optionsSelector }),
+    ...(isImplementingAgencyIndividual && { agencies, reportingLocations })
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (

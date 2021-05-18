@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Field, connect, getIn } from "formik";
+import { FastField, getIn, connect } from "formik";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
-import { getLocations, getOption, getOptionsAreLoading, getReportingLocations } from "../../selectors";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
-import { getUsersByTransitionType } from "../../../record-actions/transitions/selectors";
-import { useMemoizedSelector, valuesToSearchableSelect } from "../../../../libs";
-import { getAgenciesWithService, getReportingLocationConfig } from "../../../application/selectors";
 import SearchableSelect from "../../../searchable-select";
 import { SELECT_FIELD_NAME, CUSTOM_STRINGS_SOURCE } from "../constants";
-import { getLoading } from "../../../index-table";
-import { buildCustomLookupsConfig, handleChangeOnServiceUser } from "../utils";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
+import { buildOptions, handleChangeOnServiceUser, shouldFieldUpdate } from "../utils";
+import { useMemoizedSelector } from "../../../../libs";
+import { getOptionsAreLoading } from "../../selectors";
+import { getLoading } from "../../../record-list/selectors";
 import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 
 const SelectField = ({
@@ -29,6 +27,9 @@ const SelectField = ({
   mode,
   disabled,
   formik,
+  optionsSelector,
+  agencies,
+  reportingLocations,
   ...other
 }) => {
   const i18n = useI18n();
@@ -48,17 +49,12 @@ const SelectField = ({
 
   const { filterState, setFilterState } = other?.filters || {};
 
-  const NAMESPACE = ["transitions", REFERRAL_TYPE];
   const [stickyOption, setStickyOption] = useState(value);
-
-  const options = useMemoizedSelector(state => getOption(state, option, i18n.locale, stickyOption));
-  const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
+  const options = useMemoizedSelector(optionsSelector);
+  const loading = useMemoizedSelector(state => getLoading(state, ["transitions", REFERRAL_TYPE]));
   const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
-  const agencies = useMemoizedSelector(state => getAgenciesWithService(state, service));
-  const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
-  const locations = useMemoizedSelector(state => getLocations(state, i18n));
-  const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
-  const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));
+
+  const filteredOptions = buildOptions(name, option, value, options, stickyOption, filterState);
 
   const reloadReferralUsers = () => {
     const filters = getUserFilters({ service, agency, location });
@@ -70,13 +66,6 @@ const SelectField = ({
       })
     );
   };
-
-  const customLookups = [
-    CUSTOM_STRINGS_SOURCE.agency,
-    CUSTOM_STRINGS_SOURCE.location,
-    CUSTOM_STRINGS_SOURCE.reportingLocation,
-    CUSTOM_STRINGS_SOURCE.user
-  ];
 
   const endpointLookups = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];
 
@@ -97,18 +86,6 @@ const SelectField = ({
     return helperText;
   };
 
-  const customLookupsConfig = buildCustomLookupsConfig({
-    locations,
-    reportingLocations,
-    agencies,
-    referralUsers,
-    filterState,
-    value,
-    stickyOptionId: stickyOption,
-    locale: i18n.locale,
-    name
-  });
-
   const selectIsLoading = fieldName => {
     if (fieldName.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
       return loading;
@@ -124,59 +101,44 @@ const SelectField = ({
     form.setFieldValue(
       name,
       multiSelect
-        ? data?.map(selected => (typeof selected === "object" ? selected?.value : selected))
-        : data?.value || defaultEmptyValue,
+        ? data?.map(selected => (typeof selected === "object" ? selected?.id : selected))
+        : data?.id || defaultEmptyValue,
       false
     );
 
-    if (customLookups.includes(option)) {
-      if (
-        [SERVICE_SECTION_FIELDS.deliveryLocation, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
-          name.endsWith(fieldName)
-        )
-      ) {
-        setFilterState({ filtersChanged: true, userIsSelected: false });
-      }
-
-      if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
-        handleChangeOnServiceUser({
-          setFilterState,
-          referralUsers,
-          data,
-          agencies,
-          reportingLocations,
-          form
-        });
-      }
+    if (
+      [SERVICE_SECTION_FIELDS.deliveryLocation, SERVICE_SECTION_FIELDS.implementingAgency].find(fieldName =>
+        name.endsWith(fieldName)
+      )
+    ) {
+      setFilterState({ filtersChanged: true, userIsSelected: false });
+    }
+    if (name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)) {
+      handleChangeOnServiceUser({
+        setFilterState,
+        referralUsers: options,
+        data,
+        agencies,
+        reportingLocations,
+        form
+      });
     }
 
     if (name.endsWith(SERVICE_SECTION_FIELDS.type)) {
-      form.setFieldValue(name, data?.value, false);
+      form.setFieldValue(name, data?.id, false);
+
       if (setFilterState) {
         setFilterState({ filtersChanged: true, userIsSelected: false });
       }
     }
   };
 
-  const buildOptions = () => {
-    const args = customLookups.includes(option)
-      ? [
-          customLookupsConfig[option]?.options,
-          customLookupsConfig[option]?.fieldValue,
-          customLookupsConfig[option]?.fieldLabel
-        ]
-      : [options, "id", "display_text"];
-
-    return valuesToSearchableSelect(...[...args, i18n.locale]);
-  };
-
   const fieldProps = {
     id: name,
     name,
-    isDisabled: !options || mode.isShow || disabled || disableOfflineEndpointOptions,
+    isDisabled: !filteredOptions || mode.isShow || disabled || disableOfflineEndpointOptions,
     helperText: inputHelperText(),
     isClearable: true,
-    options: buildOptions(),
     isLoading: selectIsLoading(name),
     mode,
     multiple: multiSelect,
@@ -190,9 +152,10 @@ const SelectField = ({
         reloadReferralUsers();
       }
     },
+    value,
     defaultValues: value
-      ? buildOptions().filter(optionObject =>
-          multiSelect ? value.includes(String(optionObject.value)) : String(optionObject.value) === value.toString()
+      ? filteredOptions.filter(optionObject =>
+          multiSelect ? value.includes(String(optionObject.id)) : String(optionObject.id) === value.toString()
         )
       : defaultEmptyValue,
     InputLabelProps
@@ -237,20 +200,28 @@ const SelectField = ({
   }
 
   return (
-    <Field name={name}>
-      {/* eslint-disable-next-line no-unused-vars */}
-      {({ f, form }) => {
+    <FastField name={name} shouldUpdate={shouldFieldUpdate} options={filteredOptions}>
+      {({ form }) => {
         const onChange = data => handleChange(data, form);
 
-        return <SearchableSelect {...fieldProps} onChange={onChange} />;
+        return (
+          <SearchableSelect
+            {...fieldProps}
+            onChange={onChange}
+            optionIdKey="id"
+            optionLabelKey="display_text"
+            options={filteredOptions}
+          />
+        );
       }}
-    </Field>
+    </FastField>
   );
 };
 
 SelectField.displayName = SELECT_FIELD_NAME;
 
 SelectField.propTypes = {
+  agencies: PropTypes.array,
   disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
@@ -259,7 +230,9 @@ SelectField.propTypes = {
   InputProps: PropTypes.object,
   label: PropTypes.string.isRequired,
   mode: PropTypes.object,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  optionsSelector: PropTypes.func.isRequired,
+  reportingLocations: PropTypes.array
 };
 
 export default connect(SelectField);

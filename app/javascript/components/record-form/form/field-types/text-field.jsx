@@ -17,6 +17,7 @@ import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
 import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
+import { shouldFieldUpdate } from "../utils";
 
 const useStyles = makeStyles(theme => ({
   hideNameStyle: {
@@ -66,12 +67,10 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
-  const handleShouldUpdate = (nextProps, props) => !isEqual(nextProps, props);
-
   return (
     <FastField
       name={name}
-      shouldUpdate={handleShouldUpdate}
+      shouldUpdate={shouldFieldUpdate}
       render={renderProps => {
         const handleOnClick = () => hideFieldValue();
 
