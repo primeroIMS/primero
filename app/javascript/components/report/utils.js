@@ -266,10 +266,10 @@ const getColumnsObjects = (object, countRows) => {
   return omit(getColumnsObj(object), "_total");
 };
 
-const getAllKeysObject = object => {
+const getAllKeysObject = (i18n, object) => {
   const allKeys = (obj, prefix = "") => {
-    return sortByDate(Object.keys(obj).filter(key => key !== TOTAL))
-      .concat(TOTAL)
+    return sortByDate(Object.keys(obj).filter(key => key !== i18n.t("report.total")))
+      .concat(i18n.t("report.total"))
       .reduce((acc, el) => {
         if (typeof obj[el] === "object") {
           return [...acc, ...allKeys(obj[el], `${prefix + el}.`)];
@@ -282,8 +282,8 @@ const getAllKeysObject = object => {
   return allKeys(object);
 };
 
-const cleanedKeys = (object, columns) => {
-  const allKeys = getAllKeysObject(object);
+const cleanedKeys = (i18n, object, columns) => {
+  const allKeys = getAllKeysObject(i18n, object);
 
   return reject(
     allKeys.map(r => {
@@ -337,7 +337,7 @@ const getColumnsTableData = (data, i18n) => {
   const columns = data.fields.filter(field => field.position.type === "vertical");
   const qtyRows = data.fields.filter(field => field.position.type === "horizontal").length;
   const columnsObjects = getColumnsObjects(data.report_data, qtyRows);
-  const cleaned = sortByDate(cleanedKeys(columnsObjects, columns));
+  const cleaned = sortByDate(cleanedKeys(i18n, columnsObjects, columns));
   const renderColumns = formatColumns(cleaned, columns, i18n).flat();
 
   return renderColumns;
@@ -356,11 +356,11 @@ const getRowsTableData = (data, i18n) => {
     const qtyOfParentKeys = rows.length;
 
     if (qtyOfParentKeys >= 2) {
-      accum.push([key, true, value._total || value.Total]);
+      accum.push([key, true, value._total || value[i18n.t("report.total")]]);
       const result = sortByDate(Object.keys(value))
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
-          const childObject = getAllKeysObject(value[rowDisplayName]);
+          const childObject = getAllKeysObject(i18n, value[rowDisplayName]);
 
           const values = childObject.map(child => {
             return get(value[rowDisplayName], child);
@@ -379,13 +379,13 @@ const getRowsTableData = (data, i18n) => {
 
       accum.push(...innerRows);
     } else {
-      const valuesAccesor = getAllKeysObject(value);
+      const valuesAccesor = getAllKeysObject(i18n, value);
       const values = valuesAccesor
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(val => get(value, val));
       const dateOrKey = formattedDate(key, i18n);
 
-      accum.push([dateOrKey, false, ...values, value._total || value.Total]);
+      accum.push([dateOrKey, false, ...values, value._total || value[i18n.t("report.total")]]);
     }
   });
 
