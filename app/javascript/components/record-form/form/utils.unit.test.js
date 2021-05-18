@@ -2,7 +2,6 @@ import { fromJS, List } from "immutable";
 
 import { mock } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
-import { CODE_FIELD, NAME_FIELD, UNIQUE_ID_FIELD } from "../../../config";
 
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
 import * as helpers from "./utils";
@@ -13,7 +12,7 @@ describe("Verifying utils", () => {
 
     [
       "appendDisabledUser",
-      "buildCustomLookupsConfig",
+      "buildOptions",
       "findOptionDisplayText",
       "getConnectedFields",
       "getRecordInformationForms",
@@ -23,7 +22,8 @@ describe("Verifying utils", () => {
       "serviceHasReferFields",
       "serviceIsReferrable",
       "translatedText",
-      "withStickyOption"
+      "withStickyOption",
+      "shouldFieldUpdate"
     ].forEach(property => {
       expect(clonedHelpers).to.have.property(property);
       delete clonedHelpers[property];
@@ -34,11 +34,11 @@ describe("Verifying utils", () => {
 });
 
 describe("withStickyOption", () => {
-  const options = fromJS([
-    { unique_id: "option_1", display_text: "Option 1" },
-    { unique_id: "option_2", display_text: "Option 2" },
-    { unique_id: "option_3", display_text: "Option 3", disabled: true }
-  ]);
+  const options = [
+    { id: "option_1", display_text: "Option 1" },
+    { id: "option_2", display_text: "Option 2" },
+    { id: "option_3", display_text: "Option 3", disabled: true }
+  ];
 
   it("should append a disabled option if sticky", () => {
     expect(helpers.withStickyOption(options, "option_3")).to.have.sizeOf(3);
@@ -51,8 +51,11 @@ describe("withStickyOption", () => {
 
 describe("appendDisabledUser", () => {
   it("should append the user if not present in the users list", () => {
-    const users = fromJS([{ user_name: "user-1" }, { user_name: "user-2" }]);
-    const expected = users.push(fromJS({ user_name: "user-3", isDisabled: true }));
+    const users = [
+      { id: "user-1", display_text: "user-1" },
+      { id: "user-2", display_text: "user-2" }
+    ];
+    const expected = users.push({ id: "user-3", display_text: "user-3", isDisabled: true });
     const options = helpers.appendDisabledUser(users, "user-3");
 
     expect(options).to.deep.equal(expected);
@@ -143,63 +146,6 @@ describe("getConnectedFields", () => {
       });
 
       expect(displayText).to.be.equal("Agency 1");
-    });
-  });
-
-  describe("buildCustomLookupsConfig", () => {
-    const locations = fromJS([{ id: 1, code: "location-1", admin_level: 1 }]);
-    const reportingLocations = fromJS([{ id: 1, code: "location-1", admin_level: 2 }]);
-    const agencies = fromJS([{ unique_id: "agency-1", name: "Agency 1" }]);
-    const referralUsers = fromJS([{ user_name: "New User " }]);
-    const defaultConfig = {
-      Location: {
-        fieldLabel: NAME_FIELD,
-        fieldValue: CODE_FIELD,
-        options: locations
-      },
-      Agency: {
-        fieldLabel: NAME_FIELD,
-        fieldValue: UNIQUE_ID_FIELD,
-        options: agencies
-      },
-      ReportingLocation: {
-        fieldLabel: NAME_FIELD,
-        fieldValue: CODE_FIELD,
-        options: reportingLocations
-      },
-      User: {
-        fieldLabel: "user_name",
-        fieldValue: "user_name",
-        options: referralUsers
-      }
-    };
-
-    it("should return the config for custom lookups with disabled options", () => {
-      const config = helpers.buildCustomLookupsConfig({
-        agencies,
-        filterState: { filtersChanged: false },
-        locations,
-        referralUsers,
-        reportingLocations,
-        stickyOptionId: "agency-2",
-        name: SERVICE_SECTION_FIELDS.implementingAgency
-      });
-
-      const expected = {
-        ...defaultConfig,
-        Agency: {
-          ...defaultConfig.Agency,
-          options: defaultConfig.Agency.options.push(
-            fromJS({
-              unique_id: "agency-2",
-              name: "agency-2",
-              isDisabled: true
-            })
-          )
-        }
-      };
-
-      expect(config).to.deep.equal(expected);
     });
   });
 

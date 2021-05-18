@@ -3,24 +3,27 @@ import { Chip } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../test";
-import { whichFormMode } from "../../../form";
+import { OPTION_TYPES, whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
-import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 import actions from "../../../record-actions/transitions/actions";
+import { getOptions } from "../../../form/selectors";
 
 import SelectField from "./select-field";
+
+const i18n = { t: str => str };
 
 describe("<SelectField />", () => {
   context("when the lookup is custom", () => {
     const props = {
       name: "agency",
       field: {
-        option_strings_source: CUSTOM_STRINGS_SOURCE.agency
+        option_strings_source: OPTION_TYPES.AGENCY
       },
       label: "Agency",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -66,7 +69,8 @@ describe("<SelectField />", () => {
       },
       label: "Type of Service",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: state => getOptions(state, "lookup lookup-service-type", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -124,7 +128,20 @@ describe("<SelectField />", () => {
       },
       label: "Type of Service",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: state =>
+        getOptions(
+          state,
+          null,
+          i18n,
+          [
+            { id: "test1", display_text: "Test 1" },
+            { id: "test2", disabled: true, display_text: "Test 2" },
+            { id: "test3", display_text: "Test 3" },
+            { id: "test4", disabled: true, display_text: "Test 4" }
+          ],
+          false
+        )
     };
 
     const { component } = setupMountedComponent(SelectField, props, {}, [], {
@@ -195,7 +212,8 @@ describe("<SelectField />", () => {
       },
       label: "Test",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: state => getOptions(state, "lookup lookup-yes-no", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -256,7 +274,19 @@ describe("<SelectField />", () => {
       },
       label: "Test",
       mode: whichFormMode("show"),
-      open: true
+      open: true,
+      optionsSelector: state =>
+        getOptions(
+          state,
+          null,
+          i18n,
+          [
+            { id: "option_1", display_text: { en: "Option 1" } },
+            { id: "option_2", display_text: { en: "Option 2" } },
+            { id: "option_3", display_text: { en: "Option 3" } }
+          ],
+          false
+        )
     };
 
     const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {

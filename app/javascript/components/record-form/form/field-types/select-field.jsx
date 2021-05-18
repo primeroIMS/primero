@@ -154,7 +154,7 @@ const SelectField = ({
     },
     value,
     defaultValues: value
-      ? filteredOptions.filter(optionObject =>
+      ? filteredOptions?.filter(optionObject =>
           multiSelect ? value.includes(String(optionObject.id)) : String(optionObject.id) === value.toString()
         )
       : defaultEmptyValue,

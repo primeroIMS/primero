@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
-import isEqual from "lodash/isEqual";
 import omitBy from "lodash/omitBy";
 
 import { toServerDateFormat, useMemoizedSelector } from "../../../../libs";

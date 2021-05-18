@@ -49,11 +49,14 @@ export const withStickyOption = (options, stickyOptionId, filtersChanged = false
     const stickyOption = enabledOptions.find(option => option.display_text === stickyOptionId);
 
     if (!stickyOption && !filtersChanged) {
-      return options.push({
-        id: stickyOptionId,
-        display_text: stickyOptionId,
-        isDisabled: true
-      });
+      return [
+        ...options,
+        {
+          id: stickyOptionId,
+          display_text: stickyOptionId,
+          isDisabled: true
+        }
+      ];
     }
   }
 
