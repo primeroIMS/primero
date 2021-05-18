@@ -19,8 +19,20 @@
   }
 }
 
-.tableRowHeader {
+.tableRowValues {
+  & td {
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+}
 
+.tableRowSubHeader  {
+  & th {
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+}
+
+
+.tableRowHeader {
   & th:not(:first-child) {
     background-color: $(theme.primero.colors.lightGrey);
     font-weight: bold;
