@@ -41,11 +41,11 @@ describe("withStickyOption", () => {
   ];
 
   it("should append a disabled option if sticky", () => {
-    expect(helpers.withStickyOption(options, "option_3")).to.have.sizeOf(3);
+    expect(helpers.withStickyOption(options, "option_3")).to.have.lengthOf(3);
   });
 
   it("should not append a disabled option if it is not sticky", () => {
-    expect(helpers.withStickyOption(options)).to.have.sizeOf(2);
+    expect(helpers.withStickyOption(options)).to.have.lengthOf(2);
   });
 });
 
@@ -55,7 +55,7 @@ describe("appendDisabledUser", () => {
       { id: "user-1", display_text: "user-1" },
       { id: "user-2", display_text: "user-2" }
     ];
-    const expected = users.push({ id: "user-3", display_text: "user-3", isDisabled: true });
+    const expected = [...users, { id: "user-3", display_text: "user-3", disabled: true }];
     const options = helpers.appendDisabledUser(users, "user-3");
 
     expect(options).to.deep.equal(expected);
@@ -92,9 +92,9 @@ describe("getConnectedFields", () => {
       const form = { setFieldValue: () => {} };
       const formMock = mock(form);
       const setFilterState = mock();
-      const agencies = fromJS([{ unique_id: "agency-1" }]);
-      const referralUsers = fromJS([{ user_name: "user-1", agency: "agency-1", location: "location-1" }]);
-      const reportingLocations = fromJS([{ code: "location-1" }]);
+      const agencies = [{ id: "agency-1" }];
+      const referralUsers = [{ id: "user-1", agency: "agency-1", location: "location-1" }];
+      const reportingLocations = [{ code: "location-1" }];
 
       formMock.expects("setFieldValue").withArgs(helpers.getConnectedFields(0).agency, "agency-1", false);
 
@@ -102,7 +102,7 @@ describe("getConnectedFields", () => {
 
       helpers.handleChangeOnServiceUser({
         agencies,
-        data: { value: "user-1" },
+        data: { id: "user-1" },
         form,
         index: 0,
         referralUsers,

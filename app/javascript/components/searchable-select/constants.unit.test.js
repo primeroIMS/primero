@@ -4,10 +4,11 @@ describe("<SearchableSelect /> - Constants", () => {
   it("should have known constant", () => {
     const constants = { ...searchableConstants };
 
-    expect(constants).to.have.property("NAME", "LISTBOX_PADDING");
-    expect(constants.NAME).to.be.a("string");
-    delete constants.NAME;
-    delete constants.LISTBOX_PADDING;
+    ["NAME", "LISTBOX_PADDING"].map(cnst => {
+      expect(constants).to.have.property(cnst);
+      delete constants[cnst];
+    });
+
     expect(constants).to.be.empty;
   });
 });

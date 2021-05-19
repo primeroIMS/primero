@@ -13,4 +13,4 @@ export const optionEquality = (option, selected, optionIdKey) => {
   return option?.[optionIdKey] === selected || option?.[optionIdKey] === selected?.[optionIdKey];
 };
 
-export const optionDisabled = option => option?.isDisabled;
+export const optionDisabled = option => option?.isDisabled || option?.disabled;

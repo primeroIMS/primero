@@ -11,7 +11,7 @@ import { getOptions } from "../../../form/selectors";
 
 import SelectField from "./select-field";
 
-const i18n = { t: str => str };
+const i18n = { t: str => str, locale: "en" };
 
 describe("<SelectField />", () => {
   context("when the lookup is custom", () => {
@@ -23,7 +23,7 @@ describe("<SelectField />", () => {
       label: "Agency",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, false)
+      optionsSelector: state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true)
     };
 
     const initialState = fromJS({
@@ -31,12 +31,18 @@ describe("<SelectField />", () => {
         agencies: [
           {
             unique_id: "agency-test-1",
+            name: {
+              en: "Agency Test 1"
+            },
             agency_code: "test1",
             disabled: false,
             services: ["service_test_1"]
           },
           {
             unique_id: "agency-test-2",
+            name: {
+              en: "Agency Test 2"
+            },
             agency_code: "test2",
             disabled: false,
             services: ["service_test_1", "service_test_2"]
@@ -51,8 +57,8 @@ describe("<SelectField />", () => {
 
     it("render the select field with options", () => {
       const expected = [
-        { value: "agency-test-1", isDisabled: false },
-        { value: "agency-test-2", isDisabled: false }
+        { id: "agency-test-1", disabled: false, display_text: "Agency Test 1" },
+        { id: "agency-test-2", disabled: false, display_text: "Agency Test 2" }
       ];
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
@@ -105,7 +111,7 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with options", () => {
-      const expected = [{ label: "Health/Medical Service", isDisabled: false, value: "health_medical_service" }];
+      const expected = [{ display_text: "Health/Medical Service", disabled: false, id: "health_medical_service" }];
 
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
@@ -156,8 +162,8 @@ describe("<SelectField />", () => {
       const autocomplete = selectField.find(Autocomplete);
 
       expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.have.lengthOf(3);
-      expect(autocomplete.props().options[1].isDisabled).to.be.true;
+      expect(searchableSelect.props().options).to.have.lengthOf(4);
+      expect(autocomplete.props().options[1].disabled).to.be.true;
     });
   });
 
@@ -177,7 +183,8 @@ describe("<SelectField />", () => {
           [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
           [SERVICE_SECTION_FIELDS.type]: paramsService
         }
-      }
+      },
+      optionsSelector: state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
     };
     const expectedAction = {
       type: actions.REFERRAL_USERS_FETCH,
@@ -251,7 +258,7 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with the selected option even if the option is boolean", () => {
-      const expected = [{ value: "false", isDisabled: false, label: "No" }];
+      const expected = [{ id: "false", disabled: false, display_text: "No" }];
 
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);

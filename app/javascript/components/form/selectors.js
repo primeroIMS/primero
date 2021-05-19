@@ -72,7 +72,7 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
         display_text: current.getIn(["name", i18n.locale], ""),
-        disabled: current.get("disabled")
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -145,7 +145,8 @@ const lookupValues = (state, optionStringsSource, i18n, rest) => {
       ...prev,
       {
         id: current.get("id"),
-        display_text: displayNameHelper(current.get("display_text"), i18n.locale)
+        display_text: displayNameHelper(current.get("display_text"), i18n.locale),
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -194,7 +195,7 @@ const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).reduce(
     (prev, current) => [
       ...prev,
-      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled", false) }
     ],
     []
   );

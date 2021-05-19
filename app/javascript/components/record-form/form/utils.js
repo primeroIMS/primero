@@ -43,18 +43,19 @@ const sortSubformsValues = (values, fields) => {
 export const withStickyOption = (options, stickyOptionId, filtersChanged = false) => {
   const enabledOptions = options
     .filter(option => !option.disabled || (stickyOptionId && option.id === stickyOptionId))
-    .map(option => ({ ...option, isDisabled: option.disabled }));
+    .map(option => ({ ...option, disabled: option.disabled }));
 
   if (stickyOptionId) {
-    const stickyOption = enabledOptions.find(option => option.display_text === stickyOptionId);
+    const stickyOption = enabledOptions.find(option => option.id === stickyOptionId);
 
     if (!stickyOption && !filtersChanged) {
       return [
         ...options,
         {
           id: stickyOptionId,
-          display_text: stickyOptionId,
-          isDisabled: true
+          // eslint-disable-next-line camelcase
+          display_text: stickyOption?.display_text,
+          disabled: true
         }
       ];
     }
@@ -63,10 +64,11 @@ export const withStickyOption = (options, stickyOptionId, filtersChanged = false
   return enabledOptions;
 };
 
-export const appendDisabledUser = (users, userName) =>
-  userName && !users?.map(user => user.display_text.includes(userName))
-    ? users?.push({ id: userName, display_text: userName, isDisabled: true })
+export const appendDisabledUser = (users, userName) => {
+  return userName && !users?.map(user => user.display_text).includes(userName)
+    ? [...users, { id: userName, display_text: userName, disabled: true }]
     : users;
+};
 
 export const getConnectedFields = () => ({
   service: SERVICE_SECTION_FIELDS.type,
@@ -83,9 +85,9 @@ export const handleChangeOnServiceUser = ({
   reportingLocations,
   setFilterState
 }) => {
-  const selectedUser = referralUsers.find(user => user.display_text === data?.value);
+  const selectedUser = referralUsers.find(user => user.id === data?.id);
 
-  if (selectedUser?.size) {
+  if (!isEmpty(selectedUser)) {
     const userAgency = selectedUser.agency;
     const userLocation = selectedUser.location;
 

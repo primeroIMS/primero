@@ -71,7 +71,7 @@ const transformOptionSource = (options, locale, stickyOption) => {
 
   return optionsToRender.map(opt => ({
     id: opt.id,
-    isDisabled: Boolean(opt.disabled),
+    disabled: Boolean(opt.disabled),
     display_text: displayNameHelper(opt.display_text, locale) || ""
   }));
 };

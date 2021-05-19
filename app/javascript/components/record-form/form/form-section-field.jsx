@@ -76,10 +76,17 @@ const FormSectionField = ({
   })();
 
   const optionsSelector = state =>
-    getOptions(state, filterOptionStringSource, i18n, options || optionsStringsText, false, { fullUsers: true });
+    getOptions(
+      state,
+      filterOptionStringSource,
+      i18n,
+      options || optionsStringsText,
+      OPTION_TYPES.AGENCY === filterOptionStringSource,
+      { fullUsers: true }
+    );
 
   const agencies = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, false) : []
+    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true) : []
   );
   const reportingLocations = useMemoizedSelector(state =>
     isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []
