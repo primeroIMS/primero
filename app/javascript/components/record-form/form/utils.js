@@ -80,7 +80,7 @@ export const getConnectedFields = () => ({
 export const handleChangeOnServiceUser = ({
   agencies,
   data,
-  form,
+  setFieldValue,
   referralUsers,
   reportingLocations,
   setFilterState
@@ -92,11 +92,11 @@ export const handleChangeOnServiceUser = ({
     const userLocation = selectedUser.location;
 
     if (agencies.find(current => current.id === userAgency && !current.disabled)) {
-      form.setFieldValue(getConnectedFields().agency, userAgency, false);
+      setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
     if (reportingLocations.find(current => current.code === userLocation)) {
-      form.setFieldValue(getConnectedFields().location, userLocation, false);
+      setFieldValue(getConnectedFields().location, userLocation, false);
     }
   }
 
@@ -274,7 +274,7 @@ export const getRecordInformationForms = i18n => ({
 
 export const shouldFieldUpdate = (nextProps, currentProps) => {
   return (
-    nextProps?.options !== currentProps?.options ||
+    nextProps?.options?.length !== currentProps?.options?.length ||
     nextProps.name !== currentProps.name ||
     nextProps.required !== currentProps.required ||
     nextProps.disabled !== currentProps.disabled ||

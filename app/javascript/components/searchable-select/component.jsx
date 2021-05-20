@@ -8,7 +8,7 @@ import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled } from "./utils";
-import ListboxComponent from "./components/listbox-component";
+import { listboxClasses, virtualize } from "./components/listbox-component";
 
 const useStyles = makeStyles(styles);
 
@@ -85,7 +85,8 @@ const SearchableSelect = ({
       onOpen={onOpen && onOpen}
       multiple={multiple}
       onBlur={onBlur}
-      ListboxComponent={ListboxComponent}
+      ListboxComponent={virtualize(options.length)}
+      classes={listboxClasses}
       disableListWrap
       renderInput={params => (
         <AutoCompleteInput

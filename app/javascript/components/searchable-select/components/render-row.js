@@ -8,7 +8,9 @@ const renderRow = props => {
   return cloneElement(data[index], {
     style: {
       ...style,
-      top: style.top + LISTBOX_PADDING
+      top: style.top + LISTBOX_PADDING,
+      lineHeight: "18px",
+      fontSize: ".9rem"
     }
   });
 };

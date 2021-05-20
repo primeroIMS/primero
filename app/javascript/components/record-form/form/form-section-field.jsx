@@ -16,10 +16,9 @@ import {
   LINK_TO_FORM
 } from "../constants";
 import Tooltip from "../../tooltip";
-import { ConditionalWrapper, displayNameHelper, useMemoizedSelector } from "../../../libs";
+import { ConditionalWrapper, displayNameHelper } from "../../../libs";
 import { getOptions } from "../../form/selectors";
 import { OPTION_TYPES } from "../../form";
-import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 
 import { GuidingQuestions } from "./components";
 import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
@@ -65,8 +64,6 @@ const FormSectionField = ({
     options
   } = field;
 
-  const isImplementingAgencyIndividual = name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual);
-
   const filterOptionStringSource = (() => {
     if (optionStringsSource === CUSTOM_STRINGS_SOURCE.user) {
       return OPTION_TYPES.REFER_TO_USERS;
@@ -84,13 +81,6 @@ const FormSectionField = ({
       OPTION_TYPES.AGENCY === filterOptionStringSource,
       { fullUsers: true }
     );
-
-  const agencies = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true) : []
-  );
-  const reportingLocations = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []
-  );
 
   const fieldProps = {
     name,
@@ -125,8 +115,7 @@ const FormSectionField = ({
     index,
     displayName,
     linkToForm,
-    ...(type === SELECT_FIELD && { optionsSelector }),
-    ...(isImplementingAgencyIndividual && { agencies, reportingLocations })
+    ...(type === SELECT_FIELD && { optionsSelector })
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (

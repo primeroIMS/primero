@@ -1,6 +1,6 @@
 import { fromJS, List } from "immutable";
 
-import { mock } from "../../../test";
+import { mock, spy } from "../../../test";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
@@ -89,28 +89,25 @@ describe("getConnectedFields", () => {
 
   describe("handleChangeOnServiceUser", () => {
     it("should set the connected fields when the user is changed", () => {
-      const form = { setFieldValue: () => {} };
-      const formMock = mock(form);
+      const setFieldValue = spy();
       const setFilterState = mock();
       const agencies = [{ id: "agency-1" }];
       const referralUsers = [{ id: "user-1", agency: "agency-1", location: "location-1" }];
       const reportingLocations = [{ code: "location-1" }];
 
-      formMock.expects("setFieldValue").withArgs(helpers.getConnectedFields(0).agency, "agency-1", false);
+      setFieldValue.calledWith(helpers.getConnectedFields(0).agency, "agency-1", false);
 
-      formMock.expects("setFieldValue").withArgs(helpers.getConnectedFields(0).location, "location-1", false);
+      setFieldValue.calledWith(helpers.getConnectedFields(0).location, "location-1", false);
 
       helpers.handleChangeOnServiceUser({
         agencies,
         data: { id: "user-1" },
-        form,
+        setFieldValue,
         index: 0,
         referralUsers,
         reportingLocations,
         setFilterState
       });
-
-      formMock.verify();
     });
   });
 

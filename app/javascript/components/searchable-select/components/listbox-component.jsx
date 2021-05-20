@@ -1,6 +1,5 @@
-import { Children, forwardRef, isValidElement } from "react";
-import { ListSubheader, useMediaQuery } from "@material-ui/core";
-import { useTheme } from "@material-ui/core/styles";
+import { Children, forwardRef } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { VariableSizeList } from "react-window";
 
 import useResetCache from "../use-reset-cache";
@@ -8,21 +7,15 @@ import useResetCache from "../use-reset-cache";
 import renderRow from "./render-row";
 import OuterElementContext, { OuterElementType } from "./outer-element-type";
 
-const LISTBOX_PADDING = 8;
+const LISTBOX_PADDING = 20;
 
 const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
   const { children, ...other } = props;
   const itemData = Children.toArray(children);
-  const theme = useTheme();
-  const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
   const itemCount = itemData.length;
-  const itemSize = smUp ? 36 : 48;
+  const itemSize = 58;
 
-  const getChildSize = child => {
-    if (isValidElement(child) && child.type === ListSubheader) {
-      return 20;
-    }
-
+  const getChildSize = () => {
     return itemSize;
   };
 
@@ -47,7 +40,7 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
           outerElementType={OuterElementType}
           innerElementType="ul"
           itemSize={index => getChildSize(itemData[index])}
-          overscanCount={5}
+          overscanCount={1}
           itemCount={itemCount}
         >
           {renderRow}
@@ -57,4 +50,16 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
   );
 });
 
-export default ListboxComponent;
+export const listboxClasses = makeStyles({
+  listbox: {
+    boxSizing: "border-box",
+    "& ul": {
+      padding: 0,
+      margin: 0
+    }
+  }
+});
+
+export const virtualize = (optionsLength = 0) => {
+  return optionsLength >= 1000 ? ListboxComponent : undefined;
+};
