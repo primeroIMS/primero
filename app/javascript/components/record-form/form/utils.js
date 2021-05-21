@@ -274,6 +274,7 @@ export const getRecordInformationForms = i18n => ({
 
 export const shouldFieldUpdate = (nextProps, currentProps) => {
   return (
+    nextProps?.locale !== currentProps?.locale ||
     nextProps?.options?.length !== currentProps?.options?.length ||
     nextProps.name !== currentProps.name ||
     nextProps.required !== currentProps.required ||

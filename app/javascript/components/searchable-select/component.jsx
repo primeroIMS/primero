@@ -101,6 +101,8 @@ const SearchableSelect = ({
           isLoading={isLoading}
           multiple={multiple}
           options={options}
+          optionIdKey={optionIdKey}
+          optionLabelKey={optionLabelKey}
         />
       )}
       renderTags={(value, getTagProps) => renderTags(value, getTagProps)}

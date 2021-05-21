@@ -3,6 +3,7 @@ import { FastField, getIn } from "formik";
 
 import { SELECT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
+import { useI18n } from "../../../i18n";
 
 import SelectFieldContainer from "./select-field-container";
 
@@ -19,8 +20,10 @@ const SelectField = ({
   optionsSelector,
   ...other
 }) => {
+  const i18n = useI18n();
+
   return (
-    <FastField name={name} shouldUpdate={shouldFieldUpdate}>
+    <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale}>
       {({ form }) => {
         return (
           <SelectFieldContainer
