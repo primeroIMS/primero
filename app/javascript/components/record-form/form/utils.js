@@ -40,23 +40,33 @@ const sortSubformsValues = (values, fields) => {
   return result;
 };
 
+const isStickyOption = (stickyOptionId, optionId) => {
+  if (Array.isArray(stickyOptionId)) {
+    return stickyOptionId.includes(optionId);
+  }
+
+  return stickyOptionId === optionId;
+};
+
 export const withStickyOption = (options, stickyOptionId, filtersChanged = false) => {
   const enabledOptions = options
-    .filter(option => !option.disabled || (stickyOptionId && option.id === stickyOptionId))
+    .filter(option => !option.disabled || (stickyOptionId && isStickyOption(stickyOptionId, option.id)))
     .map(option => ({ ...option, disabled: option.disabled }));
 
   if (stickyOptionId) {
-    const stickyOption = enabledOptions.find(option => option.id === stickyOptionId);
+    const stickyOptions = enabledOptions.filter(option => isStickyOption(stickyOptionId, option.id));
 
-    if (!stickyOption && !filtersChanged) {
+    if (isEmpty(stickyOptions) && !filtersChanged) {
+      const finalOptionsWithStickyId = options.filter(option => isStickyOption(stickyOptionId, option.id));
+
       return [
-        ...options,
-        {
-          id: stickyOptionId,
+        ...enabledOptions,
+        ...finalOptionsWithStickyId.map(stickyOption => ({
+          id: stickyOption.id,
           // eslint-disable-next-line camelcase
           display_text: stickyOption?.display_text,
           disabled: true
-        }
+        }))
       ];
     }
   }
@@ -138,7 +148,7 @@ export const buildOptions = (name, option, value, options = [], stickyOption, fi
     return appendDisabledUser(options, value);
   }
 
-  return options;
+  return withStickyOption(options, stickyOption);
 };
 
 export const serviceHasReferFields = service => {
