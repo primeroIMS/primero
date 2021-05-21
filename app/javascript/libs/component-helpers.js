@@ -21,7 +21,7 @@ export const valuesToSearchableSelect = (data = [], searchValue, searchLabel, lo
         (optionPrev, [key, val]) => ({
           ...optionPrev,
           ...(key === searchValue && { value: val }),
-          ...(key === "isDisabled" && { isDisabled: val }),
+          ...(key === "disabled" && { disabled: val }),
           ...(key === searchLabel && {
             label: isImmutable(val) || typeof val === "object" ? displayNameHelper(val, locale) : val
           })

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Chip } from "@material-ui/core";
@@ -7,6 +8,7 @@ import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import styles from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled } from "./utils";
+import { listboxClasses, virtualize } from "./components/listbox-component";
 
 const useStyles = makeStyles(styles);
 
@@ -23,21 +25,23 @@ const SearchableSelect = ({
   options,
   TextFieldProps,
   mode,
-  InputLabelProps
+  InputLabelProps,
+  optionIdKey,
+  optionLabelKey
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
   const css = useStyles();
 
   const initialValues = (() => {
     if (Array.isArray(defaultValues)) {
-      const defaultValuesClear = defaultValues.filter(selected => selected.label);
-      const values = defaultValuesClear.map(selected => selected?.value || null);
+      const defaultValuesClear = defaultValues.filter(selected => selected[optionLabelKey]);
+      const values = defaultValuesClear.map(selected => selected?.[optionIdKey] || null);
 
-      return multiple ? values : values[0];
+      return multiple ? values || [] : values[0] || null;
     }
 
     if (typeof defaultValues === "object") {
-      return defaultValues?.value || defaultEmptyValue;
+      return defaultValues?.[optionIdKey] || defaultEmptyValue;
     }
 
     return defaultValues || defaultEmptyValue;
@@ -56,7 +60,14 @@ const SearchableSelect = ({
         }
       };
 
-      return <Chip size="small" label={optionLabel(option, options)} {...chipProps} disabled={isDisabled} />;
+      return (
+        <Chip
+          size="small"
+          label={optionLabel(option, options, optionIdKey, optionLabelKey)}
+          {...chipProps}
+          disabled={isDisabled}
+        />
+      );
     });
 
   return (
@@ -64,9 +75,9 @@ const SearchableSelect = ({
       onChange={(_, value) => onChange(value)}
       options={options}
       disabled={isDisabled}
-      getOptionLabel={option => optionLabel(option, options)}
+      getOptionLabel={option => optionLabel(option, options, optionIdKey, optionLabelKey)}
       getOptionDisabled={optionDisabled}
-      getOptionSelected={optionEquality}
+      getOptionSelected={(option, selected) => optionEquality(option, selected, optionIdKey)}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions
@@ -74,6 +85,9 @@ const SearchableSelect = ({
       onOpen={onOpen && onOpen}
       multiple={multiple}
       onBlur={onBlur}
+      ListboxComponent={virtualize(options.length)}
+      classes={listboxClasses}
+      disableListWrap
       renderInput={params => (
         <AutoCompleteInput
           ref={params.InputProps.ref}
@@ -104,6 +118,8 @@ SearchableSelect.defaultProps = {
   isLoading: false,
   mode: {},
   multiple: false,
+  optionIdKey: "value",
+  optionLabelKey: "label",
   options: [],
   TextFieldProps: {}
 };
@@ -121,6 +137,8 @@ SearchableSelect.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func.isRequired,
   onOpen: PropTypes.func,
+  optionIdKey: PropTypes.string,
+  optionLabelKey: PropTypes.string,
   options: PropTypes.array,
   TextFieldProps: PropTypes.object
 };

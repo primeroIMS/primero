@@ -45,7 +45,7 @@ const forms = (state, { recordType, primeroModule, checkVisible, all, formsIds, 
 };
 
 const isAStickyOption = (opt, stickyOption) =>
-  Array.isArray(stickyOption) ? stickyOption.includes(opt.id) : opt.id === stickyOption.toString();
+  Array.isArray(stickyOption) ? stickyOption?.includes(opt.id) : opt.id === stickyOption?.toString();
 
 const addingDeletedOption = (enabledOptions, locale, stickyOption) => {
   if (!stickyOption || Boolean(enabledOptions.filter(opt => isAStickyOption(opt, stickyOption)).length)) {
@@ -71,7 +71,7 @@ const transformOptionSource = (options, locale, stickyOption) => {
 
   return optionsToRender.map(opt => ({
     id: opt.id,
-    isDisabled: Boolean(opt.disabled),
+    disabled: Boolean(opt.disabled),
     display_text: displayNameHelper(opt.display_text, locale) || ""
   }));
 };

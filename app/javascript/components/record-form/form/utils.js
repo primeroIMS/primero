@@ -1,5 +1,4 @@
 import find from "lodash/find";
-import { fromJS } from "immutable";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 import orderBy from "lodash/orderBy";
@@ -8,9 +7,6 @@ import isEqual from "lodash/isEqual";
 import { FormSectionRecord } from "../records";
 import { SERVICE_SECTION_FIELDS } from "../../record-actions/transitions/components/referrals";
 import {
-  CODE_FIELD,
-  NAME_FIELD,
-  UNIQUE_ID_FIELD,
   APPROVALS,
   CHANGE_LOGS,
   INCIDENT_FROM_CASE,
@@ -20,6 +16,7 @@ import {
   TRANSFERS_ASSIGNMENTS
 } from "../../../config";
 import { SUBFORM_SECTION } from "../constants";
+import { OPTION_TYPES } from "../../form";
 
 import { valuesWithDisplayConditions } from "./subforms/subform-field-array/utils";
 import { CUSTOM_STRINGS_SOURCE } from "./constants";
@@ -45,30 +42,33 @@ const sortSubformsValues = (values, fields) => {
 
 export const withStickyOption = (options, stickyOptionId, filtersChanged = false) => {
   const enabledOptions = options
-    .filter(option => !option.get("disabled") || (stickyOptionId && option.get("unique_id") === stickyOptionId))
-    .map(option => option.set("isDisabled", option.get("disabled")));
+    .filter(option => !option.disabled || (stickyOptionId && option.id === stickyOptionId))
+    .map(option => ({ ...option, disabled: option.disabled }));
 
   if (stickyOptionId) {
-    const stickyOption = enabledOptions.find(option => option.get("unique_id") === stickyOptionId);
+    const stickyOption = enabledOptions.find(option => option.id === stickyOptionId);
 
     if (!stickyOption && !filtersChanged) {
-      return options.push(
-        fromJS({
-          unique_id: stickyOptionId,
-          name: stickyOptionId,
-          isDisabled: true
-        })
-      );
+      return [
+        ...options,
+        {
+          id: stickyOptionId,
+          // eslint-disable-next-line camelcase
+          display_text: stickyOption?.display_text,
+          disabled: true
+        }
+      ];
     }
   }
 
   return enabledOptions;
 };
 
-export const appendDisabledUser = (users, userName) =>
-  userName && !users?.map(user => user.get("user_name")).includes(userName)
-    ? users?.push(fromJS({ user_name: userName, isDisabled: true }))
+export const appendDisabledUser = (users, userName) => {
+  return userName && !users?.map(user => user.display_text).includes(userName)
+    ? [...users, { id: userName, display_text: userName, disabled: true }]
     : users;
+};
 
 export const getConnectedFields = () => ({
   service: SERVICE_SECTION_FIELDS.type,
@@ -80,23 +80,23 @@ export const getConnectedFields = () => ({
 export const handleChangeOnServiceUser = ({
   agencies,
   data,
-  form,
+  setFieldValue,
   referralUsers,
   reportingLocations,
   setFilterState
 }) => {
-  const selectedUser = referralUsers.find(user => user.get("user_name") === data?.value);
+  const selectedUser = referralUsers.find(user => user.id === data?.id);
 
-  if (selectedUser?.size) {
-    const userAgency = selectedUser.get("agency");
-    const userLocation = selectedUser.get("location");
+  if (!isEmpty(selectedUser)) {
+    const userAgency = selectedUser.agency;
+    const userLocation = selectedUser.location;
 
-    if (agencies.find(current => current.get("unique_id") === userAgency && !current.get("disabled"))) {
-      form.setFieldValue(getConnectedFields().agency, userAgency, false);
+    if (agencies.find(current => current.id === userAgency && !current.disabled)) {
+      setFieldValue(getConnectedFields().agency, userAgency, false);
     }
 
-    if (reportingLocations.find(current => current.get("code") === userLocation)) {
-      form.setFieldValue(getConnectedFields().location, userLocation, false);
+    if (reportingLocations.find(current => current.code === userLocation)) {
+      setFieldValue(getConnectedFields().location, userLocation, false);
     }
   }
 
@@ -122,40 +122,24 @@ export const findOptionDisplayText = ({ agencies, customLookups, i18n, option, o
   return optionValue;
 };
 
-export const buildCustomLookupsConfig = ({
-  agencies,
-  filterState,
-  locations,
-  name,
-  referralUsers,
-  reportingLocations,
-  stickyOptionId,
-  value
-}) => ({
-  Location: {
-    fieldLabel: NAME_FIELD,
-    fieldValue: CODE_FIELD,
-    options: locations
-  },
-  Agency: {
-    fieldLabel: NAME_FIELD,
-    fieldValue: UNIQUE_ID_FIELD,
-    options: withStickyOption(agencies, stickyOptionId, filterState?.filtersChanged)
-  },
-  ReportingLocation: {
-    fieldLabel: NAME_FIELD,
-    fieldValue: CODE_FIELD,
-    options: reportingLocations
-  },
-  User: {
-    fieldLabel: "user_name",
-    fieldValue: "user_name",
-    options:
-      !filterState?.filtersChanged && name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
-        ? appendDisabledUser(referralUsers, value)
-        : referralUsers
+export const buildOptions = (name, option, value, options = [], stickyOption, filterState) => {
+  const hasOptions = !isEmpty(options);
+
+  if (option === OPTION_TYPES.AGENCY && hasOptions) {
+    return withStickyOption(options, stickyOption, filterState?.filtersChanged);
   }
-});
+
+  if (
+    hasOptions &&
+    option === CUSTOM_STRINGS_SOURCE.user &&
+    !filterState?.filtersChanged &&
+    name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+  ) {
+    return appendDisabledUser(options, value);
+  }
+
+  return options;
+};
 
 export const serviceHasReferFields = service => {
   if (!service) {
@@ -287,3 +271,18 @@ export const getRecordInformationForms = i18n => ({
     is_first_tab: false
   })
 });
+
+export const shouldFieldUpdate = (nextProps, currentProps) => {
+  return (
+    nextProps?.options?.length !== currentProps?.options?.length ||
+    nextProps.name !== currentProps.name ||
+    nextProps.required !== currentProps.required ||
+    nextProps.disabled !== currentProps.disabled ||
+    nextProps.readOnly !== currentProps.readOnly ||
+    nextProps.formik.isSubmitting !== currentProps.formik.isSubmitting ||
+    Object.keys(nextProps).length !== Object.keys(currentProps).length ||
+    getIn(nextProps.formik.values, currentProps.name) !== getIn(currentProps.formik.values, currentProps.name) ||
+    getIn(nextProps.formik.errors, currentProps.name) !== getIn(currentProps.formik.errors, currentProps.name) ||
+    getIn(nextProps.formik.touched, currentProps.name) !== getIn(currentProps.formik.touched, currentProps.name)
+  );
+};
