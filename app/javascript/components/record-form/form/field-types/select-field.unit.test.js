@@ -162,7 +162,7 @@ describe("<SelectField />", () => {
       const autocomplete = selectField.find(Autocomplete);
 
       expect(searchableSelect).to.have.lengthOf(1);
-      expect(searchableSelect.props().options).to.have.lengthOf(4);
+      expect(searchableSelect.props().options).to.have.lengthOf(3);
       expect(autocomplete.props().options[1].disabled).to.be.true;
     });
   });
