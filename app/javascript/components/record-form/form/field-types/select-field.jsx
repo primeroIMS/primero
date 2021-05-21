@@ -3,6 +3,7 @@ import { FastField, getIn } from "formik";
 
 import { SELECT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
+import { useI18n } from "../../../i18n";
 
 import SelectFieldContainer from "./select-field-container";
 
@@ -15,12 +16,13 @@ const SelectField = ({
   InputProps,
   mode,
   disabled,
-  formik,
   optionsSelector,
-  ...other
+  filters
 }) => {
+  const i18n = useI18n();
+
   return (
-    <FastField name={name} shouldUpdate={shouldFieldUpdate}>
+    <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale} filters={filters}>
       {({ form }) => {
         return (
           <SelectFieldContainer
@@ -33,7 +35,7 @@ const SelectField = ({
             name={name}
             setFieldValue={form.setFieldValue}
             label={label}
-            filters={other.filters}
+            filters={filters}
             optionsSelector={optionsSelector}
             error={getIn(form.error, name)}
             touched={getIn(form.touched, name)}
@@ -50,7 +52,7 @@ SelectField.displayName = SELECT_FIELD_NAME;
 SelectField.propTypes = {
   disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
-  formik: PropTypes.object.isRequired,
+  filters: PropTypes.object,
   helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,

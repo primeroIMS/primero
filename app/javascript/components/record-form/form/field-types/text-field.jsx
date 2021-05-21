@@ -70,6 +70,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     <FastField
       name={name}
       shouldUpdate={shouldFieldUpdate}
+      locale={i18n.locale}
       render={renderProps => {
         const handleOnClick = () => hideFieldValue();
 
