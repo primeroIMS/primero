@@ -3076,6 +3076,7 @@ en:
       explanation: If you disable this Report, it will not appear in the available
         reports.
       label: Disabled
+    exclude_empty_rows: Do not display empty rows
     disaggregate_by: Group by column
     filters:
       label: Report filters
