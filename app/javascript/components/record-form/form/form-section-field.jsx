@@ -64,13 +64,8 @@ const FormSectionField = ({
     options
   } = field;
 
-  const filterOptionStringSource = (() => {
-    if (optionStringsSource === CUSTOM_STRINGS_SOURCE.user) {
-      return OPTION_TYPES.REFER_TO_USERS;
-    }
-
-    return optionStringsSource;
-  })();
+  const filterOptionStringSource =
+    optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
 
   const optionsSelector = state =>
     getOptions(

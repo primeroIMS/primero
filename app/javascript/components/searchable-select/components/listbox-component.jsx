@@ -24,7 +24,7 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
       return 8 * itemSize;
     }
 
-    return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
+    return itemData.map(getChildSize).reduce((prev, curr) => prev + curr, 0);
   };
 
   const gridRef = useResetCache(itemCount);

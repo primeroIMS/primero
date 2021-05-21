@@ -39,12 +39,13 @@ const SelectFieldContainer = ({
   const { online } = useApp();
 
   const option = field.option_strings_source || field.option_strings_text;
-  const { multi_select: multiSelect } = field;
+  const { multi_select: multiSelect, selected_value: selectedDefaultValue } = field;
   const fieldValue = typeof value === "boolean" ? String(value) : value;
 
   const defaultEmptyValue = multiSelect ? [] : null;
 
-  const selectedValue = field.multi_select ? [field.selected_value] : field.selected_value;
+  const selectedValue =
+    field.multi_select && !Array.isArray(selectedDefaultValue) ? [selectedDefaultValue] : selectedDefaultValue;
 
   const { service, agency, location } = filters?.values || {};
 
