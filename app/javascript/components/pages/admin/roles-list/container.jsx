@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { fromJS, List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -37,7 +37,7 @@ const Container = () => {
   }));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
 
-  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
+  const defaultFilters = metadata.merge(fromJS(DEFAULT_DISABLED_FILTER));
   const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
   const rolesNewButton = canAddRoles && (
     <ActionButton

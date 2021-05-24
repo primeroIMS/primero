@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
@@ -35,7 +36,7 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
+  const defaultFilters = metadata.merge(fromJS(DEFAULT_DISABLED_FILTER));
 
   const columns = headersToColumns(headers, i18n);
 

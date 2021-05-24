@@ -71,7 +71,7 @@ describe("<RolesList />", () => {
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equal(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[1].api.params).to.deep.equal(expectAction.api.params);
     expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
     expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
   });
