@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
@@ -67,18 +67,15 @@ const FormSectionField = ({
   const filterOptionStringSource =
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
 
-  const optionsSelector = useCallback(
-    state =>
-      getOptions(
-        state,
-        filterOptionStringSource,
-        i18n,
-        options || optionsStringsText,
-        OPTION_TYPES.AGENCY === filterOptionStringSource,
-        { fullUsers: true }
-      ),
-    [i18n.locale, options, optionsStringsText, filterOptionStringSource]
-  );
+  const optionsSelector = selectorOptions => state =>
+    getOptions(
+      state,
+      filterOptionStringSource,
+      i18n,
+      options || optionsStringsText,
+      OPTION_TYPES.AGENCY === filterOptionStringSource,
+      { fullUsers: true, ...selectorOptions }
+    );
 
   const fieldProps = {
     name,
