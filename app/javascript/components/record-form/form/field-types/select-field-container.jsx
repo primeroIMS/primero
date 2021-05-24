@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
-import { connect } from "formik";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";

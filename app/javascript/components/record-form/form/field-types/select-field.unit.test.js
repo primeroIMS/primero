@@ -23,7 +23,7 @@ describe("<SelectField />", () => {
       label: "Agency",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true)
+      optionsSelector: () => state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true)
     };
 
     const initialState = fromJS({
@@ -76,7 +76,7 @@ describe("<SelectField />", () => {
       label: "Type of Service",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: state => getOptions(state, "lookup lookup-service-type", i18n, null, false)
+      optionsSelector: () => state => getOptions(state, "lookup lookup-service-type", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -135,7 +135,7 @@ describe("<SelectField />", () => {
       label: "Type of Service",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: state =>
+      optionsSelector: () => state =>
         getOptions(
           state,
           null,
@@ -184,7 +184,7 @@ describe("<SelectField />", () => {
           [SERVICE_SECTION_FIELDS.type]: paramsService
         }
       },
-      optionsSelector: state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
+      optionsSelector: () => state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
     };
     const expectedAction = {
       type: actions.REFERRAL_USERS_FETCH,
@@ -220,7 +220,7 @@ describe("<SelectField />", () => {
       label: "Test",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: state => getOptions(state, "lookup lookup-yes-no", i18n, null, false)
+      optionsSelector: () => state => getOptions(state, "lookup lookup-yes-no", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -282,7 +282,7 @@ describe("<SelectField />", () => {
       label: "Test",
       mode: whichFormMode("show"),
       open: true,
-      optionsSelector: state =>
+      optionsSelector: () => state =>
         getOptions(
           state,
           null,
