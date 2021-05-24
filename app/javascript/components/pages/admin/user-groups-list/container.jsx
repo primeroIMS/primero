@@ -18,11 +18,11 @@ import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
 import { getFilters } from "../agencies-list/utils";
-import { DEFAULT_DISABLED_FILTER, DISABLED, DATA } from "../constants";
+import { DEFAULT_FILTERS, DISABLED, DATA } from "../constants";
 import { onSubmitFilters } from "../utils";
 
-import { NAME, MANAGED } from "./constants";
-import { fetchUserGroups } from "./action-creators";
+import { NAME } from "./constants";
+import { fetchUserGroups, setUserGroupsFilter } from "./action-creators";
 
 const Container = () => {
   const i18n = useI18n();
@@ -34,7 +34,7 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilters = metadata.set(MANAGED, true).merge(fromJS(DEFAULT_DISABLED_FILTER));
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   const columns = headers.map(({ name, field_name: fieldName, ...rest }) => ({
     label: i18n.t(name),
@@ -42,18 +42,16 @@ const Container = () => {
     ...rest
   }));
 
-  useMetadata(recordType, metadata, fetchUserGroups, DATA, {
-    defaultFilterFields: { ...DEFAULT_DISABLED_FILTER, [MANAGED]: true }
-  });
+  useMetadata(recordType, metadata, fetchUserGroups, DATA, { defaultFilterFields: DEFAULT_FILTERS });
 
-  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchUserGroups);
+  const onSubmit = data => onSubmitFilters(data, dispatch, fetchUserGroups, setUserGroupsFilter);
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: DEFAULT_DISABLED_FILTER
+    initialFilters: DEFAULT_FILTERS
   };
 
   const tableOptions = {

@@ -12,13 +12,18 @@ describe("<LocationsList /> - Actions", () => {
       expect(clone).to.be.empty;
     });
 
-    ["LOCATIONS", "LOCATIONS_STARTED", "LOCATIONS_SUCCESS", "LOCATIONS_FAILURE", "LOCATIONS_FINISHED"].forEach(
-      property => {
-        it(`exports '${property}'`, () => {
-          expect(clone).to.have.property(property);
-          delete clone[property];
-        });
-      }
-    );
+    [
+      "LOCATIONS",
+      "LOCATIONS_STARTED",
+      "LOCATIONS_SUCCESS",
+      "LOCATIONS_FAILURE",
+      "LOCATIONS_FINISHED",
+      "SET_LOCATIONS_FILTER"
+    ].forEach(property => {
+      it(`exports '${property}'`, () => {
+        expect(clone).to.have.property(property);
+        delete clone[property];
+      });
+    });
   });
 });

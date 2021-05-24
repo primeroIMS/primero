@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Button } from "@material-ui/core";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -86,6 +87,21 @@ describe("<LocationsList />", () => {
     expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
     expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
     expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  it("should set the filters when apply is clicked", () => {
+    component.find(Button).at(1).simulate("click");
+
+    const expectedAction = {
+      payload: {
+        data: {
+          disabled: ["false"]
+        }
+      },
+      type: "locations/SET_LOCATIONS_FILTER"
+    };
+
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectedAction);
   });
 
   afterEach(() => {

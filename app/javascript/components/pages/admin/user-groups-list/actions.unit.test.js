@@ -7,6 +7,7 @@ describe("<UserGroupsList /> - Actions", () => {
     expect(clonedActions).to.be.an("object");
     [
       "CLEAR_METADATA",
+      "SET_USER_GROUPS_FILTER",
       "USER_GROUPS",
       "USER_GROUPS_STARTED",
       "USER_GROUPS_SUCCESS",

@@ -7,7 +7,7 @@ describe("<AgenciesList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchAgencies"].forEach(property => {
+    ["fetchAgencies", "setAgenciesFilter"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -27,5 +27,15 @@ describe("<AgenciesList /> - Action Creators", () => {
     };
 
     expect(actionsCreators.fetchAgencies()).to.deep.equal(expectedAction);
+  });
+
+  it("should check that 'setAgenciesFilter' action creator returns the correct object", () => {
+    const payload = { data: { disabled: ["true", "false"] } };
+    const expectedAction = {
+      type: actions.SET_AGENCIES_FILTER,
+      payload
+    };
+
+    expect(actionsCreators.setAgenciesFilter(payload)).to.deep.equal(expectedAction);
   });
 });

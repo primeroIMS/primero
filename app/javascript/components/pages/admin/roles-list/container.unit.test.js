@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Button } from "@material-ui/core";
 
 import { setupMountedComponent, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -74,6 +75,21 @@ describe("<RolesList />", () => {
     expect(component.props().store.getActions()[1].api.params).to.deep.equal(expectAction.api.params);
     expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
     expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  it("should set the filters when apply is clicked", () => {
+    component.find(Button).at(2).simulate("click");
+
+    const expectedAction = {
+      payload: {
+        data: {
+          disabled: ["false"]
+        }
+      },
+      type: "roles/SET_ROLES_FILTER"
+    };
+
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectedAction);
   });
 
   it("should render new button", () => {

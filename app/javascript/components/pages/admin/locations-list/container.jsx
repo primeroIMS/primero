@@ -18,10 +18,10 @@ import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
 import { getLocationsAvailable } from "../../../application/selectors";
-import { DEFAULT_DISABLED_FILTER, DATA } from "../constants";
+import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import ImportDialog from "./import-dialog";
-import { fetchLocations } from "./action-creators";
+import { fetchLocations, setLocationsFilter } from "./action-creators";
 import { DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP, LOCATIONS_DIALOG } from "./constants";
 import { getColumns, getFilters } from "./utils";
 
@@ -35,7 +35,7 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
 
-  const defaultFilters = metadata.merge(DEFAULT_DISABLED_FILTER);
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
@@ -45,7 +45,7 @@ const Container = () => {
   };
 
   useMetadata(recordType, metadata, fetchLocations, DATA, {
-    defaultFilterFields: DEFAULT_DISABLED_FILTER
+    defaultFilterFields: DEFAULT_FILTERS
   });
 
   const tableOptions = {
@@ -63,14 +63,14 @@ const Container = () => {
     onRowClick: () => {}
   };
 
-  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchLocations);
+  const onSubmit = data => onSubmitFilters(data, dispatch, fetchLocations, setLocationsFilter);
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: DEFAULT_DISABLED_FILTER
+    initialFilters: DEFAULT_FILTERS
   };
 
   const actions = [

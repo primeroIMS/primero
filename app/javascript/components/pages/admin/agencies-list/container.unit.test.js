@@ -1,4 +1,6 @@
 import { fromJS } from "immutable";
+import { Button } from "@material-ui/core";
+import { expect } from "chai";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -62,7 +64,7 @@ describe("<AgenciesList />", () => {
         params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], managed: true }),
         path: NAMESPACE
       },
-      type: "users/AGENCIES"
+      type: "agencies/AGENCIES"
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
@@ -74,6 +76,21 @@ describe("<AgenciesList />", () => {
     expect(component.props().store.getActions()[1].api.params).to.deep.equals(expectAction.api.params);
     expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
     expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+  });
+
+  it("should set the filters when apply is clicked", () => {
+    component.find(Button).at(2).simulate("click");
+
+    const expectedAction = {
+      payload: {
+        data: {
+          disabled: ["false"]
+        }
+      },
+      type: "agencies/SET_AGENCIES_FILTER"
+    };
+
+    expect(component.props().store.getActions()[2]).to.deep.equals(expectedAction);
   });
 
   afterEach(() => {

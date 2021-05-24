@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { isImmutable } from "immutable";
 
 import { RECORD_PATH } from "../../../../config";
@@ -16,3 +15,8 @@ export const fetchAgencies = params => {
     }
   };
 };
+
+export const setAgenciesFilter = payload => ({
+  type: actions.SET_AGENCIES_FILTER,
+  payload
+});

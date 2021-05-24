@@ -1,8 +1,8 @@
-import { isEmpty } from "lodash";
+import { batch } from "react-redux";
 
 import { ADMIN_RESOURCES } from "../../../libs/permissions";
 
-import { DEFAULT_DISABLED_FILTER } from "./constants";
+import { DEFAULT_FILTERS } from "./constants";
 
 export const headersToColumns = (headers, i18n) =>
   headers.map(({ name, field_name: fieldName }) => ({
@@ -15,10 +15,13 @@ export const getAdminResources = userPermissions =>
     adminResource => userPermissions.keySeq().includes(adminResource) && userPermissions.get(adminResource).size > 0
   );
 
-export const onSubmitFilters = data => (dispatch, fetchMethod) => {
-  const setDefaultFilters = isEmpty(data) ? DEFAULT_DISABLED_FILTER : {};
+export const onSubmitFilters = (data, dispatch, fetch, setFilters) => {
+  const filters = { data: { ...DEFAULT_FILTERS, ...(data || {}) } };
 
-  dispatch(fetchMethod({ data: { ...data, ...setDefaultFilters } }));
+  batch(() => {
+    dispatch(fetch(filters));
+    dispatch(setFilters(filters));
+  });
 };
 
 export const validateMetadata = (payload, defaultMetadata) => {

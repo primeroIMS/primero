@@ -18,9 +18,9 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
-import { DEFAULT_DISABLED_FILTER, DATA } from "../constants";
+import { DEFAULT_FILTERS, DATA } from "../constants";
 
-import { fetchAgencies } from "./action-creators";
+import { fetchAgencies, setAgenciesFilter } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
 import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
@@ -36,11 +36,11 @@ const Container = () => {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
 
-  const defaultFilters = metadata.merge(fromJS(DEFAULT_DISABLED_FILTER));
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   const columns = headersToColumns(headers, i18n);
 
-  useMetadata(recordType, metadata, fetchAgencies, DATA, { defaultFilterFields: DEFAULT_DISABLED_FILTER });
+  useMetadata(recordType, metadata, fetchAgencies, DATA, { defaultFilterFields: DEFAULT_FILTERS });
 
   const tableOptions = {
     recordType,
@@ -54,14 +54,14 @@ const Container = () => {
     bypassInitialFetch: true
   };
 
-  const onSubmit = data => onSubmitFilters(data)(dispatch, fetchAgencies);
+  const onSubmit = data => onSubmitFilters(data, dispatch, fetchAgencies, setAgenciesFilter);
 
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
     onSubmit,
     defaultFilters,
-    initialFilters: DEFAULT_DISABLED_FILTER
+    initialFilters: DEFAULT_FILTERS
   };
 
   const newAgencyBtn = canAddAgencies ? (
