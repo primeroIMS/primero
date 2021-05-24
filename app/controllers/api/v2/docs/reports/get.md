@@ -44,7 +44,7 @@ therefore the report data is not available in the response.
             "disabled": false,
             "editable": false,
             "record_type": "case",
-            "module_id": ["primeromodule-cp"],
+            "module_id": "primeromodule-cp",
             "group_dates_by": "month",
             "group_ages": false,
         },
