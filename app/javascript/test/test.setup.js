@@ -139,4 +139,6 @@ global.HTMLCanvasElement.prototype.getContext = () => {
 
 global.cancelAnimationFrame = () => {};
 
+global.window.locationManifest = "/test-locations.json";
+
 Enzyme.configure({ adapter: new Adapter() });

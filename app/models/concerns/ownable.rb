@@ -126,4 +126,8 @@ module Ownable
     self.last_updated_organization = current_user.agency&.unique_id
     self.last_updated_at = DateTime.now
   end
+
+  def owner?(user)
+    owned_by == user&.user_name
+  end
 end

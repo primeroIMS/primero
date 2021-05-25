@@ -252,6 +252,22 @@ describe Ownable do
     end
   end
 
+  describe '#owner?' do
+    before :each do
+      @user_a = User.new(user_name: 'userA')
+      @user_a.save(validate: false)
+      @user_b = User.new(user_name: 'userB')
+      @user_b.save(validate: false)
+      @case1 = Child.create!(name: 'Case1', owned_by: 'userA')
+    end
+    it 'return false when user is not the owner' do
+      expect(@case1.owner?(@user_a)).to be false
+    end
+    it 'return true when user is the owner' do
+      expect(@case1.owner?(@user_b)).to be false
+    end
+  end
+
   after do
     clean_data(User, Child, PrimeroModule, UserGroup, Agency, Role, FormSection, Field, PrimeroProgram)
   end

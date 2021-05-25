@@ -185,6 +185,14 @@ class FormSection < ApplicationRecord
     end
   end
 
+  def subform_fields
+    fields.select {|f| f.type == 'subform'}
+  end
+
+  def non_subform_fields
+    fields.reject {|f| f.type == 'subform'}
+  end
+
   def permitted_destroy!
     return unless !editable? || core_form?
 

@@ -20,6 +20,7 @@ import {
 import handleFilterChange from "../value-handlers";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getOptions } from "../../../../form/selectors";
+import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -154,7 +155,9 @@ const Component = ({
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
-        classes={{ root: css.select }}
+        classes={{ root: css.select, ...listboxClasses }}
+        ListboxComponent={virtualize(filterOptions.length)}
+        disableListWrap
         multiple={multiple}
         getOptionLabel={optionLabel}
         onChange={handleChange}

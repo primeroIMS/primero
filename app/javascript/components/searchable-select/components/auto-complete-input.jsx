@@ -7,7 +7,20 @@ import { optionLabel } from "../utils";
 
 const Component = forwardRef(
   (
-    { params, value, mode, helperText, InputLabelProps, isDisabled, isLoading, multiple, TextFieldProps, options },
+    {
+      params,
+      value,
+      mode,
+      helperText,
+      InputLabelProps,
+      isDisabled,
+      isLoading,
+      multiple,
+      TextFieldProps,
+      options,
+      optionIdKey,
+      optionLabelKey
+    },
     ref
   ) => {
     const i18n = useI18n();
@@ -37,7 +50,7 @@ const Component = forwardRef(
     const { disableUnderline, ...restInputParams } = inputParams;
 
     useEffect(() => {
-      inputParams.inputProps.ref.current.value = optionLabel(value || "", options);
+      inputParams.inputProps.ref.current.value = optionLabel(value || "", options, optionIdKey, optionLabelKey);
     }, [i18n.locale]);
 
     return <TextField {...restInputParams} inputRef={ref} />;
@@ -53,6 +66,8 @@ Component.defaultProps = {
   isLoading: false,
   mode: {},
   multiple: false,
+  optionIdKey: "value",
+  optionLabelKey: "label",
   options: [],
   params: {},
   TextFieldProps: {},
@@ -66,6 +81,8 @@ Component.propTypes = {
   isLoading: PropTypes.bool,
   mode: PropTypes.object,
   multiple: PropTypes.bool,
+  optionIdKey: PropTypes.string,
+  optionLabelKey: PropTypes.string,
   options: PropTypes.array,
   params: PropTypes.object,
   TextFieldProps: PropTypes.object,

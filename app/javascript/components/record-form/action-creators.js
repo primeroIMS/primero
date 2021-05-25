@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -55,7 +56,10 @@ export const fetchForms = () => ({
 export const fetchOptions = () => async dispatch => {
   batch(() => {
     dispatch(fetchLookups());
-    dispatch(fetchLocations());
+
+    if (!isEmpty(window.locationManifest)) {
+      dispatch(fetchLocations());
+    }
   });
 };
 

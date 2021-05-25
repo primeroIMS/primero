@@ -1,5 +1,8 @@
 ar-JO:
+  'true': 'نعم'
+  'false': 'لا'
   accepted: مقبول
+  cancel: إلغاء
   connection_lost: غير متصل بالشبكة الان
   connected: متصل
   clear: مسح
@@ -222,12 +225,15 @@ ar-JO:
     action_plan: خطة العمل
     age: العمر
     age_estimated: العمر التقديري؟
+    agency: مؤسسة
     apply_filter: طبق
     approval_comments: تعليقات
     approval_radio: اود ان
     approval_radio_accept: موافق
     approval_radio_reject: عدم موافقة
     approval_select: النموذج ل
+    approved_success_action_plan: '%{approval_label}تمت المصادقة'
+    approved_success_assessment: '%{approval_label}تمت المصادقة'
     approved_success_bia: '%{approval_label}تمت المصادقة'
     approved_success_case_plan: '%{approval_label}تمت المصادقة'
     approved_success_closure: 'تمت المصادقة%{approval_label}'
@@ -409,6 +415,7 @@ ar-JO:
     deleted_subform: 'تمت إزالة إدخال النموذج الفرعي'
     label: 'سجل التغيير '
     see_details: ' اظهار التفاصيل'
+    change: 'من'
     updated_subform: 'تم تحديث إدخال النموذج الفرعي'
     update_subform: 'نموذج فرعي %{subform_name} محدث'
   children:
@@ -523,48 +530,6 @@ ar-JO:
     closed_last_week: مغلقه (الاسبوع الماضي)
     closed_this_week: مغلقه (الاسبوع الحالي)
     comprehensive_need_intervention: تدخل شامل
-    count_records_new:
-      zero: و %{stat} <span>حالة</span> جديدة
-      one: و %{stat} <span>حالة</span> جديدة
-      two: و %{stat} <span>حالات</span> جديدة
-      few: و %{stat} <span>حالات</span> جديدة
-      many: و %{stat} <span>حالات</span> جديدة
-      other: و %{stat} <span>حالات</span> جديدة
-    count_records_total:
-      zero: لديك %{stat} <span>حالة</span> إجمالية
-      one: لديك %{stat} <span>حالة</span> إجمالية
-      two: لديك %{stat} <span>حالات</span> إجمالية
-      few: لديك %{stat} <span>حالات</span> إجمالية
-      many: لديك %{stat} <span>حالات</span> إجمالية
-      other: لديك %{stat} <span>حالات</span> إجمالية
-    count_referrals_new:
-      zero: و %{stat} <span>إحالة</span> جديدة
-      one: و %{stat} <span>إحالة</span> جديدة
-      two: و %{stat} <span>إحالات</span> جديدة
-      few: و %{stat} <span>إحالات</span> جديدة
-      many: و %{stat} <span>إحالات</span> جديدة
-      other: و %{stat} <span>إحالات</span> جديدة
-    count_referrals_total:
-      zero: لديك %{stat} <span>إحالة</span> إجمالية
-      one: لديك %{stat} <span>إحالة</span> إجمالية
-      two: لديك %{stat} <span>إحالات</span> إجمالية
-      few: لديك %{stat} <span>إحالات</span> إجمالية
-      many: لديك %{stat} <span>إحالات</span> إجمالية
-      other: لديك %{stat} <span>إحالات</span> إجمالية
-    count_risk_level_new:
-      zero: و %{stat} <span>حالة</span> <span>%{stat_type} مخاطرة</span> جديدة
-      one: و %{stat} <span>حالة</span> <span>%{stat_type} مخاطرة</span> جديدة
-      two: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      few: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      many: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      other: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-    count_risk_level_total:
-      zero: 'لديك %{stat} <span>%{stat_type} حالة</span> مخاطر '
-      one: 'لديك %{stat} <span>%{stat_type} حالة</span> مخاطر '
-      two: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      few: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      many: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
     current_owner: المالك الحالي
     dash_case_incident_overview: حالاتي
     dash_group_overview: حالات مجموعاتي
@@ -597,20 +562,6 @@ ar-JO:
     link_see_all: عرض الكل
     low_level: متدني
     low_risk: أولوية منخفضة
-    manager_count_closed_total:
-      zero: 'و %{stat} <span>حالة</span> مغلقة '
-      one: 'و %{stat} <span>حالة</span> مغلقة '
-      two: 'و %{stat} <span>حالات</span> مغلقة '
-      few: 'و %{stat} <span>حالات</span> مغلقة '
-      many: 'و %{stat} <span>حالات</span> مغلقة '
-      other: 'و %{stat} <span>حالات</span> مغلقة '
-    manager_count_open_total:
-      zero: لديك %{stat} <span>حالة</span> مفتوحة
-      one: لديك %{stat} <span>حالة</span> مفتوحة
-      two: لديك %{stat} <span>حالات</span> مفتوحة
-      few: لديك %{stat} <span>حالات</span> مفتوحة
-      many: لديك %{stat} <span>حالات</span> مفتوحة
-      other: لديك %{stat} <span>حالات</span> مفتوحة
     match_result: نتائج متشابهة
     medium_level: متوسط
     medium_risk: أولوية متوسطة
@@ -622,11 +573,11 @@ ar-JO:
     new_child_assigned_to_you: حالات جديدة تم التعيين لك
     new_incident: حوادث جديدة
     new_incident_assigned_to_you: حوادث جديدة تم التعيين لك
-    new_last_week: جديد <span>(الاسبوع الماضي)</span>
+    new_last_week: جديد (الاسبوع الماضي)
     new_or_updated: جديد أو محدث
     new_referred: إحالات جديدة
     new_service_provision: تقديم خدمة جديدة
-    new_this_week: جديد <span>(الاسبوع الحالي)</span>
+    new_this_week: جديد (الاسبوع الحالي)
     no_action_risk: لا اجراء
     no_case_stats: لا يوجد إحصائيات حالة
     no_caseworker_data: ' بيانات الأخصائي الاجتماعي غير موجودة:'
@@ -663,7 +614,6 @@ ar-JO:
     registration: التسجيل
     rejected: مرفوض
     rejected_transfers: عمليات النقل المرفوضة
-    response: تصنيف نوع الاستجابة قيد الاجراء
     scheduled_activities: أنشطة مجدولة
     score_range: نطاق النتائج
     screening_service: خدمة الفرز
@@ -693,20 +643,6 @@ ar-JO:
     with_incidents: مع الحوادث
     with_new_incidents: مع حوادث جديدة
     without_incidents: بدون حادثة
-    worker_count_referrals_total:
-      zero: <span>%{case_worker}</span> لديه %{stat} <span>إحالة</span> إجمالية
-      one: <span>%{case_worker}</span> لديه %{stat} <span>إحالة</span> إجمالية
-      two: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      few: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      many: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      other: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-    worker_count_total:
-      zero: '<span>%{case_worker}</span> لديه %{stat} <span>حالة</span> إجمالية '
-      one: '<span>%{case_worker}</span> لديه %{stat} <span>حالة</span> إجمالية '
-      two: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      few: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      many: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      other: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
     workflow: سير العمل
     workflow_team: سير العمل - حالات مجموعات
     you_have: 'لديك'
@@ -728,11 +664,13 @@ ar-JO:
     address_subform_fields: '%{subform} %{fields}يحتوي حقول غير صالحة'
   error_page:
     not_authorized:
+      server_error: غير مخول بالوصول الى هذة الصفحة
       title: غير مخول
     not_found:
       contact_admin: إذا كنت تعتقد إنك جئت إلى هنا بالخطأ يرجى الاتصال بالمشرف.
       something_went_wrong: نأسف, يوجد خطأ.
   errors:
+    error_loading: خطأ في تحميل السجل
     models:
       agency:
         code_present: يجب ألا يكون فارغًا
@@ -1264,6 +1202,7 @@ ar-JO:
     label: أذونات
     permission:
       All: الكل
+      add_note: إضافة ملاحظات
       admin_only: لا توجد سجلات - وظائف المشرف فقط
       administrator_read: قراءات عن المشرف
       agency: مؤسسة

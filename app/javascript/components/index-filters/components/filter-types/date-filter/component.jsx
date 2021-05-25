@@ -18,7 +18,7 @@ import Panel from "../../panel";
 import styles from "../styles.css";
 import { registerInput, handleMoreFiltersChange, resetSecondaryFilter, setMoreFilterOnPrimarySection } from "../utils";
 
-import { getDateValue } from "./utils";
+import { getDatesValue, getDateValue } from "./utils";
 import { NAME } from "./constants";
 
 const useStyles = makeStyles(styles);
@@ -60,7 +60,7 @@ const Component = ({
       });
     }
 
-    const value = { ...inputValue, [field]: formattedDate };
+    const value = { ...getDatesValue(inputValue), [field]: formattedDate };
 
     setInputValue(value);
     setValue(selectedField, value);
@@ -70,7 +70,7 @@ const Component = ({
     }
 
     if (addFilterToList) {
-      addFilterToList({ [selectedField]: value || undefined });
+      addFilterToList({ [selectedField]: value || getDatesValue(undefined, dateIncludeTime) });
     }
   };
 
@@ -82,10 +82,10 @@ const Component = ({
     }
 
     setSelectedField(value);
-    setValue(value, undefined);
+    setValue(value, getDatesValue(undefined, dateIncludeTime));
 
     if (addFilterToList) {
-      addFilterToList({ [value]: undefined });
+      addFilterToList({ [value]: getDatesValue(undefined, dateIncludeTime) });
     }
 
     if (mode?.secondary) {
@@ -96,7 +96,7 @@ const Component = ({
   const handleReset = () => {
     if (selectedField) {
       setSelectedField("");
-      setValue(selectedField, undefined);
+      setValue(selectedField, getDatesValue(undefined, dateIncludeTime));
 
       resetSecondaryFilter(
         mode?.secondary,
@@ -107,14 +107,14 @@ const Component = ({
       );
 
       if (addFilterToList) {
-        addFilterToList({ [fieldName]: undefined });
+        addFilterToList({ [fieldName]: getDatesValue(undefined, dateIncludeTime) });
       }
     }
   };
 
   const setSecondaryValues = (name, values) => {
-    setValue(name, values);
-    setInputValue(values);
+    setValue(name, getDatesValue(values, dateIncludeTime));
+    setInputValue(getDatesValue(values, dateIncludeTime));
   };
 
   useEffect(() => {
@@ -138,14 +138,14 @@ const Component = ({
       const datesValue = queryParams?.[selectValue];
 
       setSelectedField(selectValue);
-      setInputValue(datesValue);
+      setInputValue(getDatesValue(datesValue, dateIncludeTime));
     } else if (filterToList && !isEmpty(Object.keys(filterToList))) {
       const data = filter?.options?.[i18n.locale].find(option => Object.keys(filterToList).includes(option.id));
       const selectValue = data?.id;
       const datesValue = filterToList?.[selectValue];
 
       setSelectedField(selectValue);
-      setInputValue(datesValue);
+      setInputValue(getDatesValue(datesValue, dateIncludeTime));
     }
 
     return () => {

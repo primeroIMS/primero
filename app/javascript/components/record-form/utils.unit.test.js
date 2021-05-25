@@ -335,7 +335,7 @@ describe("<RecordForms /> - utils", () => {
 
       const initialValues = {
         subform_1: [
-          { allowed_field: "stanley", disallowed_field: "test disallowed" },
+          { allowed_field: "stanley", disallowed_field: "test disallowed", _hidden: true },
           { allowed_field: "gerald", disallowed_field: "test disallowed" }
         ],
         subform_2: [],
@@ -344,6 +344,7 @@ describe("<RecordForms /> - utils", () => {
 
       const expected = {
         subform_1: [
+          { allowed_field: "stanley", disallowed_field: "test disallowed", _hidden: true },
           {
             allowed_field: "gerald",
             disallowed_field: "test disallowed"

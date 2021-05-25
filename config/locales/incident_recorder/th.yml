@@ -4,11 +4,11 @@ th:
       export_incident_recorder_xls: "ส่งออกบันทึกเหตุการณ์เป็นไฟล์ XLS"
   exports:
     incident_recorder_xls:
-      all:  ผู้บันทึกเหตุการณ์
-      one:  ผู้บันทึกเหตุการณ์
-      selected:  เลือกบันทึกเหตุการณ์
-      "yes": "ใช่"
-      "no": "ไม่ใช่่"
+      all: ผู้บันทึกเหตุการณ์
+      one: ผู้บันทึกเหตุการณ์
+      selected: เลือกบันทึกเหตุการณ์
+      'yes': "ใช่"
+      'no': "ไม่ใช่่"
       gender:
         male: "ชาย"
         female: "หญิง"
@@ -24,8 +24,6 @@ th:
         both: "ผู้ใหญ่และผู้เยาว์"
         unknown: "ไม่มีข้อมูล"
         header: "ประเภทอายุของผู้ต้องสงสัย"
-      service_referral:
-        undecided: ""
       headers:
         incident_id: "หมายเลขเหตุการณ์"
         survivor_code: "รหัสผู้รอดชีวิต"
