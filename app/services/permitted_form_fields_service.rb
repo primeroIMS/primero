@@ -24,6 +24,8 @@ class PermittedFormFieldsService
     end
   end
 
+  # TODO: Constrain to only allow API data updates on the following types:
+  #       TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, NUMERIC_FIELD, DATE_FIELD, SUBFORM, TICK_BOX
   def permitted_fields_from_forms(role, record_type, writeable, visible_only = false)
     permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
     fields = Field.joins(form_section: :roles).where(

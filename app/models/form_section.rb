@@ -189,11 +189,11 @@ class FormSection < ApplicationRecord
   end
 
   def subform_fields
-    fields.select {|f| f.type == 'subform'}
+    fields.select { |f| f.type == 'subform' }
   end
 
   def non_subform_fields
-    fields.reject {|f| f.type == 'subform'}
+    fields.reject { |f| f.type == 'subform' }
   end
 
   def permitted_destroy!

@@ -61,12 +61,20 @@ describe RecordJsonValidatorService do
     end
 
     describe 'DATE FIELD' do
-      it 'accepts dates' do
+      it 'accepts ISO date strings' do
         expect(service.valid?('registration_date' => '2021-05-15')).to be_truthy
       end
 
-      it 'accepts date times' do
+      it 'accepts ISO date time strings' do
         expect(service.valid?('created_on' => '2021-05-15T00:31:22+00:00')).to be_truthy
+      end
+
+      it 'accepts Date objects' do
+        expect(service.valid?('registration_date' => Date.new(2021, 5, 15))).to be_truthy
+      end
+
+      it 'accepts Time objects' do
+        expect(service.valid?('created_on' => Time.new(2021, 5, 15, 14, 38, 44))).to be_truthy
       end
 
       it 'accepts nil values' do

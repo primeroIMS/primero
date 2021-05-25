@@ -3,7 +3,7 @@
 # TODO: This class will need some cleanup/refactor
 # Calculate the permitted fields for a record based on the user's role
 class PermittedFieldService
-  attr_accessor :user, :model_class, :action_name, :id_search
+  attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
 
   PERMITTED_CORE_FIELDS = %w[id record_in_scope or not cases_by_date alert_count].freeze
 
@@ -30,11 +30,12 @@ class PermittedFieldService
 
   ID_SEARCH_FIELDS = %w[age date_of_birth estimated name module_id sex].freeze
 
-  def initialize(user, model_class, action_name = nil, id_search = nil)
+  def initialize(user, model_class, action_name = nil, id_search = nil, permitted_form_field_service = nil)
     self.user = user
     self.model_class = model_class
     self.action_name = action_name
     self.id_search = id_search
+    self.permitted_form_field_service = permitted_form_field_service || PermittedFormFieldsService.instance
   end
 
   # This is a long series of permission conditions. Sacrificing Rubocop for readability.
@@ -47,7 +48,9 @@ class PermittedFieldService
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = PERMITTED_CORE_FIELDS
-    @permitted_field_names += user.permitted_field_names_from_forms(model_class.parent_form, false, writeable)
+    @permitted_field_names += permitted_form_field_service.permitted_field_names(
+      user.role, model_class.parent_form, writeable
+    )
     @permitted_field_names += PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)

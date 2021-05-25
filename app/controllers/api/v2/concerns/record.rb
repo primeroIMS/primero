@@ -8,11 +8,12 @@ module Api::V2::Concerns::Record
   extend ActiveSupport::Concern
 
   included do
+    before_action :instantiate_app_services
     before_action :permit_params, only: %i[index create update]
+    before_action :validate_json!, only: %i[create update]
     before_action :permit_fields
     before_action :select_fields_for_index, only: [:index]
     before_action :select_fields_for_show, only: [:show]
-    before_action :record_data_service
   end
 
   def index
@@ -64,12 +65,21 @@ module Api::V2::Concerns::Record
     params.permit!
   end
 
+  def validate_json!
+    permitted_fields = @permitted_form_fields_service.permitted_fields(
+      current_user.role, model_class.parent_form, write?
+    )
+    service = RecordJsonValidatorService.new(fields: permitted_fields)
+    service.validate!(params[:data].to_h)
+  end
+
   def permit_fields
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
       params[:record_action],
-      params[:id_search]
+      params[:id_search],
+      @permitted_form_fields_service
     ).permitted_field_names(write?)
   end
 
@@ -103,8 +113,9 @@ module Api::V2::Concerns::Record
     instance_variable_set("@#{model_class.name.underscore}", record)
   end
 
-  def record_data_service
+  def instantiate_app_services
     @record_data_service = RecordDataService.new
+    @permitted_form_fields_service = PermittedFormFieldsService.instance
   end
 
   def query_scope

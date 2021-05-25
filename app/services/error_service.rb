@@ -23,7 +23,7 @@ class ErrorService
           resource: request.path
         )
       ]
-    when Errors::InvalidPrimeroEntityType
+    when Errors::InvalidPrimeroEntityType, Errors::InvalidRecordJson
       code = 422
       errors = [ApplicationError.new(code: 422, message: error.message, resource: request.path)]
     when ActiveRecord::RecordInvalid

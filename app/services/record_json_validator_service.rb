@@ -22,8 +22,9 @@ class RecordJsonValidatorService < ValueObject
       case field.type
       when Field::DATE_FIELD
         # Date or DateTime ISO 8601
+        # Note: See deviation from JSON Schema: config/initializers/date_time_format.rb
         format = field.date_include_time ? 'date-time' : 'date'
-        properties[field.name] = { 'type' => %w[string null], 'format' => format }
+        properties[field.name] = { 'type' => [format, 'string', 'null'], 'format' => format }
       when Field::TICK_BOX
         # Boolean
         properties[field.name] = { 'type' => %w[boolean] }
@@ -39,6 +40,8 @@ class RecordJsonValidatorService < ValueObject
                                    # String
                                    { 'type' => %w[string null] }
                                  end
+      when Field::RADIO_BUTTON
+        properties[field.name] = { 'type' => %w[string boolean null] }
       when Field::SUBFORM
         # Array of objects and recurse
         # TODO: Defensive coding, what if subform is nil?
@@ -57,6 +60,6 @@ class RecordJsonValidatorService < ValueObject
   def validate!(json_hash)
     return if valid?(json_hash)
 
-    raise Errors::InvalidRecordJson
+    raise(Errors::InvalidRecordJson, 'Invalid Record JSON')
   end
 end

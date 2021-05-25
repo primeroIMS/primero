@@ -169,13 +169,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
       Child.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params
+      post '/api/v2/cases', params: params, as: :json
 
       sleep(1)
 
       login_for_test
       params = { data: { name: 'Tester', age: 10, sex: 'male' } }
-      patch "/api/v2/cases/#{Child.first.id}", params: params
+      patch "/api/v2/cases/#{Child.first.id}", params: params, as: :json
 
       login_for_test(
         permissions: [
@@ -237,7 +237,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     it 'returns 403 if user only have read permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params
+      post '/api/v2/cases', params: params, as: :json
 
       login_for_test(
         permissions: [
@@ -254,7 +254,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     it 'returns 403 if user only have audit_log permission' do
       login_for_test
       params = { data: { name: 'Test', age: 12, sex: 'female' } }
-      post '/api/v2/cases', params: params
+      post '/api/v2/cases', params: params, as: :json
 
       login_for_test(
         permissions: [
