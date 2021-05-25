@@ -153,19 +153,15 @@ module Record
     # To avoid changing the front end, just take those hashes with the array
     # index as keys that it gives for nested subforms and convert it to real
     # arrays for assignment on the model
-    def convert_arrays(fields)
+    def convert_arrays(fields, document_form_names = [])
       hash_arrays_to_arrays = lambda do |h|
-        case h
-        when Hash
-          return h if h.length == 0
-          # If it isn't integers, just return the original
-          begin
-            h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
-          rescue
-            h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
-          end
-        else
-          h
+        return h if !h.is_a?(Hash) || (h.is_a?(Hash) &&
+                      (h.length.zero? || document_form_names.include?(h.keys.first)))
+
+        begin
+          h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
+        rescue
+          h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
         end
       end
 
@@ -437,7 +433,7 @@ module Record
   end
 
   def update_properties(properties, user_name)
-    properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
+    properties = self.class.blank_to_nil(self.class.convert_arrays(properties, document_form_names))
     if properties['histories'].present?
       properties['histories'] = remove_newly_created_media_history(properties['histories'])
     end
@@ -519,5 +515,9 @@ module Record
         self[target_key] = source_value unless source_value.nil?
       end
     end
+  end
+
+  def document_form_names
+    %w[update_other_document update_bia_document update_bid_document update_supporting_material]
   end
 end
