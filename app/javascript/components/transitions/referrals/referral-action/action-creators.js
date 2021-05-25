@@ -3,7 +3,7 @@
 import { ACCEPTED, REJECTED, DONE } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
-import { fetchRecordCallback } from "../../utils";
+import { redirectCheckAccessDenied } from "../../utils";
 
 import actions from "./actions";
 
@@ -27,7 +27,7 @@ const referralAction = (type, { data, message, failureMessage, recordId, recordT
       {
         action: CLEAR_DIALOG
       },
-      fetchRecordCallback({ recordId, recordType })
+      redirectCheckAccessDenied(recordType)
     ],
     failureCallback: [
       {

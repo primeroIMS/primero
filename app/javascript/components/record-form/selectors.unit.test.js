@@ -12,6 +12,7 @@ import {
   REFERRAL,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
+import { FieldRecord } from "../form";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
@@ -778,10 +779,31 @@ describe("<RecordForm /> - Selectors", () => {
 
   describe("getMiniFormFields", () => {
     it("should return show_on_minify_form fields for non nested forms", () => {
-      const expected = fromJS([R.FieldRecord(fields["1"])]);
+      const expected = fromJS([
+        FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      ]);
       const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp");
 
-      expect(result).to.deep.equal(expected);
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toList().toJS()).to.deep.equal(expected.toJS());
     });
   });
 

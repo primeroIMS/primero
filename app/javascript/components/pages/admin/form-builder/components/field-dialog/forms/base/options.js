@@ -48,7 +48,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
     {
       name: i18n.t("fields.create_unique_values"),
       selected: !isEmpty(optionStringsText),
-      disabled: !mode.get("isNew") && isEmpty(optionStringsText),
+      disabled: !mode.get("isNew") && !optionStringsText?.size,
       fields: fromJS([
         FieldRecord({
           display_name: i18n.t("fields.find_lookup"),
@@ -81,7 +81,15 @@ export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProd
       disabled: limitedProductionSite
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite)
+      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite),
+      handleTabChange: ({ selectedTab, formMode: formTabMode, formMethods }) => {
+        if (formTabMode.isNew && selectedTab === 0) {
+          formMethods.setValue(`${fieldName}.option_strings_text`, []);
+        } else if (formTabMode.isNew && selectedTab === 1) {
+          formMethods.setValue(`${fieldName}.option_strings_source`, null);
+          formMethods.setValue(`${fieldName}.selected_value`, null);
+        }
+      }
     }
   ];
 
