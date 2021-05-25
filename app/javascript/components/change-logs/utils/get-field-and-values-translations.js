@@ -15,12 +15,12 @@ const getValueFromOptions = (allAgencies, allLookups, locations, i18n, optionSel
     return allAgencies.find(agency => agency.id === valueToTranslated)?.display_text;
   }
 
-  return allLookups
+  const lookupValue = allLookups
     ?.find(lookup => lookup.get("unique_id") === optionSelected.replace(/lookup /, ""))
     ?.get("values")
-    ?.find(v => v.get("id") === valueToTranslated)
-    ?.get("display_text")
-    ?.get(i18n.locale);
+    ?.find(v => v.get("id") === valueToTranslated);
+
+  return lookupValue ? displayNameHelper(lookupValue.get("display_text"), i18n.locale) : value;
 };
 
 const getFieldValueFromOptionSource = (
@@ -42,10 +42,13 @@ const getFieldValueFromOptionSource = (
 
 const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue) => {
   const valueTranslated = value =>
-    selectedFieldOptionsText?.find(
-      optionStringText => optionStringText.id === value
-      // eslint-disable-next-line camelcase
-    )?.display_text[i18n.locale];
+    displayNameHelper(
+      selectedFieldOptionsText?.find(
+        optionStringText => optionStringText.id === value
+        // eslint-disable-next-line camelcase
+      )?.display_text,
+      i18n.locale
+    );
 
   if (Array.isArray(fieldValue)) {
     return fieldValue.map(value => valueTranslated(value));

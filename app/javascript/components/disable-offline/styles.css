@@ -4,7 +4,8 @@
 
 .disabledLink {
   cursor: not-allowed;
-
+  opacity: .5;
+  
   & a {
     pointer-events: none !important;
     cursor: not-allowed !important;

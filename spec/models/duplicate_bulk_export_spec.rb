@@ -61,12 +61,12 @@ describe DuplicateBulkExport, search: true do
 
   context 'when cases have duplicate ids' do
     before do
-      @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
-      @child2 = create(:child, national_id_no: 'test1', age: 6, name: 'Test Child 2')
       create(:child, national_id_no: 'test2', age: 2, name: 'Test Child 3')
       create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
       create(:child, age: 4, name: 'Test Child 5')
       create(:child, age: 5, name: 'Test Child 6')
+      @child1 = create(:child, national_id_no: 'test1', age: 5, name: 'Test Child 1')
+      @child2 = create(:child, national_id_no: 'test1', age: 6, name: 'Test Child 2')
       Sunspot.commit
     end
 
@@ -74,6 +74,19 @@ describe DuplicateBulkExport, search: true do
       expect(export_csv.count).to eq(3)
       expect(export_csv[0]).to eq(@expected_headers)
       expect([export_csv[1][3], export_csv[2][3]]).to include(@child1.case_id, @child2.case_id)
+    end
+
+    it 'sort cases by national id in asc order' do
+      create(:child, national_id_no: 'test5', age: 3, name: 'Test Child 4')
+      create(:child, national_id_no: 'test5', age: 3, name: 'Test Child 4')
+      create(:child, national_id_no: 'test3', age: 3, name: 'Test Child 4')
+      Sunspot.commit
+      expect(export_csv.count).to eq(7)
+      ids_orderes = %w[test1 test3 test5]
+      export_csv[1..-1].each_with_index do |row, index|
+        expect(row[2]).to eq(ids_orderes.first)
+        ids_orderes.shift if index.odd?
+      end
     end
   end
 

@@ -83,7 +83,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   # So... loop through each admin_level and pull out location info for that admin_level
   def process_row_admin_level(row, admin_level = 0, hierarchy = [], names = {})
     location_hash = map_admin_level_data(admin_level, row, names)
-    location_hash[:type] ||= type_map[admin_level.to_s]&.first
+    location_hash[:type] = type_map[admin_level.to_s]&.first if location_hash[:type].blank?
     hierarchy << location_hash[:location_code]
     location_hash[:hierarchy_path] = hierarchy.join('.')
     location_hash[:name_i18n] = build_names_i18n(names, admin_level)
@@ -91,7 +91,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def map_admin_level_data(admin_level, row, names)
-    location_hash = { admin_level: admin_level, placename_i18n: {} }.with_indifferent_access
+    location_hash = { admin_level: admin_level, placename_i18n: {}, location_code: '', type: '' }.with_indifferent_access
     add_location_attributes(location_hash, admin_level, row, names)
     location_hash
   end
@@ -121,14 +121,17 @@ class Importers::CsvHxlLocationImporter < ValueObject
   end
 
   def build_names(location_hash, names, attributes, attribute_value)
-    unless column_name?(attributes)
+    case attributes.first
+    when 'type'
+      location_hash[:type] = attribute_value
+    when 'code'
       location_hash[:location_code] = attribute_value
-      return
+    else
+      locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
+      location_hash[:placename_i18n][locale] = attribute_value
+      names[locale] ||= []
+      names[locale] << attribute_value
     end
-    locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
-    location_hash[:placename_i18n][locale] = attribute_value
-    names[locale] ||= []
-    names[locale] << attribute_value
   end
 
   def default_type_map

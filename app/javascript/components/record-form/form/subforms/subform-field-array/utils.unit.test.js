@@ -6,10 +6,12 @@ describe("Verifying utils", () => {
   it("should have known utils", () => {
     const clonedHelpers = { ...helpers };
 
-    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender"].forEach(property => {
-      expect(clonedHelpers).to.have.property(property);
-      delete clonedHelpers[property];
-    });
+    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender", "valuesWithHiddenAttribute"].forEach(
+      property => {
+        expect(clonedHelpers).to.have.property(property);
+        delete clonedHelpers[property];
+      }
+    );
 
     expect(clonedHelpers).to.deep.equal({});
   });
@@ -149,5 +151,64 @@ describe("isTracesSubform", () => {
 
   it("should return false if it is not the traces subform", () => {
     expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).to.be.false;
+  });
+});
+
+describe("valuesWithHiddenAttribute", () => {
+  it("should return values with _hidden attributes if displayConditions is present", () => {
+    const values = [
+      {
+        relation: "father",
+        unique_id: "948329b8-b501-47d5-9b3d-64f371e7b9bd",
+        relation_name: "Brady",
+        relation_is_alive: "alive"
+      },
+      {
+        relation: "other_family",
+        unique_id: "b5981626-989c-4b29-aba9-8dca9b63a346",
+        relation_name: "r willson",
+        relation_address_current: "test current address"
+      },
+      {
+        relation: "other_family",
+        unique_id: "b5923590-112c-4b29-aba9-8efa9b63a123",
+        relation_name: "b johnson",
+        relation_is_caregiver: true
+      }
+    ];
+    const displayConditions = [
+      {
+        relation: ["father", "mother"]
+      },
+      {
+        relation_is_caregiver: true
+      }
+    ];
+
+    const expected = [
+      {
+        relation: "father",
+        unique_id: "948329b8-b501-47d5-9b3d-64f371e7b9bd",
+        relation_name: "Brady",
+        relation_is_alive: "alive"
+      },
+      {
+        relation: "other_family",
+        unique_id: "b5981626-989c-4b29-aba9-8dca9b63a346",
+        relation_name: "r willson",
+        relation_address_current: "test current address",
+        _hidden: true
+      },
+      {
+        relation: "other_family",
+        unique_id: "b5923590-112c-4b29-aba9-8efa9b63a123",
+        relation_name: "b johnson",
+        relation_is_caregiver: true
+      }
+    ];
+
+    const options = helpers.valuesWithHiddenAttribute(values, displayConditions);
+
+    expect(options).to.deep.equal(expected);
   });
 });

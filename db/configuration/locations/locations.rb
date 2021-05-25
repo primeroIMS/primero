@@ -14,8 +14,6 @@ locations = [
 
 Location.locations_by_code = locations.map { |l| [l.location_code, l] }.to_h
 
-locations.each do |loc|
-  loc.set_name_from_hierarchy_placenames
-end
+locations.each(&:name_from_hierarchy)
 
 locations.each(&:save!)

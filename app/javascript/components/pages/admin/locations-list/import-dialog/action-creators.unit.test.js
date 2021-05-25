@@ -1,7 +1,10 @@
+import { fromJS } from "immutable";
+
 import { stub } from "../../../../../test";
 import { RECORD_PATH, METHODS } from "../../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../../notifier";
 import { CLEAR_DIALOG } from "../../../../action-dialog";
+import mainActions from "../actions";
 
 import * as actionsCreators from "./action-creators";
 import actions from "./actions";
@@ -45,7 +48,8 @@ describe("<ImportDialog /> - action-creators", () => {
             data_base64: ""
           }
         },
-        message: "Saved successfully"
+        message: "Saved successfully",
+        params: { data: {} }
       };
 
       const expected = {
@@ -66,15 +70,21 @@ describe("<ImportDialog /> - action-creators", () => {
                   key: 4,
                   variant: "success"
                 }
-              },
-              redirectWithIdFromResponse: false,
-              redirect: `/admin/${RECORD_PATH.locations}`
+              }
+            },
+            {
+              action: mainActions.LOCATIONS,
+              api: {
+                path: RECORD_PATH.locations,
+                params: { hierarchy: true }
+              }
             }
           ]
         }
       };
+      const result = actionsCreators.importLocations(args);
 
-      expect(actionsCreators.importLocations(args)).to.deep.equal(expected);
+      expect(fromJS(result)).to.deep.equal(fromJS(expected));
     });
   });
 

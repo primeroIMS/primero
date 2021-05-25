@@ -6,6 +6,7 @@ import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
 import { enqueueSnackbar } from "../../../../notifier";
 import { useMemoizedSelector } from "../../../../../libs";
+import { getFilters } from "../utils";
 
 import { clearImportErrors, importLocations } from "./action-creators";
 import { getImportErrors } from "./selectors";
@@ -24,7 +25,7 @@ const Component = ({ close, i18n, open, pending }) => {
     };
     const message = i18n.t("imports.csv_hxl_location.messages.success");
 
-    dispatch(importLocations({ body, message }));
+    dispatch(importLocations({ body, message, params: getFilters(i18n) }));
   };
 
   useEffect(() => {

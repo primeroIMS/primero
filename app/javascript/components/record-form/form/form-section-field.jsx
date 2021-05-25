@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
@@ -17,9 +17,11 @@ import {
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
+import { getOptions } from "../../form/selectors";
+import { OPTION_TYPES } from "../../form";
 
 import { GuidingQuestions } from "./components";
-import { FORM_SECTION_FIELD_NAME } from "./constants";
+import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./field-types/date-field";
 import SelectField from "./field-types/select-field";
 import TextField from "./field-types/text-field";
@@ -45,7 +47,6 @@ const FormSectionField = ({
 }) => {
   const css = useStyles();
   const i18n = useI18n();
-
   const {
     type,
     help_text: helpText,
@@ -57,8 +58,27 @@ const FormSectionField = ({
     hide_on_view_page: hideOnViewPage,
     visible,
     guiding_questions: guidingQuestions,
-    link_to_form: linkToForm
+    link_to_form: linkToForm,
+    option_strings_source: optionStringsSource,
+    option_strings_text: optionsStringsText,
+    options
   } = field;
+
+  const filterOptionStringSource =
+    optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
+
+  const optionsSelector = useCallback(
+    state =>
+      getOptions(
+        state,
+        filterOptionStringSource,
+        i18n,
+        options || optionsStringsText,
+        OPTION_TYPES.AGENCY === filterOptionStringSource,
+        { fullUsers: true }
+      ),
+    [i18n.locale, options, optionsStringsText, filterOptionStringSource]
+  );
 
   const fieldProps = {
     name,
@@ -92,7 +112,8 @@ const FormSectionField = ({
     ...(mode.isShow && { placeholder: "--" }),
     index,
     displayName,
-    linkToForm
+    linkToForm,
+    ...(type === SELECT_FIELD && { optionsSelector })
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (

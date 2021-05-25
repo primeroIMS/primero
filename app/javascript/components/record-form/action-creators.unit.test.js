@@ -10,6 +10,20 @@ import { URL_LOOKUPS } from "./constants";
 describe("<RecordForm /> - Action Creators", () => {
   let dispatch;
 
+  const setOptionsAction = {
+    api: {
+      params: {
+        page: 1,
+        per: 999
+      },
+      path: "lookups",
+      db: {
+        collection: "options"
+      }
+    },
+    type: "forms/SET_OPTIONS"
+  };
+
   afterEach(() => {
     dispatch?.restore();
   });
@@ -27,7 +41,9 @@ describe("<RecordForm /> - Action Creators", () => {
       "setDataProtectionInitialValues",
       "setSelectedForm",
       "setServiceToRefer",
-      "setValidationErrors"
+      "setValidationErrors",
+      "setPreviousRecord",
+      "clearPreviousRecord"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");
@@ -77,24 +93,25 @@ describe("<RecordForm /> - Action Creators", () => {
     });
   });
 
+  it("should check the 'fetchOptions' action creator to return the correct object when no location manifest", () => {
+    const store = configureStore([thunk])({});
+    const locationRef = global.window.locationManifest;
+
+    global.window.locationManifest = [];
+
+    return store.dispatch(actionCreators.fetchOptions()).then(() => {
+      expect(store.getActions()).to.eql([setOptionsAction]);
+
+      global.window.locationManifest = locationRef;
+    });
+  });
+
   it("should check the 'fetchLookups' action creator to return the correct object", () => {
     dispatch = sinon.spy(actionCreators, "fetchLookups");
 
     actionCreators.fetchLookups();
 
-    expect(dispatch.getCall(0).returnValue).to.eql({
-      api: {
-        params: {
-          page: 1,
-          per: 999
-        },
-        path: "lookups",
-        db: {
-          collection: "options"
-        }
-      },
-      type: "forms/SET_OPTIONS"
-    });
+    expect(dispatch.getCall(0).returnValue).to.eql(setOptionsAction);
   });
 
   it("should check the 'setServiceToRefer' action creator return the correct object", () => {

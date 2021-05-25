@@ -2,7 +2,7 @@
 
 json.id audit_log.id
 json.display_id audit_log.display_id
-json.record_type audit_log.record_type
+json.record_type audit_log.record_type.underscore
 json.user_name audit_log.user_name
 json.action audit_log.action
 json.resource_url audit_log.resource_url

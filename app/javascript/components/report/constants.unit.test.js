@@ -5,7 +5,7 @@ describe("<Report /> - constants", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["DELETE_MODAL", "NAME", "DATE_PATTERN"].forEach(property => {
+    ["DELETE_MODAL", "NAME", "DATE_PATTERN", "TOTAL"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

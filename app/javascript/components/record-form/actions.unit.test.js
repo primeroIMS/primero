@@ -34,7 +34,9 @@ describe("<RecordForm /> - Actions", () => {
       "SET_SELECTED_FORM",
       "SET_SELECTED_RECORD",
       "SET_SERVICE_TO_REFER",
-      "SET_VALIDATION_ERRORS"
+      "SET_VALIDATION_ERRORS",
+      "SET_PREVIOUS_RECORD",
+      "CLEAR_PREVIOUS_RECORD"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       delete cloneActions[property];
