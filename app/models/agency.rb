@@ -64,12 +64,7 @@ class Agency < ApplicationRecord
     end
 
     def list(params = {})
-      agencies = if params[:managed]
-                   all
-                 else
-                   enabled
-                 end
-
+      agencies = params[:managed] ? all : enabled
       agencies = agencies.where(disabled: params[:disabled].values) if params[:disabled].present?
       agencies
     end

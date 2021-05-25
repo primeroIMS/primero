@@ -442,6 +442,12 @@ class User < ApplicationRecord
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end
 
+  def permitted_user_groups
+    return UserGroup.all if role.group_permission == Permission::ALL
+
+    user_groups
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end

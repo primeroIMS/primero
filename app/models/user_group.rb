@@ -7,18 +7,14 @@ class UserGroup < ApplicationRecord
   has_and_belongs_to_many :users
 
   before_create :generate_unique_id
- 
   class << self
     def list(user, opts = {})
-    user_groups = if user.role.group_permission == Permission::ALL || !opts[:managed]
-                    UserGroup.all
-                  else
-                    user.user_groups
-                  end
+      user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
 
-    return user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
-    user_groups
-  end
+      return user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
+
+      user_groups
+    end
 
     def new_with_properties(params, user)
       user_group = UserGroup.new(params)
