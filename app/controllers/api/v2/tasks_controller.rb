@@ -6,7 +6,7 @@ class Api::V2::TasksController < ApplicationApiController
 
   def index
     authorize! :index, Task
-    results = current_user.tasks(pagination)
+    results = current_user.tasks(pagination, sort_order)
     @tasks = results[:tasks]
     @total = results[:total]
   end

@@ -3,7 +3,7 @@ class Task
 
   attr_accessor :parent_case, :priority, :case_id, :detail, :name
 
-  def self.from_case(records)
+  def self.from_case(records, sort_order = {})
     records = [records] unless records.is_a?(Array)
     tasks = []
     records.each do |record|
@@ -11,7 +11,7 @@ class Task
         task_clazz.from_case(record)
       end.flatten
     end
-    tasks.sort_by!(&:due_date)
+    apply_order(tasks, sort_order)
   end
 
   #Need to use the same model name string for all tasks for i18n
@@ -39,7 +39,29 @@ class Task
   end
 
   def upcoming_soon?
-    !self.overdue? && self.due_date <= 7.days.from_now
+    !self.overdue? && self.due_date <= 60.days.from_now
   end
 
+  def self.apply_order(tasks, sort_order = {})
+    order_field = header_map(sort_order.keys.first.to_s)
+    order_by = sort_order.values.first
+
+    return tasks.sort_by!(&:due_date) if order_field.blank? || %w[status created_at].include?(order_field)
+
+    tasks_ordered = tasks.sort_by! { |task| task.send(order_field) || '' }
+    order_by == 'desc' ? tasks_ordered.reverse! : tasks_ordered
+  end
+
+  def self.header_map(header_name)
+    case header_name
+    when 'record_id_display'
+      'case_id'
+    when 'status'
+      'due_date'
+    when 'created_at'
+      'due_date'
+    else
+      header_name
+    end
+  end
 end
