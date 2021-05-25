@@ -5,7 +5,7 @@ import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { MODULES, RECORD_TYPES } from "../../config";
 import generateKey from "../charts/table-values/utils";
-import { FieldRecord } from "../form";
+import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 
 import { CUSTOM_FORM_IDS_NAV } from "./nav/constants";
