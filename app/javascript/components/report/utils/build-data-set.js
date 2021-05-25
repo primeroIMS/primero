@@ -17,13 +17,13 @@ export default (columns, data, i18n, fields, qtyColumns, qtyRows, { agencies, lo
       : fields.shift();
 
   if (!isEmpty(columns)) {
-    sortByDate(columns).forEach((column, i) => {
+    sortByDate(columns).forEach((column, index) => {
       const label = getTranslatedKey(column, field, { agencies, locations });
 
       dataResults.push({
         label: formattedDate(label, i18n),
         data: getColumnData(column, data, i18n, qtyColumns, qtyRows),
-        backgroundColor: getColors(i)
+        backgroundColor: getColors(index)
       });
     });
   } else {

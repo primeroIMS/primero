@@ -18,9 +18,6 @@ export default (keys, field, locale) => {
 
     return translations.filter(translation => keys.includes(translation.id));
   }
-  if (field.option_strings_source === "Location") {
-    // TODO: Pull locations
-  }
 
   return [];
 };

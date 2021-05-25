@@ -4,11 +4,12 @@ import isEmpty from "lodash/isEmpty";
 import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 
-import { useI18n } from "../../../i18n";
-import styles from "../styles.css";
-import generateKey from "../utils";
+import { useI18n } from "../../../../i18n";
+import generateKey from "../../utils";
 
+import styles from "./styles.css";
 import { emptyColumn } from "./utils";
+import { NAME } from "./constants";
 
 const useStyles = makeStyles(styles);
 
@@ -76,7 +77,7 @@ const TableHeader = ({ columns }) => {
   );
 };
 
-TableHeader.displayName = "TableHeader";
+TableHeader.displayName = NAME;
 
 TableHeader.propTypes = {
   columns: PropTypes.array

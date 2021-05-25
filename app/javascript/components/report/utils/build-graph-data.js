@@ -11,7 +11,7 @@ export default (report, i18n, { agencies, locations }) => {
   if (!reportData.report_data) {
     return {};
   }
-  const { fields } = report.toJS();
+  const { fields } = reportData;
   const translatedReport = translateReportData(reportData, i18n);
   const qtyColumns = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.vertical).length;
   const qtyRows = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.horizontal).length;
@@ -20,7 +20,7 @@ export default (report, i18n, { agencies, locations }) => {
   const graphData = {
     description: translatedReport.description ? translatedReport.description[i18n.locale] : "",
     data: {
-      labels: getLabels(columns, translatedReport.report_data, i18n, report.toJS().fields, qtyColumns, qtyRows, {
+      labels: getLabels(columns, translatedReport.report_data, i18n, fields, qtyColumns, qtyRows, {
         agencies,
         locations
       }),
