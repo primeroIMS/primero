@@ -9,7 +9,7 @@ import {
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
   getPermittedRoleUniqueIds
-} from "../user";
+} from "../user/selectors";
 import { getRecordForms } from "../record-form";
 import { GROUP_PERMISSIONS } from "../../libs/permissions";
 

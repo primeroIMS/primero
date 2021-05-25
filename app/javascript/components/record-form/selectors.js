@@ -5,7 +5,7 @@ import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP } from "../../config";
-import { FieldRecord } from "../form";
+import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 
 import getDefaultForms from "./form/utils/get-default-forms";
