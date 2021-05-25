@@ -31,13 +31,13 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, isNew, userModules) => {
+export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationConfig) => {
   const checkModuleField = ({ [MODULES_FIELD]: modules }) => ({
     disabled: isNew && isEmpty(modules)
   });
 
   const checkModuleAndRecordType = ({ [MODULES_FIELD]: modules = [], [RECORD_TYPE_FIELD]: recordType }, options) =>
-    formattedFields(options, modules, recordType, i18n.locale);
+    formattedFields(options, modules, recordType, i18n, reportingLocationConfig);
 
   const aggregateDefaults = {
     type: SELECT_FIELD,
