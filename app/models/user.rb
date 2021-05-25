@@ -443,7 +443,7 @@ class User < ApplicationRecord
   end
 
   def permitted_user_groups
-    return UserGroup.all if role.group_permission == Permission::ALL
+    return UserGroup.all if group_permission?(Permission::ALL) || group_permission?(Permission::ADMIN_ONLY)
 
     user_groups
   end
