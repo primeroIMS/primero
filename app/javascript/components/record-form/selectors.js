@@ -6,7 +6,8 @@ import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP } from "../../config";
 
-import { getDefaultForms, getDefaultRecordInfoForms } from "./form/utils";
+import getDefaultForms from "./form/utils/get-default-forms";
+import getDefaultRecordInfoForms from "./form/utils/get-default-record-info-forms";
 import NAMESPACE from "./namespace";
 import { buildFormNav, pickFromDefaultForms } from "./utils";
 
