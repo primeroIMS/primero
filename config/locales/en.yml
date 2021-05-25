@@ -457,6 +457,8 @@ en:
     change: 'from “%{from_value}” to “%{to_value}”'
     updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
     update_subform: 'Updated “%{subform_name}” subform'
+    from: from
+    to: to
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
