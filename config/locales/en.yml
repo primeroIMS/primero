@@ -458,6 +458,8 @@ en:
     change: 'from “%{from_value}” to “%{to_value}”'
     updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
     update_subform: 'Updated “%{subform_name}” subform'
+    from: from
+    to: to
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -913,6 +915,7 @@ en:
         on_short_form: On Short Form
         option_ids: Option IDs
         options: Options
+        options_lookup: Lookup
         help_text: Help Text
         guiding_questions: Guiding Questions
         visible: Visible
@@ -927,6 +930,7 @@ en:
         reportinglocation: Reporting Locations
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
+        country: Countries
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:

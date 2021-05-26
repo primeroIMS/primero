@@ -13,7 +13,7 @@ import { useDialog } from "../action-dialog";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import { useApp } from "../application";
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getReportingLocationConfig } from "../application/selectors";
 import Form, { FormAction, whichFormMode } from "../form";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -55,6 +55,7 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
   const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
 
@@ -130,6 +131,7 @@ const Container = ({ mode }) => {
     formatAgeRange(primeroAgeRanges),
     formMode.isNew,
     userModules,
+    reportingLocationConfig,
     formattedMinimumReportableFields
   );
   const validationSchema = validations(i18n);

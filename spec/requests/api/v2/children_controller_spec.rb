@@ -87,7 +87,7 @@ describe Api::V2::ChildrenController, type: :request do
     )
     @case4 = Child.new_with_user(
       @user_owned_others,
-      name: 'Test4', age: 5, sex: 'male'
+      name: 'Test4', age: 2, sex: 'male'
     )
     @case4.save!
     @tracing_request1 = TracingRequest.create!(data: { relation_name: 'Tracing Request 5' })
@@ -242,6 +242,13 @@ describe Api::V2::ChildrenController, type: :request do
         expect(json['data'].count).to eq(4)
         expect(response).to have_http_status(200)
       end
+    end
+
+    it 'return records sort by age' do
+      login_for_test
+      get '/api/v2/cases?fields=short&order=asc&order_by=age'
+      expect(json['data'].count).to eq(4)
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 6, 10])
     end
   end
 

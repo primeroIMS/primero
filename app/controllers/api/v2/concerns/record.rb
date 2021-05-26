@@ -19,7 +19,7 @@ module Api::V2::Concerns::Record
     authorize! :index, model_class
     search = SearchService.search(
       model_class, filters: search_filters, query_scope: query_scope, query: params[:query],
-                   order: sort_order, pagination: pagination
+                   sort: sort_order, pagination: pagination
     )
     @records = search.results
     @total = search.total

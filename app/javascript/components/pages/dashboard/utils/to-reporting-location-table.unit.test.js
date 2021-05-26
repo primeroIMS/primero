@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import toReportingLocationTable from "./to-reporting-location-table";
+import toReportingLocationTable, { dashboardTableData } from "./to-reporting-location-table";
 
 describe("toReportingLocationTable - pages/dashboard/utils/", () => {
   it("should convert the data for the table", () => {
@@ -93,5 +93,46 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
     const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations).data;
 
     expect(converted).to.deep.equal(expected);
+  });
+  describe("dashboardTableData", () => {
+    it("should return data for table", () => {
+      const optionsByIndex = { CODE1: "My District", code2: "My District 2" };
+      const data = {
+        reporting_location_open: {
+          CODE1: { count: 1, query: ["record_state=true", "status=open", "owned_by_location2=CODE1"] }
+        },
+        reporting_location_open_last_week: {
+          code2: {
+            count: 0,
+            query: [
+              "record_state=true",
+              "status=open",
+              "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+              "owned_by_location2=code2"
+            ]
+          }
+        }
+      };
+      const indicators = ["reporting_location_open", "reporting_location_open_last_week"];
+      const listKey = "query";
+      const expected = [
+        {
+          "": "My District",
+          reporting_location_open: ["record_state=true", "status=open", "owned_by_location2=CODE1"]
+        },
+        {
+          "": "My District 2",
+          reporting_location_open_last_week: [
+            "record_state=true",
+            "status=open",
+            "created_at=2019-12-25T00:00:00Z..2019-12-31T23:59:59Z",
+            "owned_by_location2=code2"
+          ]
+        }
+      ];
+      const converted = dashboardTableData(optionsByIndex, data, indicators, listKey);
+
+      expect(converted).to.deep.equal(expected);
+    });
   });
 });
