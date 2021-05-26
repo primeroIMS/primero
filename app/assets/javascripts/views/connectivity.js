@@ -2,7 +2,7 @@ _primero.Views.Connectivity = _primero.Views.Base.extend({
   el: 'body',
 
   initialize: function() {
-    if (_primero.check_connectivity == "on") {
+    if (_primero.check_connectivity) {
       _.bindAll(this, 'update_status');
 
       this.update_status();
