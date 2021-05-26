@@ -1,9 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import { createMuiTheme } from "@material-ui/core/styles";
 
-import theme from "../../../../../../../../config/theme";
-
-export const fieldsTableTheme = createMuiTheme({
+export default theme => ({
   overrides: {
     MUIDataTableHeadCell: {
       root: {
@@ -38,6 +35,5 @@ export const fieldsTableTheme = createMuiTheme({
         display: "none"
       }
     }
-  },
-  theme
+  }
 });
