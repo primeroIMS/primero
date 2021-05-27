@@ -3,7 +3,7 @@ import { RECORD_TYPES } from "../../../../../config";
 import { getInternalFields } from "../utils";
 
 export default (data, field, form, queryValues, recordType, dispatch) => {
-  const { value } = data;
+  const { value } = data || { value: "" };
 
   form.setFieldValue(field.name, value, false);
 
