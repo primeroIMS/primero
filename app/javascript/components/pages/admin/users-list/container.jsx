@@ -17,7 +17,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 
@@ -33,6 +33,7 @@ const Container = () => {
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
   const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
@@ -58,6 +59,14 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchUsers, "data");
 
+  const onTableChange = filters => {
+    const filtersData = filters.data || fromJS({});
+
+    dispatch(setUsersFilters(filtersData));
+
+    return fetchUsers(filters);
+  };
+
   const tableOptions = {
     recordType,
     columns,
@@ -65,7 +74,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchUsers,
+    onTableChange,
     bypassInitialFetch: true
   };
 
@@ -91,10 +100,11 @@ const Container = () => {
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+      const mergedFilters = currentFilters.merge(fromJS(filters));
 
       batch(() => {
-        dispatch(setUsersFilters(filters));
-        dispatch(fetchUsers({ data: { ...filters } }));
+        dispatch(setUsersFilters(mergedFilters));
+        dispatch(fetchUsers({ data: mergedFilters }));
       });
     }
   };

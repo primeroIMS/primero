@@ -8,7 +8,7 @@ class Api::V2::LocationsController < ApplicationApiController
   def index
     authorize! :index, Location
     filters = locations_filters(params.permit(disabled: {}))
-    filtered_locations = Location.list(filters)
+    filtered_locations = Location.list(filters, params)
     @total = filtered_locations.size
     @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'

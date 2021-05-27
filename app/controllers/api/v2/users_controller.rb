@@ -14,7 +14,7 @@ class Api::V2::UsersController < ApplicationApiController
     authorize! :index, User
     filters = params.permit(:agency, :location, :services, :user_group_ids, disabled: {}).to_h
     results = PermittedUsersService.new(current_user).find_permitted_users(
-      filters.compact, pagination, user_name: :asc
+      filters.compact, pagination, sort_params
     )
     @users = results[:users]
     @total = results[:total]
@@ -45,6 +45,10 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   protected
+
+  def sort_params
+    { params[:order_by] => params[:order] } if params[:order_by].present? && params[:order].present?
+  end
 
   def user_params
     @user_params = params.require(:data).permit(User.permitted_api_params(current_user, @user))

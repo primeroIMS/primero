@@ -1,5 +1,6 @@
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { ROUTES } from "../../../../config";
@@ -13,14 +14,16 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useApp } from "../../../application";
+import { filterOnTableChange } from "../utils";
 
 import { NAME } from "./constants";
-import { fetchAdminLookups } from "./action-creators";
+import { fetchAdminLookups, setLookupsFilter } from "./action-creators";
 import styles from "./styles.css";
 import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
   const { css } = useThemeHelper({ css: styles });
   const recordType = ["admin", "lookups"];
 
@@ -42,6 +45,8 @@ const Component = () => {
     />
   );
 
+  const onTableChange = filterOnTableChange(dispatch, fetchAdminLookups, setLookupsFilter);
+
   useMetadata(recordType, metadata, fetchAdminLookups, "data");
 
   const tableOptions = {
@@ -51,7 +56,7 @@ const Component = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchAdminLookups,
+    onTableChange,
     localizedFields: ["name", "values"],
     targetRecordType: "lookups",
     bypassInitialFetch: true

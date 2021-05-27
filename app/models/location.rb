@@ -8,6 +8,7 @@ class Location < ApplicationRecord
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100
   READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
+  ORDER_BY_FIELD_MAP = { code: :location_code, hierarchy: :hierarchy_path, name: :placename }.freeze
 
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
@@ -63,10 +64,23 @@ class Location < ApplicationRecord
               .where(admin_level: admin_level)
     end
 
-    def list(params = {})
-      return all if params.blank?
+    def list(filters = {}, options = {})
+      return apply_order(all, options) if filters.blank?
 
-      where(params)
+      apply_order(where(filters), options)
+    end
+
+    private
+
+    def apply_order(locations, options)
+      return locations unless options[:order_by].present? && options[:order].present?
+
+      locale = options[:locale] || 'en'
+      order_by = options[:order_by].to_sym
+      order_by = ORDER_BY_FIELD_MAP[order_by] || order_by
+      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+
+      locations.order("#{order_by} #{options[:order]}")
     end
   end
 

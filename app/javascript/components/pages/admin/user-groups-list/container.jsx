@@ -11,7 +11,7 @@ import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import NAMESPACE from "../namespace";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
@@ -19,7 +19,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
 import { getFilters } from "../agencies-list/utils";
 import { DEFAULT_FILTERS, DISABLED, DATA } from "../constants";
-import { onSubmitFilters } from "../utils";
+import { filterOnTableChange, onSubmitFilters } from "../utils";
 
 import { NAME } from "./constants";
 import { fetchUserGroups, setUserGroupsFilter } from "./action-creators";
@@ -33,6 +33,7 @@ const Container = () => {
 
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.user_groups));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
@@ -44,7 +45,15 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchUserGroups, DATA, { defaultFilterFields: DEFAULT_FILTERS });
 
-  const onSubmit = data => onSubmitFilters(data, dispatch, fetchUserGroups, setUserGroupsFilter);
+  const onSubmit = data =>
+    onSubmitFilters(
+      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)),
+      dispatch,
+      fetchUserGroups,
+      setUserGroupsFilter
+    );
+
+  const onTableChange = filterOnTableChange(dispatch, fetchUserGroups, setUserGroupsFilter);
 
   const filterProps = {
     clearFields: [DISABLED],
@@ -61,7 +70,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchUserGroups,
+    onTableChange,
     bypassInitialFetch: true
   };
 

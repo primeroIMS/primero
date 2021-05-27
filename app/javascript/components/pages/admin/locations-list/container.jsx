@@ -7,9 +7,9 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { getListHeaders } from "../../../user";
 import { RESOURCES, MANAGE } from "../../../../libs/permissions";
-import { headersToColumns, onSubmitFilters } from "../utils";
+import { filterOnTableChange, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
@@ -34,6 +34,7 @@ const Container = () => {
   const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
@@ -43,6 +44,8 @@ const Container = () => {
   const handleDialogClick = dialog => {
     setDialog({ dialog, open: true });
   };
+
+  const onTableChange = filterOnTableChange(dispatch, fetchLocations, setLocationsFilter);
 
   useMetadata(recordType, metadata, fetchLocations, DATA, {
     defaultFilterFields: DEFAULT_FILTERS
@@ -55,7 +58,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchLocations,
+    onTableChange,
     localizedFields: [COLUMNS.NAME],
     bypassInitialFetch: true,
     arrayColumnsToString: [COLUMNS.HIERARCHY],
@@ -63,7 +66,13 @@ const Container = () => {
     onRowClick: () => {}
   };
 
-  const onSubmit = data => onSubmitFilters(data, dispatch, fetchLocations, setLocationsFilter);
+  const onSubmit = data =>
+    onSubmitFilters(
+      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)),
+      dispatch,
+      fetchLocations,
+      setLocationsFilter
+    );
 
   const filterProps = {
     clearFields: [DISABLED],

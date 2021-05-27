@@ -9,7 +9,7 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { NAMESPACE } from "../roles-form";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { RESOURCES, CREATE_RECORDS } from "../../../../libs/permissions";
@@ -20,7 +20,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { getFilters } from "../agencies-list/utils";
 import { FiltersForm } from "../../../form-filters/components";
 import { DEFAULT_FILTERS, DATA, DISABLED } from "../constants";
-import { onSubmitFilters } from "../utils";
+import { filterOnTableChange, onSubmitFilters } from "../utils";
 
 import { fetchRoles, setRolesFilter } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";
@@ -36,6 +36,7 @@ const Container = () => {
     ...rest
   }));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, [ADMIN_NAMESPACE, NAMESPACE]));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
   const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
@@ -54,7 +55,10 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchRoles, DATA, { defaultFilterFields: DEFAULT_FILTERS });
 
-  const onSubmit = data => onSubmitFilters(data, dispatch, fetchRoles, setRolesFilter);
+  const onSubmit = data =>
+    onSubmitFilters(currentFilters.merge(fromJS(data || DEFAULT_FILTERS)), dispatch, fetchRoles, setRolesFilter);
+
+  const onTableChange = filterOnTableChange(dispatch, fetchRoles, setRolesFilter);
 
   const filterProps = {
     clearFields: [DISABLED],
@@ -71,7 +75,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchRoles,
+    onTableChange,
     targetRecordType: NAMESPACE,
     bypassInitialFetch: true
   };

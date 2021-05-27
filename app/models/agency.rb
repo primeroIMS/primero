@@ -66,11 +66,23 @@ class Agency < ApplicationRecord
     def list(params = {})
       agencies = params[:managed] ? all : enabled
       agencies = agencies.where(disabled: params[:disabled].values) if params[:disabled].present?
-      agencies
+      apply_order(agencies, params)
     end
 
     def get_field_using_unique_id(unique_id, field)
       where(unique_id: unique_id).pluck(field)&.first
+    end
+
+    private
+
+    def apply_order(agencies, options)
+      return agencies unless options[:order_by].present? && options[:order].present?
+
+      locale = options[:locale] || 'en'
+      order_by = options[:order_by].to_sym
+      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+
+      agencies.order("#{order_by} #{options[:order]}")
     end
   end
 

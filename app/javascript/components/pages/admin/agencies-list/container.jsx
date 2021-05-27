@@ -10,9 +10,9 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { headersToColumns, onSubmitFilters } from "../utils";
+import { filterOnTableChange, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
@@ -35,12 +35,15 @@ const Container = () => {
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   const columns = headersToColumns(headers, i18n);
 
   useMetadata(recordType, metadata, fetchAgencies, DATA, { defaultFilterFields: DEFAULT_FILTERS });
+
+  const onTableChange = filterOnTableChange(dispatch, fetchAgencies, setAgenciesFilter);
 
   const tableOptions = {
     recordType,
@@ -49,12 +52,13 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchAgencies,
+    onTableChange,
     localizedFields: ["name", "description"],
     bypassInitialFetch: true
   };
 
-  const onSubmit = data => onSubmitFilters(data, dispatch, fetchAgencies, setAgenciesFilter);
+  const onSubmit = data =>
+    onSubmitFilters(currentFilters.merge(fromJS(data || DEFAULT_FILTERS)), dispatch, fetchAgencies, setAgenciesFilter);
 
   const filterProps = {
     clearFields: [DISABLED],

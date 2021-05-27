@@ -11,15 +11,23 @@ class UserGroup < ApplicationRecord
     def list(user, opts = {})
       user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
 
-      return user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
+      user_groups = user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
 
-      user_groups
+      apply_order(user_groups, opts)
     end
 
     def new_with_properties(params, user)
       user_group = UserGroup.new(params)
       user_group.add_creating_user(user)
       user_group
+    end
+
+    private
+
+    def apply_order(user_groups, options = {})
+      return user_groups unless options[:order_by].present? && options[:order].present?
+
+      user_groups.order(options[:order_by] => options[:order])
     end
   end
 

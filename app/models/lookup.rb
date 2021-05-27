@@ -17,6 +17,10 @@ class Lookup < ApplicationRecord
   before_destroy :check_is_being_used
 
   class << self
+    def list(options)
+      apply_order(Lookup.all, options)
+    end
+
     # TODO: Delete after we have fixed data storage with Alberto's changes.
     def new_with_properties(lookup_properties)
       Lookup.new(
@@ -109,6 +113,16 @@ class Lookup < ApplicationRecord
         lookup_ids = %w[lookup-form-group-cp-incident lookup-form-group-gbv-incident]
       end
       lookup_ids
+    end
+
+    def apply_order(lookups, options)
+      return lookups unless options[:order_by].present? && options[:order].present?
+
+      order_by = options[:order_by].to_sym
+      locale = options[:locale] || 'en'
+      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+
+      lookups.order("#{order_by} #{options[:order]}")
     end
   end
 
