@@ -130,9 +130,9 @@ class GbvKpiCalculationService
     # Any subforms which are deeper will cause new queries for the subform
     # and for it's fields.
     @form_section_cache ||= Hash.new do |cache, form_section_unique_id|
-      cache[form_section_unique_id] = FormSection
-        .eager_load(fields: { subform: :fields })
-        .find_by(unique_id: form_section_unique_id)
+      cache[form_section_unique_id] =
+        FormSection.eager_load(fields: { subform: :fields })
+                   .find_by(unique_id: form_section_unique_id)
     end
   end
 

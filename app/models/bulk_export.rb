@@ -118,7 +118,7 @@ class BulkExport < ApplicationRecord
     loop do
       results = SearchService.search(model_class,
                                      filters: search_filters, query_scope: record_query_scope,
-                                     query: query, order: order, pagination: { page: page, per_page: batch }).results
+                                     query: query, sort: order, pagination: { page: page, per_page: batch }).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page

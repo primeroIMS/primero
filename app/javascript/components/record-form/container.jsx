@@ -33,7 +33,7 @@ import {
   CHANGE_LOGS,
   SUMMARY
 } from "../../config";
-import { ACTIONS, SHOW_FIND_MATCH } from "../../libs/permissions";
+import { SHOW_FIND_MATCH, READ_RECORDS, REFER_FROM_SERVICE } from "../../libs/permissions";
 import { SHOW_CHANGE_LOG } from "../permissions";
 import RecordOwner from "../record-owner";
 import Approvals from "../approvals";
@@ -48,6 +48,8 @@ import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
 import useIncidentFromCase from "../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../save-and-redirect-dialog";
+import { fetchReferralUsers } from "../record-actions/transitions/action-creators";
+import { SERVICES_SUBFORM } from "../record-actions/add-service/constants";
 
 import {
   customForms,
@@ -95,7 +97,7 @@ const Container = ({ mode }) => {
   const record = useMemoizedSelector(state => selectRecord(state, containerMode, params.recordType, params.id));
   const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
-  const canViewCases = usePermissions(params.recordType, ACTIONS.READ);
+  const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
 
   const selectedModule = {
@@ -237,6 +239,7 @@ const Container = ({ mode }) => {
     }
   }, [loadingRecord, isProcessingSomeAttachment, recordAttachments.size]);
 
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
   const isCaseIdEqualParam = params?.id === record?.get("id");
@@ -275,6 +278,12 @@ const Container = ({ mode }) => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    if (isNotANewCase && canRefer && selectedForm === SERVICES_SUBFORM) {
+      dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
+    }
+  }, [selectedForm]);
 
   const transitionProps = {
     fetchable: isNotANewCase,

@@ -10,7 +10,8 @@ describe("<FormSectionTabs />", () => {
     tabs: [
       { name: "tab 1", disabled: true, fields: [] },
       { name: "tab2", disabled: false, fields: [] }
-    ]
+    ],
+    handleTabChange: () => {}
   };
 
   beforeEach(() => {
