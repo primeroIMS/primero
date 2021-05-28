@@ -22,7 +22,7 @@ import { STRING_SOURCES_TYPES } from "../../config";
 import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
 
-import { buildDataForGraph, buildDataForTable } from "./utils";
+import { buildGraphData, buildTableData } from "./utils";
 import { getReport } from "./selectors";
 import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
@@ -122,10 +122,10 @@ const Report = ({ mode }) => {
           {reportDescription}
           {report.get("graph") && (
             <Paper>
-              <BarChartGraphic {...buildDataForGraph(report, i18n, { agencies, locations })} showDetails />
+              <BarChartGraphic {...buildGraphData(report, i18n, { agencies, locations })} showDetails />
             </Paper>
           )}
-          <TableValues {...buildDataForTable(report, i18n, { agencies, locations })} />
+          <TableValues {...buildTableData(report, i18n, { agencies, locations })} />
         </LoadingIndicator>
         <ActionDialog
           open={dialogOpen}
