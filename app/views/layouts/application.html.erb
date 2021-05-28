@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
+<html dir="ltr" lang="<%= I18n.locale %>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
@@ -14,7 +14,7 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <!-- jss-insertion-point -->
 </head>
-<body dir="ltr">
+<body>
   <div id="root"></div>
   <%= javascript_tag nonce: true do %>
     window.locationManifest = <%= available_locations %>

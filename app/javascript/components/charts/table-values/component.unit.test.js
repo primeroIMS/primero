@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { TableRow } from "@material-ui/core";
 
-import { buildDataForTable } from "../../report/utils";
+import { buildTableData } from "../../report/utils";
 import { abbrMonthNames, setupMountedComponent, stub } from "../../../test";
 
 import TableValues from "./component";
@@ -73,7 +73,7 @@ describe("<TableValues />", () => {
     ];
 
     const { component } = setupMountedComponent(TableValues, {
-      ...buildDataForTable(data, window.I18n, { agencies })
+      ...buildTableData(data, window.I18n, { agencies })
     });
 
     expect(component.find(TableRow)).to.have.lengthOf(6);

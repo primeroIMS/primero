@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
 
-import { buildDataForGraph } from "./utils";
+import buildGraphData from "./build-graph-data";
 
 describe("<Report /> - utils", () => {
-  describe("buildDataForGraph", () => {
+  describe("buildGraphData", () => {
     it("should convert data to string", () => {
       const report = fromJS({
         editable: false,
@@ -85,7 +85,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(buildDataForGraph(report, i18n, { agencies })).to.deep.equal(expected);
+      expect(buildGraphData(report, i18n, { agencies })).to.deep.equal(expected);
     });
   });
 });
