@@ -20,9 +20,11 @@ import { spy } from "sinon";
 
 import { ApplicationProvider } from "../../components/application";
 import I18nProvider from "../../components/i18n";
-import { theme, RECORD_PATH } from "../../config";
+import { theme as appTheme, RECORD_PATH } from "../../config";
 import { whichFormMode } from "../../components/form";
 import { ListHeaderRecord } from "../../components/user/records";
+
+const theme = appTheme();
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
   return FieldRecord({

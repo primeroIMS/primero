@@ -11,12 +11,14 @@ import { getLabelTypeField } from "../../../utils";
 import { getFormSections, getFieldsByIds } from "../../../../../forms-list/selectors";
 import SelectionColumn from "../selection-column";
 import { useMemoizedSelector } from "../../../../../../../../libs";
+import useThemeHelpers from "../../../../../../../../libs/use-theme-helpers";
 
-import { fieldsTableTheme } from "./theme";
+import fieldsTableTheme from "./theme";
 import { COLUMN_HEADERS, NAME } from "./constants";
 
 const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeField, selectedFields }) => {
   const i18n = useI18n();
+  const { theme } = useThemeHelpers({ overrides: fieldsTableTheme });
 
   const optionsColumn = {
     name: "name",
@@ -88,7 +90,7 @@ const Component = ({ addField, fieldQuery, parentForm, primeroModule, removeFiel
   };
 
   return (
-    <MuiThemeProvider theme={fieldsTableTheme}>
+    <MuiThemeProvider theme={theme}>
       <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
   );
