@@ -78,6 +78,22 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data'][1]['hierarchy']).not_to be_empty
       expect(json['data'][2]['hierarchy']).not_to be_empty
     end
+
+    it 'list sorted by name' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/locations?hierarchy=true&managed=true&order_by=name&order=desc'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |location| location['code'] }).to eq(
+        [@locations_D02.location_code, @locations_D01.location_code, @locations_CT01.location_code]
+      )
+    end
   end
 
   describe 'POST /api/v2/locations' do

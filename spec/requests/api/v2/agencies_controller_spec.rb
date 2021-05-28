@@ -24,8 +24,8 @@ describe Api::V2::AgenciesController, type: :request do
       disabled: false,
       pdf_logo_option: true,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
-      description_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      name_i18n: { en: 'Agency 1', es: 'Agencia 1' },
+      description_i18n: { en: 'Agency 1', es: 'Agencia 1' },
       logo_icon: FilesTestHelper.logo,
       logo_full: FilesTestHelper.logo,
       terms_of_use: FilesTestHelper.pdf_file
@@ -38,8 +38,8 @@ describe Api::V2::AgenciesController, type: :request do
       logo_enabled: false,
       disabled: false,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
-      description_i18n: { en: 'Nationality', es: 'Nacionalidad' }
+      name_i18n: { en: 'Agency 2', es: 'Agencia 2' },
+      description_i18n: { en: 'Agency 2', es: 'Agencia 2' }
     )
     @agency_c = Agency.create!(
       unique_id: 'agency_3',
@@ -49,7 +49,7 @@ describe Api::V2::AgenciesController, type: :request do
       logo_enabled: true,
       disabled: true,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      name_i18n: { en: 'Agency 3', es: 'Agencia 3' },
       logo_icon: FilesTestHelper.logo,
       logo_full: FilesTestHelper.logo
     )
@@ -150,6 +150,21 @@ describe Api::V2::AgenciesController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    it 'list sorted by name' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/agencies?managed=true&order_by=name&order=desc'
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |agency| agency['unique_id'] }).to eq(
+        [@agency_c.unique_id, @agency_b.unique_id, @agency_a.unique_id]
+      )
     end
   end
 
