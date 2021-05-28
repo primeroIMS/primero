@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
+import { fromJS } from "immutable";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
@@ -38,8 +39,13 @@ const SelectFieldContainer = ({
   const dispatch = useDispatch();
   const { online } = useApp();
 
-  const option = field.option_strings_source || field.option_strings_text;
-  const { multi_select: multiSelect, selected_value: selectedDefaultValue } = field;
+  const {
+    multi_select: multiSelect,
+    selected_value: selectedDefaultValue,
+    option_strings_source: optionStringsSource,
+    option_strings_text: optionStringsText
+  } = field;
+  const option = optionStringsSource || optionStringsText;
   const fieldValue = typeof value === "boolean" ? String(value) : value;
 
   const defaultEmptyValue = multiSelect ? [] : null;
@@ -53,12 +59,24 @@ const SelectFieldContainer = ({
 
   const isImplementingAgencyIndividual = name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual);
 
+  const agencyFilterOptions = agencies => {
+    if (service) {
+      return agencies.filter(stateAgency => stateAgency.get("services", fromJS([])).includes(service));
+    }
+
+    return agencies;
+  };
+
   const [stickyOption, setStickyOption] = useState(fieldValue);
-  const options = useMemoizedSelector(optionsSelector);
+  const options = useMemoizedSelector(
+    optionsSelector(OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions } : {})
+  );
   const loading = useMemoizedSelector(state => getLoading(state, ["transitions", REFERRAL_TYPE]));
   const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
   const agencies = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true) : []
+    isImplementingAgencyIndividual
+      ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true, { filterOptions: agencyFilterOptions })
+      : []
   );
   const reportingLocations = useMemoizedSelector(state =>
     isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []

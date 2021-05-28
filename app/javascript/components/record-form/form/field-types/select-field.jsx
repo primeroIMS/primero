@@ -37,7 +37,7 @@ const SelectField = ({
             label={label}
             filters={filters}
             optionsSelector={optionsSelector}
-            error={getIn(form.error, name)}
+            error={getIn(form.errors, name)}
             touched={getIn(form.touched, name)}
             helperText={helperText}
           />
