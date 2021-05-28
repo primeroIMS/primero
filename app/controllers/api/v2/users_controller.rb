@@ -47,7 +47,7 @@ class Api::V2::UsersController < ApplicationApiController
   protected
 
   def sort_params
-    { params[:order_by] => params[:order] } if params[:order_by].present? && params[:order].present?
+    { params[:order_by] => params[:order] || :asc } if params[:order_by].present?
   end
 
   def user_params

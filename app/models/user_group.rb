@@ -25,9 +25,9 @@ class UserGroup < ApplicationRecord
     private
 
     def apply_order(user_groups, options = {})
-      return user_groups unless options[:order_by].present? && options[:order].present?
+      return user_groups unless options[:order_by].present?
 
-      user_groups.order(options[:order_by] => options[:order])
+      user_groups.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

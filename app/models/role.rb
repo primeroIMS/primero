@@ -83,10 +83,12 @@ class Role < ApplicationRecord
       Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
     end
 
-    def apply_order(roles, options = {})
-      return roles unless options[:order_by].present? && options[:order].present?
+    private
 
-      roles.order(options[:order_by] => options[:order])
+    def apply_order(roles, options = {})
+      return roles unless options[:order_by].present?
+
+      roles.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

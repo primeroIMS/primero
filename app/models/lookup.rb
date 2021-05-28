@@ -116,13 +116,13 @@ class Lookup < ApplicationRecord
     end
 
     def apply_order(lookups, options)
-      return lookups unless options[:order_by].present? && options[:order].present?
+      return lookups unless options[:order_by].present?
 
-      order_by = options[:order_by].to_sym
-      locale = options[:locale] || 'en'
-      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+      localized_order = localized_order(options)
 
-      lookups.order("#{order_by} #{options[:order]}")
+      return lookups.order(Arel.sql(localized_order)) if localized_order.present?
+
+      lookups.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

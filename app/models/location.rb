@@ -73,14 +73,15 @@ class Location < ApplicationRecord
     private
 
     def apply_order(locations, options)
-      return locations unless options[:order_by].present? && options[:order].present?
+      return locations unless options[:order_by].present?
 
-      locale = options[:locale] || 'en'
-      order_by = options[:order_by].to_sym
-      order_by = ORDER_BY_FIELD_MAP[order_by] || order_by
-      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+      localized_order = localized_order(options)
 
-      locations.order("#{order_by} #{options[:order]}")
+      return locations.order(Arel.sql(localized_order)) if localized_order.present?
+
+      order_by = ORDER_BY_FIELD_MAP[options[:order_by].to_sym] || options[:order_by]
+
+      locations.order(order_by => options[:order] || :asc)
     end
   end
 

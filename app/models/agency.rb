@@ -76,13 +76,13 @@ class Agency < ApplicationRecord
     private
 
     def apply_order(agencies, options)
-      return agencies unless options[:order_by].present? && options[:order].present?
+      return agencies unless options[:order_by].present?
 
-      locale = options[:locale] || 'en'
-      order_by = options[:order_by].to_sym
-      order_by = "#{order_by}_i18n ->> '#{locale}'" if localized_properties.include?(order_by)
+      localized_order = localized_order(options)
 
-      agencies.order("#{order_by} #{options[:order]}")
+      return agencies.order(Arel.sql(localized_order)) if localized_order.present?
+
+      agencies.order(options[:order_by] => options[:order] || :asc)
     end
   end
 
