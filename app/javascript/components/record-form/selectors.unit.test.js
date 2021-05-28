@@ -1,6 +1,17 @@
 import { Map, List, OrderedMap, fromJS } from "immutable";
+import { expect } from "chai";
 
 import { mapEntriesToRecord } from "../../libs";
+import { ACTIONS } from "../../libs/permissions";
+import {
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../config";
 import { FieldRecord } from "../form";
 
 import * as R from "./records";
@@ -793,6 +804,138 @@ describe("<RecordForm /> - Selectors", () => {
 
       // Using toJS() since FieldRecord has empty mutable attributes
       expect(result.toList().toJS()).to.deep.equal(expected.toJS());
+    });
+  });
+
+  describe("getRecordInformationForms", () => {
+    it("should return the record information forms defined in the state", () => {
+      const recordInformationForms = {
+        61: {
+          id: 61,
+          unique_id: "record_owner",
+          name: Map({ en: "Record Owner from State" }),
+          visible: true,
+          is_first_tab: true,
+          order: 15,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        },
+        62: {
+          id: 62,
+          unique_id: "approvals",
+          name: Map({ en: "Approvals from State" }),
+          visible: true,
+          is_first_tab: true,
+          order: 16,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        }
+      };
+
+      const result = selectors
+        .getRecordInformationForms(
+          fromJS({
+            forms: {
+              formSections: mapEntriesToRecord(recordInformationForms, R.FormSectionRecord)
+            }
+          }),
+          { i18n: { t: v => v, locale: "en" }, recordType: "case", primeroModule: "primeromodule-cp" }
+        )
+        .valueSeq()
+        .map(form => form.getIn(["name", "en"]))
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equal(
+        fromJS([
+          "Approvals from State",
+          "Record Owner from State",
+          "change_logs.label",
+          "forms.record_types.referrals",
+          "forms.record_types.transfers_assignments",
+          "incidents.label"
+        ])
+      );
+    });
+  });
+
+  it("should return the default record information forms if not defined in the state", () => {
+    const i18n = { t: v => v, locale: "en" };
+    const result = selectors
+      .getRecordInformationForms(fromJS({}), {
+        i18n,
+        recordType: "case",
+        primeroModule: "primeromodule-cp"
+      })
+      .valueSeq()
+      .map(form => form.getIn(["name", "en"]))
+      .toList()
+      .sort();
+
+    expect(result).to.deep.equal(
+      fromJS([
+        "change_logs.label",
+        "forms.record_types.approvals",
+        "forms.record_types.record_information",
+        "forms.record_types.referrals",
+        "forms.record_types.transfers_assignments",
+        "incidents.label"
+      ])
+    );
+  });
+
+  describe("getRecordInformationFormIds", () => {
+    it("should return unique_ids for the record information forms", () => {
+      const i18n = { t: v => v, locale: "en" };
+
+      const result = selectors
+        .getRecordInformationFormIds(fromJS({}), {
+          i18n,
+          recordType: "case",
+          primeroModule: "primeromodule-cp"
+        })
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(
+        fromJS([APPROVALS, CHANGE_LOGS, INCIDENT_FROM_CASE, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS])
+      );
+    });
+  });
+
+  describe("getRecordInformationNav", () => {
+    it("should return forms where the user has permissions", () => {
+      const i18n = { t: v => v, locale: "en" };
+
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({}),
+          {
+            i18n,
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          },
+          fromJS([ACTIONS.CHANGE_LOG])
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
   });
 });

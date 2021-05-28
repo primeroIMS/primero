@@ -41,6 +41,7 @@ describe("Verifying config constant", () => {
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "FILE_FORMAT",
+      "FORM_PERMISSION_ACTION",
       "HTTP_STATUS",
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
