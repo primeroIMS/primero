@@ -68,6 +68,7 @@ describe("<AgenciesList />", () => {
           total: 30,
           per: 20,
           page: 1,
+          locale: "en",
           order: "asc",
           order_by: "name"
         })
@@ -85,7 +86,7 @@ describe("<AgenciesList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], managed: true }),
+        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], locale: "en", managed: true }),
         path: NAMESPACE
       },
       type: "agencies/AGENCIES"
@@ -109,13 +110,15 @@ describe("<AgenciesList />", () => {
     const expectedAction = {
       payload: {
         data: fromJS({
-          disabled: ["false"]
+          disabled: ["false"],
+          locale: "en"
         })
       },
       type: "agencies/SET_AGENCIES_FILTER"
     };
 
-    expect(component.props().store.getActions()[2]).to.deep.equals(expectedAction);
+    expect(component.props().store.getActions()[2].payload.type).to.deep.equals(expectedAction.payload.type);
+    expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);
   });
 
   afterEach(() => {

@@ -29,7 +29,7 @@ const Component = () => {
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const defaultFilters = metadata;
+  const defaultFilters = metadata.set("locale", i18n.locale);
   const { limitedProductionSite } = useApp();
 
   const newUserGroupBtn = (
@@ -47,7 +47,7 @@ const Component = () => {
 
   const onTableChange = filterOnTableChange(dispatch, fetchAdminLookups, setLookupsFilter);
 
-  useMetadata(recordType, metadata, fetchAdminLookups, "data");
+  useMetadata(recordType, metadata, fetchAdminLookups, "data", { defaultFilterFields: { locale: i18n.locale } });
 
   const tableOptions = {
     recordType,

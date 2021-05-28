@@ -36,7 +36,7 @@ const Container = () => {
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata).set("locale", i18n.locale);
 
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
@@ -48,7 +48,7 @@ const Container = () => {
   const onTableChange = filterOnTableChange(dispatch, fetchLocations, setLocationsFilter);
 
   useMetadata(recordType, metadata, fetchLocations, DATA, {
-    defaultFilterFields: DEFAULT_FILTERS
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
   });
 
   const tableOptions = {

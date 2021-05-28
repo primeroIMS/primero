@@ -37,11 +37,13 @@ const Container = () => {
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.agencies));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
-  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata).set("locale", i18n.locale);
 
   const columns = headersToColumns(headers, i18n);
 
-  useMetadata(recordType, metadata, fetchAgencies, DATA, { defaultFilterFields: DEFAULT_FILTERS });
+  useMetadata(recordType, metadata, fetchAgencies, DATA, {
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+  });
 
   const onTableChange = filterOnTableChange(dispatch, fetchAgencies, setAgenciesFilter);
 
@@ -58,7 +60,12 @@ const Container = () => {
   };
 
   const onSubmit = data =>
-    onSubmitFilters(currentFilters.merge(fromJS(data || DEFAULT_FILTERS)), dispatch, fetchAgencies, setAgenciesFilter);
+    onSubmitFilters(
+      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)).set("locale", i18n.locale),
+      dispatch,
+      fetchAgencies,
+      setAgenciesFilter
+    );
 
   const filterProps = {
     clearFields: [DISABLED],

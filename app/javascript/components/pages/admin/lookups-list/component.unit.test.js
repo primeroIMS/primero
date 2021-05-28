@@ -73,6 +73,7 @@ describe("<LookupList />", () => {
           total: 30,
           per: 20,
           page: 1,
+          locale: "en",
           order: "asc",
           order_by: "name"
         })
@@ -90,7 +91,7 @@ describe("<LookupList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: fromJS({ total: dataLength, per: 20, page: 2 }),
+        params: fromJS({ total: dataLength, per: 20, page: 2, locale: "en" }),
         path: "lookups"
       },
       type: "admin/lookups/FETCH_LOOKUPS"

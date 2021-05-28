@@ -87,6 +87,7 @@ describe("<LocationsList />", () => {
           total: 30,
           per: 20,
           page: 1,
+          locale: "en",
           order: "asc",
           order_by: "name"
         })
@@ -104,7 +105,7 @@ describe("<LocationsList />", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], hierarchy: true }),
+        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], locale: "en", hierarchy: true }),
         path: NAMESPACE
       },
       type: actions.LOCATIONS
