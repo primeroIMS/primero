@@ -7,7 +7,7 @@ describe("<LookupsList /> pages/admin/utils", () => {
     const expected = [
       { label: "id", name: "id", options: { display: false } },
       { label: "lookup.name", name: "name", options: {} },
-      { label: "lookup.values", name: "values", options: {} }
+      { label: "lookup.values", name: "values", options: { sort: false } }
     ];
 
     const result = columns(i18n);
