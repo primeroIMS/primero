@@ -21,6 +21,6 @@
   <% end %>
   <script src="/javascripts/i18n.js"></script>
   <script src="/<%= Rails.configuration.i18n_translations_file %>"></script>
-  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application %>
+  <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </body>
 </html>

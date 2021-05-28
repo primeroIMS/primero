@@ -6,7 +6,7 @@
 
 # return unless Rails.env.production?
 
-self_sources = %i[self https]
+self_sources = %i[self] + ['http://localhost:9000'] 
 
 media_sources =
   case ENV['PRIMERO_STORAGE_TYPE']
@@ -17,15 +17,16 @@ media_sources =
   end
 
 font_and_image_sources = self_sources + [:data]
-
+script_sources = self_sources + [:unsafe_eval]
+style_sources = self_sources + [ -> { "nonce-#{request.content_security_policy_nonce}" }]
 Rails.application.config.content_security_policy do |policy|
   policy.default_src(*self_sources)
   policy.font_src(*font_and_image_sources)
   policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
   policy.object_src(:none)
-  policy.script_src(*self_sources)
-  policy.style_src(*self_sources + ['unsafe-inline'])
+  policy.script_src(*script_sources)
+  policy.style_src(*style_sources)
   policy.child_src(*self_sources)
   policy.frame_src(:none)
 
