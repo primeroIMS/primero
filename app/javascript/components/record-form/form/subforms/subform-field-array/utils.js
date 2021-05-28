@@ -41,6 +41,17 @@ export const valuesWithDisplayConditions = (values, displayConditions) => {
   return values.filter(val => dataMeetConditions(val, displayConditions));
 };
 
+export const valuesWithHiddenAttribute = (values, displayConditions) => {
+  if (isEmpty(values)) {
+    return [];
+  }
+  if (isEmpty(displayConditions)) {
+    return values;
+  }
+
+  return values.map(val => (dataMeetConditions(val, displayConditions) ? val : { ...val, _hidden: true }));
+};
+
 export const fieldsToRender = (listFields, fields) => {
   if (isEmpty(listFields)) {
     return fields;

@@ -110,7 +110,7 @@ export const useMetadata = (
       restActionParams: restActionParams || {},
       defaultMetadata: defaultMetadata || {}
     });
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     return () => {

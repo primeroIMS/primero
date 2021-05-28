@@ -11,12 +11,15 @@ import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 
-const Component = ({ tabs, formMethods, formMode }) => {
+const Component = ({ tabs, formMethods, formMode, handleTabChange }) => {
   const css = useStyles();
   const firstEnabled = tabs.findIndex(el => el.disabled === false);
   const [tab, setTab] = useState(firstEnabled);
 
-  const handleChange = (event, selectedTab) => setTab(selectedTab);
+  const handleChange = (event, selectedTab) => {
+    handleTabChange({ event, selectedTab, formMode, formMethods });
+    setTab(selectedTab);
+  };
 
   const renderTab = () => tabs.map(data => <Tab label={data.name} key={`tab-${data.name}`} disabled={data.disabled} />);
 
@@ -51,6 +54,7 @@ const Component = ({ tabs, formMethods, formMode }) => {
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired,
+  handleTabChange: PropTypes.func,
   tabs: PropTypes.array
 };
 

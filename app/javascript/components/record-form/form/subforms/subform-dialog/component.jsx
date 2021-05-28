@@ -3,6 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
+import isEmpty from "lodash/isEmpty";
+import uuid from "uuid";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
@@ -36,10 +38,9 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const initialSubformValues = {
-    ...initialValues,
-    ...getSubformValues(field, index, formik.values, orderedValues)
-  };
+  const subformValues = getSubformValues(field, index, formik.values, orderedValues);
+
+  const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
@@ -66,10 +67,13 @@ const Component = ({
   };
 
   const onSubmit = values => {
+    // eslint-disable-next-line camelcase
+    const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
+
     if (isValidIndex) {
-      formik.setFieldValue(`${field.name}[${index}]`, values, false);
+      formik.setFieldValue(`${field.name}[${index}]`, valuesWithUniqueId, false);
     } else {
-      arrayHelpers.push({ ...initialSubformValues, ...values });
+      arrayHelpers.push({ ...initialSubformValues, ...valuesWithUniqueId });
       formik.setTouched({ [field.name]: true });
     }
 

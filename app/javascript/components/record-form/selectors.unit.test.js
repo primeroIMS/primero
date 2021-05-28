@@ -1,6 +1,7 @@
 import { Map, List, OrderedMap, fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";
+import { FieldRecord } from "../form";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
@@ -285,8 +286,8 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getOption", () => {
     it("should return the options or lookups", () => {
       const expected = [
-        { id: "country", display_text: "Country", isDisabled: false },
-        { id: "region", display_text: "Region", isDisabled: false }
+        { id: "country", display_text: "Country", disabled: false },
+        { id: "region", display_text: "Region", disabled: false }
       ];
 
       const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type", "en");
@@ -309,8 +310,8 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "no", display_text: { en: "No", fr: "", ar: "" } }
       ];
       const expected = [
-        { id: "submitted", display_text: "Submitted", isDisabled: false },
-        { id: "no", display_text: "No", isDisabled: false }
+        { id: "submitted", display_text: "Submitted", disabled: false },
+        { id: "no", display_text: "No", disabled: false }
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
 
@@ -325,9 +326,9 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "other", disabled: true, display_text: { en: "Other", fr: "", ar: "" } }
       ];
       const expected = [
-        { id: "submitted", display_text: "Submitted", isDisabled: false },
-        { id: "pending", display_text: "Pending", isDisabled: true },
-        { id: "no", display_text: "No", isDisabled: false }
+        { id: "submitted", display_text: "Submitted", disabled: false },
+        { id: "pending", display_text: "Pending", disabled: true },
+        { id: "no", display_text: "No", disabled: false }
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", "pending");
 
@@ -336,8 +337,8 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return the options even if stored value it's a boolean", () => {
       const optionStringsText = [
-        { id: "true", display_text: { en: "Yes" }, isDisabled: false },
-        { id: "false", display_text: { en: "No" }, isDisabled: false }
+        { id: "true", display_text: { en: "Yes" }, disabled: false },
+        { id: "false", display_text: { en: "No" }, disabled: false }
       ];
       const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
@@ -767,10 +768,31 @@ describe("<RecordForm /> - Selectors", () => {
 
   describe("getMiniFormFields", () => {
     it("should return show_on_minify_form fields for non nested forms", () => {
-      const expected = fromJS([R.FieldRecord(fields["1"])]);
+      const expected = fromJS([
+        FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      ]);
       const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp");
 
-      expect(result).to.deep.equal(expected);
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toList().toJS()).to.deep.equal(expected.toJS());
     });
   });
 });

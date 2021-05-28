@@ -13,6 +13,7 @@ import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
 import { useMemoizedSelector } from "../../../libs";
 import { SELECT_CHANGE_REASON } from "../constants";
+import { listboxClasses, virtualize } from "../../searchable-select/components/listbox-component";
 
 import styles from "./styles.css";
 
@@ -252,6 +253,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           onOpen={handleOpen}
           onChange={(_, data, reason) => fieldOnChange(handleChange(data, reason))}
           groupBy={option => option[groupBy]}
+          ListboxComponent={virtualize(options.length)}
+          classes={listboxClasses}
+          disableListWrap
           options={options}
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}

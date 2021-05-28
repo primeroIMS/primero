@@ -1,10 +1,11 @@
 import { RECORD_PATH, METHODS } from "../../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../../notifier";
 import { CLEAR_DIALOG } from "../../../../action-dialog";
+import { fetchLocations } from "../action-creators";
 
 import actions from "./actions";
 
-export const importLocations = ({ body, message }) => ({
+export const importLocations = ({ body, message, params }) => ({
   type: actions.IMPORT_LOCATIONS,
   api: {
     path: `${RECORD_PATH.locations}/import`,
@@ -22,10 +23,9 @@ export const importLocations = ({ body, message }) => ({
             variant: "success",
             key: generate.messageKey(message)
           }
-        },
-        redirectWithIdFromResponse: false,
-        redirect: `/admin/${RECORD_PATH.locations}`
-      }
+        }
+      },
+      fetchLocations(params, true)
     ]
   }
 });

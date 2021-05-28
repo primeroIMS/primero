@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
+import DisableOffline from "../../../disable-offline";
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
 import { getPermissionsByRecord, currentUser } from "../../../user/selectors";
 import { ACTIONS, checkPermissions } from "../../../../libs/permissions";
@@ -138,16 +139,18 @@ const Component = ({ transition, showMode, recordType, classes }) => {
 
   return (
     <div className={classes.iconBar}>
-      <ActionButton
-        icon={<MoreVertIcon />}
-        type={ACTION_BUTTON_TYPES.icon}
-        rest={{
-          "aria-label": "more",
-          "aria-controls": "long-menu",
-          "aria-haspopup": "true",
-          onClick: handleClick
-        }}
-      />
+      <DisableOffline>
+        <ActionButton
+          icon={<MoreVertIcon />}
+          type={ACTION_BUTTON_TYPES.icon}
+          rest={{
+            "aria-label": "more",
+            "aria-controls": "long-menu",
+            "aria-haspopup": "true",
+            onClick: handleClick
+          }}
+        />
+      </DisableOffline>
       <Menu id="long-menu" anchorEl={optionMenu} open={Boolean(optionMenu)} onClose={event => handleClose(event)}>
         {actions}
       </Menu>

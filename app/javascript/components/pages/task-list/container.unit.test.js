@@ -207,7 +207,7 @@ describe("<TaskList />", () => {
 
     // Simulating click on the first row (type=service) should dispatch an action
     firstRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(3);
+    expect(component.props().store.getActions()).to.have.lengthOf(2);
     expect(component.props().store.getActions()[1]).to.deep.equals({
       ...expectedType,
       payload: "cp_incident_record_owner"
@@ -215,8 +215,8 @@ describe("<TaskList />", () => {
 
     // Simulating click on the second row (type=case_plan) should dispatch an action
     secondRow.find("td").at(0).simulate("click");
-    expect(component.props().store.getActions()).to.have.lengthOf(5);
-    expect(component.props().store.getActions()[3]).to.deep.equals({
+    expect(component.props().store.getActions()).to.have.lengthOf(3);
+    expect(component.props().store.getActions()[2]).to.deep.equals({
       ...expectedType,
       payload: "assessment"
     });

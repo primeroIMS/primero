@@ -65,7 +65,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   }, []);
 
   useEffect(() => {
-    if (typeof value !== "undefined" && (!stickyOption || isEmpty(stickyOption))) {
+    if (value && (!stickyOption || isEmpty(stickyOption))) {
       setStickyOption(String(value));
     }
   }, [value]);
@@ -75,7 +75,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
     return (
       <FormControlLabel
-        disabled={opt.isDisabled || mode.isShow || disabled}
+        disabled={opt.disabled || mode.isShow || disabled}
         key={`${name}-${opt.id}`}
         value={opt.id.toString()}
         label={optLabel}

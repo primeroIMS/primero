@@ -96,12 +96,12 @@ describe("User - Action Creators", () => {
     {
       type: "forms/SET_LOCATIONS",
       api: {
-        path: "https://localhostundefined",
+        path: "https://localhost/test-locations.json",
         external: true,
         db: {
           collection: "locations",
           alwaysCache: false,
-          manifest: undefined
+          manifest: "/test-locations.json"
         }
       }
     }

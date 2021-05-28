@@ -16,10 +16,10 @@ import { GROUP_PERMISSIONS } from "../../libs/permissions";
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { get, buildRoleOptions } from "./utils";
 
-const referToUsers = (state, { currRecord }) =>
+const referToUsers = (state, { currRecord, fullUsers = false }) =>
   state
     .getIn(["records", "transitions", "referral", "users"], fromJS([]))
-    .reduce((prev, current) => {
+    ?.reduce((prev, current) => {
       const userName = current.get("user_name");
 
       if (!isEmpty(currRecord)) {
@@ -34,11 +34,12 @@ const referToUsers = (state, { currRecord }) =>
         ...prev,
         {
           id: userName.toLowerCase(),
-          display_text: userName
+          display_text: userName,
+          ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
         }
       ];
     }, [])
-    .filter(user => !isEmpty(user));
+    ?.filter(user => !isEmpty(user));
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
@@ -71,7 +72,7 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
         display_text: current.getIn(["name", i18n.locale], ""),
-        disabled: current.get("disabled")
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -144,7 +145,8 @@ const lookupValues = (state, optionStringsSource, i18n, rest) => {
       ...prev,
       {
         id: current.get("id"),
-        display_text: displayNameHelper(current.get("display_text"), i18n.locale)
+        display_text: displayNameHelper(current.get("display_text"), i18n.locale),
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -193,7 +195,7 @@ const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).reduce(
     (prev, current) => [
       ...prev,
-      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled") }
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled", false) }
     ],
     []
   );
