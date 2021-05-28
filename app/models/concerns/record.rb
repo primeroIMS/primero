@@ -158,9 +158,9 @@ module Record
         return h if !h.is_a?(Hash) || (h.is_a?(Hash) &&
                       (h.length.zero? || document_form_names.include?(h.keys.first)))
 
-        begin
+        if h.keys.all?{|k| k=~ /\A\d+\z/}
           h.sort_by {|k,v| Integer(k)}.map{|k,v| hash_arrays_to_arrays.call(v)}
-        rescue
+        else
           h.inject({}) {|acc, (k,v)| acc.merge({k => hash_arrays_to_arrays.call(v)})}
         end
       end
