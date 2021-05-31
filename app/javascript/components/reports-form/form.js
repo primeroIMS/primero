@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
 import { fromJS } from "immutable";
-import { object, string } from "yup";
+import { object, string, array } from "yup";
 import isEmpty from "lodash/isEmpty";
 
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD, OPTION_TYPES } from "../form";
@@ -23,8 +23,9 @@ import { buildUserModules, formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
-    aggregate_by: string().required(),
-    module_id: string().required(),
+    aggregate_by: array().of(string()).min(1).required(),
+    disaggregate_by: array().of(string()).min(1).required(),
+    module_id: string().required().nullable(),
     name: object().shape({
       en: string().required(i18n.t("report.name_mandatory"))
     }),
@@ -74,7 +75,6 @@ export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationCon
           name: MODULES_FIELD,
           type: SELECT_FIELD,
           required: true,
-          multi_select: true,
           option_strings_text: buildUserModules(userModules),
           clearDependentValues: [
             RECORD_TYPE_FIELD,

@@ -68,14 +68,14 @@ const FormSectionField = ({
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
 
   const optionsSelector = useCallback(
-    state =>
+    selectorOptions => state =>
       getOptions(
         state,
         filterOptionStringSource,
         i18n,
         options || optionsStringsText,
         OPTION_TYPES.AGENCY === filterOptionStringSource,
-        { fullUsers: true }
+        { fullUsers: true, ...selectorOptions }
       ),
     [i18n.locale, options, optionsStringsText, filterOptionStringSource]
   );

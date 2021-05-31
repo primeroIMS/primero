@@ -47,6 +47,7 @@ const buildFields = (recordType, formsByParentForm, i18n) => {
             name: `form_section_read_write.${recordType}.${form.unique_id}`,
             type: RADIO_FIELD,
             visible: true,
+            disabled: form.core_form,
             option_strings_text: {
               [i18n.locale]: [
                 ROLES_PERMISSIONS.hide.text,

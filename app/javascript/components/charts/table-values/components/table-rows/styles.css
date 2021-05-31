@@ -1,0 +1,22 @@
+.tableRow {
+  background-color: $(theme.primero.colors.lightGrey);
+
+  & td {
+    font-weight: bold;
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+
+  & td:last-of-type {
+    border-right: none;
+  }
+}
+
+.tableRowValues {
+  & td {
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+}
+
+.tableRowValues {
+  border-right: 1px solid $(theme.primero.colors.lightGrey2);
+}

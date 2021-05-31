@@ -9,7 +9,7 @@ import {
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
   getPermittedRoleUniqueIds
-} from "../user";
+} from "../user/selectors";
 import { getRecordForms } from "../record-form";
 import { GROUP_PERMISSIONS } from "../../libs/permissions";
 
@@ -19,7 +19,7 @@ import { get, buildRoleOptions } from "./utils";
 const referToUsers = (state, { currRecord, fullUsers = false }) =>
   state
     .getIn(["records", "transitions", "referral", "users"], fromJS([]))
-    .reduce((prev, current) => {
+    ?.reduce((prev, current) => {
       const userName = current.get("user_name");
 
       if (!isEmpty(currRecord)) {
@@ -39,7 +39,7 @@ const referToUsers = (state, { currRecord, fullUsers = false }) =>
         }
       ];
     }, [])
-    .filter(user => !isEmpty(user));
+    ?.filter(user => !isEmpty(user));
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 

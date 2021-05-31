@@ -9,21 +9,24 @@ import { useMemoizedSelector } from "../../libs";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
-import { getLocales, getLocale } from "./selectors";
+import { getLocales, getLocale, getAppDirection } from "./selectors";
 import useI18n from "./use-i18n";
 import { getLocaleDir } from "./utils";
 
 const I18nProvider = ({ children }) => {
   const locale = useMemoizedSelector(state => getLocale(state));
-
+  const dir = useMemoizedSelector(state => getAppDirection(state));
   const locales = useMemoizedSelector(state => getLocales(state));
 
   const dispatch = useDispatch();
 
   const changeLocale = value => {
+    const whichDir = getLocaleDir(value);
+
     window.I18n.locale = value;
     document.documentElement.lang = value;
-    dispatch(setLocale({ locale: value, dir: getLocaleDir(value) }));
+    document.documentElement.dir = whichDir;
+    dispatch(setLocale({ locale: value, dir: whichDir }));
   };
 
   const getI18nStringFromObject = i18nObject => {
@@ -52,6 +55,7 @@ const I18nProvider = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        dir,
         locale,
         applicationLocales: translateLocales(),
         ...window.I18n,

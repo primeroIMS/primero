@@ -5,7 +5,7 @@ describe("layouts - index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    ["AppLayout", "LoginLayout"].forEach(property => {
+    ["AppLayout", "LoginLayout", "default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
