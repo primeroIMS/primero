@@ -38,7 +38,7 @@ export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationCon
   });
 
   const checkModuleAndRecordType = ({ [MODULES_FIELD]: modules = [], [RECORD_TYPE_FIELD]: recordType }, options) =>
-    formattedFields(options, modules, recordType, i18n.locale, reportingLocationConfig, reportableFields);
+    formattedFields(options, modules, recordType, i18n, reportingLocationConfig, reportableFields);
 
   const aggregateDefaults = {
     type: SELECT_FIELD,

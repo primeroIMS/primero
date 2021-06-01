@@ -51,3 +51,39 @@ export const DEFAULT_FILTERS = [
 export const NOT_NULL = "not_null";
 
 export const DATE = "date";
+
+export const MINIMUM_REPORTABLE_FIELDS = Object.freeze({
+  case: [
+    "status",
+    "sex",
+    "risk_level",
+    "owned_by_agency_id",
+    "owned_by",
+    "workflow",
+    "workflow_status",
+    "record_state",
+    "associated_user_names",
+    "owned_by_groups",
+    "registration_date",
+    "age",
+    "owned_by_location",
+    "location_current"
+  ],
+  incident: ["record_state", "status", "owned_by", "associated_user_names", "owned_by_groups", "incident_date_derived"],
+  tracing_request: [
+    "record_state",
+    "status",
+    "inquiry_date",
+    "owned_by",
+    "associated_user_names",
+    "owned_by_groups",
+    "inquiry_date"
+  ]
+});
+
+export const MATCH_REPORTABLE_TYPES = Object.freeze({
+  reportable_protection_concern: "case",
+  reportable_service: "case",
+  reportable_follow_up: "case",
+  violation: "incident"
+});

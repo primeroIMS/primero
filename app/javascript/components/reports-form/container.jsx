@@ -59,13 +59,7 @@ const Container = ({ mode }) => {
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
 
-  const minimumReportableFields = {
-    case: ["status", "sex", "risk_level", "owned_by_agency_id", "owned_by", "workflow", "workflow_status"],
-    incident: ["record_state", "sex", "status", "incident_date_derived"],
-    tracing_request: ["record_state", "status", "inquiry_date"]
-  };
-
-  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms, minimumReportableFields);
+  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms);
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 

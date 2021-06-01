@@ -1,9 +1,10 @@
 import uniqBy from "lodash/uniqBy";
 
 import { displayNameHelper } from "../../../libs";
+import { MINIMUM_REPORTABLE_FIELDS } from "../constants";
 
-export default (i18n, forms, fieldsByParentForm) => {
-  const result = Object.entries(fieldsByParentForm).reduce((accumulator, current) => {
+export default (i18n, forms) => {
+  const result = Object.entries(MINIMUM_REPORTABLE_FIELDS).reduce((accumulator, current) => {
     const [key, fields] = current;
 
     const filteredForms = forms.filter(form => form.get("parent_form") === key);
