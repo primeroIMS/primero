@@ -18,7 +18,11 @@ class Lookup < ApplicationRecord
 
   class << self
     def list(options)
-      apply_order(Lookup.all, options)
+      order_query = SqlOrderQueryService.build_order_query(self, options)
+
+      return all unless order_query.present?
+
+      all.order(order_query)
     end
 
     # TODO: Delete after we have fixed data storage with Alberto's changes.
@@ -113,16 +117,6 @@ class Lookup < ApplicationRecord
         lookup_ids = %w[lookup-form-group-cp-incident lookup-form-group-gbv-incident]
       end
       lookup_ids
-    end
-
-    def apply_order(lookups, options)
-      return lookups unless options[:order_by].present?
-
-      localized_order = localized_order(options)
-
-      return lookups.order(Arel.sql(localized_order)) if localized_order.present?
-
-      lookups.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

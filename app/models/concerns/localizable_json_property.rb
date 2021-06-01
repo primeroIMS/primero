@@ -98,15 +98,6 @@ module LocalizableJsonProperty
         define_property_setter(store, values.map(&:with_indifferent_access), locale)
       end
     end
-
-    def localized_order(options = {})
-      return if localized_properties.exclude?(options[:order_by].to_sym)
-
-      locale = I18n.available_locales.include?(options[:locale]&.to_sym) ? options[:locale] : 'en'
-      direction = ActiveRecord::QueryMethods::VALID_DIRECTIONS.include?(options[:order]) ? options[:order] : 'asc'
-
-      "#{options[:order_by]}_i18n ->> '#{locale}' #{direction}"
-    end
   end
 
   def localized_hash(locale = Primero::Application::LOCALE_ENGLISH)

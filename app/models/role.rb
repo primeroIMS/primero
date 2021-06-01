@@ -70,25 +70,18 @@ class Role < ApplicationRecord
     def list(user = nil, options = {})
       return list_external if options[:external]
 
-      roles_list = options[:managed] ? list_managed(user) : Role.all
+      roles_list = options[:managed] ? list_managed(user) : all
       roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
-      apply_order(roles_list, options)
+      order_query = SqlOrderQueryService.build_order_query(self, options)
+      order_query.present? ? roles_list.order(order_query) : roles_list
     end
 
     def list_managed(user)
-      user&.permitted_roles_to_manage || Role.none
+      user&.permitted_roles_to_manage || none
     end
 
     def list_external
-      Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
-    end
-
-    private
-
-    def apply_order(roles, options = {})
-      return roles unless options[:order_by].present?
-
-      roles.order(options[:order_by] => options[:order] || :asc)
+      where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
     end
   end
 

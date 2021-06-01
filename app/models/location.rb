@@ -65,23 +65,11 @@ class Location < ApplicationRecord
     end
 
     def list(filters = {}, options = {})
-      return apply_order(all, options) if filters.blank?
+      order_query = SqlOrderQueryService.build_order_query(self, options)
 
-      apply_order(where(filters), options)
-    end
+      list_query = filters.blank? ? all : where(filters)
 
-    private
-
-    def apply_order(locations, options)
-      return locations unless options[:order_by].present?
-
-      localized_order = localized_order(options)
-
-      return locations.order(Arel.sql(localized_order)) if localized_order.present?
-
-      order_by = ORDER_BY_FIELD_MAP[options[:order_by].to_sym] || options[:order_by]
-
-      locations.order(order_by => options[:order] || :asc)
+      order_query.present? ? list_query.order(order_query) : list_query
     end
   end
 

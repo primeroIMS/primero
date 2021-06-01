@@ -66,23 +66,12 @@ class Agency < ApplicationRecord
     def list(params = {})
       agencies = params[:managed] ? all : enabled
       agencies = agencies.where(disabled: params[:disabled].values) if params[:disabled].present?
-      apply_order(agencies, params)
+      order_query = SqlOrderQueryService.build_order_query(self, params)
+      order_query.present? ? agencies.order(order_query) : agencies
     end
 
     def get_field_using_unique_id(unique_id, field)
       where(unique_id: unique_id).pluck(field)&.first
-    end
-
-    private
-
-    def apply_order(agencies, options)
-      return agencies unless options[:order_by].present?
-
-      localized_order = localized_order(options)
-
-      return agencies.order(Arel.sql(localized_order)) if localized_order.present?
-
-      agencies.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

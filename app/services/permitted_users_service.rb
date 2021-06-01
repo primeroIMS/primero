@@ -8,14 +8,16 @@ class PermittedUsersService
     self.user = user
   end
 
-  def find_permitted_users(filters = nil, pagination = nil, sort = nil)
+  def find_permitted_users(filters = nil, pagination = nil, order_params = nil)
     users = apply_filters(permitted_users, filters)
     total = users.size
 
     current_pagination = build_pagination(pagination)
 
     users = users.limit(current_pagination[:per_page]).offset(current_pagination[:offset])
-    users = users.order(sort) if sort.present?
+    order_query = SqlOrderQueryService.build_order_query(self, order_params)
+
+    users = users.order(order_query) if order_query.present?
 
     { total: total, users: users }
   end

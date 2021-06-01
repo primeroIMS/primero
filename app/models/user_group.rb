@@ -13,21 +13,15 @@ class UserGroup < ApplicationRecord
 
       user_groups = user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
 
-      apply_order(user_groups, opts)
+      order_query = SqlOrderQueryService.build_order_query(self, opts)
+
+      order_query.present? ? user_groups.order(order_query) : user_groups
     end
 
     def new_with_properties(params, user)
       user_group = UserGroup.new(params)
       user_group.add_creating_user(user)
       user_group
-    end
-
-    private
-
-    def apply_order(user_groups, options = {})
-      return user_groups unless options[:order_by].present?
-
-      user_groups.order(options[:order_by] => options[:order] || :asc)
     end
   end
 

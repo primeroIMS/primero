@@ -71,18 +71,4 @@ describe LocalizableJsonProperty do
     merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
     expect(merged_options).to match_array(option_string_text)
   end
-
-  describe 'localized_order' do
-    it 'should return an order clause for a localized property' do
-      expect(@klass.localized_order(order_by: 'display_name', order: 'desc')).to eq('display_name_i18n ->> \'en\' desc')
-    end
-
-    it 'should return nil if the property is not localized' do
-      expect(@klass.localized_order(order_by: 'field', order: 'asc')).to be_nil
-    end
-
-    it 'should default to asc if the order direction is not valid' do
-      expect(@klass.localized_order(order_by: 'display_name', order: 'invalid')).to eq('display_name_i18n ->> \'en\' asc')
-    end
-  end
 end
