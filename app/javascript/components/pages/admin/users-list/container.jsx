@@ -109,6 +109,10 @@ const Container = () => {
     }
   };
 
+  useEffect(() => {
+    dispatch(setUsersFilters(defaultFilters));
+  }, []);
+
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>

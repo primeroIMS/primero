@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { fromJS, List } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
@@ -79,6 +80,10 @@ const Container = () => {
     targetRecordType: NAMESPACE,
     bypassInitialFetch: true
   };
+
+  useEffect(() => {
+    dispatch(setRolesFilter(defaultFilters));
+  }, []);
 
   return (
     <>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { Grid } from "@material-ui/core";
@@ -85,6 +86,10 @@ const Container = () => {
       }}
     />
   ) : null;
+
+  useEffect(() => {
+    dispatch(setUserGroupsFilter(defaultFilters));
+  }, []);
 
   return (
     <>

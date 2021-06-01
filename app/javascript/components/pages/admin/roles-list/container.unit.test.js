@@ -76,8 +76,8 @@ describe("<RolesList />", () => {
 
     indexTable.find(TableHead).find(TableCell).at(0).find("span.MuiButtonBase-root").simulate("click");
 
-    expect(component.props().store.getActions()[1].type).to.deep.equals(expectedAction.type);
-    expect(component.props().store.getActions()[1].payload.data).to.deep.equals(expectedAction.payload.data);
+    expect(component.props().store.getActions()[2].type).to.deep.equals(expectedAction.type);
+    expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);
   });
 
   it("should trigger a valid action with next page when clicking next page", () => {
@@ -91,13 +91,13 @@ describe("<RolesList />", () => {
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(1);
+    expect(component.props().store.getActions()).to.have.lengthOf(2);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2].api.params).to.deep.equal(expectAction.api.params);
-    expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
+    expect(component.props().store.getActions()[3].api.params).to.deep.equal(expectAction.api.params);
+    expect(component.props().store.getActions()[3].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[3].api.path).to.deep.equals(expectAction.api.path);
   });
 
   it("should set the filters when apply is clicked", () => {
@@ -112,7 +112,7 @@ describe("<RolesList />", () => {
       type: "roles/SET_ROLES_FILTER"
     };
 
-    expect(component.props().store.getActions()[2]).to.deep.equals(expectedAction);
+    expect(component.props().store.getActions()[3]).to.deep.equals(expectedAction);
   });
 
   it("should render new button", () => {

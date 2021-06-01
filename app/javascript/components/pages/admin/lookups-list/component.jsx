@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -61,6 +62,10 @@ const Component = () => {
     targetRecordType: "lookups",
     bypassInitialFetch: true
   };
+
+  useEffect(() => {
+    dispatch(setLookupsFilter(defaultFilters));
+  }, []);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>

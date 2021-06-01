@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
@@ -94,6 +95,10 @@ const Container = () => {
   const renderAlertNoLocations = !hasLocationsAvailable && (
     <InternalAlert items={itemsForAlert} severity={SEVERITY.info} />
   );
+
+  useEffect(() => {
+    dispatch(setLocationsFilter(defaultFilters));
+  }, []);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>

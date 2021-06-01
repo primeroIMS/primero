@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
@@ -87,6 +88,10 @@ const Container = () => {
       }}
     />
   ) : null;
+
+  useEffect(() => {
+    dispatch(setAgenciesFilter(defaultFilters));
+  }, []);
 
   return (
     <>
