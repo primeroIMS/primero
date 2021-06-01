@@ -66,6 +66,7 @@ describe("User - Reducers", () => {
       },
       roleGroupPermission: "all",
       userGroupUniqueIds: ["tests"],
+      userGroups: [{ unique_id: "tests", description: "tests" }],
       agencyId: 1,
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
@@ -122,6 +123,7 @@ describe("User - Reducers", () => {
       agency: 1,
       role_group_permission: "all",
       user_group_unique_ids: ["tests"],
+      user_groups: [{ unique_id: "tests", description: "tests" }],
       reporting_location_config: {
         field_key: "owned_by_location",
         admin_level: 2,

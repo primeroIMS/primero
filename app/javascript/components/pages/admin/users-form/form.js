@@ -29,7 +29,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { agencyReadOnUsers, currentRoleGroupPermission }
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -120,7 +120,14 @@ const sharedUserFields = (
     type: SELECT_FIELD,
     multi_select: true,
     required: true,
-    option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED,
+    ...(userGroups?.size
+      ? {
+          option_strings_text: userGroups.map(userGroup => ({
+            id: userGroup.get("unique_id"),
+            display_text: userGroup.get("name")
+          }))
+        }
+      : { option_strings_source: OPTION_TYPES.USER_GROUP_PERMITTED }),
     editable: !hideOnAccountPage,
     watchedInputs: [FIELD_NAMES.USER_GROUP_UNIQUE_IDS]
   },
@@ -218,12 +225,13 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers, currentRoleGroupPermission } = {}
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     agencyReadOnUsers,
-    currentRoleGroupPermission
+    currentRoleGroupPermission,
+    userGroups
   });
   const identityFields = identityUserFields(i18n, identityOptions);
 
