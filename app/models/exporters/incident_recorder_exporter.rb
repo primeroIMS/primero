@@ -338,11 +338,11 @@ module Exporters
             if legal_counseling.present?
               legal_actions = legal_counseling.
                   map{|l| l.try(:pursue_legal_action)}
-              if legal_actions.include? true
+              if legal_actions.include?('true')
                 I18n.t("exports.incident_recorder_xls.yes")
-              elsif legal_actions.include? false
+              elsif legal_actions.include?('false')
                 I18n.t("exports.incident_recorder_xls.no")
-              elsif legal_actions.include? nil
+              elsif legal_actions.include?('undecided')
                 I18n.t("exports.incident_recorder_xls.service_referral.undecided")
               end
             end
