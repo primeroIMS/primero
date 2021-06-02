@@ -2342,6 +2342,10 @@ en:
             explanation: “When viewing a Case, User can see a list of Incidents linked
               to the Case, along with some summary information about each.
             label: View Incidents from Case
+          view_protection_concerns_filter:
+            explanation: Allows the user to see a protection concerns filter on the
+              case list page.
+            label: View Protection Concerns filter on case list page
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
@@ -2497,10 +2501,6 @@ en:
               created in each of the last two weeks, and number of Cases closed
               in each of the last two weeks.
             label: Administrator Summary
-          view_protection_concerns_filter:
-            explanation: Allows the user to see a protection concerns filter on the
-              case list page.
-            label: View Protection Concerns filter on case list page
           view_response:
             explanation: For each response type, shows how many cases at each risk
               level have services which are near deadline or overdue for completion.
