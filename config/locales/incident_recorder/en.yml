@@ -25,7 +25,7 @@ en:
         unknown: "Unknown"
         header: "ALLEGED PERPETRATOR AGE TYPE"
       service_referral:
-        undecided: "Undecided at time of report"
+        undecided: "Undecided"
       headers:
         incident_id: "INCIDENT ID"
         survivor_code: "SURVIVOR CODE"
