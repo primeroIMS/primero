@@ -76,12 +76,15 @@ describe Api::V2::ChildrenController, type: :request do
         Alert.create(type: 'transfer_request', alert_for: 'transfer_request')
       ]
     )
+    @unique_id_mother = SecureRandom.uuid
+    @unique_id_father = SecureRandom.uuid
+    @unique_id_uncle = SecureRandom.uuid
     @case3 = Child.create!(
       data: {
         name: 'Test3', age: 6, sex: 'male',
         family_details: [
-          { unique_id: 'a1', relation_type: 'mother', age: 33 },
-          { unique_id: 'a2', relation_type: 'father', age: 32 }
+          { unique_id: @unique_id_mother, relation_type: 'mother', age: 33 },
+          { unique_id: @unique_id_father, relation_type: 'father', age: 32 }
         ]
       },
       alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request')]
@@ -447,13 +450,29 @@ describe Api::V2::ChildrenController, type: :request do
       end
     end
 
+    it 'treats numerically formatted strings wih leading 0s as strings' do
+      login_for_test
+      params = { data: { national_id_no: '001' } }
+      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+
+      expect(@case1.reload.data['national_id_no']).to eq('001')
+    end
+
+    it 'treats numerically formatted strings as strings' do
+      login_for_test
+      params = { data: { national_id_no: '155' } }
+      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+
+      expect(@case1.reload.data['national_id_no']).to eq('155')
+    end
+
     it 'appends to rather than replaces nested forms' do
       login_for_test
       params = {
         data: {
           family_details: [
-            { unique_id: 'a1', relation_type: 'mother', age: 35 },
-            { unique_id: 'a3', relation_type: 'uncle',  age: 50 }
+            { unique_id: @unique_id_mother, relation_type: 'mother', age: 35 },
+            { unique_id: @unique_id_uncle, relation_type: 'uncle', age: 50 }
           ]
         }
       }
@@ -463,7 +482,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       case3 = Child.find_by(id: @case3.id)
       family_details = case3.data['family_details']
-      uncle = family_details.select { |f| f['unique_id'] == 'a3' && f['relation_type'] == 'uncle' }
+      uncle = family_details.select { |f| f['unique_id'] == @unique_id_uncle && f['relation_type'] == 'uncle' }
       expect(family_details.size).to eq(3)
       expect(uncle.present?).to be true
     end
@@ -473,8 +492,8 @@ describe Api::V2::ChildrenController, type: :request do
       params = {
         data: {
           family_details: [
-            { unique_id: 'a1', _destroy: true },
-            { unique_id: 'a3', relation_type: 'uncle', age: 50 }
+            { unique_id: @unique_id_mother, _destroy: true },
+            { unique_id: @unique_id_uncle, relation_type: 'uncle', age: 50 }
           ]
         }
       }
@@ -484,7 +503,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       case3 = Child.find_by(id: @case3.id)
       family_details = case3.data['family_details']
-      mother = family_details.select { |f| f['unique_id'] == 'a1' && f['relation_type'] == 'mother' }
+      mother = family_details.select { |f| f['unique_id'] == @unique_id_mother && f['relation_type'] == 'mother' }
       expect(family_details.size).to eq(2)
       expect(mother.present?).to be false
     end
@@ -599,7 +618,7 @@ describe Api::V2::ChildrenController, type: :request do
       end
     end
 
-    describe 'when a user close a case that cannot update' do
+    describe 'when a user closes a case that cannot be updated' do
       it 'close the case if he is authorized to close cases' do
         login_for_test(
           group_permission: Permission::SELF,
@@ -650,7 +669,7 @@ describe Api::V2::ChildrenController, type: :request do
           ]
         )
 
-        params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
+        params = { data: { status: 'open', case_status_reopened: true }, record_action: Permission::REOPEN }
 
         patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
 

@@ -17,7 +17,8 @@ module FakeDeviseLogin
       subform: FormSection.new(
         fields: [
           Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
-          Field.new(name: 'relation_type', type: Field::SELECT_BOX)
+          Field.new(name: 'relation_type', type: Field::SELECT_BOX),
+          Field.new(name: 'age', type: Field::NUMERIC_FIELD)
         ]
       )
     ),
@@ -27,6 +28,7 @@ module FakeDeviseLogin
     Field.new(name: 'inquiry_date', type: Field::DATE_FIELD, display_name_en: 'A'),
     Field.new(name: 'relation_name', type: Field::TEXT_FIELD, display_name_en: 'Name'),
     Field.new(name: 'relation', type: Field::SELECT_BOX, display_name_en: 'Name'),
+    Field.new(name: 'national_id_no', type: Field::TEXT_FIELD, display_name_en: 'A'),
     Field.new(
       name: 'tracing_request_subform_section',
       display_name_en: 'A',

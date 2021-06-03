@@ -2,21 +2,36 @@
 
 # Validate if the submitted record data an be described by the Field definitions
 class RecordJsonValidatorService < ValueObject
-  attr_accessor :fields, :schema, :schemer
+  attr_accessor :fields, :schema, :schema_supplement, :schemer
 
   def initialize(opts = {})
     super(opts)
-    return unless fields
 
     self.schema ||= build_schema(fields)
+    schema['properties'] = schema['properties'].reverse_merge(schema_supplement) if schema_supplement.present?
     self.schemer ||= JSONSchemer.schema(schema)
   end
 
-  # TODO: Defenisve coding, what if fields is nil?
+  def valid?(json_hash)
+    schemer.valid?(json_hash)
+  end
+
+  def validate!(json_hash)
+    return if valid?(json_hash)
+
+    raise(Errors::InvalidRecordJson, 'Invalid Record JSON')
+  end
+
+  private
+
+  # Building a schema is in inherently complex operation
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
   def build_schema(fields)
-    # TODO: Consider adding: 'additionalProperties' => false
-    # TODO: Consider enumerating hardcoded fields and field types
-    object = { 'type' => 'object', 'properties' => {} }
+    object = { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
+    return object unless fields.present?
+
     fields.each_with_object(object) do |field, schema_hash|
       properties = schema_hash['properties']
       case field.type
@@ -29,10 +44,10 @@ class RecordJsonValidatorService < ValueObject
         # Boolean
         properties[field.name] = { 'type' => %w[boolean] }
       when Field::NUMERIC_FIELD
-        # Numeric
+        # Numeric, min and max are Solr limitations
         properties[field.name] = { 'type' => %w[integer null], 'minimum' => -2_147_483_648, 'maximum' => 2_147_483_647 }
       when Field::SELECT_BOX
-        # TODO: Consider validating enums
+        # TODO: Consider validating enums based on options
         properties[field.name] = if field.multi_select
                                    # Array of Strings
                                    { 'type' => %w[array null], 'items' => { 'type' => 'string' } }
@@ -43,23 +58,24 @@ class RecordJsonValidatorService < ValueObject
       when Field::RADIO_BUTTON
         properties[field.name] = { 'type' => %w[string boolean null] }
       when Field::SUBFORM
-        # Array of objects and recurse
-        # TODO: Defensive coding, what if subform is nil?
-        properties[field.name] = { 'type' => %w[array null], 'items' => build_schema(field.subform.fields) }
+        properties[field.name] = {
+          'type' => %w[array null], 'items' => with_subform_fields(build_schema(field.subform&.fields))
+        }
       when Field::TEXT_FIELD, Field::TEXT_AREA
-        # String
         properties[field.name] = { 'type' => %w[string null] }
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
 
-  def valid?(json_hash)
-    schemer.valid?(json_hash)
-  end
-
-  def validate!(json_hash)
-    return if valid?(json_hash)
-
-    raise(Errors::InvalidRecordJson, 'Invalid Record JSON')
+  def with_subform_fields(object_schema)
+    object_schema.tap do |schema|
+      schema['properties']['_destroy'] = { 'type' => %w[boolean null] }
+      schema['properties']['unique_id'] = {
+        'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX
+      }
+    end
   end
 end
