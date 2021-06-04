@@ -139,7 +139,7 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'development_v2'
+                  primero_repo_branch: 'master'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
