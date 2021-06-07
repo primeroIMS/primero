@@ -22,6 +22,7 @@ en:
   sandbox_ui: Demo
   description: Description
   form: Form
+  minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
   unavailable_offline: Unavailable offline

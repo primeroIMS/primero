@@ -18,6 +18,8 @@ describe("<ReportsForm /> - Constants", () => {
       "IS_GRAPH_FIELD",
       "DATE",
       "DISABLED_FIELD",
+      "MATCH_REPORTABLE_TYPES",
+      "MINIMUM_REPORTABLE_FIELDS",
       "MODULES_FIELD",
       "NAME",
       "NAME_FIELD",
