@@ -10,4 +10,8 @@ class Api::V2::TasksController < ApplicationApiController
     @tasks = results[:tasks]
     @total = results[:total]
   end
+
+  def default_sort_field
+    'due_date'
+  end
 end

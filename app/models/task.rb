@@ -39,7 +39,7 @@ class Task
   end
 
   def upcoming_soon?
-    !self.overdue? && self.due_date <= 60.days.from_now
+    !self.overdue? && self.due_date <= 7.days.from_now
   end
 
   def self.apply_order(tasks, sort_order = {})
