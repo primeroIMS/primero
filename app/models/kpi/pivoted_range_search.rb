@@ -48,6 +48,7 @@ class Kpi::PivotedRangeSearch < Kpi::Search
           'facet.range.start': from,
           'facet.range.end': to,
           'facet.range.gap': '+1MONTH',
+          'facet.range.harded': true,
           'facet.pivot': [
             "{!range=range}#{pivot_field.indexed_name}"
           ]
