@@ -12,6 +12,18 @@ class Agency < ApplicationRecord
   TERMS_OF_USE_MAX_SIZE = 10.megabytes.freeze
   TERMS_OF_USE_CONTENT_TYPE = 'application/pdf'
 
+  AGENCY_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'string' }, 'unique_id' => { 'type' => 'integer' },
+    'agency_code' => { 'type' => 'string' }, 'order' => { 'type' => 'integer' },
+    'telephone' => { 'type' => 'string' }, 'logo_enabled' => { 'type' => 'boolean' },
+    'terms_of_use_enabled' => { 'type' => 'boolean' }, 'disabled' => { 'type' => 'boolean' },
+    'pdf_logo_option' => { 'type' => 'boolean' }, 'exclude_agency_from_lookups' => { 'type' => 'boolean' },
+    'services' => { 'type' => 'array' }, 'name' => { 'type' => 'object' }, 'description' => { 'type' => 'object' },
+    'logo_full_file_name' => { 'type' => 'string' }, 'logo_icon_base64' => { 'type' => 'string' },
+    'logo_icon_file_name' => { 'type' => 'string' }, 'logo_full_base64' => { 'type' => 'string' },
+    'terms_of_use_file_name' => { 'type' => 'string' }, 'terms_of_use_base64' => { 'logo_full_base64' => 'string' }
+  }.freeze
+
   localize_properties :name, :description
   attribute :logo_full_base64, :string
   attribute :logo_full_file_name, :string

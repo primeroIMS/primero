@@ -18,7 +18,7 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   def create
-    authorize! :create, Agency
+    authorize!(:create, Agency) && validate_json!
     @agency = Agency.new_with_properties(agency_params)
     @agency.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -26,7 +26,7 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   def update
-    authorize! :update, @agency
+    authorize!(:update, @agency) && validate_json!
     @agency.update_properties(agency_params)
     @agency.save!
   end
@@ -38,12 +38,17 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   def agency_params
-    params.require(:data).permit(
+    @agency_params ||= params.require(:data).permit(
       :id, :unique_id, :agency_code, :order, :telephone, :logo_enabled,
       :logo_full_base64, :logo_full_file_name, :logo_icon_base64, :logo_icon_file_name,
       :terms_of_use_file_name, :terms_of_use_base64, :terms_of_use_enabled,
       :disabled, :pdf_logo_option, :exclude_agency_from_lookups, services: [], name: {}, description: {}
     )
+  end
+
+  def validate_json!
+    service = JsonValidatorService.new(schema_supplement: Agency::AGENCY_FIELDS_SCHEMA)
+    service.validate!(agency_params.to_h)
   end
 
   protected
