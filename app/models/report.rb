@@ -404,7 +404,7 @@ class Report < ApplicationRecord
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
-        'facet.mincount': mincount,
+        'facet.pivot.mincount': mincount,
         'facet.limit': -1
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
