@@ -1,6 +1,8 @@
 import { Menu } from "@material-ui/core";
 import { fromJS } from "immutable";
 
+import DisableOffline from "../../../disable-offline";
+import ActionButton from "../../../action-button";
 import { setupMountedComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { TransitionRecord } from "../../records";
@@ -83,6 +85,18 @@ describe("<MenuActions /> - Component", () => {
             .children.map(elem => elem.props.children);
 
           expect(menuChildrenAction).to.deep.equals(["actions.revoke"]);
+        });
+
+        context("when is offline", () => {
+          it("should disable the actions", () => {
+            const { component: offlineComp } = setupMountedComponent(TransitionActions, props, {
+              ...state,
+              connectivity: { online: false }
+            });
+
+            expect(offlineComp.find(DisableOffline)).to.have.lengthOf(1);
+            expect(offlineComp.find(ActionButton).props().disabled).to.be.true;
+          });
         });
       });
 

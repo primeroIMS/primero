@@ -5,10 +5,11 @@ import AddIcon from "@material-ui/icons/Add";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
+import { useMemoizedSelector } from "../../libs";
 import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
-import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, INCIDENT_FROM_CASE } from "../../config";
+import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
 import { usePermissions } from "../user";
-import { getRecordInformationForms } from "../record-form/form/utils";
+import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
 
 import styles from "./styles.css";
@@ -26,12 +27,17 @@ const Container = ({
   mode,
   setFieldValue,
   handleSubmit,
-  recordType
+  recordType,
+  primeroModule
 }) => {
   const css = useStyles();
   const i18n = useI18n();
+
+  const incidentFromCaseForm = useMemoizedSelector(state =>
+    getIncidentFromCaseForm(state, { i18n, recordType, primeroModule })
+  );
+
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
-  const recordInformationForms = getRecordInformationForms(i18n);
 
   const renderIncidents =
     incidents &&
@@ -72,7 +78,7 @@ const Container = ({
         <div>{newIncidentBtn}</div>
       </div>
       <div className={css.alerts}>
-        <RecordFormAlerts recordType={recordType} form={recordInformationForms[INCIDENT_FROM_CASE]} />
+        <RecordFormAlerts recordType={recordType} form={incidentFromCaseForm} />
       </div>
       {renderIncidents}
     </div>
@@ -88,6 +94,7 @@ Container.propTypes = {
   incidents: PropTypes.object,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
+  primeroModule: PropTypes.string,
   record: PropTypes.object,
   recordType: PropTypes.string,
   setFieldValue: PropTypes.func
