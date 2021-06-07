@@ -31,7 +31,7 @@ export const validations = i18n =>
     name: object().shape({
       en: string().required(i18n.t("report.name_mandatory"))
     }),
-    record_type: string().required().nullable(),
+    record_type: string().required().nullable()
   });
 
 export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationConfig) => {
