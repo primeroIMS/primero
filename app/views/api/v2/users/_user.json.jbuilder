@@ -7,6 +7,7 @@ user_hash = user_hash.merge({
   role_unique_id: user.role.unique_id,
   role_group_permission: user.role.group_permission,
   user_group_unique_ids: user.user_group_unique_ids,
+  user_groups: user.user_groups,
   identity_provider_unique_id: user.identity_provider&.unique_id,
   agency_office: user.agency_office,
   reporting_location_config: user.reporting_location_config
@@ -21,6 +22,7 @@ if @extended
       end
     },
     permitted_form_unique_ids: user.role.form_section_unique_ids,
+    permitted_role_unique_ids: user.role.permitted_role_unique_ids,
     permitted_form: user.role.form_section_permission,
     filters: [
       Child.parent_form,

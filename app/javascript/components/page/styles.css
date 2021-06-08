@@ -14,6 +14,8 @@
 
 .wrap {
   padding: 1.563em 2em 4em 2em;
+  display: flex;
+  flex-direction: column;
 }
 
 .noWrap {
@@ -46,6 +48,7 @@
 
 .content {
   padding-top: 3.5em;
+  position: relative;
 }
 
 @media $(theme.breakpoints.down("sm")) {

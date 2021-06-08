@@ -40,7 +40,7 @@ const Component = ({ mode, formMethods }) => {
   };
 
   const onLocaleIdChange = (methods, data) => {
-    const localeId = data?.[1]?.id || null;
+    const localeId = data?.id || null;
 
     if (localeId !== selectedLocaleId) {
       setSelectedLocaleId(localeId);
@@ -90,7 +90,7 @@ const Component = ({ mode, formMethods }) => {
       setSelectedLocaleId(localeId);
       setValue("selected_locale_id", localeId, { shouldDirty: true });
     }
-  }, [i18n]);
+  }, []);
 
   const classes = clsx(css.fieldTitle, css.translationsRow);
 
@@ -188,8 +188,6 @@ const Component = ({ mode, formMethods }) => {
 };
 
 Component.displayName = NAME;
-
-Component.whyDidYouRender = true;
 
 Component.propTypes = {
   formMethods: PropTypes.object.isRequired,

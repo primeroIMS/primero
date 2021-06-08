@@ -1,3 +1,4 @@
+import isEmpty from "lodash/isEmpty";
 import { batch } from "react-redux";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -55,7 +56,10 @@ export const fetchForms = () => ({
 export const fetchOptions = () => async dispatch => {
   batch(() => {
     dispatch(fetchLookups());
-    dispatch(fetchLocations());
+
+    if (!isEmpty(window.locationManifest)) {
+      dispatch(fetchLocations());
+    }
   });
 };
 
@@ -71,6 +75,15 @@ export const fetchAgencies = params => ({
 export const setValidationErrors = payload => ({
   type: Actions.SET_VALIDATION_ERRORS,
   payload
+});
+
+export const setPreviousRecord = payload => ({
+  type: Actions.SET_PREVIOUS_RECORD,
+  payload
+});
+
+export const clearPreviousRecord = () => ({
+  type: Actions.CLEAR_PREVIOUS_RECORD
 });
 
 export const clearValidationErrors = () => ({

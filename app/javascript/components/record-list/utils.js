@@ -4,11 +4,11 @@
 import { fromJS } from "immutable";
 
 import { ToggleIconCell } from "../index-table";
-import { RECORD_PATH, DATE_TIME_FORMAT } from "../../config";
+import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../config";
 import { ConditionalWrapper } from "../../libs";
 import DisableOffline from "../disable-offline";
 
-import { ALERTS_COLUMNS, ALERTS } from "./constants";
+import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
 import PhotoColumnHeader from "./components/photo-column-header";
 
@@ -51,6 +51,8 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                     columnMeta={columnMeta}
                     handleToggleColumn={handleToggleColumn}
                     key={`photo-column-${name}`}
+                    i18n={i18n}
+                    recordType={recordType}
                   />
                 ),
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
@@ -67,6 +69,12 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                 customBodyRender: (value, { rowIndex }) =>
                   disableColumnOffline({ value: value && i18n.localizeDate(value, DATE_TIME_FORMAT), rowIndex })
               };
+            case "id":
+              return {
+                customBodyRender: (value, { rowData }) => {
+                  return column.get("field_name") === ID_COLUMNS.case_id_display ? value || rowData[1] : value;
+                }
+              };
             default:
               return {
                 customBodyRender: (value, { rowIndex }) => disableColumnOffline({ value, rowIndex })
@@ -79,7 +87,10 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
           name: column.get("field_name"),
           id: column.get("id_search"),
           options: {
-            ...options
+            ...options,
+            display: !(
+              RECORD_TYPES[recordType] === RECORD_TYPES.cases && column.get("field_name") === ID_COLUMNS.short_id
+            )
           }
         };
       })

@@ -6,9 +6,10 @@ module Webhookable
 
   included do
     has_many :record_send_logs, as: :record
-    store_accessor :data, :mark_synced, :mark_synced_url
+    store_accessor :data, :mark_synced, :mark_synced_url, :mark_synced_status
 
-    before_update :log_synced
+    before_update :log_sync_status, if: :valid_sync_log
+    before_update :clean_sync_attributes, if: :valid_sync_log
     after_create { queue_for_webhook(Webhook::CREATE) }
     after_update { queue_for_webhook(Webhook::UPDATE) }
   end
@@ -65,14 +66,29 @@ module Webhookable
 
   private
 
-  def log_synced
-    return unless mark_synced && mark_synced_url.present?
+  def calculate_sync_status
+    synced_status = if mark_synced
+                      AuditLog::SYNCED
+                    else
+                      AuditLog::FAILED
+                    end
+    mark_synced_status || synced_status
+  end
 
+  def clean_sync_attributes
+    %w[mark_synced mark_synced_url mark_synced_status].each do |attribute|
+      attributes['data'].delete(attribute)
+    end
+  end
+
+  def log_sync_status
     AuditLog.create(
       record: self, resource_url: mark_synced_url, action: AuditLog::WEBHOOK,
-      webhook_status: AuditLog::SYNCED, timestamp: DateTime.now
+      webhook_status: calculate_sync_status, timestamp: DateTime.now
     )
-    attributes['data'].delete('mark_synced')
-    attributes['data'].delete('mark_synced_url')
+  end
+
+  def valid_sync_log
+    mark_synced_status.present? || mark_synced.present?
   end
 end

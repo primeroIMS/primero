@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { displayNameHelper } from "../../../libs";
 import { FIELDS } from "../../record-owner/constants";
 import { OPTION_TYPES } from "../../form/constants";
 import { APPROVALS } from "../constants";
@@ -14,12 +15,12 @@ const getValueFromOptions = (allAgencies, allLookups, locations, i18n, optionSel
     return allAgencies.find(agency => agency.id === valueToTranslated)?.display_text;
   }
 
-  return allLookups
+  const lookupValue = allLookups
     ?.find(lookup => lookup.get("unique_id") === optionSelected.replace(/lookup /, ""))
     ?.get("values")
-    ?.find(v => v.get("id") === valueToTranslated)
-    ?.get("display_text")
-    ?.get(i18n.locale);
+    ?.find(v => v.get("id") === valueToTranslated);
+
+  return lookupValue ? displayNameHelper(lookupValue.get("display_text"), i18n.locale) : value;
 };
 
 const getFieldValueFromOptionSource = (
@@ -41,10 +42,13 @@ const getFieldValueFromOptionSource = (
 
 const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue) => {
   const valueTranslated = value =>
-    selectedFieldOptionsText?.find(
-      optionStringText => optionStringText.id === value
-      // eslint-disable-next-line camelcase
-    )?.display_text[i18n.locale];
+    displayNameHelper(
+      selectedFieldOptionsText?.find(
+        optionStringText => optionStringText.id === value
+        // eslint-disable-next-line camelcase
+      )?.display_text,
+      i18n.locale
+    );
 
   if (Array.isArray(fieldValue)) {
     return fieldValue.map(value => valueTranslated(value));
@@ -52,6 +56,9 @@ const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue)
 
   return valueTranslated(fieldValue);
 };
+
+export const filterFieldsRecordInformation = field =>
+  FIELDS.filter(fieldInformation => fieldInformation.name === field);
 
 export default (allAgencies, allLookups, locations, i18n, selectedField, field, value) => {
   let fieldDisplayName;
@@ -61,14 +68,14 @@ export default (allAgencies, allLookups, locations, i18n, selectedField, field, 
   if (field === APPROVALS) {
     fieldDisplayName = i18n.t("forms.record_types.approvals");
   }
-  const fieldRecordInformation = FIELDS.filter(fieldInformation => fieldInformation.name === field);
+  const fieldRecordInformation = filterFieldsRecordInformation(field);
 
   if (fieldRecordInformation.length) {
     fieldDisplayName = i18n.t(`record_information.${field}`);
   }
 
   if (selectedField) {
-    fieldDisplayName = selectedField?.get("display_name")[i18n.locale];
+    fieldDisplayName = displayNameHelper(selectedField?.get("display_name"), i18n.locale);
   }
 
   const selectedFieldOptionsSource = selectedField?.get("option_strings_source");

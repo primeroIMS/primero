@@ -2,7 +2,8 @@
 
 unicef = Agency.create_or_update!(
   name_en: 'UNICEF',
-  agency_code: 'UNICEF'
+  agency_code: 'UNICEF',
+  unique_id: 'UNICEF'
 )
 
 unicef.logo_full.attach(

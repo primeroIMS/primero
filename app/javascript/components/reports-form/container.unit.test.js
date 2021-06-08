@@ -4,6 +4,7 @@ import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 import { FormSectionRecord, FieldRecord } from "../record-form/records";
+import Form from "../form";
 
 import ReportsForm from "./container";
 
@@ -64,5 +65,27 @@ describe("<ReportsForm /> - Container", () => {
 
   it("should render <PageContent>", () => {
     expect(component.find(PageContent)).to.have.lengthOf(1);
+  });
+
+  it("should contain valid props for <Form> component", () => {
+    const props = Object.keys(component.find(Form).props());
+    const expected = [
+      "initialValues",
+      "formSections",
+      "onSubmit",
+      "formMode",
+      "validations",
+      "formID",
+      "registerFields",
+      "submitAllFields",
+      "submitAlways",
+      "renderBottom",
+      "formErrors",
+      "formOptions",
+      "mode",
+      "useCancelPrompt"
+    ];
+
+    expect(props).to.deep.equals(expected);
   });
 });

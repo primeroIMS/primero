@@ -85,4 +85,20 @@ describe Task do
     end
   end
 
+  describe '#apply_order' do
+    let(:case1) { create(:child, assessment_due_date: 10.days.from_now) }
+    let(:case2) { create(:child, assessment_due_date: Date.tomorrow) }
+    let(:case3) { create(:child, assessment_due_date: 7.days.from_now) }
+    let(:case4) { create(:child, assessment_due_date: Date.yesterday) }
+
+    it 'sorts desc by due date' do
+      tasks = Task.from_case([case1, case2, case3, case4], 'status' => 'desc')
+      expect(tasks.map(&:case_id)).to eq([case4, case3, case2, case1].map(&:case_id_display))
+    end
+    it 'sorts asc by due date' do
+      tasks = Task.from_case([case1, case2, case3, case4], 'status': 'asc')
+      expect(tasks.map(&:case_id)).to eq([case1, case2, case3, case4].map(&:case_id_display))
+    end
+  end
+
 end

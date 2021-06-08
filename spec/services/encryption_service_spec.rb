@@ -28,6 +28,17 @@ describe EncryptionService do
       ciphertext = service.encrypt(text)
       expect(ciphertext.to_json).to be
     end
+
+    context "no password it's passed in" do
+      it 'will return nil for encrypt method' do
+        expect(service.encrypt(nil)).to be_nil
+      end
+
+      it 'will return nil for decrypt method' do
+        expect(service.decrypt(nil)).to be_nil
+      end
+    end
+
   end
 
   context 'a weak key is defined in the environment' do

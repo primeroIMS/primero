@@ -6,13 +6,14 @@ import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import { useDialog } from "../action-dialog";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import { useApp } from "../application";
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getReportingLocationConfig } from "../application/selectors";
 import Form, { FormAction, whichFormMode } from "../form";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -20,6 +21,9 @@ import PageContainer, { PageContent, PageHeading } from "../page";
 import { getRecordForms } from "../record-form/selectors";
 import { fetchReport } from "../report/action-creators";
 import { getReport } from "../report/selectors";
+import { NAME as TranslationsFormName } from "../translations-dialog/constants";
+import TranslationsDialog from "../translations-dialog";
+import { buildLocaleFields, localesToRender } from "../translations-dialog/utils";
 
 import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
@@ -30,14 +34,16 @@ import {
   FILTERS_FIELD,
   FORM_ID,
   NAME,
-  REPORT_FIELD_TYPES
+  REPORT_FIELD_TYPES,
+  DATE
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
-import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
+import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
+  const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -48,12 +54,18 @@ const Container = ({ mode }) => {
 
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
-  const allRecordForms = useMemoizedSelector(state => getRecordForms(state, { all: true }));
+  const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
+
+  const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
+
+  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms);
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
-    ...formatReport(report.toJS())
+    ...formatReport(report.toJS()),
+    ...(formMode.isNew ? { group_dates_by: DATE } : {})
   };
 
   useEffect(() => {
@@ -76,6 +88,8 @@ const Container = ({ mode }) => {
       setIndexes(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
     }
   }, [report]);
+
+  const onManageTranslations = () => setDialog({ dialog: TranslationsFormName, open: true });
 
   const onSubmit = data => {
     const { aggregate_by, disaggregate_by } = data;
@@ -106,7 +120,14 @@ const Container = ({ mode }) => {
     );
   };
 
-  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), formMode.isNew, userModules);
+  const formSections = form(
+    i18n,
+    formatAgeRange(primeroAgeRanges),
+    formMode.isNew,
+    userModules,
+    reportingLocationConfig,
+    formattedMinimumReportableFields
+  );
   const validationSchema = validations(i18n);
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -117,6 +138,7 @@ const Container = ({ mode }) => {
 
   const saveButton = (formMode.isEdit || formMode.isNew) && (
     <>
+      <FormAction actionHandler={onManageTranslations} text={i18n.t("reports.translations.manage")} />
       <FormAction cancel actionHandler={handleCancel} text={i18n.t("buttons.cancel")} startIcon={<ClearIcon />} />
       <FormAction
         text={i18n.t("buttons.save")}
@@ -142,15 +164,26 @@ const Container = ({ mode }) => {
             formMode={formMode}
             validations={validationSchema}
             formID={FORM_ID}
-            registerFields={[FILTERS_FIELD]}
+            registerFields={registeredFields}
+            submitAllFields
+            submitAlways
             renderBottom={formMethods => (
-              <ReportFilters
-                allRecordForms={allRecordForms}
-                parentFormMethods={formMethods}
-                selectedReport={report}
-                indexes={indexes}
-                setIndexes={setIndexes}
-              />
+              <>
+                <ReportFilters
+                  allRecordForms={allRecordForms}
+                  parentFormMethods={formMethods}
+                  selectedReport={report}
+                  indexes={indexes}
+                  setIndexes={setIndexes}
+                />
+                {dialogOpen && (
+                  <TranslationsDialog
+                    dialogTitle={i18n.t("reports.translations.edit")}
+                    formMethods={formMethods}
+                    mode={mode}
+                  />
+                )}
+              </>
             )}
           />
         </PageContent>

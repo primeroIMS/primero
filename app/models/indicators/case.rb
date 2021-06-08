@@ -477,7 +477,7 @@ module Indicators
       record_model: Child,
       scope_to_owner: true,
       queries: OPEN_ENABLED + [
-        SearchFilters::Value.new(field_name: 'has_incidents', value: true)
+        SearchFilters::Value.new(field_name: 'current_alert_types', value: Alertable::INCIDENT_FROM_CASE)
       ]
     ).freeze
 
@@ -487,6 +487,12 @@ module Indicators
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'has_incidents', value: false)
       ]
+    ).freeze
+
+    NATIONAL_ADMIN_SUMMARY_OPEN = QueriedIndicator.new(
+      name: 'open',
+      record_model: Child,
+      queries: OPEN_ENABLED
     ).freeze
 
     def self.reporting_location_indicators(role)
@@ -536,6 +542,121 @@ module Indicators
           ]
         )
       ]
+    end
+
+    def self.cases_to_assign
+      # TODO: Candidate for caching.
+      risk_levels = (Lookup.find_by(unique_id: 'lookup-risk-level')&.lookup_values || []).map { |value| value['id'] }
+      risk_level_indicators(risk_levels) + overdue_risk_level_indicators(risk_levels)
+    end
+
+    def self.risk_level_indicators(risk_levels)
+      [QueriedIndicator.new(
+        name: 'cases_none',
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels)
+        ]
+      )] + risk_levels.map { |risk_level| risk_level_indicator(risk_level) }
+    end
+
+    def self.overdue_risk_level_indicators(risk_levels)
+      [QueriedIndicator.new(
+        name: 'overdue_cases_none',
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: overdue_none_risk_level_queries(risk_levels)
+      )] + risk_levels.map { |risk_level| overdue_risk_level_indicator(risk_level) }
+    end
+
+    def self.risk_level_indicator(risk_level)
+      QueriedIndicator.new(
+        name: "cases_#{risk_level}",
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
+        ]
+      )
+    end
+
+    def self.overdue_risk_level_indicator(risk_level)
+      QueriedIndicator.new(
+        name: "overdue_cases_#{risk_level}",
+        include_zeros: true,
+        scope_to_owner: true,
+        record_model: Child,
+        queries: overdue_risk_level_queries(risk_level)
+      )
+    end
+
+    def self.overdue_none_risk_level_queries(risk_levels)
+      OPEN_ENABLED + [
+        SearchFilters::NotValue.new(field_name: 'risk_level', values: risk_levels),
+        SearchFilters::DateRange.new(
+          field_name: 'reassigned_transferred_on',
+          from: Time.at(0),
+          to: Time.now - SystemSettings.current.timeframe_hours_to_assign.hour
+        )
+      ]
+    end
+
+    def self.overdue_risk_level_queries(risk_level)
+      timeframe = SystemSettings.current.timeframe_hours_to_assign.hour
+      timeframe = SystemSettings.current.timeframe_hours_to_assign_high.hour if risk_level == 'high'
+
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'reassigned_transferred_on',
+          from: Time.at(0),
+          to: Time.now - timeframe
+        ),
+        SearchFilters::Value.new(field_name: 'risk_level', value: risk_level)
+      ]
+    end
+
+    def self.new_this_week
+      QueriedIndicator.new(
+        name: 'new_this_week',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
+        ]
+      )
+    end
+
+    def self.new_last_week
+      QueriedIndicator.new(
+        name: 'new_last_week',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
+        ]
+      )
+    end
+
+    def self.closed_this_week
+      QueriedIndicator.new(
+        name: 'closed_this_week',
+        record_model: Child,
+        queries: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.this_week))
+        ].freeze
+      )
+    end
+
+    def self.closed_last_week
+      QueriedIndicator.new(
+        name: 'closed_last_week',
+        record_model: Child,
+        queries: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(QueriedIndicator.last_week))
+        ].freeze
+      )
     end
   end
 end

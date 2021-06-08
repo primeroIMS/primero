@@ -5,6 +5,7 @@ export const CLOSED = "closed";
 export const SYNC_RECORD_NAME = "ImportData";
 export const SYNC_RECORD_STATUS = Object.freeze({
   failed: "failed",
+  not_found: "not_found",
   sending: "sending",
   sent: "sent",
   synced: "synced"

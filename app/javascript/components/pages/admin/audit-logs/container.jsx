@@ -13,7 +13,7 @@ import { PageContent, PageHeading } from "../../../page";
 import IndexTable from "../../../index-table";
 import Permission from "../../../application/permission";
 import { useMetadata } from "../../../records";
-import { Filters as AdminFilters } from "../components";
+import { FiltersForm } from "../../../form-filters/components";
 
 import { AUDIT_LOG, NAME, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
@@ -54,19 +54,8 @@ const Container = () => {
 
   useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
-  const logMessageOptions = {
-    customBodyRender: value => {
-      const prefix = value?.prefix?.approval_type
-        ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
-        : i18n.t(value?.prefix?.key);
-      const identifier = value?.identifier;
-
-      return `${prefix} ${identifier}`;
-    }
-  };
-
-  const tableOptions = {
-    columns: [
+  const columns = data => {
+    return [
       {
         label: i18n.t("audit_log.timestamp"),
         name: "timestamp",
@@ -80,18 +69,33 @@ const Container = () => {
       },
       {
         label: i18n.t("audit_log.action"),
-        name: "action"
+        name: "action",
+        options: {
+          customBodyRender: value => i18n.t(`logger.actions.${value}`)
+        }
       },
       {
         label: i18n.t("audit_log.description"),
         name: "log_message",
-        options: logMessageOptions
+        options: {
+          customBodyRender: (value, { rowIndex }) => {
+            const prefix = value?.prefix?.approval_type
+              ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+              : i18n.t(value?.prefix?.key);
+
+            return `${prefix} ${i18n.t(`logger.resources.${data.getIn(["data", rowIndex, "record_type"])}`)}`;
+          }
+        }
       },
       {
         label: i18n.t("audit_log.record_owner"),
         name: "user_name"
       }
-    ],
+    ];
+  };
+
+  const tableOptions = {
+    columns,
     defaultFilters: fromJS({
       per: 100,
       page: 1
@@ -115,7 +119,7 @@ const Container = () => {
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid item xs={12} sm={3}>
-            <AdminFilters {...filterProps} />
+            <FiltersForm {...filterProps} />
           </Grid>
         </Grid>
       </PageContent>

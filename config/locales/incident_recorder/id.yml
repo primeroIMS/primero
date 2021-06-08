@@ -4,11 +4,11 @@ id:
       export_incident_recorder_xls: "Perekam insiden ekspor xls"
   exports:
     incident_recorder_xls:
-      all: Perekam Insiden
-      one: Perekam Insiden
-      selected: Dipilih untuk Perekam Insiden
-      'yes': "Ya"
-      'no': "Tidak"
+      all:  Perekam Insiden
+      one:  Perekam Insiden
+      selected:  Dipilih untuk Perekam Insiden
+      "yes": "Ya"
+      "no": "Tidak"
       gender:
         male: "L"
         female: "P"
@@ -24,6 +24,8 @@ id:
         both: "Dewasa dan Anak"
         unknown: "Tidak diketahui"
         header: "GOLONGAN USIA TERDUGA PELAKU "
+      service_referral:
+        undecided: ""
       headers:
         incident_id: "ID KEJADIAN"
         survivor_code: "KODE PENYINTAS"

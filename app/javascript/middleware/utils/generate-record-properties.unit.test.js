@@ -87,14 +87,5 @@ describe("middleware/utils/generate-record-properties.js", () => {
 
       expect(results).to.deep.equal(expected);
     });
-
-    describe("cases", () => {
-      it("generates case_id_display", () => {
-        // eslint-disable-next-line camelcase
-        const { case_id_display } = generateRecordProperties(store, { method: "POST", recordType: "cases" }, true);
-
-        expect(case_id_display).to.equal("454b66f");
-      });
-    });
   });
 });

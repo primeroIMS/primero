@@ -18,8 +18,7 @@ describe Api::V2::ReportsController, type: :request do
                   display_name_i18n: { en: 'Protection Concerns' },
                   option_strings_source: 'lookup lookup-protection-concerns')
 
-    @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', admin_level: 0, type: 'country',
-                                  hierarchy: 'CN')
+    @location0 = Location.create!(placename_en: 'Country 1', location_code: 'CN', type: 'country')
     @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                       description: 'Default Primero Program')
     @cp = PrimeroModule.create!(unique_id: 'primeromodule-cp', name: 'CP', description: 'Child Protection',
@@ -184,12 +183,13 @@ describe Api::V2::ReportsController, type: :request do
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
         'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
         'editable' => true,
+        'exclude_empty_rows' => false,
         'disabled' => false,
         'graph' => false,
         'graph_type' => 'bar',
         'group_ages' => false,
         'group_dates_by' => 'date',
-        'module_id' => ['primeromodule-cp'],
+        'module_id' => 'primeromodule-cp',
         'record_type' => 'case',
         'fields' => [
           {
@@ -453,10 +453,11 @@ describe Api::V2::ReportsController, type: :request do
         'graph' => true,
         'graph_type' => 'bar',
         'editable' => true,
+        'exclude_empty_rows' => false,
         'disabled' => false,
         'group_ages' => true,
         'group_dates_by' => 'year',
-        'module_id' => ['primeromodule-cp'],
+        'module_id' => 'primeromodule-cp',
         'record_type' => 'case',
         'fields' => [
           {

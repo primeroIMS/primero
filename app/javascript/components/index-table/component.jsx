@@ -44,6 +44,7 @@ const Component = ({
   const i18n = useI18n();
 
   const [sortDir, setSortDir] = useState();
+  const { theme } = useThemeHelper({ overrides: recordListTheme });
 
   const data = useMemoizedSelector(state => getRecords(state, recordType));
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
@@ -53,8 +54,6 @@ const Component = ({
   const allLookups = useMemoizedSelector(state => getOptions(state));
   const allAgencies = useMemoizedSelector(state => selectAgencies(state));
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
-
-  const { theme } = useThemeHelper({ theme: recordListTheme });
 
   const { order, order_by: orderBy } = filters || {};
   const records = data.get("data");
@@ -295,6 +294,17 @@ const Component = ({
       }
     },
     customToolbarSelect,
+    textLabels: {
+      body: {
+        noMatch: i18n.t("messages.record_list.no_match"),
+        toolTip: i18n.t("messages.record_list.sort"),
+        columnHeaderTooltip: ({ label }) => i18n.t("messages.record_list.column_header_tooltip", { column: label })
+      },
+      pagination: {
+        rowsPerPage: i18n.t("messages.record_list.rows_per_page"),
+        displayRows: i18n.t("messages.record_list.of")
+      }
+    },
     ...tableOptionsProps
   };
 

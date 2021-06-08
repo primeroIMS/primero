@@ -3,24 +3,27 @@ import { Chip } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent } from "../../../../test";
-import { whichFormMode } from "../../../form";
+import { OPTION_TYPES, whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
-import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 import actions from "../../../record-actions/transitions/actions";
+import { getOptions } from "../../../form/selectors";
 
 import SelectField from "./select-field";
+
+const i18n = { t: str => str, locale: "en" };
 
 describe("<SelectField />", () => {
   context("when the lookup is custom", () => {
     const props = {
       name: "agency",
       field: {
-        option_strings_source: CUSTOM_STRINGS_SOURCE.agency
+        option_strings_source: OPTION_TYPES.AGENCY
       },
       label: "Agency",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: () => state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true)
     };
 
     const initialState = fromJS({
@@ -28,12 +31,18 @@ describe("<SelectField />", () => {
         agencies: [
           {
             unique_id: "agency-test-1",
+            name: {
+              en: "Agency Test 1"
+            },
             agency_code: "test1",
             disabled: false,
             services: ["service_test_1"]
           },
           {
             unique_id: "agency-test-2",
+            name: {
+              en: "Agency Test 2"
+            },
             agency_code: "test2",
             disabled: false,
             services: ["service_test_1", "service_test_2"]
@@ -48,8 +57,8 @@ describe("<SelectField />", () => {
 
     it("render the select field with options", () => {
       const expected = [
-        { value: "agency-test-1", isDisabled: false },
-        { value: "agency-test-2", isDisabled: false }
+        { id: "agency-test-1", disabled: false, display_text: "Agency Test 1" },
+        { id: "agency-test-2", disabled: false, display_text: "Agency Test 2" }
       ];
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
@@ -66,7 +75,8 @@ describe("<SelectField />", () => {
       },
       label: "Type of Service",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: () => state => getOptions(state, "lookup lookup-service-type", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -101,7 +111,7 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with options", () => {
-      const expected = [{ label: "Health/Medical Service", isDisabled: false, value: "health_medical_service" }];
+      const expected = [{ display_text: "Health/Medical Service", disabled: false, id: "health_medical_service" }];
 
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
@@ -124,7 +134,20 @@ describe("<SelectField />", () => {
       },
       label: "Type of Service",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: () => state =>
+        getOptions(
+          state,
+          null,
+          i18n,
+          [
+            { id: "test1", display_text: "Test 1" },
+            { id: "test2", disabled: true, display_text: "Test 2" },
+            { id: "test3", display_text: "Test 3" },
+            { id: "test4", disabled: true, display_text: "Test 4" }
+          ],
+          false
+        )
     };
 
     const { component } = setupMountedComponent(SelectField, props, {}, [], {
@@ -140,7 +163,7 @@ describe("<SelectField />", () => {
 
       expect(searchableSelect).to.have.lengthOf(1);
       expect(searchableSelect.props().options).to.have.lengthOf(3);
-      expect(autocomplete.props().options[1].isDisabled).to.be.true;
+      expect(autocomplete.props().options[1].disabled).to.be.true;
     });
   });
 
@@ -160,7 +183,8 @@ describe("<SelectField />", () => {
           [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "user1",
           [SERVICE_SECTION_FIELDS.type]: paramsService
         }
-      }
+      },
+      optionsSelector: () => state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
     };
     const expectedAction = {
       type: actions.REFERRAL_USERS_FETCH,
@@ -195,7 +219,8 @@ describe("<SelectField />", () => {
       },
       label: "Test",
       mode: whichFormMode("edit"),
-      open: true
+      open: true,
+      optionsSelector: () => state => getOptions(state, "lookup lookup-yes-no", i18n, null, false)
     };
 
     const initialState = fromJS({
@@ -233,7 +258,7 @@ describe("<SelectField />", () => {
     });
 
     it("render the select field with the selected option even if the option is boolean", () => {
-      const expected = [{ value: "false", isDisabled: false, label: "No" }];
+      const expected = [{ id: "false", disabled: false, display_text: "No" }];
 
       const selectField = component.find(SelectField);
       const searchableSelect = selectField.find(SearchableSelect);
@@ -256,7 +281,19 @@ describe("<SelectField />", () => {
       },
       label: "Test",
       mode: whichFormMode("show"),
-      open: true
+      open: true,
+      optionsSelector: () => state =>
+        getOptions(
+          state,
+          null,
+          i18n,
+          [
+            { id: "option_1", display_text: { en: "Option 1" } },
+            { id: "option_2", display_text: { en: "Option 2" } },
+            { id: "option_3", display_text: { en: "Option 3" } }
+          ],
+          false
+        )
     };
 
     const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {

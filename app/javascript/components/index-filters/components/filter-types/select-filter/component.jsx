@@ -20,6 +20,7 @@ import {
 import handleFilterChange from "../value-handlers";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getOptions } from "../../../../form/selectors";
+import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -38,7 +39,8 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const css = useStyles();
-  const { register, unregister, setValue, getValues } = useFormContext();
+  const formMethods = useFormContext();
+  const { register, unregister, setValue, getValues } = formMethods;
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
   const { options, field_name: fieldName, option_strings_source: optionStringsSource } = filter;
@@ -46,6 +48,13 @@ const Component = ({
   const queryParams = qs.parse(location.search.replace("?", ""));
 
   const lookups = useMemoizedSelector(state => getOptions(state, optionStringsSource, i18n));
+
+  const filterOptions = whichOptions({
+    optionStringsSource,
+    lookups,
+    options,
+    i18n
+  });
 
   const setSecondaryValues = (name, values) => {
     setValue(name, values);
@@ -71,7 +80,7 @@ const Component = ({
       isMultiSelect: multiple
     });
 
-    const value = lookups.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
+    const value = filterOptions.filter(l => moreSectionFilters?.[fieldName]?.includes(l?.code || l?.id));
 
     setMoreFilterOnPrimarySection(moreSectionFilters, fieldName, setSecondaryValues, value);
 
@@ -83,7 +92,7 @@ const Component = ({
       const paramValues = queryParams[fieldName];
 
       if (paramValues?.length) {
-        const selected = lookups.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
+        const selected = filterOptions.filter(l => paramValues.includes(l?.code?.toString() || l?.id?.toString()));
 
         setValue(fieldName, selected);
         setInputValue(selected);
@@ -97,13 +106,6 @@ const Component = ({
       }
     };
   }, [register, unregister, fieldName]);
-
-  const filterOptions = whichOptions({
-    optionStringsSource,
-    lookups,
-    options,
-    i18n
-  });
 
   const handleChange = (event, value) => {
     handleFilterChange({
@@ -123,26 +125,39 @@ const Component = ({
     if (addFilterToList) {
       addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
     }
+
+    if (filter.onChange) {
+      filter.onChange(formMethods, value);
+    }
   };
 
   const optionLabel = option => {
     let foundOption = option;
 
     if (typeof option === "string") {
-      [foundOption] = lookups.filter(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
+      foundOption = filterOptions.find(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
     return getOptionName(foundOption, i18n);
   };
 
-  const handleOptionSelected = (option, value) => option.id === value.id;
+  const handleOptionSelected = (option, value) => {
+    if (typeof value === "string") {
+      return option.id === value;
+    }
+
+    return option.id === value.id;
+  };
+
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const handleRenderInput = params => <TextField {...params} fullWidth margin="normal" variant="outlined" />;
 
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
-        classes={{ root: css.select }}
+        classes={{ root: css.select, ...listboxClasses }}
+        ListboxComponent={virtualize(filterOptions.length)}
+        disableListWrap
         multiple={multiple}
         getOptionLabel={optionLabel}
         onChange={handleChange}

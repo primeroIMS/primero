@@ -20,5 +20,5 @@ export default (target, source, options) => {
 
       return item;
     })
-    .filter(item => !item.marked_destroy);
+    .filter(item => !item?.marked_destroy);
 };

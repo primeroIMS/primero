@@ -1,9 +1,20 @@
 import { parseISO } from "date-fns";
+import { fromJS } from "immutable";
 
 import { useFakeTimers } from "../../test";
+import {
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../config";
+import { SHOW_APPROVALS } from "../../libs/permissions";
 
-import { FormSectionRecord, FieldRecord } from "./records";
-import { DATE_FIELD, SELECT_FIELD, TICK_FIELD } from "./constants";
+import { getDefaultRecordInfoForms } from "./form/utils";
+import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
 import * as utils from "./utils";
 
 describe("<RecordForms /> - utils", () => {
@@ -278,6 +289,184 @@ describe("<RecordForms /> - utils", () => {
 
     afterEach(() => {
       clock.restore();
+    });
+  });
+
+  describe("sortSubformValues", () => {
+    it("should return subforms with display conditions from subform_section_configuration", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  }),
+                  FieldRecord({
+                    display_name: "Test Sub Field Disallowed",
+                    name: "disallowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                fields: ["allowed_field"],
+                display_conditions: [
+                  {
+                    allowed_field: "gerald"
+                  }
+                ]
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [
+          { allowed_field: "stanley", disallowed_field: "test disallowed", _hidden: true },
+          { allowed_field: "gerald", disallowed_field: "test disallowed" }
+        ],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [
+          { allowed_field: "stanley", disallowed_field: "test disallowed", _hidden: true },
+          {
+            allowed_field: "gerald",
+            disallowed_field: "test disallowed"
+          }
+        ]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
+    });
+
+    it("should return subforms sorted by subformSortBy field", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({
+              display_name: "Test SubField",
+              subform_section_id: FormSectionRecord({
+                unique_id: "subform_1",
+                fields: [
+                  FieldRecord({
+                    display_name: "Test Sub Field Allowed",
+                    name: "allowed_field",
+                    type: TEXT_FIELD,
+                    visible: true
+                  })
+                ]
+              }),
+              subform_section_configuration: {
+                subform_sort_by: "allowed_field"
+              },
+              name: "subform_1",
+              type: SUBFORM_SECTION
+            })
+          ]
+        })
+      ];
+
+      const initialValues = {
+        subform_1: [{ allowed_field: "b" }, { allowed_field: "c" }, { allowed_field: "a" }],
+        subform_2: [],
+        subform_3: []
+      };
+
+      const expected = {
+        subform_1: [{ allowed_field: "a" }, { allowed_field: "b" }, { allowed_field: "c" }]
+      };
+
+      const result = utils.sortSubformValues(initialValues, forms);
+
+      expect(result).to.deep.equals(expected);
+    });
+  });
+
+  describe("buildFormNav", () => {
+    it("should return the nav with the permission_actions if defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Approvals",
+        order: 1,
+        formId: APPROVALS,
+        is_first_tab: true,
+        permission_actions: SHOW_APPROVALS
+      });
+
+      const approvalsForm = FormSectionRecord({
+        unique_id: APPROVALS,
+        form_group_id: "group_1",
+        name: { en: "Approvals" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(approvalsForm)).to.deep.equal(expected);
+    });
+
+    it("should return the nav without permission_actions if not defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Form 1",
+        order: 1,
+        formId: "form_id_1",
+        is_first_tab: true
+      });
+
+      const form = FormSectionRecord({
+        unique_id: "form_id_1",
+        form_group_id: "group_1",
+        name: { en: "Form 1" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(form)).to.deep.equal(expected);
+    });
+  });
+
+  describe("pickFormDefaultForms", () => {
+    it("should return default forms for the not found in the state", () => {
+      const forms = fromJS({
+        1: FormSectionRecord({
+          unique_id: RECORD_OWNER,
+          form_group_id: "group_1",
+          name: { en: "Record Owner in State" },
+          order: 1,
+          order_form_group: 1,
+          is_first_tab: true
+        })
+      });
+
+      const result = Object.keys(
+        utils.pickFromDefaultForms(forms, getDefaultRecordInfoForms({ t: value => value, locale: "en" }))
+      );
+
+      expect(result).to.deep.equal([APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS, CHANGE_LOGS]);
     });
   });
 });

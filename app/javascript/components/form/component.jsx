@@ -59,7 +59,7 @@ const Component = ({
     return () => {
       registerFields.forEach(field => unregister(field));
     };
-  }, []);
+  }, [register]);
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions

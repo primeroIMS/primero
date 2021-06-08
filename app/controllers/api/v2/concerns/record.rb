@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-# Shared code for all record-type controllers
+# Shared code for all record-type controllers.
+# This will be a long module, by it's nature,
+# but we'll need to be careful to extract as much code as possible into services
+# rubocop:disable Metrics/ModuleLength
 module Api::V2::Concerns::Record
   extend ActiveSupport::Concern
 
@@ -9,13 +12,14 @@ module Api::V2::Concerns::Record
     before_action :permit_fields
     before_action :select_fields_for_index, only: [:index]
     before_action :select_fields_for_show, only: [:show]
+    before_action :record_data_service
   end
 
   def index
     authorize! :index, model_class
     search = SearchService.search(
       model_class, filters: search_filters, query_scope: query_scope, query: params[:query],
-                   order: sort_order, pagination: pagination
+                   sort: sort_order, pagination: pagination
     )
     @records = search.results
     @total = search.total
@@ -64,7 +68,8 @@ module Api::V2::Concerns::Record
     @permitted_field_names = PermittedFieldService.new(
       current_user,
       model_class,
-      params[:record_action]
+      params[:record_action],
+      params[:id_search]
     ).permitted_field_names(write?)
   end
 
@@ -98,12 +103,8 @@ module Api::V2::Concerns::Record
     instance_variable_set("@#{model_class.name.underscore}", record)
   end
 
-  def authorize_update!
-    if params[:record_action].present?
-      authorize!(params[:record_action].to_sym, model_class)
-    else
-      authorize!(:update, @record)
-    end
+  def record_data_service
+    @record_data_service = RecordDataService.new
   end
 
   def query_scope
@@ -123,4 +124,13 @@ module Api::V2::Concerns::Record
   def authorize_create!
     authorize! :create, model_class
   end
+
+  def authorize_update!
+    if params[:record_action].present?
+      authorize!(params[:record_action].to_sym, model_class)
+    else
+      authorize!(:update, @record)
+    end
+  end
 end
+# rubocop:enable Metrics/ModuleLength

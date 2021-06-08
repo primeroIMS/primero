@@ -1,15 +1,17 @@
 import PropTypes from "prop-types";
 
+import Layouts from "../layouts";
+
 import SubRoutes from "./sub-routes";
 
 const AppRoute = ({ route }) => {
-  const { layout: Layout, component: Component, extraProps, ...routeProps } = route;
+  const { layout, component: Component, extraProps, ...routeProps } = route;
 
-  if (Layout) {
+  if (layout) {
     return (
-      <Layout>
+      <Layouts layout={layout}>
         <SubRoutes route={route} />
-      </Layout>
+      </Layouts>
     );
   }
 

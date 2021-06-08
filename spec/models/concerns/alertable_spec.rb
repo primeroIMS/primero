@@ -112,21 +112,25 @@ describe Alertable do
       )
       @test_class = Child.create(
         name: 'bar',
+        record_user_update: true,
         data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_a.id)]
       )
       @test_class_b = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
       @test_class_c = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, record_state: false },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
       @test_class_d = Child.create(
         name: 'foo',
+        record_user_update: true,
         data: { owned_by: @user_b.user_name, status: Record::STATUS_CLOSED },
         alerts: [Alert.create(type: 'transfer_request', alert_for: 'transfer_request', user_id: @user_b.id)]
       )
@@ -183,11 +187,11 @@ describe Alertable do
         end
 
         it 'removes the alert' do
-          expect(@test_class.alerts?).to be false
+          expect(@test_class.reload.alerts?).to be false
         end
 
         it 'count alerts by record' do
-          expect(@test_class.alert_count).to eq(0)
+          expect(@test_class.reload.alert_count).to eq(0)
         end
 
         it 'count alerts by user' do
@@ -321,6 +325,7 @@ describe Alertable do
 
       @test_incident_alerts = Child.create(
         name: 'bar',
+        record_user_update: true,
         data: { owned_by: @user_a.user_name, module_id: 'primeromodule-cp' },
         alerts: [Alert.create(type: 'incident_from_case', alert_for: 'field_change', user_id: @user_a.id)]
       )
@@ -343,11 +348,15 @@ describe Alertable do
         end
 
         it 'removes the alert' do
-          expect(@test_incident_alerts.alerts?).to be false
+          expect(@test_incident_alerts.reload.alerts?).to be false
+        end
+
+        it 'removes the current alert types' do
+          expect(@test_incident_alerts.reload.current_alert_types).to be_empty
         end
 
         it 'count alerts by record' do
-          expect(@test_incident_alerts.alert_count).to eq(0)
+          expect(@test_incident_alerts.reload.alert_count).to eq(0)
         end
 
         it 'count alerts by user' do

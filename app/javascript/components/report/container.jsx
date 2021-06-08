@@ -19,9 +19,10 @@ import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
-import { useMemoizedSelector } from "../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../libs";
+import { clearSelectedReport } from "../reports-form/action-creators";
 
-import { buildDataForGraph, buildDataForTable } from "./utils";
+import { buildGraphData, buildTableData } from "./utils";
 import { getReport } from "./selectors";
 import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
@@ -44,15 +45,20 @@ const Report = ({ mode }) => {
 
   useEffect(() => {
     dispatch(fetchReport(id));
+
+    return () => {
+      dispatch(clearSelectedReport());
+    };
   }, []);
 
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const report = useMemoizedSelector(state => getReport(state));
   const agencies = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
+  const locations = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.LOCATION, i18n, null));
 
-  const name = report.getIn(["name", i18n.locale], "");
-  const description = report.getIn(["description", i18n.locale], "");
+  const name = displayNameHelper(report.get("name"), i18n.locale);
+  const description = displayNameHelper(report.get("description"), i18n.locale);
 
   const setDeleteModal = open => {
     setDialog({ dialog: DELETE_MODAL, open });
@@ -116,10 +122,10 @@ const Report = ({ mode }) => {
           {reportDescription}
           {report.get("graph") && (
             <Paper>
-              <BarChartGraphic {...buildDataForGraph(report, i18n, { agencies })} showDetails />
+              <BarChartGraphic {...buildGraphData(report, i18n, { agencies, locations })} showDetails />
             </Paper>
           )}
-          <TableValues {...buildDataForTable(report, i18n, { agencies })} />
+          <TableValues {...buildTableData(report, i18n, { agencies, locations })} />
         </LoadingIndicator>
         <ActionDialog
           open={dialogOpen}

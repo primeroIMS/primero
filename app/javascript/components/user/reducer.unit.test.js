@@ -46,6 +46,7 @@ describe("User - Reducers", () => {
       isAuthenticated: false,
       modules: ["primeromodule-cp", "primeromodule-gbv"],
       permittedForms: { record_owner: "r", client_feedback: "rw" },
+      permittedRoleUniqueIds: ["role_1", "role_2"],
       locale: "en",
       permissions: mapListToObject(
         [
@@ -65,6 +66,7 @@ describe("User - Reducers", () => {
       },
       roleGroupPermission: "all",
       userGroupUniqueIds: ["tests"],
+      userGroups: [{ unique_id: "tests", description: "tests" }],
       agencyId: 1,
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
@@ -115,11 +117,13 @@ describe("User - Reducers", () => {
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       permitted_form_unique_ids: ["record_owner", "client_feedback"],
       permitted_form: { record_owner: "r", client_feedback: "rw" },
+      permitted_role_unique_ids: ["role_1", "role_2"],
       locale: "en",
       location: "XX",
       agency: 1,
       role_group_permission: "all",
       user_group_unique_ids: ["tests"],
+      user_groups: [{ unique_id: "tests", description: "tests" }],
       reporting_location_config: {
         field_key: "owned_by_location",
         admin_level: 2,

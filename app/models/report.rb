@@ -208,7 +208,7 @@ class Report < ApplicationRecord
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          values = Reports::Utils.correct_aggregate_counts(values)
+          Reports::Utils.correct_aggregate_counts(values)
         end
       end
     end
@@ -378,13 +378,14 @@ class Report < ApplicationRecord
     pivots_string = pivots.map { |p| SolrUtils.indexed_field_name(record_type, p) }.select(&:present?).join(',')
     filter_query = build_solr_filter_query(record_type, filters)
     result_pivots = []
+    mincount = exclude_empty_rows? ? 1 : -1
     if number_of_pivots == 1
       params = {
         q: filter_query,
         rows: 0,
         facet: 'on',
         'facet.field': pivots_string,
-        'facet.mincount': -1,
+        'facet.mincount': mincount,
         'facet.limit': -1
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
@@ -403,14 +404,14 @@ class Report < ApplicationRecord
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
-        'facet.pivot.mincount': -1,
+        'facet.pivot.mincount': mincount,
         'facet.limit': -1
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
       result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
 
-    result = { 'pivot' => result_pivots }
+    { 'pivot' => result_pivots }
   end
 
   def build_solr_filter_query(record_type, filters)
@@ -420,27 +421,26 @@ class Report < ApplicationRecord
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
-        query = nil
         if attribute.present? && value.present?
           if constraint.present?
             value = Date.parse(value.to_s).strftime('%FT%H:%M:%SZ') unless value.to_s.is_number?
-            query = if constraint == '>'
-                      "#{attribute}:[#{value} TO *]"
-                    elsif constraint == '<'
-                      "#{attribute}:[* TO #{value}]"
-                    else
-                      "#{attribute}:\"#{value}\""
-                    end
+            if constraint == '>'
+              "#{attribute}:[#{value} TO *]"
+            elsif constraint == '<'
+              "#{attribute}:[* TO #{value}]"
+            else
+              "#{attribute}:\"#{value}\""
+            end
           else
-            query = if value.respond_to?(:map) && value.size.positive?
-                      '(' + value.map { |v|
-                        if v == 'not_null'
-                          "#{attribute}:[* TO *]"
-                        else
-                          "#{attribute}:\"#{v}\""
-                        end
-                      }.join(' OR ') + ')'
-                    end
+            if value.respond_to?(:map) && value.size.positive?
+              '(' + value.map { |v|
+                if v == 'not_null'
+                  "#{attribute}:[* TO *]"
+                else
+                  "#{attribute}:\"#{v}\""
+                end
+              }.join(' OR ') + ')'
+            end
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"

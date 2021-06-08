@@ -112,6 +112,8 @@ export const getGroupOverview = state => getDashboardByName(state, DASHBOARD_NAM
 
 export const getCaseOverview = state => getDashboardByName(state, DASHBOARD_NAMES.CASE_OVERVIEW);
 
+export const getNationalAdminSummary = state => getDashboardByName(state, DASHBOARD_NAMES.NATIONAL_ADMIN_SUMMARY);
+
 export const getSharedFromMyTeam = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_FROM_MY_TEAM);
 
 export const getSharedWithMyTeam = state => getDashboardByName(state, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
@@ -129,3 +131,5 @@ export const getDashboardFlags = (state, excludeResolved = false) => {
 
   return flags;
 };
+
+export const getCasesToAssign = state => getDashboardByName(state, DASHBOARD_NAMES.CASES_TO_ASSIGN);

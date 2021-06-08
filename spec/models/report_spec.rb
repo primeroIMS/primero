@@ -5,7 +5,7 @@ require 'rails_helper'
 # TODO: add i18n tests
 describe Report do
   before :all do
-    clean_data(PrimeroProgram, PrimeroModule, FormSection)
+    clean_data(PrimeroProgram, PrimeroModule, FormSection, Field, Child)
     @module = create :primero_module
   end
 
@@ -289,6 +289,75 @@ describe Report do
 
         @report.update_properties(graph: true)
         expect(@report.graph).to be_truthy
+      end
+    end
+  end
+
+  describe 'exclude_empty_rows', search: true do
+    before :each do
+      clean_data(FormSection, Field, Child, Report)
+
+      SystemSettings.stub(:current).and_return(
+        SystemSettings.new(
+          primary_age_range: 'primero',
+          age_ranges: {
+            'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+            'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
+          }
+        )
+      )
+
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'male', module_id: @module.unique_id })
+
+      Child.reindex
+    end
+
+    context 'when it is true' do
+      before :each do
+        @report = Report.new(
+          name: 'Test',
+          unique_id: 'report-test',
+          record_type: 'case',
+          module_id: @module.unique_id,
+          graph: true,
+          exclude_empty_rows: true,
+          aggregate_by: ['sex'],
+          disaggregate_by: []
+        )
+      end
+
+      it 'should not return values with zero' do
+        Child.where('data @> ?', { sex: 'male' }.to_json).each(&:remove_from_index!)
+
+        @report.build_report
+
+        expect(@report.values).to eq(['female'] => 3, [''] => nil)
+      end
+    end
+
+    context 'when it is false' do
+      before :each do
+        @report = Report.new(
+          name: 'Test',
+          unique_id: 'report-test',
+          record_type: 'case',
+          module_id: @module.unique_id,
+          graph: true,
+          exclude_empty_rows: false,
+          aggregate_by: ['sex'],
+          disaggregate_by: []
+        )
+      end
+
+      it 'should return values with zero' do
+        Child.where('data @> ?', { sex: 'male' }.to_json).each(&:remove_from_index!)
+
+        @report.build_report
+
+        expect(@report.values).to eq(['female'] => 3, ['male'] => 0, [''] => nil)
       end
     end
   end

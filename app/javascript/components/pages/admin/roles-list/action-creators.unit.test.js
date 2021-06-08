@@ -19,7 +19,7 @@ describe("<RolesList /> - Action Creators", () => {
     const expectedAction = {
       type: actions.ROLES,
       api: {
-        params: undefined,
+        params: { managed: true },
         path: RECORD_PATH.roles
       }
     };

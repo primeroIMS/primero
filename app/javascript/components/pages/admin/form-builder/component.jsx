@@ -289,8 +289,6 @@ const Component = ({ mode }) => {
 
 Component.displayName = NAME;
 
-Component.whyDidYouRender = true;
-
 Component.propTypes = {
   mode: PropTypes.string.isRequired
 };

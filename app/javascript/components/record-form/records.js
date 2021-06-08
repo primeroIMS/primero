@@ -45,7 +45,8 @@ export const FormSectionRecord = Record({
   subform_prevent_item_removal: false,
   collapsed_field_names: [],
   subform_append_only: false,
-  initial_subforms: 0
+  initial_subforms: 0,
+  core_form: false
 });
 
 export const Option = Record({

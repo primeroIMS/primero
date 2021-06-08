@@ -4,16 +4,22 @@ import { sortBy } from "lodash";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
-import { getAssignedAgency } from "../user";
+import {
+  getAssignedAgency,
+  getCurrentUserGroupPermission,
+  getCurrentUserGroupsUniqueIds,
+  getPermittedRoleUniqueIds
+} from "../user/selectors";
 import { getRecordForms } from "../record-form";
+import { GROUP_PERMISSIONS } from "../../libs/permissions";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
-import { get } from "./utils";
+import { get, buildRoleOptions } from "./utils";
 
-const referToUsers = (state, { currRecord }) =>
+const referToUsers = (state, { currRecord, fullUsers = false }) =>
   state
     .getIn(["records", "transitions", "referral", "users"], fromJS([]))
-    .reduce((prev, current) => {
+    ?.reduce((prev, current) => {
       const userName = current.get("user_name");
 
       if (!isEmpty(currRecord)) {
@@ -28,11 +34,12 @@ const referToUsers = (state, { currRecord }) =>
         ...prev,
         {
           id: userName.toLowerCase(),
-          display_text: userName
+          display_text: userName,
+          ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
         }
       ];
     }, [])
-    .filter(user => !isEmpty(user));
+    ?.filter(user => !isEmpty(user));
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
@@ -65,7 +72,7 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
         display_text: current.getIn(["name", i18n.locale], ""),
-        disabled: current.get("disabled")
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -76,7 +83,10 @@ const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOpti
   const currentUserAgency = fromJS([getAssignedAgency(state)]);
   const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
 
-  return allAgencies.filter(agency => currentUserAgency.includes(agency.id));
+  return allAgencies.map(agency => ({
+    ...agency,
+    disabled: agency.disabled || !currentUserAgency.includes(agency.id)
+  }));
 };
 
 const locations = (state, i18n, includeAdminLevel = false) =>
@@ -135,7 +145,8 @@ const lookupValues = (state, optionStringsSource, i18n, rest) => {
       ...prev,
       {
         id: current.get("id"),
-        display_text: displayNameHelper(current.get("display_text"), i18n.locale)
+        display_text: displayNameHelper(current.get("display_text"), i18n.locale),
+        disabled: current.get("disabled", false)
       }
     ],
     []
@@ -182,7 +193,10 @@ const lookups = (state, { i18n, filterOptions }) => {
 
 const userGroups = (state, { filterOptions }) => {
   const applicationUserGroups = getUserGroups(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
+    (prev, current) => [
+      ...prev,
+      { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled", false) }
+    ],
     []
   );
 
@@ -191,6 +205,24 @@ const userGroups = (state, { filterOptions }) => {
   }
 
   return applicationUserGroups;
+};
+
+const userGroupsPermitted = (state, { filterOptions }) => {
+  const allUserGroups = userGroups(state, { filterOptions });
+  const currentUserGroups = getCurrentUserGroupsUniqueIds(state);
+  const currentRoleGroupPermission = getCurrentUserGroupPermission(state);
+
+  if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
+    return allUserGroups;
+  }
+
+  return allUserGroups.map(userGroup => {
+    if (currentUserGroups.includes(userGroup.id)) {
+      return userGroup;
+    }
+
+    return { ...userGroup, disabled: true };
+  });
 };
 
 const formGroupLookup = (state, i18n, { filterOptions }) =>
@@ -229,11 +261,7 @@ const recordForms = (state, { filterOptions }) => {
   return filterOptions ? filterableOptions(filterOptions, formSections) : formSections;
 };
 
-const roles = state =>
-  getRoles(state).reduce(
-    (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
-    []
-  );
+const roles = state => buildRoleOptions(getRoles(state));
 
 const managedRoles = (state, transfer) =>
   state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
@@ -243,6 +271,18 @@ const buildManagedRoles = (state, transfer) =>
     (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
     []
   );
+
+const buildPermittedRoles = state => {
+  const allRoles = getRoles(state);
+  const permittedRoleUniqueIds = getPermittedRoleUniqueIds(state);
+  const permittedRoles = permittedRoleUniqueIds?.isEmpty()
+    ? allRoles
+    : allRoles.map(role =>
+        role.set("disabled", role.get("disabled") || !permittedRoleUniqueIds.includes(role.get("unique_id")))
+      );
+
+  return buildRoleOptions(permittedRoles);
+};
 
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = {}) => {
   switch (optionStringsSource) {
@@ -264,10 +304,14 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = 
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
       return userGroups(state, { ...rest });
+    case OPTION_TYPES.USER_GROUP_PERMITTED:
+      return userGroupsPermitted(state, { ...rest });
     case OPTION_TYPES.ROLE:
       return roles(state);
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
       return buildManagedRoles(state, "referral");
+    case OPTION_TYPES.ROLE_PERMITTED:
+      return buildPermittedRoles(state);
     case OPTION_TYPES.FORM_GROUP_LOOKUP:
       return formGroupLookup(state, i18n, { ...rest });
     case OPTION_TYPES.RECORD_FORMS:
@@ -350,4 +394,4 @@ export const getManagedRoleByUniqueId = (state, uniqueID) =>
   managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
 
 export const getManagedRoleFormSections = (state, uniqueID) =>
-  getManagedRoleByUniqueId(state, uniqueID).get("form_section_unique_ids", fromJS([]));
+  getManagedRoleByUniqueId(state, uniqueID).get("form_section_read_write", fromJS({})).keySeq().toList();

@@ -19,7 +19,7 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
   return fields.map(field => {
     if (field?.row) {
       // eslint-disable-next-line camelcase
-      const formUniqueId = formSection?.unique_id;
+      const formUniqueId = formSection?.unique_id || field?.unique_id;
 
       return (
         <div key={`${formUniqueId}-row`} className={calculatedClasses(field)}>
@@ -31,14 +31,20 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
             formMethods={formMethods}
             formMode={formMode}
             formSection={formSection}
-            key={`${formUniqueId}-row`}
           />
         </div>
       );
     }
 
     if (field?.tabs) {
-      return <FormSectionTabs tabs={field.tabs} formMethods={formMethods} formMode={formMode} />;
+      return (
+        <FormSectionTabs
+          tabs={field.tabs}
+          handleTabChange={field?.handleTabChange}
+          formMethods={formMethods}
+          formMode={formMode}
+        />
+      );
     }
 
     const Component = field?.watchedInputs ? WatchedFormSectionField : FormSectionField;

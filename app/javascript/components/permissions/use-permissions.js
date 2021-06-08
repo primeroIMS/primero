@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+import { useMemo } from "react";
 
 import { useMemoizedSelector } from "../../libs";
 
@@ -10,20 +11,24 @@ const getPermissions = (permittedAbilities, abilities) =>
 const usePermissions = (entity, abilities) => {
   const permittedAbilities = useMemoizedSelector(state => getPermissionsByRecord(state, entity));
 
-  if (Array.isArray(abilities)) {
-    return getPermissions(permittedAbilities, abilities);
-  }
+  const permissions = useMemo(() => {
+    if (Array.isArray(abilities)) {
+      return getPermissions(permittedAbilities, abilities);
+    }
 
-  return {
-    ...Object.keys(abilities).reduce((prev, current) => {
-      const obj = prev;
+    return {
+      ...Object.keys(abilities).reduce((prev, current) => {
+        const obj = prev;
 
-      obj[current] = getPermissions(permittedAbilities, abilities[current]);
+        obj[current] = getPermissions(permittedAbilities, abilities[current]);
 
-      return obj;
-    }, {}),
-    permittedAbilities
-  };
+        return obj;
+      }, {}),
+      permittedAbilities
+    };
+  }, [permittedAbilities, abilities, getPermissions]);
+
+  return permissions;
 };
 
 export default usePermissions;

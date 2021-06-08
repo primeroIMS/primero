@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { Record } from "immutable";
+import { List, Record } from "immutable";
 
 export const ChangeLogsRecord = Record({
   record_id: null,
@@ -8,5 +8,5 @@ export const ChangeLogsRecord = Record({
   datetime: null,
   user_name: null,
   action: null,
-  record_changes: []
+  record_changes: List([])
 });

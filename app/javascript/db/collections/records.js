@@ -1,5 +1,7 @@
-import { compact } from "lodash";
+import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
 import merge from "deepmerge";
+import { parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
@@ -8,8 +10,12 @@ const Records = {
   find: async ({ collection, recordType, db }) => {
     const { id } = db;
 
+    const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
+
     return {
-      data: id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType)
+      data: Array.isArray(data)
+        ? data.sort((record1, record2) => parseISO(record2.created_at) - parseISO(record1.created_at))
+        : data
     };
   },
 
@@ -17,28 +23,29 @@ const Records = {
     const { incident_case_id: caseID } = data;
     const caseRecord = await Records.find({ collection: "records", db: { id: caseID } });
 
-    if (caseRecord) {
-      const { id, ...incidentData } = data;
-      // eslint-disable-next-line camelcase
-      const caseIncidentDetails = caseRecord?.data?.incident_details;
-      const incidentDetails = [...(caseIncidentDetails || [])];
-      const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
-      const parsedIncident = { unique_id: id, ...incidentData };
+    if (isEmpty(caseRecord?.data)) {
+      return;
+    }
+    const { id, ...incidentData } = data;
+    // eslint-disable-next-line camelcase
+    const caseIncidentDetails = caseRecord?.data?.incident_details;
+    const incidentDetails = [...(caseIncidentDetails || [])];
+    const incidentIndex = incidentDetails.findIndex(incident => incident.unique_id === id);
+    const parsedIncident = { unique_id: id, ...incidentData };
 
-      if (incidentIndex === -1) {
-        incidentDetails.push(parsedIncident);
-      } else {
-        incidentDetails[incidentIndex] = merge(incidentDetails[incidentIndex], parsedIncident, {
-          arrayMerge: subformAwareMerge
-        });
-      }
-
-      await Records.save({
-        collection: "records",
-        recordType: "cases",
-        json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+    if (incidentIndex === -1) {
+      incidentDetails.push(parsedIncident);
+    } else {
+      incidentDetails[incidentIndex] = merge(incidentDetails[incidentIndex], parsedIncident, {
+        arrayMerge: subformAwareMerge
       });
     }
+
+    await Records.save({
+      collection: "records",
+      recordType: "cases",
+      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+    });
   },
 
   save: async ({ collection, json, recordType }) => {
@@ -50,7 +57,7 @@ const Records = {
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
-      Records.updateCaseIncidents(data);
+      await Records.updateCaseIncidents(data);
     }
 
     if (dataIsArray) {

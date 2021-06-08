@@ -16,6 +16,7 @@ import ApprovalPanel from "../approvals/components/panel";
 import IncidentFromCase from "../incidents-from-case";
 import IncidentFromCasePanel from "../incidents-from-case/components/panel";
 import ChangeLogs from "../change-logs";
+import { MANAGE } from "../../libs/permissions";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -75,6 +76,12 @@ describe("<RecordForms /> - Component", () => {
       guiding_questions: "",
       required: true,
       date_validation: "default_date_validation"
+    }),
+    2: FieldRecord({
+      name: "gbv_sexual_violence_type",
+      type: "select_field",
+      option_strings_source: "lookup lookup-cp-sexual-violence-type",
+      display_name: { en: "First Name" }
     })
   });
 
@@ -127,7 +134,24 @@ describe("<RecordForms /> - Component", () => {
       formSections,
       fields,
       loading: false,
-      errors: false
+      errors: false,
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 2,
+              unique_id: "lookup-cp-violence-type",
+              name: {
+                en: "CP Sexual Violence Type"
+              },
+              values: [
+                { id: "cp_test1", display_text: { en: "CP Test1" } },
+                { id: "cp_test2", display_text: { en: "CP Test2" } }
+              ]
+            }
+          ]
+        }
+      }
     }),
     user: fromJS({
       permittedForms: { basic_identity: "rw" },
@@ -903,7 +927,7 @@ describe("<RecordForms /> - Component", () => {
         fields: [1]
       })
     });
-    const initialState = fromJS({
+    const initialState = {
       records: {
         cases: {
           data: [record],
@@ -923,35 +947,77 @@ describe("<RecordForms /> - Component", () => {
         modules: ["primeromodule-cp"]
       },
       application
-    });
+    };
 
-    beforeEach(() => {
-      const routedComponent = initialProps => {
-        return (
-          <Route
-            path="/:recordType(cases|incidents|tracing_requests)/:id"
-            component={props => <RecordForms {...{ ...props, ...initialProps }} />}
-          />
+    describe("and has permission to see cases", () => {
+      beforeEach(() => {
+        const routedComponent = initialProps => {
+          return (
+            <Route
+              path="/:recordType(cases|incidents|tracing_requests)/:id"
+              component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+            />
+          );
+        };
+
+        ({ component } = setupMountedComponent(
+          routedComponent,
+          {
+            mode: "show"
+          },
+          fromJS(initialState),
+          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+        ));
+      });
+
+      it("should render RecordOwner ", () => {
+        const componentRecordForm = component.find(RecordForm);
+
+        expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
+        expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
+          "forms.record_types.record_information"
         );
-      };
-
-      ({ component } = setupMountedComponent(
-        routedComponent,
-        {
-          mode: "show"
-        },
-        initialState,
-        ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
-      ));
+      });
     });
 
-    it("should render RecordOwner ", () => {
-      const componentRecordForm = component.find(RecordForm);
+    describe("and has permission to manage cases", () => {
+      beforeEach(() => {
+        const routedComponent = initialProps => {
+          return (
+            <Route
+              path="/:recordType(cases|incidents|tracing_requests)/:id"
+              component={props => <RecordForms {...{ ...props, ...initialProps }} />}
+            />
+          );
+        };
 
-      expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
-      expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
-        "forms.record_types.record_information"
-      );
+        ({ component } = setupMountedComponent(
+          routedComponent,
+          {
+            mode: "show"
+          },
+          fromJS({
+            ...initialState,
+            user: {
+              permissions: {
+                cases: MANAGE
+              },
+              permittedForms: {},
+              modules: ["primeromodule-cp"]
+            }
+          }),
+          ["/cases/2b8d6be1-1dc4-483a-8640-4cfe87c71610"]
+        ));
+      });
+
+      it("should render RecordOwner ", () => {
+        const componentRecordForm = component.find(RecordForm);
+
+        expect(componentRecordForm.find(RecordOwner)).to.have.lengthOf(1);
+        expect(componentRecordForm.find(RecordOwner).find(RecordFormTitle).text()).to.equal(
+          "forms.record_types.record_information"
+        );
+      });
     });
   });
 });

@@ -16,13 +16,13 @@ en:
   'false': 'No'
   accepted: Accepted
   cancel: Cancel
-  code_of_conduct: Code of Conduct
   connection_lost: Currently in offline mode
   connected: Connected
   clear: Clear
   sandbox_ui: Demo
   description: Description
   form: Form
+  minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
   unavailable_offline: Unavailable offline
@@ -30,6 +30,7 @@ en:
   yes_label: 'Yes'
   or_label: or
   select_provider: Select provider
+  select_language: Select language
   log_in_primero_idp: log in with %{idp_name} username
   offline_submitted_changes: You are currently offline. Your changes will be submitted when you are back online.
   updated: Updated
@@ -61,6 +62,8 @@ en:
     services_section_from_case: Add Service Provision
   agencies:
     label: Agency
+    translations:
+      manage: Manage Translations
   agency:
     agency_logos: Agency Logos
     code: Agency Code
@@ -349,6 +352,7 @@ en:
       name: Name
     owned_by: Record Owner
     owned_by_agency: Record Owner Agency
+    photo: Photo
     photos: Photo
     quick_view:
       tracing_message: 'Note: There is a match in the system with an Inquirer looking
@@ -442,6 +446,9 @@ en:
       access to this case record.
     view_name: View Name
   change_logs:
+    filters:
+      form: Form
+      field: Field
     add_subform: 'Added “%{subform_name}” subform entry #%{short_id}'
     changes_subform: 'Changes to “%{subform_name}” subform'
     create: Created record
@@ -451,6 +458,8 @@ en:
     change: 'from “%{from_value}” to “%{to_value}”'
     updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
     update_subform: 'Updated “%{subform_name}” subform'
+    from: from
+    to: to
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -574,45 +583,45 @@ en:
     closed_this_week: Closed (this week)
     comprehensive_need_intervention: Comprehensive Response
     count_new_bia_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_new_case_plan_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_new_closure_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      other: '%{stat} <span>new %{stat_type}</span> Approvals'
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} new %{stat_type} Approvals'
     count_pending_approval_total:
-      one: 'You have %{stat} <span>pending %{stat_type}</span> Approval '
-      other: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
+      one: 'You have %{stat} pending %{stat_type} Approval '
+      other: 'You have %{stat} pending %{stat_type} Approvals '
     count_pending_transfers:
-      one: 'You have %{stat} <span>pending</span> Transfer '
-      other: 'You have %{stat} <span>pending</span> Transfers '
+      one: 'You have %{stat} pending Transfer '
+      other: 'You have %{stat} pending Transfers '
     count_records_new:
-      one: and %{stat} <span>new</span> case
-      other: and %{stat} <span>new</span> cases
+      one: and %{stat} new case
+      other: and %{stat} new cases
     count_records_total:
-      one: 'You have %{stat} <span>total</span> case '
-      other: 'You have %{stat} <span>total</span> cases '
+      one: 'You have %{stat} total case '
+      other: 'You have %{stat} total cases '
     count_referrals_new:
-      one: and %{stat} <span>new</span> referrals
-      other: and %{stat} <span>new</span> referrals
+      one: and %{stat} new referrals
+      other: and %{stat} new referrals
     count_referrals_total:
-      one: 'You have %{stat} <span>total</span> referral '
-      other: 'You have %{stat} <span>total</span> referrals  '
+      one: 'You have %{stat} total referral '
+      other: 'You have %{stat} total referrals  '
     count_rejected_approval_total:
-      one: 'and %{stat} <span>rejected %{stat_type}</span> Approval '
-      other: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
+      one: 'and %{stat} rejected %{stat_type} Approval '
+      other: 'and %{stat} rejected %{stat_type} Approvals '
     count_rejected_transfers:
-      one: 'and %{stat} <span>rejected</span> Transfer '
-      other: 'and %{stat} <span>rejected</span> Transfers '
+      one: 'and %{stat} rejected Transfer '
+      other: 'and %{stat} rejected Transfers '
     count_risk_level_new:
-      one: and %{stat} <span>new</span> <span>%{stat_type} risk</span> case
-      other: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
+      one: and %{stat} new %{stat_type} risk case
+      other: and %{stat} new %{stat_type} risk cases
     count_risk_level_total:
-      one: 'You have %{stat} <span>%{stat_type} risk</span> case '
-      other: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-    count_waiting_for_acceptance_transfers: You have %{stat} Transfers <span>waiting</span>
+      one: 'You have %{stat} %{stat_type} risk case '
+      other: 'You have %{stat} %{stat_type} risk cases '
+    count_waiting_for_acceptance_transfers: You have %{stat} Transfers waiting
       for your acceptance
     current_owner: Current Owner
     dash_case_incident_overview: My Cases
@@ -621,6 +630,7 @@ en:
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
     dash_shared_with_others: Shared With Others
+    dash_national_admin_summary: Administrator Summary
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -647,14 +657,14 @@ en:
     low_level: Low
     low_risk: Low Priority
     manager_count_closed_total:
-      one: 'and %{stat} <span>closed</span> case '
-      other: 'and %{stat} <span>closed</span> cases '
+      one: 'and %{stat} closed case '
+      other: 'and %{stat} closed cases '
     manager_count_open_total:
-      one: 'You have %{stat} <span>open</span> case '
-      other: 'You have %{stat} <span>open</span> cases '
+      one: 'You have %{stat} open case '
+      other: 'You have %{stat} open cases '
     manager_transfers_totals:
-      one: 'You have %{stat} <span>%{stat_type}</span> Transfer '
-      other: 'You have %{stat} <span>%{stat_type}</span> Transfers '
+      one: 'You have %{stat} %{stat_type} Transfer '
+      other: 'You have %{stat} %{stat_type} Transfers '
     match_result: Matching Results
     medium_level: Medium
     medium_risk: Medium Priority
@@ -707,7 +717,7 @@ en:
     registration: Registration
     rejected: Rejected
     rejected_transfers: Rejected Transfers
-    response: Response <span>(In Progress)</span>
+    response: Response (In Progress)
     scheduled_activities: Scheduled Activities
     score_range: Score Range
     screening_service: Screening Service
@@ -738,11 +748,11 @@ en:
     with_new_incidents: With New Incidents
     without_incidents: Without Incidents
     worker_count_referrals_total:
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
-      other: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
+      one: '%{case_worker} has %{stat} total referral '
+      other: '%{case_worker} has %{stat} total referrals  '
     worker_count_total:
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
-      other: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
+      one: '%{case_worker} has %{stat} total case '
+      other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
     you_have: 'You have '
@@ -905,6 +915,7 @@ en:
         on_short_form: On Short Form
         option_ids: Option IDs
         options: Options
+        options_lookup: Lookup
         help_text: Help Text
         guiding_questions: Guiding Questions
         visible: Visible
@@ -919,6 +930,7 @@ en:
         reportinglocation: Reporting Locations
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
+        country: Countries
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
@@ -1019,8 +1031,9 @@ en:
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
   sync_record:
-    failed: Sync failed.
+    failed: 'Last Sync: Failed'
     last: 'Last Sync: %{date_time}'
+    not_found: 'Last Sync: Data not found'
     retrieving: Retrieving Data.
     see_details: See Details.
   fields:
@@ -1525,6 +1538,56 @@ en:
     message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
     no_location: Please import Locations before creating any User accounts.
   logger:
+    actions:
+      _approved: Approved
+      _rejected: Rejected
+      _requested: Requested
+      add_note: Add note
+      assign: Assign
+      assign_to: Assign to
+      attach: Attach
+      bulk_assign: Bulk assign
+      bulk_create: Bulk create
+      bulk_index: Bulk index
+      case_plan_approved: Case plan approved
+      case_plan_rejected: Case plan rejected
+      case_plan_requested: Case plan requested
+      close: Close
+      create: Create
+      create_bulk: Create bulk
+      delete: Delete
+      destroy: Destroy
+      detach: Detach
+      enable_disable_record: Enable disable record
+      export: Export
+      flag: Flag
+      import: Import
+      incident_details_from_case: Incident details from case
+      index: Index
+      list: List
+      login: Login
+      password_reset: Password reset
+      password_reset_request: Password reset request
+      refer: Refer
+      refer_accepted: Refer accepted
+      refer_done: Refer done
+      refer_rejected: Refer rejected
+      refer_revoke: Refer revoke
+      refer_to: Refer to
+      reopen: Reopen
+      services_section_from_case: Services section from case
+      show: Show
+      show_alerts: Show alerts
+      traces: Traces
+      transfer: Transfer
+      transfer_accepted: Transfer accepted
+      transfer_rejected: Transfer rejected
+      transfer_request: Transfer request
+      transfer_to: Transfer to
+      unflag: Unflag
+      update: Update
+      user_password_reset_request: User password reset request
+      webhook: Webhook
     approve_form:
       action_plan: Action Plan form
       bia: BIA form
@@ -1568,6 +1631,27 @@ en:
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
+    resources:
+      audit_log: Audit log
+      user: User
+      agency: Agency
+      user_group: User group
+      child: Child
+      alert: Alert
+      form_section: Form
+      lookup: Lookup
+      system_settings: System settings
+      permission: Permission
+      dashboard: Dashboard
+      report: Report
+      bulk_export: Bulk export
+      saved_search: SavedSearch
+      role: Role
+      incident: Incident
+      location: Location
+      primero_configuration: Primero configuration
+      code_of_conduct: Code of conduct
+      task: Task
     record_state:
       'false': Disabling
       'true': Enabling
@@ -1649,6 +1733,12 @@ en:
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
     not_available: Not available
+    record_list:
+      column_header_tooltip: Sort for %{column}
+      of: of
+      no_match: Sorry, no matching records found
+      rows_per_page: Rows per page
+      sort: Sort
   navigation:
     bulk_exports: Exports
     cases: Cases
@@ -1730,6 +1820,7 @@ en:
       dash_show_none_values: View None Values
       dash_tasks: View Tasks
       dash_transfers_by_socal_worker: View Transfers By Social Worker
+      dash_national_admin_summary: Administrator Summary
       dashboard: Dashboard
       delete: Delete
       display_view_page: Display View Page
@@ -2037,6 +2128,13 @@ en:
               which contains the same fields which appear for that user on the case
               list. Only performed from the case list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the case list or
+              case show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all cases to which the user has access.
+              In the PDF export file, information is listed first by case, and then
+              further organized by the form on which information appears.
+            label: Export case PDF
           export_photowall:
             explanation: Allows the user to export a file from the case list page
               which contains the photos of all cases selected. This export is mainly
@@ -2395,6 +2493,11 @@ en:
               Cases By Task Overdue" dashboard, since this lets them see the overdue
               tasks for everyone in their user groups.
             label: Tasks Page
+          dash_national_admin_summary:
+            explanation: Shows the total open Cases in the system, number of new Cases
+              created in each of the last two weeks, and number of Cases closed
+              in each of the last two weeks.
+            label: Administrator Summary
           view_protection_concerns_filter:
             explanation: Allows the user to see a protection concerns filter on the
               case list page.
@@ -2534,6 +2637,13 @@ en:
               page which contains the same fields which appear for that user on the
               incident list. Only performed from the incident list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the incidents list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all records to which the user
+              has access. In the PDF export file, information is listed first by case,
+              and then further organized by the form on which information appears.
+            label: Export PDF
           export_xls:
             explanation: User can generate a XLS file export from the incidents list
               or incident show pages, which contains a custom set of forms or fields,
@@ -2786,6 +2896,14 @@ en:
               on the tracing request list. Only performed from the tracing request
               list page.
             label: Export list view CSV
+          export_pdf:
+            explanation: User can generate a PDF file export from the tracing requests
+              list or tracing request show pages, which contains all fields to which
+              the current user has access, for one, multiple, or all records to which
+              the user has access. In the PDF export file, information is listed first
+              by case, and then further organized by the form on which information
+              appears.
+            label: Export PDF
           flag:
             explanation: Ability to add a flag to a tracing request. Users with this
               permission can also remove the flags that they have added to a tracing
@@ -2963,6 +3081,7 @@ en:
       explanation: If you disable this Report, it will not appear in the available
         reports.
       label: Disabled
+    exclude_empty_rows: Do not display empty rows
     disaggregate_by: Group by column
     filters:
       label: Report filters
@@ -3000,6 +3119,10 @@ en:
       not be undone. Click OK to delete report
     label: Reports
     register_new_report: Create Report
+    translations:
+      edit: Edit translations
+      manage: Manage Translations
+      select_language: Select language
   request_transfer:
     notes_label: Notes
     submit_label: Send Request
@@ -3164,6 +3287,7 @@ en:
     notes: Notes
     recipient: Recipient
     rejected: Reason Rejected
+    requested_by: Requested by
     service_label: Service
     responded_at: Responded At
     status:
@@ -3188,6 +3312,7 @@ en:
     identity_provider: Identity Provider
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
+    language: Language
     locale: Locale
     location: Location
     messages:

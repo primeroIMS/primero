@@ -178,11 +178,11 @@ const KeyPerformanceIndicators = () => {
               >
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.other")}</h2>
 
-              <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={12}>
-                  <SupervisorToCaseworkerRatio dateRanges={allDateRanges} />
+                <Grid container spacing={2}>
+                  <Grid item className={css.grow} xs={12} md={12}>
+                    <SupervisorToCaseworkerRatio dateRanges={allDateRanges} />
+                  </Grid>
                 </Grid>
-              </Grid>
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>

@@ -1,6 +1,34 @@
 import { push } from "connected-react-router";
 
+import isOnline from "./is-online";
 import setCaseIncidentData from "./set-case-incident-data";
+
+const redirectConditions = (store, callback = {}, json) => {
+  const {
+    incidentPath,
+    moduleID,
+    redirect,
+    redirectToEdit,
+    redirectWhenAccessDenied,
+    redirectWithIdFromResponse
+  } = callback;
+
+  // eslint-disable-next-line camelcase
+  if (redirectWhenAccessDenied && json?.data?.record_access_denied) {
+    return redirect;
+  }
+  if (redirectWithIdFromResponse) {
+    return `${redirect}/${json?.data?.id}`;
+  }
+  if (redirectToEdit) {
+    return `${redirect}/${json?.data?.id}/edit`;
+  }
+  if (incidentPath) {
+    return incidentPath === "new" ? `/incidents/${moduleID}/new` : incidentPath;
+  }
+
+  return redirect;
+};
 
 const handleRestCallback = (store, callback, response, json, fromQueue = false) => {
   const isArrayCallback = Array.isArray(callback);
@@ -36,19 +64,10 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
       store.dispatch(isApiCallback ? { type: callback.action, api: callback.api } : successPayload);
 
       if (isObjectCallback && callback.redirect && !fromQueue) {
-        let { redirect } = callback;
+        const { preventSyncAfterRedirect } = callback;
+        const redirectPath = redirectConditions(store, callback, json);
 
-        if (callback.redirectWithIdFromResponse) {
-          redirect = `${callback.redirect}/${json?.data?.id}`;
-        }
-        if (callback.redirectToEdit) {
-          redirect = `${callback.redirect}/${json?.data?.id}/edit`;
-        }
-        if (callback.incidentPath) {
-          redirect = callback.incidentPath === "new" ? `/incidents/${callback.moduleID}/new` : callback.incidentPath;
-        }
-
-        store.dispatch(push(redirect));
+        store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline(store) }));
       }
     }
   }

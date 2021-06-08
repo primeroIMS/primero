@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import MUIDataTable from "mui-datatables";
 
-import { setupMountedComponent, lookups } from "../../../../test";
+import { setupMountedComponent, lookups, stub } from "../../../../test";
 import { PageHeading } from "../../../page";
 import { ACTIONS } from "../../../../libs/permissions";
 import IndexTable from "../../../index-table";
@@ -9,6 +9,7 @@ import IndexTable from "../../../index-table";
 import LookupList from "./component";
 
 describe("<LookupList />", () => {
+  let stubI18n = null;
   let component;
 
   const dataLength = 30;
@@ -49,6 +50,7 @@ describe("<LookupList />", () => {
   });
 
   beforeEach(() => {
+    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
     ({ component } = setupMountedComponent(LookupList, {}, state, ["/admin/lookups"]));
   });
 
@@ -71,12 +73,18 @@ describe("<LookupList />", () => {
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(2);
+    expect(component.props().store.getActions()).to.have.lengthOf(1);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[2].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
-    expect(component.props().store.getActions()[2].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[2].api.path).to.deep.equals(expectAction.api.path);
+    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  afterEach(() => {
+    if (stubI18n) {
+      window.I18n.t.restore();
+    }
   });
 });

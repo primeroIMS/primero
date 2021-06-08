@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 
-import { FieldRecord, FormSectionRecord, SELECT_FIELD, CHECK_BOX_FIELD } from "../../../../form";
+import { FieldRecord, FormSectionRecord, SELECT_FIELD, CHECK_BOX_FIELD, OPTION_TYPES } from "../../../../form";
 import { FORM_CHECK_ERRORS } from "../constants";
 
 import { buildPermissionOptions } from "./utils";
 
-export default (roles, actions, i18n) =>
+export default (actions, i18n) =>
   FormSectionRecord({
     unique_id: "associated_roles",
     name: i18n.t(`permissions.permission.role`),
@@ -15,17 +15,15 @@ export default (roles, actions, i18n) =>
     fields: [
       FieldRecord({
         display_name: i18n.t("permissions.resource.role.actions.permitted_roles.label"),
-        name: "permissions[objects][role]",
+        name: "permissions.objects.role",
         type: SELECT_FIELD,
         multi_select: true,
         tooltip: i18n.t("permissions.resource.role.actions.permitted_roles.explanation"),
-        option_strings_text: (roles.get("data") || fromJS([])).map(role => ({
-          id: role.get("unique_id"),
-          display_text: role.get("name")
-        }))
+        watchedInputs: ["permissions.objects.role"],
+        option_strings_source: OPTION_TYPES.ROLE_PERMITTED
       }),
       FieldRecord({
-        name: `permissions[role]`,
+        name: `permissions.role`,
         type: CHECK_BOX_FIELD,
         option_strings_text: buildPermissionOptions(actions, i18n, "role")
       })

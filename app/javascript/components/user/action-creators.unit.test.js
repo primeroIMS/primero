@@ -5,6 +5,7 @@ import { METHODS, RECORD_PATH, ROUTES } from "../../config";
 import { spy, stub } from "../../test";
 import * as idpSelection from "../login/components/idp-selection";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
+import { QUEUE_READY } from "../../libs/queue";
 
 import Actions from "./actions";
 import * as actionCreators from "./action-creators";
@@ -95,12 +96,12 @@ describe("User - Action Creators", () => {
     {
       type: "forms/SET_LOCATIONS",
       api: {
-        path: "https://localhostundefined",
+        path: "https://localhost/test-locations.json",
         external: true,
         db: {
           collection: "locations",
           alwaysCache: false,
-          manifest: undefined
+          manifest: "/test-locations.json"
         }
       }
     }
@@ -154,7 +155,7 @@ describe("User - Action Creators", () => {
     expect(dispatch.getCall(0).returnValue).to.deep.equal(expected);
   });
 
-  it("should check the 'fetchAuthenticatedUserData' action creator to return the correct object", () => {
+  it("should check the 'fetchAuthenticatedUserData' action creator to return the correct object", async () => {
     const store = configureStore()({});
     const dispatch = spy(store, "dispatch");
     const expected = {
@@ -164,13 +165,13 @@ describe("User - Action Creators", () => {
       successCallback: [
         {
           action: "connectivity/QUEUE_STATUS",
-          payload: "ready"
+          payload: QUEUE_READY
         },
         "I18n/SET_USER_LOCALE"
       ]
     };
 
-    dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
+    await dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
     const firstCallReturnValue = dispatch.getCall(0).returnValue;
 
     expect(firstCallReturnValue.type).to.deep.equal(Actions.FETCH_USER_DATA);

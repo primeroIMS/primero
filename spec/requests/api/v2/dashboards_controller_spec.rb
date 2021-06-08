@@ -12,7 +12,10 @@ describe Api::V2::DashboardsController, type: :request do
       reporting_location_config: {
         admin_level: 2,
         field_key: 'owned_by_location'
-      }
+      },
+      changes_field_to_form: {
+        incident_details: 'incident_from_case'
+      },
     )
 
     SystemSettings.current(true)
@@ -34,16 +37,17 @@ describe Api::V2::DashboardsController, type: :request do
         Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
         Permission::DASH_CASE_INCIDENT_OVERVIEW,
         Permission::DASH_WORKFLOW_TEAM,
-        Permission::DASH_CASES_BY_SOCIAL_WORKER
+        Permission::DASH_CASES_BY_SOCIAL_WORKER,
+        Permission::DASH_NATIONAL_ADMIN_SUMMARY
       ]
     )
 
     group1 = UserGroup.create!(name: 'Group1')
 
-    Location.create!(placename_en: 'Country', location_code: 'CNT', admin_level: 0, type: 'country', hierarchy_path: '')
-    Location.create!(placename_en: 'State', location_code: 'STE', admin_level: 1, type: 'state', hierarchy_path: 'CTE')
+    Location.create!(placename_en: 'Country', location_code: 'CNT', type: 'country')
+    Location.create!(placename_en: 'State', location_code: 'STE', type: 'state', hierarchy_path: 'CNT.STE')
     Location.create!(placename_en: 'City', location_code: 'CTY',
-                     admin_level: 2, type: 'city', hierarchy_path: 'CTE.STE')
+                     type: 'city', hierarchy_path: 'CNT.STE.CTY')
 
     Lookup.create!(
       unique_id: 'lookup-protection-concerns',
@@ -81,9 +85,13 @@ describe Api::V2::DashboardsController, type: :request do
         ], assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
       }
     )
+
+    child.alerts = [Alert.new(record: child, type: Alertable::INCIDENT_FROM_CASE, alert_for: Alertable::FIELD_CHANGE)]
+
     incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
     incident.incident_case_id = child.id
     incident.save
+
     Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
@@ -112,10 +120,11 @@ describe Api::V2::DashboardsController, type: :request do
         group_permission: Permission::SELF,
         permissions: [@permission_case, @permission_dashboard]
       )
+
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(12)
+      expect(json['data'].size).to eq(13)
 
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
@@ -134,6 +143,7 @@ describe Api::V2::DashboardsController, type: :request do
       )
 
       reporting_location_dashboard = json['data'].find { |d| d['name'] == 'dashboard.reporting_location' }
+
       expect(reporting_location_dashboard['indicators']['reporting_location_open']['cty']['count']).to eq(2)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_this_week']['cty']['count']).to eq(1)
       expect(reporting_location_dashboard['indicators']['reporting_location_open_last_week']['cty']['count']).to eq(1)
@@ -180,6 +190,14 @@ describe Api::V2::DashboardsController, type: :request do
                                                                         'cases_by_social_worker_new_or_updated'])
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_total']['foo']['count']).to eq(2)
       expect(cases_by_social_worker['indicators']['cases_by_social_worker_new_or_updated']['foo']['count']).to eq(1)
+
+      national_admin_summary = json['data'].find { |d| d['name'] == 'dashboard.dash_national_admin_summary' }
+      expect(national_admin_summary['indicators'].count).to eq(5)
+      expect(national_admin_summary['indicators']['open']['count']).to eq(2)
+      expect(national_admin_summary['indicators']['new_last_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['new_this_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['closed_last_week']['count']).to eq(1)
+      expect(national_admin_summary['indicators']['closed_this_week']['count']).to eq(2)
     end
 
     describe 'Test the shared with dashboard', search: true do

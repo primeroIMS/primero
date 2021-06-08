@@ -8,8 +8,13 @@ module Record
   STATUS_CLOSED = 'closed'
   STATUS_TRANSFERRED = 'transferred'
 
+  attr_writer :location_service
+
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
+
+    # Indicates if the update was performed through the API.
+    attribute :record_user_update, :boolean
 
     after_initialize :defaults, unless: :persisted?
     before_create :create_identification
@@ -42,6 +47,7 @@ module Record
         record.data = RecordMergeDataHashService.merge_data(record.data, data)
         record.creation_fields_for(user)
         record.owner_fields_for(user)
+        record.record_user_update = true
       end
     end
 
@@ -59,7 +65,7 @@ module Record
     end
 
     def preview_field_names
-      Field.joins(:form_section).where(
+      PermittedFieldService::ID_SEARCH_FIELDS + Field.joins(:form_section).where(
         form_sections: { parent_form: parent_form },
         show_on_minify_form: true
       ).pluck(:name)
@@ -110,6 +116,7 @@ module Record
 
   def update_properties(user, data)
     self.data = RecordMergeDataHashService.merge_data(self.data, data)
+    self.record_user_update = true
     self.last_updated_by = user&.user_name
   end
 
@@ -130,6 +137,10 @@ module Record
           (subform['unique_id'] = SecureRandom.uuid)
       end
     end
+  end
+
+  def location_service
+    @location_service ||= LocationService.instance
   end
 
   def index_nested_reportables

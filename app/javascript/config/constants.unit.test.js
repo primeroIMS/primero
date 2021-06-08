@@ -29,6 +29,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_TYPES",
       "CHANGE_LOGS",
       "CODE_FIELD",
+      "CODE_OF_CONDUCT_DATE_FORMAT",
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",
       "DATE_FORMAT",
@@ -40,6 +41,7 @@ describe("Verifying config constant", () => {
       "FETCH_PARAM",
       "FETCH_TIMEOUT",
       "FILE_FORMAT",
+      "FORM_PERMISSION_ACTION",
       "HTTP_STATUS",
       "IDLE_LOGOUT_TIMEOUT",
       "IDLE_TIMEOUT",
@@ -47,6 +49,7 @@ describe("Verifying config constant", () => {
       "INCIDENT_CASE_ID_FIELD",
       "INCIDENT_CASE_ID_DISPLAY_FIELD",
       "INCIDENT_FROM_CASE",
+      "INCIDENT_SHORT_ID_FIELD",
       "LOCALE_KEYS",
       "LOOKUPS",
       "LOCATION_PATH",
@@ -57,6 +60,7 @@ describe("Verifying config constant", () => {
       "MODES",
       "MODULES",
       "MODULE_TYPE_FIELD",
+      "MONTH_AND_YEAR_FORMAT",
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
@@ -129,7 +133,8 @@ describe("Verifying config constant", () => {
         expect(constants.PERMITTED_URL).to.be.an("array");
         expect(constants.MODULES).to.deep.equal({
           CP: "primeromodule-cp",
-          GBV: "primeromodule-gbv"
+          GBV: "primeromodule-gbv",
+          MRM: "primeromodule-mrm"
         });
         expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
           "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],
@@ -152,6 +157,7 @@ describe("Verifying config constant", () => {
         expect(constants.CODE_FIELD).to.equal("code");
         expect(constants.LOOKUPS).to.be.an("object");
         expect(constants.LOOKUPS).to.have.all.keys(
+          "agency_office",
           "risk_level",
           "workflow",
           "service_type",

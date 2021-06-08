@@ -6,14 +6,20 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { isEmpty, isNil } from "lodash";
+import { makeStyles } from "@material-ui/core/styles";
+import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";
 import { getLoadingState, getValueFromOtherField } from "../selectors";
 import { useMemoizedSelector } from "../../../libs";
 import { SELECT_CHANGE_REASON } from "../constants";
+import { listboxClasses, virtualize } from "../../searchable-select/components/listbox-component";
+
+import styles from "./styles.css";
 
 const filter = createFilterOptions();
+
+const useStyles = makeStyles(styles);
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
@@ -41,6 +47,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
 
+  const css = useStyles();
   const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
@@ -169,12 +176,18 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   };
 
   // eslint-disable-next-line react/display-name
-  const renderTextField = (params, props) => {
+  const renderTextField = (params, props, fieldValue) => {
+    // Workaround for: https://github.com/mui-org/material-ui/issues/19173
+    const value =
+      !freeSolo && !params.inputProps.value && options && fieldValue
+        ? optionLabel(fieldValue)
+        : params.inputProps.value;
+
     const inputParams = {
       ...params,
       inputProps: {
         ...params.inputProps,
-        value: freeSolo ? optionLabel(params.inputProps.value) : params.inputProps.value
+        value: freeSolo ? optionLabel(params.inputProps.value) : value
       },
       InputProps: {
         ...params.InputProps,
@@ -210,18 +223,23 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     return getValues()[name].length === maxSelectedOptions || option?.disabled;
   };
 
-  useEffect(() => {
-    if (!isNil(currentWatchedValue) && (isNil(stickyOption) || isEmpty(stickyOption))) {
-      setStickyOption(currentWatchedValue);
-    }
-  }, [currentWatchedValue]);
-
-  useEffect(() => {
+  const updateOtherFields = () => {
     if (currentWatchedValue && setOtherFieldValues) {
       otherFieldValues.forEach(([field, value]) => {
         setValue(field, value, { shouldDirty: true });
       });
     }
+  };
+
+  const updateStickyOption = () => {
+    if (!isNil(currentWatchedValue) && !isNumber(stickyOption) && (isNil(stickyOption) || isEmpty(stickyOption))) {
+      setStickyOption(currentWatchedValue);
+    }
+  };
+
+  useEffect(() => {
+    updateStickyOption();
+    updateOtherFields();
   }, [currentWatchedValue]);
 
   return (
@@ -235,6 +253,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           onOpen={handleOpen}
           onChange={(_, data, reason) => fieldOnChange(handleChange(data, reason))}
           groupBy={option => option[groupBy]}
+          ListboxComponent={virtualize(options.length)}
+          classes={listboxClasses}
+          disableListWrap
           options={options}
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
@@ -244,9 +265,10 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           filterSelectedOptions
           disableClearable={disableClearable}
           freeSolo={freeSolo}
+          className={css.selectInput}
           {...filterOptions}
           {...loadingProps}
-          renderInput={params => renderTextField(params, commonProps)}
+          renderInput={params => renderTextField(params, commonProps, fieldValue)}
           renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
           value={fieldValue}
         />

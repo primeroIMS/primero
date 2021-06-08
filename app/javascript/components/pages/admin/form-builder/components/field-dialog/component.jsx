@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
@@ -9,6 +10,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
+import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { submitHandler, whichFormMode } from "../../../../../form";
@@ -46,9 +48,10 @@ import {
   transformValues,
   toggleHideOnViewPage,
   buildDataToSave,
-  generateUniqueId
+  generateUniqueId,
+  mergeTranslationKeys
 } from "./utils";
-import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM } from "./constants";
+import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
 const useStyles = makeStyles(styles);
 
@@ -62,6 +65,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const { dialogOpen, dialogClose, setDialog } = useDialog([ADMIN_FIELDS_DIALOG, FieldTranslationsDialogName]);
 
   const selectedField = useMemoizedSelector(state => getSelectedField(state));
+
   const selectedSubformField = useMemoizedSelector(state => getSelectedSubformField(state));
   const selectedSubform = useMemoizedSelector(state => getSelectedSubform(state));
   const lastField = useMemoizedSelector(state => getSelectedFields(state, false))?.last();
@@ -82,7 +86,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
     },
     limitedProductionSite
   });
-  const formMethods = useForm({ resolver: yupResolver(validationSchema) });
+  const formMethods = useForm({ resolver: yupResolver(validationSchema), shouldUnregister: false, mode: "onSubmit" });
   const {
     control,
     reset,
@@ -326,25 +330,41 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
-      const fieldData = toggleHideOnViewPage(transformValues(selectedField.toJS()));
+      const currFormValues = getValues()[selectedField.get("name")];
+      const updatedSubformSection = getValues()?.subform_section;
 
-      const subform =
+      const { disabled, hide_on_view_page, option_strings_text } = selectedField.toJS();
+      const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
+
+      const data = mergeTranslationKeys(selectedFormField, currFormValues);
+
+      const fieldData = transformValues(data);
+
+      let subform =
         isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
 
-      const resetOptions = { errors: true, dirtyFields: true, isDirty: true, touched: true };
+      if (updatedSubformSection && isSubformField(selectedField)) {
+        subform = {
+          ...subform,
+          subform_section: mergeTranslationKeys(subform.subform_section, updatedSubformSection, true)
+        };
+      }
 
       reset(
         {
           [selectedFieldName]: {
             ...fieldData,
-            disabled: !fieldData.disabled,
             option_strings_text: fieldData.option_strings_text?.map(option => {
-              return { ...option, disabled: !option.disabled };
+              if (!isEmpty(option_strings_text)) {
+                return { ...option, disabled: !option_strings_text.find(({ id }) => option.id === id)?.disabled };
+              }
+
+              return option;
             })
           },
           ...subform
         },
-        resetOptions
+        RESET_OPTIONS
       );
     }
   }, [openFieldDialog, selectedField]);
@@ -401,8 +421,6 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
 };
 
 Component.displayName = NAME;
-
-Component.whyDidYouRender = true;
 
 Component.propTypes = {
   formId: PropTypes.string.isRequired,

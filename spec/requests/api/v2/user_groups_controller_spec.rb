@@ -58,6 +58,21 @@ describe Api::V2::UserGroupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/user_groups')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    it 'should return the user_groups assigned to the current_user when group_permission is "group"' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+        ],
+        role: @role,
+        user_group_ids: [@user_group_a.id]
+      )
+
+      get '/api/v2/user_groups', params: { managed: true }
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].first['unique_id']).to eq(@user_group_a.unique_id)
+    end
   end
 
   describe 'GET /api/v2/user_groups/:id' do

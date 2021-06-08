@@ -23,7 +23,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         age_ranges: ageRanges,
         approvals_labels: approvalsLabels,
         code_of_conduct: codesOfConduct,
-        system_options: systemOptions
+        system_options: systemOptions,
+        export_require_password: exportRequirePassword
       } = payload.data;
 
       return state.merge(
@@ -37,7 +38,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           ageRanges,
           approvalsLabels,
           codesOfConduct,
-          systemOptions
+          systemOptions,
+          exportRequirePassword
         })
       );
     }

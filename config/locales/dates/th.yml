@@ -2,6 +2,7 @@ th:
   date:
     today: 'วันนี้'
     clear: 'ล้างข้อมูล'
+    first_day: 0
     abbr_day_names_short:
       - อา.
       - จ.
@@ -19,6 +20,7 @@ th:
       - ศ.
       - ส.
     abbr_month_names:
+      - ~
       - ม.ค.
       - ก.พ.
       - มี.ค.
@@ -40,6 +42,7 @@ th:
       - วันศุกร์
       - วันเสาร์
     month_names:
+      - ~
       - มกราคม
       - กุมภาพันธ์
       - มีนาคม

@@ -55,6 +55,10 @@ export const clearSelectedRole = () => ({
   type: actions.CLEAR_SELECTED_ROLE
 });
 
+export const clearCopyRole = () => ({
+  type: actions.CLEAR_COPY_ROLE
+});
+
 export const setCopyRole = payload => ({
   type: actions.SET_COPY_ROLE,
   payload

@@ -87,8 +87,8 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
 
       setPending(true);
       selectedIds.forEach(id => {
-        batch(async () => {
-          await dispatch(
+        batch(() => {
+          dispatch(
             saveRecord(
               recordType,
               "update",
@@ -98,7 +98,11 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
               i18n.t("offline_submitted_changes"),
               false,
               false,
-              INCIDENT_DIALOG
+              INCIDENT_DIALOG,
+              false,
+              null,
+              "",
+              true
             )
           );
         });

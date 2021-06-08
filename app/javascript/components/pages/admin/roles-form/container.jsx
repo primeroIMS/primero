@@ -10,12 +10,9 @@ import Form, { whichFormMode, PARENT_FORM } from "../../../form";
 import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { ROUTES } from "../../../../config";
-import { getSystemPermissions, useApp } from "../../../application";
-import { fetchRoles, ADMIN_NAMESPACE } from "../roles-list";
-import { getRecords } from "../../../index-table";
+import { fetchRoles, getSystemPermissions, useApp } from "../../../application";
 import { getAssignableForms } from "../../../record-form";
 import { useMemoizedSelector } from "../../../../libs";
-import { getMetadata } from "../../../record-list";
 import { getReportingLocationConfig } from "../../../user/selectors";
 import { usePermissions } from "../../../user";
 import { COPY_ROLES } from "../../../../libs/permissions";
@@ -23,7 +20,7 @@ import { COPY_ROLES } from "../../../../libs/permissions";
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";
 import { getFormsToRender, mergeFormSections, groupSelectedIdsByParentForm } from "./utils";
-import { clearSelectedRole, fetchRole, saveRole } from "./action-creators";
+import { clearSelectedRole, fetchRole, saveRole, clearCopyRole } from "./action-creators";
 import { getRole, getCopiedRole } from "./selectors";
 import { NAME, FORM_ID } from "./constants";
 import RolesActions from "./roles-actions";
@@ -38,8 +35,6 @@ const Container = ({ mode }) => {
   const { id } = useParams();
 
   const canCopyRole = usePermissions(NAMESPACE, COPY_ROLES);
-  const roles = useMemoizedSelector(state => getRecords(state, [ADMIN_NAMESPACE, NAMESPACE]));
-  const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
   const role = useMemoizedSelector(state => getRole(state));
   const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
   const assignableForms = useMemoizedSelector(state => getAssignableForms(state));
@@ -70,7 +65,13 @@ const Container = ({ mode }) => {
   };
 
   useEffect(() => {
-    dispatch(fetchRoles({ data: metadata }));
+    dispatch(fetchRoles());
+
+    return () => {
+      if (isCopiedRole) {
+        dispatch(clearCopyRole());
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -89,7 +90,6 @@ const Container = ({ mode }) => {
 
   const formsToRender = getFormsToRender({
     systemPermissions,
-    roles,
     formSections: formsByParentForm,
     i18n,
     formMode,

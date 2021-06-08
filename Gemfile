@@ -20,14 +20,14 @@ gem 'jbuilder',            '~> 2.8'    # JSON templating for the API
 gem 'mini_magick',         '~> 4.9.4'  # Ruby bindings for ImageMagick, resize attachments. TODO: Is this necessary?
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 3.1'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'nokogiri',            '>= 1.10.4' # Security assertion on implicit dependency.
+gem 'nokogiri',            '>= 1.11.4' # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.1'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.2'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
 gem 'rack',                '>= 2.2.0'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '5.2.5'
+gem 'rails',               '5.2.6'
 gem 'rake',                '~> 12.3'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files

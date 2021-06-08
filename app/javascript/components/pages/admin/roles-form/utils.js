@@ -19,7 +19,6 @@ const getFormPermission = permission => {
 
 export const getFormsToRender = ({
   systemPermissions,
-  roles,
   formSections,
   i18n,
   formMode,
@@ -40,7 +39,7 @@ export const getFormsToRender = ({
           })
         ]
       }),
-      ResourcesForm(systemPermissions.get("resource_actions", fromJS({})), roles, i18n, approvalsLabels),
+      ResourcesForm(systemPermissions.get("resource_actions", fromJS({})), i18n, approvalsLabels),
       FormSectionRecord({
         unique_id: "forms_label",
         name: { [i18n.locale]: i18n.t("forms.label") }
@@ -92,7 +91,7 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
           const currentPermission = formSectionUniqueIds?.get(fs.get("unique_id")) || ROLES_PERMISSIONS.hide.id;
 
           return {
-            [fs.get("unique_id")]: getFormPermission(currentPermission)
+            [fs.get("unique_id")]: fs.core_form ? "" : getFormPermission(currentPermission)
           };
         })
       ])

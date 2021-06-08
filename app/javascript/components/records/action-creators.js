@@ -64,8 +64,9 @@ const getSuccessCallback = ({
       moduleID,
       incidentPath,
       setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
-      redirectWithIdFromResponse: !incidentFromCase && saveMethod !== "update",
-      redirect: redirect === false ? false : redirect || `/${recordType}`
+      redirectWithIdFromResponse: !incidentPath && !incidentFromCase && saveMethod !== SAVE_METHODS.update,
+      redirect: redirect === false ? false : redirect || `/${recordType}`,
+      preventSyncAfterRedirect: !incidentFromCase && [SAVE_METHODS.update].includes(saveMethod)
     },
     ...incidentFromCaseCallbacks
   ];
@@ -134,10 +135,11 @@ export const saveRecord = (
   dialogName = "",
   incidentFromCase = false,
   moduleID,
-  incidentPath = ""
+  incidentPath = "",
+  skipRecordAlerts = false
 ) => {
   const fetchRecordsAlertsCallback =
-    id && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
+    id && !skipRecordAlerts && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
 
   return {
     type: `${recordType}/${SAVE_RECORD}`,

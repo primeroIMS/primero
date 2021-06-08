@@ -70,6 +70,7 @@ describe Ownable do
 
         context 'and new user does not exist' do
           before do
+            @case = reloaded_model(@case)
             @case.owned_by = 'non-existent-user'
             @case.save!
           end
@@ -109,6 +110,7 @@ describe Ownable do
 
         context 'and new user does exist' do
           before do
+            @case = reloaded_model(@case)
             @case.owned_by = 'user2'
             @case.save!
           end
@@ -178,6 +180,7 @@ describe Ownable do
       context 'and owned_by does not change' do
         before do
           @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1', module_id: @primero_module.unique_id })
+          @case = reloaded_model(@case)
           @case.name = 'Another Name'
           @case.save!
         end
@@ -246,6 +249,22 @@ describe Ownable do
         expect(cases.size).to eq(2)
         expect(cases.map(&:name)).to match_array(%w[Case1 Case2])
       end
+    end
+  end
+
+  describe '#owner?' do
+    before :each do
+      @user_a = User.new(user_name: 'userA')
+      @user_a.save(validate: false)
+      @user_b = User.new(user_name: 'userB')
+      @user_b.save(validate: false)
+      @case1 = Child.create!(name: 'Case1', owned_by: 'userA')
+    end
+    it 'return false when user is not the owner' do
+      expect(@case1.owner?(@user_a)).to be false
+    end
+    it 'return true when user is the owner' do
+      expect(@case1.owner?(@user_b)).to be false
     end
   end
 

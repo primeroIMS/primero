@@ -23,7 +23,7 @@ describe("<RecordForm>/form/components - utils", () => {
 
     beforeEach(() => {
       syncedAt = "2021-02-10T12:50:32";
-      i18n = { t: val => val, l: val => val };
+      i18n = { t: val => val, localizeDate: val => val };
     });
 
     it("build label for synced status", () => {
@@ -36,6 +36,13 @@ describe("<RecordForm>/form/components - utils", () => {
     it("build label for failed status", () => {
       const syncedStatus = SYNC_RECORD_STATUS.failed;
       const expected = "sync_record.failed";
+
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+    });
+
+    it("build label for not_found status", () => {
+      const syncedStatus = SYNC_RECORD_STATUS.not_found;
+      const expected = "sync_record.not_found";
 
       expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
     });
