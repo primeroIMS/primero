@@ -13,7 +13,7 @@ class Agency < ApplicationRecord
   TERMS_OF_USE_CONTENT_TYPE = 'application/pdf'
 
   AGENCY_FIELDS_SCHEMA = {
-    'id' => { 'type' => 'string' }, 'unique_id' => { 'type' => 'integer' },
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
     'agency_code' => { 'type' => 'string' }, 'order' => { 'type' => 'integer' },
     'telephone' => { 'type' => 'string' }, 'logo_enabled' => { 'type' => 'boolean' },
     'terms_of_use_enabled' => { 'type' => 'boolean' }, 'disabled' => { 'type' => 'boolean' },
