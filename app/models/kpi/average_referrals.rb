@@ -3,7 +3,7 @@
 # AverageReferrals
 # A Kpi that counts the average number of referrals made for each case.
 class Kpi::AverageReferrals < Kpi::Search
-  REFERRED = 'Referred'
+  REFERRED = 'referred'
 
   def action_plan_referral_statuses
     @action_plan_referral_statuses ||= SolrUtils.indexed_field_name(Child, :action_plan_referral_statuses)
