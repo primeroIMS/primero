@@ -56,8 +56,8 @@ class GbvKpiCalculationService
 
   def services_provided
     form_responses(:action_plan_form)
-      .subform(:gbv_follow_up_subform_section)
-      .field(:service_type_provided)
+      .subform(:action_plan_section)
+      .field(:service_type)
       .uniq
   end
 
