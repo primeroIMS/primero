@@ -1,5 +1,76 @@
 ar-JO:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "تصدير سجل الحادثة بامتداد XLS"
   exports:
     incident_recorder_xls:
+      all:  مدخل الحادثة
+      one:  مدخل الحادثة
+      selected:  تم تحديد مدخل الحادثة
+      "yes": "نعم"
+      "no": "لا"
+      gender:
+        male: "ذكر"
+        female: "أنثى"
+        both: "ذكر و أنثى"
+      age_group:
+        age: "العمر"
+        61_older: "61 وأكبر"
+        unknown: "غير معروف"
+        header: "الفئة العمرية للمسيئ المزعوم"
+      age_type:
+        adult: "بالغ"
+        minor: "تحت السن القانوني"
+        both: "بالغ و تحت السن القانوني"
+        unknown: "غير معروف"
+        header: "نوع العمر للمسئ المزعوم"
+      service_referral:
+        undecided: "غير محدد"
       headers:
+        incident_id: "رقم الحادثة"
+        survivor_code: "رمز المساء اليه"
+        case_manager_code: "رمز مدير الحالة"
+        case_worker_code: "رمز مسؤول الحالة"
+        date_of_interview: "تاريخ المقابلة"
+        date_of_incident: "تاريخ الحادثة"
+        date_of_birth: "تاريخ الميلاد"
+        sex: "الجنس"
+        ethnicity: "العرق"
+        country_of_origin: "بلد الأصل"
+        marital_status: "الحالة الاجتماعية"
+        displacement_status: "حالة النزوح عند الإبلاغ"
         disability_type: "شخص من ذوي الاحتياجات الخاصة؟"
+        unaccompanied_separated_status: "هل الطفل غير مصحوب أو منفصل؟"
+        stage_of_displacement: "مرحلة النزوح في وقت الحادثة"
+        time_of_day: "وقت الحادثة"
+        location: "مكان الحادثة"
+        county: "بلد الحادثة"
+        district: "منطقة الحادثة"
+        camp_town: "بلدة / مخيم الحادثة"
+        camp: "مخيم الحادثة"
+        gbv_type: "نوع العنف المبني على النوع الإجتماعي"
+        harmful_traditional_practice: "ممارسات تقليدية ضارة"
+        goods_money_exchanged: "الأموال والبضائع والمزايا و / أو الخدمات التي تم تبادلها؟"
+        abduction_type: "نوع الخطف"
+        previously_reported: "هل أُبلغ عن الحادثة من قبل ؟"
+        gbv_previous_incidents: "حوادث عنف مبني على النوع الإجتماعي سابقة؟"
+        number_primary_perpetrators: "لا. المسيء (المسيئين) الأساسي المزعوم"
+        perpetrator:
+          sex: "جنس المسيء"
+          former: "حوادث سابقة من نفس المسيء"
+          relationship: "العلاقة بين المسيء والحالة"
+          occupation: "مهنة المسيء"
+          age_group: "الفئة العمرية للمسيء"
+          age_type: "نوع العمر للمسئ"
+        service:
+          referred_from: "الحالة محاله من أي مؤسسة ؟"
+          safehouse_referral: "دار الرعاية"
+          medical_referral: "خدمات طبية علاجية"
+          psycho_referral: "خدمات نفسية"
+          wants_legal_action: "هل تحتاج إجراء قانوني ؟"
+          legal_referral: "خدمات مساعدة قانونية"
+          police_referral: "شرطة / جهة امنية أخرى"
+          livelihoods_referral: "برنامج سبل العيش"
+          protection_referral: "خدمات حماية طفل/ خدمات تعليمية"
+        consent: "تم إعطاء الموافقة"
+        agency_code: "رمز المؤسسة المُبلِغة"
