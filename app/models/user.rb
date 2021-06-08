@@ -454,10 +454,10 @@ class User < ApplicationRecord
     module?(PrimeroModule::GBV)
   end
 
-  def tasks(pagination = { per_page: 100, page: 1 })
+  def tasks(pagination = { per_page: 100, page: 1 }, sort_order = {})
     cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
-    tasks = Task.from_case(cases.to_a)
+    tasks = Task.from_case(cases.to_a, sort_order)
     { total: tasks.size, tasks: tasks.paginate(pagination) }
   end
 

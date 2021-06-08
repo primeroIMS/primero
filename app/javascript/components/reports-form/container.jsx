@@ -39,7 +39,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
-import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
+import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -58,6 +58,8 @@ const Container = ({ mode }) => {
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
+
+  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms);
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
@@ -123,7 +125,8 @@ const Container = ({ mode }) => {
     formatAgeRange(primeroAgeRanges),
     formMode.isNew,
     userModules,
-    reportingLocationConfig
+    reportingLocationConfig,
+    formattedMinimumReportableFields
   );
   const validationSchema = validations(i18n);
   const handleCancel = () => {

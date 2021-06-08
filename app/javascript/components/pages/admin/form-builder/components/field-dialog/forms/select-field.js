@@ -23,8 +23,8 @@ export const selectFieldForm = ({
       .nullable()
       .when("option_strings_text", {
         is: value => !value?.length,
-        then: string().required(),
-        otherwise: string().notRequired()
+        then: string().nullable().required(),
+        otherwise: string().nullable().notRequired()
       }),
     option_strings_text: array().of(
       object().shape({

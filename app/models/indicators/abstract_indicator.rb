@@ -100,7 +100,7 @@ module Indicators
 
     def owned_by_groups_query_string(user)
       if user.present? && scope_to_owned_by_groups
-        ["owned_by_groups=#{user.user_group_unique_ids}"]
+        ["owned_by_groups=#{user.user_group_unique_ids.join(',')}"]
       else
         []
       end
