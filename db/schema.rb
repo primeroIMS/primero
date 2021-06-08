@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_000000) do
+ActiveRecord::Schema.define(version: 2021_05_21_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -361,6 +361,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "editable", default: true
     t.string "unique_id"
     t.boolean "disabled", default: false, null: false
+    t.boolean "exclude_empty_rows", default: false, null: false
     t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
