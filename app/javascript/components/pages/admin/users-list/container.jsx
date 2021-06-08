@@ -20,6 +20,7 @@ import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgenci
 import { getAppliedFilters, getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
+import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
@@ -48,7 +49,7 @@ const Container = () => {
       : {})
   }));
 
-  const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
+  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, locale: i18n.locale }).merge(metadata);
 
   useEffect(() => {
     if (canListAgencies) {
@@ -57,7 +58,9 @@ const Container = () => {
     dispatch(fetchUserGroups());
   }, []);
 
-  useMetadata(recordType, metadata, fetchUsers, "data");
+  useMetadata(recordType, metadata, fetchUsers, DATA, {
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+  });
 
   const onTableChange = filters => {
     const filtersData = filters.data || fromJS({});
@@ -98,6 +101,7 @@ const Container = () => {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
     filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
+    initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
       const mergedFilters = currentFilters.merge(fromJS(filters));
