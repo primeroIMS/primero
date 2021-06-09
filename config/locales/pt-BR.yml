@@ -179,10 +179,6 @@ pt-BR:
     cases_to_assign: 'Casos Para Atribuir '
     closed: Encerrado
     comprehensive_need_intervention: 'Resposta Abrangente '
-    count_risk_level_total:
-      one: Você tem %{stat} <span>%{stat_type}caso</span> de risco
-      other: Você tem %{stat} <span>%{stat_type} casos</span>de risco
-    count_waiting_for_acceptance_transfers: 'Você tem %{stat} Transferências <span>esperando</span>para sua aceitação '
     current_owner: 'Proprietário Atual '
     date: Data
     date_of_incident: 'Data do Incidente '
@@ -246,7 +242,6 @@ pt-BR:
     referrals_by_social_worker: 'Encaminhamentos por assistente social '
     rejected: Rejeitado
     rejected_transfers: 'Transferências Rejeitadas '
-    response: Resposta <span>(Em Progresso)</span>
     scheduled_activities: 'Atividades Agendadas '
     score_range: 'Faixa de Pontuação '
     services: 'Serviços '

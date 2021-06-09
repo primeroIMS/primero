@@ -216,3 +216,29 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
 The optional dictionary `secret_environment_variables` can contain key/value pairs of secret environment variables. It can be used in conjuunction with the optional `environment_variables` dictionary in the inventory file, and will override those values. A good use of this dictionary is to specify SMTP settings.
+
+## Config promotion
+
+In order to enable configuration promotion between two servers handled by ansible, you have to set some environment variables on the **demo** server, the one responsible to handle and sed the configuration to the production server.
+
+```shell
+  PRIMERO_SANDBOX_UI: 'true'
+  PRIMERO_PROMOTE_CONFIG_PROD_TLS: 'true'
+  PRIMERO_PROMOTE_CONFIG_PROD_PORT: '443'
+  PRIMERO_PROMOTE_CONFIG_PROD_HOST: 'example.production.org'
+  PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH: 'configuration_promotion:strongPassword1!'
+```
+
+1. `PRIMERO_SANDBOX_UI` Show the UI in Sandbox mode, this enable the config promotion option.
+
+2. `PRIMERO_PROMOTE_CONFIG_PROD_TLS` and `PRIMERO_PROMOTE_CONFIG_PROD_PORT` variables required to stablish the connection between the current implementation
+and the production site
+
+3. `PRIMERO_PROMOTE_CONFIG_PROD_HOST` Target implementation, where the configuration will be applied
+
+4. `PRIMERO_PROMOTE_CONFIG_PROD_BASIC_AUTH` This is a combination(separated by `:`) between a user production and its password. The exact environment variable, the user and the password needs to exist on the **production** implementation.
+   To generate a strong password using:
+
+   ```shell
+    LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
+    ```

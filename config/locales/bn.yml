@@ -14,134 +14,53 @@
 bn:
   'true': 'হ্যাঁ '
   'false': 'না '
-  accepted: ""
   cancel: "বাতিল "
-  connection_lost: ""
-  connected: ""
   clear: মুছে ফেলা
-  sandbox_ui: ""
   description: "বর্ণনা "
-  form: ""
-  name: ""
-  offline: ""
-  unavailable_offline: ""
-  online: ""
   yes_label: 'হ্যাঁ '
-  or_label: ""
-  select_provider: ""
-  log_in_primero_idp: ""
-  offline_submitted_changes: ""
-  updated: ""
-  sync:
-    success: ""
-    error:
-      create: ""
-      update: ""
-
   actions:
-    approvals: ""
     button: কার্যক্রম
-    close: ""
     description:
       invalid: অকার্যকর দলিল
       valid: কার্যকর দলিল
     disable: অক্ষম
     enable: "সক্ষম "
     incident_details_from_case: "ঘটনা যোগ করুন "
-    incident_from_case: ""
-    next: ""
-    notes: ""
-    previous: ""
     reopen: "পুনরায় খোলা "
-    request_approval: ""
-    revoke: ""
-    save: ""
-    services_from_case_creation_success: ""
     services_section_from_case: "সেবার বিধান যোগ করুণ "
   agencies:
     label: সংস্থা
   agency:
-    agency_logos: ""
     code: "সংস্থার কোড "
-    description: ""
-    disabled: ""
-    exclude_agency_from_lookups: ""
-    exclude_agency_from_lookups_help: ""
-    label: ""
-    logo_enabled: ""
-    logo_enabled_help: ""
-    logo_icon: ""
-    logo_icon_help: ""
-    logo_large: ""
-    logo_large_help: ""
-    messages:
-      created: ""
-      updated: ""
     name: "সংস্থার নাম "
-    pdf_logo_option: ""
-    pdf_logo_option_help: ''
     services: "সংস্থার সেবাসমূহ "
-    terms_of_use: ""
-    terms_of_use_help: ""
-    terms_of_use_download_button: ""
-    terms_of_use_enabled: ""
   approvals:
-    approved_by: ""
-    case_plan_type_label: ""
-    manager_comments_label: ""
-    rejected_by: ""
-    requested_by: ""
-    requested_for_label: ""
-    requested_for_title: ""
-    response_for_label: ""
-    response_for_title: ""
-    action_plan: ""
-    gbv_closure: ""
     status:
       approved: "অনুমোদিত "
       pending: মুলতবী
       rejected: "বাতিলকৃত "
-      requested: ""
   audit_log:
     action: কার্যক্রম
     description: "বর্ণনা "
     record_owner: "নথির মালিক "
-    timestamp: ""
-    user_name: ""
   bulk_export:
     file_name: "ফাইল "
     record_type: "ধরণ "
     retry: এই এক্সপোর্ট সঠিক নয় । আপনার এক্সপোর্ট পুনরূদ্ধারের চেষ্টা করুন
     started_on: "শুরু হয়েছিল "
     status: অবস্থা
-  form_export:
-    label: ""
-    include_hidden: ""
-    file_name: ""
-    success_message: ""
   buttons:
     accept: "গ্রহন করা "
-    add: ""
-    add_another_option: ""
     add_note: "নোট সংযোজন করা "
-    apply: ""
     approvals: "অনুমোদনসমুহ "
-    approve_action_plan: ""
     approve_bia: "বিআইএ অনুমোদন "
     approve_case_plan: "কেস পরিকল্পনা অনুমোদন "
     approve_closure: "বন্ধের অনুমোদন "
-    approve_gbv_closure: ""
     back: পেছনে
     bundle_export: কনফিগারেশন বান্ডিল
     bundle_import: কনফিগারেশন বান্ডিল
     cancel: "বাতিল "
     change_password: "পাসওয়ার্ড পরিবর্তন "
-    check_status: ""
-    clear_default: ""
-    clear_selection: ""
-    clear: ""
-    close: ""
-    continue: ""
     create_case: "কেস তৈরি করুন "
     create_incident: ঘটনা তৈরি করুন
     create_new_record: "নতুন তৈরি ১% [মডেল]"
@@ -149,7 +68,6 @@ bn:
     disable: অক্ষম
     disable_photo_wall: ছবি প্রাচীর নিষ্ক্রিয় করুন
     done: "করা হয়েছে "
-    download: ""
     edit: সম্পাদনা করা
     edit_subform: সাব ফরম সম্পাদনা করুন
     enable: "সক্ষম "
@@ -162,69 +80,31 @@ bn:
     find_tracing_match: অনুসন্ধানের মিল খুঁজুন
     flag_model: "পতাকা ১% [মডেল]"
     flag_records: পতাকা
-    flags: ""
-    guidance: ""
-    guiding_questions: ""
     import: আমদানি
     login: লগ ইন
-    logout: ""
     mark_for_mobile: "মোবাইলের জন্য চিহ্নিত করা "
-    new: ""
     ok: ওকে
-    print: ""
-    reassign: ""
-    referral: ""
-    referral_again: ""
     reject: "প্রত্যাখ্যান করা "
     remove_referrals: " রেফারেলগুলোকে বাদ দেয়া  "
-    reorder: ""
     request_approval: "অনুরোধ অনুমোদন "
     request_transfer: "অনুমতি হস্তান্তর "
     reunite: "পুন: সংযুক্ত করা"
     save: "সংরক্ষন করন "
     save_and_add_service_provision: সংরক্ষণ করুন এবং সেবার নিয়ম যোগ করুন
-    save_and_return: ""
-    save_continue: ""
-    save_changes: ""
-    select: ""
-    send: ""
     sort_by_case: "কেসসমুহ "
     sort_by_tr: অনুসন্ধানের অনুরোধ
-    sync: ""
     submit: জমা দেওয়া
-    transfer: ""
     unflag_model: "পতাকা খুলে নেওয়া ১% [মডেল]"
     unflag_model_history: "পতাকা ইতিহাস ১% [মডেল]"
     unmark_for_mobile: মোবাইলের জন্য চিহ্নিত না করা
-    update: ""
     view: "দেখা "
     view_flags_history: ইতিহাস দেখা
-    return_to_case: ""
-
   case:
-    label: ""
     create_new_case: নতুন কেস তৈরি করুন
     enter_id_number: একটি বিদ্যমান নথি অনুসন্ধান করতে আইডি নম্বরে প্রবেশ করুন
-    id_search_no_results: ""
     messages:
-      disabled: ""
       update_success: 'কেইস ১% [নথি_আইডি] নিশ্চিতভাবে আপডেট করা হয়েছে।'
-      update_success_queue: ''
       creation_success: 'কেসের নথি সফলতার সাথে তৈরী করা হয়েছে ।'
-      creation_success_queue: ''
-      already_matched: ""
-      already_matched_not_current_case: ""
-      not_found_case: ""
-      introductory_sentence: ""
-      consent_agreements_required: ""
-      legitimate_basis_required: ""
-    save: ""
-    save_text: ""
-    skip_and_create: ""
-    search_existing: ""
-    search_helper_text: ""
-    consent_agreements: ""
-    legitimate_basis: ""
     workflow:
       assessment: মূল্যায়ন
       case_plan: কেস পরিকল্পনা
@@ -237,238 +117,46 @@ bn:
       service_implemented: সেবা বাস্তবায়ন করা হয়েছে
       services_implemented: সেবা বাস্তবায়ন করা হয়েছে
   cases:
-    action_plan: ""
-    age: ""
-    age_estimated: ""
-    agency: ""
     apply_filter: আবেদন করা
-    approval_comments: ""
-    approval_radio: ""
-    approval_radio_accept: ""
-    approval_radio_reject: ""
-    approval_select: ""
-    approved_success_action_plan: ''
-    approved_success_assessment: ''
-    approved_success_bia: ''
-    approved_success_case_plan: ''
-    approved_success_closure: ''
-    approved_success_gbv_closure: ''
-    assessment: ""
-    case_opening_date: ""
-    case_plan: ""
-    case_worker_code: ""
     clear_filter: "মুছে ফেলুন "
-    close_dialog: ""
-    close_dialog_title: ""
-    close_success: ""
-    closure: ""
-    date_of_birth: ""
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
     export: রপ্তানি
     filter_by:
       3month_inactivity: " ৩ এর অধিক মাসের জন্য "
-      action_plan: ""
-      age_0_5: ""
-      age_12_17: ""
-      age_18_more: ""
-      age_6_11: ""
-      age_range: ""
-      agency: ""
-      approval_status: ""
       approvals:
         approved: "অনুমোদিত "
-        pending: ""
         rejected: "বাতিলকৃত "
-      bia: ""
-      by_date: ""
-      case_open_date: ""
-      case_plan: ""
-      closed: ""
-      closure: ""
-      current_location: ""
       date: "তারিখ "
-      displacement_status: ""
-      district: ""
-      duplicate: ""
-      enabled_disabled: ""
       female: "মহিলা "
-      flag: ""
       flag_label: "পতাকাযুক্ত?"
-      gbv_closure: ""
-      high: ""
-      low: ""
       male: "পুরুষ "
-      medium: ""
-      mobile: ""
       mobile_label: "মোবাইলের জন্য চিহ্নিত করা? "
       my_cases: "আমার কেস "
-      no_action: ""
       no_activity: "কোনো কাজ নেই "
-      open: ""
-      other: ""
-      photo: ""
       photo_label: "ছবি কি আছে? "
-      protection_concerns: ""
-      protection_status: ""
-      record_state: ""
       referred_cases: "কেইসগুলো আমার কাছে রেফার করা হয়েছিল "
-      registration_date: ""
-      risk_level: ""
-      sex: ""
-      social_worker: ""
-      status: ""
-      transferred: ""
-      type_of_risk: ""
-      urgent_protection_concern: ""
-      user_group: ""
       workflow: ওয়ার্কফ্লো দ্বারা কেস
     flag_summary: পতাকা সারাংশ
-    full_name: ""
-    gbv_closure: ""
     hide_name: " নাম লুকানো"
     hide_name_error: আপনার পরিবর্তন সংরক্ষণ করার সময় একটি ত্রুটি ঘটেছে। অনুগ্রহপূর্বক আবার চেষ্টা করুন।
-    id: ""
     label: "কেসসমুহ "
     my_filters: "আমার ফিল্টার "
-    name: ""
-    notes_dialog_title: ""
-    notes_form_notes: ""
-    notes_form_subject: ""
     ok: "ওকে "
     order_by:
       label: আদেশক্রমে
       most_recently: "অতি সম্প্রতি "
       name: "নাম "
-    owned_by: ""
-    owned_by_agency: ""
-    photo: ""
-    photos: ""
     quick_view:
       tracing_message: 'দ্রষ্টব্য: এই শিশুকে খুঁজছে এমন একজন অনুসন্ধানকারীর সাথে সিস্টেমে একটি মিল আছে।শিশুটি চািইলে অধিক কার্যক্রমের জন্য এই রেকর্ডের সমাজকর্মীর সাথে যোগাযোগ করুন।'
-    referral_done: ""
-    referral_done_success: ""
-    referral_accepted_header: ""
-    referral_accepted: ""
-    referral_accepted_success: ""
-    referral_rejected: ""
-    referral_rejected_success: ""
     register_new_case: "নতুন কেস "
-    registration_date: ""
-    rejected_success_action_plan: ''
-    rejected_success_assessment: ''
-    rejected_success_bia: ''
-    rejected_success_case_plan: ''
-    rejected_success_closure: ''
-    rejected_success_gbv_closure: ''
-    reopen_dialog: ""
-    reopen_dialog_title: ""
-    reopen_success: ""
-    request_approval_failure: ""
-    request_approval_select: ""
-    request_approval_success_action_plan: ""
-    request_approval_success_assessment: ""
-    request_approval_success_case_plan: ""
-    request_approval_success_closure: ""
-    request_approval_success_gbv_closure: ""
-    request_approval_type_of_case_plan: ""
-    request_approve_action_plan: ""
-    request_approve_bia: ""
-    request_approve_case_plan: ""
-    request_approve_closure: ""
-    request_approve_gbv_closure: ""
-    revoke_failure: ""
-    revoke_message: ""
-    revoke_success_message: ""
     save_filter: সংরক্ষণ করা
-    selected_all_records: ""
-    selected_records: ''
-    sex: ""
-    show_case: ''
-    social_worker: ""
-    status: ""
-    summary:
-      label: ""
-      find_match: ""
-      matched_trace: ''
-      cannot_find_matches: ""
-      matched: ""
-      fields:
-        consent_for_tracing:
-          label: ""
-          help_text: ""
-        wishes_child_family_tracing:
-          label: ""
-        wishes_reunification:
-          label: ""
-          options:
-            yes_as_soon_as_possible: ""
-            yes_but_later: ""
-            not_sure: ""
-            'no': ''
-        data_confidentiality_link:
-          label: ""
-        child_wishes_link:
-          label: ""
-    survivor_code: ""
-    transfer_accepted: ""
-    transfer_accepted_rejected: ""
-    transfer_accepted_success: ""
-    transfer_reject_reason_label: ""
-    transfer_rejected: ""
     view_name: "নাম দেখা "
-  change_logs:
-    filters:
-      form: ""
-      field: ""
-    add_subform: ''
-    changes_subform: ''
-    create: ""
-    deleted_subform: ''
-    label: ""
-    see_details: ""
-    change: ''
-    updated_subform: ''
-    update_subform: ''
   children:
     selectable_date_options:
       assessment_requested_on: পর্যালোচনার তারিখ
       closure_approved_date: 'কেস বন্ধের তারিখ '
       created_at: "কেস খোলার তারিখ "
       date_case_plan_initiated: "কেস পরিকল্পনার তারিখ "
-      date_of_creation: ""
       registration_date: "নিবন্ধনের তারিখ "
-  configurations:
-    apply_label: ""
-    apply_label_bold: ""
-    version_mismatch_tooltip: ""
-    send_header: ""
-    send_text: ""
-    attributes:
-      created_by: ""
-      date_created: ""
-      description: ""
-      last_applied_by: ""
-      last_applied_on: ""
-      name: ""
-      version: ""
-      primero_version: ""
-    delete_label: ""
-    explanation: ''
-    label: ""
-    label_new: ""
-    messages:
-      applied: ""
-      created: ""
-      deleted: ""
-      updated: ""
-      sent: ""
-    not_allowed: ""
-    unavailable_server: ""
   contact:
     field:
       email: ইমেইল
@@ -478,61 +166,20 @@ bn:
       other_information: "অন্যান্য তথ্য "
       phone: ফোন
       position: অবস্থান
-      primero_version: ""
       support_forum: "সহায়তা ফোরাম "
-      system_version: ""
     info_label: যোগাযোগের তথ্য
     updated: যোগাযোগের তথ্য সফলভাবে আপডেট করা হয়েছে।
-  code_of_conduct:
-    field:
-      title: ""
-      content: ""
-      created_on: ""
-      created_by: ""
-    info_label: ""
-    updated: ""
   dashboard:
     activity: কার্যক্রম
     admin_only: "আবেদন পরিবর্তন করতে ক্লিক করুন১% [লিংক]- এ "
     all_cases: সকল কেসসমূহ
     all_services_implemented: "সকল সেবা বাস্তবায়ন করা হয়েছে "
     and: 'এবং'
-    approval_action_plan_approved: ""
-    approval_action_plan_pending: ""
-    approval_action_plan_pending_group: ""
-    approval_action_plan_rejected: ""
-    approval_assessment_approved: ""
-    approval_assessment_pending: ""
-    approval_assessment_pending_group: ""
-    approval_assessment_rejected: ""
-    approval_case_plan_approved: ""
-    approval_case_plan_pending: ""
-    approval_case_plan_pending_group: ""
-    approval_case_plan_rejected: ""
-    approval_closure_approved: ""
-    approval_closure_pending: ""
-    approval_closure_pending_group: ""
-    approval_closure_rejected: ""
-    approval_gbv_closure_approved: ""
-    approval_gbv_closure_pending: ""
-    approval_gbv_closure_pending_group: ""
-    approval_gbv_closure_rejected: ""
     approvals: "অনুমোদনসমুহ "
-    approvals_action_plan: ""
-    approvals_assessment: ""
-    approvals_case_plan: ""
-    approvals_closure: ""
-    approvals_gbv_closure: ""
     approved: "অনুমোদিত "
     assessment: মূল্যায়ন
-    awaiting_acceptance: ""
-    cases_by_social_worker_total: ""
-    cases_by_social_worker_new_or_updated: ""
     case_id: 'কেস #আইডি'
-    case_management_service: ""
-    case_overview: ""
     case_plan: কেইস পরিকল্পনা
-    case_risk: ""
     case_stat_by_approval_type: "অনুমোদনসমুহ "
     case_stat_by_assessment_level: "মূল্যায়ন পর্যায় দ্বারা কেসসমুহ "
     case_stat_referrals: হস্তান্তর
@@ -544,92 +191,27 @@ bn:
     cases_this_week: "এই সপ্তাহের কেসসমূহ "
     cases_to_assign: "বরাদ্দকৃত কেসসমুহ "
     closed: "বন্ধ "
-    closed_last_week: ""
-    closed_this_week: ""
     comprehensive_need_intervention: "ব্যাপক প্রতিক্রিয়া "
-    count_new_bia_approvals:
-      one: 'নতুন অনুমোদন '
-      other: '১% (পরিসংখ্যান] ১ নতুন ২% (পরিসংখ্যান_ধরণ] ১ নতুন অনুমোদন '
-    count_new_case_plan_approvals:
-      one: 'নতুন অনুমোদন '
-      other: '১% (পরিসংখ্যান] ১ নতুন ২% (পরিসংখ্যান_ধরণ] ১ নতুন অনুমোদন '
-    count_new_closure_approvals:
-      one: '%{stat} <span>new %{stat_type}</span> Approval '
-      other: '১% (পরিসংখ্যান] ১ নতুন ২% (পরিসংখ্যান_ধরণ] ১ নতুন অনুমোদন '
-    count_pending_approval_total:
-      one: 'আপনার অমীমাংসিত অনুমোদন আছে'
-      other: 'আপনার ১% [পরিসংখ্যান] ১ [পড়ে থাকা] ২% (পরিসংখ্যান_ধরণ] ১ অমীমাংসিত অনুমোদন আছে'
-    count_pending_transfers:
-      one: 'You have %{stat} <span>pending</span> Transfer '
-      other: 'আপনার ১% [পরিসংখ্যান] ১ বাতিল এবং ১ স্থানান্তরের জন্য আছে'
-    count_records_new:
-      one: এবং নতুন কেসসমূহ
-      other: 'এবং ১% [পরিসংখ্যান] ১ নতুন ১ কেসসমূহ '
-    count_records_total:
-      one: 'আপনার মোট কেস আছে '
-      other: 'আপনার ১% [পরিসংখ্যান] ১ মোট ১ কেসসমূহ'
-    count_referrals_new:
-      one: 'এবং নতুন রেফারেল আছে '
-      other: 'এবং ১% [পরিসংখ্যান] ১ নতুন ১ হস্তান্তর আছে '
-    count_referrals_total:
-      one: 'আপনার মোট রেফারেল আছে '
-      other: 'আপনার ১% [পরিসংখ্যান] ১ নতুন ১ কেসসমূহ'
-    count_rejected_approval_total:
-      one: 'এবং প্রত্যাখ্যাত অনুমোদন আছে '
-      other: 'এবং ১% [পরিসংখ্যান] ১ প্রত্যাখ্যাত ২% (পরিসংখ্যান_ধরণ] ১ অনুমোদন আছে '
-    count_rejected_transfers:
-      one: 'and %{stat} <span>rejected</span> Transfer  '
-      other: 'এবং ১% [পরিসংখ্যান] ১ বাতিল এবং ১ স্থানান্তর'
-    count_risk_level_new:
-      one: এবং নতুন কেসসমূহ
-      other: এবং ১% [পরিসংখ্যান] ১ নতুন ১ ২ ২% [পরিসংখ্যান_ধরণ] ঝুঁকি কেস
-    count_risk_level_total:
-      one: 'আপনার ঝুঁকিপূর্ণ কেস আছে'
-      other: 'আপনার ১% {পরিসংখ্যান] ১    ২% [পরিসংখ্যান_ধরণ] ১ ঝুঁকি কেস'
-    count_waiting_for_acceptance_transfers: "আপনার স্বীকৃতির জন্য ১% [পরিসংখ্যান] স্থানান্তর ১ এবং ১ অপেক্ষমান জন্য "
     current_owner: "বর্তমান মালিক "
-    dash_case_incident_overview: ""
-    dash_group_overview: ""
-    dash_shared_from_my_team: ""
-    dash_shared_with_me: ""
-    dash_shared_with_my_team: ""
-    dash_shared_with_others: ""
     date: "তারিখ "
     date_of_incident: "ঘটনার তারিখ "
     date_of_interview: সাক্ষাৎকারের তারিখ
     due: বিলম্বিত
-    flagged: ""
     flagged_by: 'পতাকাযুক্ত দ্বারা:'
     flagged_by_me: "আমার দ্বারা পতাকাঙ্কিত "
     flagged_by_other: "অন্য কেউ দ্বারা পতাকাঙ্কিত "
-    flagged_cases: ""
     follow_up: ফলোআপ
     forms: ফরম ট্যাব
     geographic_area: "ভৌগলিক এলাকা "
-    group_overview_closed: ""
-    group_overview_open: ""
-    high_level: ""
     high_risk: উচ্চমাত্রার অ্গ্রাধিকার
     immediate_response: তাৎক্ষণিক প্রতিক্রিয়া
-    in_progress: ""
     incident_id: 'ঘটনা#আইডি'
     incident_location: "ঘটনার স্থান "
     incident_status_open: উন্মুক্ত
     last_updated: "সর্বশেষ আপডেট "
     link_see_all: সব দেখুন
-    low_level: ""
     low_risk: নিম্নমাত্রার অগ্রাধিকার
-    manager_count_closed_total:
-      one: 'এবং বন্ধ কেস আছে '
-      other: 'এবং১% [পরিসংখ্যান] ১ বন্ধ ১ কেস আছে '
-    manager_count_open_total:
-      one: 'আপনার ওপেন কেস আছে'
-      other: 'আপনার ১% [পরিসংখ্যান] ১ উন্মুক্ত ১ কেস আছে'
-    manager_transfers_totals:
-      one: 'আপনার হস্তান্তর কেস আছে'
-      other: 'আপনার ১% (পরিসংখ্যান] ১ ২% (পরিসংখ্যান_ধরণ] ১ হস্তান্তর কেস আছে'
     match_result: সামঞ্জস্যপূর্ণ ফলাফল
-    medium_level: ""
     medium_risk: "মাঝারি অগ্রাধিকার "
     missed_cases: হারানো কেসসমূহ
     name: "নাম "
@@ -639,11 +221,8 @@ bn:
     new_child_assigned_to_you: "আপনার প্রতি অর্পিত নতুন কেস "
     new_incident: "নতুন ঘটনা "
     new_incident_assigned_to_you: নতুন অর্পিত ঘটনা
-    new_last_week: ""
-    new_or_updated: ""
     new_referred: নতুন হস্তান্তর
     new_service_provision: "নতুন সেবা বিধান "
-    new_this_week: ""
     no_action_risk: "কোন পদক্ষেপ নেই "
     no_case_stats: কোনো কেস পরিসংখ্যান নেই
     no_caseworker_data: কেসকর্মীর কোনো উপাত্ত নেই
@@ -660,12 +239,9 @@ bn:
     open: উন্মুক্ত
     open_cases: উন্মুক্ত কেসসমূহ
     open_incidents: ঘটনা উন্মুক্ত করুন
-    outstanding_transfers: ""
     overdue_activities: বিলম্বিত কার্যক্রম
     overdue_cases_to_assign: "বরাদ্দকৃত বিলম্বিত কেসসমুহ "
-    overview: ""
     pending: Pending
-    pending_approvals: ""
     pending_transfers: "মুলতুবি স্থানান্তর "
     protection_concern: সুরক্ষা উদ্বেগসমূহ
     protection_concerns: সুরক্ষা উদ্বেগসমূহ
@@ -677,26 +253,12 @@ bn:
     recently_flagged_child: সম্প্রতি পতাকাঙ্কিত ঘটনা
     recently_flagged_incident: সম্প্রতি পতাকাঙ্কিত ঘটনা
     referrals_by_social_worker: "সামাজকর্মীদের দ্বারা হস্তান্তর "
-    registration: ""
     rejected: "বাতিলকৃত "
     rejected_transfers: স্থানান্তর গ্রহণের অপেক্ষায়
-    response: প্রতিক্রিয়া ১ (চলছে) ১
     scheduled_activities: নির্ধারিত কার্যক্রম
     score_range: "স্কোর সীমা "
-    screening_service: ""
     services: সেবাসমূহ
     services_implemented: সেবা বাস্তবায়িত
-    shared_from_my_team_pending_transfers: ""
-    shared_from_my_team_referrals: ""
-    shared_from_my_team_rejected_transfers: ""
-    shared_with_me_new_referrals: ""
-    shared_with_me_total_referrals: ""
-    shared_with_me_transfers_awaiting_acceptance: ""
-    shared_with_my_team_pending_transfers: ""
-    shared_with_my_team_referrals: ""
-    shared_with_others_pending_transfers: ""
-    shared_with_others_referrals: ""
-    shared_with_others_rejected_transfers: ""
     status_of_cases: কেসের অবস্থা
     system_user: পদ্ধতি
     total: "মোট "
@@ -707,25 +269,12 @@ bn:
     transfers_by_social_worker: "সামাজকর্মীদের দ্বারা স্থানান্তর "
     users: সের্টিং আইকন
     violence_type: "সংঘাতের ধরন "
-    with_incidents: ""
-    with_new_incidents: ""
-    without_incidents: ""
-    worker_count_referrals_total:
-      one: 'মোট রেফারেল আছে'
-      other: '১  ১% [কেস_কর্মী] ১ আছে ২% [পরিসংখ্যান] ২ মোট ২টি হস্তান্তর আছে '
-    worker_count_total:
-      one: 'মোট কেস আছে'
-      other: '১ ১% ৯কেস_কর্মী] ১ আছে ২% [পরিসংখ্যান] ২ মোট ২ কেস আছে'
-    workflow: ""
-    workflow_team: ""
     you_have: 'আপনার আছে'
   disabled:
     status:
       disabled: "অক্ষম "
       enabled: "সক্ষম "
   email_notification:
-    assign: ''
-    assign_subject: ''
     approval_request: '৩% [কেস_আইডি] এর উপর ২% (অনুমোদন_ধরন] এর অনুমোদনের জন্য ১% [ব্যবহারকারী] অনুরোধ করেছে। '
     approval_request_subject: 'কেস: ১% (আইডি) - অনুমোদনের অনুরোধ'
     approval_response: '৪% [কেস_আইডি] এর উপর ৩% (অনুমোদন_ধরন] এর অনুমোদনের জন্য ১% [ব্যবহারকারী] ২% [অবস্থা] অনুরোধ করেছে। '
@@ -740,35 +289,22 @@ bn:
     approval_response_html: ' ১, ১% [ব্যবহারকারী] ১%[অবস্থা]-র জন্য  কেস ৪ ৪% [কেস_আইডি] ৪ কেস-এর জন্য ৩ ৩% [কেস_আইডি] ৩ এর অনুমোদনের জন্য অনুরোধ করছে।'
     referral_html: ' ২% [এজেন্সি] হতে ১, ১% [ব্যবহারকারী] ১ নিচের ৩% [রেকর্ড_ধরন] আপনার জন্য স্থানান্তর করেছেন: ৫% [সেবা_আইডি] এর জন্য ২  ৪% [রেকর্ড_আইডি] ২।'
     transfer_html: '১ ১% [ব্যবহারকারী] ১ নিম্নলিখিত ২% [রেকর্ড_ধরন] আপনার নিকট স্থানান্তর করেছে: ২ ৩% [রেকর্ড_আইডি] ২।'
-    assign_html: ''
     transfer_request_html: ' প্রিমেরো ব্যবহারকারী ১ ১% [ব্যবহারকারী] ১ ২% [এজেন্সি]} হতে অনুরোধ করছে যে, আপনি৩% [রেকর্ড_ধরন] এই রেকর্ডটির মালিকানা হস্তান্তর করুন ২ ৪% [রেকর্ড_আইডি] ২ , যাতে তারা তাদের এলাকার মানুষের জন্য ৩% [রেকর্ড_ধরন] পরিচালনা সেবা সরবরাহ করতে পারে। যদি এই স্থানান্তরটি আপনার কাছে গ্রহণযোগ্য হয়, তাহলে প্রিমেরো খুলতে এই ইমেলের ৩% [রেকর্ড_আইডি] আইডি সংযোগে ক্লিক করুন এবং স্থানান্তর শুরু করুন।'
     transfer_request_notes_html: 'ব্যক্তিগত অনুরোধ থেকে নোট: ১% [অনুরোধ_স্থানান্তর_নোটস্]'
   encrypt:
-    export_type: ""
     file_name: আপনার নিজস্ব ফাইল নাম তৈরি করুন (ঐচ্ছিক)
-    password_extra_info: ""
     password_label: আপনার ফাইল এনক্রিপ্ট করবে এরকম একটি পাসওয়ার্ড অনুগ্রহ করে লিখুন।
   error_message:
-    address_fields: ""
-    address_form_fields: ""
-    address_subform_fields: ''
   error_page:
     not_authorized:
       code: 403
-      server_error: ""
-      title: ""
     not_found:
       code: 404
       contact_admin: "আপনি যদি বিশ্বাস করেন যে আপনি ভুল করে এখানে এসেছেন, তবে অনুগ্রহ করে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।"
       something_went_wrong: "দুঃখিত, কিছু ভুল হয়েছে!"
   errors:
-    error_loading: ""
     models:
       agency:
-        code_present: ""
-        logo_format: ""
-        terms_of_use_format: ""
-        name_present: ""
       child:
         age: "বয়স ০ এবং ১৩০ এর মধ্যে হতে হবে "
         date_of_birth: "অনুগ্রহ করে এই ক্ষেত্রে রেকর্ডের জন্য একটি সঠিক জন্ম তারিখ লিখুন "
@@ -785,10 +321,8 @@ bn:
       lookup:
         being_used: এই লুকআপ ব্যবহার করা হচ্ছে এবং মুছে ফেলা যাবে না
         name_present: "নাম ফাঁকা রাখা যাবে না "
-        values_ids_blank: ""
       primero_module:
         associated_record_types: অন্তত একটি রেকর্ড টাইপ এই মডিউল সঙ্গে যুক্ত করা আবশ্যক
-        form_section_ids: ""
         name_present: "নাম ফাঁকা রাখা যাবে না "
         unique_name: "এই নামের সাথে একটি মডিউল ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
       report:
@@ -798,16 +332,8 @@ bn:
       role:
         permission_presence: অন্তত একটি পারমিশান নির্বাচন করুন
       user:
-        email: ""
         password_mismatch: পাসওয়ার্ড ক্ষেত্রে একই পাসওয়ার্ড নেই
-        password_length: ""
-        email_uniqueness: ""
       code_of_conduct:
-        title_present: ""
-        content_present: ""
-        created_by_present: ""
-    not_found: ""
-    try_again: ""
   exports:
     case_pdf:
       all: পিডিএফ
@@ -818,9 +344,7 @@ bn:
       one: সিএসভি
       selected: "সিএসভি দ্বারা নির্বাচিত "
     custom:
-      all: ""
     custom_exports:
-      all: ""
       choose_fields: "আপনি কি একটি নির্দিষ্ট ফর্ম-এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? "
       empty_fields_forms: রপ্তানি করার জন্য অনুগ্রহ করে কিছু ফর্ম বা ক্ষেত্র নির্বাচন করুন।
       empty_format: রপ্তানী করার জন্য অনুগ্রহ করে একটি ফরম্যাট নির্বাচন করুন।
@@ -835,13 +359,6 @@ bn:
       module_placeholder: "অনুগ্রহ করে একটি মডিউল নির্বাচন করুন "
       select_module: "মডিউল নির্বাচন করুন "
       submit: ঠিক আছে
-      header: ""
-      custom_header: ""
-      signatures: ""
-      include_implementation_logos: ""
-      include_implementation_logos_help_text: ""
-      include_agency_logo: ""
-      include_other_logos: ""
     duplicate_id_csv:
       all: "নকল আইডি "
       female_abbreviation: এফ
@@ -856,42 +373,9 @@ bn:
         sex_mapping_m_f_u: লিঙ্গ
       male_abbreviation: এম
       unknown_abbreviation: ইউ
-    exported: ""
-    exported_error: ""
     forms:
       button: ফর্ম রপ্তানী করুন
       label: রপ্তানি
-      header:
-        form_group: ""
-        form_name: ""
-        field_id: ""
-        field_type: ""
-        field_name: ""
-        required: ""
-        on_mobile: ""
-        on_short_form: ""
-        option_ids: ""
-        options: ""
-        help_text: ""
-        guiding_questions: ""
-        visible: ""
-        lookup_id: ""
-        lookup_name: ""
-        option_id: ""
-        option_name: ""
-      options:
-        location: ""
-        agency: ""
-        user: ""
-        reportinglocation: ""
-        subforms: ''
-        collapsed_fields: ''
-
-    go_to_exports: ""
-    incident_recorder_xls:
-      all: ""
-      one: ""
-      selected: ""
     json:
       all: জেসন
       one: জেসন
@@ -899,42 +383,24 @@ bn:
     list_view_csv:
       all: "এক্সপোর্ট তালিকা দেখুন  "
       selected: "সিএসভির জন্য নির্বাচিত  "
-    messages:
-      no_exporter: ""
     mrm_violation_xls:
       all: এমআরএম লঙ্ঘন
       one: "এমআরএম লঙ্ঘন "
       selected: "এমআরএম লঙ্ঘন-এর জন্য নির্ধারিত "
     no_records: "কোন নথি নেই "
     pdf:
-      all: ""
       one: পিডিএফ
       selected: "পিডিএফ করার জন্য  নির্বাচিত "
     pdf_exports:
       label: পিডিএফ
-      recipient: ""
-      case_worker: ""
-      client: ""
-      date: ""
-      recipient_name: ""
-      recipient_agency: ""
-      caseworker_name: ""
-      caseworker_agency: ""
     photowall:
       all: "ছবি ওয়াল  "
-      flag_suspect_record: ""
-      no_photos_available: ""
       one: ছবি ওয়াল
-      reunited: ""
       selected: "ছবি ওয়ালের জন্য নির্বাচিত "
-      success_message: ""
-    printed: ''
-    queueing: ""
     selected_xls:
       all: এক্সেল
       one: এক্সেল
       selected: "এক্সেলের জন্য নির্বাচিত "
-      selected_fields: ""
     unhcr_csv:
       all: ইউএনএইচসিআর
       female_abbreviation: এফ
@@ -973,41 +439,13 @@ bn:
       all: এক্সেল
       one: এক্সেল
       selected: "এক্সেলের জন্য নির্বাচিত "
-  imports:
-    csv_hxl_location:
-      messages:
-        success: ""
-        no_data: ''
-        csv_parse_error: ''
-        error: ''
-        db_error: ''
-        locale_invalid: ''
-        insert_all_error: ''
-  sync_record:
-    failed: ''
-    last: ''
-    not_found: ''
-    retrieving: ""
-    see_details: ""
   fields:
     action: কার্যক্রম
     actions: কার্যক্রম
     add: যোগ করা
-    add_new_field: ""
-    add_existing_field: ""
-    add_field: ""
-    add_field_type: ""
     audio:
       current: বর্তমান অডিও
-    audio_upload_box: ""
-    bia_document: ""
-    bid_document: ""
     check_box: "বক্স যাচােই করুন "
-    clear_group_by: ""
-    clear_sort_by: ""
-    copy_from_another_form: ""
-    create_field: ""
-    create_unique_values: ""
     date_field: তারিখ ক্ষেত্র
     date_help: দিন-মাস-বছর
     date_help_with_time: "দিন-মাস-বছর ঘণ্টা:মিনিট"
@@ -1018,33 +456,16 @@ bn:
       from: "হতে "
       to: "প্রতি "
     date_range_field: "তারিখ সীমানা "
-    date_time: ""
-    db_name: ""
-    default: ""
     default_date_validation: "ডিফল্ট তারিখ বৈধতা  "
-    default_to_current_date: ""
-    default_to_current_datetime: ""
-    default_value: ""
     deleted: "১% [ডিসপ্লে_নাম] ক্ষেত্র মুছে ফেলা হয়েছে।"
-    detail: ""
-    disabled: ""
     display_name: নাম দেখানো
     document:
       comments: "মন্তব্যনমুহ "
       current: "এটি কি বর্তমান নথি? "
       date: নথির তারিখ
       name: নথির নাম
-      is_current: ""
-    document_upload_box: ""
-    edit_label: ""
-    enabled: ""
-    enabled_label: ""
-    english_text: ""
     field_name: ক্ষে্ত্রের নাম
-    field_type: ""
-    attachment_too_large: ""
     file_upload_box:
-      add_document_label: ""
       add_new_document_button_text: "অন্য আর একটি নথি যোগ করুন "
       add_new_photo_button_text: অন্য ছবি যোগ করুন
       add_photo_label: ছবি যোগ করা
@@ -1054,59 +475,27 @@ bn:
       photo_file_restrictions_message: "ছবি ১০এমবি-এর চেয়ে বড় হবেনা। অডিও ফাইল ১০এমবি-এর চেয়ে বড় হবেনা। ছোটই ভালো। "
       recorded_audio_label: রেকর্ডকৃত অডিও
       select_file_button_text: "নথি নির্বাচন "
-    find_lookup: ""
     form_name: "ফরমের নাম "
-    future_date_not_valid: ""
-    guidance: ""
-    guiding_questions: ""
     help_text: সাহায্যকারী টেক্সট
-    hide_on_view_page: ""
     label: "ক্ষেত্রসমূহ "
-    mobile_visible: ""
     move_to: যাওয়া
-    multi_select: ""
-    multi_select_box: ""
-    must_be_english: ""
-    name: ""
     not_future_date: "এটি ভবিষ্যতের তারিখ না  "
     number_not_valid: "অনুগ্রহ করে সংখ্যাসূচক তথ্য লিখুন "
     numeric_field: "সংখ্যাসূচক ক্ষেত্র "
-    on_collapsed_subform: ""
     option_strings_add_option: "অপশন যোগ করুন "
     option_strings_source: খোঁজা
     option_strings_text: "বিকল্পসমূহ "
     option_strings_text_display: বিকল্প টেক্সট
     option_strings_text_key: বিকল্প চাবি
-    options_indications_lookup_values: ""
-    options_indications_restrictions: ""
     options_or_lookup_warning: বিকল্প কিছু যোগ করুন। উভয় জায়গাতে প্রবেশ করবেন না।
-    other_documents: ""
-    photo_upload_box: ""
-    predifined_lookups: ""
     radio_button: রেডিও বাটুন
     remove: বাদ দেওয়া
-    remove_attachment_confirmation: ""
-    required: ""
-    required_field: ''
-    search_existing: ""
     select_box: ড্রপ ডাউন নির্বাচন করুন
     select_date_validation: "তারিখ যাচাই পদ্ধতি নির্বাচন করুন "
-    select_multiple: ""
-    select_single: ""
     separator: পৃথককারক
-    show: ""
-    show_on: ""
-    show_on_minify_form: ""
     subform: সাব ফরম
-    subform_group_by: ""
     subform_remove_message: "আপনি কি নিশ্চিত যে, এই সাবফরম বাদ দিতে চান?"
     subform_section:
-      description: ""
-      name: ""
-      starts_with_one_entry: ""
-      subform_append_only: ""
-      subform_prevent_item_removal: ""
-    subform_sort_by: ""
     successfully_added: ক্ষেত্র সফলভাবে যোগ করা হয়েছে
     tally_field: ট্যালী ক্ষেত্র
     text_area: টেক্সট এলাকা
@@ -1114,106 +503,29 @@ bn:
     textarea: টেক্সট এলাকা
     tick_box: টিক বক্স
     tick_box_label: টিক বক্স লেবেল
-    translation_text: ""
-    type: ""
     updated: "ক্ষেত্র আপডেট "
-    visibility: ""
-    web_app: ""
-  filters:
-    apply_filters: ""
-    clear_filters: ""
-    less: ""
-    more: ""
-    save_filters: ""
-  flags:
-    add_flag_tab: ""
-    date: ''
-    flag_added: ""
-    flag_date: ""
-    flag_reason: ""
-    flag_reason_maximun_label: ""
-    flag_resolved: ""
-    flags_tab: ""
-    no_flags: ""
-    resolve_button: ""
-    resolve_flag: ""
-    resolve_reason: ""
-    resolved: ""
-    resolved_date: ''
-    resolved_reason: ''
-    title: ""
   followup_reminders:
     system_generated_followup_flag: "বাধ্যতামূলক ফলোআপ পরিদর্শন "
   form_section:
-    form_name: ""
-    module: ""
     name: "নাম "
-    record_type: ""
     required_field: '১% [ক্ষেত্র] দরকার '
   forms:
-    add: ""
-    description: ""
-    fields: ""
-    form_description: ""
-    form_group: ""
-    form_title: ""
-    help_text:
-      must_be_english: ""
-      related_groups: ""
-      summariaze_purpose: ""
-    invalid_characters_field: ''
     label: ফরমস
-    manage: ""
     messages:
-      created: ""
-      fields_with_same_name: ""
-      save_success: ""
-      save_with_errors: ""
-      updated: ""
       use_existing: আমরা আপনাকে বিদ্যমান ফর্মগুলি ব্যবহার করার জন্য উত্সাহিত করি কারণ এটি তথ্য ভাগ করে এবং সংস্থার মধ্যে তথ্য মার্জ করা সহজ করে তোলে।
-    mobile_app: ""
-    module: ""
-    no_subform_filters_added: ""
-    record_type: ""
     record_types:
-      approvals: ""
       case: "কেস "
       child: "কেস "
       incident: "ঘটনা "
-      individual_victim: ""
       potential_match: সম্ভাব্য মিল
-      record_information: ""
-      referrals: ""
       reportable_follow_up: ফলো-আপ
       reportable_protection_concern: সুরক্ষা উদ্বেগসমূহ
       reportable_service: "সেবা "
       tracing_request: অনৃসন্ধানের অনুরোধ
-      transfers_assignments: ""
       violation: নিয়ম লংঘন
-    required_field: ''
-    select_label: ""
-    settings: ""
-    show_on: ""
-    subform_need_to_be_added: ""
-    subform_not_found: ""
-    title: ""
-    translations:
-      edit: ""
-      edit_form_group: ""
-      manage: ""
-      no_changes_message: ""
-      note: ''
-      note_form_group: ""
-      select_language: ""
-      title: ""
-    type_label: ""
-    visibility: ""
-    web_app: ""
   home:
     ar: العربية
-    ar-JO: ""
     ar-LB: عربية (اللبنانية)
-    ar-SD: ""
     bn: "বাংলা "
     current_time_zone: "বর্তমান স্থানীয় সময় "
     dashboard: ড্যাসবোর্ড
@@ -1221,13 +533,11 @@ bn:
     es: এসপানল
     fr: ফ্রানকাইস
     id: বাসাহা
-    km: ""
     ku: کوردی
     label: বাড়ি
     language: "ভাষা "
     manage_system_users: "সার্ভার সামঞ্জস্যকরণ ব্যবহারকারীদের পরিচালনা "
     my: ဗမာစာ
-    pt: ""
     records_need_attention: "নথিভূক্ত তথ্যের প্রতি মনোযোগ প্রয়োজন "
     ru: Русский
     so: আল-সোমালী
@@ -1237,171 +547,18 @@ bn:
     welcome: "প্রিমেরোতে স্বাগতম "
     zh: 中文
   incident:
-    associated_case: ""
     messages:
-      creation_success: ""
-      creation_success_queue: ""
-      disabled: ""
       update_success: 'ঘটনা ১% [নথি_আইডি] সফলতার সাথে আপডেট করা হয়েছিল।'
-      update_success_queue: ''
-    violation:
-      pending: ""
   incidents:
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
-    id: ""
-    date_of_interview: ""
-    date_of_incident: ""
-    export: ""
     label: "ঘটনা "
     filter_by:
       boys: "বালকরা "
-      by_date: ""
       girls: "বালিকারা "
-      incident_location: ""
-      unaccompanied_separated_status: ""
       unknown: "অপরিচিত "
-      violence_type: ""
     register_new_incident: নতুন ঘটনা
     selectable_date_options:
       date_of_first_report: "সাক্ষাতকারের তারিখ "
       incident_date_derived: "ঘটনার তারিখ "
-    selected_records: ''
-    selected_all_records: ''
-    survivor_code: ""
-    show_incident: ''
-    social_worker: ""
-    violence_type: ""
-    type_violence: ""
-  key_performance_indicators:
-    label: ""
-    case_assessment: ""
-    case_action_planning: ""
-    case_action_plan_implementation: ""
-    case_follow_up: ""
-    case_closure: ""
-    feedback: ""
-    other: ""
-    date_format: ""
-    date_range_select:
-      custom_range: ''
-    long_date_format: ""
-    time_periods:
-      all_time: ''
-      current_month: ""
-      last_3_months: ""
-      last_6_months: ""
-      last_1_year: ""
-      0-3days: ""
-      4-5days: ""
-      6-14days: ""
-      15-30days: ""
-      1-3months: ""
-      4months: ""
-      1-month: ""
-      3-6months: ""
-      7-months: ""
-    helptext:
-      helptext: ""
-    number_of_cases:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    number_of_incidents:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    reporting_delay:
-      title: ""
-      delay: ""
-      total_incidents: ""
-      helptext: |
-    service_access_delay:
-      title: ""
-      delay: ""
-      total_incidents: ""
-    assessment_status:
-      title: ""
-      completed: ""
-      completed_supervisor_approved: ""
-      helptext: |
-    completed_case_safety_plans:
-      title: ""
-      completed: ""
-      helptext: |
-    completed_case_action_plans:
-      title: ""
-      completed: ""
-      label: ""
-      helptext: |
-    completed_supervisor_approved_case_action_plans:
-      title: ""
-      completed_and_approved: ""
-      helptext: |
-    services_provided:
-      title: ""
-      service: ""
-      count: ""
-      helptext: |
-    average_referrals:
-      title: ""
-      label: ""
-      helptext: |
-    referrals_per_service:
-      title: ""
-    average_followup_meetings_per_case:
-      title: ""
-      label: ""
-      helptext: |
-    goal_progress_per_need:
-      title: ""
-      need: ""
-      safety: ""
-      health: ""
-      psychosocial: ""
-      justice: ""
-      other: ""
-      helptext: |
-    time_from_case_open_to_close:
-      title: ""
-      time: ""
-      percent: ""
-      helptext: |
-    case_closure_rate:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    client_satisfaction_rate:
-      title: ""
-      label: ""
-      helptext: |
-    supervisor_to_caseworker_ratio:
-      title: ""
-      label: ""
-      helptext: |
-    case_load:
-      title: ""
-      case_load: ""
-      percent: ""
-      10cases: ""
-      20cases: ""
-      21-30cases: ""
-      30cases: ""
-      helptext: |
-    date_range_dialog:
-      title: ""
-      description: ""
-      apply: ''
-      from: ''
-      to: ''
-      aria-labels:
-        from: ""
-        to: ""
-
   location:
     base_types:
       camp: শিবির
@@ -1420,40 +577,20 @@ bn:
       sub-district: উপজেলা
       village: গ্রাম
       zone: জোন
-    label: ""
-    name: ""
-    code: ""
-    admin_level: ""
-    type: ""
-    hierarchy: ""
-    import_title: ""
-    message: ""
-    no_location: ""
   logger:
     approve_form:
-      action_plan: ""
       bia: বিআইএ ফর্ম
       case_plan: কেস পরিকল্পনা ফর্ম
       closure: বন্ধের ফর্ম
       'false': বাতিলকরণ
-      gbv_closure: ""
       'true': অনুমোদন হচ্ছে
-    assessment_approved: ""
-    assessment_requested: ""
-    bulk_index: ""
     by_user: "ব্যবহারকারী দ্বারা "
-    case_plan_approved: ""
-    case_plan_requested: ""
-    close: ""
-    closure_approved: ""
-    closure_requested: ""
     consent_count: " গণনার সম্মতি"
     copy: কপি করছে
     create: সৃষ্টি করছে
     create_subform: "সাব-ফর্ম তৈরি করছে "
     destroy: মুছে ফেলছে
     edit: সম্পাদনা করছে
-    enable_disable_record: ""
     export: তথ্য রপ্তানী করার কারণ
     flag: পতাকা লাগানো
     flag_records: পতাকা নামানো
@@ -1462,7 +599,6 @@ bn:
       protect: " নাম লুকানো"
       view: নাম দেখানো
     index: রেকর্ডের তালিকাকরণ
-    list: ""
     login: "প্রবেশ করা "
     logout: বাহির হওয়া
     lookups_for_field: ক্ষেত্রের জন্য অনুসন্ধান করা
@@ -1476,24 +612,17 @@ bn:
     record_state:
       'false': অক্ষম হচ্ছে
       'true': সক্ষম হচ্ছে
-    refer: ""
-    refer_to: ""
     referral: উল্লেখ করছে
     relinquish_referral: পরিত্যাগে মাধ্যমে স্থানান্তর সম্পন্ন
-    reopen: ""
     reopen_case: পুনরায় খুলছে
     request_approval:
-      action_plan: ""
       bia: বিআইএ-ফর্ম এর জন্য অনুমোদনের অনুরোধ
       case_plan: কেস পরিকল্পনা ফর্মের অনুমোদনের অনুরোধ
       closure: বন্ধ ফর্ম-এর অনুমোদনের অনুরোধ
-      gbv_closure: ""
     request_transfer: স্থানান্তরের অনুরোধ পাঠাচ্ছে
     request_transfer_view: স্থানান্তরের অনুরোধ দেখছে
     save_subform: "সাব-ফর্ম সংরক্ষণ "
-    search: ""
     show: দেখছে
-    show_alerts: ""
     to: টু
     to_user: "ব্যবহারকারীর নিকট "
     transfer: স্থানান্তর করছে
@@ -1506,78 +635,20 @@ bn:
     label: "প্রবেশ করা "
     password:
       label: পাসওয়ার্ড
-    password_confirmation:
-      label: ""
-    password_match:
-      label: ""
-    provider_title: ""
-    title: ""
     username: "ব্যবহারকারির নাম "
-    password_reset_modal: ""
-    password_reset_modal_text: ""
-    password_reset_email: ""
-    forgot_password: ""
-    email:
-      label: ""
   lookup:
     create: নতুন খোঁজা
-    enabled_label: ""
-    english_label: ""
     label: খোঁজা
-    language_label: ""
     messages:
       cannot_create: খোঁজা তৈরি করা যায়নি
       correct_errors: 'নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:'
-      created: ""
-      updated: ""
     name: "নাম "
-    no_options: ""
-    translation_label: ""
     values: বিকল্প
   messages:
-    alert_items: ""
-    alerts_for:
-      approval: ""
-      field_change: ''
-      transfer_request: ""
-    cannot_edit: ""
     confirmation_message: ওকে ক্লিক করা হলে কোনও অসংরক্ষিত পরিবর্তন বাতিল হয়ে হবে এবং তালিকা অংশে ফিরে আসবে। রেকর্ড ফিরে পেতে বাতিল ক্লিক করুন।
-    dashboard_offline: ""
-    field_name_on_form_name: ''
-    logout_confirmation: ""
-    logout_offline_warning: ""
-    logout_warning: ""
-    logout_dialog_header: ""
-    logout_confirmation_title: ""
-    logout_confirmation_text: ""
-    no_changes: ""
-    not_available: ""
-    record_list:
-      column_header_tooltip: ""
-      of: ""
-      no_match: ""
-      rows_per_page: ""
-      sort: ""
   navigation:
-    bulk_exports: ""
-    cases: ""
-    home: ""
-    key_performance_indicators: ""
-    incidents: ""
-    logout: ""
-    reports: ""
     search: "অনুসন্ধান "
-    settings: ""
-    support: ""
     support_menu:
-      contact_information: ""
-      code_of_conduct: ""
-      terms_of_use: ""
-      system_information: ""
-    tasks: ""
-    tracing_request: ""
-  notes:
-    note_success: ""
   permissions:
     label: "অনুমতি "
     permission:
@@ -1588,59 +659,27 @@ bn:
       agency: সংস্থা
       agency_read: সংস্থার পড়া
       all: সব নথি বা ব্যবহারকারীর অ্যাক্সেস
-      approvals_assessment: ''
-      approvals_assessment_pending: ''
-      approvals_case_plan: ''
-      approvals_case_plan_pending: ''
-      approvals_closure: ''
-      approvals_closure_pending: ''
-      approve_action_plan: ""
-      approve_assessment: ""
-      approve_case_plan: ""
-      approve_closure: ""
-      approve_gbv_closure: ""
       assign: দায়িত্ব অর্পণ
       assign_within_agency: সংস্থার মধ্যে দায়িত্ব প্রদান
       assign_within_user_group: ব্যবহারকারী দলের মধ্যে দায়িত্ব প্রদান
       audit_log: অডিট লগ
       case: "কেস "
-      case_approvals: ""
-      case_assignments_referrals_transfers: ""
-      case_exports: ""
-      case_overview: ""
-      case_risk: ""
-      cases_by_task_overdue_assessment: ""
-      cases_by_task_overdue_case_plan: ""
-      cases_by_task_overdue_followups: ""
-      cases_by_task_overdue_services: ""
-      cases_managed_other_users: ""
-      close: ""
       consent_override: অনুমোদন অগ্রাহ্য করা
       copy: "কপি "
-      copy_of: ""
       create: সৃষ্টি করা
-      dash_case_incident_overview: ""
       dash_cases_by_social_worker: "সমাজকর্মী দ্বারা কেস দেখুন "
       dash_cases_by_task_overdue: অবশিষ্ট কাজ দ্বারা কেস দেখুন
       dash_cases_by_workflow: কর্মতালিকা অনুযায়ী কেস দেখুন
       dash_cases_to_assign: দায়িত্ব অর্পণের কেস দেখুন
-      dash_group_overview: ""
       dash_manager_transfers: "ব্যবস্থাপক স্থানান্তর দেখুন "
       dash_matching_results: "সামঞ্জস্যপূর্ণ ফলাফল দেখুন "
       dash_protection_concerns: "সুরক্ষরা উদ্বেগ দেখুন "
-      dash_protection_concerns_by_location: ""
       dash_referrals_by_socal_worker: "সামজকর্মী দ্বারা রেফারেল দেখুন  "
       dash_reporting_location: "প্রতিবেদনের অবস্থান দেখুন "
       dash_service_provisions: "সেবার নিয়ম দেখুন "
-      dash_shared_from_my_team: ""
-      dash_shared_with_me: ""
-      dash_shared_with_my_team: ""
-      dash_shared_with_others: ""
-      dash_show_none_values: ""
       dash_tasks: "কাজ দেখুন "
       dash_transfers_by_socal_worker: "সমাজকর্মী দ্বারা স্তানান্তর দেখুন "
       dashboard: "ড্যাসবোর্ড "
-      delete: ""
       display_view_page: "দেখার পৃষ্ঠা প্রদর্শন "
       duplicate: প্রতিলিপি অনুসন্ধান
       enable_disable_record: অক্ষম
@@ -1664,28 +703,17 @@ bn:
       incident: "ঘটনা "
       incident_details_from_case: "ঘটনাটি অন্য  কেস ব্যবহারকারীর ক্ষেত্রে যুক্ত করুন "
       incident_from_case: একটি কেস থেকে একটি ঘটনা তৈরি করুন
-      kpi: ""
       lookup: খোঁজা
       manage: ব্যবস্থাপনা করা
       matching_configuration: কনফিগারেশান সামঞ্জস্য করা
       metadata: "ফরম, খোঁজা"
       potential_match: সম্ভাব্য মিল
-      primero_configuration: ""
       read: "পড়া "
       reassign: পুনরায় দায়িত্ব অর্পণ
-      receive_referral: ""
-      receive_transfer: ""
-      referral: ""
       referral_from_service: "সেবা ফরম থেকে কেস উল্লেখ করুণ "
       remove_assigned_users: "অন্যান্য নির্ধারিত ব্যবহারকারীদের অপসারণ করুন (রেফারালগুলি) "
-      reopen: ""
       report: প্রতিবেদন
       request_approval: "অনুমোদনের অনুরোধ "
-      request_approval_action_plan: ""
-      request_approval_assessment: ""
-      request_approval_case_plan: ""
-      request_approval_closure: ""
-      request_approval_gbv_closure: ""
       request_transfer: "হস্তান্তরের অনুরোধ "
       role: ভূমিকা
       save_search: অনুসন্ধান সংরক্ষণ করুন
@@ -1695,11 +723,9 @@ bn:
       service_provision_incident_details: "সেবার নিয়মকানুনের বার্টুনটি ঘটনার বিস্থারিত মোডালের সাথে যুক্ত করুন "
       services_section_from_case: "অন্য ব্যবহারকারীর ক্ষেত্রে সেবার নিয়ম যোগ করুন "
       specific_roles: কার্যক্রমের নির্দিষ্ট তালিকার অ্যাক্সেস 
-      sync_external: ""
       sync_mobile: মোবাইল ডিভাইসের সাথে যুক্ত করুন
       system: পদ্ধতি
       tracing_request: অনুসন্ধানের অনুরোধ
-      transfer: ""
       user: ব্যবহারকারী
       user_group: "ব্যবহারকারীর গ্রুপ "
       view_approvals: "অনুমোদন দেখুন "
@@ -1707,646 +733,8 @@ bn:
       view_photo: ছবি প্রদর্শন
       view_protection_concerns_filter: "সুরক্ষার উদ্বেগ ফিল্টার দেখুন "
       view_response: সাড়া দেওয়াকে দেখা
-      workflow: ""
-      workflow_team: ""
       write: "লিখা "
-    resource:
-      kpi:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-          kpi_assessment_status:
-            explanation: ""
-            label: ""
-          kpi_average_followup_meetings_per_case:
-            explanation: ""
-            label: ""
-          kpi_average_referrals:
-            explanation: ""
-            label: ""
-          kpi_case_closure_rate:
-            explanation: ""
-            label: ""
-          kpi_case_load:
-            explanation: ""
-            label: ""
-          kpi_client_satisfaction_rate:
-            explanation: ""
-            label: ""
-          kpi_completed_case_action_plans:
-            explanation: ""
-            label: ""
-          kpi_completed_case_safety_plans:
-            explanation: ""
-            label: ""
-          kpi_completed_supervisor_approved_case_action_plans:
-            explanation: ""
-            label: ""
-          kpi_goal_progress_per_need:
-            explanation: ""
-            label: ""
-          kpi_number_of_cases:
-            explanation: ""
-            label: ""
-          kpi_number_of_incidents:
-            explanation: ""
-            label: ""
-          kpi_reporting_delay:
-            explanation: ""
-            label: ""
-          kpi_services_provided:
-            explanation: ""
-            label: ""
-          kpi_supervisor_to_caseworker_ratio:
-            explanation: ""
-            label: ""
-          kpi_time_from_case_open_to_close:
-            explanation: ""
-            label: ""
-        label: ""
-      agency:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      audit_log:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      case:
-        actions:
-          add_note:
-            explanation: ""
-            label: ""
-          approve_action_plan:
-            explanation: ""
-            label: ""
-          approve_assessment:
-            explanation: ""
-            label: ""
-          approve_bia:
-            explanation: ""
-            label: ""
-          approve_case_plan:
-            explanation: ""
-            label: ""
-          approve_closure:
-            explanation: ""
-            label: ""
-          approve_gbv_closure:
-            explanation: ""
-            label: ""
-          assign:
-            explanation: ""
-            label: ""
-          assign_within_agency:
-            explanation: ""
-            label: ""
-          assign_within_user_group:
-            explanation: ""
-            label: ""
-          change_log:
-            explanation: ""
-            label: ""
-          close:
-            explanation: ""
-            label: ""
-          consent_override:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          display_view_page:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ''
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_duplicate_id_csv:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_photowall:
-            explanation: ""
-            label: ""
-          export_unhcr_csv:
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          find_tracing_match:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          incident_details_from_case:
-            explanation: ""
-            label: ""
-          incident_from_case:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          receive_referral:
-            explanation: ""
-            label: ""
-          receive_transfer:
-            explanation: ""
-            label: ""
-          referral:
-            explanation: ""
-            label: ""
-          referral_from_service:
-            explanation: ""
-            label: ""
-          remove_assigned_users:
-            explanation: ""
-            label: ""
-          reopen:
-            explanation: ""
-            label: ""
-          request_approval_action_plan:
-            explanation: ""
-            label: ""
-          request_approval_assessment:
-            explanation: ""
-            label: ""
-          request_approval_bia:
-            explanation: ""
-            label: ""
-          request_approval_case_plan:
-            explanation: ""
-            label: ""
-          request_approval_closure:
-            explanation: ""
-            label: ""
-          request_approval_gbv_closure:
-            explanation: ""
-            label: ""
-          request_transfer:
-            explanation: ""
-            label: ""
-          search_owned_by_others:
-            explanation: ""
-            label: ""
-          service_provision_incident_details:
-            explanation: ""
-            label: ""
-          services_section_from_case:
-            explanation: ""
-            label: ""
-          sync_external:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          transfer:
-            explanation: ""
-            label: ""
-          view_photo:
-            explanation: ""
-            label: ""
-          view_incident_from_case:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      dashboard:
-        actions:
-          approvals_action_plan:
-            explanation: ""
-            label: ""
-          approvals_action_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_assessment:
-            explanation: ""
-            label: ""
-          approvals_assessment_pending:
-            explanation: ""
-            label: ""
-          approvals_case_plan:
-            explanation: ""
-            label: ""
-          approvals_case_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_closure:
-            explanation: ""
-            label: ""
-          approvals_closure_pending:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure_pending:
-            explanation: ""
-            label: ""
-          case_overview:
-            explanation: ""
-            label: ""
-          case_risk:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_assessment:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_case_plan:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_followups:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_services:
-            explanation: ""
-            label: ""
-          dash_case_incident_overview:
-            explanation: ""
-            label: ""
-          dash_cases_by_social_worker:
-            explanation: ""
-            label: ""
-          dash_cases_to_assign:
-            explanation: ''
-            label: ""
-          dash_flags:
-            explanation: ""
-            label: ""
-          dash_group_overview:
-            explanation: ""
-            label: ""
-          dash_matching_results:
-            explanation: ""
-            label: ""
-          dash_protection_concerns:
-            explanation: ""
-            label: ""
-          dash_protection_concerns_by_location:
-            explanation: ""
-            label: ""
-          dash_reporting_location:
-            explanation: ""
-            label: ""
-          dash_service_provisions:
-            explanation: ""
-            label: ""
-          dash_shared_from_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_me:
-            explanation: ""
-            label: ""
-          dash_shared_with_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_others:
-            explanation: ""
-            label: ""
-          dash_show_none_values:
-            explanation: ""
-            label: ""
-          dash_tasks:
-            explanation: ""
-            label: ""
-          view_protection_concerns_filter:
-            explanation: ""
-            label: ""
-          view_response:
-            explanation: ""
-            label: ""
-          workflow:
-            explanation: ""
-            label: ""
-          workflow_team:
-            explanation: ""
-            label: ""
-        label: ""
-      disabled:
-        explanation: ""
-        label: ""
-      duplicate:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      forms:
-        case:
-          explanation: ''
-          label: ""
-        incident:
-          explanation: ''
-          label: ""
-        tracing_request:
-          explanation: ''
-          label: ""
-      group:
-        actions:
-          admin_only:
-            explanation: ""
-            label: ""
-          agency:
-            explanation: ""
-            label: ""
-          all:
-            explanation: ""
-            label: ""
-          group:
-            explanation: ""
-            label: ""
-          self:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      incident:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            label: ""
-          export_incident_recorder_xls:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      is_manager:
-        explanation: ""
-        label: ""
-      matching_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      metadata:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      module:
-        actions:
-          cp:
-            label: ""
-          gbv:
-            label: ""
-          mrm:
-            label: ""
-        explanation: ""
-        label: ""
-      potential_match:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      primero_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      referral:
-        actions:
-          refer:
-            explanation: ""
-            label: ""
-        label: ""
-      report:
-        actions:
-          create:
-            explanation: ""
-            label: ""
-          group_read:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      reporting_location_level:
-        explanation: ''
-        label: ""
-      role:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          copy:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          permitted_roles:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      system:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      tracing_request:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      transfer:
-        actions:
-          transfer:
-            explanation: ""
-            label: ""
-        label: ""
-      user:
-        actions:
-          agency_read:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      user_group:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
   potential_match:
-    case_id: ""
     child_age: "বয়স "
     child_gender: "লিঙ্গ "
     child_id: শিশু আইডি#
@@ -2357,100 +745,41 @@ bn:
     score: "স্কোর "
     social_worker: "সমাজকর্মী "
     social_worker_agency: সংস্থা
-    tracing_request_id: ""
-    trace: ""
-    likelihood_likely: ""
-    likelihood_possible: ""
   potential_matches:
     display: "১% [টাইপ] এবং ২% [আইডি] এর জন্য সম্ভাব্য মিলগুলো প্রদর্শন করুন।"
   reassign:
-    multiple_error: ""
-    multiple_successfully: ''
     notes_label: নোটসমুহ
-    successfully: ""
-    user_mandatory_label: ""
-    users_label: ""
-  record_information:
-    assigned_user_names: ""
-    created_by: ""
-    created_organization: ""
-    current_owner_separator: ""
-    module_id: ""
-    owned_by: ""
-    owned_by_agency_id: ""
-    owned_by_text: ""
-    previously_owned_by: ""
-    previously_owned_by_agency: ""
-    reassigned_tranferred_on: ""
-    record_history_separator: ""
   record_panel:
     record_information: "রেকর্ডকৃত তথ্য "
   referral:
-    type_of_recipient: ""
-    type_of_referral_required: ""
     agency_label: সংস্থা
     is_remote_label: "আপনি কি রিমোর্ট পদ্ধতিকে রেফার করছেন? "
     location_label: "স্থান "
     notes_label: নোটসমুহ
-    notes_on_referral: ""
-    note_on_referral_from_provider: ""
-    provided_consent_label: ""
-    recipient_label: ""
-    refer_anyway_label: ""
     service_label: "সেবা "
     success: '১% [রেকর্ড_ধরন] ২% [আইডি] স্থানান্তর সফলভাবে হয়েছে '
-    user_mandatory_label: ""
-    date: ""
-    rejected_reason: ""
   report:
     aggregate_by: সারি দ্বারা দল
-    attribute: ""
-    constraint: ""
     date_ranges:
       date: দিন
       month: মাস
-      quarter: ""
-      quarter_abbr: ""
       week: সপ্তাহ
       year: বছর
     description: "বর্ণনা "
-    disabled:
-      explanation: ""
-      label: ""
     disaggregate_by: কলাম দ্বারা দল
     filters:
       label: " রিপোর্ট ছেঁকে নেওয়া"
-      label_new: ""
-      attribute: ""
-      value: ""
-      not_null: ""
-      less_than: ""
-      greater_than: ""
-      equal_to: ""
-      not_blank: ""
-      is: ""
-      before: ""
-      after: ""
-      delete_filter_message: ""
     group_ages: বয়স পরিসীমা ব্যবহার করুন
     group_dates_by: তারিখ পরিসীমা ব্যবহার করুন
     is_graph: "একটি গ্রাফ তৈরি? "
     messages:
       delete_success: "রিপোর্ট সফলভাবে মুছে ফেলা হয়েছে। "
-      success: ""
-      updated: ""
     modules: মডিউল
     name: "নাম "
-    name_mandatory: ""
     no_data: "কোন তথ্য এই রিপোর্টের জন্য বিদ্যমান নেই "
-    no_filters_added: ""
-    not_selected: ""
     record_type: রেকর্ডের ধরন
     total: "মোট "
-    value: ""
   reports:
-    delete_report: ""
-    delete_report_message: ""
     label: রিপোর্ট
     register_new_report: রিপোর্ট সৃষ্টি করুন
   request_transfer:
@@ -2458,74 +787,35 @@ bn:
     submit_label: "অনুরোধ প্রেরন করা "
     success: "স্থানান্তরের অনুরোধ প্রেরন করা হয়েছে "
   role:
-    agency_ids_label: ""
     copy_failure: "ভূমিকাকে কপি করতে গিয়ে ত্রুটি  দেখা যায়।। নিশ্চিত করুন যে, নাম যেন অন্য কোনো ভূমিকার সঙ্গে দ্বন্দ্বে না জড়ায়।"
     copy_success: ভূমিকাকে সফলভাবে কপি করা হয়েছে।
     create: ভূমিকা সৃষ্টি করা
-    delete_header: ""
     description: "বর্ণনা "
     edit: ভূমিকা সম্পাদনা করা
     error_in_updating: ভূমিকা বিবরণ আপডেট করার সময় ত্রুুটি
     group_permission_label: "কোন্ নথিকে এই ভূমিকা প্রভাবিত করে?"
-    label: ""
-    manager: ""
-    messages:
-      confirmation: ""
-      created: ""
-      deleted: ""
-      updated: ""
     name: "নাম "
     referral_label: "ফেরত দেবার ক্ষেত্রে কি এই ভূমিকা ব্যবহার করা যাবে?"
-    reporting_location_level_label: ""
     role_ids_label: এই ভূমিকা দ্বারা অন্যান্য ভূমিকা পরিচালিত হয়
     successfully_updated: ভূমিকার বিস্তারিত বিবরণ সফলভাবে আপডেট করা হয়।
     transfer_label: "এই ভূমিকা কি স্থানান্তরের জন্য ব্যবহার করা যাবে?"
-    hide: ""
-    read: ""
-    read_write: ""
   roles:
     label: "ভুমিকাগুলো "
   saved_search:
     deleted: "অনুসন্ধানকে সফলভাবে মুছে ফেলা হয়েছে। "
     filters_tab: ছাঁকুনি
-    no_filters: ""
     save_success: অনুসন্ধানকে সফলভাবে সংরক্ষণ করা হয়েছে ।
     saved_searches_tab: সংরক্ষণ করা হয়েছে এমন অনুসন্ধান
-    title_description: ""
-    title_modal: ""
   saved_searches:
     no_save_searches: "আপনার কোন সংরক্ষিত অনুসন্ধান নাই। "
     save_search: অনুসন্ধান সংরক্ষণ
-  settings:
-    navigation:
-      agencies: ""
-      audit_logs: ""
-      configurations: ""
-      contact_information: ""
-      forms: ""
-      locations: ""
-      lookups: ""
-      user_groups: ""
-      users: ""
-      roles: ""
-      code_of_conduct: ""
-    title: ""
   system_settings:
     label: "পদ্ধতি নির্ধারণ "
   task:
     due_date: নির্দিষ্ট তারিখ
     id: আইডি#
-    name: ""
     priorities:
-      high_level: ""
-      low_level: ""
-      medium_level: ""
-      no_action_level: ""
     priority: অগ্রাধিকার স্তর
-    status: ""
-    statuses:
-      overdue: ""
-      upcoming_soon: ""
     type: "কার্যক্রমের ধরণ "
     types:
       assessment: মূল্যায়ন
@@ -2533,202 +823,41 @@ bn:
       follow_up: "অনুসরণ করুন-১% [সাব-টাইপ]।"
       service: "সেবা -১% [সাবটাইপ]"
   tracing_request:
-    label: ""
-    has_match: ""
-    find_match: ""
-    back_to_traces: ""
-    back_to_potential_matches: ""
-    traces: ""
-    trace: ""
-    match: ""
-    matches: ""
-    unmatch: ""
     messages:
-      already_matched: ""
-      disabled: ""
-      nothing_found: ""
       update_success: 'অনুসন্ধান অনুরোধ ১% [নথি _আইডি] সফলভাবে আপডেট করা হয়েছিল।'
-      creation_success: ""
-      update_success_queue: ''
-      creation_success_queue: ""
-      match_action: ""
-      unmatch_action: ""
   tracing_requests:
-    date_of_inquiry: ""
-    disable_dialog_title: ""
-    disable_dialog: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
-    id: ""
-    filter_by:
-      by_date: ""
-      location_separation: ""
-      separation_cause: ""
-      status: ""
-    label: ""
-    name_of_inquirer: ""
-    inquirer: ""
-    name: ""
     register_new_tracing_request: নতুন অনসন্ধানের অনুরোধ
     selectable_date_options:
       inquiry_date: অনুসন্ধানের তারিখ
-    selected_records: ''
-    selected_all_records: ''
-    show_tracing_request: ''
-    tracing_requests: ""
-    export: ""
   transfer:
     agency_label: "এজেন্সি "
-    consent_from_individual_label: ""
     consent_label: রেকর্ড সম্মতি প্রদান করে নি।
     consent_override_label: "আপনি কি এই সেটিং অগ্রাহ্য করতে চান?"
     is_remote_label: "আপনি কি রিমোর্ট ব্যবস্থায় স্থানান্তরিত হচ্ছেন? "
     location_label: "স্থান "
     notes_label: নোটসমুহ
-    provided_consent_label: ""
-    recipient_label: ""
-    select_label: ""
-    success: ""
-    transfer_label: ""
-    user_mandatory: ""
-  transfer_assignment:
-    title: ""
-  transition:
-    agency_label: ""
-    assigned_by: ""
-    consent_individual_transfer_value:
-      true_label: ''
-      false_label: ''
-    consent_overridden_value:
-      false_label: ''
-      true_label: ''
-    errors:
-      consent: ""
-      to_user_can_receive: ""
-    individual_consent: ""
-    no_consent_share: ""
-    notes: ""
-    recipient: ""
-    rejected: ""
-    requested_by: ""
-    service_label: ""
-    responded_at: ""
-    status:
-      accepted: ""
-      done: ""
-      in_progress: ""
-      inprogress: ""
-      rejected: ""
-    type:
-      assign: ""
-      reassign: ""
-      referral: ""
-      external_referral: ""
-      transfer: ""
-      transferRequest: ""
   user:
     agency_office: সংস্থার কার্যালয়
     code: "ব্যবহারকারীর কোড "
     disabled: "অক্ষম "
-    email: ""
     full_name: "সম্পুর্ণ নাম "
-    identity_provider: ""
-    invalid_provider_username: ''
-    label: ""
-    language: ""
-    locale: ""
     location: "স্থান "
     messages:
       confirmation: "আপনি কি নিশ্চিত যে, আপনি এই ব্যবহারকারী মুছে ফেলতে চান? মুছে ফেললে পূর্বাবস্থায় ফেরানো যাবে না। ব্যবহারকারী মুছে ফেলার জন্য ওকে ক্লিক করুন।"
       created: সাফলতার সাথে ব্যবহারকারী তৈরী করা হয়েছে।
-      failure: ""
-      new_confirm_html: ""
-      new_confirm_non_identity_html: ""
       not_found: প্রদত্ত আইডিসহ ব্যবহারকারী পাওয়া যায় নি।
       password_changed_successfully: পাসওয়ার্ড সফলভাবে পরিবর্তন
       passwords_do_not_match: বর্তমান পাসওয়ার্ড মেলে না
       time_zone_updated: পরিবর্তন সফলভাবে আপডেট করা হয়েছে
       updated: সাফলতার সাথে ব্যবহারকারী আপডেট করা হয়েছে।
     organization: প্রতিষ্ঠান
-    agency: ""
-    services_help_text: ""
     password_setting:
-      label: ""
-      self: ""
-      user: ""
-      help_text: ""
-    password_reset_header: ""
-    password_reset_text: ""
-    password_reset_request: ""
-    password: ""
-    password_confirmation: ""
-    phone: ""
     position: অবস্থান
-    provider_username_help: ''
-    role_id: ""
     send_mail: "ইমেইলে বিজ্ঞপ্তি পাবেন?"
-    user_group_unique_ids: ""
-    user_name: ""
-    services: ""
-    welcome_email:
-      subject: ''
-      greeting: ''
-      body_native: ''
-      sso:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        footer: ''
-      otp:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        step4: ''
-      url_label: ""
-      enabled_label: ""
-      text_label: ""
-    password_reset:
-      email_greeting: ""
-      email_body1: ""
-      email_body2: ""
-      email_body_link: ""
-      request_submitted: ""
-      success: ""
-      errors:
-        reset_password_token: ""
-        password_confirmation: ""
-    onboard_email:
-      subject: ""
-      greeting: ""
-      body1: ""
-      body2: ""
-      body2_reset_notification: ""
-      body3: ""
   user_group:
     description: "বর্ণনা "
-    disabled:
-      explanation: ""
-      label: ""
-    messages:
-      created: ""
-      updated: ""
     name: "নাম "
   user_groups:
     label: "ব্যবহারকারীর গ্রুপ "
   users:
     label: ব্যবহারকারী
-    headers:
-      full_name: ""
-      user_name: ""
-      position: ""
-      agency: ""
-  devise:
-    failure:
-      already_authenticated: ""
-      invalid: ""
-      locked: ""
-      last_attempt: ""
