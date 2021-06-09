@@ -1213,7 +1213,6 @@ fr:
     feedback: "Feedback"
     other: "Autres "
     date_format: "%b %Y"
-    date_range_select:
     long_date_format: "jj/mm/aaaa"
     time_periods:
       all_time: 'à tout moment'
