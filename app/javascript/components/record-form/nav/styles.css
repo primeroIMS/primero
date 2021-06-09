@@ -25,6 +25,10 @@
   }
 }
 
+.listRecordNav {
+  padding-bottom: 5em;
+}
+
 @media $(theme.breakpoints.down("sm")) {
   .closeButtonRecordNav {
     display: flex;
