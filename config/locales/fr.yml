@@ -29,6 +29,7 @@ fr:
   yes_label: 'Oui'
   or_label: ou
   select_provider: Sélectionnez un prestataire
+  select_language: Sélectionner la langue
   log_in_primero_idp: "Connectez-vous avec votre nom d'utilisateur "
   offline_submitted_changes: Vous êtes actuellement hors ligne. Vos modifications seront prise en compte lorsque vous serez à nouveau en ligne.
   updated: "Mis à jour "
@@ -64,7 +65,7 @@ fr:
     agency_logos: Logo de l'agence
     code: Code de l'agence
     description: Description
-    disabled: "Désactivé "
+    disabled: Désactivé
     exclude_agency_from_lookups: "Exclure cette organisation des références et filtres "
     exclude_agency_from_lookups_help: "Cochez cette case si l'organisation n'a pas d'utilisateurs (par exemple, l'organisation a été ajoutée pour que le logo puisse être appliqué aux exportations. "
     label: Agence
@@ -81,7 +82,7 @@ fr:
     pdf_logo_option: "Rendre le logo disponible pour les exportations PDF ?"
     pdf_logo_option_help: 'Note : les logos des organisations sont disponibles par défaut pour les utilisateurs, vous ne devez donc cocher cette case que si vous souhaitez que ce logo soit disponible pour tous les utilisateurs.'
     services: Services fournis par l'organisation
-    terms_of_use: "Condition d'utilisation "
+    terms_of_use: Conditions de l'Utilisation
     terms_of_use_help: Seuls des fichiers PDF sont acceptés
     terms_of_use_download_button: Téléchargé PDF
     terms_of_use_enabled: "Afficher les conditions d'utilisation ? "
@@ -98,7 +99,7 @@ fr:
     action_plan: Plan d'action
     gbv_closure: Fermeture de cas VBG
     status:
-      approved: Approuve
+      approved: Approuvé
       pending: En Attente
       rejected: Rejete
       requested: Demandé
@@ -112,7 +113,7 @@ fr:
     file_name: Fichier
     record_type: Type
     retry: Ce export n'est pas valide. S'il vous plaît essayez de recréer votre export
-    started_on: Commence
+    started_on: COMMENCÉ
     status: Statut
   form_export:
     label: Exporter la configuration du formulaire
@@ -186,7 +187,7 @@ fr:
     save_and_return: Enregistrer et quitter
     save_continue: Enregistrer et continuer
     save_changes: Enregistrer les modifications
-    select: "Sectionner "
+    select: Sélectionner
     send: "Envoyer "
     sort_by_case: Cas
     sort_by_tr: Demandes de traçage
@@ -214,17 +215,13 @@ fr:
       creation_success_queue: 'Le cas a été crée avec succès'
       already_matched: "Cet demandeur a déjà eu une correspondance avec votre cas. "
       already_matched_not_current_case: Cet enquêteur a déjà été eu une correspondance avec votre cas.
-      not_found_case: ""
-      introductory_sentence: ""
-      consent_agreements_required: ""
-      legitimate_basis_required: ""
+      consent_agreements_required: Veuillez sélectionner au moins une option parmi les accords de consentement.
+      legitimate_basis_required: Veuillez sélectionner au moins une option parmi les accords de consentement.
     save: Enregistrer le cas
     save_text: "Avant de continuer, veuillez enregistrer les modifications apportées au cas."
-    skip_and_create: ""
     search_existing: "Chercher un cas existant "
-    search_helper_text: ""
-    consent_agreements: ""
-    legitimate_basis: ""
+    consent_agreements: Sélectionnez tous les accords de consentement qui s'appliquent
+    legitimate_basis: Sélectionnez toutes les classifications de base légitimes qui s'appliquent
     workflow:
       assessment: Evaluation
       case_plan: Plan d'action
@@ -233,7 +230,7 @@ fr:
       in_progress: en cours
       new: Nouveau
       on_label: 'sur'
-      reopened: Ré ouvert
+      reopened: Rouvert
       service_implemented: Service mis en œuvre
       services_implemented: Service mis en œuvre
   cases:
@@ -281,20 +278,20 @@ fr:
       agency: "Organisation "
       approval_status: Statut de l'approbation
       approvals:
-        approved: Aprouvé
+        approved: Approuvé
         pending: En attente
         rejected: Rejeté
       bia: DIS
       by_date: Par date
       case_open_date: Date d'ouverture du cas
       case_plan: Plan d'action
-      closed: Clôturé
+      closed: Clos
       closure: Clôture
       current_location: Localisation actuelle
       date: Date
       displacement_status: Statut de déplacement
       district: "District "
-      duplicate: "Dupliqué "
+      duplicate: Duplicata
       enabled_disabled: "Activé / Désactivé "
       female: "Féminin "
       flag: "Marqué "
@@ -320,19 +317,19 @@ fr:
       registration_date: "Date d'enregistrement "
       risk_level: Niveau de risque
       sex: Sexe
-      social_worker: Champs/Cas/Travailleur social
+      social_worker: Gestionnaire de cas
       status: "Statut "
       transferred: Transféré
       type_of_risk: Type de risque
       urgent_protection_concern: "Problème de protection urgent "
       user_group: Groupe d'utilisateur
-      workflow: Cas selon l'Etape de Gestion de Cas
+      workflow: Cas Selon le Flux de Travail
     flag_summary: "Résumé des marquages "
     full_name: "Nom complet "
     gbv_closure: Clôture de cas VBG
     hide_name: Masquer le nom
     hide_name_error: Une erreur s'est produite lors de l'enregistrement de vos modifications. Veuillez réessayer.
-    id: ID#
+    id: ID
     label: Cas
     my_filters: Mes filtres
     name: Nom
@@ -414,7 +411,7 @@ fr:
           label: Voir Confidentialité des données
         child_wishes_link:
           label: Voir les souhaits des enfants
-    survivor_code: Code du survivant
+    survivor_code: CODE DE LA SURVIVANTE
     transfer_accepted: "En cliquant sur \"Accepter\", vous acceptez la responsabilité de ce cas ; une fois que vous aurez cliqué sur \"Accepter\", vous deviendrez le propriétaire du cas dans le système."
     transfer_accepted_rejected: "Transfert rejeté du cas %{record_id}"
     transfer_accepted_success: "Transfert du cas accepté avec succès "
@@ -422,9 +419,6 @@ fr:
     transfer_rejected: "En cliquant sur \"Refuser\", vous indiquez que vous n'êtes pas prêt à assumer la responsabilité de ce cas pour le moment. Veuillez indiquer la raison pour laquelle vous refusez ce cas ; une fois que vous aurez cliqué sur \"Refuser\", vous n'aurez plus accès à ce cas. "
     view_name: Afficher le nom
   change_logs:
-    filters:
-      form: ""
-      field: ""
     add_subform: 'Ajouté "%{subform_name}" sous formulaire %{short_id}'
     changes_subform: 'Modifications apportées au sous-formulaire "%{subform_name}"'
     create: Créer un cas
@@ -445,7 +439,6 @@ fr:
   configurations:
     apply_label: "Etes-vous sûr ? Si vous appliquez, les paramètres de cette configuration seront appliqués au système. Vous perdrez tous vos paramètres actuels et ne pourrez les récupérer que si vous les avez déjà enregistrés dans une autre configuration."
     apply_label_bold: "Primero sera indisponible pour les utilisateurs pendant quelques minutes pendant la mise à jour des modifications. "
-    version_mismatch_tooltip: ""
     send_header: Envoyer au site de Production
     send_text: "Etes-vous sûr ? Si vous cliquez sur Envoyer, vous enverrez cette configuration à votre site de production. Cette configuration ne sera pas appliquée à la production tant qu'un administrateur de ce site ne l'aura pas appliquée manuellement."
     attributes:
@@ -466,7 +459,6 @@ fr:
       created: La configuration a été crée avec succès
       deleted: La configuration a été supprimé avec succès
       updated: "La configuration a été mis à jour avec succès "
-      sent: ""
     not_allowed: "Non autorisé "
     unavailable_server: "Le serveur est momentanément indisponible "
   contact:
@@ -479,14 +471,13 @@ fr:
       phone: Téléphone
       position: Poste
       primero_version: "Version de Primero "
-      support_forum: Forum d’assistance
+      support_forum: Forum de support
       system_version: Version du système
     info_label: Coordonnées
     updated: Les coordonnées ont bien été mises à jour.
   code_of_conduct:
     field:
       title: Titre
-      content: ""
       created_on: "Crée le "
       created_by: "Crée par "
     info_label: "Code de conduite "
@@ -523,7 +514,7 @@ fr:
     approvals_case_plan: Plan d'action
     approvals_closure: "Clôture "
     approvals_gbv_closure: Clôture de cas VBG
-    approved: Approuve
+    approved: Approuvé
     assessment: Evaluation
     awaiting_acceptance: "En attente d'acceptation "
     cases_by_social_worker_total: Total
@@ -547,46 +538,6 @@ fr:
     closed_last_week: Clos (semaine dernière)
     closed_this_week: Clos (Cette semaine)
     comprehensive_need_intervention: Réponse compréhensible ou complète
-    count_new_bia_approvals:
-      one: '%{stat} <span> nouvelles %{stat_type} </span> approbations '
-      other: '%{stat} <span> nouvelles %{stat_type} </span> approbations'
-    count_new_case_plan_approvals:
-      one: '%{stat} <span> nouvelles %{stat_type} </span> '
-      other: '%{stat} <span> nouvelles %{stat_type} </span> approbation '
-    count_new_closure_approvals:
-      one: '%{stat} <span> nouvelles %{stat_type} </span> approbation '
-      other: '%{stat} <span> nouvelles %{stat_type} </span> approbation '
-    count_pending_approval_total:
-      one: 'Vous avez %{stat} <span> approbation %{stat_type} </span> en attente'
-      other: 'Vous avez %{stat} <span> %{stat_type} </span> en attente'
-    count_pending_transfers:
-      one: 'Vous avez %{stat} <span> transfert </span> en attente '
-      other: 'Vous avez %{stat} <span> transfert </span> en attente '
-    count_records_new:
-      one: et %{stat} <span>nouveau</span> cas
-      other: et %{stat} <span>nouveaux</span> cas
-    count_records_total:
-      one: 'Vous avez %{stat} <span>cas</span> au total '
-      other: 'Vous avez %{stat} <span>cas</span> au total'
-    count_referrals_new:
-      one: et %{stat} <span>nouvelle</span> orientation
-      other: et %{stat} <span>nouvelles</span> référencements
-    count_referrals_total:
-      one: 'Vous avez %{stat} <span>orientation</span> au total'
-      other: 'Vous avez %{stat} <span>référencement(s) </span> au total'
-    count_rejected_approval_total:
-      one: 'et %{stat} <span> approbation %{stat_type} </span>'
-      other: 'et %{stat} <span> approbation %{stat_type} </span> refusée'
-    count_rejected_transfers:
-      one: 'et %{stat} <span> transfert </span> rejeté '
-      other: 'et %{stat} <span> transfert </span> rejeté '
-    count_risk_level_new:
-      one: et %{stat} <span>nouveau</span> <span>%{stat_type} cas</span> à risque
-      other: et %{stat} <span>nouveaux</span> <span>%{stat_type} cas</span> à risque
-    count_risk_level_total:
-      one: 'Vous avez %{stat} <span>%{stat_type} cas </span> à risque'
-      other: 'Vous avez %{stat} <span>%{stat_type} cas </span> à risque'
-    count_waiting_for_acceptance_transfers: "Vous avez %{stat} transfert <span> en attente </span> de votre acceptation"
     current_owner: Propriétaire actuel
     dash_case_incident_overview: "Mes cas "
     dash_group_overview: Les cas de mon groupe
@@ -602,11 +553,11 @@ fr:
     flagged_by: 'Marqué par :'
     flagged_by_me: Marqué par moi-même
     flagged_by_other: Marqué par une autre personne
-    flagged_cases: Marqué un cas
+    flagged_cases: CAS MARQUÉS
     follow_up: Suivi
     forms: Onglet du formulaire
     geographic_area: Zone géographique
-    group_overview_closed: Clôturé
+    group_overview_closed: Clos
     group_overview_open: Ouvert
     high_level: "Elevé "
     high_risk: Priorité haute
@@ -619,15 +570,6 @@ fr:
     link_see_all: Voir tous
     low_level: Faible
     low_risk: Priorité faible
-    manager_count_closed_total:
-      one: 'et %{stat} <span>cas</span> clos'
-      other: 'et %{stat} <span>cas</span> clos'
-    manager_count_open_total:
-      one: 'Vous avez %{stat} <span>cas</span> ouvert'
-      other: 'Vous avez %{stat} <span>cas</span> ouverts'
-    manager_transfers_totals:
-      one: 'Vous avez %{stat} <span> %{stat_type}  </span> transferts'
-      other: 'Vous avez %{stat} <span> %{stat_type} </span> transferts'
     match_result: Résultats des correspondances
     medium_level: Moyen
     medium_risk: Priorité moyenne
@@ -680,22 +622,21 @@ fr:
     registration: Enregistrement
     rejected: Rejete
     rejected_transfers: "Transfert rejeté "
-    response: Réponse <span> (en cours) </span>
     scheduled_activities: Activités programmées
     score_range: " Barème de notation"
     screening_service: Service de contrôle
     services: Services ou actions
     services_implemented: "Service mis en oeuvre "
     shared_from_my_team_pending_transfers: Transfert en attente
-    shared_from_my_team_referrals: "Références "
+    shared_from_my_team_referrals: Référencements
     shared_from_my_team_rejected_transfers: Transferts rejetés
     shared_with_me_new_referrals: Nouvelles références
     shared_with_me_total_referrals: "Total des références "
     shared_with_me_transfers_awaiting_acceptance: "Transfert en attente d'acceptation "
     shared_with_my_team_pending_transfers: Transfert en attente
-    shared_with_my_team_referrals: "Référence "
+    shared_with_my_team_referrals: Référencements
     shared_with_others_pending_transfers: "Transfert en attente "
-    shared_with_others_referrals: Références
+    shared_with_others_referrals: Référencements
     shared_with_others_rejected_transfers: "Transfert rejeté "
     status_of_cases: Statut des cas
     system_user: Système
@@ -710,18 +651,12 @@ fr:
     with_incidents: "Avec un incident "
     with_new_incidents: "Avec un nouveau incident "
     without_incidents: "Sans incident "
-    worker_count_referrals_total:
-      one: '<span>%{case_worker}</span> a %{stat} <span>orientation</span> au total'
-      other: '<span>%{case_worker}</span> a %{stat} <span>référencement(s)</span> au total'
-    worker_count_total:
-      one: '<span>%{case_worker}</span> a %{stat} <span>cas</span> au total'
-      other: '<span>%{case_worker}</span> a %{stat} <span>cas</span> au total'
     workflow: Flux d'information
     workflow_team: Fux d'informations - Cas des équipes
     you_have: 'Vous avez'
   disabled:
     status:
-      disabled: Desactivé
+      disabled: Désactivé
       enabled: Activé
   email_notification:
     assign: '%{user} vous a assigné le cas suivant %{record_type} %{record_id}'
@@ -767,7 +702,6 @@ fr:
       agency:
         code_present: ne doit pas être vide
         logo_format: Le fichier doit être en png
-        terms_of_use_format: ""
         name_present: ne peut pas être vide
       child:
         age: L'âge doit être compris entre 0 et 130
@@ -802,10 +736,6 @@ fr:
         password_mismatch: Les champs du mot de passe ne contiennent pas le même mot de passe
         password_length: "Le mot de passe doit comporter au moins %{min}caractères"
         email_uniqueness: "Un utilisateur avec cette adresse email existe déjà dans le système. Veuillez entrer un email différent s'il vous plait. "
-      code_of_conduct:
-        title_present: ""
-        content_present: ""
-        created_by_present: ""
     not_found: Pas d'enregistrement trouvé(s)
     try_again: Essayer encore
   exports:
@@ -843,7 +773,7 @@ fr:
       include_agency_logo: "Inclure le logo de l'agence ?"
       include_other_logos: "Inclure d'autres logos ?"
     duplicate_id_csv:
-      all: Dupliquer l'ID
+      all: Duplicata l'ID
       female_abbreviation: Féminin
       headers:
         age: âge
@@ -956,7 +886,7 @@ fr:
         moha_id: MOHA ID
         name_of_caregiver: Nom et prénom de la personne en charge de l'enfant
         name_of_child_last_first: Nom et prénom de l'enfant
-        primary_protection_concerns: Problème de protection  primaire
+        primary_protection_concerns: Problème de protection primaire
         progres_id: N° PROGRESS
         reunification_status: "Statut de la réunification "
         secondary_protection_concerns: Problème de protection secondaire
@@ -984,9 +914,7 @@ fr:
         locale_invalid: 'Saut %{column_name} : Non valide'
         insert_all_error: 'Echec de l''importation. Erreur de la base de données : %{message}'
   sync_record:
-    failed: ''
     last: 'Dernière synchronisation %{date_time}'
-    not_found: ''
     retrieving: Récupération des données.
     see_details: "Voir les détails "
   fields:
@@ -1034,7 +962,6 @@ fr:
       current: "Est-ce le document récent?"
       date: Date du document
       name: Nom du document
-      is_current: ""
     document_upload_box: "Télécharger un document "
     edit_label: Editer un champ
     enabled: "Activé ? "
@@ -1179,22 +1106,22 @@ fr:
       approvals: Approbations
       case: Cas
       child: Cas
-      incident: Incident
+      incident: Incidents
       individual_victim: Victime individuelle
       potential_match: Probabilité de correspondance
-      record_information: Information sur le cas
-      referrals: Références
+      record_information: Informations Relatives au Dossier
+      referrals: Référencements
       reportable_follow_up: Suivi
       reportable_protection_concern: Problème de Protection
       reportable_service: Service
       tracing_request: Demande de traçage
-      transfers_assignments: "Transfert / Assignation "
+      transfers_assignments: Transferts / Assignation
       violation: Violation
     required_field: '%{field} est un champ obligatoire '
     select_label: "Sélectionner "
     settings: "Paramètres "
     show_on: "Afficher sur "
-    subform_need_to_be_added: Ils doivent être ajoutés.
+    subform_need_to_be_added: Ils doivent être ajouté
     subform_not_found: "%{subform_name} Non trouvé"
     title: "Titre du formulaire "
     translations:
@@ -1213,7 +1140,6 @@ fr:
     ar: العربية
     ar-JO: Arabe (jordanien)
     ar-LB: Arabe (Libanais)
-    ar-SD: ""
     bn: বাংলা
     current_time_zone: "Fuseau horaire actuel "
     dashboard: Tableau de bord
@@ -1253,7 +1179,7 @@ fr:
     enable_dialog: "En cliquant sur OK, le statut de cet incident passera à activé."
     enable_dialog_title: Activer l'incident
     enable_success: Les incidents ont été activés avec succès.
-    id: ID#
+    id: ID
     date_of_interview: "Date de l'entretien "
     date_of_incident: "Date de l'incident "
     export: Exporter
@@ -1270,9 +1196,9 @@ fr:
     selectable_date_options:
       date_of_first_report: "Date de l'entretien "
       incident_date_derived: Date de l'incident
-    selected_records: '%{select_records}incident(s) sélectionné'
+    selected_records: '%{select_records}incident(s) sélectionné(s)'
     selected_all_records: 'Sélectionner tous les incident %{total_records} qui correspondent à cette requête'
-    survivor_code: "Code du survivant "
+    survivor_code: "Code de la survivant "
     show_incident: 'ID de l''incident %{short_id}'
     social_worker: "Travailleur social "
     violence_type: "Type de violence "
@@ -1288,7 +1214,6 @@ fr:
     other: "Autres "
     date_format: "%b %Y"
     date_range_select:
-      custom_range: ''
     long_date_format: "jj/mm/aaaa"
     time_periods:
       all_time: 'à tout moment'
@@ -1376,14 +1301,14 @@ fr:
         Cet indicateur compte le type de service(s) fourni aux survivants dans le cadre du processus gestion des cas. Par service fourni, nous entendons le service qui est fourni par l'organisme utilisateur lui même
         , et non un service fourni par des références à d'autres services.
     average_referrals:
-      title: "9. Moyenne des références "
+      title: "9. Moyenne des référencements"
       label: "Nombre moyen de références par cas"
       helptext: |
         Cet indicateur compte le nombre moyen de références pour chaque cas enregistré (pour tous les types de
         services) dans tous les cas. Il comprend les références enregistrés dans l'onglet "cas", et pas seulement les références effectués
         par le biais de la plate-forme.
     referrals_per_service:
-      title: "Références par service"
+      title: "Référencements par service"
     average_followup_meetings_per_case:
       title: "10. Nombre moyen de réunions de suivi par cas"
       label: "Nombre moyen de réunions de suivi par cas"
@@ -1480,7 +1405,6 @@ fr:
     hierarchy: "Hiérarchie "
     import_title: "Importé les lieux "
     message: Veuillez sélectionner un fichier CSV à télécharger. Ce fichier doit utiliser un encodage UTF-8 et inclure des hashtags HXL dans la deuxième ligne d'en-tête de chaque colonne.
-    no_location: ""
   logger:
     approve_form:
       action_plan: "Formulaire du plan d'action "
@@ -1600,18 +1524,13 @@ fr:
     logout_offline_warning: "Etes vous sûr de vouloir vous déconnecter ? Si c'est le cas, vous ne pourrez pas vous reconnecter avant d'être à nouveau en ligne. Toute modification que vous avez effectuée alors que vous étiez hors ligne sera perdue."
     logout_warning: "Vous serez déconnecter dans 5 minutes "
     logout_dialog_header: Déconnexion en mode hors ligne
-    logout_confirmation_title: ""
-    logout_confirmation_text: ""
     no_changes: Vous n'avez fait aucunes modifications de champ
     not_available: "Non disponible "
     record_list:
-      column_header_tooltip: ""
-      of: ""
-      no_match: ""
-      rows_per_page: ""
-      sort: ""
+      of: de
+      rows_per_page: Nombre de lignes par page
   navigation:
-    bulk_exports: "Exporter "
+    bulk_exports: Exportations
     cases: Cas
     home: "Accueil "
     key_performance_indicators: Impulsion/KPI
@@ -1624,7 +1543,7 @@ fr:
     support_menu:
       contact_information: "Coordonnées du contact "
       code_of_conduct: "Code de conduite "
-      terms_of_use: "Condition d'utilisation "
+      terms_of_use: Conditions de l'Utilisation
       system_information: "Information du système "
     tasks: "Tâches "
     tracing_request: "Demande de traçage "
@@ -1657,7 +1576,7 @@ fr:
       audit_log: Logs
       case: Cas
       case_approvals: Approbation des cas
-      case_assignments_referrals_transfers: "Assignation des cas, références et transferts"
+      case_assignments_referrals_transfers: "Assignation des cas, référencements et transferts"
       case_exports: Exporter les cas
       case_overview: Mes cas
       case_risk: "Cas par niveau d'évaluation "
@@ -1669,7 +1588,6 @@ fr:
       close: "Clôturer "
       consent_override: Outrepasser le consentement
       copy: Copier
-      copy_of: ""
       create: Créer
       dash_case_incident_overview: Mes cas / incidents
       dash_cases_by_social_worker: Afficher les cas par travailleur social
@@ -1776,7 +1694,7 @@ fr:
             label: Nombre moyen de réunions de suivi par cas
           kpi_average_referrals:
             explanation: "Possibilité de voir, sur l'ensemble des cas actifs auxquels l'utilisateur a accès, le nombre moyen de références effectués vers chaque type de services."
-            label: "Moyenne des références "
+            label: Moyenne des référencements
           kpi_case_closure_rate:
             explanation: Possibilité de voir combien de cas ont été clôturés sur chaque site par mois.
             label: Taux de clôture des cas
@@ -1910,7 +1828,6 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste des cas qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste des cas. Cette opération ne peut être effectuée qu'à partir de la page de la liste des cas.
             label: Exporter la liste en CSV
           export_pdf:
-            explanation: ""
             label: Exporter le cas en PDF
           export_photowall:
             explanation: Permet à l'utilisateur d'exporter un fichier à partir de la page de la liste des cas qui contient les photos de tous les cas sélectionnés. Cette exportation est principalement utilisée pour les activités de recherche et de réunification familiale. Elle est effectuée uniquement à partir de la page de la liste des cas.
@@ -2186,7 +2103,6 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste des incidents qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste des incidents. Cette exportation est uniquement effectuée à partir de la page de la liste des incidents.
             label: Exporter la liste en CSV
           export_pdf:
-            explanation: ""
             label: Exporter en PDF
           export_xls:
             explanation: "L'utilisateur peut générer une exportation de fichier XLS à partir de la liste des incidents ou des pages d'affichage des incidents, qui contient un ensemble personnalisé de formulaires ou de champs, pour un, plusieurs ou tous les cas auxquels l'utilisateur a accès. Dans cette exportation, chaque formulaire est représenté dans son propre onglet au sein du fichier XLS. L'utilisateur peut sélectionner les formulaires ou les champs qu'il souhaite inclure dans l'exportation en utilisant le mode d'exportation personnalisé. Veuillez noter que les utilisateurs ne peuvent inclure des formulaires et des champs dans l'exportation que s'ils ont déjà la possibilité de voir ces formulaires et ces champs lorsqu'ils visualisent un cas dans l'application."
@@ -2242,10 +2158,6 @@ fr:
             label: Voir
         label: Correspondance potentielle
       primero_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
         label: Configuration
       referral:
         actions:
@@ -2334,7 +2246,6 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste de demandes de traçage qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste de demandes de recherche. Cette opération ne peut être effectuée qu'à partir de la page de la liste de demandes de traçage.
             label: Exporter la liste en CSV
           export_pdf:
-            explanation: ""
             label: Exporter en PDF
           flag:
             explanation: Possibilité d'ajouter un marquage ou drapeau à une demande de traçage. Les utilisateurs ayant cette autorisation peuvent également supprimer les marquages ou drapeaux qu'ils ont ajoutés à une demande de recherche.
@@ -2424,19 +2335,19 @@ fr:
     users_label: "Destinataire "
   record_information:
     assigned_user_names: Autres utilisateurs assignés
-    created_by: "Cas créer par "
-    created_organization: "Créer par l'organisation "
+    created_by: Dossier créé par
+    created_organization: Créé par l'organisation
     current_owner_separator: Gestionnaire actuel
     module_id: Module
-    owned_by: Code du gestionnaire de cas
+    owned_by: Code de la gestionnaire de cas
     owned_by_agency_id: "Organisation "
-    owned_by_text: Champs/Cas/Gestionnaire de cas
-    previously_owned_by: Gestionnaire précédent
+    owned_by_text: Gestionnaire de cas
+    previously_owned_by: Gestionnaire précédente
     previously_owned_by_agency: Organisation précédente
     reassigned_tranferred_on: Réassigné / Transféré le
     record_history_separator: Historique du cas
   record_panel:
-    record_information: Information du dossier
+    record_information: Informations Relatives au Dossier
   referral:
     type_of_recipient: "Type de destinataire "
     type_of_referral_required: Type de référence requis
@@ -2468,7 +2379,7 @@ fr:
     description: Description
     disabled:
       explanation: "Si vous désactivez ce rapport, il n'apparaîtra pas dans les rapports disponibles."
-      label: Desactivé
+      label: Désactivé
     disaggregate_by: Grouper par colonne
     filters:
       label: Filtres du rapport
@@ -2664,7 +2575,6 @@ fr:
     notes: Notes
     recipient: "Destinataire "
     rejected: "Cause du rejet "
-    requested_by: ""
     service_label: Service
     responded_at: Répondu à
     status:
@@ -2764,7 +2674,7 @@ fr:
     description: Description
     disabled:
       explanation: "Si vous désactivez ce groupe d'utilisateurs, vous ne pourrez plus l'affecter à des comptes d'utilisateurs."
-      label: Desactivé
+      label: Désactivé
     messages:
       created: "Groupe d'utilisateur créer avec succès "
       updated: "Groupe d'utilisateur mis à jour avec succès "
