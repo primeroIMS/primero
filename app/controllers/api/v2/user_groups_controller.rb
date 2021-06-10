@@ -36,7 +36,12 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def user_group_params
-    params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
+    @user_group_params ||= params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
+  end
+
+  def validate_json!
+    service = JsonValidatorService.new(schema_supplement: UserGroup::USER_GROUP_FIELDS_SCHEMA)
+    service.validate!(user_group_params.to_h)
   end
 
   protected
