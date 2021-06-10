@@ -33,7 +33,9 @@ export const fieldValidations = (field, i18n) => {
       return fieldValidations(sf, i18n);
     });
 
-    validations[name] = array().of(object().shape(Object.assign({}, ...subformSchema)));
+    validations[name] = array()
+      .of(object().shape(Object.assign({}, ...subformSchema)))
+      .compact(subform => subform._destroy);
   }
 
   if (DOCUMENT_FIELD === type) {

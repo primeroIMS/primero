@@ -3,9 +3,20 @@ import { push } from "connected-react-router";
 import isOnline from "./is-online";
 import setCaseIncidentData from "./set-case-incident-data";
 
-const redirectConditions = (callback = {}, json) => {
-  const { redirect, redirectWithIdFromResponse, redirectToEdit, incidentPath, moduleID } = callback;
+const redirectConditions = (store, callback = {}, json) => {
+  const {
+    incidentPath,
+    moduleID,
+    redirect,
+    redirectToEdit,
+    redirectWhenAccessDenied,
+    redirectWithIdFromResponse
+  } = callback;
 
+  // eslint-disable-next-line camelcase
+  if (redirectWhenAccessDenied && json?.data?.record_access_denied) {
+    return redirect;
+  }
   if (redirectWithIdFromResponse) {
     return `${redirect}/${json?.data?.id}`;
   }
@@ -54,7 +65,7 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
 
       if (isObjectCallback && callback.redirect && !fromQueue) {
         const { preventSyncAfterRedirect } = callback;
-        const redirectPath = redirectConditions(callback, json);
+        const redirectPath = redirectConditions(store, callback, json);
 
         store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline(store) }));
       }

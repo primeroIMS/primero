@@ -7,30 +7,11 @@ import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<ReferralAction /> - Action Creators", () => {
-  const recordCallback = {
-    action: "cases/RECORD",
-    api: {
-      path: "cases/10",
-      db: {
-        collection: "records",
-        id: "10",
-        recordType: "cases"
-      },
-      failureCallback: [
-        {
-          action: "cases/REDIRECT",
-          redirect: "/cases",
-          redirectWithIdFromResponse: false
-        }
-      ],
-      successCallback: [
-        {
-          action: "cases/REDIRECT",
-          redirect: "/cases",
-          redirectWithIdFromResponse: true
-        }
-      ]
-    }
+  const redirectCallback = {
+    action: `cases/REDIRECT`,
+    redirectWithIdFromResponse: true,
+    redirectWhenAccessDenied: true,
+    redirect: `/cases`
   };
 
   it("should have known action creators", () => {
@@ -75,7 +56,7 @@ describe("<ReferralAction /> - Action Creators", () => {
           {
             action: CLEAR_DIALOG
           },
-          recordCallback
+          redirectCallback
         ],
         failureCallback: [
           {
@@ -159,7 +140,7 @@ describe("<ReferralAction /> - Action Creators", () => {
             {
               action: CLEAR_DIALOG
             },
-            recordCallback
+            redirectCallback
           ],
           failureCallback: [
             {
@@ -223,7 +204,7 @@ describe("<ReferralAction /> - Action Creators", () => {
             {
               action: CLEAR_DIALOG
             },
-            recordCallback
+            redirectCallback
           ],
           failureCallback: [
             {

@@ -99,7 +99,8 @@ export const FormSectionRecord = Record({
   expandable: false,
   expanded: false,
   tooltip: "",
-  actions: null
+  actions: null,
+  core_form: false
 });
 
 export const Option = Record({
