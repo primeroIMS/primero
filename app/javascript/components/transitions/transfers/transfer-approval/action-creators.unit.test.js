@@ -50,10 +50,11 @@ describe("<TransferApproval /> - Action Creators", () => {
             action: CLEAR_DIALOG
           },
           {
-            action: `cases/REDIRECT`,
+            action: "cases/REDIRECT",
+            redirectProperty: "record_id",
             redirectWithIdFromResponse: true,
             redirectWhenAccessDenied: true,
-            redirect: `/cases`
+            redirect: "/cases"
           }
         ],
         failureCallback: [
