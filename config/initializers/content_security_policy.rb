@@ -16,7 +16,7 @@ media_sources =
     self_sources
   end
 
-font_and_image_sources = self_sources + [:data]
+font_and_image_sources = self_sources + %i[data blob]
 style_sources = self_sources + [ -> { "'nonce-#{request.content_security_policy_nonce}'" }]
 
 Rails.application.config.content_security_policy do |policy|
