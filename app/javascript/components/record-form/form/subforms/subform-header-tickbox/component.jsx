@@ -8,7 +8,7 @@ const Component = ({ value, tickBoxLabel }) => {
 
   if (!value) return value || "";
 
-  const renderValue = tickBoxLabel[i18n.locale];
+  const renderValue = tickBoxLabel[i18n.locale] || i18n.t("yes_label");
 
   return <span>{renderValue}</span>;
 };
