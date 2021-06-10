@@ -175,6 +175,8 @@ const Container = ({ mode }) => {
                   selectedReport={report}
                   indexes={indexes}
                   setIndexes={setIndexes}
+                  reportingLocationConfig={reportingLocationConfig}
+                  formattedMinimumReportableFields={formattedMinimumReportableFields}
                 />
                 {dialogOpen && (
                   <TranslationsDialog
