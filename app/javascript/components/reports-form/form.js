@@ -146,7 +146,8 @@ export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationCon
         FieldRecord({
           display_name: i18n.t("report.exclude_empty_rows"),
           name: EXCLUDE_EMPTY_ROWS_FIELD,
-          type: TICK_FIELD
+          type: TICK_FIELD,
+          visible: false
         }),
         FieldRecord({
           display_name: i18n.t("report.disabled.label"),
