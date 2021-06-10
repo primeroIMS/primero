@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
+    clean_data(Location, AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
   end
 
   def build_user(options = {})
@@ -96,11 +96,35 @@ describe User do
         agency = Agency.new(unique_id: 'fake-agency', agency_code: 'fkagency')
         agency.save(validate: false)
 
-        @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency)
+        Location.create(
+          placename_en: 'Country',
+          location_code: 'CNT',
+          type: 'country',
+          admin_level: 0,
+          hierarchy_path: 'CNT'
+        )
+        Location.create(
+          placename_en: 'State',
+          location_code: 'ST',
+          type: 'state', admin_level: 1, hierarchy_path: 'CNT.ST'
+        )
+        Location.create(
+          placename_en: 'City',
+          location_code: 'CT',
+          type: 'city',
+          admin_level: 2,
+          hierarchy_path: 'CNT.ST.CT'
+        )
+
+        SystemSettings.stub(:current).and_return(
+          SystemSettings.new(reporting_location_config: { admin_level: 1 })
+        )
+
+        @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency, location: 'CT')
         @user1.save(validate: false)
         @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency: agency)
         @user2.save(validate: false)
-        @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency)
+        @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency, location: 'CT')
         @user3.save(validate: false)
         @user4 = User.new(user_name: 'user4', role: role_cannot, agency: agency)
         @user4.save(validate: false)
@@ -114,6 +138,11 @@ describe User do
       it 'filters users based on service' do
         users = User.users_for_referral(@user1, Child, 'service' => 'safehouse_service')
         expect(users.map(&:user_name)).to match_array(%w[user2])
+      end
+
+      it 'filters users based on the reporting location' do
+        users = User.users_for_referral(@user2, Child, 'location' => 'ST')
+        expect(users.map(&:user_name)).to match_array(%w[user1 user3])
       end
     end
 

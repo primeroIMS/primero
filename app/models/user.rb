@@ -180,9 +180,12 @@ class User < ApplicationRecord
 
       services_filter = filters.delete('service')
       agencies_filter = filters.delete('agency')
+      location_filter = filters.delete('location')
+
       users = users.where(filters) if filters.present?
       users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
       users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
+      users = users.where(reporting_location_code: location_filter) if location_filter.present?
       users
     end
 
