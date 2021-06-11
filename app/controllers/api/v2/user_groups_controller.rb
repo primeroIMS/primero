@@ -3,6 +3,7 @@
 # User Group CRUD API
 class Api::V2::UserGroupsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
   before_action :load_user_group, only: %i[show update destroy]
 
   def index
@@ -17,7 +18,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def create
-    authorize! :create, UserGroup
+    authorize!(:create, UserGroup) && validate_json!(UserGroup::USER_GROUP_FIELDS_SCHEMA, user_group_params)
     @user_group = UserGroup.new_with_properties(user_group_params, current_user)
     @user_group.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -25,7 +26,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def update
-    authorize! :update, @user_group
+    authorize!(:update, @user_group) && validate_json!(UserGroup::USER_GROUP_FIELDS_SCHEMA, user_group_params)
     @user_group.assign_attributes(user_group_params)
     @user_group.save!
   end
@@ -37,11 +38,6 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def user_group_params
     @user_group_params ||= params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
-  end
-
-  def validate_json!
-    service = JsonValidatorService.new(schema_supplement: UserGroup::USER_GROUP_FIELDS_SCHEMA)
-    service.validate!(user_group_params.to_h)
   end
 
   protected

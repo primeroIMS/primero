@@ -3,6 +3,7 @@
 # API endpoint for Agency CRUD
 class Api::V2::AgenciesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
   before_action :load_agency, only: %i[show update destroy]
 
   def index
@@ -18,7 +19,7 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   def create
-    authorize!(:create, Agency) && validate_json!
+    authorize!(:create, Agency) && validate_json!(Agency::AGENCY_FIELDS_SCHEMA, agency_params)
     @agency = Agency.new_with_properties(agency_params)
     @agency.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -26,7 +27,7 @@ class Api::V2::AgenciesController < ApplicationApiController
   end
 
   def update
-    authorize!(:update, @agency) && validate_json!
+    authorize!(:update, @agency) && validate_json!(Agency::AGENCY_FIELDS_SCHEMA, agency_params)
     @agency.update_properties(agency_params)
     @agency.save!
   end
@@ -44,11 +45,6 @@ class Api::V2::AgenciesController < ApplicationApiController
       :terms_of_use_file_name, :terms_of_use_base64, :terms_of_use_enabled,
       :disabled, :pdf_logo_option, :exclude_agency_from_lookups, services: [], name: {}, description: {}
     )
-  end
-
-  def validate_json!
-    service = JsonValidatorService.new(schema_supplement: Agency::AGENCY_FIELDS_SCHEMA)
-    service.validate!(agency_params.to_h)
   end
 
   protected
