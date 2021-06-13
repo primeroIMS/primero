@@ -146,7 +146,7 @@ class GbvKpiCalculationService
     applicable_goals = goals.count { |status| status != 'n_a' }
     return nil if applicable_goals.zero?
 
-    met_goals = goals.count { |status| status == 'met' }
+    met_goals = goals.count { |status| ['met', 'in_progress'].include?(status) }
     return 0 if met_goals.zero?
 
     met_goals / applicable_goals.to_f
