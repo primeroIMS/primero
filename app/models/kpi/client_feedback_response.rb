@@ -54,7 +54,7 @@ class Kpi::ClientFeedbackResponse < ValueObject
   end
 
   def satisfied?
-    tally['yes'] >= tally['no'] &&
+    tally[true] >= tally[false] &&
       tally['scale_two'] + tally['scale_three'] >= tally['scale_one']
   end
 end
