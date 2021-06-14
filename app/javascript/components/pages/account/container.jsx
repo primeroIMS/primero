@@ -1,11 +1,12 @@
 /* eslint-disable react/display-name */
+import { fromJS } from "immutable";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 import CreateIcon from "@material-ui/icons/Create";
 import { push } from "connected-react-router";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 
 import { ROUTES } from "../../../config";
@@ -21,6 +22,7 @@ import { PASSWORD_MODAL } from "../admin/users-form/constants";
 import { form } from "../admin/users-form/form";
 import { getIdentityProviders } from "../admin/users-form/selectors";
 import validations from "../admin/users-form/validations";
+import { fetchRoles } from "../../application";
 
 import { clearCurrentUser, fetchCurrentUser, updateUserAccount } from "./action-creators";
 import { FORM_ID, NAME } from "./constants";
@@ -97,6 +99,12 @@ const Container = ({ mode }) => {
     };
   }, [id]);
 
+  useEffect(() => {
+    batch(() => {
+      dispatch(fetchRoles());
+    });
+  }, []);
+
   const onClickChangePassword = () => setPasswordModal(true);
 
   const formSections = form(
@@ -106,7 +114,8 @@ const Container = ({ mode }) => {
     providers,
     identityOptions,
     onClickChangePassword,
-    true
+    true,
+    { userGroups: currentUser.get("userGroups", fromJS([])) }
   );
 
   // eslint-disable-next-line react/no-multi-comp

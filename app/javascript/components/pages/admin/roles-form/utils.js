@@ -91,7 +91,7 @@ export const groupSelectedIdsByParentForm = (data, assignableForms) => {
           const currentPermission = formSectionUniqueIds?.get(fs.get("unique_id")) || ROLES_PERMISSIONS.hide.id;
 
           return {
-            [fs.get("unique_id")]: getFormPermission(currentPermission)
+            [fs.get("unique_id")]: fs.core_form ? "" : getFormPermission(currentPermission)
           };
         })
       ])

@@ -1,0 +1,21 @@
+.tableRowSubHeader  {
+  & th {
+    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+}
+
+.tableRowHeader {
+  & th:not(:first-child) {
+    background-color: $(theme.primero.colors.lightGrey);
+    font-weight: bold;
+    border-left: 1px solid $(theme.primero.colors.lightGrey2);
+  }
+
+  & th:last-of-type {
+    border-right: none;
+  }
+}
+
+.borderHeadingRight {
+  border-right: 1px solid $(theme.primero.colors.lightGrey2);
+}

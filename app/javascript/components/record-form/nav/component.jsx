@@ -11,7 +11,7 @@ import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
-import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import { getRecordFormsByUniqueId, getRecordInformationFormIds, getValidationErrors } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
@@ -20,7 +20,6 @@ import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
-import { getRecordInformationFormIds } from "./components/record-information";
 import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
@@ -61,8 +60,9 @@ const Component = ({
   const formGroupLookup = useMemoizedSelector(state =>
     getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n)
   );
-
-  const recordInformationFormIds = getRecordInformationFormIds(i18n, RECORD_TYPES[recordType]);
+  const recordInformationFormIds = useMemoizedSelector(state =>
+    getRecordInformationFormIds(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
+  );
 
   const firstSelectedForm = selectedRecordForm?.first();
 
@@ -197,6 +197,7 @@ const Component = ({
               recordAlerts={recordAlerts}
               selectedForm={selectedForm}
               formGroupLookup={formGroupLookup}
+              primeroModule={primeroModule}
             />
             <Divider />
             {renderFormGroups}

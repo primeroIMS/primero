@@ -5,6 +5,7 @@
   top: 0;
   z-index: 99;
   align-items: center;
+  margin-bottom: 3em;
 }
 
 .formHeading {

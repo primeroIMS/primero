@@ -66,7 +66,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
 
-  const addFilterToList = data => setFilterToList({ ...filterToList, ...data });
+  const addFilterToList = useCallback(data => setFilterToList({ ...filterToList, ...data }), [filterToList]);
 
   const allPrimaryFilters = filters.filter(f => PRIMARY_FILTERS.includes(f.field_name));
   const allDefaultFilters = filters.filter(f => [...defaultFilters.keys()].includes(f.field_name));

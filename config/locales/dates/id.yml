@@ -11,14 +11,6 @@ id:
     - Th
     - Fr
     - Sa
-    abbr_day_names:
-    - ""
-    - ""
-    - ""
-    - ""
-    - ""
-    - ""
-    - ""
     abbr_month_names:
     - ~
     - Jan
@@ -58,13 +50,9 @@ id:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
-      rtl: ""
-      rtl_with_time: ""
   time:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
-      rtl: ""
-      rtl_with_time: ""
   'true': "Yes"
   'false': "No"

@@ -1,30 +1,10 @@
 /* eslint-disable import/prefer-default-export */
-import { fetchRecord } from "../records";
-import { RECORD_PATH, REJECTED } from "../../config";
+import { RECORD_PATH } from "../../config";
 
-// TODO: Should redirect to case (show) in senarios where user still has access. Is user a manager.
-// Is user has group or agency access. Or other existing transfer request/referral for this case.
-export const fetchRecordCallback = ({ recordType, recordId, approvalType = null }) => {
-  const callback = fetchRecord(recordType, recordId, true);
-
-  if (approvalType === REJECTED) {
-    return {
-      action: `${recordType}/REDIRECT`,
-      redirectWithIdFromResponse: false,
-      redirect: `/${RECORD_PATH.cases}`
-    };
-  }
-
-  return {
-    ...callback,
-    api: {
-      ...callback.api,
-      successCallback: [
-        { action: `${recordType}/REDIRECT`, redirectWithIdFromResponse: true, redirect: `/${RECORD_PATH.cases}` }
-      ],
-      failureCallback: [
-        { action: `${recordType}/REDIRECT`, redirectWithIdFromResponse: false, redirect: `/${RECORD_PATH.cases}` }
-      ]
-    }
-  };
-};
+export const redirectCheckAccessDenied = recordType => ({
+  action: `${recordType}/REDIRECT`,
+  redirectWithIdFromResponse: true,
+  redirectProperty: "record_id",
+  redirectWhenAccessDenied: true,
+  redirect: `/${RECORD_PATH[recordType]}`
+});

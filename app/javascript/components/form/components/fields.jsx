@@ -37,7 +37,14 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
     }
 
     if (field?.tabs) {
-      return <FormSectionTabs tabs={field.tabs} formMethods={formMethods} formMode={formMode} />;
+      return (
+        <FormSectionTabs
+          tabs={field.tabs}
+          handleTabChange={field?.handleTabChange}
+          formMethods={formMethods}
+          formMode={formMode}
+        />
+      );
     }
 
     const Component = field?.watchedInputs ? WatchedFormSectionField : FormSectionField;

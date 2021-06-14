@@ -142,8 +142,8 @@ describe("<UsersForm />", () => {
       "/admin/users/1"
     ]);
 
-    it("should render 14 fields", () => {
-      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(14);
+    it("should render 16 fields", () => {
+      expect(getVisibleFields(newComponent.find("FormSection").props().formSection.fields)).to.have.lengthOf(16);
     });
 
     it("should fetch user groups and roles", () => {
