@@ -1,6 +1,6 @@
 Primero
 ========
-[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=development_v2)](https://travis-ci.org/primeroIMS/primero/branches)
+[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
 ## Development

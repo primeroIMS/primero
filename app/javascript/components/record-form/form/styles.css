@@ -31,7 +31,7 @@
 
 .toolbarHeading {
   font-size: $(theme.typography.pxToRem(20));
-  margin-bottom: 0;
+  margin: .5em 0;
 }
 
 .subformHeading {
@@ -70,6 +70,7 @@
   top: 0;
   z-index: 99;
   align-items: center;
+  margin-bottom: 3em;
 }
 
 .attachmentHeading {

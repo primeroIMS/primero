@@ -24,7 +24,14 @@ import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
 const useStyles = makeStyles(styles);
 
-const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
+const Container = ({
+  indexes,
+  setIndexes,
+  allRecordForms,
+  parentFormMethods,
+  reportingLocationConfig,
+  formattedMinimumReportableFields
+}) => {
   const i18n = useI18n();
   const css = useStyles();
   const { isRTL } = useThemeHelper();
@@ -74,7 +81,14 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
 
-  const fields = formattedFields(allRecordForms, selectedModules, selectedRecordType, i18n.locale);
+  const fields = formattedFields(
+    allRecordForms,
+    selectedModules,
+    selectedRecordType,
+    i18n,
+    reportingLocationConfig,
+    formattedMinimumReportableFields
+  );
 
   if (!fields.length) {
     return null;
@@ -191,8 +205,10 @@ Container.displayName = NAME;
 
 Container.propTypes = {
   allRecordForms: PropTypes.object.isRequired,
+  formattedMinimumReportableFields: PropTypes.object,
   indexes: PropTypes.array,
   parentFormMethods: PropTypes.object.isRequired,
+  reportingLocationConfig: PropTypes.object,
   setIndexes: PropTypes.func
 };
 

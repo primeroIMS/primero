@@ -51,6 +51,14 @@ const theme = (direction = ORIENTATION.ltr) => {
       "@global": {
         html: {
           fontSize: muiTheme.typography.pxToRem(isRTL ? 18 : 16)
+        },
+        "#root": {
+          display: "flex",
+          flexDirection: "column",
+          height: "100vh"
+        },
+        legend: {
+          display: "none"
         }
       }
     },
@@ -67,7 +75,7 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiInputLabel: {
       root: {
         lineHeight: "1.5em",
-        fontSize: muiTheme.typography.pxToRem(12),
+        fontSize: muiTheme.typography.pxToRem(isRTL ? 15 : 12),
         marginBottom: ".5em",
         color: colors.black,
         "&$focused": {

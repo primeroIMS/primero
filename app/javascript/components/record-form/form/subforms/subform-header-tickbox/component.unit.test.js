@@ -24,4 +24,14 @@ describe("<SubformTickBoxHeader /> - Form - Subforms", () => {
 
     expect(component.text()).to.be.equal("");
   });
+
+  it("should render yes label if value is true and the tickBoxLabel is empty", () => {
+    const props = {
+      value: true,
+      tickBoxLabel: {}
+    };
+    const { component } = setupMountedComponent(TickBoxHeader, props);
+
+    expect(component.text()).to.be.equal("yes_label");
+  });
 });
