@@ -2,7 +2,6 @@ export { default as appendDisabledUser } from "./append-disabled-user";
 export { default as buildOptions } from "./build-options";
 export { default as getConnectedFields } from "./get-connected-fields";
 export { default as getDefaultForms } from "./get-default-forms";
-export { default as getDefaultRecordInfoForms } from "./get-default-record-info-forms";
 export { default as getSubformValues } from "./get-subform-values";
 export { default as getTranslatedText } from "./get-translated-text";
 export { default as handleChangeOnServiceUser } from "./handle-change-service-user";
