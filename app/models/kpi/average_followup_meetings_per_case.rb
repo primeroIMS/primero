@@ -27,7 +27,10 @@ class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
             and (gbv_follow_up_subform_sections->>'followup_date')::date <= :to
         )
         select
-          count(distinct follow_ups.unique_id)::float / count(distinct my_cases.id)::float as average_followup_meetings_per_case
+          case count(distinct my_cases.id)
+            when 0 then 0
+            else count(distinct follow_ups.unique_id)::float / count(distinct my_cases.id)::float
+          end as average_followup_meetings_per_case
         from
           my_cases,
           follow_ups
