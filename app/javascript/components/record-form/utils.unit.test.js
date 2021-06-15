@@ -8,14 +8,15 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
+  SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
 import { SHOW_APPROVALS } from "../../libs/permissions";
 
-import { getDefaultRecordInfoForms } from "./form/utils";
 import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
 import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
 import * as utils from "./utils";
+import { getDefaultForms } from "./form/utils";
 
 describe("<RecordForms /> - utils", () => {
   describe("compactValues", () => {
@@ -449,7 +450,7 @@ describe("<RecordForms /> - utils", () => {
     });
   });
 
-  describe("pickFormDefaultForms", () => {
+  describe("pickFromDefaultForms", () => {
     it("should return default forms for the not found in the state", () => {
       const forms = fromJS({
         1: FormSectionRecord({
@@ -463,10 +464,17 @@ describe("<RecordForms /> - utils", () => {
       });
 
       const result = Object.keys(
-        utils.pickFromDefaultForms(forms, getDefaultRecordInfoForms({ t: value => value, locale: "en" }))
+        utils.pickFromDefaultForms(forms, getDefaultForms({ t: value => value, locale: "en" }))
       );
 
-      expect(result).to.deep.equal([APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS, CHANGE_LOGS]);
+      expect(result).to.deep.equal([
+        SUMMARY,
+        APPROVALS,
+        INCIDENT_FROM_CASE,
+        REFERRAL,
+        TRANSFERS_ASSIGNMENTS,
+        CHANGE_LOGS
+      ]);
     });
   });
 });
