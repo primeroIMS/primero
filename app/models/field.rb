@@ -32,6 +32,7 @@ class Field < ApplicationRecord
 
   # Since Rails 5 belongs_to acts as a validate_presence_of.
   # This relation will be optional because the scoped association in FormSection will fail otherwise.
+  # TODO: If performing JSON enumration validation on lookups, make sure to touch form_section on change
   belongs_to :form_section, optional: true
   belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
   belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id',
@@ -225,7 +226,9 @@ class Field < ApplicationRecord
   def update_translations(locale, field_hash = {})
     return Rails.logger.error('Field translation not updated: No Locale passed in') if locale.blank?
 
-    return Rails.logger.error("Field translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+    if I18n.available_locales.exclude?(locale)
+      return Rails.logger.error("Field translation not updated: Invalid locale [#{locale}]")
+    end
 
     field_hash.each do |key, value|
       if key == 'option_strings_text'
@@ -289,7 +292,7 @@ class Field < ApplicationRecord
   def sync_modules
     return unless type == SUBFORM
 
-    self.subform_section&.primero_modules = self.form_section.primero_modules if self.form_section.present?
+    subform_section&.primero_modules = form_section.primero_modules if form_section.present?
   end
 
   def validate_unique_name_in_form

@@ -421,23 +421,6 @@ class User < ApplicationRecord
     modules.select { |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_fields(record_type = nil, visible_forms_only = false, writeable = false)
-    permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
-    fields = Field.joins(form_section: :roles).where(
-      fields: {
-        form_sections: {
-          roles: { id: role_id }, parent_form: record_type, visible: (visible_forms_only || nil)
-        }.compact
-      }
-    )
-    fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } }) if writeable
-    fields
-  end
-
-  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false, writeable = false)
-    permitted_fields(record_type, visible_forms_only, writeable).distinct.pluck(:name)
-  end
-
   def permitted_roles_to_manage
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end

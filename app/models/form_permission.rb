@@ -4,7 +4,7 @@
 class FormPermission < ApplicationRecord
   self.table_name = 'form_sections_roles'
   belongs_to :form_section
-  belongs_to :role
+  belongs_to :role, touch: true
 
   PERMISSIONS = {
     read: 'r',

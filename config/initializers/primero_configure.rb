@@ -16,4 +16,6 @@ Rails.application.configure do
 
   # Configuration UI indicator
   config.config_ui = %w[full limited].include?(ENV['PRIMERO_CONFIG_UI']) ? ENV['PRIMERO_CONFIG_UI'] : 'full'
+
+  config.use_app_cache = Rails.env.production? || ::ActiveRecord::Type::Boolean.new.cast(ENV['PRIMERO_USE_APP_CACHE'])
 end
