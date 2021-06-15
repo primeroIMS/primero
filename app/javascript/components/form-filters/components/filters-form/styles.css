@@ -1,6 +1,6 @@
 .recordFormFilters {
-  flex: 1 1;
   max-width: 300px;
+  width: 100%;
 }
 
 @media $(theme.breakpoints.down("sm")) {

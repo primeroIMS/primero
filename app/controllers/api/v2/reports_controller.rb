@@ -40,7 +40,7 @@ class Api::V2::ReportsController < ApplicationApiController
   def report_params
     params.require(:data).permit(
       :record_type, :module_id, :graph, :aggregate_counts_from, :group_ages,
-      :group_dates_by, :add_default_filters, :disabled,
+      :group_dates_by, :add_default_filters, :disabled, :exclude_empty_rows,
       name: {}, description: {}, fields: [:name, position: {}],
       filters: [[:attribute, :constraint, value: []], %i[attribute constraint value]]
     )

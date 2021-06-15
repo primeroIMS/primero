@@ -9,7 +9,7 @@ all:
       always_pull: true,
       # These 3 variables are used to drive the build task.
       # Can be omitted if pulling images from Dockerhub
-      primero_repo_branch: 'development_v2'
+      primero_repo_branch: 'master'
       build_docker_tag: 'latest'
       build_docker_container_registry: ''
       # If you want to seed from a private configuration repo

@@ -378,13 +378,14 @@ class Report < ApplicationRecord
     pivots_string = pivots.map { |p| SolrUtils.indexed_field_name(record_type, p) }.select(&:present?).join(',')
     filter_query = build_solr_filter_query(record_type, filters)
     result_pivots = []
+    mincount = exclude_empty_rows? ? 1 : -1
     if number_of_pivots == 1
       params = {
         q: filter_query,
         rows: 0,
         facet: 'on',
         'facet.field': pivots_string,
-        'facet.mincount': -1,
+        'facet.mincount': mincount,
         'facet.limit': -1
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
@@ -403,7 +404,7 @@ class Report < ApplicationRecord
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
-        'facet.pivot.mincount': -1,
+        'facet.pivot.mincount': mincount,
         'facet.limit': -1
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)

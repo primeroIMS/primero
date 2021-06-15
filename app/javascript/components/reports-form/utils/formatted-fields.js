@@ -1,7 +1,9 @@
+import { MATCH_REPORTABLE_TYPES } from "../constants";
+
 import buildFields from "./build-fields";
 import getFormName from "./get-form-name";
 
-export default (formSections, modules, recordType, i18n, reportingLocationConfig) => {
+export default (formSections, modules, recordType, i18n, reportingLocationConfig, reportableFields) => {
   const formsByModuleAndRecordType = formSections.filter(formSection =>
     Array.isArray(modules)
       ? formSection.get("module_ids").some(mod => modules.includes(mod))
@@ -12,11 +14,21 @@ export default (formSections, modules, recordType, i18n, reportingLocationConfig
     formSection => formSection.get("parent_form") === recordType
   );
 
+  const reportableFieldsByRecord = reportableFields?.[MATCH_REPORTABLE_TYPES?.[recordType]];
+
   const reportableForm = formName
     ? formsByModuleAndRecordType
         .filter(formSection => formSection.get("unique_id") === formName)
-        ?.getIn([0, "fields", 0, "subform_section_id"])
+        ?.getIn([0, "fields"])
+        // eslint-disable-next-line camelcase
+        ?.find(field => field.type === "subform")?.subform_section_id
     : [];
 
-  return buildFields(formName ? reportableForm : recordTypesForms, i18n, Boolean(formName), reportingLocationConfig);
+  return buildFields(
+    formName ? reportableForm : recordTypesForms,
+    i18n,
+    Boolean(formName),
+    reportingLocationConfig,
+    reportableFieldsByRecord
+  );
 };

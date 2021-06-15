@@ -1,18 +1,20 @@
+import isEmpty from "lodash/isEmpty";
+
 import { displayNameHelper } from "../../../libs";
 import { ALLOWED_FIELD_TYPES } from "../constants";
 
 import { buildLocationFields, buildField } from "./build-field";
 
-export default (data, i18n, isReportable, reportingLocationConfig) => {
+export default (data, i18n, isReportable, reportingLocationConfig, minimumReportableFields) => {
   const { locale } = i18n;
 
   if (isReportable) {
-    if (data.isEmpty()) {
+    if (isEmpty(data)) {
       return [];
     }
     const formSection = displayNameHelper(data.get("name"), locale);
 
-    return data.get("fields").reduce((prev, current) => {
+    const result = data.get("fields").reduce((prev, current) => {
       const lookup = current.get("option_strings_source")?.replace(/lookup /, "");
 
       if (lookup === "Location") {
@@ -21,6 +23,8 @@ export default (data, i18n, isReportable, reportingLocationConfig) => {
 
       return [...prev, buildField(current, formSection, locale)];
     }, []);
+
+    return minimumReportableFields ? result.concat(Object.values(minimumReportableFields).flat()) : result;
   }
 
   return data.reduce((acc, form) => {

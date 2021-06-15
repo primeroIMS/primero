@@ -35,7 +35,7 @@ import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
 import CodeOfConduct from "../components/code-of-conduct";
-import { AppLayout, LoginLayout } from "../components/layouts";
+import { AppLayout, LoginLayout, EmptyLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
   CREATE_REPORTS,
@@ -444,8 +444,13 @@ export default [
     ]
   },
   {
-    path: ROUTES.code_of_conduct,
-    component: CodeOfConduct
+    layout: EmptyLayout,
+    routes: [
+      {
+        path: ROUTES.code_of_conduct,
+        component: CodeOfConduct
+      }
+    ]
   },
   {
     component: NotFound

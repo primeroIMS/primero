@@ -2,6 +2,7 @@ ar-JO:
   date:
     today: 'اليوم'
     clear: 'واضح'
+    first_day: 0
     abbr_day_names_short:
       - الاحد
       - الاثنين

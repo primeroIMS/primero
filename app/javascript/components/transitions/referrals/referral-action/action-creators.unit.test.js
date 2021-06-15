@@ -8,10 +8,11 @@ import actions from "./actions";
 
 describe("<ReferralAction /> - Action Creators", () => {
   const redirectCallback = {
-    action: `cases/REDIRECT`,
-    redirectWithIdFromResponse: true,
+    action: "cases/REDIRECT",
+    redirectProperty: "record_id",
     redirectWhenAccessDenied: true,
-    redirect: `/cases`
+    redirectWithIdFromResponse: true,
+    redirect: "/cases"
   };
 
   it("should have known action creators", () => {
