@@ -84,6 +84,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
 
       get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true'
+
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
@@ -160,6 +161,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
 
       get '/api/v2/agencies?managed=true&order_by=name&order=desc'
+
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
       expect(json['data'].map { |agency| agency['unique_id'] }).to eq(

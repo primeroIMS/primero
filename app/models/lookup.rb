@@ -18,11 +18,7 @@ class Lookup < ApplicationRecord
 
   class << self
     def list(options)
-      order_query = SqlOrderQueryService.build_order_query(self, options)
-
-      return all unless order_query.present?
-
-      all.order(order_query)
+      OrderByPropertyService.apply_order(all, options)
     end
 
     # TODO: Delete after we have fixed data storage with Alberto's changes.

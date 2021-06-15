@@ -72,8 +72,8 @@ class Role < ApplicationRecord
 
       roles_list = options[:managed] ? list_managed(user) : all
       roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
-      order_query = SqlOrderQueryService.build_order_query(self, options)
-      order_query.present? ? roles_list.order(order_query) : roles_list
+
+      OrderByPropertyService.apply_order(roles_list, options)
     end
 
     def list_managed(user)

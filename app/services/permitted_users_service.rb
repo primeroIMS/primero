@@ -15,9 +15,8 @@ class PermittedUsersService
     current_pagination = build_pagination(pagination)
 
     users = users.limit(current_pagination[:per_page]).offset(current_pagination[:offset])
-    order_query = SqlOrderQueryService.build_order_query(self, order_params)
 
-    users = users.order(order_query) if order_query.present?
+    users = OrderByPropertyService.apply_order(users, order_params)
 
     { total: total, users: users }
   end

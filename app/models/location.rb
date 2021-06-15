@@ -65,11 +65,7 @@ class Location < ApplicationRecord
     end
 
     def list(filters = {}, options = {})
-      order_query = SqlOrderQueryService.build_order_query(self, options)
-
-      list_query = filters.blank? ? all : where(filters)
-
-      order_query.present? ? list_query.order(order_query) : list_query
+      OrderByPropertyService.apply_order(filters.blank? ? all : where(filters), options)
     end
   end
 

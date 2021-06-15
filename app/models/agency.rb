@@ -65,9 +65,8 @@ class Agency < ApplicationRecord
 
     def list(params = {})
       agencies = params[:managed] ? all : enabled
-      agencies = agencies.where(disabled: params[:disabled].values) if params[:disabled].present?
-      order_query = SqlOrderQueryService.build_order_query(self, params)
-      order_query.present? ? agencies.order(order_query) : agencies
+      agencies = agencies.where(disabled: params[:disabled]) if params[:disabled].present?
+      OrderByPropertyService.apply_order(agencies, params)
     end
 
     def get_field_using_unique_id(unique_id, field)
