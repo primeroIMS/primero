@@ -58,6 +58,7 @@ const Container = () => {
   useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields, defaultMetadata });
 
   const tableOptions = {
+    canSelectAll: false,
     recordType,
     columns: getColumns(columns, locationTypes),
     options: { selectableRows: "multiple" },

@@ -25,6 +25,7 @@ import CustomToolbarSelect from "./custom-toolbar-select";
 
 const Component = ({
   arrayColumnsToString,
+  canSelectAll,
   title,
   columns,
   recordType,
@@ -243,6 +244,7 @@ const Component = ({
       page={page}
       fetchRecords={onTableChange}
       selectedFilters={defaultFilters.merge(filters)}
+      canSelectAll={canSelectAll}
     />
   );
 
@@ -357,12 +359,14 @@ Component.displayName = NAME;
 
 Component.defaultProps = {
   bypassInitialFetch: false,
+  canSelectAll: true,
   showCustomToolbar: false
 };
 
 Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
+  canSelectAll: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
   isRowSelectable: PropTypes.func,

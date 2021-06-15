@@ -13,6 +13,7 @@ import { selectAllRecords } from "./utils";
 const useStyles = makeStyles(styles);
 
 const Component = ({
+  canSelectAll,
   displayData,
   fetchRecords,
   page,
@@ -101,7 +102,7 @@ const Component = ({
     <div className={css.customToolbarFull}>
       <div className={css.firstGroup}>
         {renderSelectedRecordMessage}
-        {selectAllButton}
+        {canSelectAll && selectAllButton}
       </div>
       <div className={css.lastGroup}>
         <TablePagination {...paginationProps} />
@@ -110,7 +111,12 @@ const Component = ({
   );
 };
 
+Component.defaultProps = {
+  canSelectAll: true
+};
+
 Component.propTypes = {
+  canSelectAll: PropTypes.bool,
   displayData: PropTypes.array,
   fetchRecords: PropTypes.func,
   page: PropTypes.number,

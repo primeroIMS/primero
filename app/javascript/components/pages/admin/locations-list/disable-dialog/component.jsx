@@ -15,6 +15,7 @@ import { NAME } from "./constants";
 
 const Component = ({ filters, selectedRecords, setSelectedRecords, recordType }) => {
   const dispatch = useDispatch();
+
   const data = useMemoizedSelector(state => getRecords(state, recordType));
   const loading = useMemoizedSelector(state => getDisableLocationsLoading(state));
   const errors = useMemoizedSelector(state => getDisableLocationsErrors(state));
