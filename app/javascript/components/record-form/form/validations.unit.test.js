@@ -47,6 +47,19 @@ describe("<RecordForm>/form/validations", () => {
           expect(schema.isValidSync(formData)).to.be.true;
         });
       });
+
+      context("when there are invalid subforms", () => {
+        it("should be invalid and return the information of the fields that failed", () => {
+          const formData = { subform_1: [{ _destroy: true }, {}, { field_1: "Person 1" }] };
+
+          try {
+            schema.validateSync(formData);
+            expect.fail("This should be invalid");
+          } catch (e) {
+            expect(e.path).to.equals("subform_1[1].field_1");
+          }
+        });
+      });
     });
   });
 });
