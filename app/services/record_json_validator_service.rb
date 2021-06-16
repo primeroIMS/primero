@@ -19,7 +19,9 @@ class RecordJsonValidatorService < ValueObject
   def validate!(json_hash)
     return if valid?(json_hash)
 
-    raise(Errors::InvalidRecordJson, 'Invalid Record JSON')
+    error = Errors::InvalidRecordJson.new('Invalid Record JSON')
+    error.invalid_props = schemer.validate(json_hash).map { |v| v['data_pointer'] }
+    raise error
   end
 
   private
