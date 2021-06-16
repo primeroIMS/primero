@@ -15,6 +15,6 @@ class AddTimestampsToConfigTables < ActiveRecord::Migration[5.2]
        roles
        system_settings
        user_groups
-       webhooks].each { |table| add_timestamps(table, null: false, default: DateTime.now) }
+       webhooks].each { |table| add_timestamps(table, null: false, default: -> { 'CURRENT_TIMESTAMP' }) }
   end
 end

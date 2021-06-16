@@ -102,7 +102,7 @@ class PermittedFieldService
     permitted_actions =
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))
-    schema['hidden_name'] = { type: 'string' } if user.can?(:update, model_class)
+    schema['hidden_name'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
     schema.merge(permitted_approval_schema)
   end
