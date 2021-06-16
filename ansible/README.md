@@ -212,6 +212,16 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
                 afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
                 -----END RSA PRIVATE KEY-----
+                nginx_ssl_key: |
+                -----BEGIN PRIVATE KEY-----
+                klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+                afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+                -----END PRIVATE KEY-----
+                nginx_ssl_cert: |
+                -----BEGIN CERTIFICATE-----
+                klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+                afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+                -----END CERTIFICATE-----
 
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
@@ -242,3 +252,37 @@ and the production site
    ```shell
     LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
     ```
+
+## Deploy external certs
+
+To use an external cert on a primero deploy you need to add on the `secret.yml` file the follow entries:
+
+1. `nginx_ssl_key`
+2. `nginx_ssl_cert`
+
+Also set on your inventory file the follow entries:
+
+```shell
+      use_lets_encrypt: 'false'
+      use_external_certs: 'true'
+      nginx_ssl_cert_path: '/external-certs/primero.crt'
+      nginx_ssl_key_path: '/external-certs/primero.key'
+```
+
+Then recreate the local env file:
+
+```shell
+(venv) $ ansible-playbook application-primero.yml --tags "local-env" -e @secrets.yml
+```
+
+Copy the certs to the host using:
+
+```shell
+(venv) $ ansible-playbook external-certs.yml -e @secrets.yml
+```
+
+Finally restart the docker containers:
+
+```shell
+(venv) $ ansible-playbook application-primero.yml --tags start
+```

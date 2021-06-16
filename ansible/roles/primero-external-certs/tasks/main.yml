@@ -1,7 +1,7 @@
 ---
 - name: 'create the /srv/primero/bin directory'
   file:
-    path: '/srv/primero/bin/external-certs/external-certs'
+    path: '/srv/primero/bin/external-certs'
     state: 'directory'
   become: yes
   tags:
