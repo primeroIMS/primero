@@ -7,7 +7,7 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def index
     authorize! :index, Agency
-    filter_agencies = Agency.list(agency_filters)
+    filter_agencies = Agency.list(current_user, agency_filters)
     @total = filter_agencies.size
     @agencies = filter_agencies.paginate(pagination)
   end

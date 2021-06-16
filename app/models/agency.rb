@@ -63,14 +63,18 @@ class Agency < ApplicationRecord
       agency
     end
 
-    def list(params = {})
-      agencies = params[:managed] ? all : enabled
+    def list(user = nil, params = {})
+      agencies = params[:managed] ? list_managed(user) : all
       agencies = agencies.where(disabled: params[:disabled]) if params[:disabled].present?
       OrderByPropertyService.apply_order(agencies, params)
     end
 
     def get_field_using_unique_id(unique_id, field)
       where(unique_id: unique_id).pluck(field)&.first
+    end
+
+    def list_managed(user)
+      user&.permitted_agencies || none
     end
   end
 

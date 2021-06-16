@@ -448,6 +448,13 @@ class User < ApplicationRecord
     user_groups
   end
 
+  def permitted_agencies
+    return Agency.all if group_permission?(Permission::ALL)
+    return Agency.none unless agency_id.present?
+
+    Agency.where(id: agency_id)
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end
