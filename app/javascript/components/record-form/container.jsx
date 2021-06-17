@@ -42,7 +42,7 @@ import ChangeLogs from "../change-logs";
 import { getIsProcessingSomeAttachment, getLoadingRecordState, getRecordAttachments } from "../records/selectors";
 import { usePermissions } from "../user";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../records/action-creators";
-import { getPermittedFormsIds } from "../user/selectors";
+import { getPermissionsByRecord, getPermittedFormsIds } from "../user/selectors";
 import Summary from "../summary";
 import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
@@ -52,13 +52,13 @@ import { fetchReferralUsers } from "../record-actions/transitions/action-creator
 import { SERVICES_SUBFORM } from "../record-actions/add-service/constants";
 
 import {
-  customForms,
   getAttachmentForms,
   getFirstTab,
   getFormNav,
   getRecordForms,
   getLoadingState,
   getErrors,
+  getRecordFormsByUniqueId,
   getSelectedForm,
   getShouldFetchRecord
 } from "./selectors";
@@ -67,7 +67,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { compactValues, getRedirectPath } from "./utils";
+import { compactBlank, compactValues, getRedirectPath } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -120,8 +120,8 @@ const Container = ({ mode }) => {
     record,
     mode: containerMode
   });
-
-  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));
+  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, params.recordType));
+  const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule, userPermissions));
   const forms = useMemoizedSelector(state => getRecordForms(state, selectedModule));
   const attachmentForms = useMemoizedSelector(state => getAttachmentForms(state));
   const firstTab = useMemoizedSelector(state => getFirstTab(state, selectedModule));
@@ -133,6 +133,9 @@ const Container = ({ mode }) => {
     getIsProcessingSomeAttachment(state, params.recordType)
   );
   const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, params.recordType));
+  const summaryForm = useMemoizedSelector(state =>
+    getRecordFormsByUniqueId(state, { ...selectedModule, formName: SUMMARY, getFirst: true })
+  );
   const shouldFetchRecord = useMemoizedSelector(state => getShouldFetchRecord(state, params));
 
   const handleFormSubmit = e => {
@@ -154,7 +157,7 @@ const Container = ({ mode }) => {
 
       const body = {
         data: {
-          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : formValues),
+          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
           ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
@@ -325,6 +328,7 @@ const Container = ({ mode }) => {
           setFieldValue={setFieldValue}
           handleSubmit={handleSubmit}
           recordType={params.recordType}
+          primeroModule={selectedModule.primeroModule}
           handleCreateIncident={handleCreateIncident}
         />
       ),
@@ -346,7 +350,7 @@ const Container = ({ mode }) => {
           recordType={params.recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          form={customForms(i18n)[form]}
+          form={summaryForm}
           mode={containerMode}
           userPermittedFormsIds={userPermittedFormsIds}
           values={values}

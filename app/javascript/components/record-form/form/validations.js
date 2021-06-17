@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { number, date, array, object, string, bool } from "yup";
+import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
 
 import { NUMERIC_FIELD, DATE_FIELD, DOCUMENT_FIELD, SUBFORM_SECTION, NOT_FUTURE_DATE, TICK_FIELD } from "../constants";
@@ -33,7 +33,9 @@ export const fieldValidations = (field, i18n) => {
       return fieldValidations(sf, i18n);
     });
 
-    validations[name] = array().of(object().shape(Object.assign({}, ...subformSchema)));
+    validations[name] = array().of(
+      lazy(value => (value._destroy ? object() : object().shape(Object.assign({}, ...subformSchema))))
+    );
   }
 
   if (DOCUMENT_FIELD === type) {

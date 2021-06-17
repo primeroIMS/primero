@@ -20,8 +20,8 @@ class Exporters::FormExporter < ValueObject
 
   def initialize_header(opts = {})
     self.visible_column_index = 5
-    keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form option_ids options
-              help_text guiding_questions]
+    keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form options
+              options_lookup help_text guiding_questions]
     keys = keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
     keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
   end
@@ -108,7 +108,7 @@ class Exporters::FormExporter < ValueObject
 
   def field_row(form, field)
     field_row = [form.form_group_id, form.name, field.name, field_type(field), field.display_name, required(field),
-                 mobile_visible(form, field), minify_visible(field), field_option_ids(field), field_options(field),
+                 mobile_visible(form, field), minify_visible(field), field_options(field), field_option_lookup(field),
                  field.help_text, field.guiding_questions]
     field_row = insert_visible_column(field_row, field) unless visible
     field_row
@@ -118,10 +118,14 @@ class Exporters::FormExporter < ValueObject
     %w[radio_button select_box]
   end
 
-  def field_option_ids(field)
-    return unless field_select_types.include?(field.type) && field.option_strings_text.present?
+  def lookups
+    @lookups ||= Lookup.all
+  end
 
-    field.option_strings_text.map { |o| o['id'] }.join(', ')
+  def field_option_lookup(field)
+    return unless field_select_types.include?(field.type) && field.option_strings_source.present?
+
+    field.option_strings_source.split.last if field.option_strings_source.present?
   end
 
   def field_options(field)
@@ -139,7 +143,11 @@ class Exporters::FormExporter < ValueObject
       return I18n.t("exports.forms.options.#{option.downcase}", locale: locale)
     end
 
-    field.options_list.map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
+    if field.option_strings_source&.end_with?('lookup-country')
+      return I18n.t('exports.forms.options.country', locale: locale)
+    end
+
+    field.options_list(lookups: lookups).map { |o| o.is_a?(String) ? o : o['display_text'] }.join(', ')
   end
 
   def field_options_subform(field)

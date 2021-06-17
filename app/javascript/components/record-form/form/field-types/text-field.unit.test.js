@@ -3,6 +3,7 @@ import { ButtonBase } from "@material-ui/core";
 import { Route } from "react-router-dom";
 
 import { setupMountedComponent, stub } from "../../../../test";
+import { NUMERIC_FIELD } from "../../../form";
 import { TEXT_FIELD_NAME } from "../constants";
 import { generate } from "../../../notifier";
 
@@ -42,6 +43,39 @@ describe("<TextField />", () => {
     it("should render the TextField", () => {
       expect(component.find(TextField)).lengthOf(1);
       expect(component.find(MuiTextField)).lengthOf(1);
+    });
+  });
+
+  describe("when is a numeric text-field", () => {
+    const props = {
+      field: {
+        name: "test_number",
+        type: NUMERIC_FIELD,
+        display_name_en: "Number test field"
+      },
+      formik: {
+        values: []
+      },
+      label: "Test Number",
+      mode: {
+        isShow: false,
+        isEdit: true
+      },
+      name: "test_number"
+    };
+
+    const formProps = { initialValues: { test_number: "" } };
+
+    let component;
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(TextField, props, {}, [], formProps));
+    });
+
+    it("should set the value as a number", () => {
+      component.find("input").simulate("change", { target: { value: "10" } });
+
+      expect(component.find(MuiTextField).props().form.values.test_number).to.equal(10);
     });
   });
 

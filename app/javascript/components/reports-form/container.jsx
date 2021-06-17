@@ -13,7 +13,7 @@ import { useDialog } from "../action-dialog";
 import { ROUTES, SAVE_METHODS } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import { useApp } from "../application";
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getReportingLocationConfig } from "../application/selectors";
 import Form, { FormAction, whichFormMode } from "../form";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -39,7 +39,7 @@ import {
 } from "./constants";
 import { form, validations } from "./form";
 import NAMESPACE from "./namespace";
-import { buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
+import { buildMinimumReportableFields, buildReportFields, checkValue, formatAgeRange, formatReport } from "./utils";
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
@@ -55,8 +55,11 @@ const Container = ({ mode }) => {
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
   const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
+  const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
+
+  const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms);
 
   const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
 
@@ -117,7 +120,14 @@ const Container = ({ mode }) => {
     );
   };
 
-  const formSections = form(i18n, formatAgeRange(primeroAgeRanges), formMode.isNew, userModules);
+  const formSections = form(
+    i18n,
+    formatAgeRange(primeroAgeRanges),
+    formMode.isNew,
+    userModules,
+    reportingLocationConfig,
+    formattedMinimumReportableFields
+  );
   const validationSchema = validations(i18n);
   const handleCancel = () => {
     dispatch(push(ROUTES.reports));
@@ -165,6 +175,8 @@ const Container = ({ mode }) => {
                   selectedReport={report}
                   indexes={indexes}
                   setIndexes={setIndexes}
+                  reportingLocationConfig={reportingLocationConfig}
+                  formattedMinimumReportableFields={formattedMinimumReportableFields}
                 />
                 {dialogOpen && (
                   <TranslationsDialog

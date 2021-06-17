@@ -153,7 +153,8 @@ describe Api::V2::UsersController, type: :request do
       email: 'test_user_1@localhost.com',
       agency_id: @agency_a.id,
       role: @role,
-      identity_provider_id: @identity_provider_a.id
+      identity_provider_id: @identity_provider_a.id,
+      user_groups: [@user_group_a]
     )
 
     @user_b = User.create!(
@@ -391,6 +392,8 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
+      expect(json['data']['user_groups'].size).to eq(1)
+      expect(json['data']['user_groups'][0]['unique_id']).to eq(@user_group_a.unique_id)
     end
 
     it "returns 403 if user isn't authorized to access" do

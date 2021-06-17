@@ -1,10 +1,22 @@
 import { parseISO } from "date-fns";
+import { fromJS } from "immutable";
 
 import { useFakeTimers } from "../../test";
+import {
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_OWNER,
+  REFERRAL,
+  SUMMARY,
+  TRANSFERS_ASSIGNMENTS
+} from "../../config";
+import { SHOW_APPROVALS } from "../../libs/permissions";
 
-import { FormSectionRecord, FieldRecord } from "./records";
-import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
+import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD, SEPERATOR } from "./constants";
 import * as utils from "./utils";
+import { getDefaultForms } from "./form/utils";
 
 describe("<RecordForms /> - utils", () => {
   describe("compactValues", () => {
@@ -212,22 +224,25 @@ describe("<RecordForms /> - utils", () => {
         FormSectionRecord({
           unique_id: "form_1",
           fields: [
-            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({ name: "field_1", selected_value: "default_value_1", visible: true }),
             FieldRecord({
               name: "field_2",
               type: SELECT_FIELD,
               multi_select: true,
-              selected_value: `["value_1", "value_2"]`
+              selected_value: `["value_1", "value_2"]`,
+              visible: true
             }),
             FieldRecord({
               name: "field_3",
               type: TICK_FIELD,
-              selected_value: true
+              selected_value: true,
+              visible: true
             }),
             FieldRecord({
               name: "field_4",
               type: DATE_FIELD,
-              selected_value: "today"
+              selected_value: "today",
+              visible: true
             })
           ]
         })
@@ -248,19 +263,22 @@ describe("<RecordForms /> - utils", () => {
         FormSectionRecord({
           unique_id: "form_1",
           fields: [
-            FieldRecord({ name: "field_1" }),
+            FieldRecord({ name: "field_1", visible: true }),
             FieldRecord({
               name: "field_2",
               type: SELECT_FIELD,
-              multi_select: true
+              multi_select: true,
+              visible: true
             }),
             FieldRecord({
               name: "field_3",
-              type: TICK_FIELD
+              type: TICK_FIELD,
+              visible: true
             }),
             FieldRecord({
               name: "field_4",
-              type: DATE_FIELD
+              type: DATE_FIELD,
+              visible: true
             })
           ]
         })
@@ -274,6 +292,34 @@ describe("<RecordForms /> - utils", () => {
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    it("should not generate default values for separators", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", type: SEPERATOR, visible: true }),
+            FieldRecord({ name: "field_2", type: SEPERATOR, visible: true })
+          ]
+        })
+      ];
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal({});
+    });
+
+    it("should not generate default values for hidden fields", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", type: TEXT_FIELD }),
+            FieldRecord({ name: "field_2", type: TEXT_FIELD })
+          ]
+        })
+      ];
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal({});
     });
 
     afterEach(() => {
@@ -388,6 +434,103 @@ describe("<RecordForms /> - utils", () => {
       const result = utils.sortSubformValues(initialValues, forms);
 
       expect(result).to.deep.equals(expected);
+    });
+  });
+
+  describe("buildFormNav", () => {
+    it("should return the nav with the permission_actions if defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Approvals",
+        order: 1,
+        formId: APPROVALS,
+        is_first_tab: true,
+        permission_actions: SHOW_APPROVALS
+      });
+
+      const approvalsForm = FormSectionRecord({
+        unique_id: APPROVALS,
+        form_group_id: "group_1",
+        name: { en: "Approvals" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(approvalsForm)).to.deep.equal(expected);
+    });
+
+    it("should return the nav without permission_actions if not defined", () => {
+      const expected = NavRecord({
+        group: "group_1",
+        groupOrder: 1,
+        name: "Form 1",
+        order: 1,
+        formId: "form_id_1",
+        is_first_tab: true
+      });
+
+      const form = FormSectionRecord({
+        unique_id: "form_id_1",
+        form_group_id: "group_1",
+        name: { en: "Form 1" },
+        order: 1,
+        order_form_group: 1,
+        is_first_tab: true
+      });
+
+      expect(utils.buildFormNav(form)).to.deep.equal(expected);
+    });
+  });
+
+  describe("pickFromDefaultForms", () => {
+    it("should return default forms for the not found in the state", () => {
+      const forms = fromJS({
+        1: FormSectionRecord({
+          unique_id: RECORD_OWNER,
+          form_group_id: "group_1",
+          name: { en: "Record Owner in State" },
+          order: 1,
+          order_form_group: 1,
+          is_first_tab: true
+        })
+      });
+
+      const result = Object.keys(
+        utils.pickFromDefaultForms(forms, getDefaultForms({ t: value => value, locale: "en" }))
+      );
+
+      expect(result).to.deep.equal([
+        SUMMARY,
+        APPROVALS,
+        INCIDENT_FROM_CASE,
+        REFERRAL,
+        TRANSFERS_ASSIGNMENTS,
+        CHANGE_LOGS
+      ]);
+    });
+  });
+
+  describe("compactBlank", () => {
+    it("should remove all the null, undefined and empty values from an object", () => {
+      const expected = {
+        name: "Name 1",
+        age: 10,
+        estimated: true
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          country: "",
+          age: 10,
+          nationality: [null],
+          religion: null,
+          locations: fromJS([]),
+          estimated: true
+        })
+      ).to.deep.equals(expected);
     });
   });
 });

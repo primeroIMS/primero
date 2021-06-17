@@ -183,12 +183,13 @@ describe Api::V2::ReportsController, type: :request do
         'name' => { 'en' => 'Test report', 'fr' => 'Test report in French', 'es' => '' },
         'description' => { 'en' => 'Description', 'fr' => 'Description in French', 'es' => '' },
         'editable' => true,
+        'exclude_empty_rows' => false,
         'disabled' => false,
         'graph' => false,
         'graph_type' => 'bar',
         'group_ages' => false,
         'group_dates_by' => 'date',
-        'module_id' => ['primeromodule-cp'],
+        'module_id' => 'primeromodule-cp',
         'record_type' => 'case',
         'fields' => [
           {
@@ -452,10 +453,11 @@ describe Api::V2::ReportsController, type: :request do
         'graph' => true,
         'graph_type' => 'bar',
         'editable' => true,
+        'exclude_empty_rows' => false,
         'disabled' => false,
         'group_ages' => true,
         'group_dates_by' => 'year',
-        'module_id' => ['primeromodule-cp'],
+        'module_id' => 'primeromodule-cp',
         'record_type' => 'case',
         'fields' => [
           {

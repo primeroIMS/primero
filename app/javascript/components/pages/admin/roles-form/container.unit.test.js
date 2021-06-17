@@ -4,7 +4,9 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { setupMountedComponent, setupMockFormComponent } from "../../../../test";
 import { ACTIONS } from "../../../../libs/permissions";
 import { ActionsMenu } from "../../../form";
+import RadioInput from "../../../form/fields/radio-input";
 import FormSection from "../../../form/components/form-section";
+import { FormSectionRecord } from "../../../form/records";
 import { ROUTES } from "../../../../config/constants";
 
 import RolesActions from "./roles-actions";
@@ -78,8 +80,9 @@ describe("<RolesForm />", () => {
           }
         },
         forms: {
-          formSections: [
-            {
+          formSections: {
+            1: FormSectionRecord({
+              id: 1,
               unique_id: "form_1",
               fields: [
                 {
@@ -87,9 +90,21 @@ describe("<RolesForm />", () => {
                 }
               ],
               visible: true,
-              is_nested: false
-            }
-          ]
+              is_nested: false,
+              parent_form: "case",
+              module_ids: ["primeromodule-cp"]
+            }),
+            2: FormSectionRecord({
+              id: 2,
+              unique_id: "core_form_1",
+              fields: [],
+              visible: true,
+              is_nested: false,
+              core_form: true,
+              parent_form: "case",
+              module_ids: ["primeromodule-cp"]
+            })
+          }
         },
         user: {
           permissions: {
@@ -114,6 +129,13 @@ describe("<RolesForm />", () => {
 
     it("renders role form sections", () => {
       expect(component.find(FormSection)).to.have.lengthOf(6);
+    });
+
+    it("renders core forms disabled and empty", () => {
+      const { commonInputProps, formMethods } = component.find(RadioInput).at(1).props();
+
+      expect(commonInputProps.disabled).to.be.true;
+      expect(formMethods.getValues().form_section_read_write.case.core_form_1).to.be.empty;
     });
 
     it("renders the selected modules", () => {

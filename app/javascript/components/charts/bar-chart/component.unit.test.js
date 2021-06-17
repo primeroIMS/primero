@@ -1,6 +1,6 @@
 import { Map } from "immutable";
 
-import { buildDataForGraph } from "../../report/utils";
+import { buildGraphData } from "../../report/utils";
 import { setupMountedThemeComponent } from "../../../test";
 
 import BarChart from "./component";
@@ -27,7 +27,7 @@ describe("<BarChart />", () => {
     const showDetails = false;
     const description = "Number of cases broken down by nationality";
     const component = setupMountedThemeComponent(BarChart, {
-      ...buildDataForGraph(data, { t: () => "Total" }, { agencies }),
+      ...buildGraphData(data, { t: () => "Total" }, { agencies }),
       description,
       showDetails
     });

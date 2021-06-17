@@ -11,7 +11,12 @@ import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
-import { getRecordFormsByUniqueId, getValidationErrors } from "../selectors";
+import {
+  getIncidentFromCaseForm,
+  getRecordFormsByUniqueId,
+  getRecordInformationFormIds,
+  getValidationErrors
+} from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
@@ -20,7 +25,6 @@ import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
-import { getRecordInformationFormIds } from "./components/record-information";
 import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
@@ -45,6 +49,9 @@ const Component = ({
   const dispatch = useDispatch();
   const css = useStyles();
 
+  const incidentFromCaseForm = useMemoizedSelector(state =>
+    getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })
+  );
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
   const currentSelectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
@@ -61,8 +68,9 @@ const Component = ({
   const formGroupLookup = useMemoizedSelector(state =>
     getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n)
   );
-
-  const recordInformationFormIds = getRecordInformationFormIds(i18n, RECORD_TYPES[recordType]);
+  const recordInformationFormIds = useMemoizedSelector(state =>
+    getRecordInformationFormIds(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
+  );
 
   const firstSelectedForm = selectedRecordForm?.first();
 
@@ -125,8 +133,8 @@ const Component = ({
       dispatch(setSelectedForm(RECORD_OWNER));
       setOpen(RECORD_INFORMATION_GROUP);
     }
-    if (hasForms && selectedForm === RECORD_OWNER) {
-      dispatch(setSelectedForm(""));
+    if (hasForms && selectedForm === RECORD_OWNER && firstTab.unique_id !== RECORD_OWNER) {
+      dispatch(setSelectedForm(firstTab.unique_id));
     }
   }, [hasForms]);
 
@@ -143,7 +151,7 @@ const Component = ({
         setOpen(RECORD_INFORMATION_GROUP);
       } else if (incidentFromCase?.size && recordInformationFormIds.includes(INCIDENT_FROM_CASE)) {
         dispatch(setSelectedForm(INCIDENT_FROM_CASE));
-        setOpen(RECORD_INFORMATION_GROUP);
+        setOpen(incidentFromCaseForm.form_group_id);
       } else if (firstSelectedForm?.form_group_id && selectedForm && selectedForm !== firstSelectedForm.unique_id) {
         dispatch(setSelectedForm(firstSelectedForm.unique_id));
         setOpen(firstSelectedForm.form_group_id);
@@ -197,6 +205,7 @@ const Component = ({
               recordAlerts={recordAlerts}
               selectedForm={selectedForm}
               formGroupLookup={formGroupLookup}
+              primeroModule={primeroModule}
             />
             <Divider />
             {renderFormGroups}

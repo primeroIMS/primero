@@ -39,7 +39,7 @@ available in the response.
         "graph_type": "bar",
         "editable": false,
         "record_type": "case",
-        "module_id": ["primeromodule-cp"],
+        "module_id": "primeromodule-cp",
         "group_dates_by": "month",
         "group_ages": false,
         "fields": [

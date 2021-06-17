@@ -1,43 +1,46 @@
 /* eslint-disable camelcase */
 
 import { fromJS } from "immutable";
-import { object, string } from "yup";
+import { array, boolean, object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD, OPTION_TYPES } from "../form";
 
 import {
-  NAME_FIELD,
-  DESCRIPTION_FIELD,
-  MODULES_FIELD,
-  RECORD_TYPE_FIELD,
   AGGREGATE_BY_FIELD,
+  DESCRIPTION_FIELD,
+  DISABLED_FIELD,
   DISAGGREGATE_BY_FIELD,
+  EXCLUDE_EMPTY_ROWS_FIELD,
   GROUP_AGES_FIELD,
   GROUP_DATES_BY_FIELD,
   IS_GRAPH_FIELD,
-  DISABLED_FIELD,
+  MODULES_FIELD,
+  NAME_FIELD,
+  RECORD_TYPE_FIELD,
   REPORTABLE_TYPES
 } from "./constants";
 import { buildUserModules, formattedFields } from "./utils";
 
 export const validations = i18n =>
   object().shape({
-    aggregate_by: string().required(),
-    module_id: string().required(),
+    aggregate_by: array().of(string()).min(1).required(),
+    disaggregate_by: array().of(string()).min(1).required(),
+    exclude_empty_rows: boolean(),
+    module_id: string().required().nullable(),
     name: object().shape({
       en: string().required(i18n.t("report.name_mandatory"))
     }),
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, isNew, userModules) => {
+export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationConfig, reportableFields) => {
   const checkModuleField = ({ [MODULES_FIELD]: modules }) => ({
     disabled: isNew && isEmpty(modules)
   });
 
   const checkModuleAndRecordType = ({ [MODULES_FIELD]: modules = [], [RECORD_TYPE_FIELD]: recordType }, options) =>
-    formattedFields(options, modules, recordType, i18n.locale);
+    formattedFields(options, modules, recordType, i18n, reportingLocationConfig, reportableFields);
 
   const aggregateDefaults = {
     type: SELECT_FIELD,
@@ -49,7 +52,7 @@ export const form = (i18n, ageHelpText, isNew, userModules) => {
     option_strings_source: OPTION_TYPES.RECORD_FORMS,
     handleWatchedInputs: checkModuleField,
     filterOptionSource: (watchedInputValues, options) => {
-      return checkModuleAndRecordType(watchedInputValues, options);
+      return checkModuleAndRecordType(watchedInputValues, options, reportableFields);
     }
   };
 
@@ -74,7 +77,6 @@ export const form = (i18n, ageHelpText, isNew, userModules) => {
           name: MODULES_FIELD,
           type: SELECT_FIELD,
           required: true,
-          multi_select: true,
           option_strings_text: buildUserModules(userModules),
           clearDependentValues: [
             RECORD_TYPE_FIELD,
@@ -140,6 +142,12 @@ export const form = (i18n, ageHelpText, isNew, userModules) => {
           type: TICK_FIELD,
           watchedInputs: [MODULES_FIELD],
           handleWatchedInputs: checkModuleField
+        }),
+        FieldRecord({
+          display_name: i18n.t("report.exclude_empty_rows"),
+          name: EXCLUDE_EMPTY_ROWS_FIELD,
+          type: TICK_FIELD,
+          visible: false
         }),
         FieldRecord({
           display_name: i18n.t("report.disabled.label"),

@@ -27,10 +27,6 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-
-  &.demo {
-    padding-top: 35px;
-  }
 }
 
 .content {

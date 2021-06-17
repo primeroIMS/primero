@@ -1,16 +1,3 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 th:
   'true': 'ใช่'
   'false': 'ไม่ใช่'
@@ -89,7 +76,7 @@ th:
     terms_of_use_enabled: Display Terms of Use?
   approvals:
     approved_by: อนุมัติโดย
-    case_plan_type_label: ประเภทของแผนการดำเนินงาน
+    case_plan_type_label: ประเภทของแผนรายกรณี
     manager_comments_label: ความเห็นของผู้จัดการ
     rejected_by: ถูกปฏิเสธโดย
     requested_by: ร้องขอโดย
@@ -1446,6 +1433,56 @@ th:
     message: 'กรุณาเลือกไฟล์ CSV สำหรับ upload. ไฟล์นี้ควรใช้ UTF-8 encoding รวมถึง HXL hashtags ในหัวกระดาษของแต่ละคอลัมภ์ '
     no_location: กรุณานำเข้าตำแหน่งที่ตั้งก่อนที่จะสร้างบัญชีผู้ใช้งาน
   logger:
+    actions:
+      _approved: อนุมัติ
+      _rejected: ไม่อนุมัติ
+      _requested: ร้องขอ
+      add_note: เพิ่มบันทึกข้อความ
+      assign: มอบหมาย
+      assign_to: มอบหมายให้
+      attach: แนบ
+      bulk_assign: มอบหมายแบบกลุ่ม
+      bulk_create: สร้างกลุ่ม
+      bulk_index: ดัชนีกลุ่ม
+      case_plan_approved: อนุมัติแผนรายกรณี
+      case_plan_rejected: ไม่อนุมัติแผนรายกรณี
+      case_plan_requested: ร้องขอแผนรายกรณี
+      close: 'ปิด '
+      create: สร้าง
+      create_bulk: สร้างกลุ่ม
+      delete: ลบ
+      destroy: ทำลาย
+      detach: แยก
+      enable_disable_record: เปิดการทำงานของแฟ้มข้อมูลที่ได้ปิดไปแล้ว
+      export: ส่งออก
+      flag: ปักธง
+      import: นำเข้า
+      incident_details_from_case: รายละเอียดเหตุการณ์ของเคส
+      index: ดัชนีชี้วัด
+      list: List
+      login: เข้าใช้งาน
+      password_reset: เปลี่ยนรหัสผ่าน
+      password_reset_request: ขอเปลี่ยนรหัสผ่าน
+      refer: ส่งต่อ
+      refer_accepted: ยอมรับการส่งต่อ
+      refer_done: ทำการส่งต่อเสร็จสมบูรณ์
+      refer_rejected: ปฏิเสธการส่งต่อ
+      refer_revoke: ยกเลิกการส่งต่อ
+      refer_to: ส่งต่อให้
+      reopen: เปิดการทำงานอีกครั้ง
+      services_section_from_case: บริการบางส่วนจากเคส
+      show: แสดง
+      show_alerts: แสดงผลการแจ้งเตือน
+      traces: ติดตามค้นหา
+      transfer: ส่งมอบ
+      transfer_accepted: ยอมรับการส่งมอบ
+      transfer_rejected: ปฏิเสธการส่งมอบ
+      transfer_request: คำร้องขอส่งมอบ
+      transfer_to: ส่งมอบให้
+      unflag: ยกเลิกปักธง
+      update: ปรับปรุงข้อมูล
+      user_password_reset_request: ขอเปลี่ยนรหัสผ่านผู้ใช้งาน
+      webhook: Webhook
     approve_form:
       action_plan: แบบฟอร์มสำหรับแผนปฏิบัติงาน
       bia: แบบฟอร์มการประเมินบนฐานประโยชน์สูงสุดของเด็ก (Best Interest Assessment)
@@ -1489,6 +1526,27 @@ th:
     permitted_field_list: รายการช่องกรอกข้อมูลที่ได้รับอนุญาต
     quick_view: แสดงมุมมองด่วน
     reassign: มอบหมายความรับผิดชอบ
+    resources:
+      audit_log: บันทึกเพื่อการตรวจสอบ
+      user: ผู้ใช้งาน
+      agency: หน่วยงาน
+      user_group: กลุ่มผู้ใช้งาน
+      child: เด็ก
+      alert: การแจ้งเตือน
+      form_section: แบบฟอร์ม
+      lookup: การค้นหา
+      system_settings: การตั้งค่าระบบ
+      permission: การอนุญาต
+      dashboard: กระดานแสดงภาพรวม
+      report: รายงาน
+      bulk_export: ส่งออกเป็นกลุ่ม
+      saved_search: บันทึกการค้นหา
+      role: บทบาท
+      incident: การแจ้งเหตุ
+      location: ตำแหน่งที่ตั้ง
+      primero_configuration: การตั้งค่า Primero
+      code_of_conduct: Code of Conduct
+      task: งานที่ต้องทำ
     record_state:
       'false': ปิดการใช้งาน
       'true': เปิดการใช้งาน
