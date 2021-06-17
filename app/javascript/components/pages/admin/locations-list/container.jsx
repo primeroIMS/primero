@@ -97,7 +97,7 @@ const Container = () => {
   );
 
   useEffect(() => {
-    dispatch(setLocationsFilter(defaultFilters));
+    dispatch(setLocationsFilter({ data: defaultFilters }));
   }, []);
 
   return (

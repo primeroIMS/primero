@@ -64,7 +64,7 @@ const Component = () => {
   };
 
   useEffect(() => {
-    dispatch(setLookupsFilter(defaultFilters));
+    dispatch(setLookupsFilter({ data: defaultFilters }));
   }, []);
 
   return (

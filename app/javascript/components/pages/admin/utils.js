@@ -23,11 +23,12 @@ export const onSubmitFilters = (data, dispatch, fetch, setFilters) => {
 };
 
 export const filterOnTableChange = (dispatch, fetch, setFilters) => filters => {
-  dispatch(setFilters(filters));
+  const filtersData = { data: filters.data };
 
-  return fetch(filters);
+  dispatch(setFilters(filtersData));
+
+  return fetch(filtersData);
 };
-
 export const validateMetadata = (payload, defaultMetadata) => {
   if (payload.get("per") === null && payload.get("page") === null) {
     return payload.merge(defaultMetadata);

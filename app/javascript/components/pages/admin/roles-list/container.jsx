@@ -82,7 +82,7 @@ const Container = () => {
   };
 
   useEffect(() => {
-    dispatch(setRolesFilter(defaultFilters));
+    dispatch(setRolesFilter({ data: defaultFilters }));
   }, []);
 
   return (

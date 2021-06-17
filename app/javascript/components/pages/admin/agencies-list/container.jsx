@@ -90,7 +90,7 @@ const Container = () => {
   ) : null;
 
   useEffect(() => {
-    dispatch(setAgenciesFilter(defaultFilters));
+    dispatch(setAgenciesFilter({ data: defaultFilters }));
   }, []);
 
   return (

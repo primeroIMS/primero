@@ -114,7 +114,7 @@ const Container = () => {
   };
 
   useEffect(() => {
-    dispatch(setUsersFilters(defaultFilters));
+    dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
 
   return (

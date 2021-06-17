@@ -88,7 +88,7 @@ const Container = () => {
   ) : null;
 
   useEffect(() => {
-    dispatch(setUserGroupsFilter(defaultFilters));
+    dispatch(setUserGroupsFilter({ data: defaultFilters }));
   }, []);
 
   return (
