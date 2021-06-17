@@ -2,7 +2,8 @@
 import { routerMiddleware } from "connected-react-router/immutable";
 import { Form, Formik } from "formik";
 import { createMemoryHistory } from "history";
-import { isEmpty } from "lodash";
+import isFunction from "lodash/isFunction";
+import isEmpty from "lodash/isEmpty";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
@@ -17,12 +18,20 @@ import { useForm, FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
+import { renderHook, act } from "@testing-library/react-hooks";
 
 import { ApplicationProvider } from "../../components/application";
 import I18nProvider from "../../components/i18n";
 import { theme as appTheme, RECORD_PATH } from "../../config";
 import { whichFormMode } from "../../components/form";
 import { ListHeaderRecord } from "../../components/user/records";
+
+const DEFAULT_STATE = fromJS({
+  connectivity: {
+    online: true,
+    serverOnline: true
+  }
+});
 
 const theme = appTheme();
 
@@ -74,14 +83,7 @@ export const setupMountedComponent = (
   initialEntries = [],
   formProps = {}
 ) => {
-  const defaultState = fromJS({
-    connectivity: {
-      online: true,
-      serverOnline: true
-    }
-  });
-
-  const { store, history } = createMockStore(defaultState, initialState);
+  const { store, history } = createMockStore(DEFAULT_STATE, initialState);
 
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
@@ -316,8 +318,16 @@ export const translateOptions = (value, options, translations) => {
 
 export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-export const HookWrapper = ({ hook }) => {
-  const hookProps = hook ? hook() : undefined;
+export const setupHook = (hook, state = {}) => {
+  const { store } = createMockStore(DEFAULT_STATE, fromJS(state));
 
-  return <div hook={hookProps} />;
+  if (!hook && !isFunction(hook)) {
+    throw new Error("Hook function not specified");
+  }
+
+  const result = renderHook(() => hook(), {
+    wrapper: ({ children }) => <Provider store={store}>{children}</Provider>
+  });
+
+  return { ...result, store, act };
 };
