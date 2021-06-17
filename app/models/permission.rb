@@ -138,7 +138,6 @@ class Permission < ValueObject
   KPI_COMPLETED_CASE_ACTION_PLANS = 'kpi_completed_case_action_plans'
   KPI_COMPLETED_CASE_SAFETY_PLANS = 'kpi_completed_case_safety_plans'
   KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS = 'kpi_completed_supervisor_approved_case_action_plans'
-  KPI_GOAL_PROGRESS_PER_NEED = 'kpi_goal_progress_per_need'
   KPI_NUMBER_OF_CASES = 'kpi_number_of_cases'
   KPI_NUMBER_OF_INCIDENTS = 'kpi_number_of_incidents'
   KPI_REPORTING_DELAY = 'kpi_reporting_delay'
