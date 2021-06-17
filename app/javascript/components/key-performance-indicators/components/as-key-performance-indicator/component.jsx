@@ -41,7 +41,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
           <OptionsBox
             title={i18n.t(`key_performance_indicators.${identifier}.title`)}
             action={
-              <DateRangeSelect
+              dateRanges.length > 0 && <DateRangeSelect
                 i18n={i18n}
                 ranges={dateRanges}
                 selectedRange={currentDateRange}
