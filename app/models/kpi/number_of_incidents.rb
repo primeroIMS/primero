@@ -6,7 +6,7 @@
 # a range of months.
 class Kpi::NumberOfIncidents < Kpi::PivotedRangeSearch
   search_model Incident
-  range_field :created_at
+  range_field :incident_date_derived
   pivot_field :owned_by_location
 
   def to_json(*_args)
