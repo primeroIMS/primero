@@ -67,7 +67,7 @@ import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { compactValues, getRedirectPath } from "./utils";
+import { compactBlank, compactValues, getRedirectPath } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -157,7 +157,7 @@ const Container = ({ mode }) => {
 
       const body = {
         data: {
-          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : formValues),
+          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
           ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
           ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
         }
