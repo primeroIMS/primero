@@ -16,6 +16,7 @@ class Api::V2::RolesController < ApplicationApiController
   end
 
   def create
+    authorize!(:create, Role) && validate_json!(Role::ROLE_FIELDS_SCHEMA, role_params)
     authorize! :create, Role
     @role = Role.new_with_properties(role_params)
     @role.save!
@@ -24,7 +25,7 @@ class Api::V2::RolesController < ApplicationApiController
   end
 
   def update
-    authorize! :update, @role
+    authorize!(:update, @role) && validate_json!(Role::ROLE_FIELDS_SCHEMA, role_params)
     @role.update_properties(role_params)
     @role.save!
   end
@@ -35,7 +36,7 @@ class Api::V2::RolesController < ApplicationApiController
   end
 
   def role_params
-    params.require(:data).permit(
+    @role_params ||= params.require(:data).permit(
       :id, :unique_id, :name, :description, :disabled,
       :group_permission, :referral, :transfer, :is_manager, :reporting_location_level,
       permissions: {}, form_section_read_write: {}, module_unique_ids: []
