@@ -6,6 +6,24 @@ require 'roo'
 
 # Spec for the RolePermissionsExporter
 module Exporters
+  OTHER_ROWS = %w[
+    headers
+    group_permission_header
+    group_permission_self
+    group_permission_group
+    group_permission_admin_only
+    group_permission_all
+    referral_header
+    referral
+    transfer_header
+    transfer
+    case_exports_header
+    case_approvals_header
+    case_managed_other_users_header
+    case_assignments_referrals_transfers_header
+    manged_role_ids_header
+  ].freeze
+
   describe RolePermissionsExporter do
     before :each do
       clean_data(Field, FormSection, Role)
@@ -46,9 +64,7 @@ module Exporters
           end
 
           it 'has resources and actions' do
-            # TODO: fix this test
-            # TODO: Why the hard coded 15?  What does that signify?
-            expect(@sheet.last_row).to eq(15 + @resources.count + @actions.count)
+            expect(@sheet.last_row).to eq(OTHER_ROWS.count + @resources.count + @actions.count)
           end
 
           it 'has all of the resources' do
