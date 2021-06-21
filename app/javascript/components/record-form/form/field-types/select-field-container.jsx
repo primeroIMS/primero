@@ -11,7 +11,7 @@ import SearchableSelect from "../../../searchable-select";
 import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import { buildOptions, handleChangeOnServiceUser } from "../utils";
+import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
@@ -50,8 +50,7 @@ const SelectFieldContainer = ({
 
   const defaultEmptyValue = multiSelect ? [] : null;
 
-  const selectedValue =
-    field.multi_select && !Array.isArray(selectedDefaultValue) ? [selectedDefaultValue] : selectedDefaultValue;
+  const selectedValue = getSelectFieldDefaultValue(field, selectedDefaultValue);
 
   const { service, agency, location } = filters?.values || {};
 
