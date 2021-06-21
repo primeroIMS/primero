@@ -97,8 +97,6 @@ describe("<LocationsList />", () => {
 
     indexTable.find(TableHead).find(TableCell).at(1).find("span.MuiButtonBase-root").simulate("click");
 
-    console.log(component.props().store.getActions());
-
     expect(component.props().store.getActions()[2].type).to.deep.equals(expectedAction.type);
     expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);
   });
