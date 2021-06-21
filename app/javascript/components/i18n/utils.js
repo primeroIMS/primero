@@ -9,6 +9,7 @@ export const getLocaleDir = locale => {
     case "zh":
     case "ar-SD":
     case "ar-JO":
+    case "ar-IQ":
     case "fa-AF":
     case "ps-AF":
       return ORIENTATION.rtl;
