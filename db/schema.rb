@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_000000) do
+ActiveRecord::Schema.define(version: 2021_05_25_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "pdf_logo_option", default: false, null: false
     t.boolean "exclude_agency_from_lookups", default: false, null: false
     t.boolean "terms_of_use_enabled", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
@@ -140,6 +142,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.string "support_forum"
     t.string "email"
     t.string "position"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "export_configurations", id: :serial, force: :cascade do |t|
@@ -150,6 +154,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.string "record_type", default: "Child"
     t.string "opt_out_field"
     t.string "property_keys_opt_out", default: [], array: true
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_export_configurations_on_unique_id", unique: true
   end
 
@@ -189,6 +195,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
     t.boolean "mandatory_for_completion", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
@@ -237,6 +245,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
@@ -249,6 +259,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.integer "role_id"
     t.integer "form_section_id"
     t.string "permission", default: "rw"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
@@ -258,6 +270,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.string "unique_id"
     t.string "provider_type"
     t.jsonb "configuration"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["configuration"], name: "index_identity_providers_on_configuration", using: :gin
     t.index ["unique_id"], name: "index_identity_providers_on_unique_id", unique: true
   end
@@ -286,6 +300,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.jsonb "name_i18n"
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
   end
 
@@ -310,6 +326,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "core_resource", default: true
     t.jsonb "field_map"
     t.jsonb "module_options"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["primero_program_id"], name: "index_primero_modules_on_primero_program_id"
     t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
   end
@@ -334,6 +352,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.date "start_date"
     t.date "end_date"
     t.boolean "core_resource", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|
@@ -361,6 +381,7 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "editable", default: true
     t.string "unique_id"
     t.boolean "disabled", default: false, null: false
+    t.boolean "exclude_empty_rows", default: false, null: false
     t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
@@ -375,6 +396,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.boolean "is_manager", default: false, null: false
     t.integer "reporting_location_level"
     t.boolean "disabled", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -409,6 +432,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.jsonb "approvals_labels_i18n"
     t.boolean "config_update_lock", default: false, null: false
     t.string "configuration_file_version"
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -455,6 +480,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.string "description"
     t.boolean "core_resource", default: false, null: false
     t.boolean "disabled", default: false, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
@@ -512,6 +539,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_000000) do
     t.string "auth_secret_encrypted"
     t.string "role_unique_id"
     t.jsonb "metadata", default: {}
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["events"], name: "index_webhooks_on_events", using: :gin
     t.index ["url"], name: "index_webhooks_on_url", unique: true
   end

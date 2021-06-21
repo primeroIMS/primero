@@ -22,6 +22,7 @@ en:
   sandbox_ui: Demo
   description: Description
   form: Form
+  minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
   unavailable_offline: Unavailable offline
@@ -457,6 +458,8 @@ en:
     change: 'from “%{from_value}” to “%{to_value}”'
     updated_subform: 'Updated “%{subform_name}” subform entry #%{short_id}'
     update_subform: 'Updated “%{subform_name}” subform'
+    from: from
+    to: to
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -912,6 +915,7 @@ en:
         on_short_form: On Short Form
         option_ids: Option IDs
         options: Options
+        options_lookup: Lookup
         help_text: Help Text
         guiding_questions: Guiding Questions
         visible: Visible
@@ -926,6 +930,7 @@ en:
         reportinglocation: Reporting Locations
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
+        country: Countries
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
@@ -1259,6 +1264,7 @@ en:
     web_app: Web App
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
@@ -2340,6 +2346,10 @@ en:
             explanation: “When viewing a Case, User can see a list of Incidents linked
               to the Case, along with some summary information about each.
             label: View Incidents from Case
+          view_protection_concerns_filter:
+            explanation: Allows the user to see a protection concerns filter on the
+              case list page.
+            label: View Protection Concerns filter on case list page
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
@@ -2495,10 +2505,6 @@ en:
               created in each of the last two weeks, and number of Cases closed
               in each of the last two weeks.
             label: Administrator Summary
-          view_protection_concerns_filter:
-            explanation: Allows the user to see a protection concerns filter on the
-              case list page.
-            label: View Protection Concerns filter on case list page
           view_response:
             explanation: For each response type, shows how many cases at each risk
               level have services which are near deadline or overdue for completion.
@@ -3078,6 +3084,7 @@ en:
       explanation: If you disable this Report, it will not appear in the available
         reports.
       label: Disabled
+    exclude_empty_rows: Do not display empty rows
     disaggregate_by: Group by column
     filters:
       label: Report filters

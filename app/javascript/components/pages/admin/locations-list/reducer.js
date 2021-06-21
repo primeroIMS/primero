@@ -23,6 +23,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["disableLocations", "loading"], true).setIn(["disableLocations", "errors"], false);
     case actions.DISABLE_LOCATIONS_FINISHED:
       return state.setIn(["disableLocations", "loading"], false).setIn(["disableLocations", "errors"], false);
+    case actions.SET_LOCATIONS_FILTER:
+      return state.set("filters", fromJS(payload.data));
     case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_LOCATION_METADATA));
     default:

@@ -9,14 +9,15 @@ import { useDispatch } from "react-redux";
 import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
-import isEqual from "lodash/isEqual";
 import omitBy from "lodash/omitBy";
 
 import { toServerDateFormat, useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { saveRecord, selectRecordAttribute } from "../../../records";
+import { valueParser } from "../../../form/utils";
 import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
+import { shouldFieldUpdate } from "../utils";
 
 const useStyles = makeStyles(theme => ({
   hideNameStyle: {
@@ -66,12 +67,11 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
     dispatch(saveRecord(recordType, "update", { data: { hidden_name: !isHiddenName } }, id, false, false, false));
   };
 
-  const handleShouldUpdate = (nextProps, props) => !isEqual(nextProps, props);
-
   return (
     <FastField
       name={name}
-      shouldUpdate={handleShouldUpdate}
+      shouldUpdate={shouldFieldUpdate}
+      locale={i18n.locale}
       render={renderProps => {
         const handleOnClick = () => hideFieldValue();
 
@@ -82,7 +82,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
               field={{
                 ...renderProps.field,
                 onChange(evt) {
-                  const { value } = evt.target;
+                  const value = valueParser(type, evt.target.value);
 
                   updateDateBirthField(renderProps.form, value);
 

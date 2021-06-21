@@ -16,6 +16,6 @@ json.merge! FieldI18nService.fill_keys(
   form_hash.merge(
     'fields' => fields,
     'module_ids' => module_ids,
-    'collapsed_field_names' => form.collapsed_fields.pluck(:name)
+    'collapsed_field_names' => form.collapsed_fields.order(:order).pluck(:name)
   )
 )

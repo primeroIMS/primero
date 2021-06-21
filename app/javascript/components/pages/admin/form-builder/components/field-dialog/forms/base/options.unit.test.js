@@ -56,7 +56,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         display_name: "new_field",
         name: "new_field",
         type: SELECT_FIELD,
-        option_strings_text: [{ id: "test1", disabled: false, display_text: { en: "TEST 1" } }]
+        option_strings_text: fromJS([{ id: "test1", disabled: false, display_text: { en: "TEST 1" } }])
       });
       const tabs = optionsTabs("test", i18n, fromJS({ isShow: false, isEdit: true }), field, fromJS([]));
 

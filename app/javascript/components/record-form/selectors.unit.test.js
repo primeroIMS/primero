@@ -1,6 +1,18 @@
 import { Map, List, OrderedMap, fromJS } from "immutable";
+import { expect } from "chai";
 
 import { mapEntriesToRecord } from "../../libs";
+import { ACTIONS } from "../../libs/permissions";
+import {
+  APPROVALS,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_OWNER,
+  REFERRAL,
+  TRANSFERS_ASSIGNMENTS
+} from "../../config";
+import { FieldRecord } from "../form";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
@@ -285,8 +297,8 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getOption", () => {
     it("should return the options or lookups", () => {
       const expected = [
-        { id: "country", display_text: "Country", isDisabled: false },
-        { id: "region", display_text: "Region", isDisabled: false }
+        { id: "country", display_text: "Country", disabled: false },
+        { id: "region", display_text: "Region", disabled: false }
       ];
 
       const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type", "en");
@@ -309,8 +321,8 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "no", display_text: { en: "No", fr: "", ar: "" } }
       ];
       const expected = [
-        { id: "submitted", display_text: "Submitted", isDisabled: false },
-        { id: "no", display_text: "No", isDisabled: false }
+        { id: "submitted", display_text: "Submitted", disabled: false },
+        { id: "no", display_text: "No", disabled: false }
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
 
@@ -325,9 +337,9 @@ describe("<RecordForm /> - Selectors", () => {
         { id: "other", disabled: true, display_text: { en: "Other", fr: "", ar: "" } }
       ];
       const expected = [
-        { id: "submitted", display_text: "Submitted", isDisabled: false },
-        { id: "pending", display_text: "Pending", isDisabled: true },
-        { id: "no", display_text: "No", isDisabled: false }
+        { id: "submitted", display_text: "Submitted", disabled: false },
+        { id: "pending", display_text: "Pending", disabled: true },
+        { id: "no", display_text: "No", disabled: false }
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", "pending");
 
@@ -336,8 +348,8 @@ describe("<RecordForm /> - Selectors", () => {
 
     it("should return the options even if stored value it's a boolean", () => {
       const optionStringsText = [
-        { id: "true", display_text: { en: "Yes" }, isDisabled: false },
-        { id: "false", display_text: { en: "No" }, isDisabled: false }
+        { id: "true", display_text: { en: "Yes" }, disabled: false },
+        { id: "false", display_text: { en: "No" }, disabled: false }
       ];
       const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
@@ -767,10 +779,163 @@ describe("<RecordForm /> - Selectors", () => {
 
   describe("getMiniFormFields", () => {
     it("should return show_on_minify_form fields for non nested forms", () => {
-      const expected = fromJS([R.FieldRecord(fields["1"])]);
+      const expected = fromJS([
+        FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      ]);
       const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp");
 
-      expect(result).to.deep.equal(expected);
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toList().toJS()).to.deep.equal(expected.toJS());
+    });
+  });
+
+  describe("getRecordInformationForms", () => {
+    it("should return the record information forms defined in the state", () => {
+      const recordInformationForms = {
+        61: {
+          id: 61,
+          unique_id: "record_owner",
+          name: Map({ en: "Record Owner from State" }),
+          visible: true,
+          is_first_tab: true,
+          order: 15,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        },
+        62: {
+          id: 62,
+          unique_id: "approvals",
+          name: Map({ en: "Approvals from State" }),
+          visible: true,
+          is_first_tab: true,
+          order: 16,
+          order_form_group: 1,
+          parent_form: "case",
+          editable: true,
+          module_ids: List(["primeromodule-cp"]),
+          form_group_id: RECORD_INFORMATION_GROUP,
+          form_group_name: Map({ en: "Record Information" }),
+          fields: List([]),
+          is_nested: null,
+          core_form: true
+        }
+      };
+
+      const result = selectors
+        .getRecordInformationForms(
+          fromJS({
+            forms: {
+              formSections: mapEntriesToRecord(recordInformationForms, R.FormSectionRecord)
+            }
+          }),
+          { i18n: { t: v => v, locale: "en" }, recordType: "case", primeroModule: "primeromodule-cp" }
+        )
+        .valueSeq()
+        .map(form => form.getIn(["name", "en"]))
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equal(
+        fromJS([
+          "Approvals from State",
+          "Record Owner from State",
+          "change_logs.label",
+          "forms.record_types.referrals",
+          "forms.record_types.transfers_assignments",
+          "incidents.label"
+        ])
+      );
+    });
+  });
+
+  it("should return the default record information forms if not defined in the state", () => {
+    const i18n = { t: v => v, locale: "en" };
+    const result = selectors
+      .getRecordInformationForms(fromJS({}), {
+        i18n,
+        recordType: "case",
+        primeroModule: "primeromodule-cp"
+      })
+      .valueSeq()
+      .map(form => form.getIn(["name", "en"]))
+      .toList()
+      .sort();
+
+    expect(result).to.deep.equal(
+      fromJS([
+        "change_logs.label",
+        "forms.record_types.approvals",
+        "forms.record_types.record_information",
+        "forms.record_types.referrals",
+        "forms.record_types.transfers_assignments",
+        "incidents.label"
+      ])
+    );
+  });
+
+  describe("getRecordInformationFormIds", () => {
+    it("should return unique_ids for the record information forms", () => {
+      const i18n = { t: v => v, locale: "en" };
+
+      const result = selectors
+        .getRecordInformationFormIds(fromJS({}), {
+          i18n,
+          recordType: "case",
+          primeroModule: "primeromodule-cp"
+        })
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(
+        fromJS([APPROVALS, CHANGE_LOGS, INCIDENT_FROM_CASE, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS])
+      );
+    });
+  });
+
+  describe("getRecordInformationNav", () => {
+    it("should return forms where the user has permissions", () => {
+      const i18n = { t: v => v, locale: "en" };
+
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({}),
+          {
+            i18n,
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          },
+          fromJS([ACTIONS.CHANGE_LOG])
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
   });
 });

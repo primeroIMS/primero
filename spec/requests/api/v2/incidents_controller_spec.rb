@@ -87,7 +87,7 @@ describe Api::V2::IncidentsController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Test' } }
-      post '/api/v2/incidents', params: params
+      post '/api/v2/incidents', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -100,7 +100,7 @@ describe Api::V2::IncidentsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Test' } }
-      post '/api/v2/incidents', params: params
+      post '/api/v2/incidents', params: params, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -112,7 +112,7 @@ describe Api::V2::IncidentsController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Tester' } }
-      patch "/api/v2/incidents/#{@incident1.id}", params: params
+      patch "/api/v2/incidents/#{@incident1.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@incident1.id)
@@ -126,7 +126,7 @@ describe Api::V2::IncidentsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { incident_date: '2019-04-01', description: 'Tester' } }
-      patch "/api/v2/incidents/#{@incident1.id}", params: params
+      patch "/api/v2/incidents/#{@incident1.id}", params: params, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)

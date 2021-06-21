@@ -19,7 +19,7 @@ const SubRoute = ({ subRoute }) => {
     codeOfConductEnabled &&
     !codeOfConductAccepted &&
     !isEmpty(codeOfConduct) &&
-    ![ROUTES.logout, ROUTES.login].includes(path)
+    ![ROUTES.logout, ROUTES.login, ROUTES.code_of_conduct].includes(path)
   ) {
     return <Redirect to={{ pathname: ROUTES.code_of_conduct, state: { referrer: path } }} />;
   }

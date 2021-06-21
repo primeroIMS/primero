@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik } from "formik";
@@ -162,7 +162,7 @@ const RecordForm = ({
         const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
 
         return (
-          <div key={form.unique_id}>
+          <Fragment key={form.unique_id}>
             <RecordFormTitle
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}
@@ -194,7 +194,7 @@ const RecordForm = ({
                 </Box>
               );
             })}
-          </div>
+          </Fragment>
         );
       }
 
@@ -209,37 +209,39 @@ const RecordForm = ({
     };
 
     return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        validateOnBlur={false}
-        validateOnChange={false}
-        enableReinitialize
-        onSubmit={handleOnSubmit}
-      >
-        {props => {
-          // eslint-disable-next-line react/prop-types
-          const { submitForm } = props;
+      <div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
+          onSubmit={handleOnSubmit}
+        >
+          {props => {
+            // eslint-disable-next-line react/prop-types
+            const { submitForm } = props;
 
-          bindSubmitForm(submitForm);
+            bindSubmitForm(submitForm);
 
-          return (
-            <FormikForm
-              {...props}
-              handleConfirm={handleConfirm}
-              renderFormSections={renderFormSections}
-              forms={forms}
-              mode={mode}
-              setFormikValues={setFormikValues}
-              setFormIsSubmitting={setFormIsSubmitting}
-              setFormTouched={setFormTouched}
-              bindResetForm={bindResetForm}
-              bindSetValues={bindSetValues}
-              externalComponents={externalComponents}
-            />
-          );
-        }}
-      </Formik>
+            return (
+              <FormikForm
+                {...props}
+                handleConfirm={handleConfirm}
+                renderFormSections={renderFormSections}
+                forms={forms}
+                mode={mode}
+                setFormikValues={setFormikValues}
+                setFormIsSubmitting={setFormIsSubmitting}
+                setFormTouched={setFormTouched}
+                bindResetForm={bindResetForm}
+                bindSetValues={bindSetValues}
+                externalComponents={externalComponents}
+              />
+            );
+          }}
+        </Formik>
+      </div>
     );
   }
 

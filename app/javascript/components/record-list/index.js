@@ -1,5 +1,5 @@
 export { default } from "./container";
-export { getListHeaders, getMetadata } from "./selectors";
+export { getAppliedFilters, getListHeaders, getMetadata } from "./selectors";
 export { buildTableColumns } from "./utils";
 export {
   RECORDS_FAILURE,

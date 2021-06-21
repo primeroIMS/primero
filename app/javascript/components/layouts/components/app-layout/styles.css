@@ -2,11 +2,6 @@
   display: flex;
   overflow: hidden;
   background: $(theme.primero.colors.contentGrey);
-  height: 100vh;
-
-  &.demo {
-    padding-top: 35px;
-  }
 }
 
 .content {

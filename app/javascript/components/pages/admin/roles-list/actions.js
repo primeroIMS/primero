@@ -7,5 +7,6 @@ export default namespaceActions(NAMESPACE, [
   "ROLES_STARTED",
   "ROLES_SUCCESS",
   "ROLES_FAILURE",
-  "ROLES_FINISHED"
+  "ROLES_FINISHED",
+  "SET_ROLES_FILTER"
 ]);

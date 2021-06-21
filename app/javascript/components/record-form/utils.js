@@ -1,13 +1,24 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
-import { isEmpty, transform, isObject, isEqual, find, pickBy, identity } from "lodash";
+/* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
+import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
+import { fromJS, isImmutable } from "immutable";
 import orderBy from "lodash/orderBy";
-
-import { API_DATE_FORMAT, DEFAULT_DATE_VALUES, RECORD_PATH } from "../../config";
-import { toServerDateFormat } from "../../libs";
+import last from "lodash/last";
+import isNil from "lodash/isNil";
 
 import {
+  API_DATE_FORMAT,
+  DEFAULT_DATE_VALUES,
+  FORM_PERMISSION_ACTION,
+  INCIDENT_FROM_CASE,
+  RECORD_PATH,
+  RECORD_TYPES
+} from "../../config";
+import { displayNameHelper, toServerDateFormat } from "../../libs";
+
+import { NavRecord } from "./records";
+import {
+  SEPERATOR,
   SUBFORM_SECTION,
   PHOTO_FIELD,
   AUDIO_FIELD,
@@ -84,42 +95,62 @@ export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) => difference(values, initialValues);
 
+export const compactBlank = values =>
+  Object.entries(values)
+    .filter(entry => {
+      const value = last(entry);
+
+      const valueIsEmpty =
+        (Array.isArray(value) && isEmpty(value.filter(elem => !isNil(elem)))) ||
+        (typeof value === "string" && value === "") ||
+        (isImmutable(value) && value.isEmpty());
+
+      return !isNil(value) && !valueIsEmpty;
+    })
+    .reduce((acc, entry) => {
+      const [key, value] = entry;
+
+      return { ...acc, [key]: value };
+    }, {});
+
 export const constructInitialValues = formMap => {
   const [...forms] = formMap;
 
   return !isEmpty(forms)
     ? Object.assign(
         {},
-        ...forms.map(v =>
+        ...forms.map(form =>
           Object.assign(
             {},
-            ...v.fields.map(f => {
-              let defaultValue;
+            ...form.fields
+              .filter(field => field.type !== SEPERATOR && field.visible)
+              .map(field => {
+                let defaultValue;
 
-              if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type)) {
-                defaultValue = [];
-              } else if (f.type === SELECT_FIELD && f.multi_select) {
-                try {
-                  defaultValue = f.selected_value ? JSON.parse(f.selected_value) : [];
-                } catch (e) {
+                if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(field.type)) {
                   defaultValue = [];
-                  // eslint-disable-next-line no-console
-                  console.warn(`Can't parse the defaultValue ${f.selected_value} for ${f.name}`);
+                } else if (field.type === SELECT_FIELD && field.multi_select) {
+                  try {
+                    defaultValue = field.selected_value ? JSON.parse(field.selected_value) : [];
+                  } catch (error) {
+                    defaultValue = [];
+                    // eslint-disable-next-line no-console
+                    console.warn(`Can't parse the defaultValue ${field.selected_value} for ${field.name}`);
+                  }
+                } else if ([DATE_FIELD].includes(field.type)) {
+                  defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
+                    defaultDate => field.selected_value?.toUpperCase() === defaultDate
+                  )
+                    ? toServerDateFormat(new Date(), { includeTime: field.date_include_time })
+                    : null;
+                } else if (field.type === TICK_FIELD) {
+                  defaultValue = field.selected_value || false;
+                } else {
+                  defaultValue = field.selected_value || "";
                 }
-              } else if ([DATE_FIELD].includes(f.type)) {
-                defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
-                  defaultDate => f.selected_value?.toUpperCase() === defaultDate
-                )
-                  ? toServerDateFormat(new Date(), { includeTime: f.date_include_time })
-                  : null;
-              } else if (f.type === TICK_FIELD) {
-                defaultValue = f.selected_value || false;
-              } else {
-                defaultValue = f.selected_value || "";
-              }
 
-              return { [f.name]: defaultValue };
-            })
+                return { [field.name]: defaultValue };
+              })
           )
         )
       )
@@ -160,4 +191,25 @@ export const sortSubformValues = (record, formMap) => {
   }, {});
 
   return recordValues;
+};
+
+export const buildFormNav = form =>
+  NavRecord({
+    group: form.form_group_id,
+    groupOrder: form.order_form_group,
+    name: displayNameHelper(form.name, window.I18n.locale),
+    order: form.order,
+    formId: form.unique_id,
+    is_first_tab: form.is_first_tab,
+    permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
+    ...(INCIDENT_FROM_CASE === form.unique_id ? { recordTypes: [RECORD_TYPES.cases] } : {})
+  });
+
+export const pickFromDefaultForms = (forms, defaultForms) => {
+  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id) || fromJS([]);
+
+  return pick(
+    defaultForms,
+    Object.keys(defaultForms).filter(key => !formUniqueIds.includes(key))
+  );
 };

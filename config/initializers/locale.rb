@@ -4,8 +4,8 @@
 class Primero::Application
   LOCALE_ENGLISH = :en
   LOCALE_ARABIC = :ar
-  LOCALES = %i[en fr ar ar-LB so es bn id my th ku ar-SD ar-JO fa-AF ps-AF].freeze
-  RTL_LOCALES = %i[ar ar-LB ku ar-SD ar-JO fa-AF ps-AF].freeze
+  LOCALES = %i[en ar ar-IQ ar-JO ar-LB ar-SD bn es fa-AF fr id ku my ps-AF so th].freeze
+  RTL_LOCALES = %i[ar ar-IQ ar-JO ar-LB ar-SD fa-AF ku ps-AF].freeze
 end
 
 def locale_settings

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { fromJS, isImmutable } from "immutable";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -40,4 +39,9 @@ export const disableLocations = (ids, params, message) => ({
       }
     ]
   }
+});
+
+export const setLocationsFilter = payload => ({
+  type: actions.SET_LOCATIONS_FILTER,
+  payload
 });

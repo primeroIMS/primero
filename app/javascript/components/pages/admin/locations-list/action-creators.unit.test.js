@@ -11,7 +11,7 @@ describe("<LocationsList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["disableLocations", "fetchLocations"].forEach(property => {
+    ["disableLocations", "fetchLocations", "setLocationsFilter"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -57,5 +57,15 @@ describe("<LocationsList /> - Action Creators", () => {
     };
 
     expect(actionsCreators.disableLocations([1, 2], filterParams, "Success message")).to.deep.equal(expectedAction);
+  });
+
+  it("should check that 'setLocationsFilter' action creator returns the correct object", () => {
+    const payload = { data: { disabled: ["true", "false"] } };
+    const expectedAction = {
+      type: actions.SET_LOCATIONS_FILTER,
+      payload
+    };
+
+    expect(actionsCreators.setLocationsFilter(payload)).to.deep.equal(expectedAction);
   });
 });

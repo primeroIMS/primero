@@ -1,155 +1,60 @@
-# encoding: utf-8
-#
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-
----
 id:
   'true': 'Ya'
   'false': 'Tidak'
-  accepted: ""
   cancel: Batal
-  connection_lost: ""
-  connected: ""
   clear: Bersihkan
-  sandbox_ui: ""
   description: Deskripsi
-  form: ""
-  name: ""
-  offline: ""
-  unavailable_offline: ""
-  online: ""
   yes_label: 'Ya'
-  or_label: ""
-  select_provider: ""
-  log_in_primero_idp: ""
-  offline_submitted_changes: ""
-  updated: ""
-  sync:
-    success: ""
-    error:
-      create: ""
-      update: ""
-
   actions:
-    approvals: ""
     button: Tindakan
-    close: ""
     description:
       invalid: Data tidak valid
       valid: Data Valid
     disable: Nonaktifkan
     enable: Aktif
     incident_details_from_case: Tambahkan Kejadian
-    incident_from_case: ""
-    next: ""
-    notes: ""
-    previous: ""
     reopen: Buka kembali
-    request_approval: ""
-    revoke: ""
-    save: ""
-    services_from_case_creation_success: ""
     services_section_from_case: Tambahkan Pemberian Layanan
   agencies:
     label: Agensi
   agency:
-    agency_logos: ""
     code: Kode Agensi
-    description: ""
-    disabled: ""
-    exclude_agency_from_lookups: ""
-    exclude_agency_from_lookups_help: ""
-    label: ""
-    logo_enabled: ""
-    logo_enabled_help: ""
-    logo_icon: ""
-    logo_icon_help: ""
-    logo_large: ""
-    logo_large_help: ""
-    messages:
-      created: ""
-      updated: ""
     name: Nama Agensi
-    pdf_logo_option: ""
-    pdf_logo_option_help: ''
     services: Layanan Lembaga
-    terms_of_use: ""
-    terms_of_use_help: ""
-    terms_of_use_download_button: ""
-    terms_of_use_enabled: ""
   approvals:
-    approved_by: ""
-    case_plan_type_label: ""
-    manager_comments_label: ""
-    rejected_by: ""
-    requested_by: ""
-    requested_for_label: ""
-    requested_for_title: ""
-    response_for_label: ""
-    response_for_title: ""
-    action_plan: ""
-    gbv_closure: ""
     status:
       approved: Disetujui
       pending: Tertunda
       rejected: Ditolak
-      requested: ""
   audit_log:
     action: Tindakan
     description: Deksripsi
     record_owner: Penanggungjawab Catatan Kasus
-    timestamp: ""
-    user_name: ""
   bulk_export:
     file_name: File
     record_type: Tipe
     retry: Ekspor ini tidak valid Silakan mencoba menciptakan kembali ekspor Anda.
     started_on: Dimulai
     status: Status
-  form_export:
-    label: ""
-    include_hidden: ""
-    file_name: ""
-    success_message: ""
   buttons:
     accept: Terima
-    add: ""
-    add_another_option: ""
     add_note: Tambahkan Catatan
-    apply: ""
     approvals: Persetujuan
-    approve_action_plan: ""
     approve_bia: Setujui BIA
     approve_case_plan: Setujui Rencana Kasus
     approve_closure: Setujui Terminasi
-    approve_gbv_closure: ""
     back: Kembali
     bundle_export: Paket Konfigurasi
     bundle_import: Paket Konfigurasi
     cancel: Batal
     change_password: Ganti Kata Sandi
-    check_status: ""
-    clear_default: ""
-    clear_selection: ""
-    clear: ""
-    close: ""
-    continue: ""
     create_case: Buat Data Kasus
     create_incident: Buat Data Insiden
-    create_new_record: "Buat %{model} baru"
+    create_new_record: Buat %{model} baru
     delete: Hapus
     disable: Nonaktifkan
     disable_photo_wall: Nonaktifkan dinding foto
     done: Selesai
-    download: ""
     edit: Ubah
     edit_subform: Ubah sub formulir
     enable: Aktif
@@ -160,71 +65,33 @@ id:
     filter_label: 'Filter:'
     filter_restore: Kembalikan ke Pengaturan Sistem
     find_tracing_match: Temukan Kecocokan Penelusuran
-    flag_model: "Bendera %{model}"
+    flag_model: Bendera %{model}
     flag_records: Bendera
-    flags: ""
-    guidance: ""
-    guiding_questions: ""
     import: Impor
     login: Masuk
-    logout: ""
     mark_for_mobile: Tandai untuk seluler
-    new: ""
     ok: OK
-    print: ""
-    reassign: ""
-    referral: ""
-    referral_again: ""
     reject: Tolak
     remove_referrals: Hapus rujukan
-    reorder: ""
     request_approval: Minta Persetujuan
     request_transfer: Permintaan Pemindahan
     reunite: Menyatukan kembali
     save: Simpan
     save_and_add_service_provision: Save dan Tambahkan Layanan
-    save_and_return: ""
-    save_continue: ""
-    save_changes: ""
-    select: ""
-    send: ""
     sort_by_case: Kasus
     sort_by_tr: Permintaan Penelusuran
-    sync: ""
     submit: Kirim
-    transfer: ""
-    unflag_model: "Tidak ditandai Bendera %{model}"
-    unflag_model_history: "Tandai Bendera Sejarah %{model}"
+    unflag_model: Tidak ditandai Bendera %{model}
+    unflag_model_history: Tandai Bendera Sejarah %{model}
     unmark_for_mobile: Tidak ditandai untuk seluler
-    update: ""
     view: Lihat
     view_flags_history: Lihat Riwayat
-    return_to_case: ""
-
   case:
-    label: ""
     create_new_case: Buat Kasus Baru
     enter_id_number: Masukkan nomor ID untuk mencari catatan kasus yang telah ada
-    id_search_no_results: ""
     messages:
-      disabled: ""
       update_success: 'Kasus %{record_id} telah berhasil diperbarui.'
-      update_success_queue: ''
       creation_success: 'Kasus %{record_id} telah berhasil dibuat.'
-      creation_success_queue: ''
-      already_matched: ""
-      already_matched_not_current_case: ""
-      not_found_case: ""
-      introductory_sentence: ""
-      consent_agreements_required: ""
-      legitimate_basis_required: ""
-    save: ""
-    save_text: ""
-    skip_and_create: ""
-    search_existing: ""
-    search_helper_text: ""
-    consent_agreements: ""
-    legitimate_basis: ""
     workflow:
       assessment: Asesmen
       case_plan: Rencana Kasus
@@ -237,238 +104,46 @@ id:
       service_implemented: Layanan telah Dilakukan
       services_implemented: Layanan telah Dilakukan
   cases:
-    action_plan: ""
-    age: ""
-    age_estimated: ""
-    agency: ""
     apply_filter: Terapkan
-    approval_comments: ""
-    approval_radio: ""
-    approval_radio_accept: ""
-    approval_radio_reject: ""
-    approval_select: ""
-    approved_success_action_plan: ''
-    approved_success_assessment: ''
-    approved_success_bia: ''
-    approved_success_case_plan: ''
-    approved_success_closure: ''
-    approved_success_gbv_closure: ''
-    assessment: ""
-    case_opening_date: ""
-    case_plan: ""
-    case_worker_code: ""
     clear_filter: Bersihkan
-    close_dialog: ""
-    close_dialog_title: ""
-    close_success: ""
-    closure: ""
-    date_of_birth: ""
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
     export: Ekspor
     filter_by:
       3month_inactivity: Untuk 3+ bulan
-      action_plan: ""
-      age_0_5: ""
-      age_12_17: ""
-      age_18_more: ""
-      age_6_11: ""
-      age_range: ""
-      agency: ""
-      approval_status: ""
       approvals:
         approved: Disetujui
-        pending: ""
         rejected: Ditolak
-      bia: ""
-      by_date: ""
-      case_open_date: ""
-      case_plan: ""
-      closed: ""
-      closure: ""
-      current_location: ""
       date: Tanggal
-      displacement_status: ""
-      district: ""
-      duplicate: ""
-      enabled_disabled: ""
       female: Perempuan
-      flag: ""
-      flag_label: "Ditandai Bendera?"
-      gbv_closure: ""
-      high: ""
-      low: ""
+      flag_label: Ditandai Bendera?
       male: Laki-Laki
-      medium: ""
-      mobile: ""
-      mobile_label: "Tandai untuk seluler?"
+      mobile_label: Tandai untuk seluler?
       my_cases: Data Kasus Saya
-      no_action: ""
       no_activity: Tidak ada aktifitas
-      open: ""
-      other: ""
-      photo: ""
-      photo_label: "Punya Foto?"
-      protection_concerns: ""
-      protection_status: ""
-      record_state: ""
+      photo_label: Punya Foto?
       referred_cases: Kasus yang direferensikan ke saya
-      registration_date: ""
-      risk_level: ""
-      sex: ""
-      social_worker: ""
-      status: ""
-      transferred: ""
-      type_of_risk: ""
-      urgent_protection_concern: ""
-      user_group: ""
       workflow: Kasus-kasus berdasar Alur Penanganan
     flag_summary: Tandai Bendera di Ringkasan
-    full_name: ""
-    gbv_closure: ""
     hide_name: Sembunyikan Nama
     hide_name_error: Terjadi kesalahan saat menyimpan perubahan Anda. Silahkan coba lagi
-    id: ""
     label: Kasus
     my_filters: Saringan saya
-    name: ""
-    notes_dialog_title: ""
-    notes_form_notes: ""
-    notes_form_subject: ""
     ok: OK
     order_by:
       label: Urut Berdasarkan
       most_recently: Baru-baru saja
       name: Nama
-    owned_by: ""
-    owned_by_agency: ""
-    photo: ""
-    photos: ""
     quick_view:
       tracing_message: 'Catatan: Ada kecocokan data dengan Seseorang yang sedang mencari anak ini. Jika anak menyetujui, hubungi Pekerja Sosial yang menangani kasus ini untuk menindaklanjutinya.'
-    referral_done: ""
-    referral_done_success: ""
-    referral_accepted_header: ""
-    referral_accepted: ""
-    referral_accepted_success: ""
-    referral_rejected: ""
-    referral_rejected_success: ""
     register_new_case: Kasus Baru
-    registration_date: ""
-    rejected_success_action_plan: ''
-    rejected_success_assessment: ''
-    rejected_success_bia: ''
-    rejected_success_case_plan: ''
-    rejected_success_closure: ''
-    rejected_success_gbv_closure: ''
-    reopen_dialog: ""
-    reopen_dialog_title: ""
-    reopen_success: ""
-    request_approval_failure: ""
-    request_approval_select: ""
-    request_approval_success_action_plan: ""
-    request_approval_success_assessment: ""
-    request_approval_success_case_plan: ""
-    request_approval_success_closure: ""
-    request_approval_success_gbv_closure: ""
-    request_approval_type_of_case_plan: ""
-    request_approve_action_plan: ""
-    request_approve_bia: ""
-    request_approve_case_plan: ""
-    request_approve_closure: ""
-    request_approve_gbv_closure: ""
-    revoke_failure: ""
-    revoke_message: ""
-    revoke_success_message: ""
     save_filter: Simpan
-    selected_all_records: ""
-    selected_records: ''
-    sex: ""
-    show_case: ''
-    social_worker: ""
-    status: ""
-    summary:
-      label: ""
-      find_match: ""
-      matched_trace: ''
-      cannot_find_matches: ""
-      matched: ""
-      fields:
-        consent_for_tracing:
-          label: ""
-          help_text: ""
-        wishes_child_family_tracing:
-          label: ""
-        wishes_reunification:
-          label: ""
-          options:
-            yes_as_soon_as_possible: ""
-            yes_but_later: ""
-            not_sure: ""
-            'no': ''
-        data_confidentiality_link:
-          label: ""
-        child_wishes_link:
-          label: ""
-    survivor_code: ""
-    transfer_accepted: ""
-    transfer_accepted_rejected: ""
-    transfer_accepted_success: ""
-    transfer_reject_reason_label: ""
-    transfer_rejected: ""
     view_name: Tampilkan Nama
-  change_logs:
-    filters:
-      form: ""
-      field: ""
-    add_subform: ''
-    changes_subform: ''
-    create: ""
-    deleted_subform: ''
-    label: ""
-    see_details: ""
-    change: ''
-    updated_subform: ''
-    update_subform: ''
   children:
     selectable_date_options:
       assessment_requested_on: Tanggal asesmen
       closure_approved_date: 'Tanggal Penutupan Kasus'
       created_at: Tanggal Buka Kasus
       date_case_plan_initiated: Tanggal Perencanaan Kasus
-      date_of_creation: ""
       registration_date: Tanggal pendaftaran
-  configurations:
-    apply_label: ""
-    apply_label_bold: ""
-    version_mismatch_tooltip: ""
-    send_header: ""
-    send_text: ""
-    attributes:
-      created_by: ""
-      date_created: ""
-      description: ""
-      last_applied_by: ""
-      last_applied_on: ""
-      name: ""
-      version: ""
-      primero_version: ""
-    delete_label: ""
-    explanation: ''
-    label: ""
-    label_new: ""
-    messages:
-      applied: ""
-      created: ""
-      deleted: ""
-      updated: ""
-      sent: ""
-    not_allowed: ""
-    unavailable_server: ""
   contact:
     field:
       email: Surel
@@ -478,61 +153,20 @@ id:
       other_information: Informasi Lainnya
       phone: Telepon
       position: Posisi
-      primero_version: ""
       support_forum: Forum Dukungan
-      system_version: ""
     info_label: Informasi Kontak
     updated: Informasi kontak berhasil diupdate.
-  code_of_conduct:
-    field:
-      title: ""
-      content: ""
-      created_on: ""
-      created_by: ""
-    info_label: ""
-    updated: ""
   dashboard:
     activity: Aktifitas
-    admin_only: "Klik %{links} untuk membuat perubahan pada aplikasi"
+    admin_only: Klik %{links} untuk membuat perubahan pada aplikasi
     all_cases: Seluruh Kasus
     all_services_implemented: Semua layanan dilaksanakan
     and: 'dan'
-    approval_action_plan_approved: ""
-    approval_action_plan_pending: ""
-    approval_action_plan_pending_group: ""
-    approval_action_plan_rejected: ""
-    approval_assessment_approved: ""
-    approval_assessment_pending: ""
-    approval_assessment_pending_group: ""
-    approval_assessment_rejected: ""
-    approval_case_plan_approved: ""
-    approval_case_plan_pending: ""
-    approval_case_plan_pending_group: ""
-    approval_case_plan_rejected: ""
-    approval_closure_approved: ""
-    approval_closure_pending: ""
-    approval_closure_pending_group: ""
-    approval_closure_rejected: ""
-    approval_gbv_closure_approved: ""
-    approval_gbv_closure_pending: ""
-    approval_gbv_closure_pending_group: ""
-    approval_gbv_closure_rejected: ""
     approvals: Persetujuan
-    approvals_action_plan: ""
-    approvals_assessment: ""
-    approvals_case_plan: ""
-    approvals_closure: ""
-    approvals_gbv_closure: ""
     approved: Disetujui
     assessment: Asesmen
-    awaiting_acceptance: ""
-    cases_by_social_worker_total: ""
-    cases_by_social_worker_new_or_updated: ""
     case_id: '#ID Kasus'
-    case_management_service: ""
-    case_overview: ""
     case_plan: Rencana Kasus
-    case_risk: ""
     case_stat_by_approval_type: Persetujuan
     case_stat_by_assessment_level: Kasus berdasarkan Tingkat Penilaian
     case_stat_referrals: Rujukan
@@ -544,76 +178,27 @@ id:
     cases_this_week: Kasus Minggu Ini
     cases_to_assign: Kasus yang akan ditetapkan penugasannya
     closed: Tutup
-    closed_last_week: ""
-    closed_this_week: ""
     comprehensive_need_intervention: Respon Komprehensif
-    count_new_bia_approvals:
-      other: '%{Stat} <span> %{stat_type} </ span> Persetujuan Baru'
-    count_new_case_plan_approvals:
-      other: '%{Stat} <span>%{stat_type} </ span> Persetujuan Baru'
-    count_new_closure_approvals:
-      other: '%{Stat} <span>%{stat_type} </ span> Persetujuan Baru'
-    count_pending_approval_total:
-      other: 'Anda memiliki %{stat} <span>%{stat_type}</ span> persetujuan yang tertunda'
-    count_pending_transfers:
-      other: 'Anda memiliki %{stat} pemindahan <span>tertunda</span>'
-    count_records_new:
-      other: dan %{stat} kasus <span>baru</span>
-    count_records_total:
-      other: 'Anda mempunya <span>total</span> %{stat} kasus'
-    count_referrals_new:
-      other: and %{stat} rujukan <span>baru</span>
-    count_referrals_total:
-      other: 'Anda mempunyai %{stat} <span>total</span> rujukan'
-    count_rejected_approval_total:
-      other: 'Dan %{stat} <span>%{stat_type} </ span> yang ditolak'
-    count_rejected_transfers:
-      other: 'and %{stat} pemindahan <span>ditolak</span>'
-    count_risk_level_new:
-      other: Dan %{stat} <span> baru </ span> <span> %{stat_type} risiko </ span> kasus
-    count_risk_level_total:
-      other: 'Anda memiliki %{stat} <span> %{stat_type} risiko </span>'
-    count_waiting_for_acceptance_transfers: "Anda memiliki %{stat} Pemindahan <span> menunggu </ span> untuk diterima oleh Anda"
     current_owner: Pemilik saat ini
-    dash_case_incident_overview: ""
-    dash_group_overview: ""
-    dash_shared_from_my_team: ""
-    dash_shared_with_me: ""
-    dash_shared_with_my_team: ""
-    dash_shared_with_others: ""
     date: Tanggal
     date_of_incident: Tanggal dari Insiden
     date_of_interview: Tanggal Wawancara
     due: Melampaui Tenggat Waktu
-    flagged: ""
     flagged_by: 'Ditandai Bendera Oleh'
     flagged_by_me: Ditandai dengan Bendera oleh Saya
     flagged_by_other: Ditandai dengan Bendera oleh Orang lain
-    flagged_cases: ""
     follow_up: Menindaklanjuti
     forms: tab FORM
     geographic_area: Area Geografis
-    group_overview_closed: ""
-    group_overview_open: ""
-    high_level: ""
     high_risk: Prioritas Tinggi
     immediate_response: Respon Segera
-    in_progress: ""
     incident_id: '#ID Insiden'
     incident_location: Lokasi Insiden
     incident_status_open: Buka
     last_updated: Terakhir diperbarui
     link_see_all: Lihat Semua
-    low_level: ""
     low_risk: Prioritas Rendah
-    manager_count_closed_total:
-      other: 'dan %{stat} kasus yang <span>tutup</span>'
-    manager_count_open_total:
-      other: 'Anda mempunyai %{stat} kasus <span>terbuka</span>'
-    manager_transfers_totals:
-      other: 'nda memiliki %{stat} <span>%{stat_type} </ span> pemindahan'
     match_result: Hasil Pencocokan
-    medium_level: ""
     medium_risk: Prioritas Sedang
     missed_cases: Kasus yang Terlewatkan
     name: Nama
@@ -623,11 +208,8 @@ id:
     new_child_assigned_to_you: Kasus Baru yang Ditugaskan Untuk Anda
     new_incident: Kejadian Baru
     new_incident_assigned_to_you: Insiden Baru yang Ditugaskan
-    new_last_week: ""
-    new_or_updated: ""
     new_referred: Rujukan Baru
     new_service_provision: Pemberian Layanan Baru
-    new_this_week: ""
     no_action_risk: Tak Perlu Tindakan
     no_case_stats: Tidak ada statistik kasus
     no_caseworker_data: Tidak ada data Pekerja Kasus
@@ -644,12 +226,9 @@ id:
     open: Buka
     open_cases: Kasus yang terbuka
     open_incidents: Buka Insiden
-    outstanding_transfers: ""
     overdue_activities: Aktivitas Terlambat
     overdue_cases_to_assign: Kasus lewat batas waktu yang akan ditetapkan penugasannya
-    overview: ""
     pending: Tertunda
-    pending_approvals: ""
     pending_transfers: Pengalihan yang Ditunda
     protection_concern: Masalah Perlindungan
     protection_concerns: Masalah perlindungan
@@ -661,26 +240,12 @@ id:
     recently_flagged_child: Data Kasus yang Baru Ditandai dengan Bendera
     recently_flagged_incident: Data Insiden yang Baru Ditandai dengan Bendera
     referrals_by_social_worker: Arahan oleh pekerja sosial
-    registration: ""
     rejected: Ditolak
     rejected_transfers: Pengalihan yang Ditolak
-    response: Respon <span>(In Progress)</span>
     scheduled_activities: Aktivitas Terjadwal
     score_range: Rentang Nilai
-    screening_service: ""
     services: Layanan
     services_implemented: Layanan yang dilaksanakan
-    shared_from_my_team_pending_transfers: ""
-    shared_from_my_team_referrals: ""
-    shared_from_my_team_rejected_transfers: ""
-    shared_with_me_new_referrals: ""
-    shared_with_me_total_referrals: ""
-    shared_with_me_transfers_awaiting_acceptance: ""
-    shared_with_my_team_pending_transfers: ""
-    shared_with_my_team_referrals: ""
-    shared_with_others_pending_transfers: ""
-    shared_with_others_referrals: ""
-    shared_with_others_rejected_transfers: ""
     status_of_cases: Status Kasus
     system_user: Sistem
     total: Total
@@ -691,23 +256,12 @@ id:
     transfers_by_social_worker: Dialihkan oleh Pekerja Sosial
     users: tanda PENGATURAN
     violence_type: Jenis Kekerasan
-    with_incidents: ""
-    with_new_incidents: ""
-    without_incidents: ""
-    worker_count_referrals_total:
-      other: '<Span>%{case_worker} </ span> memiliki %{stat} <span>total</ span> rujukan'
-    worker_count_total:
-      other: '<span>%{case_worker}</span> mempunyai %{stat} <span>total</span> kasus'
-    workflow: ""
-    workflow_team: ""
     you_have: 'Anda memiliki'
   disabled:
     status:
       disabled: Dinonaktifkan
       enabled: Diaktifkan
   email_notification:
-    assign: ''
-    assign_subject: ''
     approval_request: 'Pengguna %{user} meminta persetujuan %{approval_type} untuk kasus %{case_id}.'
     approval_request_subject: 'Kasus: %{id} - Permintaan Persetujuan'
     approval_response: '%{user} telah %{status} terhadap permintaan persetujuan %{approval_type} untuk kasus %{case_id}.'
@@ -722,57 +276,37 @@ id:
     approval_response_html: '<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>.'
     referral_html: '<strong>%{user}</strong> dari %{agency} telah merujuk  %{record_type} berikut kepada Anda: <strong>%{record_id}</strong> untuk %{service_type} '
     transfer_html: '<strong>%{user}</strong> telah mengalihkan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>.'
-    assign_html: ''
     transfer_request_html: 'Pengguna Primero <strong>%{user}</strong> dari %{agency} meminta Anda untuk menyerahkan tanggungjawab atas %{record_type} dari <strong>%{record_id}</strong> agar mereka dapat melakukan pengelolaan layanan %{record_type} bagi individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka catatan %{rescord_type} di Primero dan memulai proses pengalihan.'
     transfer_request_notes_html: 'Catatan dari individu yang mengajukan %{request_transfer_notes}'
   encrypt:
-    export_type: ""
     file_name: Buat nama file Anda sendiri (Opsional)
-    password_extra_info: ""
     password_label: Silahkan masukkan password yang akan meng-enkripsi data
-  error_message:
-    address_fields: ""
-    address_form_fields: ""
-    address_subform_fields: ''
   error_page:
-    not_authorized:
-      code: 403
-      server_error: ""
-      title: ""
     not_found:
-      code: 404
-      contact_admin: "Jika Anda yakin Anda berada di sini karena kesalahan, silahkan hubungi admin."
-      something_went_wrong: "Ma'af, Ada Kesalahan!"
+      contact_admin: Jika Anda yakin Anda berada di sini karena kesalahan, silahkan hubungi admin.
+      something_went_wrong: Ma'af, Ada Kesalahan!
   errors:
-    error_loading: ""
     models:
-      agency:
-        code_present: ""
-        logo_format: ""
-        terms_of_use_format: ""
-        name_present: ""
       child:
         age: Umur harus antara 0 dan 130
         date_of_birth: Silahkan masukkan tanggal lahir yang benar untuk data kasus ini
       export_configuration:
         opt_out_field_does_not_exist: Bidang opt_out yang ditentukan tidak ada pada catatan.
-        record_type: "Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Penelusuran, atau Insiden."
+        record_type: Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Penelusuran, atau Insiden.
       field:
         translated_options_do_not_match: Pilihan-pilihan bidang harus memiliki ID yang sama
       location:
         admin_level_present: Tidak boleh kosong
         code_present: Tidak boleh kosong
         name_present: Tidak boleh kosong
-        unique_location_code: "Lokasi dengan kode lokasi tersebut sudah ada, masukkan kode lokasi yang berbeda"
+        unique_location_code: Lokasi dengan kode lokasi tersebut sudah ada, masukkan kode lokasi yang berbeda
       lookup:
         being_used: Referensi ini sedang digunakan dan tidak dapat dihapus
         name_present: Nama tidak boleh kosong
-        values_ids_blank: ""
       primero_module:
         associated_record_types: Setidaknya satu jenis rekaman harus dikaitkan dengan modul ini
-        form_section_ids: ""
         name_present: Nama tidak boleh kosong
-        unique_name: "Sebuah modul dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
+        unique_name: Sebuah modul dengan nama itu sudah ada, mohon masukkan nama yang berbeda
       report:
         module_presence: Modul tidak boleh kosong
         module_syntax: Semua modul laporan harus sudah tersedia
@@ -780,16 +314,7 @@ id:
       role:
         permission_presence: Harap pilih setidaknya satu izin
       user:
-        email: ""
         password_mismatch: Kolom kata sandi tidak memiliki kata sandi yang sama
-        password_length: ""
-        email_uniqueness: ""
-      code_of_conduct:
-        title_present: ""
-        content_present: ""
-        created_by_present: ""
-    not_found: ""
-    try_again: ""
   exports:
     case_pdf:
       all: PDF
@@ -799,11 +324,8 @@ id:
       all: CSV
       one: CSV
       selected: Dipilih untuk CSV
-    custom:
-      all: ""
     custom_exports:
-      all: ""
-      choose_fields: "Apakah Anda ingin memilih kolom individu untuk formulir?"
+      choose_fields: Apakah Anda ingin memilih kolom individu untuk formulir?
       empty_fields_forms: Silahkan pilih beberapa form atau kolom untuk ekspor
       empty_format: Silahkan pilih sebuah format untuk ekspor
       empty_module: Silahkan pilih sebuah module untuk ekspor
@@ -817,13 +339,6 @@ id:
       module_placeholder: Silahkan pilih sebuah modul
       select_module: Pilih modul
       submit: OK
-      header: ""
-      custom_header: ""
-      signatures: ""
-      include_implementation_logos: ""
-      include_implementation_logos_help_text: ""
-      include_agency_logo: ""
-      include_other_logos: ""
     duplicate_id_csv:
       all: Duplikat ID
       female_abbreviation: P
@@ -838,42 +353,9 @@ id:
         sex_mapping_m_f_u: Jenis Kelamin
       male_abbreviation: L
       unknown_abbreviation: U
-    exported: ""
-    exported_error: ""
     forms:
       button: Ekspor Formulir
       label: Ekspor
-      header:
-        form_group: ""
-        form_name: ""
-        field_id: ""
-        field_type: ""
-        field_name: ""
-        required: ""
-        on_mobile: ""
-        on_short_form: ""
-        option_ids: ""
-        options: ""
-        help_text: ""
-        guiding_questions: ""
-        visible: ""
-        lookup_id: ""
-        lookup_name: ""
-        option_id: ""
-        option_name: ""
-      options:
-        location: ""
-        agency: ""
-        user: ""
-        reportinglocation: ""
-        subforms: ''
-        collapsed_fields: ''
-
-    go_to_exports: ""
-    incident_recorder_xls:
-      all: ""
-      one: ""
-      selected: ""
     json:
       all: JSON
       one: JSON
@@ -881,42 +363,24 @@ id:
     list_view_csv:
       all: Ekspor Tampilah Daftar
       selected: Dipilih untuk CSV
-    messages:
-      no_exporter: ""
     mrm_violation_xls:
       all: Pelanggaran MRM
       one: Pelanggaran MRM
       selected: Dipilih untuk Pelanggaran MRM
     no_records: Tidak ada Data yang tersedia!
     pdf:
-      all: ""
       one: PDF
       selected: Dipilih untuk PDF
     pdf_exports:
       label: PDF
-      recipient: ""
-      case_worker: ""
-      client: ""
-      date: ""
-      recipient_name: ""
-      recipient_agency: ""
-      caseworker_name: ""
-      caseworker_agency: ""
     photowall:
       all: Foto Dinding
-      flag_suspect_record: ""
-      no_photos_available: ""
       one: Foto Dinding
-      reunited: ""
       selected: Dipilih ke Foto Dinding
-      success_message: ""
-    printed: ''
-    queueing: ""
     selected_xls:
       all: Excel
       one: Excel
       selected: Dipilih untuk Excel
-      selected_fields: ""
     unhcr_csv:
       all: UNHCR
       female_abbreviation: P
@@ -933,7 +397,7 @@ id:
         governorate_country: Provinsi
         id: ID
         individual_progress_id: ID progres individual
-        locations_by_level: "Alamat (Pengungsian, Blok, Huntara, atau lainnya atau koordinat GPS)"
+        locations_by_level: Alamat (Pengungsian, Blok, Huntara, atau lainnya atau koordinat GPS)
         long_id: ID Lengkap
         moha_id: NIK
         name_of_caregiver: Nama Lengkap Pengasuh
@@ -955,44 +419,16 @@ id:
       all: Excel
       one: Excel
       selected: Dipilih untuk Excel
-  imports:
-    csv_hxl_location:
-      messages:
-        success: ""
-        no_data: ''
-        csv_parse_error: ''
-        error: ''
-        db_error: ''
-        locale_invalid: ''
-        insert_all_error: ''
-  sync_record:
-    failed: ''
-    last: ''
-    not_found: ''
-    retrieving: ""
-    see_details: ""
   fields:
     action: Tindakan
     actions: Tindakan
     add: Tambah
-    add_new_field: ""
-    add_existing_field: ""
-    add_field: ""
-    add_field_type: ""
     audio:
       current: Audio yang ada
-    audio_upload_box: ""
-    bia_document: ""
-    bid_document: ""
     check_box: Kotak centang
-    clear_group_by: ""
-    clear_sort_by: ""
-    copy_from_another_form: ""
-    create_field: ""
-    create_unique_values: ""
     date_field: Kolom Tanggal
     date_help: dd-mmm-yyyy
-    date_help_with_time: "hh-bbb-tttt jj:mm"
+    date_help_with_time: hh-bbb-tttt jj:mm
     date_not_valid: Tanggal ini tidak valid
     date_range:
       date: Tanggal
@@ -1000,33 +436,16 @@ id:
       from: Dari
       to: Untuk
     date_range_field: Rentang Tanggal
-    date_time: ""
-    db_name: ""
-    default: ""
     default_date_validation: Validasi tanggal default
-    default_to_current_date: ""
-    default_to_current_datetime: ""
-    default_value: ""
-    deleted: "Kolom %{display_name} sudah dihapus."
-    detail: ""
-    disabled: ""
+    deleted: Kolom %{display_name} sudah dihapus.
     display_name: Nama Tampilan
     document:
       comments: Komentar
-      current: "Apakah ini dokumen terbaru?"
+      current: Apakah ini dokumen terbaru?
       date: Tanggal Dokumen
       name: Nama Dokumen
-      is_current: ""
-    document_upload_box: ""
-    edit_label: ""
-    enabled: ""
-    enabled_label: ""
-    english_text: ""
     field_name: Nama Kolom
-    field_type: ""
-    attachment_too_large: ""
     file_upload_box:
-      add_document_label: ""
       add_new_document_button_text: Tambah dokumen lain
       add_new_photo_button_text: Tambah photo lain
       add_photo_label: Tambah Photo
@@ -1036,59 +455,26 @@ id:
       photo_file_restrictions_message: Foto seharusnya tidak lebih besar dari 10mb. File audio seharusnya tidak lebih besar dari 10mb. Semakin kecil semakin baik.
       recorded_audio_label: Rekaman Suara
       select_file_button_text: Pilih Dokumen
-    find_lookup: ""
     form_name: Nama Formulir
-    future_date_not_valid: ""
-    guidance: ""
-    guiding_questions: ""
     help_text: Teks bantuan
-    hide_on_view_page: ""
     label: Kolom
-    mobile_visible: ""
     move_to: Pindah ke
-    multi_select: ""
-    multi_select_box: ""
-    must_be_english: ""
-    name: ""
     not_future_date: Bukan tanggal yang akan datang
     number_not_valid: Silahkan masukkan data angka
     numeric_field: Kolom angka
-    on_collapsed_subform: ""
     option_strings_add_option: Tambah Pilihan
     option_strings_source: Lihat Referensi
     option_strings_text: Pilihan
     option_strings_text_display: Teks Pilihan
     option_strings_text_key: Kunci Pilihan
-    options_indications_lookup_values: ""
-    options_indications_restrictions: ""
     options_or_lookup_warning: Tambahkan Pilihan atau pilih Lookup. Jangan kedua-duanya.
-    other_documents: ""
-    photo_upload_box: ""
-    predifined_lookups: ""
     radio_button: Tombol radio
     remove: Hapus
-    remove_attachment_confirmation: ""
-    required: ""
-    required_field: ''
-    search_existing: ""
     select_box: Pilih Kombo Pilihan
     select_date_validation: Pilih metode validasi tanggal
-    select_multiple: ""
-    select_single: ""
     separator: Pemisah
-    show: ""
-    show_on: ""
-    show_on_minify_form: ""
     subform: Subform
-    subform_group_by: ""
-    subform_remove_message: "Yakin ingin menghapus subform ini?"
-    subform_section:
-      description: ""
-      name: ""
-      starts_with_one_entry: ""
-      subform_append_only: ""
-      subform_prevent_item_removal: ""
-    subform_sort_by: ""
+    subform_remove_message: Yakin ingin menghapus subform ini?
     successfully_added: Kolom berhasil ditambahkan
     tally_field: Kolom yang sesuai
     text_area: Area Teks
@@ -1096,106 +482,30 @@ id:
     textarea: Area Teks
     tick_box: Kotak centang
     tick_box_label: Label Kotak centang
-    translation_text: ""
-    type: ""
     updated: Kolom diperbarui
-    visibility: ""
-    web_app: ""
-  filters:
-    apply_filters: ""
-    clear_filters: ""
-    less: ""
-    more: ""
-    save_filters: ""
-  flags:
-    add_flag_tab: ""
-    date: ''
-    flag_added: ""
-    flag_date: ""
-    flag_reason: ""
-    flag_reason_maximun_label: ""
-    flag_resolved: ""
-    flags_tab: ""
-    no_flags: ""
-    resolve_button: ""
-    resolve_flag: ""
-    resolve_reason: ""
-    resolved: ""
-    resolved_date: ''
-    resolved_reason: ''
-    title: ""
   followup_reminders:
     system_generated_followup_flag: Kunjungan tindak lanjut wajib
   form_section:
-    form_name: ""
-    module: ""
     name: Nama
-    record_type: ""
     required_field: '%{field} wajib'
   forms:
-    add: ""
-    description: ""
-    fields: ""
-    form_description: ""
-    form_group: ""
-    form_title: ""
-    help_text:
-      must_be_english: ""
-      related_groups: ""
-      summariaze_purpose: ""
-    invalid_characters_field: ''
     label: Formulir
-    manage: ""
     messages:
-      created: ""
-      fields_with_same_name: ""
-      save_success: ""
-      save_with_errors: ""
-      updated: ""
       use_existing: Kami mendorong Anda untuk menggunakan formulir yang ada karena ini membuat data sharing dan penggabungan data antar institusi menjadi lebih mudah.
-    mobile_app: ""
-    module: ""
-    no_subform_filters_added: ""
-    record_type: ""
     record_types:
-      approvals: ""
       case: Kasus
       child: Kasus
       incident: Insiden
-      individual_victim: ""
       potential_match: Potensi Kecocokan
-      record_information: ""
-      referrals: ""
       reportable_follow_up: Menindaklanjuti
       reportable_protection_concern: Masalah Perlindungan
       reportable_service: Pelayanan
       tracing_request: Permintaan Penelusuran
-      transfers_assignments: ""
       violation: Pelanggaran
-    required_field: ''
-    select_label: ""
-    settings: ""
-    show_on: ""
-    subform_need_to_be_added: ""
-    subform_not_found: ""
-    title: ""
-    translations:
-      edit: ""
-      edit_form_group: ""
-      manage: ""
-      no_changes_message: ""
-      note: ''
-      note_form_group: ""
-      select_language: ""
-      title: ""
-    type_label: ""
-    visibility: ""
-    web_app: ""
   home:
     ar: العربية
-    ar-JO: ""
+    ar-IQ: العربية (العراقية)
     ar-LB: العربية (اللبنانية)
-    ar-SD: ""
     bn: বাংলা
     current_time_zone: Zona waktu setempat
     dashboard: Dashboard
@@ -1203,13 +513,11 @@ id:
     es: Español
     fr: Français
     id: Bahasa
-    km: ""
     ku: کوردی
     label: Beranda
     language: Bahasa
     manage_system_users: Mengelola Pengguna Sinkronisasi Server
     my: ဗမာစာ
-    pt: ""
     records_need_attention: Data yang perlu perhatian
     ru: Русский
     so: Af-Soomaali
@@ -1219,171 +527,18 @@ id:
     welcome: Selamat Datang di Primero
     zh: 中文
   incident:
-    associated_case: ""
     messages:
-      creation_success: ""
-      creation_success_queue: ""
-      disabled: ""
       update_success: 'Data Insiden %{record_id} berhasil diubah.'
-      update_success_queue: ''
-    violation:
-      pending: ""
   incidents:
-    disable_dialog: ""
-    disable_dialog_title: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
-    id: ""
-    date_of_interview: ""
-    date_of_incident: ""
-    export: ""
     label: Insiden
     filter_by:
       boys: Anak laki-laki
-      by_date: ""
       girls: Anak perempuan
-      incident_location: ""
-      unaccompanied_separated_status: ""
       unknown: Tidak diketahui
-      violence_type: ""
     register_new_incident: Insiden Baru
     selectable_date_options:
       date_of_first_report: Tanggal Wawancara
       incident_date_derived: Tanggal Kejadian
-    selected_records: ''
-    selected_all_records: ''
-    survivor_code: ""
-    show_incident: ''
-    social_worker: ""
-    violence_type: ""
-    type_violence: ""
-  key_performance_indicators:
-    label: ""
-    case_assessment: ""
-    case_action_planning: ""
-    case_action_plan_implementation: ""
-    case_follow_up: ""
-    case_closure: ""
-    feedback: ""
-    other: ""
-    date_format: ""
-    date_range_select:
-      custom_range: ''
-    long_date_format: ""
-    time_periods:
-      all_time: ''
-      current_month: ""
-      last_3_months: ""
-      last_6_months: ""
-      last_1_year: ""
-      0-3days: ""
-      4-5days: ""
-      6-14days: ""
-      15-30days: ""
-      1-3months: ""
-      4months: ""
-      1-month: ""
-      3-6months: ""
-      7-months: ""
-    helptext:
-      helptext: ""
-    number_of_cases:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    number_of_incidents:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    reporting_delay:
-      title: ""
-      delay: ""
-      total_incidents: ""
-      helptext: |
-    service_access_delay:
-      title: ""
-      delay: ""
-      total_incidents: ""
-    assessment_status:
-      title: ""
-      completed: ""
-      completed_supervisor_approved: ""
-      helptext: |
-    completed_case_safety_plans:
-      title: ""
-      completed: ""
-      helptext: |
-    completed_case_action_plans:
-      title: ""
-      completed: ""
-      label: ""
-      helptext: |
-    completed_supervisor_approved_case_action_plans:
-      title: ""
-      completed_and_approved: ""
-      helptext: |
-    services_provided:
-      title: ""
-      service: ""
-      count: ""
-      helptext: |
-    average_referrals:
-      title: ""
-      label: ""
-      helptext: |
-    referrals_per_service:
-      title: ""
-    average_followup_meetings_per_case:
-      title: ""
-      label: ""
-      helptext: |
-    goal_progress_per_need:
-      title: ""
-      need: ""
-      safety: ""
-      health: ""
-      psychosocial: ""
-      justice: ""
-      other: ""
-      helptext: |
-    time_from_case_open_to_close:
-      title: ""
-      time: ""
-      percent: ""
-      helptext: |
-    case_closure_rate:
-      title: ""
-      reporting_site: ""
-      helptext: |
-    client_satisfaction_rate:
-      title: ""
-      label: ""
-      helptext: |
-    supervisor_to_caseworker_ratio:
-      title: ""
-      label: ""
-      helptext: |
-    case_load:
-      title: ""
-      case_load: ""
-      percent: ""
-      10cases: ""
-      20cases: ""
-      21-30cases: ""
-      30cases: ""
-      helptext: |
-    date_range_dialog:
-      title: ""
-      description: ""
-      apply: ''
-      from: ''
-      to: ''
-      aria-labels:
-        from: ""
-        to: ""
-
   location:
     base_types:
       camp: Kemah
@@ -1391,7 +546,7 @@ id:
       city: Kota
       country: Negara
       county: Negara
-      district: "Kabupaten/Kota:"
+      district: 'Kabupaten/Kota:'
       governorate: Gubernur
       locality: Tempat dan sekitarnya
       other: Lainnya
@@ -1402,40 +557,20 @@ id:
       sub-district: Kecamatan
       village: Desa
       zone: Zona
-    label: ""
-    name: ""
-    code: ""
-    admin_level: ""
-    type: ""
-    hierarchy: ""
-    import_title: ""
-    message: ""
-    no_location: ""
   logger:
     approve_form:
-      action_plan: ""
       bia: Formulir BIA
       case_plan: Formulir Rencana Kasus
       closure: Formulir Terminasi
       'false': Menolak
-      gbv_closure: ""
       'true': Menyetujui
-    assessment_approved: ""
-    assessment_requested: ""
-    bulk_index: ""
     by_user: dari pengguna
-    case_plan_approved: ""
-    case_plan_requested: ""
-    close: ""
-    closure_approved: ""
-    closure_requested: ""
     consent_count: Jumlah Persetujuan
     copy: Menyalin
     create: Membuat
     create_subform: Membuat Sub-Form
     destroy: Menghapus
     edit: Mengubah
-    enable_disable_record: ""
     export: Mengekspor data untuk
     flag: Tandai dengan Bendera
     flag_records: Tandai dengan Bendera
@@ -1444,7 +579,6 @@ id:
       protect: Sembunyikan Nama
       view: Tunjukkan Nama
     index: Membuat Daftar Data Catatan
-    list: ""
     login: Masuk
     logout: Keluar
     lookups_for_field: Cari untuk kolom
@@ -1458,24 +592,17 @@ id:
     record_state:
       'false': Nonaktifkan
       'true': Aktifkan
-    refer: ""
-    refer_to: ""
     referral: Merujuk
     relinquish_referral: Mempublikasikan rujukan yang selesai
-    reopen: ""
     reopen_case: Membuka kembali
     request_approval:
-      action_plan: ""
       bia: Meminta Persetujuan untuk formulir BIA
       case_plan: Meminta Persetujuan untuk formulir Rencana Kasus
       closure: Meminta Persetujuan untuk formulir Terminasi
-      gbv_closure: ""
     request_transfer: Mengirim Permintaan Pengalihan
     request_transfer_view: Melihat Pemindahan Permintaan
     save_subform: Menyimpan Sub-Form
-    search: ""
     show: Melihat
-    show_alerts: ""
     to: untuk
     to_user: untuk pengguna
     transfer: Memindahkan
@@ -1488,78 +615,19 @@ id:
     label: Masuk
     password:
       label: Kata sandi
-    password_confirmation:
-      label: ""
-    password_match:
-      label: ""
-    provider_title: ""
-    title: ""
     username: Nama Pengguna
-    password_reset_modal: ""
-    password_reset_modal_text: ""
-    password_reset_email: ""
-    forgot_password: ""
-    email:
-      label: ""
   lookup:
     create: Referensi Baru
-    enabled_label: ""
-    english_label: ""
     label: Lihat Referensi
-    language_label: ""
     messages:
       cannot_create: Referensi tidak bisa dibuat
       correct_errors: 'Perbaiki kesalahan berikut dan kirimkan lagi:'
-      created: ""
-      updated: ""
     name: Nama
-    no_options: ""
-    translation_label: ""
     values: Pilihan
   messages:
-    alert_items: ""
-    alerts_for:
-      approval: ""
-      field_change: ''
-      transfer_request: ""
-    cannot_edit: ""
     confirmation_message: Menekan tombol OK akan membuang perubahan yang belum disimpan dan kembali ke tampilan daftar. Tekan tombol BATAL untuk kembali ke data.
-    dashboard_offline: ""
-    field_name_on_form_name: ''
-    logout_confirmation: ""
-    logout_offline_warning: ""
-    logout_warning: ""
-    logout_dialog_header: ""
-    logout_confirmation_title: ""
-    logout_confirmation_text: ""
-    no_changes: ""
-    not_available: ""
-    record_list:
-      column_header_tooltip: ""
-      of: ""
-      no_match: ""
-      rows_per_page: ""
-      sort: ""
   navigation:
-    bulk_exports: ""
-    cases: ""
-    home: ""
-    key_performance_indicators: ""
-    incidents: ""
-    logout: ""
-    reports: ""
     search: Cari
-    settings: ""
-    support: ""
-    support_menu:
-      contact_information: ""
-      code_of_conduct: ""
-      terms_of_use: ""
-      system_information: ""
-    tasks: ""
-    tracing_request: ""
-  notes:
-    note_success: ""
   permissions:
     label: Izin
     permission:
@@ -1570,59 +638,27 @@ id:
       agency: Agensi
       agency_read: Pembacaan Agensi
       all: Akses semua data atau pengguna
-      approvals_assessment: ''
-      approvals_assessment_pending: ''
-      approvals_case_plan: ''
-      approvals_case_plan_pending: ''
-      approvals_closure: ''
-      approvals_closure_pending: ''
-      approve_action_plan: ""
-      approve_assessment: ""
-      approve_case_plan: ""
-      approve_closure: ""
-      approve_gbv_closure: ""
       assign: Menugaskan
       assign_within_agency: Tugaskan dalam lembaga
       assign_within_user_group: Tugaskan dalam kelompok pengguna
       audit_log: Audit Log
       case: Kasus
-      case_approvals: ""
-      case_assignments_referrals_transfers: ""
-      case_exports: ""
-      case_overview: ""
-      case_risk: ""
-      cases_by_task_overdue_assessment: ""
-      cases_by_task_overdue_case_plan: ""
-      cases_by_task_overdue_followups: ""
-      cases_by_task_overdue_services: ""
-      cases_managed_other_users: ""
-      close: ""
       consent_override: Persetujuan diganti
       copy: Salin
-      copy_of: ""
       create: Buat
-      dash_case_incident_overview: ""
       dash_cases_by_social_worker: Tinjau Kasus-kasus berdasar Pekerja Sosial
       dash_cases_by_task_overdue: Tinjau Kasus yang Mengalami Keterlambatan
       dash_cases_by_workflow: Tinjau Kasus berdasar Alur Penanganan
       dash_cases_to_assign: Tinjau Kasus untuk Ditetapkan Penugasannya
-      dash_group_overview: ""
       dash_manager_transfers: Tinjau Pengalihan Manajer Kasus
       dash_matching_results: Tinjau Hasil Pencocokan
-      dash_protection_concerns: "Lihat Masalah perlindungan:"
-      dash_protection_concerns_by_location: ""
+      dash_protection_concerns: 'Lihat Masalah perlindungan:'
       dash_referrals_by_socal_worker: Tinjau Rujukan berdasar Pekerja Sosial
       dash_reporting_location: Lihat Lokasi Laporan
       dash_service_provisions: Tinjau Pemberian Layanan
-      dash_shared_from_my_team: ""
-      dash_shared_with_me: ""
-      dash_shared_with_my_team: ""
-      dash_shared_with_others: ""
-      dash_show_none_values: ""
       dash_tasks: Tinjau tugas-tugas
       dash_transfers_by_socal_worker: Tinjau Pengalihan berdasar Pekerja Sosial
       dashboard: Dashboard
-      delete: ""
       display_view_page: Tampilkan Tinjauan Halaman
       duplicate: Pencarian Duplikat
       enable_disable_record: Nonaktifkan
@@ -1646,28 +682,17 @@ id:
       incident: Insiden
       incident_details_from_case: Tambahkan Rincian Kejadian untuk Kasus Milik Pengguna Lain
       incident_from_case: Buat insiden dari sebuah kasus
-      kpi: ""
       lookup: Lihat Referensi
       manage: Kelola
       matching_configuration: Pengaturan Pencocokan
-      metadata: "Formulir, Lihat Referensi"
+      metadata: Formulir, Lihat Referensi
       potential_match: Potensi Kecocokan
-      primero_configuration: ""
       read: Baca
       reassign: Menugaskan kembali
-      receive_referral: ""
-      receive_transfer: ""
-      referral: ""
       referral_from_service: Rujuk Kasus dari Form Layanan
       remove_assigned_users: Hapus pengguna lain (kasus rujukan)
-      reopen: ""
       report: Laporan
       request_approval: Meminta persetujuan
-      request_approval_action_plan: ""
-      request_approval_assessment: ""
-      request_approval_case_plan: ""
-      request_approval_closure: ""
-      request_approval_gbv_closure: ""
       request_transfer: Permintaan Pemindahan
       role: Peran
       save_search: Simpan Pencarian
@@ -1677,11 +702,9 @@ id:
       service_provision_incident_details: Lihat Tobol Penambahan Penyediaan Layanan di Mode Rincian Layanan
       services_section_from_case: Tambahkan pemberian layanan untuk kasus milik pengguna lain
       specific_roles: Akses daftar peran yang ditentukan
-      sync_external: ""
       sync_mobile: Sinkronisasi dengan perangkat seluler
       system: Sistem
       tracing_request: Permintaan Penelusuran
-      transfer: ""
       user: Pengguna
       user_group: Grup Pengguna
       view_approvals: Lihat Persetujuan
@@ -1689,649 +712,11 @@ id:
       view_photo: Lihat Foto
       view_protection_concerns_filter: Tinjau Filter Masalah Perlindungan Anak
       view_response: Tinjau Respons
-      workflow: ""
-      workflow_team: ""
       write: Tulis
-    resource:
-      kpi:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-          kpi_assessment_status:
-            explanation: ""
-            label: ""
-          kpi_average_followup_meetings_per_case:
-            explanation: ""
-            label: ""
-          kpi_average_referrals:
-            explanation: ""
-            label: ""
-          kpi_case_closure_rate:
-            explanation: ""
-            label: ""
-          kpi_case_load:
-            explanation: ""
-            label: ""
-          kpi_client_satisfaction_rate:
-            explanation: ""
-            label: ""
-          kpi_completed_case_action_plans:
-            explanation: ""
-            label: ""
-          kpi_completed_case_safety_plans:
-            explanation: ""
-            label: ""
-          kpi_completed_supervisor_approved_case_action_plans:
-            explanation: ""
-            label: ""
-          kpi_goal_progress_per_need:
-            explanation: ""
-            label: ""
-          kpi_number_of_cases:
-            explanation: ""
-            label: ""
-          kpi_number_of_incidents:
-            explanation: ""
-            label: ""
-          kpi_reporting_delay:
-            explanation: ""
-            label: ""
-          kpi_services_provided:
-            explanation: ""
-            label: ""
-          kpi_supervisor_to_caseworker_ratio:
-            explanation: ""
-            label: ""
-          kpi_time_from_case_open_to_close:
-            explanation: ""
-            label: ""
-        label: ""
-      agency:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      audit_log:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      case:
-        actions:
-          add_note:
-            explanation: ""
-            label: ""
-          approve_action_plan:
-            explanation: ""
-            label: ""
-          approve_assessment:
-            explanation: ""
-            label: ""
-          approve_bia:
-            explanation: ""
-            label: ""
-          approve_case_plan:
-            explanation: ""
-            label: ""
-          approve_closure:
-            explanation: ""
-            label: ""
-          approve_gbv_closure:
-            explanation: ""
-            label: ""
-          assign:
-            explanation: ""
-            label: ""
-          assign_within_agency:
-            explanation: ""
-            label: ""
-          assign_within_user_group:
-            explanation: ""
-            label: ""
-          change_log:
-            explanation: ""
-            label: ""
-          close:
-            explanation: ""
-            label: ""
-          consent_override:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          display_view_page:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ''
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_duplicate_id_csv:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_photowall:
-            explanation: ""
-            label: ""
-          export_unhcr_csv:
-            label: ""
-          export_xls:
-            explanation: ''
-            label: ""
-          find_tracing_match:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          incident_details_from_case:
-            explanation: ""
-            label: ""
-          incident_from_case:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          receive_referral:
-            explanation: ""
-            label: ""
-          receive_transfer:
-            explanation: ""
-            label: ""
-          referral:
-            explanation: ""
-            label: ""
-          referral_from_service:
-            explanation: ""
-            label: ""
-          remove_assigned_users:
-            explanation: ""
-            label: ""
-          reopen:
-            explanation: ""
-            label: ""
-          request_approval_action_plan:
-            explanation: ""
-            label: ""
-          request_approval_assessment:
-            explanation: ""
-            label: ""
-          request_approval_bia:
-            explanation: ""
-            label: ""
-          request_approval_case_plan:
-            explanation: ""
-            label: ""
-          request_approval_closure:
-            explanation: ""
-            label: ""
-          request_approval_gbv_closure:
-            explanation: ""
-            label: ""
-          request_transfer:
-            explanation: ""
-            label: ""
-          search_owned_by_others:
-            explanation: ""
-            label: ""
-          service_provision_incident_details:
-            explanation: ""
-            label: ""
-          services_section_from_case:
-            explanation: ""
-            label: ""
-          sync_external:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          transfer:
-            explanation: ""
-            label: ""
-          view_photo:
-            explanation: ""
-            label: ""
-          view_incident_from_case:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      dashboard:
-        actions:
-          approvals_action_plan:
-            explanation: ""
-            label: ""
-          approvals_action_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_assessment:
-            explanation: ""
-            label: ""
-          approvals_assessment_pending:
-            explanation: ""
-            label: ""
-          approvals_case_plan:
-            explanation: ""
-            label: ""
-          approvals_case_plan_pending:
-            explanation: ""
-            label: ""
-          approvals_closure:
-            explanation: ""
-            label: ""
-          approvals_closure_pending:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure:
-            explanation: ""
-            label: ""
-          approvals_gbv_closure_pending:
-            explanation: ""
-            label: ""
-          case_overview:
-            explanation: ""
-            label: ""
-          case_risk:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_assessment:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_case_plan:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_followups:
-            explanation: ""
-            label: ""
-          cases_by_task_overdue_services:
-            explanation: ""
-            label: ""
-          dash_case_incident_overview:
-            explanation: ""
-            label: ""
-          dash_cases_by_social_worker:
-            explanation: ""
-            label: ""
-          dash_cases_to_assign:
-            explanation: ''
-            label: ""
-          dash_flags:
-            explanation: ""
-            label: ""
-          dash_group_overview:
-            explanation: ""
-            label: ""
-          dash_matching_results:
-            explanation: ""
-            label: ""
-          dash_protection_concerns:
-            explanation: ""
-            label: ""
-          dash_protection_concerns_by_location:
-            explanation: ""
-            label: ""
-          dash_reporting_location:
-            explanation: ""
-            label: ""
-          dash_service_provisions:
-            explanation: ""
-            label: ""
-          dash_shared_from_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_me:
-            explanation: ""
-            label: ""
-          dash_shared_with_my_team:
-            explanation: ""
-            label: ""
-          dash_shared_with_others:
-            explanation: ""
-            label: ""
-          dash_show_none_values:
-            explanation: ""
-            label: ""
-          dash_tasks:
-            explanation: ""
-            label: ""
-          view_protection_concerns_filter:
-            explanation: ""
-            label: ""
-          view_response:
-            explanation: ""
-            label: ""
-          workflow:
-            explanation: ""
-            label: ""
-          workflow_team:
-            explanation: ""
-            label: ""
-        label: ""
-      disabled:
-        explanation: ""
-        label: ""
-      duplicate:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      forms:
-        case:
-          explanation: ''
-          label: ""
-        incident:
-          explanation: ''
-          label: ""
-        tracing_request:
-          explanation: ''
-          label: ""
-      group:
-        actions:
-          admin_only:
-            explanation: ""
-            label: ""
-          agency:
-            explanation: ""
-            label: ""
-          all:
-            explanation: ""
-            label: ""
-          group:
-            explanation: ""
-            label: ""
-          self:
-            explanation: ""
-            label: ""
-        explanation: ""
-        label: ""
-      incident:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            label: ""
-          export_incident_recorder_xls:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          export_xls:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          sync_mobile:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      is_manager:
-        explanation: ""
-        label: ""
-      matching_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      metadata:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      module:
-        actions:
-          cp:
-            label: ""
-          gbv:
-            label: ""
-          mrm:
-            label: ""
-        explanation: ""
-        label: ""
-      potential_match:
-        actions:
-          read:
-            explanation: ""
-            label: ""
-        label: ""
-      primero_configuration:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      referral:
-        actions:
-          refer:
-            explanation: ""
-            label: ""
-        label: ""
-      report:
-        actions:
-          create:
-            explanation: ""
-            label: ""
-          group_read:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      reporting_location_level:
-        explanation: ''
-        label: ""
-      role:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          copy:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          permitted_roles:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      system:
-        actions:
-          manage:
-            explanation: ""
-            label: ""
-        label: ""
-      tracing_request:
-        actions:
-          change_log:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          enable_disable_record:
-            explanation: ""
-            label: ""
-          export_case_pdf:
-            explanation: ""
-            label: ""
-          export_csv:
-            explanation: ""
-            label: ""
-          export_custom:
-            explanation: ""
-            label: ""
-          export_json:
-            explanation: ""
-            label: ""
-          export_list_view_csv:
-            explanation: ""
-            label: ""
-          export_pdf:
-            explanation: ""
-            label: ""
-          flag:
-            explanation: ""
-            label: ""
-          import:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ""
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      transfer:
-        actions:
-          transfer:
-            explanation: ""
-            label: ""
-        label: ""
-      user:
-        actions:
-          agency_read:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
-      user_group:
-        actions:
-          assign:
-            explanation: ""
-            label: ""
-          create:
-            explanation: ""
-            label: ""
-          delete:
-            explanation: ""
-            label: ""
-          manage:
-            explanation: ''
-            label: ""
-          read:
-            explanation: ""
-            label: ""
-          write:
-            explanation: ""
-            label: ""
-        label: ""
   potential_match:
-    case_id: ""
     child_age: Umur
     child_gender: Gender
-    child_id: "#id anak"
+    child_id: '#id anak'
     inquirer_id: ID# Penyelidik
     inquirer_tr_name: Permintaan Penelusuran
     inquiry_date: Tanggal Penyelidikan
@@ -2339,100 +724,41 @@ id:
     score: Nilai
     social_worker: Pekerja Sosial
     social_worker_agency: Agensi
-    tracing_request_id: ""
-    trace: ""
-    likelihood_likely: ""
-    likelihood_possible: ""
   potential_matches:
-    display: "Menampilkan kecocokan yang mungkin ada untuk %{type} %{id}"
+    display: Menampilkan kecocokan yang mungkin ada untuk %{type} %{id}
   reassign:
-    multiple_error: ""
-    multiple_successfully: ''
     notes_label: Catatan
-    successfully: ""
-    user_mandatory_label: ""
-    users_label: ""
-  record_information:
-    assigned_user_names: ""
-    created_by: ""
-    created_organization: ""
-    current_owner_separator: ""
-    module_id: ""
-    owned_by: ""
-    owned_by_agency_id: ""
-    owned_by_text: ""
-    previously_owned_by: ""
-    previously_owned_by_agency: ""
-    reassigned_tranferred_on: ""
-    record_history_separator: ""
   record_panel:
     record_information: Informasi Data
   referral:
-    type_of_recipient: ""
-    type_of_referral_required: ""
     agency_label: Agensi
-    is_remote_label: "Apakah Anda mengacu pada sistem remote?"
+    is_remote_label: Apakah Anda mengacu pada sistem remote?
     location_label: Lokasi
     notes_label: Catatan
-    notes_on_referral: ""
-    note_on_referral_from_provider: ""
-    provided_consent_label: ""
-    recipient_label: ""
-    refer_anyway_label: ""
     service_label: Layanan
     success: '%{record_type} %{id} berhasil dirujuk'
-    user_mandatory_label: ""
-    date: ""
-    rejected_reason: ""
   report:
     aggregate_by: Grup berdasarkan Baris
-    attribute: ""
-    constraint: ""
     date_ranges:
       date: Hari
       month: Bulan
-      quarter: ""
-      quarter_abbr: ""
       week: Minggu
       year: Tahun
     description: Deksripsi
-    disabled:
-      explanation: ""
-      label: ""
     disaggregate_by: Grup berdasarkan Kolom
     filters:
       label: Laporan Filter
-      label_new: ""
-      attribute: ""
-      value: ""
-      not_null: ""
-      less_than: ""
-      greater_than: ""
-      equal_to: ""
-      not_blank: ""
-      is: ""
-      before: ""
-      after: ""
-      delete_filter_message: ""
     group_ages: Gunakan rentang usia
     group_dates_by: Gunakan rentang tanggal
-    is_graph: "Buat grafik?"
+    is_graph: Buat grafik?
     messages:
       delete_success: Laporan sudah berhasil di hapus
-      success: ""
-      updated: ""
     modules: Modul
     name: Nama
-    name_mandatory: ""
     no_data: Tidak ada data untuk laporan ini
-    no_filters_added: ""
-    not_selected: ""
     record_type: Jenis Data
     total: Total
-    value: ""
   reports:
-    delete_report: ""
-    delete_report_message: ""
     label: Laporan
     register_new_report: Buat Laporan
   request_transfer:
@@ -2440,277 +766,75 @@ id:
     submit_label: Kirim Permintaan
     success: Permintaan Pengalihan telah Dikirim
   role:
-    agency_ids_label: ""
     copy_failure: Kesalahan saat menyalin Peran Pastikan namanya tidak bertentangan dengan Peran lain.
     copy_success: Peran berhasil disalin.
     create: Buat Peran
-    delete_header: ""
     description: Deskripsi
     edit: Ubah Peran
     error_in_updating: Kesalahan dalam memperbarui detail Peran.
-    group_permission_label: "Data apa yang mempengaruhi peran ini?"
-    label: ""
-    manager: ""
-    messages:
-      confirmation: ""
-      created: ""
-      deleted: ""
-      updated: ""
+    group_permission_label: Data apa yang mempengaruhi peran ini?
     name: Nama
-    referral_label: "Dapatkah peran ini digunakan untuk Referral?"
-    reporting_location_level_label: ""
+    referral_label: Dapatkah peran ini digunakan untuk Referral?
     role_ids_label: Peran lainnya dikelola oleh peran ini
     successfully_updated: Rincian peran berhasil diperbarui.
-    transfer_label: "Dapatkah peran ini digunakan untuk Transfer?"
-    hide: ""
-    read: ""
-    read_write: ""
+    transfer_label: Dapatkah peran ini digunakan untuk Transfer?
   roles:
     label: Peran
   saved_search:
     deleted: Pencarian berhasil dihapus
     filters_tab: Saringan
-    no_filters: ""
     save_success: Pencarian berhasil disimpan
     saved_searches_tab: Pencarian yang Tersimpan
-    title_description: ""
-    title_modal: ""
   saved_searches:
     no_save_searches: Anda tidak memiliki pencarian yang tersimpan
     save_search: Simpan Pencarian
-  settings:
-    navigation:
-      agencies: ""
-      audit_logs: ""
-      configurations: ""
-      contact_information: ""
-      forms: ""
-      locations: ""
-      lookups: ""
-      user_groups: ""
-      users: ""
-      roles: ""
-      code_of_conduct: ""
-    title: ""
   system_settings:
     label: Pengaturan sistem
   task:
     due_date: Tanggal Batas Waktu
     id: ID#
-    name: ""
-    priorities:
-      high_level: ""
-      low_level: ""
-      medium_level: ""
-      no_action_level: ""
     priority: Tingkat Prioritas
-    status: ""
-    statuses:
-      overdue: ""
-      upcoming_soon: ""
     type: Jenis Tindakan
     types:
       assessment: Asesmen
       case_plan: Rencana Kasus
-      follow_up: "Tindak Lanjut - %{subtype}"
-      service: "Layanan - %{subtype}"
+      follow_up: Tindak Lanjut - %{subtype}
+      service: Layanan - %{subtype}
   tracing_request:
-    label: ""
-    has_match: ""
-    find_match: ""
-    back_to_traces: ""
-    back_to_potential_matches: ""
-    traces: ""
-    trace: ""
-    match: ""
-    matches: ""
-    unmatch: ""
     messages:
-      already_matched: ""
-      disabled: ""
-      nothing_found: ""
       update_success: 'Permintaan Penelusuran %{record_id} telah berhasil diperbarui.'
-      creation_success: ""
-      update_success_queue: ''
-      creation_success_queue: ""
-      match_action: ""
-      unmatch_action: ""
   tracing_requests:
-    date_of_inquiry: ""
-    disable_dialog_title: ""
-    disable_dialog: ""
-    disable_success: ""
-    enable_dialog: ""
-    enable_dialog_title: ""
-    enable_success: ""
-    id: ""
-    filter_by:
-      by_date: ""
-      location_separation: ""
-      separation_cause: ""
-      status: ""
-    label: ""
-    name_of_inquirer: ""
-    inquirer: ""
-    name: ""
     register_new_tracing_request: Permintaan Penelusuran Baru
     selectable_date_options:
       inquiry_date: Tanggal Penyelidikan
-    selected_records: ''
-    selected_all_records: ''
-    show_tracing_request: ''
-    tracing_requests: ""
-    export: ""
   transfer:
     agency_label: Agensi
-    consent_from_individual_label: ""
     consent_label: Data belum diberikan persetujuan
-    consent_override_label: "Apakah Anda ingin mengganti pengaturan ini?"
-    is_remote_label: "Apakah Anda memindahkan ke sistem remote?"
+    consent_override_label: Apakah Anda ingin mengganti pengaturan ini?
+    is_remote_label: Apakah Anda memindahkan ke sistem remote?
     location_label: Lokasi
     notes_label: Catatan
-    provided_consent_label: ""
-    recipient_label: ""
-    select_label: ""
-    success: ""
-    transfer_label: ""
-    user_mandatory: ""
-  transfer_assignment:
-    title: ""
-  transition:
-    agency_label: ""
-    assigned_by: ""
-    consent_individual_transfer_value:
-      true_label: ''
-      false_label: ''
-    consent_overridden_value:
-      false_label: ''
-      true_label: ''
-    errors:
-      consent: ""
-      to_user_can_receive: ""
-    individual_consent: ""
-    no_consent_share: ""
-    notes: ""
-    recipient: ""
-    rejected: ""
-    requested_by: ""
-    service_label: ""
-    responded_at: ""
-    status:
-      accepted: ""
-      done: ""
-      in_progress: ""
-      inprogress: ""
-      rejected: ""
-    type:
-      assign: ""
-      reassign: ""
-      referral: ""
-      external_referral: ""
-      transfer: ""
-      transferRequest: ""
   user:
-    agency_office: "Kantor Lembaga "
+    agency_office: 'Kantor Lembaga '
     code: Kode Pengguna
     disabled: Di non-aktifkan
-    email: ""
     full_name: Nama Lengkap
-    identity_provider: ""
-    invalid_provider_username: ''
-    label: ""
-    language: ""
-    locale: ""
     location: Lokasi
     messages:
-      confirmation: "Anda yakin ingin menghapus pengguna ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus pengguna."
+      confirmation: Anda yakin ingin menghapus pengguna ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus pengguna.
       created: Pengguna sudah berhasil dibuat
-      failure: ""
-      new_confirm_html: ""
-      new_confirm_non_identity_html: ""
       not_found: Pengguna dengan id yang diberikan tidak ditemukan
       password_changed_successfully: Kata sandi berhasil diubah
       passwords_do_not_match: Tidak cocok dengan kata sandi saat ini
       time_zone_updated: Perubahan itu berhasil diupdate.
       updated: Pengguna berhasil diperbarui.
     organization: Organisasi
-    agency: ""
-    services_help_text: ""
-    password_setting:
-      label: ""
-      self: ""
-      user: ""
-      help_text: ""
-    password_reset_header: ""
-    password_reset_text: ""
-    password_reset_request: ""
-    password: ""
-    password_confirmation: ""
-    phone: ""
     position: Posisi
-    provider_username_help: ''
-    role_id: ""
-    send_mail: "Terima pemberitahuan email?"
-    user_group_unique_ids: ""
-    user_name: ""
-    services: ""
-    welcome_email:
-      subject: ''
-      greeting: ''
-      body_native: ''
-      sso:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        footer: ''
-      otp:
-        body: ''
-        step1: ''
-        step2: ''
-        step3: ''
-        step4: ''
-      url_label: ""
-      enabled_label: ""
-      text_label: ""
-    password_reset:
-      email_greeting: ""
-      email_body1: ""
-      email_body2: ""
-      email_body_link: ""
-      request_submitted: ""
-      success: ""
-      errors:
-        reset_password_token: ""
-        password_confirmation: ""
-    onboard_email:
-      subject: ""
-      greeting: ""
-      body1: ""
-      body2: ""
-      body2_reset_notification: ""
-      body3: ""
+    send_mail: Terima pemberitahuan email?
   user_group:
     description: Deksripsi
-    disabled:
-      explanation: ""
-      label: ""
-    messages:
-      created: ""
-      updated: ""
     name: Nama
   user_groups:
     label: Grup Pengguna
   users:
     label: Pengguna
-    headers:
-      full_name: ""
-      user_name: ""
-      position: ""
-      agency: ""
-  devise:
-    failure:
-      already_authenticated: ""
-      invalid: ""
-      locked: ""
-      last_attempt: ""

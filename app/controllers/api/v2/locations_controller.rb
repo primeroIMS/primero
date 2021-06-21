@@ -8,7 +8,7 @@ class Api::V2::LocationsController < ApplicationApiController
   def index
     authorize! :index, Location
     filters = locations_filters(params.permit(disabled: {}))
-    filtered_locations = Location.list(filters)
+    filtered_locations = Location.list(filters, params.merge(order_by: order_by))
     @total = filtered_locations.size
     @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'
@@ -66,6 +66,10 @@ class Api::V2::LocationsController < ApplicationApiController
 
   def location_bulk_params
     params.permit(data: Location.permitted_api_params).require(:data)
+  end
+
+  def order_by
+    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym]
   end
 
   def importer

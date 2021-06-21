@@ -20,6 +20,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true).set("loading", false);
     case actions.USER_GROUPS_FINISHED:
       return state.set("errors", false).set("loading", false);
+    case actions.SET_USER_GROUPS_FILTER:
+      return state.set("filters", fromJS(payload.data));
     case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_METADATA));
     default:

@@ -171,98 +171,6 @@ ar-LB:
     cases_to_assign: الحالات/الملفّات الواجبة التكليف
     closed: مقفل
     comprehensive_need_intervention: ردّ شامل/إستجابة شاملة
-    count_new_bia_approvals:
-      zero: الموافقات الجديدة
-      one: الموافقات الجديدة
-      two: الموافقات الجديدة
-      few: الموافقات الجديدة
-      many: الموافقات الجديدة
-      other: ' %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_new_case_plan_approvals:
-      zero: الموافقات الجديدة
-      one: الموافقات الجديدة
-      two: الموافقات الجديدة
-      few: الموافقات الجديدة
-      many: الموافقات الجديدة
-      other: ' %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_new_closure_approvals:
-      zero: الموافقات الجديدة
-      one: الموافقات الجديدة
-      two: الموافقات الجديدة
-      few: الموافقات الجديدة
-      many: الموافقات الجديدة
-      other: ' %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_pending_approval_total:
-      zero: لديك في انتظار الموافقة٪
-      one: لديك في انتظار الموافقة٪
-      two: لديك في انتظار الموافقة٪
-      few: لديك في انتظار الموافقة٪
-      many: لديك في انتظار الموافقة٪
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_pending_transfers:
-      zero: لديك عمليات نقل معلقة
-      one: لديك عمليات نقل معلقة
-      two: لديك عمليات نقل معلقة
-      few: لديك عمليات نقل معلقة
-      many: لديك عمليات نقل معلقة
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_records_new:
-      zero: و %{stat} <span>حالة</span> جديدة
-      one: و %{stat} <span>حالة</span> جديدة
-      two: و %{stat} <span>حالات</span> جديدة
-      few: و %{stat} <span>حالات</span> جديدة
-      many: و %{stat} <span>حالات</span> جديدة
-      other: و %{stat} <span>ملفّات</span> جديدة
-    count_records_total:
-      zero: لديك %{stat} <span>حالة</span> إجمالية
-      one: لديك %{stat} <span>حالة</span> إجمالية
-      two: لديك %{stat} <span>حالات</span> إجمالية
-      few: لديك %{stat} <span>حالات</span> إجمالية
-      many: لديك %{stat} <span>حالات</span> إجمالية
-      other: لديك %{stat} <span>ملفّات</span> إجمالية
-    count_referrals_new:
-      zero: و %{stat} <span>إحالة</span> جديدة
-      one: و %{stat} <span>إحالة</span> جديدة
-      two: و %{stat} <span>إحالات</span> جديدة
-      few: و %{stat} <span>إحالات</span> جديدة
-      many: و %{stat} <span>إحالات</span> جديدة
-      other: و %{stat} <span>ملفّات</span> جديدة
-    count_referrals_total:
-      zero: لديك %{stat} <span>إحالة</span> إجمالية
-      one: لديك %{stat} <span>إحالة</span> إجمالية
-      two: لديك %{stat} <span>إحالات</span> إجمالية
-      few: لديك %{stat} <span>إحالات</span> إجمالية
-      many: لديك %{stat} <span>إحالات</span> إجمالية
-      other: لديك %{stat} <span>إحالات</span> إجمالية
-    count_rejected_approval_total:
-      zero: والموافقات
-      one: والموافقات
-      two: والموافقات
-      few: والموافقات
-      many: والموافقات
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_rejected_transfers:
-      zero: انتقل
-      one: انتقل
-      two: انتقل
-      few: انتقل
-      many: انتقل
-      other: 'و %{stat} <span>ملفّات</span> مقفلة '
-    count_risk_level_new:
-      zero: و %{stat} <span>حالة</span> <span>%{stat_type} مخاطرة</span> جديدة
-      one: و %{stat} <span>حالة</span> <span>%{stat_type} مخاطرة</span> جديدة
-      two: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      few: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      many: و %{stat} <span>حالات</span> <span>%{stat_type} مخاطرة</span> جديدة
-      other: و %{stat} <span>حالاتت</span> <span>%{stat_type} مخاطر</span> جديدة
-    count_risk_level_total:
-      zero: 'لديك %{stat} <span>%{stat_type} حالة</span> مخاطر '
-      one: 'لديك %{stat} <span>%{stat_type} حالة</span> مخاطر '
-      two: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      few: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      many: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
-    count_waiting_for_acceptance_transfers: لديك %{stat} <span>ملفّات</span> مفتوحة
     current_owner: الشخص المضطلع حاليًّا بالملفّ
     date: التاريخ
     date_of_incident: تاريخ الحادث
@@ -282,27 +190,6 @@ ar-LB:
     last_updated: آخر تحديث
     link_see_all: عرض المحتوى كلّه
     low_risk: أولوية منخفضة
-    manager_count_closed_total:
-      zero: 'و %{stat} <span>حالة</span> مغلقة '
-      one: 'و %{stat} <span>حالة</span> مغلقة '
-      two: 'و %{stat} <span>حالات</span> مغلقة '
-      few: 'و %{stat} <span>حالات</span> مغلقة '
-      many: 'و %{stat} <span>حالات</span> مغلقة '
-      other: 'و %{stat} <span>ملفّات</span> مقفلة '
-    manager_count_open_total:
-      zero: لديك %{stat} <span>حالة</span> مفتوحة
-      one: لديك %{stat} <span>حالة</span> مفتوحة
-      two: لديك %{stat} <span>حالات</span> مفتوحة
-      few: لديك %{stat} <span>حالات</span> مفتوحة
-      many: لديك %{stat} <span>حالات</span> مفتوحة
-      other: لديك %{stat} <span>ملفّات</span> مفتوحة
-    manager_transfers_totals:
-      zero: لديك٪ من التحويلات
-      one: لديك٪ من التحويلات
-      two: لديك٪ من التحويلات
-      few: لديك٪ من التحويلات
-      many: لديك٪ من التحويلات
-      other: 'لديك %{stat} <span>%{stat_type} حالات</span> مخاطر '
     match_result: نتائج متطابقة
     medium_risk: أولوية متوسطة
     missed_cases: الحالات الفائتة
@@ -346,7 +233,6 @@ ar-LB:
     referrals_by_social_worker: الإحالات من قبل العامل الاجتماعي
     rejected: تم رفضه
     rejected_transfers: عمليات النقل المرفوضة
-    response: الاستجابة <span>(جارية)</span>
     scheduled_activities: أنشطة مُجدولة
     score_range: نطاق النتائج
     services: الخدمات
@@ -362,19 +248,7 @@ ar-LB:
     users: رمز الإعدادات
     violence_type: نوع العنف
     worker_count_referrals_total:
-      zero: <span>%{case_worker}</span> لديه %{stat} <span>إحالة</span> إجمالية
-      one: <span>%{case_worker}</span> لديه %{stat} <span>إحالة</span> إجمالية
-      two: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      few: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      many: <span>%{case_worker}</span> لديه %{stat} <span>إحالات</span> إجمالية
-      other: <span>%{case_worker}</span> لديه %{stat} <span>ملفّات</span> إجمالية
     worker_count_total:
-      zero: '<span>%{case_worker}</span> لديه %{stat} <span>حالة</span> إجمالية '
-      one: '<span>%{case_worker}</span> لديه %{stat} <span>حالة</span> إجمالية '
-      two: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      few: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      many: '<span>%{case_worker}</span> لديه %{stat} <span>حالات</span> إجمالية '
-      other: '<span>%{case_worker}</span> لديه %{stat} <span>ملفّات</span> إجمالية '
     you_have: 'لديك'
   disabled:
     status:
@@ -397,7 +271,10 @@ ar-LB:
     file_name: قم بوضع إسم الملف الخاصّ بك (اختياري)
     password_label: الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك.
   error_page:
+    not_authorized:
+      code: 403
     not_found:
+      code: 404
       contact_admin: في حال التواجد هنا عن طريق الخطأ،الرجاء التواصل مع المشرف التقني.
       something_went_wrong: نأسف، حدث خطأ ما!
   errors:
@@ -583,6 +460,7 @@ ar-LB:
       violation: انتهاك
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-LB: العربية (اللبنانية)
     bn: বাংলা
     current_time_zone: المنطقة الزمنية الحالية

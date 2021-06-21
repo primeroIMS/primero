@@ -11,9 +11,11 @@ Rails.application.configure do
   manifest = Rails.root.join('config', 'i18n-manifest.txt')
   config.i18n_translations_file = File.exist?(manifest) ? File.open(manifest).read : nil
 
-  # Show the UI in Sandbox mode (a Primero X SaaS option).
+  # Show the UI in Sandbox mode.
   config.sandbox_ui = ::ActiveRecord::Type::Boolean.new.cast(ENV['PRIMERO_SANDBOX_UI']) || false
 
   # Configuration UI indicator
   config.config_ui = %w[full limited].include?(ENV['PRIMERO_CONFIG_UI']) ? ENV['PRIMERO_CONFIG_UI'] : 'full'
+
+  config.use_app_cache = Rails.env.production? || ::ActiveRecord::Type::Boolean.new.cast(ENV['PRIMERO_USE_APP_CACHE'])
 end

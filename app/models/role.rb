@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # The model for Role
+# rubocop:disable Metrics/ClassLength
 class Role < ApplicationRecord
   include ConfigurationRecord
 
@@ -68,13 +69,20 @@ class Role < ApplicationRecord
     end
 
     def list(user = nil, options = {})
-      if options[:external]
-        Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
-      elsif options[:managed]
-        user&.permitted_roles_to_manage || Role.none
-      else
-        Role.all
-      end
+      return list_external if options[:external]
+
+      roles_list = options[:managed] ? list_managed(user) : all
+      roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
+
+      OrderByPropertyService.apply_order(roles_list, options)
+    end
+
+    def list_managed(user)
+      user&.permitted_roles_to_manage || none
+    end
+
+    def list_external
+      where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
     end
   end
 
@@ -97,24 +105,24 @@ class Role < ApplicationRecord
     role_permission.role_unique_ids
   end
 
+  def permits?(resource, action)
+    permissions.find { |p| p.resource == resource }&.actions&.include?(action)
+  end
+
   def permitted_dashboard?(dashboard_name)
-    permissions.find { |p| p.resource == Permission::DASHBOARD }&.actions&.include?(dashboard_name)
+    permits?(Permission::DASHBOARD, dashboard_name)
   end
 
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
-    dashboards = dashboard_permissions&.actions&.map do |action|
+    dashboard_permissions&.actions&.map do |action|
       next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
-
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
-      begin
-        "Dashboard::#{action.upcase}".constantize
-      rescue NameError
-        nil
-      end
-    end || []
-    dashboards.compact
+      "Dashboard::#{action.upcase}".constantize
+    rescue NameError
+      nil
+    end&.compact || []
   end
 
   def reporting_location_config
@@ -262,3 +270,4 @@ class Role < ApplicationRecord
     (resources - current_managed_resources).empty?
   end
 end
+# rubocop:enable Metrics/ClassLength

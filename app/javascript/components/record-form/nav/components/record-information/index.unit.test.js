@@ -5,7 +5,7 @@ describe("<Nav>/components/<RecordInformation>- index", () => {
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
-    ["default", "getRecordInformationFormIds"].forEach(property => {
+    ["default"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });

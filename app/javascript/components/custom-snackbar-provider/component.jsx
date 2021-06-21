@@ -6,12 +6,13 @@ import CheckIcon from "@material-ui/icons/Check";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { theme } from "../../config";
+import useThemeHelpers from "../../libs/use-theme-helpers";
 
 import { NAME } from "./constants";
 import { snackVariantClasses } from "./theme";
 
 const Component = ({ children }) => {
+  const { theme } = useThemeHelpers();
   const classes = makeStyles(snackVariantClasses(theme))();
 
   return (

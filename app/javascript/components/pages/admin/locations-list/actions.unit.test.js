@@ -22,7 +22,8 @@ describe("<LocationsList /> - Actions", () => {
       "LOCATIONS_STARTED",
       "LOCATIONS_SUCCESS",
       "LOCATIONS_FAILURE",
-      "LOCATIONS_FINISHED"
+      "LOCATIONS_FINISHED",
+      "SET_LOCATIONS_FILTER"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(clone).to.have.property(property);

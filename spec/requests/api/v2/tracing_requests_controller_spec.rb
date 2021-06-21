@@ -71,7 +71,7 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'creates a new record with 200 and returns it as JSON' do
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
-      post '/api/v2/tracing_requests', params: params
+      post '/api/v2/tracing_requests', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
@@ -84,7 +84,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Test' } }
-      post '/api/v2/tracing_requests', params: params
+      post '/api/v2/tracing_requests', params: params, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
@@ -96,7 +96,7 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'updates an existing record with 200' do
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params
+      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@tracing_request1.id)
@@ -110,7 +110,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test
       params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params
+      patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
 
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
