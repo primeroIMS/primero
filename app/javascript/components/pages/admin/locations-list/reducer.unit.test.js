@@ -67,6 +67,46 @@ describe("<LocationsList /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should handle DISABLE_LOCATIONS_FAILURE", () => {
+    const expected = fromJS({ disableLocations: { loading: false, errors: true } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_FAILURE };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_FINISHED", () => {
+    const expected = fromJS({ disableLocations: { loading: false, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_FINISHED };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_STARTED", () => {
+    const expected = fromJS({ disableLocations: { loading: true, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_STARTED };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_SUCCESS", () => {
+    const expected = fromJS({ disableLocations: { loading: true, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_SUCCESS };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle CLEAR_METADATA", () => {
     const expected = fromJS({
       metadata: DEFAULT_LOCATION_METADATA

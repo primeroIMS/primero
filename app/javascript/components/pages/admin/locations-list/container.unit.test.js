@@ -95,7 +95,9 @@ describe("<LocationsList />", () => {
       type: "locations/SET_LOCATIONS_FILTER"
     };
 
-    indexTable.find(TableHead).find(TableCell).at(0).find("span.MuiButtonBase-root").simulate("click");
+    indexTable.find(TableHead).find(TableCell).at(1).find("span.MuiButtonBase-root").simulate("click");
+
+    console.log(component.props().store.getActions());
 
     expect(component.props().store.getActions()[2].type).to.deep.equals(expectedAction.type);
     expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);

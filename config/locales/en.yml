@@ -1538,6 +1538,8 @@ en:
     import_title: Import Location
     message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
     no_location: Please import Locations before creating any User accounts.
+    disable_title: Disable Location
+    disable_text: Are you sure? If you disable the selected Locations, they will no longer appear as options in Location fields
   logger:
     actions:
       _approved: Approved
@@ -3414,3 +3416,8 @@ en:
       invalid: "Invalid %{authentication_keys} or password."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
+  admin:
+    locations:
+      selected_records: '%{select_records} location(s) selected'
+      selected_all_records: Select all %{total_records} cases that match this query.
+      updated: '%{updated_records} location(s) updated'

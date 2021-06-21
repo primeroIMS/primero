@@ -3,6 +3,7 @@
 json.id location.id
 json.code location.location_code
 json.type location.type
+json.disabled location.disabled
 json.merge! FieldI18nService.fill_keys([:name], name: location.name_i18n)
 
 if with_hierarchy

@@ -348,6 +348,26 @@ describe Api::V2::LocationsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/locations/update_bulk' do
+    it 'updates all locations' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      params = {
+        data: [
+          { id: @locations_D01.id, disabled: true },
+          { id: @locations_D02.id, disabled: true }
+        ]
+      }
+
+      post '/api/v2/locations/update_bulk', params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data'][0]['id']).to eq(@locations_D01.id)
+      expect(json['data'][0]['disabled']).to eq(true)
+      expect(json['data'][1]['id']).to eq(@locations_D02.id)
+      expect(json['data'][1]['disabled']).to eq(true)
+    end
+  end
+
   after :each do
     Location.destroy_all
   end
