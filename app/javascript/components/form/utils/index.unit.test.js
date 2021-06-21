@@ -11,6 +11,7 @@ describe("<Form /> - Utils", () => {
       "optionText",
       "submitHandler",
       "touchedFormData",
+      "valueParser",
       "whichFormMode"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);

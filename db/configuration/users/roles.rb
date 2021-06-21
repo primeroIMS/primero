@@ -214,7 +214,6 @@ cp_caseworker_permissions = [
       Permission::DASH_APPROVALS_CLOSURE,
       Permission::VIEW_RESPONSE,
       Permission::DASH_CASE_RISK,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS,
       Permission::DASH_CASE_OVERVIEW,
       Permission::DASH_SHARED_WITH_OTHERS,
@@ -324,7 +323,6 @@ cp_manager_permissions = [
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::VIEW_RESPONSE,
       Permission::DASH_CASE_RISK,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
       Permission::DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
       Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES,
@@ -423,7 +421,6 @@ cp_user_manager_permissions = [
       Permission::DASH_APPROVALS_CLOSURE_PENDING,
       Permission::VIEW_RESPONSE,
       Permission::DASH_CASE_RISK,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_GROUP_OVERVIEW
     ]
   )

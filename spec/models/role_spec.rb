@@ -103,33 +103,35 @@ describe Role do
     end
   end
 
-  it 'should create a valid role' do
-    Role.new(
-      name: 'some_role', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    ).should be_valid
-  end
+  describe 'creation' do
+    it 'should create a valid role' do
+      Role.new(
+        name: 'some_role', permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      ).should be_valid
+    end
 
-  it 'should create a valid transfer role' do
-    Role.new(
-      name: 'some_role', transfer: true,
-      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    ).should be_valid
-  end
+    it 'should create a valid transfer role' do
+      Role.new(
+        name: 'some_role', transfer: true,
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      ).should be_valid
+    end
 
-  it 'should create a valid referral role' do
-    Role.new(
-      name: 'some_role', referral: true,
-      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    ).should be_valid
-  end
+    it 'should create a valid referral role' do
+      Role.new(
+        name: 'some_role', referral: true,
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      ).should be_valid
+    end
 
-  it 'should generate unique_id' do
-    role = Role.new(
-      name: 'test role 1234',
-      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
-    )
-    role.save(validate: false)
-    expect(role.unique_id).to match(/^role-test-role-1234-[0-9a-f]{7}$/)
+    it 'should generate unique_id' do
+      role = Role.new(
+        name: 'test role 1234',
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+      )
+      role.save(validate: false)
+      expect(role.unique_id).to match(/^role-test-role-1234-[0-9a-f]{7}$/)
+    end
   end
 
   describe '.super_user_role?' do
@@ -539,6 +541,97 @@ describe Role do
       it 'returns form_section_permission' do
         expect(role.form_section_permission).to eq('F1' => 'rw', 'F2' => 'rw')
       end
+    end
+  end
+
+  describe 'versioning' do
+    before :each do
+      clean_data(Field, FormSection, FormPermission, Role, PrimeroModule)
+      @form_section1 = FormSection.create(
+        unique_id: 'form_section1', parent_form: 'case', name_en: 'form_section1',
+        fields: [
+          Field.new(name: 'name', type: Field::TEXT_FIELD, display_name_en: 'A'),
+          Field.new(name: 'age', type: Field::NUMERIC_FIELD, display_name_en: 'A'),
+          Field.new(name: 'sex', type: Field::SELECT_BOX, display_name_en: 'A'),
+          Field.new(name: 'national_id_no', type: Field::TEXT_FIELD, display_name_en: 'A'),
+          Field.new(name: 'consent_for_services', type: Field::TICK_BOX, display_name_en: 'A'),
+          Field.new(name: 'current_address', type: Field::TEXT_AREA, display_name_en: 'A'),
+          Field.new(name: 'protection_concerns', type: Field::SELECT_BOX, multi_select: true, display_name_en: 'A'),
+          Field.new(name: 'registration_date', type: Field::DATE_FIELD, display_name_en: 'A'),
+          Field.new(name: 'created_on', type: Field::DATE_FIELD, date_include_time: true, display_name_en: 'A'),
+          Field.new(name: 'separator1', type: Field::SEPARATOR, display_name_en: 'A'),
+          Field.new(name: 'other_documents', type: Field::DOCUMENT_UPLOAD_BOX, display_name_en: 'A'),
+          Field.new(
+            name: 'family_details',
+            display_name_en: 'A',
+            type: Field::SUBFORM,
+            subform: FormSection.new(
+              fields: [
+                Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
+                Field.new(name: 'relation_type', type: Field::SELECT_BOX)
+              ]
+            )
+          )
+        ]
+      )
+      @form_section2 = FormSection.create(
+        unique_id: 'form_section2', parent_form: 'case', name_en: 'form_section2',
+        fields: [
+          Field.new(name: 'interview_date', type: Field::DATE_FIELD, display_name_en: 'A'),
+          Field.new(name: 'consent_for_referral', type: Field::TICK_BOX, display_name_en: 'A')
+        ]
+      )
+      @role = Role.create(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        ],
+        form_sections: [@form_section1, @form_section2],
+        modules: [
+          PrimeroModule.new(
+            unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+            associated_record_types: %w[case tracing_request incident],
+            primero_program: PrimeroProgram.new(name: 'program'),
+            form_sections: [@form_section1, @form_section2]
+          )
+        ]
+      )
+      @old_version = @role.cache_key_with_version
+    end
+
+    let(:new_version) { @role.reload.cache_key_with_version }
+
+    it 'changes the role version every time the role changes' do
+      @role.update_attributes(name: 'new_name')
+      expect(new_version).not_to eq(@old_version)
+    end
+
+    it 'changes the role version every time a form section changes visibility' do
+      @form_section1.update_attributes(visible: false)
+      expect(new_version).not_to eq(@old_version)
+    end
+
+    describe 'change of fields' do
+      it 'changes the role version every time a field is added to a form' do
+        @form_section1.fields << Field.new(name: 'foo', type: Field::TEXT_FIELD, display_name_en: 'A')
+        expect(new_version).not_to eq(@old_version)
+      end
+
+      it 'changes the role version when fields change on a form' do
+        @form_section2.fields = [Field.new(name: 'foo', type: Field::TEXT_FIELD, display_name_en: 'A')]
+        @form_section2.save
+        expect(new_version).not_to eq(@old_version)
+      end
+    end
+
+    it 'changes the role version when a form is marked as readonly' do
+      form_permission = @role.form_permissions.first
+      form_permission.permission = FormPermission::PERMISSIONS[:read]
+      form_permission.save
+      expect(new_version).not_to eq(@old_version)
     end
   end
 end

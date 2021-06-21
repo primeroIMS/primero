@@ -12,9 +12,11 @@ describe Api::V2::WebhookSyncsController, type: :request do
   describe 'POST /api/v2/:record/:id/sync' do
     before do
       login_for_test(
-        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_EXTERNAL])]
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SYNC_EXTERNAL])
+        ]
       )
-      post "/api/v2/cases/#{record.id}/sync"
+      post "/api/v2/cases/#{record.id}/sync", as: :json
     end
 
     it 'returns the current sync status' do
@@ -29,14 +31,17 @@ describe Api::V2::WebhookSyncsController, type: :request do
         .at_least(:once)
     end
   end
+
   describe 'POST /api/v2/:record/:id' do
     let(:record) { Child.create(data: { name: 'Test' }) }
     let(:webhook_url) { 'https://example.com/inbox/abc123' }
     let(:permissions) {
       {
         permissions: [
-          Permission.new(resource: Permission::CASE,
-                         actions: [Permission::READ, Permission::CREATE,Permission::WRITE, Permission::SYNC_EXTERNAL])
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE,Permission::WRITE, Permission::SYNC_EXTERNAL]
+          )
         ]
       }
     }
@@ -46,7 +51,7 @@ describe Api::V2::WebhookSyncsController, type: :request do
       login_for_test(
         permissions
       )
-      patch "/api/v2/cases/#{record.id}", params: params
+      patch "/api/v2/cases/#{record.id}", params: params, as: :json
     end
 
     it 'updated the sync_status' do
@@ -57,7 +62,6 @@ describe Api::V2::WebhookSyncsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['sync_status']).to eq(AuditLog::SYNCED)
-
     end
   end
 end

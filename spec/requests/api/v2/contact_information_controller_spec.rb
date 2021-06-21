@@ -72,7 +72,7 @@ describe Api::V2::ContactInformationController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@contact_info.id)
-      expect(json['data'].except('id')).to eq(params[:data].stringify_keys)
+      expect(json['data'].except('id')).to include(params[:data].stringify_keys)
     end
 
     it 'returns 403 if user is not authorized to access' do
