@@ -8,6 +8,7 @@ class Location < ApplicationRecord
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100
   READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
+  ORDER_BY_FIELD_MAP = { code: :location_code, hierarchy: :hierarchy_path, name: :placename }.freeze
 
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
@@ -63,10 +64,8 @@ class Location < ApplicationRecord
               .where(admin_level: admin_level)
     end
 
-    def list(params = {})
-      return all if params.blank?
-
-      where(params)
+    def list(filters = {}, options = {})
+      OrderByPropertyService.apply_order(filters.blank? ? all : where(filters), options)
     end
   end
 

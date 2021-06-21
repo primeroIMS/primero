@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import { fromJS, isImmutable } from "immutable";
 
 import { RECORD_PATH } from "../../../../config";
@@ -17,3 +15,8 @@ export const fetchLocations = (params, asCallback = false) => {
     }
   };
 };
+
+export const setLocationsFilter = payload => ({
+  type: actions.SET_LOCATIONS_FILTER,
+  payload
+});

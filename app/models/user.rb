@@ -425,6 +425,19 @@ class User < ApplicationRecord
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end
 
+  def permitted_user_groups
+    return UserGroup.all if group_permission?(Permission::ALL) || group_permission?(Permission::ADMIN_ONLY)
+
+    user_groups
+  end
+
+  def permitted_agencies
+    return Agency.all if group_permission?(Permission::ALL)
+    return Agency.none unless agency_id.present?
+
+    Agency.where(id: agency_id)
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end

@@ -51,6 +51,22 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['data'].size).to eq(3)
       expect(json['data'].map { |c| c['unique_id'] }).to include(@lookup_yes_no.unique_id, @lookup_sex.unique_id)
     end
+
+    it 'list sorted by name' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/lookups?managed=true&order_by=name&order=desc'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |location| location['unique_id'] }).to eq(
+        [@lookup_yes_no.unique_id, @lookup_sex.unique_id, @lookup_country.unique_id]
+      )
+    end
   end
 
   describe 'GET /api/v2/lookups/:id' do

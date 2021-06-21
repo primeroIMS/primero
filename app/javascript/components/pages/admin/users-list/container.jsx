@@ -17,9 +17,10 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import { fetchUserGroups, getEnabledAgencies, getEnabledUserGroups, selectAgencies } from "../../../application";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
+import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
@@ -33,6 +34,7 @@ const Container = () => {
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
   const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
@@ -47,7 +49,7 @@ const Container = () => {
       : {})
   }));
 
-  const defaultFilters = metadata.set(DISABLED, fromJS(["false"]));
+  const defaultFilters = fromJS({ ...DEFAULT_FILTERS, locale: i18n.locale }).merge(metadata);
 
   useEffect(() => {
     if (canListAgencies) {
@@ -56,7 +58,17 @@ const Container = () => {
     dispatch(fetchUserGroups());
   }, []);
 
-  useMetadata(recordType, metadata, fetchUsers, "data");
+  useMetadata(recordType, metadata, fetchUsers, DATA, {
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+  });
+
+  const onTableChange = filters => {
+    const filtersData = filters.data || fromJS({});
+
+    dispatch(setUsersFilters(filtersData));
+
+    return fetchUsers(filters);
+  };
 
   const tableOptions = {
     recordType,
@@ -65,7 +77,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchUsers,
+    onTableChange,
     bypassInitialFetch: true
   };
 
@@ -89,15 +101,21 @@ const Container = () => {
     clearFields: [AGENCY, DISABLED, USER_GROUP],
     filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
+    initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+      const mergedFilters = currentFilters.merge(fromJS(filters));
 
       batch(() => {
-        dispatch(setUsersFilters(filters));
-        dispatch(fetchUsers({ data: { ...filters } }));
+        dispatch(setUsersFilters(mergedFilters));
+        dispatch(fetchUsers({ data: mergedFilters }));
       });
     }
   };
+
+  useEffect(() => {
+    dispatch(setUsersFilters({ data: defaultFilters }));
+  }, []);
 
   return (
     <>

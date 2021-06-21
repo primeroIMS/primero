@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
@@ -7,9 +8,9 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { getListHeaders } from "../../../user";
 import { RESOURCES, MANAGE } from "../../../../libs/permissions";
-import { headersToColumns } from "../utils";
+import { filterOnTableChange, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
-import { getMetadata } from "../../../record-list";
+import { getAppliedFilters, getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
@@ -18,9 +19,10 @@ import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
 import { getLocationsAvailable } from "../../../application/selectors";
+import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import ImportDialog from "./import-dialog";
-import { fetchLocations } from "./action-creators";
+import { fetchLocations, setLocationsFilter } from "./action-creators";
 import { DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP, LOCATIONS_DIALOG } from "./constants";
 import { getColumns, getFilters } from "./utils";
 
@@ -33,16 +35,10 @@ const Container = () => {
   const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
+  const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
-  const defaultMetadata = metadata?.toJS();
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata).set("locale", i18n.locale);
 
-  const defaultFilterFields = {
-    [DISABLED]: ["false"]
-  };
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
-  });
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
 
@@ -50,7 +46,11 @@ const Container = () => {
     setDialog({ dialog, open: true });
   };
 
-  useMetadata(recordType, metadata, fetchLocations, "data", { defaultFilterFields, defaultMetadata });
+  const onTableChange = filterOnTableChange(dispatch, fetchLocations, setLocationsFilter);
+
+  useMetadata(recordType, metadata, fetchLocations, DATA, {
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+  });
 
   const tableOptions = {
     recordType,
@@ -59,7 +59,7 @@ const Container = () => {
       selectableRows: "none"
     },
     defaultFilters,
-    onTableChange: fetchLocations,
+    onTableChange,
     localizedFields: [COLUMNS.NAME],
     bypassInitialFetch: true,
     arrayColumnsToString: [COLUMNS.HIERARCHY],
@@ -67,11 +67,20 @@ const Container = () => {
     onRowClick: () => {}
   };
 
+  const onSubmit = data =>
+    onSubmitFilters(
+      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)),
+      dispatch,
+      fetchLocations,
+      setLocationsFilter
+    );
+
   const filterProps = {
     clearFields: [DISABLED],
     filters: getFilters(i18n),
-    onSubmit: data => dispatch(fetchLocations({ data })),
-    defaultFilters
+    onSubmit,
+    defaultFilters,
+    initialFilters: DEFAULT_FILTERS
   };
 
   const actions = [
@@ -86,6 +95,10 @@ const Container = () => {
   const renderAlertNoLocations = !hasLocationsAvailable && (
     <InternalAlert items={itemsForAlert} severity={SEVERITY.info} />
   );
+
+  useEffect(() => {
+    dispatch(setLocationsFilter({ data: defaultFilters }));
+  }, []);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
