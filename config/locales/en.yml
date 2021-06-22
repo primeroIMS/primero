@@ -1477,6 +1477,7 @@ en:
     client_satisfaction_rate:
       title: "14. Client Satisfaction Rate"
       label: "Client Satisfaction"
+      invalid: "We can't calculate this at the moment."
       helptext: |
         This indicator measures the percentage of survivors who completed the Client Feedback Survey
         who are satisfied with the case management services provided to them. This indicator is
