@@ -7,6 +7,7 @@ module Kpi::GBVIncident
   included do
     searchable do
       integer :reporting_delay_days
+      date :date_of_first_report
     end
   end
 
