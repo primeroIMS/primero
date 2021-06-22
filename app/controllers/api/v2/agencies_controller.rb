@@ -4,6 +4,7 @@
 class Api::V2::AgenciesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::JsonValidateParams
+
   before_action :load_agency, only: %i[show update destroy]
 
   def index

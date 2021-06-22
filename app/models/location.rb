@@ -10,6 +10,15 @@ class Location < ApplicationRecord
   READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
   ORDER_BY_FIELD_MAP = { code: :location_code, hierarchy: :hierarchy_path, name: :placename }.freeze
 
+  LOCATION_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'code' => { 'type' => 'string' },
+    'type' => { 'type' => 'string' }, 'admin_level' => { 'type' => 'integer' },
+    'placename' => { 'type' => 'object' }, 'name' => { 'type' => 'object' },
+    'parent_code' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' },
+    'data_base64' => { 'type' => 'string' }, 'content_type' => { 'type' => 'boolean' },
+    'file_name' => { 'type' => 'string' }
+  }.freeze
+
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   attr_readonly(*READONLY_ATTRIBUTES)

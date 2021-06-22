@@ -35,7 +35,8 @@ class Api::V2::UsersController < ApplicationApiController
 
   def update
     authorize! :disable, @user if @user_params.include?('disabled')
-    authorize!(:edit_user, @user) && validate_json!(User::USER_FIELDS_SCHEMA, user_params)
+    authorize! :edit_user, @user
+    validate_json!(User::USER_FIELDS_SCHEMA, user_params)
     @user.update_with_properties(@user_params)
     @user.save!
   end

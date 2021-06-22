@@ -3,6 +3,8 @@
 # Roles CRUD API
 class Api::V2::RolesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
+
   before_action :load_role, only: %i[show update destroy]
 
   def index
@@ -17,7 +19,6 @@ class Api::V2::RolesController < ApplicationApiController
 
   def create
     authorize!(:create, Role) && validate_json!(Role::ROLE_FIELDS_SCHEMA, role_params)
-    authorize! :create, Role
     @role = Role.new_with_properties(role_params)
     @role.save!
     status = params[:data][:id].present? ? 204 : 200
