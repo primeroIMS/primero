@@ -86,39 +86,39 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
   end
 
-  def write_record_form(id, data, form)
+  def write_record_form(id, data, form, form_name = '')
     # Do not write data if already written for this form
     return if worksheets[form.unique_id][:written] == true
 
-    rows_written = write_record_row(id, data, form)
+    rows_written = write_record_row(id, data, form, form_name)
     worksheets[form.unique_id][:written] = true
     worksheets[form.unique_id][:row] += rows_written
   end
 
-  def write_record_row(id, data, form)
+  def write_record_row(id, data, form, form_name)
     worksheet = worksheets[form.unique_id][:worksheet]
-    values, rows_to_write = field_values(data, form)
+    values, rows_to_write = field_values(data, form, form_name)
     ([id] + values).each_with_index { |value, column| write_value(worksheet, form, value, column, rows_to_write) }
-    form.subform_fields.each { |field| write_record_form(id, data, field.subform) }
+    form.subform_fields.each { |field| write_record_form(id, data, field.subform, field.name) }
     rows_to_write
   end
 
-  def field_values(data, form)
+  def field_values(data, form, form_name)
     field_values = []
     rows_to_write = 1
     form.non_subform_fields.each do |field|
-      value = export_field_value(data, field)
+      value = export_field_value(data, field, form_name)
       field_values << value
       rows_to_write = value.size if value.is_a?(Array) && value.size > rows_to_write
     end
     [field_values, rows_to_write]
   end
 
-  def export_field_value(data, field)
+  def export_field_value(data, field, form_name)
     return export_value(data[field.name], field) unless field.nested?
 
     values = []
-    data[field&.form_section&.unique_id]&.each do |section|
+    data[form_name]&.each do |section|
       values << export_value(section[field.name], field)
     end
     values
