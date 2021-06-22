@@ -1445,21 +1445,8 @@ en:
         This indicator counts the average number of follow-up meetings conducted for every active case
         per case worker on the platform. A follow-up meeting is a meeting between the caseworker and
         the survivor following the initial interview/disclosure.
-    goal_progress_per_need:
-      title: "11. Progress Made towards Goals"
-      need: "Need"
-      safety: "Safety"
-      health: "Health"
-      psychosocial: "Psychosocial"
-      justice: "Justice"
-      other: "Other"
-      helptext: |
-        This indicator measures the percentage of cases for which goals have been met or are in
-        progress by type of needs (safety, health, psychosocial, legal/justice). This indicator is informed
-        by the section ‘Progress made towards goals’ under the ‘Follow up’ section of the Action Plan
-        form.
     time_from_case_open_to_close:
-      title: "12. Time From Case Open To Case Close"
+      title: "11. Time From Case Open To Case Close"
       time: "Time"
       percent: "Percentage of Cases"
       helptext: |
@@ -1468,14 +1455,14 @@ en:
         broken down by the following timeframe: less than 1 month; between 1 and 3 months; between
         3-6 months; more than 6 months.
     case_closure_rate:
-      title: "13. Case Closure Rate"
+      title: "12. Case Closure Rate"
       reporting_site: "Reporting Site"
       helptext: |
         This indicator measures the count of cases closed per month per reporting site. A reporting site
         is understood as the site where the User Organization is providing services and where the
         incident was reported to the service provider.
     client_satisfaction_rate:
-      title: "14. Client Satisfaction Rate"
+      title: "13. Client Satisfaction Rate"
       label: "Client Satisfaction"
       invalid: "We can't calculate this at the moment."
       helptext: |
@@ -1484,13 +1471,13 @@ en:
         informed by the completion of the Client Feedback form on GBVIMS+ by a staff member other
         than the caseworker who provided the service to the survivor.
     supervisor_to_caseworker_ratio:
-      title: "15. Supervisor To Caseworker Ratio"
+      title: "14. Supervisor To Caseworker Ratio"
       label: "Caseworkers per supervisor"
       helptext: |
         This indicator is the number of caseworkers a supervisor is supervising: the supervisor to case
         worker ratio. This calculation is based on the system roles allocated on the platform.
     case_load:
-      title: "16. Case Load"
+      title: "15. Case Load"
       case_load: "Case Load"
       percent: "percentage of caseworkers with caseload"
       10cases: "< 10 Cases"
