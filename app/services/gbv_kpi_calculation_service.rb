@@ -57,7 +57,15 @@ class GbvKpiCalculationService
   def services_provided
     form_responses(:action_plan_form)
       .subform(:action_plan_section)
-      .field(:service_type)
+      .select do |f|
+        # hard coded values like this indicate information that could
+        # be stored in the config. The only issue is that this creates
+        # a big separation between code that is very dependant on each
+        # other. I think that field config as it stand
+        # (e.g. mandatory_for_completion) should probably live in some
+        # KPI related modules.
+        f.field(:service_referral) == 'service_provided_by_your_agency'
+      end.field(:service_type)
       .uniq
   end
 
