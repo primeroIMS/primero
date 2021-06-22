@@ -17,6 +17,10 @@ class Lookup < ApplicationRecord
   before_destroy :check_is_being_used
 
   class << self
+    def list(options)
+      OrderByPropertyService.apply_order(all, options)
+    end
+
     # TODO: Delete after we have fixed data storage with Alberto's changes.
     def new_with_properties(lookup_properties)
       Lookup.new(

@@ -36,7 +36,8 @@ const stateWithRecords = fromJS({
   },
   records: {
     cases: {
-      metadata
+      metadata,
+      filters: { disabled: ["true"] }
     }
   }
 });
@@ -80,6 +81,20 @@ describe("<RecordList /> - Selectors", () => {
 
     it("should return an empty object when there are not metadata in store", () => {
       const values = selectors.getMetadata(stateWithoutRecords);
+
+      expect(values).to.be.empty;
+    });
+  });
+
+  describe("getAppliedFilters", () => {
+    it("should return the filters", () => {
+      const values = selectors.getAppliedFilters(stateWithRecords, "cases");
+
+      expect(values).to.deep.equal(fromJS({ disabled: ["true"] }));
+    });
+
+    it("should return an empty object when there are not metadata in store", () => {
+      const values = selectors.getAppliedFilters(stateWithoutRecords);
 
       expect(values).to.be.empty;
     });

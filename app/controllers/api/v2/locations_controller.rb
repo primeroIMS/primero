@@ -8,7 +8,7 @@ class Api::V2::LocationsController < ApplicationApiController
   def index
     authorize! :index, Location
     filters = locations_filters(params.permit(disabled: {}))
-    filtered_locations = Location.list(filters)
+    filtered_locations = Location.list(filters, params.merge(order_by: order_by))
     @total = filtered_locations.size
     @locations = filtered_locations.paginate(pagination)
     @with_hierarchy = params[:hierarchy] == 'true'
@@ -41,6 +41,13 @@ class Api::V2::LocationsController < ApplicationApiController
     @location.destroy!
   end
 
+  def update_bulk
+    authorize! :update, Location
+    @locations = Location.update_in_batches(location_bulk_params)
+    @total = @locations.size
+    render :index
+  end
+
   def per
     @per ||= (params[:per]&.to_i || 100)
   end
@@ -54,7 +61,15 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def location_params
-    params.require(:data).permit(:id, :code, :admin_level, :type, :parent_code, placename: {})
+    params.require(:data).permit(Location.permitted_api_params)
+  end
+
+  def location_bulk_params
+    params.permit(data: Location.permitted_api_params).require(:data)
+  end
+
+  def order_by
+    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym]
   end
 
   def importer

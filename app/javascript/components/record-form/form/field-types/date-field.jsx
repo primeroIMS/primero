@@ -72,7 +72,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
         const onChange = date => {
           updateAgeField(form, date);
 
-          const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "";
+          const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : null;
 
           return form.setFieldValue(name, formattedDate, true);
         };

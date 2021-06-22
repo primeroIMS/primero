@@ -28,6 +28,7 @@ const Component = ({
 }) => {
   const css = useStyles();
   const methods = useForm();
+
   const { mobileDisplay } = useThemeHelper();
 
   const userName = useMemoizedSelector(state => currentUser(state));
@@ -52,6 +53,7 @@ const Component = ({
     clearFields.map(field => methods.setValue(field, undefined));
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
+      methods.reset(initialFilters);
     }
     onSubmit();
   };
@@ -65,16 +67,11 @@ const Component = ({
   };
 
   useEffect(() => {
+    methods.reset(initialFilters);
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
     }
   }, []);
-
-  useEffect(() => {
-    if (initialFilters) {
-      methods.reset(initialFilters);
-    }
-  }, [initialFilters]);
 
   const renderFilters = () => {
     return filters.map(filter => {

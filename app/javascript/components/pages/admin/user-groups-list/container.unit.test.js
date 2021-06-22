@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { Button, TableCell, TableHead } from "@material-ui/core";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -51,24 +52,63 @@ describe("<UserGroupsList />", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });
 
+  it("should trigger a sort action when a header is clicked", () => {
+    const indexTable = component.find(IndexTable);
+
+    const expectedAction = {
+      payload: {
+        recordType: "user_groups",
+        data: fromJS({
+          disabled: ["false"],
+          total: 30,
+          per: 20,
+          page: 1,
+          order: "asc",
+          order_by: "name"
+        })
+      },
+      type: "user_groups/SET_USER_GROUPS_FILTER"
+    };
+
+    indexTable.find(TableHead).find(TableCell).at(0).find("span.MuiButtonBase-root").simulate("click");
+
+    expect(component.props().store.getActions()[2].type).to.deep.equals(expectedAction.type);
+    expect(component.props().store.getActions()[2].payload.data).to.deep.equals(expectedAction.payload.data);
+  });
+
   it("should trigger a valid action with next page when clicking next page", () => {
     const indexTable = component.find(IndexTable);
     const expectAction = {
       api: {
-        params: fromJS({ total: dataLength, per: 20, page: 2, managed: true }),
+        params: fromJS({ total: dataLength, per: 20, page: 2, disabled: ["false"], managed: true }),
         path: NAMESPACE
       },
       type: `${NAMESPACE}/USER_GROUPS`
     };
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`1-20 of ${dataLength}`);
-    expect(component.props().store.getActions()).to.have.lengthOf(1);
+    expect(component.props().store.getActions()).to.have.lengthOf(2);
     indexTable.find("#pagination-next").at(0).simulate("click");
 
     expect(indexTable.find("p").at(1).text()).to.be.equals(`21-${dataLength} of ${dataLength}`);
-    expect(component.props().store.getActions()[1].api.params.toJS()).to.deep.equals(expectAction.api.params.toJS());
-    expect(component.props().store.getActions()[1].type).to.deep.equals(expectAction.type);
-    expect(component.props().store.getActions()[1].api.path).to.deep.equals(expectAction.api.path);
+    expect(component.props().store.getActions()[3].api.params).to.deep.equals(expectAction.api.params);
+    expect(component.props().store.getActions()[3].type).to.deep.equals(expectAction.type);
+    expect(component.props().store.getActions()[3].api.path).to.deep.equals(expectAction.api.path);
+  });
+
+  it("should set the filters when apply is clicked", () => {
+    component.find(Button).at(2).simulate("click");
+
+    const expectedAction = {
+      payload: {
+        data: fromJS({
+          disabled: ["false"]
+        })
+      },
+      type: "user_groups/SET_USER_GROUPS_FILTER"
+    };
+
+    expect(component.props().store.getActions()[3]).to.deep.equals(expectedAction);
   });
 
   afterEach(() => {

@@ -78,13 +78,20 @@ class Role < ApplicationRecord
     end
 
     def list(user = nil, options = {})
-      if options[:external]
-        Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
-      elsif options[:managed]
-        user&.permitted_roles_to_manage || Role.none
-      else
-        Role.all
-      end
+      return list_external if options[:external]
+
+      roles_list = options[:managed] ? list_managed(user) : all
+      roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
+
+      OrderByPropertyService.apply_order(roles_list, options)
+    end
+
+    def list_managed(user)
+      user&.permitted_roles_to_manage || none
+    end
+
+    def list_external
+      where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
     end
   end
 

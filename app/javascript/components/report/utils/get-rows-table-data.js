@@ -2,16 +2,18 @@ import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
 
 import formattedDate from "./formatted-date";
-import getAllKeysObject from "./get-all-keys-object";
 import sortByDate from "./sort-by-date";
+import buildColumnPaths from "./build-column-paths";
 
-export default (data, i18n) => {
+export default (data, columns, i18n) => {
   if (isEmpty(data.report_data)) {
     return [];
   }
   const rows = data.fields.filter(field => field.position.type === "horizontal");
   const accum = [];
   const rowEntries = sortByDate(Object.entries(data.report_data), true);
+
+  const columnPaths = buildColumnPaths(columns, i18n);
 
   rowEntries.forEach(entry => {
     const [key, value] = entry;
@@ -22,13 +24,14 @@ export default (data, i18n) => {
       const result = sortByDate(Object.keys(value))
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
-          const childObject = getAllKeysObject(i18n, value[rowDisplayName]);
+          const values = columnPaths.map(child => get(value[rowDisplayName], child, 0));
 
-          const values = childObject.map(child => {
-            return get(value[rowDisplayName], child);
-          });
-
-          return [rowDisplayName, false, ...values];
+          return [
+            rowDisplayName,
+            false,
+            ...values,
+            value[rowDisplayName]._total || value[rowDisplayName][i18n.t("report.total")]
+          ];
         });
 
       // Set rest of keys
@@ -41,10 +44,8 @@ export default (data, i18n) => {
 
       accum.push(...innerRows);
     } else {
-      const valuesAccesor = getAllKeysObject(i18n, value);
-      const values = valuesAccesor
-        .filter(val => !["_total", i18n.t("report.total")].includes(val))
-        .map(val => get(value, val));
+      const values = columnPaths.map(column => get(value, column, 0));
+
       const dateOrKey = formattedDate(key, i18n);
 
       accum.push([dateOrKey, false, ...values, value._total || value[i18n.t("report.total")]]);

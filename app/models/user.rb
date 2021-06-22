@@ -439,6 +439,19 @@ class User < ApplicationRecord
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
   end
 
+  def permitted_user_groups
+    return UserGroup.all if group_permission?(Permission::ALL) || group_permission?(Permission::ADMIN_ONLY)
+
+    user_groups
+  end
+
+  def permitted_agencies
+    return Agency.all if group_permission?(Permission::ALL)
+    return Agency.none unless agency_id.present?
+
+    Agency.where(id: agency_id)
+  end
+
   def ability
     @ability ||= Ability.new(self)
   end
@@ -489,6 +502,8 @@ class User < ApplicationRecord
   end
 
   def update_reporting_location_code
+    return unless will_save_change_to_attribute?(:location)
+
     self.reporting_location_code = reporting_location&.location_code
   end
 
@@ -519,6 +534,7 @@ class User < ApplicationRecord
 
   def update_associated_records
     return if ENV['PRIMERO_BOOTSTRAP']
+    return unless associated_attributes_changed?
 
     records = []
     associated_records_for_update.find_each(batch_size: 500) do |record|
@@ -546,6 +562,11 @@ class User < ApplicationRecord
     record.owned_by_groups = user_group_unique_ids if user_groups_changed
     record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
     record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
+  end
+
+  def associated_attributes_changed?
+    user_groups_changed || saved_change_to_attribute?('agency_id') || saved_change_to_attribute?('location') ||
+      saved_change_to_attribute('agency_office')&.last&.present?
   end
 end
 # rubocop:enable Metrics/ClassLength
