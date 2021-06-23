@@ -532,5 +532,33 @@ describe("<RecordForms /> - utils", () => {
         })
       ).to.deep.equals(expected);
     });
+
+    it("should remove all the null from subform entries", () => {
+      const expected = {
+        name: "Name 1",
+        age: 10,
+        estimated: true,
+        nationality: ["country1", "country2"],
+        family_details: [
+          { relation: "mother", name: "Name 2", is_alive: true, age: 25 },
+          { relation: "father", name: "Name 2", is_alive: false, location: ["country1"] }
+        ]
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          age: 10,
+          estimated: true,
+          nationality: ["country1", "country2"],
+          locations: fromJS([]),
+          ethnicity: [],
+          family_details: [
+            { relation: "mother", name: "Name 2", ocupation: "", is_alive: true, age: 25, location: [null] },
+            { relation: "father", name: "Name 2", current_location: "", is_alive: false, location: ["country1"] }
+          ]
+        })
+      ).to.deep.equals(expected);
+    });
   });
 });
