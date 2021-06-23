@@ -16,8 +16,6 @@ class GbvKpiCalculationService
   end
 
   def case_lifetime_days
-    return 0 unless @record.status == Record::STATUS_CLOSED
-
     closure_form = form_responses(:gbv_case_closure_form).first
 
     return 0 unless closure_form
