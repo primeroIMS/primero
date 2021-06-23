@@ -12,7 +12,7 @@ const Component = ({ data, identifier }) => {
   const css = useStyles();
 
   const rate = data.get("data").get("satisfaction_rate")
-  if (rate < 0.01)
+  if (rate === null)
     return (
       <p className={css.invalidMessage}>{i18n.t(`key_performance_indicators.${identifier}.invalid`)}</p>
     )
