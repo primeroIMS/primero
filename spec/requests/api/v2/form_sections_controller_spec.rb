@@ -206,7 +206,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params
+      post '/api/v2/forms', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -236,7 +236,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params
+      post '/api/v2/forms', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
@@ -263,7 +263,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params
+      post '/api/v2/forms', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['fields'].map { |field| [field['name'], field['order']] }).to eq(
@@ -292,7 +292,7 @@ describe Api::V2::FormSectionsController, type: :request do
           ]
         }
       }
-      post '/api/v2/forms', params: params
+      post '/api/v2/forms', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -335,7 +335,7 @@ describe Api::V2::FormSectionsController, type: :request do
           }
         }
       }
-      post '/api/v2/forms', params: params
+      post '/api/v2/forms', params: params, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -377,7 +377,7 @@ describe Api::V2::FormSectionsController, type: :request do
           visible: false
         }
       }
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -399,7 +399,7 @@ describe Api::V2::FormSectionsController, type: :request do
           collapsed_field_names: ['fs1_field_1']
         }
       }
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -434,7 +434,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
 
       @form1.reload
       expect(response).to have_http_status(200)
@@ -477,7 +477,7 @@ describe Api::V2::FormSectionsController, type: :request do
         }
       }
 
-      patch "/api/v2/forms/#{@form1.id}", params: params
+      patch "/api/v2/forms/#{@form1.id}", params: params, as: :json
 
       @form1.reload
 
@@ -516,7 +516,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       expect(@form2.fields.last.name).to eq('fs2_field_1')
 
-      patch "/api/v2/forms/#{@form2.id}", params: params
+      patch "/api/v2/forms/#{@form2.id}", params: params, as: :json
 
       @form2.reload
 
