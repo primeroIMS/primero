@@ -47,7 +47,7 @@ class Api::V2::UsersController < ApplicationApiController
   protected
 
   def order_params
-    { order_by: order_by, order: order } if order_by.present?
+    { order_by: order_by, order: order, locale: params[:locale] } if order_by.present?
   end
 
   def user_params

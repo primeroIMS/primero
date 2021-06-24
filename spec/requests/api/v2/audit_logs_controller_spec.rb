@@ -113,8 +113,7 @@ describe Api::V2::AuditLogsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
-      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_c.id)
-      expect(json['data'].map { |audit| audit['id'] }).to include(@audit_log_d.id)
+      expect(json['data'].map { |audit| audit['id'] }).to match_array([@audit_log_c.id, @audit_log_d.id])
     end
 
     it 'list the audit logs filtering by timestamp' do

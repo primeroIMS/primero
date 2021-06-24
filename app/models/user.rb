@@ -103,6 +103,10 @@ class User < ApplicationRecord
       User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
+    def order_insensitive_attribute_names
+      %w[full_name user_name position]
+    end
+
     def permitted_api_params(current_user = nil, target_user = nil)
       permitted_params = (
         User.permitted_attribute_names + User.password_parameters +

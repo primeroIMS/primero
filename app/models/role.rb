@@ -52,6 +52,10 @@ class Role < ApplicationRecord
   end
 
   class << self
+    def order_insensitive_attribute_names
+      %w[name description]
+    end
+
     # TODO: Redundant after create_or_update!
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
