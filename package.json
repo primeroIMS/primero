@@ -42,6 +42,7 @@
     "@material-ui/lab": "^4.0.0-alpha.53",
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.9.10",
+    "@testing-library/react-hooks": "^7.0.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
     "add": "^2.0.6",
     "babel-eslint": "^10.1.0",
