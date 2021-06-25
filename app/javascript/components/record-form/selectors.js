@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { fromJS, OrderedMap, List } from "immutable";
+import createCachedSelector from "re-reselect";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
@@ -157,14 +158,25 @@ export const getRecordInformationNav = (state, query, userPermissions) =>
     .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
     .sortBy(form => form.order);
 
-export const getRecordForms = (state, query) => {
-  const selectedForms = forms(state, query);
+// export const getRecordForms = (state, query) => {
+//   const selectedForms = forms(state, query);
 
-  if (!selectedForms) return null;
-  const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), state.getIn(["forms"]));
+//   if (!selectedForms) return null;
+//   const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), state.getIn(["forms"]));
 
-  return denormalizedForms.valueSeq();
-};
+//   return denormalizedForms.valueSeq();
+// };
+
+export const getRecordForms = createCachedSelector(
+  state => state.getIn(["forms"]),
+  forms,
+  (allForms, selectedForms) => {
+    if (!selectedForms) return null;
+    const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), allForms);
+
+    return denormalizedForms.valueSeq();
+  }
+)((_state, query) => JSON.stringify(query));
 
 export const getOrderedRecordForms = (state, query) => {
   return getRecordForms(state, query)

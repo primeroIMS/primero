@@ -1,6 +1,7 @@
 import { fromJS, isImmutable } from "immutable";
 import isEmpty from "lodash/isEmpty";
-import { sortBy } from "lodash";
+import sortBy from "lodash/sortBy";
+import { createCachedSelector } from "re-reselect";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
@@ -43,7 +44,7 @@ const referToUsers = (state, { currRecord, fullUsers = false }) =>
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
 
-const formGroups = (state, i18n) => {
+const formGroups = (state, locale) => {
   const formGroupsObj = state
     .getIn(["records", "admin", "forms", "formSections"], fromJS([]))
     .filter(formSection => !formSection.is_nested && formSection.form_group_id)
@@ -53,7 +54,7 @@ const formGroups = (state, i18n) => {
         ...prev,
         {
           id: current.first().getIn(["form_group_id"], null),
-          display_text: current.first().getIn(["form_group_name", i18n.locale], "")
+          display_text: current.first().getIn(["form_group_name", locale], "")
         }
       ],
       []
@@ -62,7 +63,7 @@ const formGroups = (state, i18n) => {
   return sortBy(formGroupsObj, item => item.display_text);
 };
 
-const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
+const agencies = (state, { optionStringsSourceIdKey, locale, useUniqueId = false, filterOptions }) => {
   const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
   const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
 
@@ -71,7 +72,7 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
       ...prev,
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
-        display_text: current.getIn(["name", i18n.locale], ""),
+        display_text: current.getIn(["name", locale], ""),
         disabled: current.get("disabled", false)
       }
     ],
@@ -79,9 +80,9 @@ const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, 
   );
 };
 
-const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOptions }) => {
+const agenciesCurrentUser = (state, { optionStringsSourceIdKey, locale, filterOptions }) => {
   const currentUserAgency = fromJS([getAssignedAgency(state)]);
-  const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
+  const allAgencies = agencies(state, { optionStringsSourceIdKey, locale, useUniqueId: false, filterOptions });
 
   return allAgencies.map(agency => ({
     ...agency,
@@ -89,21 +90,21 @@ const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOpti
   }));
 };
 
-const locations = (state, i18n, includeAdminLevel = false) =>
+const locations = (state, locale, includeAdminLevel = false) =>
   state.getIn(["forms", "options", "locations"], fromJS([])).reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get("code"),
-        display_text: displayNameHelper(current.get("name"), i18n.locale),
+        display_text: displayNameHelper(current.get("name"), locale),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
     ],
     []
   );
 
-const reportingLocations = (state, i18n) =>
-  locations(state, i18n, true)
+const reportingLocations = (state, locale) =>
+  locations(state, locale, true)
     .filter(location => location.admin_level === getReportingLocationConfig(state).get("admin_level"))
     .map(location => {
       // eslint-disable-next-line camelcase
@@ -127,7 +128,7 @@ const modules = state =>
     []
   );
 
-const lookupValues = (state, optionStringsSource, i18n, rest) => {
+const lookupValues = (state, optionStringsSource, locale, rest) => {
   const { fullLookup } = rest;
 
   const lookup = lookupsList(state).find(
@@ -145,7 +146,7 @@ const lookupValues = (state, optionStringsSource, i18n, rest) => {
       ...prev,
       {
         id: current.get("id"),
-        display_text: displayNameHelper(current.get("display_text"), i18n.locale),
+        display_text: displayNameHelper(current.get("display_text"), locale),
         disabled: current.get("disabled", false)
       }
     ],
@@ -155,20 +156,20 @@ const lookupValues = (state, optionStringsSource, i18n, rest) => {
 
 const filterableOptions = (filterOptions, data) => (filterOptions ? filterOptions(data) : data);
 
-const lookups = (state, { i18n, filterOptions }) => {
+const lookups = (state, { locale, t, filterOptions }) => {
   const lookupList = [
     ...lookupsList(state).reduce(
       (prev, current) => [
         ...prev,
         {
           id: `lookup ${current.get("unique_id")}`,
-          display_text: current.getIn(["name", i18n.locale]),
+          display_text: current.getIn(["name", locale]),
           values: current.get("values", fromJS([])).reduce(
             (valPrev, valCurrent) => [
               ...valPrev,
               {
                 id: valCurrent.get("id"),
-                display_text: valCurrent.getIn(["display_text", i18n.locale])
+                display_text: valCurrent.getIn(["display_text", locale])
               }
             ],
             []
@@ -181,7 +182,7 @@ const lookups = (state, { i18n, filterOptions }) => {
       ? sortBy(
           CUSTOM_LOOKUPS.map(custom => ({
             id: custom,
-            display_text: i18n.t(`${custom.toLowerCase()}.label`)
+            display_text: t(`${custom.toLowerCase()}.label`)
           })),
           lookup => lookup.display_text
         )
@@ -225,7 +226,7 @@ const userGroupsPermitted = (state, { filterOptions }) => {
   });
 };
 
-const formGroupLookup = (state, i18n, { filterOptions }) =>
+const formGroupLookup = (state, appLocale, { filterOptions }) =>
   filterableOptions(
     filterOptions,
     lookupsList(state)
@@ -244,7 +245,7 @@ const formGroupLookup = (state, i18n, { filterOptions }) =>
                 ...valPrev,
                 {
                   id: valCurrent.get("id"),
-                  display_text: valCurrent.getIn(["display_text", i18n.locale])
+                  display_text: valCurrent.getIn(["display_text", appLocale])
                 }
               ],
               []
@@ -285,21 +286,23 @@ const buildPermittedRoles = state => {
 };
 
 const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = {}) => {
+  const { locale, t } = i18n;
+
   switch (optionStringsSource) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, { ...rest, useUniqueId, i18n });
+      return agencies(state, { ...rest, useUniqueId, locale });
     case OPTION_TYPES.AGENCY_CURRENT_USER:
-      return agenciesCurrentUser(state, { ...rest, useUniqueId, i18n });
+      return agenciesCurrentUser(state, { ...rest, useUniqueId, locale });
     case OPTION_TYPES.LOCATION:
-      return locations(state, i18n);
+      return locations(state, locale);
     case OPTION_TYPES.REPORTING_LOCATIONS:
-      return reportingLocations(state, i18n);
+      return reportingLocations(state, locale);
     case OPTION_TYPES.MODULE:
       return modules(state);
     case OPTION_TYPES.FORM_GROUP:
-      return formGroups(state, i18n);
+      return formGroups(state, locale);
     case OPTION_TYPES.LOOKUPS:
-      return lookups(state, { i18n, ...rest });
+      return lookups(state, { locale, t, ...rest });
     case OPTION_TYPES.REFER_TO_USERS:
       return referToUsers(state, { ...rest });
     case OPTION_TYPES.USER_GROUP:
@@ -313,15 +316,15 @@ const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = 
     case OPTION_TYPES.ROLE_PERMITTED:
       return buildPermittedRoles(state);
     case OPTION_TYPES.FORM_GROUP_LOOKUP:
-      return formGroupLookup(state, i18n, { ...rest });
+      return formGroupLookup(state, locale, { ...rest });
     case OPTION_TYPES.RECORD_FORMS:
       return recordForms(state, { ...rest });
     default:
-      return lookupValues(state, optionStringsSource, i18n, { ...rest });
+      return lookupValues(state, optionStringsSource, locale, { ...rest });
   }
 };
 
-const transformOptions = (options, i18n) => {
+const transformOptions = (options, locale) => {
   return options.reduce((prev, current) => {
     const displayText = get(current, "display_text");
 
@@ -330,35 +333,39 @@ const transformOptions = (options, i18n) => {
       {
         ...current,
         id: get(current, "id"),
-        display_text: displayNameHelper(displayText, i18n.locale) || displayText
+        display_text: displayNameHelper(displayText, locale) || displayText
       }
     ];
   }, []);
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export const getOptions = (
-  state,
-  optionStringsSource,
-  i18n,
-  options,
-  useUniqueId = false,
-  rest = {
-    rawOptions: false
-  }
-) => {
-  if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
-  }
+export const getOptions = createCachedSelector(
+  state => state,
+  (_state, optionStringsSource) => optionStringsSource,
+  (_state, _optionStringsSource, i18n) => i18n,
+  (_state, _optionStringsSource, _i18n, options) => options,
+  (_state, _optionStringsSource, _i18n, _options, useUniqueId) => useUniqueId,
+  (_state, _optionStringsSource, _i18n, _options, _useUniqueId, rest) => rest,
 
-  if (options) {
-    if (rest.rawOptions) return options;
+  (state, optionStringsSource, i18n, options, useUniqueId, rest) => {
+    if (optionStringsSource) {
+      return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
+    }
 
-    return Array.isArray(options) || isImmutable(options) ? transformOptions(options, i18n) : options?.[i18n.locale];
+    if (options) {
+      if (rest?.rawOptions) return options;
+
+      return Array.isArray(options) || isImmutable(options)
+        ? transformOptions(options, i18n.locale)
+        : options?.[i18n.locale];
+    }
+
+    return [];
   }
-
-  return [];
-};
+)(
+  (_state, optionStringsSource, i18n, options, useUniqueId, rest) =>
+    `${optionStringsSource}:${i18n.locale}:${useUniqueId}:${JSON.stringify(rest)}:${JSON.stringify(options)}`
+);
 
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
 

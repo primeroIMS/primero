@@ -46,10 +46,10 @@ const Container = ({
   const recordChangeLogs = useMemoizedSelector(state =>
     getChangeLogs(state, recordID, recordType, forms, selectedFilters)
   );
-  const allFields = useMemoizedSelector(state => getFields(state), compare);
-  const allAgencies = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true), compare);
-  const allLookups = useMemoizedSelector(state => getLookups(state), compare);
-  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
+  const allFields = useMemoizedSelector(state => getFields(state));
+  const allAgencies = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true));
+  const allLookups = useMemoizedSelector(state => getLookups(state));
+  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.LOCATION, i18n));
 
   useEffect(() => {
     if (fetchable && recordID) {
