@@ -1446,7 +1446,7 @@ en:
         per case worker on the platform. A follow-up meeting is a meeting between the caseworker and
         the survivor following the initial interview/disclosure.
     time_from_case_open_to_close:
-      title: "11. Time From Case Open To Case Close"
+      title: "11. Time From Case Open To Case Closed"
       time: "Time"
       percent: "Percentage of Cases"
       helptext: |
@@ -1455,7 +1455,7 @@ en:
         broken down by the following timeframe: less than 1 month; between 1 and 3 months; between
         3-6 months; more than 6 months.
     case_closure_rate:
-      title: "12. Case Closure Rate"
+      title: "12. Case Closure Count"
       reporting_site: "Reporting Site"
       helptext: |
         This indicator measures the count of cases closed per month per reporting site. A reporting site
@@ -1477,8 +1477,8 @@ en:
         This indicator is the number of caseworkers a supervisor is supervising: the supervisor to case
         worker ratio. This calculation is based on the system roles allocated on the platform.
     case_load:
-      title: "15. Case Load"
-      case_load: "Case Load"
+      title: "15. Caseload"
+      case_load: "Caseload"
       percent: "percentage of caseworkers with caseload"
       10cases: "< 10 Cases"
       20cases: "11 - 20 Cases"
@@ -1901,10 +1901,10 @@ en:
             label: Average Referrals
           kpi_case_closure_rate:
             explanation: Ability to see how many cases were closed at each site per month.
-            label: Case Closure Rate
+            label: Case Closure Count
           kpi_case_load:
             explanation: Ability to see the average number of open cases each caseworker has.
-            label: Case Load
+            label: Caseload
           kpi_client_satisfaction_rate:
             explanation: Ability to see, for each case that the user has access to, what ratio of
               survivors who completed the Feedback Survey were satisfied.
@@ -1948,7 +1948,7 @@ en:
           kpi_time_from_case_open_to_close:
             explanation: Ability to see, for all cases that the user has access to, how long
               case are kept open.
-            label: Time from Case Open to Close
+            label: Time from Case Open to Case Closed
         label: KPI
       agency:
         actions:
