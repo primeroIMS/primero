@@ -22,6 +22,8 @@ class GbvKpiCalculationService
 
     date_created = closure_form.field(:created_at) || @record.created_at
     date_closed = closure_form.field(:date_closure)
+    return 0 if date_created.nil? || date_closed.nil?
+
     (date_closed.to_date - date_created.to_date).to_i
   end
 
