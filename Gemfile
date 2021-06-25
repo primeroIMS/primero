@@ -31,6 +31,7 @@ gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive
 gem 'rails',               '5.2.6'
 gem 'rake',                '~> 12.3'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
+gem 'ffi',                 '1.15.3'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
     require: 'zip'
 gem 'rufus-scheduler',     '~> 3.4',   # Primero, Rails-context job cron-like scheduling.
