@@ -298,3 +298,24 @@ If nginx is already using external certs, to update the certs follow the next st
 ```shell
 sudo docker restart primero_nginx_1
 ```
+## Change letsencrypt domain
+
+If you change your hostname and you want to update your letsencrypt certificate, you need to:
+
+1. Update your `primero_host` on the inventory file.
+2. Update your environment variables running
+
+```
+(venv) $ ansible-playbook application-primero.yml --tags "local-env" -e @secrets.yml
+```
+
+3. Run the certbot playbook
+
+```
+(venv) $ ansible-playbook certbot.yml
+```
+
+4. Restart all the containers
+```
+  ​(venv) $ ansible-playbook application-primero.yml --tags "start"
+```
