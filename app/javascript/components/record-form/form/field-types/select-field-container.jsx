@@ -17,7 +17,7 @@ import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
 import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 import { OPTION_TYPES } from "../../../form";
-import { getOptions } from "../../../form/selectors";
+import useOptions from "../../../form/use-options";
 
 const SelectFieldContainer = ({
   field,
@@ -67,19 +67,22 @@ const SelectFieldContainer = ({
   };
 
   const [stickyOption, setStickyOption] = useState(fieldValue);
-  const options = useMemoizedSelector(
+
+  const options = useOptions(
     optionsSelector(OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions } : {})
   );
+
   const loading = useMemoizedSelector(state => getLoading(state, ["transitions", REFERRAL_TYPE]));
   const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
-  const agencies = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual
-      ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true, { filterOptions: agencyFilterOptions })
-      : []
-  );
-  const reportingLocations = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []
-  );
+
+  const agencies = useOptions({
+    source: OPTION_TYPES.AGENCY,
+    useUniqueId: true,
+    filterOptions: agencyFilterOptions,
+    run: isImplementingAgencyIndividual
+  });
+
+  const reportingLocations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
 
   const filteredOptions = buildOptions(name, option, fieldValue, options, stickyOption, filterState);
 

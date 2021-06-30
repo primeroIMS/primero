@@ -7,8 +7,8 @@ import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
 import { DATE_TIME_FORMAT, LOOKUPS } from "../../../config";
 import { OPTION_TYPES } from "../../form";
-import { getOptions } from "../../form/selectors";
 import { useMemoizedSelector } from "../../../libs";
+import useOptions from "../../form/use-options";
 
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
@@ -24,7 +24,7 @@ const Details = ({ transition, classes }) => {
     // eslint-disable-next-line camelcase
     return value[0]?.display_text;
   });
-  const agencies = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, [], true));
+  const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
 
   const agencyName = referralAgencyName(transition, agencies);
 

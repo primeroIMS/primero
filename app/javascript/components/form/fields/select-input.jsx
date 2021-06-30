@@ -14,6 +14,7 @@ import { getLoadingState, getValueFromOtherField } from "../selectors";
 import { useMemoizedSelector } from "../../../libs";
 import { SELECT_CHANGE_REASON } from "../constants";
 import { listboxClasses, virtualize } from "../../searchable-select/components/listbox-component";
+import { useI18n } from "../../i18n";
 
 import styles from "./styles.css";
 
@@ -44,7 +45,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   } = metaInputProps;
   const { name, disabled, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
-
+  const i18n = useI18n();
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
 
   const css = useStyles();
@@ -102,10 +103,14 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     if (typeof option === "string" && option === "") {
       return "";
     }
-    const { display_name: displayName, display_text: displayText } =
+    const { display_name: displayName, display_text: displayText, translate } =
       typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
 
     const freeSoloDisplayText = freeSolo && typeof option === "string" ? option : null;
+
+    if (translate) {
+      return i18n.t(displayText) || "";
+    }
 
     return displayName || displayText || freeSoloDisplayText || "";
   };
@@ -151,28 +156,33 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   const optionEquality = (option, value) => option.id === value || option.id === value?.id;
 
   const filterOptions = {
-    ...(freeSolo && {
-      filterOptions: (selectOptions, selectState) => {
-        const filtered = filter(selectOptions, selectState);
-        const allFiltered = filter(options, selectState);
+    ...(freeSolo
+      ? {
+          filterOptions: (selectOptions, selectState) => {
+            const filtered = filter(selectOptions, selectState);
+            const allFiltered = filter(options, selectState);
 
-        // In edit mode the selectOptions will not contain the selected option.
-        // To determine if we should push the "Add" option, we check if the
-        // selected option does not exists in the original options array.
-        if (selectState.inputValue !== "" && allFiltered.length === 0) {
-          filtered.push({
-            id: selectState.inputValue,
-            display_name: `Add "${selectState.inputValue}"`
-          });
+            // In edit mode the selectOptions will not contain the selected option.
+            // To determine if we should push the "Add" option, we check if the
+            // selected option does not exists in the original options array.
+            if (selectState.inputValue !== "" && allFiltered.length === 0) {
+              filtered.push({
+                id: selectState.inputValue,
+                display_name: `Add "${selectState.inputValue}"`
+              });
+            }
+
+            // If filtered is empty we return the current selectOptions, because
+            // this should happen only if the selected option is
+            // not part of the selectOptions but exists in the original
+            // options.
+            return filtered.length ? filtered : selectOptions;
+          }
         }
-
-        // If filtered is empty we return the current selectOptions, because
-        // this should happen only if the selected option is
-        // not part of the selectOptions but exists in the original
-        // options.
-        return filtered.length ? filtered : selectOptions;
-      }
-    })
+      : createFilterOptions({
+          matchFrom: "any",
+          limit: 200
+        }))
   };
 
   // eslint-disable-next-line react/display-name
