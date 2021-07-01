@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
-import { fromJS } from "immutable";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
@@ -60,7 +59,7 @@ const SelectFieldContainer = ({
 
   const agencyFilterOptions = agencies => {
     if (service) {
-      return agencies.filter(stateAgency => stateAgency.get("services", fromJS([])).includes(service));
+      return agencies.filter(stateAgency => stateAgency?.services?.includes(service));
     }
 
     return agencies;
@@ -69,7 +68,9 @@ const SelectFieldContainer = ({
   const [stickyOption, setStickyOption] = useState(fieldValue);
 
   const options = useOptions(
-    optionsSelector(OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions } : {})
+    optionsSelector(
+      OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions, includeServices: true } : {}
+    )
   );
 
   const loading = useMemoizedSelector(state => getLoading(state, ["transitions", REFERRAL_TYPE]));
@@ -79,7 +80,8 @@ const SelectFieldContainer = ({
     source: OPTION_TYPES.AGENCY,
     useUniqueId: true,
     filterOptions: agencyFilterOptions,
-    run: isImplementingAgencyIndividual
+    run: isImplementingAgencyIndividual,
+    includeServices: true
   });
 
   const reportingLocations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
