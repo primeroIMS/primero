@@ -61,5 +61,5 @@ export const listboxClasses = makeStyles({
 });
 
 export const virtualize = (optionsLength = 0) => {
-  return optionsLength >= 1000 ? ListboxComponent : undefined;
+  return optionsLength >= 20000 ? ListboxComponent : undefined;
 };

@@ -15,6 +15,7 @@ import { useMemoizedSelector } from "../../../libs";
 import { SELECT_CHANGE_REASON } from "../constants";
 import { listboxClasses, virtualize } from "../../searchable-select/components/listbox-component";
 import { useI18n } from "../../i18n";
+import { filterOptions as filterOptionsConfig } from "../../searchable-select/utils";
 
 import styles from "./styles.css";
 
@@ -155,35 +156,28 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
 
   const optionEquality = (option, value) => option.id === value || option.id === value?.id;
 
-  const filterOptions = {
-    ...(freeSolo
-      ? {
-          filterOptions: (selectOptions, selectState) => {
-            const filtered = filter(selectOptions, selectState);
-            const allFiltered = filter(options, selectState);
+  const filterOptions = freeSolo
+    ? (selectOptions, selectState) => {
+        const filtered = filter(selectOptions, selectState);
+        const allFiltered = filter(options, selectState);
 
-            // In edit mode the selectOptions will not contain the selected option.
-            // To determine if we should push the "Add" option, we check if the
-            // selected option does not exists in the original options array.
-            if (selectState.inputValue !== "" && allFiltered.length === 0) {
-              filtered.push({
-                id: selectState.inputValue,
-                display_name: `Add "${selectState.inputValue}"`
-              });
-            }
-
-            // If filtered is empty we return the current selectOptions, because
-            // this should happen only if the selected option is
-            // not part of the selectOptions but exists in the original
-            // options.
-            return filtered.length ? filtered : selectOptions;
-          }
+        // In edit mode the selectOptions will not contain the selected option.
+        // To determine if we should push the "Add" option, we check if the
+        // selected option does not exists in the original options array.
+        if (selectState.inputValue !== "" && allFiltered.length === 0) {
+          filtered.push({
+            id: selectState.inputValue,
+            display_name: `Add "${selectState.inputValue}"`
+          });
         }
-      : createFilterOptions({
-          matchFrom: "any",
-          limit: 200
-        }))
-  };
+
+        // If filtered is empty we return the current selectOptions, because
+        // this should happen only if the selected option is
+        // not part of the selectOptions but exists in the original
+        // options.
+        return filtered.length ? filtered : selectOptions;
+      }
+    : filterOptionsConfig;
 
   // eslint-disable-next-line react/display-name
   const renderTextField = (params, props, fieldValue) => {
@@ -252,6 +246,12 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     updateOtherFields();
   }, [currentWatchedValue]);
 
+  const handleRenderTags = (value, getTagProps) => renderTags(value, getTagProps);
+  const renderInput = fieldValue => params => renderTextField(params, commonProps, fieldValue);
+  const handleAutocompleteOnChange = fieldOnChange => (_, data, reason) => fieldOnChange(handleChange(data, reason));
+  const handleGroupBy = option => option[groupBy];
+  const handleGetOptionDisabled = option => getOptionDisabled(option);
+
   return (
     <Controller
       control={control}
@@ -261,8 +261,8 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
         <Autocomplete
           name={name}
           onOpen={handleOpen}
-          onChange={(_, data, reason) => fieldOnChange(handleChange(data, reason))}
-          groupBy={option => option[groupBy]}
+          onChange={handleAutocompleteOnChange(fieldOnChange)}
+          groupBy={handleGroupBy}
           ListboxComponent={virtualize(options.length)}
           classes={listboxClasses}
           disableListWrap
@@ -270,16 +270,16 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           multiple={multiSelect || multipleLimitOne}
           getOptionLabel={optionLabel}
           getOptionSelected={optionEquality}
-          getOptionDisabled={option => getOptionDisabled(option)}
+          getOptionDisabled={handleGetOptionDisabled}
           disabled={disabled}
           filterSelectedOptions
           disableClearable={disableClearable}
           freeSolo={freeSolo}
           className={css.selectInput}
-          {...filterOptions}
+          filterOptions={filterOptions}
           {...loadingProps}
-          renderInput={params => renderTextField(params, commonProps, fieldValue)}
-          renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
+          renderInput={renderInput(fieldValue)}
+          renderTags={handleRenderTags}
           value={fieldValue}
         />
       )}

@@ -23,7 +23,7 @@ import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { buildRoleOptions } from "./utils";
 
 // TODO: Move to useMemoizedSelector
-const defualtCacheSelectorOptions = {
+const defaultCacheSelectorOptions = {
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
   selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
 };
@@ -51,7 +51,7 @@ const formGroups = createCachedSelector(getLocale, formSectionList, (locale, dat
     );
 
   return sortBy(formGroupsObj, item => item.display_text);
-})(defualtCacheSelectorOptions);
+})(defaultCacheSelectorOptions);
 
 const referToUsers = createCachedSelector(
   referralUserList,
@@ -82,7 +82,7 @@ const referToUsers = createCachedSelector(
       }, [])
       ?.filter(user => !isEmpty(user));
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const agenciesParser = (data, { useUniqueId, optionStringsSourceIdKey, locale, filterOptions, includeServices }) => {
   const filteredAgencies = filterOptions ? filterOptions(data) : data;
@@ -108,7 +108,7 @@ const agencies = createCachedSelector(
   (locale, data, options) => {
     return agenciesParser(data, { ...options, locale });
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const agenciesCurrentUser = createCachedSelector(
   getLocale,
@@ -124,7 +124,7 @@ const agenciesCurrentUser = createCachedSelector(
       disabled: agency.disabled || !currentUserAgency.includes(agency.id)
     }));
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const locationList = state => state.getIn(["forms", "options", "locations"], fromJS([]));
 
@@ -149,7 +149,7 @@ const locations = createCachedSelector(
   (locale, data, options) => {
     return locationsParser(data, { ...options, locale });
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const reportingLocations = createCachedSelector(
   getLocale,
@@ -171,7 +171,7 @@ const reportingLocations = createCachedSelector(
         };
       });
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const modules = createCachedSelector(moduleList, data => {
   return data.reduce(
@@ -184,7 +184,7 @@ const modules = createCachedSelector(moduleList, data => {
     ],
     []
   );
-})(defualtCacheSelectorOptions);
+})(defaultCacheSelectorOptions);
 
 const lookupValues = createCachedSelector(
   getLocale,
@@ -211,7 +211,7 @@ const lookupValues = createCachedSelector(
       []
     );
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const filterableOptions = (filterOptions, data) => (filterOptions ? filterOptions(data) : data);
 
@@ -256,7 +256,7 @@ const lookups = createCachedSelector(
 
     return filterableOptions(filterOptions, lookupList);
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const userGroupsParser = (data, options) => {
   const { filterOptions } = options;
@@ -281,7 +281,7 @@ const userGroups = createCachedSelector(
   (data, options) => {
     return userGroupsParser(data, options);
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const userGroupsPermitted = createCachedSelector(
   getUserGroups,
@@ -303,7 +303,7 @@ const userGroupsPermitted = createCachedSelector(
       return { ...userGroup, disabled: true };
     });
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const formGroupLookup = createCachedSelector(
   getLocale,
@@ -341,7 +341,7 @@ const formGroupLookup = createCachedSelector(
         )
     );
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const recordForms = createCachedSelector(
   state => getRecordForms(state, { all: true }),
@@ -351,11 +351,11 @@ const recordForms = createCachedSelector(
 
     return filterOptions ? filterableOptions(filterOptions, data) : data;
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const roles = createCachedSelector(getRoles, data => {
   return buildRoleOptions(data);
-})(defualtCacheSelectorOptions);
+})(defaultCacheSelectorOptions);
 
 const manageRolesParser = (data, transfer) => data.filter(role => role.get(transfer, false));
 
@@ -368,14 +368,14 @@ const managedRoleFormSections = createCachedSelector(
 
     return selectedRole.get("form_section_read_write", fromJS({})).keySeq().toList();
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 const buildManagedRoles = createCachedSelector(managedRoleList, data => {
   return manageRolesParser(data, "referral").reduce(
     (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
     []
   );
-})(defualtCacheSelectorOptions);
+})(defaultCacheSelectorOptions);
 
 const buildPermittedRoles = createCachedSelector(
   getRoles,
@@ -389,7 +389,7 @@ const buildPermittedRoles = createCachedSelector(
 
     return buildRoleOptions(permittedRoles);
   }
-)(defualtCacheSelectorOptions);
+)(defaultCacheSelectorOptions);
 
 export const getOptions = source => {
   switch (source) {
