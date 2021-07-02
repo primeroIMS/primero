@@ -43,10 +43,6 @@ class Transfer < Transition
     end
   end
 
-  def user_can_receive?
-    super && transitioned_to_user.can?(:receive_transfer, record.class)
-  end
-
   private
 
   def perform_remote_transfer
