@@ -68,7 +68,7 @@ export const mergeFormSections = data => {
             return acc;
           }
 
-          return { ...acc, [key]: ROLES_PERMISSIONS[value].id };
+          return { ...acc, [key]: ROLES_PERMISSIONS[value] ? ROLES_PERMISSIONS[value].id : "" };
         }, {})) ||
       {};
 

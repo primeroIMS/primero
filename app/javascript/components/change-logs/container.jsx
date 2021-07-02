@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { compare, useMemoizedSelector } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 import { OPTION_TYPES } from "../form/constants";
-import { getOptions } from "../form/selectors";
 import { useI18n } from "../i18n";
 import { getFields } from "../record-form";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { getRecordForms, getOptions as getLookups } from "../record-form/selectors";
 import { useFormFilters } from "../form-filters";
 import { RECORD_TYPES } from "../../config";
+import useOptions from "../form/use-options";
 
 import { fetchChangeLogs } from "./action-creators";
 import ChangeLog from "./components/change-log";
@@ -46,10 +46,11 @@ const Container = ({
   const recordChangeLogs = useMemoizedSelector(state =>
     getChangeLogs(state, recordID, recordType, forms, selectedFilters)
   );
-  const allFields = useMemoizedSelector(state => getFields(state), compare);
-  const allAgencies = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true), compare);
-  const allLookups = useMemoizedSelector(state => getLookups(state), compare);
-  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.LOCATION, i18n), compare);
+
+  const allFields = useMemoizedSelector(state => getFields(state));
+  const allAgencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
+  const allLookups = useMemoizedSelector(state => getLookups(state));
+  const locations = useOptions({ source: OPTION_TYPES.LOCATION });
 
   useEffect(() => {
     if (fetchable && recordID) {

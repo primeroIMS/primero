@@ -17,10 +17,10 @@ import { FormAction, whichFormMode } from "../form";
 import { usePermissions } from "../user";
 import { WRITE_RECORDS, MANAGE } from "../../libs/permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
-import { getOptions } from "../form/selectors";
 import { STRING_SOURCES_TYPES } from "../../config";
 import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
+import useOptions from "../form/use-options";
 
 import { buildGraphData, buildTableData } from "./utils";
 import { getReport } from "./selectors";
@@ -54,8 +54,9 @@ const Report = ({ mode }) => {
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const report = useMemoizedSelector(state => getReport(state));
-  const agencies = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.AGENCY, i18n, null, true));
-  const locations = useMemoizedSelector(state => getOptions(state, STRING_SOURCES_TYPES.LOCATION, i18n, null));
+
+  const agencies = useOptions({ source: STRING_SOURCES_TYPES.AGENCY, useUniqueId: true });
+  const locations = useOptions({ source: STRING_SOURCES_TYPES.LOCATION });
 
   const name = displayNameHelper(report.get("name"), i18n.locale);
   const description = displayNameHelper(report.get("description"), i18n.locale);

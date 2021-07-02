@@ -20,8 +20,8 @@ import {
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
-import { getOptions } from "../../form/selectors";
 import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
+import useOptions from "../../form/use-options";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
@@ -65,9 +65,11 @@ const Component = ({
       i18n
     })
   );
-  const formGroupLookup = useMemoizedSelector(state =>
-    getOptions(state, buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-")), i18n)
-  );
+
+  const formGroupLookup = useOptions({
+    source: buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-"))
+  });
+
   const recordInformationFormIds = useMemoizedSelector(state =>
     getRecordInformationFormIds(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
   );
