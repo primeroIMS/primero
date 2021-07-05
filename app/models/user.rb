@@ -347,7 +347,7 @@ class User < ApplicationRecord
                  else
                    { 'user' => user_name }
                  end
-    { user: user_scope, module: module_unique_ids }
+    { user: user_scope }
   end
 
   def user_query_scope(record_model = nil, id_search = false)
