@@ -901,12 +901,14 @@ describe User do
 
   describe '#record_query_scope' do
     before :each do
-      @agency_test = Agency.create!(name: 'Agency test', agency_code: 'agency_test')
+      @agency_test = Agency.create!(name: 'Agency test1', agency_code: 'agency_test1')
       @group_test = UserGroup.create!(name: 'group test')
-      @role_test = Role.create!(name: 'Admin role', unique_id: 'role_test', group_permission: 'group',
-                                permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
-      @current_user = User.create!(full_name: 'Admin User', user_name: 'user_admin', password: 'a12345678',
-                                   password_confirmation: 'a12345678', email: 'user_admin@localhost.com',
+      @role_test = Role.create!(name: 'Admin role1', unique_id: 'role_test1', group_permission: 'group',
+                                permissions: [Permission.new(resource: Permission::CASE,
+                                                             actions: [Permission::MANAGE])])
+      @current_user = User.create!(full_name: 'user_record_query_scope', user_name: 'user_record_query_scope',
+                                   password: 'a12345678', password_confirmation: 'a12345678',
+                                   email: 'user_record_query_scope@localhost.com',
                                    user_groups: [@group_test], agency_id: @agency_test.id, role: @role_test)
     end
 
