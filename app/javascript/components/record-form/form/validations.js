@@ -2,10 +2,18 @@
 import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
 
-import { NUMERIC_FIELD, DATE_FIELD, DOCUMENT_FIELD, SUBFORM_SECTION, NOT_FUTURE_DATE, TICK_FIELD } from "../constants";
+import {
+  NUMERIC_FIELD,
+  DATE_FIELD,
+  DOCUMENT_FIELD,
+  SUBFORM_SECTION,
+  NOT_FUTURE_DATE,
+  TICK_FIELD,
+  SELECT_FIELD
+} from "../constants";
 
 export const fieldValidations = (field, i18n) => {
-  const { name, type, required } = field;
+  const { multi_select: multiSelect, name, type, required } = field;
   const validations = {};
 
   if (NUMERIC_FIELD === type) {
@@ -58,6 +66,8 @@ export const fieldValidations = (field, i18n) => {
 
     if (type === TICK_FIELD) {
       validations[name] = bool().required(requiredMessage).oneOf([true], requiredMessage);
+    } else if (type === SELECT_FIELD && multiSelect) {
+      validations[name] = array().min(1, requiredMessage);
     } else {
       validations[name] = (validations[name] || string()).nullable().required(requiredMessage);
     }
