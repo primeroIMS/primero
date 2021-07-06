@@ -18,12 +18,6 @@ class Kpi::TimeFromCaseOpenToClose < Kpi::BucketedSearch
     ]
   end
 
-  def search
-    super do
-      with :status, Record::STATUS_CLOSED
-    end
-  end
-
   def data
     @data ||= search.facet_response
                     .dig('facet_intervals', restricted_field.indexed_name)
