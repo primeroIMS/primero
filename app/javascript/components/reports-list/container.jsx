@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 
+import DisableOffline from "../disable-offline";
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import LoadingIndicator from "../loading-indicator";
@@ -66,15 +67,17 @@ const Reports = () => {
   };
 
   const newReportBtn = canAddReport ? (
-    <ActionButton
-      icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
-      type={ACTION_BUTTON_TYPES.default}
-      rest={{
-        to: ROUTES.reports_new,
-        component: Link
-      }}
-    />
+    <DisableOffline>
+      <ActionButton
+        icon={<AddIcon />}
+        text={i18n.t("buttons.new")}
+        type={ACTION_BUTTON_TYPES.default}
+        rest={{
+          to: ROUTES.reports_new,
+          component: Link
+        }}
+      />
+    </DisableOffline>
   ) : null;
 
   return (
@@ -86,19 +89,23 @@ const Reports = () => {
             <div className={css.reportsListContainer}>
               {reports.map(report => {
                 return (
-                  <Card key={report.get("id")} className={css.card} elevation={3}>
-                    <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
-                      <CardContent className={css.cardContent}>
-                        <h3 className={css.title}>{displayNameHelper(report.get("name"), i18n.locale)}</h3>
-                        <p className={css.description}>{displayNameHelper(report.get("description"), i18n.locale)}</p>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
+                  <DisableOffline>
+                    <Card key={report.get("id")} className={css.card} elevation={3}>
+                      <CardActionArea to={`/reports/${report.get("id")}`} component={Link} disableRipple>
+                        <CardContent className={css.cardContent}>
+                          <h3 className={css.title}>{displayNameHelper(report.get("name"), i18n.locale)}</h3>
+                          <p className={css.description}>{displayNameHelper(report.get("description"), i18n.locale)}</p>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </DisableOffline>
                 );
               })}
             </div>
             <Box display="flex" justifyContent="flex-end">
-              <TablePagination {...paginationProps} />
+              <DisableOffline>
+                <TablePagination {...paginationProps} />
+              </DisableOffline>
             </Box>
           </LoadingIndicator>
         </PageContent>
