@@ -14,7 +14,7 @@ import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 import { useMemoizedSelector } from "../../../../../libs";
 import { OPTION_TYPES } from "../../../../form";
-import { getOptions } from "../../../../form/selectors";
+import useOptions from "../../../../form/use-options";
 
 import {
   TRANSFER_FIELD,
@@ -51,7 +51,8 @@ const TransferForm = ({
   const users = useMemoizedSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
   const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
   const agencies = useMemoizedSelector(state => selectAgencies(state));
-  const locations = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n));
+
+  const locations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
 
   const canConsentOverride =
     userPermissions &&

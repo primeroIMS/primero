@@ -26,7 +26,7 @@ const Component = ({ item }) => {
       <span className={css.detailName}>{change.name}</span>{" "}
       {change.from &&
         change.to &&
-        `${i18n.t("change_logs.from")} "${change.from}" ${i18n.t("change_logs.to")} "${change.from}"`}
+        `${i18n.t("change_logs.from")} "${change.from}" ${i18n.t("change_logs.to")} "${change.to}"`}
     </div>
   );
   const renderSeeDetail = item.isSubform && (

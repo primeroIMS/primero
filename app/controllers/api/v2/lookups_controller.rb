@@ -6,8 +6,9 @@ class Api::V2::LookupsController < ApplicationApiController
 
   def index
     authorize! :index, Lookup
-    @total = Lookup.all.size
-    @lookups = Lookup.paginate(pagination)
+    @lookups = Lookup.list(params)
+    @total = @lookups.size
+    @lookups = @lookups.paginate(pagination)
   end
 
   def show

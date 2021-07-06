@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import omit from "lodash/omit";
 import startCase from "lodash/startCase";
 
-import Form from "../../../form";
+import Form, { OPTION_TYPES } from "../../../form";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
 import { getRecordForms } from "../../../record-form/selectors";
@@ -14,7 +14,6 @@ import { getErrorsByTransitionType } from "../selectors";
 import { setServiceToRefer } from "../../../record-form/action-creators";
 import { getServiceToRefer } from "../../../record-form";
 import PdfExporter from "../../../pdf-exporter";
-import { getManagedRoleFormSections } from "../../../form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { getReferralSuccess } from "./selectors";
@@ -125,7 +124,7 @@ const Referrals = ({
             ref={pdfExporterRef}
             formsSelectedFieldDefault=""
             formsSelectedField={FIELDS.ROLE}
-            formsSelectedSelector={getManagedRoleFormSections}
+            formsSelectedSelector={OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
             customFormProps={customReferralFormProps(i18n)}
           />

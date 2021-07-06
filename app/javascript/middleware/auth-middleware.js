@@ -12,10 +12,18 @@ import {
   USE_IDENTITY_PROVIDER_PATH,
   LOCATION_CHANGED_ACTION
 } from "./constants";
-import { startSignout, handleReturnUrl, redirectTo, loginSuccessHandler, logoutSuccessHandler } from "./utils";
+import {
+  startSignout,
+  handleReturnUrl,
+  redirectTo,
+  loginSuccessHandler,
+  logoutSuccessHandler,
+  isOnline
+} from "./utils";
 
 const authMiddleware = store => next => action => {
   const state = store.getState();
+  const online = isOnline(store);
   const routeChanged = action.type === LOCATION_CHANGED_ACTION;
   const location = routeChanged && get(action, "payload.location.pathname", false);
   const isAuthenticated = state.getIn(IS_AUTHENTICATED_PATH, false);
@@ -33,7 +41,10 @@ const authMiddleware = store => next => action => {
     loginSuccessHandler(store, action?.payload?.json || action?.payload);
   }
 
-  if ([Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type)) {
+  if (
+    [Actions.LOGOUT_FINISHED, Actions.LOGOUT_FAILURE].includes(action.type) ||
+    (Actions.LOGOUT === action.type && !online)
+  ) {
     logoutSuccessHandler(store);
   }
 

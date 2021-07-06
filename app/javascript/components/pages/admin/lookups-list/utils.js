@@ -24,6 +24,7 @@ export const columns = (i18n, css) => [
     label: i18n.t("lookup.values"),
     name: "values",
     options: {
+      sort: false,
       customBodyRender: (value, tableMeta) => {
         return (
           <div role="button" tabIndex={tableMeta.rowIndex} className={css.truncateValues}>

@@ -11,9 +11,9 @@ import ActionDialog from "../../action-dialog";
 import { fetchAlerts } from "../../nav/action-creators";
 import { getRecordAlerts, saveRecord } from "../../records";
 import { currentUser } from "../../user";
-import { getOptions } from "../../form/selectors";
 import { useApp } from "../../application";
 import { useMemoizedSelector } from "../../../libs";
+import useOptions from "../../form/use-options";
 
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
@@ -46,7 +46,8 @@ const Component = ({
 
   const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
   const username = useMemoizedSelector(state => currentUser(state));
-  const alertTypes = useMemoizedSelector(state => getOptions(state, APPROVAL_TYPE_LOOKUP, i18n));
+
+  const alertTypes = useOptions({ source: APPROVAL_TYPE_LOOKUP });
 
   const showTypeOfCasePlan = userModules
     .filter(userModule => userModule.unique_id === MODULES.CP)

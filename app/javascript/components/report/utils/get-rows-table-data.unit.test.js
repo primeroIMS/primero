@@ -13,7 +13,7 @@ describe("report/utils/get-rows-table-data", () => {
         }
       };
 
-      expect(getRowsTableData(data, i18n)).to.deep.equal([["Weiblich", false, 5]]);
+      expect(getRowsTableData(data, ["Gesamt"], i18n)).to.deep.equal([["Weiblich", false, 5]]);
     });
   });
 });

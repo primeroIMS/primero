@@ -104,6 +104,7 @@ Rails.application.routes.draw do
       resources :locations do
         collection do
           post :import, to: 'locations#import'
+          post :update_bulk, to: 'locations#update_bulk'
         end
       end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]

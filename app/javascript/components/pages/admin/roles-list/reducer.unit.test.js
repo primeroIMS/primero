@@ -81,4 +81,19 @@ describe("<RolesList /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle SET_ROLES_FILTER", () => {
+    const expected = fromJS({
+      filters: fromJS({ disabled: ["true", "false"] })
+    });
+
+    const action = {
+      type: actions.SET_ROLES_FILTER,
+      payload: { data: { disabled: ["true", "false"] } }
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });
