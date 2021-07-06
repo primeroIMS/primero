@@ -16,7 +16,18 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
 import { isTracesSubform } from "./utils";
 
-const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recordType, form, isReadWriteForm }) => {
+const Component = ({
+  arrayHelpers,
+  field,
+  formik,
+  i18n,
+  mode,
+  formSection,
+  recordModuleID,
+  recordType,
+  form,
+  isReadWriteForm
+}) => {
   const {
     display_name: displayName,
     name,
@@ -120,6 +131,8 @@ const Component = ({ arrayHelpers, field, formik, i18n, mode, formSection, recor
           formSection={formSection}
           isReadWriteForm={isReadWriteForm}
           orderedValues={orderedValues}
+          recordType={recordType}
+          recordModuleID={recordModuleID}
         />
       )}
     </>
@@ -137,6 +150,7 @@ Component.propTypes = {
   i18n: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired
 };
 

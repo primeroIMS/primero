@@ -63,6 +63,7 @@ const Referrals = ({
     canConsentOverride,
     providedConsent,
     recordType,
+    recordModuleID: record?.get("module_id"),
     isReferralFromService,
     isExternalReferralFromService
   });

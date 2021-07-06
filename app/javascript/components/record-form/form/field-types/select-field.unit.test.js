@@ -184,13 +184,15 @@ describe("<SelectField />", () => {
           [SERVICE_SECTION_FIELDS.type]: paramsService
         }
       },
+      recordType: "cases",
+      recordModuleID: "record-module-1",
       optionsSelector: () => state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
     };
     const expectedAction = {
       type: actions.REFERRAL_USERS_FETCH,
       api: {
         path: actions.USERS_REFER_TO,
-        params: { record_type: "case", service: paramsService }
+        params: { record_module_id: "record-module-1", record_type: "case", service: paramsService }
       }
     };
 

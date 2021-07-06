@@ -40,6 +40,7 @@ const FormSectionField = ({
   mode,
   recordType,
   recordID,
+  recordModuleID,
   filters,
   index,
   formSection,
@@ -85,6 +86,7 @@ const FormSectionField = ({
     field,
     recordType,
     recordID,
+    recordModuleID,
     filters,
     autoComplete: "off",
     fullWidth: true,
@@ -166,6 +168,7 @@ FormSectionField.propTypes = {
   mode: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,
+  recordModuleID: PropTypes.string,
   recordType: PropTypes.string
 };
 

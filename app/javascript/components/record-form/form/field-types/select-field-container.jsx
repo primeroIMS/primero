@@ -18,6 +18,7 @@ import { getLoading } from "../../../record-list/selectors";
 import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 import { OPTION_TYPES } from "../../../form";
 import { getOptions } from "../../../form/selectors";
+import { RECORD_TYPES } from "../../../../config";
 
 const SelectFieldContainer = ({
   field,
@@ -33,7 +34,9 @@ const SelectFieldContainer = ({
   optionsSelector,
   error,
   touched,
-  helperText
+  helperText,
+  recordType,
+  recordModuleID
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -88,7 +91,8 @@ const SelectFieldContainer = ({
 
     dispatch(
       fetchReferralUsers({
-        record_type: "case",
+        record_type: RECORD_TYPES[recordType],
+        record_module_id: recordModuleID,
         ...userFilters
       })
     );
@@ -247,6 +251,8 @@ SelectFieldContainer.propTypes = {
   mode: PropTypes.object,
   name: PropTypes.string.isRequired,
   optionsSelector: PropTypes.func.isRequired,
+  recordModuleID: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   touched: PropTypes.bool,
   value: PropTypes.any
