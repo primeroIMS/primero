@@ -44,7 +44,8 @@ const Component = ({
   const [selectedValue, setSelectedValue] = useState({});
   const { css, mobileDisplay } = useThemeHelper({ css: styles });
 
-  const handleAddSubform = () => {
+  const handleAddSubform = e => {
+    e.stopPropagation();
     setDialogIsNew(true);
     setOpenDialog({ open: true, index: null });
   };

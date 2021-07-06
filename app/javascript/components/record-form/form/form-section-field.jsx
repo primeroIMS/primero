@@ -17,7 +17,6 @@ import {
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
-import { getOptions } from "../../form/selectors";
 import { OPTION_TYPES } from "../../form";
 
 import { GuidingQuestions } from "./components";
@@ -69,15 +68,13 @@ const FormSectionField = ({
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
 
   const optionsSelector = useCallback(
-    selectorOptions => state =>
-      getOptions(
-        state,
-        filterOptionStringSource,
-        i18n,
-        options || optionsStringsText,
-        OPTION_TYPES.AGENCY === filterOptionStringSource,
-        { fullUsers: true, ...selectorOptions }
-      ),
+    selectorOptions => ({
+      source: filterOptionStringSource,
+      options: options || optionsStringsText,
+      useUniqueId: OPTION_TYPES.AGENCY === filterOptionStringSource,
+      fullUsers: true,
+      ...selectorOptions
+    }),
     [i18n.locale, options, optionsStringsText, filterOptionStringSource]
   );
 

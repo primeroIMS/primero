@@ -16,10 +16,10 @@ import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions"
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
-import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import Permission from "../../../application/permission";
+import useOptions from "../../../form/use-options";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -56,7 +56,7 @@ const Component = () => {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const allFormGroupsLookups = useMemoizedSelector(state => getOptions(state, OPTION_TYPES.FORM_GROUP_LOOKUP, i18n));
+  const allFormGroupsLookups = useOptions({ source: OPTION_TYPES.FORM_GROUP_LOOKUP });
 
   const { modules } = useApp();
 

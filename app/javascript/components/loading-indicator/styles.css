@@ -15,7 +15,6 @@
   z-index: 999;
 }
 
-.errorContainer,
 .emptyContainer {
   display: flex;
   justify-content: center;
@@ -23,7 +22,6 @@
   height: 80%;
 }
 
-.error,
 .empty {
   text-align: center;
   color: $(theme.primero.colors.warmGrey1);
@@ -37,7 +35,6 @@
   color: $(theme.primero.colors.warmGrey1) !important;
 }
 
-.errorMessage,
 .emptyMessage {
   font-size: $(theme.typography.pxToRem(17));
   font-weight: bold;
@@ -46,7 +43,6 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
-  .error,
   .empty,
   .loadingIndicator {
     margin-top: 6em;

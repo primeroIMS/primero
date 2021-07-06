@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
+    clean_data(Location, AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
   end
 
   def build_user(options = {})

@@ -5,6 +5,7 @@ import { fromJS, isImmutable } from "immutable";
 import orderBy from "lodash/orderBy";
 import last from "lodash/last";
 import isNil from "lodash/isNil";
+import isPlainObject from "lodash/isPlainObject";
 
 import {
   API_DATE_FORMAT,
@@ -109,8 +110,10 @@ export const compactBlank = values =>
     })
     .reduce((acc, entry) => {
       const [key, value] = entry;
+      const fixedValue =
+        Array.isArray(value) && value.some(item => isPlainObject(item)) ? value.map(val => compactBlank(val)) : value;
 
-      return { ...acc, [key]: value };
+      return { ...acc, [key]: fixedValue };
     }, {});
 
 export const constructInitialValues = formMap => {

@@ -70,7 +70,7 @@ describe("<PdfExporter />", () => {
     ],
     formsSelectedField: "",
     formsSelectedFieldDefault: "",
-    formsSelectedSelector: () => {},
+    formsSelectedSelector: "",
     record: fromJS({}),
     ref: formRef
   };

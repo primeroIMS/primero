@@ -15,12 +15,12 @@ import { getAppliedFilters, getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
-import { getOptions } from "../../../form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
 import { getLocationsAvailable } from "../../../application/selectors";
 import { DEFAULT_FILTERS, DATA } from "../constants";
+import useOptions from "../../../form/use-options";
 
 import { NAME as DisableDialogName } from "./disable-dialog/constants";
 import DisableDialog from "./disable-dialog";
@@ -35,8 +35,8 @@ const Container = () => {
   const [selectedRecords, setSelectedRecords] = useState({});
   const recordType = ["admin", RESOURCES.locations];
 
+  const locationTypes = useOptions({ source: LOCATION_TYPE_LOOKUP });
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.locations));
-  const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
