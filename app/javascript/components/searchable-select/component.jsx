@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { optionLabel, optionEquality, optionDisabled } from "./utils";
+import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
 
 const useStyles = makeStyles(styles);
@@ -70,17 +70,23 @@ const SearchableSelect = ({
       );
     });
 
+  const getSelectedOptions = (option, selected) => optionEquality(option, selected, optionIdKey);
+  const getOptionLabel = option => optionLabel(option, options, optionIdKey, optionLabelKey);
+  const handleOnChange = (_, value) => onChange(value);
+  const handleRenderTags = (value, getTagProps) => renderTags(value, getTagProps);
+
   return (
     <Autocomplete
-      onChange={(_, value) => onChange(value)}
+      onChange={handleOnChange}
       options={options}
       disabled={isDisabled}
-      getOptionLabel={option => optionLabel(option, options, optionIdKey, optionLabelKey)}
+      getOptionLabel={getOptionLabel}
       getOptionDisabled={optionDisabled}
-      getOptionSelected={(option, selected) => optionEquality(option, selected, optionIdKey)}
+      getOptionSelected={getSelectedOptions}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions
+      filterOptions={filterOptions}
       value={initialValues}
       onOpen={onOpen && onOpen}
       multiple={multiple}
@@ -105,7 +111,7 @@ const SearchableSelect = ({
           optionLabelKey={optionLabelKey}
         />
       )}
-      renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
+      renderTags={handleRenderTags}
     />
   );
 };

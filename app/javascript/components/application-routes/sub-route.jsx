@@ -2,6 +2,7 @@ import { isEmpty } from "lodash";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
+import ErrorBoundary from "../error-boundary";
 import { PERMITTED_URL, ROUTES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import Permission from "../application/permission";
@@ -25,11 +26,15 @@ const SubRoute = ({ subRoute }) => {
   }
 
   return PERMITTED_URL.includes(path) ? (
-    <Component {...extraProps} />
-  ) : (
-    <Permission resources={resources} actions={actions} redirect>
+    <ErrorBoundary>
       <Component {...extraProps} />
-    </Permission>
+    </ErrorBoundary>
+  ) : (
+    <ErrorBoundary>
+      <Permission resources={resources} actions={actions} redirect>
+        <Component {...extraProps} />
+      </Permission>
+    </ErrorBoundary>
   );
 };
 

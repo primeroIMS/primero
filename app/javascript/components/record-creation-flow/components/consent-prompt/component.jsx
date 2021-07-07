@@ -11,10 +11,10 @@ import { RECORD_TYPES, LOOKUPS } from "../../../../config";
 import FormSection from "../../../form/components/form-section";
 import { whichFormMode } from "../../../form";
 import { FORM_MODE_NEW, TICK_FIELD, RADIO_FIELD } from "../../../form/constants";
-import { getOptions } from "../../../form/selectors";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { setDataProtectionInitialValues } from "../../../record-form/action-creators";
+import useOptions from "../../../form/use-options";
 
 import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
 import styles from "./styles.css";
@@ -40,10 +40,9 @@ const Component = ({
     goToNewCase();
   };
 
-  const legitimateBasisLookup = useMemoizedSelector(state => getOptions(state, LOOKUPS.legitimate_basis, i18n));
-  const legitimateBasisExplanationsLookup = useMemoizedSelector(state =>
-    getOptions(state, LOOKUPS.legitimate_basis_explanations, i18n)
-  );
+  const legitimateBasisLookup = useOptions({ source: LOOKUPS.legitimate_basis });
+  const legitimateBasisExplanationsLookup = useOptions({ source: LOOKUPS.legitimate_basis_explanations });
+
   const consentForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,

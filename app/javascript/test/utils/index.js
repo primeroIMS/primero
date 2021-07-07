@@ -326,7 +326,11 @@ export const setupHook = (hook, state = {}) => {
   }
 
   const result = renderHook(() => hook(), {
-    wrapper: ({ children }) => <Provider store={store}>{children}</Provider>
+    wrapper: ({ children }) => (
+      <Provider store={store}>
+        <I18nProvider>{children}</I18nProvider>
+      </Provider>
+    )
   });
 
   return { ...result, store, act };

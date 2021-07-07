@@ -23,7 +23,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
   });
 
   describe("mergeFormSections", () => {
-    it("should return the form sections merged in a single array", () => {
+    it("should return the form sections merged in a single object", () => {
       const data = {
         form_section_read_write: {
           case: { case_form_1: "read" },
@@ -35,6 +35,24 @@ describe("pages/admin/<RolesForm> - utils", () => {
       const expected = {
         form_section_read_write: {
           case_form_1: "r",
+          incident_form_1: "rw"
+        }
+      };
+
+      expect(utils.mergeFormSections(data)).to.deep.equal(expected);
+    });
+
+    it("should keep empty those form sections without values", () => {
+      const data = {
+        form_section_read_write: {
+          case: { case_form_1: "" },
+          incident: { incident_form_1: "read_write" }
+        }
+      };
+
+      const expected = {
+        form_section_read_write: {
+          case_form_1: "",
           incident_form_1: "rw"
         }
       };

@@ -4,10 +4,9 @@ import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import { getOptions } from "../../../../../../form/selectors";
 import { useI18n } from "../../../../../../i18n";
 import { MATCH_VALUES } from "../../../../../../../config";
-import { useMemoizedSelector } from "../../../../../../../libs";
+import useOptions from "../../../../../../form/use-options";
 
 import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
@@ -24,7 +23,7 @@ const Component = ({ field, traceValue, caseValue, match }) => {
     option_strings_text: optionStringsText
   } = field;
 
-  const options = useMemoizedSelector(state => getOptions(state, optionStringSource, i18n, optionStringsText));
+  const options = useOptions({ source: optionStringSource, options: optionStringsText });
 
   const traceValueLabel = getValueLabel({ options, value: traceValue });
   const caseValueLabel = getValueLabel({ options, value: caseValue });

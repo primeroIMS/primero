@@ -3126,6 +3126,7 @@ en:
       edit: Edit translations
       manage: Manage Translations
       select_language: Select language
+    error_loading: Error Loading Report(s)
   request_transfer:
     notes_label: Notes
     submit_label: Send Request
