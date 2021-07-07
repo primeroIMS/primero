@@ -1,8 +1,14 @@
 import { openDB } from "idb";
+import some from "lodash/some";
+import startsWith from "lodash/startsWith";
+
+const ERROR_STORE_LIMIT = 50;
 
 let handlersRegistered = false;
 
 const store = "errors";
+
+window.console.defaultError = window.console.error.bind(console);
 
 const _db = openDB("error-logger", 1, {
   upgrade(db) {
@@ -13,8 +19,19 @@ const _db = openDB("error-logger", 1, {
   }
 });
 
+async function cleanDB() {
+  const count = await (await _db).count(store);
+
+  if (count > ERROR_STORE_LIMIT) {
+    const tx = (await _db).transaction(store, "readwrite");
+    const keys = await tx.store.getAllKeys();
+
+    await Promise.all([keys.splice(0, ERROR_STORE_LIMIT).forEach(index => tx.store.delete(index)), tx.done]);
+  }
+}
+
 async function log(data = {}) {
-  return (await _db).add(store, data);
+  return (await _db).add(store, { ...data, createdAt: new Date() });
 }
 
 function errorHandler(message, url, lineNumber, columnNumber, error) {
@@ -23,8 +40,7 @@ function errorHandler(message, url, lineNumber, columnNumber, error) {
     url,
     lineNumber,
     columnNumber,
-    error: JSON.stringify(error),
-    createdAt: new Date()
+    error
   });
 
   return false;
@@ -32,17 +48,33 @@ function errorHandler(message, url, lineNumber, columnNumber, error) {
 
 async function rejectionHandler(event) {
   log({
-    reason: event?.reason?.message,
-    createdAt: new Date()
+    reason: event?.reason?.message
   });
 
   return false;
 }
 
+function startsWithStrings(line = "", strings = []) {
+  return some(strings, testString => startsWith(line, testString));
+}
+
+function consoleErrorLogger(args) {
+  if (!startsWithStrings(args?.[0], ["Warning:"])) {
+    log({
+      reason: args
+    });
+  }
+}
+
 async function startErrorListeners() {
   if (!handlersRegistered) {
+    cleanDB();
     window.onerror = errorHandler;
     window.addEventListener("unhandledrejection", rejectionHandler);
+
+    window.console.error = function newConsoleErrorFunc(...args) {
+      consoleErrorLogger(args);
+    };
 
     handlersRegistered = true;
   }
@@ -50,7 +82,8 @@ async function startErrorListeners() {
 
 function stopErrorListeners() {
   window.removeEventListener("error", errorHandler);
-  // window.removeEventListener("unhandledrejection", rejectionHandler);
+  window.console.error = window.console.defaultError;
+  window.removeEventListener("unhandledrejection", rejectionHandler);
   handlersRegistered = false;
 }
 
