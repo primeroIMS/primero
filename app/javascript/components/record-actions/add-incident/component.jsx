@@ -2,7 +2,6 @@ import { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
-import { object } from "yup";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
@@ -16,9 +15,9 @@ import { ACTIONS } from "../../../libs/permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
-import { fieldValidations } from "../../record-form/form/validations";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
+import { validationSchema } from "./utils";
 import Fields from "./fields";
 
 const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
@@ -54,12 +53,6 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
   const initialFormValues = constructInitialValues([subformSectionID]);
   const successHandler = () => submitForm(formikRef);
 
-  const buildSchema = () => {
-    const subformSchema = subformSectionID.fields.map(field => fieldValidations(field, i18n));
-
-    return object().shape(Object.assign({}, ...subformSchema));
-  };
-
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
     dialogTitle: i18n.t("actions.incident_details_from_case"),
@@ -80,7 +73,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     initialValues: initialFormValues,
     validateOnBlur: false,
     validateOnChange: false,
-    validationSchema: buildSchema(),
+    validationSchema: validationSchema(subformSectionID, i18n),
     ref: formikRef,
     onSubmit: (values, { setSubmitting }) => {
       const body = {
