@@ -18,9 +18,8 @@ import {
   setMoreFilterOnPrimarySection
 } from "../utils";
 import handleFilterChange from "../value-handlers";
-import { useMemoizedSelector } from "../../../../../libs";
-import { getOptions } from "../../../../form/selectors";
 import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
+import useOptions from "../../../../form/use-options";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
@@ -47,7 +46,7 @@ const Component = ({
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookups = useMemoizedSelector(state => getOptions(state, optionStringsSource, i18n));
+  const lookups = useOptions({ source: optionStringsSource });
 
   const filterOptions = whichOptions({
     optionStringsSource,

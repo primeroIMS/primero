@@ -8,12 +8,11 @@ import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
 import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import clsx from "clsx";
 
-import { getOptions } from "../../../form/selectors";
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
-import { useMemoizedSelector } from "../../../../libs";
+import useOptions from "../../../form/use-options";
 
 import styles from "./styles.css";
 
@@ -41,7 +40,7 @@ const Component = ({
   const isAgency = optionsStringSource === "Agency";
   const cellValue = value || defaultValue;
 
-  const lookups = useMemoizedSelector(state => getOptions(state, optionsStringSource, i18n, options, isAgency));
+  const lookups = useOptions({ source: optionsStringSource, options, useUniqueId: isAgency });
 
   const renderValue = fieldValue => {
     if (Array.isArray(fieldValue) || List.isList(fieldValue)) {

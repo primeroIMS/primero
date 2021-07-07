@@ -14,13 +14,18 @@ import { NOT_FUTURE_DATE } from "../../constants";
 
 import DateFieldPicker from "./date-field-picker";
 
-const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ...rest }) => {
+const DateField = ({ displayName, name, helperText, mode, formik, InputProps, formSection, ...rest }) => {
   const fieldValue = useRef(null);
   const formInstance = useRef();
 
   const allowedDefaultValues = Object.values(DEFAULT_DATE_VALUES);
 
   const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
+
+  const dateOfBirthMatches = name.match(/(.*)date_of_birth$/);
+  const ageFieldName = isEmpty(dateOfBirthMatches) ? null : `${dateOfBirthMatches[1]}age`;
+  const isAgeVisible =
+    ageFieldName && formSection?.fields?.some(formField => formField.name === ageFieldName && formField.visible);
 
   useEffect(() => {
     if (fieldValue.current && formInstance) {
@@ -33,12 +38,10 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, ..
   };
 
   const updateAgeField = (form, date) => {
-    const matches = name.match(/(.*)date_of_birth$/);
-
-    if (matches && date) {
+    if (dateOfBirthMatches && date && isAgeVisible) {
       const diff = differenceInYears(new Date(), date || new Date());
 
-      form.setFieldValue(`${matches[1]}age`, diff, true);
+      form.setFieldValue(ageFieldName, diff, true);
     }
   };
 
@@ -121,6 +124,7 @@ DateField.displayName = DATE_FIELD_NAME;
 DateField.propTypes = {
   displayName: PropTypes.object,
   formik: PropTypes.object.isRequired,
+  formSection: PropTypes.object,
   helperText: PropTypes.string,
   InputProps: PropTypes.object,
   mode: PropTypes.object,

@@ -3,20 +3,20 @@ import { fromJS } from "immutable";
 
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
-import { getOptions } from "../../../../form/selectors";
 import { LOOKUPS, ROUTES } from "../../../../../config";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getCasesToAssign } from "../../selectors";
 import { toCasesToAssignTable } from "../../utils";
+import useOptions from "../../../../form/use-options";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const casesToAssign = useMemoizedSelector(state => getCasesToAssign(state));
-  const options = useMemoizedSelector(state => getOptions(state, LOOKUPS.risk_level, i18n));
+  const options = useOptions({ source: LOOKUPS.risk_level });
 
   const hasData = Boolean(casesToAssign.get("indicators", fromJS({})).size);
 

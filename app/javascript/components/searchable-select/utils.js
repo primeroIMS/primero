@@ -1,3 +1,5 @@
+import { createFilterOptions } from "@material-ui/lab/useAutocomplete";
+
 export const optionLabel = (option, options, optionIdKey, optionLabelKey) => {
   if (typeof option === "string" && option === "") {
     return "";
@@ -14,3 +16,8 @@ export const optionEquality = (option, selected, optionIdKey) => {
 };
 
 export const optionDisabled = option => option?.isDisabled || option?.disabled;
+
+export const filterOptions = createFilterOptions({
+  matchFrom: "any",
+  limit: 500
+});
