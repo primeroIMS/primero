@@ -13,6 +13,7 @@ describe("<LocationsList /> - Constants", () => {
     });
 
     [
+      "ACTION_NAME",
       "NAME",
       "DISABLED",
       "DEFAULT_LOCATION_METADATA",
