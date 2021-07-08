@@ -4,6 +4,7 @@ import { METHODS } from "../../config";
 import DB from "../../db/db";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import transformOfflineRequest from "../transform-offline-request";
 import EventManager from "../messenger";
 
 import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./utils";
@@ -126,7 +127,11 @@ class Queue {
 
         const action = item;
 
-        this.dispatch(action);
+        const self = this;
+
+        transformOfflineRequest(action).then(transformed => {
+          self.dispatch(transformed);
+        });
 
         item.processed = true;
       }
