@@ -14,9 +14,9 @@ import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
-import { getOptions as specialOptions } from "../../../form/selectors";
 import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
+import useOptions from "../../../form/use-options";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -73,10 +73,11 @@ const Container = ({
   };
 
   const allLookups = useMemoizedSelector(state => getOptions(state));
-  const location = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n));
-  const agencies = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n));
-  const modules = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n));
-  const formGroups = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n));
+
+  const location = useOptions({ source: OPTION_TYPES.LOCATION });
+  const agencies = useOptions({ source: OPTION_TYPES.AGENCY });
+  const modules = useOptions({ source: OPTION_TYPES.MODULE });
+  const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP });
 
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];

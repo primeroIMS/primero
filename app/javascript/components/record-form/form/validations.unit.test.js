@@ -1,6 +1,6 @@
 import { object } from "yup";
 
-import { SUBFORM_SECTION, TEXT_FIELD } from "../constants";
+import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "../constants";
 
 import * as validations from "./validations";
 
@@ -58,6 +58,52 @@ describe("<RecordForm>/form/validations", () => {
           } catch (e) {
             expect(e.path).to.equals("subform_1[1].field_1");
           }
+        });
+      });
+    });
+
+    context("when the field is a multi select", () => {
+      context("when it is required", () => {
+        const i18n = { t: value => value, locale: "en" };
+
+        const selectField = {
+          name: "cities",
+          display_name: { en: "Cities" },
+          type: SELECT_FIELD,
+          multi_select: true,
+          required: true
+        };
+
+        it("should not be valid if it is empty", () => {
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const formData = { cities: [] };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+      });
+
+      context("when it is not required", () => {
+        const i18n = { t: value => value, locale: "en" };
+
+        const selectField = {
+          name: "cities",
+          display_name: { en: "Cities" },
+          type: SELECT_FIELD,
+          multi_select: true
+        };
+
+        it("should be valid if it is empty", () => {
+          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const formData = { cities: [] };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+
+        it("should be valid if it is null", () => {
+          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const formData = { cities: null };
+
+          expect(schema.isValidSync(formData)).to.be.true;
         });
       });
     });

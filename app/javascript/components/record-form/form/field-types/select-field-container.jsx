@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
-import { fromJS } from "immutable";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
@@ -17,7 +16,7 @@ import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
 import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 import { OPTION_TYPES } from "../../../form";
-import { getOptions } from "../../../form/selectors";
+import useOptions from "../../../form/use-options";
 
 const SelectFieldContainer = ({
   field,
@@ -60,26 +59,32 @@ const SelectFieldContainer = ({
 
   const agencyFilterOptions = agencies => {
     if (service) {
-      return agencies.filter(stateAgency => stateAgency.get("services", fromJS([])).includes(service));
+      return agencies.filter(stateAgency => stateAgency?.services?.includes(service));
     }
 
     return agencies;
   };
 
   const [stickyOption, setStickyOption] = useState(fieldValue);
-  const options = useMemoizedSelector(
-    optionsSelector(OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions } : {})
+
+  const options = useOptions(
+    optionsSelector(
+      OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions, includeServices: true } : {}
+    )
   );
+
   const loading = useMemoizedSelector(state => getLoading(state, ["transitions", REFERRAL_TYPE]));
   const agenciesLoading = useMemoizedSelector(state => getOptionsAreLoading(state));
-  const agencies = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual
-      ? getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true, { filterOptions: agencyFilterOptions })
-      : []
-  );
-  const reportingLocations = useMemoizedSelector(state =>
-    isImplementingAgencyIndividual ? getOptions(state, OPTION_TYPES.REPORTING_LOCATIONS, i18n, null, false) : []
-  );
+
+  const agencies = useOptions({
+    source: OPTION_TYPES.AGENCY,
+    useUniqueId: true,
+    filterOptions: agencyFilterOptions,
+    run: isImplementingAgencyIndividual,
+    includeServices: true
+  });
+
+  const reportingLocations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
 
   const filteredOptions = buildOptions(name, option, fieldValue, options, stickyOption, filterState);
 
