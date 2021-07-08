@@ -1,9 +1,10 @@
 import { makeStyles, Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-import ListIcon from "../../list-icon";
-import { useI18n } from "../../i18n";
-import styles from "../styles.css";
+import ListIcon from "../../../list-icon";
+import { useI18n } from "../../../i18n";
+
+import styles from "./styles.css";
 
 const useStyles = makeStyles(styles);
 

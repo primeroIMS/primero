@@ -1,28 +1,11 @@
-.loadingIndicator {
-  display: flex;
-  justify-content: center;
-  flex: 1;
-  height: 80%;
-  align-items: center;
-  margin: 3.5em 0;
-}
-
-.overlayLoading {
-  background: rgba(255, 255, 255, 0.9);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-}
-
-.emptyContainer {
+.errorContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80%;
 }
 
-.empty {
+.error {
   text-align: center;
   color: $(theme.primero.colors.warmGrey1);
 
@@ -35,7 +18,7 @@
   color: $(theme.primero.colors.warmGrey1) !important;
 }
 
-.emptyMessage {
+.errorMessage {
   font-size: $(theme.typography.pxToRem(17));
   font-weight: bold;
   text-transform: uppercase;
@@ -43,8 +26,7 @@
 }
 
 @media $(theme.breakpoints.down("sm")) {
-  .empty,
-  .loadingIndicator {
+  .error {
     margin-top: 6em;
   }
 }
