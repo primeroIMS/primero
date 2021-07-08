@@ -18,11 +18,11 @@ class GbvKpiCalculationService
   def case_lifetime_days
     closure_form = form_responses(:gbv_case_closure_form).first
 
-    return 0 unless closure_form
+    return nil unless closure_form
 
     date_created = closure_form.field(:created_at) || @record.created_at
     date_closed = closure_form.field(:date_closure)
-    return 0 if date_created.nil? || date_closed.nil?
+    return nil if date_created.nil? || date_closed.nil?
 
     (date_closed.to_date - date_created.to_date).to_i
   end

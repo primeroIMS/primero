@@ -18,6 +18,12 @@ class Kpi::TimeFromCaseOpenToClose < Kpi::BucketedSearch
     ]
   end
 
+  def search
+    super do
+      without(:case_lifetime_days, nil)
+    end
+  end
+
   def data
     @data ||= search.facet_response
                     .dig('facet_intervals', restricted_field.indexed_name)
