@@ -1,15 +1,15 @@
 # encoding: utf-8
 #
-# This is the Kurdish localization file for Primero.
-# This locale represents the Kurdish Sorani (Central Kurdish) dialect as spoken in
-# Eastern Iraqi Kurdistan Region (Erbil, Sulamaniya)
+# This is the Kurdish-Iraq localization file for Primero.
+# This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in
+# Western Iraqi Kurdistan Region and North-East Syria
 #
 # Anyone editing this file is strongly encouraged to use yamllint[1] to ensure
 # that this document remains valid YAML.
 #
 # [1] https://yamllint.readthedocs.io/en/stable/
 
-ku:
+ku-IQ:
   'true': 'به لێ'
   'false': 'نه خێر '
   cancel: رەدکردن
