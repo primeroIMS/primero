@@ -89,7 +89,7 @@ const fetchSinglePayload = (action, store, options) => {
 
         if (!response.ok) {
           fetchStatus({ store, type }, "FAILURE", json);
-          
+
           if (status === 401) {
             startSignout(store);
           }
