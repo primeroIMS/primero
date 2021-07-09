@@ -108,6 +108,7 @@ class Exporters::BaseExporter
 
   def forms_without_hidden_fields(form)
     form_dup = form.dup
+    form_dup.subform_field = form.subform_field
     form.fields.map(&:dup).each do |field|
       if field.type == Field::SUBFORM
         # TODO: This cause N+1
