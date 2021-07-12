@@ -1,5 +1,5 @@
 import EventManager from "../libs/messenger";
-import { QUEUE_ADD, QUEUE_FINISHED } from "../libs/queue";
+import { QUEUE_ADD, QUEUE_FINISHED } from "../libs/queue/constants";
 
 import { DB_STORES } from "./constants";
 import DB from "./db";

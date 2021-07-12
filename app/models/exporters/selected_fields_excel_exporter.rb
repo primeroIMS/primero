@@ -63,6 +63,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
 
   def filter_fields(form, field_names)
     form_dup = form.dup
+    form_dup.subform_field = form.subform_field
     form_dup.fields = form.fields.select { |f| field_names.include?(f.name) }.map(&:dup)
     form_dup
   end

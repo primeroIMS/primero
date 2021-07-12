@@ -82,7 +82,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def write_record(record)
     forms.each do |form|
-      write_record_form(record.short_id, record.data, form)
+      write_record_form(record.short_id, record.data, form, form&.subform_field&.name)
     end
   end
 
@@ -117,7 +117,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def export_field_value(data, field, form_field_name)
     return export_value(data[field.name], field) unless field.nested?
 
-    data_form_name = form_field_name.presence || field&.form_section&.unique_id
+    data_form_name = form_field_name.presence || field&.form_section&.subform_field&.name
     values = []
     data[data_form_name]&.each do |section|
       values << export_value(section[field.name], field)
