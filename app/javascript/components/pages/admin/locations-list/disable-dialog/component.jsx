@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { useDispatch } from "react-redux";
+import { batch, useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../action-dialog";
@@ -10,6 +10,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import { getRecords } from "../../../../index-table/selectors";
 import { getDisableLocationsErrors, getDisableLocationsLoading } from "../selectors";
 import { disableLocations } from "../action-creators";
+import { ACTION_NAME } from "../constants";
 
 import { NAME } from "./constants";
 
@@ -20,8 +21,9 @@ const Component = ({ filters, selectedRecords, setSelectedRecords, recordType })
   const loading = useMemoizedSelector(state => getDisableLocationsLoading(state));
   const errors = useMemoizedSelector(state => getDisableLocationsErrors(state));
 
-  const { dialogOpen, dialogClose } = useDialog(NAME);
+  const { dialogOpen, dialogClose, params } = useDialog(NAME);
   const i18n = useI18n();
+  const action = params?.get("action");
 
   const handleClose = () => {
     dialogClose();
@@ -32,9 +34,16 @@ const Component = ({ filters, selectedRecords, setSelectedRecords, recordType })
     const locationIndexes = Object.values(selectedRecords).flat();
     const locationIds = locationIndexes.map(index => data.getIn(["data", index], fromJS({}))?.get("id"));
 
-    dispatch(
-      disableLocations(locationIds, filters, i18n.t("admin.locations.updated", { updated_records: locationIds.length }))
-    );
+    batch(() => {
+      dispatch(
+        disableLocations(
+          locationIds,
+          filters,
+          i18n.t("admin.locations.updated", { updated_records: locationIds.length }),
+          action === ACTION_NAME.disable
+        )
+      );
+    });
   };
 
   useEffect(() => {
@@ -48,12 +57,12 @@ const Component = ({ filters, selectedRecords, setSelectedRecords, recordType })
       open={dialogOpen}
       successHandler={handleSuccess}
       cancelHandler={handleClose}
-      dialogTitle={i18n.t("location.disable_title")}
-      confirmButtonLabel={i18n.t("actions.disable")}
+      dialogTitle={i18n.t(`location.${action}_title`)}
+      confirmButtonLabel={i18n.t(`actions.${action}`)}
       pending={loading}
       omitCloseAfterSuccess
     >
-      <p>{i18n.t("location.disable_text")}</p>
+      <p>{i18n.t(`location.${action}_text`)}</p>
     </ActionDialog>
   );
 };

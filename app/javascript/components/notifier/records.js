@@ -7,6 +7,7 @@ export const MessageRecord = Record({
   messageFromQueue: "",
   messageKey: "",
   messageParams: {},
+  messageDetailed: null,
   recordType: "",
   dismissed: false,
   options: {},
