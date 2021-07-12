@@ -273,14 +273,20 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
           timeofday_translated.present? ? timeofday_translated.split('(').first.strip : nil
         end,
         'location' => 'incident_location_type',
-        'county' => lambda do |model|
-          county_name = exporter.location_service.ancestor(model.data['incident_location'], 0)&.placename || ''
+        'country' => lambda do |model|
+          country_name = exporter.location_service.ancestor(model.data['incident_location'], 0)&.placename || ''
           # Collect information to the "2. Menu Data sheet."
-          @counties[county_name] = county_name if county_name.present?
-          county_name
+          @countries[country_name] = country_name if country_name.present?
+          country_name
+        end,
+        'province' => lambda do |model|
+          province_name = exporter.location_service.ancestor(model.data['incident_location'], 1)&.placename || ''
+          # Collect information to the "2. Menu Data sheet."
+          @provinces[province_name] = province_name if province_name.present?
+          province_name
         end,
         'district' => lambda do |model|
-          district_name = exporter.location_service.ancestor(model.data['incident_location'], 1)&.placename || ''
+          district_name = exporter.location_service.ancestor(model.data['incident_location'], 2)&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @districts[district_name] = district_name if district_name.present?
           district_name
