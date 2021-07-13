@@ -90,6 +90,10 @@ const fetchSinglePayload = (action, store, options) => {
         if (!response.ok) {
           fetchStatus({ store, type }, "FAILURE", json);
 
+          if (status === 401) {
+            startSignout(store);
+          }
+
           if (status === 404) {
             deleteFromQueue(fromQueue);
             messageQueueSkip();
@@ -99,10 +103,6 @@ const fetchSinglePayload = (action, store, options) => {
           } else {
             messageQueueFailed(fromQueue);
             throw new FetchError(response, json);
-          }
-
-          if (status === 401) {
-            startSignout(store);
           }
         } else {
           await handleSuccess(store, {
