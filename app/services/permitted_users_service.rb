@@ -41,7 +41,7 @@ class PermittedUsersService
     return users_query unless filters.present?
 
     query_filters = build_query_filters(filters)
-    users_query = User.joins(:user_groups) if query_filters[:user_groups].present?
+    users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
     users_query.where(query_filters)
   end
 
