@@ -1,7 +1,9 @@
 import { List, fromJS } from "immutable";
+import createCachedSelector from "re-reselect";
 
 import { SAVING } from "../../config";
 import { getLocations } from "../record-form/selectors";
+import { cachedSelectorOptions } from "../../libs/use-memoized-selector";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
@@ -12,9 +14,13 @@ export const getPermissions = state => {
   return state.getIn([NAMESPACE, PERMISSIONS], List([]));
 };
 
-export const getPermissionsByRecord = (state, recordType) => {
-  return state.getIn([NAMESPACE, PERMISSIONS, recordType], List([]));
-};
+export const getPermissionsByRecord = createCachedSelector(
+  getPermissions,
+  recordType => recordType,
+  (data, recordType) => {
+    return data.get(recordType, List([]));
+  }
+)(cachedSelectorOptions());
 
 export const hasUserPermissions = state => {
   return state.hasIn([NAMESPACE, PERMISSIONS], false);
@@ -32,25 +38,6 @@ export const getReportingLocationConfig = state => state.getIn([NAMESPACE, "repo
 
 export const getUser = state => {
   return state.get(NAMESPACE, fromJS({}));
-};
-
-export const getUserLocationsByAdminLevel = state => {
-  const userLocationCode = getUser(state).get("location", "");
-  const locations = getLocations(state);
-  const maxAdminLevel = locations.map(location => location.get("admin_level")).max();
-
-  if (!userLocationCode) {
-    return locations;
-  }
-
-  const userLocation = locations.filter(location => location.get("code") === userLocationCode);
-  const userLocationAdminLevel = userLocation.first().get("admin_level");
-
-  if (userLocation.size === 1 && userLocationAdminLevel === maxAdminLevel) {
-    return userLocation;
-  }
-
-  return locations.filter(location => location.get("admin_level") >= userLocationAdminLevel);
 };
 
 export const getUserSavingRecord = state => state.getIn([NAMESPACE, SAVING], false);

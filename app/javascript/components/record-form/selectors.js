@@ -1,5 +1,10 @@
 import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
+import isNil from "lodash/isNil";
+import omitBy from "lodash/omitBy";
 import { fromJS, OrderedMap, List } from "immutable";
+import createCachedSelector from "re-reselect";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
@@ -11,6 +16,11 @@ import { OPTION_TYPES } from "../form/constants";
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
 import { buildFormNav, pickFromDefaultForms } from "./utils";
+
+const defaultCacheSelectorOptions = {
+  keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
+  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+};
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
   const formSections = forms.filter(
@@ -157,14 +167,29 @@ export const getRecordInformationNav = (state, query, userPermissions) =>
     .filter(form => isEmpty(form.permission_actions) || checkPermissions(userPermissions, form.permission_actions))
     .sortBy(form => form.order);
 
-export const getRecordForms = (state, query) => {
-  const selectedForms = forms(state, query);
+// export const getRecordForms = (state, query) => {
+//   const selectedForms = forms(state, query);
 
-  if (!selectedForms) return null;
-  const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), state.getIn(["forms"]));
+//   if (!selectedForms) return null;
+//   const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(f => f.id)), state.getIn(["forms"]));
 
-  return denormalizedForms.valueSeq();
-};
+//   return denormalizedForms.valueSeq();
+// };
+
+export const getRecordForms = createCachedSelector(
+  (state, query) => forms(state, query),
+  state => state.getIn(["forms"], fromJS({})),
+  (data, formObject) => {
+    if (!data) return null;
+
+    const denormalizedForms = denormalizeFormData(OrderedMap(data.map(form => form.id)), formObject);
+
+    return denormalizedForms.valueSeq();
+  }
+)({
+  keySelector: (_state, query) => JSON.stringify(omitBy(query, isNil)),
+  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+});
 
 export const getOrderedRecordForms = (state, query) => {
   return getRecordForms(state, query)

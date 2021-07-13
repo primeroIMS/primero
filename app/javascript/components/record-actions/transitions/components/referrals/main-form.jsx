@@ -7,35 +7,19 @@ import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
 import { getEnabledAgencies, getReportingLocationConfig } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
-import {
-  RECORD_TYPES,
-  USER_NAME_FIELD,
-  ID_FIELD,
-  DISPLAY_TEXT_FIELD,
-  UNIQUE_ID_FIELD,
-  NAME_FIELD,
-  CODE_FIELD,
-  LOOKUPS
-} from "../../../../../config";
+import { RECORD_TYPES, LOOKUPS } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
 import { getOption, getReportingLocations, getServiceToRefer } from "../../../../record-form";
-import { useMemoizedSelector, valuesToSearchableSelect } from "../../../../../libs";
+import { useMemoizedSelector } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
-import {
-  SERVICE_FIELD,
-  AGENCY_FIELD,
-  LOCATION_FIELD,
-  TRANSITIONED_TO_FIELD,
-  NOTES_FIELD,
-  MAIN_FORM,
-  SERVICE_RECORD_FIELD
-} from "./constants";
+import { TRANSITIONED_TO_FIELD, MAIN_FORM, SERVICE_RECORD_FIELD } from "./constants";
+import { buildFields } from "./utils";
 
 const MainForm = ({ formProps, rest }) => {
   const i18n = useI18n();
@@ -114,85 +98,16 @@ const MainForm = ({ formProps, rest }) => {
       form.setFieldValue(value, "", false);
     });
 
-  const fields = [
-    {
-      id: SERVICE_FIELD,
-      label: i18n.t("referral.service_label"),
-      options: valuesToSearchableSelect(serviceTypes, ID_FIELD, DISPLAY_TEXT_FIELD, i18n.locale),
-      onChange: (data, field, form) => {
-        const { value } = data;
-        const dependentValues = [AGENCY_FIELD, TRANSITIONED_TO_FIELD];
-
-        form.setFieldValue(field.name, value, false);
-        clearDependentValues(dependentValues, form);
-      }
-    },
-    {
-      id: AGENCY_FIELD,
-      label: i18n.t("referral.agency_label"),
-      options: valuesToSearchableSelect(agencies, UNIQUE_ID_FIELD, NAME_FIELD, i18n.locale),
-      onChange: (data, field, form) => {
-        const { value } = data;
-        const dependentValues = [TRANSITIONED_TO_FIELD];
-
-        form.setFieldValue(field.name, value, false);
-        clearDependentValues(dependentValues, form);
-      }
-    },
-    {
-      id: LOCATION_FIELD,
-      label: i18n.t("referral.location_label"),
-      options: valuesToSearchableSelect(reportingLocations, CODE_FIELD, NAME_FIELD, i18n.locale),
-      onChange: (data, field, form) => {
-        const { value } = data;
-        const dependentValues = [TRANSITIONED_TO_FIELD];
-
-        form.setFieldValue(field.name, value, false);
-        clearDependentValues(dependentValues, form);
-      }
-    },
-    {
-      id: TRANSITIONED_TO_FIELD,
-      label: i18n.t("referral.recipient_label"),
-      required: true,
-      options: users
-        ? users.valueSeq().reduce((prev, current) => {
-            const userName = current.get(USER_NAME_FIELD);
-
-            return [
-              ...prev,
-              {
-                value: userName.toLowerCase(),
-                label: userName
-              }
-            ];
-          }, [])
-        : [],
-      onChange: (data, field, form) => {
-        const { value } = data;
-
-        const selectedUser = users.find(user => user.get("user_name") === value);
-
-        form.setFieldValue(field.name, value, false);
-
-        if (selectedUser?.size) {
-          if (agencies.find(current => current.get("unique_id") === selectedUser.get("agency"))) {
-            form.setFieldValue("agency", selectedUser.get("agency"));
-          }
-
-          if (reportingLocations.find(current => current.get("code") === selectedUser.get("location"))) {
-            form.setFieldValue("location", selectedUser.get("location"));
-          }
-        }
-      },
-      onMenuOpen: loadReferralUsers,
-      isLoading: loading
-    },
-    {
-      id: NOTES_FIELD,
-      label: i18n.t("referral.notes_label")
-    }
-  ];
+  const fields = buildFields({
+    i18n,
+    serviceTypes,
+    agencies,
+    reportingLocations,
+    users,
+    loadReferralUsers,
+    loading,
+    clearDependentValues
+  });
 
   const providedConsentProps = {
     canConsentOverride,
