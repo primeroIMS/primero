@@ -76,6 +76,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       self.exporter = exporter
       @districts = {}
       @counties = {}
+      @provinces = {}
       @camps = {}
       @locations = {}
       @caseworker_code = {}
