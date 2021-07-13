@@ -92,6 +92,17 @@ class Role < ApplicationRecord
     forms
   end
 
+  def permitted_subforms(record_type = nil, visible_only = false)
+    FormSection.where(
+      subform_field: form_sections.joins(fields: :subform)
+                                  .where({
+                                    parent_form: record_type,
+                                    visible: (visible_only || nil),
+                                    fields: { type: Field::SUBFORM }
+                                  }.compact)
+    )
+  end
+
   def permitted_roles
     return Role.none if permitted_role_unique_ids.blank?
 
