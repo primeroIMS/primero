@@ -56,8 +56,6 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
     };
   }
 
-  const valuesSize = values.length;
-
   const renderAttachmentInputFields = arrayHelpers =>
     values.length > 0 &&
     values.map((value, index) => {
@@ -70,7 +68,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
               index={index}
               name={name}
               mode={mode}
-              open={valuesSize === index + 1 && openLastDialog}
+              open={values.length === index + 1 && openLastDialog}
               resetOpenLastDialog={resetOpenLastDialog}
               value={value}
               arrayHelpers={arrayHelpers}
