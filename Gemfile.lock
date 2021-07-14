@@ -391,7 +391,6 @@ DEPENDENCIES
   devise-jwt (= 0.8.0)
   factory_bot (~> 5.0)
   faraday (~> 0.17)
-  ffi (= 1.15.3)
   file_validators (~> 2.3)
   foreman
   i18n-js (~> 3.4)

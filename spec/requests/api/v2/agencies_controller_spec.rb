@@ -83,7 +83,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true'
+      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true&order=asc&order_by=name'
 
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
