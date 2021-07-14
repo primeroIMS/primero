@@ -94,6 +94,7 @@ class Role < ApplicationRecord
 
   def permitted_subforms(record_type = nil, visible_only = false)
     FormSection.where(
+      is_nested: true,
       subform_field: form_sections.joins(fields: :subform)
                                   .where({
                                     parent_form: record_type,
