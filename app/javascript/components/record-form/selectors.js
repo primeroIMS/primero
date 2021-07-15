@@ -9,7 +9,6 @@ import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 
 import getDefaultForms from "./form/utils/get-default-forms";
-import getDefaultRecordInfoForms from "./form/utils/get-default-record-info-forms";
 import NAMESPACE from "./namespace";
 import { buildFormNav, pickFromDefaultForms } from "./utils";
 
@@ -132,30 +131,25 @@ export const getFormNav = (state, query, userPermissions) => {
 };
 
 export const getRecordInformationForms = (state, query) => {
-  const recordInformationForms = forms(state, query)?.filter(
-    form => form.form_group_id === RECORD_INFORMATION_GROUP && form.core_form
-  );
+  const recordForms = forms(state, query);
 
-  const defaultForms = getDefaultRecordInfoForms(query.i18n);
+  const defaultForms = getDefaultForms(query.i18n);
 
-  const formsFromDefault = pickFromDefaultForms(recordInformationForms, defaultForms);
+  const formsFromDefault = pickFromDefaultForms(recordForms, defaultForms);
 
   const defaultFormsMap = OrderedMap(
     Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
   );
 
-  return recordInformationForms?.size ? recordInformationForms.concat(defaultFormsMap) : defaultFormsMap;
+  return (recordForms || fromJS({}))
+    .merge(fromJS(defaultFormsMap))
+    .filter(form => form.form_group_id === RECORD_INFORMATION_GROUP && form.core_form);
 };
 
 export const getRecordInformationFormIds = (state, query) =>
   getRecordInformationForms(state, query)
     .valueSeq()
     .map(form => form.unique_id);
-
-export const getIncidentFromCaseForm = (state, query) =>
-  getRecordInformationForms(state, query)
-    .valueSeq()
-    .find(form => form.unique_id === INCIDENT_FROM_CASE);
 
 export const getRecordInformationNav = (state, query, userPermissions) =>
   getRecordInformationForms(state, query)
@@ -189,11 +183,11 @@ export const getRecordFormsByUniqueId = (state, query) => {
     primeroModule,
     checkVisible,
     includeNested
-  }).filter(f => f.unique_id === formName);
+  })?.filter(f => f.unique_id === formName);
 
   const defaultForm = i18n && getDefaultForms(i18n)[formName];
 
-  if (!allRecordForms?.size && defaultForm) {
+  if (!allRecordForms?.toList()?.size && defaultForm) {
     return getFirst ? defaultForm : List([defaultForm]);
   }
 
@@ -203,6 +197,9 @@ export const getRecordFormsByUniqueId = (state, query) => {
 
   return allRecordForms;
 };
+
+export const getIncidentFromCaseForm = (state, query) =>
+  getRecordFormsByUniqueId(state, { ...query, formName: INCIDENT_FROM_CASE, getFirst: true });
 
 export const getOption = (state, option, locale, stickyOption = "") => {
   let options = option;

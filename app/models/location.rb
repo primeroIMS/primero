@@ -8,6 +8,7 @@ class Location < ApplicationRecord
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5].freeze
   ADMIN_LEVEL_OUT_OF_RANGE = 100
   READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
+  ORDER_BY_FIELD_MAP = { code: :location_code, hierarchy: :hierarchy_path, name: :placename }.freeze
 
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
@@ -36,12 +37,20 @@ class Location < ApplicationRecord
     #   Location.locations_by_code = Locations.all.map{|l|[l.location_code, l]}.to_h
     attr_accessor :locations_by_code
 
+    def order_insensitive_attribute_names
+      %w[placename]
+    end
+
     def get_by_location_code(location_code)
       if @locations_by_code.present?
         @locations_by_code[location_code]
       elsif location_code.present?
         Location.find_by(location_code: location_code)
       end
+    end
+
+    def permitted_api_params
+      %i[id code admin_level type parent_code disabled] + [placename: {}]
     end
 
     def inheritance_column
@@ -63,10 +72,23 @@ class Location < ApplicationRecord
               .where(admin_level: admin_level)
     end
 
-    def list(params = {})
-      return all if params.blank?
+    def list(filters = {}, options = {})
+      OrderByPropertyService.apply_order(filters.blank? ? all : where(filters), options)
+    end
 
-      where(params)
+    def update_in_batches(bulk_params)
+      locations_to_update = bulk_params.reduce({}) { |acc, elem| acc.merge(elem[:id].to_i => elem) }
+
+      updated_locations = []
+      Location.transaction do
+        Location.where(id: locations_to_update.keys).in_batches.each_record do |location|
+          location.update_properties(locations_to_update[location.id])
+          location.save!
+          updated_locations << location
+        end
+      end
+
+      updated_locations
     end
   end
 

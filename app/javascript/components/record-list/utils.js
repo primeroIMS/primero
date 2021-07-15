@@ -71,8 +71,10 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
               };
             case "id":
               return {
-                customBodyRender: (value, { rowData }) => {
-                  return column.get("field_name") === ID_COLUMNS.case_id_display ? value || rowData[1] : value;
+                customBodyRender: (value, { rowData, rowIndex }) => {
+                  const idValue = column.get("field_name") === ID_COLUMNS.case_id_display ? value || rowData[1] : value;
+
+                  return disableColumnOffline({ value: idValue, rowIndex });
                 }
               };
             default:

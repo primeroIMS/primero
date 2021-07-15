@@ -20,7 +20,7 @@ describe("app/javascript/test/utils/index", () => {
     "listHeaders",
     "lookups",
     "translateOptions",
-    "HookWrapper"
+    "setupHook"
   ].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);

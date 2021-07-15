@@ -1,10 +1,11 @@
-import * as actions from "./action-creators";
+import * as actionCreators from "./action-creators";
+import actions from "./actions";
 
 describe("<UserGroupsList /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = { ...actions };
+    const creators = { ...actionCreators };
 
-    ["fetchUserGroups"].forEach(property => {
+    ["fetchUserGroups", "setUserGroupsFilter"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -16,13 +17,23 @@ describe("<UserGroupsList /> - Action Creators", () => {
     const data = { per: 1, managed: true };
 
     const expectedAction = {
-      type: "user_groups/USER_GROUPS",
+      type: actions.USER_GROUPS,
       api: {
         params: data,
         path: "user_groups"
       }
     };
 
-    expect(actions.fetchUserGroups({ data })).to.deep.equal(expectedAction);
+    expect(actionCreators.fetchUserGroups({ data })).to.deep.equal(expectedAction);
+  });
+
+  it("should check that 'setUserGroupsFilter' action creator returns the correct object", () => {
+    const payload = { data: { disabled: ["true", "false"] } };
+    const expectedAction = {
+      type: actions.SET_USER_GROUPS_FILTER,
+      payload
+    };
+
+    expect(actionCreators.setUserGroupsFilter(payload)).to.deep.equal(expectedAction);
   });
 });

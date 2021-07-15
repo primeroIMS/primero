@@ -1,8 +1,11 @@
 /* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
-import { fromJS } from "immutable";
+import { fromJS, isImmutable } from "immutable";
 import orderBy from "lodash/orderBy";
+import last from "lodash/last";
+import isNil from "lodash/isNil";
+import isPlainObject from "lodash/isPlainObject";
 
 import {
   API_DATE_FORMAT,
@@ -16,6 +19,7 @@ import { displayNameHelper, toServerDateFormat } from "../../libs";
 
 import { NavRecord } from "./records";
 import {
+  SEPERATOR,
   SUBFORM_SECTION,
   PHOTO_FIELD,
   AUDIO_FIELD,
@@ -92,42 +96,64 @@ export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) => difference(values, initialValues);
 
+export const compactBlank = values =>
+  Object.entries(values)
+    .filter(entry => {
+      const value = last(entry);
+
+      const valueIsEmpty =
+        (Array.isArray(value) && isEmpty(value.filter(elem => !isNil(elem)))) ||
+        (typeof value === "string" && value === "") ||
+        (isImmutable(value) && value.isEmpty());
+
+      return !isNil(value) && !valueIsEmpty;
+    })
+    .reduce((acc, entry) => {
+      const [key, value] = entry;
+      const fixedValue =
+        Array.isArray(value) && value.some(item => isPlainObject(item)) ? value.map(val => compactBlank(val)) : value;
+
+      return { ...acc, [key]: fixedValue };
+    }, {});
+
 export const constructInitialValues = formMap => {
   const [...forms] = formMap;
 
   return !isEmpty(forms)
     ? Object.assign(
         {},
-        ...forms.map(v =>
+        ...forms.map(form =>
           Object.assign(
             {},
-            ...v.fields.map(f => {
-              let defaultValue;
+            ...form.fields
+              .filter(field => field.type !== SEPERATOR && field.visible)
+              .map(field => {
+                let defaultValue;
 
-              if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(f.type)) {
-                defaultValue = [];
-              } else if (f.type === SELECT_FIELD && f.multi_select) {
-                try {
-                  defaultValue = f.selected_value ? JSON.parse(f.selected_value) : [];
-                } catch (e) {
+                if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(field.type)) {
                   defaultValue = [];
-                  // eslint-disable-next-line no-console
-                  console.warn(`Can't parse the defaultValue ${f.selected_value} for ${f.name}`);
+                } else if (field.type === SELECT_FIELD && field.multi_select) {
+                  try {
+                    defaultValue = field.selected_value ? JSON.parse(field.selected_value) : [];
+                  } catch (error) {
+                    defaultValue = [];
+                    // eslint-disable-next-line no-console
+                    console.warn(`Can't parse the defaultValue ${field.selected_value} for ${field.name}`);
+                  }
+                } else if ([DATE_FIELD].includes(field.type)) {
+                  defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
+                    defaultDate => field.selected_value?.toUpperCase() === defaultDate
+                  )
+                    ? toServerDateFormat(new Date(), { includeTime: field.date_include_time })
+                    : null;
+                } else if (field.type === TICK_FIELD) {
+                  defaultValue = field.selected_value || false;
+                } else {
+                  defaultValue = field.selected_value || "";
                 }
-              } else if ([DATE_FIELD].includes(f.type)) {
-                defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
-                  defaultDate => f.selected_value?.toUpperCase() === defaultDate
-                )
-                  ? toServerDateFormat(new Date(), { includeTime: f.date_include_time })
-                  : null;
-              } else if (f.type === TICK_FIELD) {
-                defaultValue = f.selected_value || false;
-              } else {
-                defaultValue = f.selected_value || "";
-              }
 
-              return { [f.name]: defaultValue };
-            })
+                return { [field.name]: defaultValue };
+              })
           )
         )
       )

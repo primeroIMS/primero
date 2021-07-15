@@ -1138,6 +1138,7 @@ fr:
     web_app: Application Web
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-JO: Arabe (jordanien)
     ar-LB: Arabe (Libanais)
     bn: বাংলা
@@ -1149,6 +1150,7 @@ fr:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: Accueil
     language: Langue
     manage_system_users: "Gérer la synchronisation des serveurs des utilisateurs "

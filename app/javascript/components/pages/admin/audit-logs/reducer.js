@@ -26,7 +26,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(filtersPath(DATA), fromJS(payload.data))
         .setIn(filtersPath(METADATA), fromJS(payload.metadata));
     case actions.SET_AUDIT_LOGS_FILTER:
-      return state.set("filters", fromJS(payload));
+      return state.set("filters", fromJS(payload.data));
     default:
       return state;
   }

@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { isImmutable } from "immutable";
 
 import { RECORD_PATH } from "../../../../config";
@@ -16,3 +15,8 @@ export const fetchRoles = params => {
     }
   };
 };
+
+export const setRolesFilter = payload => ({
+  type: actions.SET_ROLES_FILTER,
+  payload
+});

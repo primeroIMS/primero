@@ -15,3 +15,8 @@ export const fetchAdminLookups = params => {
     }
   };
 };
+
+export const setLookupsFilter = payload => ({
+  type: actions.SET_LOOKUPS_FILTER,
+  payload
+});

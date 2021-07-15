@@ -14,7 +14,7 @@ import { getOption, getFields, getAllForms } from "../../record-form";
 import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
 import { setSelectedForm } from "../../record-form/action-creators";
 import { useMetadata } from "../../records";
-import { useMemoizedSelector } from "../../../libs";
+import { useMemoizedSelector, displayNameHelper } from "../../../libs";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -126,14 +126,15 @@ const TaskList = () => {
                   const selectedField = fields.filter(field => field.name === fieldName);
 
                   const fieldKey = [...selectedField.keys()][0];
-                  const translatedFieldName = selectedField.first().display_name[i18n.locale];
+                  // eslint-disable-next-line camelcase
+                  const translatedFieldName = displayNameHelper(selectedField.first()?.display_name, i18n.locale);
                   const selectedForm = forms.find(form => form.get("fields").includes(parseInt(fieldKey, 10)));
 
                   return (
                     <Tooltip
                       title={i18n.t("messages.field_name_on_form_name", {
                         field_name: translatedFieldName,
-                        form_name: selectedForm.name[i18n.locale]
+                        form_name: displayNameHelper(selectedForm?.name, i18n.locale)
                       })}
                     >
                       <span>

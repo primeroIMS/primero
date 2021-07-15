@@ -1,11 +1,13 @@
 import head from "lodash/head";
 
-import { METHODS } from "../config";
-import DB from "../db/db";
-import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../components/notifier";
-import { SET_ATTACHMENT_STATUS } from "../components/records/actions";
+import { METHODS } from "../../config";
+import DB from "../../db/db";
+import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
+import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import transformOfflineRequest from "../transform-offline-request";
+import EventManager from "../messenger";
 
-import EventManager from "./messenger";
+import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./utils";
 import {
   QUEUE_PENDING,
   QUEUE_READY,
@@ -125,7 +127,11 @@ class Queue {
 
         const action = item;
 
-        this.dispatch(action);
+        const self = this;
+
+        transformOfflineRequest(action).then(transformed => {
+          self.dispatch(transformed);
+        });
 
         item.processed = true;
       }
@@ -197,3 +203,5 @@ const instance = new Queue();
 export default instance;
 
 export { QUEUE_PENDING, QUEUE_READY, QUEUE_HALTED, QUEUE_ADD, QUEUE_FINISHED, QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS };
+
+export { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess };

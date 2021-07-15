@@ -16,8 +16,7 @@ import {
   INCLUDE_AGENCY_LOGO,
   INCLUDE_OTHER_LOGOS
 } from "../record-actions/exports/constants";
-import { getOptions } from "../form/selectors";
-import { useMemoizedSelector } from "../../libs";
+import useOptions from "../form/use-options";
 
 import Signatures from "./components/signatures";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
@@ -78,13 +77,12 @@ const Component = forwardRef(
     });
     const userSelectedForms = useWatch({ control, name: formsSelectedField, defaultValue: formsSelectedFieldDefault });
 
-    const headerOptions = useMemoizedSelector(state => getOptions(state, PDF_HEADER_LOOKUP, i18n));
-    const formSelectorResults = useMemoizedSelector(state => {
-      if (formsSelectedSelector) {
-        return formsSelectedSelector(state, userSelectedForms);
-      }
+    const headerOptions = useOptions({ source: PDF_HEADER_LOOKUP });
 
-      return fromJS([]);
+    const formSelectorResults = useOptions({
+      source: formsSelectedSelector,
+      uniqueID: userSelectedForms,
+      defaultReturn: fromJS([])
     });
 
     // eslint-disable-next-line camelcase
@@ -207,7 +205,7 @@ Component.propTypes = {
   forms: PropTypes.object.isRequired,
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,
-  formsSelectedSelector: PropTypes.func,
+  formsSelectedSelector: PropTypes.string,
   record: PropTypes.object.isRequired
 };
 

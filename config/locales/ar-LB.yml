@@ -460,6 +460,7 @@ ar-LB:
       violation: انتهاك
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-LB: العربية (اللبنانية)
     bn: বাংলা
     current_time_zone: المنطقة الزمنية الحالية
@@ -469,6 +470,7 @@ ar-LB:
     fr: الفرنسية
     id: Bahasa
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: الصفحة الرئيسية
     language: اللغة
     manage_system_users: إدارة مزامنة الخادم للمستخدمين

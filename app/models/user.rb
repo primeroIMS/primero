@@ -103,6 +103,10 @@ class User < ApplicationRecord
       User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
+    def order_insensitive_attribute_names
+      %w[full_name user_name position]
+    end
+
     def permitted_api_params(current_user = nil, target_user = nil)
       permitted_params = (
         User.permitted_attribute_names + User.password_parameters +
@@ -180,9 +184,12 @@ class User < ApplicationRecord
 
       services_filter = filters.delete('service')
       agencies_filter = filters.delete('agency')
+      location_filter = filters.delete('location')
+
       users = users.where(filters) if filters.present?
       users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
       users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
+      users = users.where(reporting_location_code: location_filter) if location_filter.present?
       users
     end
 
@@ -421,25 +428,21 @@ class User < ApplicationRecord
     modules.select { |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_fields(record_type = nil, visible_forms_only = false, writeable = false)
-    permission_level = writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
-    fields = Field.joins(form_section: :roles).where(
-      fields: {
-        form_sections: {
-          roles: { id: role_id }, parent_form: record_type, visible: (visible_forms_only || nil)
-        }.compact
-      }
-    )
-    fields = fields.where(fields: { form_sections: { form_sections_roles: { permission: permission_level } } }) if writeable
-    fields
-  end
-
-  def permitted_field_names_from_forms(record_type = nil, visible_forms_only = false, writeable = false)
-    permitted_fields(record_type, visible_forms_only, writeable).distinct.pluck(:name)
-  end
-
   def permitted_roles_to_manage
     role.permitted_role_unique_ids.present? ? role.permitted_roles : Role.all
+  end
+
+  def permitted_user_groups
+    return UserGroup.all if group_permission?(Permission::ALL) || group_permission?(Permission::ADMIN_ONLY)
+
+    user_groups
+  end
+
+  def permitted_agencies
+    return Agency.all if group_permission?(Permission::ALL)
+    return Agency.none unless agency_id.present?
+
+    Agency.where(id: agency_id)
   end
 
   def ability
@@ -492,6 +495,8 @@ class User < ApplicationRecord
   end
 
   def update_reporting_location_code
+    return unless will_save_change_to_attribute?(:location)
+
     self.reporting_location_code = reporting_location&.location_code
   end
 
@@ -522,6 +527,7 @@ class User < ApplicationRecord
 
   def update_associated_records
     return if ENV['PRIMERO_BOOTSTRAP']
+    return unless associated_attributes_changed?
 
     records = []
     associated_records_for_update.find_each(batch_size: 500) do |record|
@@ -549,6 +555,11 @@ class User < ApplicationRecord
     record.owned_by_groups = user_group_unique_ids if user_groups_changed
     record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
     record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
+  end
+
+  def associated_attributes_changed?
+    user_groups_changed || saved_change_to_attribute?('agency_id') || saved_change_to_attribute?('location') ||
+      saved_change_to_attribute('agency_office')&.last&.present?
   end
 end
 # rubocop:enable Metrics/ClassLength

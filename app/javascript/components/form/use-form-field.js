@@ -37,7 +37,6 @@ import {
   DOCUMENT_FIELD,
   LINK_FIELD
 } from "./constants";
-import { getOptions } from "./selectors";
 
 export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const {
@@ -92,21 +91,23 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     multipleLimitOne,
     rawOptions,
     renderDownloadButton,
-    downloadButtonLabel
+    downloadButtonLabel,
+    extraSelectorOptions
   } = field;
 
   const i18n = useI18n();
   const error = errors ? get(errors, name) : undefined;
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
-  const optionSelector = (state, watchedInputsValues) =>
-    getOptions(state, optionStringsSource, i18n, options || optionsStringsText, false, {
-      optionStringsSourceIdKey,
-      currRecord,
-      rawOptions,
-      filterOptions:
-        filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
-    });
+  const optionSelector = watchedInputsValues => ({
+    ...extraSelectorOptions,
+    source: optionStringsSource,
+    options: options || optionsStringsText,
+    optionStringsSourceIdKey,
+    currRecord,
+    rawOptions,
+    filterOptions: filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
+  });
 
   const dateFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 

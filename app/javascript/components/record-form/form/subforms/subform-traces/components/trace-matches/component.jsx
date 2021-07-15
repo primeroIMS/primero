@@ -13,9 +13,8 @@ import IndexTable from "../../../../../../index-table";
 import { useI18n } from "../../../../../../i18n";
 import { LOOKUPS, POTENTIAL_MATCH_LIKELIHOOD } from "../../../../../../../config";
 import { setSelectedPotentialMatch, fetchTracePotentialMatches } from "../../../../../../records";
-import { getOptions } from "../../../../../../form/selectors";
 import { getOptionText } from "../field-row/utils";
-import { useMemoizedSelector } from "../../../../../../../libs";
+import useOptions from "../../../../../../form/use-options";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -27,7 +26,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const css = useStyles();
   const dispatch = useDispatch();
 
-  const genderOptions = useMemoizedSelector(state => getOptions(state, LOOKUPS.gender, i18n));
+  const genderOptions = useOptions({ source: LOOKUPS.gender });
 
   const tableOptions = {
     columns: [
