@@ -86,7 +86,9 @@ class Exporters::BaseExporter
 
   def forms_to_export(records, user, options = {})
     record_type = model_class(records)&.parent_form
-    forms = user.role.permitted_forms(record_type, true, true).map do |form|
+    user_forms_subforms_permitted = user.role.permitted_forms(record_type, true, true) +
+                                    user.role.permitted_subforms(record_type, true)
+    forms = user_forms_subforms_permitted.map do |form|
       forms_without_hidden_fields(form)
     end
     return forms unless options[:form_unique_ids].present?
