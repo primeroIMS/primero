@@ -13,6 +13,10 @@ class UserGroup < ApplicationRecord
 
   before_create :generate_unique_id
   class << self
+    def order_insensitive_attribute_names
+      %w[name description]
+    end
+
     def list(user, opts = {})
       user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
 

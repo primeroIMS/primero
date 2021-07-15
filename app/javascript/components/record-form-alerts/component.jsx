@@ -3,7 +3,7 @@ import { fromJS, isCollection } from "immutable";
 
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
-import { compare, useMemoizedSelector } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 import { getRecordFormAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
 
@@ -13,9 +13,9 @@ import { NAME } from "./constants";
 const Component = ({ form, recordType, attachmentForms }) => {
   const i18n = useI18n();
 
-  const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id), compare);
-  const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id), compare);
-  const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale), compare);
+  const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id));
+  const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id));
+  const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale));
 
   const errors =
     validationErrors?.size &&

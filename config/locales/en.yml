@@ -1277,6 +1277,7 @@ en:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
@@ -1538,6 +1539,8 @@ en:
     import_title: Import Location
     message: Please select a CSV file to upload. This file should use UTF-8 encoding and include HXL hashtags in the second header row of each column.
     no_location: Please import Locations before creating any User accounts.
+    enable_title: Enable Location
+    enable_text: Are you sure? If you enable the selected Locations, they will appear as options in the Location fields
     disable_title: Disable Location
     disable_text: Are you sure? If you disable the selected Locations, they will no longer appear as options in Location fields
   logger:
@@ -3126,6 +3129,7 @@ en:
       edit: Edit translations
       manage: Manage Translations
       select_language: Select language
+    error_loading: Error Loading Report(s)
   request_transfer:
     notes_label: Notes
     submit_label: Send Request

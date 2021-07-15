@@ -18,30 +18,40 @@ class PrimeroConfiguration < ApplicationRecord
 
   before_create :generate_version, :populate_primero_version
 
-  def self.new_with_user(created_by = nil)
-    new.tap do |config|
-      config.created_on = DateTime.now
-      config.created_by = created_by&.user_name
+  class << self
+    def order_insensitive_attribute_names
+      %w[name description]
     end
-  end
 
-  def self.current(created_by = nil)
-    new.tap do |config|
-      config.created_on = DateTime.now
-      config.created_by = created_by&.user_name
-      config.data = current_configuration_data
+    def list(options = {})
+      OrderByPropertyService.apply_order(all, options)
     end
-  end
 
-  def self.current_configuration_data
-    CONFIGURABLE_MODELS.each_with_object({}) do |model, data|
-      model_class = Kernel.const_get(model)
-      data[model] = model_class.all.map(&:configuration_hash)
+    def new_with_user(created_by = nil)
+      new.tap do |config|
+        config.created_on = DateTime.now
+        config.created_by = created_by&.user_name
+      end
     end
-  end
 
-  def self.api_path
-    '/api/v2/configurations'
+    def current(created_by = nil)
+      new.tap do |config|
+        config.created_on = DateTime.now
+        config.created_by = created_by&.user_name
+        config.data = current_configuration_data
+      end
+    end
+
+    def current_configuration_data
+      CONFIGURABLE_MODELS.each_with_object({}) do |model, data|
+        model_class = Kernel.const_get(model)
+        data[model] = model_class.all.map(&:configuration_hash)
+      end
+    end
+
+    def api_path
+      '/api/v2/configurations'
+    end
   end
 
   def apply_later!(applied_by = nil)

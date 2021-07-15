@@ -215,7 +215,7 @@ module Exporters
             [
               {
                 unique_id: '872fd2ca-57db-42f8-a86a-f994d2558552',
-                pursue_legal_action: false,
+                pursue_legal_action: 'false',
                 service_legal_location: 'kjcviu',
                 service_legal_provider: 'vkcjbh',
                 service_legal_referral: 'service_not_applicable',

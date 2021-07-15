@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 
-import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
+import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
+import useOptions from "../use-options";
 import formComponent from "../utils/form-component";
 
 const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
@@ -17,7 +18,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
     optionSelector
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const optionSource = useMemoizedSelector(state => optionSelector(state));
+  const optionSource = useOptions(optionSelector());
 
   if (isNotVisible()) {
     return null;

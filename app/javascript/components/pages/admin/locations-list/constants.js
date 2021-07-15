@@ -12,3 +12,7 @@ export const COLUMNS = Object.freeze({
   TYPE: "type"
 });
 export const LOCATION_TYPE_LOOKUP = "lookup-location-type";
+export const ACTION_NAME = Object.freeze({
+  disable: "disable",
+  enable: "enable"
+});

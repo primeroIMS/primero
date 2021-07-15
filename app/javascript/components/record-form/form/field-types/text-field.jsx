@@ -10,6 +10,7 @@ import { ButtonBase } from "@material-ui/core";
 import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
 import omitBy from "lodash/omitBy";
+import isEmpty from "lodash/isEmpty";
 
 import { toServerDateFormat, useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest }) => {
+const TextField = ({ name, field, formik, mode, recordType, recordID, formSection, ...rest }) => {
   const css = useStyles();
 
   const { type } = field;
@@ -40,6 +41,11 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
 
   const isHiddenName = /\*{2,}/.test(recordName);
   const ageMatches = type === NUMERIC_FIELD && name.match(/(.*)age$/);
+
+  const dateOfBirthFieldName = isEmpty(ageMatches) ? null : `${ageMatches[1]}date_of_birth`;
+  const isDateOfBirthVisible =
+    dateOfBirthFieldName &&
+    formSection?.fields?.some(formField => formField.name === dateOfBirthFieldName && formField.visible);
 
   useEffect(() => {
     if (recordName) {
@@ -55,11 +61,11 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, ...rest })
   };
 
   const updateDateBirthField = (form, value) => {
-    if (ageMatches && value) {
+    if (ageMatches && value && isDateOfBirthVisible) {
       const currentYear = new Date().getFullYear();
       const diff = subYears(new Date(currentYear, 0, 1), value);
 
-      form.setFieldValue(`${ageMatches[1]}date_of_birth`, toServerDateFormat(diff), true);
+      form.setFieldValue(dateOfBirthFieldName, toServerDateFormat(diff), true);
     }
   };
 
@@ -108,6 +114,7 @@ TextField.displayName = TEXT_FIELD_NAME;
 TextField.propTypes = {
   field: PropTypes.object,
   formik: PropTypes.object,
+  formSection: PropTypes.object,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string,
   recordID: PropTypes.string,

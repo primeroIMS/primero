@@ -117,6 +117,10 @@ class User < ApplicationRecord
       User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
+    def order_insensitive_attribute_names
+      %w[full_name user_name position]
+    end
+
     def permitted_api_params(current_user = nil, target_user = nil)
       permitted_params = (
         User.permitted_attribute_names + User.password_parameters +
@@ -194,9 +198,12 @@ class User < ApplicationRecord
 
       services_filter = filters.delete('service')
       agencies_filter = filters.delete('agency')
+      location_filter = filters.delete('location')
+
       users = users.where(filters) if filters.present?
       users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
       users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
+      users = users.where(reporting_location_code: location_filter) if location_filter.present?
       users
     end
 

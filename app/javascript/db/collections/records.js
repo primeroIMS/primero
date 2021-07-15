@@ -1,10 +1,10 @@
 import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import merge from "deepmerge";
-import { parseISO } from "date-fns";
 
 import DB from "../db";
 import subformAwareMerge from "../utils/subform-aware-merge";
+import getCreatedAt from "../utils/get-created-at";
 
 const Records = {
   find: async ({ collection, recordType, db }) => {
@@ -13,9 +13,7 @@ const Records = {
     const data = id ? await DB.getRecord(collection, id) : await DB.getAllFromIndex(collection, "type", recordType);
 
     return {
-      data: Array.isArray(data)
-        ? data.sort((record1, record2) => parseISO(record2.created_at) - parseISO(record1.created_at))
-        : data
+      data: Array.isArray(data) ? data.sort((record1, record2) => getCreatedAt(record2) - getCreatedAt(record1)) : data
     };
   },
 

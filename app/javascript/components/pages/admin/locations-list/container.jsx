@@ -15,18 +15,18 @@ import { getAppliedFilters, getMetadata } from "../../../record-list";
 import Menu from "../../../menu";
 import { useMetadata } from "../../../records";
 import { useDialog } from "../../../action-dialog";
-import { getOptions } from "../../../form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
 import Permission from "../../../application/permission";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
 import { getLocationsAvailable } from "../../../application/selectors";
 import { DEFAULT_FILTERS, DATA } from "../constants";
+import useOptions from "../../../form/use-options";
 
 import { NAME as DisableDialogName } from "./disable-dialog/constants";
 import DisableDialog from "./disable-dialog";
 import ImportDialog from "./import-dialog";
 import { fetchLocations, setLocationsFilter } from "./action-creators";
-import { DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP, LOCATIONS_DIALOG } from "./constants";
+import { ACTION_NAME, DISABLED, NAME, COLUMNS, LOCATION_TYPE_LOOKUP, LOCATIONS_DIALOG } from "./constants";
 import { getColumns, getFilters } from "./utils";
 
 const Container = () => {
@@ -35,8 +35,8 @@ const Container = () => {
   const [selectedRecords, setSelectedRecords] = useState({});
   const recordType = ["admin", RESOURCES.locations];
 
+  const locationTypes = useOptions({ source: LOCATION_TYPE_LOOKUP });
   const headers = useMemoizedSelector(state => getListHeaders(state, RESOURCES.locations));
-  const locationTypes = useMemoizedSelector(state => getOptions(state, LOCATION_TYPE_LOOKUP, i18n));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
@@ -46,8 +46,8 @@ const Container = () => {
   const { setDialog, pending, dialogOpen, dialogClose } = useDialog(LOCATIONS_DIALOG);
   const columns = headersToColumns(headers, i18n);
 
-  const handleDialogClick = dialog => {
-    setDialog({ dialog, open: true });
+  const handleDialogClick = (dialog, action) => {
+    setDialog({ dialog, open: true, params: { action } });
   };
 
   const onTableChange = filterOnTableChange(dispatch, fetchLocations, setLocationsFilter);
@@ -74,7 +74,7 @@ const Container = () => {
 
   const onSubmit = data =>
     onSubmitFilters(
-      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)),
+      currentFilters.merge(fromJS(data || DEFAULT_FILTERS)).set("page", 1),
       dispatch,
       fetchLocations,
       setLocationsFilter
@@ -88,7 +88,8 @@ const Container = () => {
     initialFilters: DEFAULT_FILTERS
   };
 
-  const disabledCondition = action => (action.id === 2 ? isEmpty(Object.values(selectedRecords).flat()) : false);
+  const disabledCondition = action =>
+    [2, 3].includes(action.id) ? isEmpty(Object.values(selectedRecords).flat()) : false;
 
   const actions = [
     {
@@ -101,7 +102,13 @@ const Container = () => {
       id: 2,
       disableOffline: false,
       name: i18n.t("actions.disable"),
-      action: () => handleDialogClick(DisableDialogName)
+      action: () => handleDialogClick(DisableDialogName, ACTION_NAME.disable)
+    },
+    {
+      id: 3,
+      disableOffline: false,
+      name: i18n.t("actions.enable"),
+      action: () => handleDialogClick(DisableDialogName, ACTION_NAME.enable)
     }
   ];
   const itemsForAlert = fromJS([{ message: i18n.t("location.no_location") }]);
@@ -125,7 +132,7 @@ const Container = () => {
             <DisableDialog
               selectedRecords={selectedRecords}
               recordType={recordType}
-              filters={getFilters(i18n)}
+              filters={currentFilters}
               setSelectedRecords={setSelectedRecords}
             />
             {renderAlertNoLocations}

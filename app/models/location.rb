@@ -46,6 +46,10 @@ class Location < ApplicationRecord
     #   Location.locations_by_code = Locations.all.map{|l|[l.location_code, l]}.to_h
     attr_accessor :locations_by_code
 
+    def order_insensitive_attribute_names
+      %w[placename]
+    end
+
     def get_by_location_code(location_code)
       if @locations_by_code.present?
         @locations_by_code[location_code]

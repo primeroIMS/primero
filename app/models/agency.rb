@@ -67,6 +67,10 @@ class Agency < ApplicationRecord
   before_save :set_logo_enabled
 
   class << self
+    def order_insensitive_attribute_names
+      %w[name description]
+    end
+
     def new_with_properties(agency_params)
       agency = Agency.new(agency_params.except(:name, :description))
       agency.name_i18n = agency_params[:name]

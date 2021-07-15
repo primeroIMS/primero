@@ -86,7 +86,9 @@ class Exporters::BaseExporter
 
   def forms_to_export(records, user, options = {})
     record_type = model_class(records)&.parent_form
-    forms = user.role.permitted_forms(record_type, true, true).map do |form|
+    user_forms_subforms_permitted = user.role.permitted_forms(record_type, true, true) +
+                                    user.role.permitted_subforms(record_type, true)
+    forms = user_forms_subforms_permitted.map do |form|
       forms_without_hidden_fields(form)
     end
     return forms unless options[:form_unique_ids].present?
@@ -108,8 +110,10 @@ class Exporters::BaseExporter
 
   def forms_without_hidden_fields(form)
     form_dup = form.dup
+    form_dup.subform_field = form.subform_field
     form.fields.map(&:dup).each do |field|
       if field.type == Field::SUBFORM
+        # TODO: This cause N+1
         field.subform = forms_without_hidden_fields(field.subform)
       elsif !field.visible
         next

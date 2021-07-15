@@ -16,7 +16,7 @@ class PermittedUsersService
 
     users = users.limit(current_pagination[:per_page]).offset(current_pagination[:offset])
 
-    users = OrderByPropertyService.apply_order(users, order_params)
+    users = apply_order(users, order_params)
 
     { total: total, users: users }
   end
@@ -37,11 +37,21 @@ class PermittedUsersService
     group_permitted_users(users)
   end
 
+  def apply_order(users_query, order_params)
+    return users_query if order_params.blank?
+    return OrderByPropertyService.apply_order(users_query, order_params) unless order_params[:order_by] == 'agency_id'
+
+    order = OrderByPropertyService.order_direction(order_params[:order])
+    locale = OrderByPropertyService.order_locale(order_params[:locale])
+
+    users_query.joins(:agency).order("LOWER(name_i18n ->> '#{locale}') #{order}")
+  end
+
   def apply_filters(users_query, filters)
     return users_query unless filters.present?
 
     query_filters = build_query_filters(filters)
-    users_query = User.joins(:user_groups) if query_filters[:user_groups].present?
+    users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
     users_query.where(query_filters)
   end
 

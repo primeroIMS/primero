@@ -69,7 +69,7 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def order_by
-    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym]
+    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym] || params[:order_by]
   end
 
   def importer

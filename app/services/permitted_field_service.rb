@@ -16,6 +16,7 @@ class PermittedFieldService
     'status' => { 'type' => 'string' }, 'state' => { 'type' => 'boolean' },
     'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
+    'created_at' => { 'type' => 'date-time' },
     'owned_by' => { 'type' => 'string' },
     'module_id' => { 'type' => 'string', 'enum' => [PrimeroModule::CP, PrimeroModule::GBV, PrimeroModule::MRM] }
   }.freeze
