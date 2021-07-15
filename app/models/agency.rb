@@ -19,9 +19,12 @@ class Agency < ApplicationRecord
     'terms_of_use_enabled' => { 'type' => 'boolean' }, 'disabled' => { 'type' => 'boolean' },
     'pdf_logo_option' => { 'type' => 'boolean' }, 'exclude_agency_from_lookups' => { 'type' => 'boolean' },
     'services' => { 'type' => 'array' }, 'name' => { 'type' => 'object' }, 'description' => { 'type' => 'object' },
-    'logo_full_file_name' => { 'type' => 'string' }, 'logo_icon_base64' => { 'type' => 'string' },
-    'logo_icon_file_name' => { 'type' => 'string' }, 'logo_full_base64' => { 'type' => 'string' },
-    'terms_of_use_file_name' => { 'type' => 'string' }, 'terms_of_use_base64' => { 'logo_full_base64' => 'string' }
+    'logo_full_file_name' => { 'type' => 'string' },
+    'logo_full_base64' => { 'type' => 'string', 'contentEncoding' => 'base64' },
+    'logo_icon_file_name' => { 'type' => 'string' },
+    'logo_icon_base64' => { 'type' => 'string', 'contentEncoding' => 'base64' },
+    'terms_of_use_file_name' => { 'type' => 'string' },
+    'terms_of_use_base64' => { 'logo_full_base64' => 'string', 'contentEncoding' => 'base64' }
   }.freeze
 
   localize_properties :name, :description

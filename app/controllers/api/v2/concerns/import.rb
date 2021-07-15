@@ -9,7 +9,7 @@ module Api::V2::Concerns::Import
   end
 
   def import
-    authorize!(:create, model_class) && validate_json!(field_schema, import_params)
+    authorize!(:import, model_class) && validate_json!(field_schema, import_params)
 
     # The '::' is necessary so Import model does not conflict with current concern
     @import = ::Import.new(

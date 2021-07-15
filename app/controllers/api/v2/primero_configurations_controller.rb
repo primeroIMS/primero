@@ -17,7 +17,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   end
 
   def create
-    # validate_json!(PrimeroConfiguration::PRIMERO_CONFIGURATION_FIELDS_SCHEMA, configuration_params)
+    validate_json!(PrimeroConfiguration::PRIMERO_CONFIGURATION_FIELDS_SCHEMA, configuration_params)
     @configuration = configuration_params[:data].present? ? new_configuration : current_configuration
     @configuration.attributes = configuration_params
     @configuration.save!
