@@ -27,7 +27,8 @@ const SearchableSelect = ({
   mode,
   InputLabelProps,
   optionIdKey,
-  optionLabelKey
+  optionLabelKey,
+  value: fieldValue
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
   const css = useStyles();
@@ -74,6 +75,7 @@ const SearchableSelect = ({
   const getOptionLabel = option => optionLabel(option, options, optionIdKey, optionLabelKey);
   const handleOnChange = (_, value) => onChange(value);
   const handleRenderTags = (value, getTagProps) => renderTags(value, getTagProps);
+  const currentOptionLabel = getOptionLabel(fieldValue || "", options, optionIdKey, optionLabelKey);
 
   return (
     <Autocomplete
@@ -88,6 +90,7 @@ const SearchableSelect = ({
       filterSelectedOptions
       filterOptions={filterOptions}
       value={initialValues}
+      inputValue={currentOptionLabel}
       onOpen={onOpen && onOpen}
       multiple={multiple}
       onBlur={onBlur}
@@ -148,7 +151,8 @@ SearchableSelect.propTypes = {
   optionIdKey: PropTypes.string,
   optionLabelKey: PropTypes.string,
   options: PropTypes.array,
-  TextFieldProps: PropTypes.object
+  TextFieldProps: PropTypes.object,
+  value: PropTypes.any
 };
 
 export default SearchableSelect;
