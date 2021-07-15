@@ -1,0 +1,28 @@
+# encoding: utf-8
+#
+# This is the Kurdish-Iraq localization file for Primero.
+# This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in
+# Western Iraqi Kurdistan Region and North-East Syria
+#
+# Anyone editing this file is strongly encouraged to use yamllint[1] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://yamllint.readthedocs.io/en/stable/
+
+ku-IQ:
+  home:
+    ar: عره بی
+    ar-IQ: العربية (العراقية)
+    ar-LB: عرەبى(لوبنانى)
+    bn: بەنگلادشى
+    en: English
+    es: ئیسپانی
+    fr: فره نسی
+    id: ئیندونیسی
+    ku: کوردى
+    ku-IQ: کوردی (بادینی)
+    my: میانمار
+    ru: روسى
+    so: سومالى
+    th: تایلەندى
+    zh: چینى
