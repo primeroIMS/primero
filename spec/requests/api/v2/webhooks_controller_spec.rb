@@ -219,36 +219,6 @@ describe Api::V2::WebhooksController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
     end
 
-    it 'Error 422 save without agency_code' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
-        ]
-      )
-      params = {
-        data: {
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          }
-        }
-      }
-
-      post '/api/v2/agencies', params: params
-      expect(json['errors'].map { |error| error['status'] }).to eq([422])
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'].map { |error| error['detail'] }).to eq(%w[agency_code])
-    end
-
     it 'returns 403 if user is not authorized to access' do
       login_for_test(
         permissions: [
@@ -279,38 +249,6 @@ describe Api::V2::WebhooksController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Forbidden')
-      expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
-    end
-
-    it 'Error 422 save name without english translation' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
-        ]
-      )
-      params = {
-        data: {
-          unique_id: 'agency_test00',
-          agency_code: 'a00052',
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          }
-        }
-      }
-
-      post '/api/v2/agencies', params: params
-      expect(json['errors'][0]['status']).to eq(422)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['detail']).to eq('name')
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
     end
   end
@@ -367,47 +305,6 @@ describe Api::V2::WebhooksController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies/thisdoesntexist')
     end
 
-    it 'attaches a new logo' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
-        ]
-      )
-      params = {
-        data: {
-          logo_full_base64: attachment_base64('unicef.png'),
-          logo_full_file_name: 'unicef.png'
-        }
-      }
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
-
-      expect(response).to have_http_status(200)
-      @agency_a.reload
-      expect(@agency_a.logo_full.attached?).to be_truthy
-    end
-
-    it 'deletes a logo' do
-      @agency_a.logo_full = logo
-      @agency_a.save!
-      expect(@agency_a.logo_full.attached?).to be_truthy
-
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
-        ]
-      )
-      params = {
-        data: {
-          logo_full_base64: ''
-        }
-      }
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
-
-      expect(response).to have_http_status(200)
-      @agency_a.reload
-      expect(@agency_a.logo_full.attached?).to be_falsey
-    end
-
     it 'returns 403 if user is not authorized to access' do
       login_for_test(
         permissions: [
@@ -434,7 +331,7 @@ describe Api::V2::WebhooksController, type: :request do
       delete "/api/v2/agencies/#{@agency_a.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@agency_a.id)
-      expect(Agency.find_by(id: @agency_a.id).disabled).to be true
+      expect(Agency.find_by(id: @agency_a.id).disabled).to be true # should expect not found 
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -465,6 +362,6 @@ describe Api::V2::WebhooksController, type: :request do
   end
 
   after :each do
-    clean_data(Role, User, Agency)
+    clean_data(Role, User, Webhook)
   end
 end

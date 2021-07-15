@@ -7,11 +7,6 @@ class WebhookJob < ApplicationJob
   def perform(record_type, record_id, action)
     record = Record.model_from_name(record_type).find_by(id: record_id)
     return unless record&.webhook_configured?
-
-    record.merge!({
-      owner_email: record.owner.email,
-      owned_by_full_name: record.owned_by_full_name
-    })
     
     webhooks = Webhook.webhooks_for(record, action)
     webhooks.each { |webhook| webhook.post(record) }
