@@ -4,15 +4,17 @@ import { SET_DIALOG_PENDING } from "../../components/action-dialog";
 
 import handleRestCallback from "./handle-rest-callback";
 
-export default (store, response, json, recordType = null, fromQueue = false, id = null) => {
+export default ({ store, response = {}, json = {}, recordType = null, fromQueue = false, id = null, error }) => {
   const messages = fromQueue
     ? `sync.error.${id ? "update" : "create"}`
-    : json?.errors?.map(error => error.message).join(", ");
+    : json?.errors?.map(err => err.message).join(", ");
+
   const errorPayload = [
     {
       action: ENQUEUE_SNACKBAR,
       payload: {
         messageKey: messages || "errors.api.internal_server",
+        messageDetailed: response?.message || error?.message,
         ...(fromQueue && id ? { messageParams: { short_id: getShortIdFromUniqueId(id) } } : {}),
         ...(recordType ? { recordType } : {}),
         options: {

@@ -17,6 +17,7 @@ import { INCIDENT_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
+import { validationSchema } from "./utils";
 import Fields from "./fields";
 
 const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPending }) => {
@@ -72,6 +73,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     initialValues: initialFormValues,
     validateOnBlur: false,
     validateOnChange: false,
+    validationSchema: validationSchema(subformSectionID, i18n),
     ref: formikRef,
     onSubmit: (values, { setSubmitting }) => {
       const body = {

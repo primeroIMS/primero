@@ -63,6 +63,15 @@ describe Exporters::SelectedFieldsExcelExporter do
     subform.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
     subform.save!
 
+    subform_different_name = FormSection.new(
+      name: 'subform_with_different_name', parent_form: 'case', visible: false, is_nested: true,
+      order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_subform_1',
+      unique_id: 'subform_with_different_name'
+    )
+    subform_different_name.fields << Field.new(name: 'field_x', type: Field::TEXT_FIELD, display_name: 'field X')
+    subform_different_name.fields << Field.new(name: 'field_y', type: Field::TEXT_FIELD, display_name: 'field Y')
+    subform_different_name.save!
+
     form_gbv = FormSection.new(
       name: 'cases_test_form_gbv', parent_form: 'case', visible: true,
       order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'cases_test_form_gbv',
@@ -92,6 +101,17 @@ describe Exporters::SelectedFieldsExcelExporter do
     )
     form4.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
     form4.save!
+
+    form5 = FormSection.new(
+      :name => 'cases_test_form_5', :parent_form => 'case', 'visible' => true,
+      :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_5',
+      :unique_id => 'cases_test_form_5'
+    )
+    form5.fields << Field.new(
+      name: 'subform_with_name', type: Field::SUBFORM,
+      display_name: 'subform with a name', subform_section_id: subform_different_name.id
+    )
+    form5.save!
 
     agency = Agency.create(
       name: 'agency one', agency_code: '1111',
@@ -140,11 +160,26 @@ describe Exporters::SelectedFieldsExcelExporter do
         'cases_test_subform_1' => [{ 'unique_id' => '99' }], 'cases_test_subform_2' => [{ 'unique_id' => '66' }]
       )
     ]
+    @records_for_subforms_test = [
+      create(
+        :child,
+        'first_name' => 'Test', 'last_name' => 'One',
+        'id' => '00000000005',
+        'short_id' => 'test123',
+        'relationship' => 'Father', 'array_field' => %w[optionA optionB],
+        'subform_with_name' => [
+          { 'field_x' => 'value on field X', 'field_y' => 'value on field Y' }
+        ]
+      ),
+      create(:child, 'first_name' => 'Name2', 'last_name' => 'LastName2', 'id' => '00000000005'),
+      create(:child, 'first_name' => 'Name3', 'last_name' => 'LastName3', 'id' => '00000000006')
+    ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
-    @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4])
+    @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5])
     @user = create(:user, user_name: 'fakeadmin', role: @role)
     @role_subform = create(:role, modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
     @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
+    @total_of_fields = 16
   end
 
   describe 'Export format' do
@@ -182,11 +217,12 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a worksheet for every form and nested subform unless the forms and fields visible: false' do
-      expect(workbook.sheets.size).to eq(4 + 1)
+      expect(workbook.sheets.size).to eq(5 + 1)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
       expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
       expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name])
       expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
+      expect(workbook.sheet(4).row(1)).to eq(['ID', 'field X', 'field Y'])
     end
 
     it 'correctly exports record values for a form' do
@@ -216,6 +252,19 @@ describe Exporters::SelectedFieldsExcelExporter do
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.sheets.size).to eq(3)
       expect(workbook.sheet(2).row(1)[0..3]).to eq(partial_metadata_header)
+    end
+    context "when field of type subform does' have the same name of their subform" do
+      let(:workbook_subform) do
+        record_data = Exporters::SelectedFieldsExcelExporter.export(
+          @records_for_subforms_test, @user, form_unique_ids: %w[cases_test_form_5]
+        )
+        Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      end
+
+      it 'should export the form selected' do
+        expect(workbook_subform.sheet(0).row(1)).to eq(['ID', 'field X', 'field Y'])
+        expect(workbook_subform.sheet(0).row(2)).to eq(['test123', 'value on field X', 'value on field Y'])
+      end
     end
   end
 
@@ -250,17 +299,17 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a sheet for the selected form with only the selected fields and discard from another primero_module' do
-      expect(Field.count).to eq(13)
+      expect(Field.count).to eq(@total_of_fields)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name])
-      expect(Field.count).to eq(13)
+      expect(Field.count).to eq(@total_of_fields)
     end
 
     it 'contains no other form but the metadata form and discard from another primero_module' do
-      expect(Field.count).to eq(13)
+      expect(Field.count).to eq(@total_of_fields)
       partial_metadata_header = %w[ID created_organization created_by_full_name last_updated_at]
       expect(workbook.sheets.size).to eq(2)
       expect(workbook.sheet(1).row(1)[0..3]).to eq(partial_metadata_header)
-      expect(Field.count).to eq(13)
+      expect(Field.count).to eq(@total_of_fields)
     end
   end
 

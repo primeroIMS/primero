@@ -128,13 +128,15 @@ describe("<LocationsList />", () => {
     const expectedAction = {
       payload: {
         data: fromJS({
-          disabled: ["false"]
+          disabled: ["false"],
+          page: 1
         })
       },
       type: "locations/SET_LOCATIONS_FILTER"
     };
 
-    expect(component.props().store.getActions()[3]).to.deep.equals(expectedAction);
+    expect(component.props().store.getActions()[3].data).to.deep.equals(expectedAction.data);
+    expect(component.props().store.getActions()[3].type).to.deep.equals(expectedAction.type);
   });
 
   afterEach(() => {

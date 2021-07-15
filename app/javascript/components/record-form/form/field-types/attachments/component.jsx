@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { FieldArray, connect, getIn } from "formik";
+import { FieldArray, connect } from "formik";
 import { Box } from "@material-ui/core";
 
 import { useI18n } from "../../../../i18n";
@@ -11,6 +11,7 @@ import { PHOTO_FIELD, AUDIO_FIELD } from "../../../constants";
 import LoadingIndicator from "../../../../loading-indicator";
 import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
+import { get } from "../../../../form/utils";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -27,7 +28,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
   const processing = useMemoizedSelector(state => getIsProcessingAttachments(state, recordType, name));
   const recordAttachments = useMemoizedSelector(state => getRecordAttachments(state, recordType));
 
-  const values = getIn(formik.values, name);
+  const values = get(formik.values, name, []);
   const attachment = FIELD_ATTACHMENT_TYPES[field.type];
 
   const [openLastDialog, setOpenLastDialog] = useState(false);

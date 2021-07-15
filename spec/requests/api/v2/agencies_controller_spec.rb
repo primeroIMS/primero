@@ -118,7 +118,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?managed=true'
+      get '/api/v2/agencies?managed=true&order=asc&order_by=name'
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
@@ -134,7 +134,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?per=1&page=2'
+      get '/api/v2/agencies?per=1&page=2&order=asc&order_by=name'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['unique_id']).to eq(@agency_b.unique_id)
