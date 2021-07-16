@@ -200,12 +200,12 @@ describe Api::V2::LookupsController, type: :request do
         ]
       )
 
-      params = { data: { name: { en: '' }, values: [{ id: '', display_text: {} }] } }
+      params = { data: { name: { en: '' }, values: [{ id: 'test1', display_text: { en: 'Test 1'} }] } }
 
       post '/api/v2/lookups', params: params, as: :json
 
-      # expect(response).to have_http_status(422)
-      # expect(json['errors'].size).to eq(1)
+      expect(response).to have_http_status(422)
+      expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
       expect(json['errors'][0]['detail']).to eq('name')
     end

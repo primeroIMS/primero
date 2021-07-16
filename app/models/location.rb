@@ -14,9 +14,7 @@ class Location < ApplicationRecord
     'id' => { 'type' => 'integer' }, 'code' => { 'type' => 'string' },
     'type' => { 'type' => 'string' }, 'admin_level' => { 'type' => 'integer' },
     'placename' => { 'type' => 'object' }, 'name' => { 'type' => 'object' },
-    'parent_code' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' },
-    'content_type' => { 'type' => 'boolean' }, 'file_name' => { 'type' => 'string' },
-    'data_base64' => { 'type' => 'string', 'contentEncoding' => 'base64' }
+    'parent_code' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' }
   }.freeze
 
   attribute :parent_code

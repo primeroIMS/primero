@@ -43,7 +43,6 @@ class JSONSchemer::Schema::Base
   alias validate_type_old validate_type
   def validate_type(instance, type, &block)
     data = instance.data
-    # TODO: Do we need string type error for base64
     case type
     when 'date'
       yield error(instance, type) unless data.is_a?(Date)
