@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { optionLabel, optionEquality, optionDisabled } from "./utils";
+import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
 
 const useStyles = makeStyles(styles);
@@ -27,7 +27,8 @@ const SearchableSelect = ({
   mode,
   InputLabelProps,
   optionIdKey,
-  optionLabelKey
+  optionLabelKey,
+  value: fieldValue
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
   const css = useStyles();
@@ -70,18 +71,26 @@ const SearchableSelect = ({
       );
     });
 
+  const getSelectedOptions = (option, selected) => optionEquality(option, selected, optionIdKey);
+  const getOptionLabel = option => optionLabel(option, options, optionIdKey, optionLabelKey);
+  const handleOnChange = (_, value) => onChange(value);
+  const handleRenderTags = (value, getTagProps) => renderTags(value, getTagProps);
+  const currentOptionLabel = getOptionLabel(fieldValue || "", options, optionIdKey, optionLabelKey);
+
   return (
     <Autocomplete
-      onChange={(_, value) => onChange(value)}
+      onChange={handleOnChange}
       options={options}
       disabled={isDisabled}
-      getOptionLabel={option => optionLabel(option, options, optionIdKey, optionLabelKey)}
+      getOptionLabel={getOptionLabel}
       getOptionDisabled={optionDisabled}
-      getOptionSelected={(option, selected) => optionEquality(option, selected, optionIdKey)}
+      getOptionSelected={getSelectedOptions}
       loading={isLoading}
       disableClearable={!isClearable}
       filterSelectedOptions
+      filterOptions={filterOptions}
       value={initialValues}
+      inputValue={currentOptionLabel}
       onOpen={onOpen && onOpen}
       multiple={multiple}
       onBlur={onBlur}
@@ -105,7 +114,7 @@ const SearchableSelect = ({
           optionLabelKey={optionLabelKey}
         />
       )}
-      renderTags={(value, getTagProps) => renderTags(value, getTagProps)}
+      renderTags={handleRenderTags}
     />
   );
 };
@@ -142,7 +151,8 @@ SearchableSelect.propTypes = {
   optionIdKey: PropTypes.string,
   optionLabelKey: PropTypes.string,
   options: PropTypes.array,
-  TextFieldProps: PropTypes.object
+  TextFieldProps: PropTypes.object,
+  value: PropTypes.any
 };
 
 export default SearchableSelect;

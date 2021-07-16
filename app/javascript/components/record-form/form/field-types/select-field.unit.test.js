@@ -7,11 +7,8 @@ import { OPTION_TYPES, whichFormMode } from "../../../form";
 import SearchableSelect from "../../../searchable-select";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
 import actions from "../../../record-actions/transitions/actions";
-import { getOptions } from "../../../form/selectors";
 
 import SelectField from "./select-field";
-
-const i18n = { t: str => str, locale: "en" };
 
 describe("<SelectField />", () => {
   context("when the lookup is custom", () => {
@@ -23,7 +20,10 @@ describe("<SelectField />", () => {
       label: "Agency",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: () => state => getOptions(state, OPTION_TYPES.AGENCY, i18n, null, true)
+      optionsSelector: () => ({
+        source: OPTION_TYPES.AGENCY,
+        useUniqueId: true
+      })
     };
 
     const initialState = fromJS({
@@ -76,7 +76,10 @@ describe("<SelectField />", () => {
       label: "Type of Service",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: () => state => getOptions(state, "lookup lookup-service-type", i18n, null, false)
+      optionsSelector: () => ({
+        source: "lookup lookup-service-type",
+        useUniqueId: true
+      })
     };
 
     const initialState = fromJS({
@@ -135,19 +138,14 @@ describe("<SelectField />", () => {
       label: "Type of Service",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: () => state =>
-        getOptions(
-          state,
-          null,
-          i18n,
-          [
-            { id: "test1", display_text: "Test 1" },
-            { id: "test2", disabled: true, display_text: "Test 2" },
-            { id: "test3", display_text: "Test 3" },
-            { id: "test4", disabled: true, display_text: "Test 4" }
-          ],
-          false
-        )
+      optionsSelector: () => ({
+        options: [
+          { id: "test1", display_text: "Test 1" },
+          { id: "test2", disabled: true, display_text: "Test 2" },
+          { id: "test3", display_text: "Test 3" },
+          { id: "test4", disabled: true, display_text: "Test 4" }
+        ]
+      })
     };
 
     const { component } = setupMountedComponent(SelectField, props, {}, [], {
@@ -184,13 +182,15 @@ describe("<SelectField />", () => {
           [SERVICE_SECTION_FIELDS.type]: paramsService
         }
       },
-      optionsSelector: () => state => getOptions(state, OPTION_TYPES.REFER_TO_USERS, i18n, null, true)
+      recordType: "cases",
+      recordModuleID: "record-module-1",
+      optionsSelector: () => ({ source: OPTION_TYPES.REFER_TO_USERS, useUniqueId: true })
     };
     const expectedAction = {
       type: actions.REFERRAL_USERS_FETCH,
       api: {
         path: actions.USERS_REFER_TO,
-        params: { record_type: "case", service: paramsService }
+        params: { record_module_id: "record-module-1", record_type: "case", service: paramsService }
       }
     };
 
@@ -220,7 +220,7 @@ describe("<SelectField />", () => {
       label: "Test",
       mode: whichFormMode("edit"),
       open: true,
-      optionsSelector: () => state => getOptions(state, "lookup lookup-yes-no", i18n, null, false)
+      optionsSelector: () => ({ source: "lookup lookup-yes-no" })
     };
 
     const initialState = fromJS({
@@ -282,18 +282,13 @@ describe("<SelectField />", () => {
       label: "Test",
       mode: whichFormMode("show"),
       open: true,
-      optionsSelector: () => state =>
-        getOptions(
-          state,
-          null,
-          i18n,
-          [
-            { id: "option_1", display_text: { en: "Option 1" } },
-            { id: "option_2", display_text: { en: "Option 2" } },
-            { id: "option_3", display_text: { en: "Option 3" } }
-          ],
-          false
-        )
+      optionsSelector: () => ({
+        options: [
+          { id: "option_1", display_text: { en: "Option 1" } },
+          { id: "option_2", display_text: { en: "Option 2" } },
+          { id: "option_3", display_text: { en: "Option 3" } }
+        ]
+      })
     };
 
     const { component } = setupMountedComponent(SelectField, props, fromJS([]), [], {

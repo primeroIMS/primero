@@ -6,7 +6,7 @@ class Api::V2::AuditLogsController < ApplicationApiController
 
   def index
     authorize! :read, AuditLog
-    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param)
+    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param, order_by: order_by, order: order)
     @total = @audit_logs.size
     @audit_logs = @audit_logs.paginate(pagination)
   end
@@ -20,6 +20,16 @@ class Api::V2::AuditLogsController < ApplicationApiController
   end
 
   protected
+
+  def order_by
+    return 'users.user_name' if %w[user_name record_user_name].include?(params[:order_by])
+
+    super
+  end
+
+  def default_sort_field
+    'timestamp'
+  end
 
   def timestamp_param
     from_param..to_param

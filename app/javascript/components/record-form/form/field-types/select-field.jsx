@@ -17,7 +17,9 @@ const SelectField = ({
   mode,
   disabled,
   optionsSelector,
-  filters
+  filters,
+  recordModuleID,
+  recordType
 }) => {
   const i18n = useI18n();
 
@@ -40,6 +42,8 @@ const SelectField = ({
             error={getIn(form.errors, name)}
             touched={getIn(form.touched, name)}
             helperText={helperText}
+            recordType={recordType}
+            recordModuleID={recordModuleID}
           />
         );
       }}
@@ -59,7 +63,9 @@ SelectField.propTypes = {
   label: PropTypes.string.isRequired,
   mode: PropTypes.object,
   name: PropTypes.string.isRequired,
-  optionsSelector: PropTypes.func.isRequired
+  optionsSelector: PropTypes.func.isRequired,
+  recordModuleID: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default SelectField;

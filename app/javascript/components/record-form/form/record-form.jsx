@@ -39,7 +39,8 @@ const RecordForm = ({
   externalForms,
   fetchFromCaseId,
   userPermittedFormsIds,
-  externalComponents
+  externalComponents,
+  primeroModule
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -177,7 +178,8 @@ const RecordForm = ({
                 form,
                 mode,
                 recordType,
-                recordID: record?.get("id")
+                recordID: record?.get("id"),
+                recordModuleID: primeroModule
               };
 
               if (!field?.visible) {
@@ -262,6 +264,7 @@ RecordForm.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
+  primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

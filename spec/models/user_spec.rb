@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
+    clean_data(Location, AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection, UserGroup, User)
   end
 
   def build_user(options = {})
@@ -20,136 +20,6 @@ describe User do
     user = build_user(options)
     user.save
     user
-  end
-
-  describe 'transition queries' do
-    describe 'users_for_assign' do
-      before :each do
-        [UserGroup, User, Agency, Role].each(&:destroy_all)
-        @group1 = UserGroup.create!(name: 'Group1')
-        @group2 = UserGroup.create!(name: 'Group2')
-        @group3 = UserGroup.create!(name: 'Group3')
-        @agency1 = Agency.create!(name: 'Agency1', agency_code: 'A1')
-        @agency2 = Agency.create!(name: 'Agency2', agency_code: 'A2')
-        @user1 = User.new(user_name: 'user1', user_groups: [@group1, @group2], agency: @agency1)
-        @user2 = User.new(user_name: 'user2', user_groups: [@group1], agency: @agency1)
-        @user2.save(validate: false)
-        @user3 = User.new(user_name: 'user3', user_groups: [@group2], agency: @agency1)
-        @user3.save(validate: false)
-        @user4 = User.new(user_name: 'user4', user_groups: [@group3], agency: @agency2)
-        @user4.save(validate: false)
-      end
-
-      it 'shows all users for a user with the :assign permission' do
-        permission = Permission.new(
-          resource: Permission::CASE, actions: [Permission::ASSIGN]
-        )
-        role = Role.new(permissions: [permission])
-        role.save(validate: false)
-        @user1.role = role
-        @user1.save(validate: false)
-
-        users = User.users_for_assign(@user1, Child)
-        expect(users.map(&:user_name)).to match_array(%w[user2 user3 user4])
-      end
-
-      it 'shows only users in the agency for a user with the :assign_within_agency permission' do
-        permission = Permission.new(
-          resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_AGENCY]
-        )
-        role = Role.new(permissions: [permission])
-        role.save(validate: false)
-        @user1.role = role
-        @user1.save(validate: false)
-
-        users = User.users_for_assign(@user1, Child)
-        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
-      end
-
-      it 'shows only users in the user groups for a user with the :assign_within_user_group permission' do
-        permission = Permission.new(
-          resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_USER_GROUP]
-        )
-        role = Role.new(permissions: [permission])
-        role.save(validate: false)
-        @user1.role = role
-        @user1.save(validate: false)
-
-        users = User.users_for_assign(@user1, Child)
-        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
-      end
-    end
-
-    describe 'users_for_referral' do
-      before :each do
-        permission_receive = Permission.new(
-          resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL]
-        )
-        role_receive = Role.new(permissions: [permission_receive])
-        role_receive.save(validate: false)
-
-        permission_cannot = Permission.new(
-          resource: Permission::CASE, actions: [Permission::READ]
-        )
-        role_cannot = Role.new(permissions: [permission_cannot])
-        role_cannot.save(validate: false)
-        agency = Agency.new(unique_id: 'fake-agency', agency_code: 'fkagency')
-        agency.save(validate: false)
-
-        @user1 = User.new(user_name: 'user1', role: role_receive, agency: agency)
-        @user1.save(validate: false)
-        @user2 = User.new(user_name: 'user2', role: role_receive, services: %w[safehouse_service], agency: agency)
-        @user2.save(validate: false)
-        @user3 = User.new(user_name: 'user3', role: role_receive, agency: agency)
-        @user3.save(validate: false)
-        @user4 = User.new(user_name: 'user4', role: role_cannot, agency: agency)
-        @user4.save(validate: false)
-      end
-
-      it 'shows all users that can be referred to based on permission' do
-        users = User.users_for_referral(@user1, Child, {})
-        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
-      end
-
-      it 'filters users based on service' do
-        users = User.users_for_referral(@user1, Child, 'service' => 'safehouse_service')
-        expect(users.map(&:user_name)).to match_array(%w[user2])
-      end
-    end
-
-    describe 'users_for_transfer' do
-      before :each do
-        permission_receive = Permission.new(
-          resource: Permission::CASE, actions: [Permission::RECEIVE_TRANSFER]
-        )
-        role_receive = Role.new(permissions: [permission_receive])
-        role_receive.save(validate: false)
-
-        permission_cannot = Permission.new(
-          resource: Permission::CASE, actions: [Permission::READ]
-        )
-        role_cannot = Role.new(permissions: [permission_cannot])
-        role_cannot.save(validate: false)
-
-        @user1 = User.new(user_name: 'user1', role: role_receive)
-        @user1.save(validate: false)
-        @user2 = User.new(user_name: 'user2', role: role_receive)
-        @user2.save(validate: false)
-        @user3 = User.new(user_name: 'user3', role: role_receive)
-        @user3.save(validate: false)
-        @user4 = User.new(user_name: 'user4', role: role_cannot)
-        @user4.save(validate: false)
-      end
-
-      it 'shows all users that can be referred to based on permission' do
-        users = User.users_for_transfer(@user1, Child, {})
-        expect(users.map(&:user_name)).to match_array(%w[user2 user3])
-      end
-    end
-
-    after :each do
-      [UserGroup, User, Agency, Role].each(&:destroy_all)
-    end
   end
 
   describe 'validations' do
@@ -896,6 +766,24 @@ describe User do
 
     it 'return the scope of the user' do
       expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
+    end
+  end
+
+  describe '#record_query_scope' do
+    before :each do
+      @agency_test = Agency.create!(name: 'Agency test1', agency_code: 'agency_test1')
+      @group_test = UserGroup.create!(name: 'group test')
+      @role_test = Role.create!(name: 'Admin role1', unique_id: 'role_test1', group_permission: 'group',
+                                permissions: [Permission.new(resource: Permission::CASE,
+                                                             actions: [Permission::MANAGE])])
+      @current_user = User.create!(full_name: 'user_record_query_scope', user_name: 'user_record_query_scope',
+                                   password: 'a12345678', password_confirmation: 'a12345678',
+                                   email: 'user_record_query_scope@localhost.com',
+                                   user_groups: [@group_test], agency_id: @agency_test.id, role: @role_test)
+    end
+
+    it 'return the query scope of the user' do
+      expect(@current_user.record_query_scope(Child)).to eql(user: { 'group' => [@group_test.unique_id] })
     end
   end
 

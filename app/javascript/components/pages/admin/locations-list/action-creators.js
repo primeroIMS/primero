@@ -18,12 +18,12 @@ export const fetchLocations = (params, asCallback = false) => {
   };
 };
 
-export const disableLocations = (ids, params, message) => ({
+export const disableLocations = (ids, params, message, disabled = true) => ({
   type: actions.DISABLE_LOCATIONS,
   api: {
     method: METHODS.POST,
     path: `${RECORD_PATH.locations}/update_bulk`,
-    body: { data: ids.map(id => ({ id, disabled: true })) },
+    body: { data: ids.map(id => ({ id, disabled })) },
     successCallback: [
       fetchLocations(params, true),
       { action: CLEAR_DIALOG },

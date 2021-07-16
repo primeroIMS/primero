@@ -22,6 +22,23 @@ const snackbarOptions = {
   autoHideDuration: 6000
 };
 
+const buildMessage = ({ online, messageFromQueue, message, messageKey, messageParams, recordType, i18n }) => {
+  const snackMessage = !online && messageFromQueue ? messageFromQueue : message;
+
+  if ((online || !messageFromQueue) && messageKey) {
+    const translatedRecordType = recordType ? i18n.t(`${RECORD_TYPES[recordType]}.label`) : "";
+    const translatedMessage = i18n.t(messageKey, { record_type: translatedRecordType, ...messageParams });
+
+    if (/^\[missing/.test(translatedMessage)) {
+      return messageKey;
+    }
+
+    return translatedMessage;
+  }
+
+  return snackMessage;
+};
+
 const Notifier = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -52,13 +69,14 @@ const Notifier = () => {
         messageParams,
         messageFromQueue,
         messageKey,
+        messageDetailed,
         actionLabel,
         actionUrl,
         noDismiss,
         recordType
       } = snack;
 
-      if (dismissed) {
+      if (dismissed || (!message && !messageKey)) {
         closeSnackbar(key);
 
         return;
@@ -66,20 +84,17 @@ const Notifier = () => {
 
       if (displayed.includes(key)) return;
 
-      let snackMessage = !online && messageFromQueue ? messageFromQueue : message;
+      const snackMessage = buildMessage({
+        online,
+        messageFromQueue,
+        message,
+        messageKey,
+        messageParams,
+        recordType,
+        i18n
+      });
 
-      if ((online || !messageFromQueue) && messageKey) {
-        const translatedRecordType = recordType ? i18n.t(`${RECORD_TYPES[recordType]}.label`) : "";
-        const translatedMessage = i18n.t(messageKey, { record_type: translatedRecordType, ...messageParams });
-
-        if (/^\[missing/.test(translatedMessage)) {
-          snackMessage = messageKey;
-        } else {
-          snackMessage = translatedMessage;
-        }
-      }
-
-      enqueueSnackbar(snackMessage, {
+      enqueueSnackbar(`${snackMessage}${messageDetailed ? `\n${messageDetailed}` : ""}`, {
         ...{ ...snackbarOptions, autoHideDuration: noDismiss ? null : snackbarOptions.autoHideDuration },
         ...otherOptions,
         key,
@@ -101,7 +116,8 @@ const Notifier = () => {
             snackKey={snackKey}
             hideCloseIcon={noDismiss}
           />
-        )
+        ),
+        style: { whiteSpace: "pre-line" }
       });
 
       storeDisplayed(key);

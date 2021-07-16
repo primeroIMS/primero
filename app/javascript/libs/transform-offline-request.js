@@ -8,7 +8,7 @@ import DB from "../db/db";
 import { METHODS } from "../config";
 import { valueParser } from "../components/form/utils";
 
-import { OFFLINE_OMITTED_FIELDS } from "./constants";
+const OFFLINE_OMITTED_FIELDS = Object.freeze(["record_in_scope", "type", "enabled", "workflow"]);
 
 const getFieldsToTransform = async () =>
   ((await DB.getAll("fields")) || []).filter(field => [NUMERIC_FIELD, DATE_FIELD].includes(field.type));
