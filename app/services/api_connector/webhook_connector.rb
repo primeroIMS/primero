@@ -49,7 +49,8 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
     field_names = PermittedFieldService.new(user, record.class).permitted_field_names
     data = {
       record_id: record.id,
-      record_type: record.class.parent_form
+      record_type: record.class.parent_form,
+      hostname: Rails.application.routes.default_url_options[:host]
     }.merge(RecordDataService.data(record, user, field_names))
     { data: data }
   end
