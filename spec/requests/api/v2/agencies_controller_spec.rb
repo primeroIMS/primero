@@ -434,7 +434,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
       params = {
         data: {
-          logo_full_base64: attachment_base64('unicef.png'),
+          logo_full_base64: attachment_strict_base64('unicef.png'),
           logo_full_file_name: 'unicef.png'
         }
       }

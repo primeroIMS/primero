@@ -305,7 +305,7 @@ describe Api::V2::LocationsController, type: :request do
     context 'when input contains valid rows' do
       before do
         @file_name = 'hxl_location_sample.csv'
-        @data_base64 = attachment_base64(@file_name)
+        @data_base64 = attachment_strict_base64(@file_name)
       end
 
       it 'imports locatons' do
@@ -321,7 +321,7 @@ describe Api::V2::LocationsController, type: :request do
     context 'and file contains invalid rows' do
       before do
         @file_name = 'hxl_location_missing_pcodes.csv'
-        @data_base64 = attachment_base64(@file_name)
+        @data_base64 = attachment_strict_base64(@file_name)
       end
 
       it 'logs errors for the invalid rows' do

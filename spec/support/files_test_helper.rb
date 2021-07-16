@@ -7,6 +7,11 @@ module FilesTestHelper
 
   def attachment_base64(file_name)
     path = spec_resource_path(file_name)
+    Base64.encode64(File.open(path, 'rb').read)
+  end
+
+  def attachment_strict_base64(file_name)
+    path = spec_resource_path(file_name)
     Base64.strict_encode64(File.open(path, 'rb').read)
   end
 
