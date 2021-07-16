@@ -2216,6 +2216,13 @@ en:
               without this permission, will not appear as potential recipients when
               someone is looking for a recipient in the referral modal.
             label: Receive Referral
+          receive_referral_different_module:
+            explanation: Allows a user to receive a referral of a record that is created
+              in a different Primero module. Users with this permission will appear as
+              potential recipients of a referral action for that record,
+              while users without this permission, will not appear as potential recipients
+              when someone is looking for a recipient in the referral modal.
+            label: Receive Referral from a user in a different module
           receive_transfer:
             explanation: Allows a user to receive a transfer. Users with this permission
               will appear as potential recipients of a transfer action, while users

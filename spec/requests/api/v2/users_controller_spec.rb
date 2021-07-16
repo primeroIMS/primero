@@ -366,7 +366,15 @@ describe Api::V2::UsersController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
         ]
       )
-      get '/api/v2/users/refer-to', params: { record_type: 'case', service: 'test', agency: @agency_a.unique_id }
+
+      params = {
+        record_type: 'case',
+        record_module_id: @cp.unique_id,
+        service: 'test',
+        agency: @agency_a.unique_id
+      }
+
+      get '/api/v2/users/refer-to', params: params
 
       expect(response).to have_http_status(200)
       expect(json['data'][0]['id']).to eq(@user_a.id)

@@ -45,7 +45,7 @@ const TransferForm = ({
   const firstUpdate = useRef(true);
 
   useEffect(() => {
-    dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType] }));
+    dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType], record_module_id: record?.get("module_id") }));
   }, []);
 
   const users = useMemoizedSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));

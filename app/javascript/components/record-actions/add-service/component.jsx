@@ -61,6 +61,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
   };
 
   const fieldsProps = {
+    recordModuleID: MODULES.CP,
     recordType,
     fields: subformSectionID.toJS().fields
   };
