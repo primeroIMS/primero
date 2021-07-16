@@ -769,5 +769,23 @@ describe User do
     end
   end
 
+  describe '#record_query_scope' do
+    before :each do
+      @agency_test = Agency.create!(name: 'Agency test1', agency_code: 'agency_test1')
+      @group_test = UserGroup.create!(name: 'group test')
+      @role_test = Role.create!(name: 'Admin role1', unique_id: 'role_test1', group_permission: 'group',
+                                permissions: [Permission.new(resource: Permission::CASE,
+                                                             actions: [Permission::MANAGE])])
+      @current_user = User.create!(full_name: 'user_record_query_scope', user_name: 'user_record_query_scope',
+                                   password: 'a12345678', password_confirmation: 'a12345678',
+                                   email: 'user_record_query_scope@localhost.com',
+                                   user_groups: [@group_test], agency_id: @agency_test.id, role: @role_test)
+    end
+
+    it 'return the query scope of the user' do
+      expect(@current_user.record_query_scope(Child)).to eql(user: { 'group' => [@group_test.unique_id] })
+    end
+  end
+
   after(:all) { clean_data(Agency, Role, User, FormSection, Field) }
 end
