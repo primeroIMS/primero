@@ -16,22 +16,4 @@ class Assign < Transition
   def consent_given?
     true
   end
-
-  def user_can_receive?
-    super && (assign? || assign_within_user_group? || assign_within_agency?)
-  end
-
-  def assign_within_agency?
-    transitioned_by_user.can?(:assign_within_agency, record.class) &&
-      transitioned_to_user.agency_id == transitioned_by_user.agency_id
-  end
-
-  def assign_within_user_group?
-    transitioned_by_user.can?(:assign_within_user_group, record.class) &&
-      (transitioned_to_user.user_group_ids & transitioned_by_user.user_group_ids).present?
-  end
-
-  def assign?
-    transitioned_by_user.can?(:assign, record.class)
-  end
 end

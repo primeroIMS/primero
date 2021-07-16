@@ -284,7 +284,12 @@ const Container = ({ mode }) => {
 
   useEffect(() => {
     if (isNotANewCase && canRefer && selectedForm === SERVICES_SUBFORM) {
-      dispatch(fetchReferralUsers({ record_type: RECORD_TYPES[params.recordType] }));
+      dispatch(
+        fetchReferralUsers({
+          record_type: RECORD_TYPES[params.recordType],
+          record_module_id: selectedModule.primeroModule
+        })
+      );
     }
   }, [selectedForm]);
 

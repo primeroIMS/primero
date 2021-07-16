@@ -6,7 +6,7 @@ import { FieldRecord, FormSectionField } from "../../../record-form";
 
 import { NAME } from "./constants";
 
-const Component = ({ recordType, fields, formik }) => {
+const Component = ({ recordModuleID, recordType, fields, formik }) => {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -31,6 +31,7 @@ const Component = ({ recordType, fields, formik }) => {
           isEdit: true
         },
         recordType,
+        recordModuleID,
         filters: {
           values: {
             service,
@@ -51,6 +52,7 @@ const Component = ({ recordType, fields, formik }) => {
 Component.propTypes = {
   fields: PropTypes.array,
   formik: PropTypes.object,
+  recordModuleID: PropTypes.string,
   recordType: PropTypes.string
 };
 

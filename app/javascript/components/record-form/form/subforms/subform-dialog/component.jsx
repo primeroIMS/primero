@@ -31,7 +31,9 @@ const Component = ({
   setOpen,
   title,
   isReadWriteForm,
-  orderedValues
+  orderedValues,
+  recordType,
+  recordModuleID
 }) => {
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -104,6 +106,8 @@ const Component = ({
           mode={mode}
           formSection={formSection}
           isReadWriteForm={isReadWriteForm}
+          recordType={recordType}
+          recordModuleID={recordModuleID}
         />
       );
     }
@@ -200,6 +204,8 @@ Component.propTypes = {
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
   orderedValues: PropTypes.array.isRequired,
+  recordModuleID: PropTypes.string,
+  recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
   title: PropTypes.string.isRequired

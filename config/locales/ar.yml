@@ -1,13 +1,11 @@
 # encoding: utf-8
 #
-# This is the English localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
+# This is the Arabic localization file for Primero.
 #
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# Anyone editing this file is strongly encouraged to use yamllint[1] to ensure
 # that this document remains valid YAML.
 #
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
+# [1] https://yamllint.readthedocs.io/en/stable/
 
 
 ---
@@ -1132,6 +1130,7 @@ ar:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: الصفحة الرئيسية
     language: اللغة
     manage_system_users: إدارة مستخدمي مزامنة الخادم

@@ -1,28 +1,11 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { TextField, CircularProgress } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
-import { optionLabel } from "../utils";
 
 const Component = forwardRef(
-  (
-    {
-      params,
-      value,
-      mode,
-      helperText,
-      InputLabelProps,
-      isDisabled,
-      isLoading,
-      multiple,
-      TextFieldProps,
-      options,
-      optionIdKey,
-      optionLabelKey
-    },
-    ref
-  ) => {
+  ({ params, value, mode, helperText, InputLabelProps, isDisabled, isLoading, multiple, TextFieldProps }, ref) => {
     const i18n = useI18n();
 
     const { InputProps, ...restTextFieldProps } = TextFieldProps;
@@ -48,10 +31,6 @@ const Component = forwardRef(
     };
 
     const { disableUnderline, ...restInputParams } = inputParams;
-
-    useEffect(() => {
-      inputParams.inputProps.ref.current.value = optionLabel(value || "", options, optionIdKey, optionLabelKey);
-    }, [i18n.locale]);
 
     return <TextField {...restInputParams} inputRef={ref} />;
   }

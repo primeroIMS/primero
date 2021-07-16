@@ -42,7 +42,15 @@ const MainForm = ({ formProps, rest }) => {
   const dispatch = useDispatch();
   const firstUpdate = useRef(true);
   const transitionType = "referral";
-  const { providedConsent, canConsentOverride, disabled, setDisabled, recordType, isReferralFromService } = rest;
+  const {
+    providedConsent,
+    canConsentOverride,
+    disabled,
+    setDisabled,
+    recordType,
+    recordModuleID,
+    isReferralFromService
+  } = rest;
 
   const { handleSubmit, setValues, values } = formProps;
   const { service, agency, location } = values;
@@ -63,6 +71,7 @@ const MainForm = ({ formProps, rest }) => {
 
     dispatch(
       fetchReferralUsers({
+        record_module_id: recordModuleID,
         record_type: RECORD_TYPES[recordType],
         ...filters
       })
@@ -74,6 +83,7 @@ const MainForm = ({ formProps, rest }) => {
       dispatch(
         fetchReferralUsers({
           record_type: RECORD_TYPES[recordType],
+          record_module_id: recordModuleID,
           ...getUserFilters({ service, agency, location })
         })
       );

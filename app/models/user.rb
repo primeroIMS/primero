@@ -150,57 +150,6 @@ class User < ApplicationRecord
     def find_for_authentication(tainted_conditions)
       eager_load(role: :primero_modules).find_by(tainted_conditions)
     end
-
-    # TODO: Move the logic users_for_assign, users_for_referral, users_for_transfer, users_for_transition into services
-    def users_for_assign(user, model)
-      return User.none unless model.present?
-
-      users = where(disabled: false).where.not(id: user.id)
-      return users if user.can? :assign, model
-
-      return users.where(agency_id: user.agency_id) if user.can? :assign_within_agency, model
-
-      if user.can? :assign_within_user_group, model
-        return users.joins('join user_groups_users on users.id = user_groups_users.user_id')
-                    .where('user_groups_users.user_group_id in (?)', user.user_groups.pluck(:id))
-      end
-
-      []
-    end
-
-    def users_for_referral(user, model, filters)
-      users_for_transition(user, model, filters, Permission::RECEIVE_REFERRAL).includes(:agency).joins(:agency)
-    end
-
-    def users_for_transfer(user, model, filters)
-      users_for_transition(user, model, filters, Permission::RECEIVE_TRANSFER)
-    end
-
-    def users_for_transition(user, model, filters, permission)
-      return User.none if model.blank?
-
-      users = users_with_permission(model, permission).where(disabled: false).where.not(id: user.id)
-      return users if filters.blank?
-
-      services_filter = filters.delete('service')
-      agencies_filter = filters.delete('agency')
-      location_filter = filters.delete('location')
-
-      users = users.where(filters) if filters.present?
-      users = users.where(':service = ANY (users.services)', service: services_filter) if services_filter.present?
-      users = users.joins(:agency).where(agencies: { unique_id: agencies_filter }) if agencies_filter.present?
-      users = users.where(reporting_location_code: location_filter) if location_filter.present?
-      users
-    end
-
-    def users_with_permission(model, permission)
-      joins(:role)
-        .where(
-          'roles.permissions -> :resource ? :permission',
-          resource: model&.parent_form,
-          permission: permission
-        )
-    end
   end
 
   def initialize(attributes = nil, &block)
@@ -354,7 +303,7 @@ class User < ApplicationRecord
                  else
                    { 'user' => user_name }
                  end
-    { user: user_scope, module: module_unique_ids }
+    { user: user_scope }
   end
 
   def user_query_scope(record_model = nil, id_search = false)
@@ -366,6 +315,18 @@ class User < ApplicationRecord
       Permission::GROUP
     else
       Permission::USER
+    end
+  end
+
+  def user_assign_scope(record_model)
+    return unless record_model.present?
+
+    if can?(:assign, record_model)
+      Permission::ASSIGN
+    elsif can?(:assign_within_agency, record_model)
+      Permission::ASSIGN_WITHIN_AGENCY
+    elsif can?(:assign_within_user_group, record_model)
+      Permission::ASSIGN_WITHIN_USER_GROUP
     end
   end
 

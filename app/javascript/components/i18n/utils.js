@@ -6,6 +6,7 @@ export const getLocaleDir = locale => {
     case "ar":
     case "ar-LB":
     case "ku":
+    case "ku-IQ":
     case "zh":
     case "ar-SD":
     case "ar-JO":
