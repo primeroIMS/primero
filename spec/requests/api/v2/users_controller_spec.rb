@@ -451,7 +451,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -472,7 +472,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(Rails.logger).to have_received(:debug).with(/\["email", "\[FILTERED\]"\]/).twice
 
@@ -505,7 +505,7 @@ describe Api::V2::UsersController, type: :request do
           }
         }
 
-        post '/api/v2/users', params: params
+        post '/api/v2/users', params: params, as: :json
 
         expect(response).to have_http_status(204)
         expect(User.find_by(id: id)).not_to be_nil
@@ -555,7 +555,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -581,7 +581,7 @@ describe Api::V2::UsersController, type: :request do
           password_confirmation: 'pad pw confirmation'
         }
       }
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(2)

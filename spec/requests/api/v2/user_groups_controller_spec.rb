@@ -131,7 +131,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      post '/api/v2/user_groups', params: params
+      post '/api/v2/user_groups', params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
       expect(UserGroup.first.users.count).to eq(0)
@@ -185,7 +185,7 @@ describe Api::V2::UserGroupsController, type: :request do
           }
         }
 
-        post '/api/v2/user_groups', params: params
+        post '/api/v2/user_groups', params: params, as: :json
         expect(response).to have_http_status(200)
         expect(json['data']['name']).to eq(params[:data][:name])
         expect(UserGroup.first.users.count).to eq(1)
@@ -212,7 +212,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      post '/api/v2/user_groups', params: params
+      post '/api/v2/user_groups', params: params, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -227,7 +227,7 @@ describe Api::V2::UserGroupsController, type: :request do
       )
       params = {}
 
-      post '/api/v2/user_groups', params: params
+      post '/api/v2/user_groups', params: params, as: :json
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/user_groups')
       expect(json['errors'][0]['message']).to eq('Forbidden')
@@ -251,7 +251,7 @@ describe Api::V2::UserGroupsController, type: :request do
         }
       }
 
-      patch "/api/v2/user_groups/#{@user_group_b.id}", params: params
+      patch "/api/v2/user_groups/#{@user_group_b.id}", params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data'].except('core_resource')).to eq(params[:data].deep_stringify_keys)
       expect(json['data']['core_resource']).to eq(false)

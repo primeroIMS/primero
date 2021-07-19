@@ -101,7 +101,7 @@ describe Api::V2::LocationsController, type: :request do
       login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
       params = { data: { code: 'CI01', type: 'city', placename: { en: 'city01_en', es: 'city01_es' },
                          parent_code: 'D02' } }
-      post '/api/v2/locations', params: params
+      post '/api/v2/locations', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -114,9 +114,9 @@ describe Api::V2::LocationsController, type: :request do
 
     it 'creates a new record parent with 200 and returns it as JSON' do
       login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
-      params = { data: { code: 'CT02', type: 'country', admin_level: '0',
+      params = { data: { code: 'CT02', type: 'country', admin_level: 0,
                          placename: { en: 'country02_en', es: 'country02_en' }, parent_code: '' } }
-      post '/api/v2/locations', params: params
+      post '/api/v2/locations', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -131,7 +131,7 @@ describe Api::V2::LocationsController, type: :request do
       login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
       params = { data: { type: 'departament', placename: { en: 'departament03_en', es: 'departament03_es' },
                          parent_code: 'CT01' } }
-      post '/api/v2/locations', params: params
+      post '/api/v2/locations', params: params, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -144,7 +144,7 @@ describe Api::V2::LocationsController, type: :request do
       login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
       params = { data: { code: 'D01', type: 'departament',
                          placename: { en: 'Departament01_en', es: 'Departament01_es' }, parent_code: 'CT01' } }
-      post '/api/v2/locations', params: params
+      post '/api/v2/locations', params: params, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
@@ -242,7 +242,7 @@ describe Api::V2::LocationsController, type: :request do
       login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
       params = { data: { code: 'D03', type: 'departament3',
                          placename: { en: 'Departament03_en', es: 'Departament03_es' }, parent_code: 'CT01' } }
-      patch "/api/v2/locations/#{@locations_D02.id}", params: params
+      patch "/api/v2/locations/#{@locations_D02.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['type']).to eq(params[:data][:type])
@@ -256,11 +256,11 @@ describe Api::V2::LocationsController, type: :request do
         data: {
           code: 'CT02',
           type: 'country',
-          admin_level: '0',
+          admin_level: 0,
           placename: { en: 'Country02_en', es: 'Country02_es' }
         }
       }
-      patch "/api/v2/locations/#{@locations_CT01.id}", params: params
+      patch "/api/v2/locations/#{@locations_CT01.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['placename']['en']).to eq(params[:data][:placename][:en])
@@ -275,7 +275,7 @@ describe Api::V2::LocationsController, type: :request do
       login_for_test(permissions: [])
       params = { data: { location_code: 'CT02', type: 'country', admin_level: '0',
                          placename: { en: 'Country02_en', es: 'Country02_es' }, parent_code: '' } }
-      patch "/api/v2/locations/#{@locations_CT01.id}", params: params
+      patch "/api/v2/locations/#{@locations_CT01.id}", params: params, as: :json
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
@@ -288,12 +288,12 @@ describe Api::V2::LocationsController, type: :request do
         data: {
           location_code: 'CT02',
           type: 'country',
-          admin_level: '0',
+          admin_level: 0,
           placename: { en: 'Country02_en', es: 'Country02_es' },
           parent_code: 'CT02'
         }
       }
-      patch '/api/v2/locations/thisdoesntexist', params: params
+      patch '/api/v2/locations/thisdoesntexist', params: params, as: :json
 
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
@@ -305,13 +305,13 @@ describe Api::V2::LocationsController, type: :request do
     context 'when input contains valid rows' do
       before do
         @file_name = 'hxl_location_sample.csv'
-        @data_base64 = attachment_base64(@file_name)
+        @data_base64 = attachment_strict_base64(@file_name)
       end
 
       it 'imports locatons' do
         login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
         params = { data: { file_name: @file_name, data_base64: @data_base64 } }
-        post '/api/v2/locations/import', params: params
+        post '/api/v2/locations/import', params: params, as: :json
 
         expect(response).to have_http_status(200)
         expect(Location.count).to eq(417)
@@ -321,13 +321,13 @@ describe Api::V2::LocationsController, type: :request do
     context 'and file contains invalid rows' do
       before do
         @file_name = 'hxl_location_missing_pcodes.csv'
-        @data_base64 = attachment_base64(@file_name)
+        @data_base64 = attachment_strict_base64(@file_name)
       end
 
       it 'logs errors for the invalid rows' do
         login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
         params = { data: { file_name: @file_name, data_base64: @data_base64 } }
-        post '/api/v2/locations/import', params: params
+        post '/api/v2/locations/import', params: params, as: :json
 
         expect(response).to have_http_status(422)
         expect(json['data']['status']).to eq('some_failure')

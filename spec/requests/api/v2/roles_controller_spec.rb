@@ -305,7 +305,7 @@ describe Api::V2::RolesController, type: :request do
         }
       }
 
-      post '/api/v2/roles', params: params
+      post '/api/v2/roles', params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['name']).to eq(params[:data][:name])
       expect(json['data']['form_section_read_write']).to eq('A' => 'rw', 'C' => 'r')
@@ -350,7 +350,7 @@ describe Api::V2::RolesController, type: :request do
         }
       }
 
-      post '/api/v2/roles', params: params
+      post '/api/v2/roles', params: params, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -375,7 +375,7 @@ describe Api::V2::RolesController, type: :request do
         }
       }
 
-      post '/api/v2/roles', params: params
+      post '/api/v2/roles', params: params, as: :json
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq(['errors.models.role.permission_presence'])
@@ -390,7 +390,7 @@ describe Api::V2::RolesController, type: :request do
       )
       params = {}
 
-      post '/api/v2/roles', params: params
+      post '/api/v2/roles', params: params, as: :json
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
       expect(json['errors'][0]['message']).to eq('Forbidden')
@@ -441,7 +441,7 @@ describe Api::V2::RolesController, type: :request do
         }
       }
 
-      patch "/api/v2/roles/#{@role_a.id}", params: params
+      patch "/api/v2/roles/#{@role_a.id}", params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json).to eq(params.deep_stringify_keys)
     end
@@ -469,7 +469,7 @@ describe Api::V2::RolesController, type: :request do
         }
       }
 
-      patch "/api/v2/roles/#{@role_a.id}", params: params
+      patch "/api/v2/roles/#{@role_a.id}", params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data'].except('permissions')).to eq(params[:data].deep_stringify_keys)
       expect(json['data']['permissions']).to eq(Permission::PermissionSerializer.dump(@role_a.permissions))
