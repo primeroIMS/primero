@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - LATESTBRANCH=master
+      - TAG=$(docker/git-to-docker-tag.sh ${CODEBUILD_SOURCE_VERSION} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+  build:
+    commands:
+       - cd docker
+       - ./build.sh all -t ${TAG} -r ${CONTAINER_REGISTRY}
+  post_build:
+    commands:
+      - docker push ${CONTAINER_REGISTRY}/application:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/beanstalkd:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/solr:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/postgres:${TAG}
