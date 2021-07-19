@@ -5,8 +5,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      - LATESTBRANCH=master
+      - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
       - TAG=$(docker/git-to-docker-tag.sh ${CODEBUILD_SOURCE_VERSION} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
   build:
     commands:
