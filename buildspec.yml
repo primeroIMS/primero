@@ -3,6 +3,7 @@ version: 0.2
 phases:
   pre_build:
     commands:
+      - printenv
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
