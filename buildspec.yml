@@ -3,15 +3,20 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      - printenv
+      - printenv | sort
       - echo Logging in to Amazon ECR...
       - aws --version
+      - CONTAINER_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
-      - TAG=$(docker/git-to-docker-tag.sh ${CODEBUILD_SOURCE_VERSION} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+      - BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}')
+      - echo "BRANCH=${BRANCH}"
+      - TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+      - echo "TAG=${TAG}"
   build:
     commands:
        - cd docker
        - ./build.sh all -t ${TAG} -r ${CONTAINER_REGISTRY}
+       - docker image ls
   post_build:
     commands:
       - docker push ${CONTAINER_REGISTRY}/application:${TAG}
