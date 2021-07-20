@@ -1,0 +1,70 @@
+es-GT:
+  date:
+    today: 'Hoy'
+    clear: 'Limpiar'
+    first_day: 0
+    abbr_day_names_short:
+    - Do
+    - Lu
+    - Ma
+    - Mi
+    - Ju
+    - Vi
+    - Sa
+    abbr_day_names:
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    - ""
+    abbr_month_names:
+    - ~
+    - ene
+    - feb
+    - mar
+    - abr
+    - may
+    - jun
+    - jul
+    - ago
+    - sep
+    - oct
+    - nov
+    - dic
+    day_names:
+    - domingo
+    - lunes
+    - martes
+    - miércoles
+    - jueves
+    - viernes
+    - sábado
+    month_names:
+    - ~
+    - enero
+    - febrero
+    - marzo
+    - abril
+    - mayo
+    - junio
+    - julio
+    - agosto
+    - septiembre
+    - octubre
+    - noviembre
+    - diciembre
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: ""
+      rtl_with_time: ""
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: ""
+      rtl_with_time: ""
+  'true': ""
+  'false': ""

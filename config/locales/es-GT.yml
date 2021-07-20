@@ -1,0 +1,29 @@
+# encoding: utf-8
+#
+# This is the Spanish (Guatemala) localization file for Primero.  It is based on the sample
+# English localization file found in the repository linked below[1].
+#
+# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
+# that this document remains valid YAML.
+#
+# [1] https://github.com/svenfuchs/rails-i18n/
+# [2] https://yamllint.readthedocs.io/en/stable/
+
+es-GT:
+  home:
+    ar: عره بی
+    ar-IQ: العربية (العراقية)
+    ar-LB: عرەبى(لوبنانى)
+    bn: "বাংলা "
+    en: English
+    es: Español
+    es-GT: Español (Guatemala)
+    fr: Français
+    id: Bahasa
+    ku: کوردى
+    ku-IQ: کوردی (بادینی)
+    my: "မြန်မာ (ယူနီကုဒ်)"
+    ru: Русский
+    so: Soomaali
+    th: ภาษาไทย
+    zh: 中國人
