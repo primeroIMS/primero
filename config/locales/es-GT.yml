@@ -1,29 +1,754 @@
-# encoding: utf-8
-#
-# This is the Spanish (Guatemala) localization file for Primero.  It is based on the sample
-# English localization file found in the repository linked below[1].
-#
-# Anyone editing this file is strongly encouraged to use yamllint[2] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://github.com/svenfuchs/rails-i18n/
-# [2] https://yamllint.readthedocs.io/en/stable/
-
-es-GT:
+es_GT:
+  'true': 'Sí'
+  'false': 'No'
+  cancel: Cancelar
+  clear: Borrar
+  description: Descripción
+  form: Formulario
+  name: Nombre
+  offline: La aplicación está fuera de línea.
+  yes_label: 'Sí'
+  select_language: Seleccionar idioma
+  actions:
+    button: Acciones
+    description:
+      invalid: Registro inválido
+      valid: Registro válido
+    disable: Desactivar
+    enable: Activar
+  agencies:
+    label: Agencia
+  agency:
+    code: Código de la agencia
+    name: Nombre de la agencia
+    services: Servicios de Agencia
+  approvals:
+    status:
+      approved: Aprobado
+      pending: Pendiente
+      rejected: Incompleto
+  audit_log:
+    action: Acción
+    description: Descripción
+    record_owner: Dueño del Registro
+    timestamp: Hora de registro - UTC
+    user_name: Nombre de usuario
+  bulk_export:
+    record_type: Tipo
+    status: Estado
+  buttons:
+    accept: Aceptar
+    add_note: Agregar Notas
+    approvals: Aprobaciones
+    approve_bia: Aprobar BIA
+    approve_case_plan: Aprobar plan de caso
+    approve_closure: Aprobar Cierre
+    back: Volver
+    bundle_export: Paquete de configuración
+    bundle_import: Paquete de configuración
+    cancel: Cancelar
+    change_password: Cambiar contrase­ña
+    create_case: Crear caso
+    create_incident: Crear incidente
+    create_new_record: Crear nuevo %{model}
+    delete: Eliminar
+    disable: Desactivar
+    disable_photo_wall: Desactivar pared de fotos
+    done: Realizado
+    edit: Editar
+    edit_subform: Editar Subformulario
+    enable: Activar
+    enable_photo_wall: Activar pared de fotos
+    export: Exportar
+    filter: Aplicar filtro
+    filter_clear: Eliminar filtros
+    filter_label: 'Filtro:'
+    filter_restore: Reestablecer Configuración del Sistema
+    flag_model: Marcar %{model}
+    flag_records: Marcar
+    import: Importar
+    login: Iniciar sesión
+    mark_for_mobile: Marcar para celular
+    ok: OK
+    reassign: Asignar %{model}
+    referral: Referir %{model}
+    reject: Rechazar
+    remove_referrals: Eliminar referencias
+    request_approval: Solicitud de Aprobación
+    request_transfer: Solicitud de Transferencia
+    reunite: Reunir
+    save: Guardar
+    save_and_add_service_provision: Guardar y Agregar Provisión de Servicio
+    sort_by_case: Casos
+    sort_by_tr: Solicitudes de localización
+    submit: Enviar
+    transfer: Transferir %{model}
+    unflag_model: Desmarcar %{model}
+    unflag_model_history: Marcar Historial %{model}
+    unmark_for_mobile: Desmarcar para celular.
+    view: Ver
+    view_flags_history: Ver Historial
+  case:
+    label: Identificación de Caso
+    create_new_case: Crear Nuevo Caso
+    enter_id_number: Ingrese el Número de ID a buscar para un registro existente
+    id_search_no_results: No existe concordancia en el sistema para %{id}, cree un nuevo registro.
+    messages:
+      update_success: 'El caso %{record_id} fue actualizado adecuadamente.'
+      creation_success: 'El registro de caso se ha generado correctamente.'
+    workflow:
+      assessment: Evaluación
+      case_plan: Plan del Caso
+      closed: Cerrado
+      created_on: creado el
+      in_progress: En progreso
+      new: Nuevo
+      on_label: 'activado'
+      reopened: Reabierto
+      service_implemented: Servicio Implementado
+      services_implemented: Servicio Implementado
+  cases:
+    apply_filter: Aplicar
+    clear_filter: Borrar
+    export: Exportar
+    filter_by:
+      age_range: 'Rango de edad:'
+      agency: 'Agencia:'
+      approvals:
+        approved: Aprobado
+        pending: Aprobaciones Pendientes
+        rejected: Incompleto
+      by_date: 'Por Fecha:'
+      case_open_date: 'Fecha de apertura de caso:'
+      current_location: 'Ubicación actual:'
+      date: Fecha
+      displacement_status: 'Estado de desplazamiento:'
+      district: 'Distrito:'
+      female: Femenino
+      flag: 'Marcado:'
+      flag_label: Marcado?
+      male: Masculino
+      mobile: 'Celular:'
+      mobile_label: ¿Marcado para celular?
+      my_cases: Mis Casos
+      no_activity: Número de Actividad
+      photo: 'Fotografía:'
+      photo_label: ¿Tiene fotografía?
+      protection_concerns: Inquietudes sobre protección
+      protection_status: 'Estado de protección:'
+      record_state: 'Estado del registro:'
+      referred_cases: Casos referridos a mi
+      registration_date: 'Fecha de registro:'
+      risk_level: 'Nivel de riesgo:'
+      sex: 'Sexo:'
+      social_worker: 'Trabajador de terreno/caso/social:'
+      status: 'Estado:'
+      type_of_risk: 'Tipo de Riesgo:'
+      urgent_protection_concern: Inquietudes sobre protección de emergencia
+      workflow: Casos por Flujo de Trabajo
+    flag_summary: Resumen de registros marcados
+    hide_name: Ocultar nombre
+    hide_name_error: Se ha producido un error al guardar sus cambios. Por favor intente nuevamente.
+    label: Casos
+    my_filters: Mis Filtros
+    ok: Ok
+    order_by:
+      label: Ordenar por
+      most_recently: Más recientemente
+      name: Nombre
+    register_new_case: Nuevo caso
+    save_filter: Guardar
+    view_name: ' Ver nombre'
+  children:
+    selectable_date_options:
+      assessment_requested_on: Fecha de Evaluación
+      closure_approved_date: 'Fecha del Cierre de Caso'
+      created_at: Fecha de apertura de caso
+      date_case_plan_initiated: Fecha del Plan del Caso
+      registration_date: Fecha de Registro
+  contact:
+    field:
+      email: Correo electrónico
+      location: Localidad
+      name: Nombre
+      organization: Organización
+      other_information: Otra información
+      phone: Teléfono
+      position: Puesto
+      support_forum: Comunidad de Soporte
+    info_label: Información de contacto
+    updated: La información de contacto se actualizó correctamente.
+  dashboard:
+    activity: Actividad
+    all_cases: Todos los casos
+    all_services_implemented: Todos los servicios implementados
+    approvals: Aprobaciones
+    approved: Aprobado
+    assessment: Evaluación
+    case_id: 'Nº de Identificación del Caso'
+    case_plan: Plan del Caso
+    case_stat_by_approval_type: Aprobaciones
+    case_stat_by_assessment_level: Casos por nivel de evaluación
+    case_stat_referrals: Referencias
+    case_stats: Casos
+    case_worker: Trabajador de caso
+    cases_by_social_worker: Casos por trabajador social
+    cases_this_week: Casos esta semana
+    closed: Cerrado
+    closed_last_week: Cerrado <span>(útima semana)</span>
+    closed_this_week: Cerrado <span>(esta semana)</span>
+    count_records_new:
+      one: y %{stat} <span>nuevo</span> caso
+      other: y %{stat} <span>nuevos</span> casos
+    count_records_total:
+      one: Tiene %{stat} <span>caso</span> total
+      other: Tiene %{stat} <span>casos</span> totales
+    count_referrals_new:
+      one: y %{stat} <span>referencia</span> nueva
+      other: y %{stat} <span>referencias</span> nuevas
+    count_referrals_total:
+      one: Tiene %{stat} <span>referencia</span> total
+      other: Tiene %{stat} <span>referencias</span> totales
+    count_risk_level_new:
+      one: y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> caso
+      other: y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> casos
+    count_risk_level_total:
+      one: Tiene %{stat} <span>%{stat_type} riesgo </span> caso
+      other: Tiene %{stat} <span>%{stat_type} riesgo </span> casos
+    current_owner: Dueño actual
+    date: Fecha
+    date_of_incident: Fecha del incidente
+    date_of_interview: Fecha de la entrevista
+    due: Atrasado
+    flagged_by: 'Marcado por'
+    flagged_by_me: Que yo he marcado
+    flagged_by_other: Marcados por otra persona
+    geographic_area: Área Geográfica
+    high_risk: Alta Prioridad
+    immediate_response: Respuesta Inmediata
+    incident_id: 'Nº de Identificación del incidente'
+    incident_location: Lugar del incidente
+    incident_status_open: Abierto
+    last_updated: Ultima actualización
+    link_see_all: Ver todos
+    low_risk: Baja Prioridad
+    manager_count_closed_total:
+      one: y %{stat} <span>caso</span>cerrado
+      other: y %{stat} <span>casos</span>cerrados
+    manager_count_open_total:
+      one: Tiene %{stat} <span>caso</span> abierto
+      other: Tiene %{stat} <span>casos</span> abiertos
+    medium_risk: Prioridad Media
+    missed_cases: Casos perdidos
+    name: Nombre
+    name_or_survivor_code: Nombre o código de sobreviviente
+    near_deadline: Próximo a la Fecha de Vencimiento
+    new: Nuevo & Actualizado
+    new_child_assigned_to_you: Casos nuevos asignados a Ud.
+    new_incident: Nuevos incidentes
+    new_incident_assigned_to_you: Incidentes nuevos asignados
+    new_last_week: Nuevo<span>(útima semana)</span>
+    new_referred: Nuevas Referencias
+    new_this_week: Nuevo <span>(esta semana)</span>
+    no_action_risk: No Acción
+    no_case_stats: No hay estadísticas del caso
+    no_caseworker_data: No hay información del trabajador de caso
+    no_flagged_child: No hay casos marcados
+    no_flagged_incident: No hay incidentes marcados
+    no_open_incidents: No hay incidentes abiertos
+    no_overdue_activities: No hay actividades vencidas
+    no_recent_activities: No hay actividad reciente
+    no_scheduled_activities: No hay actividades programadas
+    none_risk: No Prioridad
+    number_of_victims: Cantidad de víctimas
+    number_of_violations: Cantidad de violaciones
+    number_of_violations_verified: Violaciones verificadas
+    open: Abierto
+    open_cases: Casos abiertos
+    open_incidents: Abrir incidentes
+    overdue_activities: Actividades vencidas
+    pending: Pendiente
+    pending_transfers: Transferencias Pendientes
+    protection_concern: Inquietud sobre protección
+    recent_activities: Actividades recientes
+    recently_flagged_child: Casos recientemente marcados
+    recently_flagged_incident: Incidentes recientemente marcados
+    referrals_by_social_worker: Referidos por el trabajador social
+    rejected: Incompleto
+    rejected_transfers: Transferencias Rechazadas
+    scheduled_activities: Actividades programadas
+    score_range: Rango de Puntuación
+    services: Servicios
+    status_of_cases: Estado de los casos
+    system_user: Sistema
+    total: Total
+    total_cases: Total de casos
+    total_referred: Referencias Totales
+    tr_stats: Solicitudes de localización
+    transers_awaiting_acceptance: Transferencias Esperando Aprobación
+    violence_type: Tipo de violencia
+    worker_count_referrals_total:
+      one: <span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total
+      other: <span>%{case_worker}</span> tiene %{stat} <span>referencias</span> totales
+    worker_count_total:
+      one: <span>%{case_worker}</span> tiene %{stat} <span>caso</span>total
+      other: <span>%{case_worker}</span> tiene %{stat} <span>casos</span>totales
+  disabled:
+    status:
+      disabled: Desactivado
+      enabled: Activado
+  encrypt:
+    file_name: Cree su propio nombre de archivo (Optativo)
+    password_extra_info: Esta contraseña quedará asociada al archivo exportado y toda persona que en el futuro abra este archivo, deberá ingresarla.
+    password_label: Ingrese una contraseña para codificar su archivo.
+  errors:
+    models:
+      agency:
+        code_present: no puede estar en blanco
+        name_present: no puede estar en blanco
+      child:
+        age: La edad debe ser entre 0 y 130
+        date_of_birth: Ingrese una fecha de nacimiento válida para este registro de caso
+      location:
+        admin_level_present: no puede estar en blanco
+        code_present: no puede estar en blanco
+        name_present: no puede estar en blanco
+      lookup:
+        being_used: Esta búsqueda está siendo utilizada y no puede eliminarse
+        name_present: El nombre no puede estar en blanco
+      primero_module:
+        associated_record_types: Debe asociarse por lo menos un tipo de registro a este módulo
+        name_present: El nombre no puede estar en blanco
+        unique_name: Ya existe un módulo con ese nombre, por favor ingrese otro nombre
+      report:
+        name_presence: El nombre no puede estar en blanco
+      role:
+        permission_presence: Seleccione por lo menos una autorización
+      user:
+        email: "Ingrese una dirección de correo electrónico válida"
+        password_mismatch: Los campos de contraseña no tienen la misma contraseña
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Seleccionado a PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Seleccionado a CSV
+    custom_exports:
+      choose_fields: ¿Desea seleccionar campos individuales para un formulario?
+      empty_fields_forms: Seleccione algunos formularios o campos a exportar.
+      empty_format: Seleccione un formato a exportar.
+      empty_module: Seleccione un módulo a exportar.
+      empty_password: Ingrese una contraseña para codificar su archivo.
+      field_label: Campo
+      fields: Seleccionar campos a exportar
+      form_label: Formulario
+      format_label: Seleccionar formato
+      forms: Seleccionar formularios a exportar
+      label: Exportaciones personalizadas
+      module_placeholder: Seleccione un módulo.
+      select_module: Seleccionar módulo
+      submit: OK
+    duplicate_id_csv:
+      female_abbreviation: F
+      headers:
+        age: Edad
+        case_id: Identificación de Caso
+        sex_mapping_m_f_u: Sexo
+      male_abbreviation: M
+    forms:
+      label: Exportar
+    json:
+      all: JSON
+      one: JSON
+      selected: Seleccionado a JSON
+    list_view_csv:
+      all: Exportar lista
+      selected: Seleccionado a CSV
+    mrm_violation_xls:
+      all: Violaciones MRM
+      one: Violaciones MRM
+      selected: Seleccionado a violaciones MRM
+    no_records: No hay registros disponibles!
+    pdf:
+      all: PDF
+      one: PDF
+      selected: Seleccionado a PDF
+    pdf_exports:
+      label: PDF
+    photowall:
+      all: Galería de Fotografías
+      one: Galería de Fotografías
+      selected: Seleccionado a pared de fotos
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Seleccionado a Excel
+    unhcr_csv:
+      all: ACNUR
+      female_abbreviation: F
+      headers:
+        age: Edad
+        date_of_birth: Fecha de Nacimiento
+        id: Código ID
+        sex: Sexo
+        sex_mapping_m_f_u: Sexo
+      male_abbreviation: M
+      one: ACNUR
+      selected: Seleccionado para ACNUR
+  fields:
+    action: Acción
+    actions: Acciones
+    add: Agregar
+    check_box: Marcar casillas
+    date_field: Campo de fecha
+    date_help: dd-mmm-aaaa
+    date_range:
+      date: Fecha
+      date_range: Rango de fecha
+      from: Desde
+      to: Hasta
+    date_range_field: Rango de fecha
+    db_name: Nombre DB
+    deleted: El campo %{display_name} ha sido eliminado.
+    display_name: Desplegar nombre
+    document:
+      comments: Comentarios
+      current: ¿Es este el documento actual?
+      date: Fecha del Documento
+      name: Nombre del Documento
+    field_name: Nombre del campo
+    file_upload_box:
+      add_new_document_button_text: Agregar otro documento
+      add_new_photo_button_text: Agregar otra foto
+      add_photo_label: Agregar fotografía
+      document_description: Descripción del documento
+      no_file_selected: No hay archivos seleccionados.
+      photo_file_restrictions_message: Los fotos deben ser de menos de 10mb. Los archivos de audio deben ser de menos de 10mb. Mientras más chicos, mejor.
+      select_file_button_text: Seleccionar expediente
+    form_name: Nombre del formulario
+    help_text: Texto de ayuda
+    label: Campos
+    move_to: Mover a
+    multi_select: Selección múltiple
+    numeric_field: Campo numérico
+    option_strings_add_option: Agregar opción
+    option_strings_source: Búsquedas
+    option_strings_text: Opciones
+    radio_button: Botón de radio
+    remove: Eliminar
+    select_box: Seleccione desplegar hacia abajo
+    separator: Separador
+    subform: Subformulario
+    subform_remove_message: ¿Está seguro de que desea eliminar este subformulario?
+    successfully_added: El campo se agregó correctamente
+    tally_field: Campo de cuenta
+    text_area: Área de texto
+    text_field: Campo de texto
+    textarea: Área de texto
+    tick_box: Marcar casilla
+    tick_box_label: Marcar etiqueta de casilla
+    type: Tipo de campo
+    updated: Campo actualizado
+  followup_reminders:
+    system_generated_followup_flag: Consulta de seguimiento obligatoria
+  form_section:
+    name: Nombre
+    required_field: 'se requiere de %{field}'
+  forms:
+    label: Formularios
+    messages:
+      use_existing: Le instamos a que utilice los formularios existentes ya que así es más fácil compartir y combinar la información entre las instituciones.
+    record_types:
+      case: Caso
+      child: Caso
+      incident: Incidente
+      reportable_protection_concern: Inquietud sobre protección
+      reportable_service: Servicio
+      tracing_request: Localizando solicitud
+      violation: Violación
   home:
-    ar: عره بی
-    ar-IQ: العربية (العراقية)
-    ar-LB: عرەبى(لوبنانى)
-    bn: "বাংলা "
-    en: English
-    es: Español
     es-GT: Español (Guatemala)
-    fr: Français
-    id: Bahasa
-    ku: کوردى
-    ku-IQ: کوردی (بادینی)
-    my: "မြန်မာ (ယူနီကုဒ်)"
-    ru: Русский
-    so: Soomaali
-    th: ภาษาไทย
-    zh: 中國人
+    current_time_zone: Zona horaria actual
+    dashboard: Tablero
+    label: Pagina de inicio
+    language: Idioma
+    manage_system_users: Gestionar sincronización de usuarios en el servidor
+    records_need_attention: Hay archivos que requieren de su atención
+    users: Gestionar usuarios
+    view_records: Ver archivos
+    welcome: Bienvenido a Primero
+  incident:
+    messages:
+      creation_success: El registro del incidente %{record_id} se generó correctamente.
+      update_success: 'El incidente %{record_id} se actualizó correctamente.'
+  incidents:
+    label: Incidentes
+    filter_by:
+      boys: Niños
+      girls: Niñas
+      incident_location: 'Lugar del incidente:'
+      unaccompanied_separated_status: 'Estado de protección:'
+      unknown: Se desconoce
+      violence_type: Tipo de violencia
+    register_new_incident: Nuevo incidente
+    selectable_date_options:
+      date_of_first_report: Fecha de la Entrevista
+      incident_date_derived: Fecha del incidente
+  location:
+    label: Localidad
+    name: Nombre
+    code: Código
+    type: Tipo
+    hierarchy: Jerarquía
+  logger:
+    approve_form:
+      closure: Formulario de cierre
+    copy: Copiando
+    create: Creando
+    destroy: Eliminando
+    edit: Editando
+    export: Exportando datos para
+    hide_name:
+      protect: Ocultar nombre
+      view: ' Ver nombre'
+    login: Inicio de sesión
+    logout: Desconectarse
+    mark_for_mobile:
+      'true': Marcar para móvil
+    reassign: Asignando
+    referral: Refiriendo
+    reopen_case: Reabriendo
+    request_approval:
+      closure: Solicitar aprobación de cierre
+    show: Visualizando
+    to: a
+    transfer: Transfiriendo
+    update: Actualizando
+  login:
+    label: Inicio de sesión
+    password:
+      label: Contraseña
+    username: Nombre de usuario
+  lookup:
+    create: Nueva búsqueda
+    label: Búsqueda
+    messages:
+      cannot_create: No pudo generarse la búsqueda
+      correct_errors: 'Corrija los siguientes errores y re-envíe:'
+      updated: La búsqueda se agregó correctamente
+    name: Nombre
+    values: Opciones
+  messages:
+    confirmation_message: Al hacer clic en OK se descartarán los cambios no guardados y volverá a la lista. Haga clic en cancelar para volver al registro.
+  navigation:
+    bulk_exports: EXPORTACION POR LOTES
+    cases: CASOS
+    home: INICIO
+    incidents: INCIDENTES
+    reports: INFORMES
+    search: Buscar
+    tasks: TAREAS
+    tracing_request: SEGUIMIENTO DE SOLICITUDES
+  permissions:
+    label: Autorizaciones
+    permission:
+      All: Todos
+      add_note: Agregar Notas
+      agency: Agencia
+      all: Acceso a todos los registros o usuarios
+      approve_case_plan: Aprobar plan de caso
+      approve_closure: Aprobar Formulario de Cierre
+      assign: Asignar
+      case: Caso
+      consent_override: Aprobar control manual
+      copy: Copiar
+      create: Crear
+      dash_cases_by_social_worker: Ver Casos por Trabajador Social
+      dash_cases_by_workflow: Ver Casos por Flujo de Trabajo
+      dash_cases_to_assign: Ver Casos por Asignar
+      dash_referrals_by_socal_worker: Ver Referidos por Trabajador Social
+      dash_service_provisions: Ver Provisión de Servicios
+      dashboard: Tablero
+      enable_disable_record: Desactivar
+      export_case_pdf: Exportar pdf del caso
+      export_csv: Exportar csv
+      export_custom: Exportar archivo personalizado
+      export_duplicate_id_csv: Exportar duplicados
+      export_json: Exportar json
+      export_list_view_csv: Exportar lista csv
+      export_mrm_violation_xls: Exportar violación mrm xls
+      export_pdf: Exportar pdf
+      export_photowall: Exportar pared de fotos
+      export_unhcr_csv: Exportar unhcr csv
+      export_xls: Exportar xls
+      flag: Marcar
+      form: Formularios
+      group: Acceso a todos los registros o usuarios en mi grupo
+      import: Importar
+      incident: Incidente
+      lookup: Búsquedas
+      manage: Gestionar
+      metadata: Formularios, búsquedas
+      read: Leer
+      reassign: Reasignar
+      referral: Referencia
+      report: Informe
+      request_approval: Solicitud para Aprobación
+      request_approval_closure: Solicitar aprobación de cierre
+      request_transfer: Solicitud de Transferencia
+      role: Roles
+      self: Acceso solo a mis registros o usuario
+      specific_roles: Acceso a listas específicas de roles
+      sync_mobile: Sincronizar con dispositivo móvil
+      system: Sistema
+      tracing_request: Localizando solicitud
+      transfer: Transferir
+      user: Usuarios
+      user_group: Grupos de usuarios
+      view_approvals: Ver Aprobaciones
+      view_assessment: Ver Evaluación
+      write: Escribir
+  potential_match:
+    child_age: Edad
+    child_gender: Género
+    child_id: id# del menor
+    inquirer_id: '# de Identificación de quien consulta'
+    inquirer_tr_name: solicitud de localización
+    inquiry_date: Fecha de la consulta
+    name: Nombre
+    score: Puntuación
+    social_worker: Trabajador social
+    social_worker_agency: Agencia
+    trace: Localización
+  potential_matches:
+    display: Mostrando posible concordancias pra %{type}%{id}
+  reassign:
+    notes_label: Notas
+  record_panel:
+    record_information: Información del Archivo
+  referral:
+    agency_label: Agencia
+    is_remote_label: ¿Está refiriendo a un sistema remoto?
+    location_label: Localidad
+    notes_label: Notas
+    service_label: Servicio
+    success: '%{record_type} %{id} referido correctamente'
+  report:
+    aggregate_by: Agrupar por fila
+    date_ranges:
+      date: Día
+      month: Mes
+      week: Semana
+      year: Año
+    description: Descripción
+    disaggregate_by: Agrupar por columna
+    filters:
+      label: Filtros del informe
+      attribute: Filtro
+      value: Con
+      not_null: El valor en el formulario no queda vacío
+    group_ages: Usar rangos de edades
+    group_dates_by: Usar rangos de fechas
+    is_graph: ¿Generar gráfico?
+    messages:
+      delete_success: El informe se eliminó correctamente.
+    modules: Módulos
+    name: Nombre
+    no_data: No existe información para este informe
+    record_type: Tipo de registro
+    total: Total
+  reports:
+    label: Informes
+    register_new_report: Crear informe
+  request_transfer:
+    notes_label: Notas
+  role:
+    copy_failure: Error al copiar el rol. Asegúrese de que el nombre no está en conflicto con otro rol.
+    copy_success: El rol se copió correctamente.
+    create: Crear rol
+    description: Descripción
+    edit: Editar rol
+    error_in_updating: Error al actualizar la información del rol.
+    group_permission_label: ¿Qué registros afecta este rol?
+    name: Nombre
+    referral_label: ¿Puede utilizarse este rol para Referencias?
+    role_ids_label: Otros roles administrados por este rol
+    successfully_updated: La información del rol se actualizó correctamente.
+    transfer_label: ¿Puede utilizarse este rol para Transferencias?
+  roles:
+    label: Roles
+  saved_search:
+    deleted: Búsqueda eliminada con éxito.
+    filters_tab: Filtros
+    save_success: Búsqueda guardada con éxito
+    saved_searches_tab: Búsquedas Guardadas.
+  saved_searches:
+    no_save_searches: No tienes búsquedas guardadas.
+    save_search: Guardar búsqueda
+  system_settings:
+    label: Configuración del sistema
+  task:
+    due_date: Fecha Límite
+    id: Nº de ID
+    priority: Nivel de Prioridad
+    type: Tipo de Acción
+    types:
+      assessment: Evaluación
+      case_plan: Plan del Caso
+      follow_up: Seguimiento - %{subtype}
+      service: Servicio - %{subtype}
+  tracing_request:
+    label: Identificación de quien consulta
+    find_match: Encontrar concordancia
+    messages:
+      update_success: 'La solicitud de localización %{record_id} se actualizó correctamente.'
+      creation_success: El registro de solicitud de localización %{record_id}  se generó correctamente.
+  tracing_requests:
+    filter_by:
+      location_separation: 'Lugar de separación:'
+      separation_cause: 'Motivo de separación:'
+    register_new_tracing_request: Nueva solicitud de localización
+    selectable_date_options:
+      inquiry_date: Fecha de la consulta
+    export: Exportaciones
+  transfer:
+    agency_label: Agencia
+    consent_label: los registros no han proporcionado consentimiento.
+    consent_override_label: ¿Desea sobreescribir esta configuración?
+    is_remote_label: ¿Está transfiriendo a un sistema remoto?
+    location_label: Localidad
+    notes_label: Notas
+    success: '%{record_type} %{id} transferido correctamente'
+    user_mandatory: Se requiere el nombre de usuario
+  user:
+    code: Código de Usuario
+    disabled: Desactivado
+    full_name: Nombre completo
+    label: usuario
+    location: Localidad
+    messages:
+      confirmation: ¿Está seguro de que desea eliminar este usuario? Una vez eliminado no podrá recuperarse. Haga clic en OK para eliminar el usuario.
+      created: El usuario se generó correctamente.
+      not_found: No se encontró el usuario con la identificación proporcionada
+      password_changed_successfully: La contraseña se cambió correctamente
+      passwords_do_not_match: no concuerda con la contraseña actual
+      time_zone_updated: El cambio se actualizó correctamente.
+      updated: El usuario se actualizó correctamente.
+    organization: Organización
+    agency: Agencia
+    position: Puesto
+    services: Servicios
+    welcome_email:
+      greeting: 'Bienvenido a Primero,'
+      url_label: Primero
+      enabled_label: Enviar Email de Bienvenida
+  user_group:
+    description: Descripción
+    name: Nombre
+  user_groups:
+    label: Grupos de usuarios
+  users:
+    label: Usuarios
