@@ -4,6 +4,7 @@ I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
 EN_FALLBACK = %i[en].freeze
 AR_FALLBACK = %i[ar en].freeze
+ES_FALLBACK = %i[es en].freeze
 KU_FALLBACK = %i[ku en].freeze
 PT_FALLBACK = %i[pt en].freeze
 
@@ -16,6 +17,7 @@ I18n.fallbacks = {
   'ar-SD': AR_FALLBACK,
   bn: EN_FALLBACK,
   es: EN_FALLBACK,
+  'es-GT': ES_FALLBACK,
   'fa-AF': EN_FALLBACK,
   fr: EN_FALLBACK,
   id: EN_FALLBACK,
