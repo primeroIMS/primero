@@ -18,8 +18,8 @@ phases:
        - docker image ls
   post_build:
     commands:
-      - echo ${CONTAINER_REGISTRY}/application:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/application:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/beanstalkd:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/solr:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/postgres:${TAG}
+      - echo ${CONTAINER_REGISTRY}/primero/application:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primero/application:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primero/beanstalkd:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primero/solr:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primero/postgres:${TAG}
