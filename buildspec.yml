@@ -6,7 +6,6 @@ phases:
       - printenv | sort
       - echo Logging in to Amazon ECR...
       - aws --version
-      - CONTAINER_REGISTRY="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
       - BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}')
       - echo "BRANCH=${BRANCH}"
