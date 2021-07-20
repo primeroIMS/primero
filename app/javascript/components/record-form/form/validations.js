@@ -16,6 +16,10 @@ export const fieldValidations = (field, i18n) => {
   const { multi_select: multiSelect, name, type, required } = field;
   const validations = {};
 
+  if (field.visible === false) {
+    return validations;
+  }
+
   if (NUMERIC_FIELD === type) {
     if (name.match(/.*age$/)) {
       validations[name] = number()

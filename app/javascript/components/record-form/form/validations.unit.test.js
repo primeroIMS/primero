@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { object } from "yup";
 
 import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "../constants";
@@ -102,6 +103,33 @@ describe("<RecordForm>/form/validations", () => {
         it("should be valid if it is null", () => {
           const schema = object().shape(validations.fieldValidations(selectField, i18n));
           const formData = { cities: null };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+    });
+
+    context("when the field is required ", () => {
+      const i18n = { t: value => value, locale: "en" };
+
+      const textField = {
+        name: "first_name",
+        display_name: { en: "First Name" },
+        type: TEXT_FIELD,
+        required: true
+      };
+
+      context("and the field is empty", () => {
+        it("should be invalid if the field is visible", () => {
+          const schema = object().shape(validations.fieldValidations(textField, i18n));
+          const formData = { first_name: null };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+
+        it("should be valid if the field is not visible", () => {
+          const schema = object().shape(validations.fieldValidations({ ...textField, visible: false }, i18n));
+          const formData = { first_name: null };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });
