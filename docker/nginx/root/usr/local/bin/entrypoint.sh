@@ -38,7 +38,7 @@ if [ "$1" = "nginx" ]; then
 
 	printf "Use LetsEncrypt status %s\\nh" "$USE_LETS_ENCRYPT"
 
-	if [ "$USE_LETS_ENCRYPT" == "false" ];
+	if [ "$USE_LETS_ENCRYPT" == "false" ] && [ "$USE_EXTERNAL_CERTS" == "false" ] ;
 	then
       	prim_generate_self_signed_certs
 	fi
