@@ -23,3 +23,4 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primero/beanstalkd:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primero/solr:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primero/postgres:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primero/nginx:${TAG}
