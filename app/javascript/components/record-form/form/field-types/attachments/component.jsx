@@ -56,11 +56,9 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
     };
   }
 
-  const valuesSize = values.length;
-
   const renderAttachmentInputFields = arrayHelpers =>
-    values.length > 0 &&
-    values.map((value, index) => {
+    values?.length > 0 &&
+    values?.map((value, index) => {
       return (
         // eslint-disable-next-line react/no-array-index-key
         <div key={`${attachment}-${index}`}>
@@ -70,7 +68,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
               index={index}
               name={name}
               mode={mode}
-              open={valuesSize === index + 1 && openLastDialog}
+              open={values?.length === index + 1 && openLastDialog}
               resetOpenLastDialog={resetOpenLastDialog}
               value={value}
               arrayHelpers={arrayHelpers}
@@ -93,7 +91,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
     });
 
   const audioAttachments = () =>
-    values.map(value => {
+    values?.map(value => {
       const { attachment_url: attachmentUrl, file_name: fileName } = value;
 
       return (
@@ -107,7 +105,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
 
   const renderField = arrayHelpers => {
     if (field.type === PHOTO_FIELD && mode.isShow) {
-      const images = values.map(value => value.attachment_url || buildBase64URL(value.content_type, value.attachment));
+      const images = values?.map(value => value.attachment_url || buildBase64URL(value.content_type, value.attachment));
 
       return <PhotoArray images={images} />;
     }
