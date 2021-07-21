@@ -17,7 +17,15 @@ export const optionEquality = (option, selected, optionIdKey) => {
 
 export const optionDisabled = option => option?.isDisabled || option?.disabled;
 
-export const filterOptions = createFilterOptions({
-  matchFrom: "any",
-  limit: 500
-});
+export const filterOptions = currentValue => {
+  const defaultFilterOptions = createFilterOptions({
+    matchFrom: "any",
+    limit: 500
+  });
+
+  return (options, { inputValue, getOptionLabel }) => {
+    const value = inputValue && currentValue && inputValue !== currentValue ? "" : inputValue;
+
+    return defaultFilterOptions(options, { inputValue: value, getOptionLabel });
+  };
+};
