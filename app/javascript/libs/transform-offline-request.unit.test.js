@@ -6,23 +6,41 @@ import transformOfflineRequest from "./transform-offline-request";
 
 describe("transformOfflineRequest", () => {
   beforeEach(done => {
-    Promise.all([
-      DB.add(DB_STORES.FIELDS, {
-        name: "first_name"
-      }),
-      DB.add(DB_STORES.FIELDS, {
-        name: "age",
-        type: NUMERIC_FIELD
-      }),
-      DB.add(DB_STORES.FIELDS, {
-        name: "date_of_birth",
-        type: DATE_FIELD
-      })
-    ]).finally(done);
+    const promise = new Promise((resolve, reject) => {
+      Promise.all([
+        DB.add(DB_STORES.FIELDS, {
+          name: "first_name"
+        }),
+        DB.add(DB_STORES.FIELDS, {
+          name: "age",
+          type: NUMERIC_FIELD
+        }),
+        DB.add(DB_STORES.FIELDS, {
+          name: "date_of_birth",
+          type: DATE_FIELD
+        })
+      ])
+        .then(resolve)
+        .catch(reject);
+
+      setTimeout(() => {
+        reject(new Error("transform-offline-request.unit.test.js: Timeout executed"));
+      }, 1000);
+    });
+
+    promise.then(() => done()).catch(done);
   });
 
   afterEach(done => {
-    DB.clearDB().finally(done);
+    const promise = new Promise((resolve, reject) => {
+      DB.clearDB().then(resolve).catch(reject);
+
+      setTimeout(() => {
+        reject(new Error("transform-offline-request.unit.test.js: Timeout executed"));
+      }, 1000);
+    });
+
+    promise.then(() => done()).catch(done);
   });
 
   it("should transform numeric and date fields", done => {
@@ -40,10 +58,19 @@ describe("transformOfflineRequest", () => {
       }
     };
 
-    transformOfflineRequest(action)
-      .then(result => {
-        expect(result).to.deep.equals(expected);
-      })
-      .finally(done);
+    const promise = new Promise((resolve, reject) => {
+      transformOfflineRequest(action)
+        .then(result => {
+          expect(result).to.deep.equals(expected);
+          resolve();
+        })
+        .catch(reject);
+
+      setTimeout(() => {
+        reject(new Error("transform-offline-request.unit.test.js: Timeout executed"));
+      }, 1000);
+    });
+
+    promise.then(() => done()).catch(done);
   });
 });
