@@ -16,60 +16,31 @@ describe Api::V2::WebhooksController, type: :request do
       ]
     )
     @webhook_a = Webhook.create!(
-      unique_id: 'webhook_1',
-      webhook_code: 'webhook1',
-      order: 1,
-      telephone: '12565742',
-      logo_enabled: false,
-      disabled: false,
-      pdf_logo_option: true,
-      services: %w[services_a services_b],
-      name_i18n: { en: 'Webhook 1', es: 'Agencia 1' },
-      description_i18n: { en: 'Webhook 1', es: 'Agencia 1' },
-      logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo,
-      terms_of_use: FilesTestHelper.pdf_file
+      id: 'webhook_1',
+      events: 'event_1',
+      url: 'url_1',
+      role_unique_id: 'role_unique_id_1',
+      metadata: {
+        tag: 'tag_1',
+      },
     )
     @webhook_b = Webhook.create!(
-      unique_id: 'webhook_2',
-      webhook_code: 'webhook_2',
-      order: 1,
-      telephone: '12525742',
-      logo_enabled: false,
-      disabled: false,
-      services: %w[services_a services_b],
-      name_i18n: { en: 'Webhook 2', es: 'Webhook 2' },
-      description_i18n: { en: 'Webhook 2', es: 'Webhook 2' }
+      id: 'webhook_2',
+      events: 'event_2',
+      url: 'url_2',
+      role_unique_id: 'role_unique_id_2',
+      metadata: {
+        tag: 'tag_2',
+      },
     )
     @webhook_c = Webhook.create!(
-      unique_id: 'webhook_3',
-      webhook_code: 'webhook3',
-      order: 1,
-      telephone: '12565742',
-      logo_enabled: true,
-      disabled: true,
-      services: %w[services_a services_b],
-      name_i18n: { en: 'Webhook 3', es: 'Webhook 3' },
-      logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo
-    )
-    @user_a = User.create!(
-      full_name: 'Test User 1',
-      user_name: 'test_user_1',
-      password: 'a12345678',
-      password_confirmation: 'a12345678',
-      email: 'test_user_1@localhost.com',
-      webhook_id: @webhook_a.id,
-      role: @role
-    )
-    @user_b = User.create!(
-      full_name: 'Test User 2',
-      user_name: 'test_user_2',
-      password: 'b12345678',
-      password_confirmation: 'b12345678',
-      email: 'test_user_2@localhost.com',
-      webhook_id: @webhook_a.id,
-      role: @role
+      id: 'webhook_3',
+      events: 'event_3',
+      url: 'url_3',
+      role_unique_id: 'role_unique_id_3',
+      metadata: {
+        tag: 'tag_3',
+      },
     )
   end
 
@@ -87,14 +58,11 @@ describe Api::V2::WebhooksController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
-      expect(json['data'][0]['unique_id']).to eq(@webhooks_a.unique_id)
-      expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@webhooks_a.name_i18n))
-      expect(json['data'][0]['pdf_logo_option']).to be_truthy
-      expect(json['data'][0]['logo_icon']).not_to be_nil
-      expect(json['data'][0]['logo_full']).not_to be_nil
-      expect(json['data'][0]['terms_of_use']).not_to be_nil
-      expect(json['data'][2]['logo_icon']).not_to be_nil
-      expect(json['data'][2]['logo_full']).not_to be_nil
+      expect(json['data'][0]['id']).to eq(@webhook_a.id)
+      expect(json['data'][0]['events']).to eq(@webhook_a.events)
+      expect(json['data'][0]['url']).to eq(@webhook_a.url)
+      expect(json['data'][0]['role_unique_id']).to eq(@webhook_a.role_unique_id)
+      expect(json['data'][0]['metadata']).to eq('tag' => 'tag_1') 
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -119,9 +87,9 @@ describe Api::V2::WebhooksController, type: :request do
         ]
       )
 
-      get "/api/v2/webhooks/#{@webhooks_b.id}"
+      get "/api/v2/webhooks/#{@webhook_b.id}"
       expect(response).to have_http_status(200)
-      expect(json['data']['unique_id']).to eq(@webhook_b.unique_id)
+      expect(json['data']['id']).to eq(@webhook_b.id)
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -133,9 +101,9 @@ describe Api::V2::WebhooksController, type: :request do
 
       get "/api/v2/webhooks/#{@webhook_b.id}"
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/webhooks/#{@webhooks_b.id}")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/webhooks/#{@webhook_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
-    end
+    end 
 
     it 'returns a 404 when trying to fetch a record with a non-existant id' do
       login_for_test(
@@ -160,20 +128,11 @@ describe Api::V2::WebhooksController, type: :request do
       )
       params = {
         data: {
-          unique_id: 'webhooks_test00',
-          webhook_code: 'a00052',
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
+          events: 'case.create',
+          url: 'https://sample.com/this/endpoint',
+          role_unique_id: 'fake_role_id',
+          metadata: {
+            tag: 'zapier'
           }
         }
       }
@@ -181,42 +140,7 @@ describe Api::V2::WebhooksController, type: :request do
       post '/api/v2/webhooks', params: params
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
-      expect(json['data']['name']['en']).to eq(params[:data][:name][:en])
-      expect(json['data']['name']['es']).to eq(params[:data][:name][:es])
-    end
 
-    it 'Error 409 same id' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::WEBHOOK, actions: [Permission::MANAGE])
-        ]
-      )
-      params = {
-        data: {
-          id: @webhook_a.id,
-          unique_id: 'webhook_test00',
-          webhook_code: 'a00052',
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          }
-        }
-      }
-
-      post '/api/v2/webhooks', params: params
-      expect(response).to have_http_status(409)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
-      expect(json['errors'][0]['resource']).to eq('/api/v2/webhooks')
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -227,20 +151,12 @@ describe Api::V2::WebhooksController, type: :request do
       )
       params = {
         data: {
-          unique_id: 'webhooks_test00',
-          webhook_code: 'a00052',
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
+          id: 'webhook_id',
+          events: 'case.create',
+          url: 'https://sample.com/this2/endpoint',
+          role_unique_id: 'fake_role_id',
+          metadata: {
+            tag: 'zapier'
           }
         }
       }
@@ -262,33 +178,19 @@ describe Api::V2::WebhooksController, type: :request do
       )
       params = {
         data: {
-          id: @webhook_a.id,
-          unique_id: 'webhook_test00',
-          webhook_code: 'a00052',
-          order: 5,
-          telephone: '87452168',
-          services: %w[services],
-          logo_enabled: true,
-          disabled: true,
-          name: {
-            en: 'Deploy',
-            es: 'Desplegar'
-          },
-          description: {
-            en: 'Deploy',
-            es: 'Desplegar'
+          url: 'https://sample.com/this2/endpoint',
+          role_unique_id: 'fake_role_id',
+          metadata: {
+            tag: 'zapier'
           }
         }
       }
-      name_i18n = FieldI18nService.fill_with_locales(params[:data][:name]).deep_stringify_keys
-      description_i18n = FieldI18nService.fill_with_locales(params[:data][:description]).deep_stringify_keys
 
       patch "/api/v2/webhooks/#{@webhook_a.id}", params: params
       expect(response).to have_http_status(200)
-      expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
-      expect(json['data']['webhook_code']).to eq(params[:data][:webhook_code])
-      expect(json['data']['name']).to eq(name_i18n)
-      expect(json['data']['description']).to eq(description_i18n)
+      expect(json['data']['url']).to eq(params[:data][:url])
+      expect(json['data']['role_unique_id']).to eq(params[:data][:role_unique_id])
+      expect(json['data']['metadata']).to eq('tag' => 'zapier')
     end
 
     it 'updates an non-existing webhook' do
@@ -331,7 +233,7 @@ describe Api::V2::WebhooksController, type: :request do
       delete "/api/v2/webhooks/#{@webhook_a.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@webhook_a.id)
-      expect(Webhook.find_by(id: @webhook_a.id).disabled).to be true # should expect not found 
+      expect(Webhook.find_by(id: @webhook_a.id).nil?).to be true 
     end
 
     it 'returns 403 if user is not authorized to access' do
