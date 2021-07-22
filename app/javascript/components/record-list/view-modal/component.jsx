@@ -8,7 +8,7 @@ import ActionDialog from "../../action-dialog";
 import { getPermissionsByRecord } from "../../user";
 import { ACTIONS, checkPermissions } from "../../../libs/permissions";
 import { useMemoizedSelector } from "../../../libs";
-import { getFieldsWithNames, getMiniFormFields } from "../../record-form";
+import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
 import Form, { FORM_MODE_SHOW } from "../../form";
 
 import viewModalForm from "./form";
@@ -20,7 +20,7 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const [sendRequest, setSendRequest] = useState(false);
 
   const commonFieldNames = Object.values(COMMON_FIELD_NAMES);
-  const commonFields = useMemoizedSelector(state => getFieldsWithNames(state, commonFieldNames));
+  const commonFields = useMemoizedSelector(state => getFieldsWithNamesForMinifyForm(state, commonFieldNames));
   const miniFormFields = useMemoizedSelector(state =>
     getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames, true)
   );
@@ -56,6 +56,7 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   );
 
   const onSubmit = () => {};
+
 
   return (
     <>
