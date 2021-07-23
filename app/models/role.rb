@@ -26,6 +26,16 @@ class Role < ApplicationRecord
     'user_group' => ['manage']
   }.freeze
 
+  ROLE_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'string' }, 'description' => { 'type' => 'string' },
+    'group_permission' => { 'type' => 'string' }, 'referral' => { 'type' => 'boolean' },
+    'is_manager' => { 'type' => 'boolean' }, 'transfer' => { 'type' => 'boolean' },
+    'disabled' => { 'type' => 'boolean' }, 'module_unique_ids' => { 'type' => 'array' },
+    'permissions' => { 'type' => 'object' }, 'form_section_read_write' => { 'type' => 'object' },
+    'reporting_location_level' => { 'type' => 'integer' }
+  }.freeze
+
   has_many :form_permissions
   has_many :form_sections, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, -> { distinct }

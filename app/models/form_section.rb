@@ -7,6 +7,23 @@ class FormSection < ApplicationRecord
 
   RECORD_TYPES = %w[case incident tracing_request].freeze
 
+  FORM_SECTION_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'object' }, 'help_text' => { 'type' => 'object' },
+    'description' => { 'type' => 'object' }, 'parent_form' => { 'type' => 'string' },
+    'visible' => { 'type' => 'boolean' }, 'order' => { 'type' => 'integer' },
+    'order_form_group' => { 'type' => 'integer' }, 'order_subform' => { 'type' => 'integer' },
+    'form_group_keyed' => { 'type' => 'boolean' }, 'is_nested' => { 'type' => 'boolean' },
+    'is_first_tab' => { 'type' => 'boolean' }, 'is_summary_section' => { 'type' => 'boolean' },
+    'mobile_form' => { 'type' => 'boolean' }, 'hide_subform_placeholder' => { 'type' => 'boolean' },
+    'subform_prevent_item_removal' => { 'type' => 'boolean' }, 'subform_append_only' => { 'type' => 'boolean' },
+    'display_help_text_view' => { 'type' => 'boolean' }, 'subform_header_links' => { 'type' => 'boolean' },
+    'initial_subforms' => { 'type' => 'integer' }, 'form_group_id' => { 'type' => 'string' },
+    'shared_subform' => { 'type' => 'string' }, 'shared_subform_group' => { 'type' => 'string' },
+    'collapsed_field_names' => { 'type' => 'array' }, 'fields' => { 'type' => 'array' },
+    'module_ids' => { 'type' => 'array' }
+  }.freeze
+
   localize_properties :name, :help_text, :description
 
   has_many :fields, -> { order(:order) },

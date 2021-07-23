@@ -3,6 +3,7 @@
 # Users CRUD API
 class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
 
   before_action :load_user, only: %i[show update destroy]
   before_action :user_params, only: %i[create update]
@@ -12,7 +13,7 @@ class Api::V2::UsersController < ApplicationApiController
 
   def index
     authorize! :index, User
-    filters = params.permit(:agency, :location, :services, :user_group_ids, disabled: {}).to_h
+    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids, disabled: {}).to_h
     results = PermittedUsersService.new(current_user).find_permitted_users(
       filters.compact, pagination, order_params
     )
@@ -25,7 +26,7 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def create
-    authorize! :create, User
+    authorize!(:create, User) && validate_json!(User::USER_FIELDS_SCHEMA, user_params)
     @user = User.new(@user_params)
     @user.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -35,6 +36,7 @@ class Api::V2::UsersController < ApplicationApiController
   def update
     authorize! :disable, @user if @user_params.include?('disabled')
     authorize! :edit_user, @user
+    validate_json!(User::USER_FIELDS_SCHEMA, user_params)
     @user.update_with_properties(@user_params)
     @user.save!
   end
@@ -51,7 +53,7 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def user_params
-    @user_params = params.require(:data).permit(User.permitted_api_params(current_user, @user))
+    @user_params ||= params.require(:data).permit(User.permitted_api_params(current_user, @user))
   end
 
   def load_user

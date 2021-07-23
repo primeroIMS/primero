@@ -180,13 +180,15 @@ describe Api::V2::FlagsOwnersController, type: :request do
 
           expect(response).to have_http_status(200)
           expect(json['data'].size).to eq(8)
-          expect(json['data'][0]['record_id']).to eq(@case1.id.to_s)
-          expect(json['data'][0]['record_type']).to eq('cases')
-          expect(json['data'][0]['message']).to eq('This is a flag')
-          expect(json['data'][0]['name']).to eq('*******')
-          expect(json['data'][0]['hidden_name']).to be
-          expect(json['data'][0]['owned_by']).to eq('user1')
-          expect(json['data'][0]['removed']).to be_falsey
+          flag_data = json['data'].find { |flag| flag['record_id'] == @case1.id && flag['message'] == 'This is a flag' }
+
+          expect(flag_data['record_id']).to eq(@case1.id)
+          expect(flag_data['record_type']).to eq('cases')
+          expect(flag_data['message']).to eq('This is a flag')
+          expect(flag_data['name']).to eq('*******')
+          expect(flag_data['hidden_name']).to be
+          expect(flag_data['owned_by']).to eq('user1')
+          expect(flag_data['removed']).to be_falsey
         end
       end
 

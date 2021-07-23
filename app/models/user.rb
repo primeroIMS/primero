@@ -13,6 +13,20 @@ class User < ApplicationRecord
 
   USER_NAME_REGEX = /\A[^ ]+\z/.freeze
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id].freeze
+  USER_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'user_name' => { 'type' => 'string' },
+    'full_name' => { 'type' => 'string' }, 'code' => { 'type' => 'string' },
+    'phone' => { 'type' => 'string' }, 'email' => { 'type' => 'string' },
+    'password_setting' => { 'type' => 'string' }, 'locale' => { 'type' => 'string' },
+    'agency_id' => { 'type' => 'integer' }, 'position' => { 'type' => 'string' },
+    'location' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' },
+    'password' => { 'type' => 'string' }, 'password_confirmation' => { 'type' => 'string' },
+    'role_unique_id' => { 'type' => 'string' }, 'identity_provider_unique_id' => { 'type' => 'string' },
+    'user_group_ids' => { 'type' => 'array' }, 'user_group_unique_ids' => { 'type' => 'array' },
+    'services' => { 'type' => 'array' }, 'module_unique_ids' => { 'type' => 'array' },
+    'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
+    'agency_office' => { 'type' => 'string' }
+  }.freeze
 
   attr_accessor :exists_reporting_location, :should_send_password_reset_instructions,
                 :user_groups_changed

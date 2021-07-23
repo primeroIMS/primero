@@ -3,6 +3,7 @@
 # Configuration API to create and apply Primero configuration states
 class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
 
   before_action { authorize! :manage, PrimeroConfiguration }
 
@@ -16,12 +17,14 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   end
 
   def create
+    validate_json!(PrimeroConfiguration::PRIMERO_CONFIGURATION_FIELDS_SCHEMA, configuration_params)
     @configuration = configuration_params[:data].present? ? new_configuration : current_configuration
     @configuration.attributes = configuration_params
     @configuration.save!
   end
 
   def update
+    validate_json!(PrimeroConfiguration::PRIMERO_CONFIGURATION_FIELDS_SCHEMA, configuration_params)
     @configuration = PrimeroConfiguration.find(params[:id])
     @configuration.apply_later!(current_user) if configuration_params[:apply_now].present?
     @configuration.promote_later! if configuration_params[:promote].present?

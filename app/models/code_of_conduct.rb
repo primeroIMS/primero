@@ -4,6 +4,10 @@
 class CodeOfConduct < ApplicationRecord
   self.table_name = 'codes_of_conduct'
 
+  CODE_OF_CONDUCT_FIELDS_SCHEMA = {
+    'title' => { 'type' => 'string' }, 'content' => { 'type' => 'string' }
+  }.freeze
+
   before_save :set_created_on
 
   validates :title, presence: { message: 'errors.models.code_of_conduct.title_present' }
