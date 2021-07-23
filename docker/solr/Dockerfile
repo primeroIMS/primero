@@ -1,4 +1,4 @@
-FROM solr:5-alpine
+FROM ${SOLR_IMAGE_NAME}
 
 ENV SOLR_PACKAGES gettext libintl curl
 ENV SOLR_USER=solr

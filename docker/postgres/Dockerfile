@@ -1,1 +1,1 @@
-FROM postgres:10.7-alpine
+FROM ${POSTGRES_IMAGE_NAME}
