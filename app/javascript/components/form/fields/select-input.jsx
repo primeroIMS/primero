@@ -276,7 +276,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
           disableClearable={disableClearable}
           freeSolo={freeSolo}
           className={css.selectInput}
-          filterOptions={filterOptions}
+          filterOptions={filterOptions()}
           {...loadingProps}
           renderInput={renderInput(fieldValue)}
           renderTags={handleRenderTags}
