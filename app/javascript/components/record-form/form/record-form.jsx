@@ -91,29 +91,24 @@ const RecordForm = ({
   }, [record]);
 
   useEffect(() => {
-    if (!isEmpty(initialValues) && bindedResetForm.current) {
-      bindedResetForm.current();
-    }
-  }, [JSON.stringify(initialValues)]);
-
-  useEffect(() => {
-    if (
-      bindedResetForm &&
-      incidentFromCase?.size &&
-      mode.isNew &&
-      RECORD_TYPES[recordType] === RECORD_TYPES.incidents
-    ) {
+    if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
       const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-      bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+      setInitialValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
     }
-  }, [bindedResetForm, incidentFromCase, recordType]);
+  }, [incidentFromCase, recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
       bindedSetValues.current({ ...initialValues, ...formikValues.current });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues) && bindedResetForm.current) {
+      bindedResetForm.current();
+    }
+  }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
     if (dataProtectionInitialValues.size > 0) {
