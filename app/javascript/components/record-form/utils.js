@@ -30,6 +30,8 @@ import {
 } from "./constants";
 import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
 
+const FIELD_TYPES_WITHOUT_DEFAULT = Object.freeze([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD]);
+
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
     if (isObject(v)) {
@@ -117,13 +119,17 @@ export const compactBlank = values =>
     }, {});
 
 export const getFieldDefaultValue = field => {
-  if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(field.type)) {
+  if (FIELD_TYPES_WITHOUT_DEFAULT.includes(field.type)) {
     return [];
   }
 
   if (field.type === SELECT_FIELD && field.multi_select) {
     try {
-      return field.selected_value ? JSON.parse(field.selected_value) : [];
+      if (field.selected_value) {
+        return field.selected_value.match(/\[.*\]$/) ? JSON.parse(field.selected_value) : [field.selected_value];
+      }
+
+      return [];
     } catch (error) {
       // eslint-disable-next-line no-console
       console.warn(`Can't parse the defaultValue ${field.selected_value} for ${field.name}`);
