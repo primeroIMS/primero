@@ -11,11 +11,15 @@ phases:
       - echo "BRANCH=${BRANCH}"
       - TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
       - echo "TAG=${TAG}"
+    finally:
+      - cd docker
+      - ./build-report.py -p pre_build
   build:
     commands:
-       - cd docker
-       - ./build.sh all -t ${TAG} -r ${CONTAINER_REGISTRY}
+       - ./build.sh all -t ${TAG} -r ${CONTAINER_REGISTRY} -b ${CONTAINER_REGISTRY}
        - docker image ls
+    finally:
+      - ./build-report.py -p pre_build
   post_build:
     commands:
       - echo ${CONTAINER_REGISTRY}/primero/application:${TAG}
@@ -24,3 +28,5 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primero/solr:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primero/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primero/nginx:${TAG}
+    finally:
+      - ./build-report.py -p pre_build
