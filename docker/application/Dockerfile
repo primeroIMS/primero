@@ -1,4 +1,5 @@
 # -------------------------------------------------------------------- BUILD STAGE
+ARG APP_IMAGE_NAME
 FROM ${APP_IMAGE_NAME} AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
@@ -87,7 +88,7 @@ RUN set -euox pipefail \
         /usr/local/bundle/cache/
 
 # -------------------------------------------------------------------- FINAL
-
+ARG APP_IMAGE_NAME
 FROM ${APP_IMAGE_NAME}
 
 ENV BUILD_PACKAGES bash

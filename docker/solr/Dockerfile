@@ -1,3 +1,4 @@
+ARG SOLR_IMAGE_NAME
 FROM ${SOLR_IMAGE_NAME}
 
 ENV SOLR_PACKAGES gettext libintl curl
