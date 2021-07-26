@@ -8,7 +8,7 @@ import argparse
 import sys
 
 def notify_slack(build_status, build_tag, log_path, phase):
-    if build_status == 1:
+    if build_status == '1':
         status = 'SUCCEEDED'
     else:
         status = 'FAILED'
