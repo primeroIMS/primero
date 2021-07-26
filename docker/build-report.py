@@ -51,16 +51,14 @@ def _main(argv):
     logs_prefix = os.environ['LOGS_PREFIX']
     build_status = os.environ['CODEBUILD_BUILD_SUCCEEDING']
     build_tag = os.environ['TAG']
-    build_id = os.environ['CODEBUILD_BUILD_ID']
-    log_key = build_id.split(':')[6]
-    log_path = f'https://{bucket_name}.s3.amazonaws.com/{logs_prefix}/{log_key}.gz'
+    build_log_path = os.environ['CODEBUILD_LOG_PATH']
+    log_path = f'https://{bucket_name}.s3.amazonaws.com/{logs_prefix}/{build_log_path}.gz'
 
     print(bucket_name)
     print(logs_prefix)
     print(build_status)
     print(build_tag)
-    print(build_id)
-    print(log_key)
+    print(build_log_path)
     print(log_path)
 
     notify_slack(build_status, build_tag, log_path, arguments.phase)
