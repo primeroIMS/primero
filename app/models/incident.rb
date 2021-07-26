@@ -10,6 +10,7 @@ class Incident < ApplicationRecord
   include Alertable
   include Attachable
   include EagerLoadable
+  include Webhookable
   include Kpi::GBVIncident
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
