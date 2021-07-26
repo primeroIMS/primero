@@ -8,7 +8,12 @@ import argparse
 import sys
 
 def notify_slack(build_status, build_tag, log_path, phase):
-    text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nBuild Status: {build_status}\nLog Path: {log_path}'
+    if build_status == 1:
+        status = 'SUCCEEDED'
+    else:
+        status = 'FAILED'
+    
+    text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nBuild Status: {status}\nLog Path: {log_path}'
 
     message = {
         'text': '',
