@@ -13,13 +13,13 @@ def notify_slack(build_status, build_tag, log_path, phase):
     else:
         status = 'FAILED'
     
-    text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nBuild Status: {status}\nLog Path: {log_path}'
+    text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nLog Path: {log_path}'
 
     message = {
         'text': '',
         'attachments': [
             {
-                'title': 'Primero CICD Build Status',
+                'title': f'Primero CICD Build {status}',
                 'color': '#3AA3E3',
                 'text': text
             }
