@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import debounce from "lodash/debounce";
 
 import Queue, { QUEUE_HALTED, QUEUE_READY } from "../../libs/queue";
 import { getIsAuthenticated } from "../user/selectors";
@@ -21,7 +22,13 @@ const useConnectivityStatus = () => {
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
 
   const handleNetworkChange = isOnline => {
-    dispatch(checkServerStatus(isOnline));
+    const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline));
+
+    if (isOnline) {
+      return debounce(dispatchServerStatus, 5000);
+    }
+
+    return dispatchServerStatus;
   };
 
   useEffect(() => {
@@ -53,13 +60,13 @@ const useConnectivityStatus = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.addEventListener) {
-      window.addEventListener("online", () => handleNetworkChange(true));
-      window.addEventListener("offline", () => handleNetworkChange(false));
+      window.addEventListener("online", handleNetworkChange(true));
+      window.addEventListener("offline", handleNetworkChange(false));
     }
 
     return () => {
-      window.removeEventListener("online", () => handleNetworkChange(true));
-      window.removeEventListener("offline", () => handleNetworkChange(false));
+      window.removeEventListener("online", handleNetworkChange(true));
+      window.removeEventListener("offline", handleNetworkChange(false));
     };
   }, []);
 
