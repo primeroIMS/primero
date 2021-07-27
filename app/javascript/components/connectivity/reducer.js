@@ -14,8 +14,13 @@ const DEFAULT_STATE = fromJS({
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case actions.NETWORK_STATUS:
+    case actions.NETWORK_STATUS: {
+      if (!payload) {
+        return state.set("online", payload).set("serverOnline", payload);
+      }
+
       return state.set("online", payload);
+    }
     case actions.SERVER_STATUS:
       return state.set("serverOnline", payload);
     case actions.QUEUE_STATUS:
