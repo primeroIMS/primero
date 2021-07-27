@@ -9,7 +9,7 @@ import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { useMemoizedSelector } from "../../libs";
 
-import { selectNetworkStatus, selectQueueStatus } from "./selectors";
+import { selectBrowserStatus, selectNetworkStatus, selectServerStatusRetries, selectQueueStatus } from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
 
 const useConnectivityStatus = () => {
@@ -20,6 +20,8 @@ const useConnectivityStatus = () => {
   const authenticated = useMemoizedSelector(state => getIsAuthenticated(state));
   const queueStatus = useMemoizedSelector(state => selectQueueStatus(state));
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
+  const serverStatusRetries = useMemoizedSelector(state => selectServerStatusRetries(state));
+  const browserStatus = useMemoizedSelector(state => selectBrowserStatus(state));
 
   const handleNetworkChange = isOnline => {
     const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline));
@@ -30,6 +32,12 @@ const useConnectivityStatus = () => {
 
     return dispatchServerStatus;
   };
+
+  useEffect(() => {
+    if (!online && browserStatus && serverStatusRetries >= 1 && serverStatusRetries < 3) {
+      handleNetworkChange(true)();
+    }
+  }, [browserStatus, online, serverStatusRetries]);
 
   useEffect(() => {
     if (!online) {
