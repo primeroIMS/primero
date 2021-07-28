@@ -2,8 +2,6 @@
 
 # Class for transfers, referrals, and assign
 class Transition < ApplicationRecord
-  include Webhookable
-
   STATUS_ACCEPTED = 'accepted'
   STATUS_REJECTED = 'rejected'
   STATUS_INPROGRESS = 'in_progress'
