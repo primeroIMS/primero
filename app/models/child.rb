@@ -23,7 +23,6 @@ class Child < ApplicationRecord
   include Searchable
   include Historical
   # include BIADerivedFields
-  # include CaseDerivedFields
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
@@ -258,13 +257,27 @@ class Child < ApplicationRecord
   end
 
   def most_recent_care_arrangement
-    return nil if self.care_arrangements_section.blank?
+    return nil if care_arrangements_section.blank?
 
-    self.care_arrangements_section
+    care_arrangements_section
       .select { |care_arrangement| care_arrangement['care_arrangement_started_date'].present? }
-      .sort_by { |care_arrangement| care_arrangement['care_arrangement_started_date'] }
-      .last
+      .max_by { |care_arrangement| care_arrangement['care_arrangement_started_date'] }
   end
+
+  # TODO: the name of this method is causing 1 rubocop warning
+  #       this method was copied over from the old case_derived_fields concern and modified
+  #       the name of the method has not yet been changed because it is referenced in other places
+  def has_case_plan
+    interventions = data['cp_case_plan_subform_case_plan_interventions']
+    return false if interventions.blank?
+
+    plan = interventions.find_index do |i|
+      i['intervention_service_to_be_provided'].present? ||
+        i['intervention_service_goal'].present?
+    end
+    plan.present?
+  end
+  alias case_plan? has_case_plan
 
   def sync_protection_concerns
     protection_concerns = self.protection_concerns || []
