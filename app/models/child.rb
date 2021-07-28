@@ -22,8 +22,8 @@ class Child < ApplicationRecord
   include Record
   include Searchable
   include Historical
-  include BIADerivedFields
-  include CaseDerivedFields
+  # include BIADerivedFields
+  # include CaseDerivedFields
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
@@ -56,8 +56,8 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan,
-    :duplicate
+    :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
+    :has_case_plan, :duplicate
   )
 
   has_many :incidents, foreign_key: :incident_case_id
@@ -243,6 +243,27 @@ class Child < ApplicationRecord
     return nil unless date_of_birth.is_a? Date
 
     AgeService.day_of_year(date_of_birth)
+  end
+
+  def current_care_arrangements_type
+    most_recent_care_arrangement.try(:[], 'care_arrangements_type')
+  end
+
+  def current_name_caregiver
+    most_recent_care_arrangement.try(:[], 'name_caregiver')
+  end
+
+  def current_care_arrangement_started_date
+    most_recent_care_arrangement.try(:[], 'care_arrangement_started_date')
+  end
+
+  def most_recent_care_arrangement
+    return nil if self.care_arrangements_section.blank?
+
+    self.care_arrangements_section
+      .select { |care_arrangement| care_arrangement['care_arrangement_started_date'].present? }
+      .sort_by { |care_arrangement| care_arrangement['care_arrangement_started_date'] }
+      .last
   end
 
   def sync_protection_concerns
