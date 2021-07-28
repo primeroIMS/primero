@@ -11,6 +11,7 @@ import { useMemoizedSelector } from "../../libs";
 
 import { selectBrowserStatus, selectNetworkStatus, selectServerStatusRetries, selectQueueStatus } from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
+import { CHECK_SERVER_INTERVAL, CHECK_SERVER_RETRY_INTERVAL } from "./constants";
 
 const useConnectivityStatus = () => {
   const dispatch = useDispatch();
@@ -23,11 +24,11 @@ const useConnectivityStatus = () => {
   const serverStatusRetries = useMemoizedSelector(state => selectServerStatusRetries(state));
   const browserStatus = useMemoizedSelector(state => selectBrowserStatus(state));
 
-  const handleNetworkChange = isOnline => {
+  const handleNetworkChange = (isOnline, delay = CHECK_SERVER_INTERVAL) => {
     const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline));
 
     if (isOnline) {
-      return debounce(dispatchServerStatus, 5000);
+      return debounce(dispatchServerStatus, delay);
     }
 
     return dispatchServerStatus;
@@ -36,6 +37,10 @@ const useConnectivityStatus = () => {
   useEffect(() => {
     if (!online && browserStatus && serverStatusRetries >= 1 && serverStatusRetries < 3) {
       handleNetworkChange(true)();
+    }
+
+    if (!online && browserStatus && serverStatusRetries >= 3) {
+      handleNetworkChange(true, CHECK_SERVER_RETRY_INTERVAL)();
     }
   }, [browserStatus, online, serverStatusRetries]);
 
