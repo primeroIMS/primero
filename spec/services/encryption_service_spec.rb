@@ -38,7 +38,6 @@ describe EncryptionService do
         expect(service.decrypt(nil)).to be_nil
       end
     end
-
   end
 
   context 'a weak key is defined in the environment' do
@@ -50,8 +49,7 @@ describe EncryptionService do
     end
 
     it 'raises an error on encryption attempt' do
-      # TODO: Rspec is not picking up the re-raised Errors::MisconfiguredEncryptionError
-      expect { service.encrypt('Some secret') }.to raise_error(RbNaCl::LengthError)
+      expect { service.encrypt('Some secret') }.to raise_error(Errors::MisconfiguredEncryptionError)
     end
   end
 end
