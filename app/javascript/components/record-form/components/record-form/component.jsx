@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { fromJS } from "immutable";
 
 import FormFilters from "../../../form-filters";
-import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
@@ -57,8 +57,7 @@ const Component = ({
   userPermittedFormsIds
 }) => {
   let submitForm = null;
-  const { theme } = useThemeHelper({ css: styles });
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const { state: locationState } = useLocation();
   const history = useHistory();
@@ -102,12 +101,12 @@ const Component = ({
 
   const [toggleNav, setToggleNav] = useState(false);
 
-  const handleToggleNav = () => {
+  const handleToggleNav = useCallback(() => {
     setToggleNav(!toggleNav);
-  };
+  }, []);
 
   const formProps = {
-    onSubmit: (initialValues, values) => {
+    onSubmit: useCallback((initialValues, values) => {
       const saveMethod = containerMode.isEdit ? "update" : "save";
       const { incidentPath, ...formValues } = values;
 
@@ -151,10 +150,10 @@ const Component = ({
       });
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
-    },
-    bindSubmitForm: boundSubmitForm => {
+    }, []),
+    bindSubmitForm: useCallback(boundSubmitForm => {
       submitForm = boundSubmitForm;
-    },
+    }, []),
     handleToggleNav,
     mobileDisplay,
     selectedForm,
@@ -255,19 +254,21 @@ const Component = ({
   };
 
   // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
-  const externalComponents = ({ setFieldValue, values }) => (
-    <SaveAndRedirectDialog
-      open={redirectDialogOpen}
-      closeRedirectDialog={closeRedirectDialog}
-      setFieldValue={setFieldValue}
-      handleSubmit={handleFormSubmit}
-      values={values}
-      mode={containerMode}
-      recordType={recordType}
-      setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
-      incidentPath={dialogParams?.get("path")}
-    />
-  );
+  const externalComponents = useCallback(({ setFieldValue, values }) => {
+    return (
+      <SaveAndRedirectDialog
+        open={redirectDialogOpen}
+        closeRedirectDialog={closeRedirectDialog}
+        setFieldValue={setFieldValue}
+        handleSubmit={handleFormSubmit}
+        values={values}
+        mode={containerMode}
+        recordType={recordType}
+        setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
+        incidentPath={dialogParams?.get("path")}
+      />
+    );
+  }, []);
 
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
@@ -280,28 +281,29 @@ const Component = ({
   const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
   const demoClasses = clsx({ [css.demo]: demo });
 
-  const recordFormExternalForms = useCallback(
-    externalFormObj => {
-      return externalForms(externalFormObj);
-    },
-    [
-      approvalSubforms,
-      canSeeChangeLog,
-      containerMode,
-      handleCreateIncident,
-      handleToggleNav,
-      params.id,
-      incidentsSubforms,
-      mobileDisplay,
-      selectedModule.primeroModule,
-      record,
-      recordType,
-      selectedForm,
-      summaryForm,
-      transitionProps,
-      userPermittedFormsIds
-    ]
+  const recordFormExternalForms = useMemo(
+    () =>
+      externalForms({
+        approvalSubforms,
+        canSeeChangeLog,
+        containerMode,
+        handleCreateIncident,
+        handleToggleNav,
+        id: params.id,
+        incidentsSubforms,
+        mobileDisplay,
+        primeroModule: selectedModule.primeroModule,
+        record,
+        recordType,
+        selectedForm,
+        summaryForm,
+        transitionProps,
+        userPermittedFormsIds
+      }),
+    []
   );
+
+  const recordFormExternalFormsCallback = useCallback(() => recordFormExternalForms, []);
 
   return (
     <PageContainer twoCol>
@@ -314,24 +316,8 @@ const Component = ({
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
-              externalForms={recordFormExternalForms({
-                approvalSubforms,
-                canSeeChangeLog,
-                containerMode,
-                handleCreateIncident,
-                handleToggleNav,
-                id: params.id,
-                incidentsSubforms,
-                mobileDisplay,
-                primeroModule: selectedModule.primeroModule,
-                record,
-                recordType,
-                selectedForm,
-                summaryForm,
-                transitionProps,
-                userPermittedFormsIds
-              })}
-              externalComponents={externalComponents}
+              externalForms={recordFormExternalForms}
+              externalComponents={recordFormExternalFormsCallback}
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}

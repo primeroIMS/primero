@@ -19,5 +19,5 @@ export const optionDisabled = option => option?.isDisabled || option?.disabled;
 
 export const filterOptions = createFilterOptions({
   matchFrom: "any",
-  limit: 500
+  limit: 50
 });
