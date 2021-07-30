@@ -6,7 +6,7 @@ import SubformDialogFields from "../subform-dialog-fields";
 
 import { NAME } from "./constants";
 
-const Component = ({ formik, field, index, mode, formSection, isReadWriteForm }) => {
+const Component = ({ formik, field, index, mode, formSection, isReadWriteForm, recordModuleID, recordType }) => {
   const [filterState, setFilterState] = useState({
     filtersChanged: false,
     userIsSelected: false
@@ -43,6 +43,8 @@ const Component = ({ formik, field, index, mode, formSection, isReadWriteForm })
       field={field}
       index={index}
       mode={modeDialog}
+      recordModuleID={recordModuleID}
+      recordType={recordType}
       filterState={filterState}
       setFilterState={setFilterState}
       filterFunc={(parentField, subformField) => filters(parentField, subformField.option_strings_source)}
@@ -59,7 +61,9 @@ Component.propTypes = {
   formSection: PropTypes.object.isRequired,
   index: PropTypes.number,
   isReadWriteForm: PropTypes.bool,
-  mode: PropTypes.object.isRequired
+  mode: PropTypes.object.isRequired,
+  recordModuleID: PropTypes.string,
+  recordType: PropTypes.string
 };
 
 export default connect(Component);

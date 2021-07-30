@@ -15,7 +15,7 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def create
-    authorize! :create, Location
+    authorize!(:create, Location) && validate_json!(field_schema, location_params)
     @location = Location.new_with_properties(location_params)
     @location.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -28,7 +28,7 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def update
-    authorize! :update, Location
+    authorize!(:update, Location) && validate_json!(field_schema, location_params)
     @location = Location.find(params[:id])
     @location.update_properties(location_params)
     @location.save!
@@ -61,7 +61,7 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def location_params
-    params.require(:data).permit(Location.permitted_api_params)
+    @location_params ||= params.require(:data).permit(Location.permitted_api_params)
   end
 
   def location_bulk_params
@@ -69,10 +69,14 @@ class Api::V2::LocationsController < ApplicationApiController
   end
 
   def order_by
-    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym]
+    Location::ORDER_BY_FIELD_MAP[params[:order_by]&.to_sym] || params[:order_by]
   end
 
   def importer
     Importers::CsvHxlLocationImporter
+  end
+
+  def field_schema
+    Location::LOCATION_FIELDS_SCHEMA
   end
 end

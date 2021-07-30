@@ -19,7 +19,7 @@ class Transition < ApplicationRecord
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform
-  after_commit :notify_by_email
+  after_commit :notify_by_email, if: :in_progress?
 
   after_save :index_record
 
@@ -63,11 +63,13 @@ class Transition < ApplicationRecord
     errors.add(:transitioned_to, 'transition.errors.to_user_can_receive')
   end
 
-  # TODO: Can I modify this method? to solve the rubocop warnning
   def user_can_receive?
-    !transitioned_to_user.disabled &&
-      transitioned_to_user.role.permissions.any? { |ps| ps.resource == record.class.parent_form } &&
-      transitioned_to_user.modules.pluck(:unique_id).include?(record.module_id)
+    UserTransitionService.new(
+      self.class.name,
+      transitioned_by_user,
+      record.class,
+      record.module_id
+    ).can_receive?(transitioned_to_user)
   end
 
   def key

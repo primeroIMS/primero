@@ -5,6 +5,11 @@ class Lookup < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
 
+  LOOKUP_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'object' }, 'values' => { 'type' => 'array' }
+  }.freeze
+
   localize_properties :name
   localize_properties :lookup_values, options_list: true
   self.unique_id_from_attribute = 'name_en'

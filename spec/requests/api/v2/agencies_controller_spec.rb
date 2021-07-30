@@ -83,7 +83,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true'
+      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true&order=asc&order_by=name'
 
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
@@ -237,7 +237,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params.as_json, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['name']['en']).to eq(params[:data][:name][:en])
@@ -271,7 +271,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -302,7 +302,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(json['errors'].map { |error| error['status'] }).to eq([422])
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].map { |error| error['detail'] }).to eq(%w[agency_code])
@@ -366,7 +366,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(json['errors'][0]['status']).to eq(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['detail']).to eq('name')
@@ -404,7 +404,7 @@ describe Api::V2::AgenciesController, type: :request do
       name_i18n = FieldI18nService.fill_with_locales(params[:data][:name]).deep_stringify_keys
       description_i18n = FieldI18nService.fill_with_locales(params[:data][:description]).deep_stringify_keys
 
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+      patch "/api/v2/agencies/#{@agency_a.id}", params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['agency_code']).to eq(params[:data][:agency_code])
@@ -434,7 +434,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
       params = {
         data: {
-          logo_full_base64: attachment_base64('unicef.png'),
+          logo_full_base64: attachment_strict_base64('unicef.png'),
           logo_full_file_name: 'unicef.png'
         }
       }

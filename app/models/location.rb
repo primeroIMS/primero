@@ -10,6 +10,13 @@ class Location < ApplicationRecord
   READONLY_ATTRIBUTES = %i[parent_code admin_level location_code hierarchy_path].freeze
   ORDER_BY_FIELD_MAP = { code: :location_code, hierarchy: :hierarchy_path, name: :placename }.freeze
 
+  LOCATION_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'code' => { 'type' => 'string' },
+    'type' => { 'type' => 'string' }, 'admin_level' => { 'type' => 'integer' },
+    'placename' => { 'type' => 'object' }, 'name' => { 'type' => 'object' },
+    'parent_code' => { 'type' => 'string' }, 'disabled' => { 'type' => 'boolean' }
+  }.freeze
+
   attribute :parent_code
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   attr_readonly(*READONLY_ATTRIBUTES)
@@ -36,6 +43,10 @@ class Location < ApplicationRecord
     # This class variables should only be set when loading location information in bulk
     #   Location.locations_by_code = Locations.all.map{|l|[l.location_code, l]}.to_h
     attr_accessor :locations_by_code
+
+    def order_insensitive_attribute_names
+      %w[placename]
+    end
 
     def get_by_location_code(location_code)
       if @locations_by_code.present?
