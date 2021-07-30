@@ -582,6 +582,50 @@ create_or_update_lookup(
     ]
 )
 
+Lookup.create_or_update!(
+  unique_id: 'lookup-yes-no-duration',
+  name_en: 'Yes, No Duration',
+  lookup_values_en: [
+    { id: 'yes_short_term', display_text: 'Yes, short-term' },
+    { id: 'yes_long_term', display_text: 'Yes, long-term' },
+    { id: 'no', display_text: 'No' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-care-arrangements-type',
+  name_en: 'Care Arrangements Type',
+  lookup_values_en: [
+    { id: 'parent_s', display_text: 'Parent(s)' },
+    { id: 'step_parent', display_text: 'Step parent' },
+    { id: 'customary_caregiver_s', display_text: 'Customary caregiver(s)' },
+    { id: 'adult_sibling', display_text: 'Adult sibling' },
+    { id: 'kinship_care_extended_family', display_text: 'Kinship care / extended family' },
+    { id: 'foster_care', display_text: 'Foster care' },
+    { id: 'residential_care', display_text: 'Residential care' },
+    { id: 'kafala', display_text: 'Kafala' },
+    { id: 'independent_living', display_text: 'Independent living' },
+    { id: 'child_headed_household', display_text: 'Child-headed household' },
+    { id: 'unrelated_adult', display_text: 'Unrelated adult' },
+    { id: 'no_care_arrangement', display_text: 'No care arrangement' },
+    { id: 'other', display_text: 'Other' }
+  ].map(&:with_indifferent_access)
+)
+
+Lookup.create_or_update!(
+  unique_id: 'lookup-caregiver-change-reason',
+  name_en: 'Caregiver Change Reason',
+  lookup_values_en: [
+    { id: 'abuse_exploitation', display_text: 'Abuse & Exploitation' },
+    { id: 'death_of_caregiver', display_text: 'Death of Caregiver' },
+    { id: 'Education', display_text: 'Education' },
+    { id: 'ill_health_of_caregiver', display_text: 'Ill health of caregiver' },
+    { id: 'other', display_text: 'Other' },
+    { id: 'poverty', display_text: 'Poverty' },
+    { id: 'relationship_breakdown', display_text: 'Relationship Breakdown' }
+  ].map(&:with_indifferent_access)
+)
+
 create_or_update_lookup(
     :unique_id => "lookup-approval-type",
     :name_en => "Approval Type",
