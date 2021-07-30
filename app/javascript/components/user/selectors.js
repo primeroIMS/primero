@@ -2,7 +2,6 @@ import { List, fromJS } from "immutable";
 import createCachedSelector from "re-reselect";
 
 import { SAVING } from "../../config";
-import { getLocations } from "../record-form/selectors";
 import { cachedSelectorOptions } from "../../libs/use-memoized-selector";
 
 import NAMESPACE from "./namespace";
@@ -16,7 +15,7 @@ export const getPermissions = state => {
 
 export const getPermissionsByRecord = createCachedSelector(
   getPermissions,
-  recordType => recordType,
+  (_state, recordType) => recordType,
   (data, recordType) => {
     return data.get(recordType, List([]));
   }

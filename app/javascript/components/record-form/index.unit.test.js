@@ -31,7 +31,6 @@ describe("<RecordForm /> - index", () => {
       "getOptionsAreLoading",
       "getRecordForms",
       "getRecordFormsByUniqueId",
-      "getReportingLocations",
       "getSelectedForm",
       "getServiceToRefer",
       "getSubformsDisplayName",

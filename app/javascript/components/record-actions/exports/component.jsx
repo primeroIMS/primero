@@ -138,12 +138,11 @@ const Component = ({
   const currentUser = useMemoizedSelector(state => getUser(state, recordType));
   const agenciesWithLogosEnabled = useMemoizedSelector(state => getAgencyLogos(state, true));
   const agencyLogosPdf = useMemoizedSelector(state => getAgencyLogosPdf(state, true));
-  const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
   const recordTypesForms = useMemoizedSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: selectedModule || record?.get("module_id"),
-      formsIds: userPermittedFormsIds
+      checkPermittedForms: true
     })
   );
 

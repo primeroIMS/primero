@@ -5,16 +5,18 @@ import { batch, useDispatch } from "react-redux";
 import { Form, Field } from "formik";
 import { Checkbox as MuiCheckbox } from "formik-material-ui";
 
-import { getEnabledAgencies, getReportingLocationConfig } from "../../../../application/selectors";
+import { getEnabledAgencies } from "../../../../application/selectors";
 import { useI18n } from "../../../../i18n";
 import { RECORD_TYPES, LOOKUPS } from "../../../../../config";
 import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
 import { fetchReferralUsers } from "../../action-creators";
 import { enqueueSnackbar } from "../../../../notifier";
-import { getOption, getReportingLocations, getServiceToRefer } from "../../../../record-form";
+import { getOption, getServiceToRefer } from "../../../../record-form";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getUserFilters } from "../utils";
+import useOptions from "../../../../form/use-options";
+import { OPTION_TYPES } from "../../../../form";
 
 import ProvidedConsent from "./provided-consent";
 import FormInternal from "./form-internal";
@@ -44,8 +46,8 @@ const MainForm = ({ formProps, rest }) => {
 
   const serviceToRefer = useMemoizedSelector(state => getServiceToRefer(state));
   const serviceTypes = useMemoizedSelector(state => getOption(state, LOOKUPS.service_type, i18n.locale));
-  const adminLevel = useMemoizedSelector(state => getReportingLocationConfig(state).get("admin_level"));
-  const reportingLocations = useMemoizedSelector(state => getReportingLocations(state, adminLevel));
+
+  const reportingLocations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
   const loading = useMemoizedSelector(state => getLoading(state, NAMESPACE));
   const agencies = useMemoizedSelector(state => getEnabledAgencies(state, service));
   const users = useMemoizedSelector(state => getUsersByTransitionType(state, transitionType));

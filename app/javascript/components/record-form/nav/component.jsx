@@ -61,8 +61,7 @@ const Component = ({
       recordType: RECORD_TYPES[recordType],
       primeroModule,
       formName: selectedForm || firstTab?.unique_id,
-      checkVisible: true,
-      i18n
+      checkVisible: true
     })
   );
 
@@ -71,7 +70,7 @@ const Component = ({
   });
 
   const recordInformationFormIds = useMemoizedSelector(state =>
-    getRecordInformationFormIds(state, { i18n, recordType: RECORD_TYPES[recordType], primeroModule })
+    getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
   );
 
   const firstSelectedForm = selectedRecordForm?.first();

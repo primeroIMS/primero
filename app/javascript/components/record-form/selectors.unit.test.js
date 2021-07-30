@@ -622,11 +622,14 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("should return an ordered map when there are options", () => {
-      const record = selectors.getFormNav(stateWithRecords, {
-        primeroModule: "primeromodule-cp",
-        recordType: "case",
-        formsIds: fromJS({ basic_identity: "rw" })
-      });
+      const record = selectors.getFormNav(
+        stateWithRecords.setIn(["user", "permittedForms"], fromJS({ basic_identity: "rw" })),
+        {
+          primeroModule: "primeromodule-cp",
+          recordType: "case",
+          checkPermittedForms: true
+        }
+      );
 
       expect(record).to.be.equal(expected);
     });
@@ -919,17 +922,19 @@ describe("<RecordForm /> - Selectors", () => {
 
   describe("getRecordInformationNav", () => {
     it("should return forms where the user has permissions", () => {
-      const i18n = { t: v => v, locale: "en" };
-
       const result = selectors
         .getRecordInformationNav(
-          fromJS({}),
+          fromJS({
+            user: {
+              permissions: {
+                case: [ACTIONS.CHANGE_LOG]
+              }
+            }
+          }),
           {
-            i18n,
             recordType: "case",
             primeroModule: "primeromodule-cp"
-          },
-          fromJS([ACTIONS.CHANGE_LOG])
+          }
         )
         .map(form => form.formId)
         .toList()

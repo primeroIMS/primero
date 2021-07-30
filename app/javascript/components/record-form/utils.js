@@ -205,6 +205,8 @@ export const buildFormNav = form =>
     formId: form.unique_id,
     is_first_tab: form.is_first_tab,
     permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
+    i18nName: form.i18nName,
+    i18nDescription: form.i18nDescription,
     ...(INCIDENT_FROM_CASE === form.unique_id ? { recordTypes: [RECORD_TYPES.cases] } : {})
   });
 
