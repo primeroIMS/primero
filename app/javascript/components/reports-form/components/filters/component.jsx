@@ -75,7 +75,7 @@ const Container = ({
   const allLookups = useMemoizedSelector(state => getOptions(state));
 
   const location = useOptions({ source: OPTION_TYPES.LOCATION });
-  const agencies = useOptions({ source: OPTION_TYPES.AGENCY });
+  const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
   const modules = useOptions({ source: OPTION_TYPES.MODULE });
   const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP });
 
