@@ -2,7 +2,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:2.6.6-buster
+        image: ruby:2.7.4-buster
         script:
           - ./bin/run_server_tests.sh
         services:
@@ -36,7 +36,7 @@ pipelines:
   branches:
     maint_*:
       - step: *push-branch
-    '{development*,release-*,master}':
+    '{develop*,release-*,master}':
       - step: *server-test
       - step: *client-test
       - step: *push-branch

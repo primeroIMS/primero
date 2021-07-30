@@ -39,6 +39,7 @@ class Permission < ValueObject
   USER_GROUP = 'user_group'
   ROLE = 'role'
   AGENCY = 'agency'
+  WEBHOOK = 'webhook'
   METADATA = 'metadata'
   CONFIGURATION = 'primero_configuration'
   SYSTEM = 'system'
@@ -175,6 +176,7 @@ class Permission < ValueObject
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
     USER_GROUP => [CREATE, READ, WRITE, ASSIGN, MANAGE, DELETE],
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
+    WEBHOOK => [READ, WRITE, ASSIGN, MANAGE],
     REPORT => [READ, GROUP_READ, CREATE, WRITE, MANAGE],
     METADATA => [MANAGE],
     POTENTIAL_MATCH => [READ],
@@ -241,7 +243,7 @@ class Permission < ValueObject
     end
 
     def resources
-      [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT,
+      [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, WEBHOOK, METADATA, SYSTEM, REPORT,
        DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION, DUPLICATE, CODE_OF_CONDUCT]
     end
 
@@ -250,7 +252,7 @@ class Permission < ValueObject
     end
 
     def management
-      [SELF, GROUP, ALL, ADMIN_ONLY, AGENCY]
+      [SELF, GROUP, ALL, ADMIN_ONLY, AGENCY, WEBHOOK]
     end
 
     def all

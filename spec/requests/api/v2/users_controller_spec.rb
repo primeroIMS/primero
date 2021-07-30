@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
-    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider)
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct)
 
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -219,6 +219,13 @@ describe Api::V2::UsersController, type: :request do
       email: 'superuser@localhost.com',
       agency_id: @agency_a.id,
       role: @super_role
+    )
+
+    @code_of_conduct = CodeOfConduct.create!(
+      title: 'Code of conduct test',
+      content: 'Some content',
+      created_by: 'test_user',
+      created_on: DateTime.now
     )
   end
 
@@ -701,6 +708,21 @@ describe Api::V2::UsersController, type: :request do
       expect(@user_d.user_name).not_to eq(user_name)
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
+
+    it 'user accept the code of conduct' do
+      sign_in(@user_c)
+      params = {
+        data: {
+          code_of_conduct_id: @code_of_conduct.id
+        }
+      }
+
+      patch "/api/v2/users/#{@user_c.id}", params: params, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['user_name']).to eq(@user_c.user_name)
+      expect(json['data']).to have_key('code_of_conduct_accepted_on')
+    end
   end
 
   describe 'DELETE /api/v2/users/:id' do
@@ -754,6 +776,6 @@ describe Api::V2::UsersController, type: :request do
   end
 
   after :each do
-    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup)
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup, CodeOfConduct)
   end
 end
