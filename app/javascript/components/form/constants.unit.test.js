@@ -51,22 +51,23 @@ describe("<Form /> - Constants", () => {
     [
       "AGENCY",
       "AGENCY_CURRENT_USER",
-      "LOCATION",
-      "MODULE",
       "FORM_GROUP",
+      "FORM_GROUP_LOOKUP",
+      "LOCATION",
       "LOOKUPS",
-      "USER",
+      "MANAGED_ROLE_FORM_SECTIONS",
+      "MODULE",
+      "RECORD_FORMS",
+      "REFER_TO_USERS",
       "REPORTING_LOCATIONS",
       "ROLE",
-      "USER_GROUP",
-      "USER_GROUP_PERMITTED",
       "ROLE_EXTERNAL_REFERRAL",
       "ROLE_PERMITTED",
-      "REFER_TO_USERS",
       "SERVICE_TYPE",
-      "FORM_GROUP_LOOKUP",
-      "RECORD_FORMS",
-      "MANAGED_ROLE_FORM_SECTIONS"
+      "TRANSFER_TO_USERS",
+      "USER",
+      "USER_GROUP",
+      "USER_GROUP_PERMITTED"
     ].forEach(property => {
       expect(clonedOptionTypes).to.have.property(property);
       delete clonedOptionTypes[property];
