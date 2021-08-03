@@ -1,6 +1,7 @@
 import DB from "../db/db";
 import { DB_STORES } from "../db/constants";
 import { DATE_FIELD, NUMERIC_FIELD } from "../components/record-form/constants";
+import { METHODS } from "../config";
 
 import transformOfflineRequest from "./transform-offline-request";
 
@@ -47,14 +48,14 @@ describe("transformOfflineRequest", () => {
     const action = {
       api: {
         body: { data: { first_name: "First Name", age: "10", date_of_birth: "12-10-2010" } },
-        method: "post"
+        method: METHODS.POST
       }
     };
 
     const expected = {
       api: {
         body: { data: { first_name: "First Name", age: 10, date_of_birth: "12-10-2010" } },
-        method: "post"
+        method: METHODS.POST
       }
     };
 
