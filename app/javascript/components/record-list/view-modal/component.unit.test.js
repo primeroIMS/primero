@@ -46,7 +46,8 @@ describe("<ViewModal />", () => {
     3: {
       name: "name",
       type: "text_field",
-      display_name: { en: "Full Name" }
+      display_name: { en: "Full Name" },
+      show_on_minify_form: true
     },
     4: {
       name: "sex",
