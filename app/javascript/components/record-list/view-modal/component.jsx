@@ -57,7 +57,6 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
 
   const onSubmit = () => {};
 
-
   return (
     <>
       <ActionDialog
