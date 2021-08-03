@@ -29,7 +29,7 @@ describe DuplicateBulkExport, search: true do
 
     @expected_headers = [
       ' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
-      'Child Name', 'Age', 'Sex', 'Family Size'
+      'Child Name', 'Age', 'Sex', 'Family Size', 'Hospital code and patient number'
     ]
 
     @bulk_exporter = DuplicateBulkExport.new(
@@ -128,7 +128,7 @@ describe DuplicateBulkExport, search: true do
     it 'exports headers' do
       expect(export_csv).to eq(
         [[' ', 'MOHA ID DEPRECATED', 'National ID No', 'Case ID', 'Progress ID',
-          'Child Name', 'Age', 'Sex', 'Family Size']]
+          'Child Name', 'Age', 'Sex', 'Family Size', 'Hospital code and patient number']]
       )
     end
   end
