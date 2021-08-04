@@ -129,7 +129,7 @@ const Container = ({ match, location }) => {
     onRowClick: record => {
       if (recordAvaialble(record)) {
         dispatch(push(`${recordType}/${record.get("id")}`));
-      } else if (canViewModal) {
+      } else if (canViewModal && online) {
         setCurrentRecord(record);
         setOpenViewModal(true);
       }

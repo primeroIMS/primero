@@ -261,9 +261,33 @@ describe Exporters::SelectedFieldsExcelExporter do
         Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       end
 
+      let(:workbook_field) do
+        record_data = Exporters::SelectedFieldsExcelExporter.export(
+          @records_for_subforms_test, @user, field_names: %w[field_x]
+        )
+        Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      end
+
+      let(:workbook_form_field) do
+        record_data = Exporters::SelectedFieldsExcelExporter.export(
+          @records_for_subforms_test, @user, form_unique_ids: %w[cases_test_form_5], field_names: %w[field_x]
+        )
+        Roo::Spreadsheet.open(StringIO.new(record_data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      end
+
       it 'should export the form selected' do
         expect(workbook_subform.sheet(0).row(1)).to eq(['ID', 'field X', 'field Y'])
         expect(workbook_subform.sheet(0).row(2)).to eq(['test123', 'value on field X', 'value on field Y'])
+      end
+
+      it 'should export the field selected' do
+        expect(workbook_field.sheet(0).row(1)).to eq(['ID', 'field X'])
+        expect(workbook_field.sheet(0).row(2)).to eq(['test123', 'value on field X'])
+      end
+
+      it 'should export the field of the form selected' do
+        expect(workbook_form_field.sheet(0).row(1)).to eq(['ID', 'field X'])
+        expect(workbook_form_field.sheet(0).row(2)).to eq(['test123', 'value on field X'])
       end
     end
   end

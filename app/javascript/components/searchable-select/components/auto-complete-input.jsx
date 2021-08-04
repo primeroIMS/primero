@@ -1,9 +1,8 @@
-import { forwardRef, useEffect } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, CircularProgress } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
-import { optionLabel } from "../utils";
 
 const Component = forwardRef(
   (
@@ -17,19 +16,20 @@ const Component = forwardRef(
       isLoading,
       multiple,
       TextFieldProps,
-      options,
-      optionIdKey,
-      optionLabelKey
+      currentOptionLabel
     },
     ref
   ) => {
     const i18n = useI18n();
+    const [prevLabel, setPrevLabel] = useState();
+    const [inputValueChanged, setInputValueChanged] = useState(false);
 
     const { InputProps, ...restTextFieldProps } = TextFieldProps;
     const disabledPlaceholder = mode?.isShow && !value ? "--" : "";
 
     const inputParams = {
       ...params,
+      ...(inputValueChanged ? {} : { inputProps: { ...params.inputProps, value: currentOptionLabel } }),
       fullWidth: true,
       helperText,
       InputLabelProps,
@@ -50,8 +50,25 @@ const Component = forwardRef(
     const { disableUnderline, ...restInputParams } = inputParams;
 
     useEffect(() => {
-      inputParams.inputProps.ref.current.value = optionLabel(value || "", options, optionIdKey, optionLabelKey);
-    }, [i18n.locale]);
+      inputParams.inputProps.ref.current.value = currentOptionLabel;
+      inputParams.inputProps.value = currentOptionLabel;
+
+      setInputValueChanged(false);
+    }, [currentOptionLabel]);
+
+    useEffect(() => {
+      if (
+        !inputValueChanged &&
+        params.inputProps.value !== prevLabel &&
+        params.inputProps.value !== currentOptionLabel
+      ) {
+        setInputValueChanged(true);
+      }
+    }, [params.inputProps.value]);
+
+    useEffect(() => {
+      setPrevLabel(currentOptionLabel);
+    }, []);
 
     return <TextField {...restInputParams} inputRef={ref} />;
   }

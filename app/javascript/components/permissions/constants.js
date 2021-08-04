@@ -83,6 +83,7 @@ export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
   agencies: "agencies",
+  webhooks: "webhooks",
   any: "any",
   audit_logs: "audit_logs",
   cases: "cases",
@@ -114,7 +115,8 @@ export const ADMIN_RESOURCES = [
   RESOURCES.agencies,
   RESOURCES.forms,
   RESOURCES.metadata,
-  RESOURCES.audit_logs
+  RESOURCES.audit_logs,
+  RESOURCES.webhooks
 ];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];

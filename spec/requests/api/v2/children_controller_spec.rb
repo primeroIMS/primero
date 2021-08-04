@@ -6,9 +6,11 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup)
+    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule)
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
+                                associated_record_types: %w[case tracing_request incident])
     role_self = Role.create!(
       name: 'Test Role 3',
       unique_id: 'test-role-3',
@@ -20,6 +22,7 @@ describe Api::V2::ChildrenController, type: :request do
         )
       ]
     )
+    @group1 = UserGroup.create!(name: 'Group1')
     @user = User.create!(
       full_name: 'Test User 2',
       user_name: 'test_user_2',
@@ -34,6 +37,7 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Test Role Owned Others',
       unique_id: 'test-role-owned-others',
       group_permission: Permission::SELF,
+      modules: [@cp],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -46,6 +50,10 @@ describe Api::V2::ChildrenController, type: :request do
         )
       ]
     )
+    @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', modules: [@cp],
+                          referral: true, transfer: true, group_permission: 'self',
+                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
+
     @user_owned_others = User.create!(
       full_name: 'Test User with Owned by Others',
       user_name: 'test_user_owned_others',
@@ -55,6 +63,19 @@ describe Api::V2::ChildrenController, type: :request do
       agency_id: @agency.id,
       role: @role_owned_others
     )
+
+    @user_cp = User.create!(
+      full_name: 'Test User with Owned by Others',
+      user_name: 'user_cp',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'user_cp@localhost.com',
+      agency_id: @agency.id,
+      user_group_ids: [@group1.id],
+
+      role: @role1
+    )
+
     Lookup.create!(
       unique_id: 'lookup-service-type',
       name_en: 'Service Type',
@@ -94,6 +115,13 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Test4', age: 2, sex: 'male'
     )
     @case4.save!
+    @case5 = Child.new_with_user(
+      @user_owned_others,
+      name: 'Test5', age: 16, sex: 'female',
+      module_id: 'primeromodule-gbv',
+      assigned_user_names: [@user_cp.user_name]
+    )
+    @case5.save!
     @tracing_request1 = TracingRequest.create!(data: { relation_name: 'Tracing Request 5' })
     @trace1 = Trace.create!(
       data: { name: 'Trace Test 1' },
@@ -110,7 +138,7 @@ describe Api::V2::ChildrenController, type: :request do
       data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' }
     )
     # This is legitimate. The cases are implicitly reloaded in the attachments & flagging api
-    reloaded_cases = [@case1, @case2, @case3, @case4].map(&:reload)
+    reloaded_cases = [@case1, @case2, @case3, @case4, @case5].map(&:reload)
     Sunspot.index(*reloaded_cases)
     Sunspot.commit
   end
@@ -123,9 +151,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(4)
+      expect(json['data'].size).to eq(5)
       expect(json['data'].map { |c| c['name'] }).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(4)
+      expect(json['metadata']['total']).to eq(5)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
       case1_data = json['data'].find { |r| r['id'] == @case1.id }
@@ -234,7 +262,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         get '/api/v2/cases'
 
-        expect(json['data'].count).to eq(1)
+        expect(json['data'].count).to eq(2)
         expect(response).to have_http_status(200)
       end
 
@@ -243,7 +271,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         get '/api/v2/cases?id_search=true'
 
-        expect(json['data'].count).to eq(4)
+        expect(json['data'].count).to eq(5)
         expect(response).to have_http_status(200)
       end
     end
@@ -251,8 +279,25 @@ describe Api::V2::ChildrenController, type: :request do
     it 'return records sort by age' do
       login_for_test
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
-      expect(json['data'].count).to eq(4)
-      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 6, 10])
+      expect(json['data'].count).to eq(5)
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 6, 10, 16])
+    end
+
+    context 'when a gbv case has in the associated_user_names a cp user' do
+
+      it 'should be part of the response' do
+        login_for_test(
+          user_name: 'user_cp',
+          permissions: @role1.permissions,
+          group_permission: Permission::SELF,
+          modules: [@cp],
+          user_group_ids: [@group1.id]
+        )
+        get '/api/v2/cases'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].map { |c| c['id'] }).to include(@case5.id)
+      end
     end
   end
 
@@ -799,7 +844,7 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup)
+    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup, PrimeroModule)
     clear_performed_jobs
     clear_enqueued_jobs
   end

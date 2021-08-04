@@ -243,6 +243,13 @@ describe("<RecordForms /> - utils", () => {
               type: DATE_FIELD,
               selected_value: "today",
               visible: true
+            }),
+            FieldRecord({
+              name: "field_5",
+              type: SELECT_FIELD,
+              multi_select: true,
+              selected_value: "value_1",
+              visible: true
             })
           ]
         })
@@ -252,7 +259,8 @@ describe("<RecordForms /> - utils", () => {
         field_1: "default_value_1",
         field_2: ["value_1", "value_2"],
         field_3: true,
-        field_4: "2010-01-05"
+        field_4: "2010-01-05",
+        field_5: ["value_1"]
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);

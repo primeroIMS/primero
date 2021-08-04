@@ -39,12 +39,13 @@ const RecordForm = ({
   externalForms,
   fetchFromCaseId,
   userPermittedFormsIds,
-  externalComponents
+  externalComponents,
+  primeroModule
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
@@ -90,29 +91,24 @@ const RecordForm = ({
   }, [record]);
 
   useEffect(() => {
-    if (!isEmpty(initialValues) && bindedResetForm.current) {
-      bindedResetForm.current();
-    }
-  }, [JSON.stringify(initialValues)]);
-
-  useEffect(() => {
-    if (
-      bindedResetForm &&
-      incidentFromCase?.size &&
-      mode.isNew &&
-      RECORD_TYPES[recordType] === RECORD_TYPES.incidents
-    ) {
+    if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
       const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-      bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+      setInitialValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
     }
-  }, [bindedResetForm, incidentFromCase, recordType]);
+  }, [incidentFromCase, recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
       bindedSetValues.current({ ...initialValues, ...formikValues.current });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues) && bindedResetForm.current) {
+      bindedResetForm.current();
+    }
+  }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
     if (dataProtectionInitialValues.size > 0) {
@@ -177,7 +173,8 @@ const RecordForm = ({
                 form,
                 mode,
                 recordType,
-                recordID: record?.get("id")
+                recordID: record?.get("id"),
+                recordModuleID: primeroModule
               };
 
               if (!field?.visible) {
@@ -262,6 +259,7 @@ RecordForm.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
+  primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

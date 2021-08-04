@@ -4,6 +4,23 @@ require 'rails_helper'
 
 describe Api::V2::UsersTransitionsController, type: :request do
   before :each do
+    @program = PrimeroProgram.create!(
+      unique_id: 'primeroprogram-primero',
+      name: 'Primero',
+      description: 'Default Primero Program'
+    )
+
+    @form1 = FormSection.create!(name: 'form1')
+
+    @cp = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp',
+      name: 'CP',
+      description: 'Child Protection',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: @program,
+      form_sections: [@form1]
+    )
+
     permissions = Permission.new(
       resource: Permission::CASE,
       actions: [
@@ -12,7 +29,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
         Permission::ASSIGN
       ]
     )
-    role = Role.new(permissions: [permissions])
+    role = Role.new(permissions: [permissions], primero_modules: [@cp])
     role.save(validate: false)
 
     agency = Agency.new(unique_id: 'fake-agency', agency_code: 'fkagency')
@@ -43,7 +60,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
       end
 
       it 'lists the users that can be assigned to' do
-        get '/api/v2/users/assign-to', params: { record_type: 'case' }
+        get '/api/v2/users/assign-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(3)
@@ -64,7 +81,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
       end
       it 'lists the users that can be assigned to' do
         sign_in(@user1)
-        get '/api/v2/users/assign-to', params: { record_type: 'case' }
+        get '/api/v2/users/assign-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(2)
@@ -85,7 +102,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
       end
       it 'lists the users that can be assigned to' do
         sign_in(@user1)
-        get '/api/v2/users/assign-to', params: { record_type: 'case' }
+        get '/api/v2/users/assign-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(2)
@@ -97,7 +114,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
   describe 'GET /api/v2/users/refer-to' do
     it 'lists the users that can be referred to' do
       sign_in(@user1)
-      get '/api/v2/users/refer-to', params: { record_type: 'case' }
+      get '/api/v2/users/refer-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
@@ -105,7 +122,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
     end
     it 'lists the users that can be referred to, filter by services ' do
       sign_in(@user1)
-      get '/api/v2/users/refer-to', params: { record_type: 'case', service: 'test_service' }
+      get '/api/v2/users/refer-to', params: { record_type: 'case', record_module_id: @cp.unique_id, service: 'test_service' }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
@@ -116,7 +133,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
         [
           Permission.new(resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE])
         ])
-      get '/api/v2/users/refer-to', params: { record_type: 'case' }
+      get '/api/v2/users/refer-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(4)
@@ -127,7 +144,7 @@ describe Api::V2::UsersTransitionsController, type: :request do
   describe 'GET /api/v2/users/transfer-to' do
     it 'lists the users that can be transferred to' do
       sign_in(@user1)
-      get '/api/v2/users/transfer-to', params: { record_type: 'case' }
+      get '/api/v2/users/transfer-to', params: { record_type: 'case', record_module_id: @cp.unique_id }
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
@@ -136,6 +153,6 @@ describe Api::V2::UsersTransitionsController, type: :request do
   end
 
   after :each do
-    [User, Role, Agency].each(&:destroy_all)
+    [User, Role, Agency, PrimeroModule, PrimeroProgram].each(&:destroy_all)
   end
 end

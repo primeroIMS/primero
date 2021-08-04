@@ -22,6 +22,7 @@ export const RESOURCES = [
   "user",
   "user_group",
   "agency",
+  "webhook",
   "metadata",
   "system",
   "primero_configuration",

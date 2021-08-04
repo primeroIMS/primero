@@ -41,7 +41,7 @@ export default (
       options: valuesToSearchableSelect(agencies, UNIQUE_ID_FIELD, NAME_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [LOCATION_FIELD], recordType, dispatch);
+        sharedOnChange(data, field, form, [LOCATION_FIELD], recordType, record?.get("module_id"), dispatch);
       }
     },
     {
@@ -50,7 +50,7 @@ export default (
       options: valuesToSearchableSelect(locations, ID_FIELD, DISPLAY_TEXT_FIELD, i18n.locale),
       onChange: (data, field, form) => {
         form.setFieldValue([TRANSITIONED_TO_FIELD], "", false);
-        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, dispatch);
+        sharedOnChange(data, field, form, [AGENCY_FIELD], recordType, record?.get("module_id"), dispatch);
       }
     },
     {
@@ -59,7 +59,7 @@ export default (
       required: true,
       options: filterUsers(users, mode, record, true),
       onChange: (data, field, form) => {
-        sharedOnChange(data, field, form);
+        sharedOnChange(data, field, form, null, recordType, record?.get("module_id"), dispatch);
       }
     },
     {

@@ -23,10 +23,13 @@ class AuditLog < ApplicationRecord
     self.timestamp ||= DateTime.now
   end
 
-  def self.logs(user_name, date_range)
-    return AuditLog.where(timestamp: date_range) unless user_name.present?
+  def self.logs(user_name, date_range, options)
+    logs = AuditLog.where(timestamp: date_range)
+    logs = AuditLog.unscoped.where(timestamp: date_range) if options[:order_by].present?
+    logs = logs.joins(:user) if options[:order_by] == 'users.user_name' || user_name.present?
+    logs = logs.where(users: { user_name: user_name }) if user_name.present?
 
-    joins(:user).where('users.user_name': user_name, timestamp: date_range)
+    OrderByPropertyService.apply_order(logs, options)
   end
 
   def display_id

@@ -6,3 +6,4 @@ export const DATA = "data";
 export const ERRORS = "errors";
 export const LOADING = "loading";
 export const METADATA = "metadata";
+export const DEFAULT_FILTERS = { per: 100, page: 1 };

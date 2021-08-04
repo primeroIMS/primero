@@ -70,10 +70,6 @@ class Referral < Transition
     end
   end
 
-  def user_can_receive?
-    super && transitioned_to_user.can?(:receive_referral, record.class)
-  end
-
   private
 
   def mark_rejection(rejection_note, service_object = nil)

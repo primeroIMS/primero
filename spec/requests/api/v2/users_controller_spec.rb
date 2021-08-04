@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
-    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider)
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct)
 
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -220,6 +220,13 @@ describe Api::V2::UsersController, type: :request do
       agency_id: @agency_a.id,
       role: @super_role
     )
+
+    @code_of_conduct = CodeOfConduct.create!(
+      title: 'Code of conduct test',
+      content: 'Some content',
+      created_by: 'test_user',
+      created_on: DateTime.now
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -366,7 +373,15 @@ describe Api::V2::UsersController, type: :request do
           Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
         ]
       )
-      get '/api/v2/users/refer-to', params: { record_type: 'case', service: 'test', agency: @agency_a.unique_id }
+
+      params = {
+        record_type: 'case',
+        record_module_id: @cp.unique_id,
+        service: 'test',
+        agency: @agency_a.unique_id
+      }
+
+      get '/api/v2/users/refer-to', params: params
 
       expect(response).to have_http_status(200)
       expect(json['data'][0]['id']).to eq(@user_a.id)
@@ -443,7 +458,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_nil
@@ -464,7 +479,7 @@ describe Api::V2::UsersController, type: :request do
         ]
       )
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(Rails.logger).to have_received(:debug).with(/\["email", "\[FILTERED\]"\]/).twice
 
@@ -497,7 +512,7 @@ describe Api::V2::UsersController, type: :request do
           }
         }
 
-        post '/api/v2/users', params: params
+        post '/api/v2/users', params: params, as: :json
 
         expect(response).to have_http_status(204)
         expect(User.find_by(id: id)).not_to be_nil
@@ -547,7 +562,7 @@ describe Api::V2::UsersController, type: :request do
         }
       }
 
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
@@ -573,7 +588,7 @@ describe Api::V2::UsersController, type: :request do
           password_confirmation: 'pad pw confirmation'
         }
       }
-      post '/api/v2/users', params: params
+      post '/api/v2/users', params: params, as: :json
 
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(2)
@@ -693,6 +708,21 @@ describe Api::V2::UsersController, type: :request do
       expect(@user_d.user_name).not_to eq(user_name)
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
+
+    it 'user accept the code of conduct' do
+      sign_in(@user_c)
+      params = {
+        data: {
+          code_of_conduct_id: @code_of_conduct.id
+        }
+      }
+
+      patch "/api/v2/users/#{@user_c.id}", params: params, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['user_name']).to eq(@user_c.user_name)
+      expect(json['data']).to have_key('code_of_conduct_accepted_on')
+    end
   end
 
   describe 'DELETE /api/v2/users/:id' do
@@ -746,6 +776,6 @@ describe Api::V2::UsersController, type: :request do
   end
 
   after :each do
-    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup)
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, UserGroup, CodeOfConduct)
   end
 end

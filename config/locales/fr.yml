@@ -1150,6 +1150,7 @@ fr:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: Accueil
     language: Langue
     manage_system_users: "Gérer la synchronisation des serveurs des utilisateurs "

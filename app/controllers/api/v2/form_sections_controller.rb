@@ -3,6 +3,7 @@
 # Forms CRUD API.
 class Api::V2::FormSectionsController < ApplicationApiController
   include Api::V2::Concerns::Export
+  include Api::V2::Concerns::JsonValidateParams
 
   before_action :form_section_params, only: %i[create update]
 
@@ -17,7 +18,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
   end
 
   def create
-    authorize! :create, FormSection
+    authorize!(:create, FormSection) && validate_json!(FormSection::FORM_SECTION_FIELDS_SCHEMA, form_section_params)
     @form_section = FormSection.new_with_properties(form_section_params, user: current_user)
     @form_section.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -25,7 +26,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
   end
 
   def update
-    authorize! :update, FormSection
+    authorize!(:update, FormSection) && validate_json!(FormSection::FORM_SECTION_FIELDS_SCHEMA, form_section_params)
     @form_section = FormSection.find(params[:id])
     @form_section.update_properties(form_section_params)
     @form_section.save!

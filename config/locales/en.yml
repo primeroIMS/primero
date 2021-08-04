@@ -897,6 +897,7 @@ en:
         national_id_no: National ID No
         progress_id: Progress ID
         sex_mapping_m_f_u: Sex
+        other_agency_id: Hospital code and patient number
       male_abbreviation: M
       unknown_abbreviation: U
     exported: Successfully generated the export file
@@ -1277,6 +1278,7 @@ en:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
@@ -2215,6 +2217,13 @@ en:
               without this permission, will not appear as potential recipients when
               someone is looking for a recipient in the referral modal.
             label: Receive Referral
+          receive_referral_different_module:
+            explanation: Allows a user to receive a referral of a record that is created
+              in a different Primero module. Users with this permission will appear as
+              potential recipients of a referral action for that record,
+              while users without this permission, will not appear as potential recipients
+              when someone is looking for a recipient in the referral modal.
+            label: Receive Referral from a user in a different module
           receive_transfer:
             explanation: Allows a user to receive a transfer. Users with this permission
               will appear as potential recipients of a transfer action, while users

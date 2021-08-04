@@ -143,17 +143,17 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
   });
 
   it("should handle SET_AUDIT_LOGS_FILTER", () => {
-    const payload = {
+    const data = {
       user_name: "test"
     };
 
     const expected = fromJS({
-      filters: payload
+      filters: data
     });
 
     const action = {
       type: actions.SET_AUDIT_LOGS_FILTER,
-      payload
+      payload: { data }
     };
 
     const newState = reducer(fromJS({}), action);
