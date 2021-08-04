@@ -1436,9 +1436,9 @@ en:
       title: "9. Average Referrals"
       label: "Average referrals per case"
       helptext: |
-        This indicator counts the average number of referrals for each recorded case (for all type of
-        services) across all cases. It includes referrals recorded on the case tab, not only referrals done
-        through the platform.
+        This indicator counts the average number of referrals for each recorded case (for all types
+        of services) across all cases, whether the case is active/open or closed. It includes referrals
+        recorded on the case tab, not only referrals done through the platform.
     referrals_per_service:
       title: "Referrals Per Service"
     average_followup_meetings_per_case:
