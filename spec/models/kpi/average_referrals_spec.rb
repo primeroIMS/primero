@@ -27,13 +27,13 @@ describe Kpi::AverageReferrals, search: true do
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group2],
                     action_plan_section: [{
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }, {
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }, {
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }, {
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }]
                   })
 
@@ -42,9 +42,9 @@ describe Kpi::AverageReferrals, search: true do
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group3],
                     action_plan_section: [{
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }, {
-                      service_referral: 'Referred'
+                      service_referral: 'referred'
                     }]
                   })
 
@@ -54,7 +54,7 @@ describe Kpi::AverageReferrals, search: true do
   with 'No cases in the users group' do
     it 'should average referrals of 0' do
       json = Kpi::AverageReferrals.new(from, to, [group1]).to_json
-      expect(json[:data][:average_referrals]).to eq('NaN')
+      expect(json[:data][:average_referrals]).to eq(0.0)
     end
   end
 
