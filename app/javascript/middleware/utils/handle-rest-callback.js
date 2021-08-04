@@ -10,18 +10,21 @@ const redirectConditions = (store, callback = {}, json) => {
     redirect,
     redirectToEdit,
     redirectWhenAccessDenied,
-    redirectWithIdFromResponse
+    redirectWithIdFromResponse,
+    redirectProperty = "id"
   } = callback;
 
   // eslint-disable-next-line camelcase
   if (redirectWhenAccessDenied && json?.data?.record_access_denied) {
     return redirect;
   }
+  const redirectValue = json?.data ? json.data[redirectProperty] : "";
+
   if (redirectWithIdFromResponse) {
-    return `${redirect}/${json?.data?.id}`;
+    return `${redirect}/${redirectValue}`;
   }
   if (redirectToEdit) {
-    return `${redirect}/${json?.data?.id}/edit`;
+    return `${redirect}/${redirectValue}/edit`;
   }
   if (incidentPath) {
     return incidentPath === "new" ? `/incidents/${moduleID}/new` : incidentPath;

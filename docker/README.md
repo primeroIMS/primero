@@ -128,7 +128,7 @@ The recommended value is `/primero-configuration/load_configuration.rb` where `/
 is bind mounted from the host system.
 
 APP_ROOT - file path - this is where Primero gets copied to in the app container.
-Default is `strv/primero/application`. Changing this parameter has not been tested.
+Default is `srv/primero/application`. Changing this parameter has not been tested.
 
 BEANSTALK_URL - address which Primero should try to access beanstalk.
 this should be set to the container name and port

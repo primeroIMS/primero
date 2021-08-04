@@ -139,7 +139,7 @@ Below is example of what the file should look like. There is also a sample templ
                   certbot_domain:
                   - '{{ primero_host }}'
                   certbot_email: 'primero-example@example.com'
-                  primero_repo_branch: 'development_v2'
+                  primero_repo_branch: 'master'
                   build_docker_tag: ''
                   build_docker_container_registry: ''
                   primero_tag: 'latest'
@@ -212,6 +212,16 @@ key just leave the variable `ssh_private_key` out of the secrets.yml file.
                 klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
                 afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
                 -----END RSA PRIVATE KEY-----
+                nginx_ssl_key: |
+                -----BEGIN PRIVATE KEY-----
+                klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+                afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+                -----END PRIVATE KEY-----
+                nginx_ssl_cert: |
+                -----BEGIN CERTIFICATE-----
+                klkdl;fk;lskdflkds;kf;kdsl;afkldsakf;kasd;f
+                afdnfdsnfjkndsfdsjkfjkdsjkfjdskljflajdfjdsl
+                -----END CERTIFICATE-----
 
 The variables in the `inventory.yml` along with the `secrets.yml` will also be used to make the `local.env` file for the dokcer-compose files.
 
@@ -242,3 +252,70 @@ and the production site
    ```shell
     LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
     ```
+
+## Deploy external certs
+
+To use an external cert on a primero deploy you need to add on the `secret.yml` file the follow entries:
+
+1. `nginx_ssl_key`
+2. `nginx_ssl_cert`
+
+Also set on your inventory file the follow entries:
+
+```shell
+      use_lets_encrypt: 'false'
+      use_external_certs: 'true'
+      nginx_ssl_cert_path: '/external-certs/primero.crt'
+      nginx_ssl_key_path: '/external-certs/primero.key'
+```
+
+Then recreate the local env file:
+
+```shell
+(venv) $ ansible-playbook application-primero.yml --tags "local-env" -e @secrets.yml
+```
+
+Copy the certs to the host using:
+
+```shell
+(venv) $ ansible-playbook external-certs.yml -e @secrets.yml
+```
+
+Finally restart the docker containers:
+
+```shell
+(venv) $ ansible-playbook application-primero.yml --tags start
+```
+
+## Replacing external certs
+
+If nginx is already using external certs, to update the certs follow the next steps:
+
+1. Copy over target server in the `/srv/primero/external-certs/` folder, the new key and cert.
+2. Replace the existing key an cert with the new files.
+3. Restart nginx docker container:
+
+```shell
+sudo docker restart primero_nginx_1
+```
+## Change letsencrypt domain
+
+If you change your hostname and you want to update your letsencrypt certificate, you need to:
+
+1. Update your `primero_host` on the inventory file.
+2. Update your environment variables running
+
+```
+(venv) $ ansible-playbook application-primero.yml --tags "local-env" -e @secrets.yml
+```
+
+3. Run the certbot playbook
+
+```
+(venv) $ ansible-playbook certbot.yml
+```
+
+4. Restart all the containers
+```
+  ​(venv) $ ansible-playbook application-primero.yml --tags "start"
+```

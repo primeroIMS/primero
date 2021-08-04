@@ -3,11 +3,13 @@
 # Lookups CRUD API
 class Api::V2::LookupsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::JsonValidateParams
 
   def index
     authorize! :index, Lookup
-    @total = Lookup.all.size
-    @lookups = Lookup.paginate(pagination)
+    @lookups = Lookup.list(params)
+    @total = @lookups.size
+    @lookups = @lookups.paginate(pagination)
   end
 
   def show
@@ -16,7 +18,7 @@ class Api::V2::LookupsController < ApplicationApiController
   end
 
   def create
-    authorize! :create, Lookup
+    authorize!(:create, Lookup) && validate_json!(Lookup::LOOKUP_FIELDS_SCHEMA, lookup_params)
     @lookup = Lookup.new_with_properties(lookup_params)
     @lookup.save!
     status = params[:data][:id].present? ? 204 : 200
@@ -24,7 +26,7 @@ class Api::V2::LookupsController < ApplicationApiController
   end
 
   def update
-    authorize! :update, Lookup
+    authorize!(:update, Lookup) && validate_json!(Lookup::LOOKUP_FIELDS_SCHEMA, lookup_params)
     @lookup = Lookup.find(params[:id])
     @lookup.update_properties(lookup_params)
     @lookup.save!
@@ -38,6 +40,7 @@ class Api::V2::LookupsController < ApplicationApiController
   end
 
   def lookup_params
-    params.require(:data).permit(:id, :unique_id, name: {}, values: [:id, :disabled, :_delete, display_text: {}])
+    @lookup_params ||= params.require(:data)
+                             .permit(:id, :unique_id, name: {}, values: [:id, :disabled, :_delete, display_text: {}])
   end
 end

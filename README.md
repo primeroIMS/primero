@@ -1,6 +1,6 @@
 Primero
 ========
-[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=development_v2)](https://travis-ci.org/primeroIMS/primero/branches)
+[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero/branches)
 
 
 ## Development
@@ -31,6 +31,11 @@ you will need to run the build and the compose scripts as `sudo`.
     $ \curl -sSL https://get.rvm.io | bash
     $ echo "source ~/.rvm/scripts/rvm" >> ~/.bashrc
     $ source  ~/.rvm/scripts/rvm
+    $
+    $ #For macs with m1 chips do the following
+    $ brew install libffi
+    $ export PKG_CONFIG_PATH="/opt/homebrew/opt/libffi/lib/pkgconfig" 
+    $ LDFLAGS="-L/opt/homebrew/opt/libffi/lib" CPPFLAGS="-I/opt/homebrew/opt/libffi/include" rvm install `cat .ruby-version`
     $
     $ #Install Ruby
     $ rvm install `cat .ruby-version`

@@ -6,7 +6,18 @@ import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
-const Component = ({ mode, index, filterFunc, filterState, setFilterState, field, formSection, isReadWriteForm }) => {
+const Component = ({
+  mode,
+  index,
+  filterFunc,
+  filterState,
+  setFilterState,
+  field,
+  formSection,
+  isReadWriteForm,
+  recordModuleID,
+  recordType
+}) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
@@ -37,7 +48,9 @@ const Component = ({ mode, index, filterFunc, filterState, setFilterState, field
           : {},
       disabled: subformSectionField.disabled || field.disabled || isReadWriteForm === false,
       formSection,
-      isReadWriteForm
+      isReadWriteForm,
+      recordModuleID,
+      recordType
     };
 
     return (
@@ -62,6 +75,8 @@ Component.propTypes = {
   index: PropTypes.number,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  recordModuleID: PropTypes.string,
+  recordType: PropTypes.string,
   setFilterState: PropTypes.func
 };
 

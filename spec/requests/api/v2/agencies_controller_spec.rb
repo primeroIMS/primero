@@ -24,8 +24,8 @@ describe Api::V2::AgenciesController, type: :request do
       disabled: false,
       pdf_logo_option: true,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
-      description_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      name_i18n: { en: 'Agency 1', es: 'Agencia 1' },
+      description_i18n: { en: 'Agency 1', es: 'Agencia 1' },
       logo_icon: FilesTestHelper.logo,
       logo_full: FilesTestHelper.logo,
       terms_of_use: FilesTestHelper.pdf_file
@@ -38,8 +38,8 @@ describe Api::V2::AgenciesController, type: :request do
       logo_enabled: false,
       disabled: false,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
-      description_i18n: { en: 'Nationality', es: 'Nacionalidad' }
+      name_i18n: { en: 'Agency 2', es: 'Agencia 2' },
+      description_i18n: { en: 'Agency 2', es: 'Agencia 2' }
     )
     @agency_c = Agency.create!(
       unique_id: 'agency_3',
@@ -49,7 +49,7 @@ describe Api::V2::AgenciesController, type: :request do
       logo_enabled: true,
       disabled: true,
       services: %w[services_a services_b],
-      name_i18n: { en: 'Nationality', es: 'Nacionalidad' },
+      name_i18n: { en: 'Agency 3', es: 'Agencia 3' },
       logo_icon: FilesTestHelper.logo,
       logo_full: FilesTestHelper.logo
     )
@@ -83,7 +83,8 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false'
+      get '/api/v2/agencies?disabled[0]=true&disabled[1]=false&managed=true&order=asc&order_by=name'
+
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
@@ -103,7 +104,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?disabled[0]=true'
+      get '/api/v2/agencies?disabled[0]=true&managed=true'
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(1)
       expect(json['data'][0]['unique_id']).to eq(@agency_c.unique_id)
@@ -117,9 +118,9 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies'
+      get '/api/v2/agencies?managed=true&order=asc&order_by=name'
       expect(response).to have_http_status(200)
-      expect(json['data'].count).to eq(2)
+      expect(json['data'].count).to eq(3)
       expect(json['data'][0]['unique_id']).to eq(@agency_a.unique_id)
       expect(json['data'][0]['name']).to eq(FieldI18nService.fill_with_locales(@agency_a.name_i18n))
       expect(json['data'][1]['unique_id']).to eq(@agency_b.unique_id)
@@ -133,7 +134,7 @@ describe Api::V2::AgenciesController, type: :request do
         ]
       )
 
-      get '/api/v2/agencies?per=1&page=2'
+      get '/api/v2/agencies?per=1&page=2&order=asc&order_by=name'
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'][0]['unique_id']).to eq(@agency_b.unique_id)
@@ -150,6 +151,22 @@ describe Api::V2::AgenciesController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    it 'list sorted by name' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+        ]
+      )
+
+      get '/api/v2/agencies?managed=true&order_by=name&order=desc'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map { |agency| agency['unique_id'] }).to eq(
+        [@agency_c.unique_id, @agency_b.unique_id, @agency_a.unique_id]
+      )
     end
   end
 
@@ -220,7 +237,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params.as_json, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['name']['en']).to eq(params[:data][:name][:en])
@@ -254,7 +271,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].first['message']).to eq('Conflict: A record with this id already exists')
@@ -285,7 +302,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(json['errors'].map { |error| error['status'] }).to eq([422])
       expect(json['errors'].size).to eq(1)
       expect(json['errors'].map { |error| error['detail'] }).to eq(%w[agency_code])
@@ -349,7 +366,7 @@ describe Api::V2::AgenciesController, type: :request do
         }
       }
 
-      post '/api/v2/agencies', params: params
+      post '/api/v2/agencies', params: params, as: :json
       expect(json['errors'][0]['status']).to eq(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['detail']).to eq('name')
@@ -387,7 +404,7 @@ describe Api::V2::AgenciesController, type: :request do
       name_i18n = FieldI18nService.fill_with_locales(params[:data][:name]).deep_stringify_keys
       description_i18n = FieldI18nService.fill_with_locales(params[:data][:description]).deep_stringify_keys
 
-      patch "/api/v2/agencies/#{@agency_a.id}", params: params
+      patch "/api/v2/agencies/#{@agency_a.id}", params: params, as: :json
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
       expect(json['data']['agency_code']).to eq(params[:data][:agency_code])
@@ -417,7 +434,7 @@ describe Api::V2::AgenciesController, type: :request do
       )
       params = {
         data: {
-          logo_full_base64: attachment_base64('unicef.png'),
+          logo_full_base64: attachment_strict_base64('unicef.png'),
           logo_full_file_name: 'unicef.png'
         }
       }

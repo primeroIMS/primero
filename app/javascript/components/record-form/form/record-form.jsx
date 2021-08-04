@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik } from "formik";
@@ -39,12 +39,13 @@ const RecordForm = ({
   externalForms,
   fetchFromCaseId,
   userPermittedFormsIds,
-  externalComponents
+  externalComponents,
+  primeroModule
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
@@ -90,29 +91,24 @@ const RecordForm = ({
   }, [record]);
 
   useEffect(() => {
-    if (!isEmpty(initialValues) && bindedResetForm.current) {
-      bindedResetForm.current();
-    }
-  }, [JSON.stringify(initialValues)]);
-
-  useEffect(() => {
-    if (
-      bindedResetForm &&
-      incidentFromCase?.size &&
-      mode.isNew &&
-      RECORD_TYPES[recordType] === RECORD_TYPES.incidents
-    ) {
+    if (incidentFromCase?.size && mode.isNew && RECORD_TYPES[recordType] === RECORD_TYPES.incidents) {
       const incidentCaseId = fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {};
 
-      bindedResetForm.current({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
+      setInitialValues({ ...initialValues, ...incidentFromCase.toJS(), ...incidentCaseId });
     }
-  }, [bindedResetForm, incidentFromCase, recordType]);
+  }, [incidentFromCase, recordType]);
 
   useEffect(() => {
     if (bindedSetValues.current && initialValues && !isEmpty(formTouched) && !formIsSubmitting) {
       bindedSetValues.current({ ...initialValues, ...formikValues.current });
     }
   }, [bindedSetValues, initialValues, formTouched, formIsSubmitting]);
+
+  useEffect(() => {
+    if (!isEmpty(initialValues) && bindedResetForm.current) {
+      bindedResetForm.current();
+    }
+  }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
     if (dataProtectionInitialValues.size > 0) {
@@ -162,7 +158,7 @@ const RecordForm = ({
         const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
 
         return (
-          <div key={form.unique_id}>
+          <Fragment key={form.unique_id}>
             <RecordFormTitle
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}
@@ -177,7 +173,8 @@ const RecordForm = ({
                 form,
                 mode,
                 recordType,
-                recordID: record?.get("id")
+                recordID: record?.get("id"),
+                recordModuleID: primeroModule
               };
 
               if (!field?.visible) {
@@ -194,7 +191,7 @@ const RecordForm = ({
                 </Box>
               );
             })}
-          </div>
+          </Fragment>
         );
       }
 
@@ -209,37 +206,39 @@ const RecordForm = ({
     };
 
     return (
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        validateOnBlur={false}
-        validateOnChange={false}
-        enableReinitialize
-        onSubmit={handleOnSubmit}
-      >
-        {props => {
-          // eslint-disable-next-line react/prop-types
-          const { submitForm } = props;
+      <div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
+          onSubmit={handleOnSubmit}
+        >
+          {props => {
+            // eslint-disable-next-line react/prop-types
+            const { submitForm } = props;
 
-          bindSubmitForm(submitForm);
+            bindSubmitForm(submitForm);
 
-          return (
-            <FormikForm
-              {...props}
-              handleConfirm={handleConfirm}
-              renderFormSections={renderFormSections}
-              forms={forms}
-              mode={mode}
-              setFormikValues={setFormikValues}
-              setFormIsSubmitting={setFormIsSubmitting}
-              setFormTouched={setFormTouched}
-              bindResetForm={bindResetForm}
-              bindSetValues={bindSetValues}
-              externalComponents={externalComponents}
-            />
-          );
-        }}
-      </Formik>
+            return (
+              <FormikForm
+                {...props}
+                handleConfirm={handleConfirm}
+                renderFormSections={renderFormSections}
+                forms={forms}
+                mode={mode}
+                setFormikValues={setFormikValues}
+                setFormIsSubmitting={setFormIsSubmitting}
+                setFormTouched={setFormTouched}
+                bindResetForm={bindResetForm}
+                bindSetValues={bindSetValues}
+                externalComponents={externalComponents}
+              />
+            );
+          }}
+        </Formik>
+      </div>
     );
   }
 
@@ -260,6 +259,7 @@ RecordForm.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
+  primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

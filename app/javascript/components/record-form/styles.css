@@ -32,10 +32,6 @@
   padding: 0 0.5em;
   overflow-y: scroll;
   width: 280px;
-
-  &.demo {
-    margin-bottom: 35px;
-  }
 }
 
 .recordForms {
@@ -44,13 +40,15 @@
   overflow-y: scroll;
   display: flex;
 
-  &.demo {
-    margin-bottom: 35px;
-  }
-
   & form {
     max-width: 700px;
     flex: 1 1;
+  }
+
+  & > div:first-of-type {
+    width: 100%;
+    height: max-content;
+    padding-bottom: 5em;
   }
 }
 

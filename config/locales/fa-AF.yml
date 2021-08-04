@@ -415,46 +415,6 @@ fa-AF:
     closed_last_week: بسته شده (هفته گذشته)
     closed_this_week: بسته شده (این هفته)
     comprehensive_need_intervention: جواب قابل فهم
-    count_new_bia_approvals:
-      one: '%{stat} <span>نو %{stat_type}</span> تایید'
-      other: '%{stat} <span>نو %{stat_type}</span> تایدی'
-    count_new_case_plan_approvals:
-      one: '%{stat} <span>نو %{stat_type}</span> تایدی'
-      other: '%{stat} <span>نو %{stat_type}</span> تایید'
-    count_new_closure_approvals:
-      one: '%{stat} <span>نو %{stat_type}</span> تایدی'
-      other: '%{stat} <span>نو %{stat_type}</span> تایدی'
-    count_pending_approval_total:
-      one: 'شما دارید %{stat} <span>انتظار %{stat_type}</span> تاییدی '
-      other: 'شما دارید %{stat} <span>انتظار %{stat_type}</span> تاییدی '
-    count_pending_transfers:
-      one: شما دارید %{stat} <span>انتظار %{stat_type}</span> انتقال
-      other: شما دارید %{stat} <span>انتظار %{stat_type}</span> انتقال
-    count_records_new:
-      one: و %{stat} <span>نو</span> قظایا
-      other: و %{stat} <span>نو</span> قضایا
-    count_records_total:
-      one: 'شما دارید %{stat} <span>جمعا</span> قضیه '
-      other: 'You have %{stat} <span>total</span> cases '
-    count_referrals_new:
-      one: و %{stat} <span>نو</span> قضیه
-      other: و %{stat} <span>نو</span> رجعت
-    count_referrals_total:
-      one: شما دارید%{stat} <span>جمعا</span> رجعت داده شده
-      other: 'You have %{stat} <span>total</span> referrals  '
-    count_rejected_approval_total:
-      one: 'و %{stat} <span>من %{stat_type}</span> تایید '
-      other: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
-    count_rejected_transfers:
-      one: 'و %{stat} <span>مسترد شده</span> انتقال '
-      other: 'and %{stat} <span>rejected</span> Transfers '
-    count_risk_level_new:
-      one: و %{stat} <span>نو</span> <span>%{stat_type} خطر</span> قضیه
-      other: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
-    count_risk_level_total:
-      one: 'شما دارید %{stat} <span>%{stat_type} خطر</span> قضیه '
-      other: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-    count_waiting_for_acceptance_transfers: شما دارید %{stat} انتقال <span>منتظر</span> جهت قبول کردن
     current_owner: مسئول فعلی
     dash_group_overview: قضایای گروپ من
     dash_shared_from_my_team: اشتراک گذاشته شده از تیم من
@@ -485,15 +445,6 @@ fa-AF:
     link_see_all: دیدن همه
     low_level: پائین
     low_risk: غیر عاجل
-    manager_count_closed_total:
-      one: 'و %{stat} <span>بسته شد</span> قضیه '
-      other: 'and %{stat} <span>closed</span> cases '
-    manager_count_open_total:
-      one: 'شما دارید %{stat} <span>قضایای</span> باز '
-      other: 'You have %{stat} <span>open</span> cases '
-    manager_transfers_totals:
-      one: 'شما دارید %{stat} <span>%{stat_type}</span> انتقال '
-      other: 'You have %{stat} <span>%{stat_type}</span> Transfers '
     match_result: نتایج مشابه
     medium_level: متوسط
     medium_risk: ضرورت متوسط
@@ -546,7 +497,6 @@ fa-AF:
     registration: ثبت
     rejected: مسترد
     rejected_transfers: انتقالات مسترد شده
-    response: درخواست <span>(درجریان)</span>
     scheduled_activities: فعالیت های پلان شده
     score_range: محدوده نمرات
     screening_service: خدمات امتحانی
@@ -575,12 +525,6 @@ fa-AF:
     violence_type: نوع خشونت
     with_incidents: همراه رویداد
     without_incidents: بدون رویداد
-    worker_count_referrals_total:
-      one: <span>%{case_worker}</span> دارد %{stat} <span>همه</span> رجعت دهی را
-      other: '<span>%{case_worker}</span> دارد %{stat} <span>همه</span> رجعت دهی را '
-    worker_count_total:
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
-      other: '<span>%{case_worker}</span> دارد %{stat} <span>همه</span> قضایا را '
     workflow_team: جریان کار- قضایای تیمی
     you_have: 'شما دارید'
   disabled:

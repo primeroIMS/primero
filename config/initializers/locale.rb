@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 # This specifies the locales the Primero currently supports
+#
+# ku-IQ: This locale represents the Kurdish Badini subdialect of Kurmanji, as spoken in Dohuk in
+#        Western Iraqi Kurdistan Region and North-East Syria
+# ku:    This locale represents the Kurdish Sorani (Central Kurdish) dialect as spoken in
+#        Eastern Iraqi Kurdistan Region (Erbil, Sulamaniya)
 class Primero::Application
   LOCALE_ENGLISH = :en
   LOCALE_ARABIC = :ar
-  LOCALES = %i[en fr ar ar-LB so es bn id my th ku ar-SD ar-JO fa-AF ps-AF].freeze
-  RTL_LOCALES = %i[ar ar-LB ku ar-SD ar-JO fa-AF ps-AF].freeze
+  LOCALES = %i[en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id ku ku-IQ my ps-AF so th].freeze
+  RTL_LOCALES = %i[ar ar-IQ ar-JO ar-LB ar-SD fa-AF ku ku-IQ ps-AF].freeze
 end
 
 def locale_settings

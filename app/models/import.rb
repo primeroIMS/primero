@@ -10,6 +10,11 @@ class Import < ValueObject
                 :total, :success_total, :failure_total,
                 :content_type, :file_name
 
+  IMPORT_FIELDS_SCHEMA = {
+    'file_name' => { 'type' => 'string' },
+    'data_base64' => { 'type' => 'string', 'contentEncoding' => 'base64' }
+  }.freeze
+
   def run
     return unless importer && data_base64
 

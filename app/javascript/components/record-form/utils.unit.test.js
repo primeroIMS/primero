@@ -8,14 +8,15 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
+  SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
 import { SHOW_APPROVALS } from "../../libs/permissions";
 
-import { getDefaultRecordInfoForms } from "./form/utils";
 import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
-import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "./constants";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD, SEPERATOR } from "./constants";
 import * as utils from "./utils";
+import { getDefaultForms } from "./form/utils";
 
 describe("<RecordForms /> - utils", () => {
   describe("compactValues", () => {
@@ -223,22 +224,32 @@ describe("<RecordForms /> - utils", () => {
         FormSectionRecord({
           unique_id: "form_1",
           fields: [
-            FieldRecord({ name: "field_1", selected_value: "default_value_1" }),
+            FieldRecord({ name: "field_1", selected_value: "default_value_1", visible: true }),
             FieldRecord({
               name: "field_2",
               type: SELECT_FIELD,
               multi_select: true,
-              selected_value: `["value_1", "value_2"]`
+              selected_value: `["value_1", "value_2"]`,
+              visible: true
             }),
             FieldRecord({
               name: "field_3",
               type: TICK_FIELD,
-              selected_value: true
+              selected_value: true,
+              visible: true
             }),
             FieldRecord({
               name: "field_4",
               type: DATE_FIELD,
-              selected_value: "today"
+              selected_value: "today",
+              visible: true
+            }),
+            FieldRecord({
+              name: "field_5",
+              type: SELECT_FIELD,
+              multi_select: true,
+              selected_value: "value_1",
+              visible: true
             })
           ]
         })
@@ -248,7 +259,8 @@ describe("<RecordForms /> - utils", () => {
         field_1: "default_value_1",
         field_2: ["value_1", "value_2"],
         field_3: true,
-        field_4: "2010-01-05"
+        field_4: "2010-01-05",
+        field_5: ["value_1"]
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
@@ -259,19 +271,22 @@ describe("<RecordForms /> - utils", () => {
         FormSectionRecord({
           unique_id: "form_1",
           fields: [
-            FieldRecord({ name: "field_1" }),
+            FieldRecord({ name: "field_1", visible: true }),
             FieldRecord({
               name: "field_2",
               type: SELECT_FIELD,
-              multi_select: true
+              multi_select: true,
+              visible: true
             }),
             FieldRecord({
               name: "field_3",
-              type: TICK_FIELD
+              type: TICK_FIELD,
+              visible: true
             }),
             FieldRecord({
               name: "field_4",
-              type: DATE_FIELD
+              type: DATE_FIELD,
+              visible: true
             })
           ]
         })
@@ -285,6 +300,34 @@ describe("<RecordForms /> - utils", () => {
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+    });
+
+    it("should not generate default values for separators", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", type: SEPERATOR, visible: true }),
+            FieldRecord({ name: "field_2", type: SEPERATOR, visible: true })
+          ]
+        })
+      ];
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal({});
+    });
+
+    it("should not generate default values for hidden fields", () => {
+      const forms = [
+        FormSectionRecord({
+          unique_id: "form_1",
+          fields: [
+            FieldRecord({ name: "field_1", type: TEXT_FIELD }),
+            FieldRecord({ name: "field_2", type: TEXT_FIELD })
+          ]
+        })
+      ];
+
+      expect(utils.constructInitialValues(forms)).to.deep.equal({});
     });
 
     afterEach(() => {
@@ -449,7 +492,7 @@ describe("<RecordForms /> - utils", () => {
     });
   });
 
-  describe("pickFormDefaultForms", () => {
+  describe("pickFromDefaultForms", () => {
     it("should return default forms for the not found in the state", () => {
       const forms = fromJS({
         1: FormSectionRecord({
@@ -463,10 +506,67 @@ describe("<RecordForms /> - utils", () => {
       });
 
       const result = Object.keys(
-        utils.pickFromDefaultForms(forms, getDefaultRecordInfoForms({ t: value => value, locale: "en" }))
+        utils.pickFromDefaultForms(forms, getDefaultForms({ t: value => value, locale: "en" }))
       );
 
-      expect(result).to.deep.equal([APPROVALS, INCIDENT_FROM_CASE, REFERRAL, TRANSFERS_ASSIGNMENTS, CHANGE_LOGS]);
+      expect(result).to.deep.equal([
+        SUMMARY,
+        APPROVALS,
+        INCIDENT_FROM_CASE,
+        REFERRAL,
+        TRANSFERS_ASSIGNMENTS,
+        CHANGE_LOGS
+      ]);
+    });
+  });
+
+  describe("compactBlank", () => {
+    it("should remove all the null, undefined and empty values from an object", () => {
+      const expected = {
+        name: "Name 1",
+        age: 10,
+        estimated: true
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          country: "",
+          age: 10,
+          nationality: [null],
+          religion: null,
+          locations: fromJS([]),
+          estimated: true
+        })
+      ).to.deep.equals(expected);
+    });
+
+    it("should remove all the null from subform entries", () => {
+      const expected = {
+        name: "Name 1",
+        age: 10,
+        estimated: true,
+        nationality: ["country1", "country2"],
+        family_details: [
+          { relation: "mother", name: "Name 2", is_alive: true, age: 25 },
+          { relation: "father", name: "Name 2", is_alive: false, location: ["country1"] }
+        ]
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          age: 10,
+          estimated: true,
+          nationality: ["country1", "country2"],
+          locations: fromJS([]),
+          ethnicity: [],
+          family_details: [
+            { relation: "mother", name: "Name 2", ocupation: "", is_alive: true, age: 25, location: [null] },
+            { relation: "father", name: "Name 2", current_location: "", is_alive: false, location: ["country1"] }
+          ]
+        })
+      ).to.deep.equals(expected);
     });
   });
 });

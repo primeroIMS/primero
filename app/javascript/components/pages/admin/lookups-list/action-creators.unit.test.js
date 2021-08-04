@@ -7,7 +7,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/action-creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchAdminLookups"].forEach(property => {
+    ["fetchAdminLookups", "setLookupsFilter"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
@@ -25,5 +25,15 @@ describe("<LookupsList /> - pages/admin/lookups-list/action-creators", () => {
     };
 
     expect(actionsCreators.fetchAdminLookups()).to.deep.equal(expected);
+  });
+
+  it("should check that 'setLookupsFilter' action creator returns the correct object", () => {
+    const payload = { data: { disabled: ["true", "false"] } };
+    const expectedAction = {
+      type: actions.SET_LOOKUPS_FILTER,
+      payload
+    };
+
+    expect(actionsCreators.setLookupsFilter(payload)).to.deep.equal(expectedAction);
   });
 });

@@ -7,9 +7,27 @@ class FormSection < ApplicationRecord
 
   RECORD_TYPES = %w[case incident tracing_request].freeze
 
+  FORM_SECTION_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'object' }, 'help_text' => { 'type' => 'object' },
+    'description' => { 'type' => 'object' }, 'parent_form' => { 'type' => 'string' },
+    'visible' => { 'type' => 'boolean' }, 'order' => { 'type' => 'integer' },
+    'order_form_group' => { 'type' => 'integer' }, 'order_subform' => { 'type' => 'integer' },
+    'form_group_keyed' => { 'type' => 'boolean' }, 'is_nested' => { 'type' => 'boolean' },
+    'is_first_tab' => { 'type' => 'boolean' }, 'is_summary_section' => { 'type' => 'boolean' },
+    'mobile_form' => { 'type' => 'boolean' }, 'hide_subform_placeholder' => { 'type' => 'boolean' },
+    'subform_prevent_item_removal' => { 'type' => 'boolean' }, 'subform_append_only' => { 'type' => 'boolean' },
+    'display_help_text_view' => { 'type' => 'boolean' }, 'subform_header_links' => { 'type' => 'boolean' },
+    'initial_subforms' => { 'type' => 'integer' }, 'form_group_id' => { 'type' => 'string' },
+    'shared_subform' => { 'type' => 'string' }, 'shared_subform_group' => { 'type' => 'string' },
+    'collapsed_field_names' => { 'type' => 'array' }, 'fields' => { 'type' => 'array' },
+    'module_ids' => { 'type' => 'array' }
+  }.freeze
+
   localize_properties :name, :help_text, :description
 
-  has_many :fields, -> { order(:order) }, dependent: :destroy, autosave: true
+  has_many :fields, -> { order(:order) },
+           dependent: :destroy, autosave: true, after_add: :touch_on_field_add, after_remove: :touch_on_field_add
   accepts_nested_attributes_for :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_one :subform_field,
@@ -33,6 +51,8 @@ class FormSection < ApplicationRecord
   before_save :sync_form_group
   after_save :sync_modules
   after_save :calculate_subform_collapsed_fields
+  after_touch :touch_roles
+  after_save :touch_roles, if: -> { saved_change_to_attribute?('visible') }
 
   def defaults
     %w[order order_form_group order_subform initial_subforms].each { |p| self[p] ||= 0 }
@@ -186,11 +206,11 @@ class FormSection < ApplicationRecord
   end
 
   def subform_fields
-    fields.select {|f| f.type == 'subform'}
+    fields.select { |f| f.type == 'subform' }
   end
 
   def non_subform_fields
-    fields.reject {|f| f.type == 'subform'}
+    fields.reject { |f| f.type == 'subform' }
   end
 
   def permitted_destroy!
@@ -258,5 +278,14 @@ class FormSection < ApplicationRecord
       field.update_translations(locale, value)
       field.save!
     end
+  end
+
+  def touch_on_field_add(_field)
+    new_record? || touch
+  end
+
+  def touch_roles
+    # TODO: This causes an N+1 query. In Rails 6 this shoudl be replaced with a touch_all
+    roles.each(&:touch)
   end
 end

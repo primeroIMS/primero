@@ -67,6 +67,46 @@ describe("<LocationsList /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should handle DISABLE_LOCATIONS_FAILURE", () => {
+    const expected = fromJS({ disableLocations: { loading: false, errors: true } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_FAILURE };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_FINISHED", () => {
+    const expected = fromJS({ disableLocations: { loading: false, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_FINISHED };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_STARTED", () => {
+    const expected = fromJS({ disableLocations: { loading: true, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_STARTED };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle DISABLE_LOCATIONS_SUCCESS", () => {
+    const expected = fromJS({ disableLocations: { loading: true, errors: false } });
+
+    const action = { type: actions.DISABLE_LOCATIONS_SUCCESS };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle CLEAR_METADATA", () => {
     const expected = fromJS({
       metadata: DEFAULT_LOCATION_METADATA
@@ -74,6 +114,21 @@ describe("<LocationsList /> - Reducers", () => {
 
     const action = {
       type: actions.CLEAR_METADATA
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_LOCATIONS_FILTER", () => {
+    const expected = fromJS({
+      filters: fromJS({ disabled: ["true", "false"] })
+    });
+
+    const action = {
+      type: actions.SET_LOCATIONS_FILTER,
+      payload: { data: { disabled: ["true", "false"] } }
     };
 
     const newState = reducer(fromJS({}), action);

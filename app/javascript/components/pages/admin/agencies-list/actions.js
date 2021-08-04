@@ -1,19 +1,13 @@
 import { namespaceActions } from "../../../../libs";
-import NAMESPACE from "../namespace";
 
-import agencyNamespace from "./namespace";
+import NAMESPACE from "./namespace";
 
-const userActions = namespaceActions(NAMESPACE, [
+export default namespaceActions(NAMESPACE, [
   "AGENCIES",
   "AGENCIES_STARTED",
   "AGENCIES_SUCCESS",
   "AGENCIES_FAILURE",
-  "AGENCIES_FINISHED"
+  "AGENCIES_FINISHED",
+  "CLEAR_METADATA",
+  "SET_AGENCIES_FILTER"
 ]);
-
-const agencyActions = namespaceActions(agencyNamespace, ["CLEAR_METADATA"]);
-
-export default {
-  ...userActions,
-  ...agencyActions
-};

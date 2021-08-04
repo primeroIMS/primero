@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # The model for Role
+# rubocop:disable Metrics/ClassLength
 class Role < ApplicationRecord
   include ConfigurationRecord
 
@@ -23,6 +24,16 @@ class Role < ApplicationRecord
     'system' => ['manage'],
     'metadata' => ['manage'],
     'user_group' => ['manage']
+  }.freeze
+
+  ROLE_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'string' }, 'description' => { 'type' => 'string' },
+    'group_permission' => { 'type' => 'string' }, 'referral' => { 'type' => 'boolean' },
+    'is_manager' => { 'type' => 'boolean' }, 'transfer' => { 'type' => 'boolean' },
+    'disabled' => { 'type' => 'boolean' }, 'module_unique_ids' => { 'type' => 'array' },
+    'permissions' => { 'type' => 'object' }, 'form_section_read_write' => { 'type' => 'object' },
+    'reporting_location_level' => { 'type' => 'integer' }
   }.freeze
 
   has_many :form_permissions
@@ -51,6 +62,10 @@ class Role < ApplicationRecord
   end
 
   class << self
+    def order_insensitive_attribute_names
+      %w[name description]
+    end
+
     # TODO: Redundant after create_or_update!
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
@@ -68,13 +83,20 @@ class Role < ApplicationRecord
     end
 
     def list(user = nil, options = {})
-      if options[:external]
-        Role.where(disabled: false, referral: true).or(Role.where(disabled: false, transfer: true))
-      elsif options[:managed]
-        user&.permitted_roles_to_manage || Role.none
-      else
-        Role.all
-      end
+      return list_external if options[:external]
+
+      roles_list = options[:managed] ? list_managed(user) : all
+      roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
+
+      OrderByPropertyService.apply_order(roles_list, options)
+    end
+
+    def list_managed(user)
+      user&.permitted_roles_to_manage || none
+    end
+
+    def list_external
+      where(disabled: false, referral: true).or(where(disabled: false, transfer: true))
     end
   end
 
@@ -82,6 +104,18 @@ class Role < ApplicationRecord
     forms = form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
     forms = forms.or(form_sections.where(parent_form: record_type, is_nested: true)) if include_subforms
     forms
+  end
+
+  def permitted_subforms(record_type = nil, visible_only = false)
+    FormSection.where(
+      is_nested: true,
+      subform_field: form_sections.joins(fields: :subform)
+                                  .where({
+                                    parent_form: record_type,
+                                    visible: (visible_only || nil),
+                                    fields: { type: Field::SUBFORM }
+                                  }.compact)
+    )
   end
 
   def permitted_roles
@@ -97,24 +131,24 @@ class Role < ApplicationRecord
     role_permission.role_unique_ids
   end
 
+  def permits?(resource, action)
+    permissions.find { |p| p.resource == resource }&.actions&.include?(action)
+  end
+
   def permitted_dashboard?(dashboard_name)
-    permissions.find { |p| p.resource == Permission::DASHBOARD }&.actions&.include?(dashboard_name)
+    permits?(Permission::DASHBOARD, dashboard_name)
   end
 
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
-    dashboards = dashboard_permissions&.actions&.map do |action|
+    dashboard_permissions&.actions&.map do |action|
       next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
-
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
-      begin
-        "Dashboard::#{action.upcase}".constantize
-      rescue NameError
-        nil
-      end
-    end || []
-    dashboards.compact
+      "Dashboard::#{action.upcase}".constantize
+    rescue NameError
+      nil
+    end&.compact || []
   end
 
   def reporting_location_config
@@ -262,3 +296,4 @@ class Role < ApplicationRecord
     (resources - current_managed_resources).empty?
   end
 end
+# rubocop:enable Metrics/ClassLength

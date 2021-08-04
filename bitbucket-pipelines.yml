@@ -1,29 +1,52 @@
-clone:
-  depth: full
+definitions:
+  steps:
+    - step: &server-test
+        name: Server tests
+        image: ruby:2.6.6-buster
+        script:
+          - ./bin/run_server_tests.sh
+        services:
+          - postgres
+        caches:
+          - bundler
+    - step: &client-test
+        name: Client tests
+        image: node:12.20.1
+        size: 2x
+        script:
+          - npm install
+          - npm run test:all
+          - npm run lint:run
+        caches:
+          - node
+    - step: &push-branch
+        script:
+          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
+          - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_BRANCH
+  services:
+    postgres:
+      image: postgres:10
+      variables:
+        POSTGRES_DB: 'primero_test'
+        POSTGRES_USER: 'postgres'
+        POSTGRES_PASSWORD: 'postgrespassword'
+  caches:
+    bundler: /usr/local/bundle
 pipelines:
   branches:
-    maint_1.3:
+    maint_*:
+      - step: *push-branch
+    '{develop*,release-*,master}':
+      - step: *server-test
+      - step: *client-test
+      - step: *push-branch
+  tags:
+    v*:
       - step:
           script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.3 --tags
-    maint_1.4:
-      - step:
-          script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.4 --tags
-    maint_1.5:
-      - step:
-          script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.5 --tags
-    maint_1.6:
-      - step:
-          script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.6 --tags
-    development:
-      - step:
-          script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git development --tags
-    development_v2:
-      - step:
-          script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git development_v2 --tags
-            - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero development_v2 --tags
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
+            - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_TAG
+  pull-requests:
+    '**':
+      - step: *server-test
+      - step: *client-test

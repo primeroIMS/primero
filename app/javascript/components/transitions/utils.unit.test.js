@@ -7,8 +7,9 @@ describe("transitions/utils", () => {
     it("should return the correct object", () => {
       const expected = {
         action: `cases/REDIRECT`,
-        redirectWithIdFromResponse: true,
+        redirectProperty: "record_id",
         redirectWhenAccessDenied: true,
+        redirectWithIdFromResponse: true,
         redirect: `/cases`
       };
 

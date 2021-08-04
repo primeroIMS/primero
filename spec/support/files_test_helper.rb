@@ -10,6 +10,11 @@ module FilesTestHelper
     Base64.encode64(File.open(path, 'rb').read)
   end
 
+  def attachment_strict_base64(file_name)
+    path = spec_resource_path(file_name)
+    Base64.strict_encode64(File.open(path, 'rb').read)
+  end
+
   def attachment_as_io(file_name)
     data_base64 = attachment_base64(file_name)
     decoded_data = Base64.decode64(data_base64).force_encoding('UTF-8')

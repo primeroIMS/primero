@@ -28,7 +28,7 @@ const commonHandleWatched = {
   handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({ disabled: !consent })
 };
 
-const localReferralFields = ({ i18n, recordType, isReferralFromService, record }) =>
+const localReferralFields = ({ i18n, recordType, recordModuleID, isReferralFromService, record = fromJS({}) }) =>
   [
     {
       display_name: i18n.t("transfer.agency_label"),
@@ -39,11 +39,12 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
       showIf: values => !values[FIELDS.REMOTE],
       clearDependentValues: [FIELDS.TRANSITIONED_TO],
       option_strings_source_id_key: "unique_id",
+      extraSelectorOptions: { includeServices: true },
       filterOptionSource: (watchedInputValues, options) => {
         const { service } = watchedInputValues;
 
         if (service) {
-          return options.filter(option => option.get("services").includes(service) && !option.get("disabled"));
+          return options.filter(option => option?.services?.includes(service) && !option.disabled);
         }
 
         return options;
@@ -69,11 +70,11 @@ const localReferralFields = ({ i18n, recordType, isReferralFromService, record }
       watchedInputs: [FIELDS.SERVICE, FIELDS.AGENCY, FIELDS.LOCATION, FIELDS.REMOTE, FIELDS.TRANSITIONED_TO],
       asyncOptions: true,
       asyncAction: fetchReferralUsers,
-      asyncParams: { record_type: RECORD_TYPES[recordType] },
+      asyncParams: { record_type: RECORD_TYPES[recordType], record_module_id: recordModuleID },
       asyncParamsFromWatched: TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
       asyncOptionsLoadingPath: STATE_REFERRAL_LOADING_PATH,
       option_strings_source: OPTION_TYPES.REFER_TO_USERS,
-      currRecord: record,
+      currRecord: record.get("owned_by"),
       setOtherFieldValues: [
         {
           field: FIELDS.LOCATION,

@@ -6,7 +6,7 @@ import { useI18n } from "../../../i18n";
 import SubformFieldArray from "./subform-field-array";
 import { SUBFORM_FIELD } from "./constants";
 
-const Component = ({ field, form, formik, mode, recordType, formSection, isReadWriteForm }) => {
+const Component = ({ field, form, formik, mode, recordType, recordModuleID, formSection, isReadWriteForm }) => {
   const { name } = field;
 
   const i18n = useI18n();
@@ -22,6 +22,7 @@ const Component = ({ field, form, formik, mode, recordType, formSection, isReadW
             formik={formik}
             i18n={i18n}
             mode={mode}
+            recordModuleID={recordModuleID}
             recordType={recordType}
             formSection={formSection}
             isReadWriteForm={isReadWriteForm}
@@ -41,6 +42,7 @@ Component.propTypes = {
   formSection: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  recordModuleID: PropTypes.string,
   recordType: PropTypes.string
 };
 

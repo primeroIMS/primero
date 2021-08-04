@@ -170,7 +170,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'launches the apply configuration job if the parameter apply_now is set' do
       params = { data: { apply_now: true } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params
+      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(ApplyConfigurationJob).to have_been_enqueued
@@ -180,7 +180,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'does not launch the apply configuration job if the parameter apply_now is not set' do
       params = { data: { name: 'Test' } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params
+      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(ApplyConfigurationJob).not_to have_been_enqueued
@@ -190,7 +190,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'launches the configuration promotion job if the parameter promote is set' do
       params = { data: { promote: true } }
       login_for_test(permissions: correct_permissions)
-      patch "/api/v2/configurations/#{@configuration.id}", params: params
+      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)
       expect(PrimeroConfigurationSyncJob).to have_been_enqueued
@@ -200,7 +200,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
     it 'returns 403 if user is not authorized to update' do
       params = { data: { apply_now: true } }
       login_for_test
-      patch "/api/v2/configurations/#{@configuration.id}", params: params
+      patch "/api/v2/configurations/#{@configuration.id}", params: params, as: :json
 
       expect(response).to have_http_status(403)
     end

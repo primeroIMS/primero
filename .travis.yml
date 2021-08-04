@@ -35,12 +35,11 @@ services:
 - postgresql
 branches:
 - travisci
-- maint_1.3
-- maint_1.4
 - maint_1.5
 - maint_1.6
 - development
 - development_v2
+- develop
 - master
 notifications:
   slack:

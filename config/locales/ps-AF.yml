@@ -420,46 +420,6 @@ ps-AF:
     closed_last_week: بند شوی(تیره اونۍ)
     closed_this_week: بند شوی(دغه  اونۍ)
     comprehensive_need_intervention: هراړخیز ځواب
-    count_new_bia_approvals:
-      one: منظوری
-      other: منظوری
-    count_new_case_plan_approvals:
-      one: منظوری
-      other: منظوری
-    count_new_closure_approvals:
-      one: نوی منظوری
-      other: نوی مظوری
-    count_pending_approval_total:
-      one: منظوری
-      other: تاسو معلق منظوری لری
-    count_pending_transfers:
-      one: تاسو معلق منظوری لری
-      other: تاسو معلق لیږدونی لری
-    count_records_new:
-      one: او نوی قضیې
-      other: او نوی قضیې
-    count_records_total:
-      one: ستاسو ټولی قضی
-      other: ستاسو ټولی قضیې
-    count_referrals_new:
-      one: او نوی ارجاع ګانی
-      other: او نوی راجاع ګانی
-    count_referrals_total:
-      one: ستاسو ټولټال ارجاع ګانی
-      other: ستاسی ټولټال ارجاع ګانی
-    count_rejected_approval_total:
-      one: او رد شوی منظوری
-      other: او رد شوی منظوری
-    count_rejected_transfers:
-      one: او رد شوی لیږدونی
-      other: او رد شوی لیږدونی
-    count_risk_level_new:
-      one: او نوی خطر لرونکی قضيې
-      other: او نوی خطر لرونکی قضیې
-    count_risk_level_total:
-      one: تاسو خطر لرونکی قضیې لری
-      other: تاسو خطر لرونکی قضیې لری
-    count_waiting_for_acceptance_transfers: تاسو د قضيې لیږد لری خو ستاسو منلو ته په تمه دی
     current_owner: اوسنی څښتن
     dash_group_overview: زما د ګروپ قضيې
     dash_shared_from_my_team: زما له ټیم څخه شریکه شوې
@@ -490,15 +450,6 @@ ps-AF:
     link_see_all: ټول وګوره
     low_level: ټیټ
     low_risk: ټیټ لومړیتوب
-    manager_count_closed_total:
-      one: او بندی شوی قضیې
-      other: او بندی شوی قضیې
-    manager_count_open_total:
-      one: تاسو خلاصی قضیې لری
-      other: تایو خلاصی قضیې لری
-    manager_transfers_totals:
-      one: تاسو لیږدونی لری
-      other: تایو لیږدونی لری
     match_result: د برابرئ پایلې
     medium_level: منځنې
     medium_risk: منځنې لومړیتوب
@@ -551,7 +502,6 @@ ps-AF:
     registration: راجستر
     rejected: رد شو
     rejected_transfers: رد شوی لیږد
-    response: ځواب ویل
     scheduled_activities: ټاکل شوي فعالیتونه
     score_range: د نمری اندازه
     screening_service: سکریننګ خدمت
@@ -580,12 +530,6 @@ ps-AF:
     violence_type: د تاوتریخوالي ډولونه
     with_incidents: د پیښو سره
     without_incidents: د پیښو پرته
-    worker_count_referrals_total:
-      one: ټولټال ارجاع ګانی
-      other: ټولټال ارجاع ګانی
-    worker_count_total:
-      one: ټولټال قضیې لری
-      other: ټولټال قضيې لری
     workflow_team: د کار جریان- د ټیم قضیې
     you_have: 'تاسو لرئ'
   disabled:
@@ -1004,6 +948,7 @@ ps-AF:
     web_app: ویب پروګروام
   home:
     ar: عربی
+    ar-IQ: العربية (العراقية)
     ar-JO: عربی (اردن)
     ar-LB: عربی (لبنان)
     bn: বাংলা
@@ -1015,6 +960,7 @@ ps-AF:
     id: بهاشا
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: کور
     language: ژبه
     manage_system_users: .د سرور همغږۍ کاروونکي اداره کړئ

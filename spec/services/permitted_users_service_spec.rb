@@ -54,7 +54,7 @@ describe PermittedUsersService do
     permission_cannot = Permission.new(
       resource: Permission::CASE, actions: [Permission::READ]
     )
-    role_cannot = Role.new(permissions: [permission_cannot])
+    role_cannot = Role.new(permissions: [permission_cannot], group_permission: Permission::GROUP)
     role_cannot.save(validate: false)
 
     @group_a = UserGroup.create!(name: 'group A', unique_id: 'group-a')
@@ -65,7 +65,7 @@ describe PermittedUsersService do
     @user2 = User.new(user_name: 'user2', role: role_cannot, agency: @agency1, user_groups: [@group_a])
     @user2.save(validate: false)
     @user3 = User.new(user_name: 'user3', role: role_agency_read, disabled: true,
-                      agency: @agency1, user_groups: [@group_b])
+                      agency: @agency2, user_groups: [@group_b])
     @user3.save(validate: false)
     @user4 = User.new(user_name: 'user4', role: role_cannot, agency: @agency2, user_groups: [@group_b])
 
@@ -109,10 +109,16 @@ describe PermittedUsersService do
   it 'return users with the same agency' do
     users = PermittedUsersService.new(@user).find_permitted_users
 
-    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user5])
+    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
   end
 
-  it 'return users with the same user_groups' do
+  it 'return users with the same user group' do
+    users = PermittedUsersService.new(@user4).find_permitted_users
+
+    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user3 user4])
+  end
+
+  it 'return users with the same agency for the specified user_group_id' do
     users = PermittedUsersService.new(@user).find_permitted_users('user_group_ids' => 'group-a')
 
     expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])

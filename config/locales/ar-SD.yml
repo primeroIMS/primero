@@ -387,7 +387,7 @@ ar-SD:
     transfer_accepted_rejected: تم رفض الحالة
     transfer_accepted_success: تم قبول تحويل الحالة بنجاح
     transfer_reject_reason_label: سبب الرفض
-    transfer_rejected: 'النقر على "رفض: يعني أنك غير مستعد لقبول مسؤولية هذه الحالة في هذا الوقت. رجاء إدخال سبب رفضك لهذه الحالة؛ وفور النقر على "رفض" لن تستطيع الوصول لسجل هذه الحالة.'
+    transfer_rejected: "النقر على \"رفض: يعني أنك غير مستعد لقبول مسؤولية هذه الحالة في هذا الوقت. رجاء إدخال سبب رفضك لهذه الحالة؛ وفور النقر على \"رفض\" لن تستطيع الوصول لسجل هذه الحالة."
     view_name: انظر الاسم
   change_logs:
     add_subform: 'تمت إضافة إدخال الاستمارة الفرعية رقم ....'
@@ -500,98 +500,6 @@ ar-SD:
     closed_last_week: مُغلق (الأسبوع الماضي)
     closed_this_week: مُغلق (هذا الأسبوع)
     comprehensive_need_intervention: استجابة شاملة
-    count_new_bia_approvals:
-      zero: '%{stat} <span>new %{stat_type}</span> Approvals'
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      two: '%{stat} <span>new %{stat_type}</span> Approvals'
-      few: '%{stat} <span>new %{stat_type}</span> Approvals'
-      many: '%{stat} <span>new %{stat_type}</span> Approvals'
-      other: موافقات جديدة
-    count_new_case_plan_approvals:
-      zero: '%{stat} <span>new %{stat_type}</span> Approvals'
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      two: '%{stat} <span>new %{stat_type}</span> Approvals'
-      few: '%{stat} <span>new %{stat_type}</span> Approvals'
-      many: '%{stat} <span>new %{stat_type}</span> Approvals'
-      other: موافقات جديدة
-    count_new_closure_approvals:
-      zero: '%{stat} <span>new %{stat_type}</span> Approvals'
-      one: '%{stat} <span>new %{stat_type}</span> Approval'
-      two: '%{stat} <span>new %{stat_type}</span> Approvals'
-      few: '%{stat} <span>new %{stat_type}</span> Approvals'
-      many: '%{stat} <span>new %{stat_type}</span> Approvals'
-      other: موافقات جديدة
-    count_pending_approval_total:
-      zero: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
-      one: 'You have %{stat} <span>pending %{stat_type}</span> Approval '
-      two: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
-      few: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
-      many: 'You have %{stat} <span>pending %{stat_type}</span> Approvals '
-      other: عندك موافقات قيد الانتظار
-    count_pending_transfers:
-      zero: 'You have %{stat} <span>pending</span> Transfers '
-      one: 'You have %{stat} <span>pending</span> Transfer '
-      two: 'You have %{stat} <span>pending</span> Transfers '
-      few: 'You have %{stat} <span>pending</span> Transfers '
-      many: 'You have %{stat} <span>pending</span> Transfers '
-      other: لديك تحويلات قيد الانتظار
-    count_records_new:
-      zero: and %{stat} <span>new</span> cases
-      one: and %{stat} <span>new</span> case
-      two: and %{stat} <span>new</span> cases
-      few: and %{stat} <span>new</span> cases
-      many: and %{stat} <span>new</span> cases
-      other: وحالات جديدة
-    count_records_total:
-      zero: 'You have %{stat} <span>total</span> cases '
-      one: 'You have %{stat} <span>total</span> case '
-      two: 'You have %{stat} <span>total</span> cases '
-      few: 'You have %{stat} <span>total</span> cases '
-      many: 'You have %{stat} <span>total</span> cases '
-      other: لديك مجموع ... من الحالات
-    count_referrals_new:
-      zero: and %{stat} <span>new</span> referrals
-      one: and %{stat} <span>new</span> referrals
-      two: and %{stat} <span>new</span> referrals
-      few: and %{stat} <span>new</span> referrals
-      many: and %{stat} <span>new</span> referrals
-      other: و... إحالات جديدة
-    count_referrals_total:
-      zero: 'You have %{stat} <span>total</span> referrals  '
-      one: 'You have %{stat} <span>total</span> referral '
-      two: 'You have %{stat} <span>total</span> referrals  '
-      few: 'You have %{stat} <span>total</span> referrals  '
-      many: 'You have %{stat} <span>total</span> referrals  '
-      other: لديك ... إحالات جديدة
-    count_rejected_approval_total:
-      zero: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
-      one: 'and %{stat} <span>rejected %{stat_type}</span> Approval '
-      two: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
-      few: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
-      many: 'and %{stat} <span>rejected %{stat_type}</span> Approvals '
-      other: 'و ... موافقات مرفوضة '
-    count_rejected_transfers:
-      zero: 'and %{stat} <span>rejected</span> Transfers '
-      one: 'and %{stat} <span>rejected</span> Transfer '
-      two: 'and %{stat} <span>rejected</span> Transfers '
-      few: 'and %{stat} <span>rejected</span> Transfers '
-      many: 'and %{stat} <span>rejected</span> Transfers '
-      other: و ... تحويل مرفوض
-    count_risk_level_new:
-      zero: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
-      one: and %{stat} <span>new</span> <span>%{stat_type} risk</span> case
-      two: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
-      few: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
-      many: and %{stat} <span>new</span> <span>%{stat_type} risk</span> cases
-      other: و ... حالات مخاطر جديدة
-    count_risk_level_total:
-      zero: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-      one: 'You have %{stat} <span>%{stat_type} risk</span> case '
-      two: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-      few: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-      many: 'You have %{stat} <span>%{stat_type} risk</span> cases '
-      other: لديك .... حالات مخاطر جديدة
-    count_waiting_for_acceptance_transfers: لديك ... تحويل في انتظار موافقتك
     current_owner: الصاحب الحالي
     dash_case_incident_overview: حالاتي
     dash_group_overview: حالات مجموعتي
@@ -624,27 +532,6 @@ ar-SD:
     link_see_all: انظر للجميع
     low_level: منخفض
     low_risk: أولوية منخفضة
-    manager_count_closed_total:
-      zero: 'and %{stat} <span>closed</span> cases '
-      one: 'and %{stat} <span>closed</span> case '
-      two: 'and %{stat} <span>closed</span> cases '
-      few: 'and %{stat} <span>closed</span> cases '
-      many: 'and %{stat} <span>closed</span> cases '
-      other: و ..... حالة مغلقة
-    manager_count_open_total:
-      zero: 'You have %{stat} <span>open</span> cases '
-      one: 'You have %{stat} <span>open</span> case '
-      two: 'You have %{stat} <span>open</span> cases '
-      few: 'You have %{stat} <span>open</span> cases '
-      many: 'You have %{stat} <span>open</span> cases '
-      other: لديك .... حالة مفتوحة
-    manager_transfers_totals:
-      zero: 'You have %{stat} <span>%{stat_type}</span> Transfers '
-      one: 'You have %{stat} <span>%{stat_type}</span> Transfer '
-      two: 'You have %{stat} <span>%{stat_type}</span> Transfers '
-      few: 'You have %{stat} <span>%{stat_type}</span> Transfers '
-      many: 'You have %{stat} <span>%{stat_type}</span> Transfers '
-      other: لديك .... تحويل
     match_result: نتائج متطابقة
     medium_level: متوسط
     medium_risk: أولوية متوسطة
@@ -697,7 +584,6 @@ ar-SD:
     registration: التسجيل
     rejected: مرفوضة
     rejected_transfers: تحويلات مرفوضة
-    response: استجابة (قيد الإجراء)
     scheduled_activities: أنشطة مجدولة
     score_range: نطاق الدرجات
     screening_service: خدمات الفحص
@@ -727,20 +613,6 @@ ar-SD:
     with_incidents: مع أحداث
     with_new_incidents: بأحداث جديدة
     without_incidents: دون أحداث
-    worker_count_referrals_total:
-      zero: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> referral '
-      two: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
-      few: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
-      many: '<span>%{case_worker}</span> has %{stat} <span>total</span> referrals  '
-      other: جملة الإحالات
-    worker_count_total:
-      zero: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-      one: '<span>%{case_worker}</span> has %{stat} <span>total</span> case '
-      two: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-      few: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-      many: '<span>%{case_worker}</span> has %{stat} <span>total</span> cases '
-      other: جملة الإحالات
     workflow: سير العمل
     workflow_team: سير العمل - فرق الحالات
     you_have: 'لديك '
@@ -779,9 +651,11 @@ ar-SD:
     address_subform_fields: 'هناك .... مجال غير صحيح'
   error_page:
     not_authorized:
+      code: 403
       server_error: غير مسموح لك بالوصول إلى هذه الصغحة
       title: غير مسموح
     not_found:
+      code: 404
       contact_admin: إذا كنت تعتقد أنك هنا عن طريق الخطأ، رجاء الاتصال بالمدير
       something_went_wrong: للأسف، هناك خطأ ما
   errors:
@@ -1225,6 +1099,7 @@ ar-SD:
     web_app: تطبيق شبكي
   home:
     ar: العربية
+    ar-IQ: العربية (العراقية)
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
     ar-SD: العربية (السودانية)
@@ -1237,6 +1112,7 @@ ar-SD:
     id: باهاسا
     km: ភាសាខ្មែរ
     ku: کوردی
+    ku-IQ: کوردی (بادینی)
     label: الصفحه الرئيسية
     language: لغة
     manage_system_users: إدارة مستخدمي تزامن السيرفر
@@ -1337,7 +1213,11 @@ ar-SD:
       title: "3. تأخير الإبلاغ"
       delay: "تأخير"
       total_incidents: "جملة الأحداث"
-      helptext: "يسجل هذا المؤشر ويُصنف عدد الأيام المنصرمة بين\nالعنف القائم على النوع للناجي وبين إبلغ الناجي للحادثة لمقدم الخدمة. \nويتم حساب المدة على أساس الوقت الذي تم فيه الإبلاغ إلى المنظمة المستخدمة. ويتم تصنيف الحادثة\n على اساس طزل المدة (0-3 أيام؛ 4-5 أيام؛ 6-14 أيام؛ 15-30 يوم؛  أكثر من شهر؛ أكثر من 3 شهور.)\n"
+      helptext: |
+        يسجل هذا المؤشر ويُصنف عدد الأيام المنصرمة بين
+        العنف القائم على النوع للناجي وبين إبلغ الناجي للحادثة لمقدم الخدمة. 
+        ويتم حساب المدة على أساس الوقت الذي تم فيه الإبلاغ إلى المنظمة المستخدمة. ويتم تصنيف الحادثة
+         على اساس طزل المدة (0-3 أيام؛ 4-5 أيام؛ 6-14 أيام؛ 15-30 يوم؛  أكثر من شهر؛ أكثر من 3 شهور.)
     service_access_delay:
       title: "تأخير الحصول على الخدمة"
       delay: "تأخير"
@@ -1843,10 +1723,10 @@ ar-SD:
             explanation: السماح للمستخدم بإرسال حالة من صاحب السجل الأصلي إلى أي مستخدم آخر في النظام. وليس هناك حاجة لموافقة الطفل على هذا الإجراء. وعلى خلاف الوضع مع التحويلات، لا يُمنح المتلقي بفرصة قبول أو رفض التكليف.
             label: تكليف
           assign_within_agency:
-            explanation: 'السماح للمستخدم بإرسال حالة من صاحب السجل الأصلي إلى أي مستخدم آخر في الوكالة الحالية للمستخدم في الوكالة الحالية للمستخدم. وليس هناك ضرورة لموافقة الطفل على هذا الإجراء. وعلى خلاف الوضع مع التحويلات، لا يُمنح المتلقي فرصة قبول أو رفض التكليف. '
+            explanation: "السماح للمستخدم بإرسال حالة من صاحب السجل الأصلي إلى أي مستخدم آخر في الوكالة الحالية للمستخدم في الوكالة الحالية للمستخدم. وليس هناك ضرورة لموافقة الطفل على هذا الإجراء. وعلى خلاف الوضع مع التحويلات، لا يُمنح المتلقي فرصة قبول أو رفض التكليف. "
             label: كلف مستخدم داخل النظام
           assign_within_user_group:
-            explanation: 'السماح للمستخدم بإرسال حالة من صاحب السجل الأصلي إلى أي مستخدم آخر في الوكالة الحالية للمستخدم في المجموعات الحالية للمستخدم. وليس هناك ضرورة لموافقة الطفل على هذا الإجراء. وعلى خلاف الوضع مع التحويلات، لا يُمنح المتلقي فرصة قبول أو رفض التكليف. '
+            explanation: "السماح للمستخدم بإرسال حالة من صاحب السجل الأصلي إلى أي مستخدم آخر في الوكالة الحالية للمستخدم في المجموعات الحالية للمستخدم. وليس هناك ضرورة لموافقة الطفل على هذا الإجراء. وعلى خلاف الوضع مع التحويلات، لا يُمنح المتلقي فرصة قبول أو رفض التكليف. "
             label: كلّف مستخدم داخل مجموعتي للمستخدمين
           change_log:
             explanation: يمكن للمستخدم برؤية تاريخ جميع التعديلات على السجل منذ بدايته. ويشمل ذلك قيم تم تسجيلها لجميع الكجالات.
@@ -1867,7 +1747,7 @@ ar-SD:
             explanation: القدرة على تعطيل حالة. والحالات "المعطلة" لا تظهر تلقائيا في قائمة الحالات. ويُمكن للمستخدمين رؤية الحالات المعطلة في قائمة الحالات عن طريق استخدام مرشح. ونسبة لأن بريميرو لا يسمح للمستخدمين بحذف الحالات،  قد يرغب المستخدم في تعطيل حالة كبديل للحذف. وعلى سبيل المثال،  إذا خلق المستخدم حالة عن طريق الخطأ، أو إذا كان للحالة بيانات غير سليمة، يجب على المستخدم تعطيلها.
             label: فعّل/عطّل
           export_case_pdf:
-            explanation: 'يُمكن للمستخدم انتاج ملف تحويلPDF من قائمة الحالات أو صفحات عرض الحالات، ويشمل جميع المجالات المُتاحة للمستخدم الحالي لحالة واحدة أو عدة حالات المُتاحة للمستخدم. وهناك فيملف تحويلPDF تكون المعلومات مُبينة جسب الحالة أولا، ومُرتبة حسب الاستمارة التي تظهر عليها المعلومات. '
+            explanation: "يُمكن للمستخدم انتاج ملف تحويلPDF من قائمة الحالات أو صفحات عرض الحالات، ويشمل جميع المجالات المُتاحة للمستخدم الحالي لحالة واحدة أو عدة حالات المُتاحة للمستخدم. وهناك فيملف تحويلPDF تكون المعلومات مُبينة جسب الحالة أولا، ومُرتبة حسب الاستمارة التي تظهر عليها المعلومات. "
             label: ' تحويل حالة PDF'
           export_csv:
             explanation: 'يثمكن للمستخدم انتاج ملف تحويل CSV من قائمة الحالات أو من صفحات عرض الحالات، والتي تشمل جميع المجالات المُتاحة للمستخدم الحالي لحالة واحدة أو عدة حالات المتاحة له. ملحوظة:  تحويل  CSV لا تعكس الحروف غير اللاتنية _مثلا، العربية والبنغالية) في شكل مقروء.'
@@ -1885,7 +1765,7 @@ ar-SD:
             explanation: يُمكن للمستخدم انتاج ملف تحويل  CSV من صفحة قائمة الحالات التي تشمل نفس المجالات التي تظهر لذلك المستخدم على قائمة الحالات. يتم فقط من صفحة قائمة الحالات.
             label: مطالعة تحويل قائمة  CSV
           export_photowall:
-            explanation: 'يسمح للمستخدم تحويل ملف من صفحة قائمة الحالات التي تشمل صور جميع الحالات المختارة. ويُستخدم هذا التحويل أساسا لأنشطة التتبع وجمع الشمل الأسري. يتم فقط من صفحة قائمة الحالات. '
+            explanation: "يسمح للمستخدم تحويل ملف من صفحة قائمة الحالات التي تشمل صور جميع الحالات المختارة. ويُستخدم هذا التحويل أساسا لأنشطة التتبع وجمع الشمل الأسري. يتم فقط من صفحة قائمة الحالات. "
             label: تحويل جدار الصور
           export_unhcr_csv:
             label: تحويل CSVمفوضية الأمم المتحدة السامية للاجئين
@@ -1893,7 +1773,7 @@ ar-SD:
             explanation: 'يُمكن للمستخدم انتاج ملف  XLS من قائمة الحالات أو صفحة عرض الحالات، والتي تشمل جميع المجالات المُتاحة للمستخدم الحالي، لوحالة واحدة أو جميع الحالات  المتاحةله. وفي هذا التحويل،   تتمثل كل استمارة في "لسانها" الخاص في ملف  XLS. ملحوظة: تصميم  XLS يجعل الحروف غير اللاتنية غير مقروءة (العربية والبمغالية)، بينمت لا يفعل تحويل CSV ذلك.'
             label: تحويل إكسل (ملف XLS)
           find_tracing_match:
-            explanation: 'يُستخدم هذا حصريا لسياق أنشطة التتبع وجمع الشمل الأسري. وسيرى المستخدمون المأذون لهم زر "ابحث عن تطابق تتبع" في صفحة عرض الحالات. وعندما يتم الضغط على ذلك الزر، سيصل المستخدمون إلى قائمة طلبات تتبع في النظام التي هي تطابق محتمل لحالتهم. '
+            explanation: "يُستخدم هذا حصريا لسياق أنشطة التتبع وجمع الشمل الأسري. وسيرى المستخدمون المأذون لهم زر \"ابحث عن تطابق تتبع\" في صفحة عرض الحالات. وعندما يتم الضغط على ذلك الزر، سيصل المستخدمون إلى قائمة طلبات تتبع في النظام التي هي تطابق محتمل لحالتهم. "
             label: أوجد تطابق تتبع من الحالة
           flag:
             explanation: القدرة على إضافة تنبيه للحالة. ويُمكن للمستخدم بهذا الإذن حذف التنبيه المضاف للحالة.
@@ -1944,13 +1824,13 @@ ar-SD:
             explanation: يسمح للمستخدم (عادة مسؤول عن الحالة) طلب موافقة مديره على الحالة .....
             label: طلب موافقة الحالة ....
           request_approval_closure:
-            explanation: ' يسمح للمستخدم (عادة مسؤول عن الحالة) طلب موافقة مديره على .....  الحالة '
+            explanation: " يسمح للمستخدم (عادة مسؤول عن الحالة) طلب موافقة مديره على .....  الحالة "
             label: طلب  الموافقة ......
           request_approval_gbv_closure:
             explanation: يسمح للمستخدم (عادة مسؤول عن الحالة) بطلب موافقة مديره على طلب .... الحالة
             label: طلب .... الموافقة
           request_transfer:
-            explanation: ' يُظهر زر "طلب التحويل" على "نموذج الرؤية".  ويسمح الزر للمستخدم بارسال رسالة مع ملحوظة شخصية عن طريق البريد الإلكتروني إلى مالك السجل الحالي ببحالة، يطلب  قيام صاحب السجل بتحويل الحالة إلى المستخدم الذي أرسل الطلب. وهذا مفيد في سياقات تغيير الأطفال لمواقعهم مرات عديدة،  ويحتاج المسؤولون عن الحالات أن يقوم المسؤول السابق عن حالة الطفل بارسال المعلومات عن الطفل لتجنب خلق نسخة للسجل.'
+            explanation: " يُظهر زر \"طلب التحويل\" على \"نموذج الرؤية\".  ويسمح الزر للمستخدم بارسال رسالة مع ملحوظة شخصية عن طريق البريد الإلكتروني إلى مالك السجل الحالي ببحالة، يطلب  قيام صاحب السجل بتحويل الحالة إلى المستخدم الذي أرسل الطلب. وهذا مفيد في سياقات تغيير الأطفال لمواقعهم مرات عديدة،  ويحتاج المسؤولون عن الحالات أن يقوم المسؤول السابق عن حالة الطفل بارسال المعلومات عن الطفل لتجنب خلق نسخة للسجل."
             label: طلب التحويل
           search_owned_by_others:
             explanation: يسمح للمستخدم ببحث السجلات التي لا تتاح له عادة، إما بسبب أنه ليس صاحب السجل لتلك الحالة، أو (للمديرين) لأن صاحب السجل ليس عضوا في مجموعة المستخدمين. لاحظ أنه، في حين السمتخد سيرى الحالة في عرض نتائج البحث،  ليس من الممكن النقر على صفحة عرض الحالات لتلك الحالة، أي أنه لن  يستطيع رؤية أي معلومات مفصلة عن الحالة.
@@ -1983,7 +1863,7 @@ ar-SD:
       dashboard:
         actions:
           approvals_action_plan:
-            explanation: ' أعرض عدد الحالات الحالية للمستخدم مع طلبات موافقة على خطة العمل التي هي قيد التنفيذ، أو تمت الموافقة عليها أو رفضها.'
+            explanation: " أعرض عدد الحالات الحالية للمستخدم مع طلبات موافقة على خطة العمل التي هي قيد التنفيذ، أو تمت الموافقة عليها أو رفضها."
             label: موافقات المسؤول عن الحالة
           approvals_action_plan_pending:
             explanation: يُظهر عدد الحالات في فريق مدير بطلبات موافقة على خطة العمل قيد التنفيذ
@@ -2034,7 +1914,7 @@ ar-SD:
             explanation: .
             label: نظرة عامة - حالاتي/الأحداث
           dash_cases_by_social_worker:
-            explanation: جدول يوضح جملة الحالات المفتوحة وعدد الحالات الجديدة المدارة بواسطة كل مستخدم في مجموعة المستخدمين للمستخدم الحالي. ويمثل كل صف مستخدم من مجموعات المستخدمين للمستخدم الحالي، بينما يمثل العمودان :الجملة" و "الجديدة"
+            explanation: "جدول يوضح جملة الحالات المفتوحة وعدد الحالات الجديدة المدارة بواسطة كل مستخدم في مجموعة المستخدمين للمستخدم الحالي. ويمثل كل صف مستخدم من مجموعات المستخدمين للمستخدم الحالي، بينما يمثل العمودان :الجملة\" و \"الجديدة\""
             label: الاطلاع على كل حالة لمسؤول الحالة
           dash_cases_to_assign:
             explanation: 'هام: فقط للمديرين. يعرض عدد الحالات التي تتبع مباشرة للمستخدم الحالي (يجب أن يكون المدير). ويفترض هذا الملخص أن المديرين لا يديرون الحالات التابعة لهم، وأنه، إذا كان للمدير حالات خاصة، يجب أن تُوكل لمسؤولي حالات في فريقه.'
@@ -2046,7 +1926,7 @@ ar-SD:
             explanation: يُظهر للمدير عدد الحالات المفتوحة والمغلقة التي يُديرها مستخدمون في فريقهم.
             label: حالات مجموعتي
           dash_matching_results:
-            explanation: 'إغفال: هذا الملخص غير عامل وسيُزال إلى v2.'
+            explanation: "إغفال: هذا الملخص غير عامل وسيُزال إلى v2."
             label: انظر النتائج المتطابقة
           dash_protection_concerns:
             explanation: جدول يُوضح عدد الحالات في كل مشكلة حماية. وكل صف يُمثل مشكلة حماية، بينما تُشير الأعمدة إلى أوضاع الحالات ("جميع الحالات"، "الحالات المفتوحة"، جديدة (هذا الأسبوع)"، و "مغلقة (هذا الأسبوع)").
@@ -2067,7 +1947,7 @@ ar-SD:
             explanation: يُظهر عدد الحالات التي تمت إحالتها أو تحويلها إليك.
             label: تم التبادل معي
           dash_shared_with_my_team:
-            explanation: 'يُظهر للمدير عدد الحالات المحالة او المحولة لكل مستخدم في فريقه '
+            explanation: "يُظهر للمدير عدد الحالات المحالة او المحولة لكل مستخدم في فريقه "
             label: تم التبادل مع فريقي
           dash_shared_with_others:
             explanation: يُظهر عدد الحالات بإحالات نشكة، قيد التحويل أو مرفوضة التحويل. ليست عادة للمديرين إلا إذا تمت إدارة الحالات بواسطتهم
@@ -2291,7 +2171,7 @@ ar-SD:
             explanation: يُمكن للمستخدم انتاج ملف إصدار XLS  من قائمة طلبات التتبع أو صفحات عرض طلبات التتبع التي تشمل مجموعة مخصصة من الاستمارات او المجالات لطلب تتبع أو عدد من الطلبات أو جميعها المتاحة للمستخدم. وفي هذا الإصدار، تظهر كل  استمارة في صفها في ملفXLS. ويُمكن للمستخدم اختيار الاستمارات أو المجالات التي يري\ تضمينها في الإصدار باستخدام نموذج الإصدار المخصص.  رجاء ملاحظة أن المستخدمين يُمكنهم فقط تضمين استمارات ومجالات في الإصدار إذا كان لهم مسبقا القدرة على رؤية الاستمارات والمجالات عند تصفح طلبات التتبع في التطبيقز
             label: إصدار مخصص
           export_json:
-            explanation: يُمكن للمستخدم انتاج ملف إصدار JSON من قائمة طلبات التتبع أو صفحات عرض طلبات التتبع التي تشمل جميع المجالات المُتاحة للمستخدم الحالي لطلب واحد أو عدة طلبات أو جميع طلبات التتبع المُتاحة للمستخدم.  ويستخدم هذا الإصدار أساسا  من الذين يريدزن إصدار طلبات التتبع من النظام الحالي لبريميرو وإحضارها في نظام بريميرو آخر، أو إلى نظام آخر لإدارة المعلومات, ونموذج JSON مقروء آليا وليس عمليا لمعظم المستخدمين.
+            explanation: "يُمكن للمستخدم انتاج ملف إصدار JSON من قائمة طلبات التتبع أو صفحات عرض طلبات التتبع التي تشمل جميع المجالات المُتاحة للمستخدم الحالي لطلب واحد أو عدة طلبات أو جميع طلبات التتبع المُتاحة للمستخدم.  ويستخدم هذا الإصدار أساسا  من الذين يريدزن إصدار طلبات التتبع من النظام الحالي لبريميرو وإحضارها في نظام بريميرو آخر، أو إلى نظام آخر لإدارة المعلومات, ونموذج JSON مقروء آليا وليس عمليا لمعظم المستخدمين."
             label: إصدار JSON
           export_list_view_csv:
             explanation: ويُمكن للمستخدم انتاج ماف إصدار CSV من صفحة قائمة طلبات التتبع التي تشمل نفس المجالات التي تظهر لذلك المستخدم على قائمة طلبات التتبع. يتم ذلك فقط من صفحة قائمة طلب التتبع.

@@ -88,6 +88,7 @@ const ReferralForm = ({
     disabled,
     setDisabled,
     recordType,
+    recordModuleID: record?.get("module_id"),
     referral,
     isReferralFromService: Object.keys(referralFromService).length > 0
   };

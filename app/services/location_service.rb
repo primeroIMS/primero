@@ -5,7 +5,7 @@ class LocationService
   attr_accessor :locations_by_code, :with_cache, :unique_id_attribute
 
   def self.instance
-    new(Rails.env.production?)
+    new(Rails.configuration.use_app_cache)
   end
 
   def initialize(with_cache = false)

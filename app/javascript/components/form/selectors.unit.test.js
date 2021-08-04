@@ -5,11 +5,6 @@ import { OPTION_TYPES } from "./constants";
 import * as selectors from "./selectors";
 
 describe("Forms - Selectors", () => {
-  const i18n = {
-    t: value => value,
-    locale: "en"
-  };
-
   const lookup2 = { unique_id: "lookup-2", name: { en: "Lookup 2" } };
   const referToUsers = [
     {
@@ -32,7 +27,11 @@ describe("Forms - Selectors", () => {
       unique_id: "role-1",
       name: "Role 1",
       referral: true,
-      form_section_unique_ids: ["test-1"]
+      form_section_unique_ids: ["test-1"],
+      form_section_read_write: {
+        basic_identity: "rw",
+        notes: "r"
+      }
     },
     {
       id: 2,
@@ -80,7 +79,7 @@ describe("Forms - Selectors", () => {
 
   describe("getOptions", () => {
     it("should return all lookup types including customs", () => {
-      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.LOOKUPS, i18n);
+      const options = selectors.getOptions(OPTION_TYPES.LOOKUPS)(stateWithLookups, { source: OPTION_TYPES.LOOKUPS });
 
       expect(options).to.deep.equal([
         {
@@ -95,50 +94,28 @@ describe("Forms - Selectors", () => {
         },
         {
           id: "Agency",
-          display_text: "agency.label"
+          display_text: "agency.label",
+          translate: true
         },
         {
           id: "Location",
-          display_text: "location.label"
+          display_text: "location.label",
+          translate: true
         },
         {
           id: "User",
-          display_text: "user.label"
+          display_text: "user.label",
+          translate: true
         }
       ]);
     });
 
-    it("should return the options for optionStringsText", () => {
-      const optionStringsText = [
-        { id: "submitted", display_text: "Submitted" },
-        { id: "pending", display_text: "Pending" },
-        { id: "no", display_text: "No" }
-      ];
-      const expected = optionStringsText;
-      const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
-
-      expect(result).to.deep.equal(expected);
-    });
-
-    it("should return the options, even if we includes other keys that are not id or display_text", () => {
-      const optionStringsText = [
-        { id: "submitted", display_text: "Submitted", tooltip: "Submitted tooltip" },
-        { id: "pending", display_text: "Pending", tooltip: "Pending tooltip" },
-        { id: "no", display_text: "No", tooltip: "No tooltip" }
-      ];
-      const expected = optionStringsText;
-      const result = selectors.getOptions(stateWithLookups, null, i18n, optionStringsText);
-
-      expect(result).to.deep.equal(expected);
-    });
-
     describe("when optionStringsSource is REFER_TO_USERS", () => {
       describe("with record", () => {
-        const currRecord = fromJS({
-          owned_by: "test_2"
-        });
+        const currRecord = "test_2";
 
-        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n, [], false, {
+        const options = selectors.getOptions(OPTION_TYPES.REFER_TO_USERS)(stateWithLookups, {
+          source: OPTION_TYPES.REFER_TO_USERS,
           currRecord
         });
 
@@ -159,7 +136,9 @@ describe("Forms - Selectors", () => {
       });
 
       describe("without record", () => {
-        const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.REFER_TO_USERS, i18n);
+        const options = selectors.getOptions(OPTION_TYPES.REFER_TO_USERS)(stateWithLookups, {
+          source: OPTION_TYPES.REFER_TO_USERS
+        });
 
         it("should return all users without filter the owned_by user", () => {
           const expected = [
@@ -233,7 +212,11 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(selectors.getOptions(state, OPTION_TYPES.USER_GROUP_PERMITTED, i18n)).to.deep.equals(expected);
+          expect(
+            selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals(expected);
         });
       });
 
@@ -267,7 +250,11 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(selectors.getOptions(state, OPTION_TYPES.USER_GROUP_PERMITTED, i18n)).to.deep.equals(expected);
+          expect(
+            selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals(expected);
         });
       });
     });
@@ -275,7 +262,9 @@ describe("Forms - Selectors", () => {
 
   describe("when optionStringsSource is AGENCY_CURRENT_USER", () => {
     it("should disabled the agencies that are not permitted for the current user", () => {
-      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.AGENCY_CURRENT_USER, i18n);
+      const options = selectors.getOptions(OPTION_TYPES.AGENCY_CURRENT_USER)(stateWithLookups, {
+        source: OPTION_TYPES.AGENCY_CURRENT_USER
+      });
 
       const expected = [
         { id: 1, display_text: "Agency 1", disabled: false },
@@ -288,7 +277,9 @@ describe("Forms - Selectors", () => {
 
   describe("when optionStringsSource is ROLE_PERMITTED", () => {
     it("should disabled the roles that are not permitted for the current user", () => {
-      const options = selectors.getOptions(stateWithLookups, OPTION_TYPES.ROLE_PERMITTED, i18n);
+      const options = selectors.getOptions(OPTION_TYPES.ROLE_PERMITTED)(stateWithLookups, {
+        source: OPTION_TYPES.ROLE_PERMITTED
+      });
 
       const expected = [
         { id: "role-1", display_text: "Role 1", disabled: false },
@@ -299,21 +290,13 @@ describe("Forms - Selectors", () => {
     });
   });
 
-  describe("getManagedRoleByUniqueId", () => {
-    it("should return referral roles", () => {
-      const expected = fromJS({
-        id: 1,
-        unique_id: "role-1",
-        name: "Role 1",
-        referral: true,
-        form_section_unique_ids: ["test-1"]
+  describe("when the optionStringsSource is MANAGED_ROLE_FORM_SECTIONS", () => {
+    it("should return the managed form sections for the role uniqueID", () => {
+      const options = selectors.getOptions(OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS)(stateWithLookups, {
+        uniqueID: "role-1"
       });
 
-      expect(selectors.getManagedRoleByUniqueId(stateWithLookups, "role-1")).to.deep.equal(expected);
-    });
-
-    it("should return an empty object if we pass an invalid unique-id", () => {
-      expect(selectors.getManagedRoleByUniqueId(stateWithLookups, "role-abc")).to.be.empty;
+      expect(options).to.deep.equal(fromJS(["basic_identity", "notes"]));
     });
   });
 
@@ -344,7 +327,8 @@ describe("Forms - Selectors", () => {
     });
 
     it("should return formGroups lookups", () => {
-      const result = selectors.getOptions(stateWithLookupsFormGroup, "FormGroupLookup", i18n);
+      const source = "FormGroupLookup";
+      const result = selectors.getOptions(source)(stateWithLookupsFormGroup, { source });
 
       expect(result).to.deep.equal(lookups);
     });

@@ -14,9 +14,9 @@ import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { getOptions } from "../../../record-form/selectors";
-import { getOptions as specialOptions } from "../../../form/selectors";
 import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
+import useOptions from "../../../form/use-options";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -24,7 +24,14 @@ import { formatValue, getConstraintLabel, registerValues } from "./utils";
 
 const useStyles = makeStyles(styles);
 
-const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) => {
+const Container = ({
+  indexes,
+  setIndexes,
+  allRecordForms,
+  parentFormMethods,
+  reportingLocationConfig,
+  formattedMinimumReportableFields
+}) => {
   const i18n = useI18n();
   const css = useStyles();
   const { isRTL } = useThemeHelper();
@@ -66,15 +73,23 @@ const Container = ({ indexes, setIndexes, allRecordForms, parentFormMethods }) =
   };
 
   const allLookups = useMemoizedSelector(state => getOptions(state));
-  const location = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.LOCATION, i18n));
-  const agencies = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.AGENCY, i18n));
-  const modules = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.MODULE, i18n));
-  const formGroups = useMemoizedSelector(state => specialOptions(state, OPTION_TYPES.FORM_GROUP, i18n));
+
+  const location = useOptions({ source: OPTION_TYPES.LOCATION });
+  const agencies = useOptions({ source: OPTION_TYPES.AGENCY });
+  const modules = useOptions({ source: OPTION_TYPES.MODULE });
+  const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP });
 
   const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
   const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
 
-  const fields = formattedFields(allRecordForms, selectedModules, selectedRecordType, i18n.locale);
+  const fields = formattedFields(
+    allRecordForms,
+    selectedModules,
+    selectedRecordType,
+    i18n,
+    reportingLocationConfig,
+    formattedMinimumReportableFields
+  );
 
   if (!fields.length) {
     return null;
@@ -191,8 +206,10 @@ Container.displayName = NAME;
 
 Container.propTypes = {
   allRecordForms: PropTypes.object.isRequired,
+  formattedMinimumReportableFields: PropTypes.object,
   indexes: PropTypes.array,
   parentFormMethods: PropTypes.object.isRequired,
+  reportingLocationConfig: PropTypes.object,
   setIndexes: PropTypes.func
 };
 

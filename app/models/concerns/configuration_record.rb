@@ -43,7 +43,7 @@ module ConfigurationRecord
   end
 
   def configuration_hash
-    attributes.except('id').with_indifferent_access
+    attributes.except('id', 'created_at', 'updated_at').with_indifferent_access
   end
 
   def update_properties(configuration_hash)

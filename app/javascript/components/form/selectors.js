@@ -1,6 +1,11 @@
-import { fromJS, isImmutable } from "immutable";
+import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
-import { sortBy } from "lodash";
+import sortBy from "lodash/sortBy";
+import isEqual from "lodash/isEqual";
+import isNil from "lodash/isNil";
+import omitBy from "lodash/omitBy";
+import { createCachedSelector } from "re-reselect";
+import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
@@ -12,40 +17,26 @@ import {
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
 import { GROUP_PERMISSIONS } from "../../libs/permissions";
+import { getLocale } from "../i18n/selectors";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
-import { get, buildRoleOptions } from "./utils";
+import { buildRoleOptions } from "./utils";
 
-const referToUsers = (state, { currRecord, fullUsers = false }) =>
-  state
-    .getIn(["records", "transitions", "referral", "users"], fromJS([]))
-    ?.reduce((prev, current) => {
-      const userName = current.get("user_name");
-
-      if (!isEmpty(currRecord)) {
-        const currUser = currRecord.get("owned_by");
-
-        if (currUser && currUser === userName) {
-          return [...prev];
-        }
-      }
-
-      return [
-        ...prev,
-        {
-          id: userName.toLowerCase(),
-          display_text: userName,
-          ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
-        }
-      ];
-    }, [])
-    ?.filter(user => !isEmpty(user));
+// TODO: Move to useMemoizedSelector
+const defaultCacheSelectorOptions = {
+  keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
+  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+};
 
 const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
+const moduleList = state => state.getIn(["application", "modules"], fromJS([]));
+const formSectionList = state => state.getIn(["records", "admin", "forms", "formSections"], fromJS([]));
+const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
+const managedRoleList = state => state.getIn(["application", "managedRoles"], fromJS([]));
+const agencyList = state => state.getIn(["application", "agencies"], fromJS([]));
 
-const formGroups = (state, i18n) => {
-  const formGroupsObj = state
-    .getIn(["records", "admin", "forms", "formSections"], fromJS([]))
+const formGroups = createCachedSelector(getLocale, formSectionList, (locale, data) => {
+  const formGroupsObj = data
     .filter(formSection => !formSection.is_nested && formSection.form_group_id)
     .groupBy(item => item.get("form_group_id"))
     .reduce(
@@ -53,70 +44,137 @@ const formGroups = (state, i18n) => {
         ...prev,
         {
           id: current.first().getIn(["form_group_id"], null),
-          display_text: current.first().getIn(["form_group_name", i18n.locale], "")
+          display_text: current.first().getIn(["form_group_name", locale], "")
         }
       ],
       []
     );
 
   return sortBy(formGroupsObj, item => item.display_text);
-};
+})(defaultCacheSelectorOptions);
 
-const agencies = (state, { optionStringsSourceIdKey, i18n, useUniqueId = false, filterOptions }) => {
-  const stateAgencies = state.getIn(["application", "agencies"], fromJS([]));
-  const filteredAgencies = filterOptions ? filterOptions(stateAgencies) : stateAgencies;
+const referToUsers = createCachedSelector(
+  referralUserList,
+  (_state, options) => options,
+  (data, options) => {
+    const { currRecord, fullUsers = false } = options;
+
+    return data
+      ?.reduce((prev, current) => {
+        const userName = current.get("user_name");
+
+        if (!isEmpty(currRecord)) {
+          const currUser = currRecord;
+
+          if (currUser && currUser === userName) {
+            return [...prev];
+          }
+        }
+
+        return [
+          ...prev,
+          {
+            id: userName.toLowerCase(),
+            display_text: userName,
+            ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
+          }
+        ];
+      }, [])
+      ?.filter(user => !isEmpty(user));
+  }
+)(defaultCacheSelectorOptions);
+
+const agenciesParser = (data, { useUniqueId, optionStringsSourceIdKey, locale, filterOptions, includeServices }) => {
+  const filteredAgencies = filterOptions ? filterOptions(data) : data;
 
   return filteredAgencies.reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
-        display_text: current.getIn(["name", i18n.locale], ""),
-        disabled: current.get("disabled", false)
+        display_text: current.getIn(["name", locale], ""),
+        disabled: current.get("disabled", false),
+        ...(includeServices && { services: current.get("services", fromJS([])).toArray() })
       }
     ],
     []
   );
 };
 
-const agenciesCurrentUser = (state, { optionStringsSourceIdKey, i18n, filterOptions }) => {
-  const currentUserAgency = fromJS([getAssignedAgency(state)]);
-  const allAgencies = agencies(state, { optionStringsSourceIdKey, i18n, useUniqueId: false, filterOptions });
+const agencies = createCachedSelector(
+  getLocale,
+  agencyList,
+  (_state, options) => options,
+  (locale, data, options) => {
+    return agenciesParser(data, { ...options, locale });
+  }
+)(defaultCacheSelectorOptions);
 
-  return allAgencies.map(agency => ({
-    ...agency,
-    disabled: agency.disabled || !currentUserAgency.includes(agency.id)
-  }));
-};
+const agenciesCurrentUser = createCachedSelector(
+  getLocale,
+  agencyList,
+  getAssignedAgency,
+  (_state, options) => options,
+  (locale, data, currentUserAgencyData, options) => {
+    const currentUserAgency = fromJS([currentUserAgencyData]);
+    const allAgencies = agenciesParser(data, { ...options, locale });
 
-const locations = (state, i18n, includeAdminLevel = false) =>
-  state.getIn(["forms", "options", "locations"], fromJS([])).reduce(
+    return allAgencies.map(agency => ({
+      ...agency,
+      disabled: agency.disabled || !currentUserAgency.includes(agency.id)
+    }));
+  }
+)(defaultCacheSelectorOptions);
+
+const locationList = state => state.getIn(["forms", "options", "locations"], fromJS([]));
+
+const locationsParser = (data, { includeAdminLevel, locale }) => {
+  return data.reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get("code"),
-        display_text: displayNameHelper(current.get("name"), i18n.locale),
+        display_text: displayNameHelper(current.get("name"), locale),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
     ],
     []
   );
+};
 
-const reportingLocations = (state, i18n) =>
-  locations(state, i18n, true)
-    .filter(location => location.admin_level === getReportingLocationConfig(state).get("admin_level"))
-    .map(location => {
-      // eslint-disable-next-line camelcase
-      const { id, display_text } = location;
+const locations = createCachedSelector(
+  getLocale,
+  locationList,
+  (_state, options) => options,
+  (locale, data, options) => {
+    return locationsParser(data, { ...options, locale });
+  }
+)(defaultCacheSelectorOptions);
 
-      return {
-        id,
-        display_text
-      };
-    });
+const reportingLocations = createCachedSelector(
+  getLocale,
+  locationList,
+  getReportingLocationConfig,
+  (_state, options) => options,
+  (locale, data, getReportingLocationConfigData, options) => {
+    const locationData = locationsParser(data, { ...options, locale, includeAdminLevel: true });
 
-const modules = state =>
-  state.getIn(["application", "modules"], fromJS([])).reduce(
+    return locationData
+      .filter(location => location.admin_level === getReportingLocationConfigData.get("admin_level"))
+      .map(location => {
+        // eslint-disable-next-line camelcase
+        const { id, display_text } = location;
+
+        return {
+          id,
+          display_text
+        };
+      });
+  }
+)(defaultCacheSelectorOptions);
+
+const modules = createCachedSelector(moduleList, data => {
+  return data.reduce(
     (prev, current) => [
       ...prev,
       {
@@ -126,73 +184,83 @@ const modules = state =>
     ],
     []
   );
+})(defaultCacheSelectorOptions);
 
-const lookupValues = (state, optionStringsSource, i18n, rest) => {
-  const { fullLookup } = rest;
+const lookupValues = createCachedSelector(
+  getLocale,
+  lookupsList,
+  (_state, options) => options,
+  (locale, data, options) => {
+    const { fullLookup, source } = options;
 
-  const lookup = lookupsList(state).find(
-    option => option.get("unique_id") === optionStringsSource.replace(/lookup /, ""),
-    null,
-    fromJS({})
-  );
+    const lookup = data.find(option => option.get("unique_id") === source.replace(/lookup /, ""), null, fromJS({}));
 
-  if (fullLookup) {
-    return lookup;
-  }
+    if (fullLookup) {
+      return lookup;
+    }
 
-  return lookup.get("values", fromJS([])).reduce(
-    (prev, current) => [
-      ...prev,
-      {
-        id: current.get("id"),
-        display_text: displayNameHelper(current.get("display_text"), i18n.locale),
-        disabled: current.get("disabled", false)
-      }
-    ],
-    []
-  );
-};
-
-const filterableOptions = (filterOptions, data) => (filterOptions ? filterOptions(data) : data);
-
-const lookups = (state, { i18n, filterOptions }) => {
-  const lookupList = [
-    ...lookupsList(state).reduce(
+    return lookup.get("values", fromJS([])).reduce(
       (prev, current) => [
         ...prev,
         {
-          id: `lookup ${current.get("unique_id")}`,
-          display_text: current.getIn(["name", i18n.locale]),
-          values: current.get("values", fromJS([])).reduce(
-            (valPrev, valCurrent) => [
-              ...valPrev,
-              {
-                id: valCurrent.get("id"),
-                display_text: valCurrent.getIn(["display_text", i18n.locale])
-              }
-            ],
-            []
-          )
+          id: current.get("id"),
+          display_text: displayNameHelper(current.get("display_text"), locale),
+          disabled: current.get("disabled", false)
         }
       ],
       []
-    ),
-    ...(!filterOptions
-      ? sortBy(
-          CUSTOM_LOOKUPS.map(custom => ({
-            id: custom,
-            display_text: i18n.t(`${custom.toLowerCase()}.label`)
-          })),
-          lookup => lookup.display_text
-        )
-      : [])
-  ];
+    );
+  }
+)(defaultCacheSelectorOptions);
 
-  return filterableOptions(filterOptions, lookupList);
-};
+const filterableOptions = (filterOptions, data) => (filterOptions ? filterOptions(data) : data);
 
-const userGroups = (state, { filterOptions }) => {
-  const applicationUserGroups = getUserGroups(state).reduce(
+const lookups = createCachedSelector(
+  getLocale,
+  lookupsList,
+  (_state, options) => options,
+  (locale, data, options) => {
+    const { filterOptions } = options;
+    const lookupList = [
+      ...data.reduce(
+        (prev, current) => [
+          ...prev,
+          {
+            id: `lookup ${current.get("unique_id")}`,
+            display_text: current.getIn(["name", locale]),
+            values: current.get("values", fromJS([])).reduce(
+              (valPrev, valCurrent) => [
+                ...valPrev,
+                {
+                  id: valCurrent.get("id"),
+                  display_text: valCurrent.getIn(["display_text", locale])
+                }
+              ],
+              []
+            )
+          }
+        ],
+        []
+      ),
+      ...(!filterOptions
+        ? sortBy(
+            CUSTOM_LOOKUPS.map(custom => ({
+              id: custom,
+              display_text: `${custom.toLowerCase()}.label`,
+              translate: true
+            })),
+            lookup => lookup.display_text
+          )
+        : [])
+    ];
+
+    return filterableOptions(filterOptions, lookupList);
+  }
+)(defaultCacheSelectorOptions);
+
+const userGroupsParser = (data, options) => {
+  const { filterOptions } = options;
+  const applicationUserGroups = data.reduce(
     (prev, current) => [
       ...prev,
       { id: current.get("unique_id"), display_text: current.get("name"), disabled: current.get("disabled", false) }
@@ -207,157 +275,159 @@ const userGroups = (state, { filterOptions }) => {
   return applicationUserGroups;
 };
 
-const userGroupsPermitted = (state, { filterOptions }) => {
-  const allUserGroups = userGroups(state, { filterOptions });
-  const currentUserGroups = getCurrentUserGroupsUniqueIds(state);
-  const currentRoleGroupPermission = getCurrentUserGroupPermission(state);
-
-  if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
-    return allUserGroups;
+const userGroups = createCachedSelector(
+  getUserGroups,
+  (_state, options) => options,
+  (data, options) => {
+    return userGroupsParser(data, options);
   }
+)(defaultCacheSelectorOptions);
 
-  return allUserGroups.map(userGroup => {
-    if (currentUserGroups.includes(userGroup.id)) {
-      return userGroup;
+const userGroupsPermitted = createCachedSelector(
+  getUserGroups,
+  getCurrentUserGroupsUniqueIds,
+  getCurrentUserGroupPermission,
+  (_state, options) => options,
+  (data, currentUserGroups, currentRoleGroupPermission, options) => {
+    const allUserGroups = userGroupsParser(data, options);
+
+    if (currentRoleGroupPermission === GROUP_PERMISSIONS.ALL) {
+      return allUserGroups;
     }
 
-    return { ...userGroup, disabled: true };
-  });
-};
+    return allUserGroups.map(userGroup => {
+      if (currentUserGroups.includes(userGroup.id)) {
+        return userGroup;
+      }
 
-const formGroupLookup = (state, i18n, { filterOptions }) =>
-  filterableOptions(
-    filterOptions,
-    lookupsList(state)
-      .filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"))
-      .reduce(
-        (prev, current) => [
-          ...prev,
-          {
-            unique_id: current.get("unique_id"),
-            name: current
-              .get("name", fromJS({}))
-              .entrySeq()
-              .reduce((namePrev, [locale, value]) => ({ ...namePrev, [locale]: value }), {}),
-            values: current.get("values", fromJS([])).reduce(
-              (valPrev, valCurrent) => [
-                ...valPrev,
-                {
-                  id: valCurrent.get("id"),
-                  display_text: valCurrent.getIn(["display_text", i18n.locale])
-                }
-              ],
-              []
-            )
-          }
-        ],
-        []
-      )
-  );
+      return { ...userGroup, disabled: true };
+    });
+  }
+)(defaultCacheSelectorOptions);
 
-const recordForms = (state, { filterOptions }) => {
-  const formSections = getRecordForms(state, { all: true });
+const formGroupLookup = createCachedSelector(
+  getLocale,
+  lookupsList,
+  (_state, options) => options,
+  (appLocale, data, options) => {
+    const { filterOptions } = options;
 
-  return filterOptions ? filterableOptions(filterOptions, formSections) : formSections;
-};
+    return filterableOptions(
+      filterOptions,
+      data
+        .filter(lookup => lookup.get("unique_id").startsWith("lookup-form-group-"))
+        .reduce(
+          (prev, current) => [
+            ...prev,
+            {
+              unique_id: current.get("unique_id"),
+              name: current
+                .get("name", fromJS({}))
+                .entrySeq()
+                .reduce((namePrev, [locale, value]) => ({ ...namePrev, [locale]: value }), {}),
+              values: current.get("values", fromJS([])).reduce(
+                (valPrev, valCurrent) => [
+                  ...valPrev,
+                  {
+                    id: valCurrent.get("id"),
+                    display_text: valCurrent.getIn(["display_text", appLocale])
+                  }
+                ],
+                []
+              )
+            }
+          ],
+          []
+        )
+    );
+  }
+)(defaultCacheSelectorOptions);
 
-const roles = state => buildRoleOptions(getRoles(state));
+const recordForms = createCachedSelector(
+  state => getRecordForms(state, { all: true }),
+  (_state, options) => options,
+  (data, options) => {
+    const { filterOptions } = options;
 
-const managedRoles = (state, transfer) =>
-  state.getIn(["application", "managedRoles"], fromJS([])).filter(role => role.get(transfer, false));
+    return filterOptions ? filterableOptions(filterOptions, data) : data;
+  }
+)(defaultCacheSelectorOptions);
 
-const buildManagedRoles = (state, transfer) =>
-  managedRoles(state, transfer).reduce(
+const roles = createCachedSelector(getRoles, data => {
+  return buildRoleOptions(data);
+})(defaultCacheSelectorOptions);
+
+const manageRolesParser = (data, transfer) => (transfer ? data.filter(role => role.get(transfer, false)) : data);
+
+const managedRoleFormSections = createCachedSelector(
+  managedRoleList,
+  (_state, options) => options,
+  (data, options) => {
+    const { uniqueID } = options;
+    const selectedRole = manageRolesParser(data)?.find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
+
+    return selectedRole.get("form_section_read_write", fromJS({})).keySeq().toList();
+  }
+)(defaultCacheSelectorOptions);
+
+const buildManagedRoles = createCachedSelector(managedRoleList, data => {
+  return manageRolesParser(data, "referral").reduce(
     (prev, current) => [...prev, { id: current.get("unique_id"), display_text: current.get("name") }],
     []
   );
+})(defaultCacheSelectorOptions);
 
-const buildPermittedRoles = state => {
-  const allRoles = getRoles(state);
-  const permittedRoleUniqueIds = getPermittedRoleUniqueIds(state);
-  const permittedRoles = permittedRoleUniqueIds?.isEmpty()
-    ? allRoles
-    : allRoles.map(role =>
-        role.set("disabled", role.get("disabled") || !permittedRoleUniqueIds.includes(role.get("unique_id")))
-      );
+const buildPermittedRoles = createCachedSelector(
+  getRoles,
+  getPermittedRoleUniqueIds,
+  (data, permittedRoleUniqueIds) => {
+    const permittedRoles = permittedRoleUniqueIds?.isEmpty()
+      ? data
+      : data.map(role =>
+          role.set("disabled", role.get("disabled") || !permittedRoleUniqueIds.includes(role.get("unique_id")))
+        );
 
-  return buildRoleOptions(permittedRoles);
-};
+    return buildRoleOptions(permittedRoles);
+  }
+)(defaultCacheSelectorOptions);
 
-const optionsFromState = (state, optionStringsSource, i18n, useUniqueId, rest = {}) => {
-  switch (optionStringsSource) {
+export const getOptions = source => {
+  switch (source) {
     case OPTION_TYPES.AGENCY:
-      return agencies(state, { ...rest, useUniqueId, i18n });
+      return agencies;
     case OPTION_TYPES.AGENCY_CURRENT_USER:
-      return agenciesCurrentUser(state, { ...rest, useUniqueId, i18n });
+      return agenciesCurrentUser;
     case OPTION_TYPES.LOCATION:
-      return locations(state, i18n);
+      return locations;
     case OPTION_TYPES.REPORTING_LOCATIONS:
-      return reportingLocations(state, i18n);
+      return reportingLocations;
     case OPTION_TYPES.MODULE:
-      return modules(state);
+      return modules;
     case OPTION_TYPES.FORM_GROUP:
-      return formGroups(state, i18n);
+      return formGroups;
     case OPTION_TYPES.LOOKUPS:
-      return lookups(state, { i18n, ...rest });
+      return lookups;
     case OPTION_TYPES.REFER_TO_USERS:
-      return referToUsers(state, { ...rest });
+      return referToUsers;
     case OPTION_TYPES.USER_GROUP:
-      return userGroups(state, { ...rest });
+      return userGroups;
     case OPTION_TYPES.USER_GROUP_PERMITTED:
-      return userGroupsPermitted(state, { ...rest });
+      return userGroupsPermitted;
     case OPTION_TYPES.ROLE:
-      return roles(state);
+      return roles;
     case OPTION_TYPES.ROLE_EXTERNAL_REFERRAL:
-      return buildManagedRoles(state, "referral");
+      return buildManagedRoles;
     case OPTION_TYPES.ROLE_PERMITTED:
-      return buildPermittedRoles(state);
+      return buildPermittedRoles;
     case OPTION_TYPES.FORM_GROUP_LOOKUP:
-      return formGroupLookup(state, i18n, { ...rest });
+      return formGroupLookup;
     case OPTION_TYPES.RECORD_FORMS:
-      return recordForms(state, { ...rest });
+      return recordForms;
+    case OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS:
+      return managedRoleFormSections;
     default:
-      return lookupValues(state, optionStringsSource, i18n, { ...rest });
+      return lookupValues;
   }
-};
-
-const transformOptions = (options, i18n) => {
-  return options.reduce((prev, current) => {
-    const displayText = get(current, "display_text");
-
-    return [
-      ...prev,
-      {
-        ...current,
-        id: get(current, "id"),
-        display_text: displayNameHelper(displayText, i18n.locale) || displayText
-      }
-    ];
-  }, []);
-};
-
-// eslint-disable-next-line import/prefer-default-export
-export const getOptions = (
-  state,
-  optionStringsSource,
-  i18n,
-  options,
-  useUniqueId = false,
-  rest = {
-    rawOptions: false
-  }
-) => {
-  if (optionStringsSource) {
-    return optionsFromState(state, optionStringsSource, i18n, useUniqueId, rest);
-  }
-
-  if (options) {
-    if (rest.rawOptions) return options;
-
-    return Array.isArray(options) || isImmutable(options) ? transformOptions(options, i18n) : options?.[i18n.locale];
-  }
-
-  return [];
 };
 
 export const getLoadingState = (state, path) => (path ? state.getIn(path, false) : false);
@@ -375,7 +445,7 @@ export const getValueFromOtherField = (state, fields, values) => {
 
     if (current.optionStringSource && current.setWhenEnabledInSource) {
       const options = current.optionStringSource
-        ? getOptions(state, current.optionStringSource, window.I18n, null, true)
+        ? getOptions(current.optionStringSource)(state, { source: current.optionStringSource, useUniqueId: true })
         : [];
       const selectedOption = options.find(option => option.id === value);
 
@@ -389,9 +459,3 @@ export const getValueFromOtherField = (state, fields, values) => {
     return prev;
   }, []);
 };
-
-export const getManagedRoleByUniqueId = (state, uniqueID) =>
-  managedRoles(state, "referral").find(role => role.get("unique_id") === uniqueID, null, fromJS({}));
-
-export const getManagedRoleFormSections = (state, uniqueID) =>
-  getManagedRoleByUniqueId(state, uniqueID).get("form_section_read_write", fromJS({})).keySeq().toList();

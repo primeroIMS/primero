@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
 
-import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
+import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
+import useOptions from "../use-options";
 import formComponent from "../utils/form-component";
 
 const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
@@ -30,9 +31,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     ? handleWatchedInputs(watchedInputValues, name, { error, methods: formMethods })
     : {};
 
-  const optionSource = useMemoizedSelector(state =>
-    optionSelector(state, watchedInputValues || getValues(watchedInputs))
-  );
+  const optionSource = useOptions(optionSelector(watchedInputValues || getValues(watchedInputs)));
 
   const commonProps = {
     ...commonInputProps,

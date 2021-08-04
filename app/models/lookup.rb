@@ -5,6 +5,11 @@ class Lookup < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
 
+  LOOKUP_FIELDS_SCHEMA = {
+    'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'name' => { 'type' => 'object' }, 'values' => { 'type' => 'array' }
+  }.freeze
+
   localize_properties :name
   localize_properties :lookup_values, options_list: true
   self.unique_id_from_attribute = 'name_en'
@@ -17,6 +22,10 @@ class Lookup < ApplicationRecord
   before_destroy :check_is_being_used
 
   class << self
+    def list(options)
+      OrderByPropertyService.apply_order(all, options)
+    end
+
     # TODO: Delete after we have fixed data storage with Alberto's changes.
     def new_with_properties(lookup_properties)
       Lookup.new(
