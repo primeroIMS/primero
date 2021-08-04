@@ -1430,8 +1430,8 @@ en:
       count: "Times Provided"
       helptext: |
         This indicator counts the type of service(s) provided to survivors in the case management
-        process. By service provided, we mean the service that is provided by the User organization in-
-        house, not service provided by referrals to other services.
+        process. By service provided, we mean the service that is provided by the User organization
+        in-house, not service provided by referrals to other services or internal referrals.
     average_referrals:
       title: "9. Average Referrals"
       label: "Average referrals per case"
