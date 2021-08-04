@@ -1,13 +1,13 @@
-import { Map } from "immutable";
+import { fromJS } from "immutable";
 
 import reducer from "./reducer";
 import actions from "./actions";
 
 describe("components/connectivity/reducer.js", () => {
-  const defaultState = Map({});
+  const defaultState = fromJS({});
 
   it("should handle NETWORK_STATUS", () => {
-    const expected = Map({
+    const expected = fromJS({
       online: true
     });
 
@@ -21,13 +21,30 @@ describe("components/connectivity/reducer.js", () => {
     expect(newState).to.eql(expected);
   });
 
-  it("should handle SERVER_STATUS", () => {
-    const expected = Map({
-      serverOnline: true
+  it("should handle SERVER_STATUS_SUCCESS", () => {
+    const expected = fromJS({
+      serverOnline: true,
+      serverStatusRetries: 0
     });
 
     const action = {
-      type: actions.SERVER_STATUS,
+      type: actions.SERVER_STATUS_SUCCESS,
+      payload: true
+    };
+
+    const newState = reducer.connectivity(defaultState, action);
+
+    expect(newState).to.eql(expected);
+  });
+
+  it("should handle SERVER_STATUS_FAILURE", () => {
+    const expected = fromJS({
+      serverOnline: false,
+      serverStatusRetries: 1
+    });
+
+    const action = {
+      type: actions.SERVER_STATUS_FAILURE,
       payload: true
     };
 

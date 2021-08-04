@@ -150,6 +150,7 @@ describe("<RecordForm />", () => {
 
     it("should not set the values from the case if it is not a new record", () => {
       const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+      const recordData = { field_1: "Value 1", field_2: "Value 2", field_age: "10" };
 
       const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
         bindSubmitForm: () => {},
@@ -158,14 +159,14 @@ describe("<RecordForm />", () => {
         mobileDisplay: false,
         mode,
         onSubmit: () => {},
-        record: fromJS({}),
+        record: fromJS(recordData),
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
         externalComponents: () => {}
       });
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(recordData);
     });
 
     it("should not set the values from the case if the recordType is not incidents", () => {
