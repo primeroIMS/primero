@@ -6,7 +6,7 @@ import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 
-import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
+import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import { constructInitialValues, sortSubformValues } from "../utils";
@@ -111,7 +111,7 @@ const RecordForm = ({
   }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
-    if (dataProtectionInitialValues.size > 0) {
+    if (mode.isNew && dataProtectionInitialValues.size > 0) {
       const initialDataProtection = dataProtectionInitialValues.reduce((accumulator, values, key) => {
         if (key !== LEGITIMATE_BASIS) {
           const consentAgreementFields = values.reduce((acc, curr) => {
@@ -121,16 +121,12 @@ const RecordForm = ({
           return { ...accumulator, ...consentAgreementFields };
         }
 
-        return { ...accumulator, [key]: values };
+        return { ...accumulator, [key]: values.reduce((acc, elem) => acc.concat(elem), []) };
       }, {});
 
       bindedSetValues.current({ ...initialValues, ...initialDataProtection });
     }
-
-    return () => {
-      dispatch(clearDataProtectionInitialValues());
-    };
-  }, [dataProtectionInitialValues]);
+  }, [mode, dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
