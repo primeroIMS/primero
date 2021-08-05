@@ -46,7 +46,10 @@ module Exporters
                   'option_strings_source' => 'lookup lookup-gender'),
         Field.new('name' => 'family_count_no',
                   'type' => 'numeric_field',
-                  'display_name_all' => 'Family Size')
+                  'display_name_all' => 'Family Size'),
+        Field.new('name' => 'other_agency_id',
+                  'type' => 'text_field',
+                  'display_name_all' => 'Hospital code and patient number')
       ]
       form = FormSection.new(
         unique_id: 'form_section_test_for_export',
@@ -84,7 +87,8 @@ module Exporters
                                    'Child Name',
                                    'Age',
                                    'Sex',
-                                   'Family Size'])
+                                   'Family Size',
+                                   'Hospital code and patient number'])
         end
       end
 
@@ -99,6 +103,7 @@ module Exporters
                                        age
                                        sex_mapping_m_f_u
                                        family_size
+                                       other_agency_id
                                      ])
 
           SystemSettings.any_instance.stub(:export_config_id).and_return('duplicate_id' => 'export-test-same')
@@ -114,7 +119,8 @@ module Exporters
                                    'Child Name',
                                    'Age',
                                    'Sex',
-                                   'Family Size'])
+                                   'Family Size',
+                                   'Hospital code and patient number'])
         end
       end
 

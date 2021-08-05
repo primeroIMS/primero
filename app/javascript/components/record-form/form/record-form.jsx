@@ -45,7 +45,7 @@ const RecordForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));

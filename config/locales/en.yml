@@ -897,6 +897,7 @@ en:
         national_id_no: National ID No
         progress_id: Progress ID
         sex_mapping_m_f_u: Sex
+        other_agency_id: Hospital code and patient number
       male_abbreviation: M
       unknown_abbreviation: U
     exported: Successfully generated the export file
