@@ -126,7 +126,7 @@ const RecordForm = ({
 
       bindedSetValues.current({ ...initialValues, ...initialDataProtection });
     }
-  }, [mode, dataProtectionInitialValues]);
+  }, [mode.isNew, dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();
