@@ -11,7 +11,7 @@ export default identifier => {
     api: {
       path,
       params: dateRange
-        ? { from: dateRange.from.toJSON(), to: dateRange.to.toJSON() }
+        ? { from: dateRange.from, to: dateRange.to }
         : {}
     }
   });

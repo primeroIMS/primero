@@ -14,12 +14,11 @@ import DateFnsUtils from "@date-io/date-fns";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config/constants";
-import UTCDate from "../../utils/utc-date";
 
 const Component = ({ open, onClose, currentRange, setRange }) => {
   const i18n = useI18n();
-  const [from, setFrom] = useState(currentRange.from.toDate());
-  const [to, setTo] = useState(currentRange.to.toDate());
+  const [from, setFrom] = useState(currentRange.from);
+  const [to, setTo] = useState(currentRange.to);
   const handleApplyClick = () => {
     setRange(from, to);
     onClose();
@@ -71,8 +70,8 @@ Component.displayName = "DateRangeDialog";
 
 Component.propTypes = {
   currentRange: PropTypes.shape({
-    from: PropTypes.instanceOf(UTCDate),
-    to: PropTypes.instanceOf(UTCDate)
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date)
   }),
   onClose: PropTypes.func,
   open: PropTypes.bool,

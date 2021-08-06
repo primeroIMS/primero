@@ -4,7 +4,6 @@ import { Select, MenuItem, FormControl } from "@material-ui/core";
 
 import DateRangeDialog from "../date-range-dialog";
 import DateRange from "../../utils/date-range";
-import UTCDate from "../../utils/utc-date";
 
 import { CUSTOM_RANGE } from "./constants";
 
@@ -34,8 +33,8 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
     const newRange = new DateRange(
       CUSTOM_RANGE,
       i18n.t("key_performance_indicators.date_range_select.custom_range"),
-      UTCDate.fromDate(from),
-      UTCDate.fromDate(to)
+      from,
+      to
     );
 
     setSelectedRange(newRange);
@@ -53,9 +52,9 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
     setTimeout(() => setShowCustomLabel(false), 150);
   };
 
-  const customRangeDates = `${i18n.toTime("key_performance_indicators.date_format", customRange.from.toDate())} - ${i18n.toTime(
+  const customRangeDates = `${i18n.toTime("key_performance_indicators.date_format", customRange.from)} - ${i18n.toTime(
     "key_performance_indicators.date_format",
-    customRange.to.toDate()
+    customRange.to
   )}`;
 
   return (
@@ -95,8 +94,8 @@ Component.propTypes = {
   i18n: PropTypes.object,
   ranges: PropTypes.array,
   selectedRange: PropTypes.shape({
-    from: PropTypes.instanceOf(UTCDate),
-    to: PropTypes.instanceOf(UTCDate),
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date),
     value: PropTypes.string
   }),
   setSelectedRange: PropTypes.func,

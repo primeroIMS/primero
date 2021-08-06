@@ -1,43 +1,43 @@
-import DateRange from "./date-range";
-import UTCDate from "./utc-date";
+import { addMinutes, subMinutes, subMonths, startOfMonth, endOfMonth } from "date-fns";
 
+import DateRange from "./date-range";
 import { ALL_TIME, CURRENT_MONTH, MONTHS_3, MONTHS_6, MONTHS_12 } from "./constants";
 
-const CommonDateRanges = {
-  from(today, i18n) {
-    const todayUTC = UTCDate.fromDate(today)
-    const oldestDate = new UTCDate(1900, 0, 0)
+// Taken from: https://github.com/date-fns/date-fns/issues/571#issuecomment-602496322
+// This fixes an issue where dates are out by 1 hour because of timezone issues.
 
+const CommonDateRanges = {
+  from(today = new Date(), i18n) {
     return {
       AllTime: new DateRange(
         ALL_TIME,
         i18n.t("key_performance_indicators.time_periods.all_time"),
-        oldestDate,
-        todayUTC.endOfMonth()
+        new Date(Date.parse("01/01/2000")),
+        endOfMonth(today)
       ),
       CurrentMonth: new DateRange(
         CURRENT_MONTH,
         i18n.t("key_performance_indicators.time_periods.current_month"),
-        todayUTC.startOfMonth(),
-        todayUTC.endOfMonth()
+        startOfMonth(today),
+        endOfMonth(today)
       ),
       Last3Months: new DateRange(
         MONTHS_3,
         i18n.t("key_performance_indicators.time_periods.last_3_months"),
-        todayUTC.subMonths(2).startOfMonth(),
-        todayUTC.endOfMonth()
+        startOfMonth(subMonths(today, 2)),
+        endOfMonth(today)
       ),
       Last6Months: new DateRange(
         MONTHS_6,
         i18n.t("key_performance_indicators.time_periods.last_6_months"),
-        todayUTC.subMonths(5).startOfMonth(),
-        todayUTC.endOfMonth()
+        startOfMonth(subMonths(today, 5)),
+        endOfMonth(today)
       ),
       LastYear: new DateRange(
         MONTHS_12,
         i18n.t("key_performance_indicators.time_periods.last_1_year"),
-        todayUTC.subMonths(11).startOfMonth(),
-        todayUTC.endOfMonth()
+        startOfMonth(subMonths(today, 11)),
+        endOfMonth(today)
       )
     };
   }
