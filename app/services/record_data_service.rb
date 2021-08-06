@@ -2,7 +2,8 @@
 
 # Pulls together the record data for presentation in the JSON API
 class RecordDataService
-  COMPUTED_FIELDS = %w[sync_status synced_at].freeze
+  COMPUTED_FIELDS = %w[sync_status synced_at current_care_arrangements_type current_name_caregiver
+                       current_care_arrangement_started_date].freeze
 
   def self.data(record, user, selected_field_names)
     new.data(record, user, selected_field_names)

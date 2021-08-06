@@ -22,7 +22,8 @@ class Child < ApplicationRecord
   include Record
   include Searchable
   include Historical
-  # include BIADerivedFields
+  include BIADerivedFields
+  include CareArrangements
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
@@ -244,30 +245,7 @@ class Child < ApplicationRecord
     AgeService.day_of_year(date_of_birth)
   end
 
-  def current_care_arrangements_type
-    most_recent_care_arrangement.try(:[], 'care_arrangements_type')
-  end
-
-  def current_name_caregiver
-    most_recent_care_arrangement.try(:[], 'name_caregiver')
-  end
-
-  def current_care_arrangement_started_date
-    most_recent_care_arrangement.try(:[], 'care_arrangement_started_date')
-  end
-
-  def most_recent_care_arrangement
-    return nil if care_arrangements_section.blank?
-
-    care_arrangements_section
-      .select { |care_arrangement| care_arrangement['care_arrangement_started_date'].present? }
-      .max_by { |care_arrangement| care_arrangement['care_arrangement_started_date'] }
-  end
-
-  # TODO: the name of this method is causing 1 rubocop warning
-  #       this method was copied over from the old case_derived_fields concern and modified
-  #       the name of the method has not yet been changed because it is referenced in other places
-  def has_case_plan
+  def case_plan?
     interventions = data['cp_case_plan_subform_case_plan_interventions']
     return false if interventions.blank?
 
@@ -277,7 +255,7 @@ class Child < ApplicationRecord
     end
     plan.present?
   end
-  alias case_plan? has_case_plan
+  alias has_case_plan case_plan?
 
   def sync_protection_concerns
     protection_concerns = self.protection_concerns || []
