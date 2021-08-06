@@ -11,7 +11,7 @@ export default (formSections, modules, recordType, i18n, reportingLocationConfig
   );
   const formName = getFormName(recordType);
   const recordTypesForms = formsByModuleAndRecordType.filter(
-    formSection => formSection.get("parent_form") === recordType
+    formSection => formSection.get("parent_form") === recordType && !formSection.get("is_nested")
   );
 
   const reportableFieldsByRecord = reportableFields?.[MATCH_REPORTABLE_TYPES?.[recordType]];
