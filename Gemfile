@@ -28,7 +28,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
 gem 'rack',                '>= 2.2.0'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '5.2.6'
+gem 'rails',               '6.1.4'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
@@ -41,14 +41,12 @@ gem 'spreadsheet',         '~> 1.1'    # Read XLS spreadsheets for imports (not 
 gem 'sunspot_rails',       '2.3.0'     # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '2.3.0'     # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
-gem 'tzinfo',              '~> 1.2'    # Security assertion on implicit dependency.
-gem 'tzinfo-data',         '~> 1.2019' # Security assertion on implicit dependency.
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 0.85'   # Exports XLSX
 
 group :development, :test do
   gem 'binding_of_caller',          '~> 0.8'
-  gem 'bundler-audit',              '~> 0.6'
+  gem 'bundler-audit',              '~> 0.8'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
   gem 'foreman'
