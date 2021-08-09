@@ -22,13 +22,13 @@ phases:
       - echo "CODEBUILD_SRC_DIR_devops=${CODEBUILD_SRC_DIR_devops}"
       - DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
       - echo "DEPLOY_SERVER_NAME=primero-integration-${CICD_TAG}"
-      - DEPLOY_SERVER_INVENTORY_FILE="primero-integration-${CICD_TAG}.inventory.vars.yml"
+      - DEPLOY_SERVER_INVENTORY_FILE="primero-integration-${CICD_TAG}.vars.yml"
       - echo "DEPLOY_SERVER_INVENTORY_FILE=${DEPLOY_SERVER_INVENTORY_FILE}"
       - printenv SECRET_VARS_${CICD_TAG} > secrets.json
       - mv secrets.json ansible/secrets.json
       - ./ansible/bin/activate
       - rm -r ansible/inventory/*
-      - cp ${CODEBUILD_SRC_DIR_devops}/inventory-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
+      - cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
       - aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${CICD_TAG} --sse 'aws:kms'
     finally:
       - cd docker
