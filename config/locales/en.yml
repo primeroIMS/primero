@@ -3022,6 +3022,23 @@ en:
             explanation: Ability to edit user groups.
             label: Edit
         label: User Groups
+      webhook:
+        actions:
+          read:
+            label: View
+            explanation: Ability to list and review webhook configurations via the API
+          write:
+            label: Edit
+            explanation: Ability to create and edit a webhook configuration via the API
+          create:
+            explanation: Ability to create a webhook configuration via the API.
+            label: Create
+          delete:
+            explanation: Ability to delete a webhook configuration via the API.
+            label: Delete
+          manage:
+            label: Manage (all permissions for this resource type)
+            explanation:
   potential_match:
     case_id: Case ID
     child_age: Age

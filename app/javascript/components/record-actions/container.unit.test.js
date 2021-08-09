@@ -414,6 +414,40 @@ describe("<RecordActions />", () => {
         ).to.be.false;
       });
     });
+
+    describe("when user has read access to cases and assign_within_agency", () => {
+      beforeEach(() => {
+        ({ component } = setupMountedComponent(
+          RecordActions,
+          props,
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ, ACTIONS.ASSIGN_WITHIN_AGENCY]
+              }
+            },
+            forms
+          })
+        ));
+      });
+
+      it("renders Menu", () => {
+        expect(component.find(Menu)).to.have.length(1);
+      });
+
+      it("renders MenuItem", () => {
+        expect(component.find(MenuItem)).to.be.empty;
+      });
+
+      it("renders MenuItem with the Assign Case option", () => {
+        expect(
+          component
+            .find("li")
+            .map(l => l.text())
+            .includes("buttons.reassign forms.record_types.case")
+        ).to.be.true;
+      });
+    });
   });
 
   describe("Component Exports", () => {

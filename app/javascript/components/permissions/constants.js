@@ -7,6 +7,7 @@ export const ACTIONS = {
   APPROVE_ACTION_PLAN: "approve_action_plan",
   APPROVE_GBV_CLOSURE: "approve_gbv_closure",
   ASSIGN: "assign",
+  ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CLOSE: "close",
@@ -230,6 +231,7 @@ export const ASSIGN = [
   ACTIONS.MANAGE,
   ACTIONS.ASSIGN,
   ACTIONS.ASSIGN_WITHIN_USER_GROUP,
+  ACTIONS.ASSIGN_WITHIN_AGENCY,
   ACTIONS.ASSIGN_WITHIN_AGENCY_PERMISSIONS
 ];
 

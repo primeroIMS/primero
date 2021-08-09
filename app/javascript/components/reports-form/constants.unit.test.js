@@ -8,17 +8,18 @@ describe("<ReportsForm /> - Constants", () => {
       "AGGREGATE_BY_FIELD",
       "ALLOWED_FIELD_TYPES",
       "CONSTRAINTS",
+      "DATE",
       "DATE_CONSTRAINTS",
       "DEFAULT_FILTERS",
       "DESCRIPTION_FIELD",
+      "DISABLED_FIELD",
       "DISAGGREGATE_BY_FIELD",
       "EXCLUDE_EMPTY_ROWS_FIELD",
       "FILTERS_FIELD",
+      "FORM_ID",
       "GROUP_AGES_FIELD",
       "GROUP_DATES_BY_FIELD",
       "IS_GRAPH_FIELD",
-      "DATE",
-      "DISABLED_FIELD",
       "MATCH_REPORTABLE_TYPES",
       "MINIMUM_REPORTABLE_FIELDS",
       "MODULES_FIELD",
@@ -28,7 +29,7 @@ describe("<ReportsForm /> - Constants", () => {
       "RECORD_TYPE_FIELD",
       "REPORTABLE_TYPES",
       "REPORT_FIELD_TYPES",
-      "FORM_ID"
+      "SHARED_FILTERS"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
