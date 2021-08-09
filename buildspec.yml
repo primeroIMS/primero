@@ -5,7 +5,7 @@ env:
     SECRET_VARS_cicd: 'PrimeroCicdSecretcicd'
     SECRET_VARS_master: 'PrimeroCicdSecretmaster'
     SECRET_VARS_develop: 'PrimeroCicdSecretdevelop'
-    SECRET_VARS_release-2.0: 'PrimeroCicdSecretrelease-2.0'
+    SECRET_VARS_release-2-0: 'PrimeroCicdSecretrelease-2-0'
 
 phases:
   pre_build:
@@ -17,7 +17,7 @@ phases:
       - echo "BRANCH=${BRANCH}"
       - TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
       - echo "TAG=${TAG}"
-      - CICD_TAG=$(echo $BRANCH | awk -F. '/release/ { print $1"."$2 } ; $0 !~ /release/ { print $0 }')
+      - CICD_TAG=$(echo $BRANCH | awk -F. '/release/ { print $1"."$2 } ; $0 !~ /release/ { print $0 }' | tr . -)
       - echo "CICD_TAG=${CICD_TAG}"
       - echo "CODEBUILD_SRC_DIR_devops=${CODEBUILD_SRC_DIR_devops}"
       - DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
