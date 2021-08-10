@@ -5,9 +5,9 @@ class ExportService
   class << self
     def exporter(record_type, format)
       [
-        Exporters::IncidentRecorderExporter, Exporters::CSVListViewExporter, Exporters::CSVExporter,
-        Exporters::ExcelExporter, Exporters::JSONExporter, Exporters::PhotoWallExporter, Exporters::UnhcrCSVExporter,
-        Exporters::DuplicateIdCSVExporter, Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter,
+        Exporters::IncidentRecorderExporter, Exporters::CsvListViewExporter, Exporters::CsvExporter,
+        Exporters::ExcelExporter, Exporters::JsonExporter, Exporters::PhotoWallExporter, Exporters::UNHCRCsvExporter,
+        Exporters::DuplicateIdCsvExporter, Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter,
         Exporters::RolePermissionsExporter
         # , Expoxrters::MRMViolationExporter
       ].find do |exporter|
@@ -25,7 +25,7 @@ class ExportService
     end
 
     def bulk_export_class(format)
-      if format == Exporters::DuplicateIdCSVExporter.id
+      if format == Exporters::DuplicateIdCsvExporter.id
         DuplicateBulkExport
       else
         BulkExport

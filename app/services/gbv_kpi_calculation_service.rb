@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-# GbvKpiCalculationService
+# GBVKpiCalculationService
 #
 # Provides methods for calulating the cached information required for the
 # Kpis
 #
 # rubocop:disable Metrics/ClassLength
-class GbvKpiCalculationService
+class GBVKpiCalculationService
   def self.from_record(record)
-    GbvKpiCalculationService.new(record) unless record.module_id != PrimeroModule::GBV
+    GBVKpiCalculationService.new(record) unless record.module_id != PrimeroModule::GBV
   end
 
   def initialize(record)

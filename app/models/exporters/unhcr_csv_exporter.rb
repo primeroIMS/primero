@@ -3,7 +3,7 @@
 require 'csv'
 
 # Export case data from Primero for consumption by downstream UNHCR systems
-class Exporters::UnhcrCSVExporter < Exporters::ConfigurableExporter
+class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
   ID_FIELD_NAMES = %w[
     case_id unhcr_individual_no cpims_id short_id identification_date protection_status
     unhcr_needs_codes sex date_of_birth age separation_cause country_of_origin status

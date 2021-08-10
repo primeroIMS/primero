@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-describe Exporters::JSONExporter do
-
+describe Exporters::JsonExporter do
   before :each do
     clean_data(User, Role, Field, FormSection, PrimeroModule)
 
@@ -25,7 +26,8 @@ describe Exporters::JSONExporter do
     )
     role = Role.new(
       is_manager: false, modules: [primero_module],
-      permissions: [permissions], form_sections: [form])
+      permissions: [permissions], form_sections: [form]
+    )
     role.save(validate: false)
     @user = User.new(user_name: 'user1', role: role)
     @user.save(validate: false)
@@ -42,7 +44,7 @@ describe Exporters::JSONExporter do
     )
   end
 
-  let(:data_hash) { JSON.parse(Exporters::JSONExporter.export([@record], @user)) }
+  let(:data_hash) { JSON.parse(Exporters::JsonExporter.export([@record], @user)) }
 
   it 'converts models to JSON format' do
     expect(data_hash.size).to eq(1)

@@ -33,7 +33,7 @@ describe DuplicateBulkExport, search: true do
     ]
 
     @bulk_exporter = DuplicateBulkExport.new(
-      format: Exporters::DuplicateIdCSVExporter.id,
+      format: Exporters::DuplicateIdCsvExporter.id,
       record_type: 'case',
       owned_by: @user.user_name
     )
