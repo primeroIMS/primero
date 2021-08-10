@@ -28,7 +28,8 @@ const Container = ({
   setFieldValue,
   handleSubmit,
   recordType,
-  primeroModule
+  primeroModule,
+  dirty
 }) => {
   const css = useStyles();
   const i18n = useI18n();
@@ -62,7 +63,7 @@ const Container = ({
       text={i18n.t("buttons.new")}
       type="default_button"
       rest={{
-        onClick: handleCreateIncident
+        onClick: event => handleCreateIncident(event, dirty)
       }}
     />
   );
@@ -87,7 +88,12 @@ const Container = ({
 
 Container.displayName = NAME;
 
+Container.defaultProps = {
+  dirty: false
+};
+
 Container.propTypes = {
+  dirty: PropTypes.bool,
   handleCreateIncident: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func,
   handleToggleNav: PropTypes.func.isRequired,

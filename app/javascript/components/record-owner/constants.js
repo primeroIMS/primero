@@ -60,5 +60,10 @@ export const FIELDS = [
     name: "module_id",
     type: "text_field",
     visible: true
+  },
+  {
+    name: "last_updated_at",
+    type: "date_field",
+    visible: true
   }
 ];

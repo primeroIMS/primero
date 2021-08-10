@@ -310,7 +310,7 @@ const Container = ({ mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
-  const externalForms = (form, setFieldValue, handleSubmit, values) => {
+  const externalForms = (form, setFieldValue, handleSubmit, values, dirty) => {
     const isTransitions = TRANSITION_TYPE.includes(form);
 
     const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -338,6 +338,7 @@ const Container = ({ mode }) => {
           handleSubmit={handleSubmit}
           recordType={params.recordType}
           primeroModule={selectedModule.primeroModule}
+          dirty={dirty}
           handleCreateIncident={handleCreateIncident}
         />
       ),

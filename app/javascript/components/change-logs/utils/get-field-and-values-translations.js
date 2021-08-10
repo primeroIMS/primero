@@ -2,7 +2,7 @@
 import { displayNameHelper } from "../../../libs";
 import { FIELDS } from "../../record-owner/constants";
 import { OPTION_TYPES } from "../../form/constants";
-import { APPROVALS } from "../constants";
+import { APPROVALS, INCIDENTS } from "../constants";
 
 const getValueFromOptions = (allAgencies, allLookups, locations, i18n, optionSelected, value) => {
   const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
@@ -67,6 +67,9 @@ export default (allAgencies, allLookups, locations, i18n, selectedField, field, 
 
   if (field === APPROVALS) {
     fieldDisplayName = i18n.t("forms.record_types.approvals");
+  }
+  if (field === INCIDENTS) {
+    fieldDisplayName = i18n.t("incidents.label");
   }
   const fieldRecordInformation = filterFieldsRecordInformation(field);
 
