@@ -85,7 +85,7 @@ describe Agency do
       expect(agency.logo_icon.attached?).to be_truthy
       expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef-old.png')
 
-      agency.update_attributes(logo_icon: FilesTestHelper.logo)
+      agency.update(logo_icon: FilesTestHelper.logo)
       agency.save
       expect(agency.logo_icon.attached?).to be_truthy
       expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef.png')

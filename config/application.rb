@@ -20,8 +20,7 @@ Bundler.require(*Rails.groups)
 module Primero; end
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
-  puts 'Primero::Application'
-  config.load_defaults 6.0
+  config.load_defaults 6.1
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

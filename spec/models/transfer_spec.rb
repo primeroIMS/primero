@@ -310,7 +310,7 @@ describe Transfer do
         @role.permissions = [permission_case]
         @role.save(validate: false)
 
-        @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
+        @case.update(consent_for_services: true, disclosure_other_orgs: true)
 
         @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end

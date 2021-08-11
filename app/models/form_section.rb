@@ -285,7 +285,6 @@ class FormSection < ApplicationRecord
   end
 
   def touch_roles
-    # TODO: This causes an N+1 query. In Rails 6 this shoudl be replaced with a touch_all
-    roles.each(&:touch)
+    roles.touch_all
   end
 end
