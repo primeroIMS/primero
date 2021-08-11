@@ -14,7 +14,7 @@
 ActiveSupport::Messages::Metadata.class_eval do
   def self.extract_metadata(message)
     data = begin
-             JSON.decode(message)
+             ActiveSupport::JSON.decode(message)
            rescue StandardError
              nil
            end
