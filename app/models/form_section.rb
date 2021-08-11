@@ -219,6 +219,18 @@ class FormSection < ApplicationRecord
     raise Errors::ForbiddenOperation
   end
 
+  def parent_forms
+    return FormSection.none unless is_nested?
+
+    FormSection.joins(:fields).where(fields: { subform_section_id: self }, is_nested: false)
+  end
+
+  def parent_roles
+    return Role.none unless is_nested?
+
+    Role.joins(:form_sections).distinct.where(form_sections: { unique_id: parent_forms.pluck(:unique_id) })
+  end
+
   protected
 
   def calculate_subform_collapsed_fields
@@ -286,6 +298,7 @@ class FormSection < ApplicationRecord
 
   def touch_roles
     # TODO: This causes an N+1 query. In Rails 6 this shoudl be replaced with a touch_all
-    roles.each(&:touch)
+    roles_to_touch = is_nested? ? parent_roles : roles
+    roles_to_touch.each(&:touch)
   end
 end
