@@ -23,7 +23,7 @@ class Child < ApplicationRecord
   include Searchable
   include Historical
   include BIADerivedFields
-  include CaseDerivedFields
+  include CareArrangements
   include UNHCRMapping
   include Ownable
   include AutoPopulatable
@@ -56,7 +56,7 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
-    :urgent_protection_concern, :child_preferences_section, :family_details_section, :has_case_plan,
+    :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate
   )
 
@@ -246,6 +246,18 @@ class Child < ApplicationRecord
 
     AgeService.day_of_year(date_of_birth)
   end
+
+  def case_plan?
+    interventions = data['cp_case_plan_subform_case_plan_interventions']
+    return false if interventions.blank?
+
+    plan = interventions.find_index do |i|
+      i['intervention_service_to_be_provided'].present? ||
+        i['intervention_service_goal'].present?
+    end
+    plan.present?
+  end
+  alias has_case_plan case_plan?
 
   def sync_protection_concerns
     protection_concerns = self.protection_concerns || []
