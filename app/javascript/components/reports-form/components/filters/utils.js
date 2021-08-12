@@ -2,10 +2,10 @@
 
 import { format } from "date-fns";
 
-import { CONSTRAINTS, DATE_CONSTRAINTS, FILTERS_FIELD, NOT_NULL } from "../../constants";
+import { FILTERS_FIELD, NOT_NULL } from "../../constants";
 import { DATE_FORMAT } from "../../../../config";
 import { displayNameHelper } from "../../../../libs";
-import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD, DATE_FIELD } from "../../../form";
+import { TICK_FIELD, SELECT_FIELD, RADIO_FIELD } from "../../../form";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -66,18 +66,4 @@ export const formatValue = (value, i18n, { field, lookups }) => {
   }
 
   return value;
-};
-
-export const getConstraintLabel = (data, field, i18n) => {
-  const { constraint, value } = data;
-
-  if ((typeof constraint === "boolean" && constraint) || (Array.isArray(value) && value.includes(NOT_NULL))) {
-    return i18n.t(CONSTRAINTS.not_null);
-  }
-
-  if (field?.type === DATE_FIELD && ["<", ">"].includes(constraint)) {
-    return i18n.t(DATE_CONSTRAINTS[constraint]);
-  }
-
-  return Array.isArray(value) ? "" : i18n.t(CONSTRAINTS[constraint]);
 };

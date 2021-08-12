@@ -89,6 +89,12 @@ const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, ind
   }, [open]);
 
   useEffect(() => {
+    if (isConstraintNotNullOrTrue) {
+      formMethods.setValue(CONSTRAINT, NOT_NULL);
+    }
+  }, [watchedConstraint]);
+
+  useEffect(() => {
     if (watchedAttribute) {
       const filterValue = getValues()[VALUE];
 

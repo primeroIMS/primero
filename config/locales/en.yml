@@ -897,6 +897,7 @@ en:
         national_id_no: National ID No
         progress_id: Progress ID
         sex_mapping_m_f_u: Sex
+        other_agency_id: Hospital code and patient number
       male_abbreviation: M
       unknown_abbreviation: U
     exported: Successfully generated the export file
@@ -3021,6 +3022,23 @@ en:
             explanation: Ability to edit user groups.
             label: Edit
         label: User Groups
+      webhook:
+        actions:
+          read:
+            label: View
+            explanation: Ability to list and review webhook configurations via the API
+          write:
+            label: Edit
+            explanation: Ability to create and edit a webhook configuration via the API
+          create:
+            explanation: Ability to create a webhook configuration via the API.
+            label: Create
+          delete:
+            explanation: Ability to delete a webhook configuration via the API.
+            label: Delete
+          manage:
+            label: Manage (all permissions for this resource type)
+            explanation:
   potential_match:
     case_id: Case ID
     child_age: Age

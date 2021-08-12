@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { useDialog } from "../action-dialog";
@@ -29,12 +29,12 @@ import { clearSelectedReport, saveReport } from "./action-creators";
 import ReportFilters from "./components/filters";
 import {
   AGGREGATE_BY_FIELD,
-  DEFAULT_FILTERS,
   DISAGGREGATE_BY_FIELD,
   FILTERS_FIELD,
   FORM_ID,
   NAME,
   REPORT_FIELD_TYPES,
+  SHARED_FILTERS,
   DATE
 } from "./constants";
 import { form, validations } from "./form";
@@ -50,18 +50,21 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const { userModules } = useApp();
 
+  const [selectedRecordType, setSelectedRecordType] = useState(null);
+  const [selectedModule, setSelectedModule] = useState(null);
+
   const isEditOrShow = formMode.isEdit || formMode.isShow;
 
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const report = useMemoizedSelector(state => getReport(state));
-  const allRecordForms = useSelector(state => getRecordForms(state, { all: true }));
+  const allRecordForms = useMemoizedSelector(state => getRecordForms(state, { all: true }));
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
 
   const registeredFields = [FILTERS_FIELD].concat(buildLocaleFields(localesToRender(i18n.applicationLocales)));
 
   const formattedMinimumReportableFields = buildMinimumReportableFields(i18n, allRecordForms);
 
-  const [indexes, setIndexes] = useState(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
+  const [indexes, setIndexes] = useState(SHARED_FILTERS.map((data, index) => ({ index, data })));
 
   const initialValues = {
     ...formatReport(report.toJS()),
@@ -83,9 +86,11 @@ const Container = ({ mode }) => {
   useEffect(() => {
     if (report.size) {
       setIndexes(initialValues.filters.map((data, index) => ({ index, data })));
+      setSelectedModule(report.get("module_id"));
+      setSelectedRecordType(report.get("record_type"));
     }
     if (formMode.isNew) {
-      setIndexes(DEFAULT_FILTERS.map((data, index) => ({ index, data })));
+      setIndexes(SHARED_FILTERS.map((data, index) => ({ index, data })));
     }
   }, [report]);
 
@@ -126,7 +131,9 @@ const Container = ({ mode }) => {
     formMode.isNew,
     userModules,
     reportingLocationConfig,
-    formattedMinimumReportableFields
+    formattedMinimumReportableFields,
+    setSelectedRecordType,
+    setSelectedModule
   );
   const validationSchema = validations(i18n);
   const handleCancel = () => {
@@ -170,6 +177,7 @@ const Container = ({ mode }) => {
             renderBottom={formMethods => (
               <>
                 <ReportFilters
+                  formMode={formMode}
                   allRecordForms={allRecordForms}
                   parentFormMethods={formMethods}
                   selectedReport={report}
@@ -177,6 +185,8 @@ const Container = ({ mode }) => {
                   setIndexes={setIndexes}
                   reportingLocationConfig={reportingLocationConfig}
                   formattedMinimumReportableFields={formattedMinimumReportableFields}
+                  selectedRecordType={selectedRecordType}
+                  selectedModule={selectedModule}
                 />
                 {dialogOpen && (
                   <TranslationsDialog

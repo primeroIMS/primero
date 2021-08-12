@@ -49,7 +49,7 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
       sex: record.get("sex")
     },
     // eslint-disable-next-line camelcase
-    comparison: foundMatchedTrace.get("matched_case_comparison"),
+    comparison: foundMatchedTrace?.get("matched_case_comparison"),
     trace: foundMatchedTrace,
     likelihood: "possible",
     score: 0.4136639493462357
@@ -93,6 +93,10 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
 };
 
 Component.displayName = NAME;
+
+Component.defaultProps = {
+  data: fromJS([])
+};
 
 Component.propTypes = {
   data: PropTypes.object,
