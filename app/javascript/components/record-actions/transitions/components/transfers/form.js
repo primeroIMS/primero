@@ -1,10 +1,10 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
-import { RECORD_TYPES } from "../../../../config";
-import { FieldRecord, FormSectionRecord, OPTION_TYPES, SELECT_FIELD, TEXT_AREA, TICK_FIELD } from "../../../form";
-import ConsentProvided from "../referrals/components/consent-provided";
-import { fetchTransferUsers } from "../action-creators";
+import { RECORD_TYPES } from "../../../../../config";
+import { FieldRecord, FormSectionRecord, OPTION_TYPES, SELECT_FIELD, TEXT_AREA, TICK_FIELD } from "../../../../form";
+import ConsentProvided from "../../referrals/components/consent-provided";
+import { fetchTransferUsers } from "../../action-creators";
 
 import {
   AGENCY_FIELD,

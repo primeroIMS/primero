@@ -10,9 +10,8 @@ import { useMemoizedSelector } from "../../../libs";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import { TransitionDialog, ReassignForm } from "./components";
+import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
-import Transfers from "./transfers/component";
 
 const Transitions = ({
   close,
