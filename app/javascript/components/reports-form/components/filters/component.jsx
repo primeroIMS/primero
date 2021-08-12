@@ -1,26 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton, makeStyles, Typography } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
-import { MODULES_FIELD, NOT_NULL, RECORD_TYPE_FIELD } from "../../constants";
+import FiltersList from "../filters-list";
+import { DEFAULT_FILTERS, NOT_NULL } from "../../constants";
 import { formattedFields } from "../../utils";
-import { dataToJS, useMemoizedSelector, useThemeHelper } from "../../../../libs";
-import { getOptions } from "../../../record-form/selectors";
-import { OPTION_TYPES, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
+import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
-import useOptions from "../../../form/use-options";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
-import { formatValue, getConstraintLabel, registerValues } from "./utils";
+import { formatValue, registerValues } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -30,11 +25,13 @@ const Container = ({
   allRecordForms,
   parentFormMethods,
   reportingLocationConfig,
-  formattedMinimumReportableFields
+  formattedMinimumReportableFields,
+  formMode,
+  selectedRecordType,
+  selectedModule
 }) => {
   const i18n = useI18n();
   const css = useStyles();
-  const { isRTL } = useThemeHelper();
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -72,19 +69,15 @@ const Container = ({
     }
   };
 
-  const allLookups = useMemoizedSelector(state => getOptions(state));
-
-  const location = useOptions({ source: OPTION_TYPES.LOCATION });
-  const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
-  const modules = useOptions({ source: OPTION_TYPES.MODULE });
-  const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP });
-
-  const selectedModules = parentFormMethods.getValues()[MODULES_FIELD];
-  const selectedRecordType = parentFormMethods.getValues()[RECORD_TYPE_FIELD];
+  useEffect(() => {
+    if (selectedRecordType && formMode.isNew) {
+      setIndexes(DEFAULT_FILTERS[selectedRecordType].map((data, index) => ({ index, data })));
+    }
+  }, [selectedRecordType]);
 
   const fields = formattedFields(
     allRecordForms,
-    selectedModules,
+    selectedModule,
     selectedRecordType,
     i18n,
     reportingLocationConfig,
@@ -120,54 +113,6 @@ const Container = ({
     setSelectedIndex(null);
   };
 
-  const renderReportFilterList = () => {
-    if (isEmpty(indexes)) {
-      return <p>{i18n.t("report.no_filters_added")}</p>;
-    }
-
-    const handleClickOpen = index => () => handleOpenModal(index);
-    const handleClickEdit = index => () => handleEdit(index);
-
-    return Object.entries(indexes).map(filter => {
-      const [index, { data }] = filter;
-      const { attribute, value } = data;
-      const field = fields.find(f => f.id === attribute);
-
-      if (!field) return false;
-
-      const constraintLabel = getConstraintLabel(data, field, i18n);
-      const lookups = [
-        ...dataToJS(allLookups),
-        ...[{ unique_id: OPTION_TYPES.LOCATION, values: dataToJS(location) }],
-        ...[{ unique_id: OPTION_TYPES.AGENCY, values: dataToJS(agencies) }],
-        ...[{ unique_id: OPTION_TYPES.MODULE, values: dataToJS(modules) }],
-        ...[{ unique_id: OPTION_TYPES.FORM_GROUP, values: dataToJS(formGroups) }]
-      ];
-
-      const formattedReportFilterName = [
-        // eslint-disable-next-line camelcase
-        field?.display_text || "",
-        i18n.t("report.filters.is"),
-        constraintLabel,
-        formatValue(value, i18n, { field, lookups })
-      ].join(" ");
-
-      const renderIcon = isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />;
-
-      return (
-        <Box key={index} display="flex" alignItems="center">
-          <Box flexGrow={1}>{formattedReportFilterName}</Box>
-          <Box>
-            <IconButton onClick={handleClickOpen(index)}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton onClick={handleClickEdit(index)}>{renderIcon}</IconButton>
-          </Box>
-        </Box>
-      );
-    });
-  };
-
   return (
     <>
       <Typography className={css.filtersHeading}>
@@ -178,7 +123,7 @@ const Container = ({
         </IconButton>
       </Typography>
 
-      {renderReportFilterList()}
+      <FiltersList fields={fields} handleOpenModal={handleOpenModal} handleEdit={handleEdit} indexes={indexes} />
 
       <ActionDialog
         open={deleteModal}
@@ -207,9 +152,12 @@ Container.displayName = NAME;
 Container.propTypes = {
   allRecordForms: PropTypes.object.isRequired,
   formattedMinimumReportableFields: PropTypes.object,
+  formMode: PropTypes.object,
   indexes: PropTypes.array,
   parentFormMethods: PropTypes.object.isRequired,
   reportingLocationConfig: PropTypes.object,
+  selectedModule: PropTypes.string,
+  selectedRecordType: PropTypes.string,
   setIndexes: PropTypes.func
 };
 
