@@ -154,7 +154,9 @@ class Child < ApplicationRecord
   def self.minimum_reportable_fields
     {
       'boolean' => ['record_state'],
-      'string' => %w[status sex risk_level owned_by_agency_id owned_by workflow workflow_status risk_level],
+      'string' => %w[
+        status sex risk_level owned_by_agency_id owned_by workflow workflow_status risk_level consent_reporting
+      ],
       'multistring' => %w[associated_user_names owned_by_groups],
       'date' => ['registration_date'],
       'integer' => ['age'],
