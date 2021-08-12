@@ -2,7 +2,6 @@
 
 # Non bulk export of Primero objects
 class Export < ValueObject
-
   SUCCESS = 'success'
   FAILURE = 'failure'
   SOME_FAILURE = 'some_failure'

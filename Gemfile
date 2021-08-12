@@ -70,7 +70,7 @@ group :development, :test do
   gem 'rspec-collection_matchers',  '~> 1.1'
   gem 'rspec-instafail',            '~> 1.0'
   gem 'rspec-rails',                '~> 5.0'
-  gem 'rubocop',                    '~> 0.67'
+  gem 'rubocop',                    '~> 0.93'
   gem 'rubocop-performance',        '~> 1.1'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
