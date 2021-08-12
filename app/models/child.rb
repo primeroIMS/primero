@@ -57,7 +57,7 @@ class Child < ApplicationRecord
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
-    :has_case_plan, :duplicate
+    :duplicate
   )
 
   has_many :incidents, foreign_key: :incident_case_id
