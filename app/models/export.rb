@@ -28,7 +28,7 @@ class Export < ValueObject
   def attach_export_file(file)
     return unless file && File.size?(file)
 
-    self.export_file_blob = ActiveStorage::Blob.create_after_upload!(
+    self.export_file_blob = ActiveStorage::Blob.create_and_upload!(
       io: File.open(file),
       filename: File.basename(file)
     )

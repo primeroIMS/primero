@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::TransitionsController, type: :request do
-
   before :each do
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -28,7 +29,6 @@ describe Api::V2::TransitionsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/case/:id/transitions' do
-
     before :each do
       @assign1 = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @assign2 = Assign.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
@@ -41,7 +41,7 @@ describe Api::V2::TransitionsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
-      expect(json['data'].map{|t| t['id']}).to include(@assign1.id, @assign2.id)
+      expect(json['data'].map { |t| t['id'] }).to include(@assign1.id, @assign2.id)
     end
 
     it "get a forbidden message if the user doesn't have view permission" do
@@ -53,7 +53,6 @@ describe Api::V2::TransitionsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transitions")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
-
   end
 
   after :each do
@@ -64,5 +63,4 @@ describe Api::V2::TransitionsController, type: :request do
     Child.destroy_all
     Transition.destroy_all
   end
-
 end
