@@ -46,10 +46,7 @@ const Component = ({
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookups = useOptions({
-    source: optionStringsSource,
-    filterOptions: sourceOptions => sourceOptions.filter(option => !option.disabled)
-  });
+  const lookups = useOptions({ source: optionStringsSource });
 
   const filterOptions = whichOptions({
     optionStringsSource,
