@@ -116,8 +116,8 @@ describe Api::V2::UsersController, type: :request do
       form_section_read_write: { @form1.unique_id => 'r', @form2.unique_id => 'r' }
     )
     @role.save!
-    @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: FilesTestHelper.logo,
-                               logo_full: FilesTestHelper.logo)
+    @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', logo_icon: logo,
+                               logo_full: logo)
     @agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
 
     @user_group_a = UserGroup.create!(unique_id: 'user-group-1', name: 'user group 1')

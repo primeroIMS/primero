@@ -3,7 +3,7 @@
 require 'csv'
 
 # Export as CSV the record list that the user sees.
-class Exporters::CSVListViewExporter < Exporters::BaseExporter
+class Exporters::CsvListViewExporter < Exporters::BaseExporter
   class << self
     def id
       'list_view_csv'

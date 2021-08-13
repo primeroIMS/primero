@@ -50,7 +50,7 @@ COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-        bundle install --without development test cucumber \
+        BUNDLE_WITHOUT="development:test" bundle install \
         ; else \
         bundle install \
         ; fi

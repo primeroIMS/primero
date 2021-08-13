@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe ActiveStorageAuth do
   before :all do
-    @url_expires_in_original = ActiveStorage::Service.url_expires_in
-    ActiveStorage::Service.url_expires_in = 20.minutes
+    @url_expires_in_original = ActiveStorage.service_urls_expire_in
+    ActiveStorage.service_urls_expire_in = 20.minutes
   end
 
   describe 'ActiveStorage direct upload' do
@@ -226,6 +226,6 @@ describe ActiveStorageAuth do
   end
 
   after :all do
-    ActiveStorage::Service.url_expires_in = @url_expires_in_original
+    ActiveStorage.service_urls_expire_in = @url_expires_in_original
   end
 end

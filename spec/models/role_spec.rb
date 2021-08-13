@@ -605,12 +605,12 @@ describe Role do
     let(:new_version) { @role.reload.cache_key_with_version }
 
     it 'changes the role version every time the role changes' do
-      @role.update_attributes(name: 'new_name')
+      @role.update(name: 'new_name')
       expect(new_version).not_to eq(@old_version)
     end
 
     it 'changes the role version every time a form section changes visibility' do
-      @form_section1.update_attributes(visible: false)
+      @form_section1.update(visible: false)
       expect(new_version).not_to eq(@old_version)
     end
 
