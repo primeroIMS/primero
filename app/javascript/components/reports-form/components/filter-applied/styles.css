@@ -1,0 +1,13 @@
+.filterContainer{
+  display: flex;
+  align-items: center;
+}
+
+.filterName {
+  display: flex;
+  flex: 1 1;
+}
+
+.filterActions {
+  display: flex;
+}

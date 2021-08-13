@@ -43,15 +43,29 @@ export const REPORT_FIELD_TYPES = Object.freeze({
   vertical: "vertical"
 });
 
-export const DEFAULT_FILTERS = [
+export const SHARED_FILTERS = Object.freeze([
   Object.freeze({ attribute: "status", value: ["open"] }),
   Object.freeze({ attribute: "record_state", value: ["true"] }),
   Object.freeze({ attribute: "consent_reporting", value: ["true"] })
-];
+]);
 
 export const NOT_NULL = "not_null";
 
 export const DATE = "date";
+
+export const DEFAULT_FILTERS = Object.freeze({
+  case: [...SHARED_FILTERS],
+  incident: [...SHARED_FILTERS],
+  tracing_request: [...SHARED_FILTERS],
+  reportable_service: [
+    ...SHARED_FILTERS,
+    { attribute: "service_type", constraint: NOT_NULL },
+    { attribute: "service_appointment_date", constraint: NOT_NULL }
+  ],
+  reportable_follow_up: [...SHARED_FILTERS, { attribute: "followup_date", constraint: NOT_NULL }],
+  reportable_protection_concern: [...SHARED_FILTERS, { attribute: "protection_concern_type", constraint: NOT_NULL }],
+  violation: [...SHARED_FILTERS]
+});
 
 export const MINIMUM_REPORTABLE_FIELDS = Object.freeze({
   case: [
@@ -68,7 +82,8 @@ export const MINIMUM_REPORTABLE_FIELDS = Object.freeze({
     "registration_date",
     "age",
     "owned_by_location",
-    "location_current"
+    "location_current",
+    "consent_reporting"
   ],
   incident: ["record_state", "status", "owned_by", "associated_user_names", "owned_by_groups", "incident_date_derived"],
   tracing_request: [

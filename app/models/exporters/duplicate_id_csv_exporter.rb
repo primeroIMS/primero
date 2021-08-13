@@ -29,7 +29,8 @@ class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
         I18n.t('exports.unhcr_csv.unknown_abbreviation')
       end
     end,
-    'family_size' => ['family_count_no']
+    'family_size' => ['family_count_no'],
+    'other_agency_id' => ['other_agency_id']
   }.freeze
 
   class << self

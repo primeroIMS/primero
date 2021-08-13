@@ -1,5 +1,6 @@
 # -------------------------------------------------------------------- BUILD STAGE
-FROM ruby:2.7.4-alpine3.14 AS build-env
+ARG BUILD_REGISTRY
+FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.14 AS build-env
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV PYTHON_PACKAGES python3 py3-pip
@@ -90,8 +91,8 @@ RUN set -euox pipefail \
         /usr/local/bundle/cache/
 
 # -------------------------------------------------------------------- FINAL
-
-FROM ruby:2.7.4-alpine3.14
+ARG BUILD_REGISTRY
+FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.14
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl

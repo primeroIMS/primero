@@ -34,7 +34,16 @@ export const validations = i18n =>
     record_type: string().required().nullable()
   });
 
-export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationConfig, reportableFields) => {
+export const form = (
+  i18n,
+  ageHelpText,
+  isNew,
+  userModules,
+  reportingLocationConfig,
+  reportableFields,
+  setSelectedRecordType,
+  setSelectedModule
+) => {
   const checkModuleField = ({ [MODULES_FIELD]: modules }) => ({
     disabled: isNew && isEmpty(modules)
   });
@@ -85,7 +94,8 @@ export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationCon
             [DISABLED_FIELD, false],
             [AGGREGATE_BY_FIELD, []],
             [DISAGGREGATE_BY_FIELD, []]
-          ]
+          ],
+          onChange: (_, selectedOption) => setSelectedModule(selectedOption.id)
         }),
         FieldRecord({
           display_name: i18n.t("report.record_type"),
@@ -105,7 +115,8 @@ export const form = (i18n, ageHelpText, isNew, userModules, reportingLocationCon
               id,
               display_text: i18n.t(`forms.record_types.${id}`)
             };
-          })
+          }),
+          onChange: (_, selectedOption) => setSelectedRecordType(selectedOption.id)
         }),
         FieldRecord({
           display_name: i18n.t("report.aggregate_by"),
