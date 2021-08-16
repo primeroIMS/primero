@@ -24,6 +24,7 @@ phases:
       - echo "DEPLOY_SERVER_NAME=primero-integration-${CICD_TAG}"
       - DEPLOY_SERVER_INVENTORY_FILE="primero-integration-${CICD_TAG}.vars.yml"
       - echo "DEPLOY_SERVER_INVENTORY_FILE=${DEPLOY_SERVER_INVENTORY_FILE}"
+      - printenv | grep SECRET_VARS_${CICD_TAG}
       - printenv SECRET_VARS_${CICD_TAG} > secrets.json
       - mv secrets.json ansible/secrets.json
       - ./ansible/bin/activate
