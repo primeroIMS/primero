@@ -1,4 +1,4 @@
-import { subMonths, startOfMonth, endOfMonth } from "date-fns";
+import { addMinutes, subMinutes, subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 import DateRange from "./date-range";
 import { ALL_TIME, CURRENT_MONTH, MONTHS_3, MONTHS_6, MONTHS_12 } from "./constants";
