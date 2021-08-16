@@ -20,7 +20,7 @@ phases:
       - CICD_TAG=$(echo $BRANCH | awk -F. '/release/ { print $1"."$2 } ; $0 !~ /release/ { print $0 }' | tr . -)
       - echo "CICD_TAG=${CICD_TAG}"
       - RELEASE_SECRET_KEY=SECRET_VARS_$(echo $CICD_TAG | tr - _)
-      - echo "RELEASE_SECRET_KEY=${RELEASE_SECRET_KEY}""
+      - echo "RELEASE_SECRET_KEY=${RELEASE_SECRET_KEY}"
       - echo "CODEBUILD_SRC_DIR_devops=${CODEBUILD_SRC_DIR_devops}"
       - DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
       - echo "DEPLOY_SERVER_NAME=primero-integration-${CICD_TAG}"
