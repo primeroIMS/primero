@@ -184,13 +184,13 @@ describe("Records - Selectors", () => {
     it("should return records", () => {
       const expected = fromJS(record);
 
-      const records = selectRecord(stateWithRecords, mode, recordType, id);
+      const records = selectRecord(stateWithRecords, { isEditOrShow: mode, recordType, id });
 
       expect(records).to.deep.equal(expected);
     });
 
     it("should return empty object when records empty", () => {
-      const records = selectRecord(stateWithoutRecords, { ...mode, isNew: true, isShow: false }, recordType, id);
+      const records = selectRecord(stateWithoutRecords, { isEditOrShow: false, recordType, id });
 
       expect(records).to.be.null;
     });

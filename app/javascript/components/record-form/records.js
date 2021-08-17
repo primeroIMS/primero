@@ -46,7 +46,9 @@ export const FormSectionRecord = Record({
   collapsed_field_names: [],
   subform_append_only: false,
   initial_subforms: 0,
-  core_form: false
+  core_form: false,
+  i18nName: false,
+  i18nDescription: false
 });
 
 export const Option = Record({
@@ -63,5 +65,7 @@ export const NavRecord = Record({
   formId: null,
   is_first_tab: false,
   permission_actions: [],
-  recordTypes: []
+  recordTypes: [],
+  i18nName: false,
+  i18nDescription: false
 });

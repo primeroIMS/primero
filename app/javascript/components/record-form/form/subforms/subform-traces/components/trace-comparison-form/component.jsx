@@ -40,7 +40,7 @@ const Component = ({
   const matchedCaseId = traceValues?.matched_case_id;
   const i18n = useI18n();
 
-  const record = useMemoizedSelector(state => selectRecord(state, { isShow: true }, recordType, id));
+  const record = useMemoizedSelector(state => selectRecord(state, { isEditOrShow: true, recordType, id }));
   const fields = useMemoizedSelector(state => getFields(state));
   const forms = useMemoizedSelector(state =>
     getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
