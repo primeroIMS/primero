@@ -126,11 +126,11 @@ class SystemSettings < ApplicationRecord
     end
 
     def lock_for_configuration_update
-      SystemSettings.first.update_attributes(config_update_lock: true)
+      SystemSettings.first.update(config_update_lock: true)
     end
 
     def unlock_after_configuration_update
-      SystemSettings.first.update_attributes(config_update_lock: false)
+      SystemSettings.first.update(config_update_lock: false)
     end
   end
 end

@@ -27,7 +27,11 @@ describe("Forms - Selectors", () => {
       unique_id: "role-1",
       name: "Role 1",
       referral: true,
-      form_section_unique_ids: ["test-1"]
+      form_section_unique_ids: ["test-1"],
+      form_section_read_write: {
+        basic_identity: "rw",
+        notes: "r"
+      }
     },
     {
       id: 2,
@@ -283,6 +287,16 @@ describe("Forms - Selectors", () => {
       ];
 
       expect(options).to.deep.equal(expected);
+    });
+  });
+
+  describe("when the optionStringsSource is MANAGED_ROLE_FORM_SECTIONS", () => {
+    it("should return the managed form sections for the role uniqueID", () => {
+      const options = selectors.getOptions(OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS)(stateWithLookups, {
+        uniqueID: "role-1"
+      });
+
+      expect(options).to.deep.equal(fromJS(["basic_identity", "notes"]));
     });
   });
 

@@ -151,7 +151,8 @@ class Lookup < ApplicationRecord
   def update_translations(locale, lookup_hash = {})
     return Rails.logger.error('Lookup translation not updated: No Locale passed in') if locale.blank?
 
-    return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+    invalid_locale = I18n.available_locales.exclude?(locale)
+    return Rails.logger.error("Lookup translation not updated: Invalid locale [#{locale}]") if invalid_locale
 
     lookup_hash.each do |key, value|
       if key == 'lookup_values'

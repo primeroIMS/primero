@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+ActiveSupport.parse_json_times = true
+
 # This file contains settings for ActionController::ParamsWrapper which
 # is enabled by default.
 

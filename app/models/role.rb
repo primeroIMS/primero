@@ -70,7 +70,7 @@ class Role < ApplicationRecord
     def create_or_update(attributes = {})
       record = find_by(unique_id: attributes[:unique_id])
       if record.present?
-        record.update_attributes(attributes)
+        record.update(attributes)
       else
         create!(attributes)
       end

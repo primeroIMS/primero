@@ -13,7 +13,7 @@ logfile = if ENV['RAILS_LOG_PATH'].present? && ENV['LOG_TO_STDOUT'].blank?
           end
 
 # Monkeypatch additional configuration options into Backburner
-class Backburner::Configuration
+Backburner::Configuration.class_eval do
   attr_accessor :max_startup_retries, :startup_delay
 end
 

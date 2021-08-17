@@ -62,7 +62,7 @@ import {
   getSelectedForm,
   getShouldFetchRecord
 } from "./selectors";
-import { clearValidationErrors, setPreviousRecord } from "./action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "./action-creators";
 import { NAME } from "./constants";
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -173,6 +173,10 @@ const Container = ({ mode }) => {
       batch(() => {
         if (saveBeforeIncidentRedirect) {
           setCaseIncidentData(formValues);
+        }
+
+        if (containerMode.isNew) {
+          dispatch(clearDataProtectionInitialValues());
         }
 
         dispatch(

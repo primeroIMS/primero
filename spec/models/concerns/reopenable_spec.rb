@@ -81,12 +81,12 @@ describe Reopenable do
     let(:child) { Child.create!(name: 'test') }
 
     it 'marks the closure date if the child is closed' do
-      child.update_attributes(status: Record::STATUS_CLOSED)
+      child.update(status: Record::STATUS_CLOSED)
       expect(child.date_closure.present?).to be_truthy
     end
 
     it 'keeps the closure date blank is the child is still open' do
-      child.update_attributes(name: 'Test 1')
+      child.update(name: 'Test 1')
       expect(child.date_closure.present?).to be_falsey
     end
   end
@@ -95,7 +95,7 @@ describe Reopenable do
     let(:child) { Child.create!(name: 'test', status: Record::STATUS_CLOSED, case_status_reopened: true) }
 
     it 'reopens the record' do
-      child.update_attributes(status: Record::STATUS_OPEN)
+      child.update(status: Record::STATUS_OPEN)
       expect(child.status).to eq(Record::STATUS_OPEN)
       expect(child.case_status_reopened).to eq(true)
     end

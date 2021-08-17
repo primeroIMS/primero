@@ -150,6 +150,7 @@ describe("<RecordForm />", () => {
 
     it("should not set the values from the case if it is not a new record", () => {
       const incidentFromCase = { status: "open", enabled: true, owned_by: "incident_owner" };
+      const recordData = { field_1: "Value 1", field_2: "Value 2", field_age: "10" };
 
       const { component: fromCaseComponent } = setupMountedComponent(RecordForm, {
         bindSubmitForm: () => {},
@@ -158,14 +159,14 @@ describe("<RecordForm />", () => {
         mobileDisplay: false,
         mode,
         onSubmit: () => {},
-        record: fromJS({}),
+        record: fromJS(recordData),
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
         externalComponents: () => {}
       });
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(recordData);
     });
 
     it("should not set the values from the case if the recordType is not incidents", () => {
@@ -213,6 +214,86 @@ describe("<RecordForm />", () => {
     expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
       ...initialValues,
       ...{ name: "test" }
+    });
+  });
+
+  describe("when dataProtectionInitialValues exist", () => {
+    const initialValues = {
+      field_1: "",
+      field_2: "",
+      field_age: ""
+    };
+
+    it("should set the dataProtectionInitialValues if the mode is New", () => {
+      const currentState = fromJS({
+        forms: {
+          dataProtectionInitialValues: {
+            consent_agreements: ["consent_for_services", "disclosure_other_orgs"],
+            legitimate_basis: ["contract", "vital_interests"]
+          }
+        }
+      });
+      const { component: fromCaseComponent } = setupMountedComponent(
+        RecordForm,
+        {
+          bindSubmitForm: () => {},
+          forms,
+          handleToggleNav: () => {},
+          mobileDisplay: false,
+          mode: { isNew: true, isEdit: false, isShow: false },
+          onSubmit: () => {},
+          record: fromJS({}),
+          recordType: "cases",
+          selectedForm: "form_section_1",
+          incidentFromCase: {},
+          externalComponents: () => {}
+        },
+        currentState
+      );
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+        ...initialValues,
+        consent_for_services: true,
+        disclosure_other_orgs: true,
+        legitimate_basis: ["contract", "vital_interests"]
+      });
+    });
+
+    it("should not set the dataProtectionInitialValues if the mode is Edit", () => {
+      const currentState = fromJS({
+        forms: {
+          dataProtectionInitialValues: {
+            consent_agreements: ["consent_for_services", "disclosure_other_orgs"],
+            legitimate_basis: ["contract", "vital_interests"]
+          }
+        }
+      });
+
+      const recordData = { field_1: "Value 1", field_2: "Value 2", field_age: "10" };
+
+      const { component: fromCaseComponent } = setupMountedComponent(
+        RecordForm,
+        {
+          bindSubmitForm: () => {},
+          forms,
+          handleToggleNav: () => {},
+          mobileDisplay: false,
+          mode: { isNew: false, isEdit: true, isShow: false },
+          onSubmit: () => {},
+          record: fromJS(recordData),
+          recordType: "cases",
+          selectedForm: "form_section_1",
+          incidentFromCase: {},
+          externalComponents: () => {}
+        },
+        currentState
+      );
+
+      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+        field_1: "Value 1",
+        field_2: "Value 2",
+        field_age: "10"
+      });
     });
   });
 

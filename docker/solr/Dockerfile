@@ -1,4 +1,5 @@
-FROM solr:8.9.0-slim
+ARG BUILD_REGISTRY
+FROM ${BUILD_REGISTRY}solr:8.9.0-slim
 
 ENV SOLR_PACKAGES gettext libintl curl
 ENV SOLR_USER=solr

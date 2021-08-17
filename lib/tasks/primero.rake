@@ -349,23 +349,6 @@ namespace :primero do
     RecalculateAge.recalculate!
   end
 
-  desc 'Import Forms from spreadsheets directory'
-  # USAGE: $bundle exec rake db:data:xls_import['/path/to/forms_directory/','case','primeromodule-cp']
-  # NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form
-  task :xls_import, %i[spreadsheet_dir record_type module_id] => :environment do |_, args|
-    module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
-    record_type = args[:record_type].present? ? args[:record_type] : 'case'
-    spreadsheet_dir =
-      if args[:spreadsheet_dir].present?
-        args[:spreadsheet_dir]
-      else
-        Dir["#{Rails.root}/tmp/imports/*"].max { |a, b| File.mtime(a) <=> File.mtime(b) }
-      end
-    Rails.logger = Logger.new(STDOUT)
-    importer = Importers::XlsImporter.new(spreadsheet_dir, record_type, module_id)
-    importer.import_forms_from_spreadsheet
-  end
-
   desc 'Export translations to JS file(s)'
   task :i18n_js do
     Dir.glob(Rails.root.join('public', 'translations-*.js')).each { |file| File.delete(file) }

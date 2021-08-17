@@ -28,7 +28,7 @@ const transform = (data, fields) => {
 export default async action => {
   const fieldsToTransform = await getFieldsToTransform();
 
-  if (!action.api.method || action.api.method === METHODS.GET) {
+  if (!action.api.method || ![METHODS.POST, METHODS.PATCH].includes(action.api.method)) {
     return action;
   }
 

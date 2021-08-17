@@ -37,7 +37,7 @@ create_or_update_system_setting(
   },
   show_alerts: true,
   approval_forms_to_alert: {
-    cp_bia_form: 'assessment',
+    assessment: 'assessment',
     cp_case_plan: 'case_plan',
     closure_form: 'closure',
     action_plan_form: 'action_plan',

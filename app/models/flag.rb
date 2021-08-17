@@ -12,30 +12,33 @@ class Flag < ApplicationRecord
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
   # TODO: Rewrite these queries when we start using record_uuid
   scope :by_record_associated_user, lambda { |params|
-    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where("(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner])
+    Flag.joins(
+      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
+    ).where(
+      "(data -> 'assigned_user_names' ? :username) OR (data -> 'owned_by' ? :username)", username: params[:owner]
+    )
   }
 
   scope :by_record_associated_groups, lambda { |params|
-    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
+    Flag.joins(
+      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
+    ).where("(data -> 'associated_user_groups' ?| array[:group])", group: params[:group])
   }
 
   scope :by_record_agency, lambda { |params|
-    Flag.joins("INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)")
-        .where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
+    Flag.joins(
+      "INNER JOIN #{params[:type]} ON CAST (#{params[:type]}.id as varchar) = CAST (flags.record_id as varchar)"
+    ).where("(data -> 'owned_by_agency_id' ? :agency)", agency: params[:agency])
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
-  # TODO: This is a temporary measure for v2.0.0.37 to ensure that record_uuid will be correctly populated for v2.0.0.38.
-  #       Delete in v2.0.0.38.
-  before_create :copy_record_id
   after_create :flag_history
   after_update :unflag_history
   after_save :index_record
 
+  # rubocop:disable Metrics/BlockLength
   searchable do
     date :flag_date, stored: true do
       date.present? ? date : nil
@@ -98,6 +101,7 @@ class Flag < ApplicationRecord
       record.associated_user_agencies
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   class << self
     def by_owner(query_scope, active_only, record_types, flagged_by)
@@ -121,7 +125,8 @@ class Flag < ApplicationRecord
       flags = []
       record_types.each do |record_type|
         params[:type] = record_type
-        flags << send(scope_to_use, params).where(where_params(flagged_by, active_only)).select(select_fields(record_type))
+        f = send(scope_to_use, params).where(where_params(flagged_by, active_only)).select(select_fields(record_type))
+        flags << f
       end
       mask_flag_names(flags.flatten)
     end
@@ -163,12 +168,6 @@ class Flag < ApplicationRecord
 
   def index_record
     Sunspot.index!(record) if record
-  end
-
-  def copy_record_id
-    return unless record_id
-
-    self.record_uuid ||= record_id
   end
 
   private

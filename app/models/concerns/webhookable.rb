@@ -35,7 +35,7 @@ module Webhookable
         { record_id: id, record_type: self.class.name }
       ]
     )
-    @webhook_status = AuditLog.connection.select_all(sql).to_hash
+    @webhook_status = AuditLog.connection.select_all(sql).to_a
                               .map { |r| [r['destination'], DestringifyService.destringify(r)] }
                               .to_h.with_indifferent_access
   end
