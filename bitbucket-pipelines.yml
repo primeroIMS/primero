@@ -4,6 +4,7 @@ definitions:
         name: Server tests
         image: ruby:2.7.4-buster
         script:
+          - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
         services:
           - postgres
