@@ -120,10 +120,7 @@ const KeyPerformanceIndicators = () => {
             </div>
 
             <div>
-              <Permission
-                resources={[RESOURCES.kpis]}
-                actions={[ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE]}
-              >
+              <Permission resources={[RESOURCES.kpis]} actions={[ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_follow_up")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>

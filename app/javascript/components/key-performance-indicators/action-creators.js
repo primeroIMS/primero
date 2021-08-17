@@ -10,9 +10,7 @@ export default identifier => {
     KPIidentifier: identifier,
     api: {
       path,
-      params: dateRange
-        ? { from: dateRange.from, to: dateRange.to }
-        : {}
+      params: dateRange ? { from: dateRange.from, to: dateRange.to } : {}
     }
   });
 };
