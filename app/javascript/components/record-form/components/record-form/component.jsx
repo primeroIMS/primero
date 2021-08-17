@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
@@ -285,29 +285,23 @@ const Component = ({
   const navContainerClasses = clsx(css.recordNav, { [css.demo]: demo });
   const demoClasses = clsx({ [css.demo]: demo });
 
-  const recordFormExternalForms = useMemo(
-    () =>
-      externalForms({
-        approvalSubforms,
-        canSeeChangeLog,
-        containerMode,
-        handleCreateIncident,
-        handleToggleNav,
-        id: params.id,
-        incidentsSubforms,
-        mobileDisplay,
-        primeroModule: selectedModule.primeroModule,
-        record,
-        recordType,
-        selectedForm,
-        summaryForm,
-        transitionProps,
-        userPermittedFormsIds
-      }),
-    []
-  );
-
-  const recordFormExternalFormsCallback = useCallback(() => recordFormExternalForms, []);
+  const recordFormExternalForms = externalForms({
+    approvalSubforms,
+    canSeeChangeLog,
+    containerMode,
+    handleCreateIncident,
+    handleToggleNav,
+    id: params.id,
+    incidentsSubforms,
+    mobileDisplay,
+    primeroModule: selectedModule.primeroModule,
+    record,
+    recordType,
+    selectedForm,
+    summaryForm,
+    transitionProps,
+    userPermittedFormsIds
+  });
 
   return (
     <PageContainer twoCol>
@@ -321,7 +315,7 @@ const Component = ({
             <RecordForm
               {...formProps}
               externalForms={recordFormExternalForms}
-              externalComponents={recordFormExternalFormsCallback}
+              externalComponents={externalComponents}
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}

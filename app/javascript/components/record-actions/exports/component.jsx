@@ -22,7 +22,7 @@ import { useI18n } from "../../i18n";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getRecords } from "../../index-table";
 import PdfExporter from "../../pdf-exporter";
-import { getUser, getPermittedFormsIds } from "../../user/selectors";
+import { getUser } from "../../user/selectors";
 import { getRecordForms } from "../../record-form/selectors";
 import { getMetadata } from "../../record-list/selectors";
 

@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import NavGroup from "../nav-group";
-import { RECORD_TYPES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getRecordInformationNav } from "../../../selectors";
 
