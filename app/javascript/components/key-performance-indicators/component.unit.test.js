@@ -91,10 +91,6 @@ describe("<KeyPerformanceIndicators />", () => {
     expect(component.find(AverageFollowupMeetingsPerCase).exists()).to.be.true;
   });
 
-  it("should render the GoalProgressPerNeed KPI", () => {
-    expect(component.find(GoalProgressPerNeed).exists()).to.be.true;
-  });
-
   it("should render the TimeFromCaseOpenToClose KPI", () => {
     expect(component.find(TimeFromCaseOpenToClose).exists()).to.be.true;
   });

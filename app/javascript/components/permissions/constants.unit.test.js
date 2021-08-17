@@ -12,6 +12,7 @@ describe("Verifying config constant", () => {
       "APPROVE_ACTION_PLAN",
       "APPROVE_GBV_CLOSURE",
       "ASSIGN",
+      "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
       "ASSIGN_WITHIN_USER_GROUP",
       "CLOSE",
