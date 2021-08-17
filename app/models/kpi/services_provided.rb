@@ -40,8 +40,8 @@ class Kpi::ServicesProvided < Kpi::Search
           sum(case when age <= 11 then 1 else 0 end) as "0-11",
           sum(case when age > 11 and age <= 17 then 1 else 0 end) as "12-17",
           sum(case when age > 17 then 1 else 0 end) as ">18",
-          sum(case when disability is not null then 1 else 0 end) as disability,
-          sum(case when disability is null then 1 else 0 end) as no_disability
+          sum(case when disability = 'yes' then 1 else 0 end) as disability,
+          sum(case when disability = 'no' then 1 else 0 end) as no_disability
         from
           internal_referrals
         group by
