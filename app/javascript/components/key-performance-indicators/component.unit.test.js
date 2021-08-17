@@ -14,7 +14,6 @@ import CompletedSupervisorApprovedCaseActionPlan from "./components/completed-su
 import ServicesProvided from "./components/services-provided";
 import AverageReferrals from "./components/average-referrals";
 import AverageFollowupMeetingsPerCase from "./components/average-followup-meetings-per-case";
-import GoalProgressPerNeed from "./components/goal-progress-per-need";
 import TimeFromCaseOpenToClose from "./components/time-from-case-open-to-case-close";
 import CaseClosureRate from "./components/case-closure-rate";
 import ClientSatisfactionRate from "./components/client-satisfaction-rate";

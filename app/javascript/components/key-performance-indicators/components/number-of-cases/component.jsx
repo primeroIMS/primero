@@ -20,7 +20,7 @@ const Component = ({ data, identifier }) => {
         return {
           name: date,
           // display the utc time as if it were local time without conversion.
-          label: i18n.toTime("key_performance_indicators.date_format", date.replace(/Z/,''))
+          label: i18n.toTime("key_performance_indicators.date_format", date.replace(/Z/, ""))
         };
       })
       .toJS()
