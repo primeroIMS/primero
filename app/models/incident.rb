@@ -121,12 +121,13 @@ class Incident < ApplicationRecord
   end
 
   def add_case_history
+    return unless incident_case_id.present?
     return unless self.case.present?
 
     old_values = self.case.incident_ids.reject { |incident_id| incident_id == id }
     new_values = self.case.incident_ids
 
-    RecordHistory.create(
+    RecordHistory.create!(
       record: self.case, record_type: self.case.class.name, user_name: created_by,
       datetime: created_at, action: Historical::EVENT_UPDATE, record_changes: {
         incidents: { from: old_values, to: new_values }
