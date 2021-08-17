@@ -1,6 +1,7 @@
 ar-IQ:
   'true': 'نعم'
   'false': 'لا'
+  accepted: مقبول
   cancel: إلغاء
   connection_lost: حاليا في وضع غير متصل بالشبكة
   connected: متصل
@@ -10,18 +11,20 @@ ar-IQ:
   form: استمارة
   name: اسم
   offline: غير متصل بالشبكة
-  unavailable_offline: غير متاح غير متصل بالشبكة
+  unavailable_offline: غير متاح في وضع غير متصل بالشبكة
   online: متصل بالشبكة
   yes_label: 'نعم'
   or_label: او
   select_provider: اختر المزود
-  log_in_primero_idp: "سجل دخول باسم المستخدم%{idp_name} "
+  select_language: أختر اللغة
+  log_in_primero_idp: "تسجيل الدخول باسم المستخدم%{idp_name} "
   offline_submitted_changes: أنت حاليا غير متصل بالشبكة. سيتم إرسال التغييرات الخاصة بك عند الاتصال بالإنترنت مرة أخرى.
+  updated: "محدث "
   sync:
     success: "تمت مزامنة سجلات%{records} بنجاح."
     error:
-      create: "انشاء %{record_type}قد فشل . يرجى الاتصال بالدعم."
-      update: "التحديث الى %{record_type}%{short_id} قد فشل, يرجى الاتصال بالدعم."
+      create: " فشل الانشاء %{record_type} . يرجى الاتصال بالدعم."
+      update: "فشل التحديث  %{record_type}%{short_id} , يرجى الاتصال بالدعم."
 
   actions:
     approvals: الموافقات
@@ -31,20 +34,22 @@ ar-IQ:
       invalid: سجل غير صالح
       valid: سجل صالح
     disable: تعطيل
-    enable: تفعيل
+    enable: تفعيل/تمكين
     incident_details_from_case: إضافة حادثة
-    incident_from_case: خلق حادثة
+    incident_from_case: انشاء حادثة
     next: التالي
     notes: اضافة ملاحظات
     previous: السابق
     reopen: إعادة فتح
     request_approval: طلب موافقة
-    revoke: الغاء
+    revoke: الغاء/إبطال
     save: حفظ
     services_from_case_creation_success: تم إنشاء سجل توفير الخدمة بنجاح.
     services_section_from_case: إضافة تقديم خدمة
   agencies:
     label: المؤسسة
+    translations:
+      manage: "إدارة الترجمة "
   agency:
     agency_logos: شعارات الوكالة
     code: رمز المؤسسة
@@ -67,6 +72,9 @@ ar-IQ:
     pdf_logo_option_help: 'ملاحظة: شعارات الوكالة الخاصة بالمستخدم متاحة لهم بشكل افتراضي ، لذلك يمكنك تحديد هذا فقط إذا كنت تريد أن يكون هذا الشعار متاحًا لجميع المستخدمين.'
     services: خدمات المؤسسة
     terms_of_use: شروط الاستخدام
+    terms_of_use_help: يسمح فقط بملفات PDF.
+    terms_of_use_download_button: تنزيل ملف PDF
+    terms_of_use_enabled: عرض شروط الاستخدام؟
   approvals:
     approved_by: تمت الموافقة عليه من قبل
     case_plan_type_label: نوع خطة الحالة
@@ -153,6 +161,7 @@ ar-IQ:
     mark_for_mobile: وضع علامة للمحمول
     new: "جديدة "
     ok: موافق
+    print: "طباعة "
     reassign: تعيين
     referral: "إحالة "
     referral_again: إحالة مرة اخرى
@@ -195,8 +204,17 @@ ar-IQ:
       creation_success_queue: 'تمّ إنشاء سجل الحالة بنجاح في الخلفية'
       already_matched: لقد تمّت مطابقة هذا المستفسر مع حالتك سابقًا.
       already_matched_not_current_case: توجد بالفعل حالة في النظام مطابقة لهذا المستفسر.
+      not_found_case: "لم يتم العثور على حالة متطابقة , يرجى انشاء حالة جديدة "
+      introductory_sentence: يرجى تحديد موافقة الفرد على تلقي خدمات إدارة الحالة وتخزين بياناته في Primero.
+      consent_agreements_required: الرجاء تحديد خيار واحد على الأقل من اتفاقيات الموافقة.
+      legitimate_basis_required: الرجاء تحديد خيار واحد على الأقل من تصنيفات الأساس المشروعة
     save: حفظ الحالة
     save_text: قبل المتابعة يرجى حفظ التغييرات التي أجريت على الحالة
+    skip_and_create: "تخطي و انشاء حالة جديدة "
+    search_existing: بحث في الحالات الموجودة
+    search_helper_text: لماذا ا؟ لمنع إنشاء حالات مكررة.
+    consent_agreements: حدد جميع اتفاقيات الموافقة التي تنطبق
+    legitimate_basis: تحديد كافة التصنيفات أساس الشرعية التي تنطبق
     workflow:
       assessment: التقييم
       case_plan: خطة الحالة
@@ -318,6 +336,7 @@ ar-IQ:
       name: الاسم
     owned_by: مالك السجلّ
     owned_by_agency: وكالة مالك السجلّ
+    photo: "صورة "
     photos: صورة
     quick_view:
       tracing_message: 'ملاحظة: توجد نتائج مطابقة في النظام لما يبحث عنه المستعلم من أجل هذا الطفل. اتصل بالاخصائي الاجتماعي المعني بهذا السجل لاتخاذ خطوات إضافية إذا رغب الطفل.'
@@ -393,6 +412,9 @@ ar-IQ:
     transfer_rejected: يشير النقر على "رفض" إلى عدم استعدادك لتحمّل مسؤولية هذه الحالة في الوقت الحالي. يرجى إدخال سبب رفضك لهذه الحالة ؛ بمجرد النقر على "رفض" لن تتمكن من الاطلاع على سجل هذه الحالة.
     view_name: عرض الاسم
   change_logs:
+    filters:
+      form: "أستمارة "
+      field: حقل
     add_subform: 'تمّت إضافة%{subform_name} رقم مُدخَل النموذج الفرعي %{short_id}'
     changes_subform: 'التغييرات على النموذج الفرعي "%{subform_name}"'
     create: السجلّ الذي تمّ إنشاؤه
@@ -413,6 +435,7 @@ ar-IQ:
   configurations:
     apply_label: هل أنت متأكد؟ إذا قمت بتطبيق الإعدادات الموجودة في هذا التضبيط، ستُطبّق على النظام. ستفقدكلّ إعداداتك الحالية ولن تتمكن من استعادتها ما لم تكن قد حفظتها سابقًا في تضبيط آخر.
     apply_label_bold: لن يكون بريميرو Primero متاحًا للمستخدمين لبضع دقائق أثناء تحميل التغييرات.
+    version_mismatch_tooltip: لا يمكنك تطبيق هذا التكوين ، حيث تم إنشاؤه باستخدام إصدار أعلى من Primero من الإصدار الذي يعمل به موقعك. يرجى الانتظار لتطبيق هذا التكوين حتى تقوم بتشغيل أحدث إصدار من Primero.
     send_header: أرسل إلى الإنتاج
     send_text: هل أنت متأكد؟ إذا نقرت على أرسل، سوف ترسل هذا التضبيط إلى موقع الإنتاج الخاص بك. لن يتم تطبيق هذا التضبيط على الإنتاج حتى يقوم مسؤول في هذا الموقع بتطبيقه يدويًا.
     attributes:
@@ -422,6 +445,8 @@ ar-IQ:
       last_applied_by: تمّ التطبيق الأخير من قِبَل
       last_applied_on: تمّ التطبيق الأخير في
       name: الإسم
+      version: إصدار التكوين
+      primero_version: نسخة Primero 
     delete_label: هل انت متأكد من أنك تريد أن تفعل هذا؟ يمثل هذا الأمر جميع الإعدادات منذ إنشاء هذا التضبيط. لن تتمكن من العودة واستعادة هذه الإعدادات بمجرد حذف هذا التضبيط.
     explanation: 'سيؤدي النقر على "حفظ" إلى إنشاء سجل بجميع إعدادات التضبيط الحالية (على سبيل المثال: الأدوار والوكالات والنماذج) في هذه المرحلة الزمنية. بعد الحفظ، يمكنك تكرار هذه التغييرات في فقرة أخرى من بريميرو Primero. إذا أجريت، في المستقبل، تغييرات على التضبيط وتريد التراجع عنها، يمكنك تطبيق سجل التضبيط هذا لاسترجاع جميع تغييرات التضبيط التي أجريتها في هذا الوقت.'
     label: تضبيطات
@@ -431,6 +456,7 @@ ar-IQ:
       created: تمّ إنشاء التضبيط بنجاح.
       deleted: تمّ حذف التضبيط بنجاح.
       updated: تمّ تحديث التضبيط بنجاح.
+      sent: إرسال التكوين إلى الإنتاج. يرجى التحقق من موقع الإنتاج لمعرفة ما إذا كان التكوين الخاص بك قد وصل.
     not_allowed: غير مسموح
     unavailable_server: الخادم غير متاح مؤقتًا.
   contact:
@@ -448,7 +474,13 @@ ar-IQ:
     info_label: معلومات الاتصال
     updated: تم تحديث معلومات الاتصال بنجاح.
   code_of_conduct:
+    field:
+      title: القب
+      content: محتوى
+      created_on: تم إنشاؤها على
+      created_by: انشأ من قبل
     info_label: مدونة قواعد السلوك
+    updated: تم تحديث مدونة قواعد السلوك بنجاح.
   dashboard:
     activity: النشاط
     admin_only: "اضغط على %{links} لعمل تغييرات على التطبيق."
@@ -505,6 +537,98 @@ ar-IQ:
     closed_last_week: أُغلقت (الأسبوع المنصرم)
     closed_this_week: أُغلقت (هذا الاسبوع)
     comprehensive_need_intervention: تدخل شامل
+    count_new_bia_approvals:
+      zero: '%{stat}موافقة %{stat_type}جديدة'
+      one: '%{stat}موافقة %{stat_type}جديدة'
+      two: '%{stat}موافقة %{stat_type}جديدة'
+      few: '%{stat}موافقة %{stat_type}جديدة'
+      many: '%{stat}موافقة %{stat_type}جديدة'
+      other: '%{stat}موفقة%{stat_type}جديدة'
+    count_new_case_plan_approvals:
+      zero: '%{stat}موافقة %{stat_type}جديدة'
+      one: '%{stat}موافقة %{stat_type}جديدة'
+      two: '%{stat}موافقة %{stat_type}جديدة'
+      few: '%{stat}موافقة %{stat_type}جديدة'
+      many: '%{stat}موافقة %{stat_type}جديدة'
+      other: '%{stat}موافقة %{stat_type}جديدة'
+    count_new_closure_approvals:
+      zero: '%{stat}موافقة %{stat_type}جديدة'
+      one: '%{stat}موافقة %{stat_type}جديدة'
+      two: '%{stat}موافقة %{stat_type}جديدة'
+      few: '%{stat}موافقة %{stat_type}جديدة'
+      many: '%{stat}موافقة %{stat_type}جديدة'
+      other: '%{stat}موافقة %{stat_type}جديدة'
+    count_pending_approval_total:
+      zero: 'لديك%{stat}موافقات%{stat_type} في الانتظار'
+      one: 'لديك %{stat}موافقات %{stat_type}في الانتظار'
+      two: 'لديك %{stat}موافقات %{stat_type}في الانتظار'
+      few: 'لديك%{stat}مافقات%{stat_type}في الانتظار'
+      many: 'لديك%{stat}مافقات%{stat_type}في الانتظار'
+      other: 'لديك%{stat}مافقات %{stat_type}في الانتظار'
+    count_pending_transfers:
+      zero: 'لديك%{stat} نقل حالة في الانتظار'
+      one: 'لديك %{stat}نقل حالة في الانتظار'
+      two: 'لديك%{stat} نقل حالة في الانتظار'
+      few: 'لديك%{stat} نقل حالة في الانتظار'
+      many: 'لديك %{stat} نقل حالة في الانتظار'
+      other: 'لديك%{stat} نقل حالة في الانتظار'
+    count_records_new:
+      zero: و%{stat} حالات جديدة
+      one: و %{stat}حالات جديدة
+      two: و %{stat}حالات جديدة
+      few: و%{stat} حالات جديدة
+      many: و %{stat}حالات جديدة
+      other: و %{stat}حالات جديدة
+    count_records_total:
+      zero: 'لديك%{stat} اجمالي الحالات'
+      one: 'لديك %{stat} اجمالي الحالات'
+      two: 'لديك%{stat} اجمالي الحالات'
+      few: 'لديك %{stat}اجمالي الحالات'
+      many: 'لديك%{stat} اجمالي الحالات'
+      other: 'لديك%{stat} اجمالي الحالات'
+    count_referrals_new:
+      zero: 'و %{stat}إحالات جديدة '
+      one: 'و %{stat}إحالات جديدة '
+      two: 'و%{stat} إحالات جديدة '
+      few: 'و %{stat}إحالات جديدة '
+      many: 'و%{stat} إحالات جديدة '
+      other: 'و%{stat} إحالات جديدة '
+    count_referrals_total:
+      zero: 'لديك%{stat} إجمالي الإحالات'
+      one: 'لديك %{stat}إجمالي الإحالات'
+      two: 'لديك %{stat}إجمالي الإحالات'
+      few: 'لديك%{stat} إجمالي الإحالات'
+      many: 'لديك%{stat} إجمالي الإحالات'
+      other: 'لديك%{stat} إجمالي الإحالات'
+    count_rejected_approval_total:
+      zero: 'و %{stat}موافقات%{stat_type} مرفوضة'
+      one: 'و %{stat}موافقات%{stat_type} مرفوضة'
+      two: 'و %{stat}موافقات%{stat_type} مرفوضة'
+      few: 'و %{stat}موافقات%{stat_type} مرفوضة'
+      many: 'و %{stat}موافقات%{stat_type} مرفوضة'
+      other: 'و%{stat} موافقات%{stat_type} مرفوضة'
+    count_rejected_transfers:
+      zero: 'و %{stat}نقل حالات مرفوضة'
+      one: 'و %{stat}نقل حالات مرفوضة'
+      two: 'و %{stat}نقل حالات مرفوضة'
+      few: 'و %{stat}نقل حالات مرفوضة'
+      many: 'و%{stat} نقل حالات مرفوضة'
+      other: 'و%{stat} نقل حالات مرفوضة'
+    count_risk_level_new:
+      zero: و %{stat}مخاطر حالات%{stat_type} جديدة
+      one: و %{stat}مخاطر حالات%{stat_type} جديدة
+      two: و %{stat}مخاطر حالات%{stat_type} جديدة
+      few: و %{stat}مخاطر حالات%{stat_type} جديدة
+      many: و %{stat}مخاطر حالات %{stat_type}جديدة
+      other: و %{stat}مخاطر حالات %{stat_type}جديدة
+    count_risk_level_total:
+      zero: 'لديك %{stat}حالة%{stat_type} الخطورة '
+      one: 'لديك%{stat}حالة %{stat_type}الخطورة '
+      two: 'لديك%{stat} حالة %{stat_type}الخطورة '
+      few: 'لديك %{stat}حالة%{stat_type} الخطورة '
+      many: 'لديك%{stat} حالة%{stat_type} الخطورة '
+      other: 'لديك %{stat}حالة%{stat_type} الخطورة '
+    count_waiting_for_acceptance_transfers: "لديك%{stat} نقل حالة بإنتظار موافقتك"
     current_owner: المالك الحالي
     dash_case_incident_overview: حالاتي
     dash_group_overview: حالات مجموعتي
@@ -512,6 +636,7 @@ ar-IQ:
     dash_shared_with_me: "تم مشاركتها معي "
     dash_shared_with_my_team: تمّ تشاركها مع فريقي
     dash_shared_with_others: تمّ تشاركها مع آخرين
+    dash_national_admin_summary: ملخص المسؤول
     date: التاريخ
     date_of_incident: تاريخ الحادثة
     date_of_interview: تاريخ المقابلة
@@ -537,6 +662,27 @@ ar-IQ:
     link_see_all: عرض الكل
     low_level: منخفض
     low_risk: أولوية منخفضة
+    manager_count_closed_total:
+      zero: 'و %{stat}حالات مغلقة'
+      one: 'و %{stat}حالات مغلقة'
+      two: 'و %{stat}حالات مغلقة'
+      few: 'و %{stat}حالات مغلقة'
+      many: 'و %{stat}حالات مغلقة'
+      other: 'و%{stat} حالات مغلقة'
+    manager_count_open_total:
+      zero: 'لديك %{stat}حالات مفقتوحة '
+      one: 'لديك%{stat} حالات مفقتوحة '
+      two: 'لديك %{stat}حالات مفقتوحة '
+      few: 'لديك%{stat} حالات مفقتوحة '
+      many: 'لديك%{stat} حالات مفقتوحة '
+      other: 'لديك %{stat}حالات مفقتوحة '
+    manager_transfers_totals:
+      zero: 'لديك%{stat}%{stat_type} نقل حالة'
+      one: 'لديك%{stat}%{stat_type} نقل حالة'
+      two: 'لديك%{stat}%{stat_type} نقل حالة'
+      few: 'لديك%{stat}%{stat_type} نقل حالة'
+      many: 'لديك%{stat}%{stat_type} نقل حالة'
+      other: 'لديك %{stat}%{stat_type}نقل حالة '
     match_result: نتائج متشابهة
     medium_level: متوسط
     medium_risk: أولوية متوسطة
@@ -589,6 +735,7 @@ ar-IQ:
     registration: التسجيل
     rejected: رُفض
     rejected_transfers: عمليات التحويل المرفوضة
+    response: الاستجابة قيد التقدم
     scheduled_activities: أنشطة مجدولة
     score_range: نطاق النتائج
     screening_service: خدمة الفرز
@@ -618,6 +765,20 @@ ar-IQ:
     with_incidents: مع حوادث
     with_new_incidents: مع حوادث جديدة
     without_incidents: من دون حوادث
+    worker_count_referrals_total:
+      zero: '%{case_worker}لديك%{stat} اجمالي إحالات'
+      one: '%{case_worker}لديك%{stat} اجمالي إحالات'
+      two: '%{case_worker}لديك%{stat} اجمالي إحالات'
+      few: '%{case_worker}لديك %{stat}اجمالي إحالات'
+      many: '%{case_worker}لديك%{stat} اجمالي إحالات'
+      other: '%{case_worker}لديك %{stat}اجمالي إحالات'
+    worker_count_total:
+      zero: '%{case_worker}لديك%{stat} اجمالي حالات'
+      one: '%{case_worker}لديك%{stat} اجمالي حالات'
+      two: '%{case_worker}لديك%{stat} اجمالي حالات'
+      few: '%{case_worker}لديك%{stat} اجمالي حالات'
+      many: '%{case_worker}لديك %{stat}اجمالي حالات'
+      other: '%{case_worker}لديك %{stat}اجمالي حالات'
     workflow: سير العمل
     workflow_team: سير العمل - حالات الفرق
     you_have: 'لديك'
@@ -669,6 +830,7 @@ ar-IQ:
       agency:
         code_present: لا يجب أن يكون فارغا
         logo_format: يجب أن يكون الملف بنوع png
+        terms_of_use_format: الملف يجب ان يكون png
         name_present: لا يجب أن يكون فارغا
       child:
         age: يجب أن يكون العمر ما بين 0 و 130
@@ -704,6 +866,9 @@ ar-IQ:
         password_length: "يجب أن تتألف كلمة المرور من %{min} أحرف على الأقل"
         email_uniqueness: يوجد بالفعل مستخدم لعنوان البريد الإلكتروني هذا. الرجاء إدخال عنوان مختلف
       code_of_conduct:
+        title_present: "لا يجب ان يكون اللقب فارغاً "
+        content_present: لا يجب ان يكون  المحتوى فارغًا
+        created_by_present: "خانة الإنشاء من قبل , لا يجب ان تكون فارغة"
     not_found: لم يتمّ العثور على أي سجل (سجلات)
     try_again: حاول مجدّدًا
   exports:
@@ -882,7 +1047,9 @@ ar-IQ:
         locale_invalid: 'التخطي%{column_name}: الموضع غير صالح'
         insert_all_error: 'لم تتم معالجة المحتوى المستورد: خطأ في قاعدة البيانات:%{message}'
   sync_record:
+    failed: 'آخر مزامنة: فشلت'
     last: 'آخر مزامنة:%{date_time}'
+    not_found: 'آخر مزامنة: لم يتم العثور على البيانات'
     retrieving: استرجاع البيانات.
     see_details: راجع التفاصيل
   fields:
@@ -1107,9 +1274,9 @@ ar-IQ:
     web_app: تطبيق على شبكة الإنترنت
   home:
     ar: العربية
-    ar-IQ: العربية (العراقية)
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
+    ar-SD: Arabic (Sudanese)
     bn: বাংলা
     current_time_zone: المنطقة الزمنية الحالية
     dashboard: لوحة المعلومات
@@ -1119,7 +1286,6 @@ ar-IQ:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
-    ku-IQ: کوردی (بادینی)
     label: الصفحة الرئيسية
     language: اللغة
     manage_system_users: إدارة مستخدمي مزامنة الخادم
@@ -1184,6 +1350,8 @@ ar-IQ:
     feedback: "تغذية راجعة"
     other: "أخرى"
     date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'تقاليد'
     long_date_format: "يوم/شهر/سنة"
     time_periods:
       all_time: 'كلّ الوقت'
@@ -1378,10 +1546,58 @@ ar-IQ:
     hierarchy: التراتبية الهرمية
     import_title: موقع الاستيراد
     message: يرجى تحديد ملف CSV للتحميل. يجب أن يستخدم هذا الملف ترميز UTF-8 وأن يتضمن علامات تصنيف HXL في الرأسيّة الثانية من كلّ عمود.
+    no_location: يرجى استيراد المواقع قبل إنشاء أي حسابات مستخدمين.
   logger:
     actions:
       _approved: تم الموافقة عليه
       _rejected: رُفض
+      _requested: مطلوب
+      add_note: إضافة ملاحظة
+      assign: تعيين
+      assign_to: تعيين إلى
+      attach: مرفق
+      bulk_assign: تعيين بالجملة
+      bulk_create: إنشاء مجمّع
+      bulk_index: فهرس بالجملة
+      case_plan_approved: تمت الموافقة على خطة الحالة
+      case_plan_rejected: تم رفض خطة الحالة
+      case_plan_requested: مطلوب خطة حالة
+      close: إغلاق
+      create: "انشاء "
+      create_bulk: "انشاء التراكم "
+      delete: حذف
+      destroy: تلف
+      detach: فصل
+      enable_disable_record: تمكين تعطيل السجل
+      export: تصدير
+      flag: عُلم
+      import: يستورد
+      incident_details_from_case: تفاصيل الحادث من القضية
+      index: فهرس
+      list: القائمة
+      login: تسجيل الدخول
+      password_reset: إعادة تعيين كلمة المرور
+      password_reset_request: طلب إعادة تعيين كلمة المرور
+      refer: "إُحيل او إحالة "
+      refer_accepted: "قُبلت الإحالة "
+      refer_done: تمت الإحالة
+      refer_rejected: رُفض الإحالة
+      refer_revoke: إبطال الإحالة
+      refer_to: إُحيل  الى او إحالة الى
+      reopen: "إعادة فتح الحالة "
+      services_section_from_case: قسم الخدمات من حالة
+      show: أظهار
+      show_alerts: عرض التنبيهات
+      traces: تتبع
+      transfer: نقل
+      transfer_accepted: "طلب النقل قُبل "
+      transfer_rejected: طلب النقل رفض
+      transfer_request: طلب النقل
+      transfer_to: نقل إلى
+      unflag: غير معلم
+      update: تحديث
+      user_password_reset_request: طلب إعادة تعيين كلمة مرور المستخدم
+      webhook: الويب هوك
     approve_form:
       action_plan: نموذج خطّة العمل
       bia: نموذج BIA
@@ -1426,7 +1642,26 @@ ar-IQ:
     quick_view: جاري عرض لمحة سريعة
     reassign: جاري التعيين
     resources:
+      audit_log: سجل التدقيق
+      user: "مستخدم "
+      agency: "الوكالة "
+      user_group: مجموعة المستخدمين
+      child: طفل
+      alert: تحذير
+      form_section: من
+      lookup: ابحث عن
+      system_settings: اعدادات النظام
+      permission: الإذن
+      dashboard: لوحة القيادة
+      report: تقرير
+      bulk_export: تصدير بالجملة
+      saved_search: حفظ البحث
+      role: "مسؤولية "
+      incident: "الحادثة "
+      location: الموقع
+      primero_configuration: تكوين Primero
       code_of_conduct: مدونة قواعد السلوك
+      task: مهام
     record_state:
       'false': تعطيل
       'true': تشغيل
@@ -1502,10 +1737,16 @@ ar-IQ:
     logout_offline_warning: هل أنت متأكد أنك تريد تسجيل الخروج؟ إذا قمت بذلك، لن تتمكن من تسجيل الدخول مرّة أخرى إلى أن تعاود الإتّصال بالإنترنت. ستفقد أي تغييرات أجريتها عندما لم تكن متّصلاً بالإنترنت.
     logout_warning: سيتم تسجيل خروجك خلال 5 دقائق
     logout_dialog_header: تسجيل الخروج غير متصل بالشبكة
+    logout_confirmation_title: تأكيد تسجيل الخروج
+    logout_confirmation_text: هل أنت متأكد أنك تريد تسجيل الخروج؟
     no_changes: لم تقم بأي تغييرات في الحقل
+    not_available: غير متاح
     record_list:
+      column_header_tooltip: "ترتيب ل%{column}"
+      of: من
       no_match: "عذراً، لا توجد سجلات مطابقة  "
       rows_per_page: عدد الأسطر في الصفحة الواحدة
+      sort: ترتيب / تصنيف
   navigation:
     bulk_exports: تصديرات
     cases: حالات
@@ -1565,6 +1806,7 @@ ar-IQ:
       close: اغلاق
       consent_override: تجاوز الموافقة
       copy: نسخ
+      copy_of: "نسخة من "
       create: انشاء
       dash_case_incident_overview: حالاتي/حوادثي
       dash_cases_by_social_worker: عرض الحالات التي تولاها الباحث الاجتماعي
@@ -1586,6 +1828,7 @@ ar-IQ:
       dash_show_none_values: عرض القيم الخالية
       dash_tasks: عرض المهام
       dash_transfers_by_socal_worker: عرض عمليات التحويل التي قام بها  الباحث الاجتماعي
+      dash_national_admin_summary: ملخص المسؤول
       dashboard: لوحة التحكم
       delete: حذف
       display_view_page: إظهار صفحة العرض
@@ -1617,6 +1860,7 @@ ar-IQ:
       matching_configuration: إعدادات المطابقة
       metadata: النماذج، البحث
       potential_match: تشابه محتمل
+      primero_configuration: إعدادات
       read: قراءة
       reassign: إعادة تعيين/نقل
       receive_referral: تلقّي الإحالة
@@ -1803,6 +2047,9 @@ ar-IQ:
           export_list_view_csv:
             explanation: يمكن للمستخدم إنشاء ملف تصدير CSV من صفحة قائمة الحالات التي تحتوي الحقول عينها التي تظهر لهذا المستخدم في قائمة الحالات. يتمّ تنفيذها فقط من صفحة قائمة الحالات.
             label: تصدير ملف عرض قائمة csv
+          export_pdf:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة الحالة أو صفحات عرض الحالة ، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها ، لحالة واحدة أو متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. في ملف تصدير PDF ، يتم سرد المعلومات أولاً حسب الحالة ، ثم يتم تنظيمها بشكل أكبر حسب النموذج الذي تظهر عليه المعلومات.
+            label: تصدير ملف PDF
           export_photowall:
             explanation: تسمح للمستخدم بتصدير ملف من صفحة قائمة الحالة التي تحتوي على صور جميع الحالات المختارة. يستخدم هذا التصدير بشكل أساسي لأنشطة تتبّع أفراد الأسرة ولم شملها. يتمّ تنفيذها فقط من صفحة قائمة الحالة.
             label: تصدير ملف photowall
@@ -1997,6 +2244,9 @@ ar-IQ:
           dash_tasks:
             explanation: يسمح للمستخدم برؤية صفحة المهام. يجب أن تُستخدم للإختصاصيين الإجتماعيين ومقدمي الخدمات، حيث ستكون الأرقام مخصّصة للحالات التي تديرها مباشرة. يجب على المديرين بدلاً من ذلك الحصول على لوحة المعلومات المرتبطة بـ "عرض الحالات حسب المهمة المتأخرة" ، لأن هذا يتيح لهم رؤية المهام المتأخرة لكلّ شخص في مجموعات المستخدمين الخاصة بهم.
             label: صفحة المهام
+          dash_national_admin_summary:
+            explanation: يظهر إجمالي الحالات المفتوحة في النظام ، وعدد الحالات الجديدة التي تم إنشاؤها في  الأسبوعين الماضيين ، وعدد الحالات التي تم إغلاقها في الأسبوعين الماضيين.
+            label: ملخص المسؤول
           view_protection_concerns_filter:
             explanation: يسمح للمستخدم برؤية عوامل تصفية المخاوف المتعلّقة بالحماية في صفحة قائمة الحالات.
             label: رؤية عوامل تصفية المخاوف المتعلّقة بالحماية في صفحة قائمة الحالات.
@@ -2076,6 +2326,9 @@ ar-IQ:
           export_list_view_csv:
             explanation: يمكن للمستخدم إنشاء ملف تصدير CSV من صفحة قائمة الحوادث التي تحتوي الحقول عينها التي تظهر لهذا المستخدم في قائمة الحوادث. يتمّ تنفيذها فقط من صفحة قائمة الحوادث.
             label: تصدير ملف عرض قائمة csv
+          export_pdf:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة الحوادث أو صفحات عرض الحوادث ، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها ، لسجل واحد أو متعدد أو جميع السجلات التي يمكن للمستخدم الوصول إليها. في ملف تصدير PDF ، يتم سرد المعلومات أولاً حسب الحالة ، ثم يتم تنظيمها بشكل أكبر حسب النموذج الذي تظهر عليه المعلومات.
+            label: تصدير PDF
           export_xls:
             explanation: يمكن للمستخدم إنشاء  ملف تصدير XLS من قائمة الحادثة أو صفحات عرض الحوادث، والتي تحتوي على مجموعة مخصّصة من النماذج أو الحقول، بالنسبة إلى حالة واحدة أو متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. في هذا التصدير، يتمّ تمثيل كلّ نموذج في علامة التبويب الخاصة به داخل ملف XLS. يمكن للمستخدم اختيار النماذج أو الحقول التي يريد تضمينها في التصدير باستخدام قسم التصدير المخصّص. يرجى ملاحظة أنه لا يمكن للمستخدمين تضمين النماذج والحقول في التصدير إلا إذا كان لديهم بالفعل القدرة على رؤية تلك النماذج والحقول عند عرض حالة في التطبيق.
             label: تصدير EXCEL (ملف XLS)
@@ -2129,6 +2382,12 @@ ar-IQ:
             explanation: يمثل الرابط بين طلب التتبع والحالة. يُعتبر الوصول إلى التطابقات المحتملة أمرًا ضروريًا لتتبع أفراد الأسرة ولم شملهم (FTR). يسمح للمستخدم برؤية نموذج ملخص التتبع في الحالات.
             label: عرض
         label: تطابق محتمل
+      primero_configuration:
+        actions:
+          manage:
+            explanation: القدرة على حفظ التكوينات وتطبيقها وإرسالها. عادة ما يكون هذا الإذن محجوزًا لمسؤول النظام.
+            label: إدارة (كافة الموافقات لنوع المورد هذا)
+        label: إعدادات
       referral:
         actions:
           refer:
@@ -2215,6 +2474,9 @@ ar-IQ:
           export_list_view_csv:
             explanation: يمكن للمستخدم إنشاء ملف تصدير CSV من صفحة قائمة طلبات التتبّع التي تحتوي الحقول عينها التي تظهر لهذا المستخدم في قائمة طلبات التتبّع. يتمّ تنفيذها فقط من صفحة قائمة طلبات التتبّع.
             label: تصدير ملف عرض قائمة csv
+          export_pdf:
+            explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة طلبات التتبع أو عرض صفحات طلب التتبع ، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها ، لسجل واحد أو متعدد أو جميع السجلات التي يمتلك المستخدم حق الوصول إليها. في ملف تصدير PDF ، يتم سرد المعلومات أولاً حسب الحالة ، ثم يتم تنظيمها بشكل أكبر حسب النموذج الذي تظهر عليه المعلومات.
+            label: تصدير PDF
           flag:
             explanation: القدرة على إضافة علم إلى طلب تتبّع. يمكن للمستخدمين الذين لديهم هذا الإذن أيضًا إزالة العلامات التي أضافوها إلى إحدى طلبات التتبّع.
             label: تمييز بعلامة
@@ -2384,6 +2646,10 @@ ar-IQ:
     delete_report_message: هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن الحذف. انقر فوق تمّ لحذف التقرير.
     label: تقارير
     register_new_report: إنشاء تقرير
+    translations:
+      edit: "تعديل الترجمة "
+      manage: "إدارة الترجمة "
+      select_language: "أختر اللغة "
   request_transfer:
     notes_label: ملاحظات -الرجاء ذكر سبب النقل بالإضافة إلى تفاصيل الاجتماعات التي عقدت لمناقشة نقل الحالة
     submit_label: أرسل الطلب
@@ -2411,6 +2677,9 @@ ar-IQ:
     role_ids_label: الأدوار الأخرى التي يديرها هذا الدور
     successfully_updated: تم تحديث تفاصيل الدور بنجاح.
     transfer_label: هل يمكن استخدام هذا الدور لعمليات النقل؟
+    hide: إخفاء
+    read: "أظهار "
+    read_write: "أظهار و تعديل "
   roles:
     label: دور المستخدم
   saved_search:
@@ -2514,7 +2783,7 @@ ar-IQ:
     consent_override_label: هل ترغب في تجاوز تعبئة نموذج الموافقة؟
     is_remote_label: هل تقوم بالنقل إلى نظام بعيد؟
     location_label: الموقع
-    notes_label: ملاحظات -الرجاء ذكر سبب النقل بالإضافة إلى تفاصيل الاجتماعات التي عقدت لمناقشة نقل الحالة
+    notes_label: ملاحظات
     provided_consent_label: لم يتمّ توفير الموافقة في النماذج.
     recipient_label: المستلِم
     select_label: اختَر...
@@ -2540,6 +2809,7 @@ ar-IQ:
     notes: ملاحظات
     recipient: المستلِم
     rejected: تمّ رفض السبب
+    requested_by: "طلب من قبل "
     service_label: الخدمة
     responded_at: تمّ الرد في
     status:
@@ -2564,6 +2834,7 @@ ar-IQ:
     identity_provider: مزوّد الهويّة
     invalid_provider_username: 'صيغة اسم المستخدم غير صالح. مثال: @my.username %{domain}'
     label: مستخدم
+    language: اللغة
     locale: موضع
     location: الموقع
     messages:
