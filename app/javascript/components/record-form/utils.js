@@ -30,6 +30,8 @@ import {
 } from "./constants";
 import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
 
+const FIELD_TYPES_WITHOUT_DEFAULT = Object.freeze([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD]);
+
 function compareArray(value, base) {
   return value.reduce((acc, v) => {
     if (isObject(v)) {
@@ -116,6 +118,39 @@ export const compactBlank = values =>
       return { ...acc, [key]: fixedValue };
     }, {});
 
+export const getFieldDefaultValue = field => {
+  if (FIELD_TYPES_WITHOUT_DEFAULT.includes(field.type)) {
+    return [];
+  }
+
+  if (field.type === SELECT_FIELD && field.multi_select) {
+    try {
+      if (field.selected_value) {
+        return field.selected_value.match(/\[.*\]$/) ? JSON.parse(field.selected_value) : [field.selected_value];
+      }
+
+      return [];
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.warn(`Can't parse the defaultValue ${field.selected_value} for ${field.name}`);
+
+      return [];
+    }
+  }
+
+  if (field.type === DATE_FIELD) {
+    return Object.values(DEFAULT_DATE_VALUES).some(defaultDate => field.selected_value?.toUpperCase() === defaultDate)
+      ? toServerDateFormat(new Date(), { includeTime: field.date_include_time })
+      : null;
+  }
+
+  if (field.type === TICK_FIELD) {
+    return field.selected_value || false;
+  }
+
+  return field.selected_value || "";
+};
+
 export const constructInitialValues = formMap => {
   const [...forms] = formMap;
 
@@ -127,33 +162,7 @@ export const constructInitialValues = formMap => {
             {},
             ...form.fields
               .filter(field => field.type !== SEPERATOR && field.visible)
-              .map(field => {
-                let defaultValue;
-
-                if ([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD].includes(field.type)) {
-                  defaultValue = [];
-                } else if (field.type === SELECT_FIELD && field.multi_select) {
-                  try {
-                    defaultValue = field.selected_value ? JSON.parse(field.selected_value) : [];
-                  } catch (error) {
-                    defaultValue = [];
-                    // eslint-disable-next-line no-console
-                    console.warn(`Can't parse the defaultValue ${field.selected_value} for ${field.name}`);
-                  }
-                } else if ([DATE_FIELD].includes(field.type)) {
-                  defaultValue = Object.values(DEFAULT_DATE_VALUES).some(
-                    defaultDate => field.selected_value?.toUpperCase() === defaultDate
-                  )
-                    ? toServerDateFormat(new Date(), { includeTime: field.date_include_time })
-                    : null;
-                } else if (field.type === TICK_FIELD) {
-                  defaultValue = field.selected_value || false;
-                } else {
-                  defaultValue = field.selected_value || "";
-                }
-
-                return { [field.name]: defaultValue };
-              })
+              .map(field => ({ [field.name]: getFieldDefaultValue(field) }))
           )
         )
       )

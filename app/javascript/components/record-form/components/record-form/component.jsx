@@ -21,7 +21,7 @@ import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
 import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
-import { clearValidationErrors, setPreviousRecord } from "../../action-creators";
+import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import styles from "../../styles.css";
@@ -128,6 +128,10 @@ const Component = ({
       batch(() => {
         if (saveBeforeIncidentRedirect) {
           setCaseIncidentData(formValues);
+        }
+
+        if (containerMode.isNew) {
+          dispatch(clearDataProtectionInitialValues());
         }
 
         dispatch(

@@ -109,7 +109,7 @@ describe Location do
 
     describe 'field updates' do
       it 'rejects updates on admin_level, heirarchy, location_code' do
-        @country.update_attributes(admin_level: 1, hierarchy_path: 'MC01.PR08', location_code: 'PR08')
+        @country.update(admin_level: 1, hierarchy_path: 'MC01.PR08', location_code: 'PR08')
         expect(@country.reload.admin_level).to eq(0)
         expect(@country.reload.hierarchy_path).to eq('MC01')
         expect(@country.reload.location_code).to eq('MC01')

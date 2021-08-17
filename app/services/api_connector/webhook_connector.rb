@@ -64,7 +64,7 @@ class ApiConnector::WebhookConnector < ApiConnector::AbstractConnector
 
   def log_response(log, http_status, response)
     status = http_status < 400 ? AuditLog::SENT : AuditLog::FAILED
-    log.update_attributes(metadata: { webhook_status: status, webhook_response: response })
+    log.update(metadata: { webhook_status: status, webhook_response: response })
   end
 
   def role

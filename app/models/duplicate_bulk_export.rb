@@ -68,6 +68,6 @@ class DuplicateBulkExport < BulkExport
   end
 
   def exporter_type
-    Exporters::DuplicateIdCSVExporter
+    Exporters::DuplicateIdCsvExporter
   end
 end

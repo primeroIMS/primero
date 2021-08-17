@@ -4,7 +4,7 @@ require 'csv'
 
 # This generates a CSV report of all cases that share the same value
 # for certain core identifiers such as national id and UNHCR number.
-class Exporters::DuplicateIdCSVExporter < Exporters::ConfigurableExporter
+class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
   ID_FIELD_NAMES = %w[
     national_id_no case_id unhcr_individual_no
     name age sex family_count_no
@@ -29,7 +29,8 @@ class Exporters::DuplicateIdCSVExporter < Exporters::ConfigurableExporter
         I18n.t('exports.unhcr_csv.unknown_abbreviation')
       end
     end,
-    'family_size' => ['family_count_no']
+    'family_size' => ['family_count_no'],
+    'other_agency_id' => ['other_agency_id']
   }.freeze
 
   class << self

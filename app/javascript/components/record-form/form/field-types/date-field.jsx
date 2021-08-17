@@ -51,7 +51,12 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
 
     if (value) {
       dateValue = value;
-    } else if (!value && allowedDefaultValues.includes(selectedValue?.toUpperCase()) && !mode?.isShow) {
+    } else if (
+      !value &&
+      allowedDefaultValues.includes(selectedValue?.toUpperCase()) &&
+      mode?.isNew &&
+      !form?.touched[name]
+    ) {
       dateValue = new Date();
     }
 

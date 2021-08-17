@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This represents the columns that are to be displayed on the record list views
+# rubocop:disable Metrics/ClassLength
 class Header < ValueObject
   attr_accessor :name, :field_name, :id_search
 
@@ -64,6 +65,10 @@ class Header < ValueObject
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength
     def case_headers(user)
       header_list = []
       header_list << CASE_ID_DISPLAY
@@ -99,6 +104,10 @@ class Header < ValueObject
       header_list << FLAG_COUNT
       header_list
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength
 
     def tracing_request_headers
       [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
@@ -145,3 +154,4 @@ class Header < ValueObject
     "Header(name: #{name}, field_name: #{field_name})"
   end
 end
+# rubocop:enable Metrics/ClassLength

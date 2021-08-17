@@ -21,6 +21,7 @@ describe("<RecordForm /> - index", () => {
       "getErrors",
       "getFields",
       "getFieldsWithNames",
+      "getFieldsWithNamesForMinifyForm",
       "getFirstTab",
       "getFormNav",
       "getLoadingState",

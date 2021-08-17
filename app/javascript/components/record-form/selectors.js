@@ -366,6 +366,12 @@ export const getFieldsWithNames = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+export const getFieldsWithNamesForMinifyForm = (state, names) =>
+  getFields(state)
+    .valueSeq()
+    .filter(field => names.includes(field.name) && field.show_on_minify_form)
+    .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
+
 export const getMiniFormFields = (state, recordType, primeroModule, exclude = []) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 

@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 module Exporters
-  describe CSVExporter do
+  describe CsvExporter do
     before :each do
       clean_data(User, Role, Field, FormSection, PrimeroModule)
 
@@ -31,7 +31,7 @@ module Exporters
     end
 
     it 'converts data to CSV format' do
-      data = CSVExporter.export(@records, @user)
+      data = CsvExporter.export(@records, @user)
 
       parsed = CSV.parse(data)
       expect(parsed[0]).to eq %w[id name age sex]
@@ -41,7 +41,7 @@ module Exporters
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: 'Joe', age: 12, sex: '=10+10' })
-      data = CSVExporter.export([unsafe_record], @user)
+      data = CsvExporter.export([unsafe_record], @user)
       parsed = CSV.parse(data)
       expect(parsed[1][1..3]).to eq(%w[Joe 12 '=10+10])
     end

@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { batch, useDispatch } from "react-redux";
 
-import { setSelectedForm, clearDataProtectionInitialValues } from "../action-creators";
+import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import { constructInitialValues, sortSubformValues } from "../utils";
@@ -40,7 +40,7 @@ const RecordForm = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const [initialValues, setInitialValues] = useState(constructInitialValues(forms.values()));
+  const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
   const [formIsSubmitting, setFormIsSubmitting] = useState(false);
   const dataProtectionInitialValues = useMemoizedSelector(state => getDataProtectionInitialValues(state));
@@ -106,7 +106,7 @@ const RecordForm = ({
   }, [JSON.stringify(initialValues)]);
 
   useEffect(() => {
-    if (dataProtectionInitialValues.size > 0) {
+    if (mode.isNew && dataProtectionInitialValues.size > 0) {
       const initialDataProtection = dataProtectionInitialValues.reduce((accumulator, values, key) => {
         if (key !== LEGITIMATE_BASIS) {
           const consentAgreementFields = values.reduce((acc, curr) => {
@@ -116,16 +116,12 @@ const RecordForm = ({
           return { ...accumulator, ...consentAgreementFields };
         }
 
-        return { ...accumulator, [key]: values };
+        return { ...accumulator, [key]: values.reduce((acc, elem) => acc.concat(elem), []) };
       }, {});
 
       bindedSetValues.current({ ...initialValues, ...initialDataProtection });
     }
-
-    return () => {
-      dispatch(clearDataProtectionInitialValues());
-    };
-  }, [dataProtectionInitialValues]);
+  }, [mode.isNew, dataProtectionInitialValues]);
 
   const handleConfirm = onConfirm => {
     onConfirm();

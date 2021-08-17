@@ -357,7 +357,7 @@ const roles = createCachedSelector(getRoles, data => {
   return buildRoleOptions(data);
 })(defaultCacheSelectorOptions);
 
-const manageRolesParser = (data, transfer) => data.filter(role => role.get(transfer, false));
+const manageRolesParser = (data, transfer) => (transfer ? data.filter(role => role.get(transfer, false)) : data);
 
 const managedRoleFormSections = createCachedSelector(
   managedRoleList,

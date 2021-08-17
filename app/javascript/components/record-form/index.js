@@ -9,6 +9,7 @@ export {
   getErrors,
   getFields,
   getFieldsWithNames,
+  getFieldsWithNamesForMinifyForm,
   getFirstTab,
   getFormNav,
   getLoadingState,
