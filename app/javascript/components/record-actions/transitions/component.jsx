@@ -8,9 +8,9 @@ import { getRecords } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
 
-import { NAME, REFERRAL_FORM_ID } from "./constants";
+import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
-import { TransitionDialog, ReassignForm, TransferForm } from "./components";
+import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
 
 const Transitions = ({
@@ -28,7 +28,6 @@ const Transitions = ({
 }) => {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
-  const transferFormikRef = useRef();
   const assignFormikRef = useRef();
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
@@ -71,10 +70,9 @@ const Transitions = ({
   const transitionComponent = () => {
     if (isTransferDialogOpen) {
       return (
-        <TransferForm
+        <Transfers
           {...commonTransitionProps}
           isBulkTransfer={false}
-          transferRef={transferFormikRef}
           disabled={disabledTransferButton}
           setDisabled={setDisabledTransferButton}
         />
@@ -124,15 +122,14 @@ const Transitions = ({
         setDisabledTransferButton(false);
         close();
       };
-      const successHandler = () => submitForm(transferFormikRef);
 
       return {
         onClose: transferOnClose,
         confirmButtonLabel: i18n.t("buttons.transfer"),
         open: isTransferDialogOpen,
-        successHandler,
         transitionType: TRANSITIONS_TYPES.transfer,
-        enabledSuccessButton: disabledTransferButton || providedConsent
+        enabledSuccessButton: disabledTransferButton || providedConsent,
+        confirmButtonProps: { type: "submit", form: TRANSFER_FORM_ID }
       };
     }
 

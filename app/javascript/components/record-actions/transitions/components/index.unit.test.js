@@ -6,7 +6,7 @@ describe("<Transitions /> - components/index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
 
-    ["TransferForm", "TransitionDialog", "ReferralForm", "ReassignForm", "generatePath"].forEach(property => {
+    ["Transfers", "TransitionDialog", "ReferralForm", "ReassignForm", "generatePath"].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
     });
