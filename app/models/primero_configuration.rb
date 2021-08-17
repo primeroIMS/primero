@@ -6,10 +6,10 @@ class PrimeroConfiguration < ApplicationRecord
   CONFIGURABLE_MODELS = %w[FormSection Lookup Agency Role UserGroup Report ContactInformation].freeze
 
   PRIMERO_CONFIGURATION_FIELDS_SCHEMA = {
-    'id' => { 'type' => 'integer' }, 'name' => { 'type' => 'string' },
-    'description' => { 'type' => 'string' }, 'version' => { 'type' => 'string' },
-    'apply_now' => { 'type' => 'boolean' }, 'promote' => { 'type' => 'boolean' },
-    'data' => { 'type' => 'object' }
+    'id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX },
+    'name' => { 'type' => 'string' }, 'description' => { 'type' => %w[string null] },
+    'version' => { 'type' => 'string' }, 'apply_now' => { 'type' => 'boolean' },
+    'promote' => { 'type' => 'boolean' }, 'data' => { 'type' => 'object' }
   }.freeze
 
   attr_accessor :apply_now

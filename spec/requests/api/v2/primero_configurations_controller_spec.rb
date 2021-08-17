@@ -100,7 +100,7 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
           end
 
           it 'creates a configuration record from the data passed in' do
-            params = { data: { name: 'Test', data: @config_data } }
+            params = { data: { id: '3483dc29-1b4d-402d-9ed1-aaa76b9391e0', name: 'Test', data: @config_data } }
             post '/api/v2/configurations', params: params
 
             expect(response).to have_http_status(200)
@@ -109,6 +109,22 @@ describe Api::V2::PrimeroConfigurationsController, type: :request do
               %w[id name version created_on created_by can_apply primero_version]
             )
             expect(json['data']['created_by']).to eq(fake_user_name)
+          end
+        end
+
+        context 'and json strutture is invalid' do
+          before do
+            @config_data = build(:primero_configuration)
+          end
+
+          it 'return a Invalid Record JSON' do
+            params = { data: { id: '0123456', name: 'Test', description: nil, data: @config_data } }
+            post '/api/v2/configurations', params: params
+
+            expect(response).to have_http_status(422)
+            expect(json['errors'].size).to eq(1)
+            expect(json['errors'][0]['detail']).to match_array(['/id'])
+            expect(json['errors'][0]['message']).to eq('Invalid Record JSON')
           end
         end
 
