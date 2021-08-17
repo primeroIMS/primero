@@ -31,7 +31,7 @@ class Kpi::SupervisorToCaseworkerRatio < Kpi::Search
   end
 
   def ratio
-    @ratio ||= (supervisors / case_workers).rationalize
+    @ratio ||= (supervisors.to_f / case_workers).rationalize
   end
 
   def to_json(*_args)

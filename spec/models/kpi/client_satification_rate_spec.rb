@@ -76,9 +76,9 @@ describe Kpi::ClientSatisfactionRate, search: true do
   end
 
   with 'No cases in the users groups' do
-    it 'satisfaction rate should be 0' do
+    it 'satisfaction rate should be nil' do
       json = Kpi::ClientSatisfactionRate.new(from, to, [group1]).to_json
-      expect(json[:data][:satisfaction_rate]).to eq(0)
+      expect(json[:data][:satisfaction_rate]).to eq(nil)
     end
   end
 
