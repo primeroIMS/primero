@@ -59,6 +59,7 @@
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+    PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
   when: primero_configuration_path is defined
   tags:
   - 'never'
@@ -71,6 +72,7 @@
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+    PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
   when: primero_configuration_path is not defined
   tags:
   - 'never'
@@ -93,6 +95,7 @@
     chdir: '/srv/primero/docker'
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+    PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
   tags:
   - 'never'
   - 'start'

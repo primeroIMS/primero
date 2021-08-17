@@ -151,6 +151,24 @@ describe("<Transitions /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
+  it("should handle TRANSFER_USERS_FETCH_STARTED", () => {
+    const expected = fromJS({ data: [], transfer: { users: [], loading: true, errors: false } });
+    const action = { type: actions.TRANSFER_USERS_FETCH_STARTED, payload: true };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle TRANSFER_USERS_FETCH_FAILURE", () => {
+    const expected = fromJS({ data: [], transfer: { users: [], loading: false, errors: true } });
+    const action = { type: actions.TRANSFER_USERS_FETCH_FAILURE, payload: true };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
   it("should handle TRANSFER_USERS_FETCH_SUCCESS", () => {
     const payload = {
       data: [{ label: "primero_cp", value: "primero_cp" }]
@@ -158,7 +176,9 @@ describe("<Transitions /> - Reducers", () => {
     const expected = fromJS({
       data: [],
       transfer: {
-        users: payload.data
+        users: payload.data,
+        loading: false,
+        errors: false
       }
     });
     const action = {
