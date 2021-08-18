@@ -92,9 +92,7 @@ class Exporters::UnhcrCSVExporter < Exporters::ConfigurableExporter
     'causes_of_separation' => ['separation_cause'],
     'country_of_origin' => ['country_of_origin'],
     'current_care_arrangement' => lambda do |params|
-      if params[:record].current_care_arrangements.present?
-        params[:record].current_care_arrangements.first.care_arrangements_type
-      end
+      params[:record].current_care_arrangements_type
     end,
     'reunification_status' => lambda do |params|
       if params[:record]&.tracing_status&.present?

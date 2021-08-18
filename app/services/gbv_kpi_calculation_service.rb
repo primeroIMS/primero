@@ -16,14 +16,14 @@ class GbvKpiCalculationService
   end
 
   def case_lifetime_days
-    return 0 unless @record.status == Record::STATUS_CLOSED
-
     closure_form = form_responses(:gbv_case_closure_form).first
 
-    return 0 unless closure_form
+    return nil unless closure_form
 
     date_created = closure_form.field(:created_at) || @record.created_at
     date_closed = closure_form.field(:date_closure)
+    return nil if date_created.nil? || date_closed.nil?
+
     (date_closed.to_date - date_created.to_date).to_i
   end
 
@@ -56,8 +56,16 @@ class GbvKpiCalculationService
 
   def services_provided
     form_responses(:action_plan_form)
-      .subform(:gbv_follow_up_subform_section)
-      .field(:service_type_provided)
+      .subform(:action_plan_section)
+      .select do |f|
+        # hard coded values like this indicate information that could
+        # be stored in the config. The only issue is that this creates
+        # a big separation between code that is very dependant on each
+        # other. I think that field config as it stand
+        # (e.g. mandatory_for_completion) should probably live in some
+        # KPI related modules.
+        f.field(:service_referral) == 'service_provided_by_your_agency'
+      end.field(:service_type)
       .uniq
   end
 
@@ -146,7 +154,7 @@ class GbvKpiCalculationService
     applicable_goals = goals.count { |status| status != 'n_a' }
     return nil if applicable_goals.zero?
 
-    met_goals = goals.count { |status| status == 'met' }
+    met_goals = goals.count { |status| ['met', 'in_progress'].include?(status) }
     return 0 if met_goals.zero?
 
     met_goals / applicable_goals.to_f

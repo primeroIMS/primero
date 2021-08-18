@@ -12,8 +12,19 @@ class FormSectionResponseList < ValueObject
 
   def each
     responses.each do |result|
-      yield FormSectionResponse.new(response: result, form_section: form_section)
+      if result.is_a?(FormSectionResponse)
+        yield result
+      else
+        yield FormSectionResponse.new(response: result, form_section: form_section)
+      end
     end
+  end
+
+  def select(&block)
+    FormSectionResponseList.new(
+      responses: map.select(&block),
+      form_sction: form_section
+    )
   end
 
   def field(name)

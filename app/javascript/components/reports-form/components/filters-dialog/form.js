@@ -8,7 +8,8 @@ import {
   TICK_FIELD,
   RADIO_FIELD,
   DATE_FIELD,
-  NUMERIC_FIELD
+  NUMERIC_FIELD,
+  OPTION_TYPES
 } from "../../../form";
 import { CONSTRAINTS, DATE_CONSTRAINTS } from "../../constants";
 
@@ -32,7 +33,8 @@ const valueFieldType = (currentField, isConstraintNotNull, css, i18n) => {
           ...commonProps,
           type: SELECT_FIELD,
           multi_select: true,
-          option_strings_source: currentField.option_strings_source
+          option_strings_source: currentField.option_strings_source,
+          option_strings_source_id_key: currentField.option_strings_source === OPTION_TYPES.AGENCY ? "unique_id" : "id"
         };
       }
 

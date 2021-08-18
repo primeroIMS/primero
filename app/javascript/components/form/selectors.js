@@ -32,6 +32,7 @@ const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS
 const moduleList = state => state.getIn(["application", "modules"], fromJS([]));
 const formSectionList = state => state.getIn(["records", "admin", "forms", "formSections"], fromJS([]));
 const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
+const transferUserList = state => state.getIn(["records", "transitions", "transfer", "users"], fromJS([]));
 const managedRoleList = state => state.getIn(["application", "managedRoles"], fromJS([]));
 const agencyList = state => state.getIn(["application", "agencies"], fromJS([]));
 
@@ -55,6 +56,37 @@ const formGroups = createCachedSelector(getLocale, formSectionList, (locale, dat
 
 const referToUsers = createCachedSelector(
   referralUserList,
+  (_state, options) => options,
+  (data, options) => {
+    const { currRecord, fullUsers = false } = options;
+
+    return data
+      ?.reduce((prev, current) => {
+        const userName = current.get("user_name");
+
+        if (!isEmpty(currRecord)) {
+          const currUser = currRecord;
+
+          if (currUser && currUser === userName) {
+            return [...prev];
+          }
+        }
+
+        return [
+          ...prev,
+          {
+            id: userName.toLowerCase(),
+            display_text: userName,
+            ...(fullUsers && { agency: current.get("agency"), location: current.get("location") })
+          }
+        ];
+      }, [])
+      ?.filter(user => !isEmpty(user));
+  }
+)(defaultCacheSelectorOptions);
+
+const transferToUsers = createCachedSelector(
+  transferUserList,
   (_state, options) => options,
   (data, options) => {
     const { currRecord, fullUsers = false } = options;
@@ -425,6 +457,8 @@ export const getOptions = source => {
       return recordForms;
     case OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS:
       return managedRoleFormSections;
+    case OPTION_TYPES.TRANSFER_TO_USERS:
+      return transferToUsers;
     default:
       return lookupValues;
   }

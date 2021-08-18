@@ -4,11 +4,11 @@ ar-IQ:
       export_incident_recorder_xls: "تحميل سجل الحوادث لجداول xls"
   exports:
     incident_recorder_xls:
-      all:  سجل الحوادث
-      one:  سجل الحوادث
-      selected:  "تم اختياره لسجل الحوادث "
-      "yes": "نعم"
-      "no": "لا"
+      all: سجل الحوادث
+      one: سجل الحوادث
+      selected: 'تم اختياره لسجل الحوادث '
+      'yes': "نعم"
+      'no': "لا"
       gender:
         male: "ذكر"
         female: "أنثى"
@@ -54,7 +54,7 @@ ar-IQ:
         abduction_type: "نوع الاختطاف/الإجبار "
         previously_reported: "هل تم الإبلاغ عن هذه الحادثة سابقاً؟"
         gbv_previous_incidents: "حوادث عنف قائم على اساس النوع الاجتماعي سابقة؟"
-        number_primary_perpetrators: "عدد الجناة المزعومين"
+        number_primary_perpetrators: "لا. الجاني الأساسي المزعوم (الجنات) الأساسيون"
         perpetrator:
           sex: "جنس الجاني المزعوم"
           former: "حوادث سابقة ارتكبها هذا الجاني"

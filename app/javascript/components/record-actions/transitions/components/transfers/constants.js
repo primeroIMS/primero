@@ -14,3 +14,5 @@ export const PROVIDED_CONSENT_NAME = `${transitionName}ProvidedConsent`;
 export const PROVIDED_FORM_NAME = `${transitionName}ProvidedForm`;
 export const TRANSFER_CHECKBOX_NAME = `${transitionName}TransferCheckbox`;
 export const TRANSFER_INTERNAL_NAME = `${transitionName}TransferInternal`;
+
+export const TRANSFER_LOADING_PATH = Object.freeze(["records", "transitions", "transfer", "loading"]);

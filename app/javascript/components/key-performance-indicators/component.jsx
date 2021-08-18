@@ -13,13 +13,12 @@ import NumberOfCases from "./components/number-of-cases";
 import NumberOfIncidents from "./components/number-of-incidents";
 import ReportingDelay from "./components/reporting-delay";
 import AssessmentStatus from "./components/assessment-status";
-import CompletedCaseSafetyPlan from "./components/completed-case-action-plan";
-import CompletedCaseActionPlan from "./components/completed-case-safety-plan";
+import CompletedCaseActionPlan from "./components/completed-case-action-plan";
+import CompletedCaseSafetyPlan from "./components/completed-case-safety-plan";
 import CompletedSupervisorApprovedCaseActionPlan from "./components/completed-supervisor-approved-case-action-plan";
 import ServicesProvided from "./components/services-provided";
 import AverageReferrals from "./components/average-referrals";
 import AverageFollowupMeetingsPerCase from "./components/average-followup-meetings-per-case";
-import GoalProgressPerNeed from "./components/goal-progress-per-need";
 import TimeFromCaseOpenToClose from "./components/time-from-case-open-to-case-close";
 import CaseClosureRate from "./components/case-closure-rate";
 import ClientSatisfactionRate from "./components/client-satisfaction-rate";
@@ -121,20 +120,11 @@ const KeyPerformanceIndicators = () => {
             </div>
 
             <div>
-              <Permission
-                resources={[RESOURCES.kpis]}
-                actions={[ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE, ACTIONS.KPI_GOAL_PROGRESS_PER_NEED]}
-              >
+              <Permission resources={[RESOURCES.kpis]} actions={[ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_follow_up")}</h2>
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>
                     <AverageFollowupMeetingsPerCase dateRanges={allDateRanges} />
-                  </Grid>
-                </Grid>
-
-                <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12}>
-                    <GoalProgressPerNeed dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
               </Permission>
@@ -180,7 +170,7 @@ const KeyPerformanceIndicators = () => {
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12} md={12}>
-                    <SupervisorToCaseworkerRatio dateRanges={allDateRanges} />
+                    <SupervisorToCaseworkerRatio />
                   </Grid>
                 </Grid>
 

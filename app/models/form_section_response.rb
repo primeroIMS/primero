@@ -20,7 +20,30 @@ class FormSectionResponse < ValueObject
     return false unless response
     return false if mandatory_fields.empty?
 
-    mandatory_fields.all? { |f| field(f.name).present? }
+    # we only want to check for the presents of something. Unfortunately
+    # rails's #present? returns false for false while we need a true for
+    # false. Infact, here is a table of the values we need:
+    #
+    #       | value
+    # ------------------
+    # nil   | false
+    # ------------------
+    # true  | true
+    # ------------------
+    # false | true
+    # ------------------
+    # ''    | false
+    # ------------------
+    mandatory_fields.all? do |f|
+      case field(f.name)
+      when nil
+        false
+      when ''
+        false
+      else
+        true
+      end
+    end
   end
 
   def field(name)

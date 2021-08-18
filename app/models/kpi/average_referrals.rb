@@ -3,7 +3,7 @@
 # AverageReferrals
 # A Kpi that counts the average number of referrals made for each case.
 class Kpi::AverageReferrals < Kpi::Search
-  REFERRED = 'Referred'
+  REFERRED = 'referred'
 
   def action_plan_referral_statuses
     @action_plan_referral_statuses ||= SolrUtils.indexed_field_name(Child, :action_plan_referral_statuses)
@@ -23,6 +23,18 @@ class Kpi::AverageReferrals < Kpi::Search
   end
 
   def to_json(*_args)
-    { data: { average_referrals: search.stats_response.first.last['mean'] } }
+    {
+      data: {
+        average_referrals: handle_solr_stats_value(search.stats_response.first.last['mean'])
+      }
+    }
+  end
+
+  def handle_solr_stats_value(value)
+    if value == 'NaN' || value.nil?
+      0.0
+    else
+      value
+    end
   end
 end
