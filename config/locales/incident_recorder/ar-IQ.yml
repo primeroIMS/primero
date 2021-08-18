@@ -4,11 +4,11 @@ ar-IQ:
       export_incident_recorder_xls: "تحميل سجل الحوادث لجداول xls"
   exports:
     incident_recorder_xls:
-      all:  سجل الحوادث
-      one:  سجل الحوادث
-      selected:  "تم اختياره لسجل الحوادث "
-      "yes": "نعم"
-      "no": "لا"
+      all: سجل الحوادث
+      one: سجل الحوادث
+      selected: 'تم اختياره لسجل الحوادث '
+      'yes': "نعم"
+      'no': "لا"
       gender:
         male: "ذكر"
         female: "أنثى"

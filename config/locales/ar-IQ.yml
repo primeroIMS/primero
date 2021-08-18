@@ -17,15 +17,14 @@ ar-IQ:
   or_label: او
   select_provider: اختر المزود
   select_language: أختر اللغة
-  log_in_primero_idp: "تسجيل الدخول باسم المستخدم%{idp_name} "
+  log_in_primero_idp: 'تسجيل الدخول باسم المستخدم%{idp_name} '
   offline_submitted_changes: أنت حاليا غير متصل بالشبكة. سيتم إرسال التغييرات الخاصة بك عند الاتصال بالإنترنت مرة أخرى.
-  updated: "محدث "
+  updated: 'محدث '
   sync:
     success: "تمت مزامنة سجلات%{records} بنجاح."
     error:
-      create: " فشل الانشاء %{record_type} . يرجى الاتصال بالدعم."
-      update: "فشل التحديث  %{record_type}%{short_id} , يرجى الاتصال بالدعم."
-
+      create: ' فشل الانشاء %{record_type} . يرجى الاتصال بالدعم.'
+      update: فشل التحديث  %{record_type}%{short_id} , يرجى الاتصال بالدعم.
   actions:
     approvals: الموافقات
     button: إجراءات
@@ -49,12 +48,12 @@ ar-IQ:
   agencies:
     label: المؤسسة
     translations:
-      manage: "إدارة الترجمة "
+      manage: 'إدارة الترجمة '
   agency:
     agency_logos: شعارات الوكالة
     code: رمز المؤسسة
     description: الوصف
-    disabled: "مُعطلة "
+    disabled: 'مُعطلة '
     exclude_agency_from_lookups: استبعاد هذه الوكالة من عمليات البحث وعوامل التصفية
     exclude_agency_from_lookups_help: تحقق من هذا إذا لم يكن لدى الوكالة مستخدمون (على سبيل المثال ، تمت إضافة الوكالة حتى يمكن تطبيق الشعار على الصادرات.
     label: وكالة
@@ -102,8 +101,8 @@ ar-IQ:
     file_name: ملف
     record_type: نوع
     retry: هذا النقل غير صحيح. أرجو حاول إعادة عمل عملية النقل الخاصة بك.
-    started_on: "بدء "
-    status: "وضع الحالة "
+    started_on: 'بدء '
+    status: 'وضع الحالة '
   form_export:
     label: تصدير نموذج التكوين
     include_hidden: تضمين النماذج والحقول المخفية؟
@@ -134,7 +133,7 @@ ar-IQ:
     continue: استمر
     create_case: إنشاء حالة
     create_incident: إنشاء حادثة جديدة
-    create_new_record: "إنشاء %{model} جديد"
+    create_new_record: إنشاء %{model} جديد
     delete: حذف
     disable: إيقاف
     disable_photo_wall: تعطيل photo wall
@@ -150,7 +149,7 @@ ar-IQ:
     filter_label: 'عامل التصفية:'
     filter_restore: الاسترجاع إلى إعدادات النظام
     find_tracing_match: إيجاد التطابق لحالة التتبع
-    flag_model: "وضع علامة %{model}"
+    flag_model: وضع علامة %{model}
     flag_records: وضع علامة
     flags: العلامات
     guidance: توجيه
@@ -159,11 +158,11 @@ ar-IQ:
     login: تسجيل الدخول
     logout: تسجيل خروج
     mark_for_mobile: وضع علامة للمحمول
-    new: "جديدة "
+    new: 'جديدة '
     ok: موافق
-    print: "طباعة "
+    print: 'طباعة '
     reassign: تعيين
-    referral: "إحالة "
+    referral: 'إحالة '
     referral_again: إحالة مرة اخرى
     reject: رفض
     remove_referrals: إلغاء الإحالات
@@ -183,19 +182,18 @@ ar-IQ:
     sync: مزامنة
     submit: تقديم
     transfer: تحويل
-    unflag_model: "إزالة العلامة %{model}"
-    unflag_model_history: "وضع علامة للتاريخ%{model}"
+    unflag_model: إزالة العلامة %{model}
+    unflag_model_history: وضع علامة للتاريخ%{model}
     unmark_for_mobile: إزالة علامة للمحمول
     update: تحديث
     view: عرض
     view_flags_history: عرض التاريخ
     return_to_case: العودة إلى الحالة
-
   case:
     label: حالة
     create_new_case: انشاء حالة جديدة
     enter_id_number: قم بإدخال رقم الهوية الشخصية/الوثيقة التعريفية لسجل موجود
-    id_search_no_results: "لا يوجد متشابه في النظام ل \"%{id}\"، يُرجى عمل سجل جديد."
+    id_search_no_results: لا يوجد متشابه في النظام ل "%{id}"، يُرجى عمل سجل جديد.
     messages:
       disabled: تم تعطيل الحالة
       update_success: 'تم تحديث الحالة %{record_id} بنجاح.'
@@ -204,13 +202,13 @@ ar-IQ:
       creation_success_queue: 'تمّ إنشاء سجل الحالة بنجاح في الخلفية'
       already_matched: لقد تمّت مطابقة هذا المستفسر مع حالتك سابقًا.
       already_matched_not_current_case: توجد بالفعل حالة في النظام مطابقة لهذا المستفسر.
-      not_found_case: "لم يتم العثور على حالة متطابقة , يرجى انشاء حالة جديدة "
+      not_found_case: 'لم يتم العثور على حالة متطابقة , يرجى انشاء حالة جديدة '
       introductory_sentence: يرجى تحديد موافقة الفرد على تلقي خدمات إدارة الحالة وتخزين بياناته في Primero.
       consent_agreements_required: الرجاء تحديد خيار واحد على الأقل من اتفاقيات الموافقة.
       legitimate_basis_required: الرجاء تحديد خيار واحد على الأقل من تصنيفات الأساس المشروعة
     save: حفظ الحالة
     save_text: قبل المتابعة يرجى حفظ التغييرات التي أجريت على الحالة
-    skip_and_create: "تخطي و انشاء حالة جديدة "
+    skip_and_create: 'تخطي و انشاء حالة جديدة '
     search_existing: بحث في الحالات الموجودة
     search_helper_text: لماذا ا؟ لمنع إنشاء حالات مكررة.
     consent_agreements: حدد جميع اتفاقيات الموافقة التي تنطبق
@@ -218,10 +216,10 @@ ar-IQ:
     workflow:
       assessment: التقييم
       case_plan: خطة الحالة
-      closed: "مُعلّق  "
+      closed: 'مُعلّق  '
       created_on: تم تسجيل حالة جديدة في
       in_progress: جاري
-      new: "جديدة "
+      new: 'جديدة '
       on_label: 'في'
       reopened: تم إعادة فتحها
       service_implemented: تم تطبيق الخدمة
@@ -252,7 +250,7 @@ ar-IQ:
     close_dialog_title: اغلاق الحالة
     close_success: تمّ إغلاق الحالة بنجاح
     closure: اغلاق
-    date_of_birth: "تاريخ الميلاد "
+    date_of_birth: 'تاريخ الميلاد '
     disable_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحالة معطّلًا
     disable_dialog_title: تعطيل الحالة
     disable_success: تمّ تعطيل الحالة بنجاح
@@ -278,16 +276,16 @@ ar-IQ:
       by_date: حسب التاريخ
       case_open_date: تاريخ فتح الحالة
       case_plan: خطة الحالة
-      closed: "مُعلّق "
+      closed: 'مُعلّق '
       closure: اغلاق
       current_location: الموقع الحالي
       date: تاريخ
       displacement_status: وضع النزوح
       district: قضاء
       duplicate: كرّر
-      enabled_disabled: "مُفعلة/مُعطلة "
+      enabled_disabled: 'مُفعلة/مُعطلة '
       female: أنثى
-      flag: "مميزة بعلامة "
+      flag: 'مميزة بعلامة '
       flag_label: هل كان مُميزًا بعلامة؟
       gbv_closure: اغلاق العنف القائم على النوع الإجتماعي
       high: مرتفع
@@ -336,7 +334,7 @@ ar-IQ:
       name: الاسم
     owned_by: مالك السجلّ
     owned_by_agency: وكالة مالك السجلّ
-    photo: "صورة "
+    photo: 'صورة '
     photos: صورة
     quick_view:
       tracing_message: 'ملاحظة: توجد نتائج مطابقة في النظام لما يبحث عنه المستعلم من أجل هذا الطفل. اتصل بالاخصائي الاجتماعي المعني بهذا السجل لاتخاذ خطوات إضافية إذا رغب الطفل.'
@@ -360,22 +358,22 @@ ar-IQ:
     reopen_success: تمّت إعادة فتح الحالة بنجاح
     request_approval_failure: حدث خطأ، يرجى الاتصال بالدعم.
     request_approval_select: طلب الموافقة على
-    request_approval_success_action_plan: "طلب الموافقة على نموذج %{approval_label}"
-    request_approval_success_assessment: "طلب الموافقة على نموذج %{approval_label}"
-    request_approval_success_case_plan: "طلب الموافقة على نموذج %{approval_label}"
-    request_approval_success_closure: "طلب الموافقة على نموذج %{approval_label}"
-    request_approval_success_gbv_closure: "طلب الموافقة على نموذج %{approval_label}"
+    request_approval_success_action_plan: طلب الموافقة على نموذج %{approval_label}
+    request_approval_success_assessment: طلب الموافقة على نموذج %{approval_label}
+    request_approval_success_case_plan: طلب الموافقة على نموذج %{approval_label}
+    request_approval_success_closure: طلب الموافقة على نموذج %{approval_label}
+    request_approval_success_gbv_closure: طلب الموافقة على نموذج %{approval_label}
     request_approval_type_of_case_plan: نوع الموافقة على خطة الحالة
     request_approve_action_plan: هل توافق على خطة العمل؟
-    request_approve_bia: "هل توافق على التقييم؟ "
+    request_approve_bia: 'هل توافق على التقييم؟ '
     request_approve_case_plan: هل توافق على خطة الحالة؟
     request_approve_closure: هل توافق على الإغلاق؟
     request_approve_gbv_closure: هل توافق على إغلاق العنف القائم على النوع الإجتماعي؟
-    revoke_failure: "حدث خطأ خلال إلغاء %{transition_type}، يرجى الاتصال بالدعم."
-    revoke_message: "بالنقر على \"إلغاء\" ستقوم بإزالة إمكانية وصول المستلِم %{transition_type} إلى الحالة."
-    revoke_success_message: "الحالة %{case_id}%{transition_type}%{recipient_username} التي يجب إلغاؤها."
+    revoke_failure: حدث خطأ خلال إلغاء %{transition_type}، يرجى الاتصال بالدعم.
+    revoke_message: بالنقر على "إلغاء" ستقوم بإزالة إمكانية وصول المستلِم %{transition_type} إلى الحالة.
+    revoke_success_message: الحالة %{case_id}%{transition_type}%{recipient_username} التي يجب إلغاؤها.
     save_filter: حفّظ
-    selected_all_records: "اختيار كلّ %{total_records}الحالات التي تطابق هذا الاستعلام."
+    selected_all_records: اختيار كلّ %{total_records}الحالات التي تطابق هذا الاستعلام.
     selected_records: '%{select_records} حالة (حالات) مختارة'
     sex: الجنس
     show_case: 'معرّف الحالة: %{short_id}'
@@ -406,14 +404,14 @@ ar-IQ:
           label: راجع رغبات الطفل
     survivor_code: رمز الناجية
     transfer_accepted: بالنقر على "موافقة" فإنك توافق على تحمّل مسؤولية هذه الحالة؛ وبمجرد النقر على "موافقة" ستصبح أنت مالك السجل في النظام.
-    transfer_accepted_rejected: "تمّ رفض عملية تحويل الحالة %{record_id}"
+    transfer_accepted_rejected: تمّ رفض عملية تحويل الحالة %{record_id}
     transfer_accepted_success: تمّ قبول تحويل الحالة بنجاح.
     transfer_reject_reason_label: سبب الرفض
     transfer_rejected: يشير النقر على "رفض" إلى عدم استعدادك لتحمّل مسؤولية هذه الحالة في الوقت الحالي. يرجى إدخال سبب رفضك لهذه الحالة ؛ بمجرد النقر على "رفض" لن تتمكن من الاطلاع على سجل هذه الحالة.
     view_name: عرض الاسم
   change_logs:
     filters:
-      form: "أستمارة "
+      form: 'أستمارة '
       field: حقل
     add_subform: 'تمّت إضافة%{subform_name} رقم مُدخَل النموذج الفرعي %{short_id}'
     changes_subform: 'التغييرات على النموذج الفرعي "%{subform_name}"'
@@ -428,7 +426,7 @@ ar-IQ:
     selectable_date_options:
       assessment_requested_on: تاريخ التقييم
       closure_approved_date: 'تاريخ إغلاق ملف الحالة'
-      created_at: "تاريخ فتح الحالة "
+      created_at: 'تاريخ فتح الحالة '
       date_case_plan_initiated: تاريخ خطة الحالة
       date_of_creation: تاريخ الإنشاء
       registration_date: تارخ التسجيل
@@ -483,7 +481,7 @@ ar-IQ:
     updated: تم تحديث مدونة قواعد السلوك بنجاح.
   dashboard:
     activity: النشاط
-    admin_only: "اضغط على %{links} لعمل تغييرات على التطبيق."
+    admin_only: اضغط على %{links} لعمل تغييرات على التطبيق.
     all_cases: جميع الحالات
     all_services_implemented: تم تقديم جميع الخدمات
     and: 'و'
@@ -527,13 +525,13 @@ ar-IQ:
     case_stat_by_assessment_level: تصنيف الحالات بحسب مستوى التقييم
     case_stat_referrals: الإحالات
     case_stats: الحالات
-    case_worker: "باحث اجتماعي:"
+    case_worker: 'باحث اجتماعي:'
     cases_by_social_worker: الحالات حسب الباحث الاجتماعي
     cases_by_task_overdue: المهام المتأخرة
     cases_by_workflow: الحالات حسب سريان العمل
     cases_this_week: الحالات هذا الأسبوع
     cases_to_assign: الحالات منتظرة التعيين
-    closed: "مُعلّق "
+    closed: 'مُعلّق '
     closed_last_week: أُغلقت (الأسبوع المنصرم)
     closed_this_week: أُغلقت (هذا الاسبوع)
     comprehensive_need_intervention: تدخل شامل
@@ -559,19 +557,19 @@ ar-IQ:
       many: '%{stat}موافقة %{stat_type}جديدة'
       other: '%{stat}موافقة %{stat_type}جديدة'
     count_pending_approval_total:
-      zero: 'لديك%{stat}موافقات%{stat_type} في الانتظار'
-      one: 'لديك %{stat}موافقات %{stat_type}في الانتظار'
-      two: 'لديك %{stat}موافقات %{stat_type}في الانتظار'
-      few: 'لديك%{stat}مافقات%{stat_type}في الانتظار'
-      many: 'لديك%{stat}مافقات%{stat_type}في الانتظار'
-      other: 'لديك%{stat}مافقات %{stat_type}في الانتظار'
+      zero: لديك%{stat}موافقات%{stat_type} في الانتظار
+      one: لديك %{stat}موافقات %{stat_type}في الانتظار
+      two: لديك %{stat}موافقات %{stat_type}في الانتظار
+      few: لديك%{stat}مافقات%{stat_type}في الانتظار
+      many: لديك%{stat}مافقات%{stat_type}في الانتظار
+      other: لديك%{stat}مافقات %{stat_type}في الانتظار
     count_pending_transfers:
-      zero: 'لديك%{stat} نقل حالة في الانتظار'
-      one: 'لديك %{stat}نقل حالة في الانتظار'
-      two: 'لديك%{stat} نقل حالة في الانتظار'
-      few: 'لديك%{stat} نقل حالة في الانتظار'
-      many: 'لديك %{stat} نقل حالة في الانتظار'
-      other: 'لديك%{stat} نقل حالة في الانتظار'
+      zero: لديك%{stat} نقل حالة في الانتظار
+      one: لديك %{stat}نقل حالة في الانتظار
+      two: لديك%{stat} نقل حالة في الانتظار
+      few: لديك%{stat} نقل حالة في الانتظار
+      many: لديك %{stat} نقل حالة في الانتظار
+      other: لديك%{stat} نقل حالة في الانتظار
     count_records_new:
       zero: و%{stat} حالات جديدة
       one: و %{stat}حالات جديدة
@@ -580,12 +578,12 @@ ar-IQ:
       many: و %{stat}حالات جديدة
       other: و %{stat}حالات جديدة
     count_records_total:
-      zero: 'لديك%{stat} اجمالي الحالات'
-      one: 'لديك %{stat} اجمالي الحالات'
-      two: 'لديك%{stat} اجمالي الحالات'
-      few: 'لديك %{stat}اجمالي الحالات'
-      many: 'لديك%{stat} اجمالي الحالات'
-      other: 'لديك%{stat} اجمالي الحالات'
+      zero: لديك%{stat} اجمالي الحالات
+      one: لديك %{stat} اجمالي الحالات
+      two: لديك%{stat} اجمالي الحالات
+      few: لديك %{stat}اجمالي الحالات
+      many: لديك%{stat} اجمالي الحالات
+      other: لديك%{stat} اجمالي الحالات
     count_referrals_new:
       zero: 'و %{stat}إحالات جديدة '
       one: 'و %{stat}إحالات جديدة '
@@ -594,26 +592,26 @@ ar-IQ:
       many: 'و%{stat} إحالات جديدة '
       other: 'و%{stat} إحالات جديدة '
     count_referrals_total:
-      zero: 'لديك%{stat} إجمالي الإحالات'
-      one: 'لديك %{stat}إجمالي الإحالات'
-      two: 'لديك %{stat}إجمالي الإحالات'
-      few: 'لديك%{stat} إجمالي الإحالات'
-      many: 'لديك%{stat} إجمالي الإحالات'
-      other: 'لديك%{stat} إجمالي الإحالات'
+      zero: لديك%{stat} إجمالي الإحالات
+      one: لديك %{stat}إجمالي الإحالات
+      two: لديك %{stat}إجمالي الإحالات
+      few: لديك%{stat} إجمالي الإحالات
+      many: لديك%{stat} إجمالي الإحالات
+      other: لديك%{stat} إجمالي الإحالات
     count_rejected_approval_total:
-      zero: 'و %{stat}موافقات%{stat_type} مرفوضة'
-      one: 'و %{stat}موافقات%{stat_type} مرفوضة'
-      two: 'و %{stat}موافقات%{stat_type} مرفوضة'
-      few: 'و %{stat}موافقات%{stat_type} مرفوضة'
-      many: 'و %{stat}موافقات%{stat_type} مرفوضة'
-      other: 'و%{stat} موافقات%{stat_type} مرفوضة'
+      zero: و %{stat}موافقات%{stat_type} مرفوضة
+      one: و %{stat}موافقات%{stat_type} مرفوضة
+      two: و %{stat}موافقات%{stat_type} مرفوضة
+      few: و %{stat}موافقات%{stat_type} مرفوضة
+      many: و %{stat}موافقات%{stat_type} مرفوضة
+      other: و%{stat} موافقات%{stat_type} مرفوضة
     count_rejected_transfers:
-      zero: 'و %{stat}نقل حالات مرفوضة'
-      one: 'و %{stat}نقل حالات مرفوضة'
-      two: 'و %{stat}نقل حالات مرفوضة'
-      few: 'و %{stat}نقل حالات مرفوضة'
-      many: 'و%{stat} نقل حالات مرفوضة'
-      other: 'و%{stat} نقل حالات مرفوضة'
+      zero: و %{stat}نقل حالات مرفوضة
+      one: و %{stat}نقل حالات مرفوضة
+      two: و %{stat}نقل حالات مرفوضة
+      few: و %{stat}نقل حالات مرفوضة
+      many: و%{stat} نقل حالات مرفوضة
+      other: و%{stat} نقل حالات مرفوضة
     count_risk_level_new:
       zero: و %{stat}مخاطر حالات%{stat_type} جديدة
       one: و %{stat}مخاطر حالات%{stat_type} جديدة
@@ -628,12 +626,12 @@ ar-IQ:
       few: 'لديك %{stat}حالة%{stat_type} الخطورة '
       many: 'لديك%{stat} حالة%{stat_type} الخطورة '
       other: 'لديك %{stat}حالة%{stat_type} الخطورة '
-    count_waiting_for_acceptance_transfers: "لديك%{stat} نقل حالة بإنتظار موافقتك"
+    count_waiting_for_acceptance_transfers: لديك%{stat} نقل حالة بإنتظار موافقتك
     current_owner: المالك الحالي
     dash_case_incident_overview: حالاتي
     dash_group_overview: حالات مجموعتي
     dash_shared_from_my_team: تمّ تشاركها من فريقي
-    dash_shared_with_me: "تم مشاركتها معي "
+    dash_shared_with_me: 'تم مشاركتها معي '
     dash_shared_with_my_team: تمّ تشاركها مع فريقي
     dash_shared_with_others: تمّ تشاركها مع آخرين
     dash_national_admin_summary: ملخص المسؤول
@@ -641,7 +639,7 @@ ar-IQ:
     date_of_incident: تاريخ الحادثة
     date_of_interview: تاريخ المقابلة
     due: تأخرت
-    flagged: "مميزة بعلامة "
+    flagged: 'مميزة بعلامة '
     flagged_by: 'تم تمييزه بعلامة بواسطة:'
     flagged_by_me: تم تمييزه بعلامة بواسطتي
     flagged_by_other: تم تمييزه بواسطة شخص آخر
@@ -649,11 +647,11 @@ ar-IQ:
     follow_up: متابعة
     forms: تبويب النماذج
     geographic_area: المنطقة الجغرافية
-    group_overview_closed: "مُعلّق "
+    group_overview_closed: 'مُعلّق '
     group_overview_open: مفتوحة
     high_level: مرتفع
     high_risk: أولوية عالية
-    immediate_response: "استجابة فورية "
+    immediate_response: 'استجابة فورية '
     in_progress: قيد التنفيذ
     incident_id: 'معرف #الحادثة'
     incident_location: موقع الحادثة
@@ -663,12 +661,12 @@ ar-IQ:
     low_level: منخفض
     low_risk: أولوية منخفضة
     manager_count_closed_total:
-      zero: 'و %{stat}حالات مغلقة'
-      one: 'و %{stat}حالات مغلقة'
-      two: 'و %{stat}حالات مغلقة'
-      few: 'و %{stat}حالات مغلقة'
-      many: 'و %{stat}حالات مغلقة'
-      other: 'و%{stat} حالات مغلقة'
+      zero: و %{stat}حالات مغلقة
+      one: و %{stat}حالات مغلقة
+      two: و %{stat}حالات مغلقة
+      few: و %{stat}حالات مغلقة
+      many: و %{stat}حالات مغلقة
+      other: و%{stat} حالات مغلقة
     manager_count_open_total:
       zero: 'لديك %{stat}حالات مفقتوحة '
       one: 'لديك%{stat} حالات مفقتوحة '
@@ -677,11 +675,11 @@ ar-IQ:
       many: 'لديك%{stat} حالات مفقتوحة '
       other: 'لديك %{stat}حالات مفقتوحة '
     manager_transfers_totals:
-      zero: 'لديك%{stat}%{stat_type} نقل حالة'
-      one: 'لديك%{stat}%{stat_type} نقل حالة'
-      two: 'لديك%{stat}%{stat_type} نقل حالة'
-      few: 'لديك%{stat}%{stat_type} نقل حالة'
-      many: 'لديك%{stat}%{stat_type} نقل حالة'
+      zero: لديك%{stat}%{stat_type} نقل حالة
+      one: لديك%{stat}%{stat_type} نقل حالة
+      two: لديك%{stat}%{stat_type} نقل حالة
+      few: لديك%{stat}%{stat_type} نقل حالة
+      many: لديك%{stat}%{stat_type} نقل حالة
       other: 'لديك %{stat}%{stat_type}نقل حالة '
     match_result: نتائج متشابهة
     medium_level: متوسط
@@ -689,7 +687,7 @@ ar-IQ:
     missed_cases: الحالات الفائتة
     name: الاسم
     name_or_survivor_code: اسم الناجي أو رمزه
-    near_deadline: "قاربت على تاريخ الانتهاء "
+    near_deadline: 'قاربت على تاريخ الانتهاء '
     new: جديد ومحدث
     new_child_assigned_to_you: حالات جديدة تم تعيينها لك
     new_incident: حالات جديدة
@@ -701,7 +699,7 @@ ar-IQ:
     new_this_week: جديد(هذا الاسبوع)
     no_action_risk: لا يوجد إجراء
     no_case_stats: لا يوجد إحصائيات حالة
-    no_caseworker_data: " بيانات الباحث الاجتماعي غير موجودة:"
+    no_caseworker_data: ' بيانات الباحث الاجتماعي غير موجودة:'
     no_flagged_child: لا يوجد حالات مميزة بعلامة
     no_flagged_incident: لا يوجد حوادث مميزة بعلامة
     no_open_incidents: لا يوجد حوادث مفتوحة
@@ -724,7 +722,7 @@ ar-IQ:
     pending_transfers: عمليات التحويل المعلّقة
     protection_concern: شؤون تنتهك الحماية
     protection_concerns: شؤون تنتهك الحماية
-    range12+: +12
+    range12+: '+12'
     range4: 0-4
     range4_8: 4-8
     range8_12: 8-12
@@ -784,7 +782,7 @@ ar-IQ:
     you_have: 'لديك'
   disabled:
     status:
-      disabled: "مُعطلة "
+      disabled: 'مُعطلة '
       enabled: مُفعلة
   email_notification:
     assign: 'المستخدم %{user} قد عيّن السجل التالي %{record_type} لك: %{record_id}'
@@ -812,18 +810,16 @@ ar-IQ:
     password_extra_info: يجب أن تتألّف كلمة المرور من 8 أحرف على الأقل. سيتم ربط كلمة المرور هذه بالملف الذي تم تصديره وسيتعين إدخالها من قبل أي شخص يفتح هذا الملف في المستقبل.
     password_label: الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك.
   error_message:
-    address_fields: "يجب عليك معالجة الحقول %{fields} في النماذج %{forms}"
-    address_form_fields: "يجب عليك معالجة الحقول %{fields} في هذا النموذج"
+    address_fields: يجب عليك معالجة الحقول %{fields} في النماذج %{forms}
+    address_form_fields: يجب عليك معالجة الحقول %{fields} في هذا النموذج
     address_subform_fields: 'النموذج الفرعي %{subform} يحتوي على عدد %{fields} من الحقول غير الصالحة'
   error_page:
     not_authorized:
-      code: 403
       server_error: أنت غير مخوّل لدخول هذه الصفحة.
       title: غير مخوّل
     not_found:
-      code: 404
       contact_admin: إذا كنت تعتقد إنك جئت إلى هنا بالخطأ يرجى الاتصال بالمشرف.
-      something_went_wrong: "نأسف, يوجد خطأ."
+      something_went_wrong: نأسف, يوجد خطأ.
   errors:
     error_loading: خطأ في تحميل السجل (السجلات)
     models:
@@ -863,12 +859,12 @@ ar-IQ:
       user:
         email: "يرجى إدخال عنوان بريد إلكتروني صالح (مثلاً: \"name@example.org\")"
         password_mismatch: حقول كلمة المرور لا تحمل نفس كلمة المرور
-        password_length: "يجب أن تتألف كلمة المرور من %{min} أحرف على الأقل"
+        password_length: يجب أن تتألف كلمة المرور من %{min} أحرف على الأقل
         email_uniqueness: يوجد بالفعل مستخدم لعنوان البريد الإلكتروني هذا. الرجاء إدخال عنوان مختلف
       code_of_conduct:
-        title_present: "لا يجب ان يكون اللقب فارغاً "
+        title_present: 'لا يجب ان يكون اللقب فارغاً '
         content_present: لا يجب ان يكون  المحتوى فارغًا
-        created_by_present: "خانة الإنشاء من قبل , لا يجب ان تكون فارغة"
+        created_by_present: خانة الإنشاء من قبل , لا يجب ان تكون فارغة
     not_found: لم يتمّ العثور على أي سجل (سجلات)
     try_again: حاول مجدّدًا
   exports:
@@ -912,11 +908,11 @@ ar-IQ:
         age: العمر
         case_id: رقم ملف الحالة
         child_name_last_first: اسم الطفل
-        family_size: "حجم العائلة "
+        family_size: 'حجم العائلة '
         moha_id: معَرف موها مهترئ
         national_id_no: رقم الهوية الوطنية
         progress_id: معرف التقدم
-        sex_mapping_m_f_u: "الجنس  "
+        sex_mapping_m_f_u: 'الجنس  '
       male_abbreviation: ذكر
       unknown_abbreviation: U
     exported: تمّ إنشاء ملف التصدير بنجاح
@@ -949,12 +945,11 @@ ar-IQ:
         reportinglocation: مواقع الإبلاغ
         subforms: 'النموذج الفرعي: %{subform_name}'
         collapsed_fields: 'الحقول الهابطة: %{fields}'
-
     go_to_exports: انتقل إلى صفحة التصديرات للتنزيل
     incident_recorder_xls:
       all: مسجّل الحادثة
       one: مسجّل الحادثة
-      selected: "تم اختياره لمسجّل الحادثة "
+      selected: 'تم اختياره لمسجّل الحادثة '
     json:
       all: JSON
       one: JSON
@@ -990,9 +985,9 @@ ar-IQ:
       one: Photo Wall
       reunited: إعادة لمّ الشمل
       selected: تحديد إلى Photo Wall
-      success_message: "إنشاء جدار الصور الفوتوغرافية%{file_name} لن يتم تضمين الحالات التي لا تحتوي على صور."
+      success_message: إنشاء جدار الصور الفوتوغرافية%{file_name} لن يتم تضمين الحالات التي لا تحتوي على صور.
     printed: 'تمّت الطباعة %{date}'
-    queueing: "جاري إنشاء ملف التصدير %{file_name}"
+    queueing: جاري إنشاء ملف التصدير %{file_name}
     selected_xls:
       all: Excel
       one: Excel
@@ -1003,12 +998,12 @@ ar-IQ:
       female_abbreviation: أنثى
       headers:
         age: العمر
-        case_status: "وضع الحالة  "
+        case_status: 'وضع الحالة  '
         causes_of_separation: سبب الانفصال
         country_of_origin: البلد الأصلي
         cpims_code: رمز نظام المعلومات الخاص بحماية الطفل
         current_care_arrangement: ترتيبات الرعاية الحالية
-        date_of_birth: "تاريخ الميلاد "
+        date_of_birth: 'تاريخ الميلاد '
         date_of_identification: تاريخ التحديد
         family_count_no: عدد أفراد الأسرة
         governorate_country: المحافظة - الدولة
@@ -1023,11 +1018,11 @@ ar-IQ:
         progres_id: معرف التقدم
         reunification_status: حالة جمع شمل الأسرة
         secondary_protection_concerns: تدابير الحماية الثانوية
-        sex: "الجنس  "
-        sex_mapping_m_f_u: "الجنس  "
+        sex: 'الجنس  '
+        sex_mapping_m_f_u: 'الجنس  '
         short_id: هوية شخصية قصيرة
-        vulnerability_code: "رموز الضعف "
-        vulnerability_details_code: "رموز تفاصيل الضعف "
+        vulnerability_code: 'رموز الضعف '
+        vulnerability_details_code: 'رموز تفاصيل الضعف '
       male_abbreviation: ذكر
       one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
       selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
@@ -1059,7 +1054,7 @@ ar-IQ:
     add_new_field: انشاء حقل جديد
     add_existing_field: إضافة حقل موجود
     add_field: إضافة حقل
-    add_field_type: "إضافة%{file_type}"
+    add_field_type: إضافة%{file_type}
     audio:
       current: التسجيل الصوتي الحالي
     audio_upload_box: تحميل التسجيل الصوتي
@@ -1073,7 +1068,7 @@ ar-IQ:
     create_unique_values: إنشاء قِيَم فريدة
     date_field: حقل التاريخ
     date_help: اليوم-الشهر-السنة
-    date_help_with_time: "اليوم-الشهر-السنة الساعة: الدقيقة"
+    date_help_with_time: 'اليوم-الشهر-السنة الساعة: الدقيقة'
     date_not_valid: التاريخ غير صحيح
     date_range:
       date: التاريخ
@@ -1088,9 +1083,9 @@ ar-IQ:
     default_to_current_date: هل تريد جعل التاريخ الحالي إعدادًا افتراضًّيا؟
     default_to_current_datetime: هل تريد جعل التاريخ والوقت الحاليين إعدادًا افتراضًّيا؟
     default_value: القيمة الافتراضية
-    deleted: "تم إلغاء الحقل %{display_name}."
+    deleted: تم إلغاء الحقل %{display_name}.
     detail: تفاصيل
-    disabled: "مُعطلة "
+    disabled: 'مُعطلة '
     display_name: عرض الاسم
     document:
       comments: ملاحظات
@@ -1105,14 +1100,14 @@ ar-IQ:
     english_text: النص باللغة الإنجليزية
     field_name: اسم الحقل
     field_type: نوع الحقل
-    attachment_too_large: " يجب ألّا يتعدّى حجم الملفّ 10 ميجابايت"
+    attachment_too_large: ' يجب ألّا يتعدّى حجم الملفّ 10 ميجابايت'
     file_upload_box:
       add_document_label: إضافة مستند
       add_new_document_button_text: إضافة مستند آخر
       add_new_photo_button_text: إضافة صورة أخرى
       add_photo_label: إضافة صورة
       document_description: وصف المستند
-      document_file_restrictions_message: " يجب أن لا يتعدى حجم الملف 2mb أوأن لا يكون صيغة الملف exe."
+      document_file_restrictions_message: ' يجب أن لا يتعدى حجم الملف 2mb أوأن لا يكون صيغة الملف exe.'
       no_file_selected: لم يتم ارفاق أي ملف.
       photo_file_restrictions_message: لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل.
       recorded_audio_label: اضافة التسجيل صوتي
@@ -1154,7 +1149,7 @@ ar-IQ:
     search_existing: ابحث في الحقول الموجودة
     select_box: حدد القائمة المنسدلة
     select_date_validation: اختر طريقة للتأكد من سلامة التاريخ
-    select_multiple: "اختَر كلّ ما ينطبق "
+    select_multiple: 'اختَر كلّ ما ينطبق '
     select_single: (اختَر...)
     separator: فاصل
     show: أظهِر؟
@@ -1194,7 +1189,7 @@ ar-IQ:
     flag_added: تمّت إضافة العلامة بنجاح
     flag_date: تاريخ وضع العلامة
     flag_reason: سبب وضع العلامة
-    flag_reason_maximun_label: " 255 حرفًا كحد أقصى."
+    flag_reason_maximun_label: ' 255 حرفًا كحد أقصى.'
     flag_resolved: تمّ حلّ العلامة
     flags_tab: العلامات
     no_flags: لم يتمّ العثور على علامات
@@ -1258,11 +1253,11 @@ ar-IQ:
     settings: إعدادات
     show_on: اظهِر على
     subform_need_to_be_added: يجب إضافتها.
-    subform_not_found: "لم يتمّ ايجاد النموذج الفرعي %{subform_name}."
+    subform_not_found: لم يتمّ ايجاد النموذج الفرعي %{subform_name}.
     title: عنوان النموذج
     translations:
       edit: تعديل الترجمات
-      edit_form_group: " تعديل البحث عن مجموعة النموذج."
+      edit_form_group: ' تعديل البحث عن مجموعة النموذج.'
       manage: إدارة الترجمات
       no_changes_message: لم تقم بأي تغييرات في الترجمة
       note: 'ملاحظة:'
@@ -1388,12 +1383,7 @@ ar-IQ:
       title: "3. الإبلاغ عن التأخير"
       delay: "التأخير"
       total_incidents: "مجموع الحوادث"
-      helptext: |
-        يحتسب هذا المؤشر ويصنف عدد الأيام التي انقضت بين وقت
-        تعرّض الناجية للعنف القائم على النوع الاجتماعي والوقت الذي أبلغت فيه الناجية مقدم الخدمة بذلك لأول مرة. يتمّ 
-        احتسابه بناءً على وقت إبلاغ منظمة المستخدم بالحادثة. يتمّ 
-        تصنيف البيانات على أساس فترات زمنية مختلفة (0-3 أيام ؛ 4-5 أيام ؛ 6-14 يومًا ؛ 15-30 يومًا ؛
-        أكثر من شهر واحد ؛ أكثر من 3 أشهر).
+      helptext: "يحتسب هذا المؤشر ويصنف عدد الأيام التي انقضت بين وقت\nتعرّض الناجية للعنف القائم على النوع الاجتماعي والوقت الذي أبلغت فيه الناجية مقدم الخدمة بذلك لأول مرة. يتمّ \nاحتسابه بناءً على وقت إبلاغ منظمة المستخدم بالحادثة. يتمّ \nتصنيف البيانات على أساس فترات زمنية مختلفة (0-3 أيام ؛ 4-5 أيام ؛ 6-14 يومًا ؛ 15-30 يومًا ؛\nأكثر من شهر واحد ؛ أكثر من 3 أشهر).\n"
     service_access_delay:
       title: "تأخير الوصول إلى الخدمة"
       delay: "التأخير"
@@ -1418,19 +1408,11 @@ ar-IQ:
       title: "6. خطط عمل حالة مكتملة"
       completed: "خطّة عمل حالة مكتملة"
       label: "6. خطّة عمل حالة مكتملة"
-      helptext: |
-        يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها. 
-        تُعتبر خطة عمل حالة مكتملة عندما يتمّ إكمال مجموعة من الحقول الإلزامية
-        في نموذج خطّة العمل.
+      helptext: "يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها. \nتُعتبر خطة عمل حالة مكتملة عندما يتمّ إكمال مجموعة من الحقول الإلزامية\nفي نموذج خطّة العمل.\n"
     completed_supervisor_approved_case_action_plans:
       title: "7. وافق المشرف على خطط عمل الحالة"
       completed_and_approved: "تمّت الموافقة على خطط عمل الحالة المكتملة من قبل المشرف"
-      helptext: |
-        يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها 
-        والموافقة عليها من قبل المشرف. تعتبر خطة عمل حالة مكتملة 
-        عندما يتمّ إكمال مجموعة من الحقول الإلزامية في نموذج خطّة العمل. تعتبر خطة الحالة
-        معتمدة عندما يطلب الإختصاصي الإجتماعي الموافقة على خطة الحالة
-        ووافق المشرف على خطة الحالة على المنصة.
+      helptext: "يحتسب هذا المؤشر نسبة الحالات النشطة التي استكملت خطة عمل حالة بشأنها \nوالموافقة عليها من قبل المشرف. تعتبر خطة عمل حالة مكتملة \nعندما يتمّ إكمال مجموعة من الحقول الإلزامية في نموذج خطّة العمل. تعتبر خطة الحالة\nمعتمدة عندما يطلب الإختصاصي الإجتماعي الموافقة على خطة الحالة\nووافق المشرف على خطة الحالة على المنصة.\n"
     services_provided:
       title: "8. الخدمات المقدَّمة"
       service: "الخدمة"
@@ -1472,18 +1454,11 @@ ar-IQ:
       title: "12. الوقت بين فتح الحالة إلى إغلاق الحالة"
       time: "الوقت"
       percent: "نسبة الحالات المئوية"
-      helptext: |
-        يقيس هذا المؤشر المدة التي تظلّ فيها الحالات مفتوحة، والمدة التي تستغرقها عملية إدارة الحالة
-        من الإبلاغ الأوّلي لمنظمة المستخدم حتى إغلاق الحالة. 
-        يتمّ تقسيم المدة الزمنية حسب الإطار الزمني التالي: أقل من شهر واحد ؛ بين 1 و 3 أشهر ؛ 
-        بين3-6 أشهر ؛ أكثر من 6 أشهر.
+      helptext: "يقيس هذا المؤشر المدة التي تظلّ فيها الحالات مفتوحة، والمدة التي تستغرقها عملية إدارة الحالة\nمن الإبلاغ الأوّلي لمنظمة المستخدم حتى إغلاق الحالة. \nيتمّ تقسيم المدة الزمنية حسب الإطار الزمني التالي: أقل من شهر واحد ؛ بين 1 و 3 أشهر ؛ \nبين3-6 أشهر ؛ أكثر من 6 أشهر.\n"
     case_closure_rate:
       title: "13. معدّل إغلاق الحالة"
       reporting_site: "موقع الإبلاغ"
-      helptext: |
-        يقيس هذا المؤشر عدد الحالات التي يتمّ إغلاقها شهريًا في كلّ موقع إبلاغ.
-        يُشير موقع الإبلاغ إلى الموقع الذي تقدم فيه منظمة المستخدم الخدمات 
-        و حيث تم الإبلاغ عن الحالة إلى مزود الخدمة.
+      helptext: "يقيس هذا المؤشر عدد الحالات التي يتمّ إغلاقها شهريًا في كلّ موقع إبلاغ.\nيُشير موقع الإبلاغ إلى الموقع الذي تقدم فيه منظمة المستخدم الخدمات \nو حيث تم الإبلاغ عن الحالة إلى مزود الخدمة.\n"
     client_satisfaction_rate:
       title: "14. معدّل رضا العميل"
       label: "رضا العميل"
@@ -1495,9 +1470,7 @@ ar-IQ:
     supervisor_to_caseworker_ratio:
       title: "15. عدد الإختصاصيين الإجتماعيين لكلّ مشرف."
       label: "عدد الإختصاصيين الإجتماعيين لكلّ مشرف"
-      helptext: |
-        يعكس هذا المؤشر عدد الإختصاصيين الإجتماعيين الذين يشرف عليهم المشرف: ويُعرف بعدد الإختصاصيين الإجتماعيين لكلّ مشرف. 
-        يعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.
+      helptext: "يعكس هذا المؤشر عدد الإختصاصيين الإجتماعيين الذين يشرف عليهم المشرف: ويُعرف بعدد الإختصاصيين الإجتماعيين لكلّ مشرف. \nيعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.\n"
     case_load:
       title: "16. كمية الحالات"
       case_load: "كميّة الحالات"
@@ -1519,7 +1492,6 @@ ar-IQ:
       aria-labels:
         from: "سيتم اختيار البيانات بعد هذا التاريخ"
         to: "سيتم اختيار البيانات قبل هذا التاريخ"
-
   location:
     base_types:
       camp: مخيم
@@ -1540,7 +1512,7 @@ ar-IQ:
       zone: منطقة
     label: الموقع
     name: الإسم
-    code: "الرمز "
+    code: 'الرمز '
     admin_level: مستوى المسؤول
     type: النوع
     hierarchy: التراتبية الهرمية
@@ -1563,8 +1535,8 @@ ar-IQ:
       case_plan_rejected: تم رفض خطة الحالة
       case_plan_requested: مطلوب خطة حالة
       close: إغلاق
-      create: "انشاء "
-      create_bulk: "انشاء التراكم "
+      create: 'انشاء '
+      create_bulk: 'انشاء التراكم '
       delete: حذف
       destroy: تلف
       detach: فصل
@@ -1578,19 +1550,19 @@ ar-IQ:
       login: تسجيل الدخول
       password_reset: إعادة تعيين كلمة المرور
       password_reset_request: طلب إعادة تعيين كلمة المرور
-      refer: "إُحيل او إحالة "
-      refer_accepted: "قُبلت الإحالة "
+      refer: 'إُحيل او إحالة '
+      refer_accepted: 'قُبلت الإحالة '
       refer_done: تمت الإحالة
       refer_rejected: رُفض الإحالة
       refer_revoke: إبطال الإحالة
       refer_to: إُحيل  الى او إحالة الى
-      reopen: "إعادة فتح الحالة "
+      reopen: 'إعادة فتح الحالة '
       services_section_from_case: قسم الخدمات من حالة
       show: أظهار
       show_alerts: عرض التنبيهات
       traces: تتبع
       transfer: نقل
-      transfer_accepted: "طلب النقل قُبل "
+      transfer_accepted: 'طلب النقل قُبل '
       transfer_rejected: طلب النقل رفض
       transfer_request: طلب النقل
       transfer_to: نقل إلى
@@ -1643,8 +1615,8 @@ ar-IQ:
     reassign: جاري التعيين
     resources:
       audit_log: سجل التدقيق
-      user: "مستخدم "
-      agency: "الوكالة "
+      user: 'مستخدم '
+      agency: 'الوكالة '
       user_group: مجموعة المستخدمين
       child: طفل
       alert: تحذير
@@ -1656,8 +1628,8 @@ ar-IQ:
       report: تقرير
       bulk_export: تصدير بالجملة
       saved_search: حفظ البحث
-      role: "مسؤولية "
-      incident: "الحادثة "
+      role: 'مسؤولية '
+      incident: 'الحادثة '
       location: الموقع
       primero_configuration: تكوين Primero
       code_of_conduct: مدونة قواعد السلوك
@@ -1699,7 +1671,7 @@ ar-IQ:
       label: تأكيد كلمة المرور
     password_match:
       label: يجب أن تتطابق كلمة المرور
-    provider_title: "مع %{provider}"
+    provider_title: مع %{provider}
     title: تسجيل الدخول
     username: اسم المستخدم
     password_reset_modal: إعادة تعيين كلمة المرور
@@ -1724,11 +1696,11 @@ ar-IQ:
     translation_label: نص الترجمة
     values: خيارات
   messages:
-    alert_items: "لديك%{items} عناصر ملحوظة."
+    alert_items: لديك%{items} عناصر ملحوظة.
     alerts_for:
-      approval: "الموافقة معلّقة لـ%{form_section_name}"
+      approval: الموافقة معلّقة لـ%{form_section_name}
       field_change: 'تمّ تحديث %{form_section_name} في %{alert_time}'
-      transfer_request: "تمّ القيام بطلب تحويل في %{date}من قبل %{user} إلى %{agency}"
+      transfer_request: تمّ القيام بطلب تحويل في %{date}من قبل %{user} إلى %{agency}
     cannot_edit: لا يمكن تعديله
     confirmation_message: انقر فوق موافق لتجاهل أي تغييرات غير محفوظة والعودة إلى عرض القائمة. انقر فوق إلغاء للعودة إلى السجل.
     dashboard_offline: أنت غير متصل بالشبكة حاليًا. ستعمل لوحة المعلومات بكامل طاقتها عندما تعاود الاتصال بالإنترنت
@@ -1742,9 +1714,9 @@ ar-IQ:
     no_changes: لم تقم بأي تغييرات في الحقل
     not_available: غير متاح
     record_list:
-      column_header_tooltip: "ترتيب ل%{column}"
+      column_header_tooltip: ترتيب ل%{column}
       of: من
-      no_match: "عذراً، لا توجد سجلات مطابقة  "
+      no_match: 'عذراً، لا توجد سجلات مطابقة  '
       rows_per_page: عدد الأسطر في الصفحة الواحدة
       sort: ترتيب / تصنيف
   navigation:
@@ -1783,11 +1755,11 @@ ar-IQ:
       approvals_case_plan_pending: '%{approval_label} معلّق'
       approvals_closure: '%{approval_label}'
       approvals_closure_pending: '%{approval_label} معلّق'
-      approve_action_plan: "الموافقة على %{approval_label}"
-      approve_assessment: "الموافقة على نموذج %{approval_label}"
-      approve_case_plan: "الموافقة على %{approval_label}"
-      approve_closure: "الموافقة على نموذج %{approval_label}"
-      approve_gbv_closure: "الموافقة على نموذج %{approval_label}"
+      approve_action_plan: الموافقة على %{approval_label}
+      approve_assessment: الموافقة على نموذج %{approval_label}
+      approve_case_plan: الموافقة على %{approval_label}
+      approve_closure: الموافقة على نموذج %{approval_label}
+      approve_gbv_closure: الموافقة على نموذج %{approval_label}
       assign: تعيين/نقل
       assign_within_agency: تعيين ضمن المؤسسة
       assign_within_user_group: تعيين ضمن مجموعة المستخدمين
@@ -1806,7 +1778,7 @@ ar-IQ:
       close: اغلاق
       consent_override: تجاوز الموافقة
       copy: نسخ
-      copy_of: "نسخة من "
+      copy_of: 'نسخة من '
       create: انشاء
       dash_case_incident_overview: حالاتي/حوادثي
       dash_cases_by_social_worker: عرض الحالات التي تولاها الباحث الاجتماعي
@@ -1822,7 +1794,7 @@ ar-IQ:
       dash_reporting_location: عرض مواقع الإبلاغ
       dash_service_provisions: عرض تقديم الخدمات
       dash_shared_from_my_team: تمّ تشاركها من فريقي
-      dash_shared_with_me: "تم مشاركتها معي "
+      dash_shared_with_me: 'تم مشاركتها معي '
       dash_shared_with_my_team: تمّ تشاركها مع فريقي
       dash_shared_with_others: تمّ تشاركها مع آخرين
       dash_show_none_values: عرض القيم الخالية
@@ -1848,7 +1820,7 @@ ar-IQ:
       find_tracing_match: ايجاد تطابق التتبع للحالة
       flag: تمييز بعلامة
       form: نماذج
-      group: "الوصول لجميع السجلات أو المستخدمين في مجموعتي "
+      group: 'الوصول لجميع السجلات أو المستخدمين في مجموعتي '
       group_read: قراءة المجموعة
       import: استيراد
       incident: حادثة
@@ -1871,11 +1843,11 @@ ar-IQ:
       reopen: إعادة فتح
       report: تقرير
       request_approval: طلب للمصادقة
-      request_approval_action_plan: "طلب موافقة %{approval_label}"
-      request_approval_assessment: "طلب موافقة %{approval_label}"
-      request_approval_case_plan: "طلب موافقة %{approval_label}"
-      request_approval_closure: "طلب موافقة %{approval_label}"
-      request_approval_gbv_closure: "طلب موافقة %{approval_label}"
+      request_approval_action_plan: طلب موافقة %{approval_label}
+      request_approval_assessment: طلب موافقة %{approval_label}
+      request_approval_case_plan: طلب موافقة %{approval_label}
+      request_approval_closure: طلب موافقة %{approval_label}
+      request_approval_gbv_closure: طلب موافقة %{approval_label}
       request_transfer: طلب تحويل
       role: أدوار المستخدم
       save_search: عمليات بحث محفوظة
@@ -1892,7 +1864,7 @@ ar-IQ:
       transfer: يمكن استخدامها للتحويل
       user: مستخدمون
       user_group: مجموعات المستخدمين
-      view_approvals: "عرض المصادقات "
+      view_approvals: 'عرض المصادقات '
       view_assessment: عرض التقييم
       view_photo: عرض الصورة
       view_protection_concerns_filter: عرض عامل التصفية الخاص بعملية الحماية
@@ -1946,7 +1918,7 @@ ar-IQ:
             explanation: القدرة على معرفة عدد الأيام المنقضية بين وقت تعرّض الناجية للعنف القائم على النوع الاجتماعي ووقت إبلاغ الناجية بذلك لمقدم الخدمة، بالنسبة إلى كلّ الحوادث التي يمكن للمستخدم الوصول إليها.
             label: الإبلاغ عن التأخير
           kpi_services_provided:
-            explanation: "القدرة على معرفة نوع الخدمات التي قدّمتها المنظمة داخليًّا لجميع الحالات التي يمكن للمستخدم الوصول إليها. "
+            explanation: 'القدرة على معرفة نوع الخدمات التي قدّمتها المنظمة داخليًّا لجميع الحالات التي يمكن للمستخدم الوصول إليها. '
             label: الخدمات المقدَّمة
           kpi_supervisor_to_caseworker_ratio:
             explanation: القدرة على معرفة متوسط عدد الإختصاصيين الإجتماعيين لكلّ مشرف.
@@ -1985,23 +1957,23 @@ ar-IQ:
             explanation: يسمح للمستخدم بإضافة مُدخَل إلى نموذج "الملاحظات" الفرعي (يُطلق عليه أحيانًا اسم "التعليقات"). يقوم المستخدم بذلك عن طريق النقر فوق زر "إضافة ملاحظات" في صفحة عرض الحالة. هذا الإجراء مفيد بشكل خاص للمديرين الذين ليس لديهم القدرة على تعديل الحالات، ولكنّهم يريدون إضافة تذكيرات عن حالة للإختصاصي الإجتماعي. بهذه الطريقة، يُشبِه إضافة ملاحظة إضافة علم. ميزة إضافة ملاحظة هي أنه عندما يضيف المدير ملاحظة إلى حالة ما، سيظهر إشعار على الحالة للإختصاصي الإجتماعي عندما يعرض الحالة على هاتفه الجوّال.
             label: اضافة ملاحظات إلى حالة
           approve_action_plan:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على %{approval_label}
           approve_assessment:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على نموذج %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على نموذج %{approval_label}
           approve_bia:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على نموذج %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على نموذج %{approval_label}
           approve_case_plan:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على %{approval_label}
           approve_closure:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على نموذج %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على نموذج %{approval_label}
           approve_gbv_closure:
-            explanation: "يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم."
-            label: "الموافقة على نموذج %{approval_label}"
+            explanation: يسمح للمدير بالموافقة على %{approval_label} لحالات الإختصاصيين الإجتماعيين لديهم.
+            label: الموافقة على نموذج %{approval_label}
           assign:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في النظام. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات التحويل لا يُمنح المستلِم الفرصة لقبول التعيين أو رفضه.
             label: تعيين
@@ -2098,23 +2070,23 @@ ar-IQ:
             explanation: يسمح للمستخدم بفتح حالة مغلقة حاليًّا
             label: إعادة فتح
           request_approval_action_plan:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_approval_assessment:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_approval_bia:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_approval_case_plan:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_approval_closure:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_approval_gbv_closure:
-            explanation: "يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}."
-            label: "طلب موافقة %{approval_label}"
+            explanation: يسمح للمستخدم (عادة ما يكون إختصاصي إجتماعي) الطلب من مديره الموافقة على حالتهم %{approval_label}.
+            label: طلب موافقة %{approval_label}
           request_transfer:
             explanation: يكشف عن زر "طلب التحويل" الموجود على "عرض القسم". يسمح الزر للمستخدم بإرسال رسالة مع ملاحظة شخصية عبر البريد الإلكتروني إلى مالك سجل الحالة الحالي، يطلب من مالك السجل تحويل الحالة إلى المستخدم الذي أرسل الطلب. يُعدّ هذا مفيدًا في السياقات التي يغيّر فيها الأطفال المواقع كثيرًا، ويحتاج الإختصاصيّون الإجتماعيّون إلى الإختصاصيّين الإجتماعيّين السابقين الذين عملوا مع الطفل لإرسال معلومات حول الطفل لتجنب إنشاء سجل مكرّر.
             label: طلب تحويل
@@ -2140,7 +2112,7 @@ ar-IQ:
             explanation: يسمح للمستخدم بمشاهدة صور الحالة من عرض قائمة الحالة. بدون هذا الإذن، لا يرى المستخدم عمود "الصور" في جدول قائمة الحالات، ولا يرى أيضًا رموز الصور التي تظهر هناك. يسمح هذا الإذن أيضًا للمستخدم بمشاهدة صور الطفل في "عرض القسم".
             label: مشاهدة الصور من عرض قائمة الحالة
           view_incident_from_case:
-            explanation: "\"عند عرض الحالة، يمكن للمستخدم الاطلاع على قائمة بالحوادث المرتبطة بالحالة، بالإضافة إلى بعض المعلومات الموجزة حول كلّ منها."
+            explanation: '"عند عرض الحالة، يمكن للمستخدم الاطلاع على قائمة بالحوادث المرتبطة بالحالة، بالإضافة إلى بعض المعلومات الموجزة حول كلّ منها.'
             label: عرض الحوادث من حالة
           write:
             explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات في الحالة ثم النقر على "حفظ"
@@ -2150,34 +2122,34 @@ ar-IQ:
         actions:
           approvals_action_plan:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على خطة العمل المعلّقة أو الموافق عليها أو المرفوضة.
-            label: "موافقات الإختصاصي الإجتماعي %{approval_label}"
+            label: موافقات الإختصاصي الإجتماعي %{approval_label}
           approvals_action_plan_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على خطة العمل المعلّقة.
-            label: "موافقات المدير %{approval_label}"
+            label: موافقات المدير %{approval_label}
           approvals_assessment:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على التقييم المعلّقة أو الموافق عليها أو المرفوضة.
-            label: "موافقات الإختصاصي الإجتماعي %{approval_label}"
+            label: موافقات الإختصاصي الإجتماعي %{approval_label}
           approvals_assessment_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على التقييم المعلّقة.
-            label: "موافقات المدير %{approval_label}"
+            label: موافقات المدير %{approval_label}
           approvals_case_plan:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على خطة الحالة المعلّقة أو الموافق عليها أو المرفوضة.
-            label: "موافقات الإختصاصي الإجتماعي %{approval_label}"
+            label: موافقات الإختصاصي الإجتماعي %{approval_label}
           approvals_case_plan_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على خطة الحالة المعلّقة.
-            label: "موافقات المدير %{approval_label}"
+            label: موافقات المدير %{approval_label}
           approvals_closure:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على الإغلاق المعلّقة أو الموافق عليها أو المرفوضة.
-            label: "موافقات الإختصاصي الإجتماعي %{approval_label}"
+            label: موافقات الإختصاصي الإجتماعي %{approval_label}
           approvals_closure_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على الإغلاق المعلّقة.
-            label: "موافقات المدير %{approval_label}"
+            label: موافقات المدير %{approval_label}
           approvals_gbv_closure:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على إغلاق العنف القائم على النوع الإجتماعي المعلّقة أو الموافق عليها أو المرفوضة.
-            label: "موافقات الإختصاصي الإجتماعي %{approval_label}"
+            label: موافقات الإختصاصي الإجتماعي %{approval_label}
           approvals_gbv_closure_pending:
             explanation: يعرض عدد الحالات في فريق المدير مع طلبات الموافقة على إغلاق العنف القائم على النوع الإجتماعي المعلّقة.
-            label: "موافقات المدير %{approval_label}"
+            label: موافقات المدير %{approval_label}
           case_overview:
             explanation: نظرة عامة على بطاقة لوحة المعلومات الموجودة في أعلى الصفحة الرئيسية، والتي تتضمن أرقامًا مثل عدد الحالات الإجمالي والحالات الجديدة
             label: نظرة عامّة على لوحة المعلومات
@@ -2231,7 +2203,7 @@ ar-IQ:
             label: تمّ تشاركها من فريقي
           dash_shared_with_me:
             explanation: يظهر عدد الحالات التي تمّ تحويلها أو إحالتها إليك.
-            label: "تم مشاركتها معي "
+            label: 'تم مشاركتها معي '
           dash_shared_with_my_team:
             explanation: يعرض للمدير عدد الحالات التي تمّ تحويلها أو إحالتها إلى كلّ مستخدم في فريقه.
             label: تمّ تشاركها مع فريقي
@@ -2257,12 +2229,12 @@ ar-IQ:
             explanation: يسمح لإختصاصي إجتماعي برؤية رسم بياني دائري يوضح عدد الحالات الخاصة به والموجودة في كلّ مرحلة من مراحل سير عمل إدارة الحالة.
             label: الحالات مقسّمة حسب سريان العمل
           workflow_team:
-            explanation: "يسمح للمدير برؤية جدول يوضح عدد حالات الإختصاصيين الاجتماعيين في كلّ مرحلة من مراحل عملية إدارة الحالة.  "
+            explanation: 'يسمح للمدير برؤية جدول يوضح عدد حالات الإختصاصيين الاجتماعيين في كلّ مرحلة من مراحل عملية إدارة الحالة.  '
             label: الحالات حسب سير العمل والإختصاصي الإجتماعي
         label: لوحة المعلومات
       disabled:
         explanation: إذا قمت بتعطيل هذا الدور، لن تتمكن من تعيينه إلى حسابات المستخدمين.
-        label: "مُعطلة "
+        label: 'مُعطلة '
       duplicate:
         actions:
           read:
@@ -2286,13 +2258,13 @@ ar-IQ:
             label: لا توجد سجلات - وظائف المسؤول فقط
           agency:
             explanation: يمكن للدور الوصول إلى السجلات التي يديرها جميع المستخدمين في وكالتهم. إذا كان للمستخدم الحق في الوصول إلى المستخدمين، يمكنه الوصول إلى جميع المستخدمين في وكالته.
-            label: "كلّ السجلات أو المستخدمين في وكالتي "
+            label: 'كلّ السجلات أو المستخدمين في وكالتي '
           all:
             explanation: يمكن للدور الوصول إلى جميع السجلات والمستخدمين ومجموعات المستخدمين في النظام، بغض النظر عن مجموعات المستخدمين التي ينتمون هم إليها.
             label: الوصول لجميع السجلات أو المستخدمين
           group:
             explanation: يمكن للدور الوصول إلى السجلات التي يديرها جميع المستخدمين في مجموعات المستخدمين الخاصّة بهم. لا يمكنهم الوصول إلّا إلى المستخدمين في مجموعات المستخدمين الخاصة بهم. يمكنهم فقط الوصول إلى مجموعات المستخدمين الخاصة بهم.
-            label: "الوصول إلى جميع السجلات أو المستخدمين في مجموعتي "
+            label: 'الوصول إلى جميع السجلات أو المستخدمين في مجموعتي '
           self:
             explanation: يمكن للدور الوصول إلى السجلات الخاصة بهم (الحالات أو طلبات التتبّع أو الحوادث)، ويمكنه تعديل حساب المستخدم الخاص به.
             label: الوصول لسجلاتي أو المستخدم الخاص بي فقط
@@ -2313,7 +2285,7 @@ ar-IQ:
             explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة الحوادث أو صفحات عرض الحوادث، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بسجلّ واحد أو سجلات متعدّدة أو جميع السجلات التي يمكن للمستخدم الوصول إليها. في ملف التصدير PDF، يتمّ سرد المعلومات أولاً حسب الحالة، ثم يتمّ تنظيمها بعد ذلك حسب النموذج الذي تظهر عليه المعلومات.
             label: تصدير PDF
           export_csv:
-            explanation: "يمكن للمستخدم إنشاء  ملف تصدير CSV من قائمة الحوادث أو صفحات عرض الحوادث، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بحادثة واحدة أو حوادث متعددة أو جميع الحوادث التي يمكن للمستخدم الوصول إليها. "
+            explanation: 'يمكن للمستخدم إنشاء  ملف تصدير CSV من قائمة الحوادث أو صفحات عرض الحوادث، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بحادثة واحدة أو حوادث متعددة أو جميع الحوادث التي يمكن للمستخدم الوصول إليها. '
             label: تصدير CSV
           export_custom:
             label: تصدير ملف مخصص
@@ -2463,7 +2435,7 @@ ar-IQ:
             explanation: يمكن للمستخدم إنشاء تصدير ملف PDF من قائمة طلبات التتبّع أو صفحات عرض طلبات التتبّع، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بسجلّ واحد أو سجلات متعدّدة أو جميع السجلات التي يمكن للمستخدم الوصول إليها. في ملف التصدير PDF، يتمّ سرد المعلومات أولاً حسب الحالة، ثم يتمّ تنظيمها بعد ذلك حسب النموذج الذي تظهر عليه المعلومات.
             label: تصدير PDF
           export_csv:
-            explanation: "يمكن للمستخدم إنشاء  ملف تصدير CSV من قائمة طلبات التتبّع أو صفحات عرض طلبات التتبّع، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بطلب تتبّع واحد أو طلبات تتبّع متعددة أو جميع طلبات التتبّع التي يمكن للمستخدم الوصول إليها. "
+            explanation: 'يمكن للمستخدم إنشاء  ملف تصدير CSV من قائمة طلبات التتبّع أو صفحات عرض طلبات التتبّع، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بطلب تتبّع واحد أو طلبات تتبّع متعددة أو جميع طلبات التتبّع التي يمكن للمستخدم الوصول إليها. '
             label: تصدير CSV
           export_custom:
             explanation: يمكن للمستخدم إنشاء  ملف تصدير XLS من قائمة طلبات التتبّع أو صفحات عرض طلبات التتبّع، والتي تحتوي على مجموعة مخصّصة من النماذج أو الحقول، بالنسبة إلى طلب تتبّع واحدة أو طلبات تتبّع متعددة أو جميع طلبات التتبّع التي يمكن للمستخدم الوصول إليها. في هذا التصدير، يتمّ تمثيل كلّ نموذج في علامة التبويب الخاصة به داخل ملف XLS. يمكن للمستخدم اختيار النماذج أو الحقول التي يريد تضمينها في التصدير باستخدام قسم التصدير المخصّص. يرجى ملاحظة أنه لا يمكن للمستخدمين تضمين النماذج والحقول في التصدير إلا إذا كان لديهم بالفعل القدرة على رؤية تلك النماذج والحقول عند عرض طلب تتبّع في التطبيق.
@@ -2542,38 +2514,38 @@ ar-IQ:
     case_id: هوية الحالة
     child_age: العمر
     child_gender: الجنس
-    child_id: "رقم معرف الطفل #"
+    child_id: 'رقم معرف الطفل #'
     inquirer_id: معرف المُستفسر#
     inquirer_tr_name: تتبع الطلبات
     inquiry_date: تاريخ الاستفسار
     name: الاسم
     score: النتيجة
-    social_worker: "الباحث الاجتماعي\\ الباحثة الاجتماعية "
+    social_worker: 'الباحث الاجتماعي\ الباحثة الاجتماعية '
     social_worker_agency: مؤسسة
     tracing_request_id: معرّف طلبات التتبّع
     trace: تتبّع
     likelihood_likely: مرجح
     likelihood_possible: ممكن
   potential_matches:
-    display: "عرض النتائج المطابقة المحتملة لـ %{type} %{id}"
+    display: عرض النتائج المطابقة المحتملة لـ %{type} %{id}
   reassign:
-    multiple_error: "حدث خطأ. لم يتم تعيين الحالة (الحالات) %{select_records}."
+    multiple_error: حدث خطأ. لم يتم تعيين الحالة (الحالات) %{select_records}.
     multiple_successfully: 'تم تعيين الحالة (الحالات) %{select_records} بنجاح'
     notes_label: ملاحظات
     successfully: تمت إعادة التعيين بنجاح
     user_mandatory_label: يجب إدخال إسم المستلِم
     users_label: المستلِم
   record_information:
-    assigned_user_names: "المستخدمين الأخرين "
+    assigned_user_names: 'المستخدمين الأخرين '
     created_by: تم إنشاء السجل بواسطة
-    created_organization: "تم الإنشاء بواسطة مؤسسة/ منظمة "
+    created_organization: 'تم الإنشاء بواسطة مؤسسة/ منظمة '
     current_owner_separator: المالك الحالي
     module_id: الوحدة النمطية
-    owned_by: "رمز الاخصائي الاجتماعي "
+    owned_by: 'رمز الاخصائي الاجتماعي '
     owned_by_agency_id: وكالة
     owned_by_text: الحقل/حالة/اختصاصي إجتماعي
     previously_owned_by: المستخدم السابق
-    previously_owned_by_agency: "المنظمة السابقة "
+    previously_owned_by_agency: 'المنظمة السابقة '
     reassigned_tranferred_on: إعادة التعيين / التحويل في
     record_history_separator: تسجيل التاريخ
   record_panel:
@@ -2603,13 +2575,13 @@ ar-IQ:
       date: يوم
       month: شهر
       quarter: الربع
-      quarter_abbr: "Q%{quarter}"
+      quarter_abbr: Q%{quarter}
       week: اسبوع
       year: سنة
     description: الوصف
     disabled:
       explanation: إذا قمت بتعطيل هذا التقرير، لن يظهر ضمن التقارير المتاحة.
-      label: "مُعطلة "
+      label: 'مُعطلة '
     disaggregate_by: مجموعات حسب الأعمدة
     filters:
       label: الإبلاغ عن عوامل التصفية
@@ -2617,7 +2589,7 @@ ar-IQ:
       attribute: عامل التصفية
       value: مع
       not_null: ليس فارغًا؟
-      less_than: "أقل من "
+      less_than: 'أقل من '
       greater_than: أكثر من
       equal_to: مساوي لـ
       not_blank: ليس فارغًا
@@ -2647,9 +2619,9 @@ ar-IQ:
     label: تقارير
     register_new_report: إنشاء تقرير
     translations:
-      edit: "تعديل الترجمة "
-      manage: "إدارة الترجمة "
-      select_language: "أختر اللغة "
+      edit: 'تعديل الترجمة '
+      manage: 'إدارة الترجمة '
+      select_language: 'أختر اللغة '
   request_transfer:
     notes_label: ملاحظات -الرجاء ذكر سبب النقل بالإضافة إلى تفاصيل الاجتماعات التي عقدت لمناقشة نقل الحالة
     submit_label: أرسل الطلب
@@ -2678,8 +2650,8 @@ ar-IQ:
     successfully_updated: تم تحديث تفاصيل الدور بنجاح.
     transfer_label: هل يمكن استخدام هذا الدور لعمليات النقل؟
     hide: إخفاء
-    read: "أظهار "
-    read_write: "أظهار و تعديل "
+    read: 'أظهار '
+    read_write: 'أظهار و تعديل '
   roles:
     label: دور المستخدم
   saved_search:
@@ -2727,8 +2699,8 @@ ar-IQ:
     types:
       assessment: التقييم
       case_plan: خطة الحالة
-      follow_up: "متابعة - %{subtype}"
-      service: "الخدمة - %{subtype}"
+      follow_up: متابعة - %{subtype}
+      service: الخدمة - %{subtype}
   tracing_request:
     label: طلبات التتبع
     has_match: يوجد تطابق
@@ -2745,11 +2717,11 @@ ar-IQ:
       disabled: تمّ تعطيل طلب التتبع
       nothing_found: لم يتم العثور على شيء
       update_success: 'تم تحديث طلب التتبع %{record_id} بنجاح. '
-      creation_success: "تم إنشاء سجل طلب التتبع بنجاح. "
+      creation_success: 'تم إنشاء سجل طلب التتبع بنجاح. '
       update_success_queue: 'تم تحديث طلب التتبع %{record_id} بنجاح في الخلفية.'
       creation_success_queue: تم إنشاء سجل طلب التتبع بنجاح في الخلفية.
-      match_action: "تمت مطابقة التتبع %{trace_id} مع الحالة %{record_id} بنجاح."
-      unmatch_action: "تمت إزالة تطابق التتبع %{trace_id} والحالة %{record_id}بنجاح."
+      match_action: تمت مطابقة التتبع %{trace_id} مع الحالة %{record_id} بنجاح.
+      unmatch_action: تمت إزالة تطابق التتبع %{trace_id} والحالة %{record_id}بنجاح.
   tracing_requests:
     date_of_inquiry: تاريخ الاستعلام
     disable_dialog_title: تعطيل طلب التتبع
@@ -2768,7 +2740,7 @@ ar-IQ:
     name_of_inquirer: إسم المُستفسر
     inquirer: المُستفسر
     name: الإسم
-    register_new_tracing_request: "طلب تتبع جديد "
+    register_new_tracing_request: 'طلب تتبع جديد '
     selectable_date_options:
       inquiry_date: تاريخ الاستعلام
     selected_records: 'تمّ اختيار طلب التتبّع (طلبات التتبّع) %{select_records}'
@@ -2809,7 +2781,7 @@ ar-IQ:
     notes: ملاحظات
     recipient: المستلِم
     rejected: تمّ رفض السبب
-    requested_by: "طلب من قبل "
+    requested_by: 'طلب من قبل '
     service_label: الخدمة
     responded_at: تمّ الرد في
     status:
@@ -2827,8 +2799,8 @@ ar-IQ:
       transferRequest: طلب التحويل
   user:
     agency_office: مكتب المؤسسة
-    code: "رمز المستخدم "
-    disabled: "مُعطلة  "
+    code: 'رمز المستخدم '
+    disabled: 'مُعطلة  '
     email: البريد الإلكتروني
     full_name: الاسم الكامل
     identity_provider: مزوّد الهويّة
@@ -2838,11 +2810,11 @@ ar-IQ:
     locale: موضع
     location: الموقع
     messages:
-      confirmation: "هل أنت متأكد أنك تريد حذف هذا المستخدم؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف المستخدم. "
+      confirmation: 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف المستخدم. '
       created: تم إنشاء المستخدم بنجاح.
       failure: حدث خطأ، يرجى الاتصال بالدعم.
-      new_confirm_html: "أنت على وشك دعوة المستخدم<b> %{username}</b>من <b>%{identity}</b> الذي يتمتّع بدور <b>%{role}</b> لاستخدام Primero. سيتم إرسال بريد إلكتروني للتأكيد إلى <b>%{email}</b>. هل ترغب في المتابعة؟"
-      new_confirm_non_identity_html: "أنت على وشك دعوة المستخدم<b> %{username}</b>الذي يتمتّع بدور <b>%{role}</b> لاستخدام Primero. سيتم إرسال بريد إلكتروني للتأكيد إلى <b>%{email}</b>. هل ترغب في المتابعة؟"
+      new_confirm_html: أنت على وشك دعوة المستخدم<b> %{username}</b>من <b>%{identity}</b> الذي يتمتّع بدور <b>%{role}</b> لاستخدام Primero. سيتم إرسال بريد إلكتروني للتأكيد إلى <b>%{email}</b>. هل ترغب في المتابعة؟
+      new_confirm_non_identity_html: أنت على وشك دعوة المستخدم<b> %{username}</b>الذي يتمتّع بدور <b>%{role}</b> لاستخدام Primero. سيتم إرسال بريد إلكتروني للتأكيد إلى <b>%{email}</b>. هل ترغب في المتابعة؟
       not_found: لم يتم العثور على مستخدم بهذا المُعرف
       password_changed_successfully: تغيير كلمة المرور بنجاح
       passwords_do_not_match: لا تطابق كلمة المرور الحالية
@@ -2909,7 +2881,7 @@ ar-IQ:
     description: الوصف
     disabled:
       explanation: إذا قمت بتعطيل مجموعة المستخدمين هذه، لن تتمكن من تعيينها إلى حسابات المستخدمين.
-      label: "مُعطلة "
+      label: 'مُعطلة '
     messages:
       created: تم إنشاء مجموعة المستخدمين بنجاح.
       updated: تم تحديث مجموعة المستخدمين بنجاح.
