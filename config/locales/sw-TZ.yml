@@ -1,0 +1,80 @@
+sw-TZ:
+  'true': 'Ndio'
+  'false': 'Hapana'
+  accepted: Imekubalika
+  cancel: Sitisha
+  connection_lost: Hakuna mtandao kwa sasa
+  connected: Imeunganishwa
+  clear: Futa
+  sandbox_ui: Majaribio
+  description: maelezo
+  form: Fomu
+  name: Jina
+  offline: Nje ya mtandao
+  unavailable_offline: Haipatikani nje ya mtandao
+  online: katika mtandao
+  yes_label: 'Ndio'
+  or_label: au
+  select_provider: chagua mtoa huduma
+  select_language: Chagua lugha
+  log_in_primero_idp: 'Ingia kwa 1%{idp_jina} jina la mtumiaji '
+  offline_submitted_changes: Kwa sasa upo nje ya mtandao. Marekebisho yako yatawasilishwa utakaporejea kwenye mtandao.
+  updated: Imesasishwa
+  sync:
+    success: "1%{kumbukumbu} kumbukumbu zako zimehusianishwa vizuri"
+    error:
+      create: Imeshindwa kuunda 1%{ainaya_kumbukumbu}. Tafadhali wasiliana kwa msaada.
+      update: Imeshindwa Kusashisha 1%{aina_rekodi} 2%{tambulisho_fupi} Tafadhali wasiliana kwa msaada
+  actions:
+    approvals: Idhini
+    button: Vitendo
+    close: Funga
+    description:
+      invalid: Rekodi batili
+      valid: Rekodi sahihi
+    disable: Zuia
+    enable: Wezesha
+    incident_details_from_case: Ongeza tukio
+    incident_from_case: Tengeneza tukio
+    next: nyingine
+    notes: Ongeza maelezo
+    previous: Iliyopita
+    reopen: fungua tena
+    request_approval: Omba Idhini
+    revoke: Batilisha
+    save: Tunza
+    services_from_case_creation_success: Rekodi ya Utoaji wa Huduma imefanikiwa kuundwa
+    services_section_from_case: Ongeza Utoaji wa Huduma
+  agencies:
+    label: Shirika
+    translations:
+      manage: Dhibiti Tafsiri
+  agency:
+    agency_logos: Nembo za Mashirika
+    code: Code ya Shirika
+    description: Maelezo
+    disabled: Imezuiliwa
+    exclude_agency_from_lookups: Ondoa shirika hili katika  upekuzi na uchunguzi
+    exclude_agency_from_lookups_help: Chunguza kama shirika hili halina watumiaji (mfano, Shirika lilijumuishwa ili nembo itumike kwa ajili ya utumaji
+    label: Shirika
+    logo_enabled: 'Ungependa kuonyesha nembo ya shirika hili katika Primero? '
+    logo_enabled_help: 'Ungependa kuonyesha nembo ya shirika hili katika Primero? '
+    logo_icon: Alama ya nembo
+    logo_icon_help: Hii itaonekana kwenye saizi ndogo za skrini, tablets, na simu. Hii inapaswa kuwa mraba.
+    logo_large: Nembo Kubwa
+    logo_large_help: 'Hii itaonekana kwenye saizi kubwa za skrini na katika muundo wa PDF. Hii inapaswa kuwa mstatili, na urefu mkubwa kuliko upana. '
+    messages:
+      created: Shirika limefanikiwa kutengenezwa
+      updated: Shirika limesasishwa vyema
+    name: Jina la Shirika
+    pdf_logo_option: Fanya nembo ionekane katika muundo wa PDF?
+    pdf_logo_option_help: 'Kumbuka: nembo za mashirika ya watumiaji zinapatikana kwao kwa msingi, kwa hivyo angalia ikiwa unataka nembo hii ipatikane kwa watumiaji wote. '
+    services: Huduma za Mashirika
+    terms_of_use: Masharti ya matumizi
+    terms_of_use_help: 'Zinaruhusiwa Faili za PDF tu. '
+    terms_of_use_download_button: Pakua PDF
+    terms_of_use_enabled: 'Onyesha Masharti ya Matumizi? '
+  approvals:
+    approved_by: Imeidhinishwa na
+  cases:
+    approved_success_assessment: 'Imekubalika'

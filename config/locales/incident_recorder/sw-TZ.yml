@@ -1,0 +1,76 @@
+sw-TZ:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Tuma xls ya Rekoda ya matukio"
+  exports:
+    incident_recorder_xls:
+      all: Rekoda ya matukio
+      one: Rekoda ya matukio
+      selected: Iliyochaguliwa katika Rekoda ya Matukio
+      'yes': "Ndio"
+      'no': "Hapana"
+      gender:
+        male: "Mwanaume"
+        female: "Mwanamke"
+        both: "Mwanaume na Mwanamke"
+      age_group:
+        age: "Umri"
+        61_older: "61 na Zaidi"
+        unknown: "Haijulikani"
+        header: "KUNDI LA UMRI WA MTUHUMIWA"
+      age_type:
+        adult: "Mtu mzima "
+        minor: "Mtoto"
+        both: "Mtu mzima & Mtoto"
+        unknown: "Haijulikani"
+        header: "AINA YA UMRI WA MTUHUMIWA"
+      service_referral:
+        undecided: "Haijaamuliwa"
+      headers:
+        incident_id: "UTAMBULISHO WA TUKIO"
+        survivor_code: "CODE YA MHANGA"
+        case_manager_code: "CODE YA MSIMAMISIZI KESI"
+        case_worker_code: "CODE YA MTOA HUDUMA"
+        date_of_interview: "TAREHE YA KUTOA TAARIFA"
+        date_of_incident: "TAREHE YA TUKIO"
+        date_of_birth: "TAREHE YA KUZALIWA"
+        sex: "JINSI"
+        ethnicity: "UKABILA "
+        country_of_origin: "NCHI YA ASILI"
+        marital_status: "HALI / HADHI YA NDOA "
+        displacement_status: "HADHI YA MHANGA WAKATI WA KURIPOTI"
+        disability_type: "NI MTU MWENYE ULEMAVU?"
+        unaccompanied_separated_status: "JE NI MTOTO ASIYEKUWA NA MLEZI / ALIYETENGANA NA WAZAZI?"
+        stage_of_displacement: "HADHI YA MHANGA WAKATI WA TUKIO"
+        time_of_day: "MUDA WA SIKU WAKATI TUKIO LILIPOTOKEA"
+        location: "MAHALI AMBAPO TUKIO LILITOKEA"
+        county: "NCHI AMBAPO TUKIO LILITOKEA"
+        district: "WILAYA AMBAPO TUKIO LILITOKEA"
+        camp_town: "KAMBI/ MJI AMBAPO TUKIO LILITOKEA"
+        camp: "KAMBI TUKIO LILIPOTOKEA"
+        gbv_type: "AINA YA TUKIO LA UKATILI WA KIJINSIA"
+        harmful_traditional_practice: "MATNDO YA MILA POTOFU "
+        goods_money_exchanged: " JE HEL, BIDHAA FAIDA ZOZOTE NA / HUDUMA VILIHUSISHWA KWA KUBADILISHANA NA TUKIO HILI?"
+        abduction_type: "AINA YA MBINU ZILIZOTUMIKA WAKATI WA TUKIO"
+        previously_reported: "JE MHANGA AMERIPOTI TUKIO HILI KWINGINE?"
+        gbv_previous_incidents: "JE MHANGA AMEWAHI KUFANYIWA TUKIO LINGINE LA UKATILI WA KIJINSIA"
+        number_primary_perpetrators: "No. YA WATUHUMIWA (MTUHUMIWA) "
+        perpetrator:
+          sex: "JINSI YA MTUHUMIWA"
+          former: "MHANGA AMEWAHI FUNYIWA TUKIO NA MTUHUMIWA HAPO AWALI "
+          relationship: "UHUSIANO WA MHANGA NA MTUHUMIWA"
+          occupation: "KAZI YA  MTUHUMIWA"
+          age_group: "KUNDI LA UMRI WA MTUHUMIWA"
+          age_type: "AINA YA UMRI WA MTUHUMIWA"
+        service:
+          referred_from: "NANI ALIMRUFAA MHANGA KWAKO"
+          safehouse_referral: "NYUMBA/ MAKADHI SALAMA"
+          medical_referral: "HUDUMA ZA AFYA / MATIBABU "
+          psycho_referral: "MSAADA WA KISAIKOLOJIA"
+          wants_legal_action: "ANATAKA HATUA ZA KISHERIA? "
+          legal_referral: "HUDUMA ZA KUSAIDIA KISHERIA "
+          police_referral: "POLICE / HUDUMA HUDUMA NYINGINE ZA ULINZI"
+          livelihoods_referral: "HUDUMA ZA UWEZESHAJI"
+          protection_referral: "HUDUMA ZA ULINZI WA MTOTO / HUDUMA ZA ELIMU "
+        consent: "RIDHAA IMETOLEWA?"
+        agency_code: "CODE YA SHIRIKA  TUKIO LILIPOLIPOTIWA"
