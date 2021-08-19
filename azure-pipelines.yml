@@ -20,7 +20,7 @@ jobs:
     pool: 
       name: primerox-azdo-a-ms
       demands:
-        - Agent.Name -equals primero-build-agent2
+        - agent.name -equals primero-build-agent2
     steps:
       - bash: |
           set -e
