@@ -27,8 +27,21 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         });
     case Actions.CLEAR_ERRORS:
       return state.setIn([payload, "errors"], false).setIn([payload, "message"], fromJS([]));
+    case Actions.TRANSFER_USERS_FETCH_STARTED:
+      return state
+        .setIn(["transfer", "loading"], true)
+        .setIn(["transfer", "users"], fromJS([]))
+        .setIn(["transfer", "errors"], false);
     case Actions.TRANSFER_USERS_FETCH_SUCCESS:
-      return state.setIn(["transfer", "users"], fromJS(payload.data));
+      return state
+        .setIn(["transfer", "users"], fromJS(payload.data))
+        .setIn(["transfer", "loading"], false)
+        .setIn(["transfer", "errors"], false);
+    case Actions.TRANSFER_USERS_FETCH_FAILURE:
+      return state
+        .setIn(["transfer", "users"], fromJS([]))
+        .setIn(["transfer", "loading"], false)
+        .setIn(["transfer", "errors"], true);
     case Actions.TRANSFER_USER_FAILURE:
       return state
         .setIn(["transfer", "errors"], true)

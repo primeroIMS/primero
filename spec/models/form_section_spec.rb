@@ -930,6 +930,69 @@ describe FormSection do
     end
   end
 
+  describe 'touch_roles' do
+    before do
+      clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role)
+
+      @child_form = FormSection.create!(
+        unique_id: 'child_form',
+        name: 'Child Form',
+        parent_form: 'case',
+        form_group_id: 'main',
+        is_nested: true
+      )
+      @parent_form = FormSection.create!(
+        unique_id: 'main_form',
+        name: 'Main Form',
+        parent_form: 'case',
+        form_group_id: 'main',
+        fields: [
+          Field.new(name: 'field_1', type: Field::SUBFORM, display_name_all: 'Field 1', subform_section: @child_form)
+        ]
+      )
+      @parent_form_program = PrimeroProgram.create!(unique_id: 'parent_form_program', name_en: 'Parent Form program')
+      @parent_form_module = PrimeroModule.create!(
+        primero_program: @parent_form_program,
+        name: 'Parent Form Module',
+        associated_record_types: ['case'],
+        form_sections: [@parent_form]
+      )
+      @parent_form_permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      @parent_form_role = Role.create!(
+        form_sections: [@parent_form],
+        name: 'Parent Form Role',
+        permissions: [@parent_form_permission_case_read],
+        modules: [@parent_form_module]
+      )
+    end
+
+    it 'should touch the roles of a parent form if a field is added' do
+      updated_at = @parent_form_role.updated_at
+
+      @parent_form.fields.push(
+        Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name_all: 'Field 2')
+      )
+      @parent_form.save!
+
+      @parent_form_role.reload
+
+      expect(@parent_form_role.updated_at > updated_at).to be_truthy
+    end
+
+    it 'should touch the roles of the parent form if a field is added to a subform' do
+      updated_at = @parent_form_role.updated_at
+
+      @child_form.fields.push(
+        Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name_all: 'Field 3')
+      )
+      @child_form.save!
+
+      @parent_form_role.reload
+
+      expect(@parent_form_role.updated_at > updated_at).to be_truthy
+    end
+  end
+
   after do
     clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
   end

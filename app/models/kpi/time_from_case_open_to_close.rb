@@ -20,7 +20,7 @@ class Kpi::TimeFromCaseOpenToClose < Kpi::BucketedSearch
 
   def search
     super do
-      with :status, Record::STATUS_CLOSED
+      without(:case_lifetime_days, nil)
     end
   end
 

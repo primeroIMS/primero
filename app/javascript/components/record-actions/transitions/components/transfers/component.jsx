@@ -1,20 +1,14 @@
 /* eslint-disable react/display-name */
-import { useRef, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { Formik } from "formik";
-import { object, string } from "yup";
 
 import { useI18n } from "../../../../i18n";
-import { enqueueSnackbar } from "../../../../notifier";
-import { selectAgencies } from "../../../../application/selectors";
-import { RECORD_TYPES } from "../../../../../config";
-import { getUsersByTransitionType, getErrorsByTransitionType } from "../../selectors";
-import { saveTransferUser, fetchTransferUsers } from "../../action-creators";
+import { getErrorsByTransitionType } from "../../selectors";
+import { saveTransferUser } from "../../action-creators";
 import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 import { useMemoizedSelector } from "../../../../../libs";
-import { OPTION_TYPES } from "../../../../form";
-import useOptions from "../../../../form/use-options";
+import Form from "../../../../form";
+import { TRANSFER_FORM_ID } from "../../constants";
 
 import {
   TRANSFER_FIELD,
@@ -25,7 +19,7 @@ import {
   TRANSITIONED_TO_FIELD,
   NOTES_FIELD
 } from "./constants";
-import formikForm from "./formik-form";
+import { form, validations } from "./form";
 
 const TransferForm = ({
   providedConsent,
@@ -33,26 +27,13 @@ const TransferForm = ({
   userPermissions,
   record,
   recordType,
-  transferRef,
   setPending,
-  disabled,
-  setDisabled,
-  mode
+  setDisabled
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const firstUpdate = useRef(true);
-
-  useEffect(() => {
-    dispatch(fetchTransferUsers({ record_type: RECORD_TYPES[recordType], record_module_id: record?.get("module_id") }));
-  }, []);
-
-  const users = useMemoizedSelector(state => getUsersByTransitionType(state, TRANSITIONS_TYPES.transfer));
-  const hasErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
-  const agencies = useMemoizedSelector(state => selectAgencies(state));
-
-  const locations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
+  const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
 
   const canConsentOverride =
     userPermissions &&
@@ -60,94 +41,66 @@ const TransferForm = ({
       return ["manage", "consent_override"].includes(permission);
     }).size > 0;
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
+  const validationSchema = validations(i18n);
 
-      return;
-    }
-    const messages = hasErrors
-      .valueSeq()
-      .map(e => i18n.t(e))
-      .join(", ");
-
-    if (messages !== "") {
-      dispatch(enqueueSnackbar(messages, { type: "error" }));
-    }
-  }, [hasErrors]);
-
-  const disableControl = !providedConsent && !disabled;
-
-  const validationSchema = object().shape({
-    [TRANSITIONED_TO_FIELD]: string().required(i18n.t("transfer.user_mandatory"))
-  });
-
-  const formProps = {
-    initialValues: {
-      [TRANSFER_FIELD]: false,
-      [REMOTE_SYSTEM_FIELD]: false,
-      [CONSENT_INDIVIDUAL_FIELD]: false,
-      [AGENCY_FIELD]: "",
-      [LOCATION_FIELD]: "",
-      [TRANSITIONED_TO_FIELD]: "",
-      [NOTES_FIELD]: ""
-    },
-    ref: transferRef,
-    onSubmit: (values, { setSubmitting }) => {
-      setPending(true);
-      dispatch(
-        saveTransferUser(
-          record.get("id"),
-          {
-            data: {
-              ...values,
-              consent_overridden: canConsentOverride || values[TRANSFER_FIELD]
-            }
-          },
-          i18n.t("transfer.success")
-        )
-      );
-      setSubmitting(false);
-    },
-    render: props =>
-      formikForm(
-        props,
-        isBulkTransfer,
-        users,
-        agencies,
-        locations,
-        recordType,
-        setDisabled,
-        disableControl,
-        i18n,
-        dispatch,
-        providedConsent,
-        canConsentOverride,
-        record,
-        mode
-      ),
-    validateOnBlur: false,
-    validateOnChange: false,
-    validationSchema
+  const initialValues = {
+    [TRANSFER_FIELD]: false,
+    [REMOTE_SYSTEM_FIELD]: false,
+    [CONSENT_INDIVIDUAL_FIELD]: false,
+    [AGENCY_FIELD]: "",
+    [LOCATION_FIELD]: "",
+    [TRANSITIONED_TO_FIELD]: "",
+    [NOTES_FIELD]: ""
   };
 
-  return <Formik {...formProps} />;
+  const handleSubmit = values => {
+    setPending(true);
+    dispatch(
+      saveTransferUser(
+        record.get("id"),
+        {
+          data: {
+            ...values,
+            consent_overridden: canConsentOverride || values[TRANSFER_FIELD]
+          }
+        },
+        i18n.t("transfer.success")
+      )
+    );
+  };
+
+  const forms = form({
+    i18n,
+    canConsentOverride,
+    providedConsent,
+    recordType,
+    recordModuleID: record?.get("module_id"),
+    isBulkTransfer,
+    setDisabled
+  });
+
+  return (
+    <Form
+      formID={TRANSFER_FORM_ID}
+      submitAllFields
+      submitAlways
+      formSections={forms}
+      onSubmit={handleSubmit}
+      validations={validationSchema}
+      formErrors={formErrors}
+      initialValues={initialValues}
+    />
+  );
 };
 
 TransferForm.propTypes = {
-  disabled: PropTypes.bool,
-  handleSubmit: PropTypes.func,
   isBulkTransfer: PropTypes.bool.isRequired,
-  mode: PropTypes.object,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  resetForm: PropTypes.func,
   setDisabled: PropTypes.func,
   setPending: PropTypes.func,
-  transferRef: PropTypes.object,
-  userPermissions: PropTypes.object.isRequired,
-  values: PropTypes.object
+  userPermissions: PropTypes.object.isRequired
 };
 
 export default TransferForm;

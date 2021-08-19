@@ -21,12 +21,14 @@ class Kpi::ClientSatisfactionRate < Kpi::Search
   end
 
   def to_json(*_args)
+    satisfied_clients = search.facet(:satisfaction_status).rows.first&.count || 0
+    clients_with_feedback = search.total
+
     {
       data: {
-        satisfaction_rate: nan_safe_divide(
-          search.facet(:satisfaction_status).rows.first&.count || 0,
-          search.total
-        )
+        satisfaction_rate: if clients_with_feedback.positive?
+                             satisfied_clients / clients_with_feedback.to_f
+                           end
       }
     }
   end

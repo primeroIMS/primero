@@ -1,18 +1,29 @@
 import PropTypes from "prop-types";
+import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../../i18n";
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import { ACTIONS } from "../../../../libs/permissions";
 
+import styles from "./styles.css";
+
+const useStyles = makeStyles(styles);
+
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
+  const css = useStyles();
+
+  const rate = data.get("data").get("satisfaction_rate");
+
+  if (rate === null)
+    return <p className={css.invalidMessage}>{i18n.t(`key_performance_indicators.${identifier}.invalid`)}</p>;
 
   return (
     <StackedPercentageBar
       percentages={[
         {
-          percentage: data.get("data").get("satisfaction_rate"),
+          percentage: rate,
           label: i18n.t(`key_performance_indicators.${identifier}.label`)
         }
       ]}

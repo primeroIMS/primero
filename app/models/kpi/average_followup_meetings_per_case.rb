@@ -8,19 +8,32 @@ class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
   def search
     ActiveRecord::Base.connection.execute(
       ActiveRecord::Base.sanitize_sql_array([%{
+        with my_cases as (
+          select
+            *
+          from
+            cases
+          where
+            data->>'owned_by_agency_id' = :owned_by_agency_id
+            and data->'owned_by_groups' ?| array[:owned_by_groups]
+        ), follow_ups as (
+          select
+            gbv_follow_up_subform_sections->>'unique_id' as unique_id
+          from
+            my_cases,
+            jsonb_array_elements(my_cases.data->'gbv_follow_up_subform_section') gbv_follow_up_subform_sections
+          where
+            (gbv_follow_up_subform_sections->>'followup_date')::date >= :from
+            and (gbv_follow_up_subform_sections->>'followup_date')::date <= :to
+        )
         select
-          case count(distinct cases.id)
+          case count(distinct my_cases.id)
             when 0 then 0
-            else count(gbv_follow_up_subform_sections->>'followup_date') / count(distinct cases.id)::float
+            else count(distinct follow_ups.unique_id)::float / count(distinct my_cases.id)::float
           end as average_followup_meetings_per_case
         from
-          cases,
-          jsonb_array_elements(data->'gbv_follow_up_subform_section') gbv_follow_up_subform_sections
-        where
-          data->>'owned_by_agency_id' = :owned_by_agency_id
-          and data->'owned_by_groups' ?| array[:owned_by_groups]
-          and (gbv_follow_up_subform_sections->>'followup_date')::date >= :from
-          and (gbv_follow_up_subform_sections->>'followup_date')::date <= :to
+          my_cases,
+          follow_ups
       }, from: from, to: to, owned_by_groups: owned_by_groups, owned_by_agency_id: owned_by_agency_id])
     )
   end
