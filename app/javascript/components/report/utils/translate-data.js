@@ -6,10 +6,11 @@ import translateKeys from "./translate-keys";
 const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
   const currentTranslations = {};
   const keys = Object.keys(data);
-  const { locale } = i18n;
+  const totalTranslation = i18n.t("report.total");
+  const locale = { current: i18n.locale, default: i18n.defaultLocale };
 
   if (keys.length === 1 && keys.includes("_total")) {
-    currentTranslations[i18n.t("report.total")] = data._total;
+    currentTranslations[totalTranslation] = data._total;
     delete currentTranslations._total;
   } else if (!isEmpty(keys)) {
     const field = fields.shift();
@@ -19,7 +20,7 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
 
     keys.forEach(key => {
       if (key === "_total") {
-        const translatedKey = i18n.t("report.total");
+        const translatedKey = totalTranslation;
 
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
