@@ -94,7 +94,7 @@ module Api::V2::Concerns::Record
 
   def select_updated_fields
     changes = @record.saved_changes_to_record.keys
-    @updated_field_names = (changes & @permitted_field_names) + RecordDataService.current_care_arrangements(changes)
+    @updated_field_names = (changes & @permitted_field_names) + @record.current_care_arrangements_changes(changes)
   end
 
   def record_params
