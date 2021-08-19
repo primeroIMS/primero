@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Alertable do
+describe CareArrangements do
   describe '#current_care_arrangements_changes' do
     before do
       clean_data(Child)
