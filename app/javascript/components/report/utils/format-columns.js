@@ -1,8 +1,6 @@
 import max from "lodash/max";
 import uniq from "lodash/uniq";
 
-import { TOTAL } from "../constants";
-
 import formattedDate from "./formatted-date";
 import sortByDate from "./sort-by-date";
 import translateColumn from "./translate-column";
@@ -16,15 +14,11 @@ const columnsHeading = (formattedKeys, column, index) =>
 
 export default (formattedKeys, columns, i18n) => {
   const items = columns.map((column, index) => {
-    const uniqueItems = sortByDate(uniq(columnsHeading(formattedKeys, column, index).concat(TOTAL))).map(
-      columnHeading => {
-        return formattedDate(columnHeading, i18n);
-      }
-    );
+    const uniqueItems = sortByDate(
+      uniq(columnsHeading(formattedKeys, column, index).concat(i18n.t("report.total")))
+    ).map(columnHeading => formattedDate(columnHeading, i18n));
 
-    return {
-      items: uniqueItems
-    };
+    return { items: uniqueItems };
   });
 
   const colspan = max(items.map((item, index) => (index === 1 ? item.items.length : 0)));

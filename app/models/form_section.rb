@@ -221,6 +221,18 @@ class FormSection < ApplicationRecord
     raise Errors::ForbiddenOperation
   end
 
+  def parent_forms
+    return FormSection.none unless is_nested?
+
+    FormSection.joins(:fields).where(fields: { subform_section_id: self }, is_nested: false)
+  end
+
+  def parent_roles
+    return Role.none unless is_nested?
+
+    Role.joins(:form_sections).distinct.where(form_sections: { unique_id: parent_forms.pluck(:unique_id) })
+  end
+
   protected
 
   def calculate_subform_collapsed_fields

@@ -61,7 +61,11 @@ def _main(argv):
     print(build_log_path)
     print(log_path)
 
-    notify_slack(build_status, build_tag, log_path, arguments.phase)
+    if arguments.phase == 'pre_build' or arguments.phase == 'post_build':
+        if build_status == '0':
+            notify_slack(build_status, build_tag, log_path, arguments.phase)
+    else:
+        notify_slack(build_status, build_tag, log_path, arguments.phase)
 
 if '__main__' == __name__:
     code = _main(sys.argv)

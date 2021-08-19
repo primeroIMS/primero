@@ -1,46 +1,80 @@
-# encoding: utf-8
-#
-# This is the Kurdish localization file for Primero.
-# This locale represents the Kurdish Sorani (Central Kurdish) dialect as spoken in
-# Eastern Iraqi Kurdistan Region (Erbil, Sulamaniya)
-#
-# Anyone editing this file is strongly encouraged to use yamllint[1] to ensure
-# that this document remains valid YAML.
-#
-# [1] https://yamllint.readthedocs.io/en/stable/
-
 ku:
-  'true': 'به لێ'
+  'true': 'بەڵێ'
   'false': 'نه خێر '
-  cancel: رەدکردن
+  accepted: قبوڵکرا
+  cancel: لابردن
+  connection_lost: لە باری ئۆفلایندایە
+  connected: پێکەوەلکاو/پەیوەندیدار
   clear: روونە
+  sandbox_ui: پیشاندان
   description: وەسفکردن
+  form: فۆرم
+  name: ناو
+  offline: ئۆفلاین
+  unavailable_offline: لە باری ئپفلایندا بەردەست نیە
+  online: ئۆنلاین
   yes_label: 'به لێ'
+  or_label: یان
+  select_provider: پێشکەشکار هەڵبژێرە
+  select_language: زمان هەڵبژێرە
+  updated: نوێ کراوە
   actions:
+    approvals: رەزامەندیەکان
     button: کردارەکان
+    close: داخراو
     description:
       invalid: تومارێن کارپێنەکرى
       valid: تومارێن کارپێکرى
-    disable: لەکاربێخە
+    disable: لەکارخستن
     enable: بەکارخستن
     incident_details_from_case: رووداو زیادبکە
+    incident_from_case: تومارکردنى رووداو
+    next: دواتر
+    notes: تێبینی داخڵ بکە
+    previous: پێشووتر
     reopen: دوبارەکردنەوە
+    request_approval: داوای رەزامەندی بکە
+    save: هەڵگرتن
     services_section_from_case: خزمەتگوزاریە پێدراوەکان زیادبکە
   agencies:
     label: دامەزراوە
+    translations:
+      manage: ڕێکخستنی وەرگێران
   agency:
+    agency_logos: لۆگۆی دامەزراوە
     code: کودى دامەزراوە
+    description: شروڤەکردن
+    disabled: لەکارخراو
+    logo_icon: ئایکۆنی لۆگۆ
+    logo_large: لۆگۆی گەورە
+    messages:
+      created: دامەزراوەکە سەرکەوتوانە دروستکرا
+      updated: دامەزراوەکە سەرکەوتوانە نوێ کرایەوە
     name: ناوى دامەزراوە
+    pdf_logo_option: 'لۆگۆکە بەشێوەی PDF بەردەست بێت؟ '
     services: خزمەتگوزارى دامەزراوه كانى
+    terms_of_use_download_button: بە PDF داونلۆدی بکە
   approvals:
+    manager_comments_label: سەرنجی بەڕێوەبەر
+    rejected_by: رەتکراوەتەوە لە لایەن
+    requested_by: داواکراوە لە لایەن
+    requested_for_label: پەسەندکردن داواکراوە بۆ
+    requested_for_title: 'داواکردنی پەسەندکردن '
+    response_for_label: پەسەندکردن بۆ
+    response_for_title: پەسەندکردن
+    action_plan: پلانی کار
+    gbv_closure: داخستنی GBV
     status:
       approved: پەسەندکرا
       pending: چاوەروانى کردن
       rejected: رەتیکرد
+      requested: داواکراو
   audit_log:
     action: کردار
     description: وەسفکردن
     record_owner: خاوەنى تومارەکە
+    timestamp: کات
+    user_name: جێبەجێکراوە لەلایەن
   bulk_export:
     file_name: فایل
     record_type: جور
@@ -49,8 +83,12 @@ ku:
     status: دوخ
   buttons:
     accept: رازیبون
+    add: زیادی بکە
+    add_another_option: بژاردەی تر زیادبکە
     add_note: تێبینى زیادبکە
+    apply: ئەنجامی بدە/زیادی بکە
     approvals: پەسەندەکان
+    approve_action_plan: پەسەندکردنی پلانی کار
     approve_bia: پەسەندکرن BIA
     approve_case_plan: پەسەندکرنى پلانى کەیسەکە
     approve_closure: پەسەندکردنى گرتنەوە
@@ -61,7 +99,7 @@ ku:
     change_password: گوهرینى ژمارەى نهێنى
     create_case: تومارکردنى كه يسه كان
     create_incident: تومارکردنى رووداو
-    create_new_record: دروستکرنى%{model} نوێ
+    create_new_record: 'زیادکردنی نوێ '
     delete: بسرەوە
     disable: لەکارخستن
     disable_photo_wall: وێنەى دواوە لەکاربێخە
@@ -76,33 +114,56 @@ ku:
     filter_label: 'فیلتەر:'
     filter_restore: گەرانەوەی رێکخستنی سیستەم
     find_tracing_match: دوزينةوةى بةيوةندى بةدواداجون
-    flag_model: نیشان%{model}
+    flag_model: نیشان
     flag_records: 'نیشان '
+    guidance: ڕێبەری
+    guiding_questions: پرسیاری رونکەرەوە
     import: هێنانەوە
     login: چونەژوورەوە
+    logout: چوونەدەرەوە
     mark_for_mobile: بو موبایل دەستنیشانبکە
+    new: نوێ
     ok: باشە
+    print: چاپکردن
+    reassign: پێسپاردن
+    referral: ئیحالەکردن
+    referral_again: دوبارە ئیحالەکردن
     reject: رەدکردن
     remove_referrals: پێشنیارەکان لایبە
+    reorder: ڕێکخستن
     request_approval: داخوازى پەسەنکردن
     request_transfer: داخوازى گواستنەوە
     reunite: یەکگرتنەوە
     save: خەزنکرن
     save_and_add_service_provision: خەزنبکە و خزمەتگوزاریە پێدراوەکان زیادبکە
+    save_and_return: پاراستن و گەڕانەوە
+    save_continue: پاراستن و بەردەوامبوون
+    save_changes: پاراستنی گۆڕانکاریەکان
+    select: هەڵبژاردن
+    send: ناردن
     sort_by_case: کەیسەکان
     sort_by_tr: داخوازیەکانى بەدواداچون
+    sync: دابەزاندن
     submit: پێشکێشکردن
-    unflag_model: نیشان نەکە%{model}
-    unflag_model_history: مێژوویێ نیشانبکە%{model}
+    transfer: گواستنەوە
+    unflag_model: نیشان نەکردن
+    unflag_model_history: نیشانکردنی مێژوەکە
     unmark_for_mobile: بو موبایل دەستنیشان مەکە
+    update: نوێکردنەوە
     view: پێداچوون
     view_flags_history: دياركردنى مێژوو
+    return_to_case: گەڕانەوە بۆ کەیسەکە
   case:
+    label: کەیس
     create_new_case: کەیسى نوێ توماربکە
     enter_id_number: ژمارەى ناسنامەکە داخلبکە بو لێگەریانى تومارى هەیى
     messages:
-      update_success: 'کەیسى %{record_id} بەسەركەوتووى نوێکرا'
+      disabled: کارانەکردنی کەیسەکە
+      update_success: 'کەیسەکە بەسەركەوتووى نوێکرایەوە'
       creation_success: 'تومارى کەیسەکە  بەسەركەوتووى  دروستکرا'
+      already_matched: ئەم داواکاریە لەگەڵ کەیسەکەتدا گەنجاوە
+      already_matched_not_current_case: کەیسێک لە سیستمەکەدا هەیە لەگەڵ ئەم داواکاریەدا گونجاوە
+    save: پاراستنی کەیسەکە
     workflow:
       assessment: لێکولینەوە
       case_plan: پلانی كەیسەكە
@@ -115,37 +176,122 @@ ku:
       service_implemented: خزمەتگوزاریەکە جێبەجێکرا
       services_implemented: خزمەتگوزاریەکە جێبەجێکرا
   cases:
+    age: تەمەن
+    age_estimated: تەمەنی خەمڵینراو
+    agency: دامەزراوە
     apply_filter: پەسەندکردن
+    approval_comments: تێبینیەکان
+    approval_radio: 'پێم باشە '
+    approval_radio_accept: پەسەندکردن
+    approval_radio_reject: پەسەندنەکراو
+    approval_select: فۆرمی
+    assessment: هەلسەنگاندن
+    case_opening_date: رێککەوتى کردنەوەى کەیس
+    case_plan: پلانی كەیسەكە
+    case_worker_code: کودى لێکولەرى کەیس
     clear_filter: روونە
+    close_dialog_title: کەیسی داخراو
+    close_success: سەرکەوتوانە کەیسەکە دواخرا
+    closure: داخستن
+    date_of_birth: رێککەوتى لەدایکبون
+    disable_dialog: کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بۆ کارانەکراو
+    disable_dialog_title: کەسەکە ناکارابکە
+    disable_success: سەرکەوتوانە کەیسەکە ناکارا کرا
+    enable_dialog_title: کەیسەکە کارا بکە
+    enable_success: سەرکەوتوانە کەیسەکە کارا کرا
     export: ناردن
     filter_by:
       3month_inactivity: ' بۆ 3+ مانگ'
+      action_plan: پلانی کار
+      age_0_5: ٠-٥
+      age_12_17: ١٢-١٧
+      age_18_more: ١٨+
+      age_6_11: ٦-١١
+      age_range: رێژەی تەمەن
+      agency: دامەزراوە
+      approval_status: باری پەسەندکردن
       approvals:
         approved: پەسەندکرا
+        pending: هەڵپەسێردراو
         rejected: رەدکرا
+      bia: BIA
+      by_date: 'بە رێککەوت:'
+      case_open_date: رێککەوتى کردنەوەى کەیس
+      case_plan: پلانی كەیسەكە
+      closed: داخراو
+      closure: داخستن
+      current_location: شوێنی ئێستا
       date: رێککەوت
+      displacement_status: باری ئاوارەبوون
+      district: قەزا
+      duplicate: دووبارەبوەوە
+      enabled_disabled: کاراکردن / کارانەکردن
       female: مێ
+      flag: نیشانەکراو
       flag_label: دەستنیشانکرا؟
+      gbv_closure: داخستنی GBV
+      high: بەرز
+      low: نزم
       male: نێر
+      medium: مام ناوەند
+      mobile: ' موبايل:'
       mobile_label: بو موبایل دەسنیشانکرا؟
       my_cases: کەیسەکانم
+      no_action: كردار نيه
       no_activity: چالاکى نیە
+      open: کردنەوە
+      other: هی تر
+      photo: وێنە
       photo_label: 'وێنە هەیەتى؟ '
+      protection_concerns: نیگەرانیەکانى پاراستن
+      protection_status: 'دوخى پاراستن:'
+      record_state: دوخى تومار
       referred_cases: کەیسەکانى بو لاى من هەناردەکراو
+      registration_date: رێککەوتى تومارکردن
+      risk_level: 'ئاستى مەترسى:'
+      sex: رەگەز
+      social_worker: کارمەندی مەیدان/ کەیس/ توێزەرى کومەلایەتى
+      status: دۆخ
+      transferred: گواستراوە
+      type_of_risk: 'جورى مەترسى:'
+      urgent_protection_concern: 'نیگەرانى خێراى پاراستن:'
+      user_group: گروپی بەکارهێنەران
       workflow: کەیسەکان لەلایەن ستافى کار
     flag_summary: پوختەکە دەستنیشانبکە
+    full_name: ناوی سیانی
+    gbv_closure: داخستنی GBV
     hide_name: ناوەکە بشارەوە
     hide_name_error: هەلەیەک لەکاتى خەزنکردنى گوهرینەکان روویدا. تکایە هەولبدەوە
+    id: ناسنامە#
     label: کەیسەکان
     my_filters: فیلتەرەکانم
+    name: ناو
+    notes_dialog_title: تێبینى زیادبکە
+    notes_form_notes: تێبینی
+    notes_form_subject: بابەت
     ok: باشە
     order_by:
       label: راسپارد لەلایەن
       most_recently: لەو دواییانەدا
       name: ناو
+    owned_by: خاوەنى تومارەکە
+    owned_by_agency: دامەزراوى خاوەنى تومارەکە
+    photo: وێنە
+    photos: وێنە
     quick_view:
       tracing_message: 'تێبینى: هاوبەشێک هەیە لە سیستەمەکەدا لەگەل ڤەکولەر کە لەم منالە دەگەرێ. پەیوەندى بە ڤەکولەرى کومەلایەتى ئەم تومارە بکە بو کردارى تر ئەگەر منال رەزامەندى هەبێت. '
+    referral_done: کلیک کردن لسەر باشە دەریدەخات کە کارە پێشنیارکراوەکان تەواوتکرد کە پەیوەست بون بە کەیەسەکە. هەر کاتێک کلیک لسەر باشە کرا تو مولەتى چوونە ناو ئەم تومارە نامێنیت
+    referral_done_success: ئیحالەکە جێبەجێکرا
+    referral_accepted_header: ئیحالەکە وەربگرە
+    referral_accepted: دڵنیایت؟ لە ئێستاوە بەرپرس دەبیت بەرامبەر تەواوکردنی کارەکانی تایبەتن بەم ئیحالەکردنەوە
+    referral_accepted_success: ئیحالەکە قبوڵکرا
+    referral_rejected: بە کلیککردنى 'رەتکردن' دیاردەکەى کە لەم کاتەدا ئامادەنیت بەرپرسیارەتى ئەم کەیسە وەربگرى. تکایە ئەگەرى رەتکردنى ئەم کەیسە دیاربکە. لەو کاتەى کلیک لەسەر 'بەلێ' دەکەیت مافى چونەژور بو تومارەى ئەم کەیسە لەدەست دەدەیت
+    referral_rejected_success: ئیحالەکە قبوڵ نەکرا
     register_new_case: کەیسى نوێ
+    registration_date: رێککەوتى تومارکردن
+    reopen_dialog: کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بو کردنەوە
+    reopen_dialog_title: دوبارەکردنەوە
+    reopen_success: سەرکەوتوانە وەڵامی کەیسەکە درایەوە
     save_filter: خەزنکرن
     view_name: ناوەکە دیاربکە
   children:
@@ -494,28 +640,58 @@ ku:
     tick_box: چوارگوشەى نیشانە
     tick_box_label: بژاردەکانى چوارگوتى نیشانە
     updated: فیلدەکە نوێکرا
+  flags:
+    resolve_button: 'چارەسەری بکە '
+    resolve_flag: نیشانەکان چارەسەربکە
+    resolve_reason: 'هۆکارەکە چارەسەربکە:'
+    resolved: نیشانە چارەسەرکراوەکان
+    resolved_date: 'چارەسەرکرا'
+    resolved_reason: 'هۆکارەکە چارەسەربکە:'
+    title: نیشانەکان
   followup_reminders:
     system_generated_followup_flag: سەردانى بەدوا داچوونى زۆرەملێ
   form_section:
+    form_name: ناوی فۆرم
+    module: نموونەکان
     name: ناو
+    record_type: جۆرى تومارەکە
     required_field: '%{field} پێویستە'
   forms:
+    add: فۆرم زیادبکە
+    description: شروڤەکردنى فۆرمەکان
+    form_group: پێکهێنانی گروپ
+    form_title: ناونیشانی فۆرم
     label: فورمەکان
+    manage: بەرێوەبردن
     messages:
       use_existing: ئێمە هانتددەین کە فورمەکانى بەردەست بەکاربێنى کە ئەمە بلاوکردن و رێکخستنى زانیاریەکان لە نێوان دامەزاروەکان ئاسان دەکات.
+    mobile_app: ئەپلیکەیشنی موبایل
+    module: نموونەکان
+    record_type: جۆرى تومارەکە
     record_types:
+      approvals: پەسەندەکان
       case: ' کەیس'
       child: ' کەیس'
       incident: رووداو
       potential_match: هاوبەشە شاراوەکان
+      referrals: ئیحالەکراوەکان
       reportable_follow_up: بەدواکەوتن
       reportable_protection_concern: نیگەرانیەکانى پاراستن
       reportable_service: خزمەتگوزارى
       tracing_request: داخوازى بەدواداچون
       violation: توندوتیژى
+    select_label: هەڵبژاردن
+    settings: ڕیکخستن
+    title: ناونیشانی فۆرم
+    translations:
+      edit: دەستکاریکردنى وەرگێڕان
+      manage: ڕێکخستنی وەرگێران
+      select_language: زمان هەڵبژێرە
+      title: وه رگێران
+    type_label: جۆر
+    visibility: بەرچاو
   home:
     ar: عره بی
-    ar-IQ: العربية (العراقية)
     ar-LB: عرەبى(لوبنانى)
     bn: بەنگلادشى
     current_time_zone: کاتى شوێنى دیارکراو
@@ -525,7 +701,6 @@ ku:
     fr: فره نسی
     id: ئیندونیسی
     ku: کوردى
-    ku-IQ: کوردی (بادینی)
     label: لاپه ره ى سه ره كى
     language: زمان
     manage_system_users: بەكاربەرى هاوكات كردنى سێرڤەر بەرێوە ببە
@@ -570,19 +745,44 @@ ku:
       village: گوند
       zone: ناوچە
   logger:
+    actions:
+      refer_to: ئاماژەپێکردن %{model}
+      reopen: دوبارەکردنەوە
+      show: پیشاندان
+      show_alerts: پیشاندانی ئاگادارکردنەوەکان
+      traces: بەدواداچونەکان
+      transfer: گواستنەوە
+      transfer_accepted: گواستنەوەکە قبوڵکرا
+      transfer_rejected: گواستنەوەکە رەتکرایەوە
+      transfer_request: داواکاری گواستنەوە
+      transfer_to: گواسترایەوە بۆ
+      unflag: لابردنی نیشانە
+      update: نویکردنەوە
+      user_password_reset_request: داواکاری گۆڕینی ووشەی نهێنی
     approve_form:
+      action_plan: فۆرمی پلانی کار
       bia: فورمى BIA
       case_plan: فورمى پلانى کەیسەکە
       closure: داخستنى فورم
       'false': رەتیدەکرێت
+      gbv_closure: داخستنی  فۆرمی GBV
       'true': پەسەنکردن
+    assessment_approved: "قبوڵکرا بۆ"
+    assessment_requested: "داواکرا بۆ"
+    bulk_index: لیستکردنی سەرجەمیان
     by_user: لەلایەن بەکارهێنەر
+    case_plan_approved: "قبوڵکرا بۆ"
+    case_plan_requested: "داواکرا بۆ"
+    close: داخراو
+    closure_approved: "قبوڵکرا بۆ"
+    closure_requested: "داواکرا بۆ"
     consent_count: هەژمارەى رەزامەندى
     copy: کوپیکردن
     create: درووستکردن
     create_subform: دروستکردنى فورمى بنچینە
     destroy: سرینەوە
     edit: دەستکاریکردن
+    enable_disable_record: کاراکردن / کارانەکردن
     export: ناردنى زانیارى بو
     flag: دێتە نیشانکرن
     flag_records: دهێتە نیشانکرن
@@ -591,6 +791,7 @@ ku:
       protect: ناوەکە بشارەوە
       view: ناوەکە دیاربکە
     index: رێکخستنى تومارەکان
+    list: لیست
     login: چونەژوور
     logout: دەرکەوتن
     lookups_for_field: بەدواداگەرانى شوێن
@@ -601,20 +802,47 @@ ku:
     permitted_field_list: لیستى مولەتەکان
     quick_view: پیشاندانى بژاردەى خێرا
     reassign: وەرگرتن
+    resources:
+      audit_log: پشکنین
+      user: بەکارهێنەر
+      agency: دامەزراوە
+      user_group: گروپی بەکارهێنەران
+      child: مناڵ
+      alert: ئاگادارکردنەوە
+      form_section: فۆرم
+      system_settings: رێکخستنێنى سیستەم
+      permission: رێگەپێدان
+      dashboard: داشبورد
+      report: ریپورت
+      bulk_export: ناردنى فایلەکان بە کومەل
+      saved_search: پاراستنی گەڕان
+      role: ڕۆڵ
+      incident: رووداو
+      location: شوێن
+      primero_configuration: ڕێکخستنەکانی پریمێرۆ
+      code_of_conduct: بنەماکانی رەفتار
+      task: ئەرک
     record_state:
       'false': لەکارخستن
       'true': بەکارخستن
+    refer: ئیحالەکردن
+    refer_to: گەڕان بدوای وەرگرێکدا بۆ ئیحالەکردن
     referral: پێشنیارکردن
     relinquish_referral: وازهێنانى ئاماژە ئەنجامدرا
+    reopen: دوبارەکردنەوە
     reopen_case: دوبارەدەکرێتەوە
     request_approval:
+      action_plan: داخوازى پەسەندکراو بو پلانى فورمى کەیس
       bia: داخوازى پەسەنکراو بو فورمى BIA 
       case_plan: داخوازى پەسەندکراو بو پلانى فورمى کەیس
       closure: ' داخوازى پەسەندکراو بو داخستنى فورم'
+      gbv_closure: ' داخوازى پەسەندکراو بو داخستنى فورم GBV'
     request_transfer: ناردنى داخوازى گواستنەوە
     request_transfer_view: پیشاندانى داخوازى ناردن
     save_subform: خەزنکردنى فورمى بنچینە
+    search: گەڕان
     show: پیشاندان
+    show_alerts: پیشاندانی ئاگادارکردنەوەکان
     to: بو
     to_user: بو بەکارهێنەر
     transfer: گواستنەوە
@@ -627,6 +855,12 @@ ku:
     label: چونەژوور
     password:
       label: ژمارەى نهێنى
+    password_confirmation:
+      label: پشتراستکردنەوەی وشەی نهێنی
+    password_match:
+      label: وشەی نهێنی مەرجە چونیەک بێت
+    provider_title: لەگەڵ
+    title: چونەژوورەوە
     username: ناوى بەکارهێنەر
   lookup:
     create: گەراندنەوەى نوێ
@@ -725,7 +959,21 @@ ku:
       view_protection_concerns_filter: فیلتەرى نیگەرانیەکانى پاراستن پیشانبدە
       view_response: نیشاندانی وەلامەکان
       write: بنووسە
+    resource:
+      user:
+        label: بەکارهێنەر
+      user_group:
+        actions:
+          assign:
+            label: پێسپاردن
+          create:
+            label: دروستبکە
+          read:
+            label: پیشاندان
+          write:
+            label: دەستکاریکرن
   potential_match:
+    case_id: ناسنامەى كەیسەكە
     child_age: تەمەن
     child_gender: رەگەز
     child_id: ناسنامەى منال#
@@ -736,10 +984,23 @@ ku:
     score: خال
     social_worker: ڤەکولەرى کومەلایەتى
     social_worker_agency: دامەزراوە
+    trace: به دواداچوون
+    likelihood_likely: لەوانەیە
+    likelihood_possible: لەوانەیە
   potential_matches:
     display: هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}
   reassign:
     notes_label: تێبینیەکان
+    user_mandatory_label: وەرگر پێویستە
+    users_label: وەرگر
+  record_information:
+    assigned_user_names: بەکارهێنەرەکانى تر
+    created_by: تومار دروستکرا لەلایەن
+    current_owner_separator: خاوەنى ئێستا
+    module_id: نموونەکان
+    owned_by: کودى لێکولەرى کەیس
+    owned_by_agency_id: دامەزراوە
+    owned_by_text: کارمەندی مەیدان/ کەیس/ توێزەرى کومەلایەتى
   record_panel:
     record_information: زانیاریەکانى تومار
   referral:
@@ -747,19 +1008,36 @@ ku:
     is_remote_label: ئایا ئاماژە بو سیستەمى بنەرەت دەکەیت؟
     location_label: شوێن
     notes_label: تێبینیەکان
+    refer_anyway_label: ئیحالەی بکە هەرچۆنێک بێت؟
     service_label: خزمەتگوزارى
     success: '%{record_type} %{id} بە سەرکەوتووى پێشنیارکرا'
+    user_mandatory_label: وەرگر پێویستە
+    date: ڕێکەوت
+    rejected_reason: هۆکاری رەتکردنەوە
   report:
     aggregate_by: گروپ لە دوایى یەک
     date_ranges:
       date: روژ
       month: مانگ
-      week: حەفتى
+      quarter: چارەک
+      week: هەفتە
       year: سال
     description: وەسفکردن
+    disabled:
+      label: لەکارخراو
     disaggregate_by: گروپ بە شێوازى ستونى
     filters:
       label: فیلتەرەکانى ریپورت
+      label_new: فلتەری ریپۆرتکردنی نوێ
+      attribute: فلتەر
+      value: لەگەڵ
+      not_null: بەتاڵ نیە؟
+      less_than: کەمتر لە
+      greater_than: زیاتر لە
+      equal_to: یەکسانە بە
+      before: پێشوو
+      after: دواتر
+      delete_filter_message: دڵنیایت لە سڕینەوەی ئەم فلتەرە؟
     group_ages: مەوداى تەمەن بەکاربێنە
     group_dates_by: مەوداى بەکارهێنانى رێککەوت
     is_graph: هێلکاریەک دروستبکە؟
@@ -767,12 +1045,15 @@ ku:
       delete_success: ریپیورت  بەسەركەوتووى سرییەوە
     modules: نموونەکان
     name: ناو
+    name_mandatory: ناو پێویستە
     no_data: هیچ زانیاریەک بو ئەم ریپورتە بەردەست نیە
     record_type: جورى تومارەکە
     total: سەرجەم
   reports:
     label: ریپورتەکان
     register_new_report: ریپورت دروست بکە
+    translations:
+      select_language: زمان هەڵبژێرە
   request_transfer:
     notes_label: تێبینیەکان
     submit_label: داخوازى بنێرە
@@ -781,15 +1062,21 @@ ku:
     copy_failure: هەلە لە کوپیکردنى رولدا. دلنیابە ناوەکە دژ بە هیچ رولەکى تر نیە
     copy_success: رولەکە  بەسەركەوتووى کوپیکرا.
     create: رول دروستبکە
+    delete_header: سڕینەوەی ڕۆڵ
     description: وەسفکردن
     edit: دەستکاریکردنى رولەکە
     error_in_updating: هەلەیەک ل نوێکردنەوەى زانیاریەکانى رولەکەدا رویدا.
     group_permission_label: ئەم رولە کارتێکرن لە کام تومارەکان دەکات؟
+    label: ڕۆڵ
+    manager: بەرێوەبەر
     name: ناو
     referral_label: دەتوانرێت ئەم رولە بو پێشنیارکردن بەکاربێت؟
     role_ids_label: رۆلەکان تر لەلایەن ئەم رولە بەرێوەبردن
     successfully_updated: زانیاریەکانى رولەکە  بەسەركەوتووى نوێکرا.
     transfer_label: دەتوانرێت ئەم رولە بو گواستنەوە بەکاربێت؟
+    hide: شاردنەوە
+    read: پیشاندان
+    read_write: پیشاندان و دەستکاریکردن
   roles:
     label: رۆلەکان
   saved_search:
@@ -800,12 +1087,33 @@ ku:
   saved_searches:
     no_save_searches: هیچ لێگەریانێکى خەزنکراوت نیە
     save_search: لێگەریانى خەزنکراو
+  settings:
+    navigation:
+      agencies: دامەزراوە كان
+      audit_logs: پشکنین
+      contact_information: زانیاریەکانى پەیوەندى کردن
+      forms: فورمەکان
+      locations: شوێن
+      user_groups: گروپی بەکاربەران
+      users: بەکاربەرەکان
+      roles: ڕۆڵەکان
+    title: ڕیکخستن
   system_settings:
     label: رێکخستنێن سیستەمى
   task:
     due_date: رێککەوتى گونجاو
     id: ناسنامە#
+    name: ناو
+    priorities:
+      high_level: بەرز
+      low_level: نزم
+      medium_level: مام ناوەند
+      no_action_level: كردار نيه
     priority: ئاستى پێشى
+    status: دۆخ
+    statuses:
+      overdue: دواکەوتوو
+      upcoming_soon: نزیکە لە تەواوبون
     type: جورى کردار
     types:
       assessment: هەلسەنگاندن
@@ -813,12 +1121,35 @@ ku:
       follow_up: دوزینەوەى١ %{subtype}
       service: خزمەتگوزارى١%{subtype}
   tracing_request:
+    label: داواکاری بەدواداچوون
+    find_match: دۆزینەوەی هاوبەشەکان
+    back_to_traces: گەڕانەوە بۆ بەدواداچونەکان
+    traces: بەدواداچونەکان
+    trace: به دواداچوون
+    match: هاوبەش
+    matches: هاوبەشەکان
+    unmatch: نا هاوبەش
     messages:
+      nothing_found: هیچ بەردەست نیە
       update_success: 'داخوازیى بەدواداچون %{record_id} بە سەرکەوتووى نوێکرا'
+      creation_success: داخوازی بەدواداچونى تومار %{record_id}بەسەرکەوتووى دروستکرا
   tracing_requests:
+    date_of_inquiry: رێککەوتى لێکولینەوە
+    id: ناسنامە
+    filter_by:
+      by_date: 'بە رێککەوت:'
+      location_separation: شوێنى جیابونەوە
+      separation_cause: هۆکاری جیابونەوە
+      status: دۆخ
+    label: داواکاری بەدواداچون
+    name_of_inquirer: ناوی لێکۆڵەر
+    inquirer: لێکۆڵەر
+    name: ناو
     register_new_tracing_request: داخوازی  نوێى بەدواداچون
     selectable_date_options:
       inquiry_date: رێککەوتى لێکولینەوە
+    tracing_requests: داواکاری بەدواداچون
+    export: هەناردن
   transfer:
     agency_label: دامەزراوە
     consent_label: تۆمار رەزامەندييان دەستەبەر نەكردووە.
@@ -826,27 +1157,120 @@ ku:
     is_remote_label: ئایا بو سیستەمێکى بنەرەت دەنێریت؟
     location_label: شوێن
     notes_label: تێبینیەکان
+    recipient_label: وەرگر
+    select_label: هەڵبژێرە...
+    success: سەرکەوتوانە گواسترایەوە
+    transfer_label: 'گواستنەوە هەرچۆنێکبێت؟ '
+    user_mandatory: وەرگر پێویستە
+  transfer_assignment:
+    title: گواستنەوە و پێسپاردن
+  transition:
+    agency_label: دامەزراوە
+    assigned_by: 'سپێردراوە لە لایەن '
+    consent_individual_transfer_value:
+      true_label: 'به لێ'
+      false_label: 'نه خێر'
+    consent_overridden_value:
+      false_label: 'نەخێر'
+      true_label: 'بەڵێ'
+    errors:
+      to_user_can_receive: ئەم بەکاربەرە ناتوانێ ئەم تۆمارە وەربگرێت
+    notes: تێبینی
+    recipient: وەرگر
+    rejected: هۆکاری رەتکردنەوە
+    requested_by: داواکراوە لە لایەن
+    service_label: خزمەتگوزاری
+    responded_at: وەڵامدراوەتەوە لە
+    status:
+      accepted: قبوڵکراو
+      done: تەواوکراوە
+      in_progress: هەڵپەسێردراو
+      inprogress: هەڵپەسێردراو
+      rejected: رەتکردنەوە
+    type:
+      assign: پێسپاردن
+      reassign: پێسپاردن
+      referral: ئیحالەکردن
+      external_referral: ئیحالەکردنی دەرەکی
+      transfer: گواستنەوە
+      transferRequest: داواکاری گواستنەوە
   user:
     agency_office: ئۆفیسی دامەزراوە
     code: کۆدى بەکارهێنەر
-    disabled: لەکارخست
-    full_name: ناوى سێقولى
+    disabled: لەکارخراو
+    email: ئیمەیڵ
+    full_name: ناوى سیانی
+    identity_provider: بەخشەری ناسنامە
+    label: بەکاربەر
+    language: زمان
+    locale: ناوخۆیی
     location: شوێن
     messages:
       confirmation: دلنیایى دەتەوێ ئەم بەکارهێنەرە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى بەکارهێنەر
       created: بەکارهێنەر بەسەركەوتووى دروستکرا
+      failure: هەڵەیەک ڕویداوە، تکایە پەیوەندی بە پاڵپشتیکارانەوە بکە
       not_found: بەکارهێنەر بەم ناسناوە نەدوزرا
       password_changed_successfully: ژمارەى نهێنى بەسەركەوتووى گورا
       passwords_do_not_match: لەگەر ژمارەى نهێنى کارپێکراو ناگونجێت
       time_zone_updated: گورانکارى بەسەركەوتووى نوێکرا
       updated: بەکارهێنەر بەسەركەوتووى  نوێکرا
     organization: رێکخراو
+    agency: دامەزراوە
+    services_help_text: 'ئەگەر خزمەتگوزاریەکە دەستنیشان نەکەیت، ئەم بەکارهێنەرە هەمان ئەو خزمەتگوزاریەی بۆ دەستنیشان دەکرێت کە دامەزراوەکە هەیەتی. '
+    password_setting:
+      label: پریمێرۆ بە چ شێوازێک پێویستە وشەی نهێنی بەکاربەر دابنێت؟
+      self: وشەی نهێنی دادەنێم
+      user: بەکاربەر لە ڕێی ئیمەیڵی بەخێرهاتنەوە وشەی نهێنی دادەنێت
+    password_reset_header: ئیمەیڵی گۆڕینی وشەی نهێنی بنێرە
+    password_reset_text: بە کلیک کردن لە "ناردن" ئەم هەژمارە ئیمەیڵێکی پێ دەگات کە لینکیکی تێدایە تا بەهۆیەوە وشەی نهێنی بگۆڕێت
+    password_reset_request: ئیمەیڵی گۆڕینی وشەی نهێنی بنێرە
+    password: وشەی نهێنی
+    password_confirmation: پشتراستکردنەوەی وشەی نهێنی
+    phone: تەلەفون
     position: پۆست
+    role_id: ڕۆڵ
     send_mail: وەرگرتنى وریاکردنەوەى ئیمێل؟
+    user_group_unique_ids: گروپی بەکاربەران
+    user_name: ناوی بەکاربەر
+    services: خزمەتگوزاریەکان
+    welcome_email:
+      otp:
+        step4: 'کە داواتلێکرا، وشەی نهێنی بگۆڕە'
+      url_label: پریمێرۆ
+      enabled_label: 'ئیمەیڵی بەخێرهاتن بنێرە؟ '
+      text_label: تێکستی ئیمەیڵی بەخێرهاتن
+    password_reset:
+      email_body_link: ئێرە
+      request_submitted: "داواکاری گۆڕینی وشەی نهێنی داخڵکرا"
+      success: "وشەی نهێنی سەرکەوتوانە گۆڕا"
+      errors:
+        reset_password_token: "نیشانەی گۆڕینی وشەی نهێنی دروست نیە"
+        password_confirmation: "وشەی نهێنی مەرجە هاوشێوەبێت"
+    onboard_email:
+      greeting: "بەرێز"
+      body1: "بەخێربێیت بؤ پریمێرۆ! "
+      body2: "وەک بەڕێوەبەری جێبەجێکردن دەستنیشانکرایت"
+      body2_reset_notification: "ئیمەیلێکی ترت بەدەست دەگات داوای گۆڕینی وشەی نهێنیت لێ دەکات"
   user_group:
     description: وەسفکردن
+    disabled:
+      explanation: ئەگەر ئەم گروپی بەکاربەرە لەکار بخەیت، توانای پیسپاردنت بۆ هەژماری بەکاربەرەکان نابێت
+      label: لەکارخراو
+    messages:
+      created: گروپی بەکاربەرەکان سەرکەوتوانە دروستکرا
+      updated: گروپی بەکاربەرەکان سەرکەوتوانە نوێکرایەوە
     name: ناو
   user_groups:
     label: گروپەکانى بەکارهێنەر
   users:
     label: بەکارهێنەرەکان
+    headers:
+      full_name: ناوی سیانی
+      user_name: ناوی بەکاربەر
+      position: پۆست
+      agency: دامەزراوە
+  devise:
+    failure:
+      already_authenticated: "لە باری چونەژورەوەدایت"
+      locked: "هەژمارەکەت داخراوە"
+      last_attempt: "تەنها یەک تاقیکردنەوەی ترت لەبەردەمدایە پێش داخستنی هەژمارەکەت"

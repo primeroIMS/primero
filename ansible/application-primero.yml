@@ -1,5 +1,5 @@
 ---
-- hosts: 'all'
+- hosts: 'all:localhost'
   environment:
     PATH: '{{ ansible_env.PATH }}:/opt/docker/bin/'
   roles:

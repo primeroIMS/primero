@@ -13,7 +13,6 @@ class Kpi::CaseClosureRate < Kpi::PivotedRangeSearch
     super do |search|
       search.with :owned_by_agency_id, owned_by_agency_id
       search.with :date_closure, from..to
-      search.with :status, Record::STATUS_CLOSED
     end
   end
 
