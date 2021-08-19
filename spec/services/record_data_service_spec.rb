@@ -145,6 +145,17 @@ describe RecordDataService do
     end
   end
 
+  describe '#current_care_arrangements' do
+    it 'returns the current care arragment fields if care_arrangements_section changed' do
+      expect(
+        RecordDataService.current_care_arrangements(['care_arrangements_section'])
+      ).to eq(RecordDataService::CURRENT_CARE_ARRANGEMENTS_FIELDS)
+    end
+    it 'returns the empty array if care_arrangements_section did not changed' do
+      expect(RecordDataService.current_care_arrangements(['age'])).to eq([])
+    end
+  end
+
   after :each do
     clean_data(Role)
   end
