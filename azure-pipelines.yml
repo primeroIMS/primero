@@ -17,7 +17,10 @@ variables:
 jobs:
   - job: Test
     displayName: 'Run tests'
-    pool: primerox-azdo-a-ms
+    pool: 
+      name: primerox-azdo-a-ms
+      demands:
+        - agent.name -equals primero-build-agent1
     steps:
       - bash: |
           set -e
