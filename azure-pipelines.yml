@@ -22,15 +22,13 @@ jobs:
       demands:
         - agent.name -equals primero-build-agent2
     steps:
+      - bash: ./bin/install_local_test_solr.sh
       - bash: |
           set -e
           mkdir -p log
           cp config/azure-devops/database.yml config/
           cp config/azure-devops/sunspot.yml config/
           cp config/azure-devops/mailers.yml config/
-          mkdir -p solr/data/test
-          mkdir -p solr/cores/test
-          cp config/azure-devops/core.properties solr/cores/test/
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
@@ -45,8 +43,6 @@ jobs:
         displayName: 'Install dependencies'
       - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
-      - bash: bundle exec rake sunspot:solr:start
-        displayName: 'Starting solr'
         env:
           RAILS_ENV: test
       - bash: |
