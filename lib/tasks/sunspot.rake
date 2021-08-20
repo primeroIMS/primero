@@ -26,7 +26,7 @@ namespace :sunspot do
   desc 'Reindex all indexeable models'
   task reindex: :wait do
     puts 'Reindexing Solr...'
-    location_service = Location.new(true)
+    location_service = LocationService.new(true)
     [Child, Incident, TracingRequest, Trace].each { |m| batch_reindex(m, 500, location_service) }
     puts 'Solr successfully reindexed'
   end
