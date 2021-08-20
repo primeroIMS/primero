@@ -32,7 +32,7 @@ describe Api::V2::TransfersController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
-  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
+  let(:audit_params) { enqueued_jobs.find { |job| job[:job] == AuditLogJob }[:args].first }
 
   describe 'GET /api/v2/case/:id/transfers' do
     before :each do

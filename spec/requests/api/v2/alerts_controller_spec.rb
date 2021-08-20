@@ -83,7 +83,7 @@ describe Api::V2::AlertsController, type: :request do
   end
 
   let(:json) { JSON.parse(response.body) }
-  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
+  let(:audit_params) { enqueued_jobs.find { |job| job[:job] == AuditLogJob }[:args].first }
 
   describe 'GET /api/v2/alerts' do
     it 'accept the request with the User a' do
@@ -131,7 +131,6 @@ describe Api::V2::AlertsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].count).to eq(3)
-
       expect(audit_params['action']).to eq('show_alerts')
     end
 

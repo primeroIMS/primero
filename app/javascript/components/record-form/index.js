@@ -20,7 +20,6 @@ export {
   getOptionsAreLoading,
   getRecordForms,
   getRecordFormsByUniqueId,
-  getReportingLocations,
   getSelectedForm,
   getServiceToRefer,
   getSubformsDisplayName,

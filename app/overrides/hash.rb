@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Monkeypatch Hash to support deep compaction of nested hashes.
-class Hash
+Hash.class_eval do
   def compact_deep
     map do |key, value|
       value = if value.nil?

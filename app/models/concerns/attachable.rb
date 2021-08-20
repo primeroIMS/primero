@@ -44,6 +44,6 @@ module Attachable
   def maximum_attachments_exceeded
     return unless attachments.size > (MAX_ATTACHMENTS - 1)
 
-    errors[:attachments] << 'errors.attachments.maximum'
+    errors.add(:attachments, 'errors.attachments.maximum')
   end
 end

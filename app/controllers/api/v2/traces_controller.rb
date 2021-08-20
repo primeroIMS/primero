@@ -10,7 +10,7 @@ class Api::V2::TracesController < ApplicationApiController
   def update
     @trace = Trace.find(params[:id])
     authorize! :write, @trace
-    @trace.update_attributes!(trace_params)
+    @trace.update!(trace_params)
   end
 
   def trace_params

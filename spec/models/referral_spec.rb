@@ -44,14 +44,14 @@ describe Referral do
 
   describe 'consent' do
     it 'denies consent for referring records if consent properties are not set' do
-      @case.update_attributes(consent_for_services: nil, disclosure_other_orgs: nil)
+      @case.update(consent_for_services: nil, disclosure_other_orgs: nil)
       referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_falsey
     end
 
     it 'consents for referring GBV records if referral_for_other_services is set to true' do
-      @case.update_attributes(module_id: @module_gbv.unique_id)
+      @case.update(module_id: @module_gbv.unique_id)
       referral = Referral.new(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
 
       expect(referral.consent_given?).to be_truthy
@@ -189,7 +189,7 @@ describe Referral do
       it 'changes the status to DONE and removes the referred user' do
         @done_referral.done!
         @done_referral.reload
-  
+
         expect(@done_referral.status).to eq(Transition::STATUS_DONE)
         expect(@case.assigned_user_names).not_to include('user2')
       end
@@ -318,7 +318,7 @@ describe Referral do
       now = DateTime.parse('2020-10-05T04:05:06')
       DateTime.stub(:now).and_return(now)
 
-      @case.update_attributes(consent_for_services: true, disclosure_other_orgs: true)
+      @case.update(consent_for_services: true, disclosure_other_orgs: true)
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       referral.accept!
       referral.reload

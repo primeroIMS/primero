@@ -763,8 +763,7 @@ describe Api::V2::FormSectionsController, type: :request do
           expect(json['data']['export_file_url'].starts_with?('/rails/active_storage/blobs/')).to be_truthy
           expect(json['data']['export_file_url'].ends_with?(json['data']['export_file_name'])).to be_truthy
 
-          uri = URI(json['data']['export_file_url'])
-          get(uri)
+          get(json['data']['export_file_url'])
           expect(response).to have_http_status(302)
         end
       end

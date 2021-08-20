@@ -15,6 +15,6 @@ module Kpi::GBVIncident
   private
 
   def kpis
-    @kpis ||= GbvKpiCalculationService.from_record(self)
+    @kpis ||= GBVKpiCalculationService.from_record(self)
   end
 end

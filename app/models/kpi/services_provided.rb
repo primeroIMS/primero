@@ -17,7 +17,7 @@ class Kpi::ServicesProvided < Kpi::Search
   def data
     @data ||= search.facet(:services_provided).rows.map do |row|
       {
-        service: Lookup.display_value('lookup-service-type', row.value),
+        service: Lookup.display_value('lookup-gbv-service-type', row.value),
         count: row.count
       }
     end
