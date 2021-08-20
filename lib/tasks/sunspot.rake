@@ -47,7 +47,7 @@ namespace :sunspot do
     puts "Reindexing #{model.count} #{model.name} records in batches of #{batch_size}..."
 
     model.all.find_in_batches(batch_size: batch_size) do |records|
-      records.each { |r| r.location_service = location_service }
+      records.each { |r| r.location_service = location_service } unless model == Trace
       Sunspot.index(records)
       index_flags_for_records(model, records, batch_size)
       index_nested_reportables_for_records(model, records, batch_size)
