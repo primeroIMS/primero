@@ -38,7 +38,7 @@ jobs:
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10 openjdk-8-jre
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
           gem install bundler
         displayName: 'Install dependencies'
       - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
