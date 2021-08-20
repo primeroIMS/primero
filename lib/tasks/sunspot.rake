@@ -26,7 +26,8 @@ namespace :sunspot do
   desc 'Reindex all indexeable models'
   task reindex: :wait do
     puts 'Reindexing Solr...'
-    [Child, Incident, TracingRequest, Trace].each { |m| batch_reindex(m) }
+    location_service = Location.new(true)
+    [Child, Incident, TracingRequest, Trace].each { |m| batch_reindex(m, 500, location_service) }
     puts 'Solr successfully reindexed'
   end
 
@@ -42,10 +43,11 @@ namespace :sunspot do
     Sunspot.remove_all!(*indexed_types)
   end
 
-  def batch_reindex(model, batch_size = 500)
+  def batch_reindex(model, batch_size = 500, location_service = nil)
     puts "Reindexing #{model.count} #{model.name} records in batches of #{batch_size}..."
 
     model.all.find_in_batches(batch_size: batch_size) do |records|
+      records.each { |r| r.location_service = location_service }
       Sunspot.index(records)
       index_flags_for_records(model, records, batch_size)
       index_nested_reportables_for_records(model, records, batch_size)

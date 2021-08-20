@@ -19,6 +19,7 @@ class LocationService
     # The assumption here is that the cache will be updated if a new Location is created
     cache_key = "location_service/#{Location.maximum(:id)}"
     self.locations_by_code = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
+      # TODO: Depending on how many locations we have, this query can overrun the available memory
       Location.all.map { |loc| [loc.location_code, loc] }.to_h
     end
   end
