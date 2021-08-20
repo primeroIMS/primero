@@ -12,7 +12,7 @@ services:
     env_file:
       - docker/defaults.env
     volumes:
-      - solr_cores:/opt/solr/server/solr/mycores
+      - solr_cores:/var/solr
   beanstalkd:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/beanstalkd:${PRIMERO_TAG:-latest}'
     env_file:
