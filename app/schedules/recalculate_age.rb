@@ -2,7 +2,7 @@
 
 # A schedule for nightly age recalculations on case records.
 # Runs nightly at 01:01 am UTC (or server time)
-class RecalculateAge
+class RecalculateAge < PeriodicJob
   def self.schedule(scheduler)
     start_date = Date.yesterday
     end_date = Date.current
