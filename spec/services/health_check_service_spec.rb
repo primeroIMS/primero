@@ -27,22 +27,6 @@ describe HealthCheckService do
     end
   end
 
-  describe '.beanstalkd_accessible?' do
-    before do
-      @original_queue = Rails.configuration.active_job[:queue_adapter]
-      Rails.configuration.active_job[:queue_adapter] = :backburner
-    end
-
-    it 'returns false if Beanstalkd is not connected' do
-      # Backburner::Connection.new(Backburner.configuration.beanstalk_url)
-      expect(HealthCheckService.beanstalkd_accessible?).to be_falsey
-    end
-
-    after do
-      Rails.configuration.active_job[:queue_adapter] = @original_queue
-    end
-  end
-
   describe '.api_accessible?' do
     before do
       clean_data(SystemSettings)
