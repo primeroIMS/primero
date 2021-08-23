@@ -12,6 +12,6 @@ class OptimizeSolr < PeriodicJob
   end
 
   def self.reschedule_after
-    30.seconds
+    1.day
   end
 end

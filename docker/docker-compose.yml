@@ -35,16 +35,6 @@ services:
     env_file:
       - docker/defaults.env
     command: ["rails", "jobs:work"]
-  scheduler:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
-    depends_on:
-      - solr
-      - postgres
-    volumes:
-      - storage:/srv/primero/application/storage
-    env_file:
-      - docker/defaults.env
-    command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
   database:
   public:

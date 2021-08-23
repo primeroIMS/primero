@@ -2,6 +2,7 @@
 
 # Primero ActiveJob superclass
 class PeriodicJob < ActiveJob::Base
+  queue_as :default
   def perform
     self.class.schedule_job
     perform_rescheduled

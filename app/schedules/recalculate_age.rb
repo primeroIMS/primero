@@ -3,15 +3,16 @@
 # A schedule for nightly age recalculations on case records.
 # Runs nightly at 01:01 am UTC (or server time)
 class RecalculateAge < PeriodicJob
-  def self.schedule(scheduler)
+  def perform_rescheduled
     start_date = Date.yesterday
     end_date = Date.current
+    Rails.logger.info "Recalculating ages based on date of birth. startDate:[#{start_date}]  endDate:[#{end_date}]"
+    RecalculateAge.new.recalculate!(start_date, end_date)
+    Rails.logger.info 'Recalculating ages complete.'
+  end
 
-    scheduler.cron '1 1 * * *' do
-      Rails.logger.info "Recalculating ages based on date of birth. startDate:[#{start_date}]  endDate:[#{end_date}]"
-      RecalculateAge.new.recalculate!(start_date, end_date)
-      Rails.logger.info 'Recalculating ages complete.'
-    end
+  def self.reschedule_after
+    1.day
   end
 
   def self.recalculate!
