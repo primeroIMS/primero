@@ -39,5 +39,5 @@ Rails.application.configure do
   end || 'local'
   config.active_storage.service = storage_type.to_sym
 
-  config.active_job.queue_adapter = :backburner
+  config.active_job.queue_adapter = :delayed_job
 end

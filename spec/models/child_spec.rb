@@ -657,6 +657,242 @@ describe Child do
     end
   end
 
+  describe 'current care arrangements' do
+    context 'when all care arrangements have a start date' do
+      let(:case1) do
+        Child.create!(
+          name: 'Usama Yazan Al-Rashid',
+          name_nickname: 'Usman Beg',
+          sex: 'male',
+          age: 13,
+          date_of_birth: Date.new(2006, 10, 19),
+          nationality: ['syria'],
+          location_current: 'ABC123',
+          ethnicity: ['kurd'],
+          language: ['arabic'],
+          consent_for_tracing: true,
+          family_details_section: [
+            {
+              relation_name: 'Yazan Al-Rashid',
+              relation: 'father',
+              relation_age: 51,
+              relation_date_of_birth: Date.new(1969, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            },
+            {
+              relation_name: 'Hadeel Al-Rashid',
+              relation: 'mother',
+              relation_age: 52,
+              relation_date_of_birth: Date.new(1970, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            }
+          ],
+          care_arrangements_section: [
+            {
+              care_arrangements_type: 'parent_s',
+              name_caregiver: 'Caregiver One',
+              relationship_caregiver: 'mother',
+              care_arrangement_started_date: Date.new(2020, 12, 1)
+            },
+            {
+              care_arrangements_type: 'adult_sibling',
+              name_caregiver: 'Caregiver Two',
+              relationship_caregiver: 'sister',
+              care_arrangement_started_date: Date.new(2021, 1, 1)
+            },
+            {
+              care_arrangements_type: 'customary_caregiver_s',
+              name_caregiver: 'Caregiver Three',
+              relationship_caregiver: 'other_family',
+              care_arrangement_started_date: Date.new(2019, 12, 1)
+            }
+          ]
+        )
+      end
+
+      after :each do
+        clean_data(Child)
+      end
+
+      let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
+
+      it 'returns most recent care arrangement' do
+        expect(most_recent_care_arrangement['care_arrangements_type']).to eq('adult_sibling')
+        expect(most_recent_care_arrangement['name_caregiver']).to eq('Caregiver Two')
+        expect(most_recent_care_arrangement['relationship_caregiver']).to eq('sister')
+        expect(most_recent_care_arrangement['care_arrangement_started_date']).to eq(Date.parse('2021-01-01'))
+      end
+
+      describe('.current_care_arrangements_type') do
+        it 'returns current care arrangements type' do
+          expect(case1.current_care_arrangements_type).to eq('adult_sibling')
+        end
+      end
+
+      describe('.current_name_caregiver') do
+        it 'returns current caregiver name' do
+          expect(case1.current_name_caregiver).to eq('Caregiver Two')
+        end
+      end
+
+      describe('.current_care_arrangement_started_date') do
+        it 'returns current care arrangement started date' do
+          expect(case1.current_care_arrangement_started_date).to eq(Date.parse('2021-01-01'))
+        end
+      end
+    end
+
+    context 'when one care arrangement does not have a start date' do
+      let(:case1) do
+        Child.create!(
+          name: 'Usama Yazan Al-Rashid',
+          name_nickname: 'Usman Beg',
+          sex: 'male',
+          age: 13,
+          date_of_birth: Date.new(2006, 10, 19),
+          nationality: ['syria'],
+          location_current: 'ABC123',
+          ethnicity: ['kurd'],
+          language: ['arabic'],
+          consent_for_tracing: true,
+          family_details_section: [
+            {
+              relation_name: 'Yazan Al-Rashid',
+              relation: 'father',
+              relation_age: 51,
+              relation_date_of_birth: Date.new(1969, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            },
+            {
+              relation_name: 'Hadeel Al-Rashid',
+              relation: 'mother',
+              relation_age: 52,
+              relation_date_of_birth: Date.new(1970, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            }
+          ],
+          care_arrangements_section: [
+            {
+              care_arrangements_type: 'parent_s',
+              name_caregiver: 'Caregiver One',
+              relationship_caregiver: 'mother',
+              care_arrangement_started_date: Date.new(2020, 12, 1)
+            },
+            {
+              care_arrangements_type: 'adult_sibling',
+              name_caregiver: 'Caregiver Two',
+              relationship_caregiver: 'sister'
+            },
+            {
+              care_arrangements_type: 'customary_caregiver_s',
+              name_caregiver: 'Caregiver Three',
+              relationship_caregiver: 'other_family',
+              care_arrangement_started_date: Date.new(2019, 12, 1)
+            }
+          ]
+        )
+      end
+
+      after :each do
+        clean_data(Child)
+      end
+
+      let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
+
+      it 'returns most recent care arrangement' do
+        expect(most_recent_care_arrangement['care_arrangements_type']).to eq('parent_s')
+        expect(most_recent_care_arrangement['name_caregiver']).to eq('Caregiver One')
+        expect(most_recent_care_arrangement['relationship_caregiver']).to eq('mother')
+        expect(most_recent_care_arrangement['care_arrangement_started_date']).to eq(Date.parse('2020-12-01'))
+      end
+
+      describe('.current_care_arrangements_type') do
+        it 'returns current care arrangements type' do
+          expect(case1.current_care_arrangements_type).to eq('parent_s')
+        end
+      end
+
+      describe('.current_name_caregiver') do
+        it 'returns current caregiver name' do
+          expect(case1.current_name_caregiver).to eq('Caregiver One')
+        end
+      end
+
+      describe('.current_care_arrangement_started_date') do
+        it 'returns current care arrangement started date' do
+          expect(case1.current_care_arrangement_started_date).to eq(Date.parse('2020-12-01'))
+        end
+      end
+    end
+
+    context 'when there are no care arrangements' do
+      let(:case1) do
+        Child.create!(
+          name: 'Usama Yazan Al-Rashid',
+          name_nickname: 'Usman Beg',
+          sex: 'male',
+          age: 13,
+          date_of_birth: Date.new(2006, 10, 19),
+          nationality: ['syria'],
+          location_current: 'ABC123',
+          ethnicity: ['kurd'],
+          language: ['arabic'],
+          consent_for_tracing: true,
+          family_details_section: [
+            {
+              relation_name: 'Yazan Al-Rashid',
+              relation: 'father',
+              relation_age: 51,
+              relation_date_of_birth: Date.new(1969, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            },
+            {
+              relation_name: 'Hadeel Al-Rashid',
+              relation: 'mother',
+              relation_age: 52,
+              relation_date_of_birth: Date.new(1970, 1, 1),
+              relation_ethicity: ['arab'],
+              relation_nationality: ['iraq']
+            }
+          ]
+        )
+      end
+
+      after :each do
+        clean_data(Child)
+      end
+
+      let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
+
+      it 'returns most recent care arrangement' do
+        expect(most_recent_care_arrangement).to be_nil
+      end
+
+      describe('.current_care_arrangements_type') do
+        it 'returns current care arrangements type' do
+          expect(case1.current_care_arrangements_type).to be_nil
+        end
+      end
+
+      describe('.current_name_caregiver') do
+        it 'returns current caregiver name' do
+          expect(case1.current_name_caregiver).to be_nil
+        end
+      end
+
+      describe('.current_care_arrangement_started_date') do
+        it 'returns current care arrangement started date' do
+          expect(case1.current_care_arrangement_started_date).to be_nil
+        end
+      end
+    end
+  end
+
   after :all do
     Child.destroy_all
     Field.destroy_all

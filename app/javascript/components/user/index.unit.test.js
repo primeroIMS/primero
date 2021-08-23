@@ -25,7 +25,6 @@ describe("User - index", () => {
       "getSavingPassword",
       "getServerErrors",
       "getUser",
-      "getUserLocationsByAdminLevel",
       "getUserSavingRecord",
       "hasUserPermissions",
       "reducer",

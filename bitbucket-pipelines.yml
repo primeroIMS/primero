@@ -22,8 +22,8 @@ definitions:
           - node
     - step: &push-branch
         script:
-          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
           - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_BRANCH
+          - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
       image: postgres:10
@@ -45,8 +45,8 @@ pipelines:
     v*:
       - step:
           script:
-            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
             - git push unicef@vs-ssh.visualstudio.com:v3/unicef/ICTD%20-%20Primero%20X%20DEV/primero $BITBUCKET_TAG
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
   pull-requests:
     '**':
       - step: *server-test

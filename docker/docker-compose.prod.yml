@@ -2,7 +2,7 @@
 version: '3'
 services:
   nginx:
-    image: 'primeroims/nginx:${PRIMERO_TAG:-latest}'
+    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/nginx:${PRIMERO_TAG:-latest}'
     ports:
       - "80:80"
       - "443:443"
@@ -25,11 +25,7 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
-  beanstalkd:
-    env_file:
-      - docker/defaults.env
-      - docker/local.env
-  backburner:
+  worker:
     env_file:
       - docker/defaults.env
       - docker/local.env

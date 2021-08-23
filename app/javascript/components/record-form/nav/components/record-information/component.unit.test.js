@@ -15,7 +15,7 @@ describe("<RecordInformation />", () => {
     open: "record_information",
     handleClick: () => {},
     selectedForm: "",
-    formGroupLookup: {}
+    formGroupLookup: []
   };
 
   const initialState = fromJS({

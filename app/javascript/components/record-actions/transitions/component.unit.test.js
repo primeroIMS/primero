@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../test";
 import { MODULES } from "../../../config";
 
-import { TransitionDialog, ReassignForm, TransferForm } from "./components";
+import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referral from "./referrals";
 import mockUsers from "./mocked-users";
 import Transitions from "./component";
@@ -228,13 +228,13 @@ describe("<Transitions />", () => {
     });
 
     it("renders TransferForm", () => {
-      expect(component.find(TransferForm)).to.have.length(1);
+      expect(component.find(Transfers)).to.have.length(1);
     });
     describe("with props", () => {
       let transferForm;
 
       beforeEach(() => {
-        transferForm = component.find(TransferForm);
+        transferForm = component.find(Transfers);
       });
       it("should check the allowed props", () => {
         const validProps = [
@@ -246,7 +246,6 @@ describe("<Transitions />", () => {
           "selectedIds",
           "mode",
           "isBulkTransfer",
-          "transferRef",
           "disabled",
           "setDisabled"
         ];
@@ -271,9 +270,6 @@ describe("<Transitions />", () => {
       });
       it("should check the setDisabled prop", () => {
         expect(transferForm.props().setDisabled).to.be.a("function");
-      });
-      it("should check the transferRef prop", () => {
-        expect(transferForm.props().transferRef).to.be.an("object");
       });
       it("should check the disabled prop", () => {
         expect(transferForm.props().disabled).to.be.false;
