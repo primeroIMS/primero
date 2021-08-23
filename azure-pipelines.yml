@@ -13,7 +13,6 @@ variables:
   # Container registry service connection established during pipeline creation
   vmImageName: 'Ubuntu-18.04'
   latestBranch: master
-  rubyVersion: 2.7.4
 
 jobs:
   - job: Test
@@ -25,7 +24,7 @@ jobs:
     steps:
       - bash: ./bin/install_local_test_solr.sh
       - bash: |
-          rbenv global $(rubyVerison)
+          rbenv global 2.7.4
           gem install bundler
       - bash: |
           set -e
