@@ -54,7 +54,10 @@ chmod -R 777 "$SOLR_SRC_DIR/bin"
 
 cp docker/solr/root/opt/solr/bin/solr.in.sh.template /opt/solr/bin/solr.in.sh
 
-su solr -c "solr start -s $SOLR_DIR/data"
-
+if solr status 2>/dev/null; then
+  echo "Solr already running!"
+else
+  su solr -c "solr start -s $SOLR_DIR/data"
+fi
 
 

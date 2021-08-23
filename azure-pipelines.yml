@@ -13,6 +13,7 @@ variables:
   # Container registry service connection established during pipeline creation
   vmImageName: 'Ubuntu-18.04'
   latestBranch: master
+  rubyVersion: 2.7.4
 
 jobs:
   - job: Test
@@ -23,6 +24,9 @@ jobs:
         - agent.name -equals primero-build-agent2
     steps:
       - bash: ./bin/install_local_test_solr.sh
+      - bash: |
+          rbenv global $(rubyVerison)
+          gem install bundler
       - bash: |
           set -e
           mkdir -p log
