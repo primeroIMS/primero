@@ -5,7 +5,7 @@ set -ex
 # Install Rails pre-requisites
 apt-get update
 apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
-bundle install --without production
+bundle install
 
 # Set up test environment
 mkdir -p log
