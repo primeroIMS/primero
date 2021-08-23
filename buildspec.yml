@@ -42,7 +42,6 @@ phases:
   post_build:
     commands:
       - echo ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/primeroims/beanstalkd:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/solr:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
