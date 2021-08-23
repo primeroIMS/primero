@@ -12,7 +12,7 @@ services:
     env_file:
       - docker/defaults.env
     volumes:
-      - solr_cores:/opt/solr/server/solr/mycores
+      - solr_cores:/var/solr
   application:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
     depends_on:
