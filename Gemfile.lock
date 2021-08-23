@@ -377,6 +377,8 @@ GEM
       tzinfo
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2021.1)
+      tzinfo (>= 1.0.0)
     unicode-display_width (1.7.0)
     uri_template (0.7.0)
     warden (1.2.9)
@@ -461,6 +463,7 @@ DEPENDENCIES
   sunspot_solr (~> 2.5)
   sunspot_test (~> 0.4)
   twitter_cldr (~> 4.4)
+  tzinfo-data (~> 1.2021)
   will_paginate (~> 3.1)
   write_xlsx (~> 0.85)
 
