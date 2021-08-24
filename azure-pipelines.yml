@@ -24,9 +24,6 @@ jobs:
     steps:
       - bash: ./bin/install_local_test_solr.sh
       - bash: |
-          rbenv global 2.7.4
-          gem install bundler
-      - bash: |
           set -e
           mkdir -p log
           cp config/azure-devops/database.yml config/
