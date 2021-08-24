@@ -44,7 +44,7 @@ jobs:
           rbenv global 2.7.4
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
-        noProfile: false
+        noRc: false
         env:
           RAILS_ENV: test
       - bash: |
@@ -53,7 +53,7 @@ jobs:
           bundle exec rails db:migrate
           bundle exec rspec spec
         displayName: 'Run Rspec test'
-        noProfile: false
+        noRc: false
         env:
           RAILS_ENV: test
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
