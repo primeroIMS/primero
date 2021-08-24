@@ -55,10 +55,12 @@ apply_tags () {
   local image=${1}
   docker tag "primero/${image}:${tag}" "primeroims/${image}:${tag}"
   docker tag "primero/${image}:${tag}" "${repository}/primero/${image}:${tag}"
+  docker tag "primero/${image}:${tag}" "${repository}/primeroims/${image}:${tag}"
   if [[ "${with_latest}" == true ]] ; then
     docker tag "primero/${image}:${tag}" "primero/${image}:latest"
     docker tag "primero/${image}:${tag}" "primeroims/${image}:latest"
     docker tag "${repository}/primero/${image}:${tag}" "${repository}/primero/${image}:latest"
+    docker tag "${repository}/primero/${image}:${tag}" "${repository}/primeroims/${image}:latest"
   fi
 }
 
