@@ -39,9 +39,10 @@ jobs:
       - bash: |
           apt-get update
           apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
-          gem install bundler
         displayName: 'Install dependencies'
-      - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+      - bash: |
+          rbenv global 2.7.4
+          bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:
           RAILS_ENV: test
