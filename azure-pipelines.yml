@@ -47,8 +47,8 @@ jobs:
             bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
           noRc: false
           displayName: 'Bundle install'
-          env:
-            RAILS_ENV: test
+        env:
+          RAILS_ENV: test
       - task: Bash@3
         inputs:
           script: |
@@ -58,10 +58,10 @@ jobs:
             bundle exec rspec spec
           noRc: false
           displayName: 'Run Rspec test'
-          env:
-            RAILS_ENV: test
-            DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
-            DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
+        env:
+          RAILS_ENV: test
+          DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
+          DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
       - bash: |
           npm run test:all
         displayName: 'Run Integration test'
