@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Nightly schedule to re-optimze the Sunspot Solr index.
-# Runs nightly at 02:01 am UTC (or server time)
+# PeriodicJob to re-optimze the Sunspot Solr index.
 class OptimizeSolr < PeriodicJob
   def perform_rescheduled
     Rails.logger.info 'Optimizing Solr...'

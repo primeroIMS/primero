@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# A schedule for nightly age recalculations on case records.
-# Runs nightly at 01:01 am UTC (or server time)
+# PeriodicJob to recalculate the age of case records.
 class RecalculateAge < PeriodicJob
   def perform_rescheduled
     start_date = Date.yesterday
