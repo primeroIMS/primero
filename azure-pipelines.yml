@@ -47,6 +47,7 @@ jobs:
             rbenv global 2.7.4
             bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
           noRc: false
+          noProfile: false
           displayName: 'Bundle install'
         env:
           RAILS_ENV: test
