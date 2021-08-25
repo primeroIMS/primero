@@ -16,6 +16,7 @@ variables:
 
 jobs:
   - job: Test
+    condition: false
     displayName: 'Run tests'
     pool: 
       name: primerox-azdo-a-ms
@@ -40,27 +41,18 @@ jobs:
           apt-get update
           apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
         displayName: 'Install dependencies'
-      - task: Bash@3
-        inputs:
-          targetType: 'inline'
-          script: |
-            rbenv global 2.7.4
-            bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
-          noRc: false
-          noProfile: false
-          displayName: 'Bundle install'
+      - bash: |
+          rbenv global 2.7.4
+          bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+        displayName: 'Bundle install'
         env:
           RAILS_ENV: test
-      - task: Bash@3
-        inputs:
-          targetType: 'inline'
-          script: |
-            bundle exec rails db:drop
-            bundle exec rails db:create
-            bundle exec rails db:migrate
-            bundle exec rspec spec
-          noRc: false
-          displayName: 'Run Rspec test'
+      - bash: |
+          bundle exec rails db:drop
+          bundle exec rails db:create
+          bundle exec rails db:migrate
+          bundle exec rspec spec
+        displayName: 'Run Rspec test'
         env:
           RAILS_ENV: test
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
