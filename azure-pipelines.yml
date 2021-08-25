@@ -41,12 +41,14 @@ jobs:
           apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
         displayName: 'Install dependencies'
       - bash: |
+          . ~/.bash_env
           rbenv global 2.7.4
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:
           RAILS_ENV: test
       - bash: |
+          . ~/.bash_env
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
@@ -64,7 +66,6 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
-    condition: false
     pool:
       vmImage: $(vmImageName)
     steps:
