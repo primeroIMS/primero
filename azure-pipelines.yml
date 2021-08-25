@@ -64,7 +64,7 @@ jobs:
 
   - job: Build
     displayName: 'Build and push'
-    dependsOn: Test
+    # dependsOn: Test
     pool:
       vmImage: $(vmImageName)
     steps:
