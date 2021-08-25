@@ -6,11 +6,12 @@ ruby '2.7.4'
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'azure-storage',       '0.15.0.preview',
     require: false                     # Deprecated MS interface for Azure Block Storage, compatible with Rails 5.2
-gem 'backburner',          '~> 1.5'    # Ruby client for the Beanstalkd queue
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
 gem 'csv-safe',            '>= 1.2.0'  # Safely export data to CSV to avoid formula injection
+gem 'daemons',             '~> 1.4.0'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
+gem 'delayed_job_active_record', '~> 4.1.6'
 gem 'devise',              '~> 4.7'    # Authentication framework
 gem 'devise-jwt',          '0.8.0'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
@@ -41,6 +42,7 @@ gem 'spreadsheet',         '~> 1.1'    # Read XLS spreadsheets for imports (not 
 gem 'sunspot_rails',       '~> 2.5'     # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.5'     # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
+gem 'tzinfo-data',         '~> 1.2021' # Timezone Data for TZInfo
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 0.85'   # Exports XLSX
 
