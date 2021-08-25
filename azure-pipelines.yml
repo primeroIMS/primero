@@ -16,7 +16,6 @@ variables:
 
 jobs:
   - job: Test
-    condition: false
     displayName: 'Run tests'
     pool: 
       name: primerox-azdo-a-ms
@@ -64,7 +63,8 @@ jobs:
 
   - job: Build
     displayName: 'Build and push'
-    # dependsOn: Test
+    dependsOn: Test
+    condition: false
     pool:
       vmImage: $(vmImageName)
     steps:
