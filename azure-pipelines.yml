@@ -36,7 +36,7 @@ jobs:
         inputs:
           versionSpec: '12.20.1'
         displayName: 'Install node'
-      - bash: npm install
+      - bash: npm ci
         displayName: 'Install npm packages'
       - bash: |
           apt-get update

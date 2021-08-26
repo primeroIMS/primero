@@ -15,7 +15,7 @@ definitions:
         image: node:12.20.1
         size: 2x
         script:
-          - npm install
+          - npm ci
           - npm run test:all
           - npm run lint:run
         caches:
