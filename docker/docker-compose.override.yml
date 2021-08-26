@@ -1,0 +1,31 @@
+---
+version: '3.8'
+
+services:
+  nginx:
+    image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - selfsigned_certs:/certs
+      - public:/srv/primero/application/public
+    environment:
+      - USE_LETS_ENCRYPT=false
+  application:
+    ports:
+      - "3000:3000"
+    volumes:
+      - ..:/srv/primero/application
+      - /srv/primero/application/config
+      - /srv/primero/application/public
+      - storage:/srv/primero/application/storage
+  solr:
+    ports:
+      - "8983:8983"
+  beanstalkd:
+    ports:
+      - "11300:11300"
+  postgres:
+    ports:
+      - "5432:5432"

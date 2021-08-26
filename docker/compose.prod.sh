@@ -1,4 +1,4 @@
 #! /bin/sh
 
 set -euox
-exec "./compose.sh" -f "docker-compose.prod.yml" "${@}"
+exec ./compose.sh -f docker-compose.yml -f docker-compose.prod.yml "${@}"

@@ -3,10 +3,10 @@ EXPOSE 80 443
 
 ARG NGINX_UID
 ARG NGINX_GID
-ENV USER_ID=${NGINX_UID}
-ENV GROUP_ID=${NGINX_GID}
+ENV USER_ID=${NGINX_UID:-1001}
+ENV GROUP_ID=${NGINX_GID:-1001}
 
-COPY [ "nginx/root/", "/" ]
+COPY [ "root/", "/" ]
 
 RUN set -ex \
     ; addgroup -g $GROUP_ID docker-nginx \

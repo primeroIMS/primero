@@ -1,26 +1,65 @@
 ---
-version: '3'
+version: '3.8'
 services:
+  nginx:
+    image: "primeroims/nginx:${PRIMERO_TAG:-latest}"
+    build:
+      args:
+        NGINX_UID: ${NGINX_UID}
+        NGINX_GID: ${NGINX_GID}
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - public:/srv/primero/application/public
+      - selfsigned_certs:/certs
+    env_file:
+      - ./defaults.env
+      - ./local.env
+    depends_on:
+      - application
   postgres:
-    image: 'primeroims/postgres:${PRIMERO_TAG:-latest}'
+    image: "primeroims/postgres:${PRIMERO_TAG:-latest}"
+    build:
+      context: ./postgres
     volumes:
       - database:/var/lib/postgresql/data
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
   solr:
-    image: 'primeroims/solr:${PRIMERO_TAG:-latest}'
+    image: "primeroims/solr:${PRIMERO_TAG:-latest}"
+    build:
+      context: ..
+      dockerfile: ./docker/solr/Dockerfile
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
     volumes:
       - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
-    image: 'primeroims/beanstalkd:${PRIMERO_TAG:-latest}'
+    image: "primeroims/beanstalkd:${PRIMERO_TAG:-latest}"
+    build:
+      args:
+        BEANSTALKD_PORT: ${BEANSTALKD_PORT}
+      context: ./beanstalkd
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
     volumes:
       - beanstalkd:/var/lib/beanstalkd
   application:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
+    build:
+      args:
+        APP_ROOT: ${APP_ROOT}
+        APP_UID: ${APP_UID}
+        APP_GID: ${APP_GID}
+        RAILS_ENV: ${RAILS_ENV}
+        RAILS_LOG_PATH: ${RAILS_LOG_PATH}
+      context: ..
+      dockerfile: ./docker/application/Dockerfile
     depends_on:
       - solr
       - beanstalkd
@@ -29,11 +68,12 @@ services:
       - public:/share/public
       - storage:/srv/primero/application/storage
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
     stdin_open: true
     tty: true
   backburner:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
     depends_on:
       - solr
       - beanstalkd
@@ -41,10 +81,11 @@ services:
     volumes:
       - storage:/srv/primero/application/storage
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
     command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
   scheduler:
-    image: 'primeroims/application:${PRIMERO_TAG:-latest}'
+    image: "primeroims/application:${PRIMERO_TAG:-latest}"
     depends_on:
       - solr
       - beanstalkd
@@ -52,14 +93,13 @@ services:
     volumes:
       - storage:/srv/primero/application/storage
     env_file:
-      - docker/defaults.env
+      - ./defaults.env
+      - ./local.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
   beanstalkd:
   database:
   public:
+  selfsigned_certs:
   solr_cores:
   storage:
-  certbot_certificates:
-  certbot_challenges:
-  selfsigned_certs:
