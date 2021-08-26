@@ -17,7 +17,7 @@ else
   rm solr-8.9.0.tgz
 fi
 
-if java -version 2>&1 >/dev/null; then
+if java -version > /dev/null 2>&1; then
   echo "Java already installed!"
 else
   apt update
