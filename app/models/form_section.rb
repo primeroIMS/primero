@@ -121,6 +121,7 @@ class FormSection < ApplicationRecord
 
   def configuration_hash
     hash = attributes.except('id')
+    hash['collapsed_field_names'] = collapsed_fields.pluck(:name) if is_nested?
     hash['fields_attributes'] = fields.map(&:configuration_hash)
     hash['module_ids'] = primero_modules.pluck(:unique_id)
     hash.with_indifferent_access
