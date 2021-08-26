@@ -12,7 +12,7 @@ cp config/bitbucket/sunspot.yml config/
 if [ -d "$SOLR_SRC_DIR" ]; then
   echo "Solr already installed!"
 else
-  wget -c https://downloads.apache.org/lucene/solr/8.9.0/solr-8.9.0.tgz && tar xvf solr-8.9.0.tgz -C /opt
+  wget -c https://primero-cicd.s3.amazonaws.com/dependencies/solr-8.9.0.tgz && tar xvf solr-8.9.0.tgz -C /opt
   ln -s /opt/solr-8.9.0 /opt/solr
   rm solr-8.9.0.tgz
 fi
