@@ -25,7 +25,7 @@ class Kpi::ServicesProvided < Kpi::Search
             action_plan_section->>'service_type' as service_type,
             my_cases.data->>'sex' as sex,
             (my_cases.data->>'age')::float as age,
-            my_cases.data->>'disability_type' as disability
+            my_cases.data->>'gbv_disability_type' as disability
           from
             my_cases,
             jsonb_array_elements(my_cases.data->'action_plan_section') action_plan_section 
@@ -40,8 +40,8 @@ class Kpi::ServicesProvided < Kpi::Search
           sum(case when age <= 11 then 1 else 0 end) as "0-11",
           sum(case when age > 11 and age <= 17 then 1 else 0 end) as "12-17",
           sum(case when age > 17 then 1 else 0 end) as ">18",
-          sum(case when disability = 'yes' then 1 else 0 end) as disability,
-          sum(case when disability = 'no' then 1 else 0 end) as no_disability
+          sum(case when disability = 'true' then 1 else 0 end) as disability,
+          sum(case when disability is null or disability = 'false' then 1 else 0 end) as no_disability
         from
           internal_referrals
         group by
