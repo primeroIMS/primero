@@ -22,15 +22,13 @@ jobs:
       demands:
         - agent.name -equals primero-build-agent2
     steps:
+      - bash: ./bin/install_local_test_solr.sh
       - bash: |
           set -e
           mkdir -p log
           cp config/azure-devops/database.yml config/
           cp config/azure-devops/sunspot.yml config/
           cp config/azure-devops/mailers.yml config/
-          mkdir -p solr/data/test
-          mkdir -p solr/cores/test
-          cp config/azure-devops/core.properties solr/cores/test/
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
@@ -40,16 +38,17 @@ jobs:
         displayName: 'Install npm packages'
       - bash: |
           apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10 openjdk-8-jre
-          gem install bundler
+          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
         displayName: 'Install dependencies'
-      - bash: bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+      - bash: |
+          . ~/.bash_env
+          rbenv global 2.7.4
+          bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
-      - bash: bundle exec rake sunspot:solr:start
-        displayName: 'Starting solr'
         env:
           RAILS_ENV: test
       - bash: |
+          . ~/.bash_env
           bundle exec rails db:drop
           bundle exec rails db:create
           bundle exec rails db:migrate
