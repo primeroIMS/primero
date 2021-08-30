@@ -4,7 +4,6 @@
 class ArchiveBulkExports < PeriodicJob
   def perform_rescheduled
     Rails.logger.info 'Archiving old exported files...'
-    puts 'Archiving old exported files...'
     new.archive_old_exports
   rescue StandardError => e
     Rails.logger.error("Error archiving old exported files\n#{e.backtrace}")
