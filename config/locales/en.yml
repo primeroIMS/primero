@@ -1428,6 +1428,13 @@ en:
       title: "8. Services Provided"
       service: "Service"
       count: "Times Provided"
+      male: "Male"
+      female: "Female"
+      0-11: "0-11"
+      12-17: "12-17"
+      ">18": ">18"
+      disability: "Disability"
+      no_disability: "No Disability"
       helptext: |
         This indicator counts the type of service(s) provided to survivors in the case management
         process. By service provided, we mean the service that is provided by the User organization
