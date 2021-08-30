@@ -55,11 +55,11 @@ RUN set -euox pipefail \
         bundle install \
         ; fi
 
-# Run npm install
+# Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
 
 RUN set -euox pipefail \
-        ; npm install
+        ; npm ci
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory

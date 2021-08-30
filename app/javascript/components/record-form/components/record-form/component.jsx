@@ -155,9 +155,9 @@ const Component = ({
       // TODO: Set this if there are any errors on validations
       // setSubmitting(false);
     }, []),
-    bindSubmitForm: useCallback(boundSubmitForm => {
+    bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
-    }, []),
+    },
     handleToggleNav,
     mobileDisplay,
     selectedForm,

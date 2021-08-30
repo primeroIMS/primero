@@ -10,9 +10,9 @@ require 'rake/dsl_definition'
 include Rake::DSL
 
 # We should only set PRIMERO_WAIT_FOR_DB when we launch daemons or the app server.
-# Right now, this only applies to the Backburner queue worker and Scheduler
+# Right now, this only applies to the Backburner queue worker
 # These are launched via Rake tasks.
 # TODO: Once we clean up the Docker application entrypoint, pull out the db:version check
-ENV['PRIMERO_WAIT_FOR_DB'] = 'true' if Rake.application.top_level_tasks.any?(/^(scheduler:)|(db:version)/)
+ENV['PRIMERO_WAIT_FOR_DB'] = 'true' if Rake.application.top_level_tasks.any?(/^(db:version)/)
 
 Rails.application.load_tasks
