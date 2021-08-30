@@ -1,3 +1,5 @@
+import { toServerDateFormat } from "../../libs";
+
 import actionsForKPI from "./actions";
 import pathsForKPI from "./paths";
 
@@ -10,7 +12,12 @@ export default identifier => {
     KPIidentifier: identifier,
     api: {
       path,
-      params: dateRange ? { from: dateRange.from, to: dateRange.to } : {}
+      params: dateRange
+        ? {
+            from: toServerDateFormat(dateRange.from),
+            to: toServerDateFormat(dateRange.to)
+          }
+        : {}
     }
   });
 };
