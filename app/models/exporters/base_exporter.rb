@@ -97,7 +97,7 @@ class Exporters::BaseExporter
   end
 
   def fields_to_export(forms, options = {})
-    fields = forms.map(&:fields).flatten.uniq(&:name)
+    fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
     fields -= (self.class.excluded_field_names&.to_a || [])
     return fields unless options[:field_names].present?
 
