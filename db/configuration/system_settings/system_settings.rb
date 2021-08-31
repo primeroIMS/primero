@@ -8,7 +8,7 @@ def create_or_update_system_setting(setting_hash)
     SystemSettings.create! setting_hash
   else
     puts "Updating System Settings"
-    system_setting.update_attributes setting_hash
+    system_setting.update setting_hash
   end
 end
 

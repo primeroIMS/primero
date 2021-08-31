@@ -1,18 +1,6 @@
-def create_or_update_module(module_hash)
-  primero_module = PrimeroModule.find_by(unique_id: module_hash[:unique_id])
+# frozen_string_literal: true
 
-  if primero_module.nil?
-    puts "Creating module #{module_hash[:name]}"
-    PrimeroModule.create! module_hash
-  else
-    puts "Updating module #{module_hash[:name]}"
-    primero_module.update_attributes module_hash
-  end
-
-end
-
-
-create_or_update_module(
+PrimeroModule.create_or_update!(
   unique_id: 'primeromodule-cp',
   name: "CP",
   description: "Child Protection",

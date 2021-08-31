@@ -1,17 +1,6 @@
-def create_or_update_lookup(lookup_hash)
-  lookup_id = lookup_hash[:unique_id]
-  lookup = Lookup.find_by(unique_id:lookup_id)
+# frozen_string_literal: true
 
-  if lookup.nil?
-    puts "Creating lookup #{lookup_id}"
-    Lookup.create! lookup_hash
-  else
-    puts "Updating lookup #{lookup_id}"
-    lookup.update_attributes lookup_hash
-  end
-end
-
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-location-type",
   :name_en => "Location Type",
   :locked => true,
@@ -39,7 +28,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-country",
   :name_en => "Country",
   :lookup_values_en => [
@@ -243,7 +232,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-nationality",
   :name_en => "Nationality",
   :lookup_values_en => [
@@ -260,7 +249,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-ethnicity",
   :name_en => "Ethnicity",
   :lookup_values_en => [
@@ -277,7 +266,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-language",
   :name_en => "Language",
   :lookup_values_en => [
@@ -294,7 +283,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-religion",
   :name_en => "Religion",
   :lookup_values_en => [
@@ -311,7 +300,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-case-status",
   :name_en => "Case Status",
   :lookup_values_en => [
@@ -322,7 +311,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-conference-case-status",
   :name_en => "Conference Case Status",
   :lookup_values_en => [
@@ -333,7 +322,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-incident-status",
   :name_en => "Incident Status",
   :lookup_values_en => [
@@ -343,7 +332,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-displacement-status",
   :name_en => "Displacement Status",
   :lookup_values_en => [
@@ -357,7 +346,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-protection-status",
   :name_en => "Protection Status",
   :lookup_values_en => [
@@ -366,7 +355,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-verification-status",
   :name_en => "Verification Status",
   :lookup_values_en => [
@@ -378,7 +367,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-risk-level",
   :name_en => "risk_level",
   :lookup_values_en => [
@@ -388,7 +377,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-cp-violence-type",
   :name_en => "CP Violence Type",
   :lookup_values_en => [
@@ -402,7 +391,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-armed-force-group-type",
   :name_en => "Armed Force Group Type",
   :lookup_values_en => [
@@ -416,7 +405,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-armed-force-group-name",
   :name_en => "Armed Force Group Name",
   :lookup_values_en => [
@@ -427,7 +416,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id =>"lookup-separation-cause",
   :name_en => "Separation Cause",
   :lookup_values_en => [
@@ -451,7 +440,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-service-type",
   :name_en => "Service Type",
   :lookup_values_en => [
@@ -473,7 +462,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-followup-type",
   :name_en => "Followup Type",
   :lookup_values_en => [
@@ -484,7 +473,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-protection-concerns",
   :name_en => "Protection Concerns",
   :lookup_values_en => [
@@ -509,7 +498,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-unhcr-needs-codes",
   :name_en => "UNHCR Needs Codes",
   :lookup_values_en => [
@@ -552,7 +541,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-yes-no",
     :name_en => "Yes or No",
     :locked => true,
@@ -562,7 +551,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-yes-no-unknown",
     :name_en => "Yes, No, or Unknown",
     :lookup_values_en => [
@@ -572,7 +561,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-yes-no-undecided",
     :name_en => "Yes, No, or Undecided",
     :lookup_values_en => [
@@ -626,7 +615,7 @@ Lookup.create_or_update!(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-approval-type",
     :name_en => "Approval Type",
     :locked => true,
@@ -637,7 +626,7 @@ create_or_update_lookup(
     ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-gbv-approval-types",
     :name_en => "Approval Type for GBV users",
     :locked => true,
@@ -647,7 +636,7 @@ create_or_update_lookup(
     ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-approval-status",
     :name_en => "Approval Status",
     :lookup_values_en => [
@@ -658,7 +647,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-gender",
     :name_en => "gender",
     :lookup_values_en => [
@@ -667,7 +656,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-inquiry-status",
     :name_en => "Inquiry Status",
     :lookup_values_en => [
@@ -676,7 +665,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-service-referred",
     :name_en => "Service Referred",
     :lookup_values_en => [
@@ -689,7 +678,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-workflow",
     :name_en => "Workflow",
     :locked => true,
@@ -703,7 +692,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-service-implemented",
     :name_en => "Service Implemented",
     :locked => true,
@@ -713,7 +702,7 @@ create_or_update_lookup(
     ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-service-response-type",
     :name_en => "Service Response Type",
     :locked => true,
@@ -724,7 +713,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-marital-status",
     :name_en => "Marital Status",
     :lookup_values_en => [
@@ -735,7 +724,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-marital-status-with-spouse",
   :name_en => "Marital Status",
   :lookup_values_en => [
@@ -747,7 +736,7 @@ create_or_update_lookup(
   ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-perpetrator-relationship",
     :name_en => "Perpetrator Relationship",
     :lookup_values_en => [
@@ -768,7 +757,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-time-of-day",
     :name_en => "Time of Day",
     :lookup_values_en => [
@@ -779,7 +768,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-incident-location",
     :name_en => "Incident Location",
     :lookup_values_en => [
@@ -791,7 +780,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-incident-identification",
     :name_en => "Incident Identification",
     :lookup_values_en => [
@@ -802,7 +791,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-disability-type",
     :name_en => "Disability Type",
     :lookup_values_en => [
@@ -812,7 +801,7 @@ create_or_update_lookup(
     ]
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-transition-type",
     :name_en => "Transition Type",
     :lookup_values_en => [
@@ -823,7 +812,7 @@ create_or_update_lookup(
     ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-age-group-type",
   :name_en => "Age Group Type",
   :lookup_values_en => [
@@ -833,7 +822,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
     :unique_id => "lookup-assessment-progress",
     :name_en => "Assessment Progress",
     :lookup_values_en => [
@@ -843,7 +832,7 @@ create_or_update_lookup(
     ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-further-action_needed",
   :name_en => "Further Action Needed",
   :lookup_values_en => [
@@ -853,7 +842,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-family-relationship",
   :name_en => "Family Relationship",
   :lookup_values_en => [
@@ -873,7 +862,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-tracing-status",
   :name_en => "Tracing Status",
   :lookup_values_en => [
@@ -885,7 +874,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-form-group-cp-case",
   :name_en => "Form Groups - CP Case",
   :lookup_values_en => [
@@ -908,7 +897,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-form-group-cp-tracing-request",
   :name_en => "Form Groups - CP Tracing Request",
   :lookup_values_en => [
@@ -920,7 +909,7 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-form-group-cp-incident",
   :name_en => "Form Groups - CP Incident",
   :lookup_values_en => [
@@ -931,11 +920,11 @@ create_or_update_lookup(
   ].map(&:with_indifferent_access)
 )
 
-create_or_update_lookup(
+Lookup.create_or_update!(
   :unique_id => "lookup-agency-office",
-  :name => "Agency Office",
+  :name_en => "Agency Office",
   :locked => true,
-  :lookup_values => [
+  :lookup_values_en => [
     {id: "agency_office_1", display_text: "Agency Office 1"},
     {id: "agency_office_2", display_text: "Agency Office 2"},
     {id: "agency_office_3", display_text: "Agency Office 3"},
