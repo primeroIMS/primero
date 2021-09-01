@@ -271,6 +271,45 @@ describe("<RecordActions /> - exports/utils", () => {
 
       expect(utils.buildFields(data, "en")).to.be.deep.equals([]);
     });
+
+    it("should not return hide_on_view_page: true fields", () => {
+      const data = [
+        {
+          unique_id: "test_form",
+          name: {
+            en: "Test Form"
+          },
+          fields: [
+            {
+              name: "field_1",
+              display_name: { en: "Field 1" },
+              type: TEXT_FIELD,
+              visible: true
+            },
+            {
+              name: "field_2",
+              display_name: { en: "Field 2" },
+              type: TEXT_FIELD,
+              visible: true,
+              hide_on_view_page: true
+            }
+          ]
+        }
+      ];
+
+      const fields = utils.buildFields(data, "en");
+
+      expect(fields).to.have.lengthOf(1);
+      expect(fields).to.be.deep.equals([
+        {
+          display_text: "Field 1",
+          formSectionId: "test_form",
+          formSectionName: "Test Form",
+          id: "test_form:field_1",
+          visible: true
+        }
+      ]);
+    });
   });
 
   describe("formatFields", () => {

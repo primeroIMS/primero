@@ -115,12 +115,12 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export_field_value(data, field, form_field_name)
-    return export_value(data[field.name], field) unless field.nested?
+    return export_value(field_data_value(data, field), field) unless field.nested?
 
     data_form_name = form_field_name.presence || field&.form_section&.subform_field&.name
     values = []
     data[data_form_name]&.each do |section|
-      values << export_value(section[field.name], field)
+      values << export_value(field_data_value(section, field), field)
     end
     values
   end
@@ -149,5 +149,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def complete
     @workbook.close
     buffer
+  end
+
+  def field_data_value(data, field)
+    return RecordDataService::CENSORED_VALUE if data['hidden_name'] == true && field.name == 'name'
+
+    data[field.name]
   end
 end
