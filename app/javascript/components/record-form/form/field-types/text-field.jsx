@@ -11,6 +11,7 @@ import { FastField, connect } from "formik";
 import { useParams } from "react-router-dom";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 
 import { toServerDateFormat, useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
@@ -81,12 +82,15 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
       render={renderProps => {
         const handleOnClick = () => hideFieldValue();
 
+        const fieldValue = isNil(renderProps.field.value) ? "" : renderProps.field.value;
+
         return (
           <>
             <MuiTextField
               form={renderProps.form}
               field={{
                 ...renderProps.field,
+                value: fieldValue,
                 onChange(evt) {
                   const value = valueParser(type, evt.target.value);
 
