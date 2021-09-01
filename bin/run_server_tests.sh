@@ -12,8 +12,7 @@ apt update && apt install -y adoptopenjdk-8-hotspot
 # Install Rails pre-requisites
 apt-get update
 apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
-bundle install --without production --path vendor
-bundle binstubs --all
+bundle install --without production
 
 # Set up test environment
 mkdir -p log
@@ -36,4 +35,4 @@ rails db:create
 rails db:migrate
 
 # Run tests
-rspec spec
+bundle exec rspec spec
