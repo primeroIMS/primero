@@ -89,16 +89,6 @@ jobs:
             $(latest)
 
       - task: Docker@2
-        displayName: 'Beanstalkd Push an image to UNICEF ACR'
-        inputs:
-          containerRegistry: '$(dockerRegistryServiceConnection)'
-          repository: 'primero/beanstalkd'
-          command: 'push'
-          tags: |
-            $(tag)
-            $(latest)
-
-      - task: Docker@2
         displayName: 'Solr - Push an image to UNICEF ACR'
         inputs:
           containerRegistry: '$(dockerRegistryServiceConnection)'
@@ -113,16 +103,6 @@ jobs:
         inputs:
           containerRegistry: 'dockerhub-primeroims'
           repository: 'primeroims/application'
-          command: 'push'
-          tags: |
-            $(tag)
-            $(latest)
-
-      - task: Docker@2
-        displayName: 'Beanstalkd Push an image to Dockerhub'
-        inputs:
-          containerRegistry: 'dockerhub-primeroims'
-          repository: 'primeroims/beanstalkd'
           command: 'push'
           tags: |
             $(tag)
