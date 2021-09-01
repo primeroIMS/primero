@@ -35,4 +35,4 @@ rails db:create
 rails db:migrate
 
 # Run tests
-rspec spec
+bundle exec rspec spec
