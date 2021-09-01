@@ -85,9 +85,20 @@ describe Exporters::SelectedFieldsExcelExporter do
       :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_1',
       :unique_id => 'cases_test_form_1'
     )
-    form3.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
-    form3.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
-    form3.fields << Field.new(name: 'second_name', type: Field::TEXT_FIELD, display_name: 'second_name', visible: false)
+    form3.fields << Field.new(name: 'name', type: Field::TEXT_FIELD, display_name: 'name')
+    form3.fields << Field.new(
+      name: 'name_first',
+      type: Field::TEXT_FIELD,
+      display_name: 'name_first',
+      hide_on_view_page: true
+    )
+    form3.fields << Field.new(
+      name: 'name_last',
+      type: Field::TEXT_FIELD,
+      display_name: 'name_last',
+      hide_on_view_page: true
+    )
+    form3.fields << Field.new(name: 'name_middle', type: Field::TEXT_FIELD, display_name: 'name_middle', visible: false)
     form3.fields << Field.new(
       name: 'cases_test_subform_1', type: Field::SUBFORM,
       display_name: 'subform field', subform_section_id: subform.id
@@ -99,7 +110,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_id => 'cases_test_form_4',
       :unique_id => 'cases_test_form_4'
     )
-    form4.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
+    form4.fields << Field.new(name: 'name_first', type: Field::TEXT_FIELD, display_name: 'name_first')
     form4.save!
 
     form5 = FormSection.new(
@@ -121,7 +132,8 @@ describe Exporters::SelectedFieldsExcelExporter do
     @records = [
       create(
         :child,
-        'first_name' => 'John', 'last_name' => 'Doe',
+        'name_first' => 'John', 'name_last' => 'Doe',
+        'name' => 'John Doe',
         'id' => '00000000001',
         'short_id' => 'abc123',
         'relationship' => 'Mother', 'array_field' => %w[option1 option2],
@@ -138,7 +150,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       ),
       create(
         :child,
-        'first_name' => 'Jane', 'last_name' => 'Doe Doe',
+        'name_first' => 'Jane', 'name_last' => 'Doe Doe',
         'id' => '00000000002',
         'relationship' => 'Father', 'array_field' => %w[option4 option5],
         'cases_test_subform_2' => [
@@ -147,23 +159,29 @@ describe Exporters::SelectedFieldsExcelExporter do
         ],
         'created_organization' => agency.unique_id
       ),
-      create(:child, 'first_name' => 'Jimmy', 'last_name' => 'James', 'id' => '00000000003'),
-      create(:child, 'first_name' => 'Timmy', 'last_name' => 'Tom', 'id' => '00000000004'),
+      create(:child, 'name_first' => 'Jimmy', 'name_last' => 'James', 'id' => '00000000003'),
+      create(:child, 'name_first' => 'Timmy', 'name_last' => 'Tom', 'id' => '00000000004'),
       create(
         :child,
-        'first_name' => 'Charlie', 'last_name' => 'Sheen', 'id' => '00000000005',
+        'name_first' => 'Charlie', 'name_last' => 'Sheen', 'id' => '00000000005',
         'cases_test_subform_1' => [{ 'unique_id' => '21' }]
       ),
       create(
         :child,
-        'first_name' => 'Emilio', 'last_name' => 'Steves', 'id' => '00000000006',
+        'name_first' => 'Emilio', 'name_last' => 'Steves', 'id' => '00000000006',
         'cases_test_subform_1' => [{ 'unique_id' => '99' }], 'cases_test_subform_2' => [{ 'unique_id' => '66' }]
+      ),
+      create(
+        :child,
+        'name' => 'Name 4 LastName 4', 'name_first' => 'Name 4',
+        'name_middle' => 'MiddleName 4', 'name_last' => 'LastName 4',
+        'id' => '00000000007', 'hidden_name' => true, 'field_5' => 'Value 1'
       )
     ]
     @records_for_subforms_test = [
       create(
         :child,
-        'first_name' => 'Test', 'last_name' => 'One',
+        'name_first' => 'Test', 'name_last' => 'One',
         'id' => '00000000005',
         'short_id' => 'test123',
         'relationship' => 'Father', 'array_field' => %w[optionA optionB],
@@ -171,15 +189,15 @@ describe Exporters::SelectedFieldsExcelExporter do
           { 'field_x' => 'value on field X', 'field_y' => 'value on field Y' }
         ]
       ),
-      create(:child, 'first_name' => 'Name2', 'last_name' => 'LastName2', 'id' => '00000000005'),
-      create(:child, 'first_name' => 'Name3', 'last_name' => 'LastName3', 'id' => '00000000006')
+      create(:child, 'name_first' => 'Name2', 'name_last' => 'LastName2', 'id' => '00000000005'),
+      create(:child, 'name_first' => 'Name3', 'name_last' => 'LastName3', 'id' => '00000000006'),
     ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5])
     @user = create(:user, user_name: 'fakeadmin', role: @role)
     @role_subform = create(:role, modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
     @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
-    @total_of_fields = 16
+    @total_of_fields = 17
   end
 
   describe 'Export format' do
@@ -198,7 +216,7 @@ describe Exporters::SelectedFieldsExcelExporter do
         duplicate duplicate_of
       ]
       expect(headers).to eq(metadata_headers)
-      expect(sheet.last_row).to eq(1 + 6)
+      expect(sheet.last_row).to eq(1 + 7)
     end
 
     it 'contains the correct created_organization en name' do
@@ -216,11 +234,11 @@ describe Exporters::SelectedFieldsExcelExporter do
       expect(created_organization_values).to eq(['created_organization', 'My Spanish Agency', 'My Spanish Agency'])
     end
 
-    it 'contains a worksheet for every form and nested subform unless the forms and fields visible: false' do
+    it 'contains a worksheet for every form and nested subform unless they are visible: false or hide_on_view_page' do
       expect(workbook.sheets.size).to eq(5 + 1)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
       expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
-      expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name])
+      expect(workbook.sheet(2).row(1)).to eq(%w[ID name])
       expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
       expect(workbook.sheet(4).row(1)).to eq(['ID', 'field X', 'field Y'])
     end
@@ -240,8 +258,8 @@ describe Exporters::SelectedFieldsExcelExporter do
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
-    it 'contains a sheet for the selected form unless the fields visible: false' do
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name last_name])
+    it 'contains a sheet for the selected form unless the fields visible: false or hide_on_view_page: true' do
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
     end
 
     it 'contains the sheet for the subform found in the selected form' do
@@ -295,14 +313,14 @@ describe Exporters::SelectedFieldsExcelExporter do
   context 'Selected fields' do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
-        @records, @user, field_names: %w[first_name array_field]
+        @records, @user, field_names: %w[name_first array_field]
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
-    it 'contains only the Selected Fields form' do
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name array_field])
-      expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'John', 'Option1 ||| Option2'])
+    it 'contains only the Selected hide_on_view_page: false Fields form' do
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID array_field])
+      expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'Option1 ||| Option2'])
     end
 
     it 'contains no other form but the metadata form' do
@@ -317,14 +335,14 @@ describe Exporters::SelectedFieldsExcelExporter do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user,
         form_unique_ids: %w[cases_test_form_1 cases_test_form_gbv],
-        field_names: %w[first_name field_gbv]
+        field_names: %w[name field_gbv]
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
     end
 
     it 'contains a sheet for the selected form with only the selected fields and discard from another primero_module' do
       expect(Field.count).to eq(@total_of_fields)
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
       expect(Field.count).to eq(@total_of_fields)
     end
 
@@ -341,23 +359,34 @@ describe Exporters::SelectedFieldsExcelExporter do
     it 'contains a sheet for the selected nested fields' do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user_subform,
-        field_names: ['first_name', 'field_3', 'field_4']
+        field_names: ['name', 'field_3', 'field_4']
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
-      expect(workbook.sheet(0).row(1)).to eq(%w[ID first_name field_3 field_4])
-      expect(workbook.sheet(0).row(2)).to eq(["abc123", "John", "field_3 value", "field_4 value"])
-      expect(workbook.sheet(0).row(3)).to eq(["abc123", "John", "field_33 value", "field_44 value"])
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID name field_3 field_4])
+      expect(workbook.sheet(0).row(2)).to eq(["abc123", "John Doe", "field_3 value", "field_4 value"])
+      expect(workbook.sheet(0).row(3)).to eq(["abc123", "John Doe", "field_33 value", "field_44 value"])
     end
 
     it 'contains a sheet for the selected nested fields with their form' do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @records, @user_subform,
         form_unique_ids: %w[cases_test_subform_2 cases_test_form_1],
-        field_names: %w[field_3 first_name]
+        field_names: %w[field_3 name]
       )
       workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3])
-      expect(workbook.sheet(1).row(1)).to eq(%w[ID first_name])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID name])
+    end
+  end
+
+  context 'when the name is not visible' do
+    it 'hide the name field and does not export the hide_on_view_page fields' do
+      data = Exporters::SelectedFieldsExcelExporter.export(@records, @user, {
+        form_unique_ids: %w[cases_test_form_1],
+      })
+      workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+      expect(workbook.sheet(0).row(1)).to eq(%w[ID name])
+      expect(workbook.sheet(0).row(8).slice(1..2)).to eq([RecordDataService::CENSORED_VALUE])
     end
   end
 end
