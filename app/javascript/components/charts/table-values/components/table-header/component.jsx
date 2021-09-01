@@ -17,6 +17,7 @@ const TableHeader = ({ columns }) => {
   const i18n = useI18n();
   const css = useStyles();
   let newColumns = columns;
+  const totalTranslation = i18n.t("report.total");
 
   if (isEmpty(newColumns)) {
     newColumns = emptyColumn(i18n, true);
@@ -45,7 +46,7 @@ const TableHeader = ({ columns }) => {
         const { items, colspan } = column;
         const isFirstHeading = index === 0;
         const emptyCells = emptyColumn(i18n, true);
-        const repeat = isFirstHeading ? 0 : newColumns[0].items.filter(i => i !== "Total").length;
+        const repeat = isFirstHeading ? 0 : newColumns[0].items.filter(i => i !== totalTranslation).length;
         const cells = isFirstHeading ? items : Array.from({ length: repeat }, () => items).flat();
         const allCells = isFirstHeading ? emptyCells.concat(cells) : emptyCells.concat(cells).concat("");
         const classes = clsx({ [css.tableRowHeader]: index === 0, [css.tableRowSubHeader]: index > 0 });

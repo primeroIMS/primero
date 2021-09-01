@@ -3072,6 +3072,7 @@ en:
     previously_owned_by_agency: Previous Agency
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
+    last_updated_at: Last Updated At
   record_panel:
     record_information: Record Information
   referral:

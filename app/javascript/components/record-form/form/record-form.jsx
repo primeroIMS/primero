@@ -142,8 +142,10 @@ const RecordForm = ({
     formikValues.current = values;
   };
 
-  const renderFormSections = (fs, setFieldValue, handleSubmit, values) => {
-    const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
+  const renderFormSections = (fs, setFieldValue, handleSubmit, values, dirty) => {
+    const externalRecordForms = externalForms
+      ? externalForms(selectedForm, setFieldValue, handleSubmit, values, dirty)
+      : null;
 
     if (externalRecordForms) {
       return externalRecordForms;
