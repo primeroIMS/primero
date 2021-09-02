@@ -21,7 +21,6 @@
 .project
 .project
 .redcar
-.ruby-version
 .rvmrc
 .vagrant
 .~*
@@ -37,7 +36,6 @@ jmeter/
 log
 public/assets
 rerun.txt
-rspec
 spec
 tags
 tags.lock
