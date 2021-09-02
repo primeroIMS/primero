@@ -258,21 +258,24 @@ const Component = ({
   };
 
   // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
-  const externalComponents = useCallback(({ setFieldValue, values }) => {
-    return (
-      <SaveAndRedirectDialog
-        open={redirectDialogOpen}
-        closeRedirectDialog={closeRedirectDialog}
-        setFieldValue={setFieldValue}
-        handleSubmit={handleFormSubmit}
-        values={values}
-        mode={containerMode}
-        recordType={recordType}
-        setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
-        incidentPath={dialogParams?.get("path")}
-      />
-    );
-  }, []);
+  const externalComponents = useCallback(
+    ({ setFieldValue, values }) => {
+      return (
+        <SaveAndRedirectDialog
+          open={redirectDialogOpen}
+          closeRedirectDialog={closeRedirectDialog}
+          setFieldValue={setFieldValue}
+          handleSubmit={handleFormSubmit}
+          values={values}
+          mode={containerMode}
+          recordType={recordType}
+          setSaveCaseBeforeRedirect={setSaveCaseBeforeRedirect}
+          incidentPath={dialogParams?.get("path")}
+        />
+      );
+    },
+    [dialogParams, redirectDialogOpen, containerMode, recordType]
+  );
 
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
