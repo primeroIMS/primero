@@ -13,6 +13,7 @@ describe Kpi::ServicesProvided, search: true do
   let(:group3) { 'group3' }
   let(:service1) { 'service1' }
   let(:service2) { 'service2' }
+  let(:agency) { 'agency' }
 
   before :each do
     clean_data(Child, FormSection, Field)
@@ -29,6 +30,7 @@ describe Kpi::ServicesProvided, search: true do
                     module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group2],
+                    owned_by_agency_id: agency,
                     action_plan_section: [{
                       service_referral: 'service_provided_by_your_agency',
                       service_type: service1
@@ -39,6 +41,7 @@ describe Kpi::ServicesProvided, search: true do
                     module_id: PrimeroModule::GBV,
                     created_at: DateTime.parse('2020/10/27'),
                     owned_by_groups: [group3],
+                    owned_by_agency_id: agency,
                     action_plan_section: [{
                       service_referral: 'service_provided_by_your_agency',
                       service_type: service2
@@ -50,14 +53,14 @@ describe Kpi::ServicesProvided, search: true do
 
   with 'No cases in the users group' do
     it 'should return no services' do
-      json = Kpi::ServicesProvided.new(from, to, [group1]).to_json
+      json = Kpi::ServicesProvided.new(from, to, [group1], agency).to_json
       expect(json[:data][:services_provided].length).to eq(0)
     end
   end
 
   with 'With one case with an action plan filled out in the users group' do
     it 'should return a count of 1 for service 1' do
-      json = Kpi::ServicesProvided.new(from, to, [group2]).to_json
+      json = Kpi::ServicesProvided.new(from, to, [group2], agency).to_json
       expect(json[:data][:services_provided].first[:count]).to eq(1)
       expect(json[:data][:services_provided].second).to be(nil)
     end
@@ -65,7 +68,7 @@ describe Kpi::ServicesProvided, search: true do
 
   with 'With two cases with an action plan filled out in the users groups' do
     it 'should return a count of 1 for service 1 and 1 for service 2' do
-      json = Kpi::ServicesProvided.new(from, to, [group2, group3]).to_json
+      json = Kpi::ServicesProvided.new(from, to, [group2, group3], agency).to_json
       expect(json[:data][:services_provided].first[:count]).to eq(1)
       expect(json[:data][:services_provided].second[:count]).to eq(1)
     end
