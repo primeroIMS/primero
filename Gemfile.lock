@@ -69,10 +69,12 @@ GEM
       faraday (~> 0.9)
       faraday_middleware (~> 0.10)
       nokogiri (~> 1.6)
-    azure-storage (0.15.0.preview)
-      azure-core (~> 0.1)
-      faraday (~> 0.9)
-      faraday_middleware (~> 0.10)
+    azure-storage-blob (1.1.0)
+      azure-core (~> 0.1.13)
+      azure-storage-common (~> 1.0)
+      nokogiri (~> 1.6, >= 1.6.8)
+    azure-storage-common (1.1.0)
+      azure-core (~> 0.1.13)
       nokogiri (~> 1.6, >= 1.6.8)
     bcrypt (3.1.16)
     binding_of_caller (0.8.0)
@@ -396,7 +398,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-nulldb-adapter
-  azure-storage (= 0.15.0.preview)
+  azure-storage-blob
   binding_of_caller (~> 0.8)
   bundler-audit (~> 0.8)
   cancancan (= 3.0.1)
