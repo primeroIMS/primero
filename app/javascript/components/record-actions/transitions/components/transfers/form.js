@@ -17,17 +17,26 @@ import {
   TRANSFER_LOADING_PATH
 } from "./constants";
 
-export const form = ({ canConsentOverride, i18n, isBulkTransfer, recordType, recordModuleID, setDisabled }) => {
+export const form = ({
+  canConsentOverride,
+  i18n,
+  isBulkTransfer,
+  providedConsent,
+  recordType,
+  recordModuleID,
+  setDisabled
+}) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "transfers_form",
       fields: [
         FieldRecord({
-          display_name: i18n.t("transfer.provided_consent_label"),
+          display_name: i18n.t("transfer.transfer_label"),
           name: TRANSFER_FIELD,
           type: TICK_FIELD,
           wrapWithComponent: ConsentProvided,
           visible: !!canConsentOverride,
+          showIf: () => !providedConsent,
           watchedInputs: [TRANSFER_FIELD],
           handleWatchedInputs: ({ [TRANSFER_FIELD]: consent }) => {
             setDisabled(!!consent);
