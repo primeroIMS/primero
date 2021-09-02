@@ -19,6 +19,7 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgrespassword
     steps:
+      - uses: actions/checkout@v2
       - name: Server tests
         run: ./bin/run_server_tests.sh
         shell: bash
@@ -27,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     container: node:12.20.1
     steps:
+      - uses: actions/checkout@v2
       - name: Run client tests
         run: |
           npm ci
