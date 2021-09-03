@@ -10,6 +10,7 @@ jobs:
   server-test:
     name: RSpec Test
     runs-on: ubuntu-latest
+    container: ruby:2.6.6-buster
     services:
       postgres:
         image: postgres:10
@@ -26,9 +27,12 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
+      - uses: actions/cache@v2
         with:
-          bundler-cache: true
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
