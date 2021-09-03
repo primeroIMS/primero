@@ -30,7 +30,7 @@ jobs:
       - name: Install Bundler
         run: gem install bundler
       - name: Server tests
-        run: sudo ./bin/run_server_tests.sh github-actions
+        run: ./bin/run_server_tests.sh github-actions
         shell: bash
   client-test:
     name: Client Test
