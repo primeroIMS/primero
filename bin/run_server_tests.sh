@@ -18,7 +18,7 @@ echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main"
 apt-get update
 apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
 
-bundle install --without production
+# bundle install --without production
 
 # Set up test environment
 mkdir -p log
