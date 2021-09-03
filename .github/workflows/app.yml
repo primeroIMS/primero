@@ -20,9 +20,14 @@ jobs:
           POSTGRES_PASSWORD: postgrespassword
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
     steps:
       - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
