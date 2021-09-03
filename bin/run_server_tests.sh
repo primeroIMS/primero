@@ -28,6 +28,8 @@ export RAILS_ENV=test
 export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 
+env | sort
+
 # Start Solr
 rails sunspot:solr:start
 
