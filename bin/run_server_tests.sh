@@ -7,7 +7,7 @@ TEST_CONFIG_DIR=${1:-bitbucket}
 # Install JDK
 # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
 #       Change after we upgrade Solr
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+sudo wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
 echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | tee /etc/apt/sources.list.d/adoptopenjdk.list
 sudo apt update && apt install -y adoptopenjdk-8-hotspot
 
