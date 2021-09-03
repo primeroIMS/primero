@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Server tests
-        run: ./bin/run_server_tests.sh
+        run: ./bin/run_server_tests.sh github-actions
         shell: bash
   client-test:
     name: Client Test
