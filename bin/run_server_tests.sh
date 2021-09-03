@@ -9,11 +9,11 @@ TEST_CONFIG_DIR=${1:-bitbucket}
 #       Change after we upgrade Solr
 wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
 echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | tee /etc/apt/sources.list.d/adoptopenjdk.list
-apt update && apt install -y adoptopenjdk-8-hotspot
+sudo apt update && apt install -y adoptopenjdk-8-hotspot
 
 # Install Rails pre-requisites
-apt-get update
-apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
+sudo apt-get update
+sudo apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
 
 bundle config path vendor/bundle
 bundle install --without production --jobs 4 --retry 3
