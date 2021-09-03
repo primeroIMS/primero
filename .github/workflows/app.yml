@@ -10,7 +10,6 @@ jobs:
   server-test:
     name: RSpec Test
     runs-on: ubuntu-latest
-    container: ruby:2.6.6-buster
     services:
       postgres:
         image: postgres:10
@@ -28,6 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
+        with:
+          bundler-cache: true
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
