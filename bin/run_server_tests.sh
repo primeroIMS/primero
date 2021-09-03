@@ -16,7 +16,7 @@ apt-get update
 apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
 
 bundle config path vendor/bundle
-bundle install --without production
+bundle install --without production --jobs 4 --retry 3
 
 # Set up test environment
 mkdir -p log
@@ -33,12 +33,12 @@ export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 env | sort
 
 # Start Solr
-rails sunspot:solr:start
+bundle exec rails sunspot:solr:start
 
 # Create the database
-rails db:drop
-rails db:create
-rails db:migrate
+bundle exec rails db:drop
+bundle exec rails db:create
+bundle exec rails db:migrate
 
 # Run tests
-rspec spec
+bundle exec rspec spec
