@@ -71,7 +71,7 @@ export const fieldValidations = (field, i18n) => {
     if (type === TICK_FIELD) {
       validations[name] = bool().required(requiredMessage).oneOf([true], requiredMessage);
     } else if (type === SELECT_FIELD && multiSelect) {
-      validations[name] = array().min(1, requiredMessage);
+      validations[name] = array().required(requiredMessage).min(1, requiredMessage);
     } else {
       validations[name] = (validations[name] || string()).nullable().required(requiredMessage);
     }

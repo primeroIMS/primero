@@ -173,6 +173,7 @@ const SelectFieldContainer = ({
 
   const fieldProps = {
     id: name,
+    error,
     name,
     isDisabled: !filteredOptions || mode.isShow || disabled || disableOfflineEndpointOptions,
     helperText: inputHelperText(),
