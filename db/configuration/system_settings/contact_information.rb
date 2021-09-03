@@ -1,3 +1,3 @@
-unless ContactInformation.current
-  ContactInformation.create(name: 'administrator')
-end
+# frozen_string_literal: true
+
+ContactInformation.create(name: 'administrator') unless ContactInformation.current
