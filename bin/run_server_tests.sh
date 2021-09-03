@@ -25,6 +25,8 @@ cp "config/$TEST_CONFIG_DIR/sunspot.yml" config/
 cp "config/$TEST_CONFIG_DIR/mailers.yml" config/
 mkdir -p solr/data/test
 mkdir -p solr/cores/test
+mkdir -p tmp/storage
+
 cp "config/$TEST_CONFIG_DIR/core.properties" solr/cores/test/
 export RAILS_ENV=test
 export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
