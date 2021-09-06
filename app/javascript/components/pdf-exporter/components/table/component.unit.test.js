@@ -101,4 +101,33 @@ describe("components/record-actions/exports/components/pdf-exporter/components/t
       `<div class=""><div>Test Field</div><div>josh</div></div><h4>Test SubField</h4><div class="undefined"><div>Test Sub Field</div><div>anthony</div></div><div></div>`
     );
   });
+
+  it("should not render fields with hide_on_view_page true", () => {
+    const props = {
+      classes,
+      fields: [
+        FieldRecord({
+          display_name: "Test Field",
+          name: "test_field",
+          type: "text_field",
+          visible: true
+        }),
+        FieldRecord({
+          display_name: "Hidden Field",
+          name: "hide_field",
+          type: "text_field",
+          visible: true,
+          hide_on_view_page: true
+        })
+      ],
+      record: fromJS({
+        test_field: "josh",
+        hidden_field: "testing"
+      })
+    };
+
+    const { component } = setupMountedComponent(Table, props);
+
+    expect(component.html()).to.equal('<div class=""><div>Test Field</div><div>josh</div></div>');
+  });
 });

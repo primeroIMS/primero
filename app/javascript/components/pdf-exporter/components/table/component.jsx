@@ -54,7 +54,8 @@ const Component = ({ fields, isSubform, record }) => {
           options,
           type,
           date_include_time: dateIncludeTime,
-          defaultValue
+          defaultValue,
+          hide_on_view_page: hideOnShow
         } = field;
 
         if (subformSection) {
@@ -63,7 +64,7 @@ const Component = ({ fields, isSubform, record }) => {
           );
         }
 
-        if (!visible || EXCLUDED_FIELD_TYPES.includes(type)) {
+        if (!visible || EXCLUDED_FIELD_TYPES.includes(type) || hideOnShow) {
           return null;
         }
 
