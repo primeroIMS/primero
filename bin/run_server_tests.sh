@@ -32,13 +32,9 @@ start_solr_server() {
   /bin/echo "done."
 }
 
-if ["$TEST_CONFIG_DIR" == "bitbucket"]; then
-  setup_java_solr
-fi
+setup_java_solr
+add_postgres_sources
 
-if ["$TEST_CONFIG_DIR" != "bitbucket"]; then
-  add_postgres_sources
-fi
 
 # Install Rails pre-requisites
 sudo apt-get update
