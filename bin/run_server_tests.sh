@@ -2,15 +2,32 @@
 
 set -ex
 
-TEST_CONFIG_DIR=${1:-bitbucket}
+BITBUCKET=bitbucket
+GITHUB_ACTIONS=github_actions
 
-setup_java_solr() {
-  # Install JDK
-  # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
-  #       Change after we upgrade Solr
-  wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-  echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-  sudo apt update && sudo apt install -y adoptopenjdk-8-hotspot
+PIPELINE=${1:-bitbucket}
+
+# Set up test environment
+setup_test_env() {
+  mkdir -p log
+  cp "config/$PIPELINE/database.yml" config/
+  cp "config/$PIPELINE/sunspot.yml" config/
+  cp "config/$PIPELINE/mailers.yml" config/
+  mkdir -p solr/data/test
+  mkdir -p solr/cores/test
+  mkdir -p tmp/storage
+
+  cp "config/$PIPELINE/core.properties" solr/cores/test/
+  export RAILS_ENV=test
+  export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
+  export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
+}
+
+# Create the database
+setup_database {
+  bundle exec rails db:drop
+  bundle exec rails db:create
+  bundle exec rails db:migrate
 }
 
 add_postgres_sources() {
@@ -18,53 +35,39 @@ add_postgres_sources() {
   echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
 }
 
-solr_responding() {
-  curl -o /dev/null "http://localhost:8983/solr/admin/ping" > /dev/null 2>&1
+setup_dependencies() {
+  if [ $PIPELINE == $BITBUCKET ]; then 
+    # Install JDK
+    # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
+    #       Change after we upgrade Solr
+    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
+    sudo apt update && sudo apt install -y adoptopenjdk-8-hotspot
+  fi
+  
+  if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
+    add_postgres_sources
+  fi
+
+  # Install Rails pre-requisites
+  sudo apt-get update
+  sudo apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
+  
+  if [ $PIPELINE == $BITBUCKET ]; then 
+    bundle install --without production
+  fi
 }
 
-start_solr_server() {
+setup_dependencies
+setup_test_env
+
+if [ $PIPELINE == $BITBUCKET ]; then 
   bundle exec rails sunspot:solr:start
-  ps aux | grep solr
+fi
 
-  curl "http://localhost:8983/solr/admin/ping"
-
-  while ! solr_responding; do
-    /bin/echo -n "."
-    sleep 1
-  done
-  /bin/echo "done."
-}
-
-setup_java_solr
-add_postgres_sources
-
-
-# Install Rails pre-requisites
-sudo apt-get update
-sudo apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
-
-# bundle install --without production
-
-# Set up test environment
-mkdir -p log
-cp "config/$TEST_CONFIG_DIR/database.yml" config/
-cp "config/$TEST_CONFIG_DIR/sunspot.yml" config/
-cp "config/$TEST_CONFIG_DIR/mailers.yml" config/
-mkdir -p solr/data/test
-mkdir -p solr/cores/test
-mkdir -p tmp/storage
-
-cp "config/$TEST_CONFIG_DIR/core.properties" solr/cores/test/
-export RAILS_ENV=test
-export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
-export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
-
-start_solr_server
-
-# Create the database
-bundle exec rails db:drop
-bundle exec rails db:create
-bundle exec rails db:migrate
+setup_database
 
 # Run tests
 bundle exec rspec spec
+
+
