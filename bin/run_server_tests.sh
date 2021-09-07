@@ -24,6 +24,7 @@ solr_responding() {
 
 start_solr_server() {
   bundle exec rails sunspot:solr:start
+  ps aux | grep solr
 
   curl "http://localhost:8983/solr/admin/ping"
 
@@ -58,7 +59,6 @@ export RAILS_ENV=test
 export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 
-env | sort
 start_solr_server
 
 # Create the database
