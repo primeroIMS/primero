@@ -5,6 +5,9 @@ import { ALL_TIME, CURRENT_MONTH, MONTHS_3, MONTHS_6, MONTHS_12 } from "./consta
 
 const CommonDateRanges = {
   from(today = new Date(), i18n) {
+    // Convert local datetime into UTC
+    today = new Date(today.toISOString().split('T')[0])
+
     return {
       AllTime: new DateRange(
         ALL_TIME,

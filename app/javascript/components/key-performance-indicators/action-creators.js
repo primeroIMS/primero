@@ -7,17 +7,20 @@ export default identifier => {
   const getKPI = actionsForKPI(identifier);
   const path = pathsForKPI(identifier);
 
-  return dateRange => ({
-    type: getKPI,
-    KPIidentifier: identifier,
-    api: {
-      path,
-      params: dateRange
+
+  return dateRange => {
+    return {
+      type: getKPI,
+      KPIidentifier: identifier,
+      api: {
+        path,
+        params: dateRange
         ? {
-            from: toServerDateFormat(dateRange.from),
-            to: toServerDateFormat(dateRange.to)
-          }
+          from: toServerDateFormat(dateRange.from, { normalize: true }),
+          to: toServerDateFormat(dateRange.to, { normalize: true })
+        }
         : {}
+      }
     }
-  });
+  };
 };
