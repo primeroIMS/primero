@@ -3,7 +3,7 @@
 set -ex
 
 BITBUCKET=bitbucket
-GITHUB_ACTIONS=github_actions
+GITHUB_ACTIONS=github-actions
 
 PIPELINE=${1:-bitbucket}
 
@@ -30,11 +30,6 @@ setup_database() {
   bundle exec rails db:migrate
 }
 
-add_postgres_sources() {
-  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo apt-key add -
-  echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
-}
-
 setup_dependencies() {
   if [ $PIPELINE == $BITBUCKET ]; then 
     # Install JDK
@@ -46,7 +41,8 @@ setup_dependencies() {
   fi
   
   if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
-    add_postgres_sources
+    wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo apt-key add -
+    echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
   fi
 
   # Install Rails pre-requisites
