@@ -1,6 +1,6 @@
 test:
   solr:
-    hostname: localhost
+    hostname: <%= ENV['HOSTNAME'] %>
     port: 8983
     log_level: INFO
     pid_dir: tmp/pids
