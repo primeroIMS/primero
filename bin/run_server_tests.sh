@@ -4,15 +4,41 @@ set -ex
 
 TEST_CONFIG_DIR=${1:-bitbucket}
 
-# Install JDK
-# TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
-#       Change after we upgrade Solr
-wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-sudo apt update && sudo apt install -y adoptopenjdk-8-hotspot
+setup_java_solr() {
+  # Install JDK
+  # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
+  #       Change after we upgrade Solr
+  wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
+  echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
+  sudo apt update && sudo apt install -y adoptopenjdk-8-hotspot
+}
 
-wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo apt-key add -
-echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
+add_postgres_sources() {
+  wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo apt-key add -
+  echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
+}
+
+solr_responding() {
+  curl -o /dev/null "http://localhost:8983/solr/admin/ping" > /dev/null 2>&1
+}
+
+start_solr_server() {
+  bundle exec rails sunspot:solr:start
+
+  while ! solr_responding; do
+    /bin/echo -n "."
+    sleep 1
+  done
+  /bin/echo "done."
+}
+
+if [$TEST_CONFIG_DIR == "bitbucket"]; then
+  setup_java_solr
+fi
+
+if [$TEST_CONFIG_DIR != "bitbucket"]; then
+  add_postgres_sources
+fi
 
 # Install Rails pre-requisites
 sudo apt-get update
@@ -34,11 +60,7 @@ export RAILS_ENV=test
 export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
 export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 
-# Start Solr
-bundle exec rails sunspot:solr:start
-
-ps aux | grep solr
-env | sort
+start_solr_server
 
 # Create the database
 bundle exec rails db:drop
