@@ -32,11 +32,11 @@ start_solr_server() {
   /bin/echo "done."
 }
 
-if [$TEST_CONFIG_DIR == "bitbucket"]; then
+if ["$TEST_CONFIG_DIR" == "bitbucket"]; then
   setup_java_solr
 fi
 
-if [$TEST_CONFIG_DIR != "bitbucket"]; then
+if ["$TEST_CONFIG_DIR" != "bitbucket"]; then
   add_postgres_sources
 fi
 
