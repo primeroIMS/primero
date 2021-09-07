@@ -25,6 +25,8 @@ solr_responding() {
 start_solr_server() {
   bundle exec rails sunspot:solr:start
 
+  curl "http://127.0.0.1:8983/solr/admin/ping"
+
   while ! solr_responding; do
     /bin/echo -n "."
     sleep 1
