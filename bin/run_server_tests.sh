@@ -37,6 +37,9 @@ export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
 # Start Solr
 bundle exec rails sunspot:solr:start
 
+ps aux | solr
+env | sort
+
 # Create the database
 bundle exec rails db:drop
 bundle exec rails db:create

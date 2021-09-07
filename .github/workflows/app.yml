@@ -32,14 +32,14 @@ jobs:
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
-  client-test:
-    name: Client Test
-    runs-on: ubuntu-latest
-    container: node:12.20.1
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run client tests
-        run: |
-          npm ci
-          npm run test:all
-          npm run lint:run
+  # client-test:
+  #   name: Client Test
+  #   runs-on: ubuntu-latest
+  #   container: node:12.20.1
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run client tests
+  #       run: |
+  #         npm ci
+  #         npm run test:all
+  #         npm run lint:run
