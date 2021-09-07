@@ -24,7 +24,7 @@ setup_test_env() {
 }
 
 # Create the database
-setup_database {
+setup_database() {
   bundle exec rails db:drop
   bundle exec rails db:create
   bundle exec rails db:migrate
