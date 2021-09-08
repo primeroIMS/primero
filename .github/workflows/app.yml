@@ -30,7 +30,7 @@ jobs:
           - 8983:8983
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v2
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: Server tests
