@@ -49,6 +49,7 @@ bitbucket-pipelines.yml
 Procfile.dev
 .travis.yml
 .rspec
+rpsec
 .pryrc
 .gitignore
 .tx
