@@ -2,7 +2,7 @@ name: App
 on:
   pull_request:
     branches:
-      - master
+      - develop
       - 'release-*'
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
           --health-timeout 5s 
           --health-retries 5
       solr:
-        image: primeroims/solr:latest
+        image: primeroims/solr:develop-a8270b548
         ports:
           - 8983:8983
     steps:
