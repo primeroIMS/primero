@@ -1274,6 +1274,7 @@ en:
     dashboard: Dashboard
     en: English
     es: Español
+    es-GT: Español (Guatemala)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1428,6 +1429,13 @@ en:
       title: "8. Services Provided"
       service: "Service"
       count: "Times Provided"
+      male: "Male"
+      female: "Female"
+      0-11: "0-11"
+      12-17: "12-17"
+      ">18": ">18"
+      disability: "Disability"
+      no_disability: "No Disability"
       helptext: |
         This indicator counts the type of service(s) provided to survivors in the case management
         process. By service provided, we mean the service that is provided by the User organization
@@ -3065,6 +3073,7 @@ en:
     previously_owned_by_agency: Previous Agency
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
+    last_updated_at: Last Updated At
   record_panel:
     record_information: Record Information
   referral:

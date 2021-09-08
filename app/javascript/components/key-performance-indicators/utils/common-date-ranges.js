@@ -3,9 +3,6 @@ import { subMonths, startOfMonth, endOfMonth } from "date-fns";
 import DateRange from "./date-range";
 import { ALL_TIME, CURRENT_MONTH, MONTHS_3, MONTHS_6, MONTHS_12 } from "./constants";
 
-// Taken from: https://github.com/date-fns/date-fns/issues/571#issuecomment-602496322
-// This fixes an issue where dates are out by 1 hour because of timezone issues.
-
 const CommonDateRanges = {
   from(today = new Date(), i18n) {
     return {

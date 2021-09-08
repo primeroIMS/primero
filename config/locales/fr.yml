@@ -61,6 +61,8 @@ fr:
     services_section_from_case: Ajouter une prestation de service
   agencies:
     label: Agence
+    translations:
+      manage: Gérer les traductions
   agency:
     agency_logos: Logo de l'agence
     code: Code de l'agence
@@ -215,11 +217,15 @@ fr:
       creation_success_queue: 'Le cas a été crée avec succès'
       already_matched: "Cet demandeur a déjà eu une correspondance avec votre cas. "
       already_matched_not_current_case: Cet enquêteur a déjà été eu une correspondance avec votre cas.
+      not_found_case: "Aucun cas trouvé correspondant à \"%{search_value}\". Créez un nouveau cas."
+      introductory_sentence: Veuillez spécifier le consentement de la personne à recevoir des services de gestion de cas et à ce que ses données soient stockées dans Primero.
       consent_agreements_required: Veuillez sélectionner au moins une option parmi les accords de consentement.
       legitimate_basis_required: Veuillez sélectionner au moins une option parmi les accords de consentement.
     save: Enregistrer le cas
     save_text: "Avant de continuer, veuillez enregistrer les modifications apportées au cas."
+    skip_and_create: Ignorer et créer un nouveau cas
     search_existing: "Chercher un cas existant "
+    search_helper_text: "Pourquoi? Pour éviter la création de cas en double."
     consent_agreements: Sélectionnez tous les accords de consentement qui s'appliquent
     legitimate_basis: Sélectionnez toutes les classifications de base légitimes qui s'appliquent
     workflow:
@@ -366,7 +372,7 @@ fr:
     reopen_dialog_title: Réouvrir un cas
     reopen_success: Cas réouvert avec succès
     request_approval_failure: "Une erreur s'est produite, veuillez contacter le support s'il vous plait."
-    request_approval_select: Demandé une approbation pour
+    request_approval_select: Demander une approbation pour
     request_approval_success_action_plan: "Approbation demandée pour le formulaire %{approval_label}"
     request_approval_success_assessment: "Approbation demandée pour le formulaire %{approval_label}"
     request_approval_success_case_plan: "Approbation demandée pour le formulaire %{approval_label}"
@@ -419,6 +425,9 @@ fr:
     transfer_rejected: "En cliquant sur \"Refuser\", vous indiquez que vous n'êtes pas prêt à assumer la responsabilité de ce cas pour le moment. Veuillez indiquer la raison pour laquelle vous refusez ce cas ; une fois que vous aurez cliqué sur \"Refuser\", vous n'aurez plus accès à ce cas. "
     view_name: Afficher le nom
   change_logs:
+    filters:
+      form: Forme
+      field: Domaine
     add_subform: 'Ajouté "%{subform_name}" sous formulaire %{short_id}'
     changes_subform: 'Modifications apportées au sous-formulaire "%{subform_name}"'
     create: Créer un cas
@@ -439,6 +448,7 @@ fr:
   configurations:
     apply_label: "Etes-vous sûr ? Si vous appliquez, les paramètres de cette configuration seront appliqués au système. Vous perdrez tous vos paramètres actuels et ne pourrez les récupérer que si vous les avez déjà enregistrés dans une autre configuration."
     apply_label_bold: "Primero sera indisponible pour les utilisateurs pendant quelques minutes pendant la mise à jour des modifications. "
+    version_mismatch_tooltip: "Vous ne pouvez pas appliquer cette configuration, car elle a été créée à l'aide d'une version de Primero supérieure à celle que votre site exécute. Veuillez patienter pour appliquer cette configuration jusqu'à ce que vous exécutiez la dernière version de Primero."
     send_header: Envoyer au site de Production
     send_text: "Etes-vous sûr ? Si vous cliquez sur Envoyer, vous enverrez cette configuration à votre site de production. Cette configuration ne sera pas appliquée à la production tant qu'un administrateur de ce site ne l'aura pas appliquée manuellement."
     attributes:
@@ -459,6 +469,7 @@ fr:
       created: La configuration a été crée avec succès
       deleted: La configuration a été supprimé avec succès
       updated: "La configuration a été mis à jour avec succès "
+      sent: Envoi de la configuration en production. Veuillez vérifier le site de production pour voir si votre configuration est arrivée.
     not_allowed: "Non autorisé "
     unavailable_server: "Le serveur est momentanément indisponible "
   contact:
@@ -478,6 +489,7 @@ fr:
   code_of_conduct:
     field:
       title: Titre
+      content: Contenu
       created_on: "Crée le "
       created_by: "Crée par "
     info_label: "Code de conduite "
@@ -538,6 +550,46 @@ fr:
     closed_last_week: Clos (semaine dernière)
     closed_this_week: Clos (Cette semaine)
     comprehensive_need_intervention: Réponse compréhensible ou complète
+    count_new_bia_approvals:
+      one: '%{stat}nouveau %{stat_type}Approbations'
+      other: '%{stat}nouveau %{stat_type} Approbations'
+    count_new_case_plan_approvals:
+      one: '%{stat}nouveau %{stat_type}Approbations'
+      other: '%{stat} nouveau %{stat_type}Approbations'
+    count_new_closure_approvals:
+      one: '%{stat}nouveau %{stat_type}Approbations'
+      other: '%{stat}nouveau %{stat_type}Approbations'
+    count_pending_approval_total:
+      one: 'Tu as %{stat}en attendant %{stat_type}Approbations'
+      other: 'Tu as %{stat}en attendant %{stat_type}Approbations'
+    count_pending_transfers:
+      one: 'Tu as %{stat} transferts en attente'
+      other: 'Tu as %{stat} transferts en attente'
+    count_records_new:
+      one: et %{stat}nouveaux cas
+      other: et %{stat}nouveaux cas
+    count_records_total:
+      one: 'Tu as %{stat} nombre total de cas'
+      other: 'Tu as %{stat} nombre total de cas'
+    count_referrals_new:
+      one: et %{stat} nouvelles références
+      other: et %{stat}nouvelles références
+    count_referrals_total:
+      one: 'Tu as %{stat} nombre total de références'
+      other: 'Tu as %{stat}nombre total de références'
+    count_rejected_approval_total:
+      one: 'et %{stat} rejeté %{stat_type} Approbations'
+      other: 'et %{stat}rejeté %{stat_type}Approbations'
+    count_rejected_transfers:
+      one: 'et %{stat} transferts refusés'
+      other: 'et %{stat} transferts refusés'
+    count_risk_level_new:
+      one: et %{stat} nouveau %{stat_type}cas à risque
+      other: et %{stat} nouveau %{stat_type}cas à risque
+    count_risk_level_total:
+      one: 'Tu as %{stat}%{stat_type} cas à risque'
+      other: 'Tu as %{stat} %{stat_type}cas à risque'
+    count_waiting_for_acceptance_transfers: "Tu as %{stat} Virements en attente de votre acceptation"
     current_owner: Propriétaire actuel
     dash_case_incident_overview: "Mes cas "
     dash_group_overview: Les cas de mon groupe
@@ -545,6 +597,7 @@ fr:
     dash_shared_with_me: Partagé avec moi
     dash_shared_with_my_team: Partagé avec mon équipe
     dash_shared_with_others: Partagé avec d'autres
+    dash_national_admin_summary: Résumé de l'administrateur
     date: Date
     date_of_incident: "Date de l'incident "
     date_of_interview: Date de l'entretien
@@ -570,6 +623,15 @@ fr:
     link_see_all: Voir tous
     low_level: Faible
     low_risk: Priorité faible
+    manager_count_closed_total:
+      one: 'et %{stat}dossiers clos'
+      other: 'et %{stat} dossiers clos'
+    manager_count_open_total:
+      one: 'Tu as %{stat}cas ouverts'
+      other: 'Tu as %{stat} cas ouverts'
+    manager_transfers_totals:
+      one: 'Tu as %{stat} %{stat_type}Transferts'
+      other: 'Tu as %{stat} %{stat_type} Transferts'
     match_result: Résultats des correspondances
     medium_level: Moyen
     medium_risk: Priorité moyenne
@@ -622,6 +684,7 @@ fr:
     registration: Enregistrement
     rejected: Rejete
     rejected_transfers: "Transfert rejeté "
+    response: Réponse (en cours)
     scheduled_activities: Activités programmées
     score_range: " Barème de notation"
     screening_service: Service de contrôle
@@ -651,6 +714,12 @@ fr:
     with_incidents: "Avec un incident "
     with_new_incidents: "Avec un nouveau incident "
     without_incidents: "Sans incident "
+    worker_count_referrals_total:
+      one: '%{case_worker} a %{stat} nombre total de références'
+      other: '%{case_worker}a %{stat} nombre total de références'
+    worker_count_total:
+      one: '%{case_worker} a %{stat} nombre total de cas'
+      other: '%{case_worker} a %{stat} nombre total de cas'
     workflow: Flux d'information
     workflow_team: Fux d'informations - Cas des équipes
     you_have: 'Vous avez'
@@ -702,6 +771,7 @@ fr:
       agency:
         code_present: ne doit pas être vide
         logo_format: Le fichier doit être en png
+        terms_of_use_format: Le fichier doit être au format png
         name_present: ne peut pas être vide
       child:
         age: L'âge doit être compris entre 0 et 130
@@ -736,6 +806,10 @@ fr:
         password_mismatch: Les champs du mot de passe ne contiennent pas le même mot de passe
         password_length: "Le mot de passe doit comporter au moins %{min}caractères"
         email_uniqueness: "Un utilisateur avec cette adresse email existe déjà dans le système. Veuillez entrer un email différent s'il vous plait. "
+      code_of_conduct:
+        title_present: Le titre ne doit pas être vide
+        content_present: Le contenu ne doit pas être vide
+        created_by_present: Créé par ne doit pas être vide
     not_found: Pas d'enregistrement trouvé(s)
     try_again: Essayer encore
   exports:
@@ -914,7 +988,9 @@ fr:
         locale_invalid: 'Saut %{column_name} : Non valide'
         insert_all_error: 'Echec de l''importation. Erreur de la base de données : %{message}'
   sync_record:
+    failed: 'Dernière synchronisation : échec'
     last: 'Dernière synchronisation %{date_time}'
+    not_found: 'Dernière synchronisation : données introuvables'
     retrieving: Récupération des données.
     see_details: "Voir les détails "
   fields:
@@ -962,6 +1038,7 @@ fr:
       current: "Est-ce le document récent?"
       date: Date du document
       name: Nom du document
+      is_current: "Est-ce le document actuel ?"
     document_upload_box: "Télécharger un document "
     edit_label: Editer un champ
     enabled: "Activé ? "
@@ -1138,9 +1215,9 @@ fr:
     web_app: Application Web
   home:
     ar: العربية
-    ar-IQ: العربية (العراقية)
     ar-JO: Arabe (jordanien)
     ar-LB: Arabe (Libanais)
+    ar-SD: arabe (soudanais)
     bn: বাংলা
     current_time_zone: "Fuseau horaire actuel "
     dashboard: Tableau de bord
@@ -1150,7 +1227,6 @@ fr:
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
-    ku-IQ: کوردی (بادینی)
     label: Accueil
     language: Langue
     manage_system_users: "Gérer la synchronisation des serveurs des utilisateurs "
@@ -1215,6 +1291,8 @@ fr:
     feedback: "Feedback"
     other: "Autres "
     date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Personnalisé'
     long_date_format: "jj/mm/aaaa"
     time_periods:
       all_time: 'à tout moment'
@@ -1406,7 +1484,58 @@ fr:
     hierarchy: "Hiérarchie "
     import_title: "Importé les lieux "
     message: Veuillez sélectionner un fichier CSV à télécharger. Ce fichier doit utiliser un encodage UTF-8 et inclure des hashtags HXL dans la deuxième ligne d'en-tête de chaque colonne.
+    no_location: Veuillez importer des emplacements avant de créer des comptes d'utilisateur.
   logger:
+    actions:
+      _approved: Approuvé
+      _rejected: Rejeté
+      _requested: Demandé
+      add_note: Ajouter une note
+      assign: Attribuer
+      assign_to: Affecter à
+      attach: Attacher
+      bulk_assign: "Affectation en masse\n "
+      bulk_create: Créer en masse
+      bulk_index: Index de masse
+      case_plan_approved: Plan de cas approuvé
+      case_plan_rejected: Plan de cas rejeté
+      case_plan_requested: Plan de cas demandé
+      close: Fermer
+      create: Créer
+      create_bulk: Créer en masse
+      delete: Supprimer
+      destroy: Détruire
+      detach: Détacher
+      enable_disable_record: Activer désactiver l'enregistrement
+      export: Exportation
+      flag: Drapeau
+      import: Importer
+      incident_details_from_case: Détails de l'incident du cas
+      index: Indice
+      list: Lister
+      login: Connexion
+      password_reset: Réinitialisation du mot de passe
+      password_reset_request: Demande de réinitialisation de mot de passe
+      refer: Référer
+      refer_accepted: Référence acceptée
+      refer_done: Référer fait
+      refer_rejected: Référer rejeté
+      refer_revoke: Référer révoquer
+      refer_to: Faire référence à
+      reopen: Rouvrir
+      services_section_from_case: Section des services du cas
+      show: Spectacle
+      show_alerts: Afficher les alertes
+      traces: Traces
+      transfer: Transférer
+      transfer_accepted: Transfert accepté
+      transfer_rejected: Transfert refusé
+      transfer_request: Demande de transfert
+      transfer_to: Transférer à
+      unflag: Désigner
+      update: Mettre à jour
+      user_password_reset_request: Demande de réinitialisation du mot de passe utilisateur
+      webhook: Webhook
     approve_form:
       action_plan: "Formulaire du plan d'action "
       bia: Formulaire BIA
@@ -1450,6 +1579,27 @@ fr:
     permitted_field_list: Liste des champs autorisés
     quick_view: Affichage de la l’aperçue rapide
     reassign: Attribution
+    resources:
+      audit_log: Journal d'audit
+      user: Utilisateur
+      agency: Agence
+      user_group: Groupe d'utilisateurs
+      child: Enfant
+      alert: Alerte
+      form_section: Forme
+      lookup: Chercher
+      system_settings: les paramètres du système
+      permission: Autorisation
+      dashboard: tableau de bord
+      report: Reportage
+      bulk_export: Exportation en vrac
+      saved_search: Recherche enregistrée
+      role: Rôle
+      incident: Incident
+      location: Lieu
+      primero_configuration: Configuration Primero
+      code_of_conduct: Code de conduite
+      task: Tâche
     record_state:
       'false': Désactiver
       'true': Activer
@@ -1525,11 +1675,16 @@ fr:
     logout_offline_warning: "Etes vous sûr de vouloir vous déconnecter ? Si c'est le cas, vous ne pourrez pas vous reconnecter avant d'être à nouveau en ligne. Toute modification que vous avez effectuée alors que vous étiez hors ligne sera perdue."
     logout_warning: "Vous serez déconnecter dans 5 minutes "
     logout_dialog_header: Déconnexion en mode hors ligne
+    logout_confirmation_title: Confirmation de déconnexion
+    logout_confirmation_text: "Êtes-vous sûr de vouloir vous déconnecter?  "
     no_changes: Vous n'avez fait aucunes modifications de champ
     not_available: "Non disponible "
     record_list:
+      column_header_tooltip: "Trier pour %{column}"
       of: de
+      no_match: "Désolé, aucun enregistrement correspondant n'a été trouvé"
       rows_per_page: Nombre de lignes par page
+      sort: Sorte
   navigation:
     bulk_exports: Exportations
     cases: Cas
@@ -1589,6 +1744,7 @@ fr:
       close: "Clôturer "
       consent_override: Outrepasser le consentement
       copy: Copier
+      copy_of: Copie de
       create: Créer
       dash_case_incident_overview: Mes cas / incidents
       dash_cases_by_social_worker: Afficher les cas par travailleur social
@@ -1610,6 +1766,7 @@ fr:
       dash_show_none_values: Afficher aucune valeur
       dash_tasks: Afficher les tâches
       dash_transfers_by_socal_worker: Afficher les transfert par travailleur social
+      dash_national_admin_summary: Résumé de l'administrateur
       dashboard: Tableau de Bord
       delete: "Supprimer "
       display_view_page: Afficher la page d'affichage
@@ -1829,6 +1986,7 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste des cas qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste des cas. Cette opération ne peut être effectuée qu'à partir de la page de la liste des cas.
             label: Exporter la liste en CSV
           export_pdf:
+            explanation: "L'utilisateur peut générer une exportation de fichier PDF à partir de la liste des cas ou des pages d'affichage des cas, qui contient tous les champs auxquels l'utilisateur actuel a accès, pour un, plusieurs ou tous les cas auxquels l'utilisateur a accès. Dans le fichier d'exportation PDF, les informations sont d'abord répertoriées par cas, puis organisées par le formulaire sur lequel les informations apparaissent."
             label: Exporter le cas en PDF
           export_photowall:
             explanation: Permet à l'utilisateur d'exporter un fichier à partir de la page de la liste des cas qui contient les photos de tous les cas sélectionnés. Cette exportation est principalement utilisée pour les activités de recherche et de réunification familiale. Elle est effectuée uniquement à partir de la page de la liste des cas.
@@ -2024,6 +2182,9 @@ fr:
           dash_tasks:
             explanation: "Permet à l'utilisateur de voir la page des tâches. Cette page doit être utilisée pour les gestionnaires de cas et les prestataires de services, car les numéros seront spécifiques aux cas que vous supervisez directement. Les superviseurs devraient plutôt obtenir le tableau de bord \"Voir les cas par tâche en retard\", car cela leur permet de voir les tâches en retard pour tous les membres de leur groupe d'utilisateurs."
             label: "Page des tâches "
+          dash_national_admin_summary:
+            explanation: "Affiche le nombre total de dossiers ouverts dans le système, le nombre de nouveaux dossiers créés au cours de chacune des deux dernières semaines et le nombre de dossiers fermés au cours de chacune des deux dernières semaines.\n \n\n \n \n \n \n "
+            label: Résumé de l'administrateur
           view_protection_concerns_filter:
             explanation: Permet à l'utilisateur de voir un filtre sur les problèmes de protection sur la page de la liste des cas.
             label: Afficher le filtre relatif aux problèmes de protection
@@ -2104,6 +2265,7 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste des incidents qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste des incidents. Cette exportation est uniquement effectuée à partir de la page de la liste des incidents.
             label: Exporter la liste en CSV
           export_pdf:
+            explanation: "L'utilisateur peut générer une exportation de fichier PDF à partir de la liste des incidents ou des pages d'affichage des incidents, qui contient tous les champs auxquels l'utilisateur actuel a accès, pour un, plusieurs ou tous les enregistrements auxquels l'utilisateur a accès. Dans le fichier d'exportation PDF, les informations sont d'abord répertoriées par cas, puis organisées par le formulaire sur lequel les informations apparaissent."
             label: Exporter en PDF
           export_xls:
             explanation: "L'utilisateur peut générer une exportation de fichier XLS à partir de la liste des incidents ou des pages d'affichage des incidents, qui contient un ensemble personnalisé de formulaires ou de champs, pour un, plusieurs ou tous les cas auxquels l'utilisateur a accès. Dans cette exportation, chaque formulaire est représenté dans son propre onglet au sein du fichier XLS. L'utilisateur peut sélectionner les formulaires ou les champs qu'il souhaite inclure dans l'exportation en utilisant le mode d'exportation personnalisé. Veuillez noter que les utilisateurs ne peuvent inclure des formulaires et des champs dans l'exportation que s'ils ont déjà la possibilité de voir ces formulaires et ces champs lorsqu'ils visualisent un cas dans l'application."
@@ -2159,6 +2321,10 @@ fr:
             label: Voir
         label: Correspondance potentielle
       primero_configuration:
+        actions:
+          manage:
+            explanation: "Possibilité d'enregistrer, d'appliquer et d'envoyer des configurations. Cette autorisation est généralement réservée à l'administrateur système."
+            label: Gérer (toutes les autorisations pour ce type de ressource)
         label: Configuration
       referral:
         actions:
@@ -2247,6 +2413,7 @@ fr:
             explanation: L'utilisateur peut générer une exportation de fichier CSV à partir de la page de la liste de demandes de traçage qui contient les mêmes champs que ceux qui apparaissent pour cet utilisateur dans la liste de demandes de recherche. Cette opération ne peut être effectuée qu'à partir de la page de la liste de demandes de traçage.
             label: Exporter la liste en CSV
           export_pdf:
+            explanation: "L'utilisateur peut générer une exportation de fichier PDF à partir de la liste des demandes de traçage ou des pages d'affichage des demandes de traçage, qui contient tous les champs auxquels l'utilisateur actuel a accès, pour un, plusieurs ou tous les enregistrements auxquels l'utilisateur a accès. Dans le fichier d'exportation PDF, les informations sont d'abord répertoriées par cas, puis organisées par le formulaire sur lequel les informations apparaissent."
             label: Exporter en PDF
           flag:
             explanation: Possibilité d'ajouter un marquage ou drapeau à une demande de traçage. Les utilisateurs ayant cette autorisation peuvent également supprimer les marquages ou drapeaux qu'ils ont ajoutés à une demande de recherche.
@@ -2353,7 +2520,7 @@ fr:
     type_of_recipient: "Type de destinataire "
     type_of_referral_required: Type de référence requis
     agency_label: Organisation
-    is_remote_label: "Faites-vous référence à un système à distance ?"
+    is_remote_label: "Souhaitez vous référer à l'extérieur de Primero?"
     location_label: Lieu
     notes_label: Notes
     notes_on_referral: "Notes sur la référence "
@@ -2417,6 +2584,10 @@ fr:
     delete_report_message: "Êtes-vous sûr de vouloir supprimer ce rapport ? La suppression ne peut pas être annulée. Cliquez sur OK pour supprimer le rapport"
     label: Rapports
     register_new_report: Créer un rapport
+    translations:
+      edit: Modifier les traductions
+      manage: Gérer les traductions
+      select_language: Choisir la langue
   request_transfer:
     notes_label: Notes
     submit_label: Envoyer une demande
@@ -2576,6 +2747,7 @@ fr:
     notes: Notes
     recipient: "Destinataire "
     rejected: "Cause du rejet "
+    requested_by: Demandé par
     service_label: Service
     responded_at: Répondu à
     status:

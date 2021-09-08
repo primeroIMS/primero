@@ -71,6 +71,7 @@ const Container = ({ mode }) => {
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
 
+<<<<<<< HEAD
   return (
     <RecordForm
       params={params}
@@ -92,6 +93,76 @@ const Container = ({ mode }) => {
       containerMode={containerMode}
       mode={mode}
       record={record}
+=======
+  const externalForms = (form, setFieldValue, handleSubmit, values, dirty) => {
+    const isTransitions = TRANSITION_TYPE.includes(form);
+
+    const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
+
+    return {
+      [RECORD_OWNER]: (
+        <RecordOwner
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
+      ),
+      [APPROVALS]: (
+        <Approvals approvals={approvalSubforms} mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} />
+      ),
+      [INCIDENT_FROM_CASE]: (
+        <IncidentFromCase
+          record={record}
+          incidents={incidentsSubforms}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          mode={containerMode}
+          setFieldValue={setFieldValue}
+          handleSubmit={handleSubmit}
+          recordType={params.recordType}
+          primeroModule={selectedModule.primeroModule}
+          dirty={dirty}
+          handleCreateIncident={handleCreateIncident}
+        />
+      ),
+      [TRANSITION_TYPE]: <Transitions {...transitionProps} />,
+      [CHANGE_LOGS]: (
+        <ChangeLogs
+          recordID={params.id}
+          fetchable={canSeeChangeLog}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={selectedModule.primeroModule}
+          selectedForm={selectedForm}
+        />
+      ),
+      [SUMMARY]: (
+        <Summary
+          record={record}
+          recordType={params.recordType}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          form={summaryForm}
+          mode={containerMode}
+          userPermittedFormsIds={userPermittedFormsIds}
+          values={values}
+        />
+      )
+    }[externalFormSelected];
+  };
+
+  // eslint-disable-next-line react/display-name, react/no-multi-comp, react/prop-types
+  const externalComponents = ({ setFieldValue, values }) => (
+    <SaveAndRedirectDialog
+      open={redirectDialogOpen}
+      closeRedirectDialog={closeRedirectDialog}
+      setFieldValue={setFieldValue}
+      handleSubmit={handleFormSubmit}
+      values={values}
+      mode={containerMode}
+>>>>>>> github_actions
       recordType={recordType}
       isNotANewCase={isNotANewCase}
       isCaseIdEqualParam={isCaseIdEqualParam}

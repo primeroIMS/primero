@@ -507,9 +507,11 @@ class User < ApplicationRecord
     records = []
     associated_records_for_update.find_each(batch_size: 500) do |record|
       update_record_ownership_fields(record)
+
       record.update_associated_user_groups if user_groups_changed
       record.update_associated_user_agencies if saved_change_to_attribute?('agency_id')
-      records << record
+
+      records << record if record.changed?
     end
 
     ActiveRecord::Base.transaction { records.each(&:save!) }

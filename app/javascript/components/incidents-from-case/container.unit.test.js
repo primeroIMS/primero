@@ -126,6 +126,7 @@ describe("<IncidentFromCase /> - Component", () => {
     const incidentsProps = { ...component.find(IncidentFromCase).props() };
 
     [
+      "dirty",
       "record",
       "incidents",
       "mobileDisplay",
