@@ -56,7 +56,7 @@ setup_dependencies() {
 
 if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
   DEPS=`declare -f setup_dependencies`
-  sudo bash -c "$DEPS; setup_dependencies"
+  sudo -E bash -c "$DEPS; setup_dependencies"
 else
   setup_dependencies
 fi
