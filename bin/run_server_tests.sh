@@ -35,26 +35,32 @@ setup_dependencies() {
     # Install JDK
     # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
     #       Change after we upgrade Solr
-    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | sudo apt-key add -
-    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | sudo tee /etc/apt/sources.list.d/adoptopenjdk.list
-    sudo apt update && sudo apt install -y adoptopenjdk-8-hotspot
+    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | tee /etc/apt/sources.list.d/adoptopenjdk.list
+    apt update && apt install -y adoptopenjdk-8-hotspot
   fi
   
   if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
-    wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | sudo apt-key add -
-    echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | sudo tee /etc/apt/sources.list.d/postgresql.list
+    wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | apt-key add -
+    echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list
   fi
 
   # Install Rails pre-requisites
-  sudo apt-get update
-  sudo apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
+  apt-get update
+  apt install -y --no-install-recommends postgresql-11 postgresql-client-11 libsodium-dev
   
   if [ $PIPELINE == $BITBUCKET ]; then 
     bundle install --without production
   fi
 }
 
-setup_dependencies
+if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
+  DEPS=`declare -f setup_dependencies`
+  sudo bash -c "$DEPS; setup_dependencies"
+else
+  setup_dependencies
+fi
+
 setup_test_env
 
 if [ $PIPELINE == $BITBUCKET ]; then 
