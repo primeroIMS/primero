@@ -2,10 +2,9 @@
 
 set -ex
 
-BITBUCKET=bitbucket
-GITHUB_ACTIONS=github-actions
-
-PIPELINE=${1:-bitbucket}
+export BITBUCKET=bitbucket
+export GITHUB_ACTIONS=github-actions
+export PIPELINE=${1:-bitbucket}
 
 # Set up test environment
 setup_test_env() {
