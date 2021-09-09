@@ -23,6 +23,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
     const disableColumnOffline = args => {
       const { component: Component, props = {}, value, rowIndex } = args || {};
       const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
+      const parsedValue = Array.isArray(value) ? value.join(", ") : value;
 
       return (
         <ConditionalWrapper
@@ -31,7 +32,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
           offlineTextKey="unavailable_offline"
           overrideCondition={!rowAvailable}
         >
-          <>{Component !== undefined ? <Component {...props} /> : value || ""}</>
+          <>{Component !== undefined ? <Component {...props} /> : parsedValue || ""}</>
         </ConditionalWrapper>
       );
     };

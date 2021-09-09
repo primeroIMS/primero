@@ -5,6 +5,8 @@ development:
     log_level: INFO
     pid_dir: tmp/pids
     path: /solr/primero
+  auto_index_callback: after_commit
+  auto_remove_callback: after_commit
 
 test:
   solr:
@@ -13,3 +15,5 @@ test:
     log_level: OFF
     pid_dir: tmp/pids
     path: /solr/primero-test
+  auto_index_callback: after_commit
+  auto_remove_callback: after_commit

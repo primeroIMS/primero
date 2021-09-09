@@ -6,3 +6,5 @@ $RAILS_ENV:
     pid_dir: $SOLR_PID_DIR
     path: /solr/primero
     log_file: $SOLR_LOG_DIR
+  auto_index_callback: after_commit
+  auto_remove_callback: after_commit

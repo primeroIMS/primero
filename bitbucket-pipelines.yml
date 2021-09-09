@@ -32,7 +32,7 @@ definitions:
         POSTGRES_USER: 'postgres'
         POSTGRES_PASSWORD: 'postgrespassword'
   caches:
-    bundler: /usr/local/bundle
+    bundler: ./vendor
 pipelines:
   branches:
     maint_*:
