@@ -111,7 +111,7 @@ export const buildFields = (data, locale) => {
 
       const filteredFields = fields
         .filter(field => !(isSubform(field) && "subform_section_id" in field && !field.subform_section_id))
-        .filter(field => !excludeFieldTypes.includes(field.type) && field.visible)
+        .filter(field => !excludeFieldTypes.includes(field.type) && field.visible && !field.hide_on_view_page)
         .map(field => {
           if (isSubform(field)) {
             const subFormSectionFields = field.subform_section_id.fields
