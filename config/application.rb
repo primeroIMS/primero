@@ -20,19 +20,26 @@ Bundler.require(*Rails.groups)
 module Primero; end
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
-  config.load_defaults 5.2
+  config.load_defaults 6.1
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
   # -- all .rb files in that directory are automatically loaded.
-
+  overrides = "#{Rails.root}/app/overrides"
+  Rails.autoloaders.main.ignore(overrides)
+  config.to_prepare do
+    Dir.glob("#{overrides}/**/*.rb").each do |override|
+      load override
+    end
+  end
   config.enable_dependency_loading = true
   # Custom directories with classes and modules you want to be autoloadable.
-  config.autoload_paths += %W[
+  load_paths = %W[
     #{config.root}/lib
-    #{config.root}/lib/primero
     #{config.root}/lib/extensions
   ]
+  config.autoload_paths += load_paths
+  config.eager_load_paths += load_paths
 
   config.middleware.use Rack::Deflater
 

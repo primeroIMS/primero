@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import { Box, useMediaQuery } from "@material-ui/core";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useMediaQuery } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { memo } from "react";
 
 import { getAgencyLogos } from "../application/selectors";
@@ -12,9 +12,8 @@ const useStyles = makeStyles(styles);
 
 const AgencyLogo = ({ alwaysFullLogo }) => {
   const css = useStyles();
-  const theme = useTheme();
   const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
-  const tabletDisplay = useMediaQuery(theme.breakpoints.down("md"));
+  const tabletDisplay = useMediaQuery(theme => theme.breakpoints.down("md"));
 
   const renderLogos = () => {
     return agencyLogos.map(agency => {
@@ -27,7 +26,7 @@ const AgencyLogo = ({ alwaysFullLogo }) => {
     });
   };
 
-  return <Box className={css.agencyLogoContainer}>{renderLogos()}</Box>;
+  return <div className={css.agencyLogoContainer}>{renderLogos()}</div>;
 };
 
 AgencyLogo.displayName = "AgencyLogo";

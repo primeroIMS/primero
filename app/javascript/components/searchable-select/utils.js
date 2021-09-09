@@ -20,7 +20,7 @@ export const optionDisabled = option => option?.isDisabled || option?.disabled;
 export const filterOptions = currentValue => {
   const defaultFilterOptions = createFilterOptions({
     matchFrom: "any",
-    limit: 500
+    limit: 50
   });
 
   return (options, { inputValue, getOptionLabel }) => {

@@ -19,7 +19,7 @@ def locale_settings
   settings_file = Rails.root.join('config', 'locales.yml')
   return {} unless File.exist?(settings_file)
 
-  @locale_settings = YAML.load_file(settings_file)[Rails.env]
+  @locale_settings = YAML.load_file(settings_file)[Rails.env] || {}
 end
 
 I18n.default_locale = locale_settings['default_locale'] || Primero::Application::LOCALE_ENGLISH

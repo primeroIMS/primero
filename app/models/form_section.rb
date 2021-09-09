@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A form is a collection of fields. Forms describe how a user may interact with a record.
+# rubocop:disable Metrics/ClassLength
 class FormSection < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -156,7 +157,8 @@ class FormSection < ApplicationRecord
   def update_translations(locale, form_hash = {})
     return Rails.logger.error('Form translation not updated: No Locale passed in') if locale.blank?
 
-    return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if I18n.available_locales.exclude?(locale)
+    invalid_locale = I18n.available_locales.exclude?(locale)
+    return Rails.logger.error("Form translation not updated: Invalid locale [#{locale}]") if invalid_locale
 
     form_hash.each do |key, value|
       # Form Group Name is now a calculated field based on form_group_id
@@ -297,8 +299,8 @@ class FormSection < ApplicationRecord
   end
 
   def touch_roles
-    # TODO: This causes an N+1 query. In Rails 6 this shoudl be replaced with a touch_all
     roles_to_touch = is_nested? ? parent_roles : roles
-    roles_to_touch.each(&:touch)
+    roles_to_touch.touch_all
   end
 end
+# rubocop:enable Metrics/ClassLength

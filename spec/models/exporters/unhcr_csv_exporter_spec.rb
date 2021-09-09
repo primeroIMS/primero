@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 module Exporters
-  describe UnhcrCSVExporter do
+  describe UNHCRCsvExporter do
     before do
       clean_data(Field, FormSection, Lookup, User, Role, Agency)
       @lookup = Lookup.create!(unique_id: 'lookup-unhcr-needs-codes', name: 'UNHCR Needs Codes',
@@ -96,7 +96,7 @@ module Exporters
     describe "unhcr_needs_codes" do
       before do
         @test_child.unhcr_needs_codes = ['cr-cp', 'ds-sd']
-        data = UnhcrCSVExporter.export([@test_child])
+        data = UNHCRCsvExporter.export([@test_child])
         @parsed = CSV.parse(data)
       end
 
@@ -129,7 +129,7 @@ module Exporters
 
       context 'when no export configuration' do
         it 'exports all defined properties' do
-          data = UnhcrCSVExporter.export([@test_child])
+          data = UNHCRCsvExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
                                    "Long ID",
@@ -185,7 +185,7 @@ module Exporters
         end
 
         it 'exports all defined properties' do
-          data = UnhcrCSVExporter.export([@test_child])
+          data = UNHCRCsvExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
                                    "Individual Progress ID",
@@ -231,7 +231,7 @@ module Exporters
           end
 
           it 'exports properties in the same order as the config' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "Case Status",
@@ -268,7 +268,7 @@ module Exporters
           end
 
           it 'exports only properties defined in the config' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "Individual Progress ID",
@@ -310,7 +310,7 @@ module Exporters
           end
 
           it 'exports only the properties defined in the exporter' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "Individual Progress ID",
@@ -355,7 +355,7 @@ module Exporters
           end
 
           it 'exports only properties defined in the config and in the exporter' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "Individual Progress ID",
@@ -404,7 +404,7 @@ module Exporters
 
           context 'and an opt_out property is defined' do
             it 'exports data for only the opt_out properties' do
-              data = UnhcrCSVExporter.export([@test_child])
+              data = UNHCRCsvExporter.export([@test_child])
               parsed = CSV.parse(data)
               expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
               expect(parsed[1]).to eq(["1", nil, nil, "aaa111", nil, nil, nil])
@@ -417,7 +417,7 @@ module Exporters
               @export_config.save
             end
             it 'exports no data' do
-              data = UnhcrCSVExporter.export([@test_child])
+              data = UNHCRCsvExporter.export([@test_child])
               parsed = CSV.parse(data)
               expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
               expect(parsed[1]).to eq(["1", nil, nil, nil, nil, nil, nil])
@@ -431,7 +431,7 @@ module Exporters
           end
 
           it 'exports data for all of the configured properties' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
             expect(parsed[1]).to eq(["1", "1111-2222-3333-4444-aaa111", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])
@@ -444,7 +444,7 @@ module Exporters
           end
 
           it 'exports data for all of the configured properties' do
-            data = UnhcrCSVExporter.export([@test_child])
+            data = UNHCRCsvExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
             expect(parsed[1]).to eq(["1", "1111-2222-3333-4444-aaa111", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.record_type 'case'
 json.merge!(
   id: task.parent_case.id,

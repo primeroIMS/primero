@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Alert from "@material-ui/lab/Alert";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { useMediaQuery } from "@material-ui/core";
 
 import { useI18n } from "../i18n";
@@ -13,8 +13,7 @@ const useStyles = makeStyles(styles);
 
 const Component = ({ isDemo }) => {
   const css = useStyles();
-  const theme = useTheme();
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const i18n = useI18n();
   const classes = { standardInfo: css.standardInfo, message: css.standardInfoText };
 

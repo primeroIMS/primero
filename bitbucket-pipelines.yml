@@ -2,8 +2,9 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:2.6.6-buster
+        image: ruby:2.7.4-buster
         script:
+          - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
         services:
           - postgres
@@ -14,7 +15,7 @@ definitions:
         image: node:12.20.1
         size: 2x
         script:
-          - npm install
+          - npm ci
           - npm run test:all
           - npm run lint:run
         caches:

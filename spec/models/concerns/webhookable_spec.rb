@@ -10,7 +10,7 @@ describe Webhookable do
   describe '.log_sync_status' do
     it 'logs a synced status' do
       expect(AuditLog.count.zero?).to be_truthy
-      case_record.update_attributes(mark_synced: true, mark_synced_url: webhook_url)
+      case_record.update(mark_synced: true, mark_synced_url: webhook_url)
 
       expect(case_record.data['mark_synced']).to be_nil
       expect(AuditLog.count).to eq(1)
@@ -21,7 +21,7 @@ describe Webhookable do
 
     it 'logs a not_found status' do
       expect(AuditLog.count.zero?).to be_truthy
-      case_record.update_attributes(mark_synced_status: 'not_found', mark_synced: true, mark_synced_url: webhook_url)
+      case_record.update(mark_synced_status: 'not_found', mark_synced: true, mark_synced_url: webhook_url)
 
       expect(case_record.data['mark_synced']).to be_nil
       expect(case_record.data['mark_synced_status']).to be_nil
@@ -33,7 +33,7 @@ describe Webhookable do
 
     it 'logs a failed status' do
       expect(AuditLog.count.zero?).to be_truthy
-      case_record.update_attributes(mark_synced_status: 'failed', mark_synced: true, mark_synced_url: webhook_url)
+      case_record.update(mark_synced_status: 'failed', mark_synced: true, mark_synced_url: webhook_url)
 
       expect(case_record.data['mark_synced']).to be_nil
       expect(case_record.data['mark_synced_status']).to be_nil
@@ -45,7 +45,7 @@ describe Webhookable do
 
     it 'if no attributes are being set there is not AuditLog entry' do
       expect(AuditLog.count.zero?).to be_truthy
-      case_record.update_attributes(name: 'Another name')
+      case_record.update(name: 'Another name')
       expect(AuditLog.count.zero?).to be_truthy
     end
   end

@@ -67,25 +67,25 @@ describe Agency do
   describe 'logos' do
     it 'should not allow invalid logo uploads' do
       agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
-      agency.logo_icon.attach(FilesTestHelper.uploadable_audio_mp3)
+      agency.logo_icon.attach(uploadable_audio_mp3)
       agency.should_not be_valid
       expect(agency.errors[:logo_icon].first).to eq('errors.models.agency.logo_format')
     end
 
     it 'should allow valid logo uploads' do
       agency = Agency.new(
-        name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo
+        name: 'irc', agency_code: '12345', logo_icon: logo, logo_full: logo
       )
       agency.should be_valid
     end
 
     it 'should remove old logos before updating logos' do
-      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo_old)
+      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: logo_old)
       agency.save
       expect(agency.logo_icon.attached?).to be_truthy
       expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef-old.png')
 
-      agency.update_attributes(logo_icon: FilesTestHelper.logo)
+      agency.update(logo_icon: logo)
       agency.save
       expect(agency.logo_icon.attached?).to be_truthy
       expect(agency.logo_icon.attachment.filename.to_s).to eq('unicef.png')
@@ -93,7 +93,7 @@ describe Agency do
     end
 
     it 'will not clear out an existing logo when updating unrelated attributes' do
-      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo_old)
+      agency = Agency.new(name: 'irc', agency_code: '12345', logo_icon: logo_old)
       agency.save
       expect(agency.logo_icon.attached?).to be_truthy
 
@@ -180,7 +180,7 @@ describe Agency do
   describe 'ConfigurationRecord' do
     let(:agency) do
       Agency.create(
-        name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo_old
+        name: 'irc', agency_code: '12345', logo_icon: logo, logo_full: logo_old
       )
     end
 
@@ -206,9 +206,9 @@ describe Agency do
         {
           'name_i18n' => { 'en' => 'irc' },
           'agency_code' => '12345',
-          'logo_icon_base64' => FilesTestHelper.logo_base64,
+          'logo_icon_base64' => logo_base64,
           'logo_icon_file_name' => 'unicef.png',
-          'logo_full_base64' => FilesTestHelper.logo_old_base64,
+          'logo_full_base64' => logo_old_base64,
           'logo_full_file_name' => 'unicef-old.png'
         }
       end
@@ -276,20 +276,20 @@ describe Agency do
   describe 'terms_of_use' do
     it 'should not allow invalid format' do
       agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
-      agency.terms_of_use.attach(FilesTestHelper.logo)
+      agency.terms_of_use.attach(logo)
       agency.should_not be_valid
       expect(agency.errors[:terms_of_use].first).to eq('errors.models.agency.terms_of_use_format')
     end
 
     it 'should allow valid format' do
       agency = Agency.new(
-        name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file
+        name: 'irc', agency_code: '12345', terms_of_use: pdf_file
       )
       agency.should be_valid
     end
 
     it 'will not clear out an existing terms_of_use when updating unrelated attributes' do
-      agency = Agency.new(name: 'irc', agency_code: '12345', terms_of_use: FilesTestHelper.pdf_file)
+      agency = Agency.new(name: 'irc', agency_code: '12345', terms_of_use: pdf_file)
       agency.save
       expect(agency.terms_of_use.attached?).to be_truthy
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.merge! flag.attributes
 json.record_type Record.map_name(flag.record_type).pluralize
 

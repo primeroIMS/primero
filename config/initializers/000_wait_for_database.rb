@@ -5,6 +5,8 @@
 Rails.application.config.before_initialize do
   next unless ENV['PRIMERO_WAIT_FOR_DB']
 
+  require "#{Rails.root}/app/services/health_check_service.rb"
+
   max_attempts = 36
   wait_seconds = 5
   Rails.logger.info('Waiting for database to accept connections')

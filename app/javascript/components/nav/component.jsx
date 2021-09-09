@@ -4,11 +4,12 @@ import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
+import { makeStyles } from "@material-ui/styles";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { useMemoizedSelector, useThemeHelper } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
@@ -26,9 +27,11 @@ import { fetchAlerts } from "./action-creators";
 import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
+const useStyles = makeStyles(styles);
+
 const Nav = () => {
-  const { css, theme } = useThemeHelper({ css: styles });
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const css = useStyles();
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [drawerOpen, setDrawerOpen] = useState(false);
