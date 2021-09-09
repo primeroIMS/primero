@@ -24,18 +24,23 @@ jobs:
           --health-interval 10s 
           --health-timeout 5s 
           --health-retries 5
-      solr:
-        image: primeroims/solr:latest
-        ports:
-          - 8983:8983
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
         with:
           bundler-cache: true
+      - name: Build/Run Solr
+        run: |
+          cd docker && ./build.sh solr
+          docker run -v solr_cores:/opt/solr/server/solr/mycores primeroims/solr:latest make-primero-core.sh primero-test
+          docker images
+          docker run -d -p 8983:8983 -v solr_cores:/opt/solr/server/solr/mycores --name=primero_solr_1 primeroims/solr:latest
+          docker ps
       - name: Server tests
         run: ./bin/run_server_tests.sh github-actions
         shell: bash
+  # Running front-end mocha test in batches. Running on single process causes test 
+  # to run out of resources. This causes a few test to randomly timeout.
   client-test-1:
     name: Client Test (Batch 1)
     runs-on: ubuntu-latest

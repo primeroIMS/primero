@@ -39,11 +39,6 @@ setup_dependencies() {
     apt update && apt install -y adoptopenjdk-8-hotspot
   fi
   
-  # if [ $PIPELINE == $GITHUB_ACTIONS ]; then 
-  #   wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O- | apt-key add -
-  #   echo "deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ focal-pgdg main" | tee /etc/apt/sources.list.d/postgresql.list
-  # fi
-
   # Install Rails pre-requisites
   apt-get update
   apt install -y --no-install-recommends libpq-dev libsodium-dev
