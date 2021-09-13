@@ -66,6 +66,10 @@ class LocationService
     find_by_code(ancestor_code)
   end
 
+  def ancestor_of_type(code, type)
+    ancestors(code)&.find { |location| location.type == type }
+  end
+
   def ancestors(code)
     location = find_by_code(code)
     return unless location.present?
