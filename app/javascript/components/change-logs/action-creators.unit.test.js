@@ -1,6 +1,3 @@
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
-
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
@@ -17,14 +14,12 @@ describe("ChangeLogs - Action Creators", () => {
   });
 
   it("should check the 'fetchChangeLogs' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const recordType = "cases";
     const record = "d6a6dbb4-e5e9-4720-a661-e181a12fd3a0";
 
-    actionCreators.fetchChangeLogs(recordType, record)(dispatch);
+    const action = actionCreators.fetchChangeLogs(recordType, record);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_CHANGE_LOGS);
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(`${recordType}/${record}/record_history`);
+    expect(action.type).to.eql(actions.FETCH_CHANGE_LOGS);
+    expect(action.api.path).to.eql(`${recordType}/${record}/record_history`);
   });
 });

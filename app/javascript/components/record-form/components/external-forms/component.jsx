@@ -1,5 +1,13 @@
 import Transitions from "../../../transitions";
-import { APPROVALS, RECORD_OWNER, TRANSITION_TYPE, INCIDENT_FROM_CASE, CHANGE_LOGS, SUMMARY } from "../../../../config";
+import {
+  APPROVALS,
+  RECORD_OWNER,
+  TRANSITION_TYPE,
+  INCIDENT_FROM_CASE,
+  CHANGE_LOGS,
+  SUMMARY,
+  RECORD_TYPES_PLURAL
+} from "../../../../config";
 import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
@@ -58,7 +66,7 @@ const externalForms = ({
       <ChangeLogs
         recordID={id}
         fetchable={canSeeChangeLog}
-        recordType={recordType}
+        recordType={RECORD_TYPES_PLURAL[recordType]}
         mobileDisplay={mobileDisplay}
         handleToggleNav={handleToggleNav}
         primeroModule={primeroModule}
