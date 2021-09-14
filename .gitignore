@@ -20,7 +20,6 @@
 .project
 .redcar/*
 .ruby-gemset
-.ruby-version
 .rvmrc
 .vagrant
 .vscode

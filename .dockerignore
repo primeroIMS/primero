@@ -21,7 +21,6 @@
 .project
 .project
 .redcar
-.ruby-version
 .rvmrc
 .vagrant
 .~*
@@ -37,7 +36,6 @@ jmeter/
 log
 public/assets
 rerun.txt
-rspec
 spec
 tags
 tags.lock
@@ -51,11 +49,13 @@ bitbucket-pipelines.yml
 Procfile.dev
 .travis.yml
 .rspec
+rpsec
 .pryrc
 .gitignore
 .tx
 .travis.yml
 .mochaignore.js
+.ruby-version
 CHANGELOG.md
 CONTRIBUTING.md
 README.md

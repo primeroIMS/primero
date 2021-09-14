@@ -38,8 +38,9 @@ pipelines:
     maint_*:
       - step: *push-branch
     '{develop*,release-*,master}':
-      - step: *server-test
-      - step: *client-test
+      - parallel:
+        - step: *server-test
+        - step: *client-test
       - step: *push-branch
   tags:
     v*:
@@ -49,5 +50,6 @@ pipelines:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
   pull-requests:
     '**':
-      - step: *server-test
-      - step: *client-test
+      - parallel:
+        - step: *server-test
+        - step: *client-test

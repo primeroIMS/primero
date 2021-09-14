@@ -7,13 +7,21 @@ import requests
 import argparse
 import sys
 
-def notify_slack(build_status, build_tag, log_path, phase):
+def notify_slack(build_status, build_tag, log_path, phase, send_command):
     if build_status == '1':
         status = 'SUCCEEDED'
+        if send_command:
+            output_file = open('output.json',)
+            output = json.load(output_file)
+            output_file.close()
+            command_id = output['Command']['CommandId']
+            print(command_id)
+            text = f'Build Tag: {build_tag}\nAnsible Command Id: {command_id}'
+        else:
+            text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nLog Path: {log_path}'
     else:
         status = 'FAILED'
-    
-    text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nLog Path: {log_path}'
+        text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nLog Path: {log_path}'
 
     message = {
         'text': '',
@@ -26,6 +34,7 @@ def notify_slack(build_status, build_tag, log_path, phase):
         ]
     }
 
+    print(message)
     url_slack_channel = os.environ['URL_SLACK_CHANNEL']
 
     response = requests.post(url_slack_channel, json=message)
@@ -44,6 +53,12 @@ def _main(argv):
         metavar='PHASE',
         dest='phase',
         )
+    parser.add_argument(
+        '--send-command',
+        required=False,
+        action='store_true',
+        dest='send_command',
+        )
 
     arguments = parser.parse_args(argv[1:])
 
@@ -61,11 +76,11 @@ def _main(argv):
     print(build_log_path)
     print(log_path)
 
-    if arguments.phase == 'pre_build' or arguments.phase == 'post_build':
+    if arguments.phase == 'pre_build':
         if build_status == '0':
-            notify_slack(build_status, build_tag, log_path, arguments.phase)
+            notify_slack(build_status, build_tag, log_path, arguments.phase, arguments.send_command)
     else:
-        notify_slack(build_status, build_tag, log_path, arguments.phase)
+        notify_slack(build_status, build_tag, log_path, arguments.phase, arguments.send_command)
 
 if '__main__' == __name__:
     code = _main(sys.argv)
