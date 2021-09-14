@@ -106,11 +106,11 @@ class TracingRequest < ApplicationRecord
   end
 
   def tracing_names
-    traces.map { |t| t['name'] }.compact
+    traces.map(&:name).compact
   end
 
   def tracing_nicknames
-    traces.map { |t| t['name_nickname'] }.compact
+    traces.map(&:name_nickname).compact
   end
 
   def set_instance_id

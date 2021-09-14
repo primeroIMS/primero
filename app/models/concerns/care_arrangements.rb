@@ -4,6 +4,9 @@
 module CareArrangements
   extend ActiveSupport::Concern
 
+  CURRENT_CARE_ARRANGEMENTS_FIELDS = %w[current_care_arrangements_type current_name_caregiver
+                                        current_care_arrangement_started_date].freeze
+
   def current_care_arrangements_type
     most_recent_care_arrangement&.[]('care_arrangements_type')
   end
@@ -22,5 +25,10 @@ module CareArrangements
     care_arrangements_section
       .select { |care_arrangement| care_arrangement['care_arrangement_started_date'].present? }
       .max_by { |care_arrangement| care_arrangement['care_arrangement_started_date'] }
+  end
+
+  def current_care_arrangements_changes(changes = nil)
+    changes ||= saved_changes_to_record.keys
+    changes.include?('care_arrangements_section') ? CURRENT_CARE_ARRANGEMENTS_FIELDS : []
   end
 end

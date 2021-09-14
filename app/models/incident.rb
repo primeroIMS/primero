@@ -53,7 +53,7 @@ class Incident < ApplicationRecord
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
   after_save :index_record
-  after_create :add_alert_on_case
+  after_create :add_alert_on_case, :add_case_history
 
   def index_record
     Sunspot.index!(self.case) if self.case.present?
@@ -117,6 +117,23 @@ class Incident < ApplicationRecord
     return unless self.case.present? && created_by != self.case.owned_by
 
     self.case.add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
+
+    self.case.save!
+  end
+
+  def add_case_history
+    return unless incident_case_id.present?
+    return unless self.case.present?
+
+    old_values = self.case.incident_ids.reject { |incident_id| incident_id == id }
+    new_values = self.case.incident_ids
+
+    RecordHistory.create!(
+      record: self.case, record_type: self.case.class.name, user_name: created_by,
+      datetime: created_at, action: Historical::EVENT_UPDATE, record_changes: {
+        incidents: { from: old_values, to: new_values }
+      }
+    )
 
     self.case.save!
   end

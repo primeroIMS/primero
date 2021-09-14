@@ -55,8 +55,8 @@ const FormikForm = ({
         )}
       </NavigationPrompt>
       <ValidationErrors formErrors={errors} forms={forms} />
-      {renderFormSections(forms, setFieldValue, handleSubmit, values)}
-      {externalComponents({ setFieldValue, values })}
+      {renderFormSections(forms, setFieldValue, handleSubmit, values, dirty)}
+      {externalComponents({ dirty, setFieldValue, values })}
     </Form>
   );
 };

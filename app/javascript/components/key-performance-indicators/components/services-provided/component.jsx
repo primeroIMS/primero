@@ -8,15 +8,21 @@ import { ACTIONS } from "../../../../libs/permissions";
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
 
+  const toColumn = name => ({
+    name,
+    label: i18n.t(`key_performance_indicators.${identifier}.${name}`)
+  });
+
   const columns = [
-    {
-      name: "service",
-      label: i18n.t(`key_performance_indicators.${identifier}.service`)
-    },
-    {
-      name: "count",
-      label: i18n.t(`key_performance_indicators.${identifier}.count`)
-    }
+    toColumn("service"),
+    toColumn("male"),
+    toColumn("female"),
+    toColumn("0-11"),
+    toColumn("12-17"),
+    toColumn(">18"),
+    toColumn("disability"),
+    toColumn("no_disability"),
+    toColumn("count")
   ];
 
   const rows = data
