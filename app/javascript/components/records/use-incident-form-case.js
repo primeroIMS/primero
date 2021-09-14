@@ -25,7 +25,7 @@ const useIncidentFromCase = ({ record, mode }) => {
 
   const fieldMap = useMemoizedSelector(state => getFieldMap(state, moduleID));
 
-  const setCaseIncidentData = (data, path) => {
+  const setCaseIncidentData = (data, path, dirty) => {
     if (!mode.isNew) {
       const formData = data || record;
 
@@ -38,7 +38,7 @@ const useIncidentFromCase = ({ record, mode }) => {
         })
       );
 
-      if (!modeNotShow) {
+      if (!modeNotShow || (modeNotShow && !dirty)) {
         const incidentPath =
           isString(path) && !isEmpty(path) ? path : `/${RECORD_PATH.incidents}/${record.get(MODULE_TYPE_FIELD)}/new`;
 
@@ -52,11 +52,11 @@ const useIncidentFromCase = ({ record, mode }) => {
     }
   };
 
-  const handleCreateIncident = path => {
-    if (modeNotShow) {
+  const handleCreateIncident = (path, dirty) => {
+    if (modeNotShow && dirty) {
       setDialog({ dialog: INCIDENT_REDIRECT_DIALOG, open: true, params: { ...(isString(path) && { path }) } });
     } else {
-      setCaseIncidentData(false, path);
+      setCaseIncidentData(false, path, dirty);
     }
   };
 

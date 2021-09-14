@@ -188,6 +188,24 @@ describe Incident do
 
       expect(case_cp.alerts.size).to eq(1)
     end
+
+    it 'should add a record history in the case after incident is created' do
+      last_updated_at = case_cp.last_updated_at
+
+      incident = Incident.new_with_user(
+        User.new(user_name: 'incident_user', agency_id: Agency.last.id),
+        survivor_code: 'abc123', module_id: 'primeromodule-cp'
+      )
+      incident.case = case_cp
+      incident.save!
+
+      case_cp.reload
+
+      expect(
+        case_cp.record_histories.map { |history| history.record_changes.keys }.flatten.include?('incidents')
+      ).to be_truthy
+      expect(case_cp.last_updated_at > last_updated_at).to be_truthy
+    end
   end
 
   private

@@ -3,7 +3,7 @@
 # Concern that describes how fields on forms should be indexed in Sunspot.
 module Searchable
   extend ActiveSupport::Concern
-  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family].freeze
+  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family tracing_names tracing_nicknames].freeze
 
   # Almost never disable Rubocop, but Sunspot searchable blocks are special
   # rubocop:disable Metrics/BlockLength
@@ -101,10 +101,15 @@ module Searchable
   module TextIndexing
     def text_index(field_name, from = :itself)
       if PHONETIC_FIELD_NAMES.include?(field_name)
-        text(field_name, as: "#{field_name}_ph") { send(from).data[field_name] }
+        text(field_name, as: "#{field_name}_ph") { field_value(send(from), field_name) }
       else
         text(field_name) { send(from).data[field_name] }
       end
+    end
+
+    def field_value(record, field_name)
+      value = record.data[field_name] || record.try(field_name)
+      value.is_a?(Array) ? value.join(' ') : value
     end
 
     def text_index_from_subform(subform_field_name, field_name, from = :itself)

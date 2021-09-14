@@ -35,7 +35,7 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
     else
       super(records, user, options)
     end
-    self.forms = forms.to_a + [metadata_form]
+    self.forms = constrain_form_fields(forms.to_a + [metadata_form])
   end
 
   def constraining_fields?(options)
@@ -57,6 +57,14 @@ class Exporters::SelectedFieldsExcelExporter < Exporters::ExcelExporter
     field_names = fields_to_export(forms, options).map(&:name)
     self.forms = forms.map { |form| filter_fields(form, field_names) }
     self.forms = self.forms.select { |f| f.fields.size.positive? }
+  end
+
+  def constrain_form_fields(forms)
+    forms.map do |form|
+      form_dup = form.dup
+      form_dup.fields = form.fields.reject(&:hide_on_view_page?)
+      form_dup
+    end
   end
 
   private

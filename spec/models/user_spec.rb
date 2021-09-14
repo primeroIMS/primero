@@ -787,5 +787,32 @@ describe User do
     end
   end
 
+  describe 'when user groups are updated for a user', search: true do
+    before :each do
+      @user1 = build_user
+      @user2 = build_user
+      @user_group1 = UserGroup.create!(name: 'User Group 1')
+
+      @user1.user_groups = [@user_group1]
+      @user1.save!
+
+      @user2.save!
+
+      @case1 = Child.new_with_user(@user1, first_name: 'Case 1')
+      @case1.assigned_user_names = [@user2.user_name]
+      @case1.save!
+    end
+
+    it 'should not update cases if the user groups are already there' do
+      last_updated_at = @case1.last_updated_at
+      @user2.user_groups = [@user_group1]
+      @user2.save!
+
+      @case1.reload
+
+      expect(@case1.last_updated_at).to eq(last_updated_at)
+    end
+  end
+
   after(:all) { clean_data(Agency, Role, User, FormSection, Field) }
 end

@@ -3,14 +3,15 @@
 # Pulls together the record data for presentation in the JSON API
 class RecordDataService
   COMPUTED_FIELDS = %w[sync_status synced_at current_care_arrangements_type current_name_caregiver
-                       current_care_arrangement_started_date].freeze
+                       current_care_arrangement_started_date tracing_names].freeze
+  CENSORED_VALUE = '*******'
 
   def self.data(record, user, selected_field_names)
     new.data(record, user, selected_field_names)
   end
 
   def self.visible_name(record)
-    record.try(:hidden_name) ? '*******' : record.try(:name)
+    record.try(:hidden_name) ? CENSORED_VALUE : record.try(:name)
   end
 
   def data(record, user, selected_field_names)
