@@ -16,7 +16,6 @@ setup_test_env() {
   mkdir -p solr/cores/test
   mkdir -p tmp/storage
 
-  cp "config/$PIPELINE/core.properties" solr/cores/test/
   export RAILS_ENV=test
   export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
   export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
@@ -30,15 +29,6 @@ setup_database() {
 }
 
 setup_dependencies() {
-  if [ $PIPELINE == $BITBUCKET ]; then 
-    # Install JDK
-    # TODO: This is for installing OpenJDK-8 which is no longer supported in Debian Buster.
-    #       Change after we upgrade Solr
-    wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
-    echo "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main" | tee /etc/apt/sources.list.d/adoptopenjdk.list
-    apt update && apt install -y adoptopenjdk-8-hotspot
-  fi
-  
   # Install Rails pre-requisites
   apt-get update
   apt install -y --no-install-recommends libpq-dev libsodium-dev
@@ -56,11 +46,6 @@ else
 fi
 
 setup_test_env
-
-if [ $PIPELINE == $BITBUCKET ]; then 
-  bundle exec rails sunspot:solr:start
-fi
-
 setup_database
 
 # Run tests
