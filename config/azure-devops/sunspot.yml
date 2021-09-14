@@ -2,6 +2,8 @@ test:
   solr:
     hostname: 127.0.0.1
     port: 8983
-    log_level: INFO
+    log_level: OFF
     pid_dir: tmp/pids
     path: /solr/test
+  auto_index_callback: after_commit
+  auto_remove_callback: after_commit
