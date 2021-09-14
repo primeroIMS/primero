@@ -13,6 +13,7 @@ import { listboxClasses, virtualize } from "./components/listbox-component";
 const useStyles = makeStyles(styles);
 
 const SearchableSelect = ({
+  error,
   defaultValues,
   helperText,
   isClearable,
@@ -112,6 +113,7 @@ const SearchableSelect = ({
           options={options}
           optionIdKey={optionIdKey}
           optionLabelKey={optionLabelKey}
+          error={error}
         />
       )}
       renderTags={handleRenderTags}
@@ -137,6 +139,7 @@ SearchableSelect.defaultProps = {
 
 SearchableSelect.propTypes = {
   defaultValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string, PropTypes.object]),
+  error: PropTypes.string,
   helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   isClearable: PropTypes.bool,
