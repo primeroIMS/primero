@@ -15,11 +15,19 @@ def notify_slack(ansible_status, build_tag, url_slack_channel):
     
     print(status)
 
-    tag = build_tag.split('=')[1]
+    variable = build_tag.split(' ')[0]
+    tag = variable.split('=')[1]
+    environment = tag.split('-')[0]
     
     print(tag)
 
-    text = f'Build Tag: {tag}'
+    print(environment)
+
+    server_name = f'primero-integration-{environment}.cloud.quoininc.com'
+
+    print(server_name)
+
+    text = f'Build Tag: {tag}\nIntegration Server URL: {server_name}'
 
     message = {
         'text': '',

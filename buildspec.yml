@@ -15,7 +15,8 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
-      - BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}')
+      - echo "WEBHOOK=${WEBHOOK}"
+      - if [ "$WEBHOOK" = "true" ]; then BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
       - echo "BRANCH=${BRANCH}"
       - TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
       - echo "TAG=${TAG}"
@@ -50,6 +51,7 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
-      - aws ssm send-command --document-name "PrimeroCicdDocument" --targets Key=tag:Name,Values="${DEPLOY_SERVER_NAME}" --parameters '{"SourceType":["S3"],"SourceInfo":["{\"path\":\"https://s3.amazonaws.com/'${BUCKET_NAME}'/ansible-'${CICD_TAG}'\"}"],"InstallDependencies":["True"],"Verbose":["-v"],"ExtraVariables":["primero_tag='${TAG}'"],"CicdTag":["'${CICD_TAG}'"]}' --output-s3-bucket-name "${BUCKET_NAME}" --output-s3-key-prefix "ansible-logs"
+      - aws ssm send-command --document-name "PrimeroCicdDocument" --targets Key=tag:Name,Values="${DEPLOY_SERVER_NAME}" --parameters '{"SourceType":["S3"],"SourceInfo":["{\"path\":\"https://s3.amazonaws.com/'${BUCKET_NAME}'/ansible-'${CICD_TAG}'\"}"],"InstallDependencies":["True"],"Verbose":["-v"],"ExtraVariables":["primero_tag='${TAG}' primero_repo_branch='${BRANCH}'"],"CicdTag":["'${CICD_TAG}'"]}' --output-s3-bucket-name "${BUCKET_NAME}" --output-s3-key-prefix "ansible-logs" > output.json
+      - cat output.json
     finally:
-      - ./build-report.py -p post_build
+      - ./build-report.py -p post_build --send-command

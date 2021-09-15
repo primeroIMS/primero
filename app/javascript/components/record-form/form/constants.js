@@ -20,3 +20,5 @@ export const RECORD_FORM_PERMISSION = {
   read: "r",
   readWrite: "rw"
 };
+
+export const STATUS_FIELD = "status";
