@@ -19,8 +19,8 @@ import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
 import { OPTION_TYPES } from "../../form";
 
+import { STATUS_FIELD, CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
 import { GuidingQuestions } from "./components";
-import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
 import DateField from "./field-types/date-field";
 import SelectField from "./field-types/select-field";
 import TextField from "./field-types/text-field";
@@ -106,7 +106,7 @@ const FormSectionField = ({
     label: displayNameHelper(displayName, i18n.locale),
     tickBoxlabel: tickBoxlabel?.[i18n.locale],
     helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
-    disabled: mode.isShow || disabled || isReadWriteForm === false,
+    disabled: mode.isShow || disabled || isReadWriteForm === false || name === STATUS_FIELD,
     checked: ["t", "true"].includes(selectedValue),
     ...(mode.isShow && { placeholder: "--" }),
     index,
