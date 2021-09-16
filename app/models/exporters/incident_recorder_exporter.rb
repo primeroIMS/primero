@@ -282,7 +282,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         end,
         'district' => lambda do |model|
           district_name = exporter.location_service
-                                  .ancestor_of_type(model.data['incident_location'], 'province')&.placename || ''
+                                  .ancestor_of_type(model.data['incident_location'], 'district')&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @districts[district_name] = district_name if district_name.present?
           district_name
