@@ -54,6 +54,7 @@ const Container = ({
         handleSubmit={handleSubmit}
         recordType={recordType}
         handleCreateIncident={handleCreateIncident}
+        dirty={dirty}
       />
     ));
 

@@ -30,7 +30,7 @@ const externalForms = ({
   summaryForm,
   transitionProps,
   userPermittedFormsIds
-}) => (form, setFieldValue, handleSubmit, values) => {
+}) => (form, setFieldValue, handleSubmit, values, dirty) => {
   const isTransitions = TRANSITION_TYPE.includes(form);
 
   const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -59,6 +59,7 @@ const externalForms = ({
         recordType={recordType}
         primeroModule={primeroModule}
         handleCreateIncident={handleCreateIncident}
+        dirty={dirty}
       />
     ),
     [TRANSITION_TYPE]: <Transitions {...transitionProps} />,

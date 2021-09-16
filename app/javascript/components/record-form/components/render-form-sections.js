@@ -21,8 +21,10 @@ const renderFormSections = (
   mode,
   record,
   primeroModule
-) => (fs, setFieldValue, handleSubmit, values) => {
-  const externalRecordForms = externalForms ? externalForms(selectedForm, setFieldValue, handleSubmit, values) : null;
+) => (fs, setFieldValue, handleSubmit, values, dirty) => {
+  const externalRecordForms = externalForms
+    ? externalForms(selectedForm, setFieldValue, handleSubmit, values, dirty)
+    : null;
 
   if (externalRecordForms) {
     return externalRecordForms;
