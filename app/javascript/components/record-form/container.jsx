@@ -172,7 +172,7 @@ const Container = ({ mode }) => {
 
       batch(() => {
         if (saveBeforeIncidentRedirect) {
-          setCaseIncidentData(formValues);
+          setCaseIncidentData(formValues, incidentPath);
         }
 
         if (containerMode.isNew) {
