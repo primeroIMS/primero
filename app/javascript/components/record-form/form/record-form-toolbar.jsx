@@ -27,7 +27,6 @@ import DisableOffline from "../../disable-offline";
 import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
-import { setSelectedForm } from "../action-creators";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
@@ -59,8 +58,22 @@ const RecordFormToolbar = ({
 
   const rtlClass = isRTL ? css.flipImage : "";
 
+  const handleReturnToCase = () => {
+    batch(() => {
+      dispatch(
+        push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`, {
+          selectedForm: INCIDENT_FROM_CASE
+        })
+      );
+    });
+  };
+
   const goBack = () => {
-    history.goBack();
+    if (incidentFromCase?.size && recordType === RECORD_TYPES.incidents) {
+      handleReturnToCase();
+    } else {
+      history.goBack();
+    }
   };
 
   const getIncidentFromCaseIdDisplay = () => {
@@ -81,13 +94,6 @@ const RecordFormToolbar = ({
     }
 
     return null;
-  };
-
-  const handleSaveAndReturn = () => {
-    batch(() => {
-      dispatch(setSelectedForm(INCIDENT_FROM_CASE));
-      dispatch(push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`));
-    });
   };
 
   const renderSaveButton = (
@@ -152,7 +158,7 @@ const RecordFormToolbar = ({
             text={i18n.t("buttons.return_to_case")}
             type={ACTION_BUTTON_TYPES.default}
             isCancel
-            rest={{ onClick: handleSaveAndReturn }}
+            rest={{ onClick: handleReturnToCase }}
           />
         ) : null}
         {mode.isShow && params && (

@@ -24,7 +24,8 @@ const Component = ({
   setFieldValue,
   handleSubmit,
   recordType,
-  handleCreateIncident
+  handleCreateIncident,
+  dirty = false
 }) => {
   const i18n = useI18n();
   const [expanded, setExpanded] = useState(false);
@@ -83,6 +84,7 @@ const Component = ({
             {...sharedProps}
             handleCreateIncident={handleCreateIncident}
             incidentAvailable={isIncidentAvailable}
+            dirty={dirty}
           />
         </AccordionDetails>
       </Accordion>
@@ -94,6 +96,7 @@ Component.displayName = NAME_PANEL;
 
 Component.propTypes = {
   css: PropTypes.object,
+  dirty: PropTypes.bool,
   handleCreateIncident: PropTypes.func,
   handleSubmit: PropTypes.func,
   incident: PropTypes.object.isRequired,

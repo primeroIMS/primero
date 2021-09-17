@@ -1,4 +1,5 @@
 import { fromJS, OrderedMap } from "immutable";
+import { Router } from "react-router-dom";
 import { CircularProgress, Badge, Button } from "@material-ui/core";
 
 import { SaveReturnIcon } from "../../../images/primero-icons";
@@ -336,6 +337,30 @@ describe("<RecordFormToolbar />", () => {
 
         expect(saveAndReturnButton.text()).to.not.equal("buttons.save_and_return");
         expect(saveAndReturnButton.find(SaveReturnIcon)).to.have.lengthOf(0);
+      });
+
+      it("redirects the user to the case if cancel is clicked on a incident creation page", () => {
+        const { component: caseComp } = setupMountedComponent(
+          RecordFormToolbar,
+          {
+            ...props,
+            recordType: RECORD_TYPES.incidents,
+            mode: {
+              isNew: true,
+              isEdit: false,
+              isShow: false
+            }
+          },
+          fromJS(initialStateIncidentFromCase)
+        );
+
+        const cancelButton = caseComp.find(ActionButton).first();
+
+        cancelButton.find("button").simulate("click");
+
+        const router = caseComp.find(Router);
+
+        expect(router.props().history.location.pathname).to.be.equal("/cases/case-id-1");
       });
     });
   });
