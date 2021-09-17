@@ -97,8 +97,8 @@ module Exporters
       incident_b = Incident.create!(data: { incident_date: Date.new(2019, 3, 1), description: 'Test 1' })
       @records = [incident_a, incident_b]
 
-      Location.create!(placename: 'Guinea', type: 'country', location_code: 'GUI')
-      Location.create!(placename: 'Kindia', type: 'province', location_code: 'GUI123', hierarchy_path: 'GUI.GUI123')
+      Location.create!(placename: 'Guinea', type: 'county', location_code: 'GUI')
+      Location.create!(placename: 'Kindia', type: 'district', location_code: 'GUI123', hierarchy_path: 'GUI.GUI123')
 
       incident_c = Incident.create!(
         data: {

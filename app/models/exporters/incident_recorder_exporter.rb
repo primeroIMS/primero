@@ -274,13 +274,15 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         end,
         'location' => 'incident_location_type',
         'county' => lambda do |model|
-          county_name = exporter.location_service.ancestor(model.data['incident_location'], 0)&.placename || ''
+          county_name = exporter.location_service
+                                .ancestor_of_type(model.data['incident_location'], 'county')&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @counties[county_name] = county_name if county_name.present?
           county_name
         end,
         'district' => lambda do |model|
-          district_name = exporter.location_service.ancestor(model.data['incident_location'], 1)&.placename || ''
+          district_name = exporter.location_service
+                                  .ancestor_of_type(model.data['incident_location'], 'district')&.placename || ''
           # Collect information to the "2. Menu Data sheet."
           @districts[district_name] = district_name if district_name.present?
           district_name
