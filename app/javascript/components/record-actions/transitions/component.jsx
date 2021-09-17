@@ -7,6 +7,8 @@ import { TRANSITIONS_TYPES } from "../../transitions/constants";
 import { getRecords } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
+import { usePermissions } from "../../user";
+import { RESOURCES, CONSENT_OVERRIDE } from "../../../libs/permissions";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
@@ -19,7 +21,6 @@ const Transitions = ({
   currentDialog,
   record,
   recordType,
-  userPermissions,
   pending,
   setPending,
   currentPage,
@@ -37,6 +38,7 @@ const Transitions = ({
   const isTransferDialogOpen = transitionDialogOpen(TRANSFER_DIALOG);
   const isReferDialogOpen = transitionDialogOpen(REFER_DIALOG);
   const isAssignDialogOpen = transitionDialogOpen(ASSIGN_DIALOG);
+  const canConsentOverride = usePermissions(RESOURCES.cases, CONSENT_OVERRIDE);
 
   const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
 
@@ -57,7 +59,7 @@ const Transitions = ({
   };
 
   const commonTransitionProps = {
-    userPermissions,
+    canConsentOverride,
     providedConsent,
     recordType,
     record,
@@ -177,8 +179,7 @@ Transitions.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
-  setPending: PropTypes.func,
-  userPermissions: PropTypes.object.isRequired
+  setPending: PropTypes.func
 };
 
 export default Transitions;
