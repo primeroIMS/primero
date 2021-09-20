@@ -123,7 +123,7 @@ const Component = ({
   };
 
   useEffect(() => {
-    if (isNew && !selectedForm) {
+    if (isNew && !selectedForm && firstTab) {
       dispatch(setSelectedForm(firstTab.unique_id));
       setOpen(firstTab.form_group_id);
     }

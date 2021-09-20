@@ -12,6 +12,7 @@ export const ACTIONS = {
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
   CHANGE_LOG: "change_log",
   CLOSE: "close",
+  CONSENT_OVERRIDE: "consent_override",
   COPY: "copy",
   CREATE: "create",
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
@@ -291,3 +292,5 @@ export const VIEW_KPIS = [
 ];
 
 export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
+
+export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];

@@ -46,7 +46,7 @@ describe("<ReferralForm />", () => {
     });
     const props = {
       handleClose: () => {},
-      userPermissions: fromJS({}),
+      canConsentOverride: false,
       providedConsent: false,
       recordType: "cases",
       record
@@ -80,12 +80,12 @@ describe("<ReferralForm />", () => {
       const componentProps = clone(component.find(ReferralForm).first().props());
 
       expect(componentProps).to.have.property("handleClose");
-      expect(componentProps).to.have.property("userPermissions");
+      expect(componentProps).to.have.property("canConsentOverride");
       expect(componentProps).to.have.property("providedConsent");
       expect(componentProps).to.have.property("recordType");
       expect(componentProps).to.have.property("record");
       delete componentProps.handleClose;
-      delete componentProps.userPermissions;
+      delete componentProps.canConsentOverride;
       delete componentProps.providedConsent;
       delete componentProps.recordType;
       delete componentProps.record;
@@ -164,7 +164,7 @@ describe("<ReferralForm />", () => {
     });
     const props = {
       handleClose: () => {},
-      userPermissions: fromJS({}),
+      canConsentOverride: true,
       providedConsent: false,
       recordType: "cases",
       record

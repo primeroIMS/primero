@@ -65,7 +65,10 @@ const getSuccessCallback = ({
       incidentPath,
       setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
       redirectWithIdFromResponse: !incidentPath && !incidentFromCase && saveMethod !== SAVE_METHODS.update,
-      redirect: redirect === false ? false : redirect || `/${recordType}`,
+      redirect:
+        redirect === false || (incidentPath && RECORD_TYPES[recordType] === RECORD_TYPES.cases)
+          ? false
+          : redirect || `/${recordType}`,
       preventSyncAfterRedirect: !incidentFromCase && [SAVE_METHODS.update].includes(saveMethod)
     },
     ...incidentFromCaseCallbacks

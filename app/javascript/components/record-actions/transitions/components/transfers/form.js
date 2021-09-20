@@ -35,7 +35,7 @@ export const form = ({
           name: TRANSFER_FIELD,
           type: TICK_FIELD,
           wrapWithComponent: ConsentProvided,
-          visible: !!canConsentOverride,
+          renderChildren: canConsentOverride,
           showIf: () => !providedConsent,
           watchedInputs: [TRANSFER_FIELD],
           handleWatchedInputs: ({ [TRANSFER_FIELD]: consent }) => {
