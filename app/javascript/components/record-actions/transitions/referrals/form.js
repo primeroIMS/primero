@@ -203,6 +203,7 @@ const referralFields = args =>
       name: FIELDS.CONSENT_INDIVIDUAL_TRANSFER,
       type: TICK_FIELD,
       wrapWithComponent: ConsentProvided,
+      renderChildren: args.canConsentOverride,
       showIf: () => !args.providedConsent,
       order: 1
     },

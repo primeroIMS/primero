@@ -27,7 +27,6 @@ import DisableOffline from "../../disable-offline";
 import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
-import { setSelectedForm } from "../action-creators";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
@@ -61,8 +60,11 @@ const RecordFormToolbar = ({
 
   const handleReturnToCase = () => {
     batch(() => {
-      dispatch(setSelectedForm(INCIDENT_FROM_CASE));
-      dispatch(push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`));
+      dispatch(
+        push(`/${RECORD_PATH.cases}/${incidentFromCase.get(INCIDENT_CASE_ID_FIELD)}`, {
+          selectedForm: INCIDENT_FROM_CASE
+        })
+      );
     });
   };
 

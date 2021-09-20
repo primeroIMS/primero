@@ -24,7 +24,7 @@ import { form, validations } from "./form";
 const TransferForm = ({
   providedConsent,
   isBulkTransfer,
-  userPermissions,
+  canConsentOverride,
   record,
   recordType,
   setPending,
@@ -34,12 +34,6 @@ const TransferForm = ({
   const dispatch = useDispatch();
 
   const formErrors = useMemoizedSelector(state => getErrorsByTransitionType(state, TRANSITIONS_TYPES.transfer));
-
-  const canConsentOverride =
-    userPermissions &&
-    userPermissions.filter(permission => {
-      return ["manage", "consent_override"].includes(permission);
-    }).size > 0;
 
   const validationSchema = validations(i18n);
 
@@ -94,13 +88,13 @@ const TransferForm = ({
 };
 
 TransferForm.propTypes = {
+  canConsentOverride: PropTypes.bool,
   isBulkTransfer: PropTypes.bool.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   setDisabled: PropTypes.func,
-  setPending: PropTypes.func,
-  userPermissions: PropTypes.object.isRequired
+  setPending: PropTypes.func
 };
 
 export default TransferForm;

@@ -112,7 +112,7 @@ describe("<Transitions />", () => {
       it("should check the allowed props", () => {
         const referralForm = component.find(Referral);
         const validProps = [
-          "userPermissions",
+          "canConsentOverride",
           "providedConsent",
           "recordType",
           "record",
@@ -132,14 +132,10 @@ describe("<Transitions />", () => {
 
         expect(referralForm.props().providedConsent).to.equal(true);
       });
-      it("should check the userPermissions prop", () => {
+      it("should check the canConsentOverride prop", () => {
         const referralForm = component.find(Referral);
 
-        expect(referralForm.props().userPermissions).to.deep.equal(
-          fromJS({
-            cases: ["manage"]
-          })
-        );
+        expect(referralForm.props().canConsentOverride).to.equal(false);
       });
       it("should check the setPending prop", () => {
         const referralForm = component.find(Referral);
@@ -192,7 +188,7 @@ describe("<Transitions />", () => {
     it("should check the allowed props", () => {
       const reassignForm = component.find(ReassignForm);
       const validProps = [
-        "userPermissions",
+        "canConsentOverride",
         "providedConsent",
         "recordType",
         "record",
@@ -238,7 +234,7 @@ describe("<Transitions />", () => {
       });
       it("should check the allowed props", () => {
         const validProps = [
-          "userPermissions",
+          "canConsentOverride",
           "providedConsent",
           "recordType",
           "record",
@@ -258,12 +254,8 @@ describe("<Transitions />", () => {
       it("should check the isBulkTransfer prop", () => {
         expect(transferForm.props().isBulkTransfer).to.equal(false);
       });
-      it("should check the userPermissions prop", () => {
-        expect(transferForm.props().userPermissions).to.deep.equal(
-          fromJS({
-            cases: ["manage"]
-          })
-        );
+      it("should check the canConsentOverride prop", () => {
+        expect(transferForm.props().canConsentOverride).to.equal(false);
       });
       it("should check the setPending prop", () => {
         expect(transferForm.props().setPending).to.be.a("function");
