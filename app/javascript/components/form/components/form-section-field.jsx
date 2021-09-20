@@ -13,6 +13,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
     commonInputProps,
     errorsToCheck,
     handleVisibility,
+    renderChildren = true,
     isNotVisible,
     metaInputProps,
     optionSelector
@@ -24,19 +25,23 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
     return null;
   }
 
+  const renderField = renderChildren && (
+    <Field
+      field={field}
+      commonInputProps={commonInputProps}
+      metaInputProps={metaInputProps}
+      options={optionSource}
+      errorsToCheck={errorsToCheck}
+      formMethods={formMethods}
+      formMode={formMode}
+    />
+  );
+
   return (
     <div>
       {handleVisibility() || (
         <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          <Field
-            field={field}
-            commonInputProps={commonInputProps}
-            metaInputProps={metaInputProps}
-            options={optionSource}
-            errorsToCheck={errorsToCheck}
-            formMethods={formMethods}
-            formMode={formMode}
-          />
+          {renderField}
         </ConditionalWrapper>
       )}
     </div>

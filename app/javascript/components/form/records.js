@@ -72,7 +72,8 @@ export const FieldRecord = Record({
   filterOptionSource: null,
   rawOptions: false,
   renderDownloadButton: false,
-  downloadButtonLabel: ""
+  downloadButtonLabel: "",
+  renderChildren: true
 });
 
 export const FormSectionRecord = Record({
