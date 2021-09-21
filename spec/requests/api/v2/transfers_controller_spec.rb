@@ -173,6 +173,28 @@ describe Api::V2::TransfersController, type: :request do
       expect(@case.owned_by).to eq('user1')
       expect(@case.assigned_user_names).not_to include('user2')
     end
+
+    it 'revokes this transfer' do
+      sign_in(@user2)
+      params = {
+        data: {
+          status: 'revoked'
+        }
+      }
+      patch "/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
+      expect(json['data']['record_id']).to eq(@case.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to be_nil
+      expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_REVOKED}")
+
+      @case.reload
+      expect(@case.owned_by).to eq('user1')
+      expect(@case.assigned_user_names).not_to include('user2')
+    end
   end
 
   after :each do

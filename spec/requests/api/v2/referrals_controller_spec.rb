@@ -209,7 +209,7 @@ describe Api::V2::ReferralsController, type: :request do
       delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}"
 
       expect(response).to have_http_status(200)
-      expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')

@@ -32,6 +32,12 @@ class Transfer < Transition
     record.save! && save!
   end
 
+  def revoke!
+    self.status = Transition::STATUS_REVOKED
+    remove_assigned_user
+    record.save! && save!
+  end
+
   def consent_given?
     case record.module_id
     when PrimeroModule::GBV

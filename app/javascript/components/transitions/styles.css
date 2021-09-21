@@ -87,8 +87,8 @@
   }
 
   &.accepted {
-    border: solid 1px $(theme.primero.colors.green);
-    background-color: $(theme.primero.colors.green);
+    border: solid 1px $(theme.primero.colors.blue);
+    background-color: $(theme.primero.colors.blue);
   }
 
   &.rejected {
@@ -96,9 +96,14 @@
     background-color: $(theme.primero.colors.red);
   }
 
+  &.revoked {
+    border: solid 1px $(theme.primero.colors.red);
+    background-color: $(theme.primero.colors.red);
+  }
+
   &.inprogress, &.in_progress {
-    border: solid 1px $(theme.primero.colors.blue);
-    background-color: $(theme.primero.colors.blue);
+    border: solid 1px $(theme.primero.colors.orange);
+    background-color: $(theme.primero.colors.orange);
   }
   
   &.done {
