@@ -20,7 +20,8 @@ const Component = ({
   incidentUniqueID,
   incidentType,
   handleCreateIncident,
-  incidentAvailable
+  incidentAvailable,
+  dirty = false
 }) => {
   const i18n = useI18n();
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
@@ -31,7 +32,7 @@ const Component = ({
   const incidentTypeLabel = i18n.t("incidents.type_violence");
 
   const handleEvent = modeEvent => {
-    handleCreateIncident(`/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === VIEW ? "" : `/${EDIT}`}`);
+    handleCreateIncident(`/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === VIEW ? "" : `/${EDIT}`}`, dirty);
   };
 
   const handleClickViewIncident = () => handleEvent(VIEW);
@@ -102,6 +103,7 @@ Component.displayName = NAME_DETAIL;
 
 Component.propTypes = {
   css: PropTypes.object.isRequired,
+  dirty: PropTypes.bool,
   handleCreateIncident: PropTypes.func,
   incidentAvailable: PropTypes.bool,
   incidentDate: PropTypes.string,

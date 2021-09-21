@@ -15,6 +15,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     commonInputProps,
     errorsToCheck,
     handleVisibility,
+    renderChildren = true,
     isNotVisible,
     metaInputProps,
     optionSelector,
@@ -48,19 +49,23 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     return null;
   }
 
+  const renderField = renderChildren && (
+    <Field
+      field={field}
+      commonInputProps={commonProps}
+      metaInputProps={metaProps}
+      options={optionSource}
+      errorsToCheck={errorsToCheck}
+      formMethods={formMethods}
+      formMode={formMode}
+    />
+  );
+
   return (
     <div>
       {handleVisibility(watchedInputValues) || (
         <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
-          <Field
-            field={field}
-            commonInputProps={commonProps}
-            metaInputProps={metaProps}
-            options={optionSource}
-            errorsToCheck={errorsToCheck}
-            formMethods={formMethods}
-            formMode={formMode}
-          />
+          {renderField}
         </ConditionalWrapper>
       )}
     </div>

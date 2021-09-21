@@ -79,6 +79,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     option_strings_source_id_key: optionStringsSourceIdKey,
     setOtherFieldValues,
     wrapWithComponent: WrapWithComponent,
+    renderChildren,
     onClick,
     placeholder,
     maxSelectedOptions,
@@ -224,6 +225,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     errorsToCheck,
     error,
     handleVisibility,
+    renderChildren,
     metaInputProps,
     optionSelector,
     isNotVisible

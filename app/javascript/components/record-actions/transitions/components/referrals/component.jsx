@@ -31,7 +31,7 @@ import {
 } from "./constants";
 
 const ReferralForm = ({
-  userPermissions,
+  canConsentOverride,
   providedConsent,
   recordType,
   record,
@@ -75,12 +75,6 @@ const ReferralForm = ({
   useEffect(() => {
     return () => dispatch(setServiceToRefer(fromJS({})));
   }, []);
-
-  const canConsentOverride =
-    userPermissions &&
-    userPermissions.filter(permission => {
-      return ["manage", "consent_override"].includes(permission);
-    }).size > 0;
 
   const mainFormProps = {
     providedConsent,
@@ -141,6 +135,7 @@ const ReferralForm = ({
 ReferralForm.displayName = NAME;
 
 ReferralForm.propTypes = {
+  canConsentOverride: PropTypes.bool,
   disabled: PropTypes.bool,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
@@ -148,8 +143,7 @@ ReferralForm.propTypes = {
   referral: PropTypes.object,
   referralRef: PropTypes.object,
   setDisabled: PropTypes.func,
-  setPending: PropTypes.func,
-  userPermissions: PropTypes.object
+  setPending: PropTypes.func
 };
 
 export default ReferralForm;

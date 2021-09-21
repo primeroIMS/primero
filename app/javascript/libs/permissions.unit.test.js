@@ -20,6 +20,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "CHANGE_LOG",
       "CLOSE",
+      "CONSENT_OVERRIDE",
       "COPY",
       "CREATE",
       "DASH_CASE_INCIDENT_OVERVIEW",

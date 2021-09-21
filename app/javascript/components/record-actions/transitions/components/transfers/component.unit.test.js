@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 import Alert from "@material-ui/lab/Alert";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Checkbox } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 
@@ -30,7 +31,7 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
   const initialProps = {
     isBulkTransfer: false,
     providedConsent: true,
-    userPermissions: fromJS(["manage"]),
+    canConsentOverride: false,
     record: fromJS({ module_id: "module_1" }),
     recordType: "record_type_1",
     setDisabled: () => {},
@@ -55,9 +56,29 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
     expect(component.find(Alert)).to.have.lengthOf(1);
   });
 
-  it("should disabled field if consent was provided", () => {
+  it("should disabled field if consent was not provided", () => {
     const { component } = setupMountedComponent(Transfers, { ...initialProps, providedConsent: false }, initialState);
 
     expect(component.find(Autocomplete).first().props().disabled).to.be.true;
+  });
+
+  describe("when consent was not provided ", () => {
+    it("should not render checkbox if can not override consent", () => {
+      const { component } = setupMountedComponent(Transfers, { ...initialProps, providedConsent: false }, initialState);
+
+      expect(component.find(Alert)).to.have.lengthOf(1);
+      expect(component.find(Checkbox)).to.have.lengthOf(2);
+    });
+
+    it("should render checkbox if can not override consent", () => {
+      const { component } = setupMountedComponent(
+        Transfers,
+        { ...initialProps, providedConsent: false, canConsentOverride: true },
+        initialState
+      );
+
+      expect(component.find(Alert)).to.have.lengthOf(1);
+      expect(component.find(Checkbox)).to.have.lengthOf(3);
+    });
   });
 });

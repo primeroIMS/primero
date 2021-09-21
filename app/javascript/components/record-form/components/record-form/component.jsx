@@ -127,7 +127,7 @@ const Component = ({
 
       batch(() => {
         if (saveBeforeIncidentRedirect) {
-          setCaseIncidentData(formValues);
+          setCaseIncidentData(formValues, incidentPath, true);
         }
 
         if (containerMode.isNew) {
