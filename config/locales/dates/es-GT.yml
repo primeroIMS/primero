@@ -41,6 +41,7 @@ es-GT:
       - Viernes
       - Sábado
     month_names:
+      - ~
       - Enero
       - Febrero
       - Marzo
