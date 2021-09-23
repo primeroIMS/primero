@@ -3,11 +3,13 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { FormLabel, TextField } from "@material-ui/core";
 
+import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
 import { selectRecord } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
+import { getTransitionById } from "../../selectors";
 
 import { approvalTransfer } from "./action-creators";
 import { NAME } from "./constants";
@@ -26,8 +28,11 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
+  const { currentUserName } = useApp();
 
   const record = useMemoizedSelector(state => selectRecord(state, { isEditOrShow: true, recordType, id: recordId }));
+  const transfer = useMemoizedSelector(state => getTransitionById(state, transferId));
+  const isCurrentUser = transfer.transitioned_to === currentUserName;
 
   const handleChangeComment = event => {
     setComment(event.target.value);
@@ -96,7 +101,11 @@ const Component = ({
   const dialogContent = (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events
     <form noValidate autoComplete="off" onClick={stopProp}>
-      <p>{i18n.t(`${recordType}.transfer_${approvalType}`)}</p>
+      <p>
+        {i18n.t(`${recordType}.transfer${isCurrentUser ? "" : "_managed_user"}_${approvalType}`, {
+          transitioned_to: transfer.transitioned_to
+        })}
+      </p>
       {commentField}
     </form>
   );

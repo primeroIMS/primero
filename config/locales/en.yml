@@ -437,6 +437,11 @@ en:
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.
+    transfer_managed_user_accepted: If you click 'Accept,' %{transitioned_to} will become responsible for this case;
+      once you click 'Accept', %{transitioned_to} will become the record owner in the system.
+    transfer_managed_user_rejected: By clicking 'Reject' you are indicating that %{transitioned_to} is not ready to accept
+      responsibility for this case at this time. Please enter a reason that you are rejecting this case;
+      once you click 'Reject' %{transitioned_to} will no longer have access to this case record.
     transfer_accepted_rejected: Case %{record_id} transfer rejected.
     transfer_accepted_success: Case transfer successfully accepted.
     transfer_reject_reason_label: Rejection Reason
@@ -2361,6 +2366,11 @@ en:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
             label: Edit
+          accept_or_reject_transfer:
+            explanation: Allows the user to accept or reject a transfer on behalf of
+              another user who is on your team (for example, a supervisor accepting a
+              transfer which has been sent to their social worker).
+            label: Accept or reject transfer for another user on your team.
         label: Case
       dashboard:
         actions:
