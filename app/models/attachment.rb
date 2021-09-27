@@ -32,6 +32,7 @@ class Attachment < ApplicationRecord
             if: :attached?
   validates_associated :record
   after_save :index_record
+  after_destroy :index_record
 
   def attach
     return unless record.present?
