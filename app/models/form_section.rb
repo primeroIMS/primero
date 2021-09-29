@@ -124,13 +124,17 @@ class FormSection < ApplicationRecord
     return if field_exists?(field.name)
     return fields << field unless field.order
 
-    fields_to_reorder = fields.where('order >= ?', field.order)
-    fields_to_reorder.each { |f| f.order += 1 }
-    Field.transaction { save! && field.save! }
+    field.form_section = self
+    fields_to_reorder = fields.where(order: field.order..)
+
+    Field.transaction do
+      fields_to_reorder.each { |f| f.order += 1; f.save! }
+      field.save!
+    end
   end
 
   def field_exists?(name)
-    fields.where(name: name).size.positive?
+    fields.exists?(name: name)
   end
 
   def configuration_hash
