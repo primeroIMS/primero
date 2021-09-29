@@ -98,14 +98,14 @@ class MatchingService
     match_field = MATCH_FIELDS.find(-> { { fields: [field_name] } }) do |f|
       f[:fields].include?(field_name)
     end
-    match_field[:fields]
+    match_field[:fields].map{|f| "#{f}_matchable" }
   end
 
   def match_field_boost(field_name)
     boost_field = MATCH_FIELDS.find { |f| f[:fields].include?(field_name) }
     return unless boost_field.present?
 
-    boost_field[:fields].map { |f| [f, boost_field[:boost]] }.to_h
+    boost_field[:fields].map { |f| ["#{f}_matchable", boost_field[:boost]] }.to_h
   end
 
   def make_key(record)

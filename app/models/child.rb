@@ -67,6 +67,10 @@ class Child < ApplicationRecord
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
+  def self.sortable_text_fields
+    %w[name case_id_display national_id_no]
+  end
+
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
@@ -103,13 +107,14 @@ class Child < ApplicationRecord
   end
 
   searchable do
-    Child.child_matching_field_names.each { |f| text_index(f) }
-    Child.family_matching_field_names.each { |f| text_index_from_subform('family_details_section', f) }
-    (quicksearch_fields - NAME_FIELDS).each { |f| text_index(f) }
+    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
+    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
+    Child.family_matching_field_names.each { |f| text_index_from_subform_matchable('family_details_section', f) }
+    quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
-    %w[status sex national_id_no current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end

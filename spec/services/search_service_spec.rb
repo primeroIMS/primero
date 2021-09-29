@@ -42,6 +42,26 @@ describe SearchService, search: true do
     end
   end
 
+  describe 'Sorting search' do
+    before :example do
+      @child1 = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
+      @child2 = Child.create!(data: { name: 'Augustina MacPherson', sex: 'male' })
+      @child3 = Child.create!(data: { name: 'Augustina Applebee', sex: 'male' })
+
+      Sunspot.commit
+    end
+
+    it 'sorts sortable fields' do
+      search = SearchService.search(Child, { query: 'Augustina', sort: { name: :asc }})
+      expect(search.results.map(&:name)).to eq([@child3, @child1, @child2].map(&:name))
+    end
+
+    it 'sorts fields' do
+      search = SearchService.search(Child, { query: 'Augustina', sort: { sex: :desc }})
+      expect(search.results.map(&:sex)).to eq([@child2, @child3, @child1].map(&:sex))
+    end
+  end
+
   describe 'Authorization' do
     before :example do
       @user_group = UserGroup.new(id: 1, unique_id: 'user_group_1')
