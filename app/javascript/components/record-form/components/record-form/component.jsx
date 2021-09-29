@@ -106,55 +106,58 @@ const Component = ({
   }, []);
 
   const formProps = {
-    onSubmit: useCallback((initialValues, values) => {
-      const saveMethod = containerMode.isEdit ? "update" : "save";
-      const { incidentPath, ...formValues } = values;
+    onSubmit: useCallback(
+      (initialValues, values) => {
+        const saveMethod = containerMode.isEdit ? "update" : "save";
+        const { incidentPath, ...formValues } = values;
 
-      const body = {
-        data: {
-          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
-          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
-          ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
-        }
-      };
-      const message = () => {
-        return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success`, {
-              record_id: record.get("short_id")
-            })
-          : i18n.t(`${recordType}.messages.creation_success`, recordType);
-      };
+        const body = {
+          data: {
+            ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
+            ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+            ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
+          }
+        };
+        const message = () => {
+          return containerMode.isEdit
+            ? i18n.t(`${recordType}.messages.update_success`, {
+                record_id: record.get("short_id")
+              })
+            : i18n.t(`${recordType}.messages.creation_success`, recordType);
+        };
 
-      batch(() => {
-        if (saveBeforeIncidentRedirect) {
-          setCaseIncidentData(formValues, incidentPath, true);
-        }
+        batch(() => {
+          if (saveBeforeIncidentRedirect) {
+            setCaseIncidentData(formValues, incidentPath, true);
+          }
 
-        if (containerMode.isNew) {
-          dispatch(clearDataProtectionInitialValues());
-        }
+          if (containerMode.isNew) {
+            dispatch(clearDataProtectionInitialValues());
+          }
 
-        dispatch(
-          saveRecord(
-            params.recordType,
-            saveMethod,
-            body,
-            params.id,
-            message(),
-            i18n.t("offline_submitted_changes"),
-            getRedirectPath(containerMode, params, fetchFromCaseId),
-            true,
-            "",
-            Boolean(incidentFromCase?.size),
-            selectedModule.primeroModule,
-            incidentPath,
-            i18n.t("offline_submitted_changes")
-          )
-        );
-      });
-      // TODO: Set this if there are any errors on validations
-      // setSubmitting(false);
-    }, []),
+          dispatch(
+            saveRecord(
+              params.recordType,
+              saveMethod,
+              body,
+              params.id,
+              message(),
+              i18n.t("offline_submitted_changes"),
+              getRedirectPath(containerMode, params, fetchFromCaseId),
+              true,
+              "",
+              Boolean(incidentFromCase?.size),
+              selectedModule.primeroModule,
+              incidentPath,
+              i18n.t("offline_submitted_changes")
+            )
+          );
+        });
+        // TODO: Set this if there are any errors on validations
+        // setSubmitting(false);
+      },
+      [saveBeforeIncidentRedirect]
+    ),
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
     },
