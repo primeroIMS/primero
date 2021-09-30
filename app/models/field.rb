@@ -102,13 +102,7 @@ class Field < ApplicationRecord
       fields_for_record(parent_form).where(type: [RADIO_BUTTON, SELECT_BOX], multi_select: false)
                                     .pluck(:name)
     end
-
-    def all_filterable_field_names(parent_form = 'case')
-      # TODO: TEXT_FIELD is being indexed for exact search? Makes sense for docuemt identifiers, but not much else.
-      fields_for_record(parent_form).where(type: [TEXT_FIELD], multi_select: false)
-                                    .pluck(:name)
-    end
-
+    
     def all_filterable_multi_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::SELECT_BOX, multi_select: true).pluck(:name)
     end

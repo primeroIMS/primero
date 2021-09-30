@@ -108,8 +108,8 @@ class Child < ApplicationRecord
 
   searchable do
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
-    Child.child_matching_field_names.each { |f| text_index(f, 'matchable') }
-    Child.family_matching_field_names.each { |f| text_index_from_subform_matchable('family_details_section', f) }
+    Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
+    Child.family_matching_field_names.each { |f| text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section') }
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
