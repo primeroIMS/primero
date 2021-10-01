@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 code_of_conduct = CodeOfConduct.current
 json.data do
   json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n'],

@@ -120,6 +120,10 @@ RSpec.configure do |config|
   config.after(:suite) do
   end
 
+  config.after(:all) do
+    FileUtils.rm_rf(ActiveStorage::Blob.service.root)
+  end
+
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
 end
 

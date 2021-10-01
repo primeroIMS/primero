@@ -4,7 +4,7 @@
 ## Overview
 
 Docker for Primero consists of the following containers: application,
-beanstalkd, nginx, postgres, and solr. It is compatible with MacOS and modern
+nginx, postgres, and solr. It is compatible with MacOS and modern
 Linux distributions.
 
 ## Installing Docker and Docker-Compose on Linux
@@ -129,9 +129,6 @@ is bind mounted from the host system.
 
 APP_ROOT - file path - this is where Primero gets copied to in the app container.
 Default is `srv/primero/application`. Changing this parameter has not been tested.
-
-BEANSTALK_URL - address which Primero should try to access beanstalk.
-this should be set to the container name and port
 
 RAILS_ENV - production / development - sets the build / run mode for Primero.
 

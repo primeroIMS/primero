@@ -1,16 +1,8 @@
 # frozen_string_literal: true
 
 def create_or_update_role(role_hash)
-  role = Role.find_by(unique_id: role_hash[:unique_id])
-
-  if role.blank?
-    puts "Creating role #{role_hash[:unique_id]}"
-    role = Role.create! role_hash
-  else
-    puts "Updating role #{role_hash[:unique_id]}"
-    role.update_attributes role_hash
-  end
-  role.associate_all_forms
+  role = Role.create_or_update!(role_hash)
+  role.associate_all_forms unless role_hash[:form_sections].present?
 end
 
 cp_admin_permissions = [

@@ -1,17 +1,20 @@
 /* eslint-disable camelcase */
 import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/styles";
 
 import { selectModule } from "../../../application";
 import { RECORD_TYPES } from "../../../../config";
-import { useThemeHelper, displayNameHelper, useMemoizedSelector } from "../../../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../../../libs";
 
 import styles from "./styles.css";
 import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 
+const useStyles = makeStyles(styles);
+
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
-  const { css, theme } = useThemeHelper({ css: styles });
-  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const css = useStyles();
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const selectedModuleWorkflow = useMemoizedSelector(state => selectModule(state, primeroModule));
 

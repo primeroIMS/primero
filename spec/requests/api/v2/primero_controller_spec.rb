@@ -6,7 +6,7 @@ describe Api::V2::PrimeroController, type: :request do
   before :each do
     clean_data(Agency)
     @agency1 = Agency.new(
-      name: 'irc', agency_code: '12345', logo_icon: FilesTestHelper.logo, logo_full: FilesTestHelper.logo,
+      name: 'irc', agency_code: '12345', logo_icon: logo, logo_full: logo,
       logo_enabled: true
     )
     @agency1.save!
@@ -19,8 +19,8 @@ describe Api::V2::PrimeroController, type: :request do
       logo_enabled: false,
       disabled: false,
       pdf_logo_option: true,
-      logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo,
+      logo_icon: logo,
+      logo_full: logo,
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' }
     )
     I18n.available_locales = %i[en ar fr es]

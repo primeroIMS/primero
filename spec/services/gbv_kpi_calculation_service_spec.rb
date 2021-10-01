@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe GbvKpiCalculationService do
+describe GBVKpiCalculationService do
   include FormAndFieldHelper
 
   before :each do
@@ -21,7 +21,7 @@ describe GbvKpiCalculationService do
   describe 'Performance' do
     describe '#completed_action_plan' do
       it 'should only use two queries' do
-        kpis = GbvKpiCalculationService.new(Child.new)
+        kpis = GBVKpiCalculationService.new(Child.new)
 
         expect { kpis.completed_action_plan }.to make_queries(2)
       end
@@ -30,7 +30,7 @@ describe GbvKpiCalculationService do
 
   describe '#form_responses' do
     it "should return a FormSectionResponseList when data isn't present" do
-      form_responses = GbvKpiCalculationService.new(Child.new)
+      form_responses = GBVKpiCalculationService.new(Child.new)
                                                .form_responses(:action_plan_form)
 
       expect(form_responses).to be_a(FormSectionResponseList)
@@ -40,7 +40,7 @@ describe GbvKpiCalculationService do
     end
 
     it 'should return an array of forms if a form is present' do
-      form_responses = GbvKpiCalculationService.new(Child.new(data: {
+      form_responses = GBVKpiCalculationService.new(Child.new(data: {
                                                                 action_plan_form: [{
                                                                   test: 'test'
                                                                 }]
@@ -52,7 +52,7 @@ describe GbvKpiCalculationService do
 
   describe 'fetching subforms that don\'t exist from form_section_responses' do
     it 'should return an empty form_section_response_list' do
-      responses = GbvKpiCalculationService
+      responses = GBVKpiCalculationService
                   .new(Child.new(data: { action_plan_form: [] }))
                   .form_responses(:action_plan_form)
                   .subform(:test)

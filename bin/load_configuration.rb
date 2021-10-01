@@ -69,4 +69,4 @@ return not_loading_pinned_version unless check_configuration_file_version
 
 require_relative '../config/environment'
 require ARGV[0]
-SystemSettings.current.update_attributes(configuration_file_version: ENV['PRIMERO_CONFIGURATION_FILE_VERSION'])
+SystemSettings.current.update(configuration_file_version: ENV['PRIMERO_CONFIGURATION_FILE_VERSION'])

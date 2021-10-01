@@ -1,5 +1,5 @@
 #TODO: This concern encapsulates monitoring/reporting business logic which is currently not being ported to Primero v2.
-module IncidentMonitoringRecording
+module IncidentMonitoringReporting
   extend ActiveSupport::Concern
 
   included do

@@ -46,7 +46,7 @@ class Exporters::RolePermissionsExporter
   end
 
   def initialize(export_file, locale = :en)
-    @export_file_name = export_file || CleansingTmpDir.temp_file_name + '.xlsx'
+    @export_file_name = export_file || temp_file_name
     @locale = locale
     @io = File.new(@export_file_name, 'w')
     @workbook = WriteXLSX.new(@io)
@@ -197,5 +197,11 @@ class Exporters::RolePermissionsExporter
     @worksheet.set_column('A:A', 35, @workbook.add_format(bold: 1, text_wrap: 1))
     @worksheet.set_column('B:B', 50, @workbook.add_format(text_wrap: 1))
     @worksheet.set_column(2, (col_count - 1), 32, @workbook.add_format(text_wrap: 1))
+  end
+
+  def temp_file_name
+    dir_name = File.join(Rails.root, 'tmp', 'cleanup')
+    FileUtils.mkdir_p(dir_name)
+    "#{File.join(dir_name, SecureRandom.uuid)}.xls"
   end
 end

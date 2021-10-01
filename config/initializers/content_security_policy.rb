@@ -18,7 +18,7 @@ storage_sources =
 
 media_sources = storage_sources + %i[data blob]
 font_and_image_sources = self_sources + %i[data blob]
-style_sources = self_sources + [ -> { "'nonce-#{request.content_security_policy_nonce}'" }]
+style_sources = self_sources + [-> { "'nonce-#{request.content_security_policy_nonce}'" }]
 child_sources = self_sources + %i[blob]
 
 Rails.application.config.content_security_policy do |policy|
@@ -37,8 +37,8 @@ Rails.application.config.content_security_policy do |policy|
 end
 
 # If you are using UJS then enable automatic nonce generation
-Rails.application.config.content_security_policy_nonce_generator = -> request { SecureRandom.base64(16) }
-Rails.application.config.content_security_policy_nonce_directives = %w(style-src script-src)
+Rails.application.config.content_security_policy_nonce_generator = ->(_request) { SecureRandom.base64(16) }
+Rails.application.config.content_security_policy_nonce_directives = %w[style-src script-src]
 
 # Report CSP violations to a specified URI
 # For further information see the following documentation:

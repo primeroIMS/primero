@@ -1,26 +1,21 @@
-import { memo, useEffect, useRef, useState, Fragment } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { object } from "yup";
 import { Formik } from "formik";
 import isEmpty from "lodash/isEmpty";
-import { Box } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
 
 import { setSelectedForm } from "../action-creators";
 import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import { constructInitialValues, sortSubformValues } from "../utils";
-import { SUBFORM_SECTION } from "../constants";
-import RecordFormAlerts from "../../record-form-alerts";
-import { displayNameHelper, useMemoizedSelector } from "../../../libs";
+import { useMemoizedSelector } from "../../../libs";
 import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getDataProtectionInitialValues } from "../selectors";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
+import renderFormSections from "../components/render-form-sections";
 
-import RecordFormTitle from "./record-form-title";
-import { RECORD_FORM_NAME, RECORD_FORM_PERMISSION } from "./constants";
-import FormSectionField from "./form-section-field";
-import SubformField from "./subforms";
+import { RECORD_FORM_NAME } from "./constants";
 import { fieldValidations } from "./validations";
 import FormikForm from "./formik-form";
 
@@ -142,61 +137,6 @@ const RecordForm = ({
     formikValues.current = values;
   };
 
-  const renderFormSections = (fs, setFieldValue, handleSubmit, values, dirty) => {
-    const externalRecordForms = externalForms
-      ? externalForms(selectedForm, setFieldValue, handleSubmit, values, dirty)
-      : null;
-
-    if (externalRecordForms) {
-      return externalRecordForms;
-    }
-
-    return fs.map(form => {
-      if (selectedForm === form.unique_id) {
-        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
-
-        return (
-          <Fragment key={form.unique_id}>
-            <RecordFormTitle
-              mobileDisplay={mobileDisplay}
-              handleToggleNav={handleToggleNav}
-              displayText={displayNameHelper(form.name, i18n.locale)}
-            />
-
-            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
-
-            {form.fields.map(field => {
-              const fieldProps = {
-                field,
-                form,
-                mode,
-                recordType,
-                recordID: record?.get("id"),
-                recordModuleID: primeroModule
-              };
-
-              if (!field?.visible) {
-                return null;
-              }
-
-              return (
-                <Box my={3} key={field.name}>
-                  {SUBFORM_SECTION === field.type ? (
-                    <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
-                  ) : (
-                    <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
-                  )}
-                </Box>
-              );
-            })}
-          </Fragment>
-        );
-      }
-
-      return null;
-    });
-  };
-
   if (!isEmpty(initialValues) && !isEmpty(forms)) {
     const validationSchema = buildValidationSchema(forms);
     const handleOnSubmit = values => {
@@ -223,7 +163,19 @@ const RecordForm = ({
               <FormikForm
                 {...props}
                 handleConfirm={handleConfirm}
-                renderFormSections={renderFormSections}
+                renderFormSections={renderFormSections(
+                  externalForms,
+                  selectedForm,
+                  userPermittedFormsIds,
+                  mobileDisplay,
+                  handleToggleNav,
+                  i18n,
+                  recordType,
+                  attachmentForms,
+                  mode,
+                  record,
+                  primeroModule
+                )}
                 forms={forms}
                 mode={mode}
                 setFormikValues={setFormikValues}
@@ -244,6 +196,8 @@ const RecordForm = ({
 };
 
 RecordForm.displayName = RECORD_FORM_NAME;
+
+RecordForm.whyDidYouRender = true;
 
 RecordForm.propTypes = {
   attachmentForms: PropTypes.object,

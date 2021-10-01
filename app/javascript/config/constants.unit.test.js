@@ -87,7 +87,14 @@ describe("Verifying config constant", () => {
       "TRANSITIONS_DATE_FORMAT",
       "TRANSITION_TYPE",
       "UNIQUE_ID_FIELD",
-      "USER_NAME_FIELD"
+      "USER_NAME_FIELD",
+      "CASE",
+      "CASES",
+      "TRACING_REQUEST",
+      "TRACING_REQUESTS",
+      "INCIDENT",
+      "INCIDENTS",
+      "RECORD_TYPES_PLURAL"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

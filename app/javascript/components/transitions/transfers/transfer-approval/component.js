@@ -27,7 +27,7 @@ const Component = ({
   const dispatch = useDispatch();
   const [comment, setComment] = useState("");
 
-  const record = useMemoizedSelector(state => selectRecord(state, { isShow: true }, recordType, recordId));
+  const record = useMemoizedSelector(state => selectRecord(state, { isEditOrShow: true, recordType, id: recordId }));
 
   const handleChangeComment = event => {
     setComment(event.target.value);

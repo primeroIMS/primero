@@ -87,7 +87,10 @@ const SelectFieldContainer = ({
     includeServices: true
   });
 
-  const reportingLocations = useOptions({ source: OPTION_TYPES.REPORTING_LOCATIONS });
+  const reportingLocations = useOptions({
+    source: OPTION_TYPES.REPORTING_LOCATIONS,
+    run: name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
+  });
 
   const filteredOptions = buildOptions(name, option, fieldValue, options, stickyOption, filterState);
 
@@ -170,6 +173,7 @@ const SelectFieldContainer = ({
 
   const fieldProps = {
     id: name,
+    error,
     name,
     isDisabled: !filteredOptions || mode.isShow || disabled || disableOfflineEndpointOptions,
     helperText: inputHelperText(),

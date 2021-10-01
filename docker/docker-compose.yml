@@ -12,18 +12,11 @@ services:
     env_file:
       - docker/defaults.env
     volumes:
-      - solr_cores:/opt/solr/server/solr/mycores
-  beanstalkd:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/beanstalkd:${PRIMERO_TAG:-latest}'
-    env_file:
-      - docker/defaults.env
-    volumes:
-      - beanstalkd:/var/lib/beanstalkd
+      - solr_cores:/var/solr
   application:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
-      - beanstalkd
       - postgres
     volumes:
       - public:/share/public
@@ -32,30 +25,17 @@ services:
       - docker/defaults.env
     stdin_open: true
     tty: true
-  backburner:
+  worker:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
     depends_on:
       - solr
-      - beanstalkd
       - postgres
     volumes:
       - storage:/srv/primero/application/storage
     env_file:
       - docker/defaults.env
-    command: ["bundle", "exec", "rails", "backburner:wait_then_work"]
-  scheduler:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
-    depends_on:
-      - solr
-      - beanstalkd
-      - postgres
-    volumes:
-      - storage:/srv/primero/application/storage
-    env_file:
-      - docker/defaults.env
-    command: ["bundle", "exec", "rails", "scheduler:run"]
+    command: ["rails", "jobs:work"]
 volumes:
-  beanstalkd:
   database:
   public:
   solr_cores:

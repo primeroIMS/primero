@@ -1,18 +1,8 @@
-def create_or_update_user(user_hash)
-  user = User.find_by(user_name: user_hash['user_name'])
-
-  if user.present?
-    puts "Updating user #{user.user_name}"
-    user.update_attributes user_hash
-  else
-    puts "Creating user #{user_hash['user_name']}"
-    User.create! user_hash
-  end
-end
+# frozen_string_literal: true
 
 unicef = Agency.find_by(agency_code: 'UNICEF')
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -25,7 +15,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero_admin_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -38,7 +28,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -51,7 +41,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero_mgr_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -64,7 +54,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero_ftr_manager',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -77,7 +67,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'primero_user_mgr_cp',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -90,7 +80,7 @@ create_or_update_user(
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
+User.create_or_update!(
   'user_name' => 'agency_user_admin',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
@@ -105,7 +95,7 @@ create_or_update_user(
 )
 
 if I18n.available_locales.include?(Primero::Application::LOCALE_ARABIC)
-  create_or_update_user(
+  User.create_or_update!(
     'user_name' => 'primero_cp_ar',
     'password' => 'primer0!',
     'password_confirmation' => 'primer0!',
@@ -118,7 +108,7 @@ if I18n.available_locales.include?(Primero::Application::LOCALE_ARABIC)
     'locale' => Primero::Application::LOCALE_ARABIC
   )
 
-  create_or_update_user(
+  User.create_or_update!(
     'user_name' => 'primero_mgr_cp_ar',
     'password' => 'primer0!',
     'password_confirmation' => 'primer0!',

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Represents an administrative level: country, state, province, township
+# rubocop:disable Metrics/ClassLength
 class Location < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -218,3 +219,4 @@ class Location < ApplicationRecord
     errors.add(:placename, I18n.t('errors.models.location.name_present'))
   end
 end
+# rubocop:enable Metrics/ClassLength

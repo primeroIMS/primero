@@ -16,7 +16,8 @@ const Component = forwardRef(
       isLoading,
       multiple,
       TextFieldProps,
-      currentOptionLabel
+      currentOptionLabel,
+      error
     },
     ref
   ) => {
@@ -31,7 +32,7 @@ const Component = forwardRef(
       ...params,
       ...(inputValueChanged ? {} : { inputProps: { ...params.inputProps, value: currentOptionLabel } }),
       fullWidth: true,
-      helperText,
+      helperText: error || helperText,
       InputLabelProps,
       placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
       ...InputProps,
@@ -70,7 +71,7 @@ const Component = forwardRef(
       setPrevLabel(currentOptionLabel);
     }, []);
 
-    return <TextField {...restInputParams} inputRef={ref} />;
+    return <TextField {...restInputParams} error={!!error} inputRef={ref} />;
   }
 );
 
