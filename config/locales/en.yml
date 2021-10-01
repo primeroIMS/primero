@@ -1285,6 +1285,7 @@ en:
     manage_system_users: Manage Server Synchronisation Users
     my: ဗမာစာ
     pt: Português
+    pt-BR: Português (Brasil)
     records_need_attention: Records need Attention
     ru: Русский
     so: Af-Soomaali
@@ -1893,6 +1894,7 @@ en:
       view_photo: View Photo
       view_protection_concerns_filter: View Protection Concerns Filter
       view_response: View Responses
+      webhook: Webhook
       workflow: Workflow - Individual cases
       workflow_team: Workflow - Teams cases
       write: Write

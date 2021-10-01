@@ -19,6 +19,7 @@ pt-BR:
       - Sex
       - Sab
     abbr_month_names:
+      - ~
       - Jan
       - Fev
       - Mar
@@ -40,6 +41,7 @@ pt-BR:
       - Sexta-Feira
       - Sábado
     month_names:
+      - ~
       - Janeiro
       - Fevereiro
       - Março
