@@ -146,7 +146,7 @@ const Component = ({
               getRedirectPath(containerMode, params, fetchFromCaseId),
               true,
               "",
-              Boolean(incidentFromCase?.size),
+              saveBeforeIncidentRedirect,
               selectedModule.primeroModule,
               incidentPath,
               i18n.t("offline_submitted_changes")

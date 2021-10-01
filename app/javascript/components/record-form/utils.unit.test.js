@@ -204,9 +204,7 @@ describe("<RecordForms /> - utils", () => {
     });
 
     it("should return the path to incidents if is new", () => {
-      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal(
-        "/incidents"
-      );
+      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal("");
     });
   });
 
