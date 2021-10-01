@@ -120,6 +120,23 @@ class FormSection < ApplicationRecord
     end
   end
 
+  def insert_field!(field)
+    return if field_exists?(field.name)
+    return fields << field unless field.order
+
+    field.form_section = self
+    fields_to_reorder = fields.where(order: field.order..)
+
+    Field.transaction do
+      fields_to_reorder.each { |f| f.order += 1; f.save! }
+      field.save!
+    end
+  end
+
+  def field_exists?(name)
+    fields.exists?(name: name)
+  end
+
   def configuration_hash
     hash = attributes.except('id')
     hash['collapsed_field_names'] = collapsed_fields.pluck(:name) if is_nested?
