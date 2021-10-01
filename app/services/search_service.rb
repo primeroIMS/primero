@@ -40,11 +40,10 @@ class SearchService
       sunspot.instance_eval do
         filter_params.each do |filter|
           if record_class.searchable_location_fields.include?(filter.field_name)
-            locations = LocationService.instance.find_by_codes(filter.values).map(&:hierarchy).flatten.uniq
-            filter.values = locations
+            SearchFilterService.build_location_filters(filter).query_scope(sunspot)
+          else
+            filter.query_scope(sunspot)
           end
-
-          filter.query_scope(sunspot)
         end
       end
     end
