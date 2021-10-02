@@ -57,7 +57,6 @@ describe SearchService, search: true do
                    type: 'city', disabled: false, location_code: 'TW03'
       )
 
-
       @child_location1 = Child.create!(data: { location_current: 'MC01' })
       @child_location2 = Child.create!(data: { location_current: 'TW01' })
       @child_location3 = Child.create!(data: { location_current: 'TW02' })
@@ -70,7 +69,7 @@ describe SearchService, search: true do
     it 'searches with location filters' do
       filter = SearchFilters::ValueList.new(field_name: 'location_current', values: %w[PR01 TW03])
       search = SearchService.search(Child, filters: [filter])
-      
+
       expect(search.total).to eq(3)
       expect(search.results).to contain_exactly(@child_location2, @child_location3, @child_location5)
     end
@@ -101,12 +100,12 @@ describe SearchService, search: true do
     end
 
     it 'sorts sortable fields' do
-      search = SearchService.search(Child, { query: 'Augustina', sort: { name: :asc }})
+      search = SearchService.search(Child, query: 'Augustina', sort: { name: :asc })
       expect(search.results.map(&:name)).to eq([@child3, @child1, @child2].map(&:name))
     end
 
     it 'sorts fields' do
-      search = SearchService.search(Child, { query: 'Augustina', sort: { sex: :desc }})
+      search = SearchService.search(Child, query: 'Augustina', sort: { sex: :desc })
       expect(search.results.map(&:sex)).to eq([@child2, @child3, @child1].map(&:sex))
     end
   end

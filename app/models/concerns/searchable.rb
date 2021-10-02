@@ -67,7 +67,7 @@ module Searchable
     end
 
     def searchable_option_fields
-      Field.all_filterable_option_field_names(parent_form) - all_searchable_location_fields
+      Field.all_filterable_option_field_names(parent_form)
     end
 
     def searchable_multi_fields
@@ -84,7 +84,7 @@ module Searchable
 
     def all_searchable_location_fields
       (
-        %w[owned_by_location] + Field.all_location_field_names(parent_form)
+        %w[owned_by_location] + searchable_location_fields + Field.all_location_field_names(parent_form)
       ).uniq
     end
   end
