@@ -36,4 +36,15 @@ class SearchFilterService
     filter_params = params.reject { |key, _| EXCLUDED.include?(key) }
     filter_params.select { |key, _| permitted_field_names.any? { |name| key.match?(/#{name}[0-5]?$/) } }
   end
+
+  class << self
+    def build_location_filters(filter)
+      location_filters = filter.values.map do |location_code|
+        admin_level = LocationService.instance.find_by_code(location_code).admin_level
+        SearchFilters::Value.new(field_name: "#{filter.field_name}#{admin_level}", value: location_code)
+      end
+
+      SearchFilters::Or.new(filters: location_filters)
+    end
+  end
 end

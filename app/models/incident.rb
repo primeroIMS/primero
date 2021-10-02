@@ -40,11 +40,16 @@ class Incident < ApplicationRecord
     ]
   end
 
+  def self.sortable_text_fields
+    %w[short_id]
+  end
+
   searchable do
     date :incident_date_derived
     date :date_of_first_report
     string :status, as: 'status_sci'
     quicksearch_fields.each { |f| text_index(f) }
+    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
   end
 
   after_initialize :set_unique_id
