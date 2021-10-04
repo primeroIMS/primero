@@ -12,14 +12,6 @@ class SearchFilters::SearchFilter < ValueObject
 
   def location_field_filter?(_record_class)
     false
-    # case filter
-    # when SearchFilters::Value, SearchFilters::ValueList, SearchFilters::NotValue
-    #   record_class.searchable_location_fields.include?(filter.field_name)
-    # when SearchFilters::Or
-    #   filter.filters.any? { |f| location_field_filter?(record_class, f) }
-    # else
-    #   false
-    # end
   end
 
   def location_field_name_solr(field_name, location_code)
