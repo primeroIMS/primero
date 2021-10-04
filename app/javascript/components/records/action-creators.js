@@ -38,13 +38,13 @@ const getSuccessCallback = ({
   recordType,
   redirect,
   saveMethod,
-  incidentFromCase,
+  willRedirectToIncident,
   incidentPath,
   moduleID
 }) => {
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
   const incidentFromCaseCallbacks =
-    RECORD_TYPES[recordType] === RECORD_TYPES.incidents && incidentFromCase
+    RECORD_TYPES[recordType] === RECORD_TYPES.incidents && willRedirectToIncident
       ? [
           { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
           { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
@@ -64,9 +64,10 @@ const getSuccessCallback = ({
       moduleID,
       incidentPath,
       setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
-      redirectWithIdFromResponse: !incidentPath && !incidentFromCase && saveMethod !== SAVE_METHODS.update,
+      redirectWithIdFromResponse:
+        !redirect && !incidentPath && !willRedirectToIncident && saveMethod !== SAVE_METHODS.update,
       redirect: redirect === false ? false : redirect || `/${recordType}`,
-      preventSyncAfterRedirect: !incidentFromCase && [SAVE_METHODS.update].includes(saveMethod)
+      preventSyncAfterRedirect: !willRedirectToIncident && [SAVE_METHODS.update].includes(saveMethod)
     },
     ...incidentFromCaseCallbacks
   ];
@@ -133,7 +134,7 @@ export const saveRecord = (
   redirect,
   queueAttachments = true,
   dialogName = "",
-  incidentFromCase = false,
+  willRedirectToIncident = false,
   moduleID,
   incidentPath = "",
   skipRecordAlerts = false
@@ -158,7 +159,7 @@ export const saveRecord = (
           recordType,
           redirect,
           saveMethod,
-          incidentFromCase,
+          willRedirectToIncident,
           incidentPath,
           moduleID,
           id
