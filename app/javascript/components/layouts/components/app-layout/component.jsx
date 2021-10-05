@@ -1,6 +1,6 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 
@@ -14,12 +14,12 @@ import LoginDialog from "../../../login-dialog";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ children }) => {
-  const css = useStyles();
+  
   const { demo } = useApp();
 
   const classes = clsx({ [css.root]: true, [css.demo]: demo });

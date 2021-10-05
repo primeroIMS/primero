@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 import { AppBar, Toolbar, Box } from "@material-ui/core";
 
 import { useThemeHelper } from "../../../libs";
-import styles from "../styles.css";
+import css from "../styles.css";
 
 const PageHeading = ({ title, prefixAction, children, whiteHeading, mobileHeading }) => {
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
 
   const toolbarClass = mobileDisplay && mobileHeading ? css.toolbarMobile : css.toolbar;
 

@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Chip } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ label, type, ...rest }) => {
-  const css = useStyles();
+  
   const classes = clsx({ [css.subformChip]: true, [css[type]]: true });
 
   return <Chip className={classes} label={label} {...rest} />;

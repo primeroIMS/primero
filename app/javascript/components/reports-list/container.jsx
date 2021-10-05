@@ -18,14 +18,14 @@ import { getMetadata } from "../record-list";
 import { useMetadata } from "../records";
 
 import { fetchReports } from "./action-creators";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { selectReportsPagination, selectReports, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper({ css: styles });
+  
 
   const reports = useMemoizedSelector(state => selectReports(state));
   const isLoading = useMemoizedSelector(state => selectLoading(state));

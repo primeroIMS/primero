@@ -6,16 +6,15 @@ import {
   FormLabel,
   Radio,
   RadioGroup,
-  makeStyles
 } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const RadioInput = ({ commonInputProps, options, formMethods }) => {
-  const css = useStyles();
+  
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
   const { control } = formMethods;
 

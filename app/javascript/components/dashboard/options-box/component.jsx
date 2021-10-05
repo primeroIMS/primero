@@ -1,18 +1,18 @@
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import PropTypes from "prop-types";
 
 import LoadingIndicator from "../../loading-indicator";
 import DisableOffline from "../../disable-offline";
 import { ConditionalWrapper } from "../../../libs";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading, errors, hasData }) => {
-  const css = useStyles();
+  
 
   const loadingIndicatorProps = {
     overlay,

@@ -56,7 +56,7 @@ const colors = {
 };
 
 const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");
-const fontSizes = [12, 22, 14, 15, 13, 96, 17, 9, 10, 28, 30, 14.4, 130, 186];
+const fontSizes = [12, 22, 14, 15, 13, 96, 17, 9, 10, 28, 30, 14.4, 130, 186, 20];
 const shadows = ["0 2px 12px 0 rgba(125, 125, 125, 0.23)"];
 const drawerWidth = "240px";
 

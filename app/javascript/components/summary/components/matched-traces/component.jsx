@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
+
 import { fromJS } from "immutable";
 import { isEmpty } from "lodash";
 
@@ -14,13 +14,13 @@ import TraceComparisonForm from "../../../record-form/form/subforms/subform-trac
 
 import { MatchedTracePanel } from "./components";
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ data, loading, record, setSelectedForm }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);

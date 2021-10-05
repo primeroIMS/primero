@@ -19,13 +19,13 @@ import { filterOnTableChange } from "../utils";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups, setLookupsFilter } from "./action-creators";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { columns } from "./utils";
 
 const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper({ css: styles });
+  
   const recordType = ["admin", "lookups"];
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));

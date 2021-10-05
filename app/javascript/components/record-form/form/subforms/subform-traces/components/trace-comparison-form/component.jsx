@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
@@ -19,9 +19,9 @@ import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({
   selectedForm,
@@ -33,7 +33,7 @@ const Component = ({
   hideBack,
   mode
 }) => {
-  const css = useStyles();
+  
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase

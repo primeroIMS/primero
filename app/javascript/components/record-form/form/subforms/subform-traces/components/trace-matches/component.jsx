@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { fromJS } from "immutable";
 import { List, ListItemText } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
@@ -17,13 +17,13 @@ import { getOptionText } from "../field-row/utils";
 import useOptions from "../../../../../../form/use-options";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const dispatch = useDispatch();
 
   const genderOptions = useOptions({ source: LOOKUPS.gender });

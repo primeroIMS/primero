@@ -1,6 +1,6 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
@@ -29,9 +29,9 @@ import Seperator from "./field-types/seperator";
 import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const FormSectionField = ({
   name,
@@ -45,7 +45,7 @@ const FormSectionField = ({
   formSection,
   isReadWriteForm
 }) => {
-  const css = useStyles();
+  
   const i18n = useI18n();
   const {
     type,

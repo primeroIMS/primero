@@ -1,18 +1,18 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Tooltip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import clsx from "clsx";
 
 import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, tooltip, rest }) => {
-  const css = useStyles();
+  
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;

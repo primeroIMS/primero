@@ -3,7 +3,7 @@ import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { makeStyles } from "@material-ui/core";
+
 import { Add as AddIcon, List as ListIcon, SwapVert } from "@material-ui/icons";
 
 import LoadingIndicator from "../../../loading-indicator";
@@ -37,16 +37,16 @@ import {
 import { getFormSectionsByFormGroup, getIsLoading, getReorderEnabled } from "./selectors";
 import { getFormGroups, getListStyle } from "./utils";
 import { NAME, FORM_GROUP_PREFIX, ORDER_TYPE } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = () => {
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const css = useStyles();
+  
   const defaultFilterValues = {
     recordType: RECORD_TYPES.cases,
     primeroModule: MODULES.CP

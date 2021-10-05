@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
@@ -18,11 +18,11 @@ import { applyFilters } from "../index-filters";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const Component = ({ open, onClose, recordType, primeroModule }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+
   const dispatch = useDispatch();
   const [openConsentPrompt, setOpenConsentPrompt] = useState(false);
   const [searchValue, setSearchValue] = useState("");

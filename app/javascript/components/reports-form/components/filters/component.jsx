@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton, makeStyles, Typography } from "@material-ui/core";
+import { IconButton,  Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
 
@@ -14,10 +14,10 @@ import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constant
 import ActionDialog from "../../../action-dialog";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { formatValue, registerValues } from "./utils";
 
-const useStyles = makeStyles(styles);
+
 
 const Container = ({
   indexes,
@@ -31,7 +31,7 @@ const Container = ({
   selectedModule
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);

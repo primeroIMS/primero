@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
+
 
 import Table from "../table";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ title, fields, data }) => {
-  const css = useStyles();
+  
 
   return (
     <div className={css.group}>

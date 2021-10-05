@@ -1,18 +1,18 @@
 import { cloneElement } from "react";
 import PropTypes from "prop-types";
 import { Tooltip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import clsx from "clsx";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ overrideCondition, children, button, offlineTextKey }) => {
-  const css = useStyles();
+  
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx(css.disabledLink, {

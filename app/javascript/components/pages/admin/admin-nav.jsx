@@ -1,6 +1,6 @@
 import { Fragment, useState } from "react";
 import { List, Collapse } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
@@ -10,14 +10,14 @@ import { useMemoizedSelector } from "../../../libs";
 import { getLocationsAvailable } from "../../application/selectors";
 import usePermissions from "../../permissions";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
-const useStyles = makeStyles(styles);
+
 
 const AdminNav = () => {
-  const css = useStyles();
+  
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));

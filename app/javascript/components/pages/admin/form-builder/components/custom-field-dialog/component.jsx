@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
+
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -20,14 +20,14 @@ import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage }
 import { mergeOnSelectedSubform } from "../../action-creators";
 import { useApp } from "../../../../../application";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ getValues }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 

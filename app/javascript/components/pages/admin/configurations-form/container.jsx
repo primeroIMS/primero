@@ -6,7 +6,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
 import PublishIcon from "@material-ui/icons/Publish";
 import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 
 import { useI18n } from "../../../i18n";
 import Form, { FormAction, whichFormMode } from "../../../form";
@@ -37,13 +37,13 @@ import {
   FORM_ID
 } from "./constants";
 import { buildErrorMessages } from "./utils";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Container = ({ mode }) => {
   const formMode = whichFormMode(mode);
-  const css = useStyles();
+  
   const isEditOrShow = formMode.isEdit || formMode.isShow;
 
   const i18n = useI18n();

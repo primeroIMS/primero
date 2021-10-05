@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
+
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ handleSetFilterValue, options, name, filterValues, id: filterID }) => {
-  const css = useStyles();
+  
 
   const renderOptions = () =>
     options.map(option => {

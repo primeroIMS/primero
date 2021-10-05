@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 
-import styles from "../styles.css";
 
-const useStyles = makeStyles(styles);
+import css from "../styles.css";
+
+
 
 const PageContent = ({ children }) => {
-  const css = useStyles();
+  
 
   return <div className={css.content}>{children}</div>;
 };

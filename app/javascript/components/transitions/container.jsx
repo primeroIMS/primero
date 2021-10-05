@@ -1,4 +1,4 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import PropTypes from "prop-types";
 import { compareDesc, parseISO } from "date-fns";
 import { useEffect } from "react";
@@ -11,10 +11,10 @@ import { useMemoizedSelector } from "../../libs";
 import { selectTransitions } from "./selectors";
 import { TRANSITIONS_NAME } from "./constants";
 import renderTransition from "./render-transition";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { fetchTransitions } from "./action-creators";
 
-const useStyles = makeStyles(styles);
+
 
 const Transitions = ({
   fetchable = false,
@@ -25,7 +25,7 @@ const Transitions = ({
   mobileDisplay,
   handleToggleNav
 }) => {
-  const css = useStyles();
+  
   const i18n = useI18n();
   const dispatch = useDispatch();
 

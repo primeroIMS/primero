@@ -4,20 +4,20 @@ import { useFormContext } from "react-hook-form";
 import { IconButton, InputBase, InputAdornment } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import ClearIcon from "@material-ui/icons/Clear";
-import { makeStyles } from "@material-ui/core/styles";
+
 
 import DisableOffline from "../../../disable-offline";
 import { useI18n } from "../../../i18n";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { registerInput } from "./utils";
 import handleFilterChange from "./value-handlers";
 
-const useStyles = makeStyles(styles);
+
 
 const Search = ({ handleReset }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const { register, unregister, setValue } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();

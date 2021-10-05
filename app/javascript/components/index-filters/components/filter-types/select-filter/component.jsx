@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
 import Panel from "../../panel";
 import { useI18n } from "../../../../i18n";
-import styles from "../styles.css";
+import css from "../styles.css";
 import {
   registerInput,
   whichOptions,
@@ -24,7 +24,7 @@ import useOptions from "../../../../form/use-options";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({
   addFilterToList,
@@ -37,7 +37,7 @@ const Component = ({
   setReset
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const formMethods = useFormContext();
   const { register, unregister, setValue, getValues } = formMethods;
   const [inputValue, setInputValue] = useState([]);

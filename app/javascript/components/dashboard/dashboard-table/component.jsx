@@ -2,19 +2,19 @@ import { push } from "connected-react-router";
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/styles";
+
 
 import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
 import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-greater-than-zero";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
-  const css = useStyles();
+  
   const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 

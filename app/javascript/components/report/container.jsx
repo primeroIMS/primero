@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -28,9 +28,9 @@ import { deleteReport, fetchReport } from "./action-creators";
 import namespace from "./namespace";
 import { NAME, DELETE_MODAL } from "./constants";
 import Exporter from "./components/exporter";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 // const { dialogOpen, setDialog } = useDialog(DELETE_MODAL);
 
@@ -41,7 +41,7 @@ const Report = ({ mode }) => {
   const formMode = whichFormMode(mode);
   const { pathname } = useLocation();
   const { setDialog, dialogOpen, dialogClose, pending, setDialogPending } = useDialog(DELETE_MODAL);
-  const css = useStyles();
+  
 
   useEffect(() => {
     dispatch(fetchReport(id));

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import clsx from "clsx";
 import GetAppIcon from "@material-ui/icons/GetApp";
 
@@ -12,14 +12,14 @@ import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
   const { setValue, watch, register } = formMethods;
   const i18n = useI18n();
-  const css = useStyles();
+  
   const [file, setFile] = useState({
     loading: false,
     data: null,

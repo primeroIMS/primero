@@ -8,7 +8,7 @@ import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
@@ -32,13 +32,13 @@ import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
 import Actions from "./components/actions";
-import styles from "./components/styles.css";
+import css from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  const css = useStyles();
+  
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);

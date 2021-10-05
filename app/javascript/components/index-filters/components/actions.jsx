@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+
 
 import { useI18n } from "../../i18n";
 import DisableOffline from "../../disable-offline";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Actions = ({ handleSave, handleClear }) => {
-  const css = useStyles();
+  
   const i18n = useI18n();
 
   const showSave = handleSave && (

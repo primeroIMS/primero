@@ -7,7 +7,7 @@ import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -20,11 +20,11 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
-import styles from "../styles.css";
+import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({
   arrayHelpers,
@@ -39,7 +39,7 @@ const Component = ({
   parentForm
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);

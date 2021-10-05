@@ -18,7 +18,7 @@ import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
 
 import { NAME, FORM_ID } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
@@ -27,7 +27,7 @@ const Container = ({ modal }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo } = useApp();
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
   const authErrors = useMemoizedSelector(state => selectAuthErrors(state));

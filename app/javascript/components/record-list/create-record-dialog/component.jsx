@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -23,12 +23,12 @@ import { DEFAULT_FILTERS } from "../constants";
 
 import { FORM_ID, NAME } from "./constants";
 import { searchForm } from "./forms";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
-  const css = useStyles();
+  
   const formMode = whichFormMode(FORM_MODE_NEW);
 
   const dispatch = useDispatch();

@@ -4,18 +4,18 @@ import { FastField, connect, getIn } from "formik";
 import { Checkbox } from "formik-material-ui";
 import pickBy from "lodash/pickBy";
 import { FormControlLabel, FormHelperText, InputLabel, FormControl } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import clsx from "clsx";
 
 import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
-import styles from "../styles.css";
+import css from "../styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
   const fieldProps = {
     name,
     inputProps: { required: true },

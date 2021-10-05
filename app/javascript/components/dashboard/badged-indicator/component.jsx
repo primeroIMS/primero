@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
@@ -10,13 +10,13 @@ import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
   const dispatch = useDispatch();
-  const css = useStyles();
+  
 
   const loadingIndicatorProps = {
     overlay: true,

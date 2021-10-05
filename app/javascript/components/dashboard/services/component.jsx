@@ -12,7 +12,7 @@ const Services = ({ servicesList }) => {
   const styleOverrides = {
     CardShadow: { boxShadow: "none" },
     OptionsBox: {
-      borderTop: `1px solid ${theme.primero.colors.lightGrey}`,
+      borderTop: `1px solid ${theme.primero.colors.light-grey}`,
       borderRadius: 0,
       "&:first-child": {
         borderTop: "none"

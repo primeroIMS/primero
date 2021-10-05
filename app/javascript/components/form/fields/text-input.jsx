@@ -1,18 +1,18 @@
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 import isEmpty from "lodash/isEmpty";
 
 import { TEXT_AREA } from "../constants";
 import InputLabel from "../components/input-label";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const TextInput = ({ commonInputProps, metaInputProps, formMethods }) => {
-  const css = useStyles();
+  
   const { control } = formMethods;
   const { type, password, hint, tooltip, numeric, onBlur, onKeyPress } = metaInputProps;
   let inputType = "text";

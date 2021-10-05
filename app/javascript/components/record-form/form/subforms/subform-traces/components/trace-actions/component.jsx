@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import SearchIcon from "@material-ui/icons/Search";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import CheckIcon from "@material-ui/icons/Check";
 import BlockIcon from "@material-ui/icons/Block";
 
@@ -15,13 +15,13 @@ import { FORMS } from "../../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
 
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 

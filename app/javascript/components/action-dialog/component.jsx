@@ -12,7 +12,7 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useApp } from "../application";
 
 import TitleWithClose from "./components/text-with-close";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { clearDialog } from "./action-creators";
 import { getAsyncLoading } from "./selectors";
 
@@ -45,7 +45,7 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper({ css: styles });
+  
   const { disabledApplication } = useApp();
 
   const asyncLoading = useMemoizedSelector(state => {

@@ -2,12 +2,12 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { FastField } from "formik";
 import { useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+
 
 import { MAX_ATTACHMENT_SIZE } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import { toBase64 } from "../../../../../libs";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
@@ -15,12 +15,12 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-const useStyles = makeStyles(styles);
+
 
 const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = useStyles();
+  
 
   const [file, setFile] = useState({
     loading: false,

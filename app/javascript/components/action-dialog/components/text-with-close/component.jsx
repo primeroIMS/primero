@@ -1,15 +1,15 @@
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
 import { DialogTitle, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ dialogTitle, dialogSubtitle, closeHandler, dialogActions, disableClose }) => {
-  const css = useStyles();
+  
   const subtitle = dialogSubtitle ? <span className={css.dialogSubtitle}>{dialogSubtitle}</span> : null;
 
   return (

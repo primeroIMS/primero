@@ -32,7 +32,7 @@ import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
 import PageHeading from "./page-heading";
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const RecordFormToolbar = ({
   handleFormSubmit,
@@ -45,7 +45,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css, isRTL } = useThemeHelper({ css: styles });
+  const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
 

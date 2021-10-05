@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+
 import {
   TextField,
   IconButton,
@@ -15,9 +15,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useI18n } from "../../i18n";
 
 import { APPROVAL_FORM } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({
   approval,
@@ -29,7 +29,7 @@ const Component = ({
   selectOptions
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+  
 
   return (
     <>

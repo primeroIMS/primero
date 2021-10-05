@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
+
 import CheckIcon from "@material-ui/icons/Check";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
@@ -8,12 +8,12 @@ import { useApp } from "../application";
 import { useI18n } from "../i18n";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Component = ({ mobile }) => {
-  const css = useStyles();
+  
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx({

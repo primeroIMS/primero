@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -13,12 +13,12 @@ import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 import { useApp } from "../../application";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const css = useStyles();
+  
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();

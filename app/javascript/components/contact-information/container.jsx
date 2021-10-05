@@ -1,4 +1,4 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
+
 
 import { useMemoizedSelector } from "../../libs";
 import DisplayData from "../display-data";
@@ -6,12 +6,12 @@ import { useI18n } from "../i18n";
 
 import { BLACK_LISTED_FIELDS } from "./constants";
 import { selectSupportData } from "./selectors";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
+
 
 const Support = () => {
-  const css = useStyles();
+  
   const supportData = useMemoizedSelector(state => selectSupportData(state));
   const i18n = useI18n();
 
