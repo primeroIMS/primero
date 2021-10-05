@@ -1,50 +1,67 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import merge from "lodash/merge";
+import mapKeys from "lodash/mapKeys";
+import kebabCase from "lodash/kebabCase";
 
 import { ORIENTATION } from "../components/i18n/constants";
 
 const muiTheme = createMuiTheme();
 
+const generateCssVarKey = (prefix, key) => `--${prefix}-${kebabCase(key)}`;
+
+const setCssVars = (prefix, vars, func) => {
+  if (Array.isArray(vars)) {
+    return vars.reduce((prev, current) => ({ ...prev, [generateCssVarKey(prefix, current)]: func(current) }), {});
+  }
+
+  return mapKeys(vars, (_, key) => generateCssVarKey(prefix, key));
+};
+
+const colors = {
+  darkBrown: "#5a5549",
+  lightGrey: "#f0f0f0",
+  white: "#ffffff",
+  chromeWhite: "#e6efd4",
+  black: "#231f20",
+  solidBlack: "#000000",
+  darkGrey: "#595952",
+  lightBlue: "rgba(0, 147, 186, 0.25)",
+  blue: "#0093ba",
+  darkBlue: "#048BB0",
+  yellow: "#f2c317",
+  moonYellow: "#f2b417",
+  goldYellow: "#f4ac22",
+  red: "#d0021b",
+  redLabelError: "#f44336",
+  green: "#839e3c",
+  solidGreen: "#7ba024",
+  orange: "#e7712d",
+  solidOrange: "#ff9500",
+  purple: "#7c347b",
+  warmGrey1: "#e0dfd7",
+  warmGrey2: "#bcbcad",
+  warmGrey3: "#b9b8b3",
+  warmGrey4: "#9a988f",
+  warmGrey5: "#d5d5d5",
+  warmGrey6: "#6f6f6a",
+  midGrey: "#757472",
+  tundora: "#454545",
+  grey: "#4a4a4a",
+  contentGrey: "#fbfbfb",
+  stickyGrey: "rgba(251, 251, 251, 0.95)",
+  lightGrey2: "#e0e0e0",
+  atlantis: "#8bb827",
+  wildSand: "#f5f5f5",
+  lightBlueMenu: "#dfeff4"
+};
+
+const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");
+const fontSizes = [12, 22, 14, 15, 13, 96, 17, 9, 10, 28, 30, 14.4, 130, 186];
+const shadows = ["0 2px 12px 0 rgba(125, 125, 125, 0.23)"];
+const drawerWidth = "240px";
+
 const theme = (direction = ORIENTATION.ltr) => {
   const isRTL = direction === ORIENTATION.rtl;
-
-  const colors = {
-    darkBrown: "#5a5549",
-    lightGrey: "#f0f0f0",
-    white: "#ffffff",
-    chromeWhite: "#e6efd4",
-    black: "#231f20",
-    solidBlack: "#000000",
-    darkGrey: "#595952",
-    lightBlue: "rgba(0, 147, 186, 0.25)",
-    blue: "#0093ba",
-    darkBlue: "#048BB0",
-    yellow: "#f2c317",
-    moonYellow: "#f2b417",
-    goldYellow: "#f4ac22",
-    red: "#d0021b",
-    redLabelError: "#f44336",
-    green: "#839e3c",
-    solidGreen: "#7ba024",
-    orange: "#e7712d",
-    solidOrange: "#ff9500",
-    purple: "#7c347b",
-    warmGrey1: "#e0dfd7",
-    warmGrey2: "#bcbcad",
-    warmGrey3: "#b9b8b3",
-    warmGrey4: "#9a988f",
-    warmGrey5: "#d5d5d5",
-    warmGrey6: "#6f6f6a",
-    midGrey: "#757472",
-    tundora: "#454545",
-    grey: "#4a4a4a",
-    contentGrey: "#fbfbfb",
-    stickyGrey: "rgba(251, 251, 251, 0.95)",
-    lightGrey2: "#e0e0e0",
-    atlantis: "#8bb827",
-    wildSand: "#f5f5f5",
-    lightBlueMenu: "#dfeff4"
-  };
 
   const overrides = {
     MuiCssBaseline: {
@@ -56,6 +73,19 @@ const theme = (direction = ORIENTATION.ltr) => {
           display: "flex",
           flexDirection: "column",
           height: "100vh"
+        },
+        ":root": {
+          ...setCssVars("fs", fontSizes, muiTheme.typography.pxToRem),
+          ...setCssVars("c", colors),
+          "--ff": fontFamily,
+          "--fwb": muiTheme.typography.fontWeightBold,
+          "--drawer": drawerWidth,
+          "--shadow-0": shadows[0],
+          "--spacing-0-1": muiTheme.spacing(0, 1),
+          "--transition": muiTheme.transitions.create("margin", {
+            easing: muiTheme.transitions.easing.sharp,
+            duration: muiTheme.transitions.duration.leavingScreen
+          })
         },
         legend: {
           display: "none"
@@ -321,14 +351,14 @@ const theme = (direction = ORIENTATION.ltr) => {
     },
     typography: {
       useNextVariants: true,
-      fontFamily: ["helvetica", "roboto", "arial", "sans-serif"].join(", "),
+      fontFamily,
       fontWeight: 600
     },
     primero: {
       colors,
-      shadows: ["0 2px 12px 0 rgba(125, 125, 125, 0.23)"],
+      shadows,
       components: {
-        drawerWidth: "240px"
+        drawerWidth
       }
     },
     overrides,

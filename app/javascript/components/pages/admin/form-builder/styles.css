@@ -15,7 +15,7 @@
 }
 
 .heading {
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
   fong-weight: bold;
   flex: 1;
 }

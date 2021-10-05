@@ -1,7 +1,7 @@
 .button {
   display: flex;
   justify-content: initial;
-  color: $(theme.primero.colors.darkGrey);
+  color: var(--c-dark-grey);
 
   & > span {
     & div {
@@ -12,13 +12,13 @@
     }
 
     & svg {
-      color: $(theme.primero.colors.black);
+      color: var(--c-black);
       width: 24px;
     }
   }
 }
 
-@media $(theme.breakpoints.between('sm', 'md')) {
+@media ((min-width:600px) and (max-width:1279.95px)) {
   .button > span svg {
     margin: 0 .3em
   }

@@ -3,7 +3,7 @@
   width: 100%;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .recordFormFilters {
     text-align: center;
     flex: 0 1;

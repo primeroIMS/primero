@@ -3,16 +3,16 @@
 
   & h1 {
     font-family: SourceSansPro;
-    font-size: $(theme.typography.pxToRem(30));
+    font-size: var(--fs-30);
     font-weight: bold;
     text-transform: uppercase;
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 
   & button {
     padding: .5em 1.75em;
-    background-color: $(theme.primero.colors.blue);
-    color: $(theme.primero.colors.white);
+    background-color: var(--c-blue);
+    color: var(--c-white);
     margin-top: 20px;
 
     &:hover {
@@ -25,7 +25,7 @@
 
      & a {
       text-decoration: none;
-      color: $(theme.primero.colors.blue);
+      color: var(--c-blue);
     }
   }
 }
@@ -37,17 +37,17 @@
 }
 
 .forgotPaswordLink {
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
   margin: 10px 0 0 0;
   text-transform: none;
-  font-size: $(theme.typography.pxToRem(12));
+  font-size: var(--fs-12);
 
   &:hover {
     text-decoration: underline;
   }
 }
 
-@media $(theme.breakpoints.down('xs')) {
+@media (max-width:599.95px) {
   .loginForm {
     & button {
       width: 100%;

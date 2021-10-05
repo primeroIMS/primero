@@ -20,7 +20,7 @@
 
 .seeDetailsStyle {
   padding-top: 6;
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
 }
 
 .detailName {

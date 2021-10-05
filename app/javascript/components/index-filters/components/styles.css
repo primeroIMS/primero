@@ -3,7 +3,7 @@
 }
 
 .heading {
-  font-size: $(theme.typography.pxToRem(15));
+  font-size: var(--fs-15);
   font-weight: bold;
   width: 100%;
   display: flex;
@@ -64,8 +64,8 @@
 }
 
 .tab {
-  color: $(theme.primero.colors.darkGrey);
-  font-size: $(theme.typography.pxToRem(11));
+  color: var(--c-dark-grey);
+  font-size: var(--fs-11);
   text-align: center;
   height: 34px;
   min-height: 34px;
@@ -74,7 +74,7 @@
 
 .tabselected {
   font-weight: bold;
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
 }
 
 .moreBtn {
@@ -86,13 +86,13 @@
   transform: scaleX(-1);
 }
 
-@media $(theme.breakpoints.up("md")) {
+@media (min-width:960px) {
   .tab {
     min-width: 100px;
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .root {
     margin-left: 0;
     padding: 0.7em;

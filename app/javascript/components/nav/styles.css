@@ -5,7 +5,7 @@
 }
 
 .drawer {
-  width: $(theme.primero.components.drawerWidth);
+  width: var(--drawer);
   flex-shrink: 0;
 }
 
@@ -23,16 +23,16 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: $(theme.spacing(0,1));
-  background: $(theme.primero.colors.lightGrey);
+  padding: var(--spacing-0-1);
+  background: var(--c-light-grey);
 }
 
 .drawerPaper, .drawerPaper-demo {
-  width: $(theme.primero.components.drawerWidth);
+  width: var(--drawer);
   background: linear-gradient(
       to top,
-      $(theme.primero.colors.white),
-      $(theme.primero.colors.lightGrey)
+      var(--c-white),
+      var(--c-light-grey)
     ),
   linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
@@ -46,7 +46,7 @@
 }
 
 .drawerPaper-demo {
-  background: repeating-linear-gradient(45deg, $(theme.primero.colors.lightGrey), $(theme.primero.colors.lightGrey) 10px, $(theme.primero.colors.white) 10px, $(theme.primero.colors.white) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-light-grey), var(--c-light-grey) 10px, var(--c-white) 10px, var(--c-white) 20px);
 }
 
 .listIcon {
@@ -63,7 +63,7 @@
 
 .navList {
   & svg {
-    color: $(theme.primero.colors.darkGrey);
+    color: var(--c-dark-grey);
   }
 
   & li {
@@ -110,7 +110,7 @@
 
 .navLink {
   text-decoration: none;
-  color: $(theme.primero.colors.black);
+  color: var(--c-black);
   padding: 8px 16px !important;
   display: flex;
   width: 100%;
@@ -127,11 +127,11 @@
 }
 
 .navActive {
-  background: $(theme.primero.colors.contentGrey);
+  background: var(--c-content-grey);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
   & svg {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 
   &:before {
@@ -177,7 +177,7 @@
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .drawerPaper, .drawerPaper-demo {
     box-shadow: none
   }
@@ -189,7 +189,7 @@
   }
 }
 
-@media $(theme.breakpoints.only("md")) {
+@media (min-width:960px) and (max-width:1279.95px) {
   .drawerPaper, .drawerPaper-demo {
     width: 3.8em;
     overflow-x: hidden;

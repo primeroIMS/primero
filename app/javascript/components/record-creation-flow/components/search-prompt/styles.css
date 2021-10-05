@@ -7,7 +7,7 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  border: 1px solid $(theme.primero.colors.warmGrey4);
+  border: 1px solid var(--c-warm-grey-4);
   border-radius: 1em;
 
   & form {

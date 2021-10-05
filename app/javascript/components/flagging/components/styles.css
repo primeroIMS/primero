@@ -1,12 +1,12 @@
 .empty {
   text-align: center;
   font-size: 7em;
-  color: $(theme.primero.colors.warmGrey1);
+  color: var(--c-warm-grey-1);
   line-height: 0;
   margin: 0.5em 0;
 
   & h3 {
-    font-size: $(theme.typography.pxToRem(14));
+    font-size: var(--fs-14);
     text-transform: uppercase;
   }
 }
@@ -27,7 +27,7 @@
 .itemResolved {
   padding: 0;
   font-size: 0.95em;
-  color: $(theme.primero.colors.warmGrey6);
+  color: var(--c-warm-grey-6);
 }
 
 .itemText {
@@ -112,20 +112,20 @@
 .saveButton, .cancelButton{
   border-radius: 50px;
   box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
+  color: var(--c-white);
+  background: var(--c-blue);
   width: 8em;
   height: 32px;
   margin-left: 10px;
 
   &:hover {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 
 }
 
 .cancelButton {
-  background: $(theme.primero.colors.grey);
+  background: var(--c-grey);
 }
 
 .loadingIndicator {

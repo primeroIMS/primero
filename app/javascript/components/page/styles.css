@@ -23,11 +23,11 @@
 }
 
 .appBar {
-  background-color: $(theme.primero.colors.contentGrey);
+  background-color: var(--c-content-grey);
 }
 
 .appBarWhite {
-  background-color: $(theme.primero.colors.white);
+  background-color: var(--c-white);
 }
 
 .toolbar {
@@ -39,8 +39,8 @@
 }
 
 .heading {
-  font-size: $(theme.typography.pxToRem(22));
-  color: $(theme.primero.colors.solidBlack);
+  font-size: var(--fs-22);
+  color: var(--c-solid-black);
   text-transform: uppercase;
   fong-weight: bold;
   flex: 1;
@@ -51,7 +51,7 @@
   position: relative;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .root, .twoCol {
     padding-top: 4em;
   }

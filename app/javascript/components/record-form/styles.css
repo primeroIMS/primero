@@ -64,7 +64,7 @@
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .recordNav {
     width: auto;
     overflow-y: hidden;

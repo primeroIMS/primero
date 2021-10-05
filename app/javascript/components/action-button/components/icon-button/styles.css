@@ -1,11 +1,11 @@
 .iconActionButton {
-  background-color: $(theme.primero.colors.blue);
+  background-color: var(--c-blue);
   box-shadow: none;
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   margin-left: 5px;
 
   &:hover {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 }
 

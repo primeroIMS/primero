@@ -6,8 +6,8 @@
 }
 
 .toggleButton {
-  color: $(theme.primero.colors.blue);
-  border: 1px solid $(theme.primero.colors.blue);
+  color: var(--c-blue);
+  border: 1px solid var(--c-blue);
   flex: 1;
   font-size: .7rem;
   line-height: 1rem;
@@ -54,30 +54,30 @@
 }
 
 .redChip {
-  background: $(theme.primero.colors.red);
+  background: var(--c-red);
 }
 
 .orangeChip {
-  background: $(theme.primero.colors.orange);
+  background: var(--c-orange);
 }
 
 .yellowChip {
-  background: $(theme.primero.colors.yellow);
+  background: var(--c-yellow);
 }
 
 .redChipOutlined {
-  border-color: $(theme.primero.colors.red);
-  color: $(theme.primero.colors.red);
+  border-color: var(--c-red);
+  color: var(--c-red);
 }
 
 .orangeChipOutlined {
-  border-color: $(theme.primero.colors.orange);
-  color: $(theme.primero.colors.orange);
+  border-color: var(--c-orange);
+  color: var(--c-orange);
 }
 
 .yellowChipOutlined {
-  border-color: $(theme.primero.colors.yellow);
-  color: $(theme.primero.colors.yellow);
+  border-color: var(--c-yellow);
+  color: var(--c-yellow);
 }
 
 .searchContainer {
@@ -97,7 +97,7 @@
 
 .searchInputContainer {
   border-radius: 29px;
-  background-color: $(theme.primero.colors.white);
+  background-color: var(--c-white);
   border: 1px solid #d6d6d6;
   display: flex;
   flex: 1;
