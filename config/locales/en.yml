@@ -242,6 +242,8 @@ en:
       reopened: Reopened
       service_implemented: Service Implemented
       services_implemented: Service Implemented
+  linkedincidents:
+    label: Linked Incidents
   cases:
     action_plan: Action Plan
     age: Age

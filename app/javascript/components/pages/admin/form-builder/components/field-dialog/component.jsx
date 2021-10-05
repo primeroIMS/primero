@@ -55,7 +55,7 @@ import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constant
 
 const useStyles = makeStyles(styles);
 
-const Component = ({ formId, mode, onClose, onSuccess }) => {
+const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const css = useStyles();
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
@@ -76,6 +76,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const isNested = subformContainsFieldName(selectedSubform, selectedFieldName, selectedSubformField);
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
+    parentForm,
     i18n,
     formMode,
     css,
@@ -426,7 +427,8 @@ Component.propTypes = {
   formId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  parentForm: PropTypes.string
 };
 
 export default memo(Component);

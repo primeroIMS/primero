@@ -2,16 +2,14 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
-import { getOption } from "../../../selectors";
 import { SUBFORM_LOOKUP_HEADER_NAME } from "../constants";
-import { useMemoizedSelector } from "../../../../../libs";
+import useOptions from "../../../../form/use-options";
 
 import { getMultiSelectValues } from "./utils";
 
 const Component = ({ value, optionsStringSource, optionsStringText }) => {
   const i18n = useI18n();
-
-  const optionsStrings = useMemoizedSelector(state => getOption(state, optionsStringSource, i18n.locale, value));
+  const optionsStrings = useOptions({ source: optionsStringSource });
 
   if (isEmpty(value)) return <>{value}</>;
 
