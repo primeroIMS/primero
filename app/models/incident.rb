@@ -24,7 +24,9 @@ class Incident < ApplicationRecord
     :livelihoods_services_subform_section, :child_protection_services_subform_section
   )
 
+  has_many :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
+  after_save :save_violations
 
   def self.quicksearch_fields
     %w[incident_id incident_code super_incident_name incident_description
@@ -142,4 +144,41 @@ class Incident < ApplicationRecord
 
     self.case.save!
   end
+
+  alias super_update_properties update_properties
+  def update_properties(user, data)
+    build_or_update_violations((violations_data(data) || {}))
+    super_update_properties(user, data)
+  end
+
+  def violations_data(data)
+    return {} unless data
+
+    associations_as_data_keys.reduce({}) {|acc, elem| acc.merge(elem => data.delete(elem))}
+  end
+
+  def build_or_update_violations(violations_data)
+    return unless violations_data
+
+    # TODO: build violations from here, should I build multiples violations from here?
+
+    @violations_to_save = Violation.new(violation_data, self)
+  end
+
+  def save_associations
+    return unless @violations_to_save
+
+    Violation.transaction do
+      @violations_to_save.each(&:save_associations)
+    end
+  end
+
+  def associations_as_data(_current_user)
+    @associations_as_data ||= violations.associations_data
+  end
+
+  def associations_as_data_keys
+    %w[source_violations perpetrator_violations individual_violations group_violations intervention_violations]
+  end
+
 end

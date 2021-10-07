@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_17_000000) do
+ActiveRecord::Schema.define(version: 2021_10_01_000005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -287,6 +287,11 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
 
+  create_table "group_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_group_victims_on_data", using: :gin
+  end
+
   create_table "identity_providers", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "unique_id"
@@ -303,6 +308,11 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.uuid "incident_case_id"
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
+  create_table "individual_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_individual_victims_on_data", using: :gin
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
@@ -325,6 +335,11 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "perpetrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_perpetrators_on_data", using: :gin
   end
 
   create_table "primero_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -407,6 +422,13 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.index ["unique_id"], name: "index_reports_on_unique_id", unique: true
   end
 
+  create_table "responses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "violation_id"
+    t.index ["data"], name: "index_responses_on_data", using: :gin
+    t.index ["violation_id"], name: "index_responses_on_violation_id"
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.string "name"
@@ -430,6 +452,11 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.integer "user_id"
     t.jsonb "filters"
     t.index ["user_id"], name: "index_saved_searches_on_user_id"
+  end
+
+  create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_sources_on_data", using: :gin
   end
 
   create_table "system_settings", id: :serial, force: :cascade do |t|
@@ -554,6 +581,33 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
+  create_table "violations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "incident_id"
+    t.uuid "source_id"
+    t.index ["data"], name: "index_violations_on_data", using: :gin
+    t.index ["incident_id"], name: "index_violations_on_incident_id"
+    t.index ["source_id"], name: "index_violations_on_source_id"
+  end
+
+  create_table "violations_group_victims", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "group_victim_id"
+    t.index ["violation_id", "group_victim_id"], name: "index_violations_group_victims_on_ids", unique: true
+  end
+
+  create_table "violations_individual_victims", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "individual_victim_id"
+    t.index ["violation_id", "individual_victim_id"], name: "index_violations_individual_victims_on_ids", unique: true
+  end
+
+  create_table "violations_perpetrators", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "perpetrator_id"
+    t.index ["violation_id", "perpetrator_id"], name: "index_violations_perpetrators_on_ids", unique: true
+  end
+
   create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "events", default: []
     t.string "url"
@@ -580,6 +634,9 @@ ActiveRecord::Schema.define(version: 2021_08_17_000000) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
+  add_foreign_key "responses", "violations"
   add_foreign_key "users", "codes_of_conduct", column: "code_of_conduct_id"
+  add_foreign_key "violations", "incidents"
+  add_foreign_key "violations", "sources"
   add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
