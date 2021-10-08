@@ -3,6 +3,35 @@
 require 'write_xlsx'
 
 namespace :primero do
+
+  # Remove all data config and records
+  # USAGE: rails primero:remove_config_data_and_records
+  # Args:
+  #   include_users        - Whether or not remove users                          DEFAULT: false
+  # NOTE:
+  #   No spaces between arguments in argument list
+  # Examples:
+  #   Defaults to remove all data except users
+  #      rails primero:remove_config_data_and_records
+  #
+  #   remove all data except users
+  #      rails primero:remove_config_data_and_records[true]
+  desc 'Remove config data and records'
+  task :remove_config_data_and_records, [:include_users] => :environment do |_, args|
+    config_data_and_record_models = [Agency, ContactInformation, Field, FormSection,
+                                     Location, Lookup, PrimeroModule, PrimeroProgram,
+                                     Report, Role, SystemSettings, UserGroup,
+                                     ExportConfiguration, AuditLog, Webhook, Attachment,
+                                     Child, Incident, TracingRequest, Trace]
+
+    config_data_and_record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
+
+    config_data_and_record_models.each do |model|
+      puts "Removing data from #{model.name} table"
+      model.destroy_all
+    end
+  end
+
   desc 'Remove records'
   task :remove_records, [:type] => :environment do |_, args|
     types = [Child, TracingRequest, Incident, PotentialMatch]
