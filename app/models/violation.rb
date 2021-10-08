@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
-class Violation
+# Model for MRM Violation
+class Violation < ApplicationRecord
   #TODO: For now this will be used to only read and index violations.
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
   #TODO: There is some amount of duplication between this and the Incident container class. Refactor!
   #include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
   #include Indexable
+
+  TYPES = %w[
+    killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
+  ].freeze
+  ASSOCIATIONS_KEYS = %w[sources perpetrators individuals groups interventions].freeze
 
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
@@ -15,9 +21,10 @@ class Violation
   belongs_to :incident
 
   store_accessor :data,
-                 :unique_id, :violation_tally, :verified
+                 :unique_id, :violation_tally, :verified, :type
 
-  attr_accessor :violation_object, :category
+  after_initialize :set_unique_id
+  after_save :save_associations
 
   # searchable do
   #   string :category, as: :category_sci
@@ -81,20 +88,29 @@ class Violation
     #end
   #end
 
-  def associations_data
-    {
-      'source_violations' => source,
-      'perpetrator_violations' => perpetrators,
-      'individual_violations' => individual_victims,
-      'group_violations' => group_victims,
-      'intervention_violations' => responses
+  def set_unique_id
+    self.unique_id = id
+  end
+
+  def associations_as_data
+    @associations_as_data ||= {
+      'sources' => source.map(&:data),
+      'perpetrators' => perpetrators.map(&:data),
+      'individuals' => individual_victims.map(&:data),
+      'groups' => group_victims.map(&:data),
+      'interventions' => responses.map(&:data)
     }
   end
 
-  def initialize(associations_data, incident)
-    self.incident = incident
-    self.violation_tally = incident&.violation_tally
+  def associations_as_data_keys
+    %w[sources perpetrators individuals groups interventions]
+  end
+
+  def self.build_record(data, incident, associations_data)
+    violation = find_or_initialize_by(id: tdata['unique_id'])
+    violation.incident = incident
     build_associations(associations_data)
+    violation
   end
 
   def build_associations(associations_data)
@@ -102,7 +118,6 @@ class Violation
       # TODO: buid all the records for every relation
     end
   end
-
 
   def save_associations
     return unless @associations_to_save
@@ -112,12 +127,11 @@ class Violation
   end
 
   # TODO: Refactor on incident_monitoring_reporting concern
-  def self.from_incident(incident)
-   []
+  def self.from_incident(_incident)
+    []
   end
 
   def armed_force_group_names
     perpetrators.map(&:armed_force_group_name)
   end
-
 end

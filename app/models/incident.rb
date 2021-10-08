@@ -26,7 +26,7 @@ class Incident < ApplicationRecord
 
   has_many :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
-  after_save :save_violations
+  after_save :save_violations_associations
 
   def self.quicksearch_fields
     %w[incident_id incident_code super_incident_name incident_description
@@ -147,38 +147,43 @@ class Incident < ApplicationRecord
 
   alias super_update_properties update_properties
   def update_properties(user, data)
-    build_or_update_violations((violations_data(data) || {}))
+    build_or_update_violations(data)
     super_update_properties(user, data)
   end
 
-  def violations_data(data)
+  def violations_data(data_keys, data)
     return {} unless data
 
-    associations_as_data_keys.reduce({}) {|acc, elem| acc.merge(elem => data.delete(elem))}
+    data_keys.reduce({}) do |acc, elem|
+      next acc unless data[elem].present?
+
+      acc.merge(elem => data.delete(elem))
+    end
   end
 
-  def build_or_update_violations(violations_data)
-    return unless violations_data
+  def build_or_update_violations(data)
+    violation_objects_data = violations_data(Violation::TYPES, data)
+    violation_associations_data = violations_data(Violation::ASSOCIATIONS_KEYS, data)
+    return unless violation_objects_data
 
-    # TODO: build violations from here, should I build multiples violations from here?
-
-    @violations_to_save = Violation.new(violation_data, self)
+    @violations_to_save = violation_objects_data.map do |current_violation|
+      Violation.build_record(current_violation, self, violation_associations_data)
+    end
   end
 
-  def save_associations
+  def save_violations_associations
     return unless @violations_to_save
 
     Violation.transaction do
-      @violations_to_save.each(&:save_associations)
+      @violations_to_save.each(&:save!)
     end
   end
 
   def associations_as_data(_current_user)
-    @associations_as_data ||= violations.associations_data
+    @associations_as_data ||= violations.associations_as_data.merge('violations' => violations.map(&:data))
   end
 
   def associations_as_data_keys
-    %w[source_violations perpetrator_violations individual_violations group_violations intervention_violations]
+    %w[violations sources perpetrators individuals groups interventions]
   end
-
 end
