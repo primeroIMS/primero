@@ -208,6 +208,29 @@ describe Incident do
     end
   end
 
+  describe '#update_properties' do
+    let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '0123456', description: 'this is a test') }
+    let(:uuid) { SecureRandom.uuid }
+
+    before do
+      data = incident.data.clone
+      data['recruitment'] = [
+        {
+          'unique_id' => uuid,
+          'name' => 'violation1'
+        }
+      ]
+      incident.update_properties(fake_user, data)
+      incident.save!
+    end
+
+    it 'creates associated trace records from the tracing_request_subform_section data key' do
+      violation = Violation.last
+      expect(violation).to be
+      expect(violation.unique_id).to eq(uuid)
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by,options = {})

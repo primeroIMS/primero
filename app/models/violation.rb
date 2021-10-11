@@ -17,7 +17,7 @@ class Violation < ApplicationRecord
   has_and_belongs_to_many :group_victims
   has_and_belongs_to_many :perpetrators
   has_many :responses
-  belongs_to :source
+  belongs_to :source, optional: true
   belongs_to :incident
 
   store_accessor :data,
@@ -106,10 +106,12 @@ class Violation < ApplicationRecord
     %w[sources perpetrators individuals groups interventions]
   end
 
-  def self.build_record(data, incident, associations_data)
-    violation = find_or_initialize_by(id: tdata['unique_id'])
+  def self.build_record(type, data, incident, associations_data)
+    violation = find_or_initialize_by(id: data['unique_id'])
     violation.incident = incident
-    build_associations(associations_data)
+    violation.type = type
+    violation.data = data
+    violation.build_associations(associations_data)
     violation
   end
 
