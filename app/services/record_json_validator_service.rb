@@ -2,12 +2,16 @@
 
 # Validate if the submitted record data an be described by the Field definitions
 class RecordJsonValidatorService < JsonValidatorService
+  NUMBER_VALIDATION = { 'type' => %w[integer null], 'minimum' => -2_147_483_648, 'maximum' => 2_147_483_647 }.freeze
+
   private
 
   # Building a schema is in inherently complex operation
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/BlockLength
   def build_schema(fields)
     object = { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
     return object unless fields.present?
@@ -43,12 +47,16 @@ class RecordJsonValidatorService < JsonValidatorService
         }
       when Field::TEXT_FIELD, Field::TEXT_AREA
         properties[field.name] = { 'type' => %w[string null] }
+      when Field::TALLY_FIELD
+        properties[field.name] = { 'type' => %w[object null], 'properties' => tally_properties(field.tally_i18n) }
       end
     end
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/BlockLength
 
   def with_subform_fields(object_schema)
     object_schema.tap do |schema|
@@ -56,6 +64,15 @@ class RecordJsonValidatorService < JsonValidatorService
       schema['properties']['unique_id'] = {
         'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX
       }
+    end
+  end
+
+  def tally_properties(entries)
+    return {} unless entries
+
+    entries.each_with_object({ 'total' => NUMBER_VALIDATION }) do |entry, acc|
+      acc[entry['id']] = NUMBER_VALIDATION
+      acc
     end
   end
 end

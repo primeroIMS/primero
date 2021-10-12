@@ -108,6 +108,8 @@ class PermittedFieldService
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
+    # TODO: add user validation for mrm entities
+    schema = schema.merge(permitted_mrm_entities_schema) # if user.can?(:read, Violation)
     schema.merge(permitted_approval_schema)
   end
   # rubocop:enable Metrics/AbcSize
@@ -174,6 +176,12 @@ class PermittedFieldService
     incident_field_names << 'case_id_display'
 
     incident_field_names
+  end
+
+  def permitted_mrm_entities_schema
+    (Violation::TYPES + Violation::ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
+      schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
