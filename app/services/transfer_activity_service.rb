@@ -3,10 +3,14 @@
 # Query for transfer in record history for a specific user
 class TransferActivityService
   class << self
-    def list(user)
-      return RecordHistory.none unless user.present?
+    def list(user, params = {})
+      return RecordHistory.none unless user.present? && user.can?(:dash_activity_log_transfer, Dashboard)
 
-      transfer_query(RecordHistory.includes(:record), user)
+      query = transfer_query(RecordHistory.includes(:record), user)
+
+      return query unless params[:datetime_range].present?
+
+      query.where(datetime: params[:datetime_range])
     end
 
     private

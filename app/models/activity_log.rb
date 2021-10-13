@@ -5,10 +5,8 @@ class ActivityLog
   TYPE_TRANSFER = 'transfer'
 
   class << self
-    def list(user, type)
-      return RecordHistory.none unless type == TYPE_TRANSFER
-
-      TransferActivityService.list(user)
+    def list(user, params)
+      TransferActivityService.list(user, params)
     end
   end
 end

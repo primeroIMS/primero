@@ -5,9 +5,7 @@ class Api::V2::ActivityLogController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
   def index
-    # TODO: Can all dashboards be returned in a single request?
-    # authorize! "dash_activity_log_#{activity_type}".to_sym, Dashboard
-    results = ActivityLog.list(current_user, activity_type)
+    results = ActivityLog.list(current_user, activity_log_params)
     @total = results.size
     @activity_logs = results.paginate(pagination)
   end
@@ -16,7 +14,25 @@ class Api::V2::ActivityLogController < ApplicationApiController
     'datetime'
   end
 
-  def activity_type
-    @activity_type ||= params[:type]
+  def activity_log_params
+    return @activity_log_params if @activity_log_params.present?
+
+    permitted_params = params.permit(:type, datetime: {})
+
+    @activity_log_params = { type: permitted_params[:type], datetime_range: datetime_range(permitted_params) }
+  end
+
+  private
+
+  def datetime_range(permitted_params)
+    from = permitted_params.dig(:datetime, :from)
+
+    return unless from.present?
+
+    to = permitted_params.dig(:datetime, :to)
+
+    return Time.zone.parse(from)..Time.zone.parse(to) if to.present?
+
+    Time.zone.parse(from)..Time.zone.now
   end
 end
