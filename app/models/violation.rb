@@ -11,7 +11,7 @@ class Violation < ApplicationRecord
   TYPES = %w[
     killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
   ].freeze
-  ASSOCIATIONS_KEYS = %w[sources perpetrators individuals groups interventions].freeze
+  MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims interventions].freeze
 
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
@@ -103,7 +103,7 @@ class Violation < ApplicationRecord
   end
 
   def associations_as_data_keys
-    %w[sources perpetrators individuals groups interventions]
+    MRM_ASSOCIATIONS_KEYS
   end
 
   def self.build_record(type, data, incident, associations_data)

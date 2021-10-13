@@ -163,7 +163,7 @@ class Incident < ApplicationRecord
 
   def build_or_update_violations(data)
     violation_objects_data = violations_data(Violation::TYPES, data)
-    violation_associations_data = violations_data(Violation::ASSOCIATIONS_KEYS, data)
+    violation_associations_data = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
     return unless violation_objects_data.present?
 
     @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|

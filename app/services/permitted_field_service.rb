@@ -98,6 +98,8 @@ class PermittedFieldService
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += Violation::TYPES # if user.can?(:update, mrm)
     @permitted_field_names
   end
 
@@ -179,7 +181,7 @@ class PermittedFieldService
   end
 
   def permitted_mrm_entities_schema
-    (Violation::TYPES + Violation::ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
+    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
       schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
     end
   end
