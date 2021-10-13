@@ -81,7 +81,7 @@ On Fedora:
 Install  gems, packages:
 
     $ bundle install
-    $ npm install
+    $ npm ci
 
 Prepare development configuration. Review the created configurations files and alter as needed:
 

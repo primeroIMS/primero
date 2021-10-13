@@ -1,8 +1,9 @@
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.6.6-alpine3.11 AS build-env
+FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.14 AS build-env
 
-ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
+ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
+ENV PYTHON_PACKAGES python3 py3-pip
 ENV BUILD_DEP_PACKAGES postgresql-dev
 ENV RUNTIME_PACKAGES libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev
 ENV DEV_PACKAGES busybox-extras tree cairo pixman pixman-dev
@@ -33,6 +34,8 @@ RUN set -ex ; \
 RUN set -euox pipefail \
         ; apk update \
         ; apk add $BUILD_PACKAGES \
+        ; apk add --no-cache $PYTHON_PACKAGES \
+        ; ln -sf python3 /usr/bin/python \
         ; apk add $BUILD_DEP_PACKAGES \
         # ; apk add $DEV_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
@@ -47,16 +50,16 @@ COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-        bundle install --without development test cucumber \
+        BUNDLE_WITHOUT="development:test" bundle install \
         ; else \
         bundle install \
         ; fi
 
-# Run npm install
+# Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
 
 RUN set -euox pipefail \
-        ; npm install
+        ; npm ci
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
@@ -68,7 +71,7 @@ COPY [ ".", "$APP_ROOT" ]
 RUN set -euox pipefail \
         ; mkdir -p "$APP_ROOT/tmp/export" "$RAILS_LOG_PATH" \
         ; mkdir -p "$APP_ROOT/tmp/exports" "$RAILS_LOG_PATH" \
-        ; rake primero:i18n_js
+        ; rails primero:i18n_js
 
 # Intentionally cached seperately
 # Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
@@ -89,7 +92,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:2.6.6-alpine3.11
+FROM ${BUILD_REGISTRY}ruby:2.7.4-alpine3.14
 
 ENV BUILD_PACKAGES bash
 ENV RUNTIME_PACKAGES libpq gettext libintl imagemagick libsodium-dev p7zip curl

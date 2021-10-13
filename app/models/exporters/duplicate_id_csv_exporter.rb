@@ -4,7 +4,7 @@ require 'csv'
 
 # This generates a CSV report of all cases that share the same value
 # for certain core identifiers such as national id and UNHCR number.
-class Exporters::DuplicateIdCSVExporter < Exporters::ConfigurableExporter
+class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
   ID_FIELD_NAMES = %w[
     national_id_no case_id unhcr_individual_no
     name age sex family_count_no

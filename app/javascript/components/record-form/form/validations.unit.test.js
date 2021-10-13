@@ -81,6 +81,20 @@ describe("<RecordForm>/form/validations", () => {
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
+
+        it("should not be valid if it is null", () => {
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const formData = { cities: null };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+
+        it("should not be valid if it is not present", () => {
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const formData = {};
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
       });
 
       context("when it is not required", () => {
@@ -103,6 +117,13 @@ describe("<RecordForm>/form/validations", () => {
         it("should be valid if it is null", () => {
           const schema = object().shape(validations.fieldValidations(selectField, i18n));
           const formData = { cities: null };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+
+        it("should be valid if it is not present", () => {
+          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const formData = {};
 
           expect(schema.isValidSync(formData)).to.be.true;
         });

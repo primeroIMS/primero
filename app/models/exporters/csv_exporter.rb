@@ -3,7 +3,7 @@
 require 'csv'
 
 # Exports the top level fields of a record to a flat CSV
-class Exporters::CSVExporter < Exporters::BaseExporter
+class Exporters::CsvExporter < Exporters::BaseExporter
   EXCLUDED_TYPES = [
     Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX,
     Field::DOCUMENT_UPLOAD_BOX, Field::SUBFORM, Field::SEPARATOR

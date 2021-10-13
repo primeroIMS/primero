@@ -56,6 +56,7 @@ class Field < ApplicationRecord
   before_create :sanitize_name, :set_default_date_validation, :set_tally_field_defaults
   after_save :sync_modules
 
+  # rubocop:disable Metrics/MethodLength
   def self.permitted_api_params
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
@@ -69,6 +70,7 @@ class Field < ApplicationRecord
       { 'subform_section_configuration' => {} }
     ]
   end
+  # rubocop:enable Metrics/MethodLength
 
   # TODO: Move the logic for all_*_field_names methods to the Searchable concern
   class << self
@@ -95,12 +97,12 @@ class Field < ApplicationRecord
       fields_for_record(parent_form).where(type: Field::TICK_BOX).pluck(:name)
     end
 
-    def all_filterable_field_names(parent_form = 'case')
+    def all_filterable_option_field_names(parent_form = 'case')
       # TODO: TEXT_FIELD is being indexed for exact search? Makes sense for docuemt identifiers, but not much else.
-      fields_for_record(parent_form).where(type: [TEXT_FIELD, RADIO_BUTTON, SELECT_BOX], multi_select: false)
+      fields_for_record(parent_form).where(type: [RADIO_BUTTON, SELECT_BOX], multi_select: false)
                                     .pluck(:name)
     end
-
+    
     def all_filterable_multi_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::SELECT_BOX, multi_select: true).pluck(:name)
     end

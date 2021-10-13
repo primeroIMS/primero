@@ -13,16 +13,16 @@ import {
 import generateKey from "../../../charts/table-values/utils";
 import { FormSectionRecord } from "../../records";
 
-export default i18n =>
+export default locale =>
   Object.freeze({
     [SUMMARY]: FormSectionRecord({
       id: generateKey(),
       unique_id: SUMMARY,
       description: {
-        [i18n.locale]: i18n.t("cases.summary.label")
+        [locale]: "cases.summary.label"
       },
       name: {
-        [i18n.locale]: i18n.t("cases.summary.label")
+        [locale]: "cases.summary.label"
       },
       visible: true,
       is_first_tab: false,
@@ -36,66 +36,74 @@ export default i18n =>
       subform_prevent_item_removal: false,
       collapsed_field_names: [],
       subform_append_only: false,
-      initial_subforms: 0
+      initial_subforms: 0,
+      i18nName: true,
+      i18nDescription: true
     }),
     [RECORD_OWNER]: FormSectionRecord({
       id: generateKey(),
       unique_id: RECORD_OWNER,
-      name: { [i18n.locale]: i18n.t("forms.record_types.record_information") },
+      name: { [locale]: "forms.record_types.record_information" },
       order: 1,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: true,
-      core_form: true
+      core_form: true,
+      i18nName: true
     }),
     [APPROVALS]: FormSectionRecord({
       id: generateKey(),
       unique_id: APPROVALS,
-      name: { [i18n.locale]: i18n.t("forms.record_types.approvals") },
+      name: { [locale]: "forms.record_types.approvals" },
       order: 2,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: true,
-      core_form: true
+      core_form: true,
+      i18nName: true
     }),
     [INCIDENT_FROM_CASE]: FormSectionRecord({
       id: generateKey(),
       unique_id: INCIDENT_FROM_CASE,
-      name: { [i18n.locale]: i18n.t("incidents.label") },
+      name: { [locale]: "incidents.label" },
       order: 3,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: false,
-      core_form: true
+      core_form: true,
+      i18nName: true
     }),
     [REFERRAL]: FormSectionRecord({
       id: generateKey(),
       unique_id: REFERRAL,
-      name: { [i18n.locale]: i18n.t("forms.record_types.referrals") },
+      name: { [locale]: "forms.record_types.referrals" },
       order: 4,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: true,
-      core_form: true
+      core_form: true,
+      i18nName: true
     }),
     [TRANSFERS_ASSIGNMENTS]: FormSectionRecord({
       id: generateKey(),
       unique_id: TRANSFERS_ASSIGNMENTS,
-      name: { [i18n.locale]: i18n.t("forms.record_types.transfers_assignments") },
+      name: { [locale]: "forms.record_types.transfers_assignments" },
       order: 5,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: false,
-      core_form: true
+      core_form: true,
+      i18nName: true
     }),
     [CHANGE_LOGS]: FormSectionRecord({
       id: generateKey(),
       unique_id: CHANGE_LOGS,
-      name: { [i18n.locale]: i18n.t("change_logs.label") },
+      name: { [locale]: "change_logs.label" },
       order: 6,
       form_group_id: RECORD_INFORMATION_GROUP,
       order_form_group: 0,
       is_first_tab: false,
-      core_form: true
+      core_form: true,
+      i18nName: true
     })
   });

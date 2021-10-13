@@ -42,8 +42,8 @@ describe PrimeroConfiguration do
     it 'resets the configuration to the saved state' do
       current_configuration = PrimeroConfiguration.current
       current_configuration.save!
-      @form1.update_attributes!(name: 'B')
-      @role1.update_attributes!(name: 'Role2')
+      @form1.update!(name: 'B')
+      @role1.update!(name: 'Role2')
       FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
       Lookup.create!(unique_id: 'lookupX', name: 'lookupX')
       Report.create!(
@@ -116,8 +116,8 @@ describe PrimeroConfiguration do
       current_configuration = PrimeroConfiguration.current
       current_configuration.save!
 
-      @form1.update_attributes!(name: 'B')
-      @role1.update_attributes!(name: 'Role2')
+      @form1.update!(name: 'B')
+      @role1.update!(name: 'Role2')
       FormSection.create!(unique_id: 'X', name: 'X', parent_form: 'case', form_group_id: 'm')
       Lookup.create!(unique_id: 'lookupX', name: 'lookupX')
       Report.create!(

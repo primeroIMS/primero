@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { List, Collapse } from "@material-ui/core";
 
 import NavItem from "../nav-item";
+import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 import { getFormGroupName } from "./utils";
@@ -20,6 +21,7 @@ const Component = ({
   const isNested = forms.length > 1;
   const parentForm = forms[0];
   const { group: formGroupID } = parentForm;
+  const i18n = useI18n();
 
   const groupName = getFormGroupName(formGroupLookup, formGroupID);
 
@@ -43,6 +45,8 @@ const Component = ({
     selectedForm
   };
 
+  const navItemName = form => (form.i18nName ? i18n.t(form.name) : form.name);
+
   return (
     <>
       <NavItem {...parentFormProps} {...sharedProps} />
@@ -50,7 +54,14 @@ const Component = ({
         <Collapse in={open === parentForm.group} timeout="auto" unmountOnExit>
           <List disablePadding dense>
             {forms.map(f => (
-              <NavItem form={f} name={f.name} key={f.formId} groupItem hasError={formHasError(f)} {...sharedProps} />
+              <NavItem
+                form={f}
+                name={navItemName(f)}
+                key={f.formId}
+                groupItem
+                hasError={formHasError(f)}
+                {...sharedProps}
+              />
             ))}
           </List>
         </Collapse>

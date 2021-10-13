@@ -116,13 +116,10 @@
          The default since Lucene 2.3 was the LogByteSizeMergePolicy,
          Even older versions of Lucene used LogDocMergePolicy.
       -->
-    <mergePolicy class="org.apache.lucene.index.TieredMergePolicy">
+    <mergePolicyFactory class="org.apache.solr.index.TieredMergePolicyFactory">
       <int name="maxMergeAtOnce">4</int>
       <int name="segmentsPerTier">4</int>
-    </mergePolicy>
-
-    <unlockOnStartup>true</unlockOnStartup>
-
+    </mergePolicyFactory>
   </indexConfig>
 
   <updateHandler class="solr.DirectUpdateHandler2">
@@ -494,6 +491,7 @@
     </lst>
     <lst name="defaults">
       <str name="echoParams">all</str>
+      <str name="df">text</str>
     </lst>
   </requestHandler>
 
@@ -662,7 +660,5 @@
       <str name="mlt.mindf">2</str>
     </lst>
   </requestHandler>
-
-  <!-- Admin Handlers - This will register all the standard admin RequestHandlers. -->
-  <requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+  
 </config>

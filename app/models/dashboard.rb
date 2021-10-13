@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This represents the elements that are to be displayed on the Dashboard
+# rubocop:disable Metrics/ClassLength
 class Dashboard < ValueObject
   attr_accessor :name, :type, :indicators
 
@@ -259,11 +260,10 @@ class Dashboard < ValueObject
       type: 'indicator',
       indicators: [
         Indicators::Case::NATIONAL_ADMIN_SUMMARY_OPEN,
-        Indicators::Case.new_last_week,
-        Indicators::Case.new_this_week,
-        Indicators::Case.closed_last_week,
-        Indicators::Case.closed_this_week
+        Indicators::Case.new_last_week, Indicators::Case.new_this_week,
+        Indicators::Case.closed_last_week, Indicators::Case.closed_this_week
       ]
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

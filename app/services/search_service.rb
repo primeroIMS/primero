@@ -3,6 +3,8 @@
 # Query for records using Sunspot Solr
 class SearchService
   class << self
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     # Query for records using Sunspot Solr.
     # record_class: The class of the type of record queried for.
     # search_params: A hash of search options used to build the query.
@@ -14,14 +16,32 @@ class SearchService
     #   paginattion: A hash indicating the pagination
     def search(record_class, search_params = {})
       params = with_defaults(search_params)
-
+      params = with_location_filters(record_class, params)
       record_class.search do
         params[:filters].each { |filter| filter.query_scope(self) }
         with_query_scope(self, params[:query_scope])
         with_query(self, record_class, params[:query])
 
-        params[:sort].each { |sort_field, order| order_by(sort_field, order) }
+        params[:sort].each do |sort_field, order|
+          order_by(selected_sort_field(record_class, sort_field), order)
+        end
         paginate(params[:pagination])
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+
+    def with_location_filters(record_class, params)
+      params.tap do |p|
+        p[:filters] = p[:filters].map { |filter| filter.as_location_filter(record_class) }
+      end
+    end
+
+    def selected_sort_field(record_class, sort_field)
+      if record_class.sortable_text_fields.present? && record_class.sortable_text_fields.include?(sort_field.to_s)
+        "#{sort_field}_sortable".to_sym
+      else
+        sort_field
       end
     end
 

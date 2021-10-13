@@ -73,6 +73,8 @@ export const FieldRecord = Record({
   rawOptions: false,
   renderDownloadButton: false,
   downloadButtonLabel: "",
+  i18nName: false,
+  i18nDescription: false,
   renderChildren: true
 });
 
