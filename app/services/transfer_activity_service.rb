@@ -29,10 +29,16 @@ class TransferActivityService
     end
 
     def rejected_transfer_query(query, user)
-      query.where(
+      rejected_query = query.where(
         'record_changes @> ?',
         { transfer_status: { from: Transition::STATUS_INPROGRESS, to: Transition::STATUS_REJECTED } }.to_json
-      ).where('record_changes->\'assigned_user_names\'->\'from\' <@ ?', user.managed_user_names.to_json)
+      )
+      rejected_query.where(
+        'record_changes->\'assigned_user_names\'->\'from\' @>?',
+        user.managed_user_names.to_json
+      ).or(
+        rejected_query.where('record_changes->\'associated_user_names\'->\'from\' @>?', user.managed_user_names.to_json)
+      )
     end
   end
 end
