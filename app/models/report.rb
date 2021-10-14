@@ -204,11 +204,11 @@ class Report < ApplicationRecord
           self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
             pivot_name.is_a?(Numeric) ? '' : pivot_name
           end
-          values = values.map do |pivots, value|
+          self.values = self.values.map do |pivots, value|
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          Reports::Utils.correct_aggregate_counts(values)
+          Reports::Utils.correct_aggregate_counts(self.values)
         end
       end
     end
