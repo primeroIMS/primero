@@ -292,6 +292,13 @@ ActiveRecord::Schema.define(version: 2021_10_01_000005) do
     t.index ["data"], name: "index_group_victims_on_data", using: :gin
   end
 
+  create_table "group_victims_violations", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "group_victim_id"
+    t.index ["group_victim_id"], name: "index_group_victims_violations_on_group_victim_id"
+    t.index ["violation_id"], name: "index_group_victims_violations_on_violation_id"
+  end
+
   create_table "identity_providers", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "unique_id"
@@ -313,6 +320,13 @@ ActiveRecord::Schema.define(version: 2021_10_01_000005) do
   create_table "individual_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_individual_victims_on_data", using: :gin
+  end
+
+  create_table "individual_victims_violations", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "individual_victim_id"
+    t.index ["individual_victim_id"], name: "index_individual_victims_violations_on_individual_victim_id"
+    t.index ["violation_id"], name: "index_individual_victims_violations_on_violation_id"
   end
 
   create_table "locations", id: :serial, force: :cascade do |t|
@@ -340,6 +354,13 @@ ActiveRecord::Schema.define(version: 2021_10_01_000005) do
   create_table "perpetrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_perpetrators_on_data", using: :gin
+  end
+
+  create_table "perpetrators_violations", force: :cascade do |t|
+    t.uuid "violation_id"
+    t.uuid "perpetrator_id"
+    t.index ["perpetrator_id"], name: "index_perpetrators_violations_on_perpetrator_id"
+    t.index ["violation_id"], name: "index_perpetrators_violations_on_violation_id"
   end
 
   create_table "primero_configurations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -588,24 +609,6 @@ ActiveRecord::Schema.define(version: 2021_10_01_000005) do
     t.index ["data"], name: "index_violations_on_data", using: :gin
     t.index ["incident_id"], name: "index_violations_on_incident_id"
     t.index ["source_id"], name: "index_violations_on_source_id"
-  end
-
-  create_table "violations_group_victims", force: :cascade do |t|
-    t.uuid "violation_id"
-    t.uuid "group_victim_id"
-    t.index ["violation_id", "group_victim_id"], name: "index_violations_group_victims_on_ids", unique: true
-  end
-
-  create_table "violations_individual_victims", force: :cascade do |t|
-    t.uuid "violation_id"
-    t.uuid "individual_victim_id"
-    t.index ["violation_id", "individual_victim_id"], name: "index_violations_individual_victims_on_ids", unique: true
-  end
-
-  create_table "violations_perpetrators", force: :cascade do |t|
-    t.uuid "violation_id"
-    t.uuid "perpetrator_id"
-    t.index ["violation_id", "perpetrator_id"], name: "index_violations_perpetrators_on_ids", unique: true
   end
 
   create_table "webhooks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
