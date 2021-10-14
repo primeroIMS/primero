@@ -6,7 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
-import { useMemoizedSelector, useThemeHelper } from "../../libs";
+import { useMemoizedSelector } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useApp } from "../application";
@@ -45,7 +45,7 @@ const ActionDialog = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
+
   const { disabledApplication } = useApp();
 
   const asyncLoading = useMemoizedSelector(state => {
@@ -152,7 +152,7 @@ const ActionDialog = ({
                 icon={<CloseIcon />}
                 text={i18n.t("cancel")}
                 type={ACTION_BUTTON_TYPES.default}
-                isCancel
+                cancel
                 rest={{
                   ...defaulCancelButtonProps,
                   ...cancelButtonProps,

@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-
 import isEmpty from "lodash/isEmpty";
 
 import Panel from "../../panel";
@@ -22,11 +21,9 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ addFilterToList, filter, mode, moreSectionFilters, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
-  
+
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();

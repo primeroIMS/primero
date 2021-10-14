@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -17,11 +16,9 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
   const i18n = useI18n();
-  
+
   const { name } = commonInputProps;
   const { selectedValue } = metaInputProps;
   const fieldName = name.split(".")[0];
@@ -79,7 +76,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
           icon={<CloseIcon />}
           text={i18n.t("buttons.clear_default")}
           type={ACTION_BUTTON_TYPES.default}
-          isCancel
+          cancel
           rest={{
             onClick: onClearDefault
           }}

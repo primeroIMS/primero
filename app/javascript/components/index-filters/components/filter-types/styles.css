@@ -23,7 +23,7 @@
 
 .toggleButtonSelected {
   color: #fff !important;
-  background-color: #0093ba !important;
+  background-color: var(--c-blue) !important;
 }
 
 .select {
@@ -96,9 +96,9 @@
 }
 
 .searchInputContainer {
-  border-radius: 29px;
+  border-radius: 6px;
   background-color: var(--c-white);
-  border: 1px solid #d6d6d6;
+  border: 1px solid var(--c-mid-grey);
   display: flex;
   flex: 1;
   height: 34px;

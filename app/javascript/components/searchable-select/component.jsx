@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Chip } from "@material-ui/core";
 
-
 import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
 import css from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
-
-
 
 const SearchableSelect = ({
   error,
@@ -32,7 +29,6 @@ const SearchableSelect = ({
   value: fieldValue
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
-  
 
   const initialValues = (() => {
     if (Array.isArray(defaultValues)) {

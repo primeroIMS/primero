@@ -3,13 +3,9 @@ import Chart from "chart.js";
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
 
-
 import css from "./styles.css";
 
-
-
 const BarChart = ({ data, description, showDetails }) => {
-  
   const chartRef = createRef();
 
   useEffect(() => {

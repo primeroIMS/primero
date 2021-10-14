@@ -157,7 +157,7 @@ const RecordFormToolbar = ({
             icon={<KeyboardBackspaceIcon className={rtlClass} />}
             text={i18n.t("buttons.return_to_case")}
             type={ACTION_BUTTON_TYPES.default}
-            isCancel
+            cancel
             rest={{ onClick: handleReturnToCase }}
           />
         ) : null}
@@ -171,18 +171,16 @@ const RecordFormToolbar = ({
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
-          <div className={css.actionButtonsContainer}>
+          <>
             <ActionButton
               icon={<ClearIcon />}
               text={i18n.t("buttons.cancel")}
               type={ACTION_BUTTON_TYPES.default}
-              isCancel
-              rest={{
-                onClick: goBack
-              }}
+              cancel
+              onClick={goBack}
             />
             {renderSaveButton}
-          </div>
+          </>
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>

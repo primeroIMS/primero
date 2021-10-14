@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 
-
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 
@@ -8,10 +7,7 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import ApprovalPanel from "./components/panel";
 
-
-
 const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
-  
   const i18n = useI18n();
 
   const renderApprovals =

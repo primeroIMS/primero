@@ -1,13 +1,8 @@
 import PropTypes from "prop-types";
 
-
 import css from "./styles.css";
 
-
-
 const Component = ({ percentage, className }) => {
-  
-
   const percentageValue = percentage * 100;
   const isSmall = percentage < 0.1;
 

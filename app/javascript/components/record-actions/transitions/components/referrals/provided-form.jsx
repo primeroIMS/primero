@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Grid, FormControlLabel } from "@material-ui/core";
-
 import { Field } from "formik";
 
 import { useI18n } from "../../../../i18n";
@@ -10,10 +9,7 @@ import css from "../../styles.css";
 import { PROVIDED_FORM_NAME as NAME } from "./constants";
 import onChangeReferAnyway from "./on-change-refer-anyway";
 
-
-
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
-  
   const i18n = useI18n();
 
   const fieldReferAnyway = <Field name="referral" render={props => onChangeReferAnyway(props, setDisabled)} />;

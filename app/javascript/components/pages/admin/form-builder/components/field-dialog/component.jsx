@@ -4,7 +4,6 @@ import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
-
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
@@ -53,10 +52,7 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
-
-
 const Component = ({ formId, mode, onClose, onSuccess }) => {
-  
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();

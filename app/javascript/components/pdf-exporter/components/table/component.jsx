@@ -2,7 +2,6 @@ import { memo, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEqual from "lodash/isEqual";
 
-
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
 import {
@@ -13,11 +12,8 @@ import {
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ fields, isSubform, record }) => {
   const i18n = useI18n();
-  
 
   const classes = {
     subform: css.subform,

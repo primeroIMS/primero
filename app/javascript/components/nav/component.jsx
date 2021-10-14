@@ -5,7 +5,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
 
-
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
@@ -27,10 +26,7 @@ import { fetchAlerts } from "./action-creators";
 import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
-
-
 const Nav = () => {
-  
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const i18n = useI18n();

@@ -1,20 +1,10 @@
 import PropTypes from "prop-types";
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from "@material-ui/core";
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
 import css from "./styles.css";
 
-
-
 const RadioInput = ({ commonInputProps, options, formMethods }) => {
-  
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
   const { control } = formMethods;
 

@@ -2,11 +2,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Accordion } from "@material-ui/core";
 
-
 import { TRANSITION_PANEL_NAME as NAME } from "./constants";
 import css from "./styles.css";
-
-
 
 const TransitionPanel = ({ children }) => {
   const [expanded, setExpanded] = useState(false);
@@ -14,7 +11,6 @@ const TransitionPanel = ({ children }) => {
   const handleExpanded = () => {
     setExpanded(!expanded);
   };
-  
 
   return (
     <Accordion expanded={expanded} onChange={handleExpanded} className={css.panel}>

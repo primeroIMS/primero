@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import PropTypes from "prop-types";
 
-
 import { useI18n } from "../../../../../i18n";
 import FieldsList from "../fields-list";
 import CustomFieldDialog from "../custom-field-dialog";
@@ -9,10 +8,7 @@ import css from "../field-dialog/styles.css";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
-  
   const i18n = useI18n();
   const { getValues } = formMethods;
 

@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
-
 import CheckIcon from "@material-ui/icons/Check";
 import { useDispatch } from "react-redux";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,10 +21,7 @@ import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
 import { reduceMapToObject } from "./utils";
 
-
-
 const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
-  
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);

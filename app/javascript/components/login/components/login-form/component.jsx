@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
 
 import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import Form from "../../../form";
@@ -52,9 +51,12 @@ const Container = ({ modal }) => {
 
   const renderForgotPassword = !useIdentityProvider && (
     <>
-      <Button className={css.forgotPaswordLink} onClick={onClickForgotLink}>
-        {i18n.t("login.forgot_password")}
-      </Button>
+      <ActionButton
+        className={css.forgotPaswordLink}
+        onClick={onClickForgotLink}
+        text={i18n.t("login.forgot_password")}
+        type={ACTION_BUTTON_TYPES.link}
+      />
       {dialogOpen && <PasswordResetDialog open={dialogOpen} handleCancel={dialogClose} />}
     </>
   );
@@ -68,6 +70,7 @@ const Container = ({ modal }) => {
           <ActionButton
             text={actionButton}
             type={ACTION_BUTTON_TYPES.default}
+            size="large"
             rest={{
               fullWidth: mobileDisplay,
               form: FORM_ID,

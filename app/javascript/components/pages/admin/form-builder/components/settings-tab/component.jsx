@@ -1,6 +1,5 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
-
 import { useDispatch } from "react-redux";
 import get from "lodash/get";
 
@@ -17,10 +16,7 @@ import { whichFormMode } from "../../../../../form";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ index, mode, tab, formMethods, limitedProductionSite }) => {
-  
   const i18n = useI18n();
   const dispatch = useDispatch();
   const formMode = whichFormMode(mode);

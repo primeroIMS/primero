@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import {
   TextField,
   IconButton,
@@ -17,8 +16,6 @@ import { useI18n } from "../../i18n";
 import { APPROVAL_FORM } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({
   approval,
   close,
@@ -29,7 +26,6 @@ const Component = ({
   selectOptions
 }) => {
   const i18n = useI18n();
-  
 
   return (
     <>

@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
-
 import css from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
-
-
 const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
-  
   const isAudioAttachment = attachment === ATTACHMENT_TYPES.audio;
 
   useEffect(() => {

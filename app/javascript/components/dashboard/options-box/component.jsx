@@ -1,6 +1,5 @@
 import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
 
 import LoadingIndicator from "../../loading-indicator";
@@ -9,11 +8,7 @@ import { ConditionalWrapper } from "../../../libs";
 
 import css from "./styles.css";
 
-
-
 const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading, errors, hasData }) => {
-  
-
   const loadingIndicatorProps = {
     overlay,
     type,

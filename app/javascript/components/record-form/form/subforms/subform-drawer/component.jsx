@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
-
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../../../i18n";
@@ -10,11 +9,8 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ open, cancelHandler, children, title }) => {
   const i18n = useI18n();
-  
 
   return (
     <Drawer anchor="right" open={open} onClose={cancelHandler} classes={{ paper: css.subformDrawer }}>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Help } from "@material-ui/icons";
 
-
 import OptionsBox from "../../../dashboard/options-box";
 import { useI18n } from "../../../i18n";
 import actionsForKPI from "../../action-creators";
@@ -14,8 +13,6 @@ import usePermissions from "../../../permissions";
 
 import css from "./styles.css";
 
-
-
 const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
   return Visualizer => {
     const enhance = connect(state => ({ data: selectorsForKPI(identifier, state, defaultData) }), {
@@ -24,7 +21,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
 
     return enhance(({ data, fetchData, dateRanges = [], ...props }) => {
       const i18n = useI18n();
-      
+
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
 
       const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);

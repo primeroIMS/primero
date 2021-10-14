@@ -6,7 +6,6 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
-
 import { ButtonBase } from "@material-ui/core";
 
 import generateKey from "../../../charts/table-values/utils";
@@ -15,10 +14,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ item }) => {
-  
   const i18n = useI18n();
   const { onClick } = item;
   const renderMessage = change => (

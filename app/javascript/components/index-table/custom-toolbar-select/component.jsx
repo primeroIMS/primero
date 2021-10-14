@@ -1,4 +1,3 @@
-
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
@@ -9,8 +8,6 @@ import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
 import css from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
-
-
 
 const Component = ({
   canSelectAll,
@@ -25,7 +22,6 @@ const Component = ({
   setSelectedRecords,
   totalRecords
 }) => {
-  
   const dispatch = useDispatch();
   const i18n = useI18n();
 

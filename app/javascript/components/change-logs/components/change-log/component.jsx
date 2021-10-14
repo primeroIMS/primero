@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import Timeline from "@material-ui/lab/Timeline";
 
 import { useI18n } from "../../../i18n";
@@ -8,8 +7,6 @@ import { buildDataItems } from "../../utils";
 import css from "../../styles.css";
 
 import { NAME } from "./constants";
-
-
 
 const Component = ({
   recordChangeLogs,
@@ -22,7 +19,6 @@ const Component = ({
   allAgencies
 }) => {
   const i18n = useI18n();
-  
 
   const handleSeeDetails = subformChanges => {
     setOpen(true);

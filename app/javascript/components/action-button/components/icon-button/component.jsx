@@ -1,25 +1,13 @@
 import PropTypes from "prop-types";
-import { Fab } from "@material-ui/core";
-
-import clsx from "clsx";
+import { IconButton } from "@material-ui/core";
 
 import { NAME } from "./constants";
-import css from "./styles.css";
 
-
-
-const Component = ({ icon, isTransparent, rest }) => {
-  
-  const { className, ...res } = rest;
-  const classes = clsx(css.iconActionButton, {
-    [css.isTransparent]: isTransparent,
-    [className]: Boolean(className)
-  });
-
+const Component = ({ icon, rest }) => {
   return (
-    <Fab className={classes} size="small" {...res}>
+    <IconButton size="small" color="primary" variant="text" {...rest}>
       {icon}
-    </Fab>
+    </IconButton>
   );
 };
 

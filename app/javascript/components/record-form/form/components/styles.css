@@ -34,10 +34,6 @@
   text-transform: uppercase;
 }
 
-.styleLabelActive, .mobileStepper {
-  color: var(--c-blue) !important;
-}
-
 .mobileStepper {
   display: flex;
   align-items: center;

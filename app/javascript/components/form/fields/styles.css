@@ -117,13 +117,13 @@
   }
 
   & button:not(.clearDefaultButton) {
-    color: #0093ba;
-    background: #ffffff;
-    border: 1px solid #0093ba;
+    color: var(--c-blue);
+    background: var(--c-white);
+    border: 1px solid var(--c-blue);
 
     &:hover {
-      color: #ffffff;
-      background: #0093ba;
+      color: var(--c-white);
+      background: var(--c-blue);
     }
   }
 }

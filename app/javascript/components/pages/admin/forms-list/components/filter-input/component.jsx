@@ -1,15 +1,10 @@
 import PropTypes from "prop-types";
-
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import css from "../../styles.css";
 
-
-
 const Component = ({ handleSetFilterValue, options, name, filterValues, id: filterID }) => {
-  
-
   const renderOptions = () =>
     options.map(option => {
       const { displayName, id } = option;

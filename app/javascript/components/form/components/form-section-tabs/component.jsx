@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import {  Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@material-ui/core";
 
 import TabPanel from "../../../pages/admin/form-builder/components/tab-panel";
 import FormSectionField from "../form-section-field";
@@ -9,10 +9,7 @@ import watchedFormSectionField from "../watched-form-section-field";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ tabs, formMethods, formMode, handleTabChange }) => {
-  
   const firstEnabled = tabs.findIndex(el => el.disabled === false);
   const [tab, setTab] = useState(firstEnabled);
 

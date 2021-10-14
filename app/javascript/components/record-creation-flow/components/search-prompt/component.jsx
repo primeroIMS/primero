@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import SearchIcon from "@material-ui/icons/Search";
-
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
@@ -30,7 +29,6 @@ const Component = ({
   onSearchCases,
   openConsentPrompt
 }) => {
-
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
   const methods = useForm();

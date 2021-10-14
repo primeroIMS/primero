@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { Box, useMediaQuery } from "@material-ui/core";
 
 import { useMemoizedSelector } from "../../libs";
@@ -8,10 +7,7 @@ import css from "./styles.css";
 import { getLogo } from "./utils";
 import { getModuleLogoID } from "./selectors";
 
-
-
 const ModuleLogo = ({ moduleLogo, white }) => {
-  
   const tabletDisplay = useMediaQuery(theme => theme.breakpoints.only("md"));
 
   const moduleLogoID = useMemoizedSelector(state => getModuleLogoID(state));

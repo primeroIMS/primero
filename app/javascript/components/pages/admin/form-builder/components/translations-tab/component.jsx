@@ -2,7 +2,6 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-
 import get from "lodash/get";
 
 import { useI18n } from "../../../../../i18n";
@@ -18,10 +17,7 @@ import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, formMethods }) => {
-  
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { dialogOpen } = useDialog(FieldTranslationsDialogName);

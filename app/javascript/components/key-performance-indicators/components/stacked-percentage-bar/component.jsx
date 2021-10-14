@@ -1,15 +1,10 @@
 import PropTypes from "prop-types";
 
-
 import css from "./styles.css";
 import StackedPercentageBarMeter from "./components/stacked-percentage-bar-meter";
 import StackedPercentageBarLabel from "./components/stacked-percentage-bar-label";
 
-
-
 const Component = ({ percentages, className }) => {
-  
-
   if (percentages.length > 2) throw new Error("StackedPercentageBar components only support a max of 2 percentages");
 
   const percentagedToRender = percentages.filter(descriptor => descriptor.percentage > 0);

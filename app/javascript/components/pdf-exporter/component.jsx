@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import {  Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch } from "react-redux";
@@ -25,8 +25,6 @@ import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
 import Logos from "./components/logos";
 
-
-
 const Component = forwardRef(
   (
     {
@@ -45,7 +43,7 @@ const Component = forwardRef(
     ref
   ) => {
     const i18n = useI18n();
-    
+
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();

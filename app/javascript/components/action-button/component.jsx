@@ -7,7 +7,7 @@ import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
 const Component = ({
   icon,
-  isCancel,
+  cancel,
   isTransparent,
   pending,
   text,
@@ -15,7 +15,8 @@ const Component = ({
   outlined,
   keepTextOnMobile,
   tooltip,
-  rest
+  rest,
+  ...options
 }) => {
   const { disabledApplication } = useApp();
   const ButtonType = buttonType(type);
@@ -31,7 +32,7 @@ const Component = ({
   return (
     <ButtonType
       icon={icon}
-      isCancel={isCancel}
+      cancel={cancel}
       isTransparent={isTransparent}
       pending={isPending}
       rest={{ ...restBtnProps, ...isDisabled }}
@@ -39,6 +40,7 @@ const Component = ({
       text={text}
       tooltip={tooltip}
       keepTextOnMobile={keepTextOnMobile}
+      {...options}
     />
   );
 };
@@ -52,8 +54,8 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  cancel: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  isCancel: PropTypes.bool,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,
   outlined: PropTypes.bool,

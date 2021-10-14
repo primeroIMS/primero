@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-
 import { push } from "connected-react-router";
 
 import { getDashboardFlags } from "../../selectors";
@@ -16,14 +15,11 @@ import { useMemoizedSelector } from "../../../../../libs";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-
-
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
 
-  
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 

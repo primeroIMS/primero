@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 
-
 import ApplicationRoutes from "../../application-routes";
 import PageContainer, { PageHeading } from "../../page";
 import { useI18n } from "../../i18n";
@@ -8,10 +7,7 @@ import { useI18n } from "../../i18n";
 import AdminNav from "./admin-nav";
 import css from "./styles.css";
 
-
-
 const Container = ({ routes }) => {
-  
   const i18n = useI18n();
 
   return (

@@ -1,15 +1,11 @@
 import Box from "@material-ui/core/Box";
 import Chart from "chart.js";
-
 import PropTypes from "prop-types";
 import { createRef, useEffect } from "react";
 
 import css from "./styles.css";
 
-
-
 const LineChart = ({ chartData, options, title }) => {
-  
   const chartRef = createRef();
 
   useEffect(() => {

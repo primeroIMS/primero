@@ -1,15 +1,11 @@
 import PropTypes from "prop-types";
 
-
 import { useI18n } from "../../i18n";
 import DashboardChip from "../dashboard-chip";
 
 import css from "./styles.css";
 
-
-
 const PrioritySummary = ({ summary }) => {
-  
   const i18n = useI18n();
 
   const getTitle = status => {

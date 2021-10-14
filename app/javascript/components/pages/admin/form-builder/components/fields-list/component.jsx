@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-
 import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
@@ -17,8 +16,6 @@ import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy }) => {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
@@ -27,7 +24,6 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
   const copiedFields = useMemoizedSelector(state => getCopiedFields(state));
   const removedFields = useMemoizedSelector(state => getRemovedFields(state));
 
-  
   const i18n = useI18n();
   const fieldsAttribute = getFieldsAttribute(isNested);
   const {

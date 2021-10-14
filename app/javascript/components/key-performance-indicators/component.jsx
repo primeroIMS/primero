@@ -1,7 +1,6 @@
 import { withRouter } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
-
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
 import Permission from "../application/permission";
@@ -25,11 +24,9 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
-
-
 const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
-  
+
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
   const allDateRanges = [
     commonDateRanges.Last3Months,

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 
-
 import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
@@ -10,8 +9,6 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
-
-
 
 const MoreSection = ({
   addFilterToList,
@@ -26,7 +23,7 @@ const MoreSection = ({
   setMoreSectionFilters
 }) => {
   const i18n = useI18n();
-  
+
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -79,15 +76,10 @@ const MoreSection = ({
       <ActionButton
         text={renderText}
         type={ACTION_BUTTON_TYPES.default}
-        isTransparent
-        rest={{
-          onClick: handleMore,
-          className: css.moreBtn,
-          fullWidth: true,
-          color: "primary",
-          variant: "outlined",
-          size: "small"
-        }}
+        fullWidth
+        variant="outlined"
+        onClick={handleMore}
+        className={css.moreBtn}
       />
     </>
   );

@@ -1,17 +1,12 @@
 import PropTypes from "prop-types";
 
-
 import generateKey from "../../charts/table-values/utils";
 
 import FlagBoxItem from "./components/flag-box-item";
 import { showId } from "./utils";
 import css from "./styles.css";
 
-
-
 const FlagBox = ({ flags }) => {
-  
-
   return (
     <div className={css.flagContainer}>
       {flags

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import clsx from "clsx";
 
 import { RECORD_TYPES } from "../../../../../../config/constants";
@@ -9,11 +8,8 @@ import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-
-
 const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
   const i18n = useI18n();
-  
 
   const filters = [
     {

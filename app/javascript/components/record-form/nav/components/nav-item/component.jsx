@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-
 import isEmpty from "lodash/isEmpty";
 
 import Jewel from "../../../../jewel";
@@ -12,8 +11,6 @@ import css from "../../styles.css";
 import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
-
-
 
 const Component = ({
   form,
@@ -28,7 +25,6 @@ const Component = ({
   selectedForm,
   hasError
 }) => {
-  
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;

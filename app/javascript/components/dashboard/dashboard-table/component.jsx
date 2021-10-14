@@ -3,7 +3,6 @@ import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
-
 import { dataToJS, useMemoizedSelector } from "../../../libs";
 import { buildFilter } from "../utils";
 import { getPermissions } from "../../user/selectors";
@@ -11,10 +10,7 @@ import tableCellGreaterThanZero from "../../pages/dashboard/utils/table-cell-gre
 
 import css from "./styles.css";
 
-
-
 const DashboardTable = ({ columns, data, query, title, pathname }) => {
-  
   const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const clickableCell = [...userPermissions.keys()].includes(pathname.split("/")[1]);
 

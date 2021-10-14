@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Button } from "@material-ui/core";
 
-
 import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
 import { useMemoizedSelector } from "../../../../libs";
@@ -13,8 +12,6 @@ import { NAME } from "./config";
 import css from "./styles.css";
 import { PRIMERO_IDP } from "./constants";
 import PrimeroIdpLink from "./components/primero-idp-link";
-
-
 
 const showIdps = (identityProviders, dispatch) => {
   const tokenCallback = accessToken => {
@@ -40,7 +37,7 @@ const showIdps = (identityProviders, dispatch) => {
 
 const Container = () => {
   const i18n = useI18n();
-  
+
   const dispatch = useDispatch();
 
   const identityProviders = useMemoizedSelector(state => getIdentityProviders(state));

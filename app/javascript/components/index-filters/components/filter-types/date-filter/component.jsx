@@ -5,7 +5,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import { useFormContext } from "react-hook-form";
 import { Select, MenuItem } from "@material-ui/core";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
@@ -21,8 +20,6 @@ import { registerInput, handleMoreFiltersChange, resetSecondaryFilter, setMoreFi
 import { getDatesValue, getDateValue } from "./utils";
 import { NAME } from "./constants";
 
-
-
 const Component = ({
   addFilterToList,
   filter,
@@ -34,7 +31,7 @@ const Component = ({
   setReset
 }) => {
   const i18n = useI18n();
-  
+
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const valueRef = useRef();

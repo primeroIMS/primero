@@ -10,11 +10,8 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ recordType, record }) => {
   const i18n = useI18n();
-  
 
   const flagsActived = useMemoizedSelector(state => getActiveFlags(state, record, recordType));
   const flagsResolved = useMemoizedSelector(state => getResolvedFlags(state, record, recordType));

@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
-import { Button,  Radio } from "@material-ui/core";
+import { Button, Radio } from "@material-ui/core";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
@@ -31,10 +31,7 @@ import { useApp } from "../../../../../application";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-
-
 const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
-  
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();

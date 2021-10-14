@@ -4,7 +4,6 @@ import { Grid } from "@material-ui/core";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
-
 import { useI18n } from "../../../../../../../i18n";
 import { FieldRecord, FormSectionField, TEXT_FIELD } from "../../../../../../../form";
 import { LOCALE_KEYS } from "../../../../../../../../config";
@@ -12,10 +11,7 @@ import css from "../../../styles.css";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
-  
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en);
 

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { Draggable } from "react-beautiful-dnd";
 
 import css from "../styles.css";
@@ -9,8 +8,6 @@ import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 import SwitchInput from "../../../../../form/fields/switch-input";
 
 import { NAME } from "./constants";
-
-
 
 const Component = ({
   firstLocaleOption,
@@ -22,8 +19,6 @@ const Component = ({
   formMode,
   formMethods
 }) => {
-  
-
   const renderTranslationValues = () => {
     return localesKeys.map(localeKey => {
       const name = `values.${localeKey}.${uniqueId}`;

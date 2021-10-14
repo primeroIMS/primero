@@ -22,7 +22,7 @@
 .StackedPercentageBar2Complete {
   display: inline-block;
   height: 100%;
-  background-color: var(--c-light-blue)
+  background-color: var(--c-light-blue-rgba)
 }
 
 .StackedPercentageBarLabels {

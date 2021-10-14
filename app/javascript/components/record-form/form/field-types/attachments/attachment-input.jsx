@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { FastField } from "formik";
 import { useDispatch } from "react-redux";
 
-
 import { MAX_ATTACHMENT_SIZE } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import { toBase64 } from "../../../../../libs";
@@ -15,12 +14,9 @@ import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../../notifier";
 import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
-
-
 const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
 
   const [file, setFile] = useState({
     loading: false,

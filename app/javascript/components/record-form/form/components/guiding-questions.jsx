@@ -1,16 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
 import PropTypes from "prop-types";
-
 import { Popover, Typography, Link } from "@material-ui/core";
 
 import css from "./styles.css";
 import { GUIDING_QUESTIONS_NAME } from "./constants";
 
-
-
 const GuidingQuestions = ({ label, text }) => {
-  
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {

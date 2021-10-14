@@ -2,14 +2,9 @@ import { IconButton } from "@material-ui/core";
 import MenuOpen from "@material-ui/icons/MenuOpen";
 import PropTypes from "prop-types";
 
-
 import css from "./styles.css";
 
-
-
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
-  
-
   const showMobileIcon = mobileDisplay ? (
     <IconButton onClick={handleToggleNav}>
       <MenuOpen />

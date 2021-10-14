@@ -3,7 +3,6 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
-
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -25,8 +24,6 @@ import TickField from "../tick-field";
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
 
-
-
 const DocumentField = ({
   attachment,
   title,
@@ -40,7 +37,7 @@ const DocumentField = ({
   field
 }) => {
   const i18n = useI18n();
-  
+
   const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -90,7 +87,7 @@ const DocumentField = ({
       <ActionButton
         icon={<DeleteIcon />}
         type={ACTION_BUTTON_TYPES.icon}
-        isCancel
+        cancel
         rest={{
           onClick: openDeleteConfirmation
         }}

@@ -1,5 +1,3 @@
-
-
 import { useMemoizedSelector } from "../../libs";
 import DisplayData from "../display-data";
 import { useI18n } from "../i18n";
@@ -8,10 +6,7 @@ import { BLACK_LISTED_FIELDS } from "./constants";
 import { selectSupportData } from "./selectors";
 import css from "./styles.css";
 
-
-
 const Support = () => {
-  
   const supportData = useMemoizedSelector(state => selectSupportData(state));
   const i18n = useI18n();
 

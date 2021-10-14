@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   & span {
-    color: var(--c-white);
+    color: var(--c-black);
     font-size: var(--fs-12);
     font-weight: bold;
     position: absolute;
@@ -12,7 +12,7 @@
 }
 .circle, .circleForm {
   font-size: var(--fs-28);
-  color: var(--c-moon-yellow) !important;
+  color: var(--c-yellow) !important;
 
   &.error { 
     color:  var(--c-red) !important;
@@ -28,7 +28,7 @@
 .circleList {
   font-size: .9rem;
   margin-bottom: 2px;
-  color: var(--c-moon-yellow);
+  color: var(--c-yellow);
 }
 
 @media ((min-width:960px) and (max-width:1279.95px)) {

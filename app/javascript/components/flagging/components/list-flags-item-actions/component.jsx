@@ -14,12 +14,9 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ flag }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
 
   const userName = useMemoizedSelector(state => currentUser(state));
 

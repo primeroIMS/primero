@@ -1,4 +1,3 @@
-
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -20,8 +19,6 @@ import { NAME } from "./constants";
 import { getChangeLogs } from "./selectors";
 import css from "./styles.css";
 
-
-
 const Container = ({
   selectedForm,
   recordID,
@@ -32,7 +29,7 @@ const Container = ({
   fetchable = false
 }) => {
   const i18n = useI18n();
-  
+
   const dispatch = useDispatch();
   const { selectedFilters } = useFormFilters(selectedForm);
 

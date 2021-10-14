@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import AddIcon from "@material-ui/icons/Add";
 
 import { useI18n } from "../i18n";
@@ -16,8 +15,6 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
 
-
-
 const Container = ({
   handleCreateIncident,
   record,
@@ -31,7 +28,6 @@ const Container = ({
   primeroModule,
   dirty
 }) => {
-  
   const i18n = useI18n();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>

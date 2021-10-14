@@ -1,4 +1,3 @@
-
 import PropTypes from "prop-types";
 import { compareDesc, parseISO } from "date-fns";
 import { useEffect } from "react";
@@ -14,8 +13,6 @@ import renderTransition from "./render-transition";
 import css from "./styles.css";
 import { fetchTransitions } from "./action-creators";
 
-
-
 const Transitions = ({
   fetchable = false,
   isReferral,
@@ -25,7 +22,6 @@ const Transitions = ({
   mobileDisplay,
   handleToggleNav
 }) => {
-  
   const i18n = useI18n();
   const dispatch = useDispatch();
 

@@ -10,13 +10,9 @@ import { useMemoizedSelector } from "../../libs";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-
-
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
-
-  
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -67,6 +63,9 @@ const TranslationsToggle = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClickMenu}
+        classes={{
+          paper: css.paper
+        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center"

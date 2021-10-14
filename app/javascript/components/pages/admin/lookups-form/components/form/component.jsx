@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { Grid } from "@material-ui/core";
-
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
@@ -38,13 +37,11 @@ import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
 import { NAME, TEMP_OPTION_ID, FORM_ID } from "./constants";
 
-
-
 const Component = ({ mode, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
+
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales;
   const localesKeys = [

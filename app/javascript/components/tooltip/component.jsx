@@ -1,17 +1,13 @@
 import { Tooltip as MuiToolTip } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-
 import { ConditionalWrapper } from "../../libs";
 import { useI18n } from "../i18n";
 
 import css from "./styles.css";
 
-
-
 const Tooltip = ({ children, title, i18nTitle }) => {
   const i18n = useI18n();
-  
 
   const commonTooltipProps = {
     arrow: true,

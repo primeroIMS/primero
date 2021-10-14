@@ -1,5 +1,4 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from "@material-ui/core";
-
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -25,10 +24,7 @@ import { FORM_ID, NAME } from "./constants";
 import { searchForm } from "./forms";
 import css from "./styles.css";
 
-
-
 const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
-  
   const formMode = whichFormMode(FORM_MODE_NEW);
 
   const dispatch = useDispatch();
@@ -117,7 +113,8 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               icon={<AddIcon />}
               text={i18n.t("case.create_new_case")}
               type={ACTION_BUTTON_TYPES.default}
-              rest={{ onClick: handleCreateNewCase }}
+              onClick={handleCreateNewCase}
+              size="large"
             />
           </div>
           <div className={css.search}>

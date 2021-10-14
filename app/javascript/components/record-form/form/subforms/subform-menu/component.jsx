@@ -2,7 +2,6 @@ import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";
 
-
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
 import { REFERRAL_TYPE } from "../../../../record-actions/transitions";
@@ -21,12 +20,9 @@ import { useMemoizedSelector } from "../../../../../libs";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-
-
 const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
 
   const services = useMemoizedSelector(state => getOption(state, "lookup-service-type", i18n.locale));
   const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));

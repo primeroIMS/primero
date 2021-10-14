@@ -1,13 +1,9 @@
 import PropTypes from "prop-types";
 import { Button, Link } from "@material-ui/core";
 
-
 import css from "./styles.css";
 
-
-
 const DialogTrigger = ({ commonInputProps, metaInputProps }) => {
-  
   const { label } = commonInputProps;
   const { onClick } = metaInputProps;
 

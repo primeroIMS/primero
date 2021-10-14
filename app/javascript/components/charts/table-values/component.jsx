@@ -1,15 +1,10 @@
 import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableHead } from "@material-ui/core";
 
-
 import { TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
-
-
 const TableValues = ({ columns, values }) => {
-  
-
   return (
     <Paper className={css.root}>
       <Table className={css.table}>

@@ -38,10 +38,6 @@
   font-size: var(--fs-14);
 }
 
-.actionButtonsContainer {
-  text-align: right;
-}
-
 .actionButtonCancel {
   background: var(--c-grey);
   margin: 0 .5em;
@@ -197,7 +193,7 @@
 
 .actionsContainer {
   display: flex;
-  align-items: center;
+  gap: var(--sp-1);
 }
 
 .badgeIndicator {
@@ -233,10 +229,4 @@
 
 .flipImage {
   transform: scaleX(-1);
-}
-
-@media (max-width:959.95px) {
-  .actionButtonsContainer {
-    width: 115px;
-  }
 }

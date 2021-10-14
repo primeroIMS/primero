@@ -6,7 +6,6 @@ import clsx from "clsx";
 import { fromJS } from "immutable";
 import { List, ListItemText } from "@material-ui/core";
 
-
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import IndexTable from "../../../../../../index-table";
@@ -19,11 +18,9 @@ import useOptions from "../../../../../../form/use-options";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ tracingRequestValues, traceValues, recordType }) => {
   const i18n = useI18n();
-  
+
   const dispatch = useDispatch();
 
   const genderOptions = useOptions({ source: LOOKUPS.gender });

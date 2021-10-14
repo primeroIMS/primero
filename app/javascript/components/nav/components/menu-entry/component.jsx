@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
@@ -17,11 +16,9 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
-
-
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
   const { disabledApplication, online } = useApp();
-  
+
   const i18n = useI18n();
   const dispatch = useDispatch();
 

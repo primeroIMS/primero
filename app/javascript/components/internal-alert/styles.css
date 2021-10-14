@@ -29,9 +29,9 @@
   font-size: var(--fs-12);
 
   &.info {
-    border: 1px solid var(--c-moon-yellow);
+    border: 1px solid var(--c-yellow);
     & .icon {
-      color: var(--c-moon-yellow);
+      color: var(--c-yellow);
     }
   }
 
@@ -43,7 +43,7 @@
   }
 
   &.success {
-    border: 1px solid var(--c-solidGreen);
+    border: 1px solid var(--c-solid-green);
     & .icon {
       color: var(--c-green);
     }

@@ -1,15 +1,11 @@
-
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
 import ListIcon from "../../list-icon";
 import css from "../styles.css";
 
-
-
 const EmptyState = ({ emptyMessage, type }) => {
   const i18n = useI18n();
-  
 
   return (
     <div className={css.emptyContainer}>

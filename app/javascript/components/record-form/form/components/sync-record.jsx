@@ -2,7 +2,6 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "@material-ui/core";
-
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import ActionButton from "../../../action-button";
@@ -13,10 +12,7 @@ import { SYNC_RECORD_NAME, SYNC_RECORD_STATUS } from "./constants";
 import { buildLabelSync } from "./utils";
 import css from "./styles.css";
 
-
-
 const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) => {
-  
   const dispatch = useDispatch();
 
   if (!isEnabledWebhookSyncFor) {

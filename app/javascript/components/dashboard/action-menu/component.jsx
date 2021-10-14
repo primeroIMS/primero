@@ -3,13 +3,9 @@ import PropTypes from "prop-types";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-
 import css from "./styles.css";
 
-
-
 const ActionMenu = ({ open, onOpen, onClose, items }) => {
-  
   const moreButtonRef = useRef(null);
 
   return (

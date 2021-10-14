@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { IconButton,  Typography } from "@material-ui/core";
+import { IconButton, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
 
@@ -17,8 +17,6 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import { formatValue, registerValues } from "./utils";
 
-
-
 const Container = ({
   indexes,
   setIndexes,
@@ -31,7 +29,6 @@ const Container = ({
   selectedModule
 }) => {
   const i18n = useI18n();
-  
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);

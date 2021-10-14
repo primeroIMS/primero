@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-
 import CheckIcon from "@material-ui/icons/Check";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
@@ -10,10 +9,7 @@ import { useI18n } from "../i18n";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ mobile }) => {
-  
   const { online } = useApp();
   const i18n = useI18n();
   const classes = clsx({

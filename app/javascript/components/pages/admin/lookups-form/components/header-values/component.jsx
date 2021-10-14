@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import clsx from "clsx";
 
 import css from "../styles.css";
@@ -7,11 +6,9 @@ import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ hideTranslationColumn }) => {
   const i18n = useI18n();
-  
+
   const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
   const classes = clsx(css.row, css.header);
 

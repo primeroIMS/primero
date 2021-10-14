@@ -17,12 +17,11 @@ import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
 import css from "./styles.css";
 
-
 const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
 const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
-  
+
   const classes = useStylesExpansionPanel();
   const accordionClasses = clsx(css.alert, css[severity]);
   const accordionDetailsClasses = clsx({ [css.alertItems]: true });

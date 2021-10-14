@@ -1,15 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Backdrop, IconButton } from "@material-ui/core";
-
 import CloseIcon from "@material-ui/icons/Close";
 
 import css from "../../styles.css";
 
-
-
 const PhotoArray = ({ images }) => {
-  
   const [selected, setSelected] = useState({ index: 0, open: false });
 
   const handleToggle = index => {

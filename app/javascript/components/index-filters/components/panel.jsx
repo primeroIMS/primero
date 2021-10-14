@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary, AccordionDetails, IconButton } from "@material-ui/core";
-
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import isEmpty from "lodash/isEmpty";
 
@@ -13,10 +12,7 @@ import { useThemeHelper } from "../../../libs";
 
 import css from "./styles.css";
 
-
-
 const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters, children }) => {
-  
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 

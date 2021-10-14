@@ -120,7 +120,7 @@
 
 .toggleButtonSelected {
   color: #fff !important;
-  background-color: #0093ba !important;
+  background-color: var(--c-blue) !important;
 }
 
 .clearBtn {

@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
 import { IconButton } from "@material-ui/core";
-
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { useDrawer } from "../../../drawer";
@@ -15,8 +14,6 @@ import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({
   closeDrawerOnSubmit,
   filters,
@@ -26,7 +23,6 @@ const Component = ({
   initialFilters,
   showDrawer
 }) => {
-  
   const methods = useForm();
 
   const { mobileDisplay } = useThemeHelper();

@@ -1,16 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Backdrop, IconButton } from "@material-ui/core";
-
 import CloseIcon from "@material-ui/icons/Close";
 
 import css from "./styles.css";
 
-
-
 const Component = ({ trigger, image }) => {
-  
-
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {

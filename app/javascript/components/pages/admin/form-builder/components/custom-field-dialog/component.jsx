@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -23,11 +22,9 @@ import { useApp } from "../../../../../application";
 import css from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-
-
 const Component = ({ getValues }) => {
   const i18n = useI18n();
-  
+
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 
@@ -124,7 +121,7 @@ const Component = ({ getValues }) => {
             icon={<CloseIcon />}
             text={i18n.t("buttons.cancel")}
             type={ACTION_BUTTON_TYPES.default}
-            isCancel
+            cancel
             rest={{
               onClick: handleClose,
               fullWidth: true,

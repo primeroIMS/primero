@@ -10,7 +10,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
-import { displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -25,7 +25,6 @@ import NAMESPACE from "./namespace";
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
 
   const reports = useMemoizedSelector(state => selectReports(state));
   const isLoading = useMemoizedSelector(state => selectLoading(state));

@@ -15,10 +15,7 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMethods, formMode }) => {
-  
   const {
     errors,
     setValue,

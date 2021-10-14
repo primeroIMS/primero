@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
 import { Typography } from "@material-ui/core";
@@ -22,10 +21,7 @@ import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
 import { Actions, CancelDialog } from "./components";
 
-
-
 const Component = () => {
-  
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();

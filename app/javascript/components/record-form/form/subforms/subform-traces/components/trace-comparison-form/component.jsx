@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
 
-
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
 import { getShortIdFromUniqueId } from "../../../../../../records/utils";
@@ -21,8 +20,6 @@ import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
 import css from "./styles.css";
 
-
-
 const Component = ({
   selectedForm,
   recordType,
@@ -33,7 +30,6 @@ const Component = ({
   hideBack,
   mode
 }) => {
-  
   const { id } = useParams();
   const dispatch = useDispatch();
   // eslint-disable-next-line camelcase

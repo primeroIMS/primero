@@ -1,4 +1,3 @@
-
 import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -21,11 +20,9 @@ import { fetchTasks } from "./action-creators";
 import css from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
 
-
-
 const TaskList = () => {
   const i18n = useI18n();
-  
+
   const recordType = "tasks";
   const dispatch = useDispatch();
 

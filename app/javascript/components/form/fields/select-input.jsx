@@ -6,7 +6,6 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
 import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";
@@ -20,8 +19,6 @@ import { filterOptions as filterOptionsConfig } from "../../searchable-select/ut
 import css from "./styles.css";
 
 const filter = createFilterOptions();
-
-
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
@@ -49,7 +46,6 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
   const i18n = useI18n();
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
 
-  
   const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));

@@ -4,7 +4,6 @@ import { getIn } from "formik";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
 
-
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import { FieldRecord, FormSectionField } from "../record-form";
@@ -28,11 +27,9 @@ import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
 import css from "./styles.css";
 
-
-
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
   const i18n = useI18n();
-  
+
   const dispatch = useDispatch();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);

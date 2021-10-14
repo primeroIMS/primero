@@ -1,5 +1,4 @@
 import { memo, useCallback } from "react";
-
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
@@ -15,12 +14,10 @@ import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ mode, index, tab, formMethods }) => {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
-  
+
   const i18n = useI18n();
   const {
     getValues,

@@ -8,7 +8,6 @@ import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
-
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
@@ -35,10 +34,7 @@ import Actions from "./components/actions";
 import css from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
-
-
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);

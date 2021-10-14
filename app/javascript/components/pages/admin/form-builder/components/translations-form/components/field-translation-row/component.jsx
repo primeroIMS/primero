@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-
 import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 
@@ -16,10 +15,7 @@ import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
-  
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);

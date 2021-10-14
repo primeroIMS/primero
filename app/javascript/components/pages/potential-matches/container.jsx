@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
 
-
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 
@@ -12,14 +11,11 @@ import css from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
 
-
-
 const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     getPotentialMatches();
   }, []);
 
-  
   const i18n = useI18n();
 
   const columns = [

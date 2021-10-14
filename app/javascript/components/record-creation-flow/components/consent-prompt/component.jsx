@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-
 import { useForm } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
@@ -29,7 +28,6 @@ const Component = ({
   goToNewCase,
   openConsentPrompt
 }) => {
-
   const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const methods = useForm();

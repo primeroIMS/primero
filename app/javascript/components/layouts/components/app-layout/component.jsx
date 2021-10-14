@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import clsx from "clsx";
-
 import { CircularProgress } from "@material-ui/core";
 import PropTypes from "prop-types";
 
@@ -16,10 +15,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ children }) => {
-  
   const { demo } = useApp();
 
   const classes = clsx({ [css.root]: true, [css.demo]: demo });

@@ -20,7 +20,7 @@
     }
 
     &:hover {
-      background-color: #0093bac7;
+      background-color: var(--c-blue)c7;
 
       &.logout {
         background-color: rgb(186, 186, 186);

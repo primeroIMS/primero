@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { Droppable } from "react-beautiful-dnd";
 import clsx from "clsx";
 
@@ -8,11 +7,9 @@ import css from "../../styles.css";
 import TableRow from "../table-row";
 import { displayNameHelper } from "../../../../../../libs";
 
-
-
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
-  
+
   const classes = clsx(css.row, css.header);
 
   return (

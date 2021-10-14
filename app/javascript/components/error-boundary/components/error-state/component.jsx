@@ -1,4 +1,4 @@
-import {  Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import ListIcon from "../../../list-icon";
@@ -6,11 +6,8 @@ import { useI18n } from "../../../i18n";
 
 import css from "./styles.css";
 
-
-
 const ErrorState = ({ errorMessage, handleTryAgain, type }) => {
   const i18n = useI18n();
-  
 
   return (
     <div className={css.errorContainer}>

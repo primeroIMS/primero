@@ -2,14 +2,10 @@
 import PropTypes from "prop-types";
 import { FormHelperText } from "@material-ui/core";
 
-
 import { SEPERATOR_NAME } from "../constants";
 import css from "../styles.css";
 
-
-
 const Seperator = ({ helperText, label, mode }) => {
-  
   const renderHelperText = () => (mode.isEdit ? <FormHelperText>{helperText}</FormHelperText> : null);
 
   return (

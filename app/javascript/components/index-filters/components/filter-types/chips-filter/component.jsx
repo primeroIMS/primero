@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Chip, Checkbox } from "@material-ui/core";
 
-
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
@@ -21,11 +20,9 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-
-
 const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
-  
+
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();

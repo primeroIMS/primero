@@ -1,6 +1,5 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
-
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
@@ -31,8 +30,6 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import css from "./styles.css";
 
-
-
 const FormSectionField = ({
   name,
   field,
@@ -45,7 +42,6 @@ const FormSectionField = ({
   formSection,
   isReadWriteForm
 }) => {
-  
   const i18n = useI18n();
   const {
     type,

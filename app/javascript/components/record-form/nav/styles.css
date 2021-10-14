@@ -1,6 +1,6 @@
 .navSelected {
   border-radius: 4px;
-  background: var(--c-light-grey) !important;
+  background: var(--c-blue-hover-light) !important;
 }
 
 .item {

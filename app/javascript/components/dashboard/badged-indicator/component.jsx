@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
@@ -12,11 +11,8 @@ import NAMESPACE from "../../pages/dashboard/namespace";
 
 import css from "./styles.css";
 
-
-
 const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
   const dispatch = useDispatch();
-  
 
   const loadingIndicatorProps = {
     overlay: true,

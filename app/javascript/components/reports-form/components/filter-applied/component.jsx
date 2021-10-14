@@ -15,12 +15,9 @@ import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
 import css from "./styles.css";
 
-
-
 const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSources }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
-  
 
   const [index, { data }] = filter;
   const { value } = data;

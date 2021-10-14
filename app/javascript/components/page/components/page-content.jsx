@@ -1,13 +1,8 @@
 import PropTypes from "prop-types";
 
-
 import css from "../styles.css";
 
-
-
 const PageContent = ({ children }) => {
-  
-
   return <div className={css.content}>{children}</div>;
 };
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
-
 import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -20,8 +19,6 @@ import ApprovalForm from "./approval-form";
 import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({
   close,
   open,
@@ -36,7 +33,7 @@ const Component = ({
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
-  
+
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
   const [approval, setApproval] = useState("approved");

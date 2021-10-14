@@ -16,7 +16,7 @@
     margin-top: 20px;
 
     &:hover {
-      background-color: #0093bac7;
+      background-color: var(--c-blue)c7;
     }
   }
 
@@ -37,14 +37,7 @@
 }
 
 .forgotPaswordLink {
-  color: var(--c-blue);
   margin: 10px 0 0 0;
-  text-transform: none;
-  font-size: var(--fs-12);
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 @media (max-width:599.95px) {

@@ -1,4 +1,3 @@
-
 import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -9,11 +8,8 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 
-
-
 const NotAuthorized = () => {
   const i18n = useI18n();
-  
 
   return (
     <div className={css.root}>

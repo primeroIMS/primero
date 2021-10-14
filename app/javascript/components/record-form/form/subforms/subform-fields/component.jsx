@@ -8,7 +8,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 
-
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
@@ -24,8 +23,6 @@ import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
 
-
-
 const Component = ({
   arrayHelpers,
   field,
@@ -39,7 +36,7 @@ const Component = ({
   parentForm
 }) => {
   const i18n = useI18n();
-  
+
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-
 import get from "lodash/get";
 
 import Tooltip from "../../tooltip";
@@ -16,10 +15,7 @@ import css from "./styles.css";
 import Fields from "./fields";
 import FormSectionActions from "./form-section-actions";
 
-
-
 const FormSection = ({ formSection, showTitle, disableUnderline, formMethods, formMode }) => {
-  
   const { fields, check_errors: checkErrors, expandable, tooltip } = formSection;
   const { errors } = formMethods;
   const [expanded, setExpanded] = useState(formSection.expanded);

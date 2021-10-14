@@ -9,7 +9,7 @@ import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
 import { MANAGE, RESOURCES } from "../../../../libs/permissions";
 import Permission from "../../../application/permission";
-import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import { useMemoizedSelector } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
@@ -25,7 +25,7 @@ import { columns } from "./utils";
 const Component = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  
+
   const recordType = ["admin", "lookups"];
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));

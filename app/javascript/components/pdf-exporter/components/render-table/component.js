@@ -1,15 +1,10 @@
 import PropTypes from "prop-types";
 
-
 import Table from "../table";
 
 import css from "./styles.css";
 
-
-
 const Component = ({ title, fields, data }) => {
-  
-
   return (
     <div className={css.group}>
       <h2>{title}</h2>

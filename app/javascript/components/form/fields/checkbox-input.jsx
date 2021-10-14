@@ -1,15 +1,11 @@
 import PropTypes from "prop-types";
 import { FormGroup, FormControl, FormLabel, FormHelperText } from "@material-ui/core";
-
 import { Controller } from "react-hook-form";
 
 import CheckboxGroup from "./checkbox-group";
 import css from "./styles.css";
 
-
-
 const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods }) => {
-  
   const { control } = formMethods;
   const { name, error, required, label, helperText } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;

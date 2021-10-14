@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
@@ -24,8 +23,6 @@ import useOptions from "../../../../form/use-options";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-
-
 const Component = ({
   addFilterToList,
   filter,
@@ -37,7 +34,7 @@ const Component = ({
   setReset
 }) => {
   const i18n = useI18n();
-  
+
   const formMethods = useFormContext();
   const { register, unregister, setValue, getValues } = formMethods;
   const [inputValue, setInputValue] = useState([]);

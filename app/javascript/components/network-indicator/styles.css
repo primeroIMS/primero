@@ -1,11 +1,14 @@
 .networkIndicator {
-  padding: 8px 16px;
+  background: var(--c-white);
+  margin: 0 8px;
+  border-radius: 6px;
+  padding: 4px 8px;
   font-size: var(--fs-12);
   display: flex;
   font-weight: bold;
 
   &.online {
-    color: var(--c-solidGreen);
+    color: var(--c-solid-green);
   }
 
   &.offline {

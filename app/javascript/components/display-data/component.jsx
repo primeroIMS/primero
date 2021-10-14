@@ -1,14 +1,9 @@
 import PropTypes from "prop-types";
 
-
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const DisplayData = ({ label, value }) => {
-  
-
   return (
     <>
       <p className={css.label}>{label}</p>

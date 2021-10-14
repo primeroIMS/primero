@@ -1,4 +1,3 @@
-
 import CheckIcon from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
 
@@ -12,10 +11,7 @@ import { useApp } from "../../../../../application";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./forms";
 
-
-
 const Component = ({ getValues, mode, onClose, onSuccess }) => {
-  
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = getValues({ nest: true });

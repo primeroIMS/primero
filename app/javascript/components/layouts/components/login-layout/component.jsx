@@ -1,5 +1,4 @@
 import { Grid, Box } from "@material-ui/core";
-
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -13,10 +12,7 @@ import { useApp } from "../../../application";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-
-
 const Component = ({ children }) => {
-  
   const { demo } = useApp();
 
   // TODO: Module hardcoded till we figure out when to switch modules

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 
-
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
 import SubformDateHeader from "../subform-header-date";
@@ -9,10 +8,7 @@ import SubformTickBoxHeader from "../subform-header-tickbox";
 import css from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
 
-
-
 const Component = ({ field, values, locale, displayName, index, onClick }) => {
-  
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames
