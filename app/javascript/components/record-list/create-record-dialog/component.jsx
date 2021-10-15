@@ -113,7 +113,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
               icon={<AddIcon />}
               text={i18n.t("case.create_new_case")}
               type={ACTION_BUTTON_TYPES.default}
-              onClick={handleCreateNewCase}
+              rest={{ onClick: handleCreateNewCase }}
               size="large"
             />
           </div>

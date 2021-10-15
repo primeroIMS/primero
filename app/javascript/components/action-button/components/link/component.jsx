@@ -14,7 +14,6 @@ const Component = ({ text, ...rest }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  rest: PropTypes.object,
   text: PropTypes.string
 };
 

@@ -1,4 +1,4 @@
-import { Fab } from "@material-ui/core";
+import { Link as MuiLink } from "@material-ui/core";
 
 import { setupMountedThemeComponent } from "../../../../test";
 
@@ -11,9 +11,9 @@ describe("<Link /> components/action-button/components", () => {
     rest: {}
   };
 
-  it("renders a <Fab /> component", () => {
+  it("renders a <Link /> component", () => {
     const component = setupMountedThemeComponent(Link, props);
 
-    expect(component.find(Fab)).to.have.lengthOf(1);
+    expect(component.find(MuiLink)).to.have.lengthOf(1);
   });
 });
