@@ -204,11 +204,14 @@ class Report < ApplicationRecord
           self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
             pivot_name.is_a?(Numeric) ? '' : pivot_name
           end
-          values = values.map do |pivots, value|
+          # We need the self to make sure we call the defined get/set methods of this model.
+          # rubocop:disabled Style/RedundantSelf
+          self.values = self.values.map do |pivots, value|
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          Reports::Utils.correct_aggregate_counts(values)
+          Reports::Utils.correct_aggregate_counts(self.values)
+          # rubocop:enable Style/RedundantSelf
         end
       end
     end
