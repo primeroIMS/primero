@@ -1280,6 +1280,11 @@ en:
     km: ភាសាខ្មែរ
     ku: کوردی
     ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
