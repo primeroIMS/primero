@@ -221,10 +221,10 @@ create_or_update_module(
     ]
   },
   module_options: {
-    workflow_status_indicator: true,
+    workflow_status_indicator: false,
     allow_searchable_ids: true,
-    use_workflow_service_implemented: true,
-    use_workflow_case_plan: true,
+    use_workflow_service_implemented: false,
+    use_workflow_case_plan: false,
     use_workflow_assessment: false,
     reporting_location_filter: true
   },
