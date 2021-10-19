@@ -700,6 +700,8 @@ en:
     outstanding_transfers: Outstanding Transfers
     overdue_activities: Overdue Activities
     overdue_cases_to_assign: Overdue Cases To Assign
+    overdue_cases_to_assign_high: You have had these cases for more than 1 hour
+    overdue_cases_to_assign_low: You have had these cases for more than three hours
     overview: Overview
     pending: Pending
     pending_approvals: Pending Approvals
