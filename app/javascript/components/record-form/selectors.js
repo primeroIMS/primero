@@ -366,6 +366,10 @@ export const getFieldsWithNames = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+export const getVisibleFieldsWithNames = createCachedSelector(getFieldsWithNames, fields =>
+  fields.filter(field => field.visible)
+)(defaultCacheSelectorOptions);
+
 export const getFieldsWithNamesForMinifyForm = (state, names) =>
   getFields(state)
     .valueSeq()

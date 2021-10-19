@@ -3,15 +3,17 @@ import PropTypes from "prop-types";
 import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
+import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import FiltersList from "../filters-list";
-import { DEFAULT_FILTERS, NOT_NULL } from "../../constants";
+import { DEFAULT_FILTERS, NOT_NULL, SHARED_FILTERS } from "../../constants";
 import { formattedFields } from "../../utils";
 import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
+import { getVisibleFieldsWithNames } from "../../../record-form/selectors";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -32,10 +34,12 @@ const Container = ({
 }) => {
   const i18n = useI18n();
   const css = useStyles();
+  const sharedFilterNames = SHARED_FILTERS.map(filter => filter.attribute);
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
+  const visibleSharedFields = useSelector(state => getVisibleFieldsWithNames(state, sharedFilterNames));
 
   const onSuccess = (index, currentReportFilter, currentField) => {
     const data =
@@ -69,12 +73,6 @@ const Container = ({
     }
   };
 
-  useEffect(() => {
-    if (selectedRecordType && formMode.isNew) {
-      setIndexes(DEFAULT_FILTERS[selectedRecordType].map((data, index) => ({ index, data })));
-    }
-  }, [selectedRecordType]);
-
   const fields = formattedFields(
     allRecordForms,
     selectedModule,
@@ -83,6 +81,24 @@ const Container = ({
     reportingLocationConfig,
     formattedMinimumReportableFields
   );
+
+  useEffect(() => {
+    if (selectedRecordType && formMode.isNew) {
+      const visibleSharedFieldNames = visibleSharedFields.map(field => field.name);
+      const fieldNames = fields.map(field => field.id);
+
+      setIndexes(
+        DEFAULT_FILTERS[selectedRecordType]
+          .filter(
+            defaultFilter =>
+              (sharedFilterNames.includes(defaultFilter.attribute) &&
+                visibleSharedFieldNames.includes(defaultFilter.attribute)) ||
+              (fieldNames.includes(defaultFilter.attribute) && !sharedFilterNames.includes(defaultFilter.attribute))
+          )
+          .map((data, index) => ({ index, data }))
+      );
+    }
+  }, [selectedRecordType, visibleSharedFields]);
 
   if (!fields.length) {
     return null;
