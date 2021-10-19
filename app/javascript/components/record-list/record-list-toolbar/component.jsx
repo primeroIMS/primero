@@ -9,32 +9,51 @@ import { CREATE_RECORDS } from "../../../libs/permissions";
 import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";
-import css from "./styles.css";
 
 const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage }) => {
+  // return (
+  //   <div className={css.container}>
+  //     <div className={css.heading}>
+  //       <PageHeading title={title} mobileHeading />
+  //     </div>
+  //     <div className={css.actions}>
+  //       {mobileDisplay && (
+  //         <IconButton onClick={handleDrawer} color="primary">
+  //           <FilterListIcon />
+  //         </IconButton>
+  //       )}
+  //       <Permission resources={recordType} actions={CREATE_RECORDS}>
+  //         <AddRecordMenu recordType={recordType} />
+  //       </Permission>
+  //       <RecordActions
+  //         currentPage={currentPage}
+  //         selectedRecords={selectedRecords}
+  //         recordType={recordType}
+  //         mode={{ isShow: true }}
+  //         showListActions
+  //       />
+  //     </div>
+  //   </div>
+  // );
+
   return (
-    <div className={css.container}>
-      <div className={css.heading}>
-        <PageHeading title={title} mobileHeading />
-      </div>
-      <div className={css.actions}>
-        {mobileDisplay && (
-          <IconButton onClick={handleDrawer} color="primary">
-            <FilterListIcon />
-          </IconButton>
-        )}
-        <Permission resources={recordType} actions={CREATE_RECORDS}>
-          <AddRecordMenu recordType={recordType} />
-        </Permission>
-        <RecordActions
-          currentPage={currentPage}
-          selectedRecords={selectedRecords}
-          recordType={recordType}
-          mode={{ isShow: true }}
-          showListActions
-        />
-      </div>
-    </div>
+    <PageHeading title={title}>
+      {mobileDisplay && (
+        <IconButton onClick={handleDrawer} color="primary">
+          <FilterListIcon />
+        </IconButton>
+      )}
+      <Permission resources={recordType} actions={CREATE_RECORDS}>
+        <AddRecordMenu recordType={recordType} />
+      </Permission>
+      <RecordActions
+        currentPage={currentPage}
+        selectedRecords={selectedRecords}
+        recordType={recordType}
+        mode={{ isShow: true }}
+        showListActions
+      />
+    </PageHeading>
   );
 };
 

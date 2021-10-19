@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { Box } from "@material-ui/core";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
@@ -8,7 +7,7 @@ import { push } from "connected-react-router";
 import qs from "qs";
 
 import IndexTable from "../index-table";
-import PageContainer from "../page";
+import PageContainer, { PageContent } from "../page";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
 import { getPermissionsByRecord } from "../user";
@@ -175,17 +174,17 @@ const Container = ({ match, location }) => {
   return (
     <>
       <PageContainer fullWidthMobile>
-        <Box className={css.content}>
-          <Box className={css.tableContainer} flexGrow={1}>
-            <RecordListToolbar {...recordListToolbarProps} />
-            <Box className={css.table}>
+        <RecordListToolbar {...recordListToolbarProps} />
+        <PageContent flex>
+          <div className={css.tableContainer}>
+            <div className={css.table}>
               <IndexTable title={i18n.t(`${recordType}.label`)} {...indexTableProps} />
-            </Box>
-          </Box>
+            </div>
+          </div>
           <FilterContainer {...filterContainerProps}>
             <Filters {...filterProps} />
           </FilterContainer>
-        </Box>
+        </PageContent>
       </PageContainer>
       <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
         <ViewModal

@@ -29,7 +29,7 @@ const Component = () => {
 
   return (
     <div>
-      <PageHeading title="Set Password" whiteHeading />
+      <PageHeading title="Set Password" />
       <Form
         formSections={form(i18n)}
         validations={validationSchema(i18n)}

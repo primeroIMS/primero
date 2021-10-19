@@ -8,12 +8,16 @@ import { checkPermissions, RESOURCES, MANAGE } from "../../../libs/permissions";
 import { useMemoizedSelector } from "../../../libs";
 import { getLocationsAvailable } from "../../application/selectors";
 import usePermissions from "../../permissions";
+import { useI18n } from "../../i18n";
+import { PageHeading } from "../../page";
 
 import css from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
 import { getAdminResources } from "./utils";
 
 const AdminNav = () => {
+  const i18n = useI18n();
+
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
 
@@ -70,7 +74,13 @@ const AdminNav = () => {
     return <AdminNavItem key={`${nav.to}-group`} item={nav} renderJewel={renderJewel} />;
   });
 
-  return <List>{renderNavItems}</List>;
+  return (
+    <>
+      <PageHeading title={i18n.t("settings.title")} disabledElevation />
+
+      <List>{renderNavItems}</List>
+    </>
+  );
 };
 
 AdminNav.displayName = "AdminNav";

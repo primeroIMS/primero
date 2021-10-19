@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box, Badge } from "@material-ui/core";
+import { Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { push } from "connected-react-router";
@@ -28,11 +28,12 @@ import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
+import { PageHeading } from "../../page";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
-import PageHeading from "./page-heading";
 import css from "./styles.css";
+import RecordPageHeading from "./page-heading";
 
 const RecordFormToolbar = ({
   handleFormSubmit,
@@ -131,27 +132,27 @@ const RecordFormToolbar = ({
     );
   }
 
+  const title = (
+    <RecordPageHeading
+      caseIdDisplay={caseIdDisplay}
+      i18n={i18n}
+      mode={mode}
+      params={params}
+      recordType={recordType}
+      shortId={shortId}
+      incidentCaseId={getIncidentFromCaseId()}
+      incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
+      toolbarHeading={css.toolbarHeading}
+      associatedLinkClass={css.associatedCaseLink}
+      isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
+      syncedAt={record?.get("synced_at")}
+      syncStatus={record?.get("sync_status")}
+    />
+  );
+
   return (
-    <Box className={css.toolbar} width="100%" px={2} mb={3} display="flex" alignItems="center">
-      <Box flexGrow={1} display="flex" flexDirection="column">
-        <PageHeading
-          caseIdDisplay={caseIdDisplay}
-          i18n={i18n}
-          mode={mode}
-          params={params}
-          recordType={recordType}
-          shortId={shortId}
-          incidentCaseId={getIncidentFromCaseId()}
-          incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
-          toolbarHeading={css.toolbarHeading}
-          associatedLinkClass={css.associatedCaseLink}
-          isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
-          syncedAt={record?.get("synced_at")}
-          syncStatus={record?.get("sync_status")}
-        />
-        {renderRecordStatusIndicator}
-      </Box>
-      <div className={css.actionsContainer}>
+    <PageHeading title={title} prefixComponent={renderRecordStatusIndicator}>
+      <>
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
             icon={<KeyboardBackspaceIcon className={rtlClass} />}
@@ -197,8 +198,8 @@ const RecordFormToolbar = ({
           </Permission>
         )}
         <RecordActions recordType={params.recordType} record={record} mode={mode} />
-      </div>
-    </Box>
+      </>
+    </PageHeading>
   );
 };
 
