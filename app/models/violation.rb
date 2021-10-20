@@ -16,7 +16,7 @@ class Violation < ApplicationRecord
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
   has_and_belongs_to_many :perpetrators
-  has_many :responses
+  has_many :responses, dependent: :destroy
   belongs_to :source, optional: true
   belongs_to :incident
 
@@ -24,7 +24,6 @@ class Violation < ApplicationRecord
                  :unique_id, :violation_tally, :verified, :type
 
   after_initialize :set_unique_id
-  after_save :save_associations
 
   # searchable do
   #   string :category, as: :category_sci
@@ -94,11 +93,11 @@ class Violation < ApplicationRecord
 
   def associations_as_data
     @associations_as_data ||= {
-      'sources' => source.map(&:data),
+      'sources' => source,
       'perpetrators' => perpetrators.map(&:data),
-      'individuals' => individual_victims.map(&:data),
-      'groups' => group_victims.map(&:data),
-      'interventions' => responses.map(&:data)
+      'individual_victims' => individual_victims.map(&:data),
+      'group_victims' => group_victims.map(&:data),
+      'responses' => responses.map(&:data)
     }
   end
 
@@ -106,32 +105,12 @@ class Violation < ApplicationRecord
     MRM_ASSOCIATIONS_KEYS
   end
 
-  def self.build_record(type, data, incident, associations_data)
+  def self.build_record(type, data, incident)
     violation = find_or_initialize_by(id: data['unique_id'])
     violation.incident = incident
-    violation.type = type
     violation.data = data
-    violation.build_associations(associations_data)
+    violation.type = type
     violation
-  end
-
-  def build_associations(associations_data)
-    @associations_to_save = associations_data.each_with_object({}) do |(type, data), acc|
-      object = type.classify.constantize
-      associations_for_current_violation(data).each do |association_data|
-        acc[type] ||= []
-        acc[type] << object.build_record(self, association_data)
-      end
-      acc
-    end
-  end
-
-  def save_associations
-    return unless @associations_to_save
-
-    @associations_to_save.each do |type, association|
-      send("#{type}=", association)
-    end
   end
 
   def associations_for_current_violation(associations_data)

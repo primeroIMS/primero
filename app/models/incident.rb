@@ -148,6 +148,7 @@ class Incident < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_violations(data)
+    build_violations_associations(data)
     super_update_properties(user, data)
   end
 
@@ -163,12 +164,25 @@ class Incident < ApplicationRecord
 
   def build_or_update_violations(data)
     violation_objects_data = violations_data(Violation::TYPES, data)
-    violation_associations_data = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
     return unless violation_objects_data.present?
 
     @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|
       violations_by_type.each do |violation_data|
-        acc << Violation.build_record(type, violation_data, self, violation_associations_data)
+        acc << Violation.build_record(type, violation_data, self)
+      end
+      acc
+    end
+  end
+
+  def build_violations_associations(data)
+    violation_associations_data = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
+
+    return unless violation_associations_data.present?
+
+    @associations_to_save = violation_associations_data.each_with_object([]) do |(type, associations_data), acc|
+      association_object = type.classify.constantize
+      associations_data.each do |association_data|
+        acc << association_object.build_record(association_data)
       end
       acc
     end
@@ -178,6 +192,10 @@ class Incident < ApplicationRecord
     return unless @violations_to_save
 
     @violations_to_save.each(&:save!)
+    @associations_to_save.each do |association|
+      association.violations = @violations_to_save.select { |violation| association.violations_ids.include?(violation.id) }
+      association.save!
+    end
   end
 
   def associations_as_data(_current_user)
