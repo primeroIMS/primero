@@ -2,6 +2,8 @@
 
 # Model for MRM Perpetrator
 class Perpetrator < ApplicationRecord
+  include MRMAssociable
+
   has_and_belongs_to_many :violations
 
   # TODO: returns the names of the armed_force.name and armed_group.name

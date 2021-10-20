@@ -2,5 +2,13 @@
 
 # Model for MRM Response
 class Response < ApplicationRecord
-  belongs_to :violations, optional: true
+  include MRMAssociable
+
+  belongs_to :violation, optional: true
+
+  def violations=(data)
+    return unless data.present? && data.one?
+
+    self.violation = data.first
+  end
 end

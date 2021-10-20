@@ -11,12 +11,12 @@ class Violation < ApplicationRecord
   TYPES = %w[
     killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
   ].freeze
-  MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims interventions].freeze
+  MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
 
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
   has_and_belongs_to_many :perpetrators
-  has_many :responses
+  has_many :responses, dependent: :destroy
   belongs_to :source, optional: true
   belongs_to :incident
 
@@ -24,7 +24,6 @@ class Violation < ApplicationRecord
                  :unique_id, :violation_tally, :verified, :type
 
   after_initialize :set_unique_id
-  after_save :save_associations
 
   # searchable do
   #   string :category, as: :category_sci
@@ -94,11 +93,11 @@ class Violation < ApplicationRecord
 
   def associations_as_data
     @associations_as_data ||= {
-      'sources' => source.map(&:data),
+      'sources' => source,
       'perpetrators' => perpetrators.map(&:data),
-      'individuals' => individual_victims.map(&:data),
-      'groups' => group_victims.map(&:data),
-      'interventions' => responses.map(&:data)
+      'individual_victims' => individual_victims.map(&:data),
+      'group_victims' => group_victims.map(&:data),
+      'responses' => responses.map(&:data)
     }
   end
 
@@ -106,26 +105,18 @@ class Violation < ApplicationRecord
     MRM_ASSOCIATIONS_KEYS
   end
 
-  def self.build_record(type, data, incident, associations_data)
+  def self.build_record(type, data, incident)
     violation = find_or_initialize_by(id: data['unique_id'])
     violation.incident = incident
-    violation.type = type
     violation.data = data
-    violation.build_associations(associations_data)
+    violation.type = type
     violation
   end
 
-  def build_associations(associations_data)
-    @associations_to_save = associations_data.map do |association_data|
-      # TODO: buid all the records for every relation
+  def associations_for_current_violation(associations_data)
+    associations_data.select do |data|
+      data['violations_ids'].include?(id)
     end
-  end
-
-  def save_associations
-    return unless @associations_to_save
-
-    # TODO: save all the records for every relation
-    true
   end
 
   # TODO: Refactor on incident_monitoring_reporting concern
