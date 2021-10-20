@@ -224,49 +224,43 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search handleReset={handleClear} />
-          <Tabs
-            value={tabIndex}
-            onChange={handleChangeTabs}
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "transparent"
-              }
-            }}
-            classes={{ root: css.tabs }}
-            variant="fullWidth"
-          >
-            {tabs.map(({ name, selected, ...rest }) => (
-              <Tab
-                label={name}
-                key={name}
-                classes={{ root: css.tab, selected: css.tabselected }}
-                selected={selected}
-                {...rest}
-              />
-            ))}
-          </Tabs>
+          <div className={css.tabContainer}>
+            <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
+              {tabs.map(({ name, selected, ...rest }) => (
+                <Tab
+                  label={name}
+                  key={name}
+                  classes={{ root: css.tab, selected: css.tabselected }}
+                  selected={selected}
+                  {...rest}
+                />
+              ))}
+            </Tabs>
 
-          {tabIndex === 0 && (
-            <>
-              <Actions handleSave={handleSave} handleClear={handleClear} />
-              {renderFilters()}
-              <MoreSection
-                addFilterToList={addFilterToList}
-                allAvailable={filters}
-                defaultFilters={allDefaultFilters}
-                filterToList={filterToList}
-                more={more}
-                moreSectionFilters={moreSectionFilters}
-                primaryFilters={allPrimaryFilters}
-                recordType={recordType}
-                setMore={setMore}
-                setMoreSectionFilters={setMoreSectionFilters}
-              />
-            </>
-          )}
-          {tabIndex === 1 && (
-            <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
-          )}
+            {tabIndex === 0 && (
+              <div className={css.tabContent}>
+                <Actions handleSave={handleSave} handleClear={handleClear} />
+                {renderFilters()}
+                <MoreSection
+                  addFilterToList={addFilterToList}
+                  allAvailable={filters}
+                  defaultFilters={allDefaultFilters}
+                  filterToList={filterToList}
+                  more={more}
+                  moreSectionFilters={moreSectionFilters}
+                  primaryFilters={allPrimaryFilters}
+                  recordType={recordType}
+                  setMore={setMore}
+                  setMoreSectionFilters={setMoreSectionFilters}
+                />
+              </div>
+            )}
+            {tabIndex === 1 && (
+              <div className={css.tabContent}>
+                <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
+              </div>
+            )}
+          </div>
         </form>
       </FormProvider>
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />

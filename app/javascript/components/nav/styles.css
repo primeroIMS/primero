@@ -37,11 +37,11 @@
   position: relative;
   white-space: nowrap;
   border: none;
-  box-shadow: inset -8px 0 6px -5px rgb(0 0 0 / 5%);
+  box-shadow: inset -2px 0 2px -1px rgb(0 0 0 / 5%);
 }
 
 .drawerPaper[dir="rtl"], .drawerPaper-demo[dir="rtl"] {
-  box-shadow: inset 8px 0 5px -5px rgba(0, 0, 0, 0.15);
+  box-shadow: inset -2px 0 2px -1px rgba(0, 0, 0, 0.15);
 }
 
 .drawerPaper-demo {
@@ -127,7 +127,7 @@
 
 .navActive {
   background: var(--c-content-grey);
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 5%);
 
   & svg {
     color: var(--c-black);
@@ -137,7 +137,7 @@
 .navSeparator {
   width: 219px;
   height: 1px;
-  background: var(--c-warm-grey-2);
+  background: var(--c-warm-grey-1);
   margin: 0 auto;
 }
 

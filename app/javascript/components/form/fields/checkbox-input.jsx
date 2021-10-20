@@ -7,12 +7,12 @@ import css from "./styles.css";
 
 const CheckboxInput = ({ commonInputProps, options, metaInputProps, formMethods }) => {
   const { control } = formMethods;
-  const { name, error, required, label, helperText } = commonInputProps;
+  const { name, error, required, label, helperText, disabled } = commonInputProps;
   const { inlineCheckboxes } = metaInputProps;
 
   return (
     <FormControl component="fieldset" error={error} className={css.checkboxContainer}>
-      <FormLabel component="legend" required={required}>
+      <FormLabel component="legend" required={required} disabled={disabled}>
         {label}
       </FormLabel>
       <FormGroup row={inlineCheckboxes}>

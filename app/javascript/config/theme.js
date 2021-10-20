@@ -90,6 +90,7 @@ const theme = (direction = ORIENTATION.ltr) => {
           "--fwb": muiTheme.typography.fontWeightBold,
           "--drawer": drawerWidth,
           "--shadow-0": shadows[0],
+          "--shadow-1": shadows[1],
           "--spacing-0-1": muiTheme.spacing(0, 1),
           "--transition": muiTheme.transitions.create("margin", {
             easing: muiTheme.transitions.easing.sharp,
@@ -154,9 +155,7 @@ const theme = (direction = ORIENTATION.ltr) => {
       input: {
         border: "1px solid var(--c-black)",
         borderRadius: "6px",
-        // transition: muiTheme.transitions.create(['border-color', 'box-shadow']),
         "$:focus": {
-          // boxShadow: `${alpha(colors.yellow, 0.25)} 0 0 0 0.2rem`,
           borderColor: colors.yellow
         },
         "&:read-only": {
