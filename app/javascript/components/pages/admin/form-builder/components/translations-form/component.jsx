@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import { FormSectionField, FieldRecord, TEXT_FIELD, SELECT_FIELD, whichFormMode } from "../../../../../form";
@@ -14,12 +13,9 @@ import { useApp } from "../../../../../application";
 
 import { FieldTranslationRow } from "./components";
 import { NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ mode, formMethods }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const locales = localesToRender(i18n);
   const formMode = whichFormMode(mode);

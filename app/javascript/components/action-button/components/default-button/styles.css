@@ -1,39 +1,10 @@
-.defaultActionButton, .onlyText {
-  background-color: $(theme.primero.colors.blue);
-  border-radius: 24px;
-  color: $(theme.primero.colors.white);
-  height: 35px;
-  padding: 0 15px;
-  margin-right: 5px;
-
-  &:hover {
-    color: $(theme.primero.colors.black);
-  }
-}
-
-.outlined {
-  border: 1px solid $(theme.primero.colors.blue);
-  color: $(theme.primero.colors.blue);
-  background: $(theme.primero.colors.white);
-  font-weight: bold;
-
-  &:hover {
-    color: $(theme.primero.colors.white);
-    border: 1px solid $(theme.primero.colors.blue);
-    background: $(theme.primero.colors.blue);
-  }
-}
-
 .isTransparent {
-  color: $(theme.primero.colors.grey);
+  color: var(--c-grey);
   background-color: transparent;
 }
 
-.isCancel {
-  background: $(theme.primero.colors.grey);
-}
-
 .isDisabled {
+  display: contents;
   cursor: not-allowed;
 }
 
@@ -43,7 +14,7 @@
   margin-left: -55px;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .defaultActionButton {
     min-width: 3em;
     padding: 0 15px;

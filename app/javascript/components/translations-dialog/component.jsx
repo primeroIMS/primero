@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import CheckIcon from "@material-ui/icons/Check";
 import PropTypes from "prop-types";
 import first from "lodash/first";
@@ -12,12 +11,9 @@ import { getObjectPath } from "../../libs";
 import { FORM_ID, NAME } from "./constants";
 import { translationsForm, validationSchema } from "./form";
 import { localesToRender } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ formMethods, mode, dialogTitle }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const validations = validationSchema(i18n);
   const currentValues = formMethods.getValues({ nest: true });

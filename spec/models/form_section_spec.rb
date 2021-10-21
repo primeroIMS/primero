@@ -993,6 +993,48 @@ describe FormSection do
     end
   end
 
+  describe '#insert_field!' do
+    before(:each) do
+      @form_section_a.fields = [
+        Field.new(name: 'foo', type: 'text_field',display_name_en: 'Foo', order: 1),
+        Field.new(name: 'bar', type: 'text_field',display_name_en: 'Foo', order: 2),
+        Field.new(name: 'test', type: 'text_field',display_name_en: 'Foo', order: 3)
+      ]
+    end
+
+    it 'insert at specified order when this one is specified' do
+      new_field = Field.new(name: 'second_test', type: 'text_field',display_name_en: 'Foo', order: 2)
+      @form_section_a.insert_field!(new_field)
+      fields_new_order = FormSection.find_by(unique_id: 'A').fields
+
+      expect(Field.find_by(name: 'second_test').order).to eq(2)
+      expect(fields_new_order.last.name).to eq('test')
+      expect(fields_new_order.last.order).to eq(4)
+    end
+
+    it 'insert at the end when order is not specified' do
+      new_field = Field.new(name: 'third_test', type: 'text_field',display_name_en: 'Foo')
+      @form_section_a.insert_field!(new_field)
+
+      expect(FormSection.find_by(unique_id: 'A').fields.last.name).to eq(new_field.name)
+    end
+  end
+
+  describe '#field_exists?' do
+
+    before(:each) do
+      @form_section_a.fields << Field.new(name: 'foo', type: 'text_field',display_name_en: 'Foo', order: 5)
+    end
+
+    it 'return true when field exist' do
+      expect(@form_section_a.field_exists?('foo')).to be_truthy
+    end
+
+    it 'return false when field do not exist' do
+      expect(@form_section_a.field_exists?('bar')).to be_falsey
+    end
+  end
+
   after do
     clean_data(Field, FormSection, PrimeroModule, PrimeroProgram, Role, Lookup)
   end

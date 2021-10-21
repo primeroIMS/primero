@@ -15,7 +15,7 @@ module Searchable
       extend TextIndexing
       string(:record_id) { id }
 
-      searchable_string_fields.each do |f|
+      searchable_option_fields.each do |f|
         string(f, as: "#{f}_sci".to_sym) { data[f] }
       end
       searchable_multi_fields.each do |f|
@@ -38,9 +38,6 @@ module Searchable
       #     self.data['marked_for_mobiles']
       #   end
       # end
-      searchable_location_fields.each do |f|
-        text(f, as: "#{f}_lngram".to_sym) { data[f] }
-      end
       all_searchable_location_fields.each do |field|
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
@@ -69,13 +66,8 @@ module Searchable
       ).uniq
     end
 
-    def searchable_string_fields
-      (
-        %w[
-          unique_identifier short_id created_by created_by_full_name
-          last_updated_by last_updated_by_full_name created_organization
-        ] + Field.all_filterable_field_names(parent_form)
-      ).uniq
+    def searchable_option_fields
+      Field.all_filterable_option_field_names(parent_form)
     end
 
     def searchable_multi_fields
@@ -92,36 +84,29 @@ module Searchable
 
     def all_searchable_location_fields
       (
-        %w[owned_by_location] + Field.all_location_field_names(parent_form)
+        %w[owned_by_location] + searchable_location_fields + Field.all_location_field_names(parent_form)
       ).uniq
     end
   end
 
   # Helpers to index text fields
   module TextIndexing
-    def text_index(field_name, from = :itself)
-      if PHONETIC_FIELD_NAMES.include?(field_name)
-        text(field_name, as: "#{field_name}_ph") { field_value(send(from), field_name) }
-      else
-        text(field_name) { send(from).data[field_name] }
+    def text_index(field_name, from: :itself, suffix: nil, subform_field_name: nil)
+      stored_field_name = suffix.present? ? "#{field_name}_#{suffix}" : field_name
+      solr_field_type = PHONETIC_FIELD_NAMES.include?(field_name) ? 'ph' : 'text'
+
+      text(stored_field_name, as: "#{stored_field_name}_#{solr_field_type}") do
+        if subform_field_name.present?
+          send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
+        else
+          field_value(send(from), field_name)
+        end
       end
     end
 
     def field_value(record, field_name)
       value = record.data[field_name] || record.try(field_name)
       value.is_a?(Array) ? value.join(' ') : value
-    end
-
-    def text_index_from_subform(subform_field_name, field_name, from = :itself)
-      if PHONETIC_FIELD_NAMES.include?(field_name)
-        text(field_name, as: "#{field_name}_ph") do
-          send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
-        end
-      else
-        text(field_name) do
-          send(from).values_from_subform(subform_field_name, field_name)&.join(' ')
-        end
-      end
     end
   end
 

@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -12,15 +11,13 @@ import { NOT_NULL } from "../../constants";
 
 import { ATTRIBUTE, CONSTRAINT, NAME, VALUE, FORM_ID } from "./constants";
 import form from "./form";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ fields, open, setOpen, selectedIndex, setSelectedIndex, indexes, onSuccess }) => {
   const formMode = whichFormMode("edit");
 
   const i18n = useI18n();
-  const css = useStyles();
+
   const isNew = selectedIndex === null;
 
   const formMethods = useForm();

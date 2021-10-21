@@ -3,7 +3,7 @@
   padding: 0 18px;
   & h5 {
     margin: 25px 0 11px 0;
-    color: $(theme.primero.colors.darkGrey);
+    color: var(--c-dark-grey);
     text-transform: uppercase;
   }
   & ul {

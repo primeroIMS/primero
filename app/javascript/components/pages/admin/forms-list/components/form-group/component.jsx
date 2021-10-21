@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
-import { Accordion, AccordionSummary, AccordionDetails, makeStyles } from "@material-ui/core";
+import { Accordion, AccordionSummary, AccordionDetails } from "@material-ui/core";
 import { Draggable } from "react-beautiful-dnd";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import { FORM_GROUP_PREFIX } from "../../constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ name, id, index, children, isDragDisabled }) => {
-  const css = useStyles();
-
   return (
     <Draggable draggableId={`${FORM_GROUP_PREFIX}-${id}`} index={index} isDragDisabled={isDragDisabled}>
       {provided => (

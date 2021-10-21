@@ -1,18 +1,15 @@
 .root {
   display: flex;
   overflow: hidden;
-  background: $(theme.primero.colors.contentGrey);
+  background: var(--c-content-grey);
 }
 
 .content {
   flex-grow: 1;
   height: 100vh;
   overflow: hidden;
-  background: $(theme.primero.colors.contentGrey);
-  transition: $(theme.transitions.create('margin', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }));
+  background: var(--c-content-grey);
+  transition: var(--transition);
   margin-left: -240px;
   overflow-x: hidden;
   padding-top: 0;

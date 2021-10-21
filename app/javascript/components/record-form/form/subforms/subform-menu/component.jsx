@@ -1,7 +1,6 @@
 import { batch, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { CircularProgress } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { getEnabledAgencies } from "../../../../application/selectors";
 import { getLoadingTransitionType, getUsersByTransitionType } from "../../../../record-actions/transitions/selectors";
@@ -11,7 +10,7 @@ import { getOption } from "../../../selectors";
 import { setDialog } from "../../../../action-dialog";
 import { useI18n } from "../../../../i18n";
 import { serviceIsReferrable } from "../../utils";
-import styles from "../styles.css";
+import css from "../styles.css";
 import Permission from "../../../../application/permission";
 import { RESOURCES, REFER_FROM_SERVICE } from "../../../../../libs/permissions";
 import { currentUser } from "../../../../user";
@@ -21,12 +20,9 @@ import { useMemoizedSelector } from "../../../../../libs";
 import ReferAction from "./components/refer-action";
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ index, values }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = useStyles();
 
   const services = useMemoizedSelector(state => getOption(state, "lookup-service-type", i18n.locale));
   const referralUsers = useMemoizedSelector(state => getUsersByTransitionType(state, REFERRAL_TYPE));

@@ -28,7 +28,7 @@ describe("<OverviewBox />", () => {
   it("renders a component/>", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
     expect(component.find("li")).to.have.lengthOf(1);
-    expect(component.find("button")).to.have.lengthOf(1);
+    expect(component.find("a")).to.have.lengthOf(1);
     expect(component.find("div div").text()).to.equal("5 Closure");
   });
 
@@ -39,7 +39,7 @@ describe("<OverviewBox />", () => {
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
       expect(component.find("li")).to.have.lengthOf(1);
-      expect(component.find("button")).to.have.lengthOf(1);
+      expect(component.find("a")).to.have.lengthOf(1);
       expect(component.find("div div").text()).to.equal("Closure");
     });
   });

@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -7,13 +6,10 @@ import { ROUTES } from "../../../../config";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const NotAuthorized = () => {
   const i18n = useI18n();
-  const css = useStyles();
 
   return (
     <div className={css.root}>

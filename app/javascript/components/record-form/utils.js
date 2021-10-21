@@ -174,7 +174,7 @@ export const getRedirectPath = (mode, params, fetchFromCaseId) => {
     return `/${RECORD_PATH.cases}/${fetchFromCaseId}`;
   }
 
-  return mode.isNew ? `/${params.recordType}` : `/${params.recordType}/${params.id}`;
+  return mode.isNew ? "" : `/${params.recordType}/${params.id}`;
 };
 
 export const sortSubformValues = (record, formMap) => {

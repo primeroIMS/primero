@@ -27,6 +27,54 @@ describe SearchService, search: true do
     end
   end
 
+  describe 'Filter search locations' do
+    before :example do
+      clean_data(Location, FormSection, Field)
+
+      create(:form_section, unique_id: 'form_section_1', fields: [
+               create(:field, name: 'location_current', type: Field::SELECT_BOX, option_strings_source: 'Location')
+             ])
+
+      @country = create(
+        :location, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
+      )
+      @province1 = create(
+        :location, hierarchy_path: "#{@country.location_code}.PR01", type: 'state', location_code: 'PR01'
+      )
+      @province2 = create(
+        :location, hierarchy_path: "#{@country.location_code}.PR02", type: 'province', location_code: 'PR02'
+      )
+      @town1 = create(
+        :location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.TW01",
+                   type: 'city', location_code: 'TW01'
+      )
+      @town2 = create(
+        :location, hierarchy_path: "#{@country.location_code}.#{@province1.location_code}.TW02",
+                   type: 'city', disabled: false, location_code: 'TW02'
+      )
+      @town3 = create(
+        :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.TW03",
+                   type: 'city', disabled: false, location_code: 'TW03'
+      )
+
+      @child_location1 = Child.create!(data: { location_current: 'MC01' })
+      @child_location2 = Child.create!(data: { location_current: 'TW01' })
+      @child_location3 = Child.create!(data: { location_current: 'TW02' })
+      @child_location4 = Child.create!(data: { location_current: 'PR02' })
+      @child_location5 = Child.create!(data: { location_current: 'TW03' })
+
+      Sunspot.commit
+    end
+
+    it 'searches with location filters' do
+      filter = SearchFilters::ValueList.new(field_name: 'location_current', values: %w[PR01 TW03])
+      search = SearchService.search(Child, filters: [filter])
+
+      expect(search.total).to eq(3)
+      expect(search.results).to contain_exactly(@child_location2, @child_location3, @child_location5)
+    end
+  end
+
   describe 'Text search' do
     before :example do
       @correct_match = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
@@ -39,6 +87,26 @@ describe SearchService, search: true do
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@correct_match.name)
+    end
+  end
+
+  describe 'Sorting search' do
+    before :example do
+      @child1 = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
+      @child2 = Child.create!(data: { name: 'Augustina MacPherson', sex: 'male' })
+      @child3 = Child.create!(data: { name: 'Augustina Applebee', sex: 'male' })
+
+      Sunspot.commit
+    end
+
+    it 'sorts sortable fields' do
+      search = SearchService.search(Child, query: 'Augustina', sort: { name: :asc })
+      expect(search.results.map(&:name)).to eq([@child3, @child1, @child2].map(&:name))
+    end
+
+    it 'sorts fields' do
+      search = SearchService.search(Child, query: 'Augustina', sort: { sex: :desc })
+      expect(search.results.map(&:sex)).to eq([@child2, @child3, @child1].map(&:sex))
     end
   end
 

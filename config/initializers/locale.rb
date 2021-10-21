@@ -9,7 +9,9 @@
 class Primero::Application
   LOCALE_ENGLISH = :en
   LOCALE_ARABIC = :ar
-  LOCALES = %i[en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id ku ku-IQ my ps-AF so sw-KE sw-TZ th].freeze
+  LOCALES = %i[
+    en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id km ku ku-IQ my ps-AF pt pt-BR so sw-KE sw-TZ th
+  ].freeze
   RTL_LOCALES = %i[ar ar-IQ ar-JO ar-LB ar-SD fa-AF ku ku-IQ ps-AF].freeze
 end
 
@@ -23,4 +25,8 @@ def locale_settings
 end
 
 I18n.default_locale = locale_settings['default_locale'] || Primero::Application::LOCALE_ENGLISH
-I18n.available_locales = locale_settings['locales'].present? ? locale_settings['locales'] : Primero::Application::LOCALES
+I18n.available_locales = if locale_settings['locales'].present?
+                           locale_settings['locales']
+                         else
+                           Primero::Application::LOCALES
+                         end

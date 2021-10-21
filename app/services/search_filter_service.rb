@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Transform a params hash into SearchFilters::SearchFiklter objects
 class SearchFilterService
   EXCLUDED = %w[format controller action page per order order_by fields id_search].freeze
 
@@ -8,6 +11,10 @@ class SearchFilterService
     service.build_filters(filter_params)
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
   def build_filters(params)
     params.map do |key, value|
       if key == 'or'
@@ -31,6 +38,10 @@ class SearchFilterService
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def select_filter_params(params, permitted_field_names)
     filter_params = params.reject { |key, _| EXCLUDED.include?(key) }

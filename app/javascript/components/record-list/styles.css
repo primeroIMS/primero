@@ -16,17 +16,18 @@
 .toolbar {
   position: sticky;
   top: 0;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   z-index: 999;
 }
 
-.drawer: {
+.drawer {
   padding: 0 0.5em;
 }
 
 .tableContainer {
   display: flex;
   flex-direction: column;
+  flex: 1
 }
 
 .overdueHeading {
@@ -62,4 +63,8 @@
       margin: 0;
     }
   }
+}
+
+.id {
+  color: var(--c-blue)
 }

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { fromJS } from "immutable";
@@ -24,11 +23,9 @@ import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { compactBlank, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   approvalSubforms,
@@ -61,7 +58,7 @@ const Component = ({
 
   const { state: locationState } = useLocation();
   const history = useHistory();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -106,55 +103,58 @@ const Component = ({
   }, []);
 
   const formProps = {
-    onSubmit: useCallback((initialValues, values) => {
-      const saveMethod = containerMode.isEdit ? "update" : "save";
-      const { incidentPath, ...formValues } = values;
+    onSubmit: useCallback(
+      (initialValues, values) => {
+        const saveMethod = containerMode.isEdit ? "update" : "save";
+        const { incidentPath, ...formValues } = values;
 
-      const body = {
-        data: {
-          ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
-          ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
-          ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
-        }
-      };
-      const message = () => {
-        return containerMode.isEdit
-          ? i18n.t(`${recordType}.messages.update_success`, {
-              record_id: record.get("short_id")
-            })
-          : i18n.t(`${recordType}.messages.creation_success`, recordType);
-      };
+        const body = {
+          data: {
+            ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
+            ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+            ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
+          }
+        };
+        const message = () => {
+          return containerMode.isEdit
+            ? i18n.t(`${recordType}.messages.update_success`, {
+                record_id: record.get("short_id")
+              })
+            : i18n.t(`${recordType}.messages.creation_success`, recordType);
+        };
 
-      batch(() => {
-        if (saveBeforeIncidentRedirect) {
-          setCaseIncidentData(formValues, incidentPath, true);
-        }
+        batch(() => {
+          if (saveBeforeIncidentRedirect) {
+            setCaseIncidentData(formValues, incidentPath, true);
+          }
 
-        if (containerMode.isNew) {
-          dispatch(clearDataProtectionInitialValues());
-        }
+          if (containerMode.isNew) {
+            dispatch(clearDataProtectionInitialValues());
+          }
 
-        dispatch(
-          saveRecord(
-            params.recordType,
-            saveMethod,
-            body,
-            params.id,
-            message(),
-            i18n.t("offline_submitted_changes"),
-            getRedirectPath(containerMode, params, fetchFromCaseId),
-            true,
-            "",
-            Boolean(incidentFromCase?.size),
-            selectedModule.primeroModule,
-            incidentPath,
-            i18n.t("offline_submitted_changes")
-          )
-        );
-      });
-      // TODO: Set this if there are any errors on validations
-      // setSubmitting(false);
-    }, []),
+          dispatch(
+            saveRecord(
+              params.recordType,
+              saveMethod,
+              body,
+              params.id,
+              message(),
+              i18n.t("offline_submitted_changes"),
+              getRedirectPath(containerMode, params, fetchFromCaseId),
+              true,
+              "",
+              saveBeforeIncidentRedirect,
+              selectedModule.primeroModule,
+              incidentPath,
+              i18n.t("offline_submitted_changes")
+            )
+          );
+        });
+        // TODO: Set this if there are any errors on validations
+        // setSubmitting(false);
+      },
+      [saveBeforeIncidentRedirect]
+    ),
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
     },

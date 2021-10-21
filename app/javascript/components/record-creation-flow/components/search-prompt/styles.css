@@ -7,20 +7,21 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  border: 1px solid $(theme.primero.colors.warmGrey4);
-  border-radius: 1em;
+  border: 1px solid var(--c-warm-grey-4);
+  border-radius: 6px;
+  padding: .3em .3em .3em .5em;
 
   & form {
     width: 100%;
-    padding-top: 2px;
-    padding-left: 10px;
+
+    & fieldset {
+      margin-bottom: 0 !important;
+      border: none;
+    }
 
     & div {
-
-      & div {
-        margin-bottom: 0;
-        margin-top: 2px;
-      }
+      padding: 0 !important;
+      margin-bottom: 0;
     }
   }
 }

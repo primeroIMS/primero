@@ -1,18 +1,15 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
 import { Droppable } from "react-beautiful-dnd";
 import clsx from "clsx";
 
 import { useI18n } from "../../../../../i18n";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import TableRow from "../table-row";
 import { displayNameHelper } from "../../../../../../libs";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const classes = clsx(css.row, css.header);
 
   return (
