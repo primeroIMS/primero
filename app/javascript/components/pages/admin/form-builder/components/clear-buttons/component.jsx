@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../../../../i18n";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
@@ -10,12 +9,9 @@ import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from
 import { useApp } from "../../../../../application";
 
 import { NAME, GROUP_BY, SORT_BY } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const fieldName = subformField.get("name");
@@ -34,7 +30,7 @@ const Component = ({ setValue, subformField, subformSortBy, subformGroupBy }) =>
         icon={<CloseIcon />}
         text={i18n.t(`fields.clear_${fieldBy}`)}
         type={ACTION_BUTTON_TYPES.default}
-        isCancel
+        cancel
         rest={{
           onClick,
           hide: limitedProductionSite

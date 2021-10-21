@@ -3,11 +3,11 @@
 }
 
 .recordId {
-  color: $(theme.primero.colors.red);
+  color: var(--c-red);
 }
 
 .alreadyMatched {
-  background-color: $(theme.primero.colors.wildSand);
+  background-color: var(--c-wild-sand);
   padding: 10px;
 
   & span {

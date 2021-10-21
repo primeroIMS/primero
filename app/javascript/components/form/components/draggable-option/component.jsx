@@ -9,16 +9,13 @@ import IconButton from "@material-ui/core/IconButton";
 
 import TextInput from "../../fields/text-input";
 import SwitchInput from "../../fields/switch-input";
-import styles from "../../fields/styles.css";
+import css from "../../fields/styles.css";
 import DragIndicator from "../../../pages/admin/forms-list/components/drag-indicator";
 import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMethods, formMode }) => {
-  const css = useStyles();
   const {
     errors,
     setValue,

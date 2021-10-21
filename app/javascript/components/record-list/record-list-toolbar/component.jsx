@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../../page";
@@ -9,14 +9,15 @@ import { CREATE_RECORDS } from "../../../libs/permissions";
 import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";
+import css from "./styles.css";
 
-const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage, css }) => {
+const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage }) => {
   return (
-    <Box mb={3} alignItems="center" display="flex" className={css.toolbar}>
-      <Box flexGrow={1}>
+    <div className={css.container}>
+      <div className={css.heading}>
         <PageHeading title={title} mobileHeading />
-      </Box>
-      <Box>
+      </div>
+      <div className={css.actions}>
         {mobileDisplay && (
           <IconButton onClick={handleDrawer} color="primary">
             <FilterListIcon />
@@ -32,13 +33,12 @@ const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRec
           mode={{ isShow: true }}
           showListActions
         />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
 Component.propTypes = {
-  css: PropTypes.object,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,

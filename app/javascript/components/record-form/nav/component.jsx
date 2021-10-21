@@ -6,7 +6,6 @@ import { List, IconButton, Drawer } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { makeStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
@@ -25,9 +24,7 @@ import useOptions from "../../form/use-options";
 
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({
   firstTab,
@@ -47,7 +44,6 @@ const Component = ({
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
   const dispatch = useDispatch();
-  const css = useStyles();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })

@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { memo } from "react";
 
 import { getAgencyLogos } from "../application/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const AgencyLogo = ({ alwaysFullLogo }) => {
-  const css = useStyles();
   const agencyLogos = useMemoizedSelector(state => getAgencyLogos(state));
   const tabletDisplay = useMediaQuery(theme => theme.breakpoints.down("md"));
 

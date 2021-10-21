@@ -1,15 +1,11 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const AttachmentPreview = ({ name, attachment, attachmentUrl }) => {
-  const css = useStyles();
   const isAudioAttachment = attachment === ATTACHMENT_TYPES.audio;
 
   useEffect(() => {

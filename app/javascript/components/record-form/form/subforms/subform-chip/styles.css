@@ -6,9 +6,9 @@
 }
 
 .info {
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
 }
 
 .success {
-  background-color: $(theme.primero.colors.atlantis);
+  background-color: var(--c-green);
 }

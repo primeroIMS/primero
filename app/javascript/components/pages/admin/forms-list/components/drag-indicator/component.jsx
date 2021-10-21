@@ -1,13 +1,10 @@
 import PropTypes from "prop-types";
-import { Icon, makeStyles } from "@material-ui/core";
+import { Icon } from "@material-ui/core";
 import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
-import styles from "../../styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "../../styles.css";
 
 const Component = ({ isDragDisabled, ...props }) => {
-  const css = useStyles();
   const classes = isDragDisabled ? { classes: { root: css.dragIndicator } } : {};
 
   return (

@@ -1,6 +1,5 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -12,13 +11,11 @@ import { useI18n } from "../../i18n";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 import { useApp } from "../../application";
+import ActionButton from "../../action-button";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -69,13 +66,12 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
     return indicators.keySeq().map(item => {
       return (
         <li key={item}>
-          <button
+          <ActionButton
             className={css.itemButton}
-            type="button"
+            type="link"
+            text={`${indicators.getIn([item, "count"])} ${buildLabelItem(item)}`}
             onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
-          >
-            {indicators.getIn([item, "count"])} {buildLabelItem(item)}
-          </button>
+          />
         </li>
       );
     });

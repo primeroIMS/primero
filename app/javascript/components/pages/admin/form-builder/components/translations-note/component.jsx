@@ -1,18 +1,14 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { buildFormGroupUniqueId } from "../../utils";
 import { useI18n } from "../../../../../i18n";
 import useOptions from "../../../../../form/use-options";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ moduleId, parentForm }) => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const formGroupLookup = useOptions({ source: buildFormGroupUniqueId(moduleId, parentForm), fullLookup: true });

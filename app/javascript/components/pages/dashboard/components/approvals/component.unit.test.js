@@ -122,7 +122,7 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
   it("should render 4 <OverviewBox /> component", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(6);
     expect(component.find("li")).to.have.lengthOf(6);
-    expect(component.find("button")).to.have.lengthOf(6);
+    expect(component.find("a")).to.have.lengthOf(6);
   });
 
   it("should render the correct approvals label", () => {

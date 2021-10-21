@@ -1,4 +1,4 @@
-import { Box, List, makeStyles } from "@material-ui/core";
+import { Box, List } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
 import PropTypes from "prop-types";
 
@@ -6,15 +6,12 @@ import { useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
 import { getActiveFlags, getResolvedFlags } from "../../selectors";
 import ListFlagsItem from "../list-flags-item";
-import styles from "../styles.css";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ recordType, record }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const flagsActived = useMemoizedSelector(state => getActiveFlags(state, record, recordType));
   const flagsResolved = useMemoizedSelector(state => getResolvedFlags(state, record, recordType));
