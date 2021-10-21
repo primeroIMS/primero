@@ -42,22 +42,24 @@ describe("<MenuActions /> - Component", () => {
         }
       };
 
+      const referral = TransitionRecord({
+        id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+        record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
+        record_type: "case",
+        created_at: "2020-02-14T23:00:35.345Z",
+        notes: "",
+        rejected_reason: "",
+        status: "in_progress",
+        type: "Referral",
+        consent_overridden: true,
+        consent_individual_transfer: false,
+        transitioned_by: "primero_admin_cp",
+        transitioned_to: "primero_cp_ar",
+        service: "legal_assistance_service"
+      });
+
       const props = {
-        transition: TransitionRecord({
-          id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
-          record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
-          record_type: "case",
-          created_at: "2020-02-14T23:00:35.345Z",
-          notes: "",
-          rejected_reason: "",
-          status: "in_progress",
-          type: "Referral",
-          consent_overridden: true,
-          consent_individual_transfer: false,
-          transitioned_by: "primero_admin_cp",
-          transitioned_to: "primero_cp_ar",
-          service: "legal_assistance_service"
-        }),
+        transition: referral,
         showMode: true,
         recordType: "cases",
         classes: {}
@@ -102,9 +104,17 @@ describe("<MenuActions /> - Component", () => {
 
       context("when current user is recipient", () => {
         const userRecipientState = fromJS(state).setIn(["user", "username"], "primero_cp_ar");
+        const referralWithAcceptOrReject = referral.set("user_can_accept_or_reject", true);
 
         beforeEach(() => {
-          ({ component } = setupMountedComponent(TransitionActions, props, userRecipientState));
+          ({ component } = setupMountedComponent(
+            TransitionActions,
+            {
+              ...props,
+              transition: referralWithAcceptOrReject
+            },
+            userRecipientState
+          ));
         });
 
         it("should render the accept and reject actions", () => {
@@ -165,6 +175,22 @@ describe("<MenuActions /> - Component", () => {
     });
 
     describe("with transfer transition type", () => {
+      const transfer = TransitionRecord({
+        id: "d3d909ed-2203-4c85-9b52-b9ed8883a76c",
+        record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
+        record_type: "case",
+        created_at: "2020-02-14T23:00:35.345Z",
+        notes: "",
+        rejected_reason: "",
+        status: "in_progress",
+        type: "Transfer",
+        consent_overridden: true,
+        consent_individual_transfer: false,
+        transitioned_by: "primero_admin_cp",
+        transitioned_to: "primero_cp_ar",
+        service: "legal_assistance_service"
+      });
+
       const state = {
         records: {
           cases: {
@@ -174,7 +200,8 @@ describe("<MenuActions /> - Component", () => {
                 case_id_display: "804d74bc"
               }
             ]
-          }
+          },
+          transitions: { data: [transfer] }
         },
         ui: {
           dialogs: {
@@ -191,21 +218,7 @@ describe("<MenuActions /> - Component", () => {
       };
 
       const props = {
-        transition: TransitionRecord({
-          id: "d3d909ed-2203-4c85-9b52-b9ed8883a76c",
-          record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
-          record_type: "case",
-          created_at: "2020-02-14T23:00:35.345Z",
-          notes: "",
-          rejected_reason: "",
-          status: "in_progress",
-          type: "Transfer",
-          consent_overridden: true,
-          consent_individual_transfer: false,
-          transitioned_by: "primero_admin_cp",
-          transitioned_to: "primero_cp_ar",
-          service: "legal_assistance_service"
-        }),
+        transition: transfer,
         showMode: true,
         recordType: "cases",
         classes: {}
@@ -316,6 +329,22 @@ describe("<MenuActions /> - Component", () => {
   });
 
   describe("Component TransferApproval", () => {
+    const transfer = TransitionRecord({
+      id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
+      record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
+      record_type: "case",
+      created_at: "2020-02-14T23:00:35.345Z",
+      notes: "",
+      rejected_reason: "",
+      status: "in_progress",
+      type: "Transfer",
+      consent_overridden: true,
+      consent_individual_transfer: false,
+      transitioned_by: "primero_admin_cp",
+      transitioned_to: "primero_cp_ar",
+      service: "legal_assistance_service"
+    });
+
     const state = {
       records: {
         cases: {
@@ -325,6 +354,9 @@ describe("<MenuActions /> - Component", () => {
               case_id_display: "804d74bc"
             }
           ]
+        },
+        transitions: {
+          data: [transfer]
         }
       },
       ui: {
@@ -342,21 +374,7 @@ describe("<MenuActions /> - Component", () => {
     };
 
     const props = {
-      transition: TransitionRecord({
-        id: "804d74bc-53b0-4b71-9a81-8ac419792f75",
-        record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
-        record_type: "case",
-        created_at: "2020-02-14T23:00:35.345Z",
-        notes: "",
-        rejected_reason: "",
-        status: "in_progress",
-        type: "Transfer",
-        consent_overridden: true,
-        consent_individual_transfer: false,
-        transitioned_by: "primero_admin_cp",
-        transitioned_to: "primero_cp_ar",
-        service: "legal_assistance_service"
-      }),
+      transition: transfer,
       showMode: true,
       recordType: "cases",
       classes: {}

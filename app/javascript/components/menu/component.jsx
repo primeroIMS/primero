@@ -40,14 +40,6 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left"
-        }}
       >
         <MenuItems actions={actions} disabledCondition={disabledCondition} handleClose={handleClose} />
       </Menu>

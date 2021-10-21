@@ -1,17 +1,12 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import generateKey from "../../charts/table-values/utils";
 
 import FlagBoxItem from "./components/flag-box-item";
 import { showId } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const FlagBox = ({ flags }) => {
-  const css = useStyles();
-
   return (
     <div className={css.flagContainer}>
       {flags

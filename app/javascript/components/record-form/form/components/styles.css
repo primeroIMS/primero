@@ -29,13 +29,9 @@
 
 .stepLabel,
 .mobileStepper div {
-  font-size: $(theme.typography.pxToRem(11));
+  font-size: var(--fs-11);
   font-weight: bold !important;
   text-transform: uppercase;
-}
-
-.styleLabelActive, .mobileStepper {
-  color: $(theme.primero.colors.blue) !important;
 }
 
 .mobileStepper {
@@ -73,7 +69,7 @@
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .importDataLabelClass {
     margin-top: 8px;
     margin-bottom: 8px;

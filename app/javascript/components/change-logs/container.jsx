@@ -1,4 +1,3 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -18,9 +17,7 @@ import ChangeLog from "./components/change-log";
 import SubformDialog from "./components/subform-dialog";
 import { NAME } from "./constants";
 import { getChangeLogs } from "./selectors";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Container = ({
   selectedForm,
@@ -32,7 +29,7 @@ const Container = ({
   fetchable = false
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const { selectedFilters } = useFormFilters(selectedForm);
 

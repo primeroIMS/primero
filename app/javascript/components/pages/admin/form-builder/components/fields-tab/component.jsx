@@ -1,5 +1,4 @@
 import { memo, useCallback } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
@@ -10,17 +9,15 @@ import FieldDialog from "../field-dialog";
 import CustomFieldDialog from "../custom-field-dialog";
 import ExistingFieldDialog from "../existing-field-dialog";
 import { setFieldDataInFormContext } from "../utils";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { useApp } from "../../../../../application";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ mode, index, tab, formMethods }) => {
   const { id } = useParams();
   const { limitedProductionSite } = useApp();
-  const css = useStyles();
+
   const i18n = useI18n();
   const {
     getValues,

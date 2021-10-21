@@ -1,15 +1,10 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import StackedPercentageBarMeter from "./components/stacked-percentage-bar-meter";
 import StackedPercentageBarLabel from "./components/stacked-percentage-bar-label";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ percentages, className }) => {
-  const css = useStyles();
-
   if (percentages.length > 2) throw new Error("StackedPercentageBar components only support a max of 2 percentages");
 
   const percentagedToRender = percentages.filter(descriptor => descriptor.percentage > 0);

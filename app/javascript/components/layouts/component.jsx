@@ -23,7 +23,7 @@ const Component = ({ layout: Layout, children }) => {
 
   return (
     <ThemeProvider theme={{ ...appTheme, direction: dir }}>
-      <StylesProvider jss={jss} generateClassName={generateClassName}>
+      <StylesProvider jss={jss} generateClassName={generateClassName} injectFirst>
         <CssBaseline />
         <CustomSnackbarProvider>
           <Layout>{children}</Layout>

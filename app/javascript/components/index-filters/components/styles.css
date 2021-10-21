@@ -3,7 +3,7 @@
 }
 
 .heading {
-  font-size: $(theme.typography.pxToRem(15));
+  font-size: var(--fs-15);
   font-weight: bold;
   width: 100%;
   display: flex;
@@ -19,17 +19,10 @@
 }
 
 .actionButtons {
-  font-size: 11px;
-  font-weight: bold;
-  text-align: center;
-  padding: 16px 0;
   display: flex;
   justify-content: center;
-
-  & > * {
-    border-radius: 24px;
-    margin: 0 2.5px;
-  }
+  gap: var(--sp-1);
+  margin: var(--sp-2) 0;
 }
 
 .panel {
@@ -64,8 +57,8 @@
 }
 
 .tab {
-  color: $(theme.primero.colors.darkGrey);
-  font-size: $(theme.typography.pxToRem(11));
+  color: var(--c-dark-grey);
+  font-size: var(--fs-11);
   text-align: center;
   height: 34px;
   min-height: 34px;
@@ -74,25 +67,24 @@
 
 .tabselected {
   font-weight: bold;
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
 }
 
 .moreBtn {
-  margin-top: 1em;
-  border-radius: 24px;
+  margin-top: var(--sp-2);
 }
 
 .flipImage {
   transform: scaleX(-1);
 }
 
-@media $(theme.breakpoints.up("md")) {
+@media (min-width:960px) {
   .tab {
     min-width: 100px;
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .root {
     margin-left: 0;
     padding: 0.7em;

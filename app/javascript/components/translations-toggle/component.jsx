@@ -1,4 +1,4 @@
-import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
+import { Menu, MenuItem, Button } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
 import { useState } from "react";
 
@@ -7,16 +7,12 @@ import { useI18n } from "../i18n";
 import { selectLocales } from "../application/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const TranslationsToggle = () => {
   const { changeLocale, locale, ...i18n } = useI18n();
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const css = useStyles();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -67,6 +63,9 @@ const TranslationsToggle = () => {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClickMenu}
+        classes={{
+          paper: css.paper
+        }}
         anchorOrigin={{
           vertical: "top",
           horizontal: "center"

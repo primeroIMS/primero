@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 
 import { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-material-ui";
@@ -21,18 +20,9 @@ import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
 
-const useStyles = makeStyles(theme => ({
-  hideNameStyle: {
-    paddingTop: 6,
-    color: theme.primero.colors.blue,
-    fontSize: 9,
-    fontWeight: "bold"
-  }
-}));
+import css from "./styles.css";
 
 const TextField = ({ name, field, formik, mode, recordType, recordID, formSection, ...rest }) => {
-  const css = useStyles();
-
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();

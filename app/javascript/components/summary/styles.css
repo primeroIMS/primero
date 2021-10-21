@@ -20,7 +20,7 @@
 
 .caseLink {
   text-align: left;
-  color: $(theme.primero.colors.blue)
+  color: var(--c-blue)
 }
 
 .emptyHeader {

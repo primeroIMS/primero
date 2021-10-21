@@ -30,12 +30,12 @@ import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
 import { getListHeaders, getMetadata } from "./selectors";
-import styles from "./styles.css";
+import css from "./styles.css";
 import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
   const i18n = useI18n();
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
   const { online } = useApp();
@@ -154,7 +154,6 @@ const Container = ({ match, location }) => {
   const currentPage = page - 1;
 
   const recordListToolbarProps = {
-    css,
     title: i18n.t(`${recordType}.label`),
     recordType,
     handleDrawer,

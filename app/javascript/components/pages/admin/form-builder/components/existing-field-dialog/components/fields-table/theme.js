@@ -22,10 +22,10 @@ export default theme => ({
     MUIDataTableBodyRow: {
       root: {
         "&.mui-row-selected": {
-          backgroundColor: theme.primero.colors.chromeWhite,
+          backgroundColor: theme.primero.colors.whiteHover,
 
           "&:hover": {
-            backgroundColor: theme.primero.colors.chromeWhite
+            backgroundColor: theme.primero.colors.whiteHover
           }
         }
       }

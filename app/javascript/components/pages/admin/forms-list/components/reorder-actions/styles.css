@@ -3,12 +3,12 @@
 }
 
 .actionButtonCancel {
-  background: $(theme.primero.colors.grey);
-  color: $(theme.primero.colors.white);
+  background: var(--c-grey);
+  color: var(--c-white);
   margin: 0 .5em;
 
   &:hover {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 }
 

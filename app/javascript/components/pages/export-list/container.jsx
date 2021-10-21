@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import startCase from "lodash/startCase";
@@ -15,15 +14,13 @@ import { useMetadata } from "../../records";
 import { useMemoizedSelector } from "../../../libs";
 
 import { fetchExports } from "./action-creators";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { selectListHeaders } from "./selectors";
 import { NAME, EXPORT_STATUS, EXPORT_COLUMNS } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const ExportList = () => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const recordType = "bulk_exports";
 
   const listHeaders = useMemoizedSelector(state => selectListHeaders(state, recordType));
