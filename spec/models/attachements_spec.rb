@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Attachment do
+describe Attachment, search: true do
   let(:user) { fake_user(user_name: 'test_user') }
 
   let(:child) do
@@ -20,11 +20,17 @@ describe Attachment do
   describe '.attach!' do
     before :each do
       @record_updated_on = child.last_updated_at
+      child.reload
       attachment.attach!
+      Sunspot.commit
     end
 
     it 'attaches a base64 encoded file' do
       expect(attachment.file.attached?).to be_truthy
+    end
+
+    it 'has_photo is true for the record' do
+      expect(Child.search { with(:has_photo, true) }.results.size).to eq(1)
     end
 
     xit 'updates the associated record' do
@@ -41,11 +47,16 @@ describe Attachment do
       attachment.attach!
       child.reload
       attachment.detach!
+      Sunspot.commit
     end
 
     it 'detaches the file and removes the attachment record' do
       expect(attachment.file.attached?).to be_falsey
       expect(attachment.destroyed?).to be_truthy
+    end
+
+    it 'has_photo is false for the record' do
+      expect(Child.search { with(:has_photo, true) }.results.size).to eq(0)
     end
 
     xit 'updates the associated record' do
