@@ -10,7 +10,7 @@
 }
 
 .translationHeader {
-  font-size: var(--fs-14) !important;
+  font-size: var(--fs-13) !important;
 }
 
 .hideField {
@@ -19,7 +19,7 @@
 
 .translationField {
   & label {
-    font-size: var(--fs-15);
+    font-size: var(--fs-16);
     color: var(--c-dark-grey);
   }
 }

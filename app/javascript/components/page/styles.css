@@ -49,7 +49,7 @@
 }
 
 .title {
-  font-size: var(--fs-22);
+  font-size: var(--fs-20);
   color: var(--c-solid-black);
   fong-weight: bold;
   flex: 1;

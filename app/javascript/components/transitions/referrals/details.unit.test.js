@@ -1,7 +1,7 @@
-import { Box, Divider, Grid } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import TransitionUser from "../TransitionUser";
+import DisplayData from "../../display-data";
 import { setupMountedComponent } from "../../../test";
 
 import ReferralDetail from "./details";
@@ -47,12 +47,8 @@ describe("<ReferralDetail />", () => {
     ({ component } = setupMountedComponent(ReferralDetail, props, initialState));
   });
 
-  it("renders 2 <TransitionUser />", () => {
-    expect(component.find(TransitionUser)).to.have.lengthOf(2);
-  });
-
-  it("renders 5 <Box />", () => {
-    expect(component.find(Box)).to.have.lengthOf(5);
+  it("renders 2 <DisplayData />", () => {
+    expect(component.find(DisplayData)).to.have.lengthOf(6);
   });
 
   it("renders a <Divider />", () => {
@@ -72,12 +68,12 @@ describe("<ReferralDetail />", () => {
         ));
       });
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(6);
+        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(7);
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(5);
+        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(6);
       });
     });
   });
@@ -102,7 +98,7 @@ describe("<ReferralDetail />", () => {
 
       expect(
         compWithNoteFromProvider
-          .find(Box)
+          .find(DisplayData)
           .last()
           .find("div div")
           .map(elem => elem.text())
@@ -123,7 +119,9 @@ describe("<ReferralDetail />", () => {
     });
 
     it("should render responded_at", () => {
-      expect(component.find(ReferralDetail).find(Grid).find(Grid).at(6).text()).to.equal("transition.responded_at");
+      expect(component.find(ReferralDetail).find(DisplayData).at(5).children("div").childAt(0).text()).to.equal(
+        "transition.responded_at"
+      );
     });
   });
 });

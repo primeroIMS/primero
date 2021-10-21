@@ -8,7 +8,6 @@ const Component = forwardRef(
   (
     {
       params,
-      value,
       mode,
       helperText,
       InputLabelProps,
@@ -26,7 +25,6 @@ const Component = forwardRef(
     const [inputValueChanged, setInputValueChanged] = useState(false);
 
     const { InputProps, ...restTextFieldProps } = TextFieldProps;
-    const disabledPlaceholder = mode?.isShow && !value ? "--" : "";
 
     const inputParams = {
       ...params,
@@ -34,7 +32,7 @@ const Component = forwardRef(
       fullWidth: true,
       helperText: error || helperText,
       InputLabelProps,
-      placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
+      placeholder: isDisabled ? "" : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
       ...InputProps,
       ...restTextFieldProps,
       InputProps: {
@@ -88,8 +86,7 @@ Component.defaultProps = {
   optionLabelKey: "label",
   options: [],
   params: {},
-  TextFieldProps: {},
-  value: ""
+  TextFieldProps: {}
 };
 
 Component.propTypes = {
@@ -103,8 +100,7 @@ Component.propTypes = {
   optionLabelKey: PropTypes.string,
   options: PropTypes.array,
   params: PropTypes.object,
-  TextFieldProps: PropTypes.object,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
+  TextFieldProps: PropTypes.object
 };
 
 export default Component;

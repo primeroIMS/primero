@@ -17,16 +17,18 @@ const Component = ({ open, cancelHandler, children, title }) => {
       <div className={css.subformDrawerContent}>
         <div className={css.title}>
           <h1>{title}</h1>
-          <ActionButton
-            icon={<CloseIcon />}
-            text={i18n.t("cancel")}
-            type={ACTION_BUTTON_TYPES.icon}
-            isTransparent
-            rest={{
-              className: css.closeButton,
-              onClick: cancelHandler
-            }}
-          />
+          <div>
+            <ActionButton
+              icon={<CloseIcon />}
+              text={i18n.t("cancel")}
+              type={ACTION_BUTTON_TYPES.icon}
+              isTransparent
+              rest={{
+                className: css.closeButton,
+                onClick: cancelHandler
+              }}
+            />
+          </div>
         </div>
         {children}
       </div>

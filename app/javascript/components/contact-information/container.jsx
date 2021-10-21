@@ -21,7 +21,7 @@ const Support = () => {
         <DisplayData
           key={x}
           {...{
-            label: i18n.t(`contact.field.${x}`),
+            label: `contact.field.${x}`,
             value: supportData[x]
           }}
         />

@@ -3,7 +3,7 @@
 }
 
 .subformDrawerContent {
-  padding: 50px;
+  padding: var(--sp-4)
 }
 
 .title {

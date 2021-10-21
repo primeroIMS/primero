@@ -27,9 +27,9 @@ const Component = ({
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
 
-  const incidentInterviewLabel = i18n.t("incidents.date_of_interview");
-  const incidentDateLabel = i18n.t("incidents.date_of_incident");
-  const incidentTypeLabel = i18n.t("incidents.type_violence");
+  const incidentInterviewLabel = "incidents.date_of_interview";
+  const incidentDateLabel = "incidents.date_of_incident";
+  const incidentTypeLabel = "incidents.type_violence";
 
   const handleEvent = modeEvent => {
     handleCreateIncident(`/${RESOURCES.incidents}/${incidentUniqueID}${modeEvent === VIEW ? "" : `/${EDIT}`}`, dirty);
@@ -71,24 +71,18 @@ const Component = ({
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item md={9} xs={12}>
-          <Grid item md={12} xs={12}>
-            <div className={css.spaceGrid}>
-              <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
-            </div>
+        <Grid item container md={10} xs={12}>
+          <Grid item md={6} xs={12}>
+            <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
           </Grid>
-          <Grid item md={12} xs={12}>
-            <div className={css.spaceGrid}>
-              <DisplayData label={incidentDateLabel} value={incidentDate} />
-            </div>
+          <Grid item md={6} xs={12}>
+            <DisplayData label={incidentDateLabel} value={incidentDate} />
           </Grid>
-          <Grid item md={12} xs={12}>
-            <div className={css.spaceGrid}>
-              <DisplayData label={incidentTypeLabel} value={incidentType} />
-            </div>
+          <Grid item md={6} xs={12}>
+            <DisplayData label={incidentTypeLabel} value={incidentType} />
           </Grid>
         </Grid>
-        <Grid item md={3} xs={12}>
+        <Grid item md={2} xs={12}>
           <div className={css.buttonsActions}>
             {viewIncidentBtn}
             {editIncidentBtn}

@@ -104,7 +104,6 @@ const FormSectionField = ({
     helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
     disabled: mode.isShow || disabled || isReadWriteForm === false,
     checked: ["t", "true"].includes(selectedValue),
-    ...(mode.isShow && { placeholder: "--" }),
     index,
     displayName,
     linkToForm,
@@ -142,10 +141,10 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <div>
+      <>
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
-      </div>
+      </>
     </ConditionalWrapper>
   );
 };

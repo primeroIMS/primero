@@ -12,13 +12,13 @@
 
 .dialogTitle {
   & h2 {
-    font-size: 1.25rem;
+    font-size: var(--fs-20);
     text-transform: uppercase;
     font-weight: bold;
   }
 }
 
 .subHeader {
-  font-size: 0.8rem;
+  font-size: var(--fs-13);
   margin-left: 1.5rem;
 }

@@ -7,13 +7,13 @@
   font-size: var(--fs-16);
 
   & span {
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 
 .nestedItem {
   padding: 0 1em;
-  font-size: var(--fs-14)
+  font-size: var(--fs-13)
 }
 
 .root {

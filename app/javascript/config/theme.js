@@ -63,7 +63,7 @@ const colors = {
 };
 
 const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");
-const fontSizes = [12, 22, 14, 15, 16, 13, 96, 17, 9, 10, 28, 30, 14.4, 130, 186, 20];
+const fontSizes = [9, 12, 13, 14, 16, 18, 20, 30, 96, 130, 186];
 const shadows = ["0 2px 12px 0 rgba(125, 125, 125, 0.23)"];
 const drawerWidth = "240px";
 const spacing = [1, 2, 3, 4];
@@ -75,7 +75,7 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiCssBaseline: {
       "@global": {
         html: {
-          fontSize: muiTheme.typography.pxToRem(isRTL ? 18 : 16)
+          fontSize: `var(--fs-${isRTL ? 18 : 16})`
         },
         "#root": {
           display: "flex",
@@ -118,7 +118,8 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiInputLabel: {
       root: {
         lineHeight: "1.5em",
-        fontSize: muiTheme.typography.pxToRem(isRTL ? 15 : 12),
+        fontSize: `var(--fs-${isRTL ? 16 : 12})`,
+        fontWeight: 700,
         marginBottom: ".5em",
         color: colors.black,
         "&$focused": {
@@ -136,6 +137,9 @@ const theme = (direction = ORIENTATION.ltr) => {
       },
       formControl: {
         position: "relative"
+      },
+      asterisk: {
+        color: "var(--c-red)"
       }
     },
     MuiInputBase: {
@@ -190,7 +194,7 @@ const theme = (direction = ORIENTATION.ltr) => {
     },
     MuiFormControl: {
       root: {
-        marginBottom: "1em"
+        margin: "0 0 var(--sp-3)"
       }
     },
     MuiFormControlLabel: {
@@ -200,7 +204,7 @@ const theme = (direction = ORIENTATION.ltr) => {
         }
       },
       label: {
-        fontSize: "0.7rem !important",
+        fontSize: "var(--fs-13) !important",
         "&$disabled": {
           color: colors.black
         }
@@ -262,8 +266,8 @@ const theme = (direction = ORIENTATION.ltr) => {
       root: {
         fontWeight: "900",
         textTransform: "uppercase",
-        fontSize: muiTheme.typography.pxToRem(12),
-        color: `${colors.grey}`,
+        fontSize: "var(--fs-12)",
+        color: `${colors.black}`,
         lineHeight: "1.3em",
         padding: ".5em"
       }
@@ -271,7 +275,7 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiChip: {
       sizeSmall: {
         height: "21px",
-        fontSize: ".7rem"
+        fontSize: "var(--fs-12)"
       }
     },
     MuiDialogActions: {
@@ -286,7 +290,7 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiDialogTitle: {
       root: {
         textTransform: "uppercase",
-        fontSize: muiTheme.typography.pxToRem(17),
+        fontSize: "var(--fs-16)",
         fontWeight: "bold"
       }
     },
@@ -295,13 +299,13 @@ const theme = (direction = ORIENTATION.ltr) => {
         backgroundColor: `${colors.white} !important`,
         color: `${colors.grey} !important`,
         fontWeight: "bold !important",
-        fontSize: `${muiTheme.typography.pxToRem(12)} !important`
+        fontSize: "var(--fs-13) !important"
       },
       message: {
         flex: "1 0",
         backgroundColor: `${colors.white} !important`,
         "& svg": {
-          fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+          fontSize: "var(--fs-16) !important",
           marginRight: "5px"
         }
       },
@@ -309,7 +313,7 @@ const theme = (direction = ORIENTATION.ltr) => {
         paddingLeft: 0,
         backgroundColor: `${colors.white} !important`,
         "& svg": {
-          fontSize: `${muiTheme.typography.pxToRem(16)} !important`,
+          fontSize: "$var(--fs-16) !important",
           color: `${colors.darkGrey} !important`
         }
       }
@@ -318,6 +322,12 @@ const theme = (direction = ORIENTATION.ltr) => {
       sizeSmall: {
         width: "36px",
         height: "36px"
+      }
+    },
+    MuiToggleButton: {
+      root: {
+        fontWeight: 600,
+        textTransform: "none"
       }
     },
     MuiButton: {

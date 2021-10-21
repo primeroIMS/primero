@@ -11,7 +11,7 @@
       margin: 0 !important;
 
       & span {
-        font-size: .875rem !important;
+        font-size: var(--fs-16) !important;
       }
     }
   }

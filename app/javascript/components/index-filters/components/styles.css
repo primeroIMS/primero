@@ -3,7 +3,7 @@
 }
 
 .heading {
-  font-size: var(--fs-15);
+  font-size: var(--fs-14);
   font-weight: bold;
   width: 100%;
   display: flex;
@@ -80,7 +80,7 @@
 
 .tab {
   color: var(--c-dark-grey);
-  font-size: var(--fs-11);
+  font-size: var(--fs-13);
   text-align: center;
   height: 34px;
   min-height: 34px;
