@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import DisplayData from "../../../display-data";
