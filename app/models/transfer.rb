@@ -43,6 +43,13 @@ class Transfer < Transition
     end
   end
 
+  def user_can_accept_or_reject?(user)
+    return false if !in_progress? || user.user_name == transitioned_by
+    return true if user.user_name == transitioned_to
+
+    user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
+  end
+
   private
 
   def perform_remote_transfer
