@@ -10,12 +10,13 @@ import { TICK_FIELD_NAME } from "../constants";
 import { useI18n } from "../../../i18n";
 import css from "../styles.css";
 
-const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) => {
+const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = false, ...rest }) => {
   const i18n = useI18n();
 
   const fieldProps = {
     name,
     inputProps: { required: true },
+    disabled,
     ...pickBy(rest, (v, k) => ["disabled"].includes(k))
   };
   const { InputLabelProps: inputLabelProps } = rest;
@@ -42,6 +43,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
       </InputLabel>
       <FormControlLabel
         label={tickBoxlabel || i18n.t("yes_label")}
+        disabled={disabled}
         control={
           <FastField
             name={name}
@@ -67,6 +69,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, ...rest }) =
 TickField.displayName = TICK_FIELD_NAME;
 
 TickField.propTypes = {
+  disabled: PropTypes.bool,
   formik: PropTypes.object,
   helperText: PropTypes.string,
   label: PropTypes.string,

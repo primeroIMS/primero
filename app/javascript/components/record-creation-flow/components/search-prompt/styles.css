@@ -14,6 +14,11 @@
   & form {
     width: 100%;
 
+    & fieldset {
+      margin-bottom: 0 !important;
+      border: none;
+    }
+
     & div {
       padding: 0 !important;
       margin-bottom: 0;

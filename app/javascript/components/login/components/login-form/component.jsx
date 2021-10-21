@@ -64,7 +64,7 @@ const Container = ({ modal }) => {
   return (
     <>
       <div className={css.loginContainer}>
-        {modal || <PageHeading title={title} whiteHeading />}
+        {modal || <PageHeading title={title} noPadding noElevation />}
         <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
         {modal || (
           <ActionButton

@@ -34,7 +34,7 @@ const Panel = ({ filter, getValues, selectedDefaultValueField, handleReset, more
   const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
 
   return (
-    <Accordion className={css.panel} elevation={3} expanded={expanded} onChange={handleChange}>
+    <Accordion className={css.panel} elevation={0} expanded={expanded} onChange={handleChange}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <div className={css.heading}>
           <div className={css.panelTitle}>{filterLabel}</div>

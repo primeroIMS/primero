@@ -44,7 +44,7 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("login.title")} whiteHeading />
+      <PageHeading title={i18n.t("login.title")} />
       <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
       <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, dispatch)}</div>
       <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />

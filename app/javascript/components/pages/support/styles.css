@@ -1,6 +1,7 @@
 .mainSupport {
   display: flex;
   flex: 1;
+  padding: var(--sp-1);
 
   & nav {
     width: 280px;

@@ -77,6 +77,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
         return (
           <>
             <MuiTextField
+              variant="outlined"
               form={renderProps.form}
               field={{
                 ...renderProps.field,

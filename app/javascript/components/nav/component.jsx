@@ -108,9 +108,7 @@ const Nav = () => {
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <Hidden smDown implementation="css">
-        <TranslationsToggle />
-      </Hidden>
+      <TranslationsToggle />
     </>
   );
 

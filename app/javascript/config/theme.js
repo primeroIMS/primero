@@ -90,6 +90,7 @@ const theme = (direction = ORIENTATION.ltr) => {
           "--fwb": muiTheme.typography.fontWeightBold,
           "--drawer": drawerWidth,
           "--shadow-0": shadows[0],
+          "--shadow-1": shadows[1],
           "--spacing-0-1": muiTheme.spacing(0, 1),
           "--transition": muiTheme.transitions.create("margin", {
             easing: muiTheme.transitions.easing.sharp,
@@ -104,6 +105,9 @@ const theme = (direction = ORIENTATION.ltr) => {
     MuiPaper: {
       elevation3: {
         boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
+      },
+      elevation2: {
+        boxShadow: "0 2px 1px 0 rgba(89, 89, 81, 0.05)"
       }
     },
     MuiAccordionSummary: {
@@ -124,8 +128,11 @@ const theme = (direction = ORIENTATION.ltr) => {
           color: colors.black
         }
       },
+      outlined: {
+        marginBottom: 0
+      },
       shrink: {
-        transform: "none"
+        transform: "none !important"
       },
       formControl: {
         position: "relative"
@@ -139,12 +146,18 @@ const theme = (direction = ORIENTATION.ltr) => {
       },
       input: {
         "&$disabled": {
+          color: "var(--c-black)",
           cursor: "not-allowed !important"
         }
       }
     },
     MuiInput: {
-      root: {
+      input: {
+        border: "1px solid var(--c-black)",
+        borderRadius: "6px",
+        "$:focus": {
+          borderColor: colors.yellow
+        },
         "&:read-only": {
           color: colors.black,
           paddingBottom: "3px"
@@ -157,17 +170,6 @@ const theme = (direction = ORIENTATION.ltr) => {
       formControl: {
         "label + &": {
           marginTop: 0
-        }
-      },
-      underline: {
-        "&:before": {
-          borderBottom: "1px solid #d8d8d8"
-        },
-        "&:after": {
-          borderBottom: `2px solid ${colors.yellow}`
-        },
-        "&:hover:not($disabled):not($focused):not($error):before": {
-          borderBottom: `2px solid ${colors.yellow}`
         }
       }
     },
@@ -208,6 +210,10 @@ const theme = (direction = ORIENTATION.ltr) => {
       root: {
         lineHeight: "1.4em",
         whiteSpace: "pre-wrap"
+      },
+      contained: {
+        marginLeft: 0,
+        marginRight: 0
       }
     },
     MUIDataTableToolbar: {
@@ -341,12 +347,16 @@ const theme = (direction = ORIENTATION.ltr) => {
     },
     MuiAutocomplete: {
       inputRoot: {
-        '&[class*="MuiInput-root"]': {
-          paddingBottom: "3px"
-        }
+        padding: "0  !important"
       },
       tag: {
-        margin: 0
+        margin: "var(--sp-1)",
+        height: "var(--sp-13)",
+
+        "& svg": {
+          width: "16px",
+          height: "16px"
+        }
       }
     },
     MuiListItemText: {
@@ -399,6 +409,37 @@ const theme = (direction = ORIENTATION.ltr) => {
       root: {
         backgroundColor: "rgba(15, 128, 158, 0.75)"
       }
+    },
+    MuiOutlinedInput: {
+      root: {
+        padding: 0,
+        fontSize: "var(--fs-16)",
+        background: "var(--c-white)",
+        "&$disabled": {
+          "& .MuiChip-root": {
+            opacity: 1
+          },
+          "& .MuiChip-root .MuiChip-deleteIcon": {
+            display: "none"
+          },
+          "& fieldset.MuiOutlinedInput-notchedOutline": {
+            borderColor: "var(--c-warm-grey-2)"
+          }
+        }
+      },
+      input: {
+        padding: "var(--sp-1)"
+      },
+      multiline: {
+        padding: "var(--sp-1)"
+      },
+      notchedOutline: {
+        borderColor: "var(--c-black)",
+        top: 0,
+        "& legend": {
+          display: "none"
+        }
+      }
     }
   };
 
@@ -416,6 +457,9 @@ const theme = (direction = ORIENTATION.ltr) => {
         vertical: "top",
         horizontal: "right"
       }
+    },
+    MuiTextField: {
+      variant: "outlined"
     }
   };
 

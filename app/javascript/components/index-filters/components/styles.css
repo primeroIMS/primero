@@ -23,14 +23,37 @@
   justify-content: center;
   gap: var(--sp-1);
   margin: var(--sp-2) 0;
+
+  & span {
+    width: 100%;
+  }
 }
 
 .panel {
-  margin-bottom: 2px;
+  border: 1px solid var(--c-warm-grey-1);
+  margin: 0 !important;
+
+  &$expanded {
+    margin: auto;
+  }
 
   &:before {
     display: none;
   }
+}
+
+.tabContent {
+  background: var(--c-white);
+  padding: 0 var(--sp-1) var(--sp-1) var(--sp-1);
+
+  & .panel:not(:last-of-type) {
+    border-bottom: 0;
+  }
+}
+
+.tabContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 .panelTitle {
@@ -51,7 +74,6 @@
 }
 
 .tabs {
-  margin-bottom: 15px;
   height: 34px;
   min-height: 34px;
 }
@@ -63,11 +85,14 @@
   height: 34px;
   min-height: 34px;
   flex: 1;
+  text-transform: none;
+  box-shadow: inset 0px -2px 1px 0px rgba(0, 0, 0, .1);
 }
 
 .tabselected {
   font-weight: bold;
-  background-color: var(--c-light-grey);
+  background-color: var(--c-white);
+  box-shadow: none;
 }
 
 .moreBtn {

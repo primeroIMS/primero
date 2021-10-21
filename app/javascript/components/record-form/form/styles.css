@@ -22,7 +22,6 @@
 .subformHeading {
   color: var(--c-solid-black);
   font-weight: bold;
-  text-transform: uppercase;
   font-size: var(--fs-22);
 }
 .formHeading {
@@ -31,7 +30,7 @@
 
 .toolbarHeading {
   font-size: var(--fs-20);
-  margin: .5em 0;
+  margin: 0;
 }
 
 .subformHeading {
@@ -67,6 +66,7 @@
   z-index: 99;
   align-items: center;
   margin-bottom: 3em;
+  padding-top: var(--sp-3);
 }
 
 .attachmentHeading {

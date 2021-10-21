@@ -18,9 +18,9 @@
 }
 
 .stepper {
-  max-width: 80%;
   background: none;
   padding: 0;
+  margin-bottom: var(--sp-1);
 
   & div:first-of-type {
     padding-left: 0;
