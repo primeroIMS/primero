@@ -1,6 +1,6 @@
 .hideNameStyle {
   padding-top: 6;
   color: var(--c-blue);
-  font-size: 9;
+  font-size: var(--fs-12);
   font-weight: bold;
 }

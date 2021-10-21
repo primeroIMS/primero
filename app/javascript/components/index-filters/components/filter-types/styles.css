@@ -9,7 +9,7 @@
   color: var(--c-blue);
   border: 1px solid var(--c-blue);
   flex: 1;
-  font-size: .7rem;
+  font-size: var(--fs-12);
   line-height: 1rem;
 
   &:first-child {

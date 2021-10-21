@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
+  
   & span {
     color: var(--c-black);
     font-size: var(--fs-12);
@@ -11,7 +13,7 @@
   }
 }
 .circle, .circleForm {
-  font-size: var(--fs-28);
+  font-size: var(--fs-30);
   color: var(--c-yellow) !important;
 
   &.error { 
@@ -20,13 +22,13 @@
 }
 
 .circleForm {
-  font-size: 1rem;
+  font-size: var(--fs-16);
   margin-left: 5px;
   padding-top: 4px;
 }
 
 .circleList {
-  font-size: .9rem;
+  font-size: var(--fs-16);
   margin-bottom: 2px;
   color: var(--c-yellow);
 }
@@ -41,6 +43,6 @@
     }
   }
   .circle {
-    font-size: 1rem;
+    font-size: var(--fs-16);
   }
 }

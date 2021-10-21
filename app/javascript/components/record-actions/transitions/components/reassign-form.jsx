@@ -64,7 +64,11 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
     InputLabelProps: {
       shrink: true
     },
-    autoComplete: "off"
+    autoComplete: "off",
+    variant: "outlined",
+    multiline: true,
+    type: "text",
+    rows: 4
   };
 
   const searchableSelectProps = {
@@ -136,7 +140,6 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
                 );
               }}
             />
-            <br />
             <Field name="notes" {...inputProps} />
           </Form>
         );

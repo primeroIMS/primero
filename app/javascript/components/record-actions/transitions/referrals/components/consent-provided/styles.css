@@ -17,6 +17,6 @@
 }
 
 .icon {
-  font-size: 2em;
+  font-size: var(--fs-30);
   color: var(--c-black);
 }

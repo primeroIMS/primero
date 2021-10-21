@@ -53,7 +53,7 @@
 }
 
 .listText {
-  font-size: 14px;
+  font-size: var(--fs-14);
   font-weight: 600;
   overflow: hidden;
   white-space: nowrap;
@@ -86,7 +86,7 @@
   }
 
   & span {
-    font-size: 0.813em;
+    font-size: var(--fs-13);
   }
 }
 

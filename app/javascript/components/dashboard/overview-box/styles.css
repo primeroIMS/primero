@@ -11,7 +11,7 @@
 
 .overviewList {
   list-style: none;
-  font-size: 14px;
+  font-size: var(--fs-13);
   line-height: 1.29;
   color: #231e1f;
   padding: 0 1.2em;
@@ -24,7 +24,7 @@
 }
 
 .itemButton {
-  font-size: 1em;
+  font-size: var(--fs-16);
   font-weight: normal;
   border: none;
   line-height: 1.5em;

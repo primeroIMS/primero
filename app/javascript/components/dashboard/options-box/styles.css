@@ -21,8 +21,7 @@
 
   & span {
     font-weight: 900 !important;
-    font-size: 1.2rem;
-    text-transform: uppercase;
+    font-size: var(--fs-20);
   }
 }
 
@@ -36,7 +35,7 @@
 
 .cardLink {
   text-decoration: none;
-  font-size: var(--fs-17);
+  font-size: var(--fs-18);
   font-weight: bold;
   color: #231e1f;
 

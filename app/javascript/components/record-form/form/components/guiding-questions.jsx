@@ -2,6 +2,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Popover, Typography, Link } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
 
 import css from "./styles.css";
 import { GUIDING_QUESTIONS_NAME } from "./constants";
@@ -23,7 +24,8 @@ const GuidingQuestions = ({ label, text }) => {
   return (
     <>
       <Link onClick={handleClick} className={css.link}>
-        {label}
+        <HelpIcon fontSize="small" />
+        <span>{label}</span>
       </Link>
       <Popover
         id={id}

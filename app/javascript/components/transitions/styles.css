@@ -1,11 +1,6 @@
 .pageTitle {
-  font-family: var(--ff);
-  font-size: var(--fs-22);
+  font-size: var(--fs-20);
   font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
   color: var(--c-solid-black);
   margin: 13px 0;
   text-transform: uppercase;
@@ -23,12 +18,7 @@
 
 .titleHeader {
   text-transform: uppercase;
-  font-family: var(--ff);
-  font-size: var(--fs-11);
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
+  font-size: var(--fs-13);
   line-height: 2;
   color: var(--c-solid-black);
 }
@@ -36,44 +26,30 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
 }
 
 .transtionLabel {
-  font-family: var(--ff);
-  font-size: var(--fs-15);
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
+  font-size: var(--fs-14);
+  font-weight: 600;
   line-height: 1.67;
-  letter-spacing: normal;
   color: var(--c-solid-black);
 }
 
 .transtionValue {
-  font-family: var(--ff);
-  font-size: var(--fs-12);
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
+  font-size: var(--fs-13);
   line-height: 1.33;
   letter-spacing: normal;
   color: var(--c-solid-black);
 }
 
 .date {
-  font-family: var(--ff);
-  font-size: var(--fs-15);
+  font-size: var(--fs-16);
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.27;
-  letter-spacing: normal;
   padding-right: 0.5em;
   color: var(--c-blue);
-}
-
-.spaceGrid {
-  padding: 0.5em 0 0.5em 0;
 }
 
 .chip {
@@ -114,6 +90,8 @@
 .transtionIconValue {
   & label {
     margin-left: 0;
+    display: flex;
+    gap: var(--sp-1);
   }
 }
 
@@ -121,7 +99,7 @@
   padding: 8px 10px 8px 0;
   border-right: solid 1px var(--c-light-grey);
   text-align: right;
-  font-size: var(--fs-15);
+  font-size: var(--fs-16);
 }
 
 .panel {
@@ -134,7 +112,7 @@
 }
 
 .divider {
-  margin-bottom: 8px;
+  margin-bottom: var(--sp-2);
 }
 
 .status {

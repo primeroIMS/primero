@@ -203,9 +203,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     // eslint-disable-next-line react/prop-types
     const { label, ...rest } = props;
 
-    return (
-      <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} margin="normal" {...rest} />
-    );
+    return <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} {...rest} />;
   };
 
   const renderTags = (value, getTagProps) =>

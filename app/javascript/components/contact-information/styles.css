@@ -7,7 +7,7 @@
 .PageTitle {
   height: 28px;
   font-family: var(--ff);
-  font-size: var(--fs-22);
+  font-size: var(--fs-20);
   font-weight: bold;
   font-style: normal;
   font-stretch: normal;
@@ -18,7 +18,7 @@
 
 .Title {
   font-family: var(--ff);
-  font-size: var(--fs-15);
+  font-size: var(--fs-16);
   margin-right: 5px;
   font-weight: bold;
 }

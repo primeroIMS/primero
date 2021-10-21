@@ -19,7 +19,7 @@
 }
 
 .errorMessage {
-  font-size: var(--fs-17);
+  font-size: var(--fs-18);
   font-weight: bold;
   text-transform: uppercase;
   margin: 0.2em 0 1em;

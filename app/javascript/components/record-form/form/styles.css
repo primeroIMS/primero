@@ -5,16 +5,7 @@
 }
 
 .radioLabels {
-  font-size: var(--fs-14);
-}
-
-.input,
-.selectField label + div {
-  margin-top: 0 !important;
-}
-
-.selectField label + div {
-  margin-top: 3px !important;
+  font-size: var(--fs-13);
 }
 
 .formHeading,
@@ -22,10 +13,10 @@
 .subformHeading {
   color: var(--c-solid-black);
   font-weight: bold;
-  font-size: var(--fs-22);
+  font-size: var(--fs-20);
 }
 .formHeading {
-  font-size: 1.25rem;
+  font-size: var(--fs-20);
 }
 
 .toolbarHeading {
@@ -34,7 +25,7 @@
 }
 
 .subformHeading {
-  font-size: var(--fs-14);
+  font-size: var(--fs-13);
 }
 
 .actionButtonCancel {
@@ -65,7 +56,7 @@
   top: 0;
   z-index: 99;
   align-items: center;
-  margin-bottom: 3em;
+  margin-bottom: var(--sp-3);
   padding-top: var(--sp-3);
 }
 
@@ -88,7 +79,7 @@
 
   & .titleText {
     flex: 1;
-    font-size: var(--fs-17);
+    font-size: var(--fs-18);
     font-weight: bold;
     text-transform: uppercase;
   }
@@ -98,10 +89,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: var(--fs-15);
+  font-size: var(--fs-16);
 
   & span {
-    font-size: var(--fs-11);
+    font-size: var(--fs-12);
     color: var(--c-dark-grey);
   }
 }
@@ -183,7 +174,7 @@
 
 .caseDisabled {
   color: var(--c-mid-grey);
-  font-size: var(--fs-17);
+  font-size: var(--fs-18);
   text-transform: uppercase;
 }
 
@@ -211,8 +202,27 @@
   justify-content: space-between;
 }
 
-.separator {
-  margin-bottom: 5px;
+.seperator {
+  margin: var(--sp-3) 0;
+}
+
+.separatorTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+
+  & h4 {
+    margin: 0;
+    max-width: 80%;
+  }
+
+  &:after {
+    content: "";
+    height: 1px;
+    background: var(--c-warm-grey-1);
+    flex: 1;
+    display: block;
+  }
 }
 
 .associatedCaseLink {

@@ -82,7 +82,7 @@
 }
 
 .heading {
-  font-size: var(--fs-15);
+  font-size: var(--fs-16);
   font-weight: var(--fwb);
 
   &.error {

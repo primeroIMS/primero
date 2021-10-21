@@ -2,7 +2,7 @@
   margin-top: 1em;
 
   & label {
-    font-size: .75rem;
+    font-size: var(--fs-12);
     color: var(--c-black);
   }
 }
@@ -112,7 +112,7 @@
 
   & button {
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: var(--fs-13);
     height: 25px;
   }
 
@@ -163,11 +163,4 @@
 
 .downloadButton {
   padding-top: 10px;
-}
-
-.selectInput {
-  & > div {
-    margin-top: 0;
-    margin-bottom: 1em;
-  }
 }
