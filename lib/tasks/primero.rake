@@ -17,28 +17,29 @@ namespace :primero do
   #   remove all data except users
   #      rails primero:remove_config_data_and_records[true]
   desc 'Remove config data and records'
-  task :remove_config_data_and_records, [:include_users] => :environment do |_, args|
-    config_data_and_record_models = [Agency, ContactInformation, Field, FormSection,
-                                     Location, Lookup, PrimeroModule, PrimeroProgram,
-                                     Report, Role, SystemSettings, UserGroup,
-                                     ExportConfiguration, AuditLog, Webhook, Attachment,
-                                     Child, Incident, TracingRequest, Trace]
-
-    config_data_and_record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
-
-    config_data_and_record_models.each do |model|
-      puts "Removing data from #{model.name} table"
-      model.destroy_all
-    end
-  end
+  task :remove_config_and_records, [:include_users] => %i[remove_metadata remove_records]
 
   desc 'Remove records'
-  task :remove_records, [:type] => :environment do |_, args|
-    types = [Child, TracingRequest, Incident, PotentialMatch]
-    types = [Object.const_get(args[:type])] if args[:type].present?
-    puts "Deleting all #{types.join(', ').name} records"
-    types.each(&:destroy_all)
-    Sunspot.remove_all(type)
+  task :remove_records, [:include_users] => :environment do |_, args|
+    record_models = [Child, Incident, TracingRequest, Trace, Flag]
+    data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
+                   SavedSearch, Transition, Webhook, IdentityProvider]
+    db_tables = %w[active_storage_attachments active_storage_blobs active_storage_variant_records
+                   user_groups_users whitelisted_jwts]
+
+    record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
+
+    (record_models + data_config).each do |model|
+      puts "Removing data from #{model.name} table"
+      model.delete_all
+    end
+
+    db_tables.each do |table|
+      puts "Removing data from #{table} table"
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+    end
+
+    Sunspot.remove_all(record_models)
   end
 
   desc 'Export the configuraton as Ruby seed files'
@@ -281,13 +282,14 @@ namespace :primero do
       else
         [
           Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration
+          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
+          PrimeroConfiguration
         ]
       end
 
     metadata_models.each do |m|
-      puts "Deleting the database for #{m.name}"
-      m.destroy_all
+      puts "Removing data from #{m.name} table"
+      m.delete_all
     end
   end
 
