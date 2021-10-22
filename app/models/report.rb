@@ -384,7 +384,9 @@ class Report < ApplicationRecord
     mincount = exclude_empty_rows? ? 1 : -1
     if number_of_pivots == 1
       params = {
-        q: filter_query,
+        fq: filter_query,
+        start: 0,
+        q: "*:*",
         rows: 0,
         facet: 'on',
         'facet.field': pivots_string,
@@ -403,7 +405,9 @@ class Report < ApplicationRecord
       end
     else
       params = {
-        q: filter_query,
+        fq: filter_query,
+        start: 0,
+        q: "*:*",
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
@@ -418,9 +422,9 @@ class Report < ApplicationRecord
   end
 
   def build_solr_filter_query(record_type, filters)
-    filters_query = "type:#{solr_record_type(record_type)}"
+    filters_query = ["type:#{solr_record_type(record_type)}"]
     if filters.present?
-      filters_query = filters_query + ' ' + filters.map do |filter|
+      filters_query += filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
@@ -436,19 +440,19 @@ class Report < ApplicationRecord
             end
           else
             if value.respond_to?(:map) && value.size.positive?
-              '(' + value.map { |v|
+              value.map { |v|
                 if v == 'not_null'
                   "#{attribute}:[* TO *]"
                 else
-                  "#{attribute}:\"#{v}\""
+                  "#{attribute}:#{v}"
                 end
-              }.join(' OR ') + ')'
+              }
             end
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"
         end
-      end.compact.join(' ')
+      end.compact.flatten
     end
     filters_query
   end
