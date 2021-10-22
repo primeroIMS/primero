@@ -1319,16 +1319,22 @@ en:
     id: ID#
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
+    incident_location: Incident Location
+    violations: Violations
     export: Export
     label: Incidents
     filter_by:
       boys: Boys
       by_date: By Date
+      children: Children
       girls: Girls
       incident_location: Incident Location
       unaccompanied_separated_status: Protection Status
       unknown: Unknown
+      verification_status: Verification Status
       violence_type: Violence Type
+      armed_force_group_name: Armed Force Group Name
+      armed_force_group_type: Armed Force Group Type
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
