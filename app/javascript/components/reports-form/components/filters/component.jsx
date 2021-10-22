@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
-import { useSelector } from "react-redux";
 
 import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
@@ -14,6 +13,7 @@ import { formattedFields } from "../../utils";
 import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
 import { getVisibleFieldsWithNames } from "../../../record-form/selectors";
+import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME } from "./constants";
 import styles from "./styles.css";
@@ -39,7 +39,7 @@ const Container = ({
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
-  const visibleSharedFields = useSelector(state => getVisibleFieldsWithNames(state, sharedFilterNames));
+  const visibleSharedFields = useMemoizedSelector(state => getVisibleFieldsWithNames(state, sharedFilterNames));
 
   const onSuccess = (index, currentReportFilter, currentField) => {
     const data =
