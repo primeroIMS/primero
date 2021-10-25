@@ -46,10 +46,6 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
     SearchFilters::Or.new(filters: id_filters)
   end
 
-  def id_field_filter?(record_class)
-    record_class.filterable_id_fields.include?(field_name)
-  end
-
   def to_h
     {
       type: 'values',
