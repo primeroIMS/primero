@@ -1,27 +1,12 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  TextField,
-  IconButton,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  Radio,
-  Select
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { TextField, FormControlLabel, FormControl, FormLabel, RadioGroup, Radio, Select } from "@material-ui/core";
 
 import { useI18n } from "../../i18n";
 
 import { APPROVAL_FORM } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   approval,
-  close,
   handleChangeApproval,
   handleChangeComment,
   handleChangeType,
@@ -29,13 +14,9 @@ const Component = ({
   selectOptions
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   return (
     <>
-      <IconButton aria-label="close" className={css.closeButton} onClick={close}>
-        <CloseIcon />
-      </IconButton>
       <form noValidate autoComplete="off">
         <FormControl component="fieldset">
           <FormLabel component="legend">{i18n.t("cases.approval_radio")}</FormLabel>
@@ -56,11 +37,11 @@ const Component = ({
         </FormControl>
         <FormLabel component="legend">{i18n.t("cases.approval_select")}</FormLabel>
         <Select
+          variant="outlined"
           id="outlined-select-approval-native"
           fullWidth
           value={requestType}
           onChange={handleChangeType}
-          className={css.selectApprovalType}
         >
           {selectOptions}
         </Select>
@@ -84,7 +65,6 @@ Component.displayName = APPROVAL_FORM;
 
 Component.propTypes = {
   approval: PropTypes.string,
-  close: PropTypes.func,
   handleChangeApproval: PropTypes.func,
   handleChangeComment: PropTypes.func,
   handleChangeType: PropTypes.func,

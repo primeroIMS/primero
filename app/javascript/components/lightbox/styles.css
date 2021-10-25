@@ -3,7 +3,7 @@
 }
 
 .backdropClose {
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   position: absolute;
   top: 0;
   right: 0;

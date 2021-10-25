@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, InputLabel, MenuItem, Select } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { InputLabel, MenuItem, Select } from "@material-ui/core";
 
 import { MODULES } from "../../../config/constants";
 import { useI18n } from "../../i18n";
@@ -18,9 +16,7 @@ import useOptions from "../../form/use-options";
 import { approvalRecord } from "./action-creators";
 import ApprovalForm from "./approval-form";
 import { APPROVAL_TYPE_LOOKUP, CASE_PLAN, NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({
   close,
@@ -36,7 +32,7 @@ const Component = ({
   const i18n = useI18n();
   const { approvalsLabels, userModules } = useApp();
   const dispatch = useDispatch();
-  const css = useStyles();
+
   const startRequestType = subMenuItems?.[0]?.value;
   const [requestType, setRequestType] = useState(startRequestType);
   const [approval, setApproval] = useState("approved");
@@ -153,7 +149,7 @@ const Component = ({
         fullWidth
         value={typeOfCasePlan}
         onChange={handleChangeTypeOfCasePlan}
-        className={css.selectApprovalType}
+        variant="outlined"
       >
         {typeOfCasePlanOptions}
       </Select>
@@ -162,9 +158,6 @@ const Component = ({
 
   const requestDialogContent = (
     <>
-      <IconButton aria-label="close" className={css.closeButton} onClick={close}>
-        <CloseIcon />
-      </IconButton>
       <form noValidate autoComplete="off" className={css.centerForm}>
         <InputLabel>{i18n.t(`${recordType}.request_approval_select`)}</InputLabel>
         <Select
@@ -172,7 +165,7 @@ const Component = ({
           fullWidth
           value={requestType}
           onChange={handleChangeType}
-          className={css.selectApprovalType}
+          variant="outlined"
         >
           {selectOptions}
         </Select>

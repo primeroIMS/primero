@@ -1,5 +1,5 @@
 .icon {
-  font-size: 7em;
+  font-size: var(--fs-12);
   color: #e6e6e6;
 }
 

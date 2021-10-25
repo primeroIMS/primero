@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { useI18n } from "../../i18n";
 import DisableOffline from "../../disable-offline";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Actions = ({ handleSave, handleClear }) => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const showSave = handleSave && (
@@ -19,10 +15,10 @@ const Actions = ({ handleSave, handleClear }) => {
       <ActionButton
         text={i18n.t("filters.save_filters")}
         type={ACTION_BUTTON_TYPES.default}
-        isTransparent
+        variant="outlined"
+        fullWidth
         rest={{
-          onClick: handleSave,
-          variant: "outlined"
+          onClick: handleSave
         }}
       />
     </DisableOffline>
@@ -34,6 +30,7 @@ const Actions = ({ handleSave, handleClear }) => {
         <ActionButton
           text={i18n.t("filters.apply_filters")}
           type={ACTION_BUTTON_TYPES.default}
+          fullWidth
           rest={{ type: "submit" }}
         />
       </DisableOffline>
@@ -42,10 +39,10 @@ const Actions = ({ handleSave, handleClear }) => {
         <ActionButton
           text={i18n.t("filters.clear_filters")}
           type={ACTION_BUTTON_TYPES.default}
-          isTransparent
+          variant="outlined"
+          fullWidth
           rest={{
-            onClick: handleClear,
-            variant: "outlined"
+            onClick: handleClear
           }}
         />
       </DisableOffline>

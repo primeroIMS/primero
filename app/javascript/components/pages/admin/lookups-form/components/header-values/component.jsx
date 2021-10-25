@@ -1,17 +1,14 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
-import styles from "../styles.css";
+import css from "../styles.css";
 import { useI18n } from "../../../../../i18n";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ hideTranslationColumn }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const hide = hideTranslationColumn ? css.hideTranslationsFields : null;
   const classes = clsx(css.row, css.header);
 

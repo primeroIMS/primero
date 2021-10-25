@@ -1,16 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import { Popover, Typography, Link } from "@material-ui/core";
+import HelpIcon from "@material-ui/icons/Help";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { GUIDING_QUESTIONS_NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const GuidingQuestions = ({ label, text }) => {
-  const css = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -27,7 +24,8 @@ const GuidingQuestions = ({ label, text }) => {
   return (
     <>
       <Link onClick={handleClick} className={css.link}>
-        {label}
+        <HelpIcon fontSize="small" />
+        <span>{label}</span>
       </Link>
       <Popover
         id={id}

@@ -1,11 +1,11 @@
 .chip {
   font-weight: bold;
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   text-transform: uppercase;
 
   &.high {
-    border: solid 1px $(theme.primero.colors.red);
-    background-color: $(theme.primero.colors.red);
+    border: solid 1px var(--c-red);
+    background-color: var(--c-red);
   }
 
   &.medium {
@@ -20,7 +20,7 @@
 
   &.noaction {
     border: solid 1px #B4B4B4;
-    background-color: $(theme.primero.colors.white);
+    background-color: var(--c-white);
     color: #b4b4b4;
   }
 }

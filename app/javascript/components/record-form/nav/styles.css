@@ -1,19 +1,19 @@
 .navSelected {
   border-radius: 4px;
-  background: $(theme.primero.colors.lightGrey) !important;
+  background: var(--c-blue-hover-light) !important;
 }
 
 .item {
-  font-size: $(theme.typography.pxToRem(16));
+  font-size: var(--fs-16);
 
   & span {
-    font-weight: 500;
+    font-weight: 600;
   }
 }
 
 .nestedItem {
   padding: 0 1em;
-  font-size: $(theme.typography.pxToRem(14))
+  font-size: var(--fs-13)
 }
 
 .root {
@@ -29,7 +29,7 @@
   padding-bottom: 5em;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .closeButtonRecordNav {
     display: flex;
     flex-direction: row;

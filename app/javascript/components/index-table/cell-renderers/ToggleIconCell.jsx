@@ -1,20 +1,15 @@
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
 import { Photo } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import { ConditionalWrapper } from "../../../libs";
 import { FlagIcon } from "../../../images/primero-icons";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const ToggleIconCell = ({ value, icon }) => {
-  const css = useStyles();
-
   if (!value) {
     return null;
   }

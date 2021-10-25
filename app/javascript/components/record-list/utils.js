@@ -72,10 +72,11 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
               };
             case "id":
               return {
+                // eslint-disable-next-line react/display-name
                 customBodyRender: (value, { rowData, rowIndex }) => {
                   const idValue = column.get("field_name") === ID_COLUMNS.case_id_display ? value || rowData[1] : value;
 
-                  return disableColumnOffline({ value: idValue, rowIndex });
+                  return <div className={css.id}>{disableColumnOffline({ value: idValue, rowIndex })}</div>;
                 }
               };
             default:

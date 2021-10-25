@@ -2,14 +2,10 @@ import Box from "@material-ui/core/Box";
 import Chart from "chart.js";
 import { createRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const BarChart = ({ data, description, showDetails }) => {
-  const css = useStyles();
   const chartRef = createRef();
 
   useEffect(() => {

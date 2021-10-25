@@ -1,16 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Backdrop, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import CloseIcon from "@material-ui/icons/Close";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ trigger, image }) => {
-  const css = useStyles();
-
   const [open, setOpen] = useState(false);
 
   const handleClose = () => {

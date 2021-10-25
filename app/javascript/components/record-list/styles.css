@@ -16,17 +16,18 @@
 .toolbar {
   position: sticky;
   top: 0;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   z-index: 999;
 }
 
-.drawer: {
+.drawer {
   padding: 0 0.5em;
 }
 
 .tableContainer {
   display: flex;
   flex-direction: column;
+  flex: 1
 }
 
 .overdueHeading {
@@ -39,7 +40,7 @@
   border-bottom: 1px solid rgba(224, 224, 224, 1);
   color: #4a4a4a;
   padding: 10px;
-  font-size: 0.75rem;
+  font-size: var(--fs-12);
   font-weight: 900;
   text-transform: uppercase;
   cursor: pointer;
@@ -62,4 +63,8 @@
       margin: 0;
     }
   }
+}
+
+.id {
+  color: var(--c-blue)
 }

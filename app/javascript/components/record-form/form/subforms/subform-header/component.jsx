@@ -1,18 +1,14 @@
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
 import SubformDateHeader from "../subform-header-date";
 import SubformTickBoxHeader from "../subform-header-tickbox";
-import styles from "../styles.css";
+import css from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ field, values, locale, displayName, index, onClick }) => {
-  const css = useStyles();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
   const subformValues = collapsedFieldNames

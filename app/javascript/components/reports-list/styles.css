@@ -1,5 +1,5 @@
 .new {
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
 }
 
 .reportsListContainer {
@@ -13,21 +13,21 @@
   display: flex;
   background: linear-gradient(
     to bottom,
-    $(theme.primero.colors.white),
+    var(--c-white),
     #fafafa
   );
 }
 
 .title {
-  color: $(theme.primero.colors.black);
+  color: var(--c-black);
   text-transform: uppercase;
-  font-size: $(theme.typography.pxToRem(16));
+  font-size: var(--fs-16);
   margin-bottom: 0.5em;
 }
 
 .description {
   color: #595951;
-  font-size: $(theme.typography.pxToRem(14));
+  font-size: var(--fs-13);
   margin-top: 0;
 }
 
@@ -36,13 +36,13 @@
   padding: 0 1.3em;
 }
 
-@media $(theme.breakpoints.only("md")) {
+@media ((min-width:960px) and (max-width:1279.95px)) {
   .reportsListContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .reportsListContainer {
     grid-template-columns: repeat(1, 1fr);
   }

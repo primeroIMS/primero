@@ -1,12 +1,12 @@
 .root {
-  font-size: "17px";
-  color: $(theme.primero.colors.black);
+  font-size: var(--fs-18);
+  color: var(--c-black);
   line-height: 1;
   font-weight: "normal";
 
   & button {
     &:hover {
-      background-color: $(theme.primero.colors.warmGrey1);
+      background-color: var(--c-warm-grey-1);
     }
   }
 }

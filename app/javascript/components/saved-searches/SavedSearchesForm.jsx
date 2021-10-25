@@ -111,7 +111,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
             icon={<CloseIcon />}
             text={i18n.t("buttons.cancel")}
             type={ACTION_BUTTON_TYPES.default}
-            isCancel
+            cancel
             rest={{
               onClick: closeModal
             }}

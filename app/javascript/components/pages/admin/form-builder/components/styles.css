@@ -1,6 +1,6 @@
 .formBuilderDialog {
   & h1 {
-    font-size: $(theme.typography.pxToRem(16));
+    font-size: var(--fs-16);
     text-transform: uppercase;
     font-weight: bold;
   }
@@ -10,7 +10,7 @@
 }
 
 .translationHeader {
-  font-size: $(theme.typography.pxToRem(14)) !important;
+  font-size: var(--fs-13) !important;
 }
 
 .hideField {
@@ -19,7 +19,7 @@
 
 .translationField {
   & label {
-    font-size: $(theme.typography.pxToRem(15));
-    color: $(theme.primero.colors.darkGrey);
+    font-size: var(--fs-16);
+    color: var(--c-dark-grey);
   }
 }

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { List } from "immutable";
 import { isEmpty } from "lodash";
-import { makeStyles } from "@material-ui/core";
 import CheckBox from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlank from "@material-ui/icons/CheckBoxOutlineBlank";
 import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
@@ -14,9 +13,7 @@ import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
 import useOptions from "../../../form/use-options";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({
   classes,
@@ -30,7 +27,6 @@ const Component = ({
   value
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const isDateField = type === DATE_FIELD;
   const isBooleanField = type === TICK_FIELD;

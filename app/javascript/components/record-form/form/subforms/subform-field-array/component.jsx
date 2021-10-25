@@ -10,7 +10,7 @@ import SubformDialog from "../subform-dialog";
 import SubformEmptyData from "../subform-empty-data";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { useThemeHelper } from "../../../../../libs";
-import styles from "../styles.css";
+import css from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 
@@ -42,7 +42,7 @@ const Component = ({
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
 
   const handleAddSubform = e => {
     e.stopPropagation();

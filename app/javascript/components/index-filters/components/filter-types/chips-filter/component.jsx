@@ -2,12 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { Chip, Checkbox } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import Panel from "../../panel";
 import { getOption } from "../../../../record-form";
 import { useI18n } from "../../../../i18n";
-import styles from "../styles.css";
+import css from "../styles.css";
 import {
   registerInput,
   whichOptions,
@@ -21,11 +20,9 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ addFilterToList, filter, moreSectionFilters, setMoreSectionFilters, mode, reset, setReset }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const { register, unregister, setValue, getValues } = useFormContext();
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
