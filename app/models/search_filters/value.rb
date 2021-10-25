@@ -14,7 +14,7 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 
-    clone do |f|
+    clone.tap do |f|
       f.field_name = location_field_name_solr(field_name, value)
     end
   end
