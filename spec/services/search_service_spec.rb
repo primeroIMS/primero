@@ -75,6 +75,30 @@ describe SearchService, search: true do
     end
   end
 
+  describe 'Filter search id fields' do
+    before :example do
+      @case1 = Child.create!(data: { name: 'Case 1', sex: 'female' })
+      @case2 = Child.create!(data: { name: 'Case 2', sex: 'male' })
+      Sunspot.commit
+    end
+
+    it 'searches with id filters' do
+      filter = SearchFilters::Value.new(field_name: 'case_id', value: @case1.case_id)
+      search = SearchService.search(Child, filters: [filter])
+
+      expect(search.total).to eq(1)
+      expect(search.results).to contain_exactly(@case1)
+    end
+
+    it 'searches a list of id filters' do
+      filter = SearchFilters::ValueList.new(field_name: 'case_id', values: [@case1.case_id, @case2.case_id])
+      search = SearchService.search(Child, filters: [filter])
+
+      expect(search.total).to eq(2)
+      expect(search.results).to contain_exactly(@case1, @case2)
+    end
+  end
+
   describe 'Text search' do
     before :example do
       @correct_match = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
