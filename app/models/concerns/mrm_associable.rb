@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This describes all models that may be associable to a violation (MRM)
-module MRMAssociable
+module ViolationAssociable
   extend ActiveSupport::Concern
 
   included do
@@ -12,7 +12,7 @@ module MRMAssociable
   end
 
   def set_unique_id
-    self.unique_id = id
+    self.unique_id ||= id
   end
 
   # Define class methods

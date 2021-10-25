@@ -2,7 +2,7 @@
 
 # Model for MRM GroupVictim
 class GroupVictim < ApplicationRecord
-  include MRMAssociable
+  include ViolationAssociable
 
   has_and_belongs_to_many :violations
 end

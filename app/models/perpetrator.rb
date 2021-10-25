@@ -2,7 +2,7 @@
 
 # Model for MRM Perpetrator
 class Perpetrator < ApplicationRecord
-  include MRMAssociable
+  include ViolationAssociable
 
   has_and_belongs_to_many :violations
 
