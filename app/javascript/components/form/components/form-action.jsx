@@ -10,7 +10,7 @@ const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disa
       text={text}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
-      isCancel={cancel}
+      cancel={cancel}
       tooltip={tooltip}
       rest={{
         ...(actionHandler && { onClick: actionHandler }),

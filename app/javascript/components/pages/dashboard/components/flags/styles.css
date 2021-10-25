@@ -5,5 +5,5 @@
 }
 
 .seeAllColor {
-  color: $(theme.primero.colors.blue) !important;
+  color: var(--c-blue) !important;
 }

@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import { ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
@@ -8,7 +7,7 @@ import { isEqual } from "lodash";
 import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
 import Jewel from "../../../jewel";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
 import { getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../../libs";
@@ -17,11 +16,9 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
   const { disabledApplication, online } = useApp();
-  const css = useStyles();
+
   const i18n = useI18n();
   const dispatch = useDispatch();
 

@@ -1,6 +1,6 @@
 .filtersHeading {
   color: #000000;
-  font-size: 1.1rem;
+  font-size: var(--fs-20);
   margin: .75em 0;
   font-weight: bold;
   text-transform: uppercase;
@@ -12,5 +12,5 @@
 }
 
 .addFilter {
-  font-size: .8rem;
+  font-size: var(--fs-13);
 }

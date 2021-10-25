@@ -1,6 +1,6 @@
 .alert {
-  background-color: $(theme.primero.colors.lightGrey);
-  color: $(theme.primero.colors.black);
+  background-color: var(--c-light-grey);
+  color: var(--c-black);
   margin-bottom: 2em;
 
   & div:first-of-type {
@@ -17,6 +17,6 @@
 }
 
 .icon {
-  font-size: 2em;
-  color: $(theme.primero.colors.black);
+  font-size: var(--fs-30);
+  color: var(--c-black);
 }

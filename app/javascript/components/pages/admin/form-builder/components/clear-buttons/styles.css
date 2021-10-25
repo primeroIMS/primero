@@ -1,5 +1,5 @@
 .clearButton {
-  color: $(theme.primero.colors.darkBrown);
+  color: var(--c-dark-brown);
   font-weight: bold;
 }
 

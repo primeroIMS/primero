@@ -1,7 +1,13 @@
 .label {
-    font-size: $(theme.typography.pxToRem(12));
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 0.00938em;
-    margin-top: 5px;
+  font-size: var(--fs-14);
+  font-weight: 600;
+  margin: 0;
+}
+
+.data {
+  margin: 0 0 var(--sp-2)
+}
+
+.value {
+  line-height: 1.7em;
 }

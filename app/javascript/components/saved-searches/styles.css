@@ -1,14 +1,14 @@
 .listSavedSearches {
   padding: 5px 10px;
-  background-color: $(theme.primero.colors.white);
+  background-color: var(--c-white);
   margin-top: 8px;
-  border: 1px solid $(theme.primero.colors.lightGrey);
+  border: 1px solid var(--c-light-grey);
 
   & p {
     text-align: center;
   }
 
   & h3 {
-    color: $(theme.primero.colors.darkGrey);
+    color: var(--c-dark-grey);
   }
 }

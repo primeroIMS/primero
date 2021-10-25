@@ -1,12 +1,12 @@
 .empty {
   text-align: center;
-  font-size: 7em;
-  color: $(theme.primero.colors.warmGrey1);
+  font-size: var(--fs-96);
+  color: var(--c-warm-grey-1);
   line-height: 0;
   margin: 0.5em 0;
 
   & h3 {
-    font-size: $(theme.typography.pxToRem(14));
+    font-size: var(--fs-13);
     text-transform: uppercase;
   }
 }
@@ -21,13 +21,13 @@
 
 .item {
   padding: 0;
-  font-size: 2.95em;
+  font-size: var(--fs-30);
 }
 
 .itemResolved {
   padding: 0;
-  font-size: 0.95em;
-  color: $(theme.primero.colors.warmGrey6);
+  font-size: var(--fs-16);
+  color: var(--c-warm-grey-6);
 }
 
 .itemText {
@@ -67,7 +67,7 @@
 }
 
 .date {
-  font-size: 0.95em;
+  font-size: var(--fs-16);
 }
 
 .resolveButton {
@@ -75,7 +75,7 @@
   min-width: 127px;
   & button {
     & span {
-      font-size: 0.95em;
+      font-size: var(--fs-16);
     }
   }
 }
@@ -92,7 +92,7 @@
 }
 
 .elementContent, .flagUser {
-  font-size: 0.95em;
+  font-size: var(--fs-16);
   display: flex;
   & span {
     text-align: justify;
@@ -102,7 +102,7 @@
 
 .resolvedReason, .flagUser {
   font-style: italic;
-  font-size: 0.85em;
+  font-size: var(--fs-13);
 }
 
 .actionDivider {
@@ -112,20 +112,20 @@
 .saveButton, .cancelButton{
   border-radius: 50px;
   box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
+  color: var(--c-white);
+  background: var(--c-blue);
   width: 8em;
   height: 32px;
   margin-left: 10px;
 
   &:hover {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 
 }
 
 .cancelButton {
-  background: $(theme.primero.colors.grey);
+  background: var(--c-grey);
 }
 
 .loadingIndicator {

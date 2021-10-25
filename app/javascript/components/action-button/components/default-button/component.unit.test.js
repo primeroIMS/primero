@@ -9,7 +9,7 @@ describe("<DefaultButton /> components/action-button/components", () => {
   const props = {
     icon: <></>,
     isTransparent: false,
-    isCancel: true,
+    cancel: true,
     pending: false,
     text: "Test",
     rest: {}
@@ -53,22 +53,13 @@ describe("<DefaultButton /> components/action-button/components", () => {
       expect(component.find(".isTransparent")).to.have.lengthOf(1);
     });
 
-    it("should contain .isCancel class", () => {
+    it("should contain .cancel class", () => {
       const component = setupMountedThemeComponent(DefaultButton, {
         ...props,
-        isCancel: true
+        cancel: true
       });
 
-      expect(component.find(".isCancel")).to.have.lengthOf(1);
-    });
-
-    it("should contain .onlyText class", () => {
-      const component = setupMountedThemeComponent(DefaultButton, {
-        ...props,
-        icon: null
-      });
-
-      expect(component.find(".onlyText")).to.have.lengthOf(1);
+      expect(component.find(".cancel")).to.have.lengthOf(1);
     });
   });
 });

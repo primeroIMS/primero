@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import isEmpty from "lodash/isEmpty";
 
@@ -10,14 +9,11 @@ import { useI18n } from "../../i18n";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../../application/selectors";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { menuList, renderSupportForm } from "./utils";
 import { Navigation } from "./components";
 
-const useStyles = makeStyles(styles);
-
 const Component = () => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const codeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));

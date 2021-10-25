@@ -1,18 +1,15 @@
 import PropTypes from "prop-types";
-import { makeStyles, Typography, Box } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 
 import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 
 import ListSavedSearches from "./ListSavedSearches";
 import { selectSavedSearches } from "./selectors";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const savedSearches = useMemoizedSelector(state => selectSavedSearches(state, recordType));
 

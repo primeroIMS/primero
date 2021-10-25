@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { ACTION_BUTTON_TYPES } from "./constants";
-import { DefaultButton, IconButton } from "./components";
+import { DefaultButton, IconButton, Link } from "./components";
 
 export const buttonType = type => {
   switch (type) {
@@ -9,6 +9,8 @@ export const buttonType = type => {
       return DefaultButton;
     case ACTION_BUTTON_TYPES.icon:
       return IconButton;
+    case ACTION_BUTTON_TYPES.link:
+      return Link;
     default:
       return null;
   }

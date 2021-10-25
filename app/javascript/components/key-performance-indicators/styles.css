@@ -1,10 +1,10 @@
 .title {
-  font-size: $(theme.typography.pxToRem(22));
+  font-size: var(--fs-20);
   text-transform: uppercase;
 }
 
 .subtitle {
-  font-size: $(theme.typography.pxToRem(16));
+  font-size: var(--fs-16);
   text-transform: uppercase;
 }
 

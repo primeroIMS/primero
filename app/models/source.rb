@@ -2,7 +2,7 @@
 
 # Model for MRM Source
 class Source < ApplicationRecord
-  include MRMAssociable
+  include ViolationAssociable
 
   has_many :violations
 end

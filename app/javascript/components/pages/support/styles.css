@@ -1,6 +1,7 @@
 .mainSupport {
   display: flex;
   flex: 1;
+  padding: var(--sp-1);
 
   & nav {
     width: 280px;
@@ -27,7 +28,7 @@
 }
 
 .selectedItem {
-   background-color: $(theme.primero.colors.lightBlueMenu) !important;
+   background-color: var(--c-light-blue-menu) !important;
 }
 
 .termsOfUse,
@@ -40,7 +41,7 @@
   & h3 {
     margin: 0;
     text-transform: uppercase;
-    color: $(theme.primero.colors.midGrey);
+    color: var(--c-mid-grey);
   }
 
   & p {

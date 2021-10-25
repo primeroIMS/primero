@@ -1,7 +1,6 @@
 import { memo, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEqual from "lodash/isEqual";
-import { makeStyles } from "@material-ui/styles";
 
 import KeyValueCell from "../key-value-cell";
 import { useI18n } from "../../../i18n";
@@ -11,13 +10,10 @@ import {
 } from "../../../record-form/form/subforms/subform-field-array/utils";
 
 import { EXCLUDED_FIELD_TYPES } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ fields, isSubform, record }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const classes = {
     subform: css.subform,

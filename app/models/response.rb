@@ -2,7 +2,7 @@
 
 # Model for MRM Response
 class Response < ApplicationRecord
-  include MRMAssociable
+  include ViolationAssociable
 
   belongs_to :violation, optional: true
 

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Stepper, Step, StepLabel, StepConnector } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
@@ -11,15 +10,13 @@ import { OptionsBox } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES } from "../../../../../config";
 import { displayNameHelper, useMemoizedSelector } from "../../../../../libs";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME, CLOSED } from "./constants";
 import WorkFlowStep from "./components";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const stepperConnectorClasses = {
     root: css.connectorRoot,
     line: css.connectorLine

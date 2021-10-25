@@ -1,13 +1,8 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ percentage, className }) => {
-  const css = useStyles();
-
   const percentageValue = percentage * 100;
   const isSmall = percentage < 0.1;
 
