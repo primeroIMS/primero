@@ -16,8 +16,6 @@ definitions:
         size: 2x
         script:
           - npm ci
-          - npm run test:all
-          - npm run lint:run
         caches:
           - node
     - step: &client-test-1
