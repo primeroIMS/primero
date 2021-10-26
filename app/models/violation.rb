@@ -16,7 +16,7 @@ class Violation < ApplicationRecord
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims
   has_and_belongs_to_many :perpetrators
-  has_many :responses, dependent: :destroy
+  has_many :responses, dependent: :destroy, inverse_of: :violation
   belongs_to :source, optional: true
   belongs_to :incident
 
