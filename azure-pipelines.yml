@@ -33,28 +33,28 @@ jobs:
         displayName: 'Install node'
       - bash: npm ci
         displayName: 'Install npm packages'
-      - bash: |
-          apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
-        displayName: 'Install dependencies'
-      - bash: |
-          . ~/.bash_env
-          rbenv global 2.7.4
-          bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
-        displayName: 'Bundle install'
-        env:
-          RAILS_ENV: test
-      - bash: |
-          . ~/.bash_env
-          bundle exec rails db:drop
-          bundle exec rails db:create
-          bundle exec rails db:migrate
-          bundle exec rspec spec
-        displayName: 'Run Rspec test'
-        env:
-          RAILS_ENV: test
-          DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
-          DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
+      # - bash: |
+      #     apt-get update
+      #     apt-get install -y libpq-dev unzip libsodium-dev postgresql-client-10
+      #   displayName: 'Install dependencies'
+      # - bash: |
+      #     . ~/.bash_env
+      #     rbenv global 2.7.4
+      #     bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+      #   displayName: 'Bundle install'
+      #   env:
+      #     RAILS_ENV: test
+      # - bash: |
+      #     . ~/.bash_env
+      #     bundle exec rails db:drop
+      #     bundle exec rails db:create
+      #     bundle exec rails db:migrate
+      #     bundle exec rspec spec
+      #   displayName: 'Run Rspec test'
+      #   env:
+      #     RAILS_ENV: test
+      #     DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
+      #     DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
       - bash: |
           npm run test:batch:1
         displayName: 'Run Integration test Batch 1'
@@ -69,6 +69,7 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
+    condition: false
     pool:
       vmImage: $(vmImageName)
     steps:

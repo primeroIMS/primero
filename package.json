@@ -19,7 +19,7 @@
     "test:batch:3": "npm run test:run './app/javascript/!(components)/**/*.unit.test.js'",
     "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot",
+    "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
     "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.js'",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
