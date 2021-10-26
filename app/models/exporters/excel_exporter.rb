@@ -6,7 +6,7 @@ require 'write_xlsx'
 # Subforms get a dedicated tab.
 # Uses the write_xlsx gem
 class Exporters::ExcelExporter < Exporters::BaseExporter
-  attr_accessor :workbook, :worksheets
+  attr_accessor :workbook, :worksheets, :constrained_subforms
 
   class << self
     def id
@@ -26,6 +26,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
   def export(records, user, options = {})
     establish_export_constraints(records, user, options)
+    constraint_subforms
     build_worksheets_with_headers
 
     records.each do |record|
@@ -49,7 +50,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     worksheet&.write(0, 0, 'ID')
     form.fields.each_with_index do |field, i|
       if field.type == Field::SUBFORM
-        build_worksheet_with_headers(constraint_subform_fields(field))
+        build_worksheet_with_headers(constrained_subforms[field.subform.unique_id])
       else
         worksheet&.write(0, i + 1, field.display_name(locale))
       end
@@ -100,7 +101,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     values, rows_to_write = field_values(data, form, form_name)
     ([id] + values).each_with_index { |value, column| write_value(worksheet, form, value, column, rows_to_write) }
     form.subform_fields.each do |field|
-      subform = constraint_subform_fields(field)
+      subform = constrained_subforms[field.subform.unique_id]
       data = apply_subform_display_conditions(data, field)
       write_record_form(id, data, subform, field.name)
     end
@@ -159,6 +160,14 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     return RecordDataService::CENSORED_VALUE if data['hidden_name'] == true && field.name == 'name'
 
     data[field.name]
+  end
+
+  def constraint_subforms
+    subform_fields = forms.map(&:fields).flatten.select { |field| field.type == Field::SUBFORM }
+
+    self.constrained_subforms = subform_fields.reduce({}) do |acc, subform_field|
+      acc.merge(subform_field.subform.unique_id => constraint_subform_fields(subform_field))
+    end
   end
 
   def constraint_subform_fields(field)
