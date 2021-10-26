@@ -23,11 +23,12 @@ class TracingRequest < ApplicationRecord
   alias inquirer_id tracing_request_id
   after_save :save_traces
   class << self
+    def filterable_id_fields
+      %w[tracing_request_id short_id]
+    end
+
     def quicksearch_fields
-      %w[
-        tracing_request_id short_id relation_name relation_nickname tracing_names
-        tracing_nicknames monitor_number survivor_code
-      ]
+      filterable_id_fields + %w[relation_name relation_nickname tracing_names tracing_nicknames]
     end
 
     def summary_field_names
@@ -65,6 +66,7 @@ class TracingRequest < ApplicationRecord
 
   searchable do
     string :status, as: 'status_sci'
+    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
   end
