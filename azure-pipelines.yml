@@ -60,8 +60,14 @@ jobs:
           DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
           DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
       - bash: |
-          npm run test:all
-        displayName: 'Run Integration test'
+          npm run test:batch:1
+        displayName: 'Run Integration test Batch 1'
+      - bash: |
+          npm run test:batch:2
+        displayName: 'Run Integration test Batch 2'
+      - bash: |
+          npm run test:batch:3
+        displayName: 'Run Integration test Batch 3'
 
 
   - job: Build
