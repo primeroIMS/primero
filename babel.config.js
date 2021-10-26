@@ -40,7 +40,8 @@ module.exports = api => {
         {
           development: isDevelopmentEnv || isTestEnv,
           useBuiltIns: true,
-          runtime: "automatic"
+          runtime: "automatic",
+          importSource: "@welldone-software/why-did-you-render"
         }
       ]
     ].filter(Boolean),

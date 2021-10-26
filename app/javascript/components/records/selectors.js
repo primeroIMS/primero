@@ -7,9 +7,11 @@ const fieldMapModule = (state, moduleID) =>
     .getIn(["application", "modules"], fromJS([]))
     .find(recordModule => recordModule.get("unique_id") === moduleID, null, fromJS({}));
 
-export const selectRecord = (state, mode, recordType, id) => {
-  if (mode.isEdit || mode.isShow) {
-    const index = state.getIn(["records", recordType, "data"]).findIndex(r => r.get("id") === id);
+export const selectRecord = (state, query = {}) => {
+  const { isEditOrShow = false, recordType, id } = query;
+
+  if (isEditOrShow) {
+    const index = state.getIn(["records", recordType, "data"], fromJS([])).findIndex(r => r.get("id") === id);
 
     return state.getIn(["records", recordType, "data", index], Map({}));
   }

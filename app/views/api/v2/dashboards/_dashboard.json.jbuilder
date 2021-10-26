@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.name dashboard.name_i18n_key
 json.type dashboard.type
 

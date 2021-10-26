@@ -6,7 +6,7 @@ describe ExportService do
   describe '.build' do
     it 'builds a new BulkExport' do
       export = ExportService.build({ export_format: 'json', record_type: 'case' }, nil)
-      expect(export.exporter).to be_instance_of(Exporters::JSONExporter)
+      expect(export.exporter).to be_instance_of(Exporters::JsonExporter)
     end
 
     it 'requires the presence of the format key before it builds an export' do
@@ -21,7 +21,7 @@ describe ExportService do
 
     it 'builds a DuplicateBUlkExport based on the format' do
       export = ExportService.build({ export_format: 'duplicate_id_csv', record_type: 'case' }, nil)
-      expect(export.exporter).to be_instance_of(Exporters::DuplicateIdCSVExporter)
+      expect(export.exporter).to be_instance_of(Exporters::DuplicateIdCsvExporter)
     end
   end
 

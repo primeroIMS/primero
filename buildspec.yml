@@ -6,6 +6,7 @@ env:
     SECRET_VARS_master: 'PrimeroCicdSecretmaster'
     SECRET_VARS_develop: 'PrimeroCicdSecretdevelop'
     SECRET_VARS_release_2_0: 'PrimeroCicdSecretrelease-2-0'
+    SECRET_VARS_release_2_1: 'PrimeroCicdSecretrelease-2-1'
 
 phases:
   pre_build:
@@ -47,7 +48,6 @@ phases:
   post_build:
     commands:
       - echo ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
-      - docker push ${CONTAINER_REGISTRY}/primeroims/beanstalkd:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/solr:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}

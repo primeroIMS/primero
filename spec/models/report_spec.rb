@@ -130,12 +130,14 @@ describe Report do
   describe 'modules_present' do
     it 'will reject the empty module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: ''
-      r.modules_present.should == [I18n.t('errors.models.report.module_presence')]
+      expect(r.valid?).to be_falsey
+      expect(r.errors[:module_id][0]).to eq(I18n.t('errors.models.report.module_presence'))
     end
 
     it 'will reject the invalid module_id list' do
       r = Report.new record_type: 'case', aggregate_by: %w[a b], module_id: 'badmoduleid'
-      r.modules_present.should == [I18n.t('errors.models.report.module_syntax')]
+      expect(r.valid?).to be_falsey
+      expect(r.errors[:module_id][0]).to eq(I18n.t('errors.models.report.module_syntax'))
     end
 
     it 'will accept the valid module_id list' do
@@ -358,6 +360,57 @@ describe Report do
         @report.build_report
 
         expect(@report.values).to eq(['female'] => 3, ['male'] => 0, [''] => nil)
+      end
+    end
+  end
+
+  describe 'filter_query', search: true do
+    before :each do
+      clean_data(FormSection, Field, Child, Report)
+
+      SystemSettings.stub(:current).and_return(
+        SystemSettings.new(
+          primary_age_range: 'primero',
+          age_ranges: {
+            'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+            'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
+          }
+        )
+      )
+
+      Child.create!(data: { status:'closed', worklow:'closed', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status:'closed', worklow:'closed', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status:'open', worklow:'open', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status:'closed', worklow:'closed', sex: 'male', module_id: @module.unique_id })
+      Child.reindex
+      Sunspot.commit
+    end
+
+    context 'when it has filter' do
+      before :each do
+        @report = Report.new(
+          name: 'Test',
+          unique_id: 'report-test',
+          record_type: 'case',
+          module_id: @module.unique_id,
+          graph: true,
+          exclude_empty_rows: true,
+          aggregate_by: ['sex'],
+          disaggregate_by: [],
+          filters: [
+            {
+              attribute: 'status',
+              value: [
+                'closed'
+              ]
+            }
+          ]
+        )
+      end
+
+      it 'should return 2 female and 1 male' do
+        @report.build_report
+        expect(@report.values).to eq(['female'] => 2, ['male'] => 1, [''] => nil)
       end
     end
   end

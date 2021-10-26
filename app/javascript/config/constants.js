@@ -39,12 +39,25 @@ export const IDLE_LOGOUT_TIMEOUT = 5 * 1000 * 60;
 // Time (ms) how often the backend is pinged to refresh the user's token
 export const TOKEN_REFRESH_INTERVAL = 30 * 1000 * 60;
 
+export const CASE = "case";
+export const CASES = "cases";
+export const TRACING_REQUEST = "tracing_request";
+export const TRACING_REQUESTS = "tracing_requests";
+export const INCIDENT = "incident";
+export const INCIDENTS = "incidents";
+
 // Type of records available singular (key): plural (value)
 export const RECORD_TYPES = {
-  cases: "case",
-  tracing_requests: "tracing_request",
-  incidents: "incident",
+  [CASES]: CASE,
+  [TRACING_REQUESTS]: TRACING_REQUEST,
+  [INCIDENTS]: INCIDENT,
   all: "all"
+};
+
+export const RECORD_TYPES_PLURAL = {
+  [CASE]: CASES,
+  [TRACING_REQUEST]: TRACING_REQUESTS,
+  [INCIDENT]: INCIDENTS
 };
 
 // Max Age allowed in age ranges

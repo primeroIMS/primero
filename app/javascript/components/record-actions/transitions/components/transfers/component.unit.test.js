@@ -4,6 +4,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Checkbox } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
+import Form from "../../../../form";
 
 import Transfers from "./component";
 
@@ -79,6 +80,32 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
 
       expect(component.find(Alert)).to.have.lengthOf(1);
       expect(component.find(Checkbox)).to.have.lengthOf(3);
+    });
+
+    it("should set the consent_overridden to true if checked", () => {
+      const { component } = setupMountedComponent(
+        Transfers,
+        { ...initialProps, providedConsent: false, canConsentOverride: true },
+        initialState
+      );
+
+      component.find(Form).props().onSubmit({ transfer: true });
+
+      expect(component.props().store.getActions()[0].api.body.data.consent_overridden).to.be.true;
+    });
+  });
+
+  describe("when consent is provided", () => {
+    it("should set the consent_overridden to false", () => {
+      const { component } = setupMountedComponent(
+        Transfers,
+        { ...initialProps, providedConsent: true, canConsentOverride: true },
+        initialState
+      );
+
+      component.find(Form).props().onSubmit({ transfer: true });
+
+      expect(component.props().store.getActions()[0].api.body.data.consent_overridden).to.be.false;
     });
   });
 });

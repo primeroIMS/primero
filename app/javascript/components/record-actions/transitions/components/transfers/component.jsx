@@ -55,7 +55,7 @@ const TransferForm = ({
         {
           data: {
             ...values,
-            consent_overridden: canConsentOverride || values[TRANSFER_FIELD]
+            consent_overridden: !providedConsent && canConsentOverride && values[TRANSFER_FIELD]
           }
         },
         i18n.t("transfer.success")

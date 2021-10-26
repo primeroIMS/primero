@@ -26,9 +26,9 @@ describe Api::V2::AgenciesController, type: :request do
       services: %w[services_a services_b],
       name_i18n: { en: 'Agency 1', es: 'Agencia 1' },
       description_i18n: { en: 'Agency 1', es: 'Agencia 1' },
-      logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo,
-      terms_of_use: FilesTestHelper.pdf_file
+      logo_icon: logo,
+      logo_full: logo,
+      terms_of_use: pdf_file
     )
     @agency_b = Agency.create!(
       unique_id: 'agency_2',
@@ -50,8 +50,8 @@ describe Api::V2::AgenciesController, type: :request do
       disabled: true,
       services: %w[services_a services_b],
       name_i18n: { en: 'Agency 3', es: 'Agencia 3' },
-      logo_icon: FilesTestHelper.logo,
-      logo_full: FilesTestHelper.logo
+      logo_icon: logo,
+      logo_full: logo
     )
     @user_a = User.create!(
       full_name: 'Test User 1',

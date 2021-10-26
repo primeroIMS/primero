@@ -59,9 +59,14 @@ class TracingRequest < ApplicationRecord
     end
   end
 
+  def self.sortable_text_fields
+    %w[relation_name tracing_names short_id]
+  end
+
   searchable do
     string :status, as: 'status_sci'
     quicksearch_fields.each { |f| text_index(f) }
+    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
   end
 
   alias super_defaults defaults

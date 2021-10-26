@@ -204,11 +204,14 @@ class Report < ApplicationRecord
           self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
             pivot_name.is_a?(Numeric) ? '' : pivot_name
           end
-          values = values.map do |pivots, value|
+          # We need the self to make sure we call the defined get/set methods of this model.
+          # rubocop:disabled Style/RedundantSelf
+          self.values = self.values.map do |pivots, value|
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          Reports::Utils.correct_aggregate_counts(values)
+          Reports::Utils.correct_aggregate_counts(self.values)
+          # rubocop:enable Style/RedundantSelf
         end
       end
     end
@@ -381,7 +384,9 @@ class Report < ApplicationRecord
     mincount = exclude_empty_rows? ? 1 : -1
     if number_of_pivots == 1
       params = {
-        q: filter_query,
+        fq: filter_query,
+        start: 0,
+        q: "*:*",
         rows: 0,
         facet: 'on',
         'facet.field': pivots_string,
@@ -400,7 +405,9 @@ class Report < ApplicationRecord
       end
     else
       params = {
-        q: filter_query,
+        fq: filter_query,
+        start: 0,
+        q: "*:*",
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
@@ -415,9 +422,9 @@ class Report < ApplicationRecord
   end
 
   def build_solr_filter_query(record_type, filters)
-    filters_query = "type:#{solr_record_type(record_type)}"
+    filters_query = ["type:#{solr_record_type(record_type)}"]
     if filters.present?
-      filters_query = filters_query + ' ' + filters.map do |filter|
+      filters_query += filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
@@ -433,19 +440,19 @@ class Report < ApplicationRecord
             end
           else
             if value.respond_to?(:map) && value.size.positive?
-              '(' + value.map { |v|
+              value.map { |v|
                 if v == 'not_null'
                   "#{attribute}:[* TO *]"
                 else
-                  "#{attribute}:\"#{v}\""
+                  "#{attribute}:#{v}"
                 end
-              }.join(' OR ') + ')'
+              }
             end
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"
         end
-      end.compact.join(' ')
+      end.compact.flatten
     end
     filters_query
   end

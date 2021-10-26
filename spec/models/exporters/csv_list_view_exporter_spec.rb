@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 module Exporters
-  describe CSVListViewExporter do
+  describe CsvListViewExporter do
     before :each do
       clean_data(User, Role, Field, FormSection, PrimeroModule)
 
@@ -24,11 +24,12 @@ module Exporters
       primero_module = PrimeroModule.new(name: 'CP')
       primero_module.save(validate: false)
       permissions = Permission.new(
-        resource: Permission::CASE, actions: [Permission::READ],
+        resource: Permission::CASE, actions: [Permission::READ]
       )
       role = Role.new(
         is_manager: false, modules: [primero_module],
-        permissions: [permissions], form_sections: [form])
+        permissions: [permissions], form_sections: [form]
+      )
       role.save(validate: false)
       @user = User.new(user_name: 'user1', role: role)
       @user.save(validate: false)
@@ -62,7 +63,7 @@ module Exporters
     end
 
     it 'converts data to CSV format' do
-      data = CSVListViewExporter.export(@records, @user)
+      data = CsvListViewExporter.export(@records, @user)
 
       parsed = CSV.parse(data)
       expect(parsed[0][1..5]).to eq ['ID#', 'Name', 'Age', 'Sex', 'Registration Date']
@@ -72,7 +73,7 @@ module Exporters
 
     it 'sanitizes formula injections' do
       unsafe_record = Child.new(data: { name: '=10+10', age: 12, sex: 'male' })
-      data = CSVListViewExporter.export([unsafe_record], @user)
+      data = CsvListViewExporter.export([unsafe_record], @user)
       parsed = CSV.parse(data)
       expect(parsed[1][2..4]).to eq(%w['=10+10 12 Male])
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::V2::ApprovalsController, type: :request do
@@ -45,7 +47,9 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['approval_subforms'].size).to eq(1)
       expect(json['data']['record']['approval_subforms'][0]['approval_requested_for']).to eq(approval_id)
       expect(json['data']['record']['approval_subforms'][0]['requested_by']).to eq(fake_user_name)
-      expect(json['data']['record']['approval_subforms'][0]['approval_status']).to eq(Approval::APPROVAL_STATUS_REQUESTED)
+      expect(json['data']['record']['approval_subforms'][0]['approval_status']).to eq(
+        Approval::APPROVAL_STATUS_REQUESTED
+      )
       expect(json['data']['record']['approval_subforms'][0]['approval_date']).to eq(Date.today.to_s)
       if approval_id == Approval::CASE_PLAN
         expect(json['data']['record']['approval_subforms'][0]['approval_for_type']).to eq(approval_type)
@@ -82,7 +86,9 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
       expect(json['data']['record']['approval_subforms'].size).to eq(2)
       expect(json['data']['record']['approval_subforms'][1]['approval_response_for']).to eq(approval_id)
-      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(Approval::APPROVAL_STATUS_APPROVED)
+      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(
+        Approval::APPROVAL_STATUS_APPROVED
+      )
       expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
       expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq(fake_user_name)
       expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
@@ -160,7 +166,9 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['data']['record']['id']).to eq(@case.id.to_s)
       expect(json['data']['record']['approval_subforms'].size).to eq(2)
       expect(json['data']['record']['approval_subforms'][1]['approval_response_for']).to eq(approval_id)
-      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(Approval::APPROVAL_STATUS_REJECTED)
+      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(
+        Approval::APPROVAL_STATUS_REJECTED
+      )
       expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
       expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq(fake_user_name)
       expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
@@ -176,7 +184,9 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'returns forbidden if user does not have permission to request' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: ["Permission::APPROVE_#{approval_id.upcase}".constantize.to_sym])
+          Permission.new(
+            resource: Permission::CASE, actions: ["Permission::APPROVE_#{approval_id.upcase}".constantize.to_sym]
+          )
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, notes: 'some notes' } }
@@ -194,7 +204,10 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'returns forbidden if user does not have permission to request' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: ["Permission::REQUEST_APPROVAL_#{approval_id.upcase}".constantize.to_sym])
+          Permission.new(
+            resource: Permission::CASE,
+            actions: ["Permission::REQUEST_APPROVAL_#{approval_id.upcase}".constantize.to_sym]
+          )
         ])
 
       params = { data: { approval_status: approval_status, notes: 'some notes' } }
@@ -210,7 +223,7 @@ describe Api::V2::ApprovalsController, type: :request do
 
   let(:json) { JSON.parse(response.body) }
   let(:approval_type) { nil }
-  let(:audit_params) { enqueued_jobs.select { |job| job.values.first == AuditLogJob }.first[:args].first }
+  let(:audit_params) { enqueued_jobs.find { |job| job[:job] == AuditLogJob }[:args].first }
 
   describe 'PATCH /api/v2/case/:id/:approval_id' do
     context 'when the approval_id is ASSESSMENT' do
@@ -299,11 +312,13 @@ describe Api::V2::ApprovalsController, type: :request do
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
 
-      patch "/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment", params: params
+      patch '/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment', params: params
 
       expect(response).to have_http_status(404)
       expect(json['errors'][0]['status']).to eq(404)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment")
+      expect(json['errors'][0]['resource']).to eq(
+        '/api/v2/cases/77ad6b98-3c5e-11ea-b77f-2e728ce88125/approvals/assessment'
+      )
       expect(json['errors'][0]['message']).to eq('Not Found')
     end
 
