@@ -1,4 +1,4 @@
-export { default } from "./container";
+export { default as RecordForms } from "./container";
 export { fetchAgencies, fetchForms, fetchLookups, fetchOptions, setSelectedForm } from "./action-creators";
 export { default as reducer } from "./reducer";
 export {

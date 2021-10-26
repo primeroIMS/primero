@@ -7,7 +7,7 @@ describe("<RecordForm /> - index", () => {
     expect(indexValues).to.be.an("object");
     [
       "constructInitialValues",
-      "default",
+      "RecordForms",
       "FieldRecord",
       "fetchAgencies",
       "fetchForms",
