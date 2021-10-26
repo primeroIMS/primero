@@ -69,7 +69,6 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
-    condition: false
     pool:
       vmImage: $(vmImageName)
     steps:
