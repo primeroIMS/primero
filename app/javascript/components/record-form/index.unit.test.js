@@ -1,6 +1,6 @@
 import * as index from "./index";
 
-describe("<RecordForms /> - index", () => {
+describe("<RecordForm /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
