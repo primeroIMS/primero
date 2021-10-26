@@ -1,7 +1,7 @@
 definitions:
   steps:
     - step: &server-test
-        name: Server Tests
+        name: Server tests
         image: ruby:2.7.4-buster
         script:
           - ./bin/install_local_test_solr.sh
@@ -10,36 +10,15 @@ definitions:
           - postgres
         caches:
           - bundler
-    - step: &client-deps
-        name: Client Deps
+    - step: &client-test
+        name: Client tests
         image: node:12.20.1
         size: 2x
         script:
           - npm ci
-        caches:
-          - node
-    - step: &client-test-1
-        name: Client Tests 1
-        script:
           - npm run test:batch:1
-        caches:
-          - node
-    - step: &client-test-2
-        name: Client Tests 2
-        script:
           - npm run test:batch:2
-        caches:
-          - node
-    - step: &client-test-3
-        name: Client Tests 3
-        script:
           - npm run test:batch:3
-        caches:
-          - node
-    - step: &client-lint
-        name: Client Lint
-        script:
-          - npm run lint:run
         caches:
           - node
     - step: &push-branch
@@ -60,13 +39,9 @@ pipelines:
     maint_*:
       - step: *push-branch
     '{develop*,release-*,master}':
-      - step: *client-deps
       - parallel:
-        # - step: *server-test
-        - step: *client-test-1
-        - step: *client-test-2
-        - step: *client-test-3
-        - step: *client-lint
+        - step: *server-test
+        - step: *client-test
       - step: *push-branch
   tags:
     v*:
@@ -76,10 +51,6 @@ pipelines:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_TAG
   pull-requests:
     '**':
-      - step: *client-deps
       - parallel:
-        # - step: *server-test
-        - step: *client-test-1
-        - step: *client-test-2
-        - step: *client-test-3
-        - step: *client-lint
+        - step: *server-test
+        - step: *client-test
