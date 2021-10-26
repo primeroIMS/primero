@@ -1,13 +1,12 @@
 import * as index from "./index";
 
-describe("<RecordForm /> - index", () => {
+describe("<RecordForms /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
       "constructInitialValues",
-      "RecordForms",
       "FieldRecord",
       "fetchAgencies",
       "fetchForms",
