@@ -1898,6 +1898,7 @@ en:
       workflow: Workflow - Individual cases
       workflow_team: Workflow - Teams cases
       write: Write
+      activity_log: Activity Log
     resource:
       kpi:
         actions:
@@ -2514,10 +2515,6 @@ en:
               created in each of the last two weeks, and number of Cases closed
               in each of the last two weeks.
             label: Administrator Summary
-          dash_activity_log_transfer:
-            explanation: User can click into the Activity Log section of the Dashboard
-              and see a log of all accepted or rejected transfers for the Cases they can access.
-            label: Activity Log - Transfers
           view_response:
             explanation: For each response type, shows how many cases at each risk
               level have services which are near deadline or overdue for completion.
@@ -3041,6 +3038,16 @@ en:
           manage:
             label: Manage (all permissions for this resource type)
             explanation:
+      activity_log:
+        actions:
+          transfer:
+            explanation: User can click into the Activity Log section of the Dashboard
+              and see a log of all accepted or rejected transfers for the Cases they can access.
+            label: Transfers
+          manage:
+            label: Manage (all permissions for this resource type)
+            explanation:
+        label: Activity Log
   potential_match:
     case_id: Case ID
     child_age: Age
