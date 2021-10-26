@@ -17,13 +17,13 @@ namespace :primero do
   #   remove all data except users
   #      rails primero:remove_config_data_and_records[true]
   desc 'Remove config data and records'
-  task :remove_config_and_records, [:include_users] => %i[remove_metadata remove_records]
+  task :remove_config_and_records, [:include_users] => %i[remove_config remove_records]
 
   desc 'Remove records'
   task :remove_records, [:include_users] => :environment do |_, args|
     record_models = [Child, Incident, TracingRequest, Trace, Flag]
     data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
-                   SavedSearch, Transition, Webhook, IdentityProvider]
+                   SavedSearch, Transition]
     db_tables = %w[active_storage_attachments active_storage_blobs active_storage_variant_records
                    user_groups_users whitelisted_jwts]
 
@@ -40,6 +40,26 @@ namespace :primero do
     end
 
     Sunspot.remove_all(record_models)
+  end
+
+  # If you are planning to load the JSON config, use the remove_config_data task instead
+  desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
+  task :remove_config, [:metadata] => :environment do |_, args|
+    metadata_models =
+      if args[:metadata].present?
+        args[:metadata].split(',').map { |m| Kernel.const_get(m) }
+      else
+        [
+          Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
+          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
+          PrimeroConfiguration, Webhook, IdentityProvider
+        ]
+      end
+
+    metadata_models.each do |m|
+      puts "Removing data from #{m.name} table"
+      m.delete_all
+    end
   end
 
   desc 'Export the configuraton as Ruby seed files'
@@ -272,26 +292,6 @@ namespace :primero do
   #     end
   #   end
   # end
-
-  # If you are planning to load the JSON config, use the remove_config_data task instead
-  desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
-  task :remove_metadata, [:metadata] => :environment do |_, args|
-    metadata_models =
-      if args[:metadata].present?
-        args[:metadata].split(',').map { |m| Kernel.const_get(m) }
-      else
-        [
-          Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
-          PrimeroConfiguration
-        ]
-      end
-
-    metadata_models.each do |m|
-      puts "Removing data from #{m.name} table"
-      m.delete_all
-    end
-  end
 
   desc 'Deletes out all configurable data. Do this only if you need to reseed from scratch or load a JSON config!'
   task remove_config_data: :environment do
