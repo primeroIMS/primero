@@ -1048,7 +1048,7 @@ describe("<RecordForm /> - Selectors", () => {
           fromJS({
             user: {
               permissions: {
-                case: [ACTIONS.CHANGE_LOG]
+                cases: [ACTIONS.CHANGE_LOG]
               }
             }
           }),
