@@ -39,19 +39,17 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     const queryValue = value ? value.get("query") : [];
 
     return (
-      <li key={lk.id}>
+      <div key={lk.id}>
         <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick(queryValue)} />
-      </li>
+      </div>
     );
   });
 
   return (
     <>
       <LoadingIndicator {...loadingIndicatorProps}>
-        {sectionTitle && <div className={css.sectionTitle}>{sectionTitle}</div>}
-        <ul className={css.statusList} key={data.get("name")}>
-          <ul>{dashboardChips}</ul>
-        </ul>
+        <div className={css.sectionTitle}>{sectionTitle}</div>
+        <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>
     </>
   );

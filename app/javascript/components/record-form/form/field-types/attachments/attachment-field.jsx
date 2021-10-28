@@ -62,7 +62,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const dialogTitle = `${i18n.t("fields.remove")} ${name}`;
 
   return (
-    <Box className={css.uploadBox}>
+    <div className={css.uploadBox}>
       <Box display="flex" my={2} alignItems="center">
         <Box flexGrow="1">
           {!mode.isShow && (
@@ -92,7 +92,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
           confirmButtonLabel={i18n.t("buttons.ok")}
         />
       </Box>
-    </Box>
+    </div>
   );
 };
 

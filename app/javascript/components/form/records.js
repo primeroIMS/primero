@@ -75,7 +75,8 @@ export const FieldRecord = Record({
   downloadButtonLabel: "",
   i18nName: false,
   i18nDescription: false,
-  renderChildren: true
+  renderChildren: true,
+  max_length: null
 });
 
 export const FormSectionRecord = Record({

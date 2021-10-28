@@ -9,12 +9,10 @@ const DEFAULT_MAPPINGS = [OWNED_BY, OWNED_BY_FULL_NAME, ASSOCIATED_USER_NAMES].m
   target: field
 }));
 
-const buildFieldMap = (record, fieldMap = []) => {
+export default (record, fieldMap = []) => {
   const fieldMapWithDefaults = [...fieldMap, ...DEFAULT_MAPPINGS];
 
   return fieldMapWithDefaults.reduce((prev, { source, target }) => {
     return { ...prev, [target]: get(record, source) };
   }, {});
 };
-
-export default buildFieldMap;

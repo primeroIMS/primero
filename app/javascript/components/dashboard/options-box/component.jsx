@@ -34,7 +34,7 @@ const OptionsBox = ({ title, action, children, to, flat, overlay, type, loading,
   );
 
   return (
-    <Card className={css.card} elevation={flat ? 0 : 3}>
+    <Card className={!flat && css.card} elevation={flat ? 0 : 3}>
       <ConditionalWrapper condition={!flat} wrapper={DisableOffline}>
         <>
           {cardTitle}

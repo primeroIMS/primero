@@ -10,6 +10,7 @@ import useMemoizedSelector from "./use-memoized-selector";
 
 export default ({ overrides = {} } = {}) => {
   const appTheme = useTheme();
+
   const themeOverrides = isFunction(overrides) ? overrides(appTheme) : overrides;
   const mobileDisplay = useMediaQuery(appTheme.breakpoints.down("sm"));
   const theme = merge(appTheme, themeOverrides);

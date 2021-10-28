@@ -65,14 +65,18 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
     return indicators.keySeq().map(item => {
       return (
-        <li key={item}>
+        <div className={css.item} key={item}>
           <ActionButton
             className={css.itemButton}
             type="link"
-            text={`${indicators.getIn([item, "count"])} ${buildLabelItem(item)}`}
+            text={
+              <div className={css.count}>
+                <div>{indicators.getIn([item, "count"])}</div> <div>{buildLabelItem(item)}</div>
+              </div>
+            }
             onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
           />
-        </li>
+        </div>
       );
     });
   };
@@ -86,7 +90,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox}>
         <div className={css.sectionTitle}>{renderSum()}</div>
-        <ul className={css.overviewList}>{statItems()}</ul>
+        <div className={css.overviewList}>{statItems()}</div>
       </div>
     </LoadingIndicator>
   );
