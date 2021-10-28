@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TransferActivityService do
+describe TransferActivity do
   before :each do
     clean_data(PrimeroProgram, FormSection, PrimeroModule, Role, UserGroup, User, Child, RecordHistory)
 
@@ -55,12 +55,12 @@ describe TransferActivityService do
     user1.role = empty_role
     user1.save(validate: false)
 
-    expect(TransferActivityService.list(user1)).to be_empty
+    expect(TransferActivity.list(user1)).to be_empty
   end
 
   it 'returns the transfer activities for the user' do
     permission = Permission.new(
-      resource: Permission::DASHBOARD, actions: [Permission::DASH_ACTIVITY_LOG_TRANSFER]
+      resource: Permission::ACTIVITY_LOG, actions: [Permission::TRANSFER]
     )
     role = Role.new(permissions: [permission], primero_modules: [@cp])
     role.save(validate: false)
@@ -69,10 +69,10 @@ describe TransferActivityService do
     foo.role = role
     foo.save(validate: false)
 
-    activities = TransferActivityService.list(foo)
+    activities = TransferActivity.list(foo)
 
     expect(activities.size).to eq(2)
-    expect(activities.map { |activity| activity.record_changes.dig('transfer_status', 'to') }).to eq(
+    expect(activities.map { |activity| activity.data[:status][:to] }).to eq(
       [Transition::STATUS_ACCEPTED, Transition::STATUS_REJECTED]
     )
   end

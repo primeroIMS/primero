@@ -5,7 +5,7 @@ class Api::V2::ActivityLogController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
   def index
-    authorize :transfer, ActivityLog
+    authorize_log_types!
     results = ActivityLog.list(current_user, activity_log_params)
     @total = results.size
     @activity_logs = results.paginate(pagination)
@@ -15,15 +15,24 @@ class Api::V2::ActivityLogController < ApplicationApiController
     'datetime'
   end
 
+  private
+
   def activity_log_params
     return @activity_log_params if @activity_log_params.present?
 
-    permitted_params = params.permit(:type, datetime: {})
+    permitted_params = params.permit(types: [], datetime: {})
 
-    @activity_log_params = { type: permitted_params[:type], datetime_range: datetime_range(permitted_params) }
+    @activity_log_params = {
+      types: permitted_types(permitted_params),
+      datetime_range: datetime_range(permitted_params)
+    }
   end
 
-  private
+  def permitted_types(permitted_params)
+    types = permitted_params[:types] || ActivityLog.activity_types
+
+    types.select { |type| current_user.can?(type.to_sym, ActivityLog) }
+  end
 
   def datetime_range(permitted_params)
     from = permitted_params.dig(:datetime, :from)
@@ -35,5 +44,9 @@ class Api::V2::ActivityLogController < ApplicationApiController
     return Time.zone.parse(from)..Time.zone.parse(to) if to.present?
 
     Time.zone.parse(from)..Time.zone.now
+  end
+
+  def authorize_log_types!
+    raise Errors::ForbiddenOperation unless activity_log_params[:types].present?
   end
 end

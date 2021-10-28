@@ -42,8 +42,8 @@ describe Api::V2::ActivityLogController, type: :request do
         group_permission: Permission::SELF,
         permissions: [
           Permission.new(
-            resource: Permission::DASHBOARD,
-            actions: [Permission::DASH_ACTIVITY_LOG_TRANSFER]
+            resource: Permission::ACTIVITY_LOG,
+            actions: [Permission::TRANSFER]
           )
         ]
       )
@@ -53,17 +53,16 @@ describe Api::V2::ActivityLogController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'][0]['type']).to eq('transfer')
-      expect(json['data'][0]['transfer']['status']).to eq(Transition::STATUS_ACCEPTED)
+      expect(json['data'][0]['data']['status']['to']).to eq(Transition::STATUS_ACCEPTED)
       expect(json['data'][1]['type']).to eq('transfer')
-      expect(json['data'][1]['transfer']['status']).to eq(Transition::STATUS_REJECTED)
+      expect(json['data'][1]['data']['status']['to']).to eq(Transition::STATUS_REJECTED)
     end
 
-    it 'returns an empty response if no explicit activity_log authorization is set' do
+    it 'returns 403 if user is not authorized to access' do
       login_for_test(permissions: [])
       get '/api/v2/activity_log'
 
-      expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(0)
+      expect(response).to have_http_status(403)
     end
   end
 end
