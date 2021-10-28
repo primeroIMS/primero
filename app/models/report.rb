@@ -440,13 +440,13 @@ class Report < ApplicationRecord
             end
           else
             if value.respond_to?(:map) && value.size.positive?
-              value.map { |v|
+              "#{attribute}:(" + value.map do |v|
                 if v == 'not_null'
-                  "#{attribute}:[* TO *]"
+                  '[* TO *]'
                 else
-                  "#{attribute}:#{v}"
+                  v.to_s
                 end
-              }
+              end.join(' OR ') + ')'
             end
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
