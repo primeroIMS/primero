@@ -103,7 +103,7 @@ const Component = ({
 
   const handleToggleNav = useCallback(() => {
     setToggleNav(!toggleNav);
-  }, []);
+  }, [toggleNav]);
 
   const formProps = {
     onSubmit: useCallback(
