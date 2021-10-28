@@ -7,7 +7,8 @@ export const buildField = (current, formSection, locale) => ({
   type: current.get("type"),
   option_strings_source: current.get("option_strings_source")?.replace(/lookup /, ""),
   option_strings_text: current.get("option_strings_text"),
-  tick_box_label: current.getIn(["tick_box_label", locale])
+  tick_box_label: current.getIn(["tick_box_label", locale]),
+  visible: current.get("visible")
 });
 
 export const buildLocationFields = (current, formSection, i18n, reportingLocationConfig) => {

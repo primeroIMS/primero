@@ -8,7 +8,8 @@ describe("<ReportForm>/utils/build-field", () => {
     const field = fromJS({
       name: "field_1",
       display_name: { en: "Field 1" },
-      type: "text_field"
+      type: "text_field",
+      visible: true
     });
 
     it("returns the correct object", () => {
@@ -19,7 +20,8 @@ describe("<ReportForm>/utils/build-field", () => {
         type: "text_field",
         option_strings_source: undefined,
         option_strings_text: undefined,
-        tick_box_label: undefined
+        tick_box_label: undefined,
+        visible: true
       };
 
       expect(buildField(field, "Form 1", "en")).to.deep.equal(expected);
@@ -31,7 +33,8 @@ describe("<ReportForm>/utils/build-field", () => {
       name: "location",
       display_name: { en: "Location" },
       type: "select_field",
-      option_strings_source: "Location"
+      option_strings_source: "Location",
+      visible: true
     });
 
     it("returns all the location fields for the admin level", () => {
@@ -42,7 +45,8 @@ describe("<ReportForm>/utils/build-field", () => {
         type: "select_field",
         option_strings_source: "Location",
         option_strings_text: undefined,
-        tick_box_label: undefined
+        tick_box_label: undefined,
+        visible: true
       };
 
       const reportingLocationConfig = fromJS({
@@ -56,9 +60,9 @@ describe("<ReportForm>/utils/build-field", () => {
       const i18n = { locale: "en", t: value => value };
 
       const expected = [
-        locationField,
-        { ...locationField, id: "location1", display_text: "Location (location.base_types.city)" },
-        { ...locationField, id: "location2", display_text: "Location (location.base_types.district)" }
+        { ...locationField, visible: true },
+        { ...locationField, id: "location1", display_text: "Location (location.base_types.city)", visible: true },
+        { ...locationField, id: "location2", display_text: "Location (location.base_types.district)", visible: true }
       ];
 
       expect(buildLocationFields(field, "Form 1", i18n, reportingLocationConfig)).to.deep.equal(expected);

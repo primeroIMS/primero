@@ -97,7 +97,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
           option_strings_source: undefined,
           option_strings_text: null,
           tick_box_label: undefined,
-          type: "text_field"
+          type: "text_field",
+          visible: true
         },
         {
           id: "owned_by",
@@ -106,7 +107,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
           option_strings_source: undefined,
           option_strings_text: null,
           tick_box_label: undefined,
-          type: "text_field"
+          type: "text_field",
+          visible: true
         }
       ],
       incident: [
@@ -117,7 +119,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
           option_strings_source: undefined,
           option_strings_text: null,
           tick_box_label: undefined,
-          type: "text_field"
+          type: "text_field",
+          visible: true
         }
       ],
       tracing_request: [
@@ -128,7 +131,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
           option_strings_source: undefined,
           option_strings_text: null,
           tick_box_label: undefined,
-          type: "text_field"
+          type: "text_field",
+          visible: true
         }
       ]
     };

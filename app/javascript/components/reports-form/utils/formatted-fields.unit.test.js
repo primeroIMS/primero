@@ -147,7 +147,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
         option_strings_source: undefined,
         option_strings_text: null,
         tick_box_label: undefined,
-        type: "date_field"
+        type: "date_field",
+        visible: true
       }
     ];
 
@@ -219,7 +220,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
           option_strings_source: undefined,
           option_strings_text: null,
           tick_box_label: undefined,
-          type: "select_box"
+          type: "select_box",
+          visible: true
         }
       ]);
     });

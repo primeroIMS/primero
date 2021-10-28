@@ -12,7 +12,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
         option_strings_source: undefined,
         option_strings_text: undefined,
         tick_box_label: undefined,
-        type: "date_field"
+        type: "date_field",
+        visible: true
       }
     ];
 

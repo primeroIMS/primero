@@ -14,6 +14,9 @@ export const IS_GRAPH_FIELD = "graph";
 export const EXCLUDE_EMPTY_ROWS_FIELD = "exclude_empty_rows";
 export const DISABLED_FIELD = "disabled";
 export const FILTERS_FIELD = "filters";
+export const STATUS_FIELD = "status";
+export const RECORD_STATE_FIELD = "record_state";
+export const CONSENT_REPORTING_FIELD = "consent_reporting";
 export const REPORTABLE_TYPES = Object.freeze({
   case: "case",
   incident: "incident",
@@ -44,9 +47,9 @@ export const REPORT_FIELD_TYPES = Object.freeze({
 });
 
 export const SHARED_FILTERS = Object.freeze([
-  Object.freeze({ attribute: "status", value: ["open"] }),
-  Object.freeze({ attribute: "record_state", value: ["true"] }),
-  Object.freeze({ attribute: "consent_reporting", value: ["true"] })
+  Object.freeze({ attribute: STATUS_FIELD, value: ["open"] }),
+  Object.freeze({ attribute: RECORD_STATE_FIELD, value: ["true"] }),
+  Object.freeze({ attribute: CONSENT_REPORTING_FIELD, value: ["true"] })
 ]);
 
 export const NOT_NULL = "not_null";
@@ -69,26 +72,33 @@ export const DEFAULT_FILTERS = Object.freeze({
 
 export const MINIMUM_REPORTABLE_FIELDS = Object.freeze({
   case: [
-    "status",
+    STATUS_FIELD,
     "sex",
     "risk_level",
     "owned_by_agency_id",
     "owned_by",
     "workflow",
     "workflow_status",
-    "record_state",
+    RECORD_STATE_FIELD,
     "associated_user_names",
     "owned_by_groups",
     "registration_date",
     "age",
     "owned_by_location",
     "location_current",
-    "consent_reporting"
+    CONSENT_REPORTING_FIELD
   ],
-  incident: ["record_state", "status", "owned_by", "associated_user_names", "owned_by_groups", "incident_date_derived"],
+  incident: [
+    RECORD_STATE_FIELD,
+    STATUS_FIELD,
+    "owned_by",
+    "associated_user_names",
+    "owned_by_groups",
+    "incident_date_derived"
+  ],
   tracing_request: [
-    "record_state",
-    "status",
+    RECORD_STATE_FIELD,
+    STATUS_FIELD,
     "inquiry_date",
     "owned_by",
     "associated_user_names",

@@ -27,8 +27,18 @@ describe("<ReportFilters /> - Component", () => {
       }
     },
     forms: {
-      fields: [
-        FieldRecord({
+      formSections: {
+        1: FormSectionRecord({
+          id: 1,
+          unique_id: "form_1",
+          parent_form: "case",
+          fields: [1, 2, 3],
+          module_ids: ["primeromodule-cp"],
+          visible: true
+        })
+      },
+      fields: {
+        1: FieldRecord({
           name: "status",
           display_name: {
             en: "Status"
@@ -36,7 +46,7 @@ describe("<ReportFilters /> - Component", () => {
           type: SELECT_FIELD,
           visible: true
         }),
-        FieldRecord({
+        2: FieldRecord({
           name: "record_state",
           display_name: {
             en: "Record State"
@@ -44,7 +54,7 @@ describe("<ReportFilters /> - Component", () => {
           type: SELECT_FIELD,
           visible: true
         }),
-        FieldRecord({
+        3: FieldRecord({
           name: "consent_reporting",
           display_name: {
             en: "Consent Reporting"
@@ -52,9 +62,29 @@ describe("<ReportFilters /> - Component", () => {
           type: SELECT_FIELD,
           visible: true
         })
-      ]
+      }
     }
   });
+
+  const formattedMinimumReportableFields = {
+    case: [
+      {
+        id: "status",
+        display_text: "Case Status",
+        visible: true
+      },
+      {
+        id: "record_state",
+        display_text: "Record Valid",
+        visible: true
+      },
+      {
+        id: "consent_reporting",
+        display_text: "Consent Reporting",
+        visible: true
+      }
+    ]
+  };
 
   const props = {
     indexes: [
@@ -95,6 +125,7 @@ describe("<ReportFilters /> - Component", () => {
     },
     selectedModule: "primeromodule-cp",
     selectedRecordType: "case",
+    formattedMinimumReportableFields,
     formMode: { isNew: false }
   };
 
@@ -152,6 +183,27 @@ describe("<ReportFilters /> - Component", () => {
             filters: [],
             disabled: false,
             description: {}
+          }
+        }
+      },
+      forms: {
+        formSections: [
+          FormSectionRecord({
+            unique_id: "form_1",
+            parent_form: "case",
+            fields: [1]
+          })
+        ],
+        fields: {
+          1: {
+            name: "age",
+            display_name: {
+              en: "Age"
+            },
+            position: {
+              type: "horizontal",
+              order: 0
+            }
           }
         }
       }
@@ -222,7 +274,9 @@ describe("<ReportFilters /> - Component", () => {
               appliedFilters = filters;
             },
             formMode: { isNew: true },
-            selectedRecordType: "reportable_service"
+            selectedModule: "primeromodule-cp",
+            selectedRecordType: "reportable_service",
+            formattedMinimumReportableFields
           },
           initialState
         );
@@ -277,7 +331,9 @@ describe("<ReportFilters /> - Component", () => {
               appliedFilters = filters;
             },
             formMode: { isNew: true },
-            selectedRecordType: "reportable_follow_up"
+            selectedModule: "primeromodule-cp",
+            selectedRecordType: "reportable_follow_up",
+            formattedMinimumReportableFields
           },
           initialState
         );
@@ -331,7 +387,9 @@ describe("<ReportFilters /> - Component", () => {
               appliedFilters = filters;
             },
             formMode: { isNew: true },
-            selectedRecordType: "reportable_protection_concern"
+            selectedModule: "primeromodule-cp",
+            selectedRecordType: "reportable_protection_concern",
+            formattedMinimumReportableFields
           },
           initialState
         );
