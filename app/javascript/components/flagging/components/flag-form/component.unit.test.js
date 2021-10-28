@@ -1,8 +1,6 @@
-import { Formik, Form } from "formik";
-
+import Form from "../../../form";
 import { setupMountedComponent } from "../../../../test";
 import { RECORD_TYPES } from "../../../../config/constants";
-import ActionButton from "../../../action-button";
 
 import FlagForm from "./component";
 
@@ -23,22 +21,9 @@ describe("<FlagForm />", () => {
     expect(component.find(FlagForm)).to.have.lengthOf(1);
   });
 
-  it("should render Formik", () => {
-    console.log(component.html())
-
-    expect(component.find(Formik)).to.have.lengthOf(1);
-  });
-
   it("renders Form", () => {
-    console.log(component.html())
-
+    console.log(component.html());
     expect(component.find(Form)).to.have.lengthOf(1);
-  });
-
-  it("renders ActionButton", () => {
-    console.log(component.html())
-
-    expect(component.find(ActionButton)).to.have.lengthOf(2);
   });
 
   it("renders component with valid props", () => {
