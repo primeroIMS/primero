@@ -2466,6 +2466,7 @@ es-GT:
     previously_owned_by_agency: Agencia Anterior
     reassigned_tranferred_on: Reasignado /Transferido En
     record_history_separator: Historia del Registro
+    last_updated_at: Última actualización a las
   record_panel:
     record_information: Información del Registro
   referral:
