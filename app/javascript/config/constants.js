@@ -421,6 +421,7 @@ export const SAVE_METHODS = Object.freeze({
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
+export const REVOKED = "revoked";
 export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";

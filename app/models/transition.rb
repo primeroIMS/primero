@@ -6,6 +6,7 @@ class Transition < ApplicationRecord
   STATUS_REJECTED = 'rejected'
   STATUS_INPROGRESS = 'in_progress'
   STATUS_DONE = 'done'
+  STATUS_REVOKED = 'revoked'
 
   belongs_to :record, polymorphic: true
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 

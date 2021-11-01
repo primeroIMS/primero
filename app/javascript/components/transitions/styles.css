@@ -72,6 +72,11 @@
     background-color: var(--c-red);
   }
 
+  &.revoked {
+    border: solid 1px var(--c-red);
+    background-color: var(--c-red);
+  }
+
   &.inprogress, &.in_progress {
     border: solid 1px var(--c-blue);
     background-color: var(--c-blue);

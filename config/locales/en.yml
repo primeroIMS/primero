@@ -3345,6 +3345,7 @@ en:
       in_progress: Pending
       inprogress: Pending
       rejected: Rejected
+      revoked: Revoked
     type:
       assign: Assign
       reassign: Assign

@@ -74,6 +74,7 @@ describe("Verifying config constant", () => {
       "REFERRAL",
       "REJECT",
       "REJECTED",
+      "REVOKED",
       "ROUTES",
       "ROWS_PER_PAGE_OPTIONS",
       "SAVE_METHODS",
