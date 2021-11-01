@@ -53,6 +53,7 @@ describe("<Form /> - Constants", () => {
       "AGENCY_CURRENT_USER",
       "FORM_GROUP",
       "FORM_GROUP_LOOKUP",
+      "LINKED_INCIDENTS",
       "LOCATION",
       "LOOKUPS",
       "MANAGED_ROLE_FORM_SECTIONS",

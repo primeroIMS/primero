@@ -5,6 +5,7 @@ describe("<Form /> - Utils", () => {
 
   it("should have known properties", () => {
     [
+      "buildLinkedIncidentOptions",
       "buildRoleOptions",
       "get",
       "notVisible",

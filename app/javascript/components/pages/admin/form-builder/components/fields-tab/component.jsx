@@ -53,7 +53,7 @@ const Component = ({ mode, index, tab, formMethods }) => {
         {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
       </div>
       <FieldsList formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
-      <FieldDialog mode={mode} onSuccess={onSuccess} formId={id} />
+      <FieldDialog parentForm={parentForm} mode={mode} onSuccess={onSuccess} formId={id} />
     </TabPanel>
   );
 };

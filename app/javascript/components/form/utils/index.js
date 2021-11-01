@@ -5,4 +5,5 @@ export { optionText } from "./which-options";
 export { notVisible } from "./not-visible";
 export { get } from "./get";
 export { default as buildRoleOptions } from "./build-role-options";
+export { default as buildLinkedIncidentOptions } from "./build-linked-incident-options";
 export { default as valueParser } from "./value-parser";

@@ -12,7 +12,8 @@ export const selectFieldForm = ({
   isNested,
   lookups,
   onManageTranslations,
-  limitedProductionSite
+  limitedProductionSite,
+  parentForm
 }) => {
   const fieldName = field.get("name");
   let extraValidations = {};
@@ -43,7 +44,7 @@ export const selectFieldForm = ({
   return {
     forms: fromJS([
       generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite }),
-      optionsForm({ fieldName, i18n, formMode, field, lookups, css, limitedProductionSite }),
+      optionsForm({ fieldName, i18n, formMode, field, lookups, css, limitedProductionSite, parentForm }),
       visibilityForm({ fieldName, i18n, isNested, limitedProductionSite })
     ]),
     validationSchema: validationSchema({
