@@ -117,7 +117,7 @@ describe PermittedFieldService, search: true do
   end
 
   before(:each) do
-    clean_data(Agency, Role, User, FormSection, Field, SystemSettings)
+    clean_data(PrimeroProgram, Agency, Role, User, FormSection, Field, SystemSettings)
     system_settings
     form
     field
@@ -206,5 +206,76 @@ describe PermittedFieldService, search: true do
       "#{reporting_location_config.field_key}#{role_with_reporting_location.reporting_location_level}"
     )
   end
-  after(:each) { clean_data(Agency, Role, User, FormSection, Field, SystemSettings) }
+
+  describe 'MRM - Vioaltions forms and fields' do
+    let(:mrm_form) { FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'incident', form_group_id: 'm') }
+    let(:mrm_module) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'MRM Module',
+        unique_id: PrimeroModule::MRM,
+        associated_record_types: ['incident'],
+        form_sections: [mrm_form]
+      )
+    end
+    let(:mrm_field) do
+      Field.create!(
+        name: 'mrm_field',
+        display_name: 'mrm field',
+        type: Field::TALLY_FIELD,
+        form_section_id: mrm_form.id
+      )
+    end
+    let(:mrm_role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::SELF,
+        modules: [mrm_module],
+        permissions: [
+          Permission.new(
+            resource: Permission::INCIDENT,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { form.unique_id => 'rw' }
+      )
+    end
+    let(:mrm_agency) do
+      Agency.create!(
+        name: 'Test Agency',
+        agency_code: 'TA',
+        services: ['Test type']
+      )
+    end
+    let(:mrm_user) do
+      User.create!(
+        full_name: 'Test User 2',
+        user_name: 'test_user_2',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_2@localhost.com',
+        agency_id: mrm_agency.id,
+        role: mrm_role
+      )
+    end
+    before(:each) do
+      clean_data(PrimeroModule, Agency, Role, User, FormSection, Field, SystemSettings)
+      mrm_module
+      mrm_form
+      mrm_field
+      mrm_role.save!
+      mrm_user
+    end
+    it 'returns Violations fields if user has permission' do
+      permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names
+      expect(permitted_field_names.include?('mrm_field')).to be true
+    end
+
+    it 'return a field schema for tally fields' do
+      permitted_fields_schema = PermittedFieldService.new(mrm_user, Incident).permitted_fields_schema
+      expect((Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS) - permitted_fields_schema.keys).to be_empty
+    end
+  end
+  after(:each) { clean_data(PrimeroProgram, Agency, Role, User, FormSection, Field, SystemSettings) }
 end
