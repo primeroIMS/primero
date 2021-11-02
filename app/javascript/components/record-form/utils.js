@@ -26,7 +26,8 @@ import {
   DOCUMENT_FIELD,
   SELECT_FIELD,
   DATE_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  TALLY_FIELD
 } from "./constants";
 import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
 
@@ -146,6 +147,16 @@ export const getFieldDefaultValue = field => {
 
   if (field.type === TICK_FIELD) {
     return field.selected_value || false;
+  }
+
+  if (field.type === TALLY_FIELD) {
+    const tallyDefaultValues = field.tally.reduce((acc, value) => {
+      return { ...acc, [value.id]: "" };
+    }, {});
+
+    const tallyTotal = field.autosum_total ? { total: "" } : {};
+
+    return field.selected_value || { ...tallyDefaultValues, ...tallyTotal };
   }
 
   return field.selected_value || "";

@@ -9,7 +9,8 @@ import {
   SUBFORM_SECTION,
   NOT_FUTURE_DATE,
   TICK_FIELD,
-  SELECT_FIELD
+  SELECT_FIELD,
+  TALLY_FIELD
 } from "../constants";
 
 export const fieldValidations = (field, i18n) => {
@@ -46,8 +47,31 @@ export const fieldValidations = (field, i18n) => {
     });
 
     validations[name] = array().of(
-      lazy(value => (value._destroy ? object() : object().shape(Object.assign({}, ...subformSchema))))
+      lazy(value => {
+        console.log("+++>", name, value)
+        return (value._destroy ? object() : object().shape(Object.assign({}, ...subformSchema)))})
     );
+  } else if (TALLY_FIELD === type) {
+    const initialKeys = field.autosum_total
+      ? {
+          [`${name}.total`]: number()
+            .nullable()
+            .transform(value => (Number.isNaN(value) ? null : value))
+            .positive()
+        }
+      : {};
+
+    const tallySchema = field.tally.reduce((acc, option) => {
+      return {
+        ...acc,
+        [`${name}.${option.id}`]: number()
+          .nullable()
+          .transform(value => (Number.isNaN(value) ? null : value))
+          .positive()
+      };
+    }, initialKeys);
+
+    validations[name] = object().shape(tallySchema);
   }
 
   if (DOCUMENT_FIELD === type) {
@@ -62,7 +86,6 @@ export const fieldValidations = (field, i18n) => {
       })
     );
   }
-
   if (required) {
     const requiredMessage = i18n.t("form_section.required_field", {
       field: field.display_name[i18n.locale]
@@ -72,10 +95,24 @@ export const fieldValidations = (field, i18n) => {
       validations[name] = bool().required(requiredMessage).oneOf([true], requiredMessage);
     } else if (type === SELECT_FIELD && multiSelect) {
       validations[name] = array().required(requiredMessage).min(1, requiredMessage);
+    } else if (type === TALLY_FIELD) {
+      validations[name] = validations[name].test(
+        name,
+        i18n.t("errors.models.role.permission_presence"),
+        async value => {
+          console.log("=================>", value);
+
+          return Object.values(value).flat().length > 0;
+        }
+      );
     } else {
       validations[name] = (validations[name] || string()).nullable().required(requiredMessage);
     }
   }
+
+  // if (name === "incident_total_tally") {
+  //   debugger;
+  // }
 
   return validations;
 };

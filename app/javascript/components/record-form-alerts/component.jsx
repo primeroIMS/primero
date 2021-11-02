@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { fromJS, isCollection } from "immutable";
+import { fromJS, List } from "immutable";
 
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
@@ -23,7 +23,7 @@ const Component = ({ form, recordType, attachmentForms }) => {
       .get("errors", fromJS([]))
       .entrySeq()
       .map(([key, value]) => {
-        if (isCollection(value)) {
+        if (List.isList(value)) {
           return fromJS({
             message: i18n.t("error_message.address_subform_fields", {
               subform: subformDisplayNames.get(key) || attachmentForms.getIn([key, i18n.locale], ""),
