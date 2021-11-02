@@ -22,7 +22,6 @@ describe("<FlagForm />", () => {
   });
 
   it("renders Form", () => {
-    console.log(component.html());
     expect(component.find(Form)).to.have.lengthOf(1);
   });
 
