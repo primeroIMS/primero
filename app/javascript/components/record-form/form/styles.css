@@ -8,6 +8,10 @@
   font-size: var(--fs-13);
 }
 
+.spacer {
+  height: 40px;
+}
+
 .formHeading,
 .toolbarHeading,
 .subformHeading {
@@ -95,6 +99,10 @@
     font-size: var(--fs-12);
     color: var(--c-dark-grey);
   }
+}
+
+.field {
+  margin: 0 0 var(--sp-3)
 }
 
 .attachmentUploadField {
@@ -239,4 +247,23 @@
 
 .flipImage {
   transform: scaleX(-1);
+}
+
+.readonly {
+  & fieldset {
+    border: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+}
+
+.readonly :global .MuiOutlinedInput-root {
+  background: transparent;
 }

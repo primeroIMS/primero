@@ -21,6 +21,10 @@
   }
 }
 
+[dir="rtl"] .toggleButton:last-child {
+  border-left: 1px solid;
+}
+
 .toggleButtonSelected {
   color: #fff !important;
   background-color: var(--c-blue) !important;

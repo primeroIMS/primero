@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
@@ -19,6 +18,7 @@ import {
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
@@ -117,11 +117,11 @@ const Component = ({ loadingIndicator, userPermissions }) => {
 
       return (
         <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
-          <Grid item xs>
+          <div className={css.optionsBox}>
             <OptionsBox flat>
               <Dashboard {...options} />
             </OptionsBox>
-          </Grid>
+          </div>
         </Permission>
       );
     });
@@ -130,9 +130,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   return (
     <Permission resources={RESOURCES.dashboards} actions={dashboards.map(dashboard => dashboard.actions).flat()}>
       <OptionsBox title={i18n.t("dashboard.overview")} hasData={overviewDashHasData || false} {...loadingIndicator}>
-        <Grid item md={12}>
-          <Grid container>{renderDashboards()}</Grid>
-        </Grid>
+        <div className={css.container}>{renderDashboards()}</div>
       </OptionsBox>
     </Permission>
   );

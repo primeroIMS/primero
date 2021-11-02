@@ -1,3 +1,5 @@
+import startsWith from "lodash/startsWith";
+
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 import { CLEAR_DIALOG } from "../action-dialog";
@@ -42,14 +44,15 @@ const getSuccessCallback = ({
   incidentPath,
   moduleID
 }) => {
+  const isIncidentType = RECORD_TYPES[recordType] === RECORD_TYPES.incidents;
+  const willRedirectToCase = isIncidentType && startsWith(redirect, `/${RECORD_PATH.cases}`);
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
-  const incidentFromCaseCallbacks =
-    RECORD_TYPES[recordType] === RECORD_TYPES.incidents && willRedirectToIncident
-      ? [
-          { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
-          { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
-        ]
-      : [];
+  const incidentFromCaseCallbacks = isIncidentType
+    ? [
+        { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
+        { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
+      ]
+    : [];
   const defaultSuccessCallback = [
     {
       action: ENQUEUE_SNACKBAR,
@@ -67,7 +70,8 @@ const getSuccessCallback = ({
       redirectWithIdFromResponse:
         !redirect && !incidentPath && !willRedirectToIncident && saveMethod !== SAVE_METHODS.update,
       redirect: redirect === false ? false : redirect || `/${recordType}`,
-      preventSyncAfterRedirect: !willRedirectToIncident && [SAVE_METHODS.update].includes(saveMethod)
+      preventSyncAfterRedirect:
+        !willRedirectToCase && !willRedirectToIncident && [SAVE_METHODS.update].includes(saveMethod)
     },
     ...incidentFromCaseCallbacks
   ];

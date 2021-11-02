@@ -25,6 +25,34 @@ describe("<ReportFilters /> - Component", () => {
       permissions: {
         reports: [ACTIONS.MANAGE]
       }
+    },
+    forms: {
+      fields: [
+        FieldRecord({
+          name: "status",
+          display_name: {
+            en: "Status"
+          },
+          type: SELECT_FIELD,
+          visible: true
+        }),
+        FieldRecord({
+          name: "record_state",
+          display_name: {
+            en: "Record State"
+          },
+          type: SELECT_FIELD,
+          visible: true
+        }),
+        FieldRecord({
+          name: "consent_reporting",
+          display_name: {
+            en: "Consent Reporting"
+          },
+          type: SELECT_FIELD,
+          visible: true
+        })
+      ]
     }
   });
 
@@ -174,6 +202,14 @@ describe("<ReportFilters /> - Component", () => {
                           },
                           type: SELECT_FIELD,
                           visible: true
+                        }),
+                        FieldRecord({
+                          name: "service_appointment_date",
+                          display_name: {
+                            en: "Service Appointment Date"
+                          },
+                          type: SELECT_FIELD,
+                          visible: true
                         })
                       ]
                     })
@@ -265,7 +301,7 @@ describe("<ReportFilters /> - Component", () => {
             allRecordForms: fromJS([
               {
                 id: 1,
-                unique_id: "protection_concern",
+                unique_id: "protection_concern_details",
                 name: { en: "Protection Concern" },
                 visible: true,
                 module_ids: ["primeromodule-cp"],

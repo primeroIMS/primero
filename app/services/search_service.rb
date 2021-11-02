@@ -16,7 +16,7 @@ class SearchService
     #   paginattion: A hash indicating the pagination
     def search(record_class, search_params = {})
       params = with_defaults(search_params)
-      params = with_location_filters(record_class, params)
+      params = with_filters(record_class, params)
       record_class.search do
         params[:filters].each { |filter| filter.query_scope(self) }
         with_query_scope(self, params[:query_scope])
@@ -31,9 +31,13 @@ class SearchService
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
-    def with_location_filters(record_class, params)
+    def with_filters(record_class, params)
       params.tap do |p|
-        p[:filters] = p[:filters].map { |filter| filter.as_location_filter(record_class) }
+        p[:filters] = p[:filters].map do |filter|
+          next(filter.as_id_filter(record_class)) if filter.id_field_filter?(record_class)
+
+          filter.as_location_filter(record_class)
+        end
       end
     end
 

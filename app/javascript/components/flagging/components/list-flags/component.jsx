@@ -1,4 +1,4 @@
-import { Box, List } from "@material-ui/core";
+import { List } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
 import PropTypes from "prop-types";
 
@@ -43,12 +43,12 @@ const Component = ({ recordType, record }) => {
           <div className={css.resolvedFlagList}>{renderFlagsResolved}</div>
         </List>
       ) : (
-        <Box className={css.empty}>
-          <Box>
+        <div className={css.empty}>
+          <div>
             <FlagIcon fontSize="inherit" />
-          </Box>
+          </div>
           <h3>{i18n.t("flags.no_flags")}</h3>
-        </Box>
+        </div>
       )}
     </>
   );

@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import toCasesToAssignTable from "./to-cases-to-assign-table";
@@ -59,6 +60,10 @@ describe("toCasesToAssignTable - pages/dashboard/utils/", () => {
       { id: "level_2", display_text: "Level 2" }
     ];
 
-    expect(toCasesToAssignTable(casesToAssign, riskLevels, i18n)).to.deep.equal(expected);
+    const result = toCasesToAssignTable(casesToAssign, riskLevels, i18n);
+
+    expect(result.data).to.deep.equal(expected.data);
+    expect(result.query).to.deep.equal(expected.query);
+    expect(result.columns.map(column => column.name)).to.deep.equal(["", "level_1", "level_2", "none"]);
   });
 });

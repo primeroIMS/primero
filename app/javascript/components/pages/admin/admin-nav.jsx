@@ -77,8 +77,7 @@ const AdminNav = () => {
   return (
     <>
       <PageHeading title={i18n.t("settings.title")} disabledElevation />
-
-      <List>{renderNavItems}</List>
+      <List component="nav">{renderNavItems}</List>
     </>
   );
 };

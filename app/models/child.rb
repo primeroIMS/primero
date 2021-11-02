@@ -71,13 +71,17 @@ class Child < ApplicationRecord
     %w[name case_id_display national_id_no]
   end
 
-  def self.quicksearch_fields
+  def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    %w[ unique_identifier short_id case_id_display
+    %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id ] + NAME_FIELDS
+        family_count_no dss_id camp_id tent_number nfi_distribution_id ]
+  end
+
+  def self.quicksearch_fields
+    filterable_id_fields + NAME_FIELDS
   end
 
   def self.summary_field_names
@@ -107,7 +111,8 @@ class Child < ApplicationRecord
   end
 
   searchable do
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
+    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
+    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
     Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
     Child.family_matching_field_names.each { |f| text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section') }
     quicksearch_fields.each { |f| text_index(f) }

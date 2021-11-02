@@ -1,4 +1,3 @@
-import Box from "@material-ui/core/Box";
 import Chart from "chart.js";
 import PropTypes from "prop-types";
 import { createRef, useEffect } from "react";
@@ -73,10 +72,10 @@ const LineChart = ({ chartData, options, title }) => {
   });
 
   return (
-    <Box>
+    <div>
       <p className={css.Description}>{title}</p>
       <canvas className="lineChart" ref={chartRef} />
-    </Box>
+    </div>
   );
 };
 

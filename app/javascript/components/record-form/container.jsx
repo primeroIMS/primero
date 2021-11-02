@@ -21,7 +21,7 @@ import {
   getShouldFetchRecord
 } from "./selectors";
 import { NAME } from "./constants";
-import RecordForm from "./components/record-form";
+import { RecordForm } from "./components/record-form";
 
 const Container = ({ mode }) => {
   const params = useParams();
