@@ -24,9 +24,12 @@ namespace :primero do
     data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
                    SavedSearch, Transition]
     db_tables = %w[active_storage_attachments active_storage_blobs
-                   active_storage_variant_records whitelisted_jwts]
+                   active_storage_variant_records primero_modules_saved_searches]
 
-    record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)  
+    if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
+      record_models << User
+      db_tables << 'user_groups_users' 
+    end
 
     (record_models + data_config).each do |model|
       puts "Removing data from #{model.name} table"
@@ -54,8 +57,7 @@ namespace :primero do
         PrimeroConfiguration, Webhook, IdentityProvider
       ]
 
-      db_tables = %w[ar_internal_metadata form_sections_primero_modules form_sections_roles
-                     primero_modules_roles primero_modules_saved_searches user_groups_users]
+      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles]
     end
 
     metadata_models.each do |m|
