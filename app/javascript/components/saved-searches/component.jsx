@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Typography, Box } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
@@ -25,9 +25,9 @@ const SavedSearches = ({ recordType, setTabIndex, setRerender }) => {
       {savedSearches.size ? (
         <ListSavedSearches {...listSavedSearchesProps} />
       ) : (
-        <Box className={css.listSavedSearches}>
+        <div className={css.listSavedSearches}>
           <Typography>{i18n.t("saved_searches.no_save_searches")}</Typography>
-        </Box>
+        </div>
       )}
     </>
   );

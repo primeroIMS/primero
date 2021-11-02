@@ -80,4 +80,9 @@
   .root, .twoCol {
     padding-top: 4em;
   }
+
+  .appBar {
+    padding-bottom: var(--sp-1);
+  }
 }
+

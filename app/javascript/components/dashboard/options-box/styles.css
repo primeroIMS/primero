@@ -4,7 +4,7 @@
 
 .content {
   padding: 0 !important;
-  margin: 12px auto;
+  margin-top: var(--sp-1);
 
   & td,
   & th {

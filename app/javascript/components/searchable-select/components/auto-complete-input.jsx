@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, CircularProgress } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 
@@ -8,6 +9,7 @@ const Component = forwardRef(
   (
     {
       params,
+      value,
       mode,
       helperText,
       InputLabelProps,
@@ -25,6 +27,7 @@ const Component = forwardRef(
     const [inputValueChanged, setInputValueChanged] = useState(false);
 
     const { InputProps, ...restTextFieldProps } = TextFieldProps;
+    const disabledPlaceholder = mode?.isShow && isEmpty(value) ? "--" : "";
 
     const inputParams = {
       ...params,
@@ -32,7 +35,7 @@ const Component = forwardRef(
       fullWidth: true,
       helperText: error || helperText,
       InputLabelProps,
-      placeholder: isDisabled ? "" : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
+      placeholder: isDisabled ? disabledPlaceholder : i18n.t(`fields.select_${multiple ? "multiple" : "single"}`),
       ...InputProps,
       ...restTextFieldProps,
       InputProps: {
@@ -86,7 +89,8 @@ Component.defaultProps = {
   optionLabelKey: "label",
   options: [],
   params: {},
-  TextFieldProps: {}
+  TextFieldProps: {},
+  value: ""
 };
 
 Component.propTypes = {
@@ -100,7 +104,8 @@ Component.propTypes = {
   optionLabelKey: PropTypes.string,
   options: PropTypes.array,
   params: PropTypes.object,
-  TextFieldProps: PropTypes.object
+  TextFieldProps: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array])
 };
 
 export default Component;

@@ -1,6 +1,7 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 import {
@@ -62,6 +63,8 @@ const FormSectionField = ({
     options
   } = field;
 
+  const classes = clsx(css.field, { [css.readonly]: mode.isShow });
+
   const filterOptionStringSource =
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
 
@@ -106,6 +109,7 @@ const FormSectionField = ({
     helperText: !isEmpty(helpText) ? displayNameHelper(helpText, i18n.locale) : "",
     disabled: mode.isShow || disabled || isReadWriteForm === false,
     checked: ["t", "true"].includes(selectedValue),
+    ...(mode.isShow && { placeholder: "--" }),
     index,
     displayName,
     linkToForm,
@@ -145,10 +149,10 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <>
+      <div className={classes}>
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
-      </>
+      </div>
     </ConditionalWrapper>
   );
 };

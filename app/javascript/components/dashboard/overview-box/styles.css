@@ -4,9 +4,11 @@
 }
 
 .sectionTitle {
-  padding: 0 1.2em;
+  color: var(--c-warm-grey-4);
   text-transform: uppercase;
   font-weight: bold;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-13);
 }
 
 .overviewList {
@@ -14,7 +16,7 @@
   font-size: var(--fs-13);
   line-height: 1.29;
   color: #231e1f;
-  padding: 0 1.2em;
+  padding: 0;
 }
 
 .dashboardChart {
@@ -36,6 +38,21 @@
 
 .itemButton:hover{
   text-decoration: underline;
+}
+
+.item {
+  margin-bottom: var(--sp-1);
+}
+
+.count  {
+  font-weight: 600;
+  display: flex;
+  line-height: 1.3;
+
+  & div:last-of-type {
+    color: var(--c-black);
+    padding: 0 var(--sp-1);
+  }
 }
 
 @media (max-width:959.95px) {

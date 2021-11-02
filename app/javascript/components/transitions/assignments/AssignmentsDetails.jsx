@@ -1,4 +1,4 @@
-import { Box, Divider, Grid } from "@material-ui/core";
+import { Divider, Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../i18n";
@@ -18,11 +18,11 @@ const AssignmentsDetails = ({ transition, classes }) => {
         <DisplayData label="transition.assigned_by" value={transition.transitioned_by} />
       </Grid>
       <Grid item md={12} xs={12}>
-        <Box>
+        <div>
           <Divider />
           <div className={classes.transtionLabel}>{i18n.t("transition.notes")}</div>
           <div className={classes.transtionValue}>{transition.notes}</div>
-        </Box>
+        </div>
       </Grid>
     </Grid>
   );

@@ -12,7 +12,7 @@
   padding: 8px 0 0 0;
 
   & > div {
-    margin-bottom: 0;
+    margin-bottom: var(--sp-1);
   }
 }
 

@@ -42,6 +42,7 @@
 
 .drawerPaper[dir="rtl"], .drawerPaper-demo[dir="rtl"] {
   box-shadow: inset -2px 0 2px -1px rgba(0, 0, 0, 0.15);
+  text-align: right;
 }
 
 .drawerPaper-demo {
@@ -99,12 +100,6 @@
   width: 219px;
   height: 1px;
   margin: 0.375em 0 0.938em;
-  background: linear-gradient(
-    to left,
-    rgba(238, 238, 238, 0),
-    rgba(232, 232, 232, 0.26) 18%,
-    #d8d8d8
-  );
 }
 
 .navLink {
