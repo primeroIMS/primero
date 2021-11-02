@@ -27,6 +27,16 @@ class SearchFilters::Or < SearchFilters::SearchFilter
     filters.any? { |f| f.location_field_filter?(record_class) }
   end
 
+  def as_id_filter(record_class)
+    return self unless id_field_filter?(record_class)
+
+    SearchFilters::Or.new(filters: filters.map { |f| f.as_id_filter(record_class) })
+  end
+
+  def id_field_filter?(record_class)
+    filters.any? { |f| f.id_field_filter?(record_class) }
+  end
+
   def to_h
     filters_hash = filters&.map(&:to_h) || []
     {

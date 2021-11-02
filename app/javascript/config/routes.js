@@ -30,7 +30,7 @@ import KeyPerformanceIndicators from "../components/key-performance-indicators";
 import Report from "../components/report";
 import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
-import RecordForm from "../components/record-form";
+import RecordForm from "../components/record-form/container";
 import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";

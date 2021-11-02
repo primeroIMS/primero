@@ -1,5 +1,5 @@
 .hideNameStyle {
-  padding-top: 6;
+  margin-top: var(--sp-1);
   color: var(--c-blue);
   font-size: var(--fs-12);
   font-weight: bold;

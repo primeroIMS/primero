@@ -62,3 +62,8 @@ export const DASHBOARD_TYPES = Object.freeze({
 export const DASHBOARD_FLAGS_SORT_ORDER = "desc";
 
 export const DASHBOARD_FLAGS_SORT_FIELD = "created_at";
+
+export const RISK_LEVELS = Object.freeze({
+  HIGH: "high",
+  LOW: "low"
+});

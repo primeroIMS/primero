@@ -14,6 +14,14 @@ class SearchFilters::SearchFilter < ValueObject
     false
   end
 
+  def as_id_filter(_record_class)
+    self
+  end
+
+  def id_field_filter?(record_class)
+    record_class.filterable_id_fields.include?(field_name)
+  end
+
   def location_field_name_solr(field_name, location_code)
     admin_level = LocationService.instance.find_by_code(location_code).admin_level
     "#{field_name}#{admin_level}"

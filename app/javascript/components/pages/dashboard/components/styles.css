@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  padding: var(--sp-2);
+
+  & > div {
+    flex: 1;
+  }
+
+  & > .optionsBox:first-of-type {
+    padding-left: 0;
+  }
+
+  & > .optionsBox:last-of-type {
+    border-right: none;
+    padding-right: 0;
+  }
+}
+
+.optionsBox {
+  border-right: 1px solid var(--c-warm-grey-1);
+  padding: 0 var(--sp-3);
+}

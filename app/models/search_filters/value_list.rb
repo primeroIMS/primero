@@ -38,6 +38,14 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
     record_class.searchable_location_fields.include?(field_name)
   end
 
+  def as_id_filter(record_class)
+    return self unless id_field_filter?(record_class)
+
+    id_filters = values.map { |value| SearchFilters::Value.new(field_name: "#{field_name}_filterable", value: value) }
+
+    SearchFilters::Or.new(filters: id_filters)
+  end
+
   def to_h
     {
       type: 'values',
