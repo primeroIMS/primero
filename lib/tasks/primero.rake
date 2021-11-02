@@ -3,7 +3,6 @@
 require 'write_xlsx'
 
 namespace :primero do
-
   # Remove all data config and records
   # USAGE: rails primero:remove_config_data_and_records
   # Args:
@@ -24,10 +23,10 @@ namespace :primero do
     record_models = [Child, Incident, TracingRequest, Trace, Flag]
     data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
                    SavedSearch, Transition]
-    db_tables = %w[active_storage_attachments active_storage_blobs active_storage_variant_records
-                   user_groups_users whitelisted_jwts]
+    db_tables = %w[active_storage_attachments active_storage_blobs
+                   active_storage_variant_records whitelisted_jwts]
 
-    record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
+    record_models << User if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)  
 
     (record_models + data_config).each do |model|
       puts "Removing data from #{model.name} table"
@@ -45,20 +44,28 @@ namespace :primero do
   # If you are planning to load the JSON config, use the remove_config_data task instead
   desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
   task :remove_config, [:metadata] => :environment do |_, args|
-    metadata_models =
-      if args[:metadata].present?
-        args[:metadata].split(',').map { |m| Kernel.const_get(m) }
-      else
-        [
-          Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
-          PrimeroConfiguration, Webhook, IdentityProvider
-        ]
-      end
+    if args[:metadata].present?
+      metadata_models = args[:metadata].split(',').map { |m| Kernel.const_get(m) }
+      db_tables = []
+    else
+      metadata_models = [
+        Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
+        PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
+        PrimeroConfiguration, Webhook, IdentityProvider
+      ]
+
+      db_tables = %w[ar_internal_metadata form_sections_primero_modules form_sections_roles
+                     primero_modules_roles primero_modules_saved_searches user_groups_users]
+    end
 
     metadata_models.each do |m|
       puts "Removing data from #{m.name} table"
       m.delete_all
+    end
+
+    db_tables.each do |table|
+      puts "Removing data from #{table} table"
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
     end
   end
 
