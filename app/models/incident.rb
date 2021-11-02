@@ -28,28 +28,50 @@ class Incident < ApplicationRecord
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_associations
 
-  def self.quicksearch_fields
-    %w[incident_id incident_code super_incident_name incident_description
-       monitor_number survivor_code individual_ids incidentid_ir]
-  end
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      super_new_with_user(user, data).tap do |incident|
+        incident.incident_case_id ||= incident.data.delete('incident_case_id')
+      end
+    end
 
-  def self.summary_field_names
-    common_summary_fields + %w[
-      date_of_interview date_of_incident violence_type
-      incident_location violations social_worker date_of_first_report
-      cp_incident_violence_type
-      gbv_sexual_violence_type incident_date survivor_code
-    ]
-  end
+    def filterable_id_fields
+      %w[incident_id incident_code monitor_number survivor_code incidentid_ir]
+    end
 
-  def self.sortable_text_fields
-    %w[short_id]
+    def quicksearch_fields
+      filterable_id_fields + %w[super_incident_name incident_description individual_ids]
+    end
+
+    def summary_field_names
+      common_summary_fields + %w[
+        date_of_interview date_of_incident violence_type
+        incident_location violations social_worker date_of_first_report
+        cp_incident_violence_type
+        gbv_sexual_violence_type incident_date survivor_code
+      ]
+    end
+
+    def sortable_text_fields
+      %w[short_id]
+    end
+
+    def minimum_reportable_fields
+      {
+        'boolean' => %w[record_state],
+        'string' => %w[status owned_by],
+        'multistring' => %w[associated_user_names owned_by_groups],
+        'date' => %w[incident_date_derived]
+      }
+    end
   end
 
   searchable do
     date :incident_date_derived
     date :date_of_first_report
     string :status, as: 'status_sci'
+    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
   end
@@ -70,24 +92,6 @@ class Incident < ApplicationRecord
   def defaults
     super_defaults
     self.date_of_first_report ||= Date.today
-  end
-
-  class << self
-    alias super_new_with_user new_with_user
-    def new_with_user(user, data = {})
-      super_new_with_user(user, data).tap do |incident|
-        incident.incident_case_id ||= incident.data.delete('incident_case_id')
-      end
-    end
-
-    def minimum_reportable_fields
-      {
-        'boolean' => %w[record_state],
-        'string' => %w[status owned_by],
-        'multistring' => %w[associated_user_names owned_by_groups],
-        'date' => %w[incident_date_derived]
-      }
-    end
   end
 
   def copy_from_case
