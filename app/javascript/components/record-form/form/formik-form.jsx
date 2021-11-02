@@ -7,6 +7,7 @@ import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
 
 import { ValidationErrors } from "./components";
+import css from "./styles.css";
 
 const FormikForm = ({
   handleSubmit,
@@ -57,6 +58,7 @@ const FormikForm = ({
       <ValidationErrors formErrors={errors} forms={forms} />
       {renderFormSections(forms, setFieldValue, handleSubmit, values, dirty)}
       {externalComponents({ dirty, setFieldValue, values })}
+      <div className={css.spacer} />
     </Form>
   );
 };

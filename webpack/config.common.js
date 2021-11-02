@@ -2,7 +2,7 @@ const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = require("./config");
 
@@ -35,7 +35,7 @@ const rules = [
   {
     test: /\.css$/,
     use: [
-      MiniCssExtractPlugin.loader,
+      ...(isProduction ? [MiniCssExtractPlugin.loader] : ["style-loader"]),
       {
         loader: "css-loader",
         options: {
@@ -96,13 +96,19 @@ module.exports = (name, entry) => {
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: clean
       }),
+      ...(isProduction
+        ? [
+            new MiniCssExtractPlugin({
+              filename: chunkOutput("chunkhash", null, "css")
+            })
+          ]
+        : []),
       new WebpackAssetsManifest({
         output: MANIFEST_OUTPUT_PATH(name),
         entrypoints: true,
         publicPath: isProduction ? "/packs/" : PUBLIC_PATH,
         writeToDisk: true
-      }),
-      new MiniCssExtractPlugin()
+      })
     ],
     resolve,
     module: { rules },

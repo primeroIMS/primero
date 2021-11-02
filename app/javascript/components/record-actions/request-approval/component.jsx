@@ -142,7 +142,7 @@ const Component = ({
   ));
 
   const selectTypeOfCasePlan = showTypeOfCasePlan && renderCasePlan && (
-    <>
+    <div className={css.field}>
       <InputLabel>{i18n.t("cases.request_approval_type_of_case_plan")}</InputLabel>
       <Select
         id="outlined-select-case-plan-type"
@@ -153,22 +153,24 @@ const Component = ({
       >
         {typeOfCasePlanOptions}
       </Select>
-    </>
+    </div>
   );
 
   const requestDialogContent = (
     <>
       <form noValidate autoComplete="off" className={css.centerForm}>
-        <InputLabel>{i18n.t(`${recordType}.request_approval_select`)}</InputLabel>
-        <Select
-          id="outlined-select-approval-native"
-          fullWidth
-          value={requestType}
-          onChange={handleChangeType}
-          variant="outlined"
-        >
-          {selectOptions}
-        </Select>
+        <div className={css.field}>
+          <InputLabel>{i18n.t(`${recordType}.request_approval_select`)}</InputLabel>
+          <Select
+            id="outlined-select-approval-native"
+            fullWidth
+            value={requestType}
+            onChange={handleChangeType}
+            variant="outlined"
+          >
+            {selectOptions}
+          </Select>
+        </div>
         {selectTypeOfCasePlan}
       </form>
     </>
