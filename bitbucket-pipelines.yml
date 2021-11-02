@@ -16,7 +16,9 @@ definitions:
         size: 2x
         script:
           - npm ci
-          - npm run test:all
+          - npm run test:batch:1
+          - npm run test:batch:2
+          - npm run test:batch:3
           - npm run lint:run
         caches:
           - node

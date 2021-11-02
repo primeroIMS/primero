@@ -11,7 +11,8 @@ describe("Verifying config constant", () => {
       "NAME",
       "DASHBOARD_TYPES",
       "DASHBOARD_FLAGS_SORT_ORDER",
-      "DASHBOARD_FLAGS_SORT_FIELD"
+      "DASHBOARD_FLAGS_SORT_FIELD",
+      "RISK_LEVELS"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

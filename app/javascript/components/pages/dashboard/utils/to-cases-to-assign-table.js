@@ -1,4 +1,7 @@
 import { fromJS } from "immutable";
+import Tooltip from "@material-ui/core/Tooltip";
+
+import { RISK_LEVELS } from "../constants";
 
 export default (casesToAssign, riskLevels, i18n) => {
   const allLevels = riskLevels.concat({ id: "none", display_text: i18n.t("dashboard.none_risk") });
@@ -6,7 +9,36 @@ export default (casesToAssign, riskLevels, i18n) => {
 
   const columns = allLevels.reduce(
     (acc, elem) => {
-      return [...acc, { name: elem.id, label: elem.display_text }];
+      return [
+        ...acc,
+        {
+          name: elem.id,
+          label: elem.display_text,
+          options: {
+            customBodyRender: (value, tableMeta) => {
+              const { rowIndex, columnData } = tableMeta;
+
+              if (rowIndex === 1) {
+                if (columnData.name === RISK_LEVELS.HIGH) {
+                  return (
+                    <Tooltip title={i18n.t("dashboard.overdue_cases_to_assign_high")}>
+                      <span>{value}</span>
+                    </Tooltip>
+                  );
+                }
+
+                return (
+                  <Tooltip title={i18n.t("dashboard.overdue_cases_to_assign_low")}>
+                    <span>{value}</span>
+                  </Tooltip>
+                );
+              }
+
+              return value;
+            }
+          }
+        }
+      ];
     },
     [{ label: "", name: "" }]
   );
