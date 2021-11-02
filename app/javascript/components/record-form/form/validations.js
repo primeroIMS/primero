@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
+import compact from "lodash/compact";
 
 import {
   NUMERIC_FIELD,
@@ -48,13 +49,13 @@ export const fieldValidations = (field, i18n) => {
 
     validations[name] = array().of(
       lazy(value => {
-        console.log("+++>", name, value)
-        return (value._destroy ? object() : object().shape(Object.assign({}, ...subformSchema)))})
+        return value._destroy ? object() : object().shape(Object.assign({}, ...subformSchema));
+      })
     );
   } else if (TALLY_FIELD === type) {
     const initialKeys = field.autosum_total
       ? {
-          [`${name}.total`]: number()
+          total: number()
             .nullable()
             .transform(value => (Number.isNaN(value) ? null : value))
             .positive()
@@ -64,7 +65,7 @@ export const fieldValidations = (field, i18n) => {
     const tallySchema = field.tally.reduce((acc, option) => {
       return {
         ...acc,
-        [`${name}.${option.id}`]: number()
+        [option.id]: number()
           .nullable()
           .transform(value => (Number.isNaN(value) ? null : value))
           .positive()
@@ -96,23 +97,13 @@ export const fieldValidations = (field, i18n) => {
     } else if (type === SELECT_FIELD && multiSelect) {
       validations[name] = array().required(requiredMessage).min(1, requiredMessage);
     } else if (type === TALLY_FIELD) {
-      validations[name] = validations[name].test(
-        name,
-        i18n.t("errors.models.role.permission_presence"),
-        async value => {
-          console.log("=================>", value);
-
-          return Object.values(value).flat().length > 0;
-        }
-      );
+      validations[name] = validations[name].test(name, requiredMessage, async value => {
+        return compact(Object.values(value)).length > 0;
+      });
     } else {
       validations[name] = (validations[name] || string()).nullable().required(requiredMessage);
     }
   }
-
-  // if (name === "incident_total_tally") {
-  //   debugger;
-  // }
 
   return validations;
 };
