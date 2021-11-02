@@ -4,5 +4,5 @@
 class Source < ApplicationRecord
   include ViolationAssociable
 
-  has_many :violations
+  has_many :violations, inverse_of: :source
 end

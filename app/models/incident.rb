@@ -24,7 +24,7 @@ class Incident < ApplicationRecord
     :livelihoods_services_subform_section, :child_protection_services_subform_section
   )
 
-  has_many :violations, dependent: :destroy
+  has_many :violations, dependent: :destroy, inverse_of: :incident
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_associations
 

@@ -242,6 +242,8 @@ en:
       reopened: Reopened
       service_implemented: Service Implemented
       services_implemented: Service Implemented
+  linkedincidents:
+    label: Linked Incidents
   cases:
     action_plan: Action Plan
     age: Age
@@ -3343,6 +3345,7 @@ en:
       in_progress: Pending
       inprogress: Pending
       rejected: Rejected
+      revoked: Revoked
     type:
       assign: Assign
       reassign: Assign
