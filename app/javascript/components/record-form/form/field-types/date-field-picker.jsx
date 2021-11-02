@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
+import NepaliCalendar from "../../../nepali-calendar-input";
 import { useI18n } from "../../../i18n";
 import localize from "../../../../libs/date-picker-localization";
 import { displayNameHelper } from "../../../../libs";
@@ -19,15 +20,19 @@ const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched
     okLabel: i18n.t("buttons.ok")
   };
 
-  return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
-      {dateIncludeTime ? (
-        <DateTimePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
-      ) : (
-        <DatePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
-      )}
-    </MuiPickersUtilsProvider>
-  );
+  if (false) {
+    return (
+      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
+        {dateIncludeTime ? (
+          <DateTimePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
+        ) : (
+          <DatePicker {...dialogLabels} {...dateProps} helperText={helpText} label={label} />
+        )}
+      </MuiPickersUtilsProvider>
+    );
+  }
+
+  return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
 };
 
 DateFieldPicker.displayName = "DateFieldPicker";

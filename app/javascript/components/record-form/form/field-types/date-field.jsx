@@ -93,6 +93,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
             )
           ),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
+          dateIncludeTime,
           clearable: true,
           InputProps: {
             ...InputProps,
