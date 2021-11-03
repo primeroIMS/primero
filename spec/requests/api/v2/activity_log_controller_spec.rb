@@ -21,7 +21,7 @@ describe Api::V2::ActivityLogController, type: :request do
         transfer_status: { from: Transition::STATUS_INPROGRESS, to: Transition::STATUS_ACCEPTED },
         owned_by: { from: 'foo', to: 'other' }
       },
-      datetime: '2021-10-14T14:10:05Z'
+      datetime: Time.zone.now
     )
     RecordHistory.create!(
       record: @child,
@@ -29,14 +29,14 @@ describe Api::V2::ActivityLogController, type: :request do
         transfer_status: { from: Transition::STATUS_INPROGRESS, to: Transition::STATUS_REJECTED },
         assigned_user_names: { from: %w[foo other], to: ['foo'] }
       },
-      datetime: '2021-10-14T13:10:05Z'
+      datetime: Time.zone.now - 3.days
     )
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/activity_log' do
-    it 'return transfer activities if a user has the dash_activity_log_transfer permission' do
+    it 'return transfer activities if a user has the activity_log - transfer permission' do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
