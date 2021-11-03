@@ -8,7 +8,11 @@ class ActivityLog
   class << self
     def list(user, params = {})
       selected_activities = activities.select { |activity| params[:types].include?(activity.type) }
-      selected_activities.map { |klass| klass.list(user, params) }.flatten.sort_by(&:datetime).reverse
+      selected_activities = selected_activities.map { |klass| klass.list(user, params) }.flatten.sort_by(&:datetime)
+
+      return selected_activities.reverse if params[:order] == 'desc'
+
+      selected_activities
     end
 
     def activities

@@ -24,7 +24,8 @@ class Api::V2::ActivityLogController < ApplicationApiController
 
     @activity_log_params = {
       types: permitted_types(permitted_params),
-      datetime_range: datetime_range(permitted_params)
+      datetime_range: datetime_range(permitted_params),
+      order: order
     }
   end
 
@@ -36,14 +37,11 @@ class Api::V2::ActivityLogController < ApplicationApiController
 
   def datetime_range(permitted_params)
     from = permitted_params.dig(:datetime, :from)
-
-    return unless from.present?
-
+    from = from.present? ? Time.zone.parse(from) : Time.zone.now - 7.days
     to = permitted_params.dig(:datetime, :to)
+    to = to.present? ? Time.zone.parse(to) : Time.zone.now
 
-    return Time.zone.parse(from)..Time.zone.parse(to) if to.present?
-
-    Time.zone.parse(from)..Time.zone.now
+    from...to
   end
 
   def authorize_log_types!
