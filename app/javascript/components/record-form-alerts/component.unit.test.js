@@ -26,7 +26,10 @@ describe("<RecordFormAlerts />", () => {
           unique_id: "form_1",
           form_group_id: "group_1",
           errors: {
-            field_1: "field_1 is required"
+            field_1: "field_1 is required",
+            tally_2: {
+              boys: "Boys is required"
+            }
           }
         }
       ]
@@ -58,6 +61,7 @@ describe("<RecordFormAlerts />", () => {
 
     expect(component.find(InternalAlert)).to.have.lengthOf(2);
     expect(component.find(InternalAlert).first().props().severity).to.equal("error");
+    expect(component.find(InternalAlert).first().find("li")).to.have.lengthOf(2);
     expect(component.find(InternalAlert).last().props().severity).to.equal("info");
   });
 });
