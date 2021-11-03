@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import Button from "@material-ui/core/Button";
 
 import { PageHeading } from "../../../page";
 import ActionButton from "../../../action-button";
@@ -70,7 +69,7 @@ describe("<LoginForm />", () => {
     });
 
     it("should render ActionButton with 'demo' text", () => {
-      expect(componentWithDemo.find(ActionButton).text()).to.equal("buttons.login logger.to sandbox_ui");
+      expect(componentWithDemo.find(ActionButton).first().text()).to.equal("buttons.login logger.to sandbox_ui");
     });
   });
 
@@ -88,7 +87,7 @@ describe("<LoginForm />", () => {
     const { component: componentWithDemo } = setupMountedComponent(LoginForm, props, stateWithoutExternal);
 
     it("renders the forgot password link", () => {
-      expect(componentWithDemo.find(Button).last().text()).to.be.equal("login.forgot_password");
+      expect(componentWithDemo.find(ActionButton).last().text()).to.be.equal("login.forgot_password");
     });
   });
 });

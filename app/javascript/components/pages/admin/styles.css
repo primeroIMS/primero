@@ -13,5 +13,10 @@
 
 .nestedItem {
   padding: 0 1em;
-  font-size: 0.875rem;
+  font-size: var(--fs-13);
 }
+
+.selectedItem {
+  background-color: var(--c-light-blue-menu) !important;
+}
+

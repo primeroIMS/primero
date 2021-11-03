@@ -24,30 +24,54 @@ class Incident < ApplicationRecord
     :livelihoods_services_subform_section, :child_protection_services_subform_section
   )
 
+  has_many :violations, dependent: :destroy, inverse_of: :incident
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
+  after_save :save_violations_associations
 
-  def self.quicksearch_fields
-    %w[incident_id incident_code super_incident_name incident_description
-       monitor_number survivor_code individual_ids incidentid_ir]
-  end
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      super_new_with_user(user, data).tap do |incident|
+        incident.incident_case_id ||= incident.data.delete('incident_case_id')
+      end
+    end
 
-  def self.summary_field_names
-    common_summary_fields + %w[
-      date_of_interview date_of_incident violence_type
-      incident_location violations social_worker date_of_first_report
-      cp_incident_violence_type
-      gbv_sexual_violence_type incident_date survivor_code
-    ]
-  end
+    def filterable_id_fields
+      %w[incident_id incident_code monitor_number survivor_code incidentid_ir]
+    end
 
-  def self.sortable_text_fields
-    %w[short_id]
+    def quicksearch_fields
+      filterable_id_fields + %w[super_incident_name incident_description individual_ids]
+    end
+
+    def summary_field_names
+      common_summary_fields + %w[
+        date_of_interview date_of_incident violence_type
+        incident_location violations social_worker date_of_first_report
+        cp_incident_violence_type
+        gbv_sexual_violence_type incident_date survivor_code
+      ]
+    end
+
+    def sortable_text_fields
+      %w[short_id]
+    end
+
+    def minimum_reportable_fields
+      {
+        'boolean' => %w[record_state],
+        'string' => %w[status owned_by],
+        'multistring' => %w[associated_user_names owned_by_groups],
+        'date' => %w[incident_date_derived]
+      }
+    end
   end
 
   searchable do
     date :incident_date_derived
     date :date_of_first_report
     string :status, as: 'status_sci'
+    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
   end
@@ -68,24 +92,6 @@ class Incident < ApplicationRecord
   def defaults
     super_defaults
     self.date_of_first_report ||= Date.today
-  end
-
-  class << self
-    alias super_new_with_user new_with_user
-    def new_with_user(user, data = {})
-      super_new_with_user(user, data).tap do |incident|
-        incident.incident_case_id ||= incident.data.delete('incident_case_id')
-      end
-    end
-
-    def minimum_reportable_fields
-      {
-        'boolean' => %w[record_state],
-        'string' => %w[status owned_by],
-        'multistring' => %w[associated_user_names owned_by_groups],
-        'date' => %w[incident_date_derived]
-      }
-    end
   end
 
   def copy_from_case
@@ -141,5 +147,66 @@ class Incident < ApplicationRecord
     )
 
     self.case.save!
+  end
+
+  alias super_update_properties update_properties
+  def update_properties(user, data)
+    build_or_update_violations(data)
+    build_violations_associations(data)
+    super_update_properties(user, data)
+  end
+
+  def violations_data(data_keys, data)
+    return {} unless data
+
+    data_keys.reduce({}) do |acc, elem|
+      next acc unless data[elem].present?
+
+      acc.merge(elem => data.delete(elem))
+    end
+  end
+
+  def build_or_update_violations(data)
+    violation_objects_data = violations_data(Violation::TYPES, data)
+    return unless violation_objects_data.present?
+
+    @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|
+      violations_by_type.each do |violation_data|
+        acc << Violation.build_record(type, violation_data, self)
+      end
+      acc
+    end
+  end
+
+  def build_violations_associations(data)
+    violation_associations_data = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
+
+    return unless violation_associations_data.present?
+
+    @associations_to_save = violation_associations_data.each_with_object([]) do |(type, associations_data), acc|
+      association_object = type.classify.constantize
+      associations_data.each do |association_data|
+        acc << association_object.build_record(association_data)
+      end
+      acc
+    end
+  end
+
+  def save_violations_associations
+    return unless @violations_to_save
+
+    @violations_to_save.each(&:save!)
+    @associations_to_save.each do |association|
+      association.violations = @violations_to_save.select { |violation| association.violations_ids.include?(violation.id) }
+      association.save!
+    end
+  end
+
+  def associations_as_data(_current_user)
+    @associations_as_data ||= violations.associations_as_data.merge('violations' => violations.map(&:data))
+  end
+
+  def associations_as_data_keys
+    %w[violations sources perpetrators individuals groups interventions]
   end
 end

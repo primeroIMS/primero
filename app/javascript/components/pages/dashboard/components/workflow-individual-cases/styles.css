@@ -1,21 +1,22 @@
 .stepCases {
-  margin: 15px 0 0 8px;
+  margin-top: var(--sp-2);
 }
 
 .itemButton {
-  font-size: 1rem;
+  font-size: var(--fs-16);
   border: none;
   line-height: 1.5em;
   text-align: left;
   background: none;
   padding: 0;
+  font-weight: 600;
 }
 
 .itemButtonClick {
   cursor: pointer;
 
   & span {
-    color: $(theme.primero.colors.blue)
+    color: var(--c-blue)
   }
 
   &:hover {
@@ -25,10 +26,11 @@
 
 .connectorRoot {
   margin-bottom: 36px;
+  font-weight: 600;
 }
 
 .connectorLine {
   height: 1px;
   border: 0;
-  background-color: $(theme.primero.colors.warmGrey5);
+  background-color: var(--c-warm-grey-5);
 }

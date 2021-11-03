@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import NavGroup from "../nav-group";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getRecordInformationNav } from "../../../selectors";
+import { RECORD_TYPES } from "../../../../../config";
 
 import { NAME } from "./constants";
 
@@ -14,7 +15,7 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
   const recordInformationNav = useMemoizedSelector(state =>
     getRecordInformationNav(state, {
       checkVisible: true,
-      recordType,
+      recordType: RECORD_TYPES[recordType],
       primeroModule
     })
   );

@@ -5,6 +5,8 @@ import useFormField from "../use-form-field";
 import useOptions from "../use-options";
 import formComponent from "../utils/form-component";
 
+import css from "./styles.css";
+
 const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUnderline }) => {
   const { errors } = formMethods;
   const {
@@ -38,7 +40,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   );
 
   return (
-    <div>
+    <div className={css.field}>
       {handleVisibility() || (
         <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
           {renderField}

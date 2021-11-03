@@ -1,5 +1,4 @@
 import { Fragment } from "react";
-import { Box } from "@material-ui/core";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
@@ -59,13 +58,13 @@ const renderFormSections = (
             }
 
             return (
-              <Box my={3} key={field.name}>
+              <div key={field.name}>
                 {SUBFORM_SECTION === field.type ? (
                   <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
                 ) : (
                   <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
                 )}
-              </Box>
+              </div>
             );
           })}
         </Fragment>

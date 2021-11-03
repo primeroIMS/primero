@@ -9,15 +9,15 @@
 
 .selectAllButton {
   padding-top: 5;
-  font-size: 10;
-  color: $(theme.primero.colors.blue);
+  font-size: var(--fs-12);
+  color: var(--c-blue);
 }
 
 .customToolbarTitle {
   display: flex;
   padding-top: 1em;
   padding-right: 1em;
-  color: $(theme.primero.colors.black);
+  color: var(--c-black);
   flex-shrink: 0;
 }
 
@@ -45,7 +45,7 @@
   justify-content: right;
 }
 
-@media $(theme.breakpoints.down('sm')) {
+@media (max-width:959.95px) {
 
   .customToolbarTitle {
     padding-top: 0.5em;

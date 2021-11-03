@@ -3,23 +3,19 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
 import { Card, CardContent } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { fetchPotentialMatches } from "./action-creators";
 import { selectPotentialMatches } from "./selectors";
-
-const useStyles = makeStyles(styles);
 
 const PotentialMatches = ({ getPotentialMatches, potentialMatches }) => {
   useEffect(() => {
     getPotentialMatches();
   }, []);
 
-  const css = useStyles();
   const i18n = useI18n();
 
   const columns = [

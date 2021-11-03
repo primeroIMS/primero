@@ -13,12 +13,12 @@
 .addCustomFieldButton {
   border-radius: 50px;
   box-shadow: none;
-  color: $(theme.primero.colors.white);
-  background: $(theme.primero.colors.blue);
+  color: var(--c-white);
+  background: var(--c-blue);
   margin-bottom: 0.6em;
 
   &:hover {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 
   & svg {
@@ -28,17 +28,17 @@
 }
 
 .cancelButton {
-  background: $(theme.primero.colors.grey);
-  color: $(theme.primero.colors.white);
+  background: var(--c-grey);
+  color: var(--c-white);
 
   &:hover {
-    color: $(theme.primero.colors.black);
-    background-color: $(theme.primero.colors.warmGrey5);
+    color: var(--c-black);
+    background-color: var(--c-warm-grey-5);
   }
 }
 
 .listHeader {
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
     text-transform: uppercase;
     font-weight: bold;
   & span {
@@ -48,7 +48,7 @@
 
 .inputIcon {
   width: inherit;
-  font-size: 1.5em;
+  font-size: var(--fs-20);
 }
 
 .inputIconTickBox {

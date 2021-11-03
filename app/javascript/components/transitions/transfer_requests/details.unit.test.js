@@ -1,7 +1,7 @@
-import { Box, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import { fromJS } from "immutable";
 
-import TransitionUser from "../TransitionUser";
+import DisplayData from "../../display-data";
 import { setupMountedComponent } from "../../../test";
 
 import ReferralDetail from "./details";
@@ -44,12 +44,8 @@ describe("<ReferralDetail />", () => {
     ({ component } = setupMountedComponent(ReferralDetail, props, initialState));
   });
 
-  it("renders 2 <TransitionUser />", () => {
-    expect(component.find(TransitionUser)).to.have.lengthOf(2);
-  });
-
-  it("renders 5 <Box />", () => {
-    expect(component.find(Box)).to.have.lengthOf(3);
+  it("renders 2 <DisplayData />", () => {
+    expect(component.find(DisplayData)).to.have.lengthOf(3);
   });
 
   it("renders a <Divider />", () => {
@@ -69,13 +65,13 @@ describe("<ReferralDetail />", () => {
         ));
       });
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(3);
+        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(3);
       });
     });
 
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(ReferralDetail).find(Box)).to.have.lengthOf(3);
+        expect(component.find(ReferralDetail).find(DisplayData)).to.have.lengthOf(3);
       });
     });
   });

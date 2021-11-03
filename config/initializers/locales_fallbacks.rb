@@ -21,6 +21,7 @@ I18n.fallbacks = {
   'fa-AF': EN_FALLBACK,
   fr: EN_FALLBACK,
   id: EN_FALLBACK,
+  km: EN_FALLBACK,
   ku: AR_FALLBACK,
   'ku-IQ': KU_FALLBACK,
   my: EN_FALLBACK,

@@ -12,13 +12,13 @@ const useOptions = (config = {}) => {
   const { defaultReturn, filterOptions, options, rawOptions, ...selectorConfig } = config;
   const defaultReturnValue = defaultReturn || [];
 
-  const { locale } = useI18n();
+  const { locale, localizeDate } = useI18n();
 
   const optionsFromState = useMemoizedSelector(state => {
     if (source && run) {
       const selector = getOptions(source);
 
-      return selector(state, { ...selectorConfig, locale });
+      return selector(state, { ...selectorConfig, locale, localizeDate });
     }
 
     return defaultReturnValue;

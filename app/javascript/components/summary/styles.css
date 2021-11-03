@@ -1,7 +1,8 @@
 .container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2em;
+  margin-bottom: var(--sp-2);
+  align-items: center;
 }
 
 .field {
@@ -20,7 +21,7 @@
 
 .caseLink {
   text-align: left;
-  color: $(theme.primero.colors.blue)
+  color: var(--c-blue)
 }
 
 .emptyHeader {

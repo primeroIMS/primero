@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { makeStyles, Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs } from "@material-ui/core";
 import { useForm } from "react-hook-form";
 import { push } from "connected-react-router";
 import { useParams } from "react-router-dom";
@@ -51,12 +51,9 @@ import {
   getSubformErrorMessages,
   mergeTranslations
 } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ mode }) => {
-  const css = useStyles();
   const { id } = useParams();
   const formMode = whichFormMode(mode);
   const dispatch = useDispatch();

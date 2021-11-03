@@ -1,5 +1,5 @@
 .applyConfigText {
-  font-size: $(theme.typography.pxToRem(14.4));
+  font-size: var(--fs-13);
 
   & b {
     margin-left: 3px;

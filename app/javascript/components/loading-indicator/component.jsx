@@ -1,11 +1,10 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core";
 
 import { ErrorState } from "../error-boundary/components";
 
 import Loading from "./loading";
-import styles from "./styles.css";
+import css from "./styles.css";
 import EmptyState from "./components/empty-state";
 
 class LoadingIndicator extends Component {
@@ -37,7 +36,6 @@ class LoadingIndicator extends Component {
       emptyMessage,
       loading,
       loadingIndicator,
-      classes,
       children,
       hasData,
       emptyIndicator,
@@ -47,7 +45,7 @@ class LoadingIndicator extends Component {
     } = this.props;
 
     const loadingProps = {
-      classes: classes.loadingIndicator,
+      classes: css.loadingIndicator,
       loading,
       loadingIndicator
     };
@@ -93,4 +91,4 @@ LoadingIndicator.propTypes = {
   type: PropTypes.string
 };
 
-export default withStyles(styles)(LoadingIndicator);
+export default LoadingIndicator;

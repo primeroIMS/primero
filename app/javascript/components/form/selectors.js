@@ -7,6 +7,7 @@ import omitBy from "lodash/omitBy";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 
+import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 import {
@@ -18,9 +19,12 @@ import {
 import { getRecordForms } from "../record-form";
 import { GROUP_PERMISSIONS } from "../../libs/permissions";
 import { getLocale } from "../i18n/selectors";
+import { getSelectedRecordData } from "../records";
+import { getFieldByName } from "../record-form/selectors";
+import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
-import { buildRoleOptions } from "./utils";
+import { buildLinkedIncidentOptions, buildRoleOptions } from "./utils";
 
 // TODO: Move to useMemoizedSelector
 const defaultCacheSelectorOptions = {
@@ -423,6 +427,23 @@ const buildPermittedRoles = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+const linkedIncidents = createCachedSelector(
+  state => getSelectedRecordData(state, RECORD_PATH.cases),
+  state => {
+    // eslint-disable-next-line camelcase
+    const source = getFieldByName(state, CP_VIOLENCE_TYPE)?.option_strings_source;
+
+    if (!source) {
+      return [];
+    }
+
+    return lookupValues(state, { source });
+  },
+  (_state, options) => options,
+  (data, violenceLookupValues, options) =>
+    buildLinkedIncidentOptions(data.get("incident_details", fromJS([])), violenceLookupValues, options)
+)(defaultCacheSelectorOptions);
+
 export const getOptions = source => {
   switch (source) {
     case OPTION_TYPES.AGENCY:
@@ -459,6 +480,8 @@ export const getOptions = source => {
       return managedRoleFormSections;
     case OPTION_TYPES.TRANSFER_TO_USERS:
       return transferToUsers;
+    case OPTION_TYPES.LINKED_INCIDENTS:
+      return linkedIncidents;
     default:
       return lookupValues;
   }

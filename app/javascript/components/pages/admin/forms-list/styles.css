@@ -34,7 +34,7 @@
 }
 
 .row {
-  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+  border-bottom: 1px solid var(--c-light-grey);
   display: flex;
   flex-flow: row wrap;
   width: 100%;
@@ -46,7 +46,7 @@
   & div:first-of-type {
     width: 3em;
     justify-content: center;
-    border-right: 1px solid $(theme.primero.colors.lightGrey);
+    border-right: 1px solid var(--c-light-grey);
   }
 
   & div {
@@ -103,10 +103,10 @@
 }
 
 .toggleButton {
-  color: $(theme.primero.colors.blue);
-  border: 1px solid $(theme.primero.colors.blue);
+  color: var(--c-blue);
+  border: 1px solid var(--c-blue);
   flex: 1;
-  font-size: .7rem;
+  font-size: var(--fs-12);
   line-height: 1rem;
 
   &:first-child {
@@ -120,7 +120,7 @@
 
 .toggleButtonSelected {
   color: #fff !important;
-  background-color: #0093ba !important;
+  background-color: var(--c-blue) !important;
 }
 
 .clearBtn {
@@ -128,12 +128,12 @@
 }
 
 .formName a {
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
   text-decoration: none;
 }
 
 .rotateIcon {
-  color: $(theme.primero.colors.goldYellow);
+  color: var(--c-gold-yellow);
   transform: rotate(90deg);
   transform-origin: 50% 50%;
 }

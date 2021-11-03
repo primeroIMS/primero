@@ -1,6 +1,5 @@
 import { withRouter } from "react-router-dom";
 import { Grid } from "@material-ui/core";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
@@ -8,7 +7,7 @@ import Permission from "../application/permission";
 import { ACTIONS, RESOURCES } from "../../libs/permissions";
 
 import CommonDateRanges from "./utils/common-date-ranges";
-import styles from "./styles.css";
+import css from "./styles.css";
 import NumberOfCases from "./components/number-of-cases";
 import NumberOfIncidents from "./components/number-of-incidents";
 import ReportingDelay from "./components/reporting-delay";
@@ -25,11 +24,9 @@ import ClientSatisfactionRate from "./components/client-satisfaction-rate";
 import SupervisorToCaseworkerRatio from "./components/supervisor-to-caseworker-ratio";
 import CaseLoad from "./components/case-load";
 
-const useStyles = makeStyles(styles);
-
 const KeyPerformanceIndicators = () => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const commonDateRanges = CommonDateRanges.from(new Date(), i18n);
   const allDateRanges = [
     commonDateRanges.Last3Months,

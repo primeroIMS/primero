@@ -9,7 +9,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
-import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP } from "../../config";
+import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
@@ -135,7 +135,7 @@ export const getFirstTab = createCachedSelector(
 export const getFormNav = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
-  (state, query) => getPermissionsByRecord(state, query?.recordType),
+  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, userPermissions, appLocale, query) => {
@@ -205,7 +205,7 @@ export const getRecordInformationFormIds = createCachedSelector(
 
 export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
-  (state, query) => getPermissionsByRecord(state, query?.recordType),
+  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
   (formSections, userPermissions) => {
     return formSections
       .map(form => buildFormNav(form))
@@ -364,6 +364,10 @@ export const getFieldsWithNames = createCachedSelector(
       .filter(field => names.includes(field.name))
       .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
   }
+)(defaultCacheSelectorOptions);
+
+export const getVisibleFieldsWithNames = createCachedSelector(getFieldsWithNames, fields =>
+  fields.filter(field => field.visible)
 )(defaultCacheSelectorOptions);
 
 export const getFieldsWithNamesForMinifyForm = (state, names) =>

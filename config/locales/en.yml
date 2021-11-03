@@ -242,6 +242,8 @@ en:
       reopened: Reopened
       service_implemented: Service Implemented
       services_implemented: Service Implemented
+  linkedincidents:
+    label: Linked Incidents
   cases:
     action_plan: Action Plan
     age: Age
@@ -437,6 +439,11 @@ en:
     survivor_code: Survivor Code
     transfer_accepted: By clicking 'Accept' you accept the responsibility for this
       case; once you click ‘Accept' you will become the record owner in the system.
+    transfer_managed_user_accepted: If you click 'Accept,' %{transitioned_to} will become responsible for this case;
+      once you click 'Accept', %{transitioned_to} will become the record owner in the system.
+    transfer_managed_user_rejected: By clicking 'Reject' you are indicating that %{transitioned_to} is not ready to accept
+      responsibility for this case at this time. Please enter a reason that you are rejecting this case;
+      once you click 'Reject' %{transitioned_to} will no longer have access to this case record.
     transfer_accepted_rejected: Case %{record_id} transfer rejected.
     transfer_accepted_success: Case transfer successfully accepted.
     transfer_reject_reason_label: Rejection Reason
@@ -700,6 +707,8 @@ en:
     outstanding_transfers: Outstanding Transfers
     overdue_activities: Overdue Activities
     overdue_cases_to_assign: Overdue Cases To Assign
+    overdue_cases_to_assign_high: You have had these cases for more than 1 hour
+    overdue_cases_to_assign_low: You have had these cases for more than three hours
     overview: Overview
     pending: Pending
     pending_approvals: Pending Approvals
@@ -1280,6 +1289,11 @@ en:
     km: ភាសាខ្មែរ
     ku: کوردی
     ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
@@ -1314,16 +1328,22 @@ en:
     id: ID#
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
+    incident_location: Incident Location
+    violations: Violations
     export: Export
     label: Incidents
     filter_by:
       boys: Boys
       by_date: By Date
+      children: Children
       girls: Girls
       incident_location: Incident Location
       unaccompanied_separated_status: Protection Status
       unknown: Unknown
+      verification_status: Verification Status
       violence_type: Violence Type
+      armed_force_group_name: Armed Force Group Name
+      armed_force_group_type: Armed Force Group Type
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
@@ -2364,6 +2384,11 @@ en:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
             label: Edit
+          accept_or_reject_transfer:
+            explanation: Allows the user to accept or reject a transfer on behalf of
+              another user who is on your team (for example, a supervisor accepting a
+              transfer which has been sent to their social worker).
+            label: Accept or reject transfer for another user on your team.
         label: Case
       dashboard:
         actions:
@@ -3338,6 +3363,7 @@ en:
       in_progress: Pending
       inprogress: Pending
       rejected: Rejected
+      revoked: Revoked
     type:
       assign: Assign
       reassign: Assign

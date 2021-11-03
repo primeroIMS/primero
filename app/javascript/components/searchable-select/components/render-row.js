@@ -10,7 +10,7 @@ const renderRow = props => {
       ...style,
       top: style.top + LISTBOX_PADDING,
       lineHeight: "18px",
-      fontSize: ".9rem"
+      fontSize: "var(--fs-16)"
     }
   });
 };

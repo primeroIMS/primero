@@ -36,7 +36,7 @@
 
 .recordForms {
   flex: 1;
-  padding: 0 3em;
+  padding: 0 var(--sp-3) var(--sp-3);
   overflow-y: scroll;
   display: flex;
 
@@ -64,7 +64,7 @@
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .recordNav {
     width: auto;
     overflow-y: hidden;

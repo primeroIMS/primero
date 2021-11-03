@@ -1,12 +1,7 @@
 .pageTitle {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(22));
+  font-size: var(--fs-20);
   font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
   margin: 13px 0;
   text-transform: uppercase;
 }
@@ -14,7 +9,7 @@
 .formTitle {
   margin-bottom: 3em;
   display: flex;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   position: sticky;
   top: 0;
   z-index: 99;
@@ -23,105 +18,93 @@
 
 .titleHeader {
   text-transform: uppercase;
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(11));
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  letter-spacing: normal;
+  font-size: var(--fs-13);
   line-height: 2;
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
 }
 
 .wrapper {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
 }
 
 .transtionLabel {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(15));
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
+  font-size: var(--fs-14);
+  font-weight: 600;
   line-height: 1.67;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
 }
 
 .transtionValue {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(12));
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
+  font-size: var(--fs-13);
   line-height: 1.33;
   letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
 }
 
 .date {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(15));
+  font-size: var(--fs-16);
   font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
   line-height: 1.27;
-  letter-spacing: normal;
   padding-right: 0.5em;
-  color: $(theme.primero.colors.blue);
-}
-
-.spaceGrid {
-  padding: 0.5em 0 0.5em 0;
+  color: var(--c-blue);
 }
 
 .chip {
   font-weight: bold;
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   text-transform: uppercase;
 
   &.pending {
-    border: solid 1px $(theme.primero.colors.orange);
-    background-color: $(theme.primero.colors.orange);
+    border: solid 1px var(--c-orange);
+    background-color: var(--c-orange);
   }
 
   &.accepted {
-    border: solid 1px $(theme.primero.colors.green);
-    background-color: $(theme.primero.colors.green);
+    border: solid 1px var(--c-green);
+    background-color: var(--c-green);
   }
 
   &.rejected {
-    border: solid 1px $(theme.primero.colors.red);
-    background-color: $(theme.primero.colors.red);
+    border: solid 1px var(--c-red);
+    background-color: var(--c-red);
+  }
+
+  &.revoked {
+    border: solid 1px var(--c-red);
+    background-color: var(--c-red);
   }
 
   &.inprogress, &.in_progress {
-    border: solid 1px $(theme.primero.colors.blue);
-    background-color: $(theme.primero.colors.blue);
+    border: solid 1px var(--c-blue);
+    background-color: var(--c-blue);
   }
   
   &.done {
-    border: solid 1px $(theme.primero.colors.green);
-    background-color: $(theme.primero.colors.green);
+    border: solid 1px var(--c-green);
+    background-color: var(--c-green);
   }
 }
 
 .successIcon {
-  color: $(theme.primero.colors.green);
+  color: var(--c-green);
 }
 
 .transtionIconValue {
   & label {
     margin-left: 0;
+    display: flex;
+    gap: var(--sp-1);
   }
 }
 
 .transtionStatus {
   padding: 8px 10px 8px 0;
-  border-right: solid 1px $(theme.primero.colors.lightGrey);
+  border-right: solid 1px var(--c-light-grey);
   text-align: right;
-  font-size: $(theme.typography.pxToRem(15));
+  font-size: var(--fs-16);
 }
 
 .panel {
@@ -134,7 +117,7 @@
 }
 
 .divider {
-  margin-bottom: 8px;
+  margin-bottom: var(--sp-2);
 }
 
 .status {
@@ -154,9 +137,9 @@
   height: 36px;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .date {
-    font-size: $(theme.typography.pxToRem(12));
+    font-size: var(--fs-12);
   }
 
   .titleHeader {

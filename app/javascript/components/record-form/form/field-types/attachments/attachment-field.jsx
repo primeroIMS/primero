@@ -2,9 +2,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { makeStyles } from "@material-ui/core/styles";
 
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import DisableOffline from "../../../../disable-offline";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
@@ -15,10 +14,7 @@ import { buildAttachmentFieldsObject, buildBase64URL } from "./utils";
 import AttachmentInput from "./attachment-input";
 import AttachmentPreview from "./attachment-preview";
 
-const useStyles = makeStyles(styles);
-
 const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers, value }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
 
@@ -55,7 +51,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
       <ActionButton
         icon={<DeleteIcon />}
         type={ACTION_BUTTON_TYPES.icon}
-        isCancel
+        cancel
         rest={{
           onClick: onOpenModal
         }}
@@ -66,7 +62,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const dialogTitle = `${i18n.t("fields.remove")} ${name}`;
 
   return (
-    <Box className={css.uploadBox}>
+    <div className={css.uploadBox}>
       <Box display="flex" my={2} alignItems="center">
         <Box flexGrow="1">
           {!mode.isShow && (
@@ -96,7 +92,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
           confirmButtonLabel={i18n.t("buttons.ok")}
         />
       </Box>
-    </Box>
+    </div>
   );
 };
 
