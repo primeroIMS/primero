@@ -23,12 +23,12 @@ const ENTRY_NAMES = {
 
 const ENTRIES = {
   [ENTRY_NAMES.IDENTITY]: {
-    ext: "jsx",
+    ext: "tsx",
     path: "/packs",
     clean: ["identity*"]
   },
   [ENTRY_NAMES.APPLICATION]: {
-    ext: "jsx",
+    ext: "tsx",
     path: "/packs",
     clean: ["application*", "vendor*", "precache-manifest*"]
   }

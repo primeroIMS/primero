@@ -1,13 +1,15 @@
-import { UserAgentApplication } from "msal";
+import { Configuration, UserAgentApplication } from "msal";
 
 import { DOMAIN } from "../components/login/components/idp-selection/config";
 
+const idp = (window as any).IDP
+
 export const setMsalConfig = {
   auth: {
-    clientId: window.IDP.providerClientId,
-    authority: window.IDP.authorizationUrl,
+    clientId: idp.providerClientId,
+    authority: idp.authorizationUrl,
     validateAuthority: false,
-    redirectUri: `http://${DOMAIN}/login/${window.IDP.providerType}`
+    redirectUri: `http://${DOMAIN}/login/${idp.providerType}`
   },
   cache: {
     cacheLocation: "localStorage",
@@ -15,6 +17,6 @@ export const setMsalConfig = {
   }
 };
 
-export const setMsalApp = msalConfig => {
+export const setMsalApp = (msalConfig: Configuration) => {
   return new UserAgentApplication(msalConfig);
 };

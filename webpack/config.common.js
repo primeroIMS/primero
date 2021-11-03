@@ -16,7 +16,7 @@ const {
 } = config;
 
 const resolve = {
-  extensions: ["*", ".jsx", ".js"],
+  extensions: ["*", ".jsx", ".js", ".ts", ".tsx"],
   alias: {
     "@material-ui/styles": path.resolve("node_modules", "@material-ui/styles"),
     window: "self"
@@ -30,6 +30,18 @@ const rules = [
     use: {
       loader: require.resolve("babel-loader")
     }
+  },
+  {
+    test: /\.(ts|tsx)$/,
+    exclude: /node_modules/,
+    use: [
+      {
+        loader: require.resolve("babel-loader")
+      },
+      {
+        loader: require.resolve("ts-loader")
+      }
+    ]
   },
   {
     test: /\.css$/,
