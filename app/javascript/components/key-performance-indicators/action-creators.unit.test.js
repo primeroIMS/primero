@@ -7,8 +7,8 @@ describe("KeyPerformanceIndicators - Action Creators", () => {
 
   describe("A created action", () => {
     const action = forKPI("test");
-    const date1 = "2021-08-01T00:00:00Z";
-    const date2 = "2021-09-01T00:00:00Z";
+    const date1 = "2021-08-01";
+    const date2 = "2021-09-01";
     const dateRange = { from: Date.parse(date1), to: Date.parse(date2) };
 
     it("should call dispatch with the information required", () => {
