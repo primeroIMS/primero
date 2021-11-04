@@ -13,6 +13,9 @@ module.exports = {
     "react/jsx-key": "off",
     // <------>
 
+    // assertions make this trigger
+    "no-unused-expressions": "off",
+
     // Some testing uses empty functions; consider replacing with a noop function reference and re-enabling this rule
     "@typescript-eslint/no-empty-function": "off",
 
