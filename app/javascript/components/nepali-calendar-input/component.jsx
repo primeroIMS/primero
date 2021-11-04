@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
-import { FormControl, FormHelperText, InputLabel } from "@material-ui/core";
+import { Button, FormControl, FormHelperText, InputLabel } from "@material-ui/core";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-
-// import NepaliCalendar from "@sbmdkl/nepali-datepicker-reactjs";
 import isEmpty from "lodash/isEmpty";
 import { TimePicker } from "@material-ui/pickers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import isDate from "lodash/isDate";
+import { Calendar } from "@quoin/nepali-datepicker-reactjs";
 
-import NepaliCalendar from "../../../../../nepali-datepicker-reactjs";
+import { useI18n } from "../i18n";
 import { DATE_FORMAT_NE } from "../../config";
 
 import styles from "./styles.css";
@@ -16,15 +16,15 @@ import { convertToNeDate } from "./utils";
 
 const useStyles = makeStyles(styles);
 
-const Component = ({ helpText, label, dateProps }) => {
+const Component = ({ helpText, label, dateProps, handleClearable }) => {
   const css = useStyles();
+  const i18n = useI18n();
+
+  const { name, onChange, value, error, disabled, placeholder, dateIncludeTime } = dateProps;
+  const inputValue = convertToNeDate(value);
 
   const [inputDate, setInputDate] = useState(null);
   const [inputTime, setInputTime] = useState(null);
-
-  const { name, onChange, value, error, disabled, placeholder, dateIncludeTime } = dateProps;
-
-  const inputValue = value ? convertToNeDate(value) : null;
 
   const inputContainerClasses = clsx(
     "MuiInputBase-root",
@@ -44,17 +44,47 @@ const Component = ({ helpText, label, dateProps }) => {
 
   const formControlClasses = "MuiTextField-root";
 
+  const dateTimeInputValue = () => {
+    if (!isDate(inputDate) && isDate(inputTime)) {
+      return inputTime;
+    }
+
+    if (isDate(inputDate) && isDate(inputTime)) {
+      inputDate.setHours(inputTime.getHours(), inputTime.getMinutes());
+
+      return inputDate;
+    }
+
+    return null;
+  };
+
   const handleInputOnChange = ({ adDate }) => {
+    const [year, month, day] = adDate.split("-").map(parts => parseInt(parts, 0));
+
+    const newDate = new Date(year, day, month);
+
     if (dateIncludeTime) {
-      setInputDate(adDate);
+      setInputDate(newDate);
     } else {
-      onChange(new Date(adDate));
+      onChange(newDate);
     }
   };
 
   const handleTimeInputChange = time => {
     setInputTime(time);
   };
+
+  const handleClear = () => {
+    if (handleClearable) handleClearable();
+  };
+
+  useEffect(() => {
+    if (dateIncludeTime) {
+      const inputTimeValue = dateTimeInputValue();
+
+      if (inputTimeValue) onChange(inputTimeValue);
+    }
+  }, [inputDate, inputTime]);
 
   return (
     <div className={containerClasses}>
@@ -63,13 +93,17 @@ const Component = ({ helpText, label, dateProps }) => {
           {label}
         </InputLabel>
         <div className={inputContainerClasses}>
-          <NepaliCalendar
+          <Calendar
             className={calendarClasses}
             hideDefaultValue={isEmpty(inputValue)}
             placeholder={placeholder}
             onChange={handleInputOnChange}
             defaultDate={inputValue?.en}
             dateFormat={DATE_FORMAT_NE}
+            clearable
+            clearableBtn={Button}
+            clearableBtnText={i18n.t("buttons.clear")}
+            clearableClickHandler={handleClear}
             inputProps={{ value: inputValue?.ne, disabled }}
           />
         </div>
@@ -80,12 +114,13 @@ const Component = ({ helpText, label, dateProps }) => {
         <div>
           <TimePicker
             disabled={disabled}
-            label="Time"
+            label={i18n.t("fields.time")}
             fullWidth
-            value={inputValue?.time}
+            value={inputValue.time}
             placeholder={placeholder}
             InputLabelProps={{ shrink: true }}
             onChange={handleTimeInputChange}
+            clearable
           />
         </div>
       )}
@@ -95,6 +130,7 @@ const Component = ({ helpText, label, dateProps }) => {
 
 Component.propTypes = {
   dateProps: PropTypes.object,
+  handleClearable: PropTypes.func,
   helpText: PropTypes.string,
   label: PropTypes.string
 };

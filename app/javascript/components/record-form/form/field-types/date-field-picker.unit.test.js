@@ -1,6 +1,7 @@
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 
 import { setupMountedComponent } from "../../../../test";
+import NepaliCalendar from "../../../nepali-calendar-input";
 
 import DateFieldPicker from "./date-field-picker";
 
@@ -49,6 +50,23 @@ describe("<DateFieldPicker />", () => {
 
     it("should render the correct helpText", () => {
       expect(component.find(DatePicker).props().helperText).to.be.equal("fields.date_help");
+    });
+  });
+
+  describe("when ne locale", () => {
+    let component;
+
+    beforeEach(() => {
+      window.I18n.locale = "ne";
+      ({ component } = setupMountedComponent(DateFieldPicker, props, {}, [], formProps));
+    });
+
+    it("renders Nepali date picker if locale ne", () => {
+      expect(component.find(NepaliCalendar)).to.have.lengthOf(1);
+    });
+
+    after(() => {
+      window.I18n.locale = "en";
     });
   });
 });

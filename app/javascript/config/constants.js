@@ -452,7 +452,8 @@ export const DEFAULT_METADATA = Object.freeze({
 });
 
 export const LOCALE_KEYS = {
-  en: "en"
+  en: "en",
+  ne: "ne"
 };
 
 export const HTTP_STATUS = {

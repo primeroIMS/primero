@@ -2,6 +2,7 @@ import { Select } from "@material-ui/core";
 import { DatePicker, DateTimePicker } from "@material-ui/pickers";
 
 import { setupMockFormComponent, spy } from "../../../../../test";
+import NepaliCalendar from "../../../../nepali-calendar-input";
 
 import DateFilter from "./component";
 
@@ -22,6 +23,20 @@ describe("<DateFilter>", () => {
     filter,
     filterToList: {}
   };
+
+  describe("when ne locale", () => {
+    it("renders Nepali date picker if locale ne", () => {
+      window.I18n.locale = "ne";
+
+      const { component } = setupMockFormComponent(DateFilter, { props, includeFormProvider: true });
+
+      expect(component.find(NepaliCalendar)).to.have.lengthOf(2);
+    });
+
+    after(() => {
+      window.I18n.locale = "en";
+    });
+  });
 
   it("renders panel", () => {
     const { component } = setupMockFormComponent(DateFilter, { props, includeFormProvider: true });
