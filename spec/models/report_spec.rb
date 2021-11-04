@@ -413,5 +413,34 @@ describe Report do
         expect(@report.values).to eq(['female'] => 2, ['male'] => 1, [''] => nil)
       end
     end
+
+    context 'when it has a filter with two values' do
+      before :each do
+        @report = Report.new(
+          name: 'Test - filter with two values',
+          unique_id: 'report-test',
+          record_type: 'case',
+          module_id: @module.unique_id,
+          graph: true,
+          exclude_empty_rows: true,
+          aggregate_by: ['sex', 'status'],
+          disaggregate_by: [],
+          filters: [
+            {
+              attribute: 'status',
+              value: [
+                'open',
+                'closed'
+              ]
+            }
+          ]
+        )
+      end
+
+      it 'should return 3 female and 1 male total' do
+        @report.build_report
+        expect(@report.values).to eq({["female", "closed"]=>2,["female", "open"]=>1,["female", ""]=>3,["male", "closed"]=>1,["male", ""]=>1,["", ""]=>nil})
+      end
+    end
   end
 end
