@@ -47,6 +47,7 @@ module.exports = api => {
       ]
     ].filter(Boolean),
     plugins: [
+      require("babel-plugin-tsconfig-paths"),
       require("babel-plugin-macros"),
       [require("babel-plugin-module-resolver"), { root: ["./app/javascript/"] }],
       require("@babel/plugin-proposal-optional-chaining"),

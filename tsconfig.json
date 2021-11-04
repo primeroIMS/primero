@@ -11,7 +11,21 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./app/javascript",
     "typeRoots": ["node_modules/@types", "./typings"],
-    "types": ["mocha", "chai", "node", "global"]
+    "types": ["mocha", "chai", "node", "global"],
+    "paths": {
+      "~test": ["test/index.ts"],
+      "~test/*": ["test/*"],
+      "~components/*": ["components/*"],
+      "~config": ["config/index.ts"],
+      "~config/*": ["config/*"],
+      "~db": ["db/index.ts"],
+      "~db/*": ["db/*"],      
+      "~images/*": ["images/*"],
+      "~libs": ["libs/index.ts"],
+      "~libs/*": ["libs/*"],     
+      "~middleware": ["middleware/index.ts"],
+      "~middleware/*": ["middleware/*"]
+    }
   },
-  "include": ["./app/javascript/**/*.ts*"]
+  "include": ["./app/javascript/**/*.ts*", "app/javascript/test/utils/index.js"]
 }

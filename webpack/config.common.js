@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 
 const config = require("./config");
 
@@ -95,7 +97,8 @@ module.exports = (name, entry) => {
         entrypoints: true,
         publicPath: isProduction ? "/packs/" : PUBLIC_PATH,
         writeToDisk: true
-      })
+      }),
+      new TsconfigPathsPlugin()
     ],
     resolve,
     module: { rules },

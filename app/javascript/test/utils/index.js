@@ -20,11 +20,11 @@ import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
 import { renderHook, act } from "@testing-library/react-hooks";
 
-import { ApplicationProvider } from "../../components/application";
-import I18nProvider from "../../components/i18n";
+import { ApplicationProvider } from "~components/application";
+import I18nProvider from "~components/i18n";
 import { theme as appTheme, RECORD_PATH } from "../../config";
-import { whichFormMode } from "../../components/form";
-import { ListHeaderRecord } from "../../components/user/records";
+import { whichFormMode } from "~components/form";
+import { ListHeaderRecord } from "~components/user/records";
 
 const DEFAULT_STATE = fromJS({
   connectivity: {
