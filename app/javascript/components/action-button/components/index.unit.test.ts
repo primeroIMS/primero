@@ -1,6 +1,4 @@
 /* eslint-disable import/no-namespace */
-import { expect } from "chai";
-
 import * as index from "./index";
 
 describe("<ActionButton />  - index", () => {

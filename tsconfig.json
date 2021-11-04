@@ -1,17 +1,17 @@
 {
-	"compilerOptions": {
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
-		"jsx": "react-jsx",
-		"strict": true,
-		"forceConsistentCasingInFileNames": true,
-		"esModuleInterop": true,
-		"allowJs": true,
-		"allowSyntheticDefaultImports": true,		
-		"baseUrl": "./app/javascript"
-	},
-	"include": [
-		"./app/javascript/**/*.ts*"
-	]
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./app/javascript",
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "types": ["mocha", "chai", "node", "global"]
+  },
+  "include": ["./app/javascript/**/*.ts*"]
 }
