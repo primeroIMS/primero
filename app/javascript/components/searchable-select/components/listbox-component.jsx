@@ -50,6 +50,8 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
   );
 });
 
+ListboxComponent.displayName = "ListboxComponent";
+
 export const listboxClasses = makeStyles({
   listbox: {
     boxSizing: "border-box",

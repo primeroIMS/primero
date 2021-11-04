@@ -12,13 +12,15 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJe
   const i18n = useI18n();
   const { disabledApplication } = useApp();
 
-  const Link = useMemo(
-    () =>
-      forwardRef((linkProps, ref) => (
-        <NavLink ref={ref} to={`/admin${item.to}`} {...linkProps} activeClassName="Mui-selected" />
-      )),
-    [item.to]
-  );
+  const Link = useMemo(() => {
+    const result = forwardRef((linkProps, ref) => (
+      <NavLink ref={ref} to={`/admin${item.to}`} {...linkProps} activeClassName="Mui-selected" />
+    ));
+
+    result.displayName = "Link";
+
+    return result;
+  }, [item.to]);
 
   const listItemProps = {
     key: item.to,

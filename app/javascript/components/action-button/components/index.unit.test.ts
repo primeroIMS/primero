@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import * as index from "./index";
 
 describe("<ActionButton />  - index", () => {
@@ -6,7 +7,7 @@ describe("<ActionButton />  - index", () => {
   });
 
   describe("properties", () => {
-    let clone;
+    let clone: any;
 
     before(() => {
       clone = { ...index };

@@ -25,7 +25,7 @@ const resolve = {
 
 const rules = [
   {
-    test: /\.(js|jsx)$/,
+    test: /\.(ts|tsx|js|jsx)$/,
     exclude: /node_modules/,
     use: {
       loader: require.resolve("babel-loader")

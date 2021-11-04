@@ -1,4 +1,4 @@
-import React from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import first from "lodash/first";
@@ -6,7 +6,7 @@ import compact from "lodash/compact";
 
 import { ErrorState } from "./components";
 
-class ErrorBoundary extends React.Component {
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };

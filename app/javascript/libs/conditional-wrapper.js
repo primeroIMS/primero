@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/prefer-default-export, import/exports-last */
 export const ConditionalWrapper = ({ condition, wrapper: Wrapper, children, ...rest }) => {
   if (condition) {
     return typeof Wrapper === "function" ? Wrapper({ children, ...rest }) : <Wrapper {...rest}>{children}</Wrapper>;
@@ -6,3 +6,5 @@ export const ConditionalWrapper = ({ condition, wrapper: Wrapper, children, ...r
 
   return children;
 };
+
+ConditionalWrapper.displayName = "ConditionalWrapper";

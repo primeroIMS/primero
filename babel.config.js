@@ -17,6 +17,7 @@ module.exports = api => {
 
   return {
     presets: [
+      require("@babel/preset-typescript").default,
       isTestEnv && [
         require("@babel/preset-env").default,
         {
