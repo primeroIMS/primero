@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "raf/polyfill";
 import chai from "chai";
 import Enzyme from "enzyme";
 import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
@@ -136,8 +138,6 @@ global.HTMLCanvasElement.prototype.getContext = () => {
     clip() {}
   };
 };
-
-global.cancelAnimationFrame = () => {};
 
 global.window.locationManifest = "/test-locations.json";
 

@@ -17,10 +17,10 @@
     "test:batch:1": "npm run test:batch -- --range=a-p",
     "test:batch:2": "npm run test:batch -- --range=q-z",
     "test:batch:3": "npm run test:run './app/javascript/!(components)/**/*.unit.test.*'",
-    "test:inspect": "NODE_ENV=test mocha -r ./test.register -- --inspect-brk=0.0.0.0:9229",
+    "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "test:run": "NODE_ENV=test mocha -r ./test.register --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
-    "test:all-bb": "NODE_ENV=test mocha -r ./test.register --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.*'",
+    "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
+    "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.*'",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
     "lint": "npm run lint:run -- --fix && npm run typecheck:run",
@@ -131,6 +131,7 @@
     "prettier-eslint": "~9.0.1",
     "prop-types": "^15.7.2",
     "qs": "^6.9.3",
+    "raf": "^3.4.1",
     "re-reselect": "^4.0.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.0.0",
@@ -182,7 +183,7 @@
   },
   "mocha": {
     "require": [
-      "@babel/register",
+      "./test.register",
       "./.mochaignore",
       "./app/javascript/test/jsdom.setup.js",
       "./app/javascript/test/test.setup.js"
