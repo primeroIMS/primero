@@ -11,6 +11,7 @@ module.exports = {
     "arrow-body-style": "off",
     "react/no-array-index-key": "off",
     "react/jsx-key": "off",
+    "import/no-namespace": "off",
     // <------>
 
     // assertions make this trigger
