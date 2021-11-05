@@ -29,10 +29,7 @@ const Component = ({ loadingIndicator }) => {
         text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
-        rest={{
-          className: css.seeAllColor,
-          onClick: handleSeeAll
-        }}
+        rest={{ onClick: handleSeeAll }}
       />
     </div>
   );
