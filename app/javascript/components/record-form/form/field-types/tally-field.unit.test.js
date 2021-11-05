@@ -1,3 +1,5 @@
+import { TextField } from "formik-material-ui";
+
 import { setupMountedComponent } from "../../../../test";
 import { TALLY_FIELD_NAME } from "../constants";
 
@@ -41,5 +43,9 @@ describe("<FormSectionField />", () => {
 
   it("render a TallyField", () => {
     expect(component.find(TallyField)).lengthOf(1);
+  });
+
+  it("render a TextFields", () => {
+    expect(component.find(TextField)).lengthOf(2);
   });
 });

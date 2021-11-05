@@ -97,7 +97,7 @@ export const fieldValidations = (field, i18n) => {
     } else if (type === SELECT_FIELD && multiSelect) {
       validations[name] = array().required(requiredMessage).min(1, requiredMessage);
     } else if (type === TALLY_FIELD) {
-      validations[name] = validations[name].test(name, requiredMessage, async value => {
+      validations[name] = validations[name].test(name, requiredMessage, value => {
         return compact(Object.values(value)).length > 0;
       });
     } else {

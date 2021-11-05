@@ -17,6 +17,8 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
   const totalName = `${name}.total`;
 
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
+  const errors = getIn(formik.errors, name);
+  const renderError = errors && { error: true };
 
   const fieldProps = {
     variant: "outlined",
@@ -67,7 +69,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
         {label}
       </InputLabel>
       {renderTallyFields}
-      <FormHelperText>{helperText}</FormHelperText>
+      <FormHelperText {...renderError}>{errors || helperText}</FormHelperText>
     </div>
   );
 };
