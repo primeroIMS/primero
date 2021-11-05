@@ -111,7 +111,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   ];
 
   const renderDashboards = () => {
-    return dashboards.map(dashboard => {
+    return dashboards.map((dashboard, index) => {
       const { type, actions, options } = dashboard;
       const Dashboard = dashboardType(type);
 
@@ -122,6 +122,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
               <Dashboard {...options} />
             </OptionsBox>
           </div>
+          {index === dashboards.length - 1 || <div className={css.divider} />}
         </Permission>
       );
     });
