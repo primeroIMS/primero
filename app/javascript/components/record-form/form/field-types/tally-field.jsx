@@ -4,56 +4,16 @@ import { FormHelperText, InputLabel } from "@material-ui/core";
 import PropTypes from "prop-types";
 import compact from "lodash/compact";
 
-import { useI18n } from "../../../i18n";
 import { TALLY_FIELD_NAME } from "../constants";
-import { displayNameHelper } from "../../../../libs";
-import { NUMERIC_FIELD } from "../../constants";
 
-import TextField from "./text-field";
+import TallyFieldContainer from "./tally-field-container";
 import css from "./styles.css";
 
 const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, ...rest }) => {
-  const i18n = useI18n();
   const totalName = `${name}.total`;
-
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
   const renderError = errors && { error: true };
-
-  const fieldProps = {
-    variant: "outlined",
-    autoComplete: "off",
-    fullWidth: false
-  };
-
-  const renderAutosumTotal = Boolean(field.autosum_total) && (
-    <TextField
-      name={totalName}
-      field={{ type: NUMERIC_FIELD }}
-      label={i18n.t("fields.total")}
-      {...fieldProps}
-      {...rest}
-      disabled
-    />
-  );
-
-  const renderTallyFields = (
-    <div className={css.inputTally}>
-      {field.tally.map(option => {
-        const labelField = displayNameHelper(option.display_text, i18n.locale);
-        const currentFieldProps = {
-          label: labelField,
-          field: { type: NUMERIC_FIELD },
-          name: `${name}.${option.id}`,
-          ...fieldProps,
-          ...rest
-        };
-
-        return <TextField {...currentFieldProps} />;
-      })}
-      {renderAutosumTotal}
-    </div>
-  );
 
   useEffect(() => {
     if (field.autosum_total) {
@@ -68,7 +28,12 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
       <InputLabel htmlFor={name} {...InputLabelProps}>
         {label}
       </InputLabel>
-      {renderTallyFields}
+      <div className={css.inputTally}>
+        {field.tally.map(option => (
+          <TallyFieldContainer name={`${name}.${option.id}`} option={option} {...rest} />
+        ))}
+        <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} />
+      </div>
       <FormHelperText {...renderError}>{errors || helperText}</FormHelperText>
     </div>
   );
