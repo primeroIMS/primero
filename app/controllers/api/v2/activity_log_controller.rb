@@ -6,9 +6,8 @@ class Api::V2::ActivityLogController < ApplicationApiController
 
   def index
     authorize_log_types!
-    results = ActivityLog.list(current_user, activity_log_params)
-    @total = results.size
-    @activity_logs = results.paginate(pagination)
+    @activity_logs = ActivityLog.list(current_user, activity_log_params)
+    @total = @activity_logs.size
   end
 
   def default_sort_field
