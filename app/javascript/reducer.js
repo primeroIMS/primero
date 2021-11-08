@@ -47,6 +47,7 @@ import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-log
 import { reducer as kpiReducer } from "./components/key-performance-indicators";
 import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
+import { reducer as activityLogReducer } from "./components/activity-log";
 import {
   reducer as locationsListReducer,
   importReducer as locationsImportReducer
@@ -105,6 +106,7 @@ const rootReducer = {
         configurations: reduceReducers(configurationsListReducer, configurationsFormReducer),
         locations: reduceReducers(locationsListReducer, locationsImportReducer)
       }),
+      activity_logs: activityLogReducer,
       ...kpiReducer
     }),
     transferApprovalReducer,

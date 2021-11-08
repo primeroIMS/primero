@@ -126,7 +126,8 @@ export const RESOURCES = {
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  activity_logs: "activity_logs"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -186,6 +187,8 @@ export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
+
+export const ACTIVITY_LOGS = [...MANAGE, ACTIONS.TRANSFER];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

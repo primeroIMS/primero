@@ -1,4 +1,5 @@
 import {
+  ACTIVITY_LOGS,
   MANAGE,
   RESOURCES,
   SHOW_AUDIT_LOGS,
@@ -114,7 +115,8 @@ export const RECORD_PATH = {
   tracing_requests: "tracing_requests",
   traces: "traces",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  activity_log: "activity_log"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
@@ -175,7 +177,8 @@ export const ROUTES = {
   check_health: "/health/api",
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
-  password_reset: "/password_reset"
+  password_reset: "/password_reset",
+  activity_log: "/activity_log"
 };
 
 export const PERMITTED_URL = [
@@ -310,6 +313,14 @@ export const APPLICATION_NAV = (permissions, userId) => {
       name: "navigation.home",
       to: ROUTES.dashboard,
       icon: "home",
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.activity_log",
+      to: ROUTES.activity_log,
+      icon: "activity_log",
+      resources: RESOURCES.activity_logs,
+      actions: ACTIVITY_LOGS,
       validateWithUserPermissions: true
     },
     {
