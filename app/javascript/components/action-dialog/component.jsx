@@ -5,7 +5,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import { useDispatch } from "react-redux";
 
-import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -43,7 +42,6 @@ const ActionDialog = ({
   fetchArgs,
   fetchLoadingPath
 }) => {
-  const i18n = useI18n();
   const dispatch = useDispatch();
 
   const { disabledApplication } = useApp();
@@ -110,10 +108,12 @@ const ActionDialog = ({
   const submitButton = (
     <div className={css.submitButtonWrapper}>
       <ActionButton
+        id="dialog-submit"
         icon={!hideIcon && iconConfirmButton}
         text={confirmButtonLabel}
         type={ACTION_BUTTON_TYPES.default}
         pending={isPending}
+        noTranslate
         rest={{
           ...successButtonProps,
           ...(successHandler && { onClick: handleSuccess }),
@@ -150,7 +150,7 @@ const ActionDialog = ({
             {cancelHandler && (
               <ActionButton
                 icon={<CloseIcon />}
-                text={i18n.t("cancel")}
+                text="cancel"
                 type={ACTION_BUTTON_TYPES.default}
                 cancel
                 rest={{

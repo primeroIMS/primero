@@ -42,7 +42,7 @@ const Component = ({
   const viewIncidentBtn = canViewIncidents && (
     <ActionButton
       icon={<VisibilityIcon />}
-      text={i18n.t(`buttons.${VIEW}`)}
+      text={`buttons.${VIEW}`}
       type={ACTION_BUTTON_TYPES.default}
       outlined
       tooltip={tooltip}
@@ -56,7 +56,7 @@ const Component = ({
   const editIncidentBtn = canEditIncidents && (
     <ActionButton
       icon={<CreateIcon />}
-      text={i18n.t(`buttons.${EDIT}`)}
+      text={`buttons.${EDIT}`}
       type={ACTION_BUTTON_TYPES.default}
       outlined
       tooltip={tooltip}

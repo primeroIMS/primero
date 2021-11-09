@@ -26,7 +26,7 @@ const Component = ({ item }) => {
     </div>
   );
   const renderSeeDetail = item.isSubform && (
-    <ButtonBase className={css.seeDetailsStyle} onClick={onClick}>
+    <ButtonBase className={css.seeDetailsStyle} onClick={onClick} id="change_logs.see_details">
       {i18n.t("change_logs.see_details")}
     </ButtonBase>
   );

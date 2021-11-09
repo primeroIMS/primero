@@ -79,7 +79,7 @@ const Container = () => {
   const newAgencyBtn = canAddAgencies ? (
     <ActionButton
       icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
+      text="buttons.new"
       stype={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.admin_agencies_new,

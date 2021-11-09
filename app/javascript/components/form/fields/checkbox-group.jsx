@@ -38,7 +38,7 @@ const CheckboxGroup = ({ onChange, value, options, commonInputProps }) => {
         : optionText(option, i18n.locale);
 
       return (
-        <div key={`${name}-${option.id}-container`}>
+        <div id={name} key={`${name}-${option.id}-container`}>
           {option?.includeSeparator && (
             <Separator key={`${name}-${option.id}-separator`} commonInputProps={{ label: "" }} />
           )}

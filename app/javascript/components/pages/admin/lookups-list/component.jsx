@@ -36,7 +36,7 @@ const Component = () => {
   const newUserGroupBtn = (
     <ActionButton
       icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
+      text="buttons.new"
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.lookups_new,

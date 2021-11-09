@@ -18,7 +18,7 @@ describe("<Exporter />", () => {
     it("should accept valid props for <ActionButton /> component", () => {
       const actionButtonProps = { ...component.find(ActionButton).at(0).props() };
 
-      ["icon", "type", "isTransparent", "rest", "outlined"].forEach(property => {
+      ["icon", "type", "isTransparent", "rest", "outlined", "id"].forEach(property => {
         expect(actionButtonProps).to.have.property(property);
         delete actionButtonProps[property];
       });
@@ -40,7 +40,7 @@ describe("<Exporter />", () => {
     it("should accept valid props for <ActionButton /> component", () => {
       const actionButtonProps = { ...component.find(ActionButton).props() };
 
-      ["icon", "type", "isTransparent", "rest", "outlined"].forEach(property => {
+      ["icon", "type", "isTransparent", "rest", "outlined", "id"].forEach(property => {
         expect(actionButtonProps).to.have.property(property);
         delete actionButtonProps[property];
       });

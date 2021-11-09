@@ -180,7 +180,7 @@ const Component = ({ mode, lookup }) => {
     const renderAddButton = !formMode.get("isShow") && (
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("fields.add")}
+        text="fields.add"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleAdd

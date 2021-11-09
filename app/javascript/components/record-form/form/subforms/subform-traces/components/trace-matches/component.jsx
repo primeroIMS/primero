@@ -42,9 +42,11 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
 
             return (
               <ActionButton
+                id="case.case_id_display-button"
                 text={value}
                 type={ACTION_BUTTON_TYPES.default}
                 isTransparent
+                noTranslate
                 className={css.caseLink}
                 rest={{
                   onClick: () => dispatch(setSelectedPotentialMatch(rowData[0], recordType)),

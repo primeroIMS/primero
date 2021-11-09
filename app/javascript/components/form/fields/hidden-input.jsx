@@ -4,7 +4,7 @@ const HiddenInput = ({ commonInputProps, formMethods }) => {
   const { name } = commonInputProps;
   const { register } = formMethods;
 
-  return <input type="hidden" ref={register} name={name} />;
+  return <input id={name} type="hidden" ref={register} name={name} />;
 };
 
 HiddenInput.displayName = "HiddenInput";

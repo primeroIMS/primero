@@ -111,7 +111,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
           <div className={css.createNewCase}>
             <ActionButton
               icon={<AddIcon />}
-              text={i18n.t("case.create_new_case")}
+              text="case.create_new_case"
               type={ACTION_BUTTON_TYPES.default}
               rest={{ onClick: handleCreateNewCase }}
               size="large"
@@ -120,7 +120,7 @@ const Component = ({ moduleUniqueId, open, recordType, setOpen }) => {
           <div className={css.search}>
             <ActionButton
               icon={<SearchIcon />}
-              text={i18n.t("navigation.search")}
+              text="navigation.search"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 form: FORM_ID,

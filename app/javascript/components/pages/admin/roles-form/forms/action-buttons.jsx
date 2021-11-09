@@ -36,7 +36,7 @@ const Component = ({ formMode, formID, handleCancel, limitedProductionSite }) =>
     <Permission resources={RESOURCES.roles} actions={WRITE_RECORDS}>
       <ActionButton
         icon={<CreateIcon />}
-        text={i18n.t("buttons.edit")}
+        text="buttons.edit"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: `${pathname}/edit`,

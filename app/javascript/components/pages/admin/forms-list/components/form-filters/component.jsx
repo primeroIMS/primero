@@ -55,7 +55,7 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
   return (
     <div className={classes}>
       <ActionButton
-        text={i18n.t("clear")}
+        text="clear"
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         rest={{

@@ -5,13 +5,13 @@ import { Controller } from "react-hook-form";
 import InputLabel from "../components/input-label";
 
 const SwitchInput = ({ commonInputProps, metaInputProps, formMethods }) => {
-  const { helperText, error, disabled, name, label, className } = commonInputProps;
+  const { helperText, error, disabled, name, label, className, id } = commonInputProps;
   const { control } = formMethods;
   const { tooltip, selectedValue } = metaInputProps || {};
   const checkBoxProps = { defaultValue: selectedValue || false };
 
   return (
-    <FormControl error={error}>
+    <FormControl id={id} error={error}>
       <FormGroup>
         <Controller
           control={control}
@@ -54,6 +54,7 @@ SwitchInput.propTypes = {
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     helperText: PropTypes.string,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string,
     name: PropTypes.string
   }),

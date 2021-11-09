@@ -7,8 +7,8 @@ const FormSectionActions = ({ actions, css }) => {
 
   return (
     <div className={css.formActions}>
-      {actions.map(action => (
-        <ActionButton key={action.text} {...action} />
+      {actions.map((action, index) => (
+        <ActionButton id={`form-section-action-button-${index}`} noTranslate key={action.text} {...action} />
       ))}
     </div>
   );

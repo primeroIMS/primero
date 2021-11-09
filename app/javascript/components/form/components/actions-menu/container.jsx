@@ -41,6 +41,7 @@ const Container = ({ actionItems }) => {
   return (
     <>
       <ActionButton
+        id="form-record-actions"
         icon={<MoreVertIcon />}
         type={ACTION_BUTTON_TYPES.icon}
         rest={{

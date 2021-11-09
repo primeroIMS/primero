@@ -9,6 +9,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({
+  id,
   icon,
   cancel,
   isTransparent,
@@ -42,6 +43,7 @@ const Component = ({
     <Parent {...(tooltip ? { title: tooltip } : {})}>
       <span className={spanClasses}>
         <Button
+          id={id}
           className={classes}
           startIcon={renderIcon}
           variant="contained"
@@ -65,6 +67,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   cancel: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  id: PropTypes.string.isRequired,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,
   outlined: PropTypes.bool,

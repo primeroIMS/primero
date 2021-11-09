@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 
-import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
@@ -22,8 +21,6 @@ const MoreSection = ({
   setMore,
   setMoreSectionFilters
 }) => {
-  const i18n = useI18n();
-
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -64,7 +61,7 @@ const MoreSection = ({
     });
   };
 
-  const renderText = more ? i18n.t("filters.less") : i18n.t("filters.more");
+  const renderText = more ? "filters.less" : "filters.more";
 
   const filters = more ? renderSecondaryFilters() : null;
 

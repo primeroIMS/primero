@@ -133,6 +133,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const inputLabel = i18n.getI18nStringFromObject(displayName);
 
   const commonInputProps = {
+    id: name,
     InputLabelProps: { shrink: true },
     autoComplete: "off",
     autoFocus,

@@ -79,7 +79,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
         {renderTranslationFields()}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
-        <ActionButton text={i18n.t("forms.manage")} outlined rest={{ onClick: onClickManage }} />
+        <ActionButton text="forms.manage" outlined rest={{ onClick: onClickManage }} />
       </Grid>
     </>
   );

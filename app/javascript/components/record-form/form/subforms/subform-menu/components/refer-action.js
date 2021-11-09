@@ -5,10 +5,12 @@ import { useI18n } from "../../../../../i18n";
 
 const ReferAction = ({ index, handleReferral, values }) => {
   const i18n = useI18n();
+  const id = `refer-option-${index}`;
 
   return (
     <Button
-      key={`refer-option-${index}`}
+      id={id}
+      key={id}
       onClick={() => handleReferral()}
       color="primary"
       variant="contained"

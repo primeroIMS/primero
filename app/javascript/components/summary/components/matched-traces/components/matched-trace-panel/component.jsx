@@ -20,9 +20,11 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
     <Accordion expanded={false} onChange={handleClickAccordion}>
       <AccordionSummary expandIcon={<ChevronRightIcon />} aria-controls="filter-controls-content" id={1}>
         <ActionButton
+          id={`matched-trace-${matchedTraceId}`}
           text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
+          noTranslate
           rest={{
             onClick: handleClickAccordion,
             className: css.link

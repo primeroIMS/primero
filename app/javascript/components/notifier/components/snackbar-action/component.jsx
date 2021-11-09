@@ -21,7 +21,7 @@ const Component = ({ action, actionLabel, actionUrl, closeSnackbar, snackKey, hi
   return (
     <>
       {actionLabel && actionUrl ? (
-        <Button component={Link} to={actionUrl} color="inherit" size="small">
+        <Button id="snackbar-action" component={Link} to={actionUrl} color="inherit" size="small">
           {actionLabel}
         </Button>
       ) : null}

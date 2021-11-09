@@ -4,10 +4,10 @@ import { Controller } from "react-hook-form";
 
 const ToggleInput = ({ commonInputProps, formMethods }) => {
   const { control } = formMethods;
-  const { helperText, error, disabled, name, label, className } = commonInputProps;
+  const { helperText, error, disabled, name, label, className, id } = commonInputProps;
 
   return (
-    <FormControl error={error} className={className}>
+    <FormControl id={id} error={error} className={className}>
       <FormGroup>
         <FormControlLabel
           disabled={disabled}
@@ -42,6 +42,7 @@ ToggleInput.propTypes = {
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     helperText: PropTypes.string,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string,
     name: PropTypes.string
   }),

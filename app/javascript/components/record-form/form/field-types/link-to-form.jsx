@@ -11,11 +11,13 @@ const LinkToForm = ({ label, linkToForm }) => {
 
   return (
     <ActionButton
+      id="link-t0-form-btn"
       icon={<VisibilityIcon />}
       text={label}
       type={ACTION_BUTTON_TYPES.default}
       outlined
       keepTextOnMobile
+      noTranslate
       rest={{
         color: "primary",
         onClick

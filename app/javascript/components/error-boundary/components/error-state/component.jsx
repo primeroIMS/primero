@@ -14,7 +14,13 @@ const ErrorState = ({ errorMessage, handleTryAgain, type }) => {
       <div className={css.error}>
         {type && <ListIcon icon={type} className={css.errorIcon} />}
         <h5 className={css.errorMessage}>{errorMessage || i18n.t("errors.error_loading")}</h5>
-        <Button variant="outlined" size="small" classes={{ root: css.errorButton }} onClick={handleTryAgain}>
+        <Button
+          id="errors.try_again"
+          variant="outlined"
+          size="small"
+          classes={{ root: css.errorButton }}
+          onClick={handleTryAgain}
+        >
           {i18n.t("errors.try_again")}
         </Button>
       </div>

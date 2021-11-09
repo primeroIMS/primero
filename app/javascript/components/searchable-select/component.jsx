@@ -26,6 +26,7 @@ const SearchableSelect = ({
   InputLabelProps,
   optionIdKey,
   optionLabelKey,
+  name,
   value: fieldValue
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
@@ -76,6 +77,7 @@ const SearchableSelect = ({
 
   return (
     <Autocomplete
+      id={name}
       onChange={handleOnChange}
       options={options}
       disabled={isDisabled}

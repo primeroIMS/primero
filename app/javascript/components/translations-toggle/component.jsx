@@ -49,6 +49,7 @@ const TranslationsToggle = () => {
   return (
     <>
       <Button
+        id={`home.${locale}`}
         className={css.button}
         fullWidth
         onClick={handleClick}

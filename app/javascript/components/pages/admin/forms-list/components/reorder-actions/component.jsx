@@ -56,7 +56,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       <DialogActions classes={{ root: css.reorderActions }}>
         <ActionButton
           icon={<CloseIcon />}
-          text={i18n.t("buttons.cancel")}
+          text="buttons.cancel"
           type={ACTION_BUTTON_TYPES.default}
           cancel
           rest={{
@@ -67,7 +67,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
 
         <ActionButton
           icon={icon}
-          text={i18n.t("buttons.save_changes")}
+          text="buttons.save_changes"
           type={ACTION_BUTTON_TYPES.default}
           rest={{
             onClick: handleSuccess,

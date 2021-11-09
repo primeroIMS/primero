@@ -22,7 +22,7 @@ const NotFound = () => {
       </Typography>
       <Typography>{i18n.t("error_page.not_found.contact_admin")}</Typography>
       <ActionButton
-        text={i18n.t("navigation.home")}
+        text="navigation.home"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: ROUTES.dashboard,

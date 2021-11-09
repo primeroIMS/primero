@@ -50,7 +50,7 @@ const Component = ({
 
   const selectAllButton = selectedRows && selectedRows.data.length === displayData?.length && (
     <div className={css.customToolbarButton}>
-      <ButtonBase className={css.selectAllButton} onClick={handleClick}>
+      <ButtonBase id="select-all-button" className={css.selectAllButton} onClick={handleClick}>
         {selectAllMessage}
       </ButtonBase>
     </div>

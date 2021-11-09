@@ -6,7 +6,6 @@ import { useMemoizedSelector } from "../../libs";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useDialog } from "../action-dialog";
-import { useI18n } from "../i18n";
 
 import { fetchFlags } from "./action-creators";
 import { FlagDialog, FlagForm, ListFlags, Unflag } from "./components";
@@ -15,7 +14,6 @@ import { getSelectedFlag } from "./selectors";
 
 const Component = ({ control, record, recordType }) => {
   const [tab, setTab] = useState(0);
-  const i18n = useI18n();
   const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
 
   const isBulkFlags = Array.isArray(record);
@@ -54,8 +52,9 @@ const Component = ({ control, record, recordType }) => {
     <>
       {(control && <control onClick={handleOpen} />) || (
         <ActionButton
+          id="record-flags"
           icon={<FlagIcon />}
-          text={i18n.t("buttons.flags")}
+          text="buttons.flags"
           type={ACTION_BUTTON_TYPES.default}
           rest={{
             onClick: handleOpen

@@ -64,7 +64,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     <div className={css.skipButtonContainer}>
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("case.skip_and_create")}
+        text="case.skip_and_create"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleSkipAndCreate
@@ -80,7 +80,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
           <h2>{i18n.t("case.create_new_case")}</h2>
           <ActionButton
             icon={<CloseIcon />}
-            text={i18n.t("cancel")}
+            text="cancel"
             type={ACTION_BUTTON_TYPES.icon}
             isTransparent
             rest={{

@@ -67,6 +67,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
       return (
         <div className={css.item} key={item}>
           <ActionButton
+            id={`overview-${item}`}
             className={css.itemButton}
             type="link"
             text={

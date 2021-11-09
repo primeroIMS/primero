@@ -54,7 +54,7 @@ const Container = ({ modal }) => {
       <ActionButton
         className={css.forgotPaswordLink}
         onClick={onClickForgotLink}
-        text={i18n.t("login.forgot_password")}
+        text="login.forgot_password"
         type={ACTION_BUTTON_TYPES.link}
       />
       {dialogOpen && <PasswordResetDialog open={dialogOpen} handleCancel={dialogClose} />}
@@ -68,9 +68,11 @@ const Container = ({ modal }) => {
         <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
         {modal || (
           <ActionButton
+            id={`${FORM_ID}-button`}
             text={actionButton}
             type={ACTION_BUTTON_TYPES.default}
             size="large"
+            noTranslate
             rest={{
               fullWidth: mobileDisplay,
               form: FORM_ID,

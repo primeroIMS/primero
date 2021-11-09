@@ -26,9 +26,11 @@ const Component = ({ loadingIndicator }) => {
   const renderSeeAll = flags.size > 0 && (
     <div className={css.seeAll}>
       <ActionButton
+        id="dashboard.link_see_all"
         text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
+        noTranslate
         rest={{ onClick: handleSeeAll }}
       />
     </div>
