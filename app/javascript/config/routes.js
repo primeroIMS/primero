@@ -51,6 +51,7 @@ import {
   VIEW_KPIS
 } from "../libs/permissions";
 import Login from "../components/login";
+import PasswordResetRequest from "../components/login/components/password-reset-form";
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
 
@@ -88,6 +89,10 @@ export default [
       {
         path: ROUTES.password_reset,
         component: PasswordReset
+      },
+      {
+        path: ROUTES.password_reset_request,
+        component: PasswordResetRequest
       }
     ]
   },

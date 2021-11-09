@@ -175,7 +175,8 @@ export const ROUTES = {
   check_health: "/health/api",
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
-  password_reset: "/password_reset"
+  password_reset: "/password_reset",
+  password_reset_request: "/password_reset_request"
 };
 
 export const PERMITTED_URL = [
@@ -190,7 +191,8 @@ export const PERMITTED_URL = [
   ROUTES.cases,
   ROUTES.tracing_requests,
   ROUTES.incidents,
-  ROUTES.code_of_conduct
+  ROUTES.code_of_conduct,
+  ROUTES.password_reset_request
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
