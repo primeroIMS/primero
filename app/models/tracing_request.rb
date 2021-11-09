@@ -68,7 +68,12 @@ class TracingRequest < ApplicationRecord
     string :status, as: 'status_sci'
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
-    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] }}
+    sortable_text_fields.each do |f|
+      string("#{f}_sortable", as: "#{f}_sortable_sci") do
+        value = data[f] || send(f)
+        value.is_a?(Array) ? value.join(' ') : value
+      end
+    end
   end
 
   alias super_defaults defaults
