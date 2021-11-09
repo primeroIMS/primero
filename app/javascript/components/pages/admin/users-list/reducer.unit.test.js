@@ -51,17 +51,15 @@ describe("<UsersList /> - Reducers", () => {
   });
 
   it("should handle SET_USERS_FILTER", () => {
-    const payload = {
-      user_name: "test"
-    };
+    const filters = { user_name: "test" };
 
     const expected = fromJS({
-      filters: payload
+      filters
     });
 
     const action = {
       type: actions.SET_USERS_FILTER,
-      payload
+      payload: { data: filters }
     };
 
     const newState = reducer(fromJS({}), action);
