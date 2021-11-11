@@ -76,7 +76,9 @@ export const FieldRecord = Record({
   i18nName: false,
   i18nDescription: false,
   renderChildren: true,
-  max_length: null
+  max_length: null,
+  display_conditions: [],
+  parent_display_conditions: []
 });
 
 export const FormSectionRecord = Record({

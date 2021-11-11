@@ -3,7 +3,7 @@ import { isEmpty } from "lodash";
 
 import { RECORD_TYPES, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
 
-const dataMeetConditions = (objectToEval, displayConditions) => {
+export const dataMeetConditions = (objectToEval, displayConditions) => {
   const objToEval = isImmutable(objectToEval) ? objectToEval.toJS() : objectToEval;
   // displayConditions =
   // [ {"relation": ["father","mother"],"relation_is_alive": "alive"},{"relation_is_caregiver": true}]

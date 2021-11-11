@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { isEmpty } from "lodash";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
@@ -7,6 +8,7 @@ import RecordFormTitle from "../form/record-form-title";
 import { RECORD_FORM_PERMISSION } from "../form/constants";
 import FormSectionField from "../form/form-section-field";
 import SubformField from "../form/subforms";
+import { dataMeetConditions } from "../form/subforms/subform-field-array/utils";
 
 const renderFormSections = (
   externalForms,
@@ -54,6 +56,10 @@ const renderFormSections = (
             };
 
             if (!field?.visible) {
+              return null;
+            }
+
+            if (!isEmpty(field.display_conditions) && !dataMeetConditions(values, field.display_conditions)) {
               return null;
             }
 

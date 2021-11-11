@@ -97,7 +97,7 @@ const Component = ({
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
-  const renderSubform = (subformField, subformIndex) => {
+  const renderSubform = (subformField, subformIndex, values) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
       return (
         <ServicesSubform
@@ -119,6 +119,8 @@ const Component = ({
         index={subformIndex}
         formSection={formSection}
         isReadWriteForm={isReadWriteForm}
+        values={values}
+        parentValues={formik.values}
       />
     );
   };
@@ -166,7 +168,7 @@ const Component = ({
           onSubmit={values => onSubmit(values)}
           ref={childFormikRef}
         >
-          {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
+          {({ handleSubmit, submitForm, setErrors, setTouched, errors, values }) => {
             bindSubmitForm(submitForm);
 
             return (
@@ -177,7 +179,7 @@ const Component = ({
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
-                {renderSubform(field, index)}
+                {renderSubform(field, index, values)}
               </Form>
             );
           }}
