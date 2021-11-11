@@ -4,9 +4,13 @@ import { SAVING } from "../../config";
 import { getLocations } from "../record-form/selectors";
 
 import NAMESPACE from "./namespace";
-import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
+import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS, RECORD_TYPES } from "./constants";
 
 export const currentUser = state => state.getIn([NAMESPACE, "username"]);
+
+export const getRecordTypes = state => {
+  return state.getIn([NAMESPACE, RECORD_TYPES], List([]));
+};
 
 export const getPermissions = state => {
   return state.getIn([NAMESPACE, PERMISSIONS], List([]));

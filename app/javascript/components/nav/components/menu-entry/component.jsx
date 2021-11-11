@@ -19,7 +19,7 @@ import { ROUTES } from "../../../../config";
 
 const useStyles = makeStyles(styles);
 
-const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) => {
+const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username, show = null }) => {
   const { disabledApplication, online } = useApp();
   const css = useStyles();
   const i18n = useI18n();
@@ -58,7 +58,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const navItemName = name === "username" ? username : i18n.t(name);
 
   const renderNavAction = (
-    <li>
+    <li style={{display: show === true ? "block" : "none"}}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
         <ListItem {...navlinkProps} className={css.navLink}>

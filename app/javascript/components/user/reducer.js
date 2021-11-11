@@ -16,6 +16,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("isAuthenticated", true).set("id", payload.id).set("username", payload.username);
     case Actions.LOGOUT_SUCCESS:
       return DEFAULT_STATE;
+    case Actions.FETCH_RECORD_TYPES_SUCCESS:
+      return state.set("recordTypes", payload.data.associated_record_types);
     case Actions.FETCH_USER_DATA_SUCCESS: {
       const {
         module_unique_ids: modules,

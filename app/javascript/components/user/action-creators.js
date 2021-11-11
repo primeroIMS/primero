@@ -37,10 +37,20 @@ export const fetchAuthenticatedUserData = user => ({
   }
 });
 
+
+export const fetchPrimeroModules = () => ({
+  type: actions.FETCH_RECORD_TYPES,
+  api: {
+    path: "primero_modules/1",
+    successCallback: [queueReady]
+  }
+});
+
 export const setAuthenticatedUser = user => async dispatch => {
   dispatch(setUser(user));
   dispatch(fetchAuthenticatedUserData(user));
   dispatch(loadApplicationResources());
+  dispatch(fetchPrimeroModules());
 };
 
 export const attemptSignout = () => ({

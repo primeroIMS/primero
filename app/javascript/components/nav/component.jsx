@@ -13,6 +13,7 @@ import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
 import Permission from "../application/permission";
 import { getLocationsAvailable } from "../application/selectors";
+import { getRecordTypes } from "../user/selectors";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
 import { getPermissions } from "../user";
@@ -46,6 +47,7 @@ const Nav = () => {
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
   const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
+  const recordTypesAllowed = useMemoizedSelector(state => getRecordTypes(state));
 
   const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
@@ -76,6 +78,7 @@ const Nav = () => {
           jewelCount={jewelCount}
           username={username}
           closeDrawer={handleToggleDrawer(false)}
+          show={menuEntry.show}
         />
       );
 
@@ -105,7 +108,7 @@ const Nav = () => {
         </Hidden>
       </div>
       <NetworkIndicator />
-      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
+      <List className={css.navList}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId, recordTypesAllowed))}</List>
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
