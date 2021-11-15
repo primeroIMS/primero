@@ -85,6 +85,7 @@ const DocumentField = ({
   const deleteButton = mode.isEdit && (
     <DisableOffline>
       <ActionButton
+        id="delete-button"
         icon={<DeleteIcon />}
         type={ACTION_BUTTON_TYPES.icon}
         cancel
@@ -141,7 +142,7 @@ const DocumentField = ({
           <div className={css.attachmentUploadField}>
             {attachmentUrl ? (
               <ActionButton
-                text={i18n.t("buttons.download")}
+                text="buttons.download"
                 type={ACTION_BUTTON_TYPES.default}
                 isTransparent
                 rest={{
@@ -193,7 +194,7 @@ const DocumentField = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained" disableElevation>
+          <Button id={dialogActionText} onClick={handleClose} color="primary" variant="contained" disableElevation>
             {i18n.t(dialogActionText)}
           </Button>
         </DialogActions>

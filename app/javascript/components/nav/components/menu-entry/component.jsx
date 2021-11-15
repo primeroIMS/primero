@@ -55,7 +55,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const navItemName = name === "username" ? username : i18n.t(name);
 
   const renderNavAction = (
-    <li>
+    <li id={name}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
         <ListItem {...navlinkProps} className={css.navLink}>

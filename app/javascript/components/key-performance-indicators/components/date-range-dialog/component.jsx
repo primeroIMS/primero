@@ -60,7 +60,9 @@ const Component = ({ open, onClose, currentRange, setRange }) => {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleApplyClick}>{i18n.t("key_performance_indicators.date_range_dialog.apply")}</Button>
+        <Button id="key_performance_indicators.date_range_dialog.apply" onClick={handleApplyClick}>
+          {i18n.t("key_performance_indicators.date_range_dialog.apply")}
+        </Button>
       </DialogActions>
     </Dialog>
   );

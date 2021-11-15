@@ -60,7 +60,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
   const findMatchButton = !mode.isEdit && (
     <ActionButton
       icon={<SearchIcon />}
-      text={findMatchLabel}
+      text="cases.summary.find_match"
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       tooltip={isFindMatchDisabled ? i18n.t("cases.summary.cannot_find_matches") : null}
