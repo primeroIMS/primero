@@ -36,6 +36,8 @@ const Component = ({ modal, handleSubmit }) => {
         <>
           <ActionButton
             text={i18n.t("buttons.ok")}
+            id="buttons.ok"
+            noTranslate
             type={ACTION_BUTTON_TYPES.default}
             pending={saving}
             rest={{
@@ -45,6 +47,8 @@ const Component = ({ modal, handleSubmit }) => {
           />
           <ActionButton
             text={i18n.t("buttons.cancel")}
+            id="buttons.cancel"
+            noTranslate
             type={ACTION_BUTTON_TYPES.default}
             isCancel
             rest={{ onClick: () => dispatch(push(ROUTES.login)) }}
