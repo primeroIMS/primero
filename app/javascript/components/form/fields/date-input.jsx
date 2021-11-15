@@ -8,11 +8,13 @@ import isEmpty from "lodash/isEmpty";
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
 import localize from "../../../libs/date-picker-localization";
+import { LOCALE_KEYS } from "../../../config";
+import NepaliCalendar from "../../nepali-calendar-input";
 
 const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
   const i18n = useI18n();
   const { setValue, control } = formMethods;
-  const { name } = commonInputProps;
+  const { name, error, disabled, placeholder, label, helperText } = commonInputProps;
 
   const currentValue = useWatch({ name, control });
 
@@ -30,6 +32,20 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     return date;
   };
 
+  const handleClearable = () => {
+    setValue(name, null);
+  };
+
+  const neDateProps = {
+    name,
+    onChange: handleChange,
+    error,
+    disabled,
+    placeholder,
+    dateIncludeTime,
+    value: currentValue
+  };
+
   const fieldValue = isEmpty(currentValue) ? null : currentValue;
 
   const renderPicker = () => {
@@ -39,6 +55,12 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
     return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
   };
+
+  if (i18n.locale === LOCALE_KEYS.ne) {
+    return (
+      <NepaliCalendar helpText={helperText} label={label} dateProps={neDateProps} handleClearable={handleClearable} />
+    );
+  }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>

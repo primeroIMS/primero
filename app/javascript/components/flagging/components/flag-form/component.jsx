@@ -12,11 +12,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import { object, string } from "yup";
 import { parseISO } from "date-fns";
 
+import NepaliCalendar from "../../../nepali-calendar-input";
 import { useI18n } from "../../../i18n";
 import { addFlag } from "../../action-creators";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import { DATE_FORMAT } from "../../../../config";
+import { DATE_FORMAT, LOCALE_KEYS } from "../../../../config";
 import { toServerDateFormat } from "../../../../libs";
 import localize from "../../../../libs/date-picker-localization";
 
@@ -99,18 +100,33 @@ const Component = ({ recordType, record, handleActiveTab }) => {
               <Field
                 name="date"
                 render={({ field, form, ...other }) => {
+                  const label = i18n.t("flags.flag_date");
+                  const dateValue = field.value ? parseISO(field.value) : field.value;
+
                   const handleChangeFlagDate = date => {
                     const formattedDate = date ? toServerDateFormat(date) : date;
 
                     return form.setFieldValue(field.name, formattedDate, true);
                   };
 
+                  const handleClearable = () => {
+                    form.setFieldValue(field.name, null);
+                  };
+
+                  const neDateProps = {
+                    onChange: handleChangeFlagDate,
+                    value: dateValue
+                  };
+
+                  if (i18n.locale === LOCALE_KEYS.ne) {
+                    return <NepaliCalendar label={label} dateProps={neDateProps} handleClearable={handleClearable} />;
+                  }
+
                   return (
                     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
                       <DatePicker
                         {...field}
-                        label={i18n.t("flags.flag_date")}
-                        value={field.value ? parseISO(field.value) : field.value}
+                        value={dateValue}
                         onChange={handleChangeFlagDate}
                         {...dateInputProps}
                         {...other}

@@ -5,7 +5,7 @@ import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import omitBy from "lodash/omitBy";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import { toServerDateFormat } from "../../../../libs";
 import { DATE_FORMAT, DATE_TIME_FORMAT, DEFAULT_DATE_VALUES } from "../../../../config";
@@ -73,6 +73,10 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
   const fieldError = getIn(formik.errors, name);
   const fieldTouched = getIn(formik.touched, name);
 
+  const handleClearable = useCallback(() => {
+    formInstance.current.setFieldValue(name, null, true);
+  }, [formInstance.current]);
+
   return (
     <FastField
       {...fieldProps}
@@ -93,6 +97,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
             )
           ),
           format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
+          dateIncludeTime,
           clearable: true,
           InputProps: {
             ...InputProps,
@@ -117,6 +122,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
             fieldTouched={fieldTouched}
             fieldError={fieldError}
             displayName={displayName}
+            handleClearable={handleClearable}
           />
         );
       }}
