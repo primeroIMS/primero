@@ -195,6 +195,8 @@ export const PERMITTED_URL = [
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
 
+export const DATE_FORMAT_NE = "DD-MM-YYYY";
+
 export const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
 
 export const API_DATE_FORMAT = "yyyy-MM-dd";
@@ -450,7 +452,8 @@ export const DEFAULT_METADATA = Object.freeze({
 });
 
 export const LOCALE_KEYS = {
-  en: "en"
+  en: "en",
+  ne: "ne"
 };
 
 export const HTTP_STATUS = {

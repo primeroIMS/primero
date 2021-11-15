@@ -23,7 +23,8 @@ export default (i18n, forms) => {
         type: field.get("type"),
         option_strings_source: field.get("option_strings_source")?.replace(/lookup /, ""),
         option_strings_text: field.get("option_strings_text"),
-        tick_box_label: field.getIn(["tick_box_label", i18n.locale])
+        tick_box_label: field.getIn(["tick_box_label", i18n.locale]),
+        visible: field.get("visible")
       }));
 
       return [...acc, fieldsResult];
