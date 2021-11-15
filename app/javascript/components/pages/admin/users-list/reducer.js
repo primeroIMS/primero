@@ -15,7 +15,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.USERS_FINISHED:
       return state.set("loading", false);
     case actions.SET_USERS_FILTER:
-      return state.set("filters", fromJS(payload));
+      return state.set("filters", fromJS(payload.data));
     case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_METADATA));
     default:
