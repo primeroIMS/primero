@@ -1,20 +1,15 @@
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import Form from "../../../form";
 import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
-import { newPasswordResetRequest } from "../../../pages/admin/users-form/action-creators";
 import { getSavingNewPasswordReset } from "../../../pages/admin/users-form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
+import PasswordResetForm from "../password-reset-form";
 
-import { form, validationSchema } from "./form";
 import { NAME, FORM_ID } from "./constants";
 
 const Component = ({ open, handleCancel, handleSuccess }) => {
   const i18n = useI18n();
-  const dispatch = useDispatch();
-
   const saving = useMemoizedSelector(state => getSavingNewPasswordReset(state));
 
   const successButtonProps = {
@@ -23,14 +18,6 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
     autoFocus: true,
     form: FORM_ID,
     type: "submit"
-  };
-
-  const handleSubmit = values => {
-    dispatch(newPasswordResetRequest(values.email));
-
-    if (handleSuccess) {
-      handleSuccess();
-    }
   };
 
   return (
@@ -44,8 +31,7 @@ const Component = ({ open, handleCancel, handleSuccess }) => {
       confirmButtonProps={successButtonProps}
       onClose={handleCancel}
     >
-      <p>{i18n.t("login.password_reset_modal_text")}</p>
-      <Form formSections={form(i18n)} validations={validationSchema(i18n)} onSubmit={handleSubmit} formID={FORM_ID} />
+      <PasswordResetForm handleSubmit={handleSuccess} modal />
     </ActionDialog>
   );
 };
