@@ -42,7 +42,8 @@ namespace :primero do
 
     ActiveRecord::Base.connection.execute("DELETE FROM active_storage_attachments WHERE record_type != 'Agency'")
     agenncy_blob_ids = ActiveStorage::Attachment.where(record_type: 'Agency').pluck(:blob_id).join(', ')
-    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs WHERE blob_id NOT IN (#{agenncy_blob_ids})")
+    blobs_conditional =  agenncy_blob_ids.present? ? "WHERE id NOT IN (#{agenncy_blob_ids})" : ''
+    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
 
     Sunspot.remove_all(record_models)
   end
