@@ -83,7 +83,7 @@ module Exporters
       subform4.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
       subform4.save!
 
-      form_e = FormSection.new(name: 'case_test_form_4', parent_form: 'case', visible: true,
+      form_e = FormSection.new(name: 'cases_test_form_4', parent_form: 'case', visible: true,
                                order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
                                unique_id: 'cases_test_form_4')
 
@@ -127,10 +127,16 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-        expect(workbook.sheets.size).to eq(7)
-        expect(workbook.sheets).to match_array(['cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
-                                                'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
-                                                'Test Arabic   .'])
+
+        expect(workbook.sheets.size).to eq(11)
+        expect(workbook.sheets).to match_array(
+          [
+            'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
+            'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
+            'Test Arabic   .', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
+            'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3'
+          ]
+        )
       end
 
       it 'prints a header for each form and subform' do

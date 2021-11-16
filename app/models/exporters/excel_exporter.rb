@@ -31,8 +31,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
 
     records.each do |record|
       write_record(record)
-      worksheets_reset_written
     end
+  end
+
+  def worksheet_id(form, subform_field = nil)
+    subform_field.present? ? subform_path(subform_field) : form.unique_id
   end
 
   def build_worksheets_with_headers
@@ -41,44 +44,63 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     forms.each { |form| build_worksheet_with_headers(form) }
   end
 
-  def build_worksheet_with_headers(form)
-    # Do not build the worksheet if the form is already there because
-    # the same form can be referenced by different fields
-    return if worksheets[form.unique_id].present?
-
-    worksheet = build_worksheet(form)
+  def build_worksheet_with_headers(form, subform_field = nil)
+    worksheet = build_worksheet(form, subform_field)
     worksheet&.write(0, 0, 'ID')
     form.fields.each_with_index do |field, i|
       if field.type == Field::SUBFORM
-        build_worksheet_with_headers(constrained_subforms[field.subform.unique_id])
+        build_worksheet_with_headers(constrained_subforms[subform_path(field)], field)
       else
         worksheet&.write(0, i + 1, field.display_name(locale))
       end
     end
-    worksheets[form.unique_id] = { worksheet: worksheet, row: 1 }
+    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
   end
 
-  def build_worksheet(form)
+  def build_worksheet(form, subform_field = nil)
     # Don't build a separate worksheet for a form that only contains subform fields
     return if only_subform_fields?(form)
 
-    name = worksheet_name(form)
+    name = worksheet_name(form, subform_field)
     begin
       workbook.add_worksheet(name)
     rescue RuntimeError
-      workbook.add_worksheet("#{name[0..-3]}-1")
+      increase_name_counter(name)
+      workbook.add_worksheet("#{name[name_counter_range(name)]}-#{worksheets[:names][name]}")
     end
+  end
+
+  def increase_name_counter(name)
+    worksheets[:names] = {} unless worksheets[:names].present?
+    worksheets[:names][name] = (worksheets[:names][name] || 0) + 1
+  end
+
+  def name_counter_range(name)
+    0..(-2 - worksheets[:names][name].digits.count)
+  end
+
+  def form_worksheet(form, subform_field = nil)
+    worksheets[worksheet_id(form, subform_field)][:worksheet]
   end
 
   def only_subform_fields?(form)
     !form.fields.find { |field| field.type != Field::SUBFORM }
   end
 
-  def worksheet_name(form)
-    name = form.name(locale.to_s)
-    name.sub(%r{[\[\]:*?\/\\]}, ' ')
-        .encode('iso-8859-1', undef: :replace, replace: '')
-        .strip.truncate(31)
+  def worksheet_name(form, subform_field = nil)
+    name = form.name(locale.to_s).sub(%r{[\[\]:*?\/\\]}, ' ')
+
+    return name.encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31) if subform_field.blank?
+
+    subform_field.form
+                 .name(locale.to_s)
+                 .sub(%r{[\[\]:*?\/\\]}, ' ')
+                 .strip
+                 .slice(0, 15)
+                 .concat("-#{name}")
+                 .encode('iso-8859-1', undef: :replace, replace: '')
+                 .strip
+                 .truncate(31)
   end
 
   def write_record(record)
@@ -87,23 +109,20 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     end
   end
 
-  def write_record_form(id, data, form, form_name = '')
-    # Do not write data if already written for this form
-    return if worksheets[form.unique_id][:written] == true
-
-    rows_written = write_record_row(id, data, form, form_name)
-    worksheets[form.unique_id][:written] = true
-    worksheets[form.unique_id][:row] += rows_written
+  def write_record_form(id, data, form, form_name = '', subform_field = nil)
+    rows_written = write_record_row(id, data, form, form_name, subform_field)
+    worksheets[worksheet_id(form, subform_field)][:row] += rows_written
   end
 
-  def write_record_row(id, data, form, form_name)
-    worksheet = worksheets[form.unique_id][:worksheet]
+  def write_record_row(id, data, form, form_name, subform_field = nil)
     values, rows_to_write = field_values(data, form, form_name)
-    ([id] + values).each_with_index { |value, column| write_value(worksheet, form, value, column, rows_to_write) }
+    ([id] + values).each_with_index do |value, column|
+      write_value(form_worksheet(form, subform_field), value, column, rows_to_write, worksheet_id(form, subform_field))
+    end
     form.subform_fields.each do |field|
-      subform = constrained_subforms[field.subform.unique_id]
+      subform = constrained_subforms[subform_path(field)]
       data = apply_subform_display_conditions(data, field)
-      write_record_form(id, data, subform, field.name)
+      write_record_form(id, data, subform, field.name, field)
     end
     rows_to_write
   end
@@ -130,13 +149,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     values
   end
 
-  def write_value(worksheet, form, value, column, rows_to_write)
+  def write_value(worksheet, value, column, rows_to_write, current_worksheet_id)
     value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
-    value_array.each_with_index { |val, i| worksheet&.write((worksheets[form.unique_id][:row] + i), column, val) }
-  end
-
-  def worksheets_reset_written
-    worksheets.each { |_, value| value[:written] = false }
+    value_array.each_with_index do |val, i|
+      worksheet&.write((worksheets[current_worksheet_id][:row] + i), column, val)
+    end
   end
 
   def export_value(value, field)
@@ -166,8 +183,12 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     subform_fields = forms.map(&:fields).flatten.select { |field| field.type == Field::SUBFORM }
 
     self.constrained_subforms = subform_fields.reduce({}) do |acc, subform_field|
-      acc.merge(subform_field.subform.unique_id => constraint_subform_fields(subform_field))
+      acc.merge(subform_path(subform_field) => constraint_subform_fields(subform_field))
     end
+  end
+
+  def subform_path(field)
+    "#{field.form.unique_id}.#{field.name}"
   end
 
   def constraint_subform_fields(field)
