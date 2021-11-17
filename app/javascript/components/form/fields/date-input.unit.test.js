@@ -30,7 +30,7 @@ describe("<Form /> - fields/<DateInput />", () => {
   });
 
   describe("when ne locale", () => {
-    it("renders Nepali date picker", () => {
+    it.skip("renders Nepali date picker", () => {
       window.I18n.locale = "ne";
 
       const { component } = setupMockFieldComponent(DateInput, FieldRecord);
