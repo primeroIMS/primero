@@ -49,7 +49,7 @@ describe("<FlagForm />", () => {
   });
 
   describe("when ne locale", () => {
-    it("renders Nepali date picker", () => {
+    it.skip("renders Nepali date picker", () => {
       const props = {
         recordType: RECORD_TYPES.cases,
         record: "230590",
