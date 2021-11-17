@@ -29,7 +29,7 @@ class LocationService
   def find_by_code(code)
     if with_cache?
       rebuild_cache
-      locations_by_code[code]
+      locations_by_code[code.to_s]
     else
       Location.find_by(location_code: code)
     end
