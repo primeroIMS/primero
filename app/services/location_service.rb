@@ -31,7 +31,7 @@ class LocationService
       rebuild_cache
       locations_by_code[code.to_s]
     else
-      Location.find_by(location_code: code)
+      Location.find_by(location_code: code.to_s)
     end
   end
 
