@@ -93,11 +93,11 @@ class Violation < ApplicationRecord
 
   def associations_as_data
     @associations_as_data ||= {
-      'sources' => source || [],
-      'perpetrators' => perpetrators.map(&:data).flatten,
-      'individual_victims' => individual_victims.map(&:data).flatten,
-      'group_victims' => group_victims.map(&:data).flatten,
-      'responses' => responses.map(&:data).flatten
+      'sources' => [source&.data],
+      'perpetrators' => perpetrators.map(&:data),
+      'individual_victims' => individual_victims.map(&:data),
+      'group_victims' => group_victims.map(&:data),
+      'responses' => responses.map(&:data)
     }
   end
 

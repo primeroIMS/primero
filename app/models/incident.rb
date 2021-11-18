@@ -217,19 +217,17 @@ class Incident < ApplicationRecord
   end
 
   def associations_as_data(_current_user)
-    @associations_as_data ||= violations.each_with_object({}) do |violation, acc|
-      violation_associations_data = violation.associations_as_data
-      Violation::MRM_ASSOCIATIONS_KEYS.each do |key|
-        next if violation_associations_data[key].blank?
+    mrm_associations = associations_as_data_keys.to_h { |value| [value, []] }
 
-        acc[key] ||= []
-        acc[key] << violation_associations_data[key]
+    @associations_as_data ||= violations.reduce(mrm_associations) do |acc, violation|
+      acc[violation.type] << violation.data
+      acc.merge(violation.associations_as_data) do |_key, acc_value, violation_value|
+        (acc_value + violation_value).compact.uniq { |value| value['unique_id'] }
       end
-      acc.merge!(violation.type => [violation.data])
     end
   end
 
   def associations_as_data_keys
-    %w[violations sources perpetrators individuals groups interventions]
+    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS)
   end
 end
