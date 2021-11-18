@@ -141,17 +141,21 @@ module Exporters
 
       it 'prints a header for each form and subform' do
         expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
-        expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
-        expect(workbook.sheet(2).row(1)).to eq(%w[ID first_name last_name])
+        expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
+        expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
         expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
         expect(workbook.sheet(4).row(1)).to eq(%w[ID field_5 field_6])
-        expect(workbook.sheet(5).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
-        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(5).row(1)).to eq(%w[ID first_name last_name])
+        expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
+        expect(workbook.sheet(7).row(1)).to eq(%w[ID field_5 field_6])
+        expect(workbook.sheet(8).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
+        expect(workbook.sheet(9).row(1)).to eq(%w[ID field_1 field_2])
+        expect(workbook.sheet(10).row(1)).to eq(%w[ID field_2])
       end
 
       it 'exports record values for regular forms' do
-        expect(workbook.sheet(1).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
-        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'John', 'Doe'])
+        expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+        expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe'])
       end
 
       it 'exports record values for each instance of subforms' do
@@ -169,8 +173,8 @@ module Exporters
       end
 
       it 'exports only the record values for each instance of subforms that meets the condition' do
-        expect(workbook.sheet(6).last_row).to eq(2)
-        expect(workbook.sheet(6).row(2)).to eq([@record_id, 'field_2 value'])
+        expect(workbook.sheet(10).last_row).to eq(2)
+        expect(workbook.sheet(10).row(2)).to eq([@record_id, 'field_2 value'])
       end
     end
   end
