@@ -203,7 +203,12 @@ class Incident < ApplicationRecord
   end
 
   def associations_as_data(_current_user)
-    @associations_as_data ||= violations.associations_as_data.merge('violations' => violations.map(&:data))
+    # TODO: Get rid of this validation once we are inserting full structure from front-end
+    @associations_as_data ||= if violations.present?
+                                violations.associations_as_data.merge('violations' => violations.map(&:data))
+                              else
+                                {}
+                              end
   end
 
   def associations_as_data_keys
