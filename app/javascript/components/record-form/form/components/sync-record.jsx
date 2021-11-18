@@ -33,7 +33,7 @@ const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, param
 
   const renderSyncBtn = (
     <ActionButton
-      text={i18n.t("buttons.sync")}
+      text="buttons.sync"
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{

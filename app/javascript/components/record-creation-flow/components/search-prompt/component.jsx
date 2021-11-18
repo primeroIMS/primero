@@ -92,7 +92,7 @@ const Component = ({
         <div className={css.search}>
           <ActionButton
             icon={<SearchIcon />}
-            text={i18n.t("navigation.search")}
+            text="navigation.search"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               form: FORM_ID,

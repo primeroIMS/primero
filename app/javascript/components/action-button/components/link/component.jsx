@@ -3,9 +3,9 @@ import { Link } from "@material-ui/core";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, ...rest }) => {
+const Component = ({ text, id, ...rest }) => {
   return (
-    <Link underline="hover" {...rest}>
+    <Link id={id} underline="hover" {...rest}>
       {text}
     </Link>
   );
@@ -14,6 +14,7 @@ const Component = ({ text, ...rest }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  id: PropTypes.string.isRequired,
   text: PropTypes.string
 };
 

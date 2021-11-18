@@ -23,12 +23,22 @@ const showIdps = (identityProviders, dispatch) => {
   };
 
   return identityProviders.map(idp => {
-    if (idp.get("unique_id") === PRIMERO_IDP && identityProviders.size > 1) {
+    const uniqueID = idp.get("unique_id");
+
+    if (uniqueID === PRIMERO_IDP && identityProviders.size > 1) {
       return null;
     }
 
     return (
-      <Button color="primary" type="submit" size="large" fullWidth key={idp.get("name")} onClick={handleClick(idp)}>
+      <Button
+        id={`idp-button-${uniqueID}`}
+        color="primary"
+        type="submit"
+        size="large"
+        fullWidth
+        key={idp.get("name")}
+        onClick={handleClick(idp)}
+      >
         {idp.get("name")}
       </Button>
     );

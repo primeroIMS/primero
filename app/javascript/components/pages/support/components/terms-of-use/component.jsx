@@ -26,7 +26,7 @@ const Component = () => {
             <Typography className={css.agencyName}>{displayNameHelper(agency.get("name"), i18n.locale)}</Typography>
             <ActionButton
               icon={<GetAppIcon />}
-              text={i18n.t("agency.terms_of_use_download_button")}
+              text="agency.terms_of_use_download_button"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 onClick: handleClick(agency.get("terms_of_use"))

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Fragment } from "react";
 
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS, DASH_APPROVALS, DASH_APPROVALS_PENDING } from "../../../../../libs/permissions";
@@ -21,12 +22,29 @@ import {
 import { useApp } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
 import css from "../styles.css";
+import usePermissions from "../../../../permissions";
 
 import { NAME } from "./constants";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
+
+  const {
+    dashApprovalPending,
+    dashApprovalsAssessment,
+    dashApprovalsCasePlan,
+    dashApprovalsClosure,
+    dashApprovalsActionPlan,
+    dashApprovalsGbvClosure
+  } = usePermissions(RESOURCES.dashboards, {
+    dashApprovalPending: DASH_APPROVALS_PENDING,
+    dashApprovalsAssessment: [ACTIONS.DASH_APPROVALS_ASSESSMENT],
+    dashApprovalsCasePlan: [ACTIONS.DASH_APPROVALS_CASE_PLAN],
+    dashApprovalsClosure: [ACTIONS.DASH_APPROVALS_CLOSURE],
+    dashApprovalsActionPlan: [ACTIONS.DASH_APPROVALS_ACTION_PLAN],
+    dashApprovalsGbvClosure: [ACTIONS.DASH_APPROVALS_GBV_CLOSURE]
+  });
 
   const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
@@ -58,8 +76,9 @@ const Component = ({ loadingIndicator }) => {
 
   const dashboards = [
     {
+      key: "dashApprovalPending",
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: DASH_APPROVALS_PENDING,
+      actions: dashApprovalPending,
       options: {
         items: pendingApprovalsItems,
         sumTitle: i18n.t("dashboard.pending_approvals"),
@@ -67,32 +86,36 @@ const Component = ({ loadingIndicator }) => {
       }
     },
     {
+      key: "dashApprovalsAssessment",
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_APPROVALS_ASSESSMENT,
+      actions: dashApprovalsAssessment,
       options: {
         items: approvalsAssessment,
         sumTitle: approvalsLabels.get("assessment")
       }
     },
     {
+      key: "dashApprovalsCasePlan",
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_APPROVALS_CASE_PLAN,
+      actions: dashApprovalsCasePlan,
       options: {
         items: approvalsCasePlan,
         sumTitle: approvalsLabels.get("case_plan")
       }
     },
     {
+      key: "dashApprovalsClosure",
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_APPROVALS_CLOSURE,
+      actions: dashApprovalsClosure,
       options: {
         items: approvalsClosure,
         sumTitle: approvalsLabels.get("closure")
       }
     },
     {
+      key: "dashApprovalsActionPlan",
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_APPROVALS_ACTION_PLAN,
+      actions: dashApprovalsActionPlan,
       options: {
         items: approvalsActionPlan,
         sumTitle: approvalsLabels.get("action_plan")
@@ -100,27 +123,28 @@ const Component = ({ loadingIndicator }) => {
     },
     {
       type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: ACTIONS.DASH_APPROVALS_GBV_CLOSURE,
+      actions: dashApprovalsGbvClosure,
       options: {
         items: approvalsGbvClosure,
         sumTitle: approvalsLabels.get("gbv_closure")
       }
     }
-  ];
+  ].filter(dashboard => dashboard.actions);
 
   const renderDashboards = () => {
-    return dashboards.map(dashboard => {
-      const { type, actions, options } = dashboard;
+    return dashboards.map((dashboard, index) => {
+      const { type, options, key } = dashboard;
       const Dashboard = dashboardType(type);
 
       return (
-        <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
+        <Fragment key={key}>
           <div className={css.optionsBox}>
             <OptionsBox flat>
               <Dashboard {...options} />
             </OptionsBox>
           </div>
-        </Permission>
+          {index === dashboards.length - 1 || <div className={css.divider} />}
+        </Fragment>
       );
     });
   };

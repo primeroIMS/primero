@@ -93,9 +93,11 @@ const Component = ({
         <div>
           {!mode.isShow && !isDisabled && isReadWriteForm && (
             <ActionButton
+              id="fields.add"
               icon={<AddIcon />}
               text={renderAddText}
               type={ACTION_BUTTON_TYPES.default}
+              noTranslate
               rest={{
                 onClick: handleAddSubform
               }}

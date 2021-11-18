@@ -90,7 +90,7 @@ const Component = ({
         <div className={css.createButtonContainer}>
           <ActionButton
             icon={<Add />}
-            text={i18n.t("buttons.create_case")}
+            text="buttons.create_case"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               form: FORM_ID,

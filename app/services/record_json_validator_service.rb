@@ -72,7 +72,6 @@ class RecordJsonValidatorService < JsonValidatorService
 
     entries.each_with_object({ 'total' => NUMBER_VALIDATION }) do |entry, acc|
       acc[entry['id']] = NUMBER_VALIDATION
-      acc
     end
   end
 end

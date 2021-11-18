@@ -4,7 +4,6 @@ import { FastField } from "formik";
 import { useDispatch } from "react-redux";
 
 import { MAX_ATTACHMENT_SIZE } from "../../../../../config";
-import { useI18n } from "../../../../i18n";
 import { toBase64 } from "../../../../../libs";
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
@@ -15,7 +14,6 @@ import { ATTACHMENT_TYPES, ATTACHMENT_ACCEPTED_TYPES } from "./constants";
 import renderPreview from "./render-preview";
 
 const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
-  const i18n = useI18n();
   const dispatch = useDispatch();
 
   const [file, setFile] = useState({
@@ -72,7 +70,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
         <div className={css.buttonWrapper}>
           {!file?.data && (
             <ActionButton
-              text={i18n.t("fields.file_upload_box.select_file_button_text")}
+              text="fields.file_upload_box.select_file_button_text"
               type={ACTION_BUTTON_TYPES.default}
               pending={file?.loading}
               rest={{

@@ -22,6 +22,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
     <>
       {showMenu && (
         <ActionButton
+          id="more-actions"
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{

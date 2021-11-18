@@ -1,9 +1,5 @@
 .seeAll {
   width: 100%;
   text-align: center;
-  margin-top: 12px;
-}
-
-.seeAllColor {
-  color: var(--c-blue) !important;
+  margin: var(--sp-1);
 }
