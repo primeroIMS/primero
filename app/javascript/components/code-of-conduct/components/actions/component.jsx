@@ -7,12 +7,13 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, i18n, handleAccept, handleCancel, updatingCodeOfConduct, codeOfConductAccepted }) => {
+const Component = ({ css, handleAccept, handleCancel, updatingCodeOfConduct, codeOfConductAccepted }) => {
   return (
     <div className={css.actions}>
       <ActionButton
+        id="code-of-conduct-cancel"
         icon={<ClearIcon />}
-        text={i18n.t("buttons.cancel")}
+        text="buttons.cancel"
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         rest={{
@@ -20,8 +21,9 @@ const Component = ({ css, i18n, handleAccept, handleCancel, updatingCodeOfConduc
         }}
       />
       <ActionButton
+        id="code-of-conduct-accept"
         icon={<CheckIcon />}
-        text={i18n.t("buttons.accept")}
+        text="buttons.accept"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleAccept,
@@ -40,7 +42,6 @@ Component.propTypes = {
   css: PropTypes.object,
   handleAccept: PropTypes.func,
   handleCancel: PropTypes.func,
-  i18n: PropTypes.object,
   updatingCodeOfConduct: PropTypes.bool
 };
 

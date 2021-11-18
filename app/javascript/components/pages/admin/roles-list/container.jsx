@@ -44,7 +44,7 @@ const Container = () => {
   const rolesNewButton = canAddRoles && (
     <ActionButton
       icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
+      text="buttons.new"
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         to: ROUTES.admin_roles_new,

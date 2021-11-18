@@ -3,7 +3,7 @@
 }
 
 .itemButton {
-  font-size: var(--fs-16);
+  font-size: var(--fs-14);
   border: none;
   line-height: 1.5em;
   text-align: left;

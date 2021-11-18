@@ -77,6 +77,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
         return (
           <>
             <MuiTextField
+              id={name}
               variant="outlined"
               form={renderProps.form}
               field={{
@@ -93,7 +94,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               {...fieldProps}
             />
             {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase className={css.hideNameStyle} onClick={handleOnClick}>
+              <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}

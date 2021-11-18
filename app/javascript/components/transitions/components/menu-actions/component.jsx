@@ -149,6 +149,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     <div className={classes.iconBar}>
       <DisableOffline>
         <ActionButton
+          id="more-actions"
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{

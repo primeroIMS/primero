@@ -27,6 +27,7 @@ const Exporter = ({ includesGraph }) => {
 
   const renderGraphExporter = includesGraph && (
     <ActionButton
+      id="graph-exporter-button"
       icon={<ExportReportGraphIcon />}
       type={ACTION_BUTTON_TYPES.icon}
       isTransparent
@@ -41,6 +42,7 @@ const Exporter = ({ includesGraph }) => {
     <>
       {renderGraphExporter}
       <ActionButton
+        id="report-data-button"
         icon={<ExportReportDataIcon />}
         type={ACTION_BUTTON_TYPES.icon}
         isTransparent
