@@ -101,7 +101,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
         <DialogActions>
           <ActionButton
             icon={<CheckIcon />}
-            text={i18n.t("buttons.save")}
+            text="buttons.save"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               type: "submit"
@@ -109,7 +109,7 @@ const SavedSearchesForm = ({ recordType, open, setOpen, getValues }) => {
           />
           <ActionButton
             icon={<CloseIcon />}
-            text={i18n.t("buttons.cancel")}
+            text="buttons.cancel"
             type={ACTION_BUTTON_TYPES.default}
             cancel
             rest={{

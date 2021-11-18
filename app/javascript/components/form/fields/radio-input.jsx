@@ -9,7 +9,7 @@ const RadioInput = ({ commonInputProps, options, formMethods }) => {
   const { control } = formMethods;
 
   return (
-    <FormControl error={error} className={className}>
+    <FormControl id={name} error={error} className={className}>
       <FormLabel component="legend" className="MuiInputLabel-root">
         {radioGroupLabel}
       </FormLabel>

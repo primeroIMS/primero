@@ -26,7 +26,7 @@
 }
 
 .itemButton {
-  font-size: var(--fs-16);
+  font-size: var(--fs-14);
   font-weight: normal;
   border: none;
   line-height: 1.5em;

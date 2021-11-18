@@ -337,6 +337,11 @@ const overrides = {
       gap: "var(--sp-2)"
     }
   },
+  MuiFormLabel: {
+    root: {
+      fontSize: "var(--fs-13)"
+    }
+  },
   MuiAutocomplete: {
     inputRoot: {
       padding: "0  !important"

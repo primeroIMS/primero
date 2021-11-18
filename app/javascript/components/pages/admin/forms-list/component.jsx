@@ -179,7 +179,7 @@ const Component = () => {
             <LoadingIndicator hasData={hasFormSectionsByGroup} loading={isLoading} type={NAMESPACE}>
               <ActionButton
                 icon={<ListIcon />}
-                text={i18n.t("buttons.reorder")}
+                text="buttons.reorder"
                 type={ACTION_BUTTON_TYPES.default}
                 className={css.reorderButton}
                 isTransparent

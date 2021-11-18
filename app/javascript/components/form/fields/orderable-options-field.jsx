@@ -65,8 +65,9 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
     showActionButtons ? (
       <div className={css.optionsFieldActions}>
         <ActionButton
+          id="add-another-options"
           icon={<AddIcon />}
-          text={i18n.t("buttons.add_another_option")}
+          text="buttons.add_another_option"
           type={ACTION_BUTTON_TYPES.default}
           rest={{
             onClick: onAddOption
@@ -74,7 +75,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
         />
         <ActionButton
           icon={<CloseIcon />}
-          text={i18n.t("buttons.clear_default")}
+          text="buttons.clear_default"
           type={ACTION_BUTTON_TYPES.default}
           cancel
           rest={{

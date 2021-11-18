@@ -99,6 +99,7 @@ const RecordFormToolbar = ({
 
   const renderSaveButton = (
     <ActionButton
+      id="buttons.save_and_return"
       icon={
         incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? (
           <SaveReturnIcon isRTL={isRTL} />
@@ -111,6 +112,7 @@ const RecordFormToolbar = ({
       )}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
+      noTranslate
       rest={{
         onClick: handleFormSubmit
       }}
@@ -156,7 +158,7 @@ const RecordFormToolbar = ({
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
             icon={<KeyboardBackspaceIcon className={rtlClass} />}
-            text={i18n.t("buttons.return_to_case")}
+            text="buttons.return_to_case"
             type={ACTION_BUTTON_TYPES.default}
             cancel
             rest={{ onClick: handleReturnToCase }}
@@ -175,7 +177,7 @@ const RecordFormToolbar = ({
           <>
             <ActionButton
               icon={<ClearIcon />}
-              text={i18n.t("buttons.cancel")}
+              text="buttons.cancel"
               type={ACTION_BUTTON_TYPES.default}
               cancel
               onClick={goBack}
@@ -187,7 +189,7 @@ const RecordFormToolbar = ({
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
             <ActionButton
               icon={<CreateIcon />}
-              text={i18n.t("buttons.edit")}
+              text="buttons.edit"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 to: `/${params.recordType}/${params.id}/edit`,

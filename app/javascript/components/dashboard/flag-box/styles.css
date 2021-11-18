@@ -5,7 +5,7 @@
 
 .Flag {
   padding: 20px 15px;
-  border-bottom: 1px solid #F0F0F0;
+  border-bottom: 1px solid   var(--c-warm-grey-1);
   font-style: normal;
   font-stretch: normal;
   line-height: normal;
@@ -22,25 +22,24 @@
   display: inline;
   font-size: var(--fs-13);
   font-weight: bold;
-  color: #231e1f;
 }
 
 .FlagDate{
   float: right;
-  font-size: var(--fs-12);
+  font-size: var(--fs-13);
   text-align: right;
-  color: #4a4a4a;
+  color: var(--c-grey)
 }
 
 .FlagContent {
   font-size: var(--fs-13);
-  color: #757472;
+  color: var(--c-mid-grey);
   margin: 3px 0 7px 0;
 }
 
 .FlagStatus {
   font-size: var(--fs-12);
-  color: #757472;
+  color: var(--c-mid-grey);
 }
 
 .FlagCasesMineIcon {

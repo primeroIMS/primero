@@ -49,6 +49,7 @@ const AttachmentField = ({ name, index, attachment, disabled, mode, arrayHelpers
   const deleteButton = (
     <>
       <ActionButton
+        id="delete-button"
         icon={<DeleteIcon />}
         type={ACTION_BUTTON_TYPES.icon}
         cancel

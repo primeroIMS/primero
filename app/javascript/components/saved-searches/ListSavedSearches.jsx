@@ -81,6 +81,7 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
           <ListItemSecondaryAction>
             <ActionButton
               icon={<DeleteIcon />}
+              id="delete-button"
               type={ACTION_BUTTON_TYPES.icon}
               rest={{
                 edge: "end",
