@@ -56,12 +56,17 @@ describe SearchService, search: true do
         :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.TW03",
                    type: 'city', disabled: false, location_code: 'TW03'
       )
+      @town4 = create(
+        :location, hierarchy_path: "#{@country.location_code}.#{@province2.location_code}.1234",
+                   type: 'city', disabled: false, location_code: '1234'
+      )
 
       @child_location1 = Child.create!(data: { location_current: 'MC01' })
       @child_location2 = Child.create!(data: { location_current: 'TW01' })
       @child_location3 = Child.create!(data: { location_current: 'TW02' })
       @child_location4 = Child.create!(data: { location_current: 'PR02' })
       @child_location5 = Child.create!(data: { location_current: 'TW03' })
+      @child_location6 = Child.create!(data: { location_current: '1234' })
 
       Sunspot.commit
     end
@@ -72,6 +77,13 @@ describe SearchService, search: true do
 
       expect(search.total).to eq(3)
       expect(search.results).to contain_exactly(@child_location2, @child_location3, @child_location5)
+    end
+
+    it 'searches with location filters and numeric location code' do
+      filter = SearchFilters::ValueList.new(field_name: 'location_current', values: [1234])
+      location_field_name = filter.as_location_filter(Child).filters.last.field_name
+
+      expect(location_field_name).to eq("location_current#{@town4.admin_level}")
     end
   end
 
