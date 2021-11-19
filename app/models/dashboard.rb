@@ -220,6 +220,14 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
+  DASH_SHARED_WITH_MY_TEAM_OVERVIEW = Dashboard.new(
+    name: 'dash_shared_with_my_team_overview',
+    type: 'indicator',
+    indicators: [
+      Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW
+    ]
+  ).freeze
+
   DASH_CASE_INCIDENT_OVERVIEW = Dashboard.new(
     name: 'dash_case_incident_overview',
     type: 'indicator',

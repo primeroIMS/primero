@@ -636,6 +636,7 @@ en:
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
+    dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
     date: Date
@@ -738,6 +739,7 @@ en:
     shared_with_me_new_referrals: New Referrals
     shared_with_me_total_referrals: Total Referrals
     shared_with_me_transfers_awaiting_acceptance: Transfers Awaiting Acceptance
+    shared_with_my_team_pending_transfers_overview: Transfers Awaiting Acceptance
     shared_with_my_team_pending_transfers: Pending Transfers
     shared_with_my_team_referrals: Referrals
     shared_with_others_pending_transfers: Pending Transfers
@@ -2517,6 +2519,8 @@ en:
             explanation: Shows a manager the number of cases referred or transferred
               to each one of the users in their team.
             label: Shared With My Team
+          dash_shared_with_my_team_overview:
+            label: Shared with my Team (Overview)
           dash_shared_with_others:
             explanation: Shows how many of my cases have active referrals, pending
               transfers, or rejected transfers. Not typically for managers, unless
