@@ -8,6 +8,7 @@
       <%= t('email_notification.transfer_request_html',
              user: @transition.transitioned_by,
              agency: @transition&.transitioned_by_user&.agency&.name,
+             locale: @locale_email,
              record_type: t("forms.record_types.#{@transition&.record.class.parent_form}"),
              record_id: link_to(
                  @transition&.record&.short_id, url_for_v2(@transition&.record)
@@ -17,7 +18,8 @@
     </p>
     <p>
       <%= t('email_notification.transfer_request_notes_html',
-             request_transfer_notes: @transition.notes
+             request_transfer_notes: @transition.notes,
+             locale: @locale_email
            ).html_safe
        %>
     </p>
