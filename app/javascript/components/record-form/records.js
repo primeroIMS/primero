@@ -23,6 +23,8 @@ export const FieldRecord = Record({
   order: null,
   subform_section_configuration: null,
   tick_box_label: {},
+  tally: {},
+  autosum_total: true,
   link_to_form: "",
   href: null
 });

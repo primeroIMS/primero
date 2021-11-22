@@ -13,7 +13,8 @@ import {
   PHOTO_FIELD,
   AUDIO_FIELD,
   DOCUMENT_FIELD,
-  LINK_TO_FORM
+  LINK_TO_FORM,
+  TALLY_FIELD
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
@@ -29,6 +30,7 @@ import Seperator from "./field-types/seperator";
 import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
+import TallyField from "./field-types/tally-field";
 import css from "./styles.css";
 
 const FormSectionField = ({
@@ -136,6 +138,8 @@ const FormSectionField = ({
       case AUDIO_FIELD:
       case DOCUMENT_FIELD:
         return AttachmentField;
+      case TALLY_FIELD:
+        return TallyField;
       default:
         return TextField;
     }

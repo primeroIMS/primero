@@ -17,6 +17,8 @@ describe("Verifying config constant", () => {
       "RECORD_FORM_PERMISSION",
       "SELECT_FIELD_NAME",
       "SEPERATOR_NAME",
+      "TALLY_FIELD_NAME",
+      "TALLY_FIELD_CONTAINER_NAME",
       "TEXT_FIELD_NAME",
       "TICK_FIELD_NAME"
     ].forEach(property => {
