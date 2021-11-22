@@ -215,4 +215,19 @@ describe SearchService, search: true do
   after :example do
     clean_data(Agency, UserGroup, User, Child)
   end
+
+  describe 'Filter search' do
+    before :example do
+      @correct_match = Child.create!(data: { name: 'Correct Match1', oscar_number: 'RXJA12819JIKA2893' })
+      @incorrect_match = Child.create!(data: { name: 'Incorrect Match', oscar_number: 'RT128N1281O084' })
+      Sunspot.commit
+    end
+
+    it 'searches with filters' do
+      search = SearchService.search(Child, query: 'RXJA12819JIKA2893')
+
+      expect(search.total).to eq(1)
+      expect(search.results.first.name).to eq(@correct_match.name)
+    end
+  end
 end
