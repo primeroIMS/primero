@@ -13,7 +13,8 @@ import {
   getGroupOverview,
   getCaseOverview,
   getCaseIncidentOverview,
-  getNationalAdminSummary
+  getNationalAdminSummary,
+  getSharedWithMyTeamOverview
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
@@ -33,6 +34,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   const labelsRiskLevel = useMemoizedSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
   const caseIncidentOverview = useMemoizedSelector(state => getCaseIncidentOverview(state));
   const nationalAdminSummary = useMemoizedSelector(state => getNationalAdminSummary(state));
+  const sharedWithMyTeamOverview = useMemoizedSelector(state => getSharedWithMyTeamOverview(state));
 
   const overviewDashHasData = Boolean(
     casesByAssessmentLevel.size ||
@@ -40,7 +42,8 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       caseOverview.size ||
       sharedWithMe.size ||
       sharedWithOthers.size ||
-      nationalAdminSummary.size
+      nationalAdminSummary.size ||
+      sharedWithMyTeamOverview.size
   );
 
   const dashboards = [
@@ -69,6 +72,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       options: {
         items: groupOverview,
         sumTitle: i18n.t("dashboard.dash_group_overview"),
+        withTotal: false
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW,
+      options: {
+        items: sharedWithMyTeamOverview,
+        sumTitle: i18n.t("dashboard.dash_shared_with_my_team"),
         withTotal: false
       }
     },

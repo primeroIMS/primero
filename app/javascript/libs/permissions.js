@@ -41,6 +41,7 @@ export const ACTIONS = {
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
   DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
+  DASH_SHARED_WITH_MY_TEAM_OVERVIEW: "dash_shared_with_my_team_overview",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_TASKS: "dash_tasks",

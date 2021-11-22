@@ -27,6 +27,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   SHARED_FROM_MY_TEAM: "dashboard.dash_shared_from_my_team",
   SHARED_WITH_ME: "dashboard.dash_shared_with_me",
   SHARED_WITH_MY_TEAM: "dashboard.dash_shared_with_my_team",
+  SHARED_WITH_MY_TEAM_OVERVIEW: "dashboard.dash_shared_with_my_team_overview",
   SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
