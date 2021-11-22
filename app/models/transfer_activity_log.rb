@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 # Represents a transfer activity for a record
-class TransferActivity < ActivityLog
+class TransferActivityLog < ActivityLog
   def initialize(record_history)
     super(record_history)
-    self.type = TransferActivity.type
+    self.type = TransferActivityLog.type
     self.data = generate_data
   end
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TransferActivity do
+describe TransferActivityLog do
   before :each do
     clean_data(PrimeroProgram, FormSection, PrimeroModule, Role, UserGroup, User, Child, RecordHistory)
 
@@ -55,7 +55,7 @@ describe TransferActivity do
     user1.role = empty_role
     user1.save(validate: false)
 
-    expect(TransferActivity.list(user1)).to be_empty
+    expect(TransferActivityLog.list(user1)).to be_empty
   end
 
   it 'returns the transfer activities for the user' do
@@ -69,7 +69,7 @@ describe TransferActivity do
     foo.role = role
     foo.save(validate: false)
 
-    activities = TransferActivity.list(foo)
+    activities = TransferActivityLog.list(foo)
 
     expect(activities.size).to eq(2)
     expect(activities.map { |activity| activity.data[:status][:to] }).to eq(

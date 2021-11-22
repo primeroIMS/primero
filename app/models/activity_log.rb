@@ -16,7 +16,7 @@ class ActivityLog
     end
 
     def activities
-      [TransferActivity]
+      [TransferActivityLog]
     end
 
     def activity_types
