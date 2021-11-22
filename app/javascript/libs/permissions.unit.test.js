@@ -134,6 +134,7 @@ describe("Verifying config constant", () => {
     const resources = { ...PERMISSIONS.RESOURCES };
 
     [
+      "activity_logs",
       "agencies",
       "any",
       "audit_logs",

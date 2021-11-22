@@ -244,6 +244,10 @@ en:
       services_implemented: Service Implemented
   linkedincidents:
     label: Linked Incidents
+  activity_log:
+    label: Activity Log
+    accepted_transfer: '%{to} accepted transfer of %{record_type} %{record_id} from %{from}'
+    rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
     action_plan: Action Plan
     age: Age
@@ -1782,6 +1786,7 @@ en:
       system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
+    activity_log: Activity Log
   notes:
     note_success: Successfully added note
   permissions:
@@ -3321,6 +3326,7 @@ en:
     tracing_requests: Tracing Requests
     export: Export
   transfer:
+    label: Transfer
     agency_label: Agency
     consent_from_individual_label: Do you have consent from the individual to make
       this transfer?
