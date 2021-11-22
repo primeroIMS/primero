@@ -24,8 +24,8 @@ class Field < ApplicationRecord
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
 
-  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label
-  localize_properties :option_strings_text, options_list: true
+  localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
+  localize_properties :option_strings_text, :tally, options_list: true
 
   attr_reader :options
   store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
