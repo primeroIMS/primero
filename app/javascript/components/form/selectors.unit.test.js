@@ -346,7 +346,7 @@ describe("Forms - Selectors", () => {
       const expected = [
         {
           disabled: false,
-          display_text: "2151a - 2021-04-10 - Type 1",
+          display_text: "2021-04-10 - Type 1 - 2151a",
           id: "001-2151a"
         }
       ];

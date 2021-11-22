@@ -7,9 +7,9 @@ export default (linkedIncidents, violenceLookupValues, options) =>
       ...prev,
       {
         id: current.get("unique_id"),
-        display_text: `${current.get("short_id")} - ${options.localizeDate(current.get("incident_date"))} - ${
-          violenceTypeValue.display_text
-        }`,
+        display_text: `${options.localizeDate(current.get("incident_date"))}${
+          violenceTypeValue ? ` - ${violenceTypeValue.display_text}` : ""
+        } - ${current.get("short_id")}`,
         disabled: false
       }
     ];
