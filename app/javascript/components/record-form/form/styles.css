@@ -64,6 +64,12 @@
   padding-top: var(--sp-3);
 }
 
+.formSubtitle {
+  font-size: var(--fs-15);
+  font-weight: bold;
+  color: var(--c-solid-black);
+}
+
 .attachmentHeading {
   display: flex;
 

@@ -13,6 +13,7 @@ import { useThemeHelper } from "../../../../../libs";
 import css from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { isViolationSubform } from "../../utils";
 
 import { isTracesSubform } from "./utils";
 
@@ -54,6 +55,9 @@ const Component = ({
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
+  const isViolation = isViolationSubform(recordType, formSection.unique_id, true);
+  const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
+  const renderFieldTitle = !isViolation && title;
   const handleCloseSubformTraces = () => setOpenDialog(false);
 
   useEffect(() => {
@@ -77,6 +81,7 @@ const Component = ({
         form={formSection}
         recordType={recordType}
         isTracesSubform={isTraces}
+        isViolationSubform={isViolation}
         formik={formik}
         parentForm={form}
       />
@@ -87,11 +92,11 @@ const Component = ({
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3>
-            {!mode.isShow && !displayConditions && i18n.t("fields.add")} {title}
+            {renderAddFieldTitle} {renderFieldTitle}
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolation && (
             <ActionButton
               id="fields.add"
               icon={<AddIcon />}

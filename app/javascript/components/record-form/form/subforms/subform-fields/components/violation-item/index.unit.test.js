@@ -1,11 +1,11 @@
 import * as indexValues from "./index";
 
-describe("<RecordForm>/form/subforms/<SubformFields>/components- index", () => {
+describe("<RecordForm>/form/subforms/<SubformFields>/components/<ViolationItem> - index", () => {
   const clone = { ...indexValues };
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["TracingRequestStatus", "ViolationItem"].forEach(property => {
+    ["default"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

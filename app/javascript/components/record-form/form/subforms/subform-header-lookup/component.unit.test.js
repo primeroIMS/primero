@@ -94,4 +94,20 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
 
     expect(component.text()).to.equal("Service 2");
   });
+
+  it("should render the displayName if it is a volation", () => {
+    const props = {
+      value: "region",
+      optionsStringSource: "lookup lookup-location-type",
+      isViolationSubform: true,
+      displayName: {
+        en: "Testing Display Name"
+      },
+      locale: "en"
+    };
+
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("Testing Display Name: Region");
+  });
 });

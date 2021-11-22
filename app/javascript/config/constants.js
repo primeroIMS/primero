@@ -120,6 +120,7 @@ export const RECORD_PATH = {
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";
 
@@ -503,3 +504,25 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS
 });
+
+export const VIOLATIONS_FORM = [
+  "killing_violation_wrapper",
+  "maiming_violation_wrapper",
+  "recruitment_violation_wrapper",
+  "sexual_violence_violation_wrapper",
+  "abduction_violation_wrapper",
+  "attack_on_violation_wrapper",
+  "military_use_violation_wrapper",
+  "denial_humanitarian_access_violation_wrapper"
+];
+
+export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
+  "killing",
+  "maiming",
+  "recruitment",
+  "sexual_violence",
+  "abduction",
+  "attack_on",
+  "military_use",
+  "denial_humanitarian_access"
+];
