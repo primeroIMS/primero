@@ -156,8 +156,8 @@ class Incident < ApplicationRecord
 
   alias super_update_properties update_properties
   def update_properties(user, data)
-    build_or_update_violations(self.class.violations_data(Violation::TYPES, data))
-    build_violations_associations(self.class.violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data))
+    build_or_update_violations(Incident.violations_data(Violation::TYPES, data))
+    build_violations_associations(Incident.violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data))
     super_update_properties(user, data)
   end
 
