@@ -212,6 +212,12 @@ describe Api::V2::DashboardsController, type: :request do
             Permission::TRANSFER, Permission::RECEIVE_TRANSFER
           ]
         )
+        @permission_dashboard_shared_with_my_team_overview = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [
+            Permission::DASH_SHARED_WITH_MY_TEAM_OVERVIEW
+          ]
+        )
         @permission_dashboard_shared_from_my_team = Permission.new(
           resource: Permission::DASHBOARD,
           actions: [
@@ -222,6 +228,10 @@ describe Api::V2::DashboardsController, type: :request do
                            @permission_refer_case,
                            @permission_dashboard_shared_from_my_team
                          ], modules: [@primero_module])
+        @role2 = Role.new(permissions: [
+                            @permission_refer_case,
+                            @permission_dashboard_shared_with_my_team_overview
+                          ], group_permission: Permission::GROUP, modules: [@primero_module])
         @role.save(validate: false)
         @group_a = UserGroup.create!(name: 'Group_a')
         @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group_a])
@@ -229,6 +239,8 @@ describe Api::V2::DashboardsController, type: :request do
         @group_b = UserGroup.create!(name: 'Group_b')
         @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group_a])
         @user2.save(validate: false)
+        @user3 = User.new(user_name: 'user3', role: @role2, user_groups: [@group_a])
+        @user3.save(validate: false)
         @case_a = Child.create(
           data: {
             name: 'Test_a', owned_by: 'user1',
@@ -260,12 +272,6 @@ describe Api::V2::DashboardsController, type: :request do
           resource: Permission::DASHBOARD,
           actions: [
             Permission::DASH_SHARED_WITH_MY_TEAM
-          ]
-        )
-        @permission_dashboard_shared_with_my_team_overview = Permission.new(
-          resource: Permission::DASHBOARD,
-          actions: [
-            Permission::DASH_SHARED_WITH_MY_TEAM_OVERVIEW
           ]
         )
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
@@ -344,12 +350,8 @@ describe Api::V2::DashboardsController, type: :request do
       end
 
       it 'lists statistics for permitted shared with my team (overview) dashboards' do
-        login_for_test(
-          user_name: 'user2',
-          group_permission: Permission::SELF,
-          permissions: [@permission_case, @permission_dashboard_shared_with_my_team_overview],
-          user_groups: @user2.user_groups
-        )
+        sign_in(@user3)
+
         get '/api/v2/dashboards'
 
         expect(response).to have_http_status(200)
