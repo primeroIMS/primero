@@ -51,8 +51,7 @@ const Component = ({ field, values, locale, displayName, index, onClick, isViola
             optionsStringSource,
             optionsStringText,
             isViolationSubform,
-            displayName: displayNameCollapsedField,
-            locale
+            displayName: displayNameCollapsedField
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;

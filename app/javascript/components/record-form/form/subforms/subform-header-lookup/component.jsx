@@ -7,10 +7,10 @@ import useOptions from "../../../../form/use-options";
 
 import { getMultiSelectValues } from "./utils";
 
-const Component = ({ value, optionsStringSource, optionsStringText, isViolationSubform, displayName, locale }) => {
+const Component = ({ value, optionsStringSource, optionsStringText, isViolationSubform, displayName }) => {
   const i18n = useI18n();
   const optionsStrings = useOptions({ source: optionsStringSource });
-  const renderDisplayName = isViolationSubform && `${displayName?.[locale]}: `;
+  const renderDisplayName = isViolationSubform && `${displayName?.[i18n.locale]}: `;
 
   if (isEmpty(value)) return <>{value}</>;
 
@@ -66,7 +66,6 @@ Component.defaultProps = {
 Component.propTypes = {
   displayName: PropTypes.object,
   isViolationSubform: PropTypes.bool,
-  locale: PropTypes.string,
   optionsStringSource: PropTypes.string,
   optionsStringText: PropTypes.array,
   value: PropTypes.string

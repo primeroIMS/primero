@@ -102,8 +102,7 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
       isViolationSubform: true,
       displayName: {
         en: "Testing Display Name"
-      },
-      locale: "en"
+      }
     };
 
     const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
