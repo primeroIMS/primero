@@ -1324,6 +1324,7 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      title: Violations
       pending: Pending Verification
   incidents:
     disable_dialog: Clicking OK will change the status of this incident to Disabled.

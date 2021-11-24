@@ -78,7 +78,7 @@ const renderFormSections = (
 
       const titleProps = isViolation
         ? {
-            displayText: i18n.t("forms.record_types.violation"),
+            displayText: i18n.t("incident.violation.title"),
             subTitle: displayNameHelper(form.name, i18n.locale),
             subTitleGuidance: fieldForGuidance.guiding_questions
           }

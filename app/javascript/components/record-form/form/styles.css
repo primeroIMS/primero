@@ -60,14 +60,20 @@
   top: 0;
   z-index: 99;
   align-items: center;
-  margin-bottom: var(--sp-3);
   padding-top: var(--sp-3);
+  &.formTitleMargin {
+    margin-bottom: var(--sp-3);
+  }
 }
 
 .formSubtitle {
   font-size: var(--fs-15);
   font-weight: bold;
   color: var(--c-solid-black);
+}
+
+.subtitle {
+  margin-top: var(--sp-1);
 }
 
 .attachmentHeading {

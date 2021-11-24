@@ -1,6 +1,7 @@
 import { IconButton } from "@material-ui/core";
 import MenuOpen from "@material-ui/icons/MenuOpen";
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 
@@ -9,6 +10,11 @@ import css from "./styles.css";
 
 const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay, subTitle, subTitleGuidance, mode }) => {
   const i18n = useI18n();
+
+  const formTitleClasses = clsx({
+    [css.formTitle]: true,
+    [css.formTitleMargin]: !subTitle
+  });
   const showMobileIcon = mobileDisplay ? (
     <IconButton onClick={handleToggleNav}>
       <MenuOpen />
@@ -17,7 +23,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay, subTitle
 
   const renderSubTitle = subTitle ? (
     <div className={css.formSubtitle}>
-      <h3>{subTitle}</h3>
+      <h3 className={css.subtitle}>{subTitle}</h3>
     </div>
   ) : null;
 
@@ -27,7 +33,7 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay, subTitle
 
   return (
     <>
-      <div className={css.formTitle}>
+      <div className={formTitleClasses}>
         {showMobileIcon}
         <span className={css.formHeading}>{displayText}</span>
       </div>
