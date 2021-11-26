@@ -1,7 +1,8 @@
 import { isImmutable, List, Map } from "immutable";
 import { addHours, format, parseISO } from "date-fns";
+import isString from "lodash/isString";
 
-import { API_DATE_FORMAT, API_DATE_TIME_FORMAT } from "../config/constants";
+import { API_DATE_FORMAT, API_DATE_TIME_FORMAT, ISO_DATE_REGEX, ISO_DATE_TIME_REGEX } from "../config/constants";
 
 import displayNameHelper from "./display-name-helper";
 
@@ -69,3 +70,6 @@ export const toServerDateFormat = (date, options) => {
 };
 
 export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));
+
+export const isApiDate = value =>
+  isString(value) && Boolean(value.match(ISO_DATE_REGEX) || value.match(ISO_DATE_TIME_REGEX));
