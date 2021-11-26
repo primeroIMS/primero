@@ -149,4 +149,39 @@ describe("<SubformFieldArray />", () => {
       expect(tracingRequestComponent.find(SubformDialog)).lengthOf(0);
     });
   });
+
+  describe("when is a violation", () => {
+    let incidentComponent;
+
+    beforeEach(() => {
+      ({ component: incidentComponent } = setupMountedComponent(
+        SubformFieldArray,
+        {
+          ...props,
+          recordType: "incidents",
+          formSection: {
+            ...props.formSection,
+            unique_id: "killing"
+          },
+          mode: {
+            isShow: true
+          }
+        },
+        Map({
+          forms: Map({
+            fields: [{ name: "killing" }]
+          })
+        }),
+        [],
+        {}
+      ));
+    });
+
+    it("should not renders not render title", () => {
+      const h3Tag = incidentComponent.find("h3");
+
+      expect(h3Tag).lengthOf(1);
+      expect(h3Tag.at(0).text()).to.be.equal(" ");
+    });
+  });
 });

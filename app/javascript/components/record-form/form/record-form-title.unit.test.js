@@ -4,6 +4,7 @@ import MenuOpen from "@material-ui/icons/MenuOpen";
 import { setupMountedComponent } from "../../../test";
 
 import RecordFormTitle from "./record-form-title";
+import { GuidingQuestions } from "./components";
 
 describe("<RecordFormTitle />", () => {
   const props = {
@@ -28,5 +29,33 @@ describe("<RecordFormTitle />", () => {
 
   it("renders a valid text passed as a prop", () => {
     expect(component.text()).to.be.equal("Test title");
+  });
+
+  context("when subtitle is present", () => {
+    it("renders a <subtitle />", () => {
+      const { component: currentComponent } = setupMountedComponent(
+        RecordFormTitle,
+        { ...props, subTitle: "Test subtitle" },
+        {}
+      );
+      const h3Tag = currentComponent.find("h3");
+
+      expect(h3Tag).to.have.lengthOf(1);
+      expect(h3Tag.at(0).text()).to.be.equal("Test subtitle");
+    });
+  });
+
+  context("when subTitleGuidance is present", () => {
+    it("renders a <subtitle />", () => {
+      const { component: currentComponent } = setupMountedComponent(
+        RecordFormTitle,
+        { ...props, subTitleGuidance: { en: "This is a Guidance" }, mode: { isEdit: true } },
+        {}
+      );
+      const guidance = currentComponent.find(GuidingQuestions);
+
+      expect(guidance).to.have.lengthOf(1);
+      expect(guidance.at(0).text()).to.be.equal("buttons.guidance");
+    });
   });
 });
