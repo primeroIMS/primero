@@ -36,7 +36,7 @@ const rules = [
     test: /\.css$/,
     exclude: /index.css$/,
     use: [
-      ...(isProduction ? [MiniCssExtractPlugin.loader] : ["style-loader"]),
+      MiniCssExtractPlugin.loader,
       {
         loader: "css-loader",
         options: {
@@ -53,10 +53,6 @@ const rules = [
         }
       }
     ]
-  },
-  {
-    test: /index.css$/,
-    use: [MiniCssExtractPlugin.loader, "css-loader"]
   },
   {
     test: /\.svg$/,

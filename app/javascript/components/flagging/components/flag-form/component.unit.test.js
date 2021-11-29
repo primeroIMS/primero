@@ -28,10 +28,6 @@ describe("<FlagForm />", () => {
       expect(component.find(Form)).to.have.lengthOf(1);
     });
 
-    it("renders ActionButton", () => {
-      expect(component.find(ActionButton)).to.have.lengthOf(2);
-    });
-
     it("renders component with valid props", () => {
       const flagFormProps = { ...component.find(FlagForm).props() };
 

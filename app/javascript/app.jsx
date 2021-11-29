@@ -13,8 +13,6 @@ import ApplicationRoutes from "./components/application-routes";
 import { fetchSandboxUI } from "./components/application/action-creators";
 import ThemeProvider from "./theme-provider";
 
-import "@quoin/nepali-datepicker-reactjs/dist/index.css";
-
 const store = configureStore();
 
 const App = () => {

@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { Button, FormControl, FormHelperText, InputLabel } from "@material-ui/core";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 import { TimePicker } from "@material-ui/pickers";
 import { useEffect, useState } from "react";
@@ -11,13 +10,10 @@ import { Calendar } from "@quoin/nepali-datepicker-reactjs";
 import { useI18n } from "../i18n";
 import { DATE_FORMAT_NE } from "../../config";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { convertToNeDate } from "./utils";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ helpText, label, dateProps, handleClearable }) => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const { name, onChange, value, error, disabled, placeholder, dateIncludeTime } = dateProps;
