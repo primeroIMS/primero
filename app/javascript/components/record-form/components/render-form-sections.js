@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
