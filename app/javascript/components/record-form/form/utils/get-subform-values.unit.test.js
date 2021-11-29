@@ -41,4 +41,66 @@ describe("getSubformValues", () => {
       });
     });
   });
+
+  context("when isViolation", () => {
+    it("should return the object with all the associated data to the current violation", () => {
+      const indexViolation = 0;
+      const fieldViolation = { name: "killing", subform_section_configuration: {} };
+      const valuesViolation = {
+        killing: [
+          {
+            killing_number_of_victims: {
+              boys: 1,
+              girls: 2
+            },
+            attack_type: "aerial_attack"
+          },
+          {
+            killing_number_of_victims: {
+              boys: 2,
+              girls: 1
+            },
+            attack_type: "other"
+          }
+        ],
+        random_value: "testing",
+        individual_victims: [
+          {
+            unique_id: "individual1"
+          },
+          {
+            unique_id: "individual2"
+          }
+        ],
+        perpetrators: [
+          {
+            unique_id: "perpetrator1"
+          }
+        ]
+      };
+      const result = getSubformValues(fieldViolation, indexViolation, valuesViolation, [], true);
+      const expected = {
+        killing_number_of_victims: {
+          boys: 1,
+          girls: 2
+        },
+        attack_type: "aerial_attack",
+        individual_victims: [
+          {
+            unique_id: "individual1"
+          },
+          {
+            unique_id: "individual2"
+          }
+        ],
+        perpetrators: [
+          {
+            unique_id: "perpetrator1"
+          }
+        ]
+      };
+
+      expect(result).to.deep.equal(expected);
+    });
+  });
 });

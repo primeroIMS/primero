@@ -1,5 +1,6 @@
 import { VIOLATION_TALLY_FIELD } from "./constants";
 
+// eslint-disable-next-line import/prefer-default-export
 export const getViolationTallyLabel = (fields, currentValues, locale) => {
   const displayText = fields.find(f => f.name === VIOLATION_TALLY_FIELD).display_name?.[locale];
 
@@ -14,16 +15,4 @@ export const getViolationTallyLabel = (fields, currentValues, locale) => {
 
     return `${acc} ${curr[0]}: (${curr[1]})`;
   }, `${displayText}:`);
-};
-
-export const getShortUniqueId = currentValues => {
-  if (!currentValues.unique_id) return null;
-
-  return currentValues.unique_id.substring(0, 5);
-};
-
-export const getVerifiedValue = (optionsStrings, currentValues) => {
-  const { display_text: displayText } = optionsStrings.find(option => option.id === currentValues.verified) || {};
-
-  return displayText;
 };

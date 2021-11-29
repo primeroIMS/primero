@@ -3,6 +3,8 @@ import { connect } from "formik";
 
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
+import { SUBFORM_SECTION } from "../../../constants";
+import SubformField from "../component";
 
 import { NAME } from "./constants";
 
@@ -52,6 +54,14 @@ const Component = ({
       recordModuleID,
       recordType
     };
+
+    if (SUBFORM_SECTION === subformSectionField.type) {
+      return (
+        <SubformField
+          {...{ ...fieldProps, formSection: subformSectionField.subform_section_id, isReadWriteForm, forms: {} }}
+        />
+      );
+    }
 
     return (
       <div key={subformSectionField.name}>

@@ -12,12 +12,16 @@ import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
 import { getSubformValues, serviceHasReferFields } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
+import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
+import ViolationActions from "../subform-fields/components/violation-actions";
+import ViolationTitle from "../subform-fields/components/violation-title";
 
 const Component = ({
   arrayHelpers,
+  asDrawer,
   dialogIsNew,
   field,
   formik,
@@ -40,7 +44,7 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const subformValues = getSubformValues(field, index, formik.values, orderedValues);
+  const subformValues = getSubformValues(field, index, formik.values, orderedValues, asDrawer);
 
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
@@ -138,6 +142,27 @@ const Component = ({
     }
   };
 
+  const ComponentToRender = asDrawer ? SubformDrawer : ActionDialog;
+  const propsForComponent = asDrawer
+    ? {
+        open,
+        cancelHandler: handleClose,
+        title: <ViolationTitle title={title} values={subformValues} fields={field.subform_section_id.fields} />
+      }
+    : {
+        open,
+        successHandler: e => boundSubmitForm(e),
+        cancelHandler: handleClose,
+        dialogTitle: title,
+        title,
+        omitCloseAfterSuccess: true,
+        confirmButtonLabel: i18n.t(buttonDialogText),
+        onClose: handleClose,
+        dialogActions,
+        disableActions: isFormShow
+      };
+  const renderButtonDrawerActions = asDrawer ? <ViolationActions handleBack={handleClose} /> : null;
+
   useEffect(() => {
     if (open) {
       setInitialValues(constructInitialValues([field.subform_section_id]));
@@ -146,17 +171,7 @@ const Component = ({
 
   return (
     <>
-      <ActionDialog
-        open={open}
-        successHandler={e => boundSubmitForm(e)}
-        cancelHandler={handleClose}
-        dialogTitle={title}
-        omitCloseAfterSuccess
-        confirmButtonLabel={i18n.t(buttonDialogText)}
-        onClose={handleClose}
-        dialogActions={dialogActions}
-        disableActions={isFormShow}
-      >
+      <ComponentToRender {...propsForComponent}>
         <Formik
           initialValues={initialSubformValues}
           validationSchema={buildSchema()}
@@ -177,12 +192,13 @@ const Component = ({
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
+                {renderButtonDrawerActions}
                 {renderSubform(field, index)}
               </Form>
             );
           }}
         </Formik>
-      </ActionDialog>
+      </ComponentToRender>
       <ActionDialog {...modalConfirmationProps} />
     </>
   );
@@ -192,6 +208,7 @@ Component.displayName = SUBFORM_DIALOG;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  asDrawer: PropTypes.bool.isRequired,
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,

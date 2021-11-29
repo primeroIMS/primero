@@ -4,10 +4,9 @@ import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 
-import SubformTraces from "../subform-traces";
 import SubformFields from "../subform-fields";
-import SubformDialog from "../subform-dialog";
 import SubformEmptyData from "../subform-empty-data";
+import SubformItem from "../subform-item";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { useThemeHelper } from "../../../../../libs";
 import css from "../styles.css";
@@ -27,7 +26,8 @@ const Component = ({
   recordModuleID,
   recordType,
   form,
-  isReadWriteForm
+  isReadWriteForm,
+  forms
 }) => {
   const {
     display_name: displayName,
@@ -58,7 +58,6 @@ const Component = ({
   const isViolation = isViolationSubform(recordType, formSection.unique_id, true);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
   const renderFieldTitle = !isViolation && title;
-  const handleCloseSubformTraces = () => setOpenDialog(false);
 
   useEffect(() => {
     if (typeof index === "number") {
@@ -111,38 +110,27 @@ const Component = ({
         </div>
       </div>
       {renderEmptyData}
-      {isTraces && mode.isShow ? (
-        <SubformTraces
-          formSection={formSection}
-          openDrawer={open}
-          handleClose={handleCloseSubformTraces}
-          field={field}
-          formik={formik}
-          index={index}
-          recordType={recordType}
-          mode={mode}
-        />
-      ) : (
-        <SubformDialog
-          arrayHelpers={arrayHelpers}
-          dialogIsNew={dialogIsNew}
-          field={field}
-          formik={formik}
-          i18n={i18n}
-          index={index}
-          isFormShow={mode.isShow || isDisabled || isReadWriteForm === false}
-          mode={mode}
-          oldValue={!dialogIsNew ? selectedValue : {}}
-          open={open}
-          setOpen={setOpenDialog}
-          title={title}
-          formSection={formSection}
-          isReadWriteForm={isReadWriteForm}
-          orderedValues={orderedValues}
-          recordType={recordType}
-          recordModuleID={recordModuleID}
-        />
-      )}
+      <SubformItem
+        arrayHelpers={arrayHelpers}
+        dialogIsNew={dialogIsNew}
+        field={field}
+        formik={formik}
+        forms={forms}
+        formSection={formSection}
+        index={index}
+        isDisabled={isDisabled}
+        isTraces={isTraces}
+        isReadWriteForm={isReadWriteForm}
+        isViolation={isViolation}
+        mode={mode}
+        selectedValue={selectedValue}
+        open={open}
+        orderedValues={orderedValues}
+        recordModuleID={recordModuleID}
+        recordType={recordType}
+        setOpen={setOpenDialog}
+        title={title}
+      />
     </>
   );
 };
@@ -154,6 +142,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  forms: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
