@@ -11,4 +11,9 @@ class Response < ApplicationRecord
 
     self.violation = data.first
   end
+
+  def associations_as_data
+    data['violations_ids'] = violation_id
+    data
+  end
 end

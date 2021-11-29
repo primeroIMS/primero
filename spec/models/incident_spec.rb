@@ -465,19 +465,24 @@ describe Incident do
           'military_use' => [],
           'denial_humanitarian_access' => [],
           'sources' => [
-            { 'name' => 'source1', 'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a' }
+            { 'name' => 'source1', 'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
           ],
           'perpetrators' => [
-            { 'name' => 'perpetrator1', 'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6' }
+            { 'name' => 'perpetrator1', 'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
           ],
           'individual_victims' => [
-            { 'name' => 'individual1', 'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159' }
+            { 'name' => 'individual1', 'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
           ],
           'group_victims' => [
-            { 'name' => 'group1', 'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385' }
+            { 'name' => 'group1', 'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
           ],
           'responses' => [
-            { 'name' => 'intervention2', 'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2' }
+            { 'name' => 'intervention2', 'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2',
+              'violations_ids' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2' }
           ]
         }
       expect(incident.incident_code).to eq('987654')
