@@ -219,8 +219,8 @@ ActiveRecord::Schema.define(version: 2021_11_10_000001) do
     t.boolean "mandatory_for_completion", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.jsonb "display_conditions"
-    t.jsonb "parent_display_conditions"
+    t.jsonb "display_conditions_record"
+    t.jsonb "display_conditions_subform"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
