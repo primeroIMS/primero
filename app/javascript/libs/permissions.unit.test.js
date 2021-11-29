@@ -50,6 +50,7 @@ describe("Verifying config constant", () => {
       "DASH_SHARED_FROM_MY_TEAM",
       "DASH_SHARED_WITH_ME",
       "DASH_SHARED_WITH_MY_TEAM",
+      "DASH_SHARED_WITH_MY_TEAM_OVERVIEW",
       "DASH_SHARED_WITH_OTHERS",
       "DASH_TASKS",
       "DASH_WORKFLOW",
@@ -134,6 +135,7 @@ describe("Verifying config constant", () => {
     const resources = { ...PERMISSIONS.RESOURCES };
 
     [
+      "activity_logs",
       "agencies",
       "any",
       "audit_logs",

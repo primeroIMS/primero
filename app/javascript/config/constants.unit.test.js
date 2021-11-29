@@ -76,7 +76,6 @@ describe("Verifying config constant", () => {
       "RECORD_OWNER",
       "RECORD_PATH",
       "RECORD_TYPES",
-      "RECORD_TYPES",
       "RECORD_TYPES_PLURAL",
       "REFERRAL",
       "REJECT",
@@ -97,7 +96,10 @@ describe("Verifying config constant", () => {
       "TRANSITIONS_DATE_FORMAT",
       "TRANSITION_TYPE",
       "UNIQUE_ID_FIELD",
-      "USER_NAME_FIELD"
+      "USER_NAME_FIELD",
+      "VIOLATIONS_FORM",
+      "VIOLATIONS_SUBFORM_UNIQUE_IDS",
+      "VIOLATION_GROUP"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

@@ -244,6 +244,10 @@ en:
       services_implemented: Service Implemented
   linkedincidents:
     label: Linked Incidents
+  activity_log:
+    label: Activity Log
+    accepted_transfer: '%{to} accepted transfer of %{record_type} %{record_id} from %{from}'
+    rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
     action_plan: Action Plan
     age: Age
@@ -636,6 +640,7 @@ en:
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
+    dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
     date: Date
@@ -738,6 +743,7 @@ en:
     shared_with_me_new_referrals: New Referrals
     shared_with_me_total_referrals: Total Referrals
     shared_with_me_transfers_awaiting_acceptance: Transfers Awaiting Acceptance
+    shared_with_my_team_pending_transfers_overview: Transfers Awaiting Acceptance
     shared_with_my_team_pending_transfers: Pending Transfers
     shared_with_my_team_referrals: Referrals
     shared_with_others_pending_transfers: Pending Transfers
@@ -1176,6 +1182,7 @@ en:
     tick_box: Tick Box
     tick_box_label: Tick Box Label
     translation_text: Translation Text
+    total: Total
     type: Type
     updated: Field updated
     visibility: Visibility
@@ -1317,6 +1324,7 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      title: Violations
       pending: Pending Verification
   incidents:
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
@@ -1781,6 +1789,7 @@ en:
       system_information: System Information
     tasks: Tasks
     tracing_request: Tracing Request
+    activity_log: Activity Log
   notes:
     note_success: Successfully added note
   permissions:
@@ -1918,6 +1927,7 @@ en:
       workflow: Workflow - Individual cases
       workflow_team: Workflow - Teams cases
       write: Write
+      activity_log: Activity Log
     resource:
       kpi:
         actions:
@@ -2517,6 +2527,8 @@ en:
             explanation: Shows a manager the number of cases referred or transferred
               to each one of the users in their team.
             label: Shared With My Team
+          dash_shared_with_my_team_overview:
+            label: Shared with my Team (Overview)
           dash_shared_with_others:
             explanation: Shows how many of my cases have active referrals, pending
               transfers, or rejected transfers. Not typically for managers, unless
@@ -3062,6 +3074,16 @@ en:
           manage:
             label: Manage (all permissions for this resource type)
             explanation:
+      activity_log:
+        actions:
+          transfer:
+            explanation: User can click into the Activity Log section of the Dashboard
+              and see a log of all accepted or rejected transfers for the Cases they can access.
+            label: Transfers
+          manage:
+            label: Manage (all permissions for this resource type)
+            explanation:
+        label: Activity Log
   potential_match:
     case_id: Case ID
     child_age: Age
@@ -3309,6 +3331,7 @@ en:
     tracing_requests: Tracing Requests
     export: Export
   transfer:
+    label: Transfer
     agency_label: Agency
     consent_from_individual_label: Do you have consent from the individual to make
       this transfer?

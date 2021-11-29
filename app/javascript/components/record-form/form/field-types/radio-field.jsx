@@ -83,7 +83,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
   const renderOption = options.length > 0 && options.map(opt => renderFormControl(opt));
 
   return (
-    <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
+    <FormControl id={name} fullWidth error={!!(fieldError && fieldTouched)}>
       <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>

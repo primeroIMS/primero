@@ -12,7 +12,8 @@ import {
   MobileScreenShare,
   Person,
   People,
-  SettingsApplications
+  SettingsApplications,
+  LibraryBooks
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
@@ -22,6 +23,8 @@ const ListIcon = ({ icon }) => {
   switch (icon) {
     case "home":
       return <Home />;
+    case "activity_log":
+      return <LibraryBooks />;
     case "cases":
       return <CasesIcon />;
     case "incidents":

@@ -85,7 +85,7 @@ const Component = ({ parentForm, primeroModule }) => {
   const dialogTitle = (
     <>
       <span className={css.existingFieldDialogTitle}>{i18n.t("fields.add_field")}</span>
-      <ActionButton outlined text={i18n.t("fields.add_new_field")} rest={{ onClick: onCreateNewField }} />
+      <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />
     </>
   );
 

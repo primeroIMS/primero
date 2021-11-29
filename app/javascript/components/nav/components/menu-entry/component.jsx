@@ -22,7 +22,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions } = menuEntry;
+  const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions, resources } = menuEntry;
 
   const jewel = jewelCount ? (
     <Jewel value={jewelCount} mobileDisplay={mobileDisplay} isForm={name === NAV_SETTINGS} />
@@ -55,7 +55,7 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const navItemName = name === "username" ? username : i18n.t(name);
 
   const renderNavAction = (
-    <li>
+    <li id={name}>
       {renderDivider}
       <ConditionalWrapper condition={disableOffline} wrapper={DisableOffline} button>
         <ListItem {...navlinkProps} className={css.navLink}>
@@ -70,7 +70,10 @@ const Component = ({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   );
 
   if (typeof validateWithUserPermissions !== "undefined") {
-    return validateWithUserPermissions && userRecordTypes.includes(to.replace("/", "")) ? renderNavAction : null;
+    return validateWithUserPermissions &&
+      (userRecordTypes.includes(to.replace("/", "")) || userRecordTypes.includes(resources))
+      ? renderNavAction
+      : null;
   }
 
   return renderNavAction;

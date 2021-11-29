@@ -41,7 +41,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     maxSelectedOptions,
     multipleLimitOne
   } = metaInputProps;
-  const { name, disabled, ...commonProps } = commonInputProps;
+  const { name, disabled, id, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const i18n = useI18n();
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
@@ -253,6 +253,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       defaultValue={defaultValue}
       render={({ value: fieldValue, onChange: fieldOnChange }) => (
         <Autocomplete
+          id={id}
           name={name}
           onOpen={handleOpen}
           onChange={handleAutocompleteOnChange(fieldOnChange)}
@@ -293,6 +294,7 @@ SelectInput.propTypes = {
     disabled: PropTypes.bool,
     groupBy: PropTypes.string,
     helperText: PropTypes.string,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }),

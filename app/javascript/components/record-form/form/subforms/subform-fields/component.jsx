@@ -27,6 +27,7 @@ const Component = ({
   arrayHelpers,
   field,
   isTracesSubform,
+  isViolationSubform,
   locale,
   mode,
   setDialogIsNew,
@@ -142,6 +143,7 @@ const Component = ({
                   locale={locale}
                   values={values}
                   onClick={handleEdit(index)}
+                  isViolationSubform={isViolationSubform}
                 />
               </div>
               <div className={css.subformHeaderActions}>
@@ -149,6 +151,7 @@ const Component = ({
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
+                    id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
                     rest={{
@@ -160,6 +163,7 @@ const Component = ({
                   <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
+                  id={`subform-show-button-${name}-${index}`}
                   icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
@@ -193,6 +197,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isTracesSubform: PropTypes.bool,
+  isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   parentForm: PropTypes.object.isRequired,

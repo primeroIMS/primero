@@ -1,4 +1,5 @@
 import {
+  ACTIVITY_LOGS,
   MANAGE,
   RESOURCES,
   SHOW_AUDIT_LOGS,
@@ -114,10 +115,12 @@ export const RECORD_PATH = {
   tracing_requests: "tracing_requests",
   traces: "traces",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  activity_log: "activity_log"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";
 
@@ -175,7 +178,8 @@ export const ROUTES = {
   check_health: "/health/api",
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
-  password_reset: "/password_reset"
+  password_reset: "/password_reset",
+  activity_log: "/activity_log"
 };
 
 export const PERMITTED_URL = [
@@ -315,6 +319,14 @@ export const APPLICATION_NAV = (permissions, userId) => {
       name: "navigation.home",
       to: ROUTES.dashboard,
       icon: "home",
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.activity_log",
+      to: ROUTES.activity_log,
+      icon: "activity_log",
+      resources: RESOURCES.activity_logs,
+      actions: ACTIVITY_LOGS,
       validateWithUserPermissions: true
     },
     {
@@ -497,3 +509,25 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS
 });
+
+export const VIOLATIONS_FORM = [
+  "killing_violation_wrapper",
+  "maiming_violation_wrapper",
+  "recruitment_violation_wrapper",
+  "sexual_violence_violation_wrapper",
+  "abduction_violation_wrapper",
+  "attack_on_violation_wrapper",
+  "military_use_violation_wrapper",
+  "denial_humanitarian_access_violation_wrapper"
+];
+
+export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
+  "killing",
+  "maiming",
+  "recruitment",
+  "sexual_violence",
+  "abduction",
+  "attack_on",
+  "military_use",
+  "denial_humanitarian_access"
+];

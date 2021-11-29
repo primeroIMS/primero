@@ -8,7 +8,6 @@ import Permission from "../../../../../../application/permission";
 import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../../libs/permissions";
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
-import { useI18n } from "../../../../../../i18n";
 import { getLoadingRecordState } from "../../../../../../records";
 import { FORMS } from "../../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
@@ -17,8 +16,6 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedForm, mode }) => {
-  const i18n = useI18n();
-
   const loading = useMemoizedSelector(state => getLoadingRecordState(state, recordType));
 
   return (
@@ -28,8 +25,8 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
           icon={<ArrowBackIosIcon />}
           text={
             selectedForm === FORMS.trace
-              ? i18n.t("tracing_request.back_to_traces")
-              : i18n.t("tracing_request.back_to_potential_matches")
+              ? "tracing_request.back_to_traces"
+              : "tracing_request.back_to_potential_matches"
           }
           type={ACTION_BUTTON_TYPES.default}
           outlined
@@ -42,7 +39,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
         <Permission resources={RESOURCES.tracing_requests} actions={SHOW_FIND_MATCH}>
           <ActionButton
             icon={hasMatch ? <BlockIcon /> : <SearchIcon />}
-            text={hasMatch ? i18n.t("tracing_request.unmatch") : i18n.t("tracing_request.find_match")}
+            text={hasMatch ? "tracing_request.unmatch" : "tracing_request.find_match"}
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               onClick: handleConfirm
@@ -54,7 +51,7 @@ const Component = ({ handleBack, handleConfirm, hasMatch, recordType, selectedFo
         <div>
           <ActionButton
             icon={<CheckIcon />}
-            text={i18n.t("tracing_request.match")}
+            text="tracing_request.match"
             type={ACTION_BUTTON_TYPES.default}
             pending={loading}
             rest={{

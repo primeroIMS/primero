@@ -15,7 +15,7 @@ const LinkField = ({ commonInputProps, metaInputProps, formMethods }) => {
   const fieldValue = useWatch({ control, name });
 
   return (
-    <FormControl>
+    <FormControl id={name}>
       <div className={css.linkFieldLabel}>
         <InputLabel tooltip={tooltip} text={label} />
       </div>

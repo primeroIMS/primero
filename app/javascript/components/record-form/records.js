@@ -25,6 +25,8 @@ export const FieldRecord = Record({
   display_conditions_record: [],
   display_conditions_subform: [],
   tick_box_label: {},
+  tally: {},
+  autosum_total: true,
   link_to_form: "",
   href: null
 });

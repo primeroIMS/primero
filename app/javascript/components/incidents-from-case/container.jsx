@@ -57,7 +57,7 @@ const Container = ({
   const newIncidentBtn = canAddIncidents && (
     <ActionButton
       icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
+      text="buttons.new"
       type="default_button"
       rest={{
         onClick: event => handleCreateIncident(event, dirty)

@@ -483,7 +483,9 @@ describe("<RecordForm /> - Selectors", () => {
             subform_section_configuration: null,
             tick_box_label: {},
             display_conditions_record: [],
-            display_conditions_subform: []
+            display_conditions_subform: [],
+            autosum_total: true,
+            tally: {}
           }
         ],
         is_nested: null
@@ -557,7 +559,9 @@ describe("<RecordForm /> - Selectors", () => {
             subform_section_configuration: null,
             tick_box_label: {},
             display_conditions_record: [],
-            display_conditions_subform: []
+            display_conditions_subform: [],
+            autosum_total: true,
+            tally: {}
           }
         ],
         is_nested: null

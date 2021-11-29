@@ -25,6 +25,7 @@ import useOptions from "../../form/use-options";
 import { NAME } from "./constants";
 import { NavGroup, RecordInformation } from "./components";
 import css from "./styles.css";
+import buildFormGroupData from "./utils";
 
 const Component = ({
   firstTab,
@@ -178,7 +179,7 @@ const Component = ({
     const renderFormGroups = formGroups.map(formGroup => {
       return (
         <NavGroup
-          group={formGroup}
+          group={buildFormGroupData(formGroup)}
           handleClick={handleClick}
           isNew={isNew}
           open={open}
