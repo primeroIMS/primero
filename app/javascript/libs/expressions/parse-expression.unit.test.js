@@ -162,4 +162,16 @@ describe("parseExpression", () => {
       expect(expression.evaluate({ sex: "male" })).to.be.false;
     });
   });
+
+  context("when is a deprecated syntax", () => {
+    const expression = parseExpression([{ sex: "male" }]);
+
+    it("correctly evaluates the expression to be true", () => {
+      expect(expression.evaluate({ sex: "male" })).to.be.true;
+    });
+
+    it("correctly evaluates the expression to be false", () => {
+      expect(expression.evaluate({ sex: "female" })).to.be.false;
+    });
+  });
 });

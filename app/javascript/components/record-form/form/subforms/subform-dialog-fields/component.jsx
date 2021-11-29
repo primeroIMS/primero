@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import { connect } from "formik";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 
+import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
-import { dataMeetConditions, fieldsToRender } from "../subform-field-array/utils";
+import { fieldsToRender } from "../subform-field-array/utils";
 
 import { NAME } from "./constants";
 
@@ -57,15 +58,15 @@ const Component = ({
     };
 
     if (
-      !isEmpty(subformSectionField.parent_display_conditions) &&
-      !dataMeetConditions(parentValues, subformSectionField.parent_display_conditions)
+      !isEmpty(subformSectionField.display_conditions_record) &&
+      !parseExpression(subformSectionField.display_conditions_record).evaluate(parentValues)
     ) {
       return null;
     }
 
     if (
-      !isEmpty(subformSectionField.display_conditions) &&
-      !dataMeetConditions(values, subformSectionField.display_conditions)
+      !isEmpty(subformSectionField.display_conditions_subform) &&
+      !parseExpression(subformSectionField.display_conditions_subform).evaluate(values)
     ) {
       return null;
     }

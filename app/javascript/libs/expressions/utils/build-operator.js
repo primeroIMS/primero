@@ -1,4 +1,4 @@
-import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "./constants";
+import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "../constants";
 import {
   eqOperator,
   geOperator,
@@ -9,15 +9,9 @@ import {
   andOperator,
   orOperator,
   notOperator
-} from "./operators";
+} from "../operators";
 
-export const isLogicalOperator = value => Object.values(LOGICAL_OPERATORS).includes(value);
-
-export const isComparisonOperator = value => Object.values(COMPARISON_OPERATORS).includes(value);
-
-export const isOperator = value => isLogicalOperator(value) || isComparisonOperator(value);
-
-export const buildOperator = (operator, value) => {
+export default (operator, value) => {
   switch (operator) {
     case COMPARISON_OPERATORS.EQ:
       return eqOperator(value);

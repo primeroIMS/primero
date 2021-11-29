@@ -22,6 +22,7 @@ describe("libs/index", () => {
       "endOfDay",
       "getObjectPath",
       "invalidCharRegexp",
+      "hasApiDateFormat",
       "keyIn",
       "listAttachmentFields",
       "listEntriesToRecord",

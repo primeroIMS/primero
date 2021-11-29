@@ -8,7 +8,7 @@ import RecordFormTitle from "../form/record-form-title";
 import { RECORD_FORM_PERMISSION } from "../form/constants";
 import FormSectionField from "../form/form-section-field";
 import SubformField from "../form/subforms";
-import { dataMeetConditions } from "../form/subforms/subform-field-array/utils";
+import { parseExpression } from "../../../libs/expressions";
 
 const renderFormSections = (
   externalForms,
@@ -59,7 +59,10 @@ const renderFormSections = (
               return null;
             }
 
-            if (!isEmpty(field.display_conditions) && !dataMeetConditions(values, field.display_conditions)) {
+            if (
+              !isEmpty(field.display_conditions) &&
+              !parseExpression(field.display_conditions_record).evaluate(values)
+            ) {
               return null;
             }
 

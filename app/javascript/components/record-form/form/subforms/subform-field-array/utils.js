@@ -1,34 +1,7 @@
-import { isImmutable } from "immutable";
 import { isEmpty } from "lodash";
 
 import { RECORD_TYPES, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
-
-export const dataMeetConditions = (objectToEval, displayConditions) => {
-  const objToEval = isImmutable(objectToEval) ? objectToEval.toJS() : objectToEval;
-  // displayConditions =
-  // [ {"relation": ["father","mother"],"relation_is_alive": "alive"},{"relation_is_caregiver": true}]
-  const isRenderable = displayConditions.reduce((currentBoolean, currentCondition) => {
-    // currentCondition = { "relation": ["father", "mother"], "relation_is_alive": "alive" }
-    // keysCurrentConditions = ['relation', 'relation_is_alive']
-    const keysCurrentConditions = Object.keys(currentCondition);
-
-    const resultEvaluationCurrentConditions = keysCurrentConditions.every(currentKeyCondition => {
-      // currentKeyCondition = 'relation'
-      // valuesToEval = ["father", "mother"]
-      const valuesToEval = currentCondition[currentKeyCondition];
-
-      if (Array.isArray(valuesToEval)) {
-        return valuesToEval.some(val => objToEval[currentKeyCondition] === val);
-      }
-
-      return objToEval[currentKeyCondition] === valuesToEval;
-    });
-
-    return currentBoolean || resultEvaluationCurrentConditions;
-  }, false);
-
-  return isRenderable;
-};
+import { parseExpression } from "../../../../../libs/expressions";
 
 export const valuesWithDisplayConditions = (values, displayConditions) => {
   if (isEmpty(values)) {
@@ -38,7 +11,9 @@ export const valuesWithDisplayConditions = (values, displayConditions) => {
     return values;
   }
 
-  return values.filter(val => dataMeetConditions(val, displayConditions));
+  const expression = parseExpression(displayConditions);
+
+  return values.filter(val => expression.evaluate(val));
 };
 
 export const valuesWithHiddenAttribute = (values, displayConditions) => {
@@ -49,7 +24,9 @@ export const valuesWithHiddenAttribute = (values, displayConditions) => {
     return values;
   }
 
-  return values.map(val => (dataMeetConditions(val, displayConditions) ? val : { ...val, _hidden: true }));
+  const expression = parseExpression(displayConditions);
+
+  return values.map(val => (expression.evaluate(val) ? val : { ...val, _hidden: true }));
 };
 
 export const fieldsToRender = (listFields, fields) => {

@@ -71,5 +71,5 @@ export const toServerDateFormat = (date, options) => {
 
 export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").concat("T23:59:59Z"));
 
-export const isApiDate = value =>
+export const hasApiDateFormat = value =>
   isString(value) && Boolean(value.match(ISO_DATE_REGEX) || value.match(ISO_DATE_TIME_REGEX));
