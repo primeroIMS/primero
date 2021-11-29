@@ -14,6 +14,8 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <%= stylesheet_bundle_tag('application', skip_pipeline: true, manifest: :application, nonce: true) if Rails.env.production? %>
+  <!-- jss-insertion-point -->
+  <%= stylesheet_bundle_tag 'vendor', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
 <body dir="ltr">
   <div id="root"></div>

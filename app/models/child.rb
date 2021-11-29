@@ -77,7 +77,7 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id ]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number]
   end
 
   def self.quicksearch_fields

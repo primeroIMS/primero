@@ -34,6 +34,7 @@ describe("Verifying config constant", () => {
       "DATABASE_NAME",
       "DATE_FORMAT",
       "DATE_TIME_FORMAT",
+      "DATE_FORMAT_NE",
       "DEFAULT_METADATA",
       "DISPLAY_TEXT_FIELD",
       "DEFAULT_DATE_VALUES",

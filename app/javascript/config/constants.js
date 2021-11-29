@@ -178,7 +178,8 @@ export const ROUTES = {
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
   password_reset: "/password_reset",
-  activity_log: "/activity_log"
+  activity_log: "/activity_log",
+  password_reset_request: "/password_reset_request"
 };
 
 export const PERMITTED_URL = [
@@ -193,10 +194,13 @@ export const PERMITTED_URL = [
   ROUTES.cases,
   ROUTES.tracing_requests,
   ROUTES.incidents,
-  ROUTES.code_of_conduct
+  ROUTES.code_of_conduct,
+  ROUTES.password_reset_request
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
+
+export const DATE_FORMAT_NE = "DD-MM-YYYY";
 
 export const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
 
@@ -462,7 +466,8 @@ export const DEFAULT_METADATA = Object.freeze({
 });
 
 export const LOCALE_KEYS = {
-  en: "en"
+  en: "en",
+  ne: "ne"
 };
 
 export const HTTP_STATUS = {
