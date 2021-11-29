@@ -5,22 +5,12 @@ describe("<ViolationTitle /> - utils", () => {
     it("should have known utils", () => {
       const clonedHelpers = { ...helpers };
 
-      ["getShortUniqueId", "getVerifiedValue"].forEach(property => {
+      ["getVerifiedValue"].forEach(property => {
         expect(clonedHelpers).to.have.property(property);
         delete clonedHelpers[property];
       });
 
       expect(clonedHelpers).to.deep.equal({});
-    });
-  });
-
-  describe("getShortUniqueId", () => {
-    it("should return a short uniqueId if unique_id is present", () => {
-      expect(helpers.getShortUniqueId({ unique_id: "ab123cde" })).to.equal("ab123");
-    });
-
-    it("should return a null if unique_id is NOT present", () => {
-      expect(helpers.getShortUniqueId({})).to.equal(null);
     });
   });
 

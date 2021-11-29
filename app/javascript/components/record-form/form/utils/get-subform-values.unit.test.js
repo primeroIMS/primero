@@ -53,28 +53,33 @@ describe("getSubformValues", () => {
               boys: 1,
               girls: 2
             },
-            attack_type: "aerial_attack"
+            attack_type: "aerial_attack",
+            unique_id: "abc123"
           },
           {
             killing_number_of_victims: {
               boys: 2,
               girls: 1
             },
-            attack_type: "other"
+            attack_type: "other",
+            unique_id: "123abc"
           }
         ],
         random_value: "testing",
         individual_victims: [
           {
-            unique_id: "individual1"
+            unique_id: "individual1",
+            violations_ids: ["abc123"]
           },
           {
-            unique_id: "individual2"
+            unique_id: "individual2",
+            violations_ids: ["123abc"]
           }
         ],
         perpetrators: [
           {
-            unique_id: "perpetrator1"
+            unique_id: "perpetrator1",
+            violations_ids: ["abc123"]
           }
         ]
       };
@@ -85,17 +90,17 @@ describe("getSubformValues", () => {
           girls: 2
         },
         attack_type: "aerial_attack",
+        unique_id: "abc123",
         individual_victims: [
           {
-            unique_id: "individual1"
-          },
-          {
-            unique_id: "individual2"
+            unique_id: "individual1",
+            violations_ids: ["abc123"]
           }
         ],
         perpetrators: [
           {
-            unique_id: "perpetrator1"
+            unique_id: "perpetrator1",
+            violations_ids: ["abc123"]
           }
         ]
       };

@@ -11,15 +11,15 @@ export default (field, index, values, orderedValues = [], isViolation = false) =
   const { display_conditions: displayConditions } = subformSectionConfiguration || {};
 
   if (index === 0 || index > 0) {
-    const associatedValues = isViolation ? getViolationAssociationsValues(values) : {};
-
     if (displayConditions) {
       return valuesWithDisplayConditions(getIn(values, field.name), displayConditions)[index];
     }
 
-    const subforData = isEmpty(orderedValues) ? getIn(values, `${field.name}[${index}]`) : orderedValues[index];
+    const subformData = isEmpty(orderedValues) ? getIn(values, `${field.name}[${index}]`) : orderedValues[index];
+    // eslint-disable-next-line camelcase
+    const associatedValues = isViolation ? getViolationAssociationsValues(values, subformData?.unique_id) : {};
 
-    return { ...subforData, ...associatedValues };
+    return { ...subformData, ...associatedValues };
   }
 
   return {};

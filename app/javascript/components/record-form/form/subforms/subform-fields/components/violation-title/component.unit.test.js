@@ -6,7 +6,7 @@ import { setupMountedComponent } from "../../../../../../../test";
 import ViolationTitle from "./component";
 
 describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
-  it("should render back to violations button", () => {
+  it("should render violation title", () => {
     const props = {
       title: "This is a title",
       values: {
@@ -35,7 +35,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
     const { component } = setupMountedComponent(ViolationTitle, props, initialState);
 
     expect(component.find(ViolationTitle)).to.have.lengthOf(1);
-    expect(component.find(ViolationTitle).text()).to.equal("This is a title - ab123 ");
+    expect(component.find(ViolationTitle).text()).to.equal("This is a title - b123cde ");
     expect(component.find(Chip)).to.have.lengthOf(1);
   });
 });

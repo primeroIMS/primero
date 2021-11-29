@@ -2,13 +2,14 @@ import PropTypes from "prop-types";
 import Chip from "@material-ui/core/Chip";
 
 import useOptions from "../../../../../../form/use-options";
+import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 
-import { getShortUniqueId, getVerifiedValue } from "./utils";
+import { getVerifiedValue } from "./utils";
 import { NAME, VIOLATION_STATUS } from "./constants";
 import css from "./styles.css";
 
 const Component = ({ title, values, fields }) => {
-  const shortUniqueId = getShortUniqueId(values);
+  const shortUniqueId = getShortIdFromUniqueId(values.unique_id);
   const violationVerifiedField = fields.find(field => field.name === VIOLATION_STATUS);
   // eslint-disable-next-line camelcase
   const optionsStrings = useOptions({ source: violationVerifiedField?.option_strings_source });

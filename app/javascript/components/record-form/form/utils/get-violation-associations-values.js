@@ -3,13 +3,20 @@ import pick from "lodash/pick";
 
 import { VIOLATION_ASSOCIACTIONS_SUBFOM } from "../constants";
 
-export default values => {
+export default (values, uniqueId) => {
   if (isEmpty(values)) {
     return {};
   }
 
   const valuesToEvaluate = pick(values, ...VIOLATION_ASSOCIACTIONS_SUBFOM);
 
-  // TODO: We need to filter out by field that save the current violationID, how to match subform with current violation
-  return Object.entries(valuesToEvaluate).reduce((acc, curr) => ({ ...acc, [curr[0]]: curr[1] }), {});
+  return Object.entries(valuesToEvaluate).reduce((acc, curr) => {
+    const [key, currentValues] = curr;
+
+    const valuesFiltered = uniqueId
+      ? { [key]: currentValues.filter(val => val.violations_ids.includes(uniqueId)) }
+      : {};
+
+    return { ...acc, ...valuesFiltered };
+  }, {});
 };
