@@ -39,10 +39,10 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
     formSection?.fields?.some(formField => formField.name === dateOfBirthFieldName && formField.visible);
 
   useEffect(() => {
-    if (recordName) {
+    if (recordName && name === "name" && !formik.touched.name) {
       formik.setFieldValue("name", recordName, true);
     }
-  }, [recordName]);
+  }, [recordName, name, formik.touched.name]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
