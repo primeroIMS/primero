@@ -39,7 +39,10 @@ const renderFormFields = (
       return null;
     }
 
-    if (!isEmpty(field.display_conditions) && !parseExpression(field.display_conditions_record).evaluate(values)) {
+    if (
+      !isEmpty(field.display_conditions_record) &&
+      !parseExpression(field.display_conditions_record).evaluate(values)
+    ) {
       return null;
     }
 
