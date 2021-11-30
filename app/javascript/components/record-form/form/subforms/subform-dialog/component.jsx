@@ -73,6 +73,7 @@ const Component = ({
   };
 
   const onSubmit = values => {
+    debugger;
     // eslint-disable-next-line camelcase
     const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
 
@@ -161,7 +162,9 @@ const Component = ({
         dialogActions,
         disableActions: isFormShow
       };
-  const renderButtonDrawerActions = asDrawer ? <ViolationActions handleBack={handleClose} /> : null;
+  const renderButtonDrawerActions = asDrawer ? (
+    <ViolationActions handleBack={e => boundSubmitForm(e)} handleCancel={handleClose} />
+  ) : null;
 
   useEffect(() => {
     if (open) {
