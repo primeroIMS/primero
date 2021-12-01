@@ -12,11 +12,11 @@
   }
 
   &.medium {
-    background-color: #E7712D;
+    background-color: var(--c-red-medium);
   }
 
   &.low {
-    background-color: #F7D0BA;
+    background-color: var(--c-red-low);
   }
 
   &.noaction {

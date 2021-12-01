@@ -30,6 +30,8 @@
     & table tr:last-child td {
       border-bottom: none;
     }
+
+    margin-top: var(--sp-2)
   }
 }
 
