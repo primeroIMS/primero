@@ -3,9 +3,11 @@ import { Link } from "@material-ui/core";
 
 import { NAME } from "./constants";
 
-const Component = ({ text, id, ...rest }) => {
+const Component = ({ text, id, ...options }) => {
+  const { rest, ...remainder } = options;
+
   return (
-    <Link id={id} underline="hover" {...rest}>
+    <Link id={id} underline="hover" {...rest} {...remainder}>
       {text}
     </Link>
   );

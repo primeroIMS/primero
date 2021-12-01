@@ -24,4 +24,15 @@
     background-color: var(--c-white);
     color: #b4b4b4;
   }
+
+  &.default {
+    background-color: var(--c-blue);
+    color: var(--c-white);
+    font-size: var(--fs-12);
+  }
+
+  &.defaultNoCount {
+    background-color: var(--c-light-blue-menu);
+    font-size: var(--fs-12);
+  }
 }
