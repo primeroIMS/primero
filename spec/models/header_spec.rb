@@ -75,6 +75,10 @@ describe Header do
       name: 'Test Role 6', unique_id: 'test-role-6', is_manager: true, modules: [mrm],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
+    role_cp_manager_read_case = Role.create!(
+      name: 'Test Role 7', unique_id: 'test-role-7', is_manager: true, modules: [cp],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
+    )
     @user_cp_worker = User.create!(
       full_name: 'Test User 1', user_name: 'test_user_1', password: 'b12345678',
       password_confirmation: 'b12345678', email: 'test_user_1@localhost.com', agency_id: agency.id, role: role_cp_worker
@@ -99,6 +103,11 @@ describe Header do
       full_name: 'Test User 6', user_name: 'test_user_6', password: 'b1234567',
       password_confirmation: 'b1234567', email: 'test_user6@localhost.com', agency_id: agency.id, role: role_mrm_manager
     )
+    @user_cp_manager_read_case = User.create!(
+      full_name: 'Test User 7', user_name: 'test_user_7', password: 'b1234567',
+      password_confirmation: 'b1234567', email: 'test_user_7@localhost.com',
+      agency_id: agency.id, role: role_cp_manager_read_case
+    )
   end
 
   it 'Comparing headers of Case' do
@@ -111,7 +120,14 @@ describe Header do
 
     expect(Header.get_headers(@user_cp_manager, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::AGE, Header::SEX, Header::REGISTRATION_DATE, Header::PHOTO,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::AGE, Header::SEX, Header::REGISTRATION_DATE, Header::PHOTO,
+        Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
+      ]
+    )
+
+    expect(Header.get_headers(@user_cp_manager_read_case, 'case')).to eq(
+      [
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::AGE, Header::SEX, Header::REGISTRATION_DATE,
         Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )

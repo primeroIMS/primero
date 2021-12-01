@@ -2398,6 +2398,10 @@ en:
               another user who is on your team (for example, a supervisor accepting a
               transfer which has been sent to their social worker).
             label: Accept or reject transfer for another user on your team.
+          list_case_names:
+            explanation: Managers usually cannot see the names of Cases in the Case List.
+              If a manager has this permission, they will be able to see names in the list.
+            label: If manager, can see Case names on Case List.
         label: Case
       dashboard:
         actions:
