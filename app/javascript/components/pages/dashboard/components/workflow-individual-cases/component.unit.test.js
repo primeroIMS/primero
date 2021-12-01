@@ -75,18 +75,6 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
     expect(component.find(OptionsBox)).to.have.lengthOf(1);
   });
 
-  it("should render a <Stepper /> component", () => {
-    expect(component.find(Stepper)).to.have.lengthOf(1);
-  });
-
-  it("should render a <Step /> component", () => {
-    expect(component.find(Step)).to.have.lengthOf(3);
-  });
-
-  it("should render a <StepLabel /> component", () => {
-    expect(component.find(StepLabel)).to.have.lengthOf(3);
-  });
-
   describe("when the data is loading", () => {
     const props = {
       loadingIndicator: {
