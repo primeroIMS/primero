@@ -58,15 +58,10 @@ const Component = ({
     };
 
     if (
-      !isEmpty(subformSectionField.display_conditions_record) &&
-      !parseExpression(subformSectionField.display_conditions_record).evaluate(parentValues)
-    ) {
-      return null;
-    }
-
-    if (
-      !isEmpty(subformSectionField.display_conditions_subform) &&
-      !parseExpression(subformSectionField.display_conditions_subform).evaluate(values)
+      (!isEmpty(subformSectionField.display_conditions_record) &&
+        !parseExpression(subformSectionField.display_conditions_record).evaluate(parentValues)) ||
+      (!isEmpty(subformSectionField.display_conditions_subform) &&
+        !parseExpression(subformSectionField.display_conditions_subform).evaluate(values))
     ) {
       return null;
     }
