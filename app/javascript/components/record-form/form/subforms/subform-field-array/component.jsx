@@ -9,10 +9,12 @@ import SubformEmptyData from "../subform-empty-data";
 import SubformItem from "../subform-item";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { useThemeHelper } from "../../../../../libs";
+import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { isViolationSubform } from "../../utils";
+import { GuidingQuestions } from "../../components";
 
 import { isTracesSubform } from "./utils";
 
@@ -33,7 +35,8 @@ const Component = ({
     display_name: displayName,
     name,
     subform_section_configuration: subformSectionConfiguration,
-    disabled: isDisabled
+    disabled: isDisabled,
+    guiding_questions: guidingQuestions
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
@@ -55,9 +58,10 @@ const Component = ({
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
+
   const isViolation = isViolationSubform(recordType, formSection.unique_id, true);
+  const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
-  const renderFieldTitle = !isViolation && title;
 
   useEffect(() => {
     if (typeof index === "number") {
@@ -86,16 +90,22 @@ const Component = ({
       />
     );
 
+  const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
+    <div className={css.subformGuidance}>
+      <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
+    </div>
+  );
+
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
         <div>
-          <h3>
-            {renderAddFieldTitle} {renderFieldTitle}
+          <h3 className={css.subformTitle}>
+            {renderAddFieldTitle} {title}
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolation && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolationAssociation && (
             <ActionButton
               id="fields.add"
               icon={<AddIcon />}
@@ -109,6 +119,7 @@ const Component = ({
           )}
         </div>
       </div>
+      {renderGuidingQuestions}
       {renderEmptyData}
       <SubformItem
         arrayHelpers={arrayHelpers}

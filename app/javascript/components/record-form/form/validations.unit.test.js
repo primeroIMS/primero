@@ -190,7 +190,7 @@ describe("<RecordForm>/form/validations", () => {
         });
       });
 
-      context("when it is required", () => {
+      context("and it is required", () => {
         it("should not be valid if it is empty", () => {
           const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
           const formData = { tally_name: {} };
@@ -206,6 +206,21 @@ describe("<RecordForm>/form/validations", () => {
         it("should be valid if it at least one of its childrens have values", () => {
           const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
           const formData = { tally_name: { test1: 1, test2: "" } };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+
+      context("and check min and max values", () => {
+        it("should be invalid if one of its childrens have values not between min and max", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const formData = { tally_name: { test1: 1, test2: -2 } };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+        it("should be valid if one of its childrens have values between min and max", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const formData = { tally_name: { test1: 1, test2: 3 } };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });

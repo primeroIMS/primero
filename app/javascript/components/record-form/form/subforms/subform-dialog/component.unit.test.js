@@ -358,5 +358,15 @@ describe("<SubformDialog />", () => {
     it("renders ViolationActions", () => {
       expect(component.find(ViolationActions)).lengthOf(1);
     });
+
+    it("renders ViolationActions with valid props", () => {
+      const violationActionsProps = { ...component.find(ViolationActions).props() };
+
+      ["handleBack", "handleCancel"].forEach(property => {
+        expect(violationActionsProps).to.have.property(property);
+        delete violationActionsProps[property];
+      });
+      expect(violationActionsProps).to.be.empty;
+    });
   });
 });
