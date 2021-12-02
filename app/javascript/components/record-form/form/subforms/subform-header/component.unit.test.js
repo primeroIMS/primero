@@ -99,4 +99,25 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
 
     expect(component.find(ViolationItem)).lengthOf(1);
   });
+
+  it("should render uniqueId when is a ViolationAssociation", () => {
+    const props = {
+      field: FieldRecord({
+        name: "perpetrators",
+        subform_section_id: {
+          fields: [FieldRecord({ name: "relation_age", type: "text_field" })],
+          collapsed_field_names: ["relation_age"]
+        }
+      }),
+      values: [{ unique_id: "ab123cde", relation_name: "this is a relation" }],
+      locale: "en",
+      displayName: { en: "Testing" },
+      index: 0,
+      onClick: () => {},
+      isViolationSubform: false
+    };
+    const { component } = setupMountedComponent(SubformHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("b123cde");
+  });
 });

@@ -4,7 +4,6 @@ import MenuOpen from "@material-ui/icons/MenuOpen";
 import { setupMountedComponent } from "../../../test";
 
 import RecordFormTitle from "./record-form-title";
-import { GuidingQuestions } from "./components";
 
 describe("<RecordFormTitle />", () => {
   const props = {

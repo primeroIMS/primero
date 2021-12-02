@@ -588,5 +588,19 @@ describe("<RecordForms /> - utils", () => {
         })
       ).to.deep.equals(expected);
     });
+
+    it("should remove all the null from subform objects", () => {
+      const expected = {
+        name: "Name 1",
+        family_details: [{ relation: "mother", tally: { boys: 1, girls: 3 } }]
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          family_details: [{ relation: "mother", tally: { boys: 1, girls: 3, unknown: "", total: null } }]
+        })
+      ).to.deep.equals(expected);
+    });
   });
 });

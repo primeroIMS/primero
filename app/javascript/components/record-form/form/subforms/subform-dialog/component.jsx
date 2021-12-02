@@ -73,18 +73,13 @@ const Component = ({
   };
 
   const onSubmit = values => {
-    const valuesWithUniqueId = {
-      ...buildSubformValues(field.name, values),
-      // eslint-disable-next-line camelcase
-      ...(!values?.unique_id ? { unique_id: uuid.v4() } : {})
-    };
-
-    console.log("========>", initialSubformValues);
+    // eslint-disable-next-line camelcase
+    const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
 
     if (isValidIndex) {
-      formik.setFieldValue(`${field.name}[${index}]`, valuesWithUniqueId, false);
+      formik.setFieldValue(`${field.name}[${index}]`, buildSubformValues(field.name, valuesWithUniqueId), false);
     } else {
-      arrayHelpers.push({ ...initialSubformValues, ...valuesWithUniqueId });
+      arrayHelpers.push(buildSubformValues(field.name, { ...initialSubformValues, ...valuesWithUniqueId }));
       formik.setTouched({ [field.name]: true });
     }
 
