@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";

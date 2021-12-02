@@ -40,7 +40,7 @@ describe("<WorkFlowStep> - pages/dashboard/components/workflow-individual-cases/
   it("should render a span component", () => {
     const span = component.find("span");
 
-    expect(span.text()).to.be.equals("10 ");
+    expect(span.text()).to.be.equals("10");
     expect(span).to.have.lengthOf(1);
   });
 });

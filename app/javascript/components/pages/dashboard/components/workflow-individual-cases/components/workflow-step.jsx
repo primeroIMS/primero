@@ -8,6 +8,7 @@ import { ROUTES } from "../../../../../../config";
 import { buildFilter } from "../../../../../dashboard/utils";
 import { DashboardChip } from "../../../../../dashboard";
 import { displayNameHelper } from "../../../../../../libs";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
@@ -30,7 +31,12 @@ const WorkFlowStep = ({ step, casesWorkflow, i18n }) => {
   const clickable = !isEmpty(workflowData) && count > 0;
   const handleClickButton = () => (clickable ? handleClick(query) : null);
 
-  const chipText = `${count} ${displayNameHelper(step.display_text, i18n.locale) || ""}`;
+  const chipText = (
+    <div className={css.step}>
+      <div className={css.count}>{count}</div>
+      <div>{displayNameHelper(step.display_text, i18n.locale) || ""}</div>
+    </div>
+  );
   const chipType = count === 0 ? "defaultNoCount" : "default";
 
   return <DashboardChip label={chipText} handleClick={handleClickButton} type={chipType} />;
