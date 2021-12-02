@@ -3411,6 +3411,7 @@ en:
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
     password_reset:
+      subject: 'Reset password instructions'
       email_greeting: "Dear %{full_name}"
       email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
       email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
