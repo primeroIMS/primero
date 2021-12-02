@@ -29,10 +29,17 @@
     background-color: var(--c-blue);
     color: var(--c-white);
     font-size: var(--fs-12);
+    align-items: normal;
   }
 
   &.defaultNoCount {
     background-color: var(--c-light-blue-menu);
     font-size: var(--fs-12);
+    align-items: normal;
+  }
+
+
+  &:hover {
+    opacity: .8;
   }
 }
