@@ -3,13 +3,76 @@
 require 'write_xlsx'
 
 namespace :primero do
+  # Remove all data config and records
+  # USAGE: rails primero:remove_config_data_and_records
+  # Args:
+  #   include_users        - Whether or not remove users                          DEFAULT: false
+  # NOTE:
+  #   No spaces between arguments in argument list
+  # Examples:
+  #   Defaults to remove all data except users
+  #      rails primero:remove_config_data_and_records
+  #
+  #   remove all data except users
+  #      rails primero:remove_config_data_and_records[true]
+  desc 'Remove config data and records'
+  task :remove_config_and_records, [:include_users] => %i[remove_config remove_records]
+
   desc 'Remove records'
-  task :remove_records, [:type] => :environment do |_, args|
-    types = [Child, TracingRequest, Incident, PotentialMatch]
-    types = [Object.const_get(args[:type])] if args[:type].present?
-    puts "Deleting all #{types.join(', ').name} records"
-    types.each(&:destroy_all)
-    Sunspot.remove_all(type)
+  task :remove_records, [:include_users] => :environment do |_, args|
+    record_models = [Child, Incident, TracingRequest, Trace, Flag]
+    data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
+                   SavedSearch, Transition]
+    db_tables = %w[ active_storage_variant_records primero_modules_saved_searches]
+
+    if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
+      record_models << User
+      db_tables << 'user_groups_users' 
+    end
+
+    (record_models + data_config).each do |model|
+      puts "Removing data from #{model.name} table"
+      model.delete_all
+    end
+
+    db_tables.each do |table|
+      puts "Removing data from #{table} table"
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+    end
+
+    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_attachments WHERE record_type != 'Agency'")
+    agenncy_blob_ids = ActiveStorage::Attachment.where(record_type: 'Agency').pluck(:blob_id).join(', ')
+    blobs_conditional =  agenncy_blob_ids.present? ? "WHERE id NOT IN (#{agenncy_blob_ids})" : ''
+    ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
+
+    Sunspot.remove_all(record_models)
+  end
+
+  # If you are planning to load the JSON config, use the remove_config_data task instead
+  desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
+  task :remove_config, [:metadata] => :environment do |_, args|
+    if args[:metadata].present?
+      metadata_models = args[:metadata].split(',').map { |m| Kernel.const_get(m) }
+      db_tables = []
+    else
+      metadata_models = [
+        Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
+        PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration,
+        PrimeroConfiguration, Webhook, IdentityProvider
+      ]
+
+      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles]
+    end
+
+    metadata_models.each do |m|
+      puts "Removing data from #{m.name} table"
+      m.delete_all
+    end
+
+    db_tables.each do |table|
+      puts "Removing data from #{table} table"
+      ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
+    end
   end
 
   desc 'Export the configuraton as Ruby seed files'
@@ -242,25 +305,6 @@ namespace :primero do
   #     end
   #   end
   # end
-
-  # If you are planning to load the JSON config, use the remove_config_data task instead
-  desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
-  task :remove_metadata, [:metadata] => :environment do |_, args|
-    metadata_models =
-      if args[:metadata].present?
-        args[:metadata].split(',').map { |m| Kernel.const_get(m) }
-      else
-        [
-          Agency, ContactInformation, Field, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration
-        ]
-      end
-
-    metadata_models.each do |m|
-      puts "Deleting the database for #{m.name}"
-      m.destroy_all
-    end
-  end
 
   desc 'Deletes out all configurable data. Do this only if you need to reseed from scratch or load a JSON config!'
   task remove_config_data: :environment do

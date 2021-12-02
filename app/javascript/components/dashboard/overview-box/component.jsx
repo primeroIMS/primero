@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
@@ -65,19 +66,24 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
     return indicators.keySeq().map(item => {
       return (
-        <div className={css.item} key={item}>
+        <Fragment key={item}>
           <ActionButton
-            id={`overview-${item}`}
+            id={`overview-${item}-number`}
+            className={css.itemButtonNumber}
+            type="link"
+            text={indicators.getIn([item, "count"])}
+            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
+            noTranslate
+          />
+          <ActionButton
+            id={`overview-${item}-text`}
             className={css.itemButton}
             type="link"
-            text={
-              <div className={css.count}>
-                <div>{indicators.getIn([item, "count"])}</div> <div>{buildLabelItem(item)}</div>
-              </div>
-            }
+            text={buildLabelItem(item)}
             onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
+            noTranslate
           />
-        </div>
+        </Fragment>
       );
     });
   };

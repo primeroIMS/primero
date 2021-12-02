@@ -7,6 +7,7 @@ describe("<ReportsForm /> - Constants", () => {
     [
       "AGGREGATE_BY_FIELD",
       "ALLOWED_FIELD_TYPES",
+      "CONSENT_REPORTING_FIELD",
       "CONSTRAINTS",
       "DATE",
       "DATE_CONSTRAINTS",
@@ -26,10 +27,12 @@ describe("<ReportsForm /> - Constants", () => {
       "NAME",
       "NAME_FIELD",
       "NOT_NULL",
+      "RECORD_STATE_FIELD",
       "RECORD_TYPE_FIELD",
       "REPORTABLE_TYPES",
       "REPORT_FIELD_TYPES",
-      "SHARED_FILTERS"
+      "SHARED_FILTERS",
+      "STATUS_FIELD"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

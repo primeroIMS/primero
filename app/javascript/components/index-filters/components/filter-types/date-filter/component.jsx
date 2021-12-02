@@ -60,7 +60,10 @@ const Component = ({
     const value = { ...getDatesValue(inputValue), [field]: formattedDate };
 
     setInputValue(value);
-    setValue(selectedField, value);
+
+    if (selectedField) {
+      setValue(selectedField, value);
+    }
 
     if (mode?.secondary) {
       setMoreSectionFilters({ ...moreSectionFilters, [selectedField]: value });
@@ -164,11 +167,17 @@ const Component = ({
 
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
 
+  // const handleClearable = () => {
+  //   if (selectedField) {
+  //     setValue(selectedField, null);
+  //   }
+  // };
+
   const renderPickers = () => {
     const onChange = picker => date => handleDatePicker(picker, date);
 
     return ["from", "to"].map(picker => {
-      const props = {
+      const inputProps = {
         fullWidth: true,
         margin: "normal",
         format: pickerFormat,
@@ -181,10 +190,14 @@ const Component = ({
         okLabel: i18n.t("buttons.ok")
       };
 
+      // if (i18n.locale === LOCALE_KEYS.ne) {
+      //   return <NepaliCalendar label={inputProps.label} dateProps={inputProps} handleClearable={handleClearable} />;
+      // }
+
       return (
         <div key={picker} className={css.dateInput}>
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
-            {dateIncludeTime ? <DateTimePicker {...props} /> : <DatePicker {...props} />}
+            {dateIncludeTime ? <DateTimePicker {...inputProps} /> : <DatePicker {...inputProps} />}
           </MuiPickersUtilsProvider>
         </div>
       );
