@@ -6,6 +6,9 @@ import { FieldRecord, FormSectionRecord } from "../../../records";
 import TextField from "../../field-types/text-field";
 import InternalAlert from "../../../../internal-alert";
 import ActionDialog from "../../../../action-dialog";
+import SubformDrawer from "../subform-drawer";
+import ViolationActions from "../subform-fields/components/violation-actions";
+import ViolationTitle from "../subform-fields/components/violation-title";
 
 import SubformDialog from "./component";
 
@@ -327,6 +330,33 @@ describe("<SubformDialog />", () => {
 
     it("renders some FormSectionField", () => {
       expect(component.find(TextField)).lengthOf(2);
+    });
+  });
+
+  describe("when the prop asDrawer is true", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(SubformDialog, {
+        ...props,
+        open: true,
+        asDrawer: true,
+        title: "This is a title"
+      }));
+    });
+
+    it("render the subform", () => {
+      expect(component.find(SubformDialog)).lengthOf(1);
+    });
+
+    it("renders SubformDrawer", () => {
+      expect(component.find(SubformDrawer)).lengthOf(1);
+    });
+
+    it("renders ViolationTitle", () => {
+      expect(component.find(ViolationTitle)).lengthOf(1);
+    });
+
+    it("renders ViolationActions", () => {
+      expect(component.find(ViolationActions)).lengthOf(1);
     });
   });
 });

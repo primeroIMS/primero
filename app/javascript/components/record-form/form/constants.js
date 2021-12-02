@@ -22,3 +22,11 @@ export const RECORD_FORM_PERMISSION = {
   read: "r",
   readWrite: "rw"
 };
+
+export const VIOLATION_ASSOCIACTIONS_SUBFOM = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
+];

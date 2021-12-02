@@ -3,7 +3,9 @@ import isEmpty from "lodash/isEmpty";
 
 import { valuesWithDisplayConditions } from "../subforms/subform-field-array/utils";
 
-export default (field, index, values, orderedValues = []) => {
+import getViolationAssociationsValues from "./get-violation-associations-values";
+
+export default (field, index, values, orderedValues = [], isViolation = false) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
   const { display_conditions: displayConditions } = subformSectionConfiguration || {};
@@ -13,7 +15,11 @@ export default (field, index, values, orderedValues = []) => {
       return valuesWithDisplayConditions(getIn(values, field.name), displayConditions)[index];
     }
 
-    return isEmpty(orderedValues) ? getIn(values, `${field.name}[${index}]`) : orderedValues[index];
+    const subformData = isEmpty(orderedValues) ? getIn(values, `${field.name}[${index}]`) : orderedValues[index];
+    // eslint-disable-next-line camelcase
+    const associatedValues = isViolation ? getViolationAssociationsValues(values, subformData?.unique_id) : {};
+
+    return { ...subformData, ...associatedValues };
   }
 
   return {};

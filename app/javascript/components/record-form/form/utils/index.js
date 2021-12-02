@@ -5,6 +5,7 @@ export { default as getDefaultForms } from "./get-default-forms";
 export { default as getSelectFieldDefaultValue } from "./get-select-field-default-value";
 export { default as getSubformValues } from "./get-subform-values";
 export { default as getTranslatedText } from "./get-translated-text";
+export { default as getViolationAssociationsValues } from "./get-violation-associations-values";
 export { default as getViolationFieldForGuidance } from "./get-violation-field-for-guidance";
 export { default as handleChangeOnServiceUser } from "./handle-change-service-user";
 export { default as isFormDirty } from "./is-form-dirty";
