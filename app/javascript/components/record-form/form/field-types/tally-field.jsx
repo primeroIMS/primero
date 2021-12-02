@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import compact from "lodash/compact";
 
 import { TALLY_FIELD_NAME } from "../constants";
+import { buildTallyErrors } from "../utils";
 
 import TallyFieldContainer from "./tally-field-container";
 import css from "./styles.css";
@@ -13,7 +14,8 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
   const totalName = `${name}.total`;
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
-  const renderError = errors && { error: true };
+  const renderError = buildTallyErrors(errors);
+  const renderErrorOnHelperText = errors && { error: true };
 
   useEffect(() => {
     if (field.autosum_total) {
@@ -34,7 +36,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
         ))}
         <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} />
       </div>
-      <FormHelperText {...renderError}>{errors || helperText}</FormHelperText>
+      <FormHelperText {...renderErrorOnHelperText}>{renderError || helperText}</FormHelperText>
     </div>
   );
 };

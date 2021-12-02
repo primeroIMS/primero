@@ -31,7 +31,7 @@ const Component = ({
   const i18n = useI18n();
   const handleClose = () => setOpen(false);
 
-  const fieldToRender = isViolation ? buildFormViolations(field.subform_section_id.fields, forms) : field;
+  const fieldToRender = isViolation ? buildFormViolations(field, forms) : field;
 
   if (isTraces && mode.isShow) {
     return (

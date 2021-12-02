@@ -1,5 +1,7 @@
 export { default as appendDisabledUser } from "./append-disabled-user";
 export { default as buildOptions } from "./build-options";
+export { default as buildSubformValues } from "./build-subform-values";
+export { default as buildTallyErrors } from "./build-tally-errors";
 export { default as getConnectedFields } from "./get-connected-fields";
 export { default as getDefaultForms } from "./get-default-forms";
 export { default as getSelectFieldDefaultValue } from "./get-select-field-default-value";

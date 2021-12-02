@@ -19,7 +19,12 @@ describe("<SubformItem /> - utils", () => {
   });
 
   describe("buildFormViolations", () => {
-    const violationFields = [{ name: "violation_tally" }, { name: "test_field" }, { name: "second_test_field" }];
+    const violationFields = {
+      name: "violationField",
+      subform_section_id: {
+        fields: [{ name: "violation_tally" }, { name: "test_field" }, { name: "second_test_field" }]
+      }
+    };
     const forms = fromJS({
       formSections: {
         1: {
@@ -62,6 +67,7 @@ describe("<SubformItem /> - utils", () => {
       const result = helpers.buildFormViolations(violationFields, forms);
 
       const expected = FieldRecord({
+        name: "violationField",
         subform_section_id: FormSectionRecord({
           fields: [
             {

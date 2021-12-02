@@ -3,8 +3,10 @@ import { FormSectionRecord, FieldRecord } from "../../../records";
 import { ORDER_OF_FORMS, VIOLATION_TALLY, VIOLATIONS_FIELDS } from "./constants";
 
 /* eslint-disable import/prefer-default-export */
-export const buildFormViolations = (violationFields, forms) => {
+export const buildFormViolations = (violationField, forms) => {
   if (!forms.size > 0) return {};
+
+  const violationFields = violationField.subform_section_id.fields;
 
   const formFields = forms
     .flatMap(field => field.get("fields"))
@@ -27,5 +29,5 @@ export const buildFormViolations = (violationFields, forms) => {
     return [...acc, subformField];
   }, []);
 
-  return FieldRecord({ subform_section_id: FormSectionRecord({ fields }) });
+  return FieldRecord({ name: violationField.name, subform_section_id: FormSectionRecord({ fields }) });
 };

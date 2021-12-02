@@ -516,6 +516,14 @@ export const VIOLATIONS_FORM = [
   "denial_humanitarian_access_violation_wrapper"
 ];
 
+export const VIOLATIONS_ASSOCIATIONS_FORM = [
+  "individual_victims_subform_section",
+  "group_victims_section",
+  "source_subform_section",
+  "perpetrator_subform_section",
+  "response_subform_section"
+];
+
 export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "killing",
   "maiming",
@@ -525,4 +533,12 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "attack_on",
   "military_use",
   "denial_humanitarian_access"
+];
+
+export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
 ];
