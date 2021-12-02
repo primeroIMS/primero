@@ -12,6 +12,7 @@ import { parseExpression } from "../../../libs/expressions";
 import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
 
 const renderFormFields = (
+  forms,
   form,
   mode,
   recordType,
@@ -49,7 +50,7 @@ const renderFormFields = (
     return (
       <div key={field.name}>
         {SUBFORM_SECTION === field.type ? (
-          <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
+          <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm, forms }} />
         ) : (
           <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
         )}
@@ -106,6 +107,7 @@ const renderFormSections = (
 
           <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
           {renderFormFields(
+            fs,
             form,
             mode,
             recordType,

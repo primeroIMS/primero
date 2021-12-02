@@ -5,6 +5,8 @@ import isEmpty from "lodash/isEmpty";
 import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
+import { SUBFORM_SECTION } from "../../../constants";
+import SubformField from "../component";
 
 import { NAME } from "./constants";
 
@@ -64,6 +66,14 @@ const Component = ({
         !parseExpression(subformSectionField.display_conditions_subform).evaluate(values))
     ) {
       return null;
+    }
+
+    if (SUBFORM_SECTION === subformSectionField.type) {
+      return (
+        <SubformField
+          {...{ ...fieldProps, formSection: subformSectionField.subform_section_id, isReadWriteForm, forms: {} }}
+        />
+      );
     }
 
     return (

@@ -1,26 +1,20 @@
 import PropTypes from "prop-types";
-import Chip from "@material-ui/core/Chip";
 
-import useOptions from "../../../../../../form/use-options";
+import ViolationTitle from "../violation-title";
 
-import { NAME, VIOLATION_STATUS } from "./constants";
-import { getViolationTallyLabel, getShortUniqueId, getVerifiedValue } from "./utils";
+import { NAME } from "./constants";
+import { getViolationTallyLabel } from "./utils";
 import css from "./styles.css";
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues }) => {
   const currentValues = values[index];
-  const violationVerifiedField = fields.find(f => f.name === VIOLATION_STATUS);
-  const optionsStrings = useOptions({ source: violationVerifiedField.option_strings_source });
 
-  const shortUniqueId = getShortUniqueId(currentValues);
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
-  const violationStatusLabel = getVerifiedValue(optionsStrings, currentValues);
 
   return (
     <div id="subform-header-button" className={css.subformViolationHeader}>
       <h2>
-        {displayName?.[locale]} - {shortUniqueId}{" "}
-        <Chip label={violationStatusLabel} size="small" className={css.chipStatus} />
+        <ViolationTitle title={displayName?.[locale]} values={currentValues} fields={fields} />
       </h2>
       <div id="subform-violation-fields" className={css.subformViolationHeaderFields}>
         {violationTally}

@@ -15,6 +15,11 @@ module ViolationAssociable
     self.unique_id ||= id
   end
 
+  def associations_as_data
+    data['violations_ids'] = violations.ids
+    data
+  end
+
   # Define class methods
   module ClassMethods
     def build_record(data)

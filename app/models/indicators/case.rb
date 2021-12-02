@@ -470,7 +470,7 @@ module Indicators
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ],
-      scope_to_owned_by_groups: true
+      scope_to_transferred_groups: true
     ).freeze
 
     WITH_INCIDENTS = QueriedIndicator.new(

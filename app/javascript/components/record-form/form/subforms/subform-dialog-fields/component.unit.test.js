@@ -1,7 +1,9 @@
 import { setupMountedComponent } from "../../../../../test";
-import { FieldRecord } from "../../../records";
+import { FieldRecord, FormSectionRecord } from "../../../records";
 import { TEXT_FIELD } from "../../../constants";
 import TextField from "../../field-types/text-field";
+import SubformField from "../component";
+import SubformItem from "../subform-item";
 
 import SubformDialogFields from "./component";
 
@@ -47,5 +49,53 @@ describe("<SubformDialogFields />", () => {
 
   it("only renders the fields that meet the conditions", () => {
     expect(component.find(TextField)).to.have.lengthOf(2);
+  });
+
+  describe("when a field of a subform is also a subform", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        SubformDialogFields,
+        {
+          mode: { isShow: true },
+          formSection: { unqique_id: "test_id" },
+          field: FieldRecord({
+            name: "killing",
+            subform_section_id: FormSectionRecord({
+              unique_id: "killing",
+              fields: [
+                FieldRecord({
+                  name: "perpetrators",
+                  unique_id: "perpetratorsId",
+                  visible: true,
+                  type: "subform",
+                  subform_section_id: FormSectionRecord({
+                    unique_id: "perpetrators",
+                    fields: [
+                      FieldRecord({
+                        name: "perpetrators",
+                        unique_id: "perpetratorsId",
+                        visible: true,
+                        type: "separator"
+                      })
+                    ]
+                  })
+                })
+              ]
+            })
+          })
+        },
+        {},
+        [],
+        { registerField: () => {} }
+      ));
+    });
+
+    it("render the SubformField", () => {
+      expect(component.find(SubformField)).lengthOf(1);
+    });
+
+    it("render the subform", () => {
+      expect(component.find(SubformItem)).lengthOf(1);
+    });
   });
 });

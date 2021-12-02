@@ -4,7 +4,7 @@ describe("Verifying violationItem constant", () => {
   it("should have known constant", () => {
     const constants = { ...violationItemConstants };
 
-    ["NAME", "VIOLATION_STATUS", "VIOLATION_TALLY_FIELD"].forEach(property => {
+    ["NAME", "VIOLATION_TALLY_FIELD"].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];
     });
