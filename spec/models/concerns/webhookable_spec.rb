@@ -48,6 +48,15 @@ describe Webhookable do
       case_record.update(name: 'Another name')
       expect(AuditLog.count.zero?).to be_truthy
     end
+
+    it 'logs a user_name field' do
+      expect(AuditLog.count.zero?).to be_truthy
+      case_record.update(mark_synced_status: 'failed', mark_synced: true, mark_synced_url: webhook_url)
+
+      expect(AuditLog.count).to eq(1)
+      send_log = AuditLog.first
+      expect(send_log.user_name).to be nil
+    end
   end
 
   describe 'webhook statuses' do

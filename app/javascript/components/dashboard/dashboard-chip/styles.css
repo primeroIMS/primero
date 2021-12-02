@@ -12,16 +12,34 @@
   }
 
   &.medium {
-    background-color: #E7712D;
+    background-color: var(--c-red-medium);
   }
 
   &.low {
-    background-color: #F7D0BA;
+    background-color: var(--c-red-low);
   }
 
   &.noaction {
     border: solid 1px #B4B4B4;
     background-color: var(--c-white);
     color: #b4b4b4;
+  }
+
+  &.default {
+    background-color: var(--c-blue);
+    color: var(--c-white);
+    font-size: var(--fs-12);
+    align-items: normal;
+  }
+
+  &.defaultNoCount {
+    background-color: var(--c-light-blue-menu);
+    font-size: var(--fs-12);
+    align-items: normal;
+  }
+
+
+  &:hover {
+    opacity: .8;
   }
 }

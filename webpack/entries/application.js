@@ -13,7 +13,7 @@ const {
   TRANSLATION_MANIFEST_FILES,
   ENTRIES,
   ENTRY_NAMES,
-  utils: { isProduction, projectPath }
+  utils: { projectPath }
 } = config;
 
 const NAME = ENTRY_NAMES.APPLICATION;
@@ -26,9 +26,7 @@ const cacheFile = file => {
     const buildFiles = fs.readdirSync(filePath);
 
     if (buildFiles) {
-      const fileSearch = buildFiles.filter(buildFile =>
-        new RegExp(file).test(buildFile)
-      );
+      const fileSearch = buildFiles.filter(buildFile => new RegExp(file).test(buildFile));
 
       if (fileSearch) {
         return fileSearch[0];
@@ -69,9 +67,7 @@ const additionalFiles = originalManifest => {
         revision: revision.digest("hex")
       });
     } catch (error) {
-      throw new Error(
-        `Failure adding file to precache-manifest: ${error.message}`
-      );
+      throw new Error(`Failure adding file to precache-manifest: ${error.message}`);
     }
   });
 
@@ -100,14 +96,5 @@ entry.plugins.push(
     maximumFileSizeToCacheInBytes: 100 * 1024 * 1024
   })
 );
-
-if (isProduction) {
-  entry.plugins.push(
-    new MiniCssExtractPlugin({
-      filename: "[name].[contenthash:8].css",
-      chunkFilename: "[name].[contenthash:8].chunk.css"
-    })
-  );
-}
 
 module.exports = entry;

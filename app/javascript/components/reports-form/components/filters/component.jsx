@@ -8,12 +8,12 @@ import { useI18n } from "../../../i18n";
 import { DATE_FIELD } from "../../../form";
 import FiltersDialog from "../filters-dialog";
 import FiltersList from "../filters-list";
-import { DEFAULT_FILTERS, NOT_NULL, SHARED_FILTERS } from "../../constants";
+import { DEFAULT_FILTERS, MATCH_REPORTABLE_TYPES, NOT_NULL, RECORD_STATE_FIELD, STATUS_FIELD } from "../../constants";
 import { formattedFields } from "../../utils";
 import { NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD } from "../../../form/constants";
 import ActionDialog from "../../../action-dialog";
-import { getVisibleFieldsWithNames } from "../../../record-form/selectors";
 import { useMemoizedSelector } from "../../../../libs";
+import { getRecordFields } from "../../../record-form/selectors";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -31,12 +31,16 @@ const Container = ({
   selectedModule
 }) => {
   const i18n = useI18n();
-  const sharedFilterNames = SHARED_FILTERS.map(filter => filter.attribute);
+
+  const matchableRecordType = MATCH_REPORTABLE_TYPES[selectedRecordType] || selectedRecordType;
+
+  const recordFields = useMemoizedSelector(state =>
+    getRecordFields(state, { recordType: matchableRecordType, primeroModule: selectedModule })
+  );
 
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [open, setOpen] = useState(false);
-  const visibleSharedFields = useMemoizedSelector(state => getVisibleFieldsWithNames(state, sharedFilterNames));
 
   const onSuccess = (index, currentReportFilter, currentField) => {
     const data =
@@ -79,23 +83,23 @@ const Container = ({
     formattedMinimumReportableFields
   );
 
+  const recordFieldNames = recordFields.map(field => field.name);
+  const minimumReportableFields = formattedMinimumReportableFields[matchableRecordType]?.filter(
+    field => recordFieldNames.includes(field.id) || [RECORD_STATE_FIELD, STATUS_FIELD].includes(field.id)
+  );
+  const reportableFields = fields.concat(minimumReportableFields || []);
+
   useEffect(() => {
     if (selectedRecordType && formMode.isNew) {
-      const visibleSharedFieldNames = visibleSharedFields.map(field => field.name);
-      const fieldNames = fields.map(field => field.id);
+      const reportableFieldNames = reportableFields.filter(f => f.visible === true).map(f => f.id);
 
       setIndexes(
         DEFAULT_FILTERS[selectedRecordType]
-          .filter(
-            defaultFilter =>
-              (sharedFilterNames.includes(defaultFilter.attribute) &&
-                visibleSharedFieldNames.includes(defaultFilter.attribute)) ||
-              (fieldNames.includes(defaultFilter.attribute) && !sharedFilterNames.includes(defaultFilter.attribute))
-          )
+          .filter(defaultFilter => reportableFieldNames.includes(defaultFilter.attribute))
           .map((data, index) => ({ index, data }))
       );
     }
-  }, [selectedRecordType, visibleSharedFields]);
+  }, [selectedRecordType]);
 
   if (!fields.length) {
     return null;
@@ -136,7 +140,12 @@ const Container = ({
         </IconButton>
       </Typography>
 
-      <FiltersList fields={fields} handleOpenModal={handleOpenModal} handleEdit={handleEdit} indexes={indexes} />
+      <FiltersList
+        fields={reportableFields}
+        handleOpenModal={handleOpenModal}
+        handleEdit={handleEdit}
+        indexes={indexes}
+      />
 
       <ActionDialog
         open={deleteModal}

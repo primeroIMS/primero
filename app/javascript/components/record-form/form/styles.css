@@ -197,9 +197,11 @@
 
 .badgeIndicator {
 
-  & span {
+  & > span:last-of-type {
     top: 2px;
     right: 8px;
+    background: var(--c-yellow);
+    color: var(--c-black);
   }
 }
 

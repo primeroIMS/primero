@@ -62,11 +62,11 @@
 }
 
 .orangeChip {
-  background: var(--c-orange);
+  background: var(--c-red-medium);
 }
 
 .yellowChip {
-  background: var(--c-yellow);
+  background: var(--c-red-low);
 }
 
 .redChipOutlined {
@@ -75,13 +75,13 @@
 }
 
 .orangeChipOutlined {
-  border-color: var(--c-orange);
-  color: var(--c-orange);
+  border-color: var(--c-red-medium);
+  color: var(--c-red-medium);
 }
 
 .yellowChipOutlined {
-  border-color: var(--c-yellow);
-  color: var(--c-yellow);
+  border-color: var(--c-red-low);
+  color: var(--c-red-low);
 }
 
 .searchContainer {

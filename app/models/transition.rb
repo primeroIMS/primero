@@ -59,7 +59,7 @@ class Transition < ApplicationRecord
   end
 
   def user_can_accept_or_reject?(user)
-    return false unless in_progress?
+    return false if remote || !in_progress?
 
     user.user_name == transitioned_to_user.user_name
   end
