@@ -44,7 +44,7 @@ class PermittedFieldService
     Permission::SERVICES_SECTION_FROM_CASE => {
       'services_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
     },
-    Permission::CLOSE => { 'status' => { 'type' => 'string' } },
+    Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
       'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
       'case_status_reopened' => { 'type' => 'boolean' }
