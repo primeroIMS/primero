@@ -12,20 +12,20 @@ const Component = ({ handleBack, handleCancel }) => {
   const handleSuccess = event => {
     event.stopPropagation();
     handleBack();
-    // handleCancel();
   };
 
   return (
     <div className={css.buttonsRow}>
       {handleBack && (
         <ActionButton
+          id="dialog-submit"
           icon={<ArrowBackIosIcon />}
           text="incident.violation.back_to_violations"
           type={ACTION_BUTTON_TYPES.default}
           autoFocus
           outlined
           rest={{
-            onClick: handleSuccess
+            ...(handleBack && { onClick: handleSuccess })
           }}
         />
       )}

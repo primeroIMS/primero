@@ -526,3 +526,11 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "military_use",
   "denial_humanitarian_access"
 ];
+
+export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
+];

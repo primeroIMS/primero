@@ -14,6 +14,8 @@ import {
   TALLY_FIELD
 } from "../constants";
 
+const MAX_PERMITTED_INTEGER = 2147483647;
+
 export const fieldValidations = (field, i18n) => {
   const { multi_select: multiSelect, name, type, required } = field;
   const validations = {};
@@ -35,7 +37,7 @@ export const fieldValidations = (field, i18n) => {
         .nullable()
         .transform(value => (Number.isNaN(value) ? null : value))
         .min(0)
-        .max(2147483647);
+        .max(MAX_PERMITTED_INTEGER);
     }
   } else if (DATE_FIELD === type) {
     validations[name] = date().nullable();
@@ -58,7 +60,8 @@ export const fieldValidations = (field, i18n) => {
           total: number()
             .nullable()
             .transform(value => (Number.isNaN(value) ? null : value))
-            .positive()
+            .min(0)
+            .max(MAX_PERMITTED_INTEGER)
         }
       : {};
 
@@ -68,7 +71,8 @@ export const fieldValidations = (field, i18n) => {
         [option.id]: number()
           .nullable()
           .transform(value => (Number.isNaN(value) ? null : value))
-          .positive()
+          .min(0)
+          .max(MAX_PERMITTED_INTEGER)
       };
     }, initialKeys);
 

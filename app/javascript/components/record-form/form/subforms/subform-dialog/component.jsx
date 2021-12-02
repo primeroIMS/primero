@@ -10,7 +10,7 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { getSubformValues, serviceHasReferFields } from "../../utils";
+import { getSubformValues, serviceHasReferFields, buildSubformValues } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
@@ -73,9 +73,13 @@ const Component = ({
   };
 
   const onSubmit = values => {
-    debugger;
-    // eslint-disable-next-line camelcase
-    const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
+    const valuesWithUniqueId = {
+      ...buildSubformValues(field.name, values),
+      // eslint-disable-next-line camelcase
+      ...(!values?.unique_id ? { unique_id: uuid.v4() } : {})
+    };
+
+    console.log("========>", initialSubformValues);
 
     if (isValidIndex) {
       formik.setFieldValue(`${field.name}[${index}]`, valuesWithUniqueId, false);
@@ -162,9 +166,6 @@ const Component = ({
         dialogActions,
         disableActions: isFormShow
       };
-  const renderButtonDrawerActions = asDrawer ? (
-    <ViolationActions handleBack={e => boundSubmitForm(e)} handleCancel={handleClose} />
-  ) : null;
 
   useEffect(() => {
     if (open) {
@@ -195,7 +196,7 @@ const Component = ({
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
-                {renderButtonDrawerActions}
+                {asDrawer && <ViolationActions handleBack={e => submitForm(e)} handleCancel={handleClose} />}
                 {renderSubform(field, index)}
               </Form>
             );
