@@ -9,6 +9,7 @@ KU_FALLBACK = %i[ku en].freeze
 PT_FALLBACK = %i[pt en].freeze
 
 I18n.fallbacks = {
+  ne: EN_FALLBACK,
   en: EN_FALLBACK,
   ar: EN_FALLBACK,
   'ar-IQ': AR_FALLBACK,

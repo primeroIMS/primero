@@ -27,7 +27,7 @@ describe("<OverviewBox />", () => {
 
   it("renders a component/>", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
-    expect(component.find("a")).to.have.lengthOf(1);
+    expect(component.find("a")).to.have.lengthOf(2);
     expect(component.text()).to.contain("5 Closure");
   });
 
@@ -37,7 +37,7 @@ describe("<OverviewBox />", () => {
     });
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("a")).to.have.lengthOf(1);
+      expect(component.find("a")).to.have.lengthOf(2);
       expect(component.text()).to.contain("Closure");
     });
   });
@@ -96,7 +96,7 @@ describe("<OverviewBox />", () => {
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.text()).to.contain(`1 ${ASSESSMENT_LABEL}`);
+        expect(component.text()).to.contain(`1${ASSESSMENT_LABEL}`);
       });
     });
 
@@ -130,7 +130,7 @@ describe("<OverviewBox />", () => {
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.text()).to.contain(`1 ${GBV_CLOSURE}`);
+        expect(component.text()).to.contain(`1${GBV_CLOSURE}`);
       });
     });
   });

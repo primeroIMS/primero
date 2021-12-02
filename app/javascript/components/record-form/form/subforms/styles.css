@@ -93,3 +93,11 @@
   font-size: var(--fs-12);
   margin-bottom: 2px;
 }
+
+.subformTitle {
+  margin-top: 0px;
+}
+
+.subformGuidance {
+  margin-bottom:  8px;
+}

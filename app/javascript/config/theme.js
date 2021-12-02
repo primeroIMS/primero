@@ -54,7 +54,9 @@ const colors = {
   warmGrey6: "#6f6f6a",
   white: "#ffffff", // u
   wildSand: "#f5f5f5",
-  greenLight: "#E6EED3" // u
+  greenLight: "#E6EED3", // u,
+  redMedium: "#E7712D",
+  redLow: "#F7D0BA"
 };
 
 const fontFamily = ["helvetica", "roboto", "arial", "sans-serif"].join(", ");

@@ -116,7 +116,7 @@ export const compactBlank = values =>
       const fixedValue =
         Array.isArray(value) && value.some(item => isPlainObject(item)) ? value.map(val => compactBlank(val)) : value;
 
-      return { ...acc, [key]: fixedValue };
+      return { ...acc, [key]: isPlainObject(fixedValue) ? compactBlank(fixedValue) : fixedValue };
     }, {});
 
 export const getFieldDefaultValue = field => {

@@ -11,7 +11,9 @@
              record_id: link_to(
                  @transition&.record&.short_id, url_for_v2(@transition&.record)
              ),
-             service_type: @transition.service).html_safe
+             service_type: @transition.service,
+             locale: @locale_email
+            ).html_safe
        %>
     </p>
   </body>

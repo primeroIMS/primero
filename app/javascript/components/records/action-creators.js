@@ -47,7 +47,7 @@ const getSuccessCallback = ({
   const isIncidentType = RECORD_TYPES[recordType] === RECORD_TYPES.incidents;
   const willRedirectToCase = isIncidentType && startsWith(redirect, `/${RECORD_PATH.cases}`);
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
-  const incidentFromCaseCallbacks = isIncidentType
+  const incidentFromCaseCallbacks = willRedirectToCase
     ? [
         { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
         { action: selectedFormCallback.type, payload: selectedFormCallback.payload }

@@ -1075,6 +1075,7 @@ en:
     date_help: dd-mmm-yyyy
     date_help_with_time: dd-mmm-yyyy hh:mm
     date_not_valid: This date is not valid.
+    time: Time
     date_range:
       date: Date
       date_range: Date Range

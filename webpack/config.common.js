@@ -34,8 +34,9 @@ const rules = [
   },
   {
     test: /\.css$/,
+    exclude: /index.css$/,
     use: [
-      ...(isProduction ? [MiniCssExtractPlugin.loader] : ["style-loader"]),
+      MiniCssExtractPlugin.loader,
       {
         loader: "css-loader",
         options: {
@@ -108,6 +109,10 @@ module.exports = (name, entry) => {
         entrypoints: true,
         publicPath: isProduction ? "/packs/" : PUBLIC_PATH,
         writeToDisk: true
+      }),
+      new MiniCssExtractPlugin({
+        filename: "[name].[contenthash:8].css",
+        chunkFilename: "[name].[contenthash:8].chunk.css"
       })
     ],
     resolve,

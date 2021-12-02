@@ -179,7 +179,8 @@ export const ROUTES = {
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
   password_reset: "/password_reset",
-  activity_log: "/activity_log"
+  activity_log: "/activity_log",
+  password_reset_request: "/password_reset_request"
 };
 
 export const PERMITTED_URL = [
@@ -194,10 +195,13 @@ export const PERMITTED_URL = [
   ROUTES.cases,
   ROUTES.tracing_requests,
   ROUTES.incidents,
-  ROUTES.code_of_conduct
+  ROUTES.code_of_conduct,
+  ROUTES.password_reset_request
 ];
 
 export const DATE_FORMAT = "dd-MMM-yyyy";
+
+export const DATE_FORMAT_NE = "DD-MM-YYYY";
 
 export const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
 
@@ -468,7 +472,8 @@ export const DEFAULT_METADATA = Object.freeze({
 });
 
 export const LOCALE_KEYS = {
-  en: "en"
+  en: "en",
+  ne: "ne"
 };
 
 export const HTTP_STATUS = {
@@ -521,6 +526,14 @@ export const VIOLATIONS_FORM = [
   "denial_humanitarian_access_violation_wrapper"
 ];
 
+export const VIOLATIONS_ASSOCIATIONS_FORM = [
+  "individual_victims_subform_section",
+  "group_victims_section",
+  "source_subform_section",
+  "perpetrator_subform_section",
+  "response_subform_section"
+];
+
 export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "killing",
   "maiming",
@@ -530,4 +543,12 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "attack_on",
   "military_use",
   "denial_humanitarian_access"
+];
+
+export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
 ];

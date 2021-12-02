@@ -44,7 +44,8 @@ class PermittedUsersService
     order = OrderByPropertyService.order_direction(order_params[:order])
     locale = OrderByPropertyService.order_locale(order_params[:locale])
 
-    users_query.joins(:agency).order("LOWER(name_i18n ->> '#{locale}') #{order}")
+    # This query is safe because order and locale were sanitized.
+    users_query.joins(:agency).order(Arel.sql("LOWER(agencies.name_i18n ->> '#{locale}') #{order}"))
   end
 
   def apply_filters(users_query, filters)

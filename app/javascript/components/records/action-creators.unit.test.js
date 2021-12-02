@@ -235,7 +235,18 @@ describe("records - Action Creators", () => {
       ];
 
       const successCallbacks = actionCreators
-        .saveRecord(RECORD_PATH.incidents, "update", body, "123", "Saved Successfully", false, false, false, "", true)
+        .saveRecord(
+          RECORD_PATH.incidents,
+          "update",
+          body,
+          "123",
+          "Saved Successfully",
+          false,
+          `/${RECORD_PATH.cases}`,
+          false,
+          "",
+          true
+        )
         .api.successCallback.map(callback => callback.action);
 
       expect(successCallbacks).to.be.an("array");
@@ -260,7 +271,7 @@ describe("records - Action Creators", () => {
           "123",
           "Saved Successfully",
           false,
-          false,
+          `/${RECORD_PATH.cases}`,
           false,
           "",
           true,

@@ -35,6 +35,7 @@ describe("Verifying config constant", () => {
       "CONSENT_GIVEN_FIELD_BY_MODULE",
       "DATABASE_NAME",
       "DATE_FORMAT",
+      "DATE_FORMAT_NE",
       "DATE_TIME_FORMAT",
       "DEFAULT_DATE_VALUES",
       "DEFAULT_METADATA",
@@ -97,6 +98,8 @@ describe("Verifying config constant", () => {
       "TRANSITION_TYPE",
       "UNIQUE_ID_FIELD",
       "USER_NAME_FIELD",
+      "VIOLATIONS_ASSOCIATIONS_FORM",
+      "VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS",
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
       "VIOLATION_GROUP"

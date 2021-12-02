@@ -30,6 +30,20 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     return date;
   };
 
+  // const handleClearable = () => {
+  //   setValue(name, null);
+  // };
+
+  // const neDateProps = {
+  //   name,
+  //   onChange: handleChange,
+  //   error,
+  //   disabled,
+  //   placeholder,
+  //   dateIncludeTime,
+  //   value: currentValue
+  // };
+
   const fieldValue = isEmpty(currentValue) ? null : currentValue;
 
   const renderPicker = () => {
@@ -39,6 +53,13 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
 
     return <DatePicker {...dialogLabels} {...commonInputProps} onChange={handleChange} value={fieldValue} />;
   };
+
+  // if (i18n.locale === LOCALE_KEYS.ne) {
+  //   return (
+  //     <NepaliCalendar helpText={helperText} label={label}
+  // dateProps={neDateProps} handleClearable={handleClearable} />
+  //   );
+  // }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
