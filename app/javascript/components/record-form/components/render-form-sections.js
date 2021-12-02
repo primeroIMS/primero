@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import isEmpty from "lodash/isEmpty";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
@@ -7,6 +8,7 @@ import RecordFormTitle from "../form/record-form-title";
 import { RECORD_FORM_PERMISSION } from "../form/constants";
 import FormSectionField from "../form/form-section-field";
 import SubformField from "../form/subforms";
+import { parseExpression } from "../../../libs/expressions";
 import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
 
 const renderFormFields = (
@@ -17,7 +19,8 @@ const renderFormFields = (
   record,
   primeroModule,
   isReadWriteForm,
-  guidanceFieldForViolation
+  guidanceFieldForViolation,
+  values
 ) => {
   return form.fields.map(field => {
     const fieldProps = {
@@ -34,6 +37,13 @@ const renderFormFields = (
     }
 
     if (guidanceFieldForViolation === field.name) {
+      return null;
+    }
+
+    if (
+      !isEmpty(field.display_conditions_record) &&
+      !parseExpression(field.display_conditions_record).evaluate(values)
+    ) {
       return null;
     }
 
@@ -96,7 +106,17 @@ const renderFormSections = (
           />
 
           <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
-          {renderFormFields(fs, form, mode, recordType, record, primeroModule, isReadWriteForm, fieldForGuidance?.name)}
+          {renderFormFields(
+            fs,
+            form,
+            mode,
+            recordType,
+            record,
+            primeroModule,
+            isReadWriteForm,
+            fieldForGuidance?.name,
+            values
+          )}
         </Fragment>
       );
     }
