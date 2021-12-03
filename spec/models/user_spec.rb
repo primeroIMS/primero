@@ -265,6 +265,15 @@ describe User do
       expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
       user.save!
     end
+
+    it 'sends a password reset email when a user has different locale' do
+      user = build_user
+      user.locale = 'ar-LB'
+      user.password = nil
+      user.password_confirmation = nil
+      expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
+      user.save!
+    end
   end
 
   describe 'Dates' do
