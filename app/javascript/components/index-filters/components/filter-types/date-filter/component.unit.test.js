@@ -25,7 +25,7 @@ describe("<DateFilter>", () => {
   };
 
   describe("when ne locale", () => {
-    it("renders Nepali date picker if locale ne", () => {
+    it.skip("renders Nepali date picker if locale ne", () => {
       window.I18n.locale = "ne";
 
       const { component } = setupMockFormComponent(DateFilter, { props, includeFormProvider: true });

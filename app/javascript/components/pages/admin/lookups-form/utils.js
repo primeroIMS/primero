@@ -54,9 +54,9 @@ export const reorderValues = (items, startIndex, endIndex) => {
   return result;
 };
 
-export const buildValues = (values, defaultLocale, disabledValues) => {
+export const buildValues = (values, defaultLocale, disabledValues, orderItems) => {
   const locales = Object.keys(values);
-  const displayTextKeys = Object.keys(values[defaultLocale]);
+  const displayTextKeys = orderItems || Object.keys(values[defaultLocale]);
 
   return displayTextKeys.map(key => {
     return {

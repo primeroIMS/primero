@@ -123,4 +123,10 @@ describe PermittedUsersService do
 
     expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user5])
   end
+
+  it 'sort users by agency' do
+    users = PermittedUsersService.new(@super_user).find_permitted_users(nil, nil, { order_by: 'agency_id' })
+
+    expect(users.dig(:users).map(&:user_name)).to match_array(%w[user1 user2 user3 user5 admin_user super_user user4])
+  end
 end

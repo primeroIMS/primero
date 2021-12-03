@@ -112,6 +112,23 @@ describe("<ReportFilters /> - utils", () => {
           })
         ).to.be.equals("Test 1");
       });
+
+      it("should return agency values if field contains agency on the option_strings_source prop", () => {
+        const value = ["agency-1"];
+        const lookups = [
+          {
+            unique_id: "Agency",
+            values: [{ id: "agency-1", display_text: "Agency 1" }]
+          }
+        ];
+
+        expect(
+          utils.formatValue(value, i18n, {
+            field: { ...field, option_strings_source: "Agency" },
+            lookups
+          })
+        ).to.be.equals("Agency 1");
+      });
     });
   });
 });

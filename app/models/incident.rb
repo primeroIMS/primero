@@ -35,7 +35,7 @@ class Incident < ApplicationRecord
     end
 
     def filterable_id_fields
-      %w[incident_id incident_code monitor_number survivor_code incidentid_ir]
+      %w[incident_id incident_code monitor_number survivor_code incidentid_ir short_id]
     end
 
     def quicksearch_fields

@@ -83,6 +83,13 @@ module Exporters
       subform4.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
       subform4.save!
 
+      subform5 = FormSection.new(name: 'cases_test_subform_5', parent_form: 'case', visible: false, is_nested: true,
+                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                                 unique_id: 'cases_test_subform_5')
+      subform5.fields << Field.new(name: 'field_7', type: Field::TEXT_FIELD, display_name: 'field_7')
+      subform5.fields << Field.new(name: 'field_8', type: Field::TEXT_FIELD, display_name: 'field_8')
+      subform5.save!
+
       form_e = FormSection.new(name: 'cases_test_form_4', parent_form: 'case', visible: true,
                                order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
                                unique_id: 'cases_test_form_4')
@@ -94,8 +101,19 @@ module Exporters
                                  })
       form_e.save!
 
+      form_f = FormSection.new(name: 'case_test_form_5', parent_form: 'case', visible: true,
+                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                               unique_id: 'cases_test_form_5')
+
+      form_f.fields << Field.new(name: 'cases_test_subform_5', type: Field::SUBFORM, display_name: 'subform 5 field',
+                                 subform_section_id: subform5.id, subform_section_configuration: {
+                                   fields: %w[field_7],
+                                   display_conditions: [{ field_7: 'some_value' }]
+                                 })
+      form_f.save!
+
       @primero_module = create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP')
-      @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, form_e], modules: [@primero_module])
+      @role = create(:role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f], modules: [@primero_module])
       @user = create(:user, user_name: 'fakeadmin', role: @role)
       @records = [create(:child, id: '1234', short_id: 'abc123', first_name: 'John', last_name: 'Doe',
                                  relationship: 'Mother', array_field: %w[option_1 option_2],
@@ -116,7 +134,8 @@ module Exporters
                                    { unique_id: '4', field_1: 'some_value', field_2: 'field_2 value' },
                                    { unique_id: '44', field_1: 'field_1 value2', field_2: 'field_2 value2' },
                                    { unique_id: '444', field_1: 'field_1 value3', field_2: 'field_2 value3' }
-                                 ])]
+                                 ],
+                                 cases_test_subform_5: nil)]
       @record_id = Child.last.short_id
     end
 
@@ -127,14 +146,14 @@ module Exporters
       end
 
       it 'contains a worksheet for each form and subform' do
-
-        expect(workbook.sheets.size).to eq(11)
+        expect(workbook.sheets.size).to eq(13)
         expect(workbook.sheets).to match_array(
           [
             'cases_test_subform_2', 'cases_test_form_2', 'cases_test_form_1',
             'cases_test_subform_1', 'cases_test_subform_3', 'cases_test_subform_4',
             'Test Arabic   .', 'cases_test_form-cases_test_s...', 'cases_test_form-cases_test_s.-1',
-            'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3'
+            'cases_test_form-cases_test_s.-2', 'cases_test_form-cases_test_s.-3',
+            'case_test_form_-cases_test_s...', 'cases_test_subform_5'
           ]
         )
       end
@@ -150,7 +169,8 @@ module Exporters
         expect(workbook.sheet(7).row(1)).to eq(%w[ID field_5 field_6])
         expect(workbook.sheet(8).row(1)).to eq(['ID', 'arabic text', 'arabic array'])
         expect(workbook.sheet(9).row(1)).to eq(%w[ID field_1 field_2])
-        expect(workbook.sheet(10).row(1)).to eq(%w[ID field_2])
+        expect(workbook.sheet(10).row(1)).to eq(%w[ID field_7 field_8])
+        expect(workbook.sheet(11).row(1)).to eq(%w[ID field_2])
       end
 
       it 'exports record values for regular forms' do
@@ -173,8 +193,13 @@ module Exporters
       end
 
       it 'exports only the record values for each instance of subforms that meets the condition' do
+        expect(workbook.sheet(11).last_row).to eq(2)
+        expect(workbook.sheet(11).row(2)).to eq([@record_id, 'field_2 value'])
+      end
+
+      it 'does not exports data if the conditional subform is empty' do
         expect(workbook.sheet(10).last_row).to eq(2)
-        expect(workbook.sheet(10).row(2)).to eq([@record_id, 'field_2 value'])
+        expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
       end
     end
   end

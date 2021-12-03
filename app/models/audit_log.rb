@@ -40,9 +40,9 @@ class AuditLog < ApplicationRecord
   end
 
   def user_name
-    return user.user_name if metadata.blank?
+    return user&.user_name if metadata.blank?
 
-    metadata['user_name'] || user.user_name
+    metadata['user_name'] || user&.user_name
   end
 
   def log_message

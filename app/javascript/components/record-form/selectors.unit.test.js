@@ -780,20 +780,6 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
-  describe("getVisibleFieldsWithNames", () => {
-    it("should return an object with the field names", () => {
-      const expected = fromJS({ document_field: R.FieldRecord(fields["2"]) });
-      const state = stateWithRecords.setIn(
-        ["forms", "fields", "3"],
-        R.FieldRecord({ name: "field_hidden", visible: false })
-      );
-
-      const result = selectors.getVisibleFieldsWithNames(state, ["document_field", "field_hidden"]);
-
-      expect(result).to.deep.equal(expected);
-    });
-  });
-
   describe("getFieldsWithNamesForMinifyForm", () => {
     it("should return an object with the field names for minify_form", () => {
       const fieldsForMinifyForm = {

@@ -207,7 +207,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def apply_subform_display_conditions(data, field)
     display_conditions = subform_display_conditions(field)
 
-    return data unless display_conditions.present?
+    return data unless display_conditions.present? && data[field.name].present?
 
     data[field.name] = data[field.name].select do |subform_values|
       display_conditions.all? { |key, value| subform_values[key] == value }

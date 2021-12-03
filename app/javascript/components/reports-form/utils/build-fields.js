@@ -28,12 +28,11 @@ export default (data, i18n, isReportable, reportingLocationConfig, minimumReport
   }
 
   return data.reduce((acc, form) => {
-    // eslint-disable-next-line camelcase
     const fields = form.get("fields");
     const name = form.get("name");
 
     const filteredFields = fields
-      .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible"))
+      .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible") === true)
       .reduce((prev, current) => {
         const lookup = current.get("option_strings_source")?.replace(/lookup /, "");
 
