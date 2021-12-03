@@ -28,7 +28,6 @@ export default (data, i18n, isReportable, reportingLocationConfig, minimumReport
   }
 
   return data.reduce((acc, form) => {
-    // eslint-disable-next-line camelcase
     const fields = form.get("fields");
     const name = form.get("name");
 
