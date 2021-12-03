@@ -21,7 +21,6 @@ import ViolationTitle from "../subform-fields/components/violation-title";
 
 const Component = ({
   arrayHelpers,
-  asDrawer,
   dialogIsNew,
   field,
   formik,
@@ -37,14 +36,18 @@ const Component = ({
   isReadWriteForm,
   orderedValues,
   recordType,
-  recordModuleID
+  recordModuleID,
+  parentTitle,
+  isViolation,
+  isViolationAssociation
 }) => {
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
+  const asDrawer = isViolation || isViolationAssociation;
 
-  const subformValues = getSubformValues(field, index, formik.values, orderedValues, asDrawer);
+  const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
 
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
@@ -125,6 +128,7 @@ const Component = ({
         isReadWriteForm={isReadWriteForm}
         values={values}
         parentValues={formik.values}
+        parentTitle={title}
       />
     );
   };
@@ -164,6 +168,10 @@ const Component = ({
         disableActions: isFormShow
       };
 
+  const handleBackLabel = isViolationAssociation
+    ? `${i18n.t("incident.violation.back_to")} ${parentTitle}`
+    : i18n.t("incident.violation.back_to_violations");
+
   useEffect(() => {
     if (open) {
       setInitialValues(constructInitialValues([field.subform_section_id]));
@@ -193,7 +201,13 @@ const Component = ({
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
-                {asDrawer && <ViolationActions handleBack={e => submitForm(e)} handleCancel={handleClose} />}
+                {asDrawer && (
+                  <ViolationActions
+                    handleBackLabel={handleBackLabel}
+                    handleBack={e => submitForm(e)}
+                    handleCancel={handleClose}
+                  />
+                )}
                 {renderSubform(field, index, values)}
               </Form>
             );
@@ -218,10 +232,13 @@ Component.propTypes = {
   index: PropTypes.number,
   isFormShow: PropTypes.bool,
   isReadWriteForm: PropTypes.bool,
+  isViolation: PropTypes.bool.isRequired,
+  isViolationAssociation: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
   oldValue: PropTypes.object,
   open: PropTypes.bool.isRequired,
   orderedValues: PropTypes.array.isRequired,
+  parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,

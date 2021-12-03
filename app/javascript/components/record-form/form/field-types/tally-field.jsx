@@ -10,7 +10,7 @@ import { buildTallyErrors } from "../utils";
 import TallyFieldContainer from "./tally-field-container";
 import css from "./styles.css";
 
-const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, ...rest }) => {
+const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, mode, ...rest }) => {
   const totalName = `${name}.total`;
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
@@ -18,7 +18,7 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, .
   const renderErrorOnHelperText = errors && { error: true };
 
   useEffect(() => {
-    if (field.autosum_total) {
+    if (!mode.isShow && field.autosum_total) {
       const total = tallyValues.reduce((acc, value) => acc + value, 0);
 
       formik.setFieldValue(totalName, total === 0 ? "" : total);
@@ -50,6 +50,7 @@ TallyField.propTypes = {
   helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   label: PropTypes.string,
+  mode: PropTypes.object,
   name: PropTypes.string
 };
 
