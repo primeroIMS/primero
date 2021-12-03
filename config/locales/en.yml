@@ -2924,6 +2924,14 @@ en:
               by case, and then further organized by the form on which information
               appears.
             label: Export PDF
+          export_xls:
+            explanation: 'User can generate a XLS file export from the case list or
+              case show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all cases to which the user has access.
+              In this export, each form is represented in its own tab within the XLS
+              file. NOTE: The XLS format renders non-Latin characters (e.g. Arabic,
+              Bangla) in a readable format, while the CSV export does not.'
+            label: Excel (XLS file) export
           flag:
             explanation: Ability to add a flag to a tracing request. Users with this
               permission can also remove the flags that they have added to a tracing
