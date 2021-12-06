@@ -1753,6 +1753,7 @@ en:
       approval: Approval is pending for %{form_section_name}
       field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
+      duplicate_field: Another Case in the system has the same %{field_name} as this one.
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
       to the list view . Click cancel to return to the record.

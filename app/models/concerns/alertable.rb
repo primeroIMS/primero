@@ -11,6 +11,7 @@ module Alertable
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
   INCIDENT_FROM_CASE = 'incident_from_case'
+  DUPLICATE_FIELD = 'duplicate_field'
 
   included do
     searchable do
@@ -21,6 +22,7 @@ module Alertable
 
     before_save :add_alert_on_field_change
     before_update :remove_alert_on_save
+    after_save :perform_duplicate_field_alert
   end
 
   def alert_count
@@ -53,6 +55,16 @@ module Alertable
 
       add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
     end
+  end
+
+  def perform_duplicate_field_alert
+    return unless alerts_on_duplicate.present?
+
+    changed_field_names = saved_changes_to_record.keys
+
+    alerts_on_changed_duplicate = alerts_on_duplicate.select { |field_name| changed_field_names.include?(field_name) }
+
+    DuplicateFieldAlertJob.perform_later(id, self.class.name, alerts_on_changed_duplicate)
   end
 
   def current_alert_types
@@ -92,6 +104,11 @@ module Alertable
   def alerts_on_change
     @system_settings ||= SystemSettings.current
     @system_settings&.changes_field_to_form
+  end
+
+  def alerts_on_duplicate
+    @system_settings ||= SystemSettings.current
+    @system_settings&.duplicate_field_to_form
   end
 
   # Class methods that indicate alerts for all permitted records for a user.
