@@ -86,7 +86,7 @@ const Component = ({ mode, lookup }) => {
     const body = {
       data: {
         name,
-        values: buildValues(lookupValues, i18n.locale, disabled)
+        values: buildValues(lookupValues, i18n.locale, disabled, items)
       }
     };
 

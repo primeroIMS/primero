@@ -634,4 +634,140 @@ describe Role do
       expect(new_version).not_to eq(@old_version)
     end
   end
+
+  describe 'permitted_forms' do
+    before :each do
+      clean_data(Field, FormSection, FormPermission, Role, PrimeroModule)
+      @subform1 = FormSection.create!(
+        unique_id: 'subform1', parent_form: 'case', visible: false, is_nested: true, name: 'Subform 1',
+        fields: [
+          Field.new(name: 'nested_field_1', type: Field::TEXT_FIELD, display_name: 'Nested Field 1'),
+          Field.new(name: 'nested_field_2', type: Field::TEXT_FIELD, display_name: 'Nested Field 2')
+        ]
+      )
+      @subform2 = FormSection.create!(
+        unique_id: 'subform2', parent_form: 'case', visible: false, is_nested: true, name: 'Subform 2',
+        fields: [
+          Field.new(name: 'nested_field_3', type: Field::TEXT_FIELD, display_name: 'Nested Field 3'),
+          Field.new(name: 'nested_field_4', type: Field::TEXT_FIELD, display_name: 'Nested Field 4')
+        ]
+      )
+      @form_section1 = FormSection.create!(
+        unique_id: 'form_section1', parent_form: 'case', name_en: 'Form Section 1',
+        fields: [
+          Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name_en: 'Field 1'),
+          Field.new(name: 'field_2', type: Field::NUMERIC_FIELD, display_name_en: 'Field 2'),
+          Field.new(name: 'subform_field_1', type: Field::SUBFORM,
+                    display_name: 'Subform field 1', subform_section_id: @subform1.id)
+        ]
+      )
+      @form_section2 = FormSection.create!(
+        unique_id: 'form_section2', parent_form: 'case', name_en: 'Form Section 2', visible: false,
+        fields: [
+          Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name_en: 'Field 3'),
+          Field.new(name: 'field_4', type: Field::NUMERIC_FIELD, display_name_en: 'Field 4'),
+          Field.new(name: 'subform_field_2', type: Field::SUBFORM,
+                    display_name: 'Subform field 2', subform_section_id: @subform2.id)
+        ]
+      )
+    end
+
+    it 'returns the permitted forms for a role' do
+      role = Role.create!(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        ],
+        form_sections: [@form_section1, @form_section2],
+        modules: [
+          PrimeroModule.new(
+            unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+            associated_record_types: %w[case tracing_request incident],
+            primero_program: PrimeroProgram.new(name: 'program'),
+            form_sections: [@form_section1, @form_section2]
+          )
+        ]
+      )
+
+      expect(role.permitted_forms.pluck(:unique_id)).to match_array(%w[form_section1 form_section2])
+    end
+
+    it 'returns the permitted forms and visible subforms for a role if visible_only=true and include_subforms=true' do
+      role = Role.create!(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        ],
+        form_sections: [@form_section1, @form_section2],
+        modules: [
+          PrimeroModule.new(
+            unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+            associated_record_types: %w[case tracing_request incident],
+            primero_program: PrimeroProgram.new(name: 'program'),
+            form_sections: [@form_section1, @form_section2]
+          )
+        ]
+      )
+
+      expect(role.permitted_forms('case', true, true).pluck(:unique_id)).to match_array(
+        %w[subform1 form_section1]
+      )
+    end
+
+    it 'does not duplicate permitted forms and subforms for a role if they are associated' do
+      role = Role.create!(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        ],
+        form_sections: [@form_section1, @form_section2, @subform1],
+        modules: [
+          PrimeroModule.new(
+            unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+            associated_record_types: %w[case tracing_request incident],
+            primero_program: PrimeroProgram.new(name: 'program'),
+            form_sections: [@form_section1, @form_section2]
+          )
+        ]
+      )
+
+      expect(role.permitted_forms('case', true, true).pluck(:unique_id)).to match_array(
+        %w[subform1 form_section1]
+      )
+    end
+
+    it 'returns all permitted forms and subforms for a role if include_subforms=true and visible_only=false' do
+      role = Role.create!(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+        ],
+        form_sections: [@form_section1, @form_section2, @subform1],
+        modules: [
+          PrimeroModule.new(
+            unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
+            associated_record_types: %w[case tracing_request incident],
+            primero_program: PrimeroProgram.new(name: 'program'),
+            form_sections: [@form_section1, @form_section2]
+          )
+        ]
+      )
+
+      expect(role.permitted_forms('case', false, true).pluck(:unique_id)).to match_array(
+        %w[subform1 subform2 form_section1 form_section2]
+      )
+    end
+  end
 end
