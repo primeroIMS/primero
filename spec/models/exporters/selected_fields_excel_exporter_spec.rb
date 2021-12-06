@@ -235,12 +235,15 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'contains a worksheet for every form and nested subform unless they are visible: false or hide_on_view_page' do
-      expect(workbook.sheets.size).to eq(5 + 1)
+      expect(workbook.sheets.size).to eq(8 + 1)
       expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
-      expect(workbook.sheet(1).row(1)).to eq(%w[ID relationship array_field])
-      expect(workbook.sheet(2).row(1)).to eq(%w[ID name])
+      expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
+      expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
       expect(workbook.sheet(3).row(1)).to eq(%w[ID field_1 field_2])
       expect(workbook.sheet(4).row(1)).to eq(['ID', 'field X', 'field Y'])
+      expect(workbook.sheet(5).row(1)).to eq(%w[ID name])
+      expect(workbook.sheet(6).row(1)).to eq(%w[ID field_1 field_2])
+      expect(workbook.sheet(7).row(1)).to eq(['ID', 'field X', 'field Y'])
     end
 
     it 'correctly exports record values for a form' do
@@ -248,7 +251,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     end
 
     it 'correctly exports record values for a subform' do
-      expect(workbook.sheet(1).row(2)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
+      expect(workbook.sheet(2).row(2)).to eq([@records[0].short_id, 'Mother', 'Option1 ||| Option2'])
     end
   end
 
