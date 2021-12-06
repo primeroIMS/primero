@@ -11,7 +11,7 @@
       margin: 0 !important;
 
       & span {
-        font-size: .875rem !important;
+        font-size: var(--fs-16) !important;
       }
     }
   }
@@ -30,11 +30,11 @@
 }
 
 .button {
-  color: $(theme.primero.colors.black) !important;
+  color: var(--c-black) !important;
 }
 
 .skipButtonContainer {
-  border-top: 1px solid $(theme.primero.colors.lightGrey);
+  border-top: 1px solid var(--c-light-grey);
   margin-top: 2em;
   display: flex;
   justify-content: flex-start;

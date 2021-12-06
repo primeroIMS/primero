@@ -1,9 +1,9 @@
 .icon {
-  font-size: 1.5em;
+  font-size: var(--fs-20);
   margin: 0 5px 0 0 !important;
-  color: $(theme.primero.colors.blue) !important;
+  color: var(--c-blue) !important;
 
   &:hover {
-    color: $(theme.primero.colors.blue) !important;
+    color: var(--c-blue) !important;
   }
 }

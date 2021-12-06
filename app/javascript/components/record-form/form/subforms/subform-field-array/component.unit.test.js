@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../../../../test";
@@ -8,6 +8,7 @@ import SubformDialog from "../subform-dialog";
 import SubformFields from "../subform-fields";
 import SubformHeader from "../subform-header";
 import SubformDrawer from "../subform-drawer";
+import { GuidingQuestions } from "../../components";
 
 import SubformFieldArray from "./component";
 
@@ -56,7 +57,8 @@ describe("<SubformFieldArray />", () => {
       subform_section_configuration: {
         subform_sort_by: "relation_name"
       },
-      disabled: false
+      disabled: false,
+      guiding_questions: { en: "This is a Guidance" }
     }),
     formik: {
       values: {
@@ -78,7 +80,10 @@ describe("<SubformFieldArray />", () => {
       isEdit: true
     },
     recordType: "cases",
-    isReadWriteForm: true
+    isReadWriteForm: true,
+    form: {},
+    forms: fromJS({}),
+    recordModuleID: "primeromodule-cp"
   };
 
   const formProps = {
@@ -114,6 +119,11 @@ describe("<SubformFieldArray />", () => {
     expect(component.find(AddIcon)).lengthOf(1);
   });
 
+  it("renders the GuidingQuestions", () => {
+    expect(component.find(GuidingQuestions)).lengthOf(1);
+    expect(component.find(GuidingQuestions).text()).to.be.equal("buttons.guidance");
+  });
+
   describe("when is a tracing request and the traces subform", () => {
     let tracingRequestComponent;
 
@@ -147,6 +157,147 @@ describe("<SubformFieldArray />", () => {
 
     it("should not render the SubformDialog", () => {
       expect(tracingRequestComponent.find(SubformDialog)).lengthOf(0);
+    });
+  });
+
+  describe("when is a violation", () => {
+    let incidentComponent;
+
+    beforeEach(() => {
+      ({ component: incidentComponent } = setupMountedComponent(
+        SubformFieldArray,
+        {
+          ...props,
+          recordType: "incidents",
+          formSection: {
+            ...props.formSection,
+            unique_id: "killing"
+          },
+          mode: {
+            isShow: true
+          },
+          forms: fromJS({
+            formSections: {
+              1: {
+                id: 1,
+                name: {
+                  en: "Form Section 1"
+                },
+                unique_id: "form_section_1",
+                module_ids: ["some_module"],
+                visible: true,
+                is_nested: false,
+                parent_form: "cases",
+                fields: [1, 2, 3]
+              }
+            },
+            fields: {
+              1: {
+                id: 1,
+                name: "field_1",
+                display_name: {
+                  en: "Field 1"
+                },
+                type: "text_field",
+                required: true,
+                visible: true
+              },
+              2: {
+                id: 2,
+                name: "field_2",
+                display_name: {
+                  en: "Field 2"
+                },
+                type: "subform",
+                visible: true
+              }
+            }
+          })
+        },
+        fromJS({
+          forms: {
+            fields: [{ name: "killing" }]
+          }
+        }),
+        [],
+        {}
+      ));
+    });
+
+    it("should render title", () => {
+      const h3Tag = incidentComponent.find("h3");
+
+      expect(h3Tag).lengthOf(1);
+      expect(h3Tag.at(0).text()).to.be.equal(" Family Details");
+    });
+  });
+
+  describe("when is a violation association", () => {
+    let incidentComponent;
+
+    beforeEach(() => {
+      ({ component: incidentComponent } = setupMountedComponent(
+        SubformFieldArray,
+        {
+          ...props,
+          recordType: "incidents",
+          formSection: {
+            ...props.formSection,
+            unique_id: "individual_victims_subform_section"
+          },
+          mode: {
+            isShow: true
+          },
+          forms: fromJS({
+            formSections: {
+              1: {
+                id: 1,
+                name: {
+                  en: "Form Section 1"
+                },
+                unique_id: "form_section_1",
+                module_ids: ["some_module"],
+                visible: true,
+                is_nested: false,
+                parent_form: "cases",
+                fields: [1, 2, 3]
+              }
+            },
+            fields: {
+              1: {
+                id: 1,
+                name: "field_1",
+                display_name: {
+                  en: "Field 1"
+                },
+                type: "text_field",
+                required: true,
+                visible: true
+              },
+              2: {
+                id: 2,
+                name: "field_2",
+                display_name: {
+                  en: "Field 2"
+                },
+                type: "subform",
+                visible: true
+              }
+            }
+          })
+        },
+        fromJS({
+          forms: {
+            fields: [{ name: "killing" }]
+          }
+        }),
+        [],
+        {}
+      ));
+    });
+
+    it("should not render add button", () => {
+      expect(incidentComponent.find(AddIcon)).lengthOf(0);
     });
   });
 });

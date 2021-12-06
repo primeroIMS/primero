@@ -4,7 +4,6 @@ import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
-import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
@@ -37,7 +36,7 @@ import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "..
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
 import { useApp } from "../../../../../application";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import {
   getFormField,
   getSubformValues,
@@ -53,10 +52,7 @@ import {
 } from "./utils";
 import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
-const useStyles = makeStyles(styles);
-
-const Component = ({ formId, mode, onClose, onSuccess }) => {
-  const css = useStyles();
+const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const formMode = whichFormMode(mode);
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -76,6 +72,7 @@ const Component = ({ formId, mode, onClose, onSuccess }) => {
   const isNested = subformContainsFieldName(selectedSubform, selectedFieldName, selectedSubformField);
   const { forms: fieldsForm, validationSchema } = getFormField({
     field: selectedField,
+    parentForm,
     i18n,
     formMode,
     css,
@@ -426,7 +423,8 @@ Component.propTypes = {
   formId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   onClose: PropTypes.func,
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  parentForm: PropTypes.string
 };
 
 export default memo(Component);

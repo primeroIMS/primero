@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { IconButton, makeStyles } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -13,14 +13,11 @@ import { formatValue } from "../filters/utils";
 
 import { NAME } from "./constants";
 import { getConstraintLabel } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSources }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
-  const css = useStyles();
 
   const [index, { data }] = filter;
   const { value } = data;

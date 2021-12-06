@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider, makeStyles } from "@material-ui/core";
+import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { push } from "connected-react-router";
 import qs from "qs";
@@ -16,13 +16,11 @@ import { useMemoizedSelector } from "../../libs";
 import { removeSavedSearch } from "./action-creators";
 import { selectSavedSearchesById } from "./selectors";
 import { buildFiltersState } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const [selectedSavedSearch, setSelectedSavedSearch] = useState(null);
   const [open, setOpenDialog] = useState(false);
@@ -83,6 +81,7 @@ const ListSavedSearches = ({ recordType, savedSearches, setTabIndex, setRerender
           <ListItemSecondaryAction>
             <ActionButton
               icon={<DeleteIcon />}
+              id="delete-button"
               type={ACTION_BUTTON_TYPES.icon}
               rest={{
                 edge: "end",

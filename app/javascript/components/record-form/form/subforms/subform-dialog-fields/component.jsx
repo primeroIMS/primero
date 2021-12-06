@@ -1,8 +1,12 @@
 import PropTypes from "prop-types";
 import { connect } from "formik";
+import isEmpty from "lodash/isEmpty";
 
+import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
+import { SUBFORM_SECTION } from "../../../constants";
+import SubformField from "../component";
 
 import { NAME } from "./constants";
 
@@ -15,8 +19,10 @@ const Component = ({
   field,
   formSection,
   isReadWriteForm,
+  parentValues,
   recordModuleID,
-  recordType
+  recordType,
+  values
 }) => {
   const { subform_section_configuration: subformSectionConfiguration } = field;
 
@@ -53,6 +59,23 @@ const Component = ({
       recordType
     };
 
+    if (
+      (!isEmpty(subformSectionField.display_conditions_record) &&
+        !parseExpression(subformSectionField.display_conditions_record).evaluate(parentValues)) ||
+      (!isEmpty(subformSectionField.display_conditions_subform) &&
+        !parseExpression(subformSectionField.display_conditions_subform).evaluate(values))
+    ) {
+      return null;
+    }
+
+    if (SUBFORM_SECTION === subformSectionField.type) {
+      return (
+        <SubformField
+          {...{ ...fieldProps, formSection: subformSectionField.subform_section_id, isReadWriteForm, forms: {} }}
+        />
+      );
+    }
+
     return (
       <div key={subformSectionField.name}>
         <FormSectionField {...fieldProps} />
@@ -75,9 +98,11 @@ Component.propTypes = {
   index: PropTypes.number,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  parentValues: PropTypes.object,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
-  setFilterState: PropTypes.func
+  setFilterState: PropTypes.func,
+  values: PropTypes.object
 };
 
 export default connect(Component);

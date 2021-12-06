@@ -29,7 +29,8 @@ const Component = ({
   renderBottom,
   submitAlways,
   formClassName,
-  registerFields
+  registerFields,
+  resetAfterSubmit = false
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -73,6 +74,12 @@ const Component = ({
   useEffect(() => {
     reset(initialValues);
   }, [JSON.stringify(initialValues)]);
+
+  useEffect(() => {
+    if (resetAfterSubmit && isSubmitted) {
+      reset(initialValues);
+    }
+  }, [resetAfterSubmit, isSubmitted]);
 
   const renderFormSections = () =>
     formSections.map(formSection => (
@@ -139,6 +146,7 @@ Component.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   registerFields: PropTypes.array,
   renderBottom: PropTypes.func,
+  resetAfterSubmit: PropTypes.bool,
   submitAllFields: PropTypes.bool,
   submitAlways: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,

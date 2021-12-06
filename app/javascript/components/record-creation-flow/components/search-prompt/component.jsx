@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import SearchIcon from "@material-ui/icons/Search";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { InputLabel, FormHelperText } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
@@ -17,7 +16,7 @@ import { getRecordsData } from "../../../index-table";
 
 import { NAME, FORM_ID, QUERY } from "./constants";
 import { searchPromptForm } from "./forms";
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const Component = ({
   i18n,
@@ -30,7 +29,6 @@ const Component = ({
   onSearchCases,
   openConsentPrompt
 }) => {
-  const css = makeStyles(styles)();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const dispatch = useDispatch();
   const methods = useForm();
@@ -94,7 +92,7 @@ const Component = ({
         <div className={css.search}>
           <ActionButton
             icon={<SearchIcon />}
-            text={i18n.t("navigation.search")}
+            text="navigation.search"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               form: FORM_ID,

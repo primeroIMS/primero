@@ -1,5 +1,5 @@
 import { TextField as MuiTextField } from "formik-material-ui";
-import { ButtonBase, Input } from "@material-ui/core";
+import { ButtonBase, InputBase } from "@material-ui/core";
 import { Route } from "react-router-dom";
 import { subYears } from "date-fns";
 
@@ -49,8 +49,7 @@ describe("<TextField />", () => {
 
     it("should be empty if the value is null or undefined", () => {
       component.find("input").simulate("change", { target: { value: null } });
-
-      expect(component.find(Input).props().value).to.be.equal("");
+      expect(component.find(InputBase).props().value).to.be.equal("");
       expect(component.find(MuiTextField).props().form.values.text_test).to.be.null;
     });
   });

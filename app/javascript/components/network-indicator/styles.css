@@ -1,15 +1,18 @@
 .networkIndicator {
-  padding: 8px 16px;
-  font-size: $(theme.typography.pxToRem(12));
+  background: var(--c-white);
+  margin: 0 8px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: var(--fs-12);
   display: flex;
   font-weight: bold;
 
   &.online {
-    color: $(theme.primero.colors.solidGreen);
+    color: var(--c-solid-green);
   }
 
   &.offline {
-    color: $(theme.primero.colors.solidOrange);
+    color: var(--c-solid-orange);
   }
 
   & .status {
@@ -19,7 +22,7 @@
   }
 }
 
-@media $(theme.breakpoints.down('md')) {
+@media (max-width:1279.95px) {
   .networkIndicator {
     & .status {
       display: none;
@@ -27,7 +30,7 @@
   }
 }
 
-@media $(theme.breakpoints.down('sm')) {
+@media (max-width:959.95px) {
   .networkIndicator {
     display: none;
 

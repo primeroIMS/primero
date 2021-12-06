@@ -9,9 +9,9 @@
 }
 
 .overdue {
-  color: $(theme.primero.colors.red)
+  color: var(--c-red)
 }
 
 .upcoming_soon {
-  color: $(theme.primero.colors.orange)
+  color: var(--c-orange)
 }

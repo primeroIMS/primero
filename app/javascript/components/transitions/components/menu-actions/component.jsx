@@ -23,7 +23,15 @@ import { NAME, REVOKE_MODAL } from "./constants";
 
 const Component = ({ transition, showMode, recordType, classes }) => {
   const i18n = useI18n();
-  const { id, record_id: recordId, status, transitioned_to: transitionedTo, type } = transition;
+  const {
+    id,
+    record_id: recordId,
+    status,
+    transitioned_to: transitionedTo,
+    type,
+    user_can_accept_or_reject: userCanAcceptOrReject
+  } = transition;
+
   const transitionType = type.toLowerCase();
   const [optionMenu, setOptionMenu] = useState(null);
 
@@ -57,7 +65,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
   const showTransitionAction =
     isInProgress &&
     transition &&
-    isCurrentUserRecipient &&
+    userCanAcceptOrReject &&
     showMode &&
     [TRANSITIONS_TYPES.transfer, TRANSITIONS_TYPES.referral].includes(transitionType);
 
@@ -141,6 +149,7 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     <div className={classes.iconBar}>
       <DisableOffline>
         <ActionButton
+          id="more-actions"
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{

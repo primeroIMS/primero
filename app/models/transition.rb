@@ -6,6 +6,7 @@ class Transition < ApplicationRecord
   STATUS_REJECTED = 'rejected'
   STATUS_INPROGRESS = 'in_progress'
   STATUS_DONE = 'done'
+  STATUS_REVOKED = 'revoked'
 
   belongs_to :record, polymorphic: true
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 
@@ -55,6 +56,12 @@ class Transition < ApplicationRecord
 
   def consent_given?
     false
+  end
+
+  def user_can_accept_or_reject?(user)
+    return false if remote || !in_progress?
+
+    user.user_name == transitioned_to_user.user_name
   end
 
   def user_can_receive

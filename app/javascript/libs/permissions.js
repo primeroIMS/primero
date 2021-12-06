@@ -41,6 +41,7 @@ export const ACTIONS = {
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
   DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
+  DASH_SHARED_WITH_MY_TEAM_OVERVIEW: "dash_shared_with_my_team_overview",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_TASKS: "dash_tasks",
@@ -126,7 +127,8 @@ export const RESOURCES = {
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  activity_logs: "activity_logs"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -186,6 +188,8 @@ export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
+
+export const ACTIVITY_LOGS = [...MANAGE, ACTIONS.TRANSFER];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

@@ -9,7 +9,7 @@ import { ACTION_BUTTON_TYPES } from "./constants";
 describe("<ActionButton />", () => {
   const props = {
     icon: <></>,
-    isCancel: false,
+    cancel: false,
     isTransparent: false,
     pending: false,
     text: "Test",
@@ -49,7 +49,7 @@ describe("<ActionButton />", () => {
     const { component } = setupMountedComponent(ActionButton, props, state);
     const componentsProps = { ...component.find(ActionButton).props() };
 
-    ["icon", "isCancel", "isTransparent", "pending", "text", "type", "outlined", "rest"].forEach(property => {
+    ["icon", "cancel", "isTransparent", "pending", "text", "type", "outlined", "rest"].forEach(property => {
       expect(componentsProps).to.have.property(property);
       delete componentsProps[property];
     });

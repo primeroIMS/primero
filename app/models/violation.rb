@@ -1,11 +1,29 @@
-class Violation
+# frozen_string_literal: true
+
+# Model for MRM Violation
+class Violation < ApplicationRecord
   #TODO: For now this will be used to only read and index violations.
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
   #TODO: There is some amount of duplication between this and the Incident container class. Refactor!
   #include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
   #include Indexable
 
-  attr_accessor :incident, :violation_object, :category
+  TYPES = %w[
+    killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
+  ].freeze
+  MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
+
+  has_and_belongs_to_many :individual_victims
+  has_and_belongs_to_many :group_victims
+  has_and_belongs_to_many :perpetrators
+  has_many :responses, dependent: :destroy, inverse_of: :violation
+  belongs_to :source, optional: true
+  belongs_to :incident
+
+  store_accessor :data,
+                 :unique_id, :violation_tally, :verified, :type
+
+  after_initialize :set_unique_id
 
   # searchable do
   #   string :category, as: :category_sci
@@ -69,54 +87,44 @@ class Violation
     #end
   #end
 
-  def self.all(options={})
-    violations = []
-    incidents = Incident.all(options).all
-    incidents.each do |incident|
-      violations = violations + from_incident(incident)
-    end
-    return violations
+  def set_unique_id
+    self.unique_id = id
   end
 
-  def self.from_incident(incident)
-    violations = []
-    incident.violations.keys.each do |category|
-      incident.violations[category].each do |violation|
-        violations << Violation.new(category, incident, violation)
-      end
-    end
-    return violations
+  def associations_as_data
+    @associations_as_data ||= {
+      'sources' => [source&.associations_as_data],
+      'perpetrators' => perpetrators.map(&:associations_as_data),
+      'individual_victims' => individual_victims.map(&:associations_as_data),
+      'group_victims' => group_victims.map(&:associations_as_data),
+      'responses' => responses.map(&:associations_as_data)
+    }
   end
 
-  def initialize(category, incident, violation)
-    self.incident = incident
-    self.category = category
-    self.violation_object = violation
+  def associations_as_data_keys
+    MRM_ASSOCIATIONS_KEYS
   end
 
-  def id
-    violation_value('unique_id')
+  def self.build_record(type, data, incident)
+    violation = find_or_initialize_by(id: data['unique_id'])
+    violation.incident = incident
+    violation.data = data
+    violation.type = type
+    violation
   end
 
-  def incident_value(field_name)
-    if self.incident.present?
-      incident.send field_name
+  def associations_for_current_violation(associations_data)
+    associations_data.select do |data|
+      data['violations_ids'].include?(id)
     end
   end
 
-  def violation_value(field_name)
-    if self.violation_object.present? && self.violation_object.respond_to?(field_name)
-      violation_object.send field_name
-    end
-  end
-
-  def perpetrators
-    #TODO: This code is brittle. There is no future guarantee that the perpetrators will be invoked this way
-    incident_value('perpetrator_subform_section').select{|p| p.perpetrator_violations.include? id}
+  # TODO: Refactor on incident_monitoring_reporting concern
+  def self.from_incident(_incident)
+    []
   end
 
   def armed_force_group_names
-    perpetrators.map(&:armed_force_group_name).compact
+    perpetrators.map(&:armed_force_group_name)
   end
-
 end

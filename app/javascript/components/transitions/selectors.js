@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { fromJS, List } from "immutable";
 import upperFirst from "lodash/upperFirst";
 
 import { RECORD_TYPES, REFERRAL } from "../../config";
@@ -24,3 +24,6 @@ export const selectTransitionByTypeAndStatus = (state, transitionTypes, status) 
   state
     .getIn(["records", NAMESPACE, "data"], List([]))
     .filter(transition => transitionTypes.includes(transition.type) && transition.status === status);
+
+export const getTransitionById = (state, id) =>
+  state.getIn(["records", NAMESPACE, "data"], fromJS([])).find(transition => transition.id === id);

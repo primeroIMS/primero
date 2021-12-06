@@ -1,9 +1,9 @@
 .arrow {
-  color: $(theme.palette.common.black)
+  color: var(c-black)
 }
 
 .tooltip {
-  background: $(theme.palette.common.black)
+  background: var(c-black)
 }
 
 .disabled {

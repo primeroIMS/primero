@@ -1,5 +1,5 @@
 import MenuIcon from "@material-ui/icons/Menu";
-import { AppBar, Toolbar, IconButton, makeStyles, Hidden } from "@material-ui/core";
+import { AppBar, Toolbar, IconButton, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import NetworkIndicator from "../network-indicator";
@@ -8,12 +8,9 @@ import { useApp } from "../application";
 import { useI18n } from "../i18n";
 import { DEMO } from "../application/constants";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const MobileToolbar = ({ openDrawer }) => {
-  const css = useStyles();
   const { demo } = useApp();
   const i18n = useI18n();
 

@@ -144,7 +144,7 @@ const RecordForm = ({
     };
 
     return (
-      <div>
+      <>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -188,7 +188,7 @@ const RecordForm = ({
             );
           }}
         </Formik>
-      </div>
+      </>
     );
   }
 

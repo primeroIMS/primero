@@ -36,8 +36,13 @@ const rules = [
     test: /\.css$/,
     exclude: /index.css$/,
     use: [
+      MiniCssExtractPlugin.loader,
       {
-        loader: "css-to-mui-loader"
+        loader: "css-loader",
+        options: {
+          importLoaders: 1,
+          modules: true
+        }
       },
       {
         loader: "postcss-loader",
@@ -48,10 +53,6 @@ const rules = [
         }
       }
     ]
-  },
-  {
-    test: /index.css$/,
-    use: [MiniCssExtractPlugin.loader, "css-loader"]
   },
   {
     test: /\.svg$/,
@@ -96,6 +97,13 @@ module.exports = (name, entry) => {
       new CleanWebpackPlugin({
         cleanOnceBeforeBuildPatterns: clean
       }),
+      ...(isProduction
+        ? [
+            new MiniCssExtractPlugin({
+              filename: chunkOutput("chunkhash", null, "css")
+            })
+          ]
+        : []),
       new WebpackAssetsManifest({
         output: MANIFEST_OUTPUT_PATH(name),
         entrypoints: true,

@@ -22,6 +22,7 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
     <>
       {showMenu && (
         <ActionButton
+          id="more-actions"
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
           rest={{
@@ -40,14 +41,6 @@ const Component = ({ actions, disabledCondition, showMenu }) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
         getContentAnchorEl={null}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left"
-        }}
       >
         <MenuItems actions={actions} disabledCondition={disabledCondition} handleClose={handleClose} />
       </Menu>

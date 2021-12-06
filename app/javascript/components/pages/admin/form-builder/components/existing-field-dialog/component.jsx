@@ -2,7 +2,6 @@ import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
-import { makeStyles } from "@material-ui/core/styles";
 import { useForm, useWatch } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
 import isEqual from "lodash/isEqual";
@@ -15,7 +14,7 @@ import { useMemoizedSelector } from "../../../../../../libs";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { getSelectedFields } from "../../selectors";
 import { selectExistingFields } from "../../action-creators";
-import baseStyles from "../styles.css";
+import baseCss from "../styles.css";
 import { CUSTOM_FIELD_SELECTOR_DIALOG } from "../custom-field-selector-dialog/constants";
 
 import {
@@ -27,14 +26,9 @@ import {
 } from "./utils";
 import { FieldsTable } from "./components";
 import { NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStylesBase = makeStyles(baseStyles);
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ parentForm, primeroModule }) => {
-  const baseCss = useStylesBase();
-  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { control, register } = useForm();
@@ -91,7 +85,7 @@ const Component = ({ parentForm, primeroModule }) => {
   const dialogTitle = (
     <>
       <span className={css.existingFieldDialogTitle}>{i18n.t("fields.add_field")}</span>
-      <ActionButton outlined text={i18n.t("fields.add_new_field")} rest={{ onClick: onCreateNewField }} />
+      <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />
     </>
   );
 

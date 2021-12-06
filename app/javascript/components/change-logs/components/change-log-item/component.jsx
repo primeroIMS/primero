@@ -6,19 +6,15 @@ import TimelineSeparator from "@material-ui/lab/TimelineSeparator";
 import TimelineConnector from "@material-ui/lab/TimelineConnector";
 import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { ButtonBase } from "@material-ui/core";
 
 import generateKey from "../../../charts/table-values/utils";
 import { useI18n } from "../../../i18n";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ item }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const { onClick } = item;
   const renderMessage = change => (
@@ -30,7 +26,7 @@ const Component = ({ item }) => {
     </div>
   );
   const renderSeeDetail = item.isSubform && (
-    <ButtonBase className={css.seeDetailsStyle} onClick={onClick}>
+    <ButtonBase className={css.seeDetailsStyle} onClick={onClick} id="change_logs.see_details">
       {i18n.t("change_logs.see_details")}
     </ButtonBase>
   );

@@ -1,5 +1,5 @@
 .transferMenuIconContainer {
-  border-left: solid 1px $(theme.primero.colors.solidBlack);
+  border-left: solid 1px var(--c-solid-black);
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }

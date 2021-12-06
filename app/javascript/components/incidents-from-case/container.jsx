@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import AddIcon from "@material-ui/icons/Add";
 
 import { useI18n } from "../i18n";
@@ -12,11 +11,9 @@ import { usePermissions } from "../user";
 import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
 import IncidentPanel from "./components/panel";
-
-const useStyles = makeStyles(styles);
 
 const Container = ({
   handleCreateIncident,
@@ -31,7 +28,6 @@ const Container = ({
   primeroModule,
   dirty
 }) => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
@@ -61,7 +57,7 @@ const Container = ({
   const newIncidentBtn = canAddIncidents && (
     <ActionButton
       icon={<AddIcon />}
-      text={i18n.t("buttons.new")}
+      text="buttons.new"
       type="default_button"
       rest={{
         onClick: event => handleCreateIncident(event, dirty)

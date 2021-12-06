@@ -1,6 +1,6 @@
+import { Fragment } from "react";
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -12,13 +12,11 @@ import { useI18n } from "../../i18n";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 import { useApp } from "../../application";
+import ActionButton from "../../action-button";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -68,15 +66,24 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
 
     return indicators.keySeq().map(item => {
       return (
-        <li key={item}>
-          <button
-            className={css.itemButton}
-            type="button"
+        <Fragment key={item}>
+          <ActionButton
+            id={`overview-${item}-number`}
+            className={css.itemButtonNumber}
+            type="link"
+            text={indicators.getIn([item, "count"])}
             onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
-          >
-            {indicators.getIn([item, "count"])} {buildLabelItem(item)}
-          </button>
-        </li>
+            noTranslate
+          />
+          <ActionButton
+            id={`overview-${item}-text`}
+            className={css.itemButton}
+            type="link"
+            text={buildLabelItem(item)}
+            onClick={handleButtonClick(indicators.getIn([item, "query"], []))}
+            noTranslate
+          />
+        </Fragment>
       );
     });
   };
@@ -90,7 +97,7 @@ const OverviewBox = ({ items, chartData, sumTitle, withTotal, loading, errors })
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.overviewBox}>
         <div className={css.sectionTitle}>{renderSum()}</div>
-        <ul className={css.overviewList}>{statItems()}</ul>
+        <div className={css.overviewList}>{statItems()}</div>
       </div>
     </LoadingIndicator>
   );

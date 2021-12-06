@@ -3,7 +3,6 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
@@ -15,7 +14,7 @@ import DisableOffline from "../../../../disable-offline";
 import { useI18n } from "../../../../i18n";
 import { DOCUMENT_FIELD_NAME } from "../../constants";
 import DateField from "../date-field";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
@@ -24,8 +23,6 @@ import TickField from "../tick-field";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
-
-const useStyles = makeStyles(styles);
 
 const DocumentField = ({
   attachment,
@@ -40,7 +37,7 @@ const DocumentField = ({
   field
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
@@ -88,9 +85,10 @@ const DocumentField = ({
   const deleteButton = mode.isEdit && (
     <DisableOffline>
       <ActionButton
+        id="delete-button"
         icon={<DeleteIcon />}
         type={ACTION_BUTTON_TYPES.icon}
-        isCancel
+        cancel
         rest={{
           onClick: openDeleteConfirmation
         }}
@@ -144,7 +142,7 @@ const DocumentField = ({
           <div className={css.attachmentUploadField}>
             {attachmentUrl ? (
               <ActionButton
-                text={i18n.t("buttons.download")}
+                text="buttons.download"
                 type={ACTION_BUTTON_TYPES.default}
                 isTransparent
                 rest={{
@@ -196,7 +194,7 @@ const DocumentField = ({
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleClose} color="primary" variant="contained" disableElevation>
+          <Button id={dialogActionText} onClick={handleClose} color="primary" variant="contained" disableElevation>
             {i18n.t(dialogActionText)}
           </Button>
         </DialogActions>

@@ -10,14 +10,18 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { getSubformValues, serviceHasReferFields } from "../../utils";
+import { getSubformValues, serviceHasReferFields, buildSubformValues } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
+import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
 import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
+import ViolationActions from "../subform-fields/components/violation-actions";
+import ViolationTitle from "../subform-fields/components/violation-title";
 
 const Component = ({
   arrayHelpers,
+  asDrawer,
   dialogIsNew,
   field,
   formik,
@@ -40,7 +44,7 @@ const Component = ({
   const childFormikRef = useRef();
   const isValidIndex = index === 0 || index > 0;
 
-  const subformValues = getSubformValues(field, index, formik.values, orderedValues);
+  const subformValues = getSubformValues(field, index, formik.values, orderedValues, asDrawer);
 
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
@@ -73,9 +77,9 @@ const Component = ({
     const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
 
     if (isValidIndex) {
-      formik.setFieldValue(`${field.name}[${index}]`, valuesWithUniqueId, false);
+      formik.setFieldValue(`${field.name}[${index}]`, buildSubformValues(field.name, valuesWithUniqueId), false);
     } else {
-      arrayHelpers.push({ ...initialSubformValues, ...valuesWithUniqueId });
+      arrayHelpers.push(buildSubformValues(field.name, { ...initialSubformValues, ...valuesWithUniqueId }));
       formik.setTouched({ [field.name]: true });
     }
 
@@ -97,7 +101,7 @@ const Component = ({
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
-  const renderSubform = (subformField, subformIndex) => {
+  const renderSubform = (subformField, subformIndex, values) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
       return (
         <ServicesSubform
@@ -119,6 +123,8 @@ const Component = ({
         index={subformIndex}
         formSection={formSection}
         isReadWriteForm={isReadWriteForm}
+        values={values}
+        parentValues={formik.values}
       />
     );
   };
@@ -138,6 +144,26 @@ const Component = ({
     }
   };
 
+  const ComponentToRender = asDrawer ? SubformDrawer : ActionDialog;
+  const propsForComponent = asDrawer
+    ? {
+        open,
+        cancelHandler: handleClose,
+        title: <ViolationTitle title={title} values={subformValues} fields={field.subform_section_id.fields} />
+      }
+    : {
+        open,
+        successHandler: e => boundSubmitForm(e),
+        cancelHandler: handleClose,
+        dialogTitle: title,
+        title,
+        omitCloseAfterSuccess: true,
+        confirmButtonLabel: i18n.t(buttonDialogText),
+        onClose: handleClose,
+        dialogActions,
+        disableActions: isFormShow
+      };
+
   useEffect(() => {
     if (open) {
       setInitialValues(constructInitialValues([field.subform_section_id]));
@@ -146,17 +172,7 @@ const Component = ({
 
   return (
     <>
-      <ActionDialog
-        open={open}
-        successHandler={e => boundSubmitForm(e)}
-        cancelHandler={handleClose}
-        dialogTitle={title}
-        omitCloseAfterSuccess
-        confirmButtonLabel={i18n.t(buttonDialogText)}
-        onClose={handleClose}
-        dialogActions={dialogActions}
-        disableActions={isFormShow}
-      >
+      <ComponentToRender {...propsForComponent}>
         <Formik
           initialValues={initialSubformValues}
           validationSchema={buildSchema()}
@@ -166,7 +182,7 @@ const Component = ({
           onSubmit={values => onSubmit(values)}
           ref={childFormikRef}
         >
-          {({ handleSubmit, submitForm, setErrors, setTouched, errors }) => {
+          {({ handleSubmit, submitForm, setErrors, setTouched, errors, values }) => {
             bindSubmitForm(submitForm);
 
             return (
@@ -177,12 +193,13 @@ const Component = ({
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
-                {renderSubform(field, index)}
+                {asDrawer && <ViolationActions handleBack={e => submitForm(e)} handleCancel={handleClose} />}
+                {renderSubform(field, index, values)}
               </Form>
             );
           }}
         </Formik>
-      </ActionDialog>
+      </ComponentToRender>
       <ActionDialog {...modalConfirmationProps} />
     </>
   );
@@ -192,6 +209,7 @@ Component.displayName = SUBFORM_DIALOG;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  asDrawer: PropTypes.bool.isRequired,
   dialogIsNew: PropTypes.bool.isRequired,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,

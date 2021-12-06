@@ -1,25 +1,20 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { InputLabel, FormHelperText } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import GetAppIcon from "@material-ui/icons/GetApp";
 
-import { useI18n } from "../../i18n";
 import { toBase64 } from "../../../libs";
 import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMethods }) => {
   const { setValue, watch, register } = formMethods;
-  const i18n = useI18n();
-  const css = useStyles();
+
   const [file, setFile] = useState({
     loading: false,
     data: null,
@@ -80,7 +75,8 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
     return disabled ? null : (
       <div className={css.buttonWrapper}>
         <ActionButton
-          text={i18n.t("fields.file_upload_box.select_file_button_text")}
+          id={`${name}-select-file`}
+          text="fields.file_upload_box.select_file_button_text"
           type={ACTION_BUTTON_TYPES.default}
           pending={file.loading}
           rest={{
@@ -98,6 +94,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
 
   const downloadFile = fileUrl ? (
     <ActionButton
+      id={`${name}-download-file`}
       icon={<GetAppIcon />}
       text={downloadButtonLabel}
       type={ACTION_BUTTON_TYPES.default}

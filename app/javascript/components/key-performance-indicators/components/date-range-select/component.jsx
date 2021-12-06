@@ -60,6 +60,7 @@ const Component = ({ ranges, selectedRange, withCustomRange, setSelectedRange, d
   return (
     <FormControl>
       <Select
+        variant="outlined"
         onOpen={handleSelectOpen}
         onClose={handleSelectClose}
         onChange={handleSelectChange}

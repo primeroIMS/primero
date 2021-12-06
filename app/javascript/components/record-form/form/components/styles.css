@@ -15,12 +15,15 @@
 
 .link {
   cursor: pointer;
+  display: flex;
+  gap: 3px;
+  margin-top: var(--sp-1);
 }
 
 .stepper {
-  max-width: 80%;
   background: none;
   padding: 0;
+  margin-bottom: var(--sp-1);
 
   & div:first-of-type {
     padding-left: 0;
@@ -29,13 +32,8 @@
 
 .stepLabel,
 .mobileStepper div {
-  font-size: $(theme.typography.pxToRem(11));
+  font-size: var(--fs-13);
   font-weight: bold !important;
-  text-transform: uppercase;
-}
-
-.styleLabelActive, .mobileStepper {
-  color: $(theme.primero.colors.blue) !important;
 }
 
 .mobileStepper {
@@ -73,7 +71,7 @@
   }
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .importDataLabelClass {
     margin-top: 8px;
     margin-bottom: 8px;

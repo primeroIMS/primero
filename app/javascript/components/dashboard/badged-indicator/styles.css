@@ -1,10 +1,11 @@
 .statusList {
   float: left;
   padding: 0 18px;
+  width: 100%;
 
   & h5 {
     margin: 25px 0 11px 0;
-    color: $(theme.primero.colors.darkGrey);
+    color: var(--c-dark-grey);
     text-transform: uppercase;
   }
 
@@ -18,8 +19,17 @@
   }
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+
 .sectionTitle {
-  padding: 0 1.2em;
+  color: var(--c-warm-grey-4);
   text-transform: uppercase;
   font-weight: bold;
+  margin-bottom: var(--sp-1);
+  font-size: var(--fs-13);
 }

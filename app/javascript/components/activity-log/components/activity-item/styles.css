@@ -1,0 +1,39 @@
+.activityContainer {
+  margin: 0 8px;
+  border-bottom: 1px dotted var(--c-light-grey-2);
+  padding-bottom: 20px;
+}
+
+.activityInfo {
+  display: flex;
+  padding: 5px 0;
+}
+
+.recordId {
+  font-size: var(--fs-16);
+  font-weight: var(--fwb);
+  flex: 1 1 auto;
+  color: var(--c-black);
+}
+
+.date {
+  flex: 0 1 auto;
+  color: var(--c-mid-grey);
+  font-size: var(--fs-12);
+}
+
+.message {
+  color: var(--c-mid-grey);
+  font-size: var(--fs-14);
+  padding: 5px 0;
+}
+
+.type {
+  color: var(--c-mid-grey);
+  font-size: var(--fs-12);
+  padding: 5px 0;
+}
+
+.disabledItem {
+  cursor: not-allowed
+}

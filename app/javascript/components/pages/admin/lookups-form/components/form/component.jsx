@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useForm, useWatch } from "react-hook-form";
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
@@ -30,7 +29,7 @@ import { dataToJS } from "../../../../../../libs";
 import { LOOKUP_NAME, LOOKUP_VALUES } from "../../constants";
 import HeaderValues from "../header-values";
 import DraggableRow from "../draggable-row";
-import styles from "../styles.css";
+import css from "../styles.css";
 import { saveLookup } from "../../action-creators";
 import { LOCALE_KEYS, SAVE_METHODS } from "../../../../../../config";
 import ActionButton from "../../../../../action-button";
@@ -38,13 +37,11 @@ import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
 import { NAME, TEMP_OPTION_ID, FORM_ID } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ mode, lookup }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const css = useStyles();
+
   const formMode = whichFormMode(mode);
   const locales = i18n.applicationLocales;
   const localesKeys = [
@@ -183,7 +180,7 @@ const Component = ({ mode, lookup }) => {
     const renderAddButton = !formMode.get("isShow") && (
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("fields.add")}
+        text="fields.add"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleAdd

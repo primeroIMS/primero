@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
@@ -6,11 +5,9 @@ import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
 import { useI18n } from "../../i18n";
 import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
 import { selectAllRecords } from "./utils";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   canSelectAll,
@@ -25,7 +22,6 @@ const Component = ({
   setSelectedRecords,
   totalRecords
 }) => {
-  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -54,7 +50,7 @@ const Component = ({
 
   const selectAllButton = selectedRows && selectedRows.data.length === displayData?.length && (
     <div className={css.customToolbarButton}>
-      <ButtonBase className={css.selectAllButton} onClick={handleClick}>
+      <ButtonBase id="select-all-button" className={css.selectAllButton} onClick={handleClick}>
         {selectAllMessage}
       </ButtonBase>
     </div>

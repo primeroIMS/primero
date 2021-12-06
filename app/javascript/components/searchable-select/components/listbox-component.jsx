@@ -1,9 +1,9 @@
 import { Children, forwardRef } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { VariableSizeList } from "react-window";
 
 import useResetCache from "../use-reset-cache";
 
+import css from "./styles.css";
 import renderRow from "./render-row";
 import OuterElementContext, { OuterElementType } from "./outer-element-type";
 
@@ -50,15 +50,7 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
   );
 });
 
-export const listboxClasses = makeStyles({
-  listbox: {
-    boxSizing: "border-box",
-    "& ul": {
-      padding: 0,
-      margin: 0
-    }
-  }
-});
+export const listboxClasses = css.listbox;
 
 export const virtualize = (optionsLength = 0) => {
   return optionsLength >= 20000 ? ListboxComponent : undefined;

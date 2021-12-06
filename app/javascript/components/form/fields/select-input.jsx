@@ -6,7 +6,6 @@ import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { makeStyles } from "@material-ui/core/styles";
 import { isEmpty, isNil, isNumber } from "lodash";
 
 import InputLabel from "../components/input-label";
@@ -17,11 +16,9 @@ import { listboxClasses, virtualize } from "../../searchable-select/components/l
 import { useI18n } from "../../i18n";
 import { filterOptions as filterOptionsConfig } from "../../searchable-select/utils";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const filter = createFilterOptions();
-
-const useStyles = makeStyles(styles);
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
@@ -44,12 +41,11 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     maxSelectedOptions,
     multipleLimitOne
   } = metaInputProps;
-  const { name, disabled, ...commonProps } = commonInputProps;
+  const { name, disabled, id, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
   const i18n = useI18n();
   const currentWatchedValue = watchedInputValues && watchedInputValues[name];
 
-  const css = useStyles();
   const [stickyOption, setStickyOption] = useState(currentWatchedValue);
   const dispatch = useDispatch();
   const loading = useMemoizedSelector(state => getLoadingState(state, asyncOptionsLoadingPath));
@@ -207,9 +203,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     // eslint-disable-next-line react/prop-types
     const { label, ...rest } = props;
 
-    return (
-      <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} margin="normal" {...rest} />
-    );
+    return <TextField {...inputParams} label={<InputLabel tooltip={tooltip} text={label} />} {...rest} />;
   };
 
   const renderTags = (value, getTagProps) =>
@@ -259,6 +253,7 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       defaultValue={defaultValue}
       render={({ value: fieldValue, onChange: fieldOnChange }) => (
         <Autocomplete
+          id={id}
           name={name}
           onOpen={handleOpen}
           onChange={handleAutocompleteOnChange(fieldOnChange)}
@@ -299,6 +294,7 @@ SelectInput.propTypes = {
     disabled: PropTypes.bool,
     groupBy: PropTypes.string,
     helperText: PropTypes.string,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }),

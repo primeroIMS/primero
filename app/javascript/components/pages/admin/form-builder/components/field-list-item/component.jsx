@@ -5,7 +5,7 @@ import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { Draggable } from "react-beautiful-dnd";
-import { Button, makeStyles, Radio } from "@material-ui/core";
+import { Button, Radio } from "@material-ui/core";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import { SUBFORM_SECTION } from "../../../../../form";
@@ -23,7 +23,7 @@ import { useI18n } from "../../../../../i18n";
 import SwitchInput from "../../../../../form/fields/switch-input";
 import DragIndicator from "../../../forms-list/components/drag-indicator";
 import { getFieldsAttribute, getLabelTypeField } from "../utils";
-import styles from "../fields-list/styles.css";
+import css from "../fields-list/styles.css";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { setInitialForms, toggleHideOnViewPage } from "../field-dialog/utils";
 import { displayNameHelper } from "../../../../../../libs";
@@ -31,10 +31,7 @@ import { useApp } from "../../../../../application";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) => {
-  const css = useStyles();
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
@@ -101,7 +98,7 @@ const Component = ({ field, formMethods, index, subformField, subformSortBy, sub
     return (
       <>
         {icon}
-        <Button className={className} onClick={handleClick}>
+        <Button id="field-name-button" className={className} onClick={handleClick}>
           {displayNameHelper(field.get("display_name"), i18n.locale)}
         </Button>
       </>

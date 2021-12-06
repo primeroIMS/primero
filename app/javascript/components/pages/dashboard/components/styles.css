@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  padding: var(--sp-2);
+  gap: var(--sp-2);
+  
+  & > div:not(.divider) {
+    flex: 1;
+  }
+}
+
+@media (max-width:959.95px) {
+  .container {
+    display: grid;
+  }
+}
+
+.divider {
+  width: 1px;
+  background: var(--c-warm-grey-1);
+}

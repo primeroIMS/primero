@@ -1,26 +1,15 @@
 import PropTypes from "prop-types";
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  makeStyles
-} from "@material-ui/core";
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from "@material-ui/core";
 import { Controller } from "react-hook-form";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const RadioInput = ({ commonInputProps, options, formMethods }) => {
-  const css = useStyles();
   const { helperText, error, name, label: radioGroupLabel, className, disabled } = commonInputProps;
   const { control } = formMethods;
 
   return (
-    <FormControl error={error} className={className}>
+    <FormControl id={name} error={error} className={className}>
       <FormLabel component="legend" className="MuiInputLabel-root">
         {radioGroupLabel}
       </FormLabel>

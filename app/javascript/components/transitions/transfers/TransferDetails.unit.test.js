@@ -1,7 +1,7 @@
-import { Box, Divider } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../test";
-import TransitionUser from "../TransitionUser";
+import DisplayData from "../../display-data";
 
 import TransferDetails from "./TransferDetails";
 
@@ -32,12 +32,8 @@ describe("<TransferDetails />", () => {
     ({ component } = setupMountedComponent(TransferDetails, props));
   });
 
-  it("renders 2 <TransitionUser />", () => {
-    expect(component.find(TransitionUser)).to.have.length(2);
-  });
-
-  it("renders 5 <Box />", () => {
-    expect(component.find(Box)).to.have.length(5);
+  it("renders 2 <DisplayData />", () => {
+    expect(component.find(DisplayData)).to.have.length(5);
   });
 
   it("renders a <Divider />", () => {
@@ -53,12 +49,12 @@ describe("<TransferDetails />", () => {
         }));
       });
       it("should render rejected reason", () => {
-        expect(component.find(TransferDetails).find(Box)).to.have.length(6);
+        expect(component.find(TransferDetails).find(DisplayData)).to.have.length(6);
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
       it("should render rejected reason", () => {
-        expect(component.find(TransferDetails).find(Box)).to.have.length(5);
+        expect(component.find(TransferDetails).find(DisplayData)).to.have.length(5);
       });
     });
   });

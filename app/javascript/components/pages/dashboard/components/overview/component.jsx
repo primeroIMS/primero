@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
 
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
@@ -14,11 +13,13 @@ import {
   getGroupOverview,
   getCaseOverview,
   getCaseIncidentOverview,
-  getNationalAdminSummary
+  getNationalAdminSummary,
+  getSharedWithMyTeamOverview
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
@@ -33,6 +34,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   const labelsRiskLevel = useMemoizedSelector(state => getOption(state, LOOKUPS.risk_level, i18n.locale));
   const caseIncidentOverview = useMemoizedSelector(state => getCaseIncidentOverview(state));
   const nationalAdminSummary = useMemoizedSelector(state => getNationalAdminSummary(state));
+  const sharedWithMyTeamOverview = useMemoizedSelector(state => getSharedWithMyTeamOverview(state));
 
   const overviewDashHasData = Boolean(
     casesByAssessmentLevel.size ||
@@ -40,7 +42,8 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       caseOverview.size ||
       sharedWithMe.size ||
       sharedWithOthers.size ||
-      nationalAdminSummary.size
+      nationalAdminSummary.size ||
+      sharedWithMyTeamOverview.size
   );
 
   const dashboards = [
@@ -69,6 +72,15 @@ const Component = ({ loadingIndicator, userPermissions }) => {
       options: {
         items: groupOverview,
         sumTitle: i18n.t("dashboard.dash_group_overview"),
+        withTotal: false
+      }
+    },
+    {
+      type: DASHBOARD_TYPES.OVERVIEW_BOX,
+      actions: ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW,
+      options: {
+        items: sharedWithMyTeamOverview,
+        sumTitle: i18n.t("dashboard.dash_shared_with_my_team"),
         withTotal: false
       }
     },
@@ -111,17 +123,18 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   ];
 
   const renderDashboards = () => {
-    return dashboards.map(dashboard => {
+    return dashboards.map((dashboard, index) => {
       const { type, actions, options } = dashboard;
       const Dashboard = dashboardType(type);
 
       return (
         <Permission key={actions} resources={RESOURCES.dashboards} actions={actions}>
-          <Grid item xs>
+          <div className={css.optionsBox}>
             <OptionsBox flat>
               <Dashboard {...options} />
             </OptionsBox>
-          </Grid>
+          </div>
+          {index === dashboards.length - 1 || <div className={css.divider} />}
         </Permission>
       );
     });
@@ -130,9 +143,7 @@ const Component = ({ loadingIndicator, userPermissions }) => {
   return (
     <Permission resources={RESOURCES.dashboards} actions={dashboards.map(dashboard => dashboard.actions).flat()}>
       <OptionsBox title={i18n.t("dashboard.overview")} hasData={overviewDashHasData || false} {...loadingIndicator}>
-        <Grid item md={12}>
-          <Grid container>{renderDashboards()}</Grid>
-        </Grid>
+        <div className={css.container}>{renderDashboards()}</div>
       </OptionsBox>
     </Permission>
   );

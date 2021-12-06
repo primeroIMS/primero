@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import DialogTabs from "../dialog-tabs";
+import { NAME as FORM_ID } from "../flag-form/constants";
 
 import { NAME } from "./constants";
 
@@ -12,13 +13,17 @@ const Component = ({ dialogOpen, fetchAction, fetchArgs, children, isBulkFlags, 
   return (
     <ActionDialog
       open={dialogOpen}
-      maxSize="md"
       disableBackdropClick
       dialogTitle={i18n.t("flags.title")}
-      disableActions
+      disableActions={tab === 0}
       fetchAction={fetchAction}
       fetchArgs={fetchArgs}
       fetchLoadingPath={["records", "flags", "loading"]}
+      confirmButtonProps={{
+        form: FORM_ID,
+        type: "submit"
+      }}
+      confirmButtonLabel={i18n.t("buttons.save")}
     >
       <DialogTabs isBulkFlags={isBulkFlags} tab={tab} setTab={setTab}>
         {children}

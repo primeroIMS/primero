@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box, Badge } from "@material-ui/core";
+import { Badge } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import CreateIcon from "@material-ui/icons/Create";
 import { push } from "connected-react-router";
@@ -28,11 +28,12 @@ import { useMemoizedSelector, useThemeHelper } from "../../../libs";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { getIsEnabledWebhookSyncFor } from "../../application/selectors";
+import { PageHeading } from "../../page";
 
 import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
-import PageHeading from "./page-heading";
-import styles from "./styles.css";
+import css from "./styles.css";
+import RecordPageHeading from "./page-heading";
 
 const RecordFormToolbar = ({
   handleFormSubmit,
@@ -45,7 +46,7 @@ const RecordFormToolbar = ({
   recordType,
   shortId
 }) => {
-  const { css, isRTL } = useThemeHelper({ css: styles });
+  const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -98,6 +99,7 @@ const RecordFormToolbar = ({
 
   const renderSaveButton = (
     <ActionButton
+      id="buttons.save_and_return"
       icon={
         incidentFromCase?.size && recordType === RECORD_TYPES.incidents ? (
           <SaveReturnIcon isRTL={isRTL} />
@@ -110,6 +112,7 @@ const RecordFormToolbar = ({
       )}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
+      noTranslate
       rest={{
         onClick: handleFormSubmit
       }}
@@ -131,33 +134,33 @@ const RecordFormToolbar = ({
     );
   }
 
+  const title = (
+    <RecordPageHeading
+      caseIdDisplay={caseIdDisplay}
+      i18n={i18n}
+      mode={mode}
+      params={params}
+      recordType={recordType}
+      shortId={shortId}
+      incidentCaseId={getIncidentFromCaseId()}
+      incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
+      toolbarHeading={css.toolbarHeading}
+      associatedLinkClass={css.associatedCaseLink}
+      isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
+      syncedAt={record?.get("synced_at")}
+      syncStatus={record?.get("sync_status")}
+    />
+  );
+
   return (
-    <Box className={css.toolbar} width="100%" px={2} mb={3} display="flex" alignItems="center">
-      <Box flexGrow={1} display="flex" flexDirection="column">
-        <PageHeading
-          caseIdDisplay={caseIdDisplay}
-          i18n={i18n}
-          mode={mode}
-          params={params}
-          recordType={recordType}
-          shortId={shortId}
-          incidentCaseId={getIncidentFromCaseId()}
-          incidentCaseIdDisplay={getIncidentFromCaseIdDisplay()}
-          toolbarHeading={css.toolbarHeading}
-          associatedLinkClass={css.associatedCaseLink}
-          isEnabledWebhookSyncFor={isEnabledWebhookSyncFor}
-          syncedAt={record?.get("synced_at")}
-          syncStatus={record?.get("sync_status")}
-        />
-        {renderRecordStatusIndicator}
-      </Box>
-      <div className={css.actionsContainer}>
+    <PageHeading title={title} prefixComponent={renderRecordStatusIndicator}>
+      <>
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
             icon={<KeyboardBackspaceIcon className={rtlClass} />}
-            text={i18n.t("buttons.return_to_case")}
+            text="buttons.return_to_case"
             type={ACTION_BUTTON_TYPES.default}
-            isCancel
+            cancel
             rest={{ onClick: handleReturnToCase }}
           />
         ) : null}
@@ -171,24 +174,22 @@ const RecordFormToolbar = ({
           </Permission>
         )}
         {(mode.isEdit || mode.isNew) && (
-          <div className={css.actionButtonsContainer}>
+          <>
             <ActionButton
               icon={<ClearIcon />}
-              text={i18n.t("buttons.cancel")}
+              text="buttons.cancel"
               type={ACTION_BUTTON_TYPES.default}
-              isCancel
-              rest={{
-                onClick: goBack
-              }}
+              cancel
+              onClick={goBack}
             />
             {renderSaveButton}
-          </div>
+          </>
         )}
         {mode.isShow && (
           <Permission resources={params.recordType} actions={WRITE_RECORDS}>
             <ActionButton
               icon={<CreateIcon />}
-              text={i18n.t("buttons.edit")}
+              text="buttons.edit"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
                 to: `/${params.recordType}/${params.id}/edit`,
@@ -199,8 +200,8 @@ const RecordFormToolbar = ({
           </Permission>
         )}
         <RecordActions recordType={params.recordType} record={record} mode={mode} />
-      </div>
-    </Box>
+      </>
+    </PageHeading>
   );
 };
 

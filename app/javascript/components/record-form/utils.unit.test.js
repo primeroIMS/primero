@@ -14,7 +14,7 @@ import {
 import { SHOW_APPROVALS } from "../../libs/permissions";
 
 import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
-import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD, SEPERATOR } from "./constants";
+import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD, SEPERATOR, TALLY_FIELD } from "./constants";
 import * as utils from "./utils";
 import { getDefaultForms } from "./form/utils";
 
@@ -248,6 +248,26 @@ describe("<RecordForms /> - utils", () => {
               multi_select: true,
               selected_value: "value_1",
               visible: true
+            }),
+            FieldRecord({
+              name: "field_6",
+              type: TALLY_FIELD,
+              autosum_total: true,
+              visible: true,
+              tally: [
+                { id: "test1", display_text: { en: "Test 1" } },
+                { id: "test2", display_text: { en: "Test 2" } }
+              ]
+            }),
+            FieldRecord({
+              name: "field_7",
+              type: TALLY_FIELD,
+              autosum_total: false,
+              visible: true,
+              tally: [
+                { id: "test3", display_text: { en: "Test 3" } },
+                { id: "test4", display_text: { en: "Test 4" } }
+              ]
             })
           ]
         })
@@ -258,7 +278,9 @@ describe("<RecordForms /> - utils", () => {
         field_2: ["value_1", "value_2"],
         field_3: true,
         field_4: "2010-01-05",
-        field_5: ["value_1"]
+        field_5: ["value_1"],
+        field_6: { test1: "", test2: "", total: "" },
+        field_7: { test3: "", test4: "" }
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
@@ -563,6 +585,20 @@ describe("<RecordForms /> - utils", () => {
             { relation: "mother", name: "Name 2", ocupation: "", is_alive: true, age: 25, location: [null] },
             { relation: "father", name: "Name 2", current_location: "", is_alive: false, location: ["country1"] }
           ]
+        })
+      ).to.deep.equals(expected);
+    });
+
+    it("should remove all the null from subform objects", () => {
+      const expected = {
+        name: "Name 1",
+        family_details: [{ relation: "mother", tally: { boys: 1, girls: 3 } }]
+      };
+
+      expect(
+        utils.compactBlank({
+          name: "Name 1",
+          family_details: [{ relation: "mother", tally: { boys: 1, girls: 3, unknown: "", total: null } }]
         })
       ).to.deep.equals(expected);
     });

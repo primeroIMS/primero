@@ -18,6 +18,7 @@ describe("Verifying config constant", () => {
       "SELECT_FIELD",
       "SEPERATOR",
       "SUBFORM_SECTION",
+      "TALLY_FIELD",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",

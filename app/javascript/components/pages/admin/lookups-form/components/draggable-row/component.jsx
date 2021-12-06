@@ -1,16 +1,13 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import { Draggable } from "react-beautiful-dnd";
 
-import styles from "../styles.css";
+import css from "../styles.css";
 import { DragIndicator } from "../../../forms-list/components";
 import FormSectionField from "../../../../../form/components/form-section-field";
 import { FieldRecord, TEXT_FIELD } from "../../../../../form";
 import SwitchInput from "../../../../../form/fields/switch-input";
 
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   firstLocaleOption,
@@ -22,8 +19,6 @@ const Component = ({
   formMode,
   formMethods
 }) => {
-  const css = useStyles();
-
   const renderTranslationValues = () => {
     return localesKeys.map(localeKey => {
       const name = `values.${localeKey}.${uniqueId}`;

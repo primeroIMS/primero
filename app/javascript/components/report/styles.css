@@ -1,8 +1,8 @@
 .exportButton {
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
 }
 
 .description {
-  color: $(theme.primero.colors.darkGrey);
-  font-size: $(theme.typography.pxToRem(14));
+  color: var(--c-dark-grey);
+  font-size: var(--fs-13);
 }

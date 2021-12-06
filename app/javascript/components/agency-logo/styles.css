@@ -37,13 +37,13 @@
   background-color: blue;
 }
 
-@media $(theme.breakpoints.down('xs')) {
+@media (max-width:599.95px) {
   .agencyLogo, .line {
     display: none;
   }
 }
 
-@media $(theme.breakpoints.down('md')) {
+@media (max-width:1279.95px) {
  .line {
     width: 100%;
   }
@@ -58,7 +58,7 @@
   }
 }
 
-@media $(theme.breakpoints.down('sm')) {
+@media (max-width:959.95px) {
   .agencyLogo {
     width: 35%;
   }

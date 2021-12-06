@@ -104,3 +104,9 @@ export const getMatchedTrace = (state, matchedTraceId) => {
     ? potentialMatches.find(potentialMatch => potentialMatch.getIn(["trace", "id"]) === matchedTraceId)
     : fromJS({});
 };
+
+export const getSelectedRecordData = (state, recordType) => {
+  const selectedRecordId = getSelectedRecord(state, recordType);
+
+  return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow: true });
+};

@@ -8,6 +8,8 @@ import { useI18n } from "../../i18n";
 import { useApp } from "../../application";
 import Jewel from "../../jewel";
 
+import css from "./styles.css";
+
 const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJewel }) => {
   const i18n = useI18n();
   const { disabledApplication } = useApp();
@@ -24,7 +26,10 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJe
     key: item.to,
     button: true,
     disabled: item.disabled || disabledApplication,
-    ...(isParent ? { onClick: handleClick } : { component: Link })
+    ...(isParent ? { onClick: handleClick } : { component: Link }),
+    classes: {
+      selected: css.selectedItem
+    }
   };
 
   const handleOpen = open ? <ExpandLess /> : <ExpandMore />;

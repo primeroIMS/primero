@@ -16,7 +16,7 @@
 }
 
 .optionsLabel {
-  color: $(theme.primero.colors.black);
+  color: var(--c-black);
   font-weight: bold;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .row {
-  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+  border-bottom: 1px solid var(--c-light-grey);
   display: flex;
   flex-flow: row wrap;
   width: 100%;
@@ -51,9 +51,9 @@
   width: 3em;
   justify-content: center;
   margin-right: 1em;
-  border-right: 1px solid $(theme.primero.colors.lightGrey) !important;
+  border-right: 1px solid var(--c-light-grey) !important;
 }
 
 .removeIcon {
-  color: $(theme.primero.colors.red);
+  color: var(--c-red);
 }

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useForm } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
@@ -17,7 +16,7 @@ import { setDataProtectionInitialValues } from "../../../record-form/action-crea
 import useOptions from "../../../form/use-options";
 
 import { NAME, CONSENT, FORM_ID, LEGITIMATE_BASIS } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { consentPromptForm } from "./forms";
 
 const Component = ({
@@ -29,7 +28,6 @@ const Component = ({
   goToNewCase,
   openConsentPrompt
 }) => {
-  const css = makeStyles(styles)();
   const dispatch = useDispatch();
   const formMode = whichFormMode(FORM_MODE_NEW);
   const methods = useForm();
@@ -92,7 +90,7 @@ const Component = ({
         <div className={css.createButtonContainer}>
           <ActionButton
             icon={<Add />}
-            text={i18n.t("buttons.create_case")}
+            text="buttons.create_case"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               form: FORM_ID,

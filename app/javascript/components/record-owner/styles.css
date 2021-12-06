@@ -1,6 +1,6 @@
 .formTitle {
   display: flex;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   position: sticky;
   top: 0;
   z-index: 99;
@@ -8,8 +8,8 @@
 }
 
 .formHeading {
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: $(theme.typography.pxToRem(22));
+  font-size: var(--fs-20);
 }

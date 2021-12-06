@@ -2,7 +2,7 @@
   margin-right: 8px;
   padding: 10px 0;
   & svg {
-    font-size: $(theme.typography.pxToRem(16));
+    font-size: var(--fs-16);
   }
 }
 
@@ -24,35 +24,35 @@
 .alert {
   margin-top: 10px;
   border-radius: 5px;
-  color: $(theme.primero.colors.grey);
+  color: var(--c-grey);
   font-weight: bold;
-  font-size: $(theme.typography.pxToRem(12));
+  font-size: var(--fs-12);
 
   &.info {
-    border: 1px solid $(theme.primero.colors.moonYellow);
+    border: 1px solid var(--c-yellow);
     & .icon {
-      color: $(theme.primero.colors.moonYellow);
+      color: var(--c-yellow);
     }
   }
 
   &.warning {
-    border: 1px solid $(theme.primero.colors.solidOrange);
+    border: 1px solid var(--c-solid-orange);
     & .icon {
-      color: $(theme.primero.colors.orange);
+      color: var(--c-orange);
     }
   }
 
   &.success {
-    border: 1px solid $(theme.primero.colors.solidGreen);
+    border: 1px solid var(--c-solid-green);
     & .icon {
-      color: $(theme.primero.colors.green);
+      color: var(--c-green);
     }
   }
 
   &.error {
-    border: 1px solid $(theme.primero.colors.red);
+    border: 1px solid var(--c-red);
     & .icon {
-      color: $(theme.primero.colors.red);
+      color: var(--c-red);
     }
   }
 }
@@ -64,7 +64,7 @@
 
   & li {
     list-style: none;
-    border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+    border-bottom: 1px solid var(--c-light-grey);
     padding: 5px 0px;
 
     &:last-child {

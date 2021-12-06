@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 
 import { useThemeHelper } from "../../libs";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const Component = ({ children, twoCol, fullWidthMobile }) => {
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
 
   const contentContainer = fullWidthMobile && mobileDisplay ? css.noWrap : css.wrap;
 

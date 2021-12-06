@@ -13,16 +13,16 @@ import thunk from "redux-thunk";
 import DateFnsUtils from "@date-io/date-fns";
 import { createMount } from "@material-ui/core/test-utils";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { ThemeProvider } from "@material-ui/core/styles";
 import { useForm, FormProvider } from "react-hook-form";
 import { fromJS } from "immutable";
 import capitalize from "lodash/capitalize";
 import { spy } from "sinon";
 import { renderHook, act } from "@testing-library/react-hooks";
 
+import ThemeProvider from "../../theme-provider";
 import { ApplicationProvider } from "../../components/application";
 import I18nProvider from "../../components/i18n";
-import { theme as appTheme, RECORD_PATH } from "../../config";
+import { RECORD_PATH } from "../../config";
 import { whichFormMode } from "../../components/form";
 import { ListHeaderRecord } from "../../components/user/records";
 
@@ -32,8 +32,6 @@ const DEFAULT_STATE = fromJS({
     serverOnline: true
   }
 });
-
-const theme = appTheme();
 
 const setupFormFieldRecord = (FieldRecord, field = {}) => {
   return FieldRecord({
@@ -107,7 +105,7 @@ export const setupMountedComponent = (
 
     if (isEmpty(initialEntries)) {
       return (
-        <ThemeProvider theme={theme}>
+        <ThemeProvider>
           <Router history={history}>
             <FormikComponent {...formikComponentProps} />
           </Router>
@@ -116,7 +114,7 @@ export const setupMountedComponent = (
     }
 
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider>
         <MemoryRouter initialEntries={initialEntries}>
           <FormikComponent {...formikComponentProps} />
         </MemoryRouter>
@@ -141,12 +139,17 @@ export const setupMountedComponent = (
   return { component, store };
 };
 
-export const setupMountedThemeComponent = (TestComponent, props = {}) =>
-  createMount()(
-    <ThemeProvider theme={theme}>
-      <TestComponent {...props} />
-    </ThemeProvider>
+export const setupMountedThemeComponent = (TestComponent, props = {}) => {
+  const { store } = createMockStore(DEFAULT_STATE, fromJS({}));
+
+  return createMount()(
+    <Provider store={store}>
+      <ThemeProvider>
+        <TestComponent {...props} />
+      </ThemeProvider>
+    </Provider>
   );
+};
 
 export const tick = () =>
   new Promise(resolve => {

@@ -1,14 +1,14 @@
 .tableRowSubHeader  {
   & th {
-    border-right: 1px solid $(theme.primero.colors.lightGrey2);
+    border-right: 1px solid var(--c-light-grey-2);
   }
 }
 
 .tableRowHeader {
   & th:not(:first-child) {
-    background-color: $(theme.primero.colors.lightGrey);
+    background-color: var(--c-light-grey);
     font-weight: bold;
-    border-left: 1px solid $(theme.primero.colors.lightGrey2);
+    border-left: 1px solid var(--c-light-grey-2);
   }
 
   & th:last-of-type {
@@ -17,5 +17,5 @@
 }
 
 .borderHeadingRight {
-  border-right: 1px solid $(theme.primero.colors.lightGrey2);
+  border-right: 1px solid var(--c-light-grey-2);
 }

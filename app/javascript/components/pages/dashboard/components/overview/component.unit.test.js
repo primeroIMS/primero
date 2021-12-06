@@ -115,29 +115,25 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
   it("renders the dash_group_overview dashboard", () => {
     const groupOverview = component.find(OverviewBox).at(0);
 
-    expect(groupOverview.find("div div").text()).to.be.equal("dashboard.dash_group_overview");
-    expect(groupOverview.find("div").find("ul li")).to.have.lengthOf(2);
+    expect(groupOverview.text()).to.contain("dashboard.dash_group_overview");
   });
 
   it("renders the case_overview dashboard", () => {
     const caseOverview = component.find(OverviewBox).at(1);
 
-    expect(caseOverview.find("div div").text()).to.be.equal("dashboard.case_overview");
-    expect(caseOverview.find("div").find("ul li")).to.have.lengthOf(2);
+    expect(caseOverview.text()).to.contain("dashboard.case_overview");
   });
 
   it("renders the shared_with_me dashboard", () => {
     const sharedWithMe = component.find(OverviewBox).at(2);
 
-    expect(sharedWithMe.find("div div").text()).to.be.equal("dashboard.dash_shared_with_me");
-    expect(sharedWithMe.find("div").find("ul li")).to.have.lengthOf(3);
+    expect(sharedWithMe.text()).to.contain("dashboard.dash_shared_with_me");
   });
 
   it("renders the dash_shared_with_others dashboard", () => {
     const sharedWithOthers = component.find(OverviewBox).at(3);
 
-    expect(sharedWithOthers.find("div div").text()).to.be.equal("dashboard.dash_shared_with_others");
-    expect(sharedWithOthers.find("div").find("ul li")).to.have.lengthOf(3);
+    expect(sharedWithOthers.text()).to.contain("dashboard.dash_shared_with_others");
   });
 
   describe("when the data is loading", () => {

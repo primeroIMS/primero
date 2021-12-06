@@ -31,7 +31,7 @@ class Referral < Transition
   end
 
   def revoke!
-    self.status = Transition::STATUS_DONE
+    self.status = Transition::STATUS_REVOKED
     remove_assigned_user
     record.save! && save!
   end

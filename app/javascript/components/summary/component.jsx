@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { getIn } from "formik";
 import PropTypes from "prop-types";
 import SearchIcon from "@material-ui/icons/Search";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
@@ -26,13 +25,11 @@ import { useMemoizedSelector } from "../../libs";
 import { MatchesForm, ComparisonForm, MatchedTraces } from "./components";
 import { NAME, FIELD_NAMES } from "./constants";
 import { fields } from "./form";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, mode, values }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const recordId = record?.get("id");
   const [open, setOpen] = useState(false);
@@ -63,7 +60,7 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, form, m
   const findMatchButton = !mode.isEdit && (
     <ActionButton
       icon={<SearchIcon />}
-      text={findMatchLabel}
+      text="cases.summary.find_match"
       type={ACTION_BUTTON_TYPES.default}
       keepTextOnMobile
       tooltip={isFindMatchDisabled ? i18n.t("cases.summary.cannot_find_matches") : null}

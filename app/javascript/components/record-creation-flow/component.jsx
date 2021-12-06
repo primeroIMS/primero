@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import CloseIcon from "@material-ui/icons/Close";
 import AddIcon from "@material-ui/icons/Add";
 import isEmpty from "lodash/isEmpty";
@@ -18,11 +17,11 @@ import { applyFilters } from "../index-filters";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
 const Component = ({ open, onClose, recordType, primeroModule }) => {
   const i18n = useI18n();
-  const css = makeStyles(styles)();
+
   const dispatch = useDispatch();
   const [openConsentPrompt, setOpenConsentPrompt] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -65,7 +64,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     <div className={css.skipButtonContainer}>
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("case.skip_and_create")}
+        text="case.skip_and_create"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleSkipAndCreate
@@ -81,7 +80,7 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
           <h2>{i18n.t("case.create_new_case")}</h2>
           <ActionButton
             icon={<CloseIcon />}
-            text={i18n.t("cancel")}
+            text="cancel"
             type={ACTION_BUTTON_TYPES.icon}
             isTransparent
             rest={{

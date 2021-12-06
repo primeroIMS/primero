@@ -1,23 +1,17 @@
 import PropTypes from "prop-types";
-import { useTheme } from "@material-ui/core/styles";
 
 import PrioritySummary from "../priority-summary";
 import { useI18n } from "../../i18n";
 import OptionsBox from "../options-box";
 
+import css from "./styles.css";
+
 const Services = ({ servicesList }) => {
-  const theme = useTheme();
   const i18n = useI18n();
 
   const styleOverrides = {
-    CardShadow: { boxShadow: "none" },
-    OptionsBox: {
-      borderTop: `1px solid ${theme.primero.colors.lightGrey}`,
-      borderRadius: 0,
-      "&:first-child": {
-        borderTop: "none"
-      }
-    }
+    CardShadow: css.cardShadow,
+    OptionsBox: css.optionsBox
   };
 
   const caseManagement = servicesList.get("caseManagement") || [];

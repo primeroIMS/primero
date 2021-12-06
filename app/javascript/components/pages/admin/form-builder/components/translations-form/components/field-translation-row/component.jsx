@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, batch } from "react-redux";
 import clsx from "clsx";
 
@@ -11,15 +10,12 @@ import { localesToRender } from "../../../utils";
 import ActionButton from "../../../../../../../action-button";
 import { FormSectionField, FieldRecord, SUBFORM_SECTION, TEXT_FIELD } from "../../../../../../../form";
 import { useI18n } from "../../../../../../../i18n";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { useApp } from "../../../../../../../application";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
   const locales = localesToRender(i18n);
@@ -83,7 +79,7 @@ const Component = ({ field, selectedLocaleId, formMethods, formMode }) => {
         {renderTranslationFields()}
       </Grid>
       <Grid item xs={12} md={3} className={css.translationsRow}>
-        <ActionButton text={i18n.t("forms.manage")} outlined rest={{ onClick: onClickManage }} />
+        <ActionButton text="forms.manage" outlined rest={{ onClick: onClickManage }} />
       </Grid>
     </>
   );

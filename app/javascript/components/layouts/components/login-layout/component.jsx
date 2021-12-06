@@ -1,5 +1,4 @@
 import { Grid, Box } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -11,12 +10,9 @@ import DemoIndicator from "../../../demo-indicator";
 import { useApp } from "../../../application";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ children }) => {
-  const css = useStyles();
   const { demo } = useApp();
 
   // TODO: Module hardcoded till we figure out when to switch modules

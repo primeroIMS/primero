@@ -95,6 +95,11 @@ describe("Forms - useOptions", () => {
         translate: true
       },
       {
+        display_text: "linkedincidents.label",
+        id: "LinkedIncidents",
+        translate: true
+      },
+      {
         id: "Location",
         display_text: "location.label",
         translate: true

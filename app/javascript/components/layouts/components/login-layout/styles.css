@@ -1,25 +1,25 @@
 .gbv {
-  border: 1px solid $(theme.primero.colors.purple);
-  background-color: $(theme.primero.colors.purple);
+  border: 1px solid var(--c-purple);
+  background-color: var(--c-purple);
 }
 
 .mrm {
-  border: 1px solid $(theme.primero.colors.blue);
-  background-color: $(theme.primero.colors.blue);
+  border: 1px solid var(--c-blue);
+  background-color: var(--c-blue);
 }
 
 .cpims {
-  border: 1px solid $(theme.primero.colors.orange);
-  background-color: $(theme.primero.colors.orange);
+  border: 1px solid var(--c-orange);
+  background-color: var(--c-orange);
 }
 
 .cp {
-  border: 1px solid $(theme.primero.colors.blue);
-  background-color: $(theme.primero.colors.blue);
+  border: 1px solid var(--c-blue);
+  background-color: var(--c-blue);
 }
 
 .cp-demo {
-  background: repeating-linear-gradient(45deg, $(theme.primero.colors.darkBlue), $(theme.primero.colors.darkBlue) 10px, $(theme.primero.colors.blue) 10px, $(theme.primero.colors.blue) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-dark-blue), var(--c-dark-blue) 10px, var(--c-blue) 10px, var(--c-blue) 20px);
 }
 
 .primeroBackground {
@@ -46,7 +46,7 @@
 .auth {
   border-radius: 15px;
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
-  background-color: $(theme.primero.colors.white);
+  background-color: var(--c-white);
   display: flex;
   width: 56em;
 }
@@ -94,19 +94,19 @@
 }
 
 .footer {
-  font-size: $(theme.typography.pxToRem(12));
+  font-size: var(--fs-12);
   flex-shrink: 0;
 }
 
 .footer button,
 .footer a {
-  font-size: $(theme.typography.pxToRem(14));
-  color: $(theme.primero.colors.white);
+  font-size: var(--fs-13);
+  color: var(--c-white);
 }
 
 .footer button,
 .footer button > span > svg {
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
 }
 
 .footer:last-child {
@@ -114,7 +114,7 @@
 }
 
 .footer .navLink {
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -126,7 +126,7 @@
   padding-left: 10px;
 }
 
-@media $(theme.breakpoints.down('xs')) {
+@media (max-width:599.95px) {
   .loginLogo {
     display: none;
   }
@@ -136,7 +136,7 @@
   }
 }
 
-@media $(theme.breakpoints.only('sm')) {
+@media (min-width:600px) and (max-width:959.95px) {
   .auth {
     width: 90%;
   }

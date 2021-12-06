@@ -4,16 +4,13 @@ import PropTypes from "prop-types";
 import { ListItem, ListItemText } from "@material-ui/core";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
 
 import Jewel from "../../../../jewel";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { useApp } from "../../../../application";
 
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   form,
@@ -28,7 +25,6 @@ const Component = ({
   selectedForm,
   hasError
 }) => {
-  const css = useStyles();
   const { disabledApplication } = useApp();
 
   const { formId, group } = form;
@@ -64,6 +60,7 @@ const Component = ({
 
   return (
     <ListItem
+      id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
       button
       key={formId}

@@ -1,6 +1,6 @@
 .formTitle {
   display: flex;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   position: sticky;
   top: 0;
   z-index: 99;
@@ -9,10 +9,10 @@
 }
 
 .formHeading {
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
   font-weight: bold;
   text-transform: uppercase;
-  font-size: $(theme.typography.pxToRem(22));
+  font-size: var(--fs-20);
 }
 
 .panel {
@@ -27,33 +27,34 @@
 .wrapper {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .titleHeader {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(15));
+  font-family: var(--ff);
+  font-size: var(--fs-16);
   font-weight: bold;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
   margin-right: 1em;
 }
 
 .titleSubHeader {
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(11));
+  font-family: var(--ff);
+  font-size: var(--fs-12);
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
   line-height: 2;
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
 }
 
 .expandIcon {
   box-shadow: none;
-  color: $(theme.primero.colors.black);
+  color: var(--c-black);
   margin-left: 5px;
   width: 36px;
   height: 36px;
@@ -62,6 +63,7 @@
 .container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .alerts {
@@ -79,9 +81,9 @@
   margin-bottom: 0.5em;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .titleHeader {
-    font-size: $(theme.typography.pxToRem(12));
+    font-size: var(--fs-12);
   }
 
   .titleSubHeader {

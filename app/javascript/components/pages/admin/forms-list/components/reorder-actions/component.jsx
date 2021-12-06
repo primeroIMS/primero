@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { makeStyles, Dialog, DialogActions, CircularProgress } from "@material-ui/core";
+import { Dialog, DialogActions, CircularProgress } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -12,14 +12,12 @@ import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 import { getReorderIsLoading, getReorderErrors, getReorderPendings } from "../../selectors";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({ handleCancel, handleSuccess, open }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const dispatch = useDispatch();
 
   const reorderLoading = useMemoizedSelector(state => getReorderIsLoading(state));
@@ -58,9 +56,9 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
       <DialogActions classes={{ root: css.reorderActions }}>
         <ActionButton
           icon={<CloseIcon />}
-          text={i18n.t("buttons.cancel")}
+          text="buttons.cancel"
           type={ACTION_BUTTON_TYPES.default}
-          isCancel
+          cancel
           rest={{
             onClick: handleCancel,
             disabled: reorderLoading
@@ -69,7 +67,7 @@ const Component = ({ handleCancel, handleSuccess, open }) => {
 
         <ActionButton
           icon={icon}
-          text={i18n.t("buttons.save_changes")}
+          text="buttons.save_changes"
           type={ACTION_BUTTON_TYPES.default}
           rest={{
             onClick: handleSuccess,

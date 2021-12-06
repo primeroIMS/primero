@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { object } from "yup";
 
-import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD } from "../constants";
+import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD, TALLY_FIELD } from "../constants";
 
 import * as validations from "./validations";
 
@@ -151,6 +151,76 @@ describe("<RecordForm>/form/validations", () => {
         it("should be valid if the field is not visible", () => {
           const schema = object().shape(validations.fieldValidations({ ...textField, visible: false }, i18n));
           const formData = { first_name: null };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+    });
+
+    context("when the field is tally", () => {
+      const i18n = { t: value => value, locale: "en" };
+      const tallyField = {
+        name: "tally_name",
+        display_name: { en: "Tally Field" },
+        type: TALLY_FIELD,
+        tally: [
+          { id: "test1", display_text: { en: "Test 1" } },
+          { id: "test2", display_text: { en: "Test 2" } }
+        ]
+      };
+
+      context("and it is not required", () => {
+        it("should be valid if it is empty", () => {
+          const schema = object().shape(validations.fieldValidations(tallyField, i18n));
+          const formData = { tally_name: {} };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+        it("should be valid if it the children's values are empty", () => {
+          const schema = object().shape(validations.fieldValidations(tallyField, i18n));
+          const formData = { tally_name: { test1: "" } };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+        it("should be valid if it at least one of its childrens have values", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const formData = { tally_name: { test1: 1, test2: "" } };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+
+      context("and it is required", () => {
+        it("should not be valid if it is empty", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const formData = { tally_name: {} };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+        it("should NOT be valid if it the children's values are empty", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const formData = { tally_name: { test1: "", test2: "" } };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+        it("should be valid if it at least one of its childrens have values", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const formData = { tally_name: { test1: 1, test2: "" } };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
+
+      context("and check min and max values", () => {
+        it("should be invalid if one of its childrens have values not between min and max", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const formData = { tally_name: { test1: 1, test2: -2 } };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+        it("should be valid if one of its childrens have values between min and max", () => {
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const formData = { tally_name: { test1: 1, test2: 3 } };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });

@@ -1,7 +1,7 @@
 .modalTitle {
   
   & span {
-    font-size: $(theme.typography.pxToRem(17));
+    font-size: var(--fs-18);
     font-weight: bold;
     color: #231e1f;
   }
@@ -30,14 +30,14 @@
 }
 
 .alertTransferModal {
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
   border-radius: 5px;
   padding: 16px;
   marginTop: 5px;
 }
 
 .alertTransferModalIcon {
-  font-size: 2.3em;
+  font-size: var(--fs-30);
 }
 
 .searchableSelect {

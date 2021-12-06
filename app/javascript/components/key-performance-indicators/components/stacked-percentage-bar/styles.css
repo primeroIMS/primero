@@ -10,19 +10,19 @@
   min-width: 14rem;
   border-radius: 1rem;
   overflow: hidden;
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
 }
 
 .StackedPercentageBar1Complete {
   display: inline-block;
   height: 100%;
-  background-color: $(theme.palette.primary.main);
+  background-color: var(c-blue);
 }
 
 .StackedPercentageBar2Complete {
   display: inline-block;
   height: 100%;
-  background-color: $(theme.primero.colors.lightBlue)
+  background-color: var(--c-light-blue-rgba)
 }
 
 .StackedPercentageBarLabels {

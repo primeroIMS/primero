@@ -2,15 +2,12 @@
 import PropTypes from "prop-types";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { Chip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import AutoCompleteInput from "./components/auto-complete-input";
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { optionLabel, optionEquality, optionDisabled, filterOptions } from "./utils";
 import { listboxClasses, virtualize } from "./components/listbox-component";
-
-const useStyles = makeStyles(styles);
 
 const SearchableSelect = ({
   error,
@@ -29,10 +26,10 @@ const SearchableSelect = ({
   InputLabelProps,
   optionIdKey,
   optionLabelKey,
+  name,
   value: fieldValue
 }) => {
   const defaultEmptyValue = multiple ? [] : null;
-  const css = useStyles();
 
   const initialValues = (() => {
     if (Array.isArray(defaultValues)) {
@@ -80,6 +77,7 @@ const SearchableSelect = ({
 
   return (
     <Autocomplete
+      id={name}
       onChange={handleOnChange}
       options={options}
       disabled={isDisabled}

@@ -20,6 +20,7 @@ import { useMemoizedSelector } from "../../../../libs";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 import { searchableValue } from "./utils";
+import css from "./styles.css";
 
 const initialValues = { transitioned_to: "", notes: "" };
 
@@ -64,7 +65,11 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
     InputLabelProps: {
       shrink: true
     },
-    autoComplete: "off"
+    autoComplete: "off",
+    variant: "outlined",
+    multiline: true,
+    type: "text",
+    rows: 4
   };
 
   const searchableSelectProps = {
@@ -115,29 +120,32 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
       {({ handleSubmit }) => {
         return (
           <Form onSubmit={handleSubmit}>
-            <Field
-              name="transitioned_to"
-              render={({ field, form, ...other }) => {
-                const handleChange = data => handleTransitionedTo(data, form, field);
+            <div className={css.field}>
+              <Field
+                name="transitioned_to"
+                render={({ field, form, ...other }) => {
+                  const handleChange = data => handleTransitionedTo(data, form, field);
 
-                return (
-                  <>
-                    <SearchableSelect
-                      defaultValues={searchableValue(field, searchableSelectProps.options, false)}
-                      onChange={handleChange}
-                      {...searchableSelectProps}
-                      {...other}
-                      onBlur={field.onBlur}
-                    />
-                    {form.touched[field.name] && form.errors[field.name] && (
-                      <div className="MuiFormHelperText-root Mui-error">{form.errors[field.name]}</div>
-                    )}
-                  </>
-                );
-              }}
-            />
-            <br />
-            <Field name="notes" {...inputProps} />
+                  return (
+                    <>
+                      <SearchableSelect
+                        defaultValues={searchableValue(field, searchableSelectProps.options, false)}
+                        onChange={handleChange}
+                        {...searchableSelectProps}
+                        {...other}
+                        onBlur={field.onBlur}
+                      />
+                      {form.touched[field.name] && form.errors[field.name] && (
+                        <div className="MuiFormHelperText-root Mui-error">{form.errors[field.name]}</div>
+                      )}
+                    </>
+                  );
+                }}
+              />
+            </div>
+            <div className={css.field}>
+              <Field name="notes" {...inputProps} />
+            </div>
           </Form>
         );
       }}

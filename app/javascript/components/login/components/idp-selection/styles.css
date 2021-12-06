@@ -4,8 +4,8 @@
 
   & button {
     padding: .5em 1.75em;
-    background-color: $(theme.primero.colors.blue);
-    color: $(theme.primero.colors.white);
+    background-color: var(--c-blue);
+    color: var(--c-white);
     margin-top: 20px;
     text-transform: capitalize;
 
@@ -20,7 +20,7 @@
     }
 
     &:hover {
-      background-color: #0093bac7;
+      background-color: var(--c-blue)c7;
 
       &.logout {
         background-color: rgb(186, 186, 186);
@@ -49,7 +49,7 @@
   display: none;
 }
 
-@media $(theme.breakpoints.down('xs')) {
+@media (max-width:599.95px) {
   .loginSelection,
   .logoutSelection {
     & button {

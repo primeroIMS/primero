@@ -44,13 +44,10 @@ const DEV_SERVER_CONFIG = {
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-    "Access-Control-Allow-Headers":
-      "X-Requested-With, content-type, Authorization"
+    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
   },
   writeToDisk: filePath => {
-    return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(
-      filePath
-    );
+    return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(filePath);
   }
 };
 
@@ -65,19 +62,14 @@ const ADDITIONAL_PRECACHE_MANIFEST_FILES = [
   "javascripts/i18n.js"
 ];
 
-const MANIFEST_OUTPUT_PATH = name =>
-  path.join(projectPath, "public/manifests", `${name}.json`);
+const MANIFEST_OUTPUT_PATH = name => path.join(projectPath, "public/manifests", `${name}.json`);
 
-const MANIFEST_FILE_PATHS = MANIFEST_FILES.map(file =>
-  path.join(projectPath, "public/manifests/", file)
-);
+const MANIFEST_FILE_PATHS = MANIFEST_FILES.map(file => path.join(projectPath, "public/manifests/", file));
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const chunkOutput = (hashMethod, data) => {
-  return data && data.chunk.name === "worker"
-    ? "[name].js"
-    : `[name].[${hashMethod}].js`;
+const chunkOutput = (hashMethod, data, fileExt = "js") => {
+  return data && data.chunk.name === "worker" ? `[name].${fileExt}` : `[name].[${hashMethod}].${fileExt}`;
 };
 
 const svgPrefix = {

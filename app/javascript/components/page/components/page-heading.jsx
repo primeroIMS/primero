@@ -1,29 +1,30 @@
 import PropTypes from "prop-types";
-import { AppBar, Toolbar, Box } from "@material-ui/core";
+import { AppBar, Toolbar } from "@material-ui/core";
+import isString from "lodash/isString";
+import clsx from "clsx";
 
-import { useThemeHelper } from "../../../libs";
-import styles from "../styles.css";
+import css from "../styles.css";
 
-const PageHeading = ({ title, prefixAction, children, whiteHeading, mobileHeading }) => {
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
-
-  const toolbarClass = mobileDisplay && mobileHeading ? css.toolbarMobile : css.toolbar;
+const PageHeading = ({ title, prefixComponent, prefixAction, children, noElevation = false, noPadding = false }) => {
+  const toolbarClasses = clsx(css.toolbar, { [css.noPadding]: noPadding });
+  const appBarClasses = clsx(css.appBar, { [css.appBarBorder]: !noElevation });
 
   return (
-    <AppBar
-      position="sticky"
-      classes={{ root: whiteHeading ? css.appBarWhite : css.appBar }}
-      elevation={0}
-      color="inherit"
-    >
-      <Toolbar className={toolbarClass}>
+    <AppBar position="sticky" classes={{ root: appBarClasses }} elevation={noElevation ? 0 : 2} color="inherit">
+      <Toolbar classes={{ root: toolbarClasses }}>
         {prefixAction && (
-          <Box>
+          <div>
             <div>{prefixAction()}</div>
-          </Box>
+          </div>
         )}
-        <h1 className={css.heading}>{title}</h1>
-        <div>{children}</div>
+        {isString(title) ? <h1 className={css.title}>{title}</h1> : <div className={css.titleContainer}>{title}</div>}
+        <div className={css.actions}>{children}</div>
+        {prefixComponent && (
+          <>
+            <div className={css.break} />
+            <div>{prefixComponent}</div>
+          </>
+        )}
       </Toolbar>
     </AppBar>
   );
@@ -31,16 +32,13 @@ const PageHeading = ({ title, prefixAction, children, whiteHeading, mobileHeadin
 
 PageHeading.displayName = "PageHeading";
 
-PageHeading.defaultProps = {
-  mobileHeading: false
-};
-
 PageHeading.propTypes = {
   children: PropTypes.node,
-  mobileHeading: PropTypes.bool,
+  noElevation: PropTypes.bool,
+  noPadding: PropTypes.bool,
   prefixAction: PropTypes.func,
-  title: PropTypes.string.isRequired,
-  whiteHeading: PropTypes.bool
+  prefixComponent: PropTypes.node,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired
 };
 
 export default PageHeading;
