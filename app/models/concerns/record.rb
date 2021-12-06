@@ -154,14 +154,4 @@ module Record
       Sunspot.remove! reportables if reportables.present?
     end
   end
-
-  def duplicates_field?(field_name)
-    return false unless data[field_name].present?
-
-    duplicate_query = self.class.where('data @> ?', { field_name => data[field_name] }.to_json)
-
-    duplicate_query = duplicate_query.where.not(id: id) unless new_record?
-
-    duplicate_query.exists?
-  end
 end
