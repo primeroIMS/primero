@@ -204,7 +204,7 @@ const Component = ({
                 {asDrawer && (
                   <ViolationActions
                     handleBackLabel={handleBackLabel}
-                    handleBack={e => submitForm(e)}
+                    handleBack={event => submitForm(event)}
                     handleCancel={handleClose}
                   />
                 )}
