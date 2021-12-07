@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
-import { Button, FormControl, FormHelperText, InputLabel } from "@material-ui/core";
+import { FormControl, InputLabel, TextField } from "@material-ui/core";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import isEmpty from "lodash/isEmpty";
 import { TimePicker } from "@material-ui/pickers";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
-import { Calendar } from "@quoin/nepali-datepicker-reactjs";
+import { NepaliDatePicker } from "nepali-datepicker-reactjs";
+import { BSToAD } from "bikram-sambat-js";
 
 import { useI18n } from "../i18n";
-import { DATE_FORMAT_NE } from "../../config";
 
 import styles from "./styles.css";
-import { convertToNeDate } from "./utils";
+import { convertToNeDate, parseDate } from "./utils";
 
 const useStyles = makeStyles(styles);
 
@@ -26,23 +25,7 @@ const Component = ({ helpText, label, dateProps, handleClearable }) => {
   const [inputDate, setInputDate] = useState(null);
   const [inputTime, setInputTime] = useState(null);
 
-  const inputContainerClasses = clsx(
-    "MuiInputBase-root",
-    "MuiInput-root",
-    "MuiInput-underline",
-    "MuiInputBase-fullWidth",
-    "MuiInput-fullWidth",
-    "MuiInputBase-formControl",
-    "MuiInput-formControl",
-    css.container,
-    { "Mui-error": error, "Mui-disabled": disabled }
-  );
-
-  const calendarClasses = clsx("MuiInputBase-input", "MuiInput-input", { "Mui-disabled": disabled });
-
   const containerClasses = clsx({ [css.includeTimeContainer]: dateIncludeTime });
-
-  const formControlClasses = "MuiTextField-root";
 
   const dateTimeInputValue = () => {
     if (!isDate(inputDate) && isDate(inputTime)) {
@@ -58,10 +41,9 @@ const Component = ({ helpText, label, dateProps, handleClearable }) => {
     return null;
   };
 
-  const handleInputOnChange = ({ adDate }) => {
-    const [year, month, day] = adDate.split("-").map(parts => parseInt(parts, 0));
-
-    const newDate = new Date(year, day, month);
+  const handleInputOnChange = newValue => {
+    const adDate = BSToAD(newValue);
+    const newDate = parseDate(adDate);
 
     if (dateIncludeTime) {
       setInputDate(newDate);
@@ -88,27 +70,21 @@ const Component = ({ helpText, label, dateProps, handleClearable }) => {
 
   return (
     <div className={containerClasses}>
-      <FormControl fullWidth className={formControlClasses} error={error}>
+      <FormControl fullWidth error={error}>
         <InputLabel htmlFor={name} shrink>
           {label}
         </InputLabel>
-        <div className={inputContainerClasses}>
-          <Calendar
-            className={calendarClasses}
-            hideDefaultValue={isEmpty(inputValue)}
-            placeholder={placeholder}
-            onChange={handleInputOnChange}
-            defaultDate={inputValue?.en}
-            dateFormat={DATE_FORMAT_NE}
-            clearable
-            clearableBtn={Button}
-            clearableBtnText={i18n.t("buttons.clear")}
-            clearableClickHandler={handleClear}
-            inputProps={{ value: inputValue?.ne, disabled }}
-          />
-        </div>
-
-        {helpText && <FormHelperText>{helpText}</FormHelperText>}
+        <NepaliDatePicker
+          onSelect={handleInputOnChange}
+          value={inputValue}
+          component={TextField}
+          componentProps={{
+            fullWidth: true,
+            helperText: helpText,
+            disabled,
+            placeholder
+          }}
+        />
       </FormControl>
       {dateIncludeTime && (
         <div>
