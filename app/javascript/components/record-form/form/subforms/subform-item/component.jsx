@@ -19,9 +19,11 @@ const Component = ({
   isTraces,
   isReadWriteForm,
   isViolation,
+  isViolationAssociation,
   mode,
   open,
   orderedValues,
+  parentTitle,
   recordModuleID,
   recordType,
   selectedValue,
@@ -67,7 +69,9 @@ const Component = ({
       orderedValues={orderedValues}
       recordType={recordType}
       recordModuleID={recordModuleID}
-      asDrawer={isViolation}
+      isViolation={isViolation}
+      isViolationAssociation={isViolationAssociation}
+      parentTitle={parentTitle}
     />
   );
 };
@@ -86,9 +90,11 @@ Component.propTypes = {
   isReadWriteForm: PropTypes.bool,
   isTraces: PropTypes.bool,
   isViolation: PropTypes.bool,
+  isViolationAssociation: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool,
   orderedValues: PropTypes.array.isRequired,
+  parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
   selectedValue: PropTypes.object,

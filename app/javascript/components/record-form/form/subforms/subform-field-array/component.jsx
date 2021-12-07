@@ -29,7 +29,8 @@ const Component = ({
   recordType,
   form,
   isReadWriteForm,
-  forms
+  forms,
+  parentTitle
 }) => {
   const {
     display_name: displayName,
@@ -133,6 +134,7 @@ const Component = ({
         isTraces={isTraces}
         isReadWriteForm={isReadWriteForm}
         isViolation={isViolation}
+        isViolationAssociation={isViolationAssociation}
         mode={mode}
         selectedValue={selectedValue}
         open={open}
@@ -141,6 +143,7 @@ const Component = ({
         recordType={recordType}
         setOpen={setOpenDialog}
         title={title}
+        parentTitle={parentTitle}
       />
     </>
   );
@@ -158,6 +161,7 @@ Component.propTypes = {
   i18n: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired
 };

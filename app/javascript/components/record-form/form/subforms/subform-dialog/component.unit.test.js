@@ -9,6 +9,7 @@ import ActionDialog from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
+import ActionButton from "../../../../action-button";
 
 import SubformDialog from "./component";
 
@@ -333,12 +334,12 @@ describe("<SubformDialog />", () => {
     });
   });
 
-  describe("when the prop asDrawer is true", () => {
+  describe("when the prop isViolation is true", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(SubformDialog, {
         ...props,
         open: true,
-        asDrawer: true,
+        isViolation: true,
         title: "This is a title"
       }));
     });
@@ -357,16 +358,38 @@ describe("<SubformDialog />", () => {
 
     it("renders ViolationActions", () => {
       expect(component.find(ViolationActions)).lengthOf(1);
+      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+        "incident.violation.back_to_violations"
+      );
     });
 
     it("renders ViolationActions with valid props", () => {
       const violationActionsProps = { ...component.find(ViolationActions).props() };
 
-      ["handleBack", "handleCancel"].forEach(property => {
+      ["handleBackLabel", "handleBack", "handleCancel"].forEach(property => {
         expect(violationActionsProps).to.have.property(property);
         delete violationActionsProps[property];
       });
       expect(violationActionsProps).to.be.empty;
+    });
+  });
+
+  describe("when the prop isViolationAssociation is true", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(SubformDialog, {
+        ...props,
+        open: true,
+        isViolationAssociation: true,
+        title: "This is a title",
+        parentTitle: "Parent"
+      }));
+    });
+
+    it("renders ViolationActions", () => {
+      expect(component.find(ViolationActions)).lengthOf(1);
+      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+        "incident.violation.back_to Parent"
+      );
     });
   });
 });

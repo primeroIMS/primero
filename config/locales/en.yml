@@ -1325,6 +1325,7 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      back_to: Back to
       back_to_violations: Back to Violations
       pending: Pending Verification
       title: Violations
