@@ -112,7 +112,7 @@ describe("<ReportsForm /> - Container", () => {
     expect(component.find(PageContent)).to.have.lengthOf(1);
   });
 
-  it("does not render date fields in the aggregate/disaggreate select fields", () => {
+  it.skip("does not render date fields in the aggregate/disaggreate select fields", () => {
     component.find(SelectInput).at(0).find("button").at(1).simulate("click");
     component.find(SelectInput).at(0).find("ul.MuiAutocomplete-groupUl").at(0).find("li").at(0).simulate("click");
 
