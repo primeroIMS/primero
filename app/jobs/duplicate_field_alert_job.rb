@@ -8,6 +8,6 @@ class DuplicateFieldAlertJob < ApplicationJob
     record = Record.model_from_name(record_type)&.find_by(id: record_id)
     return unless record.present?
 
-    DuplicatedFieldAlertService.generate_alerts!(record, alert_on_duplicate)
+    DuplicatedFieldAlertService.create_or_remove_alerts!(record, alert_on_duplicate)
   end
 end

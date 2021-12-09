@@ -50,11 +50,21 @@ describe DuplicatedFieldAlertService do
     end
   end
 
-  describe 'generate_alerts!' do
+  describe 'create_or_remove_alerts!' do
     it 'generate alerts for the duplicated fields in the record' do
-      DuplicatedFieldAlertService.generate_alerts!(@child3, { 'id_field' => 'form_1' })
+      DuplicatedFieldAlertService.create_or_remove_alerts!(@child3, { 'id_field' => 'form_1' })
 
       expect(Alert.includes(:record).where(type: 'id_field').map { |alert| alert.record.id }).to match_array([@child3.id])
+    end
+
+    it 'removes the alert from the record if no longer duplicates the field' do
+      Alert.create!(alert_for: DuplicateIdAlertable::DUPLICATE_FIELD, type: 'id_field', record: @child6)
+
+      @child6.data['id_field'] = '0004'
+
+      DuplicatedFieldAlertService.create_or_remove_alerts!(@child6, { 'id_field' => 'form_1' })
+
+      expect(Alert.find_by(record_id: @child6.id)).to be_nil
     end
   end
 end

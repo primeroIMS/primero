@@ -25,14 +25,16 @@ class DuplicatedFieldAlertService
            .find { |alert| alert.record.data[field_name] == record.data[field_name] }
     end
 
-    def generate_alerts!(record, alert_on_duplicate)
+    def create_or_remove_alerts!(record, alert_on_duplicate)
       alert_on_duplicate.each do |field_name, form_name|
-        next unless DuplicatedFieldAlertService.duplicates_field?(record, field_name)
-
-        Alert.create!(
-          alert_for: DuplicateIdAlertable::DUPLICATE_FIELD, date: Date.today, type: field_name,
-          form_sidebar_id: form_name, record: record
-        )
+        if DuplicatedFieldAlertService.duplicates_field?(record, field_name)
+          Alert.create!(
+            alert_for: DuplicateIdAlertable::DUPLICATE_FIELD, date: Date.today, type: field_name,
+            form_sidebar_id: form_name, record: record
+          )
+        else
+          Alert.find_by(alert_for: DuplicateIdAlertable::DUPLICATE_FIELD, type: field_name, record: record)&.destroy!
+        end
       end
     end
   end
