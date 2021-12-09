@@ -44,7 +44,7 @@ class PermittedFieldService
     Permission::SERVICES_SECTION_FROM_CASE => {
       'services_section' => { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
     },
-    Permission::CLOSE => { 'status' => { 'type' => 'string' } },
+    Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
     Permission::REOPEN => {
       'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
       'case_status_reopened' => { 'type' => 'boolean' }
@@ -108,6 +108,7 @@ class PermittedFieldService
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
+    schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
   end
   # rubocop:enable Metrics/AbcSize
@@ -174,6 +175,12 @@ class PermittedFieldService
     incident_field_names << 'case_id_display'
 
     incident_field_names
+  end
+
+  def permitted_mrm_entities_schema
+    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
+      schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength

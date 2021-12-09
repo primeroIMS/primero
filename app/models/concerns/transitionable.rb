@@ -13,6 +13,7 @@ module Transitionable
       string :transfer_status, as: 'transfer_status_sci'
       string :referred_users, multiple: true
       string :transferred_to_users, multiple: true
+      string :transferred_to_user_groups, multiple: true
       time :reassigned_transferred_on
       boolean :referred_users_present
     end
@@ -62,6 +63,10 @@ module Transitionable
     transfers
       .where(status: [Transition::STATUS_INPROGRESS])
       .pluck(:transitioned_to).uniq
+  end
+
+  def transferred_to_user_groups
+    UserGroup.joins(:users).where(users: { name: transferred_to_users }).pluck(:unique_id)
   end
 
   def referred_users

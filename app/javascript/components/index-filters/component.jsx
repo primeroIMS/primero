@@ -8,7 +8,6 @@ import merge from "lodash/merge";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
@@ -32,13 +31,10 @@ import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
 import { applyFilters, setFilters } from "./action-creators";
 import Actions from "./components/actions";
-import styles from "./components/styles.css";
+import css from "./components/styles.css";
 import MoreSection from "./components/more-section";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
@@ -228,49 +224,43 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search handleReset={handleClear} />
-          <Tabs
-            value={tabIndex}
-            onChange={handleChangeTabs}
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "transparent"
-              }
-            }}
-            classes={{ root: css.tabs }}
-            variant="fullWidth"
-          >
-            {tabs.map(({ name, selected, ...rest }) => (
-              <Tab
-                label={name}
-                key={name}
-                classes={{ root: css.tab, selected: css.tabselected }}
-                selected={selected}
-                {...rest}
-              />
-            ))}
-          </Tabs>
+          <div className={css.tabContainer}>
+            <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
+              {tabs.map(({ name, selected, ...rest }) => (
+                <Tab
+                  label={name}
+                  key={name}
+                  classes={{ root: css.tab, selected: css.tabselected }}
+                  selected={selected}
+                  {...rest}
+                />
+              ))}
+            </Tabs>
 
-          {tabIndex === 0 && (
-            <>
-              <Actions handleSave={handleSave} handleClear={handleClear} />
-              {renderFilters()}
-              <MoreSection
-                addFilterToList={addFilterToList}
-                allAvailable={filters}
-                defaultFilters={allDefaultFilters}
-                filterToList={filterToList}
-                more={more}
-                moreSectionFilters={moreSectionFilters}
-                primaryFilters={allPrimaryFilters}
-                recordType={recordType}
-                setMore={setMore}
-                setMoreSectionFilters={setMoreSectionFilters}
-              />
-            </>
-          )}
-          {tabIndex === 1 && (
-            <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
-          )}
+            {tabIndex === 0 && (
+              <div className={css.tabContent}>
+                <Actions handleSave={handleSave} handleClear={handleClear} />
+                {renderFilters()}
+                <MoreSection
+                  addFilterToList={addFilterToList}
+                  allAvailable={filters}
+                  defaultFilters={allDefaultFilters}
+                  filterToList={filterToList}
+                  more={more}
+                  moreSectionFilters={moreSectionFilters}
+                  primaryFilters={allPrimaryFilters}
+                  recordType={recordType}
+                  setMore={setMore}
+                  setMoreSectionFilters={setMoreSectionFilters}
+                />
+              </div>
+            )}
+            {tabIndex === 1 && (
+              <div className={css.tabContent}>
+                <SavedSearches recordType={recordType} setTabIndex={setTabIndex} setRerender={setRerender} />
+              </div>
+            )}
+          </div>
         </form>
       </FormProvider>
       <SavedSearchesForm recordType={recordType} getValues={methods.getValues} open={open} setOpen={setOpen} />

@@ -27,9 +27,8 @@ describe("<OverviewBox />", () => {
 
   it("renders a component/>", () => {
     expect(component.find(OverviewBox)).to.have.lengthOf(1);
-    expect(component.find("li")).to.have.lengthOf(1);
-    expect(component.find("button")).to.have.lengthOf(1);
-    expect(component.find("div div").text()).to.equal("5 Closure");
+    expect(component.find("a")).to.have.lengthOf(2);
+    expect(component.text()).to.contain("5 Closure");
   });
 
   describe("when withTotal props is false", () => {
@@ -38,9 +37,8 @@ describe("<OverviewBox />", () => {
     });
     it("renders the header without total/>", () => {
       expect(component.find(OverviewBox)).to.have.lengthOf(1);
-      expect(component.find("li")).to.have.lengthOf(1);
-      expect(component.find("button")).to.have.lengthOf(1);
-      expect(component.find("div div").text()).to.equal("Closure");
+      expect(component.find("a")).to.have.lengthOf(2);
+      expect(component.text()).to.contain("Closure");
     });
   });
 
@@ -98,7 +96,7 @@ describe("<OverviewBox />", () => {
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.find("li").text()).to.equal(`1 ${ASSESSMENT_LABEL}`);
+        expect(component.text()).to.contain(`1${ASSESSMENT_LABEL}`);
       });
     });
 
@@ -132,7 +130,7 @@ describe("<OverviewBox />", () => {
       });
 
       it("renders a component with its respective label />", () => {
-        expect(component.find("li").text()).to.equal(`1 ${GBV_CLOSURE}`);
+        expect(component.text()).to.contain(`1${GBV_CLOSURE}`);
       });
     });
   });

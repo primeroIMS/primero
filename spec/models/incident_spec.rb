@@ -59,6 +59,105 @@ describe Incident do
         incident.data['created_at'].should == '2010-01-14 14:05:00UTC'
       end
     end
+
+    describe 'when violations data is present' do
+      let(:incident_data) do
+        {
+          'unique_id' => '790f958d-ac8e-414b-af64-e75831e3353a',
+          'incident_code' => '0123456',
+          'description' => 'this is a test',
+          'recruitment' => [
+            {
+              'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+              'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+              'name' => 'violation1'
+            }
+          ],
+          'responses' => [
+            {
+              'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2',
+              'name' => 'intervention2',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+            }
+          ],
+          'individual_victims' => [
+            {
+              'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159',
+              'name' => 'individual1',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+            }
+          ],
+          'sources' => [
+            {
+              'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
+              'name' => 'source1',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+            }
+          ],
+          'perpetrators' => [
+            {
+              'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6',
+              'name' => 'perpetrator1',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+            }
+          ],
+          'group_victims' => [
+            {
+              'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385',
+              'name' => 'group1',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+            }
+          ]
+        }
+      end
+      before :each do
+        clean_data(Incident)
+        incident_record = Incident.new_with_user(fake_user, incident_data)
+        incident_record.save!
+      end
+
+      it 'creates a incident record' do
+        incident = Incident.first
+        expect(Incident.count).to eq(1)
+        expect(incident.incident_code).to eq('0123456')
+      end
+
+      it 'creates a violation record' do
+        violation = Violation.first
+        expect(Violation.count).to eq(1)
+        expect(violation.unique_id).to eq('8dccaf74-e9aa-452a-9b58-dc365b1062a2')
+      end
+
+      it 'creates a responses record' do
+        response = Response.first
+        expect(Response.count).to eq(1)
+        expect(response.unique_id).to eq('36c09588-5489-4d0f-a129-8f5868222cf2')
+      end
+
+      it 'creates a individual_victims record' do
+        individual_victim = IndividualVictim.first
+        expect(IndividualVictim.count).to eq(1)
+        expect(individual_victim.unique_id).to eq('53baed05-a012-42e9-ad8d-5c5660ac5159')
+      end
+
+      it 'creates a sources record' do
+        source = Source.first
+        expect(Source.count).to eq(1)
+        expect(source.unique_id).to eq('7742b9db-2db2-4421-bff7-9aae6272fc4a')
+      end
+
+      it 'creates a perpetrators record' do
+        perpetrator = Perpetrator.first
+        expect(Perpetrator.count).to eq(1)
+        expect(perpetrator.unique_id).to eq('ac4ea377-4223-453d-a8eb-01475c7dcec6')
+      end
+
+      it 'creates a group_victims record' do
+        group_victim = GroupVictim.first
+        expect(GroupVictim.count).to eq(1)
+        expect(group_victim.unique_id).to eq('ae0de249-d8d9-44a6-9f7f-9dd316b46385')
+      end
+    end
   end
 
   describe 'unique id' do
@@ -154,7 +253,7 @@ describe Incident do
 
   describe 'add_alert_on_case' do
     before(:each) do
-      clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule) && module_cp
+      clean_data(Agency, SystemSettings, User, Incident, Child, PrimeroModule, Violation) && module_cp
 
       Agency.create!(unique_id: 'agency-1', agency_code: 'a1', name: 'Agency')
 
@@ -208,10 +307,193 @@ describe Incident do
     end
   end
 
+  describe '#update_properties' do
+    let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '0123456', description: 'this is a test') }
+
+    before do
+      data = incident.data.clone
+      data['recruitment'] = [
+        {
+          'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+          'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+          'name' => 'violation1'
+        }
+      ]
+      data['responses'] = [
+        {
+          'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2',
+          'name' => 'intervention2',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['individual_victims'] = [
+        {
+          'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159',
+          'name' => 'individual1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['sources'] = [
+        {
+          'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
+          'name' => 'source1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['perpetrators'] = [
+        {
+          'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6',
+          'name' => 'perpetrator1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['group_victims'] = [
+        {
+          'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385',
+          'name' => 'group1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      incident.update_properties(fake_user, data)
+      incident.save!
+    end
+
+    it 'creates a violation record' do
+      violation = Violation.first
+      expect(Violation.count).to eq(1)
+      expect(violation.unique_id).to eq('8dccaf74-e9aa-452a-9b58-dc365b1062a2')
+    end
+
+    it 'creates a responses record' do
+      response = Response.first
+      expect(Response.count).to eq(1)
+      expect(response.unique_id).to eq('36c09588-5489-4d0f-a129-8f5868222cf2')
+    end
+
+    it 'creates a individual_victims record' do
+      individual_victim = IndividualVictim.first
+      expect(IndividualVictim.count).to eq(1)
+      expect(individual_victim.unique_id).to eq('53baed05-a012-42e9-ad8d-5c5660ac5159')
+    end
+
+    it 'creates a sources record' do
+      source = Source.first
+      expect(Source.count).to eq(1)
+      expect(source.unique_id).to eq('7742b9db-2db2-4421-bff7-9aae6272fc4a')
+    end
+
+    it 'creates a perpetrators record' do
+      perpetrator = Perpetrator.first
+      expect(Perpetrator.count).to eq(1)
+      expect(perpetrator.unique_id).to eq('ac4ea377-4223-453d-a8eb-01475c7dcec6')
+    end
+
+    it 'creates a group_victims record' do
+      group_victim = GroupVictim.first
+      expect(GroupVictim.count).to eq(1)
+      expect(group_victim.unique_id).to eq('ae0de249-d8d9-44a6-9f7f-9dd316b46385')
+    end
+  end
+
+  describe '#associations_as_data' do
+    let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test') }
+
+    before do
+      data = incident.data.clone
+      data['recruitment'] = [
+        {
+          'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+          'violation_tally': { 'boys': 3, 'girls': 1, 'unknown': 0, 'total': 4 },
+          'name' => 'violation1'
+        }
+      ]
+      data['responses'] = [
+        {
+          'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2',
+          'name' => 'intervention2',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['individual_victims'] = [
+        {
+          'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159',
+          'name' => 'individual1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['sources'] = [
+        {
+          'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
+          'name' => 'source1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['perpetrators'] = [
+        {
+          'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6',
+          'name' => 'perpetrator1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      data['group_victims'] = [
+        {
+          'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385',
+          'name' => 'group1',
+          'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2']
+        }
+      ]
+      incident.update_properties(fake_user, data)
+      incident.save!
+    end
+
+    it 'creates a violation record' do
+      incident_associations_as_data =
+        {
+          'killing' => [],
+          'maiming' => [],
+          'recruitment' => [
+            {
+              'name' => 'violation1',
+              'type' => 'recruitment',
+              'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+              'violation_tally' => { 'boys' => 3, 'girls' => 1, 'total' => 4, 'unknown' => 0 }
+            }
+          ],
+          'sexual_violence' => [],
+          'abduction' => [],
+          'attack_on' => [],
+          'military_use' => [],
+          'denial_humanitarian_access' => [],
+          'sources' => [
+            { 'name' => 'source1', 'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
+          ],
+          'perpetrators' => [
+            { 'name' => 'perpetrator1', 'unique_id' => 'ac4ea377-4223-453d-a8eb-01475c7dcec6',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
+          ],
+          'individual_victims' => [
+            { 'name' => 'individual1', 'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
+          ],
+          'group_victims' => [
+            { 'name' => 'group1', 'unique_id' => 'ae0de249-d8d9-44a6-9f7f-9dd316b46385',
+              'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }
+          ],
+          'responses' => [
+            { 'name' => 'intervention2', 'unique_id' => '36c09588-5489-4d0f-a129-8f5868222cf2',
+              'violations_ids' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2' }
+          ]
+        }
+      expect(incident.incident_code).to eq('987654')
+      expect(incident.associations_as_data('user')).to eq(incident_associations_as_data)
+    end
+  end
+
   private
 
-  def create_incident_with_created_by(created_by,options = {})
-    user = User.new(user_name: created_by, agency_id: Agency.last.id )
+  def create_incident_with_created_by(created_by, options = {})
+    user = User.new(user_name: created_by, agency_id: Agency.last.id)
     Incident.new_with_user(user, options)
   end
 end

@@ -10,7 +10,7 @@
 }
 
 .itemHeader {
-  font-size: 0.875rem;
+  font-size: var(--fs-16);
   font-weight: bold;
 }
 
@@ -20,7 +20,7 @@
 
 .seeDetailsStyle {
   padding-top: 6;
-  color: $(theme.primero.colors.blue);
+  color: var(--c-blue);
 }
 
 .detailName {

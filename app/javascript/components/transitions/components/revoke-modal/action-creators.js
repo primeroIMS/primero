@@ -2,7 +2,7 @@
 
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { TRANSITIONS_TYPES } from "../../constants";
-import { REJECTED } from "../../../../config";
+import { REVOKED } from "../../../../config";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
 import actions from "./actions";
@@ -11,13 +11,7 @@ export const revokeTransition = ({ message, recordType, recordId, transitionType
   const isReferral = transitionType === TRANSITIONS_TYPES.referral;
   const path = `${recordType}/${recordId}/${isReferral ? "referrals" : "transfers"}/${transitionId}`;
   const method = isReferral ? "DELETE" : "PATCH";
-  const body = isReferral
-    ? {}
-    : {
-        data: {
-          status: REJECTED
-        }
-      };
+  const body = isReferral ? {} : { data: { status: REVOKED } };
 
   return {
     type: actions.REVOKE_TRANSITION,

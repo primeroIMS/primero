@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { Box, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
 import DisplayData from "../../../display-data";
@@ -42,16 +42,12 @@ describe("<ApprovalDetail /> - Component", () => {
     expect(component.find(Grid)).to.have.lengthOf(5);
   });
 
-  it("render a Box", () => {
-    expect(component.find(Box)).to.have.lengthOf(4);
-  });
-
   it("render a DisplayData", () => {
     expect(component.find(DisplayData)).to.have.lengthOf(4);
   });
 
   it("render the correct approvals label", () => {
-    expect(component.find(DisplayData).first().find("p").last().text()).to.be.equal(CASE_PLAN);
+    expect(component.find(DisplayData).first().find("div").last().text()).to.be.equal(CASE_PLAN);
   });
 
   it("renders component with valid props", () => {

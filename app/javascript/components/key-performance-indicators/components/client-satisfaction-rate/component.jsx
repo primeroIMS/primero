@@ -1,18 +1,14 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import { useI18n } from "../../../i18n";
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
 import { ACTIONS } from "../../../../libs/permissions";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ data, identifier }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const rate = data.get("data").get("satisfaction_rate");
 

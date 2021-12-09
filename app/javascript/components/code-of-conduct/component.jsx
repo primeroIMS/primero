@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import { format, parseISO } from "date-fns";
 import { isEmpty } from "lodash";
 import { Typography } from "@material-ui/core";
@@ -17,15 +16,12 @@ import { getCodesOfConduct } from "../application/selectors";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import { NAME, ID } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { acceptCodeOfConduct } from "./action-creators";
 import { selectUpdatingCodeOfConduct } from "./selectors";
 import { Actions, CancelDialog } from "./components";
 
-const useStyles = makeStyles(styles);
-
 const Component = () => {
-  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();

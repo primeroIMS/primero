@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { TextField, CircularProgress } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 
@@ -26,7 +27,7 @@ const Component = forwardRef(
     const [inputValueChanged, setInputValueChanged] = useState(false);
 
     const { InputProps, ...restTextFieldProps } = TextFieldProps;
-    const disabledPlaceholder = mode?.isShow && !value ? "--" : "";
+    const disabledPlaceholder = mode?.isShow && isEmpty(value) ? "--" : "";
 
     const inputParams = {
       ...params,

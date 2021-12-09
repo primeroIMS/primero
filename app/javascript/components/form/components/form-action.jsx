@@ -6,12 +6,14 @@ import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 const FormAction = ({ actionHandler, cancel, savingRecord, startIcon, text, disabled, options, tooltip }) => {
   return (
     <ActionButton
+      id="submit-form"
       icon={startIcon}
       text={text}
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
-      isCancel={cancel}
+      cancel={cancel}
       tooltip={tooltip}
+      noTranslate
       rest={{
         ...(actionHandler && { onClick: actionHandler }),
         disabled: disabled || (savingRecord && !cancel),

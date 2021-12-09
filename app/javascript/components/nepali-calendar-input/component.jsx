@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { FormControl, InputLabel, TextField } from "@material-ui/core";
 import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import { TimePicker } from "@material-ui/pickers";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
@@ -10,13 +9,10 @@ import { BSToAD } from "bikram-sambat-js";
 
 import { useI18n } from "../i18n";
 
-import styles from "./styles.css";
-import { convertToNeDate, parseDate } from "./utils";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
+import { convertToNeDate } from "./utils";
 
 const Component = ({ helpText, label, dateProps, handleClearable }) => {
-  const css = useStyles();
   const i18n = useI18n();
 
   const { name, onChange, value, error, disabled, placeholder, dateIncludeTime } = dateProps;

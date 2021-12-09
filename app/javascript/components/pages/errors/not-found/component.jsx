@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -7,13 +6,10 @@ import { ROUTES } from "../../../../config";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const NotFound = () => {
   const i18n = useI18n();
-  const css = useStyles();
 
   return (
     <div className={css.root}>
@@ -26,7 +22,7 @@ const NotFound = () => {
       </Typography>
       <Typography>{i18n.t("error_page.not_found.contact_admin")}</Typography>
       <ActionButton
-        text={i18n.t("navigation.home")}
+        text="navigation.home"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: ROUTES.dashboard,

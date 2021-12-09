@@ -42,7 +42,10 @@ describe("<SubformField />", () => {
           }
         },
         mode: { isShow: true },
-        formSection: {}
+        formSection: {},
+        forms: {},
+        recordModuleID: "primeromodule-cp",
+        recordType: "cases"
       },
       {},
       [],

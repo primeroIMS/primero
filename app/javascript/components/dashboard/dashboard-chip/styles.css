@@ -1,26 +1,45 @@
 .chip {
   font-weight: bold;
-  color: $(theme.primero.colors.white);
+  color: var(--c-black);
   text-transform: uppercase;
+  width: 100%;
+  padding: var(--sp-1);
+  border-radius: 0;
 
   &.high {
-    border: solid 1px $(theme.primero.colors.red);
-    background-color: $(theme.primero.colors.red);
+    background-color: var(--c-red);
+    color: var(--c-white)
   }
 
   &.medium {
-    border: solid 1px #f76900;
-    background-color: #e7712d;
+    background-color: var(--c-red-medium);
   }
 
   &.low {
-    border: solid 1px #F2B417;
-    background-color: #F2B417;
+    background-color: var(--c-red-low);
   }
 
   &.noaction {
     border: solid 1px #B4B4B4;
-    background-color: $(theme.primero.colors.white);
+    background-color: var(--c-white);
     color: #b4b4b4;
+  }
+
+  &.default {
+    background-color: var(--c-blue);
+    color: var(--c-white);
+    font-size: var(--fs-12);
+    align-items: normal;
+  }
+
+  &.defaultNoCount {
+    background-color: var(--c-light-blue-menu);
+    font-size: var(--fs-12);
+    align-items: normal;
+  }
+
+
+  &:hover {
+    opacity: .8;
   }
 }

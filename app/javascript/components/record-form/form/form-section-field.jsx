@@ -1,7 +1,7 @@
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import isEmpty from "lodash/isEmpty";
+import clsx from "clsx";
 
 import { useI18n } from "../../i18n";
 import {
@@ -13,7 +13,8 @@ import {
   PHOTO_FIELD,
   AUDIO_FIELD,
   DOCUMENT_FIELD,
-  LINK_TO_FORM
+  LINK_TO_FORM,
+  TALLY_FIELD
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
@@ -29,9 +30,8 @@ import Seperator from "./field-types/seperator";
 import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import TallyField from "./field-types/tally-field";
+import css from "./styles.css";
 
 const FormSectionField = ({
   name,
@@ -45,7 +45,6 @@ const FormSectionField = ({
   formSection,
   isReadWriteForm
 }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const {
     type,
@@ -63,6 +62,8 @@ const FormSectionField = ({
     option_strings_text: optionsStringsText,
     options
   } = field;
+
+  const classes = clsx(css.field, { [css.readonly]: mode.isShow });
 
   const filterOptionStringSource =
     optionStringsSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionStringsSource;
@@ -137,6 +138,8 @@ const FormSectionField = ({
       case AUDIO_FIELD:
       case DOCUMENT_FIELD:
         return AttachmentField;
+      case TALLY_FIELD:
+        return TallyField;
       default:
         return TextField;
     }
@@ -146,7 +149,7 @@ const FormSectionField = ({
 
   return (
     <ConditionalWrapper condition={!mode.isShow && disabled} wrapper={Tooltip} title={i18n.t("messages.cannot_edit")}>
-      <div>
+      <div className={classes}>
         <FieldComponent {...fieldProps} mode={mode} formSection={formSection} />
         {renderGuidingQuestions}
       </div>

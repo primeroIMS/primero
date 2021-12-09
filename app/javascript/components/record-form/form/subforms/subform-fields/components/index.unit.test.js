@@ -5,7 +5,7 @@ describe("<RecordForm>/form/subforms/<SubformFields>/components- index", () => {
 
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
-    ["TracingRequestStatus"].forEach(property => {
+    ["TracingRequestStatus", "ViolationItem"].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
     });

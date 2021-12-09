@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
 
 import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import Form from "../../../form";
@@ -18,7 +17,7 @@ import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
 
 import { NAME, FORM_ID } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { attemptLogin } from "./action-creators";
 import { selectAuthErrors } from "./selectors";
 import { form, validationSchema } from "./form";
@@ -27,7 +26,7 @@ const Container = ({ modal }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { demo } = useApp();
-  const { css, mobileDisplay } = useThemeHelper({ css: styles });
+  const { mobileDisplay } = useThemeHelper();
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
   const authErrors = useMemoizedSelector(state => selectAuthErrors(state));
@@ -52,9 +51,12 @@ const Container = ({ modal }) => {
 
   const renderForgotPassword = !useIdentityProvider && (
     <>
-      <Button className={css.forgotPaswordLink} onClick={onClickForgotLink}>
-        {i18n.t("login.forgot_password")}
-      </Button>
+      <ActionButton
+        className={css.forgotPaswordLink}
+        onClick={onClickForgotLink}
+        text="login.forgot_password"
+        type={ACTION_BUTTON_TYPES.link}
+      />
       {dialogOpen && <PasswordResetDialog open={dialogOpen} handleCancel={dialogClose} />}
     </>
   );
@@ -62,12 +64,15 @@ const Container = ({ modal }) => {
   return (
     <>
       <div className={css.loginContainer}>
-        {modal || <PageHeading title={title} whiteHeading />}
+        {modal || <PageHeading title={title} noPadding noElevation />}
         <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
         {modal || (
           <ActionButton
+            id={`${FORM_ID}-button`}
             text={actionButton}
             type={ACTION_BUTTON_TYPES.default}
+            size="large"
+            noTranslate
             rest={{
               fullWidth: mobileDisplay,
               form: FORM_ID,

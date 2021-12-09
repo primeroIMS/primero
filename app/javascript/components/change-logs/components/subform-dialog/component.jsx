@@ -1,18 +1,15 @@
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import Timeline from "@material-ui/lab/Timeline";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import ActionDialog from "../../../action-dialog";
 import LoadingIndicator from "../../../loading-indicator";
 import ChangeLogItem from "../change-log-item";
 import { useI18n } from "../../../i18n";
 import { buildSubformDataItems } from "../../utils";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   recordChanges,
@@ -26,7 +23,7 @@ const Component = ({
   allAgencies
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const subformTitle = i18n.t("change_logs.changes_subform", {
     subform_name: recordChanges?.subformName
   });

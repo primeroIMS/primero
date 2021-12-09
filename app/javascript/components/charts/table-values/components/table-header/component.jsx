@@ -1,21 +1,18 @@
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
-import { makeStyles } from "@material-ui/styles";
 import clsx from "clsx";
 
 import { useI18n } from "../../../../i18n";
 import generateKey from "../../utils";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { emptyColumn } from "./utils";
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const TableHeader = ({ columns }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   let newColumns = columns;
   const totalTranslation = i18n.t("report.total");
 

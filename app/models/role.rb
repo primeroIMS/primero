@@ -101,20 +101,14 @@ class Role < ApplicationRecord
   end
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
-    forms = form_sections.where({ parent_form: record_type, visible: (visible_only || nil) }.compact)
-    forms = forms.or(form_sections.where(parent_form: record_type, is_nested: true)) if include_subforms
-    forms
-  end
+    forms = form_sections.where(
+      { parent_form: record_type, visible: (visible_only || nil) }.compact.merge(is_nested: false)
+    )
 
-  def permitted_subforms(record_type = nil, visible_only = false)
-    FormSection.where(
-      is_nested: true,
-      subform_field: form_sections.joins(fields: :subform)
-                                  .where({
-                                    parent_form: record_type,
-                                    visible: (visible_only || nil),
-                                    fields: { type: Field::SUBFORM }
-                                  }.compact)
+    return forms unless include_subforms
+
+    FormSection.where(subform_field: forms.joins(:fields).where(fields: { type: Field::SUBFORM })).or(
+      FormSection.where(id: forms)
     )
   end
 

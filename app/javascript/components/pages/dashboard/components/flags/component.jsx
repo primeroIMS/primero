@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { push } from "connected-react-router";
 
 import { getDashboardFlags } from "../../selectors";
@@ -13,30 +12,26 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { RECORD_PATH } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
 
-  const css = useStyles();
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
 
   const renderSeeAll = flags.size > 0 && (
     <div className={css.seeAll}>
       <ActionButton
+        id="dashboard.link_see_all"
         text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
-        rest={{
-          className: css.seeAllColor,
-          onClick: handleSeeAll
-        }}
+        noTranslate
+        rest={{ onClick: handleSeeAll }}
       />
     </div>
   );

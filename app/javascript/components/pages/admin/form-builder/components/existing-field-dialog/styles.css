@@ -1,10 +1,10 @@
 .searchBox {
   display: flex;
-  border: 1px solid $(theme.primero.colors.warmGrey3);
+  border: 1px solid var(--c-warm-grey-3);
   border-radius: 20px;
 
   & svg {
-    color: $(theme.primero.colors.warmGrey4);
+    color: var(--c-warm-grey-4);
     flex: 0 1 auto;
     width: 1.2em;
     height: 1.2em;

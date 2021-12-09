@@ -1,7 +1,5 @@
-import { Box, Divider } from "@material-ui/core";
-
 import { setupMountedComponent } from "../../../test";
-import TransitionUser from "../TransitionUser";
+import DisplayData from "../../display-data";
 
 import AssignmentsDetails from "./AssignmentsDetails";
 
@@ -32,15 +30,7 @@ describe("<AssignmentsDetails />", () => {
     ({ component } = setupMountedComponent(AssignmentsDetails, props));
   });
 
-  it("renders 2 <TransitionUser />", () => {
-    expect(component.find(TransitionUser)).to.have.length(2);
-  });
-
-  it("renders 3 <Box />", () => {
-    expect(component.find(Box)).to.have.length(3);
-  });
-
-  it("renders a <Divider />", () => {
-    expect(component.find(Divider)).to.have.length(1);
+  it("renders 2 <DisplayData />", () => {
+    expect(component.find(DisplayData)).to.have.length(2);
   });
 });

@@ -66,6 +66,8 @@ class Api::V2::TransfersController < Api::V2::RecordResourceController
     case requested_status
     when Transition::STATUS_ACCEPTED
       transition.accept!
+    when Transition::STATUS_REVOKED
+      transition.revoke!
     when Transition::STATUS_REJECTED
       transition.rejected_reason = params[:data][:rejected_reason]
       transition.reject!

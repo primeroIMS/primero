@@ -1,16 +1,12 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/styles";
 
 import { useI18n } from "../../../i18n";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { SIGNATURE_LABELS } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({ types }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   if (!types.length) return null;
 

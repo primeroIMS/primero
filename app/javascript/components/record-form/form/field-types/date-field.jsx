@@ -90,6 +90,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
         };
 
         const dateProps = {
+          id: name,
           ...{ ...field, value: getDateValue(form, field) },
           ...omitBy(rest, (value, key) =>
             ["recordType", "recordID", "formSection", "field", "displayName", "linkToForm", "tickBoxlabel"].includes(

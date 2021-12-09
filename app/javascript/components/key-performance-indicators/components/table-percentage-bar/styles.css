@@ -8,7 +8,7 @@
   height: 1.25rem;
   border-radius: 1rem;
   overflow: hidden;
-  background-color: $(theme.primero.colors.lightGrey);
+  background-color: var(--c-light-grey);
 }
 
 .TablePercentageBarComplete {
@@ -19,8 +19,8 @@
   height: 100%;
   border-radius: 1rem;
   vertical-align: top;
-  background-color: $(theme.palette.primary.main);
-  color: $(theme.primero.colors.lightGrey);
+  background-color: var(c-blue);
+  color: var(--c-light-grey);
 }
 
 .small {

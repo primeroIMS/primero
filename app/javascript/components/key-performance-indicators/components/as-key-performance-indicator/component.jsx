@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { Help } from "@material-ui/icons";
-import makeStyles from "@material-ui/styles/makeStyles";
 
 import OptionsBox from "../../../dashboard/options-box";
 import { useI18n } from "../../../i18n";
@@ -12,9 +11,7 @@ import Permission from "../../../application/permission";
 import { RESOURCES } from "../../../../libs/permissions";
 import usePermissions from "../../../permissions";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
   return Visualizer => {
@@ -24,7 +21,7 @@ const asKeyPerformanceIndicator = (identifier, defaultData, action) => {
 
     return enhance(({ data, fetchData, dateRanges = [], ...props }) => {
       const i18n = useI18n();
-      const css = useStyles();
+
       const canViewKpi = usePermissions(RESOURCES.kpis, [action]);
 
       const [currentDateRange, setCurrentDateRange] = useState(dateRanges[0]);

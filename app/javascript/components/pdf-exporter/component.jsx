@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import PropTypes from "prop-types";
-import { makeStyles, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { useWatch } from "react-hook-form";
 import html2pdf from "html2pdf-dom-to-image-more";
 import { useDispatch } from "react-redux";
@@ -20,12 +20,10 @@ import useOptions from "../form/use-options";
 
 import Signatures from "./components/signatures";
 import { HTML_2_PDF_OPTIONS, PDF_HEADER_LOOKUP } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { addPageHeaderFooter, getLogosToRender } from "./utils";
 import RenderTable from "./components/render-table";
 import Logos from "./components/logos";
-
-const useStyles = makeStyles(styles);
 
 const Component = forwardRef(
   (
@@ -45,7 +43,7 @@ const Component = forwardRef(
     ref
   ) => {
     const i18n = useI18n();
-    const css = useStyles();
+
     const html = useRef();
     const mainHeaderRef = useRef();
     const secondaryHeaderRef = useRef();

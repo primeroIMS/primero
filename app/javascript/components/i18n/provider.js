@@ -6,6 +6,7 @@ import { format, isDate, parseISO } from "date-fns";
 import localize from "../../libs/date-picker-localization";
 import { DATE_FORMAT } from "../../config";
 import { useMemoizedSelector } from "../../libs";
+import { useChangeTheme } from "../../theme-provider";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -17,16 +18,17 @@ const I18nProvider = ({ children }) => {
   const locale = useMemoizedSelector(state => getLocale(state));
   const dir = useMemoizedSelector(state => getAppDirection(state));
   const locales = useMemoizedSelector(state => getLocales(state));
+  const changeTheme = useChangeTheme();
 
   const dispatch = useDispatch();
 
   const changeLocale = value => {
-    const whichDir = getLocaleDir(value);
+    const direction = getLocaleDir(value);
 
     window.I18n.locale = value;
     document.documentElement.lang = value;
-    document.documentElement.dir = whichDir;
-    dispatch(setLocale({ locale: value, dir: whichDir }));
+    dispatch(setLocale({ locale: value, dir: direction }));
+    changeTheme({ direction });
   };
 
   const getI18nStringFromObject = i18nObject => {

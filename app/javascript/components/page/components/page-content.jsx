@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
-import styles from "../styles.css";
+import css from "../styles.css";
 
-const useStyles = makeStyles(styles);
+const PageContent = ({ children, flex = false }) => {
+  const contentClasses = clsx(css.content, { [css.contentFlex]: flex });
 
-const PageContent = ({ children }) => {
-  const css = useStyles();
-
-  return <div className={css.content}>{children}</div>;
+  return <div className={contentClasses}>{children}</div>;
 };
 
 PageContent.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  flex: PropTypes.bool
 };
 
 PageContent.displayName = "PageContent";

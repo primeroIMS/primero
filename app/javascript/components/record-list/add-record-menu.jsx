@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../config";
-import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -19,7 +18,6 @@ import CreateRecordDialog from "./create-record-dialog";
 import { SEARCH_AND_CREATE_WORKFLOW } from "./constants";
 
 const AddRecordMenu = ({ recordType }) => {
-  const i18n = useI18n();
   const dispatch = useDispatch();
   const [moduleUniqueId, setModuleUniqueId] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,7 +95,7 @@ const AddRecordMenu = ({ recordType }) => {
     <>
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("buttons.new")}
+        text="buttons.new"
         type={ACTION_BUTTON_TYPES.default}
         rest={{ onClick: handleClick }}
       />

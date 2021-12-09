@@ -43,10 +43,16 @@ export const OPTION_TYPES = {
   FORM_GROUP_LOOKUP: "FormGroupLookup",
   RECORD_FORMS: "RecordForms",
   MANAGED_ROLE_FORM_SECTIONS: "ManagedRoleFormSections",
-  TRANSFER_TO_USERS: "TransferToUsers"
+  TRANSFER_TO_USERS: "TransferToUsers",
+  LINKED_INCIDENTS: "LinkedIncidents"
 };
 
-export const CUSTOM_LOOKUPS = [OPTION_TYPES.USER, OPTION_TYPES.AGENCY, OPTION_TYPES.LOCATION];
+export const CUSTOM_LOOKUPS = [
+  OPTION_TYPES.USER,
+  OPTION_TYPES.AGENCY,
+  OPTION_TYPES.LOCATION,
+  OPTION_TYPES.LINKED_INCIDENTS
+];
 
 export const SELECT_CHANGE_REASON = Object.freeze({
   removeOption: "remove-option",

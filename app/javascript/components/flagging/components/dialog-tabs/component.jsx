@@ -1,17 +1,14 @@
 import PropTypes from "prop-types";
-import { Tab, Tabs, Box, makeStyles } from "@material-ui/core";
+import { Tab, Tabs, Box } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import TabPanel from "../TabPanel";
-import styles from "../styles.css";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ children, isBulkFlags, tab, setTab }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const tabs = [i18n.t("flags.flags_tab"), i18n.t("flags.add_flag_tab")];
   const filteredTabs = isBulkFlags ? tabs.filter(t => t !== i18n.t("flags.flags_tab")) : tabs;

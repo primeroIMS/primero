@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 import { ACTIONS } from "../../../../../libs/permissions";
@@ -73,18 +72,6 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
 
   it("should render an <OptionsBox /> component", () => {
     expect(component.find(OptionsBox)).to.have.lengthOf(1);
-  });
-
-  it("should render a <Stepper /> component", () => {
-    expect(component.find(Stepper)).to.have.lengthOf(1);
-  });
-
-  it("should render a <Step /> component", () => {
-    expect(component.find(Step)).to.have.lengthOf(3);
-  });
-
-  it("should render a <StepLabel /> component", () => {
-    expect(component.find(StepLabel)).to.have.lengthOf(3);
   });
 
   describe("when the data is loading", () => {

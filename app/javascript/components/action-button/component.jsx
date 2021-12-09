@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
+import isString from "lodash/isString";
 
 import { useApp } from "../application";
+import { useI18n } from "../i18n";
 
 import { buttonType } from "./utils";
 import { NAME, ACTION_BUTTON_TYPES } from "./constants";
 
 const Component = ({
+  id = null,
   icon,
-  isCancel,
+  cancel,
   isTransparent,
   pending,
   text,
@@ -15,12 +18,17 @@ const Component = ({
   outlined,
   keepTextOnMobile,
   tooltip,
-  rest
+  noTranslate = false,
+  rest,
+  ...options
 }) => {
   const { disabledApplication } = useApp();
+  const i18n = useI18n();
   const ButtonType = buttonType(type);
   const isDisabled = disabledApplication && { disabled: disabledApplication };
   const isPending = Boolean(pending);
+  const buttonID = id || text;
+  const buttonText = !noTranslate && isString(text) ? i18n.t(text) : text;
 
   const { hide, ...restBtnProps } = rest;
 
@@ -30,15 +38,17 @@ const Component = ({
 
   return (
     <ButtonType
+      id={buttonID}
       icon={icon}
-      isCancel={isCancel}
+      cancel={cancel}
       isTransparent={isTransparent}
       pending={isPending}
       rest={{ ...restBtnProps, ...isDisabled }}
       outlined={outlined}
-      text={text}
+      text={buttonText}
       tooltip={tooltip}
       keepTextOnMobile={keepTextOnMobile}
+      {...options}
     />
   );
 };
@@ -52,10 +62,12 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  cancel: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  isCancel: PropTypes.bool,
+  id: PropTypes.string,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,
+  noTranslate: PropTypes.bool,
   outlined: PropTypes.bool,
   pending: PropTypes.bool,
   rest: PropTypes.object,

@@ -428,6 +428,10 @@ class User < ApplicationRecord
     role.is_manager
   end
 
+  def can_list_case_names?
+    !manager? || (manager? && can?(:list_case_names, Child))
+  end
+
   def gbv?
     module?(PrimeroModule::GBV)
   end

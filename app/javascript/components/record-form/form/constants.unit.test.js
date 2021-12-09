@@ -17,8 +17,11 @@ describe("Verifying config constant", () => {
       "RECORD_FORM_PERMISSION",
       "SELECT_FIELD_NAME",
       "SEPERATOR_NAME",
+      "TALLY_FIELD_NAME",
+      "TALLY_FIELD_CONTAINER_NAME",
       "TEXT_FIELD_NAME",
-      "TICK_FIELD_NAME"
+      "TICK_FIELD_NAME",
+      "VIOLATION_ASSOCIACTIONS_SUBFOM"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       delete constants[property];

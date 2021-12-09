@@ -10,7 +10,7 @@ import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions } from "../user";
 import { CREATE_RECORDS } from "../../libs/permissions";
-import { displayNameHelper, useMemoizedSelector, useThemeHelper } from "../../libs";
+import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { ROWS_PER_PAGE_OPTIONS } from "../../config/constants";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -18,14 +18,13 @@ import { getMetadata } from "../record-list";
 import { useMetadata } from "../records";
 
 import { fetchReports } from "./action-creators";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { selectReportsPagination, selectReports, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { css } = useThemeHelper({ css: styles });
 
   const reports = useMemoizedSelector(state => selectReports(state));
   const isLoading = useMemoizedSelector(state => selectLoading(state));
@@ -70,7 +69,7 @@ const Reports = () => {
     <DisableOffline>
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("buttons.new")}
+        text="buttons.new"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           to: ROUTES.reports_new,

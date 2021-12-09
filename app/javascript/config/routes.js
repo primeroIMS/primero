@@ -35,6 +35,7 @@ import RecordList from "../components/record-list";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
 import CodeOfConduct from "../components/code-of-conduct";
+import ActivityLog from "../components/activity-log";
 import { AppLayout, LoginLayout, EmptyLayout } from "../components/layouts";
 import {
   CREATE_RECORDS,
@@ -48,7 +49,8 @@ import {
   WRITE_RECORDS,
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
-  VIEW_KPIS
+  VIEW_KPIS,
+  ACTIVITY_LOGS
 } from "../libs/permissions";
 import Login from "../components/login";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
@@ -102,6 +104,12 @@ export default [
       {
         path: ROUTES.dashboard,
         component: Dashboard
+      },
+      {
+        path: ROUTES.activity_log,
+        component: ActivityLog,
+        resources: RESOURCES.activity_logs,
+        actions: ACTIVITY_LOGS
       },
       ...recordRoutes,
       {

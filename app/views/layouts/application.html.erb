@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="<%= I18n.locale %>">
+<html lang="<%= I18n.locale %>">
 <head>
+  <!-- jss-insertion-point -->
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -15,7 +16,7 @@
   <!-- jss-insertion-point -->
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
-<body>
+<body dir="ltr">
   <div id="root"></div>
   <%= javascript_tag nonce: true do %>
     window.locationManifest = <%= available_locations %>

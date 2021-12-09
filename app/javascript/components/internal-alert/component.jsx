@@ -15,14 +15,13 @@ import { useI18n } from "../i18n";
 
 import { NAME, SEVERITY } from "./constants";
 import { expansionPanelSummaryClasses } from "./theme";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
 const useStylesExpansionPanel = makeStyles(expansionPanelSummaryClasses);
 
 const Component = ({ title, items, severity }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const classes = useStylesExpansionPanel();
   const accordionClasses = clsx(css.alert, css[severity]);
   const accordionDetailsClasses = clsx({ [css.alertItems]: true });

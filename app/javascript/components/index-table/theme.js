@@ -6,7 +6,7 @@ export default theme => ({
         [theme.breakpoints.down("sm")]: {
           border: "none",
           "& div": {
-            fontSize: "0.85rem"
+            fontSize: "var(--fs-13)"
           },
           "& > div:first-of-type": {
             display: "none"

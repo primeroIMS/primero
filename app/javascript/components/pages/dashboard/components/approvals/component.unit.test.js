@@ -115,22 +115,21 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     ({ component } = setupMountedComponent(Approvals, {}, state));
   });
 
-  it("should render 5 <OptionsBox /> component", () => {
-    expect(component.find(OptionsBox)).to.have.lengthOf(7);
+  it("should render 6 <OptionsBox /> component", () => {
+    expect(component.find(OptionsBox)).to.have.lengthOf(6);
   });
 
-  it("should render 4 <OverviewBox /> component", () => {
-    expect(component.find(OverviewBox)).to.have.lengthOf(6);
-    expect(component.find("li")).to.have.lengthOf(6);
-    expect(component.find("button")).to.have.lengthOf(6);
+  it("should render 5 <OverviewBox /> component", () => {
+    expect(component.find(OverviewBox)).to.have.lengthOf(5);
+    expect(component.find("a")).to.have.lengthOf(10);
   });
 
   it("should render the correct approvals label", () => {
-    expect(component.find(OverviewBox).find("div div").at(1).text()).to.be.equal("1 Assessment");
-    expect(component.find(OverviewBox).find("div div").at(2).text()).to.be.equal("2 Case Plan");
-    expect(component.find(OverviewBox).find("div div").at(3).text()).to.be.equal("3 Closure");
-    expect(component.find(OverviewBox).find("div div").at(4).text()).to.be.equal("4 Action Plan");
-    expect(component.find(OverviewBox).find("div div").last().text()).to.be.equal("5 GBV Closure");
+    expect(component.find(OverviewBox).at(0).text()).to.contain("1 Assessment");
+    expect(component.find(OverviewBox).at(1).text()).to.contain("2 Case Plan");
+    expect(component.find(OverviewBox).at(2).text()).to.contain("3 Closure");
+    expect(component.find(OverviewBox).at(3).text()).to.contain("4 Action Plan");
+    expect(component.find(OverviewBox).at(4).text()).to.contain("5 GBV Closure");
   });
 
   describe("when the data is loading", () => {

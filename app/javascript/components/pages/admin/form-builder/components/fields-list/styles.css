@@ -22,7 +22,7 @@
       padding-left: 2.5em;
     }
     & button {
-      color: $(theme.primero.colors.blue);
+      color: var(--c-blue);
       text-transform: none;
       text-align: left;
       justify-content: left;
@@ -47,7 +47,7 @@
 }
 
 .rotateIcon {
-  color: $(theme.primero.colors.goldYellow);
+  color: var(--c-gold-yellow);
   transform: rotate(90deg);
   transform-origin: 50% 50%;
 }

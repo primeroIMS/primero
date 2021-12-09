@@ -1,5 +1,5 @@
 .standardInfo {
-  background-color: $(theme.primero.colors.solidBlack);
+  background-color: var(--c-solid-black);
   border-radius: 0;
   padding: 0;
   text-align: center;
@@ -11,7 +11,7 @@
 }
 
 .standardInfoText {
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   font-weight: bold;
   text-transform: uppercase;
   width: 100%;

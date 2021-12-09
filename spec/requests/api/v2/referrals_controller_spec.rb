@@ -110,6 +110,27 @@ describe Api::V2::ReferralsController, type: :request do
       expect(audit_params['action']).to eq('refer')
     end
 
+    it 'refers the record if it is an external referral' do
+      sign_in(@user1)
+
+      params = {
+        data: {
+          remote: true,
+          service: 'alternative_care',
+          transitioned_to_agency: 'An external agency',
+          transitioned_to_remote: 'An external user'
+        }
+      }
+
+      post "/api/v2/cases/#{@case_a.id}/referrals", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['type']).to eq('Referral')
+      expect(json['data']['user_can_accept_or_reject']).to eq(false)
+      expect(json['data']['transitioned_to_agency']).to eq('An external agency')
+      expect(json['data']['transitioned_to_remote']).to eq('An external user')
+    end
+
     it "get a forbidden message if the user doesn't have referral permission" do
       login_for_test
       params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
@@ -209,7 +230,7 @@ describe Api::V2::ReferralsController, type: :request do
       delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}"
 
       expect(response).to have_http_status(200)
-      expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
       expect(json['data']['record_id']).to eq(@case_a.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
       expect(json['data']['transitioned_by']).to eq('user1')

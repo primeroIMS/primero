@@ -1,0 +1,18 @@
+.subformViolationHeader {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  font-family: var(--ff);
+}
+
+.subformViolationHeaderFields {
+  font-family: var(--ff);
+  font-size: var(--fs-8);
+  color: var(--c-grey);
+}
+
+.chipStatus {
+  color: var(--c-white);
+  border: solid 1px var(--c-blue);
+  background-color: var(--c-blue);
+}

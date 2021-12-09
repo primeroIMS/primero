@@ -32,6 +32,12 @@ class Transfer < Transition
     record.save! && save!
   end
 
+  def revoke!
+    self.status = Transition::STATUS_REVOKED
+    remove_assigned_user
+    record.save! && save!
+  end
+
   def consent_given?
     case record.module_id
     when PrimeroModule::GBV
@@ -41,6 +47,13 @@ class Transfer < Transition
     else
       false
     end
+  end
+
+  def user_can_accept_or_reject?(user)
+    return false if !in_progress? || user.user_name == transitioned_by
+    return true if user.user_name == transitioned_to
+
+    user.can?(:accept_or_reject_transfer, Child) && user.managed_user_names.include?(transitioned_to)
   end
 
   private

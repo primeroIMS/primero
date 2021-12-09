@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import CloseIcon from "@material-ui/icons/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
-import { makeStyles } from "@material-ui/styles";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -22,15 +21,12 @@ import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { fetchAlerts } from "./action-creators";
 import { getUserId, selectUsername, selectAlerts } from "./selectors";
 import MenuEntry from "./components/menu-entry";
 
-const useStyles = makeStyles(styles);
-
 const Nav = () => {
-  const css = useStyles();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -112,9 +108,7 @@ const Nav = () => {
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
-      <Hidden smDown implementation="css">
-        <TranslationsToggle />
-      </Hidden>
+      <TranslationsToggle />
     </>
   );
 

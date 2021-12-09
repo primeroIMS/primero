@@ -15,9 +15,11 @@ export const columns = (i18n, css, onTracingRequestClick, matchedTracesIds) => [
     options: {
       customBodyRender: value => (
         <ActionButton
+          id="trace.tracing_request_id"
           text={getShortIdFromUniqueId(value)}
           type={ACTION_BUTTON_TYPES.default}
           isTransparent
+          noTranslate
           rest={{
             onClick: () => onTracingRequestClick(value),
             className: css.caseLink

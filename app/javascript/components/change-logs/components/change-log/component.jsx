@@ -1,15 +1,12 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import Timeline from "@material-ui/lab/Timeline";
 
 import { useI18n } from "../../../i18n";
 import ChangeLogItem from "../change-log-item";
 import { buildDataItems } from "../../utils";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   recordChangeLogs,
@@ -22,7 +19,6 @@ const Component = ({
   allAgencies
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const handleSeeDetails = subformChanges => {
     setOpen(true);

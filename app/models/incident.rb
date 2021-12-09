@@ -24,14 +24,21 @@ class Incident < ApplicationRecord
     :livelihoods_services_subform_section, :child_protection_services_subform_section
   )
 
+  has_many :violations, dependent: :destroy, inverse_of: :incident
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
+  after_save :save_violations_and_associations
 
   class << self
     alias super_new_with_user new_with_user
     def new_with_user(user, data = {})
-      super_new_with_user(user, data).tap do |incident|
+      violations_params = violations_data(Violation::TYPES, data)
+      associations_params = violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data)
+      new_incident = super_new_with_user(user, data).tap do |incident|
         incident.incident_case_id ||= incident.data.delete('incident_case_id')
       end
+      new_incident.build_or_update_violations(violations_params)
+      new_incident.build_violations_associations(associations_params)
+      new_incident
     end
 
     def filterable_id_fields
@@ -145,5 +152,82 @@ class Incident < ApplicationRecord
     )
 
     self.case.save!
+  end
+
+  alias super_update_properties update_properties
+  def update_properties(user, data)
+    build_or_update_violations(Incident.violations_data(Violation::TYPES, data))
+    build_violations_associations(Incident.violations_data(Violation::MRM_ASSOCIATIONS_KEYS, data))
+    super_update_properties(user, data)
+  end
+
+  def self.violations_data(data_keys, data)
+    return {} unless data
+
+    data_keys.reduce({}) do |acc, elem|
+      next acc unless data[elem].present?
+
+      acc.merge(elem => data.delete(elem))
+    end
+  end
+
+  def build_or_update_violations(violation_objects_data)
+    return unless violation_objects_data.present?
+
+    @violations_to_save = violation_objects_data.each_with_object([]) do |(type, violations_by_type), acc|
+      violations_by_type.each do |violation_data|
+        acc << Violation.build_record(type, violation_data, self)
+      end
+      acc
+    end
+  end
+
+  def build_violations_associations(violation_associations_data)
+    return unless violation_associations_data.present?
+
+    @associations_to_save = violation_associations_data.each_with_object([]) do |(type, associations_data), acc|
+      association_object = type.classify.constantize
+      associations_data.each do |association_data|
+        acc << association_object.build_record(association_data)
+      end
+      acc
+    end
+  end
+
+  def save_violations
+    return unless @violations_to_save
+
+    @violations_to_save.each(&:save!)
+  end
+
+  def save_violations_associations
+    return unless @associations_to_save
+
+    @associations_to_save.each do |association|
+      next if association.violations_ids.blank?
+
+      association.violations = @violations_to_save.select { |violation| association.violations_ids.include?(violation.id) }
+      association.save!
+    end
+  end
+
+  def save_violations_and_associations
+    save_violations
+    save_violations_associations
+  end
+
+  def associations_as_data(_current_user)
+    mrm_associations = associations_as_data_keys.to_h { |value| [value, []] }
+
+    @associations_as_data ||= violations.reduce(mrm_associations) do |acc, violation|
+      acc[violation.type] << violation.data
+      acc.merge(violation.associations_as_data) do |_key, acc_value, violation_value|
+        (acc_value + violation_value).compact.uniq { |value| value['unique_id'] }
+      end
+    end
+  end
+
+  def associations_as_data_keys
+    (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS)
   end
 end

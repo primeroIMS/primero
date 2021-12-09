@@ -1,17 +1,13 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 
-import { useI18n } from "../../i18n";
 import { RECORD_PATH } from "../../../config";
 import { filterType } from "../utils";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const MoreSection = ({
   addFilterToList,
@@ -25,8 +21,6 @@ const MoreSection = ({
   setMore,
   setMoreSectionFilters
 }) => {
-  const i18n = useI18n();
-  const css = useStyles();
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -67,7 +61,7 @@ const MoreSection = ({
     });
   };
 
-  const renderText = more ? i18n.t("filters.less") : i18n.t("filters.more");
+  const renderText = more ? "filters.less" : "filters.more";
 
   const filters = more ? renderSecondaryFilters() : null;
 
@@ -79,15 +73,10 @@ const MoreSection = ({
       <ActionButton
         text={renderText}
         type={ACTION_BUTTON_TYPES.default}
-        isTransparent
-        rest={{
-          onClick: handleMore,
-          className: css.moreBtn,
-          fullWidth: true,
-          color: "primary",
-          variant: "outlined",
-          size: "small"
-        }}
+        fullWidth
+        variant="outlined"
+        onClick={handleMore}
+        className={css.moreBtn}
       />
     </>
   );

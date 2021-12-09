@@ -7,25 +7,25 @@
 
 .error {
   text-align: center;
-  color: $(theme.primero.colors.warmGrey1);
+  color: var(--c-warm-grey-1);
 
   & svg {
-    font-size: $(theme.typography.pxToRem(96));
+    font-size: var(--fs-96);
   }
 }
 
 .errorButton {
-  color: $(theme.primero.colors.warmGrey1) !important;
+  color: var(--c-warm-grey-1) !important;
 }
 
 .errorMessage {
-  font-size: $(theme.typography.pxToRem(17));
+  font-size: var(--fs-18);
   font-weight: bold;
   text-transform: uppercase;
   margin: 0.2em 0 1em;
 }
 
-@media $(theme.breakpoints.down("sm")) {
+@media (max-width:959.95px) {
   .error {
     margin-top: 6em;
   }

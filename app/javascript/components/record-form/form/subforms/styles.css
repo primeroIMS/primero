@@ -1,6 +1,6 @@
 .secondarySubformHeader {
-  font-size: $(theme.typography.pxToRem(11));
-  color: $(theme.primero.colors.darkGrey);
+  font-size: var(--fs-12);
+  color: var(--c-dark-grey);
 }
 
 .subformHeaderBox {
@@ -14,7 +14,7 @@
 
   & .subformShow {
     background-color: inherit;
-    color: $(theme.primero.colors.black);
+    color: var(--c-black);
   }
 }
 
@@ -35,7 +35,7 @@
     font-style: normal;
     line-height: 1.27;
     letter-spacing: normal;
-    color: $(theme.primero.colors.blue);
+    color: var(--c-blue);
     text-transform: none;
 
     &:hover {
@@ -50,7 +50,7 @@
   content: " ";
   letter-spacing: 1em;
   background: radial-gradient(
-    $(theme.primero.colors.solidBlack), 10%, transparent 15%
+    var(--c-solid-black), 10%, transparent 15%
   ) center center no-repeat;
 }
 
@@ -65,7 +65,7 @@
   align-items: center;
 
   & > svg:first-of-type {
-    color: $(theme.primero.colors.yellow);
+    color: var(--c-yellow);
   }
 
   & > span {
@@ -89,7 +89,15 @@
   box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
   border-radius: 4px;
   padding: 0 8px;
-  font-family: $(theme.typography.fontFamily);
-  font-size: $(theme.typography.pxToRem(12));
+  font-family: var(--ff);
+  font-size: var(--fs-12);
   margin-bottom: 2px;
+}
+
+.subformTitle {
+  margin-top: 0px;
+}
+
+.subformGuidance {
+  margin-bottom:  8px;
 }

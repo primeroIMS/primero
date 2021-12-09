@@ -11,6 +11,7 @@ json.merge!(
 )
 record_access_denied = !current_user.can?(:read, transition.record)
 json.record_access_denied record_access_denied
+json.user_can_accept_or_reject transition.user_can_accept_or_reject?(current_user)
 
 if local_assigns.key? :updates_for_record
   unless record_access_denied

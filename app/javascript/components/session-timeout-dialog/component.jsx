@@ -121,8 +121,12 @@ const SessionTimeoutDialog = () => {
         <DialogTitle>{i18n.t("messages.logout_confirmation")}</DialogTitle>
         <DialogContent>{i18n.t("messages.logout_warning")}</DialogContent>
         <DialogActions>
-          <Button onClick={handleLogout}>{i18n.t("buttons.logout")}</Button>
-          <Button onClick={handleContinue}>{i18n.t("buttons.continue")}</Button>
+          <Button id="buttons.logout" onClick={handleLogout}>
+            {i18n.t("buttons.logout")}
+          </Button>
+          <Button id="buttons.continue" onClick={handleContinue}>
+            {i18n.t("buttons.continue")}
+          </Button>
         </DialogActions>
       </Dialog>
     </>

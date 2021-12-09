@@ -1,7 +1,7 @@
 .seeAll {
   padding: .7em;
-  font-size: $(theme.typography.pxToRem(13));
-  color: $(theme.primero.colors.blue);
+  font-size: var(--fs-13);
+  color: var(--c-blue);
   text-decoration: none;
   font-weight: bold;
   text-align: center;

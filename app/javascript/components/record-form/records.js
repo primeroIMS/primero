@@ -22,7 +22,11 @@ export const FieldRecord = Record({
   show_on_minify_form: false,
   order: null,
   subform_section_configuration: null,
+  display_conditions_record: [],
+  display_conditions_subform: [],
   tick_box_label: {},
+  tally: {},
+  autosum_total: true,
   link_to_form: "",
   href: null
 });

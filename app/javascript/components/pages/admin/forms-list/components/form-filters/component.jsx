@@ -1,19 +1,15 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
 import clsx from "clsx";
 
 import { RECORD_TYPES } from "../../../../../../config/constants";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { useI18n } from "../../../../../i18n";
 import FiltersExpansionPanel from "../filters-expansion-panel";
 import ActionButton from "../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ filterValues, modules, handleSetFilterValue, handleClearValue, disabled }) => {
   const i18n = useI18n();
-  const css = useStyles();
 
   const filters = [
     {
@@ -59,7 +55,7 @@ const Component = ({ filterValues, modules, handleSetFilterValue, handleClearVal
   return (
     <div className={classes}>
       <ActionButton
-        text={i18n.t("clear")}
+        text="clear"
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         rest={{

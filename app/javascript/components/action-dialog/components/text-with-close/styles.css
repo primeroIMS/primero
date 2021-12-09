@@ -1,14 +1,14 @@
 .closeButton {
   top: 16px;
-  color: $(theme.primero.colors.darkGrey);
+  color: var(--c-dark-grey);
   right: 8px;
   position: absolute;
 }
 
 .dialogSubtitle {
-  font-size: $(theme.typography.pxToRem(12));
+  font-size: var(--fs-12);
   font-weight: bold;
-  color: $(theme.primero.colors.darkGrey);
+  color: var(--c-dark-grey);
   margin-left: 5px;
 }
 

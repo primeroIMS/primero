@@ -223,6 +223,17 @@ const sharedWithMyTeam = {
   }
 };
 
+const sharedWithMyTeamOverview = {
+  name: "dashboard.dash_shared_with_my_team_overview",
+  type: "indicator",
+  indicators: {
+    shared_with_my_team_pending_transfers_overview: {
+      count: 1,
+      query: ["owned_by_groups=usergroup-group-1", "record_state=true", "status=open", "transfer_status=in_progress"]
+    }
+  }
+};
+
 const myCasesIncidents = {
   name: "dashboard.dash_case_incident_overview",
   type: "indicator",
@@ -280,6 +291,7 @@ const initialState = fromJS({
         groupOverview,
         caseOverview,
         sharedWithMyTeam,
+        sharedWithMyTeamOverview,
         myCasesIncidents,
         nationalAdminSummary
       ],
@@ -446,6 +458,14 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getSharedWithMyTeam(initialState);
 
       expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
+    });
+  });
+
+  describe("getSharedWithMyTeamOverview", () => {
+    it("should return the shared with my team dashboard", () => {
+      const values = selectors.getSharedWithMyTeamOverview(initialState);
+
+      expect(values).to.deep.equal(fromJS(sharedWithMyTeamOverview));
     });
   });
 

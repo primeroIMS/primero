@@ -2,7 +2,6 @@
 import { memo } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import get from "lodash/get";
 
 import { useI18n } from "../../../../../i18n";
@@ -14,14 +13,11 @@ import TabPanel from "../tab-panel";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 import TranslationsNote from "../translations-note";
 import TranslationsForm from "../translations-form";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, formMethods }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { dialogOpen } = useDialog(FieldTranslationsDialogName);

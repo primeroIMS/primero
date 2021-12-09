@@ -1,11 +1,19 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
+import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
+
+import { FieldRecord } from "./records";
 import { OPTION_TYPES } from "./constants";
 import * as selectors from "./selectors";
 
 describe("Forms - Selectors", () => {
   const lookup2 = { unique_id: "lookup-2", name: { en: "Lookup 2" } };
+  const lookupViolenceType = {
+    unique_id: "lookup-violence-type",
+    name: { en: "Lookup Violence Type" },
+    values: [{ id: "type1", display_text: { en: "Type 1" } }]
+  };
   const referToUsers = [
     {
       id: 1,
@@ -49,6 +57,22 @@ describe("Forms - Selectors", () => {
 
   const stateWithLookups = fromJS({
     records: {
+      cases: {
+        data: [
+          {
+            id: "001-12151a",
+            incident_details: [
+              {
+                unique_id: "001-2151a",
+                short_id: "2151a",
+                incident_date: "2021-04-10",
+                cp_incident_violence_type: "type1"
+              }
+            ]
+          }
+        ],
+        selectedRecord: "0001-12151a"
+      },
       transitions: {
         referral: {
           users: referToUsers
@@ -62,9 +86,16 @@ describe("Forms - Selectors", () => {
             unique_id: "lookup-1",
             name: { en: "Lookup 1" }
           },
+          lookupViolenceType,
           lookup2
         ]
-      }
+      },
+      fields: [
+        FieldRecord({
+          name: CP_VIOLENCE_TYPE,
+          option_strings_source: "lookup lookup-violence-type"
+        })
+      ]
     },
     application: {
       agencies,
@@ -88,6 +119,11 @@ describe("Forms - Selectors", () => {
           values: []
         },
         {
+          id: "lookup lookup-violence-type",
+          display_text: "Lookup Violence Type",
+          values: [{ id: "type1", display_text: "Type 1" }]
+        },
+        {
           id: "lookup lookup-2",
           display_text: "Lookup 2",
           values: []
@@ -95,6 +131,11 @@ describe("Forms - Selectors", () => {
         {
           id: "Agency",
           display_text: "agency.label",
+          translate: true
+        },
+        {
+          display_text: "linkedincidents.label",
+          id: "LinkedIncidents",
           translate: true
         },
         {
@@ -297,6 +338,25 @@ describe("Forms - Selectors", () => {
       });
 
       expect(options).to.deep.equal(fromJS(["basic_identity", "notes"]));
+    });
+  });
+
+  describe("when optionStringsSource is LINKED_INCIDENTS", () => {
+    it("should return the incidents linked to the selected case", () => {
+      const expected = [
+        {
+          disabled: false,
+          display_text: "2021-04-10 - Type 1 - 2151a",
+          id: "001-2151a"
+        }
+      ];
+
+      expect(
+        selectors.getOptions(OPTION_TYPES.LINKED_INCIDENTS)(stateWithLookups, {
+          source: OPTION_TYPES.LINKED_INCIDENTS,
+          localizeDate: value => value
+        })
+      ).to.deep.equals(expected);
     });
   });
 

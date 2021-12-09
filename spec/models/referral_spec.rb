@@ -101,7 +101,7 @@ describe Referral do
       @revoke_referral.revoke!
       service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
 
-      expect(@revoke_referral.status).to eq(Referral::STATUS_DONE)
+      expect(@revoke_referral.status).to eq(Referral::STATUS_REVOKED)
       expect(@case.assigned_user_names).not_to include(@revoke_referral.transitioned_to)
       expect(service_object['service_implemented']).to be_nil
     end

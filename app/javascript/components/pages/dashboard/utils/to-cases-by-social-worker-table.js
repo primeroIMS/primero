@@ -15,14 +15,14 @@ export default (indicators, i18n) => {
   const firstColumn = CASES_BY_SOCIAL_WORKER_COLUMNS[0];
 
   const data = rows.map(row => {
-    const values = columnValues.map(column => newData.indicators[column][row].count);
+    const values = columnValues.map(column => newData.indicators[column][row]?.count);
 
     return [row, ...values];
   });
 
   const query = rows.map(row => {
     const values = columnValues
-      .map(column => ({ [column]: newData.indicators[column][row].query }))
+      .map(column => ({ [column]: newData.indicators[column][row]?.query }))
       .reduce((prev, curr) => ({ ...curr, ...prev }), {});
 
     return { [firstColumn]: row, ...values };

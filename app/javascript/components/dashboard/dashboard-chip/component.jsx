@@ -1,19 +1,18 @@
-import Chip from "@material-ui/core/Chip";
+import { Button } from "@material-ui/core";
 import clsx from "clsx";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const DashboardChip = ({ label, type, handleClick }) => {
-  const css = useStyles();
-
   const handler = typeof handleClick === "function" ? handleClick : null;
   const classes = clsx(css.chip, css[type]);
 
-  return <Chip label={label} className={classes} size="small" onClick={handler} />;
+  return (
+    <Button id={`chip-${type}`} label={label} className={classes} onClick={handler} variant="text">
+      {label}
+    </Button>
+  );
 };
 
 DashboardChip.displayName = "DashboardChip";

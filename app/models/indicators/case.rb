@@ -464,6 +464,15 @@ module Indicators
       ]
     ).freeze
 
+    SHARED_WITH_MY_TEAM_PENDING_TRANSFERS_OVERVIEW = QueriedIndicator.new(
+      name: 'shared_with_my_team_pending_transfers_overview',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
+      ],
+      scope_to_transferred_groups: true
+    ).freeze
+
     WITH_INCIDENTS = QueriedIndicator.new(
       name: 'with_incidents',
       record_model: Child,

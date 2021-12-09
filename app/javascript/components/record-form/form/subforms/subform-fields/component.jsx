@@ -7,7 +7,6 @@ import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -20,16 +19,15 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
-import styles from "../styles.css";
+import css from "../styles.css";
 
 import { TracingRequestStatus } from "./components";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   arrayHelpers,
   field,
   isTracesSubform,
+  isViolationSubform,
   locale,
   mode,
   setDialogIsNew,
@@ -39,7 +37,7 @@ const Component = ({
   parentForm
 }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -145,6 +143,7 @@ const Component = ({
                   locale={locale}
                   values={values}
                   onClick={handleEdit(index)}
+                  isViolationSubform={isViolationSubform}
                 />
               </div>
               <div className={css.subformHeaderActions}>
@@ -152,6 +151,7 @@ const Component = ({
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
                   <ActionButton
+                    id={`delete-button-${name}-${index}`}
                     icon={<DeleteIcon />}
                     type={ACTION_BUTTON_TYPES.icon}
                     rest={{
@@ -163,6 +163,7 @@ const Component = ({
                   <SubformMenu index={index} values={values} />
                 ) : null}
                 <ActionButton
+                  id={`subform-show-button-${name}-${index}`}
                   icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
@@ -196,6 +197,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isTracesSubform: PropTypes.bool,
+  isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   parentForm: PropTypes.object.isRequired,

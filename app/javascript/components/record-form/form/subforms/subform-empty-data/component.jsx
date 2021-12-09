@@ -1,16 +1,11 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
 import ErrorIcon from "@material-ui/icons/Error";
 
-import styles from "../styles.css";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ i18n, subformName }) => {
-  const css = useStyles();
-
   return (
     <div className={css.emptySubformContainer}>
       <ErrorIcon />

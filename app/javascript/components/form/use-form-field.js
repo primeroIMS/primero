@@ -93,7 +93,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     rawOptions,
     renderDownloadButton,
     downloadButtonLabel,
-    extraSelectorOptions
+    extraSelectorOptions,
+    max_length: maxlength
   } = field;
 
   const i18n = useI18n();
@@ -132,6 +133,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const inputLabel = i18n.getI18nStringFromObject(displayName);
 
   const commonInputProps = {
+    id: name,
     InputLabelProps: { shrink: true },
     autoComplete: "off",
     autoFocus,
@@ -177,7 +179,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     type,
     multipleLimitOne,
     renderDownloadButton,
-    downloadButtonLabel
+    downloadButtonLabel,
+    maxlength
   };
 
   const Field = (fieldType => {

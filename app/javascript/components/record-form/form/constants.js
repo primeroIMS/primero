@@ -10,6 +10,8 @@ export const SELECT_FIELD_NAME = "SelectField";
 export const SEPERATOR_NAME = "Seperator";
 export const TEXT_FIELD_NAME = "TextField";
 export const TICK_FIELD_NAME = "TickField";
+export const TALLY_FIELD_NAME = "TallyField";
+export const TALLY_FIELD_CONTAINER_NAME = "TallyFieldContainer";
 export const CUSTOM_STRINGS_SOURCE = {
   agency: "Agency",
   location: "Location",
@@ -20,3 +22,11 @@ export const RECORD_FORM_PERMISSION = {
   read: "r",
   readWrite: "rw"
 };
+
+export const VIOLATION_ASSOCIACTIONS_SUBFOM = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
+];

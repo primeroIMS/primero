@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
 
@@ -10,13 +9,10 @@ import { buildFilter } from "../utils";
 import LoadingIndicator from "../../loading-indicator";
 import NAMESPACE from "../../pages/dashboard/namespace";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, errors }) => {
   const dispatch = useDispatch();
-  const css = useStyles();
 
   const loadingIndicatorProps = {
     overlay: true,
@@ -43,19 +39,17 @@ const BadgedIndicator = ({ data, lookup, sectionTitle, indicator, loading, error
     const queryValue = value ? value.get("query") : [];
 
     return (
-      <li key={lk.id}>
+      <div key={lk.id}>
         <DashboardChip label={`${countValue} ${lk.display_text}`} type={lk.id} handleClick={handleClick(queryValue)} />
-      </li>
+      </div>
     );
   });
 
   return (
     <>
       <LoadingIndicator {...loadingIndicatorProps}>
-        {sectionTitle && <div className={css.sectionTitle}>{sectionTitle}</div>}
-        <ul className={css.statusList} key={data.get("name")}>
-          <ul>{dashboardChips}</ul>
-        </ul>
+        <div className={css.sectionTitle}>{sectionTitle}</div>
+        <div className={css.content}>{dashboardChips}</div>
       </LoadingIndicator>
     </>
   );

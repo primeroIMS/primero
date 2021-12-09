@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 
 import { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { subYears } from "date-fns";
 import { TextField as MuiTextField } from "formik-material-ui";
@@ -21,18 +20,9 @@ import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
 
-const useStyles = makeStyles(theme => ({
-  hideNameStyle: {
-    paddingTop: 6,
-    color: theme.primero.colors.blue,
-    fontSize: 9,
-    fontWeight: "bold"
-  }
-}));
+import css from "./styles.css";
 
 const TextField = ({ name, field, formik, mode, recordType, recordID, formSection, ...rest }) => {
-  const css = useStyles();
-
   const { type } = field;
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -49,10 +39,10 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
     formSection?.fields?.some(formField => formField.name === dateOfBirthFieldName && formField.visible);
 
   useEffect(() => {
-    if (recordName) {
+    if (recordName && name === "name" && !formik.touched.name) {
       formik.setFieldValue("name", recordName, true);
     }
-  }, [recordName]);
+  }, [recordName, name, formik.touched.name]);
 
   const fieldProps = {
     type: type === "numeric_field" ? "number" : "text",
@@ -87,6 +77,8 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
         return (
           <>
             <MuiTextField
+              id={name}
+              variant="outlined"
               form={renderProps.form}
               field={{
                 ...renderProps.field,
@@ -102,7 +94,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               {...fieldProps}
             />
             {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase className={css.hideNameStyle} onClick={handleOnClick}>
+              <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>
             ) : null}

@@ -1,4 +1,4 @@
-import { Fab } from "@material-ui/core";
+import { IconButton as MuiIconButton } from "@material-ui/core";
 
 import { setupMountedThemeComponent } from "../../../../test";
 
@@ -11,9 +11,9 @@ describe("<IconButton /> components/action-button/components", () => {
     rest: {}
   };
 
-  it("renders a <Fab /> component", () => {
+  it("renders a <IconButton /> component", () => {
     const component = setupMountedThemeComponent(IconButton, props);
 
-    expect(component.find(Fab)).to.have.lengthOf(1);
+    expect(component.find(MuiIconButton)).to.have.lengthOf(1);
   });
 });

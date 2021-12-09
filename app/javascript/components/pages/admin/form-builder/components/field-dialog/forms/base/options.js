@@ -1,15 +1,17 @@
 import { fromJS } from "immutable";
 import { isEmpty } from "lodash";
 
+import { RECORD_TYPES } from "../../../../../../../../config";
 import {
   FormSectionRecord,
   FieldRecord,
   LABEL_FIELD,
   ORDERABLE_OPTIONS_FIELD,
-  SELECT_FIELD
+  SELECT_FIELD,
+  OPTION_TYPES
 } from "../../../../../../../form";
 
-export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite) => {
+export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite, parentForm) => {
   const optionStringsText = field?.get("option_strings_text", fromJS([]));
 
   return [
@@ -23,6 +25,13 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
           name: `${fieldName}.option_strings_source`,
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
+          filterOptionSource: (_watchedInputValues, lookupOptions) => {
+            if (parentForm !== RECORD_TYPES.cases) {
+              return lookupOptions.filter(option => option.id !== OPTION_TYPES.LINKED_INCIDENTS);
+            }
+
+            return lookupOptions;
+          },
           disabled: mode.get("isEdit"),
           clearDependentValues: [`${fieldName}.selected_value`]
         }),
@@ -65,7 +74,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite)
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProductionSite }) => {
+export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProductionSite, parentForm }) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
@@ -81,7 +90,7 @@ export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProd
       disabled: limitedProductionSite
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite),
+      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite, parentForm),
       handleTabChange: ({ selectedTab, formMode: formTabMode, formMethods }) => {
         if (formTabMode.isNew && selectedTab === 0) {
           formMethods.setValue(`${fieldName}.option_strings_text`, []);

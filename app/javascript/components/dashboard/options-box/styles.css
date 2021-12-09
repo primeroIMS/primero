@@ -4,7 +4,7 @@
 
 .content {
   padding: 0 !important;
-  margin: 12px auto;
+  margin-top: var(--sp-1);
 
   & td,
   & th {
@@ -21,26 +21,27 @@
 
   & span {
     font-weight: 900 !important;
-    font-size: 1.2rem;
-    text-transform: uppercase;
+    font-size: var(--fs-20);
   }
 }
 
-@media $(theme.breakpoints.up("sm")) {
+@media (min-width:600px) {
   .content {
     & table tr:last-child td {
       border-bottom: none;
     }
+
+    margin-top: var(--sp-2)
   }
 }
 
 .cardLink {
   text-decoration: none;
-  font-size: $(theme.typography.pxToRem(17));
+  font-size: var(--fs-18);
   font-weight: bold;
   color: #231e1f;
 
   &:hover {
-    color: $(theme.primero.colors.darkGrey);
+    color: var(--c-dark-grey);
   }
 }

@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@material-ui/core";
 import { batch, useDispatch } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
 import { useLocation, useHistory } from "react-router-dom";
 import clsx from "clsx";
 import { fromJS } from "immutable";
@@ -24,11 +23,9 @@ import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
-import styles from "../../styles.css";
+import css from "../../styles.css";
 import { compactBlank, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({
   approvalSubforms,
@@ -61,7 +58,7 @@ const Component = ({
 
   const { state: locationState } = useLocation();
   const history = useHistory();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const i18n = useI18n();
 

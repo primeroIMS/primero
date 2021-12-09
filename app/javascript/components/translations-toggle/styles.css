@@ -1,7 +1,8 @@
 .button {
   display: flex;
   justify-content: initial;
-  color: $(theme.primero.colors.darkGrey);
+  color: var(--c-dark-grey);
+  padding: 0 16px;
 
   & > span {
     & div {
@@ -12,13 +13,27 @@
     }
 
     & svg {
-      color: $(theme.primero.colors.black);
+      color: var(--c-black);
       width: 24px;
     }
   }
 }
 
-@media $(theme.breakpoints.between('sm', 'md')) {
+.paper {
+  margin-top: -50px;
+
+  &:before, &:after {
+    bottom: -6px;
+    top: auto;
+    right: calc(50% - 6px);
+  }
+
+  &:after {
+    border: 1px solid var(--c-sold-black);
+  }
+}
+
+@media ((min-width:600px) and (max-width:1279.95px)) {
   .button > span svg {
     margin: 0 .3em
   }

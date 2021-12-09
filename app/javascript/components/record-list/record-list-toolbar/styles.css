@@ -1,0 +1,18 @@
+.actions {
+  gap: var(--sp-1);
+  display: flex;
+}
+
+.heading {
+  flex-grow: 1
+}
+
+.container {
+  margin-bottom: var(--sp-3);
+  align-items: center;
+  display: flex;
+  position: sticky;
+  top: 0;
+  background: var(--c-sticky-grey);
+  z-index: 999;
+}

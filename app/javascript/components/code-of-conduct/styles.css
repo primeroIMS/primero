@@ -2,7 +2,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: $(theme.primero.colors.blue);
+  background-color: var(--c-blue);
   overflow: auto;
 
   & div:first-child {
@@ -15,7 +15,7 @@
 
 .content {
   align-self: center;
-  background-color: $(theme.primero.colors.white);
+  background-color: var(--c-white);
   border-radius: 10px;
   width: 70%;
   margin-bottom: auto;
@@ -34,13 +34,13 @@
     & h3 {
       margin-top: 0;
       text-transform: uppercase;
-      color: $(theme.primero.colors.midGrey);
-      font-size: 16px;
+      color: var(--c-mid-grey);
+      font-size: var(--fs-16);
     }
   }
 
   & .actions {
-    background-color: $(theme.primero.colors.warmGrey1);
+    background-color: var(--c-warm-grey-1);
     border-radius: 0 0 10px 10px;
     display: flex;
     padding: 16px;
@@ -56,12 +56,12 @@
   margin-top: auto;
 
   & button, & button > span > svg {
-    color: $(theme.primero.colors.white);
+    color: var(--c-white);
   }
 }
 
 .text {
   white-space: pre-wrap;
-  font-size: 0.875rem;
+  font-size: var(--fs-13);
   padding: 8px;
 }

@@ -2,6 +2,10 @@
   position: absolute;
 }
 
+.field {
+  margin: 0 0 var(--sp-3);
+}
+
 .row {
   display: flex;
   align-items: center;
@@ -25,10 +29,10 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid $(theme.primero.colors.lightGrey2);
+  border-bottom: 1px solid var(--c-light-grey-2);
 
   & label {
-    border-left: 1px solid $(theme.primero.colors.lightGrey2);
+    border-left: 1px solid var(--c-light-grey-2);
     width: 70px;
 
     & span {
@@ -82,8 +86,8 @@
 }
 
 .heading {
-  font-size: $(theme.typography.pxToRem(15));
-  font-weight: $(theme.typography.fontWeightBold);
+  font-size: var(--fs-16);
+  font-weight: var(--fwb);
 
   &.error {
     color: red;

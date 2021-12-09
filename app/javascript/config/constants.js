@@ -1,4 +1,5 @@
 import {
+  ACTIVITY_LOGS,
   MANAGE,
   RESOURCES,
   SHOW_AUDIT_LOGS,
@@ -114,10 +115,12 @@ export const RECORD_PATH = {
   tracing_requests: "tracing_requests",
   traces: "traces",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  activity_log: "activity_log"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";
 
@@ -176,6 +179,7 @@ export const ROUTES = {
   check_server_health: "/health/server",
   sandbox_ui: "/primero",
   password_reset: "/password_reset",
+  activity_log: "/activity_log",
   password_reset_request: "/password_reset_request"
 };
 
@@ -208,6 +212,11 @@ export const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 export const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+export const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+// eslint-disable-next-line max-len
+export const ISO_DATE_TIME_REGEX = /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
 
 export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
@@ -314,6 +323,14 @@ export const APPLICATION_NAV = (permissions, userId) => {
       name: "navigation.home",
       to: ROUTES.dashboard,
       icon: "home",
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.activity_log",
+      to: ROUTES.activity_log,
+      icon: "activity_log",
+      resources: RESOURCES.activity_logs,
+      actions: ACTIVITY_LOGS,
       validateWithUserPermissions: true
     },
     {
@@ -425,6 +442,7 @@ export const SAVE_METHODS = Object.freeze({
 export const ACCEPTED = "accepted";
 export const ACCEPT = "accept";
 export const REJECTED = "rejected";
+export const REVOKED = "revoked";
 export const DONE = "done";
 export const REJECT = "reject";
 export const SAVING = "saving";
@@ -496,3 +514,41 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS
 });
+
+export const VIOLATIONS_FORM = [
+  "killing_violation_wrapper",
+  "maiming_violation_wrapper",
+  "recruitment_violation_wrapper",
+  "sexual_violence_violation_wrapper",
+  "abduction_violation_wrapper",
+  "attack_on_violation_wrapper",
+  "military_use_violation_wrapper",
+  "denial_humanitarian_access_violation_wrapper"
+];
+
+export const VIOLATIONS_ASSOCIATIONS_FORM = [
+  "individual_victims_subform_section",
+  "group_victims_section",
+  "source_subform_section",
+  "perpetrator_subform_section",
+  "response_subform_section"
+];
+
+export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
+  "killing",
+  "maiming",
+  "recruitment",
+  "sexual_violence",
+  "abduction",
+  "attack_on",
+  "military_use",
+  "denial_humanitarian_access"
+];
+
+export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
+  "individual_victims",
+  "perpetrators",
+  "group_victims",
+  "sources",
+  "responses"
+];

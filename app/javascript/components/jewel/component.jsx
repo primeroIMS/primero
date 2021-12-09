@@ -1,14 +1,10 @@
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import clsx from "clsx";
 import { Brightness1 as Circle } from "@material-ui/icons";
 
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Jewel = ({ value, isForm, isList, isError }) => {
-  const css = useStyles();
   const classes = clsx(css.circleForm, css.error);
 
   if (isList) {

@@ -1,8 +1,6 @@
-import { Formik, Form } from "formik";
-
+import Form from "../../../form";
 import { setupMountedComponent } from "../../../../test";
 import { RECORD_TYPES } from "../../../../config/constants";
-import ActionButton from "../../../action-button";
 import NepaliCalendar from "../../../nepali-calendar-input";
 
 import FlagForm from "./component";
@@ -25,16 +23,8 @@ describe("<FlagForm />", () => {
       expect(component.find(FlagForm)).to.have.lengthOf(1);
     });
 
-    it("should render Formik", () => {
-      expect(component.find(Formik)).to.have.lengthOf(1);
-    });
-
     it("renders Form", () => {
       expect(component.find(Form)).to.have.lengthOf(1);
-    });
-
-    it("renders ActionButton", () => {
-      expect(component.find(ActionButton)).to.have.lengthOf(2);
     });
 
     it("renders component with valid props", () => {

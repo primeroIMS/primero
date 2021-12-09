@@ -2,7 +2,6 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { Link } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import ActionButton from "../../../action-button";
@@ -11,12 +10,9 @@ import { externalSync, fetchRecord } from "../../../records/action-creators";
 
 import { SYNC_RECORD_NAME, SYNC_RECORD_STATUS } from "./constants";
 import { buildLabelSync } from "./utils";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, params }) => {
-  const css = useStyles();
   const dispatch = useDispatch();
 
   if (!isEnabledWebhookSyncFor) {
@@ -37,7 +33,7 @@ const SyncRecord = ({ i18n, isEnabledWebhookSyncFor, syncedAt, syncStatus, param
 
   const renderSyncBtn = (
     <ActionButton
-      text={i18n.t("buttons.sync")}
+      text="buttons.sync"
       type={ACTION_BUTTON_TYPES.default}
       outlined
       rest={{

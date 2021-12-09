@@ -1,39 +1,59 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Tooltip } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import ButtonText from "../../../button-text";
 
 import { NAME } from "./constants";
-import styles from "./styles.css";
+import css from "./styles.css";
 
-const useStyles = makeStyles(styles);
-
-const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, keepTextOnMobile, tooltip, rest }) => {
-  const css = useStyles();
+const Component = ({
+  id,
+  icon,
+  cancel,
+  isTransparent,
+  pending,
+  text,
+  outlined,
+  keepTextOnMobile,
+  tooltip,
+  rest,
+  ...options
+}) => {
   const renderIcon = icon || null;
   const isPending = Boolean(pending);
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
-  const spanClasses = clsx({ [css.isDisabled]: [rest.disabled] });
+  const spanClasses = clsx({ [css.isDisabled]: rest.disabled });
   const classes = clsx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
-    [css.isCancel]: isCancel,
-    [css.onlyText]: !renderIcon,
-    [css.outlined]: outlined,
     [rest.className]: Boolean(rest.className)
   });
+
+  const conditionalOptions = {
+    ...(cancel && { variant: "text" })
+  };
 
   const Parent = tooltip ? Tooltip : Fragment;
 
   return (
     <Parent {...(tooltip ? { title: tooltip } : {})}>
       <span className={spanClasses}>
-        <Button className={classes} startIcon={renderIcon} disabled={isPending} {...rest}>
+        <Button
+          id={id}
+          className={classes}
+          startIcon={renderIcon}
+          variant="contained"
+          disableElevation
+          disabled={isPending}
+          color="primary"
+          {...rest}
+          {...options}
+          {...conditionalOptions}
+        >
           {renderContent}
         </Button>
         {renderLoadingIndicator}
@@ -45,8 +65,9 @@ const Component = ({ icon, isCancel, isTransparent, pending, text, outlined, kee
 Component.displayName = NAME;
 
 Component.propTypes = {
+  cancel: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
-  isCancel: PropTypes.bool,
+  id: PropTypes.string.isRequired,
   isTransparent: PropTypes.bool,
   keepTextOnMobile: PropTypes.bool,
   outlined: PropTypes.bool,

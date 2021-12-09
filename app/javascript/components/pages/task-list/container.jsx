@@ -1,4 +1,3 @@
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import { fromJS } from "immutable";
 import { useDispatch, batch } from "react-redux";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -18,14 +17,12 @@ import { useMemoizedSelector, displayNameHelper } from "../../../libs";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
-import styles from "./styles.css";
+import css from "./styles.css";
 import { TASK_TYPES, TASK_STATUS } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const TaskList = () => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const recordType = "tasks";
   const dispatch = useDispatch();
 

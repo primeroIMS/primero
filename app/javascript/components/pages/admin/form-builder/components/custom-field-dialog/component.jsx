@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import SearchIcon from "@material-ui/icons/Search";
@@ -20,14 +19,12 @@ import { isSubformField, setInitialForms, setSubformData, toggleHideOnViewPage }
 import { mergeOnSelectedSubform } from "../../action-creators";
 import { useApp } from "../../../../../application";
 
-import styles from "./styles.css";
+import css from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
-
-const useStyles = makeStyles(styles);
 
 const Component = ({ getValues }) => {
   const i18n = useI18n();
-  const css = useStyles();
+
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 
@@ -77,7 +74,7 @@ const Component = ({ getValues }) => {
   const renderAddExistingFieldButton = !isSubform && (
     <ActionButton
       icon={<SearchIcon />}
-      text={i18n.t("fields.add_existing_field")}
+      text="fields.add_existing_field"
       type={ACTION_BUTTON_TYPES.default}
       rest={{
         disabled: isSelectedSubform,
@@ -93,7 +90,7 @@ const Component = ({ getValues }) => {
     <>
       <ActionButton
         icon={<AddIcon />}
-        text={i18n.t("fields.add_field")}
+        text="fields.add_field"
         type={ACTION_BUTTON_TYPES.default}
         rest={{
           onClick: handleDialog,
@@ -110,7 +107,7 @@ const Component = ({ getValues }) => {
         <div>
           <ActionButton
             icon={<FormatListBulletedIcon />}
-            text={i18n.t("fields.add_new_field")}
+            text="fields.add_new_field"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               onClick: handleCustomFieldSelectorDialog,
@@ -122,9 +119,9 @@ const Component = ({ getValues }) => {
           {renderAddExistingFieldButton}
           <ActionButton
             icon={<CloseIcon />}
-            text={i18n.t("buttons.cancel")}
+            text="buttons.cancel"
             type={ACTION_BUTTON_TYPES.default}
-            isCancel
+            cancel
             rest={{
               onClick: handleClose,
               fullWidth: true,

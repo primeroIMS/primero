@@ -5,50 +5,40 @@
 }
 
 .radioLabels {
-  font-size: $(theme.typography.pxToRem(14));
+  font-size: var(--fs-13);
 }
 
-.input,
-.selectField label + div {
-  margin-top: 0 !important;
-}
-
-.selectField label + div {
-  margin-top: 3px !important;
+.spacer {
+  height: 40px;
 }
 
 .formHeading,
 .toolbarHeading,
 .subformHeading {
-  color: $(theme.primero.colors.solidBlack);
+  color: var(--c-solid-black);
   font-weight: bold;
-  text-transform: uppercase;
-  font-size: $(theme.typography.pxToRem(22));
+  font-size: var(--fs-20);
 }
 .formHeading {
-  font-size: 1.25rem;
+  font-size: var(--fs-20);
 }
 
 .toolbarHeading {
-  font-size: $(theme.typography.pxToRem(20));
-  margin: .5em 0;
+  font-size: var(--fs-20);
+  margin: 0;
 }
 
 .subformHeading {
-  font-size: $(theme.typography.pxToRem(14));
-}
-
-.actionButtonsContainer {
-  text-align: right;
+  font-size: var(--fs-13);
 }
 
 .actionButtonCancel {
-  background: $(theme.primero.colors.grey);
+  background: var(--c-grey);
   margin: 0 .5em;
 }
 
 .toolbar {
-  background: $(theme.primero.colors.contentGrey);
+  background: var(--c-content-grey);
 }
 
 .uploadBox {
@@ -65,12 +55,13 @@
 
 .formTitle {
   display: flex;
-  background: $(theme.primero.colors.stickyGrey);
+  background: var(--c-sticky-grey);
   position: sticky;
   top: 0;
   z-index: 99;
   align-items: center;
-  margin-bottom: 3em;
+  padding-top: var(--sp-3);
+  margin-bottom: var(--sp-3);
 }
 
 .attachmentHeading {
@@ -92,7 +83,7 @@
 
   & .titleText {
     flex: 1;
-    font-size: $(theme.typography.pxToRem(17));
+    font-size: var(--fs-18);
     font-weight: bold;
     text-transform: uppercase;
   }
@@ -102,12 +93,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  font-size: $(theme.typography.pxToRem(15));
+  font-size: var(--fs-16);
 
   & span {
-    font-size: $(theme.typography.pxToRem(11));
-    color: $(theme.primero.colors.darkGrey);
+    font-size: var(--fs-12);
+    color: var(--c-dark-grey);
   }
+}
+
+.field {
+  margin: 0 0 var(--sp-3)
 }
 
 .attachmentUploadField {
@@ -126,7 +121,7 @@
 }
 
 .backdropClose {
-  color: $(theme.primero.colors.white);
+  color: var(--c-white);
   position: absolute;
   top: 0;
   right: 0;
@@ -186,8 +181,8 @@
 }
 
 .caseDisabled {
-  color: $(theme.primero.colors.midGrey);
-  font-size: $(theme.typography.pxToRem(17));
+  color: var(--c-mid-grey);
+  font-size: var(--fs-18);
   text-transform: uppercase;
 }
 
@@ -197,14 +192,16 @@
 
 .actionsContainer {
   display: flex;
-  align-items: center;
+  gap: var(--sp-1);
 }
 
 .badgeIndicator {
 
-  & span {
+  & > span:last-of-type {
     top: 2px;
     right: 8px;
+    background: var(--c-yellow);
+    color: var(--c-black);
   }
 }
 
@@ -215,28 +212,60 @@
   justify-content: space-between;
 }
 
-.separator {
-  margin-bottom: 5px;
+.seperator {
+  margin: var(--sp-3) 0;
+}
+
+.separatorTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+
+  & h4 {
+    margin: 0;
+    max-width: 80%;
+  }
+
+  &:after {
+    content: "";
+    height: 1px;
+    background: var(--c-warm-grey-1);
+    flex: 1;
+    display: block;
+  }
 }
 
 .associatedCaseLink {
   margin: 0;
 
   & a {
-    color: $(theme.primero.colors.blue);
+    color: var(--c-blue);
   }
 }
 
 .error {
-  color: $(theme.primero.colors.redLabelError) !important;
+  color: var(--c-red-label-error) !important;
 }
 
 .flipImage {
   transform: scaleX(-1);
 }
 
-@media $(theme.breakpoints.down("sm")) {
-  .actionButtonsContainer {
-    width: 115px;
+.readonly {
+  & fieldset {
+    border: none;
   }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+}
+
+.readonly :global .MuiOutlinedInput-root {
+  background: transparent;
 }

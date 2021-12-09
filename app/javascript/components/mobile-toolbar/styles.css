@@ -12,7 +12,7 @@
 }
 
 .toolbar, .toolbar-demo {
-  background: linear-gradient(to top, $(theme.primero.colors.white), $(theme.primero.colors.lightGrey)),
+  background: linear-gradient(to top, var(--c-white), var(--c-light-grey)),
     linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   height: 2.5rem;
 
@@ -29,7 +29,7 @@
 }
 
 .toolbar-demo {
-  background: repeating-linear-gradient(45deg, $(theme.primero.colors.lightGrey), $(theme.primero.colors.lightGrey) 10px, $(theme.primero.colors.white) 10px, $(theme.primero.colors.white) 20px);
+  background: repeating-linear-gradient(45deg, var(--c-light-grey), var(--c-light-grey) 10px, var(--c-white) 10px, var(--c-white) 20px);
 }
 
 .appBarShift {
@@ -47,7 +47,13 @@
 }
 
 .demoText {
-  color: $(theme.primero.colors.darkGrey);
+  color: var(--c-dark-grey);
   font-weight: bold;
   text-transform: uppercase;
+}
+
+@media (max-width: 959.95px) {
+  .toolbar, .toolbar-demo {
+    justify-content: space-between;
+  }
 }

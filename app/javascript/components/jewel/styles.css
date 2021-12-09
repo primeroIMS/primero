@@ -2,36 +2,38 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 0;
+  
   & span {
-    color: $(theme.primero.colors.white);
-    font-size: $(theme.typography.pxToRem(12));
+    color: var(--c-black);
+    font-size: var(--fs-12);
     font-weight: bold;
     position: absolute;
     z-index: 999;
   }
 }
 .circle, .circleForm {
-  font-size: $(theme.typography.pxToRem(28));
-  color: $(theme.primero.colors.moonYellow) !important;
+  font-size: var(--fs-30);
+  color: var(--c-yellow) !important;
 
   &.error { 
-    color:  $(theme.primero.colors.red) !important;
+    color:  var(--c-red) !important;
   }
 }
 
 .circleForm {
-  font-size: 1rem;
+  font-size: var(--fs-16);
   margin-left: 5px;
   padding-top: 4px;
 }
 
 .circleList {
-  font-size: .9rem;
+  font-size: var(--fs-16);
   margin-bottom: 2px;
-  color: $(theme.primero.colors.moonYellow);
+  color: var(--c-yellow);
 }
 
-@media $(theme.breakpoints.only('md')) {
+@media ((min-width:960px) and (max-width:1279.95px)) {
   .root {
     position: absolute;
     top: 47%;
@@ -41,6 +43,6 @@
     }
   }
   .circle {
-    font-size: 1rem;
+    font-size: var(--fs-16);
   }
 }

@@ -3,7 +3,7 @@
 }
 
 .subformDrawerContent {
-  padding: 50px;
+  padding: var(--sp-4)
 }
 
 .title {
@@ -18,5 +18,5 @@
 }
 
 .closeButton {
-  color: $(theme.primero.colors.black) !important;
+  color: var(--c-black) !important;
 }

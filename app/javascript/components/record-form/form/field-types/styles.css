@@ -1,0 +1,25 @@
+.hideNameStyle {
+  margin-top: var(--sp-1);
+  color: var(--c-blue);
+  font-size: var(--fs-12);
+  font-weight: bold;
+}
+
+.tallyContainer{
+  margin: 0 0 var(--sp-3);
+  & label:first-of-type {
+    margin-bottom: 0px;
+  }
+}
+
+.inputTally {
+  display: flex;
+  flex: 1 1 auto;
+  & div:first-of-type {
+    margin-bottom: 0px;
+  }
+  & div:not(:first-of-type) {
+    margin-left: 10px;
+    margin-bottom: 0px;
+  }
+}

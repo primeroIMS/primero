@@ -1,17 +1,14 @@
 import PropTypes from "prop-types";
-import { ListItem, ListItemText, Divider, makeStyles } from "@material-ui/core";
+import { ListItem, ListItemText, Divider } from "@material-ui/core";
 import FlagIcon from "@material-ui/icons/Flag";
 
 import { UserArrowIcon } from "../../../../images/primero-icons";
-import styles from "../styles.css";
+import css from "../styles.css";
 import ListFlagsItemActions from "../list-flags-item-actions";
 
 import { NAME } from "./constants";
 
-const useStyles = makeStyles(styles);
-
 const Component = ({ flag }) => {
-  const css = useStyles();
   const itemClass = flag?.removed ? css.itemResolved : css.item;
 
   if (!flag) {

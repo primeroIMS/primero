@@ -14,19 +14,34 @@ describe Api::V2::TransfersController, type: :request do
         Permission::TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
+    @permission_accept_or_reject_transfer = Permission.new(
+      resource: Permission::CASE,
+      actions: [
+        Permission::READ, Permission::WRITE, Permission::CREATE,
+        Permission::ACCEPT_OR_REJECT_TRANSFER, Permission::RECEIVE_TRANSFER
+      ]
+    )
     @role = Role.new(permissions: [@permission_transfer_case], modules: [@primero_module])
     @role.save(validate: false)
+    @role_accept_or_reject = Role.new(
+      permissions: [@permission_accept_or_reject_transfer],
+      modules: [@primero_module],
+      group_permission: Permission::GROUP
+    )
+    @role_accept_or_reject.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
+    @user3 = User.new(user_name: 'user3', role: @role_accept_or_reject, user_groups: [@group2])
+    @user3.save(validate: false)
     @case = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
         disclosure_other_orgs: true, consent_for_services: true,
-        module_id: @primero_module.unique_id,
+        module_id: @primero_module.unique_id
       }
     )
   end
@@ -48,6 +63,7 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
       expect(json['data'][0]['transitioned_to']).to eq('user2')
       expect(json['data'][0]['transitioned_by']).to eq('user1')
+      expect(json['data'][0]['user_can_accept_or_reject']).to eq(true)
 
       expect(audit_params['action']).to eq('show_transfers')
     end
@@ -60,6 +76,32 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['errors'][0]['status']).to eq(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transfers")
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    describe 'when the user is not the recipient' do
+      it 'cannot accept or reject the transfer' do
+        sign_in(@user1)
+        get "/api/v2/cases/#{@case.id}/transfers"
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(1)
+        expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
+        expect(json['data'][0]['transitioned_to']).to eq('user2')
+        expect(json['data'][0]['transitioned_by']).to eq('user1')
+        expect(json['data'][0]['user_can_accept_or_reject']).to eq(false)
+      end
+
+      it 'can accept or reject the transfer on behalf of another user when accept_or_reject_transfer permission' do
+        sign_in(@user3)
+        get "/api/v2/cases/#{@case.id}/transfers"
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(1)
+        expect(json['data'][0]['record_id']).to eq(@case.id.to_s)
+        expect(json['data'][0]['transitioned_to']).to eq('user2')
+        expect(json['data'][0]['transitioned_by']).to eq('user1')
+        expect(json['data'][0]['user_can_accept_or_reject']).to eq(true)
+      end
     end
   end
 
@@ -168,6 +210,28 @@ describe Api::V2::TransfersController, type: :request do
       expect(json['data']['responded_at']).to eq(@now.in_time_zone.as_json)
 
       expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_REJECTED}")
+
+      @case.reload
+      expect(@case.owned_by).to eq('user1')
+      expect(@case.assigned_user_names).not_to include('user2')
+    end
+
+    it 'revokes this transfer' do
+      sign_in(@user2)
+      params = {
+        data: {
+          status: 'revoked'
+        }
+      }
+      patch "/api/v2/cases/#{@case.id}/transfers/#{@transfer1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
+      expect(json['data']['record_id']).to eq(@case.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['responded_at']).to be_nil
+      expect(audit_params['action']).to eq("transfer_#{Transition::STATUS_REVOKED}")
 
       @case.reload
       expect(@case.owned_by).to eq('user1')

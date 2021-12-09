@@ -1,5 +1,4 @@
 import { Grid } from "@material-ui/core";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import CheckIcon from "@material-ui/icons/Check";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -10,12 +9,9 @@ import useOptions from "../../../../../../form/use-options";
 
 import { isTextField, getValueLabel } from "./utils";
 import { NAME } from "./constants";
-import styles from "./styles.css";
-
-const useStyles = makeStyles(styles);
+import css from "./styles.css";
 
 const Component = ({ field, traceValue, caseValue, match }) => {
-  const css = useStyles();
   const i18n = useI18n();
   const {
     display_name: displayName,

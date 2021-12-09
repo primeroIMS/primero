@@ -9,7 +9,7 @@
 
   & h1 {
     font-weight: 900;
-    font-size: $(theme.typography.pxToRem(186));
+    font-size: var(--fs-186);
     margin: 0;
   }
 
@@ -18,10 +18,10 @@
   }
 }
 
-@media $(theme.breakpoints.down('sm')) {
+@media (max-width:959.95px) {
   .root {
     & h1 {
-      font-size: $(theme.typography.pxToRem(130));
+      font-size: var(--fs-130);
     }
   }
 }

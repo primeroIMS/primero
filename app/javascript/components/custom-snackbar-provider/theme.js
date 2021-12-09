@@ -4,7 +4,7 @@ export const snackVariantClasses = theme => ({
     padding: "0 10px"
   },
   success: {
-    border: `1px solid ${theme.primero.colors.solidGreen}`,
+    border: `1px solid ${theme.primero.colors.green}`,
     "& svg": {
       color: theme.primero.colors.green
     }
@@ -16,15 +16,15 @@ export const snackVariantClasses = theme => ({
     }
   },
   warning: {
-    border: `1px solid ${theme.primero.colors.solidOrange}`,
+    border: `1px solid ${theme.primero.colors.orange}`,
     "& svg": {
       color: theme.primero.colors.orange
     }
   },
   info: {
-    border: `1px solid ${theme.primero.colors.moonYellow}`,
+    border: `1px solid ${theme.primero.colors.yellow}`,
     "& svg": {
-      color: theme.primero.colors.moonYellow
+      color: theme.primero.colors.yellow
     }
   }
 });

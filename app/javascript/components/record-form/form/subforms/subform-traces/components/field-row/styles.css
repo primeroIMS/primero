@@ -1,5 +1,5 @@
 .fieldRow {
-  border-bottom: 1px solid $(theme.primero.colors.lightGrey);
+  border-bottom: 1px solid var(--c-light-grey);
 }
 
 .fieldTitle {
@@ -7,9 +7,9 @@
 }
 
 .matched {
-  color: $(theme.primero.colors.green);
+  color: var(--c-green);
 }
 
 .notMatched {
-  color: $(theme.primero.colors.red);
+  color: var(--c-red);
 }

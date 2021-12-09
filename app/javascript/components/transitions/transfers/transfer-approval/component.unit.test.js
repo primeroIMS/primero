@@ -1,17 +1,17 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
+import { TransitionRecord } from "../../records";
 
 import TransferApproval from "./component";
 
 describe("<TransferApproval /> - Component", () => {
-  let component;
   const props = {
-    openTransferDialog: false,
+    openTransferDialog: true,
     close: () => {},
     approvalType: "accepted",
     recordId: "2fe3312b-8de2-4bd0-ab39-cdfc020f86b3",
-    transferId: "20",
+    transferId: "be62e823-4d9d-402e-aace-8e4865a4882e",
     recordType: "cases"
   };
   const initialState = fromJS({
@@ -51,34 +51,44 @@ describe("<TransferApproval /> - Component", () => {
           }
         ],
         errors: false
+      },
+      transitions: {
+        data: [
+          TransitionRecord({
+            id: "be62e823-4d9d-402e-aace-8e4865a4882e",
+            record_id: "2fe3312b-8de2-4bd0-ab39-cdfc020f86b3",
+            record_type: "case",
+            created_at: "2020-02-04T20:24:49.464Z",
+            notes: "",
+            rejected_reason: "",
+            status: "in_progress",
+            type: "Transfer",
+            consent_overridden: true,
+            consent_individual_transfer: true,
+            transitioned_by: "primero",
+            transitioned_to: "primero_cp",
+            service: null
+          })
+        ]
       }
-    },
-    transitions: {
-      data: [
-        {
-          id: "be62e823-4d9d-402e-aace-8e4865a4882e",
-          record_id: "2fe3312b-8de2-4bd0-ab39-cdfc020f86b3",
-          record_type: "case",
-          created_at: "2020-02-04T20:24:49.464Z",
-          notes: "",
-          rejected_reason: "",
-          status: "in_progress",
-          type: "Transfer",
-          consent_overridden: true,
-          consent_individual_transfer: true,
-          transitioned_by: "primero",
-          transitioned_to: "primero_cp",
-          service: null
-        }
-      ]
     }
   });
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(TransferApproval, props, initialState));
+  it("renders Transitions component", () => {
+    const { component } = setupMountedComponent(TransferApproval, props, initialState);
+
+    expect(component.find(TransferApproval)).to.have.length(1);
   });
 
-  it("renders Transitions component", () => {
-    expect(component.find(TransferApproval)).to.have.length(1);
+  context("when the current_user is not the recipient", () => {
+    it("renders the managed user message", () => {
+      const { component } = setupMountedComponent(
+        TransferApproval,
+        props,
+        initialState.setIn(["user", "username"], "primero_mgr_cp")
+      );
+
+      expect(component.find(TransferApproval).find("p").text()).to.equal("cases.transfer_managed_user_accepted");
+    });
   });
 });
