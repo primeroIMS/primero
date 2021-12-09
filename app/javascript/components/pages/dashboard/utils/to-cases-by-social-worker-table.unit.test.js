@@ -17,6 +17,10 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
         primero_cp: {
           count: 1,
           query: ["record_state=true", "status=open", "owned_by=primero_cp"]
+        },
+        transfer_cp: {
+          count: 1,
+          query: ["record_state=true", "status=open", "owned_by=transfer_cp"]
         }
       },
       cases_by_social_worker_new_or_updated: {
@@ -41,7 +45,8 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
       })),
       data: [
         ["primero_admin_cp", 1, 0],
-        ["primero_cp", 1, 0]
+        ["primero_cp", 1, 0],
+        ["transfer_cp", 1, undefined]
       ],
       query: [
         {
@@ -63,6 +68,11 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
             "owned_by=primero_cp"
           ],
           cases_by_social_worker_total: ["record_state=true", "status=open", "owned_by=primero_cp"]
+        },
+        {
+          case_worker: "transfer_cp",
+          cases_by_social_worker_new_or_updated: undefined,
+          cases_by_social_worker_total: ["record_state=true", "status=open", "owned_by=transfer_cp"]
         }
       ]
     };
