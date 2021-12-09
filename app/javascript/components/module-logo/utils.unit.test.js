@@ -3,7 +3,6 @@ import PrimeroLogoWhite from "../../images/primero-logo-white.png";
 import GBVLogo from "../../images/gbv-logo.png";
 import GBVLogoWhite from "../../images/gbv-logo-white.png";
 import MRMLogo from "../../images/mrm-logo.png";
-import MRMLogoWhite from "../../images/mrm-logo-white.png";
 import CPIMSLogo from "../../images/cpims-logo.png";
 import CPIMSLogoWhite from "../../images/cpims-logo-white.png";
 import PrimeroPictorial from "../../images/primero-pictorial.png";
@@ -21,8 +20,8 @@ describe("<Nav /> - Selectors", () => {
         expect(utils.getLogo(primeroModule)).to.deep.equals([MRMLogo, PrimeroPictorial]);
       });
 
-      it("should return MRMLogoWhite and PrimeroPictorial if white is true", () => {
-        expect(utils.getLogo(primeroModule, true)).to.deep.equals([MRMLogoWhite, PrimeroPictorial]);
+      it("should return MRMLogo and PrimeroPictorial if white is true", () => {
+        expect(utils.getLogo(primeroModule, true)).to.deep.equals([MRMLogo, PrimeroPictorial]);
       });
     });
 
