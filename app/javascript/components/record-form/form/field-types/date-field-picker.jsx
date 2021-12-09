@@ -8,15 +8,7 @@ import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 
-const DateFieldPicker = ({
-  dateIncludeTime,
-  dateProps,
-  displayName,
-  fieldTouched,
-  fieldError,
-  helperText,
-  handleClearable
-}) => {
+const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
   const i18n = useI18n();
   const helpText =
     (fieldTouched && fieldError) ||
@@ -30,7 +22,7 @@ const DateFieldPicker = ({
   };
 
   if (i18n.locale === LOCALE_KEYS.ne) {
-    return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} handleClearable={handleClearable} />;
+    return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
   }
 
   return (
@@ -57,7 +49,6 @@ DateFieldPicker.propTypes = {
   displayName: PropTypes.object,
   fieldError: PropTypes.string,
   fieldTouched: PropTypes.bool,
-  handleClearable: PropTypes.func,
   helperText: PropTypes.string
 };
 
