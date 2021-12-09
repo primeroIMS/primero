@@ -1058,4 +1058,31 @@ describe("<RecordForm /> - Selectors", () => {
       expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
   });
+
+  describe("getDuplicatedFieldAlerts", () => {
+    it("returns the duplicate field alerts", () => {
+      const duplicatedAlert = { alert_for: "duplicate_field", type: "id_field", form_unique_id: "form1" };
+      const recordAlerts = fromJS([
+        duplicatedAlert,
+        { alert_for: "approval", type: "assessment", form_unique_id: "form1" }
+      ]);
+      const state = fromJS({ records: { cases: { recordAlerts } } });
+
+      expect(selectors.getDuplicatedFieldAlerts(state, "cases", "form1")).to.deep.equals(fromJS([duplicatedAlert]));
+    });
+  });
+
+  describe("getDuplicatedFields", () => {
+    it("returns the duplicated fields", () => {
+      const duplicatedAlert = { alert_for: "duplicate_field", type: "id_field", form_unique_id: "form1" };
+      const field = FieldRecord({ name: "id_field" });
+      const recordAlerts = fromJS([
+        duplicatedAlert,
+        { alert_for: "approval", type: "assessment", form_unique_id: "form1" }
+      ]);
+      const state = fromJS({ records: { cases: { recordAlerts } }, forms: { fields: [field] } });
+
+      expect(selectors.getDuplicatedFields(state, "cases", "form1")).to.deep.equals(fromJS([field]));
+    });
+  });
 });
