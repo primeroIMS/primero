@@ -1,0 +1,5 @@
+.chipStatus {
+  color: var(--c-white);
+  border: solid 1px var(--c-blue);
+  background-color: var(--c-blue);
+}

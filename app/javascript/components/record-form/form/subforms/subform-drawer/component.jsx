@@ -37,7 +37,7 @@ Component.propTypes = {
   cancelHandler: PropTypes.func,
   children: PropTypes.node.isRequired,
   open: PropTypes.bool,
-  title: PropTypes.string
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 
 Component.displayName = NAME;

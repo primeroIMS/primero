@@ -82,6 +82,7 @@ class RecordDataService
   def embed_associations_as_data(data, record, selected_field_names, current_user)
     return data unless (record.associations_as_data_keys & selected_field_names).present?
 
+    # TODO: We need to filter out using selected_field_names
     data.merge(record.associations_as_data(current_user))
   end
 

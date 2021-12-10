@@ -5,12 +5,18 @@ import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from ".
 import SubformLookupHeader from "../subform-header-lookup";
 import SubformDateHeader from "../subform-header-date";
 import SubformTickBoxHeader from "../subform-header-tickbox";
+import ViolationItem from "../subform-fields/components/violation-item";
 import css from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
+import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../../config";
+import { getShortIdFromUniqueId } from "../../../../records/utils";
 
-const Component = ({ field, values, locale, displayName, index, onClick }) => {
+const Component = ({ field, values, locale, displayName, index, onClick, isViolationSubform }) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
 
+  const renderShortId =
+    // eslint-disable-next-line camelcase
+    VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && getShortIdFromUniqueId(values[index]?.unique_id);
   const subformValues = collapsedFieldNames
     .map(collapsedFieldName => {
       const val = values[index];
@@ -19,7 +25,8 @@ const Component = ({ field, values, locale, displayName, index, onClick }) => {
         date_include_time: includeTime,
         option_strings_source: optionsStringSource,
         option_strings_text: optionsStringText,
-        tick_box_label: tickBoxLabel
+        tick_box_label: tickBoxLabel,
+        display_name: displayNameCollapsedField
       } = fields.find(f => f.get(NAME_FIELD) === collapsedFieldName);
       const value = val[collapsedFieldName];
 
@@ -47,7 +54,9 @@ const Component = ({ field, values, locale, displayName, index, onClick }) => {
             value: typeof value === "boolean" ? value.toString() : value,
             key: collapsedFieldName,
             optionsStringSource,
-            optionsStringText
+            optionsStringText,
+            isViolationSubform,
+            displayName: displayNameCollapsedField
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;
@@ -61,9 +70,25 @@ const Component = ({ field, values, locale, displayName, index, onClick }) => {
   const handleClick = () => onClick(index);
 
   if (collapsedFieldNames.length && values.length) {
+    if (isViolationSubform) {
+      return (
+        <ViolationItem
+          fields={fields}
+          displayName={displayName}
+          locale={locale}
+          values={values}
+          index={index}
+          collapsedFieldValues={subformValues}
+        />
+      );
+    }
+
     return (
       <div id="subform-header-button" className={css.subformHeader}>
-        <Button onClick={handleClick}>{subformValues}</Button>
+        <Button onClick={handleClick}>
+          {renderShortId}
+          {subformValues}
+        </Button>
       </div>
     );
   }
@@ -81,6 +106,7 @@ Component.propTypes = {
   displayName: PropTypes.object,
   field: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
+  isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired

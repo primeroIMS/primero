@@ -12,10 +12,12 @@ const RecordFormTitle = ({ displayText, handleToggleNav, mobileDisplay }) => {
   ) : null;
 
   return (
-    <div className={css.formTitle}>
-      {showMobileIcon}
-      <span className={css.formHeading}>{displayText}</span>
-    </div>
+    <>
+      <div className={css.formTitle}>
+        {showMobileIcon}
+        <span className={css.formHeading}>{displayText}</span>
+      </div>
+    </>
   );
 };
 

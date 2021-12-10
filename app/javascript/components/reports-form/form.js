@@ -5,6 +5,7 @@ import { array, boolean, object, string } from "yup";
 import isEmpty from "lodash/isEmpty";
 
 import { FieldRecord, FormSectionRecord, TICK_FIELD, TEXT_FIELD, TEXT_AREA, SELECT_FIELD, OPTION_TYPES } from "../form";
+import { DATE_FIELD } from "../record-form/constants";
 
 import {
   AGGREGATE_BY_FIELD,
@@ -61,7 +62,9 @@ export const form = (
     option_strings_source: OPTION_TYPES.RECORD_FORMS,
     handleWatchedInputs: checkModuleField,
     filterOptionSource: (watchedInputValues, options) => {
-      return checkModuleAndRecordType(watchedInputValues, options, reportableFields);
+      return checkModuleAndRecordType(watchedInputValues, options, reportableFields).filter(
+        field => field.type !== DATE_FIELD
+      );
     }
   };
 

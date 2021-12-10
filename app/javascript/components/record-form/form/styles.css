@@ -60,8 +60,8 @@
   top: 0;
   z-index: 99;
   align-items: center;
-  margin-bottom: var(--sp-3);
   padding-top: var(--sp-3);
+  margin-bottom: var(--sp-3);
 }
 
 .attachmentHeading {

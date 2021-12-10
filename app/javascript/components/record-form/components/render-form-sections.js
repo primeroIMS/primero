@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import isEmpty from "lodash/isEmpty";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
@@ -7,6 +8,56 @@ import RecordFormTitle from "../form/record-form-title";
 import { RECORD_FORM_PERMISSION } from "../form/constants";
 import FormSectionField from "../form/form-section-field";
 import SubformField from "../form/subforms";
+import { parseExpression } from "../../../libs/expressions";
+import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
+
+const renderFormFields = (
+  forms,
+  form,
+  mode,
+  recordType,
+  record,
+  primeroModule,
+  isReadWriteForm,
+  guidanceFieldForViolation,
+  values
+) => {
+  return form.fields.map(field => {
+    const fieldProps = {
+      field,
+      form,
+      mode,
+      recordType,
+      recordID: record?.get("id"),
+      recordModuleID: primeroModule
+    };
+
+    if (!field?.visible) {
+      return null;
+    }
+
+    if (guidanceFieldForViolation === field.name) {
+      return null;
+    }
+
+    if (
+      !isEmpty(field.display_conditions_record) &&
+      !parseExpression(field.display_conditions_record).evaluate(values)
+    ) {
+      return null;
+    }
+
+    return (
+      <div key={field.name}>
+        {SUBFORM_SECTION === field.type ? (
+          <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm, forms }} />
+        ) : (
+          <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
+        )}
+      </div>
+    );
+  });
+};
 
 const renderFormSections = (
   externalForms,
@@ -33,40 +84,39 @@ const renderFormSections = (
     if (selectedForm === form.unique_id) {
       const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
 
+      const isViolation = isViolationSubform(recordType, selectedForm);
+      const fieldForGuidance = isViolation ? getViolationFieldForGuidance(form.fields) : {};
+
+      const titleProps = isViolation
+        ? {
+            displayText: i18n.t("incident.violation.title"),
+            subTitle: displayNameHelper(form.name, i18n.locale),
+            subTitleGuidance: fieldForGuidance.guiding_questions
+          }
+        : { displayText: displayNameHelper(form.name, i18n.locale) };
+
       return (
         <Fragment key={form.unique_id}>
           <RecordFormTitle
             mobileDisplay={mobileDisplay}
             handleToggleNav={handleToggleNav}
-            displayText={displayNameHelper(form.name, i18n.locale)}
+            mode={mode}
+            i18n={i18n}
+            {...titleProps}
           />
 
           <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} />
-
-          {form.fields.map(field => {
-            const fieldProps = {
-              field,
-              form,
-              mode,
-              recordType,
-              recordID: record?.get("id"),
-              recordModuleID: primeroModule
-            };
-
-            if (!field?.visible) {
-              return null;
-            }
-
-            return (
-              <div key={field.name}>
-                {SUBFORM_SECTION === field.type ? (
-                  <SubformField {...{ ...fieldProps, formSection: field.subform_section_id, isReadWriteForm }} />
-                ) : (
-                  <FormSectionField name={field.name} {...{ ...fieldProps, formSection: form, isReadWriteForm }} />
-                )}
-              </div>
-            );
-          })}
+          {renderFormFields(
+            fs,
+            form,
+            mode,
+            recordType,
+            record,
+            primeroModule,
+            isReadWriteForm,
+            fieldForGuidance?.name,
+            values
+          )}
         </Fragment>
       );
     }
