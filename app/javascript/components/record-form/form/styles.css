@@ -269,3 +269,7 @@
 .readonly :global .MuiOutlinedInput-root {
   background: transparent;
 }
+
+.tallyInputLabel {
+  color: var(--c-warm-grey-4) !important;
+}

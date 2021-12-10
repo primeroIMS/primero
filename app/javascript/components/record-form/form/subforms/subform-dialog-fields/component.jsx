@@ -7,6 +7,7 @@ import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
 import SubformField from "../component";
+import css from "../styles.css";
 
 import { NAME } from "./constants";
 
@@ -19,6 +20,7 @@ const Component = ({
   field,
   formSection,
   isReadWriteForm,
+  parentTitle,
   parentValues,
   recordModuleID,
   recordType,
@@ -70,9 +72,12 @@ const Component = ({
 
     if (SUBFORM_SECTION === subformSectionField.type) {
       return (
-        <SubformField
-          {...{ ...fieldProps, formSection: subformSectionField.subform_section_id, isReadWriteForm, forms: {} }}
-        />
+        <div className={css.subFormField}>
+          <SubformField
+            parentTitle={parentTitle}
+            {...{ ...fieldProps, formSection: subformSectionField.subform_section_id, isReadWriteForm, forms: {} }}
+          />
+        </div>
       );
     }
 
@@ -98,6 +103,7 @@ Component.propTypes = {
   index: PropTypes.number,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  parentTitle: PropTypes.string,
   parentValues: PropTypes.object,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,

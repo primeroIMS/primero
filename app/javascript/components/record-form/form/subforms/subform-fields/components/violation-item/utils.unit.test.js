@@ -48,10 +48,14 @@ describe("<ViolationItem /> - utils", () => {
     };
     const locale = "en";
 
-    it("should return a short uniqueId if unique_id is present", () => {
+    it("should return a short violation values as label", () => {
       expect(helpers.getViolationTallyLabel(fields, currentValues, locale)).to.deep.equal(
         "violation count: boys: (1) girls: (2)"
       );
+    });
+
+    it("should return null if violation tally is not present", () => {
+      expect(helpers.getViolationTallyLabel(fields.slice(0, 3), currentValues, locale)).to.equal(null);
     });
   });
 });
