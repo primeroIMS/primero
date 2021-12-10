@@ -108,7 +108,7 @@ class Violation < ApplicationRecord
   def self.build_record(type, data, incident)
     violation = find_or_initialize_by(id: data['unique_id'])
     violation.incident = incident
-    violation.data = data
+    violation.data = RecordMergeDataHashService.merge_data(violation.data, data)
     violation.type = type
     violation
   end

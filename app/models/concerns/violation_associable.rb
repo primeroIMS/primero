@@ -25,7 +25,7 @@ module ViolationAssociable
     def build_record(data)
       record = find_or_initialize_by(id: data['unique_id'])
       record.violations_ids = data.delete('violations_ids')
-      record.data = data
+      record.data = RecordMergeDataHashService.merge_data(record.data, data)
       record
     end
   end

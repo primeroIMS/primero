@@ -30,7 +30,8 @@ const Component = ({
   form,
   isReadWriteForm,
   forms,
-  parentTitle
+  parentTitle,
+  violationOptions
 }) => {
   const {
     display_name: displayName,
@@ -86,6 +87,7 @@ const Component = ({
         recordType={recordType}
         isTracesSubform={isTraces}
         isViolationSubform={isViolation}
+        isViolationAssociation={isViolationAssociation}
         formik={formik}
         parentForm={form}
       />
@@ -106,7 +108,7 @@ const Component = ({
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolationAssociation && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && (
             <ActionButton
               id="fields.add"
               icon={<AddIcon />}
@@ -144,6 +146,7 @@ const Component = ({
         setOpen={setOpenDialog}
         title={title}
         parentTitle={parentTitle}
+        violationOptions={violationOptions}
       />
     </>
   );
@@ -163,7 +166,8 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  violationOptions: PropTypes.array
 };
 
 export default Component;

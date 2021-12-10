@@ -44,7 +44,7 @@ class RecordJsonValidatorService < JsonValidatorService
       when Field::SUBFORM
         properties[field.name] = {
           'type' => %w[array null], 'items' => with_subform_fields(
-            build_schema(field.subform&.fields), violation_subform?(field)
+            build_schema(field.subform&.fields)
           )
         }
       when Field::TEXT_FIELD, Field::TEXT_AREA
@@ -60,10 +60,9 @@ class RecordJsonValidatorService < JsonValidatorService
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/BlockLength
 
-  def with_subform_fields(object_schema, is_violation_subform = false)
+  def with_subform_fields(object_schema)
     object_schema.tap do |schema|
       schema['properties']['_destroy'] = { 'type' => %w[boolean null] }
-      schema['properties']['violations_ids'] = { 'type' => %w[array null] } if is_violation_subform
       schema['properties']['unique_id'] = {
         'type' => 'string', 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX
       }
@@ -76,9 +75,5 @@ class RecordJsonValidatorService < JsonValidatorService
     entries.each_with_object({ 'total' => NUMBER_VALIDATION }) do |entry, acc|
       acc[entry['id']] = NUMBER_VALIDATION
     end
-  end
-
-  def violation_subform?(field)
-    field.name.in?(Violation::MRM_ASSOCIATIONS_KEYS)
   end
 end
