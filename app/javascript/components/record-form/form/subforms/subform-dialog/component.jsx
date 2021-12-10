@@ -10,7 +10,7 @@ import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
 import ServicesSubform from "../services-subform";
 import SubformMenu from "../subform-menu";
-import { getSubformValues, serviceHasReferFields, buildSubformValues } from "../../utils";
+import { getSubformValues, serviceHasReferFields, updateSubformEntries, addSubformEntries } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import { compactValues, constructInitialValues } from "../../../utils";
@@ -39,7 +39,8 @@ const Component = ({
   recordModuleID,
   parentTitle,
   isViolation,
-  isViolationAssociation
+  isViolationAssociation,
+  violationOptions
 }) => {
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -80,9 +81,9 @@ const Component = ({
     const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
 
     if (isValidIndex) {
-      formik.setFieldValue(`${field.name}[${index}]`, buildSubformValues(field.name, valuesWithUniqueId), false);
+      updateSubformEntries(formik, field.name, index, valuesWithUniqueId, isViolation);
     } else {
-      arrayHelpers.push(buildSubformValues(field.name, { ...initialSubformValues, ...valuesWithUniqueId }));
+      addSubformEntries(formik, arrayHelpers, { ...initialSubformValues, ...valuesWithUniqueId }, isViolation);
       formik.setTouched({ [field.name]: true });
     }
 
@@ -104,7 +105,7 @@ const Component = ({
       <SubformMenu index={index} values={formik.values.services_section} />
     ) : null;
 
-  const renderSubform = (subformField, subformIndex, values) => {
+  const renderSubform = (subformField, subformIndex, values, setFieldValue) => {
     if (subformField.subform_section_id.unique_id === "services_section") {
       return (
         <ServicesSubform
@@ -129,6 +130,11 @@ const Component = ({
         values={values}
         parentValues={formik.values}
         parentTitle={title}
+        parentViolationOptions={violationOptions}
+        arrayHelpers={arrayHelpers}
+        isViolation={isViolation}
+        isViolationAssociation={isViolationAssociation}
+        setFieldValue={setFieldValue}
       />
     );
   };
@@ -169,7 +175,7 @@ const Component = ({
       };
 
   const handleBackLabel = isViolationAssociation
-    ? `${i18n.t("incident.violation.back_to")} ${parentTitle}`
+    ? `${i18n.t("incident.violation.back_to")} ${parentTitle || title}`
     : i18n.t("incident.violation.back_to_violations");
 
   useEffect(() => {
@@ -190,7 +196,7 @@ const Component = ({
           onSubmit={values => onSubmit(values)}
           ref={childFormikRef}
         >
-          {({ handleSubmit, submitForm, setErrors, setTouched, errors, values }) => {
+          {({ handleSubmit, submitForm, setErrors, setTouched, errors, values, setFieldValue }) => {
             bindSubmitForm(submitForm);
 
             return (
@@ -208,7 +214,7 @@ const Component = ({
                     handleCancel={handleClose}
                   />
                 )}
-                {renderSubform(field, index, values)}
+                {renderSubform(field, index, values, setFieldValue)}
               </Form>
             );
           }}
@@ -243,7 +249,8 @@ Component.propTypes = {
   recordType: PropTypes.string,
   setOpen: PropTypes.func.isRequired,
   subformSectionConfiguration: PropTypes.object,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  violationOptions: PropTypes.array
 };
 
 export default Component;

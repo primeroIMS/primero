@@ -28,7 +28,8 @@ const Component = ({
   recordType,
   selectedValue,
   setOpen,
-  title
+  title,
+  violationOptions
 }) => {
   const i18n = useI18n();
   const handleClose = () => setOpen(false);
@@ -72,6 +73,7 @@ const Component = ({
       isViolation={isViolation}
       isViolationAssociation={isViolationAssociation}
       parentTitle={parentTitle}
+      violationOptions={violationOptions}
     />
   );
 };
@@ -99,7 +101,8 @@ Component.propTypes = {
   recordType: PropTypes.string,
   selectedValue: PropTypes.object,
   setOpen: PropTypes.func.isRequired,
-  title: PropTypes.string
+  title: PropTypes.string,
+  violationOptions: PropTypes.array
 };
 
 export default Component;

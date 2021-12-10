@@ -16,7 +16,8 @@ const Component = ({
   recordModuleID,
   formSection,
   isReadWriteForm,
-  parentTitle
+  parentTitle,
+  violationOptions
 }) => {
   const { name } = field;
 
@@ -39,6 +40,7 @@ const Component = ({
             formSection={formSection}
             isReadWriteForm={isReadWriteForm}
             parentTitle={parentTitle}
+            violationOptions={violationOptions}
           />
         )}
       </FieldArray>
@@ -58,7 +60,8 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  violationOptions: PropTypes.array
 };
 
 export default connect(Component);

@@ -204,9 +204,11 @@ class Incident < ApplicationRecord
     return unless @associations_to_save
 
     @associations_to_save.each do |association|
-      next if association.violations_ids.blank?
+      if association.violations_ids.present?
+        association.violations = violations_for_associated(association.violations_ids)
+      end
+      next if association.violations.blank?
 
-      association.violations = @violations_to_save.select { |violation| association.violations_ids.include?(violation.id) }
       association.save!
     end
   end
@@ -229,5 +231,22 @@ class Incident < ApplicationRecord
 
   def associations_as_data_keys
     (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS)
+  end
+
+  # Returns a list of Violations to be associated with
+  # Violation::MRM_ASSOCIATIONS_KEYS (perpetrators, victims...) on API update
+  def violations_for_associated(violations_ids)
+    violations_result = []
+    violations_already_saved = if @violations_to_save.present?
+                                 @violations_to_save.map(&:id) - violations_ids
+                               else
+                                 violations_ids
+                               end
+    if @violations_to_save.present?
+      violations_result += @violations_to_save.select { |violation| violations_ids.include?(violation.id) }
+    end
+    violations_result += Violation.where(id: violations_already_saved) if violations_already_saved
+
+    violations_result
   end
 end

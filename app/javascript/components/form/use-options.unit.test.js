@@ -169,4 +169,17 @@ describe("Forms - useOptions", () => {
       expect(result.current).to.deep.equal(lookups);
     });
   });
+
+  describe("when source is violations", () => {
+    it("should return options for violations", () => {
+      const source = "violations";
+      const options = [
+        { id: 1, display_text: "test1" },
+        { id: 2, display_text: "test2" }
+      ];
+      const { result } = setupHook(() => useOptions({ source, options }), fromJS({}));
+
+      expect(result.current).to.deep.equal(options);
+    });
+  });
 });

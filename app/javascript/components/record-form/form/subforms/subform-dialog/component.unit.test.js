@@ -10,6 +10,7 @@ import SubformDrawer from "../subform-drawer";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import ActionButton from "../../../../action-button";
+import SubformDialogFields from "../subform-dialog-fields";
 
 import SubformDialog from "./component";
 
@@ -51,7 +52,8 @@ describe("<SubformDialog />", () => {
     open: true,
     setOpen: () => {},
     title: "Family details",
-    formSection: {}
+    formSection: {},
+    violationOptions: []
   };
 
   const formProps = {
@@ -115,12 +117,37 @@ describe("<SubformDialog />", () => {
       "mode",
       "open",
       "setOpen",
-      "title"
+      "title",
+      "violationOptions"
     ].forEach(property => {
       expect(subformDialogProps).to.have.property(property);
       delete subformDialogProps[property];
     });
     expect(subformDialogProps).to.be.empty;
+  });
+
+  it("renders SubformDialogFields with valid props", () => {
+    const subformDialogFieldsProps = { ...component.find(SubformDialogFields).props() };
+
+    [
+      "field",
+      "mode",
+      "index",
+      "formSection",
+      "isReadWriteForm",
+      "values",
+      "parentValues",
+      "parentTitle",
+      "parentViolationOptions",
+      "arrayHelpers",
+      "isViolation",
+      "isViolationAssociation",
+      "setFieldValue"
+    ].forEach(property => {
+      expect(subformDialogFieldsProps).to.have.property(property);
+      delete subformDialogFieldsProps[property];
+    });
+    expect(subformDialogFieldsProps).to.be.empty;
   });
 
   describe("when field is visible should not be render", () => {

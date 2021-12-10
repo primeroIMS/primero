@@ -8,6 +8,7 @@ import SubformDialog from "../subform-dialog";
 import SubformFields from "../subform-fields";
 import SubformHeader from "../subform-header";
 import SubformDrawer from "../subform-drawer";
+import SubformItem from "../subform-item";
 import { GuidingQuestions } from "../../components";
 
 import SubformFieldArray from "./component";
@@ -246,7 +247,7 @@ describe("<SubformFieldArray />", () => {
             unique_id: "individual_victims_subform_section"
           },
           mode: {
-            isShow: true
+            isShow: false
           },
           forms: fromJS({
             formSections: {
@@ -297,7 +298,41 @@ describe("<SubformFieldArray />", () => {
     });
 
     it("should not render add button", () => {
-      expect(incidentComponent.find(AddIcon)).lengthOf(0);
+      expect(incidentComponent.find(AddIcon)).lengthOf(1);
+    });
+
+    it("renders SubformItem component with valid props", () => {
+      const componentsProps = { ...component.find(SubformItem).props() };
+
+      [
+        "arrayHelpers",
+        "dialogIsNew",
+        "field",
+        "formik",
+        "forms",
+        "formSection",
+        "index",
+        "isDisabled",
+        "isTraces",
+        "isReadWriteForm",
+        "isViolation",
+        "isViolationAssociation",
+        "mode",
+        "selectedValue",
+        "open",
+        "orderedValues",
+        "recordModuleID",
+        "recordType",
+        "setOpen",
+        "title",
+        "parentTitle",
+        "violationOptions"
+      ].forEach(property => {
+        expect(componentsProps).to.have.property(property);
+        delete componentsProps[property];
+      });
+
+      expect(componentsProps).to.be.empty;
     });
   });
 });

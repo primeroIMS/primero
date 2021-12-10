@@ -112,7 +112,10 @@ describe("<SubformItem />", () => {
               visible: true
             }
           }
-        })
+        }),
+        violationOptions: [{ id: 1, display_text: "test" }],
+        isViolationAssociation: true,
+        parentTitle: "Parent Title"
       }));
     });
 
@@ -122,6 +125,40 @@ describe("<SubformItem />", () => {
 
     it("should render SubformDrawer component", () => {
       expect(component.find(SubformDrawer)).to.have.lengthOf(1);
+    });
+
+    it("renders SubformDialog component with valid props", () => {
+      const componentsProps = { ...component.find(SubformItem).props() };
+
+      [
+        "arrayHelpers",
+        "dialogIsNew",
+        "field",
+        "formik",
+        "forms",
+        "formSection",
+        "index",
+        "isDisabled",
+        "isTraces",
+        "isReadWriteForm",
+        "isViolation",
+        "isViolationAssociation",
+        "mode",
+        "selectedValue",
+        "open",
+        "orderedValues",
+        "recordModuleID",
+        "recordType",
+        "setOpen",
+        "title",
+        "parentTitle",
+        "violationOptions"
+      ].forEach(property => {
+        expect(componentsProps).to.have.property(property);
+        delete componentsProps[property];
+      });
+
+      expect(componentsProps).to.be.empty;
     });
   });
 });

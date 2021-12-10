@@ -1,5 +1,6 @@
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
+import ActionButton from "../../../../action-button";
 
 import SubformFields from "./component";
 
@@ -72,5 +73,29 @@ describe("<SubformFields />", () => {
 
   it("render the SubformFields", () => {
     expect(component.find(SubformFields)).lengthOf(1);
+  });
+
+  context("When is violation or violation association", () => {
+    const { component: componentSubform } = setupMountedComponent(
+      SubformFields,
+      {
+        ...props,
+        isViolationSubform: true,
+        isViolationAssociation: true,
+        mode: {
+          isEdit: true
+        },
+        values: ["something"]
+      },
+      {},
+      [],
+      formProps
+    );
+
+    it("render the Delete button disabled", () => {
+      const deleteButtonProps = componentSubform.find(ActionButton).first().props();
+
+      expect(deleteButtonProps.rest.disabled).to.be.true;
+    });
   });
 });

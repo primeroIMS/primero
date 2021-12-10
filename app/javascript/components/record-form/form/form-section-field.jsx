@@ -43,7 +43,8 @@ const FormSectionField = ({
   filters,
   index,
   formSection,
-  isReadWriteForm
+  isReadWriteForm,
+  violationOptions
 }) => {
   const i18n = useI18n();
   const {
@@ -71,7 +72,7 @@ const FormSectionField = ({
   const optionsSelector = useCallback(
     selectorOptions => ({
       source: filterOptionStringSource,
-      options: options || optionsStringsText,
+      options: violationOptions || options || optionsStringsText,
       useUniqueId: OPTION_TYPES.AGENCY === filterOptionStringSource,
       fullUsers: true,
       ...selectorOptions
@@ -169,7 +170,8 @@ FormSectionField.propTypes = {
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,
   recordModuleID: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  violationOptions: PropTypes.array
 };
 
 export default memo(FormSectionField);
