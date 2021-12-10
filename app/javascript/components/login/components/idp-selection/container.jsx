@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import { Button } from "@material-ui/core";
 
 import { PageHeading } from "../../../page";
 import { useI18n } from "../../../i18n";
 import { useMemoizedSelector } from "../../../../libs";
+import ActionButton from "../../../action-button";
 
 import { attemptIDPLogin } from "./action-creators";
 import { getIdentityProviders } from "./selectors";
@@ -30,17 +30,17 @@ const showIdps = (identityProviders, dispatch) => {
     }
 
     return (
-      <Button
-        id={`idp-button-${uniqueID}`}
-        color="primary"
-        type="submit"
-        size="large"
-        fullWidth
+      <ActionButton
         key={idp.get("name")}
-        onClick={handleClick(idp)}
-      >
-        {idp.get("name")}
-      </Button>
+        size="large"
+        text={idp.get("name")}
+        noTranslate
+        id={`idp-button-${uniqueID}`}
+        fullWidth
+        rest={{
+          onClick: handleClick(idp)
+        }}
+      />
     );
   });
 };
@@ -54,7 +54,7 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("login.title")} />
+      <PageHeading title={i18n.t("login.title")} noPadding noElevation />
       <p className={css.selectProvider}>{i18n.t("select_provider")}</p>
       <div className={`${css.loginSelection} loginSelection`}>{showIdps(identityProviders, dispatch)}</div>
       <PrimeroIdpLink identityProviders={identityProviders} i18n={i18n} dispatch={dispatch} css={css} />

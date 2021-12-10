@@ -1,6 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
+import { object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ACCEPTED, REJECTED, MODES } from "../../../../config";
 import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
@@ -27,8 +29,15 @@ const Component = ({
   const i18n = useI18n();
   const dispatch = useDispatch();
 
+  const requiredMessage = i18n.t("form_section.required_field", { field: i18n.t("referral.rejected_reason") });
+
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
-  const methods = useForm({ defaultValues: initialValues });
+  const methods = useForm({
+    defaultValues: initialValues,
+    ...(referralType === REJECTED
+      ? { resolver: yupResolver(object().shape({ rejected_reason: string().nullable().required(requiredMessage) })) }
+      : {})
+  });
   const formMode = whichFormMode(MODES.edit);
 
   const {

@@ -9,18 +9,7 @@
     color: var(--c-black);
   }
 
-  & button {
-    padding: .5em 1.75em;
-    background-color: var(--c-blue);
-    color: var(--c-white);
-    margin-top: 20px;
-
-    &:hover {
-      background-color: var(--c-blue)c7;
-    }
-  }
-
-  & .recoveryLink {
+   & .recoveryLink {
     margin-top: 1.5em;
 
      & a {

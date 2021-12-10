@@ -6,7 +6,7 @@ require 'write_xlsx'
 class Exporters::RolePermissionsExporter
   CASE = %w[
     referral transfer read create write enable_disable_record flag manage add_note reopen close
-    change_log view_incident_from_case view_protection_concerns_filter
+    change_log view_incident_from_case view_protection_concerns_filter list_case_names
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override

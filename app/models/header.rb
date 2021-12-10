@@ -74,7 +74,7 @@ class Header < ValueObject
       header_list << CASE_ID_DISPLAY
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if user.module?(PrimeroModule::CP) && !user.manager?
+      header_list << CASE_NAME if user.module?(PrimeroModule::CP) && user.can_list_case_names?
       header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
       header_list << AGE if user.module?(PrimeroModule::CP)
       header_list << SEX if user.module?(PrimeroModule::CP)
