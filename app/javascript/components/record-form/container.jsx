@@ -53,7 +53,8 @@ const Container = ({ mode }) => {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
     checkPermittedForms: true,
-    renderCustomForms: canViewSummaryForm
+    renderCustomForms: canViewSummaryForm,
+    checkWritable: true
   };
 
   const formNav = useMemoizedSelector(state => getFormNav(state, selectedModule));

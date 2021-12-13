@@ -19,6 +19,7 @@ import { getRecordFormAlerts } from "../records";
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
 import { buildFormNav, pickFromDefaultForms } from "./utils";
+import { RECORD_FORM_PERMISSION } from "./form/constants";
 
 const defaultCacheSelectorOptions = {
   keySelector: (_state, query) => JSON.stringify(omitBy(query, isNil)),
@@ -218,13 +219,35 @@ export const getRecordInformationNav = createCachedSelector(
 export const getRecordForms = createCachedSelector(
   allFormSections,
   state => state.getIn(["forms"], fromJS({})),
-  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  (state, query) => {
+    const permittedFormIds = state.getIn(["user", "permittedForms"], fromJS([]));
+
+    if (query.writable || query.readOnly) {
+      return permittedFormIds.entrySeq().reduce((acc, [key, value]) => {
+        if (
+          (query.writable && value === RECORD_FORM_PERMISSION.read) ||
+          (query.readOnly && value === RECORD_FORM_PERMISSION.readWrite)
+        ) {
+          return acc;
+        }
+
+        return acc.merge(fromJS({ [key]: value }));
+      }, fromJS({}));
+    }
+
+    return permittedFormIds;
+  },
   getLocale,
   (_state, query) => query,
   (formSections, formObject, permittedFormIDs, appLocale, query) => {
     if (!formSections) return null;
 
-    const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale });
+    const selectedForms = forms({
+      ...query,
+      formSections,
+      permittedFormIDs,
+      appLocale
+    });
 
     const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(form => form.id)), formObject);
 
@@ -398,6 +421,22 @@ export const getDataProtectionInitialValues = state =>
 export const getShouldFetchRecord = (state, { id, recordType }) => {
   return !state.getIn([NAMESPACE, "previousRecord"], fromJS({})).equals(fromJS({ id, recordType }));
 };
+
+export const getWritableFields = createCachedSelector(
+  (state, query) => getRecordForms(state, { ...query, writable: true, checkPermittedForms: true }),
+  formSections => formSections.flatMap(formSection => formSection.fields)
+)(defaultCacheSelectorOptions);
+
+export const getReadOnlyFields = createCachedSelector(
+  (state, query) => getRecordForms(state, { ...query, readOnly: true, checkPermittedForms: true }),
+  getWritableFields,
+  (formSections, writableFields) => {
+    const readOnlyFields = formSections.flatMap(formSection => formSection.fields);
+    const writableFieldMap = writableFields.reduce((acc, field) => ({ ...acc, [field.name]: true }), {});
+
+    return readOnlyFields.filter(field => !writableFieldMap[field.name]);
+  }
+)(defaultCacheSelectorOptions);
 
 export const getDuplicatedFieldAlerts = createCachedSelector(getRecordFormAlerts, alerts =>
   alerts.filter(alert => alert.get("alert_for") === ALERTS_FOR.duplicate_field)

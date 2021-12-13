@@ -1059,6 +1059,133 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
+  describe("getWritableFields", () => {
+    it("returns the fields for the forms where a user has write access", () => {
+      const state = fromJS({
+        forms: {
+          formSections: {
+            1: R.FormSectionRecord({
+              id: 1,
+              unique_id: "form_1",
+              parent_form: "parent",
+              module_ids: ["module_1"],
+              fields: [1, 2],
+              visible: true
+            }),
+            2: R.FormSectionRecord({
+              id: 2,
+              unique_id: "form_2",
+              module_ids: ["module_1"],
+              parent_form: "parent",
+              fields: [3, 4],
+              visible: true
+            })
+          },
+          fields: {
+            1: R.FieldRecord({ name: "field_1", visible: true }),
+            2: R.FieldRecord({ name: "field_2", visible: true }),
+            3: R.FieldRecord({ name: "field_3", visible: true }),
+            4: R.FieldRecord({ name: "field_4", visible: true })
+          }
+        },
+        user: {
+          permittedForms: {
+            form_1: "rw",
+            form_2: "r"
+          }
+        }
+      });
+
+      expect(
+        selectors.getWritableFields(state, { recordType: "parent", primeroModule: "module_1" }).map(field => field.name)
+      ).to.deep.equals(fromJS(["field_1", "field_2"]));
+    });
+  });
+
+  describe("getReadOnlyFields", () => {
+    it("returns fields for the forms where a user has read access", () => {
+      const state = fromJS({
+        forms: {
+          formSections: {
+            1: R.FormSectionRecord({
+              id: 1,
+              unique_id: "form_1",
+              parent_form: "parent",
+              module_ids: ["module_1"],
+              fields: [1, 2],
+              visible: true
+            }),
+            2: R.FormSectionRecord({
+              id: 2,
+              unique_id: "form_2",
+              module_ids: ["module_1"],
+              parent_form: "parent",
+              fields: [3, 4],
+              visible: true
+            })
+          },
+          fields: {
+            1: R.FieldRecord({ name: "field_1", visible: true }),
+            2: R.FieldRecord({ name: "field_2", visible: true }),
+            3: R.FieldRecord({ name: "field_3", visible: true }),
+            4: R.FieldRecord({ name: "field_4", visible: true })
+          }
+        },
+        user: {
+          permittedForms: {
+            form_1: "rw",
+            form_2: "r"
+          }
+        }
+      });
+
+      expect(
+        selectors.getReadOnlyFields(state, { recordType: "parent", primeroModule: "module_1" }).map(field => field.name)
+      ).to.deep.equals(fromJS(["field_3", "field_4"]));
+    });
+
+    it("does not return field that are also part of forms where a user has write access", () => {
+      const state = fromJS({
+        forms: {
+          formSections: {
+            1: R.FormSectionRecord({
+              id: 1,
+              unique_id: "form_1",
+              parent_form: "parent",
+              module_ids: ["module_1"],
+              fields: [1, 2, 3],
+              visible: true
+            }),
+            2: R.FormSectionRecord({
+              id: 2,
+              unique_id: "form_2",
+              module_ids: ["module_1"],
+              parent_form: "parent",
+              fields: [3, 4],
+              visible: true
+            })
+          },
+          fields: {
+            1: R.FieldRecord({ name: "field_1", visible: true }),
+            2: R.FieldRecord({ name: "field_2", visible: true }),
+            3: R.FieldRecord({ name: "field_3", visible: true }),
+            4: R.FieldRecord({ name: "field_4", visible: true })
+          }
+        },
+        user: {
+          permittedForms: {
+            form_1: "rw",
+            form_2: "r"
+          }
+        }
+      });
+
+      expect(
+        selectors.getReadOnlyFields(state, { recordType: "parent", primeroModule: "module_1" }).map(field => field.name)
+      ).to.deep.equals(fromJS(["field_4"]));
+    });
+  });
+
   describe("getDuplicatedFieldAlerts", () => {
     it("returns the duplicate field alerts", () => {
       const duplicatedAlert = { alert_for: "duplicate_field", type: "id_field", form_unique_id: "form1" };
