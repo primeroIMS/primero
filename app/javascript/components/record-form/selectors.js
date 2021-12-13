@@ -9,11 +9,12 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
-import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
+import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getLocale } from "../i18n/selectors";
+import { getRecordFormAlerts } from "../records";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -436,3 +437,13 @@ export const getReadOnlyFields = createCachedSelector(
     return readOnlyFields.filter(field => !writableFieldMap[field.name]);
   }
 )(defaultCacheSelectorOptions);
+
+export const getDuplicatedFieldAlerts = createCachedSelector(getRecordFormAlerts, alerts =>
+  alerts.filter(alert => alert.get("alert_for") === ALERTS_FOR.duplicate_field)
+)(defaultCacheSelectorOptions);
+
+export const getDuplicatedFields = createCachedSelector(getDuplicatedFieldAlerts, getFields, (alerts, fields) => {
+  const duplicatedFieldNames = alerts.map(alert => alert.get("type"));
+
+  return fields.filter(field => duplicatedFieldNames.includes(field.name));
+})(defaultCacheSelectorOptions);

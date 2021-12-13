@@ -3,7 +3,7 @@ import { format, parseISO } from "date-fns";
 
 import { ALERTS_FOR, DATE_FORMAT } from "../../config";
 
-export const getMessageData = ({ alert, form, i18n }) => {
+export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
   const alertFor = alert.get("alert_for");
 
   switch (alertFor) {
@@ -14,6 +14,12 @@ export const getMessageData = ({ alert, form, i18n }) => {
       };
     case ALERTS_FOR.approval:
       return { form_section_name: form.getIn(["name", i18n.locale]) };
+    case ALERTS_FOR.duplicate_field:
+      return {
+        field_name: duplicatedFields
+          .find(field => field.name === alert.get("type"))
+          ?.getIn(["display_name", i18n.locale])
+      };
     default:
       return {};
   }
