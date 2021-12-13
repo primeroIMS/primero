@@ -204,7 +204,8 @@ describe("Verifying config constant", () => {
           "incident_details",
           "new_form",
           "services_section",
-          "transfer_request"
+          "transfer_request",
+          "duplicate_field"
         );
 
         expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");

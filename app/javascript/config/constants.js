@@ -461,7 +461,8 @@ export const ALERTS_FOR = {
   services_section: "services_section",
   approval: "approval",
   new_form: "new_form",
-  transfer_request: "transfer_request"
+  transfer_request: "transfer_request",
+  duplicate_field: "duplicate_field"
 };
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];

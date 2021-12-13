@@ -6,6 +6,7 @@ import InternalAlert from "../internal-alert";
 import { useMemoizedSelector } from "../../libs";
 import { getRecordFormAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors } from "../record-form";
+import { getDuplicatedFields } from "../record-form/selectors";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
@@ -16,6 +17,7 @@ const Component = ({ form, recordType, attachmentForms }) => {
   const recordAlerts = useMemoizedSelector(state => getRecordFormAlerts(state, recordType, form.unique_id));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state, form.unique_id));
   const subformDisplayNames = useMemoizedSelector(state => getSubformsDisplayName(state, i18n.locale));
+  const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
 
   const errors =
     validationErrors?.size &&
@@ -37,7 +39,10 @@ const Component = ({ form, recordType, attachmentForms }) => {
 
   const items = recordAlerts.map(alert =>
     fromJS({
-      message: i18n.t(`messages.alerts_for.${alert.get("alert_for")}`, getMessageData({ alert, form, i18n }))
+      message: i18n.t(
+        `messages.alerts_for.${alert.get("alert_for")}`,
+        getMessageData({ alert, form, duplicatedFields, i18n })
+      )
     })
   );
 
