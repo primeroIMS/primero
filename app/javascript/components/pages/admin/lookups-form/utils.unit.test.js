@@ -162,7 +162,7 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", disabled)).to.deep.equal(expected);
+      expect(utils.buildValues(values, "en", disabled, null)).to.deep.equal(expected);
     });
     it("DEPRECATED should return values with _delete key if there are removed values", () => {
       const values = {
@@ -187,7 +187,39 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", removed)).to.not.equal(expected);
+      expect(utils.buildValues(values, "en", removed, [])).to.not.equal(expected);
+    });
+    it("should return values for a lookup with ordered item", () => {
+      const values = {
+        en: { test: "Test", new_option_1: "Test 1" },
+        es: { test: "Prueba", new_option_1: "Prueba 1" }
+      };
+
+      const disabled = {
+        test: true,
+        test_1: false
+      };
+
+      const expected = [
+        {
+          id: "test_1_1234abc",
+          disabled: true,
+          display_text: {
+            en: "Test 1",
+            es: "Prueba 1"
+          }
+        },
+        {
+          id: "test",
+          disabled: false,
+          display_text: {
+            en: "Test",
+            es: "Prueba"
+          }
+        }
+      ];
+
+      expect(utils.buildValues(values, "en", disabled, ["new_option_1", "test"])).to.deep.equal(expected);
     });
   });
 });

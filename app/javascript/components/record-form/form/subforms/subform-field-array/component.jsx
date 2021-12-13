@@ -4,15 +4,17 @@ import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 
-import SubformTraces from "../subform-traces";
 import SubformFields from "../subform-fields";
-import SubformDialog from "../subform-dialog";
 import SubformEmptyData from "../subform-empty-data";
+import SubformItem from "../subform-item";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
 import { useThemeHelper } from "../../../../../libs";
+import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
+import { isViolationSubform } from "../../utils";
+import { GuidingQuestions } from "../../components";
 
 import { isTracesSubform } from "./utils";
 
@@ -26,13 +28,15 @@ const Component = ({
   recordModuleID,
   recordType,
   form,
-  isReadWriteForm
+  isReadWriteForm,
+  forms
 }) => {
   const {
     display_name: displayName,
     name,
     subform_section_configuration: subformSectionConfiguration,
-    disabled: isDisabled
+    disabled: isDisabled,
+    guiding_questions: guidingQuestions
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
@@ -54,7 +58,10 @@ const Component = ({
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
-  const handleCloseSubformTraces = () => setOpenDialog(false);
+
+  const isViolation = isViolationSubform(recordType, formSection.unique_id, true);
+  const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
+  const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
 
   useEffect(() => {
     if (typeof index === "number") {
@@ -77,21 +84,28 @@ const Component = ({
         form={formSection}
         recordType={recordType}
         isTracesSubform={isTraces}
+        isViolationSubform={isViolation}
         formik={formik}
         parentForm={form}
       />
     );
 
+  const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
+    <div className={css.subformGuidance}>
+      <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
+    </div>
+  );
+
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
         <div>
-          <h3>
-            {!mode.isShow && !displayConditions && i18n.t("fields.add")} {title}
+          <h3 className={css.subformTitle}>
+            {renderAddFieldTitle} {title}
           </h3>
         </div>
         <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && (
+          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolationAssociation && (
             <ActionButton
               id="fields.add"
               icon={<AddIcon />}
@@ -105,39 +119,29 @@ const Component = ({
           )}
         </div>
       </div>
+      {renderGuidingQuestions}
       {renderEmptyData}
-      {isTraces && mode.isShow ? (
-        <SubformTraces
-          formSection={formSection}
-          openDrawer={open}
-          handleClose={handleCloseSubformTraces}
-          field={field}
-          formik={formik}
-          index={index}
-          recordType={recordType}
-          mode={mode}
-        />
-      ) : (
-        <SubformDialog
-          arrayHelpers={arrayHelpers}
-          dialogIsNew={dialogIsNew}
-          field={field}
-          formik={formik}
-          i18n={i18n}
-          index={index}
-          isFormShow={mode.isShow || isDisabled || isReadWriteForm === false}
-          mode={mode}
-          oldValue={!dialogIsNew ? selectedValue : {}}
-          open={open}
-          setOpen={setOpenDialog}
-          title={title}
-          formSection={formSection}
-          isReadWriteForm={isReadWriteForm}
-          orderedValues={orderedValues}
-          recordType={recordType}
-          recordModuleID={recordModuleID}
-        />
-      )}
+      <SubformItem
+        arrayHelpers={arrayHelpers}
+        dialogIsNew={dialogIsNew}
+        field={field}
+        formik={formik}
+        forms={forms}
+        formSection={formSection}
+        index={index}
+        isDisabled={isDisabled}
+        isTraces={isTraces}
+        isReadWriteForm={isReadWriteForm}
+        isViolation={isViolation}
+        mode={mode}
+        selectedValue={selectedValue}
+        open={open}
+        orderedValues={orderedValues}
+        recordModuleID={recordModuleID}
+        recordType={recordType}
+        setOpen={setOpenDialog}
+        title={title}
+      />
     </>
   );
 };
@@ -149,6 +153,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
+  forms: PropTypes.object.isRequired,
   formSection: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,

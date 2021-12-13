@@ -1325,7 +1325,9 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      back_to_violations: Back to Violations
       pending: Pending Verification
+      title: Violations
   incidents:
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident
@@ -1752,6 +1754,7 @@ en:
       approval: Approval is pending for %{form_section_name}
       field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
+      duplicate_field: Another Case in the system has the same %{field_name} as this one.
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
       to the list view . Click cancel to return to the record.
@@ -2399,6 +2402,10 @@ en:
               another user who is on your team (for example, a supervisor accepting a
               transfer which has been sent to their social worker).
             label: Accept or reject transfer for another user on your team.
+          list_case_names:
+            explanation: Managers usually cannot see the names of Cases in the Case List.
+              If a manager has this permission, they will be able to see names in the list.
+            label: If manager, can see Case names on Case List.
         label: Case
       dashboard:
         actions:
@@ -2954,6 +2961,14 @@ en:
               by case, and then further organized by the form on which information
               appears.
             label: Export PDF
+          export_xls:
+            explanation: 'User can generate a XLS file export from the case list or
+              case show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all cases to which the user has access.
+              In this export, each form is represented in its own tab within the XLS
+              file. NOTE: The XLS format renders non-Latin characters (e.g. Arabic,
+              Bangla) in a readable format, while the CSV export does not.'
+            label: Excel (XLS file) export
           flag:
             explanation: Ability to add a flag to a tracing request. Users with this
               permission can also remove the flags that they have added to a tracing
@@ -3453,6 +3468,7 @@ en:
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
     password_reset:
+      subject: 'Reset password instructions'
       email_greeting: "Dear %{full_name}"
       email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
       email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."

@@ -24,7 +24,11 @@ const Component = ({ filter, field, handleClickOpen, handleClickEdit, optionSour
 
   const allLookups = useMemoizedSelector(state => getOptions(state));
   const location = useOptions({ source: OPTION_TYPES.LOCATION, run: optionSources[OPTION_TYPES.LOCATION] });
-  const agencies = useOptions({ source: OPTION_TYPES.AGENCY, run: optionSources[OPTION_TYPES.AGENCY] });
+  const agencies = useOptions({
+    source: OPTION_TYPES.AGENCY,
+    run: optionSources[OPTION_TYPES.AGENCY],
+    useUniqueId: true
+  });
   const modules = useOptions({ source: OPTION_TYPES.MODULE, run: optionSources[OPTION_TYPES.MODULE] });
   const formGroups = useOptions({ source: OPTION_TYPES.FORM_GROUP, run: optionSources[OPTION_TYPES.FORM_GROUP] });
 

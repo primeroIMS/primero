@@ -82,7 +82,7 @@ class RecordDataService
   def embed_associations_as_data(data, record, selected_field_names, current_user)
     return data unless (record.associations_as_data_keys & selected_field_names).present?
 
-    data.merge(record.associations_as_data(current_user))
+    data.merge(record.associations_as_data(current_user).select { |key| selected_field_names.include?(key) })
   end
 
   def embed_case_data(data, record, selected_field_names)

@@ -8,6 +8,7 @@ class Alert < ApplicationRecord
   validates :alert_for, presence: { message: 'errors.models.alerts.alert_for' }
 
   before_create :generate_fields
+  before_create :remove_duplicate_alert
 
   def generate_fields
     self.unique_id ||= SecureRandom.uuid
@@ -16,5 +17,11 @@ class Alert < ApplicationRecord
   # This allows us to use the property 'type' on Alert, normally reserved by ActiveRecord
   def self.inheritance_column
     'type_inheritance'
+  end
+
+  def remove_duplicate_alert
+    return unless alert_for == DuplicateIdAlertable::DUPLICATE_FIELD
+
+    DuplicatedFieldAlertService.duplicate_alert(record, type)&.destroy!
   end
 end

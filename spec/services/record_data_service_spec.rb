@@ -129,6 +129,28 @@ describe RecordDataService do
 
       expect(data.key?('incident_details')).to be_truthy
     end
+
+    it 'returns only the selected_field_names' do
+      incident = Incident.create!(data: { incident_date: Date.new(2019, 3, 1),
+                                          description: 'Test 1',
+                                          owned_by: @user.user_name })
+      victim = IndividualVictim.create!(data: { name: 'victim name' })
+      source = Source.create!(data: { name: 'source name' })
+      Violation.create!(
+        data: { name: 'violation_name', type: 'recruitment' },
+        source: source, individual_victims: [victim], incident: incident
+      )
+      incident.reload
+
+      data = RecordDataService.new.embed_associations_as_data({}, incident, %w[sources], @user)
+
+      expect(data.key?('sources')).to be_truthy
+      expect(data.key?('individual_victims')).to be_falsey
+    end
+
+    after :each do
+      clean_data(IndividualVictim, Violation, Source, Incident)
+    end
   end
 
   describe '.embed_computed_fields' do

@@ -27,6 +27,7 @@ const Component = ({
   arrayHelpers,
   field,
   isTracesSubform,
+  isViolationSubform,
   locale,
   mode,
   setDialogIsNew,
@@ -142,6 +143,7 @@ const Component = ({
                   locale={locale}
                   values={values}
                   onClick={handleEdit(index)}
+                  isViolationSubform={isViolationSubform}
                 />
               </div>
               <div className={css.subformHeaderActions}>
@@ -195,6 +197,7 @@ Component.propTypes = {
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isTracesSubform: PropTypes.bool,
+  isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   parentForm: PropTypes.object.isRequired,
