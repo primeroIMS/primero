@@ -77,11 +77,11 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false)
+  def permitted_field_names(writeable = false, update = false)
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
-    @permitted_field_names = PERMITTED_CORE_FIELDS_SCHEMA.keys + PERMITTED_FILTER_FIELD_NAMES
+    @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
@@ -99,6 +99,10 @@ class PermittedFieldService
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names
+  end
+
+  def permitted_core_fields(update = false)
+    update ? PERMITTED_CORE_FIELDS_SCHEMA.keys - %w[id] : PERMITTED_CORE_FIELDS_SCHEMA.keys
   end
 
   def permitted_fields_schema
