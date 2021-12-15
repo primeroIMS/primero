@@ -2,6 +2,8 @@
 
 module Indicators
   class AbstractIndicator < ValueObject
+    # If you define a new scope make sure you update the method group_indicators_by_scope
+    # from the IndicatorQueryService.
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
                   :scope_to_transferred_groups
