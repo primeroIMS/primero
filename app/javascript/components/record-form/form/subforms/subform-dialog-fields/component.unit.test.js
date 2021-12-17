@@ -64,6 +64,7 @@ describe("<SubformDialogFields />", () => {
           formSection: { unqique_id: "test_id" },
           recordType: "cases",
           recordModuleID: "primeromodule-cp",
+          parentValues: {},
           field: FieldRecord({
             name: "killing",
             subform_section_id: FormSectionRecord({
@@ -102,6 +103,32 @@ describe("<SubformDialogFields />", () => {
 
     it("render the subform", () => {
       expect(component.find(SubformItem)).lengthOf(1);
+    });
+
+    it("renders SubformField component with valid props", () => {
+      const componentsProps = { ...component.find(SubformField).props() };
+
+      [
+        "name",
+        "field",
+        "mode",
+        "index",
+        "parentField",
+        "disabled",
+        "formSection",
+        "isReadWriteForm",
+        "recordModuleID",
+        "recordType",
+        "violationOptions",
+        "forms",
+        "parentTitle",
+        "parentValues"
+      ].forEach(property => {
+        expect(componentsProps).to.have.property(property);
+        delete componentsProps[property];
+      });
+
+      expect(componentsProps).to.be.empty;
     });
   });
 

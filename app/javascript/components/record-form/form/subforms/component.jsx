@@ -17,6 +17,7 @@ const Component = ({
   formSection,
   isReadWriteForm,
   parentTitle,
+  parentValues,
   violationOptions
 }) => {
   const { name } = field;
@@ -40,6 +41,7 @@ const Component = ({
             formSection={formSection}
             isReadWriteForm={isReadWriteForm}
             parentTitle={parentTitle}
+            parentValues={parentValues}
             violationOptions={violationOptions}
           />
         )}
@@ -59,6 +61,7 @@ Component.propTypes = {
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
+  parentValues: PropTypes.object,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
   violationOptions: PropTypes.array
