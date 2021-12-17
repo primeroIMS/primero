@@ -159,12 +159,21 @@ module LocalizableJsonProperty
   def property_setter(current_store, current_option, current_value, locale)
     if current_option
       current_option['display_text'][locale.to_s] = current_value.dig('display_text')
+      update_option_attributes(current_option, current_value)
     else
       current_option = {}.with_indifferent_access
       current_option['id'] = current_value.dig('id')
       current_option['display_text'] = { "#{locale}": current_value.dig('display_text') }.with_indifferent_access
+      update_option_attributes(current_option, current_value)
 
       current_store << current_option
     end
+  end
+
+  def update_option_attributes(current_option, current_value)
+    removed_keys = current_option.keys - current_value.keys
+    removed_keys.each { |key| current_option.delete(key) }
+
+    (current_value.keys - %w[id display_text]).each { |key| current_option[key] = current_value[key] }
   end
 end

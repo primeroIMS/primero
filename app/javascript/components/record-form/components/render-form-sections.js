@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import isEmpty from "lodash/isEmpty";
 
-import { SUBFORM_SECTION } from "../constants";
+import { SELECT_FIELD, SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
 import RecordFormTitle from "../form/record-form-title";
@@ -29,7 +29,15 @@ const renderFormFields = (
       mode,
       recordType,
       recordID: record?.get("id"),
-      recordModuleID: primeroModule
+      recordModuleID: primeroModule,
+      ...(field.type === SELECT_FIELD && field.option_strings_condition
+        ? {
+            tags: Object.entries(field.option_strings_condition).reduce(
+              (acc, [tag, expression]) => (parseExpression(expression).evaluate(values) ? acc.concat(tag) : acc),
+              []
+            )
+          }
+        : {})
     };
 
     if (!field?.visible) {

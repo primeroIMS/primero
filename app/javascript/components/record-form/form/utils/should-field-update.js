@@ -5,6 +5,7 @@ export default (nextProps, currentProps) => {
   return (
     !isEqual(nextProps?.filters?.filterState, currentProps?.filters?.filterState) ||
     !isEqual(nextProps?.filters?.values, currentProps?.filters?.values) ||
+    !isEqual(nextProps?.tags, currentProps?.tags) ||
     nextProps?.locale !== currentProps?.locale ||
     nextProps?.options?.length !== currentProps?.options?.length ||
     nextProps.name !== currentProps.name ||

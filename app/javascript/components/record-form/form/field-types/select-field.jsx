@@ -19,12 +19,13 @@ const SelectField = ({
   optionsSelector,
   filters,
   recordModuleID,
-  recordType
+  recordType,
+  tags
 }) => {
   const i18n = useI18n();
 
   return (
-    <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale} filters={filters}>
+    <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale} filters={filters} tags={tags}>
       {({ form }) => {
         return (
           <SelectFieldContainer
@@ -42,6 +43,7 @@ const SelectField = ({
             error={getIn(form.errors, name)}
             touched={getIn(form.touched, name)}
             helperText={helperText}
+            tags={tags}
             recordType={recordType}
             recordModuleID={recordModuleID}
           />
@@ -65,7 +67,8 @@ SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   optionsSelector: PropTypes.func.isRequired,
   recordModuleID: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default SelectField;

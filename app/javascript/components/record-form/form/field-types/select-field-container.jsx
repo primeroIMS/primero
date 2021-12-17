@@ -32,6 +32,7 @@ const SelectFieldContainer = ({
   filters,
   optionsSelector,
   error,
+  tags,
   touched,
   helperText,
   recordType,
@@ -72,7 +73,9 @@ const SelectFieldContainer = ({
 
   const options = useOptions(
     optionsSelector(
-      OPTION_TYPES.AGENCY === optionStringsSource ? { filterOptions: agencyFilterOptions, includeServices: true } : {}
+      OPTION_TYPES.AGENCY === optionStringsSource
+        ? { filterOptions: agencyFilterOptions, includeServices: true, tags }
+        : { tags }
     )
   );
 
@@ -263,6 +266,7 @@ SelectFieldContainer.propTypes = {
   recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
+  tags: PropTypes.arrayOf(PropTypes.string),
   touched: PropTypes.bool,
   value: PropTypes.any
 };

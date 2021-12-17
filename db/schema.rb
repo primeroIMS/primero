@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_10_000001) do
+ActiveRecord::Schema.define(version: 2021_12_16_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 2021_11_10_000001) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "display_conditions_record"
     t.jsonb "display_conditions_subform"
+    t.jsonb "option_strings_condition"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"

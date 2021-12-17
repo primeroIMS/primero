@@ -7,7 +7,7 @@ import uuid from "uuid";
 import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
-import { SUBFORM_SECTION } from "../../../constants";
+import { SELECT_FIELD, SUBFORM_SECTION } from "../../../constants";
 import SubformField from "../component";
 import css from "../styles.css";
 import { buildViolationOptions } from "../../utils";
@@ -94,7 +94,15 @@ const Component = ({
       recordType,
       ...(subformSectionField.name === VIOLATION_IDS_NAME && {
         violationOptions: parentViolationOptions || violationOptions
-      })
+      }),
+      ...(subformSectionField.type === SELECT_FIELD && subformSectionField.option_strings_condition
+        ? {
+            tags: Object.entries(subformSectionField.option_strings_condition).reduce(
+              (acc, [tag, expression]) => (parseExpression(expression).evaluate(values) ? acc.concat(tag) : acc),
+              []
+            )
+          }
+        : {})
     };
 
     if (
