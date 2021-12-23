@@ -27,7 +27,7 @@ The minor version usually means an ongoing development effort and there are thre
 
 To make a change, you should **make a new feature branch** from the tip of the main branch of what you want to work on (mobile, new development or bug fixes). Doing this allows raising multiple pull requests at the same time if necessary. It is also a good way to keep productivity independent from the rate at which the pull requests are looked at
 
-##Example of creating a separate branch for your feature or user story:
+## Example of creating a separate branch for your feature or user story:
 
 * Move to the correct branch. For example `git checkout maint_1.3`
 * Create a new branch with an appropriate name (**also add a story number if there is one and a short description**) and switch to the branch
@@ -39,11 +39,11 @@ To make a change, you should **make a new feature branch** from the tip of the m
 * After that you can checkout to master or create a new branch for the next feature or bug
 * Also take a look at the excellent [OpenMRS guide to using git](https://wiki.openmrs.org/display/docs/Using+Git)
 
-#Tests
+# Tests
 
 **Make sure all Rspec tests pass before making a pull request!!!** Currently the Cucumber feature tests are not used or maintained, but may be resurrected in the future to act as a smoke-test suite.
 
 
-#Note about the Release Target
+# Note about the Release Target
 
 There is also a version file in the code itself in `config/version.rb` which is incremented that after a release. So for example if we just released v1.4.0.5, we increment it to v1.4.0.6

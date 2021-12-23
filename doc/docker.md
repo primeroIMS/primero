@@ -25,7 +25,7 @@ following volumes:
  - `/etc/ssl/primero`: You need to place the CouchDB SSL cert/key in this volume with the name `couch.{crt,key}`
  - `/etc/couchdb/local.d`: You can put additional Couch configuration in this volume
 
-####Envvars
+#### Envvars
 
 
  - `COUCHDB_PASSWORD`: the admin password for the default `primero` user.  (default: None)
@@ -37,7 +37,7 @@ This image includes everything except for CouchDB, namely Solr, the Couch change
 watcher, Nginx and Puma.  It also runs all of these processes using
 Supervisor.
 
-####Envvars
+#### Envvars
 
  - `COUCHDB_PASSWORD`: the password for the couch admin user (default: None)
  - `PRIMERO_VIRTUAL_HOST`: virtual host name for the app (e.g. `primero-qa.quoininc.com`) (default: None)
