@@ -12,6 +12,10 @@ module Indicators
       name
     end
 
+    def zeros
+      include_zeros.nil? ? true : include_zeros
+    end
+
     def query(sunspot, user)
       this = self
       sunspot.instance_eval do

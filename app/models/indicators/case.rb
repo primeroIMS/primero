@@ -60,7 +60,9 @@ module Indicators
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
-      scope: OPEN_CLOSED_ENABLED
+      scope: OPEN_CLOSED_ENABLED,
+      include_zeros: false,
+      scope_to_owned_by_groups: true
     ).freeze
 
     CASES_BY_SOCIAL_WORKER = [
@@ -68,7 +70,9 @@ module Indicators
         name: 'cases_by_social_worker_total',
         record_model: Child,
         facet: 'owned_by',
-        scope: OPEN_ENABLED
+        scope: OPEN_ENABLED,
+        scope_to_owned_by_groups: true,
+        include_zeros: false
       ),
       FacetedIndicator.new(
         name: 'cases_by_social_worker_new_or_updated',
@@ -280,6 +284,8 @@ module Indicators
         name: 'tasks_overdue_case_plan',
         facet: 'owned_by',
         record_model: Child,
+        scope_to_owned_by_groups: true,
+        include_zeros: false,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -293,6 +299,8 @@ module Indicators
         name: 'tasks_overdue_services',
         facet: 'owned_by',
         record_model: Child,
+        scope_to_owned_by_groups: true,
+        include_zeros: false,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -450,6 +458,7 @@ module Indicators
       name: 'shared_with_my_team_referrals',
       record_model: Child,
       facet: 'referred_users',
+      include_zeros: false,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
       ]
@@ -459,6 +468,7 @@ module Indicators
       name: 'shared_with_my_team_pending_transfers',
       record_model: Child,
       facet: 'transferred_to_users',
+      include_zeros: false,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ]

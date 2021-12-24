@@ -21,7 +21,7 @@ module Indicators
           params['facet.pivot'] = this.pivots.map do |pivot|
             SolrUtils.indexed_field_name('case', pivot)
           end.join(',')
-          params['facet.pivot.mincount'] = '-1'
+          params['facet.pivot.mincount'] = this.zeros? ? '-1' : '1'
           params['facet.pivot.limit'] = '-1'
         end
       end
