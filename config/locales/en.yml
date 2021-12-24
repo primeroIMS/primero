@@ -3486,6 +3486,7 @@ en:
       body2_reset_notification: "You will receive an additional email prompting you to reset your password."
       body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
+    associated_agencies: Agencies associated with this User Group
     description: Description
     disabled:
       explanation: If you disable this User Group, you will no longer be able to assign

@@ -6,10 +6,13 @@ class UserGroup < ApplicationRecord
   USER_GROUP_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
     'name' => { 'type' => 'string' }, 'description' => { 'type' => 'string' },
-    'disabled' => { 'type' => 'boolean' }
+    'disabled' => { 'type' => 'boolean' },
+    'agency_ids' => { 'type' => 'array' },
+    'agency_unique_ids' => { 'type' => 'array' }
   }.freeze
 
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :agencies
 
   before_create :generate_unique_id
   class << self
@@ -17,10 +20,21 @@ class UserGroup < ApplicationRecord
       %w[name description]
     end
 
+    def unique_id_parameters
+      %w[agency_unique_ids]
+    end
+
+    def permitted_api_params
+      %w[id unique_id name description disabled] + [agency_ids: [], agency_unique_ids: []]
+    end
+
     def list(user, opts = {})
       user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
-
       user_groups = user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
+
+      if opts[:agency_unique_ids].present?
+        user_groups = user_groups.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids].values })
+      end
 
       OrderByPropertyService.apply_order(user_groups, opts)
     end
@@ -30,6 +44,30 @@ class UserGroup < ApplicationRecord
       user_group.add_creating_user(user)
       user_group
     end
+  end
+
+  def initialize(attributes = nil, &block)
+    super(attributes&.except(*UserGroup.unique_id_parameters), &block)
+    associate_unique_id_properties(attributes.slice(*UserGroup.unique_id_parameters)) if attributes.present?
+  end
+
+  def update_with_properties(properties)
+    assign_attributes(properties&.except(*UserGroup.unique_id_parameters))
+    associate_unique_id_properties(properties)
+  end
+
+  def associate_unique_id_properties(properties)
+    associate_agencies_unique_id(properties[:agency_unique_ids])
+  end
+
+  def associate_agencies_unique_id(unique_ids)
+    return unless unique_ids.present?
+
+    self.agencies = Agency.where(unique_id: unique_ids)
+  end
+
+  def agency_unique_ids
+    agencies.pluck(:unique_id)
   end
 
   def add_creating_user(user)
