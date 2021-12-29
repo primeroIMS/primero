@@ -4,7 +4,7 @@ module Indicators
   class AbstractIndicator < ValueObject
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups, :include_zeros
+                  :scope_to_transferred_groups, :include_zeros, :user_scoped_stat
 
     class << self
       def dawn_of_time
@@ -46,15 +46,27 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search, user)
+    def stats_from_search(sunspot_search, user, managed_user_names = [])
       owner = owner_from_search(sunspot_search)
-      sunspot_search.facet(facet_name).rows.map do |row|
+      rows = user_scoped_rows(sunspot_search.facet(facet_name).rows, user, managed_user_names)
+      rows.map do |row|
         stat = {
           'count' => row.count,
           'query' => stat_query_strings(row, owner, user)
         }
         [row.value, stat]
       end.to_h
+    end
+
+    def user_scoped_rows(rows, user, managed_user_names)
+      return rows unless user_scoped_stat
+
+      user_query_scope = user.user_query_scope(record_model)
+      return rows if user_query_scope == Permission::ALL
+
+      rows.select do |row|
+        managed_user_names.include?(row.is_a?(Hash) ? row['value'] : row.value)
+      end
     end
 
     def stat_query_strings(_, _, _)

@@ -61,7 +61,7 @@ module Indicators
       record_model: Child,
       pivots: %w[owned_by workflow],
       scope: OPEN_CLOSED_ENABLED,
-      include_zeros: false,
+      user_scoped_stat: true,
       scope_to_owned_by_groups: true
     ).freeze
 
@@ -458,6 +458,7 @@ module Indicators
       name: 'shared_with_my_team_referrals',
       record_model: Child,
       facet: 'referred_users',
+      user_scoped_stat: true,
       include_zeros: false,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
@@ -468,6 +469,7 @@ module Indicators
       name: 'shared_with_my_team_pending_transfers',
       record_model: Child,
       facet: 'transferred_to_users',
+      user_scoped_stat: true,
       include_zeros: false,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
