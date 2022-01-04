@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Serviceable
   extend ActiveSupport::Concern
 
-  #TODO: This will need to be reconciled with the ReportableService object.
+  # TODO: This will need to be reconciled with the ReportableService object.
   SERVICE_IMPLEMENTED = 'implemented'
   SERVICE_NOT_IMPLEMENTED = 'not_implemented'
   SERVICES_NONE = 'no_services'
@@ -9,8 +11,7 @@ module Serviceable
   SERVICES_ALL_IMPLEMENTED = 'all_implemented'
 
   included do
-
-    store_accessor :data, :consent_for_services, :services_section #TODO: Do we need a services alias for this?
+    store_accessor :data, :consent_for_services, :services_section # TODO: Do we need a services alias for this?
 
     searchable do
       boolean :consent_for_services
@@ -30,10 +31,10 @@ module Serviceable
     end
 
     def services_status
-      if self.services_section.present?
-        if self.services_section.all? {|s| s['service_implemented'] == SERVICE_IMPLEMENTED}
+      if services_section.present?
+        if services_section.all? { |s| s['service_implemented'] == SERVICE_IMPLEMENTED }
           SERVICES_ALL_IMPLEMENTED
-        elsif self.services_section.any? {|s| s['service_implemented'] == SERVICE_NOT_IMPLEMENTED}
+        elsif services_section.any? { |s| s['service_implemented'] == SERVICE_NOT_IMPLEMENTED }
           SERVICES_IN_PROGRESS
         else
           SERVICES_NONE
@@ -44,24 +45,22 @@ module Serviceable
     end
 
     def service_response_present?
-      self.services_section.present? && self.services_section.any? {|s| s['service_response_type'].present?}
+      services_section.present? && services_section.any? { |s| s['service_response_type'].present? }
     end
 
     def most_recent_service(status = SERVICE_NOT_IMPLEMENTED)
-      if self.services_section.present?
+      if services_section.present?
         first_day = Date.new
-        self.services_section
-          .select {|s| s['service_response_type'].present? && s['service_implemented'] == status}
-          .sort_by {|s| s['service_response_day_time'] || first_day}
-          .last
+        services_section
+          .select { |s| s['service_response_type'].present? && s['service_implemented'] == status }
+          .max_by { |s| s['service_response_day_time'] || first_day }
+
       end
     end
 
-    #This method returns nil if object is nil
+    # This method returns nil if object is nil
     def service_field_value(service_object, service_field)
-      if service_object.present?
-        service_object[service_field]
-      end
+      service_object[service_field] if service_object.present?
     end
 
     def service_due_date(service)
@@ -82,27 +81,21 @@ module Serviceable
       end
     end
 
-    #TODO: Should this be moved to the Serviceable concern?
+    # TODO: Should this be moved to the Serviceable concern?
     def service_due_dates
       # TODO: only use services that is of the type of the current workflow
-      reportable_services = self.nested_reportables_hash[ReportableService]
-      if reportable_services.present?
-        reportable_services.select do |service|
-          !service.service_implemented?
-        end.map do |service|
-          service.service_due_date
-        end.compact
-      end
+      reportable_services = nested_reportables_hash[ReportableService]
+      reportable_services.reject(&:service_implemented?).map(&:service_due_date).compact if reportable_services.present?
     end
 
     def service_implemented?(service)
       service['service_implemented_day_time'].present? &&
-      (service['service_implemented'] != SERVICE_IMPLEMENTED)
+        (service['service_implemented'] != SERVICE_IMPLEMENTED)
     end
 
     def service_not_implemented?(service)
       service['service_type'].present? &&
-      service['service_implemented_day_time'].blank?
+        service['service_implemented_day_time'].blank?
     end
 
     def services_section_change?
@@ -114,10 +107,7 @@ module Serviceable
     def convert_time(string)
       times = string.split('_')
 
-      if times.size >= 2
-        times[0].to_i.send(times[1])
-      end
+      times[0].to_i.send(times[1]) if times.size >= 2
     end
-
   end
 end

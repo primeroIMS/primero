@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class for Task
 class Task
   extend ActiveModel::Naming
 
@@ -14,7 +17,7 @@ class Task
     apply_order(tasks, sort_order)
   end
 
-  #Need to use the same model name string for all tasks for i18n
+  # Need to use the same model name string for all tasks for i18n
   def self.model_name
     ActiveModel::Name.new(self.class, nil, 'Task')
   end
@@ -30,16 +33,16 @@ class Task
     self.class.name.demodulize[0..-5].underscore
   end
 
-  def type_display(lookups=nil)
-    I18n.t("task.types.#{self.type}")
+  def type_display(_lookups = nil)
+    I18n.t("task.types.#{type}")
   end
 
   def overdue?
-    @overdue ||= self.due_date < Date.today
+    @overdue ||= due_date < Date.today
   end
 
   def upcoming_soon?
-    !self.overdue? && self.due_date <= 7.days.from_now
+    !overdue? && due_date <= 7.days.from_now
   end
 
   def self.apply_order(tasks, sort_order = {})

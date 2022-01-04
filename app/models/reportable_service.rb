@@ -1,5 +1,7 @@
-class ReportableService
+# frozen_string_literal: true
 
+# Class for Reportable Service
+class ReportableService
   def self.parent_record_type
     Child
   end
@@ -10,13 +12,12 @@ class ReportableService
 
   def self.report_filters
     [
-      {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
-      {'attribute' => 'record_state', 'value' => ['true']},
-      {'attribute' => 'service_type', 'value' => 'not_null'},
-      {'attribute' => 'service_appointment_date', 'constraint' => 'not_null'}
+      { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+      { 'attribute' => 'record_state', 'value' => ['true'] },
+      { 'attribute' => 'service_type', 'value' => 'not_null' },
+      { 'attribute' => 'service_appointment_date', 'constraint' => 'not_null' }
     ]
   end
-
 
   include ReportableNestedRecord
 
@@ -32,12 +33,11 @@ class ReportableService
   end
 
   def service_implemented?
-    implemented = object_value("service_implemented")
-    implemented.present? && implemented == "implemented"
+    implemented = object_value('service_implemented')
+    implemented.present? && implemented == 'implemented'
   end
 
   def id
     object_value('unique_id')
   end
-
 end

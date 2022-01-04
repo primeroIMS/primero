@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Class for Queried Indicator
   class QueriedIndicator < AbstractIndicator
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :queries
 
     def self.type

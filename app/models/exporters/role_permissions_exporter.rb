@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
 require 'write_xlsx'

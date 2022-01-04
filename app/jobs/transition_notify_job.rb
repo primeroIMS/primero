@@ -6,8 +6,6 @@ class TransitionNotifyJob < ApplicationJob
 
   def perform(transition_id)
     system_settings = SystemSettings.current
-    if system_settings.notification_email_enabled
-      NotificationMailer.transition_notify(transition_id).deliver_now
-    end
+    NotificationMailer.transition_notify(transition_id).deliver_now if system_settings.notification_email_enabled
   end
 end

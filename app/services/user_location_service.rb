@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class for User Location Service
 class UserLocationService
   class << self
     def inject_locations(users)
