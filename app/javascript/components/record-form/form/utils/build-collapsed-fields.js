@@ -48,5 +48,5 @@ export default ({ collapsedFieldNames, values, fields, i18n }) => {
           return <span>{value}</span>;
       }
     })
-    .filter(i => i);
+    .filter(element => element);
 };

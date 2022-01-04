@@ -32,7 +32,7 @@ const Component = ({
   const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
   const shouldRenderViolationAssociationMenu = isViolationAssociation && Boolean(parentTitle);
 
-  if (mode.isShow) {
+  if (mode.isShow || isDisabled || !isReadWriteForm) {
     return null;
   }
 
@@ -80,10 +80,6 @@ const Component = ({
       violations_ids: [...violationAssociationObj.violations_ids, formik.values.unique_id]
     });
   };
-
-  if (mode.isShow || isDisabled || !isReadWriteForm) {
-    return null;
-  }
 
   return (
     <>
