@@ -4,6 +4,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import { Controller, useWatch } from "react-hook-form";
 import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import isEmpty from "lodash/isEmpty";
+import { parseISO } from "date-fns";
 
 import { toServerDateFormat } from "../../../libs";
 import { useI18n } from "../../i18n";
@@ -42,7 +43,7 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
     value: currentValue
   };
 
-  const fieldValue = isEmpty(currentValue) ? null : currentValue;
+  const fieldValue = isEmpty(currentValue) ? null : parseISO(currentValue);
 
   const renderPicker = () => {
     if (dateIncludeTime) {
@@ -62,7 +63,7 @@ const DateInput = ({ commonInputProps, metaInputProps, formMethods }) => {
         control={control}
         as={renderPicker}
         {...commonInputProps}
-        helperText={<>{commonInputProps.helperText}</>}
+        helperText={<>{helperText}</>}
         defaultValue=""
       />
     </MuiPickersUtilsProvider>
