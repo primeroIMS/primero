@@ -107,7 +107,7 @@ const Container = () => {
       const mergedFilters = currentFilters.merge(fromJS(filters));
 
       batch(() => {
-        dispatch(setUsersFilters(mergedFilters));
+        dispatch(setUsersFilters({ data: mergedFilters }));
         dispatch(fetchUsers({ data: mergedFilters }));
       });
     }
