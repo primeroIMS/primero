@@ -1,5 +1,7 @@
-class ReportableFollowUp
+# frozen_string_literal: true
 
+# Class for Reportable Follow Up
+class ReportableFollowUp
   def self.parent_record_type
     Child
   end
@@ -10,12 +12,11 @@ class ReportableFollowUp
 
   def self.report_filters
     [
-      {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
-      {'attribute' => 'record_state', 'value' => ['true']},
-      {'attribute' => 'followup_date', 'constraint' => 'not_null'}
+      { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+      { 'attribute' => 'record_state', 'value' => ['true'] },
+      { 'attribute' => 'followup_date', 'constraint' => 'not_null' }
     ]
   end
-
 
   include ReportableNestedRecord
 
@@ -27,5 +28,4 @@ class ReportableFollowUp
   def id
     object_value('unique_id')
   end
-
 end

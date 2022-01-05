@@ -70,7 +70,6 @@ class MatchingService
   end
 
   # Almost never disable Rubocop, but Sunspot queries are what they are.
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def search(match_criteria, match_class, require_consent)
     this = self
@@ -91,7 +90,6 @@ class MatchingService
       paginate(page: 1, per_page: 20)
     end
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   def match_field_names(field_name)

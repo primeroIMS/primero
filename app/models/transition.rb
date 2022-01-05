@@ -9,7 +9,7 @@ class Transition < ApplicationRecord
   STATUS_REVOKED = 'revoked'
 
   belongs_to :record, polymorphic: true
-  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 
+  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
                                     primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
 

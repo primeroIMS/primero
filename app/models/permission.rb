@@ -289,14 +289,14 @@ class Permission < ValueObject
     actions.map(&:to_sym)
   end
 
+  # Class for Permission Serializer
   class PermissionSerializer
     def self.dump(permissions)
       object_hash = {}
-      json_hash = permissions.inject({}) do |hash, permission|
+      json_hash = permissions.each_with_object({}) do |permission, hash|
         hash[permission.resource] = permission.actions
         object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
         object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
-        hash
       end
       json_hash['objects'] = object_hash
       json_hash

@@ -107,10 +107,14 @@ class Flag < ApplicationRecord
     def by_owner(query_scope, active_only, record_types, flagged_by)
       record_types ||= %w[cases incidents tracing_requests]
       owner = query_scope[:user]['user']
-      return find_by_owner('by_record_associated_user', active_only, record_types, flagged_by, owner: owner) if owner.present?
+      if owner.present?
+        return find_by_owner('by_record_associated_user', active_only, record_types, flagged_by, owner: owner)
+      end
 
       group = query_scope[:user]['group']
-      return  find_by_owner('by_record_associated_groups', active_only, record_types, flagged_by, group: group) if group.present?
+      if group.present?
+        return find_by_owner('by_record_associated_groups', active_only, record_types, flagged_by, group: group)
+      end
 
       agency = query_scope[:user]['agency']
       return find_by_owner('by_record_agency', active_only, record_types, flagged_by, agency: agency) if agency.present?

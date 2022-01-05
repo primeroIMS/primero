@@ -2,6 +2,7 @@
 
 # TODO: Refactor this!!! Write some tests!
 
+# Class for Ability
 class Ability
   include CanCan::Ability
 
@@ -163,9 +164,7 @@ class Ability
     end
   end
 
-  def user
-    @user
-  end
+  attr_reader :user
 
   def configure_resource(resource, actions, is_record = false)
     if is_record
