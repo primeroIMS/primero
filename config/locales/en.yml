@@ -2962,9 +2962,9 @@ en:
               appears.
             label: Export PDF
           export_xls:
-            explanation: 'User can generate a XLS file export from the case list or
-              case show pages, which contains all fields to which the current user
-              has access, for one, multiple, or all cases to which the user has access.
+            explanation: 'User can generate a XLS file export from the Tracing Requests list or
+              Tracing Request show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all Tracing Requests to which the user has access.
               In this export, each form is represented in its own tab within the XLS
               file. NOTE: The XLS format renders non-Latin characters (e.g. Arabic,
               Bangla) in a readable format, while the CSV export does not.'
