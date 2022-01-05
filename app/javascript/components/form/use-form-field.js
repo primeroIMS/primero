@@ -147,7 +147,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     name,
     placeholder,
     required,
-    ...(disableUnderline && { InputProps: { disableUnderline } })
+    ...(disableUnderline && !multiSelect && { InputProps: { disableUnderline } })
   };
 
   const metaInputProps = {
