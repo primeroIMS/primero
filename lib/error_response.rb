@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
+# Description Errorresponses
 class ErrorResponse < StandardError
   attr_reader :status_code
-  attr_reader :status_text
 
   def self.bad_request(message)
     new(400, message)
@@ -18,7 +20,7 @@ class ErrorResponse < StandardError
     new(404, message)
   end
 
-  def initialize( status_code, message )
+  def initialize(status_code, message)
     @status_code = status_code
     super(message)
   end
