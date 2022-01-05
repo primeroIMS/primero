@@ -51,7 +51,7 @@ class UserGroup < ApplicationRecord
     associate_unique_id_properties(attributes.slice(*UserGroup.unique_id_parameters)) if attributes.present?
   end
 
-  def update_with_properties(properties)
+  def update_properties(properties)
     assign_attributes(properties&.except(*UserGroup.unique_id_parameters))
     associate_unique_id_properties(properties)
   end
@@ -74,5 +74,11 @@ class UserGroup < ApplicationRecord
     return unless [Permission::AGENCY, Permission::GROUP, Permission::SELF].include?(user.role&.group_permission)
 
     users << user
+  end
+
+  def configuration_hash
+    hash = attributes.except('id', 'created_at', 'updated_at')
+    hash['agency_unique_ids'] = agency_unique_ids
+    hash.with_indifferent_access
   end
 end

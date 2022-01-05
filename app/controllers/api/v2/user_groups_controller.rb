@@ -27,7 +27,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def update
     authorize!(:update, @user_group) && validate_json!(UserGroup::USER_GROUP_FIELDS_SCHEMA, user_group_params)
-    @user_group.update_with_properties(user_group_params)
+    @user_group.update_properties(user_group_params)
     @user_group.save!
   end
 
