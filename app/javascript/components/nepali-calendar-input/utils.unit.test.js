@@ -4,11 +4,7 @@ describe("components/nepali-calendar-input/utils.js", () => {
   describe("convertToNeDate", () => {
     const isoDate = "2010-01-05T18:30:00Z";
 
-    const expected = {
-      en: "2066-09-21",
-      ne: "२०६६-००९-२१",
-      time: new Date(isoDate)
-    };
+    const expected = "2066-09-21";
 
     it("converts iso dates", () => {
       expect(convertToNeDate(isoDate)).to.deep.equals(expected);
@@ -19,7 +15,7 @@ describe("components/nepali-calendar-input/utils.js", () => {
     });
 
     it("returns empty object", () => {
-      expect(convertToNeDate()).to.deep.equals({});
+      expect(convertToNeDate()).to.deep.equals("");
     });
   });
 });
