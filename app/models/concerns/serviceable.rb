@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Concern for services
 module Serviceable
   extend ActiveSupport::Concern
 
@@ -31,17 +32,21 @@ module Serviceable
     end
 
     def services_status
-      if services_section.present?
-        if services_section.all? { |s| s['service_implemented'] == SERVICE_IMPLEMENTED }
-          SERVICES_ALL_IMPLEMENTED
-        elsif services_section.any? { |s| s['service_implemented'] == SERVICE_NOT_IMPLEMENTED }
-          SERVICES_IN_PROGRESS
-        else
-          SERVICES_NONE
-        end
-      else
-        SERVICES_NONE
-      end
+      return SERVICES_NONE if services_section.blank?
+
+      return SERVICES_ALL_IMPLEMENTED if all_implemented?
+
+      return SERVICES_IN_PROGRESS if any_not_implemented?
+
+      SERVICES_NONE
+    end
+
+    def all_implemented?
+      services_section.all? { |s| s['service_implemented'] == SERVICE_IMPLEMENTED }
+    end
+
+    def any_not_implemented?
+      services_section.any? { |s| s['service_implemented'] == SERVICE_NOT_IMPLEMENTED }
     end
 
     def service_response_present?
@@ -49,13 +54,12 @@ module Serviceable
     end
 
     def most_recent_service(status = SERVICE_NOT_IMPLEMENTED)
-      if services_section.present?
-        first_day = Date.new
-        services_section
-          .select { |s| s['service_response_type'].present? && s['service_implemented'] == status }
-          .max_by { |s| s['service_response_day_time'] || first_day }
+      return if services_section.blank?
 
-      end
+      first_day = Date.new
+      services_section
+        .select { |s| s['service_response_type'].present? && s['service_implemented'] == status }
+        .max_by { |s| s['service_response_day_time'] || first_day }
     end
 
     # This method returns nil if object is nil
@@ -65,20 +69,28 @@ module Serviceable
 
     def service_due_date(service)
       @system_settings ||= SystemSettings.current
+      return if @system_settings.blank?
+
       created_on = service['service_response_day_time']
       timeframe = service['service_response_timeframe']
       appointment_date = service['service_appointment_date']
       appointment_time = appointment_date.try(:end_of_day).try(:strftime, '%H:%M:%S')
 
-      if @system_settings.present?
-        if @system_settings.due_date_from_appointment_date && appointment_date
-          appointment_date_time = "#{appointment_date} #{appointment_time}"
-          DateTime.parse(appointment_date_time)
-        elsif created_on && timeframe
-          converted_timeframe = convert_time(timeframe)
-          converted_timeframe.present? ? created_on + converted_timeframe : nil
-        end
+      if @system_settings.due_date_from_appointment_date && appointment_date
+        return due_date_from_appointment_date(appointment_date, appointment_time)
       end
+
+      created_on && timeframe ? converted_timeframe(created_on, timeframe) : nil
+    end
+
+    def due_date_from_appointment_date(appointment_date, appointment_time)
+      appointment_date_time = "#{appointment_date} #{appointment_time}"
+      DateTime.parse(appointment_date_time)
+    end
+
+    def converted_timeframe(created_on, timeframe)
+      converted_timeframe = convert_time(timeframe)
+      converted_timeframe.present? ? created_on + converted_timeframe : nil
     end
 
     # TODO: Should this be moved to the Serviceable concern?
