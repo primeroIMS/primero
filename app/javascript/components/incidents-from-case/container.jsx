@@ -6,7 +6,7 @@ import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { useMemoizedSelector } from "../../libs";
 import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
-import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD } from "../../config";
+import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES_PLURAL } from "../../config";
 import { usePermissions } from "../user";
 import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
@@ -76,7 +76,7 @@ const Container = ({
         <div>{newIncidentBtn}</div>
       </div>
       <div className={css.alerts}>
-        <RecordFormAlerts recordType={recordType} form={incidentFromCaseForm} />
+        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} />
       </div>
       {renderIncidents}
     </div>

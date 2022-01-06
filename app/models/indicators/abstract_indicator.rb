@@ -2,7 +2,9 @@
 
 module Indicators
   class AbstractIndicator < ValueObject
-    # Indicator Scopes:
+    # If you define a new scope make sure you update the method group_indicators_by_scope
+    # from the IndicatorQueryService.
+    # Indicator Scopes
     # scope: A query to constraint the results specially for Faceted and Pivoted indicators.
     # scope_to_owner: Records where the user is the owner.
     # scope_to_referred: Records where the user is referred.

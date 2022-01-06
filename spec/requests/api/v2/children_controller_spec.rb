@@ -491,6 +491,15 @@ describe Api::V2::ChildrenController, type: :request do
       expect(case1.data['sex']).to eq('female')
     end
 
+    it 'does not update the id of the record and returns 200' do
+      login_for_test
+      params = { data: { id: '47e3e51c-7049-4aff-bd3e-ded1b1c5477f' } }
+      patch "/api/v2/cases/#{@case1.id}", params: params, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@case1.id)
+    end
+
     it 'filters sensitive information from logs' do
       allow(Rails.logger).to receive(:debug).and_return(nil)
       login_for_test

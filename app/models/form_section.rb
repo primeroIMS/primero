@@ -218,9 +218,10 @@ class FormSection < ApplicationRecord
 
   def fields_from_params(fields_params)
     # TODO: We are allowing updating non-editable fields via the API
-    fields_params.map do |field_params|
+    fields_params.map.with_index do |field_params, index|
       field = fields.find { |f| f.name == field_params['name'] } || Field.new
       field.update_properties(field_params)
+      field.order = index unless field_params['order'].present?
       field
     end
   end

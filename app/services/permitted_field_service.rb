@@ -24,7 +24,7 @@ class PermittedFieldService
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
     or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
-    transferred_to_users has_photo survivor_code survivor_code_no case_id_display
+    transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
     reassigned_transferred_on current_alert_types location_current
   ].freeze
@@ -77,11 +77,11 @@ class PermittedFieldService
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def permitted_field_names(writeable = false)
+  def permitted_field_names(writeable = false, update = false)
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if action_name.present?
 
-    @permitted_field_names = PERMITTED_CORE_FIELDS_SCHEMA.keys + PERMITTED_FILTER_FIELD_NAMES
+    @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
@@ -99,6 +99,10 @@ class PermittedFieldService
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
     @permitted_field_names
+  end
+
+  def permitted_core_fields(update = false)
+    update ? PERMITTED_CORE_FIELDS_SCHEMA.keys - %w[id] : PERMITTED_CORE_FIELDS_SCHEMA.keys
   end
 
   def permitted_fields_schema
