@@ -104,7 +104,7 @@ const Container = () => {
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
-      const mergedFilters = currentFilters.merge(fromJS(filters));
+      const mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
 
       batch(() => {
         dispatch(setUsersFilters({ data: mergedFilters }));
