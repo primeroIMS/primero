@@ -7,67 +7,19 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :index, :view, :list, :export, to: :read
-    alias_action :edit, :update, :destroy, :disable, to: :write
-    alias_action new: :create
-    alias_action destroy: :delete
-
+    alias_user_actions
     @user = user
-
-    can [:index], SystemSettings
-    can :index, FormSection
-    can [:index], Lookup
-    can [:index], Location
-    can :index, Report
-
-    can [:read_self, :write_self], User do |uzer|
-      uzer.user_name == user.user_name
-    end
-
-    can :search, User if user.permission_by_permission_type?(Permission::CASE, Permission::TRANSFER) ||
-                         user.permission_by_permission_type?(Permission::CASE, Permission::ASSIGN) ||
-                         user.permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
-
-    can [:read_reports], Report do |report|
-      can?(:read, report) || can?(:group_read, report)
-    end
-
-    can [:show_user], User do |uzer|
-      can?(:read_self, uzer) || can?(:read, uzer)
-    end
-
-    can [:edit_user], User do |uzer|
-      can?(:write_self, uzer) || can?(:edit, uzer)
-    end
-
-    user.role.permissions.each do |permission|
-      case permission.resource
-      when Permission::USER
-        user_permissions permission.action_symbols
-      when Permission::USER_GROUP
-        user_group_permissions permission.action_symbols
-      when Permission::ROLE
-        role_permissions permission
-      when Permission::AGENCY
-        agency_permissions permission
-      when Permission::METADATA
-        metadata_permissions
-      when Permission::SYSTEM
-        system_permissions
-      when Permission::TRACING_REQUEST
-        configure_tracing_request(permission.action_symbols)
-      else
-        configure_resource permission.resource_class, permission.action_symbols, permission.record?
-      end
-    end
-
+    can_index
+    can_access_self(user)
+    can_search(user)
+    can_read_reports
+    can_show_user
+    can_edit_user
+    initialize_permissions(user)
     configure_exports
     baseline_permissions
     configure_record_attachments
-
-    [Child, TracingRequest, Incident].each do |model|
-      configure_flag(model)
-    end
+    configure_flags
   end
 
   def baseline_permissions
@@ -226,5 +178,83 @@ class Ability
 
   def cannot(action = nil, subject = nil, *conditions, &block)
     add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
+  end
+
+  def alias_user_actions
+    alias_action :index, :view, :list, :export, to: :read
+    alias_action :edit, :update, :destroy, :disable, to: :write
+    alias_action new: :create
+    alias_action destroy: :delete
+  end
+
+  def can_index
+    can [:index], SystemSettings
+    can :index, FormSection
+    can [:index], Lookup
+    can [:index], Location
+    can :index, Report
+  end
+
+  def can_access_self(user)
+    can [:read_self, :write_self], User do |uzer|
+      uzer.user_name == user.user_name
+    end
+  end
+
+  def can_search(user)
+    can :search, User if user.permission_by_permission_type?(Permission::CASE, Permission::TRANSFER) ||
+                         user.permission_by_permission_type?(Permission::CASE, Permission::ASSIGN) ||
+                         user.permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
+  end
+
+  def can_read_reports
+    can [:read_reports], Report do |report|
+      can?(:read, report) || can?(:group_read, report)
+    end
+  end
+
+  def can_show_user
+    can [:show_user], User do |uzer|
+      can?(:read_self, uzer) || can?(:read, uzer)
+    end
+  end
+
+  def can_edit_user
+    can [:edit_user], User do |uzer|
+      can?(:write_self, uzer) || can?(:edit, uzer)
+    end
+  end
+
+  def initialize_permissions(user)
+    user.role.permissions.each do |permission|
+      initialize_permission(permission)
+    end
+  end
+
+  def initialize_permission(permission)
+    case permission.resource
+    when Permission::USER
+      user_permissions(permission.action_symbols)
+    when Permission::USER_GROUP
+      user_group_permissions(permission.action_symbols)
+    when Permission::ROLE
+      role_permissions(permission)
+    when Permission::AGENCY
+      agency_permissions(permission)
+    when Permission::METADATA
+      metadata_permissions
+    when Permission::SYSTEM
+      system_permissions
+    when Permission::TRACING_REQUEST
+      configure_tracing_request(permission.action_symbols)
+    else
+      configure_resource(permission.resource_class, permission.action_symbols, permission.record?)
+    end
+  end
+
+  def configure_flags
+    [Child, TracingRequest, Incident].each do |model|
+      configure_flag(model)
+    end
   end
 end

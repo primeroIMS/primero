@@ -82,7 +82,7 @@ module BIADerivedFields
   end
 
   def bia_transfers
-    latest_transfer = transfers.order(created_at: :desc).limit(1)
+    transfers.order(created_at: :desc).limit(1)
   end
 
   def bia_consent_for_services
