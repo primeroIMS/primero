@@ -15,7 +15,7 @@ import {
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS
 } from "../libs/permissions";
-import { getAdminResources } from "../components/pages/admin/utils";
+import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
 export const PASSWORD_MIN_LENGTH = 8;
 

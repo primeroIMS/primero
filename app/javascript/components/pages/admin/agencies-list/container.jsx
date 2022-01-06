@@ -11,7 +11,7 @@ import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import { usePermissions, getListHeaders } from "../../../user";
 import { CREATE_RECORDS, RESOURCES } from "../../../../libs/permissions";
-import { filterOnTableChange, headersToColumns, onSubmitFilters } from "../utils";
+import { filterOnTableChange, getFilters, headersToColumns, onSubmitFilters } from "../utils";
 import { FiltersForm } from "../../../form-filters/components";
 import { getAppliedFilters, getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
@@ -23,7 +23,6 @@ import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import { fetchAgencies, setAgenciesFilter } from "./action-creators";
 import { NAME, DISABLED } from "./constants";
-import { getFilters } from "./utils";
 import NAMESPACE from "./namespace";
 
 const Container = () => {

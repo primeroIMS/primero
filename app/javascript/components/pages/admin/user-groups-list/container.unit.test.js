@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 import { Button, TableCell, TableHead } from "@material-ui/core";
+import last from "lodash/last";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -97,18 +98,17 @@ describe("<UserGroupsList />", () => {
   });
 
   it("should set the filters when apply is clicked", () => {
-    component.find(Button).at(2).simulate("click");
+    component.find(Button).at(1).simulate("click");
 
     const expectedAction = {
-      payload: {
-        data: fromJS({
-          disabled: ["false"]
-        })
-      },
+      payload: { data: fromJS({ disabled: ["false"], total: 30, per: 20, page: 1 }) },
       type: "user_groups/SET_USER_GROUPS_FILTER"
     };
 
-    expect(component.props().store.getActions()[3]).to.deep.equals(expectedAction);
+    const action = last(component.props().store.getActions());
+
+    expect(action.type).to.deep.equals(expectedAction.type);
+    expect(action.payload.data).to.deep.equals(expectedAction.payload.data);
   });
 
   afterEach(() => {
