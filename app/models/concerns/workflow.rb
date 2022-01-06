@@ -87,25 +87,6 @@ module Workflow
 
   # Class methods
   module ClassMethods
-    # def workflow_statuses(modules = [], lookups = nil)
-    #   lookup = lookup_response_types(lookups)
-    #
-    #   I18n.available_locales.map do |locale|
-    #     status_list = []
-    #     status_list << workflow_key_value(WORKFLOW_NEW, locale)
-    #     status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
-    #     modules&.any?(&:use_workflow_assessment) &&
-    #       (status_list << workflow_key_value(WORKFLOW_ASSESSMENT, locale))
-    #     modules&.any?(&:use_workflow_case_plan) &&
-    #       status_list << workflow_key_value(WORKFLOW_CASE_PLAN, locale)
-    #     status_list += lookup&.lookup_values(locale) || []
-    #     modules&.any?(&:use_workflow_service_implemented) &&
-    #       status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale)
-    #     status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
-    #     { locale => status_list }
-    #   end.inject(&:merge)
-    # end
-
     def workflow_statuses(modules = [], lookups = nil)
       lookup = lookup_response_types(lookups)
 
