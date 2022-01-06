@@ -5,7 +5,7 @@
 class IndicatorQueryService
   class << self
     def query(indicators, user)
-      managed_user_names = indicators.any?(&:user_scoped_stat) ? user.managed_user_names : []
+      managed_user_names = indicators.any?(&:scope_to_user) ? user.managed_user_names : []
       group_indicators(indicators).each_with_object({}) do |(record_model, record_indicators), result|
         record_type = record_model.parent_form
         result[record_type] = {}
@@ -45,7 +45,8 @@ class IndicatorQueryService
         [
           indicator.scope_to_owner, indicator.scope_to_referred,
           indicator.scope_to_transferred, indicator.scope_to_owned_by_groups,
-          indicator.scope_to_not_last_update, scope_key
+          indicator.scope_to_not_last_update, scope_key, indicator.exclude_zeros,
+          indicator.scope_to_user
         ]
       end
     end

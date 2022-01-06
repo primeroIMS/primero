@@ -2,9 +2,18 @@
 
 module Indicators
   class AbstractIndicator < ValueObject
+    # Indicator Scopes:
+    # scope: A query to constraint the results specially for Faceted and Pivoted indicators.
+    # scope_to_owner: Records where the user is the owner.
+    # scope_to_referred: Records where the user is referred.
+    # scope_to_transferred: Records where the user is transferred.
+    # scope_to_not_last_update: Records where the user was not last to update.
+    # scope_to_transferred_groups: Records transferred to the user's user group.
+    # exclude_zeros: Do not include result with zeroes.
+    # scope_to_user: Constraints the resuls to the user_query_scope. Userful for Faceted and Pivoted indicators.
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups, :include_zeros, :user_scoped_stat
+                  :scope_to_transferred_groups, :exclude_zeros, :scope_to_user
 
     class << self
       def dawn_of_time
@@ -59,7 +68,7 @@ module Indicators
     end
 
     def user_scoped_rows(rows, user, managed_user_names)
-      return rows unless user_scoped_stat
+      return rows unless scope_to_user
 
       user_query_scope = user.user_query_scope(record_model)
       return rows if user_query_scope == Permission::ALL
@@ -71,10 +80,6 @@ module Indicators
 
     def stat_query_strings(_, _, _)
       raise NotImplementedError
-    end
-
-    def zeros?
-      include_zeros.nil? ? true : include_zeros
     end
 
     protected
