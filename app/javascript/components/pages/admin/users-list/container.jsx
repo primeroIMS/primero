@@ -65,7 +65,7 @@ const Container = () => {
   const onTableChange = filters => {
     const filtersData = filters.data || fromJS({});
 
-    dispatch(setUsersFilters(filtersData));
+    dispatch(setUsersFilters({ data: filtersData }));
 
     return fetchUsers(filters);
   };
