@@ -341,7 +341,11 @@ namespace :primero do
   task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
     args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
     opts = args.to_h
-    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+
+    # The logic in the exporter has now been reversed. 'visible' option controls whether to only show visible
+    # fields and forms or not... so it actually is the reverse of the old "show_hidden" logic
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? false : true
+
     opts[:file_name] = 'forms.xlsx'
     exporter = Exporters::FormExporter.new(opts)
     exporter.export
