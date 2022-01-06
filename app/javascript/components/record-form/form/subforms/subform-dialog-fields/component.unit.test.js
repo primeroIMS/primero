@@ -4,6 +4,7 @@ import { TEXT_FIELD } from "../../../constants";
 import TextField from "../../field-types/text-field";
 import SubformField from "../component";
 import SubformItem from "../subform-item";
+import SubformFieldSubform from "../subform-field-subform";
 import FormSectionField from "../../form-section-field";
 
 import SubformDialogFields from "./component";
@@ -96,6 +97,9 @@ describe("<SubformDialogFields />", () => {
         { registerField: () => {} }
       ));
     });
+    it("render the SubformFieldSubform", () => {
+      expect(component.find(SubformFieldSubform)).lengthOf(1);
+    });
 
     it("render the SubformField", () => {
       expect(component.find(SubformField)).lengthOf(1);
@@ -122,7 +126,8 @@ describe("<SubformDialogFields />", () => {
         "violationOptions",
         "forms",
         "parentTitle",
-        "parentValues"
+        "parentValues",
+        "renderAsAccordion"
       ].forEach(property => {
         expect(componentsProps).to.have.property(property);
         delete componentsProps[property];
