@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Concern for UNHCR Mapping
 module UNHCRMapping
   extend ActiveSupport::Concern
 
@@ -16,21 +17,18 @@ module UNHCRMapping
   end
 
   def map_protection_concerns_to_unhcr_codes
-    if is_a? Child
-      @system_settings ||= SystemSettings.current
-      unhcr_mapping = @system_settings.unhcr_needs_codes_mapping if @system_settings.present?
+    return unless is_a?(Child)
 
-      if unhcr_mapping.present?
-        concerns = protection_concerns
+    @system_settings ||= SystemSettings.current
+    unhcr_mapping = @system_settings.unhcr_needs_codes_mapping if @system_settings.present?
+    return if unhcr_mapping.blank?
 
-        if unhcr_mapping.autocalculate == true && unhcr_mapping.mapping.present? && concerns.present?
-          mapping = unhcr_mapping.mapping
+    self.unhcr_needs_codes = map_codes(unhcr_mapping)
+  end
 
-          self.unhcr_needs_codes = concerns.map { |concern| mapping[concern] }.compact.uniq
-        else
-          self.unhcr_needs_codes = nil
-        end
-      end
-    end
+  def map_codes(unhcr_mapping)
+    return unless unhcr_mapping.autocalculate == true && protection_concerns.present?
+
+    protection_concerns.map { |concern| unhcr_mapping&.mapping.try(:[], concern) }.compact.uniq
   end
 end
