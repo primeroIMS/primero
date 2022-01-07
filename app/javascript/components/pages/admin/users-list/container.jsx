@@ -65,7 +65,7 @@ const Container = () => {
   const onTableChange = filters => {
     const filtersData = filters.data || fromJS({});
 
-    dispatch(setUsersFilters(filtersData));
+    dispatch(setUsersFilters({ data: filtersData }));
 
     return fetchUsers(filters);
   };
@@ -104,7 +104,7 @@ const Container = () => {
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
-      const mergedFilters = currentFilters.merge(fromJS(filters));
+      const mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
 
       batch(() => {
         dispatch(setUsersFilters({ data: mergedFilters }));
