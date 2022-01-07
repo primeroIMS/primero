@@ -4,9 +4,18 @@ module Indicators
   class AbstractIndicator < ValueObject
     # If you define a new scope make sure you update the method group_indicators_by_scope
     # from the IndicatorQueryService.
+    # Indicator Scopes
+    # scope: A query to constraint the results specially for Faceted and Pivoted indicators.
+    # scope_to_owner: Records where the user is the owner.
+    # scope_to_referred: Records where the user is referred.
+    # scope_to_transferred: Records where the user is transferred.
+    # scope_to_not_last_update: Records where the user was not last to update.
+    # scope_to_transferred_groups: Records transferred to the user's user group.
+    # exclude_zeros: Do not include result with zeroes.
+    # scope_to_user: Constraints the resuls to the user_query_scope. Userful for Faceted and Pivoted indicators.
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups
+                  :scope_to_transferred_groups, :exclude_zeros, :scope_to_user
 
     class << self
       def dawn_of_time
@@ -48,15 +57,27 @@ module Indicators
       name
     end
 
-    def stats_from_search(sunspot_search, user)
+    def stats_from_search(sunspot_search, user, managed_user_names = [])
       owner = owner_from_search(sunspot_search)
-      sunspot_search.facet(facet_name).rows.map do |row|
+      rows = user_scoped_rows(sunspot_search.facet(facet_name).rows, user, managed_user_names)
+      rows.map do |row|
         stat = {
           'count' => row.count,
           'query' => stat_query_strings(row, owner, user)
         }
         [row.value, stat]
       end.to_h
+    end
+
+    def user_scoped_rows(rows, user, managed_user_names)
+      return rows unless scope_to_user
+
+      user_query_scope = user.user_query_scope(record_model)
+      return rows if user_query_scope == Permission::ALL
+
+      rows.select do |row|
+        managed_user_names.include?(row.is_a?(Hash) ? row['value'] : row.value)
+      end
     end
 
     def stat_query_strings(_, _, _)
