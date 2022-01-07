@@ -21,7 +21,7 @@ class Incident < ApplicationRecord
     :date_of_incident_to, :individual_details_subform_section, :incident_location,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
-    :livelihoods_services_subform_section, :child_protection_services_subform_section
+    :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
