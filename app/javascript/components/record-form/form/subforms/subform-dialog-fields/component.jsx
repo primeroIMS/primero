@@ -7,10 +7,10 @@ import uuid from "uuid";
 import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
-import { SELECT_FIELD, SUBFORM_SECTION } from "../../../constants";
+import { SUBFORM_SECTION } from "../../../constants";
 import SubformField from "../component";
 import css from "../styles.css";
-import { buildViolationOptions } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags } from "../../utils";
 import { useI18n } from "../../../../i18n";
 
 import { NAME, VIOLATION_IDS_NAME } from "./constants";
@@ -65,6 +65,7 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
+    const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
@@ -95,14 +96,7 @@ const Component = ({
       ...(subformSectionField.name === VIOLATION_IDS_NAME && {
         violationOptions: parentViolationOptions || violationOptions
       }),
-      ...(subformSectionField.type === SELECT_FIELD && subformSectionField.option_strings_condition
-        ? {
-            tags: Object.entries(subformSectionField.option_strings_condition).reduce(
-              (acc, [tag, expression]) => (parseExpression(expression).evaluate(values) ? acc.concat(tag) : acc),
-              []
-            )
-          }
-        : {})
+      ...(isEmpty(tags) ? {} : { tags })
     };
 
     if (

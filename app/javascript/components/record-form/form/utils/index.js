@@ -7,6 +7,7 @@ export { default as buildViolationOptions } from "./build-violation-options";
 export { default as buildViolationSubform } from "./build-violation-subform";
 export { default as getConnectedFields } from "./get-connected-fields";
 export { default as getDefaultForms } from "./get-default-forms";
+export { default as getOptionStringsTags } from "./get-option-strings-tags";
 export { default as getSelectFieldDefaultValue } from "./get-select-field-default-value";
 export { default as getSubformValues } from "./get-subform-values";
 export { default as getTranslatedText } from "./get-translated-text";
