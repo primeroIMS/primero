@@ -83,8 +83,7 @@ module Exporters
       type.gsub(/_/, ' ').titleize
     end
 
-    def violation_summary_value(incident, violation, type)
-      idx = incident.violations[type].index(violation)
+    def violation_summary_value(violation, type)
       parts = [
         violation_titleized(type),
         FormSection.find_by(unique_id: type).collapsed_fields.map { |cf| violation[cf] },
