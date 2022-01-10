@@ -4,7 +4,6 @@
 class SearchFilters::ValueList < SearchFilters::SearchFilter
   attr_accessor :field_name, :values
 
-  # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
   def query_scope(sunspot)
     this = self
@@ -20,7 +19,6 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
 
   def as_location_filter(record_class)

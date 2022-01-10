@@ -534,6 +534,10 @@ class User < ApplicationRecord
 
     record.owned_by_location = location if saved_change_to_attribute?('location')
     record.owned_by_groups = user_group_unique_ids if user_groups_changed
+    update_record_agency_ownership_fields(record)
+  end
+
+  def update_record_agency_ownership_fields(record)
     record.owned_by_agency_id = agency&.unique_id if saved_change_to_attribute?('agency_id')
     record.owned_by_agency_office = agency_office if saved_change_to_attribute('agency_office')&.last&.present?
   end

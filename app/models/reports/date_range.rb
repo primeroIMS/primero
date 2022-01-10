@@ -1,25 +1,32 @@
+# frozen_string_literal: true
+
+# rubocop:disable Style/ClassAndModuleChildren
 module Reports
-
+  # Class for Date Range
   class DateRange
-
+    # rubocop:enable Style/ClassAndModuleChildren
     MIN = Date.new
 
     attr_accessor :date
 
     def initialize(date_string)
-      self.date = Date.parse(date_string) rescue MIN
+      self.date = begin
+                    Date.parse(date_string)
+                  rescue StandardError
+                    MIN
+                  end
     end
 
     def core_value
-      self.date
+      date
     end
 
     def <=>(other)
-      self.core_value <=> other.core_value
+      core_value <=> other.core_value
     end
 
     def eql?(other)
-      self.core_value.eql?(other.core_value)
+      core_value.eql?(other.core_value)
     end
 
     def hash
@@ -37,7 +44,5 @@ module Reports
         ''
       end
     end
-
   end
-
 end

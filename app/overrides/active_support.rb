@@ -9,7 +9,6 @@
 # is globally parsing all json dates including ActiveSupport::Messages::Metadata.expired_at
 # which shouldn't not be parsed.
 
-# rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 ActiveSupport::Messages::Metadata.class_eval do
   def self.extract_metadata(message)
@@ -28,5 +27,4 @@ ActiveSupport::Messages::Metadata.class_eval do
     end
   end
 end
-# rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/MethodLength

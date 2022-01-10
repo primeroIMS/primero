@@ -135,6 +135,10 @@ class Role < ApplicationRecord
 
   def dashboards
     dashboard_permissions = permissions.find { |p| p.resource == Permission::DASHBOARD }
+    update_dashboard_permissions(dashboard_permissions)&.compact || []
+  end
+
+  def update_dashboard_permissions(dashboard_permissions)
     dashboard_permissions&.actions&.map do |action|
       next Dashboard.dash_reporting_location(self) if action == 'dash_reporting_location'
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
@@ -142,7 +146,7 @@ class Role < ApplicationRecord
       "Dashboard::#{action.upcase}".constantize
     rescue NameError
       nil
-    end&.compact || []
+    end
   end
 
   def reporting_location_config
@@ -188,8 +192,15 @@ class Role < ApplicationRecord
   end
 
   def permitted_to_export?
-    permissions&.map(&:actions)&.flatten&.compact&.any? { |p| p.start_with?('export') } ||
-      permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
+    export_permission? || manage_permission?
+  end
+
+  def export_permission?
+    permissions&.map(&:actions)&.flatten&.compact&.any? { |p| p.start_with?('export') }
+  end
+
+  def manage_permission?
+    permissions&.any? { |p| Permission.records.include?(p.resource) && p.actions.include?(Permission::MANAGE) }
   end
 
   def permissions_with_forms

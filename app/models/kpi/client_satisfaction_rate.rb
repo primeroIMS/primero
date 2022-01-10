@@ -26,9 +26,7 @@ class Kpi::ClientSatisfactionRate < Kpi::Search
 
     {
       data: {
-        satisfaction_rate: if clients_with_feedback.positive?
-                             satisfied_clients / clients_with_feedback.to_f
-                           end
+        satisfaction_rate: (satisfied_clients / clients_with_feedback.to_f if clients_with_feedback.positive?)
       }
     }
   end

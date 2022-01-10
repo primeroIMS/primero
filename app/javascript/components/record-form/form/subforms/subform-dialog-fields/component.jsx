@@ -118,6 +118,7 @@ const Component = ({
               isReadWriteForm,
               forms: {},
               parentTitle,
+              parentValues,
               violationOptions
             }}
           />

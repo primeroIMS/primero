@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Class for Faceted Indicator
   class FacetedIndicator < AbstractIndicator
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :facet, :include_zeros
 
     def facet_name

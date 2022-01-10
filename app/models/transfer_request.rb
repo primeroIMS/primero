@@ -1,5 +1,7 @@
-class TransferRequest < Transition
+# frozen_string_literal: true
 
+# Class for Transfer Request
+class TransferRequest < Transition
   def perform
     self.status = Transition::STATUS_INPROGRESS
     record.update_last_updated_by(transitioned_by_user)
@@ -35,7 +37,9 @@ class TransferRequest < Transition
     save!
   end
 
-  def consent_given? ; true ; end
+  def consent_given?
+    true
+  end
 
   def user_can_receive?
     super && (record.owned_by == transitioned_to)

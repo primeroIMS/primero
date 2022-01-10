@@ -2,7 +2,6 @@
 
 # Zip and encrypt a file with a system configured zipper
 class ZipService
-
   class << self
     def zip(file, password)
       zipper.zip(file, password)

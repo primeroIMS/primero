@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Api::V2
+  # Class for PrimeroModules Controller
   class PrimeroModulesController < ApplicationApiController
     before_action :load_primero_module, only: %i[show update]
 

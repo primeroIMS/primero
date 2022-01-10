@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class for User Location Service
 class UserLocationService
   class << self
     def inject_locations(users)
@@ -5,17 +8,21 @@ class UserLocationService
       locations_by_code = get_locations_by_code(location_codes)
       rpt_locations_by_location_code = reporting_locations_by_location_code(locations_by_code)
       users.each do |user|
-        user.user_location = locations_by_code[user.location]
-        if rpt_locations_by_location_code[user.location].present?
-          user.exists_reporting_location = true
-          user.reporting_location = rpt_locations_by_location_code[user.location]
-        else
-          user.exists_reporting_location = false
-        end
+        inject_location_user(user, locations_by_code, rpt_locations_by_location_code)
       end
     end
 
     private
+
+    def inject_location_user(user, locations_by_code, rpt_locations_by_location_code)
+      user.user_location = locations_by_code[user.location]
+      if rpt_locations_by_location_code[user.location].present?
+        user.exists_reporting_location = true
+        user.reporting_location = rpt_locations_by_location_code[user.location]
+      else
+        user.exists_reporting_location = false
+      end
+    end
 
     def reporting_locations_by_location_code(locations_by_code)
       hierarchies = locations_by_code.values.map(&:hierarchy_path)
