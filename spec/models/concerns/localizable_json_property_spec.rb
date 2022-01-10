@@ -71,28 +71,4 @@ describe LocalizableJsonProperty do
     merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
     expect(merged_options).to match_array(option_string_text)
   end
-
-  it 'should merge the tags for the options' do
-    option_string_text = [
-      { id: '1', display_text: 'test 1', tags: %w[low] },
-      { id: '2', display_text: 'test 2', tags: %w[low] },
-      { id: '3', display_text: 'test 3', tags: %w[low] }
-    ]
-    @object = @klass.new(display_name: 'test', option_strings_text: option_string_text.first(2))
-
-    merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
-    expect(merged_options).to match_array(option_string_text)
-  end
-
-  it 'should merge the tags for the localized options' do
-    option_string_text = [
-      { id: '1', display_text: 'test 1', tags: %w[low] },
-      { id: '2', display_text: 'test 2', tags: %w[low] },
-      { id: '3', display_text: 'test 3', tags: %w[low] }
-    ]
-    @object = @klass.new(display_name: 'test', option_strings_text_en: option_string_text.first(2))
-
-    merged_options = @object.merge_options(@object.option_strings_text, option_string_text.last(1))
-    expect(merged_options).to match_array(option_string_text)
-  end
 end

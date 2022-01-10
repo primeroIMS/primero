@@ -667,4 +667,19 @@ describe Lookup do
       end
     end
   end
+
+  describe 'handle tags' do
+    it 'saves the specified tags for the lookup values' do
+      unique_id = 'lookup-some-lookup'
+      some_lookup = Lookup.create!(
+        unique_id: unique_id, name: 'some_lookup', lookup_values: [
+          { id: 'value1', display_text: 'value1', tags: %w[tag1 tag2] },
+          { id: 'value2', display_text: 'value2', tags: %w[tag2] }
+        ]
+      )
+
+      expect(some_lookup.lookup_values[0]['tags']).to eq(%w[tag1 tag2])
+      expect(some_lookup.lookup_values[1]['tags']).to eq(%w[tag2])
+    end
+  end
 end
