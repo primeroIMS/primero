@@ -38,6 +38,7 @@ describe("libs/index", () => {
       "toServerDateFormat",
       "useMemoizedSelector",
       "useThemeHelper",
+      "valueFromOptionSource",
       "valuesToSearchableSelect"
     ].forEach(property => {
       it(`exports '${property}'`, () => {

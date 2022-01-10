@@ -1,44 +1,7 @@
 /* eslint-disable camelcase */
-import { displayNameHelper } from "../../../libs";
+import { displayNameHelper, valueFromOptionSource } from "../../../libs";
 import { FIELDS } from "../../record-owner/constants";
-import { OPTION_TYPES } from "../../form/constants";
 import { APPROVALS, INCIDENTS } from "../constants";
-
-const getValueFromOptions = (allAgencies, allLookups, locations, i18n, optionSelected, value) => {
-  const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
-
-  if (optionSelected === OPTION_TYPES.LOCATION) {
-    return locations.find(location => location.id === valueToTranslated)?.display_text;
-  }
-
-  if (optionSelected === OPTION_TYPES.AGENCY) {
-    return allAgencies.find(agency => agency.id === valueToTranslated)?.display_text;
-  }
-
-  const lookupValue = allLookups
-    ?.find(lookup => lookup.get("unique_id") === optionSelected.replace(/lookup /, ""))
-    ?.get("values")
-    ?.find(v => v.get("id") === valueToTranslated);
-
-  return lookupValue ? displayNameHelper(lookupValue.get("display_text"), i18n.locale) : value;
-};
-
-const getFieldValueFromOptionSource = (
-  allAgencies,
-  allLookups,
-  locations,
-  i18n,
-  selectedFieldOptionsSource,
-  fieldValue
-) => {
-  if (Array.isArray(fieldValue)) {
-    return fieldValue.map(valueFrom =>
-      getValueFromOptions(allAgencies, allLookups, locations, i18n, selectedFieldOptionsSource, valueFrom)
-    );
-  }
-
-  return getValueFromOptions(allAgencies, allLookups, locations, i18n, selectedFieldOptionsSource, fieldValue);
-};
 
 const getFieldValueFromOptionText = (i18n, selectedFieldOptionsText, fieldValue) => {
   const valueTranslated = value =>
@@ -85,19 +48,19 @@ export default (allAgencies, allLookups, locations, i18n, selectedField, field, 
   const selectedFieldOptionsText = selectedField?.get("option_strings_text");
 
   if (selectedFieldOptionsSource) {
-    fieldValueFrom = getFieldValueFromOptionSource(
+    fieldValueFrom = valueFromOptionSource(
       allAgencies,
       allLookups,
       locations,
-      i18n,
+      i18n.locale,
       selectedFieldOptionsSource,
       fieldValueFrom
     );
-    fieldValueTo = getFieldValueFromOptionSource(
+    fieldValueTo = valueFromOptionSource(
       allAgencies,
       allLookups,
       locations,
-      i18n,
+      i18n.locale,
       selectedFieldOptionsSource,
       fieldValueTo
     );

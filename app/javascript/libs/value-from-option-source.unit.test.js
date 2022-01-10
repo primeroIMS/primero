@@ -1,19 +1,20 @@
 import { fromJS } from "immutable";
 
-import { OPTION_TYPES } from "../form/constants";
+import { STRING_SOURCES_TYPES } from "../config";
 
-import getFieldValueFromOptionSource from "./utils";
+import valueFromOptionSource from "./value-from-option-source";
 
-describe("getFieldValueFromOptionSource", () => {
-  const allAgencies = fromJS([
+describe("valueFromOptionSource", () => {
+  const allAgencies = [
     {
-      id: 1,
-      unique_id: "agency-one",
-      name: {
-        en: "Agency 1"
-      }
+      id: "agency-one",
+      display_text: "Agency 1"
+    },
+    {
+      id: "agency-two",
+      display_text: "Agency 2"
     }
-  ]);
+  ];
   const allLookups = fromJS([
     {
       id: 1,
@@ -57,7 +58,7 @@ describe("getFieldValueFromOptionSource", () => {
 
   context("when the value is List", () => {
     it("should return the display text for each value", () => {
-      const result = getFieldValueFromOptionSource(
+      const result = valueFromOptionSource(
         allAgencies,
         allLookups,
         locations,
@@ -72,14 +73,7 @@ describe("getFieldValueFromOptionSource", () => {
 
   context("when is the value is a string", () => {
     it("should return the display text for each value", () => {
-      const result = getFieldValueFromOptionSource(
-        allAgencies,
-        allLookups,
-        locations,
-        "en",
-        "lookup lookup-gender",
-        "female"
-      );
+      const result = valueFromOptionSource(allAgencies, allLookups, locations, "en", "lookup lookup-gender", "female");
 
       expect(result).to.deep.equal("Female");
     });
@@ -87,7 +81,14 @@ describe("getFieldValueFromOptionSource", () => {
 
   context("when is the value is an agency", () => {
     it("should return the display text for each value", () => {
-      const result = getFieldValueFromOptionSource(allAgencies, allLookups, locations, "en", OPTION_TYPES.AGENCY, 1);
+      const result = valueFromOptionSource(
+        allAgencies,
+        allLookups,
+        locations,
+        "en",
+        STRING_SOURCES_TYPES.AGENCY,
+        "agency-one"
+      );
 
       expect(result).to.deep.equal("Agency 1");
     });
@@ -95,12 +96,12 @@ describe("getFieldValueFromOptionSource", () => {
 
   context("when is the value is a location", () => {
     it("should return the display text for each value", () => {
-      const result = getFieldValueFromOptionSource(
+      const result = valueFromOptionSource(
         allAgencies,
         allLookups,
         locations,
         "en",
-        OPTION_TYPES.LOCATION,
+        STRING_SOURCES_TYPES.LOCATION,
         "city1"
       );
 

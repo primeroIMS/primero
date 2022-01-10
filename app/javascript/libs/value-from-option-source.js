@@ -1,20 +1,22 @@
 /* eslint-disable camelcase */
 import { List } from "immutable";
 
-import { displayNameHelper } from "../../libs";
-import { OPTION_TYPES } from "../form/constants";
+import { STRING_SOURCES_TYPES } from "../config";
+
+import displayNameHelper from "./display-name-helper";
 
 const getValueFromOptions = (allAgencies, allLookups, locations, locale, optionSelected, value) => {
+  if (!value) {
+    return undefined;
+  }
   const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
 
-  if (optionSelected === OPTION_TYPES.LOCATION) {
+  if (optionSelected === STRING_SOURCES_TYPES.LOCATION) {
     return locations.find(location => location.id === valueToTranslated)?.display_text;
   }
 
-  if (optionSelected === OPTION_TYPES.AGENCY) {
-    const agencySelected = allAgencies.find(agency => agency.get("id") === valueToTranslated).get("name");
-
-    return displayNameHelper(agencySelected, locale);
+  if (optionSelected === STRING_SOURCES_TYPES.AGENCY) {
+    return allAgencies.find(agency => agency.id === valueToTranslated)?.display_text;
   }
   const lookupValue = allLookups
     ?.find(lookup => lookup.get("unique_id") === optionSelected.replace(/lookup /, ""))
@@ -25,7 +27,7 @@ const getValueFromOptions = (allAgencies, allLookups, locations, locale, optionS
 };
 
 export default (allAgencies, allLookups, locations, locale, selectedFieldOptionsSource, fieldValue) => {
-  if (List.isList(fieldValue)) {
+  if (List.isList(fieldValue) || Array.isArray(fieldValue)) {
     return fieldValue.map(value =>
       getValueFromOptions(allAgencies, allLookups, locations, locale, selectedFieldOptionsSource, value)
     );

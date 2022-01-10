@@ -8,11 +8,17 @@ import isEmpty from "lodash/isEmpty";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper, useMemoizedSelector } from "../../libs";
+import {
+  dataToJS,
+  ConditionalWrapper,
+  displayNameHelper,
+  useThemeHelper,
+  useMemoizedSelector,
+  valueFromOptionSource
+} from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
-import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
@@ -22,7 +28,6 @@ import recordListTheme from "./theme";
 import { NAME } from "./config";
 import { getRecords, getLoading, getErrors, getFilters } from "./selectors";
 import CustomToolbarSelect from "./custom-toolbar-select";
-import getFieldValueFromOptionSource from "./utils";
 
 const Component = ({
   arrayColumnsToString,
@@ -54,7 +59,7 @@ const Component = ({
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
   const allFields = useMemoizedSelector(state => getFields(state));
   const allLookups = useMemoizedSelector(state => getOptions(state));
-  const allAgencies = useMemoizedSelector(state => selectAgencies(state));
+  const allAgencies = useOptions({ source: STRING_SOURCES_TYPES.AGENCY, useUniqueId: true });
   const locations = useOptions({ source: STRING_SOURCES_TYPES.LOCATION });
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
 
@@ -97,7 +102,7 @@ const Component = ({
             .find(column => column.get("name") === key, null, fromJS({}))
             .get("option_strings_source");
 
-          const recordValue = getFieldValueFromOptionSource(
+          const recordValue = valueFromOptionSource(
             allAgencies,
             allLookups,
             locations,
