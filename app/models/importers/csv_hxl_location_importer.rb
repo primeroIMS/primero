@@ -133,15 +133,11 @@ class Importers::CsvHxlLocationImporter < ValueObject
     when 'code'
       location_hash[:location_code] = attribute_value
     else
-      process_attribute_type_other(names, attributes, attribute_value)
+      locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
+      location_hash[:placename_i18n][locale] = attribute_value
+      names[locale] ||= []
+      names[locale] << attribute_value
     end
-  end
-
-  def process_attribute_type_other(names, attributes, attribute_value)
-    locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
-    location_hash[:placename_i18n][locale] = attribute_value
-    names[locale] ||= []
-    names[locale] << attribute_value
   end
 
   def default_type_map
