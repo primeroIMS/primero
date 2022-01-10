@@ -6,7 +6,7 @@ describe("<UserGroupsList /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
 
-    ["NAME", "MANAGED"].forEach(property => {
+    ["AGENCY_UNIQUE_IDS", "DISABLED", "NAME", "MANAGED"].forEach(property => {
       expect(clonedConstants).to.have.property(property);
       delete clonedConstants[property];
     });

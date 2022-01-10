@@ -14,6 +14,7 @@ Shows a paginated list of all user_groups that are accessible to this user.
 
 * `page` Optional. Pagination. Defaults to 1
 * `per` Optional. Records per page. Defaults to 20.
+* `agency_unique_ids` Optional. Returns the users groups associated to the specified agencies.
 
 ## Success Response
 

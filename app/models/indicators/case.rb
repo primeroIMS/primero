@@ -60,7 +60,9 @@ module Indicators
       name: 'workflow_team',
       record_model: Child,
       pivots: %w[owned_by workflow],
-      scope: OPEN_CLOSED_ENABLED
+      scope: OPEN_CLOSED_ENABLED,
+      scope_to_user: true,
+      scope_to_owned_by_groups: true
     ).freeze
 
     CASES_BY_SOCIAL_WORKER = [
@@ -68,7 +70,9 @@ module Indicators
         name: 'cases_by_social_worker_total',
         record_model: Child,
         facet: 'owned_by',
-        scope: OPEN_ENABLED
+        scope: OPEN_ENABLED,
+        scope_to_owned_by_groups: true,
+        exclude_zeros: true
       ),
       FacetedIndicator.new(
         name: 'cases_by_social_worker_new_or_updated',
@@ -280,6 +284,8 @@ module Indicators
         name: 'tasks_overdue_case_plan',
         facet: 'owned_by',
         record_model: Child,
+        scope_to_owned_by_groups: true,
+        exclude_zeros: true,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -293,6 +299,8 @@ module Indicators
         name: 'tasks_overdue_services',
         facet: 'owned_by',
         record_model: Child,
+        scope_to_owned_by_groups: true,
+        exclude_zeros: true,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -416,7 +424,7 @@ module Indicators
     SHARED_FROM_MY_TEAM_REFERRALS = FacetedIndicator.new(
       name: 'shared_from_my_team_referrals',
       facet: 'owned_by',
-      include_zeros: false,
+      exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
@@ -427,7 +435,7 @@ module Indicators
     SHARED_FROM_MY_TEAM_PENDING_TRANSFERS = FacetedIndicator.new(
       name: 'shared_from_my_team_pending_transfers',
       facet: 'owned_by',
-      include_zeros: false,
+      exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
@@ -438,7 +446,7 @@ module Indicators
     SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS = FacetedIndicator.new(
       name: 'shared_from_my_team_rejected_transfers',
       facet: 'owned_by',
-      include_zeros: false,
+      exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_REJECTED)
@@ -450,6 +458,8 @@ module Indicators
       name: 'shared_with_my_team_referrals',
       record_model: Child,
       facet: 'referred_users',
+      scope_to_user: true,
+      exclude_zeros: true,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'referred_users_present', value: true)
       ]
@@ -459,6 +469,8 @@ module Indicators
       name: 'shared_with_my_team_pending_transfers',
       record_model: Child,
       facet: 'transferred_to_users',
+      scope_to_user: true,
+      exclude_zeros: true,
       queries: OPEN_ENABLED + [
         SearchFilters::Value.new(field_name: 'transfer_status', value: Transition::STATUS_INPROGRESS)
       ]
@@ -562,7 +574,6 @@ module Indicators
     def self.risk_level_indicators(risk_levels)
       [QueriedIndicator.new(
         name: 'cases_none',
-        include_zeros: true,
         scope_to_owner: true,
         record_model: Child,
         queries: OPEN_ENABLED + [
@@ -574,7 +585,6 @@ module Indicators
     def self.overdue_risk_level_indicators(risk_levels)
       [QueriedIndicator.new(
         name: 'overdue_cases_none',
-        include_zeros: true,
         scope_to_owner: true,
         record_model: Child,
         queries: overdue_none_risk_level_queries(risk_levels)
@@ -584,7 +594,6 @@ module Indicators
     def self.risk_level_indicator(risk_level)
       QueriedIndicator.new(
         name: "cases_#{risk_level}",
-        include_zeros: true,
         scope_to_owner: true,
         record_model: Child,
         queries: OPEN_ENABLED + [
@@ -596,7 +605,6 @@ module Indicators
     def self.overdue_risk_level_indicator(risk_level)
       QueriedIndicator.new(
         name: "overdue_cases_#{risk_level}",
-        include_zeros: true,
         scope_to_owner: true,
         record_model: Child,
         queries: overdue_risk_level_queries(risk_level)

@@ -13,7 +13,7 @@ import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
-import { usePermissions } from "../../../user";
+import { usePermissions, getCurrentUserGroupPermission } from "../../../user";
 import { WRITE_RECORDS } from "../../../../libs/permissions";
 import { useMemoizedSelector } from "../../../../libs";
 
@@ -32,6 +32,7 @@ const Container = ({ mode }) => {
   const { id } = useParams();
   const cantEditUserGroup = usePermissions(NAMESPACE, WRITE_RECORDS);
 
+  const userGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
   const userGroup = useMemoizedSelector(state => getUserGroup(state));
   const formErrors = useMemoizedSelector(state => getServerErrors(state));
   const saving = useMemoizedSelector(state => getSavingRecord(state));
@@ -105,7 +106,7 @@ const Container = ({ mode }) => {
           formID={FORM_ID}
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode)}
+          formSections={form(i18n, userGroupPermission)}
           onSubmit={handleSubmit}
           validations={validationSchema}
           initialValues={userGroup.toJS()}
