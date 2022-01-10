@@ -8,7 +8,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleBack, handleCancel }) => {
+const Component = ({ handleBackLabel, handleBack, handleCancel }) => {
   const handleSuccess = event => {
     event.stopPropagation();
     handleBack();
@@ -20,10 +20,11 @@ const Component = ({ handleBack, handleCancel }) => {
         <ActionButton
           id="dialog-submit"
           icon={<ArrowBackIosIcon />}
-          text="incident.violation.back_to_violations"
+          text={handleBackLabel}
           type={ACTION_BUTTON_TYPES.default}
           autoFocus
           outlined
+          noTranslate
           rest={{
             ...(handleBack && { onClick: handleSuccess })
           }}
@@ -47,6 +48,7 @@ const Component = ({ handleBack, handleCancel }) => {
 
 Component.propTypes = {
   handleBack: PropTypes.func,
+  handleBackLabel: PropTypes.string,
   handleCancel: PropTypes.func
 };
 

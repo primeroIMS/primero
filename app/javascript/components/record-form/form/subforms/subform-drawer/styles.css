@@ -1,5 +1,5 @@
 .subformDrawer {
-  width: 70%;
+  width: 60%;
 }
 
 .subformDrawerContent {
@@ -14,9 +14,21 @@
   & h1 {
     flex: 1 0 auto;
     margin: 0;
+    overflow: auto;
   }
 }
 
 .closeButton {
   color: var(--c-black) !important;
+}
+
+@media (max-width:959.95px) {
+  .subformDrawer {
+    max-width: 100%;
+  }
+  .title {
+    & h1 {
+      flex: auto;
+    }
+  }
 }

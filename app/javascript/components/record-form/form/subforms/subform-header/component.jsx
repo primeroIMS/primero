@@ -16,7 +16,7 @@ const Component = ({ field, values, locale, displayName, index, onClick, isViola
 
   const renderShortId =
     // eslint-disable-next-line camelcase
-    VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && getShortIdFromUniqueId(values[index]?.unique_id);
+    VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && `${getShortIdFromUniqueId(values[index]?.unique_id)} `;
   const subformValues = collapsedFieldNames
     .map(collapsedFieldName => {
       const val = values[index];

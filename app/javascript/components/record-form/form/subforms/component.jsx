@@ -6,7 +6,19 @@ import { useI18n } from "../../../i18n";
 import SubformFieldArray from "./subform-field-array";
 import { SUBFORM_FIELD } from "./constants";
 
-const Component = ({ forms, field, form, formik, mode, recordType, recordModuleID, formSection, isReadWriteForm }) => {
+const Component = ({
+  forms,
+  field,
+  form,
+  formik,
+  mode,
+  recordType,
+  recordModuleID,
+  formSection,
+  isReadWriteForm,
+  parentTitle,
+  violationOptions
+}) => {
   const { name } = field;
 
   const i18n = useI18n();
@@ -27,6 +39,8 @@ const Component = ({ forms, field, form, formik, mode, recordType, recordModuleI
             recordType={recordType}
             formSection={formSection}
             isReadWriteForm={isReadWriteForm}
+            parentTitle={parentTitle}
+            violationOptions={violationOptions}
           />
         )}
       </FieldArray>
@@ -44,8 +58,10 @@ Component.propTypes = {
   formSection: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  parentTitle: PropTypes.string,
   recordModuleID: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  violationOptions: PropTypes.array
 };
 
 export default connect(Component);

@@ -1325,9 +1325,19 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      back_to: Back to
       back_to_violations: Back to Violations
       pending: Pending Verification
       title: Violations
+      types:
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on: Attacks on school(s) and/or hospital(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
   incidents:
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident

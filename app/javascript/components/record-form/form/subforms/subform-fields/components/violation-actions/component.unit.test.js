@@ -9,7 +9,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationActions>", () => {
   it("should render back to violations button", () => {
     const { component } = setupMountedComponent(
       ViolationActions,
-      { handleBack: () => {}, handleCancel: () => {} },
+      { handleBackLabel: "incident.violation.back_to_violations", handleBack: () => {}, handleCancel: () => {} },
       fromJS([])
     );
 

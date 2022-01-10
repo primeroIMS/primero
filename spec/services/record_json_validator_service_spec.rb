@@ -25,6 +25,16 @@ describe RecordJsonValidatorService do
             Field.new(name: 'relation_type', type: Field::SELECT_BOX)
           ]
         )
+      ),
+      Field.new(
+        name: 'sources',
+        type: Field::SUBFORM,
+        subform: FormSection.new(
+          fields: [
+            Field.new(name: 'source_id', type: Field::TEXT_FIELD),
+            Field.new(name: 'violations_ids', type: Field::SELECT_BOX, multi_select: true)
+          ]
+        )
       )
     ]
   end
@@ -172,6 +182,7 @@ describe RecordJsonValidatorService do
       let(:mother) { { 'relation_name' => 'Maria', 'relation_type' => 'mother' } }
       let(:sister_malformatted) { { 'relation_name' => ['Saira'], 'relation_type' => 'sister' } }
       let(:sister_extra) { { 'relation_name' => 'Saira', 'relation_type' => 'sister', 'relation_age' => 15 } }
+      let(:source) { { 'source_id' => '1234', 'violations_ids' => %w[abc123] } }
 
       it 'accepts arrays of subform hashes' do
         expect(service.valid?('family_details' => [mother, father])).to be_truthy
@@ -191,6 +202,10 @@ describe RecordJsonValidatorService do
 
       it 'rejects subform hashes with extra properties' do
         expect(service.valid?('family_details' => [mother, sister_extra])).to be_falsey
+      end
+
+      it 'accepts arrays of subform hashes for violations' do
+        expect(service.valid?('sources' => [source])).to be_truthy
       end
     end
 

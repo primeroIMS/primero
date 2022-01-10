@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../libs";
 import { useI18n } from "../i18n";
+import { VIOLATION_GROUP } from "../../config";
 
 import { getOptions } from "./selectors";
 import transformOptions from "./utils/transform-options";
@@ -23,6 +24,10 @@ const useOptions = (config = {}) => {
 
     return defaultReturnValue;
   });
+
+  if (source === VIOLATION_GROUP) {
+    return options || [];
+  }
 
   if (source) {
     return filterOptions ? filterOptions(optionsFromState) : optionsFromState;
