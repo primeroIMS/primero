@@ -38,9 +38,13 @@ class Import < ValueObject
     self.failures = importer_instance.failures
     self.error_messages = importer_instance.errors
 
-    self.status = if success_total.zero? then FAILURE
-                  elsif success_total < total then SOME_FAILURE
-                  else SUCCESS
-                  end
+    self.status = calculate_status
+  end
+
+  def calculate_status
+    if success_total.zero? then FAILURE
+    elsif success_total < total then SOME_FAILURE
+    else SUCCESS
+    end
   end
 end

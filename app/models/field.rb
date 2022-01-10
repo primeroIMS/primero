@@ -232,16 +232,18 @@ class Field < ApplicationRecord
       return Rails.logger.error("Field translation not updated: Invalid locale [#{locale}]")
     end
 
-    field_hash.each do |key, value|
-      if key == 'option_strings_text'
-        update_option_strings_translations(value, locale)
-      else
-        send("#{key}_#{locale}=", value)
-      end
-    end
+    field_hash.each { |key, value| update_translation(key, value, locale) }
   end
 
   private
+
+  def update_translation(key, value, locale)
+    if key == 'option_strings_text'
+      update_option_strings_translations(value, locale)
+    else
+      send("#{key}_#{locale}=", value)
+    end
+  end
 
   def update_option_strings_translations(options_hash, locale)
     return Rails.logger.warn("Field #{name} does not have option strings. Skipping.") if option_strings_text.blank?
