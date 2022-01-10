@@ -18,11 +18,11 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
-import { getFilters } from "../agencies-list/utils";
 import { DEFAULT_FILTERS, DISABLED, DATA } from "../constants";
 import { filterOnTableChange, onSubmitFilters } from "../utils";
 
-import { NAME } from "./constants";
+import { getUserGroupFilters } from "./utils";
+import { AGENCY_UNIQUE_IDS, NAME } from "./constants";
 import { fetchUserGroups, setUserGroupsFilter } from "./action-creators";
 
 const Container = () => {
@@ -57,8 +57,8 @@ const Container = () => {
   const onTableChange = filterOnTableChange(dispatch, fetchUserGroups, setUserGroupsFilter);
 
   const filterProps = {
-    clearFields: [DISABLED],
-    filters: getFilters(i18n),
+    clearFields: [DISABLED, AGENCY_UNIQUE_IDS],
+    filters: getUserGroupFilters(i18n),
     onSubmit,
     defaultFilters,
     initialFilters: DEFAULT_FILTERS

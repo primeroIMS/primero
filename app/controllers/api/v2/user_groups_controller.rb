@@ -27,7 +27,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def update
     authorize!(:update, @user_group) && validate_json!(UserGroup::USER_GROUP_FIELDS_SCHEMA, user_group_params)
-    @user_group.assign_attributes(user_group_params)
+    @user_group.update_properties(user_group_params)
     @user_group.save!
   end
 
@@ -37,7 +37,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   def user_group_params
-    @user_group_params ||= params.require(:data).permit(:id, :unique_id, :name, :description, :disabled)
+    @user_group_params ||= params.require(:data).permit(UserGroup.permitted_api_params)
   end
 
   protected

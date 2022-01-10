@@ -19,12 +19,12 @@ import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
-import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
+import { getLoadingState, getErrors, getSelectedForm, getReadOnlyFields } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
-import { compactBlank, compactValues, getRedirectPath } from "../../utils";
+import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
 
 const Component = ({
@@ -65,7 +65,6 @@ const Component = ({
   const selectedModule = {
     recordType,
     primeroModule: record ? record.get("module_id") : params.module,
-    checkPermittedForms: true,
     renderCustomForms: canViewSummaryForm
   };
 
@@ -89,6 +88,9 @@ const Component = ({
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
+  const readOnlyFields = useMemoizedSelector(state =>
+    getReadOnlyFields(state, { recordType: selectedModule.recordType, primeroModule: selectedModule.primeroModule })
+  );
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -108,9 +110,11 @@ const Component = ({
         const saveMethod = containerMode.isEdit ? "update" : "save";
         const { incidentPath, ...formValues } = values;
 
+        const writableValues = compactReadOnlyFields(formValues, readOnlyFields);
+
         const body = {
           data: {
-            ...(containerMode.isEdit ? compactValues(formValues, initialValues) : compactBlank(formValues)),
+            ...(containerMode.isEdit ? compactValues(writableValues, initialValues) : compactBlank(writableValues)),
             ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
             ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
           }
