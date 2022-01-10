@@ -82,16 +82,22 @@ class Importers::CsvHxlLocationImporter < ValueObject
   # Example: it contains the Admin Level 3 location and each of it's parent locations
   # So... loop through each admin_level and pull out location info for that admin_level
   def process_row_admin_level(row, admin_level = 0, hierarchy = [], names = {})
+    location_hash = build_location_hash(row, admin_level, hierarchy, names)
+    locations[location_hash[:location_code]] ||= location_hash
+  end
+
+  def build_location_hash(row, admin_level, hierarchy, names)
     location_hash = map_admin_level_data(admin_level, row, names)
     location_hash[:type] = type_map[admin_level.to_s]&.first if location_hash[:type].blank?
     hierarchy << location_hash[:location_code]
     location_hash[:hierarchy_path] = hierarchy.join('.')
     location_hash[:name_i18n] = build_names_i18n(names, admin_level)
-    locations[location_hash[:location_code]] ||= location_hash
+    location_hash
   end
 
   def map_admin_level_data(admin_level, row, names)
-    location_hash = { admin_level: admin_level, placename_i18n: {}, location_code: '', type: '' }.with_indifferent_access
+    location_hash = { admin_level: admin_level, placename_i18n: {}, location_code: '',
+                      type: '' }.with_indifferent_access
     add_location_attributes(location_hash, admin_level, row, names)
     location_hash
   end
@@ -127,22 +133,30 @@ class Importers::CsvHxlLocationImporter < ValueObject
     when 'code'
       location_hash[:location_code] = attribute_value
     else
-      locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
-      location_hash[:placename_i18n][locale] = attribute_value
-      names[locale] ||= []
-      names[locale] << attribute_value
+      process_attribute_type_other(names, attributes, attribute_value)
     end
   end
 
+  def process_attribute_type_other(names, attributes, attribute_value)
+    locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
+    location_hash[:placename_i18n][locale] = attribute_value
+    names[locale] ||= []
+    names[locale] << attribute_value
+  end
+
   def default_type_map
-    system_settings = SystemSettings.current
-    default_type_map = system_settings&.reporting_location_config&.admin_level_map || {}
+    default_type_map = default_map_from_system_settings
     default_type_map['0'] ||= ['country']
     default_type_map['1'] ||= ['province']
     default_type_map['2'] ||= ['district']
     default_type_map['3'] ||= ['sub_district']
     default_type_map['4'] ||= ['township']
     default_type_map
+  end
+
+  def default_map_from_system_settings
+    system_settings = SystemSettings.current
+    system_settings&.reporting_location_config&.admin_level_map || {}
   end
 
   def locale_from_key(key_array)
