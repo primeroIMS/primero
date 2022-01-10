@@ -99,7 +99,7 @@ describe("<SubformDialog />", () => {
     const confirmationModal = component.find(ActionDialog).last().props();
 
     expect(confirmationModal.open).to.be.true;
-    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message");
+    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message_subform");
   });
 
   it("renders SubformDialog with valid props", () => {
@@ -386,14 +386,14 @@ describe("<SubformDialog />", () => {
     it("renders ViolationActions", () => {
       expect(component.find(ViolationActions)).lengthOf(1);
       expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
-        "incident.violation.back_to_violations"
+        "incident.violation.save_and_return"
       );
     });
 
     it("renders ViolationActions with valid props", () => {
       const violationActionsProps = { ...component.find(ViolationActions).props() };
 
-      ["handleBackLabel", "handleBack", "handleCancel"].forEach(property => {
+      ["handleBackLabel", "handleBack", "handleCancel", "isShow"].forEach(property => {
         expect(violationActionsProps).to.have.property(property);
         delete violationActionsProps[property];
       });
