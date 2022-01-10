@@ -8,7 +8,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleBackLabel, handleBack, handleCancel, mode }) => {
+const Component = ({ handleBackLabel, handleBack, handleCancel, isShow }) => {
   const handleSuccess = event => {
     event.stopPropagation();
     handleBack();
@@ -16,7 +16,7 @@ const Component = ({ handleBackLabel, handleBack, handleCancel, mode }) => {
 
   return (
     <div className={css.buttonsRow}>
-      {mode.isShow || (
+      {isShow || (
         <>
           {handleBack && (
             <ActionButton
@@ -24,7 +24,6 @@ const Component = ({ handleBackLabel, handleBack, handleCancel, mode }) => {
               icon={<ArrowBackIosIcon />}
               text={handleBackLabel}
               type={ACTION_BUTTON_TYPES.default}
-              autoFocus
               outlined
               noTranslate
               rest={{
@@ -54,7 +53,7 @@ Component.propTypes = {
   handleBack: PropTypes.func,
   handleBackLabel: PropTypes.string,
   handleCancel: PropTypes.func,
-  mode: PropTypes.object
+  isShow: PropTypes.object
 };
 
 Component.displayName = NAME;

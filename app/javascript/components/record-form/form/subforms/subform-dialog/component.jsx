@@ -176,9 +176,7 @@ const Component = ({
         disableActions: isFormShow
       };
 
-  const violationSlideBackButton = i18n.t(
-    `incident.violation.${isNewViolation ? "save_and_return" : "update_and_return"}`
-  );
+  const violationSlideBackButton = i18n.t(`incident.violation.${isNewViolation ? "save" : "update"}_and_return`);
 
   const handleBackLabel = isViolationAssociation
     ? `${i18n.t("incident.violation.back_to")} ${parentTitle || title}`
@@ -218,7 +216,7 @@ const Component = ({
                     handleBackLabel={handleBackLabel}
                     handleBack={event => submitForm(event)}
                     handleCancel={handleClose}
-                    mode={mode}
+                    isShow={mode.isShow}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}
