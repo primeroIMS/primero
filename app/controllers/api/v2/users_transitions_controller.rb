@@ -37,8 +37,8 @@ class Api::V2::UsersTransitionsController < ApplicationApiController
   def authorize_assign!(record)
     can_assign =
       current_user.can?(Permission::ASSIGN.to_sym, record) ||
-        current_user.can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record) ||
-        current_user.can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record)
+      current_user.can?(Permission::ASSIGN_WITHIN_AGENCY.to_sym, record) ||
+      current_user.can?(Permission::ASSIGN_WITHIN_USER_GROUP.to_sym, record)
     raise Errors::ForbiddenOperation unless can_assign
   end
 

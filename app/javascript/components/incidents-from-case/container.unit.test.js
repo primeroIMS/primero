@@ -6,6 +6,7 @@ import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { RECORD_TYPES } from "../../config";
 import RecordFormAlerts from "../record-form-alerts";
+import InternalAlert from "../internal-alert";
 import * as R from "../record-form/records";
 import { mapEntriesToRecord } from "../../libs";
 
@@ -120,6 +121,24 @@ describe("<IncidentFromCase /> - Component", () => {
 
   it("render RecordFormAlerts", () => {
     expect(component.find(RecordFormAlerts)).to.have.lengthOf(1);
+  });
+
+  it("should render the alerts", () => {
+    const stateWithAlerts = initialState.setIn(
+      ["records", "cases", "recordAlerts"],
+      fromJS([
+        {
+          alert_for: "field_change",
+          type: "incident_from_case",
+          date: "2021-12-21",
+          form_unique_id: "incident_from_case"
+        }
+      ])
+    );
+
+    const { component: componentWithAlerts } = setupMountedComponent(IncidentFromCase, props, stateWithAlerts);
+
+    expect(componentWithAlerts.find(InternalAlert)).to.have.lengthOf(1);
   });
 
   it("renders component with valid props", () => {

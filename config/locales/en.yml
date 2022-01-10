@@ -1764,6 +1764,7 @@ en:
       approval: Approval is pending for %{form_section_name}
       field_change: '%{form_section_name} was updated on %{alert_time}'
       transfer_request: A new Transfer Request was made on %{date} by %{user} at %{agency}
+      duplicate_field: Another Case in the system has the same %{field_name} as this one.
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
       to the list view . Click cancel to return to the record.
@@ -2971,9 +2972,9 @@ en:
               appears.
             label: Export PDF
           export_xls:
-            explanation: 'User can generate a XLS file export from the case list or
-              case show pages, which contains all fields to which the current user
-              has access, for one, multiple, or all cases to which the user has access.
+            explanation: 'User can generate a XLS file export from the Tracing Requests list or
+              Tracing Request show pages, which contains all fields to which the current user
+              has access, for one, multiple, or all Tracing Requests to which the user has access.
               In this export, each form is represented in its own tab within the XLS
               file. NOTE: The XLS format renders non-Latin characters (e.g. Arabic,
               Bangla) in a readable format, while the CSV export does not.'
@@ -3495,6 +3496,7 @@ en:
       body2_reset_notification: "You will receive an additional email prompting you to reset your password."
       body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
   user_group:
+    associated_agencies: Agencies associated with this User Group
     description: Description
     disabled:
       explanation: If you disable this User Group, you will no longer be able to assign

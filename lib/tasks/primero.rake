@@ -23,11 +23,11 @@ namespace :primero do
     record_models = [Child, Incident, TracingRequest, Trace, Flag]
     data_config = [Alert, Attachment, AuditLog, BulkExport, RecordHistory,
                    SavedSearch, Transition]
-    db_tables = %w[ active_storage_variant_records primero_modules_saved_searches]
+    db_tables = %w[active_storage_variant_records primero_modules_saved_searches]
 
     if args[:include_users].present? && args[:include_users].start_with?(/[yYTt]/)
       record_models << User
-      db_tables << 'user_groups_users' 
+      db_tables << 'user_groups_users'
     end
 
     (record_models + data_config).each do |model|
@@ -42,7 +42,7 @@ namespace :primero do
 
     ActiveRecord::Base.connection.execute("DELETE FROM active_storage_attachments WHERE record_type != 'Agency'")
     agenncy_blob_ids = ActiveStorage::Attachment.where(record_type: 'Agency').pluck(:blob_id).join(', ')
-    blobs_conditional =  agenncy_blob_ids.present? ? "WHERE id NOT IN (#{agenncy_blob_ids})" : ''
+    blobs_conditional = agenncy_blob_ids.present? ? "WHERE id NOT IN (#{agenncy_blob_ids})" : ''
     ActiveRecord::Base.connection.execute("DELETE FROM active_storage_blobs #{blobs_conditional}")
 
     Sunspot.remove_all(record_models)
@@ -265,11 +265,11 @@ namespace :primero do
     if affected_users.size.positive?
       puts 'The following users will have their passwords changed:'
       affected_users.each { |u| puts "  #{u.user_name}" }
-      begin
-        puts "\nIs that OK? (y/n)"
-        ok = STDIN.gets.strip.downcase
-        break if %w[y n].include?(ok)
-      end
+
+      puts "\nIs that OK? (y/n)"
+      ok = STDIN.gets.strip.downcase
+      break if %w[y n].include?(ok)
+
       if ok == 'y'
         puts 'Please enter a new default password:'
         password = STDIN.noecho(&:gets).chomp
@@ -341,7 +341,11 @@ namespace :primero do
   task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
     args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
     opts = args.to_h
-    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
+
+    # The logic in the exporter has now been reversed. 'visible' option controls whether to only show visible
+    # fields and forms or not... so it actually is the reverse of the old "show_hidden" logic
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? false : true
+
     opts[:file_name] = 'forms.xlsx'
     exporter = Exporters::FormExporter.new(opts)
     exporter.export

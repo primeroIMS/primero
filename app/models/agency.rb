@@ -42,6 +42,7 @@ class Agency < ApplicationRecord
   has_one_attached :logo_icon, dependent: false
   has_one_attached :terms_of_use, dependent: false
   has_many :users, inverse_of: :agency
+  has_and_belongs_to_many :user_groups
 
   scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
   scope :with_logos, -> { enabled.where(logo_enabled: true) }

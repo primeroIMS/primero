@@ -1,6 +1,6 @@
 import { Formik } from "formik";
 import { TextField } from "@material-ui/core";
-import { isEqual, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 
 import { DEFAULT_DATE_VALUES } from "../../../../config";
 import { setupMountedComponent, useFakeTimers } from "../../../../test";
@@ -98,7 +98,7 @@ describe("<DateField />", () => {
       clock.restore();
     });
 
-    it("should set the default value if the mode is new", () => {
+    it("sets the date default value as string if the mode is new", () => {
       const { component } = setupMountedComponent(
         DateField,
         {
@@ -110,7 +110,29 @@ describe("<DateField />", () => {
         formProps
       );
 
-      expect(isEqual(component.find(Formik).state().values.date_of_interview, new Date())).to.be.true;
+      expect(component.find(Formik).state().values.date_of_interview).to.be.equal("2010-01-05");
+    });
+
+    it("sets the datetime default value as string if the mode is new", () => {
+      const { component } = setupMountedComponent(
+        DateField,
+        {
+          ...props,
+          field: FieldRecord({
+            name: "date_of_interview",
+            type: DATE_FIELD,
+            display_name_en: "Date of Interview",
+            selected_value: DEFAULT_DATE_VALUES.TODAY,
+            date_include_time: true
+          }),
+          mode: { isNew: true }
+        },
+        {},
+        [],
+        formProps
+      );
+
+      expect(component.find(Formik).state().values.date_of_interview).to.be.equal("2010-01-05T18:30:00Z");
     });
 
     it("should clear the current value if the mode is new and the clear button is clicked", () => {

@@ -97,13 +97,15 @@ class Exporters::BaseExporter
   def fields_to_export(forms, options = {})
     fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
     fields -= (self.class.excluded_field_names&.to_a || [])
-    return fields unless options[:field_names].present?
+    return fields if options[:field_names].blank?
 
     # TODO: Don't forget this:
     # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
-    options[:field_names].map do |field_name|
-      fields.find { |field| field.name == field_name }
-    end.compact
+    options[:field_names].map { |field_name| find_field(fields, field_name) }.compact
+  end
+
+  def find_field(fields, field_name)
+    fields.find { |field| field.name == field_name }
   end
 
   def forms_without_hidden_fields(form)
@@ -113,8 +115,7 @@ class Exporters::BaseExporter
       if field.type == Field::SUBFORM
         # TODO: This cause N+1
         field.subform = forms_without_hidden_fields(field.subform)
-      elsif !field.visible
-        next
+      elsif !field.visible then next
       end
       form_dup.fields << field
     end

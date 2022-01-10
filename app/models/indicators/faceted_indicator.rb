@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Class for Faceted Indicator
   class FacetedIndicator < AbstractIndicator
-    attr_accessor :facet, :include_zeros
+    # rubocop:enable Style/ClassAndModuleChildren
+    attr_accessor :facet
 
     def facet_name
       facet
-    end
-
-    def zeros
-      include_zeros.nil? ? true : include_zeros
     end
 
     def query(sunspot, user)
@@ -23,7 +22,7 @@ module Indicators
         with(:owned_by_groups, user.user_group_unique_ids) if this.scope_to_owned_by_groups
         without(:last_updated_by, user.user_name) if this.scope_to_not_last_update
         this.scope&.each { |f| f.query_scope(self) }
-        facet(this.facet_name, zeros: this.zeros)
+        facet(this.facet_name, zeros: !this.exclude_zeros)
       end
     end
 

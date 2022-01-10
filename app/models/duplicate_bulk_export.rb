@@ -17,6 +17,7 @@ class DuplicateBulkExport < BulkExport
   end
 
   # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   # Custom Solr queries are long
   def search_for_duplicate_values
     result = model_class.search do
@@ -36,15 +37,15 @@ class DuplicateBulkExport < BulkExport
     result.select { |value| value.is_a?(String) }
   end
   # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def search_for_duplicate_records(values, batch_size)
     page = 1
     sort = order || { national_id_no: :asc }
     loop do
       filters = filters_for_duplicates(duplicate_field_name, values)
-      results = SearchService.search(
-        model_class, filters: filters, query: query, pagination: { page: page, per_page: batch_size }, sort: sort
-      ).results
+      results = SearchService.search(model_class, filters: filters, query: query,
+                                                  pagination: { page: page, per_page: batch_size }, sort: sort).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page

@@ -28,8 +28,14 @@ class Importers::YmlConfigImporter < ValueObject
     locale = config_data&.keys&.first&.to_sym
     return Rails.logger.error('Import Not Processed: locale not passed in') if locale.blank?
 
-    return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales") if I18n.available_locales.exclude?(locale)
+    if I18n.available_locales.exclude?(locale)
+      return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales")
+    end
 
+    process_config_data(config_data)
+  end
+
+  def process_config_data(config_data)
     config_data.values.each do |config|
       config = strip_hash_values!(config)
       send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)
@@ -66,10 +72,10 @@ class Importers::YmlConfigImporter < ValueObject
   def strip_hash_values!(hash)
     hash.each_value do |value|
       case value
-        when String
-          value.strip!
-        when Hash
-          strip_hash_values!(value)
+      when String
+        value.strip!
+      when Hash
+        strip_hash_values!(value)
       end
     end
   end

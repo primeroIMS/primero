@@ -55,6 +55,10 @@ const rules = [
     ]
   },
   {
+    test: /index.css$/,
+    use: [MiniCssExtractPlugin.loader, "css-loader"]
+  },
+  {
     test: /\.svg$/,
     loader: "react-svg-loader",
     options: {

@@ -39,11 +39,16 @@ const Component = ({
   const { register, unregister, setValue, getValues } = formMethods;
   const [inputValue, setInputValue] = useState([]);
   const valueRef = useRef();
-  const { options, field_name: fieldName, option_strings_source: optionStringsSource } = filter;
+  const {
+    options,
+    field_name: fieldName,
+    option_strings_source: optionStringsSource,
+    option_strings_source_id_key: optionStringsSourceIdKey
+  } = filter;
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
 
-  const lookups = useOptions({ source: optionStringsSource });
+  const lookups = useOptions({ source: optionStringsSource, optionStringsSourceIdKey });
 
   const filterOptions = whichOptions({
     optionStringsSource,

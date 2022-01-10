@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::UserGroupsController, type: :request do
   before :each do
-    clean_data(UserGroup, Role)
+    clean_data(UserGroup, Agency, Role)
     @role = Role.create!(
       name: 'Test Role 1',
       unique_id: 'test-role-1',
@@ -137,6 +137,40 @@ describe Api::V2::UserGroupsController, type: :request do
       expect(UserGroup.first.users.count).to eq(0)
     end
 
+    describe 'POST user group with associated agencies' do
+      before :each do
+        clean_data(Agency)
+        Agency.create!(unique_id: 'agency-1', name: 'Agency 1', agency_code: 'agency1')
+        Agency.create!(unique_id: 'agency-2', name: 'Agency 2', agency_code: 'agency2')
+      end
+
+      it 'creates a new user group with associated agencies' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
+          ]
+        )
+        agency_unique_ids = %w[agency-1 agency-2]
+        params = {
+          data: {
+            unique_id: 'associated_agencies_unique_id',
+            name: 'test_associated_agencies',
+            disabled: false,
+            description: 'test_associated_agencies',
+            agency_unique_ids: agency_unique_ids
+          }
+        }
+
+        post '/api/v2/user_groups', params: params, as: :json
+        expect(response).to have_http_status(200)
+        expect(json['data']['name']).to eq(params[:data][:name])
+        expect(UserGroup.first.users.count).to eq(0)
+        expect(UserGroup.find_by(unique_id: 'associated_agencies_unique_id').agency_unique_ids).to match_array(
+          agency_unique_ids
+        )
+      end
+    end
+
     describe 'POST user_group as a admin' do
       before :each do
         clean_data(UserGroup, Agency, PrimeroModule, Role, User, FormSection, PrimeroProgram)
@@ -253,7 +287,7 @@ describe Api::V2::UserGroupsController, type: :request do
 
       patch "/api/v2/user_groups/#{@user_group_b.id}", params: params, as: :json
       expect(response).to have_http_status(200)
-      expect(json['data'].except('core_resource')).to eq(params[:data].deep_stringify_keys)
+      expect(json['data'].except('core_resource', 'agency_unique_ids')).to eq(params[:data].deep_stringify_keys)
       expect(json['data']['core_resource']).to eq(false)
     end
 
@@ -283,6 +317,33 @@ describe Api::V2::UserGroupsController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/user_groups/#{@user_group_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    describe 'PATCH updates the agencies for a user group' do
+      before :each do
+        clean_data(Agency)
+        Agency.create!(unique_id: 'agency-1', name: 'Agency 1', agency_code: 'agency1')
+        Agency.create!(unique_id: 'agency-2', name: 'Agency 2', agency_code: 'agency2')
+      end
+
+      it 'updates the agencies' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
+          ]
+        )
+        agency_unique_ids = %w[agency-1 agency-2]
+        params = {
+          data: {
+            id: @user_group_b.id,
+            agency_unique_ids: agency_unique_ids
+          }
+        }
+
+        patch "/api/v2/user_groups/#{@user_group_b.id}", params: params, as: :json
+        expect(response).to have_http_status(200)
+        expect(json['data']['agency_unique_ids']).to match_array(agency_unique_ids)
+      end
     end
   end
 

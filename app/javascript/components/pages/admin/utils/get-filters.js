@@ -1,11 +1,7 @@
-/* eslint-disable import/prefer-default-export */
-
 import { FILTER_TYPES } from "../../../index-filters";
+import { DISABLED } from "../constants";
 
-import { DISABLED } from "./constants";
-
-// eslint-disable-next-line import/prefer-default-export
-export const getFilters = i18n => [
+export default i18n => [
   {
     name: "cases.filter_by.enabled_disabled",
     field_name: DISABLED,
