@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Module for Json Validate Params
 module Api::V2::Concerns::JsonValidateParams
   extend ActiveSupport::Concern
 

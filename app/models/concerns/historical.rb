@@ -56,7 +56,7 @@ module Historical
     self.created_by_full_name = user&.full_name
     self.created_organization = user&.organization&.unique_id
     self.created_agency_office = user&.agency_office
-    self.last_updated_at ||= self.created_at ||= DateTime.now
+    update_last_updated_at
     self.posted_at = DateTime.now
   end
 
@@ -100,7 +100,7 @@ module Historical
 
     RecordHistory.create(
       record: self, record_type: self.class.name,
-      user_name: last_updated_by, datetime: self.last_updated_at,
+      user_name: last_updated_by, datetime: last_updated_at,
       action: EVENT_UPDATE, record_changes: saved_changes_to_record
     )
   end

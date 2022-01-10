@@ -14,7 +14,8 @@ class NotificationMailer < ApplicationMailer
     @locale_email = @manager.locale || I18n.locale
     return log_not_found('Lookup', 'lookup-approval-type') unless @approval_type
 
-    mail(to: @manager.email, subject: t('email_notification.approval_request_subject', id: @child.short_id, locale: @locale_email))
+    mail(to: @manager.email, subject: t('email_notification.approval_request_subject', id: @child.short_id,
+                                                                                       locale: @locale_email))
   end
 
   def manager_approval_response(record_id, approved, approval_type, manager_user_name)
@@ -26,9 +27,10 @@ class NotificationMailer < ApplicationMailer
     lookup_name = @manager.gbv? ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
     @approval_type = Lookup.display_value(lookup_name, approval_type)
     @locale_email = @owner.locale || I18n.locale
-    @approval = approved ? t('approvals.status.approved', locale: @locale_email) : t('approvals.status.rejected', locale: @locale_email)
+    @approval = approved ? manager_approval_message : manager_rejected_message
 
-    mail(to: @owner.email, subject: t('email_notification.approval_response_subject', id: @child.short_id, locale: @locale_email))
+    mail(to: @owner.email,
+         subject: t('email_notification.approval_response_subject', id: @child.short_id, locale: @locale_email))
   end
 
   def transition_notify(transition_id)
@@ -38,15 +40,7 @@ class NotificationMailer < ApplicationMailer
     return unless assert_notifications_enabled(@transition&.transitioned_to_user)
 
     record = @transition&.record
-    mail(
-      to: @transition&.transitioned_to_user&.email,
-      subject: t(
-        "email_notification.#{@transition.key}_subject",
-        record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
-        id: record.short_id,
-        locale: @locale_email
-      )
-    )
+    mail(to: @transition&.transitioned_to_user&.email, subject: transition_subject(record))
   end
 
   def transfer_request(transfer_request_id)
@@ -75,5 +69,22 @@ class NotificationMailer < ApplicationMailer
       Rails.logger.info(
         "Mail not sent. Notifications disabled for #{user&.user_name || 'nil user'}"
       )
+  end
+
+  def manager_approval_message
+    t('approvals.status.approved', locale: @locale_email)
+  end
+
+  def manager_rejected_message
+    t('approvals.status.rejected', locale: @locale_email)
+  end
+
+  def transition_subject(record)
+    t(
+      "email_notification.#{@transition.key}_subject",
+      record_type: t("forms.record_types.#{record.class.parent_form}", locale: @locale_email),
+      id: record.short_id,
+      locale: @locale_email
+    )
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
 require 'write_xlsx'
@@ -68,40 +70,43 @@ class Exporters::RolePermissionsExporter
 
   # Exports forms to an Excel spreadsheet
   def export(*_args)
+    write_header
+    write_permissions
+    write_permitted_forms
+    complete
+  end
+
+  def write_header
     @roles = Role.all.to_a.sort_by(&:name)
     @role_permissions_array = @roles.map do |r|
       r.permissions.map { |p| [p.resource, p.to_h] }.to_h
     end
-    permissions_all = Permission.all_available
     header = %w[Resource Action] + @roles.map(&:name)
     write_row(header, true)
     add_format(header.count)
-    write_general_permissions
-    write_case_permission(permissions_all.first)
-
-    permissions_all.drop(1).each do |permission_group|
-      write_out_permissions_by_resource(permission_group)
-    end
-    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
-    @forms_by_record_type.each { |record_type, forms| write_out_permitted_form_record_type record_type, forms }
-    complete
   end
 
-  def write_general_permissions
-    # Group permissions
+  def write_permissions
+    write_group_permissions
+    write_referral_transfer_permissions
+    permissions_all = Permission.all_available
+    write_case_permission(permissions_all.first)
+    write_resource_permissions(permissions_all)
+  end
+
+  def write_group_permissions
     group_permission_header_row = [I18n.t('role.group_permission_label', locale: @locale)]
-    write_row group_permission_header_row
-    attr_keys = %w[self group admin_only all]
-    attr_keys.each do |attr_key|
+    write_row(group_permission_header_row)
+    %w[self group admin_only all].each do |attr_key|
       group_permission_row = ['', I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
       group_permissions_checks = @roles.map { |r| get_check(r.group_permission == attr_key) }
       group_permission_row += group_permissions_checks
-      write_row group_permission_row
+      write_row(group_permission_row)
     end
+  end
 
-    # Referral and transfer permissions
-    attr_keys = %w[referral transfer]
-    attr_keys.each do |attr_key|
+  def write_referral_transfer_permissions
+    %w[referral transfer].each do |attr_key|
       header_row = [I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
       write_row header_row
 
@@ -113,44 +118,60 @@ class Exporters::RolePermissionsExporter
 
   def write_case_permission(permission)
     case_permissions = [
-      Permission.new(
-        resource: Permission::CASE,
-        actions: permission.actions.select { |action| CASE.include?(action) }
-      ),
-      Permission.new(
-        resource: 'case_exports',
-        actions: permission.actions.select { |action| CASE_EXPORTS.include?(action) }
-      ),
-      Permission.new(
-        resource: 'case_approvals',
-        actions: permission.actions.select { |action| CASE_APPROVALS.include?(action) }
-      ),
-      Permission.new(
-        resource: 'cases_managed_other_users',
-        actions: permission.actions.select { |action| CASE_MANAGED_OTHER_USERS.include?(action) }
-      ),
-      Permission.new(
-        resource: 'case_assignments_referrals_transfers',
-        actions: permission.actions.select { |action| CASE_ASSIGNMENT_REFERRALS_TRANSFERS.include?(action) }
-      )
+      permission_case(permission), permission_case_exports(permission), permission_case_approvals(permission),
+      permission_cases_managed_other_users(permission), case_assignments_referrals_transfers(permission)
     ]
     case_permissions.each { |case_permission| write_out_permissions_by_resource(case_permission, Permission::CASE) }
+  end
+
+  def permission_case(permission)
+    Permission.new(resource: Permission::CASE, actions: permission.actions.select { |action| CASE.include?(action) })
+  end
+
+  def permission_case_exports(permission)
+    Permission.new(resource: 'case_exports',
+                   actions: permission.actions.select { |action| CASE_EXPORTS.include?(action) })
+  end
+
+  def permission_case_approvals(permission)
+    Permission.new(resource: 'case_approvals',
+                   actions: permission.actions.select { |action| CASE_APPROVALS.include?(action) })
+  end
+
+  def permission_cases_managed_other_users(permission)
+    Permission.new(resource: 'cases_managed_other_users',
+                   actions: permission.actions.select { |action| CASE_MANAGED_OTHER_USERS.include?(action) })
+  end
+
+  def case_assignments_referrals_transfers(permission)
+    Permission.new(resource: 'case_assignments_referrals_transfers',
+                   actions: permission.actions.select { |action| CASE_ASSIGNMENT_REFERRALS_TRANSFERS.include?(action) })
+  end
+
+  def write_resource_permissions(permissions_all)
+    permissions_all.drop(1).each do |permission_group|
+      write_out_permissions_by_resource(permission_group)
+    end
   end
 
   def write_out_permissions_by_resource(permission_group, permission_resource = nil)
     resource_label = I18n.t("permissions.permission.#{permission_group.resource}", locale: @locale)
     write_row resource_label
     permission_group.actions.each do |action|
-      permissions = @role_permissions_array.map do |p|
-        permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
-        has_action =
-          (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
-        get_check has_action
-      end
-      permission_row = ['', I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
-      write_row permission_row
+      write_resource_permission_row(permission_resource, permission_group, action)
     end
     write_managed_roles if permission_group.resource == 'role'
+  end
+
+  def write_resource_permission_row(permission_resource, permission_group, action)
+    permissions = @role_permissions_array.map do |p|
+      permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
+      has_action =
+        (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
+      get_check has_action
+    end
+    permission_row = ['', I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
+    write_row permission_row
   end
 
   def write_managed_roles
@@ -162,6 +183,11 @@ class Exporters::RolePermissionsExporter
       role_row = ['', role.name] + managed_roles_array
       write_row role_row
     end
+  end
+
+  def write_permitted_forms
+    @forms_by_record_type = FormSection.all_forms_grouped_by_parent
+    @forms_by_record_type.each { |record_type, forms| write_out_permitted_form_record_type record_type, forms }
   end
 
   def write_out_permitted_form_record_type(record_type, forms)

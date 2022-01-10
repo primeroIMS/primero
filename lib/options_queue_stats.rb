@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Description of OptionsQueueStats class
 class OptionsQueueStats
   def self.options_not_generated?
     options_dir = "#{Rails.root}/public/options"

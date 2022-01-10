@@ -59,6 +59,10 @@ class Exporters::RubyConfigExporter
     grouped_forms = FormSection.all.group_by do |form|
       form.is_nested ? form.subform_field&.form_section&.unique_id : form.unique_id
     end
+    map_grouped_forms(grouped_forms)
+  end
+
+  def map_grouped_forms(grouped_forms)
     grouped_forms.map do |unique_id, form_and_subforms|
       [unique_id, form_and_subforms.sort_by { |form| form.is_nested? ? 0 : 1 }]
     end.to_h

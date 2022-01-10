@@ -3,7 +3,8 @@
 # Concern that describes how fields on forms should be indexed in Sunspot.
 module Searchable
   extend ActiveSupport::Concern
-  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family tracing_names tracing_nicknames].freeze
+  PHONETIC_FIELD_NAMES = %w[name name_nickname name_other relation_name relation_nickname relation_other_family
+                            tracing_names tracing_nicknames].freeze
 
   # Almost never disable Rubocop, but Sunspot searchable blocks are special
   # rubocop:disable Metrics/BlockLength

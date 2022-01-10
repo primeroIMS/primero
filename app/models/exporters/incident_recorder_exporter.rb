@@ -81,15 +81,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       @caseworker_code = {}
       @age_group_count = -1
       @age_type_count = -1
-      @fields = Field.where(
-        name: %w[service_referred_from service_safehouse_referral perpetrator_relationship perpetrator_occupation
-                 incidentid_ir survivor_code date_of_first_report incident_date date_of_birth ethnicity
-                 country_of_origin maritial_status displacement_status disability_type unaccompanied_separated_status
-                 displacement_incident incident_location_type incident_camp_town gbv_sexual_violence_type
-                 harmful_traditional_practice goods_money_exchanged abduction_status_time_of_incident
-                 gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
-      ).inject({}) { |acc, field| acc.merge(field.name => field) }
-
+      @fields = initialize_fields
       @workbook = WriteXLSX.new(exporter.buffer)
       @data_worksheet = @workbook.add_worksheet('Incident Data')
       @menu_worksheet = @workbook.add_worksheet('Menu Data')
@@ -98,6 +90,17 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       @row_data = 1
       self.locale = locale || I18n.locale
       self.field_value_service = FieldValueService.new
+    end
+
+    def initialize_fields
+      Field.where(
+        name: %w[service_referred_from service_safehouse_referral perpetrator_relationship perpetrator_occupation
+                 incidentid_ir survivor_code date_of_first_report incident_date date_of_birth ethnicity
+                 country_of_origin maritial_status displacement_status disability_type unaccompanied_separated_status
+                 displacement_incident incident_location_type incident_camp_town gbv_sexual_violence_type
+                 harmful_traditional_practice goods_money_exchanged abduction_status_time_of_incident
+                 gbv_reported_elsewhere gbv_previous_incidents incident_timeofday consent_reporting]
+      ).inject({}) { |acc, field| acc.merge(field.name => field) }
     end
 
     def incident_data_header
@@ -135,7 +138,10 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       gender_list = perpetrators.map { |model| model['perpetrator_sex'] }
       male_count = gender_list.count { |gender| gender == 'male' }
       female_count = gender_list.count { |gender| gender == 'female' }
+      perpetrators_sex_string(female_count, male_count)
+    end
 
+    def perpetrators_sex_string(female_count, male_count)
       if male_count.positive?
         if female_count.positive?
           I18n.t('exports.incident_recorder_xls.gender.both')
@@ -201,17 +207,18 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       adult_count = age_type_list.count { |age_type| age_type == 'adult' }
       minor_count = age_type_list.count { |age_type| age_type == 'minor' }
       unknown_count = age_type_list.count { |age_type| age_type == 'unknown' }
+      age_type_string(adult_count, minor_count, unknown_count)
+    end
 
+    def age_type_string(adult_count, minor_count, unknown_count)
       if adult_count.positive?
         if minor_count.positive?
           I18n.t('exports.incident_recorder_xls.age_type.both')
         else
           I18n.t('exports.incident_recorder_xls.age_type.adult')
         end
-      elsif minor_count.positive?
-        I18n.t('exports.incident_recorder_xls.age_type.minor')
-      elsif unknown_count.positive?
-        I18n.t('exports.incident_recorder_xls.age_type.unknown')
+      elsif minor_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.minor')
+      elsif unknown_count.positive? then I18n.t('exports.incident_recorder_xls.age_type.unknown')
       end
     end
 
@@ -410,14 +417,18 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       incident_data_header
       models.each do |model|
         @alleged_perpetrators = nil
-        @props.each_with_index do |(_, prop), index|
-          next unless prop.present?
-
-          value = prop.is_a?(Proc) ? prop.call(model) : model.data[prop]
-          formatted_value = format_value(prop, value).to_s
-          @data_worksheet.write(@row_data, index, formatted_value) unless formatted_value.nil?
-        end
+        write_model_data(model)
         @row_data += 1
+      end
+    end
+
+    def write_model_data(model)
+      @props.each_with_index do |(_, prop), index|
+        next unless prop.present?
+
+        value = prop.is_a?(Proc) ? prop.call(model) : model.data[prop]
+        formatted_value = format_value(prop, value).to_s
+        @data_worksheet.write(@row_data, index, formatted_value) unless formatted_value.nil?
       end
     end
 
@@ -433,7 +444,10 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         { cell_index: 3, values: @districts.values[0..49] },
         { cell_index: 4, values: @camps.values[0..49] }
       ]
+      write_menus(menus)
+    end
 
+    def write_menus(menus)
       menus.each do |menu|
         # Sheet data start at row 1 (based 0 index).
         i = 1

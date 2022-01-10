@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
+# rubocop:disable Style/ClassAndModuleChildren
 module Reports
-
+  # Class for Week Range
   class WeekRange < DateRange
-
+    # rubocop:enable Style/ClassAndModuleChildren
     def core_value
-      [self.date.year, self.date.cweek]
+      [date.year, date.cweek]
     end
 
     def to_s
@@ -13,7 +16,5 @@ module Reports
         ''
       end
     end
-
   end
-
 end

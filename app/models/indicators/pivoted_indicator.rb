@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Class for Pivoted Indicator
   class PivotedIndicator < AbstractIndicator
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :pivots
 
     def query(sunspot, user)

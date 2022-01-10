@@ -4,7 +4,6 @@
 # A Kpi to count how many of each type of service has been provided by an
 # agency.
 class Kpi::ServicesProvided < Kpi::Search
-
   # rubocop:disable Metrics/MethodLength
   def search
     ActiveRecord::Base.connection.execute(
@@ -28,7 +27,7 @@ class Kpi::ServicesProvided < Kpi::Search
             my_cases.data->>'gbv_disability_type' as disability
           from
             my_cases,
-            jsonb_array_elements(my_cases.data->'action_plan_section') action_plan_section 
+            jsonb_array_elements(my_cases.data->'action_plan_section') action_plan_section
           where
             action_plan_section->>'service_referral' = 'service_provided_by_your_agency'
         )
