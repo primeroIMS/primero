@@ -55,6 +55,7 @@ class Incident < ApplicationRecord
         incident_location violations social_worker date_of_first_report
         cp_incident_violence_type
         gbv_sexual_violence_type incident_date survivor_code
+        violation_category incident_date_derived
       ]
     end
 

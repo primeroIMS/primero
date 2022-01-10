@@ -36,6 +36,20 @@ describe("<IndexTable />", () => {
       guiding_questions: "",
       required: true,
       date_validation: "default_date_validation"
+    },
+    2: {
+      name: "sex",
+      type: "select_field",
+      editable: true,
+      disabled: null,
+      visible: true,
+      display_name: {
+        en: "Sex"
+      },
+      option_strings_source: "lookup lookup-sex",
+      option_strings_text: null,
+      required: true,
+      date_validation: "default_date_validation"
     }
   };
   const props = {
@@ -116,6 +130,14 @@ describe("<IndexTable />", () => {
               { id: "country", display_text: "Country" },
               { id: "region", display_text: "Region" }
             ]
+          },
+          {
+            id: 2,
+            unique_id: "lookup-sex",
+            values: [
+              { id: "male", display_text: { en: "Male" } },
+              { id: "female", display_text: "Female" }
+            ]
           }
         ]
       }
@@ -156,6 +178,14 @@ describe("<IndexTable />", () => {
     table.find("thead th span").at(nameColumnIndex).simulate("click");
 
     expect(table.find("div").last().text()).to.be.be.equals("Table now sorted by name : ascending");
+  });
+
+  context("when header is a field with OptionStringSource", () => {
+    it("should the lookup value for fields with Lookup", () => {
+      const sexDisplayText = component.find(MUIDataTable).props().data[0].sex;
+
+      expect(sexDisplayText).to.be.be.equals("Male");
+    });
   });
 
   describe("When data still loading", () => {

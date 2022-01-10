@@ -98,8 +98,10 @@ class RecordDataService
   def embed_incident_data(data, record, selected_field_names)
     return data unless record.class == Incident
 
-    data['incident_date_derived'] = record.incident_date_derived
-    data['violation_category'] = record.violation_category || []
+    if selected_field_names.include?('incident_date_derived')
+      data['incident_date_derived'] = record.incident_date_derived
+    end
+    data['violation_category'] = record.violation_category || [] if selected_field_names.include?('violation_category')
     data
   end
 
