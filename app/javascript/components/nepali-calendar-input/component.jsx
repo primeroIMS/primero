@@ -1,20 +1,15 @@
 import PropTypes from "prop-types";
 import { FormControl, InputLabel } from "@material-ui/core";
 import clsx from "clsx";
-import { TimePicker } from "@material-ui/pickers";
 import { useEffect, useState } from "react";
 import isDate from "lodash/isDate";
 import { NepaliDatePicker } from "mui-nepali-datepicker-reactjs";
 import { BSToAD } from "bikram-sambat-js";
 
-import { useI18n } from "../i18n";
-
 import css from "./styles.css";
 import { convertToNeDate, parseDate } from "./utils";
 
 const Component = ({ helpText, label, dateProps }) => {
-  const i18n = useI18n();
-
   const { name, onChange, value, error, disabled, placeholder, dateIncludeTime, InputProps } = dateProps;
   const inputValue = convertToNeDate(value);
 
@@ -48,9 +43,17 @@ const Component = ({ helpText, label, dateProps }) => {
     }
   };
 
-  const handleTimeInputChange = time => {
-    setInputTime(time);
-  };
+  useEffect(() => {
+    if (dateIncludeTime && inputDate) {
+      const time = new Date();
+
+      time.setHours(0, 0, 0, 0);
+
+      setInputTime(time);
+    } else {
+      setInputTime(null);
+    }
+  }, [inputDate]);
 
   useEffect(() => {
     if (dateIncludeTime) {
@@ -83,20 +86,6 @@ const Component = ({ helpText, label, dateProps }) => {
           }}
         />
       </FormControl>
-      {dateIncludeTime && (
-        <div>
-          <TimePicker
-            disabled={disabled}
-            label={i18n.t("fields.time")}
-            fullWidth
-            value={value}
-            placeholder={placeholder}
-            InputLabelProps={{ shrink: true }}
-            onChange={handleTimeInputChange}
-            clearable
-          />
-        </div>
-      )}
     </div>
   );
 };
