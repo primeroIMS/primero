@@ -270,6 +270,7 @@ module Indicators
       FacetedIndicator.new(
         name: 'tasks_overdue_assessment',
         facet: 'owned_by',
+        scope_to_user: true,
         record_model: Child,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
@@ -284,8 +285,7 @@ module Indicators
         name: 'tasks_overdue_case_plan',
         facet: 'owned_by',
         record_model: Child,
-        scope_to_owned_by_groups: true,
-        exclude_zeros: true,
+        scope_to_user: true,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -299,8 +299,7 @@ module Indicators
         name: 'tasks_overdue_services',
         facet: 'owned_by',
         record_model: Child,
-        scope_to_owned_by_groups: true,
-        exclude_zeros: true,
+        scope_to_user: true,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
@@ -314,6 +313,7 @@ module Indicators
         name: 'tasks_overdue_followups',
         facet: 'owned_by',
         record_model: Child,
+        scope_to_user: true,
         scope: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
