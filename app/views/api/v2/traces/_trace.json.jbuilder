@@ -10,4 +10,4 @@ json.inquiry_date trace.tracing_request.inquiry_date
 json.name trace.name
 json.age trace.age
 json.sex trace.sex
-json.matched_case_comparison trace.matched_case_comparison  if trace.matched_case_id.present?
+json.matched_case_comparison trace.matched_case_comparison if trace.matched_case_id.present?

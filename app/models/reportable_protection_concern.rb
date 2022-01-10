@@ -1,5 +1,7 @@
-class ReportableProtectionConcern
+# frozen_string_literal: true
 
+# Class for Reportable Protection Concern
+class ReportableProtectionConcern
   def self.parent_record_type
     Child
   end
@@ -10,12 +12,11 @@ class ReportableProtectionConcern
 
   def self.report_filters
     [
-      {'attribute' => 'status', 'value' => [Record::STATUS_OPEN]},
-      {'attribute' => 'record_state', 'value' => ['true']},
-      {'attribute' => 'protection_concern_type', 'value' => 'not_null'}
+      { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+      { 'attribute' => 'record_state', 'value' => ['true'] },
+      { 'attribute' => 'protection_concern_type', 'value' => 'not_null' }
     ]
   end
-
 
   include ReportableNestedRecord
 
@@ -27,5 +28,4 @@ class ReportableProtectionConcern
   def id
     object_value('unique_id')
   end
-
 end

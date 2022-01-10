@@ -1,4 +1,6 @@
 import isEmpty from "lodash/isEmpty";
+import sortBy from "lodash/sortBy";
+import first from "lodash/first";
 
 import { CASES_BY_SOCIAL_WORKER_COLUMNS } from "../components/cases-by-social-worker/constants";
 import { dataToJS } from "../../../../libs";
@@ -14,11 +16,14 @@ export default (indicators, i18n) => {
   const [, ...columnValues] = CASES_BY_SOCIAL_WORKER_COLUMNS;
   const firstColumn = CASES_BY_SOCIAL_WORKER_COLUMNS[0];
 
-  const data = rows.map(row => {
-    const values = columnValues.map(column => newData.indicators[column][row]?.count);
+  const data = sortBy(
+    rows.map(row => {
+      const values = columnValues.map(column => newData.indicators[column][row]?.count);
 
-    return [row, ...values];
-  });
+      return [row, ...values];
+    }),
+    [elem => first(elem)]
+  );
 
   const query = rows.map(row => {
     const values = columnValues

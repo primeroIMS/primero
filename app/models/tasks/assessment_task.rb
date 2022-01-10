@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Tasks
   # Class for Assessment Task
   class AssessmentTask < Task
+    # rubocop:enable Style/ClassAndModuleChildren
     def self.from_case(record)
       task?(record) ? [AssessmentTask.new(record)] : []
     end

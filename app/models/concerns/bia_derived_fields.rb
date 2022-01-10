@@ -1,23 +1,26 @@
+# frozen_string_literal: true
+
+# Module for BIA Derived Fields
 module BIADerivedFields
   extend ActiveSupport::Concern
 
-  #TODO: Improve with i18n
-  MOTHER = "mother"
-  FATHER = "father"
+  # TODO: Improve with i18n
+  MOTHER = 'mother'
+  FATHER = 'father'
 
   def bia_mother
     mother_section = get_relation_section(MOTHER)
-    return mother_section.present? ? mother_section : []
+    mother_section.present? ? mother_section : []
   end
 
   def bia_father
     father_section = get_relation_section(FATHER)
-    return father_section.present? ? father_section : []
+    father_section.present? ? father_section : []
   end
 
   def not_family_explanation
-    explanation = ""
-    family_details = self.data['family_details_section']
+    explanation = ''
+    family_details = data['family_details_section']
     if family_details.present?
       family_details.each do |detail|
         explanation += (detail['not_family_explanation'] + "\n") if detail['not_family_explanation'].present?
@@ -36,7 +39,7 @@ module BIADerivedFields
 
   def bia_caregiver
     relation_section = []
-    family_details = self.data['family_details_section']
+    family_details = data['family_details_section']
     if family_details.present?
       relation_section = family_details.select do |details|
         details['relation_is_caregiver'] == true &&
@@ -48,19 +51,19 @@ module BIADerivedFields
   end
 
   def bia_child_wishes
-    self.data['child_preferences_section']
+    data['child_preferences_section']
   end
 
   def bia_child_other_wishes
-    self.data['child_other_relations_section']
+    data['child_other_relations_section']
   end
 
   def current_care_arrangements
     current = []
-    care_arrangements = self.data['care_arrangements_subform_care_arrangement']
+    care_arrangements = data['care_arrangements_subform_care_arrangement']
     if care_arrangements.present?
-      #this subform has "subform_sort_by": "care_arrangement_started_date"
-      #therefore .first care arrangement should have latest care arrangement
+      # this subform has "subform_sort_by": "care_arrangement_started_date"
+      # therefore .first care arrangement should have latest care arrangement
       current = [care_arrangements.first]
     end
     current
@@ -71,34 +74,34 @@ module BIADerivedFields
   end
 
   def bia_interventions
-    self.data['cp_case_plan_subform_case_plan_interventions']
+    data['cp_case_plan_subform_case_plan_interventions']
   end
 
   def bia_followups
-    self.data['followup_subform_section']
+    data['followup_subform_section']
   end
 
   def bia_transfers
-    latest_transfer = transfers.order(created_at: :desc).limit(1)
+    transfers.order(created_at: :desc).limit(1)
   end
 
   def bia_consent_for_services
-    self.consent_for_services
+    consent_for_services
   end
 
   private
 
   def get_relation_section(relation_name)
     relation_section = []
-    family_details = self.data['family_details_section']
+    family_details = data['family_details_section']
     if family_details.present?
-      relation_section = family_details.select{ |details| details['relation'] == relation_name }
+      relation_section = family_details.select { |details| details['relation'] == relation_name }
     end
     relation_section
   end
 
   def get_death_details(relation_name)
-    details = ""
+    details = ''
     # Assuming there's only one father and one mother specified in the nested forms
     relation_section = get_relation_section(relation_name).first
     if relation_section.present? && relation_section['relation_death_details'].present?
@@ -106,5 +109,4 @@ module BIADerivedFields
     end
     details
   end
-
 end

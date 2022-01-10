@@ -197,7 +197,7 @@ class FieldI18nService
   def self.convert_options(options)
     options.to_h.each_with_object([]) do |(key, opts), acc|
       opts.each do |value|
-        current_value = acc.find{ |vv| vv['id'] == value['id'] }
+        current_value = acc.find { |vv| vv['id'] == value['id'] }
         if current_value.present?
           current_value['display_text'][key] = value['display_text']
           next

@@ -9,9 +9,9 @@ class Kpi::SupervisorToCaseworkerRatio < Kpi::Search
     'role-gbv-case-management-supervisor'
   ].freeze
 
-  CASE_WORKER_ROLES = [
-    'role-gbv-mobile-caseworker',
-    'role-gbv-caseworker'
+  CASE_WORKER_ROLES = %w[
+    role-gbv-mobile-caseworker
+    role-gbv-caseworker
   ].freeze
 
   def supervisors

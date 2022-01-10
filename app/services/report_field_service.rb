@@ -26,6 +26,17 @@ class ReportFieldService
     report_field_hash.merge(report_field_options(field, pivot_name) || {})
   end
 
+  def self.report_option_strings_source(field)
+    source_options = field.option_strings_source.split.first
+    return unless source_options == 'lookup'
+
+    lookup = Lookup.find_by(unique_id: field.option_strings_source.split.last)
+    return unless lookup.present?
+
+    all_lookup_values = FieldI18nService.fill_options(lookup.lookup_values_i18n)
+    { option_labels: all_lookup_values }
+  end
+
   def self.report_field_options(field, pivot_name)
     if field&.location?
       admin_level = pivot_name.last.is_number? ? pivot_name.last.to_i : 0
@@ -33,17 +44,9 @@ class ReportFieldService
     elsif field&.agency?
       { option_strings_source: 'Agency' }
     elsif field&.option_strings_text_i18n.present?
-      all_options = FieldI18nService.fill_options(field.option_strings_text_i18n)
-      { option_labels: all_options }
+      { option_labels: FieldI18nService.fill_options(field.option_strings_text_i18n) }
     elsif field&.option_strings_source.present?
-      source_options = field.option_strings_source.split.first
-      if source_options == 'lookup'
-        lookup = Lookup.find_by(unique_id: field.option_strings_source.split.last)
-        if lookup.present?
-          all_lookup_values = FieldI18nService.fill_options(lookup.lookup_values_i18n)
-          { option_labels: all_lookup_values }
-        end
-      end
+      report_option_strings_source(field)
     end
   end
 

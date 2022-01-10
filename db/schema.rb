@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(version: 2022_01_03_000000) do
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
   end
 
+  create_table "agencies_user_groups", id: :serial, force: :cascade do |t|
+    t.integer "agency_id"
+    t.integer "user_group_id"
+    t.index ["agency_id"], name: "index_agencies_user_groups_on_agency_id"
+    t.index ["user_group_id"], name: "index_agencies_user_groups_on_user_group_id"
+  end
+
   create_table "alerts", id: :serial, force: :cascade do |t|
     t.string "type"
     t.text "alert_for"

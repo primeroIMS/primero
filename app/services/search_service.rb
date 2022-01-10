@@ -3,7 +3,6 @@
 # Query for records using Sunspot Solr
 class SearchService
   class << self
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # Query for records using Sunspot Solr.
     # record_class: The class of the type of record queried for.
@@ -28,7 +27,6 @@ class SearchService
         paginate(params[:pagination])
       end
     end
-    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
     def with_filters(record_class, params)

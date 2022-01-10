@@ -12,13 +12,18 @@ const translateSingleLabel = (key, data, locale) => {
   return displayNameHelper(data?.filter(d => d.id === key)[0]?.display_text, locale);
 };
 const getFormattedList = (values, listKey) => {
-  return values.map(r => {
-    return Object.entries(r).reduce((acc, obj) => {
-      const [key, val] = obj;
+  const formattedList = sortBy(
+    values.map(r => {
+      return Object.entries(r).reduce((acc, obj) => {
+        const [key, val] = obj;
 
-      return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
-    }, {});
-  });
+        return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
+      }, {});
+    }),
+    [elem => elem[""]]
+  );
+
+  return formattedList;
 };
 
 export default (data, localeLabels, locale) => {
@@ -27,7 +32,8 @@ export default (data, localeLabels, locale) => {
   if (result.length || Object.keys(result).length) {
     const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
 
-    const columns = Object.keys(indicatorData[first(Object.keys(indicatorData))])
+    const columnKeys = Object.keys(indicatorData[first(Object.keys(indicatorData))]);
+    const columns = (columnKeys.includes("") ? columnKeys : columnKeys.concat(""))
       .reduce((acum, value) => {
         return [...acum, { name: value, label: translateSingleLabel(value, localeLabels, locale) }];
       }, [])

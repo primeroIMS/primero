@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Tasks
   # Class for Case Plan Task
   class CasePlanTask < Task
+    # rubocop:enable Style/ClassAndModuleChildren
     def self.from_case(record)
       task?(record) ? [CasePlanTask.new(record)] : []
     end

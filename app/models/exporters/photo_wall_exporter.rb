@@ -3,9 +3,11 @@
 require 'prawn/document'
 require 'prawn/measurement_extensions'
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Exporters
   # Bulk export for PhotoWall
   class PhotoWallExporter < BaseExporter
+    # rubocop:enable Style/ClassAndModuleChildren
     class << self
       def id
         'photowall'

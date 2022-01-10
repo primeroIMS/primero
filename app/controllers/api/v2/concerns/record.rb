@@ -76,7 +76,7 @@ module Api::V2::Concerns::Record
   end
 
   def permit_fields
-    @permitted_field_names = @permitted_field_service.permitted_field_names(write?)
+    @permitted_field_names = @permitted_field_service.permitted_field_names(write?, update?)
   end
 
   def select_fields_for_show
@@ -128,6 +128,10 @@ module Api::V2::Concerns::Record
 
   def write?
     action_name.in?(%w[create update])
+  end
+
+  def update?
+    action_name == 'update'
   end
 
   def authorize_create!

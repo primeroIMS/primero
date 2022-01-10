@@ -1021,7 +1021,6 @@ describe FormSection do
   end
 
   describe '#field_exists?' do
-
     before(:each) do
       @form_section_a.fields << Field.new(name: 'foo', type: 'text_field',display_name_en: 'Foo', order: 5)
     end
@@ -1032,6 +1031,35 @@ describe FormSection do
 
     it 'return false when field do not exist' do
       expect(@form_section_a.field_exists?('bar')).to be_falsey
+    end
+  end
+
+  describe 'Update fields in a FormSection' do
+    before(:each) do
+      FormSection.create_or_update!(
+        unique_id: 'form_section_order_test',
+        name_en: 'Form Section Order Test',
+        fields: [
+          Field.new(name: 'field_test_order_1', display_name: 'Field 1'),
+          Field.new(name: 'field_test_order_2', display_name: 'Field 2')
+        ]
+      )
+    end
+
+    it 'updates the field order' do
+      fields = Field.where(name: %w[field_test_order_1 field_test_order_2]).pluck(:name, :order).to_h
+      FormSection.create_or_update!(
+        unique_id: 'form_section_order_test',
+        name_en: 'Form Section Order Test',
+        fields_attributes: [
+          { name: 'field_test_order_2', display_name_en: 'Field 2' },
+          { name: 'field_test_order_1', display_name_en: 'Field 1' }
+        ]
+      )
+      fields_reordered = Field.where(name: %w[field_test_order_1 field_test_order_2]).pluck(:name, :order).to_h
+
+      expect(fields).to eq({ 'field_test_order_1' => 0, 'field_test_order_2' => 1 })
+      expect(fields_reordered).to eq({ 'field_test_order_2' => 0, 'field_test_order_1' => 1 })
     end
   end
 

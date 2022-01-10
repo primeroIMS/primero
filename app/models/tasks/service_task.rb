@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Tasks
   # Class for Service Task
   class ServiceTask < Task
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :service
 
     def self.from_case(record)

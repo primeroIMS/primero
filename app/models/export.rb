@@ -16,6 +16,7 @@ class Export < ValueObject
     exporter_instance = exporter.new(record_type: record_type, module_id: module_id, file_name: file_name,
                                      visible: visible)
     exporter_instance.export
+    attach_export_file(exporter_instance.file_name)
     assign_status(exporter_instance)
   end
 
@@ -35,7 +36,6 @@ class Export < ValueObject
   end
 
   def assign_status(exporter_instance)
-    attach_export_file(exporter_instance.file_name)
     self.file_name = File.basename(exporter_instance.file_name)
     self.error_messages = exporter_instance.errors
     self.success_total = exporter_instance.success_total

@@ -51,7 +51,7 @@ const Component = ({
       setDefaultFilters();
       methods.reset(initialFilters);
     }
-    onSubmit();
+    onSubmit(clearFields.reduce((acc, field) => ({ ...acc, [field]: undefined }), {}));
   };
 
   const handleOnSubmit = data => {

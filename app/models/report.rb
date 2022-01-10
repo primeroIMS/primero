@@ -125,14 +125,12 @@ class Report < ApplicationRecord
           values_tree = new_value if values_tree.blank?
           if index.zero?
             values_tree = values_tree.merge(new_value) unless key_at?(values_tree, [], key_value)
-          else
-            if key_value.to_s.blank?
-              # Get the non empty values as the parent_key
-              parent_keys = key.select { |k| k.to_s.present? }
-              set_for_parents(values_tree, parent_keys, '_total' => total)
-            elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
-              set_for_parents(values_tree, key[0..(index - 1)], new_value)
-            end
+          elsif key_value.to_s.blank?
+            # Get the non empty values as the parent_key
+            parent_keys = key.select { |k| k.to_s.present? }
+            set_for_parents(values_tree, parent_keys, '_total' => total)
+          elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
+            set_for_parents(values_tree, key[0..(index - 1)], new_value)
           end
         end
       end
@@ -176,24 +174,24 @@ class Report < ApplicationRecord
     if aggregate_counts_from.present?
       if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
         # The numbers are off because a dimension is missing. Zero everything out!
-        self.values = self.values.map { |pivots, _| [pivots, 0] }
+        self.values = values.map { |pivots, _| [pivots, 0] }
       end
       aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
       if aggregate_counts_from_field.present?
         if aggregate_counts_from_field.type == Field::TALLY_FIELD
-          self.values = self.values.map do |pivots, value|
+          self.values = values.map do |pivots, value|
             if pivots.last.present? && pivots.last.match(/\w+:\d+/)
               tally = pivots.last.split(':')
               value *= tally[1].to_i
             end
             [pivots, value]
           end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
+          self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
             pivot_name.split(':')[0]
           end
-          self.values = Reports::Utils.correct_aggregate_counts(self.values)
+          self.values = Reports::Utils.correct_aggregate_counts(values)
         elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-          self.values = self.values.map do |pivots, value|
+          self.values = values.map do |pivots, value|
             if pivots.last.is_a?(Numeric)
               value *= pivots.last
             elsif pivots.last == ''
@@ -201,17 +199,16 @@ class Report < ApplicationRecord
             end
             [pivots, value]
           end.to_h
-          self.values = Reports::Utils.group_values(self.values, dimensionality - 1) do |pivot_name|
+          self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
             pivot_name.is_a?(Numeric) ? '' : pivot_name
           end
           # We need the self to make sure we call the defined get/set methods of this model.
           # rubocop:disabled Style/RedundantSelf
-          self.values = self.values.map do |pivots, value|
+          self.values = values.map do |pivots, value|
             pivots = pivots[0..-2] if pivots.last == ''
             [pivots, value]
           end.to_h
-          Reports::Utils.correct_aggregate_counts(self.values)
-          # rubocop:enable Style/RedundantSelf
+          Reports::Utils.correct_aggregate_counts(values)
         end
       end
     end
@@ -224,7 +221,7 @@ class Report < ApplicationRecord
       age_field_index = pivot_index(pivot)
       next unless group_ages && age_field_index && age_field_index < dimensionality
 
-      self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
+      self.values = Reports::Utils.group_values(values, age_field_index) do |pivot_name|
         age_ranges.find { |range| range.cover? pivot_name }
       end
     end
@@ -234,7 +231,7 @@ class Report < ApplicationRecord
       date_fields.each do |field_name, _|
         next unless pivot_index(field_name) < dimensionality
 
-        self.values = Reports::Utils.group_values(self.values, pivot_index(field_name)) do |pivot_name|
+        self.values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
           Reports::Utils.date_range(pivot_name, group_dates_by)
         end
       end
@@ -243,11 +240,11 @@ class Report < ApplicationRecord
     aggregate_limit = aggregate_by.size
     aggregate_limit = dimensionality if aggregate_limit > dimensionality
 
-    aggregate_value_range = self.values.keys.map do |pivot|
+    aggregate_value_range = values.keys.map do |pivot|
       pivot[0..(aggregate_limit - 1)]
     end.uniq.compact.sort(&method(:pivot_comparator))
 
-    disaggregate_value_range = self.values.keys.map do |pivot|
+    disaggregate_value_range = values.keys.map do |pivot|
       pivot[aggregate_limit..-1]
     end.uniq.compact.sort(&method(:pivot_comparator))
 
@@ -288,9 +285,7 @@ class Report < ApplicationRecord
     end
   end
 
-  def values=(values)
-    @values = values
-  end
+  attr_writer :values
 
   def dimensionality
     if values.present?
@@ -336,10 +331,10 @@ class Report < ApplicationRecord
   end
 
   def apply_default_filters
-    return unless self.add_default_filters
+    return unless add_default_filters
 
     self.filters ||= []
-    default_filters = Record.model_from_name(self.record_type).report_filters
+    default_filters = Record.model_from_name(record_type).report_filters
     self.filters = (self.filters + default_filters).uniq
   end
 
@@ -386,7 +381,7 @@ class Report < ApplicationRecord
       params = {
         fq: filter_query,
         start: 0,
-        q: "*:*",
+        q: '*:*',
         rows: 0,
         facet: 'on',
         'facet.field': pivots_string,
@@ -407,7 +402,7 @@ class Report < ApplicationRecord
       params = {
         fq: filter_query,
         start: 0,
-        q: "*:*",
+        q: '*:*',
         rows: 0,
         facet: 'on',
         'facet.pivot': pivots_string,
@@ -438,16 +433,14 @@ class Report < ApplicationRecord
             else
               "#{attribute}:\"#{value}\""
             end
-          else
-            if value.respond_to?(:map) && value.size.positive?
-              "#{attribute}:(" + value.map do |v|
-                if v == 'not_null'
-                  '[* TO *]'
-                else
-                  v.to_s
-                end
-              end.join(' OR ') + ')'
-            end
+          elsif value.respond_to?(:map) && value.size.positive?
+            "#{attribute}:(" + value.map do |v|
+              if v == 'not_null'
+                '[* TO *]'
+              else
+                v.to_s
+              end
+            end.join(' OR ') + ')'
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"

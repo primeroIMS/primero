@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Class for Queried Indicator
   class QueriedIndicator < AbstractIndicator
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :queries
 
     def self.type
@@ -23,7 +26,7 @@ module Indicators
         with(:owned_by_groups, user.user_group_unique_ids) if this.scope_to_owned_by_groups
         without(:last_updated_by, user.user_name) if this.scope_to_not_last_update
         this.scope&.each { |f| f.query_scope(self) }
-        facet(this.facet_name, zeros: true) do
+        facet(this.facet_name, zeros: !this.exclude_zeros) do
           row(this.name) do
             this.queries.each { |f| f.query_scope(self) }
           end

@@ -12,6 +12,7 @@ import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import { fetchSandboxUI } from "./components/application/action-creators";
 import ThemeProvider from "./theme-provider";
+import "mui-nepali-datepicker-reactjs/dist/index.css";
 
 const store = configureStore();
 

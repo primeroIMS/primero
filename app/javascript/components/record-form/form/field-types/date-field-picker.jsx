@@ -5,16 +5,10 @@ import { DatePicker, DateTimePicker, MuiPickersUtilsProvider } from "@material-u
 import { useI18n } from "../../../i18n";
 import localize from "../../../../libs/date-picker-localization";
 import { displayNameHelper } from "../../../../libs";
+import { LOCALE_KEYS } from "../../../../config";
+import NepaliCalendar from "../../../nepali-calendar-input";
 
-const DateFieldPicker = ({
-  dateIncludeTime,
-  dateProps,
-  displayName,
-  fieldTouched,
-  fieldError,
-  helperText
-  // handleClearable
-}) => {
+const DateFieldPicker = ({ dateIncludeTime, dateProps, displayName, fieldTouched, fieldError, helperText }) => {
   const i18n = useI18n();
   const helpText =
     (fieldTouched && fieldError) ||
@@ -27,10 +21,9 @@ const DateFieldPicker = ({
     okLabel: i18n.t("buttons.ok")
   };
 
-  // if (i18n.locale === LOCALE_KEYS.ne) {
-  //   return <NepaliCalendar helpText={helpText} label={label}
-  // dateProps={dateProps} handleClearable={handleClearable} />;
-  // }
+  if (i18n.locale === LOCALE_KEYS.ne) {
+    return <NepaliCalendar helpText={helpText} label={label} dateProps={dateProps} />;
+  }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={localize(i18n)}>
@@ -56,7 +49,6 @@ DateFieldPicker.propTypes = {
   displayName: PropTypes.object,
   fieldError: PropTypes.string,
   fieldTouched: PropTypes.bool,
-  handleClearable: PropTypes.func,
   helperText: PropTypes.string
 };
 

@@ -1,5 +1,6 @@
 import { parseISO } from "date-fns";
 import { fromJS } from "immutable";
+import { expect } from "chai";
 
 import { useFakeTimers } from "../../test";
 import {
@@ -601,6 +602,22 @@ describe("<RecordForms /> - utils", () => {
           family_details: [{ relation: "mother", tally: { boys: 1, girls: 3, unknown: "", total: null } }]
         })
       ).to.deep.equals(expected);
+    });
+  });
+
+  describe("compactReadOnlyFields", () => {
+    it("removes all the readOnlyFields from the values object", () => {
+      expect(
+        utils.compactReadOnlyFields(
+          {
+            field_1: "value 1",
+            field_2: "value 2",
+            field_3: "value 3",
+            field_4: "value 4"
+          },
+          fromJS([FieldRecord({ name: "field_2" }), FieldRecord({ name: "field_4" })])
+        )
+      ).to.deep.equals({ field_1: "value 1", field_3: "value 3" });
     });
   });
 });
