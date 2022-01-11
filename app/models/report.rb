@@ -165,30 +165,37 @@ class Report < ApplicationRecord
     return if pivots.blank?
 
     self.values = report_values(record_type, pivots, filters)
-    process_aggregate_counts() if aggregate_counts_from.present?
+    process_aggregate_counts if aggregate_counts_from.present?
     group_by_ages
     group_by_dates(pivot_fields, group_dates_by) if group_dates_by.present?
-
-    aggregate_limit = aggregate_by.size
-    aggregate_limit = dimensionality if aggregate_limit > dimensionality
-
-    aggregate_value_range = values.keys.map do |pivot|
-      pivot[0..(aggregate_limit - 1)]
-    end.uniq.compact.sort(&method(:pivot_comparator))
-
-    disaggregate_value_range = values.keys.map do |pivot|
-      pivot[aggregate_limit..-1]
-    end.uniq.compact.sort(&method(:pivot_comparator))
-
-    self.data = {
-      aggregate_value_range: aggregate_value_range,
-      disaggregate_value_range: disaggregate_value_range,
-      values: @values
-    }
+    self.data = report_data
     ''
   end
 
-  def process_aggregate_counts()
+  def report_data
+    aggregate_limit = aggregate_by.size
+    aggregate_limit = dimensionality if aggregate_limit > dimensionality
+
+    {
+      aggregate_value_range: aggregate_range(aggregate_limit),
+      disaggregate_value_range: disaggregate_range(aggregate_limit),
+      values: @values
+    }
+  end
+
+  def aggregate_range(aggregate_limit)
+    values.keys.map do |pivot|
+      pivot[0..(aggregate_limit - 1)]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+  end
+
+  def disaggregate_range(aggregate_limit)
+    values.keys.map do |pivot|
+      pivot[aggregate_limit..-1]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+  end
+
+  def process_aggregate_counts
     if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
       # The numbers are off because a dimension is missing. Zero everything out!
       self.values = values.map { |pivots, _| [pivots, 0] }
@@ -196,6 +203,10 @@ class Report < ApplicationRecord
     aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
     return if aggregate_counts_from_field.blank?
 
+    process_aggregate_counts_from_tally_or_numeric
+  end
+
+  def process_aggregate_counts_from_tally_or_numeric
     if aggregate_counts_from_field.type == Field::TALLY_FIELD
       process_aggregate_counts_from_tally
     elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
@@ -204,13 +215,7 @@ class Report < ApplicationRecord
   end
 
   def process_aggregate_counts_from_tally
-    self.values = values.map do |pivots, value|
-      if pivots.last.present? && pivots.last.match(/\w+:\d+/)
-        tally = pivots.last.split(':')
-        value *= tally[1].to_i
-      end
-      [pivots, value]
-    end.to_h
+    self.values = map_tally_values
     self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
       pivot_name.split(':')[0]
     end
@@ -218,7 +223,26 @@ class Report < ApplicationRecord
   end
 
   def process_aggregate_count_from_numeric
-    self.values = values.map do |pivots, value|
+    self.values = map_numeric_values
+    self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
+      pivot_name.is_a?(Numeric) ? '' : pivot_name
+    end
+    self.values = map_pivot_values
+    Reports::Utils.correct_aggregate_counts(values)
+  end
+
+  def map_tally_values
+    values.map do |pivots, value|
+      if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+        tally = pivots.last.split(':')
+        value *= tally[1].to_i
+      end
+      [pivots, value]
+    end.to_h
+  end
+
+  def map_numeric_values
+    values.map do |pivots, value|
       if pivots.last.is_a?(Numeric)
         value *= pivots.last
       elsif pivots.last == ''
@@ -226,14 +250,13 @@ class Report < ApplicationRecord
       end
       [pivots, value]
     end.to_h
-    self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
-      pivot_name.is_a?(Numeric) ? '' : pivot_name
-    end
-    self.values = values.map do |pivots, value|
+  end
+
+  def map_pivot_values
+    values.map do |pivots, value|
       pivots = pivots[0..-2] if pivots.last == ''
       [pivots, value]
     end.to_h
-    Reports::Utils.correct_aggregate_counts(values)
   end
 
   def group_by_ages
@@ -403,10 +426,14 @@ class Report < ApplicationRecord
   end
 
   def get_by_field_facet(filter_query, pivots_string, mincount)
-    result_pivots = []
     response = SolrUtils.sunspot_rsolr.get('select', params: field_params(filter_query, pivots_string, mincount))
     # TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
     is_numeric = pivots_string.end_with? '_i'
+    result_pivots(response, pivots_string, is_numeric)
+  end
+
+  def result_pivots(response, pivots_string, is_numeric)
+    result_pivots = []
     response['facet_counts']['facet_fields'][pivots_string].each do |v|
       if v.class == String
         result_pivots << (is_numeric ? { 'value' => v.to_i } : { 'value' => v })
