@@ -89,6 +89,8 @@ module Indicators
 
     protected
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def owner_from_search(sunspot_search)
       return unless scope_to_owner
 
@@ -96,6 +98,8 @@ module Indicators
                       &.dig(:fq)&.find { |p| p.match(/owned_by/) }
       owner_query && owner_query.split(':')[1]
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def scope_query_strings
       scope&.map(&:to_s) || []

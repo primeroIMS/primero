@@ -141,17 +141,23 @@ class Incident < ApplicationRecord
     return unless incident_case_id.present?
     return unless self.case.present?
 
-    old_values = self.case.incident_ids.reject { |incident_id| incident_id == id }
-    new_values = self.case.incident_ids
-
     RecordHistory.create!(
       record: self.case, record_type: self.case.class.name, user_name: created_by,
-      datetime: created_at, action: Historical::EVENT_UPDATE, record_changes: {
-        incidents: { from: old_values, to: new_values }
+      datetime: created_at, action: Historical::EVENT_UPDATE,
+      record_changes: {
+        incidents: { from: old_incident_values, to: new_incident_values }
       }
     )
 
     self.case.save!
+  end
+
+  def old_incident_values
+    self.case.incident_ids.reject { |incident_id| incident_id == id }
+  end
+
+  def new_incident_values
+    self.case.incident_ids
   end
 
   alias super_update_properties update_properties
@@ -237,16 +243,16 @@ class Incident < ApplicationRecord
   # Violation::MRM_ASSOCIATIONS_KEYS (perpetrators, victims...) on API update
   def violations_for_associated(violations_ids)
     violations_result = []
-    violations_already_saved = if @violations_to_save.present?
-                                 @violations_to_save.map(&:id) - violations_ids
-                               else
-                                 violations_ids
-                               end
+    saved_violations = violations_already_saved(violations_ids)
     if @violations_to_save.present?
       violations_result += @violations_to_save.select { |violation| violations_ids.include?(violation.id) }
     end
-    violations_result += Violation.where(id: violations_already_saved) if violations_already_saved
+    violations_result += Violation.where(id: saved_violations) if saved_violations
 
     violations_result
+  end
+
+  def violations_already_saved(violations_ids)
+    @violations_to_save.present? ? @violations_to_save.map(&:id) - violations_ids : violations_ids
   end
 end
