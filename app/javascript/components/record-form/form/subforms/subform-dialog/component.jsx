@@ -176,11 +176,9 @@ const Component = ({
         disableActions: isFormShow
       };
 
-  const violationSlideBackButton = i18n.t(`incident.violation.${isNewViolation ? "save" : "update"}_and_return`);
-
-  const handleBackLabel = isViolationAssociation
-    ? `${i18n.t("incident.violation.back_to")} ${parentTitle || title}`
-    : violationSlideBackButton;
+  const handleBackLabel = i18n.t(`incident.violation.${isNewViolation ? "save" : "update"}_and_return`, {
+    association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
+  });
 
   useEffect(() => {
     if (open) {

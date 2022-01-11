@@ -1325,10 +1325,8 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
-      back_to: Back to
-      back_to_violations: Back to Violations
-      update_and_return: Update and Return to Violation
-      save_and_return: Save and Return to Violation
+      update_and_return: 'Update and Return to %{association}'
+      save_and_return: 'Save and Return to %{association}'
       pending: Pending Verification
       title: Violations
       types:
@@ -3375,7 +3373,7 @@ en:
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
   transfer_assignment:
-    title: TRANSFERS AND ASSIGNMENTS
+    title: Transfers and Assignments
   transition:
     agency_label: Agency
     assigned_by: Assigned By

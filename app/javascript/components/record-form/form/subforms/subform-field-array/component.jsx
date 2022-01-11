@@ -100,15 +100,15 @@ const Component = ({
   );
 
   return (
-    <>
+    <div className={css.fieldArray}>
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3 className={css.subformTitle}>
             {renderAddFieldTitle} {title}
           </h3>
         </div>
-        <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && (
+        {!mode.isShow && !isDisabled && isReadWriteForm && (
+          <div>
             <ActionButton
               id="fields.add"
               icon={<AddIcon />}
@@ -119,8 +119,8 @@ const Component = ({
                 onClick: handleAddSubform
               }}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
@@ -148,7 +148,7 @@ const Component = ({
         parentTitle={parentTitle}
         violationOptions={violationOptions}
       />
-    </>
+    </div>
   );
 };
 
