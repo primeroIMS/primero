@@ -16,7 +16,7 @@ def notify_slack(build_status, build_tag, log_path, phase, send_command):
             output_file.close()
             command_id = output['Command']['CommandId']
             print(command_id)
-            text = f'Build Tag: {build_tag}\nAnsible Command Id: {command_id}'
+            text = f'Build Tag: {build_tag}\nBuild Log Path: {log_path}\nAnsible Command Id: {command_id}'
         else:
             text = f'Build Tag: {build_tag}\nBuild Phase: {phase}\nLog Path: {log_path}'
     else:
@@ -76,7 +76,7 @@ def _main(argv):
     print(build_log_path)
     print(log_path)
 
-    if arguments.phase == 'pre_build':
+    if arguments.phase != 'post_build':
         if build_status == '0':
             notify_slack(build_status, build_tag, log_path, arguments.phase, arguments.send_command)
     else:

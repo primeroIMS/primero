@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 import { Button, TableCell, TableHead } from "@material-ui/core";
-import { expect } from "chai";
+import last from "lodash/last";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -105,20 +105,17 @@ describe("<AgenciesList />", () => {
   });
 
   it("should set the filters when apply is clicked", () => {
-    component.find(Button).at(2).simulate("click");
+    component.find(Button).at(1).simulate("click");
 
     const expectedAction = {
-      payload: {
-        data: fromJS({
-          disabled: ["false"],
-          locale: "en"
-        })
-      },
+      payload: { data: fromJS({ disabled: ["false"], locale: "en", total: 30, per: 20, page: 1 }) },
       type: "agencies/SET_AGENCIES_FILTER"
     };
 
-    expect(component.props().store.getActions()[3].payload.type).to.deep.equals(expectedAction.payload.type);
-    expect(component.props().store.getActions()[3].payload.data).to.deep.equals(expectedAction.payload.data);
+    const action = last(component.props().store.getActions());
+
+    expect(action.type).to.deep.equals(expectedAction.type);
+    expect(action.payload.data).to.deep.equals(expectedAction.payload.data);
   });
 
   afterEach(() => {

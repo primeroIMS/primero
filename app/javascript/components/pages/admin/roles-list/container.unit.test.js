@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import last from "lodash/last";
 import { Button, TableCell, TableHead } from "@material-ui/core";
 
 import { setupMountedComponent, lookups, stub } from "../../../../test";
@@ -101,18 +102,17 @@ describe("<RolesList />", () => {
   });
 
   it("should set the filters when apply is clicked", () => {
-    component.find(Button).at(2).simulate("click");
+    component.find(Button).at(1).simulate("click");
 
     const expectedAction = {
-      payload: {
-        data: fromJS({
-          disabled: ["false"]
-        })
-      },
+      payload: { data: fromJS({ disabled: ["false"] }) },
       type: "roles/SET_ROLES_FILTER"
     };
 
-    expect(component.props().store.getActions()[3]).to.deep.equals(expectedAction);
+    const action = last(component.props().store.getActions());
+
+    expect(action.type).to.deep.equals(expectedAction.type);
+    expect(action.payload.data).to.deep.equals(expectedAction.payload.data);
   });
 
   it("should render new button", () => {

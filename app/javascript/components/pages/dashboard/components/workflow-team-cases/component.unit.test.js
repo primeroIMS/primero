@@ -106,20 +106,20 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
     expect(component.find(DashboardTable)).to.have.lengthOf(1);
   });
 
-  it("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
+  it("should render 4 columns", () => {
+    expect(tableCells).to.have.lengthOf(4);
   });
 
   it("should render New column", () => {
-    expect(tableCells.at(0).text()).to.equal("New");
+    expect(tableCells.at(1).text()).to.equal("New");
   });
 
   it("should render Case plan column", () => {
-    expect(tableCells.at(1).text()).to.equal("Case plan");
+    expect(tableCells.at(2).text()).to.equal("Case plan");
   });
 
   it("should render Response Type 1 column", () => {
-    expect(tableCells.at(2).text()).to.equal("Response Type 1");
+    expect(tableCells.at(3).text()).to.equal("Response Type 1");
   });
 
   describe("when the data is loading", () => {

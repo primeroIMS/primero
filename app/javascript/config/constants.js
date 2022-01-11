@@ -15,7 +15,7 @@ import {
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS
 } from "../libs/permissions";
-import { getAdminResources } from "../components/pages/admin/utils";
+import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
 export const PASSWORD_MIN_LENGTH = 8;
 
@@ -461,7 +461,8 @@ export const ALERTS_FOR = {
   services_section: "services_section",
   approval: "approval",
   new_form: "new_form",
-  transfer_request: "transfer_request"
+  transfer_request: "transfer_request",
+  duplicate_field: "duplicate_field"
 };
 
 export const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
