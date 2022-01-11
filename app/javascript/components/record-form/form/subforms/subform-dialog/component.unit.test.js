@@ -415,7 +415,7 @@ describe("<SubformDialog />", () => {
     it("renders ViolationActions", () => {
       expect(component.find(ViolationActions)).lengthOf(1);
       expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
-        "incident.violation.back_to Parent"
+        "incident.violation.save_and_return"
       );
     });
   });
