@@ -25,7 +25,7 @@ class Header < ValueObject
   CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   CP_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'cp_incident_violence_type')
   INCIDENT_LOCATION = Header.new(name: 'incident_location', field_name: 'incident_location')
-  VIOLATIONS = Header.new(name: 'violations', field_name: 'violations')
+  VIOLATIONS = Header.new(name: 'violations', field_name: 'violation_category')
   NAME_OF_INQUIRER = Header.new(name: 'name_of_inquirer', field_name: 'relation_name')
   DATE_OF_INQUIRY = Header.new(name: 'date_of_inquiry', field_name: 'inquiry_date')
   TRACING_REQUESTS = Header.new(name: 'tracing_requests', field_name: 'tracing_names')

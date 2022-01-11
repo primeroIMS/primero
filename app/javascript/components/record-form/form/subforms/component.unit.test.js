@@ -48,6 +48,7 @@ describe("<SubformField />", () => {
         recordModuleID: "primeromodule-cp",
         recordType: "cases",
         parentTitle: "Parent Title",
+        parentValues: {},
         violationOptions: [{ id: 1, display_text: "Test" }]
       },
       {},
@@ -76,7 +77,9 @@ describe("<SubformField />", () => {
       "forms",
       "formik",
       "isReadWriteForm",
-      "i18n"
+      "parentValues",
+      "i18n",
+      "renderAsAccordion"
     ].forEach(property => {
       expect(componentsProps).to.have.property(property);
       delete componentsProps[property];

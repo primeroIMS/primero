@@ -125,14 +125,12 @@ class Report < ApplicationRecord
           values_tree = new_value if values_tree.blank?
           if index.zero?
             values_tree = values_tree.merge(new_value) unless key_at?(values_tree, [], key_value)
-          else
-            if key_value.to_s.blank?
-              # Get the non empty values as the parent_key
-              parent_keys = key.select { |k| k.to_s.present? }
-              set_for_parents(values_tree, parent_keys, '_total' => total)
-            elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
-              set_for_parents(values_tree, key[0..(index - 1)], new_value)
-            end
+          elsif key_value.to_s.blank?
+            # Get the non empty values as the parent_key
+            parent_keys = key.select { |k| k.to_s.present? }
+            set_for_parents(values_tree, parent_keys, '_total' => total)
+          elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
+            set_for_parents(values_tree, key[0..(index - 1)], new_value)
           end
         end
       end
@@ -435,16 +433,14 @@ class Report < ApplicationRecord
             else
               "#{attribute}:\"#{value}\""
             end
-          else
-            if value.respond_to?(:map) && value.size.positive?
-              "#{attribute}:(" + value.map do |v|
-                if v == 'not_null'
-                  '[* TO *]'
-                else
-                  v.to_s
-                end
-              end.join(' OR ') + ')'
-            end
+          elsif value.respond_to?(:map) && value.size.positive?
+            "#{attribute}:(" + value.map do |v|
+              if v == 'not_null'
+                '[* TO *]'
+              else
+                v.to_s
+              end
+            end.join(' OR ') + ')'
           end
         elsif attribute.present? && constraint.present? && constraint == 'not_null'
           "#{attribute}:[* TO *]"

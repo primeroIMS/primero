@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
 import SubformItem from "../subform-item";
+import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
-import { useThemeHelper } from "../../../../../libs";
 import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
-import ActionButton from "../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
 
@@ -31,7 +28,9 @@ const Component = ({
   isReadWriteForm,
   forms,
   parentTitle,
-  violationOptions
+  parentValues,
+  violationOptions,
+  renderAsAccordion
 }) => {
   const {
     display_name: displayName,
@@ -48,16 +47,9 @@ const Component = ({
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { mobileDisplay } = useThemeHelper();
 
-  const handleAddSubform = e => {
-    e.stopPropagation();
-    setDialogIsNew(true);
-    setOpenDialog({ open: true, index: null });
-  };
   const { open, index } = openDialog;
   const title = displayName?.[i18n.locale];
-  const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
 
@@ -102,25 +94,27 @@ const Component = ({
   return (
     <div className={css.fieldArray}>
       <div className={css.subformFieldArrayContainer}>
-        <div>
-          <h3 className={css.subformTitle}>
-            {renderAddFieldTitle} {title}
-          </h3>
-        </div>
-        {!mode.isShow && !isDisabled && isReadWriteForm && (
+        {!renderAsAccordion && (
           <div>
-            <ActionButton
-              id="fields.add"
-              icon={<AddIcon />}
-              text={renderAddText}
-              type={ACTION_BUTTON_TYPES.default}
-              noTranslate
-              rest={{
-                onClick: handleAddSubform
-              }}
-            />
+            <h3 className={css.subformTitle}>
+              {renderAddFieldTitle} {title} {parentTitle}
+            </h3>
           </div>
         )}
+        <SubformAddEntry
+          field={field}
+          formik={formik}
+          mode={mode}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+          isDisabled={isDisabled}
+          setOpenDialog={setOpenDialog}
+          setDialogIsNew={setDialogIsNew}
+          isViolationAssociation={isViolationAssociation}
+          parentTitle={parentTitle}
+          parentValues={parentValues}
+          arrayHelpers={arrayHelpers}
+        />
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
@@ -165,8 +159,10 @@ Component.propTypes = {
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
+  parentValues: PropTypes.object,
   recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
+  renderAsAccordion: PropTypes.bool,
   violationOptions: PropTypes.array
 };
 

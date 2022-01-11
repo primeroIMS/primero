@@ -44,7 +44,8 @@ const FormSectionField = ({
   index,
   formSection,
   isReadWriteForm,
-  violationOptions
+  violationOptions,
+  tags
 }) => {
   const i18n = useI18n();
   const {
@@ -114,7 +115,7 @@ const FormSectionField = ({
     index,
     displayName,
     linkToForm,
-    ...(type === SELECT_FIELD && { optionsSelector })
+    ...(type === SELECT_FIELD && { optionsSelector, tags })
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
@@ -171,6 +172,7 @@ FormSectionField.propTypes = {
   recordID: PropTypes.string,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
   violationOptions: PropTypes.array
 };
 

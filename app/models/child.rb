@@ -39,6 +39,7 @@ class Child < ApplicationRecord
   include EagerLoadable
   include Webhookable
   include Kpi::GBVChild
+  include DuplicateIdAlertable
 
   store_accessor(
     :data,
@@ -114,7 +115,9 @@ class Child < ApplicationRecord
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
     Child.child_matching_field_names.each { |f| text_index(f, suffix: 'matchable') }
-    Child.family_matching_field_names.each { |f| text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section') }
+    Child.family_matching_field_names.each do |f|
+      text_index(f, suffix: 'matchable', subform_field_name: 'family_details_section')
+    end
     quicksearch_fields.each { |f| text_index(f) }
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }

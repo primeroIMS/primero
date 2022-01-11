@@ -24,18 +24,19 @@ module Indicators
           params['facet.pivot'] = this.pivots.map do |pivot|
             SolrUtils.indexed_field_name('case', pivot)
           end.join(',')
-          params['facet.pivot.mincount'] = '-1'
+          params['facet.pivot.mincount'] = this.exclude_zeros == true ? '1' : '-1'
           params['facet.pivot.limit'] = '-1'
         end
       end
     end
 
-    def stats_from_search(sunspot_search, user)
-      stats = {}
+    def stats_from_search(sunspot_search, user, managed_user_names = [])
       owner = owner_from_search(sunspot_search)
       name_map = field_name_solr_map
       facet_pivot = name_map.keys.join(',')
-      sunspot_search.facet_response['facet_pivot'][facet_pivot].each do |row|
+      rows = sunspot_search.facet_response['facet_pivot'][facet_pivot]
+      rows = user_scoped_rows(rows, user, managed_user_names)
+      rows.each_with_object({}) do |row, stats|
         stats[row['value']] = row['pivot'].map do |pivot|
           stat = {
             'count' => pivot['count'],
@@ -44,7 +45,6 @@ module Indicators
           [pivot['value'], stat]
         end.to_h
       end
-      stats
     end
 
     def stat_query_strings(row_pivot, owner, user, name_map = {})

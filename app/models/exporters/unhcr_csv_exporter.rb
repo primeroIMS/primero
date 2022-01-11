@@ -27,7 +27,11 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
 
   def write_case(record, index, rows)
     props_to_export = properties_to_export(PROPERTIES, opting_out?(record))
-    values = props_to_export.map do |_, generator|
+    rows << [index + 1] + map_properties(record, props_to_export)
+  end
+
+  def map_properties(record, props_to_export)
+    props_to_export.map do |_, generator|
       case generator
       when Array
         value_from_array(record, generator)
@@ -36,7 +40,6 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
         generator.call(record: record, codes_value: unhcr_needs_codes_value, location_service: location_service)
       end
     end
-    rows << [index + 1] + values
   end
 
   def value_from_array(record, generator)

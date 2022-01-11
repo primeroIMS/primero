@@ -83,7 +83,8 @@ class Attachment < ApplicationRecord
   end
 
   def url
-    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES, disposition: :attachment)
+    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES,
+                                                               disposition: :attachment)
   end
 
   def to_h_api

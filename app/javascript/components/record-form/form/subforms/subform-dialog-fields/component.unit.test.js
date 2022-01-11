@@ -4,6 +4,7 @@ import { TEXT_FIELD } from "../../../constants";
 import TextField from "../../field-types/text-field";
 import SubformField from "../component";
 import SubformItem from "../subform-item";
+import SubformFieldSubform from "../subform-field-subform";
 import FormSectionField from "../../form-section-field";
 
 import SubformDialogFields from "./component";
@@ -64,6 +65,7 @@ describe("<SubformDialogFields />", () => {
           formSection: { unqique_id: "test_id" },
           recordType: "cases",
           recordModuleID: "primeromodule-cp",
+          parentValues: {},
           field: FieldRecord({
             name: "killing",
             subform_section_id: FormSectionRecord({
@@ -95,6 +97,9 @@ describe("<SubformDialogFields />", () => {
         { registerField: () => {} }
       ));
     });
+    it("render the SubformFieldSubform", () => {
+      expect(component.find(SubformFieldSubform)).lengthOf(1);
+    });
 
     it("render the SubformField", () => {
       expect(component.find(SubformField)).lengthOf(1);
@@ -102,6 +107,33 @@ describe("<SubformDialogFields />", () => {
 
     it("render the subform", () => {
       expect(component.find(SubformItem)).lengthOf(1);
+    });
+
+    it("renders SubformField component with valid props", () => {
+      const componentsProps = { ...component.find(SubformField).props() };
+
+      [
+        "name",
+        "field",
+        "mode",
+        "index",
+        "parentField",
+        "disabled",
+        "formSection",
+        "isReadWriteForm",
+        "recordModuleID",
+        "recordType",
+        "violationOptions",
+        "forms",
+        "parentTitle",
+        "parentValues",
+        "renderAsAccordion"
+      ].forEach(property => {
+        expect(componentsProps).to.have.property(property);
+        delete componentsProps[property];
+      });
+
+      expect(componentsProps).to.be.empty;
     });
   });
 

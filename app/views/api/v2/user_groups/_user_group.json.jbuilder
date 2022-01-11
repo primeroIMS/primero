@@ -6,3 +6,4 @@ json.name user_group.name
 json.disabled user_group.disabled
 json.description user_group.description
 json.core_resource user_group.core_resource
+json.agency_unique_ids user_group.agency_unique_ids

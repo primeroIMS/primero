@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# TODO: This concern encapsulates monitoring/reporting business logic which is currently not being ported to Primero v2.
+# This concern encapsulates monitoring/reporting business logic
 module IncidentMonitoringReporting
   extend ActiveSupport::Concern
 
@@ -38,6 +38,7 @@ module IncidentMonitoringReporting
     end
   end
 
+  # Define class methods
   module ClassMethods
     # Each violation type has a field that is used as part of the identification
     # of that violation
@@ -84,11 +85,11 @@ module IncidentMonitoringReporting
 
   # TODO: Refactor with Violations
   def ensure_violation_categories_exist
-    if violations.present?
-      violations.to_hash.compact.each_key do |key|
-        self.violation_category = [] unless violation_category.present?
-        violation_category << key unless violation_category.include? key
-      end
+    return if violations.blank?
+
+    violations.to_hash.compact.each_key do |key|
+      self.violation_category = [] unless violation_category.present?
+      violation_category << key unless violation_category.include? key
     end
   end
 
@@ -133,23 +134,25 @@ module IncidentMonitoringReporting
   # TODO - Need rspec test for this
   def violations_list(compact_flag = false, include_unique_id = false)
     violations_list = []
-    if violations.present?
-      violations.to_hash.each do |key, value|
-        value.each_with_index do |v, _i|
-          vlabel = violation_label(key, v, include_unique_id)
-          # Add an index if compact_flag is false
-          violations_list << vlabel
-        end
-      end
-    end
+    add_violations_to_list(violations_list, include_unique_id) if violations.present?
 
     if compact_flag
-      violations_list.uniq! if violations_list.present?
-    else
-      violations_list << 'NONE' if violations_list.blank?
+      return violations_list.present? ? violations_list.uniq! : []
     end
 
+    return ['NONE'] if violations_list.blank?
+
     violations_list
+  end
+
+  def add_violations_to_list(violations_list, include_unique_id)
+    violations.to_hash.each do |key, value|
+      value.each_with_index do |v, _i|
+        vlabel = violation_label(key, v, include_unique_id)
+        # Add an index if compact_flag is false
+        violations_list << vlabel
+      end
+    end
   end
 
   # TODO: Refactor with Violations
@@ -200,11 +203,11 @@ module IncidentMonitoringReporting
 
   # TODO: Refactor with Violations
   def set_violation_verification_default
-    if violations.present?
-      violations.to_hash.each do |_key, value|
-        value.each do |v|
-          v.verified = I18n.t('incident.violation.pending') unless v.verified.present?
-        end
+    return if violations.blank?
+
+    violations.to_hash.each do |_key, value|
+      value.each do |v|
+        v.verified = I18n.t('incident.violation.pending') unless v.verified.present?
       end
     end
   end
@@ -224,7 +227,8 @@ module IncidentMonitoringReporting
   def child_types
     child_type_list = []
     %w[boys girls unknown].each do |child_type|
-      if send("incident_total_tally_#{child_type}".to_sym).present? && send("incident_total_tally_#{child_type}".to_sym).positive?
+      if send("incident_total_tally_#{child_type}".to_sym).present? &&
+         send("incident_total_tally_#{child_type}".to_sym).positive?
         child_type_list << child_type
       end
     end
@@ -255,23 +259,32 @@ module IncidentMonitoringReporting
   def violation_children_list(violation_type, violation)
     child_list = []
     %w[boys girls unknown].each do |child_type|
-      child_count = 0
-      # Special case for "attack on hospitals" and "attack on schools"
-      if violation_type == 'attack_on_hospitals' || violation_type == 'attack_on_schools'
-        if violation.send("violation_killed_tally_#{child_type}".to_sym).is_a?(Integer)
-          child_count += violation.send("violation_killed_tally_#{child_type}".to_sym)
-        end
-        if violation.send("violation_injured_tally_#{child_type}".to_sym).is_a?(Integer)
-          child_count += violation.send("violation_injured_tally_#{child_type}".to_sym)
-        end
-      else
-        if violation.send("violation_tally_#{child_type}".to_sym).is_a?(Integer)
-          child_count += violation.send("violation_tally_#{child_type}".to_sym)
-        end
-      end
-      child_list << child_type if child_count.positive?
+      child_list << child_type if calculate_child_count(violation_type, violation, child_type).positive?
     end
     child_list
+  end
+
+  def calculate_child_count(violation_type, violation, child_type)
+    # Special case for "attack on hospitals" and "attack on schools"
+    return count_school_or_hospital(violation, child_type) if school_or_hospital?(violation_type)
+
+    child_count = violation.send("violation_tally_#{child_type}".to_sym)
+    child_count.is_a?(Integer) ? child_count : 0
+  end
+
+  def school_or_hospital?(violation_type)
+    %w[attack_on_hospitals attack_on_schools].include?(violation_type)
+  end
+
+  def count_school_or_hospital(violation, child_type)
+    child_count = 0
+    if violation.send("violation_killed_tally_#{child_type}".to_sym).is_a?(Integer)
+      child_count += violation.send("violation_killed_tally_#{child_type}".to_sym)
+    end
+    if violation.send("violation_injured_tally_#{child_type}".to_sym).is_a?(Integer)
+      child_count += violation.send("violation_injured_tally_#{child_type}".to_sym)
+    end
+    child_count
   end
 
   # TODO: Refactor with Violations

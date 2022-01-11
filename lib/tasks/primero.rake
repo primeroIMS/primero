@@ -326,6 +326,7 @@ namespace :primero do
   #   record_type        - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
   #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
   #   show_hidden        - Whether or not to include hidden fields                          DEFAULT: false
+  #   file_name          - output file name                                                 DEFAULT: 'forms.xlsx'
   # NOTE:
   #   No spaces between arguments in argument list
   # Examples:
@@ -338,11 +339,15 @@ namespace :primero do
   #   Exports only the GBV forms
   #      rails primero:forms_to_spreadsheet['',primeromodule-gbv]
   desc 'Exports forms to an Excel spreadsheet'
-  task :forms_to_spreadsheet, %i[record_type module_id show_hidden] => :environment do |_, args|
+  task :forms_to_spreadsheet, %i[record_type module_id show_hidden file_name] => :environment do |_, args|
     args.with_defaults(module_id: 'primeromodule-cp', record_type: 'case')
     opts = args.to_h
-    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? nil : true
-    opts[:file_name] = 'forms.xlsx'
+
+    # The logic in the exporter has now been reversed. 'visible' option controls whether to only show visible
+    # fields and forms or not... so it actually is the reverse of the old "show_hidden" logic
+    opts[:visible] = args[:show_hidden].present? && args[:show_hidden].start_with?(/[yYTt]/) ? false : true
+
+    opts[:file_name] = args[:file_name] || ''
     exporter = Exporters::FormExporter.new(opts)
     exporter.export
     puts "Exported forms to XLSX Spreadsheet #{exporter.file_name}"

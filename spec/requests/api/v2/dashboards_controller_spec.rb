@@ -42,7 +42,7 @@ describe Api::V2::DashboardsController, type: :request do
       ]
     )
 
-    group1 = UserGroup.create!(name: 'Group1')
+    group1 = UserGroup.create!(unique_id: 'usergroup-group1', name: 'Group1')
 
     Location.create!(placename_en: 'Country', location_code: 'CNT', type: 'country')
     Location.create!(placename_en: 'State', location_code: 'STE', type: 'state', hierarchy_path: 'CNT.STE')
@@ -166,7 +166,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       tasks_overdue_case_plan = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_case_plan' }
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan']['foo']['count']).to eq(2)
-      expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(2)
+      expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan'].count).to eq(1)
 
       tasks_overdue_followups = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_followups' }
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups']['foo']['count']).to eq(2)
@@ -174,7 +174,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       tasks_overdue_services = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_services' }
       expect(tasks_overdue_services['indicators']['tasks_overdue_services']['foo']['count']).to eq(1)
-      expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(2)
+      expect(tasks_overdue_services['indicators']['tasks_overdue_services'].count).to eq(1)
 
       case_incident_overview = json['data'].find { |d| d['name'] == 'dashboard.dash_case_incident_overview' }
       expect(case_incident_overview['indicators'].count).to eq(5)
@@ -338,7 +338,8 @@ describe Api::V2::DashboardsController, type: :request do
       it 'lists statistics for permitted shared with my team dashboard dashboards' do
         login_for_test(
           user_name: 'user1',
-          group_permission: Permission::SELF,
+          user_group_ids: [@group_a.id],
+          group_permission: Permission::GROUP,
           permissions: [@permission_case, @permission_dashboard_shared_with_me_team]
         )
         get '/api/v2/dashboards'

@@ -12,7 +12,7 @@ describe("Forms - Selectors", () => {
   const lookupViolenceType = {
     unique_id: "lookup-violence-type",
     name: { en: "Lookup Violence Type" },
-    values: [{ id: "type1", display_text: { en: "Type 1" } }]
+    values: [{ id: "type1", display_text: { en: "Type 1" }, tags: ["low"] }]
   };
   const referToUsers = [
     {
@@ -391,6 +391,15 @@ describe("Forms - Selectors", () => {
       const result = selectors.getOptions(source)(stateWithLookupsFormGroup, { source });
 
       expect(result).to.deep.equal(lookups);
+    });
+  });
+
+  describe("when the lookup has tags", () => {
+    it("should return the lookup values with the tags", () => {
+      const source = "lookup lookup-violence-type";
+      const result = selectors.getOptions(source)(stateWithLookups, { source });
+
+      expect(result).to.deep.equal([{ id: "type1", display_text: "Type 1", disabled: false, tags: ["low"] }]);
     });
   });
 });

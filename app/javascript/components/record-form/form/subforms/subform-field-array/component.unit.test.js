@@ -1,5 +1,6 @@
 import { Map, fromJS } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
+import { Menu, MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
@@ -9,6 +10,7 @@ import SubformFields from "../subform-fields";
 import SubformHeader from "../subform-header";
 import SubformDrawer from "../subform-drawer";
 import SubformItem from "../subform-item";
+import SubformAddEntry from "../subform-add-entry";
 import { GuidingQuestions } from "../../components";
 
 import SubformFieldArray from "./component";
@@ -114,6 +116,10 @@ describe("<SubformFieldArray />", () => {
 
   it("renders the SubformHeader", () => {
     expect(component.find(SubformHeader)).lengthOf(2);
+  });
+
+  it("renders the SubformAddEntry", () => {
+    expect(component.find(SubformAddEntry)).lengthOf(1);
   });
 
   it("renders the AddIcon", () => {
@@ -229,7 +235,7 @@ describe("<SubformFieldArray />", () => {
       const h3Tag = incidentComponent.find("h3");
 
       expect(h3Tag).lengthOf(1);
-      expect(h3Tag.at(0).text()).to.be.equal(" Family Details");
+      expect(h3Tag.at(0).text()).to.be.equal(" Family Details ");
     });
   });
 
@@ -242,6 +248,7 @@ describe("<SubformFieldArray />", () => {
         {
           ...props,
           recordType: "incidents",
+          parentTitle: "Title",
           formSection: {
             ...props.formSection,
             unique_id: "individual_victims_subform_section"
@@ -285,6 +292,44 @@ describe("<SubformFieldArray />", () => {
                 visible: true
               }
             }
+          }),
+          formik: {
+            values: [
+              {
+                killing: {
+                  unique_id: "abc123"
+                }
+              }
+            ]
+          },
+          parentValues: {
+            values: [
+              {
+                killing: {
+                  unique_id: "def456"
+                }
+              }
+            ]
+          },
+          field: FieldRecord({
+            name: "killing",
+            display_name: { en: "Killing" },
+            subform_section_id: FormSectionRecord({
+              unique_id: "killing_section",
+              fields: [
+                FieldRecord({
+                  name: "relation_name",
+                  visible: true,
+                  type: "text_field"
+                }),
+                FieldRecord({
+                  name: "relation_child_is_in_contact",
+                  visible: true,
+                  type: "text_field"
+                })
+              ]
+            }),
+            disabled: false
           })
         },
         fromJS({
@@ -297,7 +342,19 @@ describe("<SubformFieldArray />", () => {
       ));
     });
 
-    it("should not render add button", () => {
+    it("should render SubformAddEntry", () => {
+      expect(incidentComponent.find(SubformAddEntry)).lengthOf(1);
+    });
+
+    it("should render Menu", () => {
+      expect(incidentComponent.find(Menu)).lengthOf(1);
+    });
+
+    it("should render MenuItem", () => {
+      expect(incidentComponent.find(MenuItem)).lengthOf(1);
+    });
+
+    it("should render add button", () => {
       expect(incidentComponent.find(AddIcon)).lengthOf(1);
     });
 

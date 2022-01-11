@@ -8,10 +8,9 @@ import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
-import SubformField from "../component";
-import css from "../styles.css";
-import { buildViolationOptions } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags } from "../../utils";
 import { useI18n } from "../../../../i18n";
+import SubformFieldSubform from "../subform-field-subform";
 
 import { NAME, VIOLATION_IDS_NAME } from "./constants";
 
@@ -65,6 +64,7 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
+    const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
@@ -94,7 +94,8 @@ const Component = ({
       recordType,
       ...(subformSectionField.name === VIOLATION_IDS_NAME && {
         violationOptions: parentViolationOptions || violationOptions
-      })
+      }),
+      ...(isEmpty(tags) ? {} : { tags })
     };
 
     if (
@@ -108,18 +109,13 @@ const Component = ({
 
     if (SUBFORM_SECTION === subformSectionField.type) {
       return (
-        <div className={css.subFormField}>
-          <SubformField
-            {...{
-              ...fieldProps,
-              formSection: subformSectionField.subform_section_id,
-              isReadWriteForm,
-              forms: {},
-              parentTitle,
-              violationOptions
-            }}
-          />
-        </div>
+        <SubformFieldSubform
+          fieldProps={fieldProps}
+          isViolation={isViolation}
+          parentTitle={parentTitle}
+          parentValues={parentValues}
+          violationOptions={violationOptions}
+        />
       );
     }
 

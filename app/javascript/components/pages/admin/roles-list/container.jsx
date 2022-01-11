@@ -18,10 +18,9 @@ import { useMetadata } from "../../../records";
 import usePermissions from "../../../permissions";
 import { useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
-import { getFilters } from "../agencies-list/utils";
 import { FiltersForm } from "../../../form-filters/components";
 import { DEFAULT_FILTERS, DATA, DISABLED } from "../constants";
-import { filterOnTableChange, onSubmitFilters } from "../utils";
+import { filterOnTableChange, getFilters, onSubmitFilters } from "../utils";
 
 import { fetchRoles, setRolesFilter } from "./action-creators";
 import { ADMIN_NAMESPACE, LIST_HEADERS, NAME } from "./constants";

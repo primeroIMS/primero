@@ -17,7 +17,9 @@ const Component = ({
   formSection,
   isReadWriteForm,
   parentTitle,
-  violationOptions
+  parentValues,
+  violationOptions,
+  renderAsAccordion
 }) => {
   const { name } = field;
 
@@ -40,7 +42,9 @@ const Component = ({
             formSection={formSection}
             isReadWriteForm={isReadWriteForm}
             parentTitle={parentTitle}
+            parentValues={parentValues}
             violationOptions={violationOptions}
+            renderAsAccordion={renderAsAccordion}
           />
         )}
       </FieldArray>
@@ -59,8 +63,10 @@ Component.propTypes = {
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
+  parentValues: PropTypes.object,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
+  renderAsAccordion: PropTypes.bool,
   violationOptions: PropTypes.array
 };
 
