@@ -8,7 +8,7 @@ import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
-import { buildViolationOptions } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags } from "../../utils";
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
 
@@ -64,6 +64,7 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
+    const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
@@ -93,7 +94,8 @@ const Component = ({
       recordType,
       ...(subformSectionField.name === VIOLATION_IDS_NAME && {
         violationOptions: parentViolationOptions || violationOptions
-      })
+      }),
+      ...(isEmpty(tags) ? {} : { tags })
     };
 
     if (

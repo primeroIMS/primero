@@ -12,6 +12,7 @@ export const FieldRecord = Record({
   multi_select: null,
   option_strings_source: null,
   option_strings_text: null,
+  option_strings_condition: null,
   guiding_questions: "",
   required: false,
   date_validation: null,
