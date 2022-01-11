@@ -110,6 +110,7 @@ class TracingRequest < ApplicationRecord
   end
 
   def associations_as_data(_current_user)
+    traces.reload if @traces_to_save.present?
     @associations_as_data ||= { 'tracing_request_subform_section' => traces.map(&:data) }
   end
 
