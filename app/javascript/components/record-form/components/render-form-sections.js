@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import isEmpty from "lodash/isEmpty";
 
-import { SELECT_FIELD, SUBFORM_SECTION } from "../constants";
+import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
 import { displayNameHelper } from "../../../libs";
 import RecordFormTitle from "../form/record-form-title";
