@@ -947,6 +947,11 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+      summary_header:
+        form_group: Primero Form Group
+        form: Primero Forms
+        status: Status
+        notes: Notes
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:

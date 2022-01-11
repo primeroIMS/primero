@@ -6,10 +6,10 @@ class Exporters::FormExporter < ValueObject
                 :total, :success_total
 
   def initialize(opts = {})
-    opts[:file_name] = export_file_name(opts)
     opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
     opts[:record_type] ||= 'case'
     opts[:module_id] ||= 'primeromodule-cp'
+    opts[:file_name] = export_file_name(opts)
     opts[:visible] = true if opts[:visible].nil?
     opts[:form_params] = initialize_form_params(opts)
     opts[:header] = initialize_header(opts)
@@ -32,7 +32,10 @@ class Exporters::FormExporter < ValueObject
 
   def export
     self.workbook = WriteXLSX.new(file_name)
-    sorted_forms.each { |form| export_form(form) }
+    forms = sorted_forms
+    write_key_worksheet
+    export_form_summary(forms)
+    forms.each { |form| export_form(form) }
     export_lookups(Lookup.all)
     workbook.close
   end
@@ -40,19 +43,52 @@ class Exporters::FormExporter < ValueObject
   private
 
   def export_file_name(opts)
-    return export_file_dir if opts[:file_name].blank?
+    return export_file_dir(opts) if opts[:file_name].blank?
 
     file_name = opts[:file_name]
     file_name += '.xlsx' unless file_name.ends_with?('.xlsx')
     file_name.gsub(/\s+/, '_')
   end
 
-  def export_file_dir
-    File.join(Rails.root, 'tmp', "form_export_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx")
+  def export_file_dir(opts)
+    File.join(Rails.root, 'tmp', "forms_#{module_description(opts)}_#{DateTime.now.strftime('%Y%m%d.%I%M%S')}.xlsx")
+  end
+
+  def module_description(opts)
+    return '' if opts[:module_id].blank?
+
+    PrimeroModule.find_by(unique_id: opts[:module_id])&.name
   end
 
   def sorted_forms
     FormSection.list(form_params).order(:order_form_group, :order)
+  end
+
+  def write_key_worksheet
+    self.total += 1
+    worksheet = workbook.add_worksheet('Key')
+    key_row = ['source', file_name.split('/').last]
+    worksheet.write(0, 0, key_row)
+    self.success_total += 1
+  end
+
+  def export_form_summary(forms)
+    self.total += 1
+    worksheet = workbook.add_worksheet('Primero Forms')
+    worksheet.write(0, 0, summary_header)
+    forms.each_with_index { |form, i| worksheet.write(i + 1, 0, form_summary_row(form)) }
+    self.success_total += 1
+  end
+
+  def summary_header
+    keys = %w[form_group form status notes]
+    keys.map { |key| I18n.t("exports.forms.summary_header.#{key}", locale: locale) }
+  end
+
+  def form_summary_row(form)
+    form_row = [form.form_group_id, form.name]
+    form_row << "System" if default_system_form?(form)
+    form_row
   end
 
   def export_form(form)
@@ -61,12 +97,18 @@ class Exporters::FormExporter < ValueObject
     # If we only want visible forms, skip forms that aren't visible... unless it is a subform
     return if visible && !form.visible? && !form.is_nested?
 
+    return if default_system_form?(form)
+
     self.total += 1
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
     worksheet.write(1, 0, header)
     export_form_fields(form, worksheet)
     self.success_total += 1
+  end
+
+  def default_system_form?(form)
+    FormSection::SYSTEM_FORMS.include?(form.unique_id)
   end
 
   def worksheet_name(form)
