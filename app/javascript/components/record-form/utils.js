@@ -99,6 +99,18 @@ export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) => difference(values, initialValues);
 
+export const compactReadOnlyFields = (values, readOnlyFields) => {
+  const readOnlyFieldMap = readOnlyFields.reduce((acc, field) => ({ ...acc, [field.name]: true }), {});
+
+  return Object.entries(values).reduce((acc, [key, value]) => {
+    if (!readOnlyFieldMap[key]) {
+      return { ...acc, [key]: value };
+    }
+
+    return acc;
+  }, {});
+};
+
 export const compactBlank = values =>
   Object.entries(values)
     .filter(entry => {

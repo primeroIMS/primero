@@ -32,6 +32,10 @@ class Importers::YmlConfigImporter < ValueObject
       return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales")
     end
 
+    process_config_data(config_data)
+  end
+
+  def process_config_data(config_data)
     config_data.values.each do |config|
       config = strip_hash_values!(config)
       send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)

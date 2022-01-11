@@ -18,7 +18,11 @@ RUN bin/bash -c set -euox pipefail \
         ; apt install -y $SOLR_PACKAGES \
         ; chown -R $SOLR_USER:$SOLR_GROUP /var/solr/data \
         ; chmod -R 700 /var/solr/data \
-        ; chmod +x /sub.sh
+        ; chmod +x /sub.sh \
+        ; cp /opt/solr/bin/solr.in.sh.orig /opt/solr/bin/solr.in.sh \
+        ; echo 'Defending against CVE-2021-44228' \
+        ; echo 'SOLR_OPTS="$SOLR_OPTS -Dlog4j2.formatMsgNoLookups=true"' >> /opt/solr/bin/solr.in.sh \
+        ; mv /opt/solr/bin/solr.in.sh /etc/default/solr.in.sh
 
 USER $SOLR_USER
 # This could also be put in the compose file.

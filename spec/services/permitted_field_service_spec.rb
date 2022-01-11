@@ -144,7 +144,6 @@ describe PermittedFieldService, search: true do
     expect((%w[sex age registration_date location_current] - permitted_field_names).empty?).to be true
   end
 
-
   it 'returns the permitted fields for id_search = true' do
     permitted_field_names = PermittedFieldService.new(user, Child, nil, true).permitted_field_names
 
@@ -163,6 +162,12 @@ describe PermittedFieldService, search: true do
     approval_field_names = %w[approval_status_assessment approval_status_case_plan approval_status_closure]
 
     expect((approval_field_names - permitted_field_names).empty?).to be true
+  end
+
+  it 'does not return id when is an update' do
+    permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names(false, true)
+
+    expect(permitted_field_names.include?('id')).to be false
   end
 
   after(:each) { clean_data(Agency, Role, User, FormSection, Field) }

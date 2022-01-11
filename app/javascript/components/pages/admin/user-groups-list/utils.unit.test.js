@@ -1,4 +1,4 @@
-import { getFilters } from "./utils";
+import { getUserGroupFilters } from "./utils";
 
 describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {
   it("should return default filters for agencies-list", () => {
@@ -21,9 +21,17 @@ describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {
           ]
         },
         type: "multi_toggle"
+      },
+      {
+        field_name: "agency_unique_ids",
+        multiple: true,
+        name: "cases.filter_by.agency",
+        option_strings_source: "Agency",
+        option_strings_source_id_key: "unique_id",
+        type: "multi_select"
       }
     ];
 
-    expect(getFilters(i18n)).to.be.deep.equals(expected);
+    expect(getUserGroupFilters(i18n)).to.be.deep.equals(expected);
   });
 });

@@ -6,7 +6,8 @@ import {
   SUBFORM_HEADER,
   SUBFORM_FIELDS,
   SUBFORM_FIELD_ARRAY,
-  SUBFORM_DIALOG
+  SUBFORM_DIALOG,
+  SUBFORM_FIELD_SUBFORM
 } from "./constants";
 
 describe("Verifying config constant", () => {
@@ -19,7 +20,8 @@ describe("Verifying config constant", () => {
       SUBFORM_HEADER,
       SUBFORM_FIELDS,
       SUBFORM_FIELD_ARRAY,
-      SUBFORM_DIALOG
+      SUBFORM_DIALOG,
+      SUBFORM_FIELD_SUBFORM
     };
 
     [
@@ -30,7 +32,8 @@ describe("Verifying config constant", () => {
       "SUBFORM_HEADER",
       "SUBFORM_FIELDS",
       "SUBFORM_FIELD_ARRAY",
-      "SUBFORM_DIALOG"
+      "SUBFORM_DIALOG",
+      "SUBFORM_FIELD_SUBFORM"
     ].forEach(property => {
       expect(constants).to.have.property(property);
       expect(constants[property]).to.be.a("string");

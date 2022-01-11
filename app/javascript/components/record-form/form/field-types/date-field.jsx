@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { differenceInYears, parseISO } from "date-fns";
+import { differenceInYears, parseISO, isDate } from "date-fns";
 import { InputAdornment } from "@material-ui/core";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
@@ -29,7 +29,11 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
 
   useEffect(() => {
     if (fieldValue.current && formInstance) {
-      formInstance.current.setFieldValue(name, fieldValue.current, true);
+      const currentValue = isDate(fieldValue.current)
+        ? toServerDateFormat(fieldValue.current, { includeTime: dateIncludeTime })
+        : fieldValue.current;
+
+      formInstance.current.setFieldValue(name, currentValue, true);
     }
   }, [fieldValue.current, formInstance]);
 

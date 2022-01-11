@@ -37,11 +37,12 @@ phases:
       - ./ansible/bin/activate
       - rm -r ansible/inventory/*
       - cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
-      - aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${CICD_TAG} --sse 'aws:kms'
+      - aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${TAG} --sse 'aws:kms'
     finally:
       - cd docker
       - ./build-report.py -p pre_build
   build:
+    on-failure: ABORT
     commands:
       - ./build.sh all -t ${TAG} -r ${CONTAINER_REGISTRY} -b ${CONTAINER_REGISTRY}
       - docker image ls
@@ -54,7 +55,7 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
-      - aws ssm send-command --document-name "PrimeroCicdDocument" --targets Key=tag:Name,Values="${DEPLOY_SERVER_NAME}" --parameters '{"SourceType":["S3"],"SourceInfo":["{\"path\":\"https://s3.amazonaws.com/'${BUCKET_NAME}'/ansible-'${CICD_TAG}'\"}"],"InstallDependencies":["True"],"Verbose":["-v"],"ExtraVariables":["primero_tag='${TAG}' primero_repo_branch='${BRANCH}'"],"CicdTag":["'${CICD_TAG}'"]}' --output-s3-bucket-name "${BUCKET_NAME}" --output-s3-key-prefix "ansible-logs" > output.json
+      - aws ssm send-command --document-name "PrimeroCicdDocument" --targets Key=tag:Name,Values="${DEPLOY_SERVER_NAME}" --parameters '{"SourceType":["S3"],"SourceInfo":["{\"path\":\"https://s3.amazonaws.com/'${BUCKET_NAME}'/ansible-'${TAG}'\"}"],"InstallDependencies":["True"],"Verbose":["-v"],"ExtraVariables":["primero_tag='${TAG}' primero_repo_branch='${BRANCH}'"],"CicdTag":["'${TAG}'"]}' --output-s3-bucket-name "${BUCKET_NAME}" --output-s3-key-prefix "ansible-logs" > output.json
       - cat output.json
     finally:
       - ./build-report.py -p post_build --send-command

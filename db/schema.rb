@@ -65,6 +65,13 @@ ActiveRecord::Schema.define(version: 2022_01_04_000000) do
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
   end
 
+  create_table "agencies_user_groups", id: :serial, force: :cascade do |t|
+    t.integer "agency_id"
+    t.integer "user_group_id"
+    t.index ["agency_id"], name: "index_agencies_user_groups_on_agency_id"
+    t.index ["user_group_id"], name: "index_agencies_user_groups_on_user_group_id"
+  end
+
   create_table "alerts", id: :serial, force: :cascade do |t|
     t.string "type"
     t.text "alert_for"
@@ -221,6 +228,7 @@ ActiveRecord::Schema.define(version: 2022_01_04_000000) do
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "display_conditions_record"
     t.jsonb "display_conditions_subform"
+    t.string "collapse"
     t.jsonb "option_strings_condition"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
