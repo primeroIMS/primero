@@ -12,6 +12,7 @@ describe RecordDataService do
     @role.save(validate: false)
     @user = User.new(user_name: 'user1', role: @role)
     @record = Child.new_with_user(@user, name: 'Test', hidden_name: true, field1: 'value1', field2: nil)
+    @incident = Incident.new_with_user(@user, incident_date: Date.today, violation_category: %w[foo bar])
     allow(@record).to receive(:flag_count).and_return(2)
   end
 
@@ -24,6 +25,14 @@ describe RecordDataService do
 
     it 'selects only the requested fields' do
       expect(data.keys).to match_array(%w[field2 name])
+    end
+  end
+
+  describe '.embed_incident_data' do
+    it 'masks the hidden name if specified as such on the record' do
+      data =  RecordDataService.new.embed_incident_data({}, @incident, %w[incident_date_derived violation_category])
+      expect(data['incident_date_derived']).to eq(Date.today)
+      expect(data['violation_category']).to match_array(%w[foo bar])
     end
   end
 
