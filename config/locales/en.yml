@@ -1331,7 +1331,7 @@ en:
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
       update_and_return: 'Update and Return to %{association}'
-      save_and_return: 'Save and Return to %{association}'
+      save_and_return: 'Add and Return to %{association}'
       pending: Pending Verification
       title: Violations
       types:
