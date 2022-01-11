@@ -29,7 +29,8 @@ const Component = ({
   forms,
   parentTitle,
   parentValues,
-  violationOptions
+  violationOptions,
+  renderAsAccordion
 }) => {
   const {
     display_name: displayName,
@@ -93,11 +94,13 @@ const Component = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <div>
-          <h3 className={css.subformTitle}>
-            {renderAddFieldTitle} {title}
-          </h3>
-        </div>
+        {!renderAsAccordion && (
+          <div>
+            <h3 className={css.subformTitle}>
+              {renderAddFieldTitle} {title} {parentTitle}
+            </h3>
+          </div>
+        )}
         <div>
           <SubformAddEntry
             field={field}
@@ -161,6 +164,7 @@ Component.propTypes = {
   parentValues: PropTypes.object,
   recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
+  renderAsAccordion: PropTypes.bool,
   violationOptions: PropTypes.array
 };
 

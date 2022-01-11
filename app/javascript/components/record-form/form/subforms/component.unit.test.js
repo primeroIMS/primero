@@ -78,7 +78,8 @@ describe("<SubformField />", () => {
       "formik",
       "isReadWriteForm",
       "parentValues",
-      "i18n"
+      "i18n",
+      "renderAsAccordion"
     ].forEach(property => {
       expect(componentsProps).to.have.property(property);
       delete componentsProps[property];

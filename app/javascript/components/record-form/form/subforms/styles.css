@@ -105,3 +105,40 @@
 .subFormField{
   margin: 0 0 var(--sp-3);
 }
+
+.panelAccordion {
+  box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
+  margin-bottom: 2px;
+
+  &:before {
+    display: none;
+  }
+}
+
+.accordionSummaryRoot {
+  padding: 0%;
+  flex-direction: row-reverse;
+
+  & div:last-of-type {
+    margin-right: 0px;
+  }
+}
+
+.accordionSummaryExpanded {
+  margin: 0px !important;
+  min-height: 48px;
+}
+
+.accordionSummaryContent {
+  margin-top: 0px;
+}
+
+.expandIconAccordion {
+  box-shadow: none;
+  width: 36px;
+  height: 36px;
+}
+
+.accordionDetails {
+  display: block;
+}
