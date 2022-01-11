@@ -92,7 +92,7 @@ const Component = ({
   );
 
   return (
-    <>
+    <div className={css.fieldArray}>
       <div className={css.subformFieldArrayContainer}>
         {!renderAsAccordion && (
           <div>
@@ -101,22 +101,20 @@ const Component = ({
             </h3>
           </div>
         )}
-        <div>
-          <SubformAddEntry
-            field={field}
-            formik={formik}
-            mode={mode}
-            formSection={formSection}
-            isReadWriteForm={isReadWriteForm}
-            isDisabled={isDisabled}
-            setOpenDialog={setOpenDialog}
-            setDialogIsNew={setDialogIsNew}
-            isViolationAssociation={isViolationAssociation}
-            parentTitle={parentTitle}
-            parentValues={parentValues}
-            arrayHelpers={arrayHelpers}
-          />
-        </div>
+        <SubformAddEntry
+          field={field}
+          formik={formik}
+          mode={mode}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+          isDisabled={isDisabled}
+          setOpenDialog={setOpenDialog}
+          setDialogIsNew={setDialogIsNew}
+          isViolationAssociation={isViolationAssociation}
+          parentTitle={parentTitle}
+          parentValues={parentValues}
+          arrayHelpers={arrayHelpers}
+        />
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
@@ -144,7 +142,7 @@ const Component = ({
         parentTitle={parentTitle}
         violationOptions={violationOptions}
       />
-    </>
+    </div>
   );
 };
 

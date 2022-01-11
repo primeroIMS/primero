@@ -8,7 +8,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ handleBackLabel, handleBack, handleCancel }) => {
+const Component = ({ handleBackLabel, handleBack, handleCancel, isShow }) => {
   const handleSuccess = event => {
     event.stopPropagation();
     handleBack();
@@ -16,31 +16,34 @@ const Component = ({ handleBackLabel, handleBack, handleCancel }) => {
 
   return (
     <div className={css.buttonsRow}>
-      {handleBack && (
-        <ActionButton
-          id="dialog-submit"
-          icon={<ArrowBackIosIcon />}
-          text={handleBackLabel}
-          type={ACTION_BUTTON_TYPES.default}
-          autoFocus
-          outlined
-          noTranslate
-          rest={{
-            ...(handleBack && { onClick: handleSuccess })
-          }}
-        />
-      )}
-      {handleCancel && (
-        <ActionButton
-          icon={<CloseIcon />}
-          text="cancel"
-          type={ACTION_BUTTON_TYPES.default}
-          outlined
-          cancel
-          rest={{
-            onClick: handleCancel
-          }}
-        />
+      {isShow || (
+        <>
+          {handleBack && (
+            <ActionButton
+              id="dialog-submit"
+              icon={<ArrowBackIosIcon />}
+              text={handleBackLabel}
+              type={ACTION_BUTTON_TYPES.default}
+              outlined
+              noTranslate
+              rest={{
+                ...(handleBack && { onClick: handleSuccess })
+              }}
+            />
+          )}
+          {handleCancel && (
+            <ActionButton
+              icon={<CloseIcon />}
+              text="cancel"
+              type={ACTION_BUTTON_TYPES.default}
+              outlined
+              cancel
+              rest={{
+                onClick: handleCancel
+              }}
+            />
+          )}
+        </>
       )}
     </div>
   );
@@ -49,7 +52,8 @@ const Component = ({ handleBackLabel, handleBack, handleCancel }) => {
 Component.propTypes = {
   handleBack: PropTypes.func,
   handleBackLabel: PropTypes.string,
-  handleCancel: PropTypes.func
+  handleCancel: PropTypes.func,
+  isShow: PropTypes.object
 };
 
 Component.displayName = NAME;

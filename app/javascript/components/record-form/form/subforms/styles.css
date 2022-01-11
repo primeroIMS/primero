@@ -63,6 +63,7 @@
 .emptySubformContainer {
   display: flex;
   align-items: center;
+  margin: var(--sp-3) 0;
 
   & > svg:first-of-type {
     color: var(--c-yellow);
@@ -81,29 +82,31 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: var(--sp-2) 0;
 }
 
 .subformFields {
   display: flex;
   align-items: center;
-  box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
-  border-radius: 4px;
-  padding: 0 8px;
-  font-family: var(--ff);
+  padding: 0 var(--sp-2);
   font-size: var(--fs-12);
-  margin-bottom: 2px;
+  border: 1px solid var(--c-warm-grey-1);
+}
+
+.fieldArray .subformFields ~ .subformFields {
+  border-top: none;
 }
 
 .subformTitle {
-  margin-top: 0px;
+  margin: 0;
 }
 
 .subformGuidance {
   margin-bottom:  8px;
 }
 
-.subFormField{
-  margin: 0 0 var(--sp-3);
+.subFormField {
+  margin: 0 0 var(--sp-4);
 }
 
 .panelAccordion {

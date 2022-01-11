@@ -51,7 +51,7 @@
 .title {
   font-size: var(--fs-20);
   color: var(--c-solid-black);
-  fong-weight: bold;
+  font-weight: bold;
   flex: 1;
   flex-direction: column;
 }

@@ -82,7 +82,7 @@ const Component = ({
   };
 
   return (
-    <>
+    <div>
       <ActionButton
         id="fields.add"
         icon={<AddIcon />}
@@ -104,7 +104,7 @@ const Component = ({
           })}
         </Menu>
       )}
-    </>
+    </div>
   );
 };
 
