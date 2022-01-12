@@ -118,6 +118,6 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
     };
     const { component } = setupMountedComponent(SubformHeader, props, initialState);
 
-    expect(component.text()).to.be.equal("b123cde ");
+    expect(component.text()).to.be.equal("b123cde");
   });
 });
