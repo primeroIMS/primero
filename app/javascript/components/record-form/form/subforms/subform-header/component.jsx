@@ -86,7 +86,7 @@ const Component = ({ field, values, locale, displayName, index, onClick, isViola
     return (
       <div id="subform-header-button" className={css.subformHeader}>
         <Button onClick={handleClick}>
-          {renderShortId}
+          <span>{renderShortId}</span>
           {subformValues}
         </Button>
       </div>

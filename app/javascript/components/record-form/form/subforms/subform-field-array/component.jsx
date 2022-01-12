@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
+import clsx from "clsx";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
@@ -57,6 +58,11 @@ const Component = ({
   const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
 
+  const cssContainer = clsx(css.subformFieldArrayContainer, {
+    [css.subformFieldArrayAccordion]: renderAsAccordion && mode.isShow,
+    [css.subformFieldArrayShow]: renderAsAccordion && !mode.isShow
+  });
+
   useEffect(() => {
     if (typeof index === "number") {
       setSelectedValue(orderedValues[index]);
@@ -93,7 +99,7 @@ const Component = ({
 
   return (
     <div className={css.fieldArray}>
-      <div className={css.subformFieldArrayContainer}>
+      <div className={cssContainer}>
         {!renderAsAccordion && (
           <div>
             <h3 className={css.subformTitle}>

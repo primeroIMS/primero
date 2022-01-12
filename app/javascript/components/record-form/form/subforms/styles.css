@@ -85,12 +85,26 @@
   margin: var(--sp-2) 0;
 }
 
+.subformFieldArrayAccordion {
+  margin: 0;
+}
+
+.subformFieldArrayShow {
+  margin-top: 0;
+}
+
 .subformFields {
   display: flex;
   align-items: center;
   padding: 0 var(--sp-2);
   font-size: var(--fs-12);
-  border: 1px solid var(--c-warm-grey-1);
+  border: 1px solid var(--c-black);
+  background: var(--c-white);
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+  }  
 }
 
 .fieldArray .subformFields ~ .subformFields {
@@ -110,30 +124,22 @@
 }
 
 .panelAccordion {
-  box-shadow: 0 2px 12px 0 rgba(125, 125, 125, 0.23);
-  margin-bottom: 2px;
+  box-shadow: none;
+  border-radius: 0 !important;
+  border: 1px solid var(--c-black);
+  margin-bottom: var(--sp-2);
 
   &:before {
     display: none;
   }
 }
 
-.accordionSummaryRoot {
-  padding: 0%;
-  flex-direction: row-reverse;
-
-  & div:last-of-type {
-    margin-right: 0px;
-  }
-}
-
 .accordionSummaryExpanded {
-  margin: 0px !important;
   min-height: 48px;
 }
 
 .accordionSummaryContent {
-  margin-top: 0px;
+  margin: 0px !important;
 }
 
 .expandIconAccordion {
@@ -144,4 +150,8 @@
 
 .accordionDetails {
   display: block;
+
+  & > div {
+    margin-bottom: 0;
+  }
 }
