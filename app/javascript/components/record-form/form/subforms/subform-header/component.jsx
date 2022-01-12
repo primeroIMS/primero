@@ -11,7 +11,7 @@ import { SUBFORM_HEADER } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../../config";
 import { getShortIdFromUniqueId } from "../../../../records/utils";
 
-const Component = ({ field, values, locale, displayName, index, onClick, isViolationSubform }) => {
+const Component = ({ field, values, locale, displayName, index, isViolationSubform }) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
   const renderShortId =
@@ -102,7 +102,6 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 
