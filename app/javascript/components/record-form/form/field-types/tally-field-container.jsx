@@ -26,6 +26,7 @@ const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
     variant: "outlined",
     autoComplete: "off",
     fullWidth: false,
+    inputProps: { min: 0 },
     InputLabelProps: {
       shrink: true,
       classes: {

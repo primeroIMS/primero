@@ -45,15 +45,13 @@ const Component = ({ isViolation, parentTitle, parentValues, fieldProps, violati
       <Accordion expanded={expanded} onChange={handleExpanded} className={css.panelAccordion}>
         <AccordionSummary
           classes={{
-            root: css.accordionSummaryRoot,
             expanded: css.accordionSummaryExpanded,
-            content: css.accordionSummaryContent,
-            expandIcon: css.expandIconAccordion
+            content: css.accordionSummaryContent
           }}
           expandIcon={<ExpandMoreIcon />}
           aria-controls="filter-controls-content"
         >
-          <h3 className={css.accordionSummaryContentTitle}>{subformSectionField.display_name?.[i18n.locale]}</h3>
+          <h4 className={css.accordionSummaryContentTitle}>{subformSectionField.display_name?.[i18n.locale]}</h4>
         </AccordionSummary>
         <AccordionDetails className={css.accordionDetails}>{renderSubform}</AccordionDetails>
       </Accordion>
