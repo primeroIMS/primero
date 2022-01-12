@@ -7,51 +7,10 @@
   flex-grow: 1;
 }
 
-.subformHeaderActions {
-  display: flex;
-  padding: 5px;
-  align-items: center;
-
-  & .subformShow {
-    background-color: inherit;
-    color: var(--c-black);
-  }
-}
-
 .moreActions {
   width: 30px;
   height: 30px;
   min-height: 30px;
-}
-
-.subformHeader {
-  display: inline-block;
-  padding: 0;
-  text-align: center;
-
-  & button {
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.27;
-    letter-spacing: normal;
-    color: var(--c-blue);
-    text-transform: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.subformHeader span { display:inline }
-
-.subformHeader span:after {
-  content: " ";
-  letter-spacing: 1em;
-  background: radial-gradient(
-    var(--c-solid-black), 10%, transparent 15%
-  ) center center no-repeat;
 }
 
 .loadingIndicator {
@@ -98,7 +57,7 @@
   align-items: center;
   padding: 0 var(--sp-2);
   font-size: var(--fs-12);
-  border: 1px solid var(--c-black);
+  border: 1px solid var(--c-warm-grey-2);
   background: var(--c-white);
   
   &:hover {
@@ -125,8 +84,7 @@
 
 .panelAccordion {
   box-shadow: none;
-  border-radius: 0 !important;
-  border: 1px solid var(--c-black);
+  border: 1px solid var(--c-warm-grey-2);
   margin-bottom: var(--sp-2);
 
   &:before {
@@ -154,4 +112,66 @@
   & > div {
     margin-bottom: 0;
   }
+}
+
+.list {
+  border: 1px solid var(--c-warm-grey-2);
+  border-radius: 5px;
+}
+
+.listItem:hover {
+  background: var(--c-light-grey);
+  cursor: pointer;
+}
+
+.listDivider {
+  border-bottom: 1px solid var(--c-warm-grey-2);
+}
+
+.listActions {
+  right: -3px;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+
+  & .subformShow {
+    background-color: inherit;
+    color: var(--c-black);
+  }
+}
+
+.listText {
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  color: var(--c-blue);
+  text-transform: none;
+  display: inline-block;
+}
+
+.listItemText {
+  width: 100%;
+
+  & span:after {
+    top:50%;
+    transform:translateY(-50%);
+    content:"•";
+    margin: 0.4em;
+  }
+
+  & span:last-of-type:after {
+    content: ""
+  }
+}
+
+.listTextSecondary {
+  color: var(--c-grey);
+  font-size: var(--fs-8);
+  margin-top: 1em;
+}
+
+.violationMenu {
+  width: 100%;
 }

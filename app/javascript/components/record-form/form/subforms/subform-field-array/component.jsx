@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { getIn } from "formik";
 import isEmpty from "lodash/isEmpty";
 import clsx from "clsx";
+import { List } from "@material-ui/core";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
@@ -31,7 +32,7 @@ const Component = ({
   parentTitle,
   parentValues,
   violationOptions,
-  renderAsAccordion
+  renderAsAccordion = false
 }) => {
   const {
     display_name: displayName,
@@ -73,22 +74,24 @@ const Component = ({
     orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
-      <SubformFields
-        arrayHelpers={arrayHelpers}
-        field={field}
-        values={orderedValues}
-        locale={i18n.locale}
-        mode={mode}
-        setOpen={setOpenDialog}
-        setDialogIsNew={setDialogIsNew}
-        form={formSection}
-        recordType={recordType}
-        isTracesSubform={isTraces}
-        isViolationSubform={isViolation}
-        isViolationAssociation={isViolationAssociation}
-        formik={formik}
-        parentForm={form}
-      />
+      <List dense={renderAsAccordion} classes={{ root: css.list }} disablePadding>
+        <SubformFields
+          arrayHelpers={arrayHelpers}
+          field={field}
+          values={orderedValues}
+          locale={i18n.locale}
+          mode={mode}
+          setOpen={setOpenDialog}
+          setDialogIsNew={setDialogIsNew}
+          form={formSection}
+          recordType={recordType}
+          isTracesSubform={isTraces}
+          isViolationSubform={isViolation}
+          isViolationAssociation={isViolationAssociation}
+          formik={formik}
+          parentForm={form}
+        />
+      </List>
     );
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (

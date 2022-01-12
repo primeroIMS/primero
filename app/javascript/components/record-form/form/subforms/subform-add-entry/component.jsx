@@ -97,8 +97,15 @@ const Component = ({
         <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {associationOptions.map(option => {
             return (
-              <MenuItem key={option.id} component={Button} value={option.id} onClick={handleOnClickMenuItem}>
-                <div className={css.subformHeader}>{option.value}</div>
+              <MenuItem
+                key={option.id}
+                component={Button}
+                value={option.id}
+                onClick={handleOnClickMenuItem}
+                fullWidth
+                classes={{ root: css.violationMenu }}
+              >
+                <div className={css.listItemText}>{option.value}</div>
               </MenuItem>
             );
           })}
