@@ -158,111 +158,65 @@ class Report < ApplicationRecord
   end
 
   # Run the Solr query that calculates the pivots and format the output.
+  # TODO: Break up into self contained, testable methods
   def build_report
     # Prepopulates pivot fields
     pivot_fields
+
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    age_ranges = sys.age_ranges[primary_range]
+
     filters << permission_filter if permission_filter.present?
     return if pivots.blank?
 
     self.values = report_values(record_type, pivots, filters)
-    process_aggregate_counts if aggregate_counts_from.present?
-    group_by_ages
-    group_by_dates(pivot_fields, group_dates_by) if group_dates_by.present?
-    self.data = report_data
-    ''
-  end
-
-  def report_data
-    aggregate_limit = aggregate_by.size
-    aggregate_limit = dimensionality if aggregate_limit > dimensionality
-
-    {
-      aggregate_value_range: aggregate_range(aggregate_limit),
-      disaggregate_value_range: disaggregate_range(aggregate_limit),
-      values: @values
-    }
-  end
-
-  def aggregate_range(aggregate_limit)
-    values.keys.map do |pivot|
-      pivot[0..(aggregate_limit - 1)]
-    end.uniq.compact.sort(&method(:pivot_comparator))
-  end
-
-  def disaggregate_range(aggregate_limit)
-    values.keys.map do |pivot|
-      pivot[aggregate_limit..-1]
-    end.uniq.compact.sort(&method(:pivot_comparator))
-  end
-
-  def process_aggregate_counts
-    if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
-      # The numbers are off because a dimension is missing. Zero everything out!
-      self.values = values.map { |pivots, _| [pivots, 0] }
-    end
-    aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
-    return if aggregate_counts_from_field.blank?
-
-    process_aggregate_counts_from_tally_or_numeric
-  end
-
-  def process_aggregate_counts_from_tally_or_numeric
-    if aggregate_counts_from_field.type == Field::TALLY_FIELD
-      process_aggregate_counts_from_tally
-    elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
-      process_aggregate_count_from_numeric
-    end
-  end
-
-  def process_aggregate_counts_from_tally
-    self.values = map_tally_values
-    self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
-      pivot_name.split(':')[0]
-    end
-    self.values = Reports::Utils.correct_aggregate_counts(values)
-  end
-
-  def process_aggregate_count_from_numeric
-    self.values = map_numeric_values
-    self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
-      pivot_name.is_a?(Numeric) ? '' : pivot_name
-    end
-    self.values = map_pivot_values
-    Reports::Utils.correct_aggregate_counts(values)
-  end
-
-  def map_tally_values
-    values.map do |pivots, value|
-      if pivots.last.present? && pivots.last.match(/\w+:\d+/)
-        tally = pivots.last.split(':')
-        value *= tally[1].to_i
+    if aggregate_counts_from.present?
+      if dimensionality < ((aggregate_by + disaggregate_by).size + 1)
+        # The numbers are off because a dimension is missing. Zero everything out!
+        self.values = values.map { |pivots, _| [pivots, 0] }
       end
-      [pivots, value]
-    end.to_h
-  end
-
-  def map_numeric_values
-    values.map do |pivots, value|
-      if pivots.last.is_a?(Numeric)
-        value *= pivots.last
-      elsif pivots.last == ''
-        value = 0
+      aggregate_counts_from_field = Field.find_by_name(aggregate_counts_from)&.first
+      if aggregate_counts_from_field.present?
+        if aggregate_counts_from_field.type == Field::TALLY_FIELD
+          self.values = values.map do |pivots, value|
+            if pivots.last.present? && pivots.last.match(/\w+:\d+/)
+              tally = pivots.last.split(':')
+              value *= tally[1].to_i
+            end
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
+            pivot_name.split(':')[0]
+          end
+          self.values = Reports::Utils.correct_aggregate_counts(values)
+        elsif aggregate_counts_from_field.type == Field::NUMERIC_FIELD
+          self.values = values.map do |pivots, value|
+            if pivots.last.is_a?(Numeric)
+              value *= pivots.last
+            elsif pivots.last == ''
+              value = 0
+            end
+            [pivots, value]
+          end.to_h
+          self.values = Reports::Utils.group_values(values, dimensionality - 1) do |pivot_name|
+            pivot_name.is_a?(Numeric) ? '' : pivot_name
+          end
+          # We need the self to make sure we call the defined get/set methods of this model.
+          # rubocop:disabled Style/RedundantSelf
+          self.values = values.map do |pivots, value|
+            pivots = pivots[0..-2] if pivots.last == ''
+            [pivots, value]
+          end.to_h
+          Reports::Utils.correct_aggregate_counts(values)
+        end
       end
-      [pivots, value]
-    end.to_h
-  end
+    end
 
-  def map_pivot_values
-    values.map do |pivots, value|
-      pivots = pivots[0..-2] if pivots.last == ''
-      [pivots, value]
-    end.to_h
-  end
-
-  def group_by_ages
-    age_ranges = system_age_ranges
     pivots.each do |pivot|
-      next unless group_ages?(pivot)
+      next unless /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) &&
+                  field_map[pivot].present? &&
+                  field_map[pivot]['type'] == 'numeric_field'
 
       age_field_index = pivot_index(pivot)
       next unless group_ages && age_field_index && age_field_index < dimensionality
@@ -271,29 +225,35 @@ class Report < ApplicationRecord
         age_ranges.find { |range| range.cover? pivot_name }
       end
     end
-  end
 
-  def group_ages?(pivot)
-    /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) &&
-      field_map[pivot].present? &&
-      field_map[pivot]['type'] == 'numeric_field'
-  end
+    if group_dates_by.present?
+      date_fields = pivot_fields.select { |_, f| f.type == Field::DATE_FIELD }
+      date_fields.each do |field_name, _|
+        next unless pivot_index(field_name) < dimensionality
 
-  def system_age_ranges
-    sys = SystemSettings.current
-    primary_range = sys.primary_age_range
-    sys.age_ranges[primary_range]
-  end
-
-  def group_by_dates(pivot_fields, group_dates_by)
-    date_fields = pivot_fields.select { |_, f| f.type == Field::DATE_FIELD }
-    date_fields.each do |field_name, _|
-      next unless pivot_index(field_name) < dimensionality
-
-      self.values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
-        Reports::Utils.date_range(pivot_name, group_dates_by)
+        self.values = Reports::Utils.group_values(values, pivot_index(field_name)) do |pivot_name|
+          Reports::Utils.date_range(pivot_name, group_dates_by)
+        end
       end
     end
+
+    aggregate_limit = aggregate_by.size
+    aggregate_limit = dimensionality if aggregate_limit > dimensionality
+
+    aggregate_value_range = values.keys.map do |pivot|
+      pivot[0..(aggregate_limit - 1)]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+
+    disaggregate_value_range = values.keys.map do |pivot|
+      pivot[aggregate_limit..-1]
+    end.uniq.compact.sort(&method(:pivot_comparator))
+
+    self.data = {
+      aggregate_value_range: aggregate_value_range,
+      disaggregate_value_range: disaggregate_value_range,
+      values: @values
+    }
+    ''
   end
 
   def modules_present
@@ -357,14 +317,13 @@ class Report < ApplicationRecord
     return [[current_key, pivots['count']]] if pivots['pivot'].blank?
 
     vectors = []
-    pivots['pivot'].each { |child| vectors += value_vector(current_key, child) }
-    vectors += vectors_for_key(pivots, vectors.first.first.size, current_key)
-    vectors
-  end
-
-  def vectors_for_key(pivots, max_key_length, current_key)
+    pivots['pivot'].each do |child|
+      vectors += value_vector(current_key, child)
+    end
+    max_key_length = vectors.first.first.size
     this_key = current_key + ([''] * (max_key_length - current_key.length))
-    [[this_key, pivots['count']]]
+    vectors += [[this_key, pivots['count']]]
+    vectors
   end
 
   def self.reportable_record_types
@@ -395,8 +354,8 @@ class Report < ApplicationRecord
     pivots.index(field_name)
   end
 
-  def pivot_comparator(compare_a, compare_b)
-    (compare_a <=> compare_b) || (compare_a.to_s <=> compare_b.to_s)
+  def pivot_comparator(a, b)
+    (a <=> b) || (a.to_s <=> b.to_s)
   end
 
   private
@@ -416,103 +375,79 @@ class Report < ApplicationRecord
     number_of_pivots = pivots.size # can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map { |p| SolrUtils.indexed_field_name(record_type, p) }.select(&:present?).join(',')
     filter_query = build_solr_filter_query(record_type, filters)
-    mincount = exclude_empty_rows? ? 1 : -1
-    result_pivots = if number_of_pivots == 1
-                      get_by_field_facet(filter_query, pivots_string, mincount)
-                    else
-                      get_by_pivot_facet(filter_query, pivots_string, mincount)
-                    end
-    { 'pivot' => result_pivots }
-  end
-
-  def get_by_field_facet(filter_query, pivots_string, mincount)
-    response = SolrUtils.sunspot_rsolr.get('select', params: field_params(filter_query, pivots_string, mincount))
-    # TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
-    is_numeric = pivots_string.end_with? '_i'
-    result_pivots(response, pivots_string, is_numeric)
-  end
-
-  def result_pivots(response, pivots_string, is_numeric)
     result_pivots = []
-    response['facet_counts']['facet_fields'][pivots_string].each do |v|
-      if v.class == String
-        result_pivots << (is_numeric ? { 'value' => v.to_i } : { 'value' => v })
-      else
-        result_pivots.last['count'] = v
+    mincount = exclude_empty_rows? ? 1 : -1
+    if number_of_pivots == 1
+      params = {
+        fq: filter_query,
+        start: 0,
+        q: '*:*',
+        rows: 0,
+        facet: 'on',
+        'facet.field': pivots_string,
+        'facet.mincount': mincount,
+        'facet.limit': -1
+      }
+      response = SolrUtils.sunspot_rsolr.get('select', params: params)
+      # TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
+      is_numeric = pivots_string.end_with? '_i'
+      response['facet_counts']['facet_fields'][pivots_string].each do |v|
+        if v.class == String
+          result_pivots << (is_numeric ? { 'value' => v.to_i } : { 'value' => v })
+        else
+          result_pivots.last['count'] = v
+        end
       end
+    else
+      params = {
+        fq: filter_query,
+        start: 0,
+        q: '*:*',
+        rows: 0,
+        facet: 'on',
+        'facet.pivot': pivots_string,
+        'facet.pivot.mincount': mincount,
+        'facet.limit': -1
+      }
+      response = SolrUtils.sunspot_rsolr.get('select', params: params)
+      result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
-    result_pivots
-  end
 
-  def get_by_pivot_facet(filter_query, pivots_string, mincount)
-    response = SolrUtils.sunspot_rsolr.get('select', params: pivot_params(filter_query, pivots_string, mincount))
-    response['facet_counts']['facet_pivot'][pivots_string]
-  end
-
-  def field_params(filter_query, pivots_string, mincount)
-    {
-      fq: filter_query,
-      start: 0,
-      q: '*:*',
-      rows: 0,
-      facet: 'on',
-      'facet.field': pivots_string,
-      'facet.mincount': mincount,
-      'facet.limit': -1
-    }
-  end
-
-  def pivot_params(filter_query, pivots_string, mincount)
-    {
-      fq: filter_query,
-      start: 0,
-      q: '*:*',
-      rows: 0,
-      facet: 'on',
-      'facet.pivot': pivots_string,
-      'facet.pivot.mincount': mincount,
-      'facet.limit': -1
-    }
+    { 'pivot' => result_pivots }
   end
 
   def build_solr_filter_query(record_type, filters)
     filters_query = ["type:#{solr_record_type(record_type)}"]
-    filters_query += filters.map { |filter| calculate_filter(filter, record_type) }.compact.flatten if filters.present?
+    if filters.present?
+      filters_query += filters.map do |filter|
+        attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
+        constraint = filter['constraint']
+        value = filter['value']
+        if attribute.present? && value.present?
+          if constraint.present?
+            value = Date.parse(value.to_s).strftime('%FT%H:%M:%SZ') unless value.to_s.is_number?
+            if constraint == '>'
+              "#{attribute}:[#{value} TO *]"
+            elsif constraint == '<'
+              "#{attribute}:[* TO #{value}]"
+            else
+              "#{attribute}:\"#{value}\""
+            end
+          elsif value.respond_to?(:map) && value.size.positive?
+            "#{attribute}:(" + value.map do |v|
+              if v == 'not_null'
+                '[* TO *]'
+              else
+                v.to_s
+              end
+            end.join(' OR ') + ')'
+          end
+        elsif attribute.present? && constraint.present? && constraint == 'not_null'
+          "#{attribute}:[* TO *]"
+        end
+      end.compact.flatten
+    end
     filters_query
-  end
-
-  def calculate_filter(filter, record_type)
-    attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
-    constraint = filter['constraint']
-    value = filter['value']
-    if attribute.present? && value.present?
-      filter_attribute_value(attribute, value, constraint)
-    elsif attribute.present? && constraint.present? && constraint == 'not_null'
-      "#{attribute}:[* TO *]"
-    end
-  end
-
-  def filter_attribute_value(attribute, value, constraint)
-    if constraint.present?
-      filter_constraint(attribute, value, constraint)
-    elsif value.respond_to?(:map) && value.size.positive?
-      filter_value(attribute, value)
-    end
-  end
-
-  def filter_constraint(attribute, value, constraint)
-    value = Date.parse(value.to_s).strftime('%FT%H:%M:%SZ') unless value.to_s.is_number?
-    if constraint == '>'
-      "#{attribute}:[#{value} TO *]"
-    elsif constraint == '<'
-      "#{attribute}:[* TO #{value}]"
-    else
-      "#{attribute}:\"#{value}\""
-    end
-  end
-
-  def filter_value(attribute, value)
-    "#{attribute}:(" + value.map { |v| v == 'not_null' ? '[* TO *]' : v.to_s }.join(' OR ') + ')'
   end
 
   def solr_record_type(record_type)
