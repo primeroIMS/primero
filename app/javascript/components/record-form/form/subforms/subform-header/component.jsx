@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Button } from "@material-ui/core";
+import { ListItemText } from "@material-ui/core";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
@@ -11,12 +11,12 @@ import { SUBFORM_HEADER } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../../config";
 import { getShortIdFromUniqueId } from "../../../../records/utils";
 
-const Component = ({ field, values, locale, displayName, index, onClick, isViolationSubform }) => {
+const Component = ({ field, values, locale, displayName, index, isViolationSubform }) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
-
+  const itemClasses = { primary: css.listText };
   const renderShortId =
     // eslint-disable-next-line camelcase
-    VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && `${getShortIdFromUniqueId(values[index]?.unique_id)} `;
+    VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && getShortIdFromUniqueId(values[index]?.unique_id);
   const subformValues = collapsedFieldNames
     .map(collapsedFieldName => {
       const val = values[index];
@@ -62,12 +62,10 @@ const Component = ({ field, values, locale, displayName, index, onClick, isViola
           return <SubformLookupHeader {...lookupComponentProps} />;
         }
         default:
-          return <span key={collapsedFieldName}>{value}</span>;
+          return value && <span key={collapsedFieldName}>{value}</span>;
       }
     })
     .filter(i => i);
-
-  const handleClick = () => onClick(index);
 
   if (collapsedFieldNames.length && values.length) {
     if (isViolationSubform) {
@@ -84,20 +82,16 @@ const Component = ({ field, values, locale, displayName, index, onClick, isViola
     }
 
     return (
-      <div id="subform-header-button" className={css.subformHeader}>
-        <Button onClick={handleClick}>
-          {renderShortId}
+      <ListItemText id="subform-header-button" classes={itemClasses}>
+        <div className={css.listItemText}>
+          <span>{renderShortId}</span>
           {subformValues}
-        </Button>
-      </div>
+        </div>
+      </ListItemText>
     );
   }
 
-  return (
-    <Button id="subform-header-button" onClick={handleClick}>
-      {displayName?.[locale]}
-    </Button>
-  );
+  return <ListItemText classes={itemClasses}>{displayName?.[locale]}</ListItemText>;
 };
 
 Component.displayName = SUBFORM_HEADER;
@@ -108,7 +102,6 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
   values: PropTypes.array.isRequired
 };
 

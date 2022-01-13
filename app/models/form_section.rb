@@ -8,6 +8,8 @@ class FormSection < ApplicationRecord
 
   RECORD_TYPES = %w[case incident tracing_request].freeze
 
+  SYSTEM_FORMS = %w[approvals incident_from_case transfers_assignments referral change_logs]
+
   FORM_SECTION_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
     'name' => { 'type' => 'object' }, 'help_text' => { 'type' => 'object' },

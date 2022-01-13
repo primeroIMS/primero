@@ -472,6 +472,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            option_strings_condition: null,
             order: null,
             required: true,
             selected_value: null,
@@ -485,7 +486,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
-            tally: {}
+            tally: {},
+            collapse: null
           }
         ],
         is_nested: null
@@ -548,6 +550,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            option_strings_condition: null,
             order: null,
             required: true,
             selected_value: null,
@@ -561,7 +564,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
-            tally: {}
+            tally: {},
+            collapse: null
           }
         ],
         is_nested: null

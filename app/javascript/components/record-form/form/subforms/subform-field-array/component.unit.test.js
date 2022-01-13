@@ -235,7 +235,7 @@ describe("<SubformFieldArray />", () => {
       const h3Tag = incidentComponent.find("h3");
 
       expect(h3Tag).lengthOf(1);
-      expect(h3Tag.at(0).text()).to.be.equal(" Family Details");
+      expect(h3Tag.at(0).text()).to.be.equal(" Family Details ");
     });
   });
 

@@ -7,6 +7,7 @@ import omit from "lodash/omit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
 
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
@@ -135,19 +136,22 @@ const Component = ({
           }
 
           return (
-            <div key={`${name}-${index}`} className={css.subformFields}>
-              <div className={css.subformHeaderBox}>
-                <SubformHeader
-                  field={field}
-                  index={index}
-                  displayName={displayName}
-                  locale={locale}
-                  values={values}
-                  onClick={handleEdit(index)}
-                  isViolationSubform={isViolationSubform}
-                />
-              </div>
-              <div className={css.subformHeaderActions}>
+            <ListItem
+              onClick={handleEdit(index)}
+              component="a"
+              classes={{ divider: css.listDivider, root: css.listItem }}
+              divider={index < sortedValues.length - 1}
+            >
+              <SubformHeader
+                field={field}
+                index={index}
+                displayName={displayName}
+                locale={locale}
+                values={values}
+                onClick={handleEdit(index)}
+                isViolationSubform={isViolationSubform}
+              />
+              <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
                 {hasError(index) && <Jewel isError />}
                 {!subformPreventItemRemoval && !isDisabled && !mode.isShow ? (
@@ -174,8 +178,8 @@ const Component = ({
                     onClick: handleEdit(index)
                   }}
                 />
-              </div>
-            </div>
+              </ListItemSecondaryAction>
+            </ListItem>
           );
         })}
         <ActionDialog

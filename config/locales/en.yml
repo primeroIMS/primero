@@ -947,6 +947,11 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+      summary_header:
+        form_group: Primero Form Group
+        form: Primero Forms
+        status: Status
+        notes: Notes
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
@@ -1325,8 +1330,8 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
-      back_to: Back to
-      back_to_violations: Back to Violations
+      update_and_return: 'Update and Return to %{association}'
+      save_and_return: 'Add and Return to %{association}'
       pending: Pending Verification
       title: Violations
       types:
@@ -1768,6 +1773,7 @@ en:
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
       to the list view . Click cancel to return to the record.
+    confirmation_message_subform: Clicking OK will discard any unsaved changes to this item. Click cancel to continue making changes.
     dashboard_offline: You're offline. The dashboard will be fully functional when
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
@@ -3373,7 +3379,7 @@ en:
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
   transfer_assignment:
-    title: TRANSFERS AND ASSIGNMENTS
+    title: Transfers and Assignments
   transition:
     agency_label: Agency
     assigned_by: Assigned By

@@ -136,6 +136,26 @@ describe("Forms - useOptions", () => {
     expect(result.current).to.deep.equal(expected);
   });
 
+  it("returns the options with tags if the tags are present", () => {
+    const stateWithTags = fromJS({
+      forms: {
+        options: {
+          lookups: [
+            {
+              unique_id: "lookup-1",
+              name: { en: "Lookup 1" },
+              values: [{ id: "option1", display_text: { en: "Option 1" }, tags: ["low"] }]
+            },
+            lookup2
+          ]
+        }
+      }
+    });
+    const { result } = setupHook(() => useOptions({ source: "lookup lookup-1" }), stateWithTags);
+
+    expect(result.current).to.deep.equal([{ id: "option1", display_text: "Option 1", disabled: false, tags: ["low"] }]);
+  });
+
   describe("getFormGroupLookups", () => {
     const lookups = [
       {

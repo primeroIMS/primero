@@ -12,6 +12,7 @@ export const FieldRecord = Record({
   multi_select: null,
   option_strings_source: null,
   option_strings_text: null,
+  option_strings_condition: null,
   guiding_questions: "",
   required: false,
   date_validation: null,
@@ -28,7 +29,8 @@ export const FieldRecord = Record({
   tally: {},
   autosum_total: true,
   link_to_form: "",
-  href: null
+  href: null,
+  collapse: null
 });
 
 export const FormSectionRecord = Record({

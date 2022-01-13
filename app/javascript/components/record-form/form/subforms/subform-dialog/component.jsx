@@ -52,6 +52,8 @@ const Component = ({
 
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
 
+  const isNewViolation = isEmpty(subformValues);
+
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
   const buildSchema = () => {
@@ -144,7 +146,7 @@ const Component = ({
     maxSize: "xs",
     confirmButtonLabel: i18n.t("buttons.ok"),
     dialogTitle: title,
-    dialogText: i18n.t("messages.confirmation_message"),
+    dialogText: i18n.t("messages.confirmation_message_subform"),
     disableBackdropClick: true,
     cancelHandler: () => setOpenConfirmationModal(false),
     successHandler: () => {
@@ -174,9 +176,9 @@ const Component = ({
         disableActions: isFormShow
       };
 
-  const handleBackLabel = isViolationAssociation
-    ? `${i18n.t("incident.violation.back_to")} ${parentTitle || title}`
-    : i18n.t("incident.violation.back_to_violations");
+  const handleBackLabel = i18n.t(`incident.violation.${isNewViolation ? "save" : "update"}_and_return`, {
+    association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
+  });
 
   useEffect(() => {
     if (open) {
@@ -212,6 +214,7 @@ const Component = ({
                     handleBackLabel={handleBackLabel}
                     handleBack={event => submitForm(event)}
                     handleCancel={handleClose}
+                    isShow={mode.isShow}
                   />
                 )}
                 {renderSubform(field, index, values, setFieldValue)}

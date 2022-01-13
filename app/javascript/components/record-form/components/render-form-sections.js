@@ -10,6 +10,7 @@ import FormSectionField from "../form/form-section-field";
 import SubformField from "../form/subforms";
 import { parseExpression } from "../../../libs/expressions";
 import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
+import getOptionStringsTags from "../form/utils/get-option-strings-tags";
 
 const renderFormFields = (
   forms,
@@ -23,13 +24,15 @@ const renderFormFields = (
   values
 ) => {
   return form.fields.map(field => {
+    const tags = getOptionStringsTags(field, values);
     const fieldProps = {
       field,
       form,
       mode,
       recordType,
       recordID: record?.get("id"),
-      recordModuleID: primeroModule
+      recordModuleID: primeroModule,
+      ...(isEmpty(tags) ? {} : { tags })
     };
 
     if (!field?.visible) {

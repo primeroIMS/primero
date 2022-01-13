@@ -5,18 +5,24 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import isEmpty from "lodash/isEmpty";
-import startsWith from "lodash/startsWith";
 import { List, fromJS } from "immutable";
 import { ThemeProvider } from "@material-ui/core/styles";
 
-import { dataToJS, ConditionalWrapper, displayNameHelper, useThemeHelper, useMemoizedSelector } from "../../libs";
+import {
+  dataToJS,
+  ConditionalWrapper,
+  displayNameHelper,
+  useThemeHelper,
+  useMemoizedSelector,
+  valueFromOptionSource
+} from "../../libs";
 import LoadingIndicator from "../loading-indicator";
 import { getFields } from "../record-list/selectors";
 import { getOptions, getLoadingState } from "../record-form/selectors";
-import { selectAgencies } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
+import useOptions from "../form/use-options";
 
 import recordListTheme from "./theme";
 import { NAME } from "./config";
@@ -53,7 +59,8 @@ const Component = ({
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
   const allFields = useMemoizedSelector(state => getFields(state));
   const allLookups = useMemoizedSelector(state => getOptions(state));
-  const allAgencies = useMemoizedSelector(state => selectAgencies(state));
+  const allAgencies = useOptions({ source: STRING_SOURCES_TYPES.AGENCY, useUniqueId: true });
+  const locations = useOptions({ source: STRING_SOURCES_TYPES.LOCATION });
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
 
   const { order, order_by: orderBy } = filters || {};
@@ -95,31 +102,14 @@ const Component = ({
             .find(column => column.get("name") === key, null, fromJS({}))
             .get("option_strings_source");
 
-          let recordValue = value;
-
-          if (startsWith(optionStringsSource, "lookup")) {
-            const lookupName = optionStringsSource.replace(/lookup /, "");
-
-            const valueFromLookup =
-              value && allLookups?.size
-                ? allLookups
-                    .find(lookup => lookup.get("unique_id") === lookupName)
-                    .get("values")
-                    .find(v => v.get("id") === value)
-                    ?.get("display_text")
-                : null;
-
-            recordValue = valueFromLookup ? valueFromLookup.get(i18n.locale) : value || "";
-          } else {
-            switch (optionStringsSource) {
-              case STRING_SOURCES_TYPES.AGENCY:
-                recordValue = allAgencies.find(a => a.get("id") === value).get("name");
-                break;
-              default:
-                recordValue = value;
-                break;
-            }
-          }
+          const recordValue = valueFromOptionSource(
+            allAgencies,
+            allLookups,
+            locations,
+            i18n.locale,
+            optionStringsSource,
+            value
+          );
 
           return [key, recordValue];
         }
