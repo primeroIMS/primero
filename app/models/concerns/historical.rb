@@ -105,6 +105,17 @@ module Historical
     )
   end
 
+  def update_saved_changes(diff, saved_changes_to_record, old_values)
+    return saved_changes_to_record unless diff.present?
+
+    saved_changes_to_record = diff.map { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }.to_h
+    # mark the 'name' attribute as dirty if `hidden name` changed
+    if saved_changes_to_record.key?('hidden_name') && !saved_changes_to_record.key?('name')
+      saved_changes_to_record['name'] = [name, name]
+    end
+    saved_changes_to_record
+  end
+
   def saved_changes_to_record
     return {} unless saved_changes?
 
@@ -114,13 +125,7 @@ module Historical
     if new_values.present?
       new_values = new_values.reject { |k, _| %w[last_updated_at last_updated_by].include?(k) }
       diff = hash_diff(new_values, old_values)
-      if diff.present?
-        saved_changes_to_record = diff.map { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }.to_h
-        # mark the 'name' attribute as dirty if `hidden name` changed
-        if saved_changes_to_record.key?('hidden_name') && !saved_changes_to_record.key?('name')
-          saved_changes_to_record['name'] = [name, name]
-        end
-      end
+      saved_changes_to_record = update_saved_changes(diff, saved_changes_to_record, old_values)
     end
     saved_changes_to_record
   end

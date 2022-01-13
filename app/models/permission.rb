@@ -303,21 +303,27 @@ class Permission < ValueObject
       json_hash
     end
 
+    def self.load_permission(object_hash, resource, actions)
+      permission = Permission.new(resource: resource, actions: actions)
+      return permission unless object_hash.present?
+
+      if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
+        permission.role_unique_ids = object_hash[Permission::ROLE]
+      end
+
+      if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
+        permission.agency_unique_ids = object_hash[Permission::AGENCY]
+      end
+
+      permission
+    end
+
     def self.load(json_hash)
       return nil if json_hash.nil?
 
       object_hash = json_hash.delete('objects')
       json_hash.map do |resource, actions|
-        permission = Permission.new(resource: resource, actions: actions)
-        if object_hash.present?
-          if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-            permission.role_unique_ids = object_hash[Permission::ROLE]
-          end
-          if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-            permission.agency_unique_ids = object_hash[Permission::AGENCY]
-          end
-        end
-        permission
+        load_permission(object_hash, resource, actions)
       end
     end
   end

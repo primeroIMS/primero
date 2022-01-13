@@ -88,6 +88,10 @@ class Lookup < ApplicationRecord
                    end
       return if lookup_ids.blank?
 
+      updating_lookups(form_group_id, form_group_description, lookup_ids)
+    end
+
+    def updating_lookups(form_group_id, form_group_description, lookup_ids)
       lookup_ids.each do |lkp_id|
         lookup = Lookup.find_by(unique_id: lkp_id)
         next unless lookup.present? && lookup.lookup_values_en.map { |v| v['id'] }.exclude?(form_group_id)
@@ -186,9 +190,7 @@ class Lookup < ApplicationRecord
     false
   end
 
-  def update_lookup_values_translations(lookup_values_hash, locale)
-    default_ids = lookup_values_en&.map { |lv| lv['id'] }
-    options = (send("lookup_values_#{locale}").present? ? send("lookup_values_#{locale}") : [])
+  def send_update_lookup_options(lookup_values_hash, locale, default_ids, options)
     lookup_values_hash.each do |key, value|
       # Do not add a translation for an option that does not exist in the default locale
       next if default_ids.exclude?(key)
@@ -201,5 +203,11 @@ class Lookup < ApplicationRecord
       end
     end
     send("lookup_values_#{locale}=", options)
+  end
+
+  def update_lookup_values_translations(lookup_values_hash, locale)
+    default_ids = lookup_values_en&.map { |lv| lv['id'] }
+    options = (send("lookup_values_#{locale}").present? ? send("lookup_values_#{locale}") : [])
+    send_update_lookup_options(lookup_values_hash, locale, default_ids, options)
   end
 end
