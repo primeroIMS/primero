@@ -11,13 +11,9 @@ class RecordScopeService
         records.where('data @> ?', { owned_by_agency_id: user.agency.unique_id }.to_json)
       when Permission::GROUP
         records.where("data->'owned_by_groups' ?| array[:groups]", groups: user.user_group_unique_ids)
-      when Permission::USER
-        records.where('data @> ?', { owned_by: user.user_name }.to_json)
-      when Permission::ALL
-        records.all
-      else
-        records.none
-      end
+      when Permission::USER then records.where('data @> ?', { owned_by: user.user_name }.to_json)
+      when Permission::ALL then records.all
+      else records.none end
     end
   end
 end

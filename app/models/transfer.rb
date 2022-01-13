@@ -64,9 +64,7 @@ class Transfer < Transition
     # TODO: Export record with the constraints of the external user role
   end
 
-  def perform_system_transfer
-    return if transitioned_to_user.nil?
-
+  def perform_record_system_transfer
     if record.assigned_user_names.present?
       record.assigned_user_names |= [transitioned_to]
     else
@@ -74,6 +72,12 @@ class Transfer < Transition
     end
     record.transfer_status = status
     record.reassigned_transferred_on = DateTime.now
+  end
+
+  def perform_system_transfer
+    return if transitioned_to_user.nil?
+
+    perform_record_system_transfer
     record.save!
   end
 end

@@ -128,10 +128,8 @@ class Importers::CsvHxlLocationImporter < ValueObject
 
   def build_names(location_hash, names, attributes, attribute_value)
     case attributes.first
-    when 'type'
-      location_hash[:type] = attribute_value
-    when 'code'
-      location_hash[:location_code] = attribute_value
+    when 'type' then location_hash[:type] = attribute_value
+    when 'code' then location_hash[:location_code] = attribute_value
     else
       locale = attributes.size == 1 ? 'en' : locale_from_key(attributes)
       location_hash[:placename_i18n][locale] = attribute_value
