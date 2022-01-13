@@ -77,22 +77,15 @@ class Approval < ValueObject
   end
 
   def request!
-    record.add_approval_alert(approval_id, SystemSettings.current)
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_PENDING)
-
-    if record.module.selectable_approval_types.present? && approval_id == Approval::CASE_PLAN
-      record.send("#{fields[:approval_type]}=", approval_type)
-    end
-
+    load_request
     record.approval_subforms ||= []
     record.approval_subforms << approval_request_action(Approval::APPROVAL_STATUS_PENDING, approval_id, user_name)
   end
 
   def approve!
-    record.send("#{fields[:approved]}=", true)
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_APPROVED)
-    record.send("#{fields[:approved_date]}=", Date.today)
-    record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+    load_approve
     record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_APPROVED, approval_id, user_name,
                                                          comments)
@@ -100,10 +93,8 @@ class Approval < ValueObject
   end
 
   def reject!
-    record.send("#{fields[:approved]}=", false)
     record.send("#{fields[:approval_status]}=", Approval::APPROVAL_STATUS_REJECTED)
-    record.send("#{fields[:approved_date]}=", Date.today)
-    record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+    load_reject
     record.approval_subforms ||= []
     record.approval_subforms << approval_response_action(Approval::APPROVAL_STATUS_REJECTED, approval_id, user_name,
                                                          comments)
@@ -111,6 +102,26 @@ class Approval < ValueObject
   end
 
   protected
+
+  def load_request
+    record.add_approval_alert(approval_id, SystemSettings.current)
+
+    return unless record.module.selectable_approval_types.present? && approval_id == Approval::CASE_PLAN
+
+    record.send("#{fields[:approval_type]}=", approval_type)
+  end
+
+  def load_approve
+    record.send("#{fields[:approved]}=", true)
+    record.send("#{fields[:approved_date]}=", Date.today)
+    record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+  end
+
+  def load_reject
+    record.send("#{fields[:approved]}=", false)
+    record.send("#{fields[:approved_date]}=", Date.today)
+    record.send("#{fields[:approved_comments]}=", comments) if comments.present?
+  end
 
   def approval_request_action(status, approval_id, requested_by)
     approval_action(status, approval_requested_for: approval_id, requested_by: requested_by)

@@ -87,7 +87,7 @@ class Exporters::FormExporter < ValueObject
 
   def form_summary_row(form)
     form_row = [form.form_group_id, form.name]
-    form_row << "System" if default_system_form?(form)
+    form_row << 'System' if default_system_form?(form)
     form_row
   end
 
