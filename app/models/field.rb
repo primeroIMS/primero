@@ -254,14 +254,18 @@ class Field < ApplicationRecord
     options_hash.each do |key, value|
       next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
 
-      os = options&.find { |o| o['id'] == key }
-      if os.present?
-        os['display_text'] = value
-      else
-        options << { 'id' => key, 'display_text' => value }
-      end
+      update_option(options, key, value)
     end
     send("option_strings_text_#{locale}=", options)
+  end
+
+  def update_option(options, key, value)
+    os = options&.find { |o| o['id'] == key }
+    if os.present?
+      os['display_text'] = value
+    else
+      options << { 'id' => key, 'display_text' => value }
+    end
   end
 
   # Names should only have lower case alpha, numbers and underscores
