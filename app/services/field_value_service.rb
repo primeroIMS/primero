@@ -38,9 +38,7 @@ class FieldValueService < ValueObject
     when 'lookup' then lookup_value(source_options.last, value, opts)
     when 'Location', 'ReportingLocation', 'Agency'
       record_name_value(source_options.first, value, opts)
-    else
-      value
-    end
+    else value end
   end
 
   def lookup_value(lookup_unique_id, value, opts = {})

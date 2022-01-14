@@ -106,23 +106,27 @@ class Flag < ApplicationRecord
   class << self
     def by_owner(query_scope, active_only, record_types, flagged_by)
       record_types ||= %w[cases incidents tracing_requests]
-      owner = query_scope[:user]['user']
-      if owner.present?
-        return find_by_owner('by_record_associated_user', active_only, record_types, flagged_by, owner: owner)
-      end
+      owner_params = find_scope_to_use(query_scope)
+      return [] if owner_params.blank?
 
-      group = query_scope[:user]['group']
-      if group.present?
-        return find_by_owner('by_record_associated_groups', active_only, record_types, flagged_by, group: group)
-      end
-
-      agency = query_scope[:user]['agency']
-      return find_by_owner('by_record_agency', active_only, record_types, flagged_by, agency: agency) if agency.present?
-
-      []
+      find_by_owner(owner_params[:scope_to_use], active_only, record_types, flagged_by, owner_params[:params])
     end
 
     private
+
+    def find_scope_to_use(query_scope)
+      if query_scope[:user]['user'].present?
+        return { scope_to_use: 'by_record_associated_user', params: { owner: query_scope[:user]['user'] } }
+      end
+      if query_scope[:user]['group'].present?
+        return { scope_to_use: 'by_record_associated_groups', params: { group: query_scope[:user]['group'] } }
+      end
+      if query_scope[:user]['agency'].present?
+        return { scope_to_use: 'by_record_agency', params: { agency: query_scope[:user]['agency'] } }
+      end
+
+      {}
+    end
 
     def find_by_owner(scope_to_use, active_only, record_types, flagged_by, params = {})
       record_types = %w[cases incidents tracing_requests] if record_types.blank?

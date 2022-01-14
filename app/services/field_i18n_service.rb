@@ -26,9 +26,7 @@ class FieldI18nService
   #  { name_i18n: { es: "Apellido"} }
   #  Returns
   #  { name_i18n: { en: "Lastname", es: "Apellido" } }
-  def self.merge_i18n_properties(fields1, fields2)
-    localized_props1 = fields1.select { |k, _v| k.slice(-4, 4) == 'i18n' }
-    localized_props2 = fields2.select { |k, _v| k.slice(-4, 4) == 'i18n' }
+  def self.merge_props(localized_props1, localized_props2)
     merged_props = {}
     localized_props1.each do |name, value|
       value2 = localized_props2.try(:[], name) || {}
@@ -37,6 +35,12 @@ class FieldI18nService
       merged_props[name] = value2.present? ? value.try(:merge, value2) || value2 : value
     end
     merged_props
+  end
+
+  def self.merge_i18n_properties(fields1, fields2)
+    localized_props1 = fields1.select { |k, _v| k.slice(-4, 4) == 'i18n' }
+    localized_props2 = fields2.select { |k, _v| k.slice(-4, 4) == 'i18n' }
+    merge_props(localized_props1, localized_props2)
   end
 
   #  Removes the "_i18n" suffix of the source hash and mantains
@@ -101,18 +105,24 @@ class FieldI18nService
   #    es: [{ id: "true", display_name: "Verdadero" }],
   #    fr: []
   #  }
+
+  def self.fill_options_by_locale(locale, options, acc)
+    options.map(&:with_indifferent_access).each do |option|
+      next if option.dig('display_text', locale).nil?
+
+      value = {}.with_indifferent_access
+      value['id'] = option.dig('id')
+      value['display_text'] = option.dig('display_text', locale)
+
+      acc[locale.to_s] << value
+    end
+    acc[locale.to_s]
+  end
+
   def self.fill_options(options)
     I18n.available_locales.each_with_object({}) do |locale, acc|
       acc[locale.to_s] = []
-      options.map(&:with_indifferent_access).each do |option|
-        next if option.dig('display_text', locale).nil?
-
-        value = {}.with_indifferent_access
-        value['id'] = option.dig('id')
-        value['display_text'] = option.dig('display_text', locale)
-
-        acc[locale.to_s] << value
-      end
+      acc[locale.to_s] = fill_options_by_locale(locale, options, acc)
     end
   end
 
@@ -194,20 +204,28 @@ class FieldI18nService
   #     }
   #   }
   # ]
+  def self.make_option(key, value)
+    new_hash = {}
+    new_hash['id'] = value['id']
+    new_hash['display_text'] = { key => value['display_text'] }
+    new_hash
+  end
+
+  def self.convert_option_by_key(key, opts, acc)
+    opts.each do |value|
+      current_value = acc.find { |vv| vv['id'] == value['id'] }
+      if current_value.present?
+        current_value['display_text'][key] = value['display_text']
+        next
+      end
+      acc << make_option(key, value)
+    end
+    acc
+  end
+
   def self.convert_options(options)
     options.to_h.each_with_object([]) do |(key, opts), acc|
-      opts.each do |value|
-        current_value = acc.find { |vv| vv['id'] == value['id'] }
-        if current_value.present?
-          current_value['display_text'][key] = value['display_text']
-          next
-        end
-        new_hash = {}
-        new_hash['id'] = value['id']
-        new_hash['display_text'] = { key => value['display_text'] }
-        acc << new_hash
-      end
-      acc
+      convert_option_by_key(key, opts, acc)
     end
   end
 
