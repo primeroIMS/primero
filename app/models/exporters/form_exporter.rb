@@ -6,20 +6,40 @@ class Exporters::FormExporter < ValueObject
                 :total, :success_total
 
   def initialize(opts = {})
-    opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
-    opts[:record_type] ||= 'case'
-    opts[:module_id] ||= 'primeromodule-cp'
-    opts[:file_name] = export_file_name(opts)
-    opts[:visible] = true if opts[:visible].nil?
-    opts[:form_params] = initialize_form_params(opts)
-    opts[:header] = initialize_header(opts)
+    initialize_locale(opts)
+    initialize_record_type(opts)
+    initialize_module_id(opts)
+    initialize_file_name(opts)
+    initialize_visible(opts)
+    initialize_form_params(opts)
+    initialize_header(opts)
     opts[:total] = 0
     opts[:success_total] = 0
     super(opts)
   end
 
+  def initialize_locale(opts)
+    opts[:locale] ||= Primero::Application::LOCALE_ENGLISH
+  end
+
+  def initialize_record_type(opts)
+    opts[:record_type] ||= 'case'
+  end
+
+  def initialize_module_id(opts)
+    opts[:module_id] ||= 'primeromodule-cp'
+  end
+
+  def initialize_file_name(opts)
+    opts[:file_name] = export_file_name(opts)
+  end
+
+  def initialize_visible(opts)
+    opts[:visible] = true if opts[:visible].nil?
+  end
+
   def initialize_form_params(opts = {})
-    { exclude_subforms: true }.merge(opts.slice(:record_type, :module_id, :visible)&.compact)
+    opts[:form_params] = { exclude_subforms: true }.merge(opts.slice(:record_type, :module_id, :visible)&.compact)
   end
 
   def initialize_header(opts = {})
@@ -27,7 +47,7 @@ class Exporters::FormExporter < ValueObject
     keys = %w[form_group form_name field_id field_type field_name required on_mobile on_short_form options
               options_lookup help_text guiding_questions]
     keys = keys.insert(visible_column_index, 'visible') unless opts[:form_params][:visible]
-    keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
+    opts[:header] = keys.map { |key| I18n.t("exports.forms.header.#{key}", locale: locale) }
   end
 
   def export
@@ -100,11 +120,15 @@ class Exporters::FormExporter < ValueObject
     return if default_system_form?(form)
 
     self.total += 1
+    export_form_to_workbook(form)
+    self.success_total += 1
+  end
+
+  def export_form_to_workbook(form)
     worksheet = workbook.add_worksheet(worksheet_name(form))
     worksheet.write(0, 0, form.unique_id)
     worksheet.write(1, 0, header)
     export_form_fields(form, worksheet)
-    self.success_total += 1
   end
 
   def default_system_form?(form)
