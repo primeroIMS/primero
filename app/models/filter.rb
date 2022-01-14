@@ -362,46 +362,70 @@ class Filter < ValueObject
 
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
-      locale_options = [
-        {
-          id: 'registration_date',
-          display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
-        },
-        {
-          id: 'assessment_requested_on',
-          display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
-        },
-        {
-          id: 'date_case_plan',
-          display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
-        },
-        {
-          id: 'date_closure',
-          display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
-        }
-      ]
+      locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
+                        date_case_plan_options(locale), date_closure_options(locale)]
       date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
-      locale_options << { id: 'created_at',
-                          display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
+      locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
     end.inject(&:merge)
+  end
+
+  def registration_date_options(locale)
+    {
+      id: 'registration_date',
+      display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
+    }
+  end
+
+  def assessment_requested_on_options(locale)
+    {
+      id: 'assessment_requested_on',
+      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
+    }
+  end
+
+  def date_case_plan_options(locale)
+    {
+      id: 'date_case_plan',
+      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
+    }
+  end
+
+  def date_closure_options(locale)
+    {
+      id: 'date_closure',
+      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
+    }
+  end
+
+  def created_at_options(locale, date_label)
+    {
+      id: 'created_at',
+      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale)
+    }
   end
 
   def incidents_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = []
-      if opts[:user].module?(PrimeroModule::GBV)
-        locale_options << {
-          id: 'date_of_first_report',
-          display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
-        }
-      end
-      locale_options << {
-        id: 'incident_date_derived',
-        display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
-      }
+      locale_options << date_of_first_report_options(locale) if opts[:user].module?(PrimeroModule::GBV)
+      locale_options << incident_date_derived_options(locale)
       { locale => locale_options }
     end.inject(&:merge)
+  end
+
+  def date_of_first_report_options(locale)
+    {
+      id: 'date_of_first_report',
+      display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
+    }
+  end
+
+  def incident_date_derived_options(locale)
+    {
+      id: 'incident_date_derived',
+      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
+    }
   end
 
   def approval_status_options
@@ -421,7 +445,8 @@ class Filter < ValueObject
     if %w[approval_status_assessment approval_status_case_plan approval_status_closure
           approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
-    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date].include? field_name
+    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date
+             incidents_by_date].include? field_name
       opts = { user: user, record_type: record_type }
       send("#{field_name}_options", opts)
     end
@@ -435,6 +460,10 @@ class Filter < ValueObject
       return
     end
 
+    resolve_type_by_length
+  end
+
+  def resolve_type_by_length
     options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
     case options_length
     when 1
