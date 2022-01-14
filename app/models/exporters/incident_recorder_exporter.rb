@@ -74,22 +74,30 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       #      rather than all values for incidents getting exported?
       # TODO: discuss with Pavel to see if this needs to change per SL-542
       self.exporter = exporter
-      @districts = {}
-      @counties = {}
-      @camps = {}
-      @locations = {}
+      initialize_location_types
       @caseworker_code = {}
       @age_group_count = -1
       @age_type_count = -1
       @fields = initialize_fields
-      @workbook = WriteXLSX.new(exporter.buffer)
-      @data_worksheet = @workbook.add_worksheet('Incident Data')
-      @menu_worksheet = @workbook.add_worksheet('Menu Data')
+      initialize_workbook(exporter)
 
       # Sheet data start at row 1 (based 0 index).
       @row_data = 1
       self.locale = locale || I18n.locale
       self.field_value_service = FieldValueService.new
+    end
+
+    def initialize_location_types
+      @districts = {}
+      @counties = {}
+      @camps = {}
+      @locations = {}
+    end
+
+    def initialize_workbook(exporter)
+      @workbook = WriteXLSX.new(exporter.buffer)
+      @data_worksheet = @workbook.add_worksheet('Incident Data')
+      @menu_worksheet = @workbook.add_worksheet('Menu Data')
     end
 
     def initialize_fields
