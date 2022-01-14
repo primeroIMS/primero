@@ -99,10 +99,10 @@ class Exporters::BaseExporter
     fields -= (self.class.excluded_field_names&.to_a || [])
     return fields if options[:field_names].blank?
 
-    map_fields(options)
+    map_fields(options, fields)
   end
 
-  def map_fields(options)
+  def map_fields(options, fields)
     # TODO: Don't forget this:
     # user.can?(:write, model_class) ? permitted_fields : permitted_fields.select(&:showable?)
     options[:field_names].map { |field_name| find_field(fields, field_name) }.compact
