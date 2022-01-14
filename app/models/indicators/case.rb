@@ -40,9 +40,7 @@ module Indicators
       QueriedIndicator.new(
         name: 'closed_recently',
         record_model: Child,
-        queries: [
-          SearchFilters::Value.new(field_name: 'record_state', value: true),
-          SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED),
+        queries: CLOSED_ENABLED + [
           SearchFilters::DateRange.new(
             field_name: 'date_closure', from: QueriedIndicator.recent_past, to: QueriedIndicator.present
           )
