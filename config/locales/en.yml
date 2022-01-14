@@ -1915,6 +1915,7 @@ en:
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
+      managed_report: Managed Report
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2768,6 +2769,10 @@ en:
           This allows a user to see dashboards and filters which help a user manage
           a team.
         label: Is Manager?
+      managed_report:
+        actions:
+          violations_report:
+            label: Violations Report
       matching_configuration:
         actions:
           manage:

@@ -770,4 +770,56 @@ describe Role do
       )
     end
   end
+
+  describe '.managed_reports' do
+    let(:permission) do
+      [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [
+            Permission::VIOLATION_REPORT
+          ]
+        ),
+        Permission.new(
+          resource: Permission::USER,
+          actions: [
+            Permission::READ
+          ]
+        )
+      ]
+    end
+    let(:program) do
+      PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+    end
+    let(:module_mrm) do
+      PrimeroModule.create!(
+        unique_id: 'primeromodule-mrm',
+        name: 'MRM',
+        description: 'Child Protection A',
+        associated_record_types: %w[incident],
+        primero_program: program
+      )
+    end
+    subject do
+      Role.create(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        permissions: permission,
+        modules: [module_mrm]
+      )
+    end
+
+    it 'should return managed_reports' do
+      expect(subject.managed_reports.first).to be_an_instance_of(ManagedReports::ViolationsReport)
+    end
+  end
 end
