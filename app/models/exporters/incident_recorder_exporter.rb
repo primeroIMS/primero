@@ -247,23 +247,18 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     #   value -  either: the field on the incident to display  OR
     #                    a proc which derives the value to be displayed
     # TODO: Fix these props. Some of them don't work. A try(:method) is needed in those props to make the export work.
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def props
       ##### ADMINISTRATIVE INFORMATION #####
       {
         'incident_id' => 'incident_id',
         'survivor_code' => 'survivor_code',
-        'case_manager_code' => lambda do |model|
-          model&.owner&.code
-        end,
+        'case_manager_code' => case_manager_code_props,
         'date_of_interview' => 'date_of_first_report',
         'date_of_incident' => 'incident_date',
         'date_of_birth' => 'date_of_birth',
-        'sex' => lambda do |model|
-          # Need to convert 'Female' to 'F' and 'Male' to 'M' because
-          # the spreadsheet is expecting those values.
-          incident_recorder_sex(model.data['sex'])
-        end,
-        # NOTE: 'H' is hidden and protected in the spreadsheet.
+        'sex' => gender_props,
         'ethnicity' => 'ethnicity',
         'country_of_origin' => 'country_of_origin',
         'marital_status' => 'maritial_status',
@@ -271,29 +266,10 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         'disability_type' => 'disability_type',
         'unaccompanied_separated_status' => 'unaccompanied_separated_status',
         'stage_of_displacement' => 'displacement_incident',
-        'time_of_day' => lambda do |model|
-          incident_timeofday = model.data['incident_timeofday']
-          return if incident_timeofday.blank?
-
-          timeofday_translated = export_value(incident_timeofday, @fields['incident_timeofday'])
-          # Do not use the display text that is between the parens ()
-          timeofday_translated.present? ? timeofday_translated.split('(').first.strip : nil
-        end,
+        'time_of_day' => time_of_day_props,
         'location' => 'incident_location_type',
-        'county' => lambda do |model|
-          county_name = exporter.location_service
-                                .ancestor_of_type(model.data['incident_location'], 'county')&.placename || ''
-          # Collect information to the "2. Menu Data sheet."
-          @counties[county_name] = county_name if county_name.present?
-          county_name
-        end,
-        'district' => lambda do |model|
-          district_name = exporter.location_service
-                                  .ancestor_of_type(model.data['incident_location'], 'district')&.placename || ''
-          # Collect information to the "2. Menu Data sheet."
-          @districts[district_name] = district_name if district_name.present?
-          district_name
-        end,
+        'county' => county_props,
+        'district' => district_props,
         'camp_town' => 'incident_camp_town',
         'gbv_type' => 'gbv_sexual_violence_type',
         'harmful_traditional_practice' => 'harmful_traditional_practice',
@@ -301,102 +277,211 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         'abduction_type' => 'abduction_status_time_of_incident',
         'previously_reported' => 'gbv_reported_elsewhere',
         'gbv_previous_incidents' => 'gbv_previous_incidents',
-        ##### ALLEGED PERPETRATOR INFORMATION #####
-        'number_primary_perpetrators' => lambda do |model|
-          calculated = all_alleged_perpetrators(model).size
-          from_ir = model.try(:number_of_individual_perpetrators_from_ir)
-          if from_ir.present?
-            calculated.present? && calculated > 1 ? calculated : from_ir
-          else
-            calculated
-          end
-        end,
-        'perpetrator.sex' => lambda do |model|
-          perpetrators_sex(all_alleged_perpetrators(model))
-        end,
-        'perpetrator.former' => lambda do |model|
-          former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }
-                                                                  .reject(&:nil?)
-          if former_perpetrators.include? true
-            I18n.t('exports.incident_recorder_xls.yes')
-          elsif former_perpetrators.all? { |is_fp| is_fp == false }
-            I18n.t('exports.incident_recorder_xls.no')
-          end
-        end,
-        alleged_perpetrator_header => lambda do |model|
-          incident_recorder_age(all_alleged_perpetrators(model))
-        end,
-        'perpetrator.relationship' => lambda do |model|
-          relationship = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_relationship')
-          export_value(relationship, @fields['perpetrator_relationship']) if relationship.present?
-        end,
-        'perpetrator.occupation' => lambda do |model|
-          occupation = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_occupation')
-          export_value(occupation, @fields['perpetrator_occupation']) if occupation.present?
-        end,
-        ##### REFERRAL PATHWAY DATA #####
-        'service.referred_from' => lambda do |model|
-          services = model.data['service_referred_from']
-          if services.present?
-            if services.is_a?(Array)
-              services.map { |service| incident_recorder_service_referral_from(service) }.join(' & ')
-            else
-              incident_recorder_service_referral_from(services)
-            end
-          end
-        end,
-        'service.safehouse_referral' => lambda do |model|
-          incident_recorder_service_referral(model.data['service_safehouse_referral'])
-        end,
-        'service.medical_referral' => lambda do |model|
-          service_value = model.health_medical_referral_subform_section.try(:first)
-                               .try(:[], 'service_medical_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
-        'service.psycho_referral' => lambda do |model|
-          service_value = model.psychosocial_counseling_services_subform_section.try(:first)
-                               .try(:[], 'service_psycho_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
-        'service.wants_legal_action' => lambda do |model|
-          legal_counseling = model.try(:legal_assistance_services_subform_section)
-          if legal_counseling.present?
-            legal_actions = legal_counseling.map { |l| l.try(:[], 'pursue_legal_action') }
-            if legal_actions.include?('true')
-              I18n.t('exports.incident_recorder_xls.yes')
-            elsif legal_actions.include?('false')
-              I18n.t('exports.incident_recorder_xls.no')
-            elsif legal_actions.include?('undecided')
-              I18n.t('exports.incident_recorder_xls.service_referral.undecided')
-            end
-          end
-        end,
-        'service.legal_referral' => lambda do |model|
-          service_value = model.legal_assistance_services_subform_section.try(:first)
-                               .try(:[], 'service_legal_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
-        'service.police_referral' => lambda do |model|
-          service_value = model.police_or_other_type_of_security_services_subform_section
-                               .try(:first).try(:[], 'service_police_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
-        'service.livelihoods_referral' => lambda do |model|
-          service_value = model.livelihoods_services_subform_section
-                               .try(:first).try(:[], 'service_livelihoods_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
-        ##### ADMINISTRATION 2 #####
-        'service.protection_referral' => lambda do |model|
-          service_value = model.child_protection_services_subform_section
-                               .try(:first).try(:[], 'service_protection_referral')
-          incident_recorder_service_referral(service_value) if service_value.present?
-        end,
+        'number_primary_perpetrators' => number_primary_perpetrators_props,
+        'perpetrator.sex' => perpetrators_sex_props,
+        'perpetrator.former' => perpetrator_former_props,
+        alleged_perpetrator_header => alleged_perpetrator_header_props,
+        'perpetrator.relationship' => perpetrator_relationship_props,
+        'perpetrator.occupation' => perpetrator_occupation_props,
+        'service.referred_from' => service_referred_from_props,
+        'service.safehouse_referral' => service_safehouse_referral_props,
+        'service.medical_referral' => service_medical_referral_props,
+        'service.psycho_referral' => service_psycho_referral_props,
+        'service.wants_legal_action' => service_legal_assistance_props,
+        'service.legal_referral' => service_legal_referral_props,
+        'service.police_referral' => service_police_referral_props,
+        'service.livelihoods_referral' => service_livelihoods_props,
+        'service.protection_referral' => service_protection_referral,
         'consent' => 'consent_reporting',
-        'agency_code' => lambda do |model|
-          Agency.get_field_using_unique_id(model.data['created_organization'], :agency_code)
-        end
+        'agency_code' => agency_code_props
       }
+    end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+
+    def case_manager_code_props
+      lambda do |model|
+        model&.owner&.code
+      end
+    end
+
+    def gender_props
+      lambda do |model|
+        # Need to convert 'Female' to 'F' and 'Male' to 'M' because
+        # the spreadsheet is expecting those values.
+        incident_recorder_sex(model.data['sex'])
+      end
+    end
+
+    def time_of_day_props
+      lambda do |model|
+        incident_timeofday = model.data['incident_timeofday']
+        return if incident_timeofday.blank?
+
+        timeofday_translated = export_value(incident_timeofday, @fields['incident_timeofday'])
+        # Do not use the display text that is between the parens ()
+        timeofday_translated.present? ? timeofday_translated.split('(').first.strip : nil
+      end
+    end
+
+    def county_props
+      lambda do |model|
+        county_name = exporter_county_name(model)
+        # Collect information to the "2. Menu Data sheet."
+        @counties[county_name] = county_name if county_name.present?
+        county_name
+      end
+    end
+
+    def exporter_county_name(model)
+      exporter.location_service.ancestor_of_type(model.data['incident_location'], 'county')&.placename || ''
+    end
+
+    def district_props
+      lambda do |model|
+        district_name = exporter_district_name(model)
+        # Collect information to the "2. Menu Data sheet."
+        @districts[district_name] = district_name if district_name.present?
+        district_name
+      end
+    end
+
+    def exporter_district_name(model)
+      exporter.location_service.ancestor_of_type(model.data['incident_location'], 'district')&.placename || ''
+    end
+
+    def number_primary_perpetrators_props
+      lambda do |model|
+        calculated = all_alleged_perpetrators(model).size
+        from_ir = model.try(:number_of_individual_perpetrators_from_ir)
+        if from_ir.present?
+          calculated.present? && calculated > 1 ? calculated : from_ir
+        else
+          calculated
+        end
+      end
+    end
+
+    def perpetrators_sex_props
+      lambda do |model|
+        perpetrators_sex(all_alleged_perpetrators(model))
+      end
+    end
+
+    def perpetrator_former_props
+      lambda do |model|
+        former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }.reject(&:nil?)
+        if former_perpetrators.include? true
+          I18n.t('exports.incident_recorder_xls.yes')
+        elsif former_perpetrators.all? { |is_fp| is_fp == false }
+          I18n.t('exports.incident_recorder_xls.no')
+        end
+      end
+    end
+
+    def alleged_perpetrator_header_props
+      lambda do |model|
+        incident_recorder_age(all_alleged_perpetrators(model))
+      end
+    end
+
+    def perpetrator_relationship_props
+      lambda do |model|
+        relationship = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_relationship')
+        export_value(relationship, @fields['perpetrator_relationship']) if relationship.present?
+      end
+    end
+
+    def perpetrator_occupation_props
+      lambda do |model|
+        occupation = primary_alleged_perpetrator(model).first.try(:[], 'perpetrator_occupation')
+        export_value(occupation, @fields['perpetrator_occupation']) if occupation.present?
+      end
+    end
+
+    def service_referred_from_props
+      lambda do |model|
+        services = model.data['service_referred_from']
+        if services.present?
+          if services.is_a?(Array)
+            services.map { |service| incident_recorder_service_referral_from(service) }.join(' & ')
+          else
+            incident_recorder_service_referral_from(services)
+          end
+        end
+      end
+    end
+
+    def service_safehouse_referral_props
+      lambda do |model|
+        incident_recorder_service_referral(model.data['service_safehouse_referral'])
+      end
+    end
+
+    def service_medical_referral_props
+      lambda do |model|
+        service_value = model.health_medical_referral_subform_section.try(:first).try(:[], 'service_medical_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def service_psycho_referral_props
+      lambda do |model|
+        service_value = model.psychosocial_counseling_services_subform_section.try(:first)
+                             .try(:[], 'service_psycho_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def service_legal_assistance_props
+      lambda do |model|
+        legal_counseling = model.try(:legal_assistance_services_subform_section)
+        return if legal_counseling.blank?
+
+        actions = legal_counseling.map { |l| l.try(:[], 'pursue_legal_action') }
+        if actions.include?('true') then I18n.t('exports.incident_recorder_xls.yes')
+        elsif actions.include?('false') then I18n.t('exports.incident_recorder_xls.no')
+        elsif actions.include?('undecided') then I18n.t('exports.incident_recorder_xls.service_referral.undecided')
+        end
+      end
+    end
+
+    def service_legal_referral_props
+      lambda do |model|
+        service_value = model.legal_assistance_services_subform_section.try(:first)
+                             .try(:[], 'service_legal_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def service_police_referral_props
+      lambda do |model|
+        service_value = model.police_or_other_type_of_security_services_subform_section
+                             .try(:first).try(:[], 'service_police_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def service_livelihoods_props
+      lambda do |model|
+        service_value = model.livelihoods_services_subform_section
+                             .try(:first).try(:[], 'service_livelihoods_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def service_protection_referral
+      lambda do |model|
+        service_value = model.child_protection_services_subform_section
+                             .try(:first).try(:[], 'service_protection_referral')
+        incident_recorder_service_referral(service_value) if service_value.present?
+      end
+    end
+
+    def agency_code_props
+      lambda do |model|
+        Agency.get_field_using_unique_id(model.data['created_organization'], :agency_code)
+      end
     end
 
     def format_value(prop, value)
