@@ -6,6 +6,7 @@
 class Ability
   include CanCan::Ability
 
+  # rubocop:disable Metrics/MethodLength
   def initialize(user)
     alias_user_actions
     @user = user
@@ -21,6 +22,7 @@ class Ability
     configure_record_attachments
     configure_flags
   end
+  # rubocop:enable Metrics/MethodLength
 
   def baseline_permissions
     can [:read, :write, :create], SavedSearch do |search|
@@ -229,6 +231,8 @@ class Ability
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity
   def initialize_permission(permission)
     case permission.resource
     when Permission::USER
@@ -249,6 +253,8 @@ class Ability
       configure_resource(permission.resource_class, permission.action_symbols, permission.record?)
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
     [Child, TracingRequest, Incident].each do |model|
