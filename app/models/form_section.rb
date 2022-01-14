@@ -127,10 +127,11 @@ class FormSection < ApplicationRecord
     return fields << field unless field.order
 
     field.form_section = self
-    fields_to_reorder = fields.where(order: field.order..)
-
     Field.transaction do
-      fields_to_reorder.each { |f| f.order += 1; f.save! }
+      fields.where(order: field.order..).each do |f|
+        f.order += 1
+        f.save!
+      end
       field.save!
     end
   end
