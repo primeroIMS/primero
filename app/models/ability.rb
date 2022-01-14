@@ -6,6 +6,7 @@
 class Ability
   include CanCan::Ability
 
+  # rubocop:disable Metrics/MethodLength
   def initialize(user)
     alias_user_actions
     @user = user
@@ -21,6 +22,7 @@ class Ability
     configure_record_attachments
     configure_flags
   end
+  # rubocop:enable Metrics/MethodLength
 
   def baseline_permissions
     can [:read, :write, :create], SavedSearch do |search|
@@ -29,30 +31,29 @@ class Ability
   end
 
   def user_permissions(actions)
-    can actions, User do |uzer|
-      if user.super_user?
-        true
-      elsif uzer.super_user?
-        false
-      elsif user.user_admin?
-        true
-      elsif uzer.user_admin?
-        false
-      elsif user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-            user.agency == uzer.agency
-        true
-      # TODO: should this be limited in a more generic way rather than by not agency user admin?
-      elsif !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-            user.group_permission?(Permission::GROUP)
-        # TODO-permission: Add check that the current user has the ability to edit the uzer's role
-        # True if, The user's role's associated_role_ids include the uzer's role_id
-        (user.user_group_ids & uzer.user_group_ids).present?
-      elsif user.group_permission?(Permission::ALL)
-        true
-      else
-        uzer.user_name == user.user_name
-      end
+    can actions, User do |instance|
+      permitted_to_access_user?(instance)
     end
+  end
+
+  def permitted_to_access_user?(instance)
+    return true if user.super_user? || user.user_admin?
+
+    return false if instance.super_user? || instance.user_admin?
+
+    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
+                   user.agency == instance.agency
+
+    if !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+       user.group_permission?(Permission::GROUP)
+      # TODO-permission: Add check that the current user has the ability to edit the uzer's role
+      # True if, The user's role's associated_role_ids include the uzer's role_id
+      return (user.user_group_ids & instance.user_group_ids).present?
+    end
+
+    return true if user.group_permission?(Permission::ALL)
+
+    instance.user_name == user.user_name
   end
 
   def user_group_permissions(actions)
@@ -71,26 +72,25 @@ class Ability
   def role_permissions(permission)
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if instance.super_user_role?
-        false
-      elsif instance.user_admin_role? && !user.super_user?
-        false
-      # TODO-permission: The following code prevents a role from having access to itself.
-      # As written it is too broad and won't let a user see or assign its own role.
-      # It should be limited to only preventing the a role from editing itself:
-      elsif ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
-        permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
+      permitted_to_access_role?(instance, actions, permission)
+    end
+  end
+
+  def permitted_to_access_role?(instance, actions, permission)
+    return false if instance.super_user_role? || instance.user_admin_role? && !user.super_user?
+
+    if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
+      return permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
       # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
       # Not even the super user is allowed to edit their own role, consider removing.
-      elsif user.role_id == instance.id && !user.group_permission?(Permission::ALL)
-        false
-      else
-        # TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
-        true
-      end
     end
+
+    return false if user.role_id == instance.id && !user.group_permission?(Permission::ALL)
+
+    # TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
+    true
   end
 
   def agency_permissions(permission)
@@ -231,6 +231,8 @@ class Ability
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity
   def initialize_permission(permission)
     case permission.resource
     when Permission::USER
@@ -251,6 +253,8 @@ class Ability
       configure_resource(permission.resource_class, permission.action_symbols, permission.record?)
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
     [Child, TracingRequest, Incident].each do |model|
