@@ -15,21 +15,34 @@ import { generateIdFromDisplayText } from "../../utils/handle-options";
 
 import { NAME } from "./constants";
 
-const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMethods, formMode }) => {
+const Component = ({
+  defaultOptionId,
+  index,
+  name,
+  option,
+  onRemoveClick,
+  formMethods,
+  formMode,
+  showDefaultAction,
+  showDeleteAction,
+  showDisableOption,
+  isTallyField
+}) => {
   const {
     errors,
     setValue,
     formState: { isDirty },
     control
   } = formMethods;
-  const displayTextFieldName = `${name}.option_strings_text[${index}].display_text.en`;
-  const idFieldName = `${name}.option_strings_text[${index}].id`;
+  const optionField = isTallyField ? "tally" : "option_strings_text";
+  const displayTextFieldName = `${name}.${optionField}[${index}].display_text.en`;
+  const idFieldName = `${name}.${optionField}[${index}].id`;
   const selectedValueFieldName = `${name}.selected_value`;
 
-  const optionId = useWatch({ control, name: `${name}.option_strings_text[${index}].id`, defaultValue: option.id });
+  const optionId = useWatch({ control, name: `${name}.${optionField}[${index}].id`, defaultValue: option.id });
   const disabledValue = useWatch({
     control,
-    name: `${name}.option_strings_text[${index}].disabled`,
+    name: `${name}.${optionField}[${index}].disabled`,
     defaultValue: option?.disabled
   });
   const selectedValue = useWatch({ control, name: `${name}.selected_value`, defaultValue: defaultOptionId });
@@ -62,7 +75,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
     return value;
   };
 
-  const renderCheckbox = formMode.get("isEdit") && (
+  const renderCheckbox = formMode.get("isEdit") && showDisableOption && (
     <SwitchInput
       commonInputProps={{ name: `${name}.option_strings_text[${index}].disabled` }}
       metaInputProps={{ selectedValue: disabledValue }}
@@ -72,7 +85,7 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
 
   const handleRemoveClick = () => onRemoveClick(index);
 
-  const renderRemoveButton = formMode.get("isNew") && (
+  const renderRemoveButton = formMode.get("isNew") && showDeleteAction && (
     <IconButton aria-label="delete" className={css.removeIcon} onClick={handleRemoveClick}>
       <DeleteIcon />
     </IconButton>
@@ -113,20 +126,24 @@ const Component = ({ defaultOptionId, index, name, option, onRemoveClick, formMe
                 defaultValue={option.id}
               />
             </div>
-            <div className={css.fieldColumn}>
-              <Controller
-                control={control}
-                as={<Radio />}
-                inputProps={{ value: optionId }}
-                checked={optionId === selectedValue}
-                name={`${name}.selected_value`}
-                defaultValue={false}
-              />
-            </div>
-            <div className={css.fieldColumn}>
-              {renderCheckbox}
-              {renderRemoveButton}
-            </div>
+            {showDefaultAction && (
+              <div className={css.fieldColumn}>
+                <Controller
+                  control={control}
+                  as={<Radio />}
+                  inputProps={{ value: optionId }}
+                  checked={optionId === selectedValue}
+                  name={`${name}.selected_value`}
+                  defaultValue={false}
+                />
+              </div>
+            )}
+            {((formMode.get("isNew") && showDeleteAction) || showDisableOption) && (
+              <div className={css.fieldColumn}>
+                {renderCheckbox}
+                {renderRemoveButton}
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -144,9 +161,13 @@ Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired,
   index: PropTypes.number,
+  isTallyField: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
-  option: PropTypes.object
+  option: PropTypes.object,
+  showDefaultAction: PropTypes.bool,
+  showDeleteAction: PropTypes.bool,
+  showDisableOption: PropTypes.bool
 };
 
 Component.displayName = NAME;

@@ -2,13 +2,22 @@ import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import mergeWith from "lodash/mergeWith";
 
-import { DATE_FIELD, RADIO_FIELD, SELECT_FIELD, SEPARATOR, SUBFORM_SECTION, TICK_FIELD } from "../../../../../form";
+import {
+  DATE_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD,
+  SEPARATOR,
+  SUBFORM_SECTION,
+  TALLY_FIELD,
+  TICK_FIELD
+} from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { convertToFieldsObject } from "../../utils";
 import { toIdentifier } from "../../../../../../libs";
 
 import {
   dateFieldForm,
+  tallyFieldForm,
   textFieldForm,
   tickboxFieldForm,
   selectFieldForm,
@@ -84,6 +93,8 @@ export const getFormField = fieldOptions => {
       return subformField(fieldOptions);
     case TICK_FIELD:
       return tickboxFieldForm(fieldOptions);
+    case TALLY_FIELD:
+      return tallyFieldForm(fieldOptions);
     default:
       return textFieldForm(fieldOptions);
   }

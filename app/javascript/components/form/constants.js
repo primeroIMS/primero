@@ -23,6 +23,7 @@ export const ORDERABLE_OPTIONS_FIELD = "orderable_options_field";
 export const DIALOG_TRIGGER = "dialog_trigger";
 export const HIDDEN_FIELD = "hidden";
 export const LINK_FIELD = "link_field";
+export const TALLY_FIELD = "tally_field";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",
