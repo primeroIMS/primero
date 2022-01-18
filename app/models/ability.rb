@@ -38,23 +38,31 @@ class Ability
   end
 
   def permitted_to_access_user?(instance)
-    return true if user.super_user? || user.user_admin?
+    return true if super_user_or_admin?(user)
 
-    return false if instance.super_user? || instance.user_admin?
+    return false if super_user_or_admin?(instance)
 
-    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
-                   user.agency == instance.agency
+    return true if agency_permission?(instance)
 
-    if !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-       user.group_permission?(Permission::GROUP)
-      # TODO-permission: Add check that the current user has the ability to edit the uzer's role
-      # True if, The user's role's associated_role_ids include the uzer's role_id
-      return (user.user_group_ids & instance.user_group_ids).present?
-    end
+    return (user.user_group_ids & instance.user_group_ids).present? if group_permission?
 
     return true if user.group_permission?(Permission::ALL)
 
     instance.user_name == user.user_name
+  end
+
+  def super_user_or_admin?(uzr)
+    uzr.super_user? || uzr.user_admin?
+  end
+
+  def agency_permission?(instance)
+    user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
+      user.agency == instance.agency
+  end
+
+  def group_permission?
+    !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+      user.group_permission?(Permission::GROUP)
   end
 
   def user_group_permissions(actions)
