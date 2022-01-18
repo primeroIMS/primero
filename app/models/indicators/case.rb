@@ -11,6 +11,18 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
+    OPEN_ENABLED_CASE_PLAN = OPEN_ENABLED + [
+      SearchFilters::DateRange.new(
+        field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+      )
+    ].freeze
+
+    OPEN_ENABLED_SERVICE = OPEN_ENABLED + [
+      SearchFilters::DateRange.new(
+        field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+      )
+    ].freeze
+
     CLOSED_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED)
@@ -288,11 +300,7 @@ module Indicators
         record_model: Child,
         scope_to_owned_by_groups: true,
         exclude_zeros: true,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new(
-            field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-          )
-        ]
+        scope: OPEN_ENABLED_CASE_PLAN
       )
     end
 
@@ -303,11 +311,7 @@ module Indicators
         record_model: Child,
         scope_to_owned_by_groups: true,
         exclude_zeros: true,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new(
-            field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-          )
-        ]
+        scope: OPEN_ENABLED_SERVICE
       )
     end
 
@@ -524,47 +528,62 @@ module Indicators
       admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       field_key = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       facet_name = "#{field_key}#{admin_level}"
+      [reporting_location_open(facet_name),
+       reporting_location_open_last_week(facet_name), reporting_location_open_this_week(facet_name),
+       reporting_location_closed_last_week(facet_name), reporting_location_closed_this_week(facet_name)]
+    end
 
-      [
-        FacetedIndicator.new(
-          name: 'reporting_location_open',
-          facet: facet_name,
-          record_model: Child,
-          scope: OPEN_ENABLED
-        ),
-        FacetedIndicator.new(
-          name: 'reporting_location_open_last_week',
-          facet: facet_name,
-          record_model: Child,
-          scope: OPEN_ENABLED + [
-            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
-          ]
-        ),
-        FacetedIndicator.new(
-          name: 'reporting_location_open_this_week',
-          facet: facet_name,
-          record_model: Child,
-          scope: OPEN_ENABLED + [
-            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
-          ]
-        ),
-        FacetedIndicator.new(
-          name: 'reporting_location_closed_last_week',
-          facet: facet_name,
-          record_model: Child,
-          scope: CLOSED_ENABLED + [
-            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
-          ]
-        ),
-        FacetedIndicator.new(
-          name: 'reporting_location_closed_this_week',
-          facet: facet_name,
-          record_model: Child,
-          scope: CLOSED_ENABLED + [
-            SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
-          ]
-        )
-      ]
+    def self.reporting_location_open(facet_name)
+      FacetedIndicator.new(
+        name: 'reporting_location_open',
+        facet: facet_name,
+        record_model: Child,
+        scope: OPEN_ENABLED
+      )
+    end
+
+    def self.reporting_location_open_last_week(facet_name)
+      FacetedIndicator.new(
+        name: 'reporting_location_open_last_week',
+        facet: facet_name,
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
+        ]
+      )
+    end
+
+    def self.reporting_location_open_this_week(facet_name)
+      FacetedIndicator.new(
+        name: 'reporting_location_open_this_week',
+        facet: facet_name,
+        record_model: Child,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
+        ]
+      )
+    end
+
+    def self.reporting_location_closed_last_week(facet_name)
+      FacetedIndicator.new(
+        name: 'reporting_location_closed_last_week',
+        facet: facet_name,
+        record_model: Child,
+        scope: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.last_week))
+        ]
+      )
+    end
+
+    def self.reporting_location_closed_this_week(facet_name)
+      FacetedIndicator.new(
+        name: 'reporting_location_closed_this_week',
+        facet: facet_name,
+        record_model: Child,
+        scope: CLOSED_ENABLED + [
+          SearchFilters::DateRange.new({ field_name: 'created_at' }.merge(FacetedIndicator.this_week))
+        ]
+      )
     end
 
     def self.cases_to_assign
