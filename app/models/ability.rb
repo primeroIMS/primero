@@ -80,18 +80,19 @@ class Ability
   def permitted_to_access_role?(instance, actions, permission)
     return false if instance.super_user_role? || instance.user_admin_role? && !user.super_user?
 
-    if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
-      return permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
-      # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
-      # the previous elsif to be effective
-      # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
-      # Not even the super user is allowed to edit their own role, consider removing.
-    end
+    return check_role_id(instance, permission) if read_write_or_assign?(actions)
 
     return false if user.role_id == instance.id && !user.group_permission?(Permission::ALL)
 
-    # TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
     true
+  end
+
+  def read_write_or_assign?(actions)
+    ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
+  end
+
+  def check_role_id(instance, permission)
+    permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
   end
 
   def agency_permissions(permission)
