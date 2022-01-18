@@ -37,7 +37,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
     help_text: helpText,
     guiding_questions: guidingQuestions,
     tick_box_label: tickBoxLabel,
-    option_strings_text: optionStringsText
+    option_strings_text: optionStringsText,
+    tally
   } = reduceMapToObject(field);
 
   const { name, description } = selectedSubform || {};
@@ -50,7 +51,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         help_text: helpText,
         guiding_questions: guidingQuestions,
         tick_box_label: tickBoxLabel,
-        option_strings_text: optionStringsText
+        option_strings_text: optionStringsText,
+        tally
       }
     },
     resolver: yupResolver(validationSchema(i18n))
@@ -134,7 +136,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
         help_text: fieldHelpText,
         guiding_questions: fieldGuidingQuestions,
         tick_box_label: fieldTickBoxLabel,
-        option_strings_text: fieldOptionStringsText
+        option_strings_text: fieldOptionStringsText,
+        tally: fieldOptionTally
       } = currentValues[fieldName] || {};
 
       const subformSection =
@@ -157,7 +160,8 @@ const Component = ({ currentValues, field, isNested, mode, onClose, open, onSucc
           help_text: { ...helpText, ...fieldHelpText },
           guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
           tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
-          option_strings_text: { ...optionStringsText, ...fieldOptionStringsText }
+          option_strings_text: { ...optionStringsText, ...fieldOptionStringsText },
+          tally: { ...tally, ...fieldOptionTally }
         }
       });
     }

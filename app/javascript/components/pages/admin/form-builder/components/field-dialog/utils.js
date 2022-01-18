@@ -24,7 +24,12 @@ import {
   separatorFieldForm,
   subformField
 } from "./forms";
-import { DATE_FIELD_CUSTOM_VALUES, SUBFORM_TRANSLATABLE_OPTIONS, FIELD_TRANSLATABLE_OPTIONS } from "./constants";
+import {
+  DATE_FIELD_CUSTOM_VALUES,
+  SUBFORM_TRANSLATABLE_OPTIONS,
+  FIELD_TRANSLATABLE_OPTIONS,
+  LOCALIZABLE_OPTIONS_FIELD_NAME
+} from "./constants";
 
 const getDateValidation = (field, isSubmit) => {
   if (!isSubmit) {
@@ -225,7 +230,9 @@ export const mergeTranslationKeys = (defaultValues, currValues, isSubform = fals
 
     if (translatableOptions.includes(key) && !isEmpty(value)) {
       const mergedValues = mergeWith({}, value, currValues[key], mergeWithCondition);
-      const newValue = key === "option_strings_text" ? Object.values(mergedValues) : mergedValues;
+      const newValue = Object.values(LOCALIZABLE_OPTIONS_FIELD_NAME).includes(key)
+        ? Object.values(mergedValues)
+        : mergedValues;
 
       return { ...acc, [key]: newValue };
     }

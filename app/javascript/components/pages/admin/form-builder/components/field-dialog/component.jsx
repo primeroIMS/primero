@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { object } from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
@@ -12,7 +12,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
-import { SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
+import { SELECT_FIELD, submitHandler, TALLY_FIELD, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
@@ -50,7 +50,8 @@ import {
   generateUniqueId,
   mergeTranslationKeys
 } from "./utils";
-import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
+import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, LOCALIZABLE_OPTIONS_FIELD_NAME, RESET_OPTIONS } from "./constants";
+import { reduceMapToObject } from "../field-translations-dialog/utils";
 
 const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const formMode = whichFormMode(mode);
@@ -363,19 +364,21 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
       const subform = getUpdatedSubform();
       const plainSelectedField = selectedField.toJS();
 
-      const { disabled, hide_on_view_page, option_strings_text } = plainSelectedField;
+      const { disabled, hide_on_view_page, option_strings_text, tally } = plainSelectedField;
       const selectedFormField = { ...plainSelectedField, disabled: !disabled, hide_on_view_page: !hide_on_view_page };
 
       const data = mergeTranslationKeys(selectedFormField, currFormValues);
 
       const fieldData = transformValues(data);
+
       const optionStringsText = getUpdatedOptionStringsText(fieldData, option_strings_text);
 
       reset(
         {
           [selectedFieldName]: {
             ...fieldData,
-            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {})
+            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {}),
+            ...(selectedField.get("type") === TALLY_FIELD ? { tally } : {})
           },
           ...subform
         },
@@ -383,34 +386,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
       );
     }
   }, [openFieldDialog, selectedField]);
-
-  useEffect(() => {
-    if (
-      openFieldDialog &&
-      selectedFieldName !== NEW_FIELD &&
-      selectedField?.toSeq()?.size &&
-      selectedField.get("type") === SELECT_FIELD
-    ) {
-      const currentData = selectedField;
-      const objectPaths = getObjectPath("", currentData.get("option_strings_text", [])).filter(
-        option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
-      );
-
-      objectPaths.forEach(path => {
-        const optionStringsTextPath = `${selectedFieldName}.option_strings_text${path}`;
-        const {
-          fieldsRef: { current: fields }
-        } = control;
-
-        if (!fields[optionStringsTextPath]) {
-          register({ name: optionStringsTextPath });
-        }
-        const value = get(currentData.get("option_strings_text"), path);
-
-        setValue(optionStringsTextPath, value, { shouldDirty: true });
-      });
-    }
-  }, [openFieldDialog, selectedField, register]);
 
   useEffect(() => {
     return () => {
