@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Export forms to an Excel file (.xlsx)
+# rubocop:disable Metrics/ClassLength
 class Exporters::FormExporter < ValueObject
   attr_accessor :file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index, :errors,
                 :total, :success_total
@@ -277,3 +278,4 @@ class Exporters::FormExporter < ValueObject
     [lookup.unique_id, lookup.name, lookup_value['id'], lookup_value['display_text']]
   end
 end
+# rubocop:enable Metrics/ClassLength

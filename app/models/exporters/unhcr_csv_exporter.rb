@@ -3,6 +3,7 @@
 require 'csv'
 
 # Export case data from Primero for consumption by downstream UNHCR systems
+# rubocop:disable Metrics/ClassLength
 class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
   ID_FIELD_NAMES = %w[
     case_id unhcr_individual_no cpims_id short_id identification_date protection_status
@@ -122,3 +123,4 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
     @system_settings&.export_config_id&.[]('unhcr')
   end
 end
+# rubocop:enable Metrics/ClassLength

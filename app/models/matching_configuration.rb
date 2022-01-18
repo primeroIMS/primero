@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This governs the selection of fields that are used to match cases and traces in Primero
+# rubocop:disable Metrics/ClassLength
 class MatchingConfiguration
   include ActiveModel::Model
 
@@ -230,3 +231,4 @@ class MatchingConfiguration
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

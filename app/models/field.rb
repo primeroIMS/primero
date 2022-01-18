@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Model for Field
+# rubocop:disable Metrics/ClassLength
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -336,3 +337,4 @@ class Field < ApplicationRecord
       option[:display_text].with_indifferent_access[:en].present?
   end
 end
+# rubocop:enable Metrics/ClassLength

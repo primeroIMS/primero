@@ -3,6 +3,7 @@
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Case Class for Indicators
+  # rubocop:disable Metrics/ClassLength
   class Case
     # rubocop:enable Style/ClassAndModuleChildren
     OPEN_ENABLED = [
@@ -677,4 +678,5 @@ module Indicators
       )
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

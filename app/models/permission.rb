@@ -6,6 +6,7 @@
 # and the actions the user is entitled to perform on it (read, write, create).
 # Some actions actually represent sub-resources. For example a user may be granted the ability to see dashboards,
 # but each individual dashboard entitlement is treated as an action grant.
+# rubocop:disable Metrics/ClassLength
 class Permission < ValueObject
   # The role_unique_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
@@ -328,3 +329,4 @@ class Permission < ValueObject
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

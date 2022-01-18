@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Configurable reports for aggregating data over Primero records.
+# rubocop:disable Metrics/ClassLength
 class Report < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -520,3 +521,4 @@ class Report < ApplicationRecord
     record_type.camelize
   end
 end
+# rubocop:enable Metrics/ClassLength

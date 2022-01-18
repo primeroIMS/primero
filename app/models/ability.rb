@@ -3,6 +3,7 @@
 # TODO: Refactor this!!! Write some tests!
 
 # Class for Ability
+# rubocop:disable Metrics/ClassLength
 class Ability
   include CanCan::Ability
 
@@ -262,3 +263,4 @@ class Ability
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

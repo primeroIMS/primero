@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Exports Incident Recorder to an Excel File
+# rubocop:disable Metrics/ClassLength
 class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
   class << self
     def id
@@ -560,3 +561,4 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

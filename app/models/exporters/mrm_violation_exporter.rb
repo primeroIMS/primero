@@ -5,6 +5,7 @@ require 'write_xlsx'
 # rubocop:disable Style/ClassAndModuleChildren
 module Exporters
   # Class for MRMVioletion Exporter
+  # rubocop:disable Metrics/ClassLength
   class MRMViolationExporter < BaseExporter
     # rubocop:enable Style/ClassAndModuleChildren
     class << self
@@ -186,4 +187,5 @@ module Exporters
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

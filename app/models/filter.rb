@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
+# rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
   attr_accessor :name, :field_name, :type, :options, :option_strings_source
 
@@ -555,3 +556,4 @@ class Filter < ValueObject
     "Filter(name: #{name}, field_name: #{field_name}, type: #{type})"
   end
 end
+# rubocop:enable Metrics/ClassLength
