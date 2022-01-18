@@ -170,6 +170,7 @@ class Report < ApplicationRecord
   end
 
   # Run the Solr query that calculates the pivots and format the output.
+  # rubocop:disable Metrics/AbcSize
   def build_report
     # Prepopulates pivot fields
     pivot_fields
@@ -183,6 +184,7 @@ class Report < ApplicationRecord
     self.data = report_data
     ''
   end
+  # rubocop:enable Metrics/AbcSize
 
   def report_data
     aggregate_limit = aggregate_by.size
