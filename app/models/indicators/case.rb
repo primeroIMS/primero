@@ -11,18 +11,6 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
-    OPEN_ENABLED_CASE_PLAN = OPEN_ENABLED + [
-      SearchFilters::DateRange.new(
-        field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-      )
-    ].freeze
-
-    OPEN_ENABLED_SERVICE = OPEN_ENABLED + [
-      SearchFilters::DateRange.new(
-        field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-      )
-    ].freeze
-
     CLOSED_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_CLOSED)
@@ -300,8 +288,16 @@ module Indicators
         record_model: Child,
         scope_to_owned_by_groups: true,
         exclude_zeros: true,
-        scope: OPEN_ENABLED_CASE_PLAN
+        scope: overdue_case_plan_scope
       )
+    end
+
+    def self.overdue_case_plan_scope
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'case_plan_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
     end
 
     def self.tasks_overdue_services
@@ -311,8 +307,16 @@ module Indicators
         record_model: Child,
         scope_to_owned_by_groups: true,
         exclude_zeros: true,
-        scope: OPEN_ENABLED_SERVICE
+        scope: overdue_services_scope
       )
+    end
+
+    def self.overdue_services_scope
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'service_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
     end
 
     def self.tasks_overdue_followups
