@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Api::V2::ReportsController, type: :request do
+describe Api::V2::ManagedReportsController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/managed_report' do

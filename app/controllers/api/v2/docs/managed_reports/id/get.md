@@ -3,7 +3,7 @@
 Shows the JSON representation of a managed report. The managed report is built if `build_report` params is
 present so in that case the report data is available in the response.
 
-**URL** : `/api/v2/reports/:id`
+**URL** : `/api/v2/managed_reports/:id`
 
 **Method** : `GET`
 
@@ -24,9 +24,9 @@ present so in that case the report data is available in the response.
 ```json
 {
   "data": {
-    "id": "violations_report",
-    "name": "violation_report.name",
-    "description": "violation_report.description",
+    "id": "violations",
+    "name": "managed_reports.violations.name",
+    "description": "managed_reports.violations.description",
     "module_id": "primeromodule-mrm",
     "subreports": [
       "killing",
@@ -44,7 +44,7 @@ present so in that case the report data is available in the response.
 ```
 ## Error Response
 
-**Condition** : User isn't authorized to view this report.
+**Condition** : User isn't authorized to view this managed report.
 
 **Code** : `403 Forbidden`
 
@@ -55,16 +55,16 @@ present so in that case the report data is available in the response.
   "errors": [
     {
       "code": 403,
-      "resource": "/api/v2/reports/10",
+      "resource": "/api/v2/managed_reports/10",
       "message": "Forbidden"
     }
   ]
 }
 
 ```
-**Condition** : A report with the provided id doesn't exist in the database.
+**Condition** : A managed report with the provided id doesn't exist.
 
-**Code** : `404 Not Found`
+**Code** : `422 Not Found`
 
 **Content** :
 
@@ -72,9 +72,9 @@ present so in that case the report data is available in the response.
 {
   "errors": [
     {
-      "code": 404,
-      "resource": "/api/v2/reports/10",
-      "message": "Not Found"
+      "code": 422,
+      "resource": "/api/v2/managed_reports/10",
+      "message": ""message": "Errors::InvalidPrimeroEntityType""
     }
   ]
 }

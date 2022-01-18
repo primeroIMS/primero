@@ -3,14 +3,14 @@
 # Describes ViolationReport in Primero.
 class ManagedReports::ViolationsReport < ManagedReport
   def id
-    'violations_report'
+    'violations'
   end
 
   def properties
     {
       id: id,
-      name: 'violation_report.name',
-      description: 'violation_report.description',
+      name: 'managed_reports.violations.name',
+      description: 'managed_reports.violations.description',
       module_id: PrimeroModule::MRM
     }
   end

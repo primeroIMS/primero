@@ -25,9 +25,9 @@ therefore the report data is not available in the response.
 {
     "data": [
         {
-            "id": "violations_report",
-            "name": "violation_report.name",
-            "description": "violation_report.description",
+            "id": "violations",
+            "name": "managed_reports.violations.name",
+            "description": "managed_reports.violations.description",
             "module_id": "primeromodule-mrm",
             "subreports": [
               "killing",
