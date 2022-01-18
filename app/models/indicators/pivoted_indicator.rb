@@ -36,6 +36,10 @@ module Indicators
       facet_pivot = name_map.keys.join(',')
       rows = sunspot_search.facet_response['facet_pivot'][facet_pivot]
       rows = user_scoped_rows(rows, user, managed_user_names)
+      row_stats(rows, owner, user, name_map)
+    end
+
+    def row_stats(rows, owner, user, name_map)
       rows.each_with_object({}) do |row, stats|
         stats[row['value']] = row['pivot'].map do |pivot|
           stat = {
@@ -54,10 +58,7 @@ module Indicators
         transferred_query_string(user) +
         transferred_groups_query_string(user) +
         owned_by_groups_query_string(user) +
-        not_last_updated_query_string(user) + [
-          "#{name_map[row['field']]}=#{row['value']}",
-          "#{name_map[pivot['field']]}=#{pivot['value']}"
-        ]
+        not_last_updated_query_string(user) + name_map_row_pivot(name_map, row, pivot)
     end
 
     private
@@ -66,6 +67,10 @@ module Indicators
       pivots.map do |pivot|
         [SolrUtils.indexed_field_name(record_model, pivot), pivot]
       end.to_h
+    end
+
+    def name_map_row_pivot(name_map, row, pivot)
+      ["#{name_map[row['field']]}=#{row['value']}", "#{name_map[pivot['field']]}=#{pivot['value']}"]
     end
   end
 end
