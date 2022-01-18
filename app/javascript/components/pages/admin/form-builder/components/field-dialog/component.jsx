@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
-import PropTypes, { object } from "prop-types";
+import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
 import { useForm, useWatch } from "react-hook-form";
 import Add from "@material-ui/icons/Add";
@@ -9,7 +9,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
-import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { SELECT_FIELD, submitHandler, TALLY_FIELD, whichFormMode } from "../../../../../form";
@@ -39,7 +38,8 @@ import { useApp } from "../../../../../application";
 import css from "./styles.css";
 import {
   getFormField,
-  getSubformValues,
+  getUpdatedOptionStringsText,
+  getUpdatedSubform,
   isSubformField,
   setInitialForms,
   setSubformData,
@@ -50,8 +50,7 @@ import {
   generateUniqueId,
   mergeTranslationKeys
 } from "./utils";
-import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, LOCALIZABLE_OPTIONS_FIELD_NAME, RESET_OPTIONS } from "./constants";
-import { reduceMapToObject } from "../field-translations-dialog/utils";
+import { NAME, ADMIN_FIELDS_DIALOG, FIELD_FORM, RESET_OPTIONS } from "./constants";
 
 const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const formMode = whichFormMode(mode);
@@ -326,42 +325,10 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
     ) : null;
   };
 
-  const getUpdatedSubform = () => {
-    if (!isSubformField(selectedField)) {
-      return {};
-    }
-
-    const subform = selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
-    const updatedSubformSection = getValues()?.subform_section;
-
-    if (updatedSubformSection) {
-      return {
-        ...subform,
-        subform_section: mergeTranslationKeys(subform.subform_section, updatedSubformSection, true)
-      };
-    }
-
-    return subform;
-  };
-
-  const getUpdatedOptionStringsText = (fieldData, optionStringsText) => {
-    if (selectedField.get("type") !== SELECT_FIELD || !fieldData.option_strings_text) {
-      return [];
-    }
-
-    return fieldData.option_strings_text.map(option => {
-      if (!isEmpty(optionStringsText)) {
-        return { ...option, disabled: !optionStringsText.find(({ id }) => option.id === id)?.disabled };
-      }
-
-      return option;
-    });
-  };
-
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
-      const subform = getUpdatedSubform();
+      const subform = getUpdatedSubform(selectedField, selectedSubform, getValues());
       const plainSelectedField = selectedField.toJS();
 
       const { disabled, hide_on_view_page, option_strings_text, tally } = plainSelectedField;
@@ -371,7 +338,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
 
       const fieldData = transformValues(data);
 
-      const optionStringsText = getUpdatedOptionStringsText(fieldData, option_strings_text);
+      const optionStringsText = getUpdatedOptionStringsText(selectedField, fieldData, option_strings_text);
 
       reset(
         {
