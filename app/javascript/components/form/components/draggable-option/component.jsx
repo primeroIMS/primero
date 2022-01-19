@@ -26,7 +26,7 @@ const Component = ({
   showDefaultAction,
   showDeleteAction,
   showDisableOption,
-  isTallyField
+  optionFieldName
 }) => {
   const {
     errors,
@@ -34,15 +34,14 @@ const Component = ({
     formState: { isDirty },
     control
   } = formMethods;
-  const optionField = isTallyField ? "tally" : "option_strings_text";
-  const displayTextFieldName = `${name}.${optionField}[${index}].display_text.en`;
-  const idFieldName = `${name}.${optionField}[${index}].id`;
+  const displayTextFieldName = `${name}.${optionFieldName}[${index}].display_text.en`;
+  const idFieldName = `${name}.${optionFieldName}[${index}].id`;
   const selectedValueFieldName = `${name}.selected_value`;
 
-  const optionId = useWatch({ control, name: `${name}.${optionField}[${index}].id`, defaultValue: option.id });
+  const optionId = useWatch({ control, name: `${name}.${optionFieldName}[${index}].id`, defaultValue: option.id });
   const disabledValue = useWatch({
     control,
-    name: `${name}.${optionField}[${index}].disabled`,
+    name: `${name}.${optionFieldName}[${index}].disabled`,
     defaultValue: option?.disabled
   });
   const selectedValue = useWatch({ control, name: `${name}.selected_value`, defaultValue: defaultOptionId });
@@ -153,6 +152,7 @@ const Component = ({
 
 Component.defaultProps = {
   disabled: false,
+  optionFieldName: "option_strings_text",
   showDefaultAction: true,
   showDeleteAction: true,
   showDisableOption: true
@@ -164,10 +164,10 @@ Component.propTypes = {
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.object.isRequired,
   index: PropTypes.number,
-  isTallyField: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onRemoveClick: PropTypes.func,
   option: PropTypes.object,
+  optionFieldName: PropTypes.string,
   showDefaultAction: PropTypes.bool,
   showDeleteAction: PropTypes.bool,
   showDisableOption: PropTypes.bool

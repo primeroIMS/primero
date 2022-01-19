@@ -99,7 +99,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    isTallyField
+    optionFieldName
   } = field;
 
   const i18n = useI18n();
@@ -190,7 +190,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    isTallyField
+    optionFieldName
   };
 
   const Field = (fieldType => {

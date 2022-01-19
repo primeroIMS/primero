@@ -29,7 +29,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    isTallyField
+    optionFieldName
   } = metaInputProps;
   const fieldName = name.split(".")[0];
   const { control, setValue } = formMethods;
@@ -60,7 +60,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
     fields.map((option, index) => (
       <DraggableOption
         defaultOptionId={watchSelectedValue}
-        isTallyField={isTallyField}
+        optionFieldName={optionFieldName || "option_strings_text"}
         name={fieldName}
         option={option}
         index={index}

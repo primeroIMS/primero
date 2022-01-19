@@ -84,7 +84,7 @@ export const FieldRecord = Record({
   showDeleteAction: true,
   showDisableOption: true,
   maxOptionsAllowed: null,
-  isTallyField: false
+  optionFieldName: null
 });
 
 export const FormSectionRecord = Record({

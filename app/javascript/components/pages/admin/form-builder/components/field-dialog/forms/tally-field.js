@@ -40,7 +40,7 @@ export const tallyFieldForm = ({ field, formMode, i18n, isNested, onManageTransl
           showDefaultAction: false,
           showDisableOption: false,
           maxOptionsAllowed: 5,
-          isTallyField: true
+          optionFieldName: "tally"
         })
       ]
     });
