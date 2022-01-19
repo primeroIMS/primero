@@ -32,6 +32,9 @@ import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form/container";
 import RecordList from "../components/record-list";
+import ManagedReportsList from "../components/managed-reports-list";
+import ManagedReport from "../components/managed-report";
+import ManagedReportSubReport from "../components/managed-report-sub-report";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
 import CodeOfConduct from "../components/code-of-conduct";
@@ -165,6 +168,33 @@ export default [
         component: Reports,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
+      },
+      {
+        path: ROUTES.managed_reports, // TODO: CHANGE PERMISSION CONSTANTS
+        component: ManagedReportsList,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS
+      },
+      {
+        path: `${ROUTES.managed_reports}/:id(\\d+)`,
+        component: ManagedReport,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS,
+        exact: false,
+        extraProps: {
+          mode: MODES.show,
+          routes: [
+            {
+              path: `${ROUTES.managed_reports}/:id/:sub_report`,
+              component: ManagedReportSubReport,
+              resources: RESOURCES.reports,
+              actions: READ_REPORTS,
+              extraProps: {
+                mode: MODES.show
+              }
+            }
+          ]
+        }
       },
       {
         path: ROUTES.matches,

@@ -171,6 +171,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  managed_reports: "/managed-reports",
   key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
@@ -376,6 +377,15 @@ export const APPLICATION_NAV = (permissions, userId) => {
     //   actions: READ_RECORDS,
     //   disableOffline: true
     // },
+    {
+      name: "navigation.managed_reports",
+      to: ROUTES.managed_reports,
+      icon: "reports",
+      resources: RESOURCES.reports,
+      actions: READ_REPORTS,
+      disableOffline: true,
+      validateWithUserPermissions: true
+    },
     {
       name: "navigation.reports",
       to: ROUTES.reports,

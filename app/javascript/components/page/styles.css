@@ -76,6 +76,25 @@
   align-items: center;
 }
 
+.hasNav {
+  flex: 1;
+  overflow-y: scroll;
+  display: flex;
+  padding: 0;
+  
+  & > div:first-of-type {
+    padding: 0 0.5em;
+    overflow-y: scroll;
+    width: 280px;
+  }
+
+  & > div:last-of-type {
+    padding: var(--sp-2);
+    width: 100%;
+  }
+}
+
+
 @media (max-width:959.95px) {
   .root, .twoCol {
     padding-top: 4em;

@@ -1,0 +1,72 @@
+{
+  "projectName": "EcrBuildProject",
+  "secondarySourcesOverride": [
+      {
+          "type": "BITBUCKET",
+          "location": "https://bitbucket.org/quoin/primero-devops.git",
+          "gitCloneDepth": 1,
+          "reportBuildStatus": true,
+          "insecureSsl": false,
+          "sourceIdentifier": "devops"
+      }
+  ],
+  "secondarySourcesVersionOverride": [
+      {
+          "sourceIdentifier": "devops",
+          "sourceVersion": "master"
+      }
+  ],
+  "sourceVersion": "develop",
+  "environmentVariablesOverride": [
+  {
+          "name": "LOGS_PREFIX",
+          "value": "ecr-build-project",
+          "type": "PLAINTEXT"
+      },
+      {
+          "name": "CONTAINER_REGISTRY",
+          "value": "622230419015.dkr.ecr.us-east-1.amazonaws.com",
+          "type": "PLAINTEXT"
+      },
+      {
+          "name": "URL_SLACK_CHANNEL",
+          "value": "https://hooks.slack.com/services/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",
+          "type": "PLAINTEXT"
+      },
+      {
+          "name": "BUCKET_NAME",
+          "value": "primero-cicd",
+          "type": "PLAINTEXT"
+      },
+  {
+          "name": "WEBHOOK",
+          "value": "false",
+          "type": "PLAINTEXT"
+      },
+      {
+          "name": "BRANCH",
+          "value": "develop",
+          "type": "PLAINTEXT"
+      }
+  ],
+  "sourceTypeOverride": "BITBUCKET",
+  "sourceLocationOverride": "https://bitbucket.org/quoin/primero.git",
+  "gitCloneDepthOverride": 1,
+  "buildspecOverride": "buildspec.yml",
+  "insecureSslOverride": false,
+  "reportBuildStatusOverride": true,
+  "environmentTypeOverride": "LINUX_CONTAINER",
+  "imageOverride": "622230419015.dkr.ecr.us-east-1.amazonaws.com/codebuild-custom:5.0-primero",
+  "computeTypeOverride": "BUILD_GENERAL1_SMALL",
+  "serviceRoleOverride": "arn:aws:iam::622230419015:role/primero-cicd-build-EcrBuildProjectRoleDADFE4CA-1WLOKMBFLTQUB",
+  "privilegedModeOverride": true,
+  "timeoutInMinutesOverride": 60,
+  "queuedTimeoutInMinutesOverride": 480,
+  "logsConfigOverride": {
+      "s3Logs": {
+          "status": "ENABLED",
+          "location": "primero-cicd/ecr-build-project",
+          "encryptionDisabled": true
+      }
+  }
+}
