@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    clean_data(Role, PrimeroModule)
+    clean_data(Role, PrimeroModule, PrimeroProgram)
   end
 
   describe 'Validations' do
@@ -819,7 +819,7 @@ describe Role do
     end
 
     it 'should return managed_reports' do
-      expect(subject.managed_reports.first).to be_an_instance_of(ManagedReports::ViolationsReport)
+      expect(subject.managed_reports.first).to be_an_instance_of(ManagedReports::Violations)
     end
   end
 end

@@ -152,7 +152,7 @@ class Permission < ValueObject
   CODE_OF_CONDUCT = 'code_of_conduct'
   ACTIVITY_LOG = 'activity_log'
   LIST_CASE_NAMES = 'list_case_names'
-  VIOLATION_REPORT = 'violations_report'
+  VIOLATION_REPORT = 'violations'
 
   RESOURCE_ACTIONS = {
     CASE => [

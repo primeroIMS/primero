@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Describes ViolationReport in Primero.
-class ManagedReports::ViolationsReport < ManagedReport
+class ManagedReports::Violations < ManagedReport
   def id
     'violations'
   end

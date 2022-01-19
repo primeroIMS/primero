@@ -36,17 +36,17 @@ describe Api::V2::ManagedReportsController, type: :request do
         ]
       )
 
-      get '/api/v2/managed_reports/violations_report'
+      get '/api/v2/managed_reports/violations'
 
       expect(response).to have_http_status(200)
-      expect(json['data']['id']).to eq('violations_report')
+      expect(json['data']['id']).to eq('violations')
       expect(json['data'].keys).to match_array(%w[id name description module_id subreports])
     end
 
     it 'refuses unauthorized access' do
       login_for_test(permissions: [])
 
-      get '/api/v2/managed_reports/violations_report'
+      get '/api/v2/managed_reports/violations'
 
       expect(response).to have_http_status(403)
     end
