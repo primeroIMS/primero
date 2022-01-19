@@ -44,6 +44,6 @@ export const isEmptyOrAllDestroyed = values => {
   return (
     Object.values(values).every(value => {
       return isEmpty(value);
-    }) || values._destroy
+    }) || !!values._destroy
   );
 };
