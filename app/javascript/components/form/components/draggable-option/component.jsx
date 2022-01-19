@@ -152,7 +152,10 @@ const Component = ({
 };
 
 Component.defaultProps = {
-  disabled: false
+  disabled: false,
+  showDefaultAction: true,
+  showDeleteAction: true,
+  showDisableOption: true
 };
 
 Component.propTypes = {
