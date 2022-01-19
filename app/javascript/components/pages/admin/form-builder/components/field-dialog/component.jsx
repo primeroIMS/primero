@@ -11,7 +11,7 @@ import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
-import { SELECT_FIELD, submitHandler, TALLY_FIELD, whichFormMode } from "../../../../../form";
+import { SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
@@ -37,8 +37,8 @@ import { useApp } from "../../../../../application";
 
 import css from "./styles.css";
 import {
+  disableOptionStringsText,
   getFormField,
-  getUpdatedOptionStringsText,
   getUpdatedSubform,
   isSubformField,
   setInitialForms,
@@ -331,21 +331,20 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
       const subform = getUpdatedSubform(selectedField, selectedSubform, getValues());
       const plainSelectedField = selectedField.toJS();
 
-      const { disabled, hide_on_view_page, option_strings_text, tally } = plainSelectedField;
+      const { disabled, hide_on_view_page, option_strings_text } = plainSelectedField;
       const selectedFormField = { ...plainSelectedField, disabled: !disabled, hide_on_view_page: !hide_on_view_page };
 
       const data = mergeTranslationKeys(selectedFormField, currFormValues);
 
       const fieldData = transformValues(data);
 
-      const optionStringsText = getUpdatedOptionStringsText(selectedField, fieldData, option_strings_text);
+      const optionStringsText = disableOptionStringsText(selectedField, fieldData, option_strings_text);
 
       reset(
         {
           [selectedFieldName]: {
             ...fieldData,
-            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {}),
-            ...(selectedField.get("type") === TALLY_FIELD ? { tally } : {})
+            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {})
           },
           ...subform
         },
