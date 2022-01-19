@@ -6,12 +6,16 @@ describe("Verifying utils", () => {
   it("should have known utils", () => {
     const clonedHelpers = { ...helpers };
 
-    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender", "valuesWithHiddenAttribute"].forEach(
-      property => {
-        expect(clonedHelpers).to.have.property(property);
-        delete clonedHelpers[property];
-      }
-    );
+    [
+      "isTracesSubform",
+      "valuesWithDisplayConditions",
+      "fieldsToRender",
+      "valuesWithHiddenAttribute",
+      "isEmptyOrAllDestroyed"
+    ].forEach(property => {
+      expect(clonedHelpers).to.have.property(property);
+      delete clonedHelpers[property];
+    });
 
     expect(clonedHelpers).to.deep.equal({});
   });
