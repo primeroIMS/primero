@@ -60,6 +60,7 @@
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
     PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
+    PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
   when: primero_configuration_path is defined
   tags:
   - 'never'
@@ -73,6 +74,7 @@
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
     PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
+    PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
   when: primero_configuration_path is not defined
   tags:
   - 'never'
@@ -83,6 +85,10 @@
     ./compose.prod.sh pull
   args:
     chdir: '/srv/primero/docker'
+  environment:
+    PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
+    PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
+    PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
   when: always_pull is defined
   tags:
   - 'never'
@@ -96,6 +102,7 @@
   environment:
     PRIMERO_TAG: '{{ primero_tag|default("latest") }}'
     PRIMERO_IMAGE_REPOSITORY: '{{ primero_image_repositroy|default("primeroims") }}'
+    PRIMERO_DEPLOY_NODB: '{{ primero_deploy_nodb|default("false") }}'
   tags:
   - 'never'
   - 'start'

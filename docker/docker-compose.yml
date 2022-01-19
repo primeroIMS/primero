@@ -1,12 +1,6 @@
 ---
 version: '3'
 services:
-  postgres:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/postgres:${PRIMERO_TAG:-latest}'
-    volumes:
-      - database:/var/lib/postgresql/data
-    env_file:
-      - docker/defaults.env
   solr:
     image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/solr:${PRIMERO_TAG:-latest}'
     env_file:
