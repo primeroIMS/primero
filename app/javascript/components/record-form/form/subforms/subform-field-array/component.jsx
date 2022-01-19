@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getIn } from "formik";
-import isEmpty from "lodash/isEmpty";
 import clsx from "clsx";
 import { List } from "@material-ui/core";
 
@@ -15,7 +14,7 @@ import css from "../styles.css";
 import { isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
 
-import { isTracesSubform } from "./utils";
+import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
 const Component = ({
   arrayHelpers,
@@ -71,7 +70,7 @@ const Component = ({
   }, [index]);
 
   const renderEmptyData =
-    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
+    orderedValues?.filter(currValue => isEmptyOrAllDestroyed(currValue))?.length === orderedValues?.length ? (
       <SubformEmptyData i18n={i18n} subformName={title} />
     ) : (
       <List dense={renderAsAccordion} classes={{ root: css.list }} disablePadding>

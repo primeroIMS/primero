@@ -154,6 +154,16 @@ describe("isTracesSubform", () => {
   });
 });
 
+describe("isEmptyOrAllDestroyed", () => {
+  it("should return true all removed or destroyed", () => {
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }])).to.be.true;
+  });
+
+  it("should return false subforms", () => {
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }, { id: "SUBFORM_1" }])).to.be.false;
+  });
+});
+
 describe("valuesWithHiddenAttribute", () => {
   it("should return values with _hidden attributes if displayConditions is present", () => {
     const values = [
