@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../../../../i18n";
-import { FieldRecord, FormSectionField, TEXT_FIELD } from "../../../../../../../form";
+import { FieldRecord, FormSectionField, TALLY_FIELD, TEXT_FIELD } from "../../../../../../../form";
 import { LOCALE_KEYS } from "../../../../../../../../config";
 import css from "../../../styles.css";
 import { LOCALIZABLE_OPTIONS_FIELD_NAME } from "../../../field-dialog/constants";
@@ -63,10 +63,12 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
         .map(localeId => renderLocalizedOption(localeId, index, option, localeId !== selectedLocaleId))
     );
 
+  const formTitle = i18n.t(field.get("type") === TALLY_FIELD ? "fields.tally_items" : "fields.option_strings_text");
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} md={12}>
-        <h1>{i18n.t("fields.option_strings_text")}</h1>
+        <h1>{formTitle}</h1>
       </Grid>
       <Grid item xs={12} md={6}>
         <h1 className={css.translationHeader}>{i18n.t("fields.english_text")}</h1>

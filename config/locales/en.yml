@@ -1182,6 +1182,8 @@ en:
     subform_sort_by: Sort by
     successfully_added: Field successfully added
     tally_field: Tally Field
+    tally_items: Tally Items
+    tally_items_maximum: (5 Maximum)
     text_area: Text Area
     text_field: Text Field
     textarea: Text Area
