@@ -34,16 +34,7 @@ class FormSectionResponse < ValueObject
     # ------------------
     # ''    | false
     # ------------------
-    mandatory_fields.all? do |f|
-      case field(f.name)
-      when nil
-        false
-      when ''
-        false
-      else
-        true
-      end
-    end
+    mandatory_fields.all? { |f| field(f.name).nil? || field(f.name) == '' ? false : true }
   end
 
   def field(name)

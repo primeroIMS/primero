@@ -24,7 +24,6 @@ export default locale =>
       name: {
         [locale]: "cases.summary.label"
       },
-      visible: true,
       is_first_tab: false,
       order: 9,
       order_form_group: 130,

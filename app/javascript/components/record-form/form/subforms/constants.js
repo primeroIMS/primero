@@ -7,3 +7,4 @@ export const SUBFORM_FIELD = "SubformField";
 export const SUBFORM_FIELDS = "SubformFields";
 export const SUBFORM_FIELD_ARRAY = "SubformFieldArray";
 export const SUBFORM_DIALOG = "SubformDialog";
+export const SUBFORM_FIELD_SUBFORM = "SubformFieldSubform";

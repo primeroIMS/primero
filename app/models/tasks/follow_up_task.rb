@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Tasks
   # Class for Follow Up Task
   class FollowUpTask < Task
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :followup
 
     def self.from_case(record)

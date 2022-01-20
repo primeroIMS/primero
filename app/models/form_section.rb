@@ -8,6 +8,8 @@ class FormSection < ApplicationRecord
 
   RECORD_TYPES = %w[case incident tracing_request].freeze
 
+  SYSTEM_FORMS = %w[approvals incident_from_case transfers_assignments referral change_logs].freeze
+
   FORM_SECTION_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
     'name' => { 'type' => 'object' }, 'help_text' => { 'type' => 'object' },
@@ -125,10 +127,11 @@ class FormSection < ApplicationRecord
     return fields << field unless field.order
 
     field.form_section = self
-    fields_to_reorder = fields.where(order: field.order..)
-
     Field.transaction do
-      fields_to_reorder.each { |f| f.order += 1; f.save! }
+      fields.where(order: field.order..).each do |f|
+        f.order += 1
+        f.save!
+      end
       field.save!
     end
   end

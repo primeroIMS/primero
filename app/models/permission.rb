@@ -204,8 +204,9 @@ class Permission < ValueObject
     KPI => [
       READ, KPI_ASSESSMENT_STATUS, KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
       KPI_AVERAGE_REFERRALS, KPI_CASE_CLOSURE_RATE, KPI_CASE_LOAD, KPI_CLIENT_SATISFACTION_RATE,
-      KPI_COMPLETED_CASE_ACTION_PLANS, KPI_COMPLETED_CASE_SAFETY_PLANS, KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
-      KPI_NUMBER_OF_CASES, KPI_NUMBER_OF_INCIDENTS, KPI_REPORTING_DELAY, KPI_SERVICES_PROVIDED,
+      KPI_COMPLETED_CASE_ACTION_PLANS, KPI_COMPLETED_CASE_SAFETY_PLANS,
+      KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS, KPI_NUMBER_OF_CASES,
+      KPI_NUMBER_OF_INCIDENTS, KPI_REPORTING_DELAY, KPI_SERVICES_PROVIDED,
       KPI_SUPERVISOR_TO_CASEWORKER_RATIO, KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
     ],
     CODE_OF_CONDUCT => [MANAGE],
@@ -289,17 +290,32 @@ class Permission < ValueObject
     actions.map(&:to_sym)
   end
 
+  # Class for Permission Serializer
   class PermissionSerializer
     def self.dump(permissions)
       object_hash = {}
-      json_hash = permissions.inject({}) do |hash, permission|
+      json_hash = permissions.each_with_object({}) do |permission, hash|
         hash[permission.resource] = permission.actions
         object_hash[Permission::AGENCY] = permission.agency_unique_ids if permission.agency_unique_ids
         object_hash[Permission::ROLE] = permission.role_unique_ids if permission.role_unique_ids
-        hash
       end
       json_hash['objects'] = object_hash
       json_hash
+    end
+
+    def self.load_permission(object_hash, resource, actions)
+      permission = Permission.new(resource: resource, actions: actions)
+      return permission unless object_hash.present?
+
+      if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
+        permission.role_unique_ids = object_hash[Permission::ROLE]
+      end
+
+      if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
+        permission.agency_unique_ids = object_hash[Permission::AGENCY]
+      end
+
+      permission
     end
 
     def self.load(json_hash)
@@ -307,16 +323,7 @@ class Permission < ValueObject
 
       object_hash = json_hash.delete('objects')
       json_hash.map do |resource, actions|
-        permission = Permission.new(resource: resource, actions: actions)
-        if object_hash.present?
-          if resource == Permission::ROLE && object_hash.key?(Permission::ROLE)
-            permission.role_unique_ids = object_hash[Permission::ROLE]
-          end
-          if resource == Permission::AGENCY && object_hash.key?(Permission::AGENCY)
-            permission.agency_unique_ids = object_hash[Permission::AGENCY]
-          end
-        end
-        permission
+        load_permission(object_hash, resource, actions)
       end
     end
   end

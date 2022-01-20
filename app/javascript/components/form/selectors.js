@@ -241,7 +241,10 @@ const lookupValues = createCachedSelector(
         {
           id: current.get("id"),
           display_text: displayNameHelper(current.get("display_text"), locale),
-          disabled: current.get("disabled", false)
+          disabled: current.get("disabled", false),
+          ...(current.get("tags")?.size
+            ? { tags: current.get("tags").reduce((acc, elem) => acc.concat(elem), []) }
+            : {})
         }
       ],
       []

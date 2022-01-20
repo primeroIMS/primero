@@ -4,6 +4,7 @@ import { useI18n } from "../../../i18n";
 import { TALLY_FIELD_CONTAINER_NAME } from "../constants";
 import { displayNameHelper } from "../../../../libs";
 import { NUMERIC_FIELD } from "../../constants";
+import css from "../styles.css";
 
 import TextField from "./text-field";
 
@@ -25,6 +26,13 @@ const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
     variant: "outlined",
     autoComplete: "off",
     fullWidth: false,
+    inputProps: { min: 0 },
+    InputLabelProps: {
+      shrink: true,
+      classes: {
+        root: css.tallyInputLabel
+      }
+    },
     ...rest
   };
 

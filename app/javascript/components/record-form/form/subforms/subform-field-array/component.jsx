@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import AddIcon from "@material-ui/icons/Add";
 import { getIn } from "formik";
-import isEmpty from "lodash/isEmpty";
+import clsx from "clsx";
+import { List } from "@material-ui/core";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
 import SubformItem from "../subform-item";
+import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
-import { useThemeHelper } from "../../../../../libs";
 import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
-import ActionButton from "../../../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
 
-import { isTracesSubform } from "./utils";
+import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
 const Component = ({
   arrayHelpers,
@@ -29,7 +27,11 @@ const Component = ({
   recordType,
   form,
   isReadWriteForm,
-  forms
+  forms,
+  parentTitle,
+  parentValues,
+  violationOptions,
+  renderAsAccordion = false
 }) => {
   const {
     display_name: displayName,
@@ -46,16 +48,9 @@ const Component = ({
   const [openDialog, setOpenDialog] = useState({ open: false, index: null });
   const [dialogIsNew, setDialogIsNew] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
-  const { mobileDisplay } = useThemeHelper();
 
-  const handleAddSubform = e => {
-    e.stopPropagation();
-    setDialogIsNew(true);
-    setOpenDialog({ open: true, index: null });
-  };
   const { open, index } = openDialog;
   const title = displayName?.[i18n.locale];
-  const renderAddText = !mobileDisplay ? i18n.t("fields.add") : null;
 
   const isTraces = isTracesSubform(recordType, formSection);
 
@@ -63,16 +58,21 @@ const Component = ({
   const isViolationAssociation = VIOLATIONS_ASSOCIATIONS_FORM.includes(formSection.unique_id);
   const renderAddFieldTitle = !isViolation && !mode.isShow && !displayConditions && i18n.t("fields.add");
 
+  const cssContainer = clsx(css.subformFieldArrayContainer, {
+    [css.subformFieldArrayAccordion]: renderAsAccordion && mode.isShow,
+    [css.subformFieldArrayShow]: renderAsAccordion && !mode.isShow
+  });
+
   useEffect(() => {
     if (typeof index === "number") {
       setSelectedValue(orderedValues[index]);
     }
   }, [index]);
 
-  const renderEmptyData =
-    orderedValues?.filter(currValue => Object.values(currValue).every(isEmpty))?.length === orderedValues?.length ? (
-      <SubformEmptyData i18n={i18n} subformName={title} />
-    ) : (
+  const renderEmptyData = isEmptyOrAllDestroyed(orderedValues) ? (
+    <SubformEmptyData i18n={i18n} subformName={title} />
+  ) : (
+    <List dense={renderAsAccordion} classes={{ root: css.list }} disablePadding>
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
@@ -85,10 +85,12 @@ const Component = ({
         recordType={recordType}
         isTracesSubform={isTraces}
         isViolationSubform={isViolation}
+        isViolationAssociation={isViolationAssociation}
         formik={formik}
         parentForm={form}
       />
-    );
+    </List>
+  );
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
     <div className={css.subformGuidance}>
@@ -97,27 +99,29 @@ const Component = ({
   );
 
   return (
-    <>
-      <div className={css.subformFieldArrayContainer}>
-        <div>
-          <h3 className={css.subformTitle}>
-            {renderAddFieldTitle} {title}
-          </h3>
-        </div>
-        <div>
-          {!mode.isShow && !isDisabled && isReadWriteForm && !isViolationAssociation && (
-            <ActionButton
-              id="fields.add"
-              icon={<AddIcon />}
-              text={renderAddText}
-              type={ACTION_BUTTON_TYPES.default}
-              noTranslate
-              rest={{
-                onClick: handleAddSubform
-              }}
-            />
-          )}
-        </div>
+    <div className={css.fieldArray}>
+      <div className={cssContainer}>
+        {!renderAsAccordion && (
+          <div>
+            <h3 className={css.subformTitle}>
+              {renderAddFieldTitle} {title} {parentTitle}
+            </h3>
+          </div>
+        )}
+        <SubformAddEntry
+          field={field}
+          formik={formik}
+          mode={mode}
+          formSection={formSection}
+          isReadWriteForm={isReadWriteForm}
+          isDisabled={isDisabled}
+          setOpenDialog={setOpenDialog}
+          setDialogIsNew={setDialogIsNew}
+          isViolationAssociation={isViolationAssociation}
+          parentTitle={parentTitle}
+          parentValues={parentValues}
+          arrayHelpers={arrayHelpers}
+        />
       </div>
       {renderGuidingQuestions}
       {renderEmptyData}
@@ -133,6 +137,7 @@ const Component = ({
         isTraces={isTraces}
         isReadWriteForm={isReadWriteForm}
         isViolation={isViolation}
+        isViolationAssociation={isViolationAssociation}
         mode={mode}
         selectedValue={selectedValue}
         open={open}
@@ -141,8 +146,10 @@ const Component = ({
         recordType={recordType}
         setOpen={setOpenDialog}
         title={title}
+        parentTitle={parentTitle}
+        violationOptions={violationOptions}
       />
-    </>
+    </div>
   );
 };
 
@@ -158,8 +165,12 @@ Component.propTypes = {
   i18n: PropTypes.object.isRequired,
   isReadWriteForm: PropTypes.bool,
   mode: PropTypes.object.isRequired,
+  parentTitle: PropTypes.string,
+  parentValues: PropTypes.object,
   recordModuleID: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  renderAsAccordion: PropTypes.bool,
+  violationOptions: PropTypes.array
 };
 
 export default Component;

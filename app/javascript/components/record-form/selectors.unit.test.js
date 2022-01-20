@@ -472,6 +472,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            option_strings_condition: null,
             order: null,
             required: true,
             selected_value: null,
@@ -485,7 +486,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
-            tally: {}
+            tally: {},
+            collapse: null
           }
         ],
         is_nested: null
@@ -548,6 +550,7 @@ describe("<RecordForm /> - Selectors", () => {
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
+            option_strings_condition: null,
             order: null,
             required: true,
             selected_value: null,
@@ -561,7 +564,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
-            tally: {}
+            tally: {},
+            collapse: null
           }
         ],
         is_nested: null
@@ -640,6 +644,85 @@ describe("<RecordForm /> - Selectors", () => {
       );
 
       expect(record).to.be.equal(expected);
+    });
+
+    context("when the summary form exist", () => {
+      const formSectionsWithSummary = {
+        1: {
+          id: 1,
+          unique_id: "test_form",
+          name: {
+            en: "Test Form"
+          },
+          visible: true,
+          is_first_tab: true,
+          order: 10,
+          order_form_group: 30,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "test_group",
+          form_group_name: {
+            en: "Test Group"
+          },
+          forms: [],
+          is_nested: null
+        },
+        2: {
+          id: 2,
+          unique_id: "summary",
+          name: {
+            en: "Summary"
+          },
+          visible: true,
+          is_first_tab: false,
+          order: 10,
+          order_form_group: 30,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "tracing",
+          form_group_name: {
+            en: "Tracing"
+          },
+          is_nested: null
+        }
+      };
+      const stateWithUserPermission = fromJS({
+        forms: {
+          formSections: mapEntriesToRecord(formSectionsWithSummary, R.FormSectionRecord)
+        }
+      });
+
+      it("should return summary if the user has the permission", () => {
+        const record = selectors.getFormNav(
+          stateWithUserPermission.set(
+            "user",
+            fromJS({
+              permissions: {
+                cases: [ACTIONS.FIND_TRACING_MATCH]
+              }
+            })
+          ),
+          {
+            primeroModule: "primeromodule-cp",
+            recordType: "case",
+            checkPermittedForms: true
+          }
+        );
+
+        expect(record).to.have.property("tracing");
+      });
+
+      it("should NOT return summary if the user has not the permission", () => {
+        const record = selectors.getFormNav(stateWithUserPermission, {
+          primeroModule: "primeromodule-cp",
+          recordType: "case",
+          checkPermittedForms: true
+        });
+
+        expect(record).to.not.have.property("tracing");
+      });
     });
   });
 

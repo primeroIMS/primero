@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Case Class for Indicators
   class Case
+    # rubocop:enable Style/ClassAndModuleChildren
     OPEN_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
@@ -82,7 +85,7 @@ module Indicators
           SearchFilters::Value.new(field_name: 'not_edited_by_owner', value: true)
         ]
       )
-    ]
+    ].freeze
 
     RISK = FacetedIndicator.new(
       name: 'risk_level',

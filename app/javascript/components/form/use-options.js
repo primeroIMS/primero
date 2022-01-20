@@ -3,13 +3,15 @@ import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../libs";
 import { useI18n } from "../i18n";
+import { VIOLATION_GROUP } from "../../config";
 
 import { getOptions } from "./selectors";
 import transformOptions from "./utils/transform-options";
+import filterTaggedOptions from "./utils/filter-tagged-options";
 
 const useOptions = (config = {}) => {
   const { source, run = true } = config;
-  const { defaultReturn, filterOptions, options, rawOptions, ...selectorConfig } = config;
+  const { defaultReturn, filterOptions, options, rawOptions, tags, ...selectorConfig } = config;
   const defaultReturnValue = defaultReturn || [];
 
   const { locale, localizeDate } = useI18n();
@@ -18,11 +20,15 @@ const useOptions = (config = {}) => {
     if (source && run) {
       const selector = getOptions(source);
 
-      return selector(state, { ...selectorConfig, locale, localizeDate });
+      return filterTaggedOptions(selector(state, { ...selectorConfig, locale, localizeDate }), tags);
     }
 
     return defaultReturnValue;
   });
+
+  if (source === VIOLATION_GROUP) {
+    return options || [];
+  }
 
   if (source) {
     return filterOptions ? filterOptions(optionsFromState) : optionsFromState;

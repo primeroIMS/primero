@@ -56,7 +56,7 @@ module Historical
     self.created_by_full_name = user&.full_name
     self.created_organization = user&.organization&.unique_id
     self.created_agency_office = user&.agency_office
-    self.last_updated_at ||= self.created_at ||= DateTime.now
+    update_last_updated_at
     self.posted_at = DateTime.now
   end
 
@@ -100,9 +100,20 @@ module Historical
 
     RecordHistory.create(
       record: self, record_type: self.class.name,
-      user_name: last_updated_by, datetime: self.last_updated_at,
+      user_name: last_updated_by, datetime: last_updated_at,
       action: EVENT_UPDATE, record_changes: saved_changes_to_record
     )
+  end
+
+  def update_saved_changes(diff, saved_changes_to_record, old_values)
+    return saved_changes_to_record unless diff.present?
+
+    saved_changes_to_record = diff.map { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }.to_h
+    # mark the 'name' attribute as dirty if `hidden name` changed
+    if saved_changes_to_record.key?('hidden_name') && !saved_changes_to_record.key?('name')
+      saved_changes_to_record['name'] = [name, name]
+    end
+    saved_changes_to_record
   end
 
   def saved_changes_to_record
@@ -114,13 +125,7 @@ module Historical
     if new_values.present?
       new_values = new_values.reject { |k, _| %w[last_updated_at last_updated_by].include?(k) }
       diff = hash_diff(new_values, old_values)
-      if diff.present?
-        saved_changes_to_record = diff.map { |k, v| [k, { 'from' => old_values[k], 'to' => v }] }.to_h
-        # mark the 'name' attribute as dirty if `hidden name` changed
-        if saved_changes_to_record.key?('hidden_name') && !saved_changes_to_record.key?('name')
-          saved_changes_to_record['name'] = [name, name]
-        end
-      end
+      saved_changes_to_record = update_saved_changes(diff, saved_changes_to_record, old_values)
     end
     saved_changes_to_record
   end

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class for Saved Search
 class SavedSearch < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :primero_modules
@@ -13,8 +16,8 @@ class SavedSearch < ApplicationRecord
   end
 
   def add_filter(filter)
-    if self.filters.present?
-      self.filters << filter
+    if filters.present?
+      filters << filter
     else
       self.filters = [filter]
     end

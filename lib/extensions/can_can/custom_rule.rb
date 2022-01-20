@@ -1,7 +1,13 @@
+# frozen_string_literal: true
+
+# rubocop:disable Style/ClassAndModuleChildren
 module CanCan
+  # rubocop:enable Style/ClassAndModuleChildren
+
+  # Class has methods CustomRule
   class CustomRule < Rule
     def initialize(base_behavior, action, subject, *conditions, &block)
-      @except_actions = [ conditions.try(:delete, :except) ].flatten.compact
+      @except_actions = [conditions.try(:delete, :except)].flatten.compact
       super(base_behavior, action, subject, *conditions, &block)
     end
 

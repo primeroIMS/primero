@@ -142,8 +142,8 @@ describe Export do
       end
 
       it 'exports all visible CP forms' do
-        expected_sheets = %w[cases_test_form_3 cases_test_subform_1 cases_test_subform_3 cases_test_form_2
-                             cases_test_form_1 cases_test_subform_0 lookups]
+        expected_sheets = ['Key', 'Primero Forms', 'cases_test_form_3', 'cases_test_subform_1', 'cases_test_subform_3',
+                           'cases_test_form_2', 'cases_test_form_1', 'cases_test_subform_0', 'lookups']
         expect(@export.status).to eq(Export::SUCCESS)
         expect(@book.sheets).to match_array(expected_sheets)
       end

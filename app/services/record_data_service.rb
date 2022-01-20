@@ -16,16 +16,22 @@ class RecordDataService
 
   def data(record, user, selected_field_names)
     data = select_fields(record.data, selected_field_names)
-    data = embed_case_data(data, record, selected_field_names)
-    data = embed_user_scope(data, record, selected_field_names, user)
-    data = embed_hidden_name(data, record, selected_field_names)
-    data = embed_flag_metadata(data, record, selected_field_names)
-    data = embed_alert_metadata(data, record, selected_field_names)
+    data = embebed_data(data, record, selected_field_names, user)
     data = embed_photo_metadata(data, record, selected_field_names)
     data = embed_attachments(data, record, selected_field_names)
     data = embed_associations_as_data(data, record, selected_field_names, user)
     data['last_updated_at'] = record.last_updated_at
     embed_computed_fields(data, record, selected_field_names)
+  end
+
+  def embebed_data(data, record, selected_field_names, user)
+    data = embed_case_data(data, record, selected_field_names)
+    data = embed_incident_data(data, record, selected_field_names)
+    data = embed_user_scope(data, record, selected_field_names, user)
+    data = embed_hidden_name(data, record, selected_field_names)
+    data = embed_flag_metadata(data, record, selected_field_names)
+    data = embed_alert_metadata(data, record, selected_field_names)
+    data
   end
 
   def select_fields(data, selected_field_names)
@@ -90,6 +96,16 @@ class RecordDataService
 
     data['incident_case_id'] = record.incident_case_id if selected_field_names.include?('incident_case_id')
     data['case_id_display'] = record.case_id_display if selected_field_names.include?('case_id_display')
+    data
+  end
+
+  def embed_incident_data(data, record, selected_field_names)
+    return data unless record.class == Incident
+
+    if selected_field_names.include?('incident_date_derived')
+      data['incident_date_derived'] = record.incident_date_derived
+    end
+    data['violation_category'] = record.violation_category || [] if selected_field_names.include?('violation_category')
     data
   end
 

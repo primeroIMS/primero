@@ -5,7 +5,10 @@ require 'will_paginate'
 
 describe Incident do
   before(:all) do
-    clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field)
+    clean_data(
+      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
+      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+    )
   end
 
   describe 'save' do
@@ -111,7 +114,7 @@ describe Incident do
         }
       end
       before :each do
-        clean_data(Incident)
+        clean_data(Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim)
         incident_record = Incident.new_with_user(fake_user, incident_data)
         incident_record.save!
       end
@@ -398,7 +401,8 @@ describe Incident do
   describe '#associations_as_data' do
     let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test') }
 
-    before do
+    before(:each) do
+      clean_data(Incident, Violation, IndividualVictim)
       data = incident.data.clone
       data['recruitment'] = [
         {
@@ -487,6 +491,49 @@ describe Incident do
         }
       expect(incident.incident_code).to eq('987654')
       expect(incident.associations_as_data('user')).to eq(incident_associations_as_data)
+    end
+
+    it 'adding a violation association' do
+      data_to_update = {
+        'individual_victims' => [
+          {
+            'id_number' => '1',
+            'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'],
+            'individual_sex' => 'male',
+            'nationality' => %w[nationality1],
+            'unique_id' => '8d18d459-d75f-4a68-9862-3846b47ca3a0'
+          }
+        ]
+      }
+      incident.update_properties(fake_user, data_to_update)
+      incident.save!
+      individual_victims_result = incident.associations_as_data('user')['individual_victims']
+      individual_victims_result_unique_id = individual_victims_result.map do |individual_victim|
+        individual_victim['unique_id']
+      end
+
+      expect(individual_victims_result.count).to eq(2)
+      expect(individual_victims_result_unique_id).to match_array(
+        %w[8d18d459-d75f-4a68-9862-3846b47ca3a0 53baed05-a012-42e9-ad8d-5c5660ac5159]
+      )
+    end
+
+    it 'updating a violation association' do
+      data_to_update = {
+        'individual_victims' => [
+          {
+            'name' => 'individual2',
+            'unique_id' => '53baed05-a012-42e9-ad8d-5c5660ac5159'
+          }
+        ]
+      }
+      incident.update_properties(fake_user, data_to_update)
+      incident.save!
+      individual_victims_result = incident.associations_as_data('user')['individual_victims']
+      individual_victim = individual_victims_result.find do |data|
+        data['unique_id'] = '53baed05-a012-42e9-ad8d-5c5660ac5159'
+      end
+      expect(individual_victim['name']).to eq('individual2')
     end
   end
 

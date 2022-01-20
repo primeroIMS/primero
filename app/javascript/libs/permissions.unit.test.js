@@ -71,6 +71,7 @@ describe("Verifying config constant", () => {
       "EXPORT_PHOTO_WALL",
       "EXPORT_UNHCR",
       "FLAG",
+      "FIND_TRACING_MATCH",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
       "INCIDENT_FROM_CASE",

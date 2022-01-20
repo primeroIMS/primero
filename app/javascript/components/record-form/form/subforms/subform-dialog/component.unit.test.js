@@ -9,6 +9,8 @@ import ActionDialog from "../../../../action-dialog";
 import SubformDrawer from "../subform-drawer";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
+import ActionButton from "../../../../action-button";
+import SubformDialogFields from "../subform-dialog-fields";
 
 import SubformDialog from "./component";
 
@@ -50,7 +52,8 @@ describe("<SubformDialog />", () => {
     open: true,
     setOpen: () => {},
     title: "Family details",
-    formSection: {}
+    formSection: {},
+    violationOptions: []
   };
 
   const formProps = {
@@ -96,7 +99,7 @@ describe("<SubformDialog />", () => {
     const confirmationModal = component.find(ActionDialog).last().props();
 
     expect(confirmationModal.open).to.be.true;
-    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message");
+    expect(confirmationModal.dialogText).to.be.equal("messages.confirmation_message_subform");
   });
 
   it("renders SubformDialog with valid props", () => {
@@ -114,12 +117,37 @@ describe("<SubformDialog />", () => {
       "mode",
       "open",
       "setOpen",
-      "title"
+      "title",
+      "violationOptions"
     ].forEach(property => {
       expect(subformDialogProps).to.have.property(property);
       delete subformDialogProps[property];
     });
     expect(subformDialogProps).to.be.empty;
+  });
+
+  it("renders SubformDialogFields with valid props", () => {
+    const subformDialogFieldsProps = { ...component.find(SubformDialogFields).props() };
+
+    [
+      "field",
+      "mode",
+      "index",
+      "formSection",
+      "isReadWriteForm",
+      "values",
+      "parentValues",
+      "parentTitle",
+      "parentViolationOptions",
+      "arrayHelpers",
+      "isViolation",
+      "isViolationAssociation",
+      "setFieldValue"
+    ].forEach(property => {
+      expect(subformDialogFieldsProps).to.have.property(property);
+      delete subformDialogFieldsProps[property];
+    });
+    expect(subformDialogFieldsProps).to.be.empty;
   });
 
   describe("when field is visible should not be render", () => {
@@ -333,12 +361,12 @@ describe("<SubformDialog />", () => {
     });
   });
 
-  describe("when the prop asDrawer is true", () => {
+  describe("when the prop isViolation is true", () => {
     beforeEach(() => {
       ({ component } = setupMountedComponent(SubformDialog, {
         ...props,
         open: true,
-        asDrawer: true,
+        isViolation: true,
         title: "This is a title"
       }));
     });
@@ -357,16 +385,38 @@ describe("<SubformDialog />", () => {
 
     it("renders ViolationActions", () => {
       expect(component.find(ViolationActions)).lengthOf(1);
+      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+        "incident.violation.save_and_return"
+      );
     });
 
     it("renders ViolationActions with valid props", () => {
       const violationActionsProps = { ...component.find(ViolationActions).props() };
 
-      ["handleBack", "handleCancel"].forEach(property => {
+      ["handleBackLabel", "handleBack", "handleCancel", "isShow"].forEach(property => {
         expect(violationActionsProps).to.have.property(property);
         delete violationActionsProps[property];
       });
       expect(violationActionsProps).to.be.empty;
+    });
+  });
+
+  describe("when the prop isViolationAssociation is true", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(SubformDialog, {
+        ...props,
+        open: true,
+        isViolationAssociation: true,
+        title: "This is a title",
+        parentTitle: "Parent"
+      }));
+    });
+
+    it("renders ViolationActions", () => {
+      expect(component.find(ViolationActions)).lengthOf(1);
+      expect(component.find(ViolationActions).find(ActionButton).first().text()).to.be.equal(
+        "incident.violation.save_and_return"
+      );
     });
   });
 });

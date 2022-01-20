@@ -43,7 +43,9 @@ const FormSectionField = ({
   filters,
   index,
   formSection,
-  isReadWriteForm
+  isReadWriteForm,
+  violationOptions,
+  tags
 }) => {
   const i18n = useI18n();
   const {
@@ -71,7 +73,7 @@ const FormSectionField = ({
   const optionsSelector = useCallback(
     selectorOptions => ({
       source: filterOptionStringSource,
-      options: options || optionsStringsText,
+      options: violationOptions || options || optionsStringsText,
       useUniqueId: OPTION_TYPES.AGENCY === filterOptionStringSource,
       fullUsers: true,
       ...selectorOptions
@@ -113,7 +115,7 @@ const FormSectionField = ({
     index,
     displayName,
     linkToForm,
-    ...(type === SELECT_FIELD && { optionsSelector })
+    ...(type === SELECT_FIELD && { optionsSelector, tags })
   };
 
   const renderGuidingQuestions = guidingQuestions && guidingQuestions[i18n.locale] && (mode.isEdit || mode.isNew) && (
@@ -169,7 +171,9 @@ FormSectionField.propTypes = {
   name: PropTypes.string.isRequired,
   recordID: PropTypes.string,
   recordModuleID: PropTypes.string,
-  recordType: PropTypes.string
+  recordType: PropTypes.string,
+  tags: PropTypes.arrayOf(PropTypes.string),
+  violationOptions: PropTypes.array
 };
 
 export default memo(FormSectionField);

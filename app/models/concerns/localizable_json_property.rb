@@ -163,8 +163,9 @@ module LocalizableJsonProperty
       current_option = {}.with_indifferent_access
       current_option['id'] = current_value.dig('id')
       current_option['display_text'] = { "#{locale}": current_value.dig('display_text') }.with_indifferent_access
-
       current_store << current_option
     end
+
+    current_option['tags'] = current_value.dig('tags') if current_value.dig('tags').present?
   end
 end

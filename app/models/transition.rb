@@ -9,7 +9,7 @@ class Transition < ApplicationRecord
   STATUS_REVOKED = 'revoked'
 
   belongs_to :record, polymorphic: true
-  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to', 
+  belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
                                     primary_key: 'user_name', optional: true
   belongs_to :transitioned_by_user, class_name: 'User', foreign_key: 'transitioned_by', primary_key: 'user_name'
 
@@ -100,20 +100,19 @@ class Transition < ApplicationRecord
     end
   end
 
+  def progress_or_accepted_transition?
+    Transition.where(transitioned_to: transitioned_to, type: [Referral.name],
+                     status: [STATUS_INPROGRESS, STATUS_ACCEPTED],
+                     record_id: record.id)
+              .or(
+                Transition.where(transitioned_to: transitioned_to, type: [Transfer.name],
+                                 status: [STATUS_INPROGRESS],
+                                 record_id: record.id)
+              ).where.not(id: id).exists?
+  end
+
   def remove_assigned_user
-    return if Transition.where(
-      transitioned_to: transitioned_to,
-      type: [Referral.name],
-      status: [STATUS_INPROGRESS, STATUS_ACCEPTED],
-      record_id: record.id
-    ).or(
-      Transition.where(
-        transitioned_to: transitioned_to,
-        type: [Transfer.name],
-        status: [STATUS_INPROGRESS],
-        record_id: record.id
-      )
-    ).where.not(id: id).exists?
+    return if progress_or_accepted_transition?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end

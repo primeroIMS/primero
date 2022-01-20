@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
+import { ListItemText } from "@material-ui/core";
 
 import ViolationTitle from "../violation-title";
+import css from "../../../styles.css";
 
 import { NAME } from "./constants";
 import { getViolationTallyLabel } from "./utils";
-import css from "./styles.css";
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues }) => {
   const currentValues = values[index];
@@ -12,16 +13,19 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
 
   return (
-    <div id="subform-header-button" className={css.subformViolationHeader}>
-      <h2>
-        <ViolationTitle title={displayName?.[locale]} values={currentValues} fields={fields} />
-      </h2>
-      <div id="subform-violation-fields" className={css.subformViolationHeaderFields}>
-        {violationTally}
-        <br />
-        {collapsedFieldValues}
-      </div>
-    </div>
+    <ListItemText
+      id="subform-header-button"
+      classes={{ primary: css.listText, secondary: css.listTextSecondary }}
+      secondary={
+        <div id="subform-violation-fields">
+          {violationTally}
+          <br />
+          {collapsedFieldValues}
+        </div>
+      }
+    >
+      <ViolationTitle title={displayName?.[locale]} values={currentValues} fields={fields} />
+    </ListItemText>
   );
 };
 

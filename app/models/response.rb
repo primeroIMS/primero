@@ -7,9 +7,13 @@ class Response < ApplicationRecord
   belongs_to :violation, optional: true
 
   def violations=(data)
-    return unless data.present? && data.one?
+    return unless data.present? && data.one? && data.first.is_a?(Violation)
 
     self.violation = data.first
+  end
+
+  def violations
+    violation
   end
 
   def associations_as_data

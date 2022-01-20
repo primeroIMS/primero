@@ -3,6 +3,7 @@ import { RECORD_TYPES } from "../../../../config";
 import { TEXT_FIELD_NAME } from "../constants";
 
 import SubformField from "./component";
+import SubformFieldArray from "./subform-field-array";
 
 describe("<SubformField />", () => {
   let component;
@@ -45,7 +46,10 @@ describe("<SubformField />", () => {
         formSection: {},
         forms: {},
         recordModuleID: "primeromodule-cp",
-        recordType: "cases"
+        recordType: "cases",
+        parentTitle: "Parent Title",
+        parentValues: {},
+        violationOptions: [{ id: 1, display_text: "Test" }]
       },
       {},
       [],
@@ -55,5 +59,32 @@ describe("<SubformField />", () => {
 
   it("should render the subform field", () => {
     expect(component.find(SubformField)).to.have.lengthOf(1);
+  });
+
+  it("renders SubformFieldArray component with valid props", () => {
+    const componentsProps = { ...component.find(SubformFieldArray).props() };
+
+    [
+      "parentTitle",
+      "violationOptions",
+      "formSection",
+      "arrayHelpers",
+      "mode",
+      "recordModuleID",
+      "recordType",
+      "field",
+      "form",
+      "forms",
+      "formik",
+      "isReadWriteForm",
+      "parentValues",
+      "i18n",
+      "renderAsAccordion"
+    ].forEach(property => {
+      expect(componentsProps).to.have.property(property);
+      delete componentsProps[property];
+    });
+
+    expect(componentsProps).to.be.empty;
   });
 });

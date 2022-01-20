@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+# rubocop:disable Style/ClassAndModuleChildren
 module Indicators
+  # Abstract Class for Indicator
   class AbstractIndicator < ValueObject
     # If you define a new scope make sure you update the method group_indicators_by_scope
     # from the IndicatorQueryService.
@@ -13,6 +15,7 @@ module Indicators
     # scope_to_transferred_groups: Records transferred to the user's user group.
     # exclude_zeros: Do not include result with zeroes.
     # scope_to_user: Constraints the resuls to the user_query_scope. Userful for Faceted and Pivoted indicators.
+    # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
                   :scope_to_transferred_groups, :exclude_zeros, :scope_to_user
@@ -86,6 +89,8 @@ module Indicators
 
     protected
 
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def owner_from_search(sunspot_search)
       return unless scope_to_owner
 
@@ -93,6 +98,8 @@ module Indicators
                       &.dig(:fq)&.find { |p| p.match(/owned_by/) }
       owner_query && owner_query.split(':')[1]
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def scope_query_strings
       scope&.map(&:to_s) || []

@@ -136,6 +136,26 @@ describe("Forms - useOptions", () => {
     expect(result.current).to.deep.equal(expected);
   });
 
+  it("returns the options with tags if the tags are present", () => {
+    const stateWithTags = fromJS({
+      forms: {
+        options: {
+          lookups: [
+            {
+              unique_id: "lookup-1",
+              name: { en: "Lookup 1" },
+              values: [{ id: "option1", display_text: { en: "Option 1" }, tags: ["low"] }]
+            },
+            lookup2
+          ]
+        }
+      }
+    });
+    const { result } = setupHook(() => useOptions({ source: "lookup lookup-1" }), stateWithTags);
+
+    expect(result.current).to.deep.equal([{ id: "option1", display_text: "Option 1", disabled: false, tags: ["low"] }]);
+  });
+
   describe("getFormGroupLookups", () => {
     const lookups = [
       {
@@ -167,6 +187,19 @@ describe("Forms - useOptions", () => {
       const { result } = setupHook(() => useOptions({ source }), stateWithLookupsFormGroup);
 
       expect(result.current).to.deep.equal(lookups);
+    });
+  });
+
+  describe("when source is violations", () => {
+    it("should return options for violations", () => {
+      const source = "violations";
+      const options = [
+        { id: 1, display_text: "test1" },
+        { id: 2, display_text: "test2" }
+      ];
+      const { result } = setupHook(() => useOptions({ source, options }), fromJS({}));
+
+      expect(result.current).to.deep.equal(options);
     });
   });
 });

@@ -47,6 +47,11 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def build_worksheet_with_headers(form, subform_field = nil)
     worksheet = build_worksheet(form, subform_field)
     worksheet&.write(0, 0, 'ID')
+    build_worksheet_fields(form, worksheet)
+    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
+  end
+
+  def build_worksheet_fields(form, worksheet)
     form.fields.each_with_index do |field, i|
       if field.type == Field::SUBFORM
         build_worksheet_with_headers(constrained_subforms[subform_path(field)], field)
@@ -54,7 +59,6 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
         worksheet&.write(0, i + 1, field.display_name(locale))
       end
     end
-    worksheets[worksheet_id(form, subform_field)] = { worksheet: worksheet, row: 1 }
   end
 
   def build_worksheet(form, subform_field = nil)
@@ -88,19 +92,19 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def worksheet_name(form, subform_field = nil)
-    name = form.name(locale.to_s).sub(%r{[\[\]:*?\/\\]}, ' ')
+    name = form_name(form)
+    return format_form_name(name) if subform_field.blank?
 
-    return name.encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31) if subform_field.blank?
+    subform_name = form_name(subform_field.form).strip.slice(0, 15).concat("-#{name}")
+    format_form_name(subform_name)
+  end
 
-    subform_field.form
-                 .name(locale.to_s)
-                 .sub(%r{[\[\]:*?\/\\]}, ' ')
-                 .strip
-                 .slice(0, 15)
-                 .concat("-#{name}")
-                 .encode('iso-8859-1', undef: :replace, replace: '')
-                 .strip
-                 .truncate(31)
+  def form_name(form)
+    form.name(locale.to_s).sub(%r{[\[\]:*?\/\\]}, ' ')
+  end
+
+  def format_form_name(name)
+    name.encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31)
   end
 
   def write_record(record)
@@ -142,6 +146,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     return export_value(field_data_value(data, field), field) unless field.nested?
 
     data_form_name = form_field_name.presence || field&.form_section&.subform_field&.name
+    data_values(data, data_form_name, field)
+  end
+
+  def data_values(data, data_form_name, field)
     values = []
     data[data_form_name]&.each do |section|
       values << export_value(field_data_value(section, field), field)

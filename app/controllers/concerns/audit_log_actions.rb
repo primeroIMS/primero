@@ -35,7 +35,6 @@ module AuditLogActions
     {}
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   def friendly_action_message
     return params[:record_action] if params[:record_action].present?
@@ -55,7 +54,6 @@ module AuditLogActions
       action_name
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
 
   def index_action_message

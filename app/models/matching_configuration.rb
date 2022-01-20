@@ -68,6 +68,24 @@ class MatchingConfiguration
     @form_ids = primero_module.try(:form_section_ids)
   end
 
+  def load_common_forms(case_form_sections, tracing_request_form_sections, is_for_filter = false)
+    self.case_forms = load_matchable_forms_by_type('case')
+    self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
+
+    self.case_form_options = load_form_options(case_form_sections, (is_for_filter ? case_forms : form_ids))
+    self.tracing_request_form_options = load_form_options(tracing_request_form_sections,
+                                                          (is_for_filter ? case_forms : form_ids))
+  end
+
+  def load_main_filters(case_form_sections, tracing_request_form_sections)
+    self.case_field_options = load_field_options_for_filter(case_form_sections, case_fields)
+    self.tracing_request_field_options =
+      load_field_options_for_filter(tracing_request_form_sections, tracing_request_fields)
+
+    self.case_fields = load_filter_fields_by_type('case')
+    self.tracing_request_fields = load_filter_fields_by_type('tracing_request')
+  end
+
   def load_form_fields
     case_form_sections = load_form_sections_by_type('case')
     tracing_request_form_sections = load_form_sections_by_type('tracing_request')
@@ -78,11 +96,7 @@ class MatchingConfiguration
     self.case_field_options = load_field_options(case_form_sections)
     self.tracing_request_field_options = load_field_options(tracing_request_form_sections)
 
-    self.case_forms = load_matchable_forms_by_type('case')
-    self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
-
-    self.case_form_options = load_form_options(case_form_sections, form_ids)
-    self.tracing_request_form_options = load_form_options(tracing_request_form_sections, form_ids)
+    load_common_forms(case_form_sections, tracing_request_form_sections, false)
   end
 
   def load_fields_for_filter
@@ -92,18 +106,8 @@ class MatchingConfiguration
     self.case_fields = get_matchable_form_and_field_names(case_form_sections, 'case')
     self.tracing_request_fields = get_matchable_form_and_field_names(tracing_request_form_sections, 'tracing_request')
 
-    self.case_field_options = load_field_options_for_filter(case_form_sections, case_fields)
-    self.tracing_request_field_options =
-      load_field_options_for_filter(tracing_request_form_sections, tracing_request_fields)
-
-    self.case_fields = load_filter_fields_by_type('case')
-    self.tracing_request_fields = load_filter_fields_by_type('tracing_request')
-
-    self.case_forms = load_matchable_forms_by_type('case')
-    self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
-
-    self.case_form_options = load_form_options(case_form_sections, case_forms)
-    self.tracing_request_form_options = load_form_options(tracing_request_form_sections, tracing_request_forms)
+    load_main_filters(case_form_sections, tracing_request_form_sections)
+    load_common_forms(case_form_sections, tracing_request_form_sections, true)
   end
 
   def update_matchable_fields
@@ -158,11 +162,16 @@ class MatchingConfiguration
     end
   end
 
+  def update_form_section_for_filter(form_section, matchable_forms)
+    [form_section.unique_id,
+     form_section.fields.select { |fd| fd.visible == true && matchable_forms[form_section.unique_id].include?(fd.name) }
+    &.map { |fd| [fd.display_name, fd.name] }]
+  end
+
   def load_field_options_for_filter(form_sections, matchable_forms)
     matchable_form_sections = form_sections.select { |f| matchable_forms.keys.include?(f.unique_id) }
     matchable_form_sections.map do |fs|
-      [fs.unique_id, fs.fields.select { |fd| fd.visible == true && matchable_forms[fs.unique_id].include?(fd.name) }
-      &.map { |fd| [fd.display_name, fd.name] }]
+      update_formsection_for_filter(fs, matchable_forms)
     end
   end
 
@@ -187,31 +196,37 @@ class MatchingConfiguration
   # EXPECTS
   #    type == 'case' or 'tracing_request'
   #    case_fields and tracing_request_fields to be in format:  ["form_name::field_name", ...]
-  def update_matchable(type)
-    form_field_hash = {}
-    send("#{type}_fields").try(:each) do |field_pair|
-      field_pair_array = field_pair.split(ID_SEPARATOR)
-      next unless field_pair_array.size == 2
 
-      form_id = field_pair_array.first
-      field_name = field_pair_array.last
+  def transaction_update_matchable(form_field_hash, form_sections)
+    form_sections.each do |form_section|
+      matching_field_names = form_field_hash[form_section.unique_id]
+      form_section.fields.each do |field|
+        if matching_field_names.include?(field.name)
+          field.matchable = true
+          field.save
+        end
+      end
+    end
+  end
+
+  def update_field_matchable(form_field_hash)
+    send("#{type}_fields").try(:each) do |field_pair|
+      next unless field_pair.split(ID_SEPARATOR).size == 2
+
+      form_id = field_pair.split(ID_SEPARATOR).first
+      field_name = field_pair.split(ID_SEPARATOR).last
       next unless send("#{type}_forms").include? form_id
 
       form_field_hash[form_id] = [] unless form_field_hash.key? form_id
       form_field_hash[form_id] << field_name
     end
+  end
 
-    form_sections = load_form_sections_by_type(type)
+  def update_matchable(type)
+    form_field_hash = {}
+    update_field_matchable(form_field_hash, field_pair)
     ActiveRecord::Base.transaction do
-      form_sections.each do |form_section|
-        matching_field_names = form_field_hash[form_section.unique_id]
-        form_section.fields.each do |field|
-          if matching_field_names.include?(field.name)
-            field.matchable = true
-            field.save
-          end
-        end
-      end
+      transaction_update_matchable(form_field_hash, load_form_sections_by_type(type))
     end
   end
 end

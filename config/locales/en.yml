@@ -947,6 +947,11 @@ en:
         subforms: 'Subform: %{subform_name}'
         collapsed_fields: 'Collapsed Fields: %{fields}'
         country: Countries
+      summary_header:
+        form_group: Primero Form Group
+        form: Primero Forms
+        status: Status
+        notes: Notes
 
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
@@ -1325,9 +1330,19 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
-      back_to_violations: Back to Violations
+      update_and_return: 'Update and Return to %{association}'
+      save_and_return: 'Add and Return to %{association}'
       pending: Pending Verification
       title: Violations
+      types:
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on: Attacks on school(s) and/or hospital(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
   incidents:
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
     disable_dialog_title: Disable Incident
@@ -1758,6 +1773,7 @@ en:
     cannot_edit: You cannot edit this
     confirmation_message: Clicking OK will discard any unsaved changes and return
       to the list view . Click cancel to return to the record.
+    confirmation_message_subform: Clicking OK will discard any unsaved changes to this item. Click cancel to continue making changes.
     dashboard_offline: You're offline. The dashboard will be fully functional when
       you are back online
     field_name_on_form_name: '''%{field_name}'' field on ''%{form_name}'' form.'
@@ -3363,7 +3379,7 @@ en:
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
   transfer_assignment:
-    title: TRANSFERS AND ASSIGNMENTS
+    title: Transfers and Assignments
   transition:
     agency_label: Agency
     assigned_by: Assigned By
