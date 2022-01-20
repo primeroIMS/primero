@@ -6,12 +6,16 @@ describe("Verifying utils", () => {
   it("should have known utils", () => {
     const clonedHelpers = { ...helpers };
 
-    ["isTracesSubform", "valuesWithDisplayConditions", "fieldsToRender", "valuesWithHiddenAttribute"].forEach(
-      property => {
-        expect(clonedHelpers).to.have.property(property);
-        delete clonedHelpers[property];
-      }
-    );
+    [
+      "isTracesSubform",
+      "valuesWithDisplayConditions",
+      "fieldsToRender",
+      "valuesWithHiddenAttribute",
+      "isEmptyOrAllDestroyed"
+    ].forEach(property => {
+      expect(clonedHelpers).to.have.property(property);
+      delete clonedHelpers[property];
+    });
 
     expect(clonedHelpers).to.deep.equal({});
   });
@@ -151,6 +155,16 @@ describe("isTracesSubform", () => {
 
   it("should return false if it is not the traces subform", () => {
     expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).to.be.false;
+  });
+});
+
+describe("isEmptyOrAllDestroyed", () => {
+  it("should return true all removed or destroyed", () => {
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }])).to.be.true;
+  });
+
+  it("should return false subforms", () => {
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }, { id: "SUBFORM_1" }])).to.be.false;
   });
 });
 

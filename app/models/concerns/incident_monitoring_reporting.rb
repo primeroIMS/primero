@@ -46,8 +46,7 @@ module IncidentMonitoringReporting
     # TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
     def violation_id_fields
       {
-        'killing' => 'cause',
-        'maiming' => 'cause',
+        'killing' => 'cause', 'maiming' => 'cause',
         'recruitment' => 'factors_of_recruitment',
         'sexual_violence' => 'sexual_violence_type',
         'abduction' => 'abduction_purpose',

@@ -63,6 +63,7 @@ export const ACTIONS = {
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
   FLAG: "flag",
+  FIND_TRACING_MATCH: "find_tracing_match",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   INCIDENT_FROM_CASE: "incident_from_case",
@@ -275,6 +276,8 @@ export const allowedExportTypes = userPermissions =>
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
 export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];
+
+export const SHOW_SUMMARY = [...MANAGE, ACTIONS.FIND_TRACING_MATCH];
 
 export const VIEW_KPIS = [
   ACTIONS.READ,
