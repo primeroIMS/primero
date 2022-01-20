@@ -40,10 +40,6 @@ export const fieldsToRender = (listFields, fields) => {
 export const isTracesSubform = (recordType, formSection) =>
   RECORD_TYPES[recordType] === RECORD_TYPES.tracing_requests && formSection.unique_id === TRACES_SUBFORM_UNIQUE_ID;
 
-export const isEmptyOrAllDestroyed = values => {
-  return (
-    Object.values(values).every(value => {
-      return isEmpty(value);
-    }) || !!values._destroy
-  );
+export const isEmptyOrAllDestroyed = (values = []) => {
+  return values.filter(currValue => isEmpty(currValue) || !!currValue._destroy).length === values.length;
 };
