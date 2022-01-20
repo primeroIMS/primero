@@ -117,6 +117,7 @@
 .list {
   border: 1px solid var(--c-warm-grey-2);
   border-radius: 5px;
+  background: var(--c-white);
 }
 
 .listItem:hover {
