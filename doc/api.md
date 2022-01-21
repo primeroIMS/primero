@@ -196,6 +196,13 @@ Endpoints for querying and manipulating individual cases and related resources i
 * [Update an existing reports](api/reports/id/patch.md) : `PATCH /api/v2/reports/:id`
 * [Delete an existing reports](api/reports/id/delete.md) : `DELETE /api/v2/reports/:id`
 
+## Managed Report Endpoints
+
+Endpoints for querying managed reports and related resources in Primero.
+
+* [Query for managed reports](api/managed_reports/get.md) : `GET /api/v2/managed_reports`
+* [Fetch an individual managed reports](api/managed_reports/id/get.md) : `GET /api/v2/managed_reports/:id`
+
 ## Lookup Endpoints
 
 Endpoints for querying and manipulating individual lookups and related resources in Primero.
