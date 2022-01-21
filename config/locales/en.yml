@@ -1765,8 +1765,8 @@ en:
     values: Options
   managed_reports:
     violations:
-      name: Violations Managed Report
-      description: Violations Managed description
+      name: Violations
+      description: ''
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1919,7 +1919,7 @@ en:
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
-      managed_report: Managed Report
+      managed_report: Insights
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2775,8 +2775,8 @@ en:
         label: Is Manager?
       managed_report:
         actions:
-          violations_report:
-            label: Violations Report
+          violations:
+            label: Violations
       matching_configuration:
         actions:
           manage:
