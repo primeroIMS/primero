@@ -1,4 +1,4 @@
-import { SELECT_FIELD, TALLY_FIELD } from "../../../../../form";
+import { SELECT_FIELD, TALLY_FIELD } from "../../../../../form/constants";
 
 export const NAME = "FieldDialog";
 export const ADMIN_FIELDS_DIALOG = "admin_fields_dialog";
