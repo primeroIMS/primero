@@ -2,6 +2,7 @@
 
 # Describes ViolationReport in Primero.
 class ManagedReports::Violations < ManagedReport
+  attr_accessor :data
   def id
     'violations'
   end
@@ -15,11 +16,15 @@ class ManagedReports::Violations < ManagedReport
     }
   end
 
-  def build_report
-    {}
+  def build_subreport(search_filters, subreport_id)
+    binding.pry
+    return {} if subreport_id.blank? || !subreports_list.include?(subreport_id)
+
+    subreports = "ManagedReports::Violations::#{subreport_id.camelize}".constantize.new(search_filters)
+    self.data = subreports.data(search_filters)
   end
 
-  def subreports
-    Violation::TYPES
+  def subreports_list
+    %w[killing]
   end
 end
