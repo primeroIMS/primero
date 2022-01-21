@@ -6,6 +6,7 @@ import actions from "./actions";
 import { affectedOrderRange, buildOrderUpdater, getSubformFields } from "./utils";
 import { transformValues } from "./components/field-dialog/utils";
 import { NEW_FIELD } from "./constants";
+import updateFieldLocalizedProps from "./utils/update-field-localized-props";
 
 const DEFAULT_STATE = fromJS({});
 
@@ -275,32 +276,39 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
       const indexes = fields.map(field => [field, selectedFields.findIndex(value => value.get("name") === field)]);
 
-      return selectedFields
+      const updatedStateWithSubforms = selectedFields
         .filter(field => field.get("type") === SUBFORM_SECTION && fields.includes(field.get("name")))
         .reduce((acc, elem) => {
           const subformId = elem.get("subform_section_id");
           const subformIndex = acc.get("subforms", fromJS([])).findIndex(subform => subformId === subform.get("id"));
-          const subformData = fromJS({ name: payload[elem.get("name")].display_name });
+          const subformName = fromJS(payload[elem.get("name")].display_name);
 
           if (subformIndex < 0) {
             const subformSection = acc.getIn(["formSections", subformId.toString()]);
-
             const subformFields = getSubformFields(acc, subformSection);
+            const mergedName = fromJS(subformSection.get("name")).merge(subformName);
 
             return acc.set(
               "subforms",
-              acc.get("subforms", fromJS([])).push(subformSection.mergeDeep(subformData).set("fields", subformFields))
+              acc.get("subforms", fromJS([])).push(subformSection.set("name", mergedName).set("fields", subformFields))
             );
           }
 
-          return acc.setIn(["subforms", subformIndex], acc.getIn(["subforms", subformIndex]).mergeDeep(subformData));
-        }, state)
-        .set(
-          "selectedFields",
-          fromJS(
-            indexes.map(([field, index]) => selectedFields.get(index, fromJS({})).mergeDeep(fromJS(payload[field])))
-          )
-        );
+          const subformSection = acc.getIn(["subforms", subformIndex]);
+          const mergedName = subformSection.get("name").merge(subformName);
+
+          return acc.setIn(["subforms", subformIndex, "name"], mergedName);
+        }, state);
+
+      return indexes.reduce(
+        (acc, [field, index]) =>
+          acc.updateIn(["selectedFields", index], fromJS({}), selectedField => {
+            const fieldData = payload[field];
+
+            return updateFieldLocalizedProps(selectedField, fieldData);
+          }),
+        updatedStateWithSubforms
+      );
     }
     case actions.SET_NEW_SUBFORM: {
       const subforms = state.get("subforms");

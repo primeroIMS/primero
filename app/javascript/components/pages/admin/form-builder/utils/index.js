@@ -11,4 +11,5 @@ export { default as getOrderDirection } from "./get-order-direction";
 export { default as getSubformErrorMessages } from "./get-subform-error-messages";
 export { default as getSubformFields } from "./get-subform-fields";
 export { default as mergeTranslations } from "./merge-translations";
+export { default as updatedFieldLocalizedProps } from "./update-field-localized-props";
 export { default as validateEnglishName } from "./validate-english-name";
