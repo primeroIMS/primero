@@ -3,10 +3,10 @@
   command: |
     docker image prune -f
   tags:
-  - 'always'
+  - 'prune'
 
 - name: 'prune dangling Docker volumes'
   command: |
     docker volume prune -f
   tags:
-  - 'always'
+  - 'prune'
