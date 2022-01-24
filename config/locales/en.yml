@@ -1767,6 +1767,9 @@ en:
     violations:
       name: Violations
       description: ''
+    gbv_statistics:
+      name: GBV Statistics
+      description: ''
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
