@@ -2,7 +2,11 @@
 - name: 'prune dangling Docker images'
   command: |
     docker image prune -f
+  tags:
+  - 'always'
 
 - name: 'prune dangling Docker volumes'
   command: |
     docker volume prune -f
+  tags:
+  - 'always'
