@@ -33,6 +33,8 @@ class AuditLog < ApplicationRecord
   end
 
   def display_id
+    # TODO: In order to fix this, we should add new column for Records not storaged in the database
+    return '' if record_type.in?(%w[ManagedReport])
     return '' if record.blank?
 
     @display_id ||= record.respond_to?(:display_id) ? record.display_id : record.id

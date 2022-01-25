@@ -13,7 +13,8 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
   VIEW_INCIDENTS_FROM_CASE,
-  VIEW_KPIS
+  VIEW_KPIS,
+  SHOW_SUMMARY
 } from "../libs/permissions";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -523,7 +524,8 @@ export const FILE_FORMAT = {
 export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
-  [APPROVALS]: SHOW_APPROVALS
+  [APPROVALS]: SHOW_APPROVALS,
+  [SUMMARY]: SHOW_SUMMARY
 });
 
 export const VIOLATIONS_FORM = [

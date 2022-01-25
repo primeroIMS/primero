@@ -84,7 +84,7 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
     return (
       <ListItemText id="subform-header-button" classes={itemClasses}>
         <div className={css.listItemText}>
-          <span>{renderShortId}</span>
+          {renderShortId && <span>{renderShortId}</span>}
           {subformValues}
         </div>
       </ListItemText>

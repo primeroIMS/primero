@@ -9,7 +9,7 @@ therefore the report data is not available in the response.
 
 **Authentication** : YES
 
-**Authorization** :The user must be authorized to view users in Primero.
+**Authorization** :The user must be authorized to view reports in Primero.
 
 **Parameters** :
 
