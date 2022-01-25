@@ -145,6 +145,7 @@ describe IndicatorQueryService, search: true do
 
     it 'Get the real present date time' do
       role_overdue_services = Role.new(
+        group_permission: Permission::GROUP,
         permissions: [Permission.new(
           resource: Permission::DASHBOARD,
           actions: [Permission::DASH_CASES_BY_TASK_OVERDUE_SERVICES]
