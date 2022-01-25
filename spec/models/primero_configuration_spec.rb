@@ -3,11 +3,9 @@
 require 'rails_helper'
 
 describe PrimeroConfiguration do
-  before(:each) do
-    clean_data(
-      PrimeroConfiguration, FormSection, Field, Lookup, Agency,
-      Role, UserGroup, Report, ContactInformation, PrimeroModule
-    )
+  before do
+    clean_data(PrimeroConfiguration, FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation,
+               PrimeroModule, SystemSettings)
     @form1 = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
     @lookup1 = Lookup.create!(unique_id: 'lookup1', name: 'lookup1')
     @agency1 = Agency.create!(name: 'irc', agency_code: '12345')
@@ -22,6 +20,12 @@ describe PrimeroConfiguration do
       aggregate_by: %w[a b], module_id: @module1.unique_id, is_graph: true
     )
     @contact_info = ContactInformation.create!(name: 'test')
+    SystemSettings.create(primary_age_range: 'primary',
+                          age_ranges: { 'primary' => [1..2, 3..4] },
+                          reporting_location_config: { field_key: 'owned_by_location',
+                                                       admin_level: 2,
+                                                       admin_level_map: { '1' => ['region'],
+                                                                          '2' => ['district'] } })
   end
 
   describe '.current_configuration_data' do
@@ -163,7 +167,6 @@ describe PrimeroConfiguration do
       it 'applied successfully' do
         expect(primero_configuration.reload.applied_on).not_to be_nil
       end
-
       it 'does not leave behind the api lock' do
         expect(SystemSettings.first.config_update_lock).to be_falsey
       end
@@ -194,5 +197,9 @@ describe PrimeroConfiguration do
         expect(SystemSettings.first.config_update_lock).to be_falsey
       end
     end
+  end
+  after do
+    clean_data(PrimeroConfiguration, FormSection, Field, Lookup, Agency, Role, UserGroup, Report, ContactInformation,
+               PrimeroModule, SystemSettings)
   end
 end
