@@ -12,4 +12,11 @@ class Api::V2::TracingRequestsController < ApplicationApiController
     @traces = tracing_request.traces
     render 'api/v2/traces/index'
   end
+
+  alias select_updated_fields_super select_updated_fields
+  def select_updated_fields
+    changes = @record.saved_changes_to_record.keys +
+              @record.associations_as_data_keys.select { |association| association.in?(record_params.keys) }
+    @updated_field_names = changes & @permitted_field_names
+  end
 end
