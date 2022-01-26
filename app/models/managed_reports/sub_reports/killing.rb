@@ -2,9 +2,8 @@
 
 # Describes Killing subreport in Primero.
 class ManagedReports::SubReports::Killing < ManagedReports::SubReport
-  def initialize(args = {})
-    super(args)
-    self.id = 'killing'
+  def id
+    'killing'
   end
 
   def indicators

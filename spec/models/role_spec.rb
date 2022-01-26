@@ -819,7 +819,7 @@ describe Role do
     end
 
     it 'should return managed_reports' do
-      expect(subject.managed_reports.first).to be_an_instance_of(ManagedReports::Violations)
+      expect(subject.managed_reports.first.id).to eq('violations')
     end
   end
 end

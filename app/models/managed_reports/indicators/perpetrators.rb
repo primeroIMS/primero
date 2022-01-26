@@ -15,8 +15,6 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
         #{incident_join(params)}
         inner join perpetrators p on p.id = pv.perpetrator_id
         WHERE v.data->>'type' = :violation_type
-        and v.data->>'verified_ctfmr_technical' = :verified_ctfmr_technical
-        and v.data->>'ctfmr_verified' = :ctfmr_verified
         #{filter_query(params)}
         group by p."data"->>'armed_force_group_party_name';
       }

@@ -42,7 +42,6 @@ class Api::V2::ManagedReportsController < ApplicationApiController
       %w[
         date_of_first_report incident_date
         ctfmr_verified verified_ctfmr_technical
-        violation_type
       ]
     )
   end

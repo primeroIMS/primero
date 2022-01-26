@@ -14,8 +14,6 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
         from violations v
         inner join incidents i on i.id = v.incident_id
         WHERE v.data->>'type' = :violation_type
-        and v.data->>'verified_ctfmr_technical' = :verified_ctfmr_technical
-        and v.data->>'ctfmr_verified' = :ctfmr_verified
         #{filter_query(params)}
         group by i."data"->>'incident_location';
       }

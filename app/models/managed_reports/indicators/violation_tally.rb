@@ -16,8 +16,6 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         #{incident_join(params)}
         cross join json_each_text((v.data->>'violation_tally')::JSON)
         WHERE v.data->>'type' = :violation_type
-        and v.data->>'verified_ctfmr_technical' = :verified_ctfmr_technical
-        and v.data->>'ctfmr_verified' = :ctfmr_verified
         #{filter_query(params)}
         group by key) as violation_data;
       }

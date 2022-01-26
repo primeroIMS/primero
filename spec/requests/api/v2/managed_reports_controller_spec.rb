@@ -40,7 +40,7 @@ describe Api::V2::ManagedReportsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('violations')
-      expect(json['data'].keys).to match_array(%w[id name description module_id subreports])
+      expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data])
     end
 
     it 'refuses unauthorized access' do
