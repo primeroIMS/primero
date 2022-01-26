@@ -1574,6 +1574,11 @@ en:
       sub-district: Sub-district
       village: Village
       zone: Zone
+      association: Association
+      division: Division
+      central_warehouse: Central Warehouse
+      warehouse: Warehouse
+      buyingstation: Buying Station
     label: Location
     name: Name
     code: Code
