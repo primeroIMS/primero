@@ -9,6 +9,7 @@ import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { getMetadata } from "../record-list";
 import { useMetadata } from "../records";
 import { ROUTES } from "../../config";
+import { INSIGHTS_CONFIG } from "../insights/constants";
 
 import { fetchReports } from "./action-creators";
 import css from "./styles.css";
@@ -27,7 +28,7 @@ const Container = () => {
   return (
     <div>
       <PageContainer>
-        <PageHeading title={i18n.t("reports.label")} />
+        <PageHeading title={i18n.t("insights.label")} />
         <PageContent>
           <LoadingIndicator hasData={reports.size > 0} loading={isLoading} type="reports">
             <List dense>
@@ -35,7 +36,7 @@ const Container = () => {
                 return (
                   <ListItem
                     key={report.get("id")}
-                    to={`${ROUTES.managed_reports}/${report.get("id")}`}
+                    to={`${ROUTES.insights}/${report.get("id")}/${INSIGHTS_CONFIG.mrm.ids[0]}`}
                     button
                     component={Link}
                     divider={index < reports.size - 1}
@@ -57,6 +58,6 @@ const Container = () => {
   );
 };
 
-Container.displayName = "ManagedReportsList";
+Container.displayName = "InsightsList";
 
 export default Container;

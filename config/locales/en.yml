@@ -1803,7 +1803,7 @@ en:
     incidents: Incidents
     logout: Log out
     reports: Reports
-    managed_reports: Managed Reports
+    insights: Insights
     search: Search
     settings: Settings
     support: Support
@@ -3232,6 +3232,8 @@ en:
     record_type: Record type
     total: Total
     value: Value
+  insights:
+    label: Insights
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can

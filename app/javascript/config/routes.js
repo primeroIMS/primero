@@ -32,9 +32,9 @@ import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form/container";
 import RecordList from "../components/record-list";
-import ManagedReportsList from "../components/managed-reports-list";
-import ManagedReport from "../components/managed-report";
-import ManagedReportSubReport from "../components/managed-report-sub-report";
+import InsightsList from "../components/insights-list";
+import Insights from "../components/insights";
+import InsightsSubReport from "../components/insights-sub-report";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
 import CodeOfConduct from "../components/code-of-conduct";
@@ -170,14 +170,14 @@ export default [
         actions: READ_REPORTS
       },
       {
-        path: ROUTES.managed_reports, // TODO: CHANGE PERMISSION CONSTANTS
-        component: ManagedReportsList,
+        path: ROUTES.insights, // TODO: CHANGE PERMISSION CONSTANTS
+        component: InsightsList,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
       },
       {
-        path: `${ROUTES.managed_reports}/:id(\\d+)`,
-        component: ManagedReport,
+        path: `${ROUTES.insights}/:id(\\d+)`,
+        component: Insights,
         resources: RESOURCES.reports,
         actions: READ_REPORTS,
         exact: false,
@@ -185,8 +185,8 @@ export default [
           mode: MODES.show,
           routes: [
             {
-              path: `${ROUTES.managed_reports}/:id/:sub_report`,
-              component: ManagedReportSubReport,
+              path: `${ROUTES.insights}/:id/:sub_report`,
+              component: InsightsSubReport,
               resources: RESOURCES.reports,
               actions: READ_REPORTS,
               extraProps: {

@@ -172,7 +172,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
-  managed_reports: "/managed-reports",
+  insights: "/insights",
   key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
@@ -370,18 +370,10 @@ export const APPLICATION_NAV = (permissions, userId) => {
       actions: READ_RECORDS,
       validateWithUserPermissions: true
     },
-    // {
-    //   name: "navigation.potential_match",
-    //   to: ROUTES.matches,
-    //   icon: "matches",
-    //   resources: RESOURCES.potential_matches,
-    //   actions: READ_RECORDS,
-    //   disableOffline: true
-    // },
     {
-      name: "navigation.managed_reports",
-      to: ROUTES.managed_reports,
-      icon: "reports",
+      name: "navigation.insights",
+      to: ROUTES.insights,
+      icon: "insights",
       resources: RESOURCES.reports,
       actions: READ_REPORTS,
       disableOffline: true,
