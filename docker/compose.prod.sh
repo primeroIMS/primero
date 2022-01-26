@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 : "${PRIMERO_DEPLOY_NODB:=false}"
 
