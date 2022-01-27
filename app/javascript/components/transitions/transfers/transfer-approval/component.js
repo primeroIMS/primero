@@ -1,16 +1,12 @@
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
 import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
 import { ACCEPTED, REJECTED, ACCEPT, REJECT, MODES } from "../../../../config";
-import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_AREA } from "../../../form";
-import FormSection from "../../../form/components/form-section";
-import { submitHandler } from "../../../form/utils/form-submission";
+import Form, { FieldRecord, FormSectionRecord, whichFormMode, TEXT_AREA } from "../../../form";
 import { selectRecord } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { getTransitionById } from "../../selectors";
@@ -34,17 +30,8 @@ const Component = ({
   const { currentUserName } = useApp();
   const requiredMessage = i18n.t("form_section.required_field", { field: i18n.t("transfer.rejected_reason") });
   const initialValues = { rejected_reason: "" };
-  const methods = useForm({
-    defaultValues: initialValues,
-    ...(approvalType === REJECTED
-      ? { resolver: yupResolver(object().shape({ rejected_reason: string().nullable().required(requiredMessage) })) }
-      : {})
-  });
+  const validations = object().shape({ rejected_reason: string().nullable().required(requiredMessage) });
   const formMode = whichFormMode(MODES.edit);
-
-  const {
-    formState: { dirtyFields }
-  } = methods;
 
   const record = useMemoizedSelector(state => selectRecord(state, { isEditOrShow: true, recordType, id: recordId }));
   const transfer = useMemoizedSelector(state => getTransitionById(state, transferId));
@@ -56,10 +43,6 @@ const Component = ({
     }
 
     close();
-  };
-
-  const stopProp = event => {
-    event.stopPropagation();
   };
 
   const message =
@@ -85,29 +68,23 @@ const Component = ({
     );
   };
 
-  const handleSubmit = data => {
-    submitHandler({
-      data,
-      dispatch,
-      dirtyFields,
-      formMode,
-      i18n,
-      initialValues,
-      onSubmit: handleOk,
-      submitAlways: true
-    });
-  };
-
   const successButtonProps = {
     color: "primary",
     variant: "contained",
-    autoFocus: true
+    autoFocus: true,
+    form: FORM_ID,
+    type: "submit"
   };
 
   const renderRejectedReason = approvalType === REJECTED && (
-    <form id={FORM_ID}>
-      <FormSection
-        formSection={FormSectionRecord({
+    <Form
+      formID={FORM_ID}
+      onSubmit={handleOk}
+      formMode={formMode}
+      initialValues={initialValues}
+      validations={validations}
+      formSections={[
+        FormSectionRecord({
           unique_id: "rejected_form",
           fields: [
             FieldRecord({
@@ -117,24 +94,20 @@ const Component = ({
               autoFocus: true
             })
           ]
-        })}
-        showTitle={false}
-        formMethods={methods}
-        formMode={formMode}
-      />
-    </form>
+        })
+      ]}
+    />
   );
 
   const dialogContent = (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events
-    <form noValidate autoComplete="off" onClick={stopProp}>
+    <>
       <p>
         {i18n.t(`${recordType}.transfer${isCurrentUser ? "" : "_managed_user"}_${approvalType}`, {
           transitioned_to: transfer.transitioned_to
         })}
       </p>
       {renderRejectedReason}
-    </form>
+    </>
   );
 
   const buttonLabel = approvalType === ACCEPTED ? ACCEPT : REJECT;
@@ -146,7 +119,6 @@ const Component = ({
       dialogTitle=""
       pending={pending}
       omitCloseAfterSuccess
-      successHandler={methods.handleSubmit(handleSubmit)}
       confirmButtonLabel={i18n.t(`buttons.${buttonLabel}`)}
       confirmButtonProps={successButtonProps}
       onClose={close}
