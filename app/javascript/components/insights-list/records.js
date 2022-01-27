@@ -2,7 +2,7 @@
 
 import { Record } from "immutable";
 
-export const ReportRecord = Record({
+export const InsightsListRecord = Record({
   id: "",
   name: "",
   description: "",

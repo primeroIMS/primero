@@ -1,1 +1,1 @@
-export default "reports";
+export default "insights";

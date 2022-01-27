@@ -13,13 +13,13 @@ import { INSIGHTS_CONFIG } from "../insights/constants";
 
 import { fetchReports } from "./action-creators";
 import css from "./styles.css";
-import { selectReports, selectLoading } from "./selectors";
+import { selectInsights, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
 const Container = () => {
   const i18n = useI18n();
 
-  const reports = useMemoizedSelector(state => selectReports(state));
+  const reports = useMemoizedSelector(state => selectInsights(state));
   const isLoading = useMemoizedSelector(state => selectLoading(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, NAMESPACE));
 

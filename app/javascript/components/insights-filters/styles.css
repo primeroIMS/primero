@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  width: 100%;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+
+  & > div {
+    flex: 1;
+    margin: 0;
+  }
+}
+
+.actions {
+  display: flex;
+  width: 25em;
+  gap: var(--sp-2);
+  margin: var(--sp-2) 0;
+
+  & > div {
+    flex: 1
+  }
+}
+
+.dateControlGroup {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 2 !important;
+  justify-content: space-between;
+
+  & > div {
+    margin: 0;
+    width: calc(50% - var(--sp-1));
+  }
+
+  & > div:nth-last-child(-n+2) {
+    margin-top: var(--sp-2);
+  }
+}
+
+@media (max-width:1279.95px) {
+  .container {
+    display: block;
+
+    & > div {
+      margin-bottom: var(--sp-2)
+    }
+  }
+}

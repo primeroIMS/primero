@@ -6,3 +6,8 @@
   color: var(--c-dark-grey);
   font-size: var(--fs-13);
 }
+
+.title {
+  display: flex;
+  align-items: center;
+}

@@ -1,9 +1,0 @@
-.container {
-  display: flex;
-  width: 100%;
-  gap: var(--sp-3);
-
-  & > div {
-    flex: 1
-  }
-}

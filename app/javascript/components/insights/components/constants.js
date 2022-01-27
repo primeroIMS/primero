@@ -1,2 +1,2 @@
-export const DEFAULT_FILE_NAME = "report";
+export const DEFAULT_FILE_NAME = "insight";
 export const NAME = "Exporter";

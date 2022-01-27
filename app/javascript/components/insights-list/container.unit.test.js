@@ -5,9 +5,9 @@ import AddIcon from "@material-ui/icons/Add";
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
 
-import Reports from "./container";
+import InsightsList from "./container";
 
-describe("<Reports /> - Component", () => {
+describe("<InsightsList /> - Component", () => {
   let component;
 
   const initialState = fromJS({
@@ -48,7 +48,7 @@ describe("<Reports /> - Component", () => {
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(Reports, {}, initialState));
+    ({ component } = setupMountedComponent(InsightsList, {}, initialState));
   });
 
   it("should render <Card>", () => {
@@ -78,7 +78,7 @@ describe("<Reports /> - Component", () => {
 
   describe("When doesn't have permission to create report", () => {
     beforeEach(() => {
-      ({ component } = setupMountedComponent(Reports, {}, initialState.get("records")));
+      ({ component } = setupMountedComponent(InsightsList, {}, initialState.get("records")));
     });
 
     it("should not render AddIcon", () => {

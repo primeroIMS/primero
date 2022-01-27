@@ -4,10 +4,10 @@ import { DEFAULT_METADATA } from "../../config";
 
 import {
   CLEAR_METADATA,
-  FETCH_REPORTS_SUCCESS,
-  FETCH_REPORTS_STARTED,
-  FETCH_REPORTS_FINISHED,
-  FETCH_REPORTS_FAILURE
+  FETCH_INSIGHTS_SUCCESS,
+  FETCH_INSIGHTS_STARTED,
+  FETCH_INSIGHTS_FINISHED,
+  FETCH_INSIGHTS_FAILURE
 } from "./actions";
 import reducer from "./reducer";
 
@@ -136,13 +136,13 @@ describe("<Reports /> - Reducers", () => {
     expect(newState).to.deep.equal(initialState);
   });
 
-  it("should handle FETCH_REPORTS_STARTED", () => {
+  it("should handle FETCH_INSIGHTS_STARTED", () => {
     const expected = fromJS({
       loading: true,
       errors: false
     });
     const action = {
-      type: FETCH_REPORTS_STARTED,
+      type: FETCH_INSIGHTS_STARTED,
       payload: true
     };
 
@@ -151,7 +151,7 @@ describe("<Reports /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORTS_SUCCESS", () => {
+  it("should handle FETCH_INSIGHTS_SUCCESS", () => {
     const data = [
       {
         id: 1,
@@ -170,7 +170,7 @@ describe("<Reports /> - Reducers", () => {
       }
     });
     const action = {
-      type: FETCH_REPORTS_SUCCESS,
+      type: FETCH_INSIGHTS_SUCCESS,
       payload: {
         data,
         metadata: {
@@ -186,12 +186,12 @@ describe("<Reports /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORTS_FINISHED", () => {
+  it("should handle FETCH_INSIGHTS_FINISHED", () => {
     const expected = fromJS({
       loading: false
     });
     const action = {
-      type: FETCH_REPORTS_FINISHED,
+      type: FETCH_INSIGHTS_FINISHED,
       payload: false
     };
 
@@ -200,12 +200,12 @@ describe("<Reports /> - Reducers", () => {
     expect(newState).to.deep.equal(expected);
   });
 
-  it("should handle FETCH_REPORTS_FAILURE", () => {
+  it("should handle FETCH_INSIGHTS_FAILURE", () => {
     const expected = fromJS({
       errors: true
     });
     const action = {
-      type: FETCH_REPORTS_FAILURE,
+      type: FETCH_INSIGHTS_FAILURE,
       payload: true
     };
 

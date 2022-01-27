@@ -11,8 +11,6 @@ import { STRING_SOURCES_TYPES } from "../../config";
 import { displayNameHelper, useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import useOptions from "../form/use-options";
-import { FiltersForm } from "../form-filters/components";
-import { FILTER_TYPES } from "../index-filters";
 
 import { buildTableData } from "./utils";
 import { getReport } from "./selectors";
@@ -54,17 +52,6 @@ const Component = () => {
 
   const reportDescription = description ? <h4 className={css.description}>{description}</h4> : null;
 
-  const filters = [
-    {
-      name: "Test Filter",
-      field_name: "test field",
-      type: FILTER_TYPES.MULTI_TOGGLE,
-      options: []
-    }
-  ];
-
-  const handleFilterSubmit = () => {};
-
   return (
     <LoadingIndicator {...loadingIndicatorProps}>
       <div className={css.subReportContent}>
@@ -75,7 +62,6 @@ const Component = () => {
           <TableValues {...buildTableData(report, i18n, { agencies, locations })} />
           <TableValues {...buildTableData(report, i18n, { agencies, locations })} />
         </div>
-        <FiltersForm filters={filters} onSubmit={handleFilterSubmit} />
       </div>
     </LoadingIndicator>
   );

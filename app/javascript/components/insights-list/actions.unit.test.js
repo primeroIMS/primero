@@ -13,11 +13,11 @@ describe("<Reports /> - Actions", () => {
     });
 
     [
-      "FETCH_REPORTS",
-      "FETCH_REPORTS_STARTED",
-      "FETCH_REPORTS_SUCCESS",
-      "FETCH_REPORTS_FINISHED",
-      "FETCH_REPORTS_FAILURE",
+      "FETCH_INSIGHTS",
+      "FETCH_INSIGHTS_STARTED",
+      "FETCH_INSIGHTS_SUCCESS",
+      "FETCH_INSIGHTS_FINISHED",
+      "FETCH_INSIGHTS_FAILURE",
       "CLEAR_METADATA"
     ].forEach(property => {
       it(`exports '${property}'`, () => {

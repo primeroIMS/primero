@@ -39,7 +39,10 @@ const useOptions = (config = {}) => {
       return options;
     }
 
-    return Array.isArray(options) || isImmutable(options) ? transformOptions(options, locale) : options?.[locale];
+    const optionsByLocale =
+      Array.isArray(options) || isImmutable(options) ? transformOptions(options, locale) : options?.[locale];
+
+    return filterOptions ? filterOptions(optionsByLocale) : optionsByLocale;
   }
 
   return defaultReturnValue;

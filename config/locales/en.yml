@@ -1086,6 +1086,7 @@ en:
       date_range: Date Range
       from: From
       to: To
+      view_by: View By
     date_range_field: Date Range
     date_time: Date-Time
     db_name: Database Name
@@ -3234,6 +3235,18 @@ en:
     value: Value
   insights:
     label: Insights
+    date_range_options:
+      this_quarter: This Quarter
+      last_quarter: Last Quarter
+      this_month: This Month
+      last_month: Last Month
+      this_year: This Year
+      last_year: Last Year
+      custom: Custom
+    mrm:
+      date_of_incident: Date of Incident
+      date_of_report: Date of Report
+      date_of_verification: Date of Verification
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can
