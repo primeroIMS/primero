@@ -153,6 +153,7 @@ class Permission < ValueObject
   ACTIVITY_LOG = 'activity_log'
   LIST_CASE_NAMES = 'list_case_names'
   VIOLATION_REPORT = 'violations'
+  GBV_STATISTICS_REPORT = 'gbv_statistics'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -183,7 +184,7 @@ class Permission < ValueObject
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],
     REPORT => [READ, GROUP_READ, CREATE, WRITE, MANAGE],
-    MANAGED_REPORT => [VIOLATION_REPORT],
+    MANAGED_REPORT => [VIOLATION_REPORT, GBV_STATISTICS_REPORT],
     METADATA => [MANAGE],
     POTENTIAL_MATCH => [READ],
     DUPLICATE => [READ],
