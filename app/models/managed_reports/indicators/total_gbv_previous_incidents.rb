@@ -15,13 +15,7 @@ class ManagedReports::Indicators::TotalGBVPreviousIncidents < ManagedReports::Sq
 
   def apply_params(query)
     params.each do |param|
-      next unless %w[date_of_first_report incident_date].include?(param.field_name)
-
-      query = query.where(
-        "to_date(data ->> '#{param.field_name}', 'YYYY-MM-DD') between ? and ?",
-        param.from,
-        param.to
-      )
+      query = query.where(self.class.date_range_query(param)) if param.class == SearchFilters::DateRange
     end
 
     query
