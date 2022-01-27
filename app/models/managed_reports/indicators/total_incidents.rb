@@ -17,7 +17,8 @@ class ManagedReports::Indicators::TotalIncidents < ManagedReports::SqlReportIndi
       next unless %w[date_of_first_report incident_date].include?(param.field_name)
 
       query = query.where(
-        "to_date(data ->> '#{param.field_name}', 'YYYY-MM-DD') between ? and ?",
+        "to_date(data ->> ?, 'YYYY-MM-DD') between ? and ?",
+        param.field_name,
         param.from,
         param.to
       )
