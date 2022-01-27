@@ -3383,6 +3383,7 @@ en:
     success: Successfully transferred
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
+    rejected_reason: Rejected Reason
   transfer_assignment:
     title: Transfers and Assignments
   transition:
