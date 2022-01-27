@@ -21,11 +21,13 @@ class Incident < ApplicationRecord
     :date_of_incident_to, :individual_details_subform_section, :incident_location,
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
-    :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category
+    :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
+    :elapsed_reporting_time
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
+  before_save :calculate_elapsed_reporting_time
   after_save :save_violations_and_associations
 
   class << self
@@ -255,5 +257,17 @@ class Incident < ApplicationRecord
 
   def violations_already_saved(violations_ids)
     @violations_to_save.present? ? @violations_to_save.map(&:id) - violations_ids : violations_ids
+  end
+
+  def calculate_elapsed_reporting_time
+    return if incident_date.blank? || date_of_first_report.blank?
+
+    calculated = (date_of_first_report - incident_date).to_i
+
+    self.elapsed_reporting_time = '0_3_days' if calculated < 4
+    self.elapsed_reporting_time = '4_5_days' if calculated.in?(4..5)
+    self.elapsed_reporting_time = '6_14_days' if calculated.in?(6..14)
+    self.elapsed_reporting_time = '2_weeks_1_month' if calculated.in?(15..30)
+    self.elapsed_reporting_time = 'over_1_month' if calculated > 30
   end
 end

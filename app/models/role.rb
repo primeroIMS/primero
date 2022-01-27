@@ -154,13 +154,7 @@ class Role < ApplicationRecord
   end
 
   def managed_reports
-    managed_reports_permitted = managed_reports_permissions_actions&.map do |action|
-      "ManagedReports::#{action.camelize}".constantize.new
-    rescue NameError
-      nil
-    end
-
-    managed_reports_permitted&.compact || []
+    managed_reports_permissions_actions&.map { |action| ManagedReport::REPORTS[action] }&.compact || []
   end
 
   def reporting_location_config
