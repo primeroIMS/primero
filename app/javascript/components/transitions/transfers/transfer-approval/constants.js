@@ -1,3 +1,2 @@
-/* eslint-disable import/prefer-default-export */
-
 export const NAME = "TransferApproval";
+export const FORM_ID = "transfer-action-form";

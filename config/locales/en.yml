@@ -1576,6 +1576,11 @@ en:
       sub-district: Sub-district
       village: Village
       zone: Zone
+      association: Association
+      division: Division
+      central_warehouse: Central Warehouse
+      warehouse: Warehouse
+      buyingstation: Buying Station
     label: Location
     name: Name
     code: Code
@@ -3392,6 +3397,7 @@ en:
     success: Successfully transferred
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
+    rejected_reason: Rejected Reason
   transfer_assignment:
     title: Transfers and Assignments
   transition:

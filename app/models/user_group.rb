@@ -30,10 +30,9 @@ class UserGroup < ApplicationRecord
 
     def list(user, opts = {})
       user_groups = !opts[:managed] ? UserGroup.all : user.permitted_user_groups
-      user_groups = user_groups.where(disabled: opts[:disabled].values) if opts[:disabled].present?
-
+      user_groups = user_groups.where(disabled: opts[:disabled]) if opts[:disabled].present?
       if opts[:agency_unique_ids].present?
-        user_groups = user_groups.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids].values })
+        user_groups = user_groups.distinct.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids] })
       end
 
       OrderByPropertyService.apply_order(user_groups, opts)
