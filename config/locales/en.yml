@@ -1182,6 +1182,8 @@ en:
     subform_sort_by: Sort by
     successfully_added: Field successfully added
     tally_field: Tally Field
+    tally_items: Tally Items
+    tally_items_maximum: (5 Maximum)
     text_area: Text Area
     text_field: Text Field
     textarea: Text Area
@@ -1768,6 +1770,13 @@ en:
     no_options: This Lookup currently has no options.
     translation_label: Translation Text
     values: Options
+  managed_reports:
+    violations:
+      name: Violations
+      description: ''
+    gbv_statistics:
+      name: GBV Statistics
+      description: ''
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1920,6 +1929,7 @@ en:
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
+      managed_report: Insights
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2773,6 +2783,10 @@ en:
           This allows a user to see dashboards and filters which help a user manage
           a team.
         label: Is Manager?
+      managed_report:
+        actions:
+          violations:
+            label: Violations
       matching_configuration:
         actions:
           manage:

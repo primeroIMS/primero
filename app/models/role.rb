@@ -149,6 +149,14 @@ class Role < ApplicationRecord
     end
   end
 
+  def managed_reports_permissions_actions
+    permissions.find { |p| p.resource == Permission::MANAGED_REPORT }&.actions || []
+  end
+
+  def managed_reports
+    managed_reports_permissions_actions&.map { |action| ManagedReport::REPORTS[action] }&.compact || []
+  end
+
   def reporting_location_config
     @system_settings ||= SystemSettings.current
     return nil if @system_settings.blank?
