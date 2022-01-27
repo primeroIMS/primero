@@ -9,10 +9,9 @@ import CheckIcon from "@material-ui/icons/Check";
 import get from "lodash/get";
 import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
-import isEmpty from "lodash/isEmpty";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
-import { submitHandler, whichFormMode } from "../../../../../form";
+import { SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
@@ -38,8 +37,9 @@ import { useApp } from "../../../../../application";
 
 import css from "./styles.css";
 import {
+  disableOptionStringsText,
   getFormField,
-  getSubformValues,
+  getUpdatedSubform,
   isSubformField,
   setInitialForms,
   setSubformData,
@@ -328,36 +328,23 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
       const currFormValues = getValues()[selectedField.get("name")];
-      const updatedSubformSection = getValues()?.subform_section;
+      const subform = getUpdatedSubform(selectedField, selectedSubform, getValues());
+      const plainSelectedField = selectedField.toJS();
 
-      const { disabled, hide_on_view_page, option_strings_text } = selectedField.toJS();
-      const selectedFormField = { ...selectedField.toJS(), disabled: !disabled, hide_on_view_page: !hide_on_view_page };
+      const { disabled, hide_on_view_page, option_strings_text } = plainSelectedField;
+      const selectedFormField = { ...plainSelectedField, disabled: !disabled, hide_on_view_page: !hide_on_view_page };
 
       const data = mergeTranslationKeys(selectedFormField, currFormValues);
 
       const fieldData = transformValues(data);
 
-      let subform =
-        isSubformField(selectedField) && selectedSubform.toSeq()?.size ? getSubformValues(selectedSubform) : {};
-
-      if (updatedSubformSection && isSubformField(selectedField)) {
-        subform = {
-          ...subform,
-          subform_section: mergeTranslationKeys(subform.subform_section, updatedSubformSection, true)
-        };
-      }
+      const optionStringsText = disableOptionStringsText(selectedField, fieldData, option_strings_text);
 
       reset(
         {
           [selectedFieldName]: {
             ...fieldData,
-            option_strings_text: fieldData.option_strings_text?.map(option => {
-              if (!isEmpty(option_strings_text)) {
-                return { ...option, disabled: !option_strings_text.find(({ id }) => option.id === id)?.disabled };
-              }
-
-              return option;
-            })
+            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {})
           },
           ...subform
         },
@@ -365,29 +352,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
       );
     }
   }, [openFieldDialog, selectedField]);
-
-  useEffect(() => {
-    if (openFieldDialog && selectedFieldName !== NEW_FIELD && selectedField?.toSeq()?.size) {
-      const currentData = selectedField;
-      const objectPaths = getObjectPath("", currentData.get("option_strings_text", [])).filter(
-        option => !option.includes(".en") && !option.includes("id") && !option.includes("disabled")
-      );
-
-      objectPaths.forEach(path => {
-        const optionStringsTextPath = `${selectedFieldName}.option_strings_text${path}`;
-        const {
-          fieldsRef: { current: fields }
-        } = control;
-
-        if (!fields[optionStringsTextPath]) {
-          register({ name: optionStringsTextPath });
-        }
-        const value = get(currentData.get("option_strings_text"), path);
-
-        setValue(optionStringsTextPath, value, { shouldDirty: true });
-      });
-    }
-  }, [openFieldDialog, selectedField, register]);
 
   useEffect(() => {
     return () => {

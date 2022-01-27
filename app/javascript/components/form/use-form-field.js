@@ -94,7 +94,12 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     renderDownloadButton,
     downloadButtonLabel,
     extraSelectorOptions,
-    max_length: maxlength
+    max_length: maxlength,
+    showDefaultAction,
+    showDeleteAction,
+    showDisableOption,
+    maxOptionsAllowed,
+    optionFieldName
   } = field;
 
   const i18n = useI18n();
@@ -180,7 +185,12 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     multipleLimitOne,
     renderDownloadButton,
     downloadButtonLabel,
-    maxlength
+    maxlength,
+    showDefaultAction,
+    showDeleteAction,
+    showDisableOption,
+    maxOptionsAllowed,
+    optionFieldName
   };
 
   const Field = (fieldType => {
