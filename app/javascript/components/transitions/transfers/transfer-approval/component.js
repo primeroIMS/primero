@@ -1,18 +1,18 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { FormLabel, TextField } from "@material-ui/core";
+import { object, string } from "yup";
 
 import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
-import { ACCEPTED, REJECTED, ACCEPT, REJECT } from "../../../../config";
+import { ACCEPTED, REJECTED, ACCEPT, REJECT, MODES } from "../../../../config";
+import Form, { FieldRecord, FormSectionRecord, whichFormMode, TEXT_AREA } from "../../../form";
 import { selectRecord } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { getTransitionById } from "../../selectors";
 
 import { approvalTransfer } from "./action-creators";
-import { NAME } from "./constants";
+import { FORM_ID, NAME } from "./constants";
 
 const Component = ({
   openTransferDialog,
@@ -27,16 +27,15 @@ const Component = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const [comment, setComment] = useState("");
   const { currentUserName } = useApp();
+  const requiredMessage = i18n.t("form_section.required_field", { field: i18n.t("transfer.rejected_reason") });
+  const initialValues = { rejected_reason: "" };
+  const validations = object().shape({ rejected_reason: string().nullable().required(requiredMessage) });
+  const formMode = whichFormMode(MODES.edit);
 
   const record = useMemoizedSelector(state => selectRecord(state, { isEditOrShow: true, recordType, id: recordId }));
   const transfer = useMemoizedSelector(state => getTransitionById(state, transferId));
   const isCurrentUser = transfer.transitioned_to === currentUserName;
-
-  const handleChangeComment = event => {
-    setComment(event.target.value);
-  };
 
   const handleCancel = event => {
     if (event) {
@@ -44,22 +43,7 @@ const Component = ({
     }
 
     close();
-    setComment("");
   };
-
-  const stopProp = event => {
-    event.stopPropagation();
-  };
-
-  const actionBody = {
-    data: {
-      status: approvalType
-    }
-  };
-
-  if (approvalType === REJECTED) {
-    actionBody.data.rejected_reason = comment;
-  }
 
   const message =
     approvalType === ACCEPTED
@@ -68,12 +52,12 @@ const Component = ({
           record_id: record.get("case_id_display")
         });
 
-  const handleOk = () => {
+  const handleOk = data => {
     setPending(true);
 
     dispatch(
       approvalTransfer({
-        body: actionBody,
+        body: { data: { ...data, status: approvalType } },
         dialogName,
         message,
         failureMessage: i18n.t(`${recordType}.request_approval_failure`),
@@ -87,27 +71,43 @@ const Component = ({
   const successButtonProps = {
     color: "primary",
     variant: "contained",
-    autoFocus: true
+    autoFocus: true,
+    form: FORM_ID,
+    type: "submit"
   };
 
-  const commentField =
-    approvalType === REJECTED ? (
-      <>
-        <FormLabel component="legend">{i18n.t(`${recordType}.transfer_reject_reason_label`)}</FormLabel>
-        <TextField label="" multiline rows="4" defaultValue="" fullWidth onChange={handleChangeComment} />
-      </>
-    ) : null;
+  const renderRejectedReason = approvalType === REJECTED && (
+    <Form
+      formID={FORM_ID}
+      onSubmit={handleOk}
+      formMode={formMode}
+      initialValues={initialValues}
+      validations={validations}
+      formSections={[
+        FormSectionRecord({
+          unique_id: "rejected_form",
+          fields: [
+            FieldRecord({
+              display_name: i18n.t(`${recordType}.transfer_reject_reason_label`),
+              name: "rejected_reason",
+              type: TEXT_AREA,
+              autoFocus: true
+            })
+          ]
+        })
+      ]}
+    />
+  );
 
   const dialogContent = (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events
-    <form noValidate autoComplete="off" onClick={stopProp}>
+    <>
       <p>
         {i18n.t(`${recordType}.transfer${isCurrentUser ? "" : "_managed_user"}_${approvalType}`, {
           transitioned_to: transfer.transitioned_to
         })}
       </p>
-      {commentField}
-    </form>
+      {renderRejectedReason}
+    </>
   );
 
   const buttonLabel = approvalType === ACCEPTED ? ACCEPT : REJECT;
@@ -115,7 +115,6 @@ const Component = ({
   return (
     <ActionDialog
       open={openTransferDialog}
-      successHandler={handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
       pending={pending}

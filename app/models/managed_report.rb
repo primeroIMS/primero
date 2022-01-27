@@ -3,7 +3,16 @@
 # Describes ManagedReport in Primero.
 class ManagedReport < ValueObject
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :filter_names
+
   REPORTS = {
+    Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
+      id: 'gbv_statistics',
+      name: 'managed_reports.gbv_statistics.name',
+      description: 'managed_reports.gbv_statistics.description',
+      subreports: %w[incidents],
+      filter_names: %w[date_of_first_report incident_date],
+      module_id: PrimeroModule::GBV
+    ),
     Permission::VIOLATION_REPORT => ManagedReport.new(
       id: 'violations',
       name: 'managed_reports.violations.name',

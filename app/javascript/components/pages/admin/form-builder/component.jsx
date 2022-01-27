@@ -26,14 +26,7 @@ import { RESOURCES, MANAGE } from "../../../../libs/permissions";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
-import {
-  clearSelectedForm,
-  clearSubforms,
-  fetchForm,
-  saveForm,
-  saveSubforms,
-  updateFieldTranslations
-} from "./action-creators";
+import { clearSelectedForm, clearSubforms, fetchForm, saveForm, saveSubforms } from "./action-creators";
 import { validationSchema } from "./forms";
 import { NAME, NEW_FIELD } from "./constants";
 import {
@@ -210,10 +203,6 @@ const Component = ({ mode }) => {
 
   useEffect(() => {
     const currentValues = methods.getValues({ nest: true });
-
-    if (tab === 1) {
-      dispatch(updateFieldTranslations(currentValues.fields || {}));
-    }
 
     if (tab === 2) {
       const moduleIds = currentValues.module_ids;

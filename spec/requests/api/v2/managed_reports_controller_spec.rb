@@ -9,13 +9,17 @@ describe Api::V2::ManagedReportsController, type: :request do
     it 'list the managed_report' do
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::MANAGED_REPORT, actions: [Permission::VIOLATION_REPORT])
+          Permission.new(resource: Permission::MANAGED_REPORT, actions:
+            [
+              Permission::VIOLATION_REPORT,
+              Permission::GBV_STATISTICS_REPORT
+            ])
         ]
       )
 
       get '/api/v2/managed_reports'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
+      expect(json['data'].size).to eq(2)
     end
 
     it 'returns an empty managed_report set if no explicit managed_report authorization' do
@@ -30,6 +34,20 @@ describe Api::V2::ManagedReportsController, type: :request do
 
   describe 'GET /api/v2/managed_reports/:id', search: true do
     it 'fetch the correct managed_report with code 200' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::MANAGED_REPORT, actions: [Permission::GBV_STATISTICS_REPORT])
+        ]
+      )
+
+      get '/api/v2/managed_reports/gbv_statistics'
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq('gbv_statistics')
+      expect(json['data'].keys).to match_array(%w[id name description module_id report_data subreports])
+    end
+
+    it 'fetch violations managed_report with code 200' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::MANAGED_REPORT, actions: [Permission::VIOLATION_REPORT])

@@ -14,24 +14,33 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def filter_query(params = [])
-      param_names = params.map(&:field_name)
-      query = ''
-      query += and_date_range_query('date_of_first_report') if param_names.include?('date_of_first_report')
-      query += and_date_range_query('incident_date') if param_names.include?('incident_date')
-      query += and_equal_query('verified_ctfmr_technical') if param_names.include?('verified_ctfmr_technical')
-      query += and_equal_query('ctfmr_verified') if param_names.include?('ctfmr_verified')
-      query
+      params.map do |param|
+        next unless param.class == SearchFilters::DateRange
+
+        and_date_range_query(param) if param.class == SearchFilters::DateRange
+        and_equal_query(param) if param.class != SearchFilters::DateRange
+      end.join(' ')
     end
 
-    def and_date_range_query(field_name)
-      %{
-        and to_date(data ->> '#{field_name}', 'YYYY-MM-DD') between :#{field_name}_from and :#{field_name}_to"
-      }
+    def and_date_range_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "and to_date(data ->> ?, 'YYYY-MM-DD') between ? and ?",
+          param.field_name,
+          param.from,
+          param.to
+        ]
+      )
     end
 
-    def and_equal_query(field_name)
-      %(
-        and v.data->>'#{field_name}' = :#{field_name}
+    def and_equal_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          'and v.data->> ? = ?',
+          param.field_name,
+          param.value
+
+        ]
       )
     end
 

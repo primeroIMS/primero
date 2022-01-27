@@ -14,7 +14,7 @@ describe("<Form /> - fields/<OrderableOptionsField />", () => {
       props: {
         inputProps: {
           commonInputProps: { name: "field_1" },
-          metaInputProps: { selectedValue: "option_2" }
+          metaInputProps: { selectedValue: "option_2", showDefaultAction: true }
         }
       },
       defaultValues: {
