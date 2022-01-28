@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the total of incidents grouped by gbv_sexual_violence_type
+# An indicator that returns the total of incidents with a gbv_sexual_violence_type
 class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlReportIndicator
   class << self
     def id
@@ -12,7 +12,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
         select
           count(*) as total
         from  incidents
-        where data ->> 'gbv_sexual_violence_type' != 'non_gbv'
+        where data ->> 'gbv_sexual_violence_type' != 'non-gbv'
         and data ->> 'gbv_sexual_violence_type' is not null
         #{filter_query(params)}
       }
