@@ -16,7 +16,7 @@ import {
 } from "../../../form";
 
 import { FORM_GROUP_FIELD, MODULES_FIELD, RECORD_TYPE_FIELD } from "./constants";
-import { validateEnglishName, formGroupsOptions } from "./utils";
+import { getFormGroupsOptions, validateEnglishName } from "./utils";
 
 export const validationSchema = i18n =>
   object().shape({
@@ -128,7 +128,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
           filterOptionSource: (watchedInputValues, options) => {
             const { [MODULES_FIELD]: moduleID, [RECORD_TYPE_FIELD]: parentForm } = watchedInputValues;
 
-            return formGroupsOptions(options, moduleID, parentForm, i18n);
+            return getFormGroupsOptions(options, moduleID, parentForm, i18n);
           },
           handleWatchedInputs: values => {
             return { disabled: some(values, isEmpty) || limitedProductionSite };

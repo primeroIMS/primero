@@ -22,7 +22,8 @@ import {
   NUMERIC_FIELD,
   RADIO_FIELD,
   SELECT_FIELD,
-  SUBFORM_SECTION
+  SUBFORM_SECTION,
+  TALLY_FIELD
 } from "../../../../../form";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -58,7 +59,8 @@ const fields = [
   [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator],
-  [SUBFORM_SECTION, SubformField]
+  [SUBFORM_SECTION, SubformField],
+  [TALLY_FIELD, SubformField]
 ];
 
 const Component = ({ isSubform }) => {

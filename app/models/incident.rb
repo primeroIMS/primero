@@ -260,7 +260,7 @@ class Incident < ApplicationRecord
   end
 
   def calculate_elapsed_reporting_time
-    return nil if incident_date.blank? || date_of_first_report.blank?
+    return if incident_date.blank? || date_of_first_report.blank?
 
     calculated = (date_of_first_report - incident_date).to_i
 
