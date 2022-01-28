@@ -9,6 +9,7 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
   def indicators
     [
       ManagedReports::Indicators::TotalIncidents,
+      ManagedReports::Indicators::TotalGBVSexualViolence,
       ManagedReports::Indicators::TotalGBVPreviousIncidents,
       ManagedReports::Indicators::GBVSexualViolenceType,
       ManagedReports::Indicators::IncidentTimeofday,
