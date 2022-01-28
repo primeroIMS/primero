@@ -16,10 +16,10 @@ class ManagedReport < ValueObject
   }.freeze
 
   def build_report(filters = [], subreport_id = nil)
-    filter_names = permitted_filter_names
+    params_for_subreport = subreport_params(filters)
     self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(filters.select { |param| filter_names.include?(param.field_name) })
+      subreport.build_report(params_for_subreport)
       acc.merge(subreport.id => subreport.data)
     end
   end
@@ -28,6 +28,14 @@ class ManagedReport < ValueObject
     return subreports if subreport_id.blank?
 
     subreports.select { |subreport| subreport == subreport_id }
+  end
+
+  def subreport_params(params)
+    filtered_params = params.select { |param| permitted_filter_names.include?(param.field_name) }
+
+    return filtered_params unless id == 'gbv_statistics'
+
+    filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id)
   end
 
   def permitted_filter_names
