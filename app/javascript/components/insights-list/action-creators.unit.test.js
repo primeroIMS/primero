@@ -12,23 +12,23 @@ describe("<Reports /> - Action Creators", () => {
     expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
     expect(creators, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
     expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
-    expect(creators).to.have.property("fetchReports");
+    expect(creators).to.have.property("fetchInsights");
 
     delete creators.fetchCasesByNationality;
     delete creators.fetchCasesByAgeAndSex;
     delete creators.fetchCasesByProtectionConcern;
     delete creators.fetchCasesByAgency;
-    delete creators.fetchReports;
+    delete creators.fetchInsights;
 
     expect(creators).to.be.empty;
   });
 
-  it("should check the 'fetchReports' action creator to return the correct object", () => {
+  it("should check the 'fetchInsights' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
     const data = { options: { page: 1, per: 20 } };
 
-    dispatch(actionCreators.fetchReports(data));
+    dispatch(actionCreators.fetchInsights(data));
     const firstCall = dispatch.getCall(0);
 
     expect(firstCall.returnValue.type).to.equal(FETCH_INSIGHTS);

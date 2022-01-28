@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
@@ -7,24 +6,20 @@ import { MenuOpen } from "@material-ui/icons";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
-import { ROUTES } from "../../config";
-import { displayNameHelper, useMemoizedSelector } from "../../libs";
-import { clearSelectedReport } from "../reports-form/action-creators";
+import { MODULES, ROUTES } from "../../config";
+import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
-import InsightsFilters from "../insights-filters";
+import { getInsight } from "../insights-sub-report/selectors";
 
-import { getInsight } from "./selectors";
-import { fetchReport } from "./action-creators";
 import { INSIGHTS_CONFIG, NAME } from "./constants";
-import Exporter from "./components/exporter";
 import css from "./styles.css";
 
 const Component = ({ routes }) => {
   const { id } = useParams();
   const i18n = useI18n();
-  const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const { moduleID } = useParams();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const [toggleNav, setToggleNav] = useState(false);
@@ -32,40 +27,45 @@ const Component = ({ routes }) => {
   const handleToggleNav = () => setToggleNav(!toggleNav);
 
   useEffect(() => {
-    dispatch(fetchReport(id));
-
-    return () => {
-      dispatch(clearSelectedReport());
-    };
-  }, []);
-
-  useEffect(() => {
     setToggleNav(false);
   }, [pathname]);
 
-  const insightType = INSIGHTS_CONFIG.mrm;
+  const insightType = INSIGHTS_CONFIG[moduleID];
 
-  const menuList = insightType.ids.map(violation => ({
-    to: `${ROUTES.insights}/${id}/${violation}`,
-    text: i18n.t([...insightType.localeKeys, violation].join("."))
+  const menuList = insightType.ids.map(subReportID => ({
+    to: [ROUTES.insights, moduleID, id, subReportID].join("/"),
+    text: i18n.t([...insightType.localeKeys, subReportID].join("."))
   }));
 
-  const report = useMemoizedSelector(state => getInsight(state));
+  const insight = useMemoizedSelector(state => getInsight(state));
 
-  const name = displayNameHelper(report.get("name"), i18n.locale);
+  const name = i18n.t(insight.get("name"));
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;
 
+  // TODO: Remove when added to api
+  const tempAdditionalMenuList =
+    moduleID === MODULES.GBV
+      ? [
+          {
+            text: "Survivor",
+            disabled: true
+          },
+          {
+            text: "Perpetrator",
+            disabled: true
+          }
+        ]
+      : [];
+
   return (
     <PageContainer twoCol>
-      <PageHeading title={name}>
-        <Exporter includesGraph={report.get("graph")} />
-      </PageHeading>
+      <PageHeading title={name}>{/* <Exporter includesGraph={insight.get("graph")} /> */}</PageHeading>
       <PageContent hasNav>
         <Hidden smDown implementation="css">
           <div>
             <PageNavigation
-              menuList={menuList}
+              menuList={[...menuList, ...tempAdditionalMenuList]}
               selected={pathname}
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}
@@ -84,7 +84,6 @@ const Component = ({ routes }) => {
             </Hidden>
             <h2>{subReportTitle}</h2>
           </div>
-          <InsightsFilters />
           <ApplicationRoutes routes={routes} />
         </div>
       </PageContent>

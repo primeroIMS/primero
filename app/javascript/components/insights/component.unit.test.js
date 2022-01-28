@@ -6,14 +6,14 @@ import { TableValues } from "../charts";
 import LoadingIndicator from "../loading-indicator";
 
 import Exporter from "./components/exporter";
-import Report from "./container";
+import Insights from "./component";
 
 describe("<Report />", () => {
   let component;
 
   const initialState = fromJS({
     records: {
-      reports: {
+      insights: {
         loading: false,
         errors: false,
         selectedReport: {
@@ -51,11 +51,11 @@ describe("<Report />", () => {
   });
 
   before(() => {
-    ({ component } = setupMountedComponent(Report, {}, initialState));
+    ({ component } = setupMountedComponent(Insights, {}, initialState));
   });
 
   it("renders report component", () => {
-    expect(component.find(Report)).to.have.lengthOf(1);
+    expect(component.find(Insights)).to.have.lengthOf(1);
   });
 
   it("renders PageContainer, PageHeading and PageContent", () => {
@@ -80,7 +80,7 @@ describe("<Report />", () => {
     let loadingComponent;
     const loadingInitialState = fromJS({
       records: {
-        reports: {
+        insights: {
           loading: true,
           errors: false,
           selectedReport: {}
@@ -89,11 +89,11 @@ describe("<Report />", () => {
     });
 
     before(() => {
-      loadingComponent = setupMountedComponent(Report, {}, loadingInitialState).component;
+      loadingComponent = setupMountedComponent(Insights, {}, loadingInitialState).component;
     });
 
     it("renders report component", () => {
-      expect(loadingComponent.find(Report)).to.have.lengthOf(1);
+      expect(loadingComponent.find(Insights)).to.have.lengthOf(1);
     });
     it("renders LoadingIndicator", () => {
       expect(loadingComponent.find(LoadingIndicator)).to.have.lengthOf(1);

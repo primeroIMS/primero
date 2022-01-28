@@ -1,33 +1,16 @@
-import { RECORD_PATH } from "../../config";
-import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../notifier";
+/* eslint-disable import/prefer-default-export */
 
 import actions from "./actions";
 
-export const fetchReport = id => {
+export const fetchInsight = (id, subReport, params = {}) => {
   return {
-    type: actions.FETCH_REPORT,
+    type: actions.FETCH_INSIGHT,
     api: {
-      path: `reports/${id}`
+      path: `managed_reports/${id}`,
+      params: {
+        [subReport]: true,
+        ...params
+      }
     }
   };
 };
-
-export const deleteReport = ({ id, message }) => ({
-  type: actions.DELETE_REPORT,
-  api: {
-    path: `${RECORD_PATH.reports}/${id}`,
-    method: "DELETE",
-    successCallback: {
-      action: ENQUEUE_SNACKBAR,
-      payload: {
-        message,
-        options: {
-          variant: SNACKBAR_VARIANTS.success,
-          key: generate.messageKey(message)
-        }
-      },
-      redirectWithIdFromResponse: false,
-      redirect: `/${RECORD_PATH.reports}`
-    }
-  }
-});

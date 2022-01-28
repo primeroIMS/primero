@@ -557,3 +557,15 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "sources",
   "responses"
 ];
+
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents"];
+
+export const CHART_COLORS = Object.freeze({
+  blue: "rgb(0, 147, 186)",
+  grey: "rgb(89, 89, 82)",
+  purple: "rgb(124, 52, 123)",
+  green: "rgb(131, 158, 60)",
+  red: "rgb(208, 16, 27)",
+  orange: "rgb(231, 113, 45)",
+  yellow: "rgb(242, 195, 23)"
+});

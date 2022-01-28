@@ -1,4 +1,4 @@
-import { VIOLATIONS_SUBFORM_UNIQUE_IDS } from "../../config/constants";
+import { MODULES, VIOLATIONS_SUBFORM_UNIQUE_IDS, GBV_INSIGHTS_SUBREPORTS } from "../../config/constants";
 import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
 const QUARTER_OPTION_IDS = ["this_quarter", "last_quarter", "custom"];
@@ -24,7 +24,7 @@ export const LAST_MONTH = "last_month";
 export const CUSTOM = "custom";
 
 export const INSIGHTS_CONFIG = {
-  mrm: {
+  [MODULES.MRM]: {
     ids: VIOLATIONS_SUBFORM_UNIQUE_IDS,
     localeKeys: ["incident", "violation", "types"],
     filters: [
@@ -107,5 +107,84 @@ export const INSIGHTS_CONFIG = {
       }
     ].map(filter => FieldRecord(filter))
   },
-  gbv: {}
+  [MODULES.GBV]: {
+    ids: GBV_INSIGHTS_SUBREPORTS,
+    localeKeys: ["incident", "gbv_statistics", "types"],
+    filters: [
+      {
+        name: "view_by",
+        display_name: ["fields", "date_range", "view_by"],
+        clearDependentValues: ["date_range"],
+        option_strings_text: [
+          { id: "quarter", display_name: ["report", "date_ranges", "quarter"] },
+          { id: "month", display_name: ["report", "date_ranges", "month"] },
+          { id: "year", display_name: ["report", "date_ranges", "year"] }
+        ],
+        type: SELECT_FIELD
+      },
+      {
+        name: "date_range",
+        display_name: ["fields", "date_range", "date_range"],
+        option_strings_text: [
+          { id: THIS_QUARTER, display_name: ["insights", "date_range_options", "this_quarter"] },
+          { id: LAST_QUARTER, display_name: ["insights", "date_range_options", "last_quarter"] },
+          { id: THIS_MONTH, display_name: ["insights", "date_range_options", "this_month"] },
+          { id: LAST_MONTH, display_name: ["insights", "date_range_options", "last_month"] },
+          { id: THIS_YEAR, display_name: ["insights", "date_range_options", "this_year"] },
+          { id: LAST_YEAR, display_name: ["insights", "date_range_options", "last_year"] },
+          { id: CUSTOM, display_name: ["insights", "date_range_options", "custom"] }
+        ],
+        type: SELECT_FIELD,
+        watchedInputs: "view_by",
+        filterOptionSource: (watchedInputsValue, options) => {
+          const filterBy = () => {
+            switch (watchedInputsValue) {
+              case "quarter":
+                return QUARTER_OPTION_IDS;
+              case "month":
+                return MONTH_OPTION_IDS;
+              default:
+                return YEAR_OPTION_IDS;
+            }
+          };
+
+          return options.filter(option => filterBy().includes(option.id));
+        },
+        handleWatchedInputs: value => ({
+          disabled: !value
+        })
+      },
+      {
+        name: "from",
+        display_name: ["fields", "date_range", "from"],
+        type: DATE_FIELD,
+        watchedInputs: "date_range",
+        handleWatchedInputs: value => ({
+          disabled: value !== "custom"
+        })
+      },
+      {
+        name: "to",
+        display_name: ["fields", "date_range", "to"],
+        type: DATE_FIELD,
+        watchedInputs: "date_range",
+        handleWatchedInputs: value => ({
+          disabled: value !== "custom"
+        })
+      },
+      {
+        name: "date",
+        display_name: ["cases", "filter_by", "date"],
+        option_strings_text: [
+          { id: "date_of_first_report", display_name: ["insights", "gbv", "date_of_first_report"] },
+          { id: "incident_date", display_name: ["insights", "gbv", "incident_date"] }
+        ],
+        watchedInputs: "view_by",
+        type: SELECT_FIELD,
+        handleWatchedInputs: value => ({
+          disabled: !value
+        })
+      }
+    ].map(filter => FieldRecord(filter))
+  }
 };

@@ -15,3 +15,20 @@
 .subReportTables {
   flex: 1;
 }
+
+.section {
+  margin-bottom: 4em;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+
+  &:after {
+    content: "";
+    border: 1px solid var(--c-warm-grey-1);
+    flex: 1;
+    height: 1px;
+  }
+}

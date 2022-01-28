@@ -12,37 +12,48 @@ import {
   subYears
 } from "date-fns";
 
-import { LAST_MONTH, LAST_QUARTER, LAST_YEAR, THIS_MONTH, THIS_QUARTER, THIS_YEAR } from "../insights/constants";
+import {
+  CUSTOM,
+  LAST_MONTH,
+  LAST_QUARTER,
+  LAST_YEAR,
+  THIS_MONTH,
+  THIS_QUARTER,
+  THIS_YEAR
+} from "../insights/constants";
 
-export const dateCalculations = option => {
+export const dateCalculations = (option, from, to) => {
   const date = new Date();
 
   const dateFunctions = {
     [THIS_QUARTER]: () => {
-      return [startOfQuarter(date), endOfQuarter(date)];
+      return { from: startOfQuarter(date), to: endOfQuarter(date) };
     },
     [LAST_QUARTER]: () => {
       const lastQuarter = subQuarters(date, 1);
 
-      return [startOfQuarter(lastQuarter), endOfQuarter(lastQuarter)];
+      return { from: startOfQuarter(lastQuarter), to: endOfQuarter(lastQuarter) };
     },
     [THIS_YEAR]: () => {
-      return [startOfYear(date), endOfYear(date)];
+      return { from: startOfYear(date), to: endOfYear(date) };
     },
     [LAST_YEAR]: () => {
       const lastYear = subYears(date, 1);
 
-      return [startOfYear(lastYear), endOfYear(lastYear)];
+      return { from: startOfYear(lastYear), to: endOfYear(lastYear) };
     },
     [THIS_MONTH]: () => {
-      return [startOfMonth(date), endOfMonth(date)];
+      return { from: startOfMonth(date), to: endOfMonth(date) };
     },
     [LAST_MONTH]: () => {
       const lastMonth = subMonths(date, 1);
 
-      return [startOfMonth(lastMonth), endOfMonth(lastMonth)];
+      return { from: startOfMonth(lastMonth), to: endOfMonth(lastMonth) };
+    },
+    [CUSTOM]: () => {
+      return { from, to };
     }
   };
 
-  return dateFunctions(option);
+  return dateFunctions[option]();
 };

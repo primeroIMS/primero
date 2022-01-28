@@ -18,6 +18,15 @@ const useOptions = (config = {}) => {
 
   const optionsFromState = useMemoizedSelector(state => {
     if (source && run) {
+      if (Array.isArray(source)) {
+        return Object.fromEntries(
+          source.map(([key, src]) => {
+            const selector = getOptions(src);
+
+            return [key, selector(state, { ...selectorConfig, source: src, locale, localizeDate })];
+          })
+        );
+      }
       const selector = getOptions(source);
 
       return filterTaggedOptions(selector(state, { ...selectorConfig, locale, localizeDate }), tags);

@@ -176,7 +176,7 @@ export default [
         actions: READ_REPORTS
       },
       {
-        path: `${ROUTES.insights}/:id(\\d+)`,
+        path: `${ROUTES.insights}/:moduleID/:id`,
         component: Insights,
         resources: RESOURCES.reports,
         actions: READ_REPORTS,
@@ -185,7 +185,7 @@ export default [
           mode: MODES.show,
           routes: [
             {
-              path: `${ROUTES.insights}/:id/:sub_report`,
+              path: `${ROUTES.insights}/:moduleID/:id/:subReport`,
               component: InsightsSubReport,
               resources: RESOURCES.reports,
               actions: READ_REPORTS,
