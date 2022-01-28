@@ -5,7 +5,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
   attr_accessor :params, :data
 
   class << self
-    def sql(param_names = []); end
+    def sql(params = []); end
 
     def build(params = [])
       indicator = new(params: params)
@@ -15,9 +15,18 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
     def filter_query(params = [])
       params.reduce('') do |acc, param|
-        acc + "and #{date_range_query(param)}" if param.class == SearchFilters::DateRange
-        acc + "and #{equal_query(param)}" if param.class != SearchFilters::DateRange
+        if param.class == SearchFilters::DateRange
+          acc + "and #{date_range_query(param)}"
+        else
+          acc + "and #{equal_value_query(param)}"
+        end
       end
+    end
+
+    def equal_value_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['data ->> ? = ?', param.field_name, param.value]
+      )
     end
 
     def date_range_query(param)
@@ -27,17 +36,6 @@ class ManagedReports::SqlReportIndicator < ValueObject
           param.field_name,
           param.from,
           param.to
-        ]
-      )
-    end
-
-    def equal_query(param)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          'and v.data->> ? = ?',
-          param.field_name,
-          param.value
-
         ]
       )
     end
@@ -55,5 +53,17 @@ class ManagedReports::SqlReportIndicator < ValueObject
     ActiveRecord::Base.connection.execute(
       ActiveRecord::Base.sanitize_sql_array([self.class.sql(params)])
     )
+  end
+
+  def apply_params(query)
+    params.each do |param|
+      if param.class == SearchFilters::DateRange
+        query = query.where(self.class.date_range_query(param))
+      else
+        query = query.where(self.class.equal_value_query(param))
+      end
+    end
+
+    query
   end
 end

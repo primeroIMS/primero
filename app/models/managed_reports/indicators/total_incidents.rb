@@ -11,12 +11,4 @@ class ManagedReports::Indicators::TotalIncidents < ManagedReports::SqlReportIndi
   def execute_query
     apply_params(Incident).count
   end
-
-  def apply_params(query)
-    params.each do |param|
-      query = query.where(self.class.date_range_query(param)) if param.class == SearchFilters::DateRange
-    end
-
-    query
-  end
 end

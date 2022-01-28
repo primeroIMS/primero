@@ -24,7 +24,7 @@ describe ManagedReports::Indicators::Perpetrators do
   it 'returns data for perpetrators indicator' do
     perpetrators_data = ManagedReports::Indicators::Perpetrators.build(
       [
-        SearchFilters::Value.new(field_name: 'violation_type', value: 'killing')
+        SearchFilters::Value.new(field_name: 'type', value: 'killing')
       ]
     ).data
 

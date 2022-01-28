@@ -32,6 +32,9 @@ import Reports from "../components/reports-list";
 import ReportsForm from "../components/reports-form";
 import RecordForm from "../components/record-form/container";
 import RecordList from "../components/record-list";
+import InsightsList from "../components/insights-list";
+import Insights from "../components/insights";
+import InsightsSubReport from "../components/insights-sub-report";
 import Account from "../components/pages/account";
 import PasswordReset from "../components/password-reset";
 import CodeOfConduct from "../components/code-of-conduct";
@@ -50,7 +53,8 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
   VIEW_KPIS,
-  ACTIVITY_LOGS
+  ACTIVITY_LOGS,
+  READ_MANAGED_REPORTS
 } from "../libs/permissions";
 import Login from "../components/login";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
@@ -165,6 +169,33 @@ export default [
         component: Reports,
         resources: RESOURCES.reports,
         actions: READ_REPORTS
+      },
+      {
+        path: ROUTES.insights, // TODO: CHANGE PERMISSION CONSTANTS
+        component: InsightsList,
+        resources: RESOURCES.reports,
+        actions: READ_REPORTS
+      },
+      {
+        path: `${ROUTES.insights}/:moduleID/:id`,
+        component: Insights,
+        resources: RESOURCES.managed_reports,
+        actions: READ_MANAGED_REPORTS,
+        exact: false,
+        extraProps: {
+          mode: MODES.show,
+          routes: [
+            {
+              path: `${ROUTES.insights}/:moduleID/:id/:subReport`,
+              component: InsightsSubReport,
+              resources: RESOURCES.managed_reports,
+              actions: READ_MANAGED_REPORTS,
+              extraProps: {
+                mode: MODES.show
+              }
+            }
+          ]
+        }
       },
       {
         path: ROUTES.matches,

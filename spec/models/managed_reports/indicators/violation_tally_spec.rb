@@ -28,7 +28,7 @@ describe ManagedReports::Indicators::ViolationTally do
   it 'returns data for violation tally indicator' do
     violation_tally_data = ManagedReports::Indicators::ViolationTally.build(
       [
-        SearchFilters::Value.new(field_name: 'violation_type', value: 'killing')
+        SearchFilters::Value.new(field_name: 'type', value: 'killing')
       ]
     ).data
 

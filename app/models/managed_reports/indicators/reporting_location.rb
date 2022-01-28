@@ -13,17 +13,27 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
         select i."data"->>'incident_location' as id, count(v.id) as total
         from violations v
         inner join incidents i on i.id = v.incident_id
-        WHERE v.data->>'type' = :violation_type
+        WHERE i.data->>'incident_location' is not null
         #{filter_query(params)}
         group by i."data"->>'incident_location';
       }
     end
 
-    def and_date_range_query(field_name)
-      %{
-        and to_timestamp(i.data ->> '#{field_name}', 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')
-          between :#{field_name}_from and :#{field_name}_to
-      }
+    def date_range_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          param.field_name,
+          param.from,
+          param.to
+        ]
+      )
+    end
+
+    def equal_value_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['v.data ->> ? = ?', param.field_name, param.value]
+      )
     end
 
     def build(args = {})

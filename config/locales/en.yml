@@ -1086,6 +1086,7 @@ en:
       date_range: Date Range
       from: From
       to: To
+      view_by: View By
     date_range_field: Date Range
     date_time: Date-Time
     db_name: Database Name
@@ -1331,6 +1332,9 @@ en:
       disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
+    gbv_statistics:
+      types: 
+        incidents: Incidents
     violation:
       update_and_return: 'Update and Return to %{association}'
       save_and_return: 'Add and Return to %{association}'
@@ -1776,7 +1780,17 @@ en:
       description: ''
     gbv_statistics:
       name: GBV Statistics
-      description: ''
+      description: '' 
+      sub_reports:
+        incidents: Incidents
+        total: Number of GBV Incidents Reported
+        gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
+        gbv_sexual_violence_type: Incident Type
+        incident_timeofday: Incident Time of Day
+        elapsed_reporting_time: Time Between Incident and Report Date
+        elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
+        incident_location_type: Incident Location
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1813,6 +1827,7 @@ en:
     incidents: Incidents
     logout: Log out
     reports: Reports
+    insights: Insights
     search: Search
     settings: Settings
     support: Support
@@ -3241,6 +3256,23 @@ en:
     record_type: Record type
     total: Total
     value: Value
+  insights:
+    label: Insights
+    date_range_options:
+      this_quarter: This Quarter
+      last_quarter: Last Quarter
+      this_month: This Month
+      last_month: Last Month
+      this_year: This Year
+      last_year: Last Year
+      custom: Custom
+    mrm:
+      date_of_incident: Date of Incident
+      date_of_report: Date of Report
+      date_of_verification: Date of Verification
+    gbv:
+      date_of_first_report: Date of Interview
+      incident_date: Date of Incident
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can

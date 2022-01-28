@@ -15,17 +15,27 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         from violations v
         #{incident_join(params)}
         cross join json_each_text((v.data->>'violation_tally')::JSON)
-        WHERE v.data->>'type' = :violation_type
+        WHERE v.data->>'violation_tally' is not null
         #{filter_query(params)}
         group by key) as violation_data;
       }
     end
 
-    def and_date_range_query(field_name)
-      %{
-        and to_timestamp(i.data ->> '#{field_name}', 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')
-          between :#{field_name}_from and :#{field_name}_to
-      }
+    def date_range_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          param.field_name,
+          param.from,
+          param.to
+        ]
+      )
+    end
+
+    def equal_value_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['v.data ->> ? = ?', param.field_name, param.value]
+      )
     end
 
     def build(args = {})

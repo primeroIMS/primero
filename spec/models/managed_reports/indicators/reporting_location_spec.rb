@@ -21,7 +21,7 @@ describe ManagedReports::Indicators::ReportingLocation do
   it 'returns data for reporting location indicator' do
     reporting_location_data = ManagedReports::Indicators::ReportingLocation.build(
       [
-        SearchFilters::Value.new(field_name: 'violation_type', value: 'killing')
+        SearchFilters::Value.new(field_name: 'type', value: 'killing')
       ]
     ).data
 

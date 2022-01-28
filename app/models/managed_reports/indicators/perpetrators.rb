@@ -14,17 +14,27 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
         inner join perpetrators_violations pv on pv.violation_id = v.id
         #{incident_join(params)}
         inner join perpetrators p on p.id = pv.perpetrator_id
-        WHERE v.data->>'type' = :violation_type
+        WHERE p.data->>'armed_force_group_party_name' is not null
         #{filter_query(params)}
         group by p."data"->>'armed_force_group_party_name';
       }
     end
 
-    def and_date_range_query(field_name)
-      %{
-        and to_timestamp(i.data ->> '#{field_name}', 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')
-          between :#{field_name}_from and :#{field_name}_to
-      }
+    def date_range_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          param.field_name,
+          param.from,
+          param.to
+        ]
+      )
+    end
+
+    def equal_value_query(param)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ['v.data ->> ? = ?', param.field_name, param.value]
+      )
     end
 
     def build(args = {})

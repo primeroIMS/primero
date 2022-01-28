@@ -18,7 +18,7 @@ describe ManagedReports::Indicators::AttackType do
   it 'returns data for attack type indicator' do
     attack_type_data = ManagedReports::Indicators::AttackType.build(
       [
-        SearchFilters::Value.new(field_name: 'violation_type', value: 'killing')
+        SearchFilters::Value.new(field_name: 'type', value: 'killing')
       ]
     ).data
 
