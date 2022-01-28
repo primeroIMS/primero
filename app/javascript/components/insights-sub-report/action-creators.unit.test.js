@@ -9,12 +9,11 @@ describe("<InsightsSubReport /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
     const id = 1234;
-    const subReport = "incident";
 
     dispatch(actionCreators.fetchInsight(id));
     const firstCall = dispatch.getCall(0);
 
     expect(firstCall.returnValue.type).to.equal(actions.FETCH_INSIGHT);
-    expect(firstCall.returnValue.api.path).to.equal(`managed_report/${id}/${subReport}`);
+    expect(firstCall.returnValue.api.path).to.equal(`managed_reports/${id}`);
   });
 });

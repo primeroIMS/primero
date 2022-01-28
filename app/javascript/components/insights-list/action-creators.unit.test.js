@@ -32,7 +32,7 @@ describe("<Reports /> - Action Creators", () => {
     const firstCall = dispatch.getCall(0);
 
     expect(firstCall.returnValue.type).to.equal(FETCH_INSIGHTS);
-    expect(firstCall.returnValue.api.path).to.equal("insights");
+    expect(firstCall.returnValue.api.path).to.equal("managed_reports");
     expect(firstCall.returnValue.api.params).to.deep.equal(data.options);
   });
 });

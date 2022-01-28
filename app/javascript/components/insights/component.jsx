@@ -32,7 +32,7 @@ const Component = ({ routes }) => {
 
   const insightType = INSIGHTS_CONFIG[moduleID];
 
-  const menuList = insightType.ids.map(subReportID => ({
+  const menuList = insightType?.ids.map(subReportID => ({
     to: [ROUTES.insights, moduleID, id, subReportID].join("/"),
     text: i18n.t([...insightType.localeKeys, subReportID].join("."))
   }));

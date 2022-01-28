@@ -53,7 +53,8 @@ import {
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
   VIEW_KPIS,
-  ACTIVITY_LOGS
+  ACTIVITY_LOGS,
+  READ_MANAGED_REPORTS
 } from "../libs/permissions";
 import Login from "../components/login";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
@@ -178,8 +179,8 @@ export default [
       {
         path: `${ROUTES.insights}/:moduleID/:id`,
         component: Insights,
-        resources: RESOURCES.reports,
-        actions: READ_REPORTS,
+        resources: RESOURCES.managed_reports,
+        actions: READ_MANAGED_REPORTS,
         exact: false,
         extraProps: {
           mode: MODES.show,
@@ -187,8 +188,8 @@ export default [
             {
               path: `${ROUTES.insights}/:moduleID/:id/:subReport`,
               component: InsightsSubReport,
-              resources: RESOURCES.reports,
-              actions: READ_REPORTS,
+              resources: RESOURCES.managed_reports,
+              actions: READ_MANAGED_REPORTS,
               extraProps: {
                 mode: MODES.show
               }

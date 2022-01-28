@@ -14,7 +14,8 @@ import {
   ADMIN_ACTIONS,
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
-  SHOW_SUMMARY
+  SHOW_SUMMARY,
+  READ_MANAGED_REPORTS
 } from "../libs/permissions";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -374,8 +375,8 @@ export const APPLICATION_NAV = (permissions, userId) => {
       name: "navigation.insights",
       to: ROUTES.insights,
       icon: "insights",
-      resources: RESOURCES.reports,
-      actions: READ_REPORTS,
+      resources: RESOURCES.managed_reports,
+      actions: READ_MANAGED_REPORTS,
       disableOffline: true,
       validateWithUserPermissions: true
     },
