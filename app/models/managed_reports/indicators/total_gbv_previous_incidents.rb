@@ -12,12 +12,4 @@ class ManagedReports::Indicators::TotalGBVPreviousIncidents < ManagedReports::Sq
     query = Incident.where("data ->> 'gbv_previous_incidents' = 'true'")
     apply_params(query).count
   end
-
-  def apply_params(query)
-    params.each do |param|
-      query = query.where(self.class.date_range_query(param)) if param.class == SearchFilters::DateRange
-    end
-
-    query
-  end
 end
