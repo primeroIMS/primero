@@ -14,18 +14,16 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def filter_query(params = [])
-      params.map do |param|
-        next unless param.class == SearchFilters::DateRange
-
-        and_date_range_query(param) if param.class == SearchFilters::DateRange
-        and_equal_query(param) if param.class != SearchFilters::DateRange
-      end.join(' ')
+      params.reduce('') do |acc, param|
+        acc + "and #{date_range_query(param)}" if param.class == SearchFilters::DateRange
+        acc + "and #{equal_query(param)}" if param.class != SearchFilters::DateRange
+      end
     end
 
-    def and_date_range_query(param)
+    def date_range_query(param)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "and to_date(data ->> ?, 'YYYY-MM-DD') between ? and ?",
+          "to_timestamp(data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -33,7 +31,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
       )
     end
 
-    def and_equal_query(param)
+    def equal_query(param)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           'and v.data->> ? = ?',
@@ -55,18 +53,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
   def execute_query
     ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.sanitize_sql_array([self.class.sql(params), query_params])
+      ActiveRecord::Base.sanitize_sql_array([self.class.sql(params)])
     )
-  end
-
-  def query_params
-    params.each_with_object({}) do |param, memo|
-      if param.class == SearchFilters::DateRange
-        memo["#{param.field_name}_from".to_sym] = param.from
-        memo["#{param.field_name}_to".to_sym] = param.to
-      else
-        memo[param.field_name.to_sym] = param.value
-      end
-    end
   end
 end

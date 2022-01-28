@@ -30,19 +30,10 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def permit_params
-    params.permit(
-      :id, :subreport, :ctfmr_verified, :verified_ctfmr_technical,
-      date_of_first_report: {}, incident_date: {}
-    )
+    params.permit(:id, :subreport, *ManagedReport::REPORTS.values.map(&:permitted_filters).flatten)
   end
 
   def filters
-    SearchFilterService.build_filters(
-      permit_params,
-      %w[
-        date_of_first_report incident_date
-        ctfmr_verified verified_ctfmr_technical
-      ]
-    )
+    SearchFilterService.build_filters(permit_params, @managed_report.permitted_filter_names)
   end
 end
