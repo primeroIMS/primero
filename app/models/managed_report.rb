@@ -4,24 +4,26 @@
 class ManagedReport < ValueObject
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters
 
-  REPORTS = {
-    Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
-      id: 'gbv_statistics',
-      name: 'managed_reports.gbv_statistics.name',
-      description: 'managed_reports.gbv_statistics.description',
-      subreports: %w[incidents],
-      permitted_filters: [date_of_first_report: {}, incident_date: {}],
-      module_id: PrimeroModule::GBV
-    ),
-    Permission::VIOLATION_REPORT => ManagedReport.new(
-      id: 'violations',
-      name: 'managed_reports.violations.name',
-      description: 'managed_reports.violations.description',
-      subreports: %w[killing],
-      permitted_filters: [:ctfmr_verified, :verified_ctfmr_technical, date_of_first_report: {}, incident_date: {}],
-      module_id: PrimeroModule::MRM
-    )
-  }.freeze
+  def self.list
+    {
+      Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
+        id: 'gbv_statistics',
+        name: 'managed_reports.gbv_statistics.name',
+        description: 'managed_reports.gbv_statistics.description',
+        subreports: %w[incidents],
+        permitted_filters: [date_of_first_report: {}, incident_date: {}],
+        module_id: PrimeroModule::GBV
+      ),
+      Permission::VIOLATION_REPORT => ManagedReport.new(
+        id: 'violations',
+        name: 'managed_reports.violations.name',
+        description: 'managed_reports.violations.description',
+        subreports: %w[killing maiming],
+        permitted_filters: [:ctfmr_verified, :verified_ctfmr_technical, date_of_first_report: {}, incident_date: {}],
+        module_id: PrimeroModule::MRM
+      )
+    }.freeze
+  end
 
   def build_report(filters = [], subreport_id = nil)
     self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|

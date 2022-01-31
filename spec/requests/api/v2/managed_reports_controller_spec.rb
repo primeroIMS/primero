@@ -54,7 +54,7 @@ describe Api::V2::ManagedReportsController, type: :request do
         ]
       )
 
-      get '/api/v2/managed_reports/violations'
+      get '/api/v2/managed_reports/violations?subreport=killing'
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('violations')

@@ -18,7 +18,7 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   def load_report
     authorize_managed_reports_read!
 
-    @managed_report = ManagedReport::REPORTS[params[:id]]
+    @managed_report = ManagedReport.list[params[:id]]
   end
 
   private
@@ -30,7 +30,7 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def permit_params
-    params.permit(:id, :subreport, *ManagedReport::REPORTS.values.map(&:permitted_filters).flatten)
+    params.permit(:id, :subreport, *ManagedReport.list.values.map(&:permitted_filters).flatten)
   end
 
   def filters
