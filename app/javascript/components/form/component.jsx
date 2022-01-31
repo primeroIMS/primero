@@ -105,6 +105,15 @@ const Component = ({
     });
   };
 
+  // Do not propagate form onSubmit
+  // Based on https://github.com/react-hook-form/react-hook-form/issues/1005#issuecomment-626050339
+  const notPropagatedOnSubmit = async event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    return handleSubmit(submit)(event);
+  };
+
   return (
     <>
       <CancelPrompt
@@ -113,7 +122,7 @@ const Component = ({
         isSubmitted={isSubmitted}
         isDirty={isDirty}
       />
-      <form noValidate onSubmit={handleSubmit(submit)} id={formID} className={formClassName}>
+      <form noValidate onSubmit={notPropagatedOnSubmit} id={formID} className={formClassName}>
         {renderFormSections(formSections)}
       </form>
       {renderBottom && renderBottom(formMethods)}
