@@ -20,6 +20,7 @@ export {
   selectUserModules,
   getAgency,
   getUserGroups,
-  getEnabledUserGroups
+  getEnabledUserGroups,
+  getWorkflowLabels
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

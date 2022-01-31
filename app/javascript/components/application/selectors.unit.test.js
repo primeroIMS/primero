@@ -4,6 +4,7 @@ import { describe } from "mocha";
 import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
 
+import { PrimeroModuleRecord } from "./records";
 import * as selectors from "./selectors";
 
 const agencyWithLogo = {
@@ -462,6 +463,38 @@ describe("Application - Selectors", () => {
       );
 
       expect(result).to.be.false;
+    });
+  });
+
+  describe("getWorkflowLabels", () => {
+    it("should return an empty array if there is no data", () => {
+      const result = selectors.getWorkflowLabels(fromJS({}), "module-1");
+
+      expect(result).to.deep.equal([]);
+    });
+
+    it("returns the workflow labels", () => {
+      const workflowOptions = [
+        { id: "new", display_text: { en: "New" } },
+        { id: "reopened", display_text: { en: "Reopened" } }
+      ];
+
+      const result = selectors.getWorkflowLabels(
+        fromJS({
+          application: {
+            modules: [
+              PrimeroModuleRecord({
+                unique_id: "module-1",
+                workflows: { case: workflowOptions }
+              })
+            ]
+          },
+          user: { modules: ["module-1"] }
+        }),
+        "module-1"
+      );
+
+      expect(result).to.deep.equal(workflowOptions);
     });
   });
 });

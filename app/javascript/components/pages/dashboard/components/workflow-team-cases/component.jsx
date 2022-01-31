@@ -6,8 +6,8 @@ import { toListTable } from "../../utils";
 import Permission from "../../../../application/permission";
 import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
-import { MODULES, RECORD_TYPES, ROUTES } from "../../../../../config";
-import { selectModule } from "../../../../application";
+import { MODULES, ROUTES } from "../../../../../config";
+import { getWorkflowLabels } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
@@ -15,7 +15,7 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const workflowLabels = useMemoizedSelector(state => selectModule(state, MODULES.CP)?.workflows?.[RECORD_TYPES.cases]);
+  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, MODULES.CP));
   const casesWorkflowTeam = useMemoizedSelector(state => getWorkflowTeamCases(state));
 
   return (

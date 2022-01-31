@@ -1,5 +1,6 @@
 import { Map, fromJS } from "immutable";
 
+import { RECORD_TYPES } from "../../config";
 import { displayNameHelper } from "../../libs";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 
@@ -45,6 +46,8 @@ export const selectModule = (state, id) => {
     .filter(f => f.unique_id === id)
     .first();
 };
+
+export const getWorkflowLabels = (state, id) => selectModule(state, id)?.workflows?.[RECORD_TYPES.cases] || [];
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
