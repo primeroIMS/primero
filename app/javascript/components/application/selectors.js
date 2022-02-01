@@ -40,11 +40,10 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) => {
-  return selectUserModules(state)
-    .filter(f => f.unique_id === id)
-    .first();
-};
+export const selectModule = (state, id) => selectUserModules(state).find(f => f.unique_id === id, null, fromJS({}));
+
+export const getWorkflowLabels = (state, id, recordType) =>
+  selectModule(state, id).getIn(["workflows", recordType], []);
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
