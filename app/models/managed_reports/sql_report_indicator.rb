@@ -43,7 +43,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def incident_join(params = [])
       param_names = params.map(&:field_name)
 
-      return '' unless param_names.any? { |elem| %w[date_of_incident date_of_first_report].include?(elem) }
+      return '' unless param_names.any? { |elem| %w[incident_date date_of_first_report].include?(elem) }
 
       'inner join incidents i on i.id = v.incident_id'
     end
