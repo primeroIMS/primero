@@ -144,13 +144,13 @@ Component.propTypes = {
   isViolationAssociation: PropTypes.bool,
   mode: PropTypes.object.isRequired,
   parentTitle: PropTypes.string,
-  parentValues: PropTypes.object,
+  parentValues: PropTypes.object.isRequired,
   parentViolationOptions: PropTypes.array,
   recordModuleID: PropTypes.string,
   recordType: PropTypes.string,
   setFieldValue: PropTypes.func,
   setFilterState: PropTypes.func,
-  values: PropTypes.object
+  values: PropTypes.object.isRequired
 };
 
 export default connect(Component);
