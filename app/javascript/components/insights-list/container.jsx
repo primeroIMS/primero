@@ -40,11 +40,11 @@ const Container = () => {
   return (
     <div>
       <PageContainer>
-        <PageHeading title={i18n.t("insights.label")} />
+        <PageHeading title={i18n.t("managed_reports.label")} />
         <PageContent>
           <LoadingIndicator hasData={insights.size > 0} loading={isLoading} type="reports">
             <IndexTable
-              title={i18n.t("insights.label")}
+              title={i18n.t("managed_reports.label")}
               columns={columns}
               recordType={NAMESPACE}
               onTableChange={fetchInsights}
