@@ -491,7 +491,8 @@ describe("Application - Selectors", () => {
           },
           user: { modules: ["module-1"] }
         }),
-        "module-1"
+        "module-1",
+        "case"
       );
 
       expect(result).to.deep.equal(workflowOptions);
