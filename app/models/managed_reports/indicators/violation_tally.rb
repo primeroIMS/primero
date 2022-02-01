@@ -12,19 +12,20 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         select json_object_agg(key, sum) as data
         from (
         select key, sum(value::int)
-        from violations v
+        from violations violations
         #{incident_join(params)}
-        cross join json_each_text((v.data->>'violation_tally')::JSON)
-        WHERE v.data->>'violation_tally' is not null
+        cross join json_each_text((violations.data->>'violation_tally')::JSON)
+        WHERE violations.data->>'violation_tally' is not null
         #{filter_query(params)}
         group by key) as violation_data;
       }
     end
 
     def date_range_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -33,8 +34,9 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     end
 
     def equal_value_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['v.data ->> ? = ?', param.field_name, param.value]
+        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
       )
     end
 

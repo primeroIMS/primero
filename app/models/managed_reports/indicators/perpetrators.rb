@@ -10,8 +10,8 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     def sql(params = [])
       %{
         select p."data"->>'armed_force_group_party_name' as id, count(pv.violation_id) as total
-        from violations v
-        inner join perpetrators_violations pv on pv.violation_id = v.id
+        from violations violations
+        inner join perpetrators_violations pv on pv.violation_id = violations.id
         #{incident_join(params)}
         inner join perpetrators p on p.id = pv.perpetrator_id
         WHERE p.data->>'armed_force_group_party_name' is not null
@@ -21,9 +21,10 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
 
     def date_range_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -32,8 +33,9 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
 
     def equal_value_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['v.data ->> ? = ?', param.field_name, param.value]
+        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
       )
     end
 

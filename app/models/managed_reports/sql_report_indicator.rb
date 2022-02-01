@@ -45,7 +45,18 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
       return '' unless param_names.any? { |elem| %w[incident_date date_of_first_report].include?(elem) }
 
-      'inner join incidents i on i.id = v.incident_id'
+      'inner join incidents incidents on incidents.id = violations.incident_id'
+    end
+
+    def namespace_for_query(field_name)
+      {
+        'ctfmr_verified_date' => 'violations',
+        'incident_date' => 'incidents',
+        'date_of_first_report' => 'incidents',
+        'type' => 'violations',
+        'ctfmr_verified' => 'violations',
+        'verified_ctfmr_technical' => 'violations'
+      }[field_name]
     end
   end
 

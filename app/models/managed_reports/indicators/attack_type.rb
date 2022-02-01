@@ -9,19 +9,20 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
 
     def sql(params = [])
       %{
-        select v."data"->>'attack_type' as id, count(v.id) as total
-        from violations v
+        select violations."data"->>'attack_type' as id, count(violations.id) as total
+        from violations violations
         #{incident_join(params)}
-        WHERE v."data"->>'attack_type' is not null
+        WHERE violations."data"->>'attack_type' is not null
         #{filter_query(params)}
-        group by v."data"->>'attack_type';
+        group by violations."data"->>'attack_type';
       }
     end
 
     def date_range_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -30,8 +31,9 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     end
 
     def equal_value_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['v.data ->> ? = ?', param.field_name, param.value]
+        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
       )
     end
 

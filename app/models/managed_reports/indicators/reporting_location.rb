@@ -10,19 +10,20 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
     def sql(params = [])
       # TODO: Currently we return incident_location, the reporting_location will be fix in a future ticket
       %{
-        select i."data"->>'incident_location' as id, count(v.id) as total
-        from violations v
-        inner join incidents i on i.id = v.incident_id
-        WHERE i.data->>'incident_location' is not null
+        select incidents."data"->>'incident_location' as id, count(violations.id) as total
+        from violations violations
+        inner join incidents incidents on incidents.id = violations.incident_id
+        WHERE incidents.data->>'incident_location' is not null
         #{filter_query(params)}
-        group by i."data"->>'incident_location';
+        group by incidents."data"->>'incident_location';
       }
     end
 
     def date_range_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(i.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -31,8 +32,9 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
     end
 
     def equal_value_query(param)
+      namespace = namespace_for_query(param.field_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['v.data ->> ? = ?', param.field_name, param.value]
+        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
       )
     end
 
