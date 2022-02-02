@@ -79,9 +79,9 @@
 
 .hasNav {
   flex: 1;
-  overflow-y: scroll;
   display: flex;
   padding: 0;
+  height: 100%;
   
   & > div:first-of-type {
     padding: 0 0.5em;
