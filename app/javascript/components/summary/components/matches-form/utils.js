@@ -18,11 +18,11 @@ export const columns = (i18n, css, onTracingRequestClick, matchedTracesIds) => [
           id="trace.tracing_request_id"
           text={getShortIdFromUniqueId(value)}
           type={ACTION_BUTTON_TYPES.default}
-          isTransparent
           noTranslate
+          variant="text"
+          color="primary"
           rest={{
-            onClick: () => onTracingRequestClick(value),
-            className: css.caseLink
+            onClick: () => onTracingRequestClick(value)
           }}
         />
       )

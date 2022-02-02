@@ -23,11 +23,11 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
           id={`matched-trace-${matchedTraceId}`}
           text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
-          isTransparent
+          variant="text"
+          color="primary"
           noTranslate
           rest={{
-            onClick: handleClickAccordion,
-            className: css.link
+            onClick: handleClickAccordion
           }}
         />
       </AccordionSummary>
