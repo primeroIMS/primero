@@ -4,6 +4,15 @@
 class ManagedReports::SqlReportIndicator < ValueObject
   attr_accessor :params, :data
 
+  NAMESPACE_MAP = {
+    'ctfmr_verified_date' => 'violations',
+    'incident_date' => 'incidents',
+    'date_of_first_report' => 'incidents',
+    'type' => 'violations',
+    'ctfmr_verified' => 'violations',
+    'verified_ctfmr_technical' => 'violations'
+  }.freeze
+
   class << self
     def sql(params = []); end
 
@@ -49,14 +58,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def namespace_for_query(field_name)
-      {
-        'ctfmr_verified_date' => 'violations',
-        'incident_date' => 'incidents',
-        'date_of_first_report' => 'incidents',
-        'type' => 'violations',
-        'ctfmr_verified' => 'violations',
-        'verified_ctfmr_technical' => 'violations'
-      }[field_name]
+      NAMESPACE_MAP[field_name]
     end
   end
 
