@@ -1791,6 +1791,10 @@ en:
         elapsed_reporting_time: Time Between Incident and Report Date
         elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
         incident_location_type: Incident Location
+        number_of_perpetrators: Number of Primary Perpetrators
+        perpetrator_relationship: Primary Perpetrator’s Relationship to Client
+        perpetrator_age_group: Perpetrators Age Group
+        perpetrator_occupation: Alleged Perpetrator Occupation
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
