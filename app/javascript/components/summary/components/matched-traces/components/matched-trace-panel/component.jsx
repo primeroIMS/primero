@@ -8,7 +8,7 @@ import { getShortIdFromUniqueId } from "../../../../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
+const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
   const matchedTraceId = matchedTrace.get("id");
   const handleOnClick = id => {
     setOpen(true);
@@ -38,7 +38,6 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  css: PropTypes.object,
   matchedTrace: PropTypes.object,
   setOpen: PropTypes.func,
   setSelectedTraceId: PropTypes.func
