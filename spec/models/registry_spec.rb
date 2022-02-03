@@ -48,7 +48,7 @@ describe Registry do
           )
         end
 
-        it 'returns default types from Registry' do
+        it 'returns registry_types configured in SystemSettings' do
           expect(Registry.registry_types).to match_array(@ss_registry_types)
         end
       end
