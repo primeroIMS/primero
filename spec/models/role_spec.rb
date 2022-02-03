@@ -777,7 +777,7 @@ describe Role do
         Permission.new(
           resource: Permission::MANAGED_REPORT,
           actions: [
-            Permission::VIOLATION_REPORT
+            Permission::GBV_STATISTICS_REPORT
           ]
         ),
         Permission.new(
@@ -819,7 +819,7 @@ describe Role do
     end
 
     it 'should return managed_reports' do
-      expect(subject.managed_reports.first).to be_an_instance_of(ManagedReports::Violations)
+      expect(subject.managed_reports.first.id).to eq('gbv_statistics')
     end
   end
 end

@@ -109,7 +109,8 @@ describe("Verifying config constant", () => {
       "SYNC_EXTERNAL",
       "TRANSFER",
       "VIEW_INCIDENT_FROM_CASE",
-      "WRITE"
+      "WRITE",
+      "GBV_STATISTICS"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -158,7 +159,8 @@ describe("Verifying config constant", () => {
       "systems",
       "tracing_requests",
       "user_groups",
-      "users"
+      "users",
+      "managed_reports"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");

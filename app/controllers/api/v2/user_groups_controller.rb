@@ -8,7 +8,7 @@ class Api::V2::UserGroupsController < ApplicationApiController
 
   def index
     authorize! :index, UserGroup
-    @user_groups = UserGroup.list(current_user, params)
+    @user_groups = UserGroup.list(current_user, user_group_filters)
     @total = @user_groups.size
     @user_groups = @user_groups.paginate(pagination) if pagination?
   end
@@ -41,6 +41,14 @@ class Api::V2::UserGroupsController < ApplicationApiController
   end
 
   protected
+
+  def user_group_filters
+    {
+      managed: params[:managed],
+      disabled: params[:disabled]&.values,
+      agency_unique_ids: params[:agency_unique_ids]&.values
+    }
+  end
 
   def load_user_group
     @user_group = UserGroup.find(record_id)

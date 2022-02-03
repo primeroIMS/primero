@@ -1,25 +1,26 @@
 /* eslint-disable import/prefer-default-export */
 
-import { Map, List } from "immutable";
+import { Map, List, Record } from "immutable";
 
 export const reduceMapToObject = data => {
   if (data && (data?.length || data?.size) <= 0) {
-    return {};
+    return null;
   }
 
-  return data
-    .toSeq()
-    .entrySeq()
-    .reduce((accumulator, current) => {
-      const [key, currValue] = current;
-      let value = currValue;
+  if (data instanceof List) {
+    return data.reduce((acc, curr) => [...acc, reduceMapToObject(curr)], []);
+  }
 
-      if (current instanceof List) {
-        value = current.reduce((acc, curr) => [...acc, curr], []);
-      } else if (current instanceof Map) {
-        value = current.reduce((acc, curr, k) => ({ ...acc, [k]: curr }), {});
-      }
+  if (data instanceof Map) {
+    return data.entrySeq().reduce((acc, [key, value]) => ({ ...acc, [key]: reduceMapToObject(value) }), {});
+  }
 
-      return { ...accumulator, [key]: value };
-    }, {});
+  if (data instanceof Record) {
+    return data
+      .toSeq()
+      .entrySeq()
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: reduceMapToObject(value) }), {});
+  }
+
+  return data;
 };

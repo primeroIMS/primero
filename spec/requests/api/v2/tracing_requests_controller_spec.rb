@@ -116,6 +116,17 @@ describe Api::V2::TracingRequestsController, type: :request do
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
       end
     end
+
+    it 'includes the updated tracing_request_subform_section if a trace is updated' do
+      login_for_test
+      params = { data: { tracing_request_subform_section: [{ unique_id: @trace1.id, relation_name: 'Person Name' }] } }
+      patch "/api/v2/tracing_requests/#{@tracing_request2.id}", params: params, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(
+        json['data']['tracing_request_subform_section'].any? { |trace| trace['relation_name'] == 'Person Name' }
+      ).to be_truthy
+    end
   end
 
   describe 'DELETE /api/v2/tracing_requests/:id' do

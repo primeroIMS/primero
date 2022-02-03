@@ -102,7 +102,9 @@ describe("Verifying config constant", () => {
       "VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS",
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
-      "VIOLATION_GROUP"
+      "VIOLATION_GROUP",
+      "GBV_INSIGHTS_SUBREPORTS",
+      "CHART_COLORS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

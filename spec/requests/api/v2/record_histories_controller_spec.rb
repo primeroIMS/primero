@@ -157,6 +157,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'date_of_first_report' => { 'from' => nil, 'to' => Incident.first.date_of_first_report.iso8601 } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'elapsed_reporting_time' => { 'from' => nil, 'to' => 'over_1_month' } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } }
         ]
       }
