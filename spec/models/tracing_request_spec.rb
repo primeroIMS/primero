@@ -5,16 +5,13 @@ require 'sunspot'
 require 'will_paginate'
 
 describe TracingRequest do
-  before :each do
-    clean_data(Trace, TracingRequest)
+  before do
+    clean_data(Trace, TracingRequest, Agency)
+
+    create(:agency)
   end
 
   describe 'save' do
-    before(:each) do
-      clean_data(Agency)
-      create(:agency)
-    end
-
     it 'should save with generated tracing request_id and inquiry_date' do
       tracing_request = create_tracing_request_with_created_by(
         'jdoe', 'last_known_location' => 'London', 'relation_age' => '6'
@@ -195,5 +192,9 @@ describe TracingRequest do
   def create_tracing_request_with_created_by(created_by, options = {})
     user = User.new(user_name: created_by, agency_id: Agency.last.id)
     TracingRequest.new_with_user(user, options)
+  end
+
+  after do
+    clean_data(Trace, TracingRequest, Agency)
   end
 end

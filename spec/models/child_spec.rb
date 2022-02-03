@@ -357,7 +357,7 @@ describe Child do
   end
 
   describe 'record ownership' do
-    before :all do
+    before do
       clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
 
       @owner = create :user
@@ -371,10 +371,14 @@ describe Child do
     it 'can fetch the record owner' do
       expect(@case.owner).to eq(@owner)
     end
+
+    after do
+      clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection)
+    end
   end
 
   describe 'case id code' do
-    before :each do
+    before do
       clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
 
       @permission_case ||= Permission.new(
@@ -533,11 +537,15 @@ describe Child do
         expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.created_at.strftime('%Y%m%d')}-#{child.short_id}")
       end
     end
+
+    after do
+      clean_data(User, Location, Role, Agency, PrimeroModule, PrimeroProgram, UserGroup, SystemSettings)
+    end
   end
 
   describe 'syncing of protection concerns' do
     before do
-      Child.destroy_all
+      clean_data(Child)
       User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
@@ -572,9 +580,17 @@ describe Child do
       @child.save!
       @child.protection_concerns.should_not include(nil)
     end
+
+    after do
+      clean_data(Child)
+    end
   end
 
   describe '.match_criteria' do
+    before do
+      clean_data(Child)
+    end
+
     let(:case1) do
       Child.create!(
         name: 'Usama Yazan Al-Rashid',
@@ -608,9 +624,9 @@ describe Child do
       )
     end
 
-    after :each do
-      clean_data(Child)
-    end
+    # after :each do
+    #   clean_data(Child)
+    # end
 
     let(:match_criteria) { case1.match_criteria }
 
@@ -628,9 +644,17 @@ describe Child do
     it 'joins family values into a single string' do
       expect(match_criteria['relation']).to eq('father mother')
     end
+
+    after do
+      clean_data(Child)
+    end
   end
 
   context 'testing service_implemented field' do
+    before do
+      clean_data(Child)
+    end
+
     it 'not_implemented in service_implemented field' do
       data = {
         data: { services_section: [{ service_type: 'Test type' }] }
@@ -655,9 +679,17 @@ describe Child do
       expect(child.data['services_section'][0]['service_implemented_day_time'].present?).to be_truthy
       expect(child.data['services_section'][0]['service_implemented']).to eq('implemented')
     end
+
+    after do
+      clean_data(Child)
+    end
   end
 
   describe 'current care arrangements' do
+    before do
+      clean_data(Child)
+    end
+
     context 'when all care arrangements have a start date' do
       let(:case1) do
         Child.create!(
@@ -712,9 +744,9 @@ describe Child do
         )
       end
 
-      after :each do
-        clean_data(Child)
-      end
+      # after :each do
+      #   clean_data(Child)
+      # end
 
       let(:most_recent_care_arrangement) { case1.most_recent_care_arrangement }
 
@@ -891,13 +923,13 @@ describe Child do
         end
       end
     end
+    after do
+      clean_data(Child)
+    end
   end
 
-  after :all do
-    Child.destroy_all
-    Field.destroy_all
-    FormSection.destroy_all
-    PrimeroModule.destroy_all
+  after do
+    clean_data(Child, Field, FormSection, PrimeroModule)
   end
 
   private

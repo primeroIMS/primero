@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe Referral do
-  before :each do
+  before do
+    clean_data(Child, Role, UserGroup, User, PrimeroModule, Transition, Transfer, Referral)
     @module_cp = PrimeroModule.new(name: 'CP')
     @module_cp.save(validate: false)
     @module_gbv = PrimeroModule.new(name: 'GBV')
@@ -88,7 +89,7 @@ describe Referral do
   end
 
   describe 'revoke' do
-    before :each do
+    before do
       @revoke_referral = Referral.create!(
         transitioned_by: 'user1',
         transitioned_to: 'user2',
@@ -112,7 +113,7 @@ describe Referral do
   end
 
   describe 'done!' do
-    before :each do
+    before do
       @done_referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @done_referral.status = Transition::STATUS_ACCEPTED
     end
@@ -182,7 +183,7 @@ describe Referral do
     end
 
     context 'when the user has an in progress referral for another case' do
-      before :each do
+      before do
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
       end
 
@@ -196,7 +197,7 @@ describe Referral do
     end
 
     context 'when there is a transfer for the transitioned_to user' do
-      before :each do
+      before do
         permission_case = Permission.new(
           resource: Permission::CASE,
           actions: [
@@ -330,7 +331,7 @@ describe Referral do
   end
 
   describe 'reject' do
-    before :each do
+    before do
       @rejected_referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       @rejected_reason = 'rejected for some specific reason'
       @now = DateTime.parse('2020-10-05T04:05:06')
@@ -348,7 +349,7 @@ describe Referral do
     end
 
     context 'when the user has a referral in progress for another case' do
-      before :each do
+      before do
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
       end
 
@@ -362,7 +363,7 @@ describe Referral do
     end
 
     context 'when there is a transfer for the transitioned_to user' do
-      before :each do
+      before do
         permission_case = Permission.new(
           resource: Permission::CASE,
           actions: [
@@ -433,7 +434,7 @@ describe Referral do
     end
 
     context 'when there is another referral for the transitioned_to user' do
-      before :each do
+      before do
         @referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
       end
 
@@ -490,17 +491,9 @@ describe Referral do
       end
     end
 
-    after :each do
-      Transition.destroy_all
-    end
-  end
 
-  after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+  end
+  after do
+    clean_data(Child, Role, UserGroup, User, PrimeroModule, Transition, Transfer, Referral)
   end
 end

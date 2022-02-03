@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe Api::V2::ReferralsController, type: :request do
   include ActiveJob::TestHelper
-  before :each do
+  before do
+    clean_data(PrimeroModule, Role, UserGroup, User, Child, Referral)
+
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_refer_case = Permission.new(
@@ -335,8 +337,8 @@ describe Api::V2::ReferralsController, type: :request do
     end
   end
 
-  after :each do
+  after do
     clear_enqueued_jobs
-    clean_data(PrimeroModule, UserGroup, Role, User, Child, Transition, SystemSettings)
+    clean_data(PrimeroModule, Role, UserGroup, User, Child, Referral)
   end
 end

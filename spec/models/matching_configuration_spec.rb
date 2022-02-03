@@ -4,6 +4,7 @@ require 'sunspot'
 describe MatchingConfiguration do
 
   before :all do
+    clean_data(Field, FormSection)
     @match_config = {
       :case_fields=>{"activities"=>["activities_child_in_school_or_training", "activities_school_name"],
                      "basic_identity"=>["name", "name_nickname", "name_other", "sex", "age", "date_of_birth"],
@@ -152,6 +153,10 @@ describe MatchingConfiguration do
         forms = MatchingConfiguration.matchable_fields_by_form('case', false)
         expect(forms).to be_empty
       end
+    end
+
+    after do
+      clean_data(Field, FormSection)
     end
   end
 end

@@ -3,26 +3,37 @@
 require 'rails_helper'
 
 describe UserTransitionService do
+  before do
+    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+
+    @program = PrimeroProgram.create!(
+      unique_id: 'primeroprogram-primero',
+      name: 'Primero',
+      description: 'Default Primero Program'
+    )
+
+    @form1 = FormSection.create!(name: 'form1')
+
+    @cp = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp',
+      name: 'CP',
+      description: 'Child Protection',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: @program,
+      form_sections: [@form1]
+    )
+
+    @other = PrimeroModule.create!(
+      unique_id: 'primeromodule-other',
+      name: 'OTHER',
+      description: 'Other Module',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: @program,
+      form_sections: [@form1]
+    )
+  end
   describe 'assign' do
-    before :each do
-      [UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram].each(&:destroy_all)
-      @program = PrimeroProgram.create!(
-        unique_id: 'primeroprogram-primero',
-        name: 'Primero',
-        description: 'Default Primero Program'
-      )
-
-      @form1 = FormSection.create!(name: 'form1')
-
-      @cp = PrimeroModule.create!(
-        unique_id: 'primeromodule-cp',
-        name: 'CP',
-        description: 'Child Protection',
-        associated_record_types: %w[case tracing_request incident],
-        primero_program: @program,
-        form_sections: [@form1]
-      )
-
+    before do
       @group1 = UserGroup.create!(name: 'Group1')
       @group2 = UserGroup.create!(name: 'Group2')
       @group3 = UserGroup.create!(name: 'Group3')
@@ -79,33 +90,7 @@ describe UserTransitionService do
   end
 
   describe 'referral' do
-    before :each do
-      @program = PrimeroProgram.create!(
-        unique_id: 'primeroprogram-primero',
-        name: 'Primero',
-        description: 'Default Primero Program'
-      )
-
-      @form1 = FormSection.create!(name: 'form1')
-
-      @cp = PrimeroModule.create!(
-        unique_id: 'primeromodule-cp',
-        name: 'CP',
-        description: 'Child Protection',
-        associated_record_types: %w[case tracing_request incident],
-        primero_program: @program,
-        form_sections: [@form1]
-      )
-
-      @other = PrimeroModule.create!(
-        unique_id: 'primeromodule-other',
-        name: 'OTHER',
-        description: 'Other Module',
-        associated_record_types: %w[case tracing_request incident],
-        primero_program: @program,
-        form_sections: [@form1]
-      )
-
+    before do
       permission_receive = Permission.new(
         resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL]
       )
@@ -193,24 +178,7 @@ describe UserTransitionService do
   end
 
   describe 'transfer' do
-    before :each do
-      @program = PrimeroProgram.create!(
-        unique_id: 'primeroprogram-primero',
-        name: 'Primero',
-        description: 'Default Primero Program'
-      )
-
-      @form1 = FormSection.create!(name: 'form1')
-
-      @cp = PrimeroModule.create!(
-        unique_id: 'primeromodule-cp',
-        name: 'CP',
-        description: 'Child Protection',
-        associated_record_types: %w[case tracing_request incident],
-        primero_program: @program,
-        form_sections: [@form1]
-      )
-
+    before do
       permission_receive = Permission.new(
         resource: Permission::CASE, actions: [Permission::RECEIVE_TRANSFER]
       )
@@ -239,7 +207,7 @@ describe UserTransitionService do
     end
   end
 
-  after :each do
-    [UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram].each(&:destroy_all)
+  after do
+    clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
   end
 end
