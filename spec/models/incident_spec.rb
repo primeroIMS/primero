@@ -4,16 +4,16 @@ require 'rails_helper'
 require 'will_paginate'
 
 describe Incident do
-  before(:all) do
+  before do
     clean_data(
       Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
       Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
+
+    create(:agency)
   end
 
   describe 'save' do
-    before(:all) { create(:agency) }
-
     it 'should save with generated incident_id' do
       Incident.any_instance.stub(:field_definitions).and_return([])
       incident = create_incident_with_created_by('jdoe', 'description' => 'London')
@@ -542,5 +542,12 @@ describe Incident do
   def create_incident_with_created_by(created_by, options = {})
     user = User.new(user_name: created_by, agency_id: Agency.last.id)
     Incident.new_with_user(user, options)
+  end
+
+  after do
+    clean_data(
+      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
+      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+    )
   end
 end

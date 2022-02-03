@@ -7,18 +7,18 @@ require 'roo'
 
 module Exporters
   describe ExcelExporter do
-    before :each do
+    before do
       clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
-                                order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'Case Form 3',
+                                order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
                                 unique_id: 'cases_test_subform_2')
       subform.fields << Field.new(name: 'field_3', type: Field::TEXT_FIELD, display_name: 'field_3')
       subform.fields << Field.new(name: 'field_4', type: Field::TEXT_FIELD, display_name: 'field_4')
       subform.save!
 
       form_a = FormSection.new(name: 'cases_test_form_3', parent_form: 'case', visible: true,
-                               order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'Case Form 3',
+                               order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'case_form_3',
                                unique_id: 'cases_test_form_3')
 
       form_a.fields << Field.new(name: subform.name, type: Field::SUBFORM, display_name: 'subform field',
@@ -28,7 +28,7 @@ module Exporters
 
       #### Build Form Section with no subforms fields ######
       form_b = FormSection.new(name: 'cases_test_form_2', parent_form: 'case', visible: true,
-                               order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'Case Form 2',
+                               order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'case_form_2',
                                unique_id: 'cases_test_form_2')
       form_b.fields << Field.new(name: 'relationship', type: Field::TEXT_FIELD, display_name: 'relationship')
       form_b.fields << Field.new(name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field',
@@ -41,21 +41,21 @@ module Exporters
 
       #### Build Form Section with subforms fields and others kind of fields ######
       subform1 = FormSection.new(name: 'cases_test_subform_1', parent_form: 'case', visible: false, is_nested: true,
-                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'case_form_1',
                                  unique_id: 'cases_test_subform_1')
       subform1.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1')
       subform1.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
       subform1.save!
       #### Build Form Section with subforms fields only ######
       subform3 = FormSection.new(name: 'cases_test_subform_3', parent_form: 'case', visible: false, is_nested: true,
-                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                                 order_form_group: 0, order: 0, order_subform: 1, form_group_id: 'case_form_1',
                                  unique_id: 'cases_test_subform_3')
       subform3.fields << Field.new(name: 'field_5', type: Field::TEXT_FIELD, display_name: 'field_5')
       subform3.fields << Field.new(name: 'field_6', type: Field::TEXT_FIELD, display_name: 'field_6')
       subform3.save!
 
       form_c = FormSection.new(name: 'cases_test_form_1', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_1')
       form_c.fields << Field.new(name: 'first_name', type: Field::TEXT_FIELD, display_name: 'first_name')
       form_c.fields << Field.new(name: 'last_name', type: Field::TEXT_FIELD, display_name: 'last_name')
@@ -68,7 +68,7 @@ module Exporters
 
       #### Build Form Section with Arabic characters in the form name ######
       form_d = FormSection.new(name: "Test Arabic فاكيا قد به،. بـ حتى", parent_form: 'case', visible: true,
-                               order_form_group: 3, order: 3, order_subform: 0, form_group_id: 'Test Arabic')
+                               order_form_group: 3, order: 0, order_subform: 0, form_group_id: 'form_group_arabic')
       form_d.fields << Field.new(name: 'arabic_text', type: Field::TEXT_FIELD, display_name: 'arabic text')
       form_d.fields << Field.new(name: 'arabic_array', type: Field::SELECT_BOX, display_name: 'arabic array',
                                  multi_select: true,
@@ -77,21 +77,21 @@ module Exporters
       form_d.save!
 
       subform4 = FormSection.new(name: 'cases_test_subform_4', parent_form: 'case', visible: false, is_nested: true,
-                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                                 order_form_group: 0, order: 0, order_subform: 2, form_group_id: 'case_form_1',
                                  unique_id: 'cases_test_subform_4')
       subform4.fields << Field.new(name: 'field_1', type: Field::TEXT_FIELD, display_name: 'field_1')
       subform4.fields << Field.new(name: 'field_2', type: Field::TEXT_FIELD, display_name: 'field_2')
       subform4.save!
 
       subform5 = FormSection.new(name: 'cases_test_subform_5', parent_form: 'case', visible: false, is_nested: true,
-                                 order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                                 order_form_group: 0, order: 0, order_subform: 3, form_group_id: 'case_form_1',
                                  unique_id: 'cases_test_subform_5')
       subform5.fields << Field.new(name: 'field_7', type: Field::TEXT_FIELD, display_name: 'field_7')
       subform5.fields << Field.new(name: 'field_8', type: Field::TEXT_FIELD, display_name: 'field_8')
       subform5.save!
 
       form_e = FormSection.new(name: 'cases_test_form_4', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                               order_form_group: 0, order: 1, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_4')
 
       form_e.fields << Field.new(name: 'cases_test_subform_4', type: Field::SUBFORM, display_name: 'subform 4 field',
@@ -102,7 +102,7 @@ module Exporters
       form_e.save!
 
       form_f = FormSection.new(name: 'case_test_form_5', parent_form: 'case', visible: true,
-                               order_form_group: 0, order: 0, order_subform: 0, form_group_id: 'Case Form 1',
+                               order_form_group: 0, order: 2, order_subform: 0, form_group_id: 'case_form_1',
                                unique_id: 'cases_test_form_5')
 
       form_f.fields << Field.new(name: 'cases_test_subform_5', type: Field::SUBFORM, display_name: 'subform 5 field',
@@ -159,6 +159,7 @@ module Exporters
       end
 
       it 'prints a header for each form and subform' do
+        binding.pry if workbook.sheet(0).row(1) != %w[ID field_3 field_4]
         expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
         expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
         expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
@@ -174,11 +175,15 @@ module Exporters
       end
 
       it 'exports record values for regular forms' do
+        binding.pry if workbook.sheets[2] != 'cases_test_form_2'
+        expect(workbook.sheets[2]).to eq('cases_test_form_2')
         expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
+        expect(workbook.sheets[5]).to eq('cases_test_form_1')
         expect(workbook.sheet(5).row(2)).to eq([@record_id, 'John', 'Doe'])
       end
 
       it 'exports record values for each instance of subforms' do
+        binding.pry if workbook.sheet(0).last_row != 3
         expect(workbook.sheet(0).last_row).to eq(3)
         expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
         expect(workbook.sheet(0).row(3)).to eq([@records[0].short_id, 'field_3 value2', 'field_4 value2'])
@@ -198,9 +203,14 @@ module Exporters
       end
 
       it 'does not exports data if the conditional subform is empty' do
+        binding.pry if workbook.sheets[10] != 'cases_test_subform_5'
+        expect(workbook.sheets[10]).to eq('cases_test_subform_5')
         expect(workbook.sheet(10).last_row).to eq(2)
         expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
       end
+    end
+    after do
+      clean_data(Child, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
     end
   end
 end
