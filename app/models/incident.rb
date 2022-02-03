@@ -271,4 +271,8 @@ class Incident < ApplicationRecord
     self.elapsed_reporting_time = '2_weeks_1_month' if calculated.in?(15..30)
     self.elapsed_reporting_time = 'over_1_month' if calculated > 30
   end
+
+  def reporting_location_property
+    'incident_reporting_location_config'
+  end
 end

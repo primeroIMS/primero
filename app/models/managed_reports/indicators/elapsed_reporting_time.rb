@@ -19,7 +19,7 @@ class ManagedReports::Indicators::ElapsedReportingTime < ManagedReports::SqlRepo
       }
     end
 
-    def build(current_user, args = {})
+    def build(current_user = nil, args = {})
       super(current_user, args, &:to_a)
     end
   end

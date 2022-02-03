@@ -40,7 +40,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
       )
     end
 
-    def build(current_user, args = {})
+    def build(current_user = nil, args = {})
       super(current_user, args) do |result|
         ActiveSupport::JSON.decode(result.first.dig('data') || '{}')
       end

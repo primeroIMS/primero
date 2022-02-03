@@ -39,7 +39,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
       )
     end
 
-    def build(current_user, args = {})
+    def build(current_user = nil, args = {})
       super(current_user, args, &:to_a)
     end
   end

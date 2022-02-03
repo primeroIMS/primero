@@ -17,6 +17,7 @@ describe ManagedReports::Indicators::TotalGBVPreviousIncidents do
 
   it 'returns the total number of incidents with previous incidents for the incident_date range' do
     total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build(
+      nil,
       [
         SearchFilters::DateRange.new(field_name: 'incident_date', from: '2020-09-01', to: '2020-10-15')
       ]

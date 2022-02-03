@@ -25,12 +25,7 @@ module ReportableLocation
   def system_settings_reporting_location_field
     @system_settings = SystemSettings.current
 
-    reporting_location_property = if is_a?(Child)
-                                    'reporting_location_config'
-                                  elsif is_a?(Incident)
-                                    'incident_reporting_location_config'
-                                  end
-
+    return if @system_settings.blank?
     return if reporting_location_property.blank?
 
     @system_settings.send(reporting_location_property)&.field_key
@@ -38,5 +33,9 @@ module ReportableLocation
 
   def hierarchy_path_for_location(location_property)
     Location.find_by(location_code: send(location_property))&.hierarchy_path
+  end
+
+  def reporting_location_property
+    'reporting_location_config'
   end
 end

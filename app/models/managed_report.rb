@@ -34,7 +34,7 @@ class ManagedReport < ValueObject
   def build_report(current_user, filters = [], subreport_id = nil)
     self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(current_user, subreport_params(filters, subreport.id))
+      subreport.build_report(current_user, subreport_params(filters, subreport_id))
       acc.merge(subreport.id => subreport.data)
     end
   end

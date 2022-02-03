@@ -18,7 +18,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       }
     end
 
-    def build(current_user, args = {})
+    def build(current_user = nil, args = {})
       super(current_user, args) { |results| results[0]['total'] }
     end
   end
