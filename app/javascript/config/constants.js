@@ -241,7 +241,8 @@ export const LOOKUPS = {
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
   legitimate_basis: "lookup-legitimate-basis",
-  legitimate_basis_explanations: "lookup-legitimate-basis-explanations"
+  legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
+  verification_status: "lookup lookup-verification-status"
 };
 
 export const ADMIN_NAV = [

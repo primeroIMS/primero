@@ -1,5 +1,6 @@
 export const ACTIONS = {
   GBV_STATISTICS: "gbv_statistics",
+  VIOLATIONS: "violations",
   ADD_NOTE: "add_note",
   AGENCY_READ: "agency_read",
   APPROVE_ASSESSMENT: "approve_assessment",
@@ -162,7 +163,7 @@ export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ];
 
-export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS];
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 

@@ -23,6 +23,7 @@ import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 import useOptions from "../form/use-options";
+import { useApp } from "../application";
 
 import recordListTheme from "./theme";
 import { NAME } from "./config";
@@ -45,10 +46,12 @@ const Component = ({
   setSelectedRecords,
   localizedFields,
   showCustomToolbar,
-  isRowSelectable
+  isRowSelectable,
+  checkOnline = false
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { online } = useApp();
 
   const [sortDir, setSortDir] = useState();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
@@ -277,7 +280,7 @@ const Component = ({
       const { colIndex, dataIndex } = cellMeta;
       const cells = fromJS(componentColumns);
 
-      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false) && ((checkOnline && online) || !checkOnline)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
@@ -356,6 +359,7 @@ Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   canSelectAll: PropTypes.bool,
+  checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
   isRowSelectable: PropTypes.func,

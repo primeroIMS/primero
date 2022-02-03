@@ -8,7 +8,7 @@ export const fetchInsight = (id, subReport, params = {}) => {
     api: {
       path: `managed_reports/${id}`,
       params: {
-        [subReport]: true,
+        subreport: subReport,
         ...params
       }
     }

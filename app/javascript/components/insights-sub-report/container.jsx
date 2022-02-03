@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { fromJS } from "immutable";
+import { fromJS, List, Map } from "immutable";
 import take from "lodash/take";
 import { useDispatch } from "react-redux";
 
@@ -17,7 +17,6 @@ import { CHART_COLORS } from "../../config/constants";
 import InsightsFilters from "../insights-filters";
 
 import { getInsight } from "./selectors";
-import { fetchInsight } from "./action-creators";
 import namespace from "./namespace";
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -28,8 +27,6 @@ const Component = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchInsight(id, subReport));
-
     return () => {
       dispatch(clearSelectedReport());
     };
@@ -43,21 +40,23 @@ const Component = () => {
 
   const lookups = useOptions({ source: insightLookups });
 
+  const emptyMessage = i18n.t("managed_reports.no_data_table");
+
   const loadingIndicatorProps = {
     overlay: true,
-    emptyMessage: i18n.t("report.no_data"),
+    emptyMessage,
     hasData: !!insight.getIn(["report_data", subReport], false),
     type: namespace,
     loading,
     errors
   };
 
-  const totalText = i18n.t("report.total");
+  const totalText = i18n.t("managed_reports.total");
 
   const reportData = insight
     .getIn(["report_data", subReport], fromJS({}))
     .filterNot((_value, key) => ["lookups"].includes(key))
-    .groupBy(value => (Number.isInteger(value) ? "single" : "aggregate"));
+    .groupBy(value => (!List.isList(value) ? "single" : "aggregate"));
 
   const buildInsightValues = (data, key) => {
     if (data === 0) return [];
@@ -101,7 +100,14 @@ const Component = () => {
   const singleInsightsTableData = reportData
     .get("single", fromJS({}))
     .entrySeq()
-    .map(([key, value]) => ({ colspan: 0, row: [subReportTitle(key), value] }))
+    .map(([key, value]) => {
+      if (Map.isMap(value)) {
+        return value.entrySeq().map(([subKey, subValue]) => ({ colspan: 0, row: [subReportTitle(subKey), subValue] }));
+      }
+
+      return { colspan: 0, row: [subReportTitle(key), value] };
+    })
+    .flatten(1)
     .toArray();
 
   return (
@@ -111,10 +117,15 @@ const Component = () => {
         <div className={css.subReportContent}>
           <div className={css.subReportTables}>
             <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            {singleInsightsTableData.length && (
+            {singleInsightsTableData.length > 0 && (
               <>
-                <h3 className={css.sectionTitle}>{subReportTitle("incidents")}</h3>
-                <TableValues values={singleInsightsTableData} />
+                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+                <TableValues
+                  values={singleInsightsTableData}
+                  showPlaceholder
+                  name={namespace}
+                  emptyMessage={emptyMessage}
+                />
               </>
             )}
             {reportData
@@ -124,7 +135,12 @@ const Component = () => {
                 <div key={valueKey} className={css.section}>
                   <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
                   <BarChartGraphic data={buildChartValues(value, valueKey)} showDetails />
-                  <TableValues values={buildInsightValues(value, valueKey)} />
+                  <TableValues
+                    values={buildInsightValues(value, valueKey)}
+                    showPlaceholder
+                    name={namespace}
+                    emptyMessage={emptyMessage}
+                  />
                 </div>
               ))}
           </div>

@@ -1,18 +1,41 @@
-import { MODULES, VIOLATIONS_SUBFORM_UNIQUE_IDS, GBV_INSIGHTS_SUBREPORTS } from "../../config/constants";
+import { MODULES, VIOLATIONS_SUBFORM_UNIQUE_IDS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
 import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
-const QUARTER_OPTION_IDS = ["this_quarter", "last_quarter", "custom"];
-const MONTH_OPTION_IDS = ["this_month", "last_month", "custom"];
-const YEAR_OPTION_IDS = ["this_year", "last_year", "custom"];
+const DATE_RANGE_OPTIONS = "date_range_options";
+const VIEW_BY = "view_by";
+const DATE_RANGE = "date_range";
+const FIELDS = "fields";
+const QUARTER = "quarter";
+const MONTH = "month";
+const YEAR = "year";
+const FROM = "from";
+const TO = "to";
+const DATE = "date";
+const FILTER_BY = "filter_by";
+const FILTER_OPTIONS = "filter_options";
+const REPORTS = "reports";
+const DATE_OF_FIRST_REPORT = "date_of_first_report";
+
+const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
+const VERIFIED_CTFMR_TECHNICAL = "verified_ctfmr_technical";
+const INCIDENT_DATE = "incident_date";
+const DATE_OF_REPORT = "date_of_report";
+const VERIFIED = "verified";
+const VERIFICATION_STATUS = "verification_status";
+
+const GBV_STATISTICS = "gbv_statistics";
+const VIOLATIONS = "violations";
 
 export const NAME = "Insights";
 export const DELETE_MODAL = "DeleteReportModal";
 export const DATE_PATTERN = "(\\w{2}-)?\\w{3}-\\d{4}";
-export const TOTAL = "Total";
+export const TOTAL = "total";
+export const VIOLATION = "violation";
 export const TOTAL_KEY = "_total";
+export const MANAGED_REPORTS = "managed_reports";
 
-export const DATE_CONTROLS = ["to", "from", "view_by", "date_range"];
-export const DATE_CONTROLS_GROUP = "date";
+export const DATE_CONTROLS = [TO, FROM, VIEW_BY, DATE_RANGE];
+export const DATE_CONTROLS_GROUP = DATE;
 export const CONTROLS_GROUP = "default";
 
 export const THIS_QUARTER = "this_quarter";
@@ -23,163 +46,123 @@ export const THIS_MONTH = "this_month";
 export const LAST_MONTH = "last_month";
 export const CUSTOM = "custom";
 
+export const QUARTER_OPTION_IDS = [THIS_QUARTER, LAST_QUARTER, CUSTOM];
+export const MONTH_OPTION_IDS = [THIS_MONTH, LAST_MONTH, CUSTOM];
+export const YEAR_OPTION_IDS = [THIS_YEAR, LAST_YEAR, CUSTOM];
+
+export const SHARED_FILTERS = [
+  {
+    name: VIEW_BY,
+    display_name: [FIELDS, DATE_RANGE, VIEW_BY],
+    clearDependentValues: [DATE_RANGE],
+    option_strings_text: [
+      { id: QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE, QUARTER] },
+      { id: MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE, MONTH] },
+      { id: YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE, YEAR] }
+    ],
+    type: SELECT_FIELD
+  },
+  {
+    name: DATE_RANGE,
+    display_name: [FIELDS, DATE_RANGE, DATE_RANGE],
+    option_strings_text: [
+      { id: THIS_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_QUARTER] },
+      { id: LAST_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_QUARTER] },
+      { id: THIS_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_MONTH] },
+      { id: LAST_MONTH, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_MONTH] },
+      { id: THIS_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_YEAR] },
+      { id: LAST_YEAR, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_YEAR] },
+      { id: CUSTOM, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, CUSTOM] }
+    ],
+    type: SELECT_FIELD,
+    watchedInputs: VIEW_BY,
+    filterOptionSource: (watchedInputsValue, options) => {
+      const filterBy = () => {
+        switch (watchedInputsValue) {
+          case QUARTER:
+            return QUARTER_OPTION_IDS;
+          case MONTH:
+            return MONTH_OPTION_IDS;
+          default:
+            return YEAR_OPTION_IDS;
+        }
+      };
+
+      return options.filter(option => filterBy().includes(option.id));
+    },
+    handleWatchedInputs: value => ({
+      disabled: !value
+    })
+  },
+  {
+    name: FROM,
+    display_name: [FIELDS, DATE_RANGE, FROM],
+    type: DATE_FIELD,
+    watchedInputs: DATE_RANGE,
+    handleWatchedInputs: value => ({
+      disabled: value !== CUSTOM
+    })
+  },
+  {
+    name: TO,
+    display_name: [FIELDS, DATE_RANGE, TO],
+    type: DATE_FIELD,
+    watchedInputs: DATE_RANGE,
+    handleWatchedInputs: value => ({
+      disabled: value !== CUSTOM
+    })
+  }
+];
+
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
     ids: VIOLATIONS_SUBFORM_UNIQUE_IDS,
-    localeKeys: ["incident", "violation", "types"],
+    localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
+    defaultFilterValues: {
+      [VIEW_BY]: QUARTER,
+      [DATE_RANGE]: THIS_QUARTER,
+      [DATE]: INCIDENT_DATE,
+      [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
+    },
     filters: [
+      ...SHARED_FILTERS,
       {
-        name: "view_by",
-        display_name: ["fields", "date_range", "view_by"],
-        clearDependentValues: ["date_range"],
+        name: DATE,
+        display_name: [MANAGED_REPORTS, FILTER_BY, DATE],
         option_strings_text: [
-          { id: "quarter", display_name: ["report", "date_ranges", "quarter"] },
-          { id: "month", display_name: ["report", "date_ranges", "month"] },
-          { id: "year", display_name: ["report", "date_ranges", "year"] }
+          { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
+          { id: DATE_OF_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
+          {
+            id: CTFMR_VERIFIED_DATE,
+            display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, CTFMR_VERIFIED_DATE]
+          }
         ],
         type: SELECT_FIELD
       },
       {
-        name: "date_range",
-        display_name: ["fields", "date_range", "date_range"],
-        option_strings_text: [
-          { id: THIS_QUARTER, display_name: ["insights", "date_range_options", "this_quarter"] },
-          { id: LAST_QUARTER, display_name: ["insights", "date_range_options", "last_quarter"] },
-          { id: THIS_MONTH, display_name: ["insights", "date_range_options", "this_month"] },
-          { id: LAST_MONTH, display_name: ["insights", "date_range_options", "last_month"] },
-          { id: THIS_YEAR, display_name: ["insights", "date_range_options", "this_year"] },
-          { id: LAST_YEAR, display_name: ["insights", "date_range_options", "last_year"] },
-          { id: CUSTOM, display_name: ["insights", "date_range_options", "custom"] }
-        ],
-        type: SELECT_FIELD,
-        watchedInputs: "view_by",
-        filterOptionSource: (watchedInputsValue, options) => {
-          const filterBy = () => {
-            switch (watchedInputsValue) {
-              case "quarter":
-                return QUARTER_OPTION_IDS;
-              case "month":
-                return MONTH_OPTION_IDS;
-              default:
-                return YEAR_OPTION_IDS;
-            }
-          };
-
-          return options.filter(option => filterBy().includes(option.id));
-        },
-        handleWatchedInputs: value => ({
-          disabled: !value
-        })
-      },
-      {
-        name: "from",
-        display_name: ["fields", "date_range", "from"],
-        type: DATE_FIELD,
-        watchedInputs: "date_range",
-        handleWatchedInputs: value => ({
-          disabled: value !== "custom"
-        })
-      },
-      {
-        name: "to",
-        display_name: ["fields", "date_range", "to"],
-        type: DATE_FIELD,
-        watchedInputs: "date_range",
-        handleWatchedInputs: value => ({
-          disabled: value !== "custom"
-        })
-      },
-      {
-        name: "date",
-        display_name: ["cases", "filter_by", "date"],
-        option_strings_text: [
-          { id: "date_of_incident", display_name: ["insights", "mrm", "date_of_incident"] },
-          { id: "date_of_report", display_name: ["insights", "mrm", "date_of_report"] },
-          { id: "date_of_verification", display_name: ["insights", "mrm", "date_of_verification"] }
-        ],
-        type: SELECT_FIELD
-      },
-      {
-        name: "verification_status",
-        display_name: ["incidents", "filter_by", "verification_status"],
-        option_strings_source: "lookup lookup-verification-status",
+        name: VERIFIED_CTFMR_TECHNICAL,
+        display_name: [MANAGED_REPORTS, FILTER_BY, VERIFICATION_STATUS],
+        option_strings_source: LOOKUPS.verification_status,
         type: SELECT_FIELD
       }
     ].map(filter => FieldRecord(filter))
   },
   [MODULES.GBV]: {
     ids: GBV_INSIGHTS_SUBREPORTS,
-    localeKeys: ["incident", "gbv_statistics", "types"],
+    localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
     filters: [
+      ...SHARED_FILTERS,
       {
-        name: "view_by",
-        display_name: ["fields", "date_range", "view_by"],
-        clearDependentValues: ["date_range"],
+        name: DATE,
+        display_name: [MANAGED_REPORTS, FILTER_BY, DATE],
         option_strings_text: [
-          { id: "quarter", display_name: ["report", "date_ranges", "quarter"] },
-          { id: "month", display_name: ["report", "date_ranges", "month"] },
-          { id: "year", display_name: ["report", "date_ranges", "year"] }
+          {
+            id: DATE_OF_FIRST_REPORT,
+            display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, DATE_OF_FIRST_REPORT]
+          },
+          { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
         ],
-        type: SELECT_FIELD
-      },
-      {
-        name: "date_range",
-        display_name: ["fields", "date_range", "date_range"],
-        option_strings_text: [
-          { id: THIS_QUARTER, display_name: ["insights", "date_range_options", "this_quarter"] },
-          { id: LAST_QUARTER, display_name: ["insights", "date_range_options", "last_quarter"] },
-          { id: THIS_MONTH, display_name: ["insights", "date_range_options", "this_month"] },
-          { id: LAST_MONTH, display_name: ["insights", "date_range_options", "last_month"] },
-          { id: THIS_YEAR, display_name: ["insights", "date_range_options", "this_year"] },
-          { id: LAST_YEAR, display_name: ["insights", "date_range_options", "last_year"] },
-          { id: CUSTOM, display_name: ["insights", "date_range_options", "custom"] }
-        ],
-        type: SELECT_FIELD,
-        watchedInputs: "view_by",
-        filterOptionSource: (watchedInputsValue, options) => {
-          const filterBy = () => {
-            switch (watchedInputsValue) {
-              case "quarter":
-                return QUARTER_OPTION_IDS;
-              case "month":
-                return MONTH_OPTION_IDS;
-              default:
-                return YEAR_OPTION_IDS;
-            }
-          };
-
-          return options.filter(option => filterBy().includes(option.id));
-        },
-        handleWatchedInputs: value => ({
-          disabled: !value
-        })
-      },
-      {
-        name: "from",
-        display_name: ["fields", "date_range", "from"],
-        type: DATE_FIELD,
-        watchedInputs: "date_range",
-        handleWatchedInputs: value => ({
-          disabled: value !== "custom"
-        })
-      },
-      {
-        name: "to",
-        display_name: ["fields", "date_range", "to"],
-        type: DATE_FIELD,
-        watchedInputs: "date_range",
-        handleWatchedInputs: value => ({
-          disabled: value !== "custom"
-        })
-      },
-      {
-        name: "date",
-        display_name: ["cases", "filter_by", "date"],
-        option_strings_text: [
-          { id: "date_of_first_report", display_name: ["insights", "gbv", "date_of_first_report"] },
-          { id: "incident_date", display_name: ["insights", "gbv", "incident_date"] }
-        ],
-        watchedInputs: "view_by",
+        watchedInputs: VIEW_BY,
         type: SELECT_FIELD,
         handleWatchedInputs: value => ({
           disabled: !value

@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import isNil from "lodash/isNil";
+import omitBy from "lodash/omitBy";
 
 import { SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
@@ -17,10 +20,46 @@ import { dateCalculations } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport }) => {
-  const formMethods = useForm({ mode: "onChange", resolver: yupResolver(validations) });
   const insightsConfig = INSIGHTS_CONFIG[moduleID];
+  const { defaultFilterValues } = insightsConfig;
+
+  const formMethods = useForm({
+    mode: "onChange",
+    resolver: yupResolver(validations),
+    ...(defaultFilterValues && { defaultValues: insightsConfig.defaultFilterValues })
+  });
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
+
+  const transformFilters = data => {
+    const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
+
+    return omitBy({ ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) }, isNil);
+  };
+
+  const getInsights = (filters = {}) => {
+    dispatch(fetchInsight(id, subReport, transformFilters(filters)));
+  };
+
+  const resetFiltersForm = () => {
+    formMethods.reset(
+      defaultFilterValues ||
+        Object.fromEntries(insightsConfig.filters.map(val => [val.name, val.type === SELECT_FIELD ? null : ""]))
+    );
+  };
+
+  const handleClear = () => {
+    resetFiltersForm();
+    getInsights(defaultFilterValues);
+  };
+
+  useEffect(() => {
+    getInsights(defaultFilterValues);
+
+    return () => {
+      resetFiltersForm();
+    };
+  }, [subReport]);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
@@ -31,17 +70,7 @@ const Component = ({ moduleID, id, subReport }) => {
   );
 
   const submit = data => {
-    const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
-    const filters = { ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) };
-
-    dispatch(fetchInsight(id, subReport, filters));
-  };
-
-  const handleClear = () => {
-    formMethods.reset(
-      Object.fromEntries(insightsConfig.filters.map(val => [val.name, val.type === SELECT_FIELD ? null : ""]))
-    );
-    dispatch(fetchInsight(id, subReport, {}));
+    getInsights(data);
   };
 
   const filterInputs = (filterGroup = CONTROLS_GROUP) =>
