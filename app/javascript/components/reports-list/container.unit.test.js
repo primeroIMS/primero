@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
-import { Card, CardContent, CardActionArea, TablePagination, Box } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../test";
 import { ACTIONS } from "../../libs/permissions";
+import IndexTable from "../index-table";
 
 import Reports from "./container";
 
@@ -42,7 +42,14 @@ describe("<Reports /> - Component", () => {
               }
             ]
           }
-        ]
+        ],
+        metadata: {
+          total: 15,
+          per: 20,
+          page: 1
+        },
+        loading: false,
+        errors: false
       }
     }
   });
@@ -51,24 +58,8 @@ describe("<Reports /> - Component", () => {
     ({ component } = setupMountedComponent(Reports, {}, initialState));
   });
 
-  it("should render <Card>", () => {
-    expect(component.find(Card)).to.have.lengthOf(1);
-  });
-
-  it("should render <CardActionArea>", () => {
-    expect(component.find(CardActionArea)).to.have.lengthOf(1);
-  });
-
-  it("should render <CardContent>", () => {
-    expect(component.find(CardContent)).to.have.lengthOf(1);
-  });
-
-  it("should render <Box>", () => {
-    expect(component.find(Box)).to.have.lengthOf(1);
-  });
-
-  it("should render <TablePagination>", () => {
-    expect(component.find(TablePagination)).to.have.lengthOf(1);
+  it("should render <IndexTable>", () => {
+    expect(component.find(IndexTable)).to.have.lengthOf(1);
   });
 
   // TODO: Should test if we have a clickable button, but removing button temporarly till this feature is implemented
