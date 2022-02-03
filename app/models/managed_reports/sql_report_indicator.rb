@@ -4,6 +4,15 @@
 class ManagedReports::SqlReportIndicator < ValueObject
   attr_accessor :params, :data
 
+  NAMESPACE_MAP = {
+    'ctfmr_verified_date' => 'violations',
+    'incident_date' => 'incidents',
+    'date_of_first_report' => 'incidents',
+    'type' => 'violations',
+    'ctfmr_verified' => 'violations',
+    'verified_ctfmr_technical' => 'violations'
+  }.freeze
+
   class << self
     def sql(params = []); end
 
@@ -43,9 +52,13 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def incident_join(params = [])
       param_names = params.map(&:field_name)
 
-      return '' unless param_names.any? { |elem| %w[date_of_incident date_of_first_report].include?(elem) }
+      return '' unless param_names.any? { |elem| %w[incident_date date_of_first_report].include?(elem) }
 
-      'inner join incidents i on i.id = v.incident_id'
+      'inner join incidents incidents on incidents.id = violations.incident_id'
+    end
+
+    def namespace_for_query(field_name)
+      NAMESPACE_MAP[field_name]
     end
   end
 

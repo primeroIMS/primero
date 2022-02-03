@@ -19,7 +19,11 @@ class ManagedReport < ValueObject
         name: 'managed_reports.violations.name',
         description: 'managed_reports.violations.description',
         subreports: %w[killing maiming],
-        permitted_filters: [:ctfmr_verified, :verified_ctfmr_technical, date_of_first_report: {}, incident_date: {}],
+        permitted_filters: [
+          :ctfmr_verified, :verified_ctfmr_technical,
+          date_of_first_report: {},
+          incident_date: {}, ctfmr_verified_date: {}
+        ],
         module_id: PrimeroModule::MRM
       )
     }.freeze
