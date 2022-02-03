@@ -10,7 +10,7 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def show
-    @managed_report.build_report(filters, params[:subreport])
+    @managed_report.build_report(current_user, filters, params[:subreport])
   end
 
   protected

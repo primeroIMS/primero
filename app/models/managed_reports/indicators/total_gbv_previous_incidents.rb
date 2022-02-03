@@ -8,7 +8,7 @@ class ManagedReports::Indicators::TotalGBVPreviousIncidents < ManagedReports::Sq
     end
   end
 
-  def execute_query
+  def execute_query(_current_user)
     query = Incident.where("data ->> 'gbv_previous_incidents' = 'true'")
     apply_params(query).count
   end

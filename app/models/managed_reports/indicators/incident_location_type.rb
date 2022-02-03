@@ -7,7 +7,7 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
       'incident_location_type'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = [])
       %{
         select
           data->> 'incident_location_type' as id ,
@@ -19,8 +19,8 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
       }
     end
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end

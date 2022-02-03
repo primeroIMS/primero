@@ -11,6 +11,7 @@ class Incident < ApplicationRecord
   include Attachable
   include EagerLoadable
   include Kpi::GBVIncident
+  include ReportableLocation
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(

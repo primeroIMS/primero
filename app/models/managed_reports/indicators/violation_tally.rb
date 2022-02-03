@@ -7,7 +7,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
       'violation'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = [])
       %{
         select json_object_agg(key, sum) as data
         from (
@@ -40,8 +40,8 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
       )
     end
 
-    def build(args = {})
-      super(args) do |result|
+    def build(current_user, args = {})
+      super(current_user, args) do |result|
         ActiveSupport::JSON.decode(result.first.dig('data') || '{}')
       end
     end

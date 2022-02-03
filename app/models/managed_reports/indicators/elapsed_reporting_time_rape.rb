@@ -8,7 +8,7 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
       'elapsed_reporting_time_rape'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = [])
       %{
         select
           data->> 'elapsed_reporting_time' as id,
@@ -21,8 +21,8 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
       }
     end
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end

@@ -4,8 +4,10 @@
 class ManagedReports::SubReport < ValueObject
   attr_accessor :data
 
-  def build_report(params = [])
-    self.data = indicators.reduce({}) { |acc, indicator| acc.merge(indicator.id => indicator.build(params).data) }
+  def build_report(current_user, params = [])
+    self.data = indicators.reduce({}) do |acc, indicator|
+      acc.merge(indicator.id => indicator.build(current_user, params).data)
+    end
     self.data = data.merge(lookups: lookups) if lookups.present?
   end
 

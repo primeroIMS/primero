@@ -16,9 +16,9 @@ class ManagedReports::SqlReportIndicator < ValueObject
   class << self
     def sql(params = []); end
 
-    def build(params = [])
+    def build(current_user = nil, params = [])
       indicator = new(params: params)
-      indicator.data = block_given? ? yield(indicator.execute_query) : indicator.execute_query
+      indicator.data = block_given? ? yield(indicator.execute_query(current_user)) : indicator.execute_query(current_user)
       indicator
     end
 
@@ -62,9 +62,9 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
   end
 
-  def execute_query
+  def execute_query(current_user)
     ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.sanitize_sql_array([self.class.sql(params)])
+      ActiveRecord::Base.sanitize_sql_array([self.class.sql(current_user, params)])
     )
   end
 

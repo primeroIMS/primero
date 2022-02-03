@@ -7,7 +7,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
       'attack_type'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = [])
       %{
         select violations."data"->>'attack_type' as id, count(violations.id) as total
         from violations violations
@@ -37,8 +37,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
       )
     end
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end

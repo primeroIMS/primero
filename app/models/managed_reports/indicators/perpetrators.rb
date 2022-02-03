@@ -7,7 +7,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
       'perpetrators'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = [])
       %{
         select p."data"->>'armed_force_group_party_name' as id, count(pv.violation_id) as total
         from violations violations
@@ -39,8 +39,8 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
       )
     end
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end
