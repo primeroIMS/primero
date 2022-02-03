@@ -17,6 +17,12 @@
 }
 
 .cancelButton {
-
   background: var(--c-grey);
+}
+
+.actionBtns {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin-bottom: var(--sp-2);
 }
