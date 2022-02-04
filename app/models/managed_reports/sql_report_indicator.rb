@@ -4,6 +4,15 @@
 class ManagedReports::SqlReportIndicator < ValueObject
   attr_accessor :params, :data
 
+  NAMESPACE_MAP = {
+    'ctfmr_verified_date' => 'violations',
+    'incident_date' => 'incidents',
+    'date_of_first_report' => 'incidents',
+    'type' => 'violations',
+    'ctfmr_verified' => 'violations',
+    'verified_ctfmr_technical' => 'violations'
+  }.freeze
+
   class << self
     def sql(params = []); end
 
@@ -25,7 +34,7 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
     def equal_value_query(param)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["data ->> ? = ?", param.field_name, param.value]
+        ['data ->> ? = ?', param.field_name, param.value]
       )
     end
 
@@ -38,6 +47,18 @@ class ManagedReports::SqlReportIndicator < ValueObject
           param.to
         ]
       )
+    end
+
+    def incident_join(params = [])
+      param_names = params.map(&:field_name)
+
+      return '' unless param_names.any? { |elem| %w[incident_date date_of_first_report].include?(elem) }
+
+      'inner join incidents incidents on incidents.id = violations.incident_id'
+    end
+
+    def namespace_for_query(field_name)
+      NAMESPACE_MAP[field_name]
     end
   end
 

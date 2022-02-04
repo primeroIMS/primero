@@ -154,7 +154,7 @@ class Role < ApplicationRecord
   end
 
   def managed_reports
-    managed_reports_permissions_actions&.map { |action| ManagedReport::REPORTS[action] }&.compact || []
+    managed_reports_permissions_actions&.map { |action| ManagedReport.list[action] }&.compact || []
   end
 
   def reporting_location_config

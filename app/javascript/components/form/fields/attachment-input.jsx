@@ -98,6 +98,7 @@ const AttachmentInput = ({ commonInputProps, metaInputProps, formMode, formMetho
       icon={<GetAppIcon />}
       text={downloadButtonLabel}
       type={ACTION_BUTTON_TYPES.default}
+      noTranslate
       rest={{
         onClick: handleDownloadFile
       }}
