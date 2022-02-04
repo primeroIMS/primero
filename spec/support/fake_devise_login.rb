@@ -70,6 +70,13 @@ module FakeDeviseLogin
     )
   end
 
+  def permission_registry
+    @permission_registry ||= Permission.new(
+      resource: Permission::REGISTRY,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
+  end
+
   def permission_flag_record
     actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
@@ -84,7 +91,8 @@ module FakeDeviseLogin
   end
 
   def fake_role(opts = {})
-    permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
+    permissions = opts[:permissions] ||
+                  [permission_case, permission_incident, permission_tracing_request, permission_registry]
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
       permissions: permissions,

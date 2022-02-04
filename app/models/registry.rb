@@ -15,13 +15,22 @@ class Registry < ApplicationRecord
   include Attachable
   include EagerLoadable
 
-  store_accessor(:data, :registry_id, :registry_type)
+  store_accessor(:data, :registry_type, :registry_id)
 
   class << self
     def registry_types
       SystemSettings.current&.registry_types ||
         [REGISTRY_TYPE_FARMER, REGISTRY_TYPE_FOSTER_CARE, REGISTRY_TYPE_INDIVIDUAL]
     end
+
+    def sortable_text_fields
+      %w[registry_type short_id]
+    end
+  end
+
+  searchable do
+    string :registry_type, as: 'registry_type_sci'
+    sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
   end
 
   def set_instance_id
