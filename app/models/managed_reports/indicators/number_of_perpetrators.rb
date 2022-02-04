@@ -16,6 +16,7 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
         where data ->>'number_of_perpetrators' is not null
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{equal_value_query(params['module_id'])&.prepend('and ')}
         group by data ->>'number_of_perpetrators'
       }
     end

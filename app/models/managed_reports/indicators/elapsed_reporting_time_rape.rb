@@ -18,6 +18,7 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
         and data ->> 'gbv_sexual_violence_type' = 'rape'
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{equal_value_query(params['module_id'])&.prepend('and ')}
         group by data ->> 'elapsed_reporting_time'
       }
     end

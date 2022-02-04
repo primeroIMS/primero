@@ -16,6 +16,7 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
         where data->> 'incident_location_type' is not null
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{equal_value_query(params['module_id'])&.prepend('and ')}
         group by data ->> 'incident_location_type'
       }
     end

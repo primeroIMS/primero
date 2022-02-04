@@ -7,26 +7,19 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
       'perpetrator_age_group'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(params = [])
       %{
         select
-          age_group_id,
-          count(*) as total
-        from (
-          select
-            jsonb_array_elements_text(data #> '{perpetrator_age_group}') as age_group_id,
-            id as record_id
-          from incidents
-          where data ->>'perpetrator_age_group' is not null
-          #{date_range_query(params['incident_date'])&.prepend('and ')}
-          #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
-          group by record_id, age_group_id
-        ) as age_group_by_record
-        group by age_group_id
+          jsonb_array_elements_text(data #> '{perpetrator_age_group}') as age_group_id,
+          id as record_id
+        from incidents
+        where data ->>'perpetrator_age_group' is not null
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{equal_value_query(params['module_id'])&.prepend('and ')}
+        group by record_id, age_group_id
       }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def build(args = {})
       super(args) do |results|
