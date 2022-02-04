@@ -21,7 +21,7 @@ class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlRep
 
     def build(args = {})
       super(args) do |results|
-        results.map { |result| { id: result['occupation_id'], total: result['total'] } }
+        results.map { |result| { 'id' => result['occupation_id'], 'total' => result['total'] } }
       end
     end
   end

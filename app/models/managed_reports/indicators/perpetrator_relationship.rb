@@ -21,7 +21,7 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
 
     def build(args = {})
       super(args) do |results|
-        results.map { |result| { id: result['relationship_id'], total: result['total'] } }
+        results.map { |result| { 'id' => result['relationship_id'], 'total' => result['total'] } }
       end
     end
   end
