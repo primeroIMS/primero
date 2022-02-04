@@ -27,6 +27,7 @@ module Record
     case name
     when 'case' then Child
     when 'violation' then Incident
+    when 'registry_record' then Registry
     else Object.const_get(name.camelize)
     end
   rescue NameError

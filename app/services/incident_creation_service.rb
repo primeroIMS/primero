@@ -4,7 +4,7 @@
 class IncidentCreationService < ValueObject
   DEFAULT_MAPPING = [
     { source: 'survivor_code_no', target: 'survivor_code' },
-    { source: 'age', 'target' => 'age' },
+    { source: 'age', target: 'age' },
     { source: 'date_of_birth', target: 'date_of_birth' },
     { source: 'sex', target: 'sex' },
     { source: 'gbv_ethnicity', target: 'ethnicity' },
