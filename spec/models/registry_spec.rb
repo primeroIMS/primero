@@ -7,6 +7,12 @@ describe Registry do
     clean_data(Registry)
   end
 
+  describe 'parent_form' do
+    it 'returns registry' do
+      expect(Registry.parent_form).to eq('registry')
+    end
+  end
+
   describe 'registry_types' do
     before do
       @default_registry_types = [Registry::REGISTRY_TYPE_FARMER, Registry::REGISTRY_TYPE_FOSTER_CARE,

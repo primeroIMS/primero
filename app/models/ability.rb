@@ -257,7 +257,7 @@ class Ability
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
-    [Child, TracingRequest, Incident].each do |model|
+    [Child, TracingRequest, Incident, Registry].each do |model|
       configure_flag(model)
     end
   end
