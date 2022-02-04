@@ -14,7 +14,8 @@ class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlRep
           count(*) as total
         from incidents
         where data ->>'perpetrator_occupation' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         group by occupation_id
       }
     end

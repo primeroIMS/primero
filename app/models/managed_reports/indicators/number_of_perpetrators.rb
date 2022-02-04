@@ -14,7 +14,8 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
           count(*) as total
         from incidents
         where data ->>'number_of_perpetrators' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         group by data ->>'number_of_perpetrators'
       }
     end

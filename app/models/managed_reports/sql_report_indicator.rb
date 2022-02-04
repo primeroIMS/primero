@@ -4,44 +4,29 @@
 class ManagedReports::SqlReportIndicator < ValueObject
   attr_accessor :params, :data
 
-  NAMESPACE_MAP = {
-    'ctfmr_verified_date' => 'violations',
-    'incident_date' => 'incidents',
-    'date_of_first_report' => 'incidents',
-    'type' => 'violations',
-    'ctfmr_verified' => 'violations',
-    'verified_ctfmr_technical' => 'violations'
-  }.freeze
-
   class << self
-    def sql(params = []); end
+    def sql(params = {}); end
 
-    def build(params = [])
+    def build(params = {})
       indicator = new(params: params)
       indicator.data = block_given? ? yield(indicator.execute_query) : indicator.execute_query
       indicator
     end
 
-    def filter_query(params = [])
-      params.reduce('') do |acc, param|
-        if param.class == SearchFilters::DateRange
-          acc + "and #{date_range_query(param)}"
-        else
-          acc + "and #{equal_value_query(param)}"
-        end
-      end
-    end
+    def equal_value_query(param, table_name = nil)
+      return unless param.present?
 
-    def equal_value_query(param)
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['data ->> ? = ?', param.field_name, param.value]
+        ["#{quoted_query(table_name, 'data')} ->> ? = ?", param.field_name, param.value]
       )
     end
 
-    def date_range_query(param)
+    def date_range_query(param, table_name = nil)
+      return unless param.present?
+
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "to_timestamp(data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
+          "to_timestamp(#{quoted_query(table_name, 'data')} ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
           param.field_name,
           param.from,
           param.to
@@ -49,16 +34,20 @@ class ManagedReports::SqlReportIndicator < ValueObject
       )
     end
 
-    def incident_join(params = [])
-      param_names = params.map(&:field_name)
-
-      return '' unless param_names.any? { |elem| %w[incident_date date_of_first_report].include?(elem) }
-
-      'inner join incidents incidents on incidents.id = violations.incident_id'
+    def quoted_query(table_name, column_name)
+      "#{quoted_table_name(table_name)&.send(:+, '.')}#{ActiveRecord::Base.connection.quote_column_name(column_name)}"
     end
 
-    def namespace_for_query(field_name)
-      NAMESPACE_MAP[field_name]
+    def quoted_table_name(table_name)
+      return unless table_name.present?
+
+      ActiveRecord::Base.connection.quote_table_name(table_name)
+    end
+
+    def incidents_join(params)
+      return unless params['incident_date'].present? || params['date_of_first_report'].present?
+
+      'inner join incidents incidents on incidents.id = violations.incident_id'
     end
   end
 
@@ -69,12 +58,13 @@ class ManagedReports::SqlReportIndicator < ValueObject
   end
 
   def apply_params(query)
-    params.each do |param|
+    params.values.each do |param|
       if param.class == SearchFilters::DateRange
         query = query.where(self.class.date_range_query(param))
-      else
-        query = query.where(self.class.equal_value_query(param))
+        next
       end
+
+      query = query.where(self.class.equal_value_query(param))
     end
 
     query

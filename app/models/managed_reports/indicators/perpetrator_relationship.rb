@@ -14,7 +14,8 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
           count(*) as total
         from incidents
         where data ->>'perpetrator_relationship' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         group by relationship_id
       }
     end

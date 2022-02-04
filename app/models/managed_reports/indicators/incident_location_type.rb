@@ -14,7 +14,8 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
           count(*) as total
         from incidents
         where data->> 'incident_location_type' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         group by data ->> 'incident_location_type'
       }
     end

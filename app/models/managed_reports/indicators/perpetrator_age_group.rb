@@ -19,7 +19,8 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
             id as record_id
           from incidents
           where data ->>'perpetrator_age_group' is not null
-          #{filter_query(params)}
+          #{date_range_query(params['incident_date'])&.prepend('and ')}
+          #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
           group by record_id, age_group_id
         ) as age_group_by_record
         group by age_group_id
