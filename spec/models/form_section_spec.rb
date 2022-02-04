@@ -167,13 +167,22 @@ describe FormSection do
       expect(form_section.errors[:name_en]).to be_present
     end
 
-    it 'should not allows empty form names in form base_language ' do
-      form_section = FormSection.new(name_en: 'English', name_es: 'Chinese')
-      I18n.default_locale = 'es'
-      expect do
-        form_section.name_en = ''
-        form_section.save!
-      end.to raise_error(ActiveRecord::RecordInvalid, /errors.models.form_section.presence_of_name/)
+    context 'when default locale is not english' do
+      before do
+        I18n.default_locale = :es
+      end
+
+      it 'should not allows empty form names in form base_language ' do
+        form_section = FormSection.new(name_en: 'English', name_es: 'Chinese')
+        expect do
+          form_section.name_en = ''
+          form_section.save!
+        end.to raise_error(ActiveRecord::RecordInvalid, /errors.models.form_section.presence_of_name/)
+      end
+
+      after do
+        I18n.default_locale = :en
+      end
     end
 
     it 'should validate name is alpha_num' do

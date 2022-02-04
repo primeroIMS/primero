@@ -51,8 +51,8 @@ const Component = ({
           disabled={isPending}
           color="primary"
           {...rest}
-          {...options}
           {...conditionalOptions}
+          {...options}
         >
           {renderContent}
         </Button>

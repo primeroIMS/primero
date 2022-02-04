@@ -185,7 +185,8 @@ describe("Verifying config constant", () => {
           "cp_violence_type",
           "gender",
           "legitimate_basis",
-          "legitimate_basis_explanations"
+          "legitimate_basis_explanations",
+          "verification_status"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

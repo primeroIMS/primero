@@ -19,7 +19,7 @@ describe Api::V2::ManagedReportsController, type: :request do
 
       get '/api/v2/managed_reports'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
+      expect(json['data'].size).to eq(2)
     end
 
     it 'returns an empty managed_report set if no explicit managed_report authorization' do
@@ -45,6 +45,20 @@ describe Api::V2::ManagedReportsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('gbv_statistics')
       expect(json['data'].keys).to match_array(%w[id name description module_id report_data subreports])
+    end
+
+    it 'fetch violations managed_report with code 200' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::MANAGED_REPORT, actions: [Permission::VIOLATION_REPORT])
+        ]
+      )
+
+      get '/api/v2/managed_reports/violations?subreport=killing'
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq('violations')
+      expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data])
     end
 
     it 'refuses unauthorized access' do

@@ -171,7 +171,7 @@ class MatchingConfiguration
   def load_field_options_for_filter(form_sections, matchable_forms)
     matchable_form_sections = form_sections.select { |f| matchable_forms.keys.include?(f.unique_id) }
     matchable_form_sections.map do |fs|
-      update_formsection_for_filter(fs, matchable_forms)
+      update_form_section_for_filter(fs, matchable_forms)
     end
   end
 

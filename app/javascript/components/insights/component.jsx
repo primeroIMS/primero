@@ -32,14 +32,14 @@ const Component = ({ routes }) => {
 
   const insightType = INSIGHTS_CONFIG[moduleID];
 
+  const insight = useMemoizedSelector(state => getInsight(state));
+
+  const name = i18n.t(insight.get("name"));
+
   const menuList = insightType?.ids.map(subReportID => ({
     to: [ROUTES.insights, moduleID, id, subReportID].join("/"),
     text: i18n.t([...insightType.localeKeys, subReportID].join("."))
   }));
-
-  const insight = useMemoizedSelector(state => getInsight(state));
-
-  const name = i18n.t(insight.get("name"));
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;
 
