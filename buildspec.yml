@@ -13,31 +13,7 @@ env:
 phases:
   pre_build:
     commands:
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      - echo Logging in to Amazon ECR...
-      - aws --version
-      - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
-      - echo "WEBHOOK=${WEBHOOK}"
-      - if [ "$WEBHOOK" = "true" ]; then BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
-      - echo "BRANCH=${BRANCH}"
-      - TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
-      - echo "TAG=${TAG}"
-      - CICD_TAG=$(echo $BRANCH | awk -F. '/release/ { print $1"."$2 } ; $0 !~ /release/ { print $0 }' | tr . -)
-      - echo "CICD_TAG=${CICD_TAG}"
-      - RELEASE_SECRET_KEY=SECRET_VARS_$(echo $CICD_TAG | tr - _)
-      - echo "RELEASE_SECRET_KEY=${RELEASE_SECRET_KEY}"
-      - echo "CODEBUILD_SRC_DIR_devops=${CODEBUILD_SRC_DIR_devops}"
-      - DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
-      - echo "DEPLOY_SERVER_NAME=primero-integration-${CICD_TAG}"
-      - DEPLOY_SERVER_INVENTORY_FILE="primero-integration-${CICD_TAG}.vars.yml"
-      - echo "DEPLOY_SERVER_INVENTORY_FILE=${DEPLOY_SERVER_INVENTORY_FILE}"
-      - printenv $RELEASE_SECRET_KEY > secrets.json
-      - mv secrets.json ansible/secrets.json
-      - ./ansible/bin/activate
-      - rm -r ansible/inventory/*
-      - cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
-      - aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${TAG} --sse 'aws:kms'
+      - ./buildspec/pre-build.sh
     finally:
       - cd docker
       - ./build-report.py -p pre_build
@@ -55,7 +31,4 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
-      - aws ssm send-command --document-name "PrimeroCicdDocument" --targets Key=tag:Name,Values="${DEPLOY_SERVER_NAME}" --parameters '{"SourceType":["S3"],"SourceInfo":["{\"path\":\"https://s3.amazonaws.com/'${BUCKET_NAME}'/ansible-'${TAG}'\"}"],"InstallDependencies":["True"],"Verbose":["-v"],"ExtraVariables":["primero_tag='${TAG}' primero_repo_branch='${BRANCH}'"],"CicdTag":["'${TAG}'"]}' --output-s3-bucket-name "${BUCKET_NAME}" --output-s3-key-prefix "ansible-logs" > output.json
-      - cat output.json
-    finally:
-      - ./build-report.py -p post_build --send-command
+      - ../buildspec/send-command.sh
