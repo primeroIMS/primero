@@ -7,7 +7,7 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
       'number_of_perpetrators'
     end
 
-    def sql(params = [])
+    def sql(params = {})
       %{
         select
           data ->>'number_of_perpetrators' as id,

@@ -8,16 +8,22 @@ describe ManagedReports::Indicators::PerpetratorRelationship do
 
     Incident.create!(alleged_perpetrator:
       [
-        { 'perpetrator_relationship' => 'relationship1' },
-        { 'perpetrator_relationship' => 'relationship2' }
+        { 'perpetrator_relationship' => 'relationship1', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_relationship' => 'relationship2', 'primary_perpetrator' => 'primary' }
       ])
-    Incident.create!(alleged_perpetrator: [{ 'perpetrator_relationship' => 'relationship3' }])
-    Incident.create!(alleged_perpetrator: [{ 'perpetrator_relationship' => 'relationship2' }])
     Incident.create!(alleged_perpetrator:
       [
-        { 'perpetrator_relationship' => 'relationship4' },
-        { 'perpetrator_relationship' => 'relationship4' },
-        { 'perpetrator_relationship' => 'relationship4' }
+        { 'perpetrator_relationship' => 'relationship3', 'primary_perpetrator' => 'primary' }
+      ])
+    Incident.create!(alleged_perpetrator:
+      [
+        { 'perpetrator_relationship' => 'relationship2', 'primary_perpetrator' => 'primary' }
+      ])
+    Incident.create!(alleged_perpetrator:
+      [
+        { 'perpetrator_relationship' => 'relationship4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_relationship' => 'relationship4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_relationship' => 'relationship4', 'primary_perpetrator' => 'primary' }
       ])
   end
 

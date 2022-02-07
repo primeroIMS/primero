@@ -8,16 +8,22 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
 
     Incident.create!(alleged_perpetrator:
       [
-        { 'perpetrator_occupation' => 'occupation_1' },
-        { 'perpetrator_occupation' => 'occupation_2' }
+        { 'perpetrator_occupation' => 'occupation_1', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_occupation' => 'occupation_2', 'primary_perpetrator' => 'primary' }
       ])
-    Incident.create!(alleged_perpetrator: [{ 'perpetrator_occupation' => 'occupation_2' }])
-    Incident.create!(alleged_perpetrator: [{ 'perpetrator_occupation' => 'occupation_3' }])
     Incident.create!(alleged_perpetrator:
       [
-        { 'perpetrator_occupation' => 'occupation_4' },
-        { 'perpetrator_occupation' => 'occupation_4' },
-        { 'perpetrator_occupation' => 'occupation_4' }
+        { 'perpetrator_occupation' => 'occupation_2', 'primary_perpetrator' => 'primary' }
+      ])
+    Incident.create!(alleged_perpetrator:
+      [
+        { 'perpetrator_occupation' => 'occupation_3', 'primary_perpetrator' => 'primary' }
+      ])
+    Incident.create!(alleged_perpetrator:
+      [
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' }
       ])
   end
 
