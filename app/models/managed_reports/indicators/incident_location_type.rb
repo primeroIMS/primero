@@ -7,7 +7,7 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
       'incident_location_type'
     end
 
-    def sql(params = [])
+    def sql(params = {})
       %{
         select
           data->> 'incident_location_type' as id ,

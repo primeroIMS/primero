@@ -7,7 +7,7 @@ class ManagedReports::Indicators::ElapsedReportingTime < ManagedReports::SqlRepo
       'elapsed_reporting_time'
     end
 
-    def sql(params = [])
+    def sql(params = {})
       %{
         select
           data->> 'elapsed_reporting_time' as id,

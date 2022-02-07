@@ -7,7 +7,7 @@ class ManagedReports::Indicators::GBVSexualViolenceType < ManagedReports::SqlRep
       'gbv_sexual_violence_type'
     end
 
-    def sql(params = [])
+    def sql(params = {})
       %{
         select
           data->> 'gbv_sexual_violence_type' as id,

@@ -7,7 +7,7 @@ class ManagedReports::Indicators::IncidentTimeofday < ManagedReports::SqlReportI
       'incident_timeofday'
     end
 
-    def sql(params = [])
+    def sql(params = {})
       %{
         select
           data->> 'incident_timeofday' as id ,

@@ -7,7 +7,8 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
       'violation'
     end
 
-    def sql(params = [])
+    # rubocop:disable Metrics/AbcSize
+    def sql(params = {})
       %{
         select json_object_agg(key, sum) as data
         from (
@@ -25,6 +26,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         group by key) as violation_data;
       }
     end
+    # rubocop:enable Metrics/AbcSize
 
     def build(args = {})
       super(args) do |result|
