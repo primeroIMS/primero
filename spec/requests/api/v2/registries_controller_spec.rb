@@ -46,65 +46,42 @@ describe Api::V2::RegistriesController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).not_to be_empty
-      binding.pry
       expect(json['data']['registry_type']).to eq(Registry::REGISTRY_TYPE_FOSTER_CARE)
       expect(Registry.find_by(id: json['data']['id'])).not_to be_nil
     end
   end
 
-  # describe 'PATCH /api/v2/tracing_requests/:id' do
-  #   it 'updates an existing record with 200' do
-  #     login_for_test
-  #     params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-  #     patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
-  #
-  #     expect(response).to have_http_status(200)
-  #     expect(json['data']['id']).to eq(@tracing_request1.id)
-  #
-  #     tracing_request1 = TracingRequest.find_by(id: @tracing_request1.id)
-  #     expect(tracing_request1.data['inquiry_date'].iso8601).to eq(params[:data][:inquiry_date])
-  #     expect(tracing_request1.data['relation_name']).to eq(params[:data][:relation_name])
-  #   end
-  #
-  #   it 'filters sensitive information from logs' do
-  #     allow(Rails.logger).to receive(:debug).and_return(nil)
-  #     login_for_test
-  #     params = { data: { inquiry_date: '2019-04-01', relation_name: 'Tester' } }
-  #     patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params: params, as: :json
-  #
-  #     %w[data].each do |fp|
-  #       expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
-  #     end
-  #   end
-  #
-  #   it 'includes the updated tracing_request_subform_section if a trace is updated' do
-  #     login_for_test
-  #     params = { data: { tracing_request_subform_section: [{ unique_id: @trace1.id, relation_name: 'Person Name' }] } }
-  #     patch "/api/v2/tracing_requests/#{@tracing_request2.id}", params: params, as: :json
-  #
-  #     expect(response).to have_http_status(200)
-  #     expect(
-  #       json['data']['tracing_request_subform_section'].any? { |trace| trace['relation_name'] == 'Person Name' }
-  #     ).to be_truthy
-  #   end
-  # end
+  describe 'PATCH /api/v2/registry_records/:id' do
+    it 'updates an existing record with 200' do
+      login_for_test
+      params = { data: { registry_type:  Registry::REGISTRY_TYPE_FOSTER_CARE} }
+      patch "/api/v2/registry_records/#{@registry1.id}", params: params, as: :json
 
-  # describe 'DELETE /api/v2/tracing_requests/:id' do
-  #   it 'successfully deletes a record with a code of 200' do
-  #     login_for_test(
-  #       permissions: [
-  #         Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::ENABLE_DISABLE_RECORD])
-  #       ]
-  #     )
-  #     delete "/api/v2/tracing_requests/#{@tracing_request1.id}"
-  #
-  #     expect(response).to have_http_status(200)
-  #     expect(json['data']['id']).to eq(@tracing_request1.id)
-  #
-  #     tracing_request1 = TracingRequest.find_by(id: @tracing_request1.id)
-  #     expect(tracing_request1.record_state).to be false
-  #   end
-  # end
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@registry1.id)
+
+      updated_registry = Registry.find_by(id: @registry1.id)
+      expect(updated_registry.data['registry_type']).to eq(Registry::REGISTRY_TYPE_FOSTER_CARE)
+    end
+  end
+
+  # In Primero, we don't actually delete records.  We disable them
+  describe 'DELETE /api/v2/registry_records/:id' do
+    it 'successfully deletes a record with a code of 200' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::REGISTRY, actions: [Permission::ENABLE_DISABLE_RECORD])
+        ]
+      )
+      delete "/api/v2/registry_records/#{@registry1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@registry1.id)
+
+      updated_registry = Registry.find_by(id: @registry1.id)
+      expect(updated_registry.record_state).to be false
+    end
+  end
 
   after do
     clean_data(Registry)
