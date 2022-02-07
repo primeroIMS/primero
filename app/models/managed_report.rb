@@ -19,7 +19,7 @@ class ManagedReport < ValueObject
         id: 'violations',
         name: 'managed_reports.violations.name',
         description: 'managed_reports.violations.description',
-        subreports: %w[killing maiming],
+        subreports: %w[killing maiming detention],
         permitted_filters: [
           :ctfmr_verified, :verified_ctfmr_technical,
           date_of_first_report: {},
