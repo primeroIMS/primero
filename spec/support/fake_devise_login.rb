@@ -39,7 +39,8 @@ module FakeDeviseLogin
           Field.new(name: 'relation_type', type: Field::SELECT_BOX)
         ]
       )
-    )
+    ),
+    Field.new(name: 'registry_type', type: 'text_field', display_name_en: 'Registry Type')
   ].freeze
 
   def permission_case

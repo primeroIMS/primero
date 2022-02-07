@@ -23,6 +23,10 @@ class Registry < ApplicationRecord
         [REGISTRY_TYPE_FARMER, REGISTRY_TYPE_FOSTER_CARE, REGISTRY_TYPE_INDIVIDUAL]
     end
 
+    def summary_field_names
+      common_summary_fields + %w[registry_type]
+    end
+
     def sortable_text_fields
       %w[registry_type short_id]
     end
