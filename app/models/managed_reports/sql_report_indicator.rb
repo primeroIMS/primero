@@ -35,7 +35,9 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def quoted_query(table_name, column_name)
-      "#{quoted_table_name(table_name)&.send(:+, '.')}#{ActiveRecord::Base.connection.quote_column_name(column_name)}"
+      return ActiveRecord::Base.connection.quote_column_name(column_name) if table_name.blank?
+
+      "#{quoted_table_name(table_name)}.#{ActiveRecord::Base.connection.quote_column_name(column_name)}"
     end
 
     def quoted_table_name(table_name)
