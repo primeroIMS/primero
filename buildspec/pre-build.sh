@@ -8,25 +8,31 @@ echo Logging in to Amazon ECR...
 aws --version
 aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
 echo "WEBHOOK=${WEBHOOK}"
-if [ "$WEBHOOK" = "true" ]; then export BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
+if [ "$WEBHOOK" = "true" ]; then BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
+echo "export BRANCH=${BRANCH}" >> ~/.bashrc
 echo "BRANCH=${BRANCH}"
 if [[ "${BRANCH}" =~ "v2." ]]; then
-  export DEPLOY="false"
+  DEPLOY="false"
+  echo "export DEPLOY=${DEPLOY}" >> ~/.bashrc
   echo "DEPLOY=${DEPLOY}"
-  export TAG=${BRANCH}
+  TAG=${BRANCH}
+  echo "export TAG=${TAG}" >> ~/.bashrc
   echo "TAG=${TAG}"
 else
-  export DEPLOY="true"
+  DEPLOY="true"
+  echo "export DEPLOY=${DEPLOY}" >> ~/.bashrc
   echo "DEPLOY=${DEPLOY}"
-  export TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+  TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+  echo "export TAG=${TAG}" >> ~/.bashrc
   echo "TAG=${TAG}"
   CICD_TAG=$(echo $BRANCH | awk -F. '/release/ { print $1"."$2 } ; $0 !~ /release/ { print $0 }' | tr . -)
   echo "CICD_TAG=${CICD_TAG}"
   RELEASE_SECRET_KEY=SECRET_VARS_$(echo $CICD_TAG | tr - _)
   echo "RELEASE_SECRET_KEY=${RELEASE_SECRET_KEY}"
   echo "CODEBUILD_SRC_DIR_devops=${CODEBUILD_SRC_DIR_devops}"
-  export DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
-  echo "DEPLOY_SERVER_NAME=primero-integration-${CICD_TAG}"
+  DEPLOY_SERVER_NAME="primero-integration-${CICD_TAG}"
+  echo "export DEPLOY_SERVER_NAME=${DEPLOY_SERVER_NAME}" >> ~/.bashrc
+  echo "DEPLOY_SERVER_NAME=${DEPLOY_SERVER_NAME}"
   DEPLOY_SERVER_INVENTORY_FILE="primero-integration-${CICD_TAG}.vars.yml"
   echo "DEPLOY_SERVER_INVENTORY_FILE=${DEPLOY_SERVER_INVENTORY_FILE}"
   printenv $RELEASE_SECRET_KEY > secrets.json
