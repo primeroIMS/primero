@@ -2,12 +2,6 @@
 
 # Model representing an event. Some events are correlated to a case, forming a historical record.
 class Incident < ApplicationRecord
-  ALLEGED_PERPETRATOR_CALCULATED_FIELDS = %w[
-    perpetrator_age_group
-    perpetrator_relationship
-    perpetrator_occupation
-  ].freeze
-
   include Record
   include Searchable
   include Historical
@@ -36,7 +30,6 @@ class Incident < ApplicationRecord
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   before_save :update_elapsed_reporting_time
   before_save :calculate_number_of_perpetrators
-  before_save :calculate_perpetrator_fields
   after_save :save_violations_and_associations
 
   class << self
@@ -294,17 +287,6 @@ class Incident < ApplicationRecord
     else
       perpetrators_number = alleged_perpetrator.size
       self.number_of_perpetrators = perpetrators_number > 3 ? 'more_than_3' : "equal_to_#{perpetrators_number}"
-    end
-  end
-
-  def calculate_perpetrator_fields
-    ALLEGED_PERPETRATOR_CALCULATED_FIELDS.each do |calculated_field_name|
-      perpetrator_field_name = calculated_field_name == 'perpetrator_age_group' ? 'age_group' : calculated_field_name
-      perpetrator_field_data = (alleged_perpetrator || []).map do |perpetrator|
-        perpetrator[perpetrator_field_name]
-      end.compact
-
-      send("#{calculated_field_name}=", perpetrator_field_data)
     end
   end
 end
