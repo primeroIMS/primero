@@ -23,6 +23,14 @@ class Registry < ApplicationRecord
         [REGISTRY_TYPE_FARMER, REGISTRY_TYPE_FOSTER_CARE, REGISTRY_TYPE_INDIVIDUAL]
     end
 
+    def filterable_id_fields
+      %w[registry_id short_id]
+    end
+
+    def quicksearch_fields
+      filterable_id_fields + %w[registry_type]
+    end
+
     def summary_field_names
       common_summary_fields + %w[registry_type]
     end
@@ -34,6 +42,8 @@ class Registry < ApplicationRecord
 
   searchable do
     string :registry_type, as: 'registry_type_sci'
+    filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
+    quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
   end
 

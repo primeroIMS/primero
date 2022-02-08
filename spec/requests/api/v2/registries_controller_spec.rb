@@ -7,6 +7,8 @@ describe Api::V2::RegistriesController, type: :request do
     clean_data(Registry)
     @registry1 = Registry.create!(registry_type: Registry::REGISTRY_TYPE_FARMER)
     @registry2 = Registry.create!(registry_type: Registry::REGISTRY_TYPE_INDIVIDUAL)
+    @registry3 = Registry.create!(registry_type: Registry::REGISTRY_TYPE_INDIVIDUAL)
+    @registry4 = Registry.create!(registry_type: Registry::REGISTRY_TYPE_FOSTER_CARE)
     Sunspot.commit
   end
 
@@ -14,17 +16,43 @@ describe Api::V2::RegistriesController, type: :request do
 
   describe 'GET /api/v2/registry_records', search: true do
     it 'lists registries and accompanying metadata' do
-      expected_registry_types = [Registry::REGISTRY_TYPE_FARMER, Registry::REGISTRY_TYPE_INDIVIDUAL]
+      expected_registry_types = [Registry::REGISTRY_TYPE_FARMER, Registry::REGISTRY_TYPE_INDIVIDUAL,
+                                 Registry::REGISTRY_TYPE_INDIVIDUAL, Registry::REGISTRY_TYPE_FOSTER_CARE]
       login_for_test
       get '/api/v2/registry_records'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
-      # TODO fix
+      expect(json['data'].size).to eq(4)
       expect(json['data'].map { |c| c['registry_type'] }).to match_array(expected_registry_types)
-      expect(json['metadata']['total']).to eq(2)
+      expect(json['metadata']['total']).to eq(4)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
+    end
+
+    context 'when a registry_type is passed in' do
+      it 'lists registries only for that registry_type' do
+        expected_registry_types = [Registry::REGISTRY_TYPE_INDIVIDUAL, Registry::REGISTRY_TYPE_INDIVIDUAL]
+        login_for_test
+        get '/api/v2/registry_records?registry_type=individual'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(2)
+        expect(json['data'].map { |c| c['registry_type'] }).to match_array(expected_registry_types)
+        expect(json['metadata']['total']).to eq(2)
+        expect(json['metadata']['per']).to eq(20)
+        expect(json['metadata']['page']).to eq(1)
+      end
+    end
+
+    context 'when user is unauthorized' do
+      it 'refuses unauthorized access' do
+        login_for_test(permissions: [])
+        get '/api/v2/registry_records'
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/registry_records')
+      end
     end
   end
 
