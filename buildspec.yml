@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - ./buildspec/pre-build.sh
-      - source ~/.bashrc
+      - . pre-build-env-vars
     finally:
       - cd docker
       - ./build-report.py -p pre_build
