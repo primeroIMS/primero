@@ -4,6 +4,7 @@ import {
   endOfMonth,
   endOfQuarter,
   endOfYear,
+  isDate,
   startOfMonth,
   startOfQuarter,
   startOfYear,
@@ -12,6 +13,7 @@ import {
   subYears
 } from "date-fns";
 
+import { toServerDateFormat } from "../../libs";
 import {
   CUSTOM,
   LAST_MONTH,
@@ -55,5 +57,12 @@ export const dateCalculations = (option, from, to) => {
     }
   };
 
-  return dateFunctions[option]();
+  const dateRange = dateFunctions[option]();
+
+  return {
+    from: isDate(dateRange.from)
+      ? toServerDateFormat(dateRange.from, { includeTime: true, normalize: false })
+      : dateRange.from,
+    to: isDate(dateRange.to) ? toServerDateFormat(dateRange.to, { includeTime: true, normalize: false }) : dateRange.to
+  };
 };
