@@ -2,7 +2,6 @@
 
 set -eux
 
-touch pre-build-env-vars
 nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
 timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
 echo Logging in to Amazon ECR...
@@ -10,7 +9,7 @@ aws --version
 aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${CONTAINER_REGISTRY}
 echo "WEBHOOK=${WEBHOOK}"
 if [ "$WEBHOOK" = "true" ]; then BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
-echo "export BRANCH=${BRANCH}" >> pre-build-env-vars
+echo "export BRANCH=${BRANCH}" > pre-build-env-vars
 echo "BRANCH=${BRANCH}"
 if [[ "${BRANCH}" =~ "v2." ]]; then
   DEPLOY="false"
@@ -43,3 +42,5 @@ else
   cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
   aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${TAG} --sse 'aws:kms'
 fi
+
+cat ./pre-build-env-vars

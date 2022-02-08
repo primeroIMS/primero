@@ -1,6 +1,7 @@
 version: 0.2
 
 env:
+  shell: 'bash'
   secrets-manager:
     SECRET_VARS_cicd: 'PrimeroCicdSecretcicd'
     SECRET_VARS_master: 'PrimeroCicdSecretmaster'
@@ -14,7 +15,8 @@ phases:
   pre_build:
     commands:
       - ./buildspec/pre-build.sh
-      - . pre-build-env-vars
+      - cat ./pre-build-env-vars
+      - source ./pre-build-env-vars
     finally:
       - cd docker
       - ./build-report.py -p pre_build
