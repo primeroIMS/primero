@@ -15,7 +15,6 @@ phases:
   pre_build:
     commands:
       - ./buildspec/pre-build.sh
-      - cat ./pre-build-env-vars
       - source ./pre-build-env-vars
     finally:
       - cd docker
