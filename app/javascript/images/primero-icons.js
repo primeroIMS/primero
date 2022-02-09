@@ -185,3 +185,12 @@ export const Insights = props => (
     <polygon points="3.5,11 4,9 6,8.5 4,8 3.5,6 3,8 1,8.5 3,9"/>
   </SvgIcon>
 )
+
+export const TallyInput = props => (
+  <SvgIcon {...props} viewBox="0 0 190 24" fontSize="inherit">
+    <g fill="none" fill-rule="evenodd">
+      <path d="M59 1v22H1V1h58Zm65 0v22H66V1h58Zm65 0v22h-58V1h58Z" stroke="#231E1F" stroke-width="2"/>
+      <path d="M13 13a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6Zm65 0a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6Zm65 0a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6ZM10 5l4 4a1 1 0 0 1-1 2H7a1 1 0 0 1-1-2l4-4Zm65 0 4 4a1 1 0 0 1-1 2h-6a1 1 0 0 1-1-2l4-4Zm65 0 4 4a1 1 0 0 1-1 2h-6a1 1 0 0 1-1-2l4-4Z" fill="#231E1F"/>
+    </g>
+  </SvgIcon>
+);
