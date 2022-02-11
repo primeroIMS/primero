@@ -24,6 +24,8 @@ import {
   THIS_YEAR
 } from "../insights/constants";
 
+const formatDate = date => (isDate(date) ? toServerDateFormat(date, { includeTime: true, normalize: false }) : date);
+
 export const dateCalculations = (option, from, to) => {
   const date = new Date();
 
@@ -59,10 +61,5 @@ export const dateCalculations = (option, from, to) => {
 
   const dateRange = dateFunctions[option]();
 
-  return {
-    from: isDate(dateRange.from)
-      ? toServerDateFormat(dateRange.from, { includeTime: true, normalize: false })
-      : dateRange.from,
-    to: isDate(dateRange.to) ? toServerDateFormat(dateRange.to, { includeTime: true, normalize: false }) : dateRange.to
-  };
+  return { from: formatDate(dateRange.from), to: formatDate(dateRange.to) };
 };
