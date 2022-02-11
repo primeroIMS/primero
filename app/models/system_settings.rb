@@ -82,6 +82,10 @@ class SystemSettings < ApplicationRecord
     super(config.to_h)
   end
 
+  def incident_reporting_location_config
+    ReportingLocation.new(super) if super.present?
+  end
+
   def age_ranges
     return unless super.present?
 

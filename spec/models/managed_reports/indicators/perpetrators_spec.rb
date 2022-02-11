@@ -23,12 +23,11 @@ describe ManagedReports::Indicators::Perpetrators do
 
   it 'returns data for perpetrators indicator' do
     perpetrators_data = ManagedReports::Indicators::Perpetrators.build(
-      [
-        SearchFilters::Value.new(field_name: 'type', value: 'killing')
-      ]
+      nil,
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
-    expect(perpetrators_data).to eq(
+    expect(perpetrators_data).to match_array(
       [{ 'id' => 'armed_force_2', 'total' => 2 }, { 'id' => 'armed_force_4', 'total' => 1 }]
     )
   end

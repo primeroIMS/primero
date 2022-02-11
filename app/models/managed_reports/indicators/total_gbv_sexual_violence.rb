@@ -7,19 +7,21 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       'gbv_sexual_violence'
     end
 
-    def sql(params = [])
+    def sql(_current_user, params = {})
       %{
         select
           count(*) as total
         from  incidents
         where data ->> 'gbv_sexual_violence_type' != 'non-gbv'
         and data ->> 'gbv_sexual_violence_type' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'])&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{equal_value_query(params['module_id'])&.prepend('and ')}
       }
     end
 
-    def build(args = {})
-      super(args) { |results| results[0]['total'] }
+    def build(current_user = nil, args = {})
+      super(current_user, args) { |results| results[0]['total'] }
     end
   end
 end

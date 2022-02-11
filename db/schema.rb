@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_26_000000) do
+ActiveRecord::Schema.define(version: 2022_02_01_145440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -520,6 +520,7 @@ ActiveRecord::Schema.define(version: 2022_01_26_000000) do
     t.string "configuration_file_version"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "incident_reporting_location_config"
   end
 
   create_table "traces", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
