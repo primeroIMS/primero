@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "formik";
@@ -64,6 +65,28 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
+    if (subformSectionField?.calculation?.expression) {
+      let count = Object.keys(values).reduce((prev, curr) => {
+        if (!(subformSectionField?.calculation?.expression.sum.indexOf(curr) < 0) && values[curr] !== "") {
+          return prev + 1;
+        }
+
+        return prev;
+      }, 0);
+
+      if (count === 0) {
+        count = 1;
+      }
+
+      const calculatedVal = parseExpression(subformSectionField?.calculation?.expression).evaluate(values);
+
+      const scoreCalField = `${formSection.unique_id.split("subform_section")[0]}score_calc`;
+      const scoreField = `${formSection.unique_id.split("subform_section")[0]}score`;
+
+      values[scoreCalField] = Math.floor(calculatedVal / count);
+      values[scoreField] = Math.floor(calculatedVal / count);
+    }
+
     const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
