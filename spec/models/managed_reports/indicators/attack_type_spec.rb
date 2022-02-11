@@ -17,9 +17,7 @@ describe ManagedReports::Indicators::AttackType do
 
   it 'returns data for attack type indicator' do
     attack_type_data = ManagedReports::Indicators::AttackType.build(
-      [
-        SearchFilters::Value.new(field_name: 'type', value: 'killing')
-      ]
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
     expect(attack_type_data).to eq(

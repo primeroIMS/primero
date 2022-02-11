@@ -23,9 +23,7 @@ describe ManagedReports::Indicators::Perpetrators do
 
   it 'returns data for perpetrators indicator' do
     perpetrators_data = ManagedReports::Indicators::Perpetrators.build(
-      [
-        SearchFilters::Value.new(field_name: 'type', value: 'killing')
-      ]
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
     expect(perpetrators_data).to eq(

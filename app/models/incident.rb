@@ -22,12 +22,14 @@ class Incident < ApplicationRecord
     :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
-    :elapsed_reporting_time
+    :elapsed_reporting_time, :alleged_perpetrator, :number_of_perpetrators, :perpetrator_relationship,
+    :perpetrator_age_group, :perpetrator_occupation
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
-  before_save :calculate_elapsed_reporting_time
+  before_save :update_elapsed_reporting_time
+  before_save :calculate_number_of_perpetrators
   after_save :save_violations_and_associations
 
   class << self
@@ -259,15 +261,32 @@ class Incident < ApplicationRecord
     @violations_to_save.present? ? @violations_to_save.map(&:id) - violations_ids : violations_ids
   end
 
+  def update_elapsed_reporting_time
+    self.elapsed_reporting_time = calculate_elapsed_reporting_time
+  end
+
   def calculate_elapsed_reporting_time
-    return if incident_date.blank? || date_of_first_report.blank?
+    return unless incident_date.present? && date_of_first_report.present?
 
-    calculated = (date_of_first_report - incident_date).to_i
+    elapsed_reporting_time_key((date_of_first_report - incident_date).to_i)
+  end
 
-    self.elapsed_reporting_time = '0_3_days' if calculated < 4
-    self.elapsed_reporting_time = '4_5_days' if calculated.in?(4..5)
-    self.elapsed_reporting_time = '6_14_days' if calculated.in?(6..14)
-    self.elapsed_reporting_time = '2_weeks_1_month' if calculated.in?(15..30)
-    self.elapsed_reporting_time = 'over_1_month' if calculated > 30
+  def elapsed_reporting_time_key(value)
+    case value
+    when 0..4 then '0_3_days'
+    when 4..5 then '4_5_days'
+    when 6..14 then '6_14_days'
+    when 15..30 then '2_weeks_1_month'
+    when 30.. then'over_1_month'
+    end
+  end
+
+  def calculate_number_of_perpetrators
+    if alleged_perpetrator.blank?
+      self.number_of_perpetrators = nil
+    else
+      perpetrators_number = alleged_perpetrator.size
+      self.number_of_perpetrators = perpetrators_number > 3 ? 'more_than_3' : "equal_to_#{perpetrators_number}"
+    end
   end
 end

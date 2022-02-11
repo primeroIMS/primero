@@ -7,36 +7,24 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
       'reporting_location'
     end
 
-    def sql(params = [])
+    # rubocop:disable Metrics/AbcSize
+    def sql(params = {})
       # TODO: Currently we return incident_location, the reporting_location will be fix in a future ticket
       %{
         select incidents."data"->>'incident_location' as id, count(violations.id) as total
         from violations violations
         inner join incidents incidents on incidents.id = violations.incident_id
         WHERE incidents.data->>'incident_location' is not null
-        #{filter_query(params)}
+        #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
+        #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         group by incidents."data"->>'incident_location';
       }
     end
-
-    def date_range_query(param)
-      namespace = namespace_for_query(param.field_name)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
-          param.field_name,
-          param.from,
-          param.to
-        ]
-      )
-    end
-
-    def equal_value_query(param)
-      namespace = namespace_for_query(param.field_name)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
-      )
-    end
+    # rubocop:enable Metrics/AbcSize
 
     def build(args = {})
       super(args, &:to_a)

@@ -10,7 +10,7 @@ class ManagedReport < ValueObject
         id: 'gbv_statistics',
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
-        subreports: %w[incidents],
+        subreports: %w[incidents perpetrators],
         permitted_filters: [date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
@@ -48,7 +48,7 @@ class ManagedReport < ValueObject
     filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id) if id == 'gbv_statistics'
     filtered_params << SearchFilters::Value.new(field_name: 'type', value: subreport_id) if id == 'violations'
 
-    filtered_params
+    filtered_params.reduce({}) { |acc, param| acc.merge(param.field_name => param) }
   end
 
   def permitted_filter_names
