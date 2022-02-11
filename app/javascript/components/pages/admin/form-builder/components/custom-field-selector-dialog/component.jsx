@@ -33,6 +33,7 @@ import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
   DateInput,
   Seperator,
+  TallyInput,
   TickBoxInput,
   TextAreaInput,
   TextInput,
@@ -60,7 +61,7 @@ const fields = [
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator],
   [SUBFORM_SECTION, SubformField],
-  [TALLY_FIELD, SubformField]
+  [TALLY_FIELD, TallyInput]
 ];
 
 const Component = ({ isSubform }) => {
