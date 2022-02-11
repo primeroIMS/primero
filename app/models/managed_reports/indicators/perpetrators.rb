@@ -9,7 +9,6 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(_current_user, params = {})
       %{
         select name, key, sum(value::integer) from (
@@ -25,8 +24,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
           and violations."data"->>'violation_tally' is not null
           #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
           #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
-          #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
-          #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
+          #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
@@ -36,7 +34,6 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user = nil, args = {})
       super(current_user, args) do |result|

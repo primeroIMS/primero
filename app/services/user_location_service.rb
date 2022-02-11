@@ -12,7 +12,7 @@ class UserLocationService
       end
     end
 
-    # private
+    private
 
     def inject_location_user(user, locations_by_code, rpt_locations_by_location_code)
       user.user_location = locations_by_code[user.location]

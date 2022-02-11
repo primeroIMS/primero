@@ -7,16 +7,14 @@ module ReportableLocation
   included do
     store_accessor :data, :reporting_location_hierarchy
 
-    before_save :set_reporting_location
+    before_save :calculate_reporting_location
   end
 
-  def set_reporting_location
+  def calculate_reporting_location
     location_property = system_settings_reporting_location_field
-
     return unless location_property.present? && changes_to_save_for_record.try(:[], location_property)
 
     hierarchy_data = hierarchy_path_for_location(location_property)
-
     return if hierarchy_data.blank?
 
     self.reporting_location_hierarchy = hierarchy_data
@@ -28,11 +26,11 @@ module ReportableLocation
     return if @system_settings.blank?
     return if reporting_location_property.blank?
 
-    @system_settings.send(reporting_location_property)&.field_key
+    @system_settings[reporting_location_property]&.dig('field_key')
   end
 
   def hierarchy_path_for_location(location_property)
-    Location.find_by(location_code: send(location_property))&.hierarchy_path
+    location_service.find_by_code(data[location_property])&.hierarchy_path
   end
 
   def reporting_location_property
