@@ -10,8 +10,8 @@ describe Permission do
   describe '.resources' do
     it 'returns all rescources' do
       expected = [Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::POTENTIAL_MATCH,
-                  Permission::REGISTRY, Permission::ROLE, Permission::USER, Permission::USER_GROUP, Permission::AGENCY,
-                  Permission::WEBHOOK, Permission::METADATA, Permission::SYSTEM, Permission::REPORT,
+                  Permission::REGISTRY_RECORD, Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+                  Permission::AGENCY, Permission::WEBHOOK, Permission::METADATA, Permission::SYSTEM, Permission::REPORT,
                   Permission::MANAGED_REPORT, Permission::DASHBOARD, Permission::AUDIT_LOG,
                   Permission::MATCHING_CONFIGURATION, Permission::DUPLICATE, Permission::CODE_OF_CONDUCT,
                   Permission::ACTIVITY_LOG]
@@ -21,7 +21,7 @@ describe Permission do
 
   describe '.records' do
     it 'returns all records' do
-      expected = [Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY]
+      expected = [Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST, Permission::REGISTRY_RECORD]
       expect(Permission.records).to match_array(expected)
     end
   end

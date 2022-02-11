@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Model representing a registry
-class Registry < ApplicationRecord
+class RegistryRecord < ApplicationRecord
   REGISTRY_TYPE_FARMER = 'farmer'
   REGISTRY_TYPE_FOSTER_CARE = 'foster_care'
   REGISTRY_TYPE_INDIVIDUAL = 'individual'

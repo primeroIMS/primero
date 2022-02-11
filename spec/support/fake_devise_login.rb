@@ -73,7 +73,7 @@ module FakeDeviseLogin
 
   def permission_registry
     @permission_registry ||= Permission.new(
-      resource: Permission::REGISTRY,
+      resource: Permission::REGISTRY_RECORD,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
     )
   end

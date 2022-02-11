@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-describe Registry do
+describe RegistryRecord do
   before do
-    clean_data(Registry)
+    clean_data(RegistryRecord)
   end
 
   describe 'parent_form' do
-    it 'returns registry' do
-      expect(Registry.parent_form).to eq('registry')
+    it 'returns registry_record' do
+      expect(RegistryRecord.parent_form).to eq('registry_record')
     end
   end
 
   describe 'registry_types' do
     before do
-      @default_registry_types = [Registry::REGISTRY_TYPE_FARMER, Registry::REGISTRY_TYPE_FOSTER_CARE,
-                                 Registry::REGISTRY_TYPE_INDIVIDUAL]
+      @default_registry_types = [RegistryRecord::REGISTRY_TYPE_FARMER, RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
+                                 RegistryRecord::REGISTRY_TYPE_INDIVIDUAL]
     end
     context 'when there are no system_options in SystemSettings' do
       before do
@@ -26,7 +26,7 @@ describe Registry do
       end
 
       it 'returns default types from Registry' do
-        expect(Registry.registry_types).to match_array(@default_registry_types)
+        expect(RegistryRecord.registry_types).to match_array(@default_registry_types)
       end
     end
 
@@ -40,7 +40,7 @@ describe Registry do
         end
 
         it 'returns default types from Registry' do
-          expect(Registry.registry_types).to match_array(@default_registry_types)
+          expect(RegistryRecord.registry_types).to match_array(@default_registry_types)
         end
       end
 
@@ -55,13 +55,13 @@ describe Registry do
         end
 
         it 'returns registry_types configured in SystemSettings' do
-          expect(Registry.registry_types).to match_array(@ss_registry_types)
+          expect(RegistryRecord.registry_types).to match_array(@ss_registry_types)
         end
       end
     end
   end
 
   after do
-    clean_data(Registry)
+    clean_data(RegistryRecord)
   end
 end

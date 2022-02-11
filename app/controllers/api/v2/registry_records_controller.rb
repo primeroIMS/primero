@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Main API controller for Registry records
-class Api::V2::RegistriesController < ApplicationApiController
+class Api::V2::RegistryRecordsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
