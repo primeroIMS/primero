@@ -19,8 +19,7 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
         WHERE incidents.data->>'reporting_location_hierarchy' is not null
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
-        #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
-        #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
+        #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}

@@ -67,9 +67,7 @@ describe ManagedReports::Indicators::ReportingLocation do
   it 'returns data for reporting location indicator' do
     reporting_location_data = ManagedReports::Indicators::ReportingLocation.build(
       @user,
-      [
-        SearchFilters::Value.new(field_name: 'type', value: 'killing')
-      ]
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
     expect(reporting_location_data).to match_array(
