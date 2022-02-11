@@ -43,7 +43,11 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
   return formSections.filter(fs => fs.visible);
 };
 
-const allFormSections = state => state.getIn([NAMESPACE, "formSections"]);
+const allFormSections = state => state.getIn([NAMESPACE, "formSections"], fromJS({}));
+
+const allFormSectionByIds = createCachedSelector(allFormSections, formSections =>
+  formSections.valueSeq().reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({}))
+)(defaultCacheSelectorOptions);
 
 const forms = ({
   formSections,
@@ -136,11 +140,12 @@ export const getFirstTab = createCachedSelector(
 
 export const getFormNav = createCachedSelector(
   allFormSections,
+  allFormSectionByIds,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
   getLocale,
   (_state, query) => query,
-  (formSections, permittedFormIDs, userPermissions, appLocale, query) => {
+  (formSections, formSectionsById, permittedFormIDs, userPermissions, appLocale, query) => {
     const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale }).filter(
       form => form.form_group_id !== RECORD_INFORMATION_GROUP
     );
@@ -152,7 +157,7 @@ export const getFormNav = createCachedSelector(
 
     if (renderCustomForms) {
       const defaultForms = getDefaultForms(appLocale);
-      const formsFromDefault = pickFromDefaultForms(selectedForms, defaultForms);
+      const formsFromDefault = pickFromDefaultForms(formSectionsById, defaultForms);
 
       if (!isEmpty(formsFromDefault)) {
         const filteredCustomForms = filterForms(List(Object.values(formsFromDefault)), {
@@ -178,15 +183,16 @@ export const getFormNav = createCachedSelector(
 
 export const getRecordInformationForms = createCachedSelector(
   allFormSections,
+  allFormSectionByIds,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   getLocale,
   (_state, query) => query,
-  (formSections, permittedFormIDs, appLocale, query) => {
+  (formSections, formSectionByIds, permittedFormIDs, appLocale, query) => {
     const recordForms = forms({ ...query, formSections, permittedFormIDs, appLocale });
 
     const defaultForms = getDefaultForms(appLocale);
 
-    const formsFromDefault = pickFromDefaultForms(recordForms, defaultForms);
+    const formsFromDefault = pickFromDefaultForms(formSectionByIds, defaultForms);
 
     const defaultFormsMap = OrderedMap(
       Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
