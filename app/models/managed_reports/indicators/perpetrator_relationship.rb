@@ -8,7 +8,7 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
     end
 
     # rubocop:disable Metrics/MethodLength
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select
           alleged_perpetrator.perpetrator_relationship  as relationship_id,

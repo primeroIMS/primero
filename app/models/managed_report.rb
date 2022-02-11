@@ -4,6 +4,7 @@
 class ManagedReport < ValueObject
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters
 
+  # rubocop:disable Metrics/MethodLength
   def self.list
     {
       Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
@@ -28,11 +29,12 @@ class ManagedReport < ValueObject
       )
     }.freeze
   end
+  # rubocop:enable Metrics/MethodLength
 
-  def build_report(filters = [], subreport_id = nil)
+  def build_report(current_user, filters = [], subreport_id = nil)
     self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(subreport_params(filters, subreport_id))
+      subreport.build_report(current_user, subreport_params(filters, subreport_id))
       acc.merge(subreport.id => subreport.data)
     end
   end

@@ -8,7 +8,7 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
     end
 
     # rubocop:disable Metrics/MethodLength
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select
           alleged_perpetrator.age_group as age_group_id,

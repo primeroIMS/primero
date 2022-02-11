@@ -8,7 +8,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     end
 
     # rubocop:disable Metrics/AbcSize
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select json_object_agg(key, sum) as data
         from (
@@ -28,8 +28,8 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     end
     # rubocop:enable Metrics/AbcSize
 
-    def build(args = {})
-      super(args) do |result|
+    def build(current_user = nil, args = {})
+      super(current_user, args) do |result|
         ActiveSupport::JSON.decode(result.first.dig('data') || '{}')
       end
     end

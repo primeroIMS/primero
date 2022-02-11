@@ -8,7 +8,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
 
     # rubocop:disable Metrics/AbcSize
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select
           p."data"->>'armed_force_group_party_name' as id,
@@ -29,8 +29,8 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
     # rubocop:enable Metrics/AbcSize
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user = nil, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end

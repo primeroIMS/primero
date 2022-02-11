@@ -8,7 +8,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     end
 
     # rubocop:disable Metrics/AbcSize
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select
           violations."data"->>'attack_type' as id,
@@ -27,8 +27,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     end
     # rubocop:enable Metrics/AbcSize
 
-    def build(args = {})
-      super(args, &:to_a)
+    def build(current_user = nil, args = {})
+      super(current_user, args, &:to_a)
     end
   end
 end

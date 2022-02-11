@@ -11,6 +11,7 @@ class Incident < ApplicationRecord
   include Attachable
   include EagerLoadable
   include Kpi::GBVIncident
+  include ReportableLocation
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(
@@ -288,5 +289,9 @@ class Incident < ApplicationRecord
       perpetrators_number = alleged_perpetrator.size
       self.number_of_perpetrators = perpetrators_number > 3 ? 'more_than_3' : "equal_to_#{perpetrators_number}"
     end
+  end
+
+  def reporting_location_property
+    'incident_reporting_location_config'
   end
 end

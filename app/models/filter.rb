@@ -228,14 +228,30 @@ class Filter < ValueObject
       value
     end
 
+    def reporting_location_config(role, record_type)
+      case record_type
+      when 'case'
+        role.reporting_location_config
+      when 'incident'
+        role.incident_reporting_location_config
+      else
+        {}
+      end
+    end
+
+    def reporting_location_data(role, record_type)
+      reporting_location = reporting_location_config(role, record_type)
+
+      {
+        field: reporting_location&.field_key || ReportingLocation::DEFAULT_FIELD_KEY,
+        labels: reporting_location&.label_keys,
+        admin_level: reporting_location&.admin_level
+      }
+    end
+
     def case_filters(user)
       filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
       role = user&.role
-      reporting_location_config = role&.reporting_location_config ||
-                                  SystemSettings.current.reporting_location_config
-      reporting_location_field = reporting_location_config&.field_key || ReportingLocation::DEFAULT_FIELD_KEY
-      reporting_location_labels = reporting_location_config&.label_keys
-      reporting_location_admin_level = reporting_location_config&.admin_level
       permitted_form_ids = role.permitted_forms('case', true, false).pluck(:unique_id)
 
       filters = []
@@ -267,10 +283,7 @@ class Filter < ValueObject
       filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      if user.module?(PrimeroModule::CP)
-        filters << REPORTING_LOCATION.call(labels: reporting_location_labels, field: reporting_location_field,
-                                           admin_level: reporting_location_admin_level)
-      end
+      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) if user.module?(PrimeroModule::CP)
       filters << NO_ACTIVITY
       filters << DATE_CASE if user.module?(PrimeroModule::CP)
       filters << ENABLED
@@ -279,6 +292,8 @@ class Filter < ValueObject
     end
 
     def incident_filters(user)
+      role = user&.role
+
       filters = []
       filters << FLAGGED_CASE
       filters << VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
@@ -290,6 +305,7 @@ class Filter < ValueObject
       filters << CHILDREN if user.module?(PrimeroModule::MRM)
       filters << VERIFICATION_STATUS if user.module?(PrimeroModule::MRM)
       filters << INCIDENT_LOCATION
+      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'incident')) if user.module?(PrimeroModule::MRM)
       filters << INCIDENT_DATE
       filters << UNACCOMPANIED_PROTECTION_STATUS if user.module?(PrimeroModule::GBV)
       filters << ARMED_FORCE_GROUP if user.module?(PrimeroModule::MRM)

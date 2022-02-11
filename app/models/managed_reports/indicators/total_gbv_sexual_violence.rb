@@ -7,7 +7,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       'gbv_sexual_violence'
     end
 
-    def sql(params = {})
+    def sql(_current_user, params = {})
       %{
         select
           count(*) as total
@@ -20,8 +20,8 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       }
     end
 
-    def build(args = {})
-      super(args) { |results| results[0]['total'] }
+    def build(current_user = nil, args = {})
+      super(current_user, args) { |results| results[0]['total'] }
     end
   end
 end
