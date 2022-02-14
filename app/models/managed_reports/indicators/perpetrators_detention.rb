@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the perpetators of violation type killing
+# An indicator that returns the perpetators of individual victioms - detention
 class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlReportIndicator
   class << self
     def id

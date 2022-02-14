@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the reporting locations of violation type killing
+# An indicator that returns the reporting locations for individual victioms -detention
 class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::SqlReportIndicator
   class << self
     def id
