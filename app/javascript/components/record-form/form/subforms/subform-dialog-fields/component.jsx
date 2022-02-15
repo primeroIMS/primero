@@ -63,7 +63,6 @@ const Component = ({
       setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
     }
   }, []);
-
   return fieldsToDisplay.map(subformSectionField => {
     if (subformSectionField?.calculation?.expression) {
       let count = Object.keys(values).reduce((prev, curr) => {
@@ -83,7 +82,7 @@ const Component = ({
       const scoreCalField = `${formSection.unique_id.split("subform_section")[0]}score_calc`;
       const scoreField = `${formSection.unique_id.split("subform_section")[0]}score`;
 
-      values[scoreCalField] = Math.floor(calculatedVal / count);
+      values[scoreCalField] = Math.floor(calculatedVal);
       values[scoreField] = Math.floor(calculatedVal / count);
     }
 

@@ -15,6 +15,7 @@
 .autotest
 .buildpath
 .bundle
+.byebug_history
 .idea/*
 .powrc
 .project
