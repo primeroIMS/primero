@@ -17,12 +17,11 @@ describe ManagedReports::Indicators::AttackType do
 
   it 'returns data for attack type indicator' do
     attack_type_data = ManagedReports::Indicators::AttackType.build(
-      [
-        SearchFilters::Value.new(field_name: 'type', value: 'killing')
-      ]
+      nil,
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
-    expect(attack_type_data).to eq(
+    expect(attack_type_data).to match_array(
       [
         { 'id' => 'aerial_attack', 'total' => 1 },
         { 'id' => 'arson', 'total' => 2 }

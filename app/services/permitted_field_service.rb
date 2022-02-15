@@ -26,7 +26,7 @@ class PermittedFieldService
     or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
-    reassigned_transferred_on current_alert_types location_current
+    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
@@ -111,6 +111,7 @@ class PermittedFieldService
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
+    schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
     schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)

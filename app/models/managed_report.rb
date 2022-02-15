@@ -4,13 +4,14 @@
 class ManagedReport < ValueObject
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters
 
+  # rubocop:disable Metrics/MethodLength
   def self.list
     {
       Permission::GBV_STATISTICS_REPORT => ManagedReport.new(
         id: 'gbv_statistics',
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
-        subreports: %w[incidents],
+        subreports: %w[incidents perpetrators],
         permitted_filters: [date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
@@ -28,11 +29,12 @@ class ManagedReport < ValueObject
       )
     }.freeze
   end
+  # rubocop:enable Metrics/MethodLength
 
-  def build_report(filters = [], subreport_id = nil)
+  def build_report(current_user, filters = [], subreport_id = nil)
     self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(subreport_params(filters, subreport_id))
+      subreport.build_report(current_user, subreport_params(filters, subreport_id))
       acc.merge(subreport.id => subreport.data)
     end
   end
@@ -48,7 +50,7 @@ class ManagedReport < ValueObject
     filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id) if id == 'gbv_statistics'
     filtered_params << SearchFilters::Value.new(field_name: 'type', value: subreport_id) if id == 'violations'
 
-    filtered_params
+    filtered_params.reduce({}) { |acc, param| acc.merge(param.field_name => param) }
   end
 
   def permitted_filter_names

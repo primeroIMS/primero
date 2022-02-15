@@ -7,39 +7,34 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
       'reporting_location'
     end
 
-    def sql(params = [])
-      # TODO: Currently we return incident_location, the reporting_location will be fix in a future ticket
+    # rubocop:disable Metrics/AbcSize
+    def sql(current_user, params = {})
+      admin_level = user_reporting_location_admin_level(current_user)
+
       %{
-        select incidents."data"->>'incident_location' as id, count(violations.id) as total
+        select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as id,
+        count(violations.id) as total
         from violations violations
         inner join incidents incidents on incidents.id = violations.incident_id
-        WHERE incidents.data->>'incident_location' is not null
-        #{filter_query(params)}
-        group by incidents."data"->>'incident_location';
+        WHERE incidents.data->>'reporting_location_hierarchy' is not null
+        #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
+        #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
+        #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+        group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}];
       }
     end
+    # rubocop:enable Metrics/AbcSize
 
-    def date_range_query(param)
-      namespace = namespace_for_query(param.field_name)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "to_timestamp(#{namespace}.data ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
-          param.field_name,
-          param.from,
-          param.to
-        ]
-      )
+    def build(current_user, args = {})
+      super(current_user, args, &:to_a)
     end
 
-    def equal_value_query(param)
-      namespace = namespace_for_query(param.field_name)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{namespace}.data ->> ? = ?", param.field_name, param.value]
-      )
-    end
-
-    def build(args = {})
-      super(args, &:to_a)
+    def user_reporting_location_admin_level(current_user)
+      # Adding one since admin level start from 0, but string on postgres start from 1
+      current_user.role.incident_reporting_location_config&.admin_level.to_i + 1
     end
   end
 end

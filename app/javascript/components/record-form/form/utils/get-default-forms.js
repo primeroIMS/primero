@@ -37,7 +37,8 @@ export default locale =>
       subform_append_only: false,
       initial_subforms: 0,
       i18nName: true,
-      i18nDescription: true
+      i18nDescription: true,
+      visible: true
     }),
     [RECORD_OWNER]: FormSectionRecord({
       id: generateKey(),
@@ -48,7 +49,8 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: true,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     }),
     [APPROVALS]: FormSectionRecord({
       id: generateKey(),
@@ -59,7 +61,8 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: true,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     }),
     [INCIDENT_FROM_CASE]: FormSectionRecord({
       id: generateKey(),
@@ -70,7 +73,8 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: false,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     }),
     [REFERRAL]: FormSectionRecord({
       id: generateKey(),
@@ -81,7 +85,8 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: true,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     }),
     [TRANSFERS_ASSIGNMENTS]: FormSectionRecord({
       id: generateKey(),
@@ -92,7 +97,8 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: false,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     }),
     [CHANGE_LOGS]: FormSectionRecord({
       id: generateKey(),
@@ -103,6 +109,7 @@ export default locale =>
       order_form_group: 0,
       is_first_tab: false,
       core_form: true,
-      i18nName: true
+      i18nName: true,
+      visible: true
     })
   });

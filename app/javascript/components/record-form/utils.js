@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
-import { fromJS, isImmutable } from "immutable";
+import { isImmutable } from "immutable";
 import orderBy from "lodash/orderBy";
 import last from "lodash/last";
 import isNil from "lodash/isNil";
@@ -243,11 +243,8 @@ export const buildFormNav = form =>
     ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE].includes(form.unique_id) ? { recordTypes: [RECORD_TYPES.cases] } : {})
   });
 
-export const pickFromDefaultForms = (forms, defaultForms) => {
-  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id) || fromJS([]);
-
-  return pick(
+export const pickFromDefaultForms = (forms, defaultForms) =>
+  pick(
     defaultForms,
-    Object.keys(defaultForms).filter(key => !formUniqueIds.includes(key))
+    Object.keys(defaultForms).filter(key => !forms.get(key))
   );
-};
