@@ -12,6 +12,7 @@ describe("<RecordList /> - constants", () => {
       "FILTER_CONTAINER_NAME",
       "ID_COLUMNS",
       "NAME",
+      "REGISTRY_RECORDS_HEADERS",
       "SEARCH_AND_CREATE_WORKFLOW"
     ].forEach(property => {
       expect(clone).to.have.property(property);

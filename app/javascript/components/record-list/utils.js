@@ -81,6 +81,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
               };
             default:
               return {
+                sort: column.get("sort", true),
                 customBodyRender: (value, { rowIndex }) => disableColumnOffline({ value, rowIndex })
               };
           }
