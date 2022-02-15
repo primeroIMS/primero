@@ -85,7 +85,10 @@ describe ManagedReports::Indicators::DetentionStatus do
     ).data
 
     expect(violation_tally_data).to match_array(
-      [{ 'count' => 3, 'status' => 'detained' }, { 'count' => 2, 'status' => 'released' }]
+      [
+        { 'count' => 3, 'status' => 'managed_reports.violations.sub_reports.detention_detained' },
+        { 'count' => 2, 'status' => 'managed_reports.violations.sub_reports.detention_released' }
+      ]
     )
   end
 end

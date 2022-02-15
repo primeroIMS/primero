@@ -19,8 +19,8 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
               case
               when (iv."data"->>'deprivation_liberty_end' is not null
                 and to_date(iv."data"->>'deprivation_liberty_end', 'YYYY-MM-DD') <= CURRENT_DATE)
-              then 'released'
-              else 'detained'
+              then 'managed_reports.violations.sub_reports.detention_released'
+              else 'managed_reports.violations.sub_reports.detention_detained'
               end
             ) as status
                   from violations violations
