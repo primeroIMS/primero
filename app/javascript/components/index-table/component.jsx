@@ -37,7 +37,7 @@ const Component = ({
   columns,
   recordType,
   onTableChange,
-  defaultFilters,
+  defaultFilters = fromJS({}),
   options: tableOptionsProps,
   targetRecordType,
   onRowClick,

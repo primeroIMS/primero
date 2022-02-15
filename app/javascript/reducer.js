@@ -61,6 +61,7 @@ import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
 import { reducer as drawerReducer } from "./components/drawer";
 import { reducer as formFiltersReducer } from "./components/form-filters";
+import { reducer as registrySearchReducer } from "./components/record-form/form/components/case-registry";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -80,6 +81,7 @@ const rootReducer = {
           return o;
         }, {})
       },
+      registrySearch: registrySearchReducer,
       reports: reduceReducers(reportsListReducer, reportReducer, reportFormReducer),
       insights: reduceReducers(insightsListReducer, insightsReducer),
       transitions: reduceReducers(

@@ -105,6 +105,13 @@ const Component = ({
     });
   };
 
+  const handleSubmitBubbling = event => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    handleSubmit(submit)(event);
+  };
+
   return (
     <>
       <CancelPrompt
@@ -113,7 +120,7 @@ const Component = ({
         isSubmitted={isSubmitted}
         isDirty={isDirty}
       />
-      <form noValidate onSubmit={handleSubmit(submit)} id={formID} className={formClassName}>
+      <form noValidate onSubmit={handleSubmitBubbling} id={formID} className={formClassName}>
         {renderFormSections(formSections)}
       </form>
       {renderBottom && renderBottom(formMethods)}

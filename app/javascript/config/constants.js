@@ -134,6 +134,8 @@ export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
 
+export const REGISTRY_FROM_CASE = "registry_from_case";
+
 export const CHANGE_LOGS = "change_logs";
 
 export const SUMMARY = "summary";
