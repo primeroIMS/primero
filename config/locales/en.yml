@@ -3226,6 +3226,7 @@ en:
     users_label: Recipient
   record_information:
     assigned_user_names: Other Assigned Users
+    created_at: Record created at
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner
