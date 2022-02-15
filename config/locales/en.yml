@@ -3238,6 +3238,7 @@ en:
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
     last_updated_at: Last Updated At
+    last_updated_by: Last Updated By
   record_panel:
     record_information: Record Information
   referral:
