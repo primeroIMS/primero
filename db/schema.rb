@@ -435,6 +435,11 @@ ActiveRecord::Schema.define(version: 2022_02_01_145440) do
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
+  create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_registry_records_on_data", using: :gin
+  end
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"

@@ -61,7 +61,7 @@ namespace :primero do
         PrimeroConfiguration, Webhook, IdentityProvider
       ]
 
-      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles]
+      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles agencies_user_groups]
     end
 
     metadata_models.each do |m|
