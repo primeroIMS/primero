@@ -89,6 +89,26 @@ describe Child do
     end
   end
 
+  describe 'registry_record' do
+    before do
+      clean_data(Child, RegistryRecord)
+    end
+
+    let(:registry_record1) { RegistryRecord.create!(registry_type: 'farmer') }
+    let(:case1) { Child.create!(age: 13, sex: 'female', registry_record: registry_record1) }
+    let(:case2) { Child.create!(age: 11, sex: 'male', registry_record: registry_record1) }
+
+    it 'links to a case' do
+      expect(case1.registry_record).to eq(registry_record1)
+      expect(case2.registry_record).to eq(registry_record1)
+      expect(registry_record1.cases).to include(case1, case2)
+    end
+
+    after do
+      clean_data(Child, RegistryRecord)
+    end
+  end
+
   describe 'validation' do
     it 'should allow blank age' do
       child = Child.new(data: { age: '', another_field: 'blah' })

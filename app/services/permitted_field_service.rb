@@ -98,6 +98,7 @@ class PermittedFieldService
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += permitted_registry_record_id
     @permitted_field_names
   end
 
@@ -127,6 +128,14 @@ class PermittedFieldService
     return [] if reporting_location_config.blank?
 
     ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+  end
+
+  def permitted_registry_record_id
+    if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
+      return %w[registry_record_id]
+    end
+
+    []
   end
 
   def external_sync?

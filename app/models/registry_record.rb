@@ -17,6 +17,8 @@ class RegistryRecord < ApplicationRecord
 
   store_accessor(:data, :registry_type, :registry_id)
 
+  has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
+
   class << self
     def registry_types
       SystemSettings.current&.registry_types ||

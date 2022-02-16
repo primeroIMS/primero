@@ -6,7 +6,7 @@ import { MenuOpen } from "@material-ui/icons";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
-import { MODULES, ROUTES } from "../../config";
+import { ROUTES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
@@ -43,21 +43,6 @@ const Component = ({ routes }) => {
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;
 
-  // TODO: Remove when added to api
-  const tempAdditionalMenuList =
-    moduleID === MODULES.GBV
-      ? [
-          {
-            text: "Survivor",
-            disabled: true
-          },
-          {
-            text: "Perpetrator",
-            disabled: true
-          }
-        ]
-      : [];
-
   return (
     <PageContainer twoCol>
       <PageHeading title={name}>{/* <Exporter includesGraph={insight.get("graph")} /> */}</PageHeading>
@@ -65,7 +50,7 @@ const Component = ({ routes }) => {
         <Hidden smDown implementation="css">
           <div>
             <PageNavigation
-              menuList={[...menuList, ...tempAdditionalMenuList]}
+              menuList={menuList}
               selected={pathname}
               mobileDisplay={mobileDisplay}
               handleToggleNav={handleToggleNav}

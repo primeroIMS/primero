@@ -65,6 +65,7 @@ class Child < ApplicationRecord
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
+  belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 

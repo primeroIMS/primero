@@ -48,15 +48,30 @@ describe ManagedReports::Indicators::ReportingLocation do
     incident3 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C1' })
     incident4 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
 
-    Violation.create!(data: { type: 'killing' }, incident_id: incident.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident2.id)
-    Violation.create!(data: { type: 'maiming' }, incident_id: incident2.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
-    Violation.create!(data: { type: 'abduction' }, incident_id: incident3.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
-    Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 1, 'total': 6 } },
+                      incident_id: incident.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 0, 'total': 5 } },
+                      incident_id: incident2.id)
+    Violation.create!(data: { type: 'maiming',
+                              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 1, 'total': 4 } },
+                      incident_id: incident2.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+                      incident_id: incident3.id)
+    Violation.create!(data: { type: 'abduction',
+                              violation_tally: { 'boys': 1, 'unknown': 1, 'total': 2 } }, incident_id: incident3.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'unknown': 1, 'total': 1 } }, incident_id: incident3.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 1, 'girls': 1, 'total': 2 } }, incident_id: incident4.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+                      incident_id: incident4.id)
+    Violation.create!(data: { type: 'killing',
+                              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 1, 'total': 4 } },
+                      incident_id: incident4.id)
 
     @user = User.create!(
       full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
@@ -71,7 +86,10 @@ describe ManagedReports::Indicators::ReportingLocation do
     ).data
 
     expect(reporting_location_data).to match_array(
-      [{ 'id' => 'E1', 'total' => 5 }, { 'id' => 'E2', 'total' => 2 }]
+      [
+        {:boys=>9, :girls=>8, :id=>"E1", :total=>20, :unknown=>3},
+        {:boys=>1, :girls=>1, :id=>"E2", :total=>4, :unknown=>2}
+      ]
     )
   end
 end
