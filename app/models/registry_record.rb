@@ -24,11 +24,11 @@ class RegistryRecord < ApplicationRecord
     end
 
     def filterable_id_fields
-      %w[registry_id short_id]
+      %w[registry_id short_id registry_no]
     end
 
     def quicksearch_fields
-      filterable_id_fields + %w[registry_type]
+      filterable_id_fields + %w[registry_type name]
     end
 
     def summary_field_names
@@ -36,12 +36,12 @@ class RegistryRecord < ApplicationRecord
     end
 
     def sortable_text_fields
-      %w[registry_type short_id]
+      %w[registry_type short_id name]
     end
   end
 
   searchable do
-    string :registry_type, as: 'registry_type_sci'
+    %w[status sex registry_type].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
