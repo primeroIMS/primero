@@ -6,7 +6,7 @@ import { MenuOpen } from "@material-ui/icons";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
-import { MODULES, ROUTES } from "../../config";
+import { ROUTES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
