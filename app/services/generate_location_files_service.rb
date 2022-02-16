@@ -60,7 +60,7 @@ class GenerateLocationFilesService
     end
 
     def write_files
-      if Location.count.positive?
+      if Location.any?
         write_locations_to_file
       else
         write_empty_file
