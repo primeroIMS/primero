@@ -39,6 +39,12 @@ class SystemSettings < ApplicationRecord
     system_name || Rails.application.routes.default_url_options[:host]
   end
 
+  def registry_types
+    return if system_options.blank?
+
+    system_options['registry_types']
+  end
+
   def set_version
     self.primero_version = Primero::Application::VERSION
   end
@@ -74,6 +80,10 @@ class SystemSettings < ApplicationRecord
 
   def reporting_location_config=(config)
     super(config.to_h)
+  end
+
+  def incident_reporting_location_config
+    ReportingLocation.new(super) if super.present?
   end
 
   def age_ranges

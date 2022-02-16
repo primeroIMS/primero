@@ -4,6 +4,7 @@ import { ListItemText, List, ListSubheader, ListItemSecondaryAction } from "@mat
 import { setupMountedComponent } from "../../../../../../test";
 import ActionDialog from "../../../../../action-dialog";
 import {
+  TALLY_FIELD,
   TEXT_FIELD,
   TEXT_AREA,
   TICK_FIELD,
@@ -46,14 +47,15 @@ describe("<CustomFieldSelectorDialog />", () => {
       `fields.${DATE_FIELD}`,
       `fields.${DATE_TIME_FIELD}`,
       `fields.${SEPARATOR}`,
-      `fields.${SUBFORM_SECTION}`
+      `fields.${SUBFORM_SECTION}`,
+      `fields.${TALLY_FIELD}`
     ];
 
     expect(component.find(List)).to.have.lengthOf(1);
     expect(component.find(ListSubheader)).to.have.lengthOf(1);
     expect(component.find(ListSubheader).find(ListItemText).text()).to.equal("forms.type_label");
     expect(component.find(ListSubheader).find(ListItemSecondaryAction).text()).to.equal("forms.select_label");
-    expect(component.find(ListItemText)).to.have.lengthOf(12);
+    expect(component.find(ListItemText)).to.have.lengthOf(13);
     expect(component.find(ListItemText).map(item => item.text())).to.deep.equal(fields);
   });
 

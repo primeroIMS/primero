@@ -6,7 +6,7 @@ class FormSection < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
 
-  RECORD_TYPES = %w[case incident tracing_request].freeze
+  RECORD_TYPES = %w[case incident tracing_request registry_record].freeze
 
   SYSTEM_FORMS = %w[approvals incident_from_case transfers_assignments referral change_logs].freeze
 

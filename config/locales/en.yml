@@ -1086,6 +1086,7 @@ en:
       date_range: Date Range
       from: From
       to: To
+      view_by: View By
     date_range_field: Date Range
     date_time: Date-Time
     db_name: Database Name
@@ -1182,6 +1183,8 @@ en:
     subform_sort_by: Sort by
     successfully_added: Field successfully added
     tally_field: Tally Field
+    tally_items: Tally Items
+    tally_items_maximum: (5 Maximum)
     text_area: Text Area
     text_field: Text Field
     textarea: Text Area
@@ -1768,6 +1771,74 @@ en:
     no_options: This Lookup currently has no options.
     translation_label: Translation Text
     values: Options
+  managed_reports:
+    label: Insights
+    total: Total
+    filter_by: 
+      date: Date
+      verification_status: Verification Status
+    date_range:
+      month: Month
+      quarter: Quarter
+      year: Year
+    date_range_options:
+      this_quarter: This Quarter
+      last_quarter: Last Quarter
+      this_month: This Month
+      last_month: Last Month
+      this_year: This Year
+      last_year: Last Year
+      custom: Custom
+    no_data: No data exists for this insight
+    no_data_table: No table data exists for this insight
+    violations:
+      name: Violations
+      description: ''
+      filter_options:
+        incident_date: Date of Incident
+        date_of_report: Date of Report
+        ctfmr_verified_date: Date of Verification
+      reports:
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on: Attacks on school(s) and/or hospital(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
+      sub_reports:
+        combined: Violations 
+        perpetrators: Number of Children by Perpetrators
+        reporting_location: Number of Children by Region
+        attack_type: Number of Children by Attack Type
+        boys: Boys
+        girls: Girls
+        unknown: Unknown
+        total: Total
+    gbv_statistics:
+      name: GBV Statistics
+      description: ''
+      filter_options:
+        date_of_first_report: Date of Interview
+        incident_date: Date of Incident
+      reports: 
+        incidents: Incidents
+        perpetrators: Perpetrators
+      sub_reports:
+        combined: Incidents
+        total: Number of GBV Incidents Reported
+        gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
+        gbv_sexual_violence_type: Incident Type
+        incident_timeofday: Incident Time of Day
+        elapsed_reporting_time: Time Between Incident and Report Date
+        elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
+        incident_location_type: Incident Location
+        number_of_perpetrators: Number of Primary Perpetrators
+        perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
+        perpetrator_age_group: Alleged Primary Perpetrators Age Group
+        perpetrator_occupation: Alleged Primary Perpetrator Occupation
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1804,6 +1875,7 @@ en:
     incidents: Incidents
     logout: Log out
     reports: Reports
+    insights: Insights
     search: Search
     settings: Settings
     support: Support
@@ -1920,6 +1992,7 @@ en:
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
+      managed_report: Insights
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -2773,6 +2846,12 @@ en:
           This allows a user to see dashboards and filters which help a user manage
           a team.
         label: Is Manager?
+      managed_report:
+        actions:
+          violations:
+            label: Violations
+          gbv_statistics:
+            label: GBV Statistics
       matching_configuration:
         actions:
           manage:

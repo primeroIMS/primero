@@ -8,7 +8,7 @@ import { getShortIdFromUniqueId } from "../../../../../records";
 
 import { NAME } from "./constants";
 
-const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
+const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
   const matchedTraceId = matchedTrace.get("id");
   const handleOnClick = id => {
     setOpen(true);
@@ -23,11 +23,11 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
           id={`matched-trace-${matchedTraceId}`}
           text={getShortIdFromUniqueId(matchedTraceId)}
           type={ACTION_BUTTON_TYPES.default}
-          isTransparent
+          variant="text"
+          color="primary"
           noTranslate
           rest={{
-            onClick: handleClickAccordion,
-            className: css.link
+            onClick: handleClickAccordion
           }}
         />
       </AccordionSummary>
@@ -38,7 +38,6 @@ const Component = ({ css, matchedTrace, setOpen, setSelectedTraceId }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  css: PropTypes.object,
   matchedTrace: PropTypes.object,
   setOpen: PropTypes.func,
   setSelectedTraceId: PropTypes.func

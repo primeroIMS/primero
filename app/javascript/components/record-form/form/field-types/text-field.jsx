@@ -82,6 +82,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               form={renderProps.form}
               field={{
                 ...renderProps.field,
+                InputProps: { ...fieldProps.InputProps, ...(rest.error ? { error: rest.error } : {}) },
                 value: fieldValue,
                 onChange(evt) {
                   const value = valueParser(type, evt.target.value);

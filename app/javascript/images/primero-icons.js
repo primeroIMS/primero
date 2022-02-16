@@ -177,3 +177,20 @@ export const ExportReportDataIcon = props => (
     <path d="M17 19.01V14h2v5.01h3L18 23l-4-3.99zM3 3h2v17H3zm16 0h2v11l-2-2zM3 19h9l2 2H3zM4 3h15v2H4zm2 4h12v1H6zm0 3h12v1H6zm0 3h10v1H6zm0 3h10v1H6zm2-9h1v9H8zm3 0h1v9h-1zm3 0h1v9h-1z" />
   </SvgIcon>
 );
+
+export const Insights = props => (
+  <SvgIcon {...props}>
+    <path d="M21,8c-1.45,0-2.26,1.44-1.93,2.51l-3.55,3.56c-0.3-0.09-0.74-0.09-1.04,0l-2.55-2.55C12.27,10.45,11.46,9,10,9 c-1.45,0-2.27,1.44-1.93,2.52l-4.56,4.55C2.44,15.74,1,16.55,1,18c0,1.1,0.9,2,2,2c1.45,0,2.26-1.44,1.93-2.51l4.55-4.56 c0.3,0.09,0.74,0.09,1.04,0l2.55,2.55C12.73,16.55,13.54,18,15,18c1.45,0,2.27-1.44,1.93-2.52l3.56-3.55 C21.56,12.26,23,11.45,23,10C23,8.9,22.1,8,21,8z"/>
+    <polygon points="15,9 15.94,6.93 18,6 15.94,5.07 15,3 14.08,5.07 12,6 14.08,6.93"/>
+    <polygon points="3.5,11 4,9 6,8.5 4,8 3.5,6 3,8 1,8.5 3,9"/>
+  </SvgIcon>
+)
+
+export const TallyInput = props => (
+  <SvgIcon {...props} viewBox="0 0 190 24" fontSize="inherit">
+    <g fill="none" fill-rule="evenodd">
+      <path d="M59 1v22H1V1h58Zm65 0v22H66V1h58Zm65 0v22h-58V1h58Z" stroke="#231E1F" stroke-width="2"/>
+      <path d="M13 13a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6Zm65 0a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6Zm65 0a1 1 0 0 1 1 2l-4 4-4-4a1 1 0 0 1 1-2h6ZM10 5l4 4a1 1 0 0 1-1 2H7a1 1 0 0 1-1-2l4-4Zm65 0 4 4a1 1 0 0 1-1 2h-6a1 1 0 0 1-1-2l4-4Zm65 0 4 4a1 1 0 0 1-1 2h-6a1 1 0 0 1-1-2l4-4Z" fill="#231E1F"/>
+    </g>
+  </SvgIcon>
+);

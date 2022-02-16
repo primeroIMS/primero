@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Role do
   before :each do
-    clean_data(Role, PrimeroModule)
+    clean_data(Role, PrimeroModule, PrimeroProgram)
   end
 
   describe 'Validations' do
@@ -768,6 +768,58 @@ describe Role do
       expect(role.permitted_forms('case', false, true).pluck(:unique_id)).to match_array(
         %w[subform1 subform2 form_section1 form_section2]
       )
+    end
+  end
+
+  describe '.managed_reports' do
+    let(:permission) do
+      [
+        Permission.new(
+          resource: Permission::MANAGED_REPORT,
+          actions: [
+            Permission::GBV_STATISTICS_REPORT
+          ]
+        ),
+        Permission.new(
+          resource: Permission::USER,
+          actions: [
+            Permission::READ
+          ]
+        )
+      ]
+    end
+    let(:program) do
+      PrimeroProgram.create!(
+        unique_id: 'primeroprogram-primero',
+        name: 'Primero',
+        description: 'Default Primero Program'
+      )
+    end
+    let(:module_mrm) do
+      PrimeroModule.create!(
+        unique_id: 'primeromodule-mrm',
+        name: 'MRM',
+        description: 'Child Protection A',
+        associated_record_types: %w[incident],
+        primero_program: program
+      )
+    end
+    subject do
+      Role.create(
+        unique_id: 'role_test_01',
+        name: 'name_test_01',
+        description: 'description_test_01',
+        group_permission: 'all',
+        referral: false,
+        transfer: false,
+        is_manager: true,
+        permissions: permission,
+        modules: [module_mrm]
+      )
+    end
+
+    it 'should return managed_reports' do
+      expect(subject.managed_reports.first.id).to eq('gbv_statistics')
     end
   end
 end

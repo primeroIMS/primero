@@ -48,13 +48,13 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
       i18n.applicationLocales.forEach(locale => {
         const localeId = locale.id;
         const localizedDisplayName = field.getIn(["display_name", localeId], "");
-        const localizedfieldName = `${fieldsAttribute}.${name}.display_name.${localeId}`;
+        const localizedFieldName = `${fieldsAttribute}.${name}.display_name.${localeId}`;
 
-        if (!formContextFields[localizedfieldName]) {
-          register({ name: localizedfieldName });
+        if (!formContextFields[localizedFieldName]) {
+          register({ name: localizedFieldName });
         }
 
-        setValue(localizedfieldName, localizedDisplayName, { shouldDirty: true });
+        setValue(localizedFieldName, localizedDisplayName, { shouldDirty: true });
       });
     });
 

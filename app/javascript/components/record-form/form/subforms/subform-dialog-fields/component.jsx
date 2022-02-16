@@ -54,12 +54,14 @@ const Component = ({
       setFieldValue("unique_id", uuid.v4());
     }
     if (isViolationAssociation && !mode.isShow) {
-      const violationIdsValues = isEmpty(values[VIOLATION_IDS_NAME])
-        ? // eslint-disable-next-line camelcase
-          [parentValues?.unique_id]
-        : values[VIOLATION_IDS_NAME];
+      // eslint-disable-next-line camelcase
+      const parentUniqueId = parentValues?.unique_id;
 
-      setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
+      if (!isEmpty(values[VIOLATION_IDS_NAME]) || parentUniqueId) {
+        const violationIdsValues = isEmpty(values[VIOLATION_IDS_NAME]) ? [parentUniqueId] : values[VIOLATION_IDS_NAME];
+
+        setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
+      }
     }
   }, []);
 

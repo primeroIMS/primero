@@ -39,7 +39,8 @@ module FakeDeviseLogin
           Field.new(name: 'relation_type', type: Field::SELECT_BOX)
         ]
       )
-    )
+    ),
+    Field.new(name: 'registry_type', type: 'text_field', display_name_en: 'Registry Type')
   ].freeze
 
   def permission_case
@@ -70,6 +71,13 @@ module FakeDeviseLogin
     )
   end
 
+  def permission_registry
+    @permission_registry ||= Permission.new(
+      resource: Permission::REGISTRY_RECORD,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
+    )
+  end
+
   def permission_flag_record
     actions = [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::FLAG]
     @permission_flag_record = [
@@ -84,7 +92,8 @@ module FakeDeviseLogin
   end
 
   def fake_role(opts = {})
-    permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
+    permissions = opts[:permissions] ||
+                  [permission_case, permission_incident, permission_tracing_request, permission_registry]
     group_permission = opts[:group_permission] || Permission::ALL
     role = Role.new(
       permissions: permissions,

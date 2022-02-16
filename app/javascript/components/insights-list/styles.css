@@ -1,0 +1,9 @@
+.title {
+  color: var(--c-black);
+  font-size: var(--fs-16);
+  margin: var(--sp-1) 0;
+}
+
+.listBtn {
+  border-radius: 0;
+}

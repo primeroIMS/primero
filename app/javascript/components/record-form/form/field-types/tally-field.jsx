@@ -27,14 +27,14 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
 
   return (
     <div className={css.tallyContainer}>
-      <InputLabel htmlFor={name} {...InputLabelProps}>
+      <InputLabel htmlFor={name} {...InputLabelProps} error={!!errors}>
         {label}
       </InputLabel>
       <div className={css.inputTally}>
         {field.tally.map(option => (
-          <TallyFieldContainer name={`${name}.${option.id}`} option={option} {...rest} />
+          <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={!!errors} {...rest} />
         ))}
-        <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} />
+        <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} error={!!errors} />
       </div>
       <FormHelperText {...renderErrorOnHelperText}>{renderError || helperText}</FormHelperText>
     </div>

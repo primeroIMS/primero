@@ -102,7 +102,9 @@ describe("Verifying config constant", () => {
       "VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS",
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
-      "VIOLATION_GROUP"
+      "VIOLATION_GROUP",
+      "GBV_INSIGHTS_SUBREPORTS",
+      "CHART_COLORS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -183,7 +185,8 @@ describe("Verifying config constant", () => {
           "cp_violence_type",
           "gender",
           "legitimate_basis",
-          "legitimate_basis_explanations"
+          "legitimate_basis_explanations",
+          "verification_status"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

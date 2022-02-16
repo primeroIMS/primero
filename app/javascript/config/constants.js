@@ -14,7 +14,8 @@ import {
   ADMIN_ACTIONS,
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
-  SHOW_SUMMARY
+  SHOW_SUMMARY,
+  READ_MANAGED_REPORTS
 } from "../libs/permissions";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -172,6 +173,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  insights: "/insights",
   key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
@@ -239,7 +241,8 @@ export const LOOKUPS = {
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
   legitimate_basis: "lookup-legitimate-basis",
-  legitimate_basis_explanations: "lookup-legitimate-basis-explanations"
+  legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
+  verification_status: "lookup lookup-verification-status"
 };
 
 export const ADMIN_NAV = [
@@ -369,14 +372,15 @@ export const APPLICATION_NAV = (permissions, userId) => {
       actions: READ_RECORDS,
       validateWithUserPermissions: true
     },
-    // {
-    //   name: "navigation.potential_match",
-    //   to: ROUTES.matches,
-    //   icon: "matches",
-    //   resources: RESOURCES.potential_matches,
-    //   actions: READ_RECORDS,
-    //   disableOffline: true
-    // },
+    {
+      name: "navigation.insights",
+      to: ROUTES.insights,
+      icon: "insights",
+      resources: RESOURCES.managed_reports,
+      actions: READ_MANAGED_REPORTS,
+      disableOffline: true,
+      validateWithUserPermissions: true
+    },
     {
       name: "navigation.reports",
       to: ROUTES.reports,
@@ -555,3 +559,15 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "sources",
   "responses"
 ];
+
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators"];
+
+export const CHART_COLORS = Object.freeze({
+  blue: "rgb(0, 147, 186)",
+  grey: "rgb(89, 89, 82)",
+  purple: "rgb(124, 52, 123)",
+  green: "rgb(131, 158, 60)",
+  red: "rgb(208, 16, 27)",
+  orange: "rgb(231, 113, 45)",
+  yellow: "rgb(242, 195, 23)"
+});
