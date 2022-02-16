@@ -2,10 +2,13 @@ import PropTypes from "prop-types";
 import ErrorIcon from "@material-ui/icons/Error";
 
 import css from "../styles.css";
+import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ i18n, subformName }) => {
+const Component = ({ subformName }) => {
+  const i18n = useI18n();
+
   return (
     <div className={css.emptySubformContainer}>
       <ErrorIcon />
@@ -20,7 +23,6 @@ const Component = ({ i18n, subformName }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  i18n: PropTypes.object.isRequired,
   subformName: PropTypes.string
 };
 
