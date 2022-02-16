@@ -1824,6 +1824,7 @@ en:
         incident_date: Date of Incident
       reports: 
         incidents: Incidents
+        perpetrators: Perpetrators
       sub_reports:
         combined: Incidents
         total: Number of GBV Incidents Reported
