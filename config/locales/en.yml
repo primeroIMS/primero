@@ -1808,7 +1808,9 @@ en:
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
       sub_reports:
-        combined: Violations 
+        combined: Violations
+        detention_detained: Remain Detained
+        detention_released: Released
         perpetrators: Number of Children by Perpetrators
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type

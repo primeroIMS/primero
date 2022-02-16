@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the violation_tally of violation type killing
+# An indicator that returns the violation_tally of individual victioms - detention
 class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlReportIndicator
   class << self
     def id
