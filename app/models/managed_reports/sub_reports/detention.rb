@@ -10,8 +10,8 @@ class ManagedReports::SubReports::Detention < ManagedReports::SubReport
     [
       ManagedReports::Indicators::ViolationTallyDetention,
       ManagedReports::Indicators::PerpetratorsDetention,
-      ManagedReports::Indicators::ReportingLocationDetention
-      # TODO Still missing Status of Detained children
+      ManagedReports::Indicators::ReportingLocationDetention,
+      ManagedReports::Indicators::DetentionStatus
     ]
   end
 

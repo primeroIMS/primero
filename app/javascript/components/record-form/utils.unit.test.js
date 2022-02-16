@@ -516,7 +516,7 @@ describe("<RecordForms /> - utils", () => {
   describe("pickFromDefaultForms", () => {
     it("should return default forms for the not found in the state", () => {
       const forms = fromJS({
-        1: FormSectionRecord({
+        [RECORD_OWNER]: FormSectionRecord({
           unique_id: RECORD_OWNER,
           form_group_id: "group_1",
           name: { en: "Record Owner in State" },

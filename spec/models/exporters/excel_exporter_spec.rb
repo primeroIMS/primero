@@ -159,7 +159,6 @@ module Exporters
       end
 
       it 'prints a header for each form and subform' do
-        binding.pry if workbook.sheet(0).row(1) != %w[ID field_3 field_4]
         expect(workbook.sheet(0).row(1)).to eq(%w[ID field_3 field_4])
         expect(workbook.sheet(1).row(1)).to eq(%w[ID field_3 field_4])
         expect(workbook.sheet(2).row(1)).to eq(%w[ID relationship array_field])
@@ -175,7 +174,6 @@ module Exporters
       end
 
       it 'exports record values for regular forms' do
-        binding.pry if workbook.sheets[2] != 'cases_test_form_2'
         expect(workbook.sheets[2]).to eq('cases_test_form_2')
         expect(workbook.sheet(2).row(2)).to eq([@record_id, 'Mother', 'Option 1 ||| Option 2'])
         expect(workbook.sheets[5]).to eq('cases_test_form_1')
@@ -183,7 +181,6 @@ module Exporters
       end
 
       it 'exports record values for each instance of subforms' do
-        binding.pry if workbook.sheet(0).last_row != 3
         expect(workbook.sheet(0).last_row).to eq(3)
         expect(workbook.sheet(0).row(2)).to eq([@records[0].short_id, 'field_3 value', 'field_4 value'])
         expect(workbook.sheet(0).row(3)).to eq([@records[0].short_id, 'field_3 value2', 'field_4 value2'])
@@ -203,7 +200,6 @@ module Exporters
       end
 
       it 'does not exports data if the conditional subform is empty' do
-        binding.pry if workbook.sheets[10] != 'cases_test_subform_5'
         expect(workbook.sheets[10]).to eq('cases_test_subform_5')
         expect(workbook.sheet(10).last_row).to eq(2)
         expect(workbook.sheet(10).row(2)).to eq([@record_id, nil, nil])
