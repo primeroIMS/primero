@@ -42,6 +42,7 @@ class RegistryRecord < ApplicationRecord
 
   searchable do
     string :registry_type, as: 'registry_type_sci'
+    string :status, as: 'status_sci'
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
