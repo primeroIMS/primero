@@ -204,6 +204,11 @@ class Filter < ValueObject
       }
     end.inject(&:merge)
   )
+  DATE_REGISTRY = Filter.new(
+    name: 'registry_records.filter_by.by_date',
+    field_name: 'registry_records_by_date',
+    type: 'dates'
+  )
   CASE_FILTER_FIELD_NAMES = %w[
     gbv_displacement_status protection_status urgent_protection_concern
     protection_concerns type_of_risk
@@ -215,6 +220,7 @@ class Filter < ValueObject
                 when 'case' then case_filters(user)
                 when 'incident' then incident_filters(user)
                 when 'tracing_request' then tracing_request_filter(user)
+                when 'registry_record' then registry_record_filter(user)
                 end
       filters.map do |filter|
         hydrate_filter(filter, user, record_type)
@@ -326,6 +332,16 @@ class Filter < ValueObject
       filters
     end
 
+    def registry_record_filter(_user)
+      filters = []
+      filters << FLAGGED_CASE
+      filters << STATUS
+      filters << ENABLED
+      filters << CURRENT_LOCATION
+      filters << DATE_REGISTRY
+      filters
+    end
+
     private
 
     def visible?(field_name, filter_fields)
@@ -420,6 +436,16 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
+  def registry_records_by_date_options(_opts = {})
+    self.options = I18n.available_locales.map do |locale|
+      locale_options = [{
+        id: 'registration_date',
+        display_name: I18n.t('registry_records.selectable_date_options.registration_date', locale: locale)
+      }]
+      { locale => locale_options }
+    end.inject(&:merge)
+  end
+
   def approval_status_options
     self.options = I18n.available_locales.map do |locale|
       {
@@ -437,7 +463,9 @@ class Filter < ValueObject
     if %w[approval_status_assessment approval_status_case_plan approval_status_closure
           approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
-    elsif %w[owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date].include? field_name
+    elsif %w[
+      owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date registry_records_by_date
+    ].include? field_name
       opts = { user: user, record_type: record_type }
       send("#{field_name}_options", opts)
     end

@@ -3452,8 +3452,13 @@ en:
     name: Name
     registry_no: Number / Code
     location: Location
+    registration_date: Registration Date
     selected_records: '%{select_records} registry record(s) selected'
     selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    filter_by:
+      by_date: By Date
+    selectable_date_options:
+      registration_date: Date of Registration
   transfer:
     label: Transfer
     agency_label: Agency
