@@ -22,5 +22,5 @@ export const REGISTRY_RECORDS_HEADERS = fromJS([
   { name: "id", field_name: "short_id" },
   { name: "name", field_name: "name" },
   { name: "registry_no", field_name: "registry_no" },
-  { name: "location", field_name: "location_current", sort: false }
+  { name: "registration_date", field_name: "registration_date" }
 ]);
