@@ -395,6 +395,29 @@ describe Api::V2::RolesController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/roles')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    context 'when the reporting_location_level is nil' do
+      it 'creates a new role and returns 200 ' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+          ]
+        )
+        params = {
+          data: {
+            unique_id: 'role-cp-administrator-00',
+            name: 'CP Administrator 00',
+            reporting_location_level: nil,
+            permissions: { agency: %w[read write] }
+          }
+        }
+
+        post '/api/v2/roles', params: params, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['name']).to eq(params[:data][:name])
+      end
+    end
   end
 
   describe 'PATCH /api/v2/roles/:id' do
@@ -521,6 +544,25 @@ describe Api::V2::RolesController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/roles/#{@role_b.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    context 'when the reporting_location_level is nil' do
+      it 'updates an existing role and returns 200 ' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: { reporting_location_level: nil }
+        }
+
+        patch "/api/v2/roles/#{@role_c.id}", params: params
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['reporting_location_level']).to be_nil
+      end
     end
   end
 
