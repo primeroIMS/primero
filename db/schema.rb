@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_01_145440) do
+ActiveRecord::Schema.define(version: 2022_02_15_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -137,7 +137,9 @@ ActiveRecord::Schema.define(version: 2022_02_01_145440) do
     t.uuid "matched_tracing_request_id"
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
+    t.uuid "registry_record_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+    t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
 
   create_table "codes_of_conduct", force: :cascade do |t|

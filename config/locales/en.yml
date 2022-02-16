@@ -1968,6 +1968,8 @@ en:
       export_unhcr_csv: Export unhcr csv
       export_xls: Export xls
       find_tracing_match: Find tracing match from case
+      view_registry_record: View registry record
+      add_registry_record: Add registry record
       flag: Flag
       form: Forms
       group: Access all records or users in my group
