@@ -45,10 +45,6 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
 
 const allFormSections = state => state.getIn([NAMESPACE, "formSections"], fromJS({}));
 
-const allFormSectionByIds = createCachedSelector(allFormSections, formSections =>
-  formSections.valueSeq().reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({}))
-)(defaultCacheSelectorOptions);
-
 const forms = ({
   formSections,
   recordType,
@@ -116,6 +112,15 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const allPermittedForms = createCachedSelector(
+  allFormSections,
+  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  getLocale,
+  (_state, query) => query,
+  (formSections, permittedFormIDs, appLocale, query) =>
+    forms({ ...query, formSections, permittedFormIDs, appLocale, checkVisible: false })
+)(defaultCacheSelectorOptions);
+
 export const getFirstTab = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
@@ -140,12 +145,16 @@ export const getFirstTab = createCachedSelector(
 
 export const getFormNav = createCachedSelector(
   allFormSections,
-  allFormSectionByIds,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
   getLocale,
+  (state, query) =>
+    allPermittedForms(state, query)
+      .valueSeq()
+      .filter(form => form.form_group_id !== RECORD_INFORMATION_GROUP)
+      .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, formSectionsById, permittedFormIDs, userPermissions, appLocale, query) => {
+  (formSections, permittedFormIDs, userPermissions, appLocale, permittedForms, query) => {
     const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale }).filter(
       form => form.form_group_id !== RECORD_INFORMATION_GROUP
     );
@@ -156,8 +165,8 @@ export const getFormNav = createCachedSelector(
     let allSelectedForms = selectedForms;
 
     if (renderCustomForms) {
-      const defaultForms = getDefaultForms(appLocale);
-      const formsFromDefault = pickFromDefaultForms(formSectionsById, defaultForms);
+      const defaultForms = getDefaultForms(appLocale, query);
+      const formsFromDefault = pickFromDefaultForms(permittedForms, defaultForms);
 
       if (!isEmpty(formsFromDefault)) {
         const filteredCustomForms = filterForms(List(Object.values(formsFromDefault)), {
@@ -183,16 +192,20 @@ export const getFormNav = createCachedSelector(
 
 export const getRecordInformationForms = createCachedSelector(
   allFormSections,
-  allFormSectionByIds,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   getLocale,
+  (state, query) =>
+    allPermittedForms(state, query)
+      .valueSeq()
+      .filter(form => form.form_group_id === RECORD_INFORMATION_GROUP)
+      .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, formSectionByIds, permittedFormIDs, appLocale, query) => {
+  (formSections, permittedFormIDs, appLocale, recordInformationForms, query) => {
     const recordForms = forms({ ...query, formSections, permittedFormIDs, appLocale });
 
-    const defaultForms = getDefaultForms(appLocale);
+    const defaultForms = getDefaultForms(appLocale, query);
 
-    const formsFromDefault = pickFromDefaultForms(formSectionByIds, defaultForms);
+    const formsFromDefault = pickFromDefaultForms(recordInformationForms, defaultForms);
 
     const defaultFormsMap = OrderedMap(
       Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
