@@ -15,7 +15,7 @@ class RegistryRecord < ApplicationRecord
   include Attachable
   include EagerLoadable
 
-  store_accessor(:data, :registry_type, :registry_id, :sex, :registration_date)
+  store_accessor(:data, :registry_type, :registry_id, :registry_no, :registration_date)
 
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
 
@@ -34,7 +34,7 @@ class RegistryRecord < ApplicationRecord
     end
 
     def summary_field_names
-      common_summary_fields + %w[registry_type registry_id_display name sex registration_date module_id]
+      common_summary_fields + %w[registry_type registry_id_display name registration_date module_id]
     end
 
     def sortable_text_fields
@@ -43,7 +43,7 @@ class RegistryRecord < ApplicationRecord
   end
 
   searchable do
-    %w[status sex registry_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[status registry_type].each { |f| string(f, as: "#{f}_sci") }
     %w[registration_date].each { |f| date(f) }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
