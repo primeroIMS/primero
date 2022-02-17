@@ -560,7 +560,7 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
-export const GBV_INSIGHTS_SUBREPORTS = ["incidents"];
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",

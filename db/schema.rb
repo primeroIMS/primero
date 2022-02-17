@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_01_145440) do
+ActiveRecord::Schema.define(version: 2022_02_15_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -137,7 +137,9 @@ ActiveRecord::Schema.define(version: 2022_02_01_145440) do
     t.uuid "matched_tracing_request_id"
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
+    t.uuid "registry_record_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+    t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
   end
 
   create_table "codes_of_conduct", force: :cascade do |t|
@@ -433,6 +435,11 @@ ActiveRecord::Schema.define(version: 2022_02_01_145440) do
     t.string "action"
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
+  end
+
+  create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_registry_records_on_data", using: :gin
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
