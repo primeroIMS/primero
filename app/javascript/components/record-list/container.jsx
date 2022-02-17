@@ -21,7 +21,7 @@ import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { clearPreviousRecord, setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
-import { DEFAULT_METADATA, RECORD_TYPES_PLURAL } from "../../config";
+import { DEFAULT_METADATA } from "../../config";
 import { useApp } from "../application";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
