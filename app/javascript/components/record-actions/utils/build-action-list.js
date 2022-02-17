@@ -16,7 +16,7 @@ import {
   APPROVAL_TYPE,
   REQUEST_TYPE
 } from "../constants";
-import { RECORD_TYPES, RECORD_PATH } from "../../../config";
+import { RECORD_TYPES, RECORD_PATH, RECORD_TYPES_PLURAL } from "../../../config";
 import Notes from "../notes";
 import ToggleEnable from "../toggle-enable";
 import ToggleOpen from "../toggle-open";
@@ -162,7 +162,7 @@ export default ({
         id: EXPORT_DIALOG,
         name: i18n.t(`${recordType}.export`),
         recordListAction: true,
-        recordType: RECORD_TYPES.all
+        recordType: [RECORD_TYPES_PLURAL.case, RECORD_TYPES_PLURAL.incident, RECORD_TYPES_PLURAL.tracing_request]
       }
     ].filter(filterActions({ recordType, showListActions, isIdSearch, record })),
     dialogs: {

@@ -79,6 +79,8 @@ describe("Verifying config constant", () => {
       "RECORD_TYPES",
       "RECORD_TYPES_PLURAL",
       "REFERRAL",
+      "REGISTRY_RECORD",
+      "REGISTRY_RECORDS",
       "REJECT",
       "REJECTED",
       "REVOKED",
@@ -144,7 +146,8 @@ describe("Verifying config constant", () => {
           cases: "case",
           tracing_requests: "tracing_request",
           incidents: "incident",
-          all: "all"
+          all: "all",
+          registry_records: "registry_record"
         });
         expect(constants.AGE_MAX).equal(999);
         expect(constants.PERMITTED_URL).to.be.an("array");

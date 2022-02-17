@@ -1889,6 +1889,7 @@ en:
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
+    registry_records: Registry
   notes:
     note_success: Successfully added note
   permissions:
@@ -3452,6 +3453,19 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+  registry_records:
+    id: ID
+    label: Registry Records
+    name: Name
+    registry_no: Number / Code
+    location: Location
+    registration_date: Registration Date
+    selected_records: '%{select_records} registry record(s) selected'
+    selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    filter_by:
+      by_date: By Date
+    selectable_date_options:
+      registration_date: Date of Registration
   transfer:
     label: Transfer
     agency_label: Agency

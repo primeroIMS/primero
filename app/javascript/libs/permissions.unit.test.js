@@ -154,6 +154,7 @@ describe("Verifying config constant", () => {
       "lookups",
       "metadata",
       "potential_matches",
+      "registry_records",
       "reports",
       "roles",
       "forms",

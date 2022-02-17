@@ -17,7 +17,7 @@ import {
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
 
-import { CasesIcon, IncidentsIcon, LogoutIcon, Insights } from "../../images/primero-icons";
+import { CasesIcon, IncidentsIcon, LogoutIcon, Insights, RegistryRecordIcon } from "../../images/primero-icons";
 
 const ListIcon = ({ icon }) => {
   switch (icon) {
@@ -61,6 +61,8 @@ const ListIcon = ({ icon }) => {
       return <SettingsApplications />;
     case "insights":
       return <Insights />;
+    case "registry_records":
+      return <RegistryRecordIcon />;
     default:
       return null;
   }

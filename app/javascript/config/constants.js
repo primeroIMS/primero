@@ -48,19 +48,23 @@ export const TRACING_REQUEST = "tracing_request";
 export const TRACING_REQUESTS = "tracing_requests";
 export const INCIDENT = "incident";
 export const INCIDENTS = "incidents";
+export const REGISTRY_RECORD = "registry_record";
+export const REGISTRY_RECORDS = "registry_records";
 
 // Type of records available singular (key): plural (value)
 export const RECORD_TYPES = {
   [CASES]: CASE,
   [TRACING_REQUESTS]: TRACING_REQUEST,
   [INCIDENTS]: INCIDENT,
+  [REGISTRY_RECORDS]: REGISTRY_RECORD,
   all: "all"
 };
 
 export const RECORD_TYPES_PLURAL = {
   [CASE]: CASES,
   [TRACING_REQUEST]: TRACING_REQUESTS,
-  [INCIDENT]: INCIDENTS
+  [INCIDENT]: INCIDENTS,
+  [REGISTRY_RECORD]: REGISTRY_RECORDS
 };
 
 // Max Age allowed in age ranges
@@ -118,7 +122,8 @@ export const RECORD_PATH = {
   traces: "traces",
   user_groups: "user_groups",
   users: "users",
-  activity_log: "activity_log"
+  activity_log: "activity_log",
+  registry_records: "registry_records"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
@@ -183,7 +188,8 @@ export const ROUTES = {
   sandbox_ui: "/primero",
   password_reset: "/password_reset",
   activity_log: "/activity_log",
-  password_reset_request: "/password_reset_request"
+  password_reset_request: "/password_reset_request",
+  registry_records: "/registry_records"
 };
 
 export const PERMITTED_URL = [
@@ -198,6 +204,7 @@ export const PERMITTED_URL = [
   ROUTES.cases,
   ROUTES.tracing_requests,
   ROUTES.incidents,
+  ROUTES.registry_records,
   ROUTES.code_of_conduct,
   ROUTES.password_reset_request
 ];
@@ -369,6 +376,15 @@ export const APPLICATION_NAV = (permissions, userId) => {
       icon: "tracing_request",
       jewelCount: "tracing_request",
       resources: RESOURCES.tracing_requests,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.registry_records",
+      to: ROUTES.registry_records,
+      icon: "registry_records",
+      jewelCount: "registry_record",
+      resources: RESOURCES.registry_records,
       actions: READ_RECORDS,
       validateWithUserPermissions: true
     },

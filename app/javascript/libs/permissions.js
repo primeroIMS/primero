@@ -132,7 +132,8 @@ export const RESOURCES = {
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
   users: "users",
-  activity_logs: "activity_logs"
+  activity_logs: "activity_logs",
+  registry_records: "registry_records"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
