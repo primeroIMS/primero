@@ -15,7 +15,9 @@ class RegistryRecord < ApplicationRecord
   include Attachable
   include EagerLoadable
 
-  store_accessor(:data, :registry_type, :registry_id)
+  store_accessor(:data, :registry_type, :registry_id, :registry_no, :registration_date)
+
+  has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
 
   class << self
     def registry_types
@@ -24,27 +26,41 @@ class RegistryRecord < ApplicationRecord
     end
 
     def filterable_id_fields
-      %w[registry_id short_id]
+      %w[registry_id short_id registry_no]
     end
 
     def quicksearch_fields
-      filterable_id_fields + %w[registry_type]
+      filterable_id_fields + %w[registry_type name]
     end
 
     def summary_field_names
-      common_summary_fields + %w[registry_type]
+      common_summary_fields + %w[registry_type registry_id_display name registration_date module_id]
     end
 
     def sortable_text_fields
-      %w[registry_type short_id]
+      %w[registry_type short_id name]
     end
   end
 
   searchable do
-    string :registry_type, as: 'registry_type_sci'
+    %w[status registry_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[registration_date].each { |f| date(f) }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
+  end
+
+  alias super_defaults defaults
+  def defaults
+    super_defaults
+    self.registration_date ||= Date.today
+  end
+
+  def self.report_filters
+    [
+      { 'attribute' => 'status', 'value' => [STATUS_OPEN] },
+      { 'attribute' => 'record_state', 'value' => ['true'] }
+    ]
   end
 
   def set_instance_id

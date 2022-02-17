@@ -1808,7 +1808,9 @@ en:
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
       sub_reports:
-        combined: Violations 
+        combined: Violations
+        detention_detained: Remain Detained
+        detention_released: Released
         perpetrators: Number of Children by Perpetrators
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type
@@ -1824,6 +1826,7 @@ en:
         incident_date: Date of Incident
       reports: 
         incidents: Incidents
+        perpetrators: Perpetrators
       sub_reports:
         combined: Incidents
         total: Number of GBV Incidents Reported
@@ -1886,6 +1889,7 @@ en:
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
+    registry_records: Registry
   notes:
     note_success: Successfully added note
   permissions:
@@ -1967,6 +1971,8 @@ en:
       export_unhcr_csv: Export unhcr csv
       export_xls: Export xls
       find_tracing_match: Find tracing match from case
+      view_registry_record: View registry record
+      add_registry_record: Add registry record
       flag: Flag
       form: Forms
       group: Access all records or users in my group
@@ -3226,6 +3232,7 @@ en:
     users_label: Recipient
   record_information:
     assigned_user_names: Other Assigned Users
+    created_at: Record created at
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner
@@ -3238,6 +3245,7 @@ en:
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
     last_updated_at: Last Updated At
+    last_updated_by: Last Updated By
   record_panel:
     record_information: Record Information
   referral:
@@ -3445,6 +3453,19 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+  registry_records:
+    id: ID
+    label: Registry Records
+    name: Name
+    registry_no: Number / Code
+    location: Location
+    registration_date: Registration Date
+    selected_records: '%{select_records} registry record(s) selected'
+    selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    filter_by:
+      by_date: By Date
+    selectable_date_options:
+      registration_date: Date of Registration
   transfer:
     label: Transfer
     agency_label: Agency

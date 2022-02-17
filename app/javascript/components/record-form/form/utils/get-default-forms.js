@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 import {
   APPROVALS,
   CHANGE_LOGS,
@@ -13,8 +15,8 @@ import {
 import generateKey from "../../../charts/table-values/utils";
 import { FormSectionRecord } from "../../records";
 
-export default locale =>
-  Object.freeze({
+export default (locale, query) => {
+  const defaultForms = Object.freeze({
     [SUMMARY]: FormSectionRecord({
       id: generateKey(),
       unique_id: SUMMARY,
@@ -62,7 +64,8 @@ export default locale =>
       is_first_tab: true,
       core_form: true,
       i18nName: true,
-      visible: true
+      visible: true,
+      parent_form: RECORD_TYPES.cases
     }),
     [INCIDENT_FROM_CASE]: FormSectionRecord({
       id: generateKey(),
@@ -74,7 +77,8 @@ export default locale =>
       is_first_tab: false,
       core_form: true,
       i18nName: true,
-      visible: true
+      visible: true,
+      parent_form: RECORD_TYPES.cases
     }),
     [REFERRAL]: FormSectionRecord({
       id: generateKey(),
@@ -86,7 +90,8 @@ export default locale =>
       is_first_tab: true,
       core_form: true,
       i18nName: true,
-      visible: true
+      visible: true,
+      parent_form: RECORD_TYPES.cases
     }),
     [TRANSFERS_ASSIGNMENTS]: FormSectionRecord({
       id: generateKey(),
@@ -98,7 +103,8 @@ export default locale =>
       is_first_tab: false,
       core_form: true,
       i18nName: true,
-      visible: true
+      visible: true,
+      parent_form: RECORD_TYPES.cases
     }),
     [CHANGE_LOGS]: FormSectionRecord({
       id: generateKey(),
@@ -113,3 +119,17 @@ export default locale =>
       visible: true
     })
   });
+
+  if (query) {
+    return Object.entries(defaultForms)
+      .filter(
+        ([, value]) =>
+          (isEmpty(value.module_ids) && !value.parent_form) ||
+          (!isEmpty(value.module_ids) && query.primeroModule && value.module_ids.includes(query.primeroModule)) ||
+          (value.parent_form && query.recordType && value.parent_form === query.recordType)
+      )
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+  }
+
+  return defaultForms;
+};

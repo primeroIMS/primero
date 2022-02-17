@@ -37,6 +37,11 @@ export const FIELDS = [
     type: "separator"
   },
   {
+    name: "created_at",
+    type: "date_field",
+    visible: true
+  },
+  {
     name: "created_by",
     type: "text_field",
     visible: true
@@ -64,6 +69,11 @@ export const FIELDS = [
   {
     name: "last_updated_at",
     type: "date_field",
+    visible: true
+  },
+  {
+    name: "last_updated_by",
+    type: "text_field",
     visible: true
   }
 ];

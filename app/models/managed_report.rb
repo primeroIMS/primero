@@ -19,7 +19,7 @@ class ManagedReport < ValueObject
         id: 'violations',
         name: 'managed_reports.violations.name',
         description: 'managed_reports.violations.description',
-        subreports: %w[killing maiming],
+        subreports: %w[killing maiming detention rape],
         permitted_filters: [
           :ctfmr_verified, :verified_ctfmr_technical,
           date_of_first_report: {},
@@ -46,9 +46,11 @@ class ManagedReport < ValueObject
   end
 
   def subreport_params(params, subreport_id)
+    type_filter = subreport_id == 'rape' ? 'sexual_violence' : subreport_id
+
     filtered_params = params.select { |param| permitted_filter_names.include?(param.field_name) }
     filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id) if id == 'gbv_statistics'
-    filtered_params << SearchFilters::Value.new(field_name: 'type', value: subreport_id) if id == 'violations'
+    filtered_params << SearchFilters::Value.new(field_name: 'type', value: type_filter) if id == 'violations'
 
     filtered_params.reduce({}) { |acc, param| acc.merge(param.field_name => param) }
   end

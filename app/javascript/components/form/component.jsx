@@ -105,11 +105,13 @@ const Component = ({
     });
   };
 
-  const handleSubmitBubbling = event => {
+  // Do not propagate form onSubmit
+  // Based on https://github.com/react-hook-form/react-hook-form/issues/1005#issuecomment-626050339
+  const notPropagatedOnSubmit = async event => {
     event.preventDefault();
     event.stopPropagation();
 
-    handleSubmit(submit)(event);
+    return handleSubmit(submit)(event);
   };
 
   return (
@@ -120,7 +122,7 @@ const Component = ({
         isSubmitted={isSubmitted}
         isDirty={isDirty}
       />
-      <form noValidate onSubmit={handleSubmitBubbling} id={formID} className={formClassName}>
+      <form noValidate onSubmit={notPropagatedOnSubmit} id={formID} className={formClassName}>
         {renderFormSections(formSections)}
       </form>
       {renderBottom && renderBottom(formMethods)}

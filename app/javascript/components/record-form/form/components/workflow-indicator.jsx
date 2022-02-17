@@ -1,8 +1,9 @@
 /* eslint-disable camelcase */
 import { Stepper, Step, StepLabel, useMediaQuery, Badge } from "@material-ui/core";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 
-import { selectModule } from "../../../application";
+import { getWorkflowLabels } from "../../../application";
 import { RECORD_TYPES } from "../../../../config";
 import { displayNameHelper, useMemoizedSelector } from "../../../../libs";
 
@@ -12,9 +13,11 @@ import { WORKFLOW_INDICATOR_NAME, CLOSED } from "./constants";
 const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
-  const selectedModuleWorkflow = useMemoizedSelector(state => selectModule(state, primeroModule));
+  const workflowLabels = useMemoizedSelector(state =>
+    getWorkflowLabels(state, primeroModule, RECORD_TYPES[recordType])
+  );
 
-  const workflowSteps = selectedModuleWorkflow?.workflows?.[RECORD_TYPES[recordType]]?.filter(
+  const workflowSteps = workflowLabels.filter(
     w =>
       !(
         (record.get("case_status_reopened") && w.id === "new") ||
@@ -22,12 +25,12 @@ const WorkflowIndicator = ({ locale, primeroModule, recordType, record }) => {
       )
   );
 
-  const activeStep = workflowSteps?.findIndex(
+  const activeStep = workflowSteps.findIndex(
     workflowStep =>
       workflowStep.id === (record.get("status") === CLOSED ? record.get("status") : record.get("workflow"))
   );
 
-  if (mobileDisplay && workflowSteps) {
+  if (mobileDisplay && !isEmpty(workflowSteps)) {
     return (
       <>
         <div className={css.mobileStepper}>

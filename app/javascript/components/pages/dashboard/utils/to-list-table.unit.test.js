@@ -65,4 +65,31 @@ describe("toListTable - pages/dashboard/utils/", () => {
 
     expect(toListTable(data, labels, "en")).to.deep.equal(expected);
   });
+
+  it("should return an empty config if there is no data for an indicator", () => {
+    const data = fromJS({
+      name: "dashboard.workflow_team",
+      type: "indicator",
+      indicators: { workflow_team: {} }
+    });
+
+    const labels = [
+      { id: "new", display_text: { en: "New" } },
+      { id: "reopened", display_text: { en: "Reopened" } },
+      { id: "case_plan", display_text: { en: "Case Plan" } }
+    ];
+
+    const expected = {
+      columns: [
+        {
+          label: "",
+          name: ""
+        }
+      ],
+      data: [],
+      query: []
+    };
+
+    expect(toListTable(data, labels, "en")).to.deep.equal(expected);
+  });
 });

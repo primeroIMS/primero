@@ -27,13 +27,15 @@ if @extended
     filters: [
       Child.parent_form,
       Incident.parent_form,
-      TracingRequest.parent_form
+      TracingRequest.parent_form,
+      RegistryRecord.parent_form
     ].map { |record_type| { record_type.pluralize => Filter.filters(user, record_type) } }
      .inject(&:merge),
     list_headers: ([
       Child.parent_form,
       Incident.parent_form,
-      TracingRequest.parent_form
+      TracingRequest.parent_form,
+      RegistryRecord.parent_form
     ].map { |record_type| { record_type.pluralize => Header.get_headers(user, record_type) } } + [
       { reports: Header.report_headers },
       { tasks: Header.task_headers },
