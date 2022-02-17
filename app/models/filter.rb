@@ -215,7 +215,6 @@ class Filter < ValueObject
                 when 'case' then case_filters(user)
                 when 'incident' then incident_filters(user)
                 when 'tracing_request' then tracing_request_filter(user)
-                when 'registry_record' then registry_record_filter(user)
                 end
       filters.map do |filter|
         hydrate_filter(filter, user, record_type)
@@ -323,14 +322,6 @@ class Filter < ValueObject
       filters << TRACING_REQUEST_STATUS
       filters << SEPARATION_LOCATION
       filters << SEPARATION_CAUSE
-      filters << ENABLED
-      filters
-    end
-
-    def registry_record_filter(user)
-      filters = []
-      # TODO
-      filters << STATUS
       filters << ENABLED
       filters
     end
