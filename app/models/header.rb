@@ -54,6 +54,8 @@ class Header < ValueObject
   LOCATION_ADMIN_LEVEL = Header.new(name: 'location.admin_level', field_name: 'admin_level')
   LOCATION_TYPE = Header.new(name: 'location.type', field_name: 'type')
   LOCATION_HIERARCHY = Header.new(name: 'location.hierarchy', field_name: 'hierarchy')
+  REGISTRY_NAME = Header.new(name: 'name', field_name: 'name')
+  REGISTRY_CODE = Header.new(name: 'registry_no', field_name: 'registry_no')
 
   class << self
     def get_headers(user, record_type)
@@ -61,6 +63,7 @@ class Header < ValueObject
       when 'case' then case_headers(user)
       when 'incident' then incident_headers(user)
       when 'tracing_request' then tracing_request_headers
+      when 'registry_record' then registry_record_headers
       else []
       end
     end
@@ -111,6 +114,10 @@ class Header < ValueObject
 
     def tracing_request_headers
       [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
+    end
+
+    def registry_record_headers
+      [SHORT_ID, REGISTRY_NAME, REGISTRY_CODE, REGISTRATION_DATE]
     end
 
     def report_headers

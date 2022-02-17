@@ -24,7 +24,7 @@ import { useMetadata } from "../records";
 import { DEFAULT_METADATA, RECORD_TYPES_PLURAL } from "../../config";
 import { useApp } from "../application";
 
-import { NAME, DEFAULT_FILTERS, REGISTRY_RECORDS_HEADERS } from "./constants";
+import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
@@ -108,12 +108,9 @@ const Container = ({ match, location }) => {
 
   const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
 
-  // TODO: Remove once the headers get populated from state.
-  const withRegistryHeaders = recordType === RECORD_TYPES_PLURAL.registry ? REGISTRY_RECORDS_HEADERS : headers;
-
   const listHeaders =
     // eslint-disable-next-line camelcase
-    filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : withRegistryHeaders;
+    filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
 
   const recordAvaialble = record => {
     const allowedToOpenRecord =

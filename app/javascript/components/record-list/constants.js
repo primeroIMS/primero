@@ -1,5 +1,3 @@
-import { fromJS } from "immutable";
-
 export const NAME = "RecordListContainer";
 export const ALERTS = "alerts";
 export const ALERTS_COLUMNS = Object.freeze({
@@ -18,9 +16,3 @@ export const ID_COLUMNS = Object.freeze({
   short_id: "short_id",
   case_id_display: "case_id_display"
 });
-export const REGISTRY_RECORDS_HEADERS = fromJS([
-  { name: "id", field_name: "short_id" },
-  { name: "name", field_name: "name" },
-  { name: "registry_no", field_name: "registry_no" },
-  { name: "registration_date", field_name: "registration_date" }
-]);
