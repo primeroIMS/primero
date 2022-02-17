@@ -26,7 +26,9 @@ describe ManagedReport do
     end
 
     it 'should return subreports of violations' do
-      expect(managed_reports[Permission::VIOLATION_REPORT].subreports).to match_array(%w[killing maiming detention])
+      expect(
+        managed_reports[Permission::VIOLATION_REPORT].subreports
+      ).to match_array(%w[killing maiming detention rape])
     end
 
     it 'should return permitted_filters of violations' do

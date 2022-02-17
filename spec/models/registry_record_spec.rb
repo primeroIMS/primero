@@ -61,6 +61,22 @@ describe RegistryRecord do
     end
   end
 
+  describe 'quicksearch', search: true do
+    it 'has a searchable case id, survivor number' do
+      expected = %w[registry_id short_id registry_no registry_type name]
+      expect(RegistryRecord.quicksearch_fields).to match_array(expected)
+    end
+
+    it 'can find a Registry Record by Registry Number' do
+      registry = RegistryRecord.create!(registry_type: 'farmer',
+                                        data: { name: 'Registry One', registry_no: 'ABC123XYZ' })
+      registry.index!
+      search_result = SearchService.search(RegistryRecord, query: 'ABC123XYZ').results
+      expect(search_result).to have(1).registryRecord
+      expect(search_result.first.registry_no).to eq('ABC123XYZ')
+    end
+  end
+
   after do
     clean_data(RegistryRecord)
   end
