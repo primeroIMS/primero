@@ -118,6 +118,8 @@ const Component = ({
           isReadWriteForm={isReadWriteForm}
           recordType={recordType}
           recordModuleID={recordModuleID}
+          values={values}
+          parentValues={formik.values}
         />
       );
     }

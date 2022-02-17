@@ -14,6 +14,7 @@ describe("<Application /> - index", () => {
       "getEnabledUserGroups",
       "getResourceActions",
       "getSystemPermissions",
+      "getWorkflowLabels",
       "loadApplicationResources",
       "PERMISSIONS",
       "reducer",

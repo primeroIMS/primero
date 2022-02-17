@@ -30,9 +30,9 @@ class PermittedFieldService
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
-    alert_count assigned_user_names created_by created_by_agency owned_by owned_by_agency_id
+    alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
-    last_updated_at owned_by_groups previously_owned_by_agency created_organization
+    last_updated_at last_updated_by owned_by_groups previously_owned_by_agency created_organization
     consent_for_services disclosure_other_orgs
   ].freeze
 
@@ -98,6 +98,7 @@ class PermittedFieldService
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += permitted_registry_record_id
     @permitted_field_names
   end
 
@@ -127,6 +128,14 @@ class PermittedFieldService
     return [] if reporting_location_config.blank?
 
     ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+  end
+
+  def permitted_registry_record_id
+    if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
+      return %w[registry_record_id]
+    end
+
+    []
   end
 
   def external_sync?

@@ -6,7 +6,7 @@ describe Api::V2::ChildrenController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule)
+    clean_data(Alert, Flag, Attachment, Incident, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
 
     @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
@@ -83,8 +83,10 @@ describe Api::V2::ChildrenController, type: :request do
         { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
       ]
     )
+    @registry_record1 = RegistryRecord.create!(registry_type: 'farmer')
     @case1 = Child.create!(
-      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false }
+      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false },
+      registry_record: @registry_record1
     )
     Attachment.new(
       record: @case1, field_name: 'photos', attachment_type: Attachment::IMAGE,
@@ -354,6 +356,59 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       photo = json['data']['photo']
       expect(photo).to match(/.+jorge\.jpg$/)
+    end
+
+    describe 'registry_record_id' do
+      context 'when user does not have registry_record_permission' do
+        before do
+          login_for_test(
+            permissions: [
+              Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+            ]
+          )
+        end
+
+        it 'does not return registry_id' do
+          get "/api/v2/cases/#{@case1.id}"
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['registry_record_id']).to be_nil
+        end
+      end
+
+      context 'when user has view registry permission' do
+        before do
+          login_for_test(
+            permissions: [
+              Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::VIEW_REGISTRY_RECORD])
+            ]
+          )
+        end
+
+        it 'returns registry_id' do
+          get "/api/v2/cases/#{@case1.id}"
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['registry_record_id']).to eq(@registry_record1.id)
+        end
+      end
+
+      context 'when user has add registry permission' do
+        before do
+          login_for_test(
+            permissions: [
+              Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ADD_REGISTRY_RECORD])
+            ]
+          )
+        end
+
+        it 'returns registry_id' do
+          get "/api/v2/cases/#{@case1.id}"
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['registry_record_id']).to eq(@registry_record1.id)
+        end
+      end
     end
 
     it 'contains incidents embedded in the incident_details hash array' do
@@ -853,7 +908,7 @@ describe Api::V2::ChildrenController, type: :request do
   end
 
   after :each do
-    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup, PrimeroModule)
+    clean_data(Trace, Alert, Flag, Attachment, Child, Agency, User, Role, Lookup, PrimeroModule, RegistryRecord)
     clear_performed_jobs
     clear_enqueued_jobs
   end
