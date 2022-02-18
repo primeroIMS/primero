@@ -103,7 +103,9 @@ export const ACTIONS = {
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
-  WRITE: "write"
+  WRITE: "write",
+  VIEW_REGISTRY_RECORD: "view_registry_record",
+  ADD_REGISTRY_RECORD: "add_registry_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -159,6 +161,10 @@ export const ADMIN_RESOURCES = [
   RESOURCES.audit_logs,
   RESOURCES.webhooks
 ];
+
+export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
+
+export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
 
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 

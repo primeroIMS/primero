@@ -101,3 +101,25 @@
 .formActions {
   padding: 20px 0;
 }
+
+.readonly {
+  & fieldset {
+    border: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+}
+
+.readonly :global .MuiOutlinedInput-root {
+  background: transparent;
+}
+.readonly :global .MuiAutocomplete-endAdornment {
+  display: none;
+}

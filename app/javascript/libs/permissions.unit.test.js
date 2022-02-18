@@ -111,7 +111,9 @@ describe("Verifying config constant", () => {
       "VIEW_INCIDENT_FROM_CASE",
       "WRITE",
       "GBV_STATISTICS",
-      "VIOLATIONS"
+      "VIOLATIONS",
+      "VIEW_REGISTRY_RECORD",
+      "ADD_REGISTRY_RECORD"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");

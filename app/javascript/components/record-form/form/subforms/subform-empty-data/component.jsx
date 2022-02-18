@@ -6,7 +6,7 @@ import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ subformName }) => {
+const Component = ({ subformName, single = false }) => {
   const i18n = useI18n();
 
   return (
@@ -14,7 +14,7 @@ const Component = ({ subformName }) => {
       <ErrorIcon />
       <span>
         <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>
-        {i18n.t("forms.subform_need_to_be_added")}
+        {i18n.t(single ? "forms.subform_need_to_be_added_single" : "forms.subform_need_to_be_added")}
       </span>
     </div>
   );
@@ -23,6 +23,7 @@ const Component = ({ subformName }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  single: PropTypes.bool,
   subformName: PropTypes.string
 };
 

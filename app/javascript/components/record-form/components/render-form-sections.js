@@ -129,6 +129,8 @@ const renderFormSections = (
               mode={mode}
               primeroModule={primeroModule}
               recordType={recordType}
+              name={form.name}
+              setFieldValue={setFieldValue}
             />
           )}
         </Fragment>

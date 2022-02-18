@@ -29,7 +29,7 @@ describe("<SubformEmptyData />", () => {
   });
 
   it("should render the correct subform name", () => {
-    expect(component.find("strong").at(0).text()).to.be.equals("No Test form found.");
+    expect(component.find("strong").at(0).text()).to.be.equals("forms.subform_not_found");
   });
 
   it("should render the ActionButton component", () => {

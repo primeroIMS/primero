@@ -1,36 +1,45 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import { useMemoizedSelector } from "../../../../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
 import css from "../../../subforms/styles.css";
-import IndexTable from "../../../../../index-table";
+import IndexTable, { getRecords, getLoading } from "../../../../../index-table";
 import LoadingIndicator from "../../../../../loading-indicator";
-import { fetchFarmerSearchResults } from "../action-creators";
-import { getLoading, getMetadata, getRegistrySearchResults } from "../selectors";
+import { REGISTRY_RECORDS } from "../../../../../../config";
+import { applyFilters } from "../../../../../index-filters";
+import { getMetadata } from "../../../../../record-list";
 
 import ResultDetails from "./result-details";
 
 const Results = ({
+  redirectIfNotAllowed,
   setComponent,
   fields,
-  searchParams,
+  searchParams = {},
   recordType,
   handleCancel,
   setDrawerTitle,
   mode,
-  primeroModule
+  primeroModule,
+  permissions,
+  locale,
+  setFieldValue,
+  formName
 }) => {
+  setDrawerTitle("results");
+  redirectIfNotAllowed(permissions.writeRegistryRecord);
+
+  const dispatch = useDispatch();
+
   const [detailsID, setDetailsID] = useState(null);
 
-  setDrawerTitle("Results");
-
+  const metadata = useMemoizedSelector(state => getMetadata(state, REGISTRY_RECORDS));
   const isLoading = useMemoizedSelector(state => getLoading(state));
-  const results = useMemoizedSelector(state => getRegistrySearchResults(state));
-  const metadata = useMemoizedSelector(state => getMetadata(state));
+  const results = useMemoizedSelector(state => getRecords(state, REGISTRY_RECORDS));
 
-  const handleTableChange = () => {
-    return fetchFarmerSearchResults(searchParams);
-  };
+  const params = metadata.merge({ ...searchParams, fields: "short" });
 
   const handleRowClick = record => {
     setDetailsID(record.get("id"));
@@ -40,18 +49,22 @@ const Results = ({
     setDetailsID(null);
   }, [setDetailsID]);
 
+  useEffect(() => {
+    dispatch(applyFilters({ recordType: REGISTRY_RECORDS, data: params }));
+  }, []);
+
   const tableOptions = {
     columns: [
-      { name: "id", label: "id", id: true },
+      { name: "short_id", label: "id", id: true },
       ...fields.valueSeq().map(field => ({
         name: field.name,
-        label: field.name
+        label: field.display_name[locale]
       }))
     ],
     title: "",
-    defaultFilters: metadata,
-    onTableChange: handleTableChange,
-    recordType: "registrySearch",
+    defaultFilters: params,
+    onTableChange: applyFilters,
+    recordType: REGISTRY_RECORDS,
     bypassInitialFetch: true,
     onRowClick: handleRowClick,
     options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 }
@@ -72,6 +85,10 @@ const Results = ({
         mode={mode}
         primeroModule={primeroModule}
         recordType={recordType}
+        permissions={permissions}
+        redirectIfNotAllowed={redirectIfNotAllowed}
+        setFieldValue={setFieldValue}
+        formName={formName}
       />
     );
   }
@@ -79,7 +96,7 @@ const Results = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text="Back to Search" rest={{ onClick: handleBack }} />
+        <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.back_to_search" rest={{ onClick: handleBack }} />
       </div>
       <LoadingIndicator hasData={results.size > 0} loading={isLoading} type="registry">
         <IndexTable {...tableOptions} />
@@ -89,5 +106,22 @@ const Results = ({
 };
 
 Results.displayName = "Results";
+
+Results.propTypes = {
+  fields: PropTypes.object.isRequired,
+  formName: PropTypes.string,
+  handleCancel: PropTypes.func.isRequired,
+  locale: PropTypes.string.isRequired,
+  mode: PropTypes.object.isRequired,
+  permissions: PropTypes.object.isRequired,
+  primeroModule: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired,
+  redirectIfNotAllowed: PropTypes.func.isRequired,
+  searchParams: PropTypes.object,
+  setComponent: PropTypes.func.isRequired,
+  setDrawerTitle: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
+  setSearchParams: PropTypes.func.isRequired
+};
 
 export default Results;

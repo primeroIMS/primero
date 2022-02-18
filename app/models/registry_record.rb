@@ -34,7 +34,8 @@ class RegistryRecord < ApplicationRecord
     end
 
     def summary_field_names
-      common_summary_fields + %w[registry_type registry_id_display name registration_date module_id]
+      common_summary_fields + %w[registry_type registry_id_display name registration_date 
+        module_id name location_current registry_no]
     end
 
     def sortable_text_fields

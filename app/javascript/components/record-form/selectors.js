@@ -406,7 +406,7 @@ export const getFieldByName = (state, name, moduleID, parentForm) => {
     .getIn([NAMESPACE, "fields"], fromJS([]))
     .filter(field =>
       moduleID && parentForm
-        ? field.get("parent_form") === parentForm && field.get("module_ids").includes(moduleID)
+        ? parentForm === field.get("parent_form") && field.get("module_ids").includes(moduleID)
         : true
     );
 

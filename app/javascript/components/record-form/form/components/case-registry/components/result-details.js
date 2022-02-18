@@ -1,12 +1,15 @@
 import { useDispatch } from "react-redux";
-import { fromJS } from "immutable";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 import { getRecordFormsByUniqueId } from "../../../..";
 import { useMemoizedSelector } from "../../../../../../libs";
-import { RECORD_TYPES } from "../../../../../../config";
+import { REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
 import css from "../../../subforms/styles.css";
-import Table from "../../../../../pdf-exporter/components/table";
+import { LINK_FIELD, REGISTRY_DETAILS, REGISTRY_ID_DISPLAY, REGISTRY_NO } from "../constants";
+import { fetchRecord, selectRecord } from "../../../../../records";
+import Form, { FORM_MODE_SHOW } from "../../../../../form";
 
 const ResultDetails = ({
   id,
@@ -16,28 +19,47 @@ const ResultDetails = ({
   setDrawerTitle,
   mode,
   primeroModule,
-  recordType
+  permissions,
+  redirectIfNotAllowed,
+  setFieldValue,
+  formName
 }) => {
+  setDrawerTitle(formName, {}, false);
+  redirectIfNotAllowed(permissions.writeReadRegistryRecord);
+
   const dispatch = useDispatch();
+
   const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
-      formName: "basic_identity",
+      formName: REGISTRY_DETAILS,
       primeroModule,
-      recordType: RECORD_TYPES[recordType],
+      recordType: REGISTRY_RECORD,
       getFirst: true
     })
   );
-  const record = fromJS({});
 
-  setDrawerTitle("Details");
+  const record = useMemoizedSelector(state =>
+    selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, id })
+  );
 
-  const selectButtonText = shouldSelect ? "Select" : "Deselect";
-  const backButtonText = shouldSelect ? "Back to Results" : "Back to Case";
+  useEffect(() => {
+    dispatch(fetchRecord(REGISTRY_RECORDS, id));
+  }, []);
+
+  const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
+  const backButtonText = shouldSelect ? "case.back_to_results" : "case.back_to_case";
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
 
   const handleSelection = () => {
-    // connect to endpoint action
+    [
+      [LINK_FIELD, shouldSelect ? id : null],
+      [REGISTRY_NO, record.get(REGISTRY_NO)],
+      [REGISTRY_ID_DISPLAY, record.get(REGISTRY_ID_DISPLAY)]
+    ].forEach(([key, value]) => {
+      setFieldValue(key, value);
+    });
+
     handleCancel();
   };
 
@@ -45,15 +67,35 @@ const ResultDetails = ({
     <>
       <div className={css.subformFieldArrayContainer}>
         <ActionButton type={ACTION_BUTTON_TYPES.default} text={backButtonText} rest={{ onClick: backButtonFunc }} />
-        {mode.isShow || (
+        {permissions.writeRegistryRecord && !mode.isShow && (
           <ActionButton type={ACTION_BUTTON_TYPES.default} text={selectButtonText} onClick={handleSelection} />
         )}
       </div>
-      <Table fields={formSection.fields} record={record} />
+      <Form
+        useCancelPrompt={false}
+        mode={FORM_MODE_SHOW}
+        formSections={[formSection]}
+        initialValues={record.toJS()}
+        showTitle={false}
+      />
     </>
   );
 };
 
 ResultDetails.displayName = "ResultDetails";
+
+ResultDetails.propTypes = {
+  formName: PropTypes.string,
+  handleCancel: PropTypes.func.isRequired,
+  handleReturn: PropTypes.func,
+  id: PropTypes.string.isRequired,
+  mode: PropTypes.object.isRequired,
+  permissions: PropTypes.object.isRequired,
+  primeroModule: PropTypes.string.isRequired,
+  redirectIfNotAllowed: PropTypes.func.isRequired,
+  setDrawerTitle: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func,
+  shouldSelect: PropTypes.bool
+};
 
 export default ResultDetails;
