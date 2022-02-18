@@ -131,6 +131,8 @@ class PermittedFieldService
   end
 
   def permitted_registry_record_id
+    return [] if model_class == RegistryRecord
+
     if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
       return %w[registry_record_id]
     end
