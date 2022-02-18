@@ -16,6 +16,7 @@ class PermittedFieldService
     'status' => { 'type' => 'string' }, 'state' => { 'type' => 'boolean' },
     'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
+    'registry_record_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'created_at' => { 'type' => 'date-time' },
     'owned_by' => { 'type' => 'string' },
     'module_id' => { 'type' => 'string', 'enum' => [PrimeroModule::CP, PrimeroModule::GBV, PrimeroModule::MRM] }
@@ -103,7 +104,8 @@ class PermittedFieldService
   end
 
   def permitted_core_fields(update = false)
-    update ? PERMITTED_CORE_FIELDS_SCHEMA.keys - %w[id] : PERMITTED_CORE_FIELDS_SCHEMA.keys
+    core_fields = PERMITTED_CORE_FIELDS_SCHEMA.except('registry_record_id').keys
+    update ? core_fields - %w[id] : core_fields
   end
 
   def permitted_fields_schema
@@ -134,7 +136,7 @@ class PermittedFieldService
     return [] if model_class == RegistryRecord
 
     if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
-      return %w[registry_record_id]
+      return %w[registry_record_id registry_id_display registry_name registry_no]
     end
 
     []
