@@ -9,7 +9,14 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
-import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
+import {
+  ALERTS_FOR,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_TYPES,
+  RECORD_TYPES_PLURAL
+} from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
@@ -208,7 +215,14 @@ export const getRecordInformationForms = createCachedSelector(
     const formsFromDefault = pickFromDefaultForms(recordInformationForms, defaultForms);
 
     const defaultFormsMap = OrderedMap(
-      Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
+      Object.values(formsFromDefault).reduce((acc, form) => {
+        // TODO: Remove this condition once the API supports change logs for registry_records
+        if (query.recordType === RECORD_TYPES.registry_records && form.unique_id === CHANGE_LOGS) {
+          return acc;
+        }
+
+        return { ...acc, [form.id]: form };
+      }, {})
     );
 
     return (recordForms || fromJS({}))
