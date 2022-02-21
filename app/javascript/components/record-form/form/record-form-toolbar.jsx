@@ -164,8 +164,7 @@ const RecordFormToolbar = ({
             rest={{ onClick: handleReturnToCase }}
           />
         ) : null}
-        {/* TODO: Remove the RECORD_TYPES.registry_records condition once flags are implemented for registry_records */}
-        {mode.isShow && params && recordType !== RECORD_TYPES.registry_records && (
+        {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
               <Badge color="error" badgeContent={record.get("flag_count")} className={css.badgeIndicator}>
