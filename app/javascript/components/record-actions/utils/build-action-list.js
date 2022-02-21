@@ -130,7 +130,8 @@ export default ({
         action: () => handleDialogClick(ENABLE_DISABLE_DIALOG),
         condition: isShow && canEnable,
         name: i18n.t(`actions.${enableState}`),
-        recordType: RECORD_TYPES.all
+        // TODO: Use RECORD_TYPE.all once this is implemented for registry_records
+        recordType: [RECORD_TYPES_PLURAL.case, RECORD_TYPES_PLURAL.incident, RECORD_TYPES_PLURAL.tracing_request]
       },
       {
         action: () => handleDialogClick(NOTES_DIALOG),

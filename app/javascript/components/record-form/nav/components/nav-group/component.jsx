@@ -29,9 +29,11 @@ const Component = ({
 
   const formHasError = form => Boolean(validationErrors?.find(error => error.get("unique_id") === form.formId));
 
+  const navItemName = form => (form.i18nName ? i18n.t(form.name) : form.name);
+
   const parentFormProps = {
     form: parentForm,
-    name: isNested ? groupName : parentForm.name,
+    name: isNested ? groupName : navItemName(parentForm),
     open: open === parentForm.group,
     isNested,
     hasError: groupHasError
@@ -44,8 +46,6 @@ const Component = ({
     recordAlerts,
     selectedForm
   };
-
-  const navItemName = form => (form.i18nName ? i18n.t(form.name) : form.name);
 
   return (
     <>

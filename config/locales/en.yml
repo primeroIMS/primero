@@ -3437,6 +3437,10 @@ en:
       creation_success_queue: Tracing Request record successfully created in background.
       match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
       unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Registry Record %{record_id} was successfully updated.'
+      creation_success: 'Registry Record successfully created.'
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     disable_dialog_title: Disable Tracing Request
@@ -3476,6 +3480,8 @@ en:
       by_date: By Date
     selectable_date_options:
       registration_date: Date of Registration
+    show_registry_record: 'Registry Record ID: %{short_id}'
+    register_new_registry_record: New Registry Record
   transfer:
     label: Transfer
     agency_label: Agency

@@ -83,7 +83,9 @@ describe Api::V2::ChildrenController, type: :request do
         { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
       ]
     )
-    @registry_record1 = RegistryRecord.create!(registry_type: 'farmer')
+    @registry_record1 = RegistryRecord.create!(
+      registry_type: 'farmer', name: 'Jones', registry_no: 'GH123.ABC123'
+    )
     @case1 = Child.create!(
       data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false },
       registry_record: @registry_record1
@@ -286,7 +288,6 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     context 'when a gbv case has in the associated_user_names a cp user' do
-
       it 'should be part of the response' do
         login_for_test(
           user_name: 'user_cp',
@@ -397,7 +398,10 @@ describe Api::V2::ChildrenController, type: :request do
         before do
           login_for_test(
             permissions: [
-              Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ADD_REGISTRY_RECORD])
+              Permission.new(
+                resource: Permission::CASE,
+                actions: [Permission::READ, Permission::WRITE, Permission::ADD_REGISTRY_RECORD]
+              )
             ]
           )
         end
@@ -407,6 +411,17 @@ describe Api::V2::ChildrenController, type: :request do
 
           expect(response).to have_http_status(200)
           expect(json['data']['registry_record_id']).to eq(@registry_record1.id)
+        end
+
+        it 'associates a registry record' do
+          params = { data: { registry_record_id: @registry_record1.id } }
+          patch "/api/v2/cases/#{@case2.id}", params: params, as: :json
+
+          expect(response).to have_http_status(200)
+          expect(json['data']['registry_record_id']).to eq(@registry_record1.id)
+          expect(json['data']['registry_name']).to eq(@registry_record1.name)
+          expect(json['data']['registry_no']).to eq(@registry_record1.registry_no)
+          expect(json['data']['registry_id_display']).to eq(@registry_record1.registry_id_display)
         end
       end
     end

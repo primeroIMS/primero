@@ -93,7 +93,7 @@ module Api::V2::Concerns::Record
   end
 
   def select_updated_fields
-    changes = @record.saved_changes_to_record.keys
+    changes = @record.saved_changes_to_record.keys + @record.saved_changes.except('data', 'record_user_update').keys
     @updated_field_names = changes & @permitted_field_names
   end
 
