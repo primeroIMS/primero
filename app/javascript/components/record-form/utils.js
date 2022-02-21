@@ -12,6 +12,7 @@ import {
   DEFAULT_DATE_VALUES,
   FORM_PERMISSION_ACTION,
   INCIDENT_FROM_CASE,
+  REGISTRY_FROM_CASE,
   RECORD_PATH,
   RECORD_TYPES
 } from "../../config";
@@ -239,7 +240,7 @@ export const buildFormNav = form =>
     permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
     i18nName: form.i18nName,
     i18nDescription: form.i18nDescription,
-    ...(INCIDENT_FROM_CASE === form.unique_id ? { recordTypes: [RECORD_TYPES.cases] } : {})
+    ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE].includes(form.unique_id) ? { recordTypes: [RECORD_TYPES.cases] } : {})
   });
 
 export const pickFromDefaultForms = (forms, defaultForms) =>

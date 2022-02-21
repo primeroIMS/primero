@@ -70,7 +70,7 @@ const Component = ({
   }, [index]);
 
   const renderEmptyData = isEmptyOrAllDestroyed(orderedValues) ? (
-    <SubformEmptyData i18n={i18n} subformName={title} />
+    <SubformEmptyData subformName={title} />
   ) : (
     <List dense={renderAsAccordion} classes={{ root: css.list }} disablePadding>
       <SubformFields

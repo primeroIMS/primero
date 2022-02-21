@@ -137,3 +137,8 @@ export const getAgencyTermsOfUse = state => selectAgencies(state).filter(agency 
 export const getLocationsAvailable = state => !state.getIn(["forms", "options", "locations"], fromJS([])).isEmpty();
 
 export const getExportRequirePassword = state => state.getIn([NAMESPACE, "exportRequirePassword"], false);
+
+export const getRegistryTypes = (state, type) =>
+  state
+    .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
+    .find(registryType => registryType.get("id") === type, null, fromJS({}));

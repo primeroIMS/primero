@@ -15,7 +15,8 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_INFORMATION_GROUP,
   RECORD_TYPES,
-  RECORD_TYPES_PLURAL
+  RECORD_TYPES_PLURAL,
+  REGISTRY_FROM_CASE
 } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
@@ -47,7 +48,7 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
     return formSections;
   }
 
-  return formSections.filter(fs => fs.visible);
+  return formSections.filter(fs => fs.visible || fs.unique_id === REGISTRY_FROM_CASE);
 };
 
 const allFormSections = state => state.getIn([NAMESPACE, "formSections"], fromJS({}));
@@ -409,8 +410,21 @@ export const getFields = state => state.getIn([NAMESPACE, "fields"], fromJS([]))
 
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 
-export const getFieldByName = (state, name) =>
-  state.getIn([NAMESPACE, "fields"], fromJS([])).find(field => field.name === name);
+export const getFieldByName = (state, name, moduleID, parentForm) => {
+  const fields = state
+    .getIn([NAMESPACE, "fields"], fromJS([]))
+    .filter(field =>
+      moduleID && parentForm
+        ? parentForm === field.get("parent_form") && field.get("module_ids").includes(moduleID)
+        : true
+    );
+
+  if (Array.isArray(name)) {
+    return fields.filter(field => name.includes(field.name));
+  }
+
+  return fields.find(field => field.name === name);
+};
 
 export const getFieldsWithNames = createCachedSelector(
   getFields,

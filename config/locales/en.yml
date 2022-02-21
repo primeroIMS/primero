@@ -205,10 +205,19 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
-
   case:
     label: Case
     create_new_case: Create New Case
+    add_new: Add New
+    back_to_case: Back to Case
+    back_to_results: Back to Results
+    back_to_search: Back to Search
+    search_by: Search By
+    search_for: Search for %{record_type}
+    results: Results
+    details: Details
+    select: Select
+    deselect: Deselect
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
@@ -1273,6 +1282,7 @@ en:
     settings: Settings
     show_on: Show on
     subform_need_to_be_added: They need to be added.
+    subform_need_to_be_added_single: This need to be added.
     subform_not_found: No %{subform_name} found.
     title: Form Title
     translations:

@@ -37,7 +37,7 @@ const Component = ({
   columns,
   recordType,
   onTableChange,
-  defaultFilters,
+  defaultFilters = fromJS({}),
   options: tableOptionsProps,
   targetRecordType,
   onRowClick,
@@ -72,9 +72,12 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
-  const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
-    recordType
-  );
+  const validRecordTypes = [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests,
+    RECORD_PATH.registry_records
+  ].includes(recordType);
 
   let translatedRecords = [];
 

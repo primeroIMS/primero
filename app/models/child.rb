@@ -285,10 +285,10 @@ class Child < ApplicationRecord
   def stamp_registry_fields
     return unless changes_to_save.key?('registry_record_id')
 
-    self.registry_id_display = registry_record.registry_id_display
-    self.registry_name = registry_record.name
-    self.registry_no = registry_record.registry_no
-    self.registry_location_current = registry_record.location_current
+    self.registry_id_display = registry_record&.registry_id_display
+    self.registry_name = registry_record&.name
+    self.registry_no = registry_record&.registry_no
+    self.registry_location_current = registry_record&.location_current
   end
 
   def match_criteria

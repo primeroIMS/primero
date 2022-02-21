@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useWatch } from "react-hook-form";
+import clsx from "clsx";
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -23,6 +24,10 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
     optionSelector,
     error
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
+
+  const classes = clsx(css.field, {
+    [css.readonly]: formMode.isShow
+  });
 
   const { watchedInputs, handleWatchedInputs, name } = field;
   const watchedInputValues = useWatch({
@@ -64,7 +69,7 @@ const WatchedFormSectionField = ({ checkErrors, field, formMethods, formMode, di
   );
 
   return (
-    <div className={css.field}>
+    <div className={classes}>
       {handleVisibility(watchedInputValues) || (
         <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
           {renderField}
