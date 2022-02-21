@@ -9,18 +9,19 @@ import SubformDrawer from "../../subforms/subform-drawer";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getFieldByName } from "../../../selectors";
-import { RECORD_TYPES, REGISTRY_RECORD } from "../../../../../config";
+import { RECORD_TYPES, REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
 import css from "../../subforms/styles.css";
 import SubformEmptyData from "../../subforms/subform-empty-data";
 import usePermissions, { RESOURCES } from "../../../../permissions";
 import { READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../../libs/permissions";
 import { enqueueSnackbar } from "../../../../notifier";
+import { selectRecord } from "../../../../records";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
-import { LINK_FIELD, REGISTRY_SEARCH_FIELDS } from "./constants";
+import { LINK_FIELD, REGISTRY_SEARCH_FIELDS, REGISTRY_ID_DISPLAY, REGISTRY_NO, NAME } from "./constants";
 
 const Component = ({ values, mode, primeroModule, recordType, name, setFieldValue }) => {
   const i18n = useI18n();
@@ -34,6 +35,12 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
 
   const formName = name[i18n.locale];
   const { registry_id_display: registryIdDisplay, registry_no: registryNo, name: caseName } = values;
+
+  const fieldValue = values[LINK_FIELD];
+
+  const record = useMemoizedSelector(state =>
+    selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, fieldValue })
+  );
 
   const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
     writeRegistryRecord: WRITE_REGISTRY_RECORD,
@@ -94,8 +101,6 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
     }
   }, [drawerOpen]);
 
-  const fieldValue = values[LINK_FIELD];
-
   const RenderComponents = {
     0: SearchForm,
     1: Results,
@@ -119,9 +124,9 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
           <List dense classes={{ root: css.list }} disablePadding>
             <ListItem component="a" onClick={handleOpenMatch} classes={{ root: css.listItem }}>
               <ListItemText>
-                {[registryIdDisplay, registryNo, caseName].map(field => (
-                  <div>{field}</div>
-                ))}
+                <div>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</div>
+                <div>{record.get(REGISTRY_NO) || registryNo}</div>
+                <div>{record.get(NAME) || caseName}</div>
               </ListItemText>
               <ListItemSecondaryAction>
                 <ActionButton

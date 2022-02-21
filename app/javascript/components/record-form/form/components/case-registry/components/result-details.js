@@ -7,7 +7,7 @@ import { useMemoizedSelector } from "../../../../../../libs";
 import { REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
 import css from "../../../subforms/styles.css";
-import { LINK_FIELD, REGISTRY_DETAILS, REGISTRY_ID_DISPLAY, REGISTRY_NO } from "../constants";
+import { LINK_FIELD, REGISTRY_DETAILS } from "../constants";
 import { fetchRecord, selectRecord } from "../../../../../records";
 import Form, { FORM_MODE_SHOW } from "../../../../../form";
 
@@ -52,11 +52,7 @@ const ResultDetails = ({
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
 
   const handleSelection = () => {
-    [
-      [LINK_FIELD, shouldSelect ? id : null],
-      [REGISTRY_NO, record.get(REGISTRY_NO)],
-      [REGISTRY_ID_DISPLAY, record.get(REGISTRY_ID_DISPLAY)]
-    ].forEach(([key, value]) => {
+    [[LINK_FIELD, shouldSelect ? id : null]].forEach(([key, value]) => {
       setFieldValue(key, value);
     });
 
