@@ -79,7 +79,12 @@ export const FieldRecord = Record({
   renderChildren: true,
   max_length: null,
   display_conditions_record: [],
-  display_conditions_subform: []
+  display_conditions_subform: [],
+  showDefaultAction: true,
+  showDeleteAction: true,
+  showDisableOption: true,
+  maxOptionsAllowed: null,
+  optionFieldName: null
 });
 
 export const FormSectionRecord = Record({

@@ -26,13 +26,13 @@ class PermittedFieldService
     or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
-    reassigned_transferred_on current_alert_types location_current
+    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
-    alert_count assigned_user_names created_by created_by_agency owned_by owned_by_agency_id
+    alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
-    last_updated_at owned_by_groups previously_owned_by_agency created_organization
+    last_updated_at last_updated_by owned_by_groups previously_owned_by_agency created_organization
     consent_for_services disclosure_other_orgs
   ].freeze
 
@@ -98,6 +98,7 @@ class PermittedFieldService
     @permitted_field_names += PERMITTED_RECORD_INFORMATION_FIELDS if user.can?(:read, model_class)
     @permitted_field_names += ID_SEARCH_FIELDS if id_search.present?
     @permitted_field_names += permitted_reporting_location_field
+    @permitted_field_names += permitted_registry_record_id
     @permitted_field_names
   end
 
@@ -111,6 +112,7 @@ class PermittedFieldService
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))
     schema['hidden_name'] = { 'type' => 'boolean' } if user.can?(:update, model_class)
+    schema['reporting_location_hierarchy'] = { 'type' => 'string' } if user.can?(:update, model_class)
     schema = schema.merge(SYNC_FIELDS_SCHEMA) if external_sync?
     schema = schema.merge(permitted_mrm_entities_schema) if user.module?(PrimeroModule::MRM)
     schema.merge(permitted_approval_schema)
@@ -126,6 +128,16 @@ class PermittedFieldService
     return [] if reporting_location_config.blank?
 
     ["#{reporting_location_config.field_key}#{reporting_location_config.admin_level}"]
+  end
+
+  def permitted_registry_record_id
+    return [] if model_class == RegistryRecord
+
+    if user.can?(:view_registry_record, model_class) || user.can?(:add_registry_record, model_class)
+      return %w[registry_record_id]
+    end
+
+    []
   end
 
   def external_sync?

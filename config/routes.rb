@@ -121,6 +121,8 @@ Rails.application.routes.draw do
       resources :key_performance_indicators, path: :kpis, only: [:show]
       resources :codes_of_conduct, only: %i[index create], controller: 'codes_of_conduct'
       resources :activity_log, only: [:index]
+      resources :managed_reports, only: %i[index show]
+      resources :registry_records, only: %i[index show create update destroy]
     end
   end
 end

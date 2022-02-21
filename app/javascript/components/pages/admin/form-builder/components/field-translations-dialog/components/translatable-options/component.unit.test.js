@@ -11,6 +11,7 @@ describe("<TranslatableOptions />", () => {
       props: {
         field: fromJS({
           name: "field_1",
+          type: "select_box",
           option_strings_text: [{ id: "option_1", display_text: { en: "Option 1", es: "Opción 1" } }]
         }),
         selectedLocaleId: "es"

@@ -9,7 +9,14 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
-import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
+import {
+  ALERTS_FOR,
+  CHANGE_LOGS,
+  INCIDENT_FROM_CASE,
+  RECORD_INFORMATION_GROUP,
+  RECORD_TYPES,
+  RECORD_TYPES_PLURAL
+} from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
@@ -43,7 +50,7 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
   return formSections.filter(fs => fs.visible);
 };
 
-const allFormSections = state => state.getIn([NAMESPACE, "formSections"]);
+const allFormSections = state => state.getIn([NAMESPACE, "formSections"], fromJS({}));
 
 const forms = ({
   formSections,
@@ -112,6 +119,15 @@ const transformOptionSource = (options, locale, stickyOption) => {
   }));
 };
 
+export const allPermittedForms = createCachedSelector(
+  allFormSections,
+  state => state.getIn(["user", "permittedForms"], fromJS([])),
+  getLocale,
+  (_state, query) => query,
+  (formSections, permittedFormIDs, appLocale, query) =>
+    forms({ ...query, formSections, permittedFormIDs, appLocale, checkVisible: false })
+)(defaultCacheSelectorOptions);
+
 export const getFirstTab = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
@@ -139,8 +155,13 @@ export const getFormNav = createCachedSelector(
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
   getLocale,
+  (state, query) =>
+    allPermittedForms(state, query)
+      .valueSeq()
+      .filter(form => form.form_group_id !== RECORD_INFORMATION_GROUP)
+      .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, permittedFormIDs, userPermissions, appLocale, query) => {
+  (formSections, permittedFormIDs, userPermissions, appLocale, permittedForms, query) => {
     const selectedForms = forms({ ...query, formSections, permittedFormIDs, appLocale }).filter(
       form => form.form_group_id !== RECORD_INFORMATION_GROUP
     );
@@ -151,8 +172,8 @@ export const getFormNav = createCachedSelector(
     let allSelectedForms = selectedForms;
 
     if (renderCustomForms) {
-      const defaultForms = getDefaultForms(appLocale);
-      const formsFromDefault = pickFromDefaultForms(selectedForms, defaultForms);
+      const defaultForms = getDefaultForms(appLocale, query);
+      const formsFromDefault = pickFromDefaultForms(permittedForms, defaultForms);
 
       if (!isEmpty(formsFromDefault)) {
         const filteredCustomForms = filterForms(List(Object.values(formsFromDefault)), {
@@ -180,16 +201,28 @@ export const getRecordInformationForms = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
   getLocale,
+  (state, query) =>
+    allPermittedForms(state, query)
+      .valueSeq()
+      .filter(form => form.form_group_id === RECORD_INFORMATION_GROUP)
+      .reduce((acc, form) => acc.merge(fromJS({ [form.unique_id]: form })), fromJS({})),
   (_state, query) => query,
-  (formSections, permittedFormIDs, appLocale, query) => {
+  (formSections, permittedFormIDs, appLocale, recordInformationForms, query) => {
     const recordForms = forms({ ...query, formSections, permittedFormIDs, appLocale });
 
-    const defaultForms = getDefaultForms(appLocale);
+    const defaultForms = getDefaultForms(appLocale, query);
 
-    const formsFromDefault = pickFromDefaultForms(recordForms, defaultForms);
+    const formsFromDefault = pickFromDefaultForms(recordInformationForms, defaultForms);
 
     const defaultFormsMap = OrderedMap(
-      Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
+      Object.values(formsFromDefault).reduce((acc, form) => {
+        // TODO: Remove this condition once the API supports change logs for registry_records
+        if (query.recordType === RECORD_TYPES.registry_records && form.unique_id === CHANGE_LOGS) {
+          return acc;
+        }
+
+        return { ...acc, [form.id]: form };
+      }, {})
     );
 
     return (recordForms || fromJS({}))

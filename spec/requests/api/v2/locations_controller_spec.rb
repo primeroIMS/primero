@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe Api::V2::LocationsController, type: :request do
-  before :each do
+  before do
     Location.destroy_all
     @locations_CT01 = Location.create!(location_code: 'CT01', type: 'country', admin_level: '0',
                                        placename_i18n: { en: 'Country01_en', es: 'Country01_es' })
@@ -13,6 +13,8 @@ describe Api::V2::LocationsController, type: :request do
     @locations_D02 = Location.create!(location_code: 'D02', type: 'departament',
                                       placename_i18n: { en: 'Departament02_en', es: 'Departament02_es' },
                                       hierarchy_path: 'CT01.D02')
+
+    I18n.stub(:available_locales).and_return([:en, :es, :"ar-LB"])
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -368,7 +370,7 @@ describe Api::V2::LocationsController, type: :request do
     end
   end
 
-  after :each do
+  after do
     Location.destroy_all
   end
 end
