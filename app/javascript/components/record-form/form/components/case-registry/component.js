@@ -34,7 +34,7 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
   const [drawerTitle, setDrawerTitle] = useState("");
 
   const formName = name[i18n.locale];
-  const { registry_id_display: registryIdDisplay, registry_no: registryNo, name: caseName } = values;
+  const { registry_id_display: registryIdDisplay, registry_no: registryNo, registry_name: registryName } = values;
 
   const fieldValue = values[LINK_FIELD];
 
@@ -126,7 +126,7 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
               <ListItemText>
                 <div>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</div>
                 <div>{record.get(REGISTRY_NO) || registryNo}</div>
-                <div>{record.get(NAME) || caseName}</div>
+                <div>{record.get(NAME) || registryName}</div>
               </ListItemText>
               <ListItemSecondaryAction>
                 <ActionButton
