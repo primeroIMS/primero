@@ -66,9 +66,10 @@ const Component = ({
     }
   }, []);
   return fieldsToDisplay.map(subformSectionField => {
-    if (subformSectionField?.calculation?.expression) {
+    let calculation_expression = subformSectionField?.calculation?.expression
+    if (calculation_expression) {
       let count = Object.keys(values).reduce((prev, curr) => {
-        if (!(subformSectionField?.calculation?.expression.sum.indexOf(curr) < 0) && values[curr] !== "") {
+        if (!(calculation_expression.sum.indexOf(curr) < 0) && values[curr] !== "") {
           return prev + 1;
         }
 
@@ -79,7 +80,7 @@ const Component = ({
         count = 1;
       }
 
-      const calculatedVal = parseExpression(subformSectionField?.calculation?.expression).evaluate(values);
+      const calculatedVal = parseExpression(calculation_expression).evaluate(values);
 
       const scoreCalField = `${formSection.unique_id.split("subform_section")[0]}score_calc`;
       const scoreField = `${formSection.unique_id.split("subform_section")[0]}score`;
