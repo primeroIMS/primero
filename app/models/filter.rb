@@ -209,6 +209,11 @@ class Filter < ValueObject
     field_name: 'registry_records_by_date',
     type: 'dates'
   )
+  REGISTRY_STATUS = Filter.new(
+    name: 'registry_records.filter_by.status',
+    field_name: 'status',
+    option_strings_source: 'lookup-registry-status'
+  )
   CASE_FILTER_FIELD_NAMES = %w[
     gbv_displacement_status protection_status urgent_protection_concern
     protection_concerns type_of_risk
@@ -335,7 +340,7 @@ class Filter < ValueObject
     def registry_record_filter(_user)
       filters = []
       filters << FLAGGED_CASE
-      filters << STATUS
+      filters << REGISTRY_STATUS
       filters << ENABLED
       filters << CURRENT_LOCATION
       filters << DATE_REGISTRY
