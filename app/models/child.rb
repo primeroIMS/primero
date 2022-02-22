@@ -150,6 +150,16 @@ class Child < ApplicationRecord
   before_create :hide_name
   after_save :save_incidents
 
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      new_case = super_new_with_user(user, data).tap do |local_case|
+        local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
+      end
+      new_case
+    end
+  end
+
   alias super_defaults defaults
   def defaults
     super_defaults
