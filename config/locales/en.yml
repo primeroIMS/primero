@@ -205,10 +205,19 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
-
   case:
     label: Case
     create_new_case: Create New Case
+    add_new: Add New
+    back_to_case: Back to Case
+    back_to_results: Back to Results
+    back_to_search: Back to Search
+    search_by: Search By
+    search_for: Search for %{record_type}
+    results: Results
+    details: Details
+    select: Select
+    deselect: Deselect
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
@@ -1273,6 +1282,7 @@ en:
     settings: Settings
     show_on: Show on
     subform_need_to_be_added: They need to be added.
+    subform_need_to_be_added_single: This need to be added.
     subform_not_found: No %{subform_name} found.
     title: Form Title
     translations:
@@ -1332,9 +1342,6 @@ en:
       disabled: Incident is disabled
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
-    gbv_statistics:
-      types: 
-        incidents: Incidents
     violation:
       update_and_return: 'Update and Return to %{association}'
       save_and_return: 'Add and Return to %{association}'
@@ -1775,14 +1782,63 @@ en:
     translation_label: Translation Text
     values: Options
   managed_reports:
+    label: Insights
+    total: Total
+    filter_by: 
+      date: Date
+      verification_status: Verification Status
+    date_range:
+      month: Month
+      quarter: Quarter
+      year: Year
+    date_range_options:
+      this_quarter: This Quarter
+      last_quarter: Last Quarter
+      this_month: This Month
+      last_month: Last Month
+      this_year: This Year
+      last_year: Last Year
+      custom: Custom
+    no_data: No data exists for this insight
+    no_data_table: No table data exists for this insight
     violations:
       name: Violations
       description: ''
+      filter_options:
+        incident_date: Date of Incident
+        date_of_report: Date of Report
+        ctfmr_verified_date: Date of Verification
+      reports:
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on: Attacks on school(s) and/or hospital(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
+      sub_reports:
+        combined: Violations
+        detention_detained: Remain Detained
+        detention_released: Released
+        perpetrators: Number of Children by Perpetrators
+        reporting_location: Number of Children by Region
+        attack_type: Number of Children by Attack Type
+        boys: Boys
+        girls: Girls
+        unknown: Unknown
+        total: Total
     gbv_statistics:
       name: GBV Statistics
-      description: '' 
-      sub_reports:
+      description: ''
+      filter_options:
+        date_of_first_report: Date of Interview
+        incident_date: Date of Incident
+      reports: 
         incidents: Incidents
+        perpetrators: Perpetrators
+      sub_reports:
+        combined: Incidents
         total: Number of GBV Incidents Reported
         gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
         gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
@@ -1791,6 +1847,10 @@ en:
         elapsed_reporting_time: Time Between Incident and Report Date
         elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
         incident_location_type: Incident Location
+        number_of_perpetrators: Number of Primary Perpetrators
+        perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
+        perpetrator_age_group: Alleged Primary Perpetrators Age Group
+        perpetrator_occupation: Alleged Primary Perpetrator Occupation
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1839,6 +1899,7 @@ en:
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
+    registry_records: Registry
   notes:
     note_success: Successfully added note
   permissions:
@@ -1920,6 +1981,8 @@ en:
       export_unhcr_csv: Export unhcr csv
       export_xls: Export xls
       find_tracing_match: Find tracing match from case
+      view_registry_record: View registry record
+      add_registry_record: Add registry record
       flag: Flag
       form: Forms
       group: Access all records or users in my group
@@ -2802,6 +2865,8 @@ en:
         actions:
           violations:
             label: Violations
+          gbv_statistics:
+            label: GBV Statistics
       matching_configuration:
         actions:
           manage:
@@ -3177,6 +3242,7 @@ en:
     users_label: Recipient
   record_information:
     assigned_user_names: Other Assigned Users
+    created_at: Record created at
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner
@@ -3189,6 +3255,7 @@ en:
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
     last_updated_at: Last Updated At
+    last_updated_by: Last Updated By
   record_panel:
     record_information: Record Information
   referral:
@@ -3256,23 +3323,6 @@ en:
     record_type: Record type
     total: Total
     value: Value
-  insights:
-    label: Insights
-    date_range_options:
-      this_quarter: This Quarter
-      last_quarter: Last Quarter
-      this_month: This Month
-      last_month: Last Month
-      this_year: This Year
-      last_year: Last Year
-      custom: Custom
-    mrm:
-      date_of_incident: Date of Incident
-      date_of_report: Date of Report
-      date_of_verification: Date of Verification
-    gbv:
-      date_of_first_report: Date of Interview
-      incident_date: Date of Incident
   reports:
     delete_report: Delete Report
     delete_report_message: Are you sure you want to delete this report? Deletion can
@@ -3387,6 +3437,10 @@ en:
       creation_success_queue: Tracing Request record successfully created in background.
       match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
       unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Registry Record %{record_id} was successfully updated.'
+      creation_success: 'Registry Record successfully created.'
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     disable_dialog_title: Disable Tracing Request
@@ -3413,6 +3467,22 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+  registry_records:
+    id: ID
+    label: Registry Records
+    name: Name
+    registry_no: Registry Number
+    location: Location
+    registration_date: Registration Date
+    selected_records: '%{select_records} registry record(s) selected'
+    selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    filter_by:
+      by_date: By Date
+      status: Status
+    selectable_date_options:
+      registration_date: Date of Registration
+    show_registry_record: 'Registry Record ID: %{short_id}'
+    register_new_registry_record: New Registry Record
   transfer:
     label: Transfer
     agency_label: Agency

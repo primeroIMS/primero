@@ -30,16 +30,17 @@ export default (data, localeLabels, locale) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const indicatorData = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+    const indicator = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+    const indicatorData = indicator[first(Object.keys(indicator))] || {};
 
-    const columnKeys = Object.keys(indicatorData[first(Object.keys(indicatorData))]);
+    const columnKeys = Object.keys(indicatorData);
     const columns = (columnKeys.includes("") ? columnKeys : columnKeys.concat(""))
       .reduce((acum, value) => {
         return [...acum, { name: value, label: translateSingleLabel(value, localeLabels, locale) }];
       }, [])
       .filter(column => !isUndefined(column.label));
 
-    const { "": removed, ...rows } = indicatorData;
+    const { "": removed, ...rows } = indicator;
 
     const values = Object.entries(rows).reduce((acum, value) => {
       const [user, userValue] = value;

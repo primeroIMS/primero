@@ -40,11 +40,10 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) => {
-  return selectUserModules(state)
-    .filter(f => f.unique_id === id)
-    .first();
-};
+export const selectModule = (state, id) => selectUserModules(state).find(f => f.unique_id === id, null, fromJS({}));
+
+export const getWorkflowLabels = (state, id, recordType) =>
+  selectModule(state, id).getIn(["workflows", recordType], []);
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
@@ -138,3 +137,8 @@ export const getAgencyTermsOfUse = state => selectAgencies(state).filter(agency 
 export const getLocationsAvailable = state => !state.getIn(["forms", "options", "locations"], fromJS([])).isEmpty();
 
 export const getExportRequirePassword = state => state.getIn([NAMESPACE, "exportRequirePassword"], false);
+
+export const getRegistryTypes = (state, type) =>
+  state
+    .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
+    .find(registryType => registryType.get("id") === type, null, fromJS({}));

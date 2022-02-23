@@ -8,7 +8,7 @@ class ManagedReports::Indicators::TotalIncidents < ManagedReports::SqlReportIndi
     end
   end
 
-  def execute_query
+  def execute_query(_current_user)
     apply_params(Incident).count
   end
 end

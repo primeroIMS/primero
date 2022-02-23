@@ -13,7 +13,8 @@ const Fields = ({ fields, checkErrors, disableUnderline, formSection, css, formM
       [css.notEqual]: field.equalColumns === false,
       [css.row]: !field?.customRowStyle,
       [css.rowCustom]: field?.customRowStyle,
-      [css.headerCustom]: field?.customHeaderStyle
+      [css.headerCustom]: field?.customHeaderStyle,
+      [css.readonly]: formMode.isShow
     });
 
   return fields.map(field => {

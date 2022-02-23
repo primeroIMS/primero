@@ -61,7 +61,12 @@ import PasswordResetRequest from "../components/login/components/password-reset-
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
 
-const recordPaths = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests];
+const recordPaths = [
+  RECORD_PATH.cases,
+  RECORD_PATH.incidents,
+  RECORD_PATH.tracing_requests,
+  RECORD_PATH.registry_records
+];
 
 const recordRoutes = [
   [MODES.edit, WRITE_RECORDS, ":id/edit"],
@@ -128,6 +133,11 @@ export default [
       },
       {
         path: "/tracing_requests",
+        component: RecordList,
+        actions: READ_RECORDS
+      },
+      {
+        path: "/registry_records",
         component: RecordList,
         actions: READ_RECORDS
       },

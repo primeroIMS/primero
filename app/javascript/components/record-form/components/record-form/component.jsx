@@ -12,7 +12,7 @@ import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
-import { RECORD_TYPES, REFERRAL } from "../../../../config";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
 import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
@@ -218,7 +218,10 @@ const Component = ({
 
         if (!locationState?.preventSyncAfterRedirect && shouldFetchRecord) {
           dispatch(fetchRecord(params.recordType, params.id));
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
+          // TODO: Remove this condition once alerts get implemented for registry_records
+          if (params.recordType !== RECORD_TYPES_PLURAL.registry_record) {
+            dispatch(fetchRecordsAlerts(params.recordType, params.id));
+          }
           dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
         }
       }

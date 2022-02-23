@@ -110,7 +110,10 @@ describe("Verifying config constant", () => {
       "TRANSFER",
       "VIEW_INCIDENT_FROM_CASE",
       "WRITE",
-      "GBV_STATISTICS"
+      "GBV_STATISTICS",
+      "VIOLATIONS",
+      "VIEW_REGISTRY_RECORD",
+      "ADD_REGISTRY_RECORD"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -153,6 +156,7 @@ describe("Verifying config constant", () => {
       "lookups",
       "metadata",
       "potential_matches",
+      "registry_records",
       "reports",
       "roles",
       "forms",

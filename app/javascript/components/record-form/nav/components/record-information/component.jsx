@@ -21,16 +21,14 @@ const Component = ({ open, handleClick, primeroModule, selectedForm, formGroupLo
   );
 
   return (
-    <>
-      <NavGroup
-        group={recordInformationNav}
-        handleClick={handleClick}
-        open={open}
-        selectedForm={selectedForm}
-        formGroupLookup={formGroupLookup}
-        recordAlerts={recordAlerts}
-      />
-    </>
+    <NavGroup
+      group={recordInformationNav}
+      handleClick={handleClick}
+      open={open}
+      selectedForm={selectedForm}
+      formGroupLookup={formGroupLookup}
+      recordAlerts={recordAlerts}
+    />
   );
 };
 

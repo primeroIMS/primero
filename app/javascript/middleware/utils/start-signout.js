@@ -1,15 +1,24 @@
+import { setPendingUserLogin } from "../../components/connectivity/action-creators";
 import { signOut } from "../../components/login/components/idp-selection";
-import { attemptSignout } from "../../components/user";
+import { attemptSignout, showLoginDialog } from "../../components/user";
+import { IS_AUTHENTICATED_PATH } from "../constants";
 
-export default store => {
-  const usingIdp = store.getState().getIn(["idp", "use_identity_provider"], false);
-  const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
+export default (store, logout = false) => {
+  const state = store.getState();
+  const usingIdp = state.getIn(["idp", "use_identity_provider"], false);
+  const isAuthenticated = state.getIn(IS_AUTHENTICATED_PATH, false);
+  const appLoading = state.getIn(["application", "loading"], false);
 
-  if (pendingUserLogin) return;
-
-  if (usingIdp) {
-    signOut();
+  if (isAuthenticated && !logout && !appLoading) {
+    store.dispatch(setPendingUserLogin(true));
+    store.dispatch(showLoginDialog());
   }
 
-  store.dispatch(attemptSignout());
+  if (logout || appLoading) {
+    if (usingIdp) {
+      signOut();
+    }
+
+    store.dispatch(attemptSignout());
+  }
 };
