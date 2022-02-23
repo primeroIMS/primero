@@ -3582,13 +3582,14 @@ en:
     id: ID
     label: Registry Records
     name: Name
-    registry_no: Number / Code
+    registry_no: Registry Number
     location: Location
     registration_date: Registration Date
     selected_records: '%{select_records} registry record(s) selected'
     selected_all_records: 'Select all %{total_records} registry records that match this query.'
     filter_by:
       by_date: By Date
+      status: Status
     selectable_date_options:
       registration_date: Date of Registration
     show_registry_record: 'Registry Record ID: %{short_id}'
