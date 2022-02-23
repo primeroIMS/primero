@@ -17,7 +17,8 @@ const SearchForm = ({
   fields,
   setDrawerTitle,
   locale,
-  permissions
+  permissions,
+  noForm = false
 }) => {
   const i18n = useI18n();
 
@@ -25,7 +26,9 @@ const SearchForm = ({
 
   redirectIfNotAllowed(permissions.writeRegistryRecord);
 
-  setDrawerTitle("search_for", { record_type: registryType.getIn(["display_text", i18n.locale], "") });
+  setDrawerTitle("search_for", {
+    record_type: noForm ? i18n.t("navigation.registry_records") : registryType.getIn(["display_text", i18n.locale], "")
+  });
 
   const handleSearch = async data => {
     // eslint-disable-next-line camelcase
@@ -89,6 +92,7 @@ SearchForm.propTypes = {
   fields: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,

@@ -9,7 +9,7 @@ import SubformDrawer from "../../subforms/subform-drawer";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getFieldByName } from "../../../selectors";
-import { REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
+import { CASE, REGISTRY_FROM_CASE, REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
 import css from "../../subforms/styles.css";
 import SubformEmptyData from "../../subforms/subform-empty-data";
@@ -17,13 +17,14 @@ import usePermissions, { RESOURCES } from "../../../../permissions";
 import { READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../../libs/permissions";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectRecord } from "../../../../records";
+import { getRecordFormsByUniqueId } from "../../..";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
 import { LINK_FIELD, REGISTRY_SEARCH_FIELDS, REGISTRY_ID_DISPLAY, REGISTRY_NO, NAME } from "./constants";
 
-const Component = ({ values, mode, primeroModule, recordType, name = "", setFieldValue }) => {
+const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
@@ -33,7 +34,6 @@ const Component = ({ values, mode, primeroModule, recordType, name = "", setFiel
   const [searchParams, setSearchParams] = useState({});
   const [drawerTitle, setDrawerTitle] = useState("");
 
-  const formName = name?.[i18n.locale] || i18n.t("forms.record_types.registry_details");
   const { registry_id_display: registryIdDisplay, registry_no: registryNo, registry_name: registryName } = values;
 
   const fieldValue = values[LINK_FIELD];
@@ -41,6 +41,19 @@ const Component = ({ values, mode, primeroModule, recordType, name = "", setFiel
   const record = useMemoizedSelector(state =>
     selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, id: fieldValue })
   );
+
+  const caseRegistryForm = useMemoizedSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      checkVisible: false,
+      formName: REGISTRY_FROM_CASE,
+      primeroModule,
+      recordType: CASE,
+      getFirst: true
+    })
+  );
+
+  const title = caseRegistryForm.getIn(["name", i18n.locale], null);
+  const formName = caseRegistryForm.i18nName ? i18n.t(title) : title;
 
   const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
     writeRegistryRecord: WRITE_REGISTRY_RECORD,
@@ -163,6 +176,7 @@ const Component = ({ values, mode, primeroModule, recordType, name = "", setFiel
           redirectIfNotAllowed={redirectIfNotAllowed}
           setFieldValue={setFieldValue}
           formName={formName}
+          noForm={caseRegistryForm.i18nName}
         />
       </SubformDrawer>
     </>
@@ -173,7 +187,6 @@ Component.displayName = "CaseRegistry";
 
 Component.propTypes = {
   mode: PropTypes.object.isRequired,
-  name: PropTypes.object,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,
