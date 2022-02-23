@@ -1,0 +1,16 @@
+import { isInteger } from "lodash";
+
+import { MATHEMATICAL_OPERATORS } from "../constants";
+
+export default expressions => ({
+  expressions,
+  operator: MATHEMATICAL_OPERATORS.SUM,
+  evaluate: data => {
+    const results = expressions.map(current => (current.evaluate ? current.evaluate(data) : current));
+    const sum = results.reduce((prev, curr) => {
+      return prev + (isInteger(curr) ? curr : +data[curr] || 0);
+    }, 0);
+
+    return sum;
+  }
+});

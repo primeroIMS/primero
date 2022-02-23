@@ -16,6 +16,7 @@ describe RecordJsonValidatorService do
       Field.new(name: 'created_on', type: Field::DATE_FIELD, date_include_time: true),
       Field.new(name: 'separator1', type: Field::SEPARATOR),
       Field.new(name: 'other_documents', type: Field::DOCUMENT_UPLOAD_BOX),
+      Field.new(name: 'calculated', type: Field::CALCULATED),
       Field.new(
         name: 'family_details',
         type: Field::SUBFORM,
@@ -206,6 +207,24 @@ describe RecordJsonValidatorService do
 
       it 'accepts arrays of subform hashes for violations' do
         expect(service.valid?('sources' => [source])).to be_truthy
+      end
+    end
+
+    describe 'CALCULATED' do
+      it 'accepts numbers' do
+        expect(service.valid?('calculated' => 1)).to be_truthy
+      end
+
+      it 'accepts nil values' do
+        expect(service.valid?('calculated' => nil)).to be_truthy
+      end
+
+      it 'rejects non-numerics values' do
+        expect(service.valid?('calculated' => 'string')).to be_falsey
+      end
+
+      it 'rejects very big numeric values' do
+        expect(service.valid?('calculated' => 3_000_000_000)).to be_falsey
       end
     end
 

@@ -51,6 +51,8 @@ class RecordJsonValidatorService < JsonValidatorService
         properties[field.name] = { 'type' => %w[string null] }
       when Field::TALLY_FIELD
         properties[field.name] = { 'type' => %w[object null], 'properties' => tally_properties(field.tally_i18n) }
+      when Field::CALCULATED
+        properties[field.name] = { 'type' => %w[integer null], 'minimum' => -2_147_483_648, 'maximum' => 2_147_483_647 }
       end
     end
   end

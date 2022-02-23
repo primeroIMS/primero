@@ -30,7 +30,8 @@ export const FieldRecord = Record({
   autosum_total: true,
   link_to_form: "",
   href: null,
-  collapse: null
+  collapse: null,
+  calculation: {}
 });
 
 export const FormSectionRecord = Record({

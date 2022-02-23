@@ -83,6 +83,7 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
 
     return (
       <ListItemText id="subform-header-button" classes={itemClasses}>
+        {values[index][`${field.name.split("_section")[0]}_date`]}
         <div className={css.listItemText}>
           {renderShortId && <span>{renderShortId}</span>}
           {subformValues}

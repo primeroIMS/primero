@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "./constants";
 import parseExpression from "./parse-expression";
 
@@ -172,6 +173,18 @@ describe("parseExpression", () => {
 
     it("correctly evaluates the expression to be false", () => {
       expect(expression.evaluate({ sex: "female" })).to.be.false;
+    });
+  });
+
+  context('when is a sum expression', () => {
+    const expression = parseExpression({ sum: ['a', 'b', 'c'] });
+
+    it('correctly evaluates the sum', () => {
+      expect(expression.evaluate({ 'a': 2, 'b': 3})).to.deep.equals(5);
+    });
+
+    it('returns 0 when wrong arguments are passed', () => {
+      expect(expression.evaluate({ 'd': 2, 'e': 3})).to.deep.equals(0);
     });
   });
 });
