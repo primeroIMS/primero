@@ -6,7 +6,8 @@ import { List, IconButton, Drawer } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
 import CloseIcon from "@material-ui/icons/Close";
-import { withRouter } from "react-router-dom";
+import { connect } from "formik";
+import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
@@ -39,12 +40,14 @@ const Component = ({
   toggleNav,
   primeroModule,
   selectedForm,
-  history
+  formik
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
-  const dispatch = useDispatch();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })
@@ -176,10 +179,17 @@ const Component = ({
   if (formNav) {
     const [...formGroups] = formNav.values();
 
-    const renderFormGroups = formGroups.map(formGroup => {
-      return (
+    const renderFormGroups = formGroups.reduce((acc, formGroup) => {
+      const group = buildFormGroupData(formGroup, formik.values);
+
+      if (!group.size) {
+        return acc;
+      }
+
+      return [
+        ...acc,
         <NavGroup
-          group={buildFormGroupData(formGroup)}
+          group={group}
           handleClick={handleClick}
           isNew={isNew}
           open={open}
@@ -189,8 +199,8 @@ const Component = ({
           validationErrors={validationErrors}
           formGroupLookup={formGroupLookup}
         />
-      );
-    });
+      ];
+    }, []);
 
     return (
       <>
@@ -220,10 +230,10 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   firstTab: PropTypes.object,
+  formik: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   hasForms: PropTypes.bool,
-  history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
@@ -233,4 +243,4 @@ Component.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default withRouter(Component);
+export default connect(Component);
