@@ -127,6 +127,9 @@ export const RECORD_PATH = {
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+
+export const IDENTIFICATION_REGISTRATION = "identification_registration";
+
 export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";

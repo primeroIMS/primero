@@ -9,6 +9,7 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
+  REGISTRY_FROM_CASE,
   SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
@@ -536,7 +537,8 @@ describe("<RecordForms /> - utils", () => {
         INCIDENT_FROM_CASE,
         REFERRAL,
         TRANSFERS_ASSIGNMENTS,
-        CHANGE_LOGS
+        CHANGE_LOGS,
+        REGISTRY_FROM_CASE
       ]);
     });
   });

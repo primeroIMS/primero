@@ -11,7 +11,7 @@ import SubformField from "../form/subforms";
 import { parseExpression } from "../../../libs/expressions";
 import { getViolationFieldForGuidance, isViolationSubform } from "../form/utils";
 import getOptionStringsTags from "../form/utils/get-option-strings-tags";
-import { REGISTRY_FROM_CASE } from "../../../config";
+import { RECORD_TYPES, REGISTRY_FROM_CASE } from "../../../config";
 import CaseRegistry from "../form/components/case-registry";
 
 const renderFormFields = (
@@ -128,7 +128,7 @@ const renderFormSections = (
               record={record}
               mode={mode}
               primeroModule={primeroModule}
-              recordType={recordType}
+              recordType={RECORD_TYPES[recordType]}
               name={form.name}
               setFieldValue={setFieldValue}
             />
