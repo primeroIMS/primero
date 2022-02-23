@@ -19,24 +19,34 @@ class RecalculateAge < PeriodicJob
   end
 
   def recalculate!(start_date = Date.yesterday, end_date = Date.current)
-    cases_by_date_of_birth_range(start_date, end_date).each do |c|
-      if update_age_for_case(c)
-        Rails.logger.info "Case:[#{c.id}] Updating age to #{c.age}. Date of birth:[#{c.date_of_birth}]"
-      else
-        Rails.logger.warn "Case:[#{c.id}] Not changed. Age remains at #{c.age}. Date of birth:[#{c.date_of_birth}]"
+    records = cases_by_date_of_birth_range(start_date, end_date)
+    total_pages = records.results.total_pages
+    Rails.logger.info "============================TOTAL CASES #{records.total}================================"
+    (1..total_pages).each do |page|
+      Rails.logger.info "=============================PAGE No: #{page}/#{total_pages}================================="
+      cases_by_date_of_birth_range(start_date, end_date, page).results.each do |record|
+        if update_age_for_case(record)
+          Rails.logger.info "Case:[#{record.id}] Updating age to #{record.age}. Date of birth:[#{record.date_of_birth}]"
+        else
+          Rails.logger.warn "Case:[#{record.id}] Not changed. Age remains at #{record.age}. Date of birth:[#{record.date_of_birth}]"
+        end
       end
     end
   end
 
-  def cases_by_date_of_birth_range(start_date, end_date)
+  def cases_by_date_of_birth_range(start_date, end_date, page = 1)
     start_yday = AgeService.day_of_year(start_date)
     end_yday = AgeService.day_of_year(end_date)
-    search_result = Child.search do
+    search = Child.search do
       with(:day_of_birth, start_yday..end_yday)
-    end.results
+      order_by(:record_id, :desc)
+      paginate({ page: page, per_page: 20 })
+    end
+
+    search_result = search.results
 
     Rails.logger.info "Cases to evaluate:[#{search_result.count}]"
-    search_result
+    search
   end
 
   def update_age_for_case(record)
