@@ -31,7 +31,7 @@ const SearchForm = ({
     // eslint-disable-next-line camelcase
     const { search_by, ...searchParams } = data;
 
-    await setSearchParams(searchParams);
+    await setSearchParams({ ...searchParams, record_state: true });
     setComponent(1);
   };
 
