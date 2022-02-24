@@ -107,11 +107,13 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
     2: ResultDetails
   }[component];
 
+  const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
+
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
         <div>
-          <h3 className={css.subformTitle}>{i18n.t("fields.add_field_type", { file_type: formName })}</h3>
+          <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
         {writeRegistryRecord && !fieldValue && !mode.isShow && (
           <div>
