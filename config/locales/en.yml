@@ -2982,23 +2982,11 @@ en:
               one, multiple, or all Registry records to which the user has access. NOTE: The
               CSV export does not render non-Latin characters (e.g. Arabic, Bangla)'
             label: Export CSV
-          export_custom:
-            explanation: User can select specific forms or fields to export to an XLS file.
-            label: Export custom
           export_json:
             explanation: User can generate a JSON file export from the Registry list or Registry
               show pages, which contains all fields to which the current user has access. The
               JSON format is machine-readable and not practical for most users.
             label: Export JSON
-          export_list_view_csv:
-            explanation: User can generate a CSV file export from the Registry list page which
-              contains the same fields which appear for that user on the Registry list. Only
-              performed from the Registry list page.
-            label: Export list view CSV
-          export_pdf:
-            explanation: User can generate a non-encrypted PDF file export. The user can select
-              which forms appear in the export.
-            label: Export PDF
           export_xls:
             explanation: 'User can generate a XLS file export from the Registry list or Registry
               show pages, which contains all fields to which the current user has access. NOTE:
@@ -3009,11 +2997,6 @@ en:
             explanation: Ability to add a flag to a Registry record. Users with this permission
               can also remove the flags that they have added to a Registry record.
             label: Flag
-          import:
-            explanation: Allows the user to create and/or update one or more new Registry records
-              by importing them from a CSV file. The imported file must be formatted *very*
-              specifically for information to be imported properly.
-            label: Import
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
