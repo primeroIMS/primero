@@ -9,13 +9,7 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
-import {
-  ALERTS_FOR,
-  INCIDENT_FROM_CASE,
-  RECORD_INFORMATION_GROUP,
-  RECORD_TYPES_PLURAL,
-  REGISTRY_FROM_CASE
-} from "../../config";
+import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
@@ -46,7 +40,7 @@ const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNe
     return formSections;
   }
 
-  return formSections.filter(fs => fs.visible || fs.unique_id === REGISTRY_FROM_CASE);
+  return formSections.filter(fs => fs.visible);
 };
 
 const allFormSections = state => state.getIn([NAMESPACE, "formSections"], fromJS({}));

@@ -309,8 +309,7 @@ const Component = ({
     recordType,
     selectedForm,
     summaryForm,
-    transitionProps,
-    userPermittedFormsIds
+    transitionProps
   });
 
   return (
