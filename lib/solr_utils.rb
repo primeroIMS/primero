@@ -4,6 +4,9 @@
 class SolrUtils
   # TODO: Any connection tests?
 
+  # Taken from https://github.com/rsolr/rsolr/blob/v2.5.0/lib/rsolr.rb#L34
+  SPECIAL_CHARACTERS_REGEX = %r(([+\-&|!\(\)\{\}\[\]\^"~\*\?:\\\/])).freeze
+
   # Return the raw Rsolr connection used by Sunspot
   def self.sunspot_rsolr
     Sunspot.session.session.rsolr_connection
@@ -26,5 +29,15 @@ class SolrUtils
   rescue Sunspot::UnrecognizedFieldError => e
     Rails.logger.warn e.message
     nil
+  end
+
+  def self.unescape(value)
+    return value unless special_characters?(value)
+
+    value.gsub(/\\/, '')
+  end
+
+  def self.special_characters?(value)
+    value.match?(SPECIAL_CHARACTERS_REGEX)
   end
 end
