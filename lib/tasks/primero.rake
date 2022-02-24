@@ -258,6 +258,44 @@ namespace :primero do
     puts "Error Messages: #{importer.errors}" if importer.errors.present?
   end
 
+  # Imports Record data from a csv file
+  # USAGE: rails primero:import_records[file_name]
+  # Args:
+  #   file_name                - The CSV file to be imported
+  #   created_by_user          - The user that creates the record
+  #   owned_by_user (optional) - The owner.  If not provided, uses the created by user
+  #
+  # Examples:
+  #   rails primero:import_records[<path>/registry_records.csv,system_user]
+  #
+  #   rails primero:import_records[<path>/registry_records.csv,system_user,owned_by_user]
+  desc 'Import a Record csv file'
+  task :import_records, %i[file_name created_by_user owned_by_user] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      return
+    end
+
+    created_by_user = args[:created_by_user]
+    if created_by_user.blank?
+      puts 'ERROR: No created_by_user provided'
+      return
+    end
+
+    owned_by_user = args[:owned_by_user].presence || created_by_user
+
+    puts "Importing Records from #{file_name}"
+    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
+    data_io = StringIO.new(data)
+    importer = Importers::CsvRecordImporter.new(created_by: created_by_user, owned_by: owned_by_user)
+    importer.import(data_io)
+    puts "Total Rows: #{importer.total}"
+    puts "Total Rows Processed: #{importer.success_total}"
+    puts "Failed rows: #{importer.failures}" if importer.failures.present?
+    puts "Error Messages: #{importer.errors}" if importer.errors.present?
+  end
+
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'
