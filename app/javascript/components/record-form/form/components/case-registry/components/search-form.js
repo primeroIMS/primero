@@ -69,7 +69,9 @@ const SearchForm = ({
     })
   ];
 
-  const validationSchema = buildValidation(formFields[0].fields);
+  const searchByRequiredMessage = i18n.t("fields.required_field", { field: i18n.t("case.search_by") });
+
+  const validationSchema = buildValidation(formFields[0].fields, searchByRequiredMessage);
 
   return (
     <>

@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
 import { object, string } from "yup";
 
-export const buildValidation = fields => {
+export const buildValidation = (fields, searchByRequiredMessage) => {
   const selectableFields = fields[0].option_strings_text.map(option => [option.id, option.display_text]);
 
   return object().shape({
-    search_by: string().required().nullable(),
+    search_by: string().required(searchByRequiredMessage).nullable(),
     ...selectableFields.reduce((prev, current) => {
       return {
         ...prev,
