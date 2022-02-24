@@ -65,23 +65,20 @@ const buildFields = (recordType, formsByParentForm, i18n) => {
 };
 
 export default (formSections, i18n) =>
-  [
-    RECORD_TYPES.cases,
-    RECORD_TYPES.tracing_requests,
-    RECORD_TYPES.incidents,
-    RECORD_TYPES.registry_records
-  ].map(recordType => {
-    const uniqueID = `associated_form_sections_${recordType}`;
+  [RECORD_TYPES.cases, RECORD_TYPES.tracing_requests, RECORD_TYPES.incidents, RECORD_TYPES.registry_records].map(
+    recordType => {
+      const uniqueID = `associated_form_sections_${recordType}`;
 
-    return FormSectionRecord({
-      unique_id: uniqueID,
-      name: i18n.t(`permissions.resource.forms.${recordType}.label`),
-      tooltip: i18n.t(`permissions.resource.forms.${recordType}.explanation`),
-      expandable: true,
-      expanded: true,
-      fields: [
-        buildHeader(uniqueID, i18n),
-        ...buildFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)
-      ]
-    });
-  });
+      return FormSectionRecord({
+        unique_id: uniqueID,
+        name: i18n.t(`permissions.resource.forms.${recordType}.label`),
+        tooltip: i18n.t(`permissions.resource.forms.${recordType}.explanation`),
+        expandable: true,
+        expanded: true,
+        fields: [
+          buildHeader(uniqueID, i18n),
+          ...buildFields(recordType, formSections.get(recordType, fromJS({})).valueSeq(), i18n)
+        ]
+      });
+    }
+  );
