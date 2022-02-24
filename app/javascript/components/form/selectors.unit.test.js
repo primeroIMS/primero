@@ -60,10 +60,10 @@ describe("Forms - Selectors", () => {
       cases: {
         data: [
           {
-            id: "001-12151a",
+            id: "0001-12151a",
             incident_details: [
               {
-                unique_id: "001-2151a",
+                unique_id: "0001-2151a",
                 short_id: "2151a",
                 incident_date: "2021-04-10",
                 cp_incident_violence_type: "type1"
@@ -347,7 +347,7 @@ describe("Forms - Selectors", () => {
         {
           disabled: false,
           display_text: "2021-04-10 - Type 1 - 2151a",
-          id: "001-2151a"
+          id: "0001-2151a"
         }
       ];
 
