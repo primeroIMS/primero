@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { saveRecord } from "../../records";
+import { RECORD_TYPES_PLURAL } from "../../../config";
 
 import { NAME } from "./constants";
 
@@ -27,7 +28,13 @@ const Component = ({ close, open, record, recordType }) => {
         i18n.t(`${recordTypeWithStatus}_success`),
         i18n.t("offline_submitted_changes"),
         false,
-        false
+        false,
+        false,
+        false,
+        null,
+        "",
+        // TODO: Remvove this once alerts get implemented for registry_record
+        recordType === RECORD_TYPES_PLURAL.registry_record
       )
     );
     close();

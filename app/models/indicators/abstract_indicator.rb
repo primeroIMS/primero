@@ -96,7 +96,8 @@ module Indicators
 
       owner_query = sunspot_search&.query&.scope&.to_params
                       &.dig(:fq)&.find { |p| p.match(/owned_by/) }
-      owner_query && owner_query.split(':')[1]
+
+      owner_query && SolrUtils.unescape(owner_query.split(':')[1])
     end
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity

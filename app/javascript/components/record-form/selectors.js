@@ -11,10 +11,8 @@ import { displayNameHelper } from "../../libs";
 import { checkPermissions } from "../../libs/permissions";
 import {
   ALERTS_FOR,
-  CHANGE_LOGS,
   INCIDENT_FROM_CASE,
   RECORD_INFORMATION_GROUP,
-  RECORD_TYPES,
   RECORD_TYPES_PLURAL,
   REGISTRY_FROM_CASE
 } from "../../config";
@@ -216,14 +214,7 @@ export const getRecordInformationForms = createCachedSelector(
     const formsFromDefault = pickFromDefaultForms(recordInformationForms, defaultForms);
 
     const defaultFormsMap = OrderedMap(
-      Object.values(formsFromDefault).reduce((acc, form) => {
-        // TODO: Remove this condition once the API supports change logs for registry_records
-        if (query.recordType === RECORD_TYPES.registry_records && form.unique_id === CHANGE_LOGS) {
-          return acc;
-        }
-
-        return { ...acc, [form.id]: form };
-      }, {})
+      Object.values(formsFromDefault).reduce((acc, form) => ({ ...acc, [form.id]: form }), {})
     );
 
     return (recordForms || fromJS({}))

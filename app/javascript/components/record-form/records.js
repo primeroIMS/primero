@@ -41,6 +41,7 @@ export const FieldRecord = Record({
 export const FormSectionRecord = Record({
   collapsed_field_names: [],
   core_form: false,
+  display_conditions: [],
   description: fromJS({}),
   editable: null,
   fields: [],
@@ -68,6 +69,7 @@ export const Option = Record({
 });
 
 export const NavRecord = Record({
+  display_conditions: [],
   formId: null,
   group: null,
   groupName: null,
