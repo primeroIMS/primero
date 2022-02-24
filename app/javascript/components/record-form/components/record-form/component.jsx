@@ -316,19 +316,21 @@ const Component = ({
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
         {renderRecordFormToolbar}
-        <div className={containerClasses}>
-          <div className={navContainerClasses}>
-            <Nav {...navProps} />
-          </div>
-          <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
-            <RecordForm
-              {...formProps}
-              externalForms={recordFormExternalForms}
-              externalComponents={externalComponents}
-              selectedForm={selectedForm}
-              attachmentForms={attachmentForms}
-              userPermittedFormsIds={userPermittedFormsIds}
-            />
+        <RecordForm
+          {...formProps}
+          externalForms={recordFormExternalForms}
+          externalComponents={externalComponents}
+          selectedForm={selectedForm}
+          attachmentForms={attachmentForms}
+          userPermittedFormsIds={userPermittedFormsIds}
+          classes={{
+            containerClasses,
+            navContainerClasses,
+            demoClasses,
+            cssRecordForms: css.recordForms
+          }}
+          RenderNav={() => <Nav {...navProps} />}
+          RenderFormFilters={() => (
             <FormFilters
               selectedForm={selectedForm}
               recordType={selectedModule.recordType}
@@ -336,8 +338,8 @@ const Component = ({
               formMode={mode}
               showDrawer
             />
-          </div>
-        </div>
+          )}
+        />
       </LoadingIndicator>
     </PageContainer>
   );
