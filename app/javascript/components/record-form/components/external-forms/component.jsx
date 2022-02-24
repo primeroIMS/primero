@@ -30,8 +30,7 @@ const externalForms = ({
   recordType,
   selectedForm,
   summaryForm,
-  transitionProps,
-  userPermittedFormsIds
+  transitionProps
 }) => (form, setFieldValue, handleSubmit, values, dirty) => {
   const isTransitions = TRANSITION_TYPE.includes(form);
 
@@ -84,7 +83,6 @@ const externalForms = ({
         handleToggleNav={handleToggleNav}
         form={summaryForm}
         mode={containerMode}
-        userPermittedFormsIds={userPermittedFormsIds}
         values={values}
       />
     ),
