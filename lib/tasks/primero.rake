@@ -288,7 +288,8 @@ namespace :primero do
     puts "Importing Records from #{file_name}"
     data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
     data_io = StringIO.new(data)
-    importer = Importers::CsvRecordImporter.new(created_by: created_by_user, owned_by: owned_by_user)
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: created_by_user,
+                                                owned_by: owned_by_user)
     importer.import(data_io)
     puts "Total Rows: #{importer.total}"
     puts "Total Rows Processed: #{importer.success_total}"

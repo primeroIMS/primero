@@ -1060,6 +1060,15 @@ en:
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
+      csv_record:
+        messages:
+          success: Records were successfully imported
+          no_data: 'Import Not Processed: No data passed in'
+          csv_parse_error: 'Import Not Processed: Error parsing CSV data'
+          error: 'Row %{row_number} Not Processed: %{message}'
+          db_error: 'Error creating %{location_code}: %{message}'
+          locale_invalid: 'Skipping %{column_name}: Locale invalid'
+          insert_all_error: 'Import Not Processed. Database error: %{message}'
   sync_record:
     failed: 'Last Sync: Failed'
     last: 'Last Sync: %{date_time}'
