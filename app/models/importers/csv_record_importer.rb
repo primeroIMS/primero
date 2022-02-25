@@ -31,7 +31,7 @@ class Importers::CsvRecordImporter < ValueObject
 
   def process_rows(rows)
     rows.each_with_index do |row, index|
-      call_process_row(row.delete_if { |k,v| k.blank? || v.blank? }, index)
+      call_process_row(row.delete_if { |k, v| k.blank? || v.blank? }, index)
     end
   end
 
