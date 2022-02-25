@@ -38,6 +38,45 @@ class ManagedReports::SqlReportIndicator < ValueObject
       )
     end
 
+    def user_scope_query(current_user, table_name = nil)
+      return if current_user.blank? || current_user.group_permission?(Permission::ALL)
+
+      if current_user.group_permission?(Permission::AGENCY)
+        agency_scope_query(current_user, table_name)
+      elsif current_user.group_permission?(Permission::GROUP)
+        group_scope_query(current_user, table_name)
+      else
+        self_scope_query(current_user, table_name)
+      end
+    end
+
+    def agency_scope_query(current_user, table_name = nil)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]",
+          agencies: [current_user.agency.unique_id]
+        ]
+      )
+    end
+
+    def group_scope_query(current_user, table_name = nil)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]",
+          groups: current_user.user_group_unique_ids
+        ]
+      )
+    end
+
+    def self_scope_query(current_user, table_name = nil)
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, 'data')} #> '{associated_user_names}' ?| array[:user_names]",
+          user_names: [current_user.user_name]
+        ]
+      )
+    end
+
     def quoted_query(table_name, column_name)
       return ActiveRecord::Base.connection.quote_column_name(column_name) if table_name.blank?
 
@@ -49,18 +88,10 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
       ActiveRecord::Base.connection.quote_table_name(table_name)
     end
-
-    def incidents_join(params)
-      return unless params['incident_date'].present? || params['date_of_first_report'].present?
-
-      'inner join incidents incidents on incidents.id = violations.incident_id'
-    end
   end
 
   def execute_query(current_user)
-    ActiveRecord::Base.connection.execute(
-      ActiveRecord::Base.sanitize_sql_array([self.class.sql(current_user, params)])
-    )
+    ActiveRecord::Base.connection.execute(self.class.sql(current_user, params))
   end
 
   def apply_params(query)
