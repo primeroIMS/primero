@@ -67,6 +67,24 @@ module Importers
           end
         end
 
+        context 'and file contains some blank headers' do
+          before do
+            @data_io = attachment_as_io('registry_blanks.csv')
+          end
+
+          it 'imports registry records' do
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: @user_a.user_name,
+                                                        owned_by: @user_b.user_name)
+            importer.import(@data_io)
+            expect(importer.errors).to be_empty
+            expect(importer.failures).to be_empty
+            expect(importer.total).to eq(7)
+            expect(importer.success_total).to eq(7)
+            expect(importer.failure_total).to eq(0)
+            expect(RegistryRecord.count).to eq(7)
+          end
+        end
+
         context 'and file is empty' do
           before do
             @data_io = attachment_as_io('registry_empty.csv')

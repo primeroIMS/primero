@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Import Record data into Primero from CSV.
+# WARNING!!!  Never expose this via an API.  Doing so would pose a security risk
 class Importers::CsvRecordImporter < ValueObject
   attr_accessor :record_class, :records, :created_by, :owned_by, :errors, :failures, :total, :success_total,
                 :failure_total
@@ -30,7 +31,7 @@ class Importers::CsvRecordImporter < ValueObject
 
   def process_rows(rows)
     rows.each_with_index do |row, index|
-      call_process_row(row, index)
+      call_process_row(row.delete_if { |k,v| k.blank? || v.blank? }, index)
     end
   end
 
@@ -44,7 +45,10 @@ class Importers::CsvRecordImporter < ValueObject
 
   def process_row(row)
     registry_hash = {}
-    registry_hash[:data] = row.to_h.with_indifferent_access.merge(owned_by: owned_by, created_by: created_by)
+    row_hash = row.to_h.with_indifferent_access
+    id = row_hash.delete(:id)
+    registry_hash[:id] =  id if id.present?
+    registry_hash[:data] = row_hash.merge(owned_by: owned_by, created_by: created_by)
     registry_hash
   end
 

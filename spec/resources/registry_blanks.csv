@@ -1,0 +1,8 @@
+registry_type,id,other_id_no_system,,name,,,registry_no,sex,telephone_current
+farmer,,abc123,,Farmer 1,xxx,1,A-101,male,555-555-1000
+farmer,,abc124,,Farmer 2,yyy,2,A-100,male,555-555-1001
+farmer,,abc125,,Farmer 3,zzz,3,A-99,female,555-555-1002
+farmer,,abc126,,Farmer 4,,4,A-98,male,555-555-1003
+farmer,,abc127,,Farmer 5,12,5,A-97,male,555-555-1004
+farmer,,abc128,,Farmer 6,111,6,A-96,male,555-555-1005
+farmer,,abc129,,Farmer 7,4,7,A-95,female,555-555-1006
