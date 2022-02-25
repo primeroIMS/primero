@@ -74,6 +74,7 @@ describe("Verifying config constant", () => {
       "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
       "RECORD_INFORMATION_GROUP",
+      "IDENTIFICATION_REGISTRATION",
       "RECORD_OWNER",
       "RECORD_PATH",
       "RECORD_TYPES",

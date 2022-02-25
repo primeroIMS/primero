@@ -1286,6 +1286,7 @@ en:
       tracing_request: Tracing Request
       transfers_assignments: Transfers / Assignments
       violation: Violation
+      registry_details: Registry Details
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings
@@ -3450,6 +3451,7 @@ en:
     messages:
       update_success: 'Registry Record %{record_id} was successfully updated.'
       creation_success: 'Registry Record successfully created.'
+      disabled: Registry Record is disabled
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     disable_dialog_title: Disable Tracing Request
@@ -3485,6 +3487,12 @@ en:
     registration_date: Registration Date
     selected_records: '%{select_records} registry record(s) selected'
     selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    disable_dialog_title: Disable Registry Record
+    disable_dialog: Clicking OK will change the status of this registry record to Disabled.
+    disable_success: Successfully disabled registry record
+    enable_dialog_title: Enable Registry Record
+    enable_dialog: Clicking OK will change the status of this registry record to Enabled.
+    enable_success: Successfully enabled registry record.
     filter_by:
       by_date: By Date
       status: Status
@@ -3492,6 +3500,7 @@ en:
       registration_date: Date of Registration
     show_registry_record: 'Registry Record ID: %{short_id}'
     register_new_registry_record: New Registry Record
+    export: Export
   transfer:
     label: Transfer
     agency_label: Agency

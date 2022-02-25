@@ -122,7 +122,10 @@ Rails.application.routes.draw do
       resources :codes_of_conduct, only: %i[index create], controller: 'codes_of_conduct'
       resources :activity_log, only: [:index]
       resources :managed_reports, only: %i[index show]
-      resources :registry_records, only: %i[index show create update destroy]
+      resources :registry_records do
+        resources :flags, only: %i[index create update]
+        get :record_history, to: 'record_histories#index'
+      end
     end
   end
 end

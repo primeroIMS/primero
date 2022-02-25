@@ -3,12 +3,14 @@ import isEmpty from "lodash/isEmpty";
 import {
   APPROVALS,
   CHANGE_LOGS,
+  IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
   MODULES,
   RECORD_INFORMATION_GROUP,
   RECORD_OWNER,
   RECORD_TYPES,
   REFERRAL,
+  REGISTRY_FROM_CASE,
   SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../../../config";
@@ -117,6 +119,21 @@ export default (locale, query) => {
       core_form: true,
       i18nName: true,
       visible: true
+    }),
+    [REGISTRY_FROM_CASE]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: REGISTRY_FROM_CASE,
+      module_ids: [MODULES.CP],
+      name: { [locale]: "forms.record_types.registry_details" },
+      order: 2,
+      form_group_id: IDENTIFICATION_REGISTRATION,
+      fields: [],
+      order_form_group: 1,
+      is_first_tab: true,
+      core_form: true,
+      i18nName: true,
+      visible: true,
+      parent_form: RECORD_TYPES.cases
     })
   });
 

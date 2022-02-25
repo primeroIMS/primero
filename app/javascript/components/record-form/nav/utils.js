@@ -1,18 +1,11 @@
-import { OrderedMap } from "immutable";
+import isEmpty from "lodash/isEmpty";
 
-import { NavRecord } from "../records";
-import { VIOLATION_GROUP, VIOLATIONS_FORM } from "../../../config";
+import { parseExpression } from "../../../libs/expressions";
 
-export default formGroupOrdered => {
-  if (formGroupOrdered.valueSeq().first().group !== VIOLATION_GROUP) {
-    return formGroupOrdered;
-  }
-
-  return OrderedMap(
-    VIOLATIONS_FORM.reduce((acc, current, index) => {
-      const currentForm = formGroupOrdered.valueSeq().find(form => form.formId === current) || NavRecord({});
-
-      return { ...acc, [index]: currentForm };
-    }, {})
+export default (formGroupOrdered, values) =>
+  formGroupOrdered.filter(
+    form =>
+      isEmpty(values) ||
+      isEmpty(form.display_conditions) ||
+      (!isEmpty(form.display_conditions) && parseExpression(form.display_conditions).evaluate(values))
   );
-};

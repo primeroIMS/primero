@@ -9,7 +9,7 @@ import SubformDrawer from "../../subforms/subform-drawer";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getFieldByName } from "../../../selectors";
-import { RECORD_TYPES, REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
+import { CASE, REGISTRY_FROM_CASE, REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
 import css from "../../subforms/styles.css";
 import SubformEmptyData from "../../subforms/subform-empty-data";
@@ -17,13 +17,14 @@ import usePermissions, { RESOURCES } from "../../../../permissions";
 import { READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../../libs/permissions";
 import { enqueueSnackbar } from "../../../../notifier";
 import { selectRecord } from "../../../../records";
+import { getRecordFormsByUniqueId } from "../../..";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
 import { LINK_FIELD, REGISTRY_SEARCH_FIELDS, REGISTRY_ID_DISPLAY, REGISTRY_NO, NAME } from "./constants";
 
-const Component = ({ values, mode, primeroModule, recordType, name, setFieldValue }) => {
+const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
@@ -33,14 +34,26 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
   const [searchParams, setSearchParams] = useState({});
   const [drawerTitle, setDrawerTitle] = useState("");
 
-  const formName = name[i18n.locale];
   const { registry_id_display: registryIdDisplay, registry_no: registryNo, registry_name: registryName } = values;
 
   const fieldValue = values[LINK_FIELD];
 
   const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, fieldValue })
+    selectRecord(state, { isEditOrShow: true, recordType: REGISTRY_RECORDS, id: fieldValue })
   );
+
+  const caseRegistryForm = useMemoizedSelector(state =>
+    getRecordFormsByUniqueId(state, {
+      checkVisible: false,
+      formName: REGISTRY_FROM_CASE,
+      primeroModule,
+      recordType: CASE,
+      getFirst: true
+    })
+  );
+
+  const title = caseRegistryForm.getIn(["name", i18n.locale], null);
+  const formName = caseRegistryForm.i18nName ? i18n.t(title) : title;
 
   const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
     writeRegistryRecord: WRITE_REGISTRY_RECORD,
@@ -90,7 +103,7 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
 
   const handleSetDrawerTitle = useCallback(
     (key, options = {}, translate = true) => {
-      setDrawerTitle(translate ? i18n.t(`${RECORD_TYPES[recordType]}.${key}`, options) : key);
+      setDrawerTitle(translate ? i18n.t(`${recordType}.${key}`, options) : key);
     },
     [drawerTitle]
   );
@@ -107,11 +120,13 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
     2: ResultDetails
   }[component];
 
+  const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
+
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
         <div>
-          <h3 className={css.subformTitle}>{i18n.t("fields.add_field_type", { file_type: formName })}</h3>
+          <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
         {writeRegistryRecord && !fieldValue && !mode.isShow && (
           <div>
@@ -123,10 +138,12 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
         (fieldValue ? (
           <List dense classes={{ root: css.list }} disablePadding>
             <ListItem component="a" onClick={handleOpenMatch} classes={{ root: css.listItem }}>
-              <ListItemText>
-                <div>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</div>
-                <div>{record.get(REGISTRY_NO) || registryNo}</div>
-                <div>{record.get(NAME) || registryName}</div>
+              <ListItemText classes={{ primary: css.listText, secondary: css.listTextSecondary }}>
+                <div className={css.listItemText}>
+                  <span>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</span>
+                  <span>{record.get(REGISTRY_NO) || registryNo}</span>
+                  <span>{record.get(NAME) || registryName}</span>
+                </div>
               </ListItemText>
               <ListItemSecondaryAction>
                 <ActionButton
@@ -161,6 +178,7 @@ const Component = ({ values, mode, primeroModule, recordType, name, setFieldValu
           redirectIfNotAllowed={redirectIfNotAllowed}
           setFieldValue={setFieldValue}
           formName={formName}
+          noForm={caseRegistryForm.i18nName}
         />
       </SubformDrawer>
     </>
@@ -171,7 +189,6 @@ Component.displayName = "CaseRegistry";
 
 Component.propTypes = {
   mode: PropTypes.object.isRequired,
-  name: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   setFieldValue: PropTypes.func.isRequired,

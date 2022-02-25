@@ -6,13 +6,15 @@ import {
   INCIDENT_FROM_CASE,
   CHANGE_LOGS,
   SUMMARY,
-  RECORD_TYPES_PLURAL
+  RECORD_TYPES_PLURAL,
+  REGISTRY_FROM_CASE
 } from "../../../../config";
 import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
 import Summary from "../../../summary";
+import CaseRegistry from "../../form/components/case-registry";
 
 const externalForms = ({
   approvalSubforms,
@@ -28,8 +30,7 @@ const externalForms = ({
   recordType,
   selectedForm,
   summaryForm,
-  transitionProps,
-  userPermittedFormsIds
+  transitionProps
 }) => (form, setFieldValue, handleSubmit, values, dirty) => {
   const isTransitions = TRANSITION_TYPE.includes(form);
 
@@ -82,8 +83,17 @@ const externalForms = ({
         handleToggleNav={handleToggleNav}
         form={summaryForm}
         mode={containerMode}
-        userPermittedFormsIds={userPermittedFormsIds}
         values={values}
+      />
+    ),
+    [REGISTRY_FROM_CASE]: (
+      <CaseRegistry
+        values={values}
+        record={record}
+        mode={containerMode}
+        primeroModule={primeroModule}
+        recordType={recordType}
+        setFieldValue={setFieldValue}
       />
     )
   }[externalFormSelected];

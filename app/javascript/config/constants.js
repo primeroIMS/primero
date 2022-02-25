@@ -15,7 +15,8 @@ import {
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
   SHOW_SUMMARY,
-  READ_MANAGED_REPORTS
+  READ_MANAGED_REPORTS,
+  READ_REGISTRY_RECORD
 } from "../libs/permissions";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -127,6 +128,9 @@ export const RECORD_PATH = {
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+
+export const IDENTIFICATION_REGISTRATION = "identification_registration";
+
 export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";
@@ -537,7 +541,8 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
-  [SUMMARY]: SHOW_SUMMARY
+  [SUMMARY]: SHOW_SUMMARY,
+  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD
 });
 
 export const VIOLATIONS_FORM = [

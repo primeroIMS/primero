@@ -94,7 +94,10 @@ describe("<RecordForm />", () => {
       selectedForm: "form_section_1",
       externalForms: () => {},
       externalComponents: () => {},
-      userPermittedFormsIds: fromJS({ basic_identity: "rw" })
+      userPermittedFormsIds: fromJS({ basic_identity: "rw" }),
+      classes: {},
+      RenderNav: () => <div />,
+      RenderFormFilters: () => <div />
     }));
   });
 
@@ -139,7 +142,10 @@ describe("<RecordForm />", () => {
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        classes: {},
+        RenderNav: () => <div />,
+        RenderFormFilters: () => <div />
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
@@ -163,7 +169,10 @@ describe("<RecordForm />", () => {
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        classes: {},
+        RenderNav: () => <div />,
+        RenderFormFilters: () => <div />
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(recordData);
@@ -183,7 +192,10 @@ describe("<RecordForm />", () => {
         recordType: "cases",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        classes: {},
+        RenderNav: () => <div />,
+        RenderFormFilters: () => <div />
       });
 
       expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
@@ -208,7 +220,10 @@ describe("<RecordForm />", () => {
       recordType: "cases",
       selectedForm: "form_section_1",
       incidentFromCase: {},
-      externalComponents: () => {}
+      externalComponents: () => {},
+      classes: {},
+      RenderNav: () => <div />,
+      RenderFormFilters: () => <div />
     });
 
     expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
@@ -246,7 +261,10 @@ describe("<RecordForm />", () => {
           recordType: "cases",
           selectedForm: "form_section_1",
           incidentFromCase: {},
-          externalComponents: () => {}
+          externalComponents: () => {},
+          classes: {},
+          RenderNav: () => <div />,
+          RenderFormFilters: () => <div />
         },
         currentState
       );
@@ -284,7 +302,10 @@ describe("<RecordForm />", () => {
           recordType: "cases",
           selectedForm: "form_section_1",
           incidentFromCase: {},
-          externalComponents: () => {}
+          externalComponents: () => {},
+          classes: {},
+          RenderNav: () => <div />,
+          RenderFormFilters: () => <div />
         },
         currentState
       );
@@ -312,7 +333,10 @@ describe("<RecordForm />", () => {
       "externalForms",
       "selectedForm",
       "userPermittedFormsIds",
-      "externalComponents"
+      "externalComponents",
+      "classes",
+      "RenderNav",
+      "RenderFormFilters"
     ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];
