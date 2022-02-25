@@ -26,23 +26,23 @@ describe RecalculateAge, search: true do
 
     describe '.cases_by_date_of_birth_range' do
       it 'should find cases with birthdays today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).to include(@case1, @case2, @case8)
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).to include(@case1, @case2, @case8)
       end
 
       it 'should not find cases with birthdays not today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).not_to include(
           @case3, @case4, @case5, @case6, @case7
         )
       end
 
       it 'should find cases within a date range' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).to include(
           @case1, @case2, @case8, @case10
         )
       end
 
       it 'should not find cases that fall outside the given date range' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).not_to include(
           @case3, @case4, @case5, @case6, @case7
         )
       end
@@ -65,21 +65,21 @@ describe RecalculateAge, search: true do
 
     describe '.cases_by_date_of_birth_range' do
       it 'should find cases with birthdays today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).to include(@case9)
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).to include(@case9)
       end
 
       it 'should not find cases with birthdays not today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).not_to include(
           @case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10, @case11
         )
       end
 
       it 'should find cases within a date range, including leap day' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).to include(@case6, @case9, @case11)
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).to include(@case6, @case9, @case11)
       end
 
       it 'should not find cases that fall outside the given date range' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).not_to include(
           @case1, @case2, @case3, @case4, @case5, @case7, @case8, @case10
         )
       end
@@ -87,10 +87,11 @@ describe RecalculateAge, search: true do
 
     describe '.recalculate!' do
       before do
-        RecalculateAge.new.recalculate!(yesterday, today)
+        RecalculateAge.new.recalculate!(Date.new(2015, 2, 28), Date.new(2015, 3, 1))
       end
 
       it 'should calculate age with birthday today' do
+        # binding.pry
         expect(@case9.reload.age).to eq(0)
       end
 
@@ -106,21 +107,21 @@ describe RecalculateAge, search: true do
 
     describe '.cases_by_date_of_birth_range' do
       it 'should find cases with birthdays today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).to include(@case6)
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).to include(@case6)
       end
 
       it 'should not find cases with birthdays not today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(today, today)).not_to include(
           @case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9
         )
       end
 
       it 'should find cases within a date range' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).to include(@case6, @case11)
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).to include(@case6, @case11)
       end
 
       it 'should not find cases that fall outside the given date range' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(yesterday, today)).not_to include(
           @case1, @case2, @case3, @case4, @case5, @case7, @case8, @case9, @case10
         )
       end
@@ -161,11 +162,10 @@ describe RecalculateAge, search: true do
 
       it 'should return total pages and total_count' do
         search = RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)
-        expect(search.results.total_pages).to eq(2)
-        expect(search.total).to eq(25)
+        expect(search.count).to eq(25)
       end
       it 'should not find cases with birthdays not today' do
-        expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today).results).not_to include(
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)).not_to include(
           @case31, @case32
         )
       end
