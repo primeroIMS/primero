@@ -240,7 +240,6 @@ export const buildFormNav = form =>
     permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
     i18nName: form.i18nName,
     i18nDescription: form.i18nDescription,
-    display_conditions: form.display_conditions,
     ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE].includes(form.unique_id) ? { recordTypes: [RECORD_TYPES.cases] } : {})
   });
 

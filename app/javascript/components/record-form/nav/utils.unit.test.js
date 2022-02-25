@@ -37,59 +37,7 @@ describe("<Nav /> - utils", () => {
         });
 
         expect(buildFormGroupData(formGroup).first().formId).to.be.equal("killing_violation_wrapper");
-        expect(buildFormGroupData(formGroup).size).to.be.equal(1);
-      });
-    });
-    context("when display_conditions exists", () => {
-      it("return the forms depends of condition", () => {
-        const formGroup = OrderedMap({
-          1: NavRecord({
-            id: 1,
-            unique_id: "violation_form_test",
-            parent_form: "incident",
-            name: { en: "Form name" },
-            group: "violations",
-            formId: "killing_violation_wrapper",
-            fields: [],
-            display_conditions: {
-              in: {
-                test_field: ["killing"]
-              }
-            }
-          }),
-          2: NavRecord({
-            id: 2,
-            unique_id: "violation_form_test",
-            parent_form: "incident",
-            name: { en: "Form name" },
-            group: "violations",
-            formId: "other_form",
-            fields: []
-          }),
-          3: NavRecord({
-            id: 3,
-            unique_id: "violation_form_test2",
-            parent_form: "incident",
-            name: { en: "Form name" },
-            group: "violations",
-            formId: "maiming_violation_wrapper",
-            fields: [],
-            display_conditions: {
-              in: {
-                test_field: ["another_value"]
-              }
-            }
-          })
-        });
-
-        const values = {
-          test_field: ["killing"]
-        };
-
-        const [...forms] = buildFormGroupData(formGroup, values).values();
-
-        expect(forms.map(fs => fs.formId)).to.deep.equal(["killing_violation_wrapper", "other_form"]);
-        expect(buildFormGroupData(formGroup, values).size).to.be.equal(2);
+        expect(buildFormGroupData(formGroup).size).to.be.equal(8);
       });
     });
   });
