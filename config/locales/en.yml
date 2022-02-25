@@ -2005,6 +2005,7 @@ en:
       receive_transfer: Receive Transfer
       referral: Can be used for referral
       referral_from_service: Refer Case from Service form
+      registry_record: Registry
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
@@ -2134,6 +2135,8 @@ en:
             explanation: Ability to edit information about agencies. Please note that
               this applies to all agencies in the system.
             label: Edit
+        explanation: Represents an organization with members who use Primero. Agencies
+          exist independently of User Groups.
         label: Agency
       audit_log:
         actions:
@@ -2145,6 +2148,8 @@ en:
               note that the audit log does not display personally identifiable information
               about records involved in each action.
             label: View
+        explanation: Filterable list of all actions performed in the system. Does not
+          include any identifiable information on Cases, Incidents, or Tracing Requests.
         label: Audit Log
       case:
         actions:
@@ -2159,6 +2164,11 @@ en:
               the case for the case worker when they are viewing the case on their
               mobile device.
             label: Add Notes to a case
+          add_registry_record:
+            explanation: Allows a user to link a Registry to a Case from the Registry
+              details form. Also allows a user to un-link any Registry already linked
+              to the Case.
+            label: Add / Update Registry record from Case
           approve_action_plan:
             explanation: Allows a manager to approve the %{approval_label} for their
               case workers' cases.
@@ -2503,6 +2513,10 @@ en:
             explanation: Allows the user to see a protection concerns filter on the
               case list page.
             label: View Protection Concerns filter on case list page
+          view_registry_record:
+            explanation: Allows a user to view the information of any Registry linked to
+              a Case. Also allows the user to see the Registry details form on the Case.
+            label: View Registry record from Case
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
@@ -2516,6 +2530,7 @@ en:
             explanation: Managers usually cannot see the names of Cases in the Case List.
               If a manager has this permission, they will be able to see names in the list.
             label: If manager, can see Case names on Case List.
+        explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
         actions:
@@ -2681,6 +2696,7 @@ en:
             explanation: Allows a manager to see a table showing how many of their
               social workers' cases are at each stage of the case management process.
             label: Cases By Workflow and Case Worker
+        explanation: Dictates which summary information appears on the home page.
         label: Dashboard
       disabled:
         explanation: If you disable this Role, you will no longer be able to assign
@@ -2693,6 +2709,7 @@ en:
               in the system, using a number of criteria, including Name, Nickname,
               Sex, Age, and Nationality.
             label: View
+        explanation: Advanced case search for administrators.
         label: Duplicate Search
       forms:
         case:
@@ -2706,7 +2723,7 @@ en:
             for cases.'
           label: Forms - Case
         incident:
-          explanation: 'Limiting a user''s access to forms on tracing requests limits
+          explanation: 'Limiting a user''s access to forms on incidents limits
             which information the user can see on an incident. For instance, if the
             user only has access to the Record Owner form, they will also only be
             able to see the information contained in the fields on that form. If the
@@ -2725,6 +2742,16 @@ en:
             they can configure. NOTE: If no forms are specified, it means the role
             has access to all the forms for Tracing Requests.'
           label: Forms - Tracing Request
+        registry_record:
+          explanation: 'Limiting a user''s access to forms on registries limits
+            which information the user can see on a registry. For instance, if the
+            user only has access to the Record Owner form, they will also only be
+            able to see the information contained in the fields on that form. If the
+            current user has limited form access and has the ability to manage the
+            form configuration, limiting their form access also limits which forms
+            they can configure. NOTE: If no forms are specified, it means the role
+            has access to all the forms for registries.'
+          label: Forms - Registry
       group:
         actions:
           admin_only:
@@ -2856,6 +2883,10 @@ en:
               the incident, and click "Save". Also allows the user to disable or enable
               an incident.
             label: Edit
+        explanation: Represents an event which has occurred. These are usually
+          incidents of abuse or violence, though they can also correspond to
+          events like encounters with law enforcement. Incidents are often
+          linked to Cases.
         label: Incident
       is_manager:
         explanation: Applies to any user role which generally supervises other users.
@@ -2876,6 +2907,8 @@ en:
               is run in the entire system, this permission should generally only be
               available to the system administrator.
             label: Manage (all permissions for this resource type)
+        explanation: Controls which fields are used to compare Tracing Requests with Cases during
+          Family Tracing and Reunification.
         label: Matching Configuration
       metadata:
         actions:
@@ -2887,6 +2920,8 @@ en:
               form on cases, then they will only ever be able to update the configuration
               for this form.
             label: Manage (all permissions for this resource type)
+        explanation: Controls the ability to configure Primero Forms and Fields, as well
+          as Lookup options used within them.
         label: Forms, Lookups
       module:
         actions:
@@ -2928,6 +2963,57 @@ en:
               those two forms.
             label: Can this role be used for external Referrals?
         label: Referral
+      registry_record:
+        actions:
+          change_log:
+            explanation: User can see a history of all changes made to the record since it
+              was created. This includes values recorded for all fields.
+            label: Change Log
+          create:
+            explanation: Ability to create a Registry record.
+            label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Registry record. "Disabled" records
+              do not appear by default in the Registry list. Users can see disabled Registry
+              records in the Registry list by using a filter.
+            label: Enable / Disable
+          export_csv:
+            explanation: 'User can generate a CSV file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access, for
+              one, multiple, or all Registry records to which the user has access. NOTE: The
+              CSV export does not render non-Latin characters (e.g. Arabic, Bangla)'
+            label: Export CSV
+          export_json:
+            explanation: User can generate a JSON file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access. The
+              JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_xls:
+            explanation: 'User can generate a XLS file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access. NOTE:
+              The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
+              format, while the CSV export does not.'
+            label: Excel (XLS file) export
+          flag:
+            explanation: Ability to add a flag to a Registry record. Users with this permission
+              can also remove the flags that they have added to a Registry record.
+            label: Flag
+          manage:
+            explanation: Allows a user to perform all available actions on Registry records. The
+              "Manage" permission essentially means "everything".
+            label: Manage (all permissions for this resource type)
+          read:
+            explanation: Ability to see Registry records
+            label: View
+          write:
+            explanation: Ability to click the "Edit" button, update information about the Registry
+              record, and click "Save".
+            label: Edit
+        explanation: This can represent an individual or institution which need to be linked
+          to other records like cases or incidents, are very numerous, and are repeatedly
+          updated with new information. They are similar to lookups, but with a more complex
+          set of information for each entry.
+        label: Registry Record
       report:
         actions:
           create:
@@ -2957,6 +3043,7 @@ en:
             explanation: Ability to edit all reports (including those created by other
               users).
             label: Edit
+        explanation: Aggregate data analysis tool. Includes table and graph representations of data.
         label: Report
       reporting_location_level:
         explanation: 'This will control what level of locations appear for this Role
@@ -3005,6 +3092,7 @@ en:
             explanation: Ability to click the "Edit" button on the show role page,
               update the role's permissions, and then save the role.
             label: Edit
+        explanation: Dictates which actions a User can perform in Primero.
         label: Roles
       system:
         actions:
@@ -3013,6 +3101,7 @@ en:
               default notification and welcome email settings, and synchronized servers.
               This permission is usually reserved for the system administrator
             label: Manage (all permissions for this resource type)
+        explanation: Miscellaneous system-wide configuration settings.
         label: System
       tracing_request:
         actions:
@@ -3112,6 +3201,8 @@ en:
               the tracing request, and click "Save". Also allows the user to disable
               or enable a tracing request
             label: Edit
+        explanation: Represents an individual trying to locate and reunify with
+          an unaccompanied or separated Case.
         label: Tracing Request
       transfer:
         actions:
@@ -3158,6 +3249,7 @@ en:
               update information about the user, and then save. Please note that this
               permission also gives the ability to disable user accounts.
             label: Edit
+        explanation: Represents an individual User account.
         label: Users
       user_group:
         actions:
@@ -3188,6 +3280,8 @@ en:
           write:
             explanation: Ability to edit user groups.
             label: Edit
+        explanation: Represents a team or a collaborative group of users who can share information.
+          Managers can typically see all of the records managed by social workers in their User Groups.
         label: User Groups
       webhook:
         actions:
