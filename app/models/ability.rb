@@ -250,7 +250,9 @@ class Ability
     when Permission::TRACING_REQUEST
       configure_tracing_request(permission.action_symbols)
     else
-      configure_resource(permission.resource_class, permission.action_symbols, permission.record?)
+      configure_resource(
+        permission.resource_class, permission.action_symbols, permission.record_with_ownership_authorization?
+      )
     end
   end
   # rubocop:enable Metrics/MethodLength
