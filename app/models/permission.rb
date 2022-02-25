@@ -287,8 +287,8 @@ class Permission < ValueObject
     end
   end
 
-  def record?
-    [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD].include?(resource)
+  def record_with_ownership_authorization?
+    [CASE, INCIDENT, TRACING_REQUEST].include?(resource)
   end
 
   def resource_class

@@ -13,4 +13,8 @@ class Api::V2::RegistryRecordsController < ApplicationApiController
               @record.associations_as_data_keys.select { |association| association.in?(record_params.keys) }
     @updated_field_names = changes & @permitted_field_names
   end
+
+  def query_scope
+    { user: {} }
+  end
 end
