@@ -99,6 +99,7 @@ const Component = ({
   };
 
   const [toggleNav, setToggleNav] = useState(false);
+  const [formikValuesForNav, setFormikValuesForNav] = useState({});
 
   const handleToggleNav = useCallback(() => {
     setToggleNav(!toggleNav);
@@ -196,7 +197,8 @@ const Component = ({
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
     primeroModule: selectedModule.primeroModule,
-    hasForms: !loadingForm && forms.size > 0
+    hasForms: !loadingForm && forms.size > 0,
+    formikValuesForNav
   };
 
   useEffect(() => {
@@ -284,6 +286,8 @@ const Component = ({
     [dialogParams, redirectDialogOpen, containerMode, recordType]
   );
 
+  const handleFormikValues = useCallback(values => setFormikValuesForNav(values), []);
+
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
@@ -328,6 +332,7 @@ const Component = ({
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}
+              setFormikValuesForNav={handleFormikValues}
             />
             <FormFilters
               selectedForm={selectedForm}

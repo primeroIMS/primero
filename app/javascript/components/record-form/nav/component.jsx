@@ -39,7 +39,8 @@ const Component = ({
   toggleNav,
   primeroModule,
   selectedForm,
-  history
+  history,
+  formikValuesForNav
 }) => {
   const i18n = useI18n();
   const [open, setOpen] = useState("");
@@ -176,10 +177,17 @@ const Component = ({
   if (formNav) {
     const [...formGroups] = formNav.values();
 
-    const renderFormGroups = formGroups.map(formGroup => {
-      return (
+    const renderFormGroups = formGroups.reduce((acc, formGroup) => {
+      const group = buildFormGroupData(formGroup, formikValuesForNav);
+
+      if (!group.size) {
+        return acc;
+      }
+
+      return [
+        ...acc,
         <NavGroup
-          group={buildFormGroupData(formGroup)}
+          group={group}
           handleClick={handleClick}
           isNew={isNew}
           open={open}
@@ -189,8 +197,8 @@ const Component = ({
           validationErrors={validationErrors}
           formGroupLookup={formGroupLookup}
         />
-      );
-    });
+      ];
+    }, []);
 
     return (
       <>
@@ -220,6 +228,7 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   firstTab: PropTypes.object,
+  formikValuesForNav: PropTypes.object,
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   hasForms: PropTypes.bool,
