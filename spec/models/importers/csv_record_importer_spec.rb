@@ -51,13 +51,13 @@ module Importers
       context 'and record type is RegistryRecord' do
         context 'and file contains valid rows' do
           before do
-            @data_io = attachment_as_io('registry_sample.csv')
+            @file_name = spec_resource_path('registry_sample.csv')
           end
 
           it 'imports registry records' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: @user_a.user_name,
-                                                        owned_by: @user_b.user_name)
-            importer.import(@data_io)
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+                                                        created_by: @user_a.user_name, owned_by: @user_b.user_name)
+            importer.import
             expect(importer.errors).to be_empty
             expect(importer.failures).to be_empty
             expect(importer.total).to eq(7)
@@ -69,13 +69,13 @@ module Importers
 
         context 'and file contains some blank headers' do
           before do
-            @data_io = attachment_as_io('registry_blanks.csv')
+            @file_name = spec_resource_path('registry_blanks.csv')
           end
 
           it 'imports registry records' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: @user_a.user_name,
-                                                        owned_by: @user_b.user_name)
-            importer.import(@data_io)
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+                                                        created_by: @user_a.user_name, owned_by: @user_b.user_name)
+            importer.import
             expect(importer.errors).to be_empty
             expect(importer.failures).to be_empty
             expect(importer.total).to eq(7)
@@ -87,15 +87,15 @@ module Importers
 
         context 'and file is empty' do
           before do
-            @data_io = attachment_as_io('registry_empty.csv')
+            @file_name = spec_resource_path('registry_empty.csv')
           end
 
           it 'returns an error' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: @user_a.user_name,
-                                                        owned_by: @user_b.user_name)
-            importer.import(@data_io)
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+                                                        created_by: @user_a.user_name, owned_by: @user_b.user_name)
+            importer.import
             expect(importer.errors.size).to eq(1)
-            expect(importer.errors.first).to eq('Import Not Processed: Error parsing CSV data')
+            expect(importer.errors.first).to eq('Import Not Processed: No data passed in')
           end
         end
       end

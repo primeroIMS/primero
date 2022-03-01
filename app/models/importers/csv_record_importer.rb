@@ -3,18 +3,20 @@
 # Import Record data into Primero from CSV.
 # WARNING!!!  Never expose this via an API.  Doing so would pose a security risk
 class Importers::CsvRecordImporter < ValueObject
-  attr_accessor :record_class, :records, :created_by, :owned_by, :errors, :failures, :total, :success_total,
+  attr_accessor :data_io, :record_class, :records, :created_by, :owned_by, :errors, :failures, :total, :success_total,
                 :failure_total
 
   def initialize(opts = {})
-    opts.merge!(records: [], errors: [], failures: [], total: 0, success_total: 0, failure_total: 0)
+    data_io = open_file(opts[:file_name])
+    opts.merge!(data_io: data_io, records: [], errors: [], failures: [], total: 0, success_total: 0,
+                failure_total: 0)
     super(opts)
   end
 
-  def import(data_io)
+  def import
     return log_errors(I18n.t('imports.csv_record.messages.no_data')) if data_io.blank?
 
-    process_import(data_io)
+    process_import
     return if records.blank?
 
     create_records
@@ -22,7 +24,14 @@ class Importers::CsvRecordImporter < ValueObject
 
   private
 
-  def process_import(data_io)
+  def open_file(file_name)
+    return if file_name.blank?
+
+    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
+    StringIO.new(data)
+  end
+
+  def process_import
     rows = CSVSafe.parse(data_io, headers: true)
     return log_errors(I18n.t('imports.csv_record.messages.csv_parse_error')) if rows.blank?
 

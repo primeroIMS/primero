@@ -284,13 +284,10 @@ namespace :primero do
     end
 
     owned_by_user = args[:owned_by_user].presence || created_by_user
-
     puts "Importing Records from #{file_name}"
-    data = File.open(file_name, 'rb').read.force_encoding('UTF-8')
-    data_io = StringIO.new(data)
-    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, created_by: created_by_user,
-                                                owned_by: owned_by_user)
-    importer.import(data_io)
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: file_name,
+                                                created_by: created_by_user, owned_by: owned_by_user)
+    importer.import
     puts "Total Rows: #{importer.total}"
     puts "Total Rows Processed: #{importer.success_total}"
     puts "Failed rows: #{importer.failures}" if importer.failures.present?
