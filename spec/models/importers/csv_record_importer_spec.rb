@@ -51,11 +51,11 @@ module Importers
       context 'and record type is RegistryRecord' do
         context 'and file contains valid rows' do
           before do
-            @file_name = spec_resource_path('registry_sample.csv')
+            @file_path = spec_resource_path('registry_sample.csv')
           end
 
           it 'imports registry records' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: @file_path,
                                                         created_by: @user_a.user_name, owned_by: @user_b.user_name)
             importer.import
             expect(importer.errors).to be_empty
@@ -69,11 +69,11 @@ module Importers
 
         context 'and file contains some blank headers' do
           before do
-            @file_name = spec_resource_path('registry_blanks.csv')
+            @file_path = spec_resource_path('registry_blanks.csv')
           end
 
           it 'imports registry records' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: @file_path,
                                                         created_by: @user_a.user_name, owned_by: @user_b.user_name)
             importer.import
             expect(importer.errors).to be_empty
@@ -87,11 +87,39 @@ module Importers
 
         context 'and file is empty' do
           before do
-            @file_name = spec_resource_path('registry_empty.csv')
+            @file_path = spec_resource_path('registry_empty.csv')
           end
 
           it 'returns an error' do
-            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: @file_name,
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: @file_path,
+                                                        created_by: @user_a.user_name, owned_by: @user_b.user_name)
+            importer.import
+            expect(importer.errors.size).to eq(1)
+            expect(importer.errors.first).to eq('Import Not Processed: No data passed in')
+          end
+        end
+
+        context 'and file does not exist' do
+          before do
+            @file_path = spec_resource_path('does_not_exist.csv')
+          end
+
+          it 'returns an error' do
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: @file_path,
+                                                        created_by: @user_a.user_name, owned_by: @user_b.user_name)
+            importer.import
+            expect(importer.errors.size).to eq(1)
+            expect(importer.errors.first).to eq('Import Not Processed: File does not exist')
+          end
+        end
+
+        context 'and file name is blank' do
+          before do
+            @file_path = nil
+          end
+
+          it 'returns an error' do
+            importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: @file_path,
                                                         created_by: @user_a.user_name, owned_by: @user_b.user_name)
             importer.import
             expect(importer.errors.size).to eq(1)

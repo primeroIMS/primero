@@ -277,6 +277,8 @@ namespace :primero do
       return
     end
 
+    file_path = Rails.root.join(file_name)
+
     created_by_user = args[:created_by_user]
     if created_by_user.blank?
       puts 'ERROR: No created_by_user provided'
@@ -285,9 +287,11 @@ namespace :primero do
 
     owned_by_user = args[:owned_by_user].presence || created_by_user
     puts "Importing Records from #{file_name}"
-    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_name: file_name,
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: file_path,
                                                 created_by: created_by_user, owned_by: owned_by_user)
     importer.import
+    puts "Batch Size: #{importer.batch_size}"
+    puts "Total Batches: #{importer.batch_total}"
     puts "Total Rows: #{importer.total}"
     puts "Total Rows Processed: #{importer.success_total}"
     puts "Failed rows: #{importer.failures}" if importer.failures.present?
