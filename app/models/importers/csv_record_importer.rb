@@ -62,12 +62,24 @@ class Importers::CsvRecordImporter < ValueObject
     row_hash = row.to_h.with_indifferent_access
     id = row_hash.delete(:id)
     record_hash[:id] = id if id.present?
+    row_hash[:module_id] ||= PrimeroModule::CP
     record_hash[:data] = row_hash.merge(owned_by: owned_by, created_by: created_by)
-    record_hash
+    record = record_class.new(record_hash)
+    record.run_callbacks(:create) { false }
+    cleanse_record(record, id)
+  end
+
+  def cleanse_record(record, id)
+    # Do not include attributes that do not exist in the DB table
+    record_attributes = record.attributes.slice(*record_class.column_names)
+
+    # Do not include id attribute if this is a create
+    record_attributes.delete('id') if id.blank?
+    record_attributes
   end
 
   def create_records(records)
-    InsertAllService.insert_all(record_class, records)
+    InsertAllService.insert_all(record_class, records, nil)
   rescue StandardError => e
     log_errors(I18n.t('imports.csv_record.messages.insert_all_error', message: "#{e.message[0..200]}..."))
   end
