@@ -25,12 +25,13 @@ class Importers::CsvRecordImporter < ValueObject
   def process_file(file)
     return log_errors(I18n.t('imports.csv_record.messages.no_data')) if file.blank?
 
-    file.lazy.each_slice(batch_size) { |file_batch| process_batch(file_batch.join) }
+    headers = file.first
+    file.lazy.each_slice(batch_size) { |file_batch| process_batch(file_batch.join, headers) }
   end
 
-  def process_batch(file_batch)
+  def process_batch(file_batch, headers)
     self.batch_total += 1
-    rows = CSVSafe.parse(file_batch, headers: true)
+    rows = CSVSafe.parse(file_batch, headers: headers)
     return log_errors(I18n.t('imports.csv_record.messages.csv_parse_error')) if rows.blank?
 
     records = process_rows(rows)
