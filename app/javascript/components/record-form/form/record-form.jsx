@@ -35,10 +35,7 @@ const RecordForm = ({
   fetchFromCaseId,
   userPermittedFormsIds,
   externalComponents,
-  primeroModule,
-  classes,
-  RenderNav,
-  RenderFormFilters
+  primeroModule
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -51,7 +48,6 @@ const RecordForm = ({
   const formikValues = useRef();
   const bindedSetValues = useRef(null);
   const bindedResetForm = useRef(null);
-  const containerRef = useRef(null);
 
   const bindSetValues = setValues => {
     bindedSetValues.current = setValues;
@@ -74,10 +70,8 @@ const RecordForm = ({
   };
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = 0;
-    }
-  }, [selectedForm, containerRef.current]);
+    document.getElementsByClassName("record-form-container")[0].scrollTop = 0;
+  }, [selectedForm]);
 
   useEffect(() => {
     const redirectToIncident = RECORD_TYPES.cases === recordType ? { redirectToIncident: false } : {};
@@ -166,43 +160,31 @@ const RecordForm = ({
             bindSubmitForm(submitForm);
 
             return (
-              <div className={classes.containerClasses}>
-                <div className={classes.navContainerClasses}>
-                  <RenderNav />
-                </div>
-                <div
-                  className={`${classes.cssRecordForms} ${classes.demoClasses} record-form-container`}
-                  ref={containerRef}
-                >
-                  <FormikForm
-                    {...props}
-                    handleConfirm={handleConfirm}
-                    renderFormSections={renderFormSections(
-                      externalForms,
-                      selectedForm,
-                      userPermittedFormsIds,
-                      mobileDisplay,
-                      handleToggleNav,
-                      i18n,
-                      recordType,
-                      attachmentForms,
-                      mode,
-                      record,
-                      primeroModule
-                    )}
-                    forms={forms}
-                    mode={mode}
-                    setFormikValues={setFormikValues}
-                    setFormIsSubmitting={setFormIsSubmitting}
-                    setFormTouched={setFormTouched}
-                    bindResetForm={bindResetForm}
-                    bindSetValues={bindSetValues}
-                    externalComponents={externalComponents}
-                    classes={classes}
-                  />
-                  <RenderFormFilters />
-                </div>
-              </div>
+              <FormikForm
+                {...props}
+                handleConfirm={handleConfirm}
+                renderFormSections={renderFormSections(
+                  externalForms,
+                  selectedForm,
+                  userPermittedFormsIds,
+                  mobileDisplay,
+                  handleToggleNav,
+                  i18n,
+                  recordType,
+                  attachmentForms,
+                  mode,
+                  record,
+                  primeroModule
+                )}
+                forms={forms}
+                mode={mode}
+                setFormikValues={setFormikValues}
+                setFormIsSubmitting={setFormIsSubmitting}
+                setFormTouched={setFormTouched}
+                bindResetForm={bindResetForm}
+                bindSetValues={bindSetValues}
+                externalComponents={externalComponents}
+              />
             );
           }}
         </Formik>
@@ -220,7 +202,6 @@ RecordForm.whyDidYouRender = true;
 RecordForm.propTypes = {
   attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
-  classes: PropTypes.func,
   externalComponents: PropTypes.func,
   externalForms: PropTypes.func,
   fetchFromCaseId: PropTypes.bool,
@@ -233,8 +214,6 @@ RecordForm.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  RenderFormFilters: PropTypes.func,
-  RenderNav: PropTypes.func,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userPermittedFormsIds: PropTypes.object
 };

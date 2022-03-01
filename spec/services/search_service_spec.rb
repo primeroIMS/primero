@@ -113,13 +113,24 @@ describe SearchService, search: true do
 
   describe 'Text search' do
     before :example do
-      @correct_match = Child.create!(data: { name: 'Augustina Link', sex: 'female' })
-      @incorrect_match = Child.create!(data: { name: 'Ahmad MacPherson', sex: 'male' })
+      @correct_match = Child.create!(
+        data: { name: 'Augustina Link', sex: 'female', national_id_no: 'ER/054/8/56/test-1' }
+      )
+      @incorrect_match = Child.create!(
+        data: { name: 'Ahmad MacPherson', sex: 'male', national_id_no: 'ER/054/8/56/test-2' }
+      )
       Sunspot.commit
     end
 
     it 'searches with plain text' do
       search = SearchService.search(Child, query: 'Augustina')
+
+      expect(search.total).to eq(1)
+      expect(search.results.first.name).to eq(@correct_match.name)
+    end
+
+    it 'finds the exact identifier with mixed characters' do
+      search = SearchService.search(Child, query: 'ER/054/8/56/test-1')
 
       expect(search.total).to eq(1)
       expect(search.results.first.name).to eq(@correct_match.name)
