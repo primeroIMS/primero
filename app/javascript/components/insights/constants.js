@@ -27,6 +27,7 @@ const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
 export const NAME = "Insights";
+export const NAMESPACE = "insights";
 export const DELETE_MODAL = "DeleteReportModal";
 export const DATE_PATTERN = "(\\w{2}-)?\\w{3}-\\d{4}";
 export const TOTAL = "total";
@@ -49,6 +50,9 @@ export const CUSTOM = "custom";
 export const QUARTER_OPTION_IDS = [THIS_QUARTER, LAST_QUARTER, CUSTOM];
 export const MONTH_OPTION_IDS = [THIS_MONTH, LAST_MONTH, CUSTOM];
 export const YEAR_OPTION_IDS = [THIS_YEAR, LAST_YEAR, CUSTOM];
+
+export const EXPORT_INSIGHTS_PATH = "/managed_reports/export";
+export const INSIGHTS_EXPORTER_DIALOG = "insights_exporter_dialog";
 
 export const SHARED_FILTERS = [
   {

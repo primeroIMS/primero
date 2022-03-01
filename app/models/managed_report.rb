@@ -2,7 +2,7 @@
 
 # Describes ManagedReport in Primero.
 class ManagedReport < ValueObject
-  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters
+  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :exporter
 
   # rubocop:disable Metrics/MethodLength
   def self.list
@@ -13,7 +13,8 @@ class ManagedReport < ValueObject
         description: 'managed_reports.gbv_statistics.description',
         subreports: %w[incidents perpetrators],
         permitted_filters: [date_of_first_report: {}, incident_date: {}],
-        module_id: PrimeroModule::GBV
+        module_id: PrimeroModule::GBV,
+        exporter: Exporters::CsvExporter # TODO: Replace with correct exporter
       ),
       Permission::VIOLATION_REPORT => ManagedReport.new(
         id: 'violations',
@@ -25,7 +26,8 @@ class ManagedReport < ValueObject
           date_of_first_report: {},
           incident_date: {}, ctfmr_verified_date: {}
         ],
-        module_id: PrimeroModule::MRM
+        module_id: PrimeroModule::MRM,
+        exporter: Exporters::CsvExporter, # TODO: Replace with correct exporter
       )
     }.freeze
   end

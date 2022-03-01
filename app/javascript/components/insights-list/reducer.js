@@ -2,28 +2,26 @@ import { fromJS } from "immutable";
 
 import { DEFAULT_METADATA } from "../../config";
 
-import {
-  CLEAR_METADATA,
-  FETCH_INSIGHTS_SUCCESS,
-  FETCH_INSIGHTS_STARTED,
-  FETCH_INSIGHTS_FINISHED,
-  FETCH_INSIGHTS_FAILURE
-} from "./actions";
+import actions from "./actions";
 
 const DEFAULT_STATE = fromJS({});
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case FETCH_INSIGHTS_STARTED:
+    case actions.FETCH_INSIGHTS_STARTED:
       return state.set("loading", true).set("errors", false);
-    case FETCH_INSIGHTS_SUCCESS:
+    case actions.FETCH_INSIGHTS_SUCCESS:
       return state.set("data", fromJS(payload.data)).set("metadata", fromJS(payload.metadata)).set("errors", false);
-    case FETCH_INSIGHTS_FINISHED:
+    case actions.FETCH_INSIGHTS_FINISHED:
       return state.set("loading", false);
-    case FETCH_INSIGHTS_FAILURE:
+    case actions.FETCH_INSIGHTS_FAILURE:
       return state.set("errors", true);
-    case CLEAR_METADATA:
+    case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_METADATA));
+    case actions.SET_INSIGHT_FILTERS:
+      return state.set("filters", fromJS(payload));
+    case actions.CLEAR_INSIGHT_FILTERS:
+      return state.set("filters", fromJS({}));
     default:
       return state;
   }

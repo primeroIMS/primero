@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
 import { MenuOpen } from "@material-ui/icons";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
@@ -11,16 +12,21 @@ import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
 import { getInsight } from "../insights-sub-report/selectors";
+import ActionButton from "../action-button";
+import { useDialog } from "../action-dialog";
 
-import { INSIGHTS_CONFIG, NAME } from "./constants";
+import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG } from "./constants";
 import css from "./styles.css";
+import InsightsExporter from "./components/insights-exporter";
 
 const Component = ({ routes }) => {
   const { id } = useParams();
   const i18n = useI18n();
   const { pathname } = useLocation();
   const { moduleID } = useParams();
+  const dispatch = useDispatch();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(INSIGHTS_EXPORTER_DIALOG);
 
   const [toggleNav, setToggleNav] = useState(false);
 
@@ -43,9 +49,23 @@ const Component = ({ routes }) => {
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;
 
+  const handleExport = () => {
+    setDialog({ dialog: INSIGHTS_EXPORTER_DIALOG, open: true });
+  };
+
   return (
     <PageContainer twoCol>
-      <PageHeading title={name}>{/* <Exporter includesGraph={insight.get("graph")} /> */}</PageHeading>
+      <PageHeading title={name}>
+        <ActionButton onClick={handleExport} text="buttons.export" />
+        <InsightsExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          setPending={setDialogPending}
+          moduleID={moduleID}
+        />
+      </PageHeading>
       <PageContent hasNav>
         <Hidden smDown implementation="css">
           <div>
