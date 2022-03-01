@@ -61,7 +61,7 @@ class Importers::CsvRecordImporter < ValueObject
     record_hash = {}
     row_hash = row.to_h.with_indifferent_access
     id = row_hash.delete(:id)
-    record_hash[:id] =  id if id.present?
+    record_hash[:id] = id if id.present?
     record_hash[:data] = row_hash.merge(owned_by: owned_by, created_by: created_by)
     record_hash
   end
