@@ -14,7 +14,7 @@ class Api::V2::ReportsController < ApplicationApiController
 
   def show
     authorize! :read_reports, @report
-    @report.permission_filter = report_permission_filter(current_user)
+    @report.permission_filter = report_permission_filter
     @report.build_report
   end
 
@@ -54,7 +54,13 @@ class Api::V2::ReportsController < ApplicationApiController
 
   private
 
-  def report_permission_filter(user)
-    { 'attribute' => 'owned_by_groups', 'value' => user.user_group_unique_ids } unless can?(:read, @report)
+  def report_permission_filter
+    return if can?(:read, @report)
+
+    if can?(:agency_read, @report)
+      { 'attribute' => 'associated_user_agencies', 'value' => [current_user.agency.unique_id] }
+    else
+      { 'attribute' => 'owned_by_groups', 'value' => current_user.user_group_unique_ids }
+    end
   end
 end
