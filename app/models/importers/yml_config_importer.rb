@@ -25,7 +25,7 @@ class Importers::YmlConfigImporter < ValueObject
   def process_import_file(config_data)
     return Rails.logger.error('Import Not Processed: invalid yml format') unless config_data.is_a?(Hash)
 
-    locale = config_data&.keys&.first&.to_sym
+    self.locale = config_data&.keys&.first&.to_sym
     return Rails.logger.error('Import Not Processed: locale not passed in') if locale.blank?
 
     if I18n.available_locales.exclude?(locale)
