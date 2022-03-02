@@ -307,6 +307,9 @@ class FormSection < ApplicationRecord
   private
 
   def update_field_translations(locale, fields_hash = {})
+    # Sometimes forms do not have fields... this is ok.  Just return
+    return if fields_hash.blank?
+
     fields_hash.each do |key, value|
       field = Field.find_by(name: key, form_section_id: id)
       next if field.blank?
