@@ -22,6 +22,7 @@ const Results = ({
   handleCancel,
   setDrawerTitle,
   mode,
+  online,
   primeroModule,
   permissions,
   locale,
@@ -37,9 +38,9 @@ const Results = ({
 
   const metadata = useMemoizedSelector(state => getMetadata(state, REGISTRY_RECORDS));
   const isLoading = useMemoizedSelector(state => getLoading(state));
-  const results = useMemoizedSelector(state => getRecords(state, REGISTRY_RECORDS));
+  const results = useMemoizedSelector(state => getRecords(state, REGISTRY_RECORDS, true));
 
-  const params = metadata.merge({ ...searchParams, fields: "short" });
+  const params = metadata?.merge({ ...searchParams, fields: "short" });
 
   const handleRowClick = record => {
     setDetailsID(record.get("id"));
@@ -67,12 +68,16 @@ const Results = ({
     recordType: REGISTRY_RECORDS,
     bypassInitialFetch: true,
     onRowClick: handleRowClick,
-    options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 }
+    options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 },
+    checkComplete: true
   };
 
   const handleBack = () => {
     setComponent(0);
   };
+
+  const backButtonText = online ? "case.back_to_search" : "case.back_to_case";
+  const backButtonFunc = online ? handleBack : handleCancel;
 
   if (detailsID) {
     return (
@@ -96,7 +101,7 @@ const Results = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.back_to_search" rest={{ onClick: handleBack }} />
+        <ActionButton type={ACTION_BUTTON_TYPES.default} text={backButtonText} rest={{ onClick: backButtonFunc }} />
       </div>
       <LoadingIndicator hasData={results.size > 0} loading={isLoading} type="registry">
         <IndexTable {...tableOptions} />
@@ -113,6 +118,7 @@ Results.propTypes = {
   handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
+  online: PropTypes.bool.isRequired,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
