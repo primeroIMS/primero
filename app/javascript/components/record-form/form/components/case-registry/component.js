@@ -5,9 +5,10 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
+import DisableOffline from "../../../../disable-offline";
 import SubformDrawer from "../../subforms/subform-drawer";
 import { useI18n } from "../../../../i18n";
-import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
+import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getFieldByName } from "../../../selectors";
 import { CASE, REGISTRY_FROM_CASE, REGISTRY_RECORD, REGISTRY_RECORDS } from "../../../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
@@ -16,8 +17,9 @@ import SubformEmptyData from "../../subforms/subform-empty-data";
 import usePermissions, { RESOURCES } from "../../../../permissions";
 import { READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../../libs/permissions";
 import { enqueueSnackbar } from "../../../../notifier";
-import { selectRecord } from "../../../../records";
+import { fetchRecord, selectRecord } from "../../../../records";
 import { getRecordFormsByUniqueId } from "../../..";
+import { useApp } from "../../../../application";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
@@ -28,6 +30,7 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
+  const { online } = useApp();
 
   const [component, setComponent] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -110,9 +113,15 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
 
   useEffect(() => {
     if (!drawerOpen) {
-      setComponent(0);
+      setComponent(!online ? 1 : 0);
     }
   }, [drawerOpen]);
+
+  useEffect(() => {
+    if (record.isEmpty() && fieldValue && !online) {
+      dispatch(fetchRecord(REGISTRY_RECORDS, fieldValue));
+    }
+  }, [fieldValue, online, record.isEmpty()]);
 
   const RenderComponents = {
     0: SearchForm,
@@ -137,25 +146,31 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
       {writeReadRegistryRecord &&
         (fieldValue ? (
           <List dense classes={{ root: css.list }} disablePadding>
-            <ListItem component="a" onClick={handleOpenMatch} classes={{ root: css.listItem }}>
-              <ListItemText classes={{ primary: css.listText, secondary: css.listTextSecondary }}>
-                <div className={css.listItemText}>
-                  <span>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</span>
-                  <span>{record.get(REGISTRY_NO) || registryNo}</span>
-                  <span>{record.get(NAME) || registryName}</span>
-                </div>
-              </ListItemText>
-              <ListItemSecondaryAction>
-                <ActionButton
-                  icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                  type={ACTION_BUTTON_TYPES.icon}
-                  rest={{
-                    className: css.subformShow,
-                    onClick: handleOpenMatch
-                  }}
-                />
-              </ListItemSecondaryAction>
-            </ListItem>
+            <ConditionalWrapper
+              condition={!record.get("complete", false) && !online}
+              wrapper={DisableOffline}
+              offlineTextKey="unavailable_offline"
+            >
+              <ListItem component="a" onClick={handleOpenMatch} classes={{ root: css.listItem }}>
+                <ListItemText classes={{ primary: css.listText, secondary: css.listTextSecondary }}>
+                  <div className={css.listItemText}>
+                    <span>{record.get(REGISTRY_ID_DISPLAY) || registryIdDisplay}</span>
+                    <span>{record.get(REGISTRY_NO) || registryNo}</span>
+                    <span>{record.get(NAME) || registryName}</span>
+                  </div>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                  <ActionButton
+                    icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                    type={ACTION_BUTTON_TYPES.icon}
+                    rest={{
+                      className: css.subformShow,
+                      onClick: handleOpenMatch
+                    }}
+                  />
+                </ListItemSecondaryAction>
+              </ListItem>
+            </ConditionalWrapper>
           </List>
         ) : (
           <SubformEmptyData subformName={formName} single />
@@ -179,6 +194,7 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
           setFieldValue={setFieldValue}
           formName={formName}
           noForm={caseRegistryForm.i18nName}
+          online={online}
         />
       </SubformDrawer>
     </>

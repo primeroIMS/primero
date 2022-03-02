@@ -1,13 +1,19 @@
-import { Map } from "immutable";
+import { fromJS, Map } from "immutable";
 
+import { selectNetworkStatus } from "../connectivity/selectors";
 import { keyIn } from "../../libs";
 
 const getNamespacePath = namespace => ["records"].concat(namespace);
 
-export const getRecords = (state, namespace) => {
-  const data = state.getIn(getNamespacePath(namespace), Map({}));
+export const getRecords = (state, namespace, isComplete = false) => {
+  const data = state.getIn(getNamespacePath(namespace), Map({}))?.filter(keyIn("data", "metadata"));
+  const isOnline = selectNetworkStatus(state);
 
-  return data?.filter(keyIn("data", "metadata"));
+  if (isComplete && !isOnline) {
+    return fromJS({ data: data.get("data").filter(record => record.get("complete"), false) });
+  }
+
+  return data;
 };
 
 export const getRecordsData = (state, namespace) => getRecords(state, namespace).get("data");

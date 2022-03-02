@@ -47,7 +47,8 @@ const Component = ({
   localizedFields,
   showCustomToolbar,
   isRowSelectable,
-  checkOnline = false
+  checkOnline = false,
+  checkComplete = false
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -56,7 +57,7 @@ const Component = ({
   const [sortDir, setSortDir] = useState();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
-  const data = useMemoizedSelector(state => getRecords(state, recordType));
+  const data = useMemoizedSelector(state => getRecords(state, recordType, checkComplete));
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
   const errors = useMemoizedSelector(state => getErrors(state, recordType));
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
@@ -362,6 +363,7 @@ Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   canSelectAll: PropTypes.bool,
+  checkComplete: PropTypes.bool,
   checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
