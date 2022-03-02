@@ -35,7 +35,8 @@ const RecordForm = ({
   fetchFromCaseId,
   userPermittedFormsIds,
   externalComponents,
-  primeroModule
+  primeroModule,
+  setFormikValuesForNav
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -155,9 +156,10 @@ const RecordForm = ({
         >
           {props => {
             // eslint-disable-next-line react/prop-types
-            const { submitForm } = props;
+            const { submitForm, values } = props;
 
             bindSubmitForm(submitForm);
+            setFormikValuesForNav(values);
 
             return (
               <FormikForm
@@ -215,6 +217,7 @@ RecordForm.propTypes = {
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  setFormikValuesForNav: PropTypes.func,
   userPermittedFormsIds: PropTypes.object
 };
 
