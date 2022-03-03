@@ -1,6 +1,9 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import CheckIcon from "@material-ui/icons/Check";
+import BlockIcon from "@material-ui/icons/Block";
 
 import { getRecordFormsByUniqueId } from "../../../..";
 import { useMemoizedSelector } from "../../../../../../libs";
@@ -48,6 +51,7 @@ const ResultDetails = ({
   }, []);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
+  const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
   const backButtonText = shouldSelect ? "case.back_to_results" : "case.back_to_case";
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
 
@@ -62,9 +66,19 @@ const ResultDetails = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text={backButtonText} rest={{ onClick: backButtonFunc }} />
+        <ActionButton
+          type={ACTION_BUTTON_TYPES.default}
+          text={backButtonText}
+          rest={{ onClick: backButtonFunc }}
+          icon={<ArrowBackIosIcon />}
+        />
         {permissions.writeRegistryRecord && !mode.isShow && (
-          <ActionButton type={ACTION_BUTTON_TYPES.default} text={selectButtonText} onClick={handleSelection} />
+          <ActionButton
+            type={ACTION_BUTTON_TYPES.default}
+            text={selectButtonText}
+            onClick={handleSelection}
+            icon={selectButtonIcon}
+          />
         )}
       </div>
       <Form
