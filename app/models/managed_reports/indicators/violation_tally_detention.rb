@@ -7,9 +7,10 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
       'violation'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    def sql(_current_user, params = {})
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def sql(current_user, params = {})
       %{
         select json_object_agg(key, sum) as data from(
           select key, sum(value::integer) from (
@@ -17,7 +18,9 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
               from individual_victims iv
               inner join individual_victims_violations ivv on ivv.individual_victim_id = iv.id
               inner join violations violations on violations.id = ivv.violation_id
-              #{incidents_join(params)}
+              inner join incidents incidents
+                on incidents.id = violations.incident_id
+                #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
               cross join json_each_text((violations."data"->>'violation_tally')::JSON)
               where (iv.data->>'victim_deprived_liberty_security_reasons')::boolean
               and violations."data"->>'violation_tally' is not null
@@ -32,8 +35,9 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
       ) as deprived_data;
       }
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user = nil, args = {})
       super(current_user, args) do |result|

@@ -7,7 +7,7 @@ class ManagedReports::Indicators::GBVSexualViolenceType < ManagedReports::SqlRep
       'gbv_sexual_violence_type'
     end
 
-    def sql(_current_user, params = {})
+    def sql(current_user, params = {})
       %{
         select
           data->> 'gbv_sexual_violence_type' as id,
@@ -17,6 +17,7 @@ class ManagedReports::Indicators::GBVSexualViolenceType < ManagedReports::SqlRep
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
+        #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->> 'gbv_sexual_violence_type'
       }
     end

@@ -8,7 +8,8 @@ class ManagedReports::Indicators::TotalIncidents < ManagedReports::SqlReportIndi
     end
   end
 
-  def execute_query(_current_user)
-    apply_params(Incident).count
+  def execute_query(current_user)
+    query = Incident.where(ManagedReports::SqlReportIndicator.user_scope_query(current_user)) if current_user.present?
+    apply_params(query || Incident).count
   end
 end

@@ -9,7 +9,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def sql(_current_user, params = {})
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def sql(current_user, params = {})
       %{
         select name, key, sum(value::integer)
         from (
@@ -17,7 +18,9 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
           key, value, violations.id,
           violations."data"->>'attack_type' as name
         from violations violations
-        #{incidents_join(params)}
+        inner join incidents incidents
+          on incidents.id = violations.incident_id
+          #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations."data"->>'violation_tally')::JSON)
         where violations."data"->>'attack_type' is not null
         and violations."data"->>'violation_tally' is not null
@@ -33,6 +36,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user = nil, args = {})
       super(current_user, args) do |result|

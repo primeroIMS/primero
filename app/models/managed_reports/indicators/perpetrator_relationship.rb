@@ -8,7 +8,7 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
     end
 
     # rubocop:disable Metrics/MethodLength
-    def sql(_current_user, params = {})
+    def sql(current_user, params = {})
       %{
         select
           alleged_perpetrator.perpetrator_relationship  as relationship_id,
@@ -30,13 +30,14 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
+        #{user_scope_query(current_user)&.prepend('and ')}
         group by relationship_id
       }
     end
     # rubocop:enable Metrics/MethodLength
 
-    def build(args = {})
-      super(args) do |results|
+    def build(current_user = nil, args = {})
+      super(current_user, args) do |results|
         results.map { |result| { 'id' => result['relationship_id'], 'total' => result['total'] } }
       end
     end
