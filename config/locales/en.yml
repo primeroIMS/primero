@@ -1288,6 +1288,7 @@ en:
       transfers_assignments: Transfers / Assignments
       violation: Violation
       registry_details: Registry Details
+      registry_record: Registry Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings
