@@ -212,15 +212,24 @@ module Importers
     context 'when imput file exists' do
       context 'and form is a main form' do
         before do
-          @file_name = spec_resource_path('services.yml').to_s
+          file_name = spec_resource_path('services.yml').to_s
+          importer = Importers::YmlConfigImporter.new(file_name: file_name)
+          importer.import
         end
 
         it 'imports translations' do
-          importer = Importers::YmlConfigImporter.new(file_name: @file_name)
-          importer.import
-          # binding.pry
-          # x=0
-          # TODO
+          display_name_translations = [{"en"=>"Action Plan", "fr"=>"Plan d'action"},
+                                       {"en"=>"Approval Type"},
+                                       {"en"=>"Approved by Manager", "fr"=>"Apprové par le gestionnaire"},
+                                       {"en"=>"Date", "fr"=>"Date"},
+                                       {"en"=>"Manager Comments", "fr"=>"Commentaires de gestionnaire"},
+                                       {"en"=>"Approval Status", "fr"=>"Statut d'approbation"},
+                                       {"en"=>"Remediation Activities", "fr"=>"Activités de remédiation"}]
+
+          translated_form = FormSection.find_by(unique_id: 'services')
+          expect(translated_form.name_i18n.keys).to match_array(%w[en fr])
+          expect(translated_form.name(:fr)).to eq("Services/Activités de remédiation")
+          expect(translated_form.fields.pluck(:display_name_i18n)).to match_array(display_name_translations)
         end
       end
 
@@ -232,9 +241,38 @@ module Importers
         end
 
         it 'imports translations' do
-          # binding.pry
-          # x=1
-          # TODO
+          display_name_translations = [{"en"=>"Type of Response", "fr"=>"Type de réponse"},
+                                       {"en"=>"Type of Remediation Activity", "fr"=>"Type d'activité de remédiation"},
+                                       {"en"=>"If other, please specify", "fr"=>"Si autre, veuillez préciser"},
+                                       {"en"=>"If referred to child protection structure, what services are needed?"},
+                                       {"en"=>"Created on", "fr"=>"Créé le"},
+                                       {"en"=>"Implementation Timeframe"},
+                                       {"en"=>"Did you refer the client for this service?"},
+                                       {"en"=>"Activity Due Date", "fr"=>"Date d'échéance"},
+                                       {"en"=>"Appointment Time"},
+                                       {"en"=>"Implementing Agency", "fr"=>"Agence d'exécution"},
+                                       {"en"=>"Activity Location", "fr"=>"Lieu d'activité"},
+                                       {"en"=>"Is this a referral to someone without access to the Primero system?",
+                                        "fr"=>"S'agit-il d'un renvoi à quelqu'un qui n'a pas accès au système Primero ?"},
+                                       {"en"=>"Is the record owner performing this remediation activity?"},
+                                       {"en"=>"Who will perform this remediation activity?",
+                                        "fr"=>"Qui effectuera cette activité de remédiation ?"},
+                                       {"en"=>"Referred?"},
+                                       {"en"=>"External referral details", "fr"=>"Détails de renvoi externe"},
+                                       {"en"=>"Agency", "fr"=>"Agence"},
+                                       {"en"=>"Location", "fr"=>"Emplacement"},
+                                       {"en"=>"Recipient", "fr"=>"Destinataire"},
+                                       {"en"=>"Comments", "fr"=>"Commentaires"},
+                                       {"en"=>"Activity Implementation", "fr"=>"Implémentation d'activité"},
+                                       {"en"=>"Activity Implemented?", "fr"=>"Activité implémentée?"},
+                                       {"en"=>"Activity Implemented On", "fr"=>"Activité implémentée le"},
+                                       {"en"=>"Notes on the referral from recipient",
+                                        "fr"=>"Notes sur le renvoi venant du destinataire"}]
+
+          translated_form = FormSection.find_by(unique_id: 'services_section')
+          expect(translated_form.name_i18n.keys).to match_array(%w[en fr])
+          expect(translated_form.name(:fr)).to eq("Activités de remédiation")
+          expect(translated_form.fields.pluck(:display_name_i18n)).to match_array(display_name_translations)
         end
 
         it 'does not change collapsed_fields' do
@@ -243,6 +281,33 @@ module Importers
           expect(collapsed_fields.pluck(:id)).to match_array(@collapsed_field_ids)
           expect(collapsed_fields.pluck(:name)).to match_array(@collapsed_field_names)
         end
+      end
+
+      context 'and file is empty' do
+        before do
+          @file_name = spec_resource_path('services_empty.yml').to_s
+
+        end
+
+        it 'returns an error' do
+          importer = Importers::YmlConfigImporter.new(file_name: @file_name)
+          importer.import
+          expect(importer.errors.size).to eq(1)
+          expect(importer.errors.first).to eq("Import Not Processed: error reading #{@file_name}")
+        end
+      end
+    end
+
+    context 'when file name is blank' do
+      before do
+        @file_path = spec_resource_path('does_not_exist.yml').to_s
+      end
+
+      it 'returns an error' do
+        importer = Importers::YmlConfigImporter.new(file_name: @file_name)
+        importer.import
+        expect(importer.errors.size).to eq(1)
+        expect(importer.errors.first).to eq("Import Not Processed: No file_name passed in")
       end
     end
 
