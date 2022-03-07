@@ -21,13 +21,14 @@ import { enqueueSnackbar } from "../../../../notifier";
 import { fetchRecord, selectRecord } from "../../../../records";
 import { getRecordFormsByUniqueId } from "../../..";
 import { useApp } from "../../../../application";
+import RecordFormTitle from "../../record-form-title";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
 import { LINK_FIELD, REGISTRY_SEARCH_FIELDS, REGISTRY_ID_DISPLAY, REGISTRY_NO, NAME } from "./constants";
 
-const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) => {
+const Component = ({ values, mode, primeroModule, recordType, setFieldValue, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
@@ -134,6 +135,7 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
 
   return (
     <>
+      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={title} />
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
@@ -212,6 +214,8 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
 Component.displayName = "CaseRegistry";
 
 Component.propTypes = {
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
