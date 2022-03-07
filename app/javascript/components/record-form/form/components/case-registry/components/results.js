@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 import { useMemoizedSelector } from "../../../../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
@@ -101,7 +102,12 @@ const Results = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text={backButtonText} rest={{ onClick: backButtonFunc }} />
+        <ActionButton
+          type={ACTION_BUTTON_TYPES.default}
+          text={backButtonText}
+          rest={{ onClick: backButtonFunc }}
+          icon={<ArrowBackIosIcon />}
+        />
       </div>
       <LoadingIndicator hasData={results.size > 0} loading={isLoading} type="registry">
         <IndexTable {...tableOptions} />

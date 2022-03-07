@@ -4,6 +4,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import AddIcon from "@material-ui/icons/Add";
 
 import DisableOffline from "../../../../disable-offline";
 import SubformDrawer from "../../subforms/subform-drawer";
@@ -139,7 +140,12 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
         </div>
         {writeRegistryRecord && !fieldValue && !mode.isShow && (
           <div>
-            <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.add_new" rest={{ onClick: handleAddNew }} />
+            <ActionButton
+              type={ACTION_BUTTON_TYPES.default}
+              text="case.add_new"
+              rest={{ onClick: handleAddNew }}
+              icon={<AddIcon />}
+            />
           </div>
         )}
       </div>
