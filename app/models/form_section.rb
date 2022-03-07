@@ -122,6 +122,14 @@ class FormSection < ApplicationRecord
     end
   end
 
+  # The collapsed_field_names attribute is not stored in the db
+  # So, if this is an update, and collapsed_field_names are not passed in, get the names from collapsed_fields
+  def subform_collapsed_field_names
+    return nil unless is_nested?
+
+    self.collapsed_field_names.present? ? self.collapsed_field_names : collapsed_fields&.pluck(:name)
+  end
+
   def insert_field!(field)
     return if field_exists?(field.name)
     return fields << field unless field.order
@@ -270,15 +278,15 @@ class FormSection < ApplicationRecord
   end
 
   def collapsed_fields_to_link
-    return [fields&.first&.id].compact unless collapsed_field_names.present?
+    return [fields&.first&.id].compact unless subform_collapsed_field_names.present?
 
-    fields.where(name: collapsed_field_names).pluck(:id)
+    fields.where(name: subform_collapsed_field_names).pluck(:id)
   end
 
   def collapsed_fields_to_unlink
-    return (fields[1..-1]&.pluck(:id) || []) unless collapsed_field_names.present?
+    return (fields[1..-1]&.pluck(:id) || []) unless subform_collapsed_field_names.present?
 
-    fields.where.not(name: collapsed_field_names).pluck(:id)
+    fields.where.not(name: subform_collapsed_field_names).pluck(:id)
   end
 
   def calculate_fields_order
