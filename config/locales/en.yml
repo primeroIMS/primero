@@ -1793,6 +1793,7 @@ en:
     translation_label: Translation Text
     values: Options
   managed_reports:
+    generated_on: Generated On
     label: Insights
     total: Total
     filter_by: 

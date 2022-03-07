@@ -403,7 +403,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     will_paginate (3.1.7)
-    write_xlsx (0.85.9)
+    write_xlsx (1.09.2)
       rubyzip (>= 1.0.0)
       zip-zip
     zeitwerk (2.5.3)
@@ -476,7 +476,7 @@ DEPENDENCIES
   twitter_cldr (~> 4.4)
   tzinfo-data (~> 1.2021)
   will_paginate (~> 3.1)
-  write_xlsx (~> 0.85)
+  write_xlsx (~> 1.09)
 
 RUBY VERSION
    ruby 2.7.4p191

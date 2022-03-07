@@ -58,4 +58,9 @@ class ManagedReport < ValueObject
   def permitted_filter_names
     permitted_filters.map { |filter| filter.is_a?(Hash) ? filter.keys.map(&:to_s) : filter.to_s }.flatten
   end
+
+  def export(current_user, filters, subreport_id)
+    build_report(current_user, filters, subreport_id)
+    Exporters::ManagedReportExporter.export(self)
+  end
 end
