@@ -177,25 +177,27 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
         ))}
 
       <SubformDrawer open={drawerOpen} cancelHandler={handleCancel} title={drawerTitle}>
-        <RenderComponents
-          id={fieldValue}
-          setSearchParams={handleSetSearchParams}
-          setComponent={handleSetComponent}
-          setDrawerTitle={handleSetDrawerTitle}
-          handleCancel={handleCancel}
-          fields={fields}
-          searchParams={searchParams}
-          recordType={recordType}
-          primeroModule={primeroModule}
-          mode={mode}
-          locale={i18n.locale}
-          permissions={{ writeReadRegistryRecord, writeRegistryRecord }}
-          redirectIfNotAllowed={redirectIfNotAllowed}
-          setFieldValue={setFieldValue}
-          formName={formName}
-          noForm={caseRegistryForm.i18nName}
-          online={online}
-        />
+        {drawerOpen && (
+          <RenderComponents
+            id={fieldValue}
+            setSearchParams={handleSetSearchParams}
+            setComponent={handleSetComponent}
+            setDrawerTitle={handleSetDrawerTitle}
+            handleCancel={handleCancel}
+            fields={fields}
+            searchParams={searchParams}
+            recordType={recordType}
+            primeroModule={primeroModule}
+            mode={mode}
+            locale={i18n.locale}
+            permissions={{ writeReadRegistryRecord, writeRegistryRecord }}
+            redirectIfNotAllowed={redirectIfNotAllowed}
+            setFieldValue={setFieldValue}
+            formName={formName}
+            noForm={caseRegistryForm.i18nName}
+            online={online}
+          />
+        )}
       </SubformDrawer>
     </>
   );
