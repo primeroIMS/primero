@@ -20,7 +20,7 @@ export default (store, api, isRecord) => {
   const recordBody = body?.data || body;
 
   return {
-    ...(isRecord && { id }),
+    ...(isRecord && { id, complete: true }),
     ...(method === METHODS.POST && {
       // eslint-disable-next-line camelcase
       ...(subform && !recordBody?.unique_id && { unique_id: generatedID }),
