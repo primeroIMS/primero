@@ -13,6 +13,7 @@ import css from "../../../subforms/styles.css";
 import { LINK_FIELD, REGISTRY_DETAILS } from "../constants";
 import { fetchRecord, selectRecord } from "../../../../../records";
 import Form, { FORM_MODE_SHOW } from "../../../../../form";
+import DisabledRecordIndicator from "../../disabled-record-indicator";
 
 const ResultDetails = ({
   id,
@@ -65,6 +66,7 @@ const ResultDetails = ({
 
   return (
     <>
+      {!record.get("enabled") && <DisabledRecordIndicator recordType={REGISTRY_RECORD} />}
       <div className={css.subformFieldArrayContainer}>
         <ActionButton
           type={ACTION_BUTTON_TYPES.default}
