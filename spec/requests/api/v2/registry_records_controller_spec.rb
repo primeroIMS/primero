@@ -73,13 +73,28 @@ describe Api::V2::RegistryRecordsController, type: :request do
   end
 
   describe 'GET /api/v2/registry_records/:id' do
-    context 'when the authorizd user has full record access scope' do
+    context 'when the authorized user has full record access scope' do
       it 'fetches the correct record with code 200' do
         login_for_test
         get "/api/v2/registry_records/#{@registry1.id}"
 
         expect(response).to have_http_status(200)
         expect(json['data']['id']).to eq(@registry1.id)
+      end
+
+      context 'and registry name is hidden' do
+        before do
+          @registry1.hidden_name = true
+          @registry1.save!
+          login_for_test(permitted_field_names: %w[name])
+        end
+
+        it 'obfuscates the name' do
+          get "/api/v2/registry_records/#{@registry1.id}"
+
+          expect(json['data']['name']).to eq('*******')
+          expect(json['data']['hidden_name']).to be true
+        end
       end
     end
 
