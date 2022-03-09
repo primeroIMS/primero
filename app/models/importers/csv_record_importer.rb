@@ -79,7 +79,7 @@ class Importers::CsvRecordImporter < ValueObject
   end
 
   def create_records(records)
-    InsertAllService.insert_all(record_class, records, nil)
+    InsertAllService.insert_all(record_class, records, 'id')
   rescue StandardError => e
     log_errors(I18n.t('imports.csv_record.messages.insert_all_error', message: "#{e.message[0..200]}..."))
   end
