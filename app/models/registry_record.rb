@@ -17,8 +17,8 @@ class RegistryRecord < ApplicationRecord
 
   store_accessor(
     :data,
-    :registry_type, :registry_id, :registry_no, :registration_date, :registry_id_display, :name, :module_id,
-    :location_current
+    :registry_type, :registry_id, :registry_no, :registration_date, :registry_id_display, :name, :hidden_name,
+    :module_id, :location_current
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id

@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       resources :managed_reports, only: %i[index show]
       resources :registry_records do
         resources :flags, only: %i[index create update]
+        resources :alerts, only: [:index]
         get :record_history, to: 'record_histories#index'
       end
     end
