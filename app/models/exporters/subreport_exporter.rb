@@ -2,13 +2,15 @@
 
 # Class to export Incidents
 class Exporters::SubreportExporter < ValueObject
-  attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row, :worksheet, :managed_report, :locale
+  attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
+                :worksheet, :managed_report, :locale, :lookups
 
   def export
     self.current_row ||= 0
     self.data = managed_report.data[id]
     # TODO: The worksheet name has to be translated
     self.worksheet = workbook.add_worksheet(id)
+    load_lookups
     write_export
   end
 
@@ -106,33 +108,43 @@ class Exporters::SubreportExporter < ValueObject
     data.entries.each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
+      indicator_lookups = lookups[indicator_key]
       write_table_header(indicator_key)
       start_row = current_row
-      write_indicator(indicator_values)
+      write_indicator(indicator_values, indicator_lookups)
       last_row = current_row - 1
       write_graph([start_row, last_row])
       self.current_row += 1
     end
   end
 
-  def write_indicator(values)
+  def write_indicator(values, indicator_lookups)
     values.each do |elem|
       if elem == values.last
-        write_indicator_last_row(elem)
+        write_indicator_last_row(elem, indicator_lookups)
       else
-        write_indicator_row(elem)
+        write_indicator_row(elem, indicator_lookups)
       end
       self.current_row += 1
     end
   end
 
-  def write_indicator_row(elem)
-    worksheet.write(current_row, 0, elem['id'], formats[:bold_black])
+  def write_indicator_row(elem, indicator_lookups)
+    display_text = indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
+    worksheet.write(current_row, 0, display_text, formats[:bold_black])
     worksheet.write(current_row, 1, elem['total'])
   end
 
-  def write_indicator_last_row(elem)
-    worksheet.write(current_row, 0, elem['id'], formats[:bold_black_blue_bottom_border])
+  def write_indicator_last_row(elem, indicator_lookups)
+    display_text = indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
+    worksheet.write(current_row, 0, display_text, formats[:bold_black_blue_bottom_border])
     worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
+  end
+
+  def load_lookups
+    subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'lookups')
+    self.lookups = subreport_lookups.entries.reduce({}) do |acc, (key, value)|
+      acc.merge(key => Lookup.values(value))
+    end
   end
 end
