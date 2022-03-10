@@ -2,7 +2,7 @@
 
 # Class to export Incidents
 class Exporters::SubreportExporter < ValueObject
-  attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row, :worksheet, :managed_report
+  attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row, :worksheet, :managed_report, :locale
 
   def export
     self.current_row ||= 0
@@ -28,10 +28,10 @@ class Exporters::SubreportExporter < ValueObject
       I18n.t("managed_reports.#{managed_report.id}.reports.#{id}"),
       formats[:header]
     )
+    self.current_row += 1
   end
 
   def write_params
-    self.current_row += 1
     worksheet.set_row(current_row, 20)
     # TODO: Will this be problematic for arabic languages?
     worksheet.merge_range_type(
@@ -45,10 +45,10 @@ class Exporters::SubreportExporter < ValueObject
       formats[:black], 'Verified',
       formats[:black]
     )
+    self.current_row += 1
   end
 
   def write_generated_on
-    self.current_row += 1
     worksheet.merge_range_type(
       'rich_string',
       current_row, 0, current_row, 1,
@@ -56,47 +56,49 @@ class Exporters::SubreportExporter < ValueObject
       formats[:black], Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       formats[:black]
     )
+    self.current_row += 1
   end
 
   def write_table_header(indicator)
     write_grey_row
 
-    self.current_row += 1
     worksheet.set_row(current_row, 30)
     worksheet.merge_range(
       current_row, 0, current_row, 1,
       I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"),
       formats[:blue_header]
     )
+    self.current_row += 1
 
     write_total_row
   end
 
   def write_grey_row
-    self.current_row += 1
     worksheet.merge_range(current_row, 0, current_row, 1, '', formats[:grey_space])
+    self.current_row += 1
   end
 
   def write_total_row
-    self.current_row += 1
     worksheet.set_row(current_row, 40)
     worksheet.write(current_row, 1, I18n.t('managed_reports.total'), formats[:bold_blue])
+    self.current_row += 1
   end
 
   def write_graph(table_data_rows)
     chart = workbook.add_chart(type: 'column', embedded: 1)
     chart.add_series(
-      name: '=incidents!$A$1',
       categories: ['incidents'] + table_data_rows + [0, 0],
-      values: ['incidents'] + table_data_rows + [1, 1]
+      values: ['incidents'] + table_data_rows + [1, 1],
+      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
     )
     chart.set_title(name: '')
     chart.set_size(height: 460)
-
-    worksheet.insert_chart(current_row + 1, 0, chart, 0, 0)
+    chart.set_legend(none: true)
+    worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
     # A row is 20px height 460 / 20 = 23
     # width on the other hand is 64px
+
     self.current_row += 23
   end
 
@@ -107,7 +109,7 @@ class Exporters::SubreportExporter < ValueObject
       write_table_header(indicator_key)
       start_row = current_row
       write_indicator(indicator_values)
-      last_row = current_row
+      last_row = current_row - 1
       write_graph([start_row, last_row])
       self.current_row += 1
     end
@@ -115,12 +117,12 @@ class Exporters::SubreportExporter < ValueObject
 
   def write_indicator(values)
     values.each do |elem|
-      self.current_row += 1
       if elem == values.last
         write_indicator_last_row(elem)
       else
         write_indicator_row(elem)
       end
+      self.current_row += 1
     end
   end
 

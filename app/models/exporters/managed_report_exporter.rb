@@ -11,6 +11,16 @@ class Exporters::ManagedReportExporter < ValueObject
     light_grey2: '#E0E0E0'
   }.freeze
 
+  CHART_COLORS = {
+    blue: '#0093BA',
+    grey: '#595952',
+    purple: '#7C347B',
+    green: '#839E3C',
+    red: '#D0101B',
+    orange: '#E7712D',
+    yellow: '#F2C317'
+  }.freeze
+
   def self.export(managed_report, opts = {})
     exporter = new(managed_report: managed_report)
     exporter.export(opts)
@@ -20,7 +30,7 @@ class Exporters::ManagedReportExporter < ValueObject
     buffer = File.new(output_file_path(opts), 'w')
     workbook = WriteXLSX.new(buffer)
     build_formats(workbook)
-    write_report_data(workbook)
+    write_report_data(workbook, opts)
   rescue StandardError => e
     Rails.logger.error(e.backtrace.join('\n'))
   ensure
@@ -28,16 +38,17 @@ class Exporters::ManagedReportExporter < ValueObject
     buffer.close
   end
 
-  def write_report_data(workbook)
+  def write_report_data(workbook, opts)
     tab_colors = Writexlsx::Colors::COLORS.except(:black, :white).values.uniq
-    current_color_index = 0
+    color_index = 0
     managed_report.subreports.each do |subreport|
-      tab_color = tab_colors[current_color_index]
+      tab_color = tab_colors[color_index]
       subreport_exporter_class(subreport).new(
-        id: subreport, managed_report: managed_report, workbook: workbook, tab_color: tab_color, formats: @formats
+        id: subreport, managed_report: managed_report, workbook: workbook,
+        tab_color: tab_color, formats: @formats, locale: opts[:locale]
       ).export
-      current_color_index += 1
-      current_color_index = 0 if current_color_index > tab_colors.length
+      color_index += 1
+      color_index = 0 if color_index > tab_colors.length
     end
   end
 
