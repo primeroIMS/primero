@@ -135,7 +135,7 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue, mob
 
   return (
     <>
-      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={title} />
+      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
