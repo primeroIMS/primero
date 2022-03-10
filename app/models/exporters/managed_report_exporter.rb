@@ -33,25 +33,18 @@ class Exporters::ManagedReportExporter < ValueObject
     current_color_index = 0
     managed_report.subreports.each do |subreport|
       tab_color = tab_colors[current_color_index]
-      binding.pry
-      begin
-        subreport_exporter_class = "Exporters::#{subreport.camelize}SubreportExporter".constantize
-      rescue NameError
-        subreport_exporter_class = Exporters::SubreportExporter
-      end
-
-      subreport_exporter = subreport_exporter_class.new(
-        id: subreport,
-        managed_report: managed_report,
-        workbook: workbook,
-        tab_color: tab_color,
-        formats: @formats
-      )
-      subreport_exporter.export
-
+      subreport_exporter_class(subreport).new(
+        id: subreport, managed_report: managed_report, workbook: workbook, tab_color: tab_color, formats: @formats
+      ).export
       current_color_index += 1
       current_color_index = 0 if current_color_index > tab_colors.length
     end
+  end
+
+  def subreport_exporter_class(subreport)
+    "Exporters::#{subreport.camelize}SubreportExporter".constantize
+  rescue NameError
+    Exporters::SubreportExporter
   end
 
   def output_file_path(opts)
@@ -79,14 +72,19 @@ class Exporters::ManagedReportExporter < ValueObject
       bold_black: workbook.add_format(bold: 1, color: COLORS[:black]),
       grey_space: workbook.add_format(bg_color: COLORS[:light_grey], top: 1, top_color: COLORS[:light_grey2]),
       blue_header: workbook.add_format(
-        bold: 1,
-        size: 14,
+        bold: 1, size: 14,
         color: COLORS[:blue],
         align: 'vcenter',
         bottom_color: COLORS[:blue],
-        bottom: 1
+        bottom: 2
       ),
-      blue_bottom_border: workbook.add_format(bottom_color: COLORS[:blue])
+      bold_black_blue_bottom_border: workbook.add_format(
+        bold: 1,
+        color: COLORS[:black],
+        bottom: 1,
+        bottom_color: COLORS[:blue]
+      ),
+      blue_bottom_border: workbook.add_format(bottom: 1, bottom_color: COLORS[:blue])
     }
   end
 end

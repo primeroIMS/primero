@@ -9,8 +9,13 @@ class Exporters::SubreportExporter < ValueObject
     self.data = managed_report.data[id]
     # TODO: The worksheet name has to be translated
     self.worksheet = workbook.add_worksheet(id)
+    write_export
+  end
+
+  def write_export
     write_header
-    #write_combined_table(worksheet, subreport)
+    write_params
+    write_generated_on
     write_indicators
   end
 
@@ -19,16 +24,10 @@ class Exporters::SubreportExporter < ValueObject
     worksheet.set_row(current_row, 40)
     worksheet.tab_color = tab_color
     worksheet.merge_range(
-      current_row,
-      0,
-      0,
-      1,
+      current_row, 0, 0, 1,
       I18n.t("managed_reports.#{managed_report.id}.reports.#{id}"),
-      @formats[:header]
+      formats[:header]
     )
-
-    write_params
-    write_generated_on
   end
 
   def write_params
@@ -37,22 +36,13 @@ class Exporters::SubreportExporter < ValueObject
     # TODO: Will this be problematic for arabic languages?
     worksheet.merge_range_type(
       'rich_string',
-      current_row,
-      0,
-      current_row,
-      1,
-      formats[:bold_blue],
-      "#{I18n.t('fields.date_range_field')}: ",
-      formats[:black],
-      "#{I18n.t('managed_reports.date_range_options.this_quarter')} / ",
-      formats[:bold_blue],
-      "#{I18n.t('managed_reports.filter_by.date')}: ",
-      formats[:black],
-      '2021-12-05 / ',
-      formats[:bold_blue],
-      "#{I18n.t('managed_reports.filter_by.verification_status')}: ",
-      formats[:black],
-      'Verified',
+      current_row, 0, current_row, 1,
+      formats[:bold_blue], "#{I18n.t('fields.date_range_field')}: ",
+      formats[:black], "#{I18n.t('managed_reports.date_range_options.this_quarter')} / ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date')}: ",
+      formats[:black], '2021-12-05 / ',
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status')}: ",
+      formats[:black], 'Verified',
       formats[:black]
     )
   end
@@ -61,33 +51,33 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row += 1
     worksheet.merge_range_type(
       'rich_string',
-      current_row,
-      0,
-      current_row,
-      1,
-      formats[:bold_blue],
-      "#{I18n.t('managed_reports.generated_on')}: ",
-      formats[:black],
-      Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+      current_row, 0, current_row, 1,
+      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on')}: ",
+      formats[:black], Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       formats[:black]
     )
   end
 
   def write_table_header(indicator)
-    self.current_row += 1
-    worksheet.merge_range(current_row, 0, current_row, 1, '', formats[:grey_space])
+    write_grey_row
 
     self.current_row += 1
     worksheet.set_row(current_row, 30)
     worksheet.merge_range(
-      current_row,
-      0,
-      current_row,
-      1,
+      current_row, 0, current_row, 1,
       I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"),
       formats[:blue_header]
     )
 
+    write_total_row
+  end
+
+  def write_grey_row
+    self.current_row += 1
+    worksheet.merge_range(current_row, 0, current_row, 1, '', formats[:grey_space])
+  end
+
+  def write_total_row
     self.current_row += 1
     worksheet.set_row(current_row, 40)
     worksheet.write(current_row, 1, I18n.t('managed_reports.total'), formats[:bold_blue])
@@ -111,31 +101,36 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def write_indicators
-    indicators = data.keys
-    indicators.each do |indicator|
-      indicator_data = data[indicator]
-      next unless indicator_data.is_a?(Array)
+    data.entries.each do |(indicator_key, indicator_values)|
+      next unless indicator_values.is_a?(Array)
 
-      write_table_header(indicator)
-
-      table_data_rows = [@current_row]
-      indicator_data.each do |indicator_elem|
-        self.current_row += 1
-        worksheet.write(
-          current_row,
-          0,
-          indicator_elem['id'],
-          @formats[:bold_black]
-        )
-        worksheet.write(current_row, 1, indicator_elem['total'])
-        # TODO: The last row has a blue border in the bottom
-      end
-
-      table_data_rows.push(current_row)
-
-      write_graph(table_data_rows)
-
+      write_table_header(indicator_key)
+      start_row = current_row
+      write_indicator(indicator_values)
+      last_row = current_row
+      write_graph([start_row, last_row])
       self.current_row += 1
     end
+  end
+
+  def write_indicator(values)
+    values.each do |elem|
+      self.current_row += 1
+      if elem == values.last
+        write_indicator_last_row(elem)
+      else
+        write_indicator_row(elem)
+      end
+    end
+  end
+
+  def write_indicator_row(elem)
+    worksheet.write(current_row, 0, elem['id'], formats[:bold_black])
+    worksheet.write(current_row, 1, elem['total'])
+  end
+
+  def write_indicator_last_row(elem)
+    worksheet.write(current_row, 0, elem['id'], formats[:bold_black_blue_bottom_border])
+    worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
   end
 end
