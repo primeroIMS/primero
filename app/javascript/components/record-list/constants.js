@@ -3,7 +3,8 @@ export const ALERTS = "alerts";
 export const ALERTS_COLUMNS = Object.freeze({
   alert_count: "alert_count",
   flag_count: "flag_count",
-  photo: "photo"
+  photo: "photo",
+  complete: "complete"
 });
 export const FILTER_CONTAINER_NAME = `${NAME}FilterContainer`;
 export const DEFAULT_FILTERS = {

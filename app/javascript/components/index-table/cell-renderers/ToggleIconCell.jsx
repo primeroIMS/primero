@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
-import { Photo } from "@material-ui/icons";
+import Photo from "@material-ui/icons/Photo";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import { ConditionalWrapper } from "../../../libs";
-import { FlagIcon } from "../../../images/primero-icons";
+import { FlagIcon, DownloadedForOffline } from "../../../images/primero-icons";
 
 import css from "./styles.css";
 
@@ -17,7 +17,8 @@ const ToggleIconCell = ({ value, icon }) => {
   const renderIconType = {
     photo: <Photo />,
     flag_count: <FlagIcon className={css.flagIcon} />,
-    alert_count: <Jewel isList />
+    alert_count: <Jewel isList />,
+    complete: <DownloadedForOffline />
   }[icon];
 
   return (

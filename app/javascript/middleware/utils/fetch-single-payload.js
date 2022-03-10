@@ -112,7 +112,8 @@ const fetchSinglePayload = (action, store, options) => {
             path,
             db,
             fromQueue,
-            fromAttachment
+            fromAttachment,
+            params
           });
 
           messageQueueSuccess(action);

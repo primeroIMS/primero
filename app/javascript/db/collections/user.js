@@ -8,7 +8,7 @@ const User = {
   },
 
   save: async ({ collection, json }) => {
-    await DB.put(collection, json.data);
+    await DB.put({ store: collection, data: json.data });
 
     // eslint-disable-next-line camelcase
     if (json?.data?.agency_logo_full && json?.data?.agency_logo_icon) {

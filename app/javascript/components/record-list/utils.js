@@ -107,44 +107,61 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
     const canShowFlagIcon = allowedColumns.map(allowedColumn => allowedColumn.name).includes(ALERTS_COLUMNS.flag_count);
 
     if ([RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(recordType)) {
-      columns = columns.push({
-        label: "",
-        name: ALERTS,
-        id: false,
-        sort: false,
-        options: {
-          disableOnClick: true,
-          customHeadRender: columnMeta => emptyHeader(columnMeta),
-          // eslint-disable-next-line react/no-multi-comp, react/display-name
-          customBodyRender: (value, { rowIndex }) => {
-            const alertIcon =
-              // eslint-disable-next-line camelcase
-              canShowAlertIcon && value?.alert_count > 0 ? (
-                <ToggleIconCell value={value.alert_count} icon={ALERTS_COLUMNS.alert_count} />
-              ) : (
-                <span />
-              );
+      columns = columns.push(
+        {
+          label: "",
+          name: ALERTS,
+          id: false,
+          sort: false,
+          options: {
+            disableOnClick: true,
+            customHeadRender: columnMeta => emptyHeader(columnMeta),
+            // eslint-disable-next-line react/no-multi-comp, react/display-name
+            customBodyRender: (value, { rowIndex }) => {
+              const alertIcon =
+                // eslint-disable-next-line camelcase
+                canShowAlertIcon && value?.alert_count > 0 ? (
+                  <ToggleIconCell value={value.alert_count} icon={ALERTS_COLUMNS.alert_count} />
+                ) : (
+                  <span />
+                );
 
-            const flagIcon =
-              // eslint-disable-next-line camelcase
-              canShowFlagIcon && value?.flag_count > 0 ? (
-                <ToggleIconCell value={value.flag_count} icon={ALERTS_COLUMNS.flag_count} />
-              ) : (
-                <span />
-              );
+              const flagIcon =
+                // eslint-disable-next-line camelcase
+                canShowFlagIcon && value?.flag_count > 0 ? (
+                  <ToggleIconCell value={value.flag_count} icon={ALERTS_COLUMNS.flag_count} />
+                ) : (
+                  <span />
+                );
 
-            return disableColumnOffline({
-              value: (
-                <div className={css.alerts}>
-                  {alertIcon}
-                  {flagIcon}
-                </div>
-              ),
-              rowIndex
-            });
+              return disableColumnOffline({
+                value: (
+                  <div className={css.alerts}>
+                    {alertIcon}
+                    {flagIcon}
+                  </div>
+                ),
+                rowIndex
+              });
+            }
+          }
+        },
+        {
+          label: "",
+          name: "complete",
+          id: false,
+          sort: false,
+          options: {
+            disableOnClick: true,
+            customHeadRender: columnMeta => emptyHeader(columnMeta),
+            customBodyRender: value => {
+              console.log(value);
+
+              return value ? <ToggleIconCell value={value} icon={ALERTS_COLUMNS.complete} /> : <span />;
+            }
           }
         }
-      });
+      );
     }
 
     return columns;

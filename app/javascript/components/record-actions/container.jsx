@@ -29,7 +29,8 @@ import {
   RECORD_ACTION_ABILITIES,
   ID_SEARCH,
   ENABLE_DISABLE_DIALOG,
-  OPEN_CLOSE_DIALOG
+  OPEN_CLOSE_DIALOG,
+  MARK_FOR_OFFLINE_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
@@ -48,7 +49,8 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     REFER_DIALOG,
     REQUEST_APPROVAL_DIALOG,
     SERVICE_DIALOG,
-    TRANSFER_DIALOG
+    TRANSFER_DIALOG,
+    MARK_FOR_OFFLINE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
 
@@ -107,7 +109,8 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canShowExports,
     canTransfer,
     canOnlyExportPdf,
-    permittedAbilities
+    permittedAbilities,
+    canMarkForOffline
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
   const canOpenOrClose = (canReopen && openState === "reopen") || (canClose && openState === "close");
@@ -142,6 +145,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
     canRefer,
     canRequest,
     canShowExports,
+    canMarkForOffline,
     canTransfer,
     canOnlyExportPdf,
     enableState,

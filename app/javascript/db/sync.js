@@ -7,7 +7,7 @@ const syncIndexedDB = async (
   method = METHODS.WRITE,
   transactionCallback
 ) => {
-  const { recordType, collection, online } = db;
+  const { recordType, collection, online, params } = db;
 
   const getCollection = (() => {
     switch (collection) {
@@ -53,7 +53,8 @@ const syncIndexedDB = async (
       json,
       db,
       transactionCallback,
-      online
+      online,
+      params
     });
 
     return result;

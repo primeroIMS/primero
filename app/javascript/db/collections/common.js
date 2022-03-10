@@ -8,7 +8,7 @@ const Common = {
   },
 
   save: async ({ collection, json }) => {
-    await DB.put(collection, json.data, { id: 1 });
+    await DB.put({ store: collection, data: json.data, key: { id: 1 } });
 
     return json;
   }
