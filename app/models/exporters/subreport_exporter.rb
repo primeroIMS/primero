@@ -87,8 +87,8 @@ class Exporters::SubreportExporter < ValueObject
   def write_graph(table_data_rows)
     chart = workbook.add_chart(type: 'column', embedded: 1)
     chart.add_series(
-      categories: ['incidents'] + table_data_rows + [0, 0],
-      values: ['incidents'] + table_data_rows + [1, 1],
+      categories: [id] + table_data_rows + [0, 0],
+      values: [id] + table_data_rows + [1, 1],
       points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
     )
     chart.set_title(name: '')
@@ -102,8 +102,16 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row += 23
   end
 
+  def transform_entries(entries)
+    entries.reduce([]) do |acc, (key, value)|
+      return acc if key == :lookups
+
+      acc << [key, transform_indicator_values(value)]
+    end
+  end
+
   def write_indicators
-    data.entries.each do |(indicator_key, indicator_values)|
+    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
       write_table_header(indicator_key)
@@ -134,5 +142,13 @@ class Exporters::SubreportExporter < ValueObject
   def write_indicator_last_row(elem)
     worksheet.write(current_row, 0, elem['id'], formats[:bold_black_blue_bottom_border])
     worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
+  end
+
+  def transform_indicator_values(values)
+    return values.map(&:with_indifferent_access) if values.is_a?(Array)
+
+    values.reduce([]) do |acc, curr|
+      acc << { id: curr.first, total: curr.last }.with_indifferent_access
+    end
   end
 end

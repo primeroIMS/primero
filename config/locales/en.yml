@@ -1840,6 +1840,7 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        violation: Violations
     gbv_statistics:
       name: GBV Statistics
       description: ''
