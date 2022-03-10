@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable import/prefer-default-export */
 
@@ -155,8 +156,6 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
             disableOnClick: true,
             customHeadRender: columnMeta => emptyHeader(columnMeta),
             customBodyRender: value => {
-              console.log(value);
-
               return value ? <ToggleIconCell value={value} icon={ALERTS_COLUMNS.complete} /> : <span />;
             }
           }
