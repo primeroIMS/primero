@@ -89,8 +89,8 @@ class Exporters::SubreportExporter < ValueObject
   def write_graph(table_data_rows)
     chart = workbook.add_chart(type: 'column', embedded: 1)
     chart.add_series(
-      categories: ['incidents'] + table_data_rows + [0, 0],
-      values: ['incidents'] + table_data_rows + [1, 1],
+      categories: [id] + table_data_rows + [0, 0],
+      values: [id] + table_data_rows + [1, 1],
       points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
     )
     chart.set_title(name: '')
@@ -104,8 +104,16 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row += 23
   end
 
+  def transform_entries(entries)
+    entries.reduce([]) do |acc, (key, value)|
+      next(acc) if key == :lookups
+
+      acc << [key, transform_indicator_values(value)]
+    end
+  end
+
   def write_indicators
-    data.entries.each do |(indicator_key, indicator_values)|
+    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
       indicator_lookups = lookups[indicator_key]
@@ -130,15 +138,28 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def write_indicator_row(elem, indicator_lookups)
-    display_text = indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
+    display_text = value_display_text(elem, indicator_lookups)
     worksheet.write(current_row, 0, display_text, formats[:bold_black])
     worksheet.write(current_row, 1, elem['total'])
   end
 
   def write_indicator_last_row(elem, indicator_lookups)
-    display_text = indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
+    display_text = value_display_text(elem, indicator_lookups)
     worksheet.write(current_row, 0, display_text, formats[:bold_black_blue_bottom_border])
     worksheet.write(current_row, 1, elem['total'], formats[:blue_bottom_border])
+  end
+
+  def value_display_text(elem, indicator_lookups)
+    indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text') || elem['id']
+  end
+
+  def transform_indicator_values(values)
+    return values.map(&:with_indifferent_access) if values.is_a?(Array)
+    return values unless values.is_a?(Hash)
+
+    values.reduce([]) do |acc, (key, value)|
+      acc << { id: key, total: value }.with_indifferent_access
+    end
   end
 
   def load_lookups
