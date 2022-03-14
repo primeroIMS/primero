@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Describes Rape subreport in Primero.
-class ManagedReports::SubReports::Rape < ManagedReports::SubReport
+# Describes SexualViolence subreport in Primero.
+class ManagedReports::SubReports::SexualViolence < ManagedReports::SubReport
   def id
-    'rape'
+    'sexual_violence'
   end
 
   def indicators
@@ -24,6 +24,6 @@ class ManagedReports::SubReports::Rape < ManagedReports::SubReport
   end
 
   def build_report(current_user, params = [])
-    super(current_user, params.merge('type' => SearchFilters::Value.new(field_name: 'type', value: 'sexual_violence')))
+    super(current_user, params.merge('type' => SearchFilters::Value.new(field_name: 'type', value: id)))
   end
 end

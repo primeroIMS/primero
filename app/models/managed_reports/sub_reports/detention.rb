@@ -21,8 +21,4 @@ class ManagedReports::SubReports::Detention < ManagedReports::SubReport
       ManagedReports::Indicators::ReportingLocation.id => 'Location'
     }
   end
-
-  def build_report(current_user, params = [])
-    super(current_user, params.merge('type' => SearchFilters::Value.new(field_name: 'type', value: id)))
-  end
 end

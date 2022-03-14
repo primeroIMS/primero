@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fromJS, List, Map } from "immutable";
 import take from "lodash/take";
 import { useDispatch } from "react-redux";
+import { isEmpty } from "lodash";
 
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
@@ -58,13 +59,25 @@ const Component = () => {
     .filterNot((_value, key) => ["lookups"].includes(key))
     .groupBy(value => (!List.isList(value) ? "single" : "aggregate"));
 
+  const getLookupValue = (key, value) => {
+    const valueKeyLookups = lookups[key];
+
+    if (isEmpty(valueKeyLookups)) {
+      return i18n.t(["managed_reports", id, "sub_reports", value.get("id")].join("."), {
+        defaultValue: value.get("id")
+      });
+    }
+
+    // eslint-disable-next-line camelcase
+    return valueKeyLookups.find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
+  };
+
   const buildInsightValues = (data, key) => {
     if (data === 0) return [];
 
     return data
       .map(value => {
-        // eslint-disable-next-line camelcase
-        const lookupValue = lookups[key].find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
+        const lookupValue = getLookupValue(key, value);
 
         return { colspan: 0, row: [lookupValue, value.get("total")] };
       })
@@ -87,9 +100,14 @@ const Component = () => {
       labels: value
         .map(val => {
           const valueID = val.get("id");
+          const valueKeyLookups = lookups[valueKey];
+
+          if (isEmpty(valueKeyLookups)) {
+            return i18n.t(["managed_reports", id, "sub_reports", valueID].join("."), { defaultValue: valueID });
+          }
 
           // eslint-disable-next-line camelcase
-          return lookups[valueKey].find(lookup => lookup.id === valueID)?.display_text || valueID;
+          return valueKeyLookups.find(lookup => lookup.id === valueID)?.display_text || valueID;
         })
         .toArray()
     };

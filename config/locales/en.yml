@@ -1825,6 +1825,7 @@ en:
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
         sexual_violence: Rape and/or other forms of sexual violence
+        rape: Rape and/or other forms of sexual violence
         abduction: Abduction
         attack_on: Attacks on school(s) and/or hospital(s)
         military_use: Military use of school(s) and/or hospital(s)
@@ -1841,6 +1842,8 @@ en:
         unknown: Unknown
         total: Total
         violation: Violations
+        sexual_violence_type: Form(s) of sexual violence
+        detention_status: Status of Detained children
     gbv_statistics:
       name: GBV Statistics
       description: ''

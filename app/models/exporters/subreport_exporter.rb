@@ -150,6 +150,14 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def value_display_text(elem, indicator_lookups)
+    if indicator_lookups.blank?
+      return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
+    end
+
+    if indicator_lookups.is_a?(LocationService)
+      return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s) || elem['id']
+    end
+
     indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text') || elem['id']
   end
 
@@ -164,7 +172,9 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_lookups
     subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'lookups')
-    self.lookups = subreport_lookups.entries.reduce({}) do |acc, (key, value)|
+    self.lookups = subreport_lookups.reduce({}) do |acc, (key, value)|
+      next acc.merge(key => LocationService.instance) if key == 'reporting_location'
+
       acc.merge(key => Lookup.values(value))
     end
   end
