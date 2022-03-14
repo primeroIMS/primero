@@ -21,6 +21,10 @@ class Exporters::ManagedReportExporter < ValueObject
     yellow: '#F2C317'
   }.freeze
 
+  DATE_FIELD_NAMES = %w[date_of_incident date_of_report incident_date date_of_first_report].freeze
+
+  DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
+
   def self.export(managed_report, opts = {})
     exporter = new(managed_report: managed_report)
     exporter.export(opts)
@@ -45,10 +49,9 @@ class Exporters::ManagedReportExporter < ValueObject
       tab_color = tab_colors[color_index]
       subreport_exporter_class(subreport).new(
         id: subreport, managed_report: managed_report, workbook: workbook,
-        tab_color: tab_color, formats: @formats, locale: opts[:locale]
+        tab_color: tab_color, formats: @formats, locale: locale(opts)
       ).export
-      color_index += 1
-      color_index = 0 if color_index > tab_colors.length
+      color_index > tab_colors.length ? color_index = 0 : color_index += 1
     end
   end
 
@@ -59,7 +62,7 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def output_file_path(opts)
-    return default_output_file_path unless opts[:file_name].present?
+    return default_output_file_path unless opts&.dig(:file_name).present?
 
     file_name = opts[:file_name]
     file_name += '.xlsx' unless file_name.ends_with?('.xlsx')
@@ -97,5 +100,11 @@ class Exporters::ManagedReportExporter < ValueObject
       ),
       blue_bottom_border: workbook.add_format(bottom: 1, bottom_color: COLORS[:blue])
     }
+  end
+
+  def locale(opts)
+    return opts[:locale] if opts&.dig(:locale).present?
+
+    managed_report.user&.locale || I18n.default_locale
   end
 end

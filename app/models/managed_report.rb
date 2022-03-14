@@ -2,7 +2,9 @@
 
 # Describes ManagedReport in Primero.
 class ManagedReport < ValueObject
-  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters
+  DATE_FIELD_NAMES = %w[incident_date date_of_first_report ctfmr_verified_date].freeze
+
+  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
 
   # rubocop:disable Metrics/MethodLength
   def self.list
@@ -31,10 +33,12 @@ class ManagedReport < ValueObject
   end
   # rubocop:enable Metrics/MethodLength
 
-  def build_report(current_user, filters = [], subreport_id = nil)
-    self.data = (filter_subreport(subreport_id)).reduce({}) do |acc, id|
+  def build_report(user, filters = [], opts = {})
+    self.user = user
+    self.filters = filters
+    self.data = (filter_subreport(opts&.dig(:subreport_id))).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(current_user, subreport_params(filters, subreport_id))
+      subreport.build_report(user, subreport_params(filters, opts&.dig(:subreport_id)))
       acc.merge(subreport.id => subreport.data)
     end
   end
@@ -59,8 +63,12 @@ class ManagedReport < ValueObject
     permitted_filters.map { |filter| filter.is_a?(Hash) ? filter.keys.map(&:to_s) : filter.to_s }.flatten
   end
 
-  def export(current_user, filters, subreport_id)
-    build_report(current_user, filters, subreport_id)
-    Exporters::ManagedReportExporter.export(self)
+  def export(user, filters, opts = {})
+    build_report(user, filters, opts)
+    Exporters::ManagedReportExporter.export(self, opts)
+  end
+
+  def filtered_by?(field_name)
+    filters&.any? { |filter| filter.field_name == field_name }
   end
 end

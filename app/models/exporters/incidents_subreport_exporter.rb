@@ -10,9 +10,9 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   def write_combined_table
     write_table_header('combined')
     build_combined_data.each do |elem|
-      self.current_row += 1
-      worksheet.write(self.current_row, 0, elem.first, formats[:bold_black])
+      worksheet.write(current_row, 0, elem.first, formats[:bold_black])
       worksheet.write(current_row, 1, elem.last)
+      self.current_row += 1
     end
     self.current_row += 1
   end

@@ -8,8 +8,9 @@ class Exporters::SubreportExporter < ValueObject
   def export
     self.current_row ||= 0
     self.data = managed_report.data[id]
-    # TODO: The worksheet name has to be translated
-    self.worksheet = workbook.add_worksheet(id)
+    self.worksheet = workbook.add_worksheet(
+      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
+    )
     load_lookups
     write_export
   end
@@ -27,7 +28,7 @@ class Exporters::SubreportExporter < ValueObject
     worksheet.tab_color = tab_color
     worksheet.merge_range(
       current_row, 0, 0, 1,
-      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}"),
+      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale),
       formats[:header]
     )
     self.current_row += 1
@@ -36,25 +37,43 @@ class Exporters::SubreportExporter < ValueObject
   def write_params
     worksheet.set_row(current_row, 20)
     # TODO: Will this be problematic for arabic languages?
-    worksheet.merge_range_type(
-      'rich_string',
-      current_row, 0, current_row, 1,
-      formats[:bold_blue], "#{I18n.t('fields.date_range_field')}: ",
-      formats[:black], "#{I18n.t('managed_reports.date_range_options.this_quarter')} / ",
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date')}: ",
-      formats[:black], '2021-12-05 / ',
-      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status')}: ",
-      formats[:black], 'Verified',
-      formats[:black]
-    )
+    params = date_range_param + filter_by_date_param + verification_status_param + [formats[:black]]
+    worksheet.merge_range_type('rich_string', current_row, 0, current_row, 1, *params)
     self.current_row += 1
+  end
+
+  def date_range_param
+    return [] unless date_range_display_text.present?
+
+    [
+      formats[:bold_blue], "#{I18n.t('fields.date_range_field', locale: locale)}: ",
+      formats[:black], "#{date_range_display_text} / "
+    ]
+  end
+
+  def filter_by_date_param
+    return [] unless date_display_text.present?
+
+    [
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.date', locale: locale)}: ",
+      formats[:black], "#{date_display_text} / "
+    ]
+  end
+
+  def verification_status_param
+    return [] unless verification_display_text.present?
+
+    [
+      formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status', locale: locale)}: ",
+      formats[:black], 'Verified'
+    ]
   end
 
   def write_generated_on
     worksheet.merge_range_type(
       'rich_string',
       current_row, 0, current_row, 1,
-      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on')}: ",
+      formats[:bold_blue], "#{I18n.t('managed_reports.generated_on', locale: locale)}: ",
       formats[:black], Time.now.strftime('%Y-%m-%d %H:%M:%S'),
       formats[:black]
     )
@@ -67,7 +86,7 @@ class Exporters::SubreportExporter < ValueObject
     worksheet.set_row(current_row, 30)
     worksheet.merge_range(
       current_row, 0, current_row, 1,
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"),
+      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}", locale: locale),
       formats[:blue_header]
     )
     self.current_row += 1
@@ -82,15 +101,17 @@ class Exporters::SubreportExporter < ValueObject
 
   def write_total_row
     worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t('managed_reports.total'), formats[:bold_blue])
+    worksheet.write(current_row, 1, I18n.t('managed_reports.total', locale: locale), formats[:bold_blue])
     self.current_row += 1
   end
 
   def write_graph(table_data_rows)
+    return unless table_data_rows.present?
+
     chart = workbook.add_chart(type: 'column', embedded: 1)
     chart.add_series(
-      categories: [id] + table_data_rows + [0, 0],
-      values: [id] + table_data_rows + [1, 1],
+      categories: [worksheet.name] + table_data_rows + [0, 0],
+      values: [worksheet.name] + table_data_rows + [1, 1],
       points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
     )
     chart.set_title(name: '')
@@ -154,11 +175,15 @@ class Exporters::SubreportExporter < ValueObject
       return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
     end
 
+    display_text_from_lookup(elem, indicator_lookups) || elem['id']
+  end
+
+  def display_text_from_lookup(elem, indicator_lookups)
     if indicator_lookups.is_a?(LocationService)
-      return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s) || elem['id']
+      return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s)
     end
 
-    indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text') || elem['id']
+    indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
   end
 
   def transform_indicator_values(values)
@@ -175,7 +200,41 @@ class Exporters::SubreportExporter < ValueObject
     self.lookups = subreport_lookups.reduce({}) do |acc, (key, value)|
       next acc.merge(key => LocationService.instance) if key == 'reporting_location'
 
-      acc.merge(key => Lookup.values(value))
+      acc.merge(key => Lookup.values(value, nil, { locale: locale }))
     end
+  end
+
+  def date_display_text
+    date_field_name = Exporters::ManagedReportExporter::DATE_FIELD_NAMES.find do |field_name|
+      managed_report.filtered_by?(field_name)
+    end
+
+    return unless date_field_name.present?
+
+    I18n.t("managed_reports.#{managed_report.id}.filter_options.#{date_field_name}", locale: locale)
+  end
+
+  def date_range_display_text
+    date_filter = managed_report.filters&.find do |filter|
+      Exporters::ManagedReportExporter::DATE_FIELD_NAMES.include?(filter.field_name)
+    end
+
+    return unless date_filter.present?
+
+    date_range_option = Exporters::ManagedReportExporter::DATE_RANGE_OPTIONS.find do |option|
+      date_filter.send("#{option}?".to_sym)
+    end
+
+    return I18n.t('managed_reports.date_range_options.custom', locale: locale) unless date_range_option.present?
+
+    I18n.t("managed_reports.date_range_options.#{date_range_option}", locale: locale)
+  end
+
+  def verification_display_text
+    verified_filter = managed_report.filters&.find { |filter| filter.field_name == 'ctfmr_verified' }
+
+    return unless verified_filter.present? && verified_filter.value == 'verified'
+
+    I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
   end
 end
