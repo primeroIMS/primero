@@ -123,11 +123,10 @@ class Exporters::SubreportExporter < ValueObject
 
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
     chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: 460)
+    chart.set_size(height: 460, width: chart_width(table_data_rows))
     chart.set_legend(none: true)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
-    # A row is 20px height 460 / 20 = 23
-    # width on the other hand is 64px
+    # A row is 20px, chart height is 460 then 460 / 20 = 23
     self.current_row += 23
   end
 
@@ -137,6 +136,14 @@ class Exporters::SubreportExporter < ValueObject
       values: [worksheet.name] + table_data_rows + [1, 1],
       points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
     }
+  end
+
+  def chart_width(table_data_rows)
+    row_count = table_data_rows.last - table_data_rows.first
+    return 384 if row_count < 3
+
+    # column width is 64px
+    384 + (row_count * 64)
   end
 
   def transform_entries(entries)
