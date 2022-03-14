@@ -8,8 +8,12 @@ class Exporters::SubreportExporter < ValueObject
   def export
     self.current_row ||= 0
     self.data = managed_report.data[id]
+    # Truncating in 31 allowed characters
+    # Replacing invalid character
     self.worksheet = workbook.add_worksheet(
       I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
+      .truncate(31)
+      .gsub(%r{[\[\]\/:*?]}, ' ')
     )
     load_lookups
     write_export
