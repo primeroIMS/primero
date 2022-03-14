@@ -1,4 +1,5 @@
 import { expect } from "chai";
+
 import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "./constants";
 import parseExpression from "./parse-expression";
 
@@ -176,15 +177,23 @@ describe("parseExpression", () => {
     });
   });
 
-  context('when is a sum expression', () => {
-    const expression = parseExpression({ sum: ['a', 'b', 'c'] });
+  context("when is a sum expression", () => {
+    const expression = parseExpression({ sum: ["a", "b", "c"] });
 
-    it('correctly evaluates the sum', () => {
-      expect(expression.evaluate({ 'a': 2, 'b': 3})).to.deep.equals(5);
+    it("correctly evaluates the sum", () => {
+      expect(expression.evaluate({ a: 2, b: 3 })).to.deep.equals(5);
     });
 
-    it('returns 0 when wrong arguments are passed', () => {
-      expect(expression.evaluate({ 'd': 2, 'e': 3})).to.deep.equals(0);
+    it("returns 0 when wrong arguments are passed", () => {
+      expect(expression.evaluate({ d: 2, e: 3 })).to.deep.equals(0);
+    });
+  });
+
+  context("when sum is nested", () => {
+    const expression = parseExpression({ sum: [{ sum: ["a", "b", "c"] }, "d"] });
+
+    it("expression is nested", () => {
+      expect(expression.evaluate({ a: 1, b: 2, c: 3, d: 4 })).to.deep.equal(10);
     });
   });
 });

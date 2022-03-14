@@ -16,9 +16,7 @@ const parseExpression = expression => {
 
   if (isMathematicalOperator(operator)) {
     const mathExp = Array.isArray(value)
-      ? value.map(nested => {
-          return isObject(nested) ? parseExpression(nested) : nested;
-        })
+      ? value.map(nested => (isObject(nested) ? parseExpression(nested) : nested))
       : parseExpression(value);
 
     return buildOperator(operator, mathExp);

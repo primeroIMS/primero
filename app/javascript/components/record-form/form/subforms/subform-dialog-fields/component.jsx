@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "formik";
@@ -9,7 +8,7 @@ import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
-import { buildViolationOptions, getOptionStringsTags } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags, getValuesCount } from "../../utils";
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
 
@@ -40,6 +39,7 @@ const Component = ({
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
 
   const fieldsToDisplay = fieldsToRender(listFieldsToRender, field.subform_section_id.fields);
+
   const violationOptions = buildViolationOptions(
     parentValues,
     field.name,
@@ -67,27 +67,16 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
-    let calculation_expression = subformSectionField?.calculation?.expression
-    if (calculation_expression) {
-      let count = Object.keys(values).reduce((prev, curr) => {
-        if (!(calculation_expression.sum.indexOf(curr) < 0) && values[curr] !== "") {
-          return prev + 1;
-        }
+    const calculationExpression = subformSectionField?.calculation?.expression;
 
-        return prev;
-      }, 0);
+    if (calculationExpression) {
+      const count = getValuesCount(calculationExpression, values);
+      const calculatedVal = parseExpression(calculationExpression).evaluate(values);
 
-      if (count === 0) {
-        count = 1;
+      if (values[subformSectionField.name] !== calculatedVal) {
+        setFieldValue(subformSectionField.name, calculatedVal);
+        setFieldValue(subformSectionField.name.split("_calc")[0], Math.floor(calculatedVal / count));
       }
-
-      const calculatedVal = parseExpression(calculation_expression).evaluate(values);
-
-      const scoreCalField = `${formSection.unique_id.split("subform_section")[0]}score_calc`;
-      const scoreField = `${formSection.unique_id.split("subform_section")[0]}score`;
-
-      values[scoreCalField] = Math.floor(calculatedVal);
-      values[scoreField] = Math.floor(calculatedVal / count);
     }
 
     const tags = getOptionStringsTags(subformSectionField, values);
