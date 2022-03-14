@@ -78,6 +78,8 @@ class Exporters::ManagedReportExporter < ValueObject
     )
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def build_formats(workbook)
     @formats = {
       header: workbook.add_format(bold: 1, size: 16, align: 'vcenter'),
@@ -101,6 +103,8 @@ class Exporters::ManagedReportExporter < ValueObject
       blue_bottom_border: workbook.add_format(bottom: 1, bottom_color: COLORS[:blue])
     }
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def locale(opts)
     return opts[:locale] if opts&.dig(:locale).present?

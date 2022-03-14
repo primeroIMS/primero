@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Class to export the Incidents Subreport
 class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   def write_export
     write_header

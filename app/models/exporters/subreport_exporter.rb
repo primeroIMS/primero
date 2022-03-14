@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Class to export Incidents
+# Class to export Subreports
 class Exporters::SubreportExporter < ValueObject
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups
@@ -8,15 +8,18 @@ class Exporters::SubreportExporter < ValueObject
   def export
     self.current_row ||= 0
     self.data = managed_report.data[id]
-    # Truncating in 31 allowed characters
-    # Replacing invalid character
-    self.worksheet = workbook.add_worksheet(
-      I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
-      .truncate(31)
-      .gsub(%r{[\[\]\/:*?]}, ' ')
-    )
+    self.worksheet = workbook.add_worksheet(build_worsheet_name)
+    worksheet.tab_color = tab_color
     load_lookups
     write_export
+  end
+
+  def build_worsheet_name
+    # Truncating in 31 allowed characters
+    # Replacing invalid character
+    I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
+        .truncate(31)
+        .gsub(%r{[\[\]\/:*?]}, ' ')
   end
 
   def write_export
@@ -29,19 +32,25 @@ class Exporters::SubreportExporter < ValueObject
   def write_header
     worksheet.set_column(current_row, 0, 80)
     worksheet.set_row(current_row, 40)
-    worksheet.tab_color = tab_color
+    write_header_title
+    self.current_row += 1
+  end
+
+  def write_header_title
     worksheet.merge_range(
       current_row, 0, 0, 1,
       I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale),
       formats[:header]
     )
-    self.current_row += 1
   end
 
   def write_params
     worksheet.set_row(current_row, 20)
     # TODO: Will this be problematic for arabic languages?
-    params = date_range_param + filter_by_date_param + verification_status_param + [formats[:black]]
+    params = date_range_param + filter_by_date_param + verification_status_param
+    return unless params.present?
+
+    params += [formats[:black]]
     worksheet.merge_range_type('rich_string', current_row, 0, current_row, 1, *params)
     self.current_row += 1
   end
@@ -69,7 +78,7 @@ class Exporters::SubreportExporter < ValueObject
 
     [
       formats[:bold_blue], "#{I18n.t('managed_reports.filter_by.verification_status', locale: locale)}: ",
-      formats[:black], 'Verified'
+      formats[:black], verification_display_text
     ]
   end
 
@@ -112,21 +121,22 @@ class Exporters::SubreportExporter < ValueObject
   def write_graph(table_data_rows)
     return unless table_data_rows.present?
 
-    chart = workbook.add_chart(type: 'column', embedded: 1)
-    chart.add_series(
-      categories: [worksheet.name] + table_data_rows + [0, 0],
-      values: [worksheet.name] + table_data_rows + [1, 1],
-      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
-    )
-    chart.set_title(name: '')
+    chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
+    chart.add_series(build_series(table_data_rows))
     chart.set_size(height: 460)
     chart.set_legend(none: true)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
-
     # A row is 20px height 460 / 20 = 23
     # width on the other hand is 64px
-
     self.current_row += 23
+  end
+
+  def build_series(table_data_rows)
+    {
+      categories: [worksheet.name] + table_data_rows + [0, 0],
+      values: [worksheet.name] + table_data_rows + [1, 1],
+      points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: color } } }
+    }
   end
 
   def transform_entries(entries)
