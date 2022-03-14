@@ -38,7 +38,7 @@ class ManagedReport < ValueObject
     self.filters = filters
     self.data = (filter_subreport(opts&.dig(:subreport_id))).reduce({}) do |acc, id|
       subreport = "ManagedReports::SubReports::#{id.camelize}".constantize.new
-      subreport.build_report(user, subreport_params(filters, opts&.dig(:subreport_id)))
+      subreport.build_report(user, subreport_params(filters))
       acc.merge(subreport.id => subreport.data)
     end
   end
@@ -49,12 +49,9 @@ class ManagedReport < ValueObject
     subreports.select { |subreport| subreport == subreport_id }
   end
 
-  def subreport_params(params, subreport_id)
-    type_filter = subreport_id == 'rape' ? 'sexual_violence' : subreport_id
-
-    filtered_params = params.select { |param| permitted_filter_names.include?(param.field_name) }
+  def subreport_params(params)
+    filtered_params = (params || []).select { |param| permitted_filter_names.include?(param.field_name) }
     filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id) if id == 'gbv_statistics'
-    filtered_params << SearchFilters::Value.new(field_name: 'type', value: type_filter) if id == 'violations'
 
     filtered_params.reduce({}) { |acc, param| acc.merge(param.field_name => param) }
   end
