@@ -49,7 +49,7 @@ const Records = {
 
   dataMarkedComplete(data, markComplete = false, online = false) {
     if (Array.isArray(data)) {
-      return markComplete ? data.map(record => ({ ...record, complete: true })) : data;
+      return markComplete && online ? data.map(record => ({ ...record, complete: true })) : data;
     }
 
     return markComplete && online ? { ...data, complete: true } : data;

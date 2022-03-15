@@ -48,7 +48,8 @@ describe("records - Action Creators", () => {
       "unMatchCaseForTrace",
       "clearPotentialMatches",
       "externalSync",
-      "offlineIncidentFromCase"
+      "offlineIncidentFromCase",
+      "markForOffline"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       expect(creators[property]).to.be.a("function");

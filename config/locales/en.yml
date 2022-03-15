@@ -292,7 +292,7 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
-    mark_for_mobile:
+    mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
       success: Cases successfully marked for offline use

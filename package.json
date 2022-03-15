@@ -7,7 +7,6 @@
   "engines": {
     "node": ">=12.13.0 <13.0.0"
   },
-  "type": "module",
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/index.js",
     "dev": "webpack-dev-server --config webpack/index.js",
@@ -178,6 +177,8 @@
   "mocha": {
     "require": [
       "@babel/register",
+      "./.mochaignore",
+      "./app/javascript/test/jsdom.setup.js",
       "./app/javascript/test/test.setup.js"
     ],
     "exclude": [

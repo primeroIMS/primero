@@ -21,8 +21,10 @@ const Component = ({ close, open, recordType, currentPage, selectedRecords, clea
     getMarkForMobileLoading(state, RECORD_TYPES_PLURAL.registry_record)
   );
 
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "short_id");
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
   const selectedRegistryIds = buildSelectedIds(selectedRecords, records, currentPage, "registry_record_id");
+
+  console.log(selectedRecords)
 
   const handleOk = () => {
     dispatch(markForOffline({ recordType, ids: selectedIds, selectedRegistryIds }));

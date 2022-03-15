@@ -1,4 +1,5 @@
 import startsWith from "lodash/startsWith";
+import compact from "lodash/compact";
 
 import { DB_COLLECTIONS_NAMES, IDB_SAVEABLE_RECORD_TYPES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
@@ -359,9 +360,11 @@ export const externalSync = (recordType, record) => ({
   }
 });
 
-export const markForOffline = ({ recordType, ids, selectedRegistryIds }) => dispatch => {
-  if (selectedRegistryIds) {
-    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIds));
+export const markForOffline = ({ recordType, ids = [], selectedRegistryIds = [] }) => dispatch => {
+  const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
+
+  if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
+    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted));
   }
 
   dispatch(markForOfflineAction(recordType, ids));
