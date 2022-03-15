@@ -44,12 +44,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   def row(record, fields)
     [record.id] + fields.map do |field|
-      next record.data[field.name] unless field.form.unique_id.include?('_subform_section')
-
-      subform_field_name = field.form.unique_id.gsub('_subform', '')
-      next nil unless record.data[subform_field_name]
-
-      record.data[subform_field_name].map { |subform_field| subform_field[field.name] }.compact
+      record.data[field.name]
     end
   end
 end
