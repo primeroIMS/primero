@@ -2,7 +2,9 @@
 
 # Describes ManagedReport in Primero.
 class ManagedReport < ValueObject
-  DATE_FIELD_NAMES = %w[incident_date date_of_first_report ctfmr_verified_date].freeze
+  DATE_FIELD_NAMES = %w[incident_date date_of_first_report date_of_report date_of_incident ctfmr_verified_date].freeze
+
+  DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
 
@@ -65,7 +67,23 @@ class ManagedReport < ValueObject
     Exporters::ManagedReportExporter.export(self, opts)
   end
 
-  def filtered_by?(field_name)
-    filters&.any? { |filter| filter.field_name == field_name }
+  def date_range_filter
+    filters&.find { |filter| filter.is_a?(SearchFilters::DateRange) }
+  end
+
+  def date_field_name
+    date_range_filter&.field_name
+  end
+
+  def date_range_value
+    date_filter = date_range_filter
+
+    return unless date_filter.present?
+
+    DATE_RANGE_OPTIONS.find { |option| date_filter.send("#{option}?".to_sym) }
+  end
+
+  def verified_value
+    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
   end
 end

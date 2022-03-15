@@ -226,9 +226,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def date_display_text
-    date_field_name = Exporters::ManagedReportExporter::DATE_FIELD_NAMES.find do |field_name|
-      managed_report.filtered_by?(field_name)
-    end
+    date_field_name = managed_report.date_field_name
 
     return unless date_field_name.present?
 
@@ -236,25 +234,17 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def date_range_display_text
-    date_filter = managed_report.filters&.find do |filter|
-      Exporters::ManagedReportExporter::DATE_FIELD_NAMES.include?(filter.field_name)
-    end
+    date_range_value = managed_report.date_range_value
 
-    return unless date_filter.present?
+    return I18n.t('managed_reports.date_range_options.custom', locale: locale) unless date_range_value.present?
 
-    date_range_option = Exporters::ManagedReportExporter::DATE_RANGE_OPTIONS.find do |option|
-      date_filter.send("#{option}?".to_sym)
-    end
-
-    return I18n.t('managed_reports.date_range_options.custom', locale: locale) unless date_range_option.present?
-
-    I18n.t("managed_reports.date_range_options.#{date_range_option}", locale: locale)
+    I18n.t("managed_reports.date_range_options.#{date_range_value}", locale: locale)
   end
 
   def verification_display_text
-    verified_filter = managed_report.filters&.find { |filter| filter.field_name == 'ctfmr_verified' }
+    verified_value = managed_report.verified_value
 
-    return unless verified_filter.present? && verified_filter.value == 'verified'
+    return unless verified_value.present? && verified_value == 'verified'
 
     I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
   end

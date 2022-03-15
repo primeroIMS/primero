@@ -21,10 +21,6 @@ class Exporters::ManagedReportExporter < ValueObject
     yellow: '#F2C317'
   }.freeze
 
-  DATE_FIELD_NAMES = %w[date_of_incident date_of_report incident_date date_of_first_report].freeze
-
-  DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
-
   def self.export(managed_report, opts = {})
     exporter = new(managed_report: managed_report)
     exporter.export(opts)
@@ -72,10 +68,18 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def default_output_file_path
-    File.join(
-      Rails.configuration.exports_directory,
-      "#{managed_report.id}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.xlsx"
-    )
+    File.join(Rails.configuration.exports_directory, default_file_name)
+  end
+
+  def default_file_name
+    timestamp = Time.now.strftime('%Y%m%d.%M%S%M%L')
+    date_field_name = managed_report.date_field_name
+    verified_value = managed_report.verified_value
+    file_name = managed_report.id
+    file_name = "#{file_name}_#{date_field_name}" if date_field_name.present?
+    file_name = "#{file_name}_#{verified_value}" if verified_value.present?
+
+    "#{file_name}_#{timestamp}.xlsx"
   end
 
   # rubocop:disable Metrics/AbcSize
