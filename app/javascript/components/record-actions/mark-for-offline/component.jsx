@@ -6,20 +6,27 @@ import ActionDialog from "../../action-dialog";
 import buildSelectedIds from "../utils/build-selected-ids";
 import { useMemoizedSelector } from "../../../libs";
 import { getRecordsData } from "../../index-table";
+import { getMarkForMobileLoading, markForOffline } from "../../records";
+import { RECORD_TYPES_PLURAL } from "../../../config";
 
 import { NAME } from "./constants";
 
-const Component = ({ close, open, record, recordType, currentPage, selectedRecords }) => {
+const Component = ({ close, open, recordType, currentPage, selectedRecords, clearSelectedRecords }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
+  const markedForMobileLoadingCases = useMemoizedSelector(state => getMarkForMobileLoading(state, recordType));
+  const markedForMobileLoadingRegistry = useMemoizedSelector(state =>
+    getMarkForMobileLoading(state, RECORD_TYPES_PLURAL.registry_record)
+  );
+
   const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "short_id");
+  const selectedRegistryIds = buildSelectedIds(selectedRecords, records, currentPage, "registry_record_id");
 
   const handleOk = () => {
-    console.log(selectedIds);
-    // dispatch();
-    // close();
+    dispatch(markForOffline({ recordType, ids: selectedIds, selectedRegistryIds }));
+    clearSelectedRecords();
   };
 
   return (
@@ -30,6 +37,8 @@ const Component = ({ close, open, record, recordType, currentPage, selectedRecor
       dialogTitle={i18n.t("cases.mark_for_offline.title")}
       dialogText={i18n.t("cases.mark_for_offline.text")}
       confirmButtonLabel={i18n.t("cases.ok")}
+      omitCloseAfterSuccess
+      pending={markedForMobileLoadingCases || markedForMobileLoadingRegistry}
     />
   );
 };
@@ -37,10 +46,10 @@ const Component = ({ close, open, record, recordType, currentPage, selectedRecor
 Component.displayName = NAME;
 
 Component.propTypes = {
+  clearSelectedRecords: PropTypes.func,
   close: PropTypes.func,
   currentPage: PropTypes.number,
   open: PropTypes.bool,
-  record: PropTypes.object,
   recordType: PropTypes.string,
   selectedRecords: PropTypes.object
 };

@@ -159,10 +159,11 @@ export default ({
         action: () => handleDialogClick(MARK_FOR_OFFLINE_DIALOG),
         condition: canMarkForOffline,
         disableOffline: true,
-        enabledFor: ENABLED_FOR_ONE_MANY,
         name: i18n.t("actions.mark_for_offline"),
+        enabledFor: ENABLED_FOR_ONE_MANY,
         recordListAction: true,
-        recordType: RECORD_PATH.cases
+        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records],
+        disableRecordShowPage: true
       },
       {
         action: id => {

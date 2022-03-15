@@ -35,7 +35,15 @@ import {
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
 
-const Container = ({ currentPage, mode, record, recordType, selectedRecords, showListActions }) => {
+const Container = ({
+  currentPage,
+  mode,
+  record,
+  recordType,
+  selectedRecords,
+  clearSelectedRecords,
+  showListActions
+}) => {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
@@ -183,6 +191,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
           record,
           recordType,
           selectedRecords,
+          clearSelectedRecords,
           selectedRowsIndex,
           setPending: setDialogPending,
           userPermissions: permittedAbilities,
@@ -195,6 +204,7 @@ const Container = ({ currentPage, mode, record, recordType, selectedRecords, sho
 Container.displayName = NAME;
 
 Container.propTypes = {
+  clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
   mode: PropTypes.object,
   record: PropTypes.object,

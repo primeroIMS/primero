@@ -3,19 +3,19 @@
 /* eslint-disable import/prefer-default-export */
 
 import { fromJS } from "immutable";
+import { Tooltip } from "@material-ui/core";
 
 import { ToggleIconCell } from "../index-table";
 import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../config";
 import { ConditionalWrapper } from "../../libs";
 import DisableOffline from "../disable-offline";
 
-import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS } from "./constants";
+import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
 import PhotoColumnHeader from "./components/photo-column-header";
 
 export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
-
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
@@ -80,6 +80,20 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                   return <div className={css.id}>{disableColumnOffline({ value: idValue, rowIndex })}</div>;
                 }
               };
+            case "complete":
+              return {
+                sort: false,
+                disableOnClick: true,
+                customBodyRender: value => {
+                  return value ? (
+                    <Tooltip open title={i18n.t("action.marked_for_offline")}>
+                      <ToggleIconCell value={value} icon={COMPLETE} />
+                    </Tooltip>
+                  ) : (
+                    <span />
+                  );
+                }
+              };
             default:
               return {
                 sort: column.get("sort", true),
@@ -89,8 +103,10 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
         })(column.get("name"));
 
         return {
-          label: iconColumns.includes(column.get("name")) ? "" : i18n.t(`${recordType}.${column.get("name")}`),
-          name: column.get("field_name"),
+          label: [...iconColumns, COMPLETE].includes(column.get("name"))
+            ? " "
+            : i18n.t(`${recordType}.${column.get("name")}`),
+          name: column.get("field_name") || " ",
           id: column.get("id_search"),
           options: {
             ...options,
@@ -108,59 +124,44 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
     const canShowFlagIcon = allowedColumns.map(allowedColumn => allowedColumn.name).includes(ALERTS_COLUMNS.flag_count);
 
     if ([RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(recordType)) {
-      columns = columns.push(
-        {
-          label: "",
-          name: ALERTS,
-          id: false,
-          sort: false,
-          options: {
-            disableOnClick: true,
-            customHeadRender: columnMeta => emptyHeader(columnMeta),
-            // eslint-disable-next-line react/no-multi-comp, react/display-name
-            customBodyRender: (value, { rowIndex }) => {
-              const alertIcon =
-                // eslint-disable-next-line camelcase
-                canShowAlertIcon && value?.alert_count > 0 ? (
-                  <ToggleIconCell value={value.alert_count} icon={ALERTS_COLUMNS.alert_count} />
-                ) : (
-                  <span />
-                );
+      columns = columns.push({
+        label: "",
+        name: ALERTS,
+        id: false,
+        sort: false,
+        options: {
+          disableOnClick: true,
+          customHeadRender: columnMeta => emptyHeader(columnMeta),
+          // eslint-disable-next-line react/no-multi-comp, react/display-name
+          customBodyRender: (value, { rowIndex }) => {
+            const alertIcon =
+              // eslint-disable-next-line camelcase
+              canShowAlertIcon && value?.alert_count > 0 ? (
+                <ToggleIconCell value={value.alert_count} icon={ALERTS_COLUMNS.alert_count} />
+              ) : (
+                <span />
+              );
 
-              const flagIcon =
-                // eslint-disable-next-line camelcase
-                canShowFlagIcon && value?.flag_count > 0 ? (
-                  <ToggleIconCell value={value.flag_count} icon={ALERTS_COLUMNS.flag_count} />
-                ) : (
-                  <span />
-                );
+            const flagIcon =
+              // eslint-disable-next-line camelcase
+              canShowFlagIcon && value?.flag_count > 0 ? (
+                <ToggleIconCell value={value.flag_count} icon={ALERTS_COLUMNS.flag_count} />
+              ) : (
+                <span />
+              );
 
-              return disableColumnOffline({
-                value: (
-                  <div className={css.alerts}>
-                    {alertIcon}
-                    {flagIcon}
-                  </div>
-                ),
-                rowIndex
-              });
-            }
-          }
-        },
-        {
-          label: "",
-          name: "complete",
-          id: false,
-          sort: false,
-          options: {
-            disableOnClick: true,
-            customHeadRender: columnMeta => emptyHeader(columnMeta),
-            customBodyRender: value => {
-              return value ? <ToggleIconCell value={value} icon={ALERTS_COLUMNS.complete} /> : <span />;
-            }
+            return disableColumnOffline({
+              value: (
+                <div className={css.alerts}>
+                  {alertIcon}
+                  {flagIcon}
+                </div>
+              ),
+              rowIndex
+            });
           }
         }
-      );
+      });
     }
 
     return columns;
