@@ -2011,6 +2011,7 @@ en:
       kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
+      mark_for_offline: Mark for Offline
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match

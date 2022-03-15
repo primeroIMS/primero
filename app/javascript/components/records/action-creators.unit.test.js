@@ -1,4 +1,6 @@
 import isObject from "lodash/isObject";
+import sinon from "sinon";
+import configureStore from "redux-mock-store";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
 import { METHODS, RECORD_PATH } from "../../config/constants";
@@ -499,5 +501,70 @@ describe("records - Action Creators", () => {
     };
 
     expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
+  });
+
+  it("should check the 'markForOffline' action creator to return the correct object", () => {
+    const expected = {
+      type: `${RECORD_PATH.cases}/EXTERNAL_SYNC`,
+      api: {
+        path: `${RECORD_PATH.cases}/12345/sync`,
+        method: "POST"
+      }
+    };
+
+    const store = configureStore()({});
+    const dispatch = sinon.spy(store, "dispatch");
+
+    actionCreators.markForOffline({
+      recordType: RECORD_PATH.cases,
+      ids: ["12345", "67890"],
+      selectedRegistryIds: ["12345"]
+    })(dispatch);
+
+    expect(dispatch.getCall(1).args).be.deep.equals([
+      {
+        type: "cases/MARK_FOR_OFFLINE",
+        api: {
+          path: "/cases",
+          params: {
+            id: ["12345", "67890"]
+          },
+          db: {
+            collection: "records",
+            recordType: "cases"
+          },
+          successCallback: [
+            {
+              action: CLEAR_DIALOG
+            },
+            {
+              action: ENQUEUE_SNACKBAR,
+              payload: {
+                messageKey: "cases.mark_for_offline.success",
+                options: {
+                  variant: "success",
+                  key: "cases-mark-for-offline-success"
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]);
+    expect(dispatch.getCall(0).args).be.deep.equals([
+      {
+        type: "registry_records/MARK_FOR_OFFLINE",
+        api: {
+          path: "/registry_records",
+          params: {
+            id: ["12345"]
+          },
+          db: {
+            collection: "records",
+            recordType: "registry_records"
+          }
+        }
+      }
+    ]);
   });
 });
