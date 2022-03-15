@@ -9,6 +9,7 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
+  REGISTRY_FROM_CASE,
   SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
@@ -475,7 +476,8 @@ describe("<RecordForms /> - utils", () => {
         order: 1,
         formId: APPROVALS,
         is_first_tab: true,
-        permission_actions: SHOW_APPROVALS
+        permission_actions: SHOW_APPROVALS,
+        display_conditions: []
       });
 
       const approvalsForm = FormSectionRecord({
@@ -497,7 +499,8 @@ describe("<RecordForms /> - utils", () => {
         name: "Form 1",
         order: 1,
         formId: "form_id_1",
-        is_first_tab: true
+        is_first_tab: true,
+        display_conditions: []
       });
 
       const form = FormSectionRecord({
@@ -506,7 +509,8 @@ describe("<RecordForms /> - utils", () => {
         name: { en: "Form 1" },
         order: 1,
         order_form_group: 1,
-        is_first_tab: true
+        is_first_tab: true,
+        display_conditions: []
       });
 
       expect(utils.buildFormNav(form)).to.deep.equal(expected);
@@ -536,7 +540,8 @@ describe("<RecordForms /> - utils", () => {
         INCIDENT_FROM_CASE,
         REFERRAL,
         TRANSFERS_ASSIGNMENTS,
-        CHANGE_LOGS
+        CHANGE_LOGS,
+        REGISTRY_FROM_CASE
       ]);
     });
   });

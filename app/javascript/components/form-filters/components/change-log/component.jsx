@@ -22,12 +22,14 @@ const Component = ({ selectedForm, formMode, primeroModule, recordType, showDraw
   const handleSubmit = data => setFormFilters(data);
 
   const initialFilters = {
-    [FILTER_NAMES.field_names]: selectedFilters
-      .get(FILTER_NAMES.field_names, fromJS([]))
-      .reduce((acc, elem) => [...acc, elem], []),
-    [FILTER_NAMES.form_unique_ids]: selectedFilters
-      .get(FILTER_NAMES.form_unique_ids, fromJS([]))
-      .reduce((acc, elem) => [...acc, elem], [])
+    [FILTER_NAMES.field_names]: (selectedFilters.get(FILTER_NAMES.field_names) || fromJS([])).reduce(
+      (acc, elem) => [...acc, elem],
+      []
+    ),
+    [FILTER_NAMES.form_unique_ids]: (selectedFilters.get(FILTER_NAMES.form_unique_ids) || fromJS([])).reduce(
+      (acc, elem) => [...acc, elem],
+      []
+    )
   };
 
   return (

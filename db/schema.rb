@@ -283,6 +283,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_071617) do
     t.text "header_message_link"
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 

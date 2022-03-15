@@ -1,2 +1,2 @@
-export { spy, useFakeTimers, stub, mock, fake } from "sinon";
+export { spy, useFakeTimers, stub, mock, fake, replace } from "sinon";
 export * from "./utils";

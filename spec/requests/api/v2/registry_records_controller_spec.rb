@@ -44,6 +44,22 @@ describe Api::V2::RegistryRecordsController, type: :request do
       end
     end
 
+    context 'when the authorized user is not the record owner' do
+      it 'can list all registry records' do
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::REGISTRY_RECORD, actions: [Permission::READ])],
+          group_permission: Permission::GROUP
+        )
+        get '/api/v2/registry_records'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(4)
+        expect(json['metadata']['total']).to eq(4)
+        expect(json['metadata']['per']).to eq(20)
+        expect(json['metadata']['page']).to eq(1)
+      end
+    end
+
     context 'when user is unauthorized' do
       it 'refuses unauthorized access' do
         login_for_test(permissions: [])
@@ -56,13 +72,43 @@ describe Api::V2::RegistryRecordsController, type: :request do
     end
   end
 
-  describe 'GET /api/v2/tracing_requests/:id' do
-    it 'fetches the correct record with code 200' do
-      login_for_test
-      get "/api/v2/registry_records/#{@registry1.id}"
+  describe 'GET /api/v2/registry_records/:id' do
+    context 'when the authorized user has full record access scope' do
+      it 'fetches the correct record with code 200' do
+        login_for_test
+        get "/api/v2/registry_records/#{@registry1.id}"
 
-      expect(response).to have_http_status(200)
-      expect(json['data']['id']).to eq(@registry1.id)
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@registry1.id)
+      end
+
+      context 'and registry name is hidden' do
+        before do
+          @registry1.hidden_name = true
+          @registry1.save!
+          login_for_test(permitted_field_names: %w[name])
+        end
+
+        it 'obfuscates the name' do
+          get "/api/v2/registry_records/#{@registry1.id}"
+
+          expect(json['data']['name']).to eq('*******')
+          expect(json['data']['hidden_name']).to be true
+        end
+      end
+    end
+
+    context 'when the authorized user is not the record owner' do
+      it 'fetches the correct record with code 200' do
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::REGISTRY_RECORD, actions: [Permission::READ])],
+          group_permission: Permission::GROUP
+        )
+        get "/api/v2/registry_records/#{@registry1.id}"
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@registry1.id)
+      end
     end
   end
 
@@ -82,7 +128,7 @@ describe Api::V2::RegistryRecordsController, type: :request do
   describe 'PATCH /api/v2/registry_records/:id' do
     it 'updates an existing record with 200' do
       login_for_test
-      params = { data: { registry_type:  RegistryRecord::REGISTRY_TYPE_FOSTER_CARE} }
+      params = { data: { registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE } }
       patch "/api/v2/registry_records/#{@registry1.id}", params: params, as: :json
 
       expect(response).to have_http_status(200)

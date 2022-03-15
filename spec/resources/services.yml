@@ -1,0 +1,19 @@
+---
+fr:
+  services:
+    name: Services/Activités de remédiation
+    description: Formulaire de services
+    fields:
+      services_section:
+        display_name: Activités de remédiation
+      approval_status_case_plan:
+        display_name: Statut d'approbation
+      case_plan_approved_comments:
+        display_name: Commentaires de gestionnaire
+      case_plan_approved_date:
+        display_name: Date
+      case_plan_approved:
+        display_name: Apprové par le gestionnaire
+        tick_box_label: 'Oui'
+      action_plan_separator:
+        display_name: Plan d'action

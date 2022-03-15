@@ -183,8 +183,7 @@ class Permission < ValueObject
       EXPORT_JSON, EXPORT_CUSTOM, IMPORT, CHANGE_LOG, MANAGE
     ],
     REGISTRY_RECORD => [
-      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_JSON, EXPORT_CUSTOM, IMPORT, CHANGE_LOG, MANAGE
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_CSV, EXPORT_EXCEL, EXPORT_JSON, CHANGE_LOG, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
     USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
@@ -288,8 +287,8 @@ class Permission < ValueObject
     end
   end
 
-  def record?
-    [CASE, INCIDENT, TRACING_REQUEST, REGISTRY_RECORD].include?(resource)
+  def record_with_ownership_authorization?
+    [CASE, INCIDENT, TRACING_REQUEST].include?(resource)
   end
 
   def resource_class

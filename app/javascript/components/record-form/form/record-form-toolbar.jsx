@@ -34,6 +34,7 @@ import { RECORD_FORM_TOOLBAR_NAME } from "./constants";
 import { WorkflowIndicator } from "./components";
 import css from "./styles.css";
 import RecordPageHeading from "./page-heading";
+import DisabledRecordIndicator from "./components/disabled-record-indicator";
 
 const RecordFormToolbar = ({
   handleFormSubmit,
@@ -122,7 +123,7 @@ const RecordFormToolbar = ({
   let renderRecordStatusIndicator = null;
 
   if (record && !record.get("enabled")) {
-    renderRecordStatusIndicator = <h3 className={css.caseDisabled}>{i18n.t(`${recordType}.messages.disabled`)}</h3>;
+    renderRecordStatusIndicator = <DisabledRecordIndicator recordType={recordType} />;
   } else if ((mode.isShow || mode.isEdit) && params.recordType === RECORD_PATH.cases) {
     renderRecordStatusIndicator = (
       <WorkflowIndicator
@@ -164,8 +165,7 @@ const RecordFormToolbar = ({
             rest={{ onClick: handleReturnToCase }}
           />
         ) : null}
-        {/* TODO: Remove the RECORD_TYPES.registry_records condition once flags are implemented for registry_records */}
-        {mode.isShow && params && recordType !== RECORD_TYPES.registry_records && (
+        {mode.isShow && params && (
           <Permission resources={params.recordType} actions={FLAG_RECORDS}>
             <DisableOffline button>
               <Badge color="error" badgeContent={record.get("flag_count")} className={css.badgeIndicator}>

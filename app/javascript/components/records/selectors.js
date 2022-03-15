@@ -13,6 +13,8 @@ export const selectRecord = (state, query = {}) => {
   if (isEditOrShow) {
     const index = state.getIn(["records", recordType, "data"], fromJS([])).findIndex(r => r.get("id") === id);
 
+    if (index < 0) return fromJS({});
+
     return state.getIn(["records", recordType, "data", index], Map({}));
   }
 

@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { useMemoizedSelector } from "../../../../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
@@ -17,7 +19,8 @@ const SearchForm = ({
   fields,
   setDrawerTitle,
   locale,
-  permissions
+  permissions,
+  noForm = false
 }) => {
   const i18n = useI18n();
 
@@ -25,13 +28,15 @@ const SearchForm = ({
 
   redirectIfNotAllowed(permissions.writeRegistryRecord);
 
-  setDrawerTitle("search_for", { record_type: registryType.getIn(["display_text", i18n.locale], "") });
+  setDrawerTitle("search_for", {
+    record_type: noForm ? i18n.t("navigation.registry_records") : registryType.getIn(["display_text", i18n.locale], "")
+  });
 
   const handleSearch = async data => {
     // eslint-disable-next-line camelcase
     const { search_by, ...searchParams } = data;
 
-    await setSearchParams(searchParams);
+    await setSearchParams({ ...searchParams, record_state: true });
     setComponent(1);
   };
 
@@ -66,16 +71,24 @@ const SearchForm = ({
     })
   ];
 
-  const validationSchema = buildValidation(formFields[0].fields);
+  const searchByRequiredMessage = i18n.t("fields.required_field", { field: i18n.t("case.search_by") });
+
+  const validationSchema = buildValidation(formFields[0].fields, searchByRequiredMessage);
 
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.back_to_case" rest={{ onClick: handleCancel }} />
+        <ActionButton
+          type={ACTION_BUTTON_TYPES.default}
+          text="case.back_to_case"
+          rest={{ onClick: handleCancel }}
+          icon={<ArrowBackIosIcon />}
+        />
         <ActionButton
           type={ACTION_BUTTON_TYPES.default}
           text="navigation.search"
           rest={{ form: FORM_ID, type: "submit" }}
+          icon={<SearchIcon />}
         />
       </div>
       <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />
@@ -89,6 +102,7 @@ SearchForm.propTypes = {
   fields: PropTypes.object.isRequired,
   handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
+  noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,

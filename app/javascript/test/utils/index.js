@@ -7,7 +7,7 @@ import isEmpty from "lodash/isEmpty";
 import { SnackbarProvider } from "notistack";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { MemoryRouter, Router } from "react-router-dom";
+import { MemoryRouter, Route, Router } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import DateFnsUtils from "@date-io/date-fns";
@@ -79,7 +79,8 @@ export const setupMountedComponent = (
   props = {},
   initialState = {},
   initialEntries = [],
-  formProps = {}
+  formProps = {},
+  path = ""
 ) => {
   const { store, history } = createMockStore(DEFAULT_STATE, initialState);
 
@@ -116,7 +117,9 @@ export const setupMountedComponent = (
     return (
       <ThemeProvider>
         <MemoryRouter initialEntries={initialEntries}>
-          <FormikComponent {...formikComponentProps} />
+          <Route path={path}>
+            <FormikComponent {...formikComponentProps} />
+          </Route>
         </MemoryRouter>
       </ThemeProvider>
     );

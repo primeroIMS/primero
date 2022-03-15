@@ -17,7 +17,7 @@ const Records = {
     };
   },
 
-  updateCaseIncidents: async data => {
+  updateCaseIncidents: async (data, online) => {
     const { incident_case_id: caseID } = data;
     const caseRecord = await Records.find({ collection: "records", db: { id: caseID } });
 
@@ -42,20 +42,21 @@ const Records = {
     await Records.save({
       collection: "records",
       recordType: "cases",
-      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } },
+      online
     });
   },
 
-  save: async ({ collection, json, recordType }) => {
+  save: async ({ collection, json, recordType, online = false }) => {
     const { data, metadata } = json;
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, complete: true };
+    const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, ...(online && { complete: true }) };
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
-      await Records.updateCaseIncidents(data);
+      await Records.updateCaseIncidents(data, online);
     }
 
     if (dataIsArray) {
