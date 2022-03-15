@@ -81,7 +81,7 @@ class Incident < ApplicationRecord
   searchable do
     date :incident_date_derived
     date :date_of_first_report
-    string :status, as: 'status_sci'
+    %w[id status].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }

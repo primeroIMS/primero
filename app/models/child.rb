@@ -124,7 +124,7 @@ class Child < ApplicationRecord
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
-    %w[status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[id status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
