@@ -2,8 +2,6 @@
 
 # Describes ManagedReport in Primero.
 class ManagedReport < ValueObject
-  DATE_FIELD_NAMES = %w[incident_date date_of_first_report date_of_report date_of_incident ctfmr_verified_date].freeze
-
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
   attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
@@ -84,6 +82,6 @@ class ManagedReport < ValueObject
   end
 
   def verified_value
-    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
+    filters&.find { |filter| filter.field_name == 'verified_ctfmr_technical' }&.value
   end
 end
