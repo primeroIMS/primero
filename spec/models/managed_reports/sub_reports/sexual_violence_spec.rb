@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe ManagedReports::SubReports::Rape do
-  let(:rape) { ManagedReports::SubReports::Rape.new }
+describe ManagedReports::SubReports::SexualViolence do
+  let(:rape) { ManagedReports::SubReports::SexualViolence.new }
 
   it 'return the subreport id the subject' do
-    expect(rape.id).to eq('rape')
+    expect(rape.id).to eq('sexual_violence')
   end
 
   it 'return an Array of instance' do

@@ -1799,6 +1799,7 @@ en:
     translation_label: Translation Text
     values: Options
   managed_reports:
+    generated_on: Generated On
     label: Insights
     total: Total
     filter_by: 
@@ -1825,15 +1826,18 @@ en:
         incident_date: Date of Incident
         date_of_report: Date of Report
         ctfmr_verified_date: Date of Verification
+        verified: Verified
       reports:
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
         sexual_violence: Rape and/or other forms of sexual violence
+        rape: Rape and/or other forms of sexual violence
         abduction: Abduction
         attack_on: Attacks on school(s) and/or hospital(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        detention: Detention
       sub_reports:
         combined: Violations
         detention_detained: Remain Detained
@@ -1845,6 +1849,9 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        violation: Violations
+        sexual_violence_type: Form(s) of sexual violence
+        detention_status: Status of Detained children
     gbv_statistics:
       name: GBV Statistics
       description: ''

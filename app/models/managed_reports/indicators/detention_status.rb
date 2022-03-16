@@ -12,7 +12,7 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
     # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
       %{
-        select status, count(subquery.id)
+        select status as id, count(subquery.id) as total
         from (
             select
             iv.id as id,
@@ -20,8 +20,8 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
               case
               when (iv."data"->>'deprivation_liberty_end' is not null
                 and to_date(iv."data"->>'deprivation_liberty_end', 'YYYY-MM-DD') <= CURRENT_DATE)
-              then 'managed_reports.violations.sub_reports.detention_released'
-              else 'managed_reports.violations.sub_reports.detention_detained'
+              then 'detention_released'
+              else 'detention_detained'
               end
             ) as status
                   from violations violations
