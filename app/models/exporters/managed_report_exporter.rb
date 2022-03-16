@@ -27,11 +27,11 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def export(opts = {})
-    buffer = File.new(output_file_path(opts), 'w')
+    buffer = opts[:buffer_to_file] == false ? StringIO.new : File.new(output_file_path(opts), 'w')
     workbook = WriteXLSX.new(buffer)
     build_formats(workbook)
     write_report_data(workbook, opts)
-    buffer
+    buffer.is_a?(File) ? buffer : buffer.string
   rescue StandardError => e
     Rails.logger.error(e.backtrace.join('\n'))
   ensure
