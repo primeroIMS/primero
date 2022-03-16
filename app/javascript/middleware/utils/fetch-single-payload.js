@@ -1,3 +1,5 @@
+import { isImmutable } from "immutable";
+
 import { FETCH_TIMEOUT, ROUTES } from "../../config";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 import { disableNavigation } from "../../components/application/action-creators";
@@ -70,7 +72,9 @@ const fetchSinglePayload = (action, store, options) => {
 
   fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers));
 
-  const fetchPath = buildPath(path, options, params, external);
+  const urlParams = isImmutable(params) ? params.toJS() : params;
+
+  const fetchPath = buildPath(path, options, urlParams, external);
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);
@@ -113,7 +117,7 @@ const fetchSinglePayload = (action, store, options) => {
             db,
             fromQueue,
             fromAttachment,
-            params
+            params: urlParams
           });
 
           messageQueueSuccess(action);
