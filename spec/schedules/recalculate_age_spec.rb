@@ -91,7 +91,6 @@ describe RecalculateAge, search: true do
       end
 
       it 'should calculate age with birthday today' do
-        # binding.pry
         expect(@case9.reload.age).to eq(0)
       end
 
