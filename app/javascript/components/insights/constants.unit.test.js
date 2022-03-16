@@ -8,6 +8,7 @@ describe("<Report /> - constants", () => {
     [
       "DELETE_MODAL",
       "NAME",
+      "NAMESPACE",
       "DATE_PATTERN",
       "TOTAL",
       "TOTAL_KEY",

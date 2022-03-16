@@ -2,14 +2,24 @@
 
 import { cleanUpFilters } from "../records/utils";
 
-import { FETCH_INSIGHTS } from "./actions";
+import actions from "./actions";
 
 export const fetchInsights = data => {
   return {
-    type: FETCH_INSIGHTS,
+    type: actions.FETCH_INSIGHTS,
     api: {
       path: "managed_reports",
       params: cleanUpFilters(data.options)
     }
   };
 };
+
+export const setFilters = data => ({
+  type: actions.SET_INSIGHT_FILTERS,
+  payload: data
+});
+
+export const clearFilters = data => ({
+  type: actions.CLEAR_INSIGHT_FILTERS,
+  payload: data
+});

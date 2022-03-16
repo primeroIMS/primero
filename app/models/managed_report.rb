@@ -4,7 +4,7 @@
 class ManagedReport < ValueObject
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
-  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
+  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters, :exporter
 
   # rubocop:disable Metrics/MethodLength
   def self.list
@@ -15,7 +15,8 @@ class ManagedReport < ValueObject
         description: 'managed_reports.gbv_statistics.description',
         subreports: %w[incidents perpetrators],
         permitted_filters: [date_of_first_report: {}, incident_date: {}],
-        module_id: PrimeroModule::GBV
+        module_id: PrimeroModule::GBV,
+        exporter: Exporters::CsvExporter # TODO: Replace with correct exporter
       ),
       Permission::VIOLATION_REPORT => ManagedReport.new(
         id: 'violations',
@@ -27,7 +28,8 @@ class ManagedReport < ValueObject
           date_of_first_report: {},
           incident_date: {}, ctfmr_verified_date: {}
         ],
-        module_id: PrimeroModule::MRM
+        module_id: PrimeroModule::MRM,
+        exporter: Exporters::CsvExporter, # TODO: Replace with correct exporter
       )
     }.freeze
   end

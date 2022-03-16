@@ -7,3 +7,7 @@ import NAMESPACE from "./namespace";
 export const getInsight = state => {
   return state.getIn(["records", NAMESPACE, "selectedReport"], fromJS({}));
 };
+
+export const getInsightFilters = state => {
+  return state.getIn(["records", NAMESPACE, "filters"], fromJS({}));
+};

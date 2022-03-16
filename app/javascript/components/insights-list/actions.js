@@ -1,6 +1,12 @@
-export const FETCH_INSIGHTS = "reports/FETCH_INSIGHTS";
-export const FETCH_INSIGHTS_STARTED = "reports/FETCH_INSIGHTS_STARTED";
-export const FETCH_INSIGHTS_SUCCESS = "reports/FETCH_INSIGHTS_SUCCESS";
-export const FETCH_INSIGHTS_FINISHED = "reports/FETCH_INSIGHTS_FINISHED";
-export const FETCH_INSIGHTS_FAILURE = "reports/FETCH_INSIGHTS_FAILURE";
-export const CLEAR_METADATA = "reports/CLEAR_METADATA";
+import { namespaceActions } from "../../libs";
+
+export default namespaceActions("reports", [
+  "FETCH_INSIGHTS",
+  "FETCH_INSIGHTS_STARTED",
+  "FETCH_INSIGHTS_SUCCESS",
+  "FETCH_INSIGHTS_FINISHED",
+  "FETCH_INSIGHTS_FAILURE",
+  "CLEAR_METADATA",
+  "SET_INSIGHT_FILTERS",
+  "CLEAR_INSIGHT_FILTERS"
+]);

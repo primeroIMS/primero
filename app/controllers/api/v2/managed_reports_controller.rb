@@ -2,6 +2,8 @@
 
 # ManagedReports CRUD API
 class Api::V2::ManagedReportsController < ApplicationApiController
+  include Api::V2::Concerns::Export
+
   before_action :load_report, only: %i[show]
 
   def index
@@ -19,6 +21,10 @@ class Api::V2::ManagedReportsController < ApplicationApiController
     authorize_managed_reports_read!
 
     @managed_report = ManagedReport.list[params[:id]]
+  end
+
+  def exporter
+    @managed_report.exporter
   end
 
   private

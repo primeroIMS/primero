@@ -1875,6 +1875,7 @@ en:
         perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
         perpetrator_age_group: Alleged Primary Perpetrators Age Group
         perpetrator_occupation: Alleged Primary Perpetrator Occupation
+    success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:

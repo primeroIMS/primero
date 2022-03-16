@@ -1,6 +1,6 @@
 import * as actions from "./actions";
 
-describe("<Reports /> - Actions", () => {
+describe("<Insights /> - Actions", () => {
   describe("properties", () => {
     let clone;
 
@@ -18,7 +18,9 @@ describe("<Reports /> - Actions", () => {
       "FETCH_INSIGHTS_SUCCESS",
       "FETCH_INSIGHTS_FINISHED",
       "FETCH_INSIGHTS_FAILURE",
-      "CLEAR_METADATA"
+      "CLEAR_METADATA",
+      "SET_INSIGHT_FILTERS",
+      "CLEAR_INSIGHT_FILTERS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(actions).to.have.property(property);

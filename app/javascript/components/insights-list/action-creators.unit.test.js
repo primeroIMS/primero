@@ -2,7 +2,7 @@ import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
-import { FETCH_INSIGHTS } from "./actions";
+import actions from "./actions";
 
 describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
@@ -31,7 +31,7 @@ describe("<Reports /> - Action Creators", () => {
     dispatch(actionCreators.fetchInsights(data));
     const firstCall = dispatch.getCall(0);
 
-    expect(firstCall.returnValue.type).to.equal(FETCH_INSIGHTS);
+    expect(firstCall.returnValue.type).to.equal(actions.FETCH_INSIGHTS);
     expect(firstCall.returnValue.api.path).to.equal("managed_reports");
     expect(firstCall.returnValue.api.params).to.deep.equal(data.options);
   });
