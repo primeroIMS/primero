@@ -2044,7 +2044,7 @@ en:
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
       sync_external: Sync with an external information management system
-      sync_mobile: Sync with mobile device
+      sync_mobile: Mark for Offline
       system: System
       tracing_request: Tracing Request
       transfer: Can be used for transfer
@@ -2507,7 +2507,7 @@ en:
               from happening. Users without this permission also cannot sync their
               mobile devices with the web application in general, meaning that they
               cannot use the mobile app to manage cases.
-            label: Sync with mobile device
+            label: Mark for Offline
           transfer:
             explanation: Allows a user to send a case from its current record owner
               to any user in the system with the ability to receive transfers. The
@@ -3029,8 +3029,16 @@ en:
             explanation: Ability to click the "Edit" button, update information about the Registry
               record, and click "Save".
             label: Edit
-          mark_for_offline:
-            explanation: Allows the user to cache a Case for usage offline.
+          sync_mobile:
+            explanation: This permission generally allows the user to use the mobile
+              application. First, it allows the user to see the "Mark for Mobile"
+              and "Un-mark for Mobile" actions, which appear on the incident list
+              and incident show pages. Marking an incident for mobile indicates that
+              information about that incident should be synced between the user's
+              mobile device and the web application, while un-marking an incident
+              for mobile stops this syncing from happening. Users without this permission
+              also cannot sync their mobile devices with the web application in general,
+              meaning that they cannot use the mobile app to manage incidents.
             label: Mark for Offline
         explanation: This can represent an individual or institution which need to be linked
           to other records like cases or incidents, are very numerous, and are repeatedly

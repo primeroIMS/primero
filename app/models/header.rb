@@ -79,7 +79,7 @@ class Header < ValueObject
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
       header_list << CASE_NAME if user.module?(PrimeroModule::CP) && user.can_list_case_names?
-      header_list << COMPLETE if user.can?(:mark_for_offline, Child)
+      header_list << COMPLETE if user.can?(:sync_mobile, Child)
       header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
       header_list << AGE if user.module?(PrimeroModule::CP)
       header_list << SEX if user.module?(PrimeroModule::CP)
@@ -122,7 +122,7 @@ class Header < ValueObject
       header_list = []
       header_list << SHORT_ID
       header_list << REGISTRY_NAME
-      header_list << COMPLETE if user.can?(:mark_for_offline, RegistryRecord)
+      header_list << COMPLETE if user.can?(:sync_mobile, RegistryRecord)
       header_list << REGISTRY_CODE
       header_list << REGISTRATION_DATE
       header_list
