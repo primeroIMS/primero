@@ -99,7 +99,7 @@ const getSuccessCallback = ({
   return defaultSuccessCallback;
 };
 
-const markForOfflineAction = (recordType, ids) => {
+const markForOfflineAction = (recordType, ids, includeSuccessCallbacks = true) => {
   return {
     type: `${recordType}/MARK_FOR_OFFLINE`,
     api: {
@@ -108,7 +108,7 @@ const markForOfflineAction = (recordType, ids) => {
       ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
         db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
       }),
-      ...(recordType === RECORD_TYPES_PLURAL.case && {
+      ...(includeSuccessCallbacks && {
         successCallback: [
           {
             action: CLEAR_DIALOG
@@ -116,10 +116,10 @@ const markForOfflineAction = (recordType, ids) => {
           {
             action: ENQUEUE_SNACKBAR,
             payload: {
-              messageKey: "cases.mark_for_offline.success",
+              messageKey: `${recordType}.mark_for_offline.success`,
               options: {
                 variant: "success",
-                key: generate.messageKey("cases.mark_for_offline.success")
+                key: generate.messageKey(`${recordType}.mark_for_offline.success`)
               }
             }
           }
@@ -364,7 +364,7 @@ export const markForOffline = ({ recordType, ids = [], selectedRegistryIds = [] 
   const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
 
   if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
-    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted));
+    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));
   }
 
   dispatch(markForOfflineAction(recordType, ids));
