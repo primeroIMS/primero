@@ -83,7 +83,8 @@ describe("Verifying config constant", () => {
       "TRANSFER",
       "WRITE",
       "AGENCY_READ",
-      "INCIDENT_FROM_CASE"
+      "INCIDENT_FROM_CASE",
+      "MARK_FOR_OFFLINE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");

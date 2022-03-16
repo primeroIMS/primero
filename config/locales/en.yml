@@ -60,6 +60,7 @@ en:
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
+    mark_for_offline: Mark for Offline
   agencies:
     label: Agency
     translations:
@@ -291,6 +292,10 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Cases for use when you are offline?
+      success: Cases successfully marked for offline use
     filter_by:
       3month_inactivity: For 3+ months
       action_plan: Action Plan
@@ -2006,6 +2011,7 @@ en:
       kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
+      mark_for_offline: Mark for Offline
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match
@@ -2541,6 +2547,9 @@ en:
             explanation: Managers usually cannot see the names of Cases in the Case List.
               If a manager has this permission, they will be able to see names in the list.
             label: If manager, can see Case names on Case List.
+          mark_for_offline:
+            explanation: Allows the user to cache a Case for usage offline.
+            label: Mark for Offline
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3020,6 +3029,9 @@ en:
             explanation: Ability to click the "Edit" button, update information about the Registry
               record, and click "Save".
             label: Edit
+          mark_for_offline:
+            explanation: Allows the user to cache a Case for usage offline.
+            label: Mark for Offline
         explanation: This can represent an individual or institution which need to be linked
           to other records like cases or incidents, are very numerous, and are repeatedly
           updated with new information. They are similar to lookups, but with a more complex

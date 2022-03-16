@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
@@ -143,6 +143,10 @@ const Container = ({ match, location }) => {
     setDrawer(!drawer);
   };
 
+  const clearSelectedRecords = useCallback(() => {
+    setSelectedRecords({});
+  }, []);
+
   const filterContainerProps = {
     mobileDisplay,
     drawer,
@@ -158,7 +162,8 @@ const Container = ({ match, location }) => {
     handleDrawer,
     mobileDisplay,
     currentPage,
-    selectedRecords
+    selectedRecords,
+    clearSelectedRecords
   };
 
   const filterProps = {

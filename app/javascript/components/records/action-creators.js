@@ -1,9 +1,17 @@
 import startsWith from "lodash/startsWith";
+import compact from "lodash/compact";
 
-import { DB_COLLECTIONS_NAMES } from "../../db";
+import { DB_COLLECTIONS_NAMES, IDB_SAVEABLE_RECORD_TYPES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 import { CLEAR_DIALOG } from "../action-dialog";
-import { INCIDENT_FROM_CASE, METHODS, RECORD_PATH, RECORD_TYPES, SAVE_METHODS } from "../../config";
+import {
+  INCIDENT_FROM_CASE,
+  METHODS,
+  RECORD_PATH,
+  RECORD_TYPES,
+  RECORD_TYPES_PLURAL,
+  SAVE_METHODS
+} from "../../config";
 import { setSelectedForm } from "../record-form/action-creators";
 
 import {
@@ -89,6 +97,36 @@ const getSuccessCallback = ({
   }
 
   return defaultSuccessCallback;
+};
+
+const markForOfflineAction = (recordType, ids) => {
+  return {
+    type: `${recordType}/MARK_FOR_OFFLINE`,
+    api: {
+      path: `/${recordType.toLowerCase()}`,
+      params: { id: ids },
+      ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
+        db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
+      }),
+      ...(recordType === RECORD_TYPES_PLURAL.case && {
+        successCallback: [
+          {
+            action: CLEAR_DIALOG
+          },
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              messageKey: "cases.mark_for_offline.success",
+              options: {
+                variant: "success",
+                key: generate.messageKey("cases.mark_for_offline.success")
+              }
+            }
+          }
+        ]
+      })
+    }
+  };
 };
 
 export const clearMetadata = recordType => ({
@@ -321,3 +359,13 @@ export const externalSync = (recordType, record) => ({
     method: "POST"
   }
 });
+
+export const markForOffline = ({ recordType, ids = [], selectedRegistryIds = [] }) => dispatch => {
+  const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
+
+  if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
+    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted));
+  }
+
+  dispatch(markForOfflineAction(recordType, ids));
+};
