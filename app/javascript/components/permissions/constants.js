@@ -78,7 +78,7 @@ export const ACTIONS = {
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
   WRITE: "write",
-  MARK_FOR_OFFLINE: "mark_for_offline"
+  MARK_FOR_OFFLINE: "sync_mobile"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
