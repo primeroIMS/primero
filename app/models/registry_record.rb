@@ -17,8 +17,8 @@ class RegistryRecord < ApplicationRecord
 
   store_accessor(
     :data,
-    :registry_type, :registry_id, :registry_no, :registration_date, :registry_id_display, :name, :module_id,
-    :location_current
+    :registry_type, :registry_id, :registry_no, :registration_date, :registry_id_display, :name, :hidden_name,
+    :module_id, :location_current
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
@@ -48,7 +48,7 @@ class RegistryRecord < ApplicationRecord
   end
 
   searchable do
-    %w[status registry_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[id status registry_type].each { |f| string(f, as: "#{f}_sci") }
     %w[registration_date].each { |f| date(f) }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }

@@ -7,7 +7,9 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
       'reporting_location'
     end
 
+    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
@@ -15,7 +17,9 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as id,
         count(iv.id) as total
         from violations violations
-        inner join incidents incidents on incidents.id = violations.incident_id
+        inner join incidents incidents
+          on incidents.id = violations.incident_id
+          #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         inner join individual_victims_violations ivv on violations .id = ivv.violation_id
         inner join individual_victims iv on ivv.individual_victim_id = iv.id
         WHERE incidents.data->>'reporting_location_hierarchy' is not null
@@ -29,7 +33,9 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}];
       }
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user, args = {})
       super(current_user, args, &:to_a)

@@ -18,6 +18,8 @@ class Importers::CsvRecordImporter < ValueObject
     return log_errors(I18n.t('imports.csv_record.messages.no_file')) unless file_path.file?
 
     File.open(file_path) { |file| process_file(file) }
+
+    reindex_records
   end
 
   private
@@ -79,9 +81,17 @@ class Importers::CsvRecordImporter < ValueObject
   end
 
   def create_records(records)
-    InsertAllService.insert_all(record_class, records, nil)
+    InsertAllService.insert_all(record_class, records, 'id')
   rescue StandardError => e
     log_errors(I18n.t('imports.csv_record.messages.insert_all_error', message: "#{e.message[0..200]}..."))
+  end
+
+  def reindex_records
+    location_service = LocationService.new(true)
+    record_class.all.find_in_batches(batch_size: batch_size) do |records|
+      records.each { |r| r.location_service = location_service } unless record_class == Trace
+      Sunspot.index(records)
+    end
   end
 
   def log_errors(message, opts = {})

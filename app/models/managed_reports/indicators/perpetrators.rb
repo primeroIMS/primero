@@ -9,7 +9,8 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def sql(_current_user, params = {})
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def sql(current_user, params = {})
       %{
         select name, key, sum(value::integer) from (
           select distinct on(p.id, violations.id, key) key, value,
@@ -18,7 +19,9 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
           inner join perpetrators_violations pv on pv.violation_id = violations.id
           inner join perpetrators p on p.id = pv.perpetrator_id
           cross join json_each_text((violations."data"->>'violation_tally')::JSON)
-          #{incidents_join(params)}
+          inner join incidents incidents
+            on incidents.id = violations.incident_id
+            #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
           p.data->>'armed_force_group_party_name' is not null
           and violations."data"->>'violation_tally' is not null
@@ -34,6 +37,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user = nil, args = {})
       super(current_user, args) do |result|

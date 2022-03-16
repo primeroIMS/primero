@@ -9,7 +9,7 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
-    def sql(_current_user, params = {})
+    def sql(current_user, params = {})
       %{
         select
           p."data"->>'armed_force_group_party_name' as id,
@@ -17,7 +17,9 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
           from violations violations
           inner join perpetrators_violations pv on pv.violation_id = violations.id
           inner join perpetrators p on p.id = pv.perpetrator_id
-          #{incidents_join(params)}
+          inner join incidents incidents
+            on incidents.id = violations.incident_id
+            #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
           p.data->>'armed_force_group_party_name' is not null
           #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}

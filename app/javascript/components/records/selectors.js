@@ -49,6 +49,9 @@ export const getSavingRecord = (state, recordType) => state.getIn(["records", re
 
 export const getLoadingRecordState = (state, recordType) => state.getIn(["records", recordType, "loading"], false);
 
+export const getMarkForMobileLoading = (state, recordType) =>
+  state.getIn(["records", recordType, "markForMobileLoading"], false);
+
 export const getRecordAlerts = (state, recordType) => state.getIn(["records", recordType, "recordAlerts"], List([]));
 
 export const getRecordFormAlerts = (state, recordType, formUniqueId) =>

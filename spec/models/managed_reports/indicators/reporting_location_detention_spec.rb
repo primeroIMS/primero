@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::ReportingLocationDetention do
   before do
-    clean_data(SystemSettings, Role, Agency, User, Incident, Violation, Location, IndividualVictim)
+    clean_data(SystemSettings, Role, Agency, UserGroup, User, Incident, Violation, Location, IndividualVictim)
     SystemSettings.create!(
       default_locale: 'en',
       incident_reporting_location_config: {
@@ -15,19 +15,88 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
     )
     SystemSettings.current(true)
 
-    role = Role.create!(
-      name: 'Test Role 1',
-      unique_id: 'test-role-1',
-      permissions: [
-        Permission.new(
-          resource: Permission::MANAGED_REPORT,
-          actions: [
-            Permission::VIOLATION_REPORT
-          ]
-        )
-      ]
+    permissions = [
+      Permission.new(
+        resource: Permission::MANAGED_REPORT,
+        actions: [
+          Permission::VIOLATION_REPORT
+        ]
+      )
+    ]
+    self_role = Role.create!(
+      name: 'Self Role 1',
+      unique_id: 'self-role-1',
+      group_permission: Permission::SELF,
+      permissions: permissions
     )
-    agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+
+    group_role = Role.create!(
+      name: 'Group Role 1',
+      unique_id: 'group-role-1',
+      group_permission: Permission::GROUP,
+      permissions: permissions
+    )
+
+    agency_role = Role.create!(
+      name: 'Agency Role 1',
+      unique_id: 'agency-role-1',
+      group_permission: Permission::AGENCY,
+      permissions: permissions
+    )
+
+    all_role = Role.create!(
+      name: 'All Role 1',
+      unique_id: 'all-role-1',
+      group_permission: Permission::ALL,
+      permissions: permissions
+    )
+
+    agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
+    agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2', unique_id: 'agency2')
+
+    group_a = UserGroup.create(unique_id: 'group-a', name: 'Group A')
+    group_b = UserGroup.create(unique_id: 'group-b', name: 'Group B')
+
+    @self_user = User.create!(
+      full_name: 'Self User',
+      user_name: 'self_user',
+      email: 'self_user@localhost.com',
+      agency_id: agency_a.id,
+      user_groups: [group_a],
+      reporting_location_code: 1,
+      role: self_role
+    )
+
+    @group_user = User.create!(
+      full_name: 'Group User',
+      user_name: 'group_user',
+      email: 'group_user@localhost.com',
+      agency_id: agency_b.id,
+      user_groups: [group_b],
+      reporting_location_code: 1,
+      role: group_role
+    )
+
+    @agency_user = User.create!(
+      full_name: 'Agency User',
+      user_name: 'agency_user',
+      email: 'agency_user@localhost.com',
+      agency_id: agency_b.id,
+      user_groups: [group_b],
+      reporting_location_code: 1,
+      role: agency_role
+    )
+
+    @all_user = User.create!(
+      full_name: 'all User',
+      user_name: 'all_user',
+      email: 'all_user@localhost.com',
+      agency_id: agency_a.id,
+      user_groups: [group_a, group_b],
+      reporting_location_code: 1,
+      role: all_role
+    )
+
     locations = [
       { placename_i18n: { "en": 'US' }, location_code: 'US', admin_level: 0, type: 'country', hierarchy_path: 'US' },
       { placename_i18n: { "en": 'E1' }, location_code: 'E1', admin_level: 1, type: 'state', hierarchy_path: 'US.E1' },
@@ -43,12 +112,28 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
     ]
     InsertAllService.insert_all(Location, locations)
 
-    incident = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
-    incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
-    incident3 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C1' })
-    incident4 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
+    incident1 = Incident.new_with_user(
+      @self_user,
+      { incident_date: Date.today, status: 'open', incident_location: 'C2' }
+    )
+    incident1.save!
+    incident2 = Incident.new_with_user(
+      @group_user,
+      { incident_date: Date.today, status: 'open', incident_location: 'C2' }
+    )
+    incident2.save!
+    incident3 = Incident.new_with_user(
+      @agency_user,
+      { incident_date: Date.today, status: 'open', incident_location: 'C1' }
+    )
+    incident3.save!
+    incident4 = Incident.new_with_user(
+      @all_user,
+      { incident_date: Date.today, status: 'open', incident_location: 'C2' }
+    )
+    incident4.save!
 
-    violation1 = Violation.create!(data: { type: 'killing' }, incident_id: incident.id)
+    violation1 = Violation.create!(data: { type: 'killing' }, incident_id: incident1.id)
     violation1.individual_victims = [
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
     ]
@@ -99,20 +184,45 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
     ]
-
-    @user = User.create!(
-      full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
-      agency_id: agency_a.id, role: role, reporting_location_code: 1
-    )
   end
 
-  it 'returns data for reporting location indicator' do
-    reporting_location_data = ManagedReports::Indicators::ReportingLocationDetention.build(
-      @user
-    ).data
+  describe 'records in scope' do
+    it 'returns owned records for a self scope' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocationDetention.build(
+        @self_user
+      ).data
 
-    expect(reporting_location_data).to match_array(
-      [{ 'id' => 'E1', 'total' => 8 }, { 'id' => 'E2', 'total' => 4 }]
-    )
+      expect(reporting_location_data).to match_array([{ 'id' => 'E1', 'total' => 1 }])
+    end
+
+    it 'returns group records for a group scope' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocationDetention.build(
+        @group_user
+      ).data
+
+      expect(reporting_location_data).to match_array(
+        [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 4 }]
+      )
+    end
+
+    it 'returns agency records for an agency scope' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocationDetention.build(
+        @agency_user
+      ).data
+
+      expect(reporting_location_data).to match_array(
+        [{ 'id' => 'E1', 'total' => 2 }, { 'id' => 'E2', 'total' => 4 }]
+      )
+    end
+
+    it 'returns all records for an all scope' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocationDetention.build(
+        @all_user
+      ).data
+
+      expect(reporting_location_data).to match_array(
+        [{ 'id' => 'E1', 'total' => 8 }, { 'id' => 'E2', 'total' => 4 }]
+      )
+    end
   end
 end

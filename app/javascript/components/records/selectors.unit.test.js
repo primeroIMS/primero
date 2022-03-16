@@ -20,7 +20,8 @@ import {
   getCasesPotentialMatches,
   getMatchedTraces,
   getLoadingCasesPotentialMatches,
-  getMatchedTrace
+  getMatchedTrace,
+  getMarkForMobileLoading
 } from "./selectors";
 
 const record = {
@@ -265,6 +266,25 @@ describe("Records - Selectors", () => {
 
     it("should return false when there is not any loading state", () => {
       const loadingState = getLoadingRecordState(stateWithLoadingFalse, recordType);
+
+      expect(loadingState).to.be.false;
+    });
+  });
+
+  describe("getMarkForMobileLoading", () => {
+    const stateWithLoadingTrue = Map({ records: { cases: { markForMobileLoading: true } } });
+    const stateWithLoadingFalse = Map({
+      records: { cases: { markForMobileLoading: false } }
+    });
+
+    it("should return loading state value", () => {
+      const loadingState = getMarkForMobileLoading(stateWithLoadingTrue, recordType);
+
+      expect(loadingState).to.be.true;
+    });
+
+    it("should return false when there is not any loading state", () => {
+      const loadingState = getMarkForMobileLoading(stateWithLoadingFalse, recordType);
 
       expect(loadingState).to.be.false;
     });

@@ -4,6 +4,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import AddIcon from "@material-ui/icons/Add";
 
 import DisableOffline from "../../../../disable-offline";
 import SubformDrawer from "../../subforms/subform-drawer";
@@ -20,13 +21,14 @@ import { enqueueSnackbar } from "../../../../notifier";
 import { fetchRecord, selectRecord } from "../../../../records";
 import { getRecordFormsByUniqueId } from "../../..";
 import { useApp } from "../../../../application";
+import RecordFormTitle from "../../record-form-title";
 
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
 import { LINK_FIELD, REGISTRY_SEARCH_FIELDS, REGISTRY_ID_DISPLAY, REGISTRY_NO, NAME } from "./constants";
 
-const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) => {
+const Component = ({ values, mode, primeroModule, recordType, setFieldValue, mobileDisplay, handleToggleNav }) => {
   const i18n = useI18n();
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
@@ -133,13 +135,19 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
 
   return (
     <>
+      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
       <div className={css.subformFieldArrayContainer}>
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
         {writeRegistryRecord && !fieldValue && !mode.isShow && (
           <div>
-            <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.add_new" rest={{ onClick: handleAddNew }} />
+            <ActionButton
+              type={ACTION_BUTTON_TYPES.default}
+              text="case.add_new"
+              rest={{ onClick: handleAddNew }}
+              icon={<AddIcon />}
+            />
           </div>
         )}
       </div>
@@ -177,25 +185,27 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
         ))}
 
       <SubformDrawer open={drawerOpen} cancelHandler={handleCancel} title={drawerTitle}>
-        <RenderComponents
-          id={fieldValue}
-          setSearchParams={handleSetSearchParams}
-          setComponent={handleSetComponent}
-          setDrawerTitle={handleSetDrawerTitle}
-          handleCancel={handleCancel}
-          fields={fields}
-          searchParams={searchParams}
-          recordType={recordType}
-          primeroModule={primeroModule}
-          mode={mode}
-          locale={i18n.locale}
-          permissions={{ writeReadRegistryRecord, writeRegistryRecord }}
-          redirectIfNotAllowed={redirectIfNotAllowed}
-          setFieldValue={setFieldValue}
-          formName={formName}
-          noForm={caseRegistryForm.i18nName}
-          online={online}
-        />
+        {drawerOpen && (
+          <RenderComponents
+            id={fieldValue}
+            setSearchParams={handleSetSearchParams}
+            setComponent={handleSetComponent}
+            setDrawerTitle={handleSetDrawerTitle}
+            handleCancel={handleCancel}
+            fields={fields}
+            searchParams={searchParams}
+            recordType={recordType}
+            primeroModule={primeroModule}
+            mode={mode}
+            locale={i18n.locale}
+            permissions={{ writeReadRegistryRecord, writeRegistryRecord }}
+            redirectIfNotAllowed={redirectIfNotAllowed}
+            setFieldValue={setFieldValue}
+            formName={formName}
+            noForm={caseRegistryForm.i18nName}
+            online={online}
+          />
+        )}
       </SubformDrawer>
     </>
   );
@@ -204,6 +214,8 @@ const Component = ({ values, mode, primeroModule, recordType, setFieldValue }) =
 Component.displayName = "CaseRegistry";
 
 Component.propTypes = {
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,

@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import SearchIcon from "@material-ui/icons/Search";
 
 import { useMemoizedSelector } from "../../../../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";
@@ -76,11 +78,17 @@ const SearchForm = ({
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
-        <ActionButton type={ACTION_BUTTON_TYPES.default} text="case.back_to_case" rest={{ onClick: handleCancel }} />
+        <ActionButton
+          type={ACTION_BUTTON_TYPES.default}
+          text="case.back_to_case"
+          rest={{ onClick: handleCancel }}
+          icon={<ArrowBackIosIcon />}
+        />
         <ActionButton
           type={ACTION_BUTTON_TYPES.default}
           text="navigation.search"
           rest={{ form: FORM_ID, type: "submit" }}
+          icon={<SearchIcon />}
         />
       </div>
       <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />

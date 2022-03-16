@@ -9,7 +9,8 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    def sql(_current_user, params = {})
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def sql(current_user, params = {})
       %{
         select p."data"->>'armed_force_group_party_name' as id, count(iv.id) as total
         from violations violations
@@ -17,7 +18,9 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
         inner join individual_victims_violations ivv on violations .id = ivv.violation_id
         inner join individual_victims iv on ivv.individual_victim_id = iv.id
         inner join perpetrators p on p.id = pv.perpetrator_id
-        #{incidents_join(params)}
+        inner join incidents incidents
+          on incidents.id = violations.incident_id
+          #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         WHERE p.data->>'armed_force_group_party_name' is not null
         and (iv.data->>'victim_deprived_liberty_security_reasons')::boolean
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
@@ -31,6 +34,7 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
 
     def build(current_user = nil, args = {})
       super(current_user, args, &:to_a)
