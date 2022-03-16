@@ -31,6 +31,7 @@ class Exporters::ManagedReportExporter < ValueObject
     workbook = WriteXLSX.new(buffer)
     build_formats(workbook)
     write_report_data(workbook, opts)
+    buffer
   rescue StandardError => e
     Rails.logger.error(e.backtrace.join('\n'))
   ensure
