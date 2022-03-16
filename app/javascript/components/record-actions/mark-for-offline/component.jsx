@@ -34,8 +34,8 @@ const Component = ({ close, open, recordType, currentPage, selectedRecords, clea
       open={open}
       successHandler={handleOk}
       cancelHandler={close}
-      dialogTitle={i18n.t("cases.mark_for_offline.title")}
-      dialogText={i18n.t("cases.mark_for_offline.text")}
+      dialogTitle={i18n.t(`${recordType}.mark_for_offline.title`)}
+      dialogText={i18n.t(`${recordType}.mark_for_offline.text`)}
       confirmButtonLabel={i18n.t("cases.ok")}
       omitCloseAfterSuccess
       pending={markedForMobileLoadingCases || markedForMobileLoadingRegistry}

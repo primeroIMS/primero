@@ -3609,6 +3609,10 @@ en:
     show_registry_record: 'Registry Record ID: %{short_id}'
     register_new_registry_record: New Registry Record
     export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these registry records for use when you are offline?
+      success: Registry records successfully marked for offline use
   transfer:
     label: Transfer
     agency_label: Agency
