@@ -57,7 +57,11 @@ import {
   UNMATCH_CASE_FOR_TRACE_SUCCESS,
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC_SUCCESS,
-  OFFLINE_INCIDENT_FROM_CASE
+  OFFLINE_INCIDENT_FROM_CASE,
+  MARK_FOR_OFFLINE_SUCCESS,
+  MARK_FOR_OFFLINE_STARTED,
+  MARK_FOR_OFFLINE_FINISHED,
+  MARK_FOR_OFFLINE_FAILURE
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -69,6 +73,28 @@ export default namespace => (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", fromJS(payload)).set("errors", false);
     case `${namespace}/${RECORDS_FAILURE}`:
       return state.set("errors", true);
+    case `${namespace}/${MARK_FOR_OFFLINE_STARTED}`: {
+      return state.set("markForMobileLoading", true);
+    }
+    case `${namespace}/${MARK_FOR_OFFLINE_FAILURE}`:
+    case `${namespace}/${MARK_FOR_OFFLINE_FINISHED}`: {
+      return state.set("markForMobileLoading", false);
+    }
+    case `${namespace}/${MARK_FOR_OFFLINE_SUCCESS}`: {
+      const { data } = payload;
+
+      return state.update("data", records => {
+        return records.map(record => {
+          const recordInData = data.find(item => item.id === record.get("id"));
+
+          if (recordInData) {
+            return mergeRecord(record, fromJS(recordInData));
+          }
+
+          return record;
+        });
+      });
+    }
     case `${namespace}/${RECORDS_SUCCESS}`: {
       const { data, metadata } = payload;
       const selectedRecordId = state.get("selectedRecord");

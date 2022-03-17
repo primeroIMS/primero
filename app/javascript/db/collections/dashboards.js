@@ -6,7 +6,7 @@ const Dashboards = {
   },
 
   save: async ({ collection, json }) => {
-    await DB.put(collection, json, { id: 1 });
+    await DB.put({ store: collection, data: json, key: { id: 1 } });
 
     return json;
   }

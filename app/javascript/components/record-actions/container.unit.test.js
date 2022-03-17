@@ -267,7 +267,8 @@ describe("<RecordActions />", () => {
         "close",
         "currentDialog",
         "selectedRowsIndex",
-        "mode"
+        "mode",
+        "clearSelectedRecords"
       ].forEach(property => {
         expect(transitionsProps).to.have.property(property);
         delete transitionsProps[property];
@@ -475,7 +476,8 @@ describe("<RecordActions />", () => {
         "userPermissions",
         "currentDialog",
         "selectedRowsIndex",
-        "mode"
+        "mode",
+        "clearSelectedRecords"
       ].forEach(property => {
         expect(exportProps).to.have.property(property);
         delete exportProps[property];
@@ -554,7 +556,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -711,7 +713,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu disabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -829,7 +831,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");
@@ -963,7 +965,7 @@ describe("<RecordActions />", () => {
     });
 
     it("renders add export menu enabled", () => {
-      const incidentItem = component.find(MenuItem).at(3);
+      const incidentItem = component.find(MenuItem).at(4);
       const incidentItemProps = incidentItem.props();
 
       expect(incidentItem.text()).to.be.equal("cases.export");

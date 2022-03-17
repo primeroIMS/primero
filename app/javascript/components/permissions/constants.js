@@ -77,7 +77,8 @@ export const ACTIONS = {
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   TRANSFER: "transfer",
-  WRITE: "write"
+  WRITE: "write",
+  MARK_FOR_OFFLINE: "sync_mobile"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -137,6 +138,8 @@ export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
+
+export const MARK_FOR_OFFLINE = [...MANAGE, ACTIONS.MARK_FOR_OFFLINE];
 
 export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 

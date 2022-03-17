@@ -150,10 +150,12 @@ describe("<RecordListToolbar />", () => {
     const recordActionsProps = { ...component.find(RecordActions).props() };
 
     expect(component.find(RecordActions)).to.have.lengthOf(1);
-    ["currentPage", "selectedRecords", "recordType", "mode", "showListActions"].forEach(property => {
-      expect(recordActionsProps).to.have.property(property);
-      delete recordActionsProps[property];
-    });
+    ["currentPage", "selectedRecords", "recordType", "mode", "showListActions", "clearSelectedRecords"].forEach(
+      property => {
+        expect(recordActionsProps).to.have.property(property);
+        delete recordActionsProps[property];
+      }
+    );
     expect(recordActionsProps).to.be.empty;
   });
 

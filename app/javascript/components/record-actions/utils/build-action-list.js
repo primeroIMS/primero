@@ -14,7 +14,8 @@ import {
   OPEN_CLOSE_DIALOG,
   ENABLE_DISABLE_DIALOG,
   APPROVAL_TYPE,
-  REQUEST_TYPE
+  REQUEST_TYPE,
+  MARK_FOR_OFFLINE_DIALOG
 } from "../constants";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
 import Notes from "../notes";
@@ -25,6 +26,7 @@ import AddIncident from "../add-incident";
 import AddService from "../add-service";
 import RequestApproval from "../request-approval";
 import Exports from "../exports";
+import MarkForOffline from "../mark-for-offline";
 
 import filterActions from "./filter-actions";
 
@@ -43,6 +45,7 @@ export default ({
   canRequest,
   canShowExports,
   canTransfer,
+  canMarkForOffline,
   enableState,
   handleDialogClick,
   hasIncidentSubform,
@@ -153,6 +156,16 @@ export default ({
         recordType: RECORD_PATH.cases
       },
       {
+        action: () => handleDialogClick(MARK_FOR_OFFLINE_DIALOG),
+        condition: canMarkForOffline,
+        disableOffline: true,
+        name: i18n.t("actions.mark_for_offline"),
+        enabledFor: ENABLED_FOR_ONE_MANY,
+        recordListAction: true,
+        recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records],
+        disableRecordShowPage: true
+      },
+      {
         action: id => {
           handleDialogClick(id, true);
         },
@@ -219,6 +232,10 @@ export default ({
       [EXPORT_DIALOG]: {
         component: Exports,
         ability: canShowExports || canOnlyExportPdf
+      },
+      [MARK_FOR_OFFLINE_DIALOG]: {
+        component: MarkForOffline,
+        ability: canMarkForOffline
       }
     }
   };

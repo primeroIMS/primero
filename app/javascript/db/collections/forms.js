@@ -25,8 +25,8 @@ const Forms = {
     const { data } = json;
     const { formSections, fields } = normalizeFormData(data).entities;
 
-    await DB.bulkAdd("forms", formSections);
-    await DB.bulkAdd("fields", fields);
+    await DB.bulkAdd({ store: "forms", data: formSections });
+    await DB.bulkAdd({ store: "fields", data: fields });
 
     return {
       formSections,

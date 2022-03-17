@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Icon, Badge } from "@material-ui/core";
-import { Photo } from "@material-ui/icons";
+import Photo from "@material-ui/icons/Photo";
+import OfflinePin from "@material-ui/icons/OfflinePin";
 
 import Jewel from "../../jewel";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
@@ -17,7 +18,8 @@ const ToggleIconCell = ({ value, icon }) => {
   const renderIconType = {
     photo: <Photo />,
     flag_count: <FlagIcon className={css.flagIcon} />,
-    alert_count: <Jewel isList />
+    alert_count: <Jewel isList />,
+    complete: <OfflinePin className={css.offlinePinIcon} />
   }[icon];
 
   return (
@@ -28,7 +30,7 @@ const ToggleIconCell = ({ value, icon }) => {
       color="secondary"
       classes={{ badge: css.badge }}
     >
-      <Icon color="primary" className={css.iconButton}>
+      <Icon color="primary" className={css[icon === "complete" ? "iconButtonOffline" : "iconButton"]}>
         {renderIconType}
       </Icon>
     </ConditionalWrapper>

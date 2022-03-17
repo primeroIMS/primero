@@ -51,7 +51,7 @@ const Logos = {
     const filteredLogos = logos?.filter(agency => agency);
 
     if (filteredLogos) {
-      await DB.bulkAdd("logos", filteredLogos);
+      await DB.bulkAdd({ store: "logos", data: filteredLogos });
     }
 
     return filteredLogos;

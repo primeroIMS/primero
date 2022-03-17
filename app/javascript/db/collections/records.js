@@ -47,34 +47,38 @@ const Records = {
     });
   },
 
-  save: async ({ collection, json, recordType, online = false }) => {
+  dataMarkedComplete(data, markComplete = false, online = false) {
+    if (Array.isArray(data)) {
+      return markComplete && online ? data.map(record => ({ ...record, complete: true })) : data;
+    }
+
+    return markComplete && online ? { ...data, complete: true } : data;
+  },
+
+  save: async ({ collection, json, recordType, online = false, params }) => {
     const { data, metadata } = json;
+    const { fields } = params || {};
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, ...(online && { complete: true }) };
+    const recordData = Records.dataMarkedComplete(jsonData, fields !== "short", online);
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
       await Records.updateCaseIncidents(data, online);
     }
 
-    if (dataIsArray) {
-      await DB.bulkAdd(collection, recordData, {
+    const records = await DB.save(dataIsArray, {
+      store: collection,
+      data: recordData,
+      queryIndex: {
         index: "type",
         value: recordType
-      });
-    } else {
-      await DB.put(collection, recordData, null, {
-        index: "type",
-        value: recordType
-      });
-    }
-
-    const recordDB = jsonData.id && !dataIsArray && (await DB.getRecord(collection, jsonData.id));
+      }
+    });
 
     return {
-      data: recordDB || recordData,
+      data: records,
       ...(dataIsArray && { metadata })
     };
   },
