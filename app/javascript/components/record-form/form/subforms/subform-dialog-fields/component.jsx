@@ -8,7 +8,7 @@ import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
-import { buildViolationOptions, getOptionStringsTags, getValuesCount } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags } from "../../utils";
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
 
@@ -70,12 +70,10 @@ const Component = ({
     const calculationExpression = subformSectionField?.calculation?.expression;
 
     if (calculationExpression) {
-      const count = getValuesCount(calculationExpression, values);
       const calculatedVal = parseExpression(calculationExpression).evaluate(values);
 
       if (values[subformSectionField.name] !== calculatedVal) {
         setFieldValue(subformSectionField.name, calculatedVal);
-        setFieldValue(subformSectionField.name.split("_calc")[0], Math.floor(calculatedVal / count));
       }
     }
 

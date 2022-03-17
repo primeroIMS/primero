@@ -196,4 +196,24 @@ describe("parseExpression", () => {
       expect(expression.evaluate({ a: 1, b: 2, c: 3, d: 4 })).to.deep.equal(10);
     });
   });
+
+  describe("avgOperator", () => {
+    const operator = parseExpression({ avg: ["a", "b", "c"] });
+
+    it("should return avg", () => {
+      expect(operator.evaluate({ a: 3, b: 4, c: 2 })).to.deep.equals(3);
+    });
+
+    it("should return avg when single argument passed", () => {
+      expect(operator.evaluate({ a: 3 })).to.deep.equals(3);
+    });
+
+    it("should return 0 when wrong arguments passed", () => {
+      expect(operator.evaluate({ d: 3, e: 4 })).to.deep.equals(0);
+    });
+
+    it("returns 0 when no argument passed", () => {
+      expect(operator.evaluate({})).to.deep.equals(0);
+    });
+  });
 });

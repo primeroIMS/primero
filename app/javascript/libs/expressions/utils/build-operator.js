@@ -9,7 +9,8 @@ import {
   andOperator,
   orOperator,
   notOperator,
-  sumOperator
+  sumOperator,
+  avgOperator
 } from "../operators";
 
 export default (operator, value) => {
@@ -34,6 +35,8 @@ export default (operator, value) => {
       return notOperator(value);
     case MATHEMATICAL_OPERATORS.SUM:
       return sumOperator(value);
+    case MATHEMATICAL_OPERATORS.AVG:
+      return avgOperator(value);
     default:
       throw Error(`Operator ${operator} is not valid.`);
   }

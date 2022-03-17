@@ -219,8 +219,16 @@ describe RecordJsonValidatorService do
         expect(service.valid?('calculated' => nil)).to be_truthy
       end
 
-      it 'rejects non-numerics values' do
-        expect(service.valid?('calculated' => 'string')).to be_falsey
+      it 'accepts string values' do
+        expect(service.valid?('calculated' => 'string')).to be_truthy
+      end
+
+      it 'accepts boolean values' do
+        expect(service.valid?('calculated' => true)).to be_truthy
+      end
+
+      it 'accepts array values' do
+        expect(service.valid?('calculated' => [])).to be_truthy
       end
 
       it 'rejects very big numeric values' do
