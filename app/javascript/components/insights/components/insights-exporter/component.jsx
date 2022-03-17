@@ -1,35 +1,50 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
+import { useParams } from "react-router-dom";
+import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../action-dialog";
 import Form from "../../../form";
-import { exportInsights } from "../../action-creators";
-import { getInsightFilters } from "../../selectors";
+import { clearExportedInsight, exportInsights } from "../../action-creators";
+import { getInsightExport, getInsightFilters } from "../../selectors";
 import { RECORD_TYPES } from "../../../../config";
 import { useMemoizedSelector } from "../../../../libs";
 import { EXPORT_FORMAT } from "../../../record-actions/exports/constants";
 
-import { NAME, FORM_ID } from "./constants";
+import { NAME, FORM_ID, EXPORTED_URL } from "./constants";
 import { form } from "./form";
 
-const Component = ({ close, i18n, open, pending, setPending, moduleID }) => {
+const Component = ({ close, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
   const insightFilters = useMemoizedSelector(state => getInsightFilters(state));
+  const exportedInsight = useMemoizedSelector(state => getInsightExport(state));
 
   const onSubmit = data => {
     const params = fromJS({
       ...data,
       export_type: EXPORT_FORMAT.EXCEL,
-      record_type: RECORD_TYPES.incidents,
-      module_id: moduleID,
-      filters: insightFilters
+      filters: insightFilters,
+      id,
+      record_type: RECORD_TYPES.incidents
     });
 
     setPending(true);
     dispatch(exportInsights({ params, message: i18n.t("managed_reports.success_message") }));
   };
+
+  useEffect(() => {
+    if (exportedInsight.size > 0 && !isEmpty(exportedInsight.get(EXPORTED_URL))) {
+      window.open(exportedInsight.get(EXPORTED_URL));
+    }
+
+    return () => {
+      dispatch(clearExportedInsight());
+    };
+  }, [exportedInsight]);
 
   return (
     <ActionDialog
@@ -44,7 +59,7 @@ const Component = ({ close, i18n, open, pending, setPending, moduleID }) => {
       pending={dialogPending}
       omitCloseAfterSuccess
     >
-      <Form useCancelPrompt formID={FORM_ID} mode="new" formSections={form(i18n)} onSubmit={onSubmit} />
+      <Form useCancelPrompt formID={FORM_ID} mode="new" formSections={form(i18n)} onSubmit={onSubmit} submitAlways />
     </ActionDialog>
   );
 };

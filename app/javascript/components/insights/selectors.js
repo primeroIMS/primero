@@ -11,3 +11,7 @@ export const getInsight = state => {
 export const getInsightFilters = state => {
   return state.getIn(["records", NAMESPACE, "filters"], fromJS({}));
 };
+
+export const getInsightExport = state => {
+  return state.getIn(["records", NAMESPACE, "export"], fromJS({}));
+};

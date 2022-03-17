@@ -10,7 +10,8 @@ module Api::V2::Concerns::Export
     # The '::' is necessary so Export model does not conflict with current concern
     @export = ::Export.new(
       exporter: exporter, record_type: record_type, module_id: module_id,
-      file_name: export_params[:file_name], visible: visible_param
+      file_name: export_params[:file_name], visible: visible_param,
+      managed_report: @managed_report, opts: export_params
     )
     @export.run
     status = @export.status == ::Export::SUCCESS ? 200 : 422

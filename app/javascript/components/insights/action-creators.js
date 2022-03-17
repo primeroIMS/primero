@@ -32,3 +32,7 @@ export const exportInsights = ({ params, message }) => ({
     ]
   }
 });
+
+export const clearExportedInsight = () => ({
+  type: actions.CLEAR_EXPORTED_INSIGHT
+});

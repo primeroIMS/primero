@@ -2,7 +2,7 @@
 
 # Class to export ManagedReport (insights)
 class Exporters::ManagedReportExporter < ValueObject
-  attr_accessor :managed_report
+  attr_accessor :managed_report, :opts, :file_name, :errors
 
   COLORS = {
     blue: '#0F809E',
@@ -22,18 +22,21 @@ class Exporters::ManagedReportExporter < ValueObject
   }.freeze
 
   def self.export(managed_report, opts = {})
-    exporter = new(managed_report: managed_report)
-    exporter.export(opts)
+    exporter = new(managed_report: managed_report, opts: opts)
+    exporter.export
   end
 
-  def export(opts = {})
-    buffer = opts[:buffer_to_file] == false ? StringIO.new : File.new(output_file_path(opts), 'w')
+  def export
+    buffer = output_buffer
     workbook = WriteXLSX.new(buffer)
     build_formats(workbook)
     write_report_data(workbook, opts)
-    buffer.is_a?(File) ? buffer : buffer.string
+    return buffer.string unless buffer.is_a?(File)
+
+    self.file_name = buffer.path
+    buffer
   rescue StandardError => e
-    Rails.logger.error(e.backtrace.join('\n'))
+    self.errors = [e.message]
   ensure
     workbook.close
     buffer.close
@@ -110,6 +113,12 @@ class Exporters::ManagedReportExporter < ValueObject
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/MethodLength
+
+  def output_buffer
+    return File.new(output_file_path(opts), 'w') unless opts&.dig(:output_to_file) == false
+
+    StringIO.new
+  end
 
   def locale(opts)
     return opts[:locale] if opts&.dig(:locale).present?

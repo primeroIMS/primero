@@ -17,7 +17,7 @@ import { reducer as potentialMatchesReducer } from "./components/pages/potential
 import { reducer as reportReducer } from "./components/report";
 import { reducer as reportsListReducer } from "./components/reports-list";
 import { reducer as insightsListReducer } from "./components/insights-list";
-import { reducer as insightsReducer } from "./components/insights-sub-report";
+import { reducer as insightsSubReportReducer } from "./components/insights-sub-report";
 import { reducer as reportFormReducer } from "./components/reports-form";
 import { reducer as supportReducer } from "./components/contact-information";
 import { reducer as taskListReducer } from "./components/pages/task-list";
@@ -61,6 +61,7 @@ import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
 import { reducer as drawerReducer } from "./components/drawer";
 import { reducer as formFiltersReducer } from "./components/form-filters";
+import { reducer as insightsReducer }  from "./components/insights";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {
@@ -81,7 +82,7 @@ const rootReducer = {
         }, {})
       },
       reports: reduceReducers(reportsListReducer, reportReducer, reportFormReducer),
-      insights: reduceReducers(insightsListReducer, insightsReducer),
+      insights: reduceReducers(insightsListReducer, insightsReducer, insightsSubReportReducer),
       transitions: reduceReducers(
         recordActionsTransitionsReducer,
         transitionsReducer,

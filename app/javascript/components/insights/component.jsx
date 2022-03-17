@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
 import { MenuOpen } from "@material-ui/icons";
-import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
@@ -24,7 +23,6 @@ const Component = ({ routes }) => {
   const i18n = useI18n();
   const { pathname } = useLocation();
   const { moduleID } = useParams();
-  const dispatch = useDispatch();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(INSIGHTS_EXPORTER_DIALOG);
 
@@ -63,7 +61,6 @@ const Component = ({ routes }) => {
           pending={pending}
           close={dialogClose}
           setPending={setDialogPending}
-          moduleID={moduleID}
         />
       </PageHeading>
       <PageContent hasNav>
