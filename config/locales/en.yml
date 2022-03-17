@@ -1393,6 +1393,7 @@ en:
       children: Children
       girls: Girls
       incident_location: Incident Location
+      status: Status
       unaccompanied_separated_status: Protection Status
       unknown: Unknown
       verification_status: Verification Status
