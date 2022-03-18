@@ -1,0 +1,24 @@
+ro:
+  exports:
+    incident_recorder_xls:
+      'yes': "Da"
+      'no': "Nu"
+      gender:
+        male: "M"
+        female: "F"
+        both: "M și F"
+      age_group:
+        age: "Vârsta"
+        unknown: "Necunoscut"
+      age_type:
+        adult: "Adult"
+        minor: "Minor"
+        both: "Adult și minor"
+        unknown: "Necunoscut"
+      headers:
+        date_of_birth: "DATA NAȘTERII"
+        sex: "SEX"
+        ethnicity: "ETNIE"
+        country_of_origin: "ȚARA DE ORIGINE"
+        marital_status: "STATUS MARITAL/ STARE CIVILĂ"
+        disability_type: "PERSOANĂ CU DIZABILITĂȚI?"

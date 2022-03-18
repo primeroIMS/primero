@@ -1,0 +1,479 @@
+ro:
+  'true': 'Da'
+  'false': 'Nu'
+  accepted: Acceptat
+  cancel: Anulat
+  connection_lost: Momentan în mod offline
+  connected: Conectat
+  clear: Golire
+  sandbox_ui: Demo
+  description: Descriere
+  form: Formular
+  name: Nume
+  offline: Offline
+  unavailable_offline: Indisponibil offline
+  online: Online
+  yes_label: 'Da'
+  or_label: sau
+  select_language: Selectare limbă
+  log_in_primero_idp: autentificare cu utilizator %{idp_name}
+  offline_submitted_changes: 'Momentan ești offline. Modificările vor fi operate în momentul revenirii în onine. '
+  updated: Modificat
+  sync:
+    success: "%{records}înregistrări sincronizate cu succes."
+    error:
+      create: Eroare de creare %{record_type}. Te rugăm să contactezi echipa de suport.
+      update: Modificarea pentru %{record_type}%{short_id}a eșuat. Te rugăm să contactezi echipa de suport.
+  actions:
+    approvals: Aprobări
+    button: Acțiuni
+    close: Închidere
+    description:
+      invalid: Înregistrare nevalidă
+      valid: Înregistrare validă
+    disable: Dezactivare
+    enable: Activare
+    notes: Adaugă notițe
+    request_approval: Solicită aprobare
+    revoke: Revocare
+    save: Salvare
+  agencies:
+    label: Autoritatea Competentă
+    translations:
+      manage: Gestionare traduceri
+  agency:
+    agency_logos: Logo Autoritate Competentă
+    code: Codul Autorității Competente
+    description: Descriere
+    disabled: Dezactivat
+    label: Autoritatea Competentă
+    terms_of_use: Termeni și condiții
+    terms_of_use_help: Sunt permise doar documente PDF.
+    terms_of_use_download_button: Download PDF
+    terms_of_use_enabled: Afișare Termeni și condiții?
+  buttons:
+    save: Salvare
+    save_changes: Salvare modificări
+    sync: Sincronizare
+  case:
+    search_by: Căutare după
+    results: Rezultate
+    details: Detalii
+    select: Selectare
+    deselect: Deselectare
+    workflow:
+      in_progress: în desfășurare
+      new: Nou
+      service_implemented: Serviciu implementat
+      services_implemented: Serviciu implementat
+  cases:
+    age: Vârsta
+    age_estimated: Vârsta cu aproximație?
+    approval_comments: Comentarii
+    filter_by:
+      approvals:
+        approved: Aprobat
+        pending: În așteptare
+        rejected: Respins
+      by_date: După Dată
+      closed: Închis
+      date: Data
+      duplicate: Duplicat
+      enabled_disabled: Activat/ Dezactivat
+      female: Feminin
+      male: Masculin
+    full_name: Nume întreg
+    hide_name: Ascundere Nume
+    id: ID#
+    name: Nume
+    order_by:
+      label: Ordonare după
+      name: Nume
+    request_approval_success_action_plan: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_assessment: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_case_plan: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_closure: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_gbv_closure: Aprobare solicitată pentru formularul %{approval_label}.
+    revoke_failure: Revocarea %{transition_type}a generat o eroare. Te rugăm să contactezi echipa de suport.
+    status: Status
+    summary:
+      label: Sumar
+      fields:
+        wishes_reunification:
+          label: Copilul dorește reîntregirea familiei?
+          options:
+            yes_as_soon_as_possible: Da, cât mai curând posibil
+            yes_but_later: Da, dar mai târziu
+            not_sure: Incert
+            'no': 'Nu'
+        data_confidentiality_link:
+          label: Confidențialitatea datelor
+  configurations:
+    attributes:
+      description: Descriere
+      name: Nume
+      primero_version: Versiunea Primero
+    label: Configurări
+    label_new: Configurație nouă
+    messages:
+      applied: Configurația a fost aplicată cu succes.
+      created: Configurația a fost creată cu succes.
+      deleted: Configurația a fost ștearsă cu succes.
+      updated: Configurația a fost modificată cu succes.
+    unavailable_server: Serverul este temporar indisponibil.
+  contact:
+    field:
+      email: E-mail
+      name: Nume
+      organization: Organizație
+      other_information: Alte informații
+      phone: Număr de telefon
+      primero_version: Versiunea Primero
+      system_version: Versiunea de sistem
+    info_label: Informații de contact
+    updated: Informațiile de contact au fost modificate cu succes.
+  code_of_conduct:
+    field:
+      title: Titlu
+      content: Conținut
+      created_on: Creat la
+      created_by: Creat de către
+    info_label: Cod de Conduită
+    updated: Cod de Conduită a fost modificat cu succes.
+  dashboard:
+    activity: Activitate
+    approval_case_plan_rejected: Respins
+    approval_closure_approved: Aprobat
+    approval_closure_pending: În așteptare
+    date: Data
+    medium_risk: Prioritate medie
+    name: Nume
+    registration: Înregistrare
+  error_page:
+    not_authorized:
+      server_error: Nu ești autorizat să accesezi această pagină.
+      title: Fără autorizație
+    not_found:
+      contact_admin: Dacă ai ajuns aici dintr-o eroare, te rugăm să contactezi echipa de suport.
+      something_went_wrong: Ne cerem scuze, ceva nu funcționează!
+  errors:
+    models:
+      agency:
+        logo_format: Fișierul trebuie să fie png
+        terms_of_use_format: Fișierul trebuie să fie png
+      child:
+        age: Vârsta trebuie să fie cuprinsă între 0 și 130
+        date_of_birth: Te rugăm să introduci o dată de naștere validă pentru această înregistrare
+      location:
+        unique_location_code: Există deja o locație cu codul acesta, te rugăm să introduci un cod de locație diferit
+      user:
+        password_mismatch: Câmpurile nu conțin aceeași parolă
+        email_uniqueness: Un utilizator cu această adresă de e-mail există deja. Te rugăm să introduci un e-mail diferit
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+    csv:
+      all: CSV
+    custom_exports:
+      empty_format: Te rugăm să selectezi un format pentru export.
+      format_label: Selectare format
+      select_module: Selectare Modul
+      submit: OK
+    duplicate_id_csv:
+      all: ID duplicat
+      female_abbreviation: F
+      headers:
+        age: Vârsta
+        child_name_last_first: Nume copil
+        national_id_no: Cod numeric personal
+        sex_mapping_m_f_u: Sex
+      male_abbreviation: M
+    exported: Fișier de export generat cu succes
+    exported_error: Eroare de generare a fișierului de export
+    forms:
+      label: Exportare
+      header:
+        options: Opțiuni
+        options_lookup: Căutare
+        lookup_id: Căutare ID
+    json:
+      one: JSON
+    pdf:
+      one: PDF
+    pdf_exports:
+      label: PDF
+    photowall:
+      all: Poză de profil
+      no_photos_available: Fotografii indisponibile
+      one: Poză de profil
+    selected_xls:
+      all: Excel
+      one: Excel
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: Vârsta
+        country_of_origin: Țara de origine
+        date_of_birth: Data nașterii
+        id: ID
+        name_of_child_last_first: Numele intreg al copilului
+  fields:
+    date_help: zz-lll-aaaa
+    date_help_with_time: zz-lll-aaaa oo:mm
+    date_not_valid: Această dată nu este validă.
+    date_range:
+      date: Data
+    english_text: Text în engleză
+    attachment_too_large: Fișierul nu trebuie să fie mai mare de 10 MB
+    file_upload_box:
+      add_document_label: Adăugare document
+      add_new_document_button_text: Adăugare alt document
+      add_new_photo_button_text: Adăugare altă fotografie
+      add_photo_label: Adăugare fotografie
+      document_description: Descriere document
+      document_file_restrictions_message: Fișierele nu trebuie să aibă mai mult de 2 MB (fișierele executabile (.exe) nu pot fi încărcate).
+      photo_file_restrictions_message: Fotografiile nu trebuie să fie mai mari de 10 MB. Fișierele audio nu trebuie să fie mai mari de 10 MB. Cu cât dimensiunea este mai redusă, cu atât mai bine.
+    label: Câmpuri
+    mobile_visible: Aplicație mobilă
+    multi_select: Poți selecta mai multe opțiuni
+    name: Nume
+    numeric_field: Câmp numeric
+    subform_group_by: Grupare după
+    tally_items_maximum: (5 maxim)
+    translation_text: Traducere text
+    total: Total
+    type: Tip
+    updated: Câmp modificat
+  filters:
+    less: Mai puțin...
+    more: Mai mult...
+    save_filters: Salvare
+  flags:
+    date: 'Data:'
+    flag_reason_maximun_label: Maxim 255 caractere.
+  form_section:
+    module: Modul
+    name: Nume
+  forms:
+    fields: Câmpuri
+    form_description: Descriere
+    title: Denumire formular
+    translations:
+      edit: Editare traduceri
+      manage: Gestionare traduceri
+  home:
+    label: Acasă
+    language: Limbă
+  incident:
+    violation:
+      types:
+        sexual_violence: Viol și/ sau alte forme de violență sexuală
+  incidents:
+    filter_by:
+      girls: Fete
+    selectable_date_options:
+      date_of_first_report: Data intervievării
+  key_performance_indicators:
+    feedback: "Feedback"
+    other: "Altceva"
+    time_periods:
+      0-3days: "0 - 3 zile"
+      4-5days: "4 - 5 zile"
+      6-14days: "6 - 14 zile"
+      15-30days: "15 - 30 zile"
+    services_provided:
+      male: "Masculin"
+      female: "Feminin"
+      no_disability: "Fără dizabilități"
+    date_range_dialog:
+      from: 'De la'
+      to: 'Către'
+  location:
+    base_types:
+      city: Oraș
+      community: Comunitate
+      country: Țară
+      county: Județ
+      locality: Localitate
+      other: Altceva
+      province: Provincie
+      region: Regiune
+      village: Sat
+      zone: Zona
+    name: Nume
+  logger:
+    actions:
+      delete: Ștergere
+      export: Export
+      import: Import
+      index: Index
+      login: Logare
+      password_reset: Resetare parolă
+    destroy: Ștergere
+    edit: Editare
+    enable_disable_record: Activare/ dezactivare
+    export: Export date pentru
+    hide_name:
+      protect: Ascundere Nume
+      view: Vizualizare Nume
+    login: Logare
+    resources:
+      lookup: Căutare
+      system_settings: Setări sistem
+      permission: Permisiune
+      role: Rol
+      location: Locație
+      primero_configuration: Configurare Primero
+      code_of_conduct: Cod de conduită
+    record_state:
+      'false': Dezactivare
+      'true': Activare
+    transfer: Transferare
+    transfer_status:
+      Accepted: Transfer acceptat
+      Rejected: Transfer respins
+  login:
+    label: Logare
+    password:
+      label: Parolă
+    password_confirmation:
+      label: Confirmare parolă
+    username: Utilizator
+  lookup:
+    language_label: Limbă
+    messages:
+      correct_errors: 'Te rugăm să corectezi următoarele erori și să retrimiți:'
+  managed_reports:
+    total: Total
+    filter_by:
+      date: Data
+    violations:
+      sub_reports:
+        reporting_location: Număr de copii per Regiune
+        boys: Băieți
+        girls: Fete
+        unknown: Necunoscut
+        total: Total
+  navigation:
+    home: Acasă
+    support_menu:
+      code_of_conduct: Cod de Conduită
+      terms_of_use: Termeni și condiții
+      system_information: Informații despre sistem
+  permissions:
+    permission:
+      export_csv: Export csv
+      export_duplicate_id_csv: Export duplicate
+      export_json: Export json
+      export_pdf: Export pdf
+      export_xls: Export xls
+      save_search: Salvare căutări
+      sync_external: 'Sincronizare cu un sistem extern de management al informațiilor '
+      sync_mobile: Sincronizare cu un dispozitiv mobil
+      system: Sistem
+      user: Utilizatori
+      view_photo: Vizualizare fotografie
+    resource:
+      case:
+        actions:
+          enable_disable_record:
+            label: Activare/ dezactivare
+          export_duplicate_id_csv:
+            label: Export duplicate
+          sync_external:
+            label: Sincronizare cu un sistem extern de management al informației
+      registry_record:
+        actions:
+          enable_disable_record:
+            label: Activare/ dezactivare
+      tracing_request:
+        actions:
+          enable_disable_record:
+            label: Activare/ dezactivare
+          export_case_pdf:
+            label: Export PDF
+          export_csv:
+            label: Export CSV
+          export_xls:
+            label: Export Excel (XLS)
+      user:
+        actions:
+          write:
+            label: Editare
+        label: Utilizatori
+      user_group:
+        actions:
+          delete:
+            label: Ștergere
+  potential_match:
+    child_age: Vârsta
+    child_gender: Gen
+  record_information:
+    last_updated_at: Ultimul update la
+    last_updated_by: Ultimul update de către
+  reports:
+    label: Rapoarte
+    register_new_report: Creare raport
+    translations:
+      edit: Editare traduceri
+  role:
+    copy_success: Rol copiat cu succes.
+    create: Creare rol
+    delete_header: Ștergere rol
+    description: Descriere
+    edit: Editare rol
+    error_in_updating: Eroare de modificare a detaliilor de rol
+    label: Rol
+    messages:
+      created: Rolul a fost creat cu succes.
+  roles:
+    label: Roluri
+  saved_search:
+    filters_tab: Filtre
+    saved_searches_tab: Căutări salvate
+    title_description: Sigur dorești să ștergi această căutare salvată?
+    title_modal: Ștergere căutări salvate
+  saved_searches:
+    no_save_searches: Nu aveți căutări salvate.
+  tracing_requests:
+    id: ID
+    filter_by:
+      by_date: După dată
+      status: Status
+    export: Export
+  registry_records:
+    id: ID
+  transition:
+    consent_individual_transfer_value:
+      false_label: 'Nu'
+    consent_overridden_value:
+      false_label: 'Nu'
+      true_label: 'Da'
+    errors:
+      consent: Consimțământul nu a fost furnizat
+    status:
+      accepted: Acceptat
+  user:
+    email: E-mail
+    full_name: Nume întreg
+    label: Utilizator
+    language: Limba
+    messages:
+      confirmation: Sigur dorești să ștergi acest utilizator? Ștergerea nu poate fi anulată. Selectează OK pentru a șterge utilizatorul
+      created: Utilizatorul a fost creat cu succes.
+    password_reset:
+      subject: 'Instrucțiuni resetare parolă'
+      success: "Parolă schimbată cu succes"
+  user_group:
+    description: Descriere
+  users:
+    label: Utilizatori
+    headers:
+      full_name: Nume întreg
+      user_name: Utilizator
+      position: Poziție
+  devise:
+    failure:
+      locked: "Contul a fost blocat."
