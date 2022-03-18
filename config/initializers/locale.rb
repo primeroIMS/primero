@@ -10,7 +10,8 @@ class Primero::Application
   LOCALE_ENGLISH = :en
   LOCALE_ARABIC = :ar
   LOCALES = %i[
-    en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id km ku ku-IQ my ps-AF pt pt-BR so sw-KE sw-TZ th ne
+    en ar ar-IQ ar-JO ar-LB ar-SD bn es es-GT fa-AF fr id km ku ku-IQ my ps-AF pt pt-BR so sw-KE sw-TZ th ne ro ru uk pl
+    sk hu es-ES
   ].freeze
   RTL_LOCALES = %i[ar ar-IQ ar-JO ar-LB ar-SD fa-AF ku ku-IQ ps-AF].freeze
 end

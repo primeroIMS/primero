@@ -1297,7 +1297,9 @@ en:
     en: English
     es: Español
     es-GT: Español (Guatemala)
+    es-ES: Español (España)
     fr: Français
+    hu: Magyar
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
@@ -1311,12 +1313,16 @@ en:
     language: Language
     manage_system_users: Manage Server Synchronisation Users
     my: ဗမာစာ
+    pl: Polski
     pt: Português
     pt-BR: Português (Brasil)
     records_need_attention: Records need Attention
+    ro: Română
     ru: Русский
+    sk: Slovenčina
     so: Af-Soomaali
     th: ไทย
+    uk: Українська
     users: Manage Users
     view_records: View Records
     welcome: Welcome to Primero
