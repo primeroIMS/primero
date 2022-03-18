@@ -7,7 +7,7 @@ describe("insights/components/insights-exporter/constants", () => {
     expect(clone).to.be.empty;
   });
 
-  ["NAME", "FORM_ID"].forEach(property => {
+  ["NAME", "FORM_ID", "EXPORTED_URL"].forEach(property => {
     it(`exports property '${property}'`, () => {
       expect(clone).to.have.property(property);
       delete clone[property];

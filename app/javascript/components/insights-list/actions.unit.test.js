@@ -1,12 +1,8 @@
-import * as actions from "./actions";
+import actions from "./actions";
 
 describe("<Insights /> - Actions", () => {
   describe("properties", () => {
-    let clone;
-
-    before(() => {
-      clone = { ...actions };
-    });
+    const clone = { ...actions };
 
     after(() => {
       expect(clone).to.be.empty;

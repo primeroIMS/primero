@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 
+import { useI18n } from "../i18n";
 import { SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
 import FormSectionField from "../form/components/form-section-field";
@@ -24,6 +25,7 @@ const Component = ({ moduleID, id, subReport }) => {
   const insightsConfig = INSIGHTS_CONFIG[moduleID];
   const { defaultFilterValues } = insightsConfig;
 
+  const i18n = useI18n();
   const formMethods = useForm({
     mode: "onChange",
     resolver: yupResolver(validations),
@@ -89,6 +91,9 @@ const Component = ({ moduleID, id, subReport }) => {
       return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} />;
     });
 
+  const applyLabel = i18n.t("buttons.apply");
+  const clearLabel = i18n.t("buttons.clear");
+
   return (
     <form noValidate onSubmit={formMethods.handleSubmit(submit)}>
       <div className={css.container}>
@@ -98,12 +103,12 @@ const Component = ({ moduleID, id, subReport }) => {
       <div className={css.actions}>
         <div>
           <Button type="submit" variant="contained" disableElevation color="primary" fullWidth>
-            Apply
+            {applyLabel}
           </Button>
         </div>
         <div>
           <Button variant="outlined" color="primary" fullWidth onClick={handleClear}>
-            Clear
+            {clearLabel}
           </Button>
         </div>
       </div>

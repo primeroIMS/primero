@@ -1,38 +1,57 @@
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
-
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
-    const creators = { ...actionCreators };
+    const clone = { ...actionCreators };
 
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property("fetchCasesByNationality");
-    expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
-    expect(creators, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
-    expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
-    expect(creators).to.have.property("fetchInsights");
+    expect(clone, "DEPRECATED fetchCasesByNationality").to.not.have.property("fetchCasesByNationality");
+    expect(clone, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
+    expect(clone, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
+    expect(clone, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
 
-    delete creators.fetchCasesByNationality;
-    delete creators.fetchCasesByAgeAndSex;
-    delete creators.fetchCasesByProtectionConcern;
-    delete creators.fetchCasesByAgency;
-    delete creators.fetchInsights;
+    ["clearFilters", "fetchInsights", "setFilters"].forEach(property => {
+      expect(clone).to.have.property(property);
+      delete clone[property];
+    });
 
-    expect(creators).to.be.empty;
+    delete clone.fetchCasesByNationality;
+    delete clone.fetchCasesByAgeAndSex;
+    delete clone.fetchCasesByProtectionConcern;
+    delete clone.fetchCasesByAgency;
+    delete clone.fetchInsights;
+
+    expect(clone).to.be.empty;
   });
 
   it("should check the 'fetchInsights' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
     const data = { options: { page: 1, per: 20 } };
 
-    dispatch(actionCreators.fetchInsights(data));
-    const firstCall = dispatch.getCall(0);
+    const expected = {
+      type: actions.FETCH_INSIGHTS,
+      api: {
+        path: "managed_reports",
+        params: data.options
+      }
+    };
 
-    expect(firstCall.returnValue.type).to.equal(actions.FETCH_INSIGHTS);
-    expect(firstCall.returnValue.api.path).to.equal("managed_reports");
-    expect(firstCall.returnValue.api.params).to.deep.equal(data.options);
+    expect(actionCreators.fetchInsights(data)).to.deep.equals(expected);
+  });
+
+  it("should check the 'setFilters' action creator to return the correct object", () => {
+    const filters = { subreport_id: "subreport-1" };
+
+    const expected = {
+      type: actions.SET_INSIGHT_FILTERS,
+      payload: filters
+    };
+
+    expect(actionCreators.setFilters(filters)).to.deep.equals(expected);
+  });
+
+  it("should check the 'clearFilters' action creator to return the correct object", () => {
+    const expected = { type: actions.CLEAR_INSIGHT_FILTERS };
+
+    expect(actionCreators.clearFilters()).to.deep.equals(expected);
   });
 });

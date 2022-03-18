@@ -12,7 +12,7 @@ describe("report/components/constants", () => {
       expect(clone).to.be.empty;
     });
 
-    ["DEFAULT_FILE_NAME", "NAME"].forEach(property => {
+    ["DEFAULT_FILE_NAME", "NAME", "NAMESPACE"].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(constants).to.have.property(property);
         delete clone[property];

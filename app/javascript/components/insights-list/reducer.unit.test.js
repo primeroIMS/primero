@@ -221,4 +221,29 @@ describe("<Insights /> - Reducers", () => {
 
     expect(newState).to.deep.equal(expected);
   });
+
+  it("should handle CLEAR_INSIGHT_FILTERS", () => {
+    const expected = fromJS({ filters: {} });
+
+    const action = {
+      type: actions.CLEAR_INSIGHT_FILTERS
+    };
+
+    const newState = reducer(fromJS({ filters: { filter1: "value1" } }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_INSIGHT_FILTERS", () => {
+    const expected = fromJS({ filters: { filter1: "value1" } });
+
+    const action = {
+      type: actions.SET_INSIGHT_FILTERS,
+      payload: { filter1: "value1" }
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
 });
