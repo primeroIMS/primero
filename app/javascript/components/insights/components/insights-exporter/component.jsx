@@ -24,13 +24,14 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
   const exportedInsight = useMemoizedSelector(state => getInsightExport(state));
 
   const onSubmit = data => {
-    const params = fromJS({
-      ...data,
-      export_type: EXPORT_FORMAT.EXCEL,
-      filters: insightFilters,
-      id,
-      record_type: RECORD_TYPES.incidents
-    });
+    const params = insightFilters.merge(
+      fromJS({
+        ...data,
+        export_type: EXPORT_FORMAT.EXCEL,
+        id,
+        record_type: RECORD_TYPES.incidents
+      })
+    );
 
     setPending(true);
     dispatch(exportInsights({ params, message: i18n.t("managed_reports.success_message") }));
@@ -72,7 +73,7 @@ Component.propTypes = {
   moduleID: PropTypes.string,
   open: PropTypes.bool,
   pending: PropTypes.bool,
-  setPending: PropTypes.func,
+  setPending: PropTypes.func
 };
 
 export default Component;

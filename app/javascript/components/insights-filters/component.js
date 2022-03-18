@@ -35,7 +35,10 @@ const Component = ({ moduleID, id, subReport }) => {
   const transformFilters = data => {
     const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
 
-    return omitBy({ ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) }, isNil);
+    return omitBy(
+      { subreport: subReport, ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) },
+      isNil
+    );
   };
 
   const getInsights = (filters = {}) => {

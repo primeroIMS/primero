@@ -31,7 +31,7 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def export_params
-    { file_name: params[:file_name], locale: params[:locale] }
+    { file_name: params[:file_name], locale: params[:locale], subreport_id: params[:subreport] }
   end
 
   private

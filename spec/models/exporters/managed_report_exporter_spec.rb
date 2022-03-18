@@ -174,7 +174,7 @@ describe Exporters::ManagedReportExporter do
               to: Date.today.end_of_quarter
             )
           ],
-          { buffer_to_file: false }
+          { output_to_file: false }
         )
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end

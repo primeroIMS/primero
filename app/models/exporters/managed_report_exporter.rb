@@ -31,10 +31,7 @@ class Exporters::ManagedReportExporter < ValueObject
     workbook = WriteXLSX.new(buffer)
     build_formats(workbook)
     write_report_data(workbook, opts)
-    return buffer.string unless buffer.is_a?(File)
-
-    self.file_name = buffer.path
-    buffer
+    buffer.is_a?(File) ? buffer : buffer.string
   rescue StandardError => e
     self.errors = [e.message]
   ensure
@@ -45,7 +42,7 @@ class Exporters::ManagedReportExporter < ValueObject
   def write_report_data(workbook, opts)
     tab_colors = Writexlsx::Colors::COLORS.except(:black, :white).values.uniq
     color_index = 0
-    managed_report.subreports.each do |subreport|
+    subreports_to_export(opts).each do |subreport|
       tab_color = tab_colors[color_index]
       subreport_exporter_class(subreport).new(
         id: subreport, managed_report: managed_report, workbook: workbook,
@@ -59,6 +56,12 @@ class Exporters::ManagedReportExporter < ValueObject
     "Exporters::#{subreport.camelize}SubreportExporter".constantize
   rescue NameError
     Exporters::SubreportExporter
+  end
+
+  def subreports_to_export(opts)
+    return managed_report.subreports unless opts&.dig(:subreport_id).present?
+
+    managed_report.subreports.select { |subreport| subreport == opts[:subreport_id] }
   end
 
   def output_file_path(opts)
@@ -115,9 +118,11 @@ class Exporters::ManagedReportExporter < ValueObject
   # rubocop:enable Metrics/MethodLength
 
   def output_buffer
-    return File.new(output_file_path(opts), 'w') unless opts&.dig(:output_to_file) == false
+    return StringIO.new if opts&.dig(:output_to_file) == false
 
-    StringIO.new
+    file = File.new(output_file_path(opts), 'w')
+    self.file_name = file.path
+    file
   end
 
   def locale(opts)
