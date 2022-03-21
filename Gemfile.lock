@@ -193,7 +193,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     mini_portile2 (2.8.0)
-    minipack (0.3.3)
+    minipack (0.3.6)
       actionview
       railties (>= 4.2)
     minitest (5.15.0)

@@ -78,6 +78,7 @@ module.exports = api => {
           async: false
         }
       ],
+      [require("@babel/plugin-proposal-private-methods").default, { loose: true }],
       isProductionEnv && [
         require("babel-plugin-transform-react-remove-prop-types").default,
         {

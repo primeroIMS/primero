@@ -1,20 +1,14 @@
 const path = require("path");
 
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const WebpackAssetsManifest = require("webpack-assets-manifest");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
-const config = require("./config");
-
 const {
   APPLICATION_DIR,
   DEV_SERVER_CONFIG,
   OUTPUT_DIR,
-  OUTPUT_DIRNAME,
   PUBLIC_PATH,
-  MANIFEST_OUTPUT_PATH,
-  utils: { chunkOutput, isProduction, svgPrefix }
-} = config;
+  utils: { chunkOutput, isProduction }
+} = require("./config");
+const rules = require("./rules");
+const plugins = require("./plugins");
 
 const resolve = {
   extensions: ["*", ".jsx", ".js"],
@@ -24,101 +18,22 @@ const resolve = {
   }
 };
 
-const rules = [
-  {
-    test: /\.(js|jsx)$/,
-    exclude: /node_modules/,
-    use: {
-      loader: require.resolve("babel-loader")
-    }
-  },
-  {
-    test: /\.css$/,
-    exclude: /index.css$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-      {
-        loader: "css-loader",
-        options: {
-          importLoaders: 1,
-          modules: true
-        }
-      },
-      {
-        loader: "postcss-loader",
-        options: {
-          config: {
-            path: path.resolve(__dirname, "..", "postcss.config.js")
-          }
-        }
-      }
-    ]
-  },
-  {
-    test: /index.css$/,
-    use: [MiniCssExtractPlugin.loader, "css-loader"]
-  },
-  {
-    test: /\.svg$/,
-    loader: "react-svg-loader",
-    options: {
-      jsx: true,
-      svgo: {
-        plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
-      }
-    }
-  },
-  {
-    test: /\.(png|svg|jpg|jpeg|gif)$/,
-    use: [
-      {
-        loader: require.resolve("file-loader"),
-        options: {
-          outputPath: "images",
-          ...(isProduction && { publicPath: `/${OUTPUT_DIRNAME}/images/` })
-        }
-      }
-    ]
-  }
-];
-
 module.exports = (name, entry) => {
   const { ext, path: entryPath, clean, outputDir } = entry;
 
   const entryConfig = {
     mode: "production",
-    devtool: "none",
+    devtool: false,
     entry: {
       [name]: path.join(APPLICATION_DIR, entryPath, `${name}.${ext}`)
     },
     output: {
       path: outputDir || OUTPUT_DIR,
-      filename: chunkData => chunkOutput("hash", chunkData),
+      filename: chunkData => chunkOutput("fullhash", chunkData),
       chunkFilename: chunkOutput("chunkhash"),
       publicPath: isProduction ? "/packs/" : PUBLIC_PATH
     },
-    plugins: [
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: clean
-      }),
-      ...(isProduction
-        ? [
-            new MiniCssExtractPlugin({
-              filename: chunkOutput("chunkhash", null, "css")
-            })
-          ]
-        : []),
-      new WebpackAssetsManifest({
-        output: MANIFEST_OUTPUT_PATH(name),
-        entrypoints: true,
-        publicPath: isProduction ? "/packs/" : PUBLIC_PATH,
-        writeToDisk: true
-      }),
-      new MiniCssExtractPlugin({
-        filename: "[name].[contenthash:8].css",
-        chunkFilename: "[name].[contenthash:8].chunk.css"
-      })
-    ],
+    plugins: plugins({ name, clean }),
     resolve,
     module: { rules },
     optimization: {
