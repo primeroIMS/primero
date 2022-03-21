@@ -61,7 +61,7 @@ import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
 import { reducer as drawerReducer } from "./components/drawer";
 import { reducer as formFiltersReducer } from "./components/form-filters";
-import { reducer as insightsReducer }  from "./components/insights";
+import { reducer as insightsReducer } from "./components/insights";
 import { RECORD_TYPES } from "./config";
 
 const rootReducer = {

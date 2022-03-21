@@ -70,7 +70,6 @@ Component.displayName = NAME;
 Component.propTypes = {
   close: PropTypes.func,
   i18n: PropTypes.object,
-  moduleID: PropTypes.string,
   open: PropTypes.bool,
   pending: PropTypes.bool,
   setPending: PropTypes.func
