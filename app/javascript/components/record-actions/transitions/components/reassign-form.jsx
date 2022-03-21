@@ -121,9 +121,8 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
         return (
           <Form onSubmit={handleSubmit}>
             <div className={css.field}>
-              <Field
-                name="transitioned_to"
-                render={({ field, form, ...other }) => {
+              <Field name="transitioned_to">
+                {({ field, form, ...other }) => {
                   const handleChange = data => handleTransitionedTo(data, form, field);
 
                   return (
@@ -141,7 +140,7 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
                     </>
                   );
                 }}
-              />
+              </Field>
             </div>
             <div className={css.field}>
               <Field name="notes" {...inputProps} />

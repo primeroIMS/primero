@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import Transitions from "../../../transitions";
 import {
   APPROVALS,

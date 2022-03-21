@@ -52,7 +52,7 @@ export const getObjectPath = (path, values) => {
     .flat(Infinity);
 };
 
-export const invalidCharRegexp = new RegExp("[*!@#%$\\^]");
+export const invalidCharRegexp = /[*!@#%$^]/;
 
 export const normalizeTimezone = date => {
   const offset = new Date().getTimezoneOffset() / 60;

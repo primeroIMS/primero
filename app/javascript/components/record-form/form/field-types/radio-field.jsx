@@ -87,9 +87,8 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>
-      <Field
-        {...fieldProps}
-        render={({ form }) => {
+      <Field {...fieldProps}>
+        {({ form }) => {
           const onChange = (e, val) => form.setFieldValue(fieldProps.name, val, true);
 
           return (
@@ -98,7 +97,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
             </RadioGroup>
           );
         }}
-      />
+      </Field>
       <FormHelperText>{fieldError && fieldTouched ? fieldError : helperText}</FormHelperText>
     </FormControl>
   );

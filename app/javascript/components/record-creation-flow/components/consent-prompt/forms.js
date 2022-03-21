@@ -35,6 +35,7 @@ const buildLegitimateFields = (legitimateBasisLookup, legitimateBasisExplanation
       ...acc,
       {
         id: legitimateBasisId,
+        // eslint-disable-next-line react/display-name
         display_name: () => displayName
       }
     ];

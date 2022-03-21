@@ -41,7 +41,10 @@ const Component = ({ fields, handleOpenModal, handleEdit, indexes }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  fields: PropTypes.object
+  fields: PropTypes.object,
+  handleEdit: PropTypes.func,
+  handleOpenModal: PropTypes.func,
+  indexes: PropTypes.array
 };
 
 export default Component;

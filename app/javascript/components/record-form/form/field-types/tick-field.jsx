@@ -45,9 +45,8 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
         label={tickBoxlabel || i18n.t("yes_label")}
         disabled={disabled}
         control={
-          <FastField
-            name={name}
-            render={renderProps => {
+          <FastField name={name}>
+            {renderProps => {
               return (
                 <Checkbox
                   {...fieldProps}
@@ -58,7 +57,7 @@ const TickField = ({ helperText, name, label, tickBoxlabel, formik, disabled = f
                 />
               );
             }}
-          />
+          </FastField>
         }
       />
       {displayHelperText}
