@@ -86,9 +86,8 @@ class Incident < ApplicationRecord
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
     string :verification_status, multiple: true do
-      violation_verified_list
+      verification_status_list
     end
-
   end
 
   after_initialize :set_unique_id
@@ -299,9 +298,9 @@ class Incident < ApplicationRecord
     'incident_reporting_location_config'
   end
 
-  def violation_verified_list
+  def verification_status_list
     return [] unless violations.any?
 
-    violations.pluck(Arel.sql("data->>'verified_ctfmr_technical'")).uniq.compact
+    violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
   end
 end
