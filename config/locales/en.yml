@@ -2498,15 +2498,7 @@ en:
             explanation: Ability to sync a Record with an external information management system
             label: Sync with an external information management system
           sync_mobile:
-            explanation: This permission generally allows the user to use the mobile
-              application. First, it allows the user to see the "Mark for Mobile"
-              and "Un-mark for Mobile" actions, which appear on the case list and
-              case show pages. Marking a case for mobile indicates that information
-              about that case should be synced between the user's mobile device and
-              the web application, while un-marking a case for mobile stops this syncing
-              from happening. Users without this permission also cannot sync their
-              mobile devices with the web application in general, meaning that they
-              cannot use the mobile app to manage cases.
+            explanation: Allows the user to cache cases for usage offline.
             label: Mark for Offline
           transfer:
             explanation: Allows a user to send a case from its current record owner
@@ -3030,15 +3022,7 @@ en:
               record, and click "Save".
             label: Edit
           sync_mobile:
-            explanation: This permission generally allows the user to use the mobile
-              application. First, it allows the user to see the "Mark for Mobile"
-              and "Un-mark for Mobile" actions, which appear on the incident list
-              and incident show pages. Marking an incident for mobile indicates that
-              information about that incident should be synced between the user's
-              mobile device and the web application, while un-marking an incident
-              for mobile stops this syncing from happening. Users without this permission
-              also cannot sync their mobile devices with the web application in general,
-              meaning that they cannot use the mobile app to manage incidents.
+            explanation: Allows the user to cache registry records for usage offline.
             label: Mark for Offline
         explanation: This can represent an individual or institution which need to be linked
           to other records like cases or incidents, are very numerous, and are repeatedly

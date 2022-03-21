@@ -57,11 +57,11 @@ const Records = {
 
   save: async ({ collection, json, recordType, online = false, params }) => {
     const { data, metadata } = json;
-    const { fields } = params || {};
+    const { fields, id_search: idSearch } = params || {};
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Records.dataMarkedComplete(jsonData, fields !== "short", online);
+    const recordData = Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online);
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {

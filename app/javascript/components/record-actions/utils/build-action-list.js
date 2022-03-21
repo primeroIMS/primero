@@ -163,7 +163,8 @@ export default ({
         enabledFor: ENABLED_FOR_ONE_MANY,
         recordListAction: true,
         recordType: [RECORD_PATH.cases, RECORD_PATH.registry_records],
-        disableRecordShowPage: true
+        disableRecordShowPage: true,
+        showOnSearchResultPage: true
       },
       {
         action: id => {
