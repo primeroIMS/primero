@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "./constants";
 import parseExpression from "./parse-expression";
 

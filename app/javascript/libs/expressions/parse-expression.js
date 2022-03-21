@@ -1,5 +1,5 @@
 import first from "lodash/first";
-import { isObject } from "lodash";
+import isObject from "lodash/isObject";
 
 import { buildOperator, isLogicalOperator, isExpression } from "./utils";
 import toExpression from "./to-expression";
