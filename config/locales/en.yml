@@ -1854,6 +1854,7 @@ en:
       reports: 
         incidents: Incidents
         perpetrators: Perpetrators
+        survivors: Survivors
       sub_reports:
         combined: Incidents
         total: Number of GBV Incidents Reported
@@ -1868,6 +1869,11 @@ en:
         perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
         perpetrator_age_group: Alleged Primary Perpetrators Age Group
         perpetrator_occupation: Alleged Primary Perpetrator Occupation
+        age: Number of Survivors by Age
+        sex: Number of Survivors by Sex
+        marital_status: Marital Status of Survivors
+        displacement_status: Displacement Status of Survivors
+        displacement_incident: Stage of Displacement at time of Incident
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:

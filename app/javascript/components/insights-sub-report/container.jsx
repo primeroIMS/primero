@@ -63,8 +63,9 @@ const Component = () => {
 
     return data
       .map(value => {
-        // eslint-disable-next-line camelcase
-        const lookupValue = lookups[key].find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
+        const lookupValue =
+          // eslint-disable-next-line camelcase
+          lookups[key]?.find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
 
         return { colspan: 0, row: [lookupValue, value.get("total")] };
       })
@@ -89,7 +90,7 @@ const Component = () => {
           const valueID = val.get("id");
 
           // eslint-disable-next-line camelcase
-          return lookups[valueKey].find(lookup => lookup.id === valueID)?.display_text || valueID;
+          return lookups[valueKey]?.find(lookup => lookup.id === valueID)?.display_text || valueID;
         })
         .toArray()
     };
