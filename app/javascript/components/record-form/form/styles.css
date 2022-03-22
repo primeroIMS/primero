@@ -8,6 +8,10 @@
   font-size: var(--fs-13);
 }
 
+.radioOption {
+  display: flex;
+}
+
 .spacer {
   height: 40px;
 }

@@ -50,6 +50,9 @@ const DEV_SERVER_CONFIG = {
       return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(filePath);
     }
   },
+  client: {
+    overlay: false
+  },
   static: {
     directory: OUTPUT_DIR
   }

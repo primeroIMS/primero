@@ -111,8 +111,10 @@ const ReassignForm = ({ record, recordType, setPending, assignRef, selectedIds, 
   const formProps = {
     initialValues,
     validationSchema,
+    validateOnBlur: false,
+    validateOnChange: false,
     onSubmit: handleAssign,
-    ref: assignRef
+    innerRef: assignRef
   };
 
   return (

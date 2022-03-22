@@ -13,7 +13,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { removeEmptyArrays } from "./utils";
 import { VALIDATION_ERRORS_NAME } from "./constants";
 
-const ValidationErrors = ({ formErrors, forms }) => {
+const ValidationErrors = ({ formErrors, forms, submitCount }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
 
@@ -22,7 +22,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
   const errorsWithoutEmptySubforms = removeEmptyArrays(formErrors);
 
   useEffect(() => {
-    if (!isEmpty(errorsWithoutEmptySubforms)) {
+    if (!isEmpty(errorsWithoutEmptySubforms) && submitCount > 0) {
       const fieldNames = Object.keys(errorsWithoutEmptySubforms);
 
       const formsWithErrors = forms.filter(value =>
@@ -65,7 +65,7 @@ const ValidationErrors = ({ formErrors, forms }) => {
         dispatch(setValidationErrors(validationErrors));
       }
     }
-  }, [formErrors]);
+  }, [formErrors, submitCount]);
 
   return null;
 };
@@ -74,7 +74,8 @@ ValidationErrors.displayName = VALIDATION_ERRORS_NAME;
 
 ValidationErrors.propTypes = {
   formErrors: PropTypes.object,
-  forms: PropTypes.object
+  forms: PropTypes.object,
+  submitCount: PropTypes.number,
 };
 
 export default ValidationErrors;

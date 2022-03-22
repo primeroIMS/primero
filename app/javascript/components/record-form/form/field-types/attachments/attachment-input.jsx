@@ -97,7 +97,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
                 accept={acceptedType}
               />
             );
-          }}{" "}
+          }}
         </FastField>
       </div>
       {file && renderPreview(attachment, file, css, deleteButton)}

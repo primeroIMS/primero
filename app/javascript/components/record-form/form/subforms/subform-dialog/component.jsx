@@ -63,9 +63,9 @@ const Component = ({
   };
 
   const handleClose = () => {
-    const compactedValues = compactValues(childFormikRef.current.state.values, initialSubformValues);
+    const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
 
-    if (Object.keys(childFormikRef.current.state.touched).length || Object.keys(compactedValues).length) {
+    if (Object.keys(childFormikRef.current.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
@@ -198,7 +198,7 @@ const Component = ({
           validateOnChange={false}
           enableReinitialize
           onSubmit={values => onSubmit(values)}
-          ref={childFormikRef}
+          innerRef={childFormikRef}
         >
           {({ handleSubmit, submitForm, setErrors, setTouched, errors, values, setFieldValue }) => {
             bindSubmitForm(submitForm);

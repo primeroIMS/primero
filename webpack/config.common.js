@@ -42,7 +42,7 @@ module.exports = (name, entry) => {
     ...(!isProduction && {
       mode: "development",
       devServer: DEV_SERVER_CONFIG,
-      devtool: "eval-cheap-module-source-map"
+      devtool: "inline-source-map"
     })
   };
 
