@@ -44,7 +44,7 @@ class ManagedReports::Indicators::FactorsOfRecruitment < ManagedReports::SqlRepo
       super(current_user, args) do |result|
         result.map do |elem|
           values = JSON.parse(elem['data'])
-          values[:id] = elem['name'].gsub(/"/, '')
+          values['id'] = elem['name'].gsub(/"/, '')
           values
         end
       end
