@@ -19,7 +19,7 @@ class Header < ValueObject
   OWNED_BY = Header.new(name: 'owned_by', field_name: 'owned_by', id_search: true)
   OWNED_BY_AGENCY = Header.new(name: 'owned_by_agency', field_name: 'owned_by_agency_id', id_search: true)
   DATE_OF_INTERVIEW = Header.new(name: 'date_of_interview', field_name: 'date_of_first_report')
-  DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date_derived')
+  DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   GBV_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
   GBV_VIOLENCE_TYPE = Header.new(name: 'violence_type', field_name: 'gbv_sexual_violence_type')
   CP_DATE_OF_INCIDENT = Header.new(name: 'date_of_incident', field_name: 'incident_date')
@@ -54,6 +54,9 @@ class Header < ValueObject
   LOCATION_ADMIN_LEVEL = Header.new(name: 'location.admin_level', field_name: 'admin_level')
   LOCATION_TYPE = Header.new(name: 'location.type', field_name: 'type')
   LOCATION_HIERARCHY = Header.new(name: 'location.hierarchy', field_name: 'hierarchy')
+  REGISTRY_NAME = Header.new(name: 'name', field_name: 'name')
+  REGISTRY_CODE = Header.new(name: 'registry_no', field_name: 'registry_no')
+  COMPLETE = Header.new(name: 'complete', field_name: 'complete')
 
   class << self
     def get_headers(user, record_type)
@@ -61,6 +64,7 @@ class Header < ValueObject
       when 'case' then case_headers(user)
       when 'incident' then incident_headers(user)
       when 'tracing_request' then tracing_request_headers
+      when 'registry_record' then registry_record_headers(user)
       else []
       end
     end
@@ -75,6 +79,7 @@ class Header < ValueObject
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
       header_list << CASE_NAME if user.module?(PrimeroModule::CP) && user.can_list_case_names?
+      header_list << COMPLETE if user.can?(:sync_mobile, Child)
       header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
       header_list << AGE if user.module?(PrimeroModule::CP)
       header_list << SEX if user.module?(PrimeroModule::CP)
@@ -111,6 +116,16 @@ class Header < ValueObject
 
     def tracing_request_headers
       [SHORT_ID, NAME_OF_INQUIRER, DATE_OF_INQUIRY, TRACING_REQUESTS, FLAG_COUNT]
+    end
+
+    def registry_record_headers(user)
+      header_list = []
+      header_list << SHORT_ID
+      header_list << REGISTRY_NAME
+      header_list << COMPLETE if user.can?(:sync_mobile, RegistryRecord)
+      header_list << REGISTRY_CODE
+      header_list << REGISTRATION_DATE
+      header_list
     end
 
     def report_headers

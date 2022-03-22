@@ -33,7 +33,7 @@ class Role < ApplicationRecord
     'is_manager' => { 'type' => 'boolean' }, 'transfer' => { 'type' => 'boolean' },
     'disabled' => { 'type' => 'boolean' }, 'module_unique_ids' => { 'type' => 'array' },
     'permissions' => { 'type' => 'object' }, 'form_section_read_write' => { 'type' => 'object' },
-    'reporting_location_level' => { 'type' => 'integer' }
+    'reporting_location_level' => { 'type' => %w[integer null] }
   }.freeze
 
   has_many :form_permissions
@@ -149,6 +149,14 @@ class Role < ApplicationRecord
     end
   end
 
+  def managed_reports_permissions_actions
+    permissions.find { |p| p.resource == Permission::MANAGED_REPORT }&.actions || []
+  end
+
+  def managed_reports
+    managed_reports_permissions_actions&.map { |action| ManagedReport.list[action] }&.compact || []
+  end
+
   def reporting_location_config
     @system_settings ||= SystemSettings.current
     return nil if @system_settings.blank?
@@ -158,6 +166,16 @@ class Role < ApplicationRecord
 
     reporting_location_config = secondary_reporting_location(ss_reporting_location)
     reporting_location_config
+  end
+
+  def incident_reporting_location_config
+    @system_settings ||= SystemSettings.current
+    return nil if @system_settings.blank?
+
+    ss_reporting_location = @system_settings&.incident_reporting_location_config
+    return nil if ss_reporting_location.blank?
+
+    secondary_reporting_location(ss_reporting_location)
   end
 
   # If the Role has a secondary reporting location (indicated by reporting_location_level),

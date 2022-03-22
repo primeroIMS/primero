@@ -3,6 +3,7 @@ import { parseISO } from "date-fns";
 import isEqualDate from "date-fns/isEqual";
 import first from "lodash/first";
 import isEqual from "lodash/isEqual";
+import isNil from "lodash/isNil";
 
 import { hasApiDateFormat } from "../../component-helpers";
 import { COMPARISON_OPERATORS } from "../constants";
@@ -21,6 +22,10 @@ export default expression => ({
 
     if (Array.isArray(value)) {
       return isImmutable(dataValue) ? fromJS(value).equals(dataValue) : isEqual(dataValue, value);
+    }
+
+    if (value === false && isNil(dataValue)) {
+      return true;
     }
 
     return dataValue === value;

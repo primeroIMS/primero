@@ -80,7 +80,7 @@ module Searchable
     end
 
     def searchable_location_fields
-      %w[location_current incident_location]
+      %w[location_current incident_location registry_location_current]
     end
 
     def all_searchable_location_fields

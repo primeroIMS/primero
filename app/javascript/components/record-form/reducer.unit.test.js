@@ -129,6 +129,7 @@ describe("<RecordForm /> - Reducers", () => {
           name: "current_owner_section",
           type: "separator",
           editable: null,
+          form_section_id: 1,
           disabled: null,
           visible: true,
           display_name: {},

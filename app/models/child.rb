@@ -57,6 +57,7 @@ class Child < ApplicationRecord
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
     :location_current, :tracing_status, :name_caregiver,
+    :registry_id_display, :registry_name, :registry_no, :registry_location_current,
     :urgent_protection_concern, :child_preferences_section, :family_details_section, :care_arrangements_section,
     :duplicate
   )
@@ -65,11 +66,12 @@ class Child < ApplicationRecord
   has_many :matched_traces, class_name: 'Trace', foreign_key: 'matched_case_id'
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
+  belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
   def self.sortable_text_fields
-    %w[name case_id_display national_id_no]
+    %w[name case_id_display national_id_no registry_no]
   end
 
   def self.filterable_id_fields
@@ -78,7 +80,7 @@ class Child < ApplicationRecord
     %w[ unique_identifier short_id case_id_display case_id
         ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
         other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
-        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number]
+        family_count_no dss_id camp_id tent_number nfi_distribution_id oscar_number registry_no ]
   end
 
   def self.quicksearch_fields
@@ -88,7 +90,7 @@ class Child < ApplicationRecord
   def self.summary_field_names
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
-      hidden_name workflow case_status_reopened module_id
+      hidden_name workflow case_status_reopened module_id registry_record_id
     ]
   end
 
@@ -122,7 +124,7 @@ class Child < ApplicationRecord
     %w[registration_date date_case_plan_initiated assessment_requested_on date_closure].each { |f| date(f) }
     %w[estimated urgent_protection_concern consent_for_tracing has_case_plan].each { |f| boolean(f) }
     %w[day_of_birth age].each { |f| integer(f) }
-    %w[status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[id status sex current_care_arrangements_type].each { |f| string(f, as: "#{f}_sci") }
     string :risk_level, as: 'risk_level_sci' do
       risk_level.present? ? risk_level : RISK_LEVEL_NONE
     end
@@ -144,8 +146,19 @@ class Child < ApplicationRecord
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  before_save :stamp_registry_fields
   before_create :hide_name
   after_save :save_incidents
+
+  class << self
+    alias super_new_with_user new_with_user
+    def new_with_user(user, data = {})
+      new_case = super_new_with_user(user, data).tap do |local_case|
+        local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
+      end
+      new_case
+    end
+  end
 
   alias super_defaults defaults
   def defaults
@@ -190,6 +203,7 @@ class Child < ApplicationRecord
   alias super_update_properties update_properties
   def update_properties(user, data)
     build_or_update_incidents(user, (data.delete('incident_details') || []))
+    self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
     super_update_properties(user, data)
   end
@@ -276,6 +290,15 @@ class Child < ApplicationRecord
     protection_concerns = self.protection_concerns || []
     from_subforms = protection_concern_detail_subform_section&.map { |pc| pc['protection_concern_type'] }&.compact || []
     self.protection_concerns = (protection_concerns + from_subforms).uniq
+  end
+
+  def stamp_registry_fields
+    return unless changes_to_save.key?('registry_record_id')
+
+    self.registry_id_display = registry_record&.registry_id_display
+    self.registry_name = registry_record&.name
+    self.registry_no = registry_record&.registry_no
+    self.registry_location_current = registry_record&.location_current
   end
 
   def match_criteria

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import clsx from "clsx";
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -21,6 +22,10 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
     optionSelector
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
+  const classes = clsx(css.field, {
+    [css.readonly]: formMode.isShow
+  });
+
   const optionSource = useOptions(optionSelector());
 
   if (isNotVisible()) {
@@ -40,7 +45,7 @@ const FormSectionField = ({ checkErrors, field, formMethods, formMode, disableUn
   );
 
   return (
-    <div className={css.field}>
+    <div className={classes}>
       {handleVisibility() || (
         <ConditionalWrapper condition={Boolean(WrapWithComponent)} wrapper={WrapWithComponent}>
           {renderField}

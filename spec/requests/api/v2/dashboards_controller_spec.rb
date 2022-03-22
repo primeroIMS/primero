@@ -162,7 +162,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       tasks_overdue_assessment = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_assessment' }
       expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment']['foo']['count']).to eq(2)
-      expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(2)
+      expect(tasks_overdue_assessment['indicators']['tasks_overdue_assessment'].count).to eq(1)
 
       tasks_overdue_case_plan = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_case_plan' }
       expect(tasks_overdue_case_plan['indicators']['tasks_overdue_case_plan']['foo']['count']).to eq(2)
@@ -170,7 +170,7 @@ describe Api::V2::DashboardsController, type: :request do
 
       tasks_overdue_followups = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_followups' }
       expect(tasks_overdue_followups['indicators']['tasks_overdue_followups']['foo']['count']).to eq(2)
-      expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(2)
+      expect(tasks_overdue_followups['indicators']['tasks_overdue_followups'].count).to eq(1)
 
       tasks_overdue_services = json['data'].find { |d| d['name'] == 'dashboard.cases_by_task_overdue_services' }
       expect(tasks_overdue_services['indicators']['tasks_overdue_services']['foo']['count']).to eq(1)

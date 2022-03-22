@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 describe Historical do
-  before :each do
-    [RecordHistory, Child].each(&:destroy_all)
+  before do
+    clean_data(RecordHistory, Child)
 
     @inst = Child.new(
       data: {
@@ -155,5 +155,9 @@ describe Historical do
       child.save!
       child.last_updated_at.should == DateTime.parse('2010-01-17 19:05:00UTC')
     end
+  end
+
+  after do
+    clean_data(RecordHistory, Child)
   end
 end

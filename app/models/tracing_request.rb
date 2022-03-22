@@ -66,7 +66,7 @@ class TracingRequest < ApplicationRecord
   end
 
   searchable do
-    string :status, as: 'status_sci'
+    %w[id status].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each do |f|
@@ -111,6 +111,7 @@ class TracingRequest < ApplicationRecord
   end
 
   def associations_as_data(_current_user)
+    traces.reload if @traces_to_save.present?
     @associations_as_data ||= { 'tracing_request_subform_section' => traces.map(&:data) }
   end
 

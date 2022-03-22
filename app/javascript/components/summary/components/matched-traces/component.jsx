@@ -57,7 +57,6 @@ const Component = ({ data, loading, record, setSelectedForm }) => {
     data.map(matchedTrace => (
       <MatchedTracePanel
         key={matchedTrace.get("id")}
-        css={css}
         matchedTrace={matchedTrace}
         setOpen={setOpen}
         setSelectedTraceId={setSelectedTraceId}

@@ -17,7 +17,7 @@ const Records = {
     };
   },
 
-  updateCaseIncidents: async data => {
+  updateCaseIncidents: async (data, online) => {
     const { incident_case_id: caseID } = data;
     const caseRecord = await Records.find({ collection: "records", db: { id: caseID } });
 
@@ -42,38 +42,43 @@ const Records = {
     await Records.save({
       collection: "records",
       recordType: "cases",
-      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } }
+      json: { data: { ...caseRecord.data, incident_details: compact(incidentDetails) } },
+      online
     });
   },
 
-  save: async ({ collection, json, recordType }) => {
+  dataMarkedComplete(data, markComplete = false, online = false) {
+    if (Array.isArray(data)) {
+      return markComplete && online ? data.map(record => ({ ...record, complete: true })) : data;
+    }
+
+    return markComplete && online ? { ...data, complete: true } : data;
+  },
+
+  save: async ({ collection, json, recordType, online = false, params }) => {
     const { data, metadata } = json;
+    const { fields, id_search: idSearch } = params || {};
     const dataKeys = Object.keys(data);
     const jsonData = dataKeys.length === 1 && dataKeys.includes("record") ? data.record : data;
     const dataIsArray = Array.isArray(jsonData);
-    const recordData = Array.isArray(jsonData) ? jsonData : { ...jsonData, complete: true };
+    const recordData = Records.dataMarkedComplete(jsonData, !(fields === "short" || idSearch), online);
 
     // eslint-disable-next-line camelcase
     if (data?.incident_case_id && recordType === "incidents") {
-      await Records.updateCaseIncidents(data);
+      await Records.updateCaseIncidents(data, online);
     }
 
-    if (dataIsArray) {
-      await DB.bulkAdd(collection, recordData, {
+    const records = await DB.save(dataIsArray, {
+      store: collection,
+      data: recordData,
+      queryIndex: {
         index: "type",
         value: recordType
-      });
-    } else {
-      await DB.put(collection, recordData, null, {
-        index: "type",
-        value: recordType
-      });
-    }
-
-    const recordDB = jsonData.id && !dataIsArray && (await DB.getRecord(collection, jsonData.id));
+      }
+    });
 
     return {
-      data: recordDB || recordData,
+      data: records,
       ...(dataIsArray && { metadata })
     };
   },

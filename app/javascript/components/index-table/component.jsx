@@ -23,6 +23,7 @@ import { useI18n } from "../i18n";
 import { STRING_SOURCES_TYPES, RECORD_PATH, ROWS_PER_PAGE_OPTIONS } from "../../config";
 import { ALERTS_COLUMNS } from "../record-list/constants";
 import useOptions from "../form/use-options";
+import { useApp } from "../application";
 
 import recordListTheme from "./theme";
 import { NAME } from "./config";
@@ -36,7 +37,7 @@ const Component = ({
   columns,
   recordType,
   onTableChange,
-  defaultFilters,
+  defaultFilters = fromJS({}),
   options: tableOptionsProps,
   targetRecordType,
   onRowClick,
@@ -45,15 +46,18 @@ const Component = ({
   setSelectedRecords,
   localizedFields,
   showCustomToolbar,
-  isRowSelectable
+  isRowSelectable,
+  checkOnline = false,
+  checkComplete = false
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { online } = useApp();
 
   const [sortDir, setSortDir] = useState();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
-  const data = useMemoizedSelector(state => getRecords(state, recordType));
+  const data = useMemoizedSelector(state => getRecords(state, recordType, checkComplete));
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
   const errors = useMemoizedSelector(state => getErrors(state, recordType));
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
@@ -69,9 +73,12 @@ const Component = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
-  const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
-    recordType
-  );
+  const validRecordTypes = [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests,
+    RECORD_PATH.registry_records
+  ].includes(recordType);
 
   let translatedRecords = [];
 
@@ -277,7 +284,7 @@ const Component = ({
       const { colIndex, dataIndex } = cellMeta;
       const cells = fromJS(componentColumns);
 
-      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false) && ((checkOnline && online) || !checkOnline)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
@@ -356,6 +363,8 @@ Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   canSelectAll: PropTypes.bool,
+  checkComplete: PropTypes.bool,
+  checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
   isRowSelectable: PropTypes.func,

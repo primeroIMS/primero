@@ -1,0 +1,48 @@
+---
+fr:
+  services_section:
+    name: Activités de remédiation
+    description: Sous-formulaire des activités de remédiation
+    fields:
+      service_implemented_day_time:
+        display_name: "Activité implémentée le "
+        help_text: Ce champ définit "Activité implémentée"
+      service_activity_implementation:
+        display_name: Implémentation d'activité
+      service_referral_notes:
+        display_name: Commentaires
+        help_text: ie. Détails du contact
+      service_provider:
+        display_name: Destinataire
+      service_location:
+        display_name: Emplacement
+      service_implementing_agency_external:
+        display_name: Agence
+      service_external_referral_header:
+        display_name: "Détails de renvoi externe "
+        help_text: Les champs ci-dessous seront ajoutés au fichier PDF de renvoi externe.
+      service_implementing_agency_individual:
+        display_name: "Qui effectuera cette activité de remédiation ?"
+      service_external_referral:
+        display_name: "S'agit-il d'un renvoi à quelqu'un qui n'a pas accès au système Primero ?"
+        tick_box_label: 'Oui'
+      service_delivery_location:
+        display_name: Lieu d'activité
+      service_implementing_agency:
+        display_name: Agence d'exécution
+      service_response_day_time:
+        display_name: Créé le
+      service_type_other:
+        display_name: "Si autre, veuillez préciser"
+      service_response_type:
+        display_name: Type de réponse
+      service_implemented:
+        display_name: "Activité implémentée?"
+        help_text: Ce champ est mis à jour une fois que le champ « Activité mise en œuvre le » est modifié.
+      service_appointment_date:
+        display_name: Date d'échéance
+      note_on_referral_from_provider:
+        display_name: Notes sur le renvoi venant du destinataire
+        help_text: Ce champ est automatiquement mis à jour par Primero lorsqu'un destinataire  marque l'activité de remédiation comme "Terminée".
+      service_type:
+        display_name: Type d'activité de remédiation

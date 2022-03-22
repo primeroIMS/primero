@@ -60,6 +60,7 @@ en:
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
+    mark_for_offline: Mark for Offline
   agencies:
     label: Agency
     translations:
@@ -205,10 +206,19 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
-
   case:
     label: Case
     create_new_case: Create New Case
+    add_new: Add New
+    back_to_case: Back to Case
+    back_to_results: Back to Results
+    back_to_search: Back to Search
+    search_by: Search By
+    search_for: Search for %{record_type}
+    results: Results
+    details: Details
+    select: Select
+    deselect: Deselect
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
@@ -282,6 +292,10 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Cases for use when you are offline?
+      success: Cases successfully marked for offline use
     filter_by:
       3month_inactivity: For 3+ months
       action_plan: Action Plan
@@ -1051,6 +1065,16 @@ en:
         db_error: 'Error creating %{location_code}: %{message}'
         locale_invalid: 'Skipping %{column_name}: Locale invalid'
         insert_all_error: 'Import Not Processed. Database error: %{message}'
+    csv_record:
+      messages:
+        success: Records were successfully imported
+        no_data: 'Import Not Processed: No data passed in'
+        no_file: 'Import Not Processed: File does not exist'
+        csv_parse_error: 'Import Not Processed: Error parsing CSV data'
+        error: 'Row %{row_number} Not Processed: %{message}'
+        db_error: 'Error creating %{location_code}: %{message}'
+        locale_invalid: 'Skipping %{column_name}: Locale invalid'
+        insert_all_error: 'Import Not Processed. Database error: %{message}'
   sync_record:
     failed: 'Last Sync: Failed'
     last: 'Last Sync: %{date_time}'
@@ -1086,6 +1110,7 @@ en:
       date_range: Date Range
       from: From
       to: To
+      view_by: View By
     date_range_field: Date Range
     date_time: Date-Time
     db_name: Database Name
@@ -1182,6 +1207,8 @@ en:
     subform_sort_by: Sort by
     successfully_added: Field successfully added
     tally_field: Tally Field
+    tally_items: Tally Items
+    tally_items_maximum: (5 Maximum)
     text_area: Text Area
     text_field: Text Field
     textarea: Text Area
@@ -1265,11 +1292,14 @@ en:
       tracing_request: Tracing Request
       transfers_assignments: Transfers / Assignments
       violation: Violation
+      registry_details: Registry Details
+      registry_record: Registry Record
     required_field: '%{field} is a required field'
     select_label: Select
     settings: Settings
     show_on: Show on
     subform_need_to_be_added: They need to be added.
+    subform_need_to_be_added_single: This need to be added.
     subform_not_found: No %{subform_name} found.
     title: Form Title
     translations:
@@ -1574,6 +1604,11 @@ en:
       sub-district: Sub-district
       village: Village
       zone: Zone
+      association: Association
+      division: Division
+      central_warehouse: Central Warehouse
+      warehouse: Warehouse
+      buyingstation: Buying Station
     label: Location
     name: Name
     code: Code
@@ -1763,6 +1798,76 @@ en:
     no_options: This Lookup currently has no options.
     translation_label: Translation Text
     values: Options
+  managed_reports:
+    label: Insights
+    total: Total
+    filter_by: 
+      date: Date
+      verification_status: Verification Status
+    date_range:
+      month: Month
+      quarter: Quarter
+      year: Year
+    date_range_options:
+      this_quarter: This Quarter
+      last_quarter: Last Quarter
+      this_month: This Month
+      last_month: Last Month
+      this_year: This Year
+      last_year: Last Year
+      custom: Custom
+    no_data: No data exists for this insight
+    no_data_table: No table data exists for this insight
+    violations:
+      name: Violations
+      description: ''
+      filter_options:
+        incident_date: Date of Incident
+        date_of_report: Date of Report
+        ctfmr_verified_date: Date of Verification
+      reports:
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on: Attacks on school(s) and/or hospital(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
+      sub_reports:
+        combined: Violations
+        detention_detained: Remain Detained
+        detention_released: Released
+        perpetrators: Number of Children by Perpetrators
+        reporting_location: Number of Children by Region
+        attack_type: Number of Children by Attack Type
+        boys: Boys
+        girls: Girls
+        unknown: Unknown
+        total: Total
+    gbv_statistics:
+      name: GBV Statistics
+      description: ''
+      filter_options:
+        date_of_first_report: Date of Interview
+        incident_date: Date of Incident
+      reports: 
+        incidents: Incidents
+        perpetrators: Perpetrators
+      sub_reports:
+        combined: Incidents
+        total: Number of GBV Incidents Reported
+        gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
+        gbv_sexual_violence_type: Incident Type
+        incident_timeofday: Incident Time of Day
+        elapsed_reporting_time: Time Between Incident and Report Date
+        elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
+        incident_location_type: Incident Location
+        number_of_perpetrators: Number of Primary Perpetrators
+        perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
+        perpetrator_age_group: Alleged Primary Perpetrators Age Group
+        perpetrator_occupation: Alleged Primary Perpetrator Occupation
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -1799,6 +1904,7 @@ en:
     incidents: Incidents
     logout: Log out
     reports: Reports
+    insights: Insights
     search: Search
     settings: Settings
     support: Support
@@ -1810,6 +1916,7 @@ en:
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
+    registry_records: Registry
   notes:
     note_success: Successfully added note
   permissions:
@@ -1891,6 +1998,8 @@ en:
       export_unhcr_csv: Export unhcr csv
       export_xls: Export xls
       find_tracing_match: Find tracing match from case
+      view_registry_record: View registry record
+      add_registry_record: Add registry record
       flag: Flag
       form: Forms
       group: Access all records or users in my group
@@ -1902,6 +2011,7 @@ en:
       kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
+      mark_for_offline: Mark for Offline
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match
@@ -1912,9 +2022,11 @@ en:
       receive_transfer: Receive Transfer
       referral: Can be used for referral
       referral_from_service: Refer Case from Service form
+      registry_record: Registry
       remove_assigned_users: Remove other assigned users (referrals)
       reopen: Reopen
       report: Report
+      managed_report: Insights
       request_approval: Request for approval
       request_approval_action_plan: Request %{approval_label} approval
       request_approval_assessment: Request %{approval_label} approval
@@ -1932,7 +2044,7 @@ en:
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
       sync_external: Sync with an external information management system
-      sync_mobile: Sync with mobile device
+      sync_mobile: Mark for Offline
       system: System
       tracing_request: Tracing Request
       transfer: Can be used for transfer
@@ -2040,6 +2152,8 @@ en:
             explanation: Ability to edit information about agencies. Please note that
               this applies to all agencies in the system.
             label: Edit
+        explanation: Represents an organization with members who use Primero. Agencies
+          exist independently of User Groups.
         label: Agency
       audit_log:
         actions:
@@ -2051,6 +2165,8 @@ en:
               note that the audit log does not display personally identifiable information
               about records involved in each action.
             label: View
+        explanation: Filterable list of all actions performed in the system. Does not
+          include any identifiable information on Cases, Incidents, or Tracing Requests.
         label: Audit Log
       case:
         actions:
@@ -2065,6 +2181,11 @@ en:
               the case for the case worker when they are viewing the case on their
               mobile device.
             label: Add Notes to a case
+          add_registry_record:
+            explanation: Allows a user to link a Registry to a Case from the Registry
+              details form. Also allows a user to un-link any Registry already linked
+              to the Case.
+            label: Add / Update Registry record from Case
           approve_action_plan:
             explanation: Allows a manager to approve the %{approval_label} for their
               case workers' cases.
@@ -2377,16 +2498,8 @@ en:
             explanation: Ability to sync a Record with an external information management system
             label: Sync with an external information management system
           sync_mobile:
-            explanation: This permission generally allows the user to use the mobile
-              application. First, it allows the user to see the "Mark for Mobile"
-              and "Un-mark for Mobile" actions, which appear on the case list and
-              case show pages. Marking a case for mobile indicates that information
-              about that case should be synced between the user's mobile device and
-              the web application, while un-marking a case for mobile stops this syncing
-              from happening. Users without this permission also cannot sync their
-              mobile devices with the web application in general, meaning that they
-              cannot use the mobile app to manage cases.
-            label: Sync with mobile device
+            explanation: Allows the user to cache cases for usage offline.
+            label: Mark for Offline
           transfer:
             explanation: Allows a user to send a case from its current record owner
               to any user in the system with the ability to receive transfers. The
@@ -2409,6 +2522,10 @@ en:
             explanation: Allows the user to see a protection concerns filter on the
               case list page.
             label: View Protection Concerns filter on case list page
+          view_registry_record:
+            explanation: Allows a user to view the information of any Registry linked to
+              a Case. Also allows the user to see the Registry details form on the Case.
+            label: View Registry record from Case
           write:
             explanation: Ability to click the "Edit" button, update information in
               the case, and click "Save"
@@ -2422,6 +2539,10 @@ en:
             explanation: Managers usually cannot see the names of Cases in the Case List.
               If a manager has this permission, they will be able to see names in the list.
             label: If manager, can see Case names on Case List.
+          mark_for_offline:
+            explanation: Allows the user to cache a Case for usage offline.
+            label: Mark for Offline
+        explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
         actions:
@@ -2587,6 +2708,7 @@ en:
             explanation: Allows a manager to see a table showing how many of their
               social workers' cases are at each stage of the case management process.
             label: Cases By Workflow and Case Worker
+        explanation: Dictates which summary information appears on the home page.
         label: Dashboard
       disabled:
         explanation: If you disable this Role, you will no longer be able to assign
@@ -2599,6 +2721,7 @@ en:
               in the system, using a number of criteria, including Name, Nickname,
               Sex, Age, and Nationality.
             label: View
+        explanation: Advanced case search for administrators.
         label: Duplicate Search
       forms:
         case:
@@ -2612,7 +2735,7 @@ en:
             for cases.'
           label: Forms - Case
         incident:
-          explanation: 'Limiting a user''s access to forms on tracing requests limits
+          explanation: 'Limiting a user''s access to forms on incidents limits
             which information the user can see on an incident. For instance, if the
             user only has access to the Record Owner form, they will also only be
             able to see the information contained in the fields on that form. If the
@@ -2631,6 +2754,16 @@ en:
             they can configure. NOTE: If no forms are specified, it means the role
             has access to all the forms for Tracing Requests.'
           label: Forms - Tracing Request
+        registry_record:
+          explanation: 'Limiting a user''s access to forms on registries limits
+            which information the user can see on a registry. For instance, if the
+            user only has access to the Record Owner form, they will also only be
+            able to see the information contained in the fields on that form. If the
+            current user has limited form access and has the ability to manage the
+            form configuration, limiting their form access also limits which forms
+            they can configure. NOTE: If no forms are specified, it means the role
+            has access to all the forms for registries.'
+          label: Forms - Registry
       group:
         actions:
           admin_only:
@@ -2762,12 +2895,22 @@ en:
               the incident, and click "Save". Also allows the user to disable or enable
               an incident.
             label: Edit
+        explanation: Represents an event which has occurred. These are usually
+          incidents of abuse or violence, though they can also correspond to
+          events like encounters with law enforcement. Incidents are often
+          linked to Cases.
         label: Incident
       is_manager:
         explanation: Applies to any user role which generally supervises other users.
           This allows a user to see dashboards and filters which help a user manage
           a team.
         label: Is Manager?
+      managed_report:
+        actions:
+          violations:
+            label: Violations
+          gbv_statistics:
+            label: GBV Statistics
       matching_configuration:
         actions:
           manage:
@@ -2776,6 +2919,8 @@ en:
               is run in the entire system, this permission should generally only be
               available to the system administrator.
             label: Manage (all permissions for this resource type)
+        explanation: Controls which fields are used to compare Tracing Requests with Cases during
+          Family Tracing and Reunification.
         label: Matching Configuration
       metadata:
         actions:
@@ -2787,6 +2932,8 @@ en:
               form on cases, then they will only ever be able to update the configuration
               for this form.
             label: Manage (all permissions for this resource type)
+        explanation: Controls the ability to configure Primero Forms and Fields, as well
+          as Lookup options used within them.
         label: Forms, Lookups
       module:
         actions:
@@ -2828,6 +2975,60 @@ en:
               those two forms.
             label: Can this role be used for external Referrals?
         label: Referral
+      registry_record:
+        actions:
+          change_log:
+            explanation: User can see a history of all changes made to the record since it
+              was created. This includes values recorded for all fields.
+            label: Change Log
+          create:
+            explanation: Ability to create a Registry record.
+            label: Create
+          enable_disable_record:
+            explanation: Ability to disable or enable a Registry record. "Disabled" records
+              do not appear by default in the Registry list. Users can see disabled Registry
+              records in the Registry list by using a filter.
+            label: Enable / Disable
+          export_csv:
+            explanation: 'User can generate a CSV file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access, for
+              one, multiple, or all Registry records to which the user has access. NOTE: The
+              CSV export does not render non-Latin characters (e.g. Arabic, Bangla)'
+            label: Export CSV
+          export_json:
+            explanation: User can generate a JSON file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access. The
+              JSON format is machine-readable and not practical for most users.
+            label: Export JSON
+          export_xls:
+            explanation: 'User can generate a XLS file export from the Registry list or Registry
+              show pages, which contains all fields to which the current user has access. NOTE:
+              The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
+              format, while the CSV export does not.'
+            label: Excel (XLS file) export
+          flag:
+            explanation: Ability to add a flag to a Registry record. Users with this permission
+              can also remove the flags that they have added to a Registry record.
+            label: Flag
+          manage:
+            explanation: Allows a user to perform all available actions on Registry records. The
+              "Manage" permission essentially means "everything".
+            label: Manage (all permissions for this resource type)
+          read:
+            explanation: Ability to see Registry records
+            label: View
+          write:
+            explanation: Ability to click the "Edit" button, update information about the Registry
+              record, and click "Save".
+            label: Edit
+          sync_mobile:
+            explanation: Allows the user to cache registry records for usage offline.
+            label: Mark for Offline
+        explanation: This can represent an individual or institution which need to be linked
+          to other records like cases or incidents, are very numerous, and are repeatedly
+          updated with new information. They are similar to lookups, but with a more complex
+          set of information for each entry.
+        label: Registry Record
       report:
         actions:
           create:
@@ -2857,6 +3058,7 @@ en:
             explanation: Ability to edit all reports (including those created by other
               users).
             label: Edit
+        explanation: Aggregate data analysis tool. Includes table and graph representations of data.
         label: Report
       reporting_location_level:
         explanation: 'This will control what level of locations appear for this Role
@@ -2905,6 +3107,7 @@ en:
             explanation: Ability to click the "Edit" button on the show role page,
               update the role's permissions, and then save the role.
             label: Edit
+        explanation: Dictates which actions a User can perform in Primero.
         label: Roles
       system:
         actions:
@@ -2913,6 +3116,7 @@ en:
               default notification and welcome email settings, and synchronized servers.
               This permission is usually reserved for the system administrator
             label: Manage (all permissions for this resource type)
+        explanation: Miscellaneous system-wide configuration settings.
         label: System
       tracing_request:
         actions:
@@ -3012,6 +3216,8 @@ en:
               the tracing request, and click "Save". Also allows the user to disable
               or enable a tracing request
             label: Edit
+        explanation: Represents an individual trying to locate and reunify with
+          an unaccompanied or separated Case.
         label: Tracing Request
       transfer:
         actions:
@@ -3058,6 +3264,7 @@ en:
               update information about the user, and then save. Please note that this
               permission also gives the ability to disable user accounts.
             label: Edit
+        explanation: Represents an individual User account.
         label: Users
       user_group:
         actions:
@@ -3088,6 +3295,8 @@ en:
           write:
             explanation: Ability to edit user groups.
             label: Edit
+        explanation: Represents a team or a collaborative group of users who can share information.
+          Managers can typically see all of the records managed by social workers in their User Groups.
         label: User Groups
       webhook:
         actions:
@@ -3143,6 +3352,7 @@ en:
     users_label: Recipient
   record_information:
     assigned_user_names: Other Assigned Users
+    created_at: Record created at
     created_by: Record created by
     created_organization: Created by agency
     current_owner_separator: Current Owner
@@ -3155,6 +3365,7 @@ en:
     reassigned_tranferred_on: Reassigned / Transferred On
     record_history_separator: Record History
     last_updated_at: Last Updated At
+    last_updated_by: Last Updated By
   record_panel:
     record_information: Record Information
   referral:
@@ -3336,6 +3547,11 @@ en:
       creation_success_queue: Tracing Request record successfully created in background.
       match_action: Successfully matched Trace %{trace_id} with Case %{record_id}.
       unmatch_action: Successfully un-matched Trace %{trace_id} and Case %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Registry Record %{record_id} was successfully updated.'
+      creation_success: 'Registry Record successfully created.'
+      disabled: Registry Record is disabled
   tracing_requests:
     date_of_inquiry: Date of Inquiry
     disable_dialog_title: Disable Tracing Request
@@ -3362,6 +3578,33 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+  registry_records:
+    id: ID
+    label: Registry Records
+    name: Name
+    registry_no: Registry Number
+    location: Location
+    registration_date: Registration Date
+    selected_records: '%{select_records} registry record(s) selected'
+    selected_all_records: 'Select all %{total_records} registry records that match this query.'
+    disable_dialog_title: Disable Registry Record
+    disable_dialog: Clicking OK will change the status of this registry record to Disabled.
+    disable_success: Successfully disabled registry record
+    enable_dialog_title: Enable Registry Record
+    enable_dialog: Clicking OK will change the status of this registry record to Enabled.
+    enable_success: Successfully enabled registry record.
+    filter_by:
+      by_date: By Date
+      status: Status
+    selectable_date_options:
+      registration_date: Date of Registration
+    show_registry_record: 'Registry Record ID: %{short_id}'
+    register_new_registry_record: New Registry Record
+    export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these registry records for use when you are offline?
+      success: Registry records successfully marked for offline use
   transfer:
     label: Transfer
     agency_label: Agency
@@ -3378,6 +3621,7 @@ en:
     success: Successfully transferred
     transfer_label: Transfer anyway?
     user_mandatory: Recipient is required
+    rejected_reason: Rejected Reason
   transfer_assignment:
     title: Transfers and Assignments
   transition:

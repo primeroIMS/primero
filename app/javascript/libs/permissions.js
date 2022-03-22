@@ -1,4 +1,6 @@
 export const ACTIONS = {
+  GBV_STATISTICS: "gbv_statistics",
+  VIOLATIONS: "violations",
   ADD_NOTE: "add_note",
   AGENCY_READ: "agency_read",
   APPROVE_ASSESSMENT: "approve_assessment",
@@ -101,7 +103,9 @@ export const ACTIONS = {
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
-  WRITE: "write"
+  WRITE: "write",
+  VIEW_REGISTRY_RECORD: "view_registry_record",
+  ADD_REGISTRY_RECORD: "add_registry_record"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -123,13 +127,15 @@ export const RESOURCES = {
   metadata: "metadata",
   potential_matches: "potential_matches",
   reports: "reports",
+  managed_reports: "managed_reports",
   roles: "roles",
   forms: "forms",
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
   users: "users",
-  activity_logs: "activity_logs"
+  activity_logs: "activity_logs",
+  registry_records: "registry_records"
 };
 
 export const checkPermissions = (currentPermissions, allowedPermissions) => {
@@ -156,9 +162,15 @@ export const ADMIN_RESOURCES = [
   RESOURCES.webhooks
 ];
 
+export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
+
+export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
+
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ];
+
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 

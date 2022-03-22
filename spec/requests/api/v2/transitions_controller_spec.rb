@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 describe Api::V2::TransitionsController, type: :request do
-  before :each do
+  before do
+    clean_data(PrimeroProgram, PrimeroModule, Role, UserGroup, User, Child, Transition)
+
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_assign_case = Permission.new(
@@ -55,12 +57,7 @@ describe Api::V2::TransitionsController, type: :request do
     end
   end
 
-  after :each do
-    PrimeroModule.destroy_all
-    UserGroup.destroy_all
-    Role.destroy_all
-    User.destroy_all
-    Child.destroy_all
-    Transition.destroy_all
+  after do
+    clean_data(PrimeroProgram, PrimeroModule, Role, UserGroup, User, Child, Transition)
   end
 end

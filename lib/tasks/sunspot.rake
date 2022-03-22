@@ -27,7 +27,7 @@ namespace :sunspot do
   task reindex: :wait do
     puts 'Reindexing Solr...'
     location_service = LocationService.new(true)
-    [Child, Incident, TracingRequest, Trace].each { |m| batch_reindex(m, 500, location_service) }
+    [Child, Incident, TracingRequest, Trace, RegistryRecord].each { |m| batch_reindex(m, 500, location_service) }
     puts 'Solr successfully reindexed'
   end
 
@@ -36,7 +36,7 @@ namespace :sunspot do
     indexed_types = [
       Child, Incident, TracingRequest,
       Flag, ReportableFollowUp, ReportableProtectionConcern,
-      ReportableService, Violation, Trace
+      ReportableService, Violation, Trace, RegistryRecord
     ]
 
     puts "Removing the following record types from the Solr index: #{indexed_types.join(', ')}"

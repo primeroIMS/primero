@@ -2,20 +2,23 @@
 
 # Import form and lookup YAML translations
 class Importers::YmlConfigImporter < ValueObject
-  attr_accessor :file_name, :class_to_import, :locale
+  attr_accessor :file_name, :class_to_import, :locale, :errors, :failures
 
   def initialize(opts = {})
-    opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'Lookup' : 'FormSection'
+    if opts[:file_name].present?
+      opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'Lookup' : 'FormSection'
+    end
+    opts.merge!(errors: [], failures: [])
     super(opts)
   end
 
   def import
-    return Rails.logger.error('Import Not Processed: No file_name passed in') if file_name.blank?
+    return log_errors('Import Not Processed: No file_name passed in') if file_name.blank?
 
-    return Rails.logger.error('Import Not Processed: No class_to_import passed in') if class_to_import.blank?
+    return log_errors('Import Not Processed: No class_to_import passed in') if class_to_import.blank?
 
     config_data = YAML.load_file(file_name)
-    return Rails.logger.error("Import Not Processed: error reading #{file_name}") if config_data.blank?
+    return log_errors("Import Not Processed: error reading #{file_name}") if config_data.blank?
 
     process_import_file(config_data)
   end
@@ -25,11 +28,11 @@ class Importers::YmlConfigImporter < ValueObject
   def process_import_file(config_data)
     return Rails.logger.error('Import Not Processed: invalid yml format') unless config_data.is_a?(Hash)
 
-    locale = config_data&.keys&.first&.to_sym
-    return Rails.logger.error('Import Not Processed: locale not passed in') if locale.blank?
+    self.locale = config_data&.keys&.first&.to_sym
+    return log_errors('Import Not Processed: locale not passed in') if locale.blank?
 
     if I18n.available_locales.exclude?(locale)
-      return Rails.logger.error("Import Not Processed: locale #{locale} not in available locales")
+      return log_errors("Import Not Processed: locale #{locale} not in available locales")
     end
 
     process_config_data(config_data)
@@ -45,10 +48,10 @@ class Importers::YmlConfigImporter < ValueObject
   def import_form_section(locale, config)
     # We expect that there is only 1 form per translation file
     unique_id = config.keys.first
-    return Rails.logger.error('Error importing translations: Form ID not present') if unique_id.blank?
+    return log_errors('Error importing translations: Form ID not present') if unique_id.blank?
 
     form = FormSection.find_by(unique_id: unique_id)
-    return Rails.logger.error("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
+    return log_errors("Error importing translations: Form for ID [#{unique_id}] not found") if form.blank?
 
     form.update_translations(locale, config.values.first)
     Rails.logger.info("Updating Form translation: Form [#{unique_id}] locale [#{locale}]")
@@ -78,5 +81,10 @@ class Importers::YmlConfigImporter < ValueObject
         strip_hash_values!(value)
       end
     end
+  end
+
+  def log_errors(message, opts = {})
+    errors << message
+    failures << opts[:row] if opts[:row].present?
   end
 end

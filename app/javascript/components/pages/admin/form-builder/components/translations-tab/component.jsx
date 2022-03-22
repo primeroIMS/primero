@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name, react/no-multi-comp */
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import get from "lodash/get";
@@ -8,7 +8,7 @@ import { useI18n } from "../../../../../i18n";
 import { SUBFORM_SECTION } from "../../../../../form";
 import { getObjectPath } from "../../../../../../libs";
 import { useDialog } from "../../../../../action-dialog";
-import { updateSelectedSubform } from "../../action-creators";
+import { updateFieldTranslations, updateSelectedSubform } from "../../action-creators";
 import TabPanel from "../tab-panel";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 import TranslationsNote from "../translations-note";
@@ -36,7 +36,7 @@ const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, form
       getObjectPath("", data).forEach(path => {
         const name = `fields.${path}`;
 
-        if (!fields[path]) {
+        if (!fields[name]) {
           register({ name });
         }
 
@@ -68,6 +68,14 @@ const Component = ({ index, mode, moduleId, parentForm, selectedField, tab, form
       />
     ) : null;
   };
+
+  useEffect(() => {
+    return () => {
+      const currentValues = formMethods.getValues({ nest: true });
+
+      dispatch(updateFieldTranslations(currentValues.fields || {}));
+    };
+  }, []);
 
   return (
     <TabPanel tab={tab} index={index}>

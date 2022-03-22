@@ -260,14 +260,16 @@ class Ability
     when Permission::TRACING_REQUEST
       configure_tracing_request(permission.action_symbols)
     else
-      configure_resource(permission.resource_class, permission.action_symbols, permission.record?)
+      configure_resource(
+        permission.resource_class, permission.action_symbols, permission.record_with_ownership_authorization?
+      )
     end
   end
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/CyclomaticComplexity
 
   def configure_flags
-    [Child, TracingRequest, Incident].each do |model|
+    [Child, TracingRequest, Incident, RegistryRecord].each do |model|
       configure_flag(model)
     end
   end

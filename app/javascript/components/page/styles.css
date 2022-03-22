@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
 }
 
 .wrap {
@@ -75,6 +76,26 @@
   display: flex;
   align-items: center;
 }
+
+.hasNav {
+  flex: 1;
+  display: flex;
+  padding: 0;
+  height: 100%;
+  
+  & > div:first-of-type {
+    padding: 0 0.5em;
+    overflow-y: scroll;
+    width: 280px;
+  }
+
+  & > div:last-of-type {
+    padding: var(--sp-2);
+    width: 100%;
+    overflow: scroll;
+  }
+}
+
 
 @media (max-width:959.95px) {
   .root, .twoCol {
