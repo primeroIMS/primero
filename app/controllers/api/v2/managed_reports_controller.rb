@@ -34,6 +34,10 @@ class Api::V2::ManagedReportsController < ApplicationApiController
     { file_name: params[:file_name], locale: params[:locale], subreport_id: params[:subreport] }
   end
 
+  def authorize_export!
+    authorize_managed_reports_read!
+  end
+
   private
 
   def authorize_managed_reports_read!

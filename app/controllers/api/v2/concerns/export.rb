@@ -5,7 +5,7 @@ module Api::V2::Concerns::Export
   extend ActiveSupport::Concern
 
   def export
-    authorize! :export, model_class
+    authorize_export!
 
     # The '::' is necessary so Export model does not conflict with current concern
     @export = ::Export.new(
@@ -34,5 +34,9 @@ module Api::V2::Concerns::Export
 
   def export_params
     params.permit(:record_type, :module_id, :file_name, :visible)
+  end
+
+  def authorize_export!
+    authorize! :export, model_class
   end
 end
