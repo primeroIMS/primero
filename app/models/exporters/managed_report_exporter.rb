@@ -71,11 +71,11 @@ class Exporters::ManagedReportExporter < ValueObject
     file_name += '.xlsx' unless file_name.ends_with?('.xlsx')
     file_name.gsub(/\s+/, '_')
 
-    File.join(Rails.configuration.exports_directory, file_name)
+    File.join(Rails.root, 'tmp', file_name)
   end
 
   def default_output_file_path
-    File.join(Rails.configuration.exports_directory, default_file_name)
+    File.join(Rails.root, 'tmp', default_file_name)
   end
 
   def default_file_name
