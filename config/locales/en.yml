@@ -1845,6 +1845,9 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        still_being_held: Still being held
+        released: 'Released'
+        escaped: 'Escaped'
     gbv_statistics:
       name: GBV Statistics
       description: ''
