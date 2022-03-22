@@ -10,10 +10,10 @@ class ManagedReports::Indicators::SurvivorsMaritalStatus < ManagedReports::SqlRe
     def sql(current_user, params = {})
       %{
         select
-          data ->> 'marital_status' as id,
+          data ->> 'maritial_status' as id,
           count(*) as total
         from incidents
-        where data ->> 'marital_status' is not null
+        where data ->> 'maritial_status' is not null
         #{date_range_query(params['incident_date'])&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
