@@ -95,7 +95,12 @@ describe Api::V2::ManagedReportsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq('success')
-      expect(json['data']['export_file_url']).not_to be_nil
+      expect(json['data']['export_file_url'].starts_with?('/rails/active_storage/blobs/')).to be_truthy
+      expect(json['data']['export_file_url'].ends_with?(json['data']['export_file_name'])).to be_truthy
+
+      get(json['data']['export_file_url'])
+
+      expect(response).to have_http_status(302)
     end
 
     it 'refuses unauthorized access' do
