@@ -274,12 +274,16 @@ module Indicators
         facet: 'owned_by',
         scope_to_user: true,
         record_model: Child,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new(
-            field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-          )
-        ]
+        scope: overdue_assesment_scope
       )
+    end
+
+    def self.overdue_assesment_scope
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'assessment_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
     end
 
     def self.tasks_overdue_case_plan
@@ -324,12 +328,16 @@ module Indicators
         facet: 'owned_by',
         record_model: Child,
         scope_to_user: true,
-        scope: OPEN_ENABLED + [
-          SearchFilters::DateRange.new(
-            field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
-          )
-        ]
+        scope: overdue_followup_scope
       )
+    end
+
+    def self.overdue_followup_scope
+      OPEN_ENABLED + [
+        SearchFilters::DateRange.new(
+          field_name: 'followup_due_dates', from: FacetedIndicator.dawn_of_time, to: FacetedIndicator.present
+        )
+      ]
     end
 
     PROTECTION_CONCERNS_OPEN_CASES = FacetedIndicator.new(

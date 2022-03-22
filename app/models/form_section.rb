@@ -127,7 +127,7 @@ class FormSection < ApplicationRecord
   def subform_collapsed_field_names
     return nil unless is_nested?
 
-    self.collapsed_field_names.present? ? self.collapsed_field_names : collapsed_fields&.pluck(:name)
+    collapsed_field_names.present? ? collapsed_field_names : collapsed_fields&.pluck(:name)
   end
 
   def insert_field!(field)
