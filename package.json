@@ -101,7 +101,7 @@
     "formik": "^2.2.9",
     "formik-material-ui": "^3.0.1",
     "history": "^4.9.0",
-    "html2pdf-dom-to-image-more": "0.9.2",
+    "html2pdf-dom-to-image-more": "0.9.4",
     "i18n-js": "^3.5.1",
     "idb": "^4.0.4",
     "image-blob-reduce": "^1.0.4",
