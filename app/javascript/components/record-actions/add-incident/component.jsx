@@ -74,7 +74,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     validateOnBlur: false,
     validateOnChange: false,
     validationSchema: validationSchema(subformSectionID, i18n),
-    ref: formikRef,
+    innerRef: formikRef,
     onSubmit: (values, { setSubmitting }) => {
       const body = {
         data: {

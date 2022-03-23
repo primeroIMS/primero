@@ -1,7 +1,6 @@
-import uuid from "uuid";
-
 import { DB_COLLECTIONS_NAMES, queueIndexedDB } from "../../db";
 import { METHODS } from "../../config";
+import uuid from "../../libs/uuid";
 
 export default async ({ attachments, id, recordType }) => {
   const actions = Object.keys(attachments).reduce((prev, current) => {

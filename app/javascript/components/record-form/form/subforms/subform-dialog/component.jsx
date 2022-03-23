@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
 import isEmpty from "lodash/isEmpty";
-import uuid from "uuid";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
@@ -18,6 +17,7 @@ import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
+import uuid from "../../../../../libs/uuid";
 
 const Component = ({
   arrayHelpers,
@@ -63,9 +63,9 @@ const Component = ({
   };
 
   const handleClose = () => {
-    const compactedValues = compactValues(childFormikRef.current.state.values, initialSubformValues);
+    const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
 
-    if (Object.keys(childFormikRef.current.state.touched).length || Object.keys(compactedValues).length) {
+    if (Object.keys(childFormikRef.current.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
@@ -198,7 +198,7 @@ const Component = ({
           validateOnChange={false}
           enableReinitialize
           onSubmit={values => onSubmit(values)}
-          ref={childFormikRef}
+          innerRef={childFormikRef}
         >
           {({ handleSubmit, submitForm, setErrors, setTouched, errors, values, setFieldValue }) => {
             bindSubmitForm(submitForm);

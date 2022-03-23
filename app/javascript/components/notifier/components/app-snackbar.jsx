@@ -1,5 +1,6 @@
 import { useState, useCallback, forwardRef } from "react";
 import { useSnackbar, SnackbarContent } from "notistack";
+import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -44,6 +45,11 @@ const AppSnackbar = forwardRef(({ message, id }, ref) => {
     </SnackbarContent>
   );
 });
+
+AppSnackbar.propTypes = {
+  id: PropTypes.string,
+  message: PropTypes.string
+};
 
 AppSnackbar.displayName = "AppSnackbar";
 

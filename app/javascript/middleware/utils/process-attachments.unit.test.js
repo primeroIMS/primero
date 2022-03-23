@@ -1,8 +1,7 @@
-import uuid from "uuid";
-
 import { queueIndexedDB } from "../../db";
 import { stub } from "../../test";
 import { METHODS, RECORD_PATH } from "../../config";
+import uuid from "../../libs/uuid";
 
 import processAttachments from "./process-attachments";
 

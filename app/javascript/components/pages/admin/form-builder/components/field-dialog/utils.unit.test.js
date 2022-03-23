@@ -1,9 +1,9 @@
 import { fromJS } from "immutable";
-import uuid from "uuid";
 
 import { SEPARATOR, TEXT_FIELD, TICK_FIELD, SELECT_FIELD, DATE_FIELD } from "../../../../../form";
 import { NEW_FIELD } from "../../constants";
 import { stub } from "../../../../../../test";
+import uuid from "../../../../../../libs/uuid";
 
 import * as utils from "./utils";
 

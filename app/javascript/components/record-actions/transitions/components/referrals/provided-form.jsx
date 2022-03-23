@@ -12,7 +12,7 @@ import onChangeReferAnyway from "./on-change-refer-anyway";
 const ProvidedForm = ({ setDisabled, canConsentOverride }) => {
   const i18n = useI18n();
 
-  const fieldReferAnyway = <Field name="referral" render={props => onChangeReferAnyway(props, setDisabled)} />;
+  const fieldReferAnyway = <Field name="referral">{props => onChangeReferAnyway(props, setDisabled)}</Field>;
 
   const referAnyway = canConsentOverride ? (
     <FormControlLabel control={fieldReferAnyway} label={i18n.t("referral.refer_anyway_label")} />

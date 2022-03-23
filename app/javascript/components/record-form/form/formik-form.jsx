@@ -28,7 +28,8 @@ const FormikForm = ({
   forms,
   renderFormSections,
   handleConfirm,
-  externalComponents
+  externalComponents,
+  submitCount
 }) => {
   const i18n = useI18n();
 
@@ -55,7 +56,7 @@ const FormikForm = ({
           />
         )}
       </NavigationPrompt>
-      <ValidationErrors formErrors={errors} forms={forms} />
+      <ValidationErrors formErrors={errors} forms={forms} submitCount={submitCount} />
       {renderFormSections(forms, setFieldValue, handleSubmit, values, dirty)}
       {externalComponents({ dirty, setFieldValue, values })}
       <div className={css.spacer} />
@@ -83,6 +84,7 @@ FormikForm.propTypes = {
   setFormIsSubmitting: PropTypes.func,
   setFormTouched: PropTypes.func,
   setValues: PropTypes.func,
+  submitCount: PropTypes.number,
   touched: PropTypes.object,
   values: PropTypes.object
 };
