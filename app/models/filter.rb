@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # The value bag representing the list view filters, and the hardcoded set of these filters in Primero
+# rubocop:disable Metrics/ClassLength
 class Filter < ValueObject
   attr_accessor :name, :field_name, :type, :options, :option_strings_source
 
@@ -261,68 +262,156 @@ class Filter < ValueObject
     end
 
     def case_filters(user)
-      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
-      role = user&.role
-      permitted_form_ids = role.permitted_forms('case', true, false).pluck(:unique_id)
-
       filters = []
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
-      filters << MY_CASES
-      filters << WORKFLOW
+      filters += [MY_CASES, WORKFLOW]
       filters << AGENCY if user.admin?
-      filters << STATUS
-      filters << AGE_RANGE
-      filters << SEX
+      filters += [STATUS, AGE_RANGE, SEX] + user_based_filters(user) + [NO_ACTIVITY]
+      filters << DATE_CASE if user.module?(PrimeroModule::CP)
+      filters << ENABLED
+      filters += photo_filters(user)
+      filters
+    end
+
+    def user_based_filters(user)
+      filters = []
+      filters += approvals_filters(user)
+      filters += field_based_filters(user)
+      filters << RISK_LEVEL if user.module?(PrimeroModule::CP)
+      filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
+      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
+      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
+      filters += reporting_location_filters(user)
+      filters
+    end
+
+    def approvals_filters(user)
+      filters = []
       filters << APPROVALS_STATUS_ASSESSMENT if user.can_approve_assessment?
       filters << APPROVALS_STATUS_CASE_PLAN if user.can_approve_case_plan?
       filters << APPROVALS_STATUS_CLOSURE if user.can_approve_closure?
       filters << APPROVALS_STATUS_ACTION_PLAN if user.can_approve_action_plan?
       filters << APPROVALS_STATUS_GBV_CLOSURE if user.can_approve_gbv_closure?
-      if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
-        filters << PROTECTION_CONCERNS
-      end
-      if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
-        filters << GBV_DISPLACEMENT_STATUS
-      end
-      filters << PROTECTION_STATUS if visible?('protection_status', filter_fields) && user.module?(PrimeroModule::CP)
-      if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
-        filters << URGENT_PROTECTION_CONCERN
-      end
-      filters << TYPE_OF_RISK if user.module?(PrimeroModule::CP) && visible?('type_of_risk', filter_fields)
-      filters << RISK_LEVEL if user.module?(PrimeroModule::CP)
-      filters << CURRENT_LOCATION if user.module?(PrimeroModule::CP)
-      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) if user.module?(PrimeroModule::CP)
-      filters << NO_ACTIVITY
-      filters << DATE_CASE if user.module?(PrimeroModule::CP)
-      filters << ENABLED
-      filters << PHOTO if permitted_form_ids.include?('photos_and_audio') && user.module?(PrimeroModule::CP)
       filters
     end
 
-    def incident_filters(user)
+    def field_based_filters(user)
+      filter_fields = Field.where(name: CASE_FILTER_FIELD_NAMES).map { |f| [f.name, f] }.to_h
+      filters = []
+      filters += protection_concern_filter(user, filter_fields)
+      filters += gbv_displacement_filter(user, filter_fields)
+      filters += protection_status_filter(user, filter_fields)
+      filters += urgent_protection_concern_filter(user, filter_fields)
+      filters += type_of_risk_filter(user, filter_fields)
+      filters
+    end
+
+    def protection_concern_filter(user, filter_fields)
+      if user.can?(:view_protection_concerns_filter, Child) && visible?('protection_concerns', filter_fields)
+        return [PROTECTION_CONCERNS]
+      end
+
+      []
+    end
+
+    def gbv_displacement_filter(user, filter_fields)
+      if user.module?(PrimeroModule::GBV) && visible?('gbv_displacement_status', filter_fields)
+        return [GBV_DISPLACEMENT_STATUS]
+      end
+
+      []
+    end
+
+    def protection_status_filter(user, filter_fields)
+      return [PROTECTION_STATUS] if visible?('protection_status', filter_fields) && user.module?(PrimeroModule::CP)
+
+      []
+    end
+
+    def urgent_protection_concern_filter(user, filter_fields)
+      if user.module?(PrimeroModule::CP) && visible?('urgent_protection_concern', filter_fields)
+        return [URGENT_PROTECTION_CONCERN]
+      end
+
+      []
+    end
+
+    def type_of_risk_filter(user, filter_fields)
+      return [TYPE_OF_RISK] if user.module?(PrimeroModule::CP) && visible?('type_of_risk', filter_fields)
+
+      []
+    end
+
+    def reporting_location_filters(user)
+      return [] unless user.module?(PrimeroModule::CP)
+
       role = user&.role
+      return [] unless role
 
       filters = []
-      filters << FLAGGED_CASE
-      filters << VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
-      filters << SOCIAL_WORKER if user.manager?
-      filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
-      filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << STATUS
-      filters << AGE_RANGE
-      filters << CHILDREN if user.module?(PrimeroModule::MRM)
-      filters << VERIFICATION_STATUS if user.module?(PrimeroModule::MRM)
-      filters << INCIDENT_LOCATION
-      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'incident')) if user.module?(PrimeroModule::MRM)
-      filters << INCIDENT_DATE
-      filters << UNACCOMPANIED_PROTECTION_STATUS if user.module?(PrimeroModule::GBV)
-      filters << ARMED_FORCE_GROUP if user.module?(PrimeroModule::MRM)
-      filters << ARMED_FORCE_GROUP_TYPE if user.module?(PrimeroModule::MRM)
+      filters << REPORTING_LOCATION.call(reporting_location_data(role, 'case')) if user.module?(PrimeroModule::CP)
+      filters
+    end
+
+    def photo_filters(user)
+      return [] unless user.module?(PrimeroModule::CP)
+
+      role = user&.role
+      return [] unless role
+
+      permitted_form_ids = role.permitted_forms('case', true, false).pluck(:unique_id)
+      return [] unless permitted_form_ids.include?('photos_and_audio')
+
+      [PHOTO]
+    end
+
+    def incident_filters(user)
+      filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
+      filters += agency_office_filter(user) + user_group_filter(user) + [STATUS, AGE_RANGE]
+      filters += children_verification_and_location_filters(user)
+      filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
       filters << ENABLED
       filters
+    end
+
+    def violence_type_filter(user)
+      user.module?(PrimeroModule::GBV) ? [VIOLENCE_TYPE] : []
+    end
+
+    def social_worker_filter(user)
+      user.manager? ? [SOCIAL_WORKER] : []
+    end
+
+    def agency_office_filter(user)
+      user.module?(PrimeroModule::GBV) ? [AGENCY_OFFICE] : []
+    end
+
+    def user_group_filter(user)
+      user.module?(PrimeroModule::GBV) && user.user_group_filter? ? [USER_GROUP] : []
+    end
+
+    def children_verification_and_location_filters(user)
+      filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS] : []
+      filters += location_filters(user)
+      filters
+    end
+
+    def location_filters(user)
+      location_filters = [INCIDENT_LOCATION]
+      return location_filters unless user.module?(PrimeroModule::MRM)
+
+      role = user&.role
+      location_filters << REPORTING_LOCATION.call(reporting_location_data(role, 'incident'))
+      location_filters
+    end
+
+    def unaccompanied_filter(user)
+      user.module?(PrimeroModule::GBV) ? [UNACCOMPANIED_PROTECTION_STATUS] : []
+    end
+
+    def armed_force_group_filters(user)
+      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP, ARMED_FORCE_GROUP_TYPE] : []
     end
 
     def tracing_request_filter(user)
@@ -399,46 +488,70 @@ class Filter < ValueObject
 
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
-      locale_options = [
-        {
-          id: 'registration_date',
-          display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
-        },
-        {
-          id: 'assessment_requested_on',
-          display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
-        },
-        {
-          id: 'date_case_plan',
-          display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
-        },
-        {
-          id: 'date_closure',
-          display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
-        }
-      ]
+      locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
+                        date_case_plan_options(locale), date_closure_options(locale)]
       date_label = opts[:user].module?(PrimeroModule::GBV) ? 'created_at' : 'date_of_creation'
-      locale_options << { id: 'created_at',
-                          display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale) }
+      locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
     end.inject(&:merge)
+  end
+
+  def registration_date_options(locale)
+    {
+      id: 'registration_date',
+      display_name: I18n.t('children.selectable_date_options.registration_date', locale: locale)
+    }
+  end
+
+  def assessment_requested_on_options(locale)
+    {
+      id: 'assessment_requested_on',
+      display_name: I18n.t('children.selectable_date_options.assessment_requested_on', locale: locale)
+    }
+  end
+
+  def date_case_plan_options(locale)
+    {
+      id: 'date_case_plan',
+      display_name: I18n.t('children.selectable_date_options.date_case_plan_initiated', locale: locale)
+    }
+  end
+
+  def date_closure_options(locale)
+    {
+      id: 'date_closure',
+      display_name: I18n.t('children.selectable_date_options.closure_approved_date', locale: locale)
+    }
+  end
+
+  def created_at_options(locale, date_label)
+    {
+      id: 'created_at',
+      display_name: I18n.t("children.selectable_date_options.#{date_label}", locale: locale)
+    }
   end
 
   def incidents_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = []
-      if opts[:user].module?(PrimeroModule::GBV)
-        locale_options << {
-          id: 'date_of_first_report',
-          display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
-        }
-      end
-      locale_options << {
-        id: 'incident_date_derived',
-        display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
-      }
+      locale_options << date_of_first_report_options(locale) if opts[:user].module?(PrimeroModule::GBV)
+      locale_options << incident_date_derived_options(locale)
       { locale => locale_options }
     end.inject(&:merge)
+  end
+
+  def date_of_first_report_options(locale)
+    {
+      id: 'date_of_first_report',
+      display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
+    }
+  end
+
+  def incident_date_derived_options(locale)
+    {
+      id: 'incident_date_derived',
+      display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale: locale)
+    }
   end
 
   def registry_records_by_date_options(_opts = {})
@@ -485,6 +598,10 @@ class Filter < ValueObject
     end
 
     options_length = options.is_a?(Array) ? options.length : options[I18n.default_locale].length
+    options_length_to_type(options_length)
+  end
+
+  def options_length_to_type(options_length)
     case options_length
     when 1
       self.type = 'toggle'
@@ -499,3 +616,4 @@ class Filter < ValueObject
     "Filter(name: #{name}, field_name: #{field_name}, type: #{type})"
   end
 end
+# rubocop:enable Metrics/ClassLength
