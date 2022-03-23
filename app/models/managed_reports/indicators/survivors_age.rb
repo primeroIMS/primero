@@ -18,7 +18,7 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
         #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
-        group by id
+        group by data ->> 'age'
       }
     end
 
