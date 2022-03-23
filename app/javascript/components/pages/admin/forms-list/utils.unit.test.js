@@ -59,8 +59,8 @@ describe("<FormsList /> - Utils", () => {
       });
 
       const expected = fromJS({
-        "1": { unique_id: "form_1", order: 10, id: 1 },
-        "2": { unique_id: "form_2", order: 0, id: 2 }
+        1: { unique_id: "form_1", order: 10, id: 1 },
+        2: { unique_id: "form_2", order: 0, id: 2 }
       });
 
       expect(reorderedForms).to.deep.equal(expected);

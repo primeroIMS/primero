@@ -84,6 +84,7 @@ FormikForm.propTypes = {
   setFormIsSubmitting: PropTypes.func,
   setFormTouched: PropTypes.func,
   setValues: PropTypes.func,
+  submitCount: PropTypes.number,
   touched: PropTypes.object,
   values: PropTypes.object
 };

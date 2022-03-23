@@ -26,8 +26,11 @@ describe("<ToggleIconCell /> - Component", () => {
   });
 
   beforeEach(() => {
-    component = setupMountedComponent(ToggleIconCell, { value: true, icon: ALERTS_COLUMNS.alert_count }, initialState)
-      .component;
+    component = setupMountedComponent(
+      ToggleIconCell,
+      { value: true, icon: ALERTS_COLUMNS.alert_count },
+      initialState
+    ).component;
   });
 
   it("renders ToggleIconCell component", () => {
