@@ -25,13 +25,13 @@ const ValidationErrors = ({ formErrors, forms, submitCount }) => {
     if (!isEmpty(errorsWithoutEmptySubforms) && submitCount > 0) {
       const fieldNames = Object.keys(errorsWithoutEmptySubforms);
 
-      const formsWithErrors = forms.filter(value =>
-        value
+      const formsWithErrors = forms.filter(value => {
+        return value
           .get("fields", fromJS([]))
           .filter(field => !field.get("disabled"))
           .map(field => field.get("name"))
-          .some(fieldName => fieldNames.includes(fieldName))
-      );
+          .some(fieldName => fieldNames.includes(fieldName));
+      });
 
       const validationErrors = formsWithErrors.reduce(
         (prev, current) => [
@@ -75,7 +75,7 @@ ValidationErrors.displayName = VALIDATION_ERRORS_NAME;
 ValidationErrors.propTypes = {
   formErrors: PropTypes.object,
   forms: PropTypes.object,
-  submitCount: PropTypes.number,
+  submitCount: PropTypes.number
 };
 
 export default ValidationErrors;

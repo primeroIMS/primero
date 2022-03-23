@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
 import { object } from "yup";
 import isEmpty from "lodash/isEmpty";
-import uuid from "uuid";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_DIALOG } from "../constants";
@@ -18,6 +17,7 @@ import SubformErrors from "../subform-errors";
 import SubformDialogFields from "../subform-dialog-fields";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
+import uuid from "../../../../../libs/uuid";
 
 const Component = ({
   arrayHelpers,

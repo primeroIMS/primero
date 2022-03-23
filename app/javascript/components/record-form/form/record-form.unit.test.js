@@ -6,10 +6,12 @@ import { NUMERIC_FIELD } from "../constants";
 import { getRecordForms } from "../selectors";
 import { RECORD_TYPES } from "../../../config";
 import { setupMountedComponent, stub } from "../../../test";
+import { FieldRecord, FormSectionRecord } from "../records";
 
 import FormSectionField from "./form-section-field";
 import { TEXT_FIELD_NAME } from "./constants";
 import RecordForm from "./record-form";
+import FormikForm from "./formik-form";
 
 describe("<RecordForm />", () => {
   const mode = {
@@ -21,7 +23,7 @@ describe("<RecordForm />", () => {
   const initialState = Map({
     forms: Map({
       formSections: Map({
-        1: {
+        1: FormSectionRecord({
           id: 1,
           name: {
             en: "Form Section 1"
@@ -32,10 +34,10 @@ describe("<RecordForm />", () => {
           is_nested: false,
           parent_form: RECORD_TYPES.cases,
           fields: [1, 2, 3]
-        }
+        })
       }),
       fields: Map({
-        1: {
+        1: FieldRecord({
           id: 1,
           name: "field_1",
           display_name: {
@@ -44,8 +46,8 @@ describe("<RecordForm />", () => {
           type: TEXT_FIELD_NAME,
           required: true,
           visible: true
-        },
-        2: {
+        }),
+        2: FieldRecord({
           id: 2,
           name: "field_2",
           display_name: {
@@ -53,8 +55,8 @@ describe("<RecordForm />", () => {
           },
           type: TEXT_FIELD_NAME,
           visible: true
-        },
-        3: {
+        }),
+        3: FieldRecord({
           id: 3,
           name: "field_age",
           display_name: {
@@ -62,7 +64,7 @@ describe("<RecordForm />", () => {
           },
           type: NUMERIC_FIELD,
           visible: true
-        }
+        })
       })
     })
   });
@@ -142,7 +144,7 @@ describe("<RecordForm />", () => {
         externalComponents: () => {}
       });
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
         ...initialValues,
         ...incidentFromCase
       });
@@ -166,7 +168,7 @@ describe("<RecordForm />", () => {
         externalComponents: () => {}
       });
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(recordData);
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(recordData);
     });
 
     it("should not set the values from the case if the recordType is not incidents", () => {
@@ -186,7 +188,7 @@ describe("<RecordForm />", () => {
         externalComponents: () => {}
       });
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal(initialValues);
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(initialValues);
     });
   });
 
@@ -211,7 +213,7 @@ describe("<RecordForm />", () => {
       externalComponents: () => {}
     });
 
-    expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+    expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
       ...initialValues,
       ...{ name: "test" }
     });
@@ -251,7 +253,7 @@ describe("<RecordForm />", () => {
         currentState
       );
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
         ...initialValues,
         consent_for_services: true,
         disclosure_other_orgs: true,
@@ -289,7 +291,7 @@ describe("<RecordForm />", () => {
         currentState
       );
 
-      expect(fromCaseComponent.find(Formik).state().values).to.deep.equal({
+      expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
         field_1: "Value 1",
         field_2: "Value 2",
         field_age: "10"

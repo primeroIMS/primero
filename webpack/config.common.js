@@ -5,7 +5,8 @@ const {
   DEV_SERVER_CONFIG,
   OUTPUT_DIR,
   PUBLIC_PATH,
-  utils: { chunkOutput, isProduction }
+  utils: { chunkOutput, isProduction },
+  ENTRY_NAMES
 } = require("./config");
 const rules = require("./rules");
 const plugins = require("./plugins");
@@ -39,11 +40,12 @@ module.exports = (name, entry) => {
     optimization: {
       usedExports: true
     },
-    ...(!isProduction && {
-      mode: "development",
-      devServer: DEV_SERVER_CONFIG,
-      devtool: "inline-source-map"
-    })
+    ...(!isProduction &&
+      name === ENTRY_NAMES.APPLICATION && {
+        mode: "development",
+        devServer: DEV_SERVER_CONFIG,
+        devtool: "inline-source-map"
+      })
   };
 
   return entryConfig;

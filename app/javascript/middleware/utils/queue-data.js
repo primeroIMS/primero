@@ -1,6 +1,5 @@
-import uuid from "uuid";
-
 import { syncIndexedDB, queueIndexedDB } from "../../db";
+import uuid from "../../libs/uuid";
 
 import withResponseParams from "./with-response-params";
 import withGeneratedProperties from "./with-generated-properties";

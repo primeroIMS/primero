@@ -5,7 +5,7 @@
   "license": "AGPL-3.0",
   "repository": "https://github.com/primeroIMS/primero",
   "engines": {
-    "node": ">=12.13.0 <13.0.0"
+    "node": ">13.0.0"
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
@@ -28,11 +28,11 @@
     "lint:run": "eslint './app/javascript/**'"
   },
   "resolutions": {
-      "minimist": "npm:minimist-lite@^2.2.0",
+      "minimist": "npm:minimist-lite@^2.2.1",
       "ansi-regex": "6.0.1",
       "nth-check": "2.0.1",
       "react": "17.0.2",
-      "immutable": "4.0.0"
+      "uuid": "8.3.2"
   },
   "devDependencies": {
     "@babel/core": "~7.17.8",
@@ -105,7 +105,7 @@
     "i18n-js": "^3.5.1",
     "idb": "^4.0.4",
     "image-blob-reduce": "^1.0.4",
-    "immutable": "^4.0.0",
+    "immutable": "4.0.0-rc.12",
     "jscpd": "^3.3.25",
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2",
@@ -116,10 +116,10 @@
     "keyevent": "^1.1.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.4.4",
-    "minimist-lite": "^2.2.0",
+    "minimist-lite": "^2.2.1",
     "mocha": "^9.2.2",
     "msal": "^1.4.6",
-    "mui-datatables": "^3.0.1",
+    "mui-datatables": "3.0.1",
     "mui-nepali-datepicker-reactjs": "^1.1.4",
     "mutationobserver-shim": "^0.3.5",
     "nock": "^10.0.6",
@@ -160,7 +160,7 @@
     "sinon-chai": "^3.5.0",
     "style-loader": "^2.0.0",
     "timezone-mock": "^1.0.18",
-    "uuid": "^3.4.0",
+    "uuid": "^8.3.2",
     "webpack": "^5.70.0",
     "webpack-assets-manifest": "^5.1.0",
     "webpack-cli": "^4.9.2",
@@ -185,7 +185,7 @@
   "mocha": {
     "require": [
       "@babel/register",
-      "./.mochaignore",
+      "./.mochaignore.js",
       "./app/javascript/test/jsdom.setup.js",
       "./app/javascript/test/test.setup.js"
     ],
