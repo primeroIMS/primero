@@ -1,53 +1,137 @@
 km:
   'true': 'បាទ/ចាស'
   'false': 'ទេ'
+  accepted: យល់ព្រម
   cancel: បោះបង់
+  connection_lost: កំពុងគ្មានសេវាអ៊ីនធឺណិត
+  connected: មានសេវាអ៊ីនធឺណិត
   clear: សម្អាត
+  sandbox_ui: Demo
   description: ការពណ៌នា
+  form: ទម្រង់
+  minimum_reportable_fields: "សំណួរដែលអាចរាយការណ៍បាន%{record_type}"
+  name: ឈ្មោះ
+  offline: គ្មានសេវាអ៊ីនធឺណិត
+  unavailable_offline: មិនអាចប្រើ គ្មានសេវាអ៊ីនធឺណិត
+  online: មានសេវាអ៊ីនធឺណិត
   yes_label: 'បាទ/ចាស'
+  or_label: ឬ
+  select_provider: ជ្រើសរើសអ្នកផ្តល់សេវា
+  select_language: ជ្រើសរើស​ភាសា
+  log_in_primero_idp: ចូលជាមួយនឹង%{idp_name}ឈ្មោះអ្នកប្រើប្រាស់
+  offline_submitted_changes: អ្នកកំពុងគ្មានសេវាអ៊ីនធឺណិត។ ការកែសម្រួលរបស់អ្នកនឹងធ្វើបច្ចុប្បន្នភាព នៅពេលដែលមានសេវាអ៊ីនធឺណិត។
+  updated: ធ្វើបច្ចុប្បន្នភាព
+  sync:
+    success: "%{records}​កំណត់ត្រា​ធ្វើសមកាលកម្មដោយ​ជោគជ័យ។"
+    error:
+      create: មិនអាចបង្កើត%{record_type}។ សូមរកជំនួយ
+      update: 'ធ្វើបច្ចុប្បន្នភាព%{record_type}%{short_id}បរាជ័យ។​ សូមរកជំនួយ។ '
   actions:
+    approvals: ការអនុម័ត
     button: សកម្មភាព
+    close: បិទ
     description:
       invalid: កំណត់ត្រា​មិន​ត្រឹមត្រូវ
       valid: កំណត់ត្រា​ត្រឹមត្រូវ
     disable: បិទ
     enable: បើក
     incident_details_from_case: បញ្ចូល​ហេតុការណ៍
+    incident_from_case: បង្កើតហេតុការណ៍
+    next: បន្ទាប់
+    notes: បញ្ចូល​កំណត់សម្គាល់
+    previous: មុន
     reopen: បើក​ឡើងវិញ
+    request_approval: ស្នើសុំការ​អនុម័ត​
+    revoke: ហៅមកវិញ (revoke)
+    save: រក្សាទុក
+    services_from_case_creation_success: ​បង្កើត​កំណត់ត្រាការផ្តល់សេវាដោយ​ជោគជ័យ។
     services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម
   agencies:
     label: ស្ថាប័ន
+    translations:
+      manage: ចាត់ចែង​ការបកប្រែ
   agency:
+    agency_logos: និមិត្តសញ្ញា​ស្ថាប័ន
     code: លេខកូដ​ស្ថាប័ន
+    description: ការពណ៌នា
+    disabled: បិទដំណើរការ
+    exclude_agency_from_lookups: មិនរាប់បញ្ចូលស្ថាប័នរនេះពីការស្វែងរក និងតម្រង
+    exclude_agency_from_lookups_help: ពិនិត្យមើលប្រសិនបើស្ថាប័នមិនមានអ្នកប្រើប្រាស់ (ឧ. ភ្នាក់ងារត្រូវបានបន្ថែម ដូច្នេះនិមិត្តសញ្ញាអាចត្រូវបានអនុវត្តចំពោះការនាំចេញ។)
+    label: ស្ថាប័ន
+    logo_enabled: បង្ហាញនិមិត្តសញ្ញារបស់ភ្នាក់ងារនេះនៅក្នុង Primero?
+    logo_enabled_help: បង្ហាញនិមិត្តសញ្ញារបស់ស្ថាប័ននេះនៅក្នុង Primero?
+    logo_icon: រូបតំណាងនិមិត្តសញ្ញា
+    logo_icon_help: វានឹងបង្ហាញនៅលើទំហំអេក្រង់តូច ថេប្លេត និងទូរសព្ទ។ នេះគួរតែជាការ៉េ។
+    logo_large: និមិត្តសញ្ញាធំ
+    logo_large_help: វានឹងបង្ហាញនៅលើទំហំអេក្រង់ធំ និងនៅក្នុងការនាំចេញ PDF ។ នេះគួរតែជាចតុកោណកែងដែលមានប្រវែងវែងជាងកម្ពស់។
+    messages:
+      created: បាន​បង្កើតស្ថាប័ន​​ដោយ​ជោគជ័យ។
+      updated: បាន​ធ្វើ​បច្ចុប្បន្នភាពស្ថាប័ន​ដោយ​ជោគជ័យ។
     name: ឈ្មោះ​ស្ថាប័ន
+    pdf_logo_option: ធ្វើឱ្យមាននិមិត្តសញ្ញាសម្រាប់ការនាំចេញ PDF?
+    pdf_logo_option_help: 'ចំណាំ៖ និមិត្តសញ្ញាស្ថាប័នររបស់អ្នកប្រើមានសម្រាប់ពួកគេតាមលំនាំដើម ដូច្នេះអ្នកគ្រាន់តែពិនិត្យមើលវាប្រសិនបើអ្នកចង់ឱ្យនិមិត្តសញ្ញានេះមានសម្រាប់អ្នកប្រើប្រាស់ទាំងអស់។'
     services: សេវាកម្ម​ស្ថាប័ន
+    terms_of_use: ល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
+    terms_of_use_help: អនុញ្ញាតតែឯកសារ PDF ប៉ុណ្ណោះ។
+    terms_of_use_download_button: 'ទាញយកឯកសារ PDF '
+    terms_of_use_enabled: បង្ហាញល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
   approvals:
+    approved_by: ​អនុម័តដោយ
+    case_plan_type_label: ប្រភេទ​ផែនការ​ករណី
+    manager_comments_label: យោបល់អ្នកគ្រប់គ្រង
+    rejected_by: បដិសេធដោយ
+    requested_by: ស្នើសំុដោយ
+    requested_for_label: ការយល់ព្រមបានស្នើសុំសម្រាប់
+    requested_for_title: ស្នើសំុការអនុម័ត
+    response_for_label: អនុម័តសម្រាប់
+    response_for_title: ការអនុម័ត
+    action_plan: ផែនការសកម្មភាព
+    gbv_closure: ការ​បិទ
     status:
       approved: បាន​អនុម័ត
       pending: កំពុង​រង់ចាំ
       rejected: បានបដិសេធ
+      requested: ស្នើសំុ
   audit_log:
     action: សកម្មភាព
     description: ការពណ៌នា
     record_owner: ម្ចាស់​កំណត់​ត្រា
+    timestamp: 'ពេលវេលា '
+    user_name: បានអនុវត្តដោយ
   bulk_export:
     file_name: ឯកសារ
     record_type: ប្រភេទ
     retry: ការ​នាំចេញ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។ សូម​សាកល្បង​បង្កើត​ការ​នាំចេញ​របស់​អ្នក​ឡើងវិញ។
     started_on: បាន​ចាប់ផ្ដើម
     status: ស្ថានភាព
+  form_export:
+    label: ​ការ​កំណត់ទម្រង់នាំចេញ
+    include_hidden: បន្ថែមទាំងទម្រង់ និងសំណួរលាក់?
+    file_name: បង្កើតឈ្មោះឯកសារផ្ទាល់ខ្លួនរបស់អ្នក (មានជម្រើស)
+    success_message: បានបង្កើតឯកសារនាំចេញដោយជោគជ័យ
   buttons:
-    accept: ឯកភាព
+    accept: យល់ព្រម
+    add: បញ្ចូល
+    add_another_option: បញ្ចូល​ជម្រើស​ផ្សេង​ទៀត
     add_note: បញ្ចូល​កំណត់សម្គាល់
+    apply: អនុវត្ត
     approvals: ការអនុម័ត
+    approve_action_plan: អនុម័ត​ផែនការ​សកម្មភាព
     approve_bia: អនុម័ត BIA
     approve_case_plan: អនុម័ត​ផែនការ​ករណី
     approve_closure: អនុម័ត​ការបិទករណី
+    approve_gbv_closure: អនុម័ត​ការបិទករណី
     back: ថយក្រោយ
     bundle_export: កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ
     bundle_import: កញ្ចប់​កំណត់​រចនាសម្ព័ន្ធ
     cancel: បោះបង់
     change_password: ផ្លាស់ប្តូរពាក្យសម្ងាត់
+    check_status: ពិនិត្យមើលស្ថានភាព​ករណី
+    clear_default: លុបលំនាំដើម
+    clear_selection: លុបការជ្រើសរើស
+    clear: លុប
+    close: បិទ
+    continue: បន្ត
     create_case: បង្កើតករណី
     create_incident: បង្កើតហេតុការណ៍
     create_new_record: បង្កើតថ្មី %{model}
@@ -55,6 +139,7 @@ km:
     disable: បិទដំណើរការ
     disable_photo_wall: បិទ​ផ្ទាំង​រូបថត
     done: រួចរាល់
+    download: ទាញយក
     edit: កែសម្រួល
     edit_subform: កែសម្រួល​ទម្រង់រង
     enable: បើកដំណើរការ
@@ -67,31 +152,68 @@ km:
     find_tracing_match: ស្វែងរកការផ្គូផ្គង​
     flag_model: សម្គាល់ %{model}
     flag_records: សម្គាល់
+    flags: សម្គាល់
+    guidance: កំណត់សម្គាល់
+    guiding_questions: សំណួរណែនាំ
     import: នាំចូល
     login: ចូល
+    logout: ចេញពីប្រព័ន្ធ
     mark_for_mobile: ប្រើ​សម្រាប់​ទូរស័ព្ទ
+    new: ថ្មី
     ok: យល់ព្រម
+    print: បោះពុម្ព
+    reassign: ចាត់តាំង
+    referral: 'បញ្ជូន '
+    referral_again: បញ្ជូនម្តងទៀត
     reject: បដិសេដ
     remove_referrals: ដក​ការ​បញ្ជូន​ចេញ
+    reorder: តម្រៀបឡើងវិញ
     request_approval: ស្នើសុំការ​អនុម័ត​
     request_transfer: ស្នើ​សុំ​ការ​ផ្ទេរ
     reunite: បង្រួបបង្រួម
     save: រក្សាទុក
     save_and_add_service_provision: រក្សាទុក និង​បញ្ចូល​ការ​ផ្ដល់សេវា
+    save_and_return: រក្សាទុក និងត្រឡប់
+    save_continue: រក្សាទុក និងបន្ត
+    save_changes: រក្សាទុកការផ្លាស់ប្តូរ
+    select: ជ្រើសរើស
+    send: បញ្ជូន
     sort_by_case: ករណី
     sort_by_tr: សំណើ​ស្វែងរក
+    sync: សមកាលកម្ម
     submit: បញ្ជូន
+    transfer: 'ផ្ទេរ '
     unflag_model: ដកសម្គាល់ %{model}
     unflag_model_history: ប្រវត្តិ​សម្គាល់ %{model}
     unmark_for_mobile: មិន​ប្រើ​សម្រាប់​ទូរស័ព្ទ
+    update: ធ្វើបច្ចុប្បន្នភាព
     view: មើល
     view_flags_history: មើល​ប្រវត្តិ
+    return_to_case: ត្រឡប់ទៅករណីវិញ
   case:
+    label: ករណី
     create_new_case: បង្កើតករណីថ្មី
     enter_id_number: បញ្ចូលលេខកូដ ដើម្បីស្វែងរកកំណត់ត្រាដែលមានស្រាប់
+    id_search_no_results: មិនមានការផ្គូផ្គងនៅក្នុងប្រព័ន្ធសម្រាប់%{search_query} ទេ។ សូមបង្កើតកំណត់ត្រាថ្មី។
     messages:
+      disabled: ករណីនេះត្រូវបានបិទដំណើរហើយ
       update_success: 'បាន​ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។'
+      update_success_queue: 'ធ្វើ​បច្ចុប្បន្ន​ភាព​ករណី %{record_id} ដោយជោគជ័យ។'
       creation_success: 'បាន​បង្កើត​កំណត់​ត្រា​ដោយ​ជោគជ័យ។'
+      creation_success_queue: 'បាន​បង្កើត​កំណត់​ត្រា​ដោយ​ជោគជ័យ។'
+      already_matched: អ្នក​ស្វែងរកត្រូវបានផ្គូផ្គងនឹងករណីរបស់អ្នករួចហើយ។
+      already_matched_not_current_case: មានករណីមួយនេះរួចហើយនៅក្នុងប្រព័ន្ធ។
+      not_found_case: '%{search_value}មិនមានករណីបានរកឃើញ ។ បង្កើតករណីថ្មី។'
+      introductory_sentence: សូមបញ្ជាក់ការយល់ព្រមពីអតិថិជនក្នុងការទទួលសេវាគ្រប់គ្រងករណី និងសម្រាប់រក្សាទុកទិន្នន័យរបស់ពួកគេនៅក្នុង Primero ។
+      consent_agreements_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការយល់ព្រមទាំងនេះ
+      legitimate_basis_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការចាត់ថ្នាក់មូលដ្ឋានស្របច្បាប់។
+    save: រក្សាទុកករណី
+    save_text: មុននឹងបន្ត សូមរក្សាទុករាល់ការផ្លាស់ប្តូរសម្រាប់ករណី។
+    skip_and_create: រំលង រួចបង្កើតករណីថ្មី
+    search_existing: ស្វែងរកករណីដែលមានស្រាប់
+    search_helper_text: មូលហេតុ? ដើម្បីការពារការបញ្ចូលករណីជាន់គ្នា។
+    consent_agreements: ជ្រើសរើសកិច្ចព្រមព្រៀងទាំងអស់ដែលសមស្រប
+    legitimate_basis: ជ្រើសរើសការចាត់ថ្នាក់មូលដ្ឋានស្របច្បាប់ទាំងអស់ដែលអនុវត្ត
     workflow:
       assessment: ការ​ប៉ាន់ប្រមាណ
       case_plan: ផែនការករណី
@@ -103,47 +225,249 @@ km:
       reopened: បានបើកឡើងវិញ
       service_implemented: បាន​អនុវត្ត​សេវាកម្ម
       services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+  linkedincidents:
+    label: ដែលភ្ជាប់នឹងឧប្បត្តិហេតុ
+  activity_log:
+    label: កំណត់ហេតុសកម្មភាព
+    accepted_transfer: '%{to}ទទួលយកការផ្ទេរ%{record_type}%{record_id}ពី%{from}'
+    rejected_transfer: '%{to}បដិសេធការផ្ទេរ%{record_type}%{record_id}ពី%{from}'
   cases:
+    action_plan: ផែនការសកម្មភាព
+    age: អាយុ
+    age_estimated: អាយុប៉ាន់ស្មាន?
+    agency: ស្ថាប័ន
     apply_filter: អនុវត្ត
+    approval_comments: មតិយោបល់
+    approval_radio: ខ្ញុំចង់
+    approval_radio_accept: អនុម័ត
+    approval_radio_reject: មិនអនុម័ត
+    approval_select: ទម្រង់សម្រាប់
+    approved_success_action_plan: '%{approval_label}អនុម័ត'
+    approved_success_assessment: '%{approval_label}អនុម័ត'
+    approved_success_bia: '%{approval_label}អនុម័ត'
+    approved_success_case_plan: '%{approval_label}អនុម័ត'
+    approved_success_closure: '%{approval_label}អនុម័ត'
+    approved_success_gbv_closure: '%{approval_label}អនុម័ត'
+    assessment: ការ​ប៉ាន់ប្រមាណ
+    case_opening_date: កាលបរិច្ឆេទ​បើក​ករណី
+    case_plan: ផែនការករណី
+    case_worker_code: លេខ​កូដ​​អ្នកកាន់ករណី
     clear_filter: សម្អាត
+    close_dialog: ​ចុច​យល់ព្រម(OK) នឹង​ធ្វើឱ្យករណីនេះទៅ​ជា​បិទ
+    close_dialog_title: បិទករណី
+    close_success: បិទករណីដោយជោគជ័យ
+    closure: ការ​បិទ
+    date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
+    disable_dialog: ចុច​យល់ព្រម(OK) នឹងធ្វើឱ្យករណីនេះបិទដំណើរការក្នុងប្រព័ន្ធ (disabled)។
+    disable_dialog_title: បិទករណី (disable case)
+    disable_success: បិទដំណើរការករណីដោយជោគជ័យ
+    enable_dialog: ចុច​យល់ព្រម(OK) នឹង​ធ្វើឱ្យករណីនេះ​បើកដំណើរការក្នុងប្រព័ន្ (enabled)។
+    enable_dialog_title: បើកករណី (enable case)
+    enable_success: បើកដំណើរការ (enable) ករណីដោយជោគជ័យ
     export: នាំចេញ
     filter_by:
       3month_inactivity: សម្រាប់លើស​ពី 3 ខែ
+      action_plan: ផែនការសកម្មភាព
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: 'ចន្លោះអាយុ '
+      agency: អង្គភាព
+      approval_status: ស្ថានភាពអនុម័ត
       approvals:
         approved: បាន​អនុម័ត
+        pending: កំពុង​រង់ចាំ
         rejected: បានបដិសេធ
+      bia: BIA
+      by_date: នៅកាលបរិច្ឆេទ
+      case_open_date: កាលបរិច្ឆេទ​បើក​ករណី
+      case_plan: ផែនការករណី
+      closed: បានបិទ
+      closure: បិទករណី
+      current_location: ទីតាំងបច្ចុប្បន្ន
       date: កាលបរិច្ឆេទ
+      displacement_status: ស្ថានភាព​ផ្លាស់ទី
+      district: ស្រុក
+      duplicate: ស្ទួន
+      enabled_disabled: បើក/បិទដំណើរការករណី
       female: ស្រី
+      flag: បានសម្គាល់
       flag_label: បាន​សម្គាល់​ឬ?
+      gbv_closure: ​បិទករណី
+      high: ខ្ពស់
+      low: ទាប
       male: ប្រុស
+      medium: មធ្យម
+      mobile: ទូរស័ព្ទ
       mobile_label: ប្រើ​សម្រាប់​ទូរស័ព្ទ​ឬ?
       my_cases: ករណីរបស់ខ្ញុំ
+      no_action: គ្មាន​សកម្មភាព
       no_activity: គ្មានសកម្មភាព
+      open: បើក
+      other: ផ្សេងៗ
+      photo: រូបថត
       photo_label: មានរូបថតដែរឬទេ?
+      protection_concerns: បញ្ហាដែលជាកង្វល់​
+      protection_status: ស្ថានភាពការពារ
+      record_state: ស្ថានភាព​ករណី
       referred_cases: ករណី​បញ្ជូន​មក​ខ្ញុំ
+      registration_date: កាលបរិច្ឆេទ​ចុះឈ្មោះ
+      risk_level: កម្រិតហានិភ័យ
+      sex: ភេទ
+      social_worker: ឈ្មោះអ្នកកាន់ករណី
+      status: ស្ថានភាព
+      transferred: បាន​ផ្ទេរ
+      type_of_risk: ប្រភេទហានិភ័យ
+      urgent_protection_concern: បញ្ហាបន្ទាន់
+      user_group: ក្រុម​អ្នកប្រើប្រាស់
       workflow: ករណី​តាមលំហូរ​ការងារ
     flag_summary: ព័ត៌មាន​សង្ខេប​នៃ​ការ​សម្គាល់
+    full_name: ឈ្មោះ​ពេញ
+    gbv_closure: ​បិទករណី
     hide_name: លាក់ឈ្មោះ
     hide_name_error: មានបញ្ហា​​នៅ​ពេល​រក្សាទុក​ការ​ផ្លាស់ប្ដូរ​របស់​អ្នក។ សូម​ព្យាយាម​ម្ដង​ទៀត។
+    id: លេខកូដ
     label: ករណី
     my_filters: ចម្រាញ់ទិន្នន័យ
+    name: ឈ្មោះ
+    notes_dialog_title: បញ្ចូល​កំណត់សម្គាល់
+    notes_form_notes: កំណត់សម្គាល់
+    notes_form_subject: ប្រធានបទ
     ok: យល់ព្រម
     order_by:
       label: តម្រៀបតាម
       most_recently: ថ្មីៗបំផុត
       name: ឈ្មោះ
+    owned_by: ម្ចាស់​កំណត់​ត្រា
+    owned_by_agency: ស្ថាប័ន​ម្ចាស់​កំណត់​ត្រា
+    photo: រូបថត
+    photos: រូបថត
     quick_view:
       tracing_message: 'កំណត់​សម្គាល់៖ ប្រព័ន្ធបានផ្គូផ្គងរកឃើញព័ត៌មានអ្នកស្វែងរកកុមារនេះ។ សូម​ទាក់ទង​បុគ្គលិក​សង្គម​​ដែលកាន់ករណីនេះ​សម្រាប់​សកម្មភាព​បន្ថែម​ប្រសិនបើ​កុមារ​យល់ព្រម។'
+    referral_done: ការ​ចុច​ រួចរាល់ ​មាន​ន័យ​ថា​អ្នក​បានបញ្ចប់​ការបញ្ជូន​ករណី​នេះហើយ ហើយអ្នកមិនអាចចូលមើលកំណត់ត្រានេះទៀតទេ។
+    referral_done_success: បញ្ចប់ការ​បញ្ជូន​
+    referral_accepted_header: ទទួល​ការ​បញ្ជូន
+    referral_accepted: តើអ្នកប្រាកដទេ? អ្នកនឹងទទួលខុសត្រូវក្នុងការបំំពេញព័ត៌មានផ្សេងៗដែលទាក់ទងនឹងករណីបញ្ជូនមួយនេះ
+    referral_accepted_success: យល់ព្រមទទួលយកការ​បញ្ជូន​
+    referral_rejected: ការ​ចុច​ 'បដិសេធ' ​មាន​ន័យ​ថា​អ្នកមិន​ទាន់រួចរាល់​ដើម្បី​ទទួលយក​ការ​ទទួល​ខុស​ត្រូវ​​សម្រាប់​បញ្ជូនករណីនេះ​នៅ​ពេល​នេះ​ទេ។ សូម​បញ្ចូល​មូលហេតុ​ដែល​អ្នក​បដិសេធ​ករណី​បញ្ជូននេះ នៅ​ពេល​អ្នក​ចុច'បដិសេធ' ​ អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។
+    referral_rejected_success: ករណីបញ្ជូនបានបដិសេធ
     register_new_case: ករណីថ្មី
+    registration_date: កាលបរិច្ឆេទ​ចុះឈ្មោះ
+    rejected_success_action_plan: '%{approval_label}មិន​ត្រូវ​បាន​អនុម័ត'
+    rejected_success_assessment: '%{approval_label}បដិសេធ'
+    rejected_success_bia: '%{approval_label}បដិសេធ'
+    rejected_success_case_plan: '%{approval_label}បដិសេធ'
+    rejected_success_closure: '%{approval_label}មិន​ត្រូវ​បាន​អនុម័ត'
+    rejected_success_gbv_closure: '%{approval_label}បដិសេធ'
+    reopen_dialog: ការ​ចុច​យល់ព្រម នឹង​ផ្លាស់ប្ដូរ​ស្ថានភាព​ករណីនេះ​ទៅ​ជា​បើក
+    reopen_dialog_title: បើក​ករណីឡើងវិញ
+    reopen_success: បើកករណីឡើងវិញដោយជោគជ័យ
+    request_approval_failure: មានបញ្ហា សូមទាក់ទងផ្នែកជំនួយ។
+    request_approval_select: ស្នើសុំការ​អនុម័ត​សម្រាប់
+    request_approval_success_action_plan: ការអនុម័តត្រូវបានស្នើសំុសម្រាប់%{approval_label}​ទម្រង់
+    request_approval_success_assessment: ការអនុម័តត្រូវបានស្នើសំុសម្រាប់%{approval_label}​ទម្រង់
+    request_approval_success_case_plan: ការអនុម័តត្រូវបានស្នើសំុសម្រាប់%{approval_label}​ទម្រង់
+    request_approval_success_closure: ការអនុម័តត្រូវបានស្នើសំុសម្រាប់%{approval_label}​ទម្រង់
+    request_approval_success_gbv_closure: ការអនុម័តត្រូវបានស្នើសំុសម្រាប់%{approval_label}​ទម្រង់
+    request_approval_type_of_case_plan: ​ការ​អនុម័ត​ប្រភេទផែនការករណី
+    request_approve_action_plan: អនុម័ត​ផែនការ​សកម្មភាព?
+    request_approve_bia: អនុម័តការប៉ាន់ប្រមាណ?
+    request_approve_case_plan: អនុម័ត​ផែនការ​ករណី?
+    request_approve_closure: អនុម័ត​ការបិទករណី?
+    request_approve_gbv_closure: អនុម័ត​ការបិទករណី
+    revoke_failure: មានបញ្ហាខណៈពេលលុបចោល%{transition_type} សូមទាក់ទងផ្នែកជំនួយ។
+    revoke_message: ដោយចុច 'ដកហូត' អ្នកនឹងដកសិទ្ធិ%{transition_type}ចូលដំណើរការរបស់អ្នកទទួលទៅករណីនេះ។
+    revoke_success_message: ករណី%{case_id}%{transition_type}ទៅ%{recipient_username}ត្រូវបានបោះបង់។
     save_filter: រក្សាទុក
+    selected_all_records: ជ្រើសរើសករណីទាំងអស់%{total_records}ដែលត្រូវនឹងសំណួរនេះ។
+    selected_records: 'ជ្រើសរើស%{select_records}ករណី'
+    sex: ភេទ
+    show_case: 'លេខកូដ​ករណី​ (ខ្លី) %{short_id}'
+    social_worker: បុគ្គលិកសង្គម
+    status: ស្ថានភាព
+    summary:
+      label: សេចក្តីសង្ខេប
+      find_match: រក​ការ​ផ្គូផ្គង​
+      matched_trace: 'ផ្គូផ្គង #%{trace_id}'
+      cannot_find_matches: រកមិនឃើញករណីដូចទេ។ ករណីនេះមិនទាន់មានការយល់ព្រមចែករំលែកព័ត៌មានសម្រាប់គោលបំណងស្វែងរកទេ។
+      matched: ​បានផ្គូផ្គង
+      fields:
+        consent_for_tracing:
+          label: យល់ព្រមចែករំលែកព័ត៌មានសម្រាប់ការស្វែងរក
+          help_text: ប្រសិនបើសំណួរនេះគឺ 'ទេ' នោះកំណត់ត្រាករណីរបស់កុមារនឹងមិនបង្ហាញនៅក្នុងការផ្គូផ្គងជាមួយសំណើស្វែងរកអ្នកសួរទេ។
+        wishes_child_family_tracing:
+          label: តើ​កុមារ​ចង់​ស្វែងរក​សមាជិក​គ្រួសារ​ដែ​រឬទេ?
+        wishes_reunification:
+          label: តើ​កុមារ​ចង់​ឱ្យមាន​ការ​បង្រួមបង្រួម​គ្រួសារ​ដែ​រឬទេ?
+          options:
+            yes_as_soon_as_possible: ប្រាកដណាស់ ឆាប់ៗតាមដែលអាចធ្វើបាន
+            yes_but_later: យល់ តែចាំលើកក្រោយ
+            not_sure: មិនច្បាស់
+            'no': 'ទេ'
+        data_confidentiality_link:
+          label: មើលការរក្សាការសម្ងាត់ទិន្នន័យ
+        child_wishes_link:
+          label: មើលឃើញបំណងប្រាថ្នារបស់កុមារ
+    survivor_code: លេខកូដ​ជនរងគ្រោះ
+    transfer_accepted: ដោយ​ចុច​ 'ព្រម​ទទួល' អ្នកព្រម​ទទួល​​ចំពោះ​ការ​ទទួល​ខុសត្រូវ​សម្រាប់​ករណី​នេះ នៅ​ពេល​អ្នក​ចុច​ 'យល់ព្រម' អ្នក​នឹង​ក្លាយ​ជា​ម្ចាស់​កំណត់ត្រា​នៅ​​ក្នុង​ប្រព័ន្ធ។
+    transfer_managed_user_accepted: ដោយ​ចុច​ 'ព្រម​ទទួល' អ្នកព្រម​ទទួល​​ចំពោះ​ការ​ទទួល​ខុសត្រូវ​សម្រាប់​ករណី​នេះ នៅ​ពេល​អ្នក​ចុច​ 'យល់ព្រម' អ្នក​នឹង​ក្លាយ​ជា​ម្ចាស់​កំណត់ត្រា​នៅ​​ក្នុង​ប្រព័ន្ធ។
+    transfer_managed_user_rejected: ការ​ចុច​ 'បដិសេធ' ​មាន​ន័យ​ថា​អ្នកមិន​ទាន់រួចរាល់​ដើម្បី​ទទួលយក​ការ​ទទួល​ខុស​ត្រូវ​​សម្រាប់​ករណី%{transitioned_to}​នៅ​ពេល​នេះ​បាន​ទេ។ សូម​បញ្ចូល​មូលហេតុ​ដែល​អ្នក​បដិសេធ​ករណី%{transitioned_to}​នេះ នៅ​ពេល​អ្នក​ចុចអ្នក​ចុច​'បដិសេធ' ​ អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។
+    transfer_accepted_rejected: ករណី%{record_id}ផ្ទេរត្រូវបានបដិសេធ
+    transfer_accepted_success: បានទទួលយកការផ្ទេរ​​ដោយ​ជោគជ័យ។
+    transfer_reject_reason_label: មូលហេតុ​បដិសេធ
+    transfer_rejected: ការ​ចុច​ 'បដិសេធ' ​មាន​ន័យ​ថា​អ្នកមិន​ទាន់រួចរាល់​ដើម្បី​ទទួលយក​ការ​ទទួល​ខុស​ត្រូវ​​សម្រាប់​ករណីនេះ​នៅ​ពេល​នេះ​បាន​ទេ។ សូម​បញ្ចូល​មូលហេតុ​ដែល​អ្នក​បដិសេធ​ករណី​នេះ នៅ​ពេលអ្នក​ចុច​'បដិសេធ' ​ អ្នក​នឹង​លែង​អាច​ចូលប្រើប្រាស់​កំណត់ត្រា​នេះ​បាន​ហើយ។
     view_name: មើល​ឈ្មោះ
+  change_logs:
+    filters:
+      form: ទម្រង់
+      field: កន្លែង​បញ្ចូល
+    add_subform: 'បន្ថែម "%{subform_name}" ទម្រង់រង #%{short_id}'
+    changes_subform: 'ការផ្លាស់ប្តូរទៅជា "%{subform_name}" ទម្រង់រង'
+    create: បង្កើត​កំណត់ត្រា
+    deleted_subform: 'លុប "%{subform_name}" ទម្រង់រង #%{short_id}'
+    label: កំណត់ហេតុនៃការផ្លាស់ប្តូរ
+    see_details: សូមមើលព័ត៌មានលម្អិត
+    change: 'ពី "%{from_value}" ទៅ "%{to_value}"'
+    updated_subform: 'បានធ្វើបច្ចុប្បន្នភាព "%{subform_name}" ទម្រង់រង #%{short_id}'
+    update_subform: 'ធ្វើបច្ចុប្បន្នភាព "%{subform_name}" ទម្រង់រង '
+    from: ពី
+    to: ដល់
   children:
     selectable_date_options:
       assessment_requested_on: កាលបរិច្ឆេទ​ប៉ាន់ប្រមាណ
       closure_approved_date: 'កាលបរិច្ឆេទ​នៃការបិទករណី'
       created_at: កាលបរិច្ឆេទ​បើកករណី
       date_case_plan_initiated: កាលបរិច្ឆេទ​នៃ​ផែនការ​ករណី
+      date_of_creation: កាលបរិច្ឆេទបង្កើត
       registration_date: កាលបរិច្ឆេទ​ចុះឈ្មោះ
+  configurations:
+    apply_label: តើ​អ្នក​ប្រាកដ​ឬ​អត់? ប្រសិនបើអ្នកអនុវត្ត ការកំណត់(setting)នៅក្នុងការកំណត់(confi)នេះនឹងត្រូវបានអនុវត្តចំពោះប្រព័ន្ធ។ អ្នកនឹងបាត់បង់ការកំណត់បច្ចុប្បន្នរបស់អ្នកទាំងអស់ ហើយនឹងមិនអាចយកពួកវាមកវិញបានទេ លុះត្រាតែអ្នកបានរក្សាទុកពួកវានៅក្នុងការកំណត់មួយផ្សេងទៀតរួចហើយ។
+    apply_label_bold: Primero នឹងមិនអាចប្រើបានក្នុងរយៈពេលពីរបីនាទី ខណៈពេលដែលការផ្លាស់ប្តូរកំពុងដំណើរការ។
+    version_mismatch_tooltip: អ្នក​មិន​អាច​អនុវត្ត​ការ​កំណត់​រចនាសម្ព័ន្ធ​នេះ​បាន​ទេ ព្រោះ​វា​ត្រូវ​បាន​បង្កើត​ឡើង​ដោយ​ប្រើជំនាន់ Primero ដែលខ្ពស់​ជាងប្រព័ន្ធដែល​អ្នក​កំពុង​ដំណើរការ។ សូមរង់ចាំរហូតដល់ចាប់ផ្តើមប្រើប្រាស់ជំនាន់ចុងក្រោយបំផុតរបស់កម្មវិធី Primero។
+    send_header: ផ្ញើទៅគេហទំព័រផលិតកម្ម
+    send_text: តើ​អ្នក​ប្រាកដ​ឬ​ទេ? ប្រសិនបើអ្នកចុចផ្ញើ អ្នកនឹងផ្ញើការកំណត់រចនាសម្ព័ន្(configuration)ធនេះទៅកាន់គេហទំព័រផលិតកម្ម(production site)របស់អ្នក។ ការកំណត់រចនាសម្ព័ន្ធនេះនឹងមិនត្រូវបានអនុវត្តលើគេហទំព័រផលិតកម្មទេ ទាល់តែអ្នកគ្រប់គ្រងនៅលើគេហទំព័រនោះអនុវត្តវាដោយដៃ។
+    attributes:
+      created_by: បង្កើត​ដោយ
+      date_created: កាលបរិច្ឆេទបង្កើត
+      description: ការពណ៌នា
+      last_applied_by: អនុវត្តចុងក្រោយនៅ
+      last_applied_on: បានអនុវត្តចុងក្រោយនៅ
+      name: ឈ្មោះ
+      version: កំណែការកំណត់
+      primero_version: ជំនាន់ Primero
+    delete_label: តើអ្នកប្រាកដថាចង់ធ្វើបែបនេះទេ? នេះតំណាងឱ្យការកំណត់ទាំងអស់ពីពេលដែលការកំណត់រចនាសម្ព័ន្ធនេះត្រូវបានបង្កើត។ អ្នក​នឹង​មិន​អាច​ត្រឡប់​ទៅ​វិញ​និង​ស្ដារ​ការ​កំណត់​ទាំង​នេះ​នៅ​ពេល​ដែល​អ្នក​លុប​ការ​កំណត់​រចនាសម្ព័ន្ធ​នេះទេ​។
+    explanation: 'ការចុចរក្សាទុកនឹងបង្កើតកំណត់ត្រានៃការកំណត់បច្ចុប្បន្នទាំងអស់ (ឧទាហរណ៍៖ តួនាទី ភ្នាក់ងារ ទម្រង់) នៅចំណុចនេះក្នុងពេលនេះ។ បន្ទាប់ពីអ្នករក្សាទុក អ្នកអាចរុញការផ្លាស់ប្តូរទាំងនេះទៅ Primero ។ ប្រសិនពេលអនាគត អ្នកធ្វើការផ្លាស់ប្តូរការកំណត់ដែលអ្នកមិនចង់ធ្វើវិញ អ្នកអាចអនុវត្តកំណត់ត្រាការកំណត់នេះ ដើម្បីស្ដាររាល់ការផ្លាស់ប្តូរការកំណត់រចនាដែលអ្នកមាននៅពេលនេះ។'
+    label: ការកំណត់
+    label_new: ការកំណត់ថ្មី
+    messages:
+      applied: អនុវត្តការកំណត់រចនា​​ប្រព័ន្ធដោយ​ជោគជ័យ
+      created: បង្កើតការកំណត់​​ដោយ​ជោគជ័យ
+      deleted: លុបការកំណត់​​ដោយ​ជោគជ័យ
+      updated: ធ្វើបច្ចុប្បន្នភាពការកំណត់​​ដោយ​ជោគជ័យ
+      sent: បញ្ជូនការកំណត់រចនាសម្ព័ន្ធ(configuration)ទៅគេហទំព័រផលិតកម្ម(production site)។ សូមពិនិត្យមើលគេហទំព័រផលិតកម្ម ថាការកំណត់បានមកដល់ឬនៅ។
+    not_allowed: មិន​អនុញ្ញាត
+    unavailable_server: សើវឺមិនដំណើរការបណ្តោះអាសន្ន
   contact:
     field:
       email: អ៊ីមែល
@@ -153,20 +477,61 @@ km:
       other_information: ព័ត៌មាន​ផ្សេងៗ
       phone: ទូរស័ព្ទ
       position: មុខតំណែង
+      primero_version: ជំនាន់ Primero
       support_forum: វេទិកា​ជំនួយ
+      system_version: កំណែ​ប្រព័ន្ធ
     info_label: ​ព័ត៌មាន​ទំនាក់ទំនង
     updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មាន​ទំនាក់ទំនង​ដោយ​ជោគជ័យ។
+  code_of_conduct:
+    field:
+      title: ចំណងជើង
+      content: ព័ត៌មាន
+      created_on: ពេលបង្កើត
+      created_by: បង្កើត​ដោយ
+    info_label: ក្រមសីលធម៌
+    updated: ក្រមសីលធម៌បានរក្សាទុកដោយជោគជ័យ។
   dashboard:
     activity: សកម្មភាព
     admin_only: ចុច​លើ %{links} ដើម្បី​ធ្វើការ​ផ្លាស់ប្ដូរ​ចំពោះ​កម្មវិធី។
     all_cases: គ្រប់ករណី​ទាំង​អស់
     all_services_implemented: បានអនុវត្តសេវា
     and: 'និង'
+    approval_action_plan_approved: អនុម័ត
+    approval_action_plan_pending: កំពុង​រង់ចាំ
+    approval_action_plan_pending_group: ផែនការសកម្មភាព
+    approval_action_plan_rejected: បដិសេធ
+    approval_assessment_approved: បាន​អនុម័ត
+    approval_assessment_pending: កំពុង​រង់ចាំ
+    approval_assessment_pending_group: ការ​ប៉ាន់ប្រមាណ
+    approval_assessment_rejected: បដិសេដ
+    approval_case_plan_approved: អនុម័ត
+    approval_case_plan_pending: កំពុង​រង់ចាំ
+    approval_case_plan_pending_group: ផែនការករណី
+    approval_case_plan_rejected: បដិសេធ
+    approval_closure_approved: អនុម័ត
+    approval_closure_pending: កំពុង​រង់ចាំ
+    approval_closure_pending_group: ការ​បិទ
+    approval_closure_rejected: បដិសេធ
+    approval_gbv_closure_approved: អនុម័ត
+    approval_gbv_closure_pending: កំពុង​រង់ចាំ
+    approval_gbv_closure_pending_group: ការ​បិទ
+    approval_gbv_closure_rejected: បដិសេធ
     approvals: ការ​អនុម័ត
+    approvals_action_plan: ផែនការសកម្មភាព
+    approvals_assessment: ការ​ប៉ាន់ប្រមាណ
+    approvals_case_plan: ផែនការករណី
+    approvals_closure: ការ​បិទ
+    approvals_gbv_closure: ​បិទករណី
     approved: បាន​អនុម័ត
     assessment: ការ​ប៉ាន់ប្រមាណ
+    awaiting_acceptance: កំពុងរងចាំការទទួល
+    cases_by_social_worker_total: សរុប
+    cases_by_social_worker_new_or_updated: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
     case_id: 'លេខកូដករណី'
+    case_management_service: សេវាគ្រប់គ្រងករណី
+    case_overview: ករណីរបស់ខ្ញុំ
     case_plan: ផែនការករណី
+    case_risk: ករណី​តាម​​កម្រិត​ប៉ាន់ប្រមាណហានិភ័យ
     case_stat_by_approval_type: ការអនុម័ត
     case_stat_by_assessment_level: ករណី​តាម​​កម្រិត​ប៉ាន់ប្រមាណហានិភ័យ
     case_stat_referrals: ការ​បញ្ជូន
@@ -178,38 +543,92 @@ km:
     cases_this_week: ករណី​ក្នុង​សប្ដាហ៍​នេះ
     cases_to_assign: ករណី​ត្រូវ​ចាត់ចែង
     closed: បានបិទ
+    closed_last_week: បាន​បិទ (សប្ដាហ៍​មុន)
+    closed_this_week: បាន​បិទ (សប្ដាហ៍​នេះ)
     comprehensive_need_intervention: ការឆ្លើយតប​ពេញលេញ
+    count_new_bia_approvals:
+      other: '%{stat} ការ​អនុម័តថ្មី %{stat_type}'
+    count_new_case_plan_approvals:
+      other: '%{stat}ការ​អនុម័តថ្មី %{stat_type}'
+    count_new_closure_approvals:
+      other: '%{stat}ថ្មី %{stat_type} អនុម័ត'
+    count_pending_approval_total:
+      other: អ្នក​មាន​%{stat}កំពុង​រង់ចាំ%{stat_type}អនុម័ត
+    count_pending_transfers:
+      other: អ្នកមាន​ការ​ផ្ទេរ %{stat}កំពុង​រង់ចាំ
+    count_records_new:
+      other: និង%{stat}ករណីថ្មី
+    count_records_total:
+      other: អ្នក​មាន​ %{stat} ករណីសរុប
+    count_referrals_new:
+      other: និង%{stat}ការបញ្ជូនថ្មី
+    count_referrals_total:
+      other: អ្នកមាន%{stat}ការបញ្ជូនសរុប
+    count_rejected_approval_total:
+      other: 'និង%{stat}បាន​បដិសេធ  %{stat_type}អនុម័ត '
+    count_rejected_transfers:
+      other: 'និង%{stat}បាន​បដិសេធ​ការ​ផ្ទេរ '
+    count_risk_level_new:
+      other: និង %{stat}ករណី​ហានីភ័យថ្មី%{stat_type}
+    count_risk_level_total:
+      other: អ្នកមាន%{stat}%{stat_type}ករណីហានិភ័យ
+    count_waiting_for_acceptance_transfers: អ្នក​មាន​ការ​ផ្ទេរ%{stat}កំពុង​រង់ចាំ​​
     current_owner: ម្ចាស់​បច្ចុប្បន្ន
+    dash_case_incident_overview: ករណីរបស់ខ្ញុំ
+    dash_group_overview: ករណីក្នុងក្រុមរបស់ខ្ញុំ
+    dash_shared_from_my_team: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
+    dash_shared_with_me: ករណីបញ្ជូន/ផ្ទេរមកខ្ញុំ
+    dash_shared_with_my_team: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
+    dash_shared_with_my_team_overview: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
+    dash_shared_with_others: ករណីបញ្ជូន/ផ្ទេរពីខ្ញុំ
+    dash_national_admin_summary: សេចក្តីសង្ខេបរបស់ Admin
     date: កាលបរិច្ឆេទ
     date_of_incident: កាលបរិច្ឆេទហេតុការណ៍
     date_of_interview: កាលបរិច្ឆេទ​សម្ភាសន៍
     due: ហួស​ពេលកំណត់
+    flagged: ​សម្គាល់
     flagged_by: '​សម្គាល់​ដោយ'
     flagged_by_me: ​សម្គាល់​ដោយ​ខ្ញុំ
     flagged_by_other: សម្គាល់​ដោយ​អ្នក​ផ្សេង
+    flagged_cases: ​សម្គាល់ករណី​
     follow_up: ការ​តាមដាន
     forms: ផ្ទាំង​ទម្រង់
     geographic_area: តំបន់​ភូមិសាស្ត្រ
+    group_overview_closed: បិទករណី
+    group_overview_open: បើក
+    high_level: ខ្ពស់
     high_risk: អាទិភាព​ខ្ពស់
     immediate_response: ការ​ឆ្លើយតប​ភ្លាមៗ
+    in_progress: កំពុងដំណើរការ
     incident_id: 'លេខ​កូដហេតុការណ៍'
     incident_location: ទីតាំង​ហេតុការណ៍
     incident_status_open: បានបើក
     last_updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ចុងក្រោយ
     link_see_all: មើល​ទាំងអស់
+    low_level: ទាប
     low_risk: អាទិភាព​ទាប
+    manager_count_closed_total:
+      other: និង​%{stat}ករណីបាន​បិទ
+    manager_count_open_total:
+      other: អ្នកមាន​ %{stat}ករណីបើក
+    manager_transfers_totals:
+      other: 'អ្នកមាន​%{stat}%{stat_type}ការ​ផ្ទេរ '
     match_result: លទ្ធផល​ផ្គូផ្គង
+    medium_level: មធ្យម
     medium_risk: អាទិភាព​មធ្យម
     missed_cases: ករណី​ដែល​បាន​ខកខាន
     name: ឈ្មោះ
-    name_or_survivor_code: ឈ្មោះ ឬ​លេខកូដ​អ្នកនៅ​មាន​ជីវិត
+    name_or_survivor_code: ឈ្មោះ ឬ​លេខកូដ​ជនរងគ្រោះ
     near_deadline: ជិត​ដល់​ពេលកំណត់
     new: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
     new_child_assigned_to_you: ករណី​ថ្មីៗ​បាន​ចាត់ចែង​ឲ្យ​អ្នក
     new_incident: ហេតុការណ៍​ថ្មីៗ
     new_incident_assigned_to_you: ហេតុការណ៍ដែល​បាន​ចាត់ចែង​ថ្មីៗ
+    new_last_week: ថ្មី (សប្ដាហ៍​មុន)
+    new_or_updated: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
     new_referred: ការ​បញ្ជូន​ថ្មី
     new_service_provision: ការ​ផ្ដល់​សេវាកម្ម​ថ្មីៗ
+    new_this_week: ថ្មី (សប្តាហ៍នេះ)
     no_action_risk: គ្មាន​សកម្មភាព
     no_case_stats: គ្មាន​ស្ថិតិ​ករណីទេ
     no_caseworker_data: គ្មាន​ទិន្នន័យ​អ្នកកាន់​ករណី​​ទេ
@@ -226,12 +645,17 @@ km:
     open: បានបើក
     open_cases: បើក​ករណី
     open_incidents: បើក​ហេតុការណ៍
+    outstanding_transfers: ការ​ផ្ទេរ​ដែល​កំពុង​រង់ចាំ
     overdue_activities: ករណី​ហួស​ពេល​កំណត់
     overdue_cases_to_assign: ករណី​ហួស​ពេលកំណត់​ត្រូវ​ចាត់ចែង
+    overdue_cases_to_assign_high: ករណីទាំងនេះកើតឡើងជាង១ម៉ោងហើយ
+    overdue_cases_to_assign_low: ករណីទាំងនេះកើតឡើងជាង៣ម៉ោងហើយ
+    overview: ទិដ្ឋភាពទូទៅ
     pending: កំពុង​រង់ចាំ
+    pending_approvals: ការ​អនុម័ត​កំពុង​រង់ចាំ
     pending_transfers: ការ​ផ្ទេរ​ដែល​កំពុង​រង់ចាំ
-    protection_concern: កង្វល់​អំពី​ការការពារ​
-    protection_concerns: កង្វល់​អំពី​ការការពារ​
+    protection_concern: បញ្ហាដែលជាកង្វល់​
+    protection_concerns: បញ្ហាដែលជាកង្វល់​
     range12+: 12+
     range4: 0-4
     range4_8: 4-8
@@ -240,12 +664,27 @@ km:
     recently_flagged_child: ករណី​ដែល​បាន​សម្គាល់​ថ្មីៗ
     recently_flagged_incident: ហេតុការណ៍​ដែល​បាន​សម្គាល់​ថ្មីៗ
     referrals_by_social_worker: ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម
+    registration: ការចុះឈ្មោះ
     rejected: បានបដិសេធ
     rejected_transfers: ការ​ផ្ទេរ​ដែល​បាន​បដិសេធ
+    response: ការ​ឆ្លើយតប (កំពុង​ដំណើរការ)
     scheduled_activities: ករណី​ដែល​បាន​កំណត់កាលវិភាគ
     score_range: ចន្លោះពិន្ទុ
+    screening_service: ពិនិត្យមើលសេវា
     services: សេវាកម្ម
     services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+    shared_from_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
+    shared_from_my_team_referrals: ការ​បញ្ជូន
+    shared_from_my_team_rejected_transfers: បដិសេធការ​ផ្ទេរ​​
+    shared_with_me_new_referrals: ការ​បញ្ជូន​ថ្មី
+    shared_with_me_total_referrals: ការ​បញ្ជូន​សរុប
+    shared_with_me_transfers_awaiting_acceptance: ការផ្ទេរកំពុងរងចាំការទទួល
+    shared_with_my_team_pending_transfers_overview: ការផ្ទេរកំពុងរងចាំការទទួល
+    shared_with_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
+    shared_with_my_team_referrals: ការ​បញ្ជូន
+    shared_with_others_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
+    shared_with_others_referrals: ការ​បញ្ជូន
+    shared_with_others_rejected_transfers: បដិសេធការ​ផ្ទេរ​​
     status_of_cases: ស្ថានភាព​ករណី
     system_user: ប្រព័ន្ធ
     total: សរុប
@@ -256,12 +695,23 @@ km:
     transfers_by_social_worker: ការ​ផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
     users: រូបតំណាង​ការ​កំណត់
     violence_type: ប្រភេទនៃការរំលោភបំពាន
+    with_incidents: ជាមួយឧប្បត្តិហេតុ
+    with_new_incidents: ជាមួយហេតុការណ៍ថ្មី
+    without_incidents: គ្មានឧប្បត្តិហេតុ
+    worker_count_referrals_total:
+      other: '%{case_worker}មាន​ការ​បញ្ជូនសរុប%{stat}'
+    worker_count_total:
+      other: '%{case_worker}អ្នក​មាន​%{stat}ករណីសរុប'
+    workflow: លំហូរការងារ
+    workflow_team: លំហូរការងារ - ករណីក្រុម
     you_have: 'អ្នក​មាន'
   disabled:
     status:
       disabled: បាន​បិទ
       enabled: បាន​បើក
   email_notification:
+    assign: '%{user}បានចាត់តាំងដល់អ្នកដូចខាងក្រោម%{record_type}៖%{record_id}'
+    assign_subject: '%{record_type}:%{id}-បានចាត់តាំងឱ្យអ្នក។'
     approval_request: 'អ្នកប្រើប្រាស់ %{user} កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ %{approval_type} អំពី​ករណី %{case_id} ។'
     approval_request_subject: 'ករណី៖ %{id} - សំណើ​អនុម័ត'
     approval_response: '%{user} មានការ​ស្នើសុំ​ %{status} សម្រាប់​កា​រអនុម័ត​សម្រាប់ %{approval_type} សម្រាប់​ករណី %{case_id} ។'
@@ -276,17 +726,33 @@ km:
     approval_response_html: '<strong>%{user}</strong> មានសំណើ <strong>%{status}</strong> សម្រាប់​ការ​អនុម័ត​សម្រាប់ <strong>%{approval_type}</strong> សម្រាប់ករណី <strong>%{case_id}</strong> ។'
     referral_html: '<strong>%{user}</strong> ពី %{agency} បាន​បញ្ជូន%{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> សម្រាប់ %{service_type} ។'
     transfer_html: '<strong>%{user}</strong> បាន​ផ្ទេរ​ %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong> ។'
+    assign_html: '<strong>%{user}</strong> បាន​ចាត់ចែង %{record_type} ដូច​ខាង​ក្រោម​ទៅ​ឲ្យ​អ្នក៖ <strong>%{record_id}</strong>។'
     transfer_request_html: 'អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} នេះ %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលួក​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។'
     transfer_request_notes_html: 'កំណត់សម្គាល់​ពី​​អ្នកធ្វើការ​ស្នើសុំ៖ %{request_transfer_notes}'
   encrypt:
+    export_type: ប្រភេទ​ការ​នាំចេញ
     file_name: បង្កើត​ឈ្មោះ​ឯកសារ​ផ្ទាល់​របស់​អ្នក (ជា​ជម្រើស)
+    password_extra_info: ពាក្យសម្ងាត់ត្រូវតែមានយ៉ាងហោចណាស់ 8 តួអក្សរ។​ ពាក្យសម្ងាត់​នេះ​នឹង​ត្រូវ​បាន​ភ្ជាប់​ជា​មួយ​ឯកសារ​ដែល​បាននាំចេញ ហើយ​នឹង​ត្រូវ​បានបញ្ចូល​ដោយ​អ្នក​ណា​ម្នាក់​ដែល​បើក​ឯកសារ​នេះ​នៅ​ពេល​អនាគត។
     password_label: សូម​បញ្ចូល​ពាក្យសម្ងាត់​ដែល​នឹង​អ៊ីនគ្រិប​ឯកសារ​របស់​អ្នក។
+  error_message:
+    address_fields: អ្នកត្រូវដោះស្រាយ%{fields}សំណួរនៅលើទម្រង់%{forms}
+    address_form_fields: អ្នកត្រូវដោះស្រាយ%{fields}សំណួរនៅលើទម្រង់នេះ
+    address_subform_fields: '%{subform}មាន%{fields}សំណួរមិនត្រឹមត្រូវ'
   error_page:
+    not_authorized:
+      server_error: អ្នកមិនត្រូវបានអនុញ្ញាតឱ្យចូលប្រើទំព័រនេះទេ។
+      title: មិនត្រូវបានអនុញ្ញាត
     not_found:
       contact_admin: ប្រសិន​បើ​អ្នក​នៅ​ទីនេះ​ដោយ​សារ​មាន​កំហុស សូម​ទាក់ទង​អ្នក​គ្រប់គ្រង​របស់​អ្នក។
       something_went_wrong: សូម​ទោស មាន​អ្វី​មួយ​មិន​ប្រក្រតី!
   errors:
+    error_loading: មានបញ្ហាពេលផ្ទុកកំណត់ត្រា
     models:
+      agency:
+        code_present: មិន​អាច​ទទេ​
+        logo_format: រូបភាពគួរតែជាប្រភេទឯកសារ png
+        terms_of_use_format: រូបភាពគួរតែជាប្រភេទឯកសារ png
+        name_present: មិន​អាច​ទទេ​
       child:
         age: អាយុ​ត្រូវ​តែ​ចន្លោះ​ពី 0 និង 130
         date_of_birth: សូម​បញ្ចូល​ថ្ងៃខែ​ឆ្នាំ​កំណើត​ដែល​ត្រឹមត្រូវ​សម្រាប់​កំណត់​ត្រា​ករណី​នេះ
@@ -303,8 +769,10 @@ km:
       lookup:
         being_used: ការ​រកមើល​នេះ​កំពុង​ត្រូ​វបាន​ប្រើប្រាស់ ហើយ​មិន​អាច​លុប​បាន​ទេ
         name_present: ឈ្មោះ​មិន​ត្រូវ​ទទេ
+        values_ids_blank: ព័ត៌មាន id ដែលអ្នកស្វែងរកគឺ មិនមានទេ
       primero_module:
-        associated_record_types: យ៉ាង​ហោចណាស់​​​ត្រូវ​​ភ្ជាប់​ប្រភេទ​កំណត់​ត្រា​មួយ​ជា​មួយ​ម៉ូឌុល​នេះ
+        associated_record_types: យ៉ាង​ហោចណាស់​​​ត្រូវ​​មានកំំណត់ត្រាមួយ​​ដែលមានទំនាក់ទំនងជាមួយ​​ម៉ូឌុល​នេះ
+        form_section_ids: យ៉ាង​ហោច​ណាស់​ត្រូវ​ទម្រង់​មួយដែលទាក់ទង​ជា​មួយ​ម៉ូឌុល​នេះ
         name_present: ឈ្មោះ​មិន​ត្រូវ​ទទេ
         unique_name: មានម៉ូឌុល​ដែលមាន​ឈ្មោះ​នោះ​រួច​ហើយ សូម​បញ្ចូល​ឈ្មោះ​​​ផ្សេង
       report:
@@ -314,7 +782,16 @@ km:
       role:
         permission_presence: សូម​ជ្រើសរើស​កា​រអនុញ្ញាត​យ៉ាង​ហោចណាស់​មួយ
       user:
+        email: "សូមបញ្ចូលអ៊ីមែលដែលមានសុពលភាព (ឧទាហរណ៍៖ 'name@example.org')"
         password_mismatch: កន្លែង​បញ្ចូល​ពាក្យសម្ងាត់​មិនមាន​​ពាក្យ​សម្ងាត់​ដូច​គ្នា
+        password_length: ពាក្យសម្ងាត់ត្រូវតែមានយ៉ាងហោចណាស់%{min}តួអក្សរ
+        email_uniqueness: អ្នកប្រើប្រាស់ដែលមានអាសយដ្ឋានអ៊ីមែលនេះមានរួចហើយ។ សូមបញ្ចូលមួយផ្សេង
+      code_of_conduct:
+        title_present: ចំណងជើងមិន​ត្រូវ​ទទេ
+        content_present: មិន​ត្រូវ​ទទេ
+        created_by_present: ឈ្មោះអ្នកបង្កើត​មិន​អាច​ទទេ
+    not_found: មិនមានព័ត៌មាន
+    try_again: សូមព្យាយាមម្តងទៀត
   exports:
     case_pdf:
       all: PDF
@@ -324,7 +801,10 @@ km:
       all: CSV
       one: CSV
       selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    custom:
+      all: កំណត់តាមបំណង (custom)
     custom_exports:
+      all: កំណត់តាមបំណង (custom)
       choose_fields: តើ​អ្នកច​ង់​ជ្រើសរើស​កន្លែង​បញ្ចូលនីមួយៗ​សម្រាប់​ទម្រង់​ដែរ​ឬទេ?
       empty_fields_forms: សូម​ជ្រើសរើស​ទម្រង់ ឬ​កន្លែង​បញ្ចូល​​ខ្លះ​ដើម្បី​នាំចេញ។
       empty_format: សូម​ជ្រើសរើស​ទម្រង់​ដើម្បី​នាំចេញ។
@@ -339,6 +819,13 @@ km:
       module_placeholder: សូម​ជ្រើសរើស​ម៉ូឌុល​មួយ។
       select_module: ជ្រើសរើស​ម៉ូឌុល
       submit: យល់ព្រម
+      header: ក្បាលទំព័រ
+      custom_header: ក្បាលទំព័រដែលកំណត់តាមបំណង
+      signatures: បញ្ចូលហត្ថលេខាសម្រាប់
+      include_implementation_logos: បញ្ចូលLogo?
+      include_implementation_logos_help_text: រួមទាំងLogoដែលបង្ហាញនៅក្នុងម៉ឺនុយរុករក និងនៅលើទំព័រចូល។
+      include_agency_logo: បញ្ចូលLogoស្ថាប័ន?
+      include_other_logos: បង្ហាញLogoដ៏ទៃទៀត?
     duplicate_id_csv:
       all: លេខកូដ​ស្ទួន
       female_abbreviation: ស
@@ -351,11 +838,46 @@ km:
         national_id_no: លេខ​អត្តសញ្ញាណប័ណ្ណ
         progress_id: លេខ​កូដ​វឌ្ឍនភាព
         sex_mapping_m_f_u: ភេទ
+        other_agency_id: លេខកូដមន្ទីរពេទ្យ និងលេខកូដអ្នកជំងឺ
       male_abbreviation: ប
       unknown_abbreviation: U
+    exported: បានបង្កើតឯកសារនាំចេញដោយជោគជ័យ
+    exported_error: មានបញ្ហាក្នុងការបង្កើតឯកសារនាំចេញ
     forms:
       button: ទម្រង់​នាំចេញ
       label: នាំចេញ
+      header:
+        form_group: ក្រុម​ទម្រង់
+        form_name: ឈ្មោះ​ទម្រង់
+        field_id: កន្លែង​បញ្ចូល ID
+        field_type: ប្រភេទសំណួរ
+        field_name: ឈ្មោះសំណួរ
+        required: ត្រូវបំពេញ
+        on_mobile: លើទូរស័ព្ទ
+        on_short_form: នៅ​លើ​ទម្រង់​ខ្លី
+        option_ids: លេខ​កូដផ្សេង
+        options: ជម្រើស
+        options_lookup: រក​មើល
+        help_text: អត្ថបទ​ជំនួយ
+        guiding_questions: សំណួរណែនាំ
+        visible: ​មើល​ឃើញ
+        lookup_id: រក​មើល ID
+        lookup_name: រក​មើលឈ្មោះ
+        option_id: លេខ​កូដផ្សេង
+        option_name: ឈ្មោះ​ផ្សេង​
+      options:
+        location: ទីតាំង
+        agency: ស្ថាប័ន
+        user: អ្នកប្រើប្រាស់
+        reportinglocation: ​ទីតាំង​រាយការណ៍
+        subforms: 'ទម្រង់រង៖%{subform_name}'
+        collapsed_fields: 'សំណួររួមបញ្ចូលគ្នា៖%{fields}'
+        country: ប្រទេស
+    go_to_exports: ចូលទៅកាន់ទំព័រនាំចេញ ដើម្បីទាញយក
+    incident_recorder_xls:
+      all: អ្នក​កត់ត្រា​ហេតុការណ៍
+      one: អ្នក​កត់ត្រា​ហេតុការណ៍
+      selected: ​ជ្រើសរើស​ទៅកាន់កំណត់ត្រា​ហេតុការណ៍
     json:
       all: JSON
       one: JSON
@@ -363,24 +885,42 @@ km:
     list_view_csv:
       all: ទិដ្ឋភាព​បញ្ជីនាំចេញ
       selected: បាន​ជ្រើសរើស​ទៅ​ជា CSV
+    messages:
+      no_exporter: មិនមានបញ្ជាក់ព័ត៌មាននាំចេញ
     mrm_violation_xls:
       all: ការ​រំលោភបំពាន MRM
       one: ការ​រំលោភបំពាន MRM
       selected: បាន​ជ្រើសរើស​ទៅ​ការ​រំលោភបំបាន MRM
     no_records: មិនមាន​កំណត់ត្រាទេ!
     pdf:
+      all: PDF (មិន​បាន​អ៊ិនគ្រីប)
       one: PDF
       selected: បាន​ជ្រើសរើស​ទៅ​ជា PDF
     pdf_exports:
       label: PDF
+      recipient: អ្នកទទួល
+      case_worker: អ្នកកាន់ករណី
+      client: អតិថិជន
+      date: កាលបរិច្ឆេទ
+      recipient_name: ឈ្មោះ​អ្នកទទួល
+      recipient_agency: ស្ថាប័ន​អ្នកទទួល
+      caseworker_name: ឈ្មោះ​​អ្នកកាន់ករណី
+      caseworker_agency: ស្ថាប័ន​​អ្នកកាន់ករណី
     photowall:
       all: ផ្ទាំង​រូបថត
+      flag_suspect_record: សម្គាល់ថាជាកំណត់ត្រាជនសង្ស័យ
+      no_photos_available: មិនមាន​រូបថតទេ
       one: ផ្ទាំង​រូបថត
+      reunited: ​បង្រួបបង្រួម
       selected: បាន​ជ្រើសរើស​ទៅ​ផ្ទាំង​រូបថត
+      success_message: ការបង្កើត Photowall %{file_name}ករណីដែលគ្មានរូបថតនឹងមិនត្រូវបានបញ្ចូលទេ។
+    printed: 'បោះពុម្ព៖%{date}'
+    queueing: ការបង្កើតឯកសារនាំចេញ%{file_name}
     selected_xls:
       all: Excel
       one: Excel
       selected: បាន​ជ្រើសរើស​ទៅ Excel
+      selected_fields: សំណួរដែលបានជ្រើសរើស
     unhcr_csv:
       all: UNHCR
       female_abbreviation: F
@@ -402,10 +942,10 @@ km:
         moha_id: លេខសម្គាល់ MOHA
         name_of_caregiver: ឈ្មោះ​ពេញ​របស់​អ្នក​ថែទាំ
         name_of_child_last_first: ឈ្មោះ​ពេញ​របស់​កុមារ
-        primary_protection_concerns: កង្វល់​អំពី​ការការពារ​​ចម្ប​ង
+        primary_protection_concerns: បញ្ហាដែលជាកង្វល់​​​ចម្ប​ង
         progres_id: លេខ​កូដ​វឌ្ឍនភាព
         reunification_status: ស្ថានភាពបង្រួបបង្រួម
-        secondary_protection_concerns: កង្វល់​អំពី​ការការពារ​​រង
+        secondary_protection_concerns: បញ្ហាដែលជាកង្វល់​​​រង
         sex: ភេទ
         sex_mapping_m_f_u: ភេទ
         short_id: លេខកូដ​ខ្លី
@@ -419,33 +959,79 @@ km:
       all: Excel
       one: Excel
       selected: បាន​ជ្រើសរើស​ទៅ Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: បាន​នាំចូលទីតាំង​ដោយ​ជោគជ័យ
+        no_data: 'ការនាំចូលមិនដំណើរការ៖ មិនមានទិន្នន័យចូលទេ'
+        csv_parse_error: 'ការនាំចូលមិនដំណើរការ៖ បញ្ហាក្នុងការវិភាគទិន្នន័យ CSV'
+        error: 'ជួរ%{row_number}មិនដំណើរការ៖%{message}'
+        db_error: 'បញ្ហាបង្កើត%{location_code}:%{message}'
+        locale_invalid: 'រំលង %{column_name}៖ ទីតាំងមិនត្រឹមត្រូវ'
+        insert_all_error: 'ការនាំចូលមិនដំណើរការ។ កំហុសទិន្នន័យ៖%{message}'
+  sync_record:
+    failed: 'Sync ចុងក្រោយមិនដំណើរការ'
+    last: 'Syncចុងក្រោយថ្ងៃម៉ោង %{date_time}'
+    not_found: 'សមកាលកម្មចុងក្រោយ៖ រកមិនឃើញទិន្នន័យទេ។'
+    retrieving: ការទាញយកទិន្នន័យ
+    see_details: សូមមើលព័ត៌មានលម្អិត
   fields:
     action: សកម្មភាព
     actions: សកម្មភាព
     add: បញ្ចូល
+    add_new_field: បង្កើត​សំណួរថ្មី
+    add_existing_field: បញ្ចូលសំណួរដែលមានស្រាប់
+    add_field: បន្ថែមសំណួរ
+    add_field_type: បញ្ចូល%{file_type}
     audio:
       current: សំឡេង​បច្ចុប្បន្ន
+    audio_upload_box: ផ្ទុកសារសំឡេង
+    bia_document: ឯកសារ BIA
+    bid_document: ឯកសារ BID
     check_box: ប្រអប់​គូស​ធីក
+    clear_group_by: លុបក្រុមតាម
+    clear_sort_by: 'លុបការតម្រៀបទិន្នន័យ '
+    copy_from_another_form: សំណួរនេះត្រូវបានចម្លងពីទម្រង់ផ្សេងទៀត។
+    create_field: បង្កើត​សំណួរ
+    create_unique_values: បង្កើតតម្លៃតែមួយគត់
     date_field: កន្លែង​បញ្ចូលកាលបរិច្ឆេទ
     date_help: dd-mmm-yyyy
     date_help_with_time: dd-mmm-yyyy hh:mm
     date_not_valid: កាលបរិច្ឆេទ​នេះ​មិន​ត្រឹមត្រូវ​ទេ។
+    time: ពេលវេលា
     date_range:
       date: កាលបរិច្ឆេទ
       date_range: ចន្លោះ​កាលបរិច្ឆេទ
       from: ពី
       to: ដល់
     date_range_field: ចន្លោះ​កាលបរិច្ឆេទ
+    date_time: កាលបរិច្ឆេទ-ពេលវេលា
+    db_name: ឈ្មោះ​ប្រព័ន្ធ​ទិន្នន័យ
+    default: លំនាំដើម?
     default_date_validation: ការ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ​លំនាំដើម
+    default_to_current_date: លំនាំដើមដល់កាលបរិច្ឆេទបច្ចុប្បន្ន?
+    default_to_current_datetime: លំនាំដើមដល់កាលបរិច្ឆេទនិងពេលវេលាបច្ចុប្បន្ន?
+    default_value: តម្លៃ​លំនាំដើម
     deleted: បាន​លុប​កន្លែង​បញ្ចូល %{display_name} ។
+    detail: ព័ត៌មានលម្អិត​
+    disabled: បិទករណី (disable case)
     display_name: ឈ្មោះ​បង្ហាញ
     document:
       comments: មតិយោបល់
       current: តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?
       date: កាលបរិច្ឆេទ​ឯកសារ
       name: ឈ្មោះ​ឯកសារ
-    field_name: ឈ្មោះ​កន្លែង​បញ្ចូល
+      is_current: តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?
+    document_upload_box: ផ្ទុកឯកសារ
+    edit_label: កែសម្រួលសំណួរ
+    enabled: បើក?
+    enabled_label: បើក​ (enabled)
+    english_text: អក្សរភាសាអង់គ្លេស
+    field_name: ឈ្មោះសំណួរ
+    field_type: ប្រភេទសំណួរ
+    attachment_too_large: ឯកសារមិនគួរធំជាង 10mb
     file_upload_box:
+      add_document_label: បញ្ចូល​ឯកសារ
       add_new_document_button_text: បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត
       add_new_photo_button_text: បញ្ចូល​រូបថត​ផ្សេង​ទៀត
       add_photo_label: បញ្ចូល​រូបថត
@@ -455,26 +1041,59 @@ km:
       photo_file_restrictions_message: រូបថត​មិនគួរ​ធំ​ជាង 10mb ទេ ។ ឯកសារ​សំឡេង​មិន​គួរ​ធំជាង 10mb ទេ។ កាន់តែ​តូច​កាន់តែ​ល្អ។
       recorded_audio_label: សំឡេង​ដែល​បាន​ថត
       select_file_button_text: ជ្រើសរើសឯកសារ
+    find_lookup: រក​ការ​រក​មើល (find lookup)
     form_name: ឈ្មោះ​ទម្រង់
+    future_date_not_valid: កាលបរិច្ឆេទ​នេះ​មិន​អាច​ស្ថិត​ក្នុង​ពេល​អនាគត​ទេ។
+    guidance: កំណត់សម្គាល់
+    guiding_questions: សំណួរណែនាំ
     help_text: អត្ថបទ​ជំនួយ
+    hide_on_view_page: បង្ហាញគេហទំព័រ
     label: កន្លែង​បញ្ចូល
+    mobile_visible: កម្មវិធីសម្រាប់ទូស័ព្ទ
     move_to: ផ្លាស់ទី​ទៅ
+    multi_select: អាចជ្រើសរើស​ច្រើន
+    multi_select_box: ពហុជ្រើសរើស
+    must_be_english: ត្រូវបញ្ចូលជាភាសារអង់គ្លេស
+    name: ឈ្មោះ
     not_future_date: មិនមែន​ជា​កាលបរិច្ឆេទ​នៅ​ពេល​អនាគត
     number_not_valid: សូម​បញ្ចូល​ទិន្នន័យ​ជា​លេខ
     numeric_field: កន្លែង​បញ្ចូល​ជា​លេខ
+    on_collapsed_subform: នៅលើទម្រង់រងដែលបានបង្រួម?
     option_strings_add_option: បញ្ចូល​ជម្រើស
     option_strings_source: រក​មើល
     option_strings_text: ជម្រើស
     option_strings_text_display: អត្ថបទ​ជម្រើស
     option_strings_text_key: លេខ​កូដ​ជម្រើស
+    options_indications_lookup_values: អ្នកអាចប្រើការរកមើលដែលបានកំណត់ជាមុន ឬបង្កើតតម្លៃតែមួយគត់។
+    options_indications_restrictions: អ្នកមិនអាចអនុវត្តទាំងពីរទេ
     options_or_lookup_warning: សូម​បញ្ចូល​ជម្រើស ឬ​ជ្រើសរើស​ការ​រកមើល។ កុំ​បញ្ចូល​ទាំង​ពីរ។
+    other_documents: ឯកសារ​ផ្សេងៗ
+    photo_upload_box: ផ្ទុករូបថត
+    predifined_lookups: ប្រើការរកមើលដែលបានកំណត់ជាមុន
     radio_button: ប៊ូតុង​មូល
     remove: ដក​ចេញ
+    remove_attachment_confirmation: តើ​អ្នក​ប្រាកដជា​ចង់​លុបឯកសារ​ភ្ជាប់នេះ​​មែនទេ?
+    required: ត្រូវបំពេញ
+    required_field: 'ត្រូវបញ្ចូលព័ត៌មាន%{field}'
+    search_existing: ស្វែងរកសំណួរដែលមានស្រាប់
     select_box: ជ្រើសរើស​បញ្ជី​ទម្លាក់ចុះ
     select_date_validation: ជ្រើសរើស​វិធី​សាស្ត្រ​ផ្ទៀងផ្ទាត់​កាលបរិច្ឆេទ
+    select_multiple: ជ្រើសរើស​ទាំងអស់​ដែល​អនុវត្ត
+    select_single: (ជ្រើសរើស...)
     separator: សញ្ញា​បំបែក
+    show: បង្ហាញ?
+    show_on: បង្ហាញ
+    show_on_minify_form: ទម្រង់​ខ្លី
     subform: ទម្រង់​រង
+    subform_group_by: ដាក់ជា​ក្រុម​តាម​
     subform_remove_message: តើ​អ្នក​ប្រាកដជា​ចង់​ដក​ទម្រង់​រង​នេះ​ចេញ​មែនទេ?
+    subform_section:
+      description: ការពិពណ៌នាទម្រង់រង
+      name: ឈ្មោះ​ទម្រង់រង
+      starts_with_one_entry: ចាប់ផ្តើមជាមួយនឹងការបញ្ចូលទម្រង់រងមួយ?
+      subform_append_only: ការ​ធ្វើសមកាលកម្ម​ដោយ​ជ្រើសរើស (ឧបករណ៍​ចល័ត)
+      subform_prevent_item_removal: ទប់ស្កាត់ការដកចេញទម្រង់រង?
+    subform_sort_by: តំរៀបដោយ
     successfully_added: បាន​បញ្ចូលកន្លែង​បញ្ចូល​ដោយ​ជោគជ័យ
     tally_field: កន្លែង​បញ្ចូលចំនួន​សរុប
     text_area: តំបន់​អត្ថបទ
@@ -482,29 +1101,104 @@ km:
     textarea: តំបន់​អត្ថបទ
     tick_box: ប្រអប់​គូស​ធីក
     tick_box_label: ស្លាក​ប្រអប់​គូស​ធីក
+    translation_text: អត្ថបទបកប្រែ
+    total: សរុប
+    type: ប្រភេទ​
     updated: បាន​ធ្វើបច្ចុប្បន្នភាព​កន្លែង​បញ្ចូល
+    visibility: ភាព​មើល​ឃើញ
+    web_app: Web app
+  filters:
+    apply_filters: អនុវត្ត
+    clear_filters: លុប
+    less: តិចជាង
+    more: បន្ថែមទៀត....
+    save_filters: រក្សាទុក
+  flags:
+    add_flag_tab: បន្ថែមសម្គាល់ថ្មី
+    date: 'កាលបរិច្ឆេទ'
+    flag_added: បន្ថែមសម្គាល់ដោយជោគជ័យ
+    flag_date: ថ្ងែបញ្ចូលសម្គាល់
+    flag_reason: សម្គាល់មូលហេតុ
+    flag_reason_maximun_label: អតិបរមា 255 តួអក្សរ។
+    flag_resolved: សម្គាល់ត្រូវបានដោះស្រាយ
+    flags_tab: សម្គាល់
+    no_flags: រកមិន​ឃើញការ​សម្គាល់
+    resolve_button: ដោះស្រាយ
+    resolve_flag: ដោះស្រាយការដាក់សម្គាល់
+    resolve_reason: ដោះស្រាយមូលហេតុ
+    resolved: ដោះស្រាយការដាក់សម្គាល់
+    resolved_date: 'ត្រូវបានដោះស្រាយ៖'
+    resolved_reason: 'ដោះស្រាយមូលហេតុ'
+    title: សម្គាល់
   followup_reminders:
     system_generated_followup_flag: ការ​ចុះពិនិត្យតាមដាន​ដែល​ចាំបាច់
   form_section:
+    form_name: ឈ្មោះ​ទម្រង់
+    module: ម៉ូឌុល
     name: ឈ្មោះ
-    required_field: '%{field} ត្រូវ​បាន​ទាមទារ'
+    record_type: ប្រភេទ​កំណត់ត្រា
+    required_field: 'ត្រូវបញ្ចូលព័ត៌មាន%{field}'
   forms:
+    add: បន្ថែមទម្រង់​
+    description: ការពិពណ៌នាទម្រង់
+    fields: សំណួរ
+    form_description: ការពណ៌នា
+    form_group: ក្រុម​ទម្រង់
+    form_title: ឈ្មោះ​ទម្រង់
+    help_text:
+      must_be_english: ត្រូវបញ្ចូលជាភាសារអង់គ្លេស
+      related_groups: ដាក់ទម្រង់ចូលទៅក្នុងក្រុមដែលពាក់ព័ន្ធសម្រាប់អ្នកប្រើប្រាស់
+      summariaze_purpose: សង្ខេបគោលបំណងនៃទម្រង់។ ត្រូវតែបញ្ចូលជាភាសាអង់គ្លេស
+    invalid_characters_field: '%{field}មានតួអក្សរមិនត្រឹមត្រូវ។'
     label: ទម្រង់
+    manage: គ្រប់គ្រង
     messages:
+      created: បាន​បង្កើត​ផ្នែក​ទម្រង់​ដោយ​ជោគជ័យ
+      fields_with_same_name: ទម្រង់មិនអាចមានសំណួរដែលមានឈ្មោះដូចគ្នាទេ។
+      save_success: ធ្វើបច្ចុប្បន្នភាពផ្នែក​ទម្រង់​ដោយ​ជោគជ័យ
+      save_with_errors: មានបញ្ហា ហើយផ្នែកទម្រង់មួយចំនួនមិនត្រូវបានធ្វើបច្ចុប្បន្នភា
+      updated: ធ្វើបច្ចុប្បន្នភាពផ្នែក​ទម្រង់​ដោយ​ជោគជ័យ
       use_existing: យើង​លើក​ទឹកចិត្ត​ឲ្យ​អ្នក​ប្រើប្រាស់​ទម្រង់​ដែល​មាន​ស្រាប់​ដូច​នេះ​​ដើម្បីចែករំលែក​ទិន្នន័យ និង​បញ្ចូល​ទិន្នន័យ​ចូល​គ្នា​រវាង​ស្ថាប័ន​បាន​កាន់តែ​ងាយស្រួល។
+    mobile_app: កម្មវិធីសម្រាប់ទូស័ព្ទ
+    module: ម៉ូឌុល
+    no_subform_filters_added: ទម្រង់រងនេះមិនមានសំណួរទេ។
+    record_type: ប្រភេទ​កំណត់ត្រា
     record_types:
+      approvals: ការអនុម័ត
       case: ករណី
       child: ករណី
       incident: ហេតុការណ៍
-      potential_match: ការ​ផ្គូផ្គង​ខ្លាំង
+      individual_victim: ជនរងគ្រោះម្នាក់ៗ
+      potential_match: ត្រូវនឹងការ​ផ្គូផ្គង
+      record_information: ព័ត៌មាន​កំណត់​ត្រា
+      referrals: ការ​បញ្ជូន
       reportable_follow_up: ការតាមដាន
-      reportable_protection_concern: កង្វល់​អំពី​ការការពារ​
+      reportable_protection_concern: បញ្ហាដែលជាកង្វល់​
       reportable_service: សេវាកម្ម
       tracing_request: សំណើ​ស្វែងរក
+      transfers_assignments: ការផ្ទេរ/ចាត់តាំង
       violation: ការរំលោភបំពាន
+    required_field: 'ត្រូវបញ្ចូលព័ត៌មាន%{field}'
+    select_label: ជ្រើសរើស
+    settings: ការកំណត់
+    show_on: បង្ហាញលើ
+    subform_need_to_be_added: សូមចុច​ប៊ូតុង​​បញ្ចូល។
+    subform_not_found: មិនមានព័ត៌មាន%{subform_name}
+    title: ឈ្មោះ​ទម្រង់
+    translations:
+      edit: កែសម្រួលការបកប្រែ
+      edit_form_group: កែសម្រួលការស្វែងរកក្រុមទម្រង់។
+      manage: ចាត់ចែង​ការបកប្រែ
+      no_changes_message: អ្នកមិនបានផ្លាស់ប្តូរការបកប្រែទេ។
+      note: 'កំណត់សម្គាល់'
+      note_form_group: ដើម្បី​បញ្ចូល​ការ​បកប្រែ​សម្រាប់​ក្រុម​ទម្រង់ អ្នកត្រូវកែសម្រួល​ក្រុម​ទម្រង់ ស្វែងរក​ការ​បកប្រែ។
+      select_language: ជ្រើសរើស​ភាសា
+      title: ការ​បកប្រែ
+    type_label: ប្រភេទ​
+    visibility: ភាព​មើល​ឃើញ
+    web_app: Web app
   home:
     ar: العربية
-    ar-IQ: العربية (العراقية)
     ar-JO: العربية (الأردنية)
     ar-LB: العربية (اللبنانية)
     bn: বাংলা
@@ -512,15 +1206,19 @@ km:
     dashboard: ផ្ទាំងព័ត៌មាន
     en: អង់គ្លេស
     es: Español
+    es-GT: អេស្ប៉ាណុល (ហ្គាតេម៉ាឡា)
     fr: បារាំង
     id: Bahasa
+    km: ភាសាខ្មែរ
     ku: کوردی
-    ku-IQ: کوردی (بادینی)
+    sw-KE: គីស្វាហ៊ីលី (កេនយ៉ា)
+    sw-TZ: គីស្វាហ៊ីលី (តង់ហ្សានី)
     label: ទំព័រដើម
     language: ភាសា
     manage_system_users: គ្រប់គ្រងអ្នកប្រើប្រាស់ដែលធ្វើសមកាលកម្ម​ម៉ាស៊ីន​មេ
     my: ဗမာစာ
     pt: Português
+    pt-BR: ព័រទុយហ្គាល់ (ប្រេស៊ីល)
     records_need_attention: កំណត់ត្រា​ដែលត្រូវការការយកចិត្តទុកដាក់
     ru: Русский
     so: Af-Soomaali
@@ -530,23 +1228,212 @@ km:
     welcome: សូម​ស្វាគមន៍​មក​កាន់ Primero
     zh: 中文
   incident:
+    associated_case: "ករណីពាក់ព័ន្ធ៖"
     messages:
+      creation_success: បាន​បង្កើត​កំណត់ត្រា​ហេតុការណ៍ដោយ​ជោគជ័យ។
+      creation_success_queue: បង្កើត​កំណត់ត្រា​ដោយ​ជោគជ័យ។
+      disabled: ហេតុការណ៍បានបិតដំណើរការ
       update_success: 'បាន​ធ្វើ​បច្ចុប្បន្នភាពហេតុការណ៍ %{record_id} ដោយ​ជោគជ័យ។'
+      update_success_queue: 'ធ្វើបច្ចុប្បន្នភាពកំណត់ត្រា%{record_id}​ដោយ​ជោគជ័យ។'
+    violation:
+      pending: រង់ចាំការផ្ទៀងផ្ទាត់
+      title: ការរំលោភបំពាន
   incidents:
+    disable_dialog: ចុច​យល់ព្រម(OK) នឹងធ្វើឱ្យករណីនេះបិទដំណើរការក្នុងប្រព័ន្ធ (disabled)។
+    disable_dialog_title: បិទដំណើរការករណី (disable)
+    disable_success: បិទ (disable) ហេតុការណ៍ដោយជោគជ័យ
+    enable_dialog: ចុច​យល់ព្រម(OK) នឹង​ធ្វើឱ្យករណីនេះ​បើកដំណើរការក្នុងប្រព័ន្ (enabled)។
+    enable_dialog_title: បើក (enable) ហេតុការណ៍
+    enable_success: ករណីទាំងឡាយណាដែលបានបើកដំណើរការ
+    id: លេខកូដ
+    date_of_interview: កាលបរិច្ឆេទ​សម្ភាសន៍
+    date_of_incident: កាលបរិច្ឆេទហេតុការណ៍
+    incident_location: ទីតាំងកើតហេតុ
+    violations: ការរំលោភបំពាន
+    export: នាំចេញ
     label: ហេតុការណ៍
     filter_by:
       boys: កុមារា
+      by_date: នៅកាលបរិច្ឆេទ
+      children: កុមារ
       girls: កុមារី
+      incident_location: ទីតាំង​ហេតុការណ៍
+      unaccompanied_separated_status: ស្ថានភាពនៃការការពារ
       unknown: មិនស្គាល់
+      verification_status: ស្ថានភាពការ​ផ្ទៀងផ្ទាត់
+      violence_type: ប្រភេទហិង្សា
+      armed_force_group_name: ឈ្មោះក្រុមកងកម្លាំងប្រដាប់អាវុធ
+      armed_force_group_type: ប្រភេទក្រុមប្រដាប់​អាវុធ៖
     register_new_incident: ហេតុការណ៍​​ថ្មី
     selectable_date_options:
       date_of_first_report: កាលបរិច្ឆេទ​សម្ភាសន៍
       incident_date_derived: កាលបរិច្ឆេទកើត​ហេតុការណ៍
+    selected_records: '%{select_records}ជ្រើសរើសហេតុការណ៍'
+    selected_all_records: 'ជ្រើសរើសករណីទាំងអស់%{total_records}ដែលត្រូវនឹងសំណួរនេះ។'
+    survivor_code: លេខកូដ​ជនរងគ្រោះ
+    show_incident: 'លេខកូដ​ហេតុការណ៍ %{short_id}'
+    social_worker: បុគ្គលិកសង្គម
+    violence_type: ប្រភេទហិង្សា
+    type_violence: ប្រភេទហិង្សា
+  key_performance_indicators:
+    label: " សូចនាករវាស់វែងការអនុវត្តការងារសំខាន់ៗ (Pulse/KPIs)"
+    case_assessment: "ការ​ប៉ាន់ប្រមាណលើករណី"
+    case_action_planning: "ការធ្វើផែនការសកម្មភាពរបស់ករណី"
+    case_action_plan_implementation: "ការអនុវត្តផែនការករណី"
+    case_follow_up: "តាមដានករណី"
+    case_closure: "​បិទករណី"
+    feedback: "ព័ត៌មានត្រឡប់"
+    other: "ផ្សេងៗ"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'កំណត់តាមបំណង (custom)'
+    long_date_format: "dd/MM/yyyy"
+    time_periods:
+      all_time: 'គ្រប់ពេល'
+      current_month: "ខែបច្ចុប្បន្ន"
+      last_3_months: "បីខែមុន"
+      last_6_months: "6 ខែចុងក្រោយ"
+      last_1_year: "ឆ្នាំមុន"
+      0-3days: "0 - 3 ថ្ងៃ"
+      4-5days: "4-5 ថ្ងៃ"
+      6-14days: "6 - 14 ថ្ងៃ"
+      15-30days: "15 - 30 ថ្ងៃ"
+      1-3months: "1 - 3 ខែ"
+      4months: "> 3 ខែ"
+      1-month: "< 1 ខែ"
+      3-6months: "3 - 6 ខែ"
+      7-months: "> 6 ខែ"
+    helptext:
+      helptext: "សិក្សាអំពីKPI"
+    number_of_cases:
+      title: "1. ចំនួនករណីដែលបានកត់ត្រា"
+      reporting_site: "ទីតាំងរាយការណ៍"
+      helptext: |
+        សូចនាករនេះវាស់វែងចំនួនករណីដែលបានបើកក្នុងមួយខែក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយមានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែងឧប្បត្តិហេតុត្រូវបានរាយការណ៍ទៅអ្នកផ្តល់សេវា។
+    number_of_incidents:
+      title: "ចំនួនហេតុការណ៍ដែលបានកត់ត្រា"
+      reporting_site: "ទីតាំងរាយការណ៍"
+      helptext: |
+        សូចនាករនេះវាស់វែងចំនួនឧប្បត្តិហេតុថ្មីដែលបានបើកក្នុងខែនីមួយៗក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយមានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែងឧប្បត្តិហេតុត្រូវបានរាយការណ៍ទៅអ្នកផ្តល់សេវា។
+    reporting_delay:
+      title: "3. ការពន្យារពេលរាយការណ៍"
+      delay: "ពន្យាពេល"
+      total_incidents: "សរុបឧប្បត្តិហេតុ"
+      helptext: |
+        សូចនាករនេះរាប់ និងចាត់ថ្នាក់ចំនួនថ្ងៃដែលបានកន្លងផុតទៅរវាងពេលដែលជនរងគ្រោះ ទទួលរងGBV ហើយនៅពេលដែលបានរាយការណ៍វាជាលើកដំបូងទៅកាន់អ្នកផ្តល់សេវា។ វា​គឺ​ជា​ការ
+        គណនាដោយផ្អែកលើពេលដែលឧប្បត្តិហេតុត្រូវបានរាយការណ៍ជាលើកដំបូងទៅកាន់ស្ថាប័នអ្នកប្រើប្រាស់។ ទិន្នន័យគឺ
+        ចាត់ថ្នាក់ដោយផ្អែកលើរយៈពេលផ្សេងៗគ្នា (0-3 ថ្ងៃ; 4-5 ថ្ងៃ; 6-14 ថ្ងៃ; 15-30 ថ្ងៃ; លើស1 ខែ; លើសពី 3 ខែ) ។
+    service_access_delay:
+      title: "ពន្យាពេលក្នុងការស្វែងរកសេវា"
+      delay: "ពន្យាពេល"
+      total_incidents: "សរុបឧប្បត្តិហេតុ"
+    assessment_status:
+      title: "4. ស្ថានភាពប៉ាន់ប្រមាណ"
+      completed: "បញ្ចប់"
+      completed_supervisor_approved: "បំពេញរួចរាល់ ហើយអ្នកគ្រប់គ្រងករណីបានអនុម័ត"
+      helptext: |
+        សូចនាករនេះគណនាសមាមាត្រនៃករណីដែលសកម្មទាំងអស់ ដែលបានធ្វើការប៉ាន់ប្រមាណរួចហើយ។ ការប៉ាន់ប្រមាណត្រូវបានចាត់ទុកថា បានធ្វើរួចរាល់ គឺពេលបានបំពេញសំណួរដែលចាំបាច់នៅក្នុងទម្រង់ប៉ាន់ប្រមាណ។
+    completed_case_safety_plans:
+      title: "5. បានធ្វើផែនការសុវត្ថិភាពករណី"
+      completed: "បានធ្វើផែនការសុវត្ថិភាពករណី"
+      helptext: |
+        សូចនាករនេះគណនាសមាមាត្រនៃករណីសកម្មដែលផែនការសុវត្ថិភាពត្រូវបានចាត់ទុកថាជា
+        ចាំបាច់ និងបានបញ្ចប់ (ឧ. អំពើហឹង្សាដៃគូស្និទ្ធស្នាល, ហានិភ័យនៃការធ្វើអត្តឃាត/ការធ្វើអត្តឃាត, ការការពារកុមារ)។
+        ផែនការសុវត្ថិភាពត្រូវបានចាត់ទុកថាបានបញ្ចប់ពេលដែលផ្នែកចាំបាច់នៅក្នុងទម្រង់ផែនការសុវត្ថិភាពត្រូវបានបញ្ចប់។
+    completed_case_action_plans:
+      title: "6. បានធ្វើផែនការ​ករណី"
+      completed: "បានធ្វើផែនការ​ករណី"
+      label: "បានធ្វើផែនការ​ករណី"
+      helptext: |
+        សូចនាករនេះគណនាសមាមាត្រនៃករណីដែលសកម្មទាំងអស់ ដែលបានធ្វើផែនការករណីរួចហើយ។ ផែនការករណីដែលត្រូវបានចាត់ទុកថា បានធ្វើរួចរាល់ គឺបានបំពេញសំណួរដែលចាំបាច់នៅក្នុងទម្រង់ផែនការ។
+    completed_supervisor_approved_case_action_plans:
+      title: "7. ផែនការករណីដែលបានអនុម័តដោយអ្នកគ្រប់គ្រង"
+      completed_and_approved: "ផែនការករណីដែលបានអនុម័តដោយអ្នកគ្រប់គ្រង"
+      helptext: |
+        សូចនាករនេះគណនាសមាមាត្រនៃករណីដែលសកម្ម ដែលមានផែនការករណី
+        និងបានអនុម័តដោយអ្នកគ្រប់គ្រងហើយ។ ផែនការករណីត្រូវបានចាត់ទុកថាបានបញ្ចប់នៅពេលដែល ក
+        សំណួរចាំបាច់នៅក្នុងទម្រង់ផែនការត្រូវបានបំពេញ។ ផែនការករណីត្រូវបានពិចារណាថា
+        អនុម័តហីយ នៅពេលអ្នកកាន់ករណីស្នើសុំការការអនុម័ត និងអ្នកគ្រប់គ្រង
+        អនុម័តផែនការតាមប្រព័ន្ធ។
+    services_provided:
+      title: "8. សេវាដែលបានផ្តល់ឱ្យ"
+      service: "សេវា"
+      count: "ពេលវេលាដែលបានផ្តល់ឱ្យ"
+      male: "ប្រុស"
+      female: "ស្រី"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "ពិការ"
+      no_disability: "គ្មានពិការភាព"
+      helptext: "សូចនាករនេះរាប់ប្រភេទសេវាដែលផ្តល់ដល់ជនរងគ្រោះក្នុងដំណើរការគ្រប់គ្រងករណី។ \nការផ្តល់សេវាមានន័យថា សេវាដែលត្រូវបានផ្តល់ដោយស្ថាប័នអ្នកប្រើប្រាស់ (in house)\n មិនមែនសេវាដែលផ្តល់ដោយការបញ្ជូនទៅកាន់អ្នកផ្តល់សេវាផ្សេងទៀត ឬការបញ្ជូនខាងក្នុងទេ។\n"
+    average_referrals:
+      title: "9. មធ្យមភាគនៃការបញ្ជូន"
+      label: "មធ្យមភាគនៃការបញ្ជូនក្នុងមួយករណី"
+      helptext: "សូចនាករនេះរាប់ចំនួនមធ្យមនៃការបញ្ជូនសម្រាប់ករណីនីមួយៗ (សម្រាប់គ្រប់ប្រភេទសេវា) \nនៅគ្រប់ករណីទាំងអស់ គិតទាំងករណីសកម្ម/បើក ឬបិទ។ វារួមទាំងការបញ្ជូនដែលកត់ត្រាក្នុងទម្រង់ករណី មិនមែនត្រឹមតែការបញ្ជូនធ្វើឡើងតាមរយៈប្រព័ន្ធប៉ុណ្ណោះទេ។\n"
+    referrals_per_service:
+      title: "ចំនួននៃការបញ្ជូនក្នុងសេវាមួយប្រភេទ"
+    average_followup_meetings_per_case:
+      title: "10. មធ្យមភាគនៃចំនួនកិច្ចប្រជុំតាមដានក្នុងមួយករណី"
+      label: "មធ្យមភាគនៃចំនួនកិច្ចប្រជុំតាមដានក្នុងមួយករណី"
+      helptext: |
+        សូចនាករនេះរាប់ចំនួនជាមធ្យមនៃកិច្ចប្រជុំតាមដានដែលធ្វើឡើងសម្រាប់រាល់ករណីសកម្ម
+        ក្នុងអ្នកកាន់ករណីម្នាក់នៅលើប្រព័ន្ធ។ កិច្ច​ប្រជុំ​តាម​ដាន​គឺ​ជា​កិច្ច​ប្រជុំ​រវាង​អ្នក​កាន់​ករណី​និង
+        ជនរងគ្រោះបន្ទាប់ពីការសម្ភាសន៍ដំបូង / ការរាយការណ៍។
+    time_from_case_open_to_close:
+      title: "11. ពេលវេលាពីការបើកករណីទៅបិទករណី"
+      time: "ពេលវេលា "
+      percent: "ភាគរយនៃចំនួនករណី"
+      helptext: |
+        សូចនាករនេះវាស់វែងរយៈពេលករណីបើក រយៈពេលដំណើរការគ្រប់គ្រងករណីពីពេលរាយការណ៍ដំបូងទៅកាន់ស្ថាប័នអ្នកប្រើប្រាស់ ទៅពេលបិទករណី។ រយៈពេលគឺបែងចែកដូចខាងក្រោម: តិចជាង 1 ខែ; រវាង 1 និង 3 ខែ; រវាង
+        3-6 ខែ; ច្រើនជាង 6 ខែ។
+    case_closure_rate:
+      title: "12. រាប់ចំនួនករណីបិទ"
+      reporting_site: "ទីតាំងរាយការណ៍"
+      helptext: |
+        សូចនាករនេះវាស់វែងចំនួនករណីដែលបានបិទក្នុងមួយខែក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយ
+        មានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែង
+        ឧប្បត្តិហេតុត្រូវបានរាយការណ៍ទៅអ្នកផ្តល់សេវា។
+    client_satisfaction_rate:
+      title: "អត្រាពេញចិត្តរបស់អតិថិជន"
+      label: "ការពេញចិត្តរបស់អតិថិជន"
+      invalid: "យើងមិនទាន់អាចគណនាបានទេ"
+      helptext: |
+        សូចនាករនេះវាស់វែងភាគរយនៃជនរងគ្រោះដែលបានបញ្ចប់ការស្ទង់មតិយោបល់អតិថិជន
+        ដែលពេញចិត្តនឹងសេវាកម្មគ្រប់គ្រងករណីដែលផ្តល់ដល់ពួកគេ។ សូចនាករនេះគឺ
+        ជូនដំណឹងដោយការបំពេញទម្រង់មតិយោបល់របស់អតិថិជននៅលើ GBVIMS+ ដោយសមាជិកបុគ្គលិកផ្សេងទៀត។
+        ក្រៅពីអ្នកកាន់ករណីដែលផ្តល់សេវាដល់ជនរងគ្រោះ។
+    supervisor_to_caseworker_ratio:
+      title: "14. សមាមាត្រអ្នកគ្រប់គ្រងទៅនឹងអ្នកកាន់ករណី "
+      label: "ចំនួនអ្នកកាន់ករណីតាមអ្នកគ្រប់គ្រងករណីនីមួយៗ"
+      helptext: |
+        សូចនាករនេះគឺ ចំនួនអ្នកកាន់ករណីដែលអ្នកគ្រប់គ្រងកំពុងគ្រប់គ្រង៖ សមាមាត្រអ្នកគ្រប់គ្រង ទៅនឹងអ្នកកាន់ករណី។ ការគណនានេះគឺផ្អែកលើតួនាទីប្រព័ន្ធដែលបានបែងចែកនៅលើវេទិកា។
+    case_load:
+      title: "15.​ បន្ទុកករណី"
+      case_load: "បន្ទុកករណី"
+      percent: "ភាគរយនៃអ្នកកាន់ករណីដែលមានករណី"
+      10cases: "< 10 ករណី"
+      20cases: "11 - 20 ករណី"
+      21-30cases: "21 - 30 ករណី"
+      30cases: "> 30 ករណី"
+      helptext: |
+        សូចនករនេះវាស់វែងមធ្យមភាគបន្ទុកករណី ក្នុងអ្នកកាន់ករណីម្នាក់ (ករណីសកម្ម)។
+        សមាមាត្រនៃករណីចំពោះអ្នកកាន់ករណីត្រូវបានបែងចែកដោយផ្អែកលើការវិភាគដូចខាងក្រោមៈ តិចជាង 10 ករណីបើក រវាង 10-20 ករណីបើក  រវាង 21-30 ករណីបើក ច្រើនជាង 30 ករណី។
+    date_range_dialog:
+      title: "កំណត់កាលបរិច្ឆេទតាមបំណង "
+      description: "នៅពេលអ្នកអនុវត្កការផ្លាស់ប្តូរ ទិន្នន័យនឹងត្រូវបានជ្រើសរើសតាមកាលបរិច្ឆេទទាំងពីរខាងក្រោម។"
+      apply: 'អនុវត្ត'
+      from: 'ពី'
+      to: 'ដល់'
+      aria-labels:
+        from: "ទិន្នន័យនឹងត្រូវបានជ្រើសរើសបន្ទាប់ពីកាលបរិច្ឆេទនេះ"
+        to: "ទិន្នន័យនឹងត្រូវបានជ្រើសរើសមុនកាលបរិច្ឆេទដែលអ្នកបានកំណត់"
   location:
     base_types:
       camp: ជំរុំ
       chiefdom: Chiefdom
       city: ទីក្រុង
+      community: សហគមន៍
       country: ប្រទេស
       county: ស្រុក
       district: ស្រុក
@@ -560,20 +1447,94 @@ km:
       sub-district: ឃុំ
       village: ភូមិ
       zone: តំបន់
+    label: ទីតាំង
+    name: ឈ្មោះ
+    code: លេខ​កូដ
+    admin_level: កម្រិត​រដ្ឋបាល
+    type: ប្រភេទ​
+    hierarchy: ឋានានុក្រម
+    import_title: នាំចូលទីតាំង
+    message: សូមជ្រើសរើសឯកសារ CSV ដើម្បីបង្ហោះ។ ឯកសារនេះគួរតែប្រើការអ៊ិនកូដ UTF-8 និងរួមបញ្ចូល HXL hashtags នៅក្នុងជួរក្បាលទំព័រទីពីរនៃជួរនីមួយៗ
+    no_location: មុនពេលបង្កើតអ្នកប្រើប្រាស់ថ្មី សូមនាំចូលឈ្មោះទីតាំងជាមុនសិន
+    enable_title: បង្ហាញទីតាំង
+    enable_text: តើអ្នកប្រាកដទេ? ប្រសិនបើអ្នកជ្រើសរើសទីតាំងទាំងនេះ វានឹងបង្ហាញក្នុងតារាងជ្រើសរើសទីតាំង
+    disable_title: លាក់ទីតាំង
+    disable_text: តើអ្នកប្រាកដទេ? ប្រសិនបើអ្នកជ្រើសរើសទីតាំងទាំងនេះ វានឹងបង្ហាញក្នុងតារាងជ្រើសរើសទីតាំង
   logger:
+    actions:
+      _approved: បានអនុម័ត
+      _rejected: បដិសេធ
+      _requested: បានស្នើសំុ
+      add_note: បញ្ចូល​កំណត់សម្គាល់
+      assign: ចាត់តាំង
+      assign_to: ចាត់តាំងឱ្យ
+      attach: ភ្ជាប់ឯកសារ
+      bulk_assign: ចាត់តាំងចំនួនច្រើន
+      bulk_create: បង្កើតចំនួនច្រើន
+      bulk_index: សន្ទស្សន៍ច្រើន
+      case_plan_approved: ផែនការ​ករណីបានអនុម័ត
+      case_plan_rejected: ផែនការ​ករណីបានបដិសេធ
+      case_plan_requested: ផែនការ​ករណីបានដាក់ស្នើរ
+      close: បិទ
+      create: បង្កើត
+      create_bulk: បង្កើត​ច្រើន
+      delete: លុប
+      destroy: បំផ្លាញចោល
+      detach: ដកឯកសារភ្ជាប់ចេញ
+      enable_disable_record: បើក បិទ ករណី (enable disable)
+      export: នាំចេញ
+      flag: សម្គាល់
+      import: នាំចូល
+      incident_details_from_case: ព័ត៌មានលម្អិតពីករណី
+      index: សន្ទស្សន៍
+      list: តារាង
+      login: ចូលក្នុងប្រព័ន្ធ
+      password_reset: កែសម្រួលលេខសម្ងាត់
+      password_reset_request: ស្នើរសុំកែសម្រួលលេខសម្ងាត់
+      refer: បញ្ជូន
+      refer_accepted: ករណីបញ្ជូនបានទទួល
+      refer_done: ការណីបានបញ្ជូនរួចរាល់
+      refer_rejected: ករណីបញ្ជូនបានបដិសេធ
+      refer_revoke: ហៅការបញ្ជូនករណីមកវិញ
+      refer_to: បញ្ជូនទៅ
+      reopen: បើក​ឡើងវិញ
+      services_section_from_case: ផ្នែកសេវាពីករណី
+      show: បង្ហាញ
+      show_alerts: បង្ហាញការជូនដំណឹង
+      traces: ស្វែងរក
+      transfer: 'ផ្ទេរ '
+      transfer_accepted: ករណីផ្ទេរបានទទួល
+      transfer_rejected: បដិសេធការផ្ទេរ
+      transfer_request: សំណើ​ផ្ទេរ
+      transfer_to: ផ្ទេរចេញទៅ
+      unflag: ដក​សម្គាល់
+      update: ធ្វើបច្ចុប្បន្នភាព
+      user_password_reset_request: ស្នើរសុំកែសម្រួលលេខសម្ងាត់អ្នកប្រើប្រាស់
+      webhook: Webhook
     approve_form:
+      action_plan: ទម្រង់ផែនការសកម្មភាព
       bia: ទម្រង់ BIA
       case_plan: ទម្រង់​ផែនការករណី
       closure: ទម្រង់​បិទ
       'false': បដិសេដ
+      gbv_closure: ទម្រង់​បិទ
       'true': អនុម័ត
+    assessment_approved: "%{approval_label}អនុម័តសម្រាប់"
+    assessment_requested: "%{approval_label}ស្នើសុំសម្រាប់"
+    bulk_index: រាយបញ្ជីទាំងអស់
     by_user: ដោយ​អ្នកប្រើប្រាស់
+    case_plan_approved: "%{approval_label}អនុម័តសម្រាប់"
+    case_plan_requested: "%{approval_label}ស្នើសុំសម្រាប់"
+    close: បិទ
+    closure_approved: "%{approval_label}អនុម័តសម្រាប់"
+    closure_requested: "%{approval_label}ស្នើសុំសម្រាប់"
     consent_count: ចំនួន​ការ​យល់ព្រម
     copy: ចម្លង
     create: បង្កើត
     create_subform: បង្កើត​ទម្រង់​រង
     destroy: លុប
     edit: កែសម្រួល
+    enable_disable_record: បើក/បិទដំណើរការករណី
     export: នាំចេញ​ទិន្នន័យ​សម្រាប់
     flag: សម្គាល់
     flag_records: សម្គាល់
@@ -582,8 +1543,9 @@ km:
       protect: លាក់ឈ្មោះ
       view: បង្ហាញឈ្មោះ
     index: រាយ​កំណត់ត្រា
-    login: ចូលប្រើប្រាស់
-    logout: ចេញ
+    list: តារាង
+    login: ចូលក្នុងប្រព័ន្ធ
+    logout: ចេញពី​​ប្រព័ន្ធ
     lookups_for_field: រកមើល​កន្លែង​បញ្ចូល
     mark_for_mobile:
       'false': មិនប្រើ​សម្រាប់​ទូរស័ព្ទ
@@ -592,21 +1554,48 @@ km:
     permitted_field_list: បញ្ជី​កន្លែង​បញ្ចូល​ដែល​បាន​អនុញ្ញាត
     quick_view: មើល​ទិដ្ឋភាព​រហ័ស
     reassign: ចាត់ចែង
+    resources:
+      audit_log: កំណត់​ហេតុ​ត្រួតពិនិត្យ
+      user: អ្នកប្រើប្រាស់
+      agency: ស្ថាប័ន
+      user_group: ក្រុម​អ្នកប្រើប្រាស់
+      child: កុមារ
+      alert: ការជូនដំណឹង
+      form_section: ទម្រង់
+      lookup: រក​មើល
+      system_settings: ការកំណត់ប្រព័ន្ធ
+      permission: ការ​អនុញ្ញាត
+      dashboard: ផ្ទាំងព័ត៌មាន
+      report: របាយការណ៍
+      bulk_export: នាំចេញឯកសារ​ច្រើន
+      saved_search: រក្សាទុកការស្វែងរក
+      role: តួនាទី
+      incident: ហេតុការណ៍
+      location: ទីតាំង
+      primero_configuration: ការកំណត់Primero
+      code_of_conduct: ក្រមសីលធម៌
+      task: កិច្ចការ
     record_state:
-      'false': បិទ
+      'false': បិទករណី (disable case)
       'true': បើក
+    refer: បញ្ជូន
+    refer_to: ស្វែងរកអ្នកទទួលការបញ្ជូន
     referral: បញ្ជូន​
     relinquish_referral: បោះបង់ការ​បញ្ជូន
+    reopen: បើក​ឡើងវិញ
     reopen_case: បើកឡើងវិញ
     request_approval:
+      action_plan: ស្នើសុំការអនុម័តសម្រាប់ទម្រង់ផែនការសកម្មភាព
       bia: ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់ BIA
       case_plan: ស្នើសុំ​កា​រអនុម័ត​សម្រាប់​ទម្រង់​ផែនការ​ករណី
       closure: ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់​បិទ​
+      gbv_closure: ស្នើសុំ​ការ​អនុម័ត​សម្រាប់​ទម្រង់​បិទ​
     request_transfer: ផ្ញើ​សំណើ​ផ្ទេរ
     request_transfer_view: មើល​ការ​ផ្ទេរ​សំណើ
     save_subform: រក្សាទុក​ទម្រង់​រង
     search: ការ​ស្វែងរក API
     show: មើល
+    show_alerts: មើលការជូនដំណឹងសម្រាប់
     to: ដល់
     to_user: ចំពោះ​អ្នកប្រើប្រាស់
     transfer: ផ្ទេរ
@@ -616,22 +1605,83 @@ km:
     unflag: ដក​សម្គាល់
     update: ធ្វើបច្ចុប្បន្នភាព
   login:
-    label: ចូល
+    label: ចូលក្នុងប្រព័ន្ធ
     password:
       label: ពាក្យសម្ងាត់
+    password_confirmation:
+      label: បញ្ជាក់លេខកូដសម្ងាត់
+    password_match:
+      label: ពាក្យសម្ងាត់ត្រូវតែដូចគ្នា
+    provider_title: ជាមួយ%{provider}
+    title: ចូល
     username: អ្នកប្រើប្រាស់
+    password_reset_modal: កំណត់ពាក្យសម្ងាត់ឡើងវិញ
+    password_reset_modal_text: Primero នឹងផ្ញើតំណកំណត់ពាក្យសម្ងាត់ឡើងវិញទៅកាន់អ៊ីមែលរបស់អ្នក។
+    password_reset_email: អ៊ីមែល
+    forgot_password: ភ្លេចពាក្យសម្ងាត់?
+    email:
+      label: អ៊ីមែល
   lookup:
     create: កា​ររក​មើល​ថ្មី
+    enabled_label: បើក?
+    english_label: អត្ថបទភាសាអង់គ្លេស
     label: ការ​រក​មើល
+    language_label: ភាសា
     messages:
       cannot_create: មិន​អាច​បង្កើត​ការ​រក​មើល​បាន​ទេ
       correct_errors: 'សូម​កែ​បញ្ហា​ដូច​ខាង​ក្រោម ហើយ​ដាក់​បញ្ជូន​ម្ដ​ងទៀត៖'
+      created: ការ​រកមើលបានបង្កើត​ដោយ​ជោគជ័យ
+      updated: ការ​រកមើលបានធ្វើបច្ចុប្បន្នភាព​ដោយ​ជោគជ័យ
     name: ឈ្មោះ
+    no_options: ការរកមើលនេះបច្ចុប្បន្នមិនមានជម្រើសទេ។
+    translation_label: អត្ថបទបកប្រែ
     values: ជម្រើស
   messages:
+    alert_items: អ្នកមាន%{items}កំណត់គសម្គាល់។
+    alerts_for:
+      approval: ការអនុម័តកំពុងរងចាំសម្រាប់%{form_section_name}
+      field_change: 'ធ្វើបច្ចុប្បន្នភាព%{form_section_name}នៅ%{alert_time}'
+      transfer_request: សំណើ​ផ្ទេរ​ថ្មី​ត្រូវ​បាន​បង្កើត​នៅ %{date} ដោយ%{user} នៅ %{agency}
+      duplicate_field: ដូចគ្នាទៅនឹងករណីមួយទៀតនៅក្នុងប្រព័ន្ធ
+    cannot_edit: អ្នកមិនអាចកែសម្រួលទេ
     confirmation_message: ការ​ចុច​យល់ព្រម នឹង​បោះបង់​ការ​ផ្លាស់ប្ដូរ​ដែល​មិនបាន​រក្សាទុក និងត្រឡប់​ទៅ​ទិដ្ឋភាព​បញ្ជី។ ចុច​បោះបង់ ដើម្បី​ត្រឡប់​ទៅ​កំណត់​ត្រា​វិញ។
+    dashboard_offline: អ្នកគ្មានសេវាអ៊ីនធឺណិតទេ។ ផ្ទាំងទិន្នន័យនឹងដំណើរការពេលដែលអ្នកមានសេរាអ៊ីនធឺណិតវិញ។
+    field_name_on_form_name: '%{field_name}សំណួរលើ%{form_name}ទម្រង់'
+    logout_confirmation: តើអ្នកចង់បន្តសកម្មភាពរបស់អ្នកដែរឬទេ?
+    logout_offline_warning: តើអ្នកចង់ចេញពីប្រព័ន្ធមែនទេ? ប្រសិនបើបាទ/ចាស អ្នកនឹងមិនអាចចូលក្នុងប្រព័ន្ធបានទេ ទាល់តែអ្នកមានសេវាអ៊ីនធឺណិត។​ រាល់ការកែសម្រួលដែលអ្នកបានធ្វើពេលគ្មានសេវាអ៊ីនធឺណិតនឹងបាត់បង់។
+    logout_warning: អ្នកនឹងចេញពីប្រព័ន្ធដោយស្វ័យប្រវត្តិក្នុង​រយៈពេល5នាទីទៀត
+    logout_dialog_header: ចេញពីប្រព័ន្ធ ដោយមិនមានសេវាអ៊ីនធឺណិត
+    logout_confirmation_title: បញ្ជាក់ការចាកចេញពីប្រព័ន្ធ
+    logout_confirmation_text: តើអ្នកពិតជាចង់ចាកចេញមែន​ទេ?
+    no_changes: អ្នកមិនបានផ្លាស់ប្តូរសំណួរទេ។
+    not_available: មិនមាន
+    record_list:
+      column_header_tooltip: តំរៀបតាម%{column}
+      of: /
+      no_match: សុំទោស រកមិនឃើញព័ត៌មាននេះទេ
+      rows_per_page: ចំនួនជួរដេកក្នុងមួយទំព័រ
+      sort: តំរៀប
   navigation:
+    bulk_exports: ការនាំចេញ​
+    cases: ករណី
+    home: ទំព័រដើម
+    key_performance_indicators: ' សូចនាករវាស់វែងការអនុវត្តការងារសំខាន់ៗ (Pulse/KPIs)'
+    incidents: ហេតុការណ៍
+    logout: ចេញពីប្រព័ន្ធ
+    reports: របាយការណ៍
     search: ស្វែងរក
+    settings: ការកំណត់
+    support: ជំនួយ
+    support_menu:
+      contact_information: ​ព័ត៌មាន​ទំនាក់ទំនង
+      code_of_conduct: ក្រមសីលធម៌
+      terms_of_use: ល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
+      system_information: ព័ត៌មានក្នុង​ប្រព័ន្ធ
+    tasks: កិច្ចការ
+    tracing_request: សំណើ​ស្វែងរក
+    activity_log: កំណត់ហេតុសកម្មភាព
+  notes:
+    note_success: បន្ថែមសម្គាល់ដោយជោគជ័យ
   permissions:
     label: ការ​អនុញ្ញាត
     permission:
@@ -642,31 +1692,63 @@ km:
       agency: ស្ថាប័ន
       agency_read: ស្ថាប័ន​អាន
       all: ចូលប្រើប្រាស់​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​ទាំងអស់
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label}កំពុងរងចាំ'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label}កំពុងរងចាំ'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label}កំពុងរងចាំ'
+      approve_action_plan: អនុម័ត​%{approval_label}
+      approve_assessment: អនុម័ត%{approval_label}​ទម្រង់
+      approve_case_plan: អនុម័ត​%{approval_label}
+      approve_closure: អនុម័ត%{approval_label}​ទម្រង់
+      approve_gbv_closure: អនុម័ត%{approval_label}​ទម្រង់
       assign: ចាត់ចែង
       assign_within_agency: ចាត់ចែង​នៅ​ក្នុង​ស្ថាប័ន
       assign_within_user_group: ចាត់ចែង​នៅ​ក្នុង​ក្រុម​របស់​អ្នក​ប្រើប្រាស់
       audit_log: កំណត់​ហេតុ​ត្រួតពិនិត្យ
       case: ករណី
-      consent_override: បដិសេធ​ការ​យល់ព្រម
+      case_approvals: ការអនុម័តករណី
+      case_assignments_referrals_transfers: ការចាត់តាំងករណី ការបញ្ជូន និងការផ្ទេរ
+      case_exports: នាំចេញ​ករណី
+      case_overview: ករណីរបស់ខ្ញុំ
+      case_risk: ករណី​តាម​​កម្រិត​ប៉ាន់ប្រមាណហានិភ័យ
+      cases_by_task_overdue_assessment: មើលករណី​ដែលហួស​ពេលកំណត់​ធ្វើការប៉ាន់ប្រមាណ
+      cases_by_task_overdue_case_plan: មើលករណី​ដែលហួស​ពេលកំណត់​ធ្វើផែនការ
+      cases_by_task_overdue_followups: មើលករណី​ដែលហួស​ពេលកំណត់​ផ្តល់សេវា
+      cases_by_task_overdue_services: មើលករណី​ដែលហួស​ពេលកំណត់​ផ្តល់សេវា
+      cases_managed_other_users: ករណីដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់ផ្សេងទៀត
+      close: បិទ
+      consent_override: 'ការ​យល់ព្រម មិនត្រូវបានពិចារណា '
       copy: ចម្លង
+      copy_of: ច្បាប់ចម្លងនៃ
       create: បង្កើត
+      dash_case_incident_overview: ករណីរបស់ខ្ញុំ / ឧប្បត្តិហេតុ
       dash_cases_by_social_worker: មើល​ករណី​តាម​អ្នកកាន់​ករណី
       dash_cases_by_task_overdue: មើលករណី​តាម​ការ​ហួស​ពេលកំណត់​នៃ​កិច្ចការ
       dash_cases_by_workflow: មើល​ករណី​តាម​លំហូរ​ការងារ
       dash_cases_to_assign: មើល​ករណី​ដើម្បី​ចាត់ចែង
+      dash_group_overview: ករណីក្នុងក្រុមរបស់ខ្ញុំ
       dash_manager_transfers: មើល​អ្នកគ្រប់គ្រង​ការ​ផ្ទេរ
       dash_matching_results: មើល​លទ្ធផល​ផ្គូផ្គង
-      dash_protection_concerns: មើល​កង្វល់​អំពី​ការការពារ​
-      dash_protection_concerns_by_location: មើល​កង្វល់​អំពី​ការការពារ​តាម​ទីតាំង
+      dash_protection_concerns: មើល​បញ្ហាដែលជាកង្វល់​
+      dash_protection_concerns_by_location: មើល​បញ្ហាដែលជាកង្វល់​
       dash_referrals_by_socal_worker: មើល​ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម
       dash_reporting_location: មើល​ទីតាំង​រាយការណ៍
       dash_service_provisions: មើល​ការ​ផ្ដល់​សេវាកម្ម
+      dash_shared_from_my_team: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
+      dash_shared_with_me: ករណីបញ្ជូន/ផ្ទេរមកខ្ញុំ
+      dash_shared_with_my_team: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
+      dash_shared_with_others: ករណីបញ្ជូន/ផ្ទេរពីខ្ញុំ
+      dash_show_none_values: មើល​តម្លៃគ្មាន
       dash_tasks: មើលកិច្ចការ
       dash_transfers_by_socal_worker: មើល​កា​រផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
+      dash_national_admin_summary: សេចក្តីសង្ខេបរបស់ Admin
       dashboard: ផ្ទាំងគ្រប់គ្រង
+      delete: លុប
       display_view_page: បង្ហាញ​ទំព័រ​ទិដ្ឋភាព
       duplicate: ស្ទួន​ការ​ស្វែងរក
-      enable_disable_record: បិទ
+      enable_disable_record: បិទករណី (disable case)
       export_case_pdf: នាំចេញ​ករណីជា pdf
       export_csv: នាំចេញជា csv
       export_custom: នាំចេញ​ផ្ទាល់ខ្លួន
@@ -687,19 +1769,28 @@ km:
       incident: ហេតុការណ៍
       incident_details_from_case: បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេង
       incident_from_case: បង្កើត​ហេតុការណ៍​​ពី​ករណី
+      kpi: ' សូចនាករវាស់វែងការអនុវត្តការងារសំខាន់ៗ (Pulse/KPIs)'
       lookup: រក​មើល
       manage: គ្រប់គ្រង
       matching_configuration: ផ្គូផ្គង​ការ​កំណត់​រចនាសម្ព័ន្ធ
       metadata: ទម្រង់, ការ​រក​មើល
       potential_match: ការ​ផ្គូផ្គង​ខ្លាំង
+      primero_configuration: ការកំណត់
       read: អាន
       reassign: ចាត់ចែង​ឡើងវិញ
       receive_referral: ទទួល​ការ​បញ្ជូន
       receive_transfer: ទទួល​ការ​ផ្ទេរ
+      referral: អាចត្រូវបានប្រើសម្រាប់ការបញ្ជូន
       referral_from_service: បញ្ជូន​ករណី​ពី​ទម្រង់​សេវា
       remove_assigned_users: ដក​​អ្នកប្រើប្រាស់​ដែល​បាន​ចាត់តាំង​​ចេញ (ការ​បញ្ជូន)
+      reopen: បើក​ឡើងវិញ
       report: របាយការណ៍
       request_approval: ស្នើសុំ​ការ​អនុម័ត
+      request_approval_action_plan: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+      request_approval_assessment: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+      request_approval_case_plan: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+      request_approval_closure: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+      request_approval_gbv_closure: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
       request_transfer: ស្នើសុំការផ្ទេរ
       role: តួនាទី
       save_search: រក្សាទុក​ការ​ស្វែងរក
@@ -709,18 +1800,698 @@ km:
       service_provision_incident_details: មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍
       services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម​ទៅ​ក្នុង​ករណី​របស់​អ្នក​អ្នក​ប្រើប្រាស់​ផ្សេង
       specific_roles: ចូលប្រើប្រាស់​បញ្ជី​មុខងារ​ដែល​បានបញ្ជាក់
-      sync_mobile: ធ្វើសមកាលកម្ម​ជា​មួយ​ឧបបករណ៍​ចល័ត
+      sync_external: ធ្វើសមកាលកម្មជាមួយប្រព័ន្ធគ្រប់គ្រងព័ត៌មានខាងក្រៅ
       system: ប្រព័ន្ធ
       tracing_request: សំណើ​ស្វែងរក
+      transfer: អាចត្រូវបានប្រើសម្រាប់ការផ្ទេរ
       user: អ្នកប្រើប្រាស់
       user_group: ក្រុម​អ្នកប្រើប្រាស់
       view_approvals: មើល​ការ​អនុម័ត
       view_assessment: មើល​ការ​ប៉ាន់ប្រមាណ
       view_photo: មើល​រូបថត
-      view_protection_concerns_filter: មើលចម្រាញ់ទិន្នន័យ​ស្ដី​ពី​​បញ្ហាដែលជាកង្វល់
+      view_protection_concerns_filter: មើលទិន្នន័យ​ស្ដី​ពី​​បញ្ហាដែលជាកង្វល់
       view_response: មើលការ​ឆ្លើយតប
+      webhook: Webhook
+      workflow: លំហូរការងារ - ករណីនីមួយៗ
+      workflow_team: លំហូរការងារ - ករណីក្រុម
       write: សរសេរ
+      activity_log: កំណត់ហេតុសកម្មភាព
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: អាចចូលទៅកាន់ សូចនាករវាស់វែងការអនុវត្តការងារសំខាន់ៗ (Pulse/KPIs)
+            label: ចូលទៅកាន់ សូចនាករវាស់វែងការអនុវត្តការងារសំខាន់ៗ (Pulse/KPIs)
+          kpi_assessment_status:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីសកម្មដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ សមាមាត្រនៃករណីដែលបានបញ្ចប់ទម្រង់ប៉ាន់ប្រមាណ។
+            label: ស្ថានភាពប៉ាន់ប្រមាណ
+          kpi_average_followup_meetings_per_case:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីសកម្មដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ ចំនួនមធ្យមនៃការប្រជុំតាមដានដែលបានធ្វើឡើងក្នុងរយៈពេលដែលបានកំណត់។
+            label: មធ្យមភាគនៃចំនួនកិច្ចប្រជុំតាមដានក្នុងមួយករណី
+          kpi_average_referrals:
+            explanation: អាចមើលករណីកំពុងដំណើរការទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិប្រតិបត្តិការណ៍ រួមទាំងចំនួនមធ្យមនៃករណីបញ្ជូនដែលមានតាមប្រភេទសេវានីមួយៗ
+            label: មធ្យមភាគនៃការបញ្ជូន
+          kpi_case_closure_rate:
+            explanation: អាចមើលឃើញចំនួនករណីដែលបានបិតតាមទីតាំងក្នុងមួយខែៗ
+            label: រាប់ចំនួនករណីបិទ
+          kpi_case_load:
+            explanation: មានសិទ្ធិមើលមធ្យមភាគនៃចំនួនករណីដែលកំពុងបើកតាមអ្នកកាន់ករណីនីមួយៗ
+            label: បន្ទុកករណី
+          kpi_client_satisfaction_rate:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីនីមួយៗដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ អំពីសមាមាត្រនៃជនរងគ្រោះដែលបានបញ្ចប់ការស្ទង់មតិមតិយោបល់ថាបានពេញចិត្ត។
+            label: អត្រាពេញចិត្តរបស់អតិថិជន
+          kpi_completed_case_action_plans:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីសកម្មដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ សមាមាត្រនៃផែនការសកម្មភាពករណីដែលបានបញ្ចប់។
+            label: បានធ្វើផែនការ​ករណី
+          kpi_completed_case_safety_plans:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីសកម្មដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ នូវសមាមាត្រនៃករណីដែលបានធ្វើផែនការករណី។
+            label: បានធ្វើផែនការសុវត្ថិភាពករណី
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីសកម្មដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ នូវសមាមាត្រនៃករណីដែលបានធ្វើផែនការករណីហើយបានអនុម័ត។
+            label: ផែនការករណីដែលបានអនុម័តដោយអ្នកគ្រប់គ្រង
+          kpi_goal_progress_per_need:
+            explanation: អាចមើលឃើញ សម្រាប់ករណីដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ​ ភាគរយនៃគោលដៅក្នុងប្រភេទនីមួយៗនៃតម្រូវការត្រូវបានបំពេញ។
+            label: សមិទ្ធិផលដែលបានបង្កើតឈ្ពោះទៅកាន់គោលដៅ
+          kpi_number_of_cases:
+            explanation: អាចមើលករណីបើកថ្មីតាមខែនីមួយៗ និងតាមទីតាំង
+            label: ចំនួនករណី
+          kpi_number_of_incidents:
+            explanation: អាចមើលឃើញករណីថ្មីទាំងអស់ដែលកំពុងដំណើរការតាមខែ និងតាមទីតាំង
+            label: ចំនួនហេតុការណ៍
+          kpi_reporting_delay:
+            explanation: អាចមើលឃើញ សម្រាប់ឧប្បត្តិហេតុទាំងអស់ដែលអ្នកប្រើប្រាស់អាចចូលប្រើបាន ចំនួនថ្ងៃដែលកន្លងផុតទៅរវាងពេលដែលជនរងគ្រោះ GBV រងគ្រោះ និងនៅពេលដែលជនរងគ្រោះរាយការណ៍វាទៅអ្នកផ្តល់សេវា។
+            label: ការពន្យារពេលរាយការណ៍
+          kpi_services_provided:
+            explanation: អាចមើលឃើញគ្រប់ករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ ប្រភេទសេវាដែលត្រូវបានផ្តល់ដោយស្ថាប័ន។
+            label: សេវាដែលបានផ្តល់ឱ្យ
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: ឃើញការប្រៀបធៀបចំនួនករណីរវាងអ្នកកាន់ករណី និងអ្នកគ្រប់គ្រងករណី
+            label: ចំនួនធៀបរវាងអ្នកកាន់ករណី និងអ្នកគ្រប់គ្រង
+          kpi_time_from_case_open_to_close:
+            explanation: អាចមើលករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិប្រតិបត្តិការណ៍ និងរយៈពេលដែលករណីបានបើក
+            label: ពេលវេលាពីការបើកករណីទៅបិទករណី
+        label: KPI
+      agency:
+        actions:
+          assign:
+            explanation: អាចជ្រើសរើសស្ថាបន័នៅពេលបង្កើត ឬកែសម្រួលគណនីអ្នកប្រើប្រាស់។ ប្រសិនបើអ្នកប្រើប្រាស់បច្ចុប្បន្នមានការអនុញ្ញាតនេះ ក៏ដូចជាការអនុញ្ញាត "Agency Read" លើអ្នកប្រើប្រាស់ ពួកគេនឹងអាចបន្ថែមអ្នកប្រើប្រាស់ទៅក្នុងស្ថាបន័របស់ពួកគេតែប៉ុណ្ណោះ។
+            label: ចាត់តាំង
+          create:
+            explanation: អាចបង្កើតស្ថាប័ន
+            label: បង្កើត
+          manage:
+            explanation: 'អនុញ្ញាតឱ្យអ្នកប្រើអនុវត្តសកម្មភាពដែលមានទាំងអស់លើស្ថាប័ន។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។ សំខាន់៖ នេះក៏ផ្តល់នូវសមត្ថភាពក្នុងការបង្កើតស្ថាប័នថ្មី។'
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: មានលទ្ធភាពមើលឃើញស្ថាប័ន។
+            label: មើល
+          write:
+            explanation: អាចកែសម្រួលព័ត៌មានអំពីភ្នាក់ងារ។ សូមចំណាំថានេះអនុវត្តចំពោះភ្នាក់ងារទាំងអស់នៅក្នុងប្រព័ន្ធ។
+            label: កែសម្រួល
+        label: ស្ថាប័ន
+      audit_log:
+        actions:
+          read:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញ និងត្រងបញ្ជីនៃសកម្មភាពទាំងអស់ដែលបានអនុវត្តនៅក្នុងប្រព័ន្ធ បែងចែកដោយអ្នកប្រើប្រាស់ ប្រភេទនៃសកម្មភាព លេខសម្គាល់កំណត់ត្រា និងពេលវេលានៃសកម្មភាព។ នេះគឺស័ក្តិសមបំផុតសម្រាប់អ្នកគ្រប់គ្រងថ្នាក់ជាតិ ឬកម្រិតទីភ្នាក់ងារ ដោយសារវាបង្ហាញពីសកម្មភាពដែលធ្វើឡើងដោយអ្នកប្រើប្រាស់ទាំងអស់នៅក្នុងប្រព័ន្ធ។ សូមចំណាំថាកំណត់ហេតុសវនកម្មមិនបង្ហាញព័ត៌មានដែលអាចកំណត់អត្តសញ្ញាណផ្ទាល់ខ្លួនអំពីកំណត់ត្រាពាក់ព័ន្ធនឹងសកម្មភាពនីមួយៗទេ។
+            label: មើល
+        label: កំណត់​ហេតុ​ត្រួតពិនិត្យ
+      case:
+        actions:
+          add_note:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើបន្ថែមកំណត់ត្រាទៅក្នុងទម្រង់រង "ចំណាំ" (ជួនកាលគេហៅថា "មតិយោបល់") ។ អ្នកប្រើប្រាស់ធ្វើដូចនេះដោយចុចប៊ូតុង "បន្ថែមចំណាំ" នៅលើទំព័របង្ហាញករណី។ សកម្មភាពនេះមានប្រយោជន៍ជាពិសេសសម្រាប់អ្នកគ្រប់គ្រងដែលមិនមានសមត្ថភាពក្នុងការកែសម្រួលករណី ប៉ុន្តែចង់បន្ថែមការរំលឹកទៅករណីរបស់អ្នកកាន់ករណី។ នៅក្នុងវិធីនេះ ការបន្ថែមចំណាំគឺស្រដៀងនឹងការបន្ថែមសម្គាល់។ អត្ថប្រយោជន៍នៃការបន្ថែមចំណាំគឺថា នៅពេលដែលអ្នកគ្រប់គ្រងបន្ថែមកំណត់ចំណាំទៅករណីមួយ ការជូនដំណឹងនឹងលេចឡើងនៅលើករណីរបស់អ្នកកាន់ករណីនៅពេលដែលពួកគេកំពុងមើលករណីនៅលើឧបករណ៍ចល័តរបស់ពួកគេ។
+            label: បញ្ចូលកំណត់សម្គាល់ទៅលើករណី
+          approve_action_plan:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណីក្នុងក្រុម។
+            label: អនុម័ត​%{approval_label}
+          approve_assessment:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណី
+            label: អនុម័ត%{approval_label}​ទម្រង់
+          approve_bia:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណីក្នុងក្រុម។
+            label: អនុម័ត%{approval_label}​ទម្រង់
+          approve_case_plan:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណីក្នុងក្រុម។
+            label: អនុម័ត​%{approval_label}
+          approve_closure:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណីក្នុងក្រុម។
+            label: អនុម័ត%{approval_label}​ទម្រង់
+          approve_gbv_closure:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងអនុម័ត%{approval_label}លើករណីរបស់អ្នកកាន់ករណី
+            label: អនុម័ត%{approval_label}​ទម្រង់
+          assign:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើផ្ញើករណីពីម្ចាស់កំណត់ត្រាដើមទៅអ្នកប្រើប្រាស់ផ្សេងទៀតក្នុងប្រព័ន្ធ។ មិនចាំបាច់មានការយល់ព្រមពីកុមារសម្រាប់សកម្មភាពនេះទេ។ មិនដូចការផ្ទេរទេ អ្នកទទួលមិនត្រូវបានផ្តល់ឱកាសឱ្យទទួលយក ឬបដិសេធកិច្ចការនោះទេ។
+            label: ចាត់តាំង
+          assign_within_agency:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើផ្ញើករណីពីម្ចាស់កំណត់ត្រាដើមទៅអ្នកប្រើប្រាស់ផ្សេងទៀតនៅក្នុងស្ថាប័នរបស់អ្នកប្រើបច្ចុប្បន្ន។ មិនចាំបាច់មានការយល់ព្រមពីកុមារសម្រាប់សកម្មភាពនេះទេ។ មិនដូចការផ្ទេរទេ អ្នកទទួលមិនត្រូវបានផ្តល់ឱកាសឱ្យទទួលយក ឬបដិសេធកិច្ចការនោះទេ។
+            label: ចាត់តាំងទៅកាន់អ្នកប្រើប្រាស់​នៅ​ក្នុង​ស្ថាប័នរបស់ខ្ញុំ
+          assign_within_user_group:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើផ្ញើករណីពីម្ចាស់កំណត់ត្រាដើមទៅអ្នកប្រើប្រាស់ផ្សេងទៀតនៅក្នុងស្ថាប័នរបស់អ្នកប្រើបច្ចុប្បន្ន។ មិនចាំបាច់មានការយល់ព្រមពីកុមារសម្រាប់សកម្មភាពនេះទេ។ មិនដូចការផ្ទេរទេ អ្នកទទួលមិនត្រូវបានផ្តល់ឱកាសឱ្យទទួលយក ឬបដិសេធកិច្ចការនោះទេ។
+            label: ចាត់តាំងទៅកាន់អ្នកប្រើប្រាស់​នៅ​ក្នុង​ក្រុមរបស់ខ្ញុំ
+          change_log:
+            explanation: អ្នកប្រើប្រាស់អាចមើលឃើញប្រវត្តិនៃការផ្លាស់ប្តូរទាំងអស់ដែលបានធ្វើឡើងចំពោះកំណត់ត្រាចាប់តាំងពីវាត្រូវបានបង្កើត។ នេះរួមបញ្ចូលទាំងកំណត់ត្រាសម្រាប់សំណួរទាំងអស់។
+            label: កំណត់ត្រានៃសកម្មភាពកែសម្រួល
+          close:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើកំណត់ស្ថានភាពនៃករណីបើកទៅករណីបិទ។
+            label: បិទ
+          consent_override:
+            explanation: អនុញ្ញាត​ឱ្យ​អ្នក​ប្រើ​ធ្វើ​ការ​បញ្ជូន​ឬ​ផ្ទេរ​សម្រាប់​ករណី​ដែល​មិន​បាន​ផ្តល់​ការ​យល់ព្រម​។
+            label: ធ្វើការបញ្ជូន ឬផ្ទេរ ដែលមិនមានការយល់ព្រម
+          create:
+            explanation: អាចបង្កើតករណី
+            label: បង្កើត
+          display_view_page:
+            explanation: ប្រសិនបើអ្នកប្រើប្រាស់ធ្វើការស្វែងរកករណីដែលពួកគេមិនមានសិទ្ធិចូលប្រើ ការអនុញ្ញាតនេះនឹងអនុញ្ញាតឱ្យពួកគេមើលឃើញគំរូតូចមួយដែលមានព័ត៌មានមូលដ្ឋានអំពីករណីនេះ ទោះបីជាអ្នកប្រើប្រាស់មិនអាចចុចចូលទៅក្នុងករណីដើម្បីមើលព័ត៌មានទាំងអស់របស់វាក៏ដោយ។ សំនួរដែលបង្ហាញនៅក្នុង "View Modal" នេះគឺជាសំនួរដែលត្រូវបានកំណត់រចនាសម្ព័ន្ធទៅ "បង្ហាញលើទម្រង់ខ្លីៗ"។ ម៉ូឌុលនេះក៏មានប្រយោជន៍សម្រាប់អ្នកប្រើប្រាស់ដែលអនុវត្តសកម្មភាពស្វែងរកគ្រួសារ និងការបង្រួបបង្រួម ចាប់តាំងពី "View Modal" មានសម្រាប់អ្នកប្រើប្រាស់ដើម្បីចូលប្រើនៅពេលដែលពួកគេកំពុងពិនិត្យមើលករណីដែលបានបង្ហាញ "ការផ្គូផ្គងដែលត្រូវគ្នា" សម្រាប់សំណើស្វែងរក។
+            label: បង្ហាញ​ទំព័រ​ទិដ្ឋភាព
+          enable_disable_record:
+            explanation: អាចបិទដំណើរការឬបើកករណី។ ករណី "បិទដំណើរការ" មិនបង្ហាញតាមលំនាំដើមក្នុងបញ្ជីករណីទេ។ អ្នកប្រើប្រាស់អាចមើលឃើញករណីដែលបិទដំណើរការនៅក្នុងបញ្ជីករណីដោយប្រើតម្រង។ ដោយសារ Primero មិនអនុញ្ញាតឱ្យអ្នកប្រើលុបករណី អ្នកប្រើប្រាស់អាចចង់បិទដំណើរការករណីជំនួសវិញ។ ឧទាហរណ៍ ប្រសិនបើអ្នកប្រើបង្កើតករណីដោយច្រឡំ ឬករណីមានទិន្នន័យមិនល្អ អ្នកប្រើប្រាស់គួរតែបិទដំណើរការវា។
+            label: បើក/បិទដំណើរការករណី
+          export_case_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីករណី ឬទំព័របង្ហាញករណី ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំតាមទម្រង់ដែលព័ត៌មានជាបន្តបន្ទាប់។
+            label: នាំចេញ​ករណីជា pdf
+          export_csv:
+            explanation: 'អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ  CSV ពីបញ្ជីករណី ឬទំព័របង្ហាញករណី ដែលមានសំណួរទាំងអស់ សម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។  ចំណាំ៖ ឯកសារ CSV  មិនបង្ហាញតួអក្សរដែលមិនមែនជាឡាតាំង (ឧ. អារ៉ាប់, Bangla) ក្នុងទម្រង់ដែលអាចអានបាន ។'
+            label: នាំចេញជាឯកសារ CSV
+          export_custom:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ពីបញ្ជីករណី ឬទំព័របង្ហាញករណី ដែលមានសំណុំទម្រង់ ឬសំណួរសម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ នៅក្នុងការនាំចេញនេះ ទម្រង់នីមួយៗត្រូវបានតំណាងនៅក្នុងផ្ទាំងរបស់វាផ្ទាល់នៅក្នុងឯកសារ XLS។ អ្នក​ប្រើ​អាច​ជ្រើស​ទម្រង់​ឬ​សំនួរមួយ​ណា​ដែល​ពួកគេ​ចង់​បាន​រួម​បញ្ចូល​ក្នុង​ការ​នាំ​ចេញ​ដោយ​ប្រើ​ម៉ូឌុល​នាំចេញ​ផ្ទាល់ខ្លួន។ សូមចំណាំថា អ្នកប្រើប្រាស់អាចបញ្ចូលទម្រង់ និងសំណួរនៅក្នុងការនាំចេញតែប៉ុណ្ណោះ ប្រសិនបើពួកគេមានលទ្ធភាពមើលទម្រង់ និងសំណួរទាំងនោះរួចហើយ នៅពេលមើលករណីនៅក្នុងកម្មវិធី។
+            label: នាំចេញ​ផ្ទាល់ខ្លួន
+          export_duplicate_id_csv:
+            explanation: បង្កើតការនាំចេញ CSV នៃករណីដែលមានអត្តសញ្ញាណជាតិដូចគ្នា (អាចមានស្លាកផ្សេង អាស្រ័យលើការកំណត់)។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+            label: នាំចេញស្ទួន
+          export_json:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ JSON ពីបញ្ជីករណី ឬទំព័របង្ហាញករណី ដែលមានវាលទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់ករណីមួយ ច្រើន ឬករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ ការនាំចេញនេះត្រូវបានប្រើជាចម្បងសម្រាប់អ្នកដែលចង់នាំចេញករណីពីប្រព័ន្ធ Primero បច្ចុប្បន្ន ហើយបន្ទាប់មកនាំចូលវាទៅក្នុងប្រព័ន្ធ Primero ផ្សេង ឬចូលទៅក្នុងប្រព័ន្ធគ្រប់គ្រងព័ត៌មានផ្សេងទៀត។ ទម្រង់ JSON គឺអាចអានដោយម៉ាស៊ីន និងមិនអាចអនុវត្តបានសម្រាប់អ្នកប្រើប្រាស់ភាគច្រើន។
+            label: នាំចេញជាឯកសារJSON
+          export_list_view_csv:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ CSV ពីទំព័របញ្ជីករណីដែលមានសំណួរដូចគ្នាដែលលេចឡើងសម្រាប់អ្នកប្រើប្រាស់នោះក្នុងបញ្ជីករណី។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+            label: Export list view CSV
+          export_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់កំណត់ត្រាមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំបន្ថែមទៀតដោយទម្រង់ដែលព័ត៌មានលេចឡើង។
+            label: នាំចេញ​ករណីជា pdf
+          export_photowall:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើនាំចេញឯកសារពីទំព័របញ្ជីករណីដែលមានរូបថតនៃករណីទាំងអស់ដែលបានជ្រើសរើស។ ការនាំចេញនេះត្រូវបានប្រើជាចម្បងសម្រាប់សកម្មភាពស្វែងរកគ្រួសារ និងការបង្រួបបង្រួម។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+            label: នាំចេញ​ផ្ទាំង​រូបថត
+          export_unhcr_csv:
+            label: Export UNHCR CSV
+          export_xls:
+            explanation: 'អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ពីបញ្ជីករណី ឬទំព័របង្ហាញករណី ដែលមានសំណួរទាំងអស់ សម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ នៅក្នុងការនាំចេញនេះ ទម្រង់នីមួយៗត្រូវបានតំណាងនៅក្នុងផ្ទាំងរបស់វានៅក្នុងឯកសារ XLS។ ចំណាំ៖ ទ្រង់ទ្រាយ XLS បង្ហាញតួអក្សរដែលមិនមែនជាឡាតាំង (ឧ. អារ៉ាប់, Bangla) ក្នុងទម្រង់ដែលអាចអានបាន ខណៈពេលដែលការនាំចេញ CSV មិនដំណើរការ។'
+            label: 'នាំចេញឯកសារ​​​ Excel (XLS file) '
+          find_tracing_match:
+            explanation: វា​ត្រូវ​បាន​ប្រើ​សម្រាប់​បរិបទ​ដែល​មាន​សកម្មភាពស្វែងរកគ្រួសារ និង​ការ​បង្រួបបង្រួម។ អ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះនឹងឃើញប៊ូតុង "ស្វែងរកការផ្គូផ្គងការស្វែងរក" នៅលើទំព័របង្ហាញករណី។ នៅពេលពួកគេចុចវា ពួកគេនឹងទៅដល់បញ្ជីនៃសំណើស្វែងរកនៅក្នុងប្រព័ន្ធ ដែលជាការផ្គូផ្គងសក្តានុពលសម្រាប់ករណីរបស់ពួកគេ។
+            label: ស្វែងរកការផ្គូផ្គងករណី
+          flag:
+            explanation: អាចបន្ថែមសម្គាល់ទៅលើករណីមួយ។ អ្នក​ប្រើ​ដែល​មាន​ការ​អនុញ្ញាត​នេះ​ក៏​អាច​លុបសម្គាល់​​ដែល​ពួក​គេ​បាន​បន្ថែម​ទៅលើករណីមួយ​​ផង​ដែរ។
+            label: សម្គាល់
+          import:
+            explanation: 'អនុញ្ញាតឱ្យអ្នកប្រើបង្កើតករណីថ្មីមួយ ឬច្រើនដោយនាំចូលពួកវាពីឯកសារ CSV, Excel ឬ JSON ។ ឯកសារដែលបាននាំចូលត្រូវតែធ្វើទ្រង់ទ្រាយ *ខ្លាំងណាស់* ជាពិសេសសម្រាប់ព័ត៌មានដែលត្រូវនាំចូលត្រឹមត្រូវ។ មុខងារនេះគួរតែមានសម្រាប់តែអ្នកប្រើប្រាស់រដ្ឋបាលដែលមានជំនាញបច្ចេកទេសកម្រិតខ្ពស់ និងចំណេះដឹងស៊ីជម្រៅអំពីរបៀបធ្វើទ្រង់ទ្រាយទិន្នន័យនៅក្នុង Primero ប៉ុណ្ណោះ។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+
+               '
+            label: នាំចូល
+          incident_details_from_case:
+            explanation: អាចបន្ថែមព័ត៌មានសម្រាប់ទម្រង់រងព័ត៌មានលម្អិតឧប្បត្តិហេតុលើករណីដែលអ្នកបានរកឃើញនៅក្នុងលទ្ធផលស្វែងរក ប៉ុន្តែអ្នកមិនមានសិទ្ធិចូលប្រើ។ អ្នកប្រើប្រាស់អនុវត្តសកម្មភាពនេះពីទំព័រលទ្ធផលស្វែងរកដោយជ្រើសរើសករណីមួយ ឬច្រើន បន្ទាប់មកជ្រើសរើស "បន្ថែមឧប្បត្តិហេតុ" ពីម៉ឺនុយសកម្មភាព។ បន្ទាប់មកអ្នកប្រើប្រាស់នឹងឃើញម៉ូឌុលដែលមានសំណួរទាំងអស់នៅលើទម្រង់រងនៃព័ត៌មានលម្អិតឧប្បត្តិហេតុ ដែលពួកគេអាចបញ្ចូល និងបញ្ជូនព័ត៌មានអំពីសេវាកម្មមួយ។ ដោយសារតែសកម្មភាពនេះអាចអនុវត្តបានតែពីទំព័រលទ្ធផលស្វែងរកប៉ុណ្ណោះ វាសមហេតុផលសម្រាប់តួនាទីដែលមានការអនុញ្ញាតនេះ ប្រសិនបើពួកគេក៏មានការអនុញ្ញាត "ស្វែងរកករណីដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់ផ្សេងទៀត" ផងដែរ។
+            label: បញ្ចូល​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍​ទៅ​ក្នុង​ករណី​របស់​អ្នក​ប្រើប្រាស់​ផ្សេងពីលទ្ធផលស្វែងរក
+          incident_from_case:
+            explanation: ការអនុញ្ញាតនេះអនុញ្ញាតឱ្យអ្នកប្រើចុចប៊ូតុង "បង្កើតឧប្បត្តិហេតុ" ។ វាបង្កើតឧប្បត្តិហេតុដែលអាចមានព័ត៌មានមួយចំនួនដែលបានចម្លងពីករណីនេះ។ សម្រាប់ករណី GBV ប៊ូតុងនេះគឺនៅផ្នែកខាងលើនៃទំព័របង្ហាញករណី ហើយត្រូវគ្នានឹងព័ត៌មានអំពីករណីទាំងមូល។ នៅក្នុងបរិបទតាមដានឧប្បត្តិហេតុមួយចំនួន ប៊ូតុងនេះស្ថិតនៅលើទម្រង់រង "ព័ត៌មានលម្អិតអំពីឧប្បត្តិហេតុ"។ ក្នុងស្ថានភាពនេះ ព័ត៌មានមួយចំនួនអាចត្រូវបានចម្លងពីទម្រង់រងនៃព័ត៌មានលម្អិតនៃឧប្បត្តិហេតុដែលប៊ូតុងត្រូវបានចុច ក៏ដូចជាពីករណីទាំងមូល។ I.e. ឧប្បត្តិហេតុថ្មីដែលបានបង្កើតអាចមានវាល "ប្រភេទនៃអំពើហឹង្សា" ពីទម្រង់រងព័ត៌មានលំអិតនៃឧប្បត្តិហេតុនីមួយៗ ប៉ុន្តែក៏អាចមានអាយុ និងភេទនៃករណីនេះផងដែរ។ ចំណាំថាការអនុញ្ញាតនេះក៏អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញតំណភ្ជាប់ទៅនឹងឧប្បត្តិហេតុដែលត្រូវបានបង្កើតឡើងផងដែរ។
+            label: បង្កើត​ហេតុការណ៍​​ពី​ករណី
+          manage:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មួយអាចអនុវត្តសកម្មភាពដែលមានទាំងអស់សម្រាប់ករណី។ សិទ្ធ "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: អាចចូលមើលករណី
+            label: មើល
+          receive_referral:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ទទួលការបញ្ជូន។ អ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះនឹងបង្ហាញជាអ្នកអាចទទួលការបញ្ជូន ខណៈដែលអ្នកប្រើប្រាស់ដែលគ្មានការអនុញ្ញាតនេះនឹងមិនបង្ហាញជាអ្នកអាចទទួលទេ នៅពេលដែលនរណាម្នាក់កំពុងស្វែងរកអ្នកទទួលនៅក្នុងទម្រង់បញ្ជូន។
+            label: ទទួល​ការ​បញ្ជូន
+          receive_referral_different_module:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ទទួលការផ្ទេរ។ អ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះនឹងបង្ហាញជាអ្នកអាចទទួលការផ្ទេរ ខណៈដែលអ្នកប្រើប្រាស់ដែលគ្មានការអនុញ្ញាតនេះនឹងមិនបង្ហាញជាអ្នកអាចទទួលទេ នៅពេលដែលនរណាម្នាក់កំពុងស្វែងរកអ្នកទទួលនៅក្នុងទម្រង់ផ្ទេរ។
+            label: ទទួលការបញ្ជូនពីអ្នកប្រើប្រាស់ម្នាក់ក្នុងModuleផ្សេងគ្នា
+          receive_transfer:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ទទួលការផ្ទេរ។ អ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះនឹងបង្ហាញជាអ្នកអាចទទួលការផ្ទេរ ខណៈដែលអ្នកប្រើប្រាស់ដែលគ្មានការអនុញ្ញាតនេះនឹងមិនបង្ហាញជាអ្នកអាចទទួលទេ នៅពេលដែលនរណាម្នាក់កំពុងស្វែងរកអ្នកទទួលនៅក្នុងទម្រង់ផ្ទេរ។
+            label: ទទួល​ការ​ផ្ទេរ
+          referral:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ផ្តល់សិទ្ធិចូលប្រើប្រាស់ករណីមួយទៅអ្នកប្រើប្រាស់ផ្សេងទៀតជាបណ្តោះអាសន្ន។ អ្នកទទួលការបញ្ជូននេះនឹងអាចអនុវត្តសកម្មភាពដូចគ្នាទាំងអស់លើករណីដែលបានបញ្ជូន ដូចដែលពួកគេអាចអនុវត្តលើករណីរបស់ពួកគេផ្ទាល់។ នៅពេលដែលអ្នកទទួលលែងត្រូវការចូលប្រើករណីនេះ ពួកគេអាចចុចប៊ូតុង "រួចរាល់" នៅក្នុងទម្រង់រងការបញ្ជូន និងផ្ទេរ ហើយនឹងបាត់បង់សិទ្ធិចូលប្រើករណីនេះ។ អ្នក​អាច​បញ្ជូន​ករណី​ទៅ​អ្នក​ប្រើ​ដែល​មាន​តួនាទី​ទទួល​បាន​ការ​បញ្ជូន​តែ​ប៉ុណ្ណោះ។
+            label: ការបញ្ចូន
+          referral_from_service:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញប៊ូតុង "បញ្ជូន" នៅលើទម្រង់រងសេវាកម្ម។ នៅពេលដែលអ្នកប្រើប្រាស់ចុចប៊ូតុងនេះ ម៉ូឌុលបញ្ជូននឹងបង្ហាញជាមួយនឹងប្រភេទសេវាកម្ម ភ្នាក់ងារ អ្នកផ្តល់សេវា និងទីតាំងត្រូវបានបិទ ប៉ុន្តែត្រូវបានបំពេញដោយស្វ័យប្រវត្តិជាមួយនឹងព័ត៌មានសម្រាប់សំណួរទាំងនោះនៅក្នុងទម្រង់រងសេវាកម្ម ដែលអ្នកប្រើប្រាស់ចុចប៊ូតុងបញ្ជូន។
+            label: បញ្ជូន​ករណី​ពី​ទម្រង់​សេវារង
+          remove_assigned_users:
+            explanation: អនុញ្ញាត​ឱ្យ​អ្នក​ប្រើ​លុបអ្នក​ប្រើ​ផ្សេង​ទៀត​ចេញ​សំណួរ "អ្នក​ប្រើ​ដែល​បាន​ចាត់តាំង​ផ្សេង​ទៀត" ។ អ្នក​ប្រើ​ត្រូវ​បាន​រាយ​បញ្ជី​នៅ​ទីនេះ ប្រសិន​បើ​ពួក​គេ​បាន​ទទួល​ការ​បញ្ជូន​សម្រាប់​ករណី ឬ​បាន​ទទួល​ការ​ផ្ទេរ​សម្រាប់​ករណី​នេះ ប៉ុន្តែ​មិន​ទាន់​ទទួល​យក ឬ​បដិសេធ​វា​នៅ​ឡើយ​ទេ។ នៅពេលអ្នកដកអ្នកប្រើប្រាស់ចេញពីសំណួរ "អ្នកប្រើប្រាស់ដែលបានចាត់តាំងផ្សេងទៀត" អ្នកដកសិទ្ធិចូលប្រើរបស់ពួកគេចំពោះករណីនេះ។ ដូច្នេះ អ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះអាចដកការចូលប្រើករណីចេញពីអ្នកប្រើប្រាស់ដែលបានទទួលការបញ្ជូនពីមុន ឬការផ្ទេរដែលមិនទាន់សម្រេចសម្រាប់ករណីនេះ។ ចំណាំថាការអនុញ្ញាតនេះដំណើរការបានលុះត្រាតែអ្នកប្រើប្រាស់បច្ចុប្បន្នមានលទ្ធភាពកែសម្រួលករណីនេះ។
+            label: ដក​អ្នក​ប្រើ​ផ្សេង​ទៀត​ដែល​បាន​ចាត់តាំង​ចេញ (​យក​ការ​ចូល​ប្រើ​ករណី​ត្រឡប់​ពី​អ្នក​ទទួលបានការផ្ទេរ)
+          reopen:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់បើកករណីដែលបានបិទហើយ
+            label: បើក​ឡើងវិញ
+          request_approval_action_plan:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តលើករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_approval_assessment:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តលើករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_approval_bia:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តលើករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_approval_case_plan:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_approval_closure:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តលើករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_approval_gbv_closure:
+            explanation: អនុញ្ញាតឲ្យអ្នកប្រើប្រាស់ (ជាធម្មតាជាអ្នកកាន់ករណី) ស្នើសុំឱ្យអ្នកគ្រប់គ្រងរបស់ពួកគេអនុម័តលើករណីរបស់ពួកគេ%{approval_label}។
+            label: ស្នើ​សុំ​%{approval_label}ការ​អនុម័ត
+          request_transfer:
+            explanation: បង្ហាញប៊ូតុង "ស្នើសុំផ្ទេរ" នៅលើ "មើលម៉ូឌុល" ។ ប៊ូតុងអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ផ្ញើសារជាមួយនឹងកំណត់ចំណាំផ្ទាល់ខ្លួនតាមរយៈអ៊ីមែលទៅកាន់ម្ចាស់កំណត់ត្រាបច្ចុប្បន្ននៃករណី ដោយស្នើសុំឱ្យម្ចាស់កំណត់ត្រាផ្ទេរករណីទៅអ្នកប្រើប្រាស់ដែលបានផ្ញើសំណើ។ វាមានប្រយោជន៍ក្នុងបរិបទដែលកុមារផ្លាស់ប្តូរទីតាំងជាញឹកញាប់ ហើយអ្នកធ្វើការករណីត្រូវការបុគ្គលិកករណីមុនរបស់កុមារដើម្បីបញ្ជូនព័ត៌មានអំពីកុមារ ដើម្បីជៀសវាងការបង្កើតករណីស្ទួន។
+            label: ស្នើ​សុំ​ការ​ផ្ទេរ
+          search_owned_by_others:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ធ្វើការស្វែងរកកំណត់ត្រាដែលជាធម្មតាពួកគេមិនអាចចូលប្រើបាន ទាំងដោយសារតែពួកគេមិនមែនជាម្ចាស់កំណត់ត្រាសម្រាប់ករណីនោះ ឬ (សម្រាប់អ្នកគ្រប់គ្រង) ដោយសារតែម្ចាស់កំណត់ត្រាមិននៅក្នុងក្រុមអ្នកប្រើប្រាស់របស់ពួកគេ។ សូមចំណាំថា ខណៈពេលដែលអ្នកប្រើប្រាស់នឹងឃើញករណីនៅក្នុងលទ្ធផលស្វែងរក ពួកគេនឹងមិនអាចចុចលើទំករណីដែលបង្ហាញនោះបានទេ មានន័យថាពួកគេនឹងមិនអាចឃើញព័ត៌មានលម្អិតណាមួយអំពីករណីនោះទេ។
+            label: ស្វែងរក​កំណត់ត្រា​ករណីដែល​បាន​គ្រប់គ្រង​ដោយ​អ្នកប្រើប្រាស់​ផ្សេង
+          service_provision_incident_details:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញប៊ូតុង "រក្សាទុក និងបន្ថែមការផ្តល់សេវា" នៅផ្នែកខាងក្រោមនៃម៉ូឌុលបន្ថែមឧប្បត្តិហេតុ។ ការចុចប៊ូតុងនេះរក្សាទុកព័ត៌មានដែលបានបញ្ចូលបច្ចុប្បន្ន បន្ទាប់មកនាំអ្នកប្រើប្រាស់ទៅកាន់ម៉ូឌុលបន្ថែមការផ្តល់សេវា។ ដោយសារតែសកម្មភាពនេះត្រូវបានភ្ជាប់ដោយផ្ទាល់ទៅនឹងសកម្មភាពបន្ថែមឧប្បត្តិហេតុ និងបន្ថែមការផ្តល់សេវា វាសមហេតុផលក្នុងការផ្តល់ការអនុញ្ញាតនេះដល់តួនាទីមួយ ប្រសិនបើតួនាទីនោះក៏មាន "បន្ថែមព័ត៌មានលម្អិតអំពីឧប្បត្តិហេតុទៅករណីរបស់អ្នកប្រើផ្សេងទៀត" និង "បន្ថែមការផ្តល់សេវាទៅអ្នកប្រើប្រាស់ផ្សេងទៀត ករណី "ការអនុញ្ញាត។
+            label: មើល​ការ​បញ្ចូល​ប៊ូតុង​ផ្ដល់សេវាកម្ម​នៅ​លើ​បែបបទ​ព័ត៌មាន​លម្អិត​អំពី​ហេតុការណ៍
+          services_section_from_case:
+            explanation: អាចបន្ថែមព័ត៌មានសម្រាប់ទម្រង់រងផ្តល់សេវាលើករណីដែលអ្នកបានរកឃើញនៅក្នុងលទ្ធផលស្វែងរក ប៉ុន្តែអ្នកមិនមានសិទ្ធិចូលប្រើ។ អ្នកប្រើប្រាស់អនុវត្តសកម្មភាពនេះពីទំព័រលទ្ធផលស្វែងរកដោយជ្រើសរើសករណីមួយ ឬច្រើន បន្ទាប់មកជ្រើសរើស "បន្ថែមការផ្តល់សេវា" ពីម៉ឺនុយសកម្មភាព។ បន្ទាប់មកអ្នកប្រើប្រាស់នឹងឃើញម៉ូឌុលដែលមានសំណួរទាំងអស់នៅលើទម្រង់រងសេវាដែលពួកគេអាចបញ្ចូល និងបញ្ជូនព័ត៌មានអំពីសេវាមួយ។ ដោយសារតែសកម្មភាពនេះអាចអនុវត្តបានតែពីទំព័រលទ្ធផលស្វែងរកប៉ុណ្ណោះ វាសមហេតុផលសម្រាប់តួនាទីដែលមានការអនុញ្ញាតនេះ ប្រសិនបើពួកគេក៏មានការអនុញ្ញាត "ស្វែងរកករណីដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់ផ្សេងទៀត" ផងដែរ។
+            label: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម​ទៅ​ក្នុង​ករណី​របស់​អ្នក​អ្នក​ប្រើប្រាស់​ផ្សេង
+          sync_external:
+            explanation: អាចធ្វើសមកាលកម្មករណីជាមួយប្រព័ន្ធគ្រប់គ្រងព័ត៌មានខាងក្រៅ
+            label: ធ្វើសមកាលកម្មជាមួយប្រព័ន្ធគ្រប់គ្រងព័ត៌មានខាងក្រៅ
+          transfer:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើផ្ញើករណីពីម្ចាស់កំណត់ត្រាបច្ចុប្បន្នរបស់វាទៅអ្នកប្រើប្រាស់ណាមួយនៅក្នុងប្រព័ន្ធដែលមានលទ្ធភាពទទួលការផ្ទេរ។ ទោះជាយ៉ាងណាក៏ដោយ ម្ចាស់កំណត់ត្រានៃសំណុំរឿងមិនផ្លាស់ប្តូរទេ រហូតដល់អ្នកទទួលការផ្ទេរនេះ "ទទួលយក" វា។ ប្រសិនបើអ្នកទទួល "បដិសេធ" ការផ្ទេរ អ្នកទទួលបាត់បង់សិទ្ធិចូលប្រើករណីនេះ ហើយវារក្សាម្ចាស់កំណត់ត្រាដើមរបស់វា។
+            label: 'ផ្ទេរ '
+          view_photo:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញរូបថតករណីពីបញ្ជីករណី។ បើគ្មានការអនុញ្ញាតនេះទេ អ្នកប្រើប្រាស់មិនឃើញជួរឈរ "រូបថត" នៃតារាងបញ្ជីករណី ឬរូបតំណាងរូបថតដែលបង្ហាញនៅទីនោះទេ។ ការអនុញ្ញាតនេះក៏អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មើលឃើញរូបថតរបស់កុមារនៅក្នុង "View Modal" ផងដែរ។
+            label: មើលរូបថតពីបញ្ជីករណី
+          view_incident_from_case:
+            explanation: “នៅពេលមើលករណី អ្នកប្រើប្រាស់អាចមើលឃើញបញ្ជីឧប្បត្តិហេតុដែលភ្ជាប់ទៅនឹងករណី រួមជាមួយនឹងព័ត៌មានសង្ខេបមួយចំនួន។
+            label: មើលឧប្បត្តិហេតុពីករណី
+          view_protection_concerns_filter:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ប្រព័ន្ធមើលឃើញបញ្ហាជាកង្វល់នៅលើទំព័របញ្ជីករណី។
+            label: មើលទិន្នន័យ​ស្ដី​ពី​​បញ្ហាដែលជាកង្វល់
+          write:
+            explanation: អាចចុចប៊ូតុង "កែសម្រួល" ធ្វើបច្ចុប្បន្នភាពព័ត៌មានក្នុងករណីហើយចុច "រក្សាទុក
+            label: កែសម្រួល
+          accept_or_reject_transfer:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ទទួលយក ឬបដិសេធការផ្ទេរជំនួសឱ្យអ្នកប្រើប្រាស់ផ្សេងទៀតដែលនៅក្នុងក្រុមរបស់អ្នក (ឧទាហរណ៍ អ្នកគ្រប់គ្រងទទួលយកការផ្ទេរដែលត្រូវបានផ្ញើទៅកាន់បុគ្គលិកសង្គមរបស់ពួកគេ)។
+            label: ទទួលយក ឬបដិសេធការផ្ទេរសម្រាប់អ្នកប្រើប្រាស់ផ្សេងទៀតនៅក្នុងក្រុមរបស់អ្នក។
+          list_case_names:
+            explanation: ជាធម្មតា អ្នកគ្រប់គ្រងមិនអាចឃើញឈ្មោះករណីនៅក្នុងបញ្ជីករណីនោះទេ។ ប្រសិនបើអ្នកគ្រប់គ្រងមានការអនុញ្ញាតនេះ ពួកគេនឹងអាចមើលឃើញឈ្មោះនៅក្នុងបញ្ជី។
+            label: ប្រសិនបើជាអ្នកគ្រប់គ្រង អាចមើលឈ្មោះរបស់ករណីរំលោភបំពានក្នុងតារាងព័ត៌មានបាន
+        label: ករណី
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តផែនការ ដែលកំពុងរងចាំ អនុម័ត ឬបដិសេធ។
+            label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
+          approvals_action_plan_pending:
+            explanation: បង្ហាញចំនួនករណីនៅក្នុងក្រុមរបស់អ្នកគ្រប់គ្រងនូវសំណើអនុម័តផែនការដែលកំពុងរងចាំ
+            label: អ្នកគ្រប់គ្រង%{approval_label}អនុម័ត
+          approvals_assessment:
+            explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តប៉ាន់ប្រមាណដែលកំពុងរងចាំ អនុម័ត ឬបដិសេធ។
+            label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
+          approvals_assessment_pending:
+            explanation: បង្ហាញចំនួនករណីនៅក្នុងក្រុមរបស់អ្នកគ្រប់គ្រងនូវសំណើអនុម័តការប៉ាន់ប្រមាណដែលកំពុងរងចាំ
+            label: អ្នកគ្រប់គ្រង%{approval_label}អនុម័ត
+          approvals_case_plan:
+            explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តផែនការ ដែលកំពុងរងចាំ អនុម័ត ឬបដិសេធ។
+            label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
+          approvals_case_plan_pending:
+            explanation: បង្ហាញចំនួនករណីនៅក្នុងក្រុមរបស់អ្នកគ្រប់គ្រងនូវសំណើអនុម័តផែនការដែលកំពុងរងចាំ
+            label: អ្នកគ្រប់គ្រង%{approval_label}អនុម័ត
+          approvals_closure:
+            explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តបិទ ដែលរង់ចាំ អនុម័ត ឬបដិសេធ។
+            label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
+          approvals_closure_pending:
+            explanation: បង្ហាញចំនួនករណីនៅក្នុងក្រុមរបស់អ្នកគ្រប់គ្រងដែលមានសំណើអនុម័តការបិទកំពុងរងចាំ
+            label: អ្នកគ្រប់គ្រង%{approval_label}អនុម័ត
+          approvals_gbv_closure:
+            explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តបិទ ដែលរង់ចាំ អនុម័ត ឬបដិសេធ។
+            label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
+          approvals_gbv_closure_pending:
+            explanation: បង្ហាញចំនួនករណីនៅក្នុងក្រុមរបស់អ្នកគ្រប់គ្រងដែលមានសំណើអនុម័តការបិទកំពុងរងចាំ
+            label: អ្នកគ្រប់គ្រង%{approval_label}អនុម័ត
+          case_overview:
+            explanation: ផ្ទាំងគ្រប់គ្រងទិន្នន័យទូទៅនៅផ្នែកខាងលើនៃទំព័រដើម ដែលរួមបញ្ចូលតួលេខដូចជាករណីសរុប និងករណីថ្មី។
+            label: ផ្ទាំងគ្រប់គ្រងទិន្នន័យ
+          case_risk:
+            explanation: បង្ហាញចំនួនករណីនៅកម្រិតហានិភ័យនីមួយៗ។
+            label: ករណីបែងចែកតាមកម្រិតហានិភ័យ
+          cases_by_task_overdue_assessment:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងមើលថាតើករណីប៉ុន្មានដែលហួសកាលកំណត់ធ្វើការប៉ាន់ប្រមាណសម្រាប់ករណីនីមួយៗរបស់ពួកគេ។
+            label: ការងារបា៉ន់ប្រមាណបានហួសកាលកំណត់
+          cases_by_task_overdue_case_plan:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងមើលថាតើករណីប៉ុន្មានដែលហួសកាលកំណត់ធ្វើផែនការសម្រាប់ករណីនីមួយៗរបស់ពួកគេ។
+            label: ផែនការករណីហួសកាលកំណត់
+          cases_by_task_overdue_followups:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងមើលថាតើករណីប៉ុន្មានដែលហួសកាលកំណត់សម្រាប់ការតាមដានករណីសម្រាប់អ្នកកាន់ករណីនីមួយៗ។
+            label: ការងារតាមដានបានហួសកាលកំណត់
+          cases_by_task_overdue_services:
+            explanation: អនុញ្ញាតឱ្យអ្នកគ្រប់គ្រងមើលថាតើករណីប៉ុន្មានដែលហួសកាលកំណត់ផ្តល់សេវាសម្រាប់អ្នកកាន់ករណីនីមួយៗ។
+            label: ការងារផ្តល់សេវាបានហួសកាលកំណត់
+          dash_case_incident_overview:
+            explanation: .
+            label: ទិដ្ឋភាពទូទៅ - ករណីរបស់ខ្ញុំ / ឧប្បត្តិហេតុ
+          dash_cases_by_social_worker:
+            explanation: តារាងដែលបង្ហាញពីរបៀបដែលចំនួនសរុបនៃករណីបើក និងចំនួនករណីថ្មីដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់នីមួយៗនៅក្នុងក្រុមអ្នកប្រើប្រាស់បច្ចុប្បន្ន។ ជួរនីមួយៗគឺជាអ្នកប្រើប្រាស់នៅក្នុងក្រុមអ្នកប្រើប្រាស់បច្ចុប្បន្ន ខណៈពេលដែល "សរុប" និង "ថ្មី" គឺជាជួរទាំងពីរ។
+            label: មើល​ករណី​តាម​អ្នកកាន់​ករណី
+          dash_cases_to_assign:
+            explanation: 'សំខាន់៖ សម្រាប់តែអ្នកគ្រប់គ្រងប៉ុណ្ណោះ។ បង្ហាញចំនួនករណីដែលគ្រប់គ្រងដោយផ្ទាល់ដោយអ្នកប្រើប្រាស់បច្ចុប្បន្ន (គួរតែជាអ្នកគ្រប់គ្រង)។ ផ្ទាំងគ្រប់គ្រងទិន្នន័យនេះសន្មត់ថាអ្នកគ្រប់គ្រងមិនគ្រប់គ្រងករណីផ្ទាល់ខ្លួនរបស់ពួកគេទេ ហើយថាប្រសិនបើអ្នកគ្រប់គ្រងមានករណីផ្ទាល់ខ្លួន ពួកគេគួរតែចាត់តាំងករណីទាំងនេះទៅអ្នកកាន់ករណីនៅក្នុងក្រុមរបស់ពួកគេ។'
+            label: (សម្រាប់អ្នកគ្រប់គ្រង) ករណីដែលខ្ញុំត្រូវចាត់តាំងឱ្យមអ្នកកាន់ករណីនៅក្នុងក្រុមរបស់ខ្ញុំ
+          dash_flags:
+            explanation: បង្ហាញបញ្ជីសម្គាល់​(flag list)ដែលអ្នកប្រើប្រាស់ផ្សេងទៀតបានបន្ថែមទៅក្នុងកំណត់ត្រារបស់ខ្ញុំ ក៏ដូចជាសម្គាល់ (flag)ដែលខ្ញុំបានបន្ថែមទៅក្នុងកំណត់ត្រារបស់អ្នកប្រើប្រាស់ផ្សេងទៀត។
+            label: សម្គាល់ករណី
+          dash_group_overview:
+            explanation: បង្ហាញអ្នកគ្រប់គ្រងនូវចំនួនករណីបើក និងបិទដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់នៅក្នុងក្រុម។
+            label: ករណីក្នុងក្រុមរបស់ខ្ញុំ
+          dash_matching_results:
+            explanation: DEPRECATED. This dashboard is non-functional and will be removed in v2.
+            label: មើល​លទ្ធផល​ផ្គូផ្គង
+          dash_protection_concerns:
+            explanation: តារាងដែលបង្ហាញពីចំនួនករណីដែលមានបញ្ហាជាកង្វល់នីមួយៗ។ ជួរនីមួយៗនៃតារាងគឺជាបញ្ហាជាកង្វល់ខណៈដែលជួរឈរបង្ហាញពីស្ថានភាពផ្សេងៗគ្នាសម្រាប់ករណី ("ករណីទាំងអស់" "ករណីបើក" "ថ្មី (សប្តាហ៍នេះ)" "បិទ (សប្តាហ៍នេះ)")
+            label: ករណីបែងចែកតាមបញ្ហាដែលជាកង្វល់​
+          dash_protection_concerns_by_location:
+            explanation: នេះគឺដូចគ្នាទៅនឹងផ្ទាំងគ្រប់គ្រងទិន្នន័យ "មើលបញ្ហាជាកង្វល់" លើកលែងតែអ្នកប្រើប្រាស់អាចជ្រើសរើសទីតាំងពីបញ្ជី ដើម្បីបង្ហាញស្ថិតិស្តីពីអត្រាប្រេវ៉ាឡង់បញ្ហាជាកង្វល់នៅក្នុងទីតាំងនោះ។
+            label: មើល​បញ្ហាជាកង្វល់​​តាម​ទីតាំង
+          dash_reporting_location:
+            explanation: តារាងដែលបង្ហាញពីចំនួនករណីនៅទីតាំងនីមួយៗ (ក្នុងកម្រិតជាក់លាក់មួយដូចជា "ខេត្ត" ឬ "ស្រុក")។ ជួរនីមួយៗនៃតារាងគឺជាទីតាំង ហើយជួរឈរបង្ហាញស្ថានភាពផ្សេងៗគ្នាសម្រាប់ករណី ("បើកករណី" "ថ្មី(សប្តាហ៍មុន)" "ថ្មី(សប្តាហ៍នេះ)" "បិទ(សប្តាហ៍មុន)" "បិទ (ស​ប្តា​ហ៍​នេះ)")។ ជាធម្មតាប្រើសម្រាប់គណនីអ្នកគ្រប់គ្រង (manager)ឬអ្នកគ្រប់គ្រង​ (Admin)។
+            label: ករណីបែងចែកតាមទីតាំង​
+          dash_service_provisions:
+            explanation: បង្ហាញចំនួនករណីដែលមានអ្នកប្រើប្រាស់ផ្សេងទៀតបន្ថែមការផ្តល់សេវាដល់ពួកគេ។ លេខនេះបង្ហាញនៅក្នុងផ្នែកសំខាន់នៃផ្ទាំងគ្រប់គ្រងទិន្នន័យ។
+            label: ករណីតាមប្រភេទនៃការផ្តល់សេវា
+          dash_shared_from_my_team:
+            explanation: បង្ហាញអ្នកគ្រប់គ្រងចំនួនករណីដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់នីមួយៗនៅក្នុងក្រុមរបស់ពួកគេ ដែលត្រូវបានបញ្ជូន ឬផ្ទេរទៅអ្នកប្រើប្រាស់ផ្សេងទៀត។
+            label: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
+          dash_shared_with_me:
+            explanation: បង្ហាញចំនួនករណីដែលត្រូវបានបញ្ជូន ឬផ្ទេរទៅឱ្យអ្នក។
+            label: ករណីបញ្ជូន/ផ្ទេរមកខ្ញុំ
+          dash_shared_with_my_team:
+            explanation: បង្ហាញអ្នកគ្រប់គ្រងនូវចំនួនករណីបញ្ជូន និងផ្ទេររបស់អ្នកប្រើប្រាស់និមួយៗនៅក្នុងក្រុម។
+            label: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
+          dash_shared_with_my_team_overview:
+            label: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
+          dash_shared_with_others:
+            explanation: បង្ហាញចំនួនករណីរបស់ខ្ញុំដែលមានការបញ្ជូនសកម្ម ការផ្ទេរកំពុងរងចាំ ឬការផ្ទេរដែលត្រូវបានបដិសេធ។ ជាធម្មតាមិនមែនសម្រាប់អ្នកគ្រប់គ្រងទេ លុះត្រាតែពួកគេគ្រប់គ្រងករណីដោយខ្លួនឯង។
+            label: ករណីបញ្ជូន/ផ្ទេរពីខ្ញុំ
+          dash_show_none_values:
+            explanation: បន្ថែមប្រភេទ "គ្មានកម្រិតហានិភ័យ" បន្ថែមទៅលើផ្ទាំងគ្រប់គ្រងទាំងអស់ ដែលបំបែកករណីតាមកម្រិតហានិភ័យ។ នេះជាពិសេសសម្រាប់ការកំណត់ដែលមានជម្រើសទីបួន "គ្មានហានិភ័យ" សម្រាប់កម្រិតហានិភ័យ។
+            label: មើល​ករណី​ដែល '​គ្មាន​ហានិភ័យ' នៅ​ក្នុង​ផ្ទាំង​ព័ត៌មាន​ការ​ប៉ាន់ប្រមាណ
+          dash_tasks:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញទំព័រកិច្ចការ។ នេះគួរតែត្រូវបានប្រើសម្រាប់អ្នកកាន់ករណីនិងអ្នកផ្តល់សេវា ចាប់តាំងពីចំនួនជាពិសេសសម្រាប់ករណីដែលអ្នកគ្រប់គ្រងដោយផ្ទាល់។ ជំនួសមកវិញ អ្នកគ្រប់គ្រងគួរតែទទួលបានផ្ទាំងគ្រប់គ្រង "មើលករណីដោយកិច្ចការហួសកាលកំណត់" ចាប់តាំងពីវាអនុញ្ញាតឱ្យពួកគេមើលឃើញកិច្ចការហួសកំណត់សម្រាប់អ្នករាល់គ្នានៅក្នុងក្រុមអ្នកប្រើប្រាស់របស់ពួកគេ។
+            label: ទំព័រកិច្ចការ
+          dash_national_admin_summary:
+            explanation: បង្ហាញករណីដែលបើកសរុបនៅក្នុងប្រព័ន្ធ ចំនួនករណីថ្មីដែលបានបង្កើតក្នុងរៀងរាល់ពីរសប្តាហ៍ចុងក្រោយ និងចំនួនករណីដែលបានបិទក្នុងរយៈពេលពីរសប្តាហ៍ចុងក្រោយនីមួយៗ។
+            label: សេចក្តីសង្ខេបរបស់ Admin
+          view_response:
+            explanation: សម្រាប់ប្រភេទការឆ្លើយតបនីមួយៗ បង្ហាញពីចំនួនករណីនៅកម្រិតហានិភ័យនីមួយៗដែលការផ្តល់សេវាជិតដល់ថ្ងៃកំណត់ ឬហួសកាលកំណត់។
+            label: មើលការ​ឆ្លើយតប
+          workflow:
+            explanation: អនុញ្ញាត​ឱ្យ​អ្នកកាន់ករណី​មើល​ឃើញ​ក្រាហ្វ​ដែល​បង្ហាញ​ពី​ចំនួន​ករណី​របស់​ពួកគេ​នៅ​ដំណាក់កាល​នីមួយៗ​នៃ​ការ​គ្រប់គ្រង​ករណី។
+            label: ករណីតាមលំហូរការងារ
+          workflow_team:
+            explanation: អនុញ្ញាត​ឱ្យ​អ្នកគ្រប់គ្រង​មើល​ឃើញ​តារាង​ដែល​បង្ហាញ​ពី​ចំនួន​ករណី​របស់​ពួកគេ​នៅ​ដំណាក់កាល​នីមួយៗ​នៃ​ការ​គ្រប់គ្រង​ករណី។
+            label: ករណីតាមលំហូរការងារ និងអ្នកកាន់ករណី
+        label: ផ្ទាំងព័ត៌មាន
+      disabled:
+        explanation: ប្រសិនបើអ្នកបិទតួនាទីនេះ អ្នកនឹងមិនអាចចាត់តាំងវាទៅគណនីអ្នកប្រើប្រាស់បានទេ។
+        label: បិទករណី (disable case)
+      duplicate:
+        actions:
+          read:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ធ្វើការស្វែងរកសម្រាប់ករណីទាំងអស់នៅក្នុងប្រព័ន្ធ ដោយប្រើលក្ខណៈវិនិច្ឆ័យមួយចំនួន រួមទាំងឈ្មោះ  ឈ្មោះហៅក្រៅ ភេទ អាយុ និងសញ្ជាតិ។
+            label: មើល
+        label: ​ស្វែងរកករណីស្ទួន​
+      forms:
+        case:
+          explanation: 'កម្រិតការចូលរបស់អ្នកប្រើចំពោះទម្រង់ករណី កម្រិតព័ត៌មានដែលអ្នកប្រើអាចមើលនៅលើឧប្បត្តិហេតុមួយ។ ជាឧទាហរណ៍ ប្រសិនបើអ្នកប្រើមានសិទ្ធិចូលប្រើទម្រង់ម្ចាស់កំណត់ត្រាតែប៉ុណ្ណោះ ពួកគេនឹងអាចមើលឃើញតែព័ត៌មានដែលមាននៅក្នុងទម្រង់នោះ។ ប្រសិនបើអ្នកប្រើបច្ចុប្បន្នមានកម្រិតការចូលប្រើទម្រង់​​ និងមានសមត្ថភាពគ្រប់គ្រងការកំណត់ទម្រង់ ការកម្រិតការចូលប្រើទម្រង់របស់ពួកគេក៏កម្រិតទម្រង់ដែលពួកគេអាចកំណត់រចនាផងដែរ។ ចំណាំ៖ ប្រសិនបើគ្មានទម្រង់ណាមួយត្រូវបានបញ្ជាក់ទេ វាមានន័យថាតួនាទីមានសិទ្ធិចូលប្រើទម្រង់ទាំងអស់សម្រាប់ករណី។'
+          label: ទម្រង់ - ករណី
+        incident:
+          label: ទម្រង់ - ឧប្បត្តិហេតុ
+        tracing_request:
+          explanation: 'ការកម្រិតការចូលប្រើរបស់អ្នកប្រើចំពោះទម្រង់សំណើស្វែងរក កម្រិតព័ត៌មានដែលអ្នកប្រើប្រាស់អាចមើលឃើញនៅលើសំណើស្វែងរក។ ឧទាហរណ៍ ប្រសិនបើអ្នកប្រើមានសិទ្ធិចូលប្រើទម្រង់ម្ចាស់កំណត់ត្រាតែប៉ុណ្ណោះ ពួកគេនឹងអាចមើលឃើញតែព័ត៌មានដែលមាននៅក្នុងសំណួរនៅលើទម្រង់នោះ។ ប្រសិនបើអ្នកប្រើបច្ចុប្បន្នមានកម្រិតការចូលប្រើទម្រង់ និងមានសមត្ថភាពគ្រប់គ្រងការកំណត់ទម្រង់ ការកម្រិតចូលប្រើទម្រង់របស់ពួកគេក៏កម្រិតទម្រង់ដែលពួកគេអាចធ្វើការកំណត់ផងដែរ។ ចំណាំ៖ ប្រសិនបើគ្មានទម្រង់ណាមួយត្រូវបានបញ្ជាក់ទេ វាមានន័យថាតួនាទីមានសិទ្ធិចូលប្រើទម្រង់សំណើស្វែងរកទាំងអស់។'
+          label: ទម្រង់-​សំណើ​ស្វែងរក
+      group:
+        actions:
+          admin_only:
+            explanation: នេះមានន័យថា អ្នកប្រើប្រាស់ដែលមានតួនាទីនេះនឹងអាចមើលឃើញតែអ្វីដែលទាក់ទងនឹងការគ្រប់គ្រងប្រព័ន្ធ ដូចជារបាយការណ៍ ទម្រង់ និងការកំណត់រកមើល អ្នកប្រើប្រាស់ តួនាទី និងក្រុមអ្នកប្រើប្រាស់។ ពួកគេនឹងមិនឃើញករណីបុគ្គល ការស្នើសុំតាមដាន ឬឧប្បត្តិហេតុណាមួយឡើយ។
+            label: គ្មានកំណត់ត្រា - មុខងារគ្រប់គ្រងតែប៉ុណ្ណោះ
+          agency:
+            explanation: តួនាទីអាចចូលប្រើកំណត់ត្រាដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់ទាំងអស់នៅក្នុងទីស្ថាប័នរបស់ពួកគេ។ ប្រសិនបើអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ ពួកគេអាចចូលប្រើអ្នកប្រើប្រាស់ទាំងអស់នៅក្នុងស្ថាប័នរបស់ពួកគេ។
+            label: កំណត់ត្រា ឬអ្នកប្រើប្រាស់ទាំងអស់ នៅក្នុងស្ថាប័នរបស់ខ្ញុំ
+          all:
+            explanation: តួនាទីនេះអាចចូលប្រើកំណត់ត្រាទាំងអស់ អ្នកប្រើប្រាស់ទាំងអស់ និងក្រុមអ្នកប្រើប្រាស់ទាំងអស់នៅក្នុងប្រព័ន្ធ ដោយមិនគិតពីក្រុមអ្នកប្រើប្រាស់ណាមួយដែលពួកគេមានកម្មសិទ្ធិឡើយ។
+            label: ចូលទៅកាន់ករណី ឬ​អ្នក​ប្រើប្រាស់​ទាំងអស់
+          group:
+            explanation: តួនាទីនេះអាចចូលប្រើកំណត់ត្រាដែលគ្រប់គ្រងដោយអ្នកប្រើប្រាស់ទាំងអស់នៅក្នុងក្រុមរបស់ពួកគេ។ ពួកគេអាចចូលប្រើបានតែអ្នកប្រើប្រាស់នៅក្នុងក្រុមអ្នកប្រើប្រាស់របស់ពួកគេប៉ុណ្ណោះ។
+            label: ចូលកំណត់​ត្រា ឬ​អ្នក​ប្រើប្រាស់​​ទាំងអស់នៅ​ក្នុង​ក្រុម​របស់​ខ្ញុំ
+          self:
+            explanation: តួនាទីអាចចូលប្រើកំណត់ត្រាផ្ទាល់ខ្លួនរបស់ពួកគេ (ករណី សំណើស្វែងរក ឬឧប្បត្តិហេតុ) និងអាចកែសម្រួលគណនីអ្នកប្រើប្រាស់ផ្ទាល់ខ្លួនរបស់ពួកគេ។
+            label: ចូលប្រើប្រាស់​តែ​កំណត់ត្រា ឬ​អ្នក​ប្រើប្រាស់​របស់ខ្ញុំ​ប៉ុណ្ណោះ
+        explanation: គ្រប់គ្រងការកត់ត្រាណាមួយ (ករណី សំណើស្វែងរក ឬឧប្បត្តិហេតុ) តួនាទីអាចចូលប្រើបាន។ ប្រសិនបើតួនាទីមានសិទ្ធិចូលប្រើ Users និង User Groups នេះក៏គ្រប់គ្រង Users និង User Group ដែលពួកគេអាចចូលប្រើបាន។ តួនាទីដែលមានសិទ្ធិចូលប្រើ "គ្មានកំណត់ត្រា" អាចចូលប្រើបានតែការកំណត់រចនាសម្ព័ន្ធប្រព័ន្ធដូចជា ទម្រង់ អ្នកប្រើប្រាស់ និងរបាយការណ៍។
+        label: តើ​តួនាទី​នេះ​ប៉ះពាល់​ដល់​កំណត់ត្រា​អ្វីដែរ?​
+      incident:
+        actions:
+          change_log:
+            explanation: អ្នកប្រើប្រាស់អាចមើលឃើញប្រវត្តិនៃការផ្លាស់ប្តូរទាំងអស់ដែលបានធ្វើឡើងចំពោះកំណត់ត្រាចាប់តាំងពីវាត្រូវបានបង្កើត។ នេះរួមបញ្ចូលទាំងកំណត់ត្រាសម្រាប់សំណួរទាំងអស់។
+            label: កំណត់ហេតុនៃការផ្លាស់ប្តូរ
+          create:
+            explanation: អាចបង្កើតឧប្បត្តិហេតុមួយ
+            label: បង្កើត
+          enable_disable_record:
+            explanation: អាចបិទឬបើកហេតុការណ៍។ ពេល"បិទ" ហេតុការណ៍នឹងមិនបង្ហាញនៅលើបញ្ជីហេតុការណ៍ទេ។ អ្នក​ប្រើ​អាច​មើល​ឃើញ​ហេតុការណ៍​ដែល​បាន​បិទ​ក្នុង​បញ្ជី​ហេតុការណ៍​ដោយ​អនុវត្ត​តម្រង។
+            label: បើក/បិទដំណើរការករណី
+          export_case_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់កំណត់ត្រាមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំបន្ថែមទៀតដោយទម្រង់ដែលព័ត៌មានលេចឡើង។
+            label: នាំចេញជាឯកសារ PDF
+          export_csv:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ CSV ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់ឧប្បត្តិហេតុមួយ ច្រើន ឬឧប្បត្តិហេតុទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។
+            label: នាំចេញជាឯកសារ CSV
+          export_custom:
+            label: នាំចេញ​ផ្ទាល់ខ្លួន
+          export_incident_recorder_xls:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ឯកទេសដែលអនុញ្ញាតឱ្យផ្លាស់ប្តូរទិន្នន័យជាមួយឧបករណ៍ GBV Incident Recorder ។
+            label: នាំចេញ​កំណត់ត្រា​ហេតុការណ៍ xls
+          export_json:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ JSON ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានវាលទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់ឧប្បត្តិហេតុមួយ ច្រើន ឬឧប្បត្តិហេតុទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ ការនាំចេញនេះត្រូវបានប្រើជាចម្បងសម្រាប់អ្នកដែលចង់នាំចេញឧប្បត្តិហេតុចេញពីប្រព័ន្ធ Primero បច្ចុប្បន្ន ហើយបន្ទាប់មកនាំចូលវាទៅក្នុងប្រព័ន្ធ Primero ផ្សេង ឬចូលទៅក្នុងប្រព័ន្ធគ្រប់គ្រងព័ត៌មានផ្សេងទៀត។ ទម្រង់ JSON គឺអាចអានដោយម៉ាស៊ីន និងមិនអាចអនុវត្តបានសម្រាប់អ្នកប្រើប្រាស់ភាគច្រើន។
+            label: នាំចេញជាឯកសារJSON
+          export_list_view_csv:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ CSV ពីទំព័របញ្ជីឧប្បត្តិហេតុដែលមានសំណួរដូចគ្នាដែលលេចឡើងសម្រាប់អ្នកប្រើប្រាស់នោះក្នុងបញ្ជីឧប្បត្តិហេតុ។ អនុវត្តតែពីទំព័របញ្ជីឧប្បត្តិហេតុប៉ុណ្ណោះ។
+            label: Export list view CSV
+          export_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់កំណត់ត្រាមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំបន្ថែមទៀតដោយទម្រង់ដែលព័ត៌មានលេចឡើង។
+            label: នាំចេញជាឯកសារ PDF
+          export_xls:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណុំទម្រង់ ឬសំពួរផ្ទាល់ខ្លួន សម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ នៅក្នុងការនាំចេញនេះ ទម្រង់នីមួយៗត្រូវបានតំណាងនៅក្នុងផ្ទាំងរបស់វាផ្ទាល់នៅក្នុងឯកសារ XLS។ អ្នក​ប្រើ​អាច​ជ្រើស​ទម្រង់​ឬ​វាល​មួយ​ណា​ដែល​ពួកគេ​ចង់​បាន​រួម​បញ្ចូល​ក្នុង​ការ​នាំ​ចេញ​ដោយ​ប្រើ​ម៉ូឌុល​នាំចេញ​ផ្ទាល់ខ្លួន។ សូមចំណាំថា អ្នកប្រើប្រាស់អាចបញ្ចូលទម្រង់ និងសំណួរនៅក្នុងការនាំចេញតែប៉ុណ្ណោះ ប្រសិនបើពួកគេមានលទ្ធភាពមើលទម្រង់ និងសំណួរទាំងនោះរួចហើយ នៅពេលមើលករណីនៅក្នុងកម្មវិធី។
+            label: 'នាំចេញឯកសារ​​​ Excel (XLS file) '
+          flag:
+            explanation: អាចបន្ថែមសម្គាល់ទៅលើឧប្បត្តិហេតុ។ អ្នក​ប្រើ​ដែល​មាន​ការ​អនុញ្ញាត​នេះ​ក៏​អាច​លុបសម្គាល់​​ដែល​ពួក​គេ​បាន​បន្ថែម​ទៅលើឧប្បត្តិហេតុ​​ផង​ដែរ។
+            label: សម្គាល់
+          import:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើបង្កើតករណីថ្មីមួយ ឬច្រើនដោយនាំចូលពួកវាពីឯកសារ CSV, Excel ឬ JSON ។ ឯកសារដែលបាននាំចូលត្រូវតែformat *ខ្លាំងណាស់* ជាពិសេសសម្រាប់ព័ត៌មានដែលត្រូវនាំចូលត្រឹមត្រូវ។ មុខងារនេះគួរតែមានសម្រាប់តែអ្នកប្រើប្រាស់រដ្ឋបាលដែលមានជំនាញបច្ចេកទេសកម្រិតខ្ពស់ និងចំណេះដឹងស៊ីជម្រៅអំពីរបៀបធ្វើformat ទិន្នន័យនៅក្នុង Primero ប៉ុណ្ណោះ។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+            label: នាំចូល
+          manage:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មួយអាចអនុវត្តសកម្មភាពដែលមានទាំងអស់សម្រាប់ឧប្បត្តិហេតុ។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: មានលទ្ធភាពមើលឃើញស្ថាប័ន។
+            label: មើល
+          sync_mobile:
+            explanation: ការអនុញ្ញាតនេះជាទូទៅអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ប្រើប្រាស់កម្មវិធីទូរស័ព្ទ។ ដំបូង វាអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មើលឃើញសកម្មភាព "សម្គាល់សម្រាប់ទូរសព្ទ" និង "មិនសម្គាល់សម្រាប់ទូរសព្ទ" ដែលបង្ហាញនៅលើបញ្ជីករណី និងទំព័របង្ហាញករណី។ ការសម្គាល់ករណីសម្រាប់ទូរសព្ទចល័តបង្ហាញថា ព័ត៌មានអំពីករណីនោះគួរតែត្រូវបានធ្វើសមកាលកម្មរវាងឧបករណ៍ចល័តរបស់អ្នកប្រើ និងកម្មវិធីគេហទំព័រ ខណៈពេលដែលការមិនសម្គាល់ករណីសម្រាប់ទូរសព្ទចល័តបញ្ឈប់ការធ្វើសមកាលកម្មនេះពីការកើតឡើង។ អ្នកប្រើប្រាស់ដែលគ្មានការអនុញ្ញាតនេះក៏មិនអាចធ្វើសមកាលកម្មឧបករណ៍ចល័តរបស់ពួកគេជាមួយកម្មវិធីគេហទំព័រជាទូទៅបានដែរ មានន័យថាពួកគេមិនអាចប្រើកម្មវិធីទូរស័ព្ទដើម្បីគ្រប់គ្រងករណីបានទេ។
+            label: ធ្វើសមកាលកម្ម​ជា​មួយ​ឧបបករណ៍​ចល័ត
+          write:
+            explanation: អាចចុចប៊ូតុង "កែសម្រួល" ធ្វើបច្ចុប្បន្នភាពព័ត៌មានអំពីឧប្បត្តិហេតុហើយចុច "រក្សាទុក" ។ អនុញ្ញាតឱ្យអ្នកប្រើបិទដំណើរការ ឬបើកឧប្បត្តិហេតុមួយ។
+            label: កែសម្រួល
+        label: ហេតុការណ៍
+      is_manager:
+        explanation: អនុវត្តចំពោះតួនាទីអ្នកប្រើប្រាស់ណាដែលជាទូទៅគ្រប់គ្រងអ្នកប្រើប្រាស់ផ្សេងទៀត។ វាអនុញ្ញាតឱ្យអ្នកប្រើមើលឃើញផ្ទាំងគ្រប់គ្រង និងតម្រងដែលជួយអ្នកប្រើប្រាស់គ្រប់គ្រងក្រុម។
+        label: អ្នក​គ្រប់គ្រង?
+      matching_configuration:
+        actions:
+          manage:
+            explanation: អាចគ្រប់គ្រងនូវសំនួរដែលប្រើដើម្បីស្វែងរកការផ្គូផ្គងរវាងសំណើស្វែងរក និងករណី។ ដោយសារវាគ្រប់គ្រងរបៀបដែលការផ្គូផ្គងដំណើរការនៅក្នុងប្រព័ន្ធទាំងមូល ជាទូទៅការអនុញ្ញាតនេះគួរតែមានសម្រាប់តែអ្នកគ្រប់គ្រងប្រព័ន្ធប៉ុណ្ណោះ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+        label: ផ្គូផ្គង​ការ​កំណត់​
+      metadata:
+        actions:
+          manage:
+            explanation: អាចបង្កើត កែសម្រួល បកប្រែ និងលុបទម្រង់ សំណួរក្នុងទម្រង់ និងការស្វែងរក។ សូមចំណាំថាអ្នកប្រើប្រាស់ដែលមានការអនុញ្ញាតនេះនឹងអាចគ្រប់គ្រងទម្រង់ដែលពួកគេមានសិទ្ធិចូលប្រើប្រាស់ប៉ុណ្ណោះ។ ជាឧទាហរណ៍ ប្រសិនបើអ្នកគ្រប់គ្រងជាតិ (national admin)មានលទ្ធភាពមើលទម្រង់បែបបទម្ចាស់កំណត់ត្រាលើករណីប៉ុណ្ណោះ នោះពួកគេនឹងអាចធ្វើបច្ចុប្បន្នភាពការកំណត់សម្រាប់ទម្រង់បែបបទនេះ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+        label: ទម្រង់, ការ​រក​មើល
+      module:
+        actions:
+          cp:
+            label: កិច្ចការពារកុមារ (CP)
+          gbv:
+            label: GBV
+          mrm:
+            label: MRM
+        explanation: កម្រិតម៉ូឌុលណាដែលតួនាទីនេះអនុវត្តបាន
+        label: ម៉ូឌុល
+      potential_match:
+        actions:
+          read:
+            explanation: តំណាងឱ្យតំណភ្ជាប់រវាងសំណើស្វែងរក និងករណីមួយ។ ការចូលប្រើការផ្គូផ្គងគឺចាំបាច់សម្រាប់ការងារស្វែងរក និងបង្រួបបង្រួមគ្រួសារ (FTR) ។ អនុញ្ញាតឱ្យអ្នកប្រើមើលទម្រង់សង្ខេបការស្វែងរកករណី។
+            label: មើល
+        label: ត្រូវនឹងការ​ផ្គូផ្គង
+      primero_configuration:
+        actions:
+          manage:
+            explanation: អនុញ្ញាតឱ្យរក្សាទុក ដាក់អនុវត្ត និងផ្ញើរចេញនូវការកំណត់ផ្សេងៗ។ ការអនុញ្ញាតនេះជាធម្មតាត្រូវធ្វើឡើងសម្រាប់តែអ្នកគ្រប់គ្រងប្រព័ន្ធប៉ុណ្ណោះ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+        label: ការកំណត់
+      referral:
+        actions:
+          refer:
+            explanation: នេះមានន័យថាតួនាទីនឹងបង្ហាញជាជម្រើសសម្រាប់ "ប្រភេទអ្នកទទួល" នៅពេលអ្នកប្រើប្រាស់ធ្វើការបញ្ជូនបន្តពីខាងក្រៅ។ ប្រសិនបើអ្នកប្រើជ្រើសរើសតួនាទីនេះជាប្រភេទនៃការបញ្ជូន នោះការនាំចេញដែល Primero បង្កើតនៅពេលអ្នកប្រើប្រាស់ដាក់បញ្ជូនការបញ្ជូននឹងមានព័ត៌មានដែលត្រូវបានរកឃើញនៅក្នុងទម្រង់ដែលតួនាទីនេះមានសិទ្ធិចូលប្រើ។ ដូច្នេះ ជាឧទាហរណ៍ ប្រសិនបើអ្នកប្រើប្រាស់ជ្រើសរើស "អ្នកផ្តល់សេវាវេជ្ជសាស្រ្ត" ជាប្រភេទអ្នកទទួល ហើយតួនាទីអ្នកផ្តល់សេវាវេជ្ជសាស្រ្តមានសិទ្ធិចូលប្រើទម្រង់ព័ត៌មានបឋម និងទម្រង់បញ្ហាជាកង្វល់តែប៉ុណ្ណោះ ។​ឯកសារដែលPrimero នាំចេញសម្រាប់ការបញ្ជូនខាងក្រៅនឹងមានតែព័ត៌មាននៅក្នុងទម្រង់ទាំងពីរនេះ។
+            label: តើ​អ្នក​ប្រើប្រាស់​នេះ​អាច​បញ្ជូនករណី​ទៅក្រៅប្រព័ន្ធបាន​ដែរ​ឬទេ?
+        label: ការបញ្ចូន
+      report:
+        actions:
+          create:
+            explanation: អាចបង្កើតរបាយការណ៍ថ្មី។ នៅពេលអ្នកប្រើប្រាស់បង្កើតរបាយការណ៍ អ្នកប្រើប្រាស់ទាំងអស់អាចចូលប្រើរបាយការណ៍ "អាន" ឬ "អានជាក្រុម" ។
+            label: បង្កើត
+          group_read:
+            explanation: អាចមើលរបាយការណ៍ទាំងអស់។ លេខនៅក្នុងរបាយការណ៍នីមួយៗនឹងឆ្លុះបញ្ចាំងតែកំណត់ត្រាទាំងនោះដែលអាចចូលប្រើបានសម្រាប់អ្នកប្រើប្រាស់នៅក្នុងក្រុមអ្នកប្រើប្រាស់បច្ចុប្បន្ន។ ការអនុញ្ញាតនេះត្រូវបានប្រើជាញឹកញាប់សម្រាប់អ្នកគ្រប់គ្រងក្នុងតំបន់ តំបន់ ឬភ្នាក់ងារដែលស្វែងរកការយល់ដឹងអំពីដំណើរការរបស់ក្រុម ឬអង្គការរបស់ពួកគេ។ ការអនុញ្ញាតនេះក៏ផ្តល់ឱ្យអ្នកប្រើប្រាស់នូវលទ្ធភាពនាំចេញទិន្នន័យពីរបាយការណ៍ផងដែរ។
+            label: មើល (ទិន្នន័យផ្អែកតាមក្រុម)
+          manage:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មួយអាចអនុវត្តសកម្មភាពដែលមានទាំងអស់សម្រាប់ស្ថាប័នទាំងអស់។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: អាចមើលរបាយការណ៍ទាំងអស់។ លេខនៅក្នុងរបាយការណ៍នីមួយៗនឹងឆ្លុះបញ្ចាំងពីកំណត់ត្រាទាំងអស់នៅក្នុងប្រព័ន្ធ ជាជាងគ្រាន់តែជាកំណត់ត្រាដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើប្រាស់ប៉ុណ្ណោះ។ ការអនុញ្ញាតនេះក៏ផ្តល់ឱ្យអ្នកប្រើប្រាស់នូវលទ្ធភាពនាំចេញទិន្នន័យពីរបាយការណ៍ផងដែរ។
+            label: មើល
+          write:
+            explanation: អាចកែសម្រួលរបាយការណ៍ទាំងអស់ (រួមទាំងរបាយការណ៍ដែលបង្កើតដោយអ្នកប្រើប្រាស់ផ្សេងទៀត)។
+            label: កែសម្រួល
+        label: របាយការណ៍
+      reporting_location_level:
+        explanation: 'វានឹងគ្រប់គ្រងកម្រិតនៃទីតាំងដែលបង្ហាញសម្រាប់តួនាទីនេះនៅក្នុងផ្ទាំងគ្រប់គ្រង តម្រង គំរូបញ្ជូនបន្ត និងម៉ូឌុលផ្ទេរ។ ប្រសិនបើអ្នកទុកវាលនេះឱ្យនៅទទេ តួនាទីនេះនឹងឃើញកម្រិតទីតាំងរាយការណ៍លំនាំដើមរបស់ប្រព័ន្ធ។'
+        label: តើ​​ប្រភេទ​ទីតាំង​អ្វី​ដែល​គួរ​ត្រូវ​បានប្រើប្រាស់​សម្រាប់​រាយការណ៍​អំពី​តួនាទី​នេះ?
+      role:
+        actions:
+          assign:
+            explanation: សមត្ថភាពក្នុងការជ្រើសរើសតួនាទីនៅពេលបង្កើត ឬកែសម្រួលគណនីអ្នកប្រើប្រាស់។ ការអនុញ្ញាតនេះគឺចាំបាច់សម្រាប់តួនាទីណាមួយដែលនឹងបង្កើត ឬកែសម្រួលគណនីអ្នកប្រើប្រាស់។
+            label: ចាត់តាំង
+          copy:
+            explanation: អាចបង្កើតច្បាប់ចម្លងនៃតួនាទីមួយ។ វាមានប្រយោជន៍សម្រាប់អ្នកគ្រប់គ្រងប្រព័ន្ធដែលប្រហែលជាកំពុងបង្កើតតួនាទីមួយចំនួនដែលស្រដៀងគ្នា (ឧ. អ្នកផ្តល់សេវា)។
+            label: ចម្លង
+          create:
+            explanation: អាចបង្កើតតួនាទី
+            label: បង្កើត
+          delete:
+            explanation: អាចលុបតួនាទី
+            label: លុប
+          manage:
+            explanation: 'អនុញ្ញាតឱ្យអ្នកប្រើអនុវត្តសកម្មភាពដែលមានទាំងអស់លើតួនាទី។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។ សំខាន់៖ នេះក៏ផ្តល់នូវសមត្ថភាពក្នុងការបង្កើត និងលុបតួនាទីផងដែរ។'
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          permitted_roles:
+            explanation: ប្រសិនបើតួនាទីនេះមានសមត្ថភាពក្នុងការអនុវត្តសកម្មភាពខាងលើណាមួយលើតួនាទីមួយ ពួកគេនឹងអាចអនុវត្តសកម្មភាពទាំងនោះលើតួនាទីដែលបានបញ្ជាក់នៅក្នុងបញ្ជីនេះ។ ដូច្នេះ ជាឧទាហរណ៍ ប្រសិនបើតួនាទីមួយមានការអនុញ្ញាត "អាន" និង "ចាត់តាំង" លើតួនាទី ប៉ុន្តែមានតែ "CP Case Worker" និង "CP Manager" ដែលបានចុះបញ្ជីជា "តួនាទីគ្រប់គ្រង" របស់វា នោះវានឹងអាចឃើញតែផ្នែកទាំងនោះប៉ុណ្ណោះ។ តួនាទីពីរ ហើយនឹងអាចកំណត់តែអ្នកប្រើប្រាស់ថ្មីទៅតួនាទីទាំងពីរនោះ។ ប្រសិនបើតួនាទីដូចគ្នាមិនមាន "តួនាទីគ្រប់គ្រង" ដែលបានបញ្ជាក់ទេ វានឹងអាចមើលឃើញតួនាទីទាំងអស់ ហើយនឹងអាចបង្កើតគណនីអ្នកប្រើប្រាស់ថ្មីជាមួយនឹងតួនាទីណាមួយនៅក្នុងប្រព័ន្ធ។
+            label: តួនាទី​ផ្សេង​បានគ្រប់គ្រង​ដោយ​តួនាទី​នេះ
+          read:
+            explanation: មានលទ្ធភាពមើលឃើញតួនាទី
+            label: មើល
+          write:
+            explanation: អាចចុចប៊ូតុង "កែសម្រួល" នៅលើទំព័របង្ហាញតួនាទី ធ្វើបច្ចុប្បន្នភាពការអនុញ្ញាតរបស់តួនាទី ហើយបន្ទាប់មករក្សាទុកតួនាទី។
+            label: កែសម្រួល
+        label: តួនាទី
+      system:
+        actions:
+          manage:
+            explanation: អាចមើល និងធ្វើបច្ចុប្បន្នភាពអំពីព័ត៌មានទំនាក់ទំនង ការជូនដំណឹងលំនាំដើម និងការកំណត់អ៊ីមែលសម្រាប់ស្វាគមន៍ និងម៉ាស៊ីនមេដែលធ្វើសមកាលកម្ម។ ការអនុញ្ញាតនេះជាធម្មតាត្រូវបានបម្រុងទុកសម្រាប់អ្នកគ្រប់គ្រងប្រព័ន្ធ
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+        label: ប្រព័ន្ធ
+      tracing_request:
+        actions:
+          change_log:
+            explanation: អ្នកប្រើប្រាស់អាចមើលឃើញប្រវត្តិនៃការផ្លាស់ប្តូរទាំងអស់ដែលបានធ្វើឡើងចំពោះកំណត់ត្រាចាប់តាំងពីវាត្រូវបានបង្កើត។ នេះរួមទាំងតម្លៃដែលបានកត់ត្រាសម្រាប់សំនួរទាំងអស់។
+            label: កំណត់ត្រានៃសកម្មភាពកែសម្រួល
+          create:
+            explanation: អាចបង្កើតសំណើរស្វែងរក
+            label: បង្កើត
+          enable_disable_record:
+            explanation: អាចបិទឬបើកសំណើស្វែងរក។ ពេល"បិទ" សំណើស្វែងរកនឹងមិនបង្ហាញនៅលើបញ្ជីសំណើស្វែងរកទេ។ អ្នក​ប្រើ​អាច​មើល​ឃើញ​សំណើ​ស្វែងរក​ដែល​បាន​បិទ​ក្នុង​បញ្ជី​សំណើ​ស្វែងរក​ដោយ​អនុវត្ត​តម្រង។
+            label: បើក/បិទដំណើរការករណី
+          export_case_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់កំណត់ត្រាមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំបន្ថែមទៀតដោយទម្រង់ដែលព័ត៌មានលេចឡើង។
+            label: នាំចេញជាឯកសារ PDF
+          export_csv:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ CSV ពីបញ្ជីសំណើរស្វែងរក ឬសំណើរស្វែងរកបង្ហាញទំព័រដែលផ្ទុកនូវគ្រប់សំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ សម្រាប់សំណើរមួយ ច្រើន ឬទាំងអស់។
+            label: នាំចេញជាឯកសារ CSV
+          export_custom:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ពីបញ្ជីសំណើស្វែងរកឬទំព័របង្ហាញសំណើស្វែងរក ដែលមានសំណុំទម្រង់ ឬសំណួរ សម្រាប់សំណើមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងការនាំចេញនេះ ទម្រង់នីមួយៗត្រូវបានតំណាងនៅក្នុងផ្ទាំងរបស់វាផ្ទាល់នៅក្នុងឯកសារ XLS។ អ្នក​ប្រើ​អាច​ជ្រើស​ទម្រង់​ឬសំណួរ​មួយ​ណា​ដែល​ពួកគេ​ចង់​​នាំ​ចេញ​ដោយ​ប្រើ​ម៉ូឌុលតាមបំណង។ សូមចំណាំថា អ្នកប្រើប្រាស់អាចបញ្ចូលទម្រង់ និងសំណួរនៅក្នុងការនាំចេញតែប៉ុណ្ណោះ ប្រសិនបើពួកគេមានលទ្ធភាពមើលទម្រង់ និងសំណួរទាំងនោះរួចហើយ នៅពេលមើលសំណើរស្វែងរកនៅក្នុងកម្មវិធី។
+            label: នាំចេញ​តាមបំណង
+          export_json:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ JSON ពីបញ្ជីសំណើរស្វែងរក ឬទំព័របង្ហាញសំណើរស្វែងរក ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់សំណើរស្វែងរកមួយ ច្រើន ឬទាំងអស់។ ការនាំចេញនេះត្រូវបានប្រើជាចម្បងសម្រាប់អ្នកដែលចង់នាំចេញសំណើរស្វែងពីប្រព័ន្ធ Primero បច្ចុប្បន្ន ហើយបន្ទាប់មកនាំចូលវាទៅក្នុងប្រព័ន្ធ Primero ផ្សេង ឬចូលទៅក្នុងប្រព័ន្ធគ្រប់គ្រងព័ត៌មានផ្សេងទៀត។ ទម្រង់ JSON គឺអាចអានដោយម៉ាស៊ីន និងមិនអាចអនុវត្តបានសម្រាប់អ្នកប្រើប្រាស់ភាគច្រើន។
+            label: នាំចេញជាឯកសារJSON
+          export_list_view_csv:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ CSV ពីទំព័របញ្ជីសំណើស្វែងរកដែលមានសំណួរដូចគ្នាដែលលេចឡើងសម្រាប់អ្នកប្រើប្រាស់នោះនៅលើបញ្ជីសំណើរស្វែងរក។ អនុវត្តតែពីទំព័របញ្ជីសំណើស្វែងរកប៉ុណ្ណោះ។
+            label: ទិដ្ឋភាព​បញ្ជីនាំចេញឯកសារCSV
+          export_pdf:
+            explanation: អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ PDF ពីបញ្ជីឧប្បត្តិហេតុ ឬទំព័របង្ហាញឧប្បត្តិហេតុ ដែលមានសំណួរទាំងអស់ដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នមានសិទ្ធិចូលប្រើ សម្រាប់កំណត់ត្រាមួយ ច្រើន ឬទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើ។ នៅក្នុងឯកសារនាំចេញ PDF ព័ត៌មានត្រូវបានរាយបញ្ជីដំបូងតាមករណី ហើយបន្ទាប់មករៀបចំបន្ថែមទៀតដោយទម្រង់ដែលព័ត៌មានលេចឡើង។
+            label: នាំចេញជាឯកសារ PDF
+          export_xls:
+            explanation: 'អ្នកប្រើប្រាស់អាចបង្កើតការនាំចេញឯកសារ XLS ពីបញ្ជីស្វែងរកករណី ឬទំព័របង្ហាញករណីស្វែងរក ដែលមានសំណួរទាំងអស់ សម្រាប់ករណីមួយ ច្រើន ឬគ្រប់ករណីទាំងអស់ដែលអ្នកប្រើប្រាស់មានសិទ្ធិចូលប្រើប្រាស់។ នៅក្នុងការនាំចេញនេះ ទម្រង់នីមួយៗត្រូវបានតំណាងនៅក្នុងផ្ទាំងរបស់វានៅក្នុងឯកសារ XLS។ ចំណាំ៖ ទ្រង់ទ្រាយ XLS បង្ហាញតួអក្សរដែលមិនមែនជាឡាតាំង (ឧ. អារ៉ាប់, Bangla) ក្នុងទម្រង់ដែលអាចអានបាន ខណៈពេលដែលការនាំចេញ CSV មិនដំណើរការ។'
+            label: 'នាំចេញឯកសារ​​​ Excel (XLS file) '
+          flag:
+            explanation: អាចបន្ថែមសម្គាល់ទៅការសំណើស្វែងរក។ អ្នក​ប្រើ​ដែល​មាន​ការ​អនុញ្ញាត​នេះ​ក៏​អាច​លុបសម្គាល់​​ដែល​ពួក​គេ​បាន​បន្ថែម​ទៅ​ក្នុង​សំណើស្វែងរក​​ផង​ដែរ។
+            label: សម្គាល់
+          import:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើបង្កើតករណីថ្មីមួយ ឬច្រើនដោយនាំចូលពួកវាពីឯកសារ CSV, Excel ឬ JSON ។ ឯកសារដែលបាននាំចូលត្រូវតែformat *ខ្លាំងណាស់* ជាពិសេសសម្រាប់ព័ត៌មានដែលត្រូវនាំចូលត្រឹមត្រូវ។ មុខងារនេះគួរតែមានសម្រាប់តែអ្នកប្រើប្រាស់រដ្ឋបាលដែលមានជំនាញបច្ចេកទេសកម្រិតខ្ពស់ និងចំណេះដឹងស៊ីជម្រៅអំពីរបៀបធ្វើformat ទិន្នន័យនៅក្នុង Primero ប៉ុណ្ណោះ។ អនុវត្តតែពីទំព័របញ្ជីករណីប៉ុណ្ណោះ។
+            label: នាំចូល
+          manage:
+            explanation: អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់មួយអាចអនុវត្តសកម្មភាពដែលមានទាំងអស់សម្រាប់សំណើស្វែងរក។ ការផ្តល់សិទ្ធ "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: អាចមើលសំណើស្វែងរក។ តួនាទីដែលអាចមើលការស្នើសុំស្វែងរកក៏គួរតែមានសមត្ថភាពក្នុងការមើលប្រភេទកំណត់ត្រាការផ្គូរផ្គងដូចផងដែរ។
+            label: មើល
+          write:
+            explanation: អាចចុចប៊ូតុង "កែសម្រួល" ធ្វើបច្ចុប្បន្នភាពព័ត៌មានអំពីសំណើរស្វែងរកហើយចុច "រក្សាទុក" ។ អនុញ្ញាតឱ្យអ្នកប្រើបិទដំណើរការ ឬបើកឧប្បត្តិហេតុមួយ។
+            label: កែសម្រួល
+        label: សំណើ​ស្វែងរក
+      transfer:
+        actions:
+          transfer:
+            explanation: នេះមានន័យថាតួនាទីនឹងបង្ហាញជាជម្រើសមួយសម្រាប់ "ប្រភេទអ្នកទទួល" នៅពេលអ្នកប្រើប្រាស់ធ្វើការបញ្ជូនបន្តពីខាងក្រៅ។ ប្រសិនបើអ្នកប្រើជ្រើសរើសតួនាទីនេះជាប្រភេទនៃការផ្ទេរ ការនាំចេញដែល Primero បង្កើតនៅពេលអ្នកប្រើប្រាស់ដាក់បញ្ជូនការផ្ទេរនឹងមានតែព័ត៌មានដែលត្រូវបានរកឃើញនៅក្នុងទម្រង់ដែលតួនាទីនេះមានសិទ្ធិចូលប្រើ។ ឧទាហរណ៍ ប្រសិនបើអ្នកប្រើប្រាស់ជ្រើសរើស "អ្នកផ្តល់សេវាវេជ្ជសាស្រ្ត" ជាប្រភេទអ្នកទទួល ហើយតួនាទីអ្នកផ្តល់សេវាវេជ្ជសាស្រ្តមានសិទ្ធិចូលប្រើទម្រង់ព័ត៌មានបឋម និងទម្រង់បញ្ហាជាកង្វល់ប៉ុណ្ណោះ ឯកសារដែល Primero នាំចេញសម្រាប់ការផ្ទេរខាងក្រៅនឹងមានតែព័ត៌នៅក្នុងទម្រង់ទាំងពីរនោះតែប៉ុណ្ណោះ។
+            label: តើ​អ្នក​ប្រើប្រាស់​នេះ​អាច​បញ្ជូនករណី​ទៅក្រៅប្រព័ន្ធបាន​ដែរ​ឬទេ?
+        label: 'ផ្ទេរ '
+      user:
+        actions:
+          agency_read:
+            explanation: អាចមើលឃើញតែគណនីអ្នកប្រើប្រាស់ទាំងនោះនៅក្នុងភ្នាក់ងាររបស់អ្នកប្រើប្រាស់បច្ចុប្បន្ន។ នេះក៏ប៉ះពាល់ដល់គណនីអ្នកប្រើប្រាស់ណាដែលអ្នកប្រើប្រាស់បច្ចុប្បន្នអាចធ្វើសកម្មភាពផ្សេងទៀតបានផងដែរ។ ឧទាហរណ៍ ប្រសិនបើអ្នកប្រើប្រាស់បច្ចុប្បន្នមានការអនុញ្ញាត "សរសេរ" លើអ្នកប្រើប្រាស់ ប៉ុន្តែក៏មានការអនុញ្ញាតពីទីភ្នាក់ងារអាន ពួកគេនឹងអាចកែសម្រួលបានតែគណនីអ្នកប្រើប្រាស់ដែលមាននៅក្នុងទីភ្នាក់ងាររបស់ពួកគេប៉ុណ្ណោះ។ ស្រដៀងគ្នានេះដែរ ប្រសិនបើអ្នកប្រើប្រាស់បច្ចុប្បន្នមានការអនុញ្ញាត "គ្រប់គ្រង" លើអ្នកប្រើប្រាស់ ប៉ុន្តែមានការអនុញ្ញាតពី "ភ្នាក់ងារអាន" នោះពួកគេនឹងអាចបង្កើតអ្នកប្រើប្រាស់សម្រាប់ភ្នាក់ងាររបស់ពួកគេតែប៉ុណ្ណោះ។
+            label: មើល (ក្នុងស្ថាប័ន)
+          create:
+            explanation: អាចបង្កើតគណនីរបស់អ្នកប្រើប្រាស់
+            label: បង្កើត
+          manage:
+            explanation: 'អនុញ្ញាតឱ្យអ្នកប្រើអនុវត្តសកម្មភាពដែលមានទាំងអស់លើអ្នកប្រើប្រាស់។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។ សំខាន់៖ នេះក៏ផ្តល់នូវសមត្ថភាពក្នុងការបង្កើតគណនីអ្នកប្រើប្រាស់ថ្មី។'
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: អាចមើលគណនីអ្នកប្រើប្រាស់។ តាមលំនាំដើម អ្នកប្រើប្រាស់គ្រប់រូបមានលទ្ធភាពមើល និងកែសម្រួលព័ត៌មានអំពីគណនីផ្ទាល់ខ្លួនរបស់ពួកគេ (ឧ. ពាក្យសម្ងាត់ អ៊ីមែល)។
+            label: មើល
+          write:
+            explanation: អាចចុចប៊ូតុង "កែសម្រួល" នៅលើទំព័រអ្នកប្រើប្រាស់ ធ្វើបច្ចុប្បន្នភាពព័ត៌មានអំពីអ្នកប្រើប្រាស់ ហើយបន្ទាប់មករក្សាទុក។ សូមចំណាំថាការអនុញ្ញាតនេះក៏ផ្តល់នូវសមត្ថភាពក្នុងការបិទគណនីអ្នកប្រើប្រាស់ផងដែរ។
+            label: កែសម្រួល
+        label: អ្នកប្រើប្រាស់
+      user_group:
+        actions:
+          assign:
+            explanation: អាចជ្រើសរើសក្រុមអ្នកប្រើប្រាស់នៅពេលបង្កើត ឬកែសម្រួលគណនីអ្នកប្រើប្រាស់។ សូមចំណាំថា ប្រសិនបើអ្នកប្រើប្រាស់បច្ចុប្បន្នមានកម្រិត "តែកំណត់ត្រា ឬអ្នកប្រើប្រាស់ក្នុងក្រុមរបស់ខ្ញុំ" នៃការចូលប្រើ ពួកគេនឹងអាចជ្រើសរើសបានតែមួយ ឬច្រើននៃក្រុមអ្នកប្រើប្រាស់ *របស់ពួកគេផ្ទាល់* សម្រាប់គណនីអ្នកប្រើប្រាស់ដែលពួកគេកំពុងបង្កើត ឬកែសម្រួល។ នេះមានន័យថាអ្នកគ្រប់គ្រងដែលមានសមត្ថភាពក្នុងការចាត់តាំងក្រុមអ្នកប្រើប្រាស់នឹងអាចបន្ថែមអ្នកប្រើប្រាស់ទៅក្រុមអ្នកប្រើប្រាស់ដែលអ្នកគ្រប់គ្រងបច្ចុប្បន្នជាកម្មសិទ្ធិ។ ការអនុញ្ញាតនេះគឺចាំបាច់សម្រាប់តួនាទីណាមួយដែលនឹងបង្កើត ឬកែសម្រួលគណនីអ្នកប្រើប្រាស់។
+            label: ចាត់តាំង
+          create:
+            explanation: អាចបង្កើតក្រុមអ្នកប្រើប្រាស់។
+            label: បង្កើត
+          delete:
+            explanation: អាចលុបក្រុមអ្នកប្រើប្រាស់។
+            label: លុប
+          manage:
+            explanation: 'អនុញ្ញាតឱ្យអ្នកប្រើអនុវត្តសកម្មភាពដែលមានទាំងអស់នៅលើក្រុមអ្នកប្រើប្រាស់។ ការអនុញ្ញាត "គ្រប់គ្រង" មានន័យថា "អ្វីគ្រប់យ៉ាង" ។ សំខាន់៖ នេះក៏ផ្តល់លទ្ធភាពបង្កើត និងលុបក្រុមអ្នកប្រើប្រាស់ផងដែរ។'
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+          read:
+            explanation: អាចមើលក្រុមអ្នកប្រើប្រាស់។
+            label: មើល
+          write:
+            explanation: អាចកែសម្រួលក្រុមអ្នកប្រើប្រាស់។
+            label: កែសម្រួល
+        label: ក្រុម​អ្នកប្រើប្រាស់
+      webhook:
+        actions:
+          read:
+            label: មើល
+            explanation: អាចបង្ហាញតារាងព័ត៌មាន និងកំណត់WebhookតាមរយៈAPI
+          write:
+            label: កែសម្រួល
+            explanation: អាចកំណត់Webhook និងកែសម្រួលការកំណត់WebhookតាមរយៈAPI
+          create:
+            explanation: អាចកំណត់WebhookតាមរយៈAPI
+            label: បង្កើត
+          delete:
+            explanation: អាចលុបការកំណត់WebhookតាមរយៈAPI
+            label: លុប
+          manage:
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+      activity_log:
+        actions:
+          transfer:
+            explanation: អ្នកប្រើប្រាស់អាចចូលទៅក្នុងផ្នែកកំណត់ត្រាសកម្មភាពនៅក្នុងទំព័រគ្រប់គ្រង និងមើលកំណត់ត្រាទាំងអស់ដែលបានទទួល ឬបដិសេធសម្រាប់ករណីដែលពួកគេមានសិទ្ធិធ្វើប្រិតបត្តិការណ៍
+            label: 'ផ្ទេរ '
+          manage:
+            label: គ្រប់គ្រង (ការអនុញ្ញាតទាំងអស់សម្រាប់ប្រភេទធនធាននេះ)
+        label: កំណត់ហេតុសកម្មភាព
   potential_match:
+    case_id: លេខកូដករណី
     child_age: អាយុ
     child_gender: ភេទ
     child_id: លេខ​កូដកុមារ
@@ -731,77 +2502,182 @@ km:
     score: ពិន្ទុ
     social_worker: បុគ្គលិកសង្គម
     social_worker_agency: ស្ថាប័ន៖
+    tracing_request_id: 'លេខកូដសំណើ​ស្វែងរក '
+    trace: ស្វែងរក
+    likelihood_likely: ទំនងជា
+    likelihood_possible: អាច​ធ្វើ​បាន
   potential_matches:
     display: បង្ហាញ​កា​រផ្គូផ្គង​ខ្លាំង​សម្រាប់ %{type} %{id}
   reassign:
+    multiple_error: មានបញ្ហា ហើយករណី%{select_records}មិនត្រូវបានចាត់តាំង។
+    multiple_successfully: '%{select_records}ករណីត្រូវបានចាត់តាំងដោយជោគជ័យ'
     notes_label: កំណត់សម្គាល់
+    successfully: ចាត់តាំងដោយជោគជ័យ
+    user_mandatory_label: ត្រូវបញ្ចូល​អ្នកទទួល
+    users_label: អ្នកទទួល
+  record_information:
+    assigned_user_names: អ្នកប្រើប្រាស់ផ្សេងទៀតដែលបានចាត់តាំង
+    created_by: កំណត់ត្រា​បានបង្កើត​ដោយ
+    created_organization: បង្កើតដោយស្ថាប័ន
+    current_owner_separator: ម្ចាស់​បច្ចុប្បន្ន
+    module_id: ម៉ូឌុល
+    owned_by: លេខ​កូដ​​អ្នកកាន់ករណី
+    owned_by_agency_id: ស្ថាប័ន
+    owned_by_text: ឈ្មោះអ្នកកាន់ករណី
+    previously_owned_by: អ្នកកាន់ករណីចាស់
+    previously_owned_by_agency: ស្ថាប័នចាស់
+    reassigned_tranferred_on: បានចាត់តាំងឡើងវិញ / ផ្ទេរនៅ
+    record_history_separator: ប្រវត្តិកំណត់ត្រា
+    last_updated_at: ធ្វើ​បច្ចុប្បន្នភាព​ចុងក្រោយ
   record_panel:
     record_information: ព័ត៌មាន​កំណត់​ត្រា
   referral:
+    type_of_recipient: ប្រភេទ​អ្នកទទួល
+    type_of_referral_required: ត្រូវការប្រភេទការបញ្ជូន
     agency_label: ស្ថាប័ន៖
     is_remote_label: បញ្ជូនទៅរកសេវាពីអង្គភាពដែលមិនប្រើប្រាស់ Primero និង​OSCaR?​
     location_label: ទីតាំង
     notes_label: កំណត់សម្គាល់
+    notes_on_referral: កំណត់សម្គាល់នៃការ​បញ្ជូន
+    note_on_referral_from_provider: កំណត់សម្គាល់លើការបញ្ជូនពីអ្នកផ្តល់សេវា
+    provided_consent_label: មិនមានការយល់ព្រមនៅក្នុងទម្រង់នេះទេ។
+    recipient_label: អ្នកទទួល
+    refer_anyway_label: បញ្ជូន?
     service_label: សេវាកម្ម
     success: 'បាន​បញ្ជូន​ %{record_type} %{id} ដោយ​ជោគជ័យ'
+    user_mandatory_label: ត្រូវបញ្ចូល​អ្នកទទួល
+    date: កាលបរិច្ឆេទ
+    rejected_reason: មូលហេតុ​បដិសេធ
   report:
     aggregate_by: ដាក់ជា​ក្រុម​តាម​ជួរ​ដេក
+    attribute: គុណលក្ខណៈ
+    constraint: ឧបសគ្គ
     date_ranges:
       date: ថ្ងៃ
       month: ខែ
+      quarter: ត្រីមាស
+      quarter_abbr: Q%{quarter}
       week: សប្ដាហ៍
       year: ឆ្នាំ
     description: ការពណ៌នា
+    disabled:
+      explanation: ប្រសិនបើអ្នកបិទរបាយការណ៍នេះ វានឹងមិនបង្ហាញនៅក្នុងរបាយការណ៍ដែលមានទេ។
+      label: បិទករណី (disable case)
+    exclude_empty_rows: កុំ​បង្ហាញ​ជួរដេក​ទទេ
     disaggregate_by: ដាក់ជា​ក្រុម​តាម​ជួរឈរ
     filters:
       label: ចម្រាញ់ទិន្នន័យ​សម្រាប់របាយការណ៍
+      label_new: ចម្រាញ់ទិន្នន័យ​សម្រាប់របាយការណ៍
+      attribute: តម្រង
+      value: ជា​មួយ
+      not_null: មិន​អាច​គ្មាន​តម្លៃ​
+      less_than: តិចជាង
+      greater_than: ច្រើនជាង
+      equal_to: ស្មើនឹង
+      not_blank: មិនទទេ
+      is: គឺ
+      before: 'មុន '
+      after: 'បន្ទាប់​ពី '
+      delete_filter_message: តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​សំណួរនេះ​ឬ?
     group_ages: ប្រើប្រាស់​ចន្លោះ​អាយុ
     group_dates_by: ប្រើប្រាស់​ចន្លោះ​កាលបរិច្ឆេទ
     is_graph: បង្កើត​ក្រាហ្វមែនទេ?
     messages:
       delete_success: បានលុប​របាយការណ៍​ដោយជោគជ័យ។
+      success: បង្កើតរបាយការណ៍​ដោយជោគជ័យ។
+      updated: ធ្វើបច្ចុប្បន្នភាព​របាយការណ៍​ដោយជោគជ័យ។
     modules: ម៉ូឌុល
     name: ឈ្មោះ
+    name_mandatory: ត្រូវបញ្ចូលឈ្មោះ​
     no_data: មិនមាន​ទិន្នន័យ​សម្រាប់​របាយការណ៍​នេះ​ទេ
+    no_filters_added: មិនមានបន្ថែមសំណួរទេ
+    not_selected: គ្មាន​ការ​ជ្រើសរើស​ទេ
     record_type: ប្រភេទ​កំណត់ត្រា
     total: សរុប
+    value: តម្លៃ
   reports:
+    delete_report: លុបរបាយការណ៍
+    delete_report_message: តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​របាយការណ៍​នេះ​មែនទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​របាយការណ៍។
     label: របាយការណ៍
     register_new_report: បង្កើត​របាយការណ៍
+    translations:
+      edit: កែសម្រួលការបកប្រែ
+      manage: ចាត់ចែង​ការបកប្រែ
+      select_language: ជ្រើសរើស​ភាសា
+    error_loading: មានបញ្ហាErrorពេលបង្ហាញរបាយការណ៍
   request_transfer:
     notes_label: កំណត់សម្គាល់
     submit_label: ផ្ញើ​សំណើ
     success: បាន​ផ្ញើ​សំណើ​ផ្ទេរ
   role:
+    agency_ids_label: ស្វាប័នគ្រប់គ្រង​ដោយ​តួនាទី​នេះ
     copy_failure: មាន​បញ្ហា​ក្នុងការ​ចម្លង​តួនាទី៖ សូម​ប្រាកដថា ឈ្មោះ​មិន​ស្ទួន​គ្នា​ជា​មួយ​តួនាទី​ផ្សេង​ទៀត។
     copy_success: បាន​ចម្លង​តួនាទី​ដោយ​ជោគជ័យ។
     create: បង្កើត​តួនាទី
+    delete_header: លុបតួនាទី
     description: ការពណ៌នា
     edit: កែសម្រួល​តួនាទី
     error_in_updating: មាន​បញ្ហា​ក្នុងការ​ធ្វើ​បច្ចុប្បន្នភាព​ព័ត៌មាន​លម្អិត​​អំពី​តួនាទី។
     group_permission_label: តើ​តួនាទី​នេះ​ប៉ះពាល់​ដល់​កំណត់ត្រា​អ្វីដែរ?​
+    label: តួនាទី
+    manager: អ្នក​គ្រប់គ្រង
+    messages:
+      confirmation: តើ​អ្នក​ប្រាកដ​ជា​ចង់លុបតួនាទីនេះ​ឬ? ពេលលុបហើយ​មិនអាចត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​តួនាទី។
+      created: តួនាទីត្រូវបានបង្កើតដោយជោគជ័យ។
+      deleted: លុបតួនាទីដោយជោគជ័យ
+      updated: ធ្វើបច្ចុប្បន្នភាព​តួនាទី​ដោយជោគជ័យ។
     name: ឈ្មោះ
     referral_label: តើ​អ្នក​ប្រើប្រាស់​នេះ​អាច​បញ្ជូនករណី​បាន​ដែរ​ឬទេ?
     reporting_location_level_label: តើ​​ប្រភេទ​ទីតាំង​អ្វី​ដែល​គួរ​ត្រូវ​បានប្រើប្រាស់​សម្រាប់​រាយការណ៍​អំពី​តួនាទី​នេះ?
     role_ids_label: តួនាទី​ផ្សេង​បានគ្រប់គ្រង​ដោយ​តួនាទី​នេះ
     successfully_updated: បាន​ធ្វើបច្ចុប្បន្នភាព​ព័ត៌មានលម្អិត​អំពី​តួនាទី​ដោយ​ជោគជ័យ។
     transfer_label: តើ​អាច​ប្រើប្រាស់​តួនាទី​នេះ​សម្រាប់ការ​ផ្ទេរ​បាន​ដែ​ររទេ?
+    hide: លាក់
+    read: បង្ហាញ
+    read_write: បង្ហាញ និងកែសម្រួល
   roles:
     label: តួនាទី
   saved_search:
     deleted: បាន​លុបការស្វែងរកដោយជោគជ័យ។
     filters_tab: ចម្រាញ់ទិន្នន័យ
+    no_filters: មិនមានសំណួរដែលបានជ្រើសរើសទេ
     save_success: បាន​រក្សាទុក​ការ​ស្វែងរក​ដោយ​ជោគជ័យ។
     saved_searches_tab: ការ​ស្វែងរក​ដែល​បាន​រក្សាទុក
+    title_description: តើ​អ្នក​ពិតជា​ចង់​លុប​ការ​ស្វែងរកដែលបានរក្សាទុក​មែន​ឬ?
+    title_modal: លុបការស្វែងរកដែលបានរក្សាទុក
   saved_searches:
     no_save_searches: អ្នក​​មិនមានការ​ស្វែងរក​ដែល​បាន​រក្សាទុក​ទេ។
     save_search: រក្សាទុក​ការ​ស្វែងរក
+  settings:
+    navigation:
+      agencies: ស្ថាប័ន
+      audit_logs: កំណត់​ហេតុ​ត្រួតពិនិត្យ
+      configurations: ការកំណត់
+      contact_information: ​ព័ត៌មាន​ទំនាក់ទំនង
+      forms: ទម្រង់
+      locations: ទីតាំង
+      lookups: រក​មើល
+      user_groups: ក្រុម​អ្នកប្រើប្រាស់
+      users: អ្នកប្រើប្រាស់
+      roles: តួនាទី
+      code_of_conduct: ក្រមសីលធម៌
+    title: ការកំណត់
   system_settings:
     label: ការកំណត់ប្រព័ន្ធ
   task:
     due_date: កាលបរិច្ឆេទកំណត់
     id: លេខកូដ
+    name: ឈ្មោះ
+    priorities:
+      high_level: ខ្ពស់
+      low_level: ទាប
+      medium_level: មធ្យម
+      no_action_level: គ្មាន​សកម្មភាព
     priority: កម្រិតហានិភ័យ
+    status: ស្ថានភាព
+    statuses:
+      overdue: ហួស​ពេលកំណត់
+      upcoming_soon: ជិតផុតកំណត់
     type: ប្រភេទសកម្មភាព
     types:
       assessment: ការ​ប៉ាន់ប្រមាណ
@@ -809,39 +2685,209 @@ km:
       follow_up: ការតាមដាន - %{subtype}
       service: សេវាកម្ម - %{subtype}
   tracing_request:
+    label: សំណើ​ស្វែងរក
+    has_match: ការ​ផ្គូផ្គង​រកឃើញ
+    find_match: រក​ការ​ផ្គូផ្គង​
+    back_to_traces: ត្រឡប់ទៅការស្វែងរកវិញ
+    back_to_potential_matches: ត្រឡប់ទៅការ​ផ្គូផ្គងដែលបានរកឃើញ
+    traces: ស្វែងរក
+    trace: ស្វែងរក
+    match: ការ​ផ្គូផ្គង
+    matches: ការ​ផ្គូផ្គង
+    unmatch: មិនត្រូវគ្នា
     messages:
+      already_matched: មានការរកឃើញក្នុងប្រព័ន្ធរួចហើយ ដែលអ្នកស្វែងរកកំពុងរកកុមារនេះ។
+      disabled: បិទ(disabled)សំណើ​ស្វែងរក
+      nothing_found: មិនមានព័ត៌មាន
       update_success: 'បាន​ធ្វើបច្ចុប្បន្នភាព​សំណើ​ស្វែងរក %{record_id} ដោយ​ជោគជ័យ។'
+      creation_success: សំណើ​ស្វែងរកបានបង្កើតដោយ​ជោគជ័យ។
+      update_success_queue: 'បាន​ធ្វើបច្ចុប្បន្នភាព​សំណើ​ស្វែងរក %{record_id} ដោយ​ជោគជ័យ។'
+      creation_success_queue: បង្កើត​សំណើ​ស្វែងរកដោយ​ជោគជ័យ។
+      match_action: ផ្គូផ្គងការស្វែងរក%{trace_id}ជាមួយនឹងករណី%{record_id}ដោយជោគជ័យ។
+      unmatch_action: ដោះការផ្គូផ្គងការស្វែងរក%{trace_id}ជាមួយនឹងករណី%{record_id}ដោយជោគជ័យ។
   tracing_requests:
+    date_of_inquiry: កាលបរិច្ឆេទ​ស្វែងរក
+    disable_dialog_title: បិទ(disable)សំណើ​ស្វែងរក
+    disable_dialog: ចុច​យល់ព្រម(OK) នឹងធ្វើឱ្យករណីនេះបិទដំណើរការក្នុងប្រព័ន្ធ (disabled)។
+    disable_success: បិទសំណើរស្វែងរកដោយជោគជ័យ
+    enable_dialog: ចុច​យល់ព្រម(OK) នឹង​ធ្វើឱ្យករណីនេះ​បើកដំណើរការក្នុងប្រព័ន្ធ (enabled)។
+    enable_dialog_title: បើក(enable)សំណើ​ស្វែងរក
+    enable_success: បើកសំណើរស្វែងរកដោយជោគជ័យ
+    id: លេខ​កូដ
+    filter_by:
+      by_date: នៅកាលបរិច្ឆេទ
+      location_separation: ទីតាំងការ​បំបែក
+      separation_cause: មូលហេតុ​នៃការបំបែក
+      status: ស្ថានភាព
+    label: សំណើ​ស្វែងរក
+    name_of_inquirer: ឈ្មោះ​អ្នក​ស្វែងរក
+    inquirer: អ្នកស្វែងរក
+    name: ឈ្មោះ
     register_new_tracing_request: សំណើ​ស្វែងរក​ថ្មី
     selectable_date_options:
       inquiry_date: កាលបរិច្ឆេទ​ស្វែងរក
+    selected_records: '%{select_records}​ សំណើស្វែងរកត្រូវបានជ្រើសរើស'
+    selected_all_records: 'ជ្រើសរើសករណីស្វែងរកទាំងអស់%{total_records}ដែលត្រូវនឹងសំណួរនេះ។'
+    show_tracing_request: 'លេខកូដ​សំណើ​ស្វែងរក %{short_id}'
+    tracing_requests: សំណើ​ស្វែងរក
+    export: នាំចេញ
   transfer:
+    label: 'ផ្ទេរ '
     agency_label: ស្ថាប័ន៖
+    consent_from_individual_label: តើ​អ្នកមាន​ការ​យល់ព្រមដើម្បី​ធ្វើ​ការ​ផ្ទេរ​នេះ​ដែ​រឬទេ?
     consent_label: កំណត់ត្រា​មិន​បានផ្ដល់​ការ​យល់ព្រម​ទេ។
     consent_override_label: តើ​អ្នក​ចង់​សរសេរ​ជាន់លើ​ការ​កំណត់​នេះ​ដែ​រឬទេ?
     is_remote_label: បញ្ជូនទៅរកសេវាពីអង្គភាពដែលមិនប្រើប្រាស់ Primero និង​OSCaR?​
     location_label: ទីតាំង
     notes_label: កំណត់សម្គាល់
+    provided_consent_label: ការយល់ព្រមមិនត្រូវបានផ្តល់ជូនក្នុងទម្រង់ទេ។
+    recipient_label: អ្នកទទួល
+    select_label: ជ្រើសរើស...
+    success: ផ្ទេរដោយជោគជ័យ
+    transfer_label: នៅបន្តផ្ទេរ?
+    user_mandatory: ត្រូវបញ្ចូល​អ្នកទទួល
+  transition:
+    agency_label: ស្ថាប័ន
+    assigned_by: ចាត់តាំងដោយ
+    consent_individual_transfer_value:
+      true_label: 'បាទ/ចាស'
+      false_label: 'ទេ'
+    consent_overridden_value:
+      false_label: 'ទេ'
+      true_label: 'បាទ/ចាស'
+    errors:
+      consent: មិនទាន់មានការយល់ព្រមទេ
+      to_user_can_receive: អ្នកប្រើប្រាស់នេះមិនអាចទទួលបានកំណត់ត្រានេះទេ
+    individual_consent: តើ​អ្នកមាន​ការ​យល់ព្រម​​ដើម្បី​ធ្វើ​ការ​ផ្ទេរ​នេះ​ដែ​រឬទេ?
+    no_consent_share: 'ការ​យល់ព្រម មិនត្រូវបានពិចារណា '
+    notes: កំណត់សម្គាល់
+    recipient: អ្នកទទួល
+    rejected: បដិសេធហេតុផល
+    requested_by: ស្នើសំុដោយ
+    service_label: សេវា
+    responded_at: ឆ្លើយតបនៅ
+    status:
+      accepted: យល់ព្រម
+      done: រួចរាល់
+      in_progress: កំពុង​រង់ចាំ
+      inprogress: កំពុង​រង់ចាំ
+      rejected: បដិសេធ
+      revoked: ហៅមកវិញ (revoke)
+    type:
+      assign: ចាត់តាំង
+      reassign: ចាត់តាំង
+      referral: ការបញ្ចូន
+      external_referral: ការ​បញ្ជូន​ក្រៅប្រព័ន្ធ
+      transfer: 'ផ្ទេរ '
+      transferRequest: សំណើ​ផ្ទេរ
   user:
+    agency_office: Agency Office (GBV field)
     code: លេខ​កូដ​អ្នក​ប្រើប្រាស់
     disabled: បាន​បិទ
+    email: អ៊ីមែល
     full_name: ឈ្មោះ​ពេញ
+    identity_provider: អ្នកផ្តល់អត្តសញ្ញាណ
+    invalid_provider_username: 'ទម្រង់ឈ្មោះអ្នកប្រើប្រាស់មិនត្រឹមត្រូវ។ ឧទាហរណ៍៖ my.username@%{domain}'
+    label: អ្នកប្រើប្រាស់
+    language: ភាសា
+    locale: មូលដ្ឋាន
     location: ទីតាំង
     messages:
       confirmation: តើ​អ្នក​ប្រាកដ​ជា​ចង់លុប​​អ្នក​ប្រើប្រាស់​ម្នាក់​នេះ​ឬ? ការ​លុប​មិន​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​អ្នក​ប្រើប្រាស់។
       created: បាន​បង្កើតអ្នក​ប្រើប្រាស់​​ដោយ​ជោគជ័យ។
+      failure: មានបញ្ហា សូមទាក់ទងផ្នែកជំនួយ។
+      new_confirm_html: អ្នកហៀបនឹងអញ្ជើញអ្នកប្រើប្រាស់%{username}ពី%{identity}ដែលមានតួនាទី%{role}ឱ្យប្រើ Primero ។ អ៊ីមែលបញ្ជាក់នឹងត្រូវបានផ្ញើទៅ%{email}។ តើអ្នកចង់បន្តទេ?
+      new_confirm_non_identity_html: អ្នកហៀបនឹងអញ្ជើញអ្នកប្រើប្រាស់%{username}ដែលមានតួនាទី%{role}ឱ្យប្រើ Primero ។ អ៊ីមែលបញ្ជាក់នឹងត្រូវបានផ្ញើទៅ%{email}។ តើអ្នកចង់បន្តទេ?
       not_found: រក​មិន​ឃើញ​អ្នក​ប្រើប្រាស់​ដែល​មាន​លេខសម្គាល់​ដែល​បាន​ផ្ដល់​ឲ្យ​ទេ
       password_changed_successfully: បាន​ផ្លាស់ប្ដូរ​ពាក្យ​សម្ងាត់​ដោយ​ជោគជ័យ
       passwords_do_not_match: មិន​ដូច​នឹង​ពាក្យសម្ងាត់​បច្ចុប្ប​ន្ន​ទេ
       time_zone_updated: បាន​ធ្វើ​បច្ចុប្បន្នភាព​ការ​ផ្លាស់ប្ដូរ​ដោយ​ជោគជ័យ។
       updated: បាន​ធ្វើបច្ចុប្បន្នភាព​អ្នក​ប្រើប្រាស់​ដោយ​ជោគជ័យ។
     organization: ស្ថាប័ន
+    agency: ស្ថាប័ន
+    services_help_text: ប្រសិនបើអ្នកមិនបញ្ជាក់សេវាជាក់លាក់ទេ អ្នកប្រើប្រាស់នេះនឹងត្រូវបានផ្តល់សេវាមដូចគ្នាដែលស្ថាប័នរបស់វាមាន។
+    password_setting:
+      label: តើ Primero គួរកំណត់ពាក្យសម្ងាត់របស់អ្នកប្រើយ៉ាងដូចម្តេច?
+      self: ញុំនឹងកំណត់ពាក្យសម្ងាត់
+      user: អ្នកប្រើប្រាស់នឹងកំណត់ពាក្យសម្ងាត់ដោយប្រើអ៊ីមែលស្វាគមន៍
+      help_text: សូមចងចាំថា ប្រសិនបើអ្នក ជាអ្នកគ្រប់គ្រងកំណត់ពាក្យសម្ងាត់ដោយដៃ អ្នកនឹងត្រូវចែករំលែកវាជាមួយអ្នកប្រើប្រាស់ក្នុងលក្ខណៈសុវត្ថិភាព។
+    password_reset_header: ផ្ញើអ៊ីមែលកំណត់ពាក្យសម្ងាត់ឡើងវិញ
+    password_reset_text: ប្រសិនបើអ្នកចុច 'ផ្ញើ' អ្នកប្រើប្រាស់នេះនឹងទទួលបានអ៊ីមែលដែលមានតំណភ្ជាប់ដើម្បីកំណត់ពាក្យសម្ងាត់របស់ពួកគេឡើងវិញ។
+    password_reset_request: ផ្ញើអ៊ីមែលកំណត់ពាក្យសម្ងាត់ឡើងវិញ
+    password: ពាក្យសម្ងាត់
+    password_confirmation: បញ្ជាក់លេខកូដសម្ងាត់
+    phone: ទូរស័ព្ទ
     position: មុខតំណែង
+    provider_username_help: 'ឧទាហរណ៍៖ my.username@%{domain}'
+    role_id: តួនាទី
     send_mail: តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?
+    user_group_unique_ids: ក្រុម​អ្នកប្រើប្រាស់
+    user_name: អ្នកប្រើប្រាស់
+    services: សេវា
+    welcome_email:
+      subject: 'ស្វាគមន៍​មកកាន់%{system} !'
+      greeting: 'ស្វាគមន៍​មកកាន់%{system} !'
+      body_native: 'អ្នកត្រូវបានបន្ថែមជា%{role_name} ។​ សូមទាក់ទង%{admin_full_name} (%{admin_email}) សម្រាប់ការណែនាំបន្ត ដើម្បីចាប់ផ្តើមធ្វើការជាមួយ %{host}.'
+      sso:
+        body: 'អ្នកត្រូវបានបញ្ចូលជា%{role_name}'
+        step1: 'ចូលទៅ%{host}ហើយចុច%{identity_provider}។'
+        step2: 'ចូលក្នុងប្រព័ន្ធដោយ%{identity_provider}គណនី%{user_name}'
+        step3: 'ប្រើពាក្យសម្ងាត់ដូចនឹងគណនី%{identity_provider}របស់អ្នក។'
+        footer: 'សូមទាក់ទង %{admin_full_name}(%{admin_email}) សម្រាប់ព័ត៌មានបន្ថែម ។'
+      otp:
+        body: 'អ្នកត្រូវបានបញ្ចូលជា%{role_name}'
+        step1: 'សូមទាក់ទង %{admin_full_name}(%{admin_email}) ដើម្បីស្នើរសុំឈ្មោះប្រើប្រាស់ប្រព័ន្ធរបស់អ្នក។'
+        step2: 'ចូលទៅ%{host}និងចុច "ចូលក្នុងប្រព័ន្ធដោយប្រើឈ្មោះអ្នកប្រើប្រាស់" ​។'
+        step3: 'ចូលក្នុងប្រព័ន្ធដោយប្រើឈ្មោះអ្នកប្រើប្រាស់ និងលេខកូដបណ្តោះអាសន្ន%{otp}'
+        step4: 'នៅពេលទម្រង់លេចឡើង កែប្រែលេខសម្ងាត់របស់អ្នក។'
+      url_label: Primero
+      enabled_label: តើ​ផ្ញើ​អ៊ីមែល​ស្វាគមន៍​ឬ?
+      text_label: អត្ថបទ​អ៊ីមែល​ស្វាគមន៍
+    password_reset:
+      subject: 'ការណែនាំពីរបៀបផ្លាស់ប្តូរលេខកូខសម្ងាត់'
+      email_greeting: "សូមគោរព%{full_name}"
+      email_body1: "មានអ្នកស្នើសុំឱ្យកំណត់ពាក្យសម្ងាត់របស់អ្នកសម្រាប់%{host_href} . ចុចលើ url ខាងក្រោមដើម្បីចាប់ផ្តើម៖"
+      email_body2: "តំណនេះនឹងផុតកំណត់ក្នុងរយៈពេល%{hours}ម៉ោង ហើយអាចប្រើបានតែម្តងប៉ុណ្ណោះ។ សូមកុំយកចិត្តទុកដាក់នឹងអ៊ីមែលនេះ ប្រសិនបើអ្នកមិនបានធ្វើការស្នើសុំកំណត់ពាក្យសម្ងាត់ឡើងវិញទេ ឬអ្នកប្រើប្រាស់ Primero ថ្មីមិនត្រូវបានចុះឈ្មោះក្នុងនាមអ្នកទេ។ ប្រសិនបើតំណខាងលើផុតកំណត់ សូមចុច%{reset_request_href}ដើម្បីដាក់ស្នើសំណើកំណត់ពាក្យសម្ងាត់ឡើងវិញ។"
+      email_body_link: នៅទីនេះ
+      request_submitted: "សំណើកែសម្រួលលេខសម្ងាត់ឡើងវិញត្រូវបានបញ្ជូន"
+      success: "ប្តូរពាក្យសម្ងាត់ដោយជោគជ័យ"
+      errors:
+        reset_password_token: "កំណត់ពាក្យសម្ងាត់ឡើងវិញមិនត្រឹមត្រូវ"
+        password_confirmation: "ពាក្យសម្ងាត់ត្រូវតែដូចគ្នា"
+    onboard_email:
+      subject: "បន្តដំណើរទៅ%{system}"
+      greeting: "សូមគោរព%{full_name}"
+      body1: "សូម​ស្វាគមន៍​មក​កាន់ Primero!"
+      body2: "អ្នក​ត្រូវ​បាន​កំណត់​ថា​ជា​អ្នក​គ្រប់គ្រង​ការ​អនុវត្ត​សម្រាប់%{host_href}.%{reset_notification}"
+      body2_reset_notification: "អ្នកនឹងទទួលបានអ៊ីមែលបន្ថែមឱ្យអ្នកកំណត់ពាក្យសម្ងាត់របស់អ្នកឡើងវិញ។"
+      body3: "អ្នកទទួលខុសត្រូវក្នុងការធានាការអនុវត្តប្រកបដោយសុវត្ថិភាព និងទាន់ពេលវេលា។ សម្រាប់ការដាក់ឱ្យដំណើរការនីមួយៗ អ្នកគួរតែបានបញ្ចប់ផែនការអនុវត្តជាមួយនឹងការចាប់ផ្តើម និងយុទ្ធសាស្ត្រគ្រប់គ្រងអ្នកប្រើប្រាស់ និងពិធីការចែករំលែកព័ត៌មាន។ អ្នកក៏ទទួលខុសត្រូវផងដែរក្នុងការធានាថាលក្ខខណ្ឌនៃការប្រើប្រាស់ដែលបានចុះហត្ថលេខាគឺនៅលើឯកសារសម្រាប់ស្ថាប័នអ្នកប្រើប្រាស់ទាំងអស់។"
   user_group:
+    associated_agencies: ស្ថាបនដែលពាក់ព័ន្ធជាមួយក្រុមអ្នកប្រើប្រាស់នេះ
     description: ការពណ៌នា
+    disabled:
+      explanation: ប្រសិនបើអ្នកបិទក្រុមអ្នកប្រើប្រាស់នេះ អ្នកនឹងមិនអាចកំណត់វាទៅគណនីអ្នកប្រើប្រាស់បានទេ។
+      label: បិទករណី (disable case)
+    messages:
+      created: បង្កើតក្រុម​អ្នក​ប្រើប្រាស់​ដោយ​ជោគជ័យ។
+      updated: បាន​ធ្វើបច្ចុប្បន្នភាពក្រុម​អ្នក​ប្រើប្រាស់​ដោយ​ជោគជ័យ។
     name: ឈ្មោះ
   user_groups:
     label: ក្រុម​អ្នកប្រើប្រាស់
   users:
     label: អ្នកប្រើប្រាស់
+    headers:
+      full_name: ឈ្មោះ​ពេញ
+      user_name: អ្នកប្រើប្រាស់
+      position: តួនាទី
+      agency: ស្ថាប័ន
+  devise:
+    failure:
+      already_authenticated: "អ្នក​បាន​ចូល​រួច​ហើយ។"
+      invalid: "មិនត្រឹមត្រូវ %{authentication_keys}ឬពាក្យសម្ងាត់។"
+      locked: "គណនីរបស់អ្នកត្រូវបានចាក់សោ"
+      last_attempt: "អ្នកអាចព្យាយាមម្តងទៀត មុនពេលគណនីរបស់អ្នកត្រូវបានចាក់សោ។"
+  admin:
+    locations:
+      selected_records: '%{select_records}​ ទីតាំងបានជ្រើសរើស'
+      selected_all_records: ជ្រើសរើសករណីទាំងអស់%{total_records}ដែលត្រូវនឹងសំណួរនេះ។
+      updated: '%{updated_records} ទីតាំងបានកែសម្រួល'

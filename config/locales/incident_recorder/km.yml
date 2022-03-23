@@ -24,6 +24,8 @@ km:
         both: "មនុស្ស​ពេញ​វ័យ និងអនីតិជន"
         unknown: "មិនស្គាល់"
         header: "ប្រភេទ​​​អាយុ​អ្នក​ប្រព្រឹត្ត​ដែល​សង្ស័យ"
+      service_referral:
+        undecided: "មិនទាន់សម្រេចចិត្ត"
       headers:
         incident_id: "លេខ​កូដហេតុការណ៍"
         survivor_code: "លេខ​កូដ​អ្នកនៅ​រស់"
