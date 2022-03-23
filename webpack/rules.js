@@ -3,8 +3,7 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const {
-  OUTPUT_DIRNAME,
-  utils: { isProduction, svgPrefix }
+  utils: { svgPrefix }
 } = require("./config");
 
 const rules = [
