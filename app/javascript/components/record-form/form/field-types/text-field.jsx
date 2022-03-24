@@ -19,6 +19,7 @@ import { valueParser } from "../../../form/utils";
 import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
+import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import css from "./styles.css";
 
@@ -94,11 +95,17 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               }}
               {...fieldProps}
             />
-            {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
-              <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
-                {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
-              </ButtonBase>
-            ) : null}
+            {
+              // TODO: we have hacked it to not display Hide Name on registry records. need permanent solution
+              name === "name" &&
+              mode.isEdit &&
+              recordType !== RECORD_TYPES_PLURAL.registry_record &&
+              !rest?.formSection?.is_nested ? (
+                <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
+                  {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
+                </ButtonBase>
+              ) : null
+            }
           </>
         );
       }}
