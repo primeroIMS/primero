@@ -3058,6 +3058,12 @@ en:
             explanation: Ability to edit all reports (including those created by other
               users).
             label: Edit
+          agency_read:
+            explanation: Ability to view all reports. The numbers in each report
+              will reflect only those records which are accessible to users
+              in the current user's Agency. This permission is often used 
+              for agency administrators.
+            label: View (agency-based data)
         explanation: Aggregate data analysis tool. Includes table and graph representations of data.
         label: Report
       reporting_location_level:
