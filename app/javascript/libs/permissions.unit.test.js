@@ -188,7 +188,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_REPORTS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.READ, PERMISSIONS.ACTIONS.GROUP_READ, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+    [
+      PERMISSIONS.ACTIONS.READ,
+      PERMISSIONS.ACTIONS.GROUP_READ,
+      PERMISSIONS.ACTIONS.AGENCY_READ,
+      PERMISSIONS.ACTIONS.MANAGE
+    ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });

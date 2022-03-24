@@ -9,7 +9,7 @@ class Violation < ApplicationRecord
   # include Indexable
 
   TYPES = %w[
-    killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
+    killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use denial_humanitarian_access
   ].freeze
   MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
 
