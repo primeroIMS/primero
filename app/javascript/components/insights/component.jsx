@@ -11,9 +11,12 @@ import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
 import { getInsight } from "../insights-sub-report/selectors";
+import ActionButton from "../action-button";
+import { useDialog } from "../action-dialog";
 
-import { INSIGHTS_CONFIG, NAME } from "./constants";
+import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG } from "./constants";
 import css from "./styles.css";
+import InsightsExporter from "./components/insights-exporter";
 
 const Component = ({ routes }) => {
   const { id } = useParams();
@@ -21,6 +24,7 @@ const Component = ({ routes }) => {
   const { pathname } = useLocation();
   const { moduleID } = useParams();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(INSIGHTS_EXPORTER_DIALOG);
 
   const [toggleNav, setToggleNav] = useState(false);
 
@@ -43,9 +47,22 @@ const Component = ({ routes }) => {
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;
 
+  const handleExport = () => {
+    setDialog({ dialog: INSIGHTS_EXPORTER_DIALOG, open: true });
+  };
+
   return (
     <PageContainer twoCol>
-      <PageHeading title={name}>{/* <Exporter includesGraph={insight.get("graph")} /> */}</PageHeading>
+      <PageHeading title={name}>
+        <ActionButton onClick={handleExport} text="buttons.export" />
+        <InsightsExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          setPending={setDialogPending}
+        />
+      </PageHeading>
       <PageContent hasNav>
         <Hidden smDown implementation="css">
           <div>
