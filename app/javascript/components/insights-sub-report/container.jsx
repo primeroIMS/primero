@@ -5,7 +5,6 @@ import { fromJS, List, Map } from "immutable";
 import take from "lodash/take";
 import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
-import { isEmpty } from "lodash";
 
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
