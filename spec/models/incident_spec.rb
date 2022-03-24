@@ -465,7 +465,8 @@ describe Incident do
           ],
           'sexual_violence' => [],
           'abduction' => [],
-          'attack_on' => [],
+          'attack_on_hospitals' => [],
+          'attack_on_schools' => [],
           'military_use' => [],
           'denial_humanitarian_access' => [],
           'sources' => [

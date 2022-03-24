@@ -1831,7 +1831,8 @@ en:
         recruitment: Recruitment and/or use of children
         sexual_violence: Rape and/or other forms of sexual violence
         abduction: Abduction
-        attack_on: Attacks on school(s) and/or hospital(s)
+        attack_on_hospitals: Attacks on hospital(s)
+        attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
       sub_reports:
