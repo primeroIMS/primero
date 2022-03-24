@@ -40,7 +40,7 @@ const Component = ({ routes }) => {
 
   const name = i18n.t(insight.get("name"));
 
-  const menuList = insightType?.ids.map(subReportID => ({
+  const menuList = insightType?.ids?.concat(["detention"]).map(subReportID => ({
     to: [ROUTES.insights, moduleID, id, subReportID].join("/"),
     text: i18n.t([...insightType.localeKeys, subReportID].join("."))
   }));

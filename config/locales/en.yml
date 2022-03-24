@@ -1842,10 +1842,11 @@ en:
         detention: Detention
       sub_reports:
         combined: Violations
+        denial_humanitarian_access: Denial of humanitarian
         denial_type: Type of denials
         detention_detained: Remain Detained
         detention_released: Released
-        denial_humanitarian_access: Denial of humanitarian
+        detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type
@@ -1856,6 +1857,11 @@ en:
         violation: Violations
         sexual_violence_type: Form(s) of sexual violence
         detention_status: Status of Detained children
+        type_of_use: Type of use
+        factors_of_recruitment: Reasons for recruitment
+        still_being_held: Still being held
+        released: 'Released'
+        escaped: 'Escaped'
     gbv_statistics:
       name: GBV Statistics
       description: ''
