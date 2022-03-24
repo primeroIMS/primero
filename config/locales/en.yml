@@ -1849,6 +1849,8 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        type_of_use: Type of use
+        factors_of_recruitment: Reasons for recruitment
         still_being_held: Still being held
         released: 'Released'
         escaped: 'Escaped'
