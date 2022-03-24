@@ -204,4 +204,49 @@ describe("<SubformDialogFields />", () => {
       expect(componentsProps.violationOptions).to.deep.equal(parentViolationOptions);
     });
   });
+
+  describe("when a field has tag properties", () => {
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(
+        SubformDialogFields,
+        {
+          mode: { isEdit: true },
+          formSection: { unqique_id: "test_id" },
+          field: FieldRecord({
+            name: "attack_on_hospitals",
+            subform_section_id: FormSectionRecord({
+              unique_id: "attack_on_hospitals",
+              fields: [
+                FieldRecord({
+                  name: "facility_attack_type",
+                  visible: true,
+                  type: "select_box",
+                  multiple: true,
+                  option_strings_source: "lookup lookup-facility-attack-type",
+                  option_strings_condition: {
+                    "armed-on-hospital": { in: { violation_category: ["attack_on_hospitals"] } }
+                  }
+                })
+              ]
+            })
+          }),
+          recordType: "cases",
+          recordModuleID: "primeromodule-cp",
+          values: {},
+          parentValues: {
+            violation_category: ["attack_on_hospitals", "killing"]
+          }
+        },
+        {},
+        [],
+        { registerField: () => {} }
+      ));
+    });
+
+    it("renders FormSectionField component with valid props", () => {
+      const componentsProps = { ...component.find(FormSectionField).props() };
+
+      expect(componentsProps.tags).to.deep.equal(["armed-on-hospital"]);
+    });
+  });
 });
