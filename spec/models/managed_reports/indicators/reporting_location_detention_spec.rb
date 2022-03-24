@@ -160,6 +160,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
     violation6 = Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
     violation6.individual_victims = [
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
     ]
 
@@ -180,6 +181,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
     violation10 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation10.individual_victims = [
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
     ]
   end
@@ -199,7 +201,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 6 }, { 'id' => 'E2', 'total' => 3 }]
+        [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 4 }]
       )
     end
 
@@ -209,7 +211,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 2 }, { 'id' => 'E2', 'total' => 3 }]
+        [{ 'id' => 'E1', 'total' => 2 }, { 'id' => 'E2', 'total' => 4 }]
       )
     end
 
@@ -219,7 +221,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 3 }]
+        [{ 'id' => 'E1', 'total' => 8 }, { 'id' => 'E2', 'total' => 4 }]
       )
     end
   end
