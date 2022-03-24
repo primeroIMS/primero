@@ -143,10 +143,15 @@ class Filter < ValueObject
       }
     end.inject(&:merge)
   )
+  INCIDENT_STATUS = Filter.new(
+    name: 'incidents.filter_by.status',
+    field_name: 'status',
+    option_strings_source: 'lookup-incident-status'
+  )
   VERIFICATION_STATUS = Filter.new(
     name: 'incidents.filter_by.verification_status',
     field_name: 'verification_status',
-    option_strings_source: 'lookup-incident-status'
+    option_strings_source: 'lookup-verification-status'
   )
   INCIDENT_LOCATION = Filter.new(
     name: 'incidents.filter_by.incident_location',
@@ -311,7 +316,8 @@ class Filter < ValueObject
       filters << SOCIAL_WORKER if user.manager?
       filters << AGENCY_OFFICE if user.module?(PrimeroModule::GBV)
       filters << USER_GROUP if user.module?(PrimeroModule::GBV) && user.user_group_filter?
-      filters << STATUS
+      filters << STATUS unless user.module?(PrimeroModule::MRM)
+      filters << INCIDENT_STATUS if user.module?(PrimeroModule::MRM)
       filters << AGE_RANGE
       filters << CHILDREN if user.module?(PrimeroModule::MRM)
       filters << VERIFICATION_STATUS if user.module?(PrimeroModule::MRM)

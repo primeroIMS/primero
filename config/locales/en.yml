@@ -60,6 +60,7 @@ en:
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
+    mark_for_offline: Mark for Offline
   agencies:
     label: Agency
     translations:
@@ -291,6 +292,10 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these Cases for use when you are offline?
+      success: Cases successfully marked for offline use
     filter_by:
       3month_inactivity: For 3+ months
       action_plan: Action Plan
@@ -1388,6 +1393,7 @@ en:
       children: Children
       girls: Girls
       incident_location: Incident Location
+      status: Status
       unaccompanied_separated_status: Protection Status
       unknown: Unknown
       verification_status: Verification Status
@@ -1826,12 +1832,15 @@ en:
         recruitment: Recruitment and/or use of children
         sexual_violence: Rape and/or other forms of sexual violence
         abduction: Abduction
-        attack_on: Attacks on school(s) and/or hospital(s)
+        attack_on_hospitals: Attacks on hospital(s)
+        attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
         detention: Detention
       sub_reports:
         combined: Violations
+        denial_humanitarian_access: Denial of humanitarian
+        denial_type: Type of denials
         detention_detained: Remain Detained
         detention_released: Released
         detention_status: Status of Detained children
@@ -1842,6 +1851,11 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        type_of_use: Type of use
+        factors_of_recruitment: Reasons for recruitment
+        still_being_held: Still being held
+        released: 'Released'
+        escaped: 'Escaped'
     gbv_statistics:
       name: GBV Statistics
       description: ''
@@ -2008,6 +2022,7 @@ en:
       kpi: Pulse/KPIs
       lookup: Lookups
       manage: Manage
+      mark_for_offline: Mark for Offline
       matching_configuration: Matching Configuration
       metadata: Forms, Lookups
       potential_match: Potential Match
@@ -2040,7 +2055,7 @@ en:
       services_section_from_case: Add Service provision to another user's case
       specific_roles: Access specified list of roles
       sync_external: Sync with an external information management system
-      sync_mobile: Sync with mobile device
+      sync_mobile: Mark for Offline
       system: System
       tracing_request: Tracing Request
       transfer: Can be used for transfer
@@ -2494,16 +2509,8 @@ en:
             explanation: Ability to sync a Record with an external information management system
             label: Sync with an external information management system
           sync_mobile:
-            explanation: This permission generally allows the user to use the mobile
-              application. First, it allows the user to see the "Mark for Mobile"
-              and "Un-mark for Mobile" actions, which appear on the case list and
-              case show pages. Marking a case for mobile indicates that information
-              about that case should be synced between the user's mobile device and
-              the web application, while un-marking a case for mobile stops this syncing
-              from happening. Users without this permission also cannot sync their
-              mobile devices with the web application in general, meaning that they
-              cannot use the mobile app to manage cases.
-            label: Sync with mobile device
+            explanation: Allows the user to cache cases for usage offline.
+            label: Mark for Offline
           transfer:
             explanation: Allows a user to send a case from its current record owner
               to any user in the system with the ability to receive transfers. The
@@ -2543,6 +2550,9 @@ en:
             explanation: Managers usually cannot see the names of Cases in the Case List.
               If a manager has this permission, they will be able to see names in the list.
             label: If manager, can see Case names on Case List.
+          mark_for_offline:
+            explanation: Allows the user to cache a Case for usage offline.
+            label: Mark for Offline
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3022,6 +3032,9 @@ en:
             explanation: Ability to click the "Edit" button, update information about the Registry
               record, and click "Save".
             label: Edit
+          sync_mobile:
+            explanation: Allows the user to cache registry records for usage offline.
+            label: Mark for Offline
         explanation: This can represent an individual or institution which need to be linked
           to other records like cases or incidents, are very numerous, and are repeatedly
           updated with new information. They are similar to lookups, but with a more complex
@@ -3056,6 +3069,12 @@ en:
             explanation: Ability to edit all reports (including those created by other
               users).
             label: Edit
+          agency_read:
+            explanation: Ability to view all reports. The numbers in each report
+              will reflect only those records which are accessible to users
+              in the current user's Agency. This permission is often used 
+              for agency administrators.
+            label: View (agency-based data)
         explanation: Aggregate data analysis tool. Includes table and graph representations of data.
         label: Report
       reporting_location_level:
@@ -3599,6 +3618,10 @@ en:
     show_registry_record: 'Registry Record ID: %{short_id}'
     register_new_registry_record: New Registry Record
     export: Export
+    mark_for_offline:
+      title: Mark for Offline
+      text: Are you sure you want to mark these registry records for use when you are offline?
+      success: Registry records successfully marked for offline use
   transfer:
     label: Transfer
     agency_label: Agency

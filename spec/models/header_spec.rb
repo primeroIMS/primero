@@ -113,14 +113,15 @@ describe Header do
   it 'Comparing headers of Case' do
     expect(Header.get_headers(@user_cp_worker, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::AGE, Header::SEX,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::AGE, Header::SEX,
         Header::REGISTRATION_DATE, Header::PHOTO, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_cp_manager, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::AGE, Header::SEX, Header::REGISTRATION_DATE, Header::PHOTO,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::AGE, Header::SEX,
+        Header::REGISTRATION_DATE, Header::PHOTO,
         Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
@@ -134,14 +135,14 @@ describe Header do
 
     expect(Header.get_headers(@user_gbv_worker, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::SURVIVOR_CODE,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::COMPLETE, Header::SURVIVOR_CODE,
         Header::CASE_OPENING_DATE, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_gbv_manager, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_OPENING_DATE,
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::COMPLETE, Header::CASE_OPENING_DATE,
         Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )

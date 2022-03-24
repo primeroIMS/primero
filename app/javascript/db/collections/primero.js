@@ -10,7 +10,7 @@ const Primero = {
   },
 
   save: async ({ collection, json }) => {
-    await DB.put(collection, json.data, { id: 1 });
+    await DB.put({ store: collection, data: json.data, key: { id: 1 } });
 
     if (json?.data?.agencies) {
       const logos = await Logos.save(json.data.agencies);

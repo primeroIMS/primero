@@ -10,7 +10,15 @@ import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";
 
-const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRecords, currentPage }) => {
+const Component = ({
+  title,
+  recordType,
+  handleDrawer,
+  mobileDisplay,
+  selectedRecords,
+  clearSelectedRecords,
+  currentPage
+}) => {
   return (
     <PageHeading title={title}>
       {mobileDisplay && (
@@ -23,6 +31,7 @@ const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRec
       </Permission>
       <RecordActions
         currentPage={currentPage}
+        clearSelectedRecords={clearSelectedRecords}
         selectedRecords={selectedRecords}
         recordType={recordType}
         mode={{ isShow: true }}
@@ -33,6 +42,7 @@ const Component = ({ title, recordType, handleDrawer, mobileDisplay, selectedRec
 };
 
 Component.propTypes = {
+  clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,

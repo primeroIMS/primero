@@ -48,7 +48,7 @@ class RegistryRecord < ApplicationRecord
   end
 
   searchable do
-    %w[status registry_type].each { |f| string(f, as: "#{f}_sci") }
+    %w[id status registry_type].each { |f| string(f, as: "#{f}_sci") }
     %w[registration_date].each { |f| date(f) }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }

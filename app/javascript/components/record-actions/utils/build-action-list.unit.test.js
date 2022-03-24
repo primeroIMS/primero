@@ -78,7 +78,8 @@ describe("record-actions/utils/build-action-list", () => {
       "notes",
       "requestApproval",
       "approve",
-      "export"
+      "export",
+      "markForOffline"
     ]);
   });
 });

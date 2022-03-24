@@ -465,7 +465,8 @@ describe Incident do
           ],
           'sexual_violence' => [],
           'abduction' => [],
-          'attack_on' => [],
+          'attack_on_hospitals' => [],
+          'attack_on_schools' => [],
           'military_use' => [],
           'denial_humanitarian_access' => [],
           'sources' => [
@@ -560,6 +561,47 @@ describe Incident do
       @incident.save!
 
       expect(@incident.elapsed_reporting_time).to be_nil
+    end
+  end
+
+  describe '#verification_status_list', search: true do
+    before do
+      @incident = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      @incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      Violation.create!(
+        data: {
+          type: 'killing',
+          ctfmr_verified: 'verified'
+        },
+        incident_id: @incident.id
+      )
+      Violation.create!(
+        data: {
+          type: 'maiming',
+          ctfmr_verified: 'verified'
+        },
+        incident_id: @incident.id
+      )
+      Violation.create!(
+        data: {
+          type: 'killing',
+          ctfmr_verified: 'not_mrm'
+        },
+        incident_id: @incident2.id
+      )
+      Incident.reindex
+      Sunspot.commit
+    end
+    it 'can find an incident by verification_status' do
+      search_result = SearchService.search(
+        Incident,
+        filters: [
+          SearchFilters::Value.new(field_name: 'verification_status', value: 'not_mrm')
+        ]
+      ).results
+      expect(search_result).to have(1).incident
+      expect(search_result.first.incident_id).to eq(@incident2.incident_id)
+      expect(search_result.first.incident_code).to eq(@incident2.incident_code)
     end
   end
 

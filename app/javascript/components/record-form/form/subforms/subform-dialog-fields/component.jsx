@@ -66,7 +66,10 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
-    const tags = getOptionStringsTags(subformSectionField, values);
+    const tags = getOptionStringsTags(subformSectionField, values).concat(
+      getOptionStringsTags(subformSectionField, parentValues)
+    );
+
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,
