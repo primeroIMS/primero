@@ -33,10 +33,14 @@ describe Api::V2::ReportsController, type: :request do
     @role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
                          modules: [@cp])
-    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
+    @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2', unique_id: 'agency2')
     @test_user1 = User.create!(full_name: 'Test User 1', user_name: 'test_user_1', password: 'a12345678',
                                password_confirmation: 'a12345678', email: 'test_user_1@localhost.com',
                                agency_id: @agency1.id, role: @role, location: @location0.location_code)
+    @test_user2 = User.create!(full_name: 'Test User 2', user_name: 'test_user_2', password: 'a12345678',
+                               password_confirmation: 'a12345678', email: 'test_user_2@localhost.com',
+                               agency_id: @agency2.id, role: @role, location: @location0.location_code)
 
     Sunspot.setup(Child) do
       string 'protection_concerns', multiple: true
@@ -45,6 +49,10 @@ describe Api::V2::ReportsController, type: :request do
     @child_concerns1 = Child.new_with_user(@test_user1,
                                            protection_concerns: %w[trafficked_smuggled sexually_exploited migrant])
     @child_concerns1.save!
+
+    @child_concerns2 = Child.new_with_user(@test_user2,
+                                           protection_concerns: %w[trafficked_smuggled sexually_exploited migrant])
+    @child_concerns2.save!
 
     Sunspot.commit
   end
@@ -77,6 +85,25 @@ describe Api::V2::ReportsController, type: :request do
     it 'fetches the correct report with code 200' do
       login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])],
                      modules: [@cp])
+
+      get "/api/v2/reports/#{@report1.id}"
+
+      report_data = {
+        'cn' => {
+          'migrant' => { '_total' => 2 },
+          'sexually_exploited' => { '_total' => 2 },
+          'trafficked_smuggled' => { '_total' => 2 },
+          '_total' => 2
+        }
+      }
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data']).to eq(report_data)
+    end
+
+    it 'fetches the agency based data for the report with code 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::AGENCY_READ])],
+                     modules: [@cp], agency_id: @agency2.id)
 
       get "/api/v2/reports/#{@report1.id}"
 
