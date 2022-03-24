@@ -551,7 +551,8 @@ export const VIOLATIONS_FORM = [
   "recruitment_violation_wrapper",
   "sexual_violence_violation_wrapper",
   "abduction_violation_wrapper",
-  "attack_on_violation_wrapper",
+  "attack_on_hospitals_violation_wrapper",
+  "attack_on_schools_violation_wrapper",
   "military_use_violation_wrapper",
   "denial_humanitarian_access_violation_wrapper"
 ];
@@ -570,7 +571,8 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "recruitment",
   "sexual_violence",
   "abduction",
-  "attack_on",
+  "attack_on_hospitals",
+  "attack_on_schools",
   "military_use",
   "denial_humanitarian_access"
 ];

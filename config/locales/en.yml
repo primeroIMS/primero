@@ -1393,6 +1393,7 @@ en:
       children: Children
       girls: Girls
       incident_location: Incident Location
+      status: Status
       unaccompanied_separated_status: Protection Status
       unknown: Unknown
       verification_status: Verification Status
@@ -1799,6 +1800,7 @@ en:
     translation_label: Translation Text
     values: Options
   managed_reports:
+    generated_on: Generated On
     label: Insights
     total: Total
     filter_by: 
@@ -1825,19 +1827,26 @@ en:
         incident_date: Date of Incident
         date_of_report: Date of Report
         ctfmr_verified_date: Date of Verification
+        verified: Verified
       reports:
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
         sexual_violence: Rape and/or other forms of sexual violence
+        rape: Rape and/or other forms of sexual violence
         abduction: Abduction
-        attack_on: Attacks on school(s) and/or hospital(s)
+        attack_on_hospitals: Attacks on hospital(s)
+        attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        detention: Detention
       sub_reports:
         combined: Violations
+        denial_humanitarian_access: Denial of humanitarian
+        denial_type: Type of denials
         detention_detained: Remain Detained
         detention_released: Released
+        detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type
@@ -1845,6 +1854,14 @@ en:
         girls: Girls
         unknown: Unknown
         total: Total
+        violation: Violations
+        sexual_violence_type: Form(s) of sexual violence
+        detention_status: Status of Detained children
+        type_of_use: Type of use
+        factors_of_recruitment: Reasons for recruitment
+        still_being_held: Still being held
+        released: 'Released'
+        escaped: 'Escaped'
     gbv_statistics:
       name: GBV Statistics
       description: ''
@@ -1874,6 +1891,7 @@ en:
         marital_status: Marital Status of Survivors
         displacement_status: Displacement Status of Survivors
         displacement_incident: Stage of Displacement at time of Incident
+    success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -3064,6 +3082,12 @@ en:
             explanation: Ability to edit all reports (including those created by other
               users).
             label: Edit
+          agency_read:
+            explanation: Ability to view all reports. The numbers in each report
+              will reflect only those records which are accessible to users
+              in the current user's Agency. This permission is often used 
+              for agency administrators.
+            label: View (agency-based data)
         explanation: Aggregate data analysis tool. Includes table and graph representations of data.
         label: Report
       reporting_location_level:

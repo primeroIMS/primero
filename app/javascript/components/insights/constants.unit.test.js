@@ -6,28 +6,31 @@ describe("<Report /> - constants", () => {
   it("should have known properties", () => {
     expect(clone).to.be.an("object");
     [
-      "DELETE_MODAL",
-      "NAME",
-      "DATE_PATTERN",
-      "TOTAL",
-      "TOTAL_KEY",
+      "CONTROLS_GROUP",
+      "CUSTOM",
       "DATE_CONTROLS",
       "DATE_CONTROLS_GROUP",
-      "CONTROLS_GROUP",
-      "THIS_QUARTER",
-      "LAST_QUARTER",
-      "THIS_YEAR",
-      "LAST_YEAR",
-      "THIS_MONTH",
-      "LAST_MONTH",
-      "CUSTOM",
+      "DATE_PATTERN",
+      "DELETE_MODAL",
+      "EXPORT_INSIGHTS_PATH",
       "INSIGHTS_CONFIG",
+      "INSIGHTS_EXPORTER_DIALOG",
+      "LAST_MONTH",
+      "LAST_QUARTER",
+      "LAST_YEAR",
       "MANAGED_REPORTS",
-      "VIOLATION",
-      "SHARED_FILTERS",
-      "YEAR_OPTION_IDS",
       "MONTH_OPTION_IDS",
-      "QUARTER_OPTION_IDS"
+      "NAME",
+      "NAMESPACE",
+      "QUARTER_OPTION_IDS",
+      "SHARED_FILTERS",
+      "THIS_MONTH",
+      "THIS_QUARTER",
+      "THIS_YEAR",
+      "TOTAL",
+      "TOTAL_KEY",
+      "VIOLATION",
+      "YEAR_OPTION_IDS"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

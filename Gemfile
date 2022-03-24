@@ -44,7 +44,7 @@ gem 'sunspot_solr',        '~> 2.5'    # Ruby bindings to Solr
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2021' # Timezone Data for TZInfo
 gem 'will_paginate',       '~> 3.1'    # Paginates ActiveRecord models  TODO: This can be refactored away.
-gem 'write_xlsx',          '~> 0.85'   # Exports XLSX
+gem 'write_xlsx',          '~> 1.09'   # Exports XLSX
 
 group :development, :test do
   gem 'binding_of_caller',          '~> 0.8'

@@ -2,16 +2,10 @@ import { fromJS } from "immutable";
 
 import { DEFAULT_METADATA } from "../../config";
 
-import {
-  CLEAR_METADATA,
-  FETCH_INSIGHTS_SUCCESS,
-  FETCH_INSIGHTS_STARTED,
-  FETCH_INSIGHTS_FINISHED,
-  FETCH_INSIGHTS_FAILURE
-} from "./actions";
+import actions from "./actions";
 import reducer from "./reducer";
 
-describe("<Reports /> - Reducers", () => {
+describe("<Insights /> - Reducers", () => {
   const initialState = fromJS({});
 
   it("deprecated Reports/CASES_BY_NATIONALITY", () => {
@@ -142,7 +136,7 @@ describe("<Reports /> - Reducers", () => {
       errors: false
     });
     const action = {
-      type: FETCH_INSIGHTS_STARTED,
+      type: actions.FETCH_INSIGHTS_STARTED,
       payload: true
     };
 
@@ -170,7 +164,7 @@ describe("<Reports /> - Reducers", () => {
       }
     });
     const action = {
-      type: FETCH_INSIGHTS_SUCCESS,
+      type: actions.FETCH_INSIGHTS_SUCCESS,
       payload: {
         data,
         metadata: {
@@ -191,7 +185,7 @@ describe("<Reports /> - Reducers", () => {
       loading: false
     });
     const action = {
-      type: FETCH_INSIGHTS_FINISHED,
+      type: actions.FETCH_INSIGHTS_FINISHED,
       payload: false
     };
 
@@ -205,7 +199,7 @@ describe("<Reports /> - Reducers", () => {
       errors: true
     });
     const action = {
-      type: FETCH_INSIGHTS_FAILURE,
+      type: actions.FETCH_INSIGHTS_FAILURE,
       payload: true
     };
 
@@ -220,7 +214,32 @@ describe("<Reports /> - Reducers", () => {
     });
 
     const action = {
-      type: CLEAR_METADATA
+      type: actions.CLEAR_METADATA
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle CLEAR_INSIGHT_FILTERS", () => {
+    const expected = fromJS({ filters: {} });
+
+    const action = {
+      type: actions.CLEAR_INSIGHT_FILTERS
+    };
+
+    const newState = reducer(fromJS({ filters: { filter1: "value1" } }), action);
+
+    expect(newState).to.deep.equal(expected);
+  });
+
+  it("should handle SET_INSIGHT_FILTERS", () => {
+    const expected = fromJS({ filters: { filter1: "value1" } });
+
+    const action = {
+      type: actions.SET_INSIGHT_FILTERS,
+      payload: { filter1: "value1" }
     };
 
     const newState = reducer(fromJS({}), action);
