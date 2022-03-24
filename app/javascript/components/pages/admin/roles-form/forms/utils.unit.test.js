@@ -41,8 +41,8 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
 
   describe("buildAdminLevelSelect", () => {
     const adminLevelMap = Map({
-      "1": ["province"],
-      "2": ["district", "test"]
+      1: ["province"],
+      2: ["district", "test"]
     });
 
     it("should return an array of objects to be used as option_strings_text", () => {

@@ -68,7 +68,12 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav }) => {
         handleToggleNav={handleToggleNav}
         displayText={i18n.t("forms.record_types.record_information")}
       />
-      <Formik key="record-owner-formik" initialValues={recordOwnerValues}>
+      <Formik
+        key="record-owner-formik"
+        initialValues={recordOwnerValues}
+        validateOnBlur={false}
+        validateOnChange={false}
+      >
         <Form>{renderFields}</Form>
       </Formik>
     </div>

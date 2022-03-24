@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name, react/no-multi-comp, react/prop-types */
 import { routerMiddleware } from "connected-react-router/immutable";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormikContext } from "formik";
 import { createMemoryHistory } from "history";
 import isFunction from "lodash/isFunction";
 import isEmpty from "lodash/isEmpty";
@@ -74,6 +74,10 @@ export const createMockStore = (defaultState = fromJS({}), initialState) => {
   return { store, history };
 };
 
+export const FormikValueFromHook = (props) => {
+  return null
+}
+
 export const setupMountedComponent = (
   TestComponent,
   props = {},
@@ -83,6 +87,17 @@ export const setupMountedComponent = (
 ) => {
   const { store, history } = createMockStore(DEFAULT_STATE, initialState);
 
+  const FormikForm = (props) => {
+    const formContext = useFormikContext();
+
+    return (
+      <Form>
+        <FormikValueFromHook {...formContext} />
+        <TestComponent {...props} />
+      </Form>
+    )
+  }
+
   const FormikComponent = ({ formikProps, componentProps }) => {
     if (isEmpty(formikProps)) {
       return <TestComponent {...componentProps} />;
@@ -90,9 +105,7 @@ export const setupMountedComponent = (
 
     return (
       <Formik {...formikProps}>
-        <Form>
-          <TestComponent {...componentProps} />
-        </Form>
+        <FormikForm {...componentProps} />
       </Formik>
     );
   };

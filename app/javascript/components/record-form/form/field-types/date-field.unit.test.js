@@ -1,9 +1,8 @@
-import { Formik } from "formik";
 import { TextField } from "@material-ui/core";
 import { parseISO } from "date-fns";
 
 import { DEFAULT_DATE_VALUES } from "../../../../config";
-import { setupMountedComponent, useFakeTimers } from "../../../../test";
+import { FormikValueFromHook, setupMountedComponent, useFakeTimers } from "../../../../test";
 import { DATE_FIELD } from "../../../form";
 import { FieldRecord } from "../../records";
 
@@ -46,8 +45,7 @@ describe("<DateField />", () => {
         component.find(TextField).simulate("click");
         component.find(".MuiPickersDay-day").first().simulate("click");
         component.find(".MuiButton-textPrimary").last().simulate("click");
-
-        expect(component.find(Formik).state().values.age).to.equal(0);
+        expect(component.find(FormikValueFromHook).props().values.age).to.equal(0);
       });
     });
 
@@ -64,7 +62,7 @@ describe("<DateField />", () => {
         component.find(".MuiPickersDay-day").first().simulate("click");
         component.find(".MuiButton-textPrimary").last().simulate("click");
 
-        expect(component.find(Formik).state().values).to.not.have.property("age");
+        expect(component.find(FormikValueFromHook).props().values).to.not.have.property("age");
       });
     });
   });
@@ -110,7 +108,7 @@ describe("<DateField />", () => {
         formProps
       );
 
-      expect(component.find(Formik).state().values.date_of_interview).to.be.equal("2010-01-05");
+      expect(component.find(FormikValueFromHook).props().values.date_of_interview).to.be.equal("2010-01-05");
     });
 
     it("sets the datetime default value as string if the mode is new", () => {
@@ -132,7 +130,7 @@ describe("<DateField />", () => {
         formProps
       );
 
-      expect(component.find(Formik).state().values.date_of_interview).to.be.equal("2010-01-05T18:30:00Z");
+      expect(component.find(FormikValueFromHook).props().values.date_of_interview).to.be.equal("2010-01-05T18:30:00Z");
     });
 
     it("should clear the current value if the mode is new and the clear button is clicked", () => {
@@ -155,7 +153,7 @@ describe("<DateField />", () => {
         .first()
         .simulate("click");
 
-      expect(component.find(Formik).state().values.date_of_interview).to.be.null;
+      expect(component.find(FormikValueFromHook).props().values.date_of_interview).to.be.null;
     });
 
     it("should not set the default value if the mode is not new", () => {
@@ -170,7 +168,7 @@ describe("<DateField />", () => {
         formProps
       );
 
-      expect(component.find(Formik).state().values).to.not.have.property("date_of_interview");
+      expect(component.find(FormikValueFromHook).props().values).to.not.have.property("date_of_interview");
     });
   });
 });

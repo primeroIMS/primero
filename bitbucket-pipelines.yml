@@ -28,7 +28,7 @@ definitions:
           - git push https://$primeroimstoken@github.com/primeroIMS/primero.git $BITBUCKET_BRANCH
   services:
     postgres:
-      image: postgres:10
+      image: postgres:11
       variables:
         POSTGRES_DB: 'primero_test'
         POSTGRES_USER: 'postgres'

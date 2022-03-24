@@ -118,10 +118,8 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
   };
 
   return (
-    <FieldArray
-      name={name}
-      validateOnChange={false}
-      render={arrayHelpers => (
+    <FieldArray name={name} validateOnChange={false}>
+      {arrayHelpers => (
         <div>
           <AttachmentLabel
             label={label}
@@ -139,7 +137,7 @@ const Component = ({ name, field, label, disabled, formik, mode, recordType }) =
           </LoadingIndicator>
         </div>
       )}
-    />
+    </FieldArray>
   );
 };
 

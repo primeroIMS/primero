@@ -37,10 +37,12 @@ describe("pages/admin/<CodeOfConductForm />", () => {
       const { component } = setupMountedComponent(CodeOfConductForm, props, initialState);
 
       const textInputs = component.find(TextInput);
-      const { title, content, created_by: createdBy, created_on: createdOn } = textInputs
-        .at(0)
-        .props()
-        .formMethods.getValues();
+      const {
+        title,
+        content,
+        created_by: createdBy,
+        created_on: createdOn
+      } = textInputs.at(0).props().formMethods.getValues();
 
       expect(textInputs).to.have.lengthOf(3);
       expect(component.find(DateInput)).to.have.lengthOf(1);
@@ -65,10 +67,12 @@ describe("pages/admin/<CodeOfConductForm />", () => {
 
       const textInputs = component.find(TextInput);
 
-      const { title, content, created_by: createdBy, created_on: createdOn } = textInputs
-        .at(0)
-        .props()
-        .formMethods.getValues();
+      const {
+        title,
+        content,
+        created_by: createdBy,
+        created_on: createdOn
+      } = textInputs.at(0).props().formMethods.getValues();
 
       expect(textInputs).to.have.lengthOf(3);
       expect(component.find(DateInput)).to.have.lengthOf(1);

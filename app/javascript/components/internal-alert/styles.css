@@ -9,6 +9,7 @@
 .alertTitle {
   display: inline-flex;
   align-items: center;
+  width: 100%;
 
   &.disableCollapse {
     pointer-events: none;
@@ -22,7 +23,7 @@
 }
 
 .alert {
-  margin-top: 10px;
+  margin: var(--sp-3) 0;
   border-radius: 5px;
   color: var(--c-grey);
   font-weight: bold;

@@ -1,0 +1,60 @@
+const path = require("path");
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const {
+  utils: { svgPrefix }
+} = require("./config");
+
+const rules = [
+  {
+    test: /\.(js|jsx)$/,
+    exclude: /node_modules/,
+    use: [require.resolve("babel-loader")]
+  },
+  {
+    test: /\.css$/,
+    exclude: /index.css$/,
+    use: [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: "css-loader",
+        options: {
+          importLoaders: 1,
+          modules: true
+        }
+      },
+      {
+        loader: "postcss-loader",
+        options: {
+          postcssOptions: {
+            path: path.resolve(__dirname, "..", "postcss.config.js")
+          }
+        }
+      }
+    ]
+  },
+  {
+    test: /index.css$/,
+    use: [MiniCssExtractPlugin.loader, "css-loader"]
+  },
+  {
+    test: /\.svg$/,
+    loader: "react-svg-loader",
+    options: {
+      jsx: true,
+      svgo: {
+        plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
+      }
+    }
+  },
+  {
+    test: /\.(png|svg|jpg|jpeg|gif)$/,
+    type: "asset/resource",
+    generator: {
+      filename: "images/[hash][ext][query]"
+    }
+  }
+];
+
+module.exports = rules;
