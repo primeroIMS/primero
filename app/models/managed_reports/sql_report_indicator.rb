@@ -2,40 +2,42 @@
 
 # Class to hold SQL results
 class ManagedReports::SqlReportIndicator < ValueObject
+  include ManagedReports::SqlQueryHelpers
+
   attr_accessor :params, :data
+
+  QUARTER = 'quarter'
+  MONTH = 'month'
+  YEAR = 'year'
 
   class << self
     def sql(current_user, params = {}); end
 
     def build(current_user = nil, params = {})
       indicator = new(params: params)
-      indicator.data = if block_given?
-                         yield(indicator.execute_query(current_user))
-                       else
-                         indicator.execute_query(current_user)
-                       end
+      results = indicator.execute_query(current_user)
+      indicator.data = block_given? ? yield(results) : build_results(results)
       indicator
     end
 
-    def equal_value_query(param, table_name = nil)
-      return unless param.present?
+    def build_results(results)
+      results_array = results.to_a
 
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{quoted_query(table_name, 'data')} ->> ? = ?", param.field_name, param.value]
-      )
+      return results_array unless results_array.any? { |result| result['group_id'].present? }
+
+      build_groups(results_array)
     end
 
-    def date_range_query(param, table_name = nil)
-      return unless param.present?
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "to_timestamp(#{quoted_query(table_name, 'data')} ->> ?, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS') between ? and ?",
-          param.field_name,
-          param.from,
-          param.to
-        ]
-      )
+    def build_groups(results)
+      results.each_with_object([]) do |elem, acc|
+        group_id = elem.delete('group_id')
+        current_group = acc.find { |group| group['group_id'] == group_id }
+        if current_group.present?
+          current_group['data'] << elem
+        else
+          acc << { 'group_id' => group_id, 'data' => [elem] }
+        end
+      end
     end
 
     def user_scope_query(current_user, table_name = nil)
@@ -50,60 +52,18 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
-    def agency_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_agencies}' ?| array[:agencies]",
-          agencies: [current_user.agency.unique_id]
-        ]
-      )
-    end
+    def grouped_date_query(grouped_by_param, date_param, table_name = nil)
+      return unless grouped_by_param.present? && date_param.present?
 
-    def group_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_groups}' ?| array[:groups]",
-          groups: current_user.user_group_unique_ids
-        ]
-      )
-    end
-
-    def self_scope_query(current_user, table_name = nil)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          "#{quoted_query(table_name, 'data')} #> '{associated_user_names}' ?| array[:user_names]",
-          user_names: [current_user.user_name]
-        ]
-      )
-    end
-
-    def quoted_query(table_name, column_name)
-      return ActiveRecord::Base.connection.quote_column_name(column_name) if table_name.blank?
-
-      "#{quoted_table_name(table_name)}.#{ActiveRecord::Base.connection.quote_column_name(column_name)}"
-    end
-
-    def quoted_table_name(table_name)
-      return unless table_name.present?
-
-      ActiveRecord::Base.connection.quote_table_name(table_name)
+      case grouped_by_param.value
+      when QUARTER then grouped_quarter_query(date_param, table_name)
+      when MONTH then grouped_month_query(date_param, table_name)
+      else grouped_year_query(date_param, table_name)
+      end
     end
   end
 
   def execute_query(current_user)
     ActiveRecord::Base.connection.execute(self.class.sql(current_user, params))
-  end
-
-  def apply_params(query)
-    params.values.each do |param|
-      if param.class == SearchFilters::DateRange
-        query = query.where(self.class.date_range_query(param))
-        next
-      end
-
-      query = query.where(self.class.equal_value_query(param))
-    end
-
-    query
   end
 end

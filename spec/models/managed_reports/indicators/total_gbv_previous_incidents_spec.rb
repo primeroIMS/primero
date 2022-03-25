@@ -103,7 +103,7 @@ describe ManagedReports::Indicators::TotalGBVPreviousIncidents do
   it 'returns the total number of incidents with previous incidents' do
     total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build.data
 
-    expect(total_incidents).to eq(3)
+    expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 3 }])
   end
 
   it 'returns the total number of incidents with previous incidents for the incident_date range' do
@@ -118,32 +118,32 @@ describe ManagedReports::Indicators::TotalGBVPreviousIncidents do
       }
     ).data
 
-    expect(total_incidents).to eq(1)
+    expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 1 }])
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build(@self_user).data
 
-      expect(total_incidents).to eq(1)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build(@group_user).data
 
-      expect(total_incidents).to eq(2)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 2 }])
     end
 
     it 'returns agency records for an agency scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build(@agency_user).data
 
-      expect(total_incidents).to eq(2)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 2 }])
     end
 
     it 'returns all records for an all scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVPreviousIncidents.build(@all_user).data
 
-      expect(total_incidents).to eq(3)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_previous_incidents', 'total' => 3 }])
     end
   end
 end

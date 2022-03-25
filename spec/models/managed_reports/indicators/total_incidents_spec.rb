@@ -103,7 +103,7 @@ describe ManagedReports::Indicators::TotalIncidents do
   it 'returns the total number of incidents' do
     total_incidents = ManagedReports::Indicators::TotalIncidents.build.data
 
-    expect(total_incidents).to eq(4)
+    expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 4 }])
   end
 
   it 'returns the total number of incidents for the incident_date range' do
@@ -118,7 +118,7 @@ describe ManagedReports::Indicators::TotalIncidents do
       }
     ).data
 
-    expect(total_incidents).to eq(2)
+    expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 2 }])
   end
 
   it 'returns the total number of incidents for the date_of_first_report range' do
@@ -133,32 +133,32 @@ describe ManagedReports::Indicators::TotalIncidents do
       }
     ).data
 
-    expect(total_incidents).to eq(3)
+    expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 3 }])
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       total_incidents = ManagedReports::Indicators::TotalIncidents.build(@self_user).data
 
-      expect(total_incidents).to eq(1)
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
       total_incidents = ManagedReports::Indicators::TotalIncidents.build(@group_user).data
 
-      expect(total_incidents).to eq(3)
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 3 }])
     end
 
     it 'returns agency records for an agency scope' do
       total_incidents = ManagedReports::Indicators::TotalIncidents.build(@agency_user).data
 
-      expect(total_incidents).to eq(2)
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 2 }])
     end
 
     it 'returns all records for an all scope' do
       total_incidents = ManagedReports::Indicators::TotalIncidents.build(@all_user).data
 
-      expect(total_incidents).to eq(4)
+      expect(total_incidents).to eq([{ 'id' => 'incidents', 'total' => 4 }])
     end
   end
 end

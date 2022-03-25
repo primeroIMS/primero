@@ -9,9 +9,11 @@ class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlRep
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
       %{
         select
-          alleged_perpetrator.perpetrator_occupation as occupation_id,
+          alleged_perpetrator.perpetrator_occupation as id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from incidents,
         jsonb_to_recordset(data #> '{alleged_perpetrator}') as alleged_perpetrator(
@@ -27,19 +29,13 @@ class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlRep
         )
         where data ->> 'alleged_perpetrator' is not null
         and alleged_perpetrator.primary_perpetrator = 'primary'
-        #{date_range_query(params['incident_date'])&.prepend('and ')}
-        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{date_range_query(date_param)&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
-        group by occupation_id
+        group by alleged_perpetrator.perpetrator_occupation
+        #{grouped_date_query(params['grouped_by'], date_param)&.concat(', ')}
       }
     end
     # rubocop:enable Metrics/MethodLength
-
-    def build(current_user = nil, args = {})
-      super(current_user, args) do |results|
-        results.map { |result| { 'id' => result['occupation_id'], 'total' => result['total'] } }
-      end
-    end
   end
 end

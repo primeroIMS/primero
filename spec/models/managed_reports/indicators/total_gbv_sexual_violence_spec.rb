@@ -107,32 +107,32 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
   it 'returns the total number of incidents with a gbv_sexual_violence_type' do
     total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build.data
 
-    expect(total_incidents).to eq(3)
+    expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 3 }])
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@self_user).data
 
-      expect(total_incidents).to eq(1)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@group_user).data
 
-      expect(total_incidents).to eq(2)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }])
     end
 
     it 'returns agency records for an agency scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@agency_user).data
 
-      expect(total_incidents).to eq(2)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }])
     end
 
     it 'returns all records for an all scope' do
       total_incidents = ManagedReports::Indicators::TotalGBVSexualViolence.build(@all_user).data
 
-      expect(total_incidents).to eq(3)
+      expect(total_incidents).to eq([{ 'id' => 'gbv_sexual_violence_type', 'total' => 3 }])
     end
   end
 end

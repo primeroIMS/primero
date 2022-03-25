@@ -8,22 +8,20 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
     end
 
     def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
       %{
         select
           data ->>'number_of_perpetrators' as id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from incidents
         where data ->>'number_of_perpetrators' is not null
-        #{date_range_query(params['incident_date'])&.prepend('and ')}
-        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{date_range_query(date_param)&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->>'number_of_perpetrators'
+        #{grouped_date_query(params['grouped_by'], date_param)&.concat(', ')}
       }
-    end
-
-    def build(current_user = nil, args = {})
-      super(current_user, args, &:to_a)
     end
   end
 end

@@ -6,10 +6,20 @@ class ManagedReports::Indicators::TotalIncidents < ManagedReports::SqlReportIndi
     def id
       'total'
     end
-  end
 
-  def execute_query(current_user)
-    query = Incident.where(ManagedReports::SqlReportIndicator.user_scope_query(current_user)) if current_user.present?
-    apply_params(query || Incident).count
+    def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
+      %{
+        select
+        'incidents' as id,
+         #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
+          count(*) as total
+        from incidents
+        where 1 = 1
+        #{user_scope_query(current_user)&.prepend('and ')}
+        #{date_range_query(date_param)&.prepend('and ')}
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
+      }
+    end
   end
 end
