@@ -1,7 +1,8 @@
-import { Drawer, Box } from "@material-ui/core";
+import { Drawer } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 import { FILTER_CONTAINER_NAME as NAME } from "./constants";
+import css from "./styles.css";
 
 const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
   if (mobileDisplay) {
@@ -12,7 +13,11 @@ const FilterContainer = ({ children, mobileDisplay, drawer, handleDrawer }) => {
     );
   }
 
-  return <Box mx={2}>{children}</Box>;
+  return (
+    <div className={css.filterContainer} mx={2}>
+      {children}
+    </div>
+  );
 };
 
 FilterContainer.displayName = NAME;
