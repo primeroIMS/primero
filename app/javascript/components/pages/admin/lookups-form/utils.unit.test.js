@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
-import uuid from "uuid";
 
+import uuid from "../../../../libs/uuid";
 import { stub } from "../../../../test";
 
 import * as utils from "./utils";

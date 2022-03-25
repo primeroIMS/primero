@@ -1,5 +1,4 @@
-import uuid from "uuid";
-
+import uuid from "../../libs/uuid";
 import { queueIndexedDB } from "../../db";
 
 export default async action => {

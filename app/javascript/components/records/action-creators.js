@@ -360,12 +360,14 @@ export const externalSync = (recordType, record) => ({
   }
 });
 
-export const markForOffline = ({ recordType, ids = [], selectedRegistryIds = [] }) => dispatch => {
-  const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
+export const markForOffline =
+  ({ recordType, ids = [], selectedRegistryIds = [] }) =>
+  dispatch => {
+    const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
 
-  if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
-    dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));
-  }
+    if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
+      dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));
+    }
 
-  dispatch(markForOfflineAction(recordType, ids));
-};
+    dispatch(markForOfflineAction(recordType, ids));
+  };

@@ -27,7 +27,7 @@ const reportingLocation = {
   type: "indicator",
   indicators: {
     reporting_location_open: {
-      "1506060": {
+      1506060: {
         count: 1,
         query: ["record_state=true", "status=open", "owned_by_location2=1506060"]
       }

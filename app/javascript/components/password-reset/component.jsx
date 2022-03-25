@@ -24,6 +24,7 @@ const Component = () => {
   const saving = useMemoizedSelector(state => getSavingPassword(state));
 
   const handleSubmit = values => {
+    // eslint-disable-next-line camelcase
     dispatch(resetPassword({ user: { ...values.user, reset_password_token } }));
   };
 

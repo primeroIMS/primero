@@ -1,9 +1,8 @@
-import uuid from "uuid";
-
 import { stub, createMockStore } from "../../test";
 import * as syncIndexedDB from "../../db/sync";
 import queueIndexedDB from "../../db/queue";
 import { METHODS } from "../../config";
+import uuid from "../../libs/uuid";
 
 import queueData from "./queue-data";
 import * as handleOfflineAttachments from "./handle-offline-attachments";

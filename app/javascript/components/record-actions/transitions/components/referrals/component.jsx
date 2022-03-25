@@ -102,7 +102,8 @@ const ReferralForm = ({
       [NOTES_FIELD]: "",
       ...referralFromService
     },
-    ref: referralRef,
+    innerRef: referralRef,
+    enableReinitialize: true,
     onSubmit: (values, { setSubmitting }) => {
       const recordId = record.get("id");
 
