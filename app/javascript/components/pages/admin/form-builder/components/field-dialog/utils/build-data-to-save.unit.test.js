@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
-import uuid from "uuid";
 
+import uuid from "../../../../../../../libs/uuid";
 import { stub } from "../../../../../../../test";
 import { TEXT_FIELD, SELECT_FIELD, DATE_FIELD } from "../../../../../../form";
 import { NEW_FIELD } from "../../../constants";
