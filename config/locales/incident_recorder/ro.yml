@@ -1,6 +1,12 @@
 ro:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Export registru incident xls"
   exports:
     incident_recorder_xls:
+      all: Registru incident
+      one: Registru incident
+      selected: Selectat pentru Registru incident
       'yes': "Da"
       'no': "Nu"
       gender:
@@ -9,16 +15,62 @@ ro:
         both: "M și F"
       age_group:
         age: "Vârsta"
+        61_older: "61 și peste"
         unknown: "Necunoscut"
+        header: "GRUPA DE VÂRSTA A PRESUPUSULUI AUTOR"
       age_type:
         adult: "Adult"
         minor: "Minor"
         both: "Adult și minor"
         unknown: "Necunoscut"
+        header: "VÂRSTA PRESUPUSULUI AUTOR"
+      service_referral:
+        undecided: "Incert"
       headers:
+        incident_id: "ID INCIDENT"
+        survivor_code: "COD SUPRAVIEȚUITOR"
+        case_manager_code: "COD MANAGER CAZ"
+        case_worker_code: "COD RESPONSABIL DE CAZ"
+        date_of_interview: "DATA INTERVIEVĂRII"
+        date_of_incident: "DATA INCIDENTULUI"
         date_of_birth: "DATA NAȘTERII"
         sex: "SEX"
         ethnicity: "ETNIE"
         country_of_origin: "ȚARA DE ORIGINE"
-        marital_status: "STATUS MARITAL/ STARE CIVILĂ"
+        marital_status: "STATUT MARITAL/ STARE CIVILĂ"
+        displacement_status: "STATUS LOCAȚIE LA RAPORTARE "
         disability_type: "PERSOANĂ CU DIZABILITĂȚI?"
+        unaccompanied_separated_status: "COPIL NEÎNSOȚIT SAU SEPARAT?"
+        stage_of_displacement: "LOCAȚIA INCIDENTULUI"
+        time_of_day: "MOMENT INCIDENT"
+        location: "LOCAȚIE INCIDENT"
+        county: "ȚARA INCIDENT"
+        district: "SECTOR INCIDENT"
+        camp_town: "TABĂRĂ/ ORAȘ INCIDENT"
+        camp: "TABĂRĂ INCIDENT"
+        gbv_type: "TIP VIOLENȚĂ DE GEN"
+        harmful_traditional_practice: "PRACTICĂ TRADIȚIONALĂ VĂTĂMĂTOARE"
+        goods_money_exchanged: "SCHIMB DE BANI, BUNURI, BENEFICII ȘI/ SAU SERVICII?"
+        abduction_type: "TIPUL RĂPIRII"
+        previously_reported: "ACEST INCIDENT A MAI FOST RAPORTAT?"
+        gbv_previous_incidents: "INCIDENTE DE VIOLENȚĂ DE GEN ANTERIOARE?"
+        number_primary_perpetrators: "Nr PREPUNS AUTOR PRINCIPAL"
+        perpetrator:
+          sex: "SEXUL PRESUPUSULUI AUTOR"
+          former: "INCIDENT ANTERIOR CU ACEST AUTOR"
+          relationship: "LEGĂTURA PRESUPUS AUTOR - SUPRAVIEȚUITOR"
+          occupation: "OCUPAȚIA PRESUPUSULUI AUTOR"
+          age_group: "GRUPA DE VÂRSTĂ A PRESUPUSULUI AUTOR"
+          age_type: "VÂRSTA PRESUPUSULUI AUTOR"
+        service:
+          referred_from: "REFERIRE CĂTRE TINE PRIN?"
+          safehouse_referral: "ADĂPOST/ CASĂ SIGUR(Ă)"
+          medical_referral: "SERVICII DE SĂNĂTATE/ MEDICALE"
+          psycho_referral: "SERVICII PSIHOSOCIALE"
+          wants_legal_action: "DOREȘTE ACȚIUNE ÎN INSTANȚĂ?"
+          legal_referral: "SERVICII DE ASISTENȚĂ LEGALĂ"
+          police_referral: "POLIȚIE/ ALT ACTOR CU ROL DE PROTECȚIE"
+          livelihoods_referral: "PROGRAM DE SECURIZARE A NECESARULUI PENTRU VIAȚĂ"
+          protection_referral: "SERVICII DE PROTECȚIE A COPILULUI/ SERVICII EDUCAȚIONALE"
+        consent: "CONSIMȚĂMÂNT DAT"
+        agency_code: "CODUL ORGANIZAȚIEI/ INSTITUȚIEI CARE RAPORTEAZĂ"

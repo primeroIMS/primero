@@ -1,1 +1,76 @@
-uk: {}
+uk:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Експорт реєстру інцидентів xls"
+  exports:
+    incident_recorder_xls:
+      all: Реєстр інцидентів
+      one: Реєстр інцидентів
+      selected: Вибрано для Реєстру інцидентів
+      'yes': "Так"
+      'no': "Ні"
+      gender:
+        male: "Чол"
+        female: "Жін"
+        both: "Чол і жін"
+      age_group:
+        age: "Вік"
+        61_older: "61 і старше"
+        unknown: "Невідомо"
+        header: "ВІК ЙМОВІРНОГО ПРАВОПОРУШНИКА ГРУПА"
+      age_type:
+        adult: "Дорослий"
+        minor: "Неповнолітній"
+        both: "Дорослий та неповнолітній"
+        unknown: "Невідомо"
+        header: "ВІК ЙМОВІРНОГО ПРАВОПОРУШНИКА ТИП"
+      service_referral:
+        undecided: "Невизначено"
+      headers:
+        incident_id: "ІДЕНТИФКАТОР ІНЦИДЕНТУ"
+        survivor_code: "КОД ВИЖИВШОГО"
+        case_manager_code: "КОД МЕНЕДЖЕРА, ВІДПОВІДАЛЬНОГО ЗА КЕЙС"
+        case_worker_code: "КОД ПРАЦІВНИКА, ВІДПОВІДАЛЬНОГО ЗА КЕЙС"
+        date_of_interview: "ДАТА ІНТЕРВ`Ю"
+        date_of_incident: "ДАТА ІНЦИДЕНТУ"
+        date_of_birth: "ДАТА НАРОДЖЕННЯ"
+        sex: "СТАТЬ"
+        ethnicity: "ЕТНІЧНІСТЬ"
+        country_of_origin: "КРАЇНА ПОХОДЖЕННЯ"
+        marital_status: "ЦИВІЛЬНИЙ / СІМЕЙНИЙ СТАН"
+        displacement_status: "СТАН ПЕРЕМІЩЕННЯ У ЗВІТІ"
+        disability_type: "ОСОБА З ОБМЕЖЕННЯМИ?"
+        unaccompanied_separated_status: "ДИТИНА БЕЗ СУПРОВОДУ ЧИ РОЗДІЛЕННЯ?"
+        stage_of_displacement: "СТАДІЯ ПЕРЕМІЩЕННЯ ПРИ ІНЦИДЕНТІ"
+        time_of_day: "ЧАС ДНЯ ІНЦИДЕНТУ"
+        location: "ЛОКАЦІЯ ІНЦИДЕНТУ"
+        county: "ОКРУГ ІНЦИДЕНТУ"
+        district: "РАЙОН ІНЦИДЕНТУ"
+        camp_town: "МІСТО / ТАБІР ІНЦИДЕНТУ"
+        camp: "ТАБІР ІНЦИДЕНТУ"
+        gbv_type: "ТИП ГЕНДЕРНОГО НАСИЛЬСТВА"
+        harmful_traditional_practice: "ШКІДЛИВА ТРАДИЦІЙНА ПРАКТИКА"
+        goods_money_exchanged: "ГРОШІ, ТОВАРИ, ВИГОДИ ТА/АБО ПОСЛУГИ ОБМІНЕНІ?"
+        abduction_type: "ТИП ВИКРАДЕННЯ"
+        previously_reported: "ПОПЕРЕДНЬО РЕПОРТИЛИ ЦЕЙ ІНЦИДЕНТ?"
+        gbv_previous_incidents: "ПОПЕРЕДНІ ІНЦИДЕНТИ ГЕНДЕРНОГО НАСИЛЬСТВА?"
+        number_primary_perpetrators: "К-ТЬ ПІДТВЕРДЖЕНИХ ОСНОВНИХ ПРАВОПОРУШНИКІВ"
+        perpetrator:
+          sex: "СТАТЬ ЙМОВІРНОГО ПРАВОПОРУШНИКА"
+          former: "ПОПЕРЕДНІЙ ІНЦИДЕНТ З ЦИМ ПРАВОПОРУШНИКОМ"
+          relationship: "ЙМОВІРНИЙ ПРАВОПОРУШНИК – ВІДНОСИНИ З ПОСТРАЖДАЛИМ"
+          occupation: "ПРОФЕСІЯ ЙМОВІРНОГО ПРАВОПОРУШНИКА"
+          age_group: "ВІК ЙМОВІРНОГО ПРАВОПОРУШНИКА ГРУПА"
+          age_type: "ВІК ЙМОВІРНОГО ПРАВОПОРУШНИКА ТИП"
+        service:
+          referred_from: "ПОСИЛАННЯ НА ВАС З?"
+          safehouse_referral: "БЕЗПЕЧНИЙ БУДИНОК / ПРИХИСТОК"
+          medical_referral: "ЗДОРОВ'Я / МЕДИЧНІ ПОСЛУГИ"
+          psycho_referral: "ПСИХОСОЦІАЛЬНІ ПОСЛУГИ"
+          wants_legal_action: "ХОЧУТЬ ЮРИДИЧНІ СЕРВІСИ?"
+          legal_referral: "ПОСЛУГИ ЮРИДИЧНОЇ ДОПОМОГИ"
+          police_referral: "ПОЛІЦІЯ / ІНШИЙ ВИКОНАВЕЦЬ БЕЗПЕКИ"
+          livelihoods_referral: "ПРОГРАМА ЖИТТЯ"
+          protection_referral: "ПОСЛУГИ ЗАХИСТУ ДИТИНИ / ПОСЛУГИ ОСВІТИ"
+        consent: "ЗГОДА НАДАНА"
+        agency_code: "КОД ЗВІТНОГО АГЕНТСТВА"
