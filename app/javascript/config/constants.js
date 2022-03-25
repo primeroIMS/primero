@@ -556,3 +556,5 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "sources",
   "responses"
 ];
+
+export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
