@@ -9,7 +9,7 @@ import qs from "qs";
 import IndexTable from "../index-table";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
-import { useMemoizedSelector } from "../../libs";
+import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
 import { clearCaseFromIncident } from "../records/action-creators";
 import { getNumberErrorsBulkAssign, getNumberBulkAssign } from "../record-actions/bulk-transtions/selectors";
@@ -30,6 +30,7 @@ import css from "./styles.css";
 import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
+  const { mobileDisplay } = useThemeHelper();
   const i18n = useI18n();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
@@ -147,6 +148,7 @@ const Container = ({ match, location }) => {
           handleDrawer={handleDrawer}
           currentPage={currentPage}
           selectedRecords={selectedRecords}
+          mobileDisplay={mobileDisplay}
         />
         <PageContent flex>
           <div className={css.tableContainer}>
@@ -167,7 +169,7 @@ const Container = ({ match, location }) => {
             </div>
           </div>
 
-          <FilterContainer drawer={drawer} handleDrawer={handleDrawer}>
+          <FilterContainer drawer={drawer} handleDrawer={handleDrawer} mobileDisplay={mobileDisplay}>
             <Filters
               recordType={recordType}
               defaultFilters={defaultFilters}
