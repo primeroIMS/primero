@@ -18,7 +18,7 @@ import { filterOptions as filterOptionsConfig } from "../../searchable-select/ut
 
 import css from "./styles.css";
 
-const filter = createFilterOptions();
+const filter = createFilterOptions({ limit: 50 });
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
