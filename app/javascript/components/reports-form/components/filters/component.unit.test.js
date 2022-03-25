@@ -87,10 +87,9 @@ describe("<ReportFilters /> - Component", () => {
   };
 
   const props = {
-    indexes: [
-      ...DEFAULT_FILTERS.case,
-      ...[{ attribute: "test_numeric_field", constraint: ">", value: "10" }]
-    ].map((data, index) => ({ index, data })),
+    indexes: [...DEFAULT_FILTERS.case, ...[{ attribute: "test_numeric_field", constraint: ">", value: "10" }]].map(
+      (data, index) => ({ index, data })
+    ),
     setIndexes: () => {},
     allRecordForms: fromJS([
       {
@@ -160,10 +159,10 @@ describe("<ReportFilters /> - Component", () => {
             group_dates_by: null,
             group_ages: false,
             report_data: {
-              "1": {
+              1: {
                 _total: 0
               },
-              "2": {
+              2: {
                 _total: 15
               }
             },

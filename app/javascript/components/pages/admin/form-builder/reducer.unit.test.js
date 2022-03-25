@@ -406,14 +406,14 @@ describe("<FormsBuilder /> - Reducers", () => {
     const stateWithData = fromJS({
       selectedSubform,
       formSections: {
-        "1": { id: 1, unique_id: "form_1", fields: [1, 2] },
-        "2": { id: 2, unique_id: "form_2", fields: [2, 3] },
-        "3": { id: 3, unique_id: "form_3", fields: [1, 3] }
+        1: { id: 1, unique_id: "form_1", fields: [1, 2] },
+        2: { id: 2, unique_id: "form_2", fields: [2, 3] },
+        3: { id: 3, unique_id: "form_3", fields: [1, 3] }
       },
       fields: {
-        "1": { id: 1, name: "field_1" },
-        "2": { id: 2, name: "field_2" },
-        "3": { id: 3, name: "field_3" }
+        1: { id: 1, name: "field_1" },
+        2: { id: 2, name: "field_2" },
+        3: { id: 3, name: "field_3" }
       },
       subforms: [selectedSubform]
     });

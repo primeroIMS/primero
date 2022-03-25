@@ -2,7 +2,6 @@ const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const common = require("../config.common");
@@ -78,7 +77,7 @@ entry.optimization = {
   ...entry.optimization,
   splitChunks: {
     cacheGroups: {
-      commons: {
+      defaultVendors: {
         test: /[\\/]node_modules[\\/]/,
         name: "vendor",
         chunks: "all"

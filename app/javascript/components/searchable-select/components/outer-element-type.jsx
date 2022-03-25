@@ -8,6 +8,8 @@ const OuterElementType = forwardRef((props, ref) => {
   return <div ref={ref} {...props} {...outerProps} />;
 });
 
+OuterElementType.displayName = "OuterElementType";
+
 export default OuterElementContext;
 
 export { OuterElementType };

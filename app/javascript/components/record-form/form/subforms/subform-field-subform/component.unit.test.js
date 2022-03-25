@@ -33,7 +33,7 @@ describe("<SubformErrors />", () => {
   let component;
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(SubformFieldSubform, props));
+    ({ component } = setupMountedComponent(SubformFieldSubform, props, null, null, { initialValues: {} }));
   });
 
   it("render the SubformFieldSubform", () => {

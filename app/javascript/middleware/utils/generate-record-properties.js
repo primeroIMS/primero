@@ -1,6 +1,5 @@
-import uuid from "uuid";
-
 import { RECORD_PATH, METHODS } from "../../config";
+import uuid from "../../libs/uuid";
 
 const generateName = (body = {}) => {
   const { name_first: nameFirst, name_last: nameLast, name } = body;

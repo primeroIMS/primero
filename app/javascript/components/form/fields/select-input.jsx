@@ -100,8 +100,11 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     if (typeof option === "string" && option === "") {
       return "";
     }
-    const { display_name: displayName, display_text: displayText, translate } =
-      typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
+    const {
+      display_name: displayName,
+      display_text: displayText,
+      translate
+    } = typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
 
     const freeSoloDisplayText = freeSolo && typeof option === "string" ? option : null;
 
