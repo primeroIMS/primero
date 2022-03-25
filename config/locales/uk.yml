@@ -1,1 +1,999 @@
-uk: {}
+uk:
+  'true': 'Так'
+  'false': 'Ні'
+  accepted: Прийнято
+  cancel: Скасувати
+  connection_lost: Зараз тільки в автономному режимі
+  connected: Підключено
+  clear: Очистити
+  sandbox_ui: Демо
+  description: Опис
+  form: Форма
+  minimum_reportable_fields: "Обов'язкові звітні поля %{record_type}"
+  name: Ім'я
+  offline: Автономний режим
+  unavailable_offline: Недоступно в автономному режимі
+  online: Онлайн
+  yes_label: 'Так'
+  or_label: або
+  select_provider: Вибрати надавача
+  select_language: Вибрати мову
+  log_in_primero_idp: увійти під іменем %{idp_name}
+  offline_submitted_changes: Ви зараз в автономному режимі. Зміни будуть зафіксовані, коли інтернет-підключення буде відновлено.
+  updated: Оновлено
+  sync:
+    success: "Записи %{records} успішно синхронізовано."
+    error:
+      create: Не вдалося створити запис %{record_type}. Зверніться до служби підтримки.
+      update: Не вдалося оновити %{record_type} для %{short_id}. Зверніться до служби підтримки.
+  actions:
+    approvals: Ухвалення
+    button: Дії
+    close: Закрити
+    description:
+      invalid: Неприпустимий запис
+      valid: Припустимий запис
+    disable: Вимкнути
+    enable: Увімкнути
+    incident_details_from_case: Додати інцидент
+    incident_from_case: Створити інцидент
+    next: Далі
+    notes: Додати примітки
+    previous: Назад
+    reopen: Відкрити повторно
+    request_approval: Запросити ухвалення
+    revoke: Відкликати
+    save: Зберегти
+    services_from_case_creation_success: Запис про надання послуги успішно збережено.
+    services_section_from_case: Додати надання послуги
+    mark_for_offline: Позначити для автономного режиму
+  agencies:
+    label: Агенція
+    translations:
+      manage: Керувати перекладами
+  agency:
+    agency_logos: Логотипи агенції
+    code: Код агенції
+    description: Опис
+    disabled: Вимкнено
+    exclude_agency_from_lookups: Виключити цю агенцію з довідників і фільтрів
+    exclude_agency_from_lookups_help: Позначте цей пункт, якщо в агенції немає користувачів (наприклад, агенцію було додано, аби в експорті можна було застосувати логотип.
+    label: Агенція
+    logo_enabled: Показувати логотип цієї агенції в Primero?
+    logo_enabled_help: Показувати логотип цієї агенції в Primero?
+    logo_icon: Логотип-піктограма
+    logo_icon_help: Він буде відображатися на екранах малого розміру, планшетах і телефонах. Він повинен мати форму квадрата.
+    logo_large: Великий логотип
+    logo_large_help: Він буде відображатися на екранах великого розміру та експортуватися в PDF. Він повинен бути горизонтальним прямокутником.
+    messages:
+      created: Агенція була успішно створена.
+      updated: Агенція була успішно оновлена.
+    name: Назва Агенції
+    pdf_logo_option: Зробити логотип доступним для експорту в PDF?
+    pdf_logo_option_help: 'Примітка: логотипи агенції користувача доступні йому за замовчуванням, тож вибрати цей пункт можна лише, якщо ви бажаєте, щоб логотип був доступний усім користувачам.'
+    services: Послуги агенції
+    terms_of_use: Умови використання
+    terms_of_use_help: Дозволені лише файли у форматі PDF.
+    terms_of_use_download_button: Завантажити PDF
+    terms_of_use_enabled: Показати "Умови використання"?
+  approvals:
+    approved_by: 'Ухвалив/ла:'
+    case_plan_type_label: Тип кейс-плана
+    manager_comments_label: Коментарі менеджера
+    rejected_by: 'Відхилив/ла:'
+    requested_by: 'Запит від:'
+    requested_for_label: Запит про ухвалення для
+    requested_for_title: Запит про ухвалення
+    response_for_label: Ухвалення для
+    response_for_title: Ухвалення
+    action_plan: План заходів
+    gbv_closure: Закриття ГЗН
+    status:
+      approved: Ухвалено
+      pending: Очікує рішення
+      rejected: Відхилено
+      requested: Запит надіслано
+  audit_log:
+    action: Дія
+    description: Опис
+    record_owner: Власник запису
+    timestamp: Час
+    user_name: Виконано
+  bulk_export:
+    file_name: Файл
+    record_type: Тип
+    retry: Цей експорт недійсний. Будь ласка, спробуйте створити експорт знову.
+    started_on: Розпочато
+    status: Статус
+  form_export:
+    label: Конфігурація форми експорту
+    include_hidden: Включити приховані форми й поля?
+    file_name: Створіть свою власну назву файлу (Опціонально)
+    success_message: Файл експорту успішно створений
+  buttons:
+    accept: Прийняти
+    add: Додати
+    add_another_option: Додати іншу опцію
+    add_note: Додати нотатки
+    apply: Застосувати
+    approvals: Ухвалення
+    approve_action_plan: Ухвалити план дій
+    approve_bia: Погоджено Апеляційною радою з питань імміграції
+    approve_case_plan: Ухвалити кейс-план
+    approve_closure: Ухвалити закриття
+    approve_gbv_closure: Ухвалити закриття ГЗН
+    back: Назад
+    bundle_export: Пакет конфігурацій
+    bundle_import: Пакет конфігурацій
+    cancel: Скасувати
+    change_password: Змінити пароль
+    check_status: Перевірити статус
+    clear_default: Очистити за замовчуванням
+    clear_selection: Очистити вибране
+    clear: Очистити
+    close: Закрити
+    continue: Продовжити
+    create_case: Створити кейс
+    create_incident: Створити інцидент
+    create_new_record: Створити новий %{model}
+    delete: Видалити
+    disable: Вимкнути
+    disable_photo_wall: Вимкнути фотостіну
+    done: Готово
+    download: Завантажити
+    edit: Редагувати
+    edit_subform: Редагувати підформу
+    enable: Увімкнути
+    enable_photo_wall: Увімкнути фотостіну
+    export: Експорт
+    filter: Застосувати фільтр
+    filter_clear: Очистити фільтри
+    filter_label: 'Фільтр:'
+    filter_restore: Повернутись до системних налаштувань
+    find_tracing_match: Знайти співбадіння по відстеженню
+    flag_model: Позначити %{model}
+    flag_records: Позначка
+    flags: Позначки
+    guidance: Настанови
+    guiding_questions: Допоміжні питання
+    import: Імпорт
+    login: Увійти в обліковий запис
+    logout: Вийти з облікового запису
+    mark_for_mobile: Позначити для мобільних пристроїв
+    new: Нове
+    ok: ОК
+    print: Друк
+    reassign: Призначити
+    referral: Перенаправити
+    referral_again: Знову перенаправити
+    reject: Відхилити
+    remove_referrals: Видалити направлення
+    reorder: Змінити порядок
+    request_approval: Запросити ухвалення
+    request_transfer: Запросити про трансфер
+    reunite: Возз'єднати
+    save: Зберегти
+    save_and_add_service_provision: Зберегти й додати надання послуги
+    save_and_return: Зберегти і повернутись
+    save_continue: Зберегти і продовжити
+    save_changes: Зберегти зміни
+    select: Вибрати
+    send: Відправити
+    sort_by_case: Кейси
+    sort_by_tr: Відстеження запитів
+    sync: Синхронізувати
+    submit: Підтвердити
+    transfer: Переслати
+    unflag_model: Зняти позначку %{model}
+    unflag_model_history: Позначити історію %{model}
+    unmark_for_mobile: Зняти позначку для мобільних пристроїв
+    update: Оновити
+    view: Вид
+    view_flags_history: Переглянути історію
+    return_to_case: Повернутись до особової справи
+  case:
+    label: Кейс
+    create_new_case: Створити нову особову справу
+    add_new: Додати нову
+    back_to_case: Назад до кейсу
+    back_to_results: Назад до результатів
+    back_to_search: Назад до пошуку
+    search_by: Шукати за
+    search_for: Шукати %{record_type}
+    results: Результат
+    details: Подробиці
+    select: Вибрати
+    deselect: Зняти вибір
+    enter_id_number: Введіть номер ID для пошуку існуючого запису
+    id_search_no_results: В системі не знайдено "%{search_query}". Створіть новий запис.
+    messages:
+      disabled: Кейс вимкнено
+      update_success: 'Кейс %{record_id} успішно оновлений.'
+      update_success_queue: 'Кейс %{record_id} успішно оновлений у фоновому режимі'
+      creation_success: 'Запис кейса створено.'
+      creation_success_queue: 'Запис кейса створено у фоновому режимі.'
+      not_found_case: Не знайдено кейса, що відповідає запиту "%{search_value}". Створіть новий кейс.
+      introductory_sentence: Зазначте згоду особи на отримання послуг кейс-менеджменту й на збереження її даних у Primero.
+      consent_agreements_required: Виберіть принаймні один варіант з форм згоди.
+      legitimate_basis_required: Виберіть принаймні один варіант з класифікації законних підстав.
+    save: Зберегти кейс
+    save_text: Спочатку збережіть зміни до кейсу.
+    skip_and_create: Пропустити і створити новий кейс
+    search_existing: Шукати існуючі кейси
+    search_helper_text: Навіщо? Щоб уникати створення дублікатів кейсів.
+    consent_agreements: Виберіть усі застосовні форми згоди
+    legitimate_basis: Виберіть усі застосовні класифікації законних підстав
+    workflow:
+      assessment: Оцінювання
+      case_plan: Кейс-план
+      closed: Закрито
+      created_on: дата створення
+      in_progress: в процесі
+      new: Новий
+      on_label: 'на'
+      reopened: Відкрито повторно
+      service_implemented: Впроваджена послуга
+      services_implemented: Впроваджена послуга
+  linkedincidents:
+    label: Пов'язані інциденти
+  activity_log:
+    label: Журнал активності
+    accepted_transfer: '%{to} прийняли трансфер %{record_type}%{record_id} від %{from}'
+    rejected_transfer: '%{to} відхилили трансфер %{record_type}%{record_id} від %{from}'
+  cases:
+    action_plan: План дій
+    age: Вік
+    age_estimated: Орієнтовний вік?
+    agency: Агенція
+    apply_filter: Застосувати
+    approval_comments: Коментарі
+    approval_radio: Я б хотів(-ла)
+    approval_radio_accept: Ухвалити
+    approval_radio_reject: Не ухвалити
+    approval_select: Форма для
+    approved_success_action_plan: '%{approval_label} - Ухвалено'
+    approved_success_assessment: '%{approval_label} - Ухвалено'
+    approved_success_bia: '%{approval_label} - Ухвалено'
+    approved_success_case_plan: '%{approval_label} - Ухвалено'
+    approved_success_closure: '%{approval_label} - Ухвалено'
+    approved_success_gbv_closure: '%{approval_label} - Ухвалено'
+    assessment: Оцінювання
+    case_opening_date: Дата відкриття кейса
+    case_plan: Кейс-план
+    case_worker_code: Код кейс-працівника
+    clear_filter: Очистити
+    close_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Закрито"
+    close_dialog_title: Закрити кейс
+    close_success: Успішно закритий кейс
+    closure: Закриття
+    date_of_birth: Дата народження
+    disable_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Деактивований"
+    disable_dialog_title: Деактивувати кейс
+    disable_success: Кейс успішно деактивовано
+    enable_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Активний"
+    enable_dialog_title: Активувати кейс
+    enable_success: Успішно активований кейс
+    export: Експортувати
+    mark_for_offline:
+      title: Позначити для режиму поза мережею
+      success: Кейси успішно позначені для використання поза мережею
+    filter_by:
+      3month_inactivity: На 3+ місяці
+      action_plan: План дій
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Вікова категорія
+      agency: Агенція
+      approval_status: Статус ухвалення
+      approvals:
+        approved: Ухвалено
+        pending: Очікує рішення
+        rejected: Відхилено
+      bia: Апеляційна рада з питань імміграції
+      by_date: За датою
+      case_open_date: Дата відкриття кейсу
+      case_plan: Кейс-план
+      closed: Закрито
+      closure: Закриття
+      current_location: Поточна локація
+      date: Дата
+      displacement_status: Статус переміщення
+      district: Район
+      duplicate: Дублікат
+      enabled_disabled: Активно / Неактивно
+      female: Жіноча
+      flag: Відмічено
+      flag_label: Відмічено?
+      gbv_closure: Закриття ГЗН
+      high: Високий
+      low: Низький
+      male: Чоловіча
+      medium: Середній
+      my_cases: Мої кейси
+      no_action: Жодних дій
+      no_activity: Активність відсутня
+      open: Відкрити
+      other: Інше
+      photo: Фотографія
+      photo_label: Має фото?
+      protection_concerns: Проблеми захисту
+      protection_status: Статус захисту
+      record_state: Стан запису
+      referred_cases: Кейси, які стосуються мене
+      registration_date: Дата реєстрації
+      risk_level: Рівень ризику
+      sex: Стать
+      social_worker: Поле/кейс/соціальний працівник
+      status: Статус
+      transferred: Переслано
+      type_of_risk: Тип ризику
+      urgent_protection_concern: Термінова проблема захисту
+      user_group: Група користувача
+      workflow: Кейси за робочим процесом
+    full_name: ПІБ
+    gbv_closure: Закриття ГЗН
+    hide_name: Приховати ім'я
+    label: Кейси
+    my_filters: Мої фільтри
+    name: Iм'я
+    notes_dialog_title: Додати нотатки
+    notes_form_notes: Нотатки
+    notes_form_subject: Тема
+    ok: Ок
+    order_by:
+      label: Впорядкувати за
+      most_recently: Найновіші
+      name: Iм'я
+    owned_by: Власник запису
+    owned_by_agency: Агенція-власник запису
+    photo: Фотографія
+    photos: Фотографія
+    referral_done_success: Направлення готово.
+    referral_accepted_header: Прийняти направлення
+    referral_accepted: Ви впевнені? Ви будете відповідальні за завершення роботи, пов'язаної з цим направленням.
+    referral_accepted_success: Направлення прийнято.
+    referral_rejected_success: Направлення відхилено.
+    register_new_case: Новий кейс
+    registration_date: Дата реєстрації
+    reopen_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Відкрито"
+    reopen_dialog_title: Повторно відкрити кейс
+    reopen_success: Успішно відкритий повторно кейс
+    request_approval_failure: Виникла помилка. Будь ласка, зверніться до служби підтримки.
+    request_approval_select: Запросити ухвалення для
+    request_approval_type_of_case_plan: Тип ухвалення кейс-плану
+    request_approve_action_plan: Ухвалити план дій?
+    request_approve_bia: Ухвалити оцінювання?
+    request_approve_case_plan: Ухвалити кейс-план?
+    request_approve_closure: Ухвалити закриття?
+    request_approve_gbv_closure: Ухвалити закриття ГЗН?
+    save_filter: Зберегти
+    sex: Стать
+    social_worker: Соціальний працівник
+    status: Статус
+    summary:
+      label: Резюме
+      find_match: Знайди співпадіння
+      fields:
+        wishes_child_family_tracing:
+          label: Чи хоче дитина стежити за членами сім'ї?
+        wishes_reunification:
+          label: Чи хоче дитина возз'єднання сім'ї?
+          options:
+            yes_as_soon_as_possible: Так, як найшвидше
+            yes_but_later: Так, але пізніше
+            not_sure: Не впевнений/на
+            'no': 'Ні'
+        data_confidentiality_link:
+          label: Подивитись конфіденційність інформації
+        child_wishes_link:
+          label: Подивитись бажання дитини
+    transfer_reject_reason_label: Причина відхилення
+  change_logs:
+    filters:
+      form: Форма
+      field: Поле
+    create: Створений запис
+    see_details: Подивитись подробиці.
+  children:
+    selectable_date_options:
+      assessment_requested_on: Дата оцінювання
+      closure_approved_date: 'Дата закриття кейсу'
+      created_at: Дата відкриття кейсу
+      date_case_plan_initiated: Дата кейс-плану
+      date_of_creation: Дата створення
+      registration_date: Дата реєстрації
+  configurations:
+    attributes:
+      created_by: Створено ким
+      date_created: Дата створення
+      description: Опис
+      last_applied_by: Останній раз застосона ким
+      last_applied_on: 'Востаннє застосовано на '
+      name: Iм'я
+      version: Версія конфігурації
+      primero_version: Primero версія
+    delete_label: Ви впевнені, що хочете це зробити? Тут представлені всі налаштування, з моменту створення цієї конфігурації. Ви не зможете повернутися назад і відновити ці налаштування після видалення цієї конфігурації.
+    explanation: 'Натискання кнопки «Зберегти» створить запис усіх поточних налаштувань конфігурації (наприклад: ролі, агентства, форми) на даний момент часу. Після збереження ви можете перенести ці зміни в інший екземпляр Primero. Якщо в майбутньому ви внесете зміни в конфігурацію, які хочете скасувати, ви можете застосувати цей запис конфігурації, щоб відновити всі зміни конфігурації, які ви мали на даний момент.'
+    label: Конфігурації
+    label_new: Нова конфігурація
+    messages:
+      applied: Конфігурація була успішно застосована.
+      created: Конфігурація була успішно створена.
+      deleted: Конфігурація була успішно видалена.
+      updated: Конфігурація була успішно оновлена.
+      sent: Відправка конфігурації у продакшн. Будь ласка, перевірте продакшн сайт, щоб перевірити, чи надійшла ваша конфігурація.
+    not_allowed: Не дозволено
+    unavailable_server: Сервер тимчасово недоступний.
+  contact:
+    field:
+      email: Електронна пошта
+      location: Місцеперебування
+      name: Iм'я
+      organization: Організація
+      other_information: Інша інформація
+      phone: Телефон
+      position: Позиція
+      primero_version: Primero версія
+      support_forum: Форуи підтримки
+      system_version: Версія системи
+    info_label: Контактна інформація
+    updated: Контактна інформація була успішно оновлена.
+  code_of_conduct:
+    field:
+      title: Назва
+      content: Зміст
+      created_on: Дата створення
+      created_by: Створено ким
+    info_label: Норми поведінки
+    updated: Норми поведінки успішно оновлено.
+  dashboard:
+    activity: Активність
+    admin_only: Натисність %{links}, щоб снести зміни у аплікацію.
+    all_cases: Всі кейси
+    all_services_implemented: Усі послуги впроваджено
+    and: 'і'
+    approval_action_plan_approved: Ухвалено
+    approval_action_plan_pending: Очікує рішення
+    approval_action_plan_pending_group: План дій
+    approval_action_plan_rejected: Відхилено
+    approval_assessment_approved: Ухвалено
+    approval_assessment_pending: Очікує рішення
+    approval_assessment_pending_group: Оцінювання
+    approval_assessment_rejected: Відхилено
+    approval_case_plan_approved: Ухвалено
+    approval_case_plan_pending: Очікує рішення
+    approval_case_plan_pending_group: Кейс-план
+    approval_case_plan_rejected: Відхилено
+    approval_closure_approved: Ухвалено
+    approval_closure_pending: Очікує рішення
+    approval_closure_pending_group: Закриття
+    approval_closure_rejected: Відхилено
+    approval_gbv_closure_approved: Ухвалено
+    approval_gbv_closure_pending: Очікує рішення
+    approval_gbv_closure_pending_group: Закриття ГЗН
+    approvals_assessment: Оцінювання
+    approvals_case_plan: Кейс-план
+    approvals_closure: Закриття
+    approvals_gbv_closure: Закриття ГЗН
+    assessment: Оцінювання
+    awaiting_acceptance: В очікуванні прийняття
+    cases_by_social_worker_total: Загальна кількість
+    cases_by_social_worker_new_or_updated: Нові і оновлені
+    case_id: 'Номер кейсу'
+    case_overview: Мої кейси
+    case_plan: Кейс-план
+    case_risk: Кейси за рівнем оцінювання
+    case_stat_by_approval_type: Ухвалення
+    case_stat_by_assessment_level: Кейси за рівнем оцінювання
+    case_stat_referrals: Направлення
+    case_stats: Кейси
+    case_worker: Кейс-працівник
+    cases_by_workflow: Кейси за робочим процесом
+    cases_this_week: Кейси цього тижня
+    comprehensive_need_intervention: Зрозуміла відповідь
+    current_owner: Поточний власник
+    dash_case_incident_overview: Мої кейси
+    dash_group_overview: Кейси моєї групи
+    dash_shared_from_my_team: Поширені моєю командою
+    dash_shared_with_me: Поширені зі мною
+    dash_shared_with_my_team: Поширені з моєю командою
+    dash_shared_with_others: Поширені з іншими
+    date: Дата
+    date_of_incident: Дата інциденту
+    date_of_interview: Дата інтерв'ю
+    geographic_area: Географічний район
+    group_overview_closed: Закрито
+    group_overview_open: Відкрити
+    high_level: Високий
+    high_risk: 'Високий пріоритет '
+    immediate_response: Негайна відповідь
+    in_progress: В процесі
+    incident_id: '#ID Інциденту'
+    incident_location: Місце події
+    incident_status_open: Відкрити
+    last_updated: Тривало оновлення
+    link_see_all: Подивитись всі
+    low_level: Низький
+    low_risk: 'Низький пріоритет '
+    medium_level: Середній
+    medium_risk: Середній пріоритет
+    missed_cases: Пропущені кейси
+    name: Iм'я
+    new_incident: Нові інциденти
+    new_referred: Нові направлення
+    no_overdue_activities: Немає протермінованих активностей
+    no_recent_activities: Немає поточних активностей
+    no_scheduled_activities: Немає запланованих активностей
+    none_risk: Без пріоритету
+    number_of_victims: Кількість жертв
+    number_of_violations: Кількість порушень
+    number_of_violations_verified: Порушення підтверджені
+    open: Відкрити
+    open_cases: Відкрити кейси
+    open_incidents: Відкрити інциденти
+    outstanding_transfers: Незакриті трансфери
+    overdue_activities: Протерміновані заходи
+    overdue_cases_to_assign: 'Призначити протерміновані кейси '
+    overdue_cases_to_assign_high: Ви мали ці кейси більше 1 години
+    overdue_cases_to_assign_low: Ви мали ці кейси більше 3 години
+    overview: Огляд
+    pending: Очікує рішення
+    pending_approvals: Очікують погодження
+    pending_transfers: Очікують трансферу
+    protection_concern: Проблема захисту
+    protection_concerns: Проблеми захисту
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: Остання активність
+    recently_flagged_child: Нещодавно позначені кейси
+    recently_flagged_incident: Нещодавно позначені інциденти
+    registration: Реєстрація
+    services: Послуги
+    services_implemented: Впроваджені послуги
+    shared_from_my_team_referrals: Направлення
+    shared_from_my_team_rejected_transfers: Відхилені трансфери
+    shared_with_me_new_referrals: Нові направлення
+    shared_with_me_total_referrals: Загальні направлення
+    shared_with_my_team_referrals: Направлення
+    shared_with_others_referrals: Направлення
+    status_of_cases: Статус кейсів
+    total_cases: Загальні кейси
+    users: Іконка налаштувань
+    violence_type: Тип насильства
+    with_incidents: З інцидентами
+    with_new_incidents: З новими інцидентами
+    without_incidents: Без інцидентів
+    workflow: Робочий процес
+    you_have: 'Ви маєте'
+  disabled:
+    status:
+      disabled: Деактивовано
+      enabled: Активовано
+  error_page:
+    not_authorized:
+      title: Не авторизовано
+    not_found:
+      something_went_wrong: Вибачте, щось пішло не так!
+  errors:
+    models:
+      agency:
+        code_present: не може бути порожнім
+        logo_format: Файл має бути png
+        terms_of_use_format: Файл має бути png
+        name_present: не може бути порожнім
+      child:
+        age: Вік має бути від 0 до 130 років
+        date_of_birth: Будь ласка, введіть дійсну дату народження для цього кейсу
+      export_configuration:
+        opt_out_field_does_not_exist: Зазначене поле opt_out не існує в записі.
+        record_type: Недійсний тип запису. Має бути Child, TracingRequest або Incident
+      field:
+        translated_options_do_not_match: Параметри перекладу полів повинні мати однакові ідентифікатори
+      location:
+        admin_level_present: не може бути порожнім
+        code_present: не може бути порожнім
+        name_present: не може бути порожнім
+        unique_location_code: Локація з таким кодом уже існує. Введіть інший код місцязнаходження
+      lookup:
+        being_used: Цей пошук використовується і не може бути видалений
+        name_present: Ім'я не може бути порожнім
+        values_ids_blank: Ідентифікатор lookup_value пустий
+      primero_module:
+        associated_record_types: З цим модулем має бути пов’язаний принаймні один тип запису
+        name_present: Ім'я не може бути порожнім
+      report:
+        name_presence: Ім'я не може бути порожнім
+      role:
+        permission_presence: Будь ласка, виберіть хоча б один дозвіл
+      user:
+        email_uniqueness: Користувач з такою адресою електронної пошти вже існує. Будь ласка, введіть іншу адресу
+      code_of_conduct:
+        title_present: Заголовок не може бути порожнім
+        content_present: Вміст не може бути порожнім
+    not_found: Запису(ів) не знайдено
+    try_again: Спробуйте ще
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Вибрано до PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Вибрано до CSV
+    custom:
+      all: Користувацький
+    custom_exports:
+      all: Користувацький
+      choose_fields: Бажаєте вибрати окремі поля для форми?
+      empty_fields_forms: Виберіть деякі форми або поля для експорту.
+      empty_format: Будь ласка, виберіть формат для експорту.
+      empty_module: Будь ласка, виберіть модуль для експорту.
+      empty_password: Будь ласка, введіть пароль, який зашифрує ваш файл.
+      field_label: Поле
+      fields: Виберіть Поля для експорту
+      form_label: Форма
+      format_label: Вибрати формат
+      forms: Виберіть Форми для експорту
+      label: Користувацький експорт
+      module_placeholder: Будь ласка, виберіть модуль.
+      select_module: Вибрати модуль
+      submit: ОК
+      header: Заголовок
+      custom_header: Користувацький заголовок
+      signatures: Включіть рядки підпису для
+      include_implementation_logos: Включити логотипи впровадження?
+      include_agency_logo: Включити лого агенства?
+      include_other_logos: Включити інші лого?
+    duplicate_id_csv:
+      all: Дублювати ID
+      female_abbreviation: Жін
+      headers:
+        age: Вік
+        case_id: Номер кейсу
+        child_name_last_first: Ім'я дитини
+        family_size: Кількість членів сім'ї
+        moha_id: ІДЕНТИФІКАТОР МВС ВІДХИЛЕНО
+        national_id_no: Національний ідентифікаційний номер
+        progress_id: Ідентифікатор прогресу
+        sex_mapping_m_f_u: Стать
+        other_agency_id: Код лікарні та номер пацієнта
+      male_abbreviation: Чол
+      unknown_abbreviation: U
+    exported: Успішно створено файл експорту
+    exported_error: Помилка створення експортного файлу
+    forms:
+      button: Експортні форми
+      label: Експорт
+      header:
+        form_group: Група Форми
+        form_name: Назва Форми
+        field_id: Ідентифікатор Поля
+        field_type: Тип Поля
+        field_name: Назва Поля
+        required: Обов`язково
+        on_mobile: На мобільному
+        on_short_form: На короткій формі
+        option_ids: Ідентифікатори опцій
+        options: Опції
+        options_lookup: Пошук
+        help_text: Текст довідки
+        guiding_questions: Допоміжні питання
+        visible: Видимий
+        lookup_id: Ідентифікатор пошуку
+        lookup_name: Назва пошуку
+        option_id: Ідентифікатор опції
+        option_name: Назва опції
+      options:
+        location: Локації
+        agency: Агенції
+        user: Користувачі
+        subforms: 'Субформа:%{subform_name}'
+        collapsed_fields: 'Згорнуті поля:%{fields}'
+        country: Країни
+      summary_header:
+        status: Статус
+        notes: Нотатки
+    go_to_exports: Перейдіть на сторінку Експорт, щоб завантажити
+    incident_recorder_xls:
+      all: Реєстр інцидентів
+      one: Реєстр інцидентів
+      selected: Вибрано для Реєстру інцидентів
+    json:
+      all: JSON
+      one: JSON
+      selected: Вибрано до JSON
+    list_view_csv:
+      all: Експорт списку
+      selected: Вибрано до CSV
+    messages:
+      no_exporter: Не вказано експортера
+    mrm_violation_xls:
+      all: Порушення механізму моніторингу та звітності
+      one: Порушення механізму моніторингу та звітності
+      selected: Вибрано до Порушення механізму моніторингу та звітності
+    no_records: Немає доступних записів!
+    pdf:
+      all: PDF (незашифровано)
+      one: PDF
+      selected: Вибрано до PDF
+    pdf_exports:
+      label: PDF
+      recipient: Отримувач
+      case_worker: Кейс-працівник
+      client: Клієнт
+      date: Дата
+      recipient_name: Ім`я отримувача
+      recipient_agency: Агентсво отримувача
+      caseworker_name: Ім`я працівника, відповідального за кейс
+      caseworker_agency: Агенство працівника, відповідального за кейс
+    photowall:
+      all: Фотостіна
+      flag_suspect_record: Позначено як підозрілий запис
+      no_photos_available: Немає доступних фотографій
+      one: Фотостіна
+      reunited: Возз'єднати
+      selected: Вибрано для фотостіни
+      success_message: Створення фотостіни%{file_name}Кейси без фотографій не будуть включені.
+    printed: 'Надруковано:%{date}'
+    queueing: Створення файлу експорту%{file_name}
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Вибрано до Excel
+      selected_fields: Вибрані поля
+    unhcr_csv:
+      all: УВКБ ООН
+      female_abbreviation: Жін
+      headers:
+        age: Вік
+        case_status: Статус кейсу
+        causes_of_separation: Причини розставання
+        country_of_origin: Країна походження
+        cpims_code: Код CPIMS
+        current_care_arrangement: Поточна організація догляду
+        date_of_birth: Дата народження
+        date_of_identification: Дата ідентифікації
+        family_count_no: Кількість сімей
+        governorate_country: Губернаторство - Країна
+        id: Ідентифікатор
+        individual_progress_id: Ідентифікатор особистого прогресу
+        locations_by_level: Адреса (Табір, Блок та інші відповідні типи адреси, наприклад GPS-координати притулку)
+        long_id: Довгий ідентифікатор
+        moha_id: Ідентифікатор МВС
+        name_of_caregiver: ПІБ опікуна
+        name_of_child_last_first: ПІБ дитини
+        primary_protection_concerns: Основні проблеми захисту
+        progres_id: Ідентифікатор прогресу
+        reunification_status: Статус воз`єднання
+        secondary_protection_concerns: Другорядні проблеми захисту
+        sex: Стать
+        sex_mapping_m_f_u: Стать
+        short_id: Короткий ідентифікатор
+        vulnerability_code: Коди вразливостей
+        vulnerability_details_code: Коди відомостей про вразливості
+      male_abbreviation: Чол
+      one: УВКБ ООН
+      selected: Вибрано до УВКБ ООН
+      unknown_abbreviation: U
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: Вибрано до Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Локації успішно імпортовано
+        no_data: 'Імпорт не відбувся: Дані не передані'
+        csv_parse_error: 'Імпорт не відбувся: Помилка аналізу даних CSV'
+        error: 'Рядок%{row_number}Не оброблено: %{message}'
+        db_error: 'Помилка створення %{location_code}:%{message}'
+        locale_invalid: 'Пропуск %{column_name}: Недійсний мовний код'
+        insert_all_error: 'Імпорт не відбувся. Помилка бази даних: %{message}'
+    csv_record:
+      messages:
+        success: Записи успішно імпортовано
+        no_data: 'Імпорт не відбувся: Дані не передані'
+        no_file: 'Імпорт не оброблено: файл не існує'
+        csv_parse_error: 'Імпорт не відбувся: Помилка аналізу даних CSV'
+        error: 'Рядок%{row_number}Не оброблено: %{message}'
+        db_error: 'Помилка створення %{location_code}:%{message}'
+        locale_invalid: 'Пропуск %{column_name}: Недійсний мовний код'
+        insert_all_error: 'Імпорт не відбувся. Помилка бази даних: %{message}'
+  sync_record:
+    failed: 'Остання синхронізація: неуспішна'
+    last: 'Остання синхронізація: %{date_time}'
+    not_found: 'Остання синхронізація: дані не знайдені'
+    retrieving: Отримання даних.
+    see_details: Подивитись подробиці.
+  fields:
+    action: Дія
+    actions: Дії
+    add: Додати
+    add_new_field: Створити нове поле
+    add_existing_field: Додати існуююче поле
+    add_field: Додати поле
+    add_field_type: Додати%{file_type}
+    audio:
+      current: Поточне аудіо
+    audio_upload_box: Завантажити аудіо
+    bia_document: Документ Апеляційної ради з питань імміграції
+    bid_document: Документ Найкращі Інтереси Дитини
+    check_box: Прапорці
+    clear_group_by: Очистити групу за
+    clear_sort_by: Очистити сортування за
+    copy_from_another_form: Це поле було скопійовано з іншої форми
+    create_field: Створити поле
+    create_unique_values: Створити унікальні значення
+    date_field: Поле дати
+    date_help: дд-мм-рррр
+    date_help_with_time: дд-мм-рррр гг:хх
+    date_not_valid: Дані недійсні.
+    time: Час
+    date_range:
+      date: Дата
+      date_range: Діапазон дат
+      from: Від
+      to: До
+      view_by: Переглянути за
+    date_range_field: Діапазон дат
+    date_time: Дата-Час
+    db_name: Назва бази даних
+    default: За замовчуванням?
+    default_date_validation: Перевірка дати за замовчуванням
+    default_to_current_date: За замовчуванням поточна дата?
+    default_to_current_datetime: За замовчуванням поточна дата й час?
+    default_value: Значення за замовчуванням
+    deleted: Поле %{display_name} було виделене.
+    detail: Деталь
+    disabled: Деактивовано
+    display_name: Показати ім'я
+    document:
+      comments: Коментарі
+      current: Це поточний документ?
+      date: Дата документу
+      name: Назва документу
+      is_current: Це поточний документ?
+    document_upload_box: Завантаження документа
+    edit_label: Редагувати поле
+    enabled: Активовано?
+    enabled_label: Активовано
+    english_text: Текст англійською мовою
+    field_name: Назва поля
+    field_type: Тип Поля
+    attachment_too_large: Розмір файлу не повинен перевищувати 10 Мб
+    file_upload_box:
+      add_document_label: Додати документ
+      add_new_document_button_text: Додати інший документ
+      add_new_photo_button_text: Додати інше фото
+      add_photo_label: Додати фотографію
+      document_description: Опис документу
+      document_file_restrictions_message: Розмір файлів не повинен перевищувати 2 МБ (виконані файли (.exe) не можна завантажувати).
+      no_file_selected: Не вибрано жодного файлу.
+      photo_file_restrictions_message: Фотографії повинні бути не більше 10 Мб. Розмір аудіофайлів не повинен перевищувати 10 Мб. Чим менше, тим краще.
+      recorded_audio_label: Записане аудіо
+      select_file_button_text: Вибрати файл
+    find_lookup: Знайти пошук
+    form_name: Назва Форми
+    future_date_not_valid: Не може бути в майбутньому.
+    guidance: Настанови
+    guiding_questions: Допоміжні питання
+    help_text: Текст довідки
+    hide_on_view_page: Показати сторінку
+    label: Поля
+    mobile_visible: Мобільний застосунок
+    move_to: Перенести до
+    multi_select: Можна вибрати кілька варіантів
+    multi_select_box: Багатокількісний вибір
+    must_be_english: Необхідно ввести англійською мовою
+    name: Iм'я
+    not_future_date: Це не дата в майбутньому
+    number_not_valid: Будь ласка, введіть цифрові дані
+    numeric_field: Цифрове поле
+    on_collapsed_subform: У згорнутій підформі?
+    option_strings_add_option: Додати опцію
+    option_strings_source: Пошуки
+    option_strings_text: Опції
+    option_strings_text_display: Текст опції
+    option_strings_text_key: Ключ опції
+    options_indications_lookup_values: Ви можете використовувати або попередньо визначені пошукові запити, або створити унікальні значення.
+    options_indications_restrictions: Ви не можете робити обидва.
+    options_or_lookup_warning: Будь ласка, додайте параметри або виберіть пошук. Не вводьте обидва.
+    other_documents: Інший документ
+    photo_upload_box: Завантажити фотографію
+    predifined_lookups: Використовуйте попередньо визначений пошук
+    radio_button: Радіо-кнопка
+    remove: Видалити
+    remove_attachment_confirmation: Ви впевнені, що хочете видалити цей вкладений файл?
+    required: Обов`язково
+    required_field: '%{field}є обов`язкове'
+    search_existing: Пошук існуючих полів
+    show: Показати?
+    type: Тип
+  filters:
+    apply_filters: Застосувати
+    more: Більше...
+    save_filters: Зберегти
+  form_section:
+    name: Iм'я
+  forms:
+    select_label: Вибрати
+    settings: Налаштування
+    translations:
+      edit: Редагувати переклад
+      manage: Керувати перекладом
+    type_label: Тип
+  home:
+    language: Мова
+  incident:
+    violation:
+      title: Порушення
+      types:
+        killing: Вбивство дітей
+  incidents:
+    filter_by:
+      incident_location: Місце події
+      unaccompanied_separated_status: Статус захисту
+      unknown: Невідомо
+      violence_type: Тип насильства
+    register_new_incident: Новий інцидент
+    social_worker: Соціальний працівник
+    violence_type: Тип насильства
+    type_violence: Тип насильства
+  key_performance_indicators:
+    case_assessment: "Оцінювання особової справи"
+    feedback: "Зворотній зв'язок"
+    time_periods:
+      3-6months: "3 - 6 місяців"
+      7-months: "> 6 місяців"
+    reporting_delay:
+      total_incidents: "Всі інциденти"
+    services_provided:
+      male: "Чоловіча"
+      female: "Жіноча"
+  permissions:
+    resource:
+      case:
+        actions:
+          request_approval_case_plan:
+            label: Запит на%{approval_label}ухвалення
+          request_approval_closure:
+            explanation: Дозволяє користувачеві (зазвичай працівнику справи) запитувати, щоб його менеджер схвалив їхню справу%{approval_label}.
+            label: Запит на%{approval_label}ухвалення
+          request_approval_gbv_closure:
+            explanation: Дозволяє користувачеві (зазвичай працівнику справи) запитувати, щоб його менеджер схвалив їхню справу%{approval_label}.
+            label: Запит на%{approval_label}ухвалення
+          request_transfer:
+            explanation: Показує кнопку «Запит на трансфер» у «Модальному вікні». Кнопка дозволяє користувачеві надіслати повідомлення з персоналізованою приміткою електронною поштою поточному власнику запису справи з проханням, щоб власник запису передав справу користувачеві, який надіслав запит. Це корисно в контекстах, коли діти часто змінюють місцеположення, а працівникам справи потрібен попередній співробітник дитини, щоб надіслати інформацію про дитину, щоб уникнути створення дубліката запису.
+            label: Запросити про трансфер
+          search_owned_by_others:
+            explanation: Дозволяє користувачеві здійснювати пошук записів, до яких він зазвичай не має доступу, оскільки він не є власником запису в цьому випадку, або (для менеджерів), оскільки власник запису не входить у їхні групи користувачів. Зауважте, що, хоча користувач побачить справу в поданні результатів пошуку, він не зможе натиснути на сторінку показу справи для цього випадку, тобто не зможе побачити будь-яку детальну інформацію про справу.
+            label: Пошук записів справ, що належать іншим користувачам
+          service_provision_incident_details:
+            explanation: 'Дозволяє користувачеві бачити кнопку з написом "Зберегти та додати надання послуг" внизу модальної панелі "Додати інцидент". Натискання цієї кнопки зберігає поточну введену інформацію про інцидент, а потім переносить користувача безпосередньо до режиму Додати надання послуг. Оскільки ця дія безпосередньо пов’язана з діями «Додати інцидент» та «Додати надання послуг», має сенс надати цей дозвіл ролі лише в тому випадку, якщо ця роль також має довзволи «Додати відомості про інцидент до справи іншого користувача» та «Додати надання послуг для кейсу іншого користувача». '
+            label: Див. Кнопку «Додати надання послуг» на модальньому вікні Деталі Інциденту.
+          services_section_from_case:
+            explanation: Можливість додати запис для субформи «Послуги» у випадку, який ви знайшли в результатах пошуку, але до якого у вас немає доступу. Користувач виконує цю дію на сторінці результатів пошуку, вибираючи один або кілька випадків, а потім вибираючи «Додати надання послуг» у меню дій. Після цього користувач бачить модальне поле, що містить усі поля субформи «Послуги», куди він може ввести та подати інформацію про послугу. Оскільки цю дію можна виконати лише зі сторінки результатів пошуку, для ролі має сенс мати цей дозвіл, лише якщо вона також має дозвіл «Пошук записів кейсів, що належать іншим користувачам».
+            label: Додайте надання послуг до кейсу іншого користувача
+          sync_external:
+            explanation: Можливість синхронізації запису із зовнішньою системою управління інформацією
+            label: Синхронізація із зовнішньою системою управління інформацією
+          sync_mobile:
+            explanation: Дозволяє користувачеві кешувати кейси для використання без інтернету.
+            label: Позначити для автономного режиму
+          transfer:
+            explanation: Дозволяє користувачеві надсилати справу від поточного власника запису будь-якому користувачу в системі з можливістю отримувати перекази. Власник запису справи не змінюється, поки одержувач переказу не «прийме» його. Якщо одержувач замість цього «відхиляє» передачу, одержувач втрачає доступ до справи, і він зберігає свого початкового власника запису.
+            label: Переслати
+          view_photo:
+            explanation: Дозволяє користувачеві бачити фотографії справи зі списку кейсів. Без цього дозволу користувач не бачить стовпець «Фото» в таблиці списку випадків або піктограми фотографій, які там відображаються. Цей дозвіл також дозволяє користувачеві бачити фотографії дитини в «Модальному перегляді».
+            label: Перегляд фото зі списку кейсів
+          view_incident_from_case:
+            explanation: «Під час перегляду Кейсу Користувач може побачити список інцидентів, пов’язаних із справою, а також деяку підсумкову інформацію про кожен із них.
+            label: Перегляд інцидентів з Кейсу
+          view_protection_concerns_filter:
+            explanation: Дозволяє користувачеві бачити фільтр проблем захисту на сторінці списку кейсів.
+            label: Переглянути фільтр проблем захисту на сторінці зі списком кейсів
