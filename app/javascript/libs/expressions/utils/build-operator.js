@@ -1,4 +1,4 @@
-import { COMPARISON_OPERATORS, LOGICAL_OPERATORS, MATHEMATICAL_OPERATORS } from "../constants";
+import { COMPARISON_OPERATORS, LOGICAL_OPERATORS } from "../constants";
 import {
   eqOperator,
   geOperator,
@@ -8,9 +8,7 @@ import {
   inOperator,
   andOperator,
   orOperator,
-  notOperator,
-  sumOperator,
-  avgOperator
+  notOperator
 } from "../operators";
 
 export default (operator, value) => {
@@ -33,10 +31,6 @@ export default (operator, value) => {
       return orOperator(value);
     case LOGICAL_OPERATORS.NOT:
       return notOperator(value);
-    case MATHEMATICAL_OPERATORS.SUM:
-      return sumOperator(value);
-    case MATHEMATICAL_OPERATORS.AVG:
-      return avgOperator(value);
     default:
       throw Error(`Operator ${operator} is not valid.`);
   }

@@ -39,7 +39,6 @@ const Component = ({
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
 
   const fieldsToDisplay = fieldsToRender(listFieldsToRender, field.subform_section_id.fields);
-
   const violationOptions = buildViolationOptions(
     parentValues,
     field.name,
@@ -67,16 +66,6 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
-    const calculationExpression = subformSectionField?.calculation?.expression;
-
-    if (calculationExpression) {
-      const calculatedVal = parseExpression(calculationExpression).evaluate(values);
-
-      if (values[subformSectionField.name] !== calculatedVal) {
-        setFieldValue(subformSectionField.name, calculatedVal);
-      }
-    }
-
     const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
