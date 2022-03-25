@@ -18,13 +18,13 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
             key, value,
             (
               case
-              when (violations."data"->>'abduction_regained_freedom' = "no")
+              when (violations."data"->>'abduction_regained_freedom' = 'no')
                 then 'still_being_held'
-              when (violations."data"->>'abduction_regained_freedom' = "yes"
-                and violations."data"->>'abduction_regained_freedom_how' = "escape")
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
+                and violations."data"->>'abduction_regained_freedom_how' = 'escape')
                 then 'escape'
-              when (violations."data"->>'abduction_regained_freedom' = "yes"
-                and violations."data"->>'abduction_regained_freedom_how' <> "escape")
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
+                and violations."data"->>'abduction_regained_freedom_how' <> 'escape')
                 then 'released'
               else violations."data"->>'abduction_regained_freedom'
               end
@@ -43,7 +43,7 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
                   #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
              ) as subquery
-         group by key, name
+         group by key, status
       }
     end
     # rubocop:enable Metrics/MethodLength
