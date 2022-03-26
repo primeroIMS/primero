@@ -1,5 +1,24 @@
 # frozen_string_literal: true
 
+module Minipack
+  class Manifest
+    def lookup_pack_with_chunks!(name, type: nil)
+      manifest_pack_type = manifest_type(name, type)
+      manifest_pack_name = manifest_name(name, manifest_pack_type)
+
+      paths = data['entrypoints']&.dig(manifest_pack_name, manifest_pack_type) ||
+              data['entrypoints']&.dig(manifest_pack_name, 'assets', manifest_pack_type) ||
+              handle_missing_entry(name)
+
+      entries = paths.map do |source|
+        entry_from_source(source) || handle_missing_entry(name)
+      end
+
+      ChunkGroup.new(entries)
+    end
+  end
+end
+
 Minipack.configuration do |minipack|
   minipack.cache = !Rails.env.development?
   minipack.base_path = Rails.root.join('app', 'javascript')

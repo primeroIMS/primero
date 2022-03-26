@@ -35,19 +35,26 @@ const ENTRIES = {
 };
 
 const DEV_SERVER_CONFIG = {
-  contentBase: OUTPUT_DIR,
   compress: true,
   port: PORT,
   historyApiFallback: true,
-  stats: "minimal",
   hot: false,
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
     "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
   },
-  writeToDisk: filePath => {
-    return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(filePath);
+  devMiddleware: {
+    stats: "minimal",
+    writeToDisk: filePath => {
+      return /(worker\.js|application\.json|identity\.json|precache-manifest.*\.js)$/.test(filePath);
+    }
+  },
+  client: {
+    overlay: false
+  },
+  static: {
+    directory: OUTPUT_DIR
   }
 };
 

@@ -36,14 +36,9 @@ const Component = ({
     setOpen(false);
   };
 
-  const renderItems = buildSubformDataItems(
-    recordChanges,
-    allFields,
-    allAgencies,
-    allLookups,
-    locations,
-    i18n
-  ).map(item => <ChangeLogItem item={item} key={item.key} />);
+  const renderItems = buildSubformDataItems(recordChanges, allFields, allAgencies, allLookups, locations, i18n).map(
+    item => <ChangeLogItem item={item} key={item.key} />
+  );
 
   setCalculatingChangeLog(false);
 

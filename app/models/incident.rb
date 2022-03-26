@@ -85,6 +85,9 @@ class Incident < ApplicationRecord
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
+    string :verification_status, multiple: true do
+      verification_status_list
+    end
   end
 
   after_initialize :set_unique_id
@@ -293,5 +296,11 @@ class Incident < ApplicationRecord
 
   def reporting_location_property
     'incident_reporting_location_config'
+  end
+
+  def verification_status_list
+    return [] unless violations.any?
+
+    violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
   end
 end

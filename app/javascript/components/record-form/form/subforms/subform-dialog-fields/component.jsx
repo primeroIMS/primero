@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "formik";
 import isEmpty from "lodash/isEmpty";
-import uuid from "uuid";
 
 import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
@@ -11,6 +10,7 @@ import { SUBFORM_SECTION } from "../../../constants";
 import { buildViolationOptions, getOptionStringsTags } from "../../utils";
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
+import uuid from "../../../../../libs/uuid";
 
 import { NAME, VIOLATION_IDS_NAME } from "./constants";
 
@@ -39,7 +39,6 @@ const Component = ({
   const { fields: listFieldsToRender } = subformSectionConfiguration || {};
 
   const fieldsToDisplay = fieldsToRender(listFieldsToRender, field.subform_section_id.fields);
-
   const violationOptions = buildViolationOptions(
     parentValues,
     field.name,
@@ -67,17 +66,10 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
-    const calculationExpression = subformSectionField?.calculation?.expression;
+    const tags = getOptionStringsTags(subformSectionField, values).concat(
+      getOptionStringsTags(subformSectionField, parentValues)
+    );
 
-    if (calculationExpression) {
-      const calculatedVal = parseExpression(calculationExpression).evaluate(values);
-
-      if (values[subformSectionField.name] !== calculatedVal) {
-        setFieldValue(subformSectionField.name, calculatedVal);
-      }
-    }
-
-    const tags = getOptionStringsTags(subformSectionField, values);
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,

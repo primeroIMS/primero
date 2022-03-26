@@ -1,5 +1,6 @@
 import { Children, forwardRef } from "react";
 import { VariableSizeList } from "react-window";
+import PropTypes from "prop-types";
 
 import useResetCache from "../use-reset-cache";
 
@@ -9,7 +10,7 @@ import OuterElementContext, { OuterElementType } from "./outer-element-type";
 
 const LISTBOX_PADDING = 20;
 
-const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
+const ListboxComponent = forwardRef((props, ref) => {
   const { children, ...other } = props;
   const itemData = Children.toArray(children);
   const itemCount = itemData.length;
@@ -49,6 +50,12 @@ const ListboxComponent = forwardRef(function ListboxComponent(props, ref) {
     </div>
   );
 });
+
+ListboxComponent.displayName = "ListboxComponent";
+
+ListboxComponent.propTypes = {
+  children: PropTypes.node
+};
 
 export const listboxClasses = css.listbox;
 

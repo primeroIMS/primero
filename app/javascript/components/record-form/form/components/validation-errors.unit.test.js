@@ -13,7 +13,8 @@ describe("<ValidationErrors />", () => {
       ValidationErrors,
       {
         forms: fromJS([{ unique_id: "form_1" }]),
-        formErrors: { field_1: "This field is required" }
+        formErrors: { field_1: "This field is required" },
+        submitCount: 1
       },
       initialState
     );

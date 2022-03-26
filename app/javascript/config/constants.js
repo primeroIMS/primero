@@ -232,7 +232,8 @@ export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
 export const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 // eslint-disable-next-line max-len
-export const ISO_DATE_TIME_REGEX = /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
+export const ISO_DATE_TIME_REGEX =
+  /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
 
 export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
@@ -551,7 +552,8 @@ export const VIOLATIONS_FORM = [
   "recruitment_violation_wrapper",
   "sexual_violence_violation_wrapper",
   "abduction_violation_wrapper",
-  "attack_on_violation_wrapper",
+  "attack_on_hospitals_violation_wrapper",
+  "attack_on_schools_violation_wrapper",
   "military_use_violation_wrapper",
   "denial_humanitarian_access_violation_wrapper"
 ];
@@ -570,7 +572,8 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "recruitment",
   "sexual_violence",
   "abduction",
-  "attack_on",
+  "attack_on_hospitals",
+  "attack_on_schools",
   "military_use",
   "denial_humanitarian_access"
 ];

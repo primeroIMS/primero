@@ -83,8 +83,8 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
         </div>
       </label>
       <div className={css.inputField}>
-        <FastField
-          render={({ form }) => {
+        <FastField>
+          {({ form }) => {
             const handleOnChange = event => handleChange(form, event);
 
             return (
@@ -98,7 +98,7 @@ const AttachmentInput = ({ attachment, fields, name, value, deleteButton }) => {
               />
             );
           }}
-        />
+        </FastField>
       </div>
       {file && renderPreview(attachment, file, css, deleteButton)}
     </div>

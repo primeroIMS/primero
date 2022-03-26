@@ -87,7 +87,7 @@ describe RecalculateAge, search: true do
 
     describe '.recalculate!' do
       before do
-        RecalculateAge.new.recalculate!(yesterday, today)
+        RecalculateAge.new.recalculate!(Date.new(2015, 2, 28), Date.new(2015, 3, 1))
       end
 
       it 'should calculate age with birthday today' do
@@ -143,6 +143,30 @@ describe RecalculateAge, search: true do
 
       it 'should calculate age with birthday' do
         expect(@case6.reload.age).to eq(4)
+      end
+    end
+  end
+
+  context 'when there is more than 20 records' do
+    let(:today) { Date.new(2022, 2, 23) }
+    describe '.recalculate!' do
+      before do
+        25.times do |index|
+          Child.create(data: { name: "case#{index}'", date_of_birth: Date.today - index.years })
+        end
+        @case31 = Child.create(data: { name: "case21'", date_of_birth: Date.today - 5.days })
+        @case32 = Child.create(data: { name: "case22'", date_of_birth: Date.today - 5.months })
+        Sunspot.commit
+      end
+
+      it 'should return total pages and total_count' do
+        search = RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)
+        expect(search.count).to eq(25)
+      end
+      it 'should not find cases with birthdays not today' do
+        expect(RecalculateAge.new.cases_by_date_of_birth_range(Date.today, Date.today)).not_to include(
+          @case31, @case32
+        )
       end
     end
   end

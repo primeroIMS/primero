@@ -35,8 +35,7 @@ export const FieldRecord = Record({
   tick_box_label: {},
   type: "",
   visible: null,
-  watchedInputs: null,
-  calculation: {}
+  watchedInputs: null
 });
 
 export const FormSectionRecord = Record({

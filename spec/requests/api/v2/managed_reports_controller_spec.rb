@@ -82,4 +82,33 @@ describe Api::V2::ManagedReportsController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/managed_reports/thisdoesntexist')
     end
   end
+
+  describe 'GET /api/v2/managed_reports/export' do
+    it 'fetch the correct export data with code 200' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::MANAGED_REPORT, actions: [Permission::GBV_STATISTICS_REPORT])
+        ]
+      )
+
+      get '/api/v2/managed_reports/export?id=gbv_statistics&subreport=incidents'
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq('success')
+      expect(json['data']['export_file_url'].starts_with?('/rails/active_storage/blobs/')).to be_truthy
+      expect(json['data']['export_file_url'].ends_with?(json['data']['export_file_name'])).to be_truthy
+
+      get(json['data']['export_file_url'])
+
+      expect(response).to have_http_status(302)
+    end
+
+    it 'refuses unauthorized access' do
+      login_for_test(permissions: [])
+
+      get '/api/v2/managed_reports/export?id=gbv_statistics&subreport=incidents'
+
+      expect(response).to have_http_status(403)
+    end
+  end
 end

@@ -596,7 +596,7 @@ describe("<RecordForm /> - Selectors", () => {
   describe("getFormNav", () => {
     const expected = OrderedMap({
       identification_registration: OrderedMap({
-        "62": R.NavRecord({
+        62: R.NavRecord({
           group: "identification_registration",
           groupOrder: 30,
           name: "Basic Identity",
@@ -612,7 +612,7 @@ describe("<RecordForm /> - Selectors", () => {
       const expectedNav = expected.set(
         "documents_group",
         OrderedMap({
-          "63": R.NavRecord({
+          63: R.NavRecord({
             group: "documents_group",
             groupOrder: 30,
             name: "Documents Form",
@@ -747,14 +747,8 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = R.FormSectionRecord({
         id: 62,
         unique_id: "basic_identity",
-        name: {
-          en: "Basic Identity",
-          fr: "",
-          ar: "",
-          "ar-LB": "",
-          so: "",
-          es: ""
-        },
+        description: {},
+        name: { en: "Basic Identity", fr: "", ar: "", "ar-LB": "", so: "", es: "" },
         visible: true,
         is_first_tab: true,
         order: 10,
@@ -763,23 +757,22 @@ describe("<RecordForm /> - Selectors", () => {
         editable: true,
         module_ids: ["primeromodule-cp"],
         form_group_id: "identification_registration",
-        form_group_name: {
-          en: "Identification / Registration",
-          fr: "",
-          ar: "",
-          "ar-LB": "",
-          so: "",
-          es: ""
-        },
         fields: [1],
-        is_nested: null
+        is_nested: null,
+        subform_prevent_item_removal: false,
+        collapsed_field_names: [],
+        subform_append_only: false,
+        initial_subforms: 0,
+        core_form: false,
+        i18nName: false,
+        i18nDescription: false
       });
       const record = selectors.getFirstTab(stateWithRecords, {
         primeroModule: "primeromodule-cp",
         recordType: "case"
       });
 
-      expect(record).to.deep.equal(expected);
+      expect(record.toJS()).to.deep.equal(expected.toJS());
     });
 
     it("should return an empty ordered map when there are not any options", () => {
