@@ -1,6 +1,7 @@
 ro:
   date:
     today: 'Astăzi'
+    clear: 'Golire'
     abbr_day_names_short:
       - Du
       - Lu
@@ -18,6 +19,7 @@ ro:
       - Vin
       - Sâm
     abbr_month_names:
+    - ~
       - Ian
       - Feb
       - Mar
@@ -39,6 +41,7 @@ ro:
       - Vineri
       - Sâmbătă
     month_names:
+    - ~
       - Ianuarie
       - Februarie
       - Martie
@@ -51,5 +54,16 @@ ro:
       - Octombrie
       - Noiembrie
       - Decembrie
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
   'true': "Da"
   'false': "Nu"

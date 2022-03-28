@@ -45,6 +45,7 @@ const getSuccessCallback = ({
   moduleID
 }) => {
   const isIncidentType = RECORD_TYPES[recordType] === RECORD_TYPES.incidents;
+  const isUpdate = saveMethod === SAVE_METHODS.update;
   const willRedirectToCase = isIncidentType && startsWith(redirect, `/${RECORD_PATH.cases}`);
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
   const incidentFromCaseCallbacks = willRedirectToCase
@@ -66,9 +67,8 @@ const getSuccessCallback = ({
       },
       moduleID,
       incidentPath,
-      setCaseIncidentData: incidentPath && saveMethod !== SAVE_METHODS.update,
-      redirectWithIdFromResponse:
-        !redirect && !incidentPath && !willRedirectToIncident && saveMethod !== SAVE_METHODS.update,
+      setCaseIncidentData: incidentPath && !isUpdate,
+      redirectWithIdFromResponse: !redirect && !incidentPath && !willRedirectToIncident && !isUpdate,
       redirect: redirect === false ? false : redirect || `/${recordType}`,
       preventSyncAfterRedirect:
         !willRedirectToCase && !willRedirectToIncident && [SAVE_METHODS.update].includes(saveMethod)
@@ -145,6 +145,8 @@ export const saveRecord = (
 ) => {
   const fetchRecordsAlertsCallback =
     id && !skipRecordAlerts && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
+  const isTracingRequest = RECORD_TYPES[recordType] === RECORD_TYPES.tracing_requests;
+  const isUpdate = saveMethod === SAVE_METHODS.update;
 
   return {
     type: `${recordType}/${SAVE_RECORD}`,
@@ -168,6 +170,7 @@ export const saveRecord = (
           moduleID,
           id
         }),
+        ...(isTracingRequest && isUpdate && id ? [fetchTracingRequestTraces(id, true)] : []),
         ...fetchRecordsAlertsCallback
       ],
       db: {
