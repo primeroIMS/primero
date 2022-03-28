@@ -66,6 +66,16 @@ const Component = ({
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
+    const calculationExpression = subformSectionField?.calculation?.expression;
+
+    if (calculationExpression) {
+      const calculatedVal = parseExpression(calculationExpression).evaluate(values);
+
+      if (values[subformSectionField.name] !== calculatedVal) {
+        setFieldValue(subformSectionField.name, calculatedVal);
+      }
+    }
+
     const tags = getOptionStringsTags(subformSectionField, values).concat(
       getOptionStringsTags(subformSectionField, parentValues)
     );

@@ -174,4 +174,44 @@ describe("parseExpression", () => {
       expect(expression.evaluate({ sex: "female" })).to.be.false;
     });
   });
+
+  context("when is a sum expression", () => {
+    const expression = parseExpression({ sum: ["a", "b", "c"] });
+
+    it("correctly evaluates the sum", () => {
+      expect(expression.evaluate({ a: 2, b: 3 })).to.deep.equals(5);
+    });
+
+    it("returns 0 when wrong arguments are passed", () => {
+      expect(expression.evaluate({ d: 2, e: 3 })).to.deep.equals(0);
+    });
+  });
+
+  context("when sum is nested", () => {
+    const expression = parseExpression({ sum: [{ sum: ["a", "b", "c"] }, "d"] });
+
+    it("expression is nested", () => {
+      expect(expression.evaluate({ a: 1, b: 2, c: 3, d: 4 })).to.deep.equal(10);
+    });
+  });
+
+  context("avgOperator", () => {
+    const operator = parseExpression({ avg: ["a", "b", "c"] });
+
+    it("should return avg", () => {
+      expect(operator.evaluate({ a: 3, b: 4, c: 2 })).to.deep.equals(3);
+    });
+
+    it("should return avg when single argument passed", () => {
+      expect(operator.evaluate({ a: 3 })).to.deep.equals(3);
+    });
+
+    it("should return 0 when wrong arguments passed", () => {
+      expect(operator.evaluate({ d: 3, e: 4 })).to.deep.equals(0);
+    });
+
+    it("returns 0 when no argument passed", () => {
+      expect(operator.evaluate({})).to.deep.equals(0);
+    });
+  });
 });

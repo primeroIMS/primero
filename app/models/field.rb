@@ -20,6 +20,7 @@ class Field < ApplicationRecord
   TICK_BOX = 'tick_box'
   TALLY_FIELD = 'tally_field'
   CUSTOM = 'custom'
+  CALCULATED = 'calculated'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
@@ -67,7 +68,7 @@ class Field < ApplicationRecord
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
       'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
-      { 'subform_section_configuration' => {} }, { 'tally' => [:id, display_text: {}] }
+      { 'subform_section_configuration' => {} }, { 'tally' => [:id, display_text: {}] }, { 'calculation' => {} }
     ]
   end
   # rubocop:enable Metrics/MethodLength
