@@ -47,7 +47,6 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
                 type={ACTION_BUTTON_TYPES.default}
                 isTransparent
                 noTranslate
-                className={css.caseLink}
                 rest={{
                   onClick: () => dispatch(setSelectedPotentialMatch(rowData[0], recordType)),
                   className: css.caseLink
