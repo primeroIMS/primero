@@ -23,7 +23,7 @@ class ManagedReports::SubReports::Maiming < ManagedReports::SubReport
     }
   end
 
-  def build_report(current_user, params = [])
+  def build_report(current_user, params = {})
     super(current_user, params.merge('type' => SearchFilters::Value.new(field_name: 'type', value: id)))
   end
 end
