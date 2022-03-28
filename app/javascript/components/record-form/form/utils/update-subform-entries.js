@@ -3,13 +3,17 @@ import pick from "lodash/pick";
 import isEmpty from "lodash/isEmpty";
 
 import { compactBlank } from "../../utils";
-import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../config";
+import { SUBFORM_READONLY_FIELD_NAMES, VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../config";
 
 import buildViolationSubform from "./build-violation-subform";
 
 export default (formik, fieldName, currentIndex, values, isViolation) => {
   if (!isViolation) {
-    return formik.setFieldValue(`${fieldName}[${currentIndex}]`, compactBlank(values), false);
+    return formik.setFieldValue(
+      `${fieldName}[${currentIndex}]`,
+      compactBlank(omit(values, SUBFORM_READONLY_FIELD_NAMES)),
+      false
+    );
   }
 
   const currentViolationData = omit(values, VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS);

@@ -386,7 +386,7 @@ fr:
     selected_all_records: Sélectionnez tous les cas %{total_records} qui correspondent à cette requête.
     selected_records: '%{select_records} cas sélectionné(s) '
     sex: Sexe
-    show_case: 'Id du cas'
+    show_case: 'Id du cas: %{short_id}'
     social_worker: Travailleur social
     status: Statut
     summary:
@@ -1630,7 +1630,7 @@ fr:
   messages:
     alert_items: Vous avez %{items}éléments à noter.
     alerts_for:
-      approval: Approbation est en attente pour %{form_name}
+      approval: Approbation est en attente pour %{form_section_name}
       field_change: '%{form_section_name} a été mis à jour le %{alert_time}'
       transfer_request: 'Un nouveau transfert demandé a été effectué le %{date} par %{user} à %{agency} '
     cannot_edit: Vous ne pouvez pas éditer ceci
@@ -1790,7 +1790,6 @@ fr:
       services_section_from_case: Ajouter une prestation de service au cas d'un autre utilisateur
       specific_roles: Accéder à une liste précise de fonctions
       sync_external: Synchronisation avec un système externe de gestion de l'information
-      sync_mobile: Sync avec appareil mobile
       system: Système
       tracing_request: Demande de traçage
       transfer: Peut être utilisé pour un transfert
@@ -2031,9 +2030,6 @@ fr:
           sync_external:
             explanation: Possibilité de synchroniser un cas avec un système externe de gestion de l'information
             label: Synchronisation avec un système externe de gestion de l'information
-          sync_mobile:
-            explanation: Cette autorisation permet généralement à l'utilisateur d'utiliser l'application mobile. Tout d'abord, elle permet à l'utilisateur de voir les actions "Maquer pour mobile" et "Supprimer le marquage pour mobile", qui apparaissent sur les pages de la liste des cas et de la présentation des cas. Marquer une cas pour le mobile indique que les informations concernant ce cas doivent être synchronisées entre l'appareil mobile de l'utilisateur et l'application web, tandis que le fait de supprimer le marquage pour mobile empêche cette synchronisation de se produire. Les utilisateurs sans cette autorisation ne peuvent pas non plus synchroniser leur appareil mobile avec l'application web en général, ce qui signifie qu'ils ne peuvent pas utiliser l'application mobile pour gérer les cas.
-            label: 'Synchroniser avec appareil mobile '
           transfer:
             explanation: Permet à un utilisateur d'envoyer un cas de son propriétaire actuel à tout utilisateur du système ayant la possibilité de recevoir des transferts. La propriété du cas ne change toutefois pas tant que le destinataire du transfert ne l'a pas "accepté". Si le destinataire "rejette" le transfert, il perd l'accès au cas et celui ci reste la propriété de son propriétaire d'origine.
             label: Transférer

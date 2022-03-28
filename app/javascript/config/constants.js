@@ -597,3 +597,4 @@ export const CHART_COLORS = Object.freeze({
   orange: "rgb(231, 113, 45)",
   yellow: "rgb(242, 195, 23)"
 });
+export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
