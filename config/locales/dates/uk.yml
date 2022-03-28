@@ -1,7 +1,7 @@
 uk:
   date:
     today: 'Сьогодні'
-    clear: 'Зрозуміло'
+    clear: 'Очистити'
     abbr_day_names_short:
       - Нд
       - Пн
