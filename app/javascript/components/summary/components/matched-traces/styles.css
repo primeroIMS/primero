@@ -7,12 +7,3 @@
 .nothingFound {
   font-style: italic;
 }
-
-.link {
-  color: var(--c-blue);
-  font-weight: bold;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
