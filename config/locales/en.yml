@@ -1868,6 +1868,7 @@ en:
         still_being_held: Still being held
         released: 'Released'
         escaped: 'Escaped'
+        abducted_status: Status of Abducted
     gbv_statistics:
       name: GBV Statistics
       description: ''
