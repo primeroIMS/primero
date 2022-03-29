@@ -22,4 +22,8 @@ class ManagedReports::SubReports::DenialHumanitarianAccess < ManagedReports::Sub
       ManagedReports::Indicators::DenialType.id => 'lookup-denial-method'
     }
   end
+
+  def build_report(current_user, params = {})
+    super(current_user, params.merge('type' => SearchFilters::Value.new(field_name: 'type', value: id)))
+  end
 end

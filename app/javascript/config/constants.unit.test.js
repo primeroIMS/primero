@@ -90,6 +90,7 @@ describe("Verifying config constant", () => {
       "SAVE_METHODS",
       "SAVING",
       "STRING_SOURCES_TYPES",
+      "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
       "TOKEN_REFRESH_INTERVAL",
       "TRACES_SUBFORM_UNIQUE_ID",

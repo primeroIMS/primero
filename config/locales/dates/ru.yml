@@ -19,6 +19,7 @@ ru:
       - Пт
       - Сб
     abbr_month_names:
+      - ~
       - Янв
       - Февр
       - Март
@@ -40,6 +41,7 @@ ru:
       - Пятница
       - Суббота
     month_names:
+      - ~
       - Январь
       - Февраль
       - Март
@@ -52,5 +54,16 @@ ru:
       - Октябрь
       - Ноябрь
       - Декабрь
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
   'true': "Да"
   'false': "Нет"
