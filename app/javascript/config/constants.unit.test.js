@@ -68,6 +68,7 @@ describe("Verifying config constant", () => {
       "MODULES",
       "MODULE_TYPE_FIELD",
       "MONTH_AND_YEAR_FORMAT",
+      "MRM_INSIGHTS_SUBREPORTS",
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
