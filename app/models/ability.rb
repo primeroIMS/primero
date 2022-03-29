@@ -41,7 +41,7 @@ class Ability
 
     return false if instance.super_user? || instance.user_admin?
 
-    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
+    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
                    user.agency == instance.agency
 
     if !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
