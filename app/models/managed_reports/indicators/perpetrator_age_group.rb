@@ -34,7 +34,7 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
         group by alleged_perpetrator.age_group
-        #{grouped_date_query(params['grouped_by'], date_param)&.concat(', ')}
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end
     # rubocop:enable Metrics/MethodLength

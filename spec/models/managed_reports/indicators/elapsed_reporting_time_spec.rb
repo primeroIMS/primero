@@ -88,11 +88,11 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2020, 9, 3), date_of_first_report: Date.new(2020, 9, 8) }
+      { incident_date: Date.new(2021, 9, 3), date_of_first_report: Date.new(2021, 9, 8) }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2020, 9, 9), date_of_first_report: Date.new(2020, 9, 10) }
+      { incident_date: Date.new(2021, 9, 9), date_of_first_report: Date.new(2021, 9, 10) }
     ).save!
     Incident.new_with_user(
       @all_user,
@@ -100,7 +100,7 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 8, 8), date_of_first_report: Date.new(2020, 10, 8) }
+      { incident_date: Date.new(2022, 8, 8), date_of_first_report: Date.new(2022, 10, 8) }
     ).save!
   end
 
@@ -160,6 +160,115 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
           { 'id' => 'over_1_month', 'total' => 2 }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::ElapsedReportingTime.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => 'over_1_month', 'total' => 1 }
+              ],
+              'group_id' => 2020
+            },
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => '4_5_days', 'total' => 1 }
+              ],
+              'group_id' => 2021
+            },
+            { 'data' => [{ 'id' => 'over_1_month', 'total' => 1 }], 'group_id' => 2022 }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::ElapsedReportingTime.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => 'over_1_month', 'total' => 1 }
+              ],
+              'group_id' => 'august-2020'
+            },
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => '4_5_days', 'total' => 1 }
+              ], 'group_id' => 'september-2021'
+            },
+            { 'data' => [{ 'id' => 'over_1_month', 'total' => 1 }], 'group_id' => 'august-2022' }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::ElapsedReportingTime.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => 'over_1_month', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2020'
+            },
+            {
+              'data' => [
+                { 'id' => '0_3_days', 'total' => 1 },
+                { 'id' => '4_5_days', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2021'
+            },
+            { 'data' => [{ 'id' => 'over_1_month', 'total' => 1 }], 'group_id' => 'q3-2022' }
+          ]
+        )
+      end
     end
   end
 end

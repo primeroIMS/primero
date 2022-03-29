@@ -86,10 +86,12 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
 
     Incident.new_with_user(
       @self_user,
+      incident_date: Date.new(2020, 8, 12),
       alleged_perpetrator: [{ 'age_group' => '0_11', 'primary_perpetrator' => 'primary' }]
     ).save!
     Incident.new_with_user(
       @group_user,
+      incident_date: Date.new(2020, 9, 12),
       alleged_perpetrator: [
         { 'age_group' => '12_17', 'primary_perpetrator' => 'primary' },
         { 'age_group' => '18_25', 'primary_perpetrator' => 'primary' }
@@ -97,12 +99,14 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
     ).save!
     Incident.new_with_user(
       @agency_user,
+      incident_date: Date.new(2021, 1, 12),
       alleged_perpetrator: [
         { 'age_group' => '18_25', 'primary_perpetrator' => 'primary' }
       ]
     ).save!
     Incident.new_with_user(
       @all_user,
+      incident_date: Date.new(2021, 2, 12),
       alleged_perpetrator: [
         { 'age_group' => '61', 'primary_perpetrator' => 'primary' },
         { 'age_group' => '61', 'primary_perpetrator' => 'primary' }
@@ -148,7 +152,7 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
       expect(data).to match_array(
         [
           { 'id' => '12_17', 'total' => 1 },
-          { 'id' => '18_25', 'total' => 2 },
+          { 'id' => '18_25', 'total' => 2 }
         ]
       )
     end
@@ -164,6 +168,126 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
           { 'id' => '61', 'total' => 2 }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::PerpetratorAgeGroup.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_11', 'total' => 1 },
+                { 'id' => '12_17', 'total' => 1 },
+                { 'id' => '18_25', 'total' => 1 }
+              ],
+              'group_id' => 2020
+            },
+            {
+              'data' => [
+                { 'id' => '18_25', 'total' => 1 },
+                { 'id' => '61', 'total' => 2 }
+              ],
+              'group_id' => 2021
+            }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::PerpetratorAgeGroup.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_11', 'total' => 1 },
+              ],
+              'group_id' => 'august-2020'
+            },
+            {
+              'data' => [
+                { 'id' => '12_17', 'total' => 1 },
+                { 'id' => '18_25', 'total' => 1 }
+              ],
+              'group_id' => 'september-2020'
+            },
+            {
+              'data' => [
+                { 'id' => '18_25', 'total' => 1 }
+              ],
+              'group_id' => 'january-2021'
+            },
+            {
+              'data' => [
+                { 'id' => '61', 'total' => 2 }
+              ],
+              'group_id' => 'february-2021'
+            }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::PerpetratorAgeGroup.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => '0_11', 'total' => 1 },
+                { 'id' => '12_17', 'total' => 1 },
+                { 'id' => '18_25', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2020'
+            },
+            {
+              'data' => [
+                { 'id' => '18_25', 'total' => 1 },
+                { 'id' => '61', 'total' => 2 }
+              ],
+              'group_id' => 'q1-2021'
+            }
+          ]
+        )
+      end
     end
   end
 end

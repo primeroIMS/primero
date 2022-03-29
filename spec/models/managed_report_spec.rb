@@ -21,7 +21,7 @@ describe ManagedReport do
 
     it 'should return permitted_filters of gbv_statistics' do
       expect(managed_reports[Permission::GBV_STATISTICS_REPORT].permitted_filters).to match_array(
-        [{ date_of_first_report: {}, incident_date: {} }]
+        [:grouped_by, { date_of_first_report: {}, incident_date: {} }]
       )
     end
 
@@ -34,7 +34,7 @@ describe ManagedReport do
     it 'should return permitted_filters of violations' do
       expect(managed_reports[Permission::VIOLATION_REPORT].permitted_filters).to match_array(
         [
-          :ctfmr_verified, :verified_ctfmr_technical,
+          :ctfmr_verified, :verified_ctfmr_technical, :grouped_by,
           { ctfmr_verified_date: {}, date_of_first_report: {}, incident_date: {} }
         ]
       )
