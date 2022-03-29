@@ -1,7 +1,7 @@
 import first from "lodash/first";
 import isObject from "lodash/isObject";
-import isMathematicalOperator from "./utils/is-mathematical-operator";
 
+import isMathematicalOperator from "./utils/is-mathematical-operator";
 import { buildOperator, isLogicalOperator, isExpression } from "./utils";
 import toExpression from "./to-expression";
 
