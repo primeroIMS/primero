@@ -18,7 +18,7 @@ import css from "./styles.css";
 const Component = ({ children }) => {
   const { demo } = useApp();
 
-  const classes = clsx({ [css.root]: true, [css.demo]: demo });
+  const classes = clsx({ [css.root]: true });
 
   const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 

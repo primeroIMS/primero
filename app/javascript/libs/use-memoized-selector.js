@@ -1,18 +1,37 @@
 import { useSelector } from "react-redux";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import isEqual from "lodash/isEqual";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
+import { useCallback } from "react";
+import memoize from "proxy-memoize";
+
+const selectorEqualityFn = (val1, val2) => {
+  return val1 === val2;
+};
+
+const useMemoizedSelector = (selector, equalityFn) => {
+  return useSelector(selector, equalityFn || selectorEqualityFn);
+};
+
+const createProxySelectorHook = () => {
+  const useProxySelector = (fn, deps) => {
+    return useMemoizedSelector(useCallback(memoize(fn), deps));
+  };
+
+  return useProxySelector;
+};
 
 export const cachedSelectorOptions = keySelector => {
   const defaultKeySelector = (_state, query) => JSON.stringify(omitBy(query, isNil));
 
   return {
     keySelector: keySelector || defaultKeySelector,
-    selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+    selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
   };
 };
 
-export default (selector, equalityFn = isEqual) => {
-  return useSelector(selector, equalityFn);
-};
+export const useProxySelector = createProxySelectorHook();
+
+export default useMemoizedSelector;
+
+export { selectorEqualityFn };
