@@ -10,21 +10,22 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select status, key, sum(value::integer)
+        select status as id, sum(value::integer) as total
         from (
             select
             key, value,
             (
               case
-              when (violations."data"->>'abduction_regained_freedom' = "no")
+              when (violations."data"->>'abduction_regained_freedom' = 'false')
                 then 'still_being_held'
-              when (violations."data"->>'abduction_regained_freedom' = "yes"
-                and violations."data"->>'abduction_regained_freedom_how' = "escape")
+              when (violations."data"->>'abduction_regained_freedom' = 'true'
+                and violations."data"->>'abduction_regained_freedom_how' = 'escape')
                 then 'escape'
-              when (violations."data"->>'abduction_regained_freedom' = "yes"
-                and violations."data"->>'abduction_regained_freedom_how' <> "escape")
+              when (violations."data"->>'abduction_regained_freedom' = 'true'
+                and violations."data"->>'abduction_regained_freedom_how' <> 'escape')
                 then 'released'
               else violations."data"->>'abduction_regained_freedom'
               end
@@ -43,12 +44,14 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
                   #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
              ) as subquery
-         group by key, name
+             where key = 'total'
+         group by id
       }
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def build(current_user, args = {})
       super(current_user, args, &:to_a)

@@ -1,8 +1,8 @@
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
-import uuid from "uuid";
 
 import { stub, useFakeTimers } from "../../test";
+import uuid from "../../libs/uuid";
 
 import generateRecordProperties from "./generate-record-properties";
 

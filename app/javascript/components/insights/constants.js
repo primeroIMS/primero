@@ -1,4 +1,4 @@
-import { MODULES, VIOLATIONS_SUBFORM_UNIQUE_IDS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
+import { MODULES, MRM_INSIGHTS_SUBREPORTS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
 import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
@@ -120,7 +120,7 @@ export const SHARED_FILTERS = [
 
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
-    ids: VIOLATIONS_SUBFORM_UNIQUE_IDS,
+    ids: MRM_INSIGHTS_SUBREPORTS,
     localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
     defaultFilterValues: {
       [VIEW_BY]: QUARTER,

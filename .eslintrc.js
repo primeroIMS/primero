@@ -1,10 +1,8 @@
-const path = require("path");
-
 const developmentEnv = process.env.NODE_ENV === "development";
 
 module.exports = {
-  parser: "babel-eslint",
-  extends: ["airbnb", "prettier", "prettier/react"],
+  parser: "@babel/eslint-parser",
+  extends: ["airbnb", "prettier"],
   plugins: ["react", "prettier", "react-hooks", "import", "unused-imports"],
   rules: {
     "react/jsx-uses-react": "off",
@@ -62,36 +60,51 @@ module.exports = {
     "react-hooks/exhaustive-deps": "off",
     "react-hooks/rules-of-hooks": "error",
     "react/sort-prop-types": "error",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "default-param-last": "off",
+    "arrow-body-style": "off",
+    "react/function-component-definition": "off",
+    "no-restricted-exports": "off",
+    "no-import-assign": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "react/jsx-no-constructed-context-values": "off",
+    "no-constructor-return": "off",
+    "react/destructuring-assignment": "off",
+    "react/no-unstable-nested-components": "off",
+    "no-unsafe-optional-chaining": "off",
+    "no-promise-executor-return": "off"
   },
   env: {
     browser: true
   },
-  overrides: [{
-    "files": ["*.unit.test.js"],
-    "env": {
-      "mocha": true
+  overrides: [
+    {
+      files: ["*.unit.test.js"],
+      env: {
+        mocha: true
+      },
+      globals: {
+        expect: "readonly"
+      },
+      rules: {
+        "import/no-namespace": "off",
+        "no-unused-expressions": "off",
+        "no-unused-vars": [
+          "error",
+          {
+            varsIgnorePattern: "should|expect"
+          }
+        ],
+        "react/display-name": "off",
+        "react/no-multi-comp": "off",
+        "react/prop-types": "off"
+      }
     },
-    "globals": {
-      "expect": "readonly"
-    },
-    "rules": {
-      "import/no-namespace": "off",
-      "no-unused-expressions": "off",
-      "no-unused-vars": [
-        "error",
-        {
-          "varsIgnorePattern": "should|expect"
-        }
-      ],
-      "react/display-name": "off",
-      "react/no-multi-comp": "off",
-      "react/prop-types": "off"
+    {
+      files: ["worker.js"],
+      globals: {
+        workbox: "readonly"
+      }
     }
-  }, {
-    "files": ["worker.js"],
-    "globals": {
-      "workbox": "readonly"
-    }
-  }]
+  ]
 };

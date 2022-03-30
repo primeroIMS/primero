@@ -3,6 +3,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 import { render } from "react-dom";
+import { StrictMode } from "react";
 
 import App from "../app";
 import serviceWorker from "../service-worker";
@@ -12,4 +13,9 @@ serviceWorker();
 
 ErrorLogger.startErrorListeners();
 
-render(<App />, document.getElementById("root"));
+render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById("root")
+);

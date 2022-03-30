@@ -1,0 +1,3098 @@
+ro:
+  'true': 'Da'
+  'false': 'Nu'
+  accepted: Acceptat
+  cancel: Anulat
+  connection_lost: Momentan în mod offline
+  connected: Conectat
+  clear: Golire
+  sandbox_ui: Demo
+  description: Descriere
+  form: Formular
+  minimum_reportable_fields: "Câmpuri minime raportabile %{record_type}"
+  name: Nume
+  offline: Offline
+  unavailable_offline: Indisponibil offline
+  online: Online
+  yes_label: 'Da'
+  or_label: sau
+  select_provider: Selectare furnizor
+  select_language: Selectare limbă
+  log_in_primero_idp: autentifică-te cu utilizator %{idp_name}
+  offline_submitted_changes: 'Momentan ești offline. Modificările vor fi operate în momentul revenirii în online. '
+  updated: Actualizat
+  sync:
+    success: "%{records}înregistrări sincronizate cu succes."
+    error:
+      create: Eroare de creare %{record_type}. Te rugăm să contactezi echipa de suport.
+      update: Actualizarea pentru %{record_type}%{short_id}a eșuat. Te rugăm să contactezi echipa de suport.
+  actions:
+    approvals: Aprobări
+    button: Acțiuni
+    close: Închidere
+    description:
+      invalid: Înregistrare nevalidă
+      valid: Înregistrare validă
+    disable: Dezactivare
+    enable: Activare
+    incident_details_from_case: Adaugă Incident
+    incident_from_case: Creează Incident
+    next: Înainte
+    notes: Adaugă notițe
+    previous: Înapoi
+    reopen: Redeschide
+    request_approval: Solicită aprobare
+    revoke: Revocare
+    save: Salvare
+    services_from_case_creation_success: Furnizare servicii creat cu succes.
+    services_section_from_case: Adăugare Furnizare servicii
+    mark_for_offline: Marchează pentru offline
+  agencies:
+    label: Organizația/ instituția
+    translations:
+      manage: Gestionare traduceri
+  agency:
+    agency_logos: Logo organizație/ instituție
+    code: Cod organizație/ instituție
+    description: Descriere
+    disabled: Dezactivat
+    exclude_agency_from_lookups: 'Exclude această organizație/ instituție din căutări și filtre. '
+    exclude_agency_from_lookups_help: 'Bifează dacă organizația/ instituția nu are utilizatori (ex: organizația/ instituția a fost adăugată doar pentru ca sigla să poată fi aplicată automat la export).'
+    label: Organizație/ instituție
+    logo_enabled: Afișează logo-ul organizației/ instituției în Primero?
+    logo_enabled_help: Afișează logo-ul organizației/ instituției în Primero?
+    logo_icon: Iconiță Logo
+    logo_icon_help: Apare pe ecrane de mici dimensiuni, tablete și telefoane. Ar trebui să aibă formă pătrată.
+    logo_large: Logo mare
+    logo_large_help: Va fi vizibilă pe ecrane mari și în exporturile PDF. Ar trebui să aibă o formă dreptunghiulară, cu lungimea mai mare decât înălțimea.
+    messages:
+      created: Organizația/ instituția a fost creată cu succes.
+      updated: Organizația/ instituția a fost actualizată cu succes.
+    name: Denumirea organizației/ instituției
+    pdf_logo_option: Logo disponibil pentru export PDF?
+    pdf_logo_option_help: 'Notă: logo-ul organizației/ instituției este disponibil utilizatorilor organizației/ instituției în mod implicit. Bifează această opțiune doar dacă dorești ca logo-ul să fie disponibil pentru toți utilizatorii.'
+    services: Serviciile organizației/ instituției
+    terms_of_use: Termeni și condiții
+    terms_of_use_help: Sunt permise doar documente PDF.
+    terms_of_use_download_button: Download PDF
+    terms_of_use_enabled: Afișare Termeni și condiții?
+  approvals:
+    approved_by: Aprobat de către
+    case_plan_type_label: Tip plan servicii
+    manager_comments_label: Gestionare comentarii
+    rejected_by: Respins de către
+    requested_by: Solicitat de către
+    requested_for_label: Aprobare solicitată pentru
+    requested_for_title: Aprobare solicitată
+    response_for_label: Aprobare pentru
+    response_for_title: Aprobare
+    action_plan: Plan intervenții
+    gbv_closure: Închidere GBV/ Violență pe bază pe gen
+    status:
+      approved: Aprobat
+      pending: În așteptare
+      rejected: Respins
+      requested: Solicitat
+  audit_log:
+    action: Acțiune
+    description: Descriere
+    record_owner: Proprietarul înregistrării
+    timestamp: Ora
+    user_name: Realizat de către
+  bulk_export:
+    file_name: Fișier
+    record_type: Tip
+    retry: Exportul nu este valid. Te rugăm să încerci din nou.
+    started_on: Început
+    status: Status
+  form_export:
+    label: Export configurație formular
+    include_hidden: Include formulare și câmpuri ascunse?
+    file_name: Creează propria denumire de fișier (opțional)
+    success_message: Fișier de export generat cu succes
+  buttons:
+    accept: Acceptare
+    add: Adăugare
+    add_another_option: Adăugare opțiune nouă
+    add_note: Adăugare notițe
+    apply: Aplică
+    approvals: Aprobări
+    approve_action_plan: Aprobare Plan intervenții
+    approve_bia: Aprobare BIA/ Evaluare a interesului superior al copilului
+    approve_case_plan: Aprobare plan de servicii
+    approve_closure: Aprobare închidere
+    approve_gbv_closure: Aprobare închidere GBV/ Violență pe bază pe gen
+    back: Înapoi
+    bundle_export: Pachetul de configurații
+    bundle_import: Pachetul de configurații
+    cancel: Anulare
+    change_password: Schimbă parola
+    check_status: Verificare status
+    clear_default: Ștergere implicită
+    clear_selection: Golire selecție
+    clear: Golire
+    close: Închidere
+    continue: Continuă
+    create_case: Creare caz
+    create_incident: Creare incident
+    create_new_record: Creează un nou%{model}
+    delete: Șterge
+    disable: Dezactivare
+    disable_photo_wall: Dezactivare galerie foto
+    done: Realizat
+    download: Download
+    edit: Editează
+    edit_subform: Editare subformular
+    enable: Activează
+    enable_photo_wall: Activare galerie foto
+    export: Export
+    filter: Aplică filtru
+    filter_clear: Șterge filtru
+    filter_label: 'Filtru:'
+    filter_restore: Restaurare la setările de sistem
+    find_tracing_match: Caută solicitare urmărire
+    flag_model: Marchează %{model}
+    flag_records: Marcaj
+    flags: Marcaje
+    guidance: Ghidare
+    guiding_questions: Întrebări de ghidare
+    import: Import
+    login: Autentificare
+    logout: Deconectare
+    mark_for_mobile: Marcare pentru mobil
+    new: Nou
+    ok: OK
+    print: Printare
+    reassign: Asignează
+    referral: Referă
+    referral_again: Referă din nou
+    reject: Respinge
+    remove_referrals: Eliminare referiri
+    reorder: Reordonare
+    request_approval: Solicită aprobare
+    request_transfer: Solicită transfer
+    reunite: Reunificare
+    save: Salvare
+    save_and_add_service_provision: Salvează și adaugă furnizare servicii
+    save_and_return: Salvează și întoarce-te
+    save_continue: Salvează și continuă
+    save_changes: Salvare modificări
+    select: Selectează
+    send: Trimite
+    sort_by_case: Cazuri
+    sort_by_tr: Solicitări urmărire
+    sync: Sincronizare
+    submit: Trimite
+    transfer: Transfer
+    unflag_model: Demarchează %{model}
+    unflag_model_history: istoric marcaje %{model}
+    unmark_for_mobile: Demarchează pentru mobil
+    update: Actualizat
+    view: Vizualizare
+    view_flags_history: Vizualizare istoric
+    return_to_case: Înapoi la caz
+  case:
+    label: Caz
+    create_new_case: Creare caz nou
+    add_new: Adaugă nou
+    back_to_case: Înapoi la caz
+    back_to_results: Înapoi la rezultate
+    back_to_search: Înapoi la Căutare
+    search_by: Căutare în funcție de
+    search_for: Caută %{record_type}
+    results: Rezultate
+    details: Detalii
+    select: Selectare
+    deselect: Deselectare
+    enter_id_number: Introdu ID-ul pentru a căuta o înregistrare existentă
+    id_search_no_results: Nu există corespondent în sistem pentru „%{search_query}”. Vă rugăm să creați o înregistrare nouă.
+    messages:
+      disabled: Cazul este dezactivat
+      update_success: 'Cazul %{record_id}a fost actualizat cu succes.'
+      update_success_queue: 'Cazul %{record_id}a fost actualizat cu succes în fundal.'
+      creation_success: 'Registru cazuri creat cu succes.'
+      creation_success_queue: 'Registru cazuri creat cu succes în fundal.'
+      already_matched: Acest solicitant a fost deja asociat cu cazul tău.
+      already_matched_not_current_case: Există deja un caz în sistem care se potrivește cu acest solicitant.
+      not_found_case: Nu au fost identificate cazuri care să se potrivească cu "%{search_value}". Creare caz nou.
+      introductory_sentence: Te rugăm să incluzi consimțământul persoanei de a primi servicii asociate managementului de caz și de a avea datele stocate în Primero.
+      consent_agreements_required: Te rugăm să selectați cel puțin o opțiune din acordurile de consimțământ.
+      legitimate_basis_required: Te rugăm să selectezi cel puțin o opțiune din clasificările legitime de bază.
+    save: Salvare caz
+    save_text: Înainte de a continua, salvează modificările aduse cazului.
+    skip_and_create: Omiteți și creați un caz nou
+    search_existing: Căutare cazuri existente
+    search_helper_text: De ce? Pentru a preveni crearea de cazuri duplicate.
+    consent_agreements: Selectează toate acordurile de consimțământ care se aplică
+    legitimate_basis: Selectează toate clasificările legitime de bază care se aplică.
+    workflow:
+      assessment: Evaluare
+      case_plan: Plan servicii
+      closed: Închis
+      created_on: creat pe
+      in_progress: în desfășurare
+      new: Nou
+      on_label: 'pe'
+      reopened: Redeschis
+      service_implemented: Serviciu implementat
+      services_implemented: Serviciu implementat
+  linkedincidents:
+    label: Incidente conectare
+  activity_log:
+    label: Istoric Activitate
+    accepted_transfer: '%{to}transfer acceptat pentru %{record_type}%{record_id}din %{from}'
+    rejected_transfer: '%{to}transfer respins pentru %{record_type}%{record_id}din %{from}'
+  cases:
+    action_plan: Plan intervenții
+    age: Vârsta
+    age_estimated: Vârsta cu aproximație?
+    agency: Organizația/ instituția
+    apply_filter: Aplică
+    approval_comments: Comentarii
+    approval_radio: Aș dori să
+    approval_radio_accept: Aprobare
+    approval_radio_reject: Neaprobat
+    approval_select: Formularul pentru
+    approved_success_action_plan: '%{approval_label}- Aprobat'
+    approved_success_assessment: '%{approval_label}- Aprobat'
+    approved_success_bia: '%{approval_label}- Aprobat'
+    approved_success_case_plan: '%{approval_label}- Aprobat'
+    approved_success_closure: '%{approval_label}- Aprobat'
+    approved_success_gbv_closure: '%{approval_label}- Aprobat'
+    assessment: Evaluare
+    case_opening_date: Dată deschidere caz
+    case_plan: Plan servicii
+    case_worker_code: Cod responsabil caz
+    clear_filter: Golire
+    close_dialog: Selectând OK vei modifica statusul cazului în Închis.
+    close_dialog_title: Închidere caz
+    close_success: Caz închis cu succes
+    closure: Închidere
+    date_of_birth: Data nașterii
+    disable_dialog: Selectând OK vei modifica statusul cazului în Dezactivat.
+    disable_dialog_title: Dezactivează caz
+    disable_success: Caz dezactivat cu succes
+    enable_dialog: Selectând OK vei modifica statusul cazului în Activ.
+    enable_dialog_title: Activează caz
+    enable_success: Caz activat cu succes
+    export: Export
+    mark_for_offline:
+      title: Marchează pentru offline
+      text: Sigur dorești marcarea acestor cazuri pentru a fi utilizate atunci când ești offline?
+      success: Cazuri marcate cu succes pentru uz offline
+    filter_by:
+      3month_inactivity: Pentru 3+ luni
+      action_plan: Plan intervenții
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Intervale vârstă
+      agency: Organizația/ instituția
+      approval_status: Status aprobări
+      approvals:
+        approved: Aprobat
+        pending: În așteptare
+        rejected: Respins
+      bia: BIA/ Evaluare a interesului superior al copilului
+      by_date: În funcție de Dată
+      case_open_date: Dată deschidere caz
+      case_plan: Plan servicii
+      closed: Închis
+      closure: Închidere
+      current_location: Locația curentă
+      date: Data
+      displacement_status: Status strămutare
+      district: District
+      duplicate: Duplicat
+      enabled_disabled: Activat/ Dezactivat
+      female: Feminin
+      flag: Marcat
+      flag_label: Marcat?
+      gbv_closure: Închidere GBV/ Violență pe bază pe gen
+      high: Ridicat
+      low: Redus
+      male: Masculin
+      medium: Mediu
+      mobile: Mobil
+      mobile_label: Marcat pentru mobil?
+      my_cases: Cazurile mele
+      no_action: Nicio acțiune
+      no_activity: Nicio activitate
+      open: Deschide
+      other: Altceva
+      photo: Fotografie
+      photo_label: Are fotografie?
+      protection_concerns: Preocupări protecție
+      protection_status: Status Protecție
+      record_state: Stare Înregistrare
+      referred_cases: Cazuri referite către mine
+      registration_date: Dată înregistrare
+      risk_level: Nivel risc
+      sex: Sex
+      social_worker: Asistentul social/ responsabilul de caz
+      status: Status
+      transferred: Transferat
+      type_of_risk: Tip risc
+      urgent_protection_concern: Preocupări protecție urgente
+      user_group: Grup utilizatori
+      workflow: Cazuri în funcție de Fluxuri
+    flag_summary: Sumar marcaje
+    full_name: Nume întreg
+    gbv_closure: Închidere GBV/ Violență pe bază pe gen
+    hide_name: Ascundere Nume
+    hide_name_error: A apărut o eroare la salvarea modificărilor. Te rugăm să încerci din nou.
+    id: ID#
+    label: Cazuri
+    my_filters: Filtrele mele
+    name: Nume
+    notes_dialog_title: Adăugare notițe
+    notes_form_notes: Notițe
+    notes_form_subject: Subiect
+    ok: Ok
+    order_by:
+      label: Ordonare în funcție de
+      most_recently: Cele mai recente
+      name: Nume
+    owned_by: Proprietarul înregistrării
+    owned_by_agency: Organizația/ instituția care deține înregistrările
+    photo: Fotografie
+    photos: Fotografie
+    quick_view:
+      tracing_message: 'Notă: Există o potrivire în sistem - un solicitant care caută acest copil. Contactați asistentul social asociat acestei înregistrări pentru pașii următori, dacă copilul dorește.'
+    referral_done: Selectând „Finalizat” ai încheiat partea de referire asociată acestui caz. După ce selectezi opțiunea „Finalizat” nu vei mai avea acces la această înregistrare.
+    referral_done_success: Referire făcută
+    referral_accepted_header: Acceptare referire
+    referral_accepted: Esti sigur? Acum vei fi responsabil pentru finalizarea activităților asociate cu această referire.
+    referral_accepted_success: Referire acceptată
+    referral_rejected: Selectând „Resping” este echivalent cu faptul că nu ești pregătit, pentru moment, să îți asumi responsabilitatea pentru această referire. Te rugăm să introduci un motiv pentru respingerea acestei referiri; odată selectată opțiunea „Resping”, nu vei mai avea acces la detaliile cazului.
+    referral_rejected_success: Referire respinsă
+    register_new_case: Caz nou
+    registration_date: Dată înregistrare
+    rejected_success_action_plan: '%{approval_label}- Neaprobat'
+    rejected_success_assessment: '%{approval_label}- Neaprobat'
+    rejected_success_bia: '%{approval_label}- Neaprobat'
+    rejected_success_case_plan: '%{approval_label}- Neaprobat'
+    rejected_success_closure: '%{approval_label}- Neaprobat'
+    rejected_success_gbv_closure: '%{approval_label}- Neaprobat'
+    reopen_dialog: Selectând OK vei modifica statusul cazului în Deschis.
+    reopen_dialog_title: Redeschide caz
+    reopen_success: Caz redeschis cu succes
+    request_approval_failure: S-a produs o eroare, te rugăm să contactezi echipa de suport.
+    request_approval_select: Solicită aprobare pentru
+    request_approval_success_action_plan: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_assessment: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_case_plan: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_closure: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_success_gbv_closure: Aprobare solicitată pentru formularul %{approval_label}.
+    request_approval_type_of_case_plan: Tip aprobare plan servicii
+    request_approve_action_plan: Aprobă Plan intervenții?
+    request_approve_bia: Aprobă Evaluare?
+    request_approve_case_plan: Aprobă plan servicii?
+    request_approve_closure: Aprobă închidere?
+    request_approve_gbv_closure: Aprobă închidere GBV/ Violență pe bază pe gen
+    revoke_failure: Revocarea %{transition_type}a generat o eroare. Te rugăm să contactezi echipa de suport.
+    revoke_message: Selecția "Revocare" elimină accesul %{transition_type}la caz.
+    revoke_success_message: Caz %{case_id}%{transition_type}către %{recipient_username}revocată.
+    save_filter: Salvează
+    selected_all_records: Selectează toate %{total_records}cazuri care se potrivesc cu această interogare.
+    selected_records: '%{select_records} caz(uri) selectat(e)'
+    sex: Sex
+    show_case: 'ID caz: %{short_id}'
+    social_worker: Asistent social
+    status: Status
+    summary:
+      label: Sumar
+      find_match: Identificare potrivire
+      matched_trace: 'Potrivire #%{trace_id}'
+      cannot_find_matches: Nu au fost găsite potriviri. Nu a fost obținut consimțământul din partea acestui caz pentru a dezvălui informații în scop de urmărire.
+      matched: Potrivire
+      fields:
+        consent_for_tracing:
+          label: A fost obținut consimțământul pentru a dezvălui informații în scop de urmărire
+          help_text: Dacă valoarea câmpului este „Nu”, detaliile cazului copilului nu vor apărea la Potriviri cu solicitarea de urmărire din partea solicitantului.
+        wishes_child_family_tracing:
+          label: Copilul dorește urmărirea membrilor familiei?
+        wishes_reunification:
+          label: Copilul dorește reîntregirea familiei?
+          options:
+            yes_as_soon_as_possible: Da, cât mai curând posibil
+            yes_but_later: Da, dar mai târziu
+            not_sure: Incert
+            'no': 'Nu'
+        data_confidentiality_link:
+          label: Confidențialitatea datelor
+        child_wishes_link:
+          label: Verifică dorințele copilului
+    survivor_code: Cod supraviețuitor
+    transfer_accepted: Selectând „Accept”, accepți responsabilitatea pentru acest caz; odată selectată această opțiune vei deveni, în sistem, proprietarul înregistrării.
+    transfer_managed_user_accepted: Selectând „Accept”,  %{transitioned_to}devine responsabil pentru acest caz; odată selectată această opțiune, %{transitioned_to} devine, în sistem, proprietarul înregistrării.
+    transfer_managed_user_rejected: Selectând „Resping” este echivalent cu faptul că %{transitioned_to} nu este pregătit, pentru moment, să își asume responsabilitatea pentru acest caz. Te rugăm să introduci un motiv pentru respingerea acestui caz; odată selectată opțiunea „Resping”, %{transitioned_to} nu va mai avea acces la detaliile cazului.
+    transfer_accepted_rejected: Caz %{record_id}transfer respins.
+    transfer_accepted_success: Transferul cazului acceptat cu succes.
+    transfer_reject_reason_label: Motiv respingere
+    transfer_rejected: Selectând „Resping” este echivalent cu faptul că nu ești pregătit, pentru moment, să îți asumi responsabilitatea pentru acest caz. Te rugăm să introduci un motiv pentru respingerea acestui caz; odată selectată opțiunea „Resping”, nu vei mai avea acces la detaliile cazului.
+    view_name: Vizualizare Nume
+  change_logs:
+    filters:
+      form: Formular
+      field: Câmp
+    add_subform: 'Adăugat "%{subform_name}" intrare în subformular #%{short_id}'
+    changes_subform: 'Modificări în subformularul “%{subform_name}”'
+    create: Creare înregistrare
+    deleted_subform: 'Eliminat "%{subform_name}" intrare în subformular #%{short_id}'
+    label: Istoric Modificări
+    see_details: Vezi detalii.
+    change: 'de la ”%{from_value}” la ”%{to_value}”'
+    updated_subform: 'Actualizat "%{subform_name}" intrare în subformular #%{short_id}'
+    update_subform: 'Actualizat subformularul “%{subform_name}”'
+    from: de la
+    to: către
+  children:
+    selectable_date_options:
+      assessment_requested_on: Dată Evaluare
+      closure_approved_date: 'Dată închidere caz'
+      created_at: Dată deschidere caz
+      date_case_plan_initiated: Dată plan servicii
+      date_of_creation: Dată creare
+      registration_date: Dată înregistrare
+  configurations:
+    apply_label: Setările din această configurație vor fi aplicate la nivel de sistem. Vei pierde toate setările curente și nu le vei putea recupera decât dacă sunt salvate deja într-o altă configurație. Sigur vrei să continui?
+    apply_label_bold: Primero va fi indisponibil pentru utilizatori timp de câteva minute, în timp ce modificările se încarcă.
+    version_mismatch_tooltip: Nu poți aplica această configurație deoarece a fost creată folosind o versiune de Primero mai avansată decât cea pe care o rulează site-ul. Te rugăm să aplici această configurație atunci când utilizezi cea mai recentă versiune de Primero.
+    send_header: Trimis către Producție
+    send_text: Dacă selectezi Trimitere, vei trimite această configurație către Producție. Această configurație va fi introdusă în Producție în momentul în care un administrator o aplică manual.
+    attributes:
+      created_by: Creat de către
+      date_created: Data creării
+      description: Descriere
+      last_applied_by: Ultima aplicare de către
+      last_applied_on: Ultima aplicare pe
+      name: Nume
+      version: Versiunea configurației
+      primero_version: Versiunea Primero
+    delete_label: Sigur vrei să faci asta? Acestea reprezintă toate setările de la crearea configurației. Nu vei putea să revii și să recuperezi aceste setări odată ce ștergi configurația.
+    explanation: 'Selectând "Salvare" vei crea o copie a tuturor setărilor de configurare curente (de ex: Roluri, Agenții, Formulare). După ce salvezi, poți muta această copie într-o altă instanță a Primero. Dacă, în viitor, faci modificări de configurare pe care dorești să le anulezi, poți aplica această copie pentru a restabili toate configurările pe care le-ai avut până în acest moment.'
+    label: Configurări
+    label_new: Configurație nouă
+    messages:
+      applied: Configurația a fost aplicată cu succes.
+      created: Configurația a fost creată cu succes.
+      deleted: Configurația a fost ștearsă cu succes.
+      updated: Configurația a fost actualizată cu succes.
+      sent: Se trimite configurația către producție. Te rugăm să verifici pagina de producție pentru a afla dacă configurația a ajuns.
+    not_allowed: Nepermis
+    unavailable_server: Serverul este temporar indisponibil.
+  contact:
+    field:
+      email: E-mail
+      location: Locație
+      name: Nume
+      organization: Organizație
+      other_information: Alte informații
+      phone: Număr de telefon
+      position: Poziție
+      primero_version: Versiunea Primero
+      support_forum: Forum suport
+      system_version: Versiunea de sistem
+    info_label: Informații de contact
+    updated: Informațiile de contact au fost actualizate cu succes.
+  code_of_conduct:
+    field:
+      title: Titlu
+      content: Conținut
+      created_on: Creat la
+      created_by: Creat de către
+    info_label: Cod etic
+    updated: Cod etic a fost actualizat cu succes.
+  dashboard:
+    activity: Activitate
+    admin_only: Selectează %{links}pentru a face modificări în aplicație.
+    all_cases: Toate cazurile
+    all_services_implemented: Toate serviciile implementate
+    and: 'și'
+    approval_action_plan_approved: Aprobat
+    approval_action_plan_pending: În așteptare
+    approval_action_plan_pending_group: Plan intervenții
+    approval_action_plan_rejected: Respins
+    approval_assessment_approved: Aprobat
+    approval_assessment_pending: În așteptare
+    approval_assessment_pending_group: Evaluare
+    approval_assessment_rejected: Respins
+    approval_case_plan_approved: Aprobat
+    approval_case_plan_pending: În așteptare
+    approval_case_plan_pending_group: Plan de servicii
+    approval_case_plan_rejected: Respins
+    approval_closure_approved: Aprobat
+    approval_closure_pending: În așteptare
+    approval_closure_pending_group: Închidere
+    approval_closure_rejected: Respins
+    approval_gbv_closure_approved: Aprobat
+    approval_gbv_closure_pending: În așteptare
+    approval_gbv_closure_pending_group: Închidere GBV/ Violență pe bază pe gen
+    approval_gbv_closure_rejected: Respins
+    approvals: Aprobări
+    approvals_action_plan: Plan intervenții
+    approvals_assessment: Evaluare
+    approvals_case_plan: Plan de servicii
+    approvals_closure: Închidere
+    approvals_gbv_closure: Închidere GBV/ Violență pe bază pe gen
+    approved: Aprobat
+    assessment: Evaluare
+    awaiting_acceptance: În așteptarea aprobării
+    cases_by_social_worker_total: Total
+    cases_by_social_worker_new_or_updated: Nou și Actualizat
+    case_id: '#ID caz'
+    case_management_service: Serviciu management de caz
+    case_overview: Cazurile mele
+    case_plan: Plan de servicii
+    case_risk: Cazuri în funcție de Nivelul evaluării
+    case_stat_by_approval_type: Aprobări
+    case_stat_by_assessment_level: Cazuri în funcție de Nivelul evaluării
+    case_stat_referrals: Referiri
+    case_stats: Cazuri
+    case_worker: Responsabil de caz
+    cases_by_social_worker: Cazuri în funcție de Asistent social
+    cases_by_task_overdue: Sarcini restante
+    cases_by_workflow: Cazuri în funcție de Fluxuri
+    cases_this_week: Cazuri săptămâna curentă
+    cases_to_assign: Cazuri de asignat
+    closed: Închis
+    closed_last_week: Închis (săptămâna trecută)
+    closed_this_week: Închis (săptămâna curentă)
+    comprehensive_need_intervention: Răspuns cuprinzător
+    count_waiting_for_acceptance_transfers: Ai %{stat}transferuri care așteaptă aprobare.
+    current_owner: Proprietar actual
+    dash_case_incident_overview: Cazurile mele
+    dash_group_overview: Cazurile din Grupul meu
+    dash_shared_from_my_team: Partajat din Echipa mea
+    dash_shared_with_me: Partajat cu Mine
+    dash_shared_with_my_team: Partajat cu Echipa mea
+    dash_shared_with_my_team_overview: Partajat cu Echipa mea (Sumar)
+    dash_shared_with_others: Partajat cu Alții
+    dash_national_admin_summary: Sumar administrator
+    date: Data
+    date_of_incident: Dată incident
+    date_of_interview: Data intervievării
+    due: Restante
+    flagged: Marcat
+    flagged_by: 'Marcat de către:'
+    flagged_by_me: Marcat de către Mine
+    flagged_by_other: Marcat de către Altcineva
+    flagged_cases: Cazuri marcate
+    follow_up: Revenire
+    forms: FORMULARE
+    geographic_area: Zona geografică
+    group_overview_closed: Închis
+    group_overview_open: Deschis
+    high_level: Ridicată
+    high_risk: Prioritate ridicată
+    immediate_response: Răspuns imediat
+    in_progress: În desfășurare
+    incident_id: 'Incident #ID'
+    incident_location: Locație incident
+    incident_status_open: Deschis
+    last_updated: Ultima actualizare
+    link_see_all: Afișează tot
+    low_level: Redus
+    low_risk: Prioritate redusă
+    match_result: Potrivire rezultate
+    medium_level: Mediu
+    medium_risk: Prioritate medie
+    missed_cases: Cazuri lipsă
+    name: Nume
+    name_or_survivor_code: Nume sau cod supraviețuitor
+    near_deadline: Aproape de deadline
+    new: Nou și Actualizat
+    new_child_assigned_to_you: Noi Cazuri asignate către Tine
+    new_incident: Incidente noi
+    new_incident_assigned_to_you: Noi incidente asignate
+    new_last_week: Nou (săptămâna trecută)
+    new_or_updated: Nou și Actualizat
+    new_referred: Nou Referiri
+    new_service_provision: Nou Furnizări servicii
+    new_this_week: Nou (săptămâna curentă)
+    no_action_risk: Nicio acțiune
+    no_case_stats: Nu sunt statistici pentru Caz
+    no_caseworker_data: Nu sunt date despre Responsabil caz
+    no_flagged_child: Niciun caz marcat
+    no_flagged_incident: Incidente nemarcate
+    no_open_incidents: Incidente nedeschise
+    no_overdue_activities: Fără activități restante
+    no_recent_activities: Fără activități recente
+    no_scheduled_activities: Fără activități programate
+    none_risk: Nicio prioritate
+    number_of_victims: Număr victime
+    number_of_violations: Număr abuzuri
+    number_of_violations_verified: Abuzuri verificate
+    open: Deschide
+    open_cases: Cazuri deschise
+    open_incidents: Incidente deschise
+    outstanding_transfers: Transferuri restante
+    overdue_activities: Activități restante
+    overdue_cases_to_assign: Cazuri restante de asignat
+    overdue_cases_to_assign_high: Ai aceste cazuri de mai mult de 1 oră
+    overdue_cases_to_assign_low: Ai aceste cazuri de mai mult de 3 ore
+    overview: Sumar
+    pending: În așteptare
+    pending_approvals: Aprobări în așteptare
+    pending_transfers: Transferuri în așteptare
+    protection_concern: Preocupare protecție
+    protection_concerns: Preocupări protecție
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: Activități recente
+    recently_flagged_child: Cazuri marcate recent
+    recently_flagged_incident: Incidente marcate recent
+    referrals_by_social_worker: Referiri în funcție de Asistent social
+    registration: Înregistrare
+    rejected: Respins
+    rejected_transfers: Transferuri respinse
+    response: Răspuns (în desfășurare)
+    scheduled_activities: Activități programate
+    score_range: Interval scor
+    screening_service: Serviciu de screening
+    services: Servicii
+    services_implemented: Servicii implementate
+    shared_from_my_team_pending_transfers: Transferuri în așteptare
+    shared_from_my_team_referrals: Referiri
+    shared_from_my_team_rejected_transfers: Transferuri respinse
+    shared_with_me_new_referrals: Referiri noi
+    shared_with_me_total_referrals: Total referiri
+    shared_with_me_transfers_awaiting_acceptance: Tranferuri pentru acceptare
+    shared_with_my_team_pending_transfers_overview: Tranferuri pentru acceptare
+    shared_with_my_team_pending_transfers: Transferuri în așteptare
+    shared_with_my_team_referrals: Referiri
+    shared_with_others_pending_transfers: Transferuri în așteptare
+    shared_with_others_referrals: Referiri
+    shared_with_others_rejected_transfers: Transferuri respinse
+    status_of_cases: Status Cazuri
+    system_user: Sistem
+    total: Total
+    total_cases: Total Cazuri
+    total_referred: Total Referiri
+    tr_stats: Solicitări urmărire
+    transers_awaiting_acceptance: Tranferuri pentru acceptare
+    transfers_by_social_worker: Transferuri în funcție de Asistent social
+    users: Iconiță SETĂRI
+    violence_type: Tip violență
+    with_incidents: Cu incidente
+    with_new_incidents: Cu noi incidente
+    without_incidents: Fără incidente
+    workflow: Fluxuri
+    workflow_team: Fluxuri - Cazuri echipe
+    you_have: 'Ai'
+  disabled:
+    status:
+      disabled: Dezactivat
+      enabled: Activat
+  email_notification:
+    assign: '%{user} a asignat %{record_type} către tine: %{record_id}.'
+    assign_subject: '%{record_type}: %{id} - Asignat către tine'
+    approval_request: 'Utilizatorul %{user} solicită aprobare %{approval_type} pentru cazul %{case_id}.'
+    approval_request_subject: 'Caz: %{id} - Solicitare aprobare'
+    approval_response: '%{user} are %{status} solicitarea de aprobare pentru %{approval_type} asociată cazului %{case_id}.'
+    approval_response_subject: 'Caz: %{id} - Răspuns aprobare'
+    referral: '%{user}de la %{agency}a referit %{record_type}către tine: %{record_id}pentru %{service_type}.'
+    transfer: '%{user}a transferat %{record_type}către tine: %{record_id}.'
+    transfer_request_subject: Transfer solicitat pentru unul din cazurile tale.
+    transfer_subject: '%{record_type}: %{id}- Transfer'
+    referral_subject: '%{record_type}: %{id} - Referire'
+    transfer_request: 'Utilizatorul Primero %{user}de la %{agency}solicită transferul proprietății asupra%{record_type} înregistrarea %{record_id} pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
+    approval_request_html: 'Utilizatorul <strong>%{user}</strong> solicită aprobare <strong>%{approval_type}</strong>pentru cazul <strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> a <strong>%{status}</strong>solicitarea de aprobare <strong>%{approval_type}</strong> pentru cazul <strong>%{case_id}</strong>.'
+    referral_html: '<strong>%{user}</strong>de la %{agency}a referit %{record_type}către tine: <strong>%{record_id}</strong>pentru%{service_type}.'
+    transfer_html: '<strong>%{user}</strong>a transferat %{record_type}către tine: <strong>%{record_id}</strong>'
+    assign_html: '<strong>%{user}</strong> a asignat %{record_type} către tine: <strong>%{record_id}</strong>.'
+    transfer_request_html: 'Utilizatorul Primero <strong>%{user}</strong>de la %{agency}solicită transferul proprietății asupra %{record_type} înregistrarea <strong>%{record_id}</strong>pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
+    transfer_request_notes_html: 'Notițe de la persoana care face solicitarea: %{request_transfer_notes}'
+  encrypt:
+    export_type: Tip export
+    file_name: Creează propria denumire de fișier (opțional)
+    password_extra_info: Parola trebuie să aibă cel puțin 8 caractere. Această parolă va fi asociată cu fișierul exportat și va trebui introdusă de oricine deschide acest fișier în viitor.
+    password_label: Te rugăm să introduci o parolă pentru criptarea fișierului.
+  error_message:
+    address_fields: E nevoie să verifici câmpurile %{fields} din formularul %{forms}
+    address_form_fields: E nevoie să verifici câmpurile %{fields} din acest formular
+    address_subform_fields: '%{subform} are %{fields} câmpuri nevalide'
+  error_page:
+    not_authorized:
+      server_error: Nu ești autorizat să accesezi această pagină.
+      title: Fără autorizație
+    not_found:
+      contact_admin: Dacă ai ajuns aici dintr-o eroare, te rugăm să contactezi echipa de suport.
+      something_went_wrong: Ne cerem scuze, ceva nu funcționează!
+  errors:
+    error_loading: Eroare încărcare Înregistrare(i)
+    models:
+      agency:
+        code_present: nu trebuie să rămână necompletat
+        logo_format: Fișierul trebuie să fie png
+        terms_of_use_format: Fișierul trebuie să fie png
+        name_present: nu trebuie să rămână necompletat
+      child:
+        age: Vârsta trebuie să fie cuprinsă între 0 și 130
+        date_of_birth: Te rugăm să introduci o dată de naștere validă pentru această înregistrare
+      export_configuration:
+        opt_out_field_does_not_exist: Câmpul opt_out specificat nu există în înregistrare.
+        record_type: Tip de înregistrare nevalid. Trebuie să fie Copil, SolicitareUrmărire sau Incident.
+      field:
+        translated_options_do_not_match: Opțiunile traduse în câmpuri trebuie să aibă aceleași ID-uri
+      location:
+        admin_level_present: nu trebuie să rămână necompletat
+        code_present: nu trebuie să rămână necompletat
+        name_present: nu trebuie să rămână necompletat
+        unique_location_code: Există deja o locație cu codul acesta, te rugăm să introduci un cod de locație diferit
+      lookup:
+        being_used: Această căutare este utilizată și nu poate fi ștearsă
+        name_present: Nume nu trebuie să rămână necompletat
+        values_ids_blank: Un ID lookup_value nu este completat
+      primero_module:
+        associated_record_types: Cel puțin un tip de înregistrare trebuie să fie asociat cu acest modul
+        form_section_ids: Cel puțin un formular trebuie să fie asociat cu acest modul
+        name_present: Nume nu trebuie să rămână necompletat
+        unique_name: Un modul cu această denumire există deja, te rugăm să introduci o altă denumire
+      report:
+        module_presence: Modul nu trebuie să rămână necompletat
+        module_syntax: Toate modulele de raportare trebuie să existe deja
+        name_presence: Nume nu trebuie să rămână necompletat
+      role:
+        permission_presence: Te rugăm să selectezi cel puțin o permisiune
+      user:
+        email: "Te rugăm să introduci un e-mail valid (exemplu: 'nume@exemplu.org')"
+        password_mismatch: Câmpurile nu conțin aceeași parolă
+        password_length: Parola trebuie să conțină cel puțin %{min}caractere
+        email_uniqueness: Un utilizator cu această adresă de e-mail există deja. Te rugăm să introduci un e-mail diferit
+      code_of_conduct:
+        title_present: Titlu nu trebuie să rămână necompletat
+        content_present: Conținut nu trebuie să rămână necompletat
+        created_by_present: Creat de către - nu trebuie să rămână necompletat
+    not_found: Nu au fost găsite înregistrări
+    try_again: Încearcă din nou
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Selectat pentru PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Selectat pentru CSV
+    custom:
+      all: Personalizare
+    custom_exports:
+      all: Personalizare
+      choose_fields: Dorești să alegi câmpuri individuale pentru un formular?
+      empty_fields_forms: Te rugăm să selectezi formulare sau câmpuri pentru export.
+      empty_format: Te rugăm să selectezi un format pentru export.
+      empty_module: Te rugăm să selectezi un modul pentru export.
+      empty_password: Te rugăm să introduci o parolă pentru criptarea fișierului.
+      field_label: Câmp
+      fields: Selectează câmpuri pentru export
+      form_label: Formular
+      format_label: Selectare format
+      forms: Selectează Formulare pentru export
+      label: Export personalizat
+      module_placeholder: Te rugăm să selectezi un modul
+      select_module: Selectare Modul
+      submit: OK
+      header: Antet
+      custom_header: Antet personalizat
+      signatures: Include linii de semnătură pentru
+      include_implementation_logos: Include logo-uri implementare?
+      include_implementation_logos_help_text: Aici vor fi incluse logo-urile care apar în meniul de navigare și pe pagina de autentificare.
+      include_agency_logo: Include logo-ul organizației/ instituției?
+      include_other_logos: Include alte logo-uri?
+    duplicate_id_csv:
+      all: ID duplicat
+      female_abbreviation: F
+      headers:
+        age: Vârsta
+        case_id: ID caz
+        child_name_last_first: Nume copil
+        family_size: Dimensiunea familiei
+        moha_id: EROARE ID MOHA
+        national_id_no: Cod numeric personal
+        progress_id: ID progres
+        sex_mapping_m_f_u: Sex
+        other_agency_id: Codul spitalului și numărul pacientului
+      male_abbreviation: M
+      unknown_abbreviation: U
+    exported: Fișier de export generat cu succes
+    exported_error: Eroare de generare a fișierului de export
+    forms:
+      button: Formulare export
+      label: Exportare
+      header:
+        form_group: Formular Grup
+        form_name: Formular Nume
+        field_id: Câmp ID
+        field_type: Câmp Tip
+        field_name: Câmp Nume
+        required: Obligatoriu
+        on_mobile: Pe mobil
+        on_short_form: Pe formular scurt
+        option_ids: ID-uri Opțiune
+        options: Opțiuni
+        options_lookup: Căutare
+        help_text: Text ajutător
+        guiding_questions: Întrebări de ghidare
+        visible: Vizibil
+        lookup_id: Căutare ID
+        lookup_name: Nume căutat
+        option_id: ID Opțiune
+        option_name: Denumire Opțiune
+      options:
+        location: Locații
+        agency: Organizații/ instituții
+        user: Utilizatori
+        reportinglocation: Locații Raportare
+        subforms: 'Subformular: %{subform_name}'
+        collapsed_fields: 'Câmpuri unite: %{fields}'
+        country: Țări
+      summary_header:
+        form_group: Grup Formulare Primero
+        form: Formulare Primero
+        status: Status
+        notes: Notițe
+    go_to_exports: Mergi către Exporturi pentru download
+    incident_recorder_xls:
+      all: Registru incidente
+      one: Registru incidente
+      selected: Selectat pentru Registru incidente
+    json:
+      all: JSON
+      one: JSON
+      selected: Selectat pentru JSON
+    list_view_csv:
+      all: Export vizualizare listă
+      selected: Selectat pentru CSV
+    messages:
+      no_exporter: Exporter nespecificat
+    mrm_violation_xls:
+      all: MRM/ Mecanism monitorizare și raportare abuzuri
+      one: MRM/ Mecanism monitorizare și raportare abuzuri
+      selected: Selectat pentru MRM/ Mecanism monitorizare și raportare
+    no_records: Nicio înregistrare disponibilă!
+    pdf:
+      all: PDF (non-criptat)
+      one: PDF
+      selected: Selectat pentru PDF
+    pdf_exports:
+      label: PDF
+      recipient: Beneficiar
+      case_worker: Responsabil caz
+      client: Client
+      date: Data
+      recipient_name: Nume beneficiar
+      recipient_agency: Organizație/ instituție Beneficiar
+      caseworker_name: Nume responsabil de caz
+      caseworker_agency: Organizație/ instituție responsabil de caz
+    photowall:
+      all: Galerie foto
+      flag_suspect_record: Înregistrare marcată sau suspectă
+      no_photos_available: Fotografii indisponibile
+      one: Galerie foto
+      reunited: Reunificare
+      selected: Selecție pentru galeria foto
+      success_message: Creare galerie foto %{file_name}. Cazurile fără fotografii nu vor fi incluse aici.
+    printed: 'Printat: %{date}'
+    queueing: Generare fișier export %{file_name}
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Selectat pentru Excel
+      selected_fields: Câmpuri selectate
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: Vârsta
+        case_status: Status caz
+        causes_of_separation: Cazuri de separare
+        country_of_origin: Țara de origine
+        cpims_code: Cod CPIMS
+        current_care_arrangement: Aranjament de îngrijire temporară
+        date_of_birth: Data nașterii
+        date_of_identification: Dată identificare
+        family_count_no: Număr familie
+        governorate_country: Guvernorat - Țară
+        id: ID
+        individual_progress_id: ID progres individual
+        locations_by_level: Adresa (tabără, bloc, adăpost, coordonate GPS etc.)
+        long_id: ID lung
+        moha_id: ID MOHA (Ministerul Afacerilor Interne)
+        name_of_caregiver: Numele întreg al îngrijitorului
+        name_of_child_last_first: Numele intreg al copilului
+        primary_protection_concerns: Preocupări Protecție Primară
+        progres_id: ID progres
+        reunification_status: Status reunificare
+        secondary_protection_concerns: Preocupări Protecție Secundară
+        sex: Sex
+        sex_mapping_m_f_u: Sex
+        short_id: ID scurt
+        vulnerability_code: Coduri Vulnerabilități
+        vulnerability_details_code: Detaliere Coduri Vulnerabilități
+      male_abbreviation: M
+      one: UNHCR
+      selected: Selectat pentru UNHCR
+      unknown_abbreviation: U
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: Selectat pentru Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Locațiile au fost importate cu succes
+        no_data: 'Import neprocesat: nu au fost transmise date'
+        csv_parse_error: 'Import neprocesat: eroare parsing CSV'
+        error: 'Rândul %{row_number}neprocesat: %{message}'
+        db_error: 'Eroare de creare a %{location_code}: %{message}'
+        locale_invalid: 'Omitere %{column_name}: Localizare invalidă'
+        insert_all_error: 'Import neprocesat. Eroare bază de date: %{message}'
+    csv_record:
+      messages:
+        success: Înregistrările au fost importate cu succes
+        no_data: 'Import neprocesat: nu au fost transmise date'
+        no_file: 'Import neprocesat: fișierul nu există'
+        csv_parse_error: 'Import neprocesat: eroare parsing CSV'
+        error: 'Rând %{row_number} neprocesat: %{message}'
+        db_error: 'Eroare creare %{location_code}: %{message}'
+        locale_invalid: 'Salt peste %{column_name}: Localizare nevalidă'
+        insert_all_error: 'Import neprocesat. Eroare baza de date: %{message}'
+  sync_record:
+    failed: 'Ultima sincronizare: nereușită'
+    last: 'Ultima sincronizare: %{date_time}'
+    not_found: 'Ultima sincronizare: nu au fost găsite date'
+    retrieving: Preluarea datelor.
+    see_details: Vezi Detalii.
+  fields:
+    action: Acțiune
+    actions: Acțiuni
+    add: Adaugă
+    add_new_field: Creează câmp nou
+    add_existing_field: Adaugă câmp existent
+    add_field: Adaugă câmp
+    add_field_type: Adaugă %{file_type}
+    audio:
+      current: Audio curent
+    audio_upload_box: Audio încărcat
+    bia_document: Document BIA/ Evaluare a interesului superior al copilului
+    bid_document: Document BID/ Determinare interes superior
+    check_box: Bifează căsuțe
+    clear_group_by: Golire Grup în funcție de
+    clear_sort_by: Golire Sortare în funcție de
+    copy_from_another_form: Acest câmp a fost copiat dintr-un alt formular
+    create_field: Creare câmp
+    create_unique_values: Creare valori unice
+    date_field: Câmp Dată
+    date_help: zz-lll-aaaa
+    date_help_with_time: zz-lll-aaaa oo:mm
+    date_not_valid: Această dată nu este validă.
+    time: Ora
+    date_range:
+      date: Data
+      date_range: Interval dată
+      from: De la
+      to: Către
+      view_by: Vizualizare în funcție de
+    date_range_field: Interval dată
+    date_time: Dată - Oră
+    db_name: Denumirea bazei de date
+    default: Implicit?
+    default_date_validation: Validare implicită a datei
+    default_to_current_date: Setări implicite pentru data curentă?
+    default_to_current_datetime: Setări implicite pentru data și ora curente?
+    default_value: Valoare implicită
+    deleted: Câmpul %{display_name}a fost șters.
+    detail: Detalii
+    disabled: Dezactivat
+    display_name: Afișare nume
+    document:
+      comments: Comentarii
+      current: Este acesta documentul curent?
+      date: Dată document
+      name: Denumire document
+      is_current: Este acesta documentul curent?
+    document_upload_box: Încărcare document
+    edit_label: Editare câmp
+    enabled: Activat?
+    enabled_label: Activat
+    english_text: Text în engleză
+    field_name: Denumire câmp
+    field_type: Câmp Tip
+    attachment_too_large: Fișierul nu trebuie să fie mai mare de 10 MB
+    file_upload_box:
+      add_document_label: Adăugare document
+      add_new_document_button_text: Adăugare alt document
+      add_new_photo_button_text: Adăugare altă fotografie
+      add_photo_label: Adăugare fotografie
+      document_description: Descriere document
+      document_file_restrictions_message: Fișierele nu trebuie să aibă mai mult de 2 MB (fișierele executabile (.exe) nu pot fi încărcate).
+      no_file_selected: Niciun document selectat.
+      photo_file_restrictions_message: Fotografiile nu trebuie să fie mai mari de 10 MB. Fișierele audio nu trebuie să fie mai mari de 10 MB. Cu cât dimensiunea este mai redusă, cu atât mai bine.
+      recorded_audio_label: Înregistrare audio
+      select_file_button_text: Selectare Fișier
+    find_lookup: Găsire Căutări
+    form_name: Denumire formular
+    future_date_not_valid: Nu poate fi în viitor.
+    guidance: Ghidare
+    guiding_questions: Întrebări de ghidare
+    help_text: Text ajutător
+    hide_on_view_page: Arată pagina
+    label: Câmpuri
+    mobile_visible: Aplicație mobilă
+    move_to: Mută la
+    multi_select: Poți selecta mai multe opțiuni
+    multi_select_box: Selecție multiplă
+    must_be_english: Trebuie introdus în Engleză
+    name: Nume
+    not_future_date: Nu este o dată viitoare
+    number_not_valid: Te rugăm să introduci valori numerice
+    numeric_field: Câmp numeric
+    on_collapsed_subform: Pe subformular restrâns?
+    option_strings_add_option: Adaugă opțiune
+    option_strings_source: Căutări
+    option_strings_text: Opțiuni
+    option_strings_text_display: Text Opțiune
+    option_strings_text_key: Cheie Opțiune
+    options_indications_lookup_values: Poți utiliza fie căutări predefinite, fie poți crea valori unice.
+    options_indications_restrictions: Nu le poți face pe amândouă.
+    options_or_lookup_warning: Te rugăm să adaugi Opțiuni sau să selectezi Căutări. Nu le introduce pe ambele.
+    other_documents: Alt document
+    photo_upload_box: Încărcare fotografie
+    predifined_lookups: Utilizează căutări predefinite
+    radio_button: Buton Radio
+    remove: Eliminare
+    remove_attachment_confirmation: Sigur dorești să elimini acest atașament?
+    required: Obligatoriu
+    required_field: '%{field} este obligatoriu'
+    search_existing: Căutare în câmpurile existente
+    select_box: Selecție derulantă
+    select_date_validation: Selectați metoda de validare a datei
+    select_multiple: Selectează tot ceea ce se aplică
+    select_single: (Selectează...)
+    separator: Separator
+    show: Afișează?
+    show_on: Afișează pe
+    show_on_minify_form: Formular scurt
+    subform: Subformular
+    subform_group_by: Grupare în funcție de
+    subform_remove_message: Sigur dorești eliminarea acestui subformular?
+    subform_section:
+      description: Descriere subdocument
+      name: Titlu subdocument
+      starts_with_one_entry: Începe cu o intrare în subformular?
+      subform_append_only: Sincronizare selectivă pe mobil
+      subform_prevent_item_removal: Prevenire eliminarea intrărilor din subformular?
+    subform_sort_by: Sortare în funcție de
+    successfully_added: Câmp adăugat cu succes
+    tally_field: Câmp Tally
+    tally_items: Item Tally
+    tally_items_maximum: (5 maxim)
+    text_area: Zonă text
+    text_field: Câmp text
+    textarea: Zonă text
+    tick_box: Bifează căsuța
+    tick_box_label: Bifează eticheta căsuței
+    translation_text: Traducere text
+    total: Total
+    type: Tip
+    updated: Câmp actualizat
+    visibility: Vizibilitate
+    web_app: Aplicație web
+  filters:
+    apply_filters: Aplică
+    clear_filters: Golire
+    less: Mai puțin...
+    more: Mai mult...
+    save_filters: Salvare
+  flags:
+    add_flag_tab: Adăugare marcaj nou
+    date: 'Data:'
+    flag_added: Marcaj adăugat cu succes
+    flag_date: Marchează Data
+    flag_reason: Marchează Motiv
+    flag_reason_maximun_label: Maxim 255 caractere.
+    flag_resolved: Marcaj soluționat
+    flags_tab: Marcaje
+    no_flags: Nu au fost găsite marcaje
+    resolve_button: Soluționează
+    resolve_flag: Soluționează Marcaje
+    resolve_reason: Soluționează Motiv
+    resolved: Soluționează Marcaje
+    resolved_date: 'Soluționat:'
+    resolved_reason: 'Soluționează Motiv:'
+    title: Marcaje
+  followup_reminders:
+    system_generated_followup_flag: revenire obligatorie
+  form_section:
+    form_name: Denumire formular
+    module: Modul
+    name: Nume
+    record_type: Tip înregistrare
+    required_field: '%{field} obligatoriu'
+  forms:
+    add: Adăugare Formular
+    description: Descriere Formular
+    fields: Câmpuri
+    form_description: Descriere
+    form_group: Grup Formular
+    form_title: Titlu Formular
+    help_text:
+      must_be_english: Trebuie introdus în Engleză
+      related_groups: Plasează formularul într-un grup pentru utilizatori
+      summariaze_purpose: Sumarizează scopul formularului. Trebuie introdus în limba Engleză
+    invalid_characters_field: '%{field} conține caractere nevalide.'
+    label: Formulare
+    manage: Gestionează
+    messages:
+      created: Secțiune în formular creată cu succes
+      fields_with_same_name: Formularele nu pot conține câmpuri cu același nume
+      save_success: Secțiunile din formular actualizate cu succes
+      save_with_errors: S-a produs o eroare. Unele secțiuni din formular nu au fost actualizate.
+      updated: Secțiune în formular actualizată cu succes
+      use_existing: Te încurajăm să utilizezi formularele existente, deoarece acest lucru facilitează partajarea datelor și unirea datelor între instituții.
+    mobile_app: Aplicație mobilă
+    module: Modul
+    no_subform_filters_added: Acest subdocument nu are câmpuri momentan.
+    record_type: Tip înregistrare
+    record_types:
+      approvals: Aprobări
+      case: Caz
+      child: Caz
+      incident: Incident
+      individual_victim: Victimă individuală
+      potential_match: Potrivire potențială
+      record_information: Informații despre înregistrare
+      referrals: Referiri
+      reportable_follow_up: Revenire
+      reportable_protection_concern: Preocupare protecție
+      reportable_service: Serviciu
+      tracing_request: Solicitare urmărire
+      transfers_assignments: Transferuri/ Sarcini
+      violation: Abuz
+      registry_details: Detalii Registru
+      registry_record: Registru înregistrare
+    required_field: '%{field}este câmp obligatoriu'
+    select_label: Selectează
+    settings: Setări
+    show_on: Afișează pe
+    subform_need_to_be_added: E nevoie să fie adăugați.
+    subform_need_to_be_added_single: Trebuie să fie adăugat.
+    subform_not_found: Nu a fost găsit %{subform_name}.
+    title: Denumire formular
+    translations:
+      edit: Editare traduceri
+      edit_form_group: Editează Căutare Grup formulare.
+      manage: Gestionare traduceri
+      no_changes_message: Traducerea nu a fost modificată
+      note: 'Notă:'
+      note_form_group: Pentru a adăuga traduceri pentru Grup formulare, trebuie să editezi traducerile de căutare pentru Grup formulare.
+      select_language: Selectare limbă
+      title: Traduceri
+    type_label: Tip
+    visibility: Vizibilitate
+    web_app: Aplicație web
+  home:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    bn: বাংলা
+    current_time_zone: Fus orar actual
+    dashboard: Dashboard
+    en: English
+    es: Español
+    es-GT: Español (Guatemala)
+    fr: Français
+    id: Bahasa
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    label: Acasă
+    language: Limbă
+    manage_system_users: Gestionează Sincronizare Server Utilizatori
+    my: ဗမာစာ
+    pt: Português
+    pt-BR: Português (Brasil)
+    records_need_attention: Înregistrările necesită atenție
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: Gestionare utilizatori
+    view_records: Vizualizare înregistrări
+    welcome: Bun venit pe Primero!
+    zh: 中文
+  incident:
+    associated_case: "Caz asociat:"
+    messages:
+      creation_success: Registru incidente creat cu succes.
+      creation_success_queue: Registru incidente creat cu succes în fundal.
+      disabled: Incidentul este dezactivat
+      update_success: 'Incident %{record_id}a fost actualizat cu succes.'
+      update_success_queue: 'Incident %{record_id}a fost actualizat cu succes în fundal.'
+    violation:
+      update_and_return: 'Actualizare și revenire la %{association}'
+      save_and_return: 'Adăugare și revenire la %{association} '
+      pending: Verificare în așteptare
+      title: Abuzuri
+      types:
+        killing: Uciderea copiilor
+        maiming: Mutilarea copiilor
+        recruitment: Recrutarea și/sau folosirea copiilor
+        sexual_violence: Viol și/ sau alte forme de violență sexuală
+        abduction: Răpire
+        attack_on: Atacuri asupra școllor și/ sau spitalelor
+        military_use: Utilizarea școlilor și/ sau spitalelor în scopuri militare
+        denial_humanitarian_access: Refuzarea accesului umanitar pentru copii
+  incidents:
+    disable_dialog: Selectând OK vei modifica statusul incidentului în Dezactivat.
+    disable_dialog_title: Dezactivare incident
+    disable_success: Incident dezactivat cu succes
+    enable_dialog: Selectând OK vei modifica statusul incidentului în Activat.
+    enable_dialog_title: Activare incident
+    enable_success: Incidente activate cu succes.
+    id: ID#
+    date_of_interview: Data intervievării
+    date_of_incident: Data incidentului
+    incident_location: Locația incidentului
+    violations: Abuzuri
+    export: Export
+    label: Incidente
+    filter_by:
+      boys: Băieți
+      by_date: În funcție de Dată
+      children: Copii
+      girls: Fete
+      incident_location: Locație incident
+      unaccompanied_separated_status: Status protecție
+      unknown: Necunoscut
+      verification_status: Status verificare
+      violence_type: Tip abuz
+      armed_force_group_name: Denumire Grup Forțe Armate
+      armed_force_group_type: Tip Grup Forțe Armate
+    register_new_incident: Incident nou
+    selectable_date_options:
+      date_of_first_report: Data intervievării
+      incident_date_derived: Dată incident
+    selected_records: '%{select_records} incident(e) selectat(e)'
+    selected_all_records: 'Selectează toate incidentele %{total_records} care se potrivesc cu această interogare.'
+    survivor_code: Cod supraviețuitor
+    show_incident: 'Incident ID %{short_id}'
+    social_worker: Asistent social
+    violence_type: Tip abuz
+    type_violence: Tip abuz
+  key_performance_indicators:
+    label: "KPI-uri"
+    case_assessment: "Evaluare caz"
+    case_action_planning: "Planificare Plan intervenții"
+    case_action_plan_implementation: "Implementare Plan intervenții caz"
+    case_follow_up: "Revenire la caz"
+    case_closure: "Închidere caz"
+    feedback: "Feedback"
+    other: "Altceva"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Personalizare'
+    long_date_format: "zz/LL/aaaa"
+    time_periods:
+      all_time: 'Oricând'
+      current_month: "Luna curentă"
+      last_3_months: "Ultimele 3 luni"
+      last_6_months: "Ultimele 6 luni"
+      last_1_year: "Anul trecut"
+      0-3days: "0 - 3 zile"
+      4-5days: "4 - 5 zile"
+      6-14days: "6 - 14 zile"
+      15-30days: "15 - 30 zile"
+      1-3months: "1 - 3 luni"
+      4months: "> 3 luni"
+      1-month: "< 1 lună"
+      3-6months: "3 - 6 luni"
+      7-months: "> 6 luni"
+    helptext:
+      helptext: "Află mai multe despre acest KPI."
+    number_of_cases:
+      title: "1. Număr cazuri înregistrate "
+      reporting_site: "Locație Raportare"
+      helptext: "Acest indicator măsoară numărul de cazuri nou deschise pe lună per Locație Raportare. \nPrin Locație Raportare se înțelege locația unde Utilizator Organizație furnizează servicii și\nunde cazul a fost raportat furnizorului de servicii.\n"
+    number_of_incidents:
+      title: "2. Număr de incidente înregistrate"
+      reporting_site: "Locație Raportare"
+      helptext: "Acest indicator măsoară numărul de cazuri nou deschise pe lună per Locație Raportare. \nPrin Locație Raportare se înțelege locația unde Utilizator Organizație furnizează servicii și\nunde incidentul a fost raportat furnizorului de servicii.\n"
+    reporting_delay:
+      title: "3. Întârziere raportare"
+      delay: "Întârziere"
+      total_incidents: "Total Incidente"
+      helptext: |+
+        Acest indicator contorizează și clasifică numărul de zile care au trecut între momentul în care supraviețuitorul a experimentat GBV și momentul în care a raportat asta pentru prima oară către un furnizor de servicii. Este calculat pornind de la momentul în care incidentul a fost raportat pentru prima oară către Utilizator Organizație. Răspunsurile sunt categorizate în baza unor intervale de timp (0-3 zile, 4-5 zile, 6-14 zile, 15-30 zile, Peste o lună, Peste 3 luni)
+
+    service_access_delay:
+      title: "Întârziere Acces Servicii"
+      delay: "Întârziere"
+      total_incidents: "Total Incidente"
+    assessment_status:
+      title: "4. Status evaluare"
+      completed: "Finalizat"
+      completed_supervisor_approved: "Finalizat și aprobat de supervizor"
+      helptext: |+
+        Acest indicator calculează proporția de cazuri active pentru care a fost completat un formular de evaluare.
+        O evaluare este considerată finalizată în momentul în care câmpurile obligatorii din
+        Formularul de evaluare a supraviețuitorului sunt completate.
+
+    completed_case_safety_plans:
+      title: "5. Plan Siguranță Caz finalizat"
+      completed: "Plan Siguranță Caz finalizat"
+      helptext: "Acest indicator calculează proporția de cazuri active pentru care planul de siguranță a fost considerat necesar \nși finalizat (ex. violența partenerului intim, risc de sinucidere/ omucidere, protecția copilului).\nUn plan de siguranță este considerat finalizat în momentul în care câmpurile obligatorii din interiorul formularului Plan siguranță\nsunt completate.\n"
+    completed_case_action_plans:
+      title: "6. Plan intervenții caz finalizat"
+      completed: "Plan intervenții caz finalizat"
+      label: "Plan intervenții caz finalizat"
+      helptext: |+
+        Acest indicator calculează proporția de cazuri active pentru care a fost completat un Plan intervenții caz.
+        Un plan de intervenții este considerat finalizat în momentul în care câmpurile obligatorii din
+        Formularul Plan intervenții sunt completate.
+
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Planuri intervenții caz aprobate de supervizor"
+      completed_and_approved: "Planuri intervenții caz finalizate aprobate de supervizor"
+      helptext: "Acest indicator calculează proporția de cazuri active pentru care a fost \ncompletat și aprobat de supervizor un Plan intervenții caz. Un plan intervenții caz este considerat finalizat atunci când\nse completează câmpurile obligatorii din formularul Plan intervenții. Un plan intervenții este considerat \naprobat atunci când responsabilul de caz solicită aprobarea pentru planul de intervenții și supervizorul\naprobă planul pe platformă.\n"
+    services_provided:
+      title: "8. Servicii furnizate"
+      service: "Serviciu"
+      count: "Număr furnizări"
+      male: "Masculin"
+      female: "Feminin"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Dizabilitate"
+      no_disability: "Fără dizabilități"
+      helptext: |
+        Acest indicator contorizează tipul de servicii oferite supraviețuitorilor în procesul de management de
+        caz. Prin serviciu oferit, înțelegem serviciul care este furnizat de Utilizator Organizație
+        intern, nu serviciul furnizat prin referiri către alte servicii sau prin referiri interne.
+    average_referrals:
+      title: "9. Număr mediu referiri"
+      label: "Număr mediu referiri per caz"
+      helptext: |
+        Acest indicator contorizează numărul mediu de referiri pentru fiecare caz înregistrat (pentru toate tipurile
+        de servicii) îpentru toate cazurile, indiferent dacă cazul este activ/deschis sau închis. Include și referiri
+        înregistrate pe tab-ul de caz, nu doar referiri făcute prin intermediul platformei.
+    referrals_per_service:
+      title: "Referiri în funcție de Serviciu"
+    average_followup_meetings_per_case:
+      title: "10. Medie Reveniri per Caz"
+      label: "Medie Reveniri per Caz"
+      helptext: |
+        Acest indicator contorizează numărul mediu de reveniri asociate fiecărui caz activ
+        per responsabil caz pe platformă. O revenire reprezintă o întâlnire între responsabilul de caz și
+        supraviețuitor,  după interviul/ dezvăluirile inițiale.
+    time_from_case_open_to_close:
+      title: "11. Intervalul de timp de la Deschidere caz la Închidere caz"
+      time: "Interval de timp"
+      percent: "Procent de cazuri"
+      helptext: |
+        Acest indicator măsoară cât timp sunt menținute deschise cazurile, cât timp durează managementul de caz
+        de la raportarea inițială către Utilizator Organizație și până la închiderea cazului. Intervalul de timp este
+        defalcat în: mai puțin de 1 lună; intre 1 si 3 luni; între
+        3-6 luni; mai mult de 6 luni.
+    case_closure_rate:
+      title: "12. Număr Cazuri închise"
+      reporting_site: "Locație Raportare"
+      helptext: "Acest indicator măsoară numărul de cazuri închise pe lună per Locație Raportare. Prin Locație Raportare \nse înțelege locația unde Utilizator Organizație furnizează servicii și unde\nincidentul a fost raportat furnizorului de servicii.\n"
+    client_satisfaction_rate:
+      title: "13. Rata de satisfacție a clienților"
+      label: "Satisfacția clienților"
+      invalid: "Acest calcul nu poate fi procesat momentan."
+      helptext: "Acest indicator înregistrează procentul de supraviețuitori care au completat Chestionarul de Feedback Client\ncare sunt satisfăcuți cu serviciile de management de caz furnizate lor. Acest indicator este\nconstruit în baza completării formularului Feedback Client de pe GBVIMS+ de către un alt membru al echipei, altcineva decât\nresponsabilul de caz care a furnizat servicii supraviețuitorului. \n"
+    supervisor_to_caseworker_ratio:
+      title: "14. Raport Supervizori - Responsabili caz"
+      label: "Responsabili de caz per supervizor"
+      helptext: |
+        Acest indicator reprezintă numărul de responsabili de caz pe care îi coordonează un supervizor: raportul
+        dintre supervizori și responsabilii de caz. Acest calcul se bazează pe rolurile de sistem alocate pe platformă.
+    case_load:
+      title: "15. Încărcătura de cazuri"
+      case_load: "Încărcătura de cazuri"
+      percent: "procentul responsabililor de caz cu încărcătura de cazuri"
+      10cases: "<10 cazuri"
+      20cases: "11 - 20 cazuri"
+      21-30cases: "21 - 30 cazuri"
+      30cases: ">30 cazuri"
+      helptext: |
+        Acest indicator măsoară media încărcăturii de cazuri per responsabil de caz pentru cazurile active.
+        Raportul dintre cazuri și responsabilii de caz este împărțit pornind de la următoarea defalcare: mai puțin de 10
+        cazuri deschise, între 10-20 cazuri deschise, între 21-30 cazuri deschise, peste 30 cazuri deschise.
+    date_range_dialog:
+      title: "Interval personalizat Dată"
+      description: "Odată ce această modificare este implementată, datele vor putea fi selectate din intervalul cuprins între cele două date de mai jos"
+      apply: 'Aplică'
+      from: 'De la'
+      to: 'Către'
+      aria-labels:
+        from: "Datele vor fi selectate după această dată"
+        to: "Datele vor fi selectate înainte de această dată"
+  location:
+    base_types:
+      camp: Tabără
+      chiefdom: Teritoriu
+      city: Oraș
+      community: Comunitate
+      country: Țară
+      county: Județ
+      district: District
+      governorate: Guvernorat
+      locality: Localitate
+      other: Altceva
+      province: Provincie
+      region: Regiune
+      site: Sit
+      state: Stat
+      sub-district: Sub-district
+      village: Sat
+      zone: Zona
+      association: Formă asociere
+      division: Diviziune
+      central_warehouse: Depozit central
+      warehouse: Depozit
+      buyingstation: Stație aprovizionare
+    label: Locație
+    name: Nume
+    code: Cod
+    admin_level: Nivel admin
+    type: Tip
+    hierarchy: Ierarhizare
+    import_title: Import Locație
+    message: Te rugăm să selectezi un fișier CSV de încărcat. Acest fișier ar trebui să utilizeze codificarea UTF-8 și să includă hashtag-uri HXL în al doilea rând al antetului de pe fiecare coloană.
+    no_location: Te rugăm să Imporți locații înainte de a crea orice cont de utilizator.
+    enable_title: Activare locație
+    enable_text: Esti sigur? Dacă activezi Locațiile selectate, acestea nu vor apărea ca opțiuni în câmpurile Locație
+    disable_title: Dezactivare Locație
+    disable_text: Esti sigur? Dacă dezactivezi Locațiile selectate, acestea nu vor mai apărea ca opțiuni în câmpurile Locație
+  logger:
+    actions:
+      _approved: Aprobat
+      _rejected: Respins
+      _requested: Solicitat
+      add_note: Adăugare notițe
+      assign: Asignează
+      assign_to: Asignează către
+      attach: Atașează
+      bulk_assign: Asignare în bloc
+      bulk_create: Creare în bloc
+      bulk_index: Indexare în bloc
+      case_plan_approved: Plan servicii aprobat
+      case_plan_rejected: Plan servicii respins
+      case_plan_requested: Plan servicii solicitat
+      close: Închidere
+      create: Creează
+      create_bulk: Creare bloc
+      delete: Șterge
+      destroy: Distrugere
+      detach: Desprindere
+      enable_disable_record: Activare dezactivare înregistrare
+      export: Export
+      flag: Marcaj
+      import: Import
+      incident_details_from_case: Detalii Incident din caz
+      index: Index
+      list: Listă
+      login: Autentificare
+      password_reset: Resetare parolă
+      password_reset_request: Solicitare resetare parolă
+      refer: Referire
+      refer_accepted: Referire acceptată
+      refer_done: Referire încheiată
+      refer_rejected: Referire respinsă
+      refer_revoke: Referire revocată
+      refer_to: Referire către
+      reopen: Redeschidere
+      services_section_from_case: Secțiune Servicii din caz
+      show: Arată
+      show_alerts: Arată alerte
+      traces: Urmăriri
+      transfer: Transfer
+      transfer_accepted: Transfer acceptat
+      transfer_rejected: Transfer respins
+      transfer_request: Solicitare transfer
+      transfer_to: Transfer către
+      unflag: Demarcaj
+      update: Actualizat
+      user_password_reset_request: Solicitare resetare parola utilizatorului
+      webhook: Webhook
+    approve_form:
+      action_plan: Formular Plan intervenții
+      bia: Formular BIA/ Evaluare a interesului superior al copilului
+      case_plan: Formular Plan servicii
+      closure: Formular Închidere
+      'false': Respingere
+      gbv_closure: Formular Închidere GBV/ Violență pe bază pe gen
+      'true': Aprobare
+    assessment_approved: "%{approval_label} aprobare pentru"
+    assessment_requested: "%{approval_label} solicitată pentru"
+    bulk_index: Afișează tot
+    by_user: în funcție de utilizator
+    case_plan_approved: "%{approval_label}aprobat pentru"
+    case_plan_requested: "%{approval_label}solicitat pentru"
+    close: Închide
+    closure_approved: "%{approval_label} aprobare pentru"
+    closure_requested: "%{approval_label}solicitata pentru"
+    consent_count: Număr consimțăminte
+    copy: Copiere
+    create: Creare
+    create_subform: Creare subformular
+    destroy: Ștergere
+    edit: Editare
+    enable_disable_record: Activare/ dezactivare
+    export: Export date pentru
+    flag: Marcare
+    flag_records: Marcare
+    graph_data: Vizualizarea datelor din grafic
+    hide_name:
+      protect: Ascundere Nume
+      view: Vizualizare Nume
+    index: Listare înregistrări
+    list: Listă
+    login: Autentificare
+    logout: Deconectare
+    lookups_for_field: Căutări pentru câmp
+    mark_for_mobile:
+      'false': Demarcare pentru mobil
+      'true': Marcare pentru mobil
+    match_record: Potrivire înregistrare
+    permitted_field_list: Lista câmpurilor permise
+    quick_view: Vizualizare Quick View
+    reassign: Asignare
+    resources:
+      audit_log: Istoric Audit
+      user: Utilizator
+      agency: Organizația/ instituția
+      user_group: Grup utilizatori
+      child: Copil
+      alert: Alertă
+      form_section: Formular
+      lookup: Căutare
+      system_settings: Setări sistem
+      permission: Permisiune
+      dashboard: Dashboard
+      report: Raport
+      bulk_export: Export în bloc
+      saved_search: CăutareSalvată
+      role: Rol
+      incident: Incident
+      location: Locație
+      primero_configuration: Configurare Primero
+      code_of_conduct: Cod etic
+      task: Sarcină
+    record_state:
+      'false': Dezactivare
+      'true': Activare
+    refer: Referă
+    refer_to: Căutare după beneficiarul referirii
+    referral: Referire
+    relinquish_referral: Finalizare renunțare referire
+    reopen: Redeschide
+    reopen_case: Redeschidere
+    request_approval:
+      action_plan: Solicită aprobare pentru formularul Plan intervenții
+      bia: Solicită aprobare pentru formularul BIA/ Evaluare a interesului superior al copilului
+      case_plan: Solicită aprobare pentru formularul Plan Servicii
+      closure: Solicită aprobare pentru formularul de Închidere
+      gbv_closure: Solicită aprobare pentru formularul Închidere GBV/ Violență pe bază pe gen
+    request_transfer: Trimitere solicitare transfer
+    request_transfer_view: Vizualizare solicitare transfer
+    save_subform: Salvare subformular
+    search: Căutare API
+    show: Vizualizare
+    show_alerts: Vizualizare alerte pentru
+    to: către
+    to_user: către utilizator
+    transfer: Transferare
+    transfer_status:
+      Accepted: Transfer acceptat
+      Rejected: Transfer respins
+    unflag: Demarcare
+    update: Modificare
+  login:
+    label: Autentificare
+    password:
+      label: Parolă
+    password_confirmation:
+      label: Confirmare parolă
+    password_match:
+      label: Parola trebuie să corespundă
+    provider_title: cu %{provider}
+    title: Autentificare
+    username: Utilizator
+    password_reset_modal: Resetare parolă
+    password_reset_modal_text: Primero va trimite un link de resetare a parolei către adresa ta de e-mail
+    password_reset_email: E-mail
+    forgot_password: Ai uitat parola?
+    email:
+      label: E-mail
+  lookup:
+    create: Căutare nouă
+    enabled_label: Activat?
+    english_label: Text Engleză
+    label: Căutare
+    language_label: Limbă
+    messages:
+      cannot_create: Căutare nu a putut fi creat
+      correct_errors: 'Te rugăm să corectezi următoarele erori și să retrimiți:'
+      created: Căutare a fost creat cu succes.
+      updated: Căutare a fost actualizat cu succes.
+    name: Nume
+    no_options: Această Căutare nu are momentan opțiuni.
+    translation_label: Traducere text
+    values: Opțiuni
+  managed_reports:
+    label: Insights
+    total: Total
+    filter_by:
+      date: Data
+      verification_status: Status verificare
+    date_range:
+      month: Lună
+      quarter: Trimestru
+      year: An
+    date_range_options:
+      this_quarter: Trimestrul actual
+      last_quarter: Trimestrul anterior
+      this_month: Luna aceasta
+      last_month: Luna anterioară
+      this_year: Anul acesta
+      last_year: Anul trecut
+      custom: Personalizare
+    no_data: Nu există date pentru acest Insight
+    no_data_table: Nu există date pentru acest Insight
+    violations:
+      name: Abuzuri
+      filter_options:
+        incident_date: Dată incident
+        date_of_report: Dată raport
+        ctfmr_verified_date: Dată verificare
+      reports:
+        killing: Uciderea copiilor
+        maiming: Mutilare copii
+        recruitment: Recrutarea și/sau utilizarea copiilor
+        sexual_violence: Viol și/ sau alte forme de violență sexuală
+        abduction: Răpire
+        attack_on: Atacuri asupra școllor și/ sau spitalelor
+        military_use: Utilizarea școlilor și/ sau spitalelor în scopuri militare
+        denial_humanitarian_access: Refuzarea accesului umanitar pentru copii
+      sub_reports:
+        combined: Abuzuri
+        detention_detained: Rămâne reținut
+        detention_released: Eliberat
+        perpetrators: Număr copii în funcție de Autori
+        reporting_location: Număr de copii în funcție de Regiune
+        attack_type: Număr copii în funcție de Tip atac
+        boys: Băieți
+        girls: Fete
+        unknown: Necunoscut
+        total: Total
+    gbv_statistics:
+      name: Statistici GBV/ Violență pe bază pe gen
+      filter_options:
+        date_of_first_report: Data intervievării
+        incident_date: Dată incident
+      reports:
+        incidents: Incidente
+        perpetrators: Autori
+      sub_reports:
+        combined: Incidente
+        total: Număr incidente GBV/ Violență pe bază de gen raportate
+        gbv_sexual_violence: Numărul incidentelor de violență sexuală raportate
+        gbv_previous_incidents: Număr Incidente raportate în funcție de Supraviețuitori cu Incidente GBV/ Violență pe bază de gen anterioare
+        gbv_sexual_violence_type: Tip incident
+        incident_timeofday: Moment incident
+        elapsed_reporting_time: Intervalul de timp dintre incident și data raportării
+        elapsed_reporting_time_rape: Incidente precum Viol, Intervalul de timp scurs între Incident și Dată raportare
+        incident_location_type: Locație incident
+        number_of_perpetrators: Număr de Autori principali
+        perpetrator_relationship: Legătura Presupus autor principal - Supraviețuitor
+        perpetrator_age_group: Grupă vârstă Presupus autor principal
+        perpetrator_occupation: Ocupația Presupusului autor principal
+  messages:
+    alert_items: Ai o notificare %{items} la notițe.
+    alerts_for:
+      approval: Aprobare în așteptare pentru %{form_section_name}
+      field_change: '%{form_section_name}a fost actualizat pe %{alert_time}'
+      transfer_request: O nouă solicitare de transfer a fost făcută la %{date}de către %{user}de la %{agency}
+      duplicate_field: Un alt caz din sistem are același %{field_name} cu acesta.
+    cannot_edit: Needitabil
+    confirmation_message: Selectând OK, modificările nesalvate vor fi eliminate și se va reveni la vizualizarea tip listă. Selectează Anulare pentru a reveni la înregistrare.
+    confirmation_message_subform: Selectând OK, vor fi eliminate orice modificări nesalvate asociate acestui item. Selectează Anulare pentru a continua să faci modificări.
+    dashboard_offline: Ești offline. Dashboard-ul va fi complet funcțional când vei reveni online
+    field_name_on_form_name: 'Câmpul ''%{field_name}'' din formularul ''%{form_name}''.'
+    logout_confirmation: Dorești continuarea acestei sesiuni?
+    logout_offline_warning: Sigur dorești deconectarea? Te vei putea autentifica din nou doar atunci când revii online. Orice modificări pe care le-ai făcut în timp ce erai offline se vor pierde.
+    logout_warning: Vei fi deconectat în 5 minute
+    logout_dialog_header: Deconectare offline
+    logout_confirmation_title: Confirmare deconectare
+    logout_confirmation_text: Sigur dorești deconectarea?
+    no_changes: Câmpurile nu au fost modificate
+    not_available: Indisponibil
+    record_list:
+      column_header_tooltip: Sortare pentru %{column}
+      of: al
+      no_match: Din păcate, nu au fost găsite înregistrări care să se potrivească
+      rows_per_page: Rânduri pe pagină
+      sort: Sortare
+  navigation:
+    bulk_exports: Exporturi
+    cases: Cazuri
+    home: Acasă
+    key_performance_indicators: KPI-uri
+    incidents: Incidente
+    logout: Deconectare
+    reports: Rapoarte
+    insights: Insights
+    search: Căutare
+    settings: Setări
+    support: Suport
+    support_menu:
+      contact_information: Informații de contact
+      code_of_conduct: Cod etic
+      terms_of_use: Termeni și condiții
+      system_information: Informații despre sistem
+    tasks: Sarcini
+    tracing_request: Solicitare urmărire
+    activity_log: Istoric Activitate
+    registry_records: Registru
+  notes:
+    note_success: Notă adăugată cu succes
+  permissions:
+    label: Permisiuni
+    permission:
+      All: Toate
+      add_note: Adăugare notițe
+      admin_only: Nicio înregistrare - funcționalitate pentru admin
+      administrator_read: Citire Administrator
+      agency: Organizația/ instituția
+      agency_read: Citire organizație/ instituție
+      all: Accesează toate înregistrările sau utilizatorii
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label}În așteptare'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label}În așteptare'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label}În așteptare'
+      approve_action_plan: Probare %{approval_label}
+      approve_assessment: Aprobare formular %{approval_label}
+      approve_case_plan: Aprobare %{approval_label}
+      approve_closure: Aprobare formular %{approval_label}
+      approve_gbv_closure: Aprobare formular %{approval_label}
+      assign: Asignează
+      assign_within_agency: Asignare în interiorul organizației/ instituției
+      assign_within_user_group: Asignare în interiorul grupului de utilizatori
+      audit_log: Istoric Audit
+      case: Caz
+      case_approvals: Aprobări Caz
+      case_assignments_referrals_transfers: Evaluări, referiri și transferuri pe caz
+      case_exports: Export cazuri
+      case_overview: Cazurile mele
+      case_risk: Cazuri în funcție de Nivelul evaluării
+      cases_by_task_overdue_assessment: Vizualizare Cazuri în funcție de Sarcina Evaluare restantă
+      cases_by_task_overdue_case_plan: Vizualizare Cazuri în funcție de Sarcina Plan servicii restant
+      cases_by_task_overdue_followups: Vizualizare Cazuri în funcție de Sarcina Servicii restante
+      cases_by_task_overdue_services: Vizualizare Cazuri în funcție de Sarcina Servicii restante
+      cases_managed_other_users: Cazuri gestionate de către alți utilizatori
+      close: Închide
+      consent_override: Anulare consimțământ
+      copy: Copiază
+      copy_of: Copie a
+      create: Creează
+      dash_case_incident_overview: Cazurile mele/ Incidente
+      dash_cases_by_social_worker: Vizualizare cazuri în funcție de Asistent social
+      dash_cases_by_task_overdue: Vizualizare cazuri în funcție de Sarcină restantă
+      dash_cases_by_workflow: Vizualizare Cazuri în funcție de Fluxuri
+      dash_cases_to_assign: Vizualizare Cazuri pentru asignare
+      dash_group_overview: Cazurile din Grupul meu
+      dash_manager_transfers: Vizualizare Transferuri manager
+      dash_matching_results: Vizualizare Potriviri
+      dash_protection_concerns: Vizualizare Preocupări protecție
+      dash_protection_concerns_by_location: Vizualizare Preocupări protecție în funcție de Locație
+      dash_referrals_by_socal_worker: Vizualizare Referiri în funcție de Asistent social
+      dash_reporting_location: Vizualizare Locații Raportare
+      dash_service_provisions: Vizualizare Furnizări servicii
+      dash_shared_from_my_team: Partajat din Echipa mea
+      dash_shared_with_me: Partajat cu Mine
+      dash_shared_with_my_team: Partajat cu Echipa mea
+      dash_shared_with_others: Partajat cu Alții
+      dash_show_none_values: Vizualizare Lipsă Valori
+      dash_tasks: Vizualizare Sarcini
+      dash_transfers_by_socal_worker: Vizualizare Transferuri în funcție de Asistent social
+      dash_national_admin_summary: Sumar administrator
+      dashboard: Dashboard
+      delete: Șterge
+      display_view_page: Afișează pagină vizualizare
+      duplicate: Căutare duplicate
+      enable_disable_record: Dezactivare
+      export_case_pdf: Export caz pdf
+      export_csv: Export csv
+      export_custom: Export personalizat
+      export_duplicate_id_csv: Export duplicate
+      export_json: Export json
+      export_list_view_csv: Export tip listă csv
+      export_mrm_violation_xls: Export xls MRM/ Mecanism monitorizare și raportare abuzuri
+      export_pdf: Export pdf
+      export_photowall: Export galerie foto
+      export_unhcr_csv: Export unhcr csv
+      export_xls: Export xls
+      find_tracing_match: Caută potrivire urmărire de la caz
+      view_registry_record: Vizualizare Registru înregistrare
+      add_registry_record: Adăugare Registru înregistrare
+      flag: Marcaj
+      form: Formulare
+      group: Accesează toate înregistrările sau utilizatorii din grupul meu
+      group_read: Citire Grup
+      import: Import
+      incident: Incident
+      incident_details_from_case: Adăugă Detalii incident în cazul altui utilizator
+      incident_from_case: Creare incident pornind de la un caz
+      kpi: KPI-uri
+      lookup: Căutări
+      manage: Gestionează
+      mark_for_offline: Marchează pentru offline
+      matching_configuration: Configurație Potrivire
+      metadata: Formulare, Căutări
+      potential_match: Potrivire potențială
+      primero_configuration: Configurare
+      read: Citire
+      reassign: Reasignează
+      receive_referral: Primește referire
+      receive_transfer: Primește transfer
+      referral: Poate fi utilizat pentru referire
+      referral_from_service: Referire Caz din Formular Servicii
+      registry_record: Registru
+      remove_assigned_users: Elimină alți utilizatori asignați (referiri)
+      reopen: Redeschide
+      report: Raportează
+      managed_report: Insights
+      request_approval: Solicitare aprobare
+      request_approval_action_plan: Solicitare aprobare %{approval_label}
+      request_approval_assessment: Solicitare aprobare %{approval_label}
+      request_approval_case_plan: Solicitare aprobare %{approval_label}
+      request_approval_closure: Solicitare aprobare %{approval_label}
+      request_approval_gbv_closure: Solicitare aprobare %{approval_label}
+      request_transfer: Solicită transfer
+      role: Roluri
+      save_search: Salvare căutări
+      saved_search: Căutări salvate
+      search_owned_by_others: Căutați înregistrări de cazuri deținute de alți utilizatori
+      self: Accesează doar înregistrările sau utilizatorul meu
+      service_provision_incident_details: Vezi butonul Adăugare Furnizare Servicii de pe Modalul Detalii Incident
+      services_section_from_case: Adăugă Furnizare servicii în cazul altui utilizator
+      specific_roles: Accesează liste specifice de roluri
+      sync_external: 'Sincronizare cu un sistem extern de management al informațiilor '
+      sync_mobile: Marchează pentru offline
+      system: Sistem
+      tracing_request: Solicitare urmărire
+      transfer: Poate fi utilizat pentru transfer
+      user: Utilizatori
+      user_group: Grupuri utilizatori
+      view_approvals: Vizualizează Aprobări
+      view_assessment: Vizualizează Evaluare
+      view_photo: Vizualizare fotografie
+      view_protection_concerns_filter: Vizualizare Filtru Preocupări protecție
+      view_response: Vizualizează Răspunsuri
+      webhook: Webhook
+      workflow: Fluxuri - Cazuri individuale
+      workflow_team: Fluxuri - Cazuri echipe
+      write: Scrie
+      activity_log: Istoric Activitate
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: Posibilitatea de a accesa pagina KPI
+            label: Accesează pagina KPI
+          kpi_assessment_status:
+            explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, ce proporție dintre acestea au un formular de evaluare completat.
+            label: Status evaluare
+          kpi_average_followup_meetings_per_case:
+            explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, numărul mediu de reveniri realizate într-o perioadă de timp stabilită.
+            label: Medie Reveniri per Caz
+          kpi_average_referrals:
+            explanation: Posibilitatea de a vedea, pentru toate cazurile active la care utilizatorul are acces, numărul mediu de referiri efectuate către fiecare tip de servicii.
+            label: Medie Referiri
+          kpi_case_closure_rate:
+            explanation: Posibilitatea de a vedea câte cazuri au fost închise la fiecare locație pe lună.
+            label: Număr Cazuri închise
+          kpi_case_load:
+            explanation: Posibilitatea de a vedea numărul mediu de cazuri deschise pe care le are fiecare responsabil de caz
+            label: Încărcătura de cazuri
+          kpi_client_satisfaction_rate:
+            explanation: Posibilitatea de a vedea, pentru cazurile la care utilizatorul are acces, în ce proporție supraviețuitorii care au completat chestionarul de feedback au fost satisfăcuți.
+            label: Rată satisfacție clienți
+          kpi_completed_case_action_plans:
+            explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, proporția celor cu Plan intervenții finalizat.
+            label: Plan intervenții caz finalizat
+          kpi_completed_case_safety_plans:
+            explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, proporția celor care au solicitat și au finalizat un Plan de siguranță.
+            label: Plan Siguranță Caz finalizat
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, proporția celor care au finalizat un Plan intervenții caz care a fost aprobat de un supervizor.
+            label: Plan intervenții caz Aprobat de Supervizor
+          kpi_goal_progress_per_need:
+            explanation: Posibilitatea de a vedea, pentru cazurile la care utilizatorul are acces, procentul de obiective îndeplinite din fiecare categorie.
+            label: Progres realizat în direcția atingerii obiectivelor
+          kpi_number_of_cases:
+            explanation: Posibilitatea de a vedea câte cazuri nou raportate sunt deschise în fiecare lună per locație.
+            label: Număr de cazuri
+          kpi_number_of_incidents:
+            explanation: Posibilitatea de a vedea câte cazuri nou raportate sunt deschise în fiecare lună per locație.
+            label: Număr de incidente
+          kpi_reporting_delay:
+            explanation: Posibilitatea de a vedea, pentru toate incidentele la care utilizatorul are acces, numărul de zile care au trecut între momentul în care supraviețuitorul a experimentat GBV/ Violență pe bază de gen și momentul în care supraviețuitorul a raportat evenimentul ​​unui furnizor de servicii.
+            label: Întârziere raportare
+          kpi_services_provided:
+            explanation: Posibilitatea de a vedea, pentru toate cazurile la care utilizatorul are acces, ce tipuri de servicii au fost furnizate de organizație în interior.
+            label: Servicii furnizate
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Posibilitatea de a vedea raportul dintre responsabilii caz și supervizori.
+            label: Raport Supervizori - Responsabili caz
+          kpi_time_from_case_open_to_close:
+            explanation: Posibilitatea de a vedea, pentru toate cazurile la care utilizatorul are acces, cât timp sunt ținute deschise.
+            label: Intervalul de timp de la Deschidere caz la Închidere caz
+        label: KPI
+      agency:
+        actions:
+          assign:
+            explanation: Posibilitatea de a alege o organizație/ instituție atunci când creezi sau editezi un cont de utilizator. Dacă utilizatorul actual are această permisiune, precum și permisiunea „Citire organizație/ instituție”, acesta va putea adăuga un utilizator în propria organizație/ instituție.
+            label: Asignează
+          create:
+            explanation: Permisiunea de a crea o organizație/ instituție.
+            label: Creează
+          manage:
+            explanation: 'Permite unui utilizator să efectueze toate acțiunile disponibile asupra organizațiilor/ instituțiilor. Permisiunea „Gestionează” înseamnă în esență „totul”. IMPORTANT: Această opțiune oferă și posibilitatea de a crea o nouă organizație/ instituție.'
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza organizațiile/ instituțiile.
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a edita informații despre organizații/ instituții. Te rugăm să reții că această setare se aplică tuturor organizațiilor/ instituțiilor din sistem.
+            label: Editează
+        explanation: Reprezintă o organizație cu membri care folosesc Primero. Organizațiile/ instituțiile există independent de Grupuri Utilizatori.
+        label: Organizația/ instituția
+      audit_log:
+        actions:
+          read:
+            explanation: Permite utilizatorului să vadă și să filtreze o listă cu toate acțiunile efectuate în sistem, defalcate în funcție de utilizator, tip de acțiune, ID-ul înregistrării și ora acțiunii. Această opțiune este potrivită pentru utilizatorii cu rol de administrator de la nivel național sau de la nivel de organizație/ instituție, deoarece arată acțiunile efectuate de către toți utilizatorii din sistem. Te rugăm să reții că jurnalul de audit nu afișează date de identificare a persoanei.
+            label: Vizualizare
+        explanation: Listă filtrabilă a tuturor acțiunilor efectuate în sistem. Nu include informații de identificare despre Cazuri, Incidente sau Solicitări urmărire.
+        label: Istoric Audit
+      case:
+        actions:
+          add_note:
+            explanation: Permite unui utilizator să adauge o intrare în subformularul „Notițe” (numit uneori și „Comentarii”). Utilizatorul face acest lucru selectând butonul „Adăugare notițe” de pe pagina de prezentare a cazului. Această acțiune este utilă în special pentru managerii care nu au permisiunea de a edita cazuri, dar doresc să reamintească responsabilului de caz de un caz. În acest fel, adăugarea unei notițe este similară cu adăugarea unui marcaj. Avantajul adăugării unei notițe este că, atunci când managerul adaugă o notiță la un caz, va apărea o notificare pe caz pentru responsabilul de caz atunci când acesta vizualizează cazul pe dispozitivul său mobil.
+            label: Adaugă Notițe la un caz
+          add_registry_record:
+            explanation: Permite unui utilizator să conecteze un Registru la un caz din formularul Registru detalii. De asemenea, permite unui utilizator să deconecteze orice Registru anterior conectat la caz.
+            label: Adaugă/ Actualizează Registru înregistrare din Caz
+          approve_action_plan:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobare %{approval_label}
+          approve_assessment:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobă formular %{approval_label}
+          approve_bia:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobă formular %{approval_label}
+          approve_case_plan:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobă %{approval_label}
+          approve_closure:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobă formular %{approval_label}
+          approve_gbv_closure:
+            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            label: Aprobă formular %{approval_label}
+          assign:
+            explanation: Permite unui utilizator să transmită un caz de la deținătorul său inițial oricărui alt utilizator din sistem. Nu este necesar consimțământul copilului pentru această acțiune. Spre deosebire de transferuri, beneficiarului nu i se oferă șansa de a accepta sau de a respinge.
+            label: Asignează
+          assign_within_agency:
+            explanation: Permite unui utilizator să transmită un caz de la deținătorul său inițial oricărui alt utilizator din organizația/ instituția utilzatorului curent. Nu este necesar consimțământul copilului pentru această acțiune. Spre deosebire de transferuri, beneficiarului nu i se oferă șansa de a accepta sau de a respinge.
+            label: Asignare către un utilizator din organizația/ instituția mea
+          assign_within_user_group:
+            explanation: Permite unui utilizator să trimită un caz de la proprietarul său inițial la orice alt utilizator din grupurile de utilizatori ale utilizatorului curent. Nu este necesar consimțământul copilului pentru această acțiune. Spre deosebire de transferuri, beneficiarului nu i se oferă șansa de a accepta sau de a respinge.
+            label: Asignare către un utilizator din grupul meu de utilizatori
+          change_log:
+            explanation: Utilizatorul vedea un istoric al tuturor modificărilor aduse înregistrării de când a fost creată. Aceasta include valorile înregistrate pentru toate câmpurile.
+            label: Istoric Modificări
+          close:
+            explanation: Permite unui utilizator să schimbe statusul unui caz din deschis în închis.
+            label: Închidere
+          consent_override:
+            explanation: Permite unui utilizator să facă o referire sau un transfer pentru un caz pentru care nu a fost furnizat consimțământ.
+            label: Ignoră lipsa consimțământului atunci când faci o referire sau un transfer
+          create:
+            explanation: Posibilitatea de a crea un caz
+            label: Creează
+          display_view_page:
+            explanation: Dacă un utilizator efectuează o căutare pentru un caz la care nu are acces, această opțiune îi permite să vadă un mic modal cu informații de bază despre caz, chiar dacă utilizatorul nu poate da click pe caz pentru a vedea toate informațiile acestuia. Câmpurile care apar în acest „Vizualizare Modal” sunt câmpuri care au fost configurate la „Afișare pe Formular scurt”. Acest mod este, de asemenea, util pentru utilizatorii care efectuează acțiuni de Urmărire și Reunificare familie, deoarece „Vizualizare Modal” este disponibil pentru accesul utilizatorului atunci când examinează cazuri care au apărut ca „Potriviri potențiale” la o solicitare de urmărire.
+            label: Afișează pagină vizualizare
+          enable_disable_record:
+            explanation: Posibilitatea de a dezactiva sau activa un caz. Cazurile „Dezactivate” nu apar implicit în lista de cazuri. Utilizatorii pot vedea cazurile dezactivate în lista de cazuri aplicând un filtru. Primero nu permite utilizatorilor să șteargă cazuri; în schimb, un utilizator poate să dezactiveze un caz dacă dorește. De exemplu, dacă un utilizator a creat un caz din greșeală sau dacă datele pentru cazul respectiv nu sunt bune, utilizatorul ar trebui să îl dezactiveze.
+            label: Activare/ dezactivare
+          export_case_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export caz PDF
+          export_csv:
+            explanation: 'Utilizatorul poate genera un fișier CSV pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. NOTĂ: Formatul CSV nu redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care să poată fi citit.'
+            label: Export CSV
+          export_custom:
+            explanation: Utilizatorul poate genera un export XLS din lista de cazuri sau din paginile de prezentare a cazurilor, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate cazurile la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează un caz în aplicație.
+            label: Export personalizat
+          export_duplicate_id_csv:
+            explanation: Creează un export CSV al cazurilor cu au același câmp ID național (poate avea o etichetă diferită, în funcție de configurație). Poate fi efectuat doar din pagina cu liste de cazuri.
+            label: Export duplicate
+          export_json:
+            explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte cazuri din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
+            label: Export JSON
+          export_list_view_csv:
+            explanation: Utilizatorul poate genera un export CSV din pagina cu liste de cazuri care să conțină aceleași câmpuri ce apar pentru respectivul utilizator în lista de cazuri. Poate fi efectuat doar din pagina cu lista de cazuri.
+            label: Export tip listă CSV
+          export_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export caz PDF
+          export_photowall:
+            explanation: Permite utilizatorului să exporte un fișier din pagina cu lista de cazuri care conține fotografiile tuturor cazurilor selectate. Acest export este utilizat în principal pentru activitățile de Urmărire și Reunificare a familiei. Poate fi efectuat doar din pagina cu liste de cazuri.
+            label: Export galerie foto
+          export_unhcr_csv:
+            label: Export UNHCR CSV
+          export_xls:
+            explanation: 'Utilizatorul poate genera un fișier XLS pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În acest export, fiecare formular este reprezentat în propriul tab în cadrul fișierului XLS. NOTĂ: Formatul XLS redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care poate fi citit, în timp ce exportul CSV nu face asta.'
+            label: Export Excel (XLS)
+          find_tracing_match:
+            explanation: Acesta este utilizat exclusiv pentru contexte cu activități de Urmărire și Reunificare a familiei. Utilizatorii cu această permisiune vor vedea un buton „Găsire Potrivire Urmărire” pe pagina de afișare a cazului. Când dau click pe el, vor ajunge la o listă de solicitări de urmărire în sistem care reprezintăt potenţiale potriviri pentru cazul lor.
+            label: Caută potrivire urmărire de la caz
+          flag:
+            explanation: Posibilitatea de a adăuga un marcaj la un Caz. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la un Caz.
+            label: Marcaj
+          import:
+            explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
+            label: Import
+          incident_details_from_case:
+            explanation: Posibilitatea de a adăuga o intrare în subformularul Detalii incident pentru un caz pe care l-ai găsit în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând unul sau mai multe cazuri, apoi selectând „Adăugare incident” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Detalii incident, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
+            label: Adăugă Detalii incident în cazul altui utilizator din pagina cu rezultatele căutării
+          incident_from_case:
+            explanation: Opțiunea permite utilizatorului să selecteze butonul „Creează Incident”. Aceasta generează un incident care poate conține unele informații copiate din caz. Pentru cazurile de tip GBV/ Violență pe bază de gen, acest buton se află în partea de sus a paginii de prezentare a cazului și corespunde cu informațiile despre caz per ansamblu. În unele contexte precum cele de urmărire a incidentelor, acest buton se află în subformularul „Detalii incident”. În această situație, unele informații pot fi copiate din subformularul „Detalii incident” unde a fost apăsat butonul, precum și din caz, per ansamblu. Astfel, noul incident creat poate conține câmpul „Tip de violență” din subformularul cu detalii despre incident, dar poate conține și vârsta și sexul cazului în sine. Această permisiune permite, de asemenea, utilizatorului să vadă un link către incidentul care a fost creat.
+            label: Creare Incident din Caz
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra cazurilor. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza un caz
+            label: Vizualizează
+          receive_referral:
+            explanation: Permite unui utilizator să primească o referire. Utilizatorii cu această permisiune vor apărea ca beneficiari potențiali ai unei acțiuni de referire, în timp ce utilizatorii fără această permisiune nu vor apărea ca beneficiari potențiali atunci când cineva caută un beneficiar în fereastra modal de referire.
+            label: Primește referire
+          receive_referral_different_module:
+            explanation: Permite unui utilizator să primească o referire pentru o înregistrare care este creată într-un modul Primero diferit. Utilizatorii cu această permisiune vor apărea ca beneficiari potențiali ai unei acțiuni de referire pentru acea înregistrare, în timp ce utilizatorii fără această permisiune nu vor apărea ca beneficiari potențiali atunci când cineva caută un beneficiar în fereastra modal de referire.
+            label: Primește Referire de la un utilizator într-un alt modul
+          receive_transfer:
+            explanation: Permite unui utilizator să primească un transfer. Utilizatorii cu această permisiune vor apărea ca destinatari potențiali ai unei acțiuni de transfer, în timp ce utilizatorii fără această permisiune nu vor apărea ca destinatari potențiali atunci când cineva caută un destinatar în fereastra modal de transfer.
+            label: Primește transfer
+          referral:
+            explanation: Permite unui utilizator să acorde temporar acces la un caz unui alt utilizator. Destinatarul referirii va putea efectua aceleași acțiuni asupra cazului referit pe care le poate efectua asupra propriilor cazuri. Când destinatarul nu mai are nevoie de acces la caz, poate da click pe butonul „Efectuat” din subformularul Referiri și Transferuri și va pierde accesul la caz. Puteți trimite un caz doar unui utilizator al cărui rol are permisiunea de a primi referiri.
+            label: Referire
+          referral_from_service:
+            explanation: Permite utilizatorului să vadă butonul „Referire” din subformularul Servicii. Când utilizatorul dă clic pe acest buton, modalul de referiri va apărea cu câmpurile Tip de serviciu, Organizație/ instituție, Furnizor servicii și Locație dezactivate, dar completate automat cu informații pentru acele câmpuri din subformularul Servicii pentru care utilizatorul a dat click pe butonul Referire.
+            label: Referire Caz din Subformular Servicii
+          remove_assigned_users:
+            explanation: Permite utilizatorului să elimine alți utilizatori din câmpul „Alți utilizatori asignați”. Un utilizator este listat aici dacă a primit o referire pentru caz sau a primit un transfer pentru caz, dar încă nu le-a acceptat sau respins. Când elimini un utilizator din câmpul „Alți utilizatori asignați”, îi elimini accesul la caz. Deci, utilizatorii cu această permisiune pot elimina accesul la caz de la utilizatorii care au primit anterior referiri sau transferuri încă în așteptare pentru caz. Reține că această permisiune funcționează numai dacă utilizatorul actual are și permisiunea de a edita cazul.
+            label: Eliminați alți utilizatori asignați (recuperând accesul la caz de la utilizatorii referiți)
+          reopen:
+            explanation: Permite unui utilizator să deschidă un caz care este momentan închis.
+            label: Redeschide
+          request_approval_action_plan:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_approval_assessment:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_approval_bia:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_approval_case_plan:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_approval_closure:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_approval_gbv_closure:
+            explanation: Permite unui utilizator (de obicei, responsabil de caz) să solicite managerului său să aprobe cazul %{approval_label}.
+            label: Solicitare aprobare %{approval_label}
+          request_transfer:
+            explanation: Prezintă butonul „Solicitare transfer” din „Vizualizare Modal”. Butonul permite utilizatorului să trimită un mesaj cu o notă personalizată prin e-mail către proprietarul actual al înregistrării unui caz, solicitând ca proprietarul înregistrării să transfere cazul utilizatorului care a trimis solicitarea. Acest lucru este util în contextele în care copiii își schimbă locația des, responsabilii de caz având nevoie să primească informații de la un responsabil anterior de caz anterior al copilului pentru a evita crearea unei înregistrări duplicate.
+            label: Solicită transfer
+          search_owned_by_others:
+            explanation: Permite unui utilizator să efectueze o căutare pentru înregistrări la care de obicei nu ar avea acces, fie pentru că nu este proprietarul înregistrării pentru acel caz, fie (pentru manageri) pentru că proprietarul înregistrării nu se află în grupurile lor de utilizatori. Reține că, deși utilizatorul va vedea cazul în vizualizarea rezultatelor căutării, nu va putea da click pe pagina de afișare a cazului, ceea ce înseamnă că nu va putea vedea informații detaliate despre caz.
+            label: Căutați înregistrări de cazuri deținute de alți utilizatori
+          service_provision_incident_details:
+            explanation: Permite utilizatorului să vadă butonul „Salvare și Adăugare Furnizare Servicii” în partea de jos a modalului Adăugare incident. Selectând acest buton, sunt salvate informațiile introduse în prezent despre incident, după care utilizatorul este dus direct la modalul Adăugare Furnizare Servicii. Deoarece această acțiune este direct legată de acțiunile Adăugare incident și Adăugare Furnizare Servicii, este logic să acorzi această permisiune unui rol doar dacă acel rol are și permisiunile „Adăugare detalii incident în cazul altui utilizator” și „Adăugare furnizare servicii  în cazul altui utilizator”.
+            label: Vezi butonul Adăugare Furnizare Servicii de pe Modalul Detalii Incident
+          services_section_from_case:
+            explanation: Posibilitatea de a adăuga o intrare în subformularul Servicii pentru un caz pe care l-ai găsit în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând unul sau mai multe cazuri, apoi selectând „Adăugare furnizor servicii” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Servicii, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
+            label: Adăugă Furnizare servicii în cazul altui utilizator
+          sync_external:
+            explanation: Posibilitatea de a sincroniza o Înregistrare cu un sistem extern de gestionare a informațiilor
+            label: Sincronizare cu un sistem extern de management al informației
+          sync_mobile:
+            explanation: Permite utilizatorului să memoreze în cache cazuri pentru utilizare offline.
+            label: Marchează pentru offline
+          transfer:
+            explanation: Permite unui utilizator să trimită un caz de la proprietarul actual al înregistrării oricărui utilizator din sistem având permisiunea de a primi transferuri. Proprietarul cazului nu se schimbă decât în momentul în care destinatarul transferului „Acceptă” transferul. Dacă destinatarul „Respinge” transferul, destinatarul pierde accesul la caz, iar cazul își păstrează proprietarul inițial.
+            label: Transfer
+          view_photo:
+            explanation: Permite unui utilizator să vadă fotografiile unui caz din modul de vizualizare a listei de cazuri. Fără această permisiune, utilizatorul nu vede coloana „Fotografie” din tabelul cu liste de cazuri sau pictogramele foto care apar acolo. Această opțiune permite, de asemenea, utilizatorului să vadă fotografiile copilului în „Vizualizare Modal”.
+            label: Vizualizare fotografie din modul de vizualizare listă cazuri
+          view_incident_from_case:
+            explanation: La vizualizarea unui caz, utilizatorul poate vedea o listă de Incidente legate de caz, împreună cu câteva informații rezumative despre fiecare.
+            label: Vizualizare Incidente din Caz
+          view_protection_concerns_filter:
+            explanation: Permite utilizatorului să vadă un filtru pentru Preocupări protecție pe pagina listei de cazuri
+            label: Vizualizează filtru Preocupări protecție pe pagina listei de cazuri
+          view_registry_record:
+            explanation: Permite unui utilizator să vadă informațiile oricărui Registru legat la un caz. De asemenea, permite utilizatorului să vadă formularul Registrului detalii pentru caz.
+            label: Vizualizare Registru înregistrare din Caz
+          write:
+            explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informații în caz și de a selecta „Salvare”
+            label: Editează
+          accept_or_reject_transfer:
+            explanation: 'Permite utilizatorului să accepte sau să respingă un transfer în numele altui utilizator care face parte din echipa ta (de ex: un supervizor care acceptă un transfer ce a fost făcut către asistentul său social).'
+            label: Acceptă sau respinge transferul pentru un alt utilizator din echipă.
+          list_case_names:
+            explanation: De obicei, managerii nu pot vedea numele cazurilor în Lista de cazuri. Dacă un manager are această permisiune, va putea vedea numele în listă.
+            label: Dacă manager, poate vedea numele cazurilor în Lista de cazuri.
+          mark_for_offline:
+            explanation: Permite utilizatorului să memoreze în cache un Caz pentru utilizare offline.
+            label: Marchează pentru offline
+        explanation: Reprezintă un copil, un supraviețuitor sau alt beneficiar.
+        label: Caz
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: Afișează numărul de cazuri ale utilizatorului curent cu solicitări de aprobare pentru Plan intervenții care sunt În așteptare, Aprobate sau Respinse.
+            label: Aprobările %{approval_label} responsabilului de caz
+          approvals_action_plan_pending:
+            explanation: Afișează numărul de cazuri din echipa unui manager cu solicitări de aprobare pentru Plan intervenții în așteptare
+            label: Aprobările %{approval_label} managerului
+          approvals_assessment:
+            explanation: Afișează numărul de cazuri ale utilizatorului curent cu solicitări de aprobare a Evaluării care sunt În așteptare, Aprobate sau Respinse.
+            label: Aprobările %{approval_label} responsabilului de caz
+          approvals_assessment_pending:
+            explanation: Afișează numărul de cazuri din echipa unui manager cu solicitări de aprobare a Evaluării în așteptare
+            label: Aprobările %{approval_label} managerului
+          approvals_case_plan:
+            explanation: Afișează numărul de cazuri ale utilizatorului curent cu solicitări de aprobare pentru Plan servicii care sunt În așteptare, Aprobate sau Respinse.
+            label: Aprobările %{approval_label} responsabilului de caz
+          approvals_case_plan_pending:
+            explanation: Afișează numărul de cazuri din echipa unui manager cu solicitări de aprobare a Planului de servicii în așteptare
+            label: Aprobările %{approval_label} managerului
+          approvals_closure:
+            explanation: Afișează numărul de cazuri ale utilizatorului curent cu solicitări de aprobare de Închidere care sunt În așteptare, Aprobate sau Respinse.
+            label: Aprobările %{approval_label} responsabilului de caz
+          approvals_closure_pending:
+            explanation: Afișează numărul de cazuri din echipa unui manager cu solicitări de aprobare de Închidere în așteptare.
+            label: Aprobările %{approval_label} managerului
+          approvals_gbv_closure:
+            explanation: Afișează numărul de cazuri ale utilizatorului actual cu solicitări de aprobare Închidere GBV/ Violență pe bază de gen, care sunt În așteptare, Aprobate sau Respinse.
+            label: Aprobările %{approval_label} responsabilului de caz
+          approvals_gbv_closure_pending:
+            explanation: Afișează numărul de cazuri din echipa unui manager cu solicitări de aprobare a Închiderii GBV.
+            label: Aprobările %{approval_label} managerului
+          case_overview:
+            explanation: Sumar, în partea de sus a paginii de deschidere, care include informații despre Total și Cazuri noi
+            label: Dashboard Sumar
+          case_risk:
+            explanation: Arată câte cazuri sunt la fiecare nivel de risc.
+            label: Cazuri în funcție de nivelul de risc
+          cases_by_task_overdue_assessment:
+            explanation: Permite unui manager să vadă câte cazuri au sarcini de Evaluare restante pentru fiecare dintre responsabilii de caz.
+            label: 'Sarcini restante Evaluare '
+          cases_by_task_overdue_case_plan:
+            explanation: Permite unui manager să vadă câte cazuri au sarcini restante asociate Planului de servicii, pentru fiecare dintre responsabilii de caz.
+            label: Sarcini restante Plan servicii
+          cases_by_task_overdue_followups:
+            explanation: Permite unui manager să vadă câte cazuri au sarcini restante de Revenire pentru fiecare dintre lucrătorii de caz.
+            label: Sarcini restante Revenire
+          cases_by_task_overdue_services:
+            explanation: Permite unui manager să vadă câte cazuri au sarcini restante de Servicii pentru fiecare dintre lucrătorii de caz.
+            label: Sarcini restante Servicii
+          dash_case_incident_overview:
+            explanation: .
+            label: Sumar - Cazurile mele/ Incidente
+          dash_cases_by_social_worker:
+            explanation: Tabel care arată cum sunt gestionate de către fiecare utilizator din grupurile de utilizatori ale utilizatorului curent totalul de cazuri deschise și numărul de cazuri noi. Fiecare rând reprezintă un utilizator din grupurile de utilizatori ale utilizatorului curent, în timp ce „Total” și „Nou” sunt cele două coloane.
+            label: Vizualizare cazuri În funcție de Asistent social
+          dash_cases_to_assign:
+            explanation: 'IMPORTANT: Numai pentru manageri. Afișează numărul de cazuri deținute direct de utilizatorul curent (ar trebui să fie un manager). Acest dashboard asumă că managerii nu își gestionează propriile cazuri și că, dacă un manager are propriile cazuri, ar trebui să atribuie aceste cazuri responsabililor de caz din echipa lor.'
+            label: (Pentru manageri) Cazuri pe care trebuie să le asignez oamenilor din echipa mea
+          dash_flags:
+            explanation: Afișează o listă a marcajelor pe care alți utilizatori le-au adăugat în înregistrările mele, precum și marcaje pe care le-am adăugat în înregistrările altor utilizatori.
+            label: Înregistrări marcate
+          dash_group_overview:
+            explanation: Afișează unui manager numărul de cazuri deschise și închise gestionate de utilizatorii din echipa lor.
+            label: Cazurile din Grupul meu
+          dash_matching_results:
+            explanation: EROARE. Acest dashboard nu este funcțional și va fi eliminat în v2.
+            label: Vizualizare rezultate Potrivire
+          dash_protection_concerns:
+            explanation: Tabel care arată câte cazuri au fiecare dintre preocupările de protecție. Fiecare rând al tabelului reprezintă o preocupare de protecție, în timp ce coloanele indică stări diferite pentru cazuri („Toate cazurile”, „Cazurile deschise”, „Nou (săptămâna aceasta),” „Închis (săptămâna aceasta)”)
+            label: Cazuri în funcție de Preocupări protecție
+          dash_protection_concerns_by_location:
+            explanation: Este același cu dashboard-ul „Vizualizare Preocupări protecție”, cu excepția faptului că utilizatorul poate selecta o locație dintr-un meniu derulant pentru a afișa statistici privind prevalența preocupărilor de protecție, specific pentru locația respectivă.
+            label: Vizualizare Preocupări protecție în funcție de Locație
+          dash_reporting_location:
+            explanation: Tabel care arată câte cazuri există în fiecare locație (la un singur nivel de specificitate, cum ar fi „Provincie” sau „District”). Fiecare rând al tabelului reprezintă o locație, iar coloanele indică stări diferite pentru cazuri ("CAZURI DESCHISE", "NOU (SĂPTĂMÂNA TRECUTĂ)," "NOU (SĂPTĂMÂNA CURENTĂ)," "ÎNCHIS (SĂPTĂMÂNA TRECUTĂ)," "ÎNCHIS(SĂPTĂMÂNĂ CURENTĂ)"). Utilizat de obicei pentru conturi de manager sau administrator.
+            label: Cazuri în funcție de Locație raportare
+          dash_service_provisions:
+            explanation: Afișează numărul de cazuri cărora alți utilizatori le-au adăugat furnizori de servicii. Acest număr apare în secțiunea principală a dashboard-ului.
+            label: Cazuri în funcție de tip Furnizare servicii
+          dash_shared_from_my_team:
+            explanation: Arată unui manager numărul de cazuri gestionate de fiecare utilizator din echipa sa, cazuri care sunt fie referite, fie transferate către alți utilizatori
+            label: Partajat din Echipa mea
+          dash_shared_with_me:
+            explanation: Arată câte cazuri au fost referite sau transferate către tine.
+            label: Partajat cu Mine
+          dash_shared_with_my_team:
+            explanation: Arată unui manager numărul de cazuri referite sau transferate către fiecare dintre utilizatorii din echipa sa.
+            label: Partajat cu Echipa mea
+          dash_shared_with_my_team_overview:
+            label: Partajat cu Echipa mea (Sumar)
+          dash_shared_with_others:
+            explanation: 'Arată câte din cazurile mele au referiri active, transferuri în așteptare sau transferuri respinse. Nu vizează managerii în mod normal; doar dacă au cazuri în gestionare. '
+            label: Partajat cu Alții
+          dash_show_none_values:
+            explanation: Adaugă o categorie suplimentară „Fără risc” în toate dashboard-urile care defalcă cazurile în funcție de nivelul de risc. Acest lucru este specific pentru configurațiile care au o a patra opțiune „Fără risc” pentru câmpurile referitoare la nivelul de risc.
+            label: Vizualizare cazuri având "Niciun nivel de risc" în Dashboard evaluare
+          dash_tasks:
+            explanation: Permite utilizatorului să vadă pagina Sarcini. Acestă opțiune ar trebui folosită pentru responsabilii de caz și pentru furnizorii de servicii, întrucât numerele vor fi specific pentru cazurile pe care le gestionezi direct. În schimb, managerii ar trebui să aibă acces la dashboard-ul „Vizualizare Cazuri în funcție de Sarcină restantă”, deoarece aceasta le permite să vadă sarcinile întârziate pentru toți cei din grupurile lor de utilizatori.
+            label: Pagină Sarcini
+          dash_national_admin_summary:
+            explanation: Afișează numărul total de cazuri deschise în sistem, numărul de cazuri noi create în fiecare dintre ultimele două săptămâni și numărul de cazuri închise în fiecare dintre ultimele două săptămâni.
+            label: Sumar administrator
+          view_response:
+            explanation: Pentru fiecare tip de răspuns arată câte cazuri, pe niveluri de risc, au servicii care sunt aproape de termenul limită de finalizare sau în întârziere.
+            label: Vizualizare răspunsuri
+          workflow:
+            explanation: Permite unui responsabil de caz să vadă, pe un grafic tip plăcintă, câte dintre cazurile sale se află în fiecare etapă a procesului de management de caz.
+            label: Cazuri defalcate în funcție de fluxuri
+          workflow_team:
+            explanation: Permite unui manager să vadă un tabel care arată câte dintre cazurile asistenților săi sociali sunt în fiecare etapă a procesului de management de caz.
+            label: Cazuri în funcție de Fluxuri și Responsabil caz
+        explanation: Selectează ce informații rezumative apar pe pagina principală.
+        label: Dashboard
+      disabled:
+        explanation: Dacă dezactivezi acest Rol, nu îl vei mai putea atribui conturilor de utilizator.
+        label: Dezactivat
+      duplicate:
+        actions:
+          read:
+            explanation: Permite utilizatorului să efectueze căutări avansate pentru fiecare dintre cazurile din sistem, folosind o serie de criterii, inclusiv Nume, Pseudonim, Sex, Vârstă și Naționalitate.
+            label: Vizualizare
+        explanation: Căutare avansată de cazuri pentru administratori.
+        label: Căutare duplicate
+      forms:
+        case:
+          explanation: 'Limitarea accesului unui utilizator la formularele despre cazuri limitează informațiile pe care utilizatorul le poate vedea despre un incident. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele pentru cazuri.'
+          label: Formulare - Caz
+        incident:
+          explanation: 'Limitarea accesului unui utilizator la formularele de incidente limitează informațiile pe care utilizatorul le poate vedea despre un incident. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele pentru incidente.'
+          label: Formulare - Incident
+        tracing_request:
+          explanation: 'Limitarea accesului unui utilizator la formularele privind solicitările de urmărire limitează informațiile pe care utilizatorul le poate vedea într-o solicitare de urmărire. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are permisiunea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă nu sunt specificate formulare, înseamnă că rolul are acces la toate formularele Solicitare urmărire.'
+          label: Formulare - Solicitări urmărire
+        registry_record:
+          explanation: 'Limitarea accesului unui utilizator la formularele din registre limitează informațiile pe care utilizatorul le poate vedea într-un registru. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele din registre.'
+          label: Formulare - Registru
+      group:
+        actions:
+          admin_only:
+            explanation: Aceasta înseamnă că utilizatorii cu acest rol vor putea vedea numai lucruri legate de administrarea sistemului, cum ar fi rapoarte, configurația formularelor și căutării, utilizatori, roluri și grupuri de utilizatori. Ei nu vor vedea niciun caz individual, solicitări de urmărire sau incidente.
+            label: Nicio înregistrare - funcționalitate pentru admin
+          agency:
+            explanation: Rolul poate accesa înregistrările gestionate de către toți utilizatorii din organizație/ instituție. Dacă utilizatorul are acces la utilizatori, poate accesa toți utilizatorii din organizația/ instituția sa.
+            label: Toate înregistrările sau utilizatorii din organizația/ instituția mea
+          all:
+            explanation: Rolul poate accesa toate înregistrările, utilizatorii și grupurile de utilizatori din sistem, indiferent de grupurile de utilizatori de care aparțin.
+            label: Accesează toate înregistrările sau utilizatorii
+          group:
+            explanation: Rolul poate accesa înregistrările gestionate de toți utilizatorii din Grupuri Utilizatori. Aceștia pot accesa numai utilizatorii din grupurile lor de utilizatori. Ei pot accesa doar propriile Grupuri Utilizatori.
+            label: Accesează toate înregistrările sau utilizatorii din grupul meu
+          self:
+            explanation: Rolul poate accesa propriile înregistrări (Cazuri, Solicitări urmărire sau Incidente) și își poate edita propriul cont de utilizator.
+            label: Accesează doar înregistrările sau utilizatorul meu
+        explanation: Controlează ce înregistrări (Cazuri, Solicitări Urmărire sau Incidente) pot fi accesate de Rol. Dacă rolul are acces la Utilizatori și Grupuri Utilizatori, acesta controlează și ceea ce Utilizatorii și Grupuri Utilizatori pot accesa. Rolurile cu acces la „Fără înregistrări” pot accesa doar configurația de sistem, cum ar fi Formulare, Utilizatori și Rapoarte.
+        label: Ce înregistrări impactează acest rol?
+      incident:
+        actions:
+          change_log:
+            explanation: Utilizatorul vedea un istoric al tuturor modificărilor aduse înregistrării de când a fost creată. Aceasta include valorile înregistrate pentru toate câmpurile.
+            label: Istoric Modificări
+          create:
+            explanation: Posibilitatea de a crea un incident.
+            label: Creează
+          enable_disable_record:
+            explanation: Posibilitatea de a dezactiva sau activa un Incident. Incidentele „Dezactivate” nu apar implicit în lista de incidente. Utilizatorii pot vedea Incidentele dezactivate în lista de Incidente aplicând un filtru.
+            label: Activare/ dezactivare
+          export_case_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export PDF
+          export_csv:
+            explanation: Utilizatorul poate genera un fișier CSV pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate incidentele la care are acces utilizatorul.
+            label: Export CSV
+          export_custom:
+            label: Export personalizat
+          export_incident_recorder_xls:
+            explanation: Utilizatorul poate genera un export specializat de fișiere XLS, care permite schimbul de date cu instrumentul GBV Înregistrare Incident.
+            label: Export registru incident xls
+          export_json:
+            explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate incidentele la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte incidente din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
+            label: Export JSON
+          export_list_view_csv:
+            explanation: Utilizatorul poate genera un export CSV din pagina cu liste de incidente care să conțină aceleași câmpuri ce apar pentru respectivul utilizator în lista de incidente. Poate fi efectuat doar din pagina cu lista de incidente.
+            label: Export tip listă csv
+          export_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export PDF
+          export_xls:
+            explanation: Utilizatorul poate genera un export XLS din lista de incidente sau din paginile de prezentare a incidentelor, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate cazurile la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează un caz în aplicație.
+            label: Export Excel (XLS)
+          flag:
+            explanation: Posibilitatea de a adăuga un marcaj la un Incident. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la un Incident.
+            label: Marcaj
+          import:
+            explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
+            label: Import
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra incidentelor. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza un incident
+            label: Vizualizare
+          sync_mobile:
+            explanation: Această permisiune permite, în general, utilizatorului să utilizeze aplicația mobilă. În primul rând, permite utilizatorului să vadă acțiunile „Marcați pentru mobil” și „Anulați marcarea pentru mobil”, care apar pe lista de incidente și pe paginile de afișare a incidentelor. Marcarea unui incident pentru mobil indică faptul că informațiile despre acel incident ar trebui sincronizate între dispozitivul mobil al utilizatorului și aplicația web, în ​​timp ce anularea marcarii unui incident pentru mobil oprește această sincronizare. De asemenea, utilizatorii fără această permisiune nu își pot sincroniza dispozitivele mobile cu aplicația web în general, ceea ce înseamnă că nu pot folosi aplicația mobilă pentru a gestiona incidentele.
+            label: Sincronizare cu un dispozitiv mobil
+          write:
+            explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informațiile despre incident și de a selecta „Salvare”. În plus, permite utilizatorului să dezactiveze sau să activeze un incident.
+            label: Editare
+        explanation: Reprezintă un eveniment care a avut loc. Acestea sunt de obicei incidente de abuz sau violență, deși pot corespunde și unor evenimente precum întâlniri cu forțele de ordine. Incidentele sunt adesea legate de Cazuri.
+        label: Incident
+      is_manager:
+        explanation: Se aplică oricărui rol de utilizator care, în general, supervizează alți utilizatori. Acest lucru permite unui utilizator să vadă dashboard-uri și filtre care îl ajută pe utilizator să gestioneze o echipă.
+        label: Este Manager?
+      managed_report:
+        actions:
+          violations:
+            label: Abuzuri
+          gbv_statistics:
+            label: Statistici GBV/ Violență pe bază pe gen
+      matching_configuration:
+        actions:
+          manage:
+            explanation: Posibilitatea de a controla ce câmpuri sunt comparate pentru a găsi potriviri între solicitarea de urmărire și cazuri. Deoarece aceasta controlează modul în care se execută potrivirea în întregul sistem, permisiune ar trebui, în general, să fie disponibilă numai pentru administratorul de sistem.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+        explanation: Controlează ce câmpuri sunt folosite pentru a compara Solicitări urmărire cu Cazurile în timpul Urmăririi și Reunificării familiei.
+        label: Configurație Potrivire
+      metadata:
+        actions:
+          manage:
+            explanation: Posibilitatea de a crea, edita, traduce și șterge formulare, câmpuri ale formularelor și căutări. Te rugăm să reții că un utilizator cu această permisiune va putea gestiona doar formularele la care are acces. De exemplu, dacă un administrator național are acces la formularul Proprietar înregistrare, atunci acesta va putea doar să actualizeze configurația pentru acest formular.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+        explanation: Controlează posibilitatea de a configura formularele și câmpurile Primero, precum și opțiunile de căutare utilizate în cadrul acestora.
+        label: Formulare, Căutări
+      module:
+        actions:
+          cp:
+            label: CP
+          gbv:
+            label: GBV/ Violență pe bază pe gen
+          mrm:
+            label: MRM/ Mecanism monitorizare și raportare
+        explanation: Controlează căror module se aplică acest rol
+        label: Module
+      potential_match:
+        actions:
+          read:
+            explanation: Reprezintă legătura dintre o Solicitare urmărire și un Caz. Accesul la Potriviri potențiale este necesar pentru activitatea de Urmărire și Reunificare a Familiei (FTR). Permite utilizatorului să vadă formularul Rezumat urmărire pe Cazuri.
+            label: Vizualizare
+        label: Potrivire potențială
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Posibilitatea de a salva, aplica și transmite Configurații. Această facilitate este de obicei rezervată administratorului de sistem.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+        label: Configurare
+      referral:
+        actions:
+          refer:
+            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de referire, exportul pe care Primero îl generează atunci când utilizatorul trimite referirea va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Preocupări protecție, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
+            label: Poate fi folosit acest rol pentru Referiri externe?
+        label: Referire
+      registry_record:
+        actions:
+          change_log:
+            explanation: Utilizatorul vedea un istoric al tuturor modificărilor aduse înregistrării de când a fost creată. Aceasta include valorile înregistrate pentru toate câmpurile.
+            label: Istoric Modificări
+          create:
+            explanation: Posibilitatea de a crea un Registru înregistrare
+            label: Creează
+          enable_disable_record:
+            explanation: Posibilitatea de a dezactiva sau activa un Registru înregistrări. Înregistrările „Dezactivate” nu apar implicit în lista Registru. Utilizatorii pot vedea înregistrările registru dezactivate în lista Registru aplicând un filtru.
+            label: Activare/ dezactivare
+          export_csv:
+            explanation: 'Utilizatorul poate genera un fișier CSV pentru export din lista Registru sau din paginile de prezentare Registru, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate registrele la care are acces utilizatorul. NOTĂ: Formatul CSV nu redă caractere non-latine (de exemplu, Arabă, Bangla)'
+            label: Export CSV
+          export_json:
+            explanation: Utilizatorul poate genera un fișier JSON pentru export din lista Registru sau din paginile de prezentare Registru, cuprinzând toate câmpurile la care are acces utilizatorul. Formatul JSON este adaptat pentru sistemele informatice și nu este practic pentru majoritatea utilizatorilor.
+            label: Export JSON
+          export_xls:
+            explanation: 'Utilizatorul poate genera un fișier XLS pentru export din lista Registru sau din paginile de prezentare Registru, cuprinzând toate câmpurile la care are acces utilizatorul. Formatul XLS redă caractere non-latine (de exemplu, arabă, bangla) într-un format care poate fi citit, în timp ce exportul CSV nu face asta.'
+            label: Export Excel (XLS)
+          flag:
+            explanation: Posibilitatea de a adăuga un marcaj la un Registru înregistrare. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la un Registru înregistrare.
+            label: Marcaj
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile în Registru înregistrări. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza Registru înregistrări
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informații în Registru înregistrare și de a selecta „Salvare”
+            label: Editează
+          sync_mobile:
+            explanation: Permite utilizatorului să memoreze în cache Registrul înregistrări pentru utilizare offline.
+            label: Marchează pentru offline
+        explanation: Aceasta poate reprezenta o persoană/ instituție care trebuie să fie conectată cu alte înregistrări, cum ar fi cazuri sau incidente; sunt foarte numeroase și sunt actualizate în mod repetat cu informații noi. Sunt similare căutărilor, dar cu un set mai complex de informații pentru fiecare intrare.
+        label: Registru înregistrare
+      report:
+        actions:
+          create:
+            explanation: Posibilitatea de a crea un nou raport. Când un utilizator creează un raport, acesta devine vizibil pentru toți utilizatorii cu acces „Citire” sau „Citire grup” la rapoarte.
+            label: Creează
+          group_read:
+            explanation: Permisiunea de a vizualiza toate rapoartele. Cifrele din fiecare raport fac referire doar la acele înregistrări accesibile celor din grupurile de utilizatori ale utilizatorului. Această opțiune este adesea folosită de către utilizatorii cu rol de administrator la nivel local, regional sau de către organizațiile/ instituțiile care doresc să obțină informații despre performanța propriilor echipe. Această permisiune oferă utilizatorului și posibilitatea de a exporta date dintr-un raport.
+            label: Vizualizare (date de grup)
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra Organizațiilor/ instituțiilor. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza toate rapoartele. Numerele din fiecare raport vor reflecta toate înregistrările din sistem, mai degrabă decât doar înregistrările la care are acces utilizatorul curent. Această permisiune oferă utilizatorului și posibilitatea de a exporta date dintr-un raport.
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a edita toate rapoartele (inclusiv cele create de alți utilizatori)
+            label: Editare
+        explanation: Instrument de analiză a datelor agregate. Include reprezentări sub formă de tabele și grafice pentru date.
+        label: Raport
+      reporting_location_level:
+        explanation: 'Aceasta controlează ce nivel al localizării va apărea pentru acest Rol în dashboard, filtre, ferestrele modale de referire și transfer. Dacă lași acest câmp necompletat, Rolul va avea acces la nivelul implicit al sistemului asociat Locației Raportare.'
+        label: Ce tip de locație ar trebui utilizat pentru raportare pentru acest rol?
+      role:
+        actions:
+          assign:
+            explanation: Posibilitatea de a selecta un rol la crearea sau editarea unui cont de utilizator. Această permisiune este necesară pentru orice rol care va presupune crearea sau editarea conturilor de utilizator.
+            label: Asignează
+          copy:
+            explanation: Posibilitatea de a crea o copie a unui rol. Acest lucru este util pentru administratorii de sistem care pot crea o serie de roluri care sunt extrem de asemănătoare între ele (de exemplu, furnizorii de servicii).
+            label: Copiază
+          create:
+            explanation: Posibilitatea de a crea un rol
+            label: Creează
+          delete:
+            explanation: Posibilitatea de a șterge un rol.
+            label: Șterge
+          manage:
+            explanation: 'Permite unui utilizator să efectueze toate acțiunile disponibile asupra rolurilor. Permisiunea „Gestionează” înseamnă în esență „totul”. IMPORTANT: Această opțiune oferă și posibilitatea de a crea și de a șterge roluri.'
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          permitted_roles:
+            explanation: Dacă un rol are permisiunea de a efectua oricare dintre acțiunile de mai sus pe un rol, atunci va putea efectua acele acțiuni pe rolurile specificate în listă. De exemplu, dacă un rol are permisiunea de „Citire” și „Asignare”, dar are listate la „Roluri gestionate” doar „CP Responsabil caz” și „CP Manager”, va putea vedea doar acele două roluri și va putea aloca utilizatori noi doar acelor două roluri. Dacă același rol nu are specificat nimic la „Roluri gestionate”, atunci va putea vedea toate rolurile și va putea crea noi conturi de utilizator cu orice rol în sistem.
+            label: Alte roluri coordonate sub acest rol
+          read:
+            explanation: Posibilitatea de a vedea roluri
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a selecta butonul „Editare” de pe pagina de afișare a rolului, de a actualiza permisiunile rolului și apoi de a salva rolul.
+            label: Editează
+        explanation: Stabilește ce acțiuni poate efectua un utilizator în Primero.
+        label: Roluri
+      system:
+        actions:
+          manage:
+            explanation: Posibilitatea de a vedea și actualiza informațiile despre informațiile de contact ale sistemului, despre setările implicite de notificare și despre e-mailul de bun venit, precum și despre serverele sincronizate. Această permisiune este de obicei rezervată administratorului de sistem
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+        explanation: Setări diverse de configurare la nivelul întregului sistem.
+        label: Sistem
+      tracing_request:
+        actions:
+          change_log:
+            explanation: Utilizatorul vedea un istoric al tuturor modificărilor aduse înregistrării de când a fost creată. Aceasta include valorile înregistrate pentru toate câmpurile.
+            label: Istoric Modificări
+          create:
+            explanation: Posibilitatea de a crea o solicitare de urmărire
+            label: Creează
+          enable_disable_record:
+            explanation: Posibilitatea de a dezactiva sau activa o Solicitare urmărire. Solicitările de urmărire „Dezactivate” nu apar implicit în lista cu solicitări de urmărire. Utilizatorii pot vedea solicitările de urmărire dezactivate în lista de Solicitări urmărire aplicând un filtru.
+            label: Activare/ dezactivare
+          export_case_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista cu solicitări urmărire sau din paginile de prezentare a solicitărilor de urmărire, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate solicitările de urmărire la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export PDF
+          export_csv:
+            explanation: Utilizatorul poate genera un fișier CSV pentru export din lista cu Solicitări urmărire sau din paginile de prezentare a solicitărilor de urmărire, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate solicitările de urmărire la care are acces utilizatorul.
+            label: Export CSV
+          export_custom:
+            explanation: Utilizatorul poate genera un export XLS din lista cu solicitări urmărire sau din paginile de prezentare a solicitărilor urmărire, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate solicitările de urmărire la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează o solicitare de urmărire în aplicație.
+            label: Export personalizat
+          export_json:
+            explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista cu solicitări de urmărire sau din paginile de prezentare a solicitărilor de urmărire, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate solicitările de urmărire la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte incidente din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
+            label: Export JSON
+          export_list_view_csv:
+            explanation: Utilizatorul poate genera un export CSV din pagina cu liste de solicitări urmărire care să conțină aceleași câmpuri ce apar pentru respectivul utilizator în lista cu solicitări urmărire. Poate fi efectuat doar din pagina cu lista de solicitări urmărire.
+            label: Export tip listă CSV
+          export_pdf:
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista cu solicitări urmărire sau din paginile de prezentare a solicitărilor de urmărire, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate solicitările de urmărire la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            label: Export PDF
+          export_xls:
+            explanation: 'Utilizatorul poate genera un fișier XLS pentru export din lista Solicitpri urmărire sau din paginile de prezentare a solicitărilor de urmărire, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate solicitările de urmărire la care are acces utilizatorul. În acest export, fiecare formular este reprezentat în propriul tab în cadrul fișierului XLS. NOTĂ: Formatul XLS redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care poate fi citit, în timp ce exportul CSV nu face asta.'
+            label: Export Excel (XLS)
+          flag:
+            explanation: Posibilitatea de a adăuga un marcaj la o solicitare urmărire. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la o solicitare de urmărire.
+            label: Marcaj
+          import:
+            explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
+            label: Import
+          manage:
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra solicitărilor de urmărire. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vizualiza o solicitare de urmărire. Rolurile cu permisiunea de a vedea solicitările de urmărire ar trebui să aibă și permisiunea de a vedea tipul de înregistrare Potrivire Potențială.
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informațiile despre solicitarea de urmărire și de a selecta „Salvare”. În plus, permite utilizatorului să dezactiveze sau să activeze o solicitare de urmărire.
+            label: Editare
+        explanation: Reprezintă o persoană care încearcă să găsească și să se reunească cu un caz neînsoțit sau separat.
+        label: Solicitare urmărire
+      transfer:
+        actions:
+          transfer:
+            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de transfer, exportul pe care Primero îl generează atunci când utilizatorul trimite  transferul va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Preocupări protecție, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
+            label: Poate fi folosit acest rol pentru transferuri externe?
+        label: Transfer
+      user:
+        actions:
+          agency_read:
+            explanation: Posibilitatea de a vedea numai acele conturi de utilizator din organizația/ instituția utilizatorului curent. Acest lucru afectează și conturile de utilizator pe care utilizatorul curent poate efectua alte acțiuni. De exemplu, dacă utilizatorul actual are permisiunea „Scrie” asupra utilizatorilor, dar are și permisiunea Citire organizație/ instituție, va putea edita doar conturile de utilizator care se află în propria organizație/ instituție. În mod similar, dacă utilizatorul actual are permisiunea „Gestionează” asupra utilizatorilor, dar are și permisiunea „Citire organizație/ instituție”, acesta va putea să creeze utilizatori numai pentru propria organizație/ instituție.
+            label: Vizualizare (în interiorul organizației/ instituției)
+          create:
+            explanation: Posibilitatea de a crea un cont de utilizator
+            label: Creează
+          manage:
+            explanation: 'Permite unui utilizator să efectueze toate acțiunile disponibile pe utilizatori. Permisiunea „Gestionează” înseamnă în esență „totul”. IMPORTANT: Această opțiune oferă și posibilitatea de a crea conturi de utilizator.'
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vedea conturile de utilizator. În mod implicit, fiecare utilizator are permisiunea de a vedea și edita informații despre propriul cont de utilizator (de exemplu, parolă, e-mail).
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a selecta butonul „Editare” de pe pagina de afișare a utilizatorului, de a actualiza informațiile despre utilizator și apoi de a le salva. Te rugăm să reții că această permisiune oferă și posibilitatea de a dezactiva conturile de utilizator.
+            label: Editare
+        explanation: Reprezintă un cont individual de utilizator.
+        label: Utilizatori
+      user_group:
+        actions:
+          assign:
+            explanation: Posibilitatea de a alege grupuri de utilizatori la crearea sau editarea unui cont de utilizator. Te rugăm să reții că, dacă utilizatorul actual are nivelul de acces „doar înregistrările sau utilizatorii din grupul meu”, acesta va putea selecta doar unul sau mai multe dintre *propriile* grupuri de utilizatori pentru contul de utilizator pe care îl creează sau îl editează. Aceasta înseamnă că un manager cu permisiunea de a atribui grupuri de utilizatori ar putea doar să adauge un utilizator la grupurile de utilizatori din care face parte managerul în prezent. Această permisiune este necesară pentru orice rol care presupune crearea sau editarea conturilor de utilizator.
+            label: Asignează
+          create:
+            explanation: Posibilitatea de a crea un grup de utilizatori
+            label: Creează
+          delete:
+            explanation: Posibilitatea de a șterge un grup de utilizatori.
+            label: Ștergere
+          manage:
+            explanation: 'Permite unui utilizator să efectueze toate acțiunile disponibile asupra grupurilor de utilizatori. Permisiunea „Gestionează” înseamnă în esență „totul”. IMPORTANT: Această opțiune oferă și posibilitatea de a crea și de a șterge grupuri de utilizatori.'
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+          read:
+            explanation: Posibilitatea de a vedea Grupuri utilizatori
+            label: Vizualizare
+          write:
+            explanation: Posibilitatea de a edita Grupuri utilizatori
+            label: Editare
+        explanation: Reprezintă o echipă sau un grup colaborativ de utilizatori care pot partaja informații. Managerii pot vedea de obicei toate înregistrările gestionate de asistenții sociali din propriile Grupuri de utilizatori.
+        label: Grupuri utilizatori
+      webhook:
+        actions:
+          read:
+            label: Vizualizare
+            explanation: Posibilitatea de a lista și revizui configurațiile webhook prin intermediul API
+          write:
+            label: Editare
+            explanation: Posibilitatea de a lista și revizui configurațiile webhook prin intermediul API
+          create:
+            explanation: Posibilitatea de a crea configurații webhook prin intermediul API.
+            label: Creează
+          delete:
+            explanation: Posibilitatea de a șterge configurații webhook prin intermediul API.
+            label: Șterge
+          manage:
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+      activity_log:
+        actions:
+          transfer:
+            explanation: Utilizatorul poate da click în secțiunea Istoric Activitate a dashboard-ului și poate vedea istoricul cu toate transferurile acceptate sau respinse pentru cazurile la care are acces.
+            label: Transferuri
+          manage:
+            label: Gestionează (toate permisiunile pentru acest tip de resursă)
+        label: Istoric Activitate
+  potential_match:
+    case_id: ID caz
+    child_age: Vârsta
+    child_gender: Gen
+    child_id: copil id# 
+    inquirer_id: id# solicitant
+    inquirer_tr_name: solicitare urmărire
+    inquiry_date: data interogării
+    name: Nume
+    score: Scor
+    social_worker: Asistent social
+    social_worker_agency: Organizația/ instituția
+    tracing_request_id: ID Solicitare urmărire
+    trace: Urmărire
+    likelihood_likely: Probabil
+    likelihood_possible: Posibil
+  potential_matches:
+    display: Afișează potențiale potriviri pentru %{type}%{id}
+  reassign:
+    multiple_error: S-a produs o eroare. %{select_records} caz(uri) neasignate.
+    multiple_successfully: '%{select_records} caz(uri) asignat(e) cu succes'
+    notes_label: Notițe
+    successfully: Reasignate cu succes
+    user_mandatory_label: Beneficiarul este obligatoriu
+    users_label: Beneficiar
+  record_information:
+    assigned_user_names: Alți Utilizatori asignați
+    created_at: Înregistrare creată la
+    created_by: Înregistrare creată de către
+    created_organization: Creat de organizația/ instituția
+    current_owner_separator: Proprietar actual
+    module_id: Modul
+    owned_by: Cod Responsabil caz
+    owned_by_agency_id: Organizația/ instituția
+    owned_by_text: Asistentul social/ responsabilul de caz
+    previously_owned_by: Proprietar anterior
+    previously_owned_by_agency: Organizația/ instituția anterioară
+    reassigned_tranferred_on: 'Reasignat/ Transferat '
+    record_history_separator: Istoric înregistrări
+    last_updated_at: Ultima actualizare la
+    last_updated_by: Ultima actualizare de către
+  record_panel:
+    record_information: Istoric informații
+  referral:
+    type_of_recipient: Tip beneficiar
+    type_of_referral_required: Tip Referire este obligatoriu
+    agency_label: Organizația/ instituția
+    is_remote_label: Referi către un sistem la distanță?
+    location_label: Locație
+    notes_label: Notițe
+    notes_on_referral: Notițe despre referire
+    note_on_referral_from_provider: Notițe cu privire la referire de la furnizor
+    provided_consent_label: Consimțământul nu este furnizat în Formulare.
+    recipient_label: Beneficiar
+    refer_anyway_label: Referiți oricum?
+    service_label: Serviciu
+    success: '%{record_type}%{id} referit cu succes'
+    user_mandatory_label: Beneficiarul este obligatoriu
+    date: Data
+    rejected_reason: Motiv respingere
+  report:
+    aggregate_by: Grupare în funcție de rând
+    attribute: Atribut
+    constraint: Constrângere
+    date_ranges:
+      date: Zi
+      month: Luna
+      quarter: Trimestru
+      quarter_abbr: Q%{quarter}
+      week: Săptămâna
+      year: Anul
+    description: Descriere
+    disabled:
+      explanation: Dacă dezactivezi acest raport, acesta nu va apărea în rapoartele disponibile.
+      label: Dezactivat
+    exclude_empty_rows: Nu afișa rândurile libere
+    disaggregate_by: Grupare în funcție de coloană
+    filters:
+      label: Filtre raportare
+      label_new: Nou Filtru raportare
+      attribute: Filtru
+      value: Cu
+      not_null: Nu este gol?
+      less_than: Mai puțin de
+      greater_than: Mai mare decât
+      equal_to: Egal cu
+      not_blank: Nu este gol
+      is: Este
+      before: Înainte
+      after: După
+      delete_filter_message: Sigur dorești ștergerea acestui filtru?
+    group_ages: Utilizează intervale de vârstă
+    group_dates_by: Utilizează intervale pentru dată
+    is_graph: Generează un grafic?
+    messages:
+      delete_success: Raportul a fost șters cu succes.
+      success: Raportul a fost creat cu succes.
+      updated: Raportul a fost actualizat cu succes.
+    modules: Module
+    name: Nume
+    name_mandatory: Numele este obligatoriu
+    no_data: Nu există date pentru acest raport
+    no_filters_added: Niciun filtru adăugat
+    not_selected: Neselectat
+    record_type: Tip înregistrare
+    total: Total
+    value: Valoare
+  reports:
+    delete_report: Ștergere raport
+    delete_report_message: Sigur dorești să ștergi acest raport? Ștergerea nu poate fi anulată. Selectează OK pentru a șterge raportul
+    label: Rapoarte
+    register_new_report: Creare raport
+    translations:
+      edit: Editare traduceri
+      manage: Gestionare traduceri
+      select_language: Selectare limbă
+    error_loading: Eroare Încărcare Rapoarte
+  request_transfer:
+    notes_label: Notițe
+    submit_label: Trimite solicitare
+    success: Cerere de transfer trimisă
+  role:
+    agency_ids_label: Organizații/ instituții sub acest rol
+    copy_failure: Eroare copiere Rol. Asigură-te că numele nu intră în conflict cu alt Rol.
+    copy_success: Rol copiat cu succes.
+    create: Creare rol
+    delete_header: Ștergere rol
+    description: Descriere
+    edit: Editare rol
+    error_in_updating: Eroare de modificare a detaliilor de rol
+    group_permission_label: Ce înregistrări impactează acest rol?
+    label: Rol
+    manager: Manager
+    messages:
+      confirmation: Sigur dorești ștergerea acestui rol? Ștergerea nu poate fi anulată apoi. Selectează OK pentru a șterge rolul.
+      created: Rolul a fost creat cu succes.
+      deleted: Rol șters cu succes.
+      updated: Rolul a fost actualizat cu succes.
+    name: Nume
+    referral_label: Poate fi folosit acest rol pentru Referiri?
+    reporting_location_level_label: Ce tip de locație ar trebui utilizat pentru raportare pentru acest rol?
+    role_ids_label: Alte roluri coordonate sub acest rol
+    successfully_updated: Detaliile rolului actualizate cu succes
+    transfer_label: Poate fi folosit acest rol pentru transferuri?
+    hide: Ascunde
+    read: Arată
+    read_write: Arată și Editează
+  roles:
+    label: Roluri
+  saved_search:
+    deleted: Căutare Șterse cu succes
+    filters_tab: Filtre
+    no_filters: Nu sunt filtre selectate
+    save_success: Căutare salvată cu succes.
+    saved_searches_tab: Căutări salvate
+    title_description: Sigur dorești să ștergi această căutare salvată?
+    title_modal: Ștergere căutări salvate
+  saved_searches:
+    no_save_searches: Nu aveți căutări salvate.
+    save_search: Salvare căutări
+  settings:
+    navigation:
+      agencies: Organizații/ instituții
+      audit_logs: Istoric Audit
+      configurations: Configurări
+      contact_information: Informații de contact
+      forms: Formulare
+      locations: Locații
+      lookups: Căutări
+      user_groups: Grupuri utilizatori
+      users: Utilizatori
+      roles: Roluri
+      code_of_conduct: Cod etic
+    title: Setări
+  system_settings:
+    label: Setări sistem
+  task:
+    due_date: Data scadentă
+    id: ID#
+    name: Nume
+    priorities:
+      high_level: Ridicat
+      low_level: Redus
+      medium_level: Mediu
+      no_action_level: Nicio acțiune
+    priority: Prioritate
+    status: Status
+    statuses:
+      overdue: Restante
+      upcoming_soon: Aproape scadent
+    type: Tip acțiune
+    types:
+      assessment: Evaluare
+      case_plan: Plan servicii
+      follow_up: Revenire - %{subtype}
+      service: Serviciu - %{subtype}
+  tracing_request:
+    label: Solicitare urmărire
+    has_match: Are Potrivire
+    find_match: Găsire Potriviri
+    back_to_traces: Înapoi la Urmăriri
+    back_to_potential_matches: Înapoi la Potriviri potențiale
+    traces: Urmăriri
+    trace: Urmărire
+    match: Potrivire
+    matches: Potriviri
+    unmatch: Non-potrivire
+    messages:
+      already_matched: Există deja o potrivire în sistem cu un solicitant care caută acest copil.
+      disabled: Dezactivare solicitare urmărire
+      nothing_found: Nimic găsit
+      update_success: 'Solicitare urmărire %{record_id}a fost actualizată cu succes.'
+      creation_success: Solicitare urmărire înregistrare creată cu succes.
+      update_success_queue: 'Solicitare urmărire %{record_id} a fost actualizată cu succes în fundal.'
+      creation_success_queue: Solicitare urmărire înregistrare creată cu succes în fundal.
+      match_action: Potrivire cu succes între Urmărire %{trace_id} și Caz %{record_id}.
+      unmatch_action: Non-potrivire între Urmărire %{trace_id} și Caz %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Registru înregistrare %{record_id}actualizat cu succes.'
+      creation_success: 'Registru înregistrare creat cu succes.'
+      disabled: Registru înregistrare dezactivat
+  tracing_requests:
+    date_of_inquiry: Data interogării
+    disable_dialog_title: Dezactivare solicitare urmărire
+    disable_dialog: Selectând OK vei modifica statusul solicitării de urmărire în Dezactivat.
+    disable_success: Solicitare urmărire dezactivată cu succes
+    enable_dialog: Selectând OK vei modifica statusul solicitării de urmărire în Activat.
+    enable_dialog_title: Activare solicitare urmărire
+    enable_success: Solicitare de urmărire activată cu succes.
+    id: ID
+    filter_by:
+      by_date: În funcție de Dată
+      location_separation: Locația separării
+      separation_cause: Cauza separării
+      status: Status
+    label: Solicitări urmărire
+    name_of_inquirer: Nume solicitant
+    inquirer: Solicitant
+    name: Nume
+    register_new_tracing_request: O nouă solicitare urmărire
+    selectable_date_options:
+      inquiry_date: Data interogării
+    selected_records: '%{select_records}solicitări de urmărire selectate'
+    selected_all_records: 'Selectează toate %{total_records}solicitările de urmărire care se potrivesc cu această  interogare.'
+    show_tracing_request: 'ID solicitare urmărire %{short_id}'
+    tracing_requests: Solicitări urmărire
+    export: Export
+  registry_records:
+    id: ID
+    label: Registru înregistrări
+    name: Nume
+    registry_no: Număr Registru
+    location: Locație
+    registration_date: Dată înregistrare
+    selected_records: '%{select_records} Registre înregistrări selectate'
+    selected_all_records: 'Selectează toate %{total_records} registrele înregistrări care se potrivesc cu această  interogare.'
+    disable_dialog_title: Dezactivare Registru înregistrare
+    disable_dialog: Selectând OK vei modifica statusul acestui registru de înregistrări în Dezactivat.
+    disable_success: Registru înregistrare dezactivat cu succes
+    enable_dialog_title: Activează Registru înregistrare
+    enable_dialog: Selectând OK vei modifica statusul acestui Registru înregistrare în Activat.
+    enable_success: Registru înregistrare activat cu succes
+    filter_by:
+      by_date: În funcție de Dată
+      status: Status
+    selectable_date_options:
+      registration_date: Dată înregistrare
+    show_registry_record: 'ID Registru înregistrare: %{short_id}'
+    register_new_registry_record: Nou Registru înregistrare
+    export: Export
+    mark_for_offline:
+      title: Marchează pentru offline
+      text: Sigur dorești marcarea acestui registru înregistrări pentru a fi utilizat atunci când ești offline?
+      success: Registru înregistrări marcat cu succes pentru uz offline
+  transfer:
+    label: Transfer
+    agency_label: Organizația/ instituția
+    consent_from_individual_label: Aveți consimțământul persoanei pentru a efectua acest transfer?
+    consent_label: înregistrările nu au furnizat consimțământul.
+    consent_override_label: Dorești să înlocuiești această setare?
+    is_remote_label: Transferi către un sistem la distanță?
+    location_label: Locație
+    notes_label: Notițe
+    provided_consent_label: Consimțământul nu este furnizat în Formulare.
+    recipient_label: Beneficiar
+    select_label: Selectează...
+    success: Transferat cu succes
+    transfer_label: Transferi oricum?
+    user_mandatory: Beneficiarul este obligatoriu
+    rejected_reason: Motiv respingere
+  transfer_assignment:
+    title: Transferuri și Sarcini
+  transition:
+    agency_label: Organizația/ instituția
+    assigned_by: Asignat de către
+    consent_individual_transfer_value:
+      true_label: 'Da'
+      false_label: 'Nu'
+    consent_overridden_value:
+      false_label: 'Nu'
+      true_label: 'Da'
+    errors:
+      consent: Consimțământul nu a fost furnizat
+      to_user_can_receive: Acest utilizator nu poate primi înregistrarea
+    individual_consent: Responsabilul de caz a avut acordul persoanei pentru a face acest transfer?
+    no_consent_share: Consimțământul pentru partajare a fost suprascris?
+    notes: Notițe
+    recipient: Beneficiar
+    rejected: Motiv respingere
+    requested_by: Solicitat de către
+    service_label: Serviciu
+    responded_at: A răspuns la
+    status:
+      accepted: Acceptat
+      done: Finalizat
+      in_progress: În așteptare
+      inprogress: În așteptare
+      rejected: Respins
+      revoked: Revocat
+    type:
+      assign: Asignează
+      reassign: Asignează
+      referral: Referire
+      external_referral: Referire externă
+      transfer: Transfer
+      transferRequest: Solicitare transfer
+  user:
+    agency_office: Birou Organizație/ instituție (câmp GBV)
+    code: Cod utilizator
+    disabled: Dezactivat
+    email: E-mail
+    full_name: Nume întreg
+    identity_provider: Furnizor identitate
+    invalid_provider_username: 'Format invalid pentru utilizator. Exemplu: utilizatorul.meu@%{domain}'
+    label: Utilizator
+    language: Limba
+    locale: Local
+    location: Locație
+    messages:
+      confirmation: Sigur dorești să ștergi acest utilizator? Ștergerea nu poate fi anulată. Selectează OK pentru a șterge utilizatorul
+      created: Utilizatorul a fost creat cu succes.
+      failure: S-a produs o eroare, te rugăm să contactezi echipa de suport.
+      new_confirm_html: Ești pe punctul de a invita utilizatorul <b>%{username}</b>de la <b>%{identity}</b> cu rol de <b>%{role}</b> să utilizeze Primero. Un e-mail de confirmare va fi trimis către <b>%{email}</b>. Vrei să continui?
+      new_confirm_non_identity_html: Ești pe punctul de a invita utilizatorul <b>%{username}</b>cu rol de <b>%{role}</b>să se alăture Primero. Un e-mail de confirmare va fi trimis către <b>%{email}</b>. Vrei să continui?
+      not_found: Utilizatorul cu acest ID nu poate fi găsit
+      password_changed_successfully: Parolă schimbată cu succes
+      passwords_do_not_match: nu se potrivește cu parola actuală
+      time_zone_updated: Modificarea a fost făcută cu succes.
+      updated: Utilizator actualizat cu succes.
+    organization: Organizație
+    agency: Organizația/ instituția
+    services_help_text: Dacă serviciile nu sunt specificate, acestui utilizator îi vor fi asociate aceleași servicii pe care le are organizația/ instituția sa.
+    password_setting:
+      label: Cum ar trebui Primero să seteze parola utilizatorului?
+      self: Eu voi seta parola
+      user: Utilizatorul va seta parola folosind e-mailul de bun venit
+      help_text: Te rugăm să reții că dacă în calitate de administrator setezi parola manual va trebui să o partajezi utilizatorului într-un mod sigur.
+    password_reset_header: Trimite e-mail resetare parolă
+    password_reset_text: Dacă selectezi „Trimite”, acest utilizator va primi un e-mail cu un link pentru a-și reseta parola.
+    password_reset_request: Trimite e-mail resetare parolă
+    password: Parolă
+    password_confirmation: Confirmare parolă
+    phone: Telefon
+    position: Poziție
+    provider_username_help: 'Exemplu: utilizatorul.meu@%{domain}'
+    role_id: Rol
+    send_mail: Primește notificări prin e-mail?
+    user_group_unique_ids: Grupuri utilizatori
+    user_name: Utilizator
+    services: Servicii
+    welcome_email:
+      subject: 'Bun venit la %{system}!'
+      greeting: 'Bun venit la %{system}!'
+      body_native: 'Ai fost adăugat ca %{role_name}. Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru instrucțiuni ulterioare astfel încât să poți lucra cu %{host}.'
+      sso:
+        body: 'Ai fost adăugat ca %{role_name}.'
+        step1: 'Mergi la %{host}și selectează %{identity_provider}.'
+        step2: 'Autentifică-te cu %{identity_provider} cont %{user_name}.'
+        step3: 'Utilizează parola frecvent utilizată pentru contul tău %{identity_provider}.'
+        footer: 'Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru noi detalii.'
+      otp:
+        body: 'Ai fost adăugat ca %{role_name}.'
+        step1: 'Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru a primi numele de utilizator.'
+        step2: 'Mergi la %{host}și selectează "autentificare cu numele de utilizator Primero".'
+        step3: 'Autentifică-te cu numele de utilizator și parola temporară %{otp}.'
+        step4: 'Când este solicitat, resetează parola.'
+      url_label: Primero
+      enabled_label: Trimite e-mail de bun venit?
+      text_label: E-mail de bun venit
+    password_reset:
+      subject: 'Instrucțiuni resetare parolă'
+      email_greeting: "Dragă %{full_name},"
+      email_body1: "Cineva a solicitat setarea parolei %{host_href}. Apasă pe URL-ul de mai jos pentru a începe."
+      email_body2: "Acest link va expira în %{hours} ore și poate fi folosit o singură dată. Te rugăm să ignori acest e-mail dacă nu ai solicitat resetarea parolei sau dacă nu ai înregistrat un nou utilizator Primero. Dacă linkul de mai sus a expirat, selectează %{reset_request_href} pentru a retrimite o cerere de resetare a parolei."
+      email_body_link: aici
+      request_submitted: "Solicitarea de resetare a parolei a fost trimisă"
+      success: "Parolă schimbată cu succes"
+      errors:
+        reset_password_token: "Token nevalid de resetare a parolei"
+        password_confirmation: "Parolele trebuie să fie identice"
+    onboard_email:
+      subject: "Integrarea la %{system}"
+      greeting: "Dragă %{full_name},"
+      body1: "Bun venit pe Primero!"
+      body2: "Ai fost desemnat administrator de implementare pentru %{host_href}.\n%{reset_notification}"
+      body2_reset_notification: "Vei primi un e-mail suplimentar care îți va solicita să resetezi parola."
+      body3: "Ești responsabil pentru asigurarea implementării în siguranță și în timp util. Pentru fiecare lansare, ar fi trebuit să fi finalizat Planul de implementare cu strategia de integrare și de management al utilizatorilor și protocolul de partajare a informațiilor. De asemenea, ești responsabil să te asiguri că Termenii de utilizare semnați sunt în dosar pentru toți Utilizatorii organizații."
+  user_group:
+    associated_agencies: Organizații/ instituții asociate acestui grup de utilizatori.
+    description: Descriere
+    disabled:
+      explanation: Dacă dezactivezi Grup utilizatori, nu îl vei mai putea atribui conturilor de utilizator.
+      label: Dezactivat
+    messages:
+      created: Grupul de utilizatori a fost creat cu succes.
+      updated: Grupul utilizatori actualizat cu succes.
+    name: Nume
+  user_groups:
+    label: Grupuri utilizatori
+  users:
+    label: Utilizatori
+    headers:
+      full_name: Nume întreg
+      user_name: Utilizator
+      position: Poziție
+      agency: Organizația/ instituția
+  devise:
+    failure:
+      already_authenticated: "Ești deja autentificat."
+      invalid: "%{authentication_keys}sau parola nevalide."
+      locked: "Contul a fost blocat."
+      last_attempt: "Ultima încercare, după care contul va fi blocat."
+  admin:
+    locations:
+      selected_records: '%{select_records}locație (locații) selectate'
+      selected_all_records: Selectează toate %{total_records}cazuri care se potrivesc cu această interogare.
+      updated: '%{updated_records} locație (locații) actualizat(e) '

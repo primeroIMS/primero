@@ -203,6 +203,7 @@ const reportingLocations = createCachedSelector(
 
         return {
           id,
+          // eslint-disable-next-line camelcase
           display_text
         };
       });

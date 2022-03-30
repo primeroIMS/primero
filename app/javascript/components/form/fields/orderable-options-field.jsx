@@ -23,14 +23,8 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
   const [disabledAddAction, setDisabledAddAction] = useState(false);
 
   const { name } = commonInputProps;
-  const {
-    selectedValue,
-    showDefaultAction,
-    showDeleteAction,
-    showDisableOption,
-    maxOptionsAllowed,
-    optionFieldName
-  } = metaInputProps;
+  const { selectedValue, showDefaultAction, showDeleteAction, showDisableOption, maxOptionsAllowed, optionFieldName } =
+    metaInputProps;
   const fieldName = name.split(".")[0];
   const { control, setValue } = formMethods;
 
