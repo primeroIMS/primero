@@ -232,7 +232,8 @@ export const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
 export const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 // eslint-disable-next-line max-len
-export const ISO_DATE_TIME_REGEX = /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
+export const ISO_DATE_TIME_REGEX =
+  /^(?:\d{4}-\d{2}-\d{2}|\d{4}-\d{1,2}-\d{1,2}[T \t]+\d{1,2}:\d{2}:\d{2}(\.[0-9]*)?(([ \t]*)Z|[-+]\d{2}?(:\d{2})?)?)$/;
 
 export const CODE_OF_CONDUCT_DATE_FORMAT = "MMMM dd, yyyy";
 
@@ -585,6 +586,8 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
+export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
+
 export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"];
 
 export const CHART_COLORS = Object.freeze({
@@ -596,3 +599,4 @@ export const CHART_COLORS = Object.freeze({
   orange: "rgb(231, 113, 45)",
   yellow: "rgb(242, 195, 23)"
 });
+export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];

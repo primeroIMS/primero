@@ -1,5 +1,4 @@
-import uuid from "uuid";
-
+import uuid from "../../../../../../../libs/uuid";
 import { stub } from "../../../../../../../test";
 
 import generateUniqueId from "./generate-unique-id";

@@ -489,7 +489,7 @@ describe("<RecordForms /> - utils", () => {
         is_first_tab: true
       });
 
-      expect(utils.buildFormNav(approvalsForm)).to.deep.equal(expected);
+      expect(utils.buildFormNav(approvalsForm).toJS()).to.deep.equal(expected.toJS());
     });
 
     it("should return the nav without permission_actions if not defined", () => {
@@ -513,7 +513,7 @@ describe("<RecordForms /> - utils", () => {
         display_conditions: []
       });
 
-      expect(utils.buildFormNav(form)).to.deep.equal(expected);
+      expect(utils.buildFormNav(form).toJS()).to.deep.equal(expected.toJS());
     });
   });
 

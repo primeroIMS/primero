@@ -123,14 +123,14 @@ describe("<FormsList /> - Reducers", () => {
   it("should handle REORDER_FORM_GROUPS", () => {
     const currentState = fromJS({
       formSections: {
-        "1": FormSectionRecord({
+        1: FormSectionRecord({
           id: 1,
           form_group_id: "group-2",
           order_form_group: 10,
           parent_form: "parent",
           module_ids: ["module-1"]
         }),
-        "2": FormSectionRecord({
+        2: FormSectionRecord({
           id: 2,
           form_group_id: "group-1",
           order_form_group: 20,
@@ -172,7 +172,7 @@ describe("<FormsList /> - Reducers", () => {
   it("should handle REORDER_FORM_SECTIONS", () => {
     const currentState = fromJS({
       formSections: {
-        "1": FormSectionRecord({
+        1: FormSectionRecord({
           id: 1,
           unique_id: "form-1",
           form_group_id: "group-1",
@@ -180,7 +180,7 @@ describe("<FormsList /> - Reducers", () => {
           parent_form: "parent",
           module_ids: ["module-1"]
         }),
-        "2": FormSectionRecord({
+        2: FormSectionRecord({
           id: 2,
           unique_id: "form-2",
           form_group_id: "group-1",

@@ -66,11 +66,8 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
   };
 
   return (
-    <FastField
-      name={name}
-      shouldUpdate={shouldFieldUpdate}
-      locale={i18n.locale}
-      render={renderProps => {
+    <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale}>
+      {renderProps => {
         const handleOnClick = () => hideFieldValue();
 
         const fieldValue = isNil(renderProps.field.value) ? "" : renderProps.field.value;
@@ -109,7 +106,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
           </>
         );
       }}
-    />
+    </FastField>
   );
 };
 

@@ -5,18 +5,20 @@ export const setFilters = ({ recordType, data }) => ({
   payload: data
 });
 
-export const applyFilters = ({ recordType, data }) => dispatch => {
-  dispatch(setFilters({ recordType, data }));
+export const applyFilters =
+  ({ recordType, data }) =>
+  dispatch => {
+    dispatch(setFilters({ recordType, data }));
 
-  dispatch({
-    type: `${recordType}/RECORDS`,
-    api: {
-      path: `/${recordType.toLowerCase()}`,
-      params: data,
-      ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
-        db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
-      }),
-      queueOffline: true
-    }
-  });
-};
+    dispatch({
+      type: `${recordType}/RECORDS`,
+      api: {
+        path: `/${recordType.toLowerCase()}`,
+        params: data,
+        ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
+          db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
+        }),
+        queueOffline: true
+      }
+    });
+  };

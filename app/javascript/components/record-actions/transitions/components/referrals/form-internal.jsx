@@ -53,10 +53,8 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
     };
 
     return (
-      <Field
-        key={f.id}
-        name={f.id}
-        render={({ field, form, ...other }) => {
+      <Field key={f.id} name={f.id}>
+        {({ field, form, ...other }) => {
           const handleChange = data => f.onChange(data, field, form);
 
           return (
@@ -77,7 +75,7 @@ const FormInternal = ({ fields, disabled, isReferralFromService }) => {
             </>
           );
         }}
-      />
+      </Field>
     );
   });
 
