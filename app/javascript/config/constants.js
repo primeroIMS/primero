@@ -586,6 +586,8 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
+export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
+
 export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators"];
 
 export const CHART_COLORS = Object.freeze({
