@@ -2,6 +2,8 @@
 
 # An indicator that returns the perpetators of violation type killing
 class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'perpetrators'
@@ -10,10 +12,14 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select name, key, sum(value::integer) from (
+        select name, key, sum(value::integer), group_id from (
           select distinct on(p.id, violations.id, key) key, value,
+        #{grouped_date_query(params['grouped_by'],
+                             filter_date(params),
+                             table_name_for_query(params))&.concat(' as group_id,')}
           p."data"->>'armed_force_group_party_name' as name
           from violations violations
           inner join perpetrators_violations pv on pv.violation_id = violations.id
@@ -32,22 +38,12 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
           #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
       ) keys_values
-      group by key, name
+      group by key, name, group_id
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def build(current_user = nil, args = {})
-      super(current_user, args) do |result|
-        result.group_by { |r| r['name'] }.map do |_key, values|
-          values.each_with_object({}) do |curr, acc|
-            acc[:id] = curr['name']
-            acc[curr['key'].to_sym] = curr['sum']
-          end
-        end
-      end
-    end
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

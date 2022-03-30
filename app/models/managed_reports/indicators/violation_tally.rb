@@ -2,6 +2,8 @@
 
 # An indicator that returns the violation_tally of violation type killing
 class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'violation'
@@ -10,11 +12,16 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select json_object_agg(key, sum) as data
+        select json_object_agg(key, sum) as data, group_id
         from (
-        select key, sum(value::int)
+        select key,
+        #{grouped_date_query(params['grouped_by'],
+                             filter_date(params),
+                             table_name_for_query(params))&.concat(' as group_id,')}
+        sum(value::int)
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -27,16 +34,20 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
-        group by key) as violation_data;
+        group by key
+        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
+        ) as violation_data
+        group by violation_data.group_id;
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
-    def build(current_user = nil, args = {})
-      super(current_user, args) do |result|
-        ActiveSupport::JSON.decode(result.first.dig('data') || '{}')
+    def build_results(results)
+      results.to_a.map do |result|
+        { group_id: result['group_id'], data: ActiveSupport::JSON.decode(result['data']) }
       end
     end
   end

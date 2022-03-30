@@ -2,6 +2,8 @@
 
 # An indicator that returns the reporting locations of violation type killing
 class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'reporting_location'
@@ -10,14 +12,18 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
       %{
-        select name, key, sum(value::integer)
+        select name, key, sum(value::integer), group_id
         from (
             select
             key, value,
+            #{grouped_date_query(params['grouped_by'],
+                                 filter_date(params),
+                                 table_name_for_query(params))&.concat(' as group_id,')}
             (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as name
             from violations violations
             inner join incidents incidents
@@ -33,23 +39,13 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
             #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
             #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
             ) keys_values
-        group by key, name
+        group by key, name, group_id
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def build(current_user, args = {})
-      super(current_user, args) do |result|
-        result.group_by { |r| r['name'] }.map do |_key, values|
-          values.each_with_object({}) do |curr, acc|
-            acc[:id] = curr['name']
-            acc[curr['key'].to_sym] = curr['sum']
-          end
-        end
-      end
-    end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def user_reporting_location_admin_level(current_user)
       # Adding one since admin level start from 0, but string on postgres start from 1
