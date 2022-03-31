@@ -1187,6 +1187,7 @@ fr:
       transfers_assignments: Transferts / Assignation
       violation: Violation
       registry_details: Détails du registre
+      registry_record: Dossier du registre
     required_field: '%{field} est un champ obligatoire '
     select_label: 'Sélectionner '
     settings: 'Paramètres '
@@ -1669,6 +1670,7 @@ fr:
       system_information: 'Information du système '
     tasks: 'Tâches '
     tracing_request: 'Demande de traçage '
+    registry_records: Registre
   notes:
     note_success: Notes ajouté avec succès
   permissions:
@@ -1771,6 +1773,7 @@ fr:
       receive_transfer: Recevoir un transfert
       referral: 'Peut être utilisé pour une référence '
       referral_from_service: Référer le cas à partir du formulaire de service
+      registry_record: Registre
       remove_assigned_users: Supprimer les autres utilisateurs attribué (référencements)
       reopen: 'Réouvert '
       report: Rapport
@@ -2300,6 +2303,8 @@ fr:
             explanation: Cela signifie que la fonction apparaîtra comme une option pour "Type de destinataire" lorsque l'utilisateur effectue une externe. Si l'utilisateur choisit ce rôle comme type de référence, l'exportation que Primero génère lorsque l'utilisateur soumet le renvoi ne contiendra que les informations qui se trouvent dans les formulaires auxquels cette fonction a accès. Ainsi, par exemple, si l'utilisateur choisit "Fournisseur de services médicaux" comme type de destinataire, et que le rôle de fournisseur de services médicaux n'a accès qu'aux formulaires d'identité de base et de préoccupations de protection, le fichier d'exportation que Primero exporte pour la recommandation externe ne contiendra que les champs qui se trouvent dans ces deux formulaires.
             label: Ce rôle peut-il être utilisé pour les références en externes ?
         label: 'Référence '
+      registry_record:
+        label: Dossier du registre
       report:
         actions:
           create:
@@ -2482,6 +2487,8 @@ fr:
     previously_owned_by_agency: Organisation précédente
     reassigned_tranferred_on: Réassigné / Transféré le
     record_history_separator: Historique du cas
+    last_updated_at: Dernière mise à jour le
+    last_updated_by: Dernière mise à jour par
   record_panel:
     record_information: Informations Relatives au Dossier
   referral:
