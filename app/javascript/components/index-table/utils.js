@@ -23,6 +23,23 @@ export const buildComponentColumns = (componentColumns, order, orderBy) => {
   return componentColumns;
 };
 
+export const buildLocationsList = (records, columnsWithLookups) => {
+  const locationIDS = [];
+  const locationFields = columnsWithLookups
+    .filter(field =>
+      [LOOKUPS.reporting_locations, STRING_SOURCES_TYPES.LOCATION].includes(field.get("option_strings_source"))
+    )
+    .map(field => [field.get("name"), field.get("option_strings_source")]);
+
+  records.forEach(record => {
+    locationFields.forEach(locationField => {
+      locationIDS.push(record.get(locationField[0]));
+    });
+  });
+
+  return [...new Set(locationIDS)];
+};
+
 export function useTranslatedRecords({
   records = fromJS([]),
   arrayColumnsToString,
@@ -56,9 +73,13 @@ export function useTranslatedRecords({
     run: optionsList.includes(STRING_SOURCES_TYPES.AGENCY)
   });
   const allLookups = useMemoizedSelector(state => getLookupsByIDs(state, optionsList));
+
+  const locationIDS = buildLocationsList(records, columnsWithLookups);
+
   const locations = useOptions({
     source: useReportingLocations ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION,
-    run: optionsList.includes(LOOKUPS.reporting_locations || STRING_SOURCES_TYPES.LOCATION)
+    run: optionsList.includes(LOOKUPS.reporting_locations) || optionsList.includes(STRING_SOURCES_TYPES.LOCATION),
+    filterOptions: options => options.filter(location => locationIDS.includes(location.id))
   });
 
   if (localizedFields) {
