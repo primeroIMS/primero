@@ -11,11 +11,10 @@ const Context = createContext();
 
 const ApplicationProvider = ({ children }) => {
   const { online } = useConnectivityStatus();
+
   const appData = useMemoizedSelector(state => getAppData(state), isEqual);
 
   const value = { ...appData, online };
-
-  console.log('======================')
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };
