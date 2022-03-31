@@ -1,6 +1,6 @@
-import { createElement } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
+import { createElement } from "react";
 
 import { RECORD_TYPES, MODULES } from "../../config";
 import { useI18n } from "../i18n";
