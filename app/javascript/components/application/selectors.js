@@ -5,7 +5,6 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import memoize from "proxy-memoize";
 
 import { displayNameHelper } from "../../libs";
-import { selectNetworkStatus } from "../connectivity/selectors";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
@@ -150,7 +149,6 @@ export const getExportRequirePassword = state => state.getIn([NAMESPACE, "export
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);
-  const online = selectNetworkStatus(state);
   const selectedApprovalsLabels = getApprovalsLabels(state);
   const disabledApplication = getDisabledApplication(state);
   const demo = getDemo(state);
@@ -160,7 +158,6 @@ export const getAppData = memoize(state => {
   return {
     modules,
     userModules,
-    online,
     approvalsLabels: selectedApprovalsLabels,
     disabledApplication,
     demo,
