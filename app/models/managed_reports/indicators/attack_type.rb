@@ -15,7 +15,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select name, key, sum(value::integer), group_id
+        select name, key, sum(value::integer)
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
         select
           key, value,
@@ -37,7 +38,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
         #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         ) keys_values
-        group by key, name, group_id
+        group by key, name
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
       }
     end
     # rubocop:enable Metrics/AbcSize

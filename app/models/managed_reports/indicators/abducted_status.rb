@@ -2,6 +2,8 @@
 
 # An indicator that returns the reporting locations of violation type killing
 class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'abducted_status'
@@ -13,10 +15,14 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select status as id, sum(value::integer) as total
+        select status as name, sum(value::integer) as sum, 'total' as key
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
             key, value,
+            #{grouped_date_query(params['grouped_by'],
+                                 filter_date(params),
+                                 table_name_for_query(params))&.concat(' as group_id,')}
             (
               case
               when (violations."data"->>'abduction_regained_freedom' = 'false')
@@ -45,16 +51,13 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
              ) as subquery
              where key = 'total'
-         group by id
+         group by name
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
       }
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build(current_user, args = {})
-      super(current_user, args, &:to_a)
-    end
   end
 end

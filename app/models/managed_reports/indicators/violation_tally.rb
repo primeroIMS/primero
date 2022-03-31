@@ -15,7 +15,8 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select json_object_agg(key, sum) as data, group_id
+        select json_object_agg(key, sum) as data
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
         select key,
         #{grouped_date_query(params['grouped_by'],
@@ -37,7 +38,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         group by key
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         ) as violation_data
-        group by violation_data.group_id;
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend('group by ')}
       }
     end
     # rubocop:enable Metrics/AbcSize
@@ -46,6 +47,10 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     # rubocop:enable Metrics/PerceivedComplexity
 
     def build_results(results)
+      unless results.to_a.any? { |result| result['group_id'].present? }
+        return ActiveSupport::JSON.decode(results.to_a.first.dig('data') || '{}')
+      end
+
       results.to_a.map do |result|
         { group_id: result['group_id'], data: ActiveSupport::JSON.decode(result['data']) }
       end

@@ -15,7 +15,15 @@ module ManagedReports::MRMIndicatorHelper
       'incidents'
     end
 
+    def group_id_alias(params_grouped_by)
+      return unless params_grouped_by.present?
+
+      'group_id'
+    end
+
     def build_results(results)
+      return build_data_values(results.to_a) unless results.to_a.any? { |result| result['group_id'].present? }
+
       results.group_by { |r| r['group_id'] }.map do |key, values|
         {
           group_id: key,

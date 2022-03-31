@@ -17,7 +17,8 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
       admin_level = user_reporting_location_admin_level(current_user)
 
       %{
-        select name, key, sum(value::integer), group_id
+        select name, key, sum(value::integer)
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
             key, value,
@@ -39,7 +40,8 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
             #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
             #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
             ) keys_values
-        group by key, name, group_id
+        group by key, name
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
       }
     end
     # rubocop:enable Metrics/AbcSize
