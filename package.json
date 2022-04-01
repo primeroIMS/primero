@@ -135,6 +135,7 @@
     "prettier": "^2.6.0",
     "prettier-eslint": "~13.0.0",
     "prop-types": "^15.7.2",
+    "proxy-memoize": "^0.3.8",
     "qs": "^6.9.3",
     "re-reselect": "^4.0.0",
     "react": "^17.0.2",
