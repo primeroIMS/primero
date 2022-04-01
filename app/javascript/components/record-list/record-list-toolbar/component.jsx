@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { IconButton } from "@material-ui/core";
+import { Hidden, IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../../page";
@@ -10,22 +10,16 @@ import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";
 
-const Component = ({
-  title,
-  recordType,
-  handleDrawer,
-  mobileDisplay,
-  selectedRecords,
-  clearSelectedRecords,
-  currentPage
-}) => {
+const mode = { isShow: true };
+
+const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPage, clearSelectedRecords }) => {
   return (
     <PageHeading title={title}>
-      {mobileDisplay && (
+      <Hidden mdUp>
         <IconButton onClick={handleDrawer} color="primary">
           <FilterListIcon />
         </IconButton>
-      )}
+      </Hidden>
       <Permission resources={recordType} actions={CREATE_RECORDS}>
         <AddRecordMenu recordType={recordType} />
       </Permission>
@@ -34,7 +28,7 @@ const Component = ({
         clearSelectedRecords={clearSelectedRecords}
         selectedRecords={selectedRecords}
         recordType={recordType}
-        mode={{ isShow: true }}
+        mode={mode}
         showListActions
       />
     </PageHeading>
@@ -45,12 +39,13 @@ Component.propTypes = {
   clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
   title: PropTypes.string.isRequired
 };
 
 Component.displayName = NAME;
+
+Component.whyDidYouRender = true;
 
 export default Component;
