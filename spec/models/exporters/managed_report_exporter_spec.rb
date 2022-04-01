@@ -180,7 +180,7 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'should export the excel' do
-        expect(workbook.sheets.size).to eq(2)
+        expect(workbook.sheets.size).to eq(3)
       end
 
       describe 'Incidents subreport' do
