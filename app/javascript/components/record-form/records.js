@@ -13,6 +13,7 @@ export const FieldRecord = Record({
   form_section_id: null,
   guiding_questions: "",
   help_text: {},
+  hidden_text_field: false,
   hide_on_view_page: false,
   href: null,
   link_to_form: "",

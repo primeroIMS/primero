@@ -32,6 +32,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
   const recordName = useMemoizedSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
 
   const isHiddenName = /\*{2,}/.test(recordName);
+  const hiddenTextField = field.hidden_text_field;
   const ageMatches = type === NUMERIC_FIELD && name.match(/(.*)age$/);
 
   const dateOfBirthFieldName = isEmpty(ageMatches) ? null : `${ageMatches[1]}date_of_birth`;
@@ -93,10 +94,8 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               {...fieldProps}
             />
             {
-              // TODO: we have hacked it to not display Hide Name on registry records. need permanent solution
-              name === "name" &&
+              hiddenTextField &&
               mode.isEdit &&
-              recordType !== RECORD_TYPES_PLURAL.registry_record &&
               !rest?.formSection?.is_nested ? (
                 <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
                   {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
