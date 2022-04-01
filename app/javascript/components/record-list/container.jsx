@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
@@ -55,18 +55,9 @@ const Container = ({ match, location }) => {
     canSearchOthers: [ACTIONS.SEARCH_OTHERS]
   });
 
-  const handleViewModalClose = () => {
-    setOpenViewModal(false);
-  };
-
   const fromDashboard = useMemo(() => Boolean(new URLSearchParams(search).get("fromDashboard")), [search]);
 
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = DEFAULT_FILTERS;
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
-  });
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
@@ -105,6 +96,10 @@ const Container = ({ match, location }) => {
     });
   }, []);
 
+  const handleViewModalClose = useCallback(() => {
+    setOpenViewModal(false);
+  }, []);
+
   const listHeaders =
     // eslint-disable-next-line camelcase
     filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers;
@@ -116,9 +111,9 @@ const Container = ({ match, location }) => {
     return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
   };
 
-  const handleDrawer = () => {
+  const handleDrawer = useCallback(() => {
     setDrawer(!drawer);
-  };
+  }, []);
 
   const clearSelectedRecords = useCallback(() => {
     setSelectedRecords({});
@@ -127,39 +122,44 @@ const Container = ({ match, location }) => {
   const page = metadata?.get("page", 1);
   const currentPage = page - 1;
 
-  const handleRowClick = record => {
+  const handleRowClick = useCallback(record => {
     if (recordAvaialble(record)) {
       dispatch(push(`${recordType}/${record.get("id")}`));
     } else if (canViewModal && online) {
       setCurrentRecord(record);
       setOpenViewModal(true);
     }
-  };
+  }, []);
 
-  const rowSelectable = record => recordAvaialble(record) || online;
+  const rowSelectable = useCallback(record => recordAvaialble(record) || online, []);
 
   const columns = useMemo(
     () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, online),
     [online, listHeaders, recordType]
   );
 
+  const handleSelectedRecords = useCallback(ids => {
+    setSelectedRecords(ids);
+  }, []);
+
+  const title = i18n.t(`${recordType}.label`);
+
   return (
     <>
       <PageContainer fullWidthMobile>
         <RecordListToolbar
-          title={i18n.t(`${recordType}.label`)}
+          title={title}
           recordType={recordType}
           handleDrawer={handleDrawer}
           currentPage={currentPage}
           selectedRecords={selectedRecords}
-          mobileDisplay={mobileDisplay}
           clearSelectedRecords={clearSelectedRecords}
         />
         <PageContent flex>
           <div className={css.tableContainer}>
             <div className={css.table}>
               <IndexTable
-                title={i18n.t(`${recordType}.label`)}
+                title={title}
                 recordType={recordType}
                 defaultFilters={defaultFilters}
                 bypassInitialFetch
@@ -169,7 +169,7 @@ const Container = ({ match, location }) => {
                 onRowClick={handleRowClick}
                 selectedRecords={selectedRecords}
                 isRowSelectable={rowSelectable}
-                setSelectedRecords={setSelectedRecords}
+                setSelectedRecords={handleSelectedRecords}
               />
             </div>
           </div>
@@ -178,7 +178,7 @@ const Container = ({ match, location }) => {
             <Filters
               recordType={recordType}
               defaultFilters={defaultFilters}
-              setSelectedRecords={setSelectedRecords}
+              setSelectedRecords={handleSelectedRecords}
               fromDashboard={fromDashboard}
             />
           </FilterContainer>

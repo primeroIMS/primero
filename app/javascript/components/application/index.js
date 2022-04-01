@@ -21,6 +21,7 @@ export {
   getAgency,
   getUserGroups,
   getEnabledUserGroups,
-  getWorkflowLabels
+  getWorkflowLabels,
+  getAppData
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

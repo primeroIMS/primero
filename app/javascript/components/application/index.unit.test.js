@@ -30,7 +30,8 @@ describe("<Application /> - index", () => {
       "selectUserModules",
       "setUserIdle",
       "useApp",
-      "ApplicationProvider"
+      "ApplicationProvider",
+      "getAppData"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
