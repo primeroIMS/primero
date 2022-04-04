@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../../../test";
-import { SHOW_FIND_MATCH } from "../../../../../../../libs/permissions";
+import { SHOW_FIND_MATCH } from "../../../../../../permissions";
 import ActionButton from "../../../../../../action-button";
 import { FORMS } from "../../constants";
 

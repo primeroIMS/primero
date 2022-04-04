@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import { setupMountedComponent, setupMockFormComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { ActionsMenu } from "../../../form";
 import RadioInput from "../../../form/fields/radio-input";
 import FormSection from "../../../form/components/form-section";

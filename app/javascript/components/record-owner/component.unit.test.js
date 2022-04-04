@@ -3,7 +3,7 @@ import { Form } from "formik";
 import { TextField as MuiTextField } from "formik-material-ui";
 
 import { setupMountedComponent } from "../../test";
-import { RESOURCES } from "../../libs/permissions";
+import { RESOURCES } from "../permissions";
 import { FormSectionField } from "../record-form";
 import SearchableSelect from "../searchable-select";
 

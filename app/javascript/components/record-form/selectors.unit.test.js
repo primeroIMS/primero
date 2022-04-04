@@ -2,7 +2,7 @@ import { Map, List, OrderedMap, fromJS } from "immutable";
 import { expect } from "chai";
 
 import { mapEntriesToRecord } from "../../libs";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import {
   APPROVALS,
   CHANGE_LOGS,

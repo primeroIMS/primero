@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { ACTIONS, RESOURCES } from "../../../../libs/permissions";
+import { ACTIONS, RESOURCES } from "../../../permissions";
 
 const userHasPermission = (userPermissions, resource, action) =>
   userPermissions

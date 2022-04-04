@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import Permission from "../../application/permission";
+import Permission, { READ_RECORDS, SHOW_SYNC_EXTERNAL } from "../../permissions";
 import { RECORD_PATH } from "../../../config";
-import { READ_RECORDS, SHOW_SYNC_EXTERNAL } from "../../../libs/permissions";
 
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 import { SyncRecord } from "./components";

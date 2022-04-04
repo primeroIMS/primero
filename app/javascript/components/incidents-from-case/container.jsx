@@ -5,9 +5,8 @@ import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import { useMemoizedSelector } from "../../libs";
-import { CREATE_INCIDENT, RESOURCES } from "../../libs/permissions";
+import { usePermissions, CREATE_INCIDENT, RESOURCES } from "../permissions";
 import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES_PLURAL } from "../../config";
-import { usePermissions } from "../user";
 import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
 

@@ -3,7 +3,7 @@ import { ListItem, ListItemText } from "@material-ui/core";
 
 import { ConditionalWrapper } from "../../../../libs";
 import { setupMountedComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import MenuEntry from "./component";
 

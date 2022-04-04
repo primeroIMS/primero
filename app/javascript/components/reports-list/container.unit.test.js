@@ -3,7 +3,7 @@ import { Card, CardContent, CardActionArea, TablePagination, Box } from "@materi
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../test";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 
 import Reports from "./container";
 

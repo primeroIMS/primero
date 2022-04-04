@@ -152,8 +152,8 @@ export const getAppData = memoize(state => {
   const selectedApprovalsLabels = getApprovalsLabels(state);
   const disabledApplication = getDisabledApplication(state);
   const demo = getDemo(state);
-  const currentUserName = getLimitedConfigUI(state);
-  const limitedProductionSite = currentUser(state);
+  const limitedProductionSite = getLimitedConfigUI(state);
+  const currentUserName = currentUser(state);
 
   return {
     modules,
