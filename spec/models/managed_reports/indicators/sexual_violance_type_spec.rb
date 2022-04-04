@@ -216,7 +216,7 @@ describe ManagedReports::Indicators::SexualViolenceType do
         @all_user,
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'sexual_violence') }
       ).data
-      # binding.pry
+
       expect(sexual_violence_type).to match_array(
         [
           { 'total' => 18, 'unknown' => 7, 'boys' => 5, 'girls' => 6, :id => 'rape' },

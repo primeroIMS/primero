@@ -174,8 +174,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     expect(violation_tally_data).to match_array(
       [
-        { 'total' => 3, 'id' => 'detention_detained' },
-        { 'total' => 2, 'id' => 'detention_released' }
+        { total: 3, id: 'detention_detained' },
+        { total: 2, id: 'detention_released' }
       ]
     )
   end
@@ -186,7 +186,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { 'total' => 1, 'id' => 'detention_released' }
+          { total: 1, id: 'detention_released' }
         ]
       )
     end
@@ -196,8 +196,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { 'total' => 3, 'id' => 'detention_detained' },
-          { 'total' => 1, 'id' => 'detention_released' }
+          { total: 3, id: 'detention_detained' },
+          { total: 1, id: 'detention_released' }
         ]
       )
     end
@@ -207,8 +207,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { 'total' => 1, 'id' => 'detention_detained' },
-          { 'total' => 1, 'id' => 'detention_released' }
+          { total: 1, id: 'detention_detained' },
+          { total: 1, id: 'detention_released' }
         ]
       )
     end
@@ -218,8 +218,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { 'total' => 3, 'id' => 'detention_detained' },
-          { 'total' => 2, 'id' => 'detention_released' }
+          { total: 3, id: 'detention_detained' },
+          { total: 2, id: 'detention_released' }
         ]
       )
     end

@@ -35,8 +35,8 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
 
     expect(perpetrators_data).to match_array(
       [
-        { 'id' => 'armed_force_2', 'total' => 2 },
-        { 'id' => 'armed_force_4', 'total' => 1 }
+        { id: 'armed_force_2', total: 2 },
+        { id: 'armed_force_4', total: 1 }
       ]
     )
   end

@@ -41,11 +41,11 @@ describe ManagedReports::Indicators::DenialType do
 
     expect(denial_type_data).to match_array(
       [
-        { 'id' => 'theft', 'total' => 1 },
-        { 'id' => 'besiegement', 'total' => 2 },
-        { 'id' => 'abduction_of_humanitarian_personnel', 'total' => 1 },
-        { 'id' => 'restrictions_of_beneficiaries_access', 'total' => 1 },
-        { 'id' => 'other', 'total' => 1 }
+        { id: 'theft', total: 1 },
+        { id: 'besiegement', total: 2 },
+        { id: 'abduction_of_humanitarian_personnel', total: 1 },
+        { id: 'restrictions_of_beneficiaries_access', total: 1 },
+        { id: 'other', total: 1 }
       ]
     )
   end

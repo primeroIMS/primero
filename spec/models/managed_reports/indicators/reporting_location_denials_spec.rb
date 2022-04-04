@@ -73,7 +73,7 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     ).data
 
     expect(reporting_location_data).to match_array(
-      [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 3 }]
+      [{ id: 'E1', total: 7 }, { id: 'E2', total: 3 }]
     )
   end
 end

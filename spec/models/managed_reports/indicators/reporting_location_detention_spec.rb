@@ -192,7 +192,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
         @self_user
       ).data
 
-      expect(reporting_location_data).to match_array([{ 'id' => 'E1', 'total' => 1 }])
+      expect(reporting_location_data).to match_array([{ id: 'E1', total: 1 }])
     end
 
     it 'returns group records for a group scope' do
@@ -201,7 +201,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 4 }]
+        [{ id: 'E1', total: 7 }, { id: 'E2', total: 4 }]
       )
     end
 
@@ -211,7 +211,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 2 }, { 'id' => 'E2', 'total' => 4 }]
+        [{ id: 'E1', total: 2 }, { id: 'E2', total: 4 }]
       )
     end
 
@@ -221,7 +221,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ 'id' => 'E1', 'total' => 8 }, { 'id' => 'E2', 'total' => 4 }]
+        [{ id: 'E1', total: 8 }, { id: 'E2', total: 4 }]
       )
     end
   end

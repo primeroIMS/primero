@@ -124,7 +124,7 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     ).data
 
     expect(perpetrators_data).to match_array(
-      [{ 'id' => 'armed_force_2', 'total' => 2 }, { 'id' => 'armed_force_3', 'total' => 1 }]
+      [{ id: 'armed_force_2', total: 2 }, { id: 'armed_force_3', total: 1 }]
     )
   end
 
@@ -132,14 +132,14 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     it 'returns owned records for a self scope' do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@self_user).data
 
-      expect(perpetrators_data).to match_array([{ 'id' => 'armed_force_2', 'total' => 1 }])
+      expect(perpetrators_data).to match_array([{ id: 'armed_force_2', total: 1 }])
     end
 
     it 'returns group records for a group scope' do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@group_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ 'id' => 'armed_force_2', 'total' => 1 }, { 'id' => 'armed_force_3', 'total' => 1 }]
+        [{ id: 'armed_force_2', total: 1 }, { id: 'armed_force_3', total: 1 }]
       )
     end
 
@@ -147,7 +147,7 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@agency_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ 'id' => 'armed_force_2', 'total' => 1 }, { 'id' => 'armed_force_3', 'total' => 1 }]
+        [{ id: 'armed_force_2', total: 1 }, { id: 'armed_force_3', total: 1 }]
       )
     end
 
@@ -155,7 +155,7 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@all_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ 'id' => 'armed_force_2', 'total' => 2 }, { 'id' => 'armed_force_3', 'total' => 1 }]
+        [{ id: 'armed_force_2', total: 2 }, { id: 'armed_force_3', total: 1 }]
       )
     end
   end
