@@ -1,7 +1,13 @@
 import { Map, fromJS } from "immutable";
+import { isEqual, isNil, omitBy } from "lodash";
+import createCachedSelector from "re-reselect";
+import { createSelectorCreator, defaultMemoize } from "reselect";
+import memoize from "proxy-memoize";
 
 import { displayNameHelper } from "../../libs";
+import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
+import { currentUser } from "../user/selectors";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -82,16 +88,18 @@ export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE,
 
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
-export const getApprovalsLabels = (state, locale) => {
-  const approvalsLabels = state
-    .getIn([NAMESPACE, "approvalsLabels"], fromJS({}))
-    .entrySeq()
-    .reduce((acc, [key, value]) => {
-      return acc.set(key, displayNameHelper(value, locale));
-    }, Map({}));
+export const approvalsLabels = state => state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
 
-  return approvalsLabels;
-};
+export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabels, (locale, data) => {
+  const labels = data.entrySeq().reduce((acc, [key, value]) => {
+    return acc.set(key, displayNameHelper(value, locale));
+  }, Map({}));
+
+  return labels;
+})({
+  keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
+  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+});
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
 
@@ -142,3 +150,23 @@ export const getRegistryTypes = (state, type) =>
   state
     .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
     .find(registryType => registryType.get("id") === type, null, fromJS({}));
+
+export const getAppData = memoize(state => {
+  const modules = selectModules(state);
+  const userModules = selectUserModules(state);
+  const selectedApprovalsLabels = getApprovalsLabels(state);
+  const disabledApplication = getDisabledApplication(state);
+  const demo = getDemo(state);
+  const currentUserName = getLimitedConfigUI(state);
+  const limitedProductionSite = currentUser(state);
+
+  return {
+    modules,
+    userModules,
+    approvalsLabels: selectedApprovalsLabels,
+    disabledApplication,
+    demo,
+    currentUserName,
+    limitedProductionSite
+  };
+});
