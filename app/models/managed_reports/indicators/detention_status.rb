@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-# An indicator that returns the reporting locations of violation type killing
+# An indicator that returns the reporting locations of violation type detention
 class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'detention_status'
@@ -10,12 +12,17 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select status as id, count(subquery.id) as total
+        select status as name, count(subquery.id) as sum, 'total' as key
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
             iv.id as id,
+            #{grouped_date_query(params['grouped_by'],
+                                 filter_date(params),
+                                 table_name_for_query(params))&.concat(' as group_id,')}
             (
               case
               when (iv."data"->>'deprivation_liberty_end' is not null
@@ -40,14 +47,12 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
                   #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
              ) as subquery
          group by status
+         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
       }
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def build(current_user, args = {})
-      super(current_user, args, &:to_a)
-    end
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end
