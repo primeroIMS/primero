@@ -12,7 +12,7 @@ import {
   SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
-import { SHOW_APPROVALS } from "../../libs/permissions";
+import { SHOW_APPROVALS } from "../permissions";
 
 import { FormSectionRecord, FieldRecord, NavRecord } from "./records";
 import { DATE_FIELD, SELECT_FIELD, TICK_FIELD, SUBFORM_SECTION, TEXT_FIELD, SEPERATOR, TALLY_FIELD } from "./constants";

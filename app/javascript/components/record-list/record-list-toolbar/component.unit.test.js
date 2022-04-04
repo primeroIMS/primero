@@ -2,7 +2,7 @@ import { fromJS, OrderedMap } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { RECORD_TYPES, RECORD_PATH, MODULES } from "../../../config";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 import RecordActions from "../../record-actions";
 import AddRecordMenu from "../add-record-menu";

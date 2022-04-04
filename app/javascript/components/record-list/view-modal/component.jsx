@@ -5,8 +5,7 @@ import { fromJS, List } from "immutable";
 import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import { getPermissionsByRecord } from "../../user";
-import { ACTIONS, checkPermissions } from "../../../libs/permissions";
+import { usePermissions, ACTIONS } from "../../permissions";
 import { useMemoizedSelector } from "../../../libs";
 import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
 import Form, { FORM_MODE_SHOW } from "../../form";
@@ -24,9 +23,8 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const miniFormFields = useMemoizedSelector(state =>
     getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames, true)
   );
-  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
-  const canRequestTransfer = checkPermissions(userPermissions, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
+  const canRequestTransfer = usePermissions(recordType, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
 
   const form = viewModalForm(i18n, commonFields, miniFormFields);
 

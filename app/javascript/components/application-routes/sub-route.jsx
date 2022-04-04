@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import ErrorBoundary from "../error-boundary";
 import { PERMITTED_URL, ROUTES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
-import Permission from "../application/permission";
+import Permission from "../permissions";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../application/selectors";
 import { getCodeOfConductId } from "../user";
 

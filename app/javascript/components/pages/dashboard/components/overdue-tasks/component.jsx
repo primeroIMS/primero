@@ -8,8 +8,7 @@ import {
 } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toTasksOverdueTable, taskOverdueHasData } from "../../utils";
-import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
+import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { ROUTES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";

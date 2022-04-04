@@ -7,7 +7,7 @@ import { useI18n } from "../i18n";
 import { getFiltersValueByRecordType } from "../index-filters/selectors";
 import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
-import usePermissions from "../permissions";
+import { usePermissions } from "../permissions";
 import Menu from "../menu";
 import { getRecordFormsByUniqueId } from "../record-form";
 import { useDialog } from "../action-dialog";

@@ -4,8 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CheckIcon from "@material-ui/icons/Check";
 import BlockIcon from "@material-ui/icons/Block";
 
-import Permission from "../../../../../../application/permission";
-import { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../../libs/permissions";
+import Permission, { RESOURCES, SHOW_FIND_MATCH } from "../../../../../../permissions";
 import ActionButton from "../../../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 import { getLoadingRecordState } from "../../../../../../records";

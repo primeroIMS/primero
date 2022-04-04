@@ -4,7 +4,7 @@ import { setupMountedComponent } from "../../../../test";
 import { MODES } from "../../../../config";
 import TextInput from "../../../form/fields/text-input";
 import DateInput from "../../../form/fields/date-input";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import CodeOfConductForm from "./component";
 

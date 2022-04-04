@@ -83,7 +83,31 @@ describe("Verifying config constant", () => {
       "TRANSFER",
       "WRITE",
       "AGENCY_READ",
-      "INCIDENT_FROM_CASE"
+      "INCIDENT_FROM_CASE",
+      "CONSENT_OVERRIDE",
+      "COPY",
+      "DASH_CASES_BY_SOCIAL_WORKER",
+      "DASH_CASES_TO_ASSIGN",
+      "DASH_SHARED_WITH_MY_TEAM_OVERVIEW",
+      "DASH_NATIONAL_ADMIN_SUMMARY",
+      "FIND_TRACING_MATCH",
+      "KPI_ASSESSMENT_STATUS",
+      "KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE",
+      "KPI_AVERAGE_REFERRALS",
+      "KPI_CASE_CLOSURE_RATE",
+      "KPI_CASE_LOAD",
+      "KPI_CLIENT_SATISFACTION_RATE",
+      "KPI_COMPLETED_CASE_ACTION_PLANS",
+      "KPI_COMPLETED_CASE_SAFETY_PLANS",
+      "KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS",
+      "KPI_NUMBER_OF_CASES",
+      "KPI_NUMBER_OF_INCIDENTS",
+      "KPI_REPORTING_DELAY",
+      "KPI_SERVICES_PROVIDED",
+      "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
+      "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
+      "SYNC_EXTERNAL",
+      "VIEW_INCIDENT_FROM_CASE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -115,7 +139,10 @@ describe("Verifying config constant", () => {
       "tracing_requests",
       "user_groups",
       "users",
-      "kpis"
+      "kpis",
+      "codes_of_conduct",
+      "locations",
+      "activity_logs"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");
@@ -262,6 +289,7 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
       expect(permissions).to.include(element);
@@ -394,7 +422,8 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_LIST_VIEW,
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
-      PERMISSIONS.ACTIONS.EXPORT_UNHCR
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.EXPORT_PDF
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);

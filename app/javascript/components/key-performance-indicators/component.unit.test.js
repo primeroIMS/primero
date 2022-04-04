@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 
 import KeyPerformanceIndicators from "./component";
 import NumberOfCases from "./components/number-of-cases";

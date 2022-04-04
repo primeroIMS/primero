@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { describe } from "mocha";
 
 import { RECORD_TYPES, MODULES } from "../../config";
-import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
+import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
 
 import { PrimeroModuleRecord } from "./records";
 import * as selectors from "./selectors";
