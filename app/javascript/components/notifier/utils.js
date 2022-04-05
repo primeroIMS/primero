@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 
 import kebabCase from "lodash/kebabCase";
-import uuid from "uuid";
+
+import uuid from "../../libs/uuid";
 
 export const generate = {
   messageKey: (message, isMessageKey) => {

@@ -41,7 +41,7 @@ class Ability
 
     return false if instance.super_user? || instance.user_admin?
 
-    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
+    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
                    user.agency == instance.agency
 
     if !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
@@ -209,7 +209,7 @@ class Ability
 
   def can_read_reports
     can [:read_reports], Report do |report|
-      can?(:read, report) || can?(:group_read, report)
+      can?(:read, report) || can?(:group_read, report) || can?(:agency_read, report)
     end
   end
 

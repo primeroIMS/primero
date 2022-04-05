@@ -144,10 +144,15 @@ class Filter < ValueObject
       }
     end.inject(&:merge)
   )
+  INCIDENT_STATUS = Filter.new(
+    name: 'incidents.filter_by.status',
+    field_name: 'status',
+    option_strings_source: 'lookup-incident-status'
+  )
   VERIFICATION_STATUS = Filter.new(
     name: 'incidents.filter_by.verification_status',
     field_name: 'verification_status',
-    option_strings_source: 'lookup-incident-status'
+    option_strings_source: 'lookup-verification-status'
   )
   INCIDENT_LOCATION = Filter.new(
     name: 'incidents.filter_by.incident_location',
@@ -368,7 +373,7 @@ class Filter < ValueObject
 
     def incident_filters(user)
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
-      filters += agency_office_filter(user) + user_group_filter(user) + [STATUS, AGE_RANGE]
+      filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user) + [AGE_RANGE]
       filters += children_verification_and_location_filters(user)
       filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
       filters << ENABLED
@@ -390,6 +395,11 @@ class Filter < ValueObject
     def user_group_filter(user)
       user.module?(PrimeroModule::GBV) && user.user_group_filter? ? [USER_GROUP] : []
     end
+
+    def status_filters(user)
+      user.module?(PrimeroModule::MRM) ? [INCIDENT_STATUS] : [STATUS]
+    end
+
 
     def children_verification_and_location_filters(user)
       filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS] : []

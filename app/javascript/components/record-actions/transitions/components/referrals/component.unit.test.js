@@ -100,12 +100,12 @@ describe("<ReferralForm />", () => {
       [
         "enableReinitialize",
         "initialValues",
-        "isInitialValid",
         "onSubmit",
         "render",
         "validateOnBlur",
         "validateOnChange",
-        "validationSchema"
+        "validationSchema",
+        "innerRef"
       ].forEach(property => {
         expect(formikProps).to.have.property(property);
         delete formikProps[property];

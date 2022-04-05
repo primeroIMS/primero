@@ -1,5 +1,6 @@
-import uuid from "uuid";
 import isEmpty from "lodash/isEmpty";
+
+import uuid from "./uuid";
 
 export default data => {
   const generatedId = data?.replace(/[^\w]/g, "_").toLowerCase();

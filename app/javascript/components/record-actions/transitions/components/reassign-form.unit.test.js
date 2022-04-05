@@ -97,7 +97,8 @@ describe("<ReassignForm />", () => {
       "options",
       "mode",
       "optionIdKey",
-      "optionLabelKey"
+      "optionLabelKey",
+      "meta"
     ].forEach(property => {
       expect(reactSelectProps).to.have.property(property);
       delete reactSelectProps[property];

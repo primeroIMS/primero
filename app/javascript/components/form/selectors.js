@@ -1,11 +1,11 @@
 import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
-import isEqual from "lodash/isEqual";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
+import memoize from "proxy-memoize";
 
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
@@ -22,6 +22,7 @@ import { getLocale } from "../i18n/selectors";
 import { getSelectedRecordData } from "../records";
 import { getFieldByName } from "../record-form/selectors";
 import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
+import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 
 import { OPTION_TYPES, CUSTOM_LOOKUPS } from "./constants";
 import { buildLinkedIncidentOptions, buildRoleOptions } from "./utils";
@@ -29,16 +30,16 @@ import { buildLinkedIncidentOptions, buildRoleOptions } from "./utils";
 // TODO: Move to useMemoizedSelector
 const defaultCacheSelectorOptions = {
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
 };
 
-const lookupsList = state => state.getIn(["forms", "options", "lookups"], fromJS([]));
+const lookupsList = memoize(state => state.getIn(["forms", "options", "lookups"], fromJS([])));
 const moduleList = state => state.getIn(["application", "modules"], fromJS([]));
 const formSectionList = state => state.getIn(["records", "admin", "forms", "formSections"], fromJS([]));
 const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
 const transferUserList = state => state.getIn(["records", "transitions", "transfer", "users"], fromJS([]));
 const managedRoleList = state => state.getIn(["application", "managedRoles"], fromJS([]));
-const agencyList = state => state.getIn(["application", "agencies"], fromJS([]));
+const agencyList = memoize(state => state.getIn(["application", "agencies"], fromJS([])));
 
 const formGroups = createCachedSelector(getLocale, formSectionList, (locale, data) => {
   const formGroupsObj = data
@@ -162,7 +163,7 @@ const agenciesCurrentUser = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
-const locationList = state => state.getIn(["forms", "options", "locations"], fromJS([]));
+const locationList = memoize(state => state.getIn(["forms", "options", "locations"], fromJS([])));
 
 const locationsParser = (data, { includeAdminLevel, locale }) => {
   return data.reduce(
@@ -178,36 +179,32 @@ const locationsParser = (data, { includeAdminLevel, locale }) => {
   );
 };
 
-const locations = createCachedSelector(
-  getLocale,
-  locationList,
-  (_state, options) => options,
-  (locale, data, options) => {
-    return locationsParser(data, { ...options, locale });
-  }
-)(defaultCacheSelectorOptions);
+const locations = memoize((state, options) => {
+  const locale = getLocale(state);
+  const data = locationList(state);
 
-const reportingLocations = createCachedSelector(
-  getLocale,
-  locationList,
-  getReportingLocationConfig,
-  (_state, options) => options,
-  (locale, data, getReportingLocationConfigData, options) => {
-    const locationData = locationsParser(data, { ...options, locale, includeAdminLevel: true });
+  return locationsParser(data, { ...options, locale });
+});
 
-    return locationData
-      .filter(location => location.admin_level === getReportingLocationConfigData.get("admin_level"))
-      .map(location => {
+const reportingLocations = memoize((state, options) => {
+  const locale = getLocale(state);
+  const data = locationList(state);
+  const locationData = locationsParser(data, { ...options, locale, includeAdminLevel: true });
+  const getReportingLocationConfigData = getReportingLocationConfig(state);
+
+  return locationData
+    .filter(location => location.admin_level === getReportingLocationConfigData.get("admin_level"))
+    .map(location => {
+      // eslint-disable-next-line camelcase
+      const { id, display_text } = location;
+
+      return {
+        id,
         // eslint-disable-next-line camelcase
-        const { id, display_text } = location;
-
-        return {
-          id,
-          display_text
-        };
-      });
-  }
-)(defaultCacheSelectorOptions);
+        display_text
+      };
+    });
+});
 
 const modules = createCachedSelector(moduleList, data => {
   return data.reduce(
@@ -518,4 +515,14 @@ export const getValueFromOtherField = (state, fields, values) => {
 
     return prev;
   }, []);
+};
+
+export const getLookupsByIDs = (state, ids) => {
+  if (!ids) {
+    return fromJS([]);
+  }
+
+  return state
+    .getIn(["forms", "options", "lookups"], fromJS([]))
+    .filter(lookup => ids.includes(`lookup ${lookup.get("unique_id")}`), fromJS([]));
 };

@@ -2,23 +2,40 @@
 
 # ManagedReports CRUD API
 class Api::V2::ManagedReportsController < ApplicationApiController
-  before_action :load_report, only: %i[show]
+  include Api::V2::Concerns::Export
+
+  before_action :build_report, only: %i[show export]
 
   def index
     @managed_reports = current_user.role.managed_reports
     @total = @managed_reports.size
   end
 
-  def show
-    @managed_report.build_report(current_user, filters, params[:subreport])
-  end
+  def show; end
 
   protected
 
-  def load_report
+  def build_report
     authorize_managed_reports_read!
 
     @managed_report = ManagedReport.list[params[:id]]
+    @managed_report.build_report(current_user, filters, { subreport_id: params[:subreport], locale: params[:locale] })
+  end
+
+  def exporter
+    @managed_report.exporter
+  end
+
+  def model_class
+    ManagedReport
+  end
+
+  def export_params
+    { file_name: params[:file_name], locale: params[:locale], subreport_id: params[:subreport] }
+  end
+
+  def authorize_export!
+    authorize_managed_reports_read!
   end
 
   private

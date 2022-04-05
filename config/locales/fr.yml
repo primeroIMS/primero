@@ -386,7 +386,7 @@ fr:
     selected_all_records: Sélectionnez tous les cas %{total_records} qui correspondent à cette requête.
     selected_records: '%{select_records} cas sélectionné(s) '
     sex: Sexe
-    show_case: 'Id du cas'
+    show_case: 'Id du cas: %{short_id}'
     social_worker: Travailleur social
     status: Statut
     summary:
@@ -1187,6 +1187,7 @@ fr:
       transfers_assignments: Transferts / Assignation
       violation: Violation
       registry_details: Détails du registre
+      registry_record: Dossier du registre
     required_field: '%{field} est un champ obligatoire '
     select_label: 'Sélectionner '
     settings: 'Paramètres '
@@ -1630,7 +1631,7 @@ fr:
   messages:
     alert_items: Vous avez %{items}éléments à noter.
     alerts_for:
-      approval: Approbation est en attente pour %{form_name}
+      approval: Approbation est en attente pour %{form_section_name}
       field_change: '%{form_section_name} a été mis à jour le %{alert_time}'
       transfer_request: 'Un nouveau transfert demandé a été effectué le %{date} par %{user} à %{agency} '
     cannot_edit: Vous ne pouvez pas éditer ceci
@@ -1669,6 +1670,7 @@ fr:
       system_information: 'Information du système '
     tasks: 'Tâches '
     tracing_request: 'Demande de traçage '
+    registry_records: Registre
   notes:
     note_success: Notes ajouté avec succès
   permissions:
@@ -1771,6 +1773,7 @@ fr:
       receive_transfer: Recevoir un transfert
       referral: 'Peut être utilisé pour une référence '
       referral_from_service: Référer le cas à partir du formulaire de service
+      registry_record: Registre
       remove_assigned_users: Supprimer les autres utilisateurs attribué (référencements)
       reopen: 'Réouvert '
       report: Rapport
@@ -1790,7 +1793,6 @@ fr:
       services_section_from_case: Ajouter une prestation de service au cas d'un autre utilisateur
       specific_roles: Accéder à une liste précise de fonctions
       sync_external: Synchronisation avec un système externe de gestion de l'information
-      sync_mobile: Sync avec appareil mobile
       system: Système
       tracing_request: Demande de traçage
       transfer: Peut être utilisé pour un transfert
@@ -2031,9 +2033,6 @@ fr:
           sync_external:
             explanation: Possibilité de synchroniser un cas avec un système externe de gestion de l'information
             label: Synchronisation avec un système externe de gestion de l'information
-          sync_mobile:
-            explanation: Cette autorisation permet généralement à l'utilisateur d'utiliser l'application mobile. Tout d'abord, elle permet à l'utilisateur de voir les actions "Maquer pour mobile" et "Supprimer le marquage pour mobile", qui apparaissent sur les pages de la liste des cas et de la présentation des cas. Marquer une cas pour le mobile indique que les informations concernant ce cas doivent être synchronisées entre l'appareil mobile de l'utilisateur et l'application web, tandis que le fait de supprimer le marquage pour mobile empêche cette synchronisation de se produire. Les utilisateurs sans cette autorisation ne peuvent pas non plus synchroniser leur appareil mobile avec l'application web en général, ce qui signifie qu'ils ne peuvent pas utiliser l'application mobile pour gérer les cas.
-            label: 'Synchroniser avec appareil mobile '
           transfer:
             explanation: Permet à un utilisateur d'envoyer un cas de son propriétaire actuel à tout utilisateur du système ayant la possibilité de recevoir des transferts. La propriété du cas ne change toutefois pas tant que le destinataire du transfert ne l'a pas "accepté". Si le destinataire "rejette" le transfert, il perd l'accès au cas et celui ci reste la propriété de son propriétaire d'origine.
             label: Transférer
@@ -2304,6 +2303,8 @@ fr:
             explanation: Cela signifie que la fonction apparaîtra comme une option pour "Type de destinataire" lorsque l'utilisateur effectue une externe. Si l'utilisateur choisit ce rôle comme type de référence, l'exportation que Primero génère lorsque l'utilisateur soumet le renvoi ne contiendra que les informations qui se trouvent dans les formulaires auxquels cette fonction a accès. Ainsi, par exemple, si l'utilisateur choisit "Fournisseur de services médicaux" comme type de destinataire, et que le rôle de fournisseur de services médicaux n'a accès qu'aux formulaires d'identité de base et de préoccupations de protection, le fichier d'exportation que Primero exporte pour la recommandation externe ne contiendra que les champs qui se trouvent dans ces deux formulaires.
             label: Ce rôle peut-il être utilisé pour les références en externes ?
         label: 'Référence '
+      registry_record:
+        label: Dossier du registre
       report:
         actions:
           create:
@@ -2486,6 +2487,8 @@ fr:
     previously_owned_by_agency: Organisation précédente
     reassigned_tranferred_on: Réassigné / Transféré le
     record_history_separator: Historique du cas
+    last_updated_at: Dernière mise à jour le
+    last_updated_by: Dernière mise à jour par
   record_panel:
     record_information: Informations Relatives au Dossier
   referral:

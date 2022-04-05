@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
@@ -7,12 +7,8 @@ import { push } from "connected-react-router";
 import qs from "qs";
 
 import IndexTable from "../index-table";
-import PageContainer, { PageContent } from "../page";
 import { useI18n } from "../i18n";
 import Filters, { getFiltersValuesByRecordType } from "../index-filters";
-import { getPermissionsByRecord } from "../user";
-import { ACTIONS, DISPLAY_VIEW_PAGE, checkPermissions } from "../../libs/permissions";
-import Permission from "../application/permission";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
 import { clearCaseFromIncident } from "../records/action-creators";
@@ -21,8 +17,9 @@ import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { clearPreviousRecord, setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
-import { DEFAULT_METADATA } from "../../config";
 import { useApp } from "../application";
+import usePermissions, { ACTIONS } from "../permissions";
+import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
@@ -33,8 +30,8 @@ import css from "./styles.css";
 import ViewModal from "./view-modal";
 
 const Container = ({ match, location }) => {
-  const i18n = useI18n();
   const { mobileDisplay } = useThemeHelper();
+  const i18n = useI18n();
   const queryParams = qs.parse(location.search.replace("?", ""));
   const [drawer, setDrawer] = useState(false);
   const { online } = useApp();
@@ -49,25 +46,18 @@ const Container = ({ match, location }) => {
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, recordType));
-  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
   const filters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
-  const permissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
   const numberErrorsBulkAssign = useMemoizedSelector(state => getNumberErrorsBulkAssign(state, recordType));
   const numberRecordsBulkAssign = useMemoizedSelector(state => getNumberBulkAssign(state, recordType));
 
-  const canViewModal = checkPermissions(userPermissions, [ACTIONS.DISPLAY_VIEW_PAGE]);
-
-  const handleViewModalClose = () => {
-    setOpenViewModal(false);
-  };
-  const searchParams = new URLSearchParams(search);
-
-  const defaultMetadata = metadata?.toJS();
-  const defaultFilterFields = DEFAULT_FILTERS;
-  const defaultFilters = fromJS({
-    ...defaultFilterFields,
-    ...defaultMetadata
+  const { canViewModal, canSearchOthers } = usePermissions(recordType, {
+    canViewModal: [ACTIONS.DISPLAY_VIEW_PAGE],
+    canSearchOthers: [ACTIONS.SEARCH_OTHERS]
   });
+
+  const fromDashboard = useMemo(() => Boolean(new URLSearchParams(search).get("fromDashboard")), [search]);
+
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
@@ -106,7 +96,9 @@ const Container = ({ match, location }) => {
     });
   }, []);
 
-  const canSearchOthers = permissions.includes(ACTIONS.MANAGE) || permissions.includes(ACTIONS.SEARCH_OWNED_BY_OTHERS);
+  const handleViewModalClose = useCallback(() => {
+    setOpenViewModal(false);
+  }, []);
 
   const listHeaders =
     // eslint-disable-next-line camelcase
@@ -119,86 +111,87 @@ const Container = ({ match, location }) => {
     return (!online && record.get("complete", false) && allowedToOpenRecord) || (online && allowedToOpenRecord);
   };
 
-  const indexTableProps = {
-    recordType,
-    defaultFilters,
-    bypassInitialFetch: true,
-    columns: buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, online),
-    onTableChange: applyFilters,
-    onRowClick: record => {
-      if (recordAvaialble(record)) {
-        dispatch(push(`${recordType}/${record.get("id")}`));
-      } else if (canViewModal && online) {
-        setCurrentRecord(record);
-        setOpenViewModal(true);
-      }
-    },
-    selectedRecords,
-    isRowSelectable: record => recordAvaialble(record) || online,
-    setSelectedRecords,
-    showCustomToolbar: true
-  };
-
-  const handleDrawer = () => {
+  const handleDrawer = useCallback(() => {
     setDrawer(!drawer);
-  };
+  }, []);
 
   const clearSelectedRecords = useCallback(() => {
     setSelectedRecords({});
   }, []);
 
-  const filterContainerProps = {
-    mobileDisplay,
-    drawer,
-    handleDrawer
-  };
-
   const page = metadata?.get("page", 1);
   const currentPage = page - 1;
 
-  const recordListToolbarProps = {
-    title: i18n.t(`${recordType}.label`),
-    recordType,
-    handleDrawer,
-    mobileDisplay,
-    currentPage,
-    selectedRecords,
-    clearSelectedRecords
-  };
+  const handleRowClick = useCallback(record => {
+    if (recordAvaialble(record)) {
+      dispatch(push(`${recordType}/${record.get("id")}`));
+    } else if (canViewModal && online) {
+      setCurrentRecord(record);
+      setOpenViewModal(true);
+    }
+  }, []);
 
-  const filterProps = {
-    recordType,
-    defaultFilters: fromJS({
-      ...defaultFilterFields,
-      ...DEFAULT_METADATA
-    }),
-    setSelectedRecords,
-    fromDashboard: Boolean(searchParams.get("fromDashboard"))
-  };
+  const rowSelectable = useCallback(record => recordAvaialble(record) || online, []);
+
+  const columns = useMemo(
+    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvaialble, online),
+    [online, listHeaders, recordType]
+  );
+
+  const handleSelectedRecords = useCallback(ids => {
+    setSelectedRecords(ids);
+  }, []);
+
+  const title = i18n.t(`${recordType}.label`);
 
   return (
     <>
       <PageContainer fullWidthMobile>
-        <RecordListToolbar {...recordListToolbarProps} />
+        <RecordListToolbar
+          title={title}
+          recordType={recordType}
+          handleDrawer={handleDrawer}
+          currentPage={currentPage}
+          selectedRecords={selectedRecords}
+          clearSelectedRecords={clearSelectedRecords}
+        />
         <PageContent flex>
           <div className={css.tableContainer}>
             <div className={css.table}>
-              <IndexTable title={i18n.t(`${recordType}.label`)} {...indexTableProps} />
+              <IndexTable
+                title={title}
+                recordType={recordType}
+                defaultFilters={defaultFilters}
+                bypassInitialFetch
+                showCustomToolbar
+                columns={columns}
+                onTableChange={applyFilters}
+                onRowClick={handleRowClick}
+                selectedRecords={selectedRecords}
+                isRowSelectable={rowSelectable}
+                setSelectedRecords={handleSelectedRecords}
+              />
             </div>
           </div>
-          <FilterContainer {...filterContainerProps}>
-            <Filters {...filterProps} />
+
+          <FilterContainer drawer={drawer} handleDrawer={handleDrawer} mobileDisplay={mobileDisplay}>
+            <Filters
+              recordType={recordType}
+              defaultFilters={defaultFilters}
+              setSelectedRecords={handleSelectedRecords}
+              fromDashboard={fromDashboard}
+            />
           </FilterContainer>
         </PageContent>
       </PageContainer>
-      <Permission resources={recordType} actions={DISPLAY_VIEW_PAGE}>
+      {canViewModal && (
         <ViewModal
           close={handleViewModalClose}
           openViewModal={openViewModal}
           currentRecord={currentRecord}
           recordType={recordType}
         />
-      </Permission>
+      )}
     </>
   );
 };

@@ -11,7 +11,7 @@ const Seperator = ({ helperText, label, mode }) => {
       <div className={css.separatorTitle}>
         <h4>{label}</h4>
       </div>
-      {mode.isEdit && helperText && <FormHelperText>{helperText}</FormHelperText>}
+      {(mode.isEdit || mode.isNew) && helperText && <FormHelperText>{helperText}</FormHelperText>}
     </div>
   );
 };

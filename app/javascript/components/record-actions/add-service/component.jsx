@@ -70,7 +70,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     initialValues: initialFormValues,
     validateOnBlur: false,
     validateOnChange: false,
-    ref: formikRef,
+    innerRef: formikRef,
     onSubmit: (values, { setSubmitting }) => {
       const body = {
         data: {

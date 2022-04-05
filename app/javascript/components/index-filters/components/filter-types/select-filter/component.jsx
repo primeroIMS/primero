@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import Autocomplete, { createFilterOptions } from "@material-ui/lab/Autocomplete";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
@@ -153,6 +153,11 @@ const Component = ({
   // eslint-disable-next-line react/no-multi-comp, react/display-name
   const handleRenderInput = params => <TextField {...params} fullWidth margin="normal" variant="outlined" />;
 
+  const filterOptionsProp = createFilterOptions({
+    matchFrom: "any",
+    limit: 50
+  });
+
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
       <Autocomplete
@@ -166,6 +171,7 @@ const Component = ({
         value={inputValue}
         getOptionSelected={handleOptionSelected}
         renderInput={handleRenderInput}
+        filterOptions={filterOptionsProp}
       />
     </Panel>
   );

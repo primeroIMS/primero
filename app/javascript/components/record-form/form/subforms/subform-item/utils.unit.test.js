@@ -83,7 +83,8 @@ describe("<SubformItem /> - utils", () => {
         })
       });
 
-      expect(result).to.deep.equal(expected);
+      // TODO: Certain records all of a sudden require toJS
+      expect(result.toJS()).to.deep.equal(expected.toJS());
     });
   });
 });

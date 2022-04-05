@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel, Box } from "@material-ui/core";
-import { RadioGroup } from "formik-material-ui";
+import { FormControlLabel, FormHelperText, Radio, FormControl, InputLabel } from "@material-ui/core";
 import { Field, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
+import { RadioGroup } from "formik-material-ui";
 
 import { useI18n } from "../../../i18n";
 import { getOption } from "../../selectors";
@@ -34,6 +34,7 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
 
   const fieldProps = {
     name,
+    onChange: (e, val) => formik.setFieldValue(name, val, true),
     ...omitBy(rest, (val, key) =>
       [
         "InputProps",
@@ -87,18 +88,9 @@ const RadioField = ({ name, helperText, label, disabled, field, formik, mode, ..
       <InputLabel shrink htmlFor={fieldProps.name} required={field.required}>
         {label}
       </InputLabel>
-      <Field
-        {...fieldProps}
-        render={({ form }) => {
-          const onChange = (e, val) => form.setFieldValue(fieldProps.name, val, true);
-
-          return (
-            <RadioGroup {...fieldProps} value={String(value)} onChange={onChange}>
-              <Box display="flex">{renderOption}</Box>
-            </RadioGroup>
-          );
-        }}
-      />
+      <Field component={RadioGroup} {...fieldProps}>
+        <div className={css.radioOption}>{renderOption}</div>
+      </Field>
       <FormHelperText>{fieldError && fieldTouched ? fieldError : helperText}</FormHelperText>
     </FormControl>
   );

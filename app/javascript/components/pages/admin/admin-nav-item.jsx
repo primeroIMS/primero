@@ -16,6 +16,7 @@ const AdminNavItem = ({ item, isParent, open, handleClick, nestedClass, renderJe
 
   const Link = useMemo(
     () =>
+      // eslint-disable-next-line react/no-multi-comp,react/display-name
       forwardRef((linkProps, ref) => (
         <NavLink ref={ref} to={`/admin${item.to}`} {...linkProps} activeClassName="Mui-selected" />
       )),

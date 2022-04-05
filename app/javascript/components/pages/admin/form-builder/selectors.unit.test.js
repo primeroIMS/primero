@@ -161,7 +161,7 @@ describe("<FormsBuilder /> - Selectors", () => {
       records: {
         admin: {
           forms: {
-            formSections: { "1": { id: 1, unique_id: "form_section_2" } },
+            formSections: { 1: { id: 1, unique_id: "form_section_2" } },
             subforms: [{ unique_id: "form_section_3" }]
           }
         }
@@ -180,8 +180,8 @@ describe("<FormsBuilder /> - Selectors", () => {
       records: {
         admin: {
           forms: {
-            formSections: { "1": { id: 1, unique_id: "form_section_2" } },
-            fields: { "1": { id: 1, name: "field_1" } },
+            formSections: { 1: { id: 1, unique_id: "form_section_2" } },
+            fields: { 1: { id: 1, name: "field_1" } },
             selectedSubform: { unique_id: "form_section_3", fields: [{ name: "field_2" }] },
             subforms: [{ unique_id: "form_section_3", fields: [{ name: "field_3" }] }]
           }

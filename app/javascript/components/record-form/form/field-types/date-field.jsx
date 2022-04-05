@@ -82,9 +82,8 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
   }, [formInstance.current]);
 
   return (
-    <FastField
-      {...fieldProps}
-      render={({ field, form }) => {
+    <FastField {...fieldProps}>
+      {({ field, form }) => {
         const onChange = date => {
           updateAgeField(form, date);
 
@@ -131,7 +130,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
           />
         );
       }}
-    />
+    </FastField>
   );
 };
 
