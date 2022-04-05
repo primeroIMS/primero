@@ -96,8 +96,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
       field_key: "owned_by_location",
       admin_level: 2,
       admin_level_map: {
-        "1": ["province"],
-        "2": ["district"]
+        1: ["province"],
+        2: ["district"]
       },
       hierarchy_filter: [],
       label_keys: ["district"]
@@ -202,8 +202,8 @@ describe("<ReportForm>/utils/buildFields()", () => {
       field_key: "owned_by_location",
       admin_level: 2,
       admin_level_map: {
-        "1": ["province"],
-        "2": ["district"]
+        1: ["province"],
+        2: ["district"]
       },
       hierarchy_filter: [],
       label_keys: ["district"]

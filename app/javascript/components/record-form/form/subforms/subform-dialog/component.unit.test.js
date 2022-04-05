@@ -123,6 +123,7 @@ describe("<SubformDialog />", () => {
       expect(subformDialogProps).to.have.property(property);
       delete subformDialogProps[property];
     });
+
     expect(subformDialogProps).to.be.empty;
   });
 

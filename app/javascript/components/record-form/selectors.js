@@ -1,5 +1,4 @@
 import isEmpty from "lodash/isEmpty";
-import isEqual from "lodash/isEqual";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { fromJS, OrderedMap, List } from "immutable";
@@ -15,6 +14,7 @@ import { OPTION_TYPES } from "../form/constants";
 import { getPermissionsByRecord } from "../user/selectors";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
+import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -23,7 +23,7 @@ import { RECORD_FORM_PERMISSION } from "./form/constants";
 
 const defaultCacheSelectorOptions = {
   keySelector: (_state, query) => JSON.stringify(omitBy(query, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
 };
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
@@ -409,6 +409,10 @@ export const getFieldByName = (state, name, moduleID, parentForm) => {
   }
 
   return fields.find(field => field.name === name);
+};
+
+export const getFieldsByName = (state, names = fromJS([])) => {
+  return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
 export const getFieldsWithNames = createCachedSelector(

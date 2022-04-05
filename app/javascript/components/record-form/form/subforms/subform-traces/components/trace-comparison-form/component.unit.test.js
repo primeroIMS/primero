@@ -47,7 +47,7 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
   const initialState = fromJS({
     forms: {
       formSections: {
-        "1": FormSectionRecord({
+        1: FormSectionRecord({
           id: 1,
           unique_id: "first_form",
           name: { en: "First Form" },
@@ -61,7 +61,7 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
           order_form_group: 1,
           visible: true
         }),
-        "2": FormSectionRecord({
+        2: FormSectionRecord({
           id: 2,
           unique_id: "second_form",
           name: { en: "Second Form" },
@@ -77,19 +77,19 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
         })
       },
       fields: {
-        "1": FieldRecord({ id: 1, display_name: { en: "Name" }, name: "name", type: TEXT_FIELD }),
-        "2": FieldRecord({ id: 2, display_name: { en: "Nickname" }, name: "name_nickname", type: TEXT_FIELD }),
-        "3": FieldRecord({
+        1: FieldRecord({ id: 1, display_name: { en: "Name" }, name: "name", type: TEXT_FIELD }),
+        2: FieldRecord({ id: 2, display_name: { en: "Nickname" }, name: "name_nickname", type: TEXT_FIELD }),
+        3: FieldRecord({
           id: 3,
           display_name: { en: "Sex" },
           name: "sex",
           type: SELECT_FIELD,
           options_strings_source: "lookup lookup-gender"
         }),
-        "4": FieldRecord({ id: 4, display_name: { en: "Age" }, name: "age", type: NUMERIC_FIELD }),
-        "5": FieldRecord({ id: 5, display_name: { en: "Date of Birth" }, name: "date_of_birth", type: DATE_FIELD }),
-        "6": FieldRecord({ id: 6, display_name: { en: "Field 1" }, name: "field_1", type: TEXT_FIELD }),
-        "7": FieldRecord({ id: 7, display_name: { en: "Field 2" }, name: "field_2", type: TEXT_FIELD })
+        4: FieldRecord({ id: 4, display_name: { en: "Age" }, name: "age", type: NUMERIC_FIELD }),
+        5: FieldRecord({ id: 5, display_name: { en: "Date of Birth" }, name: "date_of_birth", type: DATE_FIELD }),
+        6: FieldRecord({ id: 6, display_name: { en: "Field 1" }, name: "field_1", type: TEXT_FIELD }),
+        7: FieldRecord({ id: 7, display_name: { en: "Field 2" }, name: "field_2", type: TEXT_FIELD })
       },
       options: {
         lookups: [

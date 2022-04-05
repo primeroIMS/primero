@@ -56,7 +56,7 @@ class Ability
   end
 
   def agency_permission?(instance)
-    user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &
+    user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
       user.agency == instance.agency
   end
 
@@ -219,7 +219,7 @@ class Ability
 
   def can_read_reports
     can [:read_reports], Report do |report|
-      can?(:read, report) || can?(:group_read, report)
+      can?(:read, report) || can?(:group_read, report) || can?(:agency_read, report)
     end
   end
 

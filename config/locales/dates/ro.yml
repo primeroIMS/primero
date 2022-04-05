@@ -1,0 +1,69 @@
+ro:
+  date:
+    today: 'Astăzi'
+    clear: 'Golire'
+    abbr_day_names_short:
+      - Du
+      - Lu
+      - Ma
+      - Mi
+      - Jo
+      - Vi
+      - Sâ
+    abbr_day_names:
+      - Dum
+      - Lun
+      - Mar
+      - Mie
+      - Joi
+      - Vin
+      - Sâm
+    abbr_month_names:
+    - ~
+      - Ian
+      - Feb
+      - Mar
+      - Apr
+      - Mai
+      - Iun
+      - Iul
+      - Aug
+      - Sep
+      - Oct
+      - Noi
+      - Dec
+    day_names:
+      - Duminică
+      - Luni
+      - Marți
+      - Miercuri
+      - Joi
+      - Vineri
+      - Sâmbătă
+    month_names:
+    - ~
+      - Ianuarie
+      - Februarie
+      - Martie
+      - Aprilie
+      - Mai
+      - Iunie
+      - Iulie
+      - August
+      - Septembrie
+      - Octombrie
+      - Noiembrie
+      - Decembrie
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  'true': "Da"
+  'false': "Nu"

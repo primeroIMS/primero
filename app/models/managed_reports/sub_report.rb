@@ -4,7 +4,7 @@
 class ManagedReports::SubReport < ValueObject
   attr_accessor :data
 
-  def build_report(current_user, params = [])
+  def build_report(current_user, params = {})
     self.data = indicators.reduce({}) do |acc, indicator|
       acc.merge(indicator.id => indicator.build(current_user, params).data)
     end

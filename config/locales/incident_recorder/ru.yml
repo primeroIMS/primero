@@ -1,0 +1,76 @@
+ru:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Экспортировать запись инциндента xls"
+  exports:
+    incident_recorder_xls:
+      all: Запись инциндента
+      one: Запись инциндента
+      selected: Выбранный для записи инциндента
+      'yes': "Да"
+      'no': "Нет"
+      gender:
+        male: "М"
+        female: "Ж"
+        both: "М и Ж"
+      age_group:
+        age: "возраст"
+        61_older: "61 и старше"
+        unknown: "Неизвестно"
+        header: "Возрастная группа подозреваемого преступника "
+      age_type:
+        adult: "Взрослый"
+        minor: "Несовершеннолетий"
+        both: "Взрослый&несовершеннолетний"
+        unknown: "Неизвестно"
+        header: "Возрастная группа подозреваемого преступника "
+      service_referral:
+        undecided: "Не решено"
+      headers:
+        incident_id: "Номер инциндента"
+        survivor_code: "Код выжившего"
+        case_manager_code: "Код менеджера кейса"
+        case_worker_code: "Код специалиста по кейсу"
+        date_of_interview: "Дата интервью"
+        date_of_incident: "Дата инциндента"
+        date_of_birth: "Дата рождения"
+        sex: "Пол"
+        ethnicity: "Этническая принадлежность"
+        country_of_origin: "Страна происхождения"
+        marital_status: "супружеский/гражданский статус"
+        displacement_status: "статус перемещения в отчете"
+        disability_type: "Человек с инвалидностью?"
+        unaccompanied_separated_status: "Ребенок разлученный и без сопровождения?"
+        stage_of_displacement: "Стадия перемещения в момент инцидента"
+        time_of_day: "Время инцидента"
+        location: "Место инцидента"
+        county: "Область инцидента"
+        district: "район инциндента"
+        camp_town: "легерь/город инцидента"
+        camp: "лагерь инцидента"
+        gbv_type: "Тип гендерного насилия"
+        harmful_traditional_practice: "Вредная традиционная практика"
+        goods_money_exchanged: "деньги, вещи, льготы и\\или услуги взамен?"
+        abduction_type: "Тип похищения"
+        previously_reported: "Раннее сообщали об этом инцинденте?"
+        gbv_previous_incidents: "Предыдущие инцинденты гендерного насилия?"
+        number_primary_perpetrators: "Количество предполагаемых основых преступник(ов)"
+        perpetrator:
+          sex: "Пол предполагаемых преступников"
+          former: "Предыдущие инцинденты с преступником"
+          relationship: "Взаимоотношения между жертвой и преступником"
+          occupation: "Занятие предполагаемого преступника"
+          age_group: "Возрастная группа предполагаемого преступника"
+          age_type: "Тип возраста предполагаемого преступника"
+        service:
+          referred_from: "Откуда пренаправлен к Вам?"
+          safehouse_referral: "Приют / безопасный дом"
+          medical_referral: "Здоровье / медицинские услуги"
+          psycho_referral: "Психосоциальные услуги"
+          wants_legal_action: "Желает юридические меры?"
+          legal_referral: "Услуги юридической помощи"
+          police_referral: "Полиция / другие службы безопасности"
+          livelihoods_referral: "Программа предоставления средств к существованию"
+          protection_referral: "Услуги по защите детей / образовательные услуги"
+        consent: "Согласие дано"
+        agency_code: "Код агенства предоставившего информацию"

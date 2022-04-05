@@ -15,6 +15,7 @@ services:
       - USE_LETS_ENCRYPT=false
     depends_on:
       - application
+    restart: always
   application:
     env_file:
       - docker/defaults.env

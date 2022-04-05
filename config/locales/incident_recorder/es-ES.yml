@@ -1,0 +1,76 @@
+es-ES:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Exportar registrador de incidentes xls"
+  exports:
+    incident_recorder_xls:
+      all:  Registrador(a) del Incidente
+      one:  Registrador(a) del Incidente
+      selected:  Seleccionado(a) para Registrador(a) de Incidente
+      "yes": "Sí"
+      "no": "No"
+      gender:
+        male: "M"
+        female: "F"
+        both: "M y F"
+      age_group:
+        age: "Edad"
+        61_older: "61 en Adelante"
+        unknown: "Se desconoce"
+        header: "GRUPO ETARIO DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+      age_type:
+        adult: "Adulto(a)"
+        minor: "Niño, Niña, o Adolescente"
+        both: "Adulto(a) y Niño, Niña, o Adolescente"
+        unknown: "Se desconoce"
+        header: "TIPO ETARIO DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+      service_referral:
+        undecided: "No decidido"
+      headers:
+        incident_id: "No. DE IDENTIFICACIÓN DEL INCIDENTE"
+        survivor_code: "CÓDIGO DE SOBREVIVIENTE"
+        case_manager_code: "CÓDIGO DE EL/LA GERENTE DEL CASO"
+        case_worker_code: "CÓDIGO DE EL/LA TRABAJADOR(A) DEL CASO"
+        date_of_interview: "FECHA DE LA ENTREVISTA"
+        date_of_incident: "FECHA DEL INCIDENTE"
+        date_of_birth: "FECHA DE NACIMIENTO"
+        sex: "SEXO"
+        ethnicity: "ETNIA"
+        country_of_origin: "PAÍS DE ORIGEN"
+        marital_status: "ESTADO CIVIL / MARITAL"
+        displacement_status: "SITUACIÓN DE DESPLAZAMIENTO AL MOMENTO DEL REPORTE"
+        disability_type: "¿PERSONA CON DISCAPACIDAD?"
+        unaccompanied_separated_status: "¿NIÑO, NIÑA, O ADOLESCENTE NO ACOMPAÑADO(A) O SEPARADO(A)?"
+        stage_of_displacement: "ETAPA DE DESPLAZAMIENTO AL MOMENTO DEL INCIDENTE"
+        time_of_day: "MOMENTO DEL DÍA DEL INCIDENTE"
+        location: "LOCALIDAD DEL INCIDENTE"
+        county: "CONDADO DEL INCIDENTE"
+        district: "DISTRITO DEL INCIDENTE"
+        camp_town: "CAMPAMENTO / PUEBLO"
+        camp: "CAMPAMENTO DEL INCIDENTE"
+        gbv_type: "TIPO DE VIOLENCIA BASADA EN GÉNERO (GBV)"
+        harmful_traditional_practice: "PRÁCTICA DAÑINA TRADICIONAL"
+        goods_money_exchanged: "¿DINERO, BIENES, BENEFICIOS, Y/O SERVICIOS INTERCAMBIADOS?"
+        abduction_type: "TIPO DE SECUESTRO"
+        previously_reported: "¿HA REPORTADO ANTERIORMENTE ESTE INCIDENTE?"
+        gbv_previous_incidents: "¿ANTERIORES INCIDENTES DE VIOLENCIA BASADA EN GENERO (GBV)?"
+        number_primary_perpetrators: "No. DE PRESUNTO(A)S PERPETRADORE(A)S PRIMARIO(A)S "
+        perpetrator:
+          sex: "SEXO DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+          former: "INCIDENTE ANTERIOR CON ESTE(A) PERPETRADOR(A)"
+          relationship: "PRESUNTO(A) PERPETRADOR(A) - RELACIÓN CON EL/LA SOBREVIVIENTE"
+          occupation: "OCUPACIÓN DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+          age_group: "GRUPO ETARIO DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+          age_type: "TIPO ETARIO DE EL/LA PRESUNTO(A) PERPETRADOR(A)"
+        service:
+          referred_from: "¿REFERIDO(A) A USTED DE?"
+          safehouse_referral: "HOGAR / REFUGIO SEGURO"
+          medical_referral: "SERVICIOS DE SALUD / MÉDICOS"
+          psycho_referral: "SERVICIOS PSICOSOCIALES"
+          wants_legal_action: "¿DESEA ACCIÓN LEGAL?"
+          legal_referral: "SERVICIOS DE ASISTENCIA LEGAL"
+          police_referral: "POLICÍA /OTRO ACTOR DE SEGURIDAD"
+          livelihoods_referral: "PROGRAMA DE MEDIOS DE VIDA"
+          protection_referral: "SERVICIOS DE PROTECCIÓN INFANTIL / SERVICIOS DE EDUCACIÓN"
+        consent: "CONSENTIMIENTO PROPORCIONADO"
+        agency_code: "CÓDIGO DE LA AGENCIA QUE INFORMA"

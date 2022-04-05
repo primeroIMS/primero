@@ -36,16 +36,19 @@ import MoreSection from "./components/more-section";
 
 const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const queryParams = qs.parse(location.search.replace("?", ""));
+
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-  const [moreSectionFilters, setMoreSectionFilters] = useState({});
-  const location = useLocation();
-  const queryParams = qs.parse(location.search.replace("?", ""));
   const [more, setMore] = useState(false);
   const [reset, setReset] = useState(false);
   const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
-  const dispatch = useDispatch();
+  const [moreSectionFilters, setMoreSectionFilters] = useState({});
+
   const defaultFiltersPlainObject = defaultFilters.toJS();
 
   const resetSelectedRecords = () => {
@@ -215,7 +218,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setReset(true);
     setMore(false);
     setFilterToList(DEFAULT_FILTERS);
-  });
+  }, [recordType, defaultFiltersPlainObject]);
 
   const handleChangeTabs = (event, value) => setTabIndex(value);
 

@@ -15,6 +15,45 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     end
   end
 
+  def this_quarter?
+    return false unless from.present? && to.present?
+
+    from.to_date == Date.today.beginning_of_quarter && to.to_date == Date.today.end_of_quarter
+  end
+
+  def last_quarter?
+    return false unless from.present? && to.present?
+
+    last_quarter = Date.today - 3.month
+    from.to_date == last_quarter.beginning_of_quarter && to.to_date == last_quarter.end_of_quarter
+  end
+
+  def this_year?
+    return false unless from.present? && to.present?
+
+    from.to_date == Date.today.beginning_of_year && to.to_date == Date.today.end_of_year
+  end
+
+  def last_year?
+    return false unless from.present? && to.present?
+
+    last_year = Date.today - 1.year
+    from.to_date == last_year.beginning_of_year && to.to_date == last_year.end_of_year
+  end
+
+  def this_month?
+    return false unless from.present? && to.present?
+
+    from.to_date == Date.today.beginning_of_month && to.to_date == Date.today.end_of_month
+  end
+
+  def last_month?
+    return false unless from.present? && to.present?
+
+    last_month = Date.today - 1.month
+    from.to_date == last_month.beginning_of_month && to.to_date == last_month.end_of_month
+  end
+
   def to_h
     {
       type: 'date_range',

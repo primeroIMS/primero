@@ -1,8 +1,7 @@
-import uuid from "uuid";
-
 import { stub } from "../test";
 
 import toIdentifier from "./to-identifier";
+import uuid from "./uuid";
 
 describe("toIdentifier", () => {
   const identifier = "1234abc";

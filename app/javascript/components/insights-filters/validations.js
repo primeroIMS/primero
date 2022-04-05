@@ -1,12 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import { object, string } from "yup";
 
-// date: null
-// date_range: null
-// from: ""
-// to: ""
-// view_by: "month"
-
 const customDateValidation = string().when("date_range", {
   is: "custom",
   then: string().required()

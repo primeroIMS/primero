@@ -151,6 +151,7 @@ const RecordForm = ({
           validationSchema={validationSchema}
           validateOnBlur={false}
           validateOnChange={false}
+          validateOnMount={false}
           enableReinitialize
           onSubmit={handleOnSubmit}
         >

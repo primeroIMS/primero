@@ -1,4 +1,4 @@
-import { MODULES, VIOLATIONS_SUBFORM_UNIQUE_IDS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
+import { MODULES, MRM_INSIGHTS_SUBREPORTS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
 import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
@@ -27,6 +27,7 @@ const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
 export const NAME = "Insights";
+export const NAMESPACE = "insights";
 export const DELETE_MODAL = "DeleteReportModal";
 export const DATE_PATTERN = "(\\w{2}-)?\\w{3}-\\d{4}";
 export const TOTAL = "total";
@@ -49,6 +50,9 @@ export const CUSTOM = "custom";
 export const QUARTER_OPTION_IDS = [THIS_QUARTER, LAST_QUARTER, CUSTOM];
 export const MONTH_OPTION_IDS = [THIS_MONTH, LAST_MONTH, CUSTOM];
 export const YEAR_OPTION_IDS = [THIS_YEAR, LAST_YEAR, CUSTOM];
+
+export const EXPORT_INSIGHTS_PATH = "/managed_reports/export";
+export const INSIGHTS_EXPORTER_DIALOG = "insights_exporter_dialog";
 
 export const SHARED_FILTERS = [
   {
@@ -116,7 +120,7 @@ export const SHARED_FILTERS = [
 
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
-    ids: VIOLATIONS_SUBFORM_UNIQUE_IDS,
+    ids: MRM_INSIGHTS_SUBREPORTS,
     localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
     defaultFilterValues: {
       [VIEW_BY]: QUARTER,

@@ -18,7 +18,7 @@ import { filterOptions as filterOptionsConfig } from "../../searchable-select/ut
 
 import css from "./styles.css";
 
-const filter = createFilterOptions();
+const filter = createFilterOptions({ limit: 50 });
 
 const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, formMethods, isShow }) => {
   const { control, setValue, getValues } = formMethods;
@@ -100,8 +100,11 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
     if (typeof option === "string" && option === "") {
       return "";
     }
-    const { display_name: displayName, display_text: displayText, translate } =
-      typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
+    const {
+      display_name: displayName,
+      display_text: displayText,
+      translate
+    } = typeof option === "object" ? option : options?.find(opt => opt.id === option) || defaultOption;
 
     const freeSoloDisplayText = freeSolo && typeof option === "string" ? option : null;
 
