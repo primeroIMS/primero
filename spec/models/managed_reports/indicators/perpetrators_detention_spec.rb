@@ -84,13 +84,13 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, data: { incident_date: Date.today, status: 'open' })
+    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
     incident1.save!
-    incident2 = Incident.new_with_user(@group_user, data: { incident_date: Date.today, status: 'open' })
+    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, data: { incident_date: Date.today, status: 'open' })
+    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident3.save!
-    incident4 = Incident.new_with_user(@all_user, data: { incident_date: Date.today, status: 'open' })
+    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
 
     violation1 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident1.id)
@@ -157,6 +157,80 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       expect(perpetrators_data).to match_array(
         [{ id: 'armed_force_2', total: 2 }, { id: 'armed_force_3', total: 1 }]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::PerpetratorsDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 2020, data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 2021, data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 2022, data: [{ id: 'armed_force_3', total: 1 }] }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::PerpetratorsDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'august-2020', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 'august-2021', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 'february-2022', data: [{ id: 'armed_force_3', total: 1 }] }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::PerpetratorsDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'q3-2020', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 'q3-2021', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: 'q1-2022', data: [{ id: 'armed_force_3', total: 1 }] }
+          ]
+        )
+      end
     end
   end
 end
