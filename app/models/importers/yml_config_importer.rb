@@ -28,14 +28,25 @@ class Importers::YmlConfigImporter < ValueObject
   def process_import_file(config_data)
     return Rails.logger.error('Import Not Processed: invalid yml format') unless config_data.is_a?(Hash)
 
-    self.locale = config_data&.keys&.first&.to_sym
-    return log_errors('Import Not Processed: locale not passed in') if locale.blank?
-
-    if I18n.available_locales.exclude?(locale)
-      return log_errors("Import Not Processed: locale #{locale} not in available locales")
-    end
+    self.locale = valid_locale(config_data)
+    return nil if locale.blank?
 
     process_config_data(config_data)
+  end
+
+  def valid_locale(config_data)
+    locale = config_data&.keys&.first&.to_sym
+    if locale.blank?
+      log_errors('Import Not Processed: locale not passed in')
+      return nil
+    end
+
+    if I18n.available_locales.exclude?(locale)
+      log_errors("Import Not Processed: locale #{locale} not in available locales")
+      return nil
+    end
+
+    locale
   end
 
   def process_config_data(config_data)
