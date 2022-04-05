@@ -19,7 +19,6 @@ import { valueParser } from "../../../form/utils";
 import { NUMERIC_FIELD } from "../../constants";
 import { TEXT_FIELD_NAME } from "../constants";
 import { shouldFieldUpdate } from "../utils";
-import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import css from "./styles.css";
 
@@ -93,15 +92,11 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               }}
               {...fieldProps}
             />
-            {
-              hiddenTextField &&
-              mode.isEdit &&
-              !rest?.formSection?.is_nested ? (
-                <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
-                  {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
-                </ButtonBase>
-              ) : null
-            }
+            {hiddenTextField && mode.isEdit && !rest?.formSection?.is_nested ? (
+              <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
+                {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
+              </ButtonBase>
+            ) : null}
           </>
         );
       }}
