@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import { fromJS } from "immutable";
-import { createCachedSelector } from "re-reselect";
+import memoize from "proxy-memoize";
 
-export const getPermissionsByRecord = createCachedSelector(
-  state => state.getIn(["user", "permissions"], fromJS({})),
-  (_state, recordType) => recordType,
-  (data, recordType) => data.getIn([recordType], fromJS([]))
-)((_state, recordType) => recordType);
+export const getPermissionsByRecord = memoize(([state, recordType]) => {
+  const permissions = state.getIn(["user", "permissions"], fromJS({}));
+
+  return permissions.getIn([recordType], fromJS([]));
+});

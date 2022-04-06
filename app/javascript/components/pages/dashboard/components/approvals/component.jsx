@@ -1,8 +1,13 @@
 import PropTypes from "prop-types";
 import { Fragment } from "react";
 
-import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS, DASH_APPROVALS, DASH_APPROVALS_PENDING } from "../../../../../libs/permissions";
+import Permission, {
+  usePermissions,
+  RESOURCES,
+  ACTIONS,
+  DASH_APPROVALS,
+  DASH_APPROVALS_PENDING
+} from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
@@ -22,7 +27,6 @@ import {
 import { useApp } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
 import css from "../styles.css";
-import usePermissions from "../../../../permissions";
 
 import { NAME } from "./constants";
 

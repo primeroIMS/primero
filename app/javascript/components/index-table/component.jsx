@@ -28,7 +28,7 @@ const Component = props => {
       loading={dataIsLoading}
       type={loadingIndicatorType}
     >
-      <Datatable data={data} {...props} />;
+      <Datatable data={data} {...props} />
     </LoadingIndicator>
   );
 };

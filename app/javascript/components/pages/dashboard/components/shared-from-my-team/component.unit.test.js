@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { TableHead, TableCell } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS } from "../../../../../libs/permissions";
+import { ACTIONS } from "../../../../permissions";
 import DashboardTable from "../../../../dashboard/dashboard-table";
 import LoadingIndicator from "../../../../loading-indicator";
 

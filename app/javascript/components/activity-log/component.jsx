@@ -3,7 +3,7 @@ import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { useMemoizedSelector } from "../../libs";
-import { RESOURCES } from "../../libs/permissions";
+import { RESOURCES } from "../permissions";
 import { useI18n } from "../i18n";
 import { getAppliedFilters } from "../record-list";
 import IndexTable from "../index-table";

@@ -7,11 +7,10 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
-import { checkPermissions } from "../../libs/permissions";
+import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
-import { getPermissionsByRecord } from "../user/selectors";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
@@ -137,7 +136,7 @@ export const getFirstTab = createCachedSelector(
 export const getFormNav = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
-  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
+  (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, userPermissions, appLocale, query) => {
@@ -207,7 +206,7 @@ export const getRecordInformationFormIds = createCachedSelector(
 
 export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
-  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
+  (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   (formSections, userPermissions) => {
     return formSections
       .map(form => buildFormNav(form))

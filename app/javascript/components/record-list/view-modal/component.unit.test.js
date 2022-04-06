@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { TextField } from "@material-ui/core";
 
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { mapEntriesToRecord } from "../../../libs";
 import { setupMountedComponent } from "../../../test";
 import * as R from "../../record-form/records";

@@ -1,7 +1,7 @@
 import { fromJS, OrderedMap, Map } from "immutable";
 
 import { fake } from "../../../test";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
 import { RECORD_PATH } from "../../../config/constants";
 
