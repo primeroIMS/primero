@@ -40,6 +40,7 @@ class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
         ) keys_values
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name, key
       }
     end
     # rubocop:enable Metrics/MethodLength

@@ -12,6 +12,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
@@ -43,6 +44,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def user_reporting_location_admin_level(current_user)
       # Adding one since admin level start from 0, but string on postgres start from 1

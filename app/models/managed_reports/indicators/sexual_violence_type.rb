@@ -43,6 +43,7 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
         ) as violation_data
         group by detention_type
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize
