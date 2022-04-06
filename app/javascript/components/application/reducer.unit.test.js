@@ -1,6 +1,6 @@
 import { Map, fromJS } from "immutable";
 
-import { GROUP_PERMISSIONS, ACTIONS } from "../../libs/permissions";
+import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
 
 import reducer from "./reducer";
 import actions from "./actions";

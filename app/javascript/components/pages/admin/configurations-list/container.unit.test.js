@@ -4,7 +4,7 @@ import { parseISO, format } from "date-fns";
 import { DATE_TIME_FORMAT } from "../../../../config";
 import { setupMountedComponent, lookups } from "../../../../test";
 import IndexTable from "../../../index-table";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import NAMESPACE from "./namespace";
 import ConfigurationsList from "./container";

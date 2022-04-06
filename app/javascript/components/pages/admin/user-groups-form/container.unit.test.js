@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
-import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { WRITE_RECORDS } from "../../../permissions";
 import { FormAction } from "../../../form";
 
 import UserGroupsForm from "./container";

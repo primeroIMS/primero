@@ -15,8 +15,7 @@ import { CASE, REGISTRY_FROM_CASE, REGISTRY_RECORD, REGISTRY_RECORDS } from "../
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
 import css from "../../subforms/styles.css";
 import SubformEmptyData from "../../subforms/subform-empty-data";
-import usePermissions, { RESOURCES } from "../../../../permissions";
-import { READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../../libs/permissions";
+import { usePermissions, RESOURCES, READ_REGISTRY_RECORD, WRITE_REGISTRY_RECORD } from "../../../../permissions";
 import { enqueueSnackbar } from "../../../../notifier";
 import { fetchRecord, selectRecord } from "../../../../records";
 import { getRecordFormsByUniqueId } from "../../..";

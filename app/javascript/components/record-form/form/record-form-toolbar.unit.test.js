@@ -5,7 +5,7 @@ import { CircularProgress, Badge, Button } from "@material-ui/core";
 import { SaveReturnIcon } from "../../../images/primero-icons";
 import { setupMountedComponent } from "../../../test";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
 import ActionButton from "../../action-button";
 import { FieldRecord, FormSectionRecord } from "../records";

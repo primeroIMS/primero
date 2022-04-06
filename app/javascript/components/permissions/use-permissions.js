@@ -5,14 +5,19 @@ import { useProxySelector } from "../../libs/use-memoized-selector";
 
 import { getPermissionsByRecord } from "./selectors";
 
-const getPermissions = (permittedAbilities, abilities) =>
-  !isEmpty(abilities.filter(permission => permittedAbilities.includes(permission)));
+const getPermissions = (permittedAbilities, abilities) => {
+  if (Array.isArray(abilities)) {
+    return !isEmpty(abilities.filter(permission => permittedAbilities.includes(permission)));
+  }
+
+  return permittedAbilities.includes(abilities);
+};
 
 const usePermissions = (entity, abilities) => {
-  const permittedAbilities = useProxySelector(state => getPermissionsByRecord(state, entity), [entity]);
+  const permittedAbilities = useProxySelector(state => getPermissionsByRecord([state, entity]), [entity]);
 
   const permissions = useMemo(() => {
-    if (Array.isArray(abilities)) {
+    if (Array.isArray(abilities) || typeof abilities === "string") {
       return getPermissions(permittedAbilities, abilities);
     }
 

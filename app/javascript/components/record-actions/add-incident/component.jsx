@@ -11,7 +11,7 @@ import { saveRecord, selectRecordsByIndexes } from "../../records";
 import { compactValues } from "../../record-form/utils";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";

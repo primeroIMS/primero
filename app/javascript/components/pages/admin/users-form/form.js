@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { LOOKUPS } from "../../../../config";
-import { GROUP_PERMISSIONS } from "../../../../libs/permissions";
+import { GROUP_PERMISSIONS } from "../../../permissions";
 import {
   FormSectionRecord,
   FieldRecord,

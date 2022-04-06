@@ -5,12 +5,11 @@ import { useI18n } from "../../../i18n";
 import IndexTable, { DateCell } from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
-import { MANAGE, RESOURCES } from "../../../../libs/permissions";
+import Permission, { MANAGE, RESOURCES } from "../../../permissions";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
-import Permission from "../../../application/permission";
 import { useMemoizedSelector } from "../../../../libs";
 
 import NAMESPACE from "./namespace";

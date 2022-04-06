@@ -3,8 +3,7 @@ import { Grid } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import CreateIcon from "@material-ui/icons/Create";
 
-import { READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../../libs/permissions";
-import { usePermissions } from "../../../user";
+import { usePermissions, READ_RECORDS, RESOURCES, WRITE_RECORDS } from "../../../permissions";
 import { useI18n } from "../../../i18n";
 import { NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";

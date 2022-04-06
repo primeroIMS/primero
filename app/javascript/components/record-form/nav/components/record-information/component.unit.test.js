@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../../../test";
 import NavGroup from "../nav-group";
 import NavItem from "../nav-item";
-import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../../libs/permissions";
+import { SHOW_APPROVALS, VIEW_INCIDENTS_FROM_CASE } from "../../../../permissions";
 
 import RecordInformation from "./component";
 

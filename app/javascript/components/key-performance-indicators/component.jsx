@@ -3,8 +3,7 @@ import { Grid } from "@material-ui/core";
 
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
-import Permission from "../application/permission";
-import { ACTIONS, RESOURCES } from "../../libs/permissions";
+import Permission, { ACTIONS, RESOURCES } from "../permissions";
 
 import CommonDateRanges from "./utils/common-date-ranges";
 import css from "./styles.css";

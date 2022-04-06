@@ -7,7 +7,7 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FormSectionRecord, FORM_MODE_DIALOG } from "../../form";
 import { getRecordAlerts, saveRecord } from "../../records";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { NOTES_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";

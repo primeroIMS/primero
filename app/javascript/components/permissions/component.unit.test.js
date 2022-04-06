@@ -1,10 +1,11 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../test";
-import { ACTIONS, RESOURCES } from "../../libs/permissions";
 import { ROUTES } from "../../config";
 
-import Permission from "./permission";
+import Permission from "./component";
+
+import { ACTIONS, RESOURCES } from ".";
 
 describe("<Permission />", () => {
   let component;

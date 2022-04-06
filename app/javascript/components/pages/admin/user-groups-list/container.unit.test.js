@@ -4,7 +4,7 @@ import last from "lodash/last";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import NAMESPACE from "./namespace";
 import UserGroupsList from "./container";

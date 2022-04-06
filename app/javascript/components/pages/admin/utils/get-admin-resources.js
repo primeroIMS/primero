@@ -1,4 +1,4 @@
-import { ADMIN_RESOURCES } from "../../../../libs/permissions";
+import { ADMIN_RESOURCES } from "../../../permissions/constants";
 
 export default userPermissions =>
   ADMIN_RESOURCES.filter(
