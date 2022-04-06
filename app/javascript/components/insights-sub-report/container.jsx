@@ -15,7 +15,6 @@ import TableValues from "../charts/table-values";
 import BarChartGraphic from "../charts/bar-chart";
 import useOptions from "../form/use-options";
 import { CHART_COLORS } from "../../config/constants";
-import InsightsFilters from "../insights-filters";
 
 import { getInsight } from "./selectors";
 import namespace from "./namespace";
@@ -23,7 +22,7 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 
 const Component = () => {
-  const { id, subReport, moduleID } = useParams();
+  const { id, subReport } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -130,7 +129,6 @@ const Component = () => {
 
   return (
     <>
-      <InsightsFilters moduleID={moduleID} id={id} subReport={subReport} />
       <LoadingIndicator {...loadingIndicatorProps}>
         <div className={css.subReportContent}>
           <div className={css.subReportTables}>
