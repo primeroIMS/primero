@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import DisableOffline from "../../../disable-offline";
 import ActionButton from "../../../action-button";
 import { setupMountedComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { TransitionRecord } from "../../records";
 import RevokeModal from "../revoke-modal";
 import TransferApproval from "../../transfers/transfer-approval";

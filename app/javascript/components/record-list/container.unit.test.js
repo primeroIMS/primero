@@ -4,7 +4,7 @@ import { TableCell } from "@material-ui/core";
 
 import Filters from "../index-filters";
 import IndexTable from "../index-table";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { setupMountedComponent } from "../../test";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import { PrimeroModuleRecord } from "../application/records";

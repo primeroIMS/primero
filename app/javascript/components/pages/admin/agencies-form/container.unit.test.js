@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { FormAction } from "../../../form";
 
 import AgenciesForm from "./container";

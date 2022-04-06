@@ -5,8 +5,8 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import DisableOffline from "../../../disable-offline";
 import { TRANSITION_STATUS, TRANSITIONS_TYPES } from "../../constants";
-import { getPermissionsByRecord, currentUser } from "../../../user/selectors";
-import { ACTIONS, checkPermissions } from "../../../../libs/permissions";
+import { currentUser } from "../../../user/selectors";
+import { usePermissions, ACTIONS } from "../../../permissions";
 import { useI18n } from "../../../i18n";
 import { ACCEPTED, REJECTED } from "../../../../config";
 import RevokeModal from "../revoke-modal";
@@ -52,12 +52,14 @@ const Component = ({ transition, showMode, recordType, classes }) => {
     setDialog({ dialog: transitionType === TRANSITIONS_TYPES.referral ? referralModalName : transferModalName, open });
 
   const username = useMemoizedSelector(state => currentUser(state));
-  const userPermissions = useMemoizedSelector(state => getPermissionsByRecord(state, recordType));
 
   const isInProgress = status === TRANSITION_STATUS.inProgress;
   const isAccepted = status === ACCEPTED;
-  const canReceiveReferral = checkPermissions(userPermissions, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]);
-  const canRevokeTransition = checkPermissions(userPermissions, [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]);
+
+  const { canReceiveReferral, canRevokeTransition } = usePermissions(recordType, {
+    canReceiveReferral: [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE],
+    canRevokeTransition: [ACTIONS.REMOVE_ASSIGNED_USERS, ACTIONS.MANAGE]
+  });
   const isCurrentUserRecipient = transitionedTo === username;
 
   const showRevokeAction = (isInProgress || isAccepted) && canRevokeTransition && !isCurrentUserRecipient && showMode;

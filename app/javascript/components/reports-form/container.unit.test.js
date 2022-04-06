@@ -3,7 +3,7 @@ import { expect } from "chai";
 
 import { PageContent, PageHeading } from "../page";
 import { setupMountedComponent } from "../../test";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { PrimeroModuleRecord } from "../application/records";
 import { FormSectionRecord, FieldRecord } from "../form/records";
 import Form from "../form";

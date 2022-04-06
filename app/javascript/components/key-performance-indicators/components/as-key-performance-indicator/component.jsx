@@ -7,9 +7,7 @@ import { useI18n } from "../../../i18n";
 import actionsForKPI from "../../action-creators";
 import selectorsForKPI from "../../selectors";
 import DateRangeSelect from "../date-range-select";
-import Permission from "../../../application/permission";
-import { RESOURCES } from "../../../../libs/permissions";
-import usePermissions from "../../../permissions";
+import Permission, { usePermissions, RESOURCES } from "../../../permissions";
 
 import css from "./styles.css";
 

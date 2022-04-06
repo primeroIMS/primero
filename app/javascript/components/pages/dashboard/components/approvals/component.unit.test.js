@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../../../libs/permissions";
+import { ACTIONS, DASH_APPROVALS_PENDING } from "../../../../permissions";
 import { OverviewBox, OptionsBox } from "../../../../dashboard";
 import LoadingIndicator from "../../../../loading-indicator";
 
