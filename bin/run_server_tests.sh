@@ -12,12 +12,15 @@ setup_test_env() {
   cp "config/$PIPELINE/database.yml" config/
   cp "config/$PIPELINE/sunspot.yml" config/
   cp "config/$PIPELINE/mailers.yml" config/
-  mkdir -p solr/data/test
-  mkdir -p solr/cores/test
+
   mkdir -p tmp/storage
 
-  if [$PIPELINE == $GITHUB_ACTIONS]; then
-    cp "config/$PIPELINE/core.properties" /var/solr/cores/primero-test
+  if [ $PIPELINE == $GITHUB_ACTIONS ]; then
+    mkdir -p solr/data/primero-test
+    mkdir -p solr/cores/primero-test
+  else
+    mkdir -p solr/data/test
+    mkdir -p solr/cores/test
   fi
 
   export RAILS_ENV=test
