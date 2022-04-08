@@ -103,14 +103,14 @@ export const SHARED_FILTERS = [
     display_name: [FIELDS, DATE_RANGE, FROM],
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
-    showIf: value => value
+    showIf: value => value === CUSTOM
   },
   {
     name: TO,
     display_name: [FIELDS, DATE_RANGE, TO],
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
-    showIf: value => value
+    showIf: value => value === CUSTOM
   }
 ];
 
