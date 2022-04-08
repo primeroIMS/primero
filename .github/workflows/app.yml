@@ -32,7 +32,7 @@ jobs:
       - name: Build/Run Solr
         run: |
           cd docker && ./build.sh solr
-          docker run -v solr_cores:/opt/solr/server/solr/mycores primeroims/solr:latest make-primero-core.sh test
+          docker run -v solr_cores:/opt/solr/server/solr/mycores primeroims/solr:latest make-primero-core.sh primero-test
           docker images
           docker run -d -p 8983:8983 -v solr_cores:/opt/solr/server/solr/mycores --name=primero_solr_1 primeroims/solr:latest
           docker ps
