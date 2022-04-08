@@ -47,7 +47,6 @@ fi
 
 docker ps
 docker logs primero_solr_1
-docker volume ps
 
 setup_test_env
 
