@@ -16,6 +16,10 @@ setup_test_env() {
   mkdir -p solr/cores/test
   mkdir -p tmp/storage
 
+  if [$PIPELINE == $GITHUB_ACTIONS]; then
+    cp "config/$PIPELINE/core.properties" /var/solr/cores/primero-test
+  fi
+
   export RAILS_ENV=test
   export DEVISE_JWT_SECRET_KEY=DEVISE_JWT_SECRET_KEY
   export DEVISE_SECRET_KEY=DEVISE_SECRET_KEY
