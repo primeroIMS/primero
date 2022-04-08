@@ -50,7 +50,7 @@ docker logs primero_solr_1
 
 setup_test_env
 
-curl -w '%{http_code}' "http://localhost:8983/solr"
+curl "http://localhost:8983/solr/admin/cores?action=STATUS"
 curl --request PATCH "http://localhost:8983/solr/primero-test/update?wt=json" --data "{\"commit\":{\"softCommit\":false}}" --header "{"Content-Type"=>"application/json"}"
 
 setup_database
