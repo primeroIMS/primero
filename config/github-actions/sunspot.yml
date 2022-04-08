@@ -1,6 +1,6 @@
 test:
   solr:
-    hostname: 127.0.0.1
+    hostname: primero_solr_1
     port: 8983
     log_level: OFF
     pid_dir: tmp/pids

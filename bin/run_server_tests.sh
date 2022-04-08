@@ -48,6 +48,8 @@ fi
 setup_test_env
 setup_database
 
+docker ps
+
 # Run tests
 bundle exec rspec spec
 
