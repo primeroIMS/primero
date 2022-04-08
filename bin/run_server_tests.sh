@@ -46,6 +46,7 @@ else
 fi
 
 docker ps
+docker logs primero_solr_1
 
 setup_test_env
 setup_database
