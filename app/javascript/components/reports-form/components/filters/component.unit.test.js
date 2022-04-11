@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { Typography } from "@material-ui/core";
 
 import { setupMountedComponent, fake } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import FiltersDialog from "../filters-dialog";
 import { MODULES_FIELD, RECORD_TYPE_FIELD, DEFAULT_FILTERS } from "../../constants";
 import {

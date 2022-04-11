@@ -1,44 +1,20 @@
 import { useContext, createContext } from "react";
 import PropTypes from "prop-types";
+import { isEqual } from "lodash";
 
-import { useI18n } from "../i18n";
-import { useConnectivityStatus } from "../connectivity";
-import { currentUser } from "../user/selectors";
 import { useMemoizedSelector } from "../../libs";
+import useConnectivityStatus from "../connectivity/use-connectivity-status";
 
-import {
-  selectModules,
-  selectUserModules,
-  getApprovalsLabels,
-  getDisabledApplication,
-  getDemo,
-  getLimitedConfigUI
-} from "./selectors";
+import { getAppData } from "./selectors";
 
 const Context = createContext();
 
 const ApplicationProvider = ({ children }) => {
-  const i18n = useI18n();
   const { online } = useConnectivityStatus();
 
-  const modules = useMemoizedSelector(state => selectModules(state));
-  const userModules = useMemoizedSelector(state => selectUserModules(state));
-  const approvalsLabels = useMemoizedSelector(state => getApprovalsLabels(state, i18n.locale));
-  const disabledApplication = useMemoizedSelector(state => getDisabledApplication(state));
-  const demo = useMemoizedSelector(state => getDemo(state));
-  const limitedProductionSite = useMemoizedSelector(state => getLimitedConfigUI(state));
-  const currentUserName = useMemoizedSelector(state => currentUser(state));
+  const appData = useMemoizedSelector(state => getAppData(state), isEqual);
 
-  const value = {
-    modules,
-    userModules,
-    online,
-    approvalsLabels,
-    disabledApplication,
-    demo,
-    currentUserName,
-    limitedProductionSite
-  };
+  const value = { ...appData, online };
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

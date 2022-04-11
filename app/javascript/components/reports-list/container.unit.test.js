@@ -2,8 +2,8 @@ import { fromJS } from "immutable";
 import AddIcon from "@material-ui/icons/Add";
 
 import { setupMountedComponent } from "../../test";
-import { ACTIONS } from "../../libs/permissions";
 import IndexTable from "../index-table";
+import { ACTIONS } from "../permissions";
 
 import Reports from "./container";
 

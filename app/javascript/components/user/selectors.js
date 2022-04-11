@@ -1,8 +1,6 @@
 import { List, fromJS } from "immutable";
-import createCachedSelector from "re-reselect";
 
 import { SAVING } from "../../config";
-import { cachedSelectorOptions } from "../../libs/use-memoized-selector";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, LIST_HEADERS, PERMITTED_FORMS } from "./constants";
@@ -12,14 +10,6 @@ export const currentUser = state => state.getIn([NAMESPACE, "username"]);
 export const getPermissions = state => {
   return state.getIn([NAMESPACE, PERMISSIONS], List([]));
 };
-
-export const getPermissionsByRecord = createCachedSelector(
-  getPermissions,
-  (_state, recordType) => recordType,
-  (data, recordType) => {
-    return data.get(recordType, List([]));
-  }
-)(cachedSelectorOptions());
 
 export const hasUserPermissions = state => {
   return state.hasIn([NAMESPACE, PERMISSIONS], false);

@@ -4,7 +4,7 @@ import { TableCell, TableHead } from "@material-ui/core";
 
 import { setupMountedComponent, lookups, stub } from "../../../../test";
 import { PageHeading } from "../../../page";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import IndexTable from "../../../index-table";
 
 import LookupList from "./component";

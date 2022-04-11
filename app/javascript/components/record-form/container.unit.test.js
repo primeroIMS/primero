@@ -16,7 +16,7 @@ import ApprovalPanel from "../approvals/components/panel";
 import IncidentFromCase from "../incidents-from-case";
 import IncidentFromCasePanel from "../incidents-from-case/components/panel";
 import ChangeLogs from "../change-logs";
-import { MANAGE } from "../../libs/permissions";
+import { MANAGE } from "../permissions";
 
 import Nav from "./nav";
 import { RecordForm, RecordFormToolbar } from "./form";

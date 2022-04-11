@@ -6,46 +6,54 @@ describe("Verifying config constant", () => {
 
     [
       "ADD_NOTE",
+      "ADD_REGISTRY_RECORD",
+      "AGENCY_READ",
+      "APPROVE_ACTION_PLAN",
       "APPROVE_ASSESSMENT",
       "APPROVE_CASE_PLAN",
       "APPROVE_CLOSURE",
-      "APPROVE_ACTION_PLAN",
       "APPROVE_GBV_CLOSURE",
-      "ASSIGN",
-      "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_AGENCY_PERMISSIONS",
+      "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_USER_GROUP",
-      "CLOSE",
-      "CREATE",
+      "ASSIGN",
       "CHANGE_LOG",
-      "DASH_CASE_INCIDENT_OVERVIEW",
-      "DASH_APPROVALS_ASSESSMENT",
-      "DASH_APPROVALS_ASSESSMENT_PENDING",
-      "DASH_APPROVALS_CASE_PLAN",
-      "DASH_APPROVALS_CASE_PLAN_PENDING",
-      "DASH_APPROVALS_CLOSURE",
-      "DASH_APPROVALS_CLOSURE_PENDING",
-      "DASH_APPROVALS_ACTION_PLAN",
+      "CLOSE",
+      "CONSENT_OVERRIDE",
+      "COPY",
+      "CREATE",
       "DASH_APPROVALS_ACTION_PLAN_PENDING",
-      "DASH_APPROVALS_GBV_CLOSURE",
+      "DASH_APPROVALS_ACTION_PLAN",
+      "DASH_APPROVALS_ASSESSMENT_PENDING",
+      "DASH_APPROVALS_ASSESSMENT",
+      "DASH_APPROVALS_CASE_PLAN_PENDING",
+      "DASH_APPROVALS_CASE_PLAN",
+      "DASH_APPROVALS_CLOSURE_PENDING",
+      "DASH_APPROVALS_CLOSURE",
       "DASH_APPROVALS_GBV_CLOSURE_PENDING",
+      "DASH_APPROVALS_GBV_CLOSURE",
+      "DASH_CASE_INCIDENT_OVERVIEW",
+      "DASH_CASE_OVERVIEW",
+      "DASH_CASE_RISK",
+      "DASH_CASES_BY_SOCIAL_WORKER",
       "DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT",
       "DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN",
       "DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS",
       "DASH_CASES_BY_TASK_OVERDUE_SERVICES",
-      "DASH_CASE_OVERVIEW",
-      "DASH_CASE_RISK",
+      "DASH_CASES_TO_ASSIGN",
       "DASH_FLAGS",
       "DASH_GROUP_OVERVIEW",
+      "DASH_NATIONAL_ADMIN_SUMMARY",
       "DASH_PROTECTION_CONCERNS",
       "DASH_REPORTING_LOCATION",
       "DASH_SHARED_FROM_MY_TEAM",
       "DASH_SHARED_WITH_ME",
+      "DASH_SHARED_WITH_MY_TEAM_OVERVIEW",
       "DASH_SHARED_WITH_MY_TEAM",
       "DASH_SHARED_WITH_OTHERS",
       "DASH_TASKS",
-      "DASH_WORKFLOW",
       "DASH_WORKFLOW_TEAM",
+      "DASH_WORKFLOW",
       "DELETE",
       "DISPLAY_VIEW_PAGE",
       "ENABLE_DISABLE_RECORD",
@@ -61,30 +69,50 @@ describe("Verifying config constant", () => {
       "EXPORT_PDF",
       "EXPORT_PHOTO_WALL",
       "EXPORT_UNHCR",
+      "FIND_TRACING_MATCH",
       "FLAG",
+      "GBV_STATISTICS",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
+      "INCIDENT_FROM_CASE",
+      "KPI_ASSESSMENT_STATUS",
+      "KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE",
+      "KPI_AVERAGE_REFERRALS",
+      "KPI_CASE_CLOSURE_RATE",
+      "KPI_CASE_LOAD",
+      "KPI_CLIENT_SATISFACTION_RATE",
+      "KPI_COMPLETED_CASE_ACTION_PLANS",
+      "KPI_COMPLETED_CASE_SAFETY_PLANS",
+      "KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS",
+      "KPI_NUMBER_OF_CASES",
+      "KPI_NUMBER_OF_INCIDENTS",
+      "KPI_REPORTING_DELAY",
+      "KPI_SERVICES_PROVIDED",
+      "KPI_SUPERVISOR_TO_CASEWORKER_RATIO",
+      "KPI_TIME_FROM_CASE_OPEN_TO_CLOSE",
       "MANAGE",
+      "MARK_FOR_OFFLINE",
       "READ",
       "RECEIVE_REFERRAL",
       "RECEIVE_TRANSFER",
-      "REFERRAL",
       "REFERRAL_FROM_SERVICE",
+      "REFERRAL",
       "REMOVE_ASSIGNED_USERS",
       "REOPEN",
+      "REQUEST_APPROVAL_ACTION_PLAN",
       "REQUEST_APPROVAL_ASSESSMENT",
       "REQUEST_APPROVAL_CASE_PLAN",
       "REQUEST_APPROVAL_CLOSURE",
-      "REQUEST_APPROVAL_ACTION_PLAN",
       "REQUEST_APPROVAL_GBV_CLOSURE",
       "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
       "SERVICES_SECTION_FROM_CASE",
+      "SYNC_EXTERNAL",
       "TRANSFER",
-      "WRITE",
-      "AGENCY_READ",
-      "INCIDENT_FROM_CASE",
-      "MARK_FOR_OFFLINE"
+      "VIEW_INCIDENT_FROM_CASE",
+      "VIEW_REGISTRY_RECORD",
+      "VIOLATIONS",
+      "WRITE"
     ].forEach(property => {
       expect(permissions).to.have.property(property);
       expect(permissions[property]).to.be.a("string");
@@ -97,26 +125,31 @@ describe("Verifying config constant", () => {
     const resources = { ...PERMISSIONS.RESOURCES };
 
     [
+      "activity_logs",
       "agencies",
       "any",
       "audit_logs",
-      "webhooks",
       "cases",
+      "codes_of_conduct",
       "configurations",
       "contact_information",
       "dashboards",
+      "forms",
       "incidents",
+      "kpis",
+      "locations",
       "lookups",
+      "managed_reports",
       "metadata",
       "potential_matches",
+      "registry_records",
       "reports",
       "roles",
-      "forms",
       "systems",
       "tracing_requests",
       "user_groups",
       "users",
-      "kpis"
+      "webhooks"
     ].forEach(property => {
       expect(resources).to.have.property(property);
       expect(resources[property]).to.be.a("string");
@@ -140,7 +173,12 @@ describe("Verifying config constant", () => {
     const permissions = [...PERMISSIONS.READ_REPORTS];
 
     expect(permissions).to.be.a("array");
-    [PERMISSIONS.ACTIONS.READ, PERMISSIONS.ACTIONS.GROUP_READ, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
+    [
+      PERMISSIONS.ACTIONS.READ,
+      PERMISSIONS.ACTIONS.GROUP_READ,
+      PERMISSIONS.ACTIONS.MANAGE,
+      PERMISSIONS.ACTIONS.AGENCY_READ
+    ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);
     });
@@ -263,6 +301,7 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
       expect(permissions).to.include(element);
@@ -395,7 +434,8 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_LIST_VIEW,
       PERMISSIONS.ACTIONS.EXPORT_MRM_VIOLATION_XLS,
       PERMISSIONS.ACTIONS.EXPORT_PHOTO_WALL,
-      PERMISSIONS.ACTIONS.EXPORT_UNHCR
+      PERMISSIONS.ACTIONS.EXPORT_UNHCR,
+      PERMISSIONS.ACTIONS.EXPORT_PDF
     ].forEach(element => {
       expect(permissions).to.include(element);
       permissions.splice(permissions.indexOf(element), 1);

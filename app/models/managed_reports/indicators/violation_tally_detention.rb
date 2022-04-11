@@ -22,14 +22,13 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
                 on incidents.id = violations.incident_id
                 #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
               cross join json_each_text((violations."data"->>'violation_tally')::JSON)
-              where (iv.data->>'victim_deprived_liberty_security_reasons')::boolean
+              where (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
               and violations."data"->>'violation_tally' is not null
               #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
               #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
               #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-              #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
           ) keys_values
           group by key
       ) as deprived_data;

@@ -4,7 +4,7 @@ import { Button, TableCell, TableHead } from "@material-ui/core";
 
 import { setupMountedComponent, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import ActionButton from "../../../action-button";
 
 import RolesList from "./container";

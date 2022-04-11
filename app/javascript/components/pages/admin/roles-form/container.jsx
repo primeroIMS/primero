@@ -14,8 +14,7 @@ import { fetchRoles, getSystemPermissions, useApp } from "../../../application";
 import { getAssignableForms } from "../../../record-form";
 import { useMemoizedSelector } from "../../../../libs";
 import { getReportingLocationConfig } from "../../../user/selectors";
-import { usePermissions } from "../../../user";
-import { COPY_ROLES } from "../../../../libs/permissions";
+import { usePermissions, COPY_ROLES } from "../../../permissions";
 
 import NAMESPACE from "./namespace";
 import { Validations, ActionButtons } from "./forms";

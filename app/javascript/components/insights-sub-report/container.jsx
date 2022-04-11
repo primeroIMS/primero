@@ -12,7 +12,6 @@ import { clearSelectedReport } from "../reports-form/action-creators";
 import BarChartGraphic from "../charts/bar-chart";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
-import InsightsFilters from "../insights-filters";
 
 import {
   buildChartValues,
@@ -27,7 +26,7 @@ import { NAME, GBV_COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
 import css from "./styles.css";
 
 const Component = () => {
-  const { id, subReport, moduleID } = useParams();
+  const { id, subReport } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -75,7 +74,6 @@ const Component = () => {
 
   return (
     <>
-      <InsightsFilters moduleID={moduleID} id={id} subReport={subReport} />
       <LoadingIndicator {...loadingIndicatorProps}>
         <div className={css.subReportContent}>
           <div className={css.subReportTables}>

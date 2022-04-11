@@ -17,7 +17,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD
-} from "../libs/permissions";
+} from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
 export const PASSWORD_MIN_LENGTH = 8;
@@ -588,7 +588,7 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
 
 export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
 
-export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators"];
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",

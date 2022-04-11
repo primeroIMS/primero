@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this, no-await-in-loop */
 import merge from "deepmerge";
+import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
@@ -106,7 +107,7 @@ class DB {
     const objectStore = tx.objectStore(store);
 
     try {
-      const prev = await objectStore.get(key || item.id);
+      const prev = await objectStore.get(isEmpty(key) ? item.id : key);
 
       if (prev) {
         const record = merge(prev, { ...item, ...key }, { arrayMerge: subformAwareMerge });

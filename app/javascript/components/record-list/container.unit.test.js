@@ -4,7 +4,7 @@ import { TableCell } from "@material-ui/core";
 
 import Filters from "../index-filters";
 import IndexTable from "../index-table";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { setupMountedComponent } from "../../test";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import { PrimeroModuleRecord } from "../application/records";
@@ -322,18 +322,12 @@ describe("<RecordList />", () => {
     };
 
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    [
-      "title",
-      "recordType",
-      "handleDrawer",
-      "mobileDisplay",
-      "currentPage",
-      "selectedRecords",
-      "clearSelectedRecords"
-    ].forEach(property => {
-      expect(recordListToolbarProps).to.have.property(property);
-      delete recordListToolbarProps[property];
-    });
+    ["title", "recordType", "handleDrawer", "currentPage", "selectedRecords", "clearSelectedRecords"].forEach(
+      property => {
+        expect(recordListToolbarProps).to.have.property(property);
+        delete recordListToolbarProps[property];
+      }
+    );
     expect(recordListToolbarProps).to.be.empty;
   });
 

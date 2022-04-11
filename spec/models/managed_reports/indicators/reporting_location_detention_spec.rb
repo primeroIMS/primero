@@ -182,7 +182,8 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
     violation10 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation10.individual_victims = [
       IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
 

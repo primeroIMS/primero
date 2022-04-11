@@ -21,8 +21,7 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 import { useApp } from "../../../application";
-import Permission from "../../../application/permission";
-import { RESOURCES, MANAGE } from "../../../../libs/permissions";
+import Permission, { RESOURCES, MANAGE } from "../../../permissions";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";

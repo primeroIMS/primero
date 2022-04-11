@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import { setupMountedComponent } from "../../../test";
 import ActionDialog from "../../action-dialog";
 import { RECORD_PATH } from "../../../config";
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { mapEntriesToRecord } from "../../../libs";
 import { FormSectionRecord } from "../../record-form/records";
 

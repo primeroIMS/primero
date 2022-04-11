@@ -4,7 +4,7 @@ import { Button, TableCell, TableHead } from "@material-ui/core";
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import { ListHeaderRecord } from "../../../user/records";
 import IndexTable from "../../../index-table";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { FiltersForm } from "../../../form-filters/components";
 import InternalAlert from "../../../internal-alert";
 
