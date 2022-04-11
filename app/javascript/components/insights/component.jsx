@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useLocation, useParams } from "react-router-dom";
 import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
 import { MenuOpen } from "@material-ui/icons";
+import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
@@ -13,6 +14,8 @@ import ApplicationRoutes from "../application-routes";
 import { getInsight } from "../insights-sub-report/selectors";
 import ActionButton from "../action-button";
 import { useDialog } from "../action-dialog";
+import InsightsFilters from "../insights-filters";
+import InsightFilterTags from "../insights-filters/components/insight-filter-tags";
 
 import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -53,7 +56,14 @@ const Component = ({ routes }) => {
 
   return (
     <PageContainer twoCol>
-      <PageHeading title={name}>
+      <PageHeading
+        title={name}
+        titleSecondary={<InsightFilterTags filters={insightType.filters} />}
+        controls={toggleControls => {
+          return <InsightsFilters moduleID={moduleID} id={id} toggleControls={toggleControls} />;
+        }}
+        icon={<FilterListIcon />}
+      >
         <ActionButton onClick={handleExport} text="buttons.export" />
         <InsightsExporter
           i18n={i18n}

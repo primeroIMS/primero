@@ -1,0 +1,47 @@
+.filter {
+  display: flex;
+
+  & > div:first-of-type {
+    font-weight: 600;
+    margin: 0 var(--sp-1) 0 0;
+
+    &:after {
+      content: ':';
+    }
+  }
+}
+
+.dateGroup {
+  display: flex;
+
+  & > div {
+    margin: 0 var(--sp-1) 0 0;
+
+    & span:first-of-type {
+      margin: 0 var(--sp-1) 0 0;
+      font-weight: 600;
+    }
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
+}
+
+.container {
+  display: flex;
+
+  & > div {
+    margin: 0 var(--sp-1) 0 0;
+
+    &:after {
+      content: ',';
+    }
+  }
+
+  & > div:last-of-type {
+    &:after {
+      content: '';
+    }
+  }
+}

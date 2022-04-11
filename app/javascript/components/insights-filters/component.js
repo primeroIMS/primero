@@ -21,7 +21,7 @@ import css from "./styles.css";
 import { dateCalculations } from "./utils";
 import validations from "./validations";
 
-const Component = ({ moduleID, id, subReport }) => {
+const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const insightsConfig = INSIGHTS_CONFIG[moduleID];
   const { defaultFilterValues } = insightsConfig;
 
@@ -45,6 +45,8 @@ const Component = ({ moduleID, id, subReport }) => {
 
   const getInsights = (filters = {}) => {
     const transformedFilters = transformFilters(filters);
+
+    toggleControls();
 
     dispatch(setFilters(transformedFilters));
     dispatch(fetchInsight(id, subReport, transformedFilters));
@@ -121,7 +123,8 @@ Component.displayName = "InsightsFilters";
 Component.propTypes = {
   id: PropTypes.string,
   moduleID: PropTypes.string,
-  subReport: PropTypes.string
+  subReport: PropTypes.string,
+  toggleControls: PropTypes.func.isRequired
 };
 
 export default Component;
