@@ -35,13 +35,13 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const dispatch = useDispatch();
 
   const transformFilters = data => {
-    const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
+    const { date, grouped_by: groupedBy, date_range: dateRange, to, from, ...rest } = data;
 
     return omitBy(
       {
         subreport: subReport,
         ...rest,
-        ...(viewBy && { grouped_by: viewBy, [date]: dateCalculations(dateRange, from, to) })
+        ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to) })
       },
       isNil
     );

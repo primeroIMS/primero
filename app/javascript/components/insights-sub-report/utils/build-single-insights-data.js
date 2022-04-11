@@ -9,6 +9,10 @@ const getFirstGroup = reportData =>
     .toString();
 
 const buildGroupedInsights = reportData => {
+  if (!reportData.size) {
+    return fromJS([]);
+  }
+
   const firstGroup = getFirstGroup(reportData);
 
   return reportData
