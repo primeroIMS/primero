@@ -1,6 +1,7 @@
 export { default as buildChartValues } from "./build-chart-values";
 export { default as buildInsightColumns } from "./build-insight-columns";
 export { default as buildInsightValues } from "./build-insight-values";
+export { default as buildSingleInsightsData } from "./build-single-insights-data";
 export { default as getLookupValue } from "./get-lookup-value";
 export { default as getGroupComparator } from "./get-group-comparator";
 export { default as monthComparator } from "./month-comparator";

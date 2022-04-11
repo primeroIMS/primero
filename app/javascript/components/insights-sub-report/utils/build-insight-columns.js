@@ -1,20 +1,29 @@
+import { YEAR } from "../../insights/constants";
+
 import getGroupComparator from "./get-group-comparator";
-import yearComparator from "./year-comparator";
 import getDataGroups from "./get-data-groups";
 import translateGroups from "./translate-groups";
 
-export default (value, localizeDate) => {
-  if (value.some(elem => elem.get("group_id"))) {
-    const { years, groups } = getDataGroups(value);
+const buildGroupedColumns = (value, groupedBy, localizeDate) => {
+  const { years, groups } = getDataGroups(value, groupedBy);
+  const groupComparator = getGroupComparator(groupedBy);
+  const yearComparator = getGroupComparator(YEAR);
 
-    const groupComparator = getGroupComparator(groups);
+  if (groupedBy === YEAR) {
+    return [{ items: years.sort(yearComparator), colspan: 1 }];
+  }
 
-    const translatedGroups = translateGroups(groups.sort(groupComparator), localizeDate);
+  const translatedGroups = translateGroups(groups.sort(groupComparator), groupedBy, localizeDate);
 
-    return [
-      { items: years.sort(yearComparator), colspan: groups.length },
-      { items: translatedGroups, addEmptyCell: false }
-    ];
+  return [
+    { items: years.sort(yearComparator), colspan: groups.length },
+    { items: translatedGroups, addEmptyCell: false }
+  ];
+};
+
+export default ({ value, isGrouped, groupedBy, localizeDate }) => {
+  if (isGrouped && groupedBy) {
+    return buildGroupedColumns(value, groupedBy, localizeDate);
   }
 
   return [];

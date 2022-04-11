@@ -19,9 +19,11 @@ describe("<Report /> - constants", () => {
       "LAST_QUARTER",
       "LAST_YEAR",
       "MANAGED_REPORTS",
+      "MONTH",
       "MONTH_OPTION_IDS",
       "NAME",
       "NAMESPACE",
+      "QUARTER",
       "QUARTER_OPTION_IDS",
       "SHARED_FILTERS",
       "THIS_MONTH",
@@ -30,6 +32,7 @@ describe("<Report /> - constants", () => {
       "TOTAL",
       "TOTAL_KEY",
       "VIOLATION",
+      "YEAR",
       "YEAR_OPTION_IDS"
     ].forEach(property => {
       expect(clone).to.have.property(property);

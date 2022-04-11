@@ -8,13 +8,9 @@ import css from "./styles.css";
 import { NAME } from "./constants";
 
 const Component = ({ values }) => {
-  // console.log("===values==>", values);
-
   return values.map(value => {
     const { colspan, row } = value;
     const classes = clsx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
-
-    // console.log("===row==>", row);
 
     return (
       <TableRow className={classes} key={`${generateKey("data")}`}>

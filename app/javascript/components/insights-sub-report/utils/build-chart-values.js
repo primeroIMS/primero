@@ -1,57 +1,49 @@
+import { fromJS } from "immutable";
 import take from "lodash/take";
 
-import { CHART_COLORS, QUARTERS } from "../../../config/constants";
+import { CHART_COLORS } from "../../../config/constants";
 
-import translateMonth from "./translate-month";
-import translateQuarter from "./translate-quarter";
+import translateGroup from "./translate-group";
 
-export default ({ totalText, getLookupValue, localizeDate, value, valueKey }) => {
+const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, localizeDate }) => {
+  const options = value
+    .flatMap(elem => elem.get("data", fromJS([])))
+    .reduce((acc, option) => {
+      if (!acc[option.get("id")]) {
+        return { ...acc, [option.get("id")]: getLookupValue(valueKey, option) };
+      }
+
+      return acc;
+    }, {});
+
+  const ids = Object.keys(options);
+
+  return {
+    datasets: value
+      .map((group, index) => ({
+        label: translateGroup(group.get("group_id"), groupedBy, localizeDate),
+        data: ids.map(
+          id =>
+            group
+              .get("data")
+              .find(elem => elem.get("id") === id)
+              ?.get("total") || 0
+        ),
+        backgroundColor: Object.values(CHART_COLORS)[index]
+      }))
+      .toArray(),
+    labels: Object.values(options)
+  };
+};
+
+export default ({ totalText, getLookupValue, localizeDate, value, valueKey, isGrouped, groupedBy }) => {
   if (!value) return {};
 
-  const data = value?.map(val => val.get("total")).toArray();
-
-  if (value.some(elem => elem.get("group_id"))) {
-    const options = value.reduce(
-      (acc1, group) =>
-        group.get("data").reduce((acc2, option) => {
-          if (!acc2[option.get("id")]) {
-            return { ...acc2, [option.get("id")]: getLookupValue(valueKey, option) };
-          }
-
-          return acc2;
-        }, acc1),
-      {}
-    );
-
-    const ids = Object.keys(options);
-
-    const translateGroup = groupId => {
-      const [groupKey, year] = groupId.split("-");
-
-      const translatedGroup = QUARTERS.includes(groupKey)
-        ? translateQuarter(groupKey, localizeDate)
-        : translateMonth(groupKey, localizeDate);
-
-      return `${translatedGroup}-${year}`;
-    };
-
-    return {
-      datasets: value
-        .map((group, index) => ({
-          label: translateGroup(group.get("group_id")),
-          data: ids.map(
-            id =>
-              group
-                .get("data")
-                .find(elem => elem.get("id") === id)
-                ?.get("total") || 0
-          ),
-          backgroundColor: Object.values(CHART_COLORS)[index]
-        }))
-        .toArray(),
-      labels: Object.values(options)
-    };
+  if (isGrouped && groupedBy) {
+    return buildGroupedChartValues({ value, getLookupValue, valueKey, groupedBy, localizeDate });
   }
+
+  const data = value?.map(val => val.get("total")).toArray();
 
   return {
     datasets: [

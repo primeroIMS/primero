@@ -1,6 +1,22 @@
-export default data =>
-  data
-    .map(elem => elem.get("group_id").split("-"))
+import { YEAR } from "../../insights/constants";
+
+export default (data, groupedBy) => {
+  if (groupedBy === YEAR) {
+    return {
+      years: data.reduce((acc, elem) => {
+        const groupId = elem.get("group_id").toString();
+
+        if (!acc.find(year => year === groupId)) {
+          return acc.concat(groupId);
+        }
+
+        return acc;
+      }, [])
+    };
+  }
+
+  return data
+    .map(elem => elem.get("group_id").toString().split("-"))
     .reduce(
       (acc, [group, year]) => {
         if (!acc.groups.find(elem => elem === group)) {
@@ -15,3 +31,4 @@ export default data =>
       },
       { years: [], groups: [] }
     );
+};
