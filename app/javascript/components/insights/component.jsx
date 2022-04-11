@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
 import { MenuOpen } from "@material-ui/icons";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import { useDispatch } from "react-redux";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
@@ -11,11 +12,12 @@ import { ROUTES } from "../../config";
 import { useMemoizedSelector } from "../../libs";
 import PageNavigation from "../page-navigation";
 import ApplicationRoutes from "../application-routes";
-import { getInsight } from "../insights-sub-report/selectors";
+import { getInsight, getSubReport } from "../insights-sub-report/selectors";
 import ActionButton from "../action-button";
 import { useDialog } from "../action-dialog";
 import InsightsFilters from "../insights-filters";
 import InsightFilterTags from "../insights-filters/components/insight-filter-tags";
+import { clearFilters } from "../insights-list/action-creators";
 
 import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -28,7 +30,7 @@ const Component = ({ routes }) => {
   const { moduleID } = useParams();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(INSIGHTS_EXPORTER_DIALOG);
-
+  const dispatch = useDispatch();
   const [toggleNav, setToggleNav] = useState(false);
 
   const handleToggleNav = () => setToggleNav(!toggleNav);
@@ -37,9 +39,16 @@ const Component = ({ routes }) => {
     setToggleNav(false);
   }, [pathname]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearFilters());
+    };
+  }, []);
+
   const insightType = INSIGHTS_CONFIG[moduleID];
 
   const insight = useMemoizedSelector(state => getInsight(state));
+  const subReport = useMemoizedSelector(state => getSubReport(state));
 
   const name = i18n.t(insight.get("name"));
 
@@ -60,7 +69,7 @@ const Component = ({ routes }) => {
         title={name}
         titleSecondary={<InsightFilterTags filters={insightType.filters} />}
         controls={toggleControls => {
-          return <InsightsFilters moduleID={moduleID} id={id} toggleControls={toggleControls} />;
+          return <InsightsFilters moduleID={moduleID} id={id} toggleControls={toggleControls} subReport={subReport} />;
         }}
         icon={<FilterListIcon />}
       >

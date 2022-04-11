@@ -16,6 +16,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("errors", true);
     case "user/LOGOUT_SUCCESS":
       return DEFAULT_STATE;
+    case actions.SET_SUB_REPORT:
+      return state.set("subReport", payload);
     default:
       return state;
   }
