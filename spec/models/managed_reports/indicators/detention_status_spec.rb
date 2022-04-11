@@ -163,7 +163,8 @@ describe ManagedReports::Indicators::DetentionStatus do
           victim_deprived_liberty_security_reasons: 'false',
           length_deprivation_liberty: Date.today.beginning_of_year
         }
-      )
+      ),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
 

@@ -28,7 +28,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-        and (iv.data->>'victim_deprived_liberty_security_reasons')::boolean
+        and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
         group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}];
       }
     end
