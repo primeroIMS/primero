@@ -29,7 +29,6 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
               #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
               #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
               #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-              #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
           ) keys_values
           group by key
       ) as deprived_data;

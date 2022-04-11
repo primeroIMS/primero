@@ -37,7 +37,7 @@ describe("<ViolationTitle /> - utils", () => {
       const currentValues = {
         unique_id: "ab123cde",
         relation_name: "this is a relation",
-        verified: "verification_found_that_incident_did_not_occur"
+        ctfmr_verified: "verification_found_that_incident_did_not_occur"
       };
 
       expect(helpers.getVerifiedValue(optionString, currentValues)).to.equal(
