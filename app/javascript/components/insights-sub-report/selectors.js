@@ -20,5 +20,5 @@ export const getIsGroupedInsight = (state, subReport) =>
     .some(elems => elems.some(elem => elem.get("group_id")));
 
 export const getSubReport = state => {
-  return state.getIn(["records", NAMESPACE, "subReport"], false);
+  return state.getIn(["records", NAMESPACE, "filters", "subreport"], false);
 };

@@ -33,10 +33,6 @@ const Component = () => {
 
   useEffect(() => {
     dispatch(setSubReport(subReport));
-
-    return () => {
-      dispatch(setSubReport(null));
-    };
   }, [subReport]);
 
   useEffect(() => {

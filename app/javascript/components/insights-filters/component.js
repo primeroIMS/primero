@@ -43,9 +43,8 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
 
     return omitBy(
       {
-        subreport: subReport,
         ...rest,
-        ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to) })
+        ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to), subreport: subReport })
       },
       isNil
     );
