@@ -14,3 +14,8 @@ export const fetchInsight = (id, subReport, params = {}) => {
     }
   };
 };
+
+export const setSubReport = payload => ({
+  type: actions.SET_SUB_REPORT,
+  payload
+});

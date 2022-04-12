@@ -10,7 +10,7 @@ import { selectInsightsFilters } from "../../insights-list/selectors";
 
 import css from "./styles.css";
 
-const InsightFilterTags = ({ filters }) => {
+const InsightFilterTags = ({ filters = [] }) => {
   const i18n = useI18n();
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
 
@@ -21,11 +21,11 @@ const InsightFilterTags = ({ filters }) => {
     )
   );
 
-  if (insightFilters.isEmpty()) {
+  if (insightFilters.isEmpty() || !filters) {
     return null;
   }
 
-  const getOption = (filter, value, dateFilter = false) => {
+  const getOption = (filter = {}, value, dateFilter = false) => {
     const options = filter.option_strings_source
       ? transformOptions(
           lookups
@@ -33,7 +33,7 @@ const InsightFilterTags = ({ filters }) => {
             ?.get("values") || fromJS([]),
           i18n.locale
         )
-      : filter?.option_strings_text;
+      : filter?.option_strings_text || [];
 
     if (dateFilter) {
       return options.find(opt => get(opt, "id") === value).display_name;
@@ -73,6 +73,10 @@ const InsightFilterTags = ({ filters }) => {
           iFilter => iFilter.name === key || (key.includes("date") && iFilter.name === "date")
         );
         const isDateFilter = key.includes("date");
+
+        if (key === "subreport") {
+          return null;
+        }
 
         return (
           <div key={key} className={css.filter}>

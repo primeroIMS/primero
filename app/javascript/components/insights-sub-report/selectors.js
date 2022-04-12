@@ -18,3 +18,7 @@ export const getIsGroupedInsight = (state, subReport) =>
     .filterNot((_value, key) => ["lookups"].includes(key))
     .valueSeq()
     .some(elems => elems.some(elem => elem.get("group_id")));
+
+export const getSubReport = state => {
+  return state.getIn(["records", NAMESPACE, "subReport"], false);
+};

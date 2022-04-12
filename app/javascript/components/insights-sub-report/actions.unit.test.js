@@ -9,7 +9,8 @@ describe("<Insights /> - Actions", () => {
       "FETCH_INSIGHT_STARTED",
       "FETCH_INSIGHT_SUCCESS",
       "FETCH_INSIGHT_FAILURE",
-      "FETCH_INSIGHT_FINISHED"
+      "FETCH_INSIGHT_FINISHED",
+      "SET_SUB_REPORT"
     ].forEach(property => {
       expect(cloneActions).to.have.property(property);
       expect(cloneActions[property]).to.be.a("string");

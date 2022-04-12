@@ -24,11 +24,20 @@ import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
 import { NAME, GBV_COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
 import css from "./styles.css";
+import { setSubReport } from "./action-creators";
 
 const Component = () => {
   const { id, subReport } = useParams();
   const i18n = useI18n();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setSubReport(subReport));
+
+    return () => {
+      dispatch(setSubReport(null));
+    };
+  }, [subReport]);
 
   useEffect(() => {
     return () => {

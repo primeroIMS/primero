@@ -16,6 +16,8 @@ import FormSectionField from "../form/components/form-section-field";
 import { CONTROLS_GROUP, DATE_CONTROLS, DATE_CONTROLS_GROUP, INSIGHTS_CONFIG } from "../insights/constants";
 import { fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
+import { useMemoizedSelector } from "../../libs";
+import { getInsightFilters } from "../insights/selectors";
 
 import css from "./styles.css";
 import { dateCalculations } from "./utils";
@@ -24,6 +26,8 @@ import validations from "./validations";
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const insightsConfig = INSIGHTS_CONFIG[moduleID];
   const { defaultFilterValues } = insightsConfig;
+
+  const insightFilters = useMemoizedSelector(state => getInsightFilters(state));
 
   const i18n = useI18n();
   const formMethods = useForm({
@@ -71,7 +75,9 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   useEffect(() => {
-    getInsights(defaultFilterValues);
+    if (subReport) {
+      getInsights(!insightFilters.isEmpty() ? insightFilters.toJS() : defaultFilterValues);
+    }
 
     return () => {
       resetFiltersForm();
