@@ -42,7 +42,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
     const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
 
     return omitBy(
-      { subreport: subReport, ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) },
+      { ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to), subreport: subReport }) },
       isNil
     );
   };
