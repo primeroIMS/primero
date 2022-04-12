@@ -18,7 +18,6 @@ describe("User - index", () => {
       "getIsAuthenticated",
       "getListHeaders",
       "getPermissions",
-      "getPermissionsByRecord",
       "getPermittedFormsIds",
       "getPermittedRoleUniqueIds",
       "getReportingLocationConfig",
@@ -32,7 +31,6 @@ describe("User - index", () => {
       "resetPassword",
       "setAuthenticatedUser",
       "setUser",
-      "usePermissions",
       "useRefreshUserToken",
       "showLoginDialog"
     ].forEach(property => {

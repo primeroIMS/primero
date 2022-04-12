@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../test";
 import { PageHeading } from "../../../page";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import IndexTable from "../../../index-table";
 import { FiltersForm } from "../../../form-filters/components";
 

@@ -26,9 +26,7 @@ const Component = ({ matchedTrace, setOpen, setSelectedTraceId }) => {
           variant="text"
           color="primary"
           noTranslate
-          rest={{
-            onClick: handleClickAccordion
-          }}
+          rest={{ onClick: handleClickAccordion }}
         />
       </AccordionSummary>
     </Accordion>

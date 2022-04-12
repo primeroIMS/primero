@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 
 import { setupMountedComponent } from "../../../../test";
 import applicationActions from "../../../application/actions";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { FormAction } from "../../../form";
 import { MODES } from "../../../../config";
 import UserActions from "../../../user-actions";

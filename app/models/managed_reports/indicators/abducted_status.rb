@@ -47,7 +47,6 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
                   #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
                   #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-                  #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
                   #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
              ) as subquery
              where key = 'total'

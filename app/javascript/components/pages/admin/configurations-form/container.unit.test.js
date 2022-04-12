@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { MODES } from "../../../../config";
 import Form, { FormAction } from "../../../form";
 import ActionDialog from "../../../action-dialog";

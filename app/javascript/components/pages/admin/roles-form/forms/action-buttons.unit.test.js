@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { Button } from "@material-ui/core";
 
-import { ACTIONS } from "../../../../../libs/permissions";
+import { ACTIONS } from "../../../../permissions";
 import { setupMountedComponent } from "../../../../../test";
 import { FormAction, whichFormMode } from "../../../../form";
 

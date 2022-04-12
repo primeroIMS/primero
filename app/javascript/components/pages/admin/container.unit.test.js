@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../test";
 import { PageHeading } from "../../page";
-import { MANAGE } from "../../../libs/permissions";
+import { MANAGE } from "../../permissions";
 
 import Admin from "./container";
 import AdminNav from "./admin-nav";

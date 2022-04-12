@@ -114,7 +114,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     violation4 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident4.id)
     violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_4' })]
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'false' })
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'false' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
 

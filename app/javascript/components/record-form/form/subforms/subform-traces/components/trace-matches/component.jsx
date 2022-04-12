@@ -48,9 +48,7 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
                 variant="text"
                 color="primary"
                 noTranslate
-                rest={{
-                  onClick: () => dispatch(setSelectedPotentialMatch(rowData[0], recordType))
-                }}
+                onClick={() => dispatch(setSelectedPotentialMatch(rowData[0], recordType))}
               />
             );
           }

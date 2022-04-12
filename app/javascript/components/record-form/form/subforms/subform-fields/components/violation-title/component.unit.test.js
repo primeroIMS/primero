@@ -11,9 +11,9 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
     values: {
       unique_id: "ab123cde",
       relation_name: "this is a relation",
-      verified: "status_1"
+      ctfmr_verified: "status_1"
     },
-    fields: [{ name: "verified", option_strings_source: "lookup lookup-status" }]
+    fields: [{ name: "ctfmr_verified", option_strings_source: "lookup lookup-status" }]
   };
 
   const initialState = fromJS({
@@ -47,7 +47,7 @@ describe("<RecordForm>/form/subforms/subform-fields/<ViolationTitle>", () => {
         {
           ...props,
           values: {
-            verified: "status_1"
+            ctfmr_verified: "status_1"
           }
         },
         initialState

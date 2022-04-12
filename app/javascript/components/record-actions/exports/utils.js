@@ -2,7 +2,7 @@
 import isEmpty from "lodash/isEmpty";
 import uniq from "lodash/uniq";
 
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { displayNameHelper } from "../../../libs";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 

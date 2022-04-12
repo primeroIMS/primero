@@ -7,7 +7,7 @@ import { setupMountedComponent } from "../../../../test";
 import { mapEntriesToRecord } from "../../../../libs";
 import { FormSectionRecord } from "../../../form/records";
 import { RECORD_TYPES } from "../../../../config/constants";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import FormBuilderActionButtons from "./components/action-buttons";
 import FormsBuilder from "./component";

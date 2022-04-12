@@ -15,8 +15,7 @@ import NAMESPACE from "../namespace";
 import { fetchSystemSettings, useApp } from "../../../application";
 import { ROUTES } from "../../../../config";
 import { useMemoizedSelector } from "../../../../libs";
-import Permission from "../../../application/permission";
-import { RESOURCES, MANAGE } from "../../../../libs/permissions";
+import Permission, { RESOURCES, MANAGE } from "../../../permissions";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";

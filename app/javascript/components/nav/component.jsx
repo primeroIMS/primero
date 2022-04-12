@@ -11,12 +11,11 @@ import ModuleLogo from "../module-logo";
 import { useMemoizedSelector } from "../../libs";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
-import Permission from "../application/permission";
+import Permission, { usePermissions, MANAGE, RESOURCES } from "../permissions";
 import { getLocationsAvailable } from "../application/selectors";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
 import { getPermissions } from "../user";
-import usePermissions, { MANAGE, RESOURCES } from "../permissions";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 

@@ -126,7 +126,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
       incident_id: incident4.id
     )
     violation5.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'false' })
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'false' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
 

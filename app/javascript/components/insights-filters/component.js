@@ -16,14 +16,18 @@ import FormSectionField from "../form/components/form-section-field";
 import { CONTROLS_GROUP, DATE_CONTROLS, DATE_CONTROLS_GROUP, INSIGHTS_CONFIG } from "../insights/constants";
 import { fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
+import { useMemoizedSelector } from "../../libs";
+import { getInsightFilters } from "../insights/selectors";
 
 import css from "./styles.css";
 import { dateCalculations } from "./utils";
 import validations from "./validations";
 
-const Component = ({ moduleID, id, subReport }) => {
+const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const insightsConfig = INSIGHTS_CONFIG[moduleID];
   const { defaultFilterValues } = insightsConfig;
+
+  const insightFilters = useMemoizedSelector(state => getInsightFilters(state));
 
   const i18n = useI18n();
   const formMethods = useForm({
@@ -35,16 +39,21 @@ const Component = ({ moduleID, id, subReport }) => {
   const dispatch = useDispatch();
 
   const transformFilters = data => {
-    const { date, view_by: viewBy, date_range: dateRange, to, from, ...rest } = data;
+    const { date, grouped_by: groupedBy, date_range: dateRange, to, from, ...rest } = data;
 
     return omitBy(
-      { subreport: subReport, ...rest, ...(viewBy && { [date]: dateCalculations(dateRange, from, to) }) },
+      {
+        ...rest,
+        ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to), subreport: subReport })
+      },
       isNil
     );
   };
 
   const getInsights = (filters = {}) => {
     const transformedFilters = transformFilters(filters);
+
+    toggleControls();
 
     dispatch(setFilters(transformedFilters));
     dispatch(fetchInsight(id, subReport, transformedFilters));
@@ -65,7 +74,9 @@ const Component = ({ moduleID, id, subReport }) => {
   };
 
   useEffect(() => {
-    getInsights(defaultFilterValues);
+    if (subReport) {
+      getInsights(!insightFilters.isEmpty() ? insightFilters.toJS() : defaultFilterValues);
+    }
 
     return () => {
       resetFiltersForm();
@@ -121,7 +132,8 @@ Component.displayName = "InsightsFilters";
 Component.propTypes = {
   id: PropTypes.string,
   moduleID: PropTypes.string,
-  subReport: PropTypes.string
+  subReport: PropTypes.string,
+  toggleControls: PropTypes.func.isRequired
 };
 
 export default Component;

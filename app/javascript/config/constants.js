@@ -17,7 +17,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD
-} from "../libs/permissions";
+} from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
 export const PASSWORD_MIN_LENGTH = 8;
@@ -588,7 +588,7 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
 
 export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
 
-export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators"];
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
@@ -600,3 +600,60 @@ export const CHART_COLORS = Object.freeze({
   yellow: "rgb(242, 195, 23)"
 });
 export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
+
+export const JANUARY = "january";
+export const FEBRUARY = "february";
+export const MARCH = "march";
+export const APRIL = "april";
+export const MAY = "may";
+export const JUNE = "june";
+export const JULY = "july";
+export const AUGUST = "august";
+export const SEPTEMBER = "september";
+export const OCTOBER = "octobre";
+export const NOVEMBER = "november";
+export const DECEMBER = "december";
+
+export const MONTHS = Object.freeze([
+  JANUARY,
+  FEBRUARY,
+  MARCH,
+  APRIL,
+  MAY,
+  JUNE,
+  JULY,
+  AUGUST,
+  SEPTEMBER,
+  OCTOBER,
+  NOVEMBER,
+  DECEMBER
+]);
+
+export const MONTHS_TO_NUMBER = Object.freeze({
+  [JANUARY]: 1,
+  [FEBRUARY]: 2,
+  [MARCH]: 3,
+  [APRIL]: 4,
+  [MAY]: 5,
+  [JUNE]: 6,
+  [JULY]: 7,
+  [AUGUST]: 8,
+  [SEPTEMBER]: 9,
+  [OCTOBER]: 10,
+  [NOVEMBER]: 11,
+  [DECEMBER]: 12
+});
+
+export const Q1 = "q1";
+export const Q2 = "q2";
+export const Q3 = "q3";
+export const Q4 = "q4";
+
+export const QUARTERS_TO_NUMBER = Object.freeze({
+  [Q1]: 1,
+  [Q2]: 2,
+  [Q3]: 3,
+  [Q4]: 4
+});
+
+export const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);

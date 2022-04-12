@@ -30,13 +30,12 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
           on incidents.id = violations.incident_id
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         WHERE p.data->>'armed_force_group_party_name' is not null
-        and (iv.data->>'victim_deprived_liberty_security_reasons')::boolean
+        and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'incidents')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-        #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
         group by p."data"->>'armed_force_group_party_name'
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
       }

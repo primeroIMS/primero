@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 
 import ActionDialog from "../../../../action-dialog";
 import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS } from "../../../../../libs/permissions";
+import { ACTIONS } from "../../../../permissions";
 
 import UserConfirmation from "./component";
 

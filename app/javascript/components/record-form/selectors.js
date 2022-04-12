@@ -1,5 +1,4 @@
 import isEmpty from "lodash/isEmpty";
-import isEqual from "lodash/isEqual";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { fromJS, OrderedMap, List } from "immutable";
@@ -8,13 +7,13 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
 import { displayNameHelper } from "../../libs";
-import { checkPermissions } from "../../libs/permissions";
+import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
 import { OPTION_TYPES } from "../form/constants";
-import { getPermissionsByRecord } from "../user/selectors";
 import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts } from "../records";
+import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -23,7 +22,7 @@ import { RECORD_FORM_PERMISSION } from "./form/constants";
 
 const defaultCacheSelectorOptions = {
   keySelector: (_state, query) => JSON.stringify(omitBy(query, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
 };
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {
@@ -146,7 +145,7 @@ export const getFirstTab = createCachedSelector(
 export const getFormNav = createCachedSelector(
   allFormSections,
   state => state.getIn(["user", "permittedForms"], fromJS([])),
-  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
+  (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   getLocale,
   (state, query) =>
     allPermittedForms(state, query)
@@ -226,7 +225,7 @@ export const getRecordInformationFormIds = createCachedSelector(
 
 export const getRecordInformationNav = createCachedSelector(
   (state, query) => getRecordInformationForms(state, query),
-  (state, query) => getPermissionsByRecord(state, RECORD_TYPES_PLURAL[query?.recordType]),
+  (state, query) => getPermissionsByRecord([state, RECORD_TYPES_PLURAL[query?.recordType]]),
   (formSections, userPermissions) => {
     return formSections
       .map(form => buildFormNav(form))
@@ -409,6 +408,10 @@ export const getFieldByName = (state, name, moduleID, parentForm) => {
   }
 
   return fields.find(field => field.name === name);
+};
+
+export const getFieldsByName = (state, names = fromJS([])) => {
+  return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
 export const getFieldsWithNames = createCachedSelector(

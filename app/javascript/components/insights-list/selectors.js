@@ -8,6 +8,10 @@ export const selectInsights = state => {
   return state.getIn(["records", NAMESPACE, "data"], fromJS([]));
 };
 
+export const selectInsightsFilters = state => {
+  return state.getIn(["records", NAMESPACE, "filters"], fromJS([]));
+};
+
 export const selectInsightsPagination = state => {
   return state.getIn(["records", NAMESPACE, "metadata"], fromJS({}));
 };
