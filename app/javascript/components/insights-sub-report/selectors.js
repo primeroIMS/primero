@@ -9,5 +9,5 @@ export const getInsight = state => {
 };
 
 export const getSubReport = state => {
-  return state.getIn(["records", NAMESPACE, "subReport"], false);
+  return state.getIn(["records", NAMESPACE, "filters", "subreport"], false);
 };
