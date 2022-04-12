@@ -102,11 +102,11 @@ describe ManagedReports::Indicators::SurvivorsSex do
   before do
     clean_data(Incident, UserGroup, User, Agency, Role)
 
-    Incident.new_with_user(self_user, { sex: 'male' }).save!
-    Incident.new_with_user(group_user, { sex: 'female' }).save!
-    Incident.new_with_user(agency_user, { sex: 'male' }).save!
-    Incident.new_with_user(all_user, { sex: 'female' }).save!
-    Incident.new_with_user(all_user, { sex: 'female' }).save!
+    Incident.new_with_user(self_user, { sex: 'male', incident_date: Date.new(2020, 8, 12) }).save!
+    Incident.new_with_user(group_user, { sex: 'female', incident_date: Date.new(2020, 9, 12) }).save!
+    Incident.new_with_user(agency_user, { sex: 'male', incident_date: Date.new(2021, 1, 12) }).save!
+    Incident.new_with_user(all_user, { sex: 'female', incident_date: Date.new(2021, 2, 12) }).save!
+    Incident.new_with_user(all_user, { sex: 'female', incident_date: Date.new(2021, 3, 12) }).save!
   end
 
   it 'returns data for the survivors sex indicator' do
@@ -158,6 +158,104 @@ describe ManagedReports::Indicators::SurvivorsSex do
           { 'id' => 'female', 'total' => 3 }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::SurvivorsSex.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'female', 'total' => 1 },
+                { 'id' => 'male', 'total' => 1 }
+              ],
+              'group_id' => 2020
+            },
+            {
+              'data' => [
+                { 'id' => 'female', 'total' => 2 },
+                { 'id' => 'male', 'total' => 1 }
+              ],
+              'group_id' => 2021
+            }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::SurvivorsSex.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { 'data' => [{ 'id' => 'male', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'female', 'total' => 1 }], 'group_id' => 'september-2020' },
+            { 'data' => [{ 'id' => 'male', 'total' => 1 }], 'group_id' => 'january-2021' },
+            { 'data' => [{ 'id' => 'female', 'total' => 1 }], 'group_id' => 'february-2021' },
+            { 'data' => [{ 'id' => 'female', 'total' => 1 }], 'group_id' => 'march-2021' }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::SurvivorsSex.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'female', 'total' => 1 },
+                { 'id' => 'male', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2020'
+            },
+            {
+              'data' => [
+                { 'id' => 'female', 'total' => 2 },
+                { 'id' => 'male', 'total' => 1 }
+              ],
+              'group_id' => 'q1-2021'
+            }
+          ]
+        )
+      end
     end
   end
 end
