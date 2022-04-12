@@ -62,6 +62,16 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
     expect(component.text()).to.be.equal("test_user1");
   });
 
+  it("should render the value if there are no options for the defined optionsStringSource", () => {
+    const props = {
+      value: "the_value",
+      optionsStringSource: "lookup lookup-doesnotexist"
+    };
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("the_value");
+  });
+
   it("should render the same value is this is empty", () => {
     const props = {
       value: "",

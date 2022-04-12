@@ -25,7 +25,7 @@ const Component = ({ value, optionsStringSource, optionsStringText, isViolationS
       return (
         <span>
           {renderDisplayName}
-          {displayText}
+          {displayText || value}
         </span>
       );
     }
