@@ -59,7 +59,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
 
   const columnsNumber = groups.length * years.length;
 
-  const groupComparator = getGroupComparator(groups);
+  const groupComparator = getGroupComparator(groupedBy);
 
   const dataRows = years.sort(yearComparator).reduce((acc1, group1, groupIndex) => {
     // index + 1 because the first value is the title of the row
