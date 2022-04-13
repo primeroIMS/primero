@@ -4,13 +4,13 @@
 class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportIndicator
   class << self
     def id
-      'denial_humanitarian_access'
+      'violation'
     end
 
     # rubocop:disable Metrics/AbcSize
     def sql(current_user, params = {})
       %{
-        select count(violations.id)
+        select count(violations.id) as total
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -26,7 +26,7 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
 
     def build(current_user = nil, args = {})
       super(current_user, args) do |result|
-        result.first['count']
+        result.first || {}
       end
     end
   end

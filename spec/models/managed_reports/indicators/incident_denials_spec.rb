@@ -39,6 +39,6 @@ describe ManagedReports::Indicators::IncidentDenials do
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access') }
     ).data
 
-    expect(denial_type_data).to eq(4)
+    expect(denial_type_data).to eq({"total"=>4})
   end
 end
