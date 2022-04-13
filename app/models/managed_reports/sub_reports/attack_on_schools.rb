@@ -8,6 +8,7 @@ class ManagedReports::SubReports::AttackOnSchools < ManagedReports::SubReport
 
   def indicators
     [
+      ManagedReports::Indicators::IncidentAttackOn,
       ManagedReports::Indicators::FacilityAttackType,
       ManagedReports::Indicators::PerpetratorsDenials,
       ManagedReports::Indicators::ReportingLocationDenials
@@ -17,7 +18,8 @@ class ManagedReports::SubReports::AttackOnSchools < ManagedReports::SubReport
   def lookups
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::ReportingLocation.id => 'Location'
+      ManagedReports::Indicators::ReportingLocation.id => 'Location',
+      ManagedReports::Indicators::FacilityAttackType.id => 'lookup-facility-attack-type'
     }
   end
 

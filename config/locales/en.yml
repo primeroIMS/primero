@@ -1871,6 +1871,7 @@ en:
         released: 'Released'
         escaped: 'Escaped'
         abducted_status: Status of Abducted
+        facility_attack_type: Type of violation
     gbv_statistics:
       name: GBV Statistics
       description: ''
