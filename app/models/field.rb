@@ -162,6 +162,7 @@ class Field < ApplicationRecord
   end
 
   def options_list(locale: I18n.locale, lookups: nil)
+    return [] if option_strings_source == 'violations'
     return unless [SELECT_BOX, RADIO_BUTTON, TICK_BOX].include?(type)
     return option_strings_text(locale) if option_strings_text.present?
     return options_list_tickbox(locale) if type == Field::TICK_BOX
