@@ -39,6 +39,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
         ) keys_values
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize

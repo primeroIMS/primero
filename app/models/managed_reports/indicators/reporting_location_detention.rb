@@ -38,6 +38,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
         group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize

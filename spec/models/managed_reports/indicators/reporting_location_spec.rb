@@ -296,8 +296,8 @@ describe ManagedReports::Indicators::ReportingLocation do
             {
               group_id: 'q1-2022',
               data: [
-                { id: 'E2', unknown: 2, girls: 1, boys: 1, total: 4 },
-                { id: 'E1', unknown: 2, total: 9, boys: 3, girls: 4 }
+                { id: 'E1', unknown: 2, total: 9, boys: 3, girls: 4 },
+                { id: 'E2', unknown: 2, girls: 1, boys: 1, total: 4 }
               ]
             }
           ]
