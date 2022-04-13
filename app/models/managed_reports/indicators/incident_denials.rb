@@ -6,7 +6,7 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
 
   class << self
     def id
-      'denial_humanitarian_access'
+      'violation'
     end
 
     # rubocop:disable Metrics/AbcSize

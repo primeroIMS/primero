@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import { fromJS, Map } from "immutable";
 
 const getFirstGroup = reportData =>
   reportData
@@ -26,7 +26,12 @@ const buildGroupedInsights = reportData => {
       return value.map(elem =>
         fromJS({
           group_id: elem.get("group_id"),
-          data: elem.get("data", fromJS([])).map(dataElem => fromJS({ id: key, total: dataElem.get("total") }))
+          data: Map.isMap(elem.get("data", fromJS([])))
+            ? elem
+                .get("data", fromJS([]))
+                .entrySeq()
+                .map(([subKey, subValue]) => fromJS({ id: subKey, total: subValue }))
+            : elem.get("data", fromJS([])).map(dataElem => fromJS({ id: key, total: dataElem.get("total") }))
         })
       );
     })
@@ -45,9 +50,13 @@ export default (reportData, isGrouped) => {
   const singleReportData = reportData.get("single", fromJS({}));
 
   if (!isGrouped) {
-    return singleReportData
-      .entrySeq()
-      .flatMap(([key, value]) => value.map(elem => fromJS({ id: key, total: elem.get("total") })));
+    return singleReportData.entrySeq().flatMap(([key, value]) => {
+      if (Map.isMap(value)) {
+        return value.entrySeq().map(([subKey, subValue]) => fromJS({ id: subKey, total: subValue }));
+      }
+
+      return value.map(elem => fromJS({ id: key, total: elem.get("total") }));
+    });
   }
 
   return buildGroupedInsights(singleReportData);

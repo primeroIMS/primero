@@ -47,7 +47,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
 
     def build_results(results)
       unless results.to_a.any? { |result| result['group_id'].present? }
-        return ActiveSupport::JSON.decode(results.to_a.first.dig('data') || '{}')
+        return ActiveSupport::JSON.decode(results.to_a.first&.dig('data') || '{}')
       end
 
       results.to_a.map do |result|

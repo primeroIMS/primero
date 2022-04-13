@@ -52,6 +52,7 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
              where key = 'total'
          group by name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/MethodLength

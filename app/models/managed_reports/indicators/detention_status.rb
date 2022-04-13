@@ -47,6 +47,7 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
              ) as subquery
          group by status
          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+         order by name
       }
     end
     # rubocop:enable Metrics/MethodLength

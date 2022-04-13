@@ -87,9 +87,9 @@ describe ManagedReports::Indicators::DenialType do
             {
               group_id: 2021,
               data: [
-                { id: 'other', total: 1 },
-                { id: 'besiegement', total: 2 },
                 { id: 'abduction_of_humanitarian_personnel', total: 1 },
+                { id: 'besiegement', total: 2 },
+                { id: 'other', total: 1 },
                 { id: 'restrictions_of_beneficiaries_access', total: 1 },
                 { id: 'theft', total: 1 }
               ]
@@ -97,8 +97,8 @@ describe ManagedReports::Indicators::DenialType do
             {
               group_id: 2022,
               data: [
-                { id: 'vehicle_hijacking', total: 1 },
-                { id: 'property_damage', total: 2 }
+                { id: 'property_damage', total: 2 },
+                { id: 'vehicle_hijacking', total: 1 }
               ]
             }
           ]
@@ -126,11 +126,11 @@ describe ManagedReports::Indicators::DenialType do
             {
               group_id: 'may-2021',
               data: [
+                { id: 'abduction_of_humanitarian_personnel', total: 1 },
                 { id: 'besiegement', total: 2 },
-                { id: 'restrictions_of_beneficiaries_access', total: 1 },
-                { id: 'theft', total: 1 },
                 { id: 'other', total: 1 },
-                { id: 'abduction_of_humanitarian_personnel', total: 1 }
+                { id: 'restrictions_of_beneficiaries_access', total: 1 },
+                { id: 'theft', total: 1 }
               ]
             },
             {
@@ -164,11 +164,13 @@ describe ManagedReports::Indicators::DenialType do
           [
             {
               group_id: 'q2-2021',
-              data: [{ id: 'restrictions_of_beneficiaries_access', total: 1 },
-                     { id: 'besiegement', total: 2 },
-                     { id: 'theft', total: 1 },
-                     { id: 'other', total: 1 },
-                     { id: 'abduction_of_humanitarian_personnel', total: 1 }]
+              data: [
+                { id: 'abduction_of_humanitarian_personnel', total: 1 },
+                { id: 'besiegement', total: 2 },
+                { id: 'other', total: 1 },
+                { id: 'restrictions_of_beneficiaries_access', total: 1 },
+                { id: 'theft', total: 1 }
+              ]
             },
             {
               group_id: 'q2-2022',

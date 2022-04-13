@@ -38,6 +38,7 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         group by p."data"->>'armed_force_group_party_name'
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/MethodLength

@@ -249,8 +249,8 @@ describe ManagedReports::Indicators::AttackType do
             {
               group_id: 2022,
               data: [
-                { id: 'arson', total: 5, boys: 2, girls: 2, unknown: 1 },
-                { id: 'aerial_attack', unknown: 0, boys: 2, girls: 1, total: 3 }
+                { id: 'aerial_attack', unknown: 0, boys: 2, girls: 1, total: 3 },
+                { id: 'arson', total: 5, boys: 2, girls: 2, unknown: 1 }
               ]
             }
           ]
@@ -317,8 +317,8 @@ describe ManagedReports::Indicators::AttackType do
             {
               group_id: 'q1-2022',
               data: [
-                { id: 'arson', boys: 2, total: 5, girls: 2, unknown: 1 },
-                { id: 'aerial_attack', unknown: 0, boys: 2, total: 3, girls: 1 }
+                { id: 'aerial_attack', unknown: 0, boys: 2, total: 3, girls: 1 },
+                { id: 'arson', boys: 2, total: 5, girls: 2, unknown: 1 }
               ]
             }
           ]

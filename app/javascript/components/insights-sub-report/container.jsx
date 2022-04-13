@@ -22,7 +22,7 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { NAME, GBV_COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
+import { NAME, COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -67,7 +67,7 @@ const Component = () => {
   const reportData = insight
     .getIn(["report_data", subReport], fromJS({}))
     .filterNot((_value, key) => ["lookups"].includes(key))
-    .groupBy((_value, key) => ((GBV_COMBINED_INDICATORS[subReport] || []).includes(key) ? "single" : "aggregate"));
+    .groupBy((_value, key) => ((COMBINED_INDICATORS[subReport] || []).includes(key) ? "single" : "aggregate"));
 
   const translateId = valueID => i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
 
