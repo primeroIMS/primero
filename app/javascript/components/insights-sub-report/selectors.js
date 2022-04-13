@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 import NAMESPACE from "./namespace";
 
@@ -17,7 +17,7 @@ export const getIsGroupedInsight = (state, subReport) =>
     .getIn(["records", NAMESPACE, "selectedReport", "report_data", subReport], fromJS({}))
     .filterNot((_value, key) => ["lookups"].includes(key))
     .valueSeq()
-    .some(elems => elems.some(elem => elem.get("group_id")));
+    .some(elems => List.isList(elems) && elems.some(elem => elem.get("group_id")));
 
 export const getSubReport = state => {
   return state.getIn(["records", NAMESPACE, "filters", "subreport"], false);
