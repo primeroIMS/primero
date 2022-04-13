@@ -610,7 +610,7 @@ export const JUNE = "june";
 export const JULY = "july";
 export const AUGUST = "august";
 export const SEPTEMBER = "september";
-export const OCTOBER = "octobre";
+export const OCTOBER = "october";
 export const NOVEMBER = "november";
 export const DECEMBER = "december";
 
