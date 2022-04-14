@@ -9,23 +9,21 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
     end
 
     def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
       %{
         select
           data->> 'elapsed_reporting_time' as id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from incidents
         where data->> 'elapsed_reporting_time' is not null
         and data ->> 'gbv_sexual_violence_type' = 'rape'
-        #{date_range_query(params['incident_date'])&.prepend('and ')}
-        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{date_range_query(date_param)&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->> 'elapsed_reporting_time'
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
-    end
-
-    def build(current_user = nil, args = {})
-      super(current_user, args, &:to_a)
     end
   end
 end

@@ -8,21 +8,20 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
     end
 
     def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
       %{
         select
+         'gbv_sexual_violence_type' as id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           count(*) as total
         from  incidents
         where data ->> 'gbv_sexual_violence_type' != 'non-gbv'
         and data ->> 'gbv_sexual_violence_type' is not null
-        #{date_range_query(params['incident_date'])&.prepend('and ')}
-        #{date_range_query(params['date_of_first_report'])&.prepend('and ')}
+        #{date_range_query(date_param)&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
       }
-    end
-
-    def build(current_user = nil, args = {})
-      super(current_user, args) { |results| results[0]['total'] }
     end
   end
 end

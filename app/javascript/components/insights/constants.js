@@ -3,11 +3,9 @@ import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
 const VIEW_BY = "view_by";
+const GROUPED_BY = "grouped_by";
 const DATE_RANGE = "date_range";
 const FIELDS = "fields";
-const QUARTER = "quarter";
-const MONTH = "month";
-const YEAR = "year";
 const FROM = "from";
 const TO = "to";
 const DATE = "date";
@@ -26,6 +24,9 @@ const VERIFICATION_STATUS = "verification_status";
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
+export const QUARTER = "quarter";
+export const MONTH = "month";
+export const YEAR = "year";
 export const NAME = "Insights";
 export const NAMESPACE = "insights";
 export const DELETE_MODAL = "DeleteReportModal";
@@ -35,7 +36,7 @@ export const VIOLATION = "violation";
 export const TOTAL_KEY = "_total";
 export const MANAGED_REPORTS = "managed_reports";
 
-export const DATE_CONTROLS = [TO, FROM, VIEW_BY, DATE_RANGE];
+export const DATE_CONTROLS = [TO, FROM, GROUPED_BY, DATE_RANGE];
 export const DATE_CONTROLS_GROUP = DATE;
 export const CONTROLS_GROUP = "default";
 
@@ -56,7 +57,7 @@ export const INSIGHTS_EXPORTER_DIALOG = "insights_exporter_dialog";
 
 export const SHARED_FILTERS = [
   {
-    name: VIEW_BY,
+    name: GROUPED_BY,
     display_name: [FIELDS, DATE_RANGE, VIEW_BY],
     clearDependentValues: [DATE_RANGE],
     option_strings_text: [
@@ -79,7 +80,7 @@ export const SHARED_FILTERS = [
       { id: CUSTOM, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, CUSTOM] }
     ],
     type: SELECT_FIELD,
-    watchedInputs: VIEW_BY,
+    watchedInputs: GROUPED_BY,
     filterOptionSource: (watchedInputsValue, options) => {
       const filterBy = () => {
         switch (watchedInputsValue) {
@@ -119,7 +120,7 @@ export const INSIGHTS_CONFIG = {
     ids: MRM_INSIGHTS_SUBREPORTS,
     localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
     defaultFilterValues: {
-      [VIEW_BY]: QUARTER,
+      [GROUPED_BY]: QUARTER,
       [DATE_RANGE]: THIS_QUARTER,
       [DATE]: INCIDENT_DATE,
       [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
@@ -162,7 +163,7 @@ export const INSIGHTS_CONFIG = {
           },
           { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
         ],
-        watchedInputs: VIEW_BY,
+        watchedInputs: GROUPED_BY,
         type: SELECT_FIELD,
         handleWatchedInputs: value => ({
           disabled: !value

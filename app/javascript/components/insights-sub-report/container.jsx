@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import { fromJS, List, Map } from "immutable";
-import take from "lodash/take";
-import isEmpty from "lodash/isEmpty";
+import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -11,14 +9,20 @@ import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
-import TableValues from "../charts/table-values";
 import BarChartGraphic from "../charts/bar-chart";
+import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
-import { CHART_COLORS } from "../../config/constants";
 
-import { getInsight } from "./selectors";
+import {
+  buildChartValues,
+  buildInsightColumns,
+  buildSingleInsightsData,
+  buildInsightValues,
+  getLookupValue
+} from "./utils";
+import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { NAME } from "./constants";
+import { NAME, COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -40,6 +44,8 @@ const Component = () => {
   const errors = useMemoizedSelector(state => getErrors(state, namespace));
   const loading = useMemoizedSelector(state => getLoading(state, namespace));
   const insight = useMemoizedSelector(state => getInsight(state));
+  const isGrouped = useMemoizedSelector(state => getIsGroupedInsight(state, subReport));
+  const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
 
   const insightLookups = insight.getIn(["report_data", subReport, "lookups"], fromJS({})).entrySeq().toArray();
 
@@ -61,76 +67,15 @@ const Component = () => {
   const reportData = insight
     .getIn(["report_data", subReport], fromJS({}))
     .filterNot((_value, key) => ["lookups"].includes(key))
-    .groupBy(value => (!List.isList(value) ? "single" : "aggregate"));
+    .groupBy((_value, key) => ((COMBINED_INDICATORS[subReport] || []).includes(key) ? "single" : "aggregate"));
 
-  const getLookupValue = (key, value) => {
-    const valueKeyLookups = lookups[key];
-
-    if (isEmpty(valueKeyLookups)) {
-      return i18n.t(["managed_reports", id, "sub_reports", value.get("id")].join("."), {
-        defaultValue: value.get("id")
-      });
-    }
-
-    // eslint-disable-next-line camelcase
-    return valueKeyLookups.find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
-  };
-
-  const buildInsightValues = (data, key) => {
-    if (data === 0) return [];
-
-    return data
-      .map(value => {
-        const lookupValue = getLookupValue(key, value);
-
-        return { colspan: 0, row: [lookupValue, value.get("total")] };
-      })
-      .toArray();
-  };
-
-  const buildChartValues = (value, valueKey) => {
-    if (!value) return {};
-
-    const data = value?.map(val => val.get("total")).toArray();
-
-    return {
-      datasets: [
-        {
-          label: totalText,
-          data,
-          backgroundColor: take(Object.values(CHART_COLORS), data.length)
-        }
-      ],
-      labels: value
-        .map(val => {
-          const valueID = val.get("id");
-          const valueKeyLookups = lookups[valueKey];
-
-          if (isEmpty(valueKeyLookups)) {
-            return i18n.t(["managed_reports", id, "sub_reports", valueID].join("."), { defaultValue: valueID });
-          }
-
-          // eslint-disable-next-line camelcase
-          return valueKeyLookups.find(lookup => lookup.id === valueID)?.display_text || valueID;
-        })
-        .toArray()
-    };
-  };
+  const translateId = valueID => i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
-  const singleInsightsTableData = reportData
-    .get("single", fromJS({}))
-    .entrySeq()
-    .map(([key, value]) => {
-      if (Map.isMap(value)) {
-        return value.entrySeq().map(([subKey, subValue]) => ({ colspan: 0, row: [subReportTitle(subKey), subValue] }));
-      }
+  const lookupValue = (data, key) => getLookupValue(lookups, translateId, data, key);
 
-      return { colspan: 0, row: [subReportTitle(key), value] };
-    })
-    .flatten(1)
-    .toArray();
+  const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
   return (
     <>
@@ -138,11 +83,22 @@ const Component = () => {
         <div className={css.subReportContent}>
           <div className={css.subReportTables}>
             <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            {singleInsightsTableData.length > 0 && (
+            {singleInsightsTableData.size > 0 && (
               <>
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
                 <TableValues
-                  values={singleInsightsTableData}
+                  columns={buildInsightColumns({
+                    value: singleInsightsTableData,
+                    isGrouped,
+                    groupedBy,
+                    localizeDate: i18n.localizeDate
+                  })}
+                  values={buildInsightValues({
+                    getLookupValue: lookupValue,
+                    data: singleInsightsTableData,
+                    isGrouped,
+                    groupedBy
+                  })}
                   showPlaceholder
                   name={namespace}
                   emptyMessage={emptyMessage}
@@ -155,9 +111,27 @@ const Component = () => {
               .map(([valueKey, value]) => (
                 <div key={valueKey} className={css.section}>
                   <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
-                  <BarChartGraphic data={buildChartValues(value, valueKey)} showDetails />
+                  <BarChartGraphic
+                    data={buildChartValues({
+                      totalText,
+                      getLookupValue: lookupValue,
+                      localizeDate: i18n.localizeDate,
+                      value,
+                      valueKey,
+                      isGrouped,
+                      groupedBy
+                    })}
+                    showDetails
+                  />
                   <TableValues
-                    values={buildInsightValues(value, valueKey)}
+                    columns={buildInsightColumns({ value, isGrouped, groupedBy, localizeDate: i18n.localizeDate })}
+                    values={buildInsightValues({
+                      getLookupValue: lookupValue,
+                      data: value,
+                      key: valueKey,
+                      isGrouped,
+                      groupedBy
+                    })}
                     showPlaceholder
                     name={namespace}
                     emptyMessage={emptyMessage}

@@ -6,11 +6,20 @@ class ManagedReports::Indicators::TotalGBVPreviousIncidents < ManagedReports::Sq
     def id
       'gbv_previous_incidents'
     end
-  end
 
-  def execute_query(current_user)
-    query = Incident.where("data ->> 'gbv_previous_incidents' = 'true'")
-    query = query.where(ManagedReports::SqlReportIndicator.user_scope_query(current_user)) if current_user.present?
-    apply_params(query).count
+    def sql(current_user, params = {})
+      date_param = params['incident_date'] || params['date_of_first_report']
+      %{
+        select
+          'gbv_previous_incidents' as id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
+          count(*) as total
+        from incidents
+        where data ->> 'gbv_previous_incidents' = 'true'
+        #{date_range_query(date_param)&.prepend('and ')}
+        #{user_scope_query(current_user)&.prepend('and ')}
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
+      }
+    end
   end
 end

@@ -2,6 +2,8 @@
 
 # Class to export the Incidents Subreport
 class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
+  COMBINED_INDICATORS = %w[total gbv_sexual_violence gbv_previous_incidents].freeze
+
   def write_export
     write_header
     write_params
@@ -21,8 +23,16 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   end
 
   def build_combined_data
-    %w[total gbv_sexual_violence gbv_previous_incidents].map do |indicator|
-      [I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"), data[indicator]]
+    COMBINED_INDICATORS.map do |indicator|
+      [I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"), data[indicator]&.first&.dig('total')]
+    end
+  end
+
+  def write_indicators
+    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
+      next if COMBINED_INDICATORS.include?(indicator_key)
+
+      write_indicator(indicator_key, indicator_values)
     end
   end
 end

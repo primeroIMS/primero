@@ -84,15 +84,15 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.today, status: 'open' })
+    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
     incident1.save!
-    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.today, status: 'open' })
+    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.today, status: 'open' })
+    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 1, 8), status: 'open' })
     incident3.save!
-    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.today, status: 'open' })
+    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident4.save!
-    incident5 = Incident.new_with_user(@all_user, { incident_date: Date.today, status: 'open' })
+    incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
 
     Violation.create!(
@@ -231,6 +231,157 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
           { 'total' => 5, 'unknown' => 1, 'girls' => 2, 'boys' => 2, 'id' => 'abduction' }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::FactorsOfRecruitment.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              group_id: 2020,
+              data: [
+                { 'total' => 3, 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'id' => 'abduction' },
+                { 'girls' => 1, 'boys' => 1, 'total' => 3, 'unknown' => 1, 'id' => 'conscription' }
+              ]
+            },
+            {
+              group_id: 2021,
+              data: [
+                { 'unknown' => 5, 'girls' => 10, 'boys' => 5, 'total' => 20, 'id' => 'other' },
+                { 'total' => 20, 'girls' => 10, 'boys' => 5, 'unknown' => 5, 'id' => 'unknown' }
+              ]
+            },
+            {
+              group_id: 2022,
+              data: [
+                { 'girls' => 1, 'boys' => 1, 'total' => 2, 'unknown' => 0, 'id' => 'abduction' },
+                { 'total' => 3, 'boys' => 2, 'girls' => 1, 'unknown' => 0, 'id' => 'conscription' },
+                { 'boys' => 2, 'total' => 5, 'girls' => 2, 'unknown' => 1, 'id' => 'idealism' },
+                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, 'id' => 'intimidation' },
+                { 'boys' => 2, 'girls' => 1, 'total' => 3, 'unknown' => 0, 'id' => 'other' }
+              ]
+            }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::FactorsOfRecruitment.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              group_id: 'august-2020',
+              data: [
+                { 'boys' => 1, 'total' => 3, 'girls' => 1, 'unknown' => 1, 'id' => 'abduction' },
+                { 'girls' => 1, 'total' => 3, 'boys' => 1, 'unknown' => 1, 'id' => 'conscription' }
+              ]
+            },
+            {
+              group_id: 'august-2021',
+              data: [
+                { 'unknown' => 5, 'total' => 20, 'boys' => 5, 'girls' => 10, 'id' => 'other' },
+                { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20, 'id' => 'unknown' }
+              ]
+            },
+            {
+              group_id: 'january-2022',
+              data: [
+                { 'girls' => 1, 'unknown' => 1, 'boys' => 1, 'total' => 3, 'id' => 'idealism' },
+                { 'unknown' => 1, 'boys' => 1, 'total' => 3, 'girls' => 1, 'id' => 'intimidation' }
+              ]
+            },
+            {
+              group_id: 'february-2022',
+              data: [
+                { 'unknown' => 0, 'boys' => 1, 'total' => 2, 'girls' => 1, 'id' => 'abduction' },
+                { 'girls' => 1, 'boys' => 1, 'unknown' => 0, 'total' => 2, 'id' => 'idealism' }
+              ]
+            },
+            {
+              group_id: 'march-2022',
+              data: [
+                { 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'total' => 3, 'id' => 'conscription' },
+                { 'girls' => 1, 'boys' => 2, 'total' => 3, 'unknown' => 0, 'id' => 'other' }
+              ]
+            }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::FactorsOfRecruitment.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              group_id: 'q1-2022',
+              data: [
+                { 'unknown' => 0, 'total' => 2, 'girls' => 1, 'boys' => 1, 'id' => 'abduction' },
+                { 'total' => 3, 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'id' => 'conscription' },
+                { 'girls' => 2, 'unknown' => 1, 'boys' => 2, 'total' => 5, 'id' => 'idealism' },
+                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, 'id' => 'intimidation' },
+                { 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'total' => 3, 'id' => 'other' }
+              ]
+            },
+            {
+              group_id: 'q3-2020',
+              data: [
+                { 'boys' => 1, 'unknown' => 1, 'total' => 3, 'girls' => 1, 'id' => 'abduction' },
+                { 'boys' => 1, 'unknown' => 1, 'girls' => 1, 'total' => 3, 'id' => 'conscription' }
+              ]
+            },
+            {
+              group_id: 'q3-2021',
+              data: [
+                { 'boys' => 5, 'unknown' => 5, 'total' => 20, 'girls' => 10, 'id' => 'other' },
+                { 'total' => 20, 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'id' => 'unknown' }
+              ]
+            }
+          ]
+        )
+      end
     end
   end
 end

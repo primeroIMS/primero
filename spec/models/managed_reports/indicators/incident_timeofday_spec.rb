@@ -88,11 +88,11 @@ describe ManagedReports::Indicators::IncidentTimeofday do
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2020, 9, 8), incident_timeofday: 'afternoon' }
+      { incident_date: Date.new(2021, 9, 8), incident_timeofday: 'afternoon' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2020, 9, 10), incident_timeofday: 'evening_night' }
+      { incident_date: Date.new(2021, 9, 10), incident_timeofday: 'evening_night' }
     ).save!
     Incident.new_with_user(
       @all_user,
@@ -100,7 +100,7 @@ describe ManagedReports::Indicators::IncidentTimeofday do
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 10, 8), incident_timeofday: 'unknown' }
+      { incident_date: Date.new(2022, 10, 8), incident_timeofday: 'unknown' }
     ).save!
   end
 
@@ -162,6 +162,111 @@ describe ManagedReports::Indicators::IncidentTimeofday do
           { 'id' => 'afternoon', 'total' => 2 }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::IncidentTimeofday.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'afternoon', 'total' => 1 },
+                { 'id' => 'morning', 'total' => 1 }
+              ],
+              'group_id' => 2020
+            },
+            {
+              'data' => [
+                { 'id' => 'afternoon', 'total' => 1 },
+                { 'id' => 'evening_night', 'total' => 1 }
+              ],
+              'group_id' => 2021
+            },
+            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 2022 }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::IncidentTimeofday.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { 'data' => [{ 'id' => 'morning', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'afternoon', 'total' => 1 }], 'group_id' => 'september-2020' },
+            {
+              'data' => [
+                { 'id' => 'afternoon', 'total' => 1 },
+                { 'id' => 'evening_night', 'total' => 1 }
+              ],
+              'group_id' => 'september-2021'
+            },
+            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 'october-2022' }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::IncidentTimeofday.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'afternoon', 'total' => 1 },
+                { 'id' => 'morning', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2020'
+            },
+            {
+              'data' => [
+                { 'id' => 'afternoon', 'total' => 1 },
+                { 'id' => 'evening_night', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2021'
+            },
+            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 'q4-2022' }
+          ]
+        )
+      end
     end
   end
 end

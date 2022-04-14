@@ -2,6 +2,8 @@
 
 # An indicator that returns the attack type of violation type killing
 class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'attack_type'
@@ -10,13 +12,18 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
         select name, key, sum(value::integer)
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
         select
-          key, value, violations.id,
-          violations."data"->>'attack_type' as name
+          key, value,
+          #{grouped_date_query(params['grouped_by'],
+                               filter_date(params),
+                               table_name_for_query(params))&.concat(' as group_id,')}
+          violations."data"->>'attack_type' as name  /*attack type*/
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -31,21 +38,13 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         ) keys_values
         group by key, name
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def build(current_user = nil, args = {})
-      super(current_user, args) do |result|
-        result.group_by { |r| r['name'] }.map do |_key, values|
-          values.each_with_object({}) do |curr, acc|
-            acc[:id] = curr['name']
-            acc[curr['key'].to_sym] = curr['sum']
-          end
-        end
-      end
-    end
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

@@ -14,16 +14,16 @@ class ManagedReport < ValueObject
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
         subreports: %w[incidents perpetrators survivors],
-        permitted_filters: [date_of_first_report: {}, incident_date: {}],
+        permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
       Permission::VIOLATION_REPORT => ManagedReport.new(
         id: 'violations',
         name: 'managed_reports.violations.name',
         description: 'managed_reports.violations.description',
-        subreports: %w[killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment],
+        subreports: %w[killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools],
         permitted_filters: [
-          :ctfmr_verified, :verified_ctfmr_technical,
+          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
           date_of_first_report: {},
           incident_date: {}, ctfmr_verified_date: {}
         ],

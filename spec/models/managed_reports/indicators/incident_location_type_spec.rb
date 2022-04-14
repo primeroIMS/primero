@@ -88,11 +88,11 @@ describe ManagedReports::Indicators::IncidentLocationType do
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2020, 9, 8), incident_location_type: 'school' }
+      { incident_date: Date.new(2021, 9, 8), incident_location_type: 'school' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2020, 9, 10), incident_location_type: 'road' }
+      { incident_date: Date.new(2021, 9, 10), incident_location_type: 'road' }
     ).save!
     Incident.new_with_user(
       @all_user,
@@ -100,7 +100,7 @@ describe ManagedReports::Indicators::IncidentLocationType do
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 10, 8), incident_location_type: 'farm' }
+      { incident_date: Date.new(2022, 10, 8), incident_location_type: 'farm' }
     ).save!
   end
 
@@ -120,7 +120,6 @@ describe ManagedReports::Indicators::IncidentLocationType do
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
       data = ManagedReports::Indicators::IncidentLocationType.build(@self_user).data
-
       expect(data).to match_array(
         [
           { 'id' => 'forest', 'total' => 1 }
@@ -162,6 +161,111 @@ describe ManagedReports::Indicators::IncidentLocationType do
           { 'id' => 'school', 'total' => 1 }
         ]
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::IncidentLocationType.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'forest', 'total' => 1 },
+                { 'id' => 'road', 'total' => 1 }
+              ],
+              'group_id' => 2020
+            },
+            {
+              'data' => [
+                { 'id' => 'road', 'total' => 1 },
+                { 'id' => 'school', 'total' => 1 }
+              ],
+              'group_id' => 2021
+            },
+            { 'data' => [{ 'id' => 'farm', 'total' => 1 }], 'group_id' => 2022 }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::IncidentLocationType.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { 'data' => [{ 'id' => 'forest', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'road', 'total' => 1 }], 'group_id' => 'september-2020' },
+            {
+              'data' => [
+                { 'id' => 'road', 'total' => 1 },
+                { 'id' => 'school', 'total' => 1 }
+              ],
+              'group_id' => 'september-2021'
+            },
+            { 'data' => [{ 'id' => 'farm', 'total' => 1 }], 'group_id' => 'october-2022' }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::IncidentLocationType.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            )
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            {
+              'data' => [
+                { 'id' => 'forest', 'total' => 1 },
+                { 'id' => 'road', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2020'
+            },
+            {
+              'data' => [
+                { 'id' => 'road', 'total' => 1 },
+                { 'id' => 'school', 'total' => 1 }
+              ],
+              'group_id' => 'q3-2021'
+            },
+            { 'data' => [{ 'id' => 'farm', 'total' => 1 }], 'group_id' => 'q4-2022' }
+          ]
+        )
+      end
     end
   end
 end

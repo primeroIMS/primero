@@ -110,7 +110,27 @@ describe("Verifying config constant", () => {
       "VIOLATION_GROUP",
       "GBV_INSIGHTS_SUBREPORTS",
       "CHART_COLORS",
-      "REGISTRY_FROM_CASE"
+      "REGISTRY_FROM_CASE",
+      "QUARTERS",
+      "QUARTERS_TO_NUMBER",
+      "MONTHS_TO_NUMBER",
+      "MONTHS",
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "JANUARY",
+      "FEBRUARY",
+      "MARCH",
+      "APRIL",
+      "MAY",
+      "JUNE",
+      "JULY",
+      "AUGUST",
+      "SEPTEMBER",
+      "OCTOBER",
+      "NOVEMBER",
+      "DECEMBER"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

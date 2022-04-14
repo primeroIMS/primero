@@ -2,6 +2,9 @@
 
 # Class to export Subreports
 class Exporters::SubreportExporter < ValueObject
+  INITIAL_CHART_WIDTH = 384
+  EXCEL_COLUMN_WIDTH = 64
+
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups
 
@@ -140,10 +143,9 @@ class Exporters::SubreportExporter < ValueObject
 
   def chart_width(table_data_rows)
     row_count = table_data_rows.last - table_data_rows.first
-    return 384 if row_count < 3
+    return INITIAL_CHART_WIDTH if row_count < 3
 
-    # column width is 64px
-    384 + (row_count * 64)
+    INITIAL_CHART_WIDTH + (row_count * EXCEL_COLUMN_WIDTH)
   end
 
   def transform_entries(entries)
@@ -158,17 +160,21 @@ class Exporters::SubreportExporter < ValueObject
     transform_entries(data.entries).each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
-      indicator_lookups = lookups[indicator_key]
-      write_table_header(indicator_key)
-      start_row = current_row
-      write_indicator(indicator_values, indicator_lookups)
-      last_row = current_row - 1
-      write_graph([start_row, last_row])
-      self.current_row += 1
+      write_indicator(indicator_key, indicator_values)
     end
   end
 
-  def write_indicator(values, indicator_lookups)
+  def write_indicator(indicator_key, indicator_values)
+    indicator_lookups = lookups[indicator_key]
+    write_table_header(indicator_key)
+    start_row = current_row
+    write_indicator_data(indicator_values, indicator_lookups)
+    last_row = current_row - 1
+    write_graph([start_row, last_row])
+    self.current_row += 1
+  end
+
+  def write_indicator_data(values, indicator_lookups)
     values.each do |elem|
       if elem == values.last
         write_indicator_last_row(elem, indicator_lookups)
