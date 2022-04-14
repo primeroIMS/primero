@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Represents actions to flag a record
+# rubocop:disable Metrics/ClassLength
 class Flag < ApplicationRecord
   include Indexable
 
@@ -191,3 +192,4 @@ class Flag < ApplicationRecord
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

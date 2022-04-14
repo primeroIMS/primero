@@ -13,8 +13,8 @@ import { PageHeading, PageContent } from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import NAMESPACE from "../user-groups-list/namespace";
 import { ROUTES, SAVE_METHODS } from "../../../../config";
-import { usePermissions, getCurrentUserGroupPermission } from "../../../user";
-import { WRITE_RECORDS } from "../../../../libs/permissions";
+import { getCurrentUserGroupPermission } from "../../../user";
+import { usePermissions, WRITE_RECORDS } from "../../../permissions";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { form, validations } from "./form";

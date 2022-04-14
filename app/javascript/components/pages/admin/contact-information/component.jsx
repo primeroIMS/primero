@@ -11,8 +11,7 @@ import { PageHeading, PageContent } from "../../../page";
 import Form, { FormAction, whichFormMode } from "../../../form";
 import { ROUTES } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
-import { MANAGE, RESOURCES } from "../../../../libs/permissions";
-import Permission from "../../../application/permission";
+import Permission, { MANAGE, RESOURCES } from "../../../permissions";
 import { useMemoizedSelector } from "../../../../libs";
 
 import { NAME, FORM_ID } from "./constants";

@@ -17,7 +17,7 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD
-} from "../libs/permissions";
+} from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
 export const PASSWORD_MIN_LENGTH = 8;

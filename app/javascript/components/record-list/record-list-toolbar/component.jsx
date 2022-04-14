@@ -4,8 +4,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { PageHeading } from "../../page";
 import RecordActions from "../../record-actions";
-import Permission from "../../application/permission";
-import { CREATE_RECORDS } from "../../../libs/permissions";
+import Permission, { CREATE_RECORDS } from "../../permissions";
 import AddRecordMenu from "../add-record-menu";
 
 import { NAME } from "./constants";

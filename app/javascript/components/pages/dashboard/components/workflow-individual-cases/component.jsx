@@ -2,9 +2,8 @@ import PropTypes from "prop-types";
 
 import { getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import Permission from "../../../../application/permission";
+import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { getWorkflowLabels } from "../../../../application";
-import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { MODULES, RECORD_TYPES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";

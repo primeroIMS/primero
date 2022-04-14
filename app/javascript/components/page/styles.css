@@ -50,11 +50,16 @@
 }
 
 .title {
+  margin: 0;
   font-size: var(--fs-20);
   color: var(--c-solid-black);
   font-weight: bold;
   flex: 1;
   flex-direction: column;
+}
+
+.titleWithSecondary {
+  margin: 0 0 var(--sp-1) 0;
 }
 
 .noPadding {
@@ -94,6 +99,11 @@
     width: 100%;
     overflow: scroll;
   }
+}
+
+.controls {
+  width: 100%;
+  margin-top: var(--sp-1);
 }
 
 

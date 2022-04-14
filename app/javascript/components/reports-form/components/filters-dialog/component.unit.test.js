@@ -4,7 +4,7 @@ import ActionDialog from "../../../action-dialog";
 import FormSection from "../../../form/components/form-section";
 import FormSectionField from "../../../form/components/form-section-field";
 import { setupMountedComponent } from "../../../../test";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { FormSectionRecord, FieldRecord } from "../../../record-form/records";
 
 import ReportFiltersDialog from "./component";

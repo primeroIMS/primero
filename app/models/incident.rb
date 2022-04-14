@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Model representing an event. Some events are correlated to a case, forming a historical record.
+# rubocop:disable Metrics/ClassLength
 class Incident < ApplicationRecord
   include Record
   include Searchable
@@ -304,3 +305,4 @@ class Incident < ApplicationRecord
     violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
   end
 end
+# rubocop:enable Metrics/ClassLength

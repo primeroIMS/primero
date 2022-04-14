@@ -17,7 +17,7 @@ const REPORTS = "reports";
 const DATE_OF_FIRST_REPORT = "date_of_first_report";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
-const VERIFIED_CTFMR_TECHNICAL = "verified_ctfmr_technical";
+const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
 const INCIDENT_DATE = "incident_date";
 const DATE_OF_REPORT = "date_of_report";
 const VERIFIED = "verified";
@@ -103,18 +103,14 @@ export const SHARED_FILTERS = [
     display_name: [FIELDS, DATE_RANGE, FROM],
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
-    handleWatchedInputs: value => ({
-      disabled: value !== CUSTOM
-    })
+    showIf: value => value === CUSTOM
   },
   {
     name: TO,
     display_name: [FIELDS, DATE_RANGE, TO],
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
-    handleWatchedInputs: value => ({
-      disabled: value !== CUSTOM
-    })
+    showIf: value => value === CUSTOM
   }
 ];
 

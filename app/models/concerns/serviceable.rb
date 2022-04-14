@@ -11,6 +11,7 @@ module Serviceable
   SERVICES_IN_PROGRESS = 'in_progress'
   SERVICES_ALL_IMPLEMENTED = 'all_implemented'
 
+  # rubocop:disable Metrics/BlockLength
   included do
     store_accessor :data, :consent_for_services, :services_section # TODO: Do we need a services alias for this?
 
@@ -122,4 +123,5 @@ module Serviceable
       times[0].to_i.send(times[1]) if times.size >= 2
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

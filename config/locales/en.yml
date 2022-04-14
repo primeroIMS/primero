@@ -1616,6 +1616,7 @@ en:
       central_warehouse: Central Warehouse
       warehouse: Warehouse
       buyingstation: Buying Station
+      township: Township
     label: Location
     name: Name
     code: Code

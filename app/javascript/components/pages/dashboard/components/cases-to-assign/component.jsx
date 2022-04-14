@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
-import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
+import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { LOOKUPS, ROUTES } from "../../../../../config";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { useI18n } from "../../../../i18n";

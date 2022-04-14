@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
-import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
+import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { INDICATOR_NAMES, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";

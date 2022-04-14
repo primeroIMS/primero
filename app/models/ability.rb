@@ -3,6 +3,7 @@
 # TODO: Refactor this!!! Write some tests!
 
 # Class for Ability
+# rubocop:disable Metrics/ClassLength
 class Ability
   include CanCan::Ability
 
@@ -37,23 +38,31 @@ class Ability
   end
 
   def permitted_to_access_user?(instance)
-    return true if user.super_user? || user.user_admin?
+    return true if super_user_or_admin?(user)
 
-    return false if instance.super_user? || instance.user_admin?
+    return false if super_user_or_admin?(instance)
 
-    return true if user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-                   user.agency == instance.agency
+    return true if agency_permission?(instance)
 
-    if !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
-       user.group_permission?(Permission::GROUP)
-      # TODO-permission: Add check that the current user has the ability to edit the uzer's role
-      # True if, The user's role's associated_role_ids include the uzer's role_id
-      return (user.user_group_ids & instance.user_group_ids).present?
-    end
+    return (user.user_group_ids & instance.user_group_ids).present? if group_permission?
 
     return true if user.group_permission?(Permission::ALL)
 
     instance.user_name == user.user_name
+  end
+
+  def super_user_or_admin?(uzr)
+    uzr.super_user? || uzr.user_admin?
+  end
+
+  def agency_permission?(instance)
+    user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+      user.agency == instance.agency
+  end
+
+  def group_permission?
+    !user.permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) &&
+      user.group_permission?(Permission::GROUP)
   end
 
   def user_group_permissions(actions)
@@ -79,18 +88,19 @@ class Ability
   def permitted_to_access_role?(instance, actions, permission)
     return false if instance.super_user_role? || instance.user_admin_role? && !user.super_user?
 
-    if ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
-      return permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
-      # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
-      # the previous elsif to be effective
-      # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
-      # Not even the super user is allowed to edit their own role, consider removing.
-    end
+    return check_role_id(instance, permission) if read_write_or_assign?(actions)
 
     return false if user.role_id == instance.id && !user.group_permission?(Permission::ALL)
 
-    # TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
     true
+  end
+
+  def read_write_or_assign?(actions)
+    ([Permission::ASSIGN, Permission::READ, Permission::WRITE].map(&:to_sym) & actions).present?
+  end
+
+  def check_role_id(instance, permission)
+    permission.role_unique_ids.present? ? (permission.role_unique_ids.include? instance.unique_id) : true
   end
 
   def agency_permissions(permission)
@@ -264,3 +274,4 @@ class Ability
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

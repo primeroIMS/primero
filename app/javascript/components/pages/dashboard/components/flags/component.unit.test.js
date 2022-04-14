@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { setupMountedComponent } from "../../../../../test";
-import { ACTIONS } from "../../../../../libs/permissions";
+import { ACTIONS } from "../../../../permissions";
 import { FlagBox, OptionsBox } from "../../../../dashboard";
 import LoadingIndicator from "../../../../loading-indicator";
 import ActionButton from "../../../../action-button";

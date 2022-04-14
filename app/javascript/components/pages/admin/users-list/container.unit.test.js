@@ -3,7 +3,7 @@ import last from "lodash/last";
 
 import { setupMountedComponent } from "../../../../test";
 import IndexTable from "../../../index-table";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 import { SelectFilter, ToggleFilter } from "../../../index-filters/components/filter-types";
 import { FiltersForm } from "../../../form-filters/components";
 

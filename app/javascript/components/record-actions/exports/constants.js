@@ -1,4 +1,4 @@
-import { ACTIONS } from "../../../libs/permissions";
+import { ACTIONS } from "../../permissions";
 import { RECORD_PATH } from "../../../config/constants";
 
 export const EXPORT_FORMAT = Object.freeze({

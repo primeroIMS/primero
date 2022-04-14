@@ -2,7 +2,7 @@ import { OrderedMap, fromJS } from "immutable";
 import { Menu, MenuItem } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../test";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
 import ActionButton from "../action-button";
 

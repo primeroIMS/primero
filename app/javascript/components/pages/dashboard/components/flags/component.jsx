@@ -4,8 +4,7 @@ import { push } from "connected-react-router";
 
 import { getDashboardFlags } from "../../selectors";
 import { useI18n } from "../../../../i18n";
-import Permission from "../../../../application/permission";
-import { RESOURCES, ACTIONS } from "../../../../../libs/permissions";
+import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, FlagBox } from "../../../../dashboard";
 import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";

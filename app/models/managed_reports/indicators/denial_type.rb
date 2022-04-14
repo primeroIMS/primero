@@ -22,7 +22,6 @@ class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicato
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-        #{equal_value_query(params['verified_ctfmr_technical'], 'violations')&.prepend('and ')}
         group by json_array_elements_text(("violations"."data"->> 'denial_method')::JSON)
       }
     end

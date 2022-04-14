@@ -18,7 +18,7 @@ import { clearPreviousRecord, setSelectedForm } from "../record-form/action-crea
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
 import { useApp } from "../application";
-import usePermissions, { ACTIONS } from "../permissions";
+import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";

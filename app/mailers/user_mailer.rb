@@ -51,6 +51,7 @@ class UserMailer < ApplicationMailer
     )
   end
 
+  # rubocop:disable Metrics/AbcSize
   def email_body_sso(user, admin)
     idp_name = user.identity_provider&.name
     prefix = 'user.welcome_email.sso.'
@@ -63,6 +64,7 @@ class UserMailer < ApplicationMailer
       footer: I18n.t("#{prefix}footer", admin_full_name: admin.full_name, admin_email: admin.email, locale: user.locale)
     }
   end
+  # rubocop:enable Metrics/AbcSize
 
   def email_body_otp(user, admin, one_time_password)
     prefix = 'user.welcome_email.otp.'

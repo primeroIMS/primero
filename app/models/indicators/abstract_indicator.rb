@@ -3,6 +3,7 @@
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Abstract Class for Indicator
+  # rubocop:disable Metrics/ClassLength
   class AbstractIndicator < ValueObject
     # If you define a new scope make sure you update the method group_indicators_by_scope
     # from the IndicatorQueryService.
@@ -154,4 +155,5 @@ module Indicators
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end

@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 import { format, parseISO } from "date-fns";
 
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { CODE_OF_CONDUCT_DATE_FORMAT } from "../../config/constants";
 
 import * as selectors from "./selectors";
@@ -36,20 +36,6 @@ describe("User - Selectors", () => {
       const hasUserPermissions = selectors.hasUserPermissions(stateWithoutUser);
 
       expect(hasUserPermissions).to.deep.equal(false);
-    });
-  });
-
-  describe("with getPermissionsByRecord", () => {
-    it("should return permissions if they're set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithUser, "cases");
-
-      expect(permissionsByRecord).to.deep.equal(fromJS([ACTIONS.MANAGE]));
-    });
-
-    it("should not return permissions if not set", () => {
-      const permissionsByRecord = selectors.getPermissionsByRecord(stateWithoutUser);
-
-      expect(permissionsByRecord).to.deep.equal(fromJS([]));
     });
   });
 

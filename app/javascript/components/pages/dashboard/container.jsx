@@ -7,7 +7,7 @@ import PageContainer, { PageHeading, PageContent } from "../../page";
 import { getPermissions } from "../../user/selectors";
 import { getLoading, getErrors } from "../../index-table";
 import { OfflineAlert } from "../../disable-offline";
-import usePermissions, { ACTIONS, RESOURCES } from "../../permissions";
+import { usePermissions, ACTIONS, RESOURCES } from "../../permissions";
 import { RECORD_PATH } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 
