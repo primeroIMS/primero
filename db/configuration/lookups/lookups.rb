@@ -620,8 +620,6 @@ Lookup.create_or_update!(
     :name_en => "Approval Type",
     :locked => true,
     :lookup_values => [
-        {id: "case_plan", display_text: "Case Plan"},
-        {id: "action_plan", display_text: "Action Plan"},
         {id: "service_provision", display_text: "Service Provision"}
     ].map(&:with_indifferent_access)
 )
