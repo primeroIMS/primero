@@ -84,13 +84,13 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.today, status: 'open' })
+    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
     incident1.save!
-    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.today, status: 'open' })
+    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 5, 8), status: 'open' })
     incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.today, status: 'open' })
+    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident3.save!
-    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.today, status: 'open' })
+    incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
 
     violation1 = Violation.create!(
@@ -180,6 +180,84 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
       expect(violation_tally_data).to eq(
         { 'boys' => 6, 'girls' => 7, 'total' => 21, 'unknown' => 8 }
       )
+    end
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::ViolationTallyDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 2020, data: { 'unknown' => 3, 'boys' => 1, 'girls' => 2, 'total' => 6 } },
+            { group_id: 2021, data: { 'unknown' => 1, 'total' => 3, 'girls' => 1, 'boys' => 1 } },
+            { group_id: 2022, data: { 'total' => 12, 'unknown' => 4, 'girls' => 4, 'boys' => 4 } }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::ViolationTallyDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'august-2020', data: { 'boys' => 1, 'unknown' => 3, 'total' => 6, 'girls' => 2 } },
+            { group_id: 'may-2021', data: { 'total' => 3, 'boys' => 1, 'unknown' => 1, 'girls' => 1 } },
+            { group_id: 'february-2022', data: { 'girls' => 1, 'total' => 5, 'unknown' => 2, 'boys' => 2 } },
+            { group_id: 'march-2022', data: { 'boys' => 2, 'unknown' => 2, 'girls' => 3, 'total' => 7 } }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::ViolationTallyDetention.build(
+          nil,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'q3-2020', data: { 'girls' => 2, 'total' => 6, 'boys' => 1, 'unknown' => 3 } },
+            { group_id: 'q2-2021', data: { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1 } },
+            { group_id: 'q1-2022', data: { 'unknown' => 4, 'girls' => 4, 'boys' => 4, 'total' => 12 } }
+          ]
+        )
+      end
     end
   end
 end

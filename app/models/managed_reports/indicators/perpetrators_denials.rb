@@ -2,6 +2,8 @@
 
 # An indicator that returns the perpetators of violation type Denials
 class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'perpetrators'
@@ -9,11 +11,17 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
 
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
         select
-          p."data"->>'armed_force_group_party_name' as id,
-          count(violations.id) as total
+          p."data"->>'armed_force_group_party_name' as name,
+          'total' as key,
+          #{grouped_date_query(params['grouped_by'],
+                               filter_date(params),
+                               table_name_for_query(params))&.concat(' as group_id,')}
+          count(violations.id) as sum
           from violations violations
           inner join perpetrators_violations pv on pv.violation_id = violations.id
           inner join perpetrators p on p.id = pv.perpetrator_id
@@ -28,13 +36,13 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
           #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         group by p."data"->>'armed_force_group_party_name'
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-
-    def build(current_user = nil, args = {})
-      super(current_user, args, &:to_a)
-    end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

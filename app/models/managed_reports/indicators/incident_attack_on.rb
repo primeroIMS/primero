@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# An indicator that returns the IncidentDenials
-class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportIndicator
+# An indicator that returns the IncidentAttackOn
+class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
 
   class << self
@@ -37,7 +37,7 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
 
     def build_data_values(values)
       values.map do |value|
-        { id: 'denial_humanitarian_access', total: value['sum'] }
+        { id: 'violation', total: value['sum'] }
       end
     end
   end

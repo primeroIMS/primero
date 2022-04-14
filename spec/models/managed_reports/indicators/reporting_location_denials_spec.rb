@@ -43,10 +43,14 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     ]
     InsertAllService.insert_all(Location, locations)
 
-    incident = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
-    incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
-    incident3 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C1' })
-    incident4 = Incident.create!(data: { incident_date: Date.today, status: 'open', incident_location: 'C2' })
+    incident = Incident.create!(data: { incident_date: Date.new(2020, 8, 8), status: 'open', incident_location: 'C2' })
+    incident2 = Incident.create!(data: { incident_date: Date.new(2021, 5, 8), status: 'open', incident_location: 'C2' })
+    incident3 = Incident.create!(
+      data: { incident_date: Date.new(2022, 2, 18), status: 'open', incident_location: 'C1' }
+    )
+    incident4 = Incident.create!(
+      data: { incident_date: Date.new(2022, 3, 28), status: 'open', incident_location: 'C2' }
+    )
 
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident2.id)
@@ -73,7 +77,85 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     ).data
 
     expect(reporting_location_data).to match_array(
-      [{ 'id' => 'E1', 'total' => 7 }, { 'id' => 'E2', 'total' => 3 }]
+      [{ id: 'E1', total: 7 }, { id: 'E2', total: 3 }]
     )
+  end
+
+  describe 'grouped by' do
+    context 'when is year' do
+      it 'should return results grouped by year' do
+        data = ManagedReports::Indicators::ReportingLocationDenials.build(
+          @user,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 2020, data: [{ id: 'E1', total: 1 }] },
+            { group_id: 2021, data: [{ id: 'E1', total: 1 }] },
+            { group_id: 2022, data: [{ id: 'E1', total: 5 }, { id: 'E2', total: 3 }] }
+          ]
+        )
+      end
+    end
+
+    context 'when is month' do
+      it 'should return results grouped by month' do
+        data = ManagedReports::Indicators::ReportingLocationDenials.build(
+          @user,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'august-2020', data: [{ id: 'E1', total: 1 }] },
+            { group_id: 'may-2021', data: [{ id: 'E1', total: 1 }] },
+            { group_id: 'february-2022', data: [{ id: 'E2', total: 3 }] },
+            { group_id: 'march-2022', data: [{ id: 'E1', total: 5 }] }
+          ]
+        )
+      end
+    end
+
+    context 'when is quarter' do
+      it 'should return results grouped by quarter' do
+        data = ManagedReports::Indicators::ReportingLocationDenials.build(
+          @user,
+          {
+            'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            'incident_date' => SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: '2020-08-01',
+              to: '2022-10-10'
+            ),
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { group_id: 'q3-2020', data: [{ id: 'E1', total: 1 }] },
+            { group_id: 'q2-2021', data: [{ id: 'E1', total: 1 }] },
+            { group_id: 'q1-2022', data: [{ id: 'E1', total: 5 }, { id: 'E2', total: 3 }] }
+          ]
+        )
+      end
+    end
   end
 end

@@ -2,6 +2,8 @@
 
 # An indicator that returns the violation_tally of individual victioms - detention
 class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'violation'
@@ -10,11 +12,18 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select json_object_agg(key, sum) as data from(
-          select key, sum(value::integer) from (
-              select distinct on(violations.id, key) key, value
+        select json_object_agg(key, sum) as data
+          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')} from(
+          select key, sum(value::integer)
+            #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')} from (
+              select distinct on(violations.id, key) key,
+              #{grouped_date_query(params['grouped_by'],
+                                   filter_date(params),
+                                   table_name_for_query(params))&.concat(' as group_id,')}
+              value
               from individual_victims iv
               inner join individual_victims_violations ivv on ivv.individual_victim_id = iv.id
               inner join violations violations on violations.id = ivv.violation_id
@@ -31,16 +40,23 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
               #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
           ) keys_values
           group by key
-      ) as deprived_data;
+          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+      ) as deprived_data
+      #{group_id_alias(params['grouped_by'])&.dup&.prepend('group by ')}
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/PerceivedComplexity
 
-    def build(current_user = nil, args = {})
-      super(current_user, args) do |result|
-        ActiveSupport::JSON.decode(result.first.dig('data') || '{}')
+    def build_results(results)
+      unless results.to_a.any? { |result| result['group_id'].present? }
+        return ActiveSupport::JSON.decode(results.to_a.first.dig('data') || '{}')
+      end
+
+      results.to_a.map do |result|
+        { group_id: result['group_id'], data: ActiveSupport::JSON.decode(result['data']) }
       end
     end
   end

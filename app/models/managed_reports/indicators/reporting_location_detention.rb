@@ -2,6 +2,8 @@
 
 # An indicator that returns the reporting locations for individual victioms -detention
 class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::SqlReportIndicator
+  include ManagedReports::MRMIndicatorHelper
+
   class << self
     def id
       'reporting_location'
@@ -10,12 +12,17 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
       %{
-        select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as id,
-        count(iv.id) as total
+        select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as name,
+        'total' as key,
+        #{grouped_date_query(params['grouped_by'],
+                             filter_date(params),
+                             table_name_for_query(params))&.concat(' as group_id,')}
+        count(iv.id) as sum
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -29,16 +36,15 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         #{equal_value_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
-        group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}];
+        group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
+        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def build(current_user, args = {})
-      super(current_user, args, &:to_a)
-    end
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def user_reporting_location_admin_level(current_user)
       # Adding one since admin level start from 0, but string on postgres start from 1

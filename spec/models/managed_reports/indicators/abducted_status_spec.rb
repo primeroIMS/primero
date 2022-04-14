@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ManagedReports::Indicators::DetentionStatus do
+describe ManagedReports::Indicators::AbductedStatus do
   before do
     clean_data(Incident, Violation, IndividualVictim, UserGroup, User, Agency, Role)
 
@@ -95,132 +95,105 @@ describe ManagedReports::Indicators::DetentionStatus do
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
 
-    violation1 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 } },
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 },
+        abduction_regained_freedom: 'false'
+      },
       incident_id: incident1.id
     )
-    violation1.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month - 1.week,
-          deprivation_liberty_end: Date.today
-        }
-      )
-    ]
-    violation2 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 },
+        abduction_regained_freedom: 'unknown'
+      },
       incident_id: incident2.id
     )
-    violation2.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month - 1.month,
-          deprivation_liberty_end: Date.today - 3.days
-        }
-      )
-    ]
-    violation3 = Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 } },
+    Violation.create!(
+      data: {
+        type: 'maiming',
+        violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 }
+      },
       incident_id: incident3.id
     )
-    violation3.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month
-        }
-      )
-    ]
-    violation4 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+        abduction_regained_freedom: 'true',
+        abduction_regained_freedom_how: 'escape'
+      },
       incident_id: incident4.id
     )
-    violation4.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today.beginning_of_month,
-          deprivation_liberty_end: Date.today + 3.days
-        }
-      ),
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'true',
-          length_deprivation_liberty: Date.today,
-          deprivation_liberty_end: Date.today + 3.days
-        }
-      )
-    ]
-    violation5 = Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys': 2, 'girls': 5, 'unknown': 2, 'total': 9 },
+        abduction_regained_freedom: 'true',
+        abduction_regained_freedom_how: 'payment_of_ransom'
+      },
       incident_id: incident5.id
     )
-    violation5.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'false',
-          length_deprivation_liberty: Date.today.beginning_of_year
-        }
-      ),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
-    ]
   end
 
   it 'returns data for violation tally indicator' do
-    violation_tally_data = ManagedReports::Indicators::DetentionStatus.build(
-      nil
+    abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(
+      nil,
+      { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction') }
     ).data
 
-    expect(violation_tally_data).to match_array(
+    expect(abducted_status_data).to match_array(
       [
-        { total: 3, id: 'detention_detained' },
-        { total: 2, id: 'detention_released' }
+        { total: 6, id: 'still_being_held' },
+        { total: 9, id: 'released' },
+        { total: 3, id: 'unknown' },
+        { total: 7, id: 'escape' }
       ]
     )
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
-      violation_tally_data = ManagedReports::Indicators::DetentionStatus.build(@self_user).data
+      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@self_user).data
 
-      expect(violation_tally_data).to match_array(
+      expect(abducted_status_data).to match_array(
         [
-          { total: 1, id: 'detention_released' }
+          { total: 6, id: 'still_being_held' }
         ]
       )
     end
 
     it 'returns group records for a group scope' do
-      violation_tally_data = ManagedReports::Indicators::DetentionStatus.build(@group_user).data
+      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@group_user).data
 
-      expect(violation_tally_data).to match_array(
+      expect(abducted_status_data).to match_array(
         [
-          { total: 3, id: 'detention_detained' },
-          { total: 1, id: 'detention_released' }
+          { id: 'escape', total: 7 }, { id: 'released', total: 9 }, { id: 'unknown', total: 3 }
         ]
       )
     end
 
     it 'returns agency records for an agency scope' do
-      violation_tally_data = ManagedReports::Indicators::DetentionStatus.build(@agency_user).data
+      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@agency_user).data
 
-      expect(violation_tally_data).to match_array(
+      expect(abducted_status_data).to match_array(
         [
-          { total: 1, id: 'detention_detained' },
-          { total: 1, id: 'detention_released' }
+          { id: 'unknown', total: 3 }
         ]
       )
     end
 
     it 'returns all records for an all scope' do
-      violation_tally_data = ManagedReports::Indicators::DetentionStatus.build(@all_user).data
+      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@all_user).data
 
-      expect(violation_tally_data).to match_array(
+      expect(abducted_status_data).to match_array(
         [
-          { total: 3, id: 'detention_detained' },
-          { total: 2, id: 'detention_released' }
+          { id: 'escape', total: 7 },
+          { id: 'released', total: 9 },
+          { id: 'still_being_held', total: 6 },
+          { id: 'unknown', total: 3 }
         ]
       )
     end
@@ -229,7 +202,7 @@ describe ManagedReports::Indicators::DetentionStatus do
   describe 'grouped by' do
     context 'when is year' do
       it 'should return results grouped by year' do
-        data = ManagedReports::Indicators::DetentionStatus.build(
+        data = ManagedReports::Indicators::AbductedStatus.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
@@ -238,15 +211,15 @@ describe ManagedReports::Indicators::DetentionStatus do
               from: '2020-08-01',
               to: '2022-10-10'
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 2021, data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 2022, data: [{ id: 'detention_detained', total: 3 }] }
+            { group_id: 2022, data: [{ id: 'escape', total: 7 }, { id: 'released', total: 9 }] },
+            { group_id: 2020, data: [{ id: 'still_being_held', total: 6 }] },
+            { group_id: 2021, data: [{ id: 'unknown', total: 3 }] }
           ]
         )
       end
@@ -254,7 +227,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     context 'when is month' do
       it 'should return results grouped by month' do
-        data = ManagedReports::Indicators::DetentionStatus.build(
+        data = ManagedReports::Indicators::AbductedStatus.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
@@ -263,16 +236,16 @@ describe ManagedReports::Indicators::DetentionStatus do
               from: '2020-08-01',
               to: '2022-10-10'
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 'august-2021', data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 'january-2022', data: [{ id: 'detention_detained', total: 1 }] },
-            { group_id: 'february-2022', data: [{ id: 'detention_detained', total: 2 }] }
+            { group_id: 'february-2022', data: [{ id: 'escape', total: 7 }] },
+            { group_id: 'march-2022', data: [{ id: 'released', total: 9 }] },
+            { group_id: 'august-2020', data: [{ id: 'still_being_held', total: 6 }] },
+            { group_id: 'august-2021', data: [{ id: 'unknown', total: 3 }] }
           ]
         )
       end
@@ -280,7 +253,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     context 'when is quarter' do
       it 'should return results grouped by quarter' do
-        data = ManagedReports::Indicators::DetentionStatus.build(
+        data = ManagedReports::Indicators::AbductedStatus.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
@@ -289,15 +262,15 @@ describe ManagedReports::Indicators::DetentionStatus do
               from: '2020-08-01',
               to: '2022-10-10'
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: 'q3-2020', data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 'q3-2021', data: [{ id: 'detention_released', total: 1 }] },
-            { group_id: 'q1-2022', data: [{ id: 'detention_detained', total: 3 }] }
+            { group_id: 'q1-2022', data: [{ id: 'escape', total: 7 }, { id: 'released', total: 9 }] },
+            { group_id: 'q3-2020', data: [{ id: 'still_being_held', total: 6 }] },
+            { group_id: 'q3-2021', data: [{ id: 'unknown', total: 3 }] }
           ]
         )
       end
