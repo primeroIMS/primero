@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 import {
   endOfMonth,
   endOfQuarter,
@@ -12,6 +10,8 @@ import {
   subQuarters,
   subYears
 } from "date-fns";
+import isNil from "lodash/isNil";
+import omitBy from "lodash/omitBy";
 
 import { toServerDateFormat } from "../../libs";
 import {
@@ -62,4 +62,16 @@ export const dateCalculations = (option, from, to) => {
   const dateRange = dateFunctions[option]();
 
   return { from: formatDate(dateRange.from), to: formatDate(dateRange.to) };
+};
+
+export const transformFilters = data => {
+  const { date, grouped_by: groupedBy, date_range: dateRange, to, from, ...rest } = data;
+
+  return omitBy(
+    {
+      ...rest,
+      ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to) })
+    },
+    isNil
+  );
 };

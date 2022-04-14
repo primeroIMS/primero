@@ -7,6 +7,7 @@ import { get, optionText } from "../../form/utils";
 import transformOptions from "../../form/utils/transform-options";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
+import { transformFilters } from "../utils";
 
 import css from "./styles.css";
 
@@ -51,11 +52,11 @@ const InsightFilterTags = ({ filters = [] }) => {
         <div className={css.dateGroup}>
           <div>
             <span>{i18n.t("fields.date_range.from")}</span>
-            <span>{i18n.localizeDate(value.get("from"))}</span>
+            <span>{i18n.localizeDate(value.from)}</span>
           </div>
           <div>
             <span>{i18n.t("fields.date_range.to")}</span>
-            <span>{i18n.localizeDate(value.get("to"))}</span>
+            <span>{i18n.localizeDate(value.to)}</span>
           </div>
         </div>
       );
@@ -66,9 +67,13 @@ const InsightFilterTags = ({ filters = [] }) => {
     return <span>{Array.isArray(selectedOption) ? i18n.t(selectedOption?.join(".")) : selectedOption}</span>;
   };
 
+  const insightFiltersEntries = Object.entries(
+    transformFilters(insightFilters.entrySeq().reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}))
+  );
+
   return (
     <div className={css.container}>
-      {insightFilters.entrySeq().map(([key, value]) => {
+      {insightFiltersEntries.map(([key, value]) => {
         const filter = filters.find(
           iFilter => iFilter.name === key || (key.includes("date") && iFilter.name === "date")
         );

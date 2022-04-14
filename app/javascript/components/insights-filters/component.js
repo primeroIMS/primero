@@ -6,8 +6,6 @@ import isEmpty from "lodash/isEmpty";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import isNil from "lodash/isNil";
-import omitBy from "lodash/omitBy";
 
 import { useI18n } from "../i18n";
 import { SELECT_FIELD, whichFormMode } from "../form";
@@ -20,7 +18,7 @@ import { useMemoizedSelector } from "../../libs";
 import { getInsightFilters } from "../insights/selectors";
 
 import css from "./styles.css";
-import { dateCalculations } from "./utils";
+import { transformFilters } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
@@ -38,24 +36,12 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const formMode = whichFormMode("new");
   const dispatch = useDispatch();
 
-  const transformFilters = data => {
-    const { date, grouped_by: groupedBy, date_range: dateRange, to, from, ...rest } = data;
-
-    return omitBy(
-      {
-        ...rest,
-        ...(groupedBy && { grouped_by: groupedBy, [date]: dateCalculations(dateRange, from, to), subreport: subReport })
-      },
-      isNil
-    );
-  };
-
   const getInsights = (filters = {}) => {
-    const transformedFilters = transformFilters(filters);
+    const transformedFilters = { ...transformFilters(filters), subreport: subReport };
 
     toggleControls();
 
-    dispatch(setFilters(transformedFilters));
+    dispatch(setFilters({ ...filters, subreport: subReport }));
     dispatch(fetchInsight(id, subReport, transformedFilters));
   };
 
