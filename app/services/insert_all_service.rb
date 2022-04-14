@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# service to insert records in bulk
 class InsertAllService
   def self.insert_all(clazz, array_of_hashes, unique_key = nil)
     new.insert_all(clazz, array_of_hashes, unique_key)

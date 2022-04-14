@@ -13,13 +13,9 @@ class SystemSettings < ApplicationRecord
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
 
-  store_accessor(
-    :system_options,
-    :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :code_of_conduct_enabled,
-    :timeframe_hours_to_assign, :timeframe_hours_to_assign_high,
-    :duplicate_field_to_form
-  )
+  store_accessor(:system_options, :due_date_from_appointment_date, :notification_email_enabled,
+                 :welcome_email_enabled, :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
+                 :timeframe_hours_to_assign_high, :duplicate_field_to_form)
 
   localize_properties %i[welcome_email_text approvals_labels]
 
