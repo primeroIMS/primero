@@ -183,7 +183,7 @@ class Child < ApplicationRecord
       'string' => %w[
         status sex risk_level owned_by_agency_id owned_by workflow workflow_status risk_level consent_reporting
       ],
-      'multistring' => %w[associated_user_names owned_by_groups],
+      'multistring' => %w[associated_user_names associated_user_agencies owned_by_groups],
       'date' => ['registration_date'],
       'integer' => ['age'],
       'location' => %w[owned_by_location location_current]
