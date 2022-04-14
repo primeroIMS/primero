@@ -10,14 +10,12 @@ import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config/constants";
-import { usePermissions } from "../../../user";
-import { CREATE_RECORDS, RESOURCES, MANAGE } from "../../../../libs/permissions";
+import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
-import Permission from "../../../application/permission";
 import useOptions from "../../../form/use-options";
 
 import FormExporter from "./components/form-exporter";

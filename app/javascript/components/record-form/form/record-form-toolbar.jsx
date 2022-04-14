@@ -13,8 +13,7 @@ import { SaveReturnIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
 import Flagging from "../../flagging";
 import RecordActions from "../../record-actions";
-import Permission from "../../application/permission";
-import { FLAG_RECORDS, WRITE_RECORDS } from "../../../libs/permissions";
+import Permission, { FLAG_RECORDS, WRITE_RECORDS } from "../../permissions";
 import { getSavingRecord, getLoadingRecordState } from "../../records/selectors";
 import {
   RECORD_TYPES,

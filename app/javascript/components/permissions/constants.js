@@ -1,46 +1,53 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
+  ADD_REGISTRY_RECORD: "add_registry_record",
   AGENCY_READ: "agency_read",
+  APPROVE_ACTION_PLAN: "approve_action_plan",
   APPROVE_ASSESSMENT: "approve_assessment",
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
-  APPROVE_ACTION_PLAN: "approve_action_plan",
   APPROVE_GBV_CLOSURE: "approve_gbv_closure",
-  ASSIGN: "assign",
-  ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
+  ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
-  CLOSE: "close",
-  CREATE: "create",
+  ASSIGN: "assign",
   CHANGE_LOG: "change_log",
-  DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
-  DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
-  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
-  DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
-  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
-  DASH_APPROVALS_CLOSURE: "approvals_closure",
-  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
-  DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
+  CLOSE: "close",
+  CONSENT_OVERRIDE: "consent_override",
+  COPY: "copy",
+  CREATE: "create",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
-  DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
+  DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
+  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
+  DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
+  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
+  DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
+  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
+  DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_GBV_CLOSURE_PENDING: "approvals_gbv_closure_pending",
+  DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
+  DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
+  DASH_CASE_OVERVIEW: "case_overview",
+  DASH_CASE_RISK: "case_risk",
+  DASH_CASES_BY_SOCIAL_WORKER: "dash_cases_by_social_worker",
   DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
   DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
   DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
-  DASH_CASE_OVERVIEW: "case_overview",
-  DASH_CASE_RISK: "case_risk",
+  DASH_CASES_TO_ASSIGN: "dash_cases_to_assign",
   DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
+  DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
+  DASH_SHARED_WITH_MY_TEAM_OVERVIEW: "dash_shared_with_my_team_overview",
   DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
   DASH_TASKS: "dash_tasks",
-  DASH_WORKFLOW: "workflow",
   DASH_WORKFLOW_TEAM: "workflow_team",
+  DASH_WORKFLOW: "workflow",
   DELETE: "delete",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
@@ -56,54 +63,80 @@ export const ACTIONS = {
   EXPORT_PDF: "export_pdf",
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
+  FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
+  GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   INCIDENT_FROM_CASE: "incident_from_case",
+  KPI_ASSESSMENT_STATUS: "kpi_assessment_status",
+  KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE: "kpi_average_followup_meetings_per_case",
+  KPI_AVERAGE_REFERRALS: "kpi_average_referrals",
+  KPI_CASE_CLOSURE_RATE: "kpi_case_closure_rate",
+  KPI_CASE_LOAD: "kpi_case_load",
+  KPI_CLIENT_SATISFACTION_RATE: "kpi_client_satisfaction_rate",
+  KPI_COMPLETED_CASE_ACTION_PLANS: "kpi_completed_case_action_plans",
+  KPI_COMPLETED_CASE_SAFETY_PLANS: "kpi_completed_case_safety_plans",
+  KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS: "kpi_completed_supervisor_approved_case_action_plans",
+  KPI_NUMBER_OF_CASES: "kpi_number_of_cases",
+  KPI_NUMBER_OF_INCIDENTS: "kpi_number_of_incidents",
+  KPI_REPORTING_DELAY: "kpi_reporting_delay",
+  KPI_SERVICES_PROVIDED: "kpi_services_provided",
+  KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
+  KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
+  MARK_FOR_OFFLINE: "sync_mobile",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
   RECEIVE_TRANSFER: "receive_transfer",
-  REFERRAL: "referral",
   REFERRAL_FROM_SERVICE: "referral_from_service",
+  REFERRAL: "referral",
   REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
+  REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_ASSESSMENT: "request_approval_assessment",
   REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
   REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
-  REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
+  SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
-  WRITE: "write",
-  MARK_FOR_OFFLINE: "sync_mobile"
+  VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
+  VIEW_REGISTRY_RECORD: "view_registry_record",
+  VIOLATIONS: "violations",
+  WRITE: "write"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
+  activity_logs: "activity_logs",
   agencies: "agencies",
-  webhooks: "webhooks",
   any: "any",
   audit_logs: "audit_logs",
   cases: "cases",
+  codes_of_conduct: "codes_of_conduct",
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
+  locations: "locations",
   lookups: "lookups",
+  managed_reports: "managed_reports",
   metadata: "metadata",
   potential_matches: "potential_matches",
+  registry_records: "registry_records",
   reports: "reports",
   roles: "roles",
-  forms: "forms",
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
-  users: "users"
+  users: "users",
+  webhooks: "webhooks"
 };
 
 export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests];
@@ -123,15 +156,23 @@ export const ADMIN_RESOURCES = [
 
 export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];
 
+export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
+
+export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
+
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
-export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ];
+export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
+
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 
 export const CREATE_RECORDS = [...MANAGE, ACTIONS.CREATE];
 
 export const WRITE_RECORDS = [...MANAGE, ACTIONS.WRITE];
+
+export const COPY_ROLES = [...MANAGE, ACTIONS.COPY];
 
 export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
 
@@ -155,7 +196,9 @@ export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 
-export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL_FROM_SERVICE];
+export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
+
+export const ACTIVITY_LOGS = [...MANAGE, ACTIONS.TRANSFER];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,
@@ -185,6 +228,7 @@ export const EXPORTS_PERMISSIONS = [
   ACTIONS.EXPORT_JSON,
   ACTIONS.EXPORT_LIST_VIEW,
   ACTIONS.EXPORT_MRM_VIOLATION_XLS,
+  ACTIONS.EXPORT_PDF,
   ACTIONS.EXPORT_PHOTO_WALL,
   ACTIONS.EXPORT_UNHCR
 ];
@@ -241,3 +285,30 @@ export const ASSIGN = [
 ];
 
 export const READ_KPIS = [ACTIONS.READ];
+
+export const SHOW_FIND_MATCH = [...MANAGE, ACTIONS.READ];
+
+export const SHOW_SUMMARY = [...MANAGE, ACTIONS.FIND_TRACING_MATCH];
+
+export const VIEW_KPIS = [
+  ACTIONS.READ,
+  ACTIONS.KPI_ASSESSMENT_STATUS,
+  ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE,
+  ACTIONS.KPI_AVERAGE_REFERRALS,
+  ACTIONS.KPI_CASE_CLOSURE_RATE,
+  ACTIONS.KPI_CASE_LOAD,
+  ACTIONS.KPI_CLIENT_SATISFACTION_RATE,
+  ACTIONS.KPI_COMPLETED_CASE_ACTION_PLANS,
+  ACTIONS.KPI_COMPLETED_CASE_SAFETY_PLANS,
+  ACTIONS.KPI_COMPLETED_SUPERVISOR_APPROVED_CASE_ACTION_PLANS,
+  ACTIONS.KPI_NUMBER_OF_CASES,
+  ACTIONS.KPI_NUMBER_OF_INCIDENTS,
+  ACTIONS.KPI_REPORTING_DELAY,
+  ACTIONS.KPI_SERVICES_PROVIDED,
+  ACTIONS.KPI_SUPERVISOR_TO_CASEWORKER_RATIO,
+  ACTIONS.KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
+];
+
+export const SHOW_SYNC_EXTERNAL = [...MANAGE, ACTIONS.SYNC_EXTERNAL];
+
+export const CONSENT_OVERRIDE = [...MANAGE, ACTIONS.CONSENT_OVERRIDE];

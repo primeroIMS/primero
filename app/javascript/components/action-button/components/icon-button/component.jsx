@@ -3,9 +3,9 @@ import { IconButton } from "@material-ui/core";
 
 import { NAME } from "./constants";
 
-const Component = ({ icon, id, rest }) => {
+const Component = ({ icon, id, rest, ...otherProps }) => {
   return (
-    <IconButton id={id} size="small" color="primary" variant="text" {...rest}>
+    <IconButton id={id} size="small" color="primary" variant="text" {...rest} {...otherProps}>
       {icon}
     </IconButton>
   );

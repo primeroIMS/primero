@@ -55,7 +55,7 @@ import {
   VIEW_KPIS,
   ACTIVITY_LOGS,
   READ_MANAGED_REPORTS
-} from "../libs/permissions";
+} from "../components/permissions";
 import Login from "../components/login";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
 

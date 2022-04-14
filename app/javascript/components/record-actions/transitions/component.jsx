@@ -7,9 +7,8 @@ import { TRANSITIONS_TYPES } from "../../transitions/constants";
 import { getRecordsData } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
-import { usePermissions } from "../../user";
-import { RESOURCES, CONSENT_OVERRIDE } from "../../../libs/permissions";
 import buildSelectedIds from "../utils/build-selected-ids";
+import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
 import { hasProvidedConsent } from "./components/utils";

@@ -6,7 +6,7 @@ import { ROUTES, RECORD_PATH } from "../../config";
 import TranslationsToggle from "../translations-toggle";
 import AgencyLogo from "../agency-logo";
 import ModuleLogo from "../module-logo";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import Jewel from "../jewel";
 
 import Nav from "./component";

@@ -17,7 +17,7 @@ import {
   getPermittedRoleUniqueIds
 } from "../user/selectors";
 import { getRecordForms } from "../record-form";
-import { GROUP_PERMISSIONS } from "../../libs/permissions";
+import { GROUP_PERMISSIONS } from "../permissions";
 import { getLocale } from "../i18n/selectors";
 import { getSelectedRecordData } from "../records";
 import { getFieldByName } from "../record-form/selectors";

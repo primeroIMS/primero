@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../../i18n";
 import StackedPercentageBar from "../stacked-percentage-bar";
 import asKeyPerformanceIndicator from "../as-key-performance-indicator";
-import { ACTIONS } from "../../../../libs/permissions";
+import { ACTIONS } from "../../../permissions";
 
 import css from "./styles.css";
 

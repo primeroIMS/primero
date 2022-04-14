@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import { Router } from "react-router";
 
 import { ACCEPTED, REJECTED } from "../../config";
-import { ACTIONS } from "../../libs/permissions";
+import { ACTIONS } from "../permissions";
 import { lookups, setupMountedComponent, stub } from "../../test";
 
 import ActivityLog from "./component";

@@ -1,6 +1,6 @@
 import { List } from "immutable";
 
-import { MANAGE } from "../../../libs/permissions";
+import { MANAGE } from "../../permissions";
 
 import exportsForm from "./form";
 

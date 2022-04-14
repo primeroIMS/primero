@@ -6,12 +6,16 @@ import { useDispatch } from "react-redux";
 import { useMemoizedSelector } from "../../libs";
 import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRecord } from "../records";
 import { RECORD_PATH, RECORD_TYPES, SUMMARY, RECORD_TYPES_PLURAL } from "../../config";
-import { SHOW_FIND_MATCH, READ_RECORDS, REFER_FROM_SERVICE } from "../../libs/permissions";
-import { SHOW_CHANGE_LOG } from "../permissions";
+import {
+  usePermissions,
+  SHOW_FIND_MATCH,
+  READ_RECORDS,
+  REFER_FROM_SERVICE,
+  SHOW_CHANGE_LOG,
+  RESOURCES
+} from "../permissions";
 import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
-import { usePermissions } from "../user";
 import { getPermittedFormsIds } from "../user/selectors";
-import { RESOURCES } from "../permissions/constants";
 import { useApp } from "../application";
 
 import {
