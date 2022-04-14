@@ -492,7 +492,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_subform: [],
             autosum_total: true,
             tally: {},
-            collapse: null
+            collapse: null,
+            calculation: {}
           }
         ],
         is_nested: null
@@ -575,7 +576,8 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_subform: [],
             autosum_total: true,
             tally: {},
-            collapse: null
+            collapse: null,
+            calculation: {}
           }
         ],
         is_nested: null

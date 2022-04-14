@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_17_000000) do
+ActiveRecord::Schema.define(version: 2022_03_28_075916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 2022_02_17_000000) do
     t.jsonb "display_conditions_subform"
     t.string "collapse"
     t.jsonb "option_strings_condition"
+    t.jsonb "calculation"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["type"], name: "index_fields_on_type"
