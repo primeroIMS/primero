@@ -11,6 +11,7 @@ class TracingRequest < ApplicationRecord
   include Alertable
   include Attachable
   include EagerLoadable
+  include Webhookable
 
   has_many :traces
   store_accessor :data,
