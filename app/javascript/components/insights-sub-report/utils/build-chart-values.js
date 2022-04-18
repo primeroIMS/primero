@@ -1,11 +1,15 @@
 import { fromJS } from "immutable";
 import take from "lodash/take";
+import sortBy from "lodash/sortBy";
+import first from "lodash/first";
+import last from "lodash/last";
 
 import { CHART_COLORS } from "../../../config/constants";
 
 import translateGroup from "./translate-group";
+import formatAgeRange from "./format-age-range";
 
-const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, localizeDate }) => {
+const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, localizeDate, ageRanges }) => {
   const options = value
     .flatMap(elem => elem.get("data", fromJS([])))
     .reduce((acc, option) => {
@@ -16,7 +20,20 @@ const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, l
       return acc;
     }, {});
 
-  const ids = Object.keys(options);
+  const formattedAgeRanges = (ageRanges || fromJS([])).map(range => formatAgeRange(range));
+
+  const ids =
+    valueKey !== "age"
+      ? Object.keys(options).sort()
+      : formattedAgeRanges.reduce((acc, range) => {
+          const row = Object.keys(options).find(val => val === range);
+
+          if (row) {
+            return acc.concat(row);
+          }
+
+          return acc;
+        }, []);
 
   return {
     datasets: value
@@ -32,18 +49,44 @@ const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, l
         backgroundColor: Object.values(CHART_COLORS)[index]
       }))
       .toArray(),
-    labels: Object.values(options)
+    labels:
+      valueKey !== "age"
+        ? sortBy(Object.entries(options), entry => first(entry))
+        : formattedAgeRanges.reduce((acc, range) => {
+            const entryValue = last(Object.entries(options).find(([key]) => key === range));
+
+            if (entryValue) {
+              return acc.concat(entryValue);
+            }
+
+            return acc;
+          }, [])
   };
 };
 
-export default ({ totalText, getLookupValue, localizeDate, value, valueKey, isGrouped, groupedBy }) => {
+export default ({ totalText, getLookupValue, localizeDate, value, valueKey, isGrouped, groupedBy, ageRanges }) => {
   if (!value) return {};
 
   if (isGrouped && groupedBy) {
-    return buildGroupedChartValues({ value, getLookupValue, valueKey, groupedBy, localizeDate });
+    return buildGroupedChartValues({ value, getLookupValue, valueKey, groupedBy, localizeDate, ageRanges });
   }
 
-  const data = value?.map(val => val.get("total")).toArray();
+  const formattedAgeRanges = (ageRanges || fromJS([])).map(range => formatAgeRange(range));
+
+  const sortedData =
+    valueKey !== "age"
+      ? value.sortBy(val => val.get("id")).reduce((acc, elem) => acc.concat(elem), [])
+      : formattedAgeRanges.reduce((acc, range) => {
+          const row = value.find(val => val.get("id") === range);
+
+          if (row) {
+            return acc.concat(row);
+          }
+
+          return acc;
+        }, []);
+
+  const data = sortedData?.map(val => val.get("total"));
 
   return {
     datasets: [
@@ -53,6 +96,6 @@ export default ({ totalText, getLookupValue, localizeDate, value, valueKey, isGr
         backgroundColor: take(Object.values(CHART_COLORS), data.length)
       }
     ],
-    labels: value.map(val => getLookupValue(valueKey, val)).toArray()
+    labels: sortedData.map(val => getLookupValue(valueKey, val))
   };
 };

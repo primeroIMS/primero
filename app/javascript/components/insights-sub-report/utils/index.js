@@ -11,3 +11,4 @@ export { default as getDataGroups } from "./get-data-groups";
 export { default as translateGroups } from "./translate-groups";
 export { default as translateMonth } from "./translate-month";
 export { default as translateQuarter } from "./translate-quarter";
+export { default as formatAgeRange } from "./format-age-range";

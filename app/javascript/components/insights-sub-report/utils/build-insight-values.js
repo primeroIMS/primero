@@ -1,12 +1,14 @@
 import { fromJS } from "immutable";
 import first from "lodash/first";
 import isNil from "lodash/isNil";
+import sortBy from "lodash/sortBy";
 
 import { YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
 import yearComparator from "./year-comparator";
 import getDataGroups from "./get-data-groups";
+import sortByAgeRange from "./sort-by-age-range";
 
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
@@ -80,18 +82,22 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
   return dataRows.map(value => ({ colspan: 0, row: value }));
 };
 
-export default ({ getLookupValue, data, key, isGrouped, groupedBy }) => {
-  if (data === 0) return [];
-
-  if (isGrouped && groupedBy) {
-    return buildGroupedRows({ data, key, getLookupValue, groupedBy });
-  }
-
-  return data
+const buildSingleRows = ({ data, getLookupValue, key }) =>
+  data
     .map(value => {
       const lookupValue = getLookupValue(key, value);
 
       return { colspan: 0, row: [lookupValue, value.get("total")] };
     })
     .toArray();
+
+export default ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges }) => {
+  if (data === 0) return [];
+
+  const rows =
+    isGrouped && groupedBy
+      ? buildGroupedRows({ data, key, getLookupValue, groupedBy, ageRanges })
+      : buildSingleRows({ data, getLookupValue, key });
+
+  return key !== "age" ? sortBy(rows, row => first(row.row)) : sortByAgeRange(rows, ageRanges);
 };

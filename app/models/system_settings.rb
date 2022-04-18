@@ -139,5 +139,11 @@ class SystemSettings < ApplicationRecord
     def unlock_after_configuration_update
       SystemSettings.first.update(config_update_lock: false)
     end
+
+    def primary_age_ranges
+      sys = SystemSettings.current
+      primary_range = sys.primary_age_range
+      sys.age_ranges[primary_range]
+    end
   end
 end

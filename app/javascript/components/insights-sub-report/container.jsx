@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 
+import { getAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
@@ -46,6 +47,7 @@ const Component = () => {
   const insight = useMemoizedSelector(state => getInsight(state));
   const isGrouped = useMemoizedSelector(state => getIsGroupedInsight(state, subReport));
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
+  const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
 
   const insightLookups = insight.getIn(["report_data", subReport, "lookups"], fromJS({})).entrySeq().toArray();
 
@@ -119,7 +121,8 @@ const Component = () => {
                       value,
                       valueKey,
                       isGrouped,
-                      groupedBy
+                      groupedBy,
+                      ageRanges: primeroAgeRanges
                     })}
                     showDetails
                   />
@@ -130,7 +133,8 @@ const Component = () => {
                       data: value,
                       key: valueKey,
                       isGrouped,
-                      groupedBy
+                      groupedBy,
+                      ageRanges: primeroAgeRanges
                     })}
                     showPlaceholder
                     name={namespace}
