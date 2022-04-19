@@ -122,6 +122,7 @@ const Component = () => {
                       groupedBy
                     })}
                     showDetails
+                    hideLegend
                   />
                   <TableValues
                     columns={buildInsightColumns({ value, isGrouped, groupedBy, localizeDate: i18n.localizeDate })}
