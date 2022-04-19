@@ -19,7 +19,8 @@ import {
   buildInsightColumns,
   buildSingleInsightsData,
   buildInsightValues,
-  getLookupValue
+  getLookupValue,
+  formatAgeRange
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
@@ -79,6 +80,8 @@ const Component = () => {
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
+  const ageRanges = (primeroAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
+
   return (
     <>
       <LoadingIndicator {...loadingIndicatorProps}>
@@ -122,7 +125,7 @@ const Component = () => {
                       valueKey,
                       isGrouped,
                       groupedBy,
-                      ageRanges: primeroAgeRanges
+                      ageRanges
                     })}
                     showDetails
                   />
@@ -134,7 +137,7 @@ const Component = () => {
                       key: valueKey,
                       isGrouped,
                       groupedBy,
-                      ageRanges: primeroAgeRanges
+                      ageRanges
                     })}
                     showPlaceholder
                     name={namespace}

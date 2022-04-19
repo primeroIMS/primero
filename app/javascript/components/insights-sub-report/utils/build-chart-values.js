@@ -1,13 +1,11 @@
 import { fromJS } from "immutable";
 import take from "lodash/take";
 import sortBy from "lodash/sortBy";
-import first from "lodash/first";
-import last from "lodash/last";
 
 import { CHART_COLORS } from "../../../config/constants";
 
 import translateGroup from "./translate-group";
-import formatAgeRange from "./format-age-range";
+import sortOptionsByAgeRange from "./sort-options-by-age-range";
 
 const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, localizeDate, ageRanges }) => {
   const options = value
@@ -20,20 +18,13 @@ const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, l
       return acc;
     }, {});
 
-  const formattedAgeRanges = (ageRanges || fromJS([])).map(range => formatAgeRange(range));
+  const optionValues = Object.values(options);
+  const optionEntries = Object.entries(options);
 
   const ids =
     valueKey !== "age"
-      ? Object.keys(options).sort()
-      : formattedAgeRanges.reduce((acc, range) => {
-          const row = Object.keys(options).find(val => val === range);
-
-          if (row) {
-            return acc.concat(row);
-          }
-
-          return acc;
-        }, []);
+      ? sortBy(optionEntries, ([, entryValue]) => entryValue).map(([key]) => key)
+      : sortOptionsByAgeRange(ageRanges, optionValues);
 
   return {
     datasets: value
@@ -49,18 +40,7 @@ const buildGroupedChartValues = ({ value, getLookupValue, valueKey, groupedBy, l
         backgroundColor: Object.values(CHART_COLORS)[index]
       }))
       .toArray(),
-    labels:
-      valueKey !== "age"
-        ? sortBy(Object.entries(options), entry => first(entry))
-        : formattedAgeRanges.reduce((acc, range) => {
-            const entryValue = last(Object.entries(options).find(([key]) => key === range));
-
-            if (entryValue) {
-              return acc.concat(entryValue);
-            }
-
-            return acc;
-          }, [])
+    labels: valueKey !== "age" ? optionValues.sort() : sortOptionsByAgeRange(ageRanges, optionValues)
   };
 };
 
@@ -71,12 +51,10 @@ export default ({ totalText, getLookupValue, localizeDate, value, valueKey, isGr
     return buildGroupedChartValues({ value, getLookupValue, valueKey, groupedBy, localizeDate, ageRanges });
   }
 
-  const formattedAgeRanges = (ageRanges || fromJS([])).map(range => formatAgeRange(range));
-
   const sortedData =
     valueKey !== "age"
       ? value.sortBy(val => val.get("id")).reduce((acc, elem) => acc.concat(elem), [])
-      : formattedAgeRanges.reduce((acc, range) => {
+      : ageRanges.reduce((acc, range) => {
           const row = value.find(val => val.get("id") === range);
 
           if (row) {

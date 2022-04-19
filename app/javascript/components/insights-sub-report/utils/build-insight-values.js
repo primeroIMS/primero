@@ -8,7 +8,7 @@ import { YEAR } from "../../insights/constants";
 import getGroupComparator from "./get-group-comparator";
 import yearComparator from "./year-comparator";
 import getDataGroups from "./get-data-groups";
-import sortByAgeRange from "./sort-by-age-range";
+import sortByAgeRange from "./sort-rows-by-age-range";
 
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
