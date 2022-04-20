@@ -11,3 +11,6 @@ export { default as getDataGroups } from "./get-data-groups";
 export { default as translateGroups } from "./translate-groups";
 export { default as translateMonth } from "./translate-month";
 export { default as translateQuarter } from "./translate-quarter";
+export { default as formatAgeRange } from "./format-age-range";
+export { default as sortOptionsByAgeRange } from "./sort-options-by-age-range";
+export { default as sortRowsByAgeRange } from "./sort-rows-by-age-range";

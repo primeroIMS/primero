@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 
+import { getAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
@@ -18,7 +19,8 @@ import {
   buildInsightColumns,
   buildSingleInsightsData,
   buildInsightValues,
-  getLookupValue
+  getLookupValue,
+  formatAgeRange
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
@@ -46,6 +48,7 @@ const Component = () => {
   const insight = useMemoizedSelector(state => getInsight(state));
   const isGrouped = useMemoizedSelector(state => getIsGroupedInsight(state, subReport));
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
+  const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
 
   const insightLookups = insight.getIn(["report_data", subReport, "lookups"], fromJS({})).entrySeq().toArray();
 
@@ -76,6 +79,8 @@ const Component = () => {
   const lookupValue = (data, key) => getLookupValue(lookups, translateId, data, key);
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
+
+  const ageRanges = (primeroAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
   return (
     <>
@@ -119,7 +124,8 @@ const Component = () => {
                       value,
                       valueKey,
                       isGrouped,
-                      groupedBy
+                      groupedBy,
+                      ageRanges
                     })}
                     showDetails
                     hideLegend
@@ -131,7 +137,8 @@ const Component = () => {
                       data: value,
                       key: valueKey,
                       isGrouped,
-                      groupedBy
+                      groupedBy,
+                      ageRanges
                     })}
                     showPlaceholder
                     name={namespace}

@@ -6,6 +6,8 @@ describe Exporters::ManagedReportExporter do
   before do
     clean_data(Lookup, Incident)
 
+    SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
+
     Lookup.create_or_update!(
       unique_id: 'lookup-gbv-sexual-violence-type',
       name_en: 'Gbv Sexual Violence Type',

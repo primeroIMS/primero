@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 describe ManagedReport do
+  before :each do
+    SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
+  end
+
   describe '#list' do
     let(:managed_reports) { ManagedReport.list }
 

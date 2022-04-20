@@ -102,11 +102,13 @@ describe ManagedReports::Indicators::SurvivorsAge do
   before do
     clean_data(Incident, UserGroup, User, Agency, Role)
 
-    Incident.new_with_user(self_user, { age: 10, incident_date: Date.new(2020, 8, 12) }).save!
-    Incident.new_with_user(group_user, { age: 13, incident_date: Date.new(2020, 9, 12) }).save!
-    Incident.new_with_user(agency_user, { age: 10, incident_date: Date.new(2021, 1, 12) }).save!
-    Incident.new_with_user(all_user, { age: 15, incident_date: Date.new(2021, 2, 12) }).save!
-    Incident.new_with_user(all_user, { age: 15, incident_date: Date.new(2021, 3, 12) }).save!
+    SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
+
+    Incident.new_with_user(self_user, { age: 2, incident_date: Date.new(2020, 8, 12) }).save!
+    Incident.new_with_user(group_user, { age: 11, incident_date: Date.new(2020, 9, 12) }).save!
+    Incident.new_with_user(agency_user, { age: 15, incident_date: Date.new(2021, 1, 12) }).save!
+    Incident.new_with_user(all_user, { age: 19, incident_date: Date.new(2021, 2, 12) }).save!
+    Incident.new_with_user(all_user, { age: 19, incident_date: Date.new(2021, 3, 12) }).save!
   end
 
   it 'returns data for the survivors age indicator' do
@@ -114,9 +116,10 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
     expect(survivors_age_data).to match_array(
       [
-        { 'id' => '10', 'total' => 2 },
-        { 'id' => '13', 'total' => 1 },
-        { 'id' => '15', 'total' => 2 }
+        { 'id' => '0 - 5', 'total' => 1 },
+        { 'id' => '6 - 11', 'total' => 1 },
+        { 'id' => '12 - 17', 'total' => 1 },
+        { 'id' => '18+', 'total' => 2 }
       ]
     )
   end
@@ -125,7 +128,7 @@ describe ManagedReports::Indicators::SurvivorsAge do
     it 'returns owned records for a self scope' do
       survivors_age_data = ManagedReports::Indicators::SurvivorsAge.build(self_user, {}).data
 
-      expect(survivors_age_data).to match_array([{ 'id' => '10', 'total' => 1 }])
+      expect(survivors_age_data).to match_array([{ 'id' => '0 - 5', 'total' => 1 }])
     end
 
     it 'returns group records for a group scope' do
@@ -133,9 +136,9 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
       expect(survivors_age_data).to match_array(
         [
-          { 'id' => '10', 'total' => 1 },
-          { 'id' => '13', 'total' => 1 },
-          { 'id' => '15', 'total' => 2 }
+          { 'id' => '6 - 11', 'total' => 1 },
+          { 'id' => '12 - 17', 'total' => 1 },
+          { 'id' => '18+', 'total' => 2 }
         ]
       )
     end
@@ -145,8 +148,8 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
       expect(survivors_age_data).to match_array(
         [
-          { 'id' => '10', 'total' => 1 },
-          { 'id' => '13', 'total' => 1 }
+          { 'id' => '6 - 11', 'total' => 1 },
+          { 'id' => '12 - 17', 'total' => 1 }
         ]
       )
     end
@@ -156,9 +159,10 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
       expect(survivors_age_data).to match_array(
         [
-          { 'id' => '10', 'total' => 2 },
-          { 'id' => '13', 'total' => 1 },
-          { 'id' => '15', 'total' => 2 }
+          { 'id' => '0 - 5', 'total' => 1 },
+          { 'id' => '6 - 11', 'total' => 1 },
+          { 'id' => '12 - 17', 'total' => 1 },
+          { 'id' => '18+', 'total' => 2 }
         ]
       )
     end
@@ -183,15 +187,15 @@ describe ManagedReports::Indicators::SurvivorsAge do
           [
             {
               'data' => [
-                { 'id' => '10', 'total' => 1 },
-                { 'id' => '13', 'total' => 1 }
+                { 'id' => '0 - 5', 'total' => 1 },
+                { 'id' => '6 - 11', 'total' => 1 }
               ],
               'group_id' => 2020
             },
             {
               'data' => [
-                { 'id' => '10', 'total' => 1 },
-                { 'id' => '15', 'total' => 2 }
+                { 'id' => '12 - 17', 'total' => 1 },
+                { 'id' => '18+', 'total' => 2 }
               ],
               'group_id' => 2021
             }
@@ -216,11 +220,11 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => 'august-2020' },
-            { 'data' => [{ 'id' => '13', 'total' => 1 }], 'group_id' => 'september-2020' },
-            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => 'january-2021' },
-            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'february-2021' },
-            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'march-2021' }
+            { 'data' => [{ 'id' => '0 - 5', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => '6 - 11', 'total' => 1 }], 'group_id' => 'september-2020' },
+            { 'data' => [{ 'id' => '12 - 17', 'total' => 1 }], 'group_id' => 'january-2021' },
+            { 'data' => [{ 'id' => '18+', 'total' => 1 }], 'group_id' => 'february-2021' },
+            { 'data' => [{ 'id' => '18+', 'total' => 1 }], 'group_id' => 'march-2021' }
           ]
         )
       end
@@ -244,15 +248,15 @@ describe ManagedReports::Indicators::SurvivorsAge do
           [
             {
               'data' => [
-                { 'id' => '10', 'total' => 1 },
-                { 'id' => '13', 'total' => 1 }
+                { 'id' => '0 - 5', 'total' => 1 },
+                { 'id' => '6 - 11', 'total' => 1 }
               ],
               'group_id' => 'q3-2020'
             },
             {
               'data' => [
-                { 'id' => '10', 'total' => 1 },
-                { 'id' => '15', 'total' => 2 }
+                { 'id' => '12 - 17', 'total' => 1 },
+                { 'id' => '18+', 'total' => 2 }
               ],
               'group_id' => 'q1-2021'
             }
