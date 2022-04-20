@@ -26,7 +26,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   const i18n = useI18n();
   const formMethods = useForm({
     mode: "onChange",
-    resolver: yupResolver(validations),
+    resolver: yupResolver(validations(i18n)),
     ...(defaultFilterValues && { defaultValues: insightsConfig.defaultFilterValues })
   });
   const formMode = whichFormMode("new");
