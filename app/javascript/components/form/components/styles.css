@@ -123,3 +123,14 @@
 .readonly :global .MuiAutocomplete-endAdornment {
   display: none;
 }
+
+:global [dir="rtl"] .MuiAutocomplete-endAdornment {
+  right: initial !important;
+  left: 9px !important;
+}
+
+:global .MuiAutocomplete-endAdornment {
+  right: 9px !important;
+  left: initial !important;
+}
+

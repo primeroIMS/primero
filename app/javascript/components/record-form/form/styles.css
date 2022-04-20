@@ -209,6 +209,11 @@
   }
 }
 
+[dir="rtl"] .badgeIndicator span:last-of-type {
+  left: 8px;
+  right: initial;
+}
+
 .attachmentRow {
   width: 100%;
   display: flex;
