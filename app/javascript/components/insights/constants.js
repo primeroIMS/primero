@@ -3,8 +3,6 @@ import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
 const VIEW_BY = "view_by";
-const GROUPED_BY = "grouped_by";
-const DATE_RANGE = "date_range";
 const FIELDS = "fields";
 const FROM = "from";
 const TO = "to";
@@ -24,6 +22,8 @@ const VERIFICATION_STATUS = "verification_status";
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
+export const DATE_RANGE = "date_range";
+export const GROUPED_BY = "grouped_by";
 export const QUARTER = "quarter";
 export const MONTH = "month";
 export const YEAR = "year";
@@ -55,10 +55,17 @@ export const YEAR_OPTION_IDS = [THIS_YEAR, LAST_YEAR, CUSTOM];
 export const EXPORT_INSIGHTS_PATH = "/managed_reports/export";
 export const INSIGHTS_EXPORTER_DIALOG = "insights_exporter_dialog";
 
+export const DATE_RANGE_VIEW_BY_DISPLAY_NAME = [FIELDS, DATE_RANGE, VIEW_BY];
+export const DATE_RANGE_DISPLAY_NAME = [FIELDS, DATE_RANGE, DATE_RANGE];
+export const DATE_RANGE_FROM_DISPLAY_NAME = [FIELDS, DATE_RANGE, FROM];
+export const DATE_RANGE_TO_DISPLAY_NAME = [FIELDS, DATE_RANGE, TO];
+export const FILTER_BY_DATE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, DATE];
+export const FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VERIFICATION_STATUS];
+
 export const SHARED_FILTERS = [
   {
     name: GROUPED_BY,
-    display_name: [FIELDS, DATE_RANGE, VIEW_BY],
+    display_name: DATE_RANGE_VIEW_BY_DISPLAY_NAME,
     clearDependentValues: [DATE_RANGE],
     option_strings_text: [
       { id: QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE, QUARTER] },
@@ -69,7 +76,7 @@ export const SHARED_FILTERS = [
   },
   {
     name: DATE_RANGE,
-    display_name: [FIELDS, DATE_RANGE, DATE_RANGE],
+    display_name: DATE_RANGE_DISPLAY_NAME,
     option_strings_text: [
       { id: THIS_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, THIS_QUARTER] },
       { id: LAST_QUARTER, display_name: [MANAGED_REPORTS, DATE_RANGE_OPTIONS, LAST_QUARTER] },
@@ -101,14 +108,14 @@ export const SHARED_FILTERS = [
   },
   {
     name: FROM,
-    display_name: [FIELDS, DATE_RANGE, FROM],
+    display_name: DATE_RANGE_FROM_DISPLAY_NAME,
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
     showIf: value => value === CUSTOM
   },
   {
     name: TO,
-    display_name: [FIELDS, DATE_RANGE, TO],
+    display_name: DATE_RANGE_TO_DISPLAY_NAME,
     type: DATE_FIELD,
     watchedInputs: DATE_RANGE,
     showIf: value => value === CUSTOM
@@ -129,7 +136,7 @@ export const INSIGHTS_CONFIG = {
       ...SHARED_FILTERS,
       {
         name: DATE,
-        display_name: [MANAGED_REPORTS, FILTER_BY, DATE],
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
         option_strings_text: [
           { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
           { id: DATE_OF_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
@@ -142,7 +149,7 @@ export const INSIGHTS_CONFIG = {
       },
       {
         name: VERIFIED_CTFMR_TECHNICAL,
-        display_name: [MANAGED_REPORTS, FILTER_BY, VERIFICATION_STATUS],
+        display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
         option_strings_source: LOOKUPS.verification_status,
         type: SELECT_FIELD
       }
@@ -155,7 +162,7 @@ export const INSIGHTS_CONFIG = {
       ...SHARED_FILTERS,
       {
         name: DATE,
-        display_name: [MANAGED_REPORTS, FILTER_BY, DATE],
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
         option_strings_text: [
           {
             id: DATE_OF_FIRST_REPORT,
