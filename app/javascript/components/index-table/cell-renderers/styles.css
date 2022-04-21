@@ -37,6 +37,11 @@
   right: 9px;
 }
 
+[dir="rtl"] .badge {
+  left: 9px;
+  right: initial;
+}
+
 .offlinePinIcon {
   font-size: var(--fs-16);
   color: var(--c-dark-grey);

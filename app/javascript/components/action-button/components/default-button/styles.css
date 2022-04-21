@@ -4,7 +4,6 @@
 }
 
 .isDisabled {
-  display: contents;
   cursor: not-allowed;
 }
 
