@@ -9,7 +9,7 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = params['incident_date'] || params['date_of_first_report']
+      date_param = filter_date(params)
       %{
         select
           alleged_perpetrator.perpetrator_relationship as id,

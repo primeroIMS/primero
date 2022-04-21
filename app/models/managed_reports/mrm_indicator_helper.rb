@@ -5,10 +5,6 @@ module ManagedReports::MRMIndicatorHelper
   extend ActiveSupport::Concern
   # ClassMethods
   module ClassMethods
-    def filter_date(params)
-      params['incident_date'] || params['date_of_first_report'] || params['ctfmr_verified_date']
-    end
-
     def table_name_for_query(params)
       return 'violations' if params['ctfmr_verified_date'].present?
 
@@ -21,13 +17,14 @@ module ManagedReports::MRMIndicatorHelper
       'group_id'
     end
 
-    def build_results(results)
+    def build_results(results, params = {})
       return build_data_values(results.to_a) unless results.to_a.any? { |result| result['group_id'].present? }
 
-      results.group_by { |r| r['group_id'] }.map do |key, values|
+      build_ranges(params).map do |current_range|
+        values_range = results.select { |result| result['group_id'] == current_range }
         {
-          group_id: key,
-          data: build_data_values(values)
+          group_id: current_range,
+          data: build_data_values(values_range)
         }
       end
     end

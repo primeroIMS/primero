@@ -16,19 +16,33 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def build(current_user = nil, params = {})
       indicator = new(params: params)
       results = indicator.execute_query(current_user)
-      indicator.data = block_given? ? yield(results) : build_results(results)
+      indicator.data = block_given? ? yield(results) : build_results(results, params)
       indicator
     end
 
-    def build_results(results)
+    def build_results(results, params = {})
       results_array = results.to_a
 
       return results_array unless results_array.any? { |result| result['group_id'].present? }
 
-      build_groups(results_array)
+      build_groups(results_array, params)
     end
 
-    def build_groups(results)
+    def build_ranges(params = {})
+      grouped_by_param = params['grouped_by']
+      date_param = filter_date(params)
+      return unless grouped_by_param.present? && date_param.present?
+      date_range = date_param.from.to_date..date_param.to.to_date
+
+      case grouped_by_param.value
+      when QUARTER then date_range.map { |date| "#{date.year}-Q#{(date.month / 3.0).ceil}" }.uniq
+      when MONTH then date_range.map { |date| "#{date.year}-#{date.strftime('%m')}" }.uniq
+      else date_range.map(&:year).uniq
+      end
+    end
+
+    def build_groups(results, params = {})
+      build_ranges(params)
       results.each_with_object([]) do |elem, acc|
         group_id = elem.delete('group_id')
         current_group = acc.find { |group| group['group_id'] == group_id }
@@ -60,6 +74,10 @@ class ManagedReports::SqlReportIndicator < ValueObject
       when MONTH then grouped_month_query(date_param, table_name)
       else grouped_year_query(date_param, table_name)
       end
+    end
+
+    def filter_date(params)
+      params.values.find { |param| param.is_a?(SearchFilters::DateRange) }
     end
   end
 

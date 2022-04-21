@@ -55,8 +55,13 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
         return ActiveSupport::JSON.decode(results.to_a.first&.dig('data') || '{}')
       end
 
-      results.to_a.map do |result|
-        { group_id: result['group_id'], data: ActiveSupport::JSON.decode(result['data']) }
+      build_ranges(params).map do |current_range|
+        result_range = results.find { |result| result['group_id'] == current_range } || {}
+
+        {
+          group_id: current_range,
+          data: ActiveSupport::JSON.decode(result_range['data'] || '{}')
+        }
       end
     end
   end

@@ -87,8 +87,8 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "'q' || DATE_PART('quarter', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')) || '-' ||
-            DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS'))",
+          "DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS'))|| '-' ||
+          'Q' || DATE_PART('quarter', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')) ",
           date_field: date_param.field_name
         ]
       )
@@ -101,8 +101,8 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          "RTRIM(TO_CHAR(to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS'), 'month'),' ') || '-' ||
-          DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS'))",
+          "DATE_PART('year', to_timestamp(#{quoted_field}, 'YYYY-MM-DDTHH\\:\\MI\\:\\SS')) || '-' ||
+          to_char(to_timestamp(#{quoted_field}, 'YYYY-MM'),'mm')",
           date_field: date_param.field_name
         ]
       )

@@ -8,7 +8,7 @@ class ManagedReports::Indicators::SurvivorsDisplacementStatus < ManagedReports::
     end
 
     def sql(current_user, params = {})
-      date_param = params['incident_date'] || params['date_of_first_report']
+      date_param = filter_date(params)
       %{
         select
           data ->> 'displacement_status' as id,
