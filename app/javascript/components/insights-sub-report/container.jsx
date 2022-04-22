@@ -87,11 +87,13 @@ const Component = () => {
               <>
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
                 <TableValues
+                  useInsightsHeader
                   columns={buildInsightColumns({
                     value: singleInsightsTableData,
                     isGrouped,
                     groupedBy,
-                    localizeDate: i18n.localizeDate
+                    localizeDate: i18n.localizeDate,
+                    totalText
                   })}
                   values={buildInsightValues({
                     getLookupValue: lookupValue,
@@ -125,7 +127,13 @@ const Component = () => {
                   />
                   <TableValues
                     useInsightsHeader
-                    columns={buildInsightColumns({ value, isGrouped, groupedBy, localizeDate: i18n.localizeDate })}
+                    columns={buildInsightColumns({
+                      value,
+                      isGrouped,
+                      groupedBy,
+                      localizeDate: i18n.localizeDate,
+                      totalText
+                    })}
                     values={buildInsightValues({
                       getLookupValue: lookupValue,
                       data: value,

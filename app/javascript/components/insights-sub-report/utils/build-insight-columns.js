@@ -20,10 +20,10 @@ const buildGroupedColumns = (value, groupedBy, localizeDate) => {
   }));
 };
 
-export default ({ value, isGrouped, groupedBy, localizeDate }) => {
+export default ({ value, isGrouped, groupedBy, localizeDate, totalText }) => {
   if (isGrouped && groupedBy) {
     return buildGroupedColumns(value, groupedBy, localizeDate);
   }
 
-  return [];
+  return [{ label: totalText }];
 };

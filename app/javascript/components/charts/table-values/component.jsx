@@ -3,8 +3,9 @@ import { Paper, Table, TableBody, TableHead } from "@material-ui/core";
 import isEmpty from "lodash/isEmpty";
 
 import EmptyState from "../../loading-indicator/components/empty-state";
+import InsightsTableHeader from "../../insights-sub-report/components/insights-table-header";
 
-import { InsightsTableHeader, TableHeader, TableRows } from "./components";
+import { TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
 const TableValues = ({ columns, values, showPlaceholder = false, name = "", emptyMessage = "", useInsightsHeader }) => {
