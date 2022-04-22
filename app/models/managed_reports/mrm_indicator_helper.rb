@@ -20,13 +20,7 @@ module ManagedReports::MRMIndicatorHelper
     def build_results(results, params = {})
       return build_data_values(results.to_a) unless results.to_a.any? { |result| result['group_id'].present? }
 
-      build_ranges(params).map do |current_range|
-        values_range = results.select { |result| result['group_id'] == current_range }
-        {
-          group_id: current_range,
-          data: build_data_values(values_range)
-        }
-      end
+      build_groups(results, params)
     end
 
     def build_data_values(values)

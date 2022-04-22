@@ -31,10 +31,14 @@ class ManagedReports::SqlReportIndicator < ValueObject
     def build_ranges(params = {})
       grouped_by_param = params['grouped_by']
       date_param = filter_date(params)
-      return unless grouped_by_param.present? && date_param.present?
-      date_range = date_param.from.to_date..date_param.to.to_date
 
-      case grouped_by_param.value
+      return unless grouped_by_param.present? && date_param.present?
+
+      range_by_group(grouped_by_param.value, date_param.from.to_date..date_param.to.to_date)
+    end
+
+    def range_by_group(grouped_by_value, date_range)
+      case grouped_by_value
       when QUARTER then date_range.map { |date| "#{date.year}-Q#{(date.month / 3.0).ceil}" }.uniq
       when MONTH then date_range.map { |date| "#{date.year}-#{date.strftime('%m')}" }.uniq
       else date_range.map(&:year).uniq
@@ -42,15 +46,21 @@ class ManagedReports::SqlReportIndicator < ValueObject
     end
 
     def build_groups(results, params = {})
-      build_ranges(params)
-      results.each_with_object([]) do |elem, acc|
-        group_id = elem.delete('group_id')
-        current_group = acc.find { |group| group['group_id'] == group_id }
-        if current_group.present?
-          current_group['data'] << elem
-        else
-          acc << { 'group_id' => group_id, 'data' => [elem] }
-        end
+      build_ranges(params).map do |current_range|
+        values_range = results.select { |result| result['group_id'] == current_range }
+
+        {
+          group_id: current_range,
+          data: build_data_values(values_range)
+        }
+      end
+    end
+
+    def build_data_values(values)
+      values.each_with_object([]) do |curr, acc|
+        curr.delete('group_id')
+
+        acc << curr
       end
     end
 
