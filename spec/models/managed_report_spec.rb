@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 describe ManagedReport do
+  before :each do
+    SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
+  end
+
   describe '#list' do
     let(:managed_reports) { ManagedReport.list }
 
@@ -31,7 +35,7 @@ describe ManagedReport do
       expect(
         managed_reports[Permission::VIOLATION_REPORT].subreports
       ).to match_array(
-        %w[killing maiming detention sexual_violence attack_on_schools
+        %w[killing maiming detention sexual_violence attack_on_hospitals attack_on_schools
            denial_humanitarian_access abduction recruitment]
       )
     end

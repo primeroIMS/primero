@@ -33,6 +33,7 @@ class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReport
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         group by json_array_elements_text(("violations"."data"->> 'facility_attack_type')::JSON)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        order by name
       }
     end
     # rubocop:enable Metrics/AbcSize

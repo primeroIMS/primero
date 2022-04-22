@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import css from "./styles.css";
 
-const BarChart = ({ data, description, showDetails }) => {
+const BarChart = ({ data, description, showDetails = false, hideLegend = false }) => {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const BarChart = ({ data, description, showDetails }) => {
         },
         maintainAspectRatio: false,
         legend: {
-          display: showDetails
+          display: hideLegend ? false : showDetails
         },
         tooltips: {
           callbacks: {
@@ -42,6 +42,7 @@ const BarChart = ({ data, description, showDetails }) => {
             {
               display: showDetails,
               ticks: {
+                precision: 0,
                 beginAtZero: true,
                 min: 0,
                 suggestedMin: 0
@@ -54,6 +55,7 @@ const BarChart = ({ data, description, showDetails }) => {
               min: 0,
               suggestedMin: 0,
               ticks: {
+                precision: 0,
                 callback: value => {
                   if (value?.length > 25) {
                     return value.substr(0, 25).concat("...");
@@ -83,13 +85,10 @@ const BarChart = ({ data, description, showDetails }) => {
 
 BarChart.displayName = "BarChart";
 
-BarChart.defaultProps = {
-  showDetails: false
-};
-
 BarChart.propTypes = {
   data: PropTypes.object,
   description: PropTypes.string,
+  hideLegend: PropTypes.bool,
   showDetails: PropTypes.bool
 };
 

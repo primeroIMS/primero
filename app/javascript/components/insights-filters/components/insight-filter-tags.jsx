@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import { useMemoizedSelector } from "../../../libs";
 import { getLookupsByIDs } from "../../form/selectors";
 import { get, optionText } from "../../form/utils";
+import { DATE_FIELD } from "../../form/constants";
 import transformOptions from "../../form/utils/transform-options";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
-import { transformFilters } from "../utils";
 
 import css from "./styles.css";
 
@@ -26,7 +26,7 @@ const InsightFilterTags = ({ filters = [] }) => {
     return null;
   }
 
-  const getOption = (filter = {}, value, dateFilter = false) => {
+  const getOption = (filter = {}, value) => {
     const options = filter.option_strings_source
       ? transformOptions(
           lookups
@@ -36,57 +36,35 @@ const InsightFilterTags = ({ filters = [] }) => {
         )
       : filter?.option_strings_text || [];
 
-    if (dateFilter) {
-      return options.find(opt => get(opt, "id") === value).display_name;
+    if (filter.type === DATE_FIELD) {
+      return i18n.localizeDate(value);
     }
 
-    return optionText(
+    const option = optionText(
       options.find(opt => get(opt, "id") === value),
       false
     );
-  };
 
-  const getValue = (filter, value, dateKey) => {
-    if (dateKey) {
-      return (
-        <div className={css.dateGroup}>
-          <div>
-            <span>{i18n.t("fields.date_range.from")}</span>
-            <span>{i18n.localizeDate(value.from)}</span>
-          </div>
-          <div>
-            <span>{i18n.t("fields.date_range.to")}</span>
-            <span>{i18n.localizeDate(value.to)}</span>
-          </div>
-        </div>
-      );
+    if (filter.option_strings_text) {
+      return option ? i18n.t(option) : null;
     }
 
-    const selectedOption = getOption(filter, value);
-
-    return <span>{Array.isArray(selectedOption) ? i18n.t(selectedOption?.join(".")) : selectedOption}</span>;
+    return option;
   };
-
-  const insightFiltersEntries = Object.entries(
-    transformFilters(insightFilters.entrySeq().reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}))
-  );
 
   return (
     <div className={css.container}>
-      {insightFiltersEntries.map(([key, value]) => {
-        const filter = filters.find(
-          iFilter => iFilter.name === key || (key.includes("date") && iFilter.name === "date")
-        );
-        const isDateFilter = key.includes("date");
+      {filters.map(filter => {
+        const value = getOption(filter, insightFilters.get(filter.name));
 
-        if (key === "subreport") {
+        if (!value) {
           return null;
         }
 
         return (
-          <div key={key} className={css.filter}>
-            <div>{i18n.t(isDateFilter ? getOption(filter, key, true)?.join(".") : filter?.display_name.join("."))}</div>
-            <div>{getValue(filter, value, key.includes("date") ? key : false)}</div>
+          <div key={filter.name} className={css.filter}>
+            <div>{i18n.t(filter.display_name)}</div>
+            <div>{value}</div>
           </div>
         );
       })}

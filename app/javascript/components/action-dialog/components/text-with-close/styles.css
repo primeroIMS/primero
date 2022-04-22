@@ -5,6 +5,11 @@
   position: absolute;
 }
 
+[dir="rtl"] .closeButton {
+  left: 8px;
+  right: initial;
+}
+
 .dialogSubtitle {
   font-size: var(--fs-12);
   font-weight: bold;

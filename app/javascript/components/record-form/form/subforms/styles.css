@@ -131,6 +131,7 @@
 
 .listActions {
   right: -3px;
+  left: initial;
   display: flex;
   padding: 5px;
   align-items: center;
@@ -139,6 +140,11 @@
     background-color: inherit;
     color: var(--c-black);
   }
+}
+
+[dir="rtl"] .listActions {
+  right: initial;
+  left: -3px;
 }
 
 .listText {

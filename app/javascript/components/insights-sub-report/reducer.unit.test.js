@@ -9,8 +9,7 @@ describe("<Insights /> - Reducers", () => {
   it("should handle FETCH_INSIGHT_STARTED", () => {
     const expected = fromJS({
       loading: true,
-      errors: false,
-      selectedReport: {}
+      errors: false
     });
     const action = {
       type: actions.FETCH_INSIGHT_STARTED,

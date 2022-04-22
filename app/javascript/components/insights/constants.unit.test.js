@@ -33,7 +33,15 @@ describe("<Report /> - constants", () => {
       "TOTAL_KEY",
       "VIOLATION",
       "YEAR",
-      "YEAR_OPTION_IDS"
+      "YEAR_OPTION_IDS",
+      "DATE_RANGE_VIEW_BY_DISPLAY_NAME",
+      "DATE_RANGE_DISPLAY_NAME",
+      "DATE_RANGE_FROM_DISPLAY_NAME",
+      "DATE_RANGE_TO_DISPLAY_NAME",
+      "FILTER_BY_DATE_DISPLAY_NAME",
+      "FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME",
+      "DATE_RANGE",
+      "GROUPED_BY"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

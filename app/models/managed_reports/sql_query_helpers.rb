@@ -107,5 +107,18 @@ module ManagedReports::SqlQueryHelpers
         ]
       )
     end
+
+    def age_ranges_query(field_name = 'age', table_name = nil)
+      SystemSettings.primary_age_ranges.reduce("case \n") do |acc, range|
+        acc + ActiveRecord::Base.sanitize_sql_for_conditions(
+          [
+            %{
+              when int4range(:start, :end, '[]') @> cast(#{quoted_query(table_name, 'data')} ->> :field_name as integer)
+              then #{range != SystemSettings.primary_age_ranges.last ? "':start - :end'" : "':start+' end"}
+            }, field_name: field_name, start: range.first, end: range.last
+          ]
+        )
+      end
+    end
   end
 end
