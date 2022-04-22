@@ -113,24 +113,10 @@ describe("Verifying config constant", () => {
       "REGISTRY_FROM_CASE",
       "QUARTERS",
       "QUARTERS_TO_NUMBER",
-      "MONTHS_TO_NUMBER",
-      "MONTHS",
       "Q1",
       "Q2",
       "Q3",
-      "Q4",
-      "JANUARY",
-      "FEBRUARY",
-      "MARCH",
-      "APRIL",
-      "MAY",
-      "JUNE",
-      "JULY",
-      "AUGUST",
-      "SEPTEMBER",
-      "OCTOBER",
-      "NOVEMBER",
-      "DECEMBER"
+      "Q4"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

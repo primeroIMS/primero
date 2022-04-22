@@ -148,33 +148,33 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         groupedBy: "month",
         data: fromJS([
           {
-            group_id: "january-2022",
+            group_id: "2021-12",
+            data: [
+              { id: "option_2", total: 2 },
+              { id: "option_3", total: 8 }
+            ]
+          },
+          {
+            group_id: "2022-01",
             data: [
               { id: "option_1", total: 1 },
               { id: "option_2", total: 2 }
             ]
           },
           {
-            group_id: "february-2023",
+            group_id: "2022-02",
             data: [
               { id: "option_1", total: 3 },
               { id: "option_2", total: 1 }
-            ]
-          },
-          {
-            group_id: "january-2024",
-            data: [
-              { id: "option_2", total: 2 },
-              { id: "option_3", total: 8 }
             ]
           }
         ])
       });
 
       expect(values).to.deep.equals([
-        { colspan: 0, row: ["option_1", 1, 0, 0, 3, 0, 0] },
-        { colspan: 0, row: ["option_2", 2, 0, 0, 1, 2, 0] },
-        { colspan: 0, row: ["option_3", 0, 0, 0, 0, 8, 0] }
+        { colspan: 0, row: ["option_1", 0, 1, 3] },
+        { colspan: 0, row: ["option_2", 2, 2, 1] },
+        { colspan: 0, row: ["option_3", 8, 0, 0] }
       ]);
     });
   });

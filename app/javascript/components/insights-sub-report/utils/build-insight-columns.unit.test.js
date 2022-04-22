@@ -10,10 +10,11 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         value: fromJS([
           { id: "option_1", total: 5 },
           { id: "option_2", total: 10 }
-        ])
+        ]),
+        totalText: "Total"
       });
 
-      expect(columns).to.deep.equals([]);
+      expect(columns).to.deep.equals([{ label: "Total" }]);
     });
   });
 
@@ -48,7 +49,11 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         ])
       });
 
-      expect(columns).to.deep.equal([{ items: ["2022", "2023", "2024"], colspan: 1 }]);
+      expect(columns).to.deep.equal([
+        { label: "2022", colspan: 1 },
+        { label: "2023", colspan: 1 },
+        { label: "2024", colspan: 1 }
+      ]);
     });
   });
 
@@ -60,21 +65,21 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         localizeDate: format,
         value: fromJS([
           {
-            group_id: "january-2022",
+            group_id: "2022-01",
             data: [
               { id: "option_1", total: 1 },
               { id: "option_2", total: 2 }
             ]
           },
           {
-            group_id: "february-2023",
+            group_id: "2023-02",
             data: [
               { id: "option_1", total: 3 },
               { id: "option_2", total: 1 }
             ]
           },
           {
-            group_id: "january-2024",
+            group_id: "2024-01",
             data: [
               { id: "option_2", total: 2 },
               { id: "option_3", total: 8 }
@@ -84,8 +89,9 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
       });
 
       expect(columns).to.deep.equal([
-        { items: ["2022", "2023", "2024"], colspan: 2 },
-        { items: ["Jan", "Feb"], addEmptyCell: false }
+        { label: "2022", items: ["Jan"], colspan: 1 },
+        { label: "2023", items: ["Feb"], colspan: 1 },
+        { label: "2024", items: ["Jan"], colspan: 1 }
       ]);
     });
   });

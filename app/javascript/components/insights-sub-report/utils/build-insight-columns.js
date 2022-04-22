@@ -10,7 +10,7 @@ const buildGroupedColumns = (value, groupedBy, localizeDate) => {
   const yearComparator = getGroupComparator(YEAR);
 
   if (groupedBy === YEAR) {
-    return [{ items: groups.sort(yearComparator), colspan: 1 }];
+    return groups.sort(yearComparator).map(year => ({ label: year, colspan: 1 }));
   }
 
   return Object.keys(groups).map(year => ({

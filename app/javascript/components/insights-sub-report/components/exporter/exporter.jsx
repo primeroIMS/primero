@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 
-import { ExportReportGraphIcon, ExportReportDataIcon } from "../../../images/primero-icons";
-import ActionButton from "../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
+import { ExportReportGraphIcon, ExportReportDataIcon } from "../../../../images/primero-icons";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 import { downloadFile, tableToCsv } from "./utils";
