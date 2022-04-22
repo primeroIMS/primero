@@ -50,7 +50,8 @@ const Component = ({
   const [selectedValue, setSelectedValue] = useState({});
 
   const { open, index } = openDialog;
-  const title = displayName?.[i18n.locale];
+
+  const title = displayName?.[i18n.locale] || displayName?.[i18n.defaultLocale];
 
   const isTraces = isTracesSubform(recordType, formSection);
 
