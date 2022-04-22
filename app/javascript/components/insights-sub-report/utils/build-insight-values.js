@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 import first from "lodash/first";
-import isNil from "lodash/isNil";
 
 import { YEAR } from "../../insights/constants";
 
@@ -11,21 +10,11 @@ import getDataGroups from "./get-data-groups";
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
     const [lookupValue, value] = tuple;
+
     const existing = rows.find(elem => first(elem) === lookupValue);
 
     if (existing) {
-      if (!isNil(existing[columnIndex])) {
-        existing[columnIndex] = value;
-      } else {
-        // eslint-disable-next-line no-plusplus
-        for (let i = columnIndex; i < columnsNumber; i++) {
-          if (i === columnIndex) {
-            existing.push(value);
-          } else if (isNil(existing[i])) {
-            existing.push(0);
-          }
-        }
-      }
+      existing[columnIndex] = value;
     } else {
       rows.push(
         [lookupValue]
@@ -37,12 +26,12 @@ const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
 };
 
 const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
-  const { years, groups } = getDataGroups(data, groupedBy);
+  const groups = getDataGroups(data, groupedBy);
 
   const groupedData = data.groupBy(value => value.get("group_id").toString());
 
   if (groupedBy === YEAR) {
-    return years
+    return groups
       .sort(yearComparator)
       .reduce((acc, year, index) => {
         const tuples = groupedData
@@ -50,34 +39,35 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
           .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
           .toArray();
 
-        buildRows({ tuples, rows: acc, columnIndex: index + 1, columnsNumber: years.length });
+        buildRows({ tuples, rows: acc, columnsNumber: groups.length, columnIndex: index + 1 });
 
         return acc;
       }, [])
       .map(value => ({ colspan: 0, row: value }));
   }
 
-  const columnsNumber = groups.length * years.length;
-
   const groupComparator = getGroupComparator(groupedBy);
 
-  const dataRows = years.sort(yearComparator).reduce((acc1, group1, groupIndex) => {
-    // index + 1 because the first value is the title of the row
-    const columnInitialIndex = groupIndex * groups.length + 1;
+  const columnsNumber = data.size;
 
-    groups.sort(groupComparator).forEach((group2, index) => {
-      const tuples = groupedData
-        .get(`${group2}-${group1}`, fromJS([]))
-        .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
-        .toArray();
+  return Object.keys(groups)
+    .sort(yearComparator)
+    .reduce((acc1, year, yearIndex) => {
+      // index + 1 because the first value is the title of the row
+      const columnInitialIndex = yearIndex + 1;
 
-      buildRows({ tuples, rows: acc1, columnIndex: columnInitialIndex + index, columnsNumber });
-    });
+      groups[year].sort(groupComparator).forEach((group, index) => {
+        const tuples = groupedData
+          .get(`${year}-${group}`, fromJS([]))
+          .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
+          .toArray();
 
-    return acc1;
-  }, []);
+        buildRows({ tuples, rows: acc1, columnIndex: columnInitialIndex + index, columnsNumber });
+      });
 
-  return dataRows.map(value => ({ colspan: 0, row: value }));
+      return acc1;
+    }, [])
+    .map(value => ({ colspan: 0, row: value }));
 };
 
 export default ({ getLookupValue, data, key, isGrouped, groupedBy }) => {

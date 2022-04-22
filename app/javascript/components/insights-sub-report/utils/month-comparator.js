@@ -1,13 +1,6 @@
-import { MONTHS_TO_NUMBER } from "../../../config/constants";
-
 export default (elem1, elem2) => {
-  if (MONTHS_TO_NUMBER[elem1] === MONTHS_TO_NUMBER[elem2]) {
-    return 0;
-  }
+  const month1 = parseInt(elem1, 10);
+  const month2 = parseInt(elem2, 10);
 
-  if (MONTHS_TO_NUMBER[elem1] > MONTHS_TO_NUMBER[elem2]) {
-    return 1;
-  }
-
-  return -1;
+  return month1 - month2;
 };

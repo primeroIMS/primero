@@ -22,7 +22,7 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { NAME, COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
+import { COMBINED_INDICATORS, GROUPED_BY_FILTER, NAME } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -124,6 +124,7 @@ const Component = () => {
                     showDetails
                   />
                   <TableValues
+                    useInsightsHeader
                     columns={buildInsightColumns({ value, isGrouped, groupedBy, localizeDate: i18n.localizeDate })}
                     values={buildInsightValues({
                       getLookupValue: lookupValue,

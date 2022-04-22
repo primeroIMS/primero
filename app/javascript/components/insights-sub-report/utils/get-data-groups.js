@@ -17,18 +17,11 @@ export default (data, groupedBy) => {
 
   return data
     .map(elem => elem.get("group_id").toString().split("-"))
-    .reduce(
-      (acc, [group, year]) => {
-        if (!acc.groups.find(elem => elem === group)) {
-          acc.groups = acc.groups.concat(group);
-        }
+    .reduce((acc, [year, group]) => {
+      if (acc[year]) {
+        return { ...acc, [year]: [...acc[year], group] };
+      }
 
-        if (!acc.years.find(elem => elem === year)) {
-          acc.years = acc.years.concat(year);
-        }
-
-        return acc;
-      },
-      { years: [], groups: [] }
-    );
+      return { ...acc, [year]: [group] };
+    }, {});
 };

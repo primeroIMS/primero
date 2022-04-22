@@ -601,53 +601,10 @@ export const CHART_COLORS = Object.freeze({
 });
 export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
 
-export const JANUARY = "january";
-export const FEBRUARY = "february";
-export const MARCH = "march";
-export const APRIL = "april";
-export const MAY = "may";
-export const JUNE = "june";
-export const JULY = "july";
-export const AUGUST = "august";
-export const SEPTEMBER = "september";
-export const OCTOBER = "october";
-export const NOVEMBER = "november";
-export const DECEMBER = "december";
-
-export const MONTHS = Object.freeze([
-  JANUARY,
-  FEBRUARY,
-  MARCH,
-  APRIL,
-  MAY,
-  JUNE,
-  JULY,
-  AUGUST,
-  SEPTEMBER,
-  OCTOBER,
-  NOVEMBER,
-  DECEMBER
-]);
-
-export const MONTHS_TO_NUMBER = Object.freeze({
-  [JANUARY]: 1,
-  [FEBRUARY]: 2,
-  [MARCH]: 3,
-  [APRIL]: 4,
-  [MAY]: 5,
-  [JUNE]: 6,
-  [JULY]: 7,
-  [AUGUST]: 8,
-  [SEPTEMBER]: 9,
-  [OCTOBER]: 10,
-  [NOVEMBER]: 11,
-  [DECEMBER]: 12
-});
-
-export const Q1 = "q1";
-export const Q2 = "q2";
-export const Q3 = "q3";
-export const Q4 = "q4";
+export const Q1 = "Q1";
+export const Q2 = "Q2";
+export const Q3 = "Q3";
+export const Q4 = "Q4";
 
 export const QUARTERS_TO_NUMBER = Object.freeze({
   [Q1]: 1,

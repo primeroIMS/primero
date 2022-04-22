@@ -4,10 +4,12 @@ import isEmpty from "lodash/isEmpty";
 
 import EmptyState from "../../loading-indicator/components/empty-state";
 
-import { TableHeader, TableRows } from "./components";
+import { InsightsTableHeader, TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
-const TableValues = ({ columns, values, showPlaceholder = false, name = "", emptyMessage = "" }) => {
+const TableValues = ({ columns, values, showPlaceholder = false, name = "", emptyMessage = "", useInsightsHeader }) => {
+  const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
+
   return (
     <Paper className={css.root}>
       {showPlaceholder && isEmpty(values) ? (
@@ -15,7 +17,7 @@ const TableValues = ({ columns, values, showPlaceholder = false, name = "", empt
       ) : (
         <Table className={css.table}>
           <TableHead className={css.tableHeader}>
-            <TableHeader columns={columns} />
+            <Header columns={columns} />
           </TableHead>
           <TableBody>
             <TableRows values={values} />
@@ -28,11 +30,16 @@ const TableValues = ({ columns, values, showPlaceholder = false, name = "", empt
 
 TableValues.displayName = "TableValues";
 
+TableValues.defaultProps = {
+  useInsightsHeader: false
+};
+
 TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
+  useInsightsHeader: PropTypes.bool,
   values: PropTypes.array
 };
 
