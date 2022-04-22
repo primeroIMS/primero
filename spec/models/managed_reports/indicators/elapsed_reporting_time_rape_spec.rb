@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::ElapsedReportingTimeRape do
@@ -164,7 +166,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
       expect(data).to match_array(
         [
           { 'id' => '0_3_days', 'total' => 1 },
-          { 'id' => '4_5_days', 'total' => 1 },
+          { 'id' => '4_5_days', 'total' => 1 }
         ]
       )
     end
@@ -199,20 +201,9 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => '0_3_days', 'total' => 1 },
-                { 'id' => 'over_1_month', 'total' => 1 }
-              ],
-              'group_id' => 2020
-            },
-            {
-              'data' => [
-                { 'id' => '0_3_days', 'total' => 1 },
-                { 'id' => '4_5_days', 'total' => 1 }
-              ],
-              'group_id' => 2021
-            }
+            { group_id: 2020, data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] },
+            { group_id: 2022, data: [] }
           ]
         )
       end
@@ -227,7 +218,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-10-10'
             )
           }
         ).data
@@ -235,18 +226,23 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
         expect(data).to match_array(
           [
             {
-              'data' => [
-                { 'id' => '0_3_days', 'total' => 1 },
-                { 'id' => 'over_1_month', 'total' => 1 }
-              ],
-              'group_id' => 'august-2020'
+              group_id: '2020-08',
+              data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }]
             },
-            {
-              'data' => [
-                { 'id' => '0_3_days', 'total' => 1 },
-                { 'id' => '4_5_days', 'total' => 1 }
-              ], 'group_id' => 'september-2021'
-            }
+            { group_id: '2020-09', data: [] },
+            { group_id: '2020-10', data: [] },
+            { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [] },
+            { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] },
+            { group_id: '2021-04', data: [] },
+            { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] },
+            { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [] },
+            { group_id: '2021-09', data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] },
+            { group_id: '2021-10', data: [] }
           ]
         )
       end
@@ -261,7 +257,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-09-30'
             )
           }
         ).data
@@ -269,19 +265,14 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRape do
         expect(data).to match_array(
           [
             {
-              'data' => [
+              group_id: '2020-Q3',
+              data: [
                 { 'id' => '0_3_days', 'total' => 1 },
                 { 'id' => 'over_1_month', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2020'
+              ]
             },
-            {
-              'data' => [
-                { 'id' => '0_3_days', 'total' => 1 },
-                { 'id' => '4_5_days', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2021'
-            }
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] }
           ]
         )
       end

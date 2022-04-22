@@ -241,7 +241,7 @@ describe ManagedReports::Indicators::PerpetratorRelationship do
                 { 'id' => 'relationship1', 'total' => 1 },
                 { 'id' => 'relationship2', 'total' => 1 }
               ],
-              'group_id' => 'august-2020'
+              'group_id' => '2020-08'
             },
             {
               'data' => [
@@ -288,14 +288,14 @@ describe ManagedReports::Indicators::PerpetratorRelationship do
                 { 'id' => 'relationship2', 'total' => 1 },
                 { 'id' => 'relationship3', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => 'relationship2', 'total' => 1 },
                 { 'id' => 'relationship4', 'total' => 3 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

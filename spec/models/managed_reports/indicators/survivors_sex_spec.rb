@@ -213,7 +213,7 @@ describe ManagedReports::Indicators::SurvivorsSex do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'male', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'male', 'total' => 1 }], 'group_id' => '2020-08' },
             { 'data' => [{ 'id' => 'female', 'total' => 1 }], 'group_id' => 'september-2020' },
             { 'data' => [{ 'id' => 'male', 'total' => 1 }], 'group_id' => 'january-2021' },
             { 'data' => [{ 'id' => 'female', 'total' => 1 }], 'group_id' => 'february-2021' },
@@ -244,14 +244,14 @@ describe ManagedReports::Indicators::SurvivorsSex do
                 { 'id' => 'female', 'total' => 1 },
                 { 'id' => 'male', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => 'female', 'total' => 2 },
                 { 'id' => 'male', 'total' => 1 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

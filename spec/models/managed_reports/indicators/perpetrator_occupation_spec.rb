@@ -236,7 +236,7 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
                 { 'id' => 'occupation_1', 'total' => 1 },
                 { 'id' => 'occupation_2', 'total' => 1 }
               ],
-              'group_id' => 'august-2020'
+              'group_id' => '2020-08'
             },
             {
               'data' => [
@@ -282,14 +282,14 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
                 { 'id' => 'occupation_1', 'total' => 1 },
                 { 'id' => 'occupation_2', 'total' => 2 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => 'occupation_3', 'total' => 1 },
                 { 'id' => 'occupation_4', 'total' => 3 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

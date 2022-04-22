@@ -117,7 +117,7 @@ describe ManagedReports::Indicators::FacilityAttackType do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'attack_on_hospitals')
           }
@@ -126,21 +126,28 @@ describe ManagedReports::Indicators::FacilityAttackType do
         expect(data).to match_array(
           [
             {
-              group_id: 'august-2020',
+              group_id: '2020-08',
               data: [
                 { id: 'attack_on_education_personnel', total: 1 },
                 { id: 'other_interference_with_education', total: 1 }
               ]
             },
-            { group_id: 'august-2021', data: [{ id: 'attack_on_school_s', total: 2 }] },
+            { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [{ id: 'attack_on_school_s', total: 2 }] },
+            { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] },
             {
-              group_id: 'january-2022',
+              group_id: '2022-01',
               data: [
                 { id: 'attack_on_education_personnel', total: 1 },
                 { id: 'threat_of_attack_on_school_s', total: 1 }
               ]
             },
-            { group_id: 'february-2022', data: [{ id: 'threat_of_attack_on_school_s', total: 1 }] }
+            { group_id: '2022-02', data: [{ id: 'threat_of_attack_on_school_s', total: 1 }] },
+            { group_id: '2022-03', data: [] }
           ]
         )
       end
@@ -155,7 +162,7 @@ describe ManagedReports::Indicators::FacilityAttackType do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'attack_on_hospitals')
           }
@@ -164,15 +171,18 @@ describe ManagedReports::Indicators::FacilityAttackType do
         expect(data).to match_array(
           [
             {
-              group_id: 'q3-2020',
+              group_id: '2020-Q3',
               data: [
                 { id: 'attack_on_education_personnel', total: 1 },
                 { id: 'other_interference_with_education', total: 1 }
               ]
             },
-            { group_id: 'q3-2021', data: [{ id: 'attack_on_school_s', total: 2 }] },
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
+            { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ id: 'attack_on_school_s', total: 2 }] },
+            { group_id: '2021-Q4', data: [] },
             {
-              group_id: 'q1-2022',
+              group_id: '2022-Q1',
               data: [
                 { id: 'attack_on_education_personnel', total: 1 },
                 { id: 'threat_of_attack_on_school_s', total: 2 }

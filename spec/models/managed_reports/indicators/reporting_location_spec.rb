@@ -257,7 +257,7 @@ describe ManagedReports::Indicators::ReportingLocation do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -265,10 +265,16 @@ describe ManagedReports::Indicators::ReportingLocation do
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: [{ id: 'E1', boys: 3, unknown: 1, girls: 2, total: 6 }] },
-            { group_id: 'august-2021', data: [{ id: 'E1', boys: 3, total: 5, unknown: 0, girls: 2 }] },
-            { group_id: 'february-2022', data: [{ id: 'E2', unknown: 2, boys: 1, total: 4, girls: 1 }] },
-            { group_id: 'march-2022', data: [{ id: 'E1', unknown: 2, boys: 3, total: 9, girls: 4 }] }
+            { group_id: '2020-08', data: [{ id: 'E1', boys: 3, unknown: 1, girls: 2, total: 6 }] },
+            { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [{ id: 'E1', boys: 3, total: 5, unknown: 0, girls: 2 }] },
+            { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] }, { group_id: '2022-01', data: [] },
+            { group_id: '2022-02', data: [{ id: 'E2', unknown: 2, boys: 1, total: 4, girls: 1 }] },
+            { group_id: '2022-03', data: [{ id: 'E1', unknown: 2, boys: 3, total: 9, girls: 4 }] }
           ]
         )
       end
@@ -283,7 +289,7 @@ describe ManagedReports::Indicators::ReportingLocation do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -291,10 +297,12 @@ describe ManagedReports::Indicators::ReportingLocation do
 
         expect(data).to match_array(
           [
-            { group_id: 'q3-2020', data: [{ id: 'E1', unknown: 1, boys: 3, girls: 2, total: 6 }] },
-            { group_id: 'q3-2021', data: [{ id: 'E1', unknown: 0, boys: 3, girls: 2, total: 5 }] },
+            { group_id: '2020-Q3', data: [{ id: 'E1', unknown: 1, boys: 3, girls: 2, total: 6 }] },
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ id: 'E1', unknown: 0, boys: 3, girls: 2, total: 5 }] },
+            { group_id: '2021-Q4', data: [] },
             {
-              group_id: 'q1-2022',
+              group_id: '2022-Q1',
               data: [
                 { id: 'E1', unknown: 2, total: 9, boys: 3, girls: 4 },
                 { id: 'E2', unknown: 2, girls: 1, boys: 1, total: 4 }

@@ -229,7 +229,7 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'displace_1', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'displace_1', 'total' => 1 }], 'group_id' => '2020-08' },
             { 'data' => [{ 'id' => 'displace_2', 'total' => 1 }], 'group_id' => 'september-2020' },
             { 'data' => [{ 'id' => 'displace_2', 'total' => 1 }], 'group_id' => 'january-2021' },
             { 'data' => [{ 'id' => 'displace_3', 'total' => 1 }], 'group_id' => 'february-2021' },
@@ -260,14 +260,14 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
                 { 'id' => 'displace_1', 'total' => 1 },
                 { 'id' => 'displace_2', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => 'displace_2', 'total' => 1 },
                 { 'id' => 'displace_3', 'total' => 2 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

@@ -218,7 +218,7 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
           }
@@ -226,10 +226,16 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: { 'boys' => 1, 'unknown' => 3, 'total' => 6, 'girls' => 2 } },
-            { group_id: 'may-2021', data: { 'total' => 3, 'boys' => 1, 'unknown' => 1, 'girls' => 1 } },
-            { group_id: 'february-2022', data: { 'girls' => 1, 'total' => 5, 'unknown' => 2, 'boys' => 2 } },
-            { group_id: 'march-2022', data: { 'boys' => 2, 'unknown' => 2, 'girls' => 3, 'total' => 7 } }
+            { group_id: '2020-08', data: { 'boys' => 1, 'unknown' => 3, 'total' => 6, 'girls' => 2 } },
+            { group_id: '2020-09', data: {} }, { group_id: '2020-10', data: {} }, { group_id: '2020-11', data: {} },
+            { group_id: '2020-12', data: {} }, { group_id: '2021-01', data: {} }, { group_id: '2021-02', data: {} },
+            { group_id: '2021-03', data: {} }, { group_id: '2021-04', data: {} },
+            { group_id: '2021-05', data: { 'total' => 3, 'boys' => 1, 'unknown' => 1, 'girls' => 1 } },
+            { group_id: '2021-06', data: {} }, { group_id: '2021-07', data: {} }, { group_id: '2021-08', data: {} },
+            { group_id: '2021-09', data: {} }, { group_id: '2021-10', data: {} }, { group_id: '2021-11', data: {} },
+            { group_id: '2021-12', data: {} }, { group_id: '2022-01', data: {} },
+            { group_id: '2022-02', data: { 'girls' => 1, 'total' => 5, 'unknown' => 2, 'boys' => 2 } },
+            { group_id: '2022-03', data: { 'boys' => 2, 'unknown' => 2, 'girls' => 3, 'total' => 7 } }
           ]
         )
       end
@@ -244,7 +250,7 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
           }
@@ -252,9 +258,11 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
 
         expect(data).to match_array(
           [
-            { group_id: 'q3-2020', data: { 'girls' => 2, 'total' => 6, 'boys' => 1, 'unknown' => 3 } },
-            { group_id: 'q2-2021', data: { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1 } },
-            { group_id: 'q1-2022', data: { 'unknown' => 4, 'girls' => 4, 'boys' => 4, 'total' => 12 } }
+            { group_id: '2020-Q3', data: { 'girls' => 2, 'total' => 6, 'boys' => 1, 'unknown' => 3 } },
+            { group_id: '2020-Q4', data: {} }, { group_id: '2021-Q1', data: {} },
+            { group_id: '2021-Q2', data: { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1 } },
+            { group_id: '2021-Q3', data: {} }, { group_id: '2021-Q4', data: {} },
+            { group_id: '2022-Q1', data: { 'unknown' => 4, 'girls' => 4, 'boys' => 4, 'total' => 12 } }
           ]
         )
       end

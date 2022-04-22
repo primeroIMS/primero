@@ -114,8 +114,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: '2021-05-01',
+              to: '2022-04-10'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -124,7 +124,7 @@ describe ManagedReports::Indicators::DenialType do
         expect(data).to match_array(
           [
             {
-              group_id: 'may-2021',
+              group_id: '2021-05',
               data: [
                 { id: 'abduction_of_humanitarian_personnel', total: 1 },
                 { id: 'besiegement', total: 2 },
@@ -133,8 +133,13 @@ describe ManagedReports::Indicators::DenialType do
                 { id: 'theft', total: 1 }
               ]
             },
+            { data: [], group_id: '2021-06' }, { data: [], group_id: '2021-07' },
+            { data: [], group_id: '2021-08' }, { data: [], group_id: '2021-09' },
+            { data: [], group_id: '2021-10' }, { data: [], group_id: '2021-11' },
+            { data: [], group_id: '2021-12' }, { data: [], group_id: '2022-01' },
+            { data: [], group_id: '2022-02' }, { data: [], group_id: '2022-03' },
             {
-              group_id: 'april-2022',
+              group_id: '2022-04',
               data: [
                 { id: 'property_damage', total: 2 },
                 { id: 'vehicle_hijacking', total: 1 }
@@ -153,8 +158,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: '2021-04-01',
+              to: '2022-06-10'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -163,7 +168,7 @@ describe ManagedReports::Indicators::DenialType do
         expect(data).to match_array(
           [
             {
-              group_id: 'q2-2021',
+              group_id: '2021-Q2',
               data: [
                 { id: 'abduction_of_humanitarian_personnel', total: 1 },
                 { id: 'besiegement', total: 2 },
@@ -172,8 +177,10 @@ describe ManagedReports::Indicators::DenialType do
                 { id: 'theft', total: 1 }
               ]
             },
+            { data: [], group_id: '2021-Q3' }, { data: [], group_id: '2021-Q4' },
+            { data: [], group_id: '2022-Q1' },
             {
-              group_id: 'q2-2022',
+              group_id: '2022-Q2',
               data: [{ id: 'property_damage', total: 2 }, { id: 'vehicle_hijacking', total: 1 }]
             }
           ]

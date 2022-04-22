@@ -220,11 +220,11 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => '0 - 5', 'total' => 1 }], 'group_id' => 'august-2020' },
-            { 'data' => [{ 'id' => '6 - 11', 'total' => 1 }], 'group_id' => 'september-2020' },
-            { 'data' => [{ 'id' => '12 - 17', 'total' => 1 }], 'group_id' => 'january-2021' },
-            { 'data' => [{ 'id' => '18+', 'total' => 1 }], 'group_id' => 'february-2021' },
-            { 'data' => [{ 'id' => '18+', 'total' => 1 }], 'group_id' => 'march-2021' }
+            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => '2020-08' },
+            { 'data' => [{ 'id' => '13', 'total' => 1 }], 'group_id' => 'september-2020' },
+            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => 'january-2021' },
+            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'february-2021' },
+            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'march-2021' }
           ]
         )
       end
@@ -251,14 +251,14 @@ describe ManagedReports::Indicators::SurvivorsAge do
                 { 'id' => '0 - 5', 'total' => 1 },
                 { 'id' => '6 - 11', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => '12 - 17', 'total' => 1 },
                 { 'id' => '18+', 'total' => 2 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

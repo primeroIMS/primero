@@ -218,7 +218,7 @@ describe ManagedReports::Indicators::IncidentTimeofday do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'morning', 'total' => 1 }], 'group_id' => 'august-2020' },
+            { 'data' => [{ 'id' => 'morning', 'total' => 1 }], 'group_id' => '2020-08' },
             { 'data' => [{ 'id' => 'afternoon', 'total' => 1 }], 'group_id' => 'september-2020' },
             {
               'data' => [
@@ -254,14 +254,14 @@ describe ManagedReports::Indicators::IncidentTimeofday do
                 { 'id' => 'afternoon', 'total' => 1 },
                 { 'id' => 'morning', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => 'afternoon', 'total' => 1 },
                 { 'id' => 'evening_night', 'total' => 1 }
               ],
-              'group_id' => 'q3-2021'
+              'group_id' => '2021-Q3'
             },
             { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 'q4-2022' }
           ]

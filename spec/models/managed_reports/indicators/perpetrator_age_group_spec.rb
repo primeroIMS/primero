@@ -228,7 +228,7 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
               'data' => [
                 { 'id' => '0_11', 'total' => 1 },
               ],
-              'group_id' => 'august-2020'
+              'group_id' => '2020-08'
             },
             {
               'data' => [
@@ -276,14 +276,14 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
                 { 'id' => '12_17', 'total' => 1 },
                 { 'id' => '18_25', 'total' => 1 }
               ],
-              'group_id' => 'q3-2020'
+              'group_id' => '2020-Q3'
             },
             {
               'data' => [
                 { 'id' => '18_25', 'total' => 1 },
                 { 'id' => '61', 'total' => 2 }
               ],
-              'group_id' => 'q1-2021'
+              'group_id' => '2021-Q1'
             }
           ]
         )

@@ -233,8 +233,8 @@ describe ManagedReports::Indicators::AbductedStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: '2021-08-01',
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
@@ -242,10 +242,14 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: 'february-2022', data: [{ id: 'escape', total: 7 }] },
-            { group_id: 'march-2022', data: [{ id: 'released', total: 9 }] },
-            { group_id: 'august-2020', data: [{ id: 'still_being_held', total: 6 }] },
-            { group_id: 'august-2021', data: [{ id: 'unknown', total: 3 }] }
+            { group_id: '2021-08', data: [{ id: 'unknown', total: 3 }] },
+            { group_id: '2021-09', data: [] },
+            { group_id: '2021-10', data: [] },
+            { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] },
+            { group_id: '2022-01', data: [] },
+            { group_id: '2022-02', data: [{ id: 'escape', total: 7 }] },
+            { group_id: '2022-03', data: [{ id: 'released', total: 9 }] }
           ]
         )
       end
@@ -259,8 +263,8 @@ describe ManagedReports::Indicators::AbductedStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: '2020-06-01',
+              to: '2022-03-20'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
@@ -268,9 +272,14 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: 'q1-2022', data: [{ id: 'escape', total: 7 }, { id: 'released', total: 9 }] },
-            { group_id: 'q3-2020', data: [{ id: 'still_being_held', total: 6 }] },
-            { group_id: 'q3-2021', data: [{ id: 'unknown', total: 3 }] }
+            { group_id: '2020-Q2', data: [] },
+            { group_id: '2020-Q3', data: [{ id: 'still_being_held', total: 6 }] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [] },
+            { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ id: 'unknown', total: 3 }] },
+            { group_id: '2021-Q4', data: [] },
+            { group_id: '2022-Q1', data: [{ id: 'escape', total: 7 }] }
           ]
         )
       end

@@ -80,7 +80,7 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-02-28'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -88,9 +88,25 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: [{ id: 'armed_force_2', total: 1 }] },
-            { group_id: 'may-2021', data: [{ id: 'armed_force_2', total: 1 }] },
-            { group_id: 'february-2022', data: [{ id: 'armed_force_4', total: 1 }] }
+            { group_id: '2020-08', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: '2020-09', data: [] },
+            { group_id: '2020-10', data: [] },
+            { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [] },
+            { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] },
+            { group_id: '2021-04', data: [] },
+            { group_id: '2021-05', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: '2021-06', data: [] },
+            { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [] },
+            { group_id: '2021-09', data: [] },
+            { group_id: '2021-10', data: [] },
+            { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] },
+            { group_id: '2022-01', data: [] },
+            { group_id: '2022-02', data: [{ id: 'armed_force_4', total: 1 }] }
           ]
         )
       end
@@ -105,7 +121,7 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -113,9 +129,13 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
 
         expect(data).to match_array(
           [
-            { group_id: 'q2-2021', data: [{ id: 'armed_force_2', total: 1 }] },
-            { group_id: 'q3-2020', data: [{ id: 'armed_force_2', total: 1 }] },
-            { group_id: 'q1-2022', data: [{ id: 'armed_force_4', total: 1 }] }
+            { group_id: '2020-Q3', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [] },
+            { group_id: '2021-Q2', data: [{ id: 'armed_force_2', total: 1 }] },
+            { group_id: '2021-Q3', data: [] },
+            { group_id: '2021-Q4', data: [] },
+            { group_id: '2022-Q1', data: [{ id: 'armed_force_4', total: 1 }] }
           ]
         )
       end

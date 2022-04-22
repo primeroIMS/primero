@@ -50,7 +50,7 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
 
-    def build_results(results)
+    def build_results(results, params = {})
       unless results.to_a.any? { |result| result['group_id'].present? }
         return ActiveSupport::JSON.decode(results.to_a.first&.dig('data') || '{}')
       end

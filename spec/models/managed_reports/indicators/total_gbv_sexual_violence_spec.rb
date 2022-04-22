@@ -176,7 +176,7 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }], 'group_id' => 'august-2021' },
+            { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }], 'group_id' => '2021-08' },
             { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }], 'group_id' => 'september-2021' },
             { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }], 'group_id' => 'october-2020' }
           ]
@@ -200,7 +200,7 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }], 'group_id' => 'q3-2021' },
+            { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 2 }], 'group_id' => '2021-Q3' },
             { 'data' => [{ 'id' => 'gbv_sexual_violence_type', 'total' => 1 }], 'group_id' => 'q4-2020' }
           ]
         )

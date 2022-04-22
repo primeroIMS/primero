@@ -202,7 +202,7 @@ describe ManagedReports::Indicators::TotalIncidents do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'incidents', 'total' => 1 }], 'group_id' => 'august-2021' },
+            { 'data' => [{ 'id' => 'incidents', 'total' => 1 }], 'group_id' => '2021-08' },
             { 'data' => [{ 'id' => 'incidents', 'total' => 1 }], 'group_id' => 'september-2021' },
             { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'october-2020' }
           ]
@@ -226,7 +226,7 @@ describe ManagedReports::Indicators::TotalIncidents do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'q3-2021' },
+            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => '2021-Q3' },
             { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'q4-2020' }
           ]
         )
