@@ -6,11 +6,11 @@ module Reports
   class Utils
     # rubocop:enable Style/ClassAndModuleChildren
     class << self
-      def group_values(values, group_pivot_index)
+      def group_values(values, group_pivot_index, &block)
         return values if group_pivot_index.blank?
 
         result = {}
-        group_buckets = group_buckets(values, group_pivot_index)
+        group_buckets = group_buckets(values, group_pivot_index, &block)
         # for every bucket, merge the contents
         group_buckets.each do |group, bucket|
           result.merge!(process_bucket_group(group, bucket, group_pivot_index))
