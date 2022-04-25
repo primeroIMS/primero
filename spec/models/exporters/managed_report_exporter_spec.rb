@@ -253,7 +253,7 @@ describe Exporters::ManagedReportExporter do
         end
 
         it 'prints indicator tables' do
-          expect(workbook.sheet(1).row(5)).to eq(['Number of Primary Perpetrators', nil])
+          expect(workbook.sheet(1).row(5)).to eq(['Number of Perpetrators', nil])
           expect(workbook.sheet(1).row(6)).to eq([nil, 'Total'])
           expect(workbook.sheet(1).row(7)).to eq([1, 1])
           expect(workbook.sheet(1).row(8)).to eq([2, 1])
