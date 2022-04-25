@@ -204,7 +204,7 @@ describe ManagedReports::Indicators::IncidentLocationType do
             )
           }
         ).data
-        p data
+
         expect(data).to match_array(
           [
             { group_id: '2020-08', data: [{ 'id' => 'forest', 'total' => 1 }] },
@@ -237,7 +237,7 @@ describe ManagedReports::Indicators::IncidentLocationType do
             )
           }
         ).data
-        p data
+
         expect(data).to match_array(
           [
             { group_id: '2020-Q3', data: [{ 'id' => 'forest', 'total' => 1 }, { 'id' => 'road', 'total' => 1 }] },

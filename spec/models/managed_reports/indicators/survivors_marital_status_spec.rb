@@ -179,20 +179,9 @@ describe ManagedReports::Indicators::SurvivorsMaritalStatus do
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => 'status_1', 'total' => 1 },
-                { 'id' => 'status_2', 'total' => 1 }
-              ],
-              'group_id' => 2020
-            },
-            {
-              'data' => [
-                { 'id' => 'status_2', 'total' => 1 },
-                { 'id' => 'status_3', 'total' => 2 }
-              ],
-              'group_id' => 2021
-            }
+            { group_id: 2020, data: [{ 'id' => 'status_1', 'total' => 1 }, { 'id' => 'status_2', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => 'status_2', 'total' => 1 }, { 'id' => 'status_3', 'total' => 2 }] },
+            { group_id: 2022, data: [] }
           ]
         )
       end
@@ -207,18 +196,20 @@ describe ManagedReports::Indicators::SurvivorsMaritalStatus do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-31'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'status_1', 'total' => 1 }], 'group_id' => '2020-08' },
-            { 'data' => [{ 'id' => 'status_2', 'total' => 1 }], 'group_id' => 'september-2020' },
-            { 'data' => [{ 'id' => 'status_2', 'total' => 1 }], 'group_id' => 'january-2021' },
-            { 'data' => [{ 'id' => 'status_3', 'total' => 1 }], 'group_id' => 'february-2021' },
-            { 'data' => [{ 'id' => 'status_3', 'total' => 1 }], 'group_id' => 'march-2021' }
+            { group_id: '2020-08', data: [{ 'id' => 'status_1', 'total' => 1 }] },
+            { group_id: '2020-09', data: [{ 'id' => 'status_2', 'total' => 1 }] },
+            { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [{ 'id' => 'status_2', 'total' => 1 }] },
+            { group_id: '2021-02', data: [{ 'id' => 'status_3', 'total' => 1 }] },
+            { group_id: '2021-03', data: [{ 'id' => 'status_3', 'total' => 1 }] }
           ]
         )
       end
@@ -233,27 +224,16 @@ describe ManagedReports::Indicators::SurvivorsMaritalStatus do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-31'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => 'status_1', 'total' => 1 },
-                { 'id' => 'status_2', 'total' => 1 }
-              ],
-              'group_id' => '2020-Q3'
-            },
-            {
-              'data' => [
-                { 'id' => 'status_2', 'total' => 1 },
-                { 'id' => 'status_3', 'total' => 2 }
-              ],
-              'group_id' => '2021-Q1'
-            }
+            { group_id: '2020-Q3', data: [{ 'id' => 'status_1', 'total' => 1 }, { 'id' => 'status_2', 'total' => 1 }] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [{ 'id' => 'status_2', 'total' => 1 }, { 'id' => 'status_3', 'total' => 2 }] }
           ]
         )
       end

@@ -185,20 +185,9 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => '0 - 5', 'total' => 1 },
-                { 'id' => '6 - 11', 'total' => 1 }
-              ],
-              'group_id' => 2020
-            },
-            {
-              'data' => [
-                { 'id' => '12 - 17', 'total' => 1 },
-                { 'id' => '18+', 'total' => 2 }
-              ],
-              'group_id' => 2021
-            }
+            { group_id: 2020, data: [{ 'id' => '0 - 5', 'total' => 1 }, { 'id' => '6 - 11', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => '12 - 17', 'total' => 1 }, { 'id' => '18+', 'total' => 2 }] },
+            { group_id: 2022, data: [] }
           ]
         )
       end
@@ -213,18 +202,19 @@ describe ManagedReports::Indicators::SurvivorsAge do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-30'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => '2020-08' },
-            { 'data' => [{ 'id' => '13', 'total' => 1 }], 'group_id' => 'september-2020' },
-            { 'data' => [{ 'id' => '10', 'total' => 1 }], 'group_id' => 'january-2021' },
-            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'february-2021' },
-            { 'data' => [{ 'id' => '15', 'total' => 1 }], 'group_id' => 'march-2021' }
+            { group_id: '2020-08', data: [{ 'id' => '0 - 5', 'total' => 1 }] },
+            { group_id: '2020-09', data: [{ 'id' => '6 - 11', 'total' => 1 }] },
+            { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [{ 'id' => '12 - 17', 'total' => 1 }] },
+            { group_id: '2021-02', data: [{ 'id' => '18+', 'total' => 1 }] },
+            { group_id: '2021-03', data: [{ 'id' => '18+', 'total' => 1 }] }
           ]
         )
       end
@@ -239,27 +229,16 @@ describe ManagedReports::Indicators::SurvivorsAge do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-30'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => '0 - 5', 'total' => 1 },
-                { 'id' => '6 - 11', 'total' => 1 }
-              ],
-              'group_id' => '2020-Q3'
-            },
-            {
-              'data' => [
-                { 'id' => '12 - 17', 'total' => 1 },
-                { 'id' => '18+', 'total' => 2 }
-              ],
-              'group_id' => '2021-Q1'
-            }
+            { group_id: '2020-Q3', data: [{ 'id' => '0 - 5', 'total' => 1 }, { 'id' => '6 - 11', 'total' => 1 }] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [{ 'id' => '12 - 17', 'total' => 1 }, { 'id' => '18+', 'total' => 2 }] }
           ]
         )
       end
