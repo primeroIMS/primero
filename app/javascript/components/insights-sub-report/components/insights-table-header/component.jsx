@@ -5,7 +5,7 @@ import isNil from "lodash/isNil";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-const InsightsTableHeader = ({ addEmptyCell, columns }) => {
+const InsightsTableHeader = ({ addEmptyCell = true, columns }) => {
   const groupedSubcolumns = columns.reduce((acc, column) => ({ ...acc, [column.label]: column.items }), {});
   const subcolumnsNumber = Object.values(groupedSubcolumns)
     .flat()
@@ -34,10 +34,6 @@ const InsightsTableHeader = ({ addEmptyCell, columns }) => {
 };
 
 InsightsTableHeader.displayName = NAME;
-
-InsightsTableHeader.defaultProps = {
-  addEmptyCell: true
-};
 
 InsightsTableHeader.propTypes = {
   addEmptyCell: PropTypes.bool,

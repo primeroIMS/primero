@@ -8,7 +8,14 @@ import InsightsTableHeader from "../../insights-sub-report/components/insights-t
 import { TableHeader, TableRows } from "./components";
 import css from "./styles.css";
 
-const TableValues = ({ columns, values, showPlaceholder = false, name = "", emptyMessage = "", useInsightsHeader }) => {
+const TableValues = ({
+  columns,
+  values,
+  showPlaceholder = false,
+  name = "",
+  emptyMessage = "",
+  useInsightsHeader = false
+}) => {
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
   return (
@@ -30,10 +37,6 @@ const TableValues = ({ columns, values, showPlaceholder = false, name = "", empt
 };
 
 TableValues.displayName = "TableValues";
-
-TableValues.defaultProps = {
-  useInsightsHeader: false
-};
 
 TableValues.propTypes = {
   columns: PropTypes.array,
