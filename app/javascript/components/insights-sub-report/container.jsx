@@ -24,7 +24,7 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { NAME, COMBINED_INDICATORS, GROUPED_BY_FILTER } from "./constants";
+import { COMBINED_INDICATORS, GROUPED_BY_FILTER, NAME } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -92,11 +92,13 @@ const Component = () => {
               <>
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
                 <TableValues
+                  useInsightsHeader
                   columns={buildInsightColumns({
                     value: singleInsightsTableData,
                     isGrouped,
                     groupedBy,
-                    localizeDate: i18n.localizeDate
+                    localizeDate: i18n.localizeDate,
+                    totalText
                   })}
                   values={buildInsightValues({
                     getLookupValue: lookupValue,
@@ -131,7 +133,14 @@ const Component = () => {
                     hideLegend
                   />
                   <TableValues
-                    columns={buildInsightColumns({ value, isGrouped, groupedBy, localizeDate: i18n.localizeDate })}
+                    useInsightsHeader
+                    columns={buildInsightColumns({
+                      value,
+                      isGrouped,
+                      groupedBy,
+                      localizeDate: i18n.localizeDate,
+                      totalText
+                    })}
                     values={buildInsightValues({
                       getLookupValue: lookupValue,
                       data: value,

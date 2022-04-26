@@ -219,7 +219,7 @@ describe ManagedReports::Indicators::Perpetrators do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -227,9 +227,15 @@ describe ManagedReports::Indicators::Perpetrators do
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: [{ id: 'armed_force_2', girls: 1, boys: 1, unknown: 1, total: 3 }] },
-            { group_id: 'august-2021', data: [{ id: 'armed_force_2', total: 3, boys: 1, unknown: 1, girls: 1 }] },
-            { group_id: 'march-2022', data: [{ id: 'armed_force_4', boys: 3, total: 5, girls: 1, unknown: 1 }] }
+            { group_id: '2020-08', data: [{ id: 'armed_force_2', girls: 1, boys: 1, unknown: 1, total: 3 }] },
+            { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [{ id: 'armed_force_2', total: 3, boys: 1, unknown: 1, girls: 1 }] },
+            { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] }, { group_id: '2022-01', data: [] }, { group_id: '2022-02', data: [] },
+            { group_id: '2022-03', data: [{ id: 'armed_force_4', boys: 3, total: 5, girls: 1, unknown: 1 }] }
           ]
         )
       end
@@ -244,7 +250,7 @@ describe ManagedReports::Indicators::Perpetrators do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -252,9 +258,11 @@ describe ManagedReports::Indicators::Perpetrators do
 
         expect(data).to match_array(
           [
-            { group_id: 'q3-2020', data: [{ id: 'armed_force_2', unknown: 1, girls: 1, boys: 1, total: 3 }] },
-            { group_id: 'q3-2021', data: [{ id: 'armed_force_2', total: 3, boys: 1, unknown: 1, girls: 1 }] },
-            { group_id: 'q1-2022', data: [{ id: 'armed_force_4', total: 5, unknown: 1, girls: 1, boys: 3 }] }
+            { group_id: '2020-Q3', data: [{ id: 'armed_force_2', unknown: 1, girls: 1, boys: 1, total: 3 }] },
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ id: 'armed_force_2', total: 3, boys: 1, unknown: 1, girls: 1 }] },
+            { group_id: '2021-Q4', data: [] },
+            { group_id: '2022-Q1', data: [{ id: 'armed_force_4', total: 5, unknown: 1, girls: 1, boys: 3 }] }
           ]
         )
       end

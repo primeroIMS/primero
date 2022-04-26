@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::TotalIncidents do
@@ -179,8 +181,8 @@ describe ManagedReports::Indicators::TotalIncidents do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 2020 },
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 2021 }
+            { group_id: 2020, data: [{ 'id' => 'incidents', 'total' => 2 }] },
+            { group_id: 2021, data: [{ 'id' => 'incidents', 'total' => 2 }] }
           ]
         )
       end
@@ -202,9 +204,16 @@ describe ManagedReports::Indicators::TotalIncidents do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'incidents', 'total' => 1 }], 'group_id' => 'august-2021' },
-            { 'data' => [{ 'id' => 'incidents', 'total' => 1 }], 'group_id' => 'september-2021' },
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'october-2020' }
+            { group_id: '2020-09', data: [] },
+            { group_id: '2020-10', data: [{ 'id' => 'incidents', 'total' => 2 }] },
+            { group_id: '2020-11', data: [] }, { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] },
+            { group_id: '2021-05', data: [] }, { group_id: '2021-06', data: [] },
+            { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: '2021-09', data: [{ 'id' => 'incidents', 'total' => 1 }] },
+            { group_id: '2021-10', data: [] }
           ]
         )
       end
@@ -226,8 +235,11 @@ describe ManagedReports::Indicators::TotalIncidents do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'q3-2021' },
-            { 'data' => [{ 'id' => 'incidents', 'total' => 2 }], 'group_id' => 'q4-2020' }
+            { group_id: '2020-Q3', data: [] },
+            { group_id: '2020-Q4', data: [{ 'id' => 'incidents', 'total' => 2 }] },
+            { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ 'id' => 'incidents', 'total' => 2 }] },
+            { group_id: '2021-Q4', data: [] }
           ]
         )
       end

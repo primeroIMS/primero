@@ -5,26 +5,25 @@ import getDataGroups from "./get-data-groups";
 import translateGroups from "./translate-groups";
 
 const buildGroupedColumns = (value, groupedBy, localizeDate) => {
-  const { years, groups } = getDataGroups(value, groupedBy);
+  const groups = getDataGroups(value, groupedBy);
   const groupComparator = getGroupComparator(groupedBy);
   const yearComparator = getGroupComparator(YEAR);
 
   if (groupedBy === YEAR) {
-    return [{ items: years.sort(yearComparator), colspan: 1 }];
+    return groups.sort(yearComparator).map(year => ({ label: year, colspan: 1 }));
   }
 
-  const translatedGroups = translateGroups(groups.sort(groupComparator), groupedBy, localizeDate);
-
-  return [
-    { items: years.sort(yearComparator), colspan: groups.length },
-    { items: translatedGroups, addEmptyCell: false }
-  ];
+  return Object.keys(groups).map(year => ({
+    label: year,
+    items: translateGroups(groups[year].sort(groupComparator), groupedBy, localizeDate),
+    colspan: groups[year].length
+  }));
 };
 
-export default ({ value, isGrouped, groupedBy, localizeDate }) => {
+export default ({ value, isGrouped, groupedBy, localizeDate, totalText }) => {
   if (isGrouped && groupedBy) {
     return buildGroupedColumns(value, groupedBy, localizeDate);
   }
 
-  return [];
+  return [{ label: totalText }];
 };

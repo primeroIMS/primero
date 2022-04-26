@@ -189,20 +189,15 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
         expect(data).to match_array(
           [
             {
-              'data' => [
+              group_id: 2020,
+              data: [
                 { 'id' => '0_11', 'total' => 1 },
                 { 'id' => '12_17', 'total' => 1 },
                 { 'id' => '18_25', 'total' => 1 }
-              ],
-              'group_id' => 2020
+              ]
             },
-            {
-              'data' => [
-                { 'id' => '18_25', 'total' => 1 },
-                { 'id' => '61', 'total' => 2 }
-              ],
-              'group_id' => 2021
-            }
+            { group_id: 2021, data: [{ 'id' => '18_25', 'total' => 1 }, { 'id' => '61', 'total' => 2 }] },
+            { group_id: 2022, data: [] }
           ]
         )
       end
@@ -217,38 +212,18 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-02-28'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => '0_11', 'total' => 1 },
-              ],
-              'group_id' => 'august-2020'
-            },
-            {
-              'data' => [
-                { 'id' => '12_17', 'total' => 1 },
-                { 'id' => '18_25', 'total' => 1 }
-              ],
-              'group_id' => 'september-2020'
-            },
-            {
-              'data' => [
-                { 'id' => '18_25', 'total' => 1 }
-              ],
-              'group_id' => 'january-2021'
-            },
-            {
-              'data' => [
-                { 'id' => '61', 'total' => 2 }
-              ],
-              'group_id' => 'february-2021'
-            }
+            { group_id: '2020-08', data: [{ 'id' => '0_11', 'total' => 1 }] },
+            { group_id: '2020-09', data: [{ 'id' => '12_17', 'total' => 1 }, { 'id' => '18_25', 'total' => 1 }] },
+            { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [{ 'id' => '18_25', 'total' => 1 }] },
+            { group_id: '2021-02', data: [{ 'id' => '61', 'total' => 2 }] }
           ]
         )
       end
@@ -263,28 +238,21 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-30'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
+            { group_id: '2020-Q3',
+              data: [
                 { 'id' => '0_11', 'total' => 1 },
                 { 'id' => '12_17', 'total' => 1 },
                 { 'id' => '18_25', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2020'
-            },
-            {
-              'data' => [
-                { 'id' => '18_25', 'total' => 1 },
-                { 'id' => '61', 'total' => 2 }
-              ],
-              'group_id' => 'q1-2021'
-            }
+              ] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [{ 'id' => '18_25', 'total' => 1 }, { 'id' => '61', 'total' => 2 }] }
           ]
         )
       end

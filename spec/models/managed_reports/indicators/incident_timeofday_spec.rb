@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ManagedReports::Indicators::IncidentTimeofday do
@@ -182,21 +184,12 @@ describe ManagedReports::Indicators::IncidentTimeofday do
 
         expect(data).to match_array(
           [
+            { group_id: 2020, data: [{ 'id' => 'afternoon', 'total' => 1 }, { 'id' => 'morning', 'total' => 1 }] },
             {
-              'data' => [
-                { 'id' => 'afternoon', 'total' => 1 },
-                { 'id' => 'morning', 'total' => 1 }
-              ],
-              'group_id' => 2020
+              group_id: 2021,
+              data: [{ 'id' => 'afternoon', 'total' => 1 }, { 'id' => 'evening_night', 'total' => 1 }]
             },
-            {
-              'data' => [
-                { 'id' => 'afternoon', 'total' => 1 },
-                { 'id' => 'evening_night', 'total' => 1 }
-              ],
-              'group_id' => 2021
-            },
-            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 2022 }
+            { group_id: 2022, data: [{ 'id' => 'unknown', 'total' => 1 }] }
           ]
         )
       end
@@ -218,16 +211,21 @@ describe ManagedReports::Indicators::IncidentTimeofday do
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'morning', 'total' => 1 }], 'group_id' => 'august-2020' },
-            { 'data' => [{ 'id' => 'afternoon', 'total' => 1 }], 'group_id' => 'september-2020' },
+            { group_id: '2020-08', data: [{ 'id' => 'morning', 'total' => 1 }] },
+            { group_id: '2020-09', data: [{ 'id' => 'afternoon', 'total' => 1 }] },
+            { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] }, { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] }, { group_id: '2021-03', data: [] },
+            { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] }, { group_id: '2021-06', data: [] },
+            { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
             {
-              'data' => [
-                { 'id' => 'afternoon', 'total' => 1 },
-                { 'id' => 'evening_night', 'total' => 1 }
-              ],
-              'group_id' => 'september-2021'
+              group_id: '2021-09',
+              data: [{ 'id' => 'afternoon', 'total' => 1 }, { 'id' => 'evening_night', 'total' => 1 }]
             },
-            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 'october-2022' }
+            { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] }, { group_id: '2021-12', data: [] },
+            { group_id: '2022-01', data: [] }, { group_id: '2022-02', data: [] }, { group_id: '2022-03', data: [] },
+            { group_id: '2022-04', data: [] }, { group_id: '2022-05', data: [] }, { group_id: '2022-06', data: [] },
+            { group_id: '2022-07', data: [] }, { group_id: '2022-08', data: [] }, { group_id: '2022-09', data: [] },
+            { group_id: '2022-10', data: [{ 'id' => 'unknown', 'total' => 1 }] }
           ]
         )
       end
@@ -249,21 +247,14 @@ describe ManagedReports::Indicators::IncidentTimeofday do
 
         expect(data).to match_array(
           [
+            { group_id: '2020-Q3', data: [{ 'id' => 'afternoon', 'total' => 1 }, { 'id' => 'morning', 'total' => 1 }] },
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
             {
-              'data' => [
-                { 'id' => 'afternoon', 'total' => 1 },
-                { 'id' => 'morning', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2020'
+              group_id: '2021-Q3',
+              data: [{ 'id' => 'afternoon', 'total' => 1 }, { 'id' => 'evening_night', 'total' => 1 }]
             },
-            {
-              'data' => [
-                { 'id' => 'afternoon', 'total' => 1 },
-                { 'id' => 'evening_night', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2021'
-            },
-            { 'data' => [{ 'id' => 'unknown', 'total' => 1 }], 'group_id' => 'q4-2022' }
+            { group_id: '2021-Q4', data: [] }, { group_id: '2022-Q1', data: [] }, { group_id: '2022-Q2', data: [] },
+            { group_id: '2022-Q3', data: [] }, { group_id: '2022-Q4', data: [{ 'id' => 'unknown', 'total' => 1 }] }
           ]
         )
       end

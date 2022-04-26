@@ -267,7 +267,7 @@ describe ManagedReports::Indicators::AttackType do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-04-10'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -275,11 +275,27 @@ describe ManagedReports::Indicators::AttackType do
 
         expect(data).to match_array(
           [
-            { group_id: 'august-2020', data: [{ id: 'aerial_attack', total: 3, boys: 1, unknown: 1, girls: 1 }] },
-            { group_id: 'august-2021', data: [{ id: 'other', total: 20, girls: 10, unknown: 5, boys: 5 }] },
-            { group_id: 'january-2022', data: [{ id: 'arson', total: 3, girls: 1, boys: 1, unknown: 1 }] },
-            { group_id: 'february-2022', data: [{ id: 'arson', boys: 1, unknown: 0, total: 2, girls: 1 }] },
-            { group_id: 'march-2022', data: [{ id: 'aerial_attack', unknown: 0, boys: 2, girls: 1, total: 3 }] }
+            { group_id: '2020-08', data: [{ id: 'aerial_attack', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2020-09', data: [] },
+            { group_id: '2020-10', data: [] },
+            { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] },
+            { group_id: '2021-01', data: [] },
+            { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] },
+            { group_id: '2021-04', data: [] },
+            { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] },
+            { group_id: '2021-07', data: [] },
+            { group_id: '2021-08', data: [{ id: 'other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
+            { group_id: '2021-09', data: [] },
+            { group_id: '2021-10', data: [] },
+            { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] },
+            { group_id: '2022-01', data: [{ id: 'arson', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2022-02', data: [{ id: 'arson', boys: 1, girls: 1, total: 2, unknown: 0 }] },
+            { group_id: '2022-03', data: [{ id: 'aerial_attack', boys: 2, girls: 1, total: 3, unknown: 0 }] },
+            { group_id: '2022-04', data: [] }
           ]
         )
       end
@@ -294,7 +310,7 @@ describe ManagedReports::Indicators::AttackType do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-29'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -302,23 +318,17 @@ describe ManagedReports::Indicators::AttackType do
 
         expect(data).to match_array(
           [
+            { group_id: '2020-Q3', data: [{ id: 'aerial_attack', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2020-Q4', data: [] },
+            { group_id: '2021-Q1', data: [] },
+            { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3', data: [{ id: 'other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
+            { group_id: '2021-Q4', data: [] },
             {
-              group_id: 'q3-2020',
+              group_id: '2022-Q1',
               data: [
-                { id: 'aerial_attack', total: 3, girls: 1, unknown: 1, boys: 1 }
-              ]
-            },
-            {
-              group_id: 'q3-2021',
-              data: [
-                { id: 'other', girls: 10, total: 20, boys: 5, unknown: 5 }
-              ]
-            },
-            {
-              group_id: 'q1-2022',
-              data: [
-                { id: 'aerial_attack', unknown: 0, boys: 2, total: 3, girls: 1 },
-                { id: 'arson', boys: 2, total: 5, girls: 2, unknown: 1 }
+                { id: 'aerial_attack', boys: 2, girls: 1, total: 3, unknown: 0 },
+                { id: 'arson', boys: 2, girls: 2, total: 5, unknown: 1 }
               ]
             }
           ]

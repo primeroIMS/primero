@@ -8,7 +8,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
     end
 
     def sql(current_user, params = {})
-      date_param = params['incident_date'] || params['date_of_first_report']
+      date_param = filter_date(params)
       %{
         select
          'gbv_sexual_violence_type' as id,

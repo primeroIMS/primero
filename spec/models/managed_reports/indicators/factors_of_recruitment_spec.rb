@@ -290,7 +290,7 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
           }
@@ -299,38 +299,44 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
         expect(data).to match_array(
           [
             {
-              group_id: 'august-2020',
+              group_id: '2020-08',
               data: [
-                { 'boys' => 1, 'total' => 3, 'girls' => 1, 'unknown' => 1, 'id' => 'abduction' },
-                { 'girls' => 1, 'total' => 3, 'boys' => 1, 'unknown' => 1, 'id' => 'conscription' }
+                { 'girls' => 1, 'boys' => 1, 'total' => 3, 'unknown' => 1, 'id' => 'abduction' },
+                { 'unknown' => 1, 'total' => 3, 'boys' => 1, 'girls' => 1, 'id' => 'conscription' }
+              ]
+            },
+            { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
+            { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] },
+            {
+              group_id: '2021-08',
+              data: [
+                { 'total' => 20, 'unknown' => 5, 'boys' => 5, 'girls' => 10, 'id' => 'other' },
+                { 'unknown' => 5, 'girls' => 10, 'boys' => 5, 'total' => 20, 'id' => 'unknown' }
+              ]
+            },
+            { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] },
+            {
+              group_id: '2022-01',
+              data: [
+                { 'total' => 3, 'unknown' => 1, 'girls' => 1, 'boys' => 1, 'id' => 'idealism' },
+                { 'girls' => 1, 'total' => 3, 'boys' => 1, 'unknown' => 1, 'id' => 'intimidation' }
               ]
             },
             {
-              group_id: 'august-2021',
-              data: [
-                { 'unknown' => 5, 'total' => 20, 'boys' => 5, 'girls' => 10, 'id' => 'other' },
-                { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20, 'id' => 'unknown' }
-              ]
-            },
-            {
-              group_id: 'january-2022',
-              data: [
-                { 'girls' => 1, 'unknown' => 1, 'boys' => 1, 'total' => 3, 'id' => 'idealism' },
-                { 'unknown' => 1, 'boys' => 1, 'total' => 3, 'girls' => 1, 'id' => 'intimidation' }
-              ]
-            },
-            {
-              group_id: 'february-2022',
+              group_id: '2022-02',
               data: [
                 { 'unknown' => 0, 'boys' => 1, 'total' => 2, 'girls' => 1, 'id' => 'abduction' },
-                { 'girls' => 1, 'boys' => 1, 'unknown' => 0, 'total' => 2, 'id' => 'idealism' }
+                { 'boys' => 1, 'girls' => 1, 'total' => 2, 'unknown' => 0, 'id' => 'idealism' }
               ]
             },
             {
-              group_id: 'march-2022',
+              group_id: '2022-03',
               data: [
-                { 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'total' => 3, 'id' => 'conscription' },
-                { 'girls' => 1, 'boys' => 2, 'total' => 3, 'unknown' => 0, 'id' => 'other' }
+                { 'total' => 3, 'girls' => 1, 'boys' => 2, 'unknown' => 0, 'id' => 'conscription' },
+                { 'total' => 3, 'unknown' => 0, 'boys' => 2, 'girls' => 1, 'id' => 'other' }
               ]
             }
           ]
@@ -347,7 +353,7 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2022-03-30'
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment')
           }
@@ -356,27 +362,29 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
         expect(data).to match_array(
           [
             {
-              group_id: 'q1-2022',
+              group_id: '2020-Q3',
               data: [
-                { 'unknown' => 0, 'total' => 2, 'girls' => 1, 'boys' => 1, 'id' => 'abduction' },
-                { 'total' => 3, 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'id' => 'conscription' },
-                { 'girls' => 2, 'unknown' => 1, 'boys' => 2, 'total' => 5, 'id' => 'idealism' },
-                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, 'id' => 'intimidation' },
-                { 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'total' => 3, 'id' => 'other' }
+                { 'boys' => 1, 'total' => 3, 'unknown' => 1, 'girls' => 1, 'id' => 'abduction' },
+                { 'girls' => 1, 'boys' => 1, 'total' => 3, 'unknown' => 1, 'id' => 'conscription' }
               ]
             },
-            {
-              group_id: 'q3-2020',
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
+            { group_id: '2021-Q3',
               data: [
-                { 'boys' => 1, 'unknown' => 1, 'total' => 3, 'girls' => 1, 'id' => 'abduction' },
-                { 'boys' => 1, 'unknown' => 1, 'girls' => 1, 'total' => 3, 'id' => 'conscription' }
-              ]
+                { 'unknown' => 5, 'total' => 20, 'girls' => 10, 'boys' => 5, 'id' => 'other' },
+                { 'girls' => 10, 'boys' => 5, 'total' => 20, 'unknown' => 5, 'id' => 'unknown' }
+              ] },
+            {
+              group_id: '2021-Q4', data: []
             },
             {
-              group_id: 'q3-2021',
+              group_id: '2022-Q1',
               data: [
-                { 'boys' => 5, 'unknown' => 5, 'total' => 20, 'girls' => 10, 'id' => 'other' },
-                { 'total' => 20, 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'id' => 'unknown' }
+                { 'total' => 2, 'unknown' => 0, 'girls' => 1, 'boys' => 1, 'id' => 'abduction' },
+                { 'unknown' => 0, 'girls' => 1, 'boys' => 2, 'total' => 3, 'id' => 'conscription' },
+                { 'girls' => 2, 'unknown' => 1, 'total' => 5, 'boys' => 2, 'id' => 'idealism' },
+                { 'unknown' => 1, 'total' => 3, 'boys' => 1, 'girls' => 1, 'id' => 'intimidation' },
+                { 'total' => 3, 'unknown' => 0, 'boys' => 2, 'girls' => 1, 'id' => 'other' }
               ]
             }
           ]

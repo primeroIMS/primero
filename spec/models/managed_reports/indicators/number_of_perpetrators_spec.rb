@@ -132,7 +132,7 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
 
       expect(data).to match_array(
         [
-          { 'id' => 'equal_to_2', 'total' => 1 },
+          { 'id' => 'equal_to_2', 'total' => 1 }
         ]
       )
     end
@@ -188,20 +188,9 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
 
         expect(data).to match_array(
           [
-            {
-              'data' => [
-                { 'id' => 'equal_to_1', 'total' => 1 },
-                { 'id' => 'equal_to_2', 'total' => 1 }
-              ],
-              'group_id' => 2020
-            },
-            {
-              'data' => [
-                { 'id' => 'equal_to_1', 'total' => 1 },
-                { 'id' => 'equal_to_3', 'total' => 1 }
-              ],
-              'group_id' => 2021
-            }
+            { group_id: 2020, data: [{ 'id' => 'equal_to_1', 'total' => 1 }, { 'id' => 'equal_to_2', 'total' => 1 }] },
+            { group_id: 2021, data: [{ 'id' => 'equal_to_1', 'total' => 1 }, { 'id' => 'equal_to_3', 'total' => 1 }] },
+            { group_id: 2022, data: [] }
           ]
         )
       end
@@ -216,17 +205,18 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-02-28'
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            { 'data' => [{ 'id' => 'equal_to_2', 'total' => 1 }], 'group_id' => 'august-2020' },
-            { 'data' => [{ 'id' => 'equal_to_1', 'total' => 1 }], 'group_id' => 'september-2020' },
-            { 'data' => [{ 'id' => 'equal_to_1', 'total' => 1 }], 'group_id' => 'january-2021' },
-            { 'data' => [{ 'id' => 'equal_to_3', 'total' => 1 }], 'group_id' => 'february-2021' }
+            { group_id: '2020-08', data: [{ 'id' => 'equal_to_2', 'total' => 1 }] },
+            { group_id: '2020-09', data: [{ 'id' => 'equal_to_1', 'total' => 1 }] },
+            { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [{ 'id' => 'equal_to_1', 'total' => 1 }] },
+            { group_id: '2021-02', data: [{ 'id' => 'equal_to_3', 'total' => 1 }] }
           ]
         )
       end
@@ -241,7 +231,7 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
               from: '2020-08-01',
-              to: '2022-10-10'
+              to: '2021-03-30'
             )
           }
         ).data
@@ -249,18 +239,16 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
         expect(data).to match_array(
           [
             {
-              'data' => [
+              group_id: '2020-Q3',
+              data: [
                 { 'id' => 'equal_to_1', 'total' => 1 },
                 { 'id' => 'equal_to_2', 'total' => 1 }
-              ],
-              'group_id' => 'q3-2020'
+              ]
             },
+            { group_id: '2020-Q4', data: [] },
             {
-              'data' => [
-                { 'id' => 'equal_to_1', 'total' => 1 },
-                { 'id' => 'equal_to_3', 'total' => 1 }
-              ],
-              'group_id' => 'q1-2021'
+              group_id: '2021-Q1',
+              data: [{ 'id' => 'equal_to_1', 'total' => 1 }, { 'id' => 'equal_to_3', 'total' => 1 }]
             }
           ]
         )
