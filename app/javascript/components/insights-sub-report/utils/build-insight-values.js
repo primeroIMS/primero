@@ -1,5 +1,6 @@
 import { fromJS } from "immutable";
 import first from "lodash/first";
+import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 
 import { YEAR } from "../../insights/constants";
@@ -7,7 +8,7 @@ import { YEAR } from "../../insights/constants";
 import getGroupComparator from "./get-group-comparator";
 import yearComparator from "./year-comparator";
 import getDataGroups from "./get-data-groups";
-import sortByAgeRange from "./sort-rows-by-age-range";
+import sortWithSortedArray from "./sort-with-sorted-array";
 
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
@@ -56,7 +57,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
     .sort(yearComparator)
     .reduce((acc1, year, yearIndex) => {
       // index + 1 because the first value is the title of the row
-      const columnInitialIndex = yearIndex + 1;
+      const columnInitialIndex = groups[year].length * yearIndex + 1;
 
       groups[year].sort(groupComparator).forEach((group, index) => {
         const tuples = groupedData
@@ -72,7 +73,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
     .map(value => ({ colspan: 0, row: value }));
 };
 
-const buildSingleRows = ({ data, getLookupValue, key }) =>
+const buildSingleRows = ({ getLookupValue, data, key }) =>
   data
     .map(value => {
       const lookupValue = getLookupValue(key, value);
@@ -81,13 +82,25 @@ const buildSingleRows = ({ data, getLookupValue, key }) =>
     })
     .toArray();
 
-export default ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges }) => {
+export default ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues }) => {
   if (data === 0) return [];
+
+  const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+
+  const sortByFn = elem => first(elem.row);
 
   const rows =
     isGrouped && groupedBy
-      ? buildGroupedRows({ data, key, getLookupValue, groupedBy, ageRanges })
+      ? buildGroupedRows({ data, key, getLookupValue, groupedBy })
       : buildSingleRows({ data, getLookupValue, key });
 
-  return key !== "age" ? sortBy(rows, row => first(row.row)) : sortByAgeRange(rows, ageRanges);
+  if (key === "age") {
+    return sortWithSortedArray(rows, ageRanges, sortByFn);
+  }
+
+  if (!isEmpty(lookupDisplayTexts)) {
+    return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn);
+  }
+
+  return sortBy(rows, row => first(row.row));
 };

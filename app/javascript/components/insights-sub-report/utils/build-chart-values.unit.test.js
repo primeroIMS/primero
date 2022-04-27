@@ -186,13 +186,13 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
 
       expect(chartValues.datasets).to.have.lengthOf(3);
       expect(chartValues.datasets.map(dataset => dataset.label)).to.deep.equals([
-        "january-2022",
+        "january-2024",
         "january-2023",
-        "january-2024"
+        "january-2022"
       ]);
-      expect(chartValues.datasets[0].data).to.deep.equals([1, 2, 0]);
+      expect(chartValues.datasets[0].data).to.deep.equals([0, 2, 8]);
       expect(chartValues.datasets[1].data).to.deep.equals([3, 1, 0]);
-      expect(chartValues.datasets[2].data).to.deep.equals([0, 2, 8]);
+      expect(chartValues.datasets[2].data).to.deep.equals([1, 2, 0]);
       expect(chartValues.labels).to.deep.equal(["option_1", "option_2", "option_3"]);
     });
   });
