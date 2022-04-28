@@ -181,6 +181,14 @@ class Lookup < ApplicationRecord
     )
   end
 
+  def enabled_values(locale)
+    values = lookup_values(locale)
+
+    return [] if values.blank?
+
+    values.filter { |lookup| !lookup['disabled'] }
+  end
+
   private
 
   def validate_name_in_english

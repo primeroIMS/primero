@@ -115,6 +115,7 @@ const Component = ({
   return (
     <ActionDialog
       open={openTransferDialog}
+      successHandler={approvalType === ACCEPTED && handleOk}
       cancelHandler={handleCancel}
       dialogTitle=""
       pending={pending}

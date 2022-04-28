@@ -101,7 +101,7 @@ module Workflow
       status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
       workflow_assessment(status_list, locale, modules)
       workflow_case_plan(status_list, locale, modules)
-      status_list += lookup&.lookup_values(locale) || []
+      status_list += lookup&.enabled_values(locale) || []
       workflow_service_implemented(status_list, locale, modules)
       status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
     end

@@ -682,4 +682,25 @@ describe Lookup do
       expect(some_lookup.lookup_values[1]['tags']).to eq(%w[tag2])
     end
   end
+
+  describe '.enabled_values' do
+    it 'return enables lookups' do
+      some_lookup = Lookup.create!(
+        unique_id: 'some-unique-id',
+        name: 'some_lookup',
+        lookup_values_i18n: [
+          { 'id' => 'value1', 'disabled' => false, 'display_text' => { 'en' => 'value1' } },
+          { 'id' => 'value2', 'disabled' => true, 'display_text' => { 'en' => 'value2' } },
+          { 'id' => 'value3', 'display_text' => { 'en' => 'value3' } }
+        ]
+      )
+
+      expect(some_lookup.enabled_values(:en)).to match_array(
+        [
+          { 'id' => 'value1', 'disabled' => false, 'display_text' => 'value1' },
+          { 'id' => 'value3', 'display_text' => 'value3' }
+        ]
+      )
+    end
+  end
 end
