@@ -1,1 +1,76 @@
-pl: {}
+pl:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Eksportuj dziennik zdarzeń xls"
+  exports:
+    incident_recorder_xls:
+      all: 'Dziennik Zdarzeń '
+      one: Dziennik Zdarzeń
+      selected: Wybrany do Dziennika Zdarzeń
+      'yes': "Tak"
+      'no': "Nie"
+      gender:
+        male: "M"
+        female: "K"
+        both: "M i K"
+      age_group:
+        age: "Wiek"
+        61_older: "61 i powyżej"
+        unknown: "Nieznany"
+        header: "DOMNIEMANA GRUPA WIEKOWA SPRAWCY"
+      age_type:
+        adult: "Dorosły"
+        minor: "Nieletni"
+        both: "Dorosły i Nieletni"
+        unknown: "Nieznany"
+        header: "TYP WIEKU DOMNIEMANEGO SPRAWCY"
+      service_referral:
+        undecided: "Niezdecydowany"
+      headers:
+        incident_id: "NUMER ZDARZENIA"
+        survivor_code: "KOD OFIARY"
+        case_manager_code: "KOD ZARZĄDCY SPRAWY"
+        case_worker_code: "KOD PRACOWNIKA SOCJALNEGO"
+        date_of_interview: "DATA WYWIADU"
+        date_of_incident: "DATA ZDARZENIA"
+        date_of_birth: "DATA URODZENIA"
+        sex: "PŁEĆ"
+        ethnicity: "GRUPA ETNICZNA"
+        country_of_origin: "KRAJ POCHODZENIA"
+        marital_status: "STAN CYWILNY"
+        displacement_status: "STATUS PRZESIEDLENIA W DNIU PRZYJĘCIA RAPORTU"
+        disability_type: "OSOBA ŻYJĄCA Z NIEPEŁNOSPRAWNOŚCIĄ? "
+        unaccompanied_separated_status: "DZIECKO BEZ OPIEKI LUB ODDZIELONE OD OPIEKUNA?"
+        stage_of_displacement: "ETAP PRZESIEDLENIA W DNIU ZGŁOSZENIA ZDARZENIA"
+        time_of_day: "CZAS ZDARZENIA"
+        location: "MIEJSCE ZDARZENIA"
+        county: "KRAJ ZDARZENIA"
+        district: "POWIAT ZDARZENIA"
+        camp_town: "OBÓZ / MIEJSCOWOŚĆ ZDARZENIA"
+        camp: "OBÓZ ZDARZENIA"
+        gbv_type: "TYP PRZEMOCY NA TLE PŁCI (GBV)"
+        harmful_traditional_practice: "SZKODLIWE PRAKTYKI TRADYCYJNE"
+        goods_money_exchanged: "WYMIANA GOTÓWKI, DÓBR I/LUB USŁUG MIAŁA MIEJSCE?"
+        abduction_type: "TYP PORWANIA"
+        previously_reported: "ZDARZENIE ZGŁOSZONE BYŁO POPRZEDNIO?"
+        gbv_previous_incidents: "POPRZEDNIE ZDARZENIE W ZWIĄZKU Z PRZEMOCĄ NA TLE PŁCI (GBV)?"
+        number_primary_perpetrators: "LICZBA DOMNIEMANYCH GŁÓWNCYH SPRAWCÓW "
+        perpetrator:
+          sex: "PŁEĆ DOMNIEMANYCH SPRAWCÓW"
+          former: "POPRZEDNIE ZDARZENIA Z TYM SAMYM SPRAWCĄ"
+          relationship: "DOMNIEMANY ZWIĄZEK SPRAWCY Z OFIARĄ"
+          occupation: "ZAWÓD DOMNIEMANEGO SPRAWCY"
+          age_group: "PRZEDZIAŁ WIEKOWY DOMNIEMANEGO SPRAWCY"
+          age_type: "TYP WIEKU DOMNIEMANEGO SPRAWCY"
+        service:
+          referred_from: "SKIEROWANO DO CIEBIE OD?"
+          safehouse_referral: "SCHRONISKO"
+          medical_referral: "USŁUGI MEDYCZNE / ZDROWOTNE"
+          psycho_referral: "USŁUGI PSYCHOLOGICZNE"
+          wants_legal_action: "CHCE ROZPOCZĄĆ CZYNNOŚCI PRAWNE?"
+          legal_referral: "POMOC PRAWNA"
+          police_referral: "POLICJA / INNA FORMA OCHRONY"
+          livelihoods_referral: "PROGRAMY ZAPEWNIAJĄCE ŚRODKI UTRZYMANIA"
+          protection_referral: "USŁUGI W ZAKRESIE OCHRONY DZIECI / EUKACJI "
+        consent: "WYRAŻONO ZGODĘ"
+        agency_code: "KOD AGENCJI ZGŁASZAJĄCEJ"
