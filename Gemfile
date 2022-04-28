@@ -15,7 +15,7 @@ gem 'devise',              '~> 4.7'    # Authentication framework
 gem 'devise-jwt',          '0.8.0'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
-gem 'i18n-js',             '~> 3.4'    # Shares Rails i18n strings with the front end
+gem 'i18n-js',             '~> 3.9.2'  # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'    # JSON templating for the API
 gem 'json_schemer',        '~> 0.2'    # Validation for submited JSON

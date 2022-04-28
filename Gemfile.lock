@@ -145,7 +145,7 @@ GEM
     highline (2.0.3)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.4.0)
+    i18n-js (3.9.2)
       i18n (>= 0.6.6)
     i18n-tasks (0.9.34)
       activesupport (>= 4.0.2)
@@ -413,7 +413,7 @@ DEPENDENCIES
   faraday (~> 0.17)
   file_validators (~> 2.3)
   foreman
-  i18n-js (~> 3.4)
+  i18n-js (~> 3.9.2)
   i18n-tasks (~> 0.9)
   image_processing (~> 1.12)
   jbuilder (~> 2.11)
