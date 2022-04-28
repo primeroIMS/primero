@@ -51,13 +51,17 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
 
   const groupComparator = getGroupComparator(groupedBy);
 
-  const columnsNumber = data.size;
+  const columnsNumber = Object.values(groups).flat().length;
 
-  return Object.keys(groups)
+  const years = Object.keys(groups);
+
+  return years
     .sort(yearComparator)
     .reduce((acc1, year, yearIndex) => {
+      const previousYears = new Array(yearIndex).fill(0, 0, yearIndex);
+      const columnsWritten = previousYears.reduce((acc, _value, index) => acc + groups[years[index]].length, 0);
       // index + 1 because the first value is the title of the row
-      const columnInitialIndex = groups[year].length * yearIndex + 1;
+      const columnInitialIndex = columnsWritten + 1;
 
       groups[year].sort(groupComparator).forEach((group, index) => {
         const tuples = groupedData

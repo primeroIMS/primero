@@ -148,13 +148,6 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         groupedBy: "month",
         data: fromJS([
           {
-            group_id: "2021-09",
-            data: [
-              { id: "option_1", total: 1 },
-              { id: "option_3", total: 4 }
-            ]
-          },
-          {
             group_id: "2021-10",
             data: [
               { id: "option_2", total: 3 },
@@ -190,9 +183,9 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
       });
 
       expect(values).to.deep.equals([
-        { colspan: 0, row: ["option_1", 1, 0, 0, 1, 3, 3] },
-        { colspan: 0, row: ["option_2", 0, 3, 4, 2, 1, 1] },
-        { colspan: 0, row: ["option_3", 4, 5, 0, 0, 0, 0] }
+        { colspan: 0, row: ["option_1", 0, 0, 1, 3, 3] },
+        { colspan: 0, row: ["option_2", 3, 4, 2, 1, 1] },
+        { colspan: 0, row: ["option_3", 5, 0, 0, 0, 0] }
       ]);
     });
 
@@ -209,13 +202,6 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ],
         data: fromJS([
           {
-            group_id: "2021-09",
-            data: [
-              { id: "option_1", total: 1 },
-              { id: "option_3", total: 4 }
-            ]
-          },
-          {
             group_id: "2021-10",
             data: [
               { id: "option_2", total: 3 },
@@ -251,9 +237,9 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
       });
 
       expect(values).to.deep.equals([
-        { colspan: 0, row: ["option_3", 4, 5, 0, 0, 0, 0] },
-        { colspan: 0, row: ["option_1", 1, 0, 0, 1, 3, 3] },
-        { colspan: 0, row: ["option_2", 0, 3, 4, 2, 1, 1] }
+        { colspan: 0, row: ["option_3", 5, 0, 0, 0, 0] },
+        { colspan: 0, row: ["option_1", 0, 0, 1, 3, 3] },
+        { colspan: 0, row: ["option_2", 3, 4, 2, 1, 1] }
       ]);
     });
   });
