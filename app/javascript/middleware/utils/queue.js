@@ -4,7 +4,7 @@ import { QUEUE_FAILED, QUEUE_SKIP, QUEUE_SUCCESS } from "../../libs/queue";
 
 export const messageQueueFailed = fromQueue => {
   if (fromQueue) {
-    EventManager.publish(QUEUE_FAILED);
+    EventManager.publish(QUEUE_FAILED, fromQueue);
   }
 };
 

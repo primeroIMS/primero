@@ -68,3 +68,8 @@ export const checkServerStatus = isOnline => dispatch => {
     dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, true) });
   }
 };
+
+export const setQueueData = payload => ({
+  type: actions.SET_QUEUE_DATA,
+  payload
+});

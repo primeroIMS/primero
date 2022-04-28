@@ -205,7 +205,15 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
-
+  resync_records:
+    id: ID
+    record_type: Record Type
+    action: Action
+    date: Date
+    last_attempt: Last Attempt
+    create: Create
+    update: Update
+    resync: Submit
   case:
     label: Case
     create_new_case: Create New Case
@@ -1819,6 +1827,7 @@ en:
       code_of_conduct: Code of Conduct
       terms_of_use: Terms of Use
       system_information: System Information
+      resync: Unsubmitted Offline Changes
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log

@@ -33,6 +33,7 @@ describe("middleware/utils/process-attachments.js", () => {
           db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",
+        tries: 0,
         fromAttachment: { field_name: "field_1", record_type: RECORD_PATH.cases, record: { id: 10 } }
       },
       {
@@ -43,6 +44,7 @@ describe("middleware/utils/process-attachments.js", () => {
           db: { collection: "records", id: 10, recordType: "cases" }
         },
         fromQueue: "1234",
+        tries: 0,
         fromAttachment: { id: 1, field_name: "field_2", record_type: RECORD_PATH.cases, record: { id: 10 } }
       }
     ]);
