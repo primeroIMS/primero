@@ -33,6 +33,7 @@ class Exporters::ManagedReportExporter < ValueObject
     write_report_data(workbook, opts)
     buffer.is_a?(File) ? buffer : buffer.string
   rescue StandardError => e
+    puts e.backtrace
     self.errors = [e.message]
   ensure
     workbook.close

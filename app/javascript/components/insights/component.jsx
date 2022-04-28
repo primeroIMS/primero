@@ -76,6 +76,7 @@ const Component = ({ routes }) => {
         <ActionButton onClick={handleExport} text="buttons.export" />
         <InsightsExporter
           i18n={i18n}
+          subReport={subReport}
           open={dialogOpen}
           pending={pending}
           close={dialogClose}
