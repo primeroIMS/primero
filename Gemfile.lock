@@ -413,7 +413,7 @@ DEPENDENCIES
   faraday (~> 0.17)
   file_validators (~> 2.3)
   foreman
-  i18n-js (~> 3.9.2)
+  i18n-js (~> 3.9)
   i18n-tasks (~> 0.9)
   image_processing (~> 1.12)
   jbuilder (~> 2.11)
