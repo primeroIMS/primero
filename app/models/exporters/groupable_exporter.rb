@@ -7,6 +7,7 @@ module Exporters::GroupableExporter
   # TODO: Should these constants be here? They are also used in the subreport exporter class
   EXCEL_ROW_HEIGHT = 20
   CHART_HEIGHT = 460
+  GROUPED_CHART_WIDTH = 566
 
   GROUPED_BY = {
     month: 'month',
@@ -65,14 +66,7 @@ module Exporters::GroupableExporter
       columns_size = groups[year].size
       prev_column_size = groups[years[index - 1]].size if index >= 1
       start_index = index * (prev_column_size || columns_size)
-      is_single_column = start_index + 1 == start_index + columns_size
-      if !is_single_column
-        worksheet.merge_range(
-          current_row, start_index + 1, current_row, start_index + columns_size, year, formats[:bold_blue]
-        )
-      else
-        worksheet.write(current_row, start_index + 1, year, formats[:bold_blue])
-      end
+      worksheet.write(current_row, start_index + 1, year, formats[:bold_blue])
     end
 
     self.current_row += 1
@@ -107,49 +101,44 @@ module Exporters::GroupableExporter
     write_grouped_headers
     start_row = current_row
     options = sort_options(indicator_options(indicator_values), indicator_lookups, indicator_key == 'age')
-    write_indicator_options(options, indicator_lookups)
+    options_display_text(options, indicator_lookups)
+    write_indicator_options(options)
     write_grouped_indicator_data(indicator_values, options)
     last_row = current_row - 1
-    write_grouped_graph([start_row, last_row])
+    write_grouped_graph([start_row, last_row], options)
   end
 
-  def write_grouped_graph(table_data_rows)
+  def write_grouped_graph(table_data_rows, options)
     return unless table_data_rows.present?
 
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
-    series = grouped_by_year? ? build_year_series(table_data_rows) : build_group_series(table_data_rows)
+    series = build_group_series(options)
     series.each { |serie| chart.add_series(serie) }
-    chart.set_size(height: 460, width: chart_width(table_data_rows))
-    # chart.set_legend(none: true)
+    chart.set_size(height: 460, width: grouped_chart_width)
+    chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
     self.current_row += (CHART_HEIGHT / EXCEL_ROW_HEIGHT)
   end
 
-  def build_year_series(table_data_rows)
-    years.each_with_index.map do |year, index|
-      {
-        name: year,
-        categories: [worksheet.name] + table_data_rows + [0, 0],
-        values: [worksheet.name] + table_data_rows + [index + 1, index + 1]
-      }
-    end
+  def grouped_chart_width
+    return GROUPED_CHART_WIDTH if columns_number < 3
+
+    GROUPED_CHART_WIDTH + (columns_number * Exporters::SubreportExporter::EXCEL_COLUMN_WIDTH)
   end
 
-  def build_group_series(table_data_rows)
-    years.each_with_index.reduce([]) do |acc, (year, year_index)|
-      columns_size = groups[year].size
-      prev_column_size = groups[years[year_index - 1]].size if year_index >= 1
-      start_index = (year_index * (prev_column_size || columns_size)) + 1
-      result = acc + sort_group(year).each_with_index.map do |group, index|
-        {
-          name: "#{year} - #{translate_group(group)}",
-          categories: [worksheet.name] + table_data_rows + [0, 0],
-          values: [worksheet.name] + table_data_rows + [start_index + index, start_index + index]
-        }
-      end
-
-      result.flatten
+  def build_group_series(options)
+    colors = Exporters::ManagedReportExporter::CHART_COLORS.values
+    header_row = current_row - options.size
+    categories_row = header_row - 1
+    options.each_with_index.map do |option, index|
+      row_value = header_row + index
+      {
+        name: option['display_text'],
+        categories: [worksheet.name, categories_row, categories_row, 1, columns_number],
+        values: [worksheet.name, row_value, row_value, 1, columns_number],
+        points: [{ fill: { color: colors.at(index) } }]
+      }
     end
   end
 
@@ -175,8 +164,12 @@ module Exporters::GroupableExporter
     options.sort_by { |option| age_ranges.find_index { |age_range| option['id'] == age_range } || age_ranges.size }
   end
 
-  def write_indicator_options(options, indicator_lookups)
-    display_texts = options.map { |elem| value_display_text(elem, indicator_lookups) }
+  def options_display_text(options, indicator_lookups)
+    options.each { |option| option['display_text'] = value_display_text(option, indicator_lookups) }
+  end
+
+  def write_indicator_options(options)
+    display_texts = options.map { |elem| elem['display_text'] }
     display_texts.each_with_index do |display_text, index|
       cell_format = display_text != display_texts.last ? formats[:bold_black] : formats[:bold_black_blue_bottom_border]
       worksheet.write(current_row + index, 0, display_text, cell_format)
