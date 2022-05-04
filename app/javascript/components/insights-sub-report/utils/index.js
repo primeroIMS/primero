@@ -8,6 +8,7 @@ export { default as monthComparator } from "./month-comparator";
 export { default as yearComparator } from "./year-comparator";
 export { default as quarterComparator } from "./quarter-comparator";
 export { default as getDataGroups } from "./get-data-groups";
+export { default as groupIdComparator } from "./group-id-comparator";
 export { default as translateGroups } from "./translate-groups";
 export { default as translateMonth } from "./translate-month";
 export { default as translateQuarter } from "./translate-quarter";

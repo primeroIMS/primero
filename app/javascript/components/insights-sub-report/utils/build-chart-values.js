@@ -6,13 +6,10 @@ import first from "lodash/first";
 import last from "lodash/last";
 
 import { CHART_COLORS } from "../../../config/constants";
-import { YEAR } from "../../insights/constants";
 
-import getDataGroups from "./get-data-groups";
 import translateGroup from "./translate-group";
 import sortWithSortedArray from "./sort-with-sorted-array";
-import yearComparator from "./year-comparator";
-import getGroupComparator from "./get-group-comparator";
+import groupIdComparator from "./group-id-comparator";
 
 const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts }) => {
   const sortByFn = elem => first(elem);
@@ -42,18 +39,6 @@ const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts }) => {
   return sortBy(entries, sortByFn);
 };
 
-const sortValues = ({ valueKey, entries, ageRanges, lookupDisplayTexts }) => {
-  if (valueKey === "age") {
-    return sortWithSortedArray(entries, ageRanges);
-  }
-
-  if (!isEmpty(lookupDisplayTexts)) {
-    return sortWithSortedArray(entries, lookupDisplayTexts);
-  }
-
-  return entries.sort();
-};
-
 const buildGroupedChartValues = ({
   value,
   getLookupValue,
@@ -73,38 +58,33 @@ const buildGroupedChartValues = ({
       return acc;
     }, {});
 
-  const optionValues = Object.values(options);
   const optionEntries = Object.entries(options);
 
   const ids = sortEntries({ valueKey, entries: optionEntries, ageRanges, lookupDisplayTexts }).map(([key]) => key);
 
-  const groups = getDataGroups(value, groupedBy);
-  const groupComparator = getGroupComparator(groupedBy);
+  const sortedData = value.sort(groupIdComparator(groupedBy));
 
-  const sortedGroups =
-    groupedBy === YEAR
-      ? groups.sort(yearComparator)
-      : Object.keys(groups)
-          .sort(yearComparator)
-          .flatMap(year => groups[year].sort(groupComparator).map(group => `${year}-${group}`));
-
-  const groupedData = value.groupBy(elem => elem.get("group_id").toString());
+  const sortedGroups = sortedData.reduce(
+    (acc, group) => acc.concat(translateGroup(group.get("group_id"), groupedBy, localizeDate)),
+    []
+  );
 
   return {
-    datasets: sortedGroups
-      .flatMap(groupId => groupedData.get(groupId).reduce((acc, elem) => acc.concat(elem), []))
-      .map((group, index) => ({
-        label: translateGroup(group.get("group_id"), groupedBy, localizeDate),
-        data: ids.map(
-          id =>
-            group
+    datasets: ids.map((id, index) => ({
+      label: options[id],
+      data: sortedData.reduce(
+        (acc, groupData) =>
+          acc.concat(
+            groupData
               .get("data")
-              .find(elem => elem.get("id") === id)
+              .find(option => option.get("id") === id)
               ?.get("total") || 0
-        ),
-        backgroundColor: Object.values(CHART_COLORS)[index]
-      })),
-    labels: sortValues({ valueKey, entries: optionValues, ageRanges, lookupDisplayTexts })
+          ),
+        []
+      ),
+      backgroundColor: Object.values(CHART_COLORS)[index]
+    })),
+    labels: sortedGroups
   };
 };
 
