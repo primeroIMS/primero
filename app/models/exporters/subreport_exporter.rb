@@ -127,6 +127,7 @@ class Exporters::SubreportExporter < ValueObject
     chart.add_series(build_series(table_data_rows))
     chart.set_size(height: 460, width: chart_width(table_data_rows))
     chart.set_legend(none: true)
+    chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
     self.current_row += (CHART_HEIGHT / EXCEL_ROW_HEIGHT)
