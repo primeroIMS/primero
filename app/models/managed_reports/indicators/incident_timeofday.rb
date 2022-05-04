@@ -21,6 +21,7 @@ class ManagedReports::Indicators::IncidentTimeofday < ManagedReports::SqlReportI
         #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->> 'incident_timeofday'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+        order by id
       }
     end
   end

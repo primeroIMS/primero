@@ -42,7 +42,7 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   end
 
   def group_indicator_data(indicator)
-    data[indicator].group_by { |value| value[:group_id] }
+    data[indicator].group_by { |value| value[:group_id].to_s }
   end
 
   def cell_format(last_indicator = false)
@@ -75,14 +75,19 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
 
   def write_combined_subcolumns_data(grouped_data, initial_index, year, cell_format)
     sort_group(year).each_with_index do |group, group_index|
-      total = grouped_data["#{year}-#{group}"]&.first&.dig(:data)&.first&.dig('total') || 0
       worksheet.write(
         current_row,
         initial_index + group_index,
-        total,
+        combined_indicator_total(grouped_data, year, group),
         cell_format
       )
     end
+  end
+
+  def combined_indicator_total(grouped_data, year, group)
+    data_key = grouped_by_year? ? year : "#{year}-#{group}"
+
+    grouped_data[data_key]&.first&.dig(:data)&.first&.dig('total') || 0
   end
 
   def sort_combined_indicators

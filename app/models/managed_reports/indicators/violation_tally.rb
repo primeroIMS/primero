@@ -33,7 +33,9 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         group by key
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
-        #{group_id_alias(params['grouped_by'])&.dup&.prepend('order by ')}
+        order by
+        #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
+        name
       }
     end
     # rubocop:enable Metrics/AbcSize

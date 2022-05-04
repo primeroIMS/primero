@@ -39,7 +39,9 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
           ) keys_values
           group by key
           #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
-          #{group_id_alias(params['grouped_by'])&.dup&.prepend('order by ')}
+          order by
+          #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
+          name
       }
     end
     # rubocop:enable Metrics/AbcSize
