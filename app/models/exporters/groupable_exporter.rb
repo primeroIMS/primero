@@ -23,13 +23,20 @@ module Exporters::GroupableExporter
   def build_groups
     return unless grouped_by_param.present?
 
-    splitted_group_ids = data.except(:lookup).values.first.map { |group| group[:group_id].to_s.split('-') }
-    self.groups = splitted_group_ids.reduce({}) do |acc, elem|
+    self.groups = data_groups
+    self.years = groups.keys.sort { |year1, year2| year1.to_i <=> year2.to_i }
+  end
+
+  def groups_list
+    data.except(:lookup).values.first.map { |group| group[:group_id].to_s.split('-') }
+  end
+
+  def data_groups
+    groups_list.reduce({}) do |acc, elem|
       next(acc.merge(elem.first => [elem.last])) unless acc[elem.first].present?
 
       acc.merge(elem.first => acc[elem.first] + [elem.last])
     end
-    self.years = groups.keys.sort { |year1, year2| year1.to_i <=> year2.to_i }
   end
 
   def write_grouped_headers
@@ -66,10 +73,14 @@ module Exporters::GroupableExporter
       columns_size = groups[year].size
       prev_column_size = groups[years[index - 1]].size if index >= 1
       start_index = index * (prev_column_size || columns_size)
-      worksheet.write(current_row, start_index + 1, year, formats[:bold_blue])
+      write_year_header(start_index, year)
     end
 
     self.current_row += 1
+  end
+
+  def write_year_header(start_index, year)
+    worksheet.write(current_row, start_index + 1, year, formats[:bold_blue])
   end
 
   def write_groups_headers
@@ -77,12 +88,16 @@ module Exporters::GroupableExporter
       columns_size = groups[year].size
       prev_column_size = groups[years[year_index - 1]].size if year_index >= 1
       start_index = year_index * (prev_column_size || columns_size) + 1
-      sort_group(year).each_with_index do |group, group_index|
-        worksheet.write(current_row, start_index + group_index, "#{year}-#{translate_group(group)}", formats[:bold_blue])
-      end
+      write_group_header(start_index, year)
     end
 
     self.current_row += 1
+  end
+
+  def write_group_header(start_index, year)
+    sort_group(year).each_with_index do |group, group_index|
+      worksheet.write(current_row, start_index + group_index, "#{year}-#{translate_group(group)}", formats[:bold_blue])
+    end
   end
 
   def translate_group(group)
@@ -99,17 +114,15 @@ module Exporters::GroupableExporter
     return if indicator_values.blank?
 
     write_grouped_headers
-    start_row = current_row
     options = sort_options(indicator_options(indicator_values), indicator_lookups, indicator_key == 'age')
     options_display_text(options, indicator_lookups)
     write_indicator_options(options)
     write_grouped_indicator_data(indicator_values, options)
-    last_row = current_row - 1
-    write_grouped_graph([start_row, last_row], options)
+    write_grouped_graph(options)
   end
 
-  def write_grouped_graph(table_data_rows, options)
-    return unless table_data_rows.present?
+  def write_grouped_graph(options)
+    return unless options.present?
 
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
     series = build_group_series(options)
@@ -131,6 +144,10 @@ module Exporters::GroupableExporter
     colors = Exporters::ManagedReportExporter::CHART_COLORS.values
     header_row = current_row - options.size
     categories_row = header_row - 1
+    options_to_series(options, colors, categories_row, header_row)
+  end
+
+  def options_to_series(options, colors, categories_row, header_row)
     options.each_with_index.map do |option, index|
       row_value = header_row + index
       {
@@ -180,8 +197,7 @@ module Exporters::GroupableExporter
     grouped_data = indicator_values.group_by { |value| value['group_id'].to_s }
     years.each_with_index do |year, year_index|
       if grouped_by_year?
-        group_data = grouped_data[year.to_s].first['data']
-        write_columns_data(group_data, options, 0, year_index + 1)
+        write_year_data(grouped_data, options, year_index, year)
       else
         subcolumn_initial_index = written_subcolumns_number(year_index) + 1
         write_subcolumns_data(grouped_data, options, subcolumn_initial_index, year)
@@ -189,6 +205,11 @@ module Exporters::GroupableExporter
     end
 
     self.current_row += options.size
+  end
+
+  def write_year_data(grouped_data, options, initial_index, year)
+    group_data = grouped_data[year.to_s].first['data']
+    write_columns_data(group_data, options, 0, initial_index + 1)
   end
 
   def write_subcolumns_data(grouped_data, options, initial_index, year)
