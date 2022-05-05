@@ -158,6 +158,11 @@ export const INSIGHTS_CONFIG = {
   [MODULES.GBV]: {
     ids: GBV_INSIGHTS_SUBREPORTS,
     localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [DATE]: INCIDENT_DATE
+    },
     filters: [
       ...SHARED_FILTERS,
       {
