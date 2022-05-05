@@ -22,7 +22,15 @@
     window.locationManifest = <%= available_locations %>
   <% end %>
   <script src="/javascripts/i18n.js"></script>
-  <script src="/<%= Rails.configuration.i18n_translations_file %>"></script>
+
+  <% translations_file_names = Rails.configuration.i18n_translations_file.split("\n")%>
+  <% I18n.available_locales.each do |locale|%>
+    <% translation_file = translations_file_names.find{|file_name| file_name.starts_with?("translations-#{locale}.")} %>
+
+    <% next if translation_file.blank? %>
+
+    <script src="/<%= translation_file %>"></script>
+  <% end %>
   <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </body>
 </html>

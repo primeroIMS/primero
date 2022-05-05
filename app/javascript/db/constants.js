@@ -1,6 +1,7 @@
 import { RECORD_PATH } from "../config/constants";
 
 export const DB_STORES = Object.freeze({
+  TRANSLATIONS: "translations",
   USER: "user",
   FIELDS: "fields",
   FORMS: "forms",
@@ -37,7 +38,15 @@ export const DB_COLLECTIONS_V3 = [DB_STORES.LOGOS];
 
 export const DB_COLLECTIONS_V4 = [DB_STORES.PERMISSIONS, DB_STORES.CONTACT_INFORMATION, DB_STORES.PRIMERO];
 
-export const DB_COLLECTIONS = [...DB_COLLECTIONS_V1, ...DB_COLLECTIONS_V2, ...DB_COLLECTIONS_V3, ...DB_COLLECTIONS_V4];
+export const DB_COLLECTIONS_V5 = [DB_STORES.TRANSLATIONS];
+
+export const DB_COLLECTIONS = [
+  ...DB_COLLECTIONS_V1,
+  ...DB_COLLECTIONS_V2,
+  ...DB_COLLECTIONS_V3,
+  ...DB_COLLECTIONS_V4,
+  ...DB_COLLECTIONS_V5
+];
 
 export const DB_COLLECTIONS_NAMES = DB_COLLECTIONS.reduce((prev, current) => {
   const obj = prev;

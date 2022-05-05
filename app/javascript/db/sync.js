@@ -38,6 +38,9 @@ const syncIndexedDB = async (
       case DB_COLLECTIONS_NAMES.PRIMERO: {
         return collections.Primero;
       }
+      case DB_COLLECTIONS_NAMES.TRANSLATIONS: {
+        return collections.Translations;
+      }
       default: {
         return false;
       }

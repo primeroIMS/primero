@@ -13,7 +13,7 @@
 fallbacks: true
 
 translations:
-  - file: "public/translations.js"
+  - file: "public/translations-%{locale}.js"
 #
 # If you're running an old version, you can use something
 # like this:
