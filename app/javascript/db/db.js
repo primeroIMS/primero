@@ -11,6 +11,7 @@ import {
   DB_COLLECTIONS_V2,
   DB_COLLECTIONS_V3,
   DB_COLLECTIONS_V4,
+  DB_COLLECTIONS_V5,
   TRANSACTION_MODE
 } from "./constants";
 
@@ -19,7 +20,7 @@ class DB {
     if (!DB.instance) {
       const self = this;
 
-      this._db = openDB(DATABASE_NAME, 4, {
+      this._db = openDB(DATABASE_NAME, 5, {
         upgrade(db, oldVersion) {
           if (oldVersion < 1) {
             DB_COLLECTIONS_V1.forEach(collection => self.createCollections(collection, db));
@@ -34,6 +35,10 @@ class DB {
 
           if (oldVersion < 4) {
             DB_COLLECTIONS_V4.forEach(collection => self.createCollections(collection, db));
+          }
+
+          if (oldVersion < 5) {
+            DB_COLLECTIONS_V5.forEach(collection => self.createCollections(collection, db));
           }
         }
       });

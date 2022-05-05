@@ -42,14 +42,6 @@ const additionalFiles = originalManifest => {
   const warnings = [];
   const manifest = originalManifest;
 
-  TRANSLATION_MANIFEST_FILES.forEach(file => {
-    const additionalFile = cacheFile(file);
-
-    if (additionalFile) {
-      manifest.push({ url: additionalFile });
-    }
-  });
-
   ADDITIONAL_PRECACHE_MANIFEST_FILES.forEach(file => {
     try {
       const revision = crypto.createHash("sha256");
