@@ -8,10 +8,10 @@ export default (groupId, groupedBy, localizeDate) => {
     return groupId.toString();
   }
 
-  const [groupKey, year] = `${groupId}`.split("-");
+  const [year, groupKey] = groupId.split("-");
 
   const translatedGroup =
     groupedBy === QUARTER ? translateQuarter(groupKey, localizeDate) : translateMonth(groupKey, localizeDate);
 
-  return `${translatedGroup}-${year}`;
+  return `${year}-${translatedGroup}`;
 };
