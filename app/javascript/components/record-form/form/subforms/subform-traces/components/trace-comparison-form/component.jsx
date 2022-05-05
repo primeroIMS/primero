@@ -41,6 +41,7 @@ const Component = ({
   const forms = useMemoizedSelector(state =>
     getOrderedRecordForms(state, { primeroModule: record.get("module_id"), recordType: RECORD_TYPES.cases })
   );
+
   const subformFamilyDetails = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       primeroModule: record.get("module_id"),
@@ -59,18 +60,27 @@ const Component = ({
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
   const potentialMatchedCaseId = potentialMatch.getIn(["trace", "matched_case_id"]);
-  let caseSummaryMessage = "";
 
-  if (potentialMatchedCaseId) {
-    caseSummaryMessage =
-      caseId === potentialMatchedCaseId
+  const caseSummaryMessage = () => {
+    if (potentialMatchedCaseId) {
+      return caseId === potentialMatchedCaseId
         ? "case.messages.already_matched"
         : "case.messages.already_matched_not_current_case";
-  }
+    }
 
-  const alreadyMatchedMessage = i18n.t(
-    recordType === RECORD_PATH.cases ? caseSummaryMessage : "tracing_request.messages.already_matched"
-  );
+    return null;
+  };
+
+  const alreadyMatchedMessage = (() => {
+    const message =
+      recordType === RECORD_PATH.cases ? caseSummaryMessage() : "tracing_request.messages.already_matched";
+
+    if (message) {
+      return i18n.t(message);
+    }
+
+    return null;
+  })();
 
   const renderText =
     recordType === RECORD_PATH.cases || (hasMatchedTraces && recordType === RECORD_PATH.tracing_requests);
@@ -160,8 +170,8 @@ const Component = ({
   }, [caseId]);
 
   const traceActionsProps = {
-    ...{ ...(!hideFindMatch ? { handleConfirm } : {}) },
-    ...{ ...(!hideBack ? { handleBack } : {}) },
+    ...(!hideFindMatch && { handleConfirm }),
+    ...(!hideBack && { handleBack }),
     selectedForm,
     recordType,
     mode
@@ -172,7 +182,7 @@ const Component = ({
       <TraceActions {...traceActionsProps} />
       <Grid container spacing={2}>
         <Grid container item>
-          {renderText && (
+          {renderText && alreadyMatchedMessage && (
             <Grid item xs={12}>
               <div className={css.alreadyMatched}>
                 <span>{alreadyMatchedMessage}</span>
