@@ -325,13 +325,21 @@ const overrides = {
     containedPrimary: {
       "&:hover, &:active, &:focus": {
         // TODO: @media is overriding this style
-        backgroundColor: "var(--c-blue-hover) !important"
+        backgroundColor: "var(--c-blue-hover) !important",
+        "&$disabled": {
+          color: "rgba(0, 0, 0, 0.26)",
+          backgroundColor: `${colors.lightGrey} !important`
+        }
       }
     },
     outlinedPrimary: {
       "&:hover, &:active, &focus": {
         borderColor: "var(--c-blue-hover)",
-        color: "var(--c-blue-hover)"
+        color: "var(--c-blue-hover)",
+        "&$disabled": {
+          color: "rgba(0, 0, 0, 0.26)",
+          backgroundColor: `${colors.lightGrey} !important`
+        }
       }
     }
   },

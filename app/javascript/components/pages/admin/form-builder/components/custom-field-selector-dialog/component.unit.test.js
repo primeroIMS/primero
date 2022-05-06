@@ -44,11 +44,11 @@ describe("<CustomFieldSelectorDialog />", () => {
       `fields.${RADIO_FIELD}`,
       `fields.${MULTI_SELECT_FIELD}`,
       `fields.${NUMERIC_FIELD}`,
+      `fields.${TALLY_FIELD}`,
       `fields.${DATE_FIELD}`,
       `fields.${DATE_TIME_FIELD}`,
       `fields.${SEPARATOR}`,
-      `fields.${SUBFORM_SECTION}`,
-      `fields.${TALLY_FIELD}`
+      `fields.${SUBFORM_SECTION}`
     ];
 
     expect(component.find(List)).to.have.lengthOf(1);
