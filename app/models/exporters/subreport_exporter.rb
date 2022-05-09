@@ -3,7 +3,9 @@
 # Class to export Subreports
 class Exporters::SubreportExporter < ValueObject
   INITIAL_CHART_WIDTH = 384
+  INITIAL_CHART_HEIGHT = 460
   EXCEL_COLUMN_WIDTH = 64
+  EXCEL_ROW_HEIGHT = 20
 
   include Exporters::GroupableExporter
 
@@ -125,12 +127,12 @@ class Exporters::SubreportExporter < ValueObject
 
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
     chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: 460, width: chart_width(table_data_rows))
+    chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
     chart.set_legend(none: true)
     chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
-    self.current_row += (CHART_HEIGHT / EXCEL_ROW_HEIGHT)
+    self.current_row += (INITIAL_CHART_HEIGHT / EXCEL_ROW_HEIGHT)
   end
 
   def build_series(table_data_rows)

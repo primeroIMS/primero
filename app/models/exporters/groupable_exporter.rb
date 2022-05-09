@@ -4,9 +4,6 @@
 module Exporters::GroupableExporter
   extend ActiveSupport::Concern
 
-  # TODO: Should these constants be here? They are also used in the subreport exporter class
-  EXCEL_ROW_HEIGHT = 20
-  CHART_HEIGHT = 460
   GROUPED_CHART_WIDTH = 566
 
   GROUPED_BY = {
@@ -103,7 +100,7 @@ module Exporters::GroupableExporter
   def translate_group(group)
     return group unless grouped_by_month?
 
-    date_locale = locale.blank? || I18n.available_locales.exclude?(locale.to_sym) ? 'en' : locale
+    date_locale = locale.blank? || I18n.available_locales.exclude?(locale.to_sym) ? I18n.default_locale.to_s : locale
 
     I18n.l(DateTime.new(DateTime.now.year, group.to_i, 1), format: '%b', locale: date_locale)
   end
@@ -127,11 +124,13 @@ module Exporters::GroupableExporter
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
     series = build_group_series(options)
     series.each { |serie| chart.add_series(serie) }
-    chart.set_size(height: 460, width: grouped_chart_width)
+    chart.set_size(height: Exporters::SubreportExporter::INITIAL_CHART_HEIGHT, width: grouped_chart_width)
     chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
 
-    self.current_row += (CHART_HEIGHT / EXCEL_ROW_HEIGHT)
+    self.current_row += (
+      Exporters::SubreportExporter::INITIAL_CHART_HEIGHT / Exporters::SubreportExporter::EXCEL_ROW_HEIGHT
+    )
   end
 
   def grouped_chart_width
