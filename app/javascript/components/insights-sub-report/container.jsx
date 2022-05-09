@@ -127,7 +127,8 @@ const Component = () => {
                       valueKey,
                       isGrouped,
                       groupedBy,
-                      ageRanges
+                      ageRanges,
+                      lookupValues: lookups[valueKey]
                     })}
                     showDetails
                     hideLegend
@@ -147,7 +148,8 @@ const Component = () => {
                       key: valueKey,
                       isGrouped,
                       groupedBy,
-                      ageRanges
+                      ageRanges,
+                      lookupValues: lookups[valueKey]
                     })}
                     showPlaceholder
                     name={namespace}

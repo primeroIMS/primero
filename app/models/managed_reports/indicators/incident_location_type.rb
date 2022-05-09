@@ -21,6 +21,7 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
         #{user_scope_query(current_user)&.prepend('and ')}
         group by data ->> 'incident_location_type'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+        order by id
       }
     end
   end

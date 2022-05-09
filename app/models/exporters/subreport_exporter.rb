@@ -3,21 +3,27 @@
 # Class to export Subreports
 class Exporters::SubreportExporter < ValueObject
   INITIAL_CHART_WIDTH = 384
+  INITIAL_CHART_HEIGHT = 460
   EXCEL_COLUMN_WIDTH = 64
+  EXCEL_ROW_HEIGHT = 20
+
+  include Exporters::GroupableExporter
 
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
-                :worksheet, :managed_report, :locale, :lookups
+                :worksheet, :managed_report, :locale, :lookups, :grouped_by,
+                :years, :groups
 
   def export
-    self.current_row ||= 0
+    self.current_row = 0
     self.data = managed_report.data[id]
-    self.worksheet = workbook.add_worksheet(build_worsheet_name)
+    self.worksheet = workbook.add_worksheet(build_worksheet_name)
     worksheet.tab_color = tab_color
     load_lookups
+    build_groups
     write_export
   end
 
-  def build_worsheet_name
+  def build_worksheet_name
     # Truncating in 31 allowed characters
     # Replacing invalid character
     I18n.t("managed_reports.#{managed_report.id}.reports.#{id}", locale: locale)
@@ -96,23 +102,18 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row += 1
   end
 
-  def write_table_header(indicator)
+  def write_table_header(indicator_key)
     write_grey_row
 
     worksheet.set_row(current_row, 30)
     worksheet.merge_range(
       current_row, 0, current_row, 1,
-      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}", locale: locale),
+      I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator_key}", locale: locale),
       formats[:blue_header]
     )
     self.current_row += 1
 
     write_total_row
-  end
-
-  def write_grey_row
-    worksheet.merge_range(current_row, 0, current_row, 1, '', formats[:grey_space])
-    self.current_row += 1
   end
 
   def write_total_row
@@ -126,11 +127,12 @@ class Exporters::SubreportExporter < ValueObject
 
     chart = workbook.add_chart(type: 'column', embedded: 1, name: '')
     chart.add_series(build_series(table_data_rows))
-    chart.set_size(height: 460, width: chart_width(table_data_rows))
+    chart.set_size(height: INITIAL_CHART_HEIGHT, width: chart_width(table_data_rows))
     chart.set_legend(none: true)
+    chart.set_y_axis(major_unit: 1)
     worksheet.insert_chart(current_row, 0, chart, 0, 0)
-    # A row is 20px, chart height is 460 then 460 / 20 = 23
-    self.current_row += 23
+
+    self.current_row += (INITIAL_CHART_HEIGHT / EXCEL_ROW_HEIGHT)
   end
 
   def build_series(table_data_rows)
@@ -160,7 +162,11 @@ class Exporters::SubreportExporter < ValueObject
     transform_entries(data.entries).each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
-      write_indicator(indicator_key, indicator_values)
+      if grouped_by.present?
+        write_grouped_indicator(indicator_key, indicator_values)
+      else
+        write_indicator(indicator_key, indicator_values)
+      end
     end
   end
 

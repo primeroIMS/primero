@@ -15,10 +15,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select json_object_agg(key, sum) as data
-        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
-        from (
-        select key,
+        select key as name, 'total' as key,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
@@ -36,28 +33,14 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         group by key
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
-        ) as violation_data
-        #{group_id_alias(params['grouped_by'])&.dup&.prepend('group by ')}
+        order by
+        #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
+        name
       }
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-
-    def build_results(results, params = {})
-      unless results.to_a.any? { |result| result['group_id'].present? }
-        return ActiveSupport::JSON.decode(results.to_a.first&.dig('data') || '{}')
-      end
-
-      build_ranges(params).map do |current_range|
-        result_range = results.find { |result| result['group_id'] == current_range } || {}
-
-        {
-          group_id: current_range,
-          data: ActiveSupport::JSON.decode(result_range['data'] || '{}')
-        }
-      end
-    end
   end
 end
