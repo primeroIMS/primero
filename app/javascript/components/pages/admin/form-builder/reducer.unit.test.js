@@ -677,6 +677,81 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       expect(newState).to.deep.equal(expected);
     });
+
+    it("updates the tally options", () => {
+      const tallySubform = {
+        id: 1,
+        unique_id: "form_1",
+        name: { en: "Form Section 1" },
+        fields: [
+          {
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Field 1" },
+            tally: [
+              { id: "option_1", display_text: { en: "Option 1" } },
+              { id: "option_2", display_text: { en: "Option 2" } }
+            ]
+          }
+        ],
+        collapsed_field_names: [],
+        subform_section_configuration: {}
+      };
+
+      const expectedSubform = {
+        ...tallySubform,
+        name: { en: "Updated Form Section 1 " },
+        fields: [
+          {
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Updated Field 1" },
+            tally: [
+              { id: "option_1", display_text: { en: "Option 1" } },
+              { id: "option_2", display_text: { en: "Option 2" } },
+              { id: "option_3", display_text: { en: "Option 3" } }
+            ]
+          }
+        ]
+      };
+
+      const expected = fromJS({
+        subforms: [expectedSubform],
+        selectedSubform: expectedSubform
+      });
+
+      const currentState = fromJS({
+        subforms: [tallySubform],
+        selectedSubform: tallySubform
+      });
+
+      const action = {
+        type: actions.UPDATE_SELECTED_SUBFORM,
+        payload: {
+          data: {
+            id: 1,
+            unique_id: "form_1",
+            name: { en: "Updated Form Section 1 " },
+            fields: {
+              field_1: {
+                id: 1,
+                name: "field_1",
+                display_name: { en: "Updated Field 1" },
+                tally: [
+                  { id: "option_1", display_text: { en: "Option 1" } },
+                  { id: "option_2", display_text: { en: "Option 2" } },
+                  { id: "option_3", display_text: { en: "Option 3" } }
+                ]
+              }
+            }
+          }
+        }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
   });
 
   describe("MERGE_SUBFORM_DATA", () => {

@@ -242,6 +242,12 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
           return mergedField.set("option_strings_text", newOptionStringsText);
         }
 
+        if (mergedField.get("tally")) {
+          const newTally = fromJS(mergedField.get("tally")).toSet().toList();
+
+          return mergedField.set("tally", newTally);
+        }
+
         return mergedField;
       });
 
