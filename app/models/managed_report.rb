@@ -89,6 +89,6 @@ class ManagedReport < ValueObject
   end
 
   def verified_value
-    filters&.find { |filter| filter.field_name == 'verified_ctfmr_technical' }&.value
+    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
   end
 end

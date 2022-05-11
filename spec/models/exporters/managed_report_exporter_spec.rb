@@ -311,12 +311,10 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
-                nil, nil, nil, nil, nil
-              ]
-            )
+            result = '<html><b>View By: </b>Month / <b>Date Range: </b>Custom / '\
+            '<b>From: </b>2022-03-11 / <b>To: </b>2022-07-11 / <b>Date: </b>Date of Incident / </html>'
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil, nil, nil, nil])
           end
 
           it 'prints indicator tables' do
@@ -421,12 +419,10 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
-                nil, nil
-              ]
-            )
+            result = '<html><b>View By: </b>Year / <b>Date Range: </b>Custom / '\
+            '<b>From: </b>2021-05-11 / <b>To: </b>2022-12-31 / <b>Date: </b>Date of Incident / </html>'
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil])
           end
 
           it 'prints indicator tables' do
@@ -530,12 +526,10 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>This Quarter / <b>Date: </b>Date of Incident / </html>',
-                nil
-              ]
-            )
+            result = '<html><b>View By: </b>Quarter / <b>Date Range: </b>This Quarter / '\
+            '<b>Date: </b>Date of Incident / </html>'
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil])
           end
 
           it 'prints indicator tables' do
@@ -607,6 +601,69 @@ describe Exporters::ManagedReportExporter do
             )
             expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 1])
           end
+        end
+      end
+    end
+
+    describe 'when there is no data' do
+      let(:workbook_no_data) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today + 1.month,
+              to: Date.today + 2.month
+            ),
+            SearchFilters::Value.new(
+              field_name: 'grouped_by',
+              value: 'month'
+            )
+          ],
+          { output_to_file: false }
+        )
+
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      context 'should render report' do
+        it 'prints subreport headers' do
+          expect(workbook_no_data.sheet(0).row(1)).to match_array(['Incidents'])
+        end
+
+        it 'prints report params' do
+          result = '<html><b>View By: </b>Month / <b>Date Range: </b>Custom / <b>From: </b>2022-06-11 / '\
+          '<b>To: </b>2022-07-11 / <b>Date: </b>Date of Incident / </html>'
+
+          expect(workbook_no_data.sheet(0).row(2)).to match_array([result])
+        end
+
+        it 'prints indicator tables' do
+          expect(workbook_no_data.sheet(0).row(7)).to match_array(
+            ['Number of GBV Incidents Reported']
+          )
+          expect(workbook_no_data.sheet(0).row(8)).to match_array(
+            ['Number of Incidents Reported by Survivors with Prior GBV Incidents']
+          )
+          expect(workbook_no_data.sheet(0).row(9)).to match_array(
+            ['Number of Incidents of Sexual Violence Reported']
+          )
+
+          expect(workbook_no_data.sheet(0).row(12)).to match_array(
+            ['Incident Type']
+          )
+
+          expect(workbook_no_data.sheet(0).row(14)).to match_array(
+            ['Incident Time of Day']
+          )
+
+          expect(workbook_no_data.sheet(0).row(16)).to match_array(
+            ['Time Between Incident and Report Date']
+          )
+          expect(workbook_no_data.sheet(0).row(18)).to match_array(
+            ['Incidents of Rape, Time Elapsed between Incident and Report Date']
+          )
+          expect(workbook_no_data.sheet(0).row(20)).to match_array(['Incident Location'])
         end
       end
     end
