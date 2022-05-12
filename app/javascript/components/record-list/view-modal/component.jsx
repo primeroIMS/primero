@@ -1,12 +1,12 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { usePermissions, ACTIONS } from "../../permissions";
-import { useMemoizedSelector } from "../../../libs";
+import { reduceMapToObject, useMemoizedSelector } from "../../../libs";
 import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
 import Form, { FORM_MODE_SHOW } from "../../form";
 
@@ -48,10 +48,7 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
     caseId
   };
 
-  const initialValues = (currentRecord || fromJS({})).reduce(
-    (acc, value, key) => ({ ...acc, [key]: value instanceof List ? [...value] : value }),
-    {}
-  );
+  const initialValues = reduceMapToObject(currentRecord || fromJS({}));
 
   const onSubmit = () => {};
 

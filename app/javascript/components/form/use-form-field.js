@@ -19,6 +19,7 @@ import SwitchInput from "./fields/switch-input";
 import TextInput from "./fields/text-input";
 import CheckboxInput from "./fields/checkbox-input";
 import AttachmentInput from "./fields/attachment-input";
+import RecordAttachmentInput from "./fields/record-attachment-input";
 import Label from "./fields/label";
 import {
   CHECK_BOX_FIELD,
@@ -35,7 +36,9 @@ import {
   DIALOG_TRIGGER,
   HIDDEN_FIELD,
   DOCUMENT_FIELD,
-  LINK_FIELD
+  LINK_FIELD,
+  PHOTO_RECORD_FIELD,
+  AUDIO_RECORD_FIELD
 } from "./constants";
 
 export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
@@ -191,6 +194,9 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return CheckboxInput;
       case SELECT_FIELD:
         return SelectInput;
+      case PHOTO_RECORD_FIELD:
+      case AUDIO_RECORD_FIELD:
+        return RecordAttachmentInput;
       case PHOTO_FIELD:
       case DOCUMENT_FIELD:
         return AttachmentInput;

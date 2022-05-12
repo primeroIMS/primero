@@ -21,7 +21,10 @@ module ActiveStorageAuth
 
   def authorize_blob!
     record = @blob&.attachments&.first&.record
-    authorize!(:read, record) unless public_attached_resource?
+
+    return if public_attached_resource? || can?(:search_owned_by_others, Record.model_from_name(record.record_type))
+
+    authorize!(:read, record)
   end
 
   def public_attached_resource?
