@@ -111,6 +111,17 @@ describe ActiveStorageAuth do
       role.save(validate: false) && role
     end
 
+    let(:role_owned_by_other) do
+      permissions = Permission.new(
+        resource: Permission::CASE,
+        actions: [
+          Permission::SEARCH_OWNED_BY_OTHERS
+        ]
+      )
+      role = Role.new(permissions: [permissions])
+      role.save(validate: false) && role
+    end
+
     let(:user1) do
       user = User.new(user_name: 'user1', role: role)
       user.save(validate: false) && user
@@ -118,6 +129,11 @@ describe ActiveStorageAuth do
 
     let(:user2) do
       user = User.new(user_name: 'user2', role: role)
+      user.save(validate: false) && user
+    end
+
+    let(:user3) do
+      user = User.new(user_name: 'user3', role: role_owned_by_other)
       user.save(validate: false) && user
     end
 
@@ -146,6 +162,15 @@ describe ActiveStorageAuth do
 
     it 'can only be read by authenticated users with access to the record of the attachment' do
       sign_in(user1)
+      get case_with_photo.photo_url
+      follow_redirect!
+
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq('image/jpeg')
+    end
+
+    it 'can be read by authenticated users with access to search record owned by others' do
+      sign_in(user3)
       get case_with_photo.photo_url
       follow_redirect!
 

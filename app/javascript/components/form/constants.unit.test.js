@@ -6,10 +6,12 @@ describe("<Form /> - Constants", () => {
 
     expect(clonedConstants).to.be.an("object");
     [
+      "AUDIO_RECORD_FIELD",
       "DIALOG_TRIGGER",
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
       "DATE_FIELD",
+      "DOCUMENT_RECORD_FIELD",
       "ERROR_FIELD",
       "FORM_MODE_DIALOG",
       "FORM_MODE_EDIT",
@@ -22,6 +24,7 @@ describe("<Form /> - Constants", () => {
       "ORDERABLE_OPTIONS_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
+      "PHOTO_RECORD_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
       "SEPARATOR",

@@ -6,6 +6,7 @@ describe("<Form /> - index", () => {
   it("should have known properties", () => {
     [
       "AUDIO_FIELD",
+      "AUDIO_RECORD_FIELD",
       "ActionsMenu",
       "CHECK_BOX_FIELD",
       "CUSTOM_LOOKUPS",
@@ -13,6 +14,7 @@ describe("<Form /> - index", () => {
       "default",
       "DIALOG_TRIGGER",
       "DOCUMENT_FIELD",
+      "DOCUMENT_RECORD_FIELD",
       "ERROR_FIELD",
       "FORM_MODE_DIALOG",
       "FORM_MODE_EDIT",
@@ -31,6 +33,7 @@ describe("<Form /> - index", () => {
       "ORDERABLE_OPTIONS_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
+      "PHOTO_RECORD_FIELD",
       "RADIO_FIELD",
       "SELECT_FIELD",
       "SEPARATOR",
