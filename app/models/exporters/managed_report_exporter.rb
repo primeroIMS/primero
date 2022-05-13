@@ -64,7 +64,7 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def subreports_to_export(opts)
-    return managed_report.subreports unless opts&.dig(:subreport_id).present?
+    return managed_report.subreports if opts&.dig(:subreport_id).blank? || opts&.dig(:subreport_id) == 'all'
 
     managed_report.subreports.select { |subreport| subreport == opts[:subreport_id] }
   end

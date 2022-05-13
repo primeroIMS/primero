@@ -610,5 +610,41 @@ describe Exporters::ManagedReportExporter do
         end
       end
     end
+
+    context 'all subreport' do
+      let(:workbook_all) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today - 1.year,
+              to: Date.today.end_of_year
+            ),
+            SearchFilters::Value.new(
+              field_name: 'grouped_by',
+              value: 'year'
+            )
+          ],
+          { output_to_file: false }
+        )
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      it 'should export all the sheets' do
+        expect(workbook_all.sheets.size).to eq(3)
+      end
+
+      it 'should export the excel' do
+        expect(workbook_all.sheets.size).to eq(3)
+        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors])
+      end
+
+      it 'prints subreports headers' do
+        expect(workbook_all.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
+        expect(workbook_all.sheet(1).row(1)).to match_array(['Perpetrators', nil, nil])
+        expect(workbook_all.sheet(2).row(1)).to match_array(['Survivors', nil, nil])
+      end
+    end
   end
 end

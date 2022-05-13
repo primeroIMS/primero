@@ -13,10 +13,10 @@ import { useMemoizedSelector } from "../../../../libs";
 import { EXPORT_FORMAT } from "../../../record-actions/exports/constants";
 import { transformFilters } from "../../../insights-filters/utils";
 
-import { NAME, FORM_ID, EXPORTED_URL } from "./constants";
+import { NAME, FORM_ID, EXPORTED_URL, EXPORT_ALL_SUBREPORTS } from "./constants";
 import { form } from "./form";
 
-const Component = ({ close, i18n, open, pending, setPending, subReport }) => {
+const Component = ({ close, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
@@ -28,7 +28,7 @@ const Component = ({ close, i18n, open, pending, setPending, subReport }) => {
       return { ...acc, [key]: value };
     }, {});
 
-    const transformedFilters = { ...transformFilters(plainInsightFilters), subreport: subReport };
+    const transformedFilters = { ...transformFilters(plainInsightFilters), subreport: EXPORT_ALL_SUBREPORTS };
 
     const params = {
       ...transformedFilters,
@@ -77,8 +77,7 @@ Component.propTypes = {
   i18n: PropTypes.object,
   open: PropTypes.bool,
   pending: PropTypes.bool,
-  setPending: PropTypes.func,
-  subReport: PropTypes.string
+  setPending: PropTypes.func
 };
 
 export default Component;
