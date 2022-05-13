@@ -262,7 +262,7 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(1).row(8)).to eq([2, 1])
           expect(workbook.sheet(1).row(9)).to eq([3, 1])
 
-          expect(workbook.sheet(1).row(35)).to eq(['Alleged Primary Perpetrator’s Relationship to Survivor', nil])
+          expect(workbook.sheet(1).row(35)).to eq(["Alleged Primary Perpetrator's Relationship to Survivor", nil])
           expect(workbook.sheet(1).row(36)).to eq([nil, 'Total'])
           expect(workbook.sheet(1).row(37)).to eq(['No relation', 2])
           expect(workbook.sheet(1).row(38)).to eq(['Other', 1])
