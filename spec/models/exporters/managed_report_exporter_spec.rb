@@ -610,5 +610,38 @@ describe Exporters::ManagedReportExporter do
         end
       end
     end
+
+    context 'order' do
+      let(:workbook) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today.beginning_of_quarter,
+              to: Date.today.end_of_quarter
+            )
+          ],
+          { output_to_file: false }
+        )
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      it 'should export indicators in the correct order' do
+        expect(workbook.sheet(0).row(5).at(0)).to eq('Incidents')
+        expect(workbook.sheet(0).row(7).at(0)).to eq('Number of GBV Incidents Reported')
+        expect(workbook.sheet(0).row(8).at(0)).to eq('Number of Incidents of Sexual Violence Reported')
+        expect(workbook.sheet(0).row(9).at(0)).to eq(
+          'Number of Incidents Reported by Survivors with Prior GBV Incidents'
+        )
+        expect(workbook.sheet(0).row(12).at(0)).to eq('Incident Type')
+        expect(workbook.sheet(0).row(42).at(0)).to eq('Incident Time of Day')
+        expect(workbook.sheet(0).row(72).at(0)).to eq('Time Between Incident and Report Date')
+        expect(workbook.sheet(0).row(100).at(0)).to eq(
+          'Incidents of Rape, Time Elapsed between Incident and Report Date'
+        )
+        expect(workbook.sheet(0).row(128).at(0)).to eq('Incident Location')
+      end
+    end
   end
 end
