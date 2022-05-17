@@ -132,10 +132,10 @@ const Component = ({
       const { form, comparisons, index } = comparedForm;
 
       return (
-        <Fragment key={`${form.unique_id}-${index}`}>
+        <Fragment key={`${form?.unique_id}-${index}`}>
           <Grid container item>
             <Grid item xs={12}>
-              <h2>{form.name[i18n.locale]}</h2>
+              <h2>{form?.name[i18n.locale]}</h2>
             </Grid>
           </Grid>
           {renderFieldRows(comparisons) || (
