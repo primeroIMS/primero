@@ -1,1 +1,76 @@
-sk: {}
+sk:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Exportovať záznamník incidentov xls"
+  exports:
+    incident_recorder_xls:
+      all: Záznamník Incidentov
+      one: Záznamník Incidentov
+      selected: Vybrané do Záznamníka incidentov
+      'yes': "Áno"
+      'no': "Nie"
+      gender:
+        male: "M"
+        female: "Ž"
+        both: "M a Ž"
+      age_group:
+        age: "Vek"
+        61_older: "61 a starší"
+        unknown: "Neznáme"
+        header: "ÚDAJNÁ VEKOVÁ SKUPINA PÁCHATEĽA"
+      age_type:
+        adult: "Dospelý"
+        minor: "Maloletý"
+        both: "Dospelý a maloletý"
+        unknown: "Neznáme"
+        header: "ÚDAJNÝ TYP VEKU PÁCHATEĽA"
+      service_referral:
+        undecided: "Nerozhodnutý"
+      headers:
+        incident_id: "ID INCIDENTU"
+        survivor_code: "KÓD PREŽITIA"
+        case_manager_code: "KÓD SPRÁVCA PRÍPADU"
+        case_worker_code: "KÓD PRACOVNÍKA PRÍPADU"
+        date_of_interview: "DÁTUM ROZHOVORU"
+        date_of_incident: "DÁTUM INCIDENTU"
+        date_of_birth: "DÁTUM NARODENIA"
+        sex: "POHLAVIE"
+        ethnicity: "ETNICITA"
+        country_of_origin: "KRAJINA PÔVODU"
+        marital_status: "OBČIANSKY / MANŽELSKÝ STAV"
+        displacement_status: "STAV POSUNU / UMIESTNENIA"
+        disability_type: "OSOBA S TELESNÝM POSTIHNUTÍM?"
+        unaccompanied_separated_status: "DIEŤA BEZ SPRIEVODU ALEBO OSOBENÉ?"
+        stage_of_displacement: "ŠTÁDIUM PRESUNUTIA PRI INCIDENTE"
+        time_of_day: "INCIDENTNÝ ČAS DŇA"
+        location: "MIESTO INCIDENTU"
+        county: "KRAJINA INCIDENTU"
+        district: "OKRES INCIDENTU"
+        camp_town: "TÁBOR / MESTO INCIDENTU"
+        camp: "TÁBOR INCIDENTU"
+        gbv_type: "TYP GBV"
+        harmful_traditional_practice: "ŠKODLIVÉ TRADIČNÉ PRAXE"
+        goods_money_exchanged: "VYMENENÉ ZA PENIAZE, TOVAR, VÝHODY A / ALEBO SLUŽBY?"
+        abduction_type: "TYP ÚNOSU"
+        previously_reported: "NAHLÁSILI STE TENTO INCIDENT PREDTÝM?"
+        gbv_previous_incidents: "PREDCHÁDZAJÚCE INCIDENTY GBV?"
+        number_primary_perpetrators: "No. ÚDAJNÝ PRIMÁRNY PÁCHATEĽ(LIA)"
+        perpetrator:
+          sex: "ÚDAJNE POHLAVIE PÁCHATEĽA"
+          former: "PREDCHÁDZAJÚCI INCIDENT S PÁCHATEĽOM"
+          relationship: "ÚDAJNÝ VZŤAH PÁCHATEĽA - OBEŤOU"
+          occupation: "ÚDAJNÉ POVOLANIE PÁCHATEĽA"
+          age_group: "ÚDAJNÁ VEKOVÁ SKUPINA PÁCHATEĽA"
+          age_type: "ÚDAJNÝ TYP VEKU PÁCHATEĽA"
+        service:
+          referred_from: "ODPORUČENÉ NA VÁS?"
+          safehouse_referral: "BEZPEČNÝ DOM / ÚTUL"
+          medical_referral: "ZDRAVOTNÍCTVO / LEKÁRSKE SLUŽBY"
+          psycho_referral: "PSYCHOSOCIÁLNE SLUŽBY"
+          wants_legal_action: "CHCETE PRÁVNE KONANIE?"
+          legal_referral: "PRÁVNE ASISTENTNÉ SLUŽBY"
+          police_referral: "POLÍCIA / INÝ BEZPEČNOSTNÝ AKTÉR"
+          livelihoods_referral: "ŽIVOTNÝ PROGRAM"
+          protection_referral: "SLUŽBY OCHRANY DETÍ / VZDELÁVACIE SLUŽBY"
+        consent: "SÚHLAS DANÝ"
+        agency_code: "HLÁSENIE KÓDU AGENTÚRY"

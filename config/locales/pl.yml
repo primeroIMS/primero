@@ -1,1 +1,3116 @@
-pl: {}
+pl:
+  'true': 'Tak'
+  'false': 'Nie'
+  accepted: Przyjęty
+  cancel: Anuluj
+  connection_lost: Obecnie w trybie offline
+  connected: Połączony
+  clear: Usuń
+  sandbox_ui: Demo
+  description: Opis
+  form: Formularz
+  minimum_reportable_fields: "Pola wymagające wypełnienia %{record_type}"
+  name: Imię
+  offline: Offline
+  unavailable_offline: Niedostępne Offline
+  online: Online
+  yes_label: 'Tak'
+  or_label: lub
+  select_provider: Wybierz dostawcę
+  select_language: Wybierz język
+  log_in_primero_idp: 'zaloguj się z następującą nazwą użytkownika: %{idp_name} '
+  offline_submitted_changes: 'Obecnie jesteś offline. Wszystkie zmiany będą przesłane jak twoje urządzenie będzie online. '
+  updated: Zaktualizowano
+  sync:
+    success: "%{records} dane pomyślnie zsynchronizowane."
+    error:
+      create: Nie udało się stworzyć %{record_type}. Skontaktuj się z pomocą techniczną.
+      update: Aktualizacja %{record_type} %{short_id} nie powiodła się. Skontaktuj się z pomocą techniczną.
+  actions:
+    approvals: 'Oczekujące na zatwierdzenie. '
+    button: Możliwe akcje
+    close: Zamknij
+    description:
+      invalid: Nieprawidłowy rekord
+      valid: Prawidłowy rekord
+    disable: Wyłącz
+    enable: Włącz
+    incident_details_from_case: Dodaj zdarzenie
+    incident_from_case: Stwórz zdarzenie
+    next: Następne
+    notes: Dodaj Uwagi
+    previous: Poprzedni
+    reopen: Otwórz ponownie
+    request_approval: Poproś o zatwierdzenie
+    revoke: Unieważnić
+    save: Zapisz
+    services_from_case_creation_success: Pomyślnie utworzono rekord świadczenia usług.
+    services_section_from_case: Dodaj świadczenie usług
+    mark_for_offline: Oznacz do trybu offline
+  agencies:
+    label: Agencja
+    translations:
+      manage: Zarządzaj tłumaczeniami
+  agency:
+    agency_logos: Logo Agencji
+    code: Kod Agencji
+    description: Opis
+    disabled: Wyłączone
+    exclude_agency_from_lookups: Wyklucz tę agencję z wyszukiwań i filtrów
+    exclude_agency_from_lookups_help: Zaznacz to, jeśli Agencja nie ma użytkowników (np. Agencja została dodana, aby logo mogło być stosowane do eksportu.
+    label: Agencja
+    logo_enabled: Wyświetlać logo tej agencji w Primero?
+    logo_enabled_help: Wyświetlać logo tej agencji w Primero?
+    logo_icon: Logo
+    logo_icon_help: Pojawi się to na małych ekranach, tabletach i telefonach. To powinien być kwadrat.
+    logo_large: Większe logo
+    logo_large_help: Pojawi się to na dużych ekranach i w eksporcie PDF. Powinien to być prostokąt o długości większej niż wysokość.
+    messages:
+      created: Agencja została pomyśnie utworzona.
+      updated: Agencja została pomyśnie zaktualizowana.
+    name: Nazwa Agencji
+    pdf_logo_option: 'Czy logo powinno pojawiać się w eksportach? '
+    pdf_logo_option_help: 'Uwaga: logo agencji użytkowników są dla nich domyślnie dostępne, więc zaznacz to tylko wtedy, gdy chcesz, aby to logo było dostępne dla wszystkich użytkowników.'
+    services: Usługi Agencji
+    terms_of_use: Regulamin
+    terms_of_use_help: Tylko PDF jest dozwolone.
+    terms_of_use_download_button: Pobierz PDF
+    terms_of_use_enabled: 'Wyświetlić regulamin? '
+  approvals:
+    approved_by: Zatwierdzone przez
+    case_plan_type_label: Rodzaj planu sprawy
+    manager_comments_label: Komentarze Zarządcy Sprawy
+    rejected_by: Odrzucono przez
+    requested_by: Na prośbę
+    requested_for_label: Wymagana Zgoda Dla
+    requested_for_title: Wniosek o Zatwierdzenie
+    response_for_label: Zatwierdzenie dla
+    response_for_title: Zatwierdzenie
+    action_plan: Plan Akcji
+    gbv_closure: Przemoc ze względu na płeć - Zamknięcie
+    status:
+      approved: Zatwierdzono
+      pending: Oczekuje
+      rejected: Odrzuncono
+      requested: Wniosek Złożony
+  audit_log:
+    action: Akcja
+    description: Opis
+    record_owner: Właściciel rekordu
+    timestamp: Czas
+    user_name: Wykonane Przez
+  bulk_export:
+    file_name: Kartoteka
+    record_type: Typ
+    retry: 'Ten eksport jest nieprawidłowy. Spróbuj stworzyć go ponownie. '
+    started_on: Rozpoczęto
+    status: Etap
+  form_export:
+    label: Eksport z Konfiguracji
+    include_hidden: Uwzględnić ukryte formularze i pola?
+    file_name: Stwórz własną nazwę (opcjonalne)
+    success_message: Pomyślnie wygenerowano plik eksportu
+  buttons:
+    accept: Zatwierdź
+    add: Dodaj
+    add_another_option: Dodaj następną opcję
+    add_note: Dodaj Uwagi
+    apply: Zastosuj
+    approvals: Zatwierdzenia
+    approve_action_plan: Zatwierdź Plan Akcji
+    approve_bia: Zatwierdź Ocenę Najlepiej Pojętego Interesu Dziecka
+    approve_case_plan: Zatwiedź Plan Sprawy
+    approve_closure: Zatwierdź Zamknięcie
+    approve_gbv_closure: 'Zatwierdź Zamknięcie - Przemoc ze względu na płeć '
+    back: Cofnij
+    bundle_export: Pakiet Konfiguracyjny
+    bundle_import: Pakiet Konfiguracyjny
+    cancel: Anuluj
+    change_password: Zmień Hasło
+    check_status: Sprawdź Status
+    clear_default: Wyczyść domyślne wartości
+    clear_selection: Wyczyść wybrane
+    clear: Wyczyść
+    close: Zamknij
+    continue: Kontynuuj
+    create_case: Utwórz sprawę
+    create_incident: Utwórz zdarzenie
+    create_new_record: Utwórz Nowy %{model}
+    delete: Usuń
+    disable: Wyłącz
+    disable_photo_wall: Wyłącz panel ze zdjęciami
+    done: Wykonano
+    download: Pobierz
+    edit: Edytuj
+    edit_subform: Edytuj podformularz
+    enable: Włącz
+    enable_photo_wall: Włącz panel ze zdjęciami
+    export: Eksportuj
+    filter: Zastosuj Filtr
+    filter_clear: Wyczyść Filtry
+    filter_label: 'Filtry:'
+    filter_restore: Przywróć do Ustawień Systemowych
+    find_tracing_match: Znajdź osoby pasujące do poszukiwania
+    flag_model: Oznaczenie %{model}
+    flag_records: Oznaczenie
+    flags: Oznaczenia
+    guidance: Poradnik
+    guiding_questions: Pytania Pomocznicze
+    import: Import
+    login: Zaloguj się
+    logout: Wyloguj się
+    mark_for_mobile: Oznacz dla urządzenia mobilnego
+    new: Nowy
+    ok: OK
+    print: Drukuj
+    reassign: Przypisz
+    referral: Skieruj
+    referral_again: Skieruj ponownie
+    reject: Odrzuć
+    remove_referrals: Odrzuć skierowania
+    reorder: Zmień kolejność
+    request_approval: Poproś o Zatwierdzenie
+    request_transfer: Poproś o Przeniesienie
+    reunite: Poproś o zjednoczenie
+    save: Zapisz
+    save_and_add_service_provision: Zapisz i Dodaj Świdczenie Usług
+    save_and_return: Zapisz i Powróć
+    save_continue: Zapisz i Kontynuuj
+    save_changes: Zapisz Zmiany
+    select: Wybierz
+    send: Wyślij
+    sort_by_case: Sprawy
+    sort_by_tr: Prośba o Poszukiwanie
+    sync: Zsynchronizuj
+    submit: Prześlij
+    transfer: Przenieś
+    unflag_model: Odznacz %{model}
+    unflag_model_history: Historia Oznaczeń %{model}
+    unmark_for_mobile: Odznacz dla urządzenia mobilnego
+    update: Zaktualizuj
+    view: Podgląd
+    view_flags_history: Podgląd Historii
+    return_to_case: Powrót do Sprawy
+  case:
+    label: Sprawa
+    create_new_case: Utwórz nową sprawę
+    add_new: Dodaj Nowy
+    back_to_case: Powrót  do Sprawy
+    back_to_results: Powrót do Wyników
+    back_to_search: Powrót do Wyszukiwania
+    search_by: Wyszukiwanie Według
+    search_for: Szukaj %{record_type}
+    results: Wyniki
+    details: Szczegóły
+    select: Wybierz
+    deselect: Odznacz
+    enter_id_number: Wprowadź numer ID żeby wyszukać instniejący rekord
+    id_search_no_results: 'Nie można znaleźć w systemie: “%{search_query}”. Stwórz nowy rekord.'
+    messages:
+      disabled: Sprawa jest wyłączona
+      update_success: 'Sprawa %{record_id} została pomyślnie zaktualizowana.'
+      update_success_queue: 'Sprawa %{record_id} została pomyślnie zaktualizowana w tle.'
+      creation_success: 'Rekord sprawy został pomyślnie stworzony.'
+      creation_success_queue: 'Rekord sprawy został pomyślnie stworzony w tle.'
+      already_matched: Ta osoba składająca zapytanie została już przypisana do Twojej sprawy.
+      already_matched_not_current_case: 'Sprawa która jest przypisana do tej osoby składającej zapytanie już istnieje w systemie. '
+      not_found_case: Nie znaleziono sprawy pasującej do "%{search_value}". Załóż nową sprawę.
+      introductory_sentence: Sprecyzuj zgodę osoby w sprawie otrzymywania usług oraz przechowywania jej danych w   Primero.
+      consent_agreements_required: 'Proszę wybrać przynajmniej jedną opcję z listy zgód na usługi/przetwarzanie danych. '
+      legitimate_basis_required: 'Wybierz co najmniej jedną opcję z uzasadnionych klasyfikacji podstawy zbierania i przetwarzania danych. '
+    save: Zapisz Sprawę
+    save_text: Zanim przejdziesz dalej, zapisz zmiany w Twojej sprawie.
+    skip_and_create: Pomiń i Utwórz Nową Sprawę
+    search_existing: Przeszukaj istniejące sprawy
+    search_helper_text: Dlaczego? Żeby nie dopuścić do powielenia spraw.
+    consent_agreements: Wybierz wszystkie zgody, które mają zastosowanie
+    legitimate_basis: Wybierz wszystkie uzasadnione podstawy zbierania i przetwarzania danych, które mają zastosowanie.
+    workflow:
+      assessment: Ocena
+      case_plan: Plan Sprawy
+      closed: Zamknięte
+      created_on: stworzone
+      in_progress: w toku
+      new: Nowy
+      on_label: 'w'
+      reopened: Otwarte ponownie
+      service_implemented: Usługa wdrożona
+      services_implemented: Usługa wdrożona
+  linkedincidents:
+    label: Powiązane zdarzenie
+  activity_log:
+    label: Dziennik aktywności
+    accepted_transfer: '%{to} zaakceptowano przeniesienie%{record_type} %{record_id} z %{from}'
+    rejected_transfer: '%{to} odrzucono przeniesienie%{record_type} %{record_id} z %{from}'
+  cases:
+    action_plan: Plan Działania
+    age: Wiek
+    age_estimated: Szacowany Wiek?
+    agency: Agencja
+    apply_filter: Zastosuj
+    approval_comments: Uwagi
+    approval_radio: Chciałbym/Chciałabym
+    approval_radio_accept: Zatwierdź
+    approval_radio_reject: Nie zatwierdzaj
+    approval_select: Formularz z
+    approved_success_action_plan: '%{approval_label} - Zatwierdzono'
+    approved_success_assessment: '%{approval_label} - Zatwierdzono'
+    approved_success_bia: '%{approval_label} - Zatwierdzono'
+    approved_success_case_plan: '%{approval_label} - Zatwierdzono'
+    approved_success_closure: '%{approval_label} - Zatwierdzono'
+    approved_success_gbv_closure: '%{approval_label} - Zatwierdzono'
+    assessment: Ocena
+    case_opening_date: Data Otwarcia Sprawy
+    case_plan: Plan Sprawy
+    case_worker_code: Kod Pracownika Sprawy
+    clear_filter: Wyczyść
+    close_dialog: 'Po kliknięciu OK, status sprawy zostanie zmieniony na Zamknięty. '
+    close_dialog_title: Zamknij Sprawę
+    close_success: Sprawa pomyślnie zamknięta
+    closure: Zamknięcie
+    date_of_birth: Data Urodzenia
+    disable_dialog: 'Po kliknięciu OK, status sprawy zostanie zmieniony na Nieaktywna. '
+    disable_dialog_title: Nieaktywna sprawa
+    disable_success: Pomyślnie zdezaktywowano sprawę
+    enable_dialog: Po kliknięciu OK, status sprawy zostanie zmieniony na Aktywna.
+    enable_dialog_title: Aktywuj Sprawę
+    enable_success: Pomyślnie zaktywowano sprawę
+    export: Eksport
+    mark_for_offline:
+      title: Zaznacz dla trybu Online
+      text: 'Czy na pewno chcesz, żeby te sprawy były dostępne w trybie offline? '
+      success: Sprawa pomyślnie oznaczona do użytku w trybie offline
+    filter_by:
+      3month_inactivity: Powyżej 3 miesięcy
+      action_plan: Plan Działania
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Grupa wiekowa
+      agency: Agencja
+      approval_status: Status zatwierdzenia
+      approvals:
+        approved: Zatwierdzone
+        pending: Oczekujące
+        rejected: Odrzucone
+      bia: Najlepiej Pojętego Interesu Dziecka
+      by_date: Według Daty
+      case_open_date: Data Otwarcia Sprawy
+      case_plan: Plan Sprawy
+      closed: Zamknięte
+      closure: Zamknięcie
+      current_location: Obecna Lokalizacja
+      date: Data
+      displacement_status: Status Przesiedlenia
+      district: Powiat
+      duplicate: Powiel
+      enabled_disabled: Wlączone / wyłączone
+      female: Kobieta
+      flag: Oznaczone
+      flag_label: Oznaczone?
+      gbv_closure: Przemoc ze względu na płeć - Zamknięcie
+      high: Wysoki
+      low: Niski
+      male: Mężczyzna
+      medium: Średni
+      mobile: Urządzenie mobilne
+      mobile_label: Oznaczone dla urządzeń mobilnych?
+      my_cases: Moje Sprawy
+      no_action: Brak Akcji
+      no_activity: Brak Aktywności
+      open: Otwarte
+      other: Inne
+      photo: Zdjęcie
+      photo_label: Zdjęcie dostępne?
+      protection_concerns: Obawy Związane z Ochroną
+      protection_status: Status Ochrony
+      record_state: Status Rekordu
+      referred_cases: Sprawy skierowane do mnie
+      registration_date: Data Rejestracji
+      risk_level: Poziom ryzyka
+      sex: Płeć
+      social_worker: Pracownik Terenowy/Sprawy/Socjalny
+      status: Status
+      transferred: Przeniesiono
+      type_of_risk: Typ Ryzyka
+      urgent_protection_concern: Pilne Obawy Związane z Ochroną
+      user_group: Grupa użytkownika
+      workflow: Sprawy według Kolejności Zadań
+    flag_summary: Podsumowanie oznaczeń
+    full_name: 'Pełne Imię '
+    gbv_closure: Przemoc ze względu na płeć - Zamknięcie
+    hide_name: Ukryj Imię
+    hide_name_error: 'Wystąpił błąd podczas zapisywania zmian. Spróbuj jeszcze raz. '
+    id: Numer#
+    label: Sprawy
+    my_filters: Moje Filtry
+    name: Imię
+    notes_dialog_title: Dodaj Uwagi
+    notes_form_notes: Uwagi
+    notes_form_subject: Temat
+    ok: Ok
+    order_by:
+      label: Uporządkuj według
+      most_recently: Ostatnie
+      name: Imię
+    owned_by: Właściciel rekordu
+    owned_by_agency: Agencja Właściciela Rekordu
+    photo: Zdjęcie
+    photos: Zdjęcie
+    quick_view:
+      tracing_message: 'Notatka: W systemie znaleziono zpytanie związane z tym dzieckiem. Skontaktuj się z pracownikiem socjalnym wskazanym w tym rekordzie w celu poprowadzenie sprawy dalej, jeżeli dziecko wyrazi na to zgodę. '
+    referral_done: Po kliknięciu "Wykonaj" zakończysz pracę związaną ze skierowaniem dziecka w tej sprawie. Po kliknięciu "Wykonaj" nie będziesz miał dostępu do tego rekordu.
+    referral_done_success: Skierowanie Wykonane.
+    referral_accepted_header: Zatwierdź Skierowanie
+    referral_accepted: 'Na pewno? Teraz weźmiesz odpowiedzialność za pracę związaną ze skierowaniem dziecka do odpowiednich ugług. '
+    referral_accepted_success: Skierowanie zaakceptowane.
+    referral_rejected: 'Klikając "Odrzuć" dajesz do zrozumienia, że nie jesteś gotów do podjęcia odpowiedzialności za to skierowanie. Proszę wprowadź powód odrzucenia. Po kliknięciu "Odrzuć" nie będziesz mieć dostępu do tego rekordu. '
+    referral_rejected_success: Skierowanie odrzucone.
+    register_new_case: Nowa Sprawa
+    registration_date: Data Rejestracji
+    rejected_success_action_plan: '%{approval_label} - Nie zatwierdzone'
+    rejected_success_assessment: '%{approval_label} - Nie zatwierdzone'
+    rejected_success_bia: '%{approval_label} - Nie zatwierdzone'
+    rejected_success_case_plan: '%{approval_label} - Nie zatwierdzone'
+    rejected_success_closure: '%{approval_label} - Nie zatwierdzone'
+    rejected_success_gbv_closure: '%{approval_label} - Nie zatwierdzone'
+    reopen_dialog: Kliknięcie "OK" spowoduje zmianę statusu sprawy na "Otwarta"
+    reopen_dialog_title: Otwórz Sprawę Ponownie
+    reopen_success: Pomyślnie otwarto sprawę ponownie
+    request_approval_failure: Wystąpił błąd, skontaktuj się ze wsparciem technicznym.
+    request_approval_select: Poproś o zatwierdzenie dla
+    request_approval_success_action_plan: Poproszono o zatwierdzenie formularza %{approval_label}.
+    request_approval_success_assessment: Poproszono o zatwierdzenie formularza %{approval_label}.
+    request_approval_success_case_plan: Poproszono o zatwierdzenie formularza %{approval_label}.
+    request_approval_success_closure: Poproszono o zatwierdzenie formularza %{approval_label}.
+    request_approval_success_gbv_closure: Poproszono o zatwierdzenie formularza %{approval_label}.
+    request_approval_type_of_case_plan: Rodzaj Zatwierdzenia Planu Sprawy
+    request_approve_action_plan: Zatwierdź Plan Działania?
+    request_approve_bia: Zatwierdź Ocenę?
+    request_approve_case_plan: Zatwierdź Plan Sprawy?
+    request_approve_closure: Zatwierdź Zamknięcie?
+    request_approve_gbv_closure: Zatwierdź Zamknięcie - Przemoc ze względu na płeć?
+    revoke_failure: Wystąpił błąd przy cofnięciu %{transition_type}, proszę skontaktować się z pomocą techniczną.
+    revoke_message: Klikając "Cofnij", cofniesz %{transition_type} odbiorcy dostęp do tej sprawy.
+    revoke_success_message: Sprawa %{case_id} %{transition_type} do %{recipient_username} odrzucone.
+    save_filter: Zapisz
+    selected_all_records: 'Wybierz wszystkie %{total_records} sprawy pasujące do tego zapytania. '
+    selected_records: 'Wybrano%{select_records} spraw'
+    sex: Płeć
+    show_case: 'Numer Sprawy: %{short_id}'
+    social_worker: Pracownik Socjalny
+    status: Status
+    summary:
+      label: Podsumowanie
+      find_match: Znajdź Pasujące
+      matched_trace: 'Dopasowanie #%{trace_id}'
+      cannot_find_matches: 'Nie można znaleźć pasujących rekordów. Nie otrzymano zgody w tej sprawie żeby ujawnić informacje w celu poszukiwania. '
+      matched: Dopasowane
+      fields:
+        consent_for_tracing:
+          label: 'Otrzymano zgodę na ujawnienie informacji w celu poszukiwania. '
+          help_text: 'Jeśli odpowiedź w tym polu to "Nie", to sprawa tego dziecka nie zostanie wyświetlona jako dopasowanie w zapytaniach o Poszukiwanie. '
+        wishes_child_family_tracing:
+          label: 'Czy dziecko chce poszukiwania członków rodziny? '
+        wishes_reunification:
+          label: Czy dziecko chce połączenia z rodziną?
+          options:
+            yes_as_soon_as_possible: Tak, jak najszybciej
+            yes_but_later: Tak, ale później
+            not_sure: Nie ma pewności
+            'no': 'Nie'
+        data_confidentiality_link:
+          label: Zobacz Klauzulę Poufności Danych
+        child_wishes_link:
+          label: Zobacz Życzenia Dziecka
+    survivor_code: Kod Ocalałego/ej
+    transfer_accepted: 'Klikając "Zaakceptuj" przyjmujesz odpowiedzialność za tę sprawę; po kliknięciu "Zaakceptuj" zostaniesz właścicielem tego rekordu w systemie. '
+    transfer_managed_user_accepted: Klikając "Zaakceptuj" , %{transitioned_to} zostanie odpowiedzialny/a za tę sprawę; po kliknięciu "Zaakceptuj", %{transitioned_to} zostanie właścicielem/ką tego rekordu w systemie.
+    transfer_managed_user_rejected: "Klikając \"Odrzuć\" dajesz do zrozumienia, że %{transitioned_to} nie jest gotów do podjęcia odpowiedzialności za to skierowanie. Proszę wprowadź powód odrzucenia. Po kliknięciu \"Odrzuć\" %{transitioned_to}  nie będzie mieć dostępu do tego rekordu.\n\n  "
+    transfer_accepted_rejected: Przeniesienie sprawy %{record_id} odrzucone.
+    transfer_accepted_success: Przeniesienie sprawy pomyślnie zaakceptowane.
+    transfer_reject_reason_label: Powód Odrzucenia
+    transfer_rejected: 'Klikając "Odrzuć" sygnalizujesz, że nie jesteś gotów do podjęcia odpowiedzialności za tę sprawę. Proszę wprowadź powód odrzucenia. Po kliknięciu "Odrzuć" nie będziesz mieć dostępu do tego rekordu. '
+    view_name: Podgląd Imienia
+  change_logs:
+    filters:
+      form: Formularz
+      field: Pole
+    add_subform: 'Dodano podformularz “%{subform_name}” dana #%{short_id} '
+    changes_subform: 'Zmiany w podformularzu “%{subform_name}” '
+    create: Utworzono rekord
+    deleted_subform: 'Usunięto podformularz “%{subform_name}” dana #%{short_id}'
+    label: Historia Zmian
+    see_details: Zobacz Szczegóły
+    change: 'od“%{from_value}” do “%{to_value}”'
+    updated_subform: 'Zaktualizowano podformularz “%{subform_name}” dana #%{short_id}'
+    update_subform: 'Zaktualizowano podformularz “%{subform_name}” '
+    from: od
+    to: do
+  children:
+    selectable_date_options:
+      assessment_requested_on: Data Oceny
+      closure_approved_date: 'Data Zamknięcia Sprawy'
+      created_at: Data Otwarcia Sprawy
+      date_case_plan_initiated: Data Planu Sprawy
+      date_of_creation: Data Utworzenia
+      registration_date: Data Rejestracji
+  configurations:
+    apply_label: Czy jesteś pewny/a? Jeśli potwierdzisz, ustawienia w tej konfiguracji zostaną zastosowane w systemie. Utracisz wszystkie aktualne ustawienia i nie będziesz mógł/a ich odzyskać, chyba że wcześniej zapisałeś/aś je w innej Konfiguracji.
+    apply_label_bold: 'Primero będzie niedostępne dla użytkowników przez kilka minut potrzebnych na zapisanie zmian. '
+    version_mismatch_tooltip: Nie można zastosować tej konfiguracji, ponieważ została ona utworzona w nowszej wersji Primero niż aktualnie używana przez twoją lokalizację. Zaczekaj z zastosowaniem tej konfiguracji do momentu dostępu do nowszej wersji Primero.
+    send_header: Wyślij do Wdrożenia w Środowisku Produkcyjnym.
+    send_text: 'Jesteś pewna/-y. Po kliknięciu "Wyślij", twoje konfiguracja zostanie wysłana do środowiska produkcyjnego twojej aplikacji. Ta konfiguracja nie zostanie wdrożona, dopóki administrator aplikacji nie wdroży ją ręcznie. '
+    attributes:
+      created_by: Utworzono przez
+      date_created: Data Utworzenia
+      description: Opis
+      last_applied_by: Ostatnio Zastosowano Przez
+      last_applied_on: Ostatnio Zastosowano Dnia
+      name: Imie
+      version: Wersja Konfiguracji
+      primero_version: Wersja Primero
+    delete_label: Czy na pewno chcesz to zrobić? Są to wszystkie ustawienia od momentu utworzenia tej Konfiguracji. Nie będziesz mógł/a cofnąć tej akcji i odzyskać tych ustawień po usunięciu tej Konfiguracji.
+    explanation: 'Kliknięcie Zapisz utworzy rekord wszystkich aktualnych ustawień konfiguracji (przykładowo: Ról, Agencji, Formularzy) w tym momencie. Po zapisaniu możesz przenieść te zmiany do innej instancji Primero. Jeśli w przyszłości dokonasz zmian w konfiguracji, które chciałbyś/ałabyś odwrócić, możesz zastosować ten rekord Konfiguracji, by przywrócić zmiany dokonane w tym momencie.  '
+    label: Konfiguracje
+    label_new: Nowa Konfiguracja
+    messages:
+      applied: Konfiguracja została zastosowana
+      created: Konfiguracja została utworzona
+      deleted: Konfiguracja została usunięta
+      updated: Konfiguracja została zaktualizowana
+      sent: 'Konfiguracja została wysłana do środowiska produkcyjnego. Sprawdź w środowisku produkcyjnym czy nowa konfiguracja tam dotarła. '
+    not_allowed: Nie dozwolone
+    unavailable_server: Serwer chwilowo niedostępny
+  contact:
+    field:
+      email: Email
+      location: Lokalizacja
+      name: Imię
+      organization: Organizacja
+      other_information: Inne informacje
+      phone: Telefon
+      position: Stanowisko
+      primero_version: Wersja Primero
+      support_forum: Forum Wsparcia
+      system_version: Wersja Systemu
+    info_label: Informacje Kontaktowe
+    updated: Informacje kontaktowe zaktualizowana pomyślnie.
+  code_of_conduct:
+    field:
+      title: Tytuł
+      content: Treść
+      created_on: 'Stworzono '
+      created_by: Utworzono przez
+    info_label: Kodeks Postępowania
+    updated: Kodeks Postępowania Został Pomyślnie Zaktualizowany.
+  dashboard:
+    activity: Aktywność
+    admin_only: Kliknij %{links} aby dokonać zmian w aplikacji.
+    all_cases: Wszystkie Sprawy
+    all_services_implemented: Wszystkie Wdrożone Świadczenia
+    and: 'i'
+    approval_action_plan_approved: Zatwierdzono
+    approval_action_plan_pending: Oczekuje
+    approval_action_plan_pending_group: Plan Działania
+    approval_action_plan_rejected: Odrzucono
+    approval_assessment_approved: Zatwierdzono
+    approval_assessment_pending: Oczekuje
+    approval_assessment_pending_group: Ocena
+    approval_assessment_rejected: Odrzucono
+    approval_case_plan_approved: Zatwierdzono
+    approval_case_plan_pending: Oczekuje
+    approval_case_plan_pending_group: Plan Sprawy
+    approval_case_plan_rejected: Odrzucono
+    approval_closure_approved: Zatwierdzono
+    approval_closure_pending: Oczekuje
+    approval_closure_pending_group: Zamknięcie
+    approval_closure_rejected: Odrzucono
+    approval_gbv_closure_approved: Zatwierdzono
+    approval_gbv_closure_pending: Oczekuje
+    approval_gbv_closure_pending_group: Przemoc ze względu na płeć - Zamknięcie
+    approval_gbv_closure_rejected: Odrzucono
+    approvals: Zatwierdzenia
+    approvals_action_plan: Plan Działania
+    approvals_assessment: Ocena
+    approvals_case_plan: Plan Sprawy
+    approvals_closure: Zamknięcie
+    approvals_gbv_closure: Przemoc ze względu na płeć - Zamknięcie
+    approved: Zatwierdzono
+    assessment: Ocena
+    awaiting_acceptance: Oczekuje na akceptację
+    cases_by_social_worker_total: Razem
+    cases_by_social_worker_new_or_updated: Nowe & Zaktualizowane
+    case_id: 'Numer sprawy'
+    case_management_service: Usługa Zarządzania Sprawami
+    case_overview: Moje Sprawy
+    case_plan: Plan Sprawy
+    case_risk: Sprawy według Poziomu Oceny
+    case_stat_by_approval_type: Zatwierdzenia
+    case_stat_by_assessment_level: Sprawy według Poziomu Oceny
+    case_stat_referrals: Skierowania
+    case_stats: Sprawy
+    case_worker: Pracownik Sprawy
+    cases_by_social_worker: Sprawy według pracownika socjalnego
+    cases_by_task_overdue: Zaległe zadania
+    cases_by_workflow: Sprawy według Kolejności Zadań
+    cases_this_week: Sprawy w Tym Tygodniu
+    cases_to_assign: Sprawy do Przypisania
+    closed: Zamknięte
+    closed_last_week: Zamknięte (poprzedni tydzień)
+    closed_this_week: Zamknięte (bieżący tydzień)
+    comprehensive_need_intervention: Odpowiedź kompleksowa
+    count_new_bia_approvals:
+      one: '%{stat} nowe %{stat_type} Zatwierdzenie'
+      few: '%{stat} nowych %{stat_type} Zatwierdzeń'
+      many: '%{stat} nowe %{stat_type} Zatwierdzenia'
+      other: '%{stat} nowe %{stat_type} Zatwierdzenia'
+    count_new_case_plan_approvals:
+      one: '%{stat} nowe %{stat_type}  Zatwierdzenie'
+      few: '%{stat} nowych %{stat_type}  Zatwierdzeń'
+      many: '%{stat} nowe %{stat_type}  Zatwierdzenia'
+      other: '%{stat} nowe %{stat_type}  Zatwierdzenia'
+    count_new_closure_approvals:
+      one: '%{stat} nowe %{stat_type}  Zatwierdzenie'
+      few: '%{stat} nowych %{stat_type}  Zatwierdzeń'
+      many: '%{stat} nowe %{stat_type}  Zatwierdzenia'
+      other: '%{stat} nowe %{stat_type}  Zatwierdzenia'
+    count_pending_approval_total:
+      one: 'Masz %{stat} oczekujące %{stat_type}  Zatwierdzenie '
+      few: 'Masz %{stat} oczekujących %{stat_type}  Zatwierdzeń '
+      many: 'Masz %{stat} oczekujących %{stat_type} Zatwierdzeń '
+      other: 'Masz %{stat} oczekujących %{stat_type}  Zatwierdzeń '
+    count_pending_transfers:
+      one: Masz %{stat} oczekujące Przeniesienie
+      few: Masz %{stat} oczekujące Przeniesienia
+      many: Masz %{stat} oczekujących Przeniesień
+      other: Masz %{stat} oczekujących Przeniesień
+    count_records_new:
+      one: i%{stat} nową sprawę
+      few: i%{stat} nowe sprawy
+      many: i%{stat} nowych spraw
+      other: i%{stat} nowych sprawy
+    count_records_total:
+      one: Masz%{stat} sprawę
+      few: Masz %{stat} sprawy
+      many: Masz %{stat} spraw
+      other: Masz%{stat} spraw
+    count_referrals_new:
+      one: i%{stat} nowe skierowanie
+      few: i %{stat} nowe skierowania
+      many: i%{stat} nowych skierowań
+      other: i%{stat} nowych skierowań
+    count_referrals_total:
+      one: 'Masz %{stat} skierowanie '
+      few: Masz %{stat} skierowań
+      many: Masz %{stat} skierowań
+      other: Masz %{stat} skierowań
+    count_rejected_approval_total:
+      one: i%{stat} odrzucone %{stat_type} Zatwierdzenie
+      few: i%{stat} odrzucone%{stat_type} Zatwierdzenia
+      many: i%{stat} odrzuconych%{stat_type} Zatwierdzeń
+      other: i %{stat} odrzuconych %{stat_type} Zatwierdzeń
+    count_rejected_transfers:
+      one: i%{stat} odrzucone Przeniesienie
+      few: i%{stat} odrzucone Przeniesienia
+      many: i%{stat} odrzuconych Przeniesień
+      other: i%{stat}odrzuconych Przeniesień
+    count_risk_level_new:
+      one: 'i%{stat} nową sprawę o ryzyku %{stat_type} '
+      few: 'i %{stat} nowe sprawy o ryzyku %{stat_type} '
+      many: 'i%{stat} nowych spraw o ryzyku %{stat_type} '
+      other: 'i%{stat} nowych spraw o ryzyku %{stat_type} '
+    count_risk_level_total:
+      one: 'Masz %{stat} sprawę %{stat_type} ryzyka. '
+      few: 'Masz %{stat}spraw %{stat_type} ryzyka '
+      many: 'Masz %{stat} spraw %{stat_type} ryzyka '
+      other: 'Masz %{stat} spraw  %{stat_type} ryzyka '
+    count_waiting_for_acceptance_transfers: 'Masz %{stat} Przeniesienie/ia/ń oczekujących na twoje zaakceptowanie '
+    current_owner: Aktualny Właściciel
+    dash_case_incident_overview: Moje Sprawy
+    dash_group_overview: Sprawy Mojej Grupy
+    dash_shared_from_my_team: Udostępnione z mojego zespołu
+    dash_shared_with_me: Udostępniono mi
+    dash_shared_with_my_team: Udostępniono mojemu zespołowi
+    dash_shared_with_my_team_overview: Udostępniono mojemu zespołowi (przegląd)
+    dash_shared_with_others: Udostępniono innym
+    dash_national_admin_summary: Podsumowanie Administratora
+    date: Data
+    date_of_incident: Data Zdarzenia
+    date_of_interview: Data wywiadu
+    due: Zaległe
+    flagged: Oznaczone
+    flagged_by: 'Oznaczone'
+    flagged_by_me: Oznaczone przeze mnie
+    flagged_by_other: Oznaczone przez inną osobę
+    flagged_cases: Oznaczone Sprawy
+    follow_up: Kontrola/kolejne kroki
+    forms: zakładka FORMULARZE
+    geographic_area: Obszar Geograficzny
+    group_overview_closed: Zamknięte
+    group_overview_open: Otwarte
+    high_level: Wysoki
+    high_risk: Wysoki Priorytet
+    immediate_response: Natychniastowa Odpowiedź
+    in_progress: W toku
+    incident_id: 'Numer Zdarzenia'
+    incident_location: Miejsce Zdarzenia
+    incident_status_open: Otwarte
+    last_updated: Ostatnio Zaktualizowane
+    link_see_all: Zobacz wszystkie
+    low_level: Niski
+    low_risk: Niski Priorytet
+    manager_count_closed_total:
+      one: i%{stat} zamkniętą sprawę
+      few: i %{stat} zamknięte sprawy
+      many: i %{stat} zamkniętych spraw
+      other: i%{stat}zamkniętych spraw
+    manager_count_open_total:
+      one: Masz %{stat} otwartą sprawę
+      few: 'Masz %{stat}otwarte sprawy '
+      many: Masz%{stat} otwartych spraw
+      other: Masz %{stat} otwartych spraw
+    manager_transfers_totals:
+      one: Masz %{stat} %{stat_type} Przeniesienie
+      few: Masz %{stat} %{stat_type} Przeniesienia
+      many: Masz %{stat} %{stat_type} Przeniesień
+      other: Masz %{stat} %{stat_type} Przeniesień
+    match_result: Wyniki dopasowania
+    medium_level: Średni
+    medium_risk: Średni Priorytet
+    missed_cases: Przeoczone Sprawy
+    name: Imię
+    name_or_survivor_code: Imię lub Kod Ocalałego/ej
+    near_deadline: Blisko nieprzekraczalnego terminu
+    new: Nowe & Zaktualizowane
+    new_child_assigned_to_you: Nowe Sprawy Przypisane Tobie
+    new_incident: Nowe Zdarzenie
+    new_incident_assigned_to_you: Nowe Przypisane Zdarzenia
+    new_last_week: Nowe (poprzedni tydzień)
+    new_or_updated: Nowe lub Zaktualizowane
+    new_referred: Nowe Skierowania
+    new_service_provision: Nowe Świadczenia Usług
+    new_this_week: Nowe (ten tydzień)
+    no_action_risk: Brak Akcji
+    no_case_stats: Brak Statystyk Sprawy
+    no_caseworker_data: Brak Danych Pracownika Sprawy
+    no_flagged_child: Brak Oznaczonych Spraw
+    no_flagged_incident: Brak Oznaczonych Zdarzeń
+    no_open_incidents: Brak Otwartych zdarzeń
+    no_overdue_activities: Brak zaległych aktywności
+    no_recent_activities: Brak Aktywności w ostatnim czasie
+    no_scheduled_activities: Brak Zaplanowanych Aktywności
+    none_risk: Bez Priorytetu
+    number_of_victims: Liczba Ofiar
+    number_of_violations: Liczba Naruszeń
+    number_of_violations_verified: Naruszenia Zweryfikowane
+    open: Otwarte
+    open_cases: Otwarte Sprawy
+    open_incidents: Otwarte Zdarzenia
+    outstanding_transfers: Pozostałe Przeniesienia
+    overdue_activities: Zaległe aktywności
+    overdue_cases_to_assign: Zaległe Sprawy do Przypisania
+    overdue_cases_to_assign_high: Pracujesz nad tymi sprawami ponad 1 godzinę
+    overdue_cases_to_assign_low: Pracujesz nad tymi sprawami ponad 3 godziny
+    overview: Przegląd
+    pending: Oczekujące
+    pending_approvals: Oczekujące Zatwierdzenia
+    pending_transfers: Oczekujące Przeniesienia
+    protection_concern: Obawa Związana z Ochroną
+    protection_concerns: Obawy Związane z Ochroną
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: Ostatnie Aktywności
+    recently_flagged_child: Ostatnio Oznaczone Sprawy
+    recently_flagged_incident: Ostatnio Oznaczone Zdarzenia
+    referrals_by_social_worker: Skierowania według pracownika socjalnego
+    registration: Rejestracja
+    rejected: Odrzucone
+    rejected_transfers: Odrzucone Przeniesienia
+    response: Odpowiedź (W Trakcie)
+    scheduled_activities: Zaplanowane Aktywności
+    score_range: Zakres punktacji
+    services: Świadczenia
+    services_implemented: Wdrożone Świadczenia
+    shared_from_my_team_pending_transfers: Oczekujące Przeniesienia
+    shared_from_my_team_referrals: Skierowania
+    shared_from_my_team_rejected_transfers: Odrzucone Przeniesienia
+    shared_with_me_new_referrals: Nowe Skierowania
+    shared_with_me_total_referrals: Skierowania Razem
+    shared_with_me_transfers_awaiting_acceptance: Przeniesienia oczekujące na zaakceptowanie
+    shared_with_my_team_pending_transfers_overview: Przeniesienia oczekujące na zaakceptowanie
+    shared_with_my_team_pending_transfers: Oczekujące Przeniesienia
+    shared_with_my_team_referrals: Skierowania
+    shared_with_others_pending_transfers: Oczekujące Przeniesienia
+    shared_with_others_referrals: Skierowania
+    shared_with_others_rejected_transfers: Odrzucone Przeniesienia
+    status_of_cases: Status Spraw
+    system_user: System
+    total: Razem
+    total_cases: Sprawy Razem
+    total_referred: Skierowania Razem
+    tr_stats: Prośby o Poszukiwanie
+    transers_awaiting_acceptance: Przeniesienia oczekujące na zaakceptowanie
+    transfers_by_social_worker: Przeniesienia według pracownika socjalnego
+    users: ikona USTAWIENIA
+    violence_type: Rodzaj Przemocy
+    with_incidents: Ze Zdarzeniami
+    with_new_incidents: Z Nowymi Zdarzeniami
+    without_incidents: Bez Zdarzeń
+    worker_count_referrals_total:
+      one: '%{case_worker} ma%{stat} skierowanie'
+      few: '%{case_worker} ma%{stat} skierowania'
+      many: '%{case_worker} mas%{stat} skierowań'
+      other: '%{case_worker} ma%{stat} skierowań'
+    worker_count_total:
+      one: '%{case_worker} ma%{stat}sprawę'
+      few: '%{case_worker} ma%{stat} sprawy'
+      many: '%{case_worker} ma%{stat} spraw'
+      other: '%{case_worker} ma%{stat} spraw'
+    workflow: Kolejność Zadań
+    workflow_team: Kolejność Zadań - sprawy zespołu
+    you_have: 'Masz'
+  disabled:
+    status:
+      disabled: Wyłączone
+      enabled: Włączone
+  email_notification:
+    assign: '%{user} przypisał ci następujące %{record_type} %{record_id}.'
+    assign_subject: '%{record_type}: %{id} - Przypisano do ciebie'
+    approval_request: 'Użytkownik %{user} prosi o zatwierdzenie %{approval_type} w sprawie %{case_id}.'
+    approval_request_subject: 'Sprawa: %{id} - Wniosek o Zatwierdzenie'
+    approval_response: '%{user} ma %{status} prośbę o zatwierdzenie %{approval_type} w sprawie %{case_id}.'
+    approval_response_subject: 'Sprawa: %{id} - Odpowiedź na Zatwierdzenie '
+    referral: '%{user} z%{agency} skierował/a do ciebie następujące %{record_type} %{record_id} w celu %{service_type}.'
+    transfer: '%{user} przeniósł/a do ciebie następujące %{record_type}  %{record_id}.'
+    transfer_request_subject: Prośba o przeniesienie jednej z twoich spraw
+    transfer_subject: '%{record_type}: %{id} - Przeniesienie'
+    referral_subject: '%{record_type}: %{id} - Skierowanie'
+    transfer_request: 'Użytkownik Primero %{user} z %{agency} prosi o przeniesienie własności rekordu%{record_type}  %{record_id} w celu świadczenia %{record_type} usługi zarządzania dla osoby w jej/jego obszarze. Jeśli wyrażasz zgodę na to przeniesienie, kliknij link %{record_type} w tej wiadomości email, żeby otworzyć %{record_type} w Primero in rozpocząć przeniesienie. '
+    approval_request_html: 'Użytkownik <strong>%{user}</strong> prosi o zatwierdzenie <strong> %{approval_type}</strong> w sprawie<strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> ma<strong>%{status}</strong> prośbę o zatwierdzenie <strong>%{approval_type}</strong>w sprawie <strong>%{case_id}</strong>.'
+    referral_html: '<strong>%{user}</strong> z %{agency} przeniósł/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong> w celu %{service_type}.'
+    transfer_html: '<strong>%{user}</strong> przeniósł/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong>.'
+    assign_html: '<strong>%{user}</strong> przypisał/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong>.'
+    transfer_request_html: 'Użytkownik Primero <strong>%{user}</strong> z %{agency}  prosi o przeniesienie własności rekordu %{record_type} <strong>%{record_id}</strong> w celu świadczenia usługi zarządzania  %{record_type} dla osoby w jej/jego obszarze. Jeśli wyrażasz zgodę na to przeniesienie, kliknij link %{record_type} w tej wiadomości email, żeby otworzyć %{record_type} w Primero in rozpocząć przeniesienie. '
+    transfer_request_notes_html: 'Uwagi od osoby wnioskującej: %{request_transfer_notes}'
+  encrypt:
+    export_type: Rodzaj eksportu
+    file_name: Utwórz własną nazwę pliku (opcjonalnie)
+    password_extra_info: Hasło musi mieć co najmniej 8 znaków. Hasło będzie powiązane z eksportowanym plikiem i będzie wymagane do otworzenia tego pliku w przyszłości.
+    password_label: 'Proszę wpisz hasło zabezpieczające twój plik. '
+  error_message:
+    address_fields: 'Musisz wypełnić%{fields} pola w formularzach %{forms} '
+    address_form_fields: Musisz wypełnić %{fields} pola w tym formularzu
+    address_subform_fields: '%{subform} ma%{fields} nieprawidłowych pól'
+  error_page:
+    not_authorized:
+      server_error: 'Nie masz pozwolenia na dostęp do tej strony. '
+      title: Brak pozwolenia
+    not_found:
+      contact_admin: Jeśli uważasz, że znalazłeś się tutaj przez pomyłkę, skontaktuj się z administratorem.
+      something_went_wrong: Przepraszamy, coś poszło nie tak!
+  errors:
+    error_loading: Błąd Ładowania Rekordu(ów)
+    models:
+      agency:
+        code_present: nie może być puste
+        logo_format: Plik powinien być w formacie png
+        terms_of_use_format: Plik powinien być w formacie png
+        name_present: nie może być puste
+      child:
+        age: Wiek musi być pomiędzy 0 a 130
+        date_of_birth: Wpisz poprawną datę urodzenia dla tej sprawy
+      export_configuration:
+        opt_out_field_does_not_exist: Pole wypisania nie istnieje dla tego rekordu.
+        record_type: 'Nieprawidłowy rodzaj rekordu. Prawidłowy rodzaj to Dziecko, Prośba o Poszukiwanie, lub Zdarzenie. '
+      field:
+        translated_options_do_not_match: Opcje przetłumaczone w terenie muszą mieć taki same numer ID
+      location:
+        admin_level_present: nie może być puste
+        code_present: nie może być puste
+        name_present: nie może być puste
+        unique_location_code: Lokalizacja z tym kodem lokalizacji już istnieje, proszę wprowadź inny kod lokalizacji
+      lookup:
+        being_used: To wyszukiwanie jest używane i nie może zostać usunięte
+        name_present: nie może być puste
+        values_ids_blank: 'Wartość lookup_value jest pusta. '
+      primero_module:
+        associated_record_types: Co najmniej jeden rodzaj rekordu musi być powiązany z tym modułem
+        form_section_ids: Co najmniej jeden formularz musi być powiązany z tym modułem
+        name_present: nie może być puste
+        unique_name: Moduł o tej nazwie już istnieje, proszę wpisz inną nazwę
+      report:
+        module_presence: Moduł nie może być pusty
+        module_syntax: Wszystkie moduły raportu muszą już istnieć
+        name_presence: nie może być puste
+      role:
+        permission_presence: Proszę wybierz co najmniej jedno zezwolenie
+      user:
+        email: "Proszę wpisz poprawny email (przykład: 'imię@przykład.org')"
+        password_mismatch: Hasła wpisane w pola haseł nie pasują
+        password_length: Hasło musi mieć co najmniej %{min} znaków
+        email_uniqueness: Użytkownik z tym adresem email już istnieje. Proszę wpisz inny adres
+      code_of_conduct:
+        title_present: Tytuł nie może być pusty
+        content_present: Treść nie może być pusta
+        created_by_present: Autor nie może być pusty
+    not_found: Nie znaleziono rekordu(ów)
+    try_again: Spróbuj ponownie
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Wybrano PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Wybrano CSV
+    custom:
+      all: Niestandardowy
+    custom_exports:
+      all: Niestandardowy
+      choose_fields: Czy chciałbyś/abyś wybrać pola do formularza?
+      empty_fields_forms: 'Proszę wybierz formularze lub pola do eksportu. '
+      empty_format: Proszę wybierz format do eksportu.
+      empty_module: Proszę wybierz moduł do eksportu.
+      empty_password: 'Proszę wpisz hasło zabezpieczające twój plik. '
+      field_label: Pole
+      fields: Wybierz Pola do eksportu
+      form_label: Formularz
+      format_label: Wybierz Format
+      forms: Wybierz Formularze do eksportu
+      label: Eksporty niestandardowe
+      module_placeholder: Proszę wybierz moduł.
+      select_module: Wybierz Moduł
+      submit: OK
+      header: Nagłówek
+      custom_header: Nagłówek Niestandardowy
+      signatures: Uwzględnij pole podpisu dla
+      include_implementation_logos: 'Uwzględnić logo? '
+      include_implementation_logos_help_text: 'Ta opcja uwzględni logo, które zostanie wyświetlone w menu nawigacjo oraz na stronie logowania. '
+      include_agency_logo: Dodać logo agencji?
+      include_other_logos: 'Uwzględnić inne loga? '
+    duplicate_id_csv:
+      all: Powiel numer
+      female_abbreviation: K
+      headers:
+        age: Wiek
+        case_id: Numer sprawy
+        child_name_last_first: Imię Dziecka
+        family_size: Liczba członków rodziny
+        national_id_no: Numer Dokumentu Tożsamości
+        progress_id: Numer Postępu
+        sex_mapping_m_f_u: Płeć
+        other_agency_id: Kod szpitala i numer pacjenta
+      male_abbreviation: M
+      unknown_abbreviation: Nieznana
+    exported: Wyeksportowany plik utworzony pomyślnie
+    exported_error: Wystąpił błąd podczas generowania eksportowanego pliku
+    forms:
+      button: Eksportuj Formularze
+      label: Eksportuj
+      header:
+        form_group: Grupa Formularza
+        form_name: Nazwa Formularza
+        field_id: Numer Pola
+        field_type: Typ Pola
+        field_name: Nazwa Pola
+        required: Wymagane
+        on_mobile: Na Urządzeniu Mobilnym
+        on_short_form: W Formie Skróconej
+        option_ids: Numery Opcji
+        options: Opcje
+        options_lookup: Wyszukiwanie
+        help_text: Tekst pomocniczy
+        guiding_questions: Pytania Pomocznicze
+        visible: Widoczne
+        lookup_id: Numer Wyszukiwania
+        lookup_name: Nazwa Wyszukiwania
+        option_id: Numer Opcji
+        option_name: Nazwa Opcji
+      options:
+        location: Lokalizacje
+        agency: Agencje
+        user: Użytkownicy
+        reportinglocation: Lokalizacje Raportujące
+        subforms: 'Podformularz: %{subform_name}'
+        collapsed_fields: 'Zwinięte Pola: %{fields}'
+        country: Kraje
+      summary_header:
+        form_group: Grupa Formularza Primero
+        form: Formularze Primero
+        status: Status
+        notes: Uwagi
+    go_to_exports: Idź do strony Eksportów żeby pobrać
+    incident_recorder_xls:
+      all: Rejestrator Incydentów
+      one: Rejestrator Incydentów
+      selected: Wybierz do Rejestratora Incydentów
+    json:
+      all: JSON
+      one: JSON
+      selected: Wybrano JSON
+    list_view_csv:
+      all: Eksportuj Podgląd List
+      selected: Wybrano CSV
+    messages:
+      no_exporter: Nie Wybrano Eksportera
+    mrm_violation_xls:
+      all: Naruszenie MRM
+      one: Naruszenie MRM
+      selected: Wybierz do Naruszenie MRM
+    no_records: Brak Dostępnych Rekordów!
+    pdf:
+      all: PDF (niezabezpieczony)
+      one: PDF
+      selected: Wybrano PDF
+    pdf_exports:
+      label: PDF
+      recipient: Odbiorca
+      case_worker: Pracownik Sprawy
+      client: Klient
+      date: Data
+      recipient_name: Imię Odbiorcy
+      recipient_agency: Agencja Odbiorcy
+      caseworker_name: Imię Pracownika Sprawy
+      caseworker_agency: Agencja Pracownika Sprawy
+    photowall:
+      all: Panel ze zdjęciami
+      flag_suspect_record: Oznaczono jako Podejrzany Rekord
+      no_photos_available: Zdjęcia niedostępne
+      one: Panel ze zdjęciami
+      reunited: Rodzina Połączona
+      selected: Wybierz do panelu ze zdjęciami
+      success_message: Tworzenie Panelu ze Zdjęciami%{file_name} Sprawy bez zdjęć nie zostaną uwzględnione.
+    printed: 'Wydrukowano: %{date}'
+    queueing: Generowanie eksportowanego pliku %{file_name}
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Wybrane do Excel
+      selected_fields: Wybrane Pola
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: K
+      headers:
+        age: Wiek
+        case_status: Status Sprawy
+        causes_of_separation: Przyczyny Rozdzielenia
+        country_of_origin: Kraj Pochodzenia
+        cpims_code: 'Kod CPIMS '
+        current_care_arrangement: Aktualna Organizacja Opieki
+        date_of_birth: Data Urodzenia
+        date_of_identification: Data Identyfikacji
+        family_count_no: Liczba członków rodziny
+        governorate_country: Gubernatorstwo - Kraj
+        id: Numer
+        individual_progress_id: Numer Postępu Indywidualnego
+        locations_by_level: Adres (Obóz, Blok i inne dane, takie jak współrzędne GPS)
+        long_id: Pełny numer
+        name_of_caregiver: Pełne imię opiekuna
+        name_of_child_last_first: Pełne imię dziecka
+        primary_protection_concerns: Główne Obawy Związane z Ochroną
+        progres_id: Numer Postępu
+        reunification_status: Status dotyczący Połączenia z Rodziną
+        secondary_protection_concerns: Drugorzędne Obawy Związane z Ochroną
+        sex: Płeć
+        sex_mapping_m_f_u: Płeć
+        short_id: Numer Skrócony
+        vulnerability_code: Kody Wrażliwości
+        vulnerability_details_code: Kody Szczegółów Wrażliwości
+      male_abbreviation: M
+      one: UNHCR
+      selected: Wybrano do UNHCR
+      unknown_abbreviation: Nieznana
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: Wybrano Excel
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Lokalizacje zostały pomyślnie zaimportowane
+        no_data: 'Import Nie Przetworzony: Dane nie przyjęte'
+        csv_parse_error: 'Import nie został przetworzony: Error podczas analizy danych CSV. '
+        error: 'Rząd%{row_number} Nie przetworzony: %{message}'
+        db_error: 'Błąd podczas tworzenia %{location_code}: %{message}'
+        locale_invalid: 'Ominięto %{column_name}: Nieprawidłowe ustawienia regionalne'
+        insert_all_error: 'Import nie przetworzony. Błąd Bazy Danych: %{message}'
+    csv_record:
+      messages:
+        success: Rekordy zostały pomyślnie zaimportowane
+        no_data: 'Import Nie Przetworzony: Dane nie przyjęte'
+        no_file: 'Import nie przetworzony: Plik nie istnieje'
+        csv_parse_error: 'Import nie został przetworzony: Error podczas analizy danych CSV. '
+        error: 'Rząd%{row_number} Nie przetworzony: %{message}'
+        db_error: 'Błąd przy tworzeniu %{location_code}: %{message}'
+        locale_invalid: 'Ominięto %{column_name}: Nieprawidłowe ustawienia regionalne'
+        insert_all_error: 'Import nie przetworzony. Błąd Bazy Danych: %{message}'
+  sync_record:
+    failed: 'Ostania synchronizacja: Nieudana'
+    last: 'Ostatnia Synchronizacja: %{date_time}'
+    not_found: 'Ostania Synchronizacja: nie znaleziono danych '
+    retrieving: Odzyskiwanie Danych.
+    see_details: Zobacz szczegóły
+  fields:
+    action: Działanie
+    actions: Działania
+    add: Dodaj
+    add_new_field: Utwórz Nowe Pole
+    add_existing_field: Dodaj Istniejące Pole
+    add_field: Dodaj Pole
+    add_field_type: Dodaj%{file_type}
+    audio:
+      current: Aktualne Nagranie Dźwiękowe
+    audio_upload_box: Ładowanie Nagrania Dźwiękowego
+    bia_document: Dokument Najlepiej Pojętego Interesu Dziecka
+    bid_document: Dokument Określenia Najlepszego Interesu - ONI
+    check_box: Wybierz pole
+    clear_group_by: Wyczyść Grupowanie Według
+    clear_sort_by: Wyczyść sortowanie według
+    copy_from_another_form: To pole zostało skopiowane z innego formularza
+    create_field: Utwórz pole
+    create_unique_values: Utwórz unikalne wartości
+    date_field: Pole Daty
+    date_help: dd-mmm-rrrr
+    date_help_with_time: dd-mmm-rrrr gg:mm
+    date_not_valid: Ta data nie jest poprawna.
+    time: Czas
+    date_range:
+      date: Data
+      date_range: Przedział Czasowy
+      from: Od
+      to: Do
+      view_by: Podgląd Według
+    date_range_field: Przedział Czasowy
+    date_time: Data-Czas
+    db_name: Nazwa Bazy Danych
+    default: Domyślne?
+    default_date_validation: Domyślne sprawdzanie daty
+    default_to_current_date: Ustawić bieżącą datę domyślnie?
+    default_to_current_datetime: Ustawić bieżącą datę i czas domyślnie?
+    default_value: Wartości domyślne
+    deleted: Pole%{display_name} zostało usunięte.
+    detail: Szczegół
+    disabled: Wyłącz
+    display_name: Nazwa Wyświetlana
+    document:
+      comments: Komentarze
+      current: Czy jest to aktualny dokument?
+      date: Data Dokumentu
+      name: Nazwa Dokumentu
+      is_current: Czy jest to aktualny dokument?
+    document_upload_box: Ładowanie Dokumentu
+    edit_label: Edytuj Pole
+    enabled: Włączone?
+    enabled_label: Włączone
+    english_text: Tekst po Angielsku
+    field_name: Nazwa Pola
+    field_type: Typ Pola
+    attachment_too_large: Plik nie powinien przekraczać 10MB
+    file_upload_box:
+      add_document_label: Dodaj Dokument
+      add_new_document_button_text: Dodaj kolejny dokument
+      add_new_photo_button_text: Dodaj kolejne zdjęcie
+      add_photo_label: Dodaj zdjęcie
+      document_description: Opis Dokumentu
+      document_file_restrictions_message: Pliki nie powinny przekraczać 2 MB (nie można ładować plików wykonywalnych (.exe))
+      no_file_selected: Nie wybrano pliku
+      photo_file_restrictions_message: 'Zdjęcia nie powinny przekraczać 10MB. Pliki Dźwiękowe nie powinny przekraczać 10MB. Im mniejsze, tym lepiej. '
+      recorded_audio_label: Nagranie Dźwiękowe
+      select_file_button_text: Wybrany plik
+    find_lookup: Znajdź Wyszukiwanie
+    form_name: Nazwa Formularza
+    future_date_not_valid: Nie może być przyszła.
+    guidance: Poradnik
+    guiding_questions: Pytania pomocnicze
+    help_text: Tekst pomocniczy
+    hide_on_view_page: Pokaż stronę
+    label: Pola
+    mobile_visible: Aplikacja mobilna
+    move_to: Przenieś
+    multi_select: Można wybrać kilka opcji
+    multi_select_box: Wybór wielokrotny
+    must_be_english: Należy wpisać po Angielsku
+    name: Nazwa
+    not_future_date: Nie jest przyszłą datą
+    number_not_valid: Wpisz dane liczbowe
+    numeric_field: Pole Liczbowe
+    on_collapsed_subform: Na zwiniętym podformularzu?
+    option_strings_add_option: Dodaj Opcję
+    option_strings_source: Wyszukiwania
+    option_strings_text: Opcje
+    option_strings_text_display: Opcja Tekst
+    option_strings_text_key: Opcja Klucz
+    options_indications_lookup_values: 'Możesz użyć wstępnie zdefiniowanych wyszukiwań lub stworzyć unikalne wartości. '
+    options_indications_restrictions: Nie możesz wykonać obu czynności.
+    options_or_lookup_warning: 'Proszę dodaj Opcje lub wybierz Wyszukiwanie. Nie wpisuj obu. '
+    other_documents: Inny dokument
+    photo_upload_box: Ładowanie Zdjęcia
+    predifined_lookups: Wstępnie zdefiniowane wyszukiwanie dla użytkownika
+    radio_button: Przycisk opcji
+    remove: Usuń
+    remove_attachment_confirmation: Czy na pewno chcesz usunąć ten załącznik?
+    required: Wymagane
+    required_field: '%{field} jest wymagane'
+    search_existing: Przeszukaj istniejące pola
+    select_box: Wybierz z listy
+    select_date_validation: Wybierz metodę sprawdzenia daty
+    select_multiple: Wybierz wszystkie pasujące
+    select_single: (Wybierz...)
+    separator: Oddzielacz
+    show: Pokaż?
+    show_on: Pokazano w
+    show_on_minify_form: Forma Skrócona
+    subform: Podformularz
+    subform_group_by: Grupuj według
+    subform_remove_message: Czy na pewno chcesz usunąć ten podformularz?
+    subform_section:
+      description: Opis Podformularza
+      name: Tytuł Podformularza
+      starts_with_one_entry: Rozpocząć z jedną daną w podformularzu?
+      subform_append_only: Wybiórcza Synchronizacja na Urządzeniu Mobilnym
+      subform_prevent_item_removal: Czy zapobiec usunięciu danej podformularza?
+    subform_sort_by: Sortuj według
+    successfully_added: Pole dodane pomyślnie
+    tally_field: Zlicz Pole
+    tally_items: Zliczaj Pozycje
+    tally_items_maximum: (maksimum 5)
+    text_area: Obszar Tekstowy
+    text_field: Pole Tekstowe
+    textarea: Obszar Tekstowy
+    tick_box: Pole Wyboru
+    tick_box_label: Nazwa Pola Wyboru
+    translation_text: Tekst Tłumaczenia
+    total: Razem
+    type: Typ
+    updated: Pole zaktualizowane
+    visibility: Widoczność
+    web_app: Aplikacja sieciowa
+  filters:
+    apply_filters: Zastosuj
+    clear_filters: Wyczyść
+    less: Więcej...
+    more: Mniej...
+    save_filters: Zapisz
+  flags:
+    add_flag_tab: Dodaj Nowe Oznaczenie
+    date: 'Data:'
+    flag_added: Oznaczenie dodane pomyślnie
+    flag_date: Data Oznaczenia
+    flag_reason: Powód Oznaczenia
+    flag_reason_maximun_label: Maksimum 255 znaków
+    flag_resolved: Oznaczenie rozwiązane
+    flags_tab: Oznaczenia
+    no_flags: Nie znaleziono oznaczeń
+    resolve_button: Rozwiąż
+    resolve_flag: Rozwiąż Oznaczenia
+    resolve_reason: Rozwiąż Powód
+    resolved: Rozwiązane Oznaczenia
+    resolved_date: 'Rozwiązane:'
+    resolved_reason: 'Rozwiąż Powód:'
+    title: Oznaczenia
+  followup_reminders:
+    system_generated_followup_flag: Obowiązkowa wizyta kontrolna
+  form_section:
+    form_name: Nazwa Formularza
+    module: Moduł
+    name: Nazwa
+    record_type: Rodzaj Rekordu
+    required_field: '%{field} jest wymagane'
+  forms:
+    add: Dodaj Formularz
+    description: Opis Formularza
+    fields: Pola
+    form_description: Opis
+    form_group: Grupa Formularza
+    form_title: Tytuł Formularza
+    help_text:
+      must_be_english: Należy wpisać po angielsku
+      related_groups: Umieść formularz w powiązanej grupie użytkowników
+      summariaze_purpose: Podsumuj cel formularza. Należy wpisać po angielsku.
+    invalid_characters_field: '%{field} zawiera niepoprawne znaki.'
+    label: Formularze
+    manage: Zarządzaj
+    messages:
+      created: Sekcja formularza utworzona pomyślnie
+      fields_with_same_name: Formularze nie mogą zawierać pól o tej samej nazwie
+      save_success: Sekcje formularza zaktualizowane pomyślnie
+      save_with_errors: Pojawił się problem i niektóre wybory formularza nie zostały zaktualizowane.
+      updated: Sekcja formularza zaktualizowana pomyślnie
+      use_existing: Zachęcamy to używania istniejących formularzy, gdyż ułatwia to udostępnianie i scalanie danych pomiędzy instytucjami.
+    mobile_app: Aplikacja mobilna
+    module: Moduł
+    no_subform_filters_added: Ten Podformularz obecnie nie ma pól.
+    record_type: Rodzaj Rekordu
+    record_types:
+      approvals: Zatwierdzenia
+      case: Sprawa
+      child: Sprawa
+      incident: Zdarzenie
+      individual_victim: Ofiara Indywidualna
+      potential_match: Możliwe Dopasowanie
+      record_information: Informacja o Rekordzie
+      referrals: Skierowania
+      reportable_follow_up: Kontrola/kolejne kroki
+      reportable_protection_concern: Obawa Związana z Ochroną
+      reportable_service: Świadczenie
+      tracing_request: Prośba o Poszukiwanie
+      transfers_assignments: Przeniesienia / Przypisania
+      violation: Naruszenie
+      registry_details: Szczegóły Rejestru
+      registry_record: Rekord Rejestru
+    required_field: '%{field} jest polem wymaganym'
+    select_label: Wybierz
+    settings: Ustawienia
+    show_on: Pokazano w
+    subform_need_to_be_added: 'Muszą zostać dodane. '
+    subform_need_to_be_added_single: To powinno być dodane
+    subform_not_found: Nie znaleziono %{subform_name}.
+    title: Tytuł Formularza
+    translations:
+      edit: Edytuj tłumaczenia
+      edit_form_group: Edytuj wyszukiwanie Grup Formularzy.
+      manage: Zarządzaj tłumaczeniami
+      no_changes_message: Nie dokonałeś/aś zmian w tłumaczeniu
+      note: 'Uwaga:'
+      note_form_group: 'Żeby dodać tłumaczenia do Grup Formularzy musisz edytować tłumaczenia wyszukiwania Grup Formularzy. '
+      select_language: Wybierz język
+      title: Tłumaczenia
+    type_label: Typ
+    visibility: Widoczność
+    web_app: Aplikacja Sieciowa
+  home:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    bn: বাংলা
+    current_time_zone: Aktualna strefa czasowa
+    dashboard: Zestawienie
+    en: English
+    es: Español
+    es-GT: Español (Guatemala)
+    fr: Français
+    id: Bahasa
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    label: Strona Domowa
+    language: Język
+    manage_system_users: Zarządzaj Użytkownikami Synchronizacji Serwera
+    my: ဗမာစာ
+    pt: Português
+    pt-BR: Português (Brasil)
+    records_need_attention: Rekordy wymagające Uwagi
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: Zarządzaj Użytkownikami
+    view_records: Podgląd Rekordów
+    welcome: Witaj w Primero
+    zh: 中文
+  incident:
+    associated_case: "Sprawa Powiązana:"
+    messages:
+      creation_success: Rekord zdarzenia utworzony pomyślnie.
+      creation_success_queue: Rekord zdarzenia został pomyślnie utworzony w tle.
+      disabled: Zdarzenie jest wyłączone
+      update_success: 'Zdarzenie %{record_id} zostało pomyślnie zaktualizowane, '
+      update_success_queue: 'Zdarzenie %{record_id} zostało pomyślnie zaktualizowane w tle.'
+    violation:
+      update_and_return: 'Zaktualizuj i Wróć do %{association}'
+      save_and_return: 'Dodaj i Wróć do %{association}'
+      pending: Oczekuje na Weryfikację
+      title: Naruszenia
+      types:
+        killing: Zabójstwa Dzieci
+        maiming: Okaleczanie Dzieci
+        recruitment: Rekrutacja i/lub wykorzystywanie dzieci
+        sexual_violence: Gwałt i//lub inne formy przemocy seksualnej
+        abduction: Uprowadzenie
+        attack_on: Ataki na szkołę(y) i/lub szpital(e)
+        military_use: Użycie szkoły(ół) i/lub szpitala(i) do celów militarnych
+        denial_humanitarian_access: Odmowa pomocy humanitarnej dla dzieci
+  incidents:
+    disable_dialog: Kliknięcie OK zmieni status tego zdarzenia na wyłączony.
+    disable_dialog_title: Wyłącz Zdarzenie
+    disable_success: Zdarzenie pomyślnie wyłączone
+    enable_dialog: Kliknięcie OK zmieni status tego zdarzenia na włączony.
+    enable_dialog_title: Włącz Zdarzenie
+    enable_success: Zdarzenia włączone pomyślnie.
+    id: Numer#
+    date_of_interview: Data Wywiadu
+    date_of_incident: Data Zdarzenia
+    incident_location: Miejsce Zdarzenia
+    violations: Naruszenia
+    export: Eksportuj
+    label: Zdarzenia
+    filter_by:
+      boys: Chłopcy
+      by_date: Według daty
+      children: Dzieci
+      girls: Dziewczynki
+      incident_location: Miejsce Zdarzenia
+      unaccompanied_separated_status: Status Ochrony
+      unknown: Nieznane
+      verification_status: Status Weryfikacji
+      violence_type: Rodzaj Przemocy
+      armed_force_group_name: Nazwa Grupy Zbrojnej
+      armed_force_group_type: Rodzaj Grupy Zbrojnej
+    register_new_incident: Nowe Zdarzenie
+    selectable_date_options:
+      date_of_first_report: Data Wywiadu
+      incident_date_derived: Data Zdarzenia
+    selected_records: '%{select_records} zdarzenie(a) wybrane'
+    selected_all_records: 'Wybierz wszystkie %{total_records} zdarzenia pasujące do tego zapytania. '
+    survivor_code: Kod Ocalałego/ej
+    show_incident: 'Numer Zdarzenia %{short_id}'
+    social_worker: Pracownik Socjalny
+    violence_type: Rodzaj Przemocy
+    type_violence: Rodzaj Przemocy
+  key_performance_indicators:
+    label: "Stan/KPIs"
+    case_assessment: "Ocena Sprawy"
+    case_action_planning: "Planowanie Działania w Sprawie"
+    case_action_plan_implementation: "Wdrożenie Planu Działania w Sprawie"
+    case_follow_up: "Kolejne Kroki w Sprawie"
+    case_closure: "Zamknięcie Sprawy"
+    feedback: "Informacja zwrotna"
+    other: "Inne"
+    date_range_select:
+      custom_range: 'Niestandardowy'
+    long_date_format: "dd/MM/rrrr"
+    time_periods:
+      all_time: 'Dowolny Czas'
+      current_month: "Bieżący Miesiąc"
+      last_3_months: "Ostatnie 3 Miesiące"
+      last_6_months: "Ostatnie 6 Miesięcy"
+      last_1_year: "Ostatni Rok"
+      0-3days: "0 - 3 Dni"
+      4-5days: "4 - 5 Dni"
+      6-14days: "6 - 14 Dni"
+      15-30days: "15 - 30 Dni"
+      1-3months: "1 - 3 Miesiące"
+      4months: "> 3 Miesięcy"
+      1-month: "< 1 Miesiąc"
+      3-6months: "3 - 6 Miesięcy"
+      7-months: "> 6 Miesięcy"
+    helptext:
+      helptext: "Dowiedz się więcej o tym Kluczowym Wskaźniku Wydajności."
+    number_of_cases:
+      title: "1. Liczba zarejestrowanych Spraw"
+      reporting_site: "Jednostka Raportująca"
+      helptext: |
+        Ten wskaźnik oblicza ile nowych spraw zostało otwartych każdego miesiąca w każdej jednostce raportującej.
+        Jednostka raportująca to jednostka, gdzie Organizacja Użytkownika świadczy usługi i
+        gdzie sprawa została zgłoszona to świadczącego usługi.
+    number_of_incidents:
+      title: "2. Liczba zarejestrowanych Zdarzeń"
+      reporting_site: "Jednostka Raportująca"
+      helptext: |
+        Ten wskaźnik oblicza ile nowych zdarzeń zostało otwartych każdego miesiąca w każdej jednostce raportującej.
+        Jednostka raportująca to jednostka, gdzie Organizacja Użytkownika świadczy usługi i
+        gdzie zdarzenie zostało zgłoszone to świadczącego usługi.
+    reporting_delay:
+      title: "3. Opóźnienie w raportowaniu"
+      delay: "Opóźnienie"
+      total_incidents: "Suma Zdarzeń"
+      helptext: |
+        Ten wskaźnik oblicza i kategoryzuje liczbę dni, które upłynęły między
+        doświadczeniem Przemocy ze Względu na Płeć przez ocalałego/ą, a jego zgłoszeniem do świadczącego usługi. Jest on
+        obliczony na podstawie pierwszego zgłoszenia zdarzenia do Organizacji Użytkownika. Dane są
+        skategoryzowane według różnych przedziałów (0-3 dni; 4-5 dni; 6-14 dni; 15-30 dni; Ponad
+        1 miesiąc; Ponad 3 miesiące).
+    service_access_delay:
+      title: "Opóźnienie w Dostępie do Świadczenia"
+      delay: "Opóźnienie"
+      total_incidents: "Suma Zdarzeń"
+    assessment_status:
+      title: "4. Status Oceny"
+      completed: "Utworzono"
+      completed_supervisor_approved: "Zakończono i Zatwierdzono przez Przełożonego"
+      helptext: |
+        Ten wskaźnik oblicza proporcję aktywnych spraw w których formularz oceny został
+        wypełniony. Ocena jest uznawana za wypełnioną kiedy obowiązkowe pola
+        w formularzu Oceny Ocalałego/ej są wypełnione.
+    completed_case_safety_plans:
+      title: "5. Utworzone Plany Bezpieczeństwa w Sprawie"
+      completed: "Utworzony Plan Bezpieczeństwa w Sprawie"
+      helptext: "Ten wskaźnik kalkuluje proporcję aktywnych spraw, w których\nplan bezpieczeństwa był wdrożony oraz zakończony (np. przemoc partnera intymnego, ryzyko samobójstwa/morderstwa, zabezpieczenie bezpieczeństwa dziecka). \nPlan bezpieczeństwa jest uważany za zakończony kiedy wszystkie obowiązkowe pola\nw planie zostały wypełnione.\n"
+    completed_case_action_plans:
+      title: "6. Zakończone Plany Działania w Sprawie"
+      completed: "Zakończony Plan Działania w Sprawie"
+      label: "Zakończony Plan Działania w Sprawie"
+      helptext: |
+        Ten wskaźnik oblicza proporcję aktywnych spraw, w których Plany Działania w Sprawie zostały
+        utworzone. Plan działania w sprawie jest uznany za utworzony kiedy obowiązkowe pola w
+        Planie Działania są wypełnione.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Plany Działania w Sprawach Zatwierdzone przez Przełożonego"
+      completed_and_approved: "Zakończone Plany Działania w Sprawach Zatwierdzone przez Przełożonego"
+      helptext: |
+        Ten wskaźnik oblicza proporcję aktywnych spraw, w których Plan Działania w Sprawie został
+        utworzony i zatwierdzony przez przełożonego. Plan działania w sprawie jest uznany za utworzony, kiedy
+        obowiązkowe pola w Planie Działania są wypełnione. Plan sprawy jest uznany za
+        zatwierdzony, kiedy pracownik sprawy poprosi o zatwierdzenie sprawy a przełożony
+        zatwierdzi plan sprawy w systemie.
+    services_provided:
+      title: "8. Świadczone Usługi"
+      service: "Świadczenie"
+      count: "Ile Razy Zapewniono"
+      male: "Mężczyzna"
+      female: "Kobieta"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Niepełnosprawność"
+      no_disability: "Brak Niepełnosprawności"
+      helptext: |
+        Ten wskaźnik oblicza rodzaj usług(i) świadczonej ocalałym w procesie zarządzania sprawą.
+        Przez świadczoną usługę rozumie się tu tę świadczoną przez organizację Użytkownika
+        bezpośrednio, a nie tę świadczoną po skierowaniu wewnętrznym lub do innych świadczeń.
+    average_referrals:
+      title: "9. Średnia Skierowań"
+      label: "Średnia skierowań na sprawę"
+      helptext: |
+        Ten wskaźnik oblicza średnią liczbę skierowań w każdej utworzonej sprawie (we wszystkich rodzajach
+        świadczeń), niezależnie od tego czy sprawa jest aktywna/otwarta czy zamknięta. Zawiera on skierowania
+        zapisane w zakładce sprawy, a nie tylko skierowania wykonane poprzez system.
+    referrals_per_service:
+      title: "Liczba Skierowań na dane Świadczenie"
+    average_followup_meetings_per_case:
+      title: "10. Średnia Spotkań Kontrolnych na Sprawę"
+      label: "Średnia Spotkań Kontrolnych na Sprawę"
+      helptext: |
+        Ten wskaźnik oblicza średnią liczbę spotkań kontrolnych przeprowadzonych dla każdej aktywnej sprawy
+        na pracownika w systemie. Spotkanie kontrolne jest spotkaniem pracownika z
+        ocalałym/ą po wstępnym wywiadzie/ujawnieniu.
+    time_from_case_open_to_close:
+      title: "11. Czas pomiędzy otwarciem i zamknięciem Sprawy"
+      time: "Czas"
+      percent: "Procent Spraw"
+      helptext: |
+        Ten wskaźnik oblicza ile czasu sprawa pozostaje otwarta, ile czasu zajmuje proces zarządzania sprawą
+        od pierwszego zgłoszenia do Organizacji Użytkownika do zamknięcia sprawy. Czas jest
+        przedstawiony według kolejnych okresów: poniżej miesiąca; między 1 a 3 miesiące; między
+        3-6 miesięcy; ponad 6 miesięcy.
+    case_closure_rate:
+      title: "12. Liczba Zamknięć Spraw"
+      reporting_site: "Jednostka Raportująca"
+      helptext: "Ten wskaźnik oblicza ile nowych spraw zostało zamkniętych miesięcznie w każdej jednostce raportującej. Jednostka raportująca \nto jednostka, gdzie Organizacja Użytkownika świadczy usługi i gdzie\nzdarzenie zostało zgłoszone to świadczącego usługi.\n"
+    client_satisfaction_rate:
+      title: "13. Poziom zadowolenia klienta"
+      label: "Zadowolenie klienta"
+      invalid: "Nie możemy tego w tej chwili obliczyć."
+      helptext: "Ten wskaźnik mierzy procent ocalałych, zadowolonych ze świadczeniem zarządzania sprawą, którego są odbiorcami \nna podstawie Badania Opinii Klienta. Wskaźnik ten jest\nbierze pod uwagę formularze Informacji Zwrotnej o systemie zarządzania informacją o Przemocy ze Względu na Płeć zapisane przez pracowników innych niż\npracownik, który świadczył usługę dla ocalałego/ej.\n"
+    supervisor_to_caseworker_ratio:
+      title: "14. Proporcja Przełożonego do Pracownika Sprawy"
+      label: "Pracownicy spraw na przełożonego. "
+      helptext: |
+        Ten wskaźnik to liczba pracowników na przełożonego nadzorującego: stosunek liczby pracowników do
+        przełożonych. Kalkulacja jest oparta na rolach przypisanych w systemie.
+    case_load:
+      title: "15. Liczba spraw"
+      case_load: "Liczba spraw"
+      percent: "procent pracowników spraw z liczbą spraw"
+      10cases: "< 10 Spraw"
+      20cases: "11 - 20 Spraw"
+      21-30cases: "21 - 30 Spraw"
+      30cases: "> 30 Spraw"
+      helptext: |
+        Ten wskaźnik mierzy średnią liczbę spraw na aktywnego pracownika na podstawie otwartych spraw.
+        Stosunek spraw do pracowników jest przedstawiony w następujących przedziałach: mniej niż 10
+        otwartych spraw, 10-20 otwartych spraw, 21-30 otwartych spraw, ponad 30 otwartych spraw.
+    date_range_dialog:
+      title: "Niestandardowy przedział czasowy"
+      description: "Po zastosowaniu tej zmiany, dane zostaną wybrane poniższego przedziału."
+      apply: 'Zastosuj'
+      from: 'Od'
+      to: 'Do'
+      aria-labels:
+        from: "Dane po tej dacie"
+        to: "Dane przed tą datą"
+  location:
+    base_types:
+      camp: Obóz
+      chiefdom: Przywództwo
+      city: Miasto
+      community: Wspólnota
+      country: Kraj
+      county: Hrabstwo
+      district: Dystrykt
+      governorate: Gubernatorstwo
+      locality: Miejscowość
+      other: Inne
+      province: Prowincja
+      region: Region
+      site: Jednostka
+      state: Stan
+      sub-district: Pod-dystrykt
+      village: Wieś
+      zone: Strefa
+      association: Związek
+      division: Oddział
+      central_warehouse: Główny Magazyn
+      warehouse: Magazyn
+      buyingstation: Stacja zakupów
+    label: Lokalizacja
+    name: Nazwa
+    code: Kod
+    admin_level: Poziom administratora
+    type: Typ
+    hierarchy: Hierarchia
+    import_title: Importuj Lokalizację
+    no_location: Zaimportuj Lokalizacje przed utworzeniem kont użytkowników.
+    enable_title: Aktywuj Lokalizację
+    enable_text: Jesteś pewny/a? Jeśli włączysz wybrane Lokalizacje, pojawią się one jako opcje w polach Lokalizacji
+    disable_title: Wyłącz Lokalizację
+    disable_text: Jesteś pewny/a? Jeśli wyłączysz wybrane Lokalizacje, nie będą się one pojawiały jako opcje w polach Lokalizacji
+  logger:
+    actions:
+      _approved: Zatwierdzono
+      _rejected: Odrzucono
+      _requested: Wniosek Złożony
+      add_note: Dodaj notatki
+      assign: Przypisz
+      assign_to: 'Przypisz do '
+      attach: Załącz
+      bulk_assign: Przypisywanie zbiorcze
+      bulk_create: Tworzenie zbiorcze
+      bulk_index: Indeks zbiorczy
+      case_plan_approved: Plan sprawy zatwierdzony
+      case_plan_rejected: Plan sprawy odrzucony
+      case_plan_requested: Poproszono o plan sprawy
+      close: Zamknij
+      create: Utwórz
+      create_bulk: Utwórz zbiorczo
+      delete: Usuń
+      destroy: Zniszcz
+      detach: Rozłącz
+      enable_disable_record: Włącz wyłącz rekord
+      export: Eksportuj
+      flag: Oznaczenie
+      import: Import
+      incident_details_from_case: Szczegóły zdarzenia ze sprawy
+      index: Indeks
+      list: Lista
+      password_reset: Reset hasła
+      password_reset_request: Prośba o reset hasła
+      refer: Skieruj
+      refer_accepted: Zaakceptowano skieruj
+      refer_done: Wykonano skieruj
+      refer_rejected: Odrzucono skieruj
+      refer_revoke: Unieważniono skieruj
+      refer_to: Skieruj do
+      reopen: Otwórz ponownie
+      services_section_from_case: Sekcja Świadczenia ze sprawy
+      show: Pokaż
+      show_alerts: Pokaż alerty
+      transfer: Przenieś
+      transfer_accepted: Przeniesienie zaakceptowane
+      transfer_rejected: Przeniesienie odrzucone
+      transfer_request: Prośba o przeniesienie
+      transfer_to: Przeniesienie do
+      unflag: Odznacz
+      update: Zaktualizuj
+      user_password_reset_request: Prośba o reset hasła użytkownika
+    approve_form:
+      action_plan: Formularz Planu Działania
+      bia: Formularz Najlepiej Pojętego Interesu Dziecka
+      case_plan: formularz Planu Sprawy
+      closure: Formularz zamknięcia
+      'false': Odzrzucanie
+      gbv_closure: 'Formularz Zamknięcie - Przemoc ze względu na płeć '
+      'true': Zatwierdzanie
+    assessment_approved: "%{approval_label} zatwierdzono dla"
+    assessment_requested: "%{approval_label} poproszono o"
+    bulk_index: Pokaż całą listę
+    by_user: według użytkownika
+    case_plan_approved: "%{approval_label} zatwierdzono dla"
+    case_plan_requested: "%{approval_label} poproszono o "
+    close: Zamknij
+    closure_approved: "%{approval_label} zatwierdzono dla"
+    closure_requested: "%{approval_label} poproszono o"
+    consent_count: Liczba Zgód
+    copy: Kopiowanie
+    create: Tworzenie
+    create_subform: Tworzenie Podformularza
+    destroy: Usuwanie
+    edit: Edytowanie
+    enable_disable_record: Wlączone / wyłączone
+    export: Eksportowanie danych dla
+    flag: Oznaczanie
+    flag_records: Oznaczanie
+    graph_data: Podgląd danych na wykresie
+    list: Lista
+    lookups_for_field: Wyszukiwania dla pól
+    mark_for_mobile:
+      'false': Odznacz do urządzenia mobilnego
+      'true': Zaznacz dla urządzenia mobilnego
+    match_record: Pasujący Rekord
+    permitted_field_list: Lista dozwolonych pól
+    quick_view: Szybki Podgląd
+    reassign: Przypisywanie
+    resources:
+      audit_log: Historia Aktywności
+      user: Użytkownik
+      agency: Agencja
+      user_group: Grupa Użytkownika
+      child: Dziecko
+      alert: Alert
+      form_section: Formularz
+      lookup: Wyszukiwanie
+      system_settings: Ustawienia systemu
+      permission: Zezwolenie
+      dashboard: Zestawienie
+      report: Raport
+      bulk_export: Eksport zbiorczy
+      saved_search: Zapisane Wyszukiwanie
+      role: Rola
+      incident: Zdarzenie
+      location: Lokalizacja
+      primero_configuration: Konfiguracja Primero
+      code_of_conduct: Kodeks postępowania
+      task: Zadanie
+    record_state:
+      'false': Wyłączanie
+      'true': Włączanie
+    refer: Skieruj
+    refer_to: Wyszukaj odbiorcę Świadczenia
+    referral: Kierowanie
+    relinquish_referral: Wykonano Rezygnację ze skierowania
+    reopen: Otwórz ponownie
+    reopen_case: Ponowne otwieranie
+    request_approval:
+      action_plan: Poproś o Zatwierdzenie formularza Planu Działania
+      bia: Poproś o Zatwierdzenie Formularza Najlepiej Pojętego Interesu Dziecka
+      case_plan: Poproś o Zatwierdzenie formularza Planu Sprawy
+      closure: Poproś o Zatwierdzenie formularza Zamknięcia
+      gbv_closure: 'Poproś o Zatwierdzenie Formularza Zamknięcie - Przemoc ze względu na płeć '
+    request_transfer: Wysyłanie Prośby o Przeniesienie
+    request_transfer_view: Podgląd Prośby o Przeniesienie
+    save_subform: Zapisywanie Podformularza
+    search: Wyszukiwanie interfejsu programowania aplikacji/API
+    show: Podgląd
+    show_alerts: Podgląd alertów według
+    transfer: Przenoszenie
+    transfer_status:
+      Accepted: Zaakceptowane Przeniesienie
+      Rejected: Odrzucone Przeniesienie
+    unflag: Odznaczanie
+    update: Aktualizowanie
+  login:
+    label: Login
+    password:
+      label: Hasło
+    password_confirmation:
+      label: Potwierdzenie Hasła
+    password_match:
+      label: Hasło musi być takie same
+    provider_title: z%{provider}
+    title: Zaloguj się
+    username: Nazwa Użytkownika
+    password_reset_modal: Resetuj Hasło
+    password_reset_modal_text: Primero wyśle link do resetu hasła na twój adres email
+    password_reset_email: Email
+    forgot_password: Zapomniałeś/aś hasła?
+    email:
+      label: Email
+  lookup:
+    create: Nowe Wyszukiwanie
+    enabled_label: Włączone?
+    english_label: Tekst po Angielsku
+    label: Wyszukiwanie
+    language_label: Język
+    messages:
+      cannot_create: Nie można stworzyć wyszukiwania
+      correct_errors: 'Popraw następujące błędy i wykonaj ponownie:'
+      created: Wyszukiwanie utworzone pomyślnie.
+      updated: Wyszukiwanie zaktualizowane pomyślnie.
+    no_options: 'To Wyszukiwanie aktualnie nie ma opcji. '
+    translation_label: Tekst Tłumaczenia
+    values: Opcje
+  managed_reports:
+    label: Spostrzeżenia
+    total: Razem
+    filter_by:
+      date: Data
+      verification_status: Status Weryfikacji
+    date_range:
+      month: Miesiąc
+      quarter: Kwartał
+      year: Rok
+    date_range_options:
+      this_quarter: Ten Kwartał
+      last_quarter: Poprzedni Kwartał
+      this_month: Ten Miesiąc
+      last_month: Poprzedni Miesiąc
+      this_year: Ten Rok
+      last_year: Poprzedni Rok
+      custom: Niestandardowy
+    no_data: Brak danych do tego spostrzeżenia
+    no_data_table: Brak danych tabeli do tego spostrzeżenia
+    violations:
+      name: Naruszenia
+      filter_options:
+        incident_date: Data Zdarzenia
+        date_of_report: Data Raportu
+        ctfmr_verified_date: Data Weryfikacji
+      reports:
+        killing: Zabójstwa Dzieci
+        maiming: Okaleczanie Dzieci
+        recruitment: Rekrutacja i/lub wykorzystywanie dzieci
+        sexual_violence: Gwałt i//lub inne formy przemocy seksualnej
+        abduction: Uprowadzenie
+        attack_on: Ataki na szkołę(y) i/lub szpital(e)
+        military_use: Użycie szkoły(ół) i/lub szpitala(i) do celów militarnych
+        denial_humanitarian_access: Odmowa pomocy humanitarnej dla dzieci
+      sub_reports:
+        combined: Naruszenia
+        detention_detained: Pozostaje zatrzymany/a
+        detention_released: Zwolniony/a
+        perpetrators: Liczba Dzieci według Sprawców
+        reporting_location: Liczba Dzieci według Regionu
+        attack_type: Liczba Dzieci według Rodzaju Ataku
+        boys: Chłopcy
+        girls: Dziewczynki
+        unknown: Nieznane
+        total: Razem
+    gbv_statistics:
+      name: 'Statystyki Przemocy ze względu na płeć '
+      filter_options:
+        date_of_first_report: Data Wywiadu
+        incident_date: Data Zdarzenia
+      reports:
+        incidents: Zdarzenia
+        perpetrators: Sprawcy
+      sub_reports:
+        combined: Zdarzenia
+        total: 'Liczba zgłoszonych zdarzeń Przemocy ze względu na płeć '
+        gbv_sexual_violence: Liczba Zgłoszonych Incydentów Przemocy Seksualnej
+        gbv_previous_incidents: Liczba Zdarzeń Zgłoszonych przez Ocalałych z wcześniejszymi Zdarzeniami Przemocy ze względu na płeć
+        gbv_sexual_violence_type: Rodzaj Zdarzenia
+        incident_timeofday: Pora Dnia Zdarzenia
+        elapsed_reporting_time: Czas pomiędzy zdarzeniem a datą raportu
+        elapsed_reporting_time_rape: 'Przypadki Gwałtu, Czas Jaki Upłynął pomiędzy Zdarzeniem a Datą Zgłoszenia '
+        incident_location_type: Miejsce Zdarzenia
+        number_of_perpetrators: Liczba głównych sprawców
+        perpetrator_relationship: 'Domniemana Relacja Głównego Sprawcy w Stosunku do Ocalałego/ej '
+        perpetrator_age_group: Grupa Wiekowa Domniemanych Sprawców
+        perpetrator_occupation: Zajęcie Domniemanych Sprawców
+  messages:
+    alert_items: 'Masz %{items} pozycje wymagające uwagi. '
+    alerts_for:
+      approval: ' %{form_section_name} oczekuje na zatwierdzenie'
+      field_change: '%{form_section_name} został zaktualizowany %{alert_time}'
+      transfer_request: Nowa Prośba o Przeniesienie została złożona %{date} przez%{user} w %{agency}
+      duplicate_field: 'Inna Sprawa w systemie ma takie samo %{field_name} jak ta. '
+    cannot_edit: Nie możesz tego edytować
+    confirmation_message: 'Kliknięcie OK spowoduje utratę wszystkich niezapisanych zmian i powrót do podglądu listy. Kliknij anuluj, żeby powrócić do rekordu. '
+    confirmation_message_subform: 'Klikając OK odrzucisz wszystkie niezapisane zmiany. Kliknij anuluj, żeby kontynuować wprowadzanie zmian.  '
+    dashboard_offline: 'Jesteś w trybie offline. Zestawienie będzie w pełni funkcjonalne kiedy przejdziesz w tryb online. '
+    field_name_on_form_name: 'pole''%{field_name}'' w formularzu ''%{form_name}''.'
+    logout_confirmation: Czy chcesz kontynuować sesję?
+    logout_offline_warning: 'Czy na pewno chcesz się wylogować? Po wylogowaniu nie będziesz mógł/a się zalogować dopóki ponownie nie przejdziesz w tryb online. Zmiany dokonane w trybie offline zostaną utracone. '
+    logout_warning: Zostaniesz wylogowany/a za 5 minut
+    logout_confirmation_title: Potwierdzenie wylogowania
+    logout_confirmation_text: Czy na pewno chcesz się wylogować?
+    no_changes: Nie dokonałeś/aś zmian w polu
+    not_available: Niedostępne
+    record_list:
+      column_header_tooltip: Sortuj %{column}
+      no_match: Przepraszamy, nie znaleziono pasującego rekordu
+      rows_per_page: Rzędy na stronie
+      sort: Sortuj
+  navigation:
+    bulk_exports: Eksporty
+    cases: Sprawy
+    home: Strona Domowa
+    incidents: Zdarzenia
+    logout: Wyloguj
+    reports: Raporty
+    insights: Spostrzeżenia
+    search: Wyszukaj
+    settings: Ustawienia
+    support: Wsparcie
+    support_menu:
+      contact_information: Informacje Kontaktowe
+      code_of_conduct: Kodeks Postępowania
+      terms_of_use: Regulamin
+      system_information: Informacja o Systemie
+    tasks: Zadania
+    tracing_request: Prośba o Poszukiwanie
+    activity_log: Dziennik aktywności
+    registry_records: Rejestr
+  notes:
+    note_success: Uwaga dodana pomyślnie
+  permissions:
+    label: Zezwolenia
+    permission:
+      All: Wszystkie
+      add_note: Dodaj Uwagi
+      admin_only: Brak rekordów - wyłącznie funkcja administratora
+      administrator_read: Odczyt Administratora
+      agency: Agencja
+      agency_read: Odczyt Agencji
+      all: Uzyskaj dostęp do wszystkich rekordów lub użytkowników
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label} Oczekuje'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} Oczekuje'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label} Oczekuje'
+      approve_action_plan: Zatwierdź %{approval_label}
+      approve_assessment: 'Zatwierdź formularz %{approval_label} '
+      approve_case_plan: Zatwierdź %{approval_label}
+      approve_closure: 'Zatwierdź formularz %{approval_label} '
+      approve_gbv_closure: 'Zatwierdź formularz %{approval_label} '
+      assign: Przypisz
+      assign_within_agency: Przypisz w ramach agencji
+      assign_within_user_group: Przypisz w grupie użytkownika
+      audit_log: Historia Aktywności
+      case: Sprawa
+      case_approvals: Zatwierdzenia Sprawy
+      case_assignments_referrals_transfers: Przypisania, skierowania i przeniesienia spraw
+      case_exports: Eksporty Sprawy
+      case_overview: Moje Sprawy
+      case_risk: Sprawy według Poziomu Oceny
+      cases_by_task_overdue_assessment: Podgląd Spraw według Zaległego Zadania Ocena
+      cases_by_task_overdue_case_plan: Podgląd Spraw według Zaległego Zadania Plan Sprawy
+      cases_by_task_overdue_followups: Podgląd Spraw według Zadania Zaległe Świadczenia
+      cases_by_task_overdue_services: Podgląd Spraw według Zadania Zaległe Świadczenia
+      cases_managed_other_users: Sprawy zarządzane przez innych użytkowników
+      close: Zamknij
+      consent_override: Nadpisanie zgody
+      copy: Kopiuj
+      copy_of: Kopia
+      create: Utwórz
+      dash_case_incident_overview: Moje Sprawy/Zdarzenia
+      dash_cases_by_social_worker: Podgląd Spraw Według Pracownika Socjalnego
+      dash_cases_by_task_overdue: 'Podgląd Spraw według Zaległego Zadania '
+      dash_cases_by_workflow: Podgląd Spraw według Kolejności Zadań
+      dash_cases_to_assign: Podgląd Spraw do Przypisania
+      dash_group_overview: Sprawy Mojej Grupy
+      dash_manager_transfers: Podgląd Przeniesień Managera
+      dash_matching_results: Podgląd Wyników Dopasowania
+      dash_protection_concerns: Podgląd Obaw Związanych z Ochroną
+      dash_protection_concerns_by_location: Podgląd Obaw Związanych z Ochroną według Lokalizacji
+      dash_referrals_by_socal_worker: Podgląd Skierowań Według Pracownika Socjalnego
+      dash_reporting_location: Podgląd Miejsca Raportów
+      dash_service_provisions: Podgląd Świadczeń
+      dash_shared_from_my_team: Udostępnione z mojego zespołu
+      dash_shared_with_me: Udostępnione mi
+      dash_shared_with_my_team: Udostępniono mojemu zespołowi
+      dash_shared_with_others: Udostępnione innym
+      dash_tasks: Podgląd Zadań
+      dash_transfers_by_socal_worker: Podgląd Przeniesień Według Pracownika Socjalnego
+      dash_national_admin_summary: Podsumowanie Administratora
+      dashboard: Zestawienie
+      delete: Usuń
+      display_view_page: Wyświetl stronę podglądu
+      duplicate: Powiel Wyszukiwanie
+      enable_disable_record: Wyłącz
+      export_case_pdf: Eksportuj sprawę do PDF
+      export_csv: Eksportuj do CSV
+      export_custom: Eksportuj niestandardowe
+      export_duplicate_id_csv: Wyeksportuj powielone
+      export_json: Eksportuj do JSON
+      export_list_view_csv: Eksportuj Podgląd List do CSV
+      export_pdf: Eksportuj do PDF
+      export_photowall: Eksportuj Panel ze Zdjęciami
+      export_unhcr_csv: Eksportuj unhcr csv
+      export_xls: Eksportuj do XLS
+      find_tracing_match: Znajdź osoby pasujące do poszukiwania ze sprawy
+      view_registry_record: Zobacz Rekord Rejestru
+      add_registry_record: Dodaj Rekord Rejestru
+      flag: Oznaczenie
+      form: Formularze
+      group: Uzyskaj dostęp do wszystkich rekordów lub użytkowników w mojej grupie
+      group_read: Odczyt Grupy
+      import: Import
+      incident: Zdarzenie
+      incident_details_from_case: Dodaj szczegóły zdarzenia do sprawy innego użytkownika
+      incident_from_case: Utwórz zdarzenie ze sprawy
+      lookup: Wyszukiwania
+      manage: Zarządzaj
+      mark_for_offline: Zaznacz do trybu Offline
+      matching_configuration: Konfiguracja Dopasowań
+      metadata: Formularze, Wyszukiwania
+      potential_match: Możliwe Dopasowanie
+      primero_configuration: Konfiguracja
+      read: Odczyt
+      reassign: Przepisz
+      receive_referral: Przyjmij Skierowanie
+      receive_transfer: Przyjmij Przeniesienie
+      referral_from_service: Skieruj Sprawę z formularza Świadczeń
+      registry_record: Rejestr
+      remove_assigned_users: Usuń innych przypisanych użytkowników (skierowania)
+      reopen: Otwórz ponownie
+      report: Raport
+      managed_report: Spostrzeżenia
+      request_approval: Prośba o zatwierdzenie
+      request_approval_action_plan: 'Poproś o zatwierdzenie %{approval_label} '
+      request_approval_assessment: 'Poproś o zatwierdzenie%{approval_label} '
+      request_approval_case_plan: 'Poproś o zatwierdzenie %{approval_label} '
+      request_approval_closure: 'Poproś o zatwierdzenie%{approval_label} '
+      request_approval_gbv_closure: 'Poproś o zatwierdzenie %{approval_label} '
+      request_transfer: Poproś o Przeniesienie
+      role: Role
+      save_search: Zapisz wyszukiwania
+      saved_search: Zapisane wyszukiwania
+      search_owned_by_others: Wyszukaj rekordy spraw innych użytkowników
+      self: Uzyskaj dostęp tylko do moich rekordów lub użytkownika
+      service_provision_incident_details: Zobacz Przycisk Dodaj Świadczenie Usługi w Oknie Szczegółów Zdarzenia
+      services_section_from_case: Dodaj świadczenie usług do sprawy innego użytkownika
+      specific_roles: Uzyskaj dostęp do określonej listy ról
+      sync_external: Zsynchronizuj z systemem zarządzania informacją zewnętrzną
+      sync_mobile: Zaznacz do trybu Offline
+      system: System
+      tracing_request: Prośba o Poszukiwanie
+      user: Użytkownicy
+      user_group: Grupy użytkowników
+      view_approvals: Zobacz Zatwierdzenia
+      view_assessment: Zobacz Ocenę
+      view_photo: Zobacz Zdjęcie
+      view_protection_concerns_filter: Zobacz Filtr Obawy Związane z Ochroną
+      view_response: Zobacz Odpowiedzi
+      workflow: 'Kolejność Zadań - pojedyncze sprawy '
+      workflow_team: Kolejność Zadań - sprawy zespołu
+      write: Pisz
+      activity_log: Dziennik aktywności
+    resource:
+      kpi:
+        actions:
+          kpi_assessment_status:
+            explanation: Możliwość podglądu proporcji utworzonych formularzy oceny w sprawach, do których użytkownik ma dostęp.
+            label: Status Oceny
+          kpi_average_followup_meetings_per_case:
+            explanation: Możliwość podglądu średniej liczby wizyt kontrolnych w wybranym okresie czasu w sprawach, do których użytkownik ma dostęp.
+            label: Średnia Spotkań Kontrolnych na Sprawę
+          kpi_average_referrals:
+            explanation: Możliwość podglądu średniej liczby skierowań na każdy rodzaj świadczenia we wszystkich aktywnych sprawach, do których użytkownik ma dostęp.
+            label: Średnia Skierowań
+          kpi_case_closure_rate:
+            explanation: 'Możliwość podglądu ile spraw zostało zamkniętych miesięcznie w każdej jednostce. '
+            label: Liczba Zamknięć Spraw
+          kpi_case_load:
+            explanation: Możliwość podglądu średniej liczby otwartych spraw każdego pracownika sprawy.
+            label: Liczba spraw
+          kpi_client_satisfaction_rate:
+            explanation: 'Możliwość podglądu stosunku zadowolenia ocalałych, którzy wypełnili Formularz Zwrotny w każdej sprawie, do której użytkownik ma dostęp.  '
+            label: Poziom zadowolenia klienta
+          kpi_completed_case_action_plans:
+            explanation: Możliwość podglądu proporcji utworzonych Planów Działania w Sprawach w sprawach, do których użytkownik ma dostęp.
+            label: Zakończone Plany Działania w Sprawie
+          kpi_completed_case_safety_plans:
+            explanation: Możliwość podglądu proporcji spraw wymagających i Planu Bezpieczeństwa i planów utworzonych w sprawach, do których użytkownik ma dostęp.
+            label: Utworzone Plany Bezpieczeństwa w Sprawie
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Możliwość podglądu proporcji Planów Działania w Sprawach zatwierdzonych przez przełożonego w sprawach, do których użytkownik ma dostęp.
+            label: Utworzone Plany Działania Zatwierdzone przez Przełożonego
+          kpi_goal_progress_per_need:
+            explanation: 'Możliwość podglądu jaki procent celów w każdej kategorii potrzeby został osiągnięty w sprawach dostępnych dla użytkownika. '
+            label: Postęp w osiągnięciu Celów
+          kpi_number_of_cases:
+            explanation: 'Możliwość podglądu ile nowych spraw zgłoszonych zostało otwartych miesięcznie w każdej jednostce. '
+            label: Liczba Spraw
+          kpi_number_of_incidents:
+            explanation: 'Możliwość podglądu ile nowych incydentów zgłoszonych zostało otwartych miesięcznie w każdej jednostce. '
+            label: Liczba Zdarzeń
+          kpi_reporting_delay:
+            explanation: 'Możliwość podglądu liczby dni, które upłynęły między doświadczeniem Przemocy ze Względu na Płeć przez Ocalałego/ą, a jego zgłoszeniem do świadczącego usługi we wszystkich zdarzeniach, do których użytkownik ma dostęp. '
+            label: Opóźnienie w raportowaniu
+          kpi_services_provided:
+            explanation: 'Możliwość podglądu jakie rodzaje usług były świadczone przez organizację w jednostce we wszystkich sprawach, do których użytkownik ma dostęp. '
+            label: Świadczone Usługi
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Możliwość podglądu proporcji pracowników spraw do przełożonych.
+            label: Proporcja Przełożonego do Pracownika Sprawy
+          kpi_time_from_case_open_to_close:
+            explanation: Możliwość podglądu jak długo sprawy pozostają otwarte w sprawach, do których użytkownik ma dostęp.
+            label: Czas pomiędzy otwarciem i zamknięciem Sprawy
+        label: Kluczowy Wskaźnik Wydajności
+      agency:
+        actions:
+          assign:
+            explanation: 'Możliwość wyboru Agencji podczas tworzenia lub aktualizacji konta użytkownika. Jeśli użytkownik  posiada zezwolenie "Odczyt Agencji", będzie mógł dodać konto tylko w ramach własnej Agencji. '
+            label: Przypisz
+          create:
+            explanation: Możliwość stworzenia agencji.
+            label: Utwórz
+          manage:
+            explanation: 'Pozwala użytkownikowi na dowolną dostępną akcję związaną z Agencją. Zezwolenie "Zarządzaj" oznacza "wszystko". WAŻNE: Pozwala również na utworzenie nowej Agencji'
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu agencji.
+            label: Podgląd
+          write:
+            explanation: Możliwość edytowania informacji o agencjach. Dotyczy wszystkich agencji w systemie.
+            label: Edytuj
+        explanation: Przedstawia organizację z członkami używającymi Primero. Agencje istnieją niezależnie od Grup Użytkowników
+        label: Agencja
+      audit_log:
+        actions:
+          read:
+            explanation: 'Pozwala użytkownikowi na podgląd i filtrowanie listy akcji wykonanych w systemie, przedstawionych według użytkownika, rodzaju akcji, numeru rekordu i czasu akcji. Najbardziej odpowiednie dla administratorów krajowych lub administratorów agencji, ponieważ przedstawia akcje wykonane przez wszystkich użytkowników w systemie. Historia aktywności nie zawiera danych osobowych w rekordach związanych z każdą akcją. '
+            label: Podgląd
+        explanation: 'Lista akcji wykonywanych w systemie z możliwością filtrowania. Nie zawiera danych osobowych w Sprawach, Zdarzeniach lub Prośbach o Poszukiwanie. '
+        label: Historia Aktywności
+      case:
+        actions:
+          add_note:
+            explanation: 'Pozwala użytkownikowi na dodanie danych w podformularzu "Uwagi" (czasem nazywanym "Komentarze"). Użytkownik dodaje uwagę klikając przycisk "Dodaj Uwagi" na stronie sprawy.  Jest to szczególnie przydatne dla managerów bez możliwości edytowania spraw, którzy chcą dodać przypomnienia do sprawy dla pracownika. W ten sposób dodanie uwagi jest podobne do dodania oznaczenia. Zaletą dodawania uwagi jest powiadomienie ukazujące się w sprawie pracownikowi przeglądającemu ją na urządzeniu mobilnym, w momencie dodania uwagi przez managera. '
+            label: Dodaj Uwagi do sprawy
+          add_registry_record:
+            explanation: Pozwala użytkownikowi połączyć Rejestr ze Sprawą z formularza szczegółów Rejestru. Pozwala również odłączyć Rejestr wcześniej połączony ze Sprawą.
+            label: Dodaj/Zaktualizuj rekord Rejestru ze Sprawy
+          approve_action_plan:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: Zatwierdź %{approval_label}
+          approve_assessment:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: 'Zatwierdź formularz %{approval_label} '
+          approve_bia:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: 'Zatwierdź formularz %{approval_label} '
+          approve_case_plan:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: Zatwierdź %{approval_label}
+          approve_closure:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: 'Zatwierdź formularz %{approval_label} '
+          approve_gbv_closure:
+            explanation: Pozwala managerowi na zatwierdzenie %{approval_label} spraw pracowników.
+            label: 'Zatwierdź formularz %{approval_label} '
+          assign:
+            explanation: Pozwala użytkownikowi na wysłanie sprawy od pierwszego właściciela rekordu do innego użytkownika w systemie. Zgoda dziecka nie jest konieczna do tej akcji. W przeciwieństwie do przeniesień, odbiorca nie ma możliwości przyjęcia lub odrzucenia zadania.
+            label: Przypisz
+          assign_within_agency:
+            explanation: Pozwala użytkownikowi na wysłanie sprawy od pierwszego właściciela rekordu do innego użytkownika w jego aktualnej agencji. Zgoda dziecka nie jest konieczna do tej akcji. W przeciwieństwie do przeniesień, odbiorca nie ma możliwości przyjęcia lub odrzucenia zadania.
+            label: Przypisz do użytkownika w mojej agencji
+          assign_within_user_group:
+            explanation: Pozwala użytkownikowi na wysłanie sprawy od pierwszego właściciela rekordu do innego użytkownika w jego aktualnych grupach użytkownika. Zgoda dziecka nie jest konieczna do tej akcji. W przeciwieństwie do przeniesień, odbiorca nie ma możliwości przyjęcia lub odrzucenia zadania.
+            label: Przypisz do użytkownika w mojej grupie użytkowników
+          change_log:
+            explanation: 'Użytkownik może zobaczyć historię wszystkich zmian od momentu utworzenia rekordu, włączając wartości wpisane we wszystkich polach. '
+            label: Historia Zmian
+          close:
+            explanation: Pozwala użytkownikowi zmienić status sprawy z otwartej na zamkniętą.
+            label: Zamknij
+          consent_override:
+            explanation: Pozwala użytkownikowi na skierowanie lub przeniesienie w sprawie, w której nie udzielono zgody.
+            label: Nadpisz brak zgody podczas skierowania lub przeniesienia
+          create:
+            explanation: Możliwość utworzenia sprawy
+            label: Utwórz
+          display_view_page:
+            explanation: 'Użytkownik z tym zezwoleniem będzie mógł wyszukać sprawę, do której nie ma dostępu i zobaczyć małe okno z podstawową informacją o sprawie, nawet jeśli nie będzie mógł zobaczyć pełnej informacji o sprawie. Pola wyświetlone w tym "Oknie Podglądu" są skonfigurowane w "Pokaż w  Formie Skróconej". To okno jest przydatne również dla użytkowników w Poszukiwaniu i Łączeniu Rodziny, ponieważ jest ono dostępne podczas przeglądania "Potencjalnych Dopasowań" w Prośbie o Poszukiwanie. '
+            label: Wyświetl Stronę Podglądów
+          enable_disable_record:
+            explanation: 'Możliwość wyłączania lub włączania sprawy. Sprawy "Wyłączone" domyślnie nie będą wyświetlane na liście spraw. Użytkownicy będą mogli je zobaczyć na liście używając filtra. Ponieważ Primero nie zezwala na usuwanie spraw, użytkownicy mogą je zamiast tego wyłączyć. Na przykład w przypadku omyłkowo utworzonej sprawy lub nieprawidłowych danych, użytkownik powinien wyłączyć sprawę. '
+            label: Wlączone / wyłączone
+          export_case_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy spraw lub stron widoków spraw, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich sprawach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Wyeksportuj PDF sprawy
+          export_csv:
+            explanation: 'Użytkownik może wygenerować eksport do CSV z listy spraw lub stron widoków spraw, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich sprawach dostępnych dla użytkownika. UWAGA: Plik CSV nie zezwala na nie-łacińskie znaki (na przykład arabskie, bengalskie) w formacie możliwym do odczytania.'
+            label: Eksportuj do CSV
+          export_custom:
+            explanation: Użytkownik może wygenerować eksport do XLS z listy spraw lub stron widoków spraw, który zawiera niestandardowy zestaw formularzy lub pól, w jednej, kilku lub wszystkich sprawach dostępnych dla użytkownika. W tym pliku każdy formularz znajduje się w oddzielnej zakładce w pliku XLS. Użytkownik może wybrać formularze lub pola do eksportu w oknie Eksport Niestandardowy. Użytkownicy mogą wybrać tylko te formularze lub pola, do których mają dostęp podczas podglądu sprawy w systemie.
+            label: Eksportuj niestandardowe
+          export_duplicate_id_csv:
+            explanation: 'Tworzy eksport spraw z tą samą informacją w polu Numer Dokumentu Tożsamości (pole może mieć ona inną nazwę, w zależności od konfiguracji) w formacie CSV. Można to zrobić tylko ze strony listy spraw. '
+            label: Wyeksportuj powielone
+          export_json:
+            explanation: Użytkownik może wygenerować eksport do JSON z listy spraw lub stron widoków spraw, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich sprawach dostępnych dla użytkownika. Ten eksport jest używany głównie w celu pobrania spraw z aktualnego systemu Primero i ich importu do innego systemu Primero lub innego systemu zarządzania informacją. Format JSON jest odczytywany przez program i nie ma zastosowania praktycznego dla większości użytkowników.
+            label: Eksportuj do JSON
+          export_list_view_csv:
+            explanation: Użytkownik może wygenerować eksport do pliku CSV ze strony listy spraw, który będzie zawierał pola widoczne dla tego użytkownika na liście spraw. Można to zrobić jedynie ze strony listy spraw.
+            label: Eksportuj Podgląd List do CSV
+          export_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy spraw lub stron widoków spraw, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich sprawach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Eksportuj sprawę do PDF
+          export_photowall:
+            explanation: Pozwala użytkownikowi na eksport pliku ze strony listy spraw, który będzie zawierał zdjęcia ze wszystkich wybranych spraw. Ten eksport ma zastosowanie głównie w przypadku czynności związanych z Poszukiwaniem i Łączeniem Rodziny. Można to zrobić jedynie ze strony listy spraw.
+            label: Eksportuj do Panelu ze Zdjęciami
+          export_unhcr_csv:
+            label: Eksportuj UNHCR CSV
+          export_xls:
+            explanation: 'Użytkownik może wygenerować eksport do XLS z listy spraw lub stron widoków spraw, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich sprawach dostępnych dla użytkownika. W tym formacie każdy formularz zapisany jest w oddzielnej zakładce w pliku XLS. UWAGA: Plik XLS zezwala na nie-łacińskie znaki (na przykład arabskie, bengalskie) w formacie możliwym do odczytania, natomiast plik CSV na to nie zezwala.'
+            label: 'Eksport do Excel (plik XLS) '
+          find_tracing_match:
+            explanation: 'Jest to używane wyłącznie w kontekście Poszukiwania i Łączenia Rodziny. Użytkownicy z tym zezwoleniem zobaczą przycisk "Znajdź Dopasowanie Poszukiwania" na stronie podglądu sprawy. Po kliknięciu, zobaczą listę próśb o poszukiwanie w systemie będących potencjalnymi dopasowaniami do ich sprawy. '
+            label: Znajdź osoby pasujące do poszukiwania ze sprawy
+          flag:
+            explanation: 'Możliwość dodania oznaczenia do sprawy. Użytkownicy z tym zezwoleniem mogą również usunąć oznaczenia wcześniej dodane do spraw. '
+            label: Oznaczenie
+          import:
+            label: Import
+          incident_details_from_case:
+            explanation: Możliwość dodania danych w podformularzu Szczegóły Zdarzenia w sprawie, którą znalazłeś/aś, ale nie masz do niej dostępu. Akcję należy wykonać ze strony wyników wyszukiwania, wybierając jedną lub kilka spraw i klikając "Dodaj Zdarzenie" z menu akcji. Użytkownik zobaczy okno ze wszystkimi polami podformularza Szczegóły Zdarzenia, które może uzupełnić informacją i ją zapisać. Ponieważ akcję można wykonać tylko ze strony wyników wyszukiwania, zezwolenie to zalecane jest dla ról, które mają również możliwość "Wyszukaj rekordy spraw innych użytkowników".
+            label: Dodaj Szczegóły Zdarzenia do sprawy innego użytkownika ze strony wyników wyszukiwania
+          incident_from_case:
+            label: Utwórz zdarzenie ze sprawy
+          manage:
+            explanation: Pozwala użytkownikowi na wykonanie każdej akcji w sprawie. Zezwolenie "Zarządzaj" oznacza "wszystko".
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu sprawy
+            label: Podgląd
+          receive_referral:
+            explanation: Pozwala użytkownikowi na przyjęcie skierowania. Użytkownicy z tym zezwoleniem zostaną potencjalnymi odbiorcami skierowania, natomiast użytkownicy bez tego zezwolenia, nie zostaną potencjalnymi odbiorcami podczas wyszukiwania odbiorcy w oknie skierowania.
+            label: Przyjmij Skierowanie
+          receive_referral_different_module:
+            explanation: Pozwala użytkownikowi na przyjęcie skierowania rekordu stworzonego w innym module Primero. Użytkownicy z tym zezwoleniem zostaną potencjalnymi odbiorcami skierowania tego rekordu, natomiast użytkownicy bez tego zezwolenia, nie zostaną potencjalnymi odbiorcami podczas wyszukiwania odbiorcy w oknie skierowania.
+            label: Przyjmij Skierowanie od użytkownika w innym module
+          receive_transfer:
+            explanation: Pozwala użytkownikowi na przyjęcie przeniesienia. Użytkownicy z tym zezwoleniem zostaną potencjalnymi odbiorcami przeniesienia, natomiast użytkownicy bez tego zezwolenia, nie zostaną potencjalnymi odbiorcami podczas wyszukiwania odbiorcy w oknie przeniesienia.
+            label: Przyjmij Przeniesienie
+          referral:
+            label: Skierowanie
+          referral_from_service:
+            explanation: Pozwala użytkownikowi na widok przycisku "Skieruj" w podformularzu Świadczenia. Po kliknięciu pojawi się okno skierowania z polami Rodzaj Świadczenia, Agencja, Świadczący Usługi i Lokalizacja, które będą wyłączone, lecz automatycznie wypełnione danymi z odpowiednich pól w wybranym podformularzu Świadczenia.
+            label: Skieruj Sprawę z podformularza Świadczeń
+          remove_assigned_users:
+            label: Usuń innych przypisanych użytkowników (odebranie dostępu do spraw użytkownikom, do których zostały skierowane)
+          reopen:
+            explanation: 'Pozwala użytkownikowi na otworzenie aktualnie zamkniętej sprawy. '
+            label: Otwórz ponownie
+          request_approval_action_plan:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie %{approval_label} '
+          request_approval_assessment:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie%{approval_label} '
+          request_approval_bia:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie%{approval_label} '
+          request_approval_case_plan:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie%{approval_label} '
+          request_approval_closure:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie%{approval_label} '
+          request_approval_gbv_closure:
+            explanation: 'Pozwala użytkownikowi (zazwyczaj pracownikowi) na prośbę o zatwierdzenie spraw  %{approval_label} przez jego/jej managera. '
+            label: 'Poproś o zatwierdzenie%{approval_label} '
+          request_transfer:
+            explanation: 'Udostępnia przycisk "Poproś o Przeniesienie" w "Oknie Podglądu", pozwalający na wysłanie spersonalizowanej wiadomości emailem do aktualnego właściciela sprawy, z prośbą o przeniesienie sprawy do wysyłającego. Jest to przydatne w przypadkach częstych zmian lokalizacji dziecka, kiedy pracownicy potrzebują informacji od poprzedniego pracownika zajmującego się dzieckiem, w celu uniknięcia powielania rekordów. '
+            label: Poproś o Przeniesienie
+          search_owned_by_others:
+            label: Szukaj rekordów spraw innych użytkowników
+          service_provision_incident_details:
+            explanation: Pozwala na widok przycisku "Zapisz i Dodaj Świadczenie Usługi" na dole okna Dodaj Zdarzenie. Kliknięcie tego przycisku zapisuje aktualnie uzupełnioną informację o zdarzeniu i przekierowuje użytkownika do okna Dodaj Świadczenie Usługi. Ponieważ funkcja ta jest powiązana z akcjami Dodaj Zdarzenie i Dodaj Świadczenie Usługi, należałoby ją udostępnić roli, która posiada zezwolenie na "Dodaj Szczegóły Zdarzenia do sprawy innego użytkownika" i "Dodaj Świadczenia Usług do sprawy innego użytkownika".
+            label: Zobacz Przycisk Dodaj Świadczenie Usługi w Oknie Szczegółów Zdarzenia
+          services_section_from_case:
+            explanation: Możliwość dodania danych w podformularzu Świadczenia w sprawie, którą znalazłeś/aś, ale nie masz do niej dostępu. Akcję należy wykonać ze strony wyników wyszukiwania, wybierając jedną lub kilka spraw i klikając "Dodaj Świadczenie Usług" z menu akcji. Użytkownik zobaczy okno ze wszystkimi polami podformularza Świadczenia, które może uzupełnić informacją i ją zapisać. Ponieważ akcję można wykonać tylko ze strony wyników wyszukiwania, zezwolenie to zalecane jest dla ról, które mają również możliwość "Wyszukaj rekordy spraw innych użytkowników".
+            label: Dodaj świadczenie usług do sprawy innego użytkownika
+          sync_external:
+            explanation: Możliwość zsynchronizowania Rekordu z zewnętrznym systemem zarządzania informacją
+            label: Zsynchronizuj z systemem zarządzania informacją zewnętrzną
+          sync_mobile:
+            explanation: Pozwala użytkownikowi zapisać sprawy w pamięci podręcznej do dostępu w trybie offline.
+            label: Zaznacz do trybu Offline
+          transfer:
+            label: Przeniesienie
+          view_photo:
+            explanation: Pozwala użytkownikowi na podgląd zdjęć w sprawach z widoku listy spraw. Bez tego zezwolenia użytkownik nie zobaczy kolumny "Zdjęcie" w tabeli spraw lub wyświetlanych w niej ikon zdjęć. To zezwolenie umożliwia również na podgląd zdjęć dziecka w "Oknie Podglądu".
+            label: Podgląd zdjęcia z widoku listy spraw
+          view_incident_from_case:
+            explanation: W podglądzie Sprawy użytkownik może zobaczyć listę Zdarzeń powiązanych ze Sprawą wraz z informacją podsumowującą każde z nich.
+            label: Podgląd Zdarzeń ze Sprawy
+          view_protection_concerns_filter:
+            explanation: 'Pozwala użytkownikowi na podgląd filtra obaw związanych z ochroną na stronie listy spraw. '
+            label: Zobacz filtr Obawy Związane z Ochroną na stronie listy spraw
+          view_registry_record:
+            explanation: Pozwala użytkownikowi na podgląd informacji dowolnego Rejestru połączonego ze Sprawą. Pozwala również na podgląd formularza szczegółów Rejestru w Sprawie.
+            label: Zobacz Rekord Rejestru ze Sprawy
+          write:
+            explanation: Możliwość kliknięcia przycisku "Edytuj", aktualizacji informacji w sprawie i kliknięcia "Zapisz".
+            label: Edytuj
+          accept_or_reject_transfer:
+            explanation: 'Pozwala użytkownikowi na zatwierdzenie lub odrzucenie przeniesienia w imieniu innego użytkownika z twojego zespołu (na przykład przełożony zatwierdzający przeniesienie wysłane podlegającym mu pracownikom socjalnym). '
+            label: Zatwierdź lub odrzuć przeniesienie do innego użytkownika w twoim zespole.
+          list_case_names:
+            explanation: Managerowie zazwyczaj nie widzą nazw Spraw na Liście Spraw. Jeśli manager ma zezwolenie, będzie mógł/mogła zobaczyć nazwy Spraw na liście.
+            label: Jeśli manager, może zobaczyć nazwy Spraw na Liście Spraw.
+          mark_for_offline:
+            explanation: Pozwala użytkownikowi zapisać Sprawę w pamięci podręcznej do dostępu w trybie offline.
+            label: Zaznacz do trybu Offline
+        explanation: Przedstawia dziecko, ocalałego/ą lub innego beneficjenta.
+        label: Sprawa
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: Pokazuje liczbę aktualnych spraw z Oczekującymi, Zatwierdzonymi lub Odrzuconymi prośbami o zatwierdzenie Planu Działania.
+            label: Zatwierdzenia %{approval_label} pracownika sprawy
+          approvals_action_plan_pending:
+            explanation: Pokazuje liczbę spraw w zespole managera oczekujących na zatwierdzenie Planów Działania.
+            label: Zatwierdzenia%{approval_label} managera.
+          approvals_assessment:
+            explanation: Pokazuje liczbę aktualnych spraw z Oczekującymi, Zatwierdzonymi lub Odrzuconymi prośbami o zatwierdzenie Oceny.
+            label: Zatwierdzenia %{approval_label} pracownika sprawy
+          approvals_assessment_pending:
+            explanation: Pokazuje liczbę spraw w zespole managera oczekujących na zatwierdzenie Ocen.
+            label: Zatwierdzenia%{approval_label} managera.
+          approvals_case_plan:
+            explanation: Pokazuje liczbę aktualnych spraw z Oczekującymi, Zatwierdzonymi lub Odrzuconymi prośbami o zatwierdzenie Planu Sprawy.
+            label: Zatwierdzenia %{approval_label} pracownika sprawy
+          approvals_case_plan_pending:
+            explanation: Pokazuje liczbę spraw w zespole managera oczekujących na zatwierdzenie Planów Sprawy.
+            label: Zatwierdzenia%{approval_label} managera.
+          approvals_closure:
+            explanation: Pokazuje liczbę aktualnych spraw z Oczekującymi, Zatwierdzonymi lub Odrzuconymi prośbami o zatwierdzenie Zamknięcia.
+            label: Zatwierdzenia %{approval_label} pracownika sprawy
+          approvals_closure_pending:
+            explanation: Pokazuje liczbę spraw w zespole managera oczekujących na zatwierdzenie Zamknięcia.
+            label: Zatwierdzenia%{approval_label} managera.
+          approvals_gbv_closure:
+            explanation: Pokazuje liczbę aktualnych spraw z Oczekującymi, Zatwierdzonymi lub Odrzuconymi prośbami o zatwierdzenie Zamknięcia Przemocy ze Względu na Płeć.
+            label: Zatwierdzenia %{approval_label} pracownika sprawy
+          approvals_gbv_closure_pending:
+            explanation: Pokazuje ilość spraw w zespole managera z oczekującymi formularzami zamknięcia przemocy ze względu na płeć.
+            label: Zatwierdzenia%{approval_label} managera.
+          case_overview:
+            explanation: 'Karta zestawienia przeglądowego na górze strony domowej, pokazująca liczby takie jak Suma i Nowe sprawy. '
+            label: Zestawienie przeglądowe
+          case_risk:
+            explanation: Pokazuje ile spraw jest na jakim poziomie ryzyka.
+            label: Sprawy według poziomu ryzyka
+          cases_by_task_overdue_assessment:
+            explanation: Pozwala managerowi zobaczyć ile spraw każdego z pracowników ma zaległe zadania Ocena.
+            label: Zaległe zadania Ocena
+          cases_by_task_overdue_case_plan:
+            explanation: Pozwala managerowi zobaczyć ile spraw każdego z pracowników ma zaległe zadania Plan Sprawy.
+            label: Zaległe zadania Plan Sprawy
+          cases_by_task_overdue_followups:
+            explanation: 'Pozwala managerowi na podgląd spraw z zaległymi kontrolą/kolejnymi krokami dla każdego z jego/jej pracowników spraw. '
+            label: 'Zaległe zadania Kontrola/kolejne kroki '
+          cases_by_task_overdue_services:
+            explanation: Pozwala managerowi zobaczyć ile spraw każdego z pracowników ma zaległe zadania Świadczenia.
+            label: Zaległe zadania Świadczenia
+          dash_case_incident_overview:
+            explanation: .
+            label: Przegląd - Moje Sprawy/Zdarzenia
+          dash_cases_by_social_worker:
+            label: Podgląd Spraw według Pracownika Socjalnego
+          dash_cases_to_assign:
+            explanation: 'WAŻNE: Tylko dla managerów. Wyświetla liczbę spraw przypisanych bezpośrednio to obecnego użytkownika (powinien być to manager). To zestawienie zakłada, że managerowie nie zarządzają własnymi sprawami oraz jeśli sprawy zostały przypisane do managera, to powinien/a on/a przypisać te sprawy do pracowników w swoim zespole. '
+            label: '(Dla Managerów) Sprawy, które powinienem/am przypisać do osób w moim zespole. '
+          dash_flags:
+            explanation: Pokazuje listę oznaczeń dodanych przez innych użytkowników do moich rekordów oraz oznaczeń, które ja dodałem/am do rekordów innych użytkowników.
+            label: Oznaczone Rekordy
+          dash_group_overview:
+            explanation: Pokazuje managerowi liczbę otwartych i zamkniętych sprawy zarządzanych przez użytkowników w jego/jej zespole.
+            label: Sprawy Mojej Grupy
+          dash_matching_results:
+            explanation: 'ODRZUCONO: To zestawienie jest niefunkcjonalne i zostanie usunięte w wersji 2'
+            label: Podgląd Wyników Dopasowania
+          dash_protection_concerns:
+            explanation: Tabela pokazująca w ilu sprawach występuje każda z obaw związanych z ochroną. Rzędy w tabeli przedstawiają obawy związane z ochroną, a kolumny wskazują statusy spraw ("Wszystkie sprawy", "Otwarte sprawy", "Nowe (w tym tygodniu)", "Zamknięte (w tym tygodniu)")
+            label: Sprawy według Obaw Związanych z Ochroną
+          dash_protection_concerns_by_location:
+            explanation: 'Widok podobny do zestawienia "Podgląd Obaw Związanych z Ochroną", z dodaniem możliwości wyboru lokalizacji z listy w celu podglądu statystyk obaw związanych z ochroną powszechnych w danej lokalizacji. '
+            label: Podgląd Obaw Związanych z Ochroną według Lokalizacji
+          dash_reporting_location:
+            explanation: 'Tabela pokazuje liczbę spraw według lokalizacji (na pojedynczym poziomie szczegółowości jak "Prowincja" lub "Dystrykt"). Każdy rząd tabeli przestawia lokalizację, a kolumny wskazują statusy spraw ("SPRAWY OTWARTE", "NOWE(W POPRZEDNIM TYGODNIU)", "NOWE (W TYM TYGODNIU)", "ZAMKNIĘTE (W POPRZEDNIM TYGODNIU)", "ZAMKNIĘTE (W TYM TYGODNIU)"). Zazwyczaj jest ona używana przez konta managera lub administratora. '
+            label: Sprawy według Lokalizacji Raportującej
+          dash_service_provisions:
+            explanation: Wyświetla liczbę spraw, do których inni użytkownicy dodali świadczenie usług. Liczba ta pojawia się w głównej sekcji zestawienia.
+            label: Sprawy według Świadczonych Usług
+          dash_shared_from_my_team:
+            explanation: 'Pokazuje managerowi liczbę spraw zarządzanych przez każdego z użytkowników w jego/jej zespole, które zostały skierowane lub przeniesione do innych użytkowników. '
+            label: Udostępnione z mojego zespołu
+          dash_shared_with_me:
+            explanation: Pokazuje ile spraw zostało skierowanych lub przeniesionych do ciebie.
+            label: Udostępnione mi
+          dash_shared_with_my_team:
+            explanation: Pokazuje managerowi liczbę sprawy skierowanych lub przeniesionych do każdego z użytkowników w jego/jej zespole.
+            label: Udostępniono mojemu zespołowi
+          dash_shared_with_my_team_overview:
+            label: Udostępniono mojemu zespołowi (przegląd)
+          dash_shared_with_others:
+            explanation: 'Pokazuje ile moich spraw ma aktywne skierowania, oczekujące przeniesienia lub odrzucone przeniesienia. Zazwyczaj nie używane przez managerów, o ile sami nie zarządzają sprawami. '
+            label: Udostępnione innym
+          dash_show_none_values:
+            explanation: Dodaje dodatkową kategorię "Brak Poziomu Ryzyka" do wszystkich zestawień przedstawiających sprawy według poziomu ryzyka. Odnosi się to do konfiguracji mających czwartą opcję "Brak Ryzyka" do wyboru w polach poziomu ryzyka.
+            label: Podgląd spraw z "Brak Poziomu Ryzyka" Zestawieniu Oceniającym
+          dash_tasks:
+            explanation: Pozwala użytkownikowi na podgląd strony zadań. Pozwolenie powinno być używane przez pracowników spraw i świadczących usługi, ponieważ podgląd przedstawia tylko sprawy zarządzane bezpośrednio przez użytkownika. Managerowie powinni używać zestawienia "Podgląd Spraw według Zaległych Zadań", które pozwala na podgląd zaległych zadań u wszystkich w ich grupach użytkowników.
+            label: Strona Zadań
+          dash_national_admin_summary:
+            explanation: Pokazuje sumę otwartych Spraw w systemie, liczbę nowych Spraw utworzonych każdego dnia w ciągu ostatnich dwóch tygodni oraz liczbę Spraw zamkniętych każdego dnia w ciągu ostatnich dwóch tygodni.
+            label: Podsumowanie Administratora
+          view_response:
+            label: Podgląd Odpowiedzi
+          workflow:
+            explanation: Pozwala pracownikowi sprawy zobaczyć wykres kołowy pokazujący ile z jego/jej spraw znajduje się na jakim etapie kolejności zadań w zarządzaniu sprawą.
+            label: Sprawy przedstawione według kolejności zadań
+          workflow_team:
+            explanation: 'Pokazuje managerowi tabelę przedstawiającą liczbę spraw podlegających im pracowników socjalnych wraz z etapem procesu zarządzania sprawą. '
+            label: Sprawy według Kolejności Zadań i Pracowników Spraw
+        explanation: 'Ustanawia jakie informacje zbiorcze dostępne są na stronie domowej. '
+        label: Zestawienie
+      disabled:
+        explanation: Jeśli wyłączysz tę Rolę, nie będziesz już mógł/a przypisać jej do kont Użytkowników.
+        label: Wyłączone
+      duplicate:
+        actions:
+          read:
+            explanation: 'Pozwala użytkownikowi na zaawansowane wyszukiwanie spraw w systemie używając kilku kryteriów, włącznie z Imieniem, Przydomkiem, Płcią, Wiekiem i Narodowością. '
+            label: Podgląd
+        explanation: Zaawansowane wyszukiwanie spraw dla administratorów.
+        label: Powiel Wyszukiwanie
+      forms:
+        case:
+          explanation: 'Ograniczenie dostępu użytkownika do formularzy w sprawach uniemożliwia dostęp do wybranych informacji o zdarzeniu. Przykładowo, jeśli użytkownik ma dostęp tylko do formularza Właściciel Rekordu, to będzie mógł on zobaczyć informację zapisaną w polach tego formularza. Jeśli aktualny użytkownik ma ograniczony dostęp do formularza i ma możliwość zarządzania jego konfiguracją, to ograniczenie jego dostępu do formularza wpłynie również na możliwość jego konfiguracji przez tego użytkownika. UWAGA: Jeśli nie sprecyzowano formularzy, to rola ma dostęp do wszystkich formularzy w sprawach.'
+          label: Formularze - Sprawa
+        incident:
+          explanation: 'Ograniczenie dostępu użytkownika do formularzy w incydentach uniemożliwia dostęp do wybranych informacji o zdarzeniu. Przykładowo, jeśli użytkownik ma dostęp tylko do formularza Właściciel Rekordu, to będzie mógł on zobaczyć informację zapisaną w polach tego formularza. Jeśli aktualny użytkownik ma ograniczony dostęp do formularza i ma możliwość zarządzania jego konfiguracją, to ograniczenie jego dostępu do formularza wpłynie również na możliwość jego konfiguracji przez tego użytkownika. UWAGA: Jeśli nie sprecyzowano formularzy, to rola ma dostęp do wszystkich formularzy w incydentach.'
+          label: Formularze - Zdarzenie
+        tracing_request:
+          explanation: 'Ograniczenie dostępu użytkownika do formularzy w prośbach o poszukiwanie uniemożliwia dostęp do wybranych informacji o prośbie o poszukiwanie. Przykładowo, jeśli użytkownik ma dostęp tylko do formularza Właściciel Rekordu, to będzie mógł on zobaczyć informację zapisaną w polach tego formularza. Jeśli aktualny użytkownik ma ograniczony dostęp do formularza i ma możliwość zarządzania jego konfiguracją, to ograniczenie jego dostępu do formularza wpłynie również na możliwość jego konfiguracji przez tego użytkownika. UWAGA: Jeśli nie sprecyzowano formularzy, to rola ma dostęp do wszystkich formularzy w Prośbach o Poszukiwanie.'
+          label: Formularze - Prośba o Poszukiwanie
+        registry_record:
+          explanation: 'Ograniczenie dostępu użytkownika do formularzy w rejestrach uniemożliwia dostęp do wybranych informacji w rejestrze. Przykładowo, jeśli użytkownik ma dostęp tylko do formularza Właściciel Rekordu, to będzie mógł on zobaczyć informację zapisaną w polach tego formularza. Jeśli aktualny użytkownik ma ograniczony dostęp do formularza i ma możliwość zarządzania jego konfiguracją, to ograniczenie jego dostępu do formularza wpłynie również na możliwość jego konfiguracji przez tego użytkownika. UWAGA: Jeśli nie sprecyzowano formularzy, to rola ma dostęp do wszystkich formularzy w rejestrach.'
+          label: Formularze - Rejestr
+      group:
+        actions:
+          admin_only:
+            explanation: To oznacza, że użytkownicy z tą rolą będą mieli podgląd tylko do administracji systemu, na przykład raportów, formularzy i konfiguracji wyszukiwań użytkowników, ról i grup użytkowników. Nie będą mieli dostępu do indywidualnych spraw, próśb o poszukiwanie lub zdarzeń.
+            label: Brak rekordów - wyłącznie funkcja administratora
+          agency:
+            explanation: Rola ma dostęp do rekordów zarządzanych przez wszystkich użytkowników w jej agencji. Jeśli użytkownik ma dostęp do innych użytkowników, ma go również do wszystkich użytkowników agencji.
+            label: Wszystkie rekordy lub użytkownicy w mojej agencji
+          all:
+            explanation: Rola ma dostęp do wszystkich rekordów, użytkowników i grup użytkowników w systemie, niezależnie od tego, do której grupy użytkowników sama należy.
+            label: Uzyskaj dostęp do wszystkich rekordów lub użytkowników
+          group:
+            explanation: 'Rola ma dostęp do rekordów zarządzanych przez wszystkich Użytkowników w jej Grupach Użytkowników i tylko do Użytkowników w jej Grupach. Ma dostęp tylko do do własnych Grup Użytkowników. '
+            label: Uzyskaj dostęp do wszystkich rekordów lub użytkowników w mojej grupie
+          self:
+            explanation: 'Rola ma dostęp do własnych rekordów (spraw, próśb o poszukiwanie lub zdarzeń) i może edytować własne konto użytkownika. '
+            label: Uzyskaj dostęp tylko do moich rekordów lub użytkownika
+        explanation: 'Kontroluje które rekordy (Sprawy, Prośby o Poszukiwanie lub Zdarzenia) są dostępne dla roli. Jeśli rola ma dostęp do Użytkowników lub Grup Użytkowników, kontroluje również dostęp do Użytkowników i Grup Użytkowników. Role z dostępem "Bez Rekordów" mają dostęp tylko do konfiguracji Formularzy, Użytkowników i Raportów. '
+        label: Na jakie rekordy ma wpływ ta rola?
+      incident:
+        actions:
+          change_log:
+            explanation: 'Użytkownik może zobaczyć historię wszystkich zmian od momentu utworzenia rekordu, włączając wartości wpisane we wszystkich polach. '
+            label: Historia Zmian
+          create:
+            explanation: Możliwość utworzenia zdarzenia.
+            label: Utwórz
+          enable_disable_record:
+            explanation: 'Możliwość wyłączania lub włączania Zdarzenia. "Wyłączone" Zdarzenia domyślnie nie są wyświetlane na liście zdarzeń. Użytkownicy mogą zobaczyć wyłączone zdarzenia na liście zdarzeń używając filtra. '
+            label: Wlączone / wyłączone
+          export_case_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy zdarzeń lub stron widoków zdarzeń, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich zdarzeniach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Eksportuj do PDF
+          export_csv:
+            explanation: 'Użytkownik może wygenerować eksport do CSV z listy zdarzeń lub stron widoków zdarzeń, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich zdarzeniach dostępnych dla użytkownika. '
+            label: Eksportuj do CSV
+          export_custom:
+            label: Eksportuj niestandardowe
+          export_json:
+            explanation: Użytkownik może wygenerować eksport do JSON z listy zdarzeń lub stron widoków zdarzeń, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich zdarzeniach dostępnych dla użytkownika. Ten eksport jest używany głównie w celu pobrania zdarzeń z aktualnego systemu Primero i ich importu do innego systemu Primero lub innego systemu zarządzania informacją. Format JSON jest odczytywany przez program i nie ma zastosowania praktycznego dla większości użytkowników.
+            label: Eksportuj do JSON
+          export_list_view_csv:
+            explanation: Użytkownik może wygenerować eksport do pliku CSV ze strony listy zdarzeń, który będzie zawierał pola widoczne dla tego użytkownika na liście zdarzeń. Można to zrobić jedynie ze strony listy zdarzeń.
+            label: Eksportuj Podgląd List do CSV
+          export_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy zdarzeń lub stron widoków zdarzeń, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich zdarzeniach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Eksportuj do PDF
+          export_xls:
+            explanation: Użytkownik może wygenerować eksport do XLS z listy zdarzeń lub stron widoków zdarzeń, który zawiera niestandardowy zestaw formularzy lub pól, w jednej, kilku lub wszystkich sprawach dostępnych dla użytkownika. W tym pliku każdy formularz znajduje się w oddzielnej zakładce w pliku XLS. Użytkownik może wybrać formularze lub pola do eksportu w oknie Eksport Niestandardowy. Użytkownicy mogą wybrać tylko te formularze lub pola, do których mają dostęp podczas podglądu sprawy w systemie.
+            label: 'Eksport do Excel (plik XLS) '
+          flag:
+            explanation: 'Możliwość dodania oznaczenia do zdarzenia. Użytkownicy z tym zezwoleniem mogą również usunąć oznaczenia wcześniej dodane do zdarzenia. '
+            label: Oznaczenie
+          import:
+            label: Import
+          manage:
+            explanation: Pozwala użytkownikowi na wykonanie każdej akcji w zdarzeniach. Zezwolenie "Zarządzaj" oznacza "wszystko".
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu zdarzenia
+            label: Podgląd
+          sync_mobile:
+            explanation: 'To zezwolenie pozwala użytkownikowi na pracę w aplikacji mobilnej. Użytkownik widzi akcje "Oznacz do aplikacji mobilnej" oraz  "Odznacz do aplikacji mobilnej" na liście zdarzeń i stronach widoku zdarzeń. Oznaczenie zdarzenia do aplikacji mobilnej oznacza, że informacja o tym zdarzeniu powinna zostać zsynchronizowana pomiędzy aplikacją mobilną i aplikacją sieciową, natomiast odznaczenie zdarzenia do aplikacji mobilnej oznacza brak takiej synchronizacji. Użytkownicy bez tego zezwolenia nie mogą również zsynchronizować swoich urządzeń mobilnych z aplikacją sieciową i nie mogą używać aplikacji mobilnej do zarządzania zdarzeniami. '
+            label: Zsynchronizuj z urządzeniem mobilnym
+          write:
+            explanation: Możliwość kliknięcia przycisku "Edytuj", aktualizacji informacji o zdarzeniu i kliknięcia "Zapisz". Pozwala użytkownikowi na włączenie lub wyłączenie zdarzenia.
+            label: Edytuj
+        explanation: 'Reprezentuje wydarzenie. Zazwyczaj są to zdarzenia wykorzystywania lub przemocy, lecz również spotkania z organami ścigania. Zdarzenia są często powiązane ze Sprawami. '
+        label: Zdarzenie
+      is_manager:
+        explanation: Stosuje się do roli użytkownika, która ogólnie nadzoruje innych użytkowników. Pozwala użytkownikowi na podgląd zestawień i filtrów, które pomagają w zarządzaniu zespołem.
+      managed_report:
+        actions:
+          violations:
+            label: Naruszenia
+          gbv_statistics:
+            label: 'Statystyki Przemocy ze względu na płeć '
+      matching_configuration:
+        actions:
+          manage:
+            explanation: 'Możliwość kontroli które pola są porównywane w wyszukiwaniu dopasowań między prośbą o poszukiwanie a sprawą. Ponieważ kontrola dotyczy sposobu dopasowywani w całym systemie, to zezwolenie zasadniczo powinno być dostępne tylko administratorowi systemu. '
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+        explanation: Kontroluje które pola są używane do porównania Prośby o Poszukiwanie ze Sprawami podczas Poszukiwania i Łączenia Rodziny.
+        label: Konfiguracja Dopasowań
+      metadata:
+        actions:
+          manage:
+            explanation: 'Możliwość tworzenia, edycji, tłumaczenia i usuwania formularzy, pól formularzy i wyszukań. Użytkownik z tym zezwoleniem, będzie mógł zarządzać tylko formularzami, do których ma dostęp. Na przykład: jeśli administrator krajowy ma możliwość podglądu tylko formularza Właściciel Rekordu w sprawach, to będzie mógł zaktualizować konfigurację tylko tego formularza. '
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+        explanation: 'Kontroluje możliwość konfiguracji Formularzy i Pól Primero, oraz używane dla nich opcje Wyszukiwania. '
+        label: Formularze, Wyszukiwania
+      module:
+        actions:
+          gbv:
+            label: 'Przemoc ze względu na płeć '
+        explanation: Kontroluje, do których modułów odnosi się ta rola
+        label: Moduły
+      potential_match:
+        actions:
+          read:
+            explanation: 'Przedstawia powiązanie pomiędzy Prośbą o Poszukiwanie a Sprawą. Dostęp do Możliwych Dopasowani jest konieczny do Poszukiwania i Łączenia Rodziny. Pozwala Użytkownikowi na podgląd formularza Podsumowania Poszukiwań w Sprawach. '
+            label: Podgląd
+        label: Możliwe Dopasowanie
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Możliwość zapisywania, zastosowania i wysyłania Konfiguracji. To zezwolenie jest zazwyczaj zarezerwowane dla administratora systemu.
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+        label: Konfiguracja
+      referral:
+        actions:
+          refer:
+            label: Czy ta rola może być używana do Skierowań zewnętrzynych?
+        label: Skierowanie
+      registry_record:
+        actions:
+          change_log:
+            explanation: 'Użytkownik może zobaczyć historię wszystkich zmian od momentu utworzenia rekordu, włączając wartości wpisane we wszystkich polach. '
+            label: Historia Zmian
+          create:
+            explanation: Możliwość utworzenia rekordu Rejestr
+            label: Utwórz
+          enable_disable_record:
+            explanation: 'Możliwość wyłączania lub włączania rekordu Rejestru. "Wyłączone" rekordy domyślnie nie są wyświetlane na liście Rejestru. Użytkownicy mogą zobaczyć wyłączone rekordy Rejestru na liście Rejestru używając filtra. '
+            label: Wlączone / wyłączone
+          export_csv:
+            explanation: 'Użytkownik może wygenerować eksport do CSV z listy Rejestru lub stron widoków Rejestru, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich rekordach Rejestru dostępnych dla użytkownika. UWAGA: Plik CSV nie zezwala na nie-łacińskie znaki (na przykład arabskie, bengalskie) '
+            label: Eksportuj do CSV
+          export_json:
+            explanation: Użytkownik może wygenerować eksport do JSON z listy Rejestru lub stron widoków Rejestru, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp. Format JSON jest odczytywany przez program i nie ma zastosowania praktycznego dla większości użytkowników.
+            label: Eksportuj do JSON
+          export_xls:
+            explanation: 'Użytkownik może wygenerować eksport do XLS z listy Rejestru lub stron widoków Rejestru, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp. UWAGA: Plik XLS zezwala na nie-łacińskie znaki (na przykład arabskie, bengalskie) w formacie możliwym do odczytania, natomiast plik CSV na to nie zezwala.'
+            label: 'Eksport do Excel (plik XLS) '
+          flag:
+            explanation: 'Możliwość dodania oznaczenia do rekordu Rejestru. Użytkownicy z tym zezwoleniem mogą również usunąć oznaczenia wcześniej dodane do rekordu Rejestru. '
+            label: Oznaczenie
+          manage:
+            explanation: Pozwala użytkownikowi na wykonanie każdej akcji w rekordach Rejestru. Zezwolenie "Zarządzaj" oznacza "wszystko".
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu rekordu Rejestr
+            label: Podgląd
+          write:
+            explanation: Możliwość kliknięcia przycisku "Edytuj", aktualizacji informacji w rekordzie Rejestr i kliknięcia "Zapisz".
+            label: Edytuj
+          sync_mobile:
+            explanation: Pozwala użytkownikowi zapisać rekordy rejestru w pamięci podręcznej do dostępu w trybie offline.
+            label: Zaznacz do trybu Offline
+        explanation: 'To może przedstawiać osobę lub instytucję, która powinna zostać powiązana z innymi rekordami takimi jak sprawy lub zdarzenia, które są bardzo liczne lub są wielokrotnie aktualizowane o nowe informacje. Przypominają wyszukiwania, ale z bardziej złożonym zestawem informacji dla każdej danej. '
+        label: Rekord Rejestru
+      report:
+        actions:
+          create:
+            explanation: 'Możliwość utworzenia nowego raportu. Kiedy użytkownik tworzy raport, staje się on dostępny dla wszystkich użytkowników z zezwoleniem "Odczyt" lub "Odczyt Grupy" dostępu do raportów.  '
+            label: Utwórz
+          group_read:
+            label: Podgląd (dane z grupy)
+          manage:
+            explanation: Pozwala użytkownikowi na wykonanie każdej akcji w Agencjach. Zezwolenie "Zarządzaj" oznacza "wszystko".
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu wszystkich raportów. Liczby w każdym raporcie odzwierciedlają wszystkie rekordy w systemie, a nie tylko te, do których aktualny użytkownik ma dostęp. To zezwolenie daje również możliwość eksportu danych z raportu.
+            label: Podgląd
+          write:
+            explanation: Możliwość edytowania wszystkich raportów (włącznie ze stworzonymi przez innych użytkowników).
+            label: Edytuj
+        explanation: Narzędzie do analizy zbiorów danych. Zawiera tabele i graficzne prezentacje danych.
+        label: Raport
+      reporting_location_level:
+        explanation: 'Tu możesz kontrolować jaki rodzaj lokalizacji zostanie wyświetlony dla tej Roli w zestawieniach, filtrach, oknach skierowań i oknach przeniesień. Jeśli pozostawisz to pole puste, system przypisze domyślne ustawienia Lokalizacji Raportującej dla tej Roli.'
+        label: Jaki rodzaj lokalizacji powinien być używany do raportowania dla tej roli?
+      role:
+        actions:
+          assign:
+            explanation: Możliwość wybrania roli podczas tworzenia lub edycji konta użytkownika. To zezwolenie jest konieczne dla każdej roli, która będzie tworzyła lub edytowała konta użytkowników.
+            label: Przypisz
+          copy:
+            explanation: Możliwość tworzenia kopii. Przydatne dla administratorów systemu, którzy mogą tworzyć kilka bardzo podobnych do siebie ról (na przykład świadczącego/ej usługi).
+            label: Kopiuj
+          create:
+            explanation: Możliwość utworzenia sprawy
+            label: Utwórz
+          delete:
+            explanation: Możliwość usunięcia roli.
+            label: Usuń
+          manage:
+            explanation: 'Pozwala użytkownikowi wykonywać wszystkie dostępne czynności związane z rolami. Zezwolenie "Zarządzaj" oznacza "wszystko". WAŻNE: Pozwala również na tworzenie i usuwanie ról. '
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          permitted_roles:
+            label: Inne role zarządzane tą rolą
+          read:
+            explanation: Możliwość podglądu ról
+            label: Podgląd
+          write:
+            explanation: 'Możliwość kliknięcia przycisku "Edytuj" na stronie pokaż rolę, zaktualizowania zezwoleń roli, a następnie zapisania roli. '
+            label: Edytuj
+        explanation: 'Ustanawia jakie akcje Użytkownik może wykonywać w Primero. '
+        label: Role
+      system:
+        actions:
+          manage:
+            explanation: 'Możliwość podglądu i aktualizacji informacji kontaktowej systemu, powiadomienia domyślnego i ustawień emaila powitalnego i zsynchronizowanych serwerów. Zezwolenie jest zazwyczaj zarezerwowane dla administratora systemu. '
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+        explanation: 'Różne konfiguracje systemu. '
+        label: System
+      tracing_request:
+        actions:
+          change_log:
+            explanation: 'Użytkownik może zobaczyć historię wszystkich zmian od momentu utworzenia rekordu, włączając wartości wpisane we wszystkich polach. '
+            label: Historia Zmian
+          create:
+            explanation: Możliwość stworzenia prośby o poszukiwanie
+            label: Utwórz
+          enable_disable_record:
+            explanation: 'Możliwość wyłączania lub włączania Prośby o Poszukiwanie. "Wyłączone" Prośby o Poszukiwanie domyślnie nie są wyświetlane na liście Próśb o Poszukiwanie. Użytkownicy mogą zobaczyć wyłączone Prośby o Poszukiwanie na ich liście używając filtra. '
+            label: Wlączone / wyłączone
+          export_case_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy próśb o poszukiwanie lub stron widoków próśb o poszukiwanie, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich rekordach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Eksportuj do PDF
+          export_csv:
+            explanation: 'Użytkownik może wygenerować eksport do CSV z listy próśb o poszukiwanie lub stron widoków próśb o poszukiwanie, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich prośbach o poszukiwanie dostępnych dla użytkownika. '
+            label: Eksportuj do CSV
+          export_custom:
+            explanation: Użytkownik może wygenerować eksport do XLS z listy próśb o poszukiwanie lub stron widoków próśb o wyszukiwanie, który zawiera niestandardowy zestaw formularzy lub pól, w jednej, kilku lub wszystkich prośbach o poszukiwanie dostępnych dla użytkownika. W tym pliku każdy formularz znajduje się w oddzielnej zakładce w pliku XLS. Użytkownik może wybrać formularze lub pola do eksportu w oknie Eksport Niestandardowy. Użytkownicy mogą wybrać tylko te formularze i pola, do których mają dostęp podczas podglądu prośby o poszukiwanie w systemie.
+            label: Eksportuj niestandardowe
+          export_json:
+            explanation: Użytkownik może wygenerować eksport do JSON z listy próśb o poszukiwanie lub stron widoków próśb o poszukiwanie, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich prośbach o poszukiwanie dostępnych dla użytkownika. Ten eksport jest używany głównie w celu pobrania próśb o wyszukiwanie z aktualnego systemu Primero i ich importu do innego systemu Primero lub innego systemu zarządzania informacją. Format JSON jest odczytywany przez program i nie ma zastosowania praktycznego dla większości użytkowników.
+            label: Eksportuj do JSON
+          export_list_view_csv:
+            explanation: Użytkownik może wygenerować eksport do pliku CSV ze strony listy prośby o poszukiwanie, który będzie zawierał pola widoczne dla tego użytkownika na liście próśb o poszukiwanie. Można to zrobić jedynie ze strony listy próśb o poszukiwanie.
+            label: Eksportuj Podgląd List do CSV
+          export_pdf:
+            explanation: 'Użytkownik może wygenerować eksport do PDF z listy próśb o poszukiwanie lub stron widoków próśb o poszukiwanie, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednym, kilku, lub wszystkich rekordach dostępnych dla użytkownika. W wyeksportowanym pliku PDF informacja jest posortowana według spraw, a następnie według formularzy zawierających informację. '
+            label: Eksportuj do PDF
+          export_xls:
+            explanation: 'Użytkownik może wygenerować eksport do XLS z listy Próśb o Poszukiwanie lub stron widoków Próśb o Poszukiwanie, który zawiera wszystkie pola, do których aktualny użytkownik ma dostęp w jednej, kilku, lub wszystkich Prośbach o Poszukiwanie dostępnych dla użytkownika. W tym formacie każdy formularz zapisany jest w oddzielnej zakładce w pliku XLS. UWAGA: Plik XLS zezwala na nie-łacińskie znaki (na przykład arabskie, bengalskie) w formacie możliwym do odczytania, natomiast plik CSV na to nie zezwala.'
+            label: 'Eksport do Excel (plik XLS) '
+          flag:
+            explanation: 'Możliwość dodania oznaczenia do prośby o poszukiwanie. Użytkownicy z tym zezwoleniem mogą również usunąć oznaczenia wcześniej dodane do prośby o poszukiwanie. '
+            label: Oznaczenie
+          import:
+            label: Import
+          manage:
+            explanation: Pozwala użytkownikowi na wykonanie każdej akcji w prośbach o poszukiwanie. Zezwolenie "Zarządzaj" oznacza "wszystko".
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: 'Możliwość podglądu prośby o poszukiwanie. Role z możliwością podglądu próśb o poszukiwanie powinny mieć również podgląd rodzaju Potencjalnego Dopasowania. '
+            label: Podgląd
+          write:
+            explanation: Możliwość kliknięcia przycisku "Edytuj", aktualizacji informacji o prośbie o poszukiwanie i kliknięcia "Zapisz". Pozwala użytkownikowi na włączenie lub wyłączenie prośby o poszukiwanie.
+            label: Edytuj
+        explanation: 'Przedstawia osobę próbującą zlokalizować i połączyć się ze Sprawą bez opieki lub rozdzieloną. '
+        label: Prośba o Poszukiwanie
+      transfer:
+        actions:
+          transfer:
+            label: Czy ta rola może być używana do Przeniesień zewnętrznych?
+        label: Przeniesienie
+      user:
+        actions:
+          agency_read:
+            label: Podgląd (w ramach Agencji)
+          create:
+            explanation: Możliwość utworzenia konta użytkownika.
+            label: Utwórz
+          manage:
+            explanation: 'Pozwala użytkownikowi wykonywać wszystkie dostępne czynności związane z użytkownikami. Zezwolenie "Zarządzaj" oznacza "wszystko". WAŻNE: Pozwala również na tworzenie nowych kont użytkowników.'
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu kont użytkownika. Domyślnie każdy użytkownik ma możliwość podglądu i edycji informacji o własnym koncie użytkownika (na przykład hasła, adresu email).
+            label: Podgląd
+          write:
+            explanation: Możliwość kliknięcia przycisku "Edytuj" na stronie pokaż użytkownika, zaktualizowania informacji o użytkowniku, a następnie zapisania zmian. Możliwe jest również wyłączenie kont użytkowników.
+            label: Edytuj
+        explanation: Przedstawia indywidualne konto Użytkownika.
+        label: Użytkownicy
+      user_group:
+        actions:
+          assign:
+            label: Przypisz
+          create:
+            explanation: Możliwość utworzenia grupy użytkowników
+            label: Utwórz
+          delete:
+            explanation: Możliwość usunięcia grupy użytkowników
+            label: Usuń
+          manage:
+            explanation: 'Pozwala użytkownikowi wykonywać wszystkie dostępne czynności związane z grupami użytkowników. Zezwolenie "Zarządzaj" oznacza "wszystko". WAŻNE: Pozwala również na tworzenie i usuwanie grup użytkowników. '
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+          read:
+            explanation: Możliwość podglądu grupy użytkowników
+            label: Podgląd
+          write:
+            explanation: Możliwość edytowania grupy użytkowników
+            label: Edytuj
+        explanation: 'Przedstawia zespół lub grupę współpracujących użytkowników, które mogą dzielić się informacją. Managerowie zazwyczaj widzą wszystkie sprawy zarządzane przez pracowników socjalnych w ich Grupie Użytkowników. '
+        label: Grupy użytkowników
+      webhook:
+        actions:
+          read:
+            label: Podgląd
+          write:
+            label: Edytuj
+          create:
+            label: Utwórz
+          delete:
+            label: Usuń
+          manage:
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+      activity_log:
+        actions:
+          transfer:
+            explanation: 'Użytkownik może kliknąć w sekcji Historia Aktywności w Zestawieniu i zobaczyć historię wszystkich zatwierdzonych lub odrzuconych przeniesień Spraw, do których ma dostęp. '
+            label: Przeniesienia
+          manage:
+            label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
+        label: Dziennik aktywności
+  potential_match:
+    case_id: Numer sprawy
+    child_age: Wiek
+    child_gender: Płeć
+    child_id: numer dziecka#
+    inquirer_id: numer pytającego#
+    inquirer_tr_name: prośba o poszukiwanie
+    inquiry_date: data zapytania
+    social_worker: Pracownik Socjalny
+    social_worker_agency: Agencja
+    tracing_request_id: Numer Prośby o Poszukiwanie
+    likelihood_likely: Prawdopodobnie
+    likelihood_possible: Możliwie
+  potential_matches:
+    display: Wyświetlanie potencjalnych dopasowań do %{type} %{id}
+  reassign:
+    multiple_error: Wystąpił błąd. Sprawa(y) %{select_records} nie przypisana/e.
+    multiple_successfully: '%{select_records} sprawa(y) przypisana/e pomyślnie '
+    notes_label: Uwagi
+    successfully: Przepisano pomyślnie
+    user_mandatory_label: Odbiorca jest wymagany
+    users_label: Odbiorca
+  record_information:
+    assigned_user_names: Inni Przypisani Użytkownicy
+    created_by: Rekord utworzony przez
+    created_organization: Stworzono przez agencję
+    current_owner_separator: Aktualny właściciel
+    module_id: Moduł
+    owned_by: Kod Pracownika Sprawy
+    owned_by_agency_id: Agencja
+    owned_by_text: Pracownik Terenowy/Sprawy/Socjalny
+    previously_owned_by: Poprzedni Właściciel
+    previously_owned_by_agency: Poprzednia Agencja
+    reassigned_tranferred_on: Przepisano/Przeniesiono dnia
+    record_history_separator: Historia Rekordu
+    last_updated_by: Ostatnio zaktualizowano przez
+  record_panel:
+    record_information: Informacja o Rekordzie
+  referral:
+    type_of_recipient: Rodzaj Odbiorcy
+    type_of_referral_required: Rodzaj Skierowania jest wymagany
+    agency_label: Agencja
+    location_label: Lokalizacja
+    notes_label: Uwagi
+    notes_on_referral: Uwagi do skierowania
+    note_on_referral_from_provider: Uwagi świadczącego o skierowaniu
+    provided_consent_label: Zgoda nie została odnotowana w Formularzach.
+    recipient_label: Odbiorca
+    refer_anyway_label: Skierować mimo to?
+    service_label: Świadczenie
+    success: '%{record_type} %{id} skierowano pomyślnie'
+    user_mandatory_label: Odbiorca jest wymagany
+    date: Data
+    rejected_reason: Powód odmowy
+  report:
+    aggregate_by: Grupuj według rzędu
+    attribute: Właściwość
+    constraint: Ograniczenie
+    date_ranges:
+      date: Dzień
+      month: Miesiąc
+      quarter: Kwartał
+      quarter_abbr: Kwartał %{quarter}
+      week: Tydzień
+      year: Rok
+    description: Opis
+    disabled:
+      explanation: 'Jeśli wyłączysz ten raport, nie będzie on widoczny w dostępnych raportach. '
+      label: Wyłączone
+    exclude_empty_rows: Nie wyświetlaj pustych rzędów
+    disaggregate_by: Grupuj według kolumny
+    filters:
+      label: Filtry Raportu
+      label_new: Nowy filtr raportu
+      attribute: Filtruj
+      value: Z
+      less_than: Mniej niż
+      greater_than: Więcej niż
+      equal_to: Równe
+      is: jest
+      before: Przed
+      after: Po
+      delete_filter_message: Czy na pewno chcesz usunąć ten filtr?
+    group_ages: Użyj przedziału wiekowego
+    group_dates_by: Użyj przedziału czasowego
+    is_graph: Generuj wykres?
+    messages:
+      delete_success: Raport usunięty pomyślnie.
+      success: Raport utworzony pomyślnie.
+      updated: Raport zaktualizowany pomyślnie.
+    modules: Moduły
+    no_data: Brak danych do tego raportu
+    no_filters_added: Nie dodano filtrów
+    not_selected: Nie wybrano
+    record_type: Rodzaj Rekordu
+    total: Suma
+    value: Wartość
+  reports:
+    delete_report: Usuń Raport
+    delete_report_message: 'Czy na pewno chcesz usunąć ten raport? Usunięcia nie można cofnąć. Kliknij OK, żeby usunąć raport. '
+    label: Raporty
+    register_new_report: Utwórz Raport
+    translations:
+      edit: Edytuj tłumaczenia
+      manage: Zarządzaj tłumaczeniami
+      select_language: Wybierz język
+    error_loading: Błąd Ładowania Raportu(ów)
+  request_transfer:
+    notes_label: Uwagi
+    submit_label: Wyślij Prośbę
+    success: Prośba o przeniesienie wysłana
+  role:
+    agency_ids_label: Agencje zarządzane przez tę rolę
+    copy_failure: 'Błąd w kopiowaniu roli. Upewnij się, że nazwa roli nie została już użyta. '
+    copy_success: Rola skopiowana pomyślnie.
+    create: Utwórz rolę
+    delete_header: Usuń Rolę
+    description: Opis
+    edit: Edytuj Rolę
+    error_in_updating: 'Błąd w aktualizacji szczegółów Roli. '
+    group_permission_label: Na jakie rekordy ma wpływ ta rola?
+    label: Rola
+    manager: Manager
+    messages:
+      confirmation: 'Czy na pewno chcesz usunąć tę rolę? Usunięcia nie można cofnąć. Kliknij OK, żeby usunąć rolę. '
+      created: Rola utworzona pomyślnie.
+      deleted: Rola usunięta pomyślnie.
+      updated: Rola zaktualizowana pomyślnie.
+    referral_label: Czy ta Rola może być używana do Skierowań?
+    reporting_location_level_label: Jaki rodzaj lokalizacji powinien być używany do raportowania dla tej roli?
+    role_ids_label: Inne role zarządzane tą rolą
+    successfully_updated: Szczegóły roli zostały pomyślnie zaktualizowane.
+    transfer_label: Czy ta Rola może być używana do Przeniesień?
+    hide: 'Ukryj '
+    read: Pokaż
+    read_write: Wyświetl i edytuj
+  roles:
+    label: Role
+  saved_search:
+    deleted: Wyszukiwanie usunięte pomyślnie.
+    filters_tab: Filtry
+    no_filters: Nie wybrano filtrów
+    save_success: Wyszukiwanie zapisane pomyślnie.
+    saved_searches_tab: Zapisane wyszukiwania
+    title_description: Czy na pewno chcesz usunąć to zapisane wyszukiwanie?
+    title_modal: Usuń zapisane wyszukiwania
+  saved_searches:
+    no_save_searches: Brak zapisanych wyszukiwań
+    save_search: Zapisz wyszukiwanie
+  settings:
+    navigation:
+      agencies: Agencje
+      audit_logs: Historie Aktywności
+      configurations: Konfiguracje
+      contact_information: Informacje kontaktowe
+      forms: Formularze
+      locations: Lokalizacje
+      lookups: Wyszukiwania
+      user_groups: Grupy użytkowników
+      users: Użytkownicy
+      roles: Role
+      code_of_conduct: Kodeks Postępowania
+    title: Ustawienia
+  system_settings:
+    label: Ustawienia systemu
+  task:
+    due_date: Termin
+    id: Numer#
+    priorities:
+      high_level: Wysoki
+      low_level: Niski
+      medium_level: Średni
+      no_action_level: Brak Akcji
+    priority: Priorytet
+    status: Status
+    statuses:
+      overdue: Zaległe
+      upcoming_soon: Bliski termin
+    type: Rodzaj Akcji
+    types:
+      assessment: Ocena
+      case_plan: Plan Sprawy
+      follow_up: Kontrola/kolejne kroki - %{subtype}
+      service: Świadczenie - %{subtype}
+  tracing_request:
+    label: Prośba o Poszukiwanie
+    has_match: Ma Dopasowanie
+    find_match: Znajdź Dopasowanie
+    back_to_potential_matches: Powrót do Możliwych Dopasowań
+    match: Dopasowanie
+    matches: Dopasowania
+    unmatch: Rozłącz
+    messages:
+      already_matched: W systemie istnieje już dopasowanie do zapytania poszukującego tego dziecka.
+      disabled: Prośby o Poszukiwanie jest wyłączona
+      nothing_found: Nic nie znaleziono
+      update_success: 'Prośba o poszukiwanie %{record_id} została pomyślnie zaktualizowana.'
+      creation_success: Rekord Prośby o Poszukiwanie utworzony pomyślnie.
+      update_success_queue: 'Prośba o Poszukiwanie %{record_id} została pomyślnie zaktualizowana w tle. '
+      creation_success_queue: 'Prośba o Poszukiwanie została pomyślnie utworzona w tle. '
+      match_action: Pomyślnie dopasowano Poszukiwanie %{trace_id} ze Sprawą %{record_id}.
+      unmatch_action: Pomyślnie rozłączono Poszukiwanie %{trace_id} i Sprawę %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Rekord Rejestru %{record_id} został pomyślnie zaktualizowany. '
+      creation_success: 'Rekord Rejestru został pomyślnie stworzony.'
+      disabled: Rekord Rejestru jest wyłączony.
+  tracing_requests:
+    date_of_inquiry: Data Zapytania
+    disable_dialog_title: Wyłącz Prośbę o Poszukiwanie
+    disable_dialog: Kliknięcie OK zmieni status tej prośby o poszukiwanie na Wyłączony.
+    disable_success: Prośba o poszukiwanie pomyślnie wyłączona
+    enable_dialog: Kliknięcie OK zmieni status tej prośby o poszukiwanie na Włączony.
+    enable_dialog_title: Włącz Prośbę o Poszukiwanie
+    enable_success: Prośba o poszukiwanie pomyślnie włączona.
+    id: Numer
+    filter_by:
+      by_date: Według daty
+      location_separation: Miejsce Rozdzielenia
+      separation_cause: Powód Rozdzielenia
+      status: Status
+    label: Prośby o Poszukiwanie
+    name_of_inquirer: Imię Pytającego
+    inquirer: Pytający
+    register_new_tracing_request: Nowa Prośba o Poszukiwanie
+    selectable_date_options:
+      inquiry_date: Data Zapytania
+    selected_records: '%{select_records} prośba(y) o poszukiwanie wybrana/e'
+    selected_all_records: 'Wybierz wszystkie %{total_records} prośby po poszukiwanie pasujące do tego zapytania.'
+    show_tracing_request: 'Numer Prośby o Poszukiwanie %{short_id}'
+    tracing_requests: Prośby o Poszukiwanie
+    export: Eksportuj
+  registry_records:
+    id: Numer
+    label: Rekordy Rejestru
+    registry_no: Numer Rejestru
+    location: Lokalizacja
+    registration_date: Data Rejestracji
+    selected_records: 'Wybrano %{select_records} rekord(y) Rejestru '
+    selected_all_records: 'Wybierz wszystkie %{total_records} rekordy rejestru pasujące do tego zapytania.'
+    disable_dialog_title: Wyłącz Rekord Rejestru
+    disable_dialog: Kliknięcie OK spowoduje zmianę statusu rekordu rejestru na Wyłączony.
+    disable_success: Pomyślnie wyłączono rekord rejestru
+    enable_dialog_title: Włącz Rekord Rejestru
+    enable_dialog: Kliknięcie OK spowoduje zmianę statusu rekordu rejestru na Włączony.
+    enable_success: Pomyślnie włączono rekord rejestru
+    filter_by:
+      by_date: Według daty
+      status: Status
+    selectable_date_options:
+      registration_date: Data Rejestracji
+    show_registry_record: 'Numer Rekordu Rejestru: %{short_id}'
+    register_new_registry_record: Nowy Rekord Rejestru
+    export: Eksportuj
+    mark_for_offline:
+      title: Zaznacz do trybu Offline
+      text: 'Czy na pewno chcesz, żeby te rekordy rejestru były dostępne w trybie offline? '
+      success: Rekord Rejestru pomyślnie oznaczony do użytku w trybie offline
+  transfer:
+    label: Przeniesienie
+    agency_label: Agencja
+    consent_from_individual_label: Czy masz zgodę osoby na to przeniesienie?
+    consent_override_label: Czy chcesz nadpisać to ustawienie?
+    is_remote_label: Przeniesienie do systemu zdalnego?
+    location_label: Lokalizacja
+    notes_label: Uwagi
+    provided_consent_label: Zgoda nie została odnotowana w Formularzach.
+    recipient_label: Odbiorca
+    select_label: Wybierz...
+    success: Pomyślnie przeniesiono
+    transfer_label: Przenieść mimo to?
+    user_mandatory: Odbiorca jest wymagany
+    rejected_reason: Powód odmowy
+  transfer_assignment:
+    title: Przeniesienia i Przypisania
+  transition:
+    agency_label: Agencja
+    assigned_by: Przypisane przez
+    consent_individual_transfer_value:
+      true_label: 'Tak'
+      false_label: 'Nie'
+    consent_overridden_value:
+      false_label: 'Nie'
+      true_label: 'Tak'
+    errors:
+      consent: Zgody nie udzielono.
+      to_user_can_receive: Ten użytkownik nie może otrzymać tego rekordu
+    individual_consent: Czy pracownik sprawy ma zgodę osoby na to przeniesienie?
+    notes: Uwagi
+    recipient: Odbiorca
+    rejected: Powód odmowy
+    requested_by: Prośba od
+    service_label: Świadczenie
+    status:
+      accepted: Zatwierdzono
+      done: Wykonano
+      in_progress: Oczekujące
+      inprogress: Oczekujące
+      rejected: Odrzucone
+      revoked: Wycofane
+    type:
+      assign: Przypisz
+      reassign: Przypisz
+      referral: Skierowanie
+      external_referral: Skierowanie Zewnętrzne
+      transfer: Przeniesienie
+      transferRequest: Prośba o przeniesienie
+  user:
+    agency_office: Biuro Agencji (obszar przemocy ze względu na płeć)
+    code: Kod Użytkownika
+    disabled: Wyłączone
+    email: Email
+    full_name: Pełne Imię
+    invalid_provider_username: 'Nieprawidłowy format nazwy użytkownika  Przykład: moj.uzytkownik@%{domain}'
+    label: Użytkownik
+    language: Język
+    location: Lokalizacja
+    messages:
+      confirmation: 'Czy na pewno chcesz usunąć tego użytkownika? Usunięcia nie można cofnąć. Kliknij OK, żeby usunąć użytkownika. '
+      created: Użytkownik utworzony pomyślnie.
+      failure: Wystąpił błąd, skontaktuj się ze wsparciem technicznym.
+      new_confirm_html: Zapraszasz użytkownika <b>%{username}</b> z<b>%{identity}</b> z rolą <b>%{role}</b> do korzystania z Primero. Email potwierdzający zostanie wysłany do <b>%{email}</b>. Czy chcesz kontynuować?
+      new_confirm_non_identity_html: Zapraszasz użytkownika <b>%{username}</b> z rola <b>%{role}</b> do korzystania z Primero. Email potwierdzający zostanie wysłany do <b>%{email}</b>. Czy chcesz kontynuować?
+      not_found: Nie odnaleziono użytkownika o podanym numerze
+      password_changed_successfully: Hasło zmienione pomyślnie
+      passwords_do_not_match: nie jest aktualnym hasłem
+      time_zone_updated: Zmiana została pomyślnie zaktualizowana.
+      updated: Użytkownik pomyślnie zaktualizowany.
+    organization: Organizacja
+    agency: Agencja
+    password_setting:
+      label: Jak Primero ma ustanowić hasło użytkownika?
+      self: Sam/a ustanowię hasło
+      user: Użytkownik ustanowi hasło używając emaila powitalnego
+      help_text: Pamiętaj, że jeśli jako administrator sam ustanowisz hasło, będziesz je musiał udostępnić z użytkownikiem w bezpieczny sposób.
+    password_reset_header: Wyślij email z resetem hasła
+    password_reset_text: Jeśli klikniesz "Wyślij", użytkownik otrzyma email z linkiem do zresetowania hasła.
+    password_reset_request: Wyślij email z resetem hasła
+    password: Hasło
+    password_confirmation: Potwierdzenie Hasła
+    phone: Telefon
+    position: Stanowisko
+    provider_username_help: 'Przykład: moj.uzytkownik@%{domain}'
+    role_id: Rola
+    send_mail: Otrzymuj powiadomienia email?
+    user_group_unique_ids: Grupy użytkowników
+    user_name: Nazwa Użytkownika
+    services: Świadczenia
+    welcome_email:
+      subject: 'Witaj w %{system}!'
+      greeting: 'Witaj w %{system}!'
+      body_native: 'Zostałeś/aś dodany/a jako %{role_name}. Skontaktuj się z %{admin_full_name} (%{admin_email}) w celu uzyskania instrukcji rozpoczęcia pracy z %{host}.'
+      sso:
+        body: 'Zostałeś/aś dodany/a jako  %{role_name}.'
+        step1: 'Idź do %{host} i kliknij %{identity_provider}.'
+        step2: 'Zaloguj się do konta %{identity_provider} %{user_name}.'
+        step3: 'Użyj tego samego hasła, którego zawsze używasz do konta %{identity_provider}.'
+        footer: 'Skontaktuj się z %{admin_full_name} (%{admin_email}) w celu uzyskania szczegółów. '
+      otp:
+        body: 'Zostałeś/aś dodany/a jako%{role_name}.'
+        step1: 'Skontaktuj się z %{admin_full_name} (%{admin_email}) żeby otrzymać swoją nazwę użytkownika.'
+        step2: 'Idź do %{host} i kliknij "zaloguj z nazwą użytkownika Primero" '
+        step3: 'Zaloguj się używając swojego loginu i hasła tymczasowego %{otp}.'
+        step4: 'Kiedy otrzymasz przypomnienie, zresetuj hasło. '
+      url_label: Primero
+      enabled_label: Wyślij email powitalny?
+      text_label: Tekst emaila powitalnego
+    password_reset:
+      subject: 'Instrukcje do resetu hasła'
+      email_greeting: "Drogi/a %{full_name}"
+      email_body1: "Ktoś poprosiło utworzenie twojego hasła do %{host_href}. Kliknij poniższy link, żeby rozpocząć:"
+      email_body2: "Ten link wygaśnie za %{hours} godzin i może zostać użyty tylko raz. Zignoruj tego maila, jeśli nie prosiłeś/aś  i zmianę hasła lub nowy użytkownik Primero nie został zarejestrowany w twoim imieniu. Jeśli link wygasł, kliknij %{reset_request_href}, żeby poprosić ponowny reset hasła. "
+      email_body_link: tutaj
+      request_submitted: "Prośba o reset hasła zgłoszona"
+      success: "Hasło zmienione pomyślnie"
+      errors:
+        password_confirmation: "Hasła muszą być takie same"
+    onboard_email:
+      greeting: "Drogi/a %{full_name},"
+      body1: "Witaj w Primero!"
+      body2: "Zostałeś/aś wyznaczona jako administrator wdrażający dla %{host_href}. %{reset_notification}"
+      body2_reset_notification: "Otrzymasz dodatkowy email przypominający o zresetowaniu hasła."
+  user_group:
+    associated_agencies: Agencje powiązane z tą Grupą Użytkownika
+    description: Opis
+    disabled:
+      explanation: Jeśli wyłączysz tę Grupę Użytkownika, nie będziesz mógł przypisać jej do kont Użytkowników.
+      label: Wyłączone
+    messages:
+      created: Grupa użytkownika utworzona pomyślnie.
+      updated: Grupa użytkownika zaktualizowana pomyślnie.
+  user_groups:
+    label: Grupy użytkowników
+  users:
+    label: Użytkownicy
+    headers:
+      full_name: Pełne Imię
+      user_name: Nazwa Użytkownika
+      position: Stanowisko
+      agency: Agencja
+  devise:
+    failure:
+      already_authenticated: "Jesteś już zalogowany/a."
+      invalid: "Nieprawidłowy %{authentication_keys} lub hasło."
+      locked: "Twoje konto zostało zablokowane."
+      last_attempt: "To ostatnia próba przed zablokowaniem konta."
+  admin:
+    locations:
+      selected_records: '%{select_records} lokalizacja(e) wybrana/e'
+      selected_all_records: Wybierz wszystkie %{total_records} sprawy pasujące do tego zapytania.
+      updated: '%{updated_records} lokalizacja(e) zaktualizowana/e'
