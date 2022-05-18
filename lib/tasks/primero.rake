@@ -448,11 +448,18 @@ namespace :primero do
     I18n::JS.export
 
     manifest_file = Rails.root.join('config', 'i18n-manifest.txt')
-    translations_file = Rails.root.join('public', 'translations.js')
-    sha1 = Digest::SHA256.file(translations_file)
-    translations_file_fingerprinted = "translations-#{sha1}.js"
+    File.delete(manifest_file) if File.file?(manifest_file)
 
-    File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
-    File.write(manifest_file, translations_file_fingerprinted)
+    Primero::Application::LOCALES.each do |locale|
+      translations_file = Rails.root.join('public', "translations-#{locale}.js")
+
+      next unless File.file?(translations_file)
+
+      sha1 = Digest::SHA256.file(translations_file)
+      translations_file_fingerprinted = "translations-#{locale}.#{sha1}.js"
+
+      File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
+      File.write(manifest_file, "#{translations_file_fingerprinted}\n", mode: 'a+')
+    end
   end
 end
