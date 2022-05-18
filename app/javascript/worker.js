@@ -36,9 +36,6 @@ registerRoute(
   })
 );
 
-// I18n
-registerRoute(/translations-*.js$/, new CacheFirst(), METHODS.GET);
-
 // Images
 registerRoute(
   /.*\.(?:png|jpg|jpeg|svg|gif)/,
