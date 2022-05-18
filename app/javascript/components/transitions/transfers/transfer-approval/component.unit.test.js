@@ -1,9 +1,12 @@
 import { fromJS } from "immutable";
+import { Button } from "@material-ui/core";
 
-import { setupMountedComponent } from "../../../../test";
+import { setupMountedComponent, spy } from "../../../../test";
 import { TransitionRecord } from "../../records";
+import { ACCEPTED } from "../../../../config";
 
 import TransferApproval from "./component";
+import actions from "./actions";
 
 describe("<TransferApproval /> - Component", () => {
   const props = {
@@ -12,7 +15,8 @@ describe("<TransferApproval /> - Component", () => {
     approvalType: "accepted",
     recordId: "2fe3312b-8de2-4bd0-ab39-cdfc020f86b3",
     transferId: "be62e823-4d9d-402e-aace-8e4865a4882e",
-    recordType: "cases"
+    recordType: "cases",
+    setPending: spy()
   };
   const initialState = fromJS({
     records: {
@@ -89,6 +93,19 @@ describe("<TransferApproval /> - Component", () => {
       );
 
       expect(component.find(TransferApproval).find("p").text()).to.equal("cases.transfer_managed_user_accepted");
+    });
+  });
+
+  context("when transfer is approved", () => {
+    it("renders the managed user message", () => {
+      const { component } = setupMountedComponent(TransferApproval, props, initialState);
+      const buttons = component.find(Button);
+
+      buttons.first().simulate("click");
+
+      expect(props.setPending).to.have.been.called;
+      expect(component.props().store.getActions()[0].type).to.deep.equals(actions.APPROVE_TRANSFER);
+      expect(component.props().store.getActions()[0].api.body.data.status).to.deep.equals(ACCEPTED);
     });
   });
 });
