@@ -1,1 +1,60 @@
-pl: {}
+pl:
+  date:
+    today: 'Dziś'
+    clear: 'Usuń'
+    abbr_day_names_short:
+      - Nd
+      - Pn
+      - Wt
+      - Śr
+      - Czw
+      - Pt
+      - So
+    abbr_day_names:
+      - Nie
+      - Pon
+      - Wt
+      - Śr
+      - Czw
+      - Pią
+      - Sob
+    abbr_month_names:
+      - ~
+      - Sty
+      - Lut
+      - Mar
+      - Kwi
+      - Maj
+      - Cze
+      - Lip
+      - Sie
+      - Wrz
+      - Paź
+      - Lis
+      - Gru
+    day_names:
+      - Niedziela
+      - Poniedziałek
+      - Wtorek
+      - Środa
+      - Czwartek
+      - Piątek
+      - Sobota
+    month_names:
+      - ~
+      - Styczeń
+      - Luty
+      - Marzec
+      - Kwiecień
+      - Maj
+      - Czerwiec
+      - Lipiec
+      - Sierpień
+      - Wrzesień
+      - Październik
+      - Listopad
+      - Grudzień
+    formats:
+      default: "%d-%b-%Y"
+  'true': "Tak"
+  'false': "Nie"

@@ -1,8 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import isNil from "lodash/isNil";
 
-export const getComparisons = ({ fields, comparedFields, includeEmpty }) =>
-  fields
+export const getComparisons = ({ fields = [], comparedFields, includeEmpty }) => {
+  return fields
     .map(field => {
       const comparedField = comparedFields.find(comparison => comparison.get("field_name") === field.name);
 
@@ -22,3 +22,4 @@ export const getComparisons = ({ fields, comparedFields, includeEmpty }) =>
       };
     })
     .filter(comparison => comparison?.field);
+};

@@ -1,1 +1,69 @@
-sk: {}
+sk:
+  date:
+    today: 'Dnes'
+    clear: 'Vymazať'
+    abbr_day_names_short:
+      - So
+      - Po
+      - Ut
+      - St
+      - Št
+      - Pi
+      - So
+    abbr_day_names:
+      - Ne
+      - Pon
+      - Uto
+      - Str
+      - Štv
+      - Pia
+      - Sob
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - Máj
+      - Jún
+      - Júl
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dec
+    day_names:
+      - Nedeľa
+      - Pondelok
+      - Utorok
+      - Streda
+      - Štvrtok
+      - Piatok
+      - Sobota
+    month_names:
+      - ~
+      - Január
+      - Február
+      - Marec
+      - Apríl
+      - Máj
+      - Jún
+      - Júl
+      - August
+      - September
+      - Október
+      - November
+      - December
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  'true': "Áno"
+  'false': "Nie"
