@@ -9,7 +9,7 @@ gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (wi
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
-gem 'csv-safe',            '>= 1.2.0'  # Safely export data to CSV to avoid formula injection
+gem 'csv-safe',            '~> 3.0'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.0'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
