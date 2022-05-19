@@ -1892,6 +1892,7 @@ en:
         incident_timeofday: Incident Time of Day
         elapsed_reporting_time: Time Between Incident and Report Date
         elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
+        elapsed_reporting_time_rape_health_referral: Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)
         incident_location_type: Incident Location
         number_of_perpetrators: Number of Perpetrators
         perpetrator_relationship: Alleged Primary Perpetrator’s Relationship to Survivor
