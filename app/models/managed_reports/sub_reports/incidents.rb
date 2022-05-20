@@ -15,7 +15,8 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::IncidentTimeofday,
       ManagedReports::Indicators::ElapsedReportingTime,
       ManagedReports::Indicators::ElapsedReportingTimeRape,
-      ManagedReports::Indicators::IncidentLocationType
+      ManagedReports::Indicators::IncidentLocationType,
+      ManagedReports::Indicators::GBVCaseContext
     ].freeze
   end
 
@@ -25,7 +26,8 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::IncidentTimeofday.id => 'lookup-gbv-incident-timeofday',
       ManagedReports::Indicators::ElapsedReportingTime.id => 'lookup-elapsed-reporting-time',
       ManagedReports::Indicators::ElapsedReportingTimeRape.id => 'lookup-elapsed-reporting-time',
-      ManagedReports::Indicators::IncidentLocationType.id => 'lookup-gbv-incident-location-type'
+      ManagedReports::Indicators::IncidentLocationType.id => 'lookup-gbv-incident-location-type',
+      ManagedReports::Indicators::GBVCaseContext.id => 'lookup-gbv-case-context'
     }.freeze
   end
 end

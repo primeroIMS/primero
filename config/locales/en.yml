@@ -1902,6 +1902,7 @@ en:
         marital_status: Marital Status of Survivors
         displacement_status: Displacement Status of Survivors
         displacement_incident: Stage of Displacement at time of Incident
+        gbv_case_context: Case Context
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.
