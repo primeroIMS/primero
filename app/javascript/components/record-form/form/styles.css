@@ -209,6 +209,11 @@
   }
 }
 
+[dir="rtl"] .badgeIndicator span:last-of-type {
+  left: 8px;
+  right: initial;
+}
+
 .attachmentRow {
   width: 100%;
   display: flex;
@@ -276,4 +281,14 @@
 
 .tallyInputLabel {
   color: var(--c-warm-grey-4) !important;
+}
+
+.disabledRecord {
+  border-radius: 3px;
+  margin: var(--sp-1) 0;
+  font-weight: bold;
+
+  & svg {
+    color: var(--c-gold-yellow)
+  }
 }

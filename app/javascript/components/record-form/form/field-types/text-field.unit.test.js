@@ -146,12 +146,13 @@ describe("<TextField />", () => {
     });
   });
 
-  describe("when the text-field has a name prop equals to name", () => {
+  describe("when the text-field has hidden_text_field equals to true", () => {
     const props = {
       field: {
         name: "name",
         type: TEXT_FIELD_NAME,
-        display_name_en: "Text test field"
+        display_name_en: "Text test field",
+        hidden_text_field: true
       },
       formik: {
         values: []

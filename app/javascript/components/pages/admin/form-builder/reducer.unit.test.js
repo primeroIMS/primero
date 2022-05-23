@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { RADIO_FIELD } from "../../../form";
+import { FormSectionRecord, RADIO_FIELD, SELECT_FIELD, SUBFORM_SECTION, TALLY_FIELD, TEXT_FIELD } from "../../../form";
 
 import actions from "./actions";
 import reducer from "./reducer";
@@ -677,6 +677,81 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       expect(newState).to.deep.equal(expected);
     });
+
+    it("updates the tally options", () => {
+      const tallySubform = {
+        id: 1,
+        unique_id: "form_1",
+        name: { en: "Form Section 1" },
+        fields: [
+          {
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Field 1" },
+            tally: [
+              { id: "option_1", display_text: { en: "Option 1" } },
+              { id: "option_2", display_text: { en: "Option 2" } }
+            ]
+          }
+        ],
+        collapsed_field_names: [],
+        subform_section_configuration: {}
+      };
+
+      const expectedSubform = {
+        ...tallySubform,
+        name: { en: "Updated Form Section 1 " },
+        fields: [
+          {
+            id: 1,
+            name: "field_1",
+            display_name: { en: "Updated Field 1" },
+            tally: [
+              { id: "option_1", display_text: { en: "Option 1" } },
+              { id: "option_2", display_text: { en: "Option 2" } },
+              { id: "option_3", display_text: { en: "Option 3" } }
+            ]
+          }
+        ]
+      };
+
+      const expected = fromJS({
+        subforms: [expectedSubform],
+        selectedSubform: expectedSubform
+      });
+
+      const currentState = fromJS({
+        subforms: [tallySubform],
+        selectedSubform: tallySubform
+      });
+
+      const action = {
+        type: actions.UPDATE_SELECTED_SUBFORM,
+        payload: {
+          data: {
+            id: 1,
+            unique_id: "form_1",
+            name: { en: "Updated Form Section 1 " },
+            fields: {
+              field_1: {
+                id: 1,
+                name: "field_1",
+                display_name: { en: "Updated Field 1" },
+                tally: [
+                  { id: "option_1", display_text: { en: "Option 1" } },
+                  { id: "option_2", display_text: { en: "Option 2" } },
+                  { id: "option_3", display_text: { en: "Option 3" } }
+                ]
+              }
+            }
+          }
+        }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState).to.deep.equal(expected);
+    });
   });
 
   describe("MERGE_SUBFORM_DATA", () => {
@@ -1016,6 +1091,109 @@ describe("<FormsBuilder /> - Reducers", () => {
       const newState = reducer(currentState, action);
 
       expect(newState).to.deep.equal(expected);
+    });
+  });
+
+  describe("UPDATE_FIELD_TRANSLATIONS", () => {
+    const field1 = {
+      id: 1,
+      name: "field_1",
+      display_name: { en: "Field 1" },
+      type: TALLY_FIELD,
+      order: 1,
+      tally: [
+        { id: "tally_option_1", display_text: { en: "Tally Option 1" } },
+        { id: "tally_option_2", display_text: { en: "Tally Option 2" } }
+      ]
+    };
+    const field2 = {
+      id: 2,
+      name: "field_2",
+      type: SELECT_FIELD,
+      order: 2,
+      option_strings_text: [
+        { id: "option_1", display_text: { en: "Option 1" } },
+        { id: "option_2", display_text: { en: "Option 2" } }
+      ]
+    };
+    const field3 = { id: 3, name: "field_3", type: TEXT_FIELD, order: 3 };
+    const field4 = { id: 4, name: "field_4", type: SUBFORM_SECTION, order: 4, subform_section_id: 1 };
+
+    const currentState = fromJS({
+      formSections: {
+        1: FormSectionRecord({
+          unique_id: "subform_1",
+          name: { en: "Subform 1" }
+        })
+      },
+      fields: {
+        1: field1,
+        2: field2,
+        3: field3,
+        4: field4
+      },
+      selectedFields: [field1, field2, field3, field4]
+    });
+
+    it("updates the display_name", () => {
+      const displayName = { en: "Field Updated 3", es: "Campo 3" };
+      const action = {
+        type: actions.UPDATE_FIELD_TRANSLATIONS,
+        payload: { field_3: { display_name: displayName } }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState.get("selectedFields")).to.have.sizeOf(4);
+      expect(newState.getIn(["selectedFields", 2, "display_name"])).to.deep.equal(fromJS(displayName));
+    });
+
+    it("updates the tally options", () => {
+      const action = {
+        type: actions.UPDATE_FIELD_TRANSLATIONS,
+        payload: { field_1: { tally: [{ id: "tally_option_1", display_text: { es: "Opción de conteo 1" } }] } }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState.get("selectedFields")).to.have.sizeOf(4);
+      expect(newState.getIn(["selectedFields", 0, "tally"])).to.have.sizeOf(2);
+      expect(newState.getIn(["selectedFields", 0, "tally", 0])).to.deep.equal(
+        fromJS({
+          id: "tally_option_1",
+          display_text: { en: "Tally Option 1", es: "Opción de conteo 1" }
+        })
+      );
+    });
+
+    it("updates the select options", () => {
+      const action = {
+        type: actions.UPDATE_FIELD_TRANSLATIONS,
+        payload: { field_2: { option_strings_text: [{ id: "option_1", display_text: { es: "Opción 1" } }] } }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState.get("selectedFields")).to.have.sizeOf(4);
+      expect(newState.getIn(["selectedFields", 1, "option_strings_text"])).to.have.sizeOf(2);
+      expect(newState.getIn(["selectedFields", 1, "option_strings_text", 0])).to.deep.equal(
+        fromJS({
+          id: "option_1",
+          display_text: { en: "Option 1", es: "Opción 1" }
+        })
+      );
+    });
+
+    it("updates the associated subform name if a subform field is updated", () => {
+      const action = {
+        type: actions.UPDATE_FIELD_TRANSLATIONS,
+        payload: { field_4: { display_name: { en: "Subform Details" } } }
+      };
+
+      const newState = reducer(currentState, action);
+
+      expect(newState.get("selectedFields")).to.have.sizeOf(4);
+      expect(newState.getIn(["subforms", 0, "name"])).to.deep.equal(fromJS({ en: "Subform Details" }));
     });
   });
 });

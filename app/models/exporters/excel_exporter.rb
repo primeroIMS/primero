@@ -5,6 +5,7 @@ require 'write_xlsx'
 # Export records to Excel. Every form is represented by a new tab.
 # Subforms get a dedicated tab.
 # Uses the write_xlsx gem
+# rubocop:disable Metrics/ClassLength
 class Exporters::ExcelExporter < Exporters::BaseExporter
   attr_accessor :workbook, :worksheets, :constrained_subforms
 
@@ -232,3 +233,4 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     (field.subform_section_configuration&.dig('display_conditions') || []).reduce({}) { |acc, elem| acc.merge(elem) }
   end
 end
+# rubocop:enable Metrics/ClassLength

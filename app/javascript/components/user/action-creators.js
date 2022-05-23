@@ -52,6 +52,12 @@ export const attemptSignout = () => ({
   }
 });
 
+export const showLoginDialog = () => ({
+  type: SET_DIALOG,
+  payload: { dialog: LOGIN_DIALOG, open: true, pending: false },
+  dispatchIfStatus: 401
+});
+
 export const checkUserAuthentication = () => async dispatch => {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -66,18 +72,7 @@ export const refreshToken = checkUserAuth => ({
     path: "tokens",
     method: "POST",
     ...(checkUserAuth && {
-      successCallback: [queueReady],
-      failureCallback: [
-        {
-          action: connectivityActions.PENDING_USER_LOGIN,
-          payload: true
-        },
-        {
-          action: SET_DIALOG,
-          payload: { dialog: LOGIN_DIALOG, open: true, pending: false },
-          dispatchIfStatus: 401
-        }
-      ]
+      successCallback: [queueReady]
     })
   }
 });

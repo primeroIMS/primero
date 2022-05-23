@@ -45,10 +45,10 @@ const Component = ({ tracingRequestValues, traceValues, recordType }) => {
                 id="case.case_id_display-button"
                 text={value}
                 type={ACTION_BUTTON_TYPES.default}
+                variant="text"
+                color="primary"
                 noTranslate
-                rest={{
-                  onClick: () => dispatch(setSelectedPotentialMatch(rowData[0], recordType))
-                }}
+                onClick={() => dispatch(setSelectedPotentialMatch(rowData[0], recordType))}
               />
             );
           }

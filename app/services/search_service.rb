@@ -59,7 +59,7 @@ class SearchService
       return unless query&.strip&.present?
 
       sunspot.instance_eval do
-        fulltext(query.strip) do
+        fulltext("\"#{query.strip}\"") do
           # In schema.xml defaultOperator is "AND"
           # the following changes that behavior to match on
           # any of the search terms instead all of them.

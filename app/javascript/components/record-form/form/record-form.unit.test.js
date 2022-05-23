@@ -96,7 +96,8 @@ describe("<RecordForm />", () => {
       selectedForm: "form_section_1",
       externalForms: () => {},
       externalComponents: () => {},
-      userPermittedFormsIds: fromJS({ basic_identity: "rw" })
+      userPermittedFormsIds: fromJS({ basic_identity: "rw" }),
+      setFormikValuesForNav: () => {}
     }));
   });
 
@@ -141,7 +142,8 @@ describe("<RecordForm />", () => {
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
       });
 
       expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
@@ -165,7 +167,8 @@ describe("<RecordForm />", () => {
         recordType: "incidents",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
       });
 
       expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(recordData);
@@ -185,7 +188,8 @@ describe("<RecordForm />", () => {
         recordType: "cases",
         selectedForm: "form_section_1",
         incidentFromCase: fromJS(incidentFromCase),
-        externalComponents: () => {}
+        externalComponents: () => {},
+        setFormikValuesForNav: () => {}
       });
 
       expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal(initialValues);
@@ -210,7 +214,8 @@ describe("<RecordForm />", () => {
       recordType: "cases",
       selectedForm: "form_section_1",
       incidentFromCase: {},
-      externalComponents: () => {}
+      externalComponents: () => {},
+      setFormikValuesForNav: () => {}
     });
 
     expect(fromCaseComponent.find(FormikForm).props().values).to.deep.equal({
@@ -248,7 +253,8 @@ describe("<RecordForm />", () => {
           recordType: "cases",
           selectedForm: "form_section_1",
           incidentFromCase: {},
-          externalComponents: () => {}
+          externalComponents: () => {},
+          setFormikValuesForNav: () => {}
         },
         currentState
       );
@@ -286,7 +292,8 @@ describe("<RecordForm />", () => {
           recordType: "cases",
           selectedForm: "form_section_1",
           incidentFromCase: {},
-          externalComponents: () => {}
+          externalComponents: () => {},
+          setFormikValuesForNav: () => {}
         },
         currentState
       );
@@ -314,7 +321,8 @@ describe("<RecordForm />", () => {
       "externalForms",
       "selectedForm",
       "userPermittedFormsIds",
-      "externalComponents"
+      "externalComponents",
+      "setFormikValuesForNav"
     ].forEach(property => {
       expect(incidentsProps).to.have.property(property);
       delete incidentsProps[property];

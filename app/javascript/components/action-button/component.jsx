@@ -20,12 +20,13 @@ const Component = ({
   tooltip,
   noTranslate = false,
   rest,
+  disabled,
   ...options
 }) => {
   const { disabledApplication } = useApp();
   const i18n = useI18n();
   const ButtonType = buttonType(type);
-  const isDisabled = disabledApplication && { disabled: disabledApplication };
+  const isDisabled = (disabledApplication || disabled) && { disabled: disabledApplication || disabled };
   const isPending = Boolean(pending);
   const buttonID = id || text;
   const buttonText = !noTranslate && isString(text) ? i18n.t(text) : text;
@@ -63,6 +64,7 @@ Component.defaultProps = {
 
 Component.propTypes = {
   cancel: PropTypes.bool,
+  disabled: PropTypes.bool,
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   id: PropTypes.string,
   isTransparent: PropTypes.bool,

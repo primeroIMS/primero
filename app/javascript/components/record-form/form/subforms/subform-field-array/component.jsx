@@ -50,7 +50,8 @@ const Component = ({
   const [selectedValue, setSelectedValue] = useState({});
 
   const { open, index } = openDialog;
-  const title = displayName?.[i18n.locale];
+
+  const title = displayName?.[i18n.locale] || displayName?.[i18n.defaultLocale];
 
   const isTraces = isTracesSubform(recordType, formSection);
 
@@ -70,7 +71,7 @@ const Component = ({
   }, [index]);
 
   const renderEmptyData = isEmptyOrAllDestroyed(orderedValues) ? (
-    <SubformEmptyData i18n={i18n} subformName={title} />
+    <SubformEmptyData subformName={title} />
   ) : (
     <List dense={renderAsAccordion} classes={{ root: css.list }} disablePadding>
       <SubformFields

@@ -146,6 +146,7 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.0.1",
     "react-router-navigation-prompt": "^1.8.11",
+    "react-spaces": "^0.3.2",
     "react-svg-loader": "^3.0.3",
     "react-test-renderer": "^17.0.2",
     "react-window": "^1.8.6",

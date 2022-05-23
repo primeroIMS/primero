@@ -39,6 +39,7 @@ describe("<Form /> - index", () => {
       "SEPARATOR",
       "SUBFORM_SECTION",
       "submitHandler",
+      "TALLY_FIELD",
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",

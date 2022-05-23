@@ -70,13 +70,14 @@ describe("middleware/utils/generate-record-properties.js", () => {
 
       const results = generateRecordProperties(store, payload, true);
 
-      expect(results).to.deep.equal({ id: "1234" });
+      expect(results).to.deep.equal({ id: "1234", complete: true });
     });
 
     it("generates missing record properties", () => {
       const expected = {
         created_at: time,
         id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f",
+        complete: true,
         owned_by: "jj",
         record_in_scope: true,
         short_id: "454b66f",

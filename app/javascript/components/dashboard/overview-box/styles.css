@@ -1,5 +1,5 @@
 .root {
-  flexgrow: 1;
+  flex-grow: 1;
   padding: 15px;
 }
 
@@ -37,6 +37,10 @@
   cursor: pointer;
   padding: 0;
   font-weight: 600;
+}
+
+[dir="rtl"] .itemButton, .itemButtonNumber {
+  text-align: right;
 }
 
 .itemButtonNumber {

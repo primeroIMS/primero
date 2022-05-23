@@ -5,10 +5,12 @@
 require 'write_xlsx'
 
 # Exports Role Permissions to an Excel file
+# rubocop:disable Metrics/ClassLength
 class Exporters::RolePermissionsExporter
   CASE = %w[
     referral transfer read create write enable_disable_record flag manage add_note reopen close
-    change_log view_incident_from_case view_protection_concerns_filter list_case_names
+    change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
+    add_registry_record
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
@@ -232,3 +234,4 @@ class Exporters::RolePermissionsExporter
     "#{File.join(dir_name, SecureRandom.uuid)}.xls"
   end
 end
+# rubocop:enable Metrics/ClassLength

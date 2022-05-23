@@ -13,6 +13,8 @@ export const selectRecord = (state, query = {}) => {
   if (isEditOrShow) {
     const index = state.getIn(["records", recordType, "data"], fromJS([])).findIndex(r => r.get("id") === id);
 
+    if (index < 0) return fromJS({});
+
     return state.getIn(["records", recordType, "data", index], Map({}));
   }
 
@@ -46,6 +48,9 @@ export const selectRecordsByIndexes = (state, recordType, indexes) =>
 export const getSavingRecord = (state, recordType) => state.getIn(["records", recordType, "saving"], false);
 
 export const getLoadingRecordState = (state, recordType) => state.getIn(["records", recordType, "loading"], false);
+
+export const getMarkForMobileLoading = (state, recordType) =>
+  state.getIn(["records", recordType, "markForMobileLoading"], false);
 
 export const getRecordAlerts = (state, recordType) => state.getIn(["records", recordType, "recordAlerts"], List([]));
 

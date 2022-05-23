@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Describes a request by a single individual to trace one or more children (cases)
+# rubocop:disable Metrics/ClassLength
 class TracingRequest < ApplicationRecord
   include Record
   include Searchable
@@ -10,6 +11,7 @@ class TracingRequest < ApplicationRecord
   include Alertable
   include Attachable
   include EagerLoadable
+  include Webhookable
 
   has_many :traces
   store_accessor :data,
@@ -65,7 +67,7 @@ class TracingRequest < ApplicationRecord
   end
 
   searchable do
-    string :status, as: 'status_sci'
+    %w[id status].each { |f| string(f, as: "#{f}_sci") }
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each do |f|
@@ -130,3 +132,4 @@ class TracingRequest < ApplicationRecord
     self.tracing_request_id ||= unique_identifier
   end
 end
+# rubocop:enable Metrics/ClassLength

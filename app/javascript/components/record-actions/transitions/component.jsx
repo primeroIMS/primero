@@ -4,9 +4,10 @@ import PropTypes from "prop-types";
 import { useI18n } from "../../i18n";
 import submitForm from "../../../libs/submit-form";
 import { TRANSITIONS_TYPES } from "../../transitions/constants";
-import { getRecords } from "../../index-table";
+import { getRecordsData } from "../../index-table";
 import { ASSIGN_DIALOG, TRANSFER_DIALOG, REFER_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
+import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID } from "./constants";
@@ -39,15 +40,9 @@ const Transitions = ({
   const isAssignDialogOpen = transitionDialogOpen(ASSIGN_DIALOG);
   const canConsentOverride = usePermissions(RESOURCES.cases, CONSENT_OVERRIDE);
 
-  const records = useMemoizedSelector(state => getRecords(state, recordType)).get("data");
+  const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
-  const selectedIds =
-    selectedRecords && records
-      ? records
-          .toJS()
-          .filter((_r, i) => selectedRecords[currentPage]?.includes(i))
-          .map(r => r.id)
-      : [];
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage);
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,

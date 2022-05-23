@@ -9,6 +9,7 @@ import {
   INCIDENT_FROM_CASE,
   RECORD_OWNER,
   REFERRAL,
+  REGISTRY_FROM_CASE,
   SUMMARY,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
@@ -475,7 +476,8 @@ describe("<RecordForms /> - utils", () => {
         order: 1,
         formId: APPROVALS,
         is_first_tab: true,
-        permission_actions: SHOW_APPROVALS
+        permission_actions: SHOW_APPROVALS,
+        display_conditions: []
       });
 
       const approvalsForm = FormSectionRecord({
@@ -487,7 +489,7 @@ describe("<RecordForms /> - utils", () => {
         is_first_tab: true
       });
 
-      expect(utils.buildFormNav(approvalsForm)).to.deep.equal(expected);
+      expect(utils.buildFormNav(approvalsForm).toJS()).to.deep.equal(expected.toJS());
     });
 
     it("should return the nav without permission_actions if not defined", () => {
@@ -497,7 +499,8 @@ describe("<RecordForms /> - utils", () => {
         name: "Form 1",
         order: 1,
         formId: "form_id_1",
-        is_first_tab: true
+        is_first_tab: true,
+        display_conditions: []
       });
 
       const form = FormSectionRecord({
@@ -506,17 +509,18 @@ describe("<RecordForms /> - utils", () => {
         name: { en: "Form 1" },
         order: 1,
         order_form_group: 1,
-        is_first_tab: true
+        is_first_tab: true,
+        display_conditions: []
       });
 
-      expect(utils.buildFormNav(form)).to.deep.equal(expected);
+      expect(utils.buildFormNav(form).toJS()).to.deep.equal(expected.toJS());
     });
   });
 
   describe("pickFromDefaultForms", () => {
     it("should return default forms for the not found in the state", () => {
       const forms = fromJS({
-        1: FormSectionRecord({
+        [RECORD_OWNER]: FormSectionRecord({
           unique_id: RECORD_OWNER,
           form_group_id: "group_1",
           name: { en: "Record Owner in State" },
@@ -536,7 +540,8 @@ describe("<RecordForms /> - utils", () => {
         INCIDENT_FROM_CASE,
         REFERRAL,
         TRANSFERS_ASSIGNMENTS,
-        CHANGE_LOGS
+        CHANGE_LOGS,
+        REGISTRY_FROM_CASE
       ]);
     });
   });

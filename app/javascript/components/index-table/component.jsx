@@ -9,8 +9,8 @@ import { getRecords, getLoading, getErrors } from "./selectors";
 import Datatable from "./components/data-table";
 
 const Component = props => {
-  const { recordType, targetRecordType } = props;
-  const data = useMemoizedSelector(state => getRecords(state, recordType));
+  const { recordType, targetRecordType, checkComplete } = props;
+  const data = useMemoizedSelector(state => getRecords(state, recordType, checkComplete));
   const loading = useMemoizedSelector(state => getLoading(state, recordType));
   const errors = useMemoizedSelector(state => getErrors(state, recordType));
   const formsAreLoading = useMemoizedSelector(state => getLoadingState(state));
@@ -46,6 +46,8 @@ Component.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   canSelectAll: PropTypes.bool,
+  checkComplete: PropTypes.bool,
+  checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   defaultFilters: PropTypes.object,
   isRowSelectable: PropTypes.func,

@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this, no-await-in-loop */
 import merge from "deepmerge";
+import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
 
 import { DATABASE_NAME } from "../config/constants";
@@ -96,33 +97,41 @@ class DB {
     return (await this._db).clear(store);
   }
 
-  async put(store, item, key = {}, queryIndex) {
-    const i = item;
+  async save(isArray = false, args = {}) {
+    return isArray ? this.bulkAdd(args) : this.put(args);
+  }
+
+  async put({ store, data, key = {}, queryIndex }) {
+    const item = data;
 
     if (queryIndex) {
-      i.type = queryIndex.value;
+      item.type = queryIndex.value;
     }
 
     const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
     const objectStore = tx.objectStore(store);
 
     try {
-      const prev = await objectStore.get(key || i.id);
+      const prev = await objectStore.get(isEmpty(key) ? item.id : key);
 
       if (prev) {
-        const result = await objectStore.put(merge(prev, { ...i, ...key }, { arrayMerge: subformAwareMerge }));
+        const record = merge(prev, { ...item, ...key }, { arrayMerge: subformAwareMerge });
+
+        await objectStore.put(record);
 
         await tx.done;
 
-        return result;
+        return record;
       }
       throw new Error("Record is new");
     } catch (e) {
-      const result = await objectStore.put({ ...i, ...key });
+      const record = { ...item, ...key };
+
+      await objectStore.put(record);
 
       await tx.done;
 
-      return result;
+      return record;
     }
   }
 
@@ -132,12 +141,13 @@ class DB {
     }
   }
 
-  async bulkAdd(store, records, queryIndex) {
-    const isDataArray = Array.isArray(records);
+  async bulkAdd({ store, data, queryIndex }) {
+    const isDataArray = Array.isArray(data);
     const tx = (await this._db).transaction(store, TRANSACTION_MODE.READ_WRITE);
     const collection = tx.objectStore(store);
+    const records = [];
 
-    this.asyncForEach(isDataArray ? records : Object.keys(records), async record => {
+    this.asyncForEach(isDataArray ? data : Object.keys(data), async record => {
       const r = record;
 
       if (queryIndex) {
@@ -145,16 +155,21 @@ class DB {
       }
 
       try {
-        const prev = await collection.get(isDataArray ? r.id : records[r]?.id);
+        const prev = await collection.get(isDataArray ? r.id : data[r]?.id);
 
         if (prev) {
-          await collection.put(
-            isDataArray
-              ? merge(prev, r, { arrayMerge: subformAwareMerge })
-              : merge(prev, records[r], { arrayMerge: subformAwareMerge })
-          );
+          const item = isDataArray
+            ? merge(prev, r, { arrayMerge: subformAwareMerge })
+            : merge(prev, data[r], { arrayMerge: subformAwareMerge });
+
+          records.push(item);
+
+          await collection.put(item);
         } else {
-          await collection.put(isDataArray ? r : records[r]);
+          const item = isDataArray ? r : data[r];
+
+          records.push(item);
+          await collection.put(item);
         }
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -163,6 +178,8 @@ class DB {
     });
 
     await tx.done;
+
+    return records;
   }
 
   async onTransaction(store, mode, callback) {

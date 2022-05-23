@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Configurable reports for aggregating data over Primero records.
+# rubocop:disable Metrics/ClassLength
 class Report < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -119,22 +120,33 @@ class Report < ApplicationRecord
     values_tree = {}
     values
       .select { |k, _| k.select { |e| e.to_s.present? }.present? } # Remove empty arrays ["", ""]
-      .each do |key, total|
-        key.each_with_index do |key_value, index|
-          new_value = key_value == key.last ? { key_value => { '_total' => total } } : { key_value => {} }
-          values_tree = new_value if values_tree.blank?
-          if index.zero?
-            values_tree = values_tree.merge(new_value) unless key_at?(values_tree, [], key_value)
-          elsif key_value.to_s.blank?
-            # Get the non empty values as the parent_key
-            parent_keys = key.select { |k| k.to_s.present? }
-            set_for_parents(values_tree, parent_keys, '_total' => total)
-          elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
-            set_for_parents(values_tree, key[0..(index - 1)], new_value)
-          end
-        end
-      end
+      .each { |key, total| values_tree = build_values_tree(values_tree, key, total) }
     values_tree
+  end
+
+  def build_values_tree(values_tree, key, total)
+    key.each_with_index do |key_value, index|
+      values_tree = values_for_key(values_tree, key_value, key, total, index)
+    end
+    values_tree
+  end
+
+  def values_for_key(values_tree, key_value, key, total, index)
+    new_value = key_value == key.last ? { key_value => { '_total' => total } } : { key_value => {} }
+    values_tree = new_value if values_tree.blank?
+    if index.zero?
+      values_tree = values_tree.merge(new_value) unless key_at?(values_tree, [], key_value)
+    elsif key_value.to_s.blank?
+      non_empty_values_as_parent_key(values_tree, key, total)
+    elsif !key_at?(values_tree, key[0..(index - 1)], key_value)
+      set_for_parents(values_tree, key[0..(index - 1)], new_value)
+    end
+    values_tree
+  end
+
+  def non_empty_values_as_parent_key(values_tree, key, total)
+    parent_keys = key.select { |k| k.to_s.present? }
+    set_for_parents(values_tree, parent_keys, '_total' => total)
   end
 
   def set_for_parents(tree, parents, value)
@@ -158,6 +170,7 @@ class Report < ApplicationRecord
   end
 
   # Run the Solr query that calculates the pivots and format the output.
+  # rubocop:disable Metrics/AbcSize
   def build_report
     # Prepopulates pivot fields
     pivot_fields
@@ -171,6 +184,7 @@ class Report < ApplicationRecord
     self.data = report_data
     ''
   end
+  # rubocop:enable Metrics/AbcSize
 
   def report_data
     aggregate_limit = aggregate_by.size
@@ -520,3 +534,4 @@ class Report < ApplicationRecord
     record_type.camelize
   end
 end
+# rubocop:enable Metrics/ClassLength

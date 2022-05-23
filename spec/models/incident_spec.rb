@@ -4,16 +4,16 @@ require 'rails_helper'
 require 'will_paginate'
 
 describe Incident do
-  before(:all) do
+  before do
     clean_data(
       Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
       Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
     )
+
+    create(:agency)
   end
 
   describe 'save' do
-    before(:all) { create(:agency) }
-
     it 'should save with generated incident_id' do
       Incident.any_instance.stub(:field_definitions).and_return([])
       incident = create_incident_with_created_by('jdoe', 'description' => 'London')
@@ -465,7 +465,8 @@ describe Incident do
           ],
           'sexual_violence' => [],
           'abduction' => [],
-          'attack_on' => [],
+          'attack_on_hospitals' => [],
+          'attack_on_schools' => [],
           'military_use' => [],
           'denial_humanitarian_access' => [],
           'sources' => [
@@ -537,10 +538,84 @@ describe Incident do
     end
   end
 
+  describe 'elapsed_reporting_time' do
+    before do
+      @incident = Incident.create!(
+        data: { incident_date: Date.new(2020, 8, 10), date_of_first_report: Date.new(2020, 8, 12) }
+      )
+    end
+
+    it 'sets the elapsed reporting time when a incident is created' do
+      expect(@incident.elapsed_reporting_time).to eq('0_3_days')
+    end
+
+    it 'clears the elapsed reporting time if the incident_date is removed' do
+      @incident.incident_date = nil
+      @incident.save!
+
+      expect(@incident.elapsed_reporting_time).to be_nil
+    end
+
+    it 'clears the elapsed reporting time if the date_of_first_report is removed' do
+      @incident.date_of_first_report = nil
+      @incident.save!
+
+      expect(@incident.elapsed_reporting_time).to be_nil
+    end
+  end
+
+  describe '#verification_status_list', search: true do
+    before do
+      @incident = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      @incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      Violation.create!(
+        data: {
+          type: 'killing',
+          ctfmr_verified: 'verified'
+        },
+        incident_id: @incident.id
+      )
+      Violation.create!(
+        data: {
+          type: 'maiming',
+          ctfmr_verified: 'verified'
+        },
+        incident_id: @incident.id
+      )
+      Violation.create!(
+        data: {
+          type: 'killing',
+          ctfmr_verified: 'not_mrm'
+        },
+        incident_id: @incident2.id
+      )
+      Incident.reindex
+      Sunspot.commit
+    end
+    it 'can find an incident by verification_status' do
+      search_result = SearchService.search(
+        Incident,
+        filters: [
+          SearchFilters::Value.new(field_name: 'verification_status', value: 'not_mrm')
+        ]
+      ).results
+      expect(search_result).to have(1).incident
+      expect(search_result.first.incident_id).to eq(@incident2.incident_id)
+      expect(search_result.first.incident_code).to eq(@incident2.incident_code)
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})
     user = User.new(user_name: created_by, agency_id: Agency.last.id)
     Incident.new_with_user(user, options)
+  end
+
+  after do
+    clean_data(
+      Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field,
+      Incident, Violation, Response, IndividualVictim, Source, Perpetrator, GroupVictim
+    )
   end
 end

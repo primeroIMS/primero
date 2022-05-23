@@ -4,12 +4,16 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../../../i18n";
 import { SUBFORM_LOOKUP_HEADER_NAME } from "../constants";
 import useOptions from "../../../../form/use-options";
+import { CUSTOM_STRINGS_SOURCE } from "../../constants";
+import { OPTION_TYPES } from "../../../../form";
 
 import { getMultiSelectValues } from "./utils";
 
 const Component = ({ value, optionsStringSource, optionsStringText, isViolationSubform, displayName }) => {
   const i18n = useI18n();
-  const optionsStrings = useOptions({ source: optionsStringSource });
+  const optionSource =
+    optionsStringSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionsStringSource;
+  const optionsStrings = useOptions({ source: optionSource });
   const renderDisplayName = isViolationSubform && `${displayName?.[i18n.locale]}: `;
 
   if (isEmpty(value)) return <>{value}</>;
@@ -21,7 +25,7 @@ const Component = ({ value, optionsStringSource, optionsStringText, isViolationS
       return (
         <span>
           {renderDisplayName}
-          {displayText}
+          {displayText || value}
         </span>
       );
     }

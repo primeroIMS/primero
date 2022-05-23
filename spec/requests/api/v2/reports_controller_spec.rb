@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::ReportsController, type: :request do
   before :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection].each(&:destroy_all)
+    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection, Field].each(&:destroy_all)
 
     @system_settings = SystemSettings.new(primary_age_range: 'primero',
                                           age_ranges: { 'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
@@ -30,21 +30,61 @@ describe Api::V2::ReportsController, type: :request do
                              filters: [{ 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
                                        { 'attribute' => 'record_state', 'value' => ['true'] }],
                              editable: false)
+    @report2 = Report.create(name_en: 'Services report', description_en: '',
+                             module_id: PrimeroModule::CP, record_type: 'reportable_service',
+                             filters: [
+                               { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+                               { 'attribute' => 'record_state', 'value' => ['true'] }
+                             ], aggregate_by: ['service_type'], disaggregate_by: ['service_implementing_agency'],
+                             editable: false)
     @role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
                          modules: [@cp])
-    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
+    @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2', unique_id: 'agency2')
     @test_user1 = User.create!(full_name: 'Test User 1', user_name: 'test_user_1', password: 'a12345678',
                                password_confirmation: 'a12345678', email: 'test_user_1@localhost.com',
                                agency_id: @agency1.id, role: @role, location: @location0.location_code)
+    @test_user2 = User.create!(full_name: 'Test User 2', user_name: 'test_user_2', password: 'a12345678',
+                               password_confirmation: 'a12345678', email: 'test_user_2@localhost.com',
+                               agency_id: @agency2.id, role: @role, location: @location0.location_code)
 
     Sunspot.setup(Child) do
       string 'protection_concerns', multiple: true
     end
 
+    Sunspot.setup(ReportableService) do
+      string('service_type') { object_value('service_type') }
+      string('service_implementing_agency') { object_value('service_implementing_agency') }
+    end
+
     @child_concerns1 = Child.new_with_user(@test_user1,
-                                           protection_concerns: %w[trafficked_smuggled sexually_exploited migrant])
+                                           protection_concerns: %w[trafficked_smuggled sexually_exploited migrant],
+                                           services_section:
+                                           [
+                                             {
+                                               unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
+                                               service_type: 'education_formal',
+                                               service_implemented: 'not_implemented',
+                                               service_status_referred: false,
+                                               service_appointment_date: '2022-04-07'
+                                             }
+                                           ])
     @child_concerns1.save!
+
+    @child_concerns2 = Child.new_with_user(@test_user2,
+                                           protection_concerns: %w[trafficked_smuggled sexually_exploited migrant],
+                                           services_section:
+                                           [
+                                             {
+                                               unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
+                                               service_type: 'education_formal',
+                                               service_implemented: 'not_implemented',
+                                               service_status_referred: false,
+                                               service_appointment_date: '2022-04-07'
+                                             }
+                                           ])
+    @child_concerns2.save!
 
     Sunspot.commit
   end
@@ -59,7 +99,7 @@ describe Api::V2::ReportsController, type: :request do
       get '/api/v2/reports'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(1)
+      expect(json['data'].size).to eq(2)
     end
 
     xit 'refuses unauthorized access' do
@@ -82,12 +122,43 @@ describe Api::V2::ReportsController, type: :request do
 
       report_data = {
         'cn' => {
+          'migrant' => { '_total' => 2 },
+          'sexually_exploited' => { '_total' => 2 },
+          'trafficked_smuggled' => { '_total' => 2 },
+          '_total' => 2
+        }
+      }
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data']).to eq(report_data)
+    end
+
+    it 'fetches the agency based data for the report with code 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::AGENCY_READ])],
+                     modules: [@cp], agency_id: @agency2.id)
+
+      get "/api/v2/reports/#{@report1.id}"
+
+      report_data = {
+        'cn' => {
           'migrant' => { '_total' => 1 },
           'sexually_exploited' => { '_total' => 1 },
           'trafficked_smuggled' => { '_total' => 1 },
           '_total' => 1
         }
       }
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['report_data']).to eq(report_data)
+    end
+
+    it 'fetches the agency based data for reportable services with code 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::AGENCY_READ])],
+                     modules: [@cp], agency_id: @agency2.id)
+
+      get "/api/v2/reports/#{@report2.id}"
+
+      report_data = { 'education_formal' => { '_total' => 1 } }
 
       expect(response).to have_http_status(200)
       expect(json['data']['report_data']).to eq(report_data)
@@ -529,6 +600,6 @@ describe Api::V2::ReportsController, type: :request do
   end
 
   after :each do
-    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection].each(&:destroy_all)
+    [PrimeroModule, PrimeroProgram, Report, User, Role, Agency, Child, Location, FormSection, Field].each(&:destroy_all)
   end
 end

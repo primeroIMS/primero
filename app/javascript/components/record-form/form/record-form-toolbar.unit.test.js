@@ -12,6 +12,7 @@ import { FieldRecord, FormSectionRecord } from "../records";
 
 import { WorkflowIndicator } from "./components";
 import RecordFormToolbar from "./record-form-toolbar";
+import DisabledRecordIndicator from "./components/disabled-record-indicator";
 
 describe("<RecordFormToolbar />", () => {
   const mode = {
@@ -170,7 +171,7 @@ describe("<RecordFormToolbar />", () => {
     );
 
     expect(recordFormToolbarComponent.find(WorkflowIndicator)).to.be.empty;
-    expect(recordFormToolbarComponent.find("h3").text()).to.be.equals("case.messages.disabled");
+    expect(recordFormToolbarComponent.find(DisabledRecordIndicator).text()).to.be.equals("case.messages.disabled");
   });
 
   describe("when records is being save", () => {

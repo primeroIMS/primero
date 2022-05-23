@@ -1,52 +1,53 @@
 export const ACTIONS = {
   ADD_NOTE: "add_note",
+  ADD_REGISTRY_RECORD: "add_registry_record",
   AGENCY_READ: "agency_read",
+  APPROVE_ACTION_PLAN: "approve_action_plan",
   APPROVE_ASSESSMENT: "approve_assessment",
   APPROVE_CASE_PLAN: "approve_case_plan",
   APPROVE_CLOSURE: "approve_closure",
-  APPROVE_ACTION_PLAN: "approve_action_plan",
   APPROVE_GBV_CLOSURE: "approve_gbv_closure",
-  ASSIGN: "assign",
-  ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_AGENCY_PERMISSIONS: "assign_within_agency permissions",
+  ASSIGN_WITHIN_AGENCY: "assign_within_agency",
   ASSIGN_WITHIN_USER_GROUP: "assign_within_user_group",
-  CLOSE: "close",
-  CREATE: "create",
+  ASSIGN: "assign",
   CHANGE_LOG: "change_log",
+  CLOSE: "close",
   CONSENT_OVERRIDE: "consent_override",
   COPY: "copy",
-  DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
-  DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
-  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
-  DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
-  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
-  DASH_APPROVALS_CLOSURE: "approvals_closure",
-  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
-  DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
+  CREATE: "create",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
-  DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
+  DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
+  DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
+  DASH_APPROVALS_ASSESSMENT: "approvals_assessment",
+  DASH_APPROVALS_CASE_PLAN_PENDING: "approvals_case_plan_pending",
+  DASH_APPROVALS_CASE_PLAN: "approvals_case_plan",
+  DASH_APPROVALS_CLOSURE_PENDING: "approvals_closure_pending",
+  DASH_APPROVALS_CLOSURE: "approvals_closure",
   DASH_APPROVALS_GBV_CLOSURE_PENDING: "approvals_gbv_closure_pending",
+  DASH_APPROVALS_GBV_CLOSURE: "approvals_gbv_closure",
+  DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
+  DASH_CASE_OVERVIEW: "case_overview",
+  DASH_CASE_RISK: "case_risk",
   DASH_CASES_BY_SOCIAL_WORKER: "dash_cases_by_social_worker",
   DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT: "cases_by_task_overdue_assessment",
   DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN: "cases_by_task_overdue_case_plan",
   DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS: "cases_by_task_overdue_followups",
   DASH_CASES_BY_TASK_OVERDUE_SERVICES: "cases_by_task_overdue_services",
-  DASH_CASE_OVERVIEW: "case_overview",
-  DASH_CASE_RISK: "case_risk",
   DASH_CASES_TO_ASSIGN: "dash_cases_to_assign",
   DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
+  DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_ME: "dash_shared_with_me",
-  DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_MY_TEAM_OVERVIEW: "dash_shared_with_my_team_overview",
+  DASH_SHARED_WITH_MY_TEAM: "dash_shared_with_my_team",
   DASH_SHARED_WITH_OTHERS: "dash_shared_with_others",
-  DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
   DASH_TASKS: "dash_tasks",
-  DASH_WORKFLOW: "workflow",
   DASH_WORKFLOW_TEAM: "workflow_team",
+  DASH_WORKFLOW: "workflow",
   DELETE: "delete",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",
@@ -62,8 +63,9 @@ export const ACTIONS = {
   EXPORT_PDF: "export_pdf",
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
-  FLAG: "flag",
   FIND_TRACING_MATCH: "find_tracing_match",
+  FLAG: "flag",
+  GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
   INCIDENT_FROM_CASE: "incident_from_case",
@@ -83,17 +85,18 @@ export const ACTIONS = {
   KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
   KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
+  MARK_FOR_OFFLINE: "sync_mobile",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
   RECEIVE_TRANSFER: "receive_transfer",
-  REFERRAL: "referral",
   REFERRAL_FROM_SERVICE: "referral_from_service",
+  REFERRAL: "referral",
   REMOVE_ASSIGNED_USERS: "remove_assigned_users",
   REOPEN: "reopen",
+  REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_ASSESSMENT: "request_approval_assessment",
   REQUEST_APPROVAL_CASE_PLAN: "request_approval_case_plan",
   REQUEST_APPROVAL_CLOSURE: "request_approval_closure",
-  REQUEST_APPROVAL_ACTION_PLAN: "request_approval_action_plan",
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
@@ -101,35 +104,39 @@ export const ACTIONS = {
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
+  VIEW_REGISTRY_RECORD: "view_registry_record",
+  VIOLATIONS: "violations",
   WRITE: "write"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
 
 export const RESOURCES = {
+  activity_logs: "activity_logs",
   agencies: "agencies",
-  webhooks: "webhooks",
   any: "any",
   audit_logs: "audit_logs",
   cases: "cases",
+  codes_of_conduct: "codes_of_conduct",
   configurations: "primero_configurations",
   contact_information: "contact_information",
-  codes_of_conduct: "codes_of_conduct",
   dashboards: "dashboards",
+  forms: "forms",
   incidents: "incidents",
   kpis: "kpis",
   locations: "locations",
   lookups: "lookups",
+  managed_reports: "managed_reports",
   metadata: "metadata",
   potential_matches: "potential_matches",
+  registry_records: "registry_records",
   reports: "reports",
   roles: "roles",
-  forms: "forms",
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
   users: "users",
-  activity_logs: "activity_logs"
+  webhooks: "webhooks"
 };
 
 export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests];
@@ -149,9 +156,15 @@ export const ADMIN_RESOURCES = [
 
 export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];
 
+export const WRITE_REGISTRY_RECORD = [...MANAGE, ACTIONS.ADD_REGISTRY_RECORD];
+
+export const READ_REGISTRY_RECORD = [...MANAGE, ACTIONS.VIEW_REGISTRY_RECORD];
+
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
-export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ];
+export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
+
+export const READ_MANAGED_REPORTS = [...MANAGE, ACTIONS.GBV_STATISTICS, ACTIONS.VIOLATIONS];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
 
@@ -168,6 +181,8 @@ export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
+
+export const MARK_FOR_OFFLINE = [...MANAGE, ACTIONS.MARK_FOR_OFFLINE];
 
 export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 

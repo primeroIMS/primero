@@ -4,8 +4,10 @@ require 'rails_helper'
 
 module Importers
   describe CsvHxlLocationImporter do
-    before(:each) do
+    before do
       clean_data(Location)
+
+      I18n.stub(:available_locales).and_return([:en, :"ar-LB"])
     end
 
     context 'when input file exists' do

@@ -12,7 +12,7 @@ import { useI18n } from "../../../i18n";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
-import { RECORD_TYPES, REFERRAL } from "../../../../config";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL } from "../../../../config";
 import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
 import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
@@ -99,6 +99,7 @@ const Component = ({
   };
 
   const [toggleNav, setToggleNav] = useState(false);
+  const [formikValuesForNav, setFormikValuesForNav] = useState({});
 
   const handleToggleNav = useCallback(() => {
     setToggleNav(!toggleNav);
@@ -196,7 +197,8 @@ const Component = ({
     selectedRecord: record ? record.get("id") : null,
     toggleNav,
     primeroModule: selectedModule.primeroModule,
-    hasForms: !loadingForm && forms.size > 0
+    hasForms: !loadingForm && forms.size > 0,
+    formikValuesForNav
   };
 
   useEffect(() => {
@@ -218,7 +220,10 @@ const Component = ({
 
         if (!locationState?.preventSyncAfterRedirect && shouldFetchRecord) {
           dispatch(fetchRecord(params.recordType, params.id));
-          dispatch(fetchRecordsAlerts(params.recordType, params.id));
+          // TODO: Remove this condition once alerts get implemented for registry_records
+          if (params.recordType !== RECORD_TYPES_PLURAL.registry_record) {
+            dispatch(fetchRecordsAlerts(params.recordType, params.id));
+          }
           dispatch(setPreviousRecord(fromJS({ id: params.id, recordType: params.recordType })));
         }
       }
@@ -281,6 +286,8 @@ const Component = ({
     [dialogParams, redirectDialogOpen, containerMode, recordType]
   );
 
+  const handleFormikValues = useCallback(values => setFormikValuesForNav(values), []);
+
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
@@ -306,8 +313,7 @@ const Component = ({
     recordType,
     selectedForm,
     summaryForm,
-    transitionProps,
-    userPermittedFormsIds
+    transitionProps
   });
 
   return (
@@ -326,6 +332,7 @@ const Component = ({
               selectedForm={selectedForm}
               attachmentForms={attachmentForms}
               userPermittedFormsIds={userPermittedFormsIds}
+              setFormikValuesForNav={handleFormikValues}
             />
             <FormFilters
               selectedForm={selectedForm}

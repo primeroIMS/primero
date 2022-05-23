@@ -6,6 +6,7 @@ describe ActiveStorageAuth do
   before :all do
     @url_expires_in_original = ActiveStorage.service_urls_expire_in
     ActiveStorage.service_urls_expire_in = 20.minutes
+    clean_data(User)
   end
 
   describe 'ActiveStorage direct upload' do
@@ -252,5 +253,6 @@ describe ActiveStorageAuth do
 
   after :all do
     ActiveStorage.service_urls_expire_in = @url_expires_in_original
+    clean_data(User)
   end
 end

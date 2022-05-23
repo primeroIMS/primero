@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import isEmpty from "lodash/isEmpty";
+import every from "lodash/every";
 import { format, isDate, parseISO } from "date-fns";
+import isString from "lodash/isString";
 
 import localize from "../../libs/date-picker-localization";
 import { DATE_FORMAT } from "../../config";
@@ -32,6 +34,10 @@ const I18nProvider = ({ children }) => {
   };
 
   const getI18nStringFromObject = i18nObject => {
+    if (Array.isArray(i18nObject) && every(i18nObject, isString)) {
+      return window.I18n.t(i18nObject.join("."));
+    }
+
     if (i18nObject instanceof Object) {
       const localizedValue = i18nObject?.[locale];
 

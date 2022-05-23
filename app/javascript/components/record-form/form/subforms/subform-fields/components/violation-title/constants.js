@@ -1,2 +1,2 @@
 export const NAME = "ViolationTitle";
-export const VIOLATION_STATUS = "verified";
+export const VIOLATION_STATUS = "ctfmr_verified";

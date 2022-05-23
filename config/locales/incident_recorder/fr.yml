@@ -4,11 +4,11 @@ fr:
       export_incident_recorder_xls: "Exporter le registre des incidents au format xls"
   exports:
     incident_recorder_xls:
-      all:  "Registre des incidents "
-      one:  "Registre des incidents "
-      selected:  Registre des incidents sélectionné
-      "yes": "Oui"
-      "no": "Non"
+      all: 'Registre des incidents '
+      one: 'Registre des incidents '
+      selected: Registre des incidents sélectionné
+      'yes': "Oui"
+      'no': "Non"
       gender:
         male: "Masculin"
         female: "Féminin"

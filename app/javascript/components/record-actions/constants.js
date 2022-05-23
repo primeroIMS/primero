@@ -24,6 +24,7 @@ export const INCIDENT_DIALOG = "incidentDialog";
 export const NOTES_DIALOG = "notes";
 export const ENABLE_DISABLE_DIALOG = "enableDisable";
 export const OPEN_CLOSE_DIALOG = "openClose";
+export const MARK_FOR_OFFLINE_DIALOG = "markForOffline";
 
 export const ONE = "one";
 export const MANY = "many";
@@ -57,5 +58,6 @@ export const RECORD_ACTION_ABILITIES = {
   canRequestClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_CLOSURE],
   canRequestGbvClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE],
   canShowExports: SHOW_EXPORTS,
-  canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER]
+  canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
+  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE]
 };

@@ -18,6 +18,7 @@ import TraceComparisonForm from "./component";
 
 describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparisonForm>", () => {
   let component;
+
   const recordModule = "record-module";
   const initialProps = {
     recordType: RECORD_PATH.tracing_requests,
@@ -110,7 +111,14 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
   });
 
   beforeEach(() => {
-    ({ component } = setupMountedComponent(TraceComparisonForm, initialProps, initialState));
+    ({ component } = setupMountedComponent(
+      TraceComparisonForm,
+      initialProps,
+      initialState,
+      ["tr/trq-9876-5432"],
+      {},
+      "tr/:id"
+    ));
   });
 
   it("should render the top fields", () => {

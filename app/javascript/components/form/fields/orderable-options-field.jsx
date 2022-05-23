@@ -1,8 +1,10 @@
 /* eslint-disable react/no-multi-comp */
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import isNil from "lodash/isNil";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -18,9 +20,11 @@ import css from "./styles.css";
 
 const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionButtons, formMethods, formMode }) => {
   const i18n = useI18n();
+  const [disabledAddAction, setDisabledAddAction] = useState(false);
 
   const { name } = commonInputProps;
-  const { selectedValue } = metaInputProps;
+  const { selectedValue, showDefaultAction, showDeleteAction, showDisableOption, maxOptionsAllowed, optionFieldName } =
+    metaInputProps;
   const fieldName = name.split(".")[0];
   const { control, setValue } = formMethods;
 
@@ -50,6 +54,7 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
     fields.map((option, index) => (
       <DraggableOption
         defaultOptionId={watchSelectedValue}
+        optionFieldName={optionFieldName || "option_strings_text"}
         name={fieldName}
         option={option}
         index={index}
@@ -57,6 +62,9 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
         onRemoveClick={onRemoveValue}
         formMethods={formMethods}
         formMode={formMode}
+        showDefaultAction={showDefaultAction}
+        showDeleteAction={showDeleteAction}
+        showDisableOption={showDisableOption}
       />
     ));
 
@@ -69,26 +77,38 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
           icon={<AddIcon />}
           text="buttons.add_another_option"
           type={ACTION_BUTTON_TYPES.default}
+          disabled={disabledAddAction}
           rest={{
             onClick: onAddOption
           }}
         />
-        <ActionButton
-          icon={<CloseIcon />}
-          text="buttons.clear_default"
-          type={ACTION_BUTTON_TYPES.default}
-          cancel
-          rest={{
-            onClick: onClearDefault
-          }}
-        />
+        {showDefaultAction && (
+          <ActionButton
+            icon={<CloseIcon />}
+            text="buttons.clear_default"
+            type={ACTION_BUTTON_TYPES.default}
+            cancel
+            rest={{
+              onClick: onClearDefault
+            }}
+          />
+        )}
       </div>
     ) : null;
 
-  const renderLastColumn = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
+  const lastColumnTitle = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
+  const renderLastColumn = (formMode.get("isNew") && showDeleteAction) || showDisableOption;
   const classes = [css.fieldColumn, css.fieldHeader];
   const fieldHeaderClasses = clsx([...classes, css.fieldInput]);
   const fieldRowClasses = clsx(classes);
+
+  useEffect(() => {
+    if (!isNil(maxOptionsAllowed) && fields.length >= maxOptionsAllowed && !disabledAddAction) {
+      setDisabledAddAction(true);
+    } else if (disabledAddAction) {
+      setDisabledAddAction(false);
+    }
+  }, [fields.length]);
 
   return (
     <div>
@@ -98,8 +118,8 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
             <div {...provided.droppableProps} ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)}>
               <div className={css.fieldHeaderRow}>
                 <div className={fieldHeaderClasses}>{i18n.t("fields.english_text")}</div>
-                <div className={fieldRowClasses}>{i18n.t("fields.default")}</div>
-                <div className={fieldRowClasses}>{renderLastColumn}</div>
+                {showDefaultAction && <div className={fieldRowClasses}>{i18n.t("fields.default")}</div>}
+                {renderLastColumn && <div className={fieldRowClasses}>{lastColumnTitle}</div>}
               </div>
               {renderOptions()}
               {provided.placeholder}

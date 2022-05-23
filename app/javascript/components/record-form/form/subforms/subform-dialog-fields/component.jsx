@@ -54,17 +54,32 @@ const Component = ({
       setFieldValue("unique_id", uuid.v4());
     }
     if (isViolationAssociation && !mode.isShow) {
-      const violationIdsValues = isEmpty(values[VIOLATION_IDS_NAME])
-        ? // eslint-disable-next-line camelcase
-          [parentValues?.unique_id]
-        : values[VIOLATION_IDS_NAME];
+      // eslint-disable-next-line camelcase
+      const parentUniqueId = parentValues?.unique_id;
 
-      setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
+      if (!isEmpty(values[VIOLATION_IDS_NAME]) || parentUniqueId) {
+        const violationIdsValues = isEmpty(values[VIOLATION_IDS_NAME]) ? [parentUniqueId] : values[VIOLATION_IDS_NAME];
+
+        setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
+      }
     }
   }, []);
 
   return fieldsToDisplay.map(subformSectionField => {
-    const tags = getOptionStringsTags(subformSectionField, values);
+    const calculationExpression = subformSectionField?.calculation?.expression;
+
+    if (calculationExpression) {
+      const calculatedVal = parseExpression(calculationExpression).evaluate(values);
+
+      if (values[subformSectionField.name] !== calculatedVal) {
+        setFieldValue(subformSectionField.name, calculatedVal);
+      }
+    }
+
+    const tags = getOptionStringsTags(subformSectionField, values).concat(
+      getOptionStringsTags(subformSectionField, parentValues)
+    );
+
     const fieldProps = {
       name: subformSectionField.name,
       field: subformSectionField,

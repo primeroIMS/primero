@@ -40,8 +40,8 @@
   box-shadow: inset -2px 0 2px -1px rgb(0 0 0 / 5%);
 }
 
-.drawerPaper[dir="rtl"], .drawerPaper-demo[dir="rtl"] {
-  box-shadow: inset -2px 0 2px -1px rgba(0, 0, 0, 0.15);
+[dir="rtl"] .drawerPaper, [dir="rtl"] .drawerPaper-demo {
+  box-shadow: inset 2px 0 2px -1px rgb(0 0 0 / 5%);
   text-align: right;
 }
 

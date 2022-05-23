@@ -1,7 +1,7 @@
 /* eslint-disable camelcase, no-param-reassign, no-shadow, func-names, no-use-before-define, no-lonely-if */
 import { isEmpty, transform, isObject, isEqual, find, pickBy, identity, pick } from "lodash";
 import { isDate, format } from "date-fns";
-import { fromJS, isImmutable } from "immutable";
+import { isImmutable } from "immutable";
 import orderBy from "lodash/orderBy";
 import last from "lodash/last";
 import isNil from "lodash/isNil";
@@ -12,6 +12,7 @@ import {
   DEFAULT_DATE_VALUES,
   FORM_PERMISSION_ACTION,
   INCIDENT_FROM_CASE,
+  REGISTRY_FROM_CASE,
   RECORD_PATH,
   RECORD_TYPES
 } from "../../config";
@@ -239,14 +240,12 @@ export const buildFormNav = form =>
     permission_actions: FORM_PERMISSION_ACTION[form.unique_id],
     i18nName: form.i18nName,
     i18nDescription: form.i18nDescription,
-    ...(INCIDENT_FROM_CASE === form.unique_id ? { recordTypes: [RECORD_TYPES.cases] } : {})
+    display_conditions: form.display_conditions,
+    ...([INCIDENT_FROM_CASE, REGISTRY_FROM_CASE].includes(form.unique_id) ? { recordTypes: [RECORD_TYPES.cases] } : {})
   });
 
-export const pickFromDefaultForms = (forms, defaultForms) => {
-  const formUniqueIds = forms?.valueSeq().map(form => form.unique_id) || fromJS([]);
-
-  return pick(
+export const pickFromDefaultForms = (forms, defaultForms) =>
+  pick(
     defaultForms,
-    Object.keys(defaultForms).filter(key => !formUniqueIds.includes(key))
+    Object.keys(defaultForms).filter(key => !forms.get(key))
   );
-};

@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { ListItemText } from "@material-ui/core";
 
-import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../constants";
+import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD, TALLY_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
 import SubformDateHeader from "../subform-header-date";
 import SubformTickBoxHeader from "../subform-header-tickbox";
+import SubformHeaderTally from "../subform-header-tally";
 import ViolationItem from "../subform-fields/components/violation-item";
 import css from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
@@ -60,6 +61,9 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;
+        }
+        case TALLY_FIELD: {
+          return <SubformHeaderTally value={value} displayName={displayNameCollapsedField} locale={locale} />;
         }
         default:
           return value && <span key={collapsedFieldName}>{value}</span>;

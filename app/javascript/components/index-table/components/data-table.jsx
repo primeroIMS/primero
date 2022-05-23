@@ -17,6 +17,7 @@ import { NAME } from "../config";
 import { getFilters } from "../selectors";
 import CustomToolbarSelect from "../custom-toolbar-select";
 import { buildComponentColumns, useTranslatedRecords } from "../utils";
+import { useApp } from "../../application";
 
 const Datatable = ({
   arrayColumnsToString,
@@ -36,10 +37,12 @@ const Datatable = ({
   showCustomToolbar,
   isRowSelectable,
   data,
-  useReportingLocations
+  useReportingLocations,
+  checkOnline = false
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { online } = useApp();
 
   const [sortDir, setSortDir] = useState();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
@@ -59,9 +62,12 @@ const Datatable = ({
   const total = data.getIn(["metadata", "total"], 0);
   const page = data.getIn(["metadata", "page"], 1);
   const url = targetRecordType || recordType;
-  const validRecordTypes = [RECORD_PATH.cases, RECORD_PATH.incidents, RECORD_PATH.tracing_requests].includes(
-    recordType
-  );
+  const validRecordTypes = [
+    RECORD_PATH.cases,
+    RECORD_PATH.incidents,
+    RECORD_PATH.tracing_requests,
+    RECORD_PATH.registry_records
+  ].includes(recordType);
 
   const translatedRecords = useTranslatedRecords({
     records,
@@ -188,7 +194,7 @@ const Datatable = ({
       const { colIndex, dataIndex } = cellMeta;
       const cells = fromJS(componentColumns);
 
-      if (!cells.getIn([colIndex, "options", "disableOnClick"], false)) {
+      if (!cells.getIn([colIndex, "options", "disableOnClick"], false) && ((checkOnline && online) || !checkOnline)) {
         if (onRowClick) {
           onRowClick(records.get(dataIndex));
         } else {
@@ -241,6 +247,7 @@ Datatable.propTypes = {
   arrayColumnsToString: PropTypes.arrayOf(PropTypes.string),
   bypassInitialFetch: PropTypes.bool,
   canSelectAll: PropTypes.bool,
+  checkOnline: PropTypes.bool,
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   data: PropTypes.instanceOf(List),
   defaultFilters: PropTypes.object,

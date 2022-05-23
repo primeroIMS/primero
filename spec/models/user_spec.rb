@@ -23,7 +23,7 @@ describe User do
   end
 
   describe 'validations' do
-    before :each do
+    before do
       clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User, UserGroup)
       create(:agency)
       create(:role)
@@ -116,10 +116,13 @@ describe User do
         end
       end
     end
+    after do
+      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User, UserGroup)
+    end
   end
 
   describe 'other validations' do
-    before(:all) do
+    before do
       clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
       create(:agency)
       create(:role)
@@ -229,11 +232,14 @@ describe User do
       after :each do
         clean_data(IdentityProvider)
       end
+      after do
+        clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+      end
     end
   end
 
   describe 'automatic password generation on user creation for native users' do
-    before(:each) do
+    before do
       clean_data(User, Role, Agency)
       create(:agency)
       create(:role)
@@ -274,6 +280,10 @@ describe User do
       expect(Devise::Mailer).to receive(:reset_password_instructions).and_call_original
       user.save!
     end
+
+    after do
+      clean_data(User, Role, Agency)
+    end
   end
 
   describe 'Dates' do
@@ -285,7 +295,7 @@ describe User do
   end
 
   describe 'audit log' do
-    before :each do
+    before do
       clean_data(AuditLog, User)
       @user = build_user
       @user.save(validate: false)
@@ -326,10 +336,13 @@ describe User do
         expect(@user.last_login).to eq(login.timestamp)
       end
     end
+    after do
+      clean_data(AuditLog, User)
+    end
   end
 
   describe 'user roles' do
-    before :each do
+    before do
       clean_data(Role, User)
     end
 
@@ -349,10 +362,14 @@ describe User do
       user = build_user(role_id: nil)
       user.should_not be_valid
     end
+
+    after do
+      clean_data(Role, User)
+    end
   end
 
   describe 'manager' do
-    before :each do
+    before do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
 
       @permission_user_read_write = Permission.new(resource: Permission::USER,
@@ -389,10 +406,14 @@ describe User do
       manager = create :user, role_id: @manager_role.id, user_group_ids: [@group_a.id, nil]
       expect(manager.managed_users).to match_array([@grunt1, @grunt2, @manager, manager])
     end
+
+    after do
+      clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
+    end
   end
 
   describe 'permissions' do
-    before :each do
+    before do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
       @permission_list = [Permission.new(resource: Permission::CASE,
                                          actions: [Permission::READ, Permission::SYNC_MOBILE,
@@ -421,10 +442,14 @@ describe User do
     it 'should can_approve_assessment? equals true' do
       expect(@user_perm.can_approve_assessment?).to be_truthy
     end
+
+    after do
+      clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
+    end
   end
 
   describe 'group permissions' do
-    before :each do
+    before do
       clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
       @permission_list = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
     end
@@ -474,6 +499,10 @@ describe User do
         expect(@user_group.group_permission?(Permission::ALL)).to be_truthy
       end
     end
+
+    after do
+      clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
+    end
   end
 
   describe 'agency_name' do
@@ -485,6 +514,10 @@ describe User do
 
       it 'should return nil' do
         expect(@user.agency.try(:name)).to be_nil
+      end
+
+      after do
+        clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
       end
     end
 
@@ -498,6 +531,10 @@ describe User do
 
       it 'should return the agency name' do
         expect(@user.agency.name).to eq('unicef')
+      end
+
+      after do
+        clean_data(Agency)
       end
     end
   end
@@ -540,10 +577,14 @@ describe User do
         end
       end
     end
+
+    after do
+      clean_data(User, Role)
+    end
   end
 
   describe 'services' do
-    before(:all) do
+    before do
       clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
       create(:agency, name: 'unicef', agency_code: 'unicef', services: %w[health_medical_service shelter_service])
       create(:role)
@@ -609,6 +650,10 @@ describe User do
         end
       end
     end
+
+    after do
+      clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, FormSection, User)
+    end
   end
 
   describe 'update user_groups in the cases where the user is assigned', search: true do
@@ -650,6 +695,10 @@ describe User do
       expect(@child2.reload.associated_user_groups).to include(@group1.unique_id, @group2.unique_id)
       expect(@child3.reload.associated_user_groups).to include(@group1.unique_id)
     end
+
+    after do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+    end
   end
 
   describe 'update agencies in the cases where the user is assigned', search: true do
@@ -688,6 +737,10 @@ describe User do
       expect(@child1.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
       expect(@child2.reload.associated_user_agencies).to include(@agency1.unique_id, @agency2.unique_id)
       expect(@child3.reload.associated_user_agencies).to include(@agency1.unique_id)
+    end
+
+    after do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
     end
   end
 
@@ -747,10 +800,14 @@ describe User do
         end
       end
     end
+
+    after do
+      clean_data(User, Role, Location, SystemSettings)
+    end
   end
 
   describe '#user_query_scope' do
-    before :each do
+    before do
       clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
       @program = PrimeroProgram.create!(unique_id: 'primeroprogram-primero', name: 'Primero',
                                         description: 'Default Primero Program')
@@ -776,10 +833,15 @@ describe User do
     it 'return the scope of the user' do
       expect(@current_user.user_query_scope(@child1)).to eql(Permission::USER)
     end
+
+    after do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+    end
   end
 
   describe '#record_query_scope' do
-    before :each do
+    before do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
       @agency_test = Agency.create!(name: 'Agency test1', agency_code: 'agency_test1')
       @group_test = UserGroup.create!(name: 'group test')
       @role_test = Role.create!(name: 'Admin role1', unique_id: 'role_test1', group_permission: 'group',
@@ -794,10 +856,17 @@ describe User do
     it 'return the query scope of the user' do
       expect(@current_user.record_query_scope(Child)).to eql(user: { 'group' => [@group_test.unique_id] })
     end
+
+    after do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+    end
   end
 
   describe 'when user groups are updated for a user', search: true do
-    before :each do
+    before do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+      create(:agency)
+      create(:role)
       @user1 = build_user
       @user2 = build_user
       @user_group1 = UserGroup.create!(name: 'User Group 1')
@@ -821,7 +890,13 @@ describe User do
 
       expect(@case1.last_updated_at).to eq(last_updated_at)
     end
+
+    after do
+      clean_data(PrimeroProgram, PrimeroModule, Role, FormSection, Agency, UserGroup, User, Child)
+    end
   end
 
-  after(:all) { clean_data(Agency, Role, User, FormSection, Field) }
+  after do
+    clean_data(Agency, Role, User, FormSection, Field)
+  end
 end

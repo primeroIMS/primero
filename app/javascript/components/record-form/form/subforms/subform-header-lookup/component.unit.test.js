@@ -6,6 +6,16 @@ import SubformLookupHeader from ".";
 
 describe("<SubformLookupHeader /> - Form - Subforms", () => {
   const initialState = fromJS({
+    records: {
+      transitions: {
+        referral: {
+          users: [
+            { id: "test_user1", user_name: "test_user1" },
+            { id: "test_user2", user_name: "test_user2" }
+          ]
+        }
+      }
+    },
     forms: {
       options: {
         lookups: [
@@ -40,6 +50,26 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
     const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Region");
+  });
+
+  it("should render the user name of the lookup defined on the optionsStringSource", () => {
+    const props = {
+      value: "test_user1",
+      optionsStringSource: "User"
+    };
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("test_user1");
+  });
+
+  it("should render the value if there are no options for the defined optionsStringSource", () => {
+    const props = {
+      value: "the_value",
+      optionsStringSource: "lookup lookup-doesnotexist"
+    };
+    const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("the_value");
   });
 
   it("should render the same value is this is empty", () => {

@@ -12,7 +12,8 @@ describe("<RecordList /> - constants", () => {
       "FILTER_CONTAINER_NAME",
       "ID_COLUMNS",
       "NAME",
-      "SEARCH_AND_CREATE_WORKFLOW"
+      "SEARCH_AND_CREATE_WORKFLOW",
+      "COMPLETE"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];

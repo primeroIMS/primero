@@ -30,7 +30,7 @@ const authMiddleware = store => next => action => {
   const useIdentityProvider = state.getIn(USE_IDENTITY_PROVIDER_PATH, false);
 
   if (routeChanged && location === ROUTES.logout) {
-    startSignout(store);
+    startSignout(store, true);
   }
 
   if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {

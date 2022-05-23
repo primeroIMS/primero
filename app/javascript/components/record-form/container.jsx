@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import { useMemoizedSelector } from "../../libs";
-import { getIncidentFromCase, selectRecord, getCaseIdForIncident } from "../records";
-import { RECORD_PATH, RECORD_TYPES, SUMMARY } from "../../config";
+import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRecord } from "../records";
+import { RECORD_PATH, RECORD_TYPES, SUMMARY, RECORD_TYPES_PLURAL } from "../../config";
 import {
   usePermissions,
   SHOW_FIND_MATCH,
@@ -12,7 +14,7 @@ import {
   SHOW_CHANGE_LOG,
   RESOURCES
 } from "../permissions";
-import { getRecordAttachments } from "../records/selectors";
+import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
 import { getPermittedFormsIds } from "../user/selectors";
 import { useApp } from "../application";
 
@@ -27,10 +29,12 @@ import {
 import { NAME } from "./constants";
 import { RecordForm } from "./components/record-form";
 
+let caseRegistryLoaded = false;
+
 const Container = ({ mode }) => {
   const params = useParams();
   const { demo } = useApp();
-
+  const dispatch = useDispatch();
   const recordType = RECORD_TYPES[params.recordType];
 
   const containerMode = {
@@ -51,6 +55,7 @@ const Container = ({ mode }) => {
   const record = useMemoizedSelector(state =>
     selectRecord(state, { isEditOrShow, recordType: params.recordType, id: params.id })
   );
+  const loading = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const userPermittedFormsIds = useMemoizedSelector(state => getPermittedFormsIds(state));
 
   const selectedModule = {
@@ -75,6 +80,20 @@ const Container = ({ mode }) => {
   const isCaseIdEqualParam = params?.id === record?.get("id");
   const approvalSubforms = record?.get("approval_subforms");
   const incidentsSubforms = record?.get("incident_details");
+  const registryRecordID = record?.get("registry_record_id", false);
+
+  useEffect(() => {
+    if (registryRecordID && !loading && !caseRegistryLoaded && params.recordType === RECORD_PATH.cases) {
+      dispatch(fetchRecord(RECORD_TYPES_PLURAL.registry_record, registryRecordID));
+      caseRegistryLoaded = true;
+    }
+  }, [loading, registryRecordID]);
+
+  useEffect(() => {
+    return () => {
+      caseRegistryLoaded = false;
+    };
+  }, []);
 
   return (
     <RecordForm

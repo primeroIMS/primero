@@ -17,6 +17,7 @@ describe("app/javascript/test/index", () => {
     "stub",
     "fake",
     "tick",
+    "replace",
     "useFakeTimers",
     "mock",
     "createSimpleMount",
