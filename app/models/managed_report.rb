@@ -62,7 +62,7 @@ class ManagedReport < ValueObject
   end
 
   def filter_subreport(subreport_id)
-    return subreports if subreport_id.blank?
+    return subreports if subreport_id.blank? || subreport_id == 'all'
 
     subreports.select { |subreport| subreport == subreport_id }
   end

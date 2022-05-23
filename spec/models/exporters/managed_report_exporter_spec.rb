@@ -99,6 +99,7 @@ describe Exporters::ManagedReportExporter do
         module_id: 'primeromodule-gbv',
         incident_timeofday: 'morning',
         incident_location_type: 'forest',
+        age: 3,
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -116,6 +117,7 @@ describe Exporters::ManagedReportExporter do
         module_id: 'primeromodule-gbv',
         incident_timeofday: 'evening_night',
         incident_location_type: 'garden',
+        age: 7,
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -140,6 +142,7 @@ describe Exporters::ManagedReportExporter do
         gbv_previous_incidents: true,
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
+        age: 5,
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -277,6 +280,370 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(1).row(98)).to eq(['Occupation 2', 2])
           expect(workbook.sheet(1).row(99)).to eq(['Unknown', 1])
         end
+      end
+    end
+
+    describe 'grouped by' do
+      context 'when is month' do
+        let(:workbook_grouped) do
+          data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+            nil,
+            [
+              SearchFilters::DateRange.new(
+                field_name: 'incident_date',
+                from: Date.today - 2.month,
+                to: Date.today + 2.month
+              ),
+              SearchFilters::Value.new(
+                field_name: 'grouped_by',
+                value: 'month'
+              )
+            ],
+            { output_to_file: false }
+          )
+
+          Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        end
+
+        context 'Incidents subreport' do
+          it 'prints subreport headers' do
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['Incidents', nil, nil, nil, nil, nil])
+          end
+
+          it 'prints report params' do
+            expect(workbook_grouped.sheet(0).row(2)).to match_array(
+              [
+                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
+                nil, nil, nil, nil, nil
+              ]
+            )
+          end
+
+          it 'prints indicator tables' do
+            year_range = [
+              nil, (Date.today - 2.month).strftime('%Y-%b'), (Date.today - 1.month).strftime('%Y-%b'),
+              Date.today.strftime('%Y-%b'), (Date.today + 1.month).strftime('%Y-%b'),
+              (Date.today + 2.month).strftime('%Y-%b')
+            ]
+
+            expect(workbook_grouped.sheet(0).row(5)).to match_array(
+              ['Incidents', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(6)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(7)).to match_array(
+              ['Number of GBV Incidents Reported', 0, 0, 3, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(8)).to match_array(
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 0, 1, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(9)).to match_array(
+              ['Number of Incidents of Sexual Violence Reported', 0, 0, 3, 0, 0]
+            )
+
+            expect(workbook_grouped.sheet(0).row(12)).to match_array(
+              ['Incident Type', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(13)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(['Rape', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(
+              ['Sexual Assault', 0, 0, 1, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(
+              ['Forced Marriage', 0, 0, 1, 0, 0]
+            )
+
+            expect(workbook_grouped.sheet(0).row(41)).to match_array(
+              ['Incident Time of Day', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(42)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(43)).to match_array(
+              ['Morning (sunrise to noon)', 0, 0, 1, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(44)).to match_array(
+              ['Afternoon (noon to sunset)', 0, 0, 1, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(45)).to match_array(
+              ['Evening/Night (sunset to sunrise)', 0, 0, 1, 0, 0]
+            )
+
+            expect(workbook_grouped.sheet(0).row(70)).to match_array(
+              ['Time Between Incident and Report Date', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(71)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(72)).to match_array(['0-3 Days', 0, 0, 3, 0, 0])
+
+            expect(workbook_grouped.sheet(0).row(97)).to match_array(
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date',
+                nil, nil, nil, nil, nil
+              ]
+            )
+            expect(workbook_grouped.sheet(0).row(98)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 0, 0, 1, 0, 0])
+
+            expect(workbook_grouped.sheet(0).row(124)).to match_array(
+              ['Incident Location', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(125)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+              ['Garden/Cultivated Field', 0, 0, 1, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 0, 0, 1, 0, 0])
+          end
+        end
+      end
+
+      context 'when is year' do
+        let(:workbook_grouped) do
+          data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+            nil,
+            [
+              SearchFilters::DateRange.new(
+                field_name: 'incident_date',
+                from: Date.today - 1.year,
+                to: Date.today.end_of_year
+              ),
+              SearchFilters::Value.new(
+                field_name: 'grouped_by',
+                value: 'year'
+              )
+            ],
+            { output_to_file: false }
+          )
+
+          Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        end
+
+        context 'Incidents subreport' do
+          it 'prints subreport headers' do
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
+          end
+
+          it 'prints report params' do
+            expect(workbook_grouped.sheet(0).row(2)).to match_array(
+              [
+                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
+                nil, nil
+              ]
+            )
+          end
+
+          it 'prints indicator tables' do
+            year_range = [
+              nil, Date.today.last_year.year, Date.today.year
+            ]
+
+            expect(workbook_grouped.sheet(0).row(5)).to match_array(
+              ['Incidents', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(6)).to match_array(year_range)
+
+            expect(workbook_grouped.sheet(0).row(7)).to match_array(
+              ['Number of GBV Incidents Reported', 0, 3]
+            )
+            expect(workbook_grouped.sheet(0).row(8)).to match_array(
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(9)).to match_array(
+              ['Number of Incidents of Sexual Violence Reported', 0, 3]
+            )
+
+            expect(workbook_grouped.sheet(0).row(12)).to match_array(
+              ['Incident Type', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(13)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(['Rape', 0, 1])
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(
+              ['Sexual Assault', 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(
+              ['Forced Marriage', 0, 1]
+            )
+
+            expect(workbook_grouped.sheet(0).row(41)).to match_array(
+              ['Incident Time of Day', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(42)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(43)).to match_array(
+              ['Morning (sunrise to noon)', 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(44)).to match_array(
+              ['Afternoon (noon to sunset)', 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(45)).to match_array(
+              ['Evening/Night (sunset to sunrise)', 0, 1]
+            )
+
+            expect(workbook_grouped.sheet(0).row(70)).to match_array(
+              ['Time Between Incident and Report Date', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(71)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(72)).to match_array(['0-3 Days', 0, 3])
+
+            expect(workbook_grouped.sheet(0).row(97)).to match_array(
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date',
+                nil, nil
+              ]
+            )
+            expect(workbook_grouped.sheet(0).row(98)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 0, 1])
+
+            expect(workbook_grouped.sheet(0).row(124)).to match_array(
+              ['Incident Location', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(125)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 0, 1])
+            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+              ['Garden/Cultivated Field', 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 0, 1])
+          end
+        end
+      end
+
+      context 'when is quarter' do
+        let(:workbook_grouped) do
+          data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+            nil,
+            [
+              SearchFilters::DateRange.new(
+                field_name: 'incident_date',
+                from: Date.today.beginning_of_quarter,
+                to: Date.today.end_of_quarter
+              ),
+              SearchFilters::Value.new(
+                field_name: 'grouped_by',
+                value: 'quarter'
+              )
+            ],
+            { output_to_file: false }
+          )
+
+          Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        end
+
+        context 'Incidents subreport' do
+          it 'prints subreport headers' do
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['Incidents', nil])
+          end
+
+          it 'prints report params' do
+            expect(workbook_grouped.sheet(0).row(2)).to match_array(
+              [
+                '<html><b>Date Range: </b>This Quarter / <b>Date: </b>Date of Incident / </html>',
+                nil
+              ]
+            )
+          end
+
+          it 'prints indicator tables' do
+            quarter_range = [nil, "#{Date.today.year}-Q#{(Date.today.month / 3.0).ceil}"]
+
+            expect(workbook_grouped.sheet(0).row(5)).to match_array(
+              ['Incidents', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(6)).to match_array(quarter_range)
+
+            expect(workbook_grouped.sheet(0).row(7)).to match_array(
+              ['Number of GBV Incidents Reported', 3]
+            )
+            expect(workbook_grouped.sheet(0).row(8)).to match_array(
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 1]
+            )
+            expect(workbook_grouped.sheet(0).row(9)).to match_array(
+              ['Number of Incidents of Sexual Violence Reported', 3]
+            )
+
+            expect(workbook_grouped.sheet(0).row(12)).to match_array(
+              ['Incident Type', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(13)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(['Rape', 1])
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(
+              ['Sexual Assault', 1]
+            )
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(
+              ['Forced Marriage', 1]
+            )
+
+            expect(workbook_grouped.sheet(0).row(41)).to match_array(
+              ['Incident Time of Day', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(42)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(43)).to match_array(
+              ['Morning (sunrise to noon)', 1]
+            )
+            expect(workbook_grouped.sheet(0).row(44)).to match_array(
+              ['Afternoon (noon to sunset)', 1]
+            )
+            expect(workbook_grouped.sheet(0).row(45)).to match_array(
+              ['Evening/Night (sunset to sunrise)', 1]
+            )
+
+            expect(workbook_grouped.sheet(0).row(70)).to match_array(
+              ['Time Between Incident and Report Date', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(71)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(72)).to match_array(['0-3 Days', 3])
+
+            expect(workbook_grouped.sheet(0).row(97)).to match_array(
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date',
+                nil
+              ]
+            )
+            expect(workbook_grouped.sheet(0).row(98)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 1])
+
+            expect(workbook_grouped.sheet(0).row(124)).to match_array(
+              ['Incident Location', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(125)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 1])
+            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+              ['Garden/Cultivated Field', 1]
+            )
+            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 1])
+          end
+        end
+      end
+    end
+
+    context 'all subreport' do
+      let(:workbook_all) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today - 1.year,
+              to: Date.today.end_of_year
+            ),
+            SearchFilters::Value.new(
+              field_name: 'grouped_by',
+              value: 'year'
+            )
+          ],
+          { output_to_file: false }
+        )
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      it 'should export all the sheets' do
+        expect(workbook_all.sheets.size).to eq(3)
+      end
+
+      it 'should export the excel' do
+        expect(workbook_all.sheets.size).to eq(3)
+        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors])
+      end
+
+      it 'prints subreports headers' do
+        expect(workbook_all.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
+        expect(workbook_all.sheet(1).row(1)).to match_array(['Perpetrators', nil, nil])
+        expect(workbook_all.sheet(2).row(1)).to match_array(['Survivors', nil, nil])
       end
     end
   end

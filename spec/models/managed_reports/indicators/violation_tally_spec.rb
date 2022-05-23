@@ -117,8 +117,13 @@ describe ManagedReports::Indicators::ViolationTally do
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
-    expect(violation_tally_data).to eq(
-      { 'boys' => 4, 'girls' => 6, 'total' => 16, 'unknown' => 6 }
+    expect(violation_tally_data).to match_array(
+      [
+        { id: 'boys', total: 4 },
+        { id: 'unknown', total: 6 },
+        { id: 'girls', total: 6 },
+        { id: 'total', total: 16 }
+      ]
     )
   end
 
@@ -129,8 +134,13 @@ describe ManagedReports::Indicators::ViolationTally do
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(violation_tally_data).to eq(
-        { 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6 }
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 1 },
+          { id: 'unknown', total: 3 },
+          { id: 'girls', total: 2 },
+          { id: 'total', total: 6 }
+        ]
       )
     end
 
@@ -140,8 +150,13 @@ describe ManagedReports::Indicators::ViolationTally do
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(violation_tally_data).to eq(
-        { 'boys' => 3, 'girls' => 4, 'unknown' => 3, 'total' => 10 }
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 3 },
+          { id: 'unknown', total: 3 },
+          { id: 'girls', total: 4 },
+          { id: 'total', total: 10 }
+        ]
       )
     end
 
@@ -151,8 +166,13 @@ describe ManagedReports::Indicators::ViolationTally do
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(violation_tally_data).to eq(
-        { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 1 },
+          { id: 'unknown', total: 1 },
+          { id: 'girls', total: 1 },
+          { id: 'total', total: 3 }
+        ]
       )
     end
 
@@ -162,8 +182,13 @@ describe ManagedReports::Indicators::ViolationTally do
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(violation_tally_data).to eq(
-        { 'boys' => 4, 'girls' => 6, 'total' => 16, 'unknown' => 6 }
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 4 },
+          { id: 'unknown', total: 6 },
+          { id: 'girls', total: 6 },
+          { id: 'total', total: 16 }
+        ]
       )
     end
   end
@@ -186,9 +211,33 @@ describe ManagedReports::Indicators::ViolationTally do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: { 'unknown' => 3, 'boys' => 1, 'girls' => 2, 'total' => 6 } },
-            { group_id: 2021, data: { 'unknown' => 1, 'total' => 3, 'girls' => 1, 'boys' => 1 } },
-            { group_id: 2022, data: { 'total' => 7, 'unknown' => 2, 'girls' => 3, 'boys' => 2 } }
+            {
+              group_id: 2020,
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 2 },
+                { id: 'total', total: 6 },
+                { id: 'unknown', total: 3 }
+              ]
+            },
+            {
+              group_id: 2021,
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 1 },
+                { id: 'total', total: 3 },
+                { id: 'unknown', total: 1 }
+              ]
+            },
+            {
+              group_id: 2022,
+              data: [
+                { id: 'boys', total: 2 },
+                { id: 'girls', total: 3 },
+                { id: 'total', total: 7 },
+                { id: 'unknown', total: 2 }
+              ]
+            }
           ]
         )
       end
@@ -211,15 +260,39 @@ describe ManagedReports::Indicators::ViolationTally do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: { 'boys' => 1, 'unknown' => 3, 'total' => 6, 'girls' => 2 } },
-            { group_id: '2020-09', data: {} }, { group_id: '2020-10', data: {} }, { group_id: '2020-11', data: {} },
-            { group_id: '2020-12', data: {} }, { group_id: '2021-01', data: {} }, { group_id: '2021-02', data: {} },
-            { group_id: '2021-03', data: {} }, { group_id: '2021-04', data: {} },
-            { group_id: '2021-05', data: { 'total' => 3, 'boys' => 1, 'unknown' => 1, 'girls' => 1 } },
-            { group_id: '2021-06', data: {} }, { group_id: '2021-07', data: {} }, { group_id: '2021-08', data: {} },
-            { group_id: '2021-09', data: {} }, { group_id: '2021-10', data: {} }, { group_id: '2021-11', data: {} },
-            { group_id: '2021-12', data: {} }, { group_id: '2022-01', data: {} }, { group_id: '2022-02', data: {} },
-            { group_id: '2022-03', data: { 'boys' => 2, 'unknown' => 2, 'girls' => 3, 'total' => 7 } }
+            {
+              group_id: '2020-08',
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 2 },
+                { id: 'total', total: 6 },
+                { id: 'unknown', total: 3 }
+              ]
+            },
+            { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
+            { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
+            { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] },
+            {
+              group_id: '2021-05',
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 1 },
+                { id: 'total', total: 3 },
+                { id: 'unknown', total: 1 }
+              ]
+            },
+            { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
+            { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
+            { group_id: '2021-12', data: [] }, { group_id: '2022-01', data: [] }, { group_id: '2022-02', data: [] },
+            {
+              group_id: '2022-03',
+              data: [
+                { id: 'boys', total: 2 },
+                { id: 'girls', total: 3 },
+                { id: 'total', total: 7 },
+                { id: 'unknown', total: 2 }
+              ]
+            }
           ]
         )
       end
@@ -242,11 +315,35 @@ describe ManagedReports::Indicators::ViolationTally do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: { 'girls' => 2, 'total' => 6, 'boys' => 1, 'unknown' => 3 } },
-            { group_id: '2020-Q4', data: {} }, { group_id: '2021-Q1', data: {} },
-            { group_id: '2021-Q2', data: { 'boys' => 1, 'girls' => 1, 'total' => 3, 'unknown' => 1 } },
-            { group_id: '2021-Q3', data: {} }, { group_id: '2021-Q4', data: {} },
-            { group_id: '2022-Q1', data: { 'unknown' => 2, 'girls' => 3, 'boys' => 2, 'total' => 7 } }
+            {
+              group_id: '2020-Q3',
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 2 },
+                { id: 'total', total: 6 },
+                { id: 'unknown', total: 3 }
+              ]
+            },
+            { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
+            {
+              group_id: '2021-Q2',
+              data: [
+                { id: 'boys', total: 1 },
+                { id: 'girls', total: 1 },
+                { id: 'total', total: 3 },
+                { id: 'unknown', total: 1 }
+              ]
+            },
+            { group_id: '2021-Q3', data: [] }, { group_id: '2021-Q4', data: [] },
+            {
+              group_id: '2022-Q1',
+              data: [
+                { id: 'boys', total: 2 },
+                { id: 'girls', total: 3 },
+                { id: 'total', total: 7 },
+                { id: 'unknown', total: 2 }
+              ]
+            }
           ]
         )
       end

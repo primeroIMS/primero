@@ -27,25 +27,30 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def export
-    buffer = output_buffer
-    workbook = WriteXLSX.new(buffer)
-    build_formats(workbook)
-    write_report_data(workbook, opts)
-    buffer.is_a?(File) ? buffer : buffer.string
+    @buffer = output_buffer
+    @workbook = WriteXLSX.new(@buffer)
+    build_formats
+    write_report_data(opts)
+    @buffer.is_a?(File) ? @buffer : @buffer.string
   rescue StandardError => e
+    puts e.backtrace
     self.errors = [e.message]
   ensure
-    workbook.close
-    buffer.close
+    close_export
   end
 
-  def write_report_data(workbook, opts)
+  def close_export
+    @workbook.close
+    @buffer.close
+  end
+
+  def write_report_data(opts)
     tab_colors = Writexlsx::Colors::COLORS.except(:black, :white).values.uniq
     color_index = 0
     subreports_to_export(opts).each do |subreport|
       tab_color = tab_colors[color_index]
       subreport_exporter_class(subreport).new(
-        id: subreport, managed_report: managed_report, workbook: workbook,
+        id: subreport, managed_report: managed_report, workbook: @workbook,
         tab_color: tab_color, formats: @formats, locale: locale(opts)
       ).export
       color_index > tab_colors.length ? color_index = 0 : color_index += 1
@@ -59,7 +64,7 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def subreports_to_export(opts)
-    return managed_report.subreports unless opts&.dig(:subreport_id).present?
+    return managed_report.subreports if opts&.dig(:subreport_id).blank? || opts&.dig(:subreport_id) == 'all'
 
     managed_report.subreports.select { |subreport| subreport == opts[:subreport_id] }
   end
@@ -91,27 +96,27 @@ class Exporters::ManagedReportExporter < ValueObject
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/MethodLength
-  def build_formats(workbook)
+  def build_formats
     @formats = {
-      header: workbook.add_format(bold: 1, size: 16, align: 'vcenter'),
-      bold_blue: workbook.add_format(bold: 1, color: COLORS[:blue]),
-      black: workbook.add_format(color: COLORS[:black]),
-      bold_black: workbook.add_format(bold: 1, color: COLORS[:black]),
-      grey_space: workbook.add_format(bg_color: COLORS[:light_grey], top: 1, top_color: COLORS[:light_grey2]),
-      blue_header: workbook.add_format(
+      header: @workbook.add_format(bold: 1, size: 16, align: 'vcenter'),
+      bold_blue: @workbook.add_format(bold: 1, color: COLORS[:blue]),
+      black: @workbook.add_format(color: COLORS[:black]),
+      bold_black: @workbook.add_format(bold: 1, color: COLORS[:black]),
+      grey_space: @workbook.add_format(bg_color: COLORS[:light_grey], top: 1, top_color: COLORS[:light_grey2]),
+      blue_header: @workbook.add_format(
         bold: 1, size: 14,
         color: COLORS[:blue],
         align: 'vcenter',
         bottom_color: COLORS[:blue],
         bottom: 2
       ),
-      bold_black_blue_bottom_border: workbook.add_format(
+      bold_black_blue_bottom_border: @workbook.add_format(
         bold: 1,
         color: COLORS[:black],
         bottom: 1,
         bottom_color: COLORS[:blue]
       ),
-      blue_bottom_border: workbook.add_format(bottom: 1, bottom_color: COLORS[:blue])
+      blue_bottom_border: @workbook.add_format(bottom: 1, bottom_color: COLORS[:blue])
     }
   end
   # rubocop:enable Metrics/AbcSize

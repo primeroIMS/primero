@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import TraceComparisonForm from "../../../record-form/form/subforms/subform-traces/components/trace-comparison-form";
 import { clearSelectedCasePotentialMatch } from "../../../records";
+import { RECORD_TYPES_PLURAL } from "../../../../config";
 
 import { NAME } from "./constants";
 
@@ -20,7 +21,7 @@ const Component = ({ selectedForm, recordType, potentialMatch, setSelectedForm }
     <>
       <TraceComparisonForm
         selectedForm={selectedForm}
-        recordType={recordType}
+        recordType={RECORD_TYPES_PLURAL[recordType]}
         potentialMatch={potentialMatch}
         setSelectedForm={setSelectedForm}
         hideFindMatch

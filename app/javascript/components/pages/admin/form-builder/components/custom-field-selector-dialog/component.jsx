@@ -56,12 +56,12 @@ const fields = [
   [RADIO_FIELD, RadioInput],
   [MULTI_SELECT_FIELD, MultiSelectInput],
   [NUMERIC_FIELD, NumericInput],
+  [TALLY_FIELD, TallyInput],
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator],
-  [SUBFORM_SECTION, SubformField],
-  [TALLY_FIELD, TallyInput]
+  [SUBFORM_SECTION, SubformField]
 ];
 
 const Component = ({ isSubform }) => {

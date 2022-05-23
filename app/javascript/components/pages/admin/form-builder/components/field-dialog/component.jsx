@@ -11,7 +11,7 @@ import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
-import { SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
+import { RADIO_FIELD, SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
@@ -344,7 +344,9 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
         {
           [selectedFieldName]: {
             ...fieldData,
-            ...(selectedField.get("type") === SELECT_FIELD ? { option_strings_text: optionStringsText } : {})
+            ...([RADIO_FIELD, SELECT_FIELD].includes(selectedField.get("type"))
+              ? { option_strings_text: optionStringsText }
+              : {})
           },
           ...subform
         },

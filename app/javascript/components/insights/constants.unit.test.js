@@ -1,3 +1,5 @@
+import { MODULES } from "../../config/constants";
+
 import * as constants from "./constants";
 
 describe("<Report /> - constants", () => {
@@ -48,5 +50,25 @@ describe("<Report /> - constants", () => {
     });
 
     expect(clone).to.be.empty;
+  });
+
+  it("should have properties for INSIGHTS_CONFIG", () => {
+    const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
+
+    expect(clonedInsightsConfig).to.be.an("object");
+
+    [MODULES.MRM, MODULES.GBV].forEach(property => {
+      const clonedModuleObject = { ...clonedInsightsConfig[property] };
+
+      expect(clonedInsightsConfig).to.have.property(property);
+      delete clonedInsightsConfig[property];
+
+      ["ids", "localeKeys", "defaultFilterValues", "filters"].forEach(prop => {
+        expect(clonedModuleObject).to.have.property(prop);
+        delete clonedModuleObject[prop];
+      });
+    });
+
+    expect(clonedInsightsConfig).to.be.empty;
   });
 });

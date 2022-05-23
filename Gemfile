@@ -9,7 +9,7 @@ gem 'aws-sdk-s3',          '~> 1.113', # Access and manage Amazon S3 storage (wi
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '3.0.1'     # Endpoint user authorization
-gem 'csv-safe',            '>= 1.2.0'  # Safely export data to CSV to avoid formula injection
+gem 'csv-safe',            '~> 3.0'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.0'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
@@ -18,7 +18,7 @@ gem 'devise',              '~> 4.7'    # Authentication framework
 gem 'devise-jwt',          '0.8.0'     # JWT authentication for native Primero users
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 2.3'    # ActiveRecord extension for validating attachment file sizes
-gem 'i18n-js',             '~> 3.4'    # Shares Rails i18n strings with the front end
+gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
 gem 'json_schemer',        '~> 0.2'    # Validation for submited JSON
@@ -31,7 +31,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 4.3'    # Ruby Rack server
 gem 'rack',                '>= 2.2.0'
 gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.4.7'
+gem 'rails',               '6.1.6'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
