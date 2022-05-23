@@ -8,7 +8,7 @@ import ActionDialog from "../../action-dialog";
 import { usePermissions, ACTIONS } from "../../permissions";
 import { reduceMapToObject, useMemoizedSelector } from "../../../libs";
 import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
-import Form, { FORM_MODE_SHOW } from "../../form";
+import Form, { AUDIO_RECORD_FIELD, FORM_MODE_SHOW, PHOTO_RECORD_FIELD } from "../../form";
 
 import viewModalForm from "./form";
 import TransferRequest from "./transfer-request";
@@ -48,7 +48,15 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
     caseId
   };
 
-  const initialValues = reduceMapToObject(currentRecord || fromJS({}));
+  const recordObject = reduceMapToObject(currentRecord || fromJS({}));
+
+  const initialValues = miniFormFields.reduce((acc, field) => {
+    if ([AUDIO_RECORD_FIELD, PHOTO_RECORD_FIELD].includes(field.get("type"))) {
+      return { ...acc, [field.name]: acc[field.name] || [] };
+    }
+
+    return acc;
+  }, recordObject);
 
   const onSubmit = () => {};
 
