@@ -21,13 +21,15 @@ const AttachmentInputArray = ({ commonInputProps, metaInputProps, formMode, form
 
   const AttachmentArray = metaInputProps.type === PHOTO_RECORD_FIELD ? PhotoArray : AudioArray;
 
+  const handleAttachmentAddition = () => {};
+
   return (
     <div>
       <AttachmentLabel
         label={label}
         mode={mode}
         helpText={helperText}
-        handleAttachmentAddition={() => {}}
+        handleAttachmentAddition={handleAttachmentAddition}
         arrayHelpers={arrayMethods}
         disabled={mode.isShow}
       />
