@@ -1893,6 +1893,7 @@ en:
         incident_timeofday: Incident Time of Day
         elapsed_reporting_time: Time Between Incident and Report Date
         elapsed_reporting_time_rape: Incidents of Rape, Time Elapsed between Incident and Report Date
+        elapsed_reporting_time_rape_health_referral: Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)
         incident_location_type: Incident Location
         number_of_perpetrators: Number of Perpetrators
         perpetrator_relationship: Alleged Primary Perpetrator's Relationship to Survivor
@@ -1914,6 +1915,8 @@ en:
         service_police_referral: Police or Other Type of Security Services
         service_livelihoods_referral: Livelihoods Services
         service_protection_referral: Child Protection Services
+        vulnerable_populations: Vulnerable Populations
+        survivors_disability_type: With Disabilities
     success_message: Successfully generated the export file
   messages:
     alert_items: You have %{items} items of note.

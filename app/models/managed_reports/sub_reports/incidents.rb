@@ -6,6 +6,7 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
     'incidents'
   end
 
+  # rubocop:disable Metrics/MethodLength
   def indicators
     [
       ManagedReports::Indicators::TotalIncidents,
@@ -15,9 +16,11 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::IncidentTimeofday,
       ManagedReports::Indicators::ElapsedReportingTime,
       ManagedReports::Indicators::ElapsedReportingTimeRape,
+      ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral,
       ManagedReports::Indicators::IncidentLocationType
     ].freeze
   end
+  # rubocop:enable Metrics/MethodLength
 
   def lookups
     {
@@ -25,6 +28,7 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::IncidentTimeofday.id => 'lookup-gbv-incident-timeofday',
       ManagedReports::Indicators::ElapsedReportingTime.id => 'lookup-elapsed-reporting-time',
       ManagedReports::Indicators::ElapsedReportingTimeRape.id => 'lookup-elapsed-reporting-time',
+      ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral.id => 'lookup-elapsed-reporting-time',
       ManagedReports::Indicators::IncidentLocationType.id => 'lookup-gbv-incident-location-type'
     }.freeze
   end
