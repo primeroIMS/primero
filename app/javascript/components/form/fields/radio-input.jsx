@@ -18,11 +18,11 @@ const RadioInput = ({ commonInputProps, options, formMethods }) => {
         as={
           <RadioGroup aria-label="format" name={name} className={css.rowDirection}>
             {options &&
-              options.map(({ id, label }) => (
+              options.map(({ id, label, display_text: displayText }) => (
                 <FormControlLabel
                   key={`form-control-label-${id}`}
                   value={id}
-                  label={label}
+                  label={label || displayText}
                   disabled={disabled}
                   control={<Radio />}
                 />
