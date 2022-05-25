@@ -28,14 +28,16 @@ describe("<RecordList />", () => {
             case_id_display: "e15acbe",
             short_id: "e15acbe",
             name: "Jose",
-            record_state: true
+            record_state: true,
+            module_id: "primeromodule-cp"
           },
           {
             id: "7d55b677-c9c4-7c6c-7a41-bfa1c3f74d1c",
             case_id_display: "7d55b67",
             short_id: "7d55b67",
             name: "Carlos",
-            record_state: true
+            record_state: true,
+            module_id: "primeromodule-cp"
           }
         ],
         metadata: { total: 2, per: 20, page: 1 },
@@ -110,6 +112,24 @@ describe("<RecordList />", () => {
           is_nested: false,
           subform_prevent_item_removal: false,
           collapsed_field_names: []
+        }),
+        3: FormSectionRecord({
+          id: 3,
+          unique_id: "basic_form",
+          name: { en: "Basic Form" },
+          visible: true,
+          is_first_tab: false,
+          order: 0,
+          order_form_group: 30,
+          parent_form: "case",
+          editable: true,
+          module_ids: ["primeromodule-cp"],
+          form_group_id: "identification_registration",
+          form_group_name: { en: "Identification / Registration" },
+          fields: [2, 3, 4, 5, 6, 7],
+          is_nested: false,
+          subform_prevent_item_removal: false,
+          collapsed_field_names: []
         })
       }),
       fields: OrderedMap({
@@ -139,7 +159,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,
@@ -159,7 +179,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,
@@ -179,7 +199,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,
@@ -199,7 +219,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,
@@ -219,7 +239,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,
@@ -239,7 +259,7 @@ describe("<RecordList />", () => {
           type: "text_field",
           editable: true,
           disabled: false,
-          visfromJSble: true,
+          visible: true,
           subform_section_id: null,
           help_text: {},
           multi_select: false,

@@ -7,7 +7,7 @@ import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { usePermissions, ACTIONS } from "../../permissions";
 import { useMemoizedSelector } from "../../../libs";
-import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
+import { getMiniFormFields } from "../../record-form";
 import Form, { FORM_MODE_SHOW } from "../../form";
 
 import viewModalForm from "./form";
@@ -19,14 +19,19 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
   const [sendRequest, setSendRequest] = useState(false);
 
   const commonFieldNames = Object.values(COMMON_FIELD_NAMES);
-  const commonFields = useMemoizedSelector(state => getFieldsWithNamesForMinifyForm(state, commonFieldNames));
   const miniFormFields = useMemoizedSelector(state =>
     getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames, true)
   );
 
+  const commonMiniFormFields = miniFormFields
+    .filter(field => commonFieldNames.includes(field.name))
+    .reduce((acc, elem) => acc.merge(fromJS({ [elem.name]: elem })), fromJS({}));
+
+  const otherMiniFormFields = miniFormFields.filter(field => !commonFieldNames.includes(field.name));
+
   const canRequestTransfer = usePermissions(recordType, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
 
-  const form = viewModalForm(i18n, commonFields, miniFormFields);
+  const form = viewModalForm(i18n, commonMiniFormFields, otherMiniFormFields);
 
   const handleOk = () => {
     setSendRequest(true);
