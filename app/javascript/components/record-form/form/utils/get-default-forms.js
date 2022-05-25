@@ -12,6 +12,7 @@ import {
   REFERRAL,
   REGISTRY_FROM_CASE,
   SUMMARY,
+  SUMMARY_INCIDENT_MRM,
   TRANSFERS_ASSIGNMENTS
 } from "../../../../config";
 import generateKey from "../../../charts/table-values/utils";
@@ -134,6 +135,27 @@ export default (locale, query) => {
       i18nName: true,
       visible: true,
       parent_form: RECORD_TYPES.cases
+    }),
+    [SUMMARY_INCIDENT_MRM]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: SUMMARY_INCIDENT_MRM,
+      description: {
+        [locale]: "incidents.summary_mrm.label"
+      },
+      name: {
+        [locale]: "incidents.summary_mrm.label"
+      },
+      module_ids: [MODULES.MRM],
+      is_first_tab: false,
+      order: 1,
+      order_form_group: 1,
+      parent_form: RECORD_TYPES.incidents,
+      form_group_id: "summary_of_the_incident",
+      is_nested: false,
+      i18nName: true,
+      i18nDescription: true,
+      core_form: true,
+      visible: true
     })
   });
 
