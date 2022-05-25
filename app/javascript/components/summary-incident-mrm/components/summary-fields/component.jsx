@@ -7,7 +7,7 @@ import { FieldRecord, FormSectionField } from "../../../record-form";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-const Component = ({ record, recordType, mode }) => {
+const Component = ({ recordID, recordType, mode }) => {
   const i18n = useI18n();
 
   return fields(i18n).map(field => {
@@ -17,7 +17,7 @@ const Component = ({ record, recordType, mode }) => {
       field: formattedField,
       mode,
       recordType,
-      recordID: record?.get("id")
+      recordID
     };
 
     return (

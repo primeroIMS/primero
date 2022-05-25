@@ -108,6 +108,7 @@ const externalForms =
       [SUMMARY_INCIDENT_MRM]: (
         <SummaryIncidentMRM
           recordType={recordType}
+          recordID={id}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           mode={containerMode}

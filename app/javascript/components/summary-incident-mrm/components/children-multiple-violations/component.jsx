@@ -16,7 +16,7 @@ const Component = ({ recordType, formSections, values }) => {
   );
   const entryFilter = useCallback(subformData => subformData?.[INDIVIDUAL_MULTIPLE_VIOLATIONS] === true, []);
 
-  if (!individualVictimsData) return null;
+  if (!individualVictimsData?.length) return null;
 
   const parentSubform = formSections.find(form => form.unique_id === INDIVIDUAL_VICTIMS);
   const fieldSubform = parentSubform.fields.find(field => field.name === INDIVIDUAL_VICTIMS);

@@ -9,7 +9,7 @@ import ViolationsSubforms from "./components/violations-subforms";
 import SummaryFields from "./components/summary-fields";
 import ChildrenMultipleViolations from "./components/children-multiple-violations";
 
-const Component = ({ recordType, mobileDisplay, handleToggleNav, mode, formSections, values }) => {
+const Component = ({ recordID, recordType, mobileDisplay, handleToggleNav, mode, formSections, values }) => {
   const i18n = useI18n();
 
   return (
@@ -21,7 +21,7 @@ const Component = ({ recordType, mobileDisplay, handleToggleNav, mode, formSecti
           displayText={i18n.t("incidents.summary_mrm.label")}
         />
       </div>
-      <SummaryFields mode={mode} />
+      <SummaryFields mode={mode} recordID={recordID} recordType={recordType} />
       <ViolationsSubforms recordType={recordType} formSections={formSections} values={values} />
       <ChildrenMultipleViolations recordType={recordType} formSections={formSections} values={values} />
     </div>
@@ -35,6 +35,7 @@ Component.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
+  recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   values: PropTypes.object.isRequired
 };
