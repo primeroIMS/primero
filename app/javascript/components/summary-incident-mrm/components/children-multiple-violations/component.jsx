@@ -5,16 +5,18 @@ import SubformField from "../../../record-form/form/subforms";
 import { RECORD_TYPES_PLURAL } from "../../../../config";
 import { useI18n } from "../../../i18n";
 
-import { NAME, INDIVIDUAL_VICTIMS } from "./constants";
+import { NAME, INDIVIDUAL_VICTIMS, INDIVIDUAL_MULTIPLE_VIOLATIONS } from "./constants";
 
-const Component = ({ record, recordType, formSections }) => {
+const Component = ({ recordType, formSections, values }) => {
   const i18n = useI18n();
   const subformMode = { isNew: false, isEdit: false, isShow: true };
   const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
-  const individualVictimsData = record?.get(INDIVIDUAL_VICTIMS)?.filter(id => id.get("individual_multiple_violations"));
-  const entryFilter = useCallback(subformData => subformData?.individual_multiple_violations === true, []);
+  const individualVictimsData = values?.[INDIVIDUAL_VICTIMS]?.filter(
+    victims => victims?.[INDIVIDUAL_MULTIPLE_VIOLATIONS]
+  );
+  const entryFilter = useCallback(subformData => subformData?.[INDIVIDUAL_MULTIPLE_VIOLATIONS] === true, []);
 
-  if (!individualVictimsData.size) return null;
+  if (!individualVictimsData) return null;
 
   const parentSubform = formSections.find(form => form.unique_id === INDIVIDUAL_VICTIMS);
   const fieldSubform = parentSubform.fields.find(field => field.name === INDIVIDUAL_VICTIMS);
@@ -38,8 +40,8 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   formSections: PropTypes.object.isRequired,
-  record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  values: PropTypes.object.isRequired
 };
 
 export default Component;

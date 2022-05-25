@@ -107,12 +107,12 @@ const externalForms =
       ),
       [SUMMARY_INCIDENT_MRM]: (
         <SummaryIncidentMRM
-          record={record}
           recordType={recordType}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           mode={containerMode}
           formSections={formSections}
+          values={values}
         />
       )
     }[externalFormSelected];

@@ -9,7 +9,7 @@ import ViolationsSubforms from "./components/violations-subforms";
 import SummaryFields from "./components/summary-fields";
 import ChildrenMultipleViolations from "./components/children-multiple-violations";
 
-const Component = ({ record, recordType, mobileDisplay, handleToggleNav, mode, formSections }) => {
+const Component = ({ recordType, mobileDisplay, handleToggleNav, mode, formSections, values }) => {
   const i18n = useI18n();
 
   return (
@@ -22,8 +22,8 @@ const Component = ({ record, recordType, mobileDisplay, handleToggleNav, mode, f
         />
       </div>
       <SummaryFields mode={mode} />
-      <ViolationsSubforms record={record} recordType={recordType} formSections={formSections} />
-      <ChildrenMultipleViolations record={record} formSections={formSections} />
+      <ViolationsSubforms recordType={recordType} formSections={formSections} values={values} />
+      <ChildrenMultipleViolations recordType={recordType} formSections={formSections} values={values} />
     </div>
   );
 };
@@ -35,8 +35,8 @@ Component.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object,
-  record: PropTypes.object,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  values: PropTypes.object.isRequired
 };
 
 export default Component;
