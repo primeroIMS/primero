@@ -2,10 +2,11 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { Backdrop, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import clsx from "clsx";
 
 import css from "../../styles.css";
 
-const PhotoArray = ({ images }) => {
+const PhotoArray = ({ images, isGallery = false }) => {
   const [selected, setSelected] = useState({ index: 0, open: false });
 
   const handleToggle = index => {
@@ -16,6 +17,16 @@ const PhotoArray = ({ images }) => {
     setSelected({ index, open: false });
   };
 
+  const imageClasses = clsx({
+    [css.imgGallery]: isGallery,
+    [css.imgContainer]: !isGallery
+  });
+
+  const wrapperClasses = clsx({
+    [css.imgGalleryWrapper]: isGallery,
+    [css.imgsContainer]: !isGallery
+  });
+
   if (!images) return null;
 
   const renderImages = () => {
@@ -24,7 +35,7 @@ const PhotoArray = ({ images }) => {
     return images.map((image, index) => {
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-        <div key={image} className={css.imgContainer} onClick={handleOnClick(index)}>
+        <div key={image} className={imageClasses} onClick={handleOnClick(index)}>
           <img src={image} alt="Record" className={css.img} />
         </div>
       );
@@ -33,7 +44,7 @@ const PhotoArray = ({ images }) => {
 
   return (
     <>
-      <div className={css.imgsContainer}>{renderImages()}</div>
+      <div className={wrapperClasses}>{renderImages()}</div>
       <Backdrop className={css.backdrop} open={selected.open} onClick={handleClose}>
         <IconButton className={css.backdropClose}>
           <CloseIcon />
@@ -47,7 +58,8 @@ const PhotoArray = ({ images }) => {
 PhotoArray.displayName = "PhotoArray";
 
 PhotoArray.propTypes = {
-  images: PropTypes.array
+  images: PropTypes.array,
+  isGallery: PropTypes.bool
 };
 
 export default PhotoArray;

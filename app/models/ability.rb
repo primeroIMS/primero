@@ -166,7 +166,8 @@ class Ability
   def configure_record_attachments
     permitted_form_fields_service = PermittedFormFieldsService.instance
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(permitted_form_fields_service, user, instance)
+      permitted_to_access_attachment?(permitted_form_fields_service, user, instance) ||
+        permitted_to_view_attachment?(user, instance)
     end
 
     can(%i[write destroy], Attachment) do |instance|
@@ -181,6 +182,14 @@ class Ability
       write
     ).include?(instance.field_name) && (
       permitted_to_access_record?(user, instance.record) || user.can_preview?(instance.record.class)
+    )
+  end
+
+  def permitted_to_view_attachment?(user, instance)
+    permitted_to_access_record?(user, instance.record) && (
+      (instance.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
+        instance.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
+      )
     )
   end
 

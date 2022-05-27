@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -12,9 +12,13 @@ import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { getFields, getRecordFormsByUniqueId, getOrderedRecordForms } from "../../../../../selectors";
 import { fetchMatchedTraces, getMatchedTraces, selectRecord, setMachedCaseForTrace } from "../../../../../../records";
 import TraceActions from "../trace-actions";
-import FieldRow from "../field-row";
+import FieldRows from "../field-rows";
+import ComparedForms from "../compared-forms";
 import { FORMS } from "../../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
+import PhotoArray from "../../../../field-types/attachments/photo-array";
+import AttachmentPreview from "../../../../field-types/attachments/attachment-preview";
+import { ATTACHMENT_TYPES } from "../../../../field-types/attachments/constants";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
@@ -56,6 +60,14 @@ const Component = ({
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseShortId = potentialMatch.getIn(["case", "case_id_display"]);
   const caseId = potentialMatch.getIn(["case", "id"]);
+  const casePhotos = potentialMatch
+    .getIn(["case", "photos"], fromJS([]))
+    .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
+  const caseAudios = potentialMatch.getIn(["case", "recorded_audio"], fromJS([]));
+  const tracingRequestPhotos = record
+    .get("photos", fromJS([]))
+    .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
+  const tracingRequestAudios = record.get("recorded_audio", fromJS([]));
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
@@ -125,40 +137,6 @@ const Component = ({
       })
     );
 
-  const renderFieldRows = comparisons =>
-    comparisons.length &&
-    comparisons.map(comparison => (
-      <FieldRow
-        field={comparison.field}
-        traceValue={comparison.traceValue}
-        caseValue={comparison.caseValue}
-        match={comparison.match}
-        key={comparison.field.name}
-      />
-    ));
-
-  const renderForms = () =>
-    comparedForms.map(comparedForm => {
-      const { form, comparisons, index } = comparedForm;
-
-      return (
-        <Fragment key={`${form?.unique_id}-${index}`}>
-          <Grid container item>
-            <Grid item xs={12}>
-              <h2>{form?.name[i18n.locale]}</h2>
-            </Grid>
-          </Grid>
-          {renderFieldRows(comparisons) || (
-            <Grid container item>
-              <Grid item xs={12}>
-                <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
-              </Grid>
-            </Grid>
-          )}
-        </Fragment>
-      );
-    });
-
   useEffect(() => {
     if (matchedCaseId) {
       setSelectedForm(FORMS.trace);
@@ -201,8 +179,42 @@ const Component = ({
             </h2>
           </Grid>
         </Grid>
-        {renderFieldRows(topComparisons)}
-        {renderForms()}
+        <FieldRows comparisons={topComparisons} />
+        <Grid container item className={css.fieldRow} spacing={2}>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.tracing_request_photos")}</h2>
+            <PhotoArray isGallery images={tracingRequestPhotos} />
+          </Grid>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.case_photos")}</h2>
+            <PhotoArray isGallery images={casePhotos} />
+          </Grid>
+        </Grid>
+        <Grid container item className={css.fieldRow} spacing={2}>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.tracing_request_audios")}</h2>
+            {tracingRequestAudios.map(audio => (
+              <AttachmentPreview
+                key={audio.get("id")}
+                name={audio.get("file_name")}
+                attachment={ATTACHMENT_TYPES.audio}
+                attachmentUrl={audio.get("attachment_url")}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.case_audios")}</h2>
+            {caseAudios.map(audio => (
+              <AttachmentPreview
+                key={audio.get("id")}
+                name={audio.get("file_name")}
+                attachment={ATTACHMENT_TYPES.audio}
+                attachmentUrl={audio.get("attachment_url")}
+              />
+            ))}
+          </Grid>
+        </Grid>
+        <ComparedForms forms={comparedForms} />
       </Grid>
     </>
   );
