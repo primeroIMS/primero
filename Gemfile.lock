@@ -244,7 +244,7 @@ GEM
     puma (4.3.12)
       nio4r (~> 2.0)
     racc (1.6.0)
-    rack (2.2.3)
+    rack (2.2.3.1)
     rack-attack (6.3.1)
       rack (>= 1.0, < 3)
     rack-mini-profiler (1.0.2)
