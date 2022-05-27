@@ -710,7 +710,10 @@ describe Exporters::ManagedReportExporter do
         expect(workbook.sheet(0).row(100).at(0)).to eq(
           'Incidents of Rape, Time Elapsed between Incident and Report Date'
         )
-        expect(workbook.sheet(0).row(128).at(0)).to eq('Incident Location')
+        expect(workbook.sheet(0).row(128).at(0)).to eq(
+          'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)'
+        )
+        expect(workbook.sheet(0).row(156).at(0)).to eq('Incident Location')
       end
     end
   end
