@@ -143,6 +143,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 5,
+        health_medical_referral_subform_section: [{unique_id: '001'}],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -233,11 +234,17 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(0).row(101)).to eq([nil, 'Total'])
           expect(workbook.sheet(0).row(102)).to eq(['0-3 Days', 1])
 
-          expect(workbook.sheet(0).row(128)).to eq(['Incident Location', nil])
+          expect(workbook.sheet(0).row(128)).to eq(
+            ['Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)', nil]
+          )
           expect(workbook.sheet(0).row(129)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(130)).to eq(['Bush/Forest', 1])
-          expect(workbook.sheet(0).row(131)).to eq(['Garden/Cultivated Field', 1])
-          expect(workbook.sheet(0).row(132)).to eq(['School', 1])
+          expect(workbook.sheet(0).row(130)).to eq(['0-3 Days', 1])
+
+          expect(workbook.sheet(0).row(156)).to eq(['Incident Location', nil])
+          expect(workbook.sheet(0).row(157)).to eq([nil, 'Total'])
+          expect(workbook.sheet(0).row(158)).to eq(['Bush/Forest', 1])
+          expect(workbook.sheet(0).row(159)).to eq(['Garden/Cultivated Field', 1])
+          expect(workbook.sheet(0).row(160)).to eq(['School', 1])
         end
       end
 
@@ -262,7 +269,7 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(1).row(8)).to eq([2, 1])
           expect(workbook.sheet(1).row(9)).to eq([3, 1])
 
-          expect(workbook.sheet(1).row(35)).to eq(['Alleged Primary Perpetrator’s Relationship to Survivor', nil])
+          expect(workbook.sheet(1).row(35)).to eq(["Alleged Primary Perpetrator's Relationship to Survivor", nil])
           expect(workbook.sheet(1).row(36)).to eq([nil, 'Total'])
           expect(workbook.sheet(1).row(37)).to eq(['No relation', 2])
           expect(workbook.sheet(1).row(38)).to eq(['Other', 1])
@@ -381,14 +388,23 @@ describe Exporters::ManagedReportExporter do
             expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 0, 0, 1, 0, 0])
 
             expect(workbook_grouped.sheet(0).row(124)).to match_array(
-              ['Incident Location', nil, nil, nil, nil, nil]
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)',
+                nil, nil, nil, nil, nil
+              ]
             )
             expect(workbook_grouped.sheet(0).row(125)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['0-3 Days', 0, 0, 1, 0, 0])
+
+            expect(workbook_grouped.sheet(0).row(151)).to match_array(
+              ['Incident Location', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(152)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(153)).to match_array(['Bush/Forest', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(154)).to match_array(
               ['Garden/Cultivated Field', 0, 0, 1, 0, 0]
             )
-            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(155)).to match_array(['School', 0, 0, 1, 0, 0])
           end
         end
       end
@@ -489,14 +505,23 @@ describe Exporters::ManagedReportExporter do
             expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 0, 1])
 
             expect(workbook_grouped.sheet(0).row(124)).to match_array(
-              ['Incident Location', nil, nil]
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)',
+                nil, nil
+              ]
             )
             expect(workbook_grouped.sheet(0).row(125)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 0, 1])
-            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['0-3 Days', 0, 1])
+
+            expect(workbook_grouped.sheet(0).row(151)).to match_array(
+              ['Incident Location', nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(152)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(153)).to match_array(['Bush/Forest', 0, 1])
+            expect(workbook_grouped.sheet(0).row(154)).to match_array(
               ['Garden/Cultivated Field', 0, 1]
             )
-            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 0, 1])
+            expect(workbook_grouped.sheet(0).row(155)).to match_array(['School', 0, 1])
           end
         end
       end
@@ -594,14 +619,23 @@ describe Exporters::ManagedReportExporter do
             expect(workbook_grouped.sheet(0).row(99)).to match_array(['0-3 Days', 1])
 
             expect(workbook_grouped.sheet(0).row(124)).to match_array(
-              ['Incident Location', nil]
+              [
+                'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)',
+                nil
+              ]
             )
             expect(workbook_grouped.sheet(0).row(125)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(126)).to match_array(['Bush/Forest', 1])
-            expect(workbook_grouped.sheet(0).row(127)).to match_array(
+            expect(workbook_grouped.sheet(0).row(126)).to match_array(['0-3 Days', 1])
+
+            expect(workbook_grouped.sheet(0).row(151)).to match_array(
+              ['Incident Location', nil]
+            )
+            expect(workbook_grouped.sheet(0).row(152)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(153)).to match_array(['Bush/Forest', 1])
+            expect(workbook_grouped.sheet(0).row(154)).to match_array(
               ['Garden/Cultivated Field', 1]
             )
-            expect(workbook_grouped.sheet(0).row(128)).to match_array(['School', 1])
+            expect(workbook_grouped.sheet(0).row(155)).to match_array(['School', 1])
           end
         end
       end
