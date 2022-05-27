@@ -143,7 +143,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 5,
-        health_medical_referral_subform_section: [{unique_id: '001'}],
+        health_medical_referral_subform_section: [{ unique_id: '001' }],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -736,7 +736,13 @@ describe Exporters::ManagedReportExporter do
           expect(workbook_no_data.sheet(0).row(18)).to match_array(
             ['Incidents of Rape, Time Elapsed between Incident and Report Date']
           )
-          expect(workbook_no_data.sheet(0).row(20)).to match_array(['Incident Location'])
+          expect(workbook_no_data.sheet(0).row(20)).to match_array(
+            [
+              'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)'
+            ]
+          )
+
+          expect(workbook_no_data.sheet(0).row(22)).to match_array(['Incident Location'])
         end
       end
     end
