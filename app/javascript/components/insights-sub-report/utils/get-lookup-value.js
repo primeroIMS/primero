@@ -8,5 +8,5 @@ export default (lookups, translateId, key, value, property = "id") => {
   }
 
   // eslint-disable-next-line camelcase
-  return valueKeyLookups.find(lookup => lookup.id === value.get("id"))?.display_text || value.get("id");
+  return valueKeyLookups.find(lookup => lookup.id === value.get("id"))?.display_text || translateId(value.get("id"));
 };
