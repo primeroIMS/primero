@@ -6,7 +6,7 @@ import buildInsightColumns from "./build-insight-columns";
 describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
   context("when is not grouped", () => {
     it("returns an empty array", () => {
-      const columns = buildInsightColumns({
+      const columns = buildInsightColumns.default({
         value: fromJS([
           { id: "option_1", total: 5 },
           { id: "option_2", total: 10 }
@@ -20,7 +20,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
 
   context("when is grouped by year", () => {
     it("returns a single object with items", () => {
-      const columns = buildInsightColumns({
+      const columns = buildInsightColumns.default({
         groupedBy: "year",
         isGrouped: true,
         localizeDate: (_key, value) => value,
@@ -59,7 +59,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
 
   context("when is grouped by month", () => {
     it("returns a dataset for each group", () => {
-      const columns = buildInsightColumns({
+      const columns = buildInsightColumns.default({
         groupedBy: "month",
         isGrouped: true,
         localizeDate: format,

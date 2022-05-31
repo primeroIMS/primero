@@ -20,9 +20,11 @@ class Violation < ApplicationRecord
   belongs_to :incident
 
   store_accessor :data,
-                 :unique_id, :violation_tally, :verified, :type
+                 :unique_id, :violation_tally, :verified, :type, :ctfmr_verified_date, :ctfmr_verified
 
   after_initialize :set_unique_id
+
+  before_save :calculate_late_verifications
 
   def set_unique_id
     self.unique_id = id
@@ -54,6 +56,27 @@ class Violation < ApplicationRecord
     associations_data.select do |data|
       data['violations_ids'].include?(id)
     end
+  end
+
+  def calculate_late_verifications
+    return unless data['ctfmr_verified_date'].present? && data['ctfmr_verified'].present?
+
+    data['is_late_verification'] = late_verification?
+  end
+
+  def late_verification?
+    incident_date_last_quarter? && data['ctfmr_verified'] == 'verified' && verified_this_quarter?
+  end
+
+  def incident_date_last_quarter?
+    last_quarter = Date.today - 3.month
+    incident.data['incident_date'] < last_quarter.end_of_quarter
+  end
+
+  def verified_this_quarter?
+    return false unless data['ctfmr_verified_date'].present?
+
+    data['ctfmr_verified_date'].between?(Date.today.beginning_of_quarter, Date.today.end_of_quarter)
   end
 
   # TODO: Refactor on incident_monitoring_reporting concern

@@ -50,7 +50,9 @@ const Component = () => {
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
 
-  const insightLookups = insight.getIn(["report_data", subReport, "lookups"], fromJS({})).entrySeq().toArray();
+  const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
+  const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
+  const displayGraph = insightMetadata.get("display_graph", true);
 
   const lookups = useOptions({ source: insightLookups });
 
@@ -68,19 +70,23 @@ const Component = () => {
   const totalText = i18n.t("managed_reports.total");
 
   const reportData = insight
-    .getIn(["report_data", subReport], fromJS({}))
-    .filterNot((_value, key) => ["lookups"].includes(key))
+    .getIn(["report_data", subReport, "data"], fromJS({}))
     .groupBy((_value, key) => ((COMBINED_INDICATORS[subReport] || []).includes(key) ? "single" : "aggregate"));
 
   const translateId = valueID => i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
-  const lookupValue = (data, key) => getLookupValue(lookups, translateId, data, key);
+  const lookupValue = (data, key, property) => getLookupValue(lookups, translateId, data, key, property);
 
   const singleInsightsTableData = buildSingleInsightsData(reportData, isGrouped).toList();
 
   const ageRanges = (primeroAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
+
+  const TableComponent = {
+    ghn_report: TableValues,
+    default: TableValues
+  }[insightMetadata.get("table_type")];
 
   return (
     <>
@@ -118,31 +124,34 @@ const Component = () => {
               .map(([valueKey, value]) => (
                 <div key={valueKey} className={css.section}>
                   <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
-                  <BarChartGraphic
-                    data={buildChartValues({
-                      totalText,
-                      getLookupValue: lookupValue,
-                      localizeDate: i18n.localizeDate,
-                      value,
-                      valueKey,
-                      isGrouped,
-                      groupedBy,
-                      ageRanges,
-                      lookupValues: lookups[valueKey]
-                    })}
-                    showDetails
-                    hideLegend
-                  />
-                  <TableValues
+                  {displayGraph && (
+                    <BarChartGraphic
+                      data={buildChartValues({
+                        totalText,
+                        getLookupValue: lookupValue,
+                        localizeDate: i18n.localizeDate,
+                        value,
+                        valueKey,
+                        isGrouped,
+                        groupedBy,
+                        ageRanges,
+                        lookupValues: lookups[valueKey]
+                      })}
+                      showDetails
+                      hideLegend
+                    />
+                  )}
+                  <TableComponent
                     useInsightsHeader
-                    columns={buildInsightColumns({
+                    columns={buildInsightColumns[insightMetadata.get("table_type")]({
                       value,
                       isGrouped,
                       groupedBy,
                       localizeDate: i18n.localizeDate,
-                      totalText
+                      totalText,
+                      getLookupValue: lookupValue
                     })}
-                    values={buildInsightValues({
+                    values={buildInsightValues[insightMetadata.get("table_type")]({
                       getLookupValue: lookupValue,
                       data: value,
                       key: valueKey,

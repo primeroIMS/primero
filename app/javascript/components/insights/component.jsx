@@ -5,6 +5,7 @@ import { Hidden, IconButton, useMediaQuery } from "@material-ui/core";
 import { MenuOpen } from "@material-ui/icons";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
 import PageContainer, { PageContent, PageHeading } from "../page";
@@ -18,16 +19,16 @@ import { useDialog } from "../action-dialog";
 import InsightsFilters from "../insights-filters";
 import InsightFilterTags from "../insights-filters/components/insight-filter-tags";
 import { clearFilters } from "../insights-list/action-creators";
+import { get } from "../form/utils";
 
-import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG } from "./constants";
+import { INSIGHTS_CONFIG, NAME, INSIGHTS_EXPORTER_DIALOG, MANAGED_REPORTS, REPORTS } from "./constants";
 import css from "./styles.css";
 import InsightsExporter from "./components/insights-exporter";
 
 const Component = ({ routes }) => {
-  const { id } = useParams();
+  const { id, moduleID } = useParams();
   const i18n = useI18n();
   const { pathname } = useLocation();
-  const { moduleID } = useParams();
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(INSIGHTS_EXPORTER_DIALOG);
   const dispatch = useDispatch();
@@ -45,16 +46,18 @@ const Component = ({ routes }) => {
     };
   }, []);
 
-  const insightType = INSIGHTS_CONFIG[moduleID];
-
   const insight = useMemoizedSelector(state => getInsight(state));
   const subReport = useMemoizedSelector(state => getSubReport(state));
 
+  const subReports = insight.get("subreports", fromJS([]));
+
+  const insightType = get(INSIGHTS_CONFIG, [moduleID, id], []);
+
   const name = i18n.t(insight.get("name"));
 
-  const menuList = insightType?.ids?.map(subReportID => ({
+  const menuList = subReports.map(subReportID => ({
     to: [ROUTES.insights, moduleID, id, subReportID].join("/"),
-    text: i18n.t([...insightType.localeKeys, subReportID].join("."))
+    text: i18n.t([MANAGED_REPORTS, id, REPORTS, subReportID].join("."))
   }));
 
   const subReportTitle = menuList.find(item => item.to === pathname)?.text;

@@ -1,3 +1,5 @@
+import { expect } from "chai";
+
 import { MODULES } from "../../config/constants";
 
 import * as constants from "./constants";
@@ -43,7 +45,8 @@ describe("<Report /> - constants", () => {
       "FILTER_BY_DATE_DISPLAY_NAME",
       "FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME",
       "DATE_RANGE",
-      "GROUPED_BY"
+      "GROUPED_BY",
+      "REPORTS"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
@@ -54,21 +57,10 @@ describe("<Report /> - constants", () => {
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
+    const expectModuleKeys = [MODULES.MRM, MODULES.GBV];
 
-    expect(clonedInsightsConfig).to.be.an("object");
-
-    [MODULES.MRM, MODULES.GBV].forEach(property => {
-      const clonedModuleObject = { ...clonedInsightsConfig[property] };
-
-      expect(clonedInsightsConfig).to.have.property(property);
-      delete clonedInsightsConfig[property];
-
-      ["ids", "localeKeys", "defaultFilterValues", "filters"].forEach(prop => {
-        expect(clonedModuleObject).to.have.property(prop);
-        delete clonedModuleObject[prop];
-      });
-    });
-
-    expect(clonedInsightsConfig).to.be.empty;
+    expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
+    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report"]);
+    expect(Object.keys(clonedInsightsConfig[MODULES.GBV])).to.eql(["gbv_statistics"]);
   });
 });

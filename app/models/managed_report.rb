@@ -36,10 +36,7 @@ class ManagedReport < ValueObject
         id: 'ghn_report',
         name: 'managed_reports.ghn_report.name',
         description: 'managed_reports.ghn_report.description',
-        subreports: %w[
-          killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools
-          attack_on_hospitals
-        ],
+        subreports: %w[ghn_report],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
           date_of_first_report: {},

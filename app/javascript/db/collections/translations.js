@@ -9,7 +9,7 @@ const Translations = {
   },
 
   save: async json => {
-    await DB.put(DB_COLLECTIONS_NAMES.TRANSLATIONS, json, { id: 1 });
+    await DB.put({ store: DB_COLLECTIONS_NAMES.TRANSLATIONS, data: json, key: { id: 1 } });
 
     return json;
   }

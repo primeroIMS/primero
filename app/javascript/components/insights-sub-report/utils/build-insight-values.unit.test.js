@@ -5,7 +5,7 @@ import buildInsightValues from "./build-insight-values";
 describe("<InsightsSubReport />/utils/buildInsightValues", () => {
   context("when is not grouped", () => {
     it("returns one row for each option", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
         key: "key",
         data: fromJS([
@@ -23,7 +23,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
 
   context("when is grouped by year", () => {
     it("returns the rows for each group", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
         key: "key",
         isGrouped: true,
@@ -61,7 +61,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
     });
 
     it("returns the rows for each group in alphabetical order", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) =>
           ({ option_1: "First Option", option_2: "Second Option", option_4: "Fourth Option" }[value.get("id")]),
         key: "key",
@@ -100,7 +100,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
     });
 
     it("returns the rows for each group in age range order", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
         key: "key",
         isGrouped: true,
@@ -141,7 +141,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
 
   context("when is grouped by month", () => {
     it("returns the rows for each group", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
         key: "key",
         isGrouped: true,
@@ -190,7 +190,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
     });
 
     it("returns the rows for each group and respects the lookup order", () => {
-      const values = buildInsightValues({
+      const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
         key: "key",
         isGrouped: true,

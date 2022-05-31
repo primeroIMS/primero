@@ -34,19 +34,21 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
   const groupedData = data.groupBy(value => value.get("group_id").toString());
 
   if (groupedBy === YEAR) {
-    return groups
-      .sort(yearComparator)
-      .reduce((acc, year, index) => {
-        const tuples = groupedData
-          .get(year, fromJS([]))
-          .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
-          .toArray();
+    return (
+      groups
+        // .sort(yearComparator)
+        .reduce((acc, year, index) => {
+          const tuples = groupedData
+            .get(year, fromJS([]))
+            .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
+            .toArray();
 
-        buildRows({ tuples, rows: acc, columnsNumber: groups.length, columnIndex: index + 1 });
+          buildRows({ tuples, rows: acc, columnsNumber: groups.length, columnIndex: index + 1 });
 
-        return acc;
-      }, [])
-      .map(value => ({ colspan: 0, row: value }));
+          return acc;
+        }, [])
+        .map(value => ({ colspan: 0, row: value }))
+    );
   }
 
   const groupComparator = getGroupComparator(groupedBy);
@@ -86,25 +88,30 @@ const buildSingleRows = ({ getLookupValue, data, key }) =>
     })
     .toArray();
 
-export default ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues }) => {
-  if (data === 0) return [];
+export default {
+  ghn_report: ({ data, getLookupValue, key }) => {
+    return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
+  },
+  default: ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues }) => {
+    if (data === 0) return [];
 
-  const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+    const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
 
-  const sortByFn = elem => first(elem.row);
+    const sortByFn = elem => first(elem.row);
 
-  const rows =
-    isGrouped && groupedBy
-      ? buildGroupedRows({ data, key, getLookupValue, groupedBy })
-      : buildSingleRows({ data, getLookupValue, key });
+    const rows =
+      isGrouped && groupedBy
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy })
+        : buildSingleRows({ data, getLookupValue, key });
 
-  if (key === "age") {
-    return sortWithSortedArray(rows, ageRanges, sortByFn);
+    if (key === "age") {
+      return sortWithSortedArray(rows, ageRanges, sortByFn);
+    }
+
+    if (!isEmpty(lookupDisplayTexts)) {
+      return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn);
+    }
+
+    return sortBy(rows, row => first(row.row));
   }
-
-  if (!isEmpty(lookupDisplayTexts)) {
-    return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn);
-  }
-
-  return sortBy(rows, row => first(row.row));
 };

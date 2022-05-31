@@ -1,5 +1,11 @@
-import { MODULES, MRM_INSIGHTS_SUBREPORTS, GBV_INSIGHTS_SUBREPORTS, LOOKUPS } from "../../config/constants";
-import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
+import {
+  MODULES,
+  MRM_INSIGHTS_SUBREPORTS,
+  GBV_INSIGHTS_SUBREPORTS,
+  LOOKUPS,
+  GHN_REPORT_SUBREPORTS
+} from "../../config/constants";
+import { DATE_FIELD, FieldRecord, SELECT_FIELD, HIDDEN_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
 const VIEW_BY = "view_by";
@@ -9,7 +15,6 @@ const TO = "to";
 const DATE = "date";
 const FILTER_BY = "filter_by";
 const FILTER_OPTIONS = "filter_options";
-const REPORTS = "reports";
 const DATE_OF_FIRST_REPORT = "date_of_first_report";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
@@ -22,6 +27,7 @@ const VERIFICATION_STATUS = "verification_status";
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
 
+export const REPORTS = "reports";
 export const DATE_RANGE = "date_range";
 export const GROUPED_BY = "grouped_by";
 export const QUARTER = "quarter";
@@ -124,63 +130,82 @@ export const SHARED_FILTERS = [
 
 export const INSIGHTS_CONFIG = {
   [MODULES.MRM]: {
-    ids: MRM_INSIGHTS_SUBREPORTS,
-    localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
-    defaultFilterValues: {
-      [GROUPED_BY]: QUARTER,
-      [DATE_RANGE]: THIS_QUARTER,
-      [DATE]: INCIDENT_DATE,
-      [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
-    },
-    filters: [
-      ...SHARED_FILTERS,
-      {
-        name: DATE,
-        display_name: FILTER_BY_DATE_DISPLAY_NAME,
-        option_strings_text: [
-          { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
-          { id: DATE_OF_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
-          {
-            id: CTFMR_VERIFIED_DATE,
-            display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, CTFMR_VERIFIED_DATE]
-          }
-        ],
-        type: SELECT_FIELD
+    violations: {
+      ids: MRM_INSIGHTS_SUBREPORTS,
+      localeKeys: [MANAGED_REPORTS, VIOLATIONS, REPORTS],
+      defaultFilterValues: {
+        [GROUPED_BY]: QUARTER,
+        [DATE_RANGE]: THIS_QUARTER,
+        [DATE]: INCIDENT_DATE,
+        [VERIFIED_CTFMR_TECHNICAL]: VERIFIED
       },
-      {
-        name: VERIFIED_CTFMR_TECHNICAL,
-        display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
-        option_strings_source: LOOKUPS.verification_status,
-        type: SELECT_FIELD
+      filters: [
+        ...SHARED_FILTERS,
+        {
+          name: DATE,
+          display_name: FILTER_BY_DATE_DISPLAY_NAME,
+          option_strings_text: [
+            { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, INCIDENT_DATE] },
+            { id: DATE_OF_REPORT, display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, DATE_OF_REPORT] },
+            {
+              id: CTFMR_VERIFIED_DATE,
+              display_name: [MANAGED_REPORTS, VIOLATIONS, FILTER_OPTIONS, CTFMR_VERIFIED_DATE]
+            }
+          ],
+          type: SELECT_FIELD
+        },
+        {
+          name: VERIFIED_CTFMR_TECHNICAL,
+          display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
+          option_strings_source: LOOKUPS.verification_status,
+          type: SELECT_FIELD
+        }
+      ].map(filter => FieldRecord(filter))
+    },
+    ghn_report: {
+      ids: GHN_REPORT_SUBREPORTS,
+      localeKeys: [MANAGED_REPORTS, GHN_REPORT_SUBREPORTS, REPORTS],
+      filters: [
+        ...SHARED_FILTERS,
+        {
+          name: DATE,
+          type: HIDDEN_FIELD
+        }
+      ].map(filter => FieldRecord(filter)),
+      defaultFilterValues: {
+        [GROUPED_BY]: QUARTER,
+        [DATE_RANGE]: THIS_QUARTER,
+        [DATE]: INCIDENT_DATE
       }
-    ].map(filter => FieldRecord(filter))
+    }
   },
   [MODULES.GBV]: {
-    ids: GBV_INSIGHTS_SUBREPORTS,
-    localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
-    defaultFilterValues: {
-      [GROUPED_BY]: MONTH,
-      [DATE_RANGE]: LAST_MONTH,
-      [DATE]: INCIDENT_DATE
-    },
-    filters: [
-      ...SHARED_FILTERS,
-      {
-        name: DATE,
-        display_name: FILTER_BY_DATE_DISPLAY_NAME,
-        option_strings_text: [
-          {
-            id: DATE_OF_FIRST_REPORT,
-            display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, DATE_OF_FIRST_REPORT]
-          },
-          { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
-        ],
-        watchedInputs: GROUPED_BY,
-        type: SELECT_FIELD,
-        handleWatchedInputs: value => ({
-          disabled: !value
-        })
-      }
-    ].map(filter => FieldRecord(filter))
+    gbv_statistics: {
+      ids: GBV_INSIGHTS_SUBREPORTS,
+      localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
+      defaultFilterValues: {
+        [GROUPED_BY]: MONTH,
+        [DATE_RANGE]: LAST_MONTH
+      },
+      filters: [
+        ...SHARED_FILTERS,
+        {
+          name: DATE,
+          display_name: FILTER_BY_DATE_DISPLAY_NAME,
+          option_strings_text: [
+            {
+              id: DATE_OF_FIRST_REPORT,
+              display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, DATE_OF_FIRST_REPORT]
+            },
+            { id: INCIDENT_DATE, display_name: [MANAGED_REPORTS, GBV_STATISTICS, FILTER_OPTIONS, INCIDENT_DATE] }
+          ],
+          watchedInputs: GROUPED_BY,
+          type: SELECT_FIELD,
+          handleWatchedInputs: value => ({
+            disabled: !value
+          })
+        }
+      ].map(filter => FieldRecord(filter))
+    }
   }
 };
