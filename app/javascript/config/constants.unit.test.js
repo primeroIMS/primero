@@ -117,7 +117,9 @@ describe("Verifying config constant", () => {
       "Q2",
       "Q3",
       "Q4",
-      "GHN_REPORT_SUBREPORTS"
+      "GHN_REPORT_SUBREPORTS",
+      "SUMMARY_INCIDENT_MRM",
+      "VIOLATION_FORMS_MAPPING"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);

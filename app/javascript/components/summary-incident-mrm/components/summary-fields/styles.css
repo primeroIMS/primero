@@ -1,0 +1,84 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+  align-items: center;
+}
+
+.field {
+  margin: 1.5em auto;
+}
+
+.likelyScore {
+  font-weight: bold;
+}
+
+.list {
+  border: 1px solid var(--c-warm-grey-2);
+  border-radius: 5px;
+  background: var(--c-white);
+}
+
+.emptyHeader {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(224, 224, 224, 1);
+}
+
+.fieldArray .subformFields ~ .subformFields {
+  border-top: none;
+}
+
+.subformTitle {
+  margin: 0;
+}
+
+.listDivider {
+  border-bottom: 1px solid var(--c-warm-grey-2);
+}
+
+.listItem:hover {
+  background: var(--c-light-grey);
+  cursor: pointer;
+}
+
+.listActions {
+  right: -3px;
+  left: initial;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+
+  & .subformShow {
+    background-color: inherit;
+    color: var(--c-black);
+  }
+}
+
+[dir="rtl"] .listActions {
+  right: initial;
+  left: -3px;
+}
+
+.listText {
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  color: var(--c-blue);
+  text-transform: none;
+  display: inline-block;
+}
+
+.listTextSecondary {
+  color: var(--c-grey);
+  font-size: var(--fs-8);
+  margin-top: 1em;
+}
+
+.subformFieldArrayContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--sp-2) 0;
+}

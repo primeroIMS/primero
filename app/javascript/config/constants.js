@@ -149,6 +149,8 @@ export const CHANGE_LOGS = "change_logs";
 
 export const SUMMARY = "summary";
 
+export const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
+
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 export const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
@@ -577,6 +579,18 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "military_use",
   "denial_humanitarian_access"
 ];
+
+export const VIOLATION_FORMS_MAPPING = Object.freeze({
+  killing: "killing_violation_wrapper",
+  maiming: "maiming_violation_wrapper",
+  recruitment: "recruitment_violation_wrapper",
+  sexual_violence: "sexual_violence_violation_wrapper",
+  abduction: "abduction_violation_wrapper",
+  attack_on_hospitals: "attack_on_hospitals_violation_wrapper",
+  attack_on_schools: "attack_on_schools_violation_wrapper",
+  military_use: "military_use_violation_wrapper",
+  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper"
+});
 
 export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "individual_victims",

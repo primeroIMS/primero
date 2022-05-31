@@ -11,6 +11,7 @@ import {
   REFERRAL,
   REGISTRY_FROM_CASE,
   SUMMARY,
+  SUMMARY_INCIDENT_MRM,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
 import { SHOW_APPROVALS } from "../permissions";
@@ -541,7 +542,8 @@ describe("<RecordForms /> - utils", () => {
         REFERRAL,
         TRANSFERS_ASSIGNMENTS,
         CHANGE_LOGS,
-        REGISTRY_FROM_CASE
+        REGISTRY_FROM_CASE,
+        SUMMARY_INCIDENT_MRM
       ]);
     });
   });
