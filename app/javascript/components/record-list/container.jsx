@@ -115,6 +115,10 @@ const Container = ({ match, location }) => {
     setDrawer(!drawer);
   }, []);
 
+  const clearSelectedRecords = useCallback(() => {
+    setSelectedRecords({});
+  }, []);
+
   const page = metadata?.get("page", 1);
   const currentPage = page - 1;
 
@@ -149,6 +153,7 @@ const Container = ({ match, location }) => {
           handleDrawer={handleDrawer}
           currentPage={currentPage}
           selectedRecords={selectedRecords}
+          clearSelectedRecords={clearSelectedRecords}
         />
         <PageContent flex>
           <div className={css.tableContainer}>

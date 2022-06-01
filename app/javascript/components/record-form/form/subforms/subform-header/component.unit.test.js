@@ -120,4 +120,37 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
 
     expect(component.text()).to.be.equal("b123cde");
   });
+
+  it("should render the field display name and the total of the tally field", () => {
+    const props = {
+      field: FieldRecord({
+        name: "questions",
+        subform_section_id: {
+          fields: [
+            FieldRecord({
+              name: "places_visited_town",
+              type: "tally_field",
+              display_name: {
+                en: "Places visited in town"
+              },
+              tally: [
+                { id: "grocery_store", display_text: "Grocery Store" },
+                { id: "cafe", display_text: "Cafe" }
+              ]
+            })
+          ],
+          collapsed_field_names: ["places_visited_town"]
+        }
+      }),
+      values: [{ unique_id: "ab123cde", places_visited_town: { grocery_store: 1, cafe: 1, total: 2 } }],
+      locale: "en",
+      displayName: { en: "Testing" },
+      index: 0,
+      onClick: () => {},
+      isViolationSubform: false
+    };
+    const { component } = setupMountedComponent(SubformHeader, props, initialState);
+
+    expect(component.text()).to.be.equal("Places visited in town (2)");
+  });
 });

@@ -1,1 +1,58 @@
-hu: {}
+hu:
+  date:
+    today: 'Ma'
+    clear: 'Törölni'
+    abbr_day_names_short:
+      - Va
+      - Hé
+      - Ke
+      - Sze
+      - Cs
+      - Pé
+      - Szo
+    abbr_day_names:
+      - Vas
+      - Hét
+      - Kedd
+      - Sze
+      - Csü
+      - Pén
+      - Szo
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Már
+      - Ápr
+      - Máj
+      - Jún
+      - Júl
+      - Aug
+      - Szep
+      - Okt
+      - Nov
+      - Dec
+    day_names:
+      - Vasárnap
+      - Hétfő
+      - Kedd
+      - Szerda
+      - Csütörtök
+      - Péntek
+      - Szombat
+    month_names:
+      - ~
+      - Január
+      - Február
+      - Március
+      - Április
+      - Május
+      - Június
+      - Július
+      - Augusztus
+      - Szeptember
+      - Október
+      - November
+      - December
+  'true': "Igen"
+  'false': "Nem"

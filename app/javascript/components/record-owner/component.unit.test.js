@@ -69,7 +69,7 @@ describe("<RecordOwner />", () => {
 
   it("renders a RecordOwner component and its fields/>", () => {
     expect(component.find(RecordOwner)).to.have.lengthOf(1);
-    expect(component.find(FormSectionField)).to.have.lengthOf(13);
+    expect(component.find(FormSectionField)).to.have.lengthOf(15);
     expect(component.find(SearchableSelect)).to.have.lengthOf(1);
     expect(component.find(SearchableSelect).props().defaultValues[0].id).to.equal("agency-unicef");
   });
@@ -143,7 +143,7 @@ describe("<RecordOwner />", () => {
 
     it("should render RecordOwner and its fields", () => {
       expect(component.find(RecordOwner)).to.have.lengthOf(1);
-      expect(component.find(FormSectionField)).to.have.lengthOf(13);
+      expect(component.find(FormSectionField)).to.have.lengthOf(15);
       expect(component.find("input").first().prop("name")).to.be.equal("owned_by_text");
     });
   });
@@ -189,7 +189,7 @@ describe("<RecordOwner />", () => {
 
     it("should render RecordOwner and its fields", () => {
       expect(component.find(RecordOwner)).to.have.lengthOf(1);
-      expect(component.find(FormSectionField)).to.have.lengthOf(13);
+      expect(component.find(FormSectionField)).to.have.lengthOf(15);
       expect(component.find("input").first().prop("name")).to.be.equal("owned_by_text");
     });
   });

@@ -22,7 +22,8 @@ import {
   NUMERIC_FIELD,
   RADIO_FIELD,
   SELECT_FIELD,
-  SUBFORM_SECTION
+  SUBFORM_SECTION,
+  TALLY_FIELD
 } from "../../../../../form";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -32,6 +33,7 @@ import { CUSTOM_FIELD_DIALOG } from "../custom-field-dialog/constants";
 import {
   DateInput,
   Seperator,
+  TallyInput,
   TickBoxInput,
   TextAreaInput,
   TextInput,
@@ -54,6 +56,7 @@ const fields = [
   [RADIO_FIELD, RadioInput],
   [MULTI_SELECT_FIELD, MultiSelectInput],
   [NUMERIC_FIELD, NumericInput],
+  [TALLY_FIELD, TallyInput],
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
   // [DATE_FIELD, DateRangeInput],

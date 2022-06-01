@@ -19,6 +19,8 @@ export const columns = (i18n, css, onTracingRequestClick, matchedTracesIds) => [
           text={getShortIdFromUniqueId(value)}
           type={ACTION_BUTTON_TYPES.default}
           noTranslate
+          variant="text"
+          color="primary"
           rest={{
             onClick: () => onTracingRequestClick(value)
           }}

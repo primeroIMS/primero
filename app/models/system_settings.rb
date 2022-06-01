@@ -13,13 +13,9 @@ class SystemSettings < ApplicationRecord
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
 
-  store_accessor(
-    :system_options,
-    :due_date_from_appointment_date, :notification_email_enabled,
-    :welcome_email_enabled, :show_alerts, :code_of_conduct_enabled,
-    :timeframe_hours_to_assign, :timeframe_hours_to_assign_high,
-    :duplicate_field_to_form
-  )
+  store_accessor(:system_options, :due_date_from_appointment_date, :notification_email_enabled,
+                 :welcome_email_enabled, :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
+                 :timeframe_hours_to_assign_high, :duplicate_field_to_form)
 
   localize_properties %i[welcome_email_text approvals_labels]
 
@@ -37,6 +33,12 @@ class SystemSettings < ApplicationRecord
     system_name = system_options['system_name']
     system_name = system_name.dig(I18n.locale) if system_name.is_a?(Hash)
     system_name || Rails.application.routes.default_url_options[:host]
+  end
+
+  def registry_types
+    return if system_options.blank?
+
+    system_options['registry_types']
   end
 
   def set_version
@@ -74,6 +76,10 @@ class SystemSettings < ApplicationRecord
 
   def reporting_location_config=(config)
     super(config.to_h)
+  end
+
+  def incident_reporting_location_config
+    ReportingLocation.new(super) if super.present?
   end
 
   def age_ranges
@@ -132,6 +138,12 @@ class SystemSettings < ApplicationRecord
 
     def unlock_after_configuration_update
       SystemSettings.first.update(config_update_lock: false)
+    end
+
+    def primary_age_ranges
+      sys = SystemSettings.current
+      primary_range = sys.primary_age_range
+      sys.age_ranges[primary_range]
     end
   end
 end

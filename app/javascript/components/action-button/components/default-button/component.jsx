@@ -26,7 +26,7 @@ const Component = ({
   const renderLoadingIndicator = isPending && <CircularProgress size={24} className={css.buttonProgress} />;
   const renderContent = !renderIcon ? <>{text}</> : <ButtonText text={text} keepTextOnMobile={keepTextOnMobile} />;
 
-  const spanClasses = clsx({ [css.isDisabled]: rest.disabled });
+  const spanClasses = clsx({ [css.isDisabled]: rest.disabled || isPending });
   const classes = clsx({
     [css.defaultActionButton]: renderIcon,
     [css.isTransparent]: isTransparent,
@@ -51,8 +51,8 @@ const Component = ({
           disabled={isPending}
           color="primary"
           {...rest}
-          {...options}
           {...conditionalOptions}
+          {...options}
         >
           {renderContent}
         </Button>

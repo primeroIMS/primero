@@ -1,20 +1,21 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable import/prefer-default-export */
 
 import { fromJS } from "immutable";
+import { Tooltip } from "@material-ui/core";
 
 import { ToggleIconCell } from "../index-table";
 import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../config";
 import { ConditionalWrapper } from "../../libs";
 import DisableOffline from "../disable-offline";
 
-import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS } from "./constants";
+import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
 import PhotoColumnHeader from "./components/photo-column-header";
 
 export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
-
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
@@ -79,16 +80,33 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
                   return <div className={css.id}>{disableColumnOffline({ value: idValue, rowIndex })}</div>;
                 }
               };
+            case "complete":
+              return {
+                sort: false,
+                disableOnClick: true,
+                customBodyRender: value => {
+                  return value ? (
+                    <Tooltip open title={i18n.t("action.marked_for_offline")}>
+                      <ToggleIconCell value={value} icon={COMPLETE} />
+                    </Tooltip>
+                  ) : (
+                    <span />
+                  );
+                }
+              };
             default:
               return {
+                sort: column.get("sort", true),
                 customBodyRender: (value, { rowIndex }) => disableColumnOffline({ value, rowIndex })
               };
           }
         })(column.get("name"));
 
         return {
-          label: iconColumns.includes(column.get("name")) ? "" : i18n.t(`${recordType}.${column.get("name")}`),
-          name: column.get("field_name"),
+          label: [...iconColumns, COMPLETE].includes(column.get("name"))
+            ? " "
+            : i18n.t(`${recordType}.${column.get("name")}`),
+          name: column.get("field_name") || " ",
           id: column.get("id_search"),
           options: {
             ...options,

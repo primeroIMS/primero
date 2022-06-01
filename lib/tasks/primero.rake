@@ -61,7 +61,7 @@ namespace :primero do
         PrimeroConfiguration, Webhook, IdentityProvider
       ]
 
-      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles]
+      db_tables = %w[form_sections_primero_modules form_sections_roles primero_modules_roles agencies_user_groups]
     end
 
     metadata_models.each do |m|
@@ -258,6 +258,46 @@ namespace :primero do
     puts "Error Messages: #{importer.errors}" if importer.errors.present?
   end
 
+  # Imports Record data from a csv file
+  # USAGE: rails primero:import_records[file_name]
+  # Args:
+  #   file_name                - The CSV file to be imported
+  #   created_by_user          - The user that creates the record
+  #   owned_by_user (optional) - The owner.  If not provided, uses the created by user
+  #
+  # Examples:
+  #   rails primero:import_records[<path>/registry_records.csv,system_user]
+  #
+  #   rails primero:import_records[<path>/registry_records.csv,system_user,owned_by_user]
+  desc 'Import a Record csv file'
+  task :import_records, %i[file_name created_by_user owned_by_user] => :environment do |_, args|
+    file_name = args[:file_name]
+    if file_name.blank?
+      puts 'ERROR: No input file provided'
+      return
+    end
+
+    file_path = Rails.root.join(file_name)
+
+    created_by_user = args[:created_by_user]
+    if created_by_user.blank?
+      puts 'ERROR: No created_by_user provided'
+      return
+    end
+
+    owned_by_user = args[:owned_by_user].presence || created_by_user
+    puts "Importing Records from #{file_name}"
+    importer = Importers::CsvRecordImporter.new(record_class: RegistryRecord, file_path: file_path,
+                                                created_by: created_by_user, owned_by: owned_by_user)
+    importer.import
+    puts "Batch Size: #{importer.batch_size}"
+    puts "Total Batches: #{importer.batch_total}"
+    puts "Total Rows: #{importer.total}"
+    puts "Total Rows Processed: #{importer.success_total}"
+    puts "Failed rows: #{importer.failures}" if importer.failures.present?
+    puts "Error Messages: #{importer.errors}" if importer.errors.present?
+  end
+
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'
@@ -408,11 +448,18 @@ namespace :primero do
     I18n::JS.export
 
     manifest_file = Rails.root.join('config', 'i18n-manifest.txt')
-    translations_file = Rails.root.join('public', 'translations.js')
-    sha1 = Digest::SHA256.file(translations_file)
-    translations_file_fingerprinted = "translations-#{sha1}.js"
+    File.delete(manifest_file) if File.file?(manifest_file)
 
-    File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
-    File.write(manifest_file, translations_file_fingerprinted)
+    Primero::Application::LOCALES.each do |locale|
+      translations_file = Rails.root.join('public', "translations-#{locale}.js")
+
+      next unless File.file?(translations_file)
+
+      sha1 = Digest::SHA256.file(translations_file)
+      translations_file_fingerprinted = "translations-#{locale}.#{sha1}.js"
+
+      File.rename(translations_file, Rails.root.join('public', translations_file_fingerprinted))
+      File.write(manifest_file, "#{translations_file_fingerprinted}\n", mode: 'a+')
+    end
   end
 end

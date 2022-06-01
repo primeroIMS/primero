@@ -5,9 +5,10 @@ import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 
 import { useI18n } from "../../../../../../../i18n";
-import { FieldRecord, FormSectionField, TEXT_FIELD } from "../../../../../../../form";
+import { FieldRecord, FormSectionField, TALLY_FIELD, TEXT_FIELD } from "../../../../../../../form";
 import { LOCALE_KEYS } from "../../../../../../../../config";
 import css from "../../../styles.css";
+import { LOCALIZABLE_OPTIONS_FIELD_NAME } from "../../../field-dialog/constants";
 
 import { NAME } from "./constants";
 
@@ -15,7 +16,8 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
   const i18n = useI18n();
   const locales = i18n.applicationLocales.filter(locale => locale.id !== LOCALE_KEYS.en);
 
-  const englishOptions = field.get("option_strings_text") || fromJS([]);
+  const optionsFieldName = LOCALIZABLE_OPTIONS_FIELD_NAME[field.get("type")];
+  const englishOptions = field.get(optionsFieldName) || fromJS([]);
   const englishOptionsSize = englishOptions.reduce(
     (acc, curr) => acc + !!curr.getIn(["display_text", LOCALE_KEYS.en]),
     0
@@ -30,7 +32,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get("name")}.option_strings_text[${index}].id`,
+          name: `${field.get("name")}.${optionsFieldName}[${index}].id`,
           type: TEXT_FIELD,
           inputClassname: css.hideField
         })}
@@ -40,7 +42,7 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
       <FormSectionField
         field={FieldRecord({
           display_name: "",
-          name: `${field.get("name")}.option_strings_text[${index}].display_text.${localeId}`,
+          name: `${field.get("name")}.${optionsFieldName}[${index}].display_text.${localeId}`,
           type: TEXT_FIELD,
           disabled: localeId === LOCALE_KEYS.en,
           inputClassname: hideField ? css.hideField : null
@@ -61,10 +63,12 @@ const Component = ({ field, selectedLocaleId, formMode, formMethods }) => {
         .map(localeId => renderLocalizedOption(localeId, index, option, localeId !== selectedLocaleId))
     );
 
+  const formTitle = i18n.t(field.get("type") === TALLY_FIELD ? "fields.tally_items" : "fields.option_strings_text");
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={12} md={12}>
-        <h1>{i18n.t("fields.option_strings_text")}</h1>
+        <h1>{formTitle}</h1>
       </Grid>
       <Grid item xs={12} md={6}>
         <h1 className={css.translationHeader}>{i18n.t("fields.english_text")}</h1>

@@ -11,7 +11,7 @@ import { NAME } from "./constants";
 
 const mode = { isShow: true };
 
-const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPage }) => {
+const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPage, clearSelectedRecords }) => {
   return (
     <PageHeading title={title}>
       <Hidden mdUp>
@@ -24,6 +24,7 @@ const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPa
       </Permission>
       <RecordActions
         currentPage={currentPage}
+        clearSelectedRecords={clearSelectedRecords}
         selectedRecords={selectedRecords}
         recordType={recordType}
         mode={mode}
@@ -34,6 +35,7 @@ const Component = ({ title, recordType, handleDrawer, selectedRecords, currentPa
 };
 
 Component.propTypes = {
+  clearSelectedRecords: PropTypes.func,
   currentPage: PropTypes.number,
   handleDrawer: PropTypes.func.isRequired,
   recordType: PropTypes.string.isRequired,

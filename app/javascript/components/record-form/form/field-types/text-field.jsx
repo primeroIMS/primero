@@ -31,6 +31,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
   const recordName = useMemoizedSelector(state => selectRecordAttribute(state, recordType, recordID, "name"));
 
   const isHiddenName = /\*{2,}/.test(recordName);
+  const hiddenTextField = field.hidden_text_field;
   const ageMatches = type === NUMERIC_FIELD && name.match(/(.*)age$/);
 
   const dateOfBirthFieldName = isEmpty(ageMatches) ? null : `${ageMatches[1]}date_of_birth`;
@@ -79,6 +80,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               form={renderProps.form}
               field={{
                 ...renderProps.field,
+                InputProps: { ...fieldProps.InputProps, ...(rest.error ? { error: rest.error } : {}) },
                 value: fieldValue,
                 onChange(evt) {
                   const value = valueParser(type, evt.target.value);
@@ -90,7 +92,7 @@ const TextField = ({ name, field, formik, mode, recordType, recordID, formSectio
               }}
               {...fieldProps}
             />
-            {name === "name" && mode.isEdit && !rest?.formSection?.is_nested ? (
+            {hiddenTextField && mode.isEdit && !rest?.formSection?.is_nested ? (
               <ButtonBase id="hidden-name-button" className={css.hideNameStyle} onClick={handleOnClick}>
                 {isHiddenName ? i18n.t("logger.hide_name.view") : i18n.t("logger.hide_name.protect")}
               </ButtonBase>

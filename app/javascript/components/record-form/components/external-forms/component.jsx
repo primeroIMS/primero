@@ -7,13 +7,17 @@ import {
   INCIDENT_FROM_CASE,
   CHANGE_LOGS,
   SUMMARY,
-  RECORD_TYPES_PLURAL
+  RECORD_TYPES_PLURAL,
+  REGISTRY_FROM_CASE,
+  SUMMARY_INCIDENT_MRM
 } from "../../../../config";
 import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
 import Summary from "../../../summary";
+import CaseRegistry from "../../form/components/case-registry";
+import SummaryIncidentMRM from "../../../summary-incident-mrm";
 
 const externalForms =
   ({
@@ -33,7 +37,7 @@ const externalForms =
     transitionProps,
     userPermittedFormsIds
   }) =>
-  (form, setFieldValue, handleSubmit, values, dirty) => {
+  (form, setFieldValue, handleSubmit, values, dirty, formSections) => {
     const isTransitions = TRANSITION_TYPE.includes(form);
 
     const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -85,7 +89,30 @@ const externalForms =
           handleToggleNav={handleToggleNav}
           form={summaryForm}
           mode={containerMode}
+          values={values}
           userPermittedFormsIds={userPermittedFormsIds}
+        />
+      ),
+      [REGISTRY_FROM_CASE]: (
+        <CaseRegistry
+          values={values}
+          record={record}
+          mode={containerMode}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={primeroModule}
+          recordType={recordType}
+          setFieldValue={setFieldValue}
+        />
+      ),
+      [SUMMARY_INCIDENT_MRM]: (
+        <SummaryIncidentMRM
+          recordType={recordType}
+          recordID={id}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          mode={containerMode}
+          formSections={formSections}
           values={values}
         />
       )

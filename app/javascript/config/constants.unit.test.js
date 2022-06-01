@@ -68,17 +68,21 @@ describe("Verifying config constant", () => {
       "MODULES",
       "MODULE_TYPE_FIELD",
       "MONTH_AND_YEAR_FORMAT",
+      "MRM_INSIGHTS_SUBREPORTS",
       "NAME_FIELD",
       "PASSWORD_MIN_LENGTH",
       "PERMITTED_URL",
       "POTENTIAL_MATCH_LIKELIHOOD",
       "RECORD_INFORMATION",
       "RECORD_INFORMATION_GROUP",
+      "IDENTIFICATION_REGISTRATION",
       "RECORD_OWNER",
       "RECORD_PATH",
       "RECORD_TYPES",
       "RECORD_TYPES_PLURAL",
       "REFERRAL",
+      "REGISTRY_RECORD",
+      "REGISTRY_RECORDS",
       "REJECT",
       "REJECTED",
       "REVOKED",
@@ -103,7 +107,18 @@ describe("Verifying config constant", () => {
       "VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS",
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
-      "VIOLATION_GROUP"
+      "VIOLATION_GROUP",
+      "GBV_INSIGHTS_SUBREPORTS",
+      "CHART_COLORS",
+      "REGISTRY_FROM_CASE",
+      "QUARTERS",
+      "QUARTERS_TO_NUMBER",
+      "Q1",
+      "Q2",
+      "Q3",
+      "Q4",
+      "SUMMARY_INCIDENT_MRM",
+      "VIOLATION_FORMS_MAPPING"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).to.have.property(property);
@@ -143,7 +158,8 @@ describe("Verifying config constant", () => {
           cases: "case",
           tracing_requests: "tracing_request",
           incidents: "incident",
-          all: "all"
+          all: "all",
+          registry_records: "registry_record"
         });
         expect(constants.AGE_MAX).equal(999);
         expect(constants.PERMITTED_URL).to.be.an("array");
@@ -184,7 +200,8 @@ describe("Verifying config constant", () => {
           "cp_violence_type",
           "gender",
           "legitimate_basis",
-          "legitimate_basis_explanations"
+          "legitimate_basis_explanations",
+          "verification_status"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");

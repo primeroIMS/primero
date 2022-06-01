@@ -126,4 +126,40 @@ describe("eqOperator", () => {
       });
     });
   });
+
+  context("when the property is false", () => {
+    const operator = eqOperator({ permitted: false });
+
+    context("when the data is immutable", () => {
+      it("returns true if data is undefined", () => {
+        expect(operator.evaluate(fromJS({}))).to.be.true;
+      });
+
+      it("returns true if data is null", () => {
+        expect(operator.evaluate(fromJS({ permitted: null }))).to.be.true;
+      });
+
+      it("returns true if data is false", () => {
+        expect(operator.evaluate(fromJS({ permitted: false }))).to.be.true;
+      });
+
+      it("returns false if data is true", () => {
+        expect(operator.evaluate(fromJS({ permitted: true }))).to.be.false;
+      });
+    });
+
+    context("when the data is not immutable", () => {
+      it("returns true if data is undefined", () => {
+        expect(operator.evaluate({})).to.be.true;
+      });
+
+      it("returns true if data is null", () => {
+        expect(operator.evaluate({ permitted: null })).to.be.true;
+      });
+
+      it("returns false if data does not meet the expression", () => {
+        expect(operator.evaluate({ permitted: true })).to.be.false;
+      });
+    });
+  });
 });

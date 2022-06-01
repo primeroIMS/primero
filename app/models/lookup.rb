@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Model for Lookup
+# rubocop:disable Metrics/ClassLength
 class Lookup < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -219,3 +220,4 @@ class Lookup < ApplicationRecord
     send_update_lookup_options(lookup_values_hash, locale, default_ids, options)
   end
 end
+# rubocop:enable Metrics/ClassLength

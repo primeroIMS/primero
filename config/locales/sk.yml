@@ -1,1 +1,3206 @@
-sk: {}
+sk:
+  'true': 'Áno'
+  'false': 'Nie'
+  accepted: Prijatý
+  cancel: Zrušiť
+  connection_lost: Momentálne v režime offline
+  connected: Pripojený
+  clear: Vymazať
+  sandbox_ui: Demo
+  description: Popis
+  form: Formulár
+  minimum_reportable_fields: "Minimálne množstvo vykazovateľných polí %{record_type}"
+  name: Meno
+  offline: Offline
+  unavailable_offline: Nedostupný offline
+  online: Online
+  yes_label: 'Áno'
+  or_label: alebo
+  select_provider: vybrať dodávateľa
+  select_language: Zvoliť si jazyk
+  log_in_primero_idp: 'prihláste sa s používateľským menom %{idp_name} '
+  offline_submitted_changes: Momentálne ste offline. Vaše zmeny budú odoslané, keď budete opäť online.
+  updated: Aktualizované
+  sync:
+    success: "%{records}záznamy boli úspešne synchronizované. "
+    error:
+      create: Proces tvorby %{record_type}zlyhal. Kontaktujte, prosím, technickú podporu.
+      update: Proces aktualizácie %{record_type}%{short_id} zlyhal. Kontaktujte, prosím, technickú podporu.
+  actions:
+    approvals: Schválenia
+    button: Akcie
+    close: Zavrieť
+    description:
+      invalid: Neplatný záznam
+      valid: Platný záznam
+    disable: Zakázať
+    enable: Povoliť
+    incident_details_from_case: Pridať incident
+    incident_from_case: Vytvoriť incident
+    next: Ďalší
+    notes: Pridať poznámky
+    previous: Predošlý
+    reopen: Znovu otvoriť
+    request_approval: Požiadať o schválenie
+    revoke: Odvolať
+    save: Uložiť
+    services_from_case_creation_success: 'Záznam o poskytovaní služieb úspešne vytvorený. '
+    services_section_from_case: Pridaj Poskytovanie služieb
+    mark_for_offline: Označiť pre režim offline
+  agencies:
+    label: Agentúra
+    translations:
+      manage: Spravovať preklady
+  agency:
+    agency_logos: Logá Agentúr
+    code: Kód Agentúry
+    description: Popis
+    disabled: Zakázané
+    exclude_agency_from_lookups: Vylúčiť túto agentúru z vyhľadávaní a filtrov
+    exclude_agency_from_lookups_help: Toto označte, ak agentúra nemá používateľov (napr. agentúra bola pridaná, aby bolo možné použiť logo pri exporte.
+    label: Agentúra
+    logo_enabled: Zobraziť logo tejto agentúry v Primero?
+    logo_enabled_help: Zobraziť logo tejto agentúry v Primero?
+    logo_icon: Ikona s logom
+    logo_icon_help: 'Toto sa objaví na malých obrazovkách, tabletoch a telefónoch. Mal by to byť štvorec. '
+    logo_large: Veľké logo
+    logo_large_help: Toto sa objaví na veľkých obrazovkách a v PDF exportoch. Mal by to byť štvorec, ktorého dĺžka je väčšia ako šírka.
+    messages:
+      created: Agentúra bola úspešne vytvorená.
+      updated: Agentúra bola úspešne aktualizovaná.
+    name: Meno Agentúry
+    pdf_logo_option: Chcete, aby bolo logo dostupné pri exportoch do PDF?
+    pdf_logo_option_help: 'Poznámka: Logá agentúry sú dostupné pre ich vlastných používateľov, takže toto označte iba vtedy, ak chcete, aby bolo toto logo dostupné pre všetkých používateľov.'
+    services: Agentúrne Služby
+    terms_of_use: Podmienky používania
+    terms_of_use_help: Povolené sú iba súbory PDF.
+    terms_of_use_download_button: Stiahnuť PDF
+    terms_of_use_enabled: Zobraziť podmienky používania?
+  approvals:
+    approved_by: Schválil
+    case_plan_type_label: Typ plánu riešenia prípadu
+    manager_comments_label: Manažérske komentáre
+    rejected_by: Odmietnuté používateľom
+    requested_by: Vyžiadané od
+    requested_for_label: Vyžaduje sa schválenie
+    requested_for_title: Žiadosť o schválenie
+    response_for_label: Schválenie pre
+    response_for_title: Schválenie
+    action_plan: Akčný plán
+    gbv_closure: Uzávierka rodovo motivovaného násilia (GBV)
+    status:
+      approved: Schválené
+      pending: Čaká sa na spracovanie
+      rejected: Odmietnuté
+      requested: Požadované
+  audit_log:
+    action: Akcia
+    description: Popis
+    record_owner: Vlastník záznamu
+    timestamp: Čas
+    user_name: Vyrobilo
+  bulk_export:
+    file_name: Súbor
+    record_type: Typ
+    retry: Neplatný export. Skúste zopakovať export.
+    started_on: Začaté
+    status: Stav
+  form_export:
+    label: Exportovať konfiguráciu formulára
+    include_hidden: Zahrnúť skryté formuláre a polia?
+    file_name: Vytvoriť vlastný názov súboru  (Nepovinné)
+    success_message: Podarilo sa vygenerovať súbor na export.
+  buttons:
+    accept: Prijať
+    add: Pridať
+    add_another_option: Pridať ďalšiu možnosť
+    add_note: Pridať poznámky
+    apply: Uplatniť
+    approvals: Schválenia
+    approve_action_plan: Schválenie akčného plánu
+    approve_bia: Schváliť BIA
+    approve_case_plan: Schválenie plánu prípadu
+    approve_closure: Schválenie uzavretia
+    approve_gbv_closure: Schváľte uzavretie rodovo motivovaného násilia (GBV)
+    back: Späť
+    bundle_export: Konfiguračný Balík
+    bundle_import: Konfiguračný Balík
+    cancel: Zrušiť
+    change_password: Zmeniť heslo
+    check_status: Skontrolovať stav
+    clear_default: Vymazať Predvolené Nastavenie
+    clear_selection: Odstrániť výber
+    clear: Vymazať
+    close: Zatvoriť
+    continue: Pokračovať
+    create_case: Vytvoriť Prípad
+    create_incident: Vymazať Incident
+    create_new_record: Vytvoriť Nový %{model}
+    delete: Odstrániť
+    disable: Zakázať
+    disable_photo_wall: Vypnúť fotostenu
+    done: 'Hotovo '
+    download: Stiahnuť
+    edit: Upraviť
+    edit_subform: Upraviť Podformulár
+    enable: Povoliť
+    enable_photo_wall: Povoliť fotostenu
+    export: Export
+    filter: Uplatniť Filter
+    filter_clear: Odstrániť Filtre
+    filter_label: 'Filter:'
+    filter_restore: Obnoviť Systémové Nastavenia
+    find_tracing_match: 'Nájsť Sledovanú Zhodu '
+    flag_model: Vlajka %{model}
+    flag_records: Príznak
+    flags: Príznaky
+    guidance: Poradenie
+    guiding_questions: 'Podporné Otázky '
+    import: Import
+    login: Prihlásenie
+    logout: Odhlásenie
+    mark_for_mobile: Označiť pre mobil
+    new: Nový
+    ok: OK
+    print: Tlačiť
+    reassign: Prideliť
+    referral: Odkázať
+    referral_again: Znovu Odkázať
+    reject: Odmietnuť
+    remove_referrals: Odstrániť odporúčania
+    reorder: Dať do iného poradia
+    request_approval: Požiadať o schválenie
+    request_transfer: Požiadať o prevod
+    reunite: Zjednotiť
+    save: Uložiť
+    save_and_add_service_provision: Uložiť a Pridať Poskytovanie Služieb
+    save_and_return: Uložiť a vrátiť sa
+    save_continue: Uložiť a pokračovať
+    save_changes: Uložiť zmeny
+    select: vybrať
+    send: Poslať
+    sort_by_case: Prípady
+    sort_by_tr: Sledovanie Požiadaviek
+    sync: Synchronizovať
+    submit: Odovzdať
+    transfer: Prevod
+    unflag_model: Odstrániť príznak %{model}
+    unflag_model_history: História príznaku %{model}
+    unmark_for_mobile: Zrušiť označenie pre mobil
+    update: Aktualizovať
+    view: Náhľad
+    view_flags_history: Zobraziť Históriu
+    return_to_case: Návrat k prípadu
+  case:
+    label: Prípad
+    create_new_case: Vytvoriť Nový Prípad
+    add_new: Pridať Nový
+    back_to_case: Späť k prípadu
+    back_to_results: Späť k výsledkom
+    back_to_search: Späť na vyhľadávanie
+    search_by: Hľadať podľa
+    search_for: Hľadať  %{record_type}
+    results: Výsledky
+    details: Podrobnosti
+    select: vybrať
+    deselect: odstrániť vybrané
+    enter_id_number: Ak chcete vyhľadať existujúci záznam, zadajte identifikačné číslo
+    id_search_no_results: V systéme nie je zhoda pre  “%{search_query}”. Prosím vytvorte nový záznam.
+    messages:
+      disabled: Prípad je zakázaný
+      update_success: 'Prípad %{record_id}bol úspešne aktualizovaný.'
+      update_success_queue: 'Prípad č. %{record_id}bol úspešne aktualizovaný na pozadí '
+      creation_success: 'Záznam o prípade bol úspešne vytvorený.'
+      creation_success_queue: 'Záznam o prípade bol úspešne vytvorený v pozadí.'
+      already_matched: 'Tento žiadateľ už je priradený k vášmu prípadu. '
+      already_matched_not_current_case: 'V systéme už existuje prípad priradený k tomuto žiadateľovi. '
+      not_found_case: Žiaden vyhovujúci prípad pre "%{search_value}". Vytvorte nový Prípad.
+      introductory_sentence: Špecifikujte, prosím, druh súhlasu osoby s prijímaním služieb riadenia prípadu a uchovávania svojich údajov v systéme Primero.
+      consent_agreements_required: 'Zvoľte si, prosím, aspoň jednu možnosť z dohôd o udelení súhlasu. '
+      legitimate_basis_required: Vyberte aspoň jednu možnosť z legitímnych základných klasifikácií.
+    save: Uložiť prípad
+    save_text: 'Pred pokračovaním si, prosím, uložte zmeny vykonané v tomto prípade. '
+    skip_and_create: Preskočiť a vytvoriť nový prípad
+    search_existing: Hľadať prípady
+    search_helper_text: Prečo? Aby sa zabránilo vytváraniu duplicitných prípadov.
+    consent_agreements: Zvoľte všetky relevantné dohody o poskytnutí súhlasu
+    legitimate_basis: Zvoľte všetky platné legitímne základné klasifikácie
+    workflow:
+      assessment: Hodnotenie
+      case_plan: Plán riešenia prípadu
+      closed: Zatvorené
+      created_on: Vytvorené dňa
+      in_progress: Pripravuje sa
+      new: Nový
+      on_label: 'na'
+      reopened: Znovu otvorený
+      service_implemented: Implementovaná Služba
+      services_implemented: 'Implemetovaná Služba '
+  linkedincidents:
+    label: Súvisiace Incidenty
+  activity_log:
+    label: Denník aktivít
+    accepted_transfer: '%{to}prijatý prevod %{record_type} %{record_id} z %{from}'
+    rejected_transfer: '%{to} odmietnutý prevod %{record_type}%{record_id} od %{from}'
+  cases:
+    action_plan: Plán Aktivity
+    age: Vek
+    age_estimated: Odhadovaný vek?
+    agency: Agentúra
+    apply_filter: Uplatniť
+    approval_comments: Komentáre
+    approval_radio: Chcel/a by som
+    approval_radio_accept: Schváliť
+    approval_radio_reject: Neschváliť
+    approval_select: Formulár pre
+    approved_success_action_plan: '%{approval_label} - Schválené'
+    approved_success_assessment: '%{approval_label} - Schválené'
+    approved_success_bia: '%{approval_label} - Schválené'
+    approved_success_case_plan: '%{approval_label} - Schválené'
+    approved_success_closure: '%{approval_label} - Schválené'
+    approved_success_gbv_closure: '%{approval_label} - Schválené'
+    assessment: Hodnotenie
+    case_opening_date: Dátum otvorenia prípadu
+    case_plan: Plán riešenia prípadu
+    case_worker_code: Kód pracovníka pracujúceho na tomto prípade
+    clear_filter: Vymazať
+    close_dialog: Kliknutím na OK zmeníte stav tohto prípadu na Uzavretý
+    close_dialog_title: Uzavrieť prípad
+    close_success: Úspešne uzavretý prípad
+    closure: Uzávierka
+    date_of_birth: Dátum narodenia
+    disable_dialog: Kliknutím na OK zmeníte stav tohto prípadu na stav Zakázaný.
+    disable_dialog_title: Zakázať prípad
+    disable_success: Úspešne zakázany prípad.
+    enable_dialog: Kliknutím na OK zmeníte stav tohto prípadu na Povolený.
+    enable_dialog_title: Povoliť prípad
+    enable_success: Prípad úspešne povolený
+    export: Export
+    mark_for_offline:
+      title: Označiť pre režim offline
+      text: Naozaj chcete označiť tieto prípady na offline použitie?
+      success: Prípady boli úspešne označené na použitie offline
+    filter_by:
+      3month_inactivity: Na 3 mesiace
+      action_plan: Akčný plán
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Vekové rozmedzie
+      agency: Agentúra
+      approval_status: Stav schválenia
+      approvals:
+        approved: Schválené
+        pending: Čaká sa na spracovanie
+        rejected: Odmietnuté
+      bia: Analýza Obchodného Vplyvu
+      by_date: K dátumu
+      case_open_date: Dátum otvorenia prípadu
+      case_plan: Plán riešenia prípadu
+      closed: Uzavreté
+      closure: Uzávierka
+      current_location: Súčasná poloha
+      date: Dátum
+      displacement_status: Stav Vysídlenia
+      district: Okres
+      duplicate: Duplikovať
+      enabled_disabled: Povolené / Zakázané
+      female: Žena
+      flag: Označené
+      flag_label: Označené?
+      gbv_closure: Uzávierka rodovo motivovaného násilia (GBV)
+      high: Vysoký
+      low: Nízke
+      male: Muž
+      medium: Stredný
+      mobile: Mobil
+      mobile_label: Označené pre mobil?
+      my_cases: Moje prípady
+      no_action: Žiadna činnosť
+      no_activity: Žiadna aktivita
+      open: Otvoriť
+      other: Iné
+      photo: Fotografia
+      photo_label: Má fotografiu?
+      protection_concerns: Záležitosť Ochrany
+      protection_status: Stav Ochrany
+      record_state: Stav záznamu
+      referred_cases: Prípady, ktoré mi odporučili
+      registration_date: Dátum registrácie
+      risk_level: Úroveň rizika
+      sex: Pohlavie
+      social_worker: Pole/prípad/sociálny pracovník
+      status: Stav
+      transferred: Prevedený
+      type_of_risk: Typ rizika
+      urgent_protection_concern: Záležitosť Súrnej Ochrany
+      user_group: Používateľská skupina
+      workflow: Prípady podľa pracovného postupu
+    flag_summary: Sumár príznakov
+    full_name: Meno a priezvisko
+    gbv_closure: Uzávierka rodovo motivovaného násilia (GBV)
+    hide_name: Skryť meno
+    hide_name_error: Pri ukladaní zmien nastala chyba. Prosím skúste to znovu.
+    id: identifikačné číslo
+    label: Prípady
+    my_filters: Moje filtre
+    name: Meno
+    notes_dialog_title: Pridať poznámky
+    notes_form_notes: Poznámky
+    notes_form_subject: Predmet
+    ok: Ok
+    order_by:
+      label: Poradie podľa
+      most_recently: Najnovšie
+      name: Meno
+    owned_by: Vlastník záznamu
+    owned_by_agency: Agentúra Vlastníka Záznamov
+    photo: Fotografia
+    photos: Fotografia
+    quick_view:
+      tracing_message: 'Poznámka: V systéme existuje zhoda so žiadateľom, ktorý hľadá toto dieťa. Ak si to dieťa želá, kontaktujte sociálneho pracovníka tohto záznamu pre ďalšie kroky.'
+    referral_done: Kliknutím na "Hotovo" vyjadríte ukončenie referenčnej práce spojenej s týmto prípadom. Po kliknutí na "Hotovo" nebudete mať viac prístup k tomuto záznamu.
+    referral_done_success: Odporúčanie dokončené.
+    referral_accepted_header: Prijať odporúčanie
+    referral_accepted: Ste si istý? Odteraz budete zodpovedný za dokončenie práce súvisiacej s týmto odporúčaním.
+    referral_accepted_success: Odporúčanie prijaté.
+    referral_rejected: Kliknutím na tlačidlo "Odmietnuť" vyjadrujete, že teraz nepreberáte zodpovednosť za tento prípad. Uveďte, prosím, dôvod odmietnutia tohto prípadu; ak kliknete na tlačidlo "Odmietnuť", nebudete mať viac prístup k tomuto záznamu prípadu.
+    referral_rejected_success: Odporúčanie bolo odmietnuté
+    register_new_case: Nový prípad
+    registration_date: Dátum registrácie
+    rejected_success_action_plan: '%{approval_label} - Neschválený'
+    rejected_success_assessment: '%{approval_label} - Neschválený'
+    rejected_success_bia: '%{approval_label} - Neschválený'
+    rejected_success_case_plan: '%{approval_label} - Neschválený'
+    rejected_success_closure: '%{approval_label} - Neschválený'
+    rejected_success_gbv_closure: '%{approval_label} - Neschválený'
+    reopen_dialog: Kliknutím na tlačidlo OK zmeníte stav prípadu na stav Otvorený.
+    reopen_dialog_title: Znouotvorenie prípadu
+    reopen_success: Úspešne znovuotvorený prípad
+    request_approval_failure: Vyskytla sa chyba, kontaktujte prosím podporu.
+    request_approval_select: Požiadať o schválenie pre
+    request_approval_success_action_plan: Požaduje sa schválenie pre %{approval_label} formulár.
+    request_approval_success_assessment: Požaduje sa schválenie pre %{approval_label} formulár.
+    request_approval_success_case_plan: Požaduje sa schválenie pre %{approval_label} formulár.
+    request_approval_success_closure: Požaduje sa schválenie pre %{approval_label} formulár.
+    request_approval_success_gbv_closure: Požaduje sa schválenie pre %{approval_label} formulár.
+    request_approval_type_of_case_plan: Typ schválenia plánu prípadu
+    request_approve_action_plan: Schváliť akčný plán?
+    request_approve_bia: Schváliť hodnotenie?
+    request_approve_case_plan: Schváliť plán prípadu?
+    request_approve_closure: Schváliť uzavretie?
+    request_approve_gbv_closure: Schváliť uzavretie rodovo motivovaného násilia (GBV)?
+    revoke_failure: 'Vyskytla sa chyba počas odvolávania sa na %{transition_type}, kontaktujte podporu, prosím. '
+    revoke_message: Kliknutím na tlačidlo Zrušiť odstránite prístup príjemcu%{transition_type} k prípadu.
+    revoke_success_message: Prípad %{case_id} %{transition_type}%{recipient_username} odvolaný.
+    save_filter: Uložiť
+    selected_all_records: Vyberte všetky %{total_records} prípady, ktoré zodpovedajú tomuto dotazu.
+    selected_records: '%{select_records}vybraných prípadov'
+    sex: Pohlavie
+    show_case: 'Identifikačné číslo prípadu: %{short_id}'
+    social_worker: Sociálny pracovník
+    status: Stav
+    summary:
+      label: Zhrnutie
+      find_match: Nájsť zhodu
+      matched_trace: 'Zhoda #%{trace_id}'
+      cannot_find_matches: Nie je možné nájsť zhody. V tomto prípade nebol získaný súhlas na zverejnenie informácií na účely sledovania.
+      matched: Spárované
+      fields:
+        consent_for_tracing:
+          label: 'Bol obdržaný súhlas na zverejnenie informácií za účelom sledovania. '
+          help_text: Ak je v tomto políčku zaškrtnuté "nie", záznam prípadu dieťaťa sa neobjaví v sekcii "Zhoduje sa s požiadavkami na sledovanie"
+        wishes_child_family_tracing:
+          label: Chce dieťa vyhľadať členov rodiny?
+        wishes_reunification:
+          label: Želá si dieťa zlúčenie s rodinou?
+          options:
+            yes_as_soon_as_possible: Áno, čo najskôr
+            yes_but_later: Áno, ale neskôr
+            not_sure: Nie som si istý/á
+            'no': 'Nie'
+        data_confidentiality_link:
+          label: Pozri Ochrana údajov
+        child_wishes_link:
+          label: Pozrite si želania dieťaťa
+    survivor_code: Kód Prežitia
+    transfer_accepted: 'Kliknutím na možnosť "Prijať" preberáte zodpovednosť za tento prípad; po kliknutí na možnosť "Prijať" sa stávate majiteľom záznamu v systéme. '
+    transfer_managed_user_accepted: Ak kliknete na "Akceptovať"%{transitioned_to} sa stáva zodpovedným za tento prípad; v prípade označenia možnosti "Akceptovať" %{transitioned_to} sa stane majiteľom záznamu v systéme.
+    transfer_managed_user_rejected: Kliknutím na tlačidlo "Odmietnuť" vyjadrujete, že%{transitioned_to} nateraz nepreberá zodpovednosť za tento prípad. Uveďte, prosím, dôvod odmietnutia tohto prípadu; ak kliknete na tlačidlo "Odmietnuť", %{transitioned_to} už nebude mať prístup k tomuto záznamu prípadu.
+    transfer_accepted_rejected: Prevod prípadu %{record_id} zamietnutý.
+    transfer_accepted_success: Prevod prípadu úspešne prijatý.
+    transfer_reject_reason_label: Dôvod odmietnutia
+    transfer_rejected: Kliknutím na tlačidlo "Odmietnuť" vyjadrujete, že teraz nepreberáte zodpovednosť za tento prípad. Uveďte, prosím, dôvod odmietnutia tohto prípadu; ak kliknete na tlačidlo "Odmietnuť", už nebudete mať prístup k tomuto záznamu prípadu.
+    view_name: Zobraziť meno
+  change_logs:
+    filters:
+      form: Formulár
+      field: Pole
+    add_subform: 'Pridané"%{subform_name}" vstup do podformulára #%{short_id}'
+    changes_subform: 'Zmeny v podformulári "%{subform_name}"'
+    create: Vytvorený záznam
+    deleted_subform: 'Odstránené "%{subform_name}" vstup do podformulára %{short_id}'
+    label: Zmeniť Záznam
+    see_details: Zobraziť podrobnosti.
+    change: 'od "%{from_value}" do "%{to_value}"'
+    updated_subform: 'Aktualizované "%{subform_name}" vstup do podformulára # %{short_id}'
+    update_subform: 'Aktualizovaný podformulár "%{subform_name}" '
+    from: od
+    to: Komu
+  children:
+    selectable_date_options:
+      assessment_requested_on: Dátum hodnotenia
+      closure_approved_date: 'Dátum uzatvorenia prípadu'
+      created_at: Dátum otvorenia prípadu
+      date_case_plan_initiated: Dátum plánu riešenie prípadu
+      date_of_creation: Dátum vytvorenia
+      registration_date: Dátum registrácie
+  configurations:
+    apply_label: Ste si istý? Ak použijete túto konfiguráciu, jej nastavenia v sa použijú v systéme. Stratíte tak všetky svoje aktuálne nastavenia a nebudete ich môcť získať späť, pokiaľ ste ich už neuložili v inej konfigurácii.
+    apply_label_bold: Počas načítavania zmien bude Primero pre používateľov niekoľko minút nedostupný.
+    version_mismatch_tooltip: 'Nemôžete použiť túto konfiguráciu, keďže bola vytvorená vo vyššej verzii aplikácie Primero ako je tá, ktorú používa vaša stránka. Počkajte, prosím, s použitím tejto konfigurácie dovtedy, keď budete pracovať v najnovšej verzii Primero. '
+    send_header: Poslať na Výrobu
+    send_text: 'Ste si istí? Kliknutím na Odoslať odošlete túto konfiguráciu výrobnej stránke. Táto konfigurácia nebude aplikovaná na Výrobu, kým ju na stránke ručne neschváli administrátor. '
+    attributes:
+      created_by: 'Vytvorené '
+      date_created: Dátum vytvorený
+      description: Popis
+      last_applied_by: Naposledy Použité Kým
+      last_applied_on: Naposledy Použíté Na
+      name: Meno
+      version: Konfiguračná Verzia
+      primero_version: Verzia Primero
+    delete_label: Ste si istý, že to chcete spraviť? Toto predstavuje všetky nastavenia od vytvorenia tejto Konfigurácie. Po vymazaní tejto konfigurácie sa už nebudete môcť vrátiť a obnoviť jej nastavenia.
+    explanation: 'Kliknutím na tlačidlo Uložiť vytvoríte záznam všetkých aktuálnych konfiguračných nastavení (napríklad: Roly, Agentúry, Formuláre). Po uložení môžete tieto zmeny vložiť do inej inštancie Primero. Ak v budúcnosti vykonáte zmeny v konfigurácii, ktoré chcete vrátiť späť, môžete použiť tento záznam konfigurácie na obnovenie všetkých zmien, ktoré ste v tomto okamihu vykonali.'
+    label: Konfigurácie
+    label_new: Nová konfigurácia
+    messages:
+      applied: Konfigurácia bola úspešne použitá.
+      created: Konfigurácia bola úspešne vytvorená.
+      deleted: Konfigurácia bola úspešne vymazaná.
+      updated: Konfigurácia bola úspešne aktualizovaná.
+      sent: Odoslanie konfigurácie do produkcie. Prosím skontrolujte, či vaša konfigurácia dorazila na produkčnú stránku.
+    not_allowed: Nepovolené
+    unavailable_server: Server je momentálne nedostupný.
+  contact:
+    field:
+      email: Email
+      location: Miesto
+      name: Meno
+      organization: Organizácia
+      other_information: Ďalšie informácie
+      phone: Telefón
+      position: Pozícia
+      primero_version: Verzia Primero
+      support_forum: Fórum podpory
+      system_version: Systémová verzia
+    info_label: Kontaktné informácie
+    updated: Kontaktné informácie boli úspešne aktualizované.
+  code_of_conduct:
+    field:
+      title: Názov
+      content: Obsah
+      created_on: Vytvorené dňa
+      created_by: Vytvoril
+    info_label: Etický Kódex
+    updated: Etický Kódex bol úspešne aktualizovaný
+  dashboard:
+    activity: Aktivita
+    admin_only: Kliknite na %{links}na vykonávanie zmien v aplikácii
+    all_cases: Všetky prípady
+    all_services_implemented: 'Všetky Implementované Služby '
+    and: 'a'
+    approval_action_plan_approved: Schválené
+    approval_action_plan_pending: Čaká sa na spracovanie
+    approval_action_plan_pending_group: Plán činnosti
+    approval_action_plan_rejected: Odmietnuté
+    approval_assessment_approved: Schválené
+    approval_assessment_pending: Čaká sa na spracovanie
+    approval_assessment_pending_group: Hodnotenie
+    approval_assessment_rejected: Odmietnuté
+    approval_case_plan_approved: Schválené
+    approval_case_plan_pending: Čaká sa na spracovanie
+    approval_case_plan_pending_group: Plán riešenia prípadu
+    approval_case_plan_rejected: Odmietnuté
+    approval_closure_approved: Schválené
+    approval_closure_pending: Čaká sa na spracovanie
+    approval_closure_pending_group: Uzávierka
+    approval_closure_rejected: Odmietnuté
+    approval_gbv_closure_approved: Schválené
+    approval_gbv_closure_pending: Čaká sa na spracovanie
+    approval_gbv_closure_pending_group: Uzávierka rodovo motivovaného násilia (GBV)
+    approval_gbv_closure_rejected: Odmietnuté
+    approvals: Schválenia
+    approvals_action_plan: AKčný Plán
+    approvals_assessment: Hodnotenie
+    approvals_case_plan: Plán riešenia prípadu
+    approvals_closure: Uzávierka
+    approvals_gbv_closure: Uzávierka rodovo motivovaného násilia (GBV)
+    approved: Schválené
+    assessment: Hodnotenie
+    awaiting_acceptance: Čaká na prijatie
+    cases_by_social_worker_total: Celkom
+    cases_by_social_worker_new_or_updated: Nové a aktualizované
+    case_id: 'Identifikačné číslo prípadu'
+    case_management_service: Služba Riadenia Prípadu
+    case_overview: Moje prípady
+    case_plan: Plán riešenia prípadu
+    case_risk: Prípady podľa úrovne hodnotenia
+    case_stat_by_approval_type: Schválenia
+    case_stat_by_assessment_level: Prípady podľa úrovne hodnotenia
+    case_stat_referrals: Odporúčania
+    case_stats: Prípady
+    case_worker: Pracovník prípadu
+    cases_by_social_worker: Prípady podľa sociálneho pracovníka
+    cases_by_task_overdue: Oneskorené Úlohy
+    cases_by_workflow: Prípady podľa pracovného postupu
+    cases_this_week: Prípady tento týždeň
+    cases_to_assign: Prípady na priradenie
+    closed: Uzatvorené
+    closed_last_week: Uzatvorené  (minulý týždeň)
+    closed_this_week: Uzatvorené  (tento týždeň)
+    comprehensive_need_intervention: Komplexná odpoveď
+    count_new_bia_approvals:
+      one: '%{stat} nové %{stat_type} schválenie'
+      few: '%{stat} nové %{stat_type} schválenia'
+      many: '%{stat} nové %{stat_type} schválenia'
+      other: '%{stat} nové %{stat_type} schválenia'
+    count_new_case_plan_approvals:
+      one: '%{stat} nové %{stat_type} schválenie'
+      few: '%{stat} nové %{stat_type} schválenia'
+      many: '%{stat} nové %{stat_type} schválenia'
+      other: '%{stat} nové %{stat_type} schválenia'
+    count_new_closure_approvals:
+      one: '%{stat} nové %{stat_type} schválenie'
+      few: '%{stat} nové %{stat_type} schválenia'
+      many: '%{stat} nové %{stat_type} schválenia'
+      other: '%{stat} nové %{stat_type} schválenia'
+    count_pending_approval_total:
+      one: Máte %{stat} čakajúce %{stat_type} schválenie
+      few: 'Máte %{stat} čakajúce %{stat_type} schválenia '
+      many: 'Máte  %{stat} čakajúce %{stat_type} schválenia '
+      other: 'Máte %{stat} čakajúce %{stat_type} schválenia '
+    count_pending_transfers:
+      one: Máte %{stat} čakajúci prevod
+      few: Máte %{stat} čakajúcich prevodov
+      many: Máte %{stat} čakajúcich prevodov
+      other: Máte %{stat} čakajúcich prevodov
+    count_records_new:
+      one: a %{stat} nový prípad
+      few: a %{stat} nových prípadov
+      many: a %{stat} nových prípadov
+      other: a %{stat} nových prípadov
+    count_records_total:
+      one: Máte %{stat} prípad
+      few: Máte celkovo %{stat} prípadov
+      many: Máte celkovo %{stat} prípadov
+      other: Máte celkovo %{stat} prípadov
+    count_referrals_new:
+      one: a %{stat} nové odporúčanie
+      few: a %{stat} nové odporúčania
+      many: a %{stat} nové odporúčania
+      other: a %{stat} nové odporúčania
+    count_referrals_total:
+      one: 'Máte celkovo %{stat} odporúčanie '
+      few: 'Máte celkovo %{stat} odporúčania  '
+      many: 'Máte celkovo %{stat} odporúčania '
+      other: 'Máte celkovo %{stat} odporúčania  '
+    count_rejected_approval_total:
+      one: 'a %{stat} zamietnuté %{stat_type} schválenie '
+      few: 'a %{stat} zamietnuté %{stat_type} schválenia '
+      many: 'a %{stat} zamietnuté %{stat_type} schválenia '
+      other: 'a %{stat} zamietnuté %{stat_type} schválenia '
+    count_rejected_transfers:
+      one: a %{stat} odmietnutý prevod
+      few: a %{stat} odmietnutých prevodov
+      many: a %{stat} odmietnutých prevodov
+      other: a %{stat} odmietnutých prevodov
+    count_risk_level_new:
+      one: a %{stat} nový %{stat_type} rizikový prípad
+      few: a %{stat} nových %{stat_type} rizikových prípadov
+      many: a %{stat} nových %{stat_type} rizikových prípadov
+      other: a %{stat} nových %{stat_type} rizikových prípadov
+    count_risk_level_total:
+      one: Máte %{stat} %{stat_type} rizikový prípad
+      few: Máte %{stat} %{stat_type} rizikových prípadov
+      many: 'Máte %{stat} %{stat_type} rizikových prípadov '
+      other: Máte %{stat} %{stat_type} rizikových prípadov
+    count_waiting_for_acceptance_transfers: Máte %{stat} prevodov čakajúcich na vaše prijatie
+    current_owner: Súčasný majiteľ
+    dash_case_incident_overview: Moje prípady
+    dash_group_overview: Prípady mojej skupiny
+    dash_shared_from_my_team: Zdieľané z Môjho Tímu
+    dash_shared_with_me: Zdieľané so mnou
+    dash_shared_with_my_team: Zdieľané s Mojím Tímom
+    dash_shared_with_my_team_overview: Zdieľané s Mojím Tímom (prehľad)
+    dash_shared_with_others: Zdieľané s Ostatnými
+    dash_national_admin_summary: Súhrn Administrátora
+    date: Dátum
+    date_of_incident: Dátum incidentu
+    date_of_interview: Dátum pohovoru
+    due: Oneskorený
+    flagged: Označené
+    flagged_by: 'Označené kým:'
+    flagged_by_me: Označené mnou
+    flagged_by_other: Označené niekým iným
+    flagged_cases: Označené prípady
+    follow_up: Sledovať
+    forms: Tabuľka typu FORMS
+    geographic_area: Geografická oblasť
+    group_overview_closed: Uzavreté
+    group_overview_open: Otvorené
+    high_level: Vysoký
+    high_risk: Veľmi dôležité
+    immediate_response: Okamžitá odpoveď
+    in_progress: Pripravuje sa
+    incident_id: '#IČ Incidentu'
+    incident_location: Miesto Incidentu
+    incident_status_open: Otvorený
+    last_updated: Trvalo Aktualizované
+    link_see_all: Pozri všetky
+    low_level: Nízky
+    low_risk: Nízka priorita
+    manager_count_closed_total:
+      one: a %{stat} uzavretý prípad
+      few: a %{stat} uzavretých prípadov
+      many: a %{stat} uzavretých prípadov
+      other: a %{stat} uzavretých prípadov
+    manager_count_open_total:
+      one: Máte %{stat} otvorený prípad
+      few: 'Máte %{stat} uzavretých prípadov '
+      many: 'Máte %{stat} uzavretých prípadov '
+      other: Máte %{stat} uzavretých prípadov
+    manager_transfers_totals:
+      one: Máte  %{stat} %{stat_type} prevod
+      few: Máte %{stat} %{stat_type} prevodov
+      many: Máte %{stat} %{stat_type} prevodov
+      other: Máte %{stat} %{stat_type} prevodov
+    match_result: Zhodné Výsledky
+    medium_level: Stredný
+    medium_risk: Stredne dôležité
+    missed_cases: Zmeškané prípady
+    name: Meno
+    name_or_survivor_code: Meno alebo Kód Prežitia
+    near_deadline: Blížiaci sa termín
+    new: Nové & Aktualizované
+    new_child_assigned_to_you: Nové prípady pridelené vám
+    new_incident: Nové incidenty
+    new_incident_assigned_to_you: Nové pridelené inncidenty
+    new_last_week: Nové (minulý týždeň)
+    new_or_updated: Nové alebo Aktualizované
+    new_referred: Nové odporúčania
+    new_service_provision: Ustanovenia o Nových Službách
+    new_this_week: Nové (tento týždeň)
+    no_action_risk: Žiadna činnosť
+    no_case_stats: Žiadne Štatistiky Prípadu
+    no_caseworker_data: Žiadne Dáta o Pracovníkovi na prípade
+    no_flagged_child: Žiadne označené prípady
+    no_flagged_incident: Žiadne označené incidenty
+    no_open_incidents: Žiadne otvorené incidenty
+    no_overdue_activities: Žiadne Aktivity po Termíne
+    no_recent_activities: Žiadne Nedávne Aktivity
+    no_scheduled_activities: Žiadne Plánované Aktivity
+    none_risk: Bez priority
+    number_of_victims: Počet obetí
+    number_of_violations: Počet Porušení
+    number_of_violations_verified: Overené Porušenia
+    open: Otvoriť
+    open_cases: Otvorené prípady
+    open_incidents: Otvorené incidenty
+    outstanding_transfers: Nevyrovnané Prevody
+    overdue_activities: Aktivity po Termíne
+    overdue_cases_to_assign: Oneskorené prípady na pridelenie
+    overdue_cases_to_assign_high: Tieto prípady majú viac ako 1 hodinu
+    overdue_cases_to_assign_low: Tieto prípady majú viac ako 3 hodiny
+    overview: Prehľad
+    pending: Čaká sa na spracovanie
+    pending_approvals: Čaká sa na schválenie
+    pending_transfers: Čakajúce prevody
+    protection_concern: Obava o Ochranu
+    protection_concerns: Obavy o Ochranu
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: Nedávne aktivity
+    recently_flagged_child: Nedávno označené prípady
+    recently_flagged_incident: Nedávno označené incidenty
+    referrals_by_social_worker: Odporúčania sociálneho pracovníka
+    registration: Registrácia
+    rejected: Odmietnuté
+    rejected_transfers: Odmietnuté prevody
+    response: Odpoveď (prebieha)
+    scheduled_activities: Naplánované aktivity
+    score_range: Rozsah Skóre
+    screening_service: Skríningová služba
+    services: Služby
+    services_implemented: Implementované Služby
+    shared_from_my_team_pending_transfers: Čakajúce prevody
+    shared_from_my_team_referrals: Odporúčania
+    shared_from_my_team_rejected_transfers: Odmietnuté prevody
+    shared_with_me_new_referrals: Nové Odporúčania
+    shared_with_me_total_referrals: Celkový Počet Odporúčaní
+    shared_with_me_transfers_awaiting_acceptance: Prevody čakajúce na prijatie
+    shared_with_my_team_pending_transfers_overview: Prevody čakajúce na prijatie
+    shared_with_my_team_pending_transfers: Čakajúce prevody
+    shared_with_my_team_referrals: Odporúčania
+    shared_with_others_pending_transfers: Čakajúce prevody
+    shared_with_others_referrals: Odporúčania
+    shared_with_others_rejected_transfers: Odmietnuté prevody
+    status_of_cases: Stav prípadov
+    system_user: Systém
+    total: Celkom
+    total_cases: Celkový počet prípadov
+    total_referred: Celkový počet odporúčaní
+    tr_stats: Sledovanie Požiadaviek
+    transers_awaiting_acceptance: Prevody čakajúce na prijatie
+    transfers_by_social_worker: Prevody pracovníka
+    users: Ikon NASTAVENIA
+    violence_type: Typ násilia
+    with_incidents: S incidentmi
+    with_new_incidents: S novými incidentmi
+    without_incidents: Bez incidentov
+    worker_count_referrals_total:
+      one: '%{case_worker} má %{stat} odporúčanie'
+      few: '%{case_worker} má celkovo %{stat} odporúčaní'
+      many: '%{case_worker} má celkovo %{stat} odporúčaní'
+      other: '%{case_worker} má celkovo %{stat} odporúčaní'
+    worker_count_total:
+      one: '%{case_worker} má %{stat} prípad'
+      few: '%{case_worker} má celkovo %{stat} prípadov '
+      many: '%{case_worker} má celkovo %{stat} prípadov'
+      other: '%{case_worker} má celkovo %{stat} prípadov'
+    workflow: Pracovný postup
+    workflow_team: Pracovný postup – Tímové prípady
+    you_have: 'Máte'
+  disabled:
+    status:
+      disabled: Zakázané
+      enabled: Povoliť
+  email_notification:
+    assign: '%{user} vám pridelil nasledovný %{record_type} záznam: %{record_id}.'
+    assign_subject: '%{record_type}:%{id}- Je k vám pridelený'
+    approval_request: 'Používateľ %{user} žiada o schválenie pre %{approval_type} v prípade %{case_id}.'
+    approval_request_subject: 'Prípad: %{id} - Žiadosť o schválenie'
+    approval_response: '%{user} má %{status} žiadosť o schválenie pre %{approval_type} pre prípad %{case_id}.'
+    approval_response_subject: 'Prípad: %{id} - Žiadosť o schválenie'
+    referral: '%{user} z %{agency} vám odkázal nasledujúce %{record_type} záznamy:  %{record_id} pre %{service_type}.'
+    transfer: '%{user} vám preniesol nasledovný %{record_type} záznam: %{record_id}.'
+    transfer_request_subject: Žiadosť o prevod pre jeden z vašich prípadov
+    transfer_subject: '%{record_type} : %{id} - Prevod'
+    referral_subject: '%{record_type}: %{id} - Odporúčanie'
+    transfer_request: 'Používateľ z Primero%{user} z %{agency} vás žiada, aby ste previedli vlastníctvo tohto %{record_type} záznamu %{record_id}, aby mohol poskytovať %{record_type} služby jednotlivcovi vo svojej oblasti. Ak s tým súhlasíte, kliknite na %{record_type} ID linku v tomto e-maile aby ste mohli otvoriť %{record_type} v Primero a spustiť prevod.'
+    approval_request_html: 'Používateľ <strong>%{user}</strong> žiada o schválenie pre <strong>%{approval_type}</strong> v prípade <strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> má <strong>%{status}</strong> žiadosť o schválenie pre <strong>%{approval_type}</strong> pre prípad <strong>%{case_id}</strong>.'
+    referral_html: '<strong>%{user}</strong> z %{agency} vám odkázal nasledujúce %{record_type} záznamy: <strong>%{record_id}</strong> pre %{service_type}.'
+    transfer_html: '<strong>%{user}</strong> vám previedol nasledovný %{record_type} záznam: <strong>%{record_id}</strong>.'
+    assign_html: '<strong>%{user}</strong> vám pridelil nasledovný %{record_type} záznam: <strong>%{record_id}</strong>'
+    transfer_request_html: 'Používateľ z Primero <strong>%{user} </strong> z %{agency} vás žiada, aby ste previedli vlastníctvo tohto %{record_type} záznamu <strong> %{record_id}</strong>, aby mohol poskytovať %{record_type} služby jednotlivcovi vo svojej oblasti. Ak s tým súhlasíte, kliknite na %{record_type} ID linku v tomto e-maile aby ste mohli otvoriť %{record_type} v Primero a spustiť prevod.'
+    transfer_request_notes_html: 'Poznámky od jednotlivca, ktorý podal žiadosť: %{request_transfer_notes}'
+  encrypt:
+    export_type: Typ exportu
+    file_name: Vytvoriť vlastný názov súboru  (Nepovinné)
+    password_extra_info: Heslo musí obsahovať aspoň 8 znakov. Toto heslo bude priradené k exportovanému súboru; a bude ho musieť zadať ktokoľvek, kto tento súbor v budúcnosti bude chcieť otvoriť.
+    password_label: Zadajte heslo, ktoré zašifruje váš súbor.
+  error_message:
+    address_fields: Musíte zadať adresy  %{fields}polí vo %{forms}formulári
+    address_form_fields: Musíte zadať adresy %{fields} polí v tomto formulári
+    address_subform_fields: '%{subform} má %{fields} neplatné polia'
+  error_page:
+    not_authorized:
+      server_error: Nemáte oprávnenie na prístup k tejto stránke.
+      title: Nepovolené
+    not_found:
+      contact_admin: Ak si myslíte, že ste tu omylom, kontaktujte, prosím, vášho administrátora.
+      something_went_wrong: Prepáčte, niečo sa pokazilo!
+  errors:
+    error_loading: Chyba pri Načítavaní Záznamu/Záznamov
+    models:
+      agency:
+        code_present: nesmie byť prázdne
+        logo_format: Súbor by mal byť vo formáte png
+        terms_of_use_format: Súbor by mal byť vo formáte png
+        name_present: nesmie byť prázdne
+      child:
+        age: Vek musí byť od 0 do 130 rokov
+        date_of_birth: Zadajte platný dátum narodenia pre tento záznam
+      export_configuration:
+        opt_out_field_does_not_exist: Zadané pole opt_out v zázname neexistuje.
+        record_type: Neplatný typ záznamu. Musí to byť Dieťa, Žiadosť o polohu alebo Incident.
+      field:
+        translated_options_do_not_match: Možnosti preloženého poľa musia mať rovnaké ID
+      location:
+        admin_level_present: nesmie byť prázdne
+        code_present: nesmie byť prázdne
+        name_present: nesmie byť prázdne
+        unique_location_code: 'Miesto s týmto kódom už existuje, zadajte odlišný kód miesta. '
+      lookup:
+        being_used: Toto vyhľadávanie sa práve používa a nemôže byť vymazané.
+        name_present: Meno nesmie byť prázdne
+        values_ids_blank: IČ hodnoty_lookup je prázdne
+      primero_module:
+        associated_record_types: K tomuto modulu musí byť priradený aspoň jeden typ záznamu
+        form_section_ids: K tomuto modulu musí byť priradený aspoň jeden formulár
+        name_present: Meno nesmie byť prázdne
+        unique_name: Modul s týmto menom už existuje, zadajte iný
+      report:
+        module_presence: Modul nesmie byť prázdny
+        module_syntax: Všetky moduly správ už musia existovať
+        name_presence: Meno nesmie byť prázdne
+      role:
+        permission_presence: Zvoľte, prosím, aspoň jedno povolenie.
+      user:
+        email: "Zadajte platný e-mail (napr: 'name@example.org')"
+        password_mismatch: Polia hesla nemajú rovnaké heslo
+        password_length: Heslo musí mať aspoň%{min}znakov
+        email_uniqueness: Používateľ s touto e-mailovou adresou už existuje. Zadajte iný
+      code_of_conduct:
+        title_present: Názov nesmie byť prázdny
+        content_present: Obsah nesmie byť prázdny
+        created_by_present: Pole "Vytvoril" nesmie byť prázdne
+    not_found: Nenašli sa žiadne záznamy
+    try_again: Skúste to znovu
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Voľba do PDF
+    csv:
+      all: CSV
+      one: CSF
+      selected: Voľba do CSV
+    custom:
+      all: Vlastné
+    custom_exports:
+      all: Vlastné
+      choose_fields: Chcete si vybrať jednotlivé polia pre formulár?
+      empty_fields_forms: 'Zvoľte si formuláre alebo polia na export. '
+      empty_format: Vyberte formát na exportovanie.
+      empty_module: Zvoľte si modul na export.
+      empty_password: Zadajte heslo, ktoré zašifruje váš súbor.
+      field_label: Pole
+      fields: Označte polia na export.
+      form_label: Formulár
+      format_label: Vyberte formát.
+      forms: Vyberte formuláre na export.
+      label: Vlastné exporty
+      module_placeholder: Vyberte si, prosím, modul.
+      select_module: Vybrať modul
+      submit: OK
+      header: Hlavička
+      custom_header: Vlastná hlavička
+      signatures: Zahrnúť riadky na podpis pre
+      include_implementation_logos: Zahrnúť logá implementácie?
+      include_implementation_logos_help_text: To zahŕne logá, ktoré sa objavia v navigačnej ponuke a na prihlasovacej stránke.
+      include_agency_logo: Zahrnúť logo agentúry?
+      include_other_logos: Zahrnúť ďalšie logá?
+    duplicate_id_csv:
+      all: Duplicitné IČ
+      female_abbreviation: F
+      headers:
+        age: Vek
+        case_id: IČ prípadu
+        child_name_last_first: Meno dieťaťa
+        family_size: Veľkosť rodiny
+        moha_id: MOHA IČ UKONČENEJ PODPORY
+        national_id_no: Číslo Národného OP
+        progress_id: IČ Postupu
+        sex_mapping_m_f_u: Pohlavie
+        other_agency_id: Kód nemocnice a číslo pacienta
+      male_abbreviation: M
+      unknown_abbreviation: U
+    exported: Úspešne vygenerovaný súbor na export
+    exported_error: Chyba pri generovaní súboru na export
+    forms:
+      button: Exportné Formuláre
+      label: Export
+      header:
+        form_group: Skupina formulárov
+        form_name: Názov formulára
+        field_id: Pole s IČ
+        field_type: Typ Políčka
+        field_name: Názov Políčka
+        required: Požadované
+        on_mobile: Na mobilnom telefóne
+        on_short_form: Na Krátkom Formulári
+        option_ids: Možnosti IČ
+        options: Možnosti
+        options_lookup: Vyhľadávanie
+        help_text: Pomocný text
+        guiding_questions: Orientačné otázky
+        visible: Viditeľné
+        lookup_id: Hľadaj IČ
+        lookup_name: Hľadať Meno
+        option_id: Možnosti IČ
+        option_name: Meno Možnosti
+      options:
+        location: Miesta
+        agency: Agentúry
+        user: Používatelia
+        reportinglocation: Nahlásené miesta
+        subforms: 'Podformulár: %{subform_name}'
+        collapsed_fields: 'Zbalené polia: %{fields}'
+        country: Krajiny
+      summary_header:
+        form_group: Skupina formulárov Primero
+        form: Formulár Primero
+        status: Stav
+        notes: Poznámky
+    go_to_exports: Prejsť na Stránku s exportmi na stiahnutie
+    incident_recorder_xls:
+      all: Záznamník Incidentov
+      one: Záznamník Incidentov
+      selected: Vybrané do Záznamníka incidentov
+    json:
+      all: JSON
+      one: JSON
+      selected: Vybrané do JSON
+    list_view_csv:
+      all: Náhľad do Exportného Zoznamu
+      selected: Vybrané do CSV
+    messages:
+      no_exporter: Neuvedený vývozca
+    mrm_violation_xls:
+      all: Porušenia MRZ
+      one: Porušenia MRZ
+      selected: Vybrané do kategórie MPZ
+    no_records: Žiadne dostupné záznamy
+    pdf:
+      all: PDF (nezašifrované)
+      one: PDF
+      selected: Vybrané do PDF
+    pdf_exports:
+      label: PDF
+      recipient: Príjemca
+      case_worker: Pracovník na Prípade
+      client: Klient
+      date: Dátum
+      recipient_name: Meno príjemcu
+      recipient_agency: Agentúra príjemcu
+      caseworker_name: Meno pracovníka
+      caseworker_agency: Agentúra Pracovníka
+    photowall:
+      all: Fotostena
+      flag_suspect_record: Označený ako podozrivý záznam
+      no_photos_available: Žiadne dostupné fotky
+      one: Fotostena
+      reunited: Znovuzjednotený
+      selected: Vybrané do Photo Wall
+      success_message: Vytvára sa Fotostena %{file_name} Prípady bez fotiek nebudú zahrnuté.
+    printed: 'Vytlačené: %{date}'
+    queueing: Generuje sa súbor na export %{file_name}
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Vybrané do Excelu
+      selected_fields: Vybrané Polia
+    unhcr_csv:
+      all: UNHCR
+      female_abbreviation: F
+      headers:
+        age: Vek
+        case_status: Stav Prípadu
+        causes_of_separation: Prípady Odddelenia
+        country_of_origin: Krajina pôvodu
+        cpims_code: Kód systému správy informácií o ochrane detí (CPIMS).
+        current_care_arrangement: Súčasná dohoda o starostlivosti
+        date_of_birth: Dátum narodenia
+        date_of_identification: Dátum indentifikácie
+        family_count_no: Počet členov rodiny
+        governorate_country: Guvernorát - Krajina
+        id: Identifikačné číslo
+        individual_progress_id: IČ Individuálneho Postupu
+        locations_by_level: Adresa (Tábor, Blok, alebo iné použiteľné úrovne adries, ako napríklad GPS súradnice úkrytu)
+        long_id: Dlhé IČ
+        moha_id: IČ MOHA
+        name_of_caregiver: Celé Meno Poskytovateľa Starostlivosti
+        name_of_child_last_first: Meno a priezvisko dieťaťa
+        primary_protection_concerns: Obavy Primárnej Ochrany
+        progres_id: IČ Postupu
+        reunification_status: Stav Znovuzjdednotenia
+        secondary_protection_concerns: Obavy Sekundárnej Ochrany
+        sex: Pohlavie
+        sex_mapping_m_f_u: Pohlavie
+        short_id: Krátke IČ
+        vulnerability_code: Kód Zraniteľnosti
+        vulnerability_details_code: Kód Detailov Zraniteľnosti
+      male_abbreviation: M
+      one: UNHCR
+      selected: Vybrané pre UNHCR
+      unknown_abbreviation: U
+    xlsx:
+      all: Excel
+      one: Excel
+      selected: Vybrané do Excelu
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Miesta boli úspešne importované
+        no_data: 'Nespracovaný Import: Neboli odovzdané žiadne údaje'
+        csv_parse_error: 'Nespracovaný Import: Chyba pri analýze údajov CSV'
+        error: 'Riadok %{row_number} Nespracovaný: %{message}'
+        db_error: 'Chyba pri vytváraní %{location_code}: %{message}'
+        locale_invalid: 'Vynechanie %{column_name}: Neplatný názov lokality'
+        insert_all_error: 'Nespracovaný import. Chyba v databáze: %{message}'
+    csv_record:
+      messages:
+        success: Záznamy boli úspešne prenesené.
+        no_data: 'Nespracovaný import: Neboli odovzdané žiadne údaje'
+        no_file: 'Nespracovaný import: Súbor neexistuje'
+        csv_parse_error: 'Nespracovaný import: Chyba pri analýze údajov CSV'
+        error: 'Riadok %{row_number} Nespracovaný: %{message}'
+        db_error: 'Chyba pri vytvorení %{location_code}: %{message}'
+        locale_invalid: 'Vynechaný %{column_name}: neplatné miestne nastavenie '
+        insert_all_error: 'Nespracovaný Import. Chyba v databáze: %{message}'
+  sync_record:
+    failed: 'Posledná Synchronizácia: Zlyhanie'
+    last: 'Posledná Synchronizácia: %{date_time}'
+    not_found: 'Posledná Synchronizácia: nenašli sa údaje'
+    retrieving: Získavanie Údajov
+    see_details: Pozrite podrobnosti.
+  fields:
+    action: Činnosť
+    actions: Činnosti
+    add: Pridať
+    add_new_field: Vytvoriť Nové Pole
+    add_existing_field: Pridať už existujúce pole
+    add_field: Pridať pole
+    add_field_type: Pridať %{file_type}
+    audio:
+      current: Aktuálne audio
+    audio_upload_box: Nahrať audio
+    bia_document: BIA dokument
+    bid_document: BID dokument
+    check_box: Zaškrtávacie Políčka
+    clear_group_by: Vymazať skupinu podľa
+    clear_sort_by: Vymazať triedenie podľa
+    copy_from_another_form: Toto políčko bolo skopírované z iného formuláru
+    create_field: Vytvoriť Pole
+    create_unique_values: Vytvoriť jedinečné hodnoty
+    date_field: Políčko s Dátumom
+    date_help: dd-mmm-rrrr
+    date_help_with_time: dd-mmm-rrrr hh:mm
+    date_not_valid: Tento dátum nie je platný.
+    time: Čas
+    date_range:
+      date: Dátum
+      date_range: Rozsah Dátumov
+      from: Od
+      to: Na
+      view_by: Zobraziť Podľa
+    date_range_field: Rozsah Dátumov
+    date_time: Dátum - Čas
+    db_name: Meno Databázy
+    default: Preddefinované?
+    default_date_validation: Overenie Predvoleného Dátumu
+    default_to_current_date: Predvolené nastavenia na aktuálny dátum?
+    default_to_current_datetime: Predvolené nastavenia na aktuálny dátum a čas?
+    default_value: Preddefinovaná Hodnota
+    deleted: Pole %{display_name} bolo vymazané
+    detail: Detail
+    disabled: Zakázané
+    display_name: Zobrazenie mena
+    document:
+      comments: Komentáre
+      current: Je to súčasný dokument?
+      date: Dátum dokumentu
+      name: Názov dokumentu
+      is_current: Je to súčasný dokument?
+    document_upload_box: Nahrať dokument
+    edit_label: Upraviť pole
+    enabled: Povolené?
+    enabled_label: Povolené
+    english_text: Anglický text
+    field_name: Názov Políčka
+    field_type: Typ Políčka
+    attachment_too_large: Súbor nemôže byť väčší ako 10MB
+    file_upload_box:
+      add_document_label: Pridajte dokument
+      add_new_document_button_text: Pridajte ďalší dokument
+      add_new_photo_button_text: Pridajte ďalšiu fotku
+      add_photo_label: Pridajte fotku
+      document_description: Popis dokumentu
+      document_file_restrictions_message: Súbory by nemali byť väčšie ako 2 MB (spustiteľné (.exe) súbory nemôžu byť nahraté),
+      no_file_selected: Žiaden vybraný súbor.
+      photo_file_restrictions_message: Fotografie by nemali byť väčšie ako 10 MB. Audio súbory by nemali byť väčšie ako 10 MB. Čím menšie sú súbory, tým lepšie.
+      recorded_audio_label: Nahraný zvuk
+      select_file_button_text: Vybrať súbor
+    find_lookup: Nájsť vyhľadávanie
+    form_name: Názov formulára
+    future_date_not_valid: 'Nemôže to byť v budúcnosti.
+
+       '
+    guidance: Poradenie
+    guiding_questions: Usmerňujúce otázky
+    help_text: Pomocný text
+    hide_on_view_page: Zobraziť stránku
+    label: Polia
+    mobile_visible: Mobilná aplikácia
+    move_to: Presunúť do
+    multi_select: Možnosť výberu viacerých možností
+    multi_select_box: Vyberte viac
+    must_be_english: Musí byť zapísané v angličtine
+    name: Meno
+    not_future_date: Nie je to budúci dátum
+    number_not_valid: Zadajte číselné údaje
+    numeric_field: Numerické pole
+    on_collapsed_subform: Na zbalený podformulár?
+    option_strings_add_option: Pridajte možnosť
+    option_strings_source: Vyhľadávania
+    option_strings_text: Možnosti
+    option_strings_text_display: Text Možnosti
+    option_strings_text_key: Tlačidlo Možnosti
+    options_indications_lookup_values: Môžete použiť buď preddefinované vyhľadávanie, alebo vytvoriť jedinečné hodnoty.
+    options_indications_restrictions: Nemôžete urobiť oba.
+    options_or_lookup_warning: Pridajte, prosím, Možnosti alebo si zvoľte Vyhľadávanie. Nezadávajte oba.
+    other_documents: Iný dokument
+    photo_upload_box: Nahrať fotku
+    predifined_lookups: Použite preddefinované hľadanie.
+    radio_button: Tlačidlo Rádio
+    remove: Odstráňte
+    remove_attachment_confirmation: Ste si istý, že chcete odstrániť túto prílohu?
+    required: Požadované
+    required_field: '%{field}je vyžadované'
+    search_existing: Hľadať Existujúce Polia
+    select_box: Zvoľte si Rozbaliť
+    select_date_validation: Vyberte spôsob overovania dátumu
+    select_multiple: Vyberte všetky platné možnosti
+    select_single: (Vybrať...)
+    separator: Oddeľovač
+    show: Zobraziť?
+    show_on: Zobraziť na
+    show_on_minify_form: Krátky formulár
+    subform: Podformulár
+    subform_group_by: Zoskupiť podľa
+    subform_remove_message: 'Ste si istý, že chcete odstrániť túto prílohu? '
+    subform_section:
+      description: Opis Podformulára
+      name: Názov Podformulára
+      starts_with_one_entry: Začať položkou s jedným podformulárom?
+      subform_append_only: Selektívna synchronizácia prostredníctvom mobilného telefónu
+      subform_prevent_item_removal: Zabrániť odstráneniu položky podformulára?
+    subform_sort_by: Triediť Podľa
+    successfully_added: Úspešne pridané pole
+    tally_field: Pole Tally
+    tally_items: Položky Tally
+    tally_items_maximum: (Maximálne 5)
+    text_area: Textová Oblasť
+    text_field: Textové Pole
+    textarea: Textová Oblasť
+    tick_box: Zaškrtávajúce Políčko
+    tick_box_label: Štítok Zaškrtávacieho Políčka
+    translation_text: Text prekladu
+    total: Celkom
+    type: Typ
+    updated: Pole aktualizované
+    visibility: Viditeľnosť
+    web_app: Webová aplikácia
+  filters:
+    apply_filters: Uplatniť
+    clear_filters: Vymazať
+    less: Menej ...
+    more: Viac ...
+    save_filters: Uložiť
+  flags:
+    add_flag_tab: Pridaj nový príznak
+    date: 'Dátum:'
+    flag_added: Úspešne pridaný príznak
+    flag_date: Dátum príznaku
+    flag_reason: Dôvod príznaku
+    flag_reason_maximun_label: Najviac 255 znakov
+    flag_resolved: Vybavený príznak
+    flags_tab: Príznaky
+    no_flags: Žiadne nájdené príznaky
+    resolve_button: Vyriešiť
+    resolve_flag: Vyriešiť príznaky
+    resolve_reason: Vyriešiť dôvod
+    resolved: Vyriešené príznaky
+    resolved_date: 'Vyriešený:'
+    resolved_reason: 'Vyriešiť dôvod:'
+    title: Príznaky
+  followup_reminders:
+    system_generated_followup_flag: povinná kontrolná návšteva
+  form_section:
+    form_name: Názov formulára
+    module: Modul
+    name: Meno
+    record_type: Typ záznamu
+    required_field: '%{field}je vyžadované'
+  forms:
+    add: Pridať formulár
+    description: Popis formulára
+    fields: Polia
+    form_description: Popis
+    form_group: Skupina formulárov
+    form_title: Názov formulára
+    help_text:
+      must_be_english: Musí byť zadané v Angličtine
+      related_groups: Umiestnite formulár do súvisiacej skupiny pre používateľov
+      summariaze_purpose: Zhrňte účel formulára. Musí to byť zadané v angličtine
+    invalid_characters_field: '%{field} obsahuje nepovolené znaky.'
+    label: Formuláre
+    manage: Spravovať
+    messages:
+      created: Sekcia formulára bola úspešne vytvorená
+      fields_with_same_name: Formuláre nemôžu obsahovať polia s rovnakým menom
+      save_success: Sekcie formulára boli úspešne aktualizované
+      save_with_errors: Vyskytol sa problém a niektoré časti formulára neboli aktualizované.
+      updated: Sekcia formulára bola úspešne aktualizovaná
+      use_existing: Odporúčame vám použiť existujúce formuláre, pretože to uľahčuje zdieľanie údajov a zlučovanie údajov medzi inštitúciami.
+    mobile_app: Mobilná aplikácia
+    module: Modul
+    no_subform_filters_added: Tento podformulár momentálne neobsahuje žiadne polia.
+    record_type: Typ záznamu
+    record_types:
+      approvals: Schválenia
+      case: Prípad
+      child: Prípad
+      incident: Incident
+      individual_victim: Individuálna obeť
+      potential_match: Možná zhoda
+      record_information: Nahrať informácie
+      referrals: Odporúčania
+      reportable_follow_up: Sledovať
+      reportable_protection_concern: Obava o Ochranu
+      reportable_service: Služba
+      tracing_request: Žiadosť na sledovanie
+      transfers_assignments: Prevody / Zadania
+      violation: Porušenie
+      registry_details: Podrobnosti Registra
+      registry_record: Záznam v registri
+    required_field: '%{field} je vyžadované pole'
+    select_label: Vybrať
+    settings: Nastavenia
+    show_on: Ukážte
+    subform_need_to_be_added: Treba ich doplniť.
+    subform_need_to_be_added_single: Treba ich doplniť.
+    subform_not_found: '%{subform_name} sa nenašlo.'
+    title: Názov formulára
+    translations:
+      edit: Upraviť preklady
+      edit_form_group: Upraviť vyhľadávanie skupiny formulárov.
+      manage: Spravovať preklady
+      no_changes_message: Nevykonali ste žiadne zmeny prekladu
+      note: 'Poznámka:'
+      note_form_group: Ak chcete pridať preklady do skupiny formulárov, musíte upraviť preklady pre konkrétne vyhľadávania v skupine formulárov.
+      select_language: Zvoliť si jazyk
+      title: Preklady
+    type_label: Typ
+    visibility: Viditeľnosť
+    web_app: Webová aplikácia
+  home:
+    ar: العربية
+    ar-IQ: العربية (العراقية)
+    ar-JO: العربية (الأردنية)
+    ar-LB: العربية (اللبنانية)
+    ar-SD: العربية (السودانية)
+    bn: বাংলা
+    current_time_zone: Momentálna časová zóna
+    dashboard: Palubná doska
+    en: Anglický
+    es: 'Španielsky '
+    es-GT: Španielsky (Guatemala)
+    fr: Francúzky
+    id: Bahasa
+    km: ភាសាខ្មែរ
+    ku: کوردی
+    ku-IQ: کوردی (بادینی)
+    fa-AF: فارسی (افغانستان)
+    ps-AF: پښتو (افغانستان)
+    sw-KE: Kiswahili (Kenya)
+    sw-TZ: Kiswahili (Tanzania)
+    ne: नेपाली
+    label: Domov
+    language: Jazyk
+    manage_system_users: Spravovať synchronizáciu používateľov na serveri
+    my: ဗမာစာ
+    pt: Portugalčina
+    pt-BR: Portugalčina  (Brazília)
+    records_need_attention: Záznamy vyžadujú pozornosť
+    ru: Русский
+    so: Af-Soomaali
+    th: ไทย
+    users: Spravovať používateľov
+    view_records: Pozrieť záznamy
+    welcome: Vitajte v Primero
+    zh: 中文
+  incident:
+    associated_case: "Súvisiaci prípad:"
+    messages:
+      creation_success: Záznam o incidente bol úspešne vytvorený.
+      creation_success_queue: Záznam o incidente bol úspešne vytvorený na pozadí
+      disabled: Incident je zakázaný
+      update_success: 'Incident %{record_id} bol úspešne aktualizovaný.'
+      update_success_queue: 'Incident %{record_id} bol úspešne aktualizovaný na pozadí.'
+    violation:
+      update_and_return: 'Aktualizácia a návrat do %{association}'
+      save_and_return: 'Pridať a návrat na %{association}'
+      pending: Čaká sa na overenie
+      title: Porušenia
+      types:
+        killing: Zabíjanie detí
+        maiming: Mrzačenie detí
+        recruitment: Nábor a/alebo využívanie detí
+        sexual_violence: Znásilnenie a/alebo iný druh sexuálneho násilia
+        abduction: Únos
+        attack_on: Útok na školu(y) a/alebo nemocnicu(e)
+        military_use: Vojenské využitie školy (škôl) a/alebo nemocnice (nemocníc)
+        denial_humanitarian_access: Zamietnutie prístupu k humanitárnej pomoci deťom
+  incidents:
+    disable_dialog: Kliknutím na OK sa stav tohto incidentu zmení na Zakázaný.
+    disable_dialog_title: Zakázať Incident
+    disable_success: Úspešne zakázaný incident
+    enable_dialog: Kliknutím na tlačidlo OK sa stav tohto incidentu zmení na Povolené.
+    enable_dialog_title: Povoliť incident
+    enable_success: Incident úspešne povolený.
+    id: IČ#
+    date_of_interview: Dátum pohovoru
+    date_of_incident: Dátum incidentu
+    incident_location: Miesto Incidentu
+    violations: Porušenia
+    export: Export
+    label: Incidenty
+    filter_by:
+      boys: Chlapci
+      by_date: K dátumu
+      children: Deti
+      girls: Dievčatá
+      incident_location: Miesto Incidentu
+      unaccompanied_separated_status: Stav ochrany
+      unknown: Neznáme
+      verification_status: Stav overenia
+      violence_type: Typ násilia
+      armed_force_group_name: Názov skupiny ozbrojených síl
+      armed_force_group_type: Typ skupiny ozbrojených síl
+    register_new_incident: Nový incident
+    selectable_date_options:
+      date_of_first_report: Dátum pohovoru
+      incident_date_derived: Dátum incidentu
+    selected_records: '%{select_records}vybrané incident(y) '
+    selected_all_records: 'Vyberte všetky %{total_records} incidenty, ktoré zodpovedajú tomuto dotazu.'
+    survivor_code: Kód Prežitia
+    show_incident: 'Incident IČ %{short_id}'
+    social_worker: Sociálny pracovník
+    violence_type: Typ násilia
+    type_violence: Typ násilia
+  key_performance_indicators:
+    label: "Stlačte/Kľúčové ukazovatele výkonnosti (KPI)"
+    case_assessment: "Hodnotenie prípadu"
+    case_action_planning: "Akčný plán prípadu"
+    case_action_plan_implementation: "Implementácia akčného plánu"
+    case_follow_up: "Sledovanie prípadu"
+    case_closure: "Ukončenie prípadu"
+    feedback: "Spätná väzba"
+    other: "Iné"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'Vlastné'
+    long_date_format: "dd/MM/RRRR"
+    time_periods:
+      all_time: 'vždy'
+      current_month: "Aktuálny mesiac"
+      last_3_months: "Posledné 3 mesiace "
+      last_6_months: "Posledných 6 mesiacov"
+      last_1_year: "Minulý rok"
+      0-3days: "0 - 3 dní"
+      4-5days: "4 - 5 dní"
+      6-14days: "6 - 14 dní"
+      15-30days: "15 - 30 dní"
+      1-3months: "1 - 3 mesiace"
+      4months: "Viac ako 3 mesiace"
+      1-month: "Menej ako 1 mesiac"
+      3-6months: "3 - 6 mesiacov"
+      7-months: "> 6 Mesiacov"
+    helptext:
+      helptext: "Získajte informácie o tomto Kľúčovom ukazovatelovi výkonnosti (KPI).."
+    number_of_cases:
+      title: "1. Počet zaznamenaných prípadov"
+      reporting_site: "Miesto nahlásenia"
+      helptext: |
+        Tento ukazovateľ počíta, koľko nových prípadov sa otvorí každý mesiac na jednom nahlasovacom mieste.
+        Nahlasovacie miesto je miesto kde organizácia  poskytuje služby
+        a kde bol prípad nahlásený.
+    number_of_incidents:
+      title: "2. Počet zaznamenaných incidentov"
+      reporting_site: "Miesto nahlásenia"
+      helptext: |
+        Tento ukazovateľ počíta, koľko nových prípadov sa otvorí každý mesiac na jednom nahlasovacom mieste.
+        Nahlasovacie miesto je miesto kde organizácia  poskytuje služby
+        a kde bol prípad nahlásený.
+    reporting_delay:
+      title: "3. Oneskorenie nahlasovania"
+      delay: "Oneskorenie"
+      total_incidents: "Celkový počet incidentov"
+      helptext: |
+        Tento indikátor počíta a kategorizuje počet dní, ktoré uplynuli medzi dňom keď obet zažila rodovo motivované násilie (GBV), a dňom keď to nahlásila poskytovateľovi služieb. Je to vypočítané na základe toho, kedy bol incident po prvýkrát nahlásený organizácii používateľov. Údaje sú kategorizované podľa rôznych časových období (0-3 dni; 4-5 dní; 6-14 dní; 15-30 dní; Viac ako 1 mesiac; Viac ako 3 mesiace).
+    service_access_delay:
+      title: "Oneskorenie prístupu k službe"
+      delay: "Oneskorenie"
+      total_incidents: "Celkový počet incidentov"
+    assessment_status:
+      title: "4. Stav hodnotenia"
+      completed: "Dokončené"
+      completed_supervisor_approved: "Dokončené a schválené supervízorom"
+      helptext: |
+        Tento ukazovateľ počíta podiel aktívnych prípadov, pre ktoré boli hodnotiace formuláre
+        dokončené. Hodnotenie sa považuje za dokončené, ak vo formulári Hodnotenia sú vyplnené povinné políčka.
+    completed_case_safety_plans:
+      title: "5. Dokončený bezpečnostný plán prípadu"
+      completed: "Dokončený bezpečnostný plán prípadu"
+      helptext: |
+        Tento ukazovateľ počíta podiel aktívnych prípadov, pre ktoré bol bezpečnostný plán
+        nevyhnutný a dokončený (napr. násilie zo strany partnera, riziko samovráždy, ochrana detí).
+        Bezpečnostný plán sa považuje za dokončený, keď vo formulári bezpečnostného plánu sú vyplnené vsetky povinné polia.
+    completed_case_action_plans:
+      title: "6. Dokončené akčné plány prípadov"
+      completed: "Dokončený akčný plán prípadu"
+      label: "Dokončený akčný plán prípadu"
+      helptext: |
+        Tento ukazovateľ počíta podiel aktívnych prípadov, pre ktoré bol vypracovaný akčný plán
+        dokončený. Akčný plán prípadu sa považuje za dokončený, keď vo formulári akčného plánu sú vyplnené vsetky povinné polía.
+    completed_supervisor_approved_case_action_plans:
+      title: "7. Prípadové akčné plány schválené supervízorom"
+      completed_and_approved: "Dokončené akčné plány prípadu schválené supervízorom"
+      helptext: |
+        Tento ukazovateľ počíta podiel aktívnych prípadov, pre ktoré boli vypracované a schválené akčné plány.
+        Akčný plán prípadu sa považuje za dokončený,
+        keď vo formulári akčného plánu sú vyplnené vsetky povinné polía. Prípadový plán sa považuje
+        schválený, keď pracovník prípadu požiada o schválenie plánu;
+        a supervizor schváli plán na platforme.
+    services_provided:
+      title: "8. Poskytnuté služby"
+      service: "Služba"
+      count: "Poskytnuté časy"
+      male: "Muž"
+      female: "Žena"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Invalidita"
+      no_disability: "Žiadne postihnutie"
+      helptext: |
+        Tento ukazovateľ počíta typ poskytovaných služieb jednotlivcom v rámci spravovania prípadov.
+        Poskytovanou službou sa rozumie služba poskytovaná organizáciou používateľov
+        in-house, nie služba poskytovaná prostredníctvom odporúčaní na iné služby alebo interných odporúčaní.
+    average_referrals:
+      title: "9. Priemerný počet odporúčaní"
+      label: "Priemerný počet odporúčaní za prípad"
+      helptext: |
+        Tento ukazovateľ počíta priemerný počet odporúčaní pre každý zaznamenaný prípad (pre všetky typy
+        služieb). bez ohľadu na to, či je prípad aktívny/otvorený alebo uzavretý. Zahŕňa vsetky zaznamenané odporúčania prípadu,
+        nielen odporúčania uskutočnené prostredníctvom platformy.
+    referrals_per_service:
+      title: "Odporúčania za službu"
+    average_followup_meetings_per_case:
+      title: "10. Priemerný počet kontrolných stretnutí na jeden prípad"
+      label: "10. Priemerný počet kontrolných stretnutí na jeden prípad"
+      helptext: |
+        Tento ukazovateľ počíta priemerný počet kontrolných stretnutí uskutočnených pre každý aktívny prípad
+        za pracovníka na platforme. Kontrolné stretnutie je stretnutie, ktoré sa uskutoční po úvodnom rozhovore medzi pracovníkom prípadu a
+        osobou, ktorá prežila.
+    time_from_case_open_to_close:
+      title: "11. Čas od otvorenia prípadu po jeho uzavretie"
+      time: "Čas"
+      percent: "Percento prípadov"
+      helptext: |
+        Tento ukazovateľ meria obdobie odkedy/dokedy sú prípady otvorené;
+        koľko času prebehne od začiatku až po uzavretie prípadu. Obdobie je rozdelené podľa tohto časového rámca:
+        menej ako 1 mesiac; medzi 1 a 3 mesiacmi;
+        medzi 3-6 mesiacov; viac ako 6 mesiacov.
+    case_closure_rate:
+      title: "12. Počet uzavretých prípadov"
+      reporting_site: "Miesto nahlásenia"
+      helptext: |
+        Tento ukazovateľ meria počet prípadov uzavretých za mesiac na jednom nahlasovacom mieste. Nahlasovacie miesto
+        je miesto, kde organizácia poskytuje služby a kde
+        prípad bol nahlásený.
+    client_satisfaction_rate:
+      title: "13. Miera spokojnosti klienta"
+      label: "Spokojnosť klienta"
+      invalid: "Momentálne to nevieme vypočítať"
+      helptext: |
+        Tento ukazovateľ meria percento prežitia tých, ktorí vyplnili zákaznícky dotazník o prieskume spätnej väzby
+        a ktorí boli spokojní so službami, ktoré sa im poskytli. Tento ukazovateľ je
+        dodaný prostredníctvom vyplnenia formulára spätnej väzby od klienta v GBVIMS+ zamestnancom, ktorý
+        nie je sociálny pracovník zaoberajuci sa prípadom.
+    supervisor_to_caseworker_ratio:
+      title: "14. Pomer nadriadeného a pracovníka povereného prípadom"
+      label: "Pracovníci na jedného vedúceho prípadu"
+      helptext: |
+        Tento ukazovateľ predstavuje aký počet pracovníkov má nadriadený pod kontrolou:
+        pomer nadriadených a pracovníkov na prípad. Tento výpočet je založený na systémových rolách pridelených na platforme.
+    case_load:
+      title: "15. Počet prípadov"
+      case_load: "Počet prípadov"
+      percent: "percento pracovníkov zodpovedných za riešenie prípadov"
+      10cases: "< 10 Prípadov"
+      20cases: "11 - 20 Prípadov"
+      21-30cases: "21 - 30 Prípadov"
+      30cases: "> 30 Prípadov"
+      helptext: |
+        Tento ukazovateľ meria priemerný počet prípadov na jedného aktívneho pracovníka na základe aktívnych prípadov.
+        Pomer prípadov k počtu pracovníkov sa delí na základe tohto rozdelenia: menej ako 10
+        otvorených prípadov, medzi 10-20 otvorených prípadov, medzi 21-30 otvorených prípadov, viac ako 30 otvorených prípadov.
+    date_range_dialog:
+      title: "Vlastné rozmedzie dátumov"
+      description: "Po uplatnení tejto zmeny sa údaje vyberú z dvoch nižšie uvedených dátumov."
+      apply: 'Uplatniť'
+      from: 'Od'
+      to: 'Na'
+      aria-labels:
+        from: "Údaje sa vyberú po tomto dátume"
+        to: "Údaje budú vybrané pred týmto dátumom"
+  location:
+    base_types:
+      camp: Tábor
+      chiefdom: Veliteľský úrad
+      city: Mesto
+      community: Spoločenstvo
+      country: Krajina
+      county: Okres
+      district: Oblasť
+      governorate: Guvernorát
+      locality: Lokalita
+      other: Iné
+      province: Provincia
+      region: Región
+      site: Miesto
+      state: Štát
+      sub-district: Sub-okres
+      village: Dedina
+      zone: Zóna
+      association: Združenie
+      division: Divízia
+      central_warehouse: Centrálny sklad
+      warehouse: Sklad
+      buyingstation: Nákupná stanica
+    label: Miesto
+    name: Meno
+    code: Kód
+    admin_level: Úroveň administrátora
+    type: Typ
+    hierarchy: Hierarchia
+    import_title: Importovať miesto
+    message: Vyberte súbor CSV na nahranie. Tento súbor by mal používať kódovanie UTF-8 a obsahovať hashtagy HXL v druhom riadku hlavičky každého stĺpca.
+    no_location: Pred vytvorením používateľských účtov importujte Miesta.
+    enable_title: Povoliť miesto
+    enable_text: Ste si istý? Ak povolíte vybraté miesta, zobrazia sa ako možnosti v poliach umiestnenia.
+    disable_title: Zakázať miesto
+    disable_text: Ste si istý? Ak zakážete vybraté miesta, už sa nebudú zobrazovať ako možnosti v poliach umiestnenia.
+  logger:
+    actions:
+      _approved: Schválené
+      _rejected: Odmietnuté
+      _requested: Požadované
+      add_note: Pridať poznámku
+      assign: Prideliť
+      assign_to: Prideliť k
+      attach: Priložiť
+      bulk_assign: Hromadné pridelenie
+      bulk_create: Hromadné vytváranie
+      bulk_index: Hromadný index
+      case_plan_approved: Prípadový plán schválený
+      case_plan_rejected: Prípadový plán zamietnutý
+      case_plan_requested: Požadovaný prípadový plán
+      close: Zatvoriť
+      create: Vytvoriť
+      create_bulk: Vytvoriť hromadne
+      delete: Odstrániť
+      destroy: Zničiť
+      detach: Oddeliť
+      enable_disable_record: Povoliť zakázanie záznamu
+      export: Export
+      flag: Príznak
+      import: Import
+      incident_details_from_case: Podrobnosti o incidente z prípadu
+      index: Index
+      list: Zoznam
+      login: Prihlásenie
+      password_reset: Resetovanie hesla
+      password_reset_request: Žiadosť o obnovenie hesla používateľa
+      refer: Odkázať
+      refer_accepted: Odporúčanie prijaté
+      refer_done: Odporúčanie dokončené.
+      refer_rejected: Odporúčanie bolo odmietnuté
+      refer_revoke: Odporúčanie odvolané
+      refer_to: Odporučiť na
+      reopen: Znovu otvoriť
+      services_section_from_case: Sekcia služieb z prípadu
+      show: Zobraziť
+      show_alerts: Zobraziť upozornenia
+      traces: Stopy
+      transfer: Prevod
+      transfer_accepted: Prevod prijatý
+      transfer_rejected: Prevod bol odmietnutý
+      transfer_request: Žiadosť o prevod
+      transfer_to: Preniesť na
+      unflag: Vymazať príznak
+      update: Aktualizovať
+      user_password_reset_request: Žiadosť o obnovenie hesla používateľa
+      webhook: Webhook
+    approve_form:
+      action_plan: Formulár akčného plánu
+      bia: Formulár pre najlepší záujem dieťaťa, dievčaťa alebo dospievajúceho (BIA)
+      case_plan: Formulár na plán riešenia prípadu
+      closure: Formulár uzávierky
+      'false': Odmietanie
+      gbv_closure: Formulár uzávierky rodovo motivovaného násilia (GBV)
+      'true': Schvaľovanie
+    assessment_approved: "%{approval_label} schválené pre"
+    assessment_requested: "%{approval_label} schválené pre"
+    bulk_index: Zoznam všetkych
+    by_user: používateľom
+    case_plan_approved: "%{approval_label} schválené pre"
+    case_plan_requested: "%{approval_label} schválené pre"
+    close: Zavrieť
+    closure_approved: "%{approval_label} schválené pre"
+    closure_requested: "%{approval_label}schválené pre "
+    consent_count: Počet súhlasov
+    copy: Kopírovanie
+    create: Vytváranie
+    create_subform: Vytvára sa podformulár
+    destroy: Odstraňuje sa
+    edit: Upravuje sa
+    enable_disable_record: Povoliť / Zakázať
+    export: Exportujú sa údaje pre
+    flag: Označovanie
+    flag_records: Označovanie
+    graph_data: Zobrazenie údajov v grafe
+    hide_name:
+      protect: Skryť meno
+      view: Zobraziť meno
+    index: Výpis záznamov
+    list: Zoznam
+    login: Prihlásenie
+    logout: Odhlásenie
+    lookups_for_field: Hľadať pole
+    mark_for_mobile:
+      'false': Zrušiť označenie pre mobil
+      'true': Označiť pre mobil
+    match_record: Zhodné záznamy
+    permitted_field_list: Zoznam povolených polí
+    quick_view: Zobrazenie rýchleho náhľadu
+    reassign: Priraďovanie
+    resources:
+      audit_log: Denník auditu
+      user: Používateľ
+      agency: Agentúra
+      user_group: Používateľská skupina
+      child: Dieťa
+      alert: Upozornenie
+      form_section: Formulár
+      lookup: Vyhľadávanie
+      system_settings: Systémové nastavenia
+      permission: Povolenie
+      dashboard: Palubná doska
+      report: Správa
+      bulk_export: Hromadný export
+      saved_search: Uložené vyhľadávanie
+      role: Rola
+      incident: Incident
+      location: Miesto
+      primero_configuration: Konfigurácia Primero
+      code_of_conduct: Etický Kódex
+      task: Úloha
+    record_state:
+      'false': Zakázanie
+      'true': Povolenie
+    refer: Odkaz
+    refer_to: Vyhľadávanie príjemcu odporúčania
+    referral: Odporúčajúci
+    relinquish_referral: Vzdať sa ukončenia odporúčania
+    reopen: Znovu otvoriť
+    reopen_case: Znovuotvorenie
+    request_approval:
+      action_plan: Žiadosť o schválenie formulára akčného plánu
+      bia: Požiadajte o schválenie formulára BIA
+      case_plan: Požiadajte o schválenie formulára prípadového plánu
+      closure: Požiadajte o schválenie formulára na uzavretie
+      gbv_closure: 'Požiadajte o schválenie formulára na uzavretie rodovo motivovaného násilia (GBV) '
+    request_transfer: Odosielanie žiadosti o prevod
+    request_transfer_view: Zobrazenie žiadosti o prevod
+    save_subform: Ukladá sa podformulár
+    search: API vyhľadávanie
+    show: Zobrazenie
+    show_alerts: Zobraziť upozornenia pre
+    to: Komu
+    to_user: používateľovi
+    transfer: Prevedenie
+    transfer_status:
+      Accepted: Prijatý prevod
+      Rejected: Odmietnuté prevody
+    unflag: Zrušenie označenia
+    update: Aktualizuje sa
+  login:
+    label: Prihlásenie
+    password:
+      label: Heslo
+    password_confirmation:
+      label: Potvrdenie hesla
+    password_match:
+      label: Heslo sa musí zhodovať
+    provider_title: s %{provider}
+    title: Prihlásenie
+    username: Používateľské meno
+    password_reset_modal: Obnoviť heslo
+    password_reset_modal_text: Primero odošle odkaz na obnovenie hesla na vašu e-mailovú adresu
+    password_reset_email: Email
+    forgot_password: Zabudli ste heslo?
+    email:
+      label: Email
+  lookup:
+    create: Nové vyhľadávanie
+    enabled_label: Povolené?
+    english_label: Anglický text
+    label: Vyhľadávanie
+    language_label: Jazyk
+    messages:
+      cannot_create: Vyhľadávanie nebolo možné vytvoriť
+      correct_errors: 'Opravte nasledujúce chyby a odošlite znova:'
+      created: Vyhľadávanie bolo úspešne vytvorené.
+      updated: Vyhľadávanie bolo úspešne aktualizované.
+    name: Meno
+    no_options: Toto vyhľadávanie momentálne nemá žiadne možnosti.
+    translation_label: Text prekladu
+    values: Možnosti
+  managed_reports:
+    label: Prehľady
+    total: Celkom
+    filter_by:
+      date: Dátum
+      verification_status: Stav overenia
+    date_range:
+      month: Mesiac
+      quarter: Štvrťrok
+      year: Rok
+    date_range_options:
+      this_quarter: Tento štvrťrok
+      last_quarter: Minulý štvrťrok
+      this_month: Tento mesiac
+      last_month: Minulý mesiac
+      this_year: Tento rok
+      last_year: Minulý rok
+      custom: Vlastné
+    no_data: Tento prehľad neobsahuje žiadne údaje
+    no_data_table: Tento prehľad neobsahuje žiadne údaje
+    violations:
+      name: Porušenia
+      filter_options:
+        incident_date: Dátum incidentu
+        date_of_report: Dátum nahlásenia
+        ctfmr_verified_date: Dátum overenia
+      reports:
+        killing: Zabíjanie detí
+        maiming: Mrzačenie detí
+        recruitment: Nábor a/alebo využívanie detí
+        sexual_violence: Znásilnenie a/alebo iný druh sexuálneho násilia
+        abduction: Únos
+        attack_on: Útok na školu(y) a/alebo nemocnicu(e)
+        military_use: Vojenské využitie školy (škôl) a/alebo nemocnice (nemocníc)
+        denial_humanitarian_access: Zamietnutie prístupu k humanitárnej pomoci deťom
+      sub_reports:
+        combined: Porušenia
+        detention_detained: Zostať vo väzení
+        detention_released: Prepustený
+        perpetrators: Počet detí podľa páchateľov
+        reporting_location: Počet detí podľa oblastí
+        attack_type: Počet detí podľa typu útoku
+        boys: Chlapci
+        girls: Dievčatá
+        unknown: Neznáme
+        total: Celkom
+    gbv_statistics:
+      name: Štatistika rodovo motivovaného násilia (GBV)
+      filter_options:
+        date_of_first_report: Dátum pohovoru
+        incident_date: Dátum incidentu
+      reports:
+        incidents: Incidenty
+        perpetrators: Páchatelia
+      sub_reports:
+        combined: Incidenty
+        total: Počet nahlásených incidentov rodovo motivovaného násilia (GBV)
+        gbv_sexual_violence: Počet nahlásených prípadov sexuálneho násilia
+        gbv_previous_incidents: Počet incidentov nahlásených obeťami s predchádzajúcimi incidentmi rodovo motivovaného násilia (GBV)
+        gbv_sexual_violence_type: Typ incidentu
+        incident_timeofday: Denná doba incidentu
+        elapsed_reporting_time: Čas medzi incidentom a dátumom nahlásenia
+        elapsed_reporting_time_rape: Incidenty znásilnenia, čas, ktorý uplynul medzi incidentom a dátumom nahlásenia
+        incident_location_type: Miesto Incidentu
+        number_of_perpetrators: Počet primárnych páchateľov
+        perpetrator_relationship: Údajný vzťah primárneho páchateľa s obeťou
+        perpetrator_age_group: Veková skupina údajných primárnych páchateľov
+        perpetrator_occupation: Údajné povolanie hlavného páchateľa
+  messages:
+    alert_items: Máte %{items} poznámky.
+    alerts_for:
+      approval: Čaká sa na schválenie %{form_section_name}
+      field_change: '%{form_section_name} bola aktualizovaná dňa%{alert_time}'
+      transfer_request: Dňa %{date} bola podaná nová žiadosť o prevod od %{user} z %{agency}
+      duplicate_field: 'Iný prípad v systéme má rovnaký %{field_name} ako tento. '
+    cannot_edit: Toto nemôžete upraviť
+    confirmation_message: Kliknutím na tlačidlo OK vyradíte všetky neuložené zmeny a vrátite sa do zobrazenia zoznamu. Kliknutím na tlačidlo "Zrušiť" sa vrátite k záznamu. 
+    confirmation_message_subform: Kliknutím na tlačidlo OK vyradíte všetky neuložené zmeny tejto položky. Ak chcete pokračovať vo vykonávaní zmien, kliknite na tlačidlo Zrušiť.
+    dashboard_offline: Ste offline. Palubná doska bude plne funkčná, keď budete opäť online
+    field_name_on_form_name: '''%{field_name}'' pole vo formulári ''%{form_name}'''
+    logout_confirmation: Chcete pokračovať v relácii?
+    logout_offline_warning: Naozaj sa chcete odhlásiť? Ak to urobíte, nebudete sa môcť znova prihlásiť, kým nebudete opäť online. Všetky zmeny, ktoré vykonáte v režime offline, sa stratia.
+    logout_warning: O 5 minút budete odhlásení
+    logout_dialog_header: Odhlásiť sa offline
+    logout_confirmation_title: Potvrdenie odhlásenia
+    logout_confirmation_text: Naozaj sa chcete odhlásiť?
+    no_changes: Nevykonali ste žiadne zmeny v poli
+    not_available: ' Nedostupné'
+    record_list:
+      column_header_tooltip: Zoradiť podľa %{column}
+      of: z
+      no_match: Ľutujeme, nenašli sa žiadne zhodné záznamy
+      rows_per_page: Počet riadkov na stránku
+      sort: Zoradiť
+  navigation:
+    bulk_exports: Exporty
+    cases: Prípady
+    home: Domov
+    key_performance_indicators: Stlačte/Kľúčové ukazovatele výkonnosti (KPI)
+    incidents: Incidenty
+    logout: Odhlásenie
+    reports: Správy
+    insights: Prehľady
+    search: Hľadať
+    settings: Nastavenia
+    support: Podpora
+    support_menu:
+      contact_information: Kontaktné informácie
+      code_of_conduct: Etický Kódex
+      terms_of_use: Podmienky používania
+      system_information: Systémové informácie
+    tasks: Úlohy
+    tracing_request: Žiadosť na sledovanie
+    activity_log: Denník aktivít
+    registry_records: Register
+  notes:
+    note_success: Poznámka bola úspešne pridaná
+  permissions:
+    label: Povolenia
+    permission:
+      All: Všetky
+      add_note: Pridať poznámky
+      admin_only: Žiadne záznamy – iba funkcia správcu
+      administrator_read: Správca čítať
+      agency: Agentúra
+      agency_read: Agentúra čítať
+      all: Prístup ku všetkým záznamom alebo používateľom
+      approvals_assessment: '%{approval_label}'
+      approvals_assessment_pending: '%{approval_label} Čaká na spracovanie'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} Čaká na spracovanie'
+      approvals_closure: '%{approval_label}'
+      approvals_closure_pending: '%{approval_label} Čaká na spracovanie'
+      approve_action_plan: Schváliť %{approval_label}
+      approve_assessment: Schváliť %{approval_label} formulár
+      approve_case_plan: Schváliť  %{approval_label}
+      approve_closure: Schváliť %{approval_label} formulár
+      approve_gbv_closure: Schváliť %{approval_label} formulár
+      assign: Prideliť
+      assign_within_agency: Priraďte v rámci agentúry
+      assign_within_user_group: Priraďte v rámci skupiny používateľov
+      audit_log: Denník auditu
+      case: Prípad
+      case_approvals: Schválenia prípadov
+      case_assignments_referrals_transfers: Prideľovanie prípadov, odporúčania a prevody
+      case_exports: Exporty prípadu
+      case_overview: Moje prípady
+      case_risk: Prípady podľa úrovne hodnotenia
+      cases_by_task_overdue_assessment: Zobraziť prípady podľa oneskorených úloh hodnotenia
+      cases_by_task_overdue_case_plan: Zobraziť prípady podľa oneskorenia úloh plánu prípadu
+      cases_by_task_overdue_followups: Zobraziť prípady podľa oneskorenych úloh
+      cases_by_task_overdue_services: Zobraziť prípady podľa oneskorenych úloh
+      cases_managed_other_users: Prípady spravované inými používateľmi
+      close: Zatvoriť
+      consent_override: Prepísať súhlas
+      copy: Kopírovať
+      copy_of: Kópia
+      create: Vytvoriť
+      dash_case_incident_overview: Moje prípady / incidenty
+      dash_cases_by_social_worker: Zobraziť prípady pracovníka
+      dash_cases_by_task_overdue: Zobraziť prípady podľa oneskorenych úloh
+      dash_cases_by_workflow: Zobraziť prípady podľa pracovného postupu
+      dash_cases_to_assign: Zobraziť prípady na priradenie
+      dash_group_overview: Prípady mojej skupiny
+      dash_manager_transfers: Zobraziť prevody správcov
+      dash_matching_results: Zobraziť zhodné výsledky
+      dash_protection_concerns: Zobraziť obavy týkajúce sa ochrany
+      dash_protection_concerns_by_location: Zobraziť obavy z ochrany podľa miesta
+      dash_referrals_by_socal_worker: Zobraziť odporúčania sociálneho pracovníka
+      dash_reporting_location: Zobraziť miesta nahlasovania
+      dash_service_provisions: Zobraziť ustanovenia o službách
+      dash_shared_from_my_team: Zdieľané z Môjho Tímu
+      dash_shared_with_me: Zdieľané so mnou
+      dash_shared_with_my_team: Zdieľané s Mojím Tímom
+      dash_shared_with_others: Zdieľané s Ostatnými
+      dash_show_none_values: Zobraziť žiadne hodnoty
+      dash_tasks: Zobraziť úlohy
+      dash_transfers_by_socal_worker: Zobraziť prevody pracovníka
+      dash_national_admin_summary: Súhrn Administrátora
+      dashboard: Palubná doska
+      delete: Odstrániť
+      display_view_page: Zobraziť stránku zobrazenia
+      duplicate: Duplicitné vyhľadávanie
+      enable_disable_record: Zakázať
+      export_case_pdf: Exportovať prípad do PDF
+      export_csv: Exportovať do CSV
+      export_custom: Vlastný Export
+      export_duplicate_id_csv: Export duplikátov
+      export_json: Exportovať do JSON
+      export_list_view_csv: Náhľad do Exportného Zoznamu CSV
+      export_mrm_violation_xls: Exportovať porušenie mrm xls
+      export_pdf: Exportovať do PDF
+      export_photowall: Exportovať Fotogalériu
+      export_unhcr_csv: Exportovať unhcr do CSV
+      export_xls: Exportovať do XLS
+      find_tracing_match: Nájsť zhodu sledovania z prípadu
+      view_registry_record: Zobraziť záznam registrov
+      add_registry_record: Pridať záznam registrov
+      flag: Príznak
+      form: Formuláre
+      group: Prístup ku všetkým záznamom alebo používateľom v mojej skupine
+      group_read: Skupinové čítanie
+      import: Import
+      incident: Incident
+      incident_details_from_case: Pridajte podrobnosti o incidente k prípadu iného používateľa
+      incident_from_case: Vytvoriť incident z prípadu
+      kpi: Stlačte/Kľúčové ukazovatele výkonnosti (KPI)
+      lookup: Vyhľadávania
+      manage: Spravovať
+      mark_for_offline: Označiť pre režim offline
+      matching_configuration: Zhodná konfigurácia
+      metadata: Formuláre, Vyhľadávania
+      potential_match: Možná zhoda
+      primero_configuration: Konfigurácia
+      read: Čítať
+      reassign: Preradiť
+      receive_referral: Prijať odporúčanie
+      receive_transfer: Prijať prevod
+      referral: Môže byť použitý na odporúčanie
+      referral_from_service: Odporúčaný prípad z formulára služby
+      registry_record: Register
+      remove_assigned_users: Odstrániť ostatných priradených používateľov (sprostredkovania)
+      reopen: Znovu otvoriť
+      report: Správa
+      managed_report: Prehľady
+      request_approval: Žiadosť o schválenie
+      request_approval_action_plan: 'Požiadať o schválenie %{approval_label} '
+      request_approval_assessment: Požiadať o schválenie %{approval_label}
+      request_approval_case_plan: Požiadať o schválenie %{approval_label}
+      request_approval_closure: Požiadať o schválenie %{approval_label}
+      request_approval_gbv_closure: Požiadať o schválenie %{approval_label}
+      request_transfer: Požiadať o prevod
+      role: Roly
+      save_search: Uložiť vyhľadávania
+      saved_search: Vyhľadávanie uložené
+      search_owned_by_others: Hľadat záznamy o prípadoch, ktoré patria iným používateľom
+      self: Prístup iba k mojim záznamom alebo používateľovi
+      service_provision_incident_details: Pozrite si tlačidlo "Pridať poskytovanie služby" v modálu "Podrobnosti o incidente"
+      services_section_from_case: Pridať Poskytovanie služieb k prípadu iného používateľa
+      specific_roles: Prístup k určenému zoznamu rolí
+      sync_external: Synchronizácia s externým systémom riadenia informácií
+      sync_mobile: Označiť pre režim offline
+      system: Systém
+      tracing_request: Žiadosť na sledovanie
+      transfer: Môže byť použitý na prevod
+      user: Používatelia
+      user_group: Používateľská skupina
+      view_approvals: Zobraziť schválenia
+      view_assessment: Zobraziť hodnotenie
+      view_photo: Zobraziť fotku
+      view_protection_concerns_filter: Zobraziť filter obáv z ochrany
+      view_response: Zobraziť odpovede
+      webhook: Webhook
+      workflow: Pracovný postup – Jednotlivé prípady
+      workflow_team: Pracovný postup – Tímové prípady
+      write: Písať
+      activity_log: Denník aktivít
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: Moznosť prístupu na stránku Stlačte/Kľúčové ukazovatele výkonnosti (KPI).
+            label: Prístup na stránku Stlačte/Kľúčové ukazovatele výkonnosti (KPI).
+          kpi_assessment_status:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým používateľ má prístup, aký podiel z nich má vyplnený hodnotiaci formulár.
+            label: Stav hodnotenia
+          kpi_average_followup_meetings_per_case:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým používateľ má prístup, priemerný počet uskutočnených kontrolných stretnutí počas určitého obdobia.
+            label: 10. Priemerný počet kontrolných stretnutí na jeden prípad
+          kpi_average_referrals:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým používateľ má prístup, priemerný počet odporúčaní pre každý typ služieb.
+            label: Priemerný počet odporúčaní
+          kpi_case_closure_rate:
+            explanation: Možnosť zobraziť, koľko prípadov bolo uzavretých za mesiac na každom mieste.
+            label: Počet uzavretých prípadov
+          kpi_case_load:
+            explanation: Moznosť zobraziť priemerný počet otvorených prípadov, ktoré má každý pracovník.
+            label: Prípad
+          kpi_client_satisfaction_rate:
+            explanation: Možnosť zobraziť pre každý prípad, ku ktorému  používateľ má prístup, aký pomer z nich po ukončení prieskumu zostal spokojní.
+            label: Miera spokojnosti klienta
+          kpi_completed_case_action_plans:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým používateľ má prístup, aký podiel prípadov má dokončený akčný plán.
+            label: Dokončené akčné plány prípadov
+          kpi_completed_case_safety_plans:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým používateľ má prístup, aký podiel prípadov vyžadoval a dokončil bezpečnostný plán.
+            label: Dokončené bezpečnostné plány prípadu
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: Možnosť zobraziť pre aktívne prípady, ku ktorým  používateľ má prístup, kto dokončil akčný plán schválený supervízorom.
+            label: Dokončený akčný plán schválený supervízorom
+          kpi_goal_progress_per_need:
+            explanation: Možnosť zobraziť, pre prípady, ku ktorým používateľ má prístup, aké percento cieľov v každej kategórii potreby bolo splnené.
+            label: Pokrok pri dosahovaní cieľov
+          kpi_number_of_cases:
+            explanation: Možnosť zobraziť, koľko novo nahlásených prípadov sa otvorí každý mesiac na jednom mieste.
+            label: Počet prípadov
+          kpi_number_of_incidents:
+            explanation: Možnosť zobraziť, koľko novo nahlásených prípadov sa otvorí každý mesiac na jednom mieste.
+            label: Počet incidentov
+          kpi_reporting_delay:
+            explanation: Možnosť zobraziť pre všetkých incidentoch, ku ktorým má používateľ prístup, počet dní, ktoré uplynuli od okamihu, keď obeť zažila rodovo motivované násilie (GBV), do okamihu, keď ho obeť nahlásil poskytovateľovi služby.
+            label: Oneskorenie nahlasovania
+          kpi_services_provided:
+            explanation: Možnosť zobraziť pre prípady, ku ktorým používateľ má prístup, aký typ služieb poskytla organizácia interne.
+            label: Poskytnuté služby
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: Možnosť vidieť pomer počtu pracovníkov zodpovedných za prípady k počtu vedúcich pracovníkov.
+            label: Pomer nadriadeného a pracovníka povereného prípadom
+          kpi_time_from_case_open_to_close:
+            explanation: Možnosť zobraziť pre prípady, ku ktorým používateľ má prístup, ako dlho je prípad otvorený.
+            label: Čas od otvorenia prípadu po jeho uzavretie
+        label: Kľúčové ukazovatele výkonnosti (KPI)
+      agency:
+        actions:
+          assign:
+            explanation: Umožnuje vybrať agentúru pri vytváraní alebo úprave používateľského účtu. Ak má používateľ toto povolenie, ako aj povolenie "Agentúra čítať" pre používateľov, bude môcť pridať používateľa iba z vlastnej agentúry.
+            label: Prideliť
+          create:
+            explanation: Možnosť vytvoriť agentúru.
+            label: Vytvoriť
+          manage:
+            explanation: 'Umožňuje používateľovi vykonávať všetky dostupné akcie v agentúrach. Povolenie „Spravovať“ v podstate znamená „všetko“. DÔLEŽITÉ: Toto tiež dáva možnosť vytvoriť novú agentúru.'
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť agentúry.
+            label: Náhľad
+          write:
+            explanation: Možnosť upravovať informácie o agentúrach. Upozorňujeme, že to platí pre všetky agentúry v systéme.
+            label: Upraviť
+        explanation: Predstavuje organizáciu s členmi, ktorí používajú Primero. Agentúry existujú nezávisle od skupín používateľov.
+        label: Agentúra
+      audit_log:
+        actions:
+          read:
+            explanation: Umožňuje používateľovi zobraziť a filtrovať zoznam všetkých akcií vykonaných v systéme, rozdelených podľa používateľa, typu akcie, IČ záznamu a času akcie. Toto je najvhodnejšie pre správcov na národnej úrovni alebo na úrovni agentúry, pretože zobrazuje akcie vykonané všetkými používateľmi v systéme. Upozorňujeme, že protokol auditu nezobrazuje informácie umožňujúce identifikáciu osôb o záznamoch zahrnutých v každej akcii.
+            label: Náhľad
+        explanation: Filtrovateľný zoznam všetkých akcií vykonaných v systéme. Nezahŕňa žiadne identifikačné informácie o prípadoch, incidentoch alebo žiadostiach o sledovanie.
+        label: Denník auditu
+      case:
+        actions:
+          add_note:
+            explanation: Umožňuje používateľovi pridať záznam do podformulára „Poznámky“ (niekedy nazývaného aj „Komentáre“). Používateľ to urobí kliknutím na tlačidlo „Pridať poznámky“ na stránke ukážky prípadu. Táto akcia je užitočná najmä pre manažérov, ktorí nemajú možnosť upravovať prípady, ale chcú k prípadu pridať pripomienky pre pracovníka prípadu. Týmto spôsobom je pridanie poznámky podobné ako pridanie príznaku. Výhodou pridania poznámky je, že keď manažér k prípadu pridá poznámku, pracovníkovi prípadu sa na prípade zobrazí upozornenie, keď si prípad prezerá na svojom mobilnom zariadení.
+            label: Pridajte poznámky k prípadu
+          add_registry_record:
+            explanation: Umožňuje používateľovi prepojiť register s prípadom z formulára "podrobností o registri". Používateľovi tiež umožňuje zrušiť prepojenie akéhokoľvek registra, ktorý je už prepojený s prípadom.
+            label: Pridanie / Aktualizácia Registračného záznamu z Prípadu
+          approve_action_plan:
+            explanation: Umožňuje manažérovi schváliť %{approval_label}prípady pracovníkov.
+            label: Schváliť %{approval_label}
+          approve_assessment:
+            explanation: Umožňuje manažérovi schváliť %{approval_label} prípady pracovníkov.
+            label: Schváliť %{approval_label} formulár
+          approve_bia:
+            explanation: 'Umožňuje manažérovi schváliť %{approval_label} prípady pracovníkov. '
+            label: Schváliť %{approval_label} formulár
+          approve_case_plan:
+            explanation: 'Umožňuje manažérovi schváliť %{approval_label} prípady pracovníkov. '
+            label: Schváliť %{approval_label}
+          approve_closure:
+            explanation: 'Umožňuje manažérovi schváliť %{approval_label} prípady pracovníkov. '
+            label: Schváliť %{approval_label} formulár
+          approve_gbv_closure:
+            explanation: 'Umožňuje manažérovi schváliť %{approval_label} prípady pracovníkov. '
+            label: 'Schváliť %{approval_label}formulár '
+          assign:
+            explanation: Umožňuje používateľovi odoslať prípad od pôvodného vlastníka záznamu akémukoľvek inému používateľovi v systéme. Na túto akciu nie je potrebný súhlas dieťaťa. Na rozdiel od prevodu nemá príjemca možnosť prijať alebo odmietnuť zadanie.
+            label: Prideliť
+          assign_within_agency:
+            explanation: Umožňuje používateľovi odoslať prípad od pôvodného vlastníka záznamu akémukoľvek inému používateľovi v systéme. Na túto akciu nie je potrebný súhlas dieťaťa. Na rozdiel od prevodu nemá príjemca možnosť prijať alebo odmietnuť zadanie.
+            label: Priradiť používateľovi v rámci mojej agentúry
+          assign_within_user_group:
+            explanation: Umožňuje používateľovi odoslať prípad od pôvodného vlastníka záznamu akémukoľvek inému používateľovi v skupinách používateľov aktuálneho používateľa. Na túto akciu nie je potrebný súhlas dieťaťa. Na rozdiel od prevodu nemá príjemca možnosť prijať alebo odmietnuť zadanie.
+            label: Priradiť používateľovi v rámci mojej skupiny používateľov
+          change_log:
+            explanation: Používateľ môže zobraziť históriu všetkých zmien vykonaných v zázname od jeho vytvorenia. To zahŕňa hodnoty zaznamenané pre všetky polia.
+            label: Denník zmien
+          close:
+            explanation: Umožňuje používateľovi zmeniť otvorený stav prípadu na zatvorený.
+            label: Zavrieť
+          consent_override:
+            explanation: Umožňuje používateľovi vykonať postúpenie alebo prevod pre prípad, ktorý neposkytol súhlas.
+            label: Prepíšte nedostatok súhlasu pri odporúčaní alebo prevode
+          create:
+            explanation: Možnosť vytvoriť prípad
+            label: Vytvoriť
+          display_view_page:
+            explanation: Ak používateľ vyhľadá prípad, ku ktorému nemá prístup, toto povolenie mu umožní zobraziť modál so základnými informáciami o prípade, aj keď používateľ nemôže kliknúť na prípad, aby sa mu zobrazili všetky jeho informácie. Polia, ktoré sa zobrazujú v tomto „Modálnom zobrazení“ sú polia, ktoré boli nakonfigurované na „Zobraziť v krátkom formulári“. Tento spôsob je užitočný aj pre používateľov, ktorí vykonávajú akcie sledovania rodiny a opätovného zjednotenia, pretože používateľ má prístup k režimu „Zobraziť modal“, keď kontroluje prípady, ktoré sa objavili ako „potenciálne zhody“ pre žiadosť o sledovanie.
+            label: Zobraziť stránku zobrazenia
+          enable_disable_record:
+            explanation: Moznosť zakázať alebo povoliť prípady. „Zakázané prípady.“ sa v zozname prípadov štandardne nezobrazujú. Používatelia môžu vidieť zakázané prípady v zozname prípadov pomocou filtra. Keďže Primero neumožňuje používateľom odstraňovať prípady, používateľ môže chcieť prípad deaktivovať ako náhradiť. Napríklad, ak používateľ omylom vytvoril prípad alebo prípad obsahuje zlé údaje, používateľ by ho mal zakázať.
+            label: Povoliť / Zakázať
+          export_case_pdf:
+            explanation: Používateľ môže vygenerovať export súboru PDF zo stránok so "zoznam prípadov" alebo "zobrazenia prípadov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero prípadov alebo všetky prípady, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, v ktorom sa informácie zobrazujú.
+            label: Exportovať prípad do PDF
+          export_csv:
+            explanation: 'Používateľ môže vygenerovať export súboru CSV zo stránok "zoznam prípadov" alebo "zobrazenia prípadov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero alebo všetky prípady, ku ktorým má používateľ prístup. POZNÁMKA: Export CSV nespracováva znaky, ktoré nie sú latinkou (napr. arabčina, bengálčina).'
+            label: Exportovať do CSV
+          export_custom:
+            explanation: Používateľ môže vygenerovať export súboru XLS zo stránok "zoznam prípadov" alebo "zobrazenia prípadov", ktorý obsahuje vlastnú množinu formulárov alebo polí pre jeden, viacero alebo všetky prípady, ku ktorým má používateľ prístup. V tomto exporte je každý formulár zastúpený na vlastnej karte v rámci súboru XLS. Používateľ si môže vybrať, ktoré formuláre alebo polia chce zahrnúť do exportu pomocou modálu "Vlastný Export". Upozorňujeme, že používatelia môžu do exportu zahrnúť formuláre a polia iba vtedy, ak majú prístup na ich zobrazenie pri prezeraní prípadu v aplikácii.
+            label: Vlastný Export
+          export_duplicate_id_csv:
+            explanation: 'Vytvorí CSV export prípadov, ktoré majú rovnaké Národné pole ID (môžu mať odlišný štítok v závislosti od konfigurácie). Vykonáva sa iba zo stránky so zoznamom prípadov. '
+            label: Export duplikátov
+          export_json:
+            explanation: Používateľ môže vygenerovať export súboru JSON zo stránok "zoznam prípadov" alebo "zobrazenia prípadov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero prípadov alebo všetky prípady, ku ktorým má používateľ prístup. Tento export sa používa hlavne pre tých, ktorí chcú exportovať prípady z aktuálneho systému Primero a následne ich importovať do iného systému. Formát JSON je strojovo čitateľný a pre väčšinu používateľov nie je praktický.
+            label: Exportovať do JSON
+          export_list_view_csv:
+            explanation: Používateľ môže zo "stránky so zoznamom prípadov" vygenerovať export do súboru CVS, ktorý obsahuje rovnaké polia, aké sa zobrazujú pre daného používateľa v zozname prípadov. Vykonáva sa len zo zoznamu prípadov stránky.
+            label: Náhľad do Exportného Zoznamu CSV
+          export_pdf:
+            explanation: Používateľ môže vygenerovať export do súboru PDF zo "zoznamu prípadov" alebo "prehľadu prípadov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero prípadov alebo všetky prípady, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, na ktorom sa informácie zobrazujú.
+            label: Exportovať prípad do PDF
+          export_photowall:
+            explanation: Umožňuje používateľovi exportovať súbor zo stránky zoznamu prípadov, ktorý obsahuje fotografie všetkých vybraných prípadov. Tento export sa používa najmä pri činnostiach súvisiacich s pátraním po rodine a opätovným zlúčením rodiny. Vykonáva sa len zo stránky zoznamu prípadov.
+            label: Exportovať Fotogalériu
+          export_unhcr_csv:
+            label: Exportovať UNHCR do CSV
+          export_xls:
+            explanation: 'Používateľ môže vygenerovať export súboru XLS zo stránok "Zoznamu prípadov" alebo "Zobrazenia prípadov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viac prípadov alebo všetky prípady, ku ktorým má používateľ prístup. V tomto exporte je každý formulár zastúpený na vlastnej karte v rámci súboru XLS. POZNÁMKA: Formát XLS nespracováva znaky, ktoré nie sú latinkou (napr. arabčina, bengálčina).'
+            label: Export do Excelu (súbor XLS)
+          find_tracing_match:
+            explanation: Používa sa výlučne v súvislostiach s činnosťou Sledovanie rodiny a Zjednotenie. Používateľom s týmto povolením sa na stránke "zobraziť prípad" zobrazí tlačidlo „Nájsť zhodu sledovania“. Keď naň kliknú, dostanú sa k zoznamu žiadostí o sledovanie v systéme, ktoré vyhovujú možným zhodám pre ich prípad.
+            label: Nájsť zhodu sledovania z prípadu
+          flag:
+            explanation: Možnosť pridať príznak k prípadu. Používatelia s týmto povolením môžu tiež odstrániť príznaky, ktoré pridali k prípadu.
+            label: Príznak
+          import:
+            explanation: Umožňuje používateľovi vytvoriť jeden alebo viacero nových prípadov ich importovaním zo súboru CSV, Excel alebo JSON. Pre správny import informácii, musí byť importovaný súbor "veľmi" špeciálne naformátovaný. Táto funkcia by mala byť dostupná iba pre správcov s pokročilými technickými zručnosťami a hlbokými znalosťami o tom, ako sa v Primero formátujú údaje. Dá sa to urobiť iba zo stránky Zoznam prípadov.
+            label: Import
+          incident_details_from_case:
+            explanation: Možnosť pridať položku do podformulára "Podrobnosti o incidente" k prípadu, ktorý ste našli vo výsledkoch vyhľadávania, ale ku ktorému nemáte prístup. Používateľ vykoná túto akciu na stránke "výsledky vyhľadávania" výberom jedného alebo viacerých prípadov a následným výberom položky „Pridať incident“ z ponuky akcií. Používateľovi sa potom zobrazí modál obsahujúci všetky polia v podformulári "Podrobnosti o incidente", kde môže zadať a odoslať informácie o službe. Keďže túto akciu možno vykonať iba zo stránky "výsledky vyhľadávania", používateľ má toto povolenie len vtedy, ak má aj povolenie „Vyhľadať záznamy o prípadoch vo vlastníctve iných používateľov“.
+            label: Pridanie podrobností o incidente k prípadu iného používateľa zo stránky s výsledkami vyhľadávania
+          incident_from_case:
+            explanation: Toto povolenie umožňuje používateľovi kliknúť na tlačidlo „Vytvoriť incident“. Toto vygeneruje incident, ktorý môže obsahovať niektoré informácie skopírované z prípadu. V prípade rodovo motivovaného násilia (GVB) sa toto tlačidlo nachádza v hornej časti stránky s prezentáciou prípadu a zodpovedá informáciám o prípade ako celku. V niektorých kontextoch sledovania incidentov sa toto tlačidlo nachádza v podformulári "Podrobnosti o incidente". V tejto situácii môžu byť niektoré informácie skopírované z podformulára "Podrobnosti o incidente", kde bolo kliknuté na tlačidlo, ako aj z prípadu ako celku. To znamená, že novovytvorený incident môže obsahovať pole "Typ násilia" z podformulára individuálneho incidentu, ale môže obsahovať aj vek a pohlavie samotného prípadu. Upozorňujeme, že toto povolenie tiež umožňuje používateľovi zobraziť link na incident, ktorý bol vytvorený.
+            label: Vytvoriť incident z prípadu
+          manage:
+            explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie na prípadoch. Povolenie „Spravovať“ v podstate znamená „všetko“.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť prípad
+            label: Náhľad
+          receive_referral:
+            explanation: Umožňuje používateľovi prijať odporúčanie. Používatelia s týmto povolením sa budú zobrazovať ako potenciálni príjemcovia akcie sprostredkovania, zatiaľ čo používatelia bez tohto povolenia sa nebudú zobrazovať ako potenciálni príjemcovia, keď niekto hľadá príjemcu v režime sprostredkovania.
+            label: Prijať odporúčanie
+          receive_referral_different_module:
+            explanation: Umožňuje používateľovi získať odkaz na záznam, ktorý je vytvorený v inom module Primero. Používatelia s týmto povolením sa budú zobrazovať ako potenciálni príjemcovia akcie sprostredkovania, zatiaľ čo používatelia bez tohto povolenia sa nebudú zobrazovať ako potenciálni príjemcovia, keď niekto hľadá príjemcu v režime sprostredkovania.
+            label: Prijať odporúčanie od používateľa v inom module
+          receive_transfer:
+            explanation: Umožňuje používateľovi prijať prevod. Používatelia s týmto povolením sa budú zobrazovať ako potenciálni príjemcovia akcie prevodu, zatiaľ čo používatelia bez tohto povolenia sa nebudú zobrazovať ako potenciálni príjemcovia, keď niekto hľadá príjemcu v režime prevodu.
+            label: Prijať prevod
+          referral:
+            explanation: Umožňuje používateľovi dočasne poskytnúť prístup k prípadu inému používateľovi. Príjemca postúpenia bude môcť v postúpenom prípade vykonať všetky rovnaké úkony, aké by bol schopný vykonať vo svojich vlastných prípadoch. Keď príjemca už nepotrebuje prístup k prípadu, môže kliknúť na tlačidlo „Hotovo“ v podformulári "Odporúčania a prevody" a stratí prístup k prípadu. Prípad môžete postúpiť iba používateľovi, ktorého rola má možnosť prijímať odporúčania.
+            label: Odporúčanie
+          referral_from_service:
+            explanation: 'Umožňuje používateľovi zobraziť tlačidlo „Odporúčať/Odkázať“ v podformulári Služby. Keď používateľ klikne na toto tlačidlo, zobrazí sa odporúčací režim so zakázanými poľami: Typ služby, Agentúra, Poskytovateľ služby a Miesto, ale automaticky sa vyplní informáciami pre tie polia v podformulári Služby, na ktorom používateľ klikol na tlačidlo Odporúčať.'
+            label: Odporúčaný prípad z podformulára služby
+          remove_assigned_users:
+            explanation: Umožňuje používateľovi odstrániť iných používateľov z poľa „Ostatní priradení používatelia“. Uvádzajú sa tu používatelia ak  obdržali odporúčanie pre prípad alebo prevod pre prípad, a ešte ho neprijali ani neodmietli. Po odstránení používateľov z  poľa „Ostatní priradení používatelia“, im odoberiete prístup k prípadu. Používatelia s týmto povolením teda môžu odobrať prístup k prípadu používateľom, ktorí už v minulosti dostali odporúčania alebo stále nevybavené prevody k prípadu. Poznamenajte si, že toto povolenie funguje iba vtedy, ak má aktuálny používateľ tiež možnosť upravovať prípad.
+            label: Odstrániť ostatných priradených používateľov (spätný prístup k prípadu od používateľov, na ktorých sa odkazuje)
+          reopen:
+            explanation: Umožňuje používateľovi otvoriť prípad, ktorý je momentálne uzavretý.
+            label: Znovu otvoriť
+          request_approval_action_plan:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_approval_assessment:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_approval_bia:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_approval_case_plan:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_approval_closure:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_approval_gbv_closure:
+            explanation: Umožňuje používateľovi (zvyčajne riešiteľovi prípadu) požiadať svojho manažéra o schválenie prípadu %{approval_label}.
+            label: Požiadať o schválenie %{approval_label}
+          request_transfer:
+            explanation: Odhaľuje tlačidlo „Požiadať o prevod“ na „Zobraziť modal“. Tlačidlo umožňuje používateľovi poslať správu s personalizovanou poznámkou prostredníctvom e-mailu aktuálnemu vlastníkovi záznamu o prípade s požiadavkou, aby vlastník záznamu previedol prípad na používateľa, ktorý žiadosť odoslal. Je to užitočné v situáciách, keď deti často menia miesta a pracovníci prípadu potrebujú, aby predchádzajúci pracovník prípadu dieťaťa poslal informácie o dieťati, aby sa predišlo vytvoreniu duplicitného záznamu.
+            label: Požiadať o prevod
+          search_owned_by_others:
+            explanation: Umožňuje používateľovi vykonať vyhľadávanie záznamov, ku ktorým by zvyčajne nemal prístup, buď preto, že nie je vlastníkom záznamu pre daný prípad, alebo (v prípade manažérov) preto, že vlastník záznamu nie je v jeho používateľských skupinách. Upozorňujeme, že hoci používateľ uvidí prípad v zobrazení výsledkov vyhľadávania, nebude môcť kliknúť na stránku zobrazenia prípadu pre tento prípad, čo znamená, že nebude môcť vidieť žiadne podrobné informácie o prípade.
+            label: Hľadat záznamy o prípadoch, ktoré patria iným používateľom
+          service_provision_incident_details:
+            explanation: Umožňuje používateľovi zobraziť tlačidlo s názvom „Uložiť a pridať poskytovanie služby“ v spodnej časti modálneho zobrazenia "Pridať incident". Kliknutím na toto tlačidlo sa uložia aktuálne zadané informácie o incidente a potom sa používateľ dostane priamo do modálu "Pridať poskytovanie služby". Keďže táto akcia je priamo prepojená s akciami "Pridať incident" a "Pridať poskytovanie služby", má zmysel udeliť toto povolenie len role, ktorá má tiež povolenia "Pridať podrobnosti o incidente do prípadu iného používateľa" a "Pridať Poskytovanie Služieb v prípade iného užívateľa".
+            label: Pozrite si tlačidlo "Pridať poskytovanie služby" v modálu "Podrobnosti o incidente"
+          services_section_from_case:
+            explanation: Možnosť pridať záznam do podformulára "Služby" k prípadu, ktorý ste našli vo výsledkoch vyhľadávania, ale ku ktorému nemáte prístup. Používateľ vykoná túto akciu na stránke "výsledky vyhľadávania" výberom jedného alebo viacerých prípadov a následným výberom položky „Pridať poskytovanie služby“ z ponuky akcií. Používateľovi sa potom zobrazí modál obsahujúci všetky polia v podformulári "Služby", kde môže zadať a odoslať informácie o službe.. Keďže túto akciu možno vykonať iba zo stránky "výsledky vyhľadávania", používateľ má toto povolenie len vtedy, ak má aj povolenie „Vyhľadať záznamy o prípadoch vo vlastníctve iných používateľov“.
+            label: Pridať Poskytovanie služieb k prípadu iného používateľa
+          sync_external:
+            explanation: Schopnosť synchronizovať "Záznam" s externým systémom riadenia informácií
+            label: Synchronizácia s externým systémom riadenia informácií
+          sync_mobile:
+            explanation: Umožňuje používateľovi ukladať prípady do vyrovnávacej pamäte na použitie v režime offline.
+            label: Označiť pre režim offline
+          transfer:
+            explanation: Umožňuje používateľovi odoslať prípad od jeho aktuálneho vlastníka záznamu ktorémukoľvek používateľovi v systéme s možnosťou prijímať prevody. Vlastník záznamu prípadu sa však nemení, kým ho príjemca prevodu „neakceptuje“. Ak príjemca „odmietne“ prevod, príjemca stratí prístup k prípadu a prípad si ponechá pôvodný vlastník záznamu.
+            label: Prevod
+          view_photo:
+            explanation: Umožňuje používateľovi zobraziť fotografie prípadu zo "zobrazenia zoznamu prípadov". Bez tohto oprávnenia používateľ nevidí stĺpec "Foto" v tabuľke zoznamu prípadov, ani ikony fotografií, ktoré sa  v ňom zobrazujú. Toto oprávnenie tiež umožňuje používateľovi zobraziť fotografie dieťaťa v "Modálnom zobrazení".
+            label: Zobraziť fotku zo zobrazenia zoznamu prípadov
+          view_incident_from_case:
+            explanation: „Pri prezeraní Prípadu môže Používateľ vidieť zoznam Incidentov spojených s Prípadom spolu s niekoľkými súhrnnými informáciami o každom z nich.
+            label: Pozrite si incidenty z prípadu
+          view_protection_concerns_filter:
+            explanation: Umožňuje používateľovi zobraziť filter "obavy o ochranu" na stránke so zoznamom prípadov.
+            label: Zobrazenie filtra "Obavy o ochranu" na stránke zoznamu prípadov.
+          view_registry_record:
+            explanation: Umožňuje používateľovi zobraziť informácie o každom "registri" prepojenom s "prípadom". Umožňuje tiež používateľovi zobraziť formulár "Podrobnosti o registri" na "Prípade".
+            label: Zobrazenie Registračného záznamu z Prípadu
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“, aktualizovať informácie v prípade a kliknúť na „Uložiť“
+            label: Upraviť
+          accept_or_reject_transfer:
+            explanation: Umožňuje používateľovi prijať alebo odmietnuť prevod v mene iného používateľa, ktorý sa nachádza v tom istom tíme (napríklad nadriadený môže prijať prevod, ktorý bol odoslaný sociálnemu pracovníkovi z jeho skupiny).
+            label: Prijmite alebo odmietnite prevod pre iného používateľa vo vašom tíme.
+          list_case_names:
+            explanation: Manažéri zvyčajne nevidia názvy prípadov v zozname prípadov. Ak má manažér povolenie, bude môcť vidieť mená v zozname.
+            label: Ak je manažér, môže vidieť názvy prípadov v zozname prípadov.
+          mark_for_offline:
+            explanation: Umožňuje používateľovi uložiť prípad do vyrovnávacej pamäte na použitie v režime offline.
+            label: Označiť pre režim offline
+        explanation: Zastupuje jednotlivé dieťa, pozostalého, alebo iného príjemcu.
+        label: Prípad
+      dashboard:
+        actions:
+          approvals_action_plan:
+            explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie akčného plánu, ktoré sú čakajúce, schválené alebo zamietnuté.
+            label: Schválenia prípadov pracovníka %{approval_label}
+          approvals_action_plan_pending:
+            explanation: Zobrazuje počet prípadov v tíme manažéra s čakajúcimi žiadosťami o schválenie akčného plánu.
+            label: Schválenia manažéra %{approval_label}
+          approvals_assessment:
+            explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie hodnotenia, ktoré sú nespracované, schválené alebo zamietnuté.
+            label: Schválenia prípadov pracovníka %{approval_label}
+          approvals_assessment_pending:
+            explanation: Zobrazuje počet prípadov v tíme manažéra s čakajúcimi žiadosťami o schválenie hodnotenia.
+            label: Schválenia manažéra %{approval_label}
+          approvals_case_plan:
+            explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie plánu prípadov, ktoré sú čakajúce, schválené alebo zamietnuté.
+            label: Schválenia prípadov pracovníka %{approval_label}
+          approvals_case_plan_pending:
+            explanation: Zobrazuje počet prípadov v tíme manažéra s čakajúcimi žiadosťami o schválenie plánu prípadov.
+            label: Schválenia manažéra %{approval_label}
+          approvals_closure:
+            explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie uzavretia, ktoré sú čakajúce, schválené alebo zamietnuté.
+            label: Schválenia prípadov pracovníka %{approval_label}
+          approvals_closure_pending:
+            explanation: Zobrazuje počet prípadov v tíme manažéra s čakajúcimi žiadosťami o schválenie uzavretia.
+            label: Schválenia manažéra %{approval_label}
+          approvals_gbv_closure:
+            explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie uzavretia GBV, ktoré sú nevybavené, schválené alebo zamietnuté.
+            label: Schválenia prípadov pracovníka %{approval_label}
+          approvals_gbv_closure_pending:
+            explanation: Zobrazuje počet prípadov v tíme správca čakajúcimi žiadosťami o schválenie uzavretia rodovo motivovaného násilia (GBV).
+            label: Schválenia manažéra %{approval_label}
+          case_overview:
+            explanation: Prehľad palubnej dosky v hornej časti domovskej stránky, ktorá obsahuje čísla ako Celkom a Nové prípady
+            label: Prehľad palubnej dosky
+          case_risk:
+            explanation: Ukazuje, koľko prípadov je v každom úrovni rizika.
+            label: Prípady podľa úrovne rizika
+          cases_by_task_overdue_assessment:
+            explanation: Umožňuje manažérovi vidieť, koľko prípadov májú oneskorené úlohy hodnotenia pre každého z ich pracovníkov zaoberajúcich sa prípadom.
+            label: Oneskorené úlohy hodnotenia
+          cases_by_task_overdue_case_plan:
+            explanation: Umožňuje manažérovi vidieť, koľko prípadov má omeškané úlohy z Prípadového plánu u každého z ich pracovníkov zaoberajúcich sa prípadom.
+            label: Oneskorené úlohy plánu prípadu
+          cases_by_task_overdue_followups:
+            explanation: Umožňuje správcovi zobraziť, koľko prípadov má oneskorené úlohy sledovania za každého pracovníka.
+            label: Oneskorené následné úlohy
+          cases_by_task_overdue_services:
+            explanation: Umožňuje manažérovi vidieť, koľko prípadov má omeškané Servisné úlohy u každého z ich pracovníkov zaoberajúcich sa prípadom.
+            label: ' Oneskorené servisné úlohy'
+          dash_case_incident_overview:
+            explanation: .
+            label: Prehľad – Moje prípady / Incidenty
+          dash_cases_by_social_worker:
+            explanation: Tabuľka, ktorá zobrazuje celkový počet otvorených prípadov a počet nových prípadov spravovaných každým používateľom v skupinách používateľov aktuálneho používateľa. Každý riadok predstavuje používateľa v skupinách používateľov aktuálneho používateľa, zatiaľ čo „Celkom“ a „Nový“ sú dva stĺpce.
+            label: Zobraziť prípady pracovníka
+          dash_cases_to_assign:
+            explanation: 'DÔLEŽITÉ: Len pre správcov. Zobrazuje počet prípadov, ktoré aktuálny používateľ priamo vlastní (musí to byť správca). Tento informačný panel predpokladá, že správcovia neriadia svoje vlastné prípady a že ak má správca svoje vlastné prípady, mal by ich prideliť pracovníkom vo svojom tíme.'
+            label: (Pre správcov) Prípady, ktoré potrebujem prideliť ľuďom v mojom tíme.
+          dash_flags:
+            explanation: Zobrazuje zoznam príznakov, ktoré ostatní používatelia pridali do mojich záznamov, ako aj príznakov, ktoré som pridal do záznamov iných používateľov.
+            label: Označené záznamy
+          dash_group_overview:
+            explanation: Zobrazuje správcovi počet otvorených a uzavretých prípadov spravovaných používateľmi v ich tíme.
+            label: Prípady mojej skupiny
+          dash_matching_results:
+            explanation: UKONČENÉ. Tento palubný panel je nefunkčný a bude odstránený vo verzii 2.
+            label: Zobraziť zhodné výsledky
+          dash_protection_concerns:
+            explanation: Tabuľka ukazuje, koľko prípadov má obavy z ochrany. Každý riadok tabuľky sa týka obavy z ochrany, zatiaľ čo stĺpce označujú rôzne stavy prípadov („Všetky prípady“, „Otvorené prípady“, „Nové (tento týždeň)", „Uzavreté (tento týždeň)“)
+            label: Prípady podľa Obáv o ochranu
+          dash_protection_concerns_by_location:
+            explanation: Je to rovnaké ako na palubnej doske „Zobraziť obavy z ochrany“, s výnimkou toho, že používateľ si môže vybrať umiestnenie z ponuky ktorá zobrazuje štatistiky o prevalencii obáv z ochrany iba na tomto mieste.
+            label: Zobraziť obavy z ochrany podľa miesta
+          dash_reporting_location:
+            explanation: Tabuľka, v ktorej sa uvádza, koľko prípadov je v jednotlivých lokalitách (na jednej úrovni konkrétnosti, napríklad "provincia" alebo "okres"). Každý riadok tabuľky predstavuje lokalitu a stĺpce označujú rôzne stavy prípadov ("OTVORENÉ PRÍPADY," "NOVÉ(MINULÝ TÝŽDEŇ)," "NOVÉ(TENTO TÝŽDEŇ),"UZAVRETÉ(MINULÝ TÝŽDEŇ)," "UZAVRETÉ(TENTO TÝŽDEŇ)"). Zvyčajne sa používa pre manažérske alebo administrátorské účty.
+            label: Prípady podľa miest nahlasovania
+          dash_service_provisions:
+            explanation: Zobrazuje počet prípadov, ku ktorým iní používatelia pridali poskytovanie služby. Toto číslo sa zobrazí v hlavnej časti palubnej dosky.
+            label: Prípady podľa typu poskytovania služieb
+          dash_shared_from_my_team:
+            explanation: Zobrazuje správcovi počet prípadov spravovaných každým používateľom v jeho tíme, ktoré sú odporúčané alebo prevedené na iných používateľov.
+            label: Zdieľané z Môjho Tímu
+          dash_shared_with_me:
+            explanation: Zobrazuje, koľko prípadov vám bolo odporúčaných alebo prevedených.
+            label: Zdieľané so mnou
+          dash_shared_with_my_team:
+            explanation: Zobrazuje správcovi počet prípadov odporúčaných alebo prevedených na každého z používateľov v jeho tíme.
+            label: Zdieľané s Mojím Tímom
+          dash_shared_with_my_team_overview:
+            label: Zdieľané s Mojím Tímom (prehľad)
+          dash_shared_with_others:
+            explanation: Zobrazuje, koľko prípadov má aktívne odporúčania, nevybavené prevody alebo zamietnuté prevody. Zvyčajne nie pre manažérov,  alebo iba vtedy, keď si svoje prípady riadia sami.
+            label: Zdieľané s ostatnými
+          dash_show_none_values:
+            explanation: Pridáva ďalšiu kategóriu „Žiadna úroveň rizika“ na všetky informačné dosky, ktoré rozdeľujú prípady podľa úrovne rizika. Toto je špeciálne pre konfigurácie, ktoré majú štvrtú možnosť „Bez rizika“ pre polia úrovne rizika.
+            label: Prezrite si prípady „Bez úrovne rizika“ na Paneli Hodnotenia
+          dash_tasks:
+            explanation: Umožňuje používateľovi zobraziť stránku úloh. Toto by sa malo použiť pre pracovníkov zaoberajúcich sa prípadmi a poskytovateľov služieb, pretože čísla sa budú týkať konkrétne prípadov, ktoré priamo riadia. Správcovia by namiesto toho mali použiť informačnú dosku „Zobraziť prípady podľa úloh po splatnosti“, pretože im to umožňuje zobraziť oneskorené úlohy pre všetkých v ich skupinách používateľov.
+            label: Stránka úloh
+          dash_national_admin_summary:
+            explanation: Zobrazuje celkový počet otvorených Prípadov v systéme, počet nových Prípadov vytvorených za posledných dvoch týždňov a počet Prípadov uzavretých za posledných dvoch týždňov.
+            label: Súhrn Administrátora
+          view_response:
+            explanation: Pre každý typ odpovede sa uvádza, koľko prípadov na každom rizikovom stupni má služby, ktorých dokončenie sa blíži k termínu, alebo je po termíne.
+            label: Pozrieť odpovede
+          workflow:
+            explanation: Umožňuje pracovníkovi prípadu zobraziť graf znázorňujúci počet vlastných prípadov v každej fáze pracovného postupu.
+            label: Prípady rozdelené podľa pracovného postupu
+          workflow_team:
+            explanation: Umožňuje manažérovi zobraziť tabuľku, ktorá ukazuje, koľko z prípadov sociálnych pracovníkov sa nachádza v jednotlivých fázach procesu riadenia prípadu
+            label: Prípady podľa pracovného postupu a pracovníka
+        explanation: Určuje, ktoré súhrnné informácie sa zobrazia na domovskej stránke.
+        label: Palubná doska
+      disabled:
+        explanation: Ak túto rolu zakážete, už ju nebudete môcť priradiť k používateľským účtom.
+        label: Zakázané
+      duplicate:
+        actions:
+          read:
+            explanation: Umožňuje používateľovi vykonať rozšírené vyhľadávanie všetkých prípadov v systéme pomocou viacerých kritérií, vrátane mena, prezývky, pohlavia, veku a štátnej príslušnosti.
+            label: Náhľad
+        explanation: Rozšírené vyhľadávanie prípadov pre správcov.
+        label: Duplicitné vyhľadávanie
+      forms:
+        case:
+          explanation: 'Obmedzenie prístupu používateľa k formulárom prípadov obmedzuje informácie, ktoré môže používateľ zobraziť o incidente. Napríklad, ak má používateľ prístup iba k formuláru "Vlastník záznamu", bude môcť vidieť iba informácie obsiahnuté v poliach tohto formulára. Ak má aktuálny používateľ obmedzený prístup k formulárom a má možnosť spravovať konfiguráciu formulára, obmedzenie jeho prístupu k formulárom obmedzuje aj to, ktoré formuláre môže konfigurovať. POZNÁMKA: Ak formuláre nie sú špecifikované, znamená to, že rola má prístup ku všetkým formulárom prípadov.'
+          label: Formuláre - Prípad
+        incident:
+          explanation: 'Obmedzenie prístupu používateľa k formulárom o incidentoch obmedzuje informácie, ktoré môže používateľ o incidente vidieť. Napríklad, ak má používateľ prístup iba k formuláru "Vlastník záznamu", bude môcť vidieť iba informácie obsiahnuté v poliach tohto formulára. Ak má aktuálny používateľ obmedzený prístup k formulárom a má možnosť spravovať konfiguráciu formulára, obmedzenie jeho prístupu k formulárom obmedzuje aj to, ktoré formuláre môže konfigurovať. POZNÁMKA: Ak formuláre nie sú špecifikované, znamená to, že rola má prístup ku všetkým formulárom prípadov.'
+          label: Formuláre – Incident
+        tracing_request:
+          explanation: 'Obmedzenie prístupu používateľa k formulárom žiadostí o sledovanie obmedzuje informácie, ktoré môže používateľ vidieť v žiadosti o sledovanie. Napríklad, ak má používateľ prístup iba k formuláru "Vlastník záznamu", bude môcť vidieť iba informácie obsiahnuté v poliach tohto formulára. Ak má aktuálny používateľ obmedzený prístup k formulárom a má možnosť spravovať konfiguráciu formulára, obmedzenie jeho prístupu k formulárom obmedzuje aj to, ktoré formuláre môže konfigurovať. POZNÁMKA: Ak nie sú špecifikované žiadne formuláre, znamená to, že rola má prístup ku všetkým formulárom pre požiadavky na sledovanie.'
+          label: Formuláre – žiadosť o sledovanie
+        registry_record:
+          explanation: 'Obmedzenie prístupu používateľa k formulárom v registroch obmedzuje informácie, ktoré môže používateľ vidieť v registri. Napríklad, ak má používateľ prístup iba k formuláru "Vlastník záznamu", bude môcť vidieť iba informácie obsiahnuté v poliach tohto formulára. Ak má aktuálny používateľ obmedzený prístup k formulárom a má možnosť spravovať konfiguráciu formulára, obmedzenie jeho prístupu k formulárom obmedzuje aj to, ktoré formuláre môže konfigurovať. POZNÁMKA: Ak formuláre nie sú špecifikované, znamená to, že rola má prístup ku všetkým formulárom v registri.'
+          label: Formuláre - Register
+      group:
+        actions:
+          admin_only:
+            explanation: To znamená, že používatelia s touto rolou budú môcť zobrazť iba veci súvisiace s administráciou systému, ako sú správy, konfigurácia formulárov a vyhľadávania, používatelia, roly a skupiny používateľov. Neuvidia žiadne jednotlivé prípady, žiadosti o sledovanie ani incidenty.
+            label: Žiadne záznamy – iba funkcia správcu
+          agency:
+            explanation: 'Táto rola má prístup k záznamom, ktoré spravujú všetci používatelia v ich agentúre. Ak má používateľ prístup k používateľom, má prístup ku všetkým používateľom vo svojej agentúre. '
+            label: Všetky záznamy alebo používatelia v mojej agentúre
+          all:
+            explanation: Rola má prístup ku všetkým záznamom, používateľom a skupinám používateľov v systéme, bez ohľadu na to, do ktorých skupín používateľov patrí.
+            label: Prístup ku všetkým záznamom alebo používateľom
+          group:
+            explanation: Rola má prístup k záznamom, ktoré spravujú všetci Používatelia v Skupine Používateľov. Môžu pristupovať len k Používateľským Skupinám. Môžu mať prístup iba k vlastným Používateľským Skupinám.
+            label: Prístup ku všetkým záznamom alebo používateľom v mojej skupine
+          self:
+            explanation: Rola, ktorá umožňuje prístup k vlastným záznamom (prípadom, žiadostiam o sledovanie alebo incidentom) a môžnosť upravovať svoj vlastný používateľský účet.
+            label: Prístup iba k mojim záznamom alebo používateľovi
+        explanation: Riadi, ku ktorým záznamom (Prípady, Požiadavky na sledovanie alebo Incidenty) má rola prístup. Ak má rola prístup k používateľom a skupinám používateľov, toto tiež riadi, ku ktorým používateľom a skupinám používateľov má prístup. Roly s prístupom "Žiadne záznamy" majú prístup iba k nastaveniam systému, ako sú Formuláre, Používatelia a Správy.
+        label: Na aké záznamy má táto rola vplyv?
+      incident:
+        actions:
+          change_log:
+            explanation: Používateľ môže vidieť históriu všetkých zmien vykonaných v zázname od jeho vytvorenia. Zahŕňa hodnoty zaznamenané pre všetky polia.
+            label: Denník zmien
+          create:
+            explanation: Možnosť vytvoriť incident
+            label: Vytvoriť
+          enable_disable_record:
+            explanation: Možnosť zakázať alebo povoliť incident. "Zakázané" Incidenty sa štandardne nezobrazujú v zozname incidentov. Používatelia môžu zobraziť zakázané incidenty v zozname incidentov použitím filtra.
+            label: Povoliť / Zakázať
+          export_case_pdf:
+            explanation: Používateľ môže vygenerovať export súboru PDF zo "zoznamu incidentov" alebo "prehľadu incidentov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero incidentov alebo všetky záznamy, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, v ktorom sa informácie zobrazujú.
+            label: Exportovať do PDF
+          export_csv:
+            explanation: 'Používateľ môže vygenerovať export súboru CSV zo stránok "zoznam registra" alebo "zobrazenia registra", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero záznamov alebo všetky záznamy registra, ku ktorým má používateľ prístup. '
+            label: Exportovať do CSV
+          export_custom:
+            label: Vlastný Export
+          export_incident_recorder_xls:
+            explanation: Používateľ môže vygenerovať export špecializovaného súboru XLS, ktorý umožňuje výmenu údajov s nástrojom na zaznamenávanie incidentov na základe pohlavia (GBV).
+            label: Exportovať záznamník incidentov xls
+          export_json:
+            explanation: Používateľ môže vygenerovať export súboru JSON zo stránok "zoznam incidentov" alebo "zobrazenia incidentov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero incidentov alebo všetky incidenty, ku ktorým má používateľ prístup. Tento export sa používa hlavne pre tých, ktorí chcú exportovať incidenty z aktuálneho systému Primero a následne ich importovať do iného Primero systému, alebo iného systému riadenia informácií. Formát JSON je strojovo čitateľný a pre väčšinu používateľov nie je praktický.
+            label: Exportovať do JSON
+          export_list_view_csv:
+            explanation: Používateľ môže zo "stránky so zoznamom incidentov" vygenerovať export do súboru CVS, ktorý obsahuje rovnaké polia, aké sa zobrazujú pre daného používateľa v zozname incidentov.. Vykonáva sa len zo stránky zoznamu incidentov.
+            label: Náhľad do Exportného Zoznamu CSV
+          export_pdf:
+            explanation: Používateľ môže vygenerovať export súboru PDF zo "zoznamu incidentov" alebo "prehľadu incidentov", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero incidentov alebo všetky záznamy, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, v ktorom sa informácie zobrazujú.
+            label: Exportovať do PDF
+          export_xls:
+            explanation: Používateľ môže vygenerovať export súboru XLS zo "Zoznamu incidentov" alebo stránok so "Zobrazením incidentov", ktorý obsahuje vlastnú sadu formulárov alebo polí pre jeden, viacero alebo všetky prípady, ku ktorým má používateľ prístup. V tomto exporte je každý formulár zastúpený na vlastnej karte v rámci súboru XLS. Používateľ si môže vybrať, ktoré formuláre alebo polia chce zahrnúť do exportu pomocou modálu "Vlastný Export". Upozorňujeme, že používatelia môžu do exportu zahrnúť formuláre a polia iba vtedy, ak majú prístup na ich zobrazenie pri prezeraní prípadu v aplikácii.
+            label: Export do Excelu (súbor XLS).
+          flag:
+            explanation: Možnosť pridať príznak k incidentu. Používatelia s týmto povolením môžu tiež odstrániť príznaky, ktoré pridali k incidentu.
+            label: Príznak
+          import:
+            explanation: Umožňuje používateľovi vytvoriť jeden alebo viacero nových prípadov ich importovaním zo súboru CSV, Excel alebo JSON. Pre správny import informácii, musí byť importovaný súbor "veľmi" špeciálne naformátovaný. Táto funkcia by mala byť dostupná iba pre správcov s pokročilými technickými zručnosťami a hlbokými znalosťami o tom, ako sa v Primero formátujú údaje. Dá sa to urobiť iba zo stránky Zoznam prípadov.
+            label: Import
+          manage:
+            explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie pri incidentoch. Povolenie „Spravovať“ v podstate znamená „všetko“.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť incident
+            label: Náhľad
+          sync_mobile:
+            explanation: Toto povolenie umožňuje používateľovi používať mobilnú aplikáciu. Po prvé, umožňuje používateľovi zobraziť akcie „Označiť pre mobil“ a „Zrušiť označenie pre mobil“, ktoré sa zobrazujú na stránkach zoznamu a zobrazenia incidentov. Označenie incidentu pre mobil znamená, že informácie o tomto incidente by sa mali synchronizovať medzi mobilným zariadením používateľa a webovou aplikáciou, zatiaľ čo zrušením označenia incidentu pre mobil sa táto synchronizácia zastaví. Používatelia bez tohto povolenia nemôžu synchronizovať svoje mobilné zariadenia s webovou aplikáciou, čo znamená, že nemôžu používať mobilnú aplikáciu na správu incidentov.
+            label: Synchronizácia s mobilným zariadením
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“, aktualizovať informácie o incidente a kliknúť na „Uložiť“. Umožňuje tiež používateľovi zakázať alebo povoliť incident.
+            label: Upraviť
+        explanation: Predstavuje udalosť, ktorá sa už stala. Zvyčajne ide o incidenty zneužívania alebo násilia, hoci môžu zodpovedať aj udalostiam, ako sú stretnutia s orgánmi činnými v trestnom konaní.. Incidenty sú často spojené s Prípadmi.
+        label: Incident
+      is_manager:
+        explanation: Vzťahuje sa na akúkoľvek rolu používateľa, ktorá vo všeobecnosti dohliada na ostatných používateľov. To umožňuje používateľovi zobraziť informačné dosky a filtre, ktoré používateľovi pomáhajú spravovať tím.
+        label: Je správca?
+      managed_report:
+        actions:
+          violations:
+            label: Porušenia
+          gbv_statistics:
+            label: Štatistika rodovo motivovaného násilia (GBV)
+      matching_configuration:
+        actions:
+          manage:
+            explanation: Možnosť ovládať, ktoré polia sa budú porovnávať, aby sa našli zhody medzi žiadosťou o sledovanie a prípadmi. Keďže toto riadi, ako prebieha porovnávanie v celom systéme, toto povolenie by malo byť vo všeobecnosti dostupné iba správcovi systému.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+        explanation: Ovláda, ktoré polia sa použijú na porovnanie žiadostí o sledovanie s prípadmi počas sledovania a zjednotenia rodiny.
+        label: Zhodná konfigurácia
+      metadata:
+        actions:
+          manage:
+            explanation: Možnosť vytvárať, upravovať, prekladať a odstraňovať formuláre, polia formulárov a vyhľadávania. Upozorňujeme, že používateľ s týmto povolením bude môcť spravovať iba formuláre, ku ktorým má prístup. Ak má napríklad správca možnosť vidieť iba formulár vlastníka záznamu o prípadoch, potom bude môcť aktualizovať konfiguráciu iba pre tento formulár.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+        explanation: Ovláda možnosť konfigurovať formuláre a polia Primero, ako aj možnosti vyhľadávania, ktoré sa v nich používajú.
+        label: Formuláre, Vyhľadávania
+      module:
+        actions:
+          cp:
+            label: Ochrana detí (CP)
+          gbv:
+            label: Rodovo motivované násilie (GBV)
+          mrm:
+            label: MRM
+        explanation: Kontroluje, na ktoré moduly sa táto rola vzťahuje.
+        label: Moduly
+      potential_match:
+        actions:
+          read:
+            explanation: Predstavuje pripojenie medzi žiadosťou o sledovanie a prípadom. Prístup k možným zhodám je nevyhnutný pre prácu na sledovanie a znovuzjednotenie rodiny (FTR). Umožňuje používateľovi zobraziť formulár "Súhrnný prehľad o prípadoch".
+            label: Náhľad
+        label: Možná zhoda
+      primero_configuration:
+        actions:
+          manage:
+            explanation: Možnosť uložiť, použiť a odoslať konfigurácie. Toto oprávnenie je zvyčajne vyhradené pre správcu systému.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+        label: Konfigurácia
+      referral:
+        actions:
+          refer:
+            explanation: To znamená, že rola sa zobrazí ako možnosť pre „Typ príjemcu“, keď používateľ vykoná externé odporúčanie. Ak si používateľ vyberie túto rolu ako typ odporúčania, export, ktorý Primero vygeneruje, keď používateľ odošle odporúčanie, bude obsahovať iba informácie, ktoré sa nachádzajú vo formulároch, ku ktorým má táto rola prístup. Ak si napríklad používateľ vyberie ako typ príjemcu „Poskytovateľ lekárskych služieb“ a rola Poskytovateľa lekárskej služby má prístup iba k formulárom "Základné problémy s identitou a ochranou", exportný súbor, ktorý Primero exportuje pre externé odporúčanie, bude iba obsahovať polia, ktoré sú v týchto dvoch formulároch.
+            label: Dá sa táto rola použiť na externé odporúčanie?
+        label: Odporúčanie
+      registry_record:
+        actions:
+          change_log:
+            explanation: Používateľ môže zobraziť históriu všetkých zmien vykonaných v zázname od jeho vytvorenia. To zahŕňa hodnoty zaznamenané pre všetky polia.
+            label: Denník zmien
+          create:
+            explanation: Možnosť vytvoriť záznam v registri.
+            label: Vytvoriť
+          enable_disable_record:
+            explanation: Možnosť zakázať alebo povoliť záznam v registri. "Zakázané" záznamy sa štandardne nezobrazujú v "Zozname registrov". Používatelia môžu zobraziť zakázané záznamy registra v "zozname registra" použitím filtra.
+            label: Povoliť / Zakázať
+          export_csv:
+            explanation: 'Používateľ môže vygenerovať export súboru CSV zo stránok "zoznam registra" alebo "zobrazenia registra", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero záznamov alebo všetky záznamy registra, ku ktorým má používateľ prístup. POZNÁMKA: Export CSV nespracováva znaky, ktoré nie sú latinkou (napr. arabčina, bengálčina)'
+            label: Exportovať do CSV
+          export_json:
+            explanation: Používateľ môže vygenerovať export súboru JSON zo "zoznamu registra" alebo zo stránok "zobrazenia registra", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup. Formát JSON je strojovo čitateľný a pre väčšinu používateľov nie je praktický.
+            label: Exportovať do JSON
+          export_xls:
+            explanation: 'Používateľ môže vygenerovať export súboru XLS zo "zoznamu registra" alebo zo stránok "zobrazenia registra", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup. POZNÁMKA: Formát XLS nespracováva znaky, ktoré nie sú latinské (napr. arabčina, bengálčina).'
+            label: Export do programu Excel (súbor XLS)
+          flag:
+            explanation: Možnosť pridať príznak do záznamu databázy. Používatelia s týmto povolením môžu tiež odstrániť príznaky, ktoré pridali do záznamu.
+            label: Príznak
+          manage:
+            explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie v "Registračných záznamoch". Povolenie „Spravovať“ v podstate znamená „všetko“.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť Záznamy v registri
+            label: Náhľad
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“, aktualizovať informácie o zázname v databáze a kliknúť na „Uložiť“.
+            label: Upraviť
+          sync_mobile:
+            explanation: Umožňuje používateľovi ukladať záznamy do registra na použitie offline.
+            label: Označiť pre režim offline
+        explanation: Toto môže predstavovať jednotlivca alebo inštitúciu, ktorú je potrebné prepojiť s inými záznamami, ako sú prípady alebo incidenty, ktoré sú veľmi početné a sú opakovane aktualizované o nové informácie. Sú podobné vyhľadávacím záznamom, ale s komplexnejším súborom informácií pre každý záznam.
+        label: Záznam registrov
+      report:
+        actions:
+          create:
+            explanation: Možnosť vytvoriť novú správu. Keď používateľ vytvorí správu, bude viditeľný pre všetkých používateľov s prístupom na „Čítať“ alebo „Skupinové čítanie“ k prehľadom.
+            label: Vytvoriť
+          group_read:
+            explanation: Možnosť zobraziť všetky správy. Čísla v každom prehľade budú odrážať iba tie záznamy, ktoré sú prístupné používateľom v skupinách používateľov aktuálneho používateľa. Toto povolenie sa často používa pre miestnych, regionálnych alebo agentúrnych správcov, ktorí chcú získať prehľad o výkonnosti svojich vlastných tímov alebo organizácií. Toto povolenie tiež dáva používateľovi možnosť exportovať údaje zo zostavy.
+            label: Zobraziť (skupinu-na zaklade)
+          manage:
+            explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie v agentúrach. Povolenie „Spravovať“ v podstate znamená „všetko“.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť všetky správy. Čísla v každom prehľade budú odrážať všetky záznamy v systéme, nie iba záznamy, ku ktorým má prístup aktuálny používateľ. Toto povolenie tiež dáva používateľovi možnosť exportovať údaje zo zostavy.
+            label: Náhľad
+          write:
+            explanation: Možnosť upravovať všetky správy (vrátane správy vytvorených inými používateľmi).
+            label: Upraviť
+        explanation: Nástroj na analýzu súhrnných údajov, ktorý zahŕňa tabuľkové a grafické zobrazenie údajov.
+        label: Správa
+      reporting_location_level:
+        explanation: 'Toto bude kontrolovať, aká úroveň umiestnení sa zobrazí pre túto rolu na informačných paneloch, filtroch, spôsoboch sprostredkovania a spôsoboch prenosu. Ak toto pole necháte prázdne, sa uloží predvolená konfigurácia systému pre „úroveň umiestnení“.'
+        label: Aký typ umiestnenia by sa mal použiť na vykazovanie tejto roly?
+      role:
+        actions:
+          assign:
+            explanation: Možnosť výberu roly pri vytváraní alebo úprave používateľského účtu. Toto povolenie je potrebné pre každú rolu, ktorá bude vytvárať alebo upravovať používateľské účty.
+            label: Prideliť
+          copy:
+            explanation: Možnosť vytvoriť kópiu roly. Je to užitočné pre systémových administrátorov, ktorí musia vytvoriť množstvo rolí, ktoré sú si navzájom veľmi podobné (napr. poskytovatelia služieb).
+            label: Kopírovať
+          create:
+            explanation: Možnosť vytvoriť rolu
+            label: Vytvoriť
+          delete:
+            explanation: Možnosť vymazať rolu.
+            label: Odstrániť
+          manage:
+            explanation: 'Umožňuje používateľovi vykonávať všetky dostupné akcie s rolami. Povolenie „Spravovať“ v podstate znamená „všetko“. DÔLEŽITÉ: Toto tiež dáva možnosť vytvárať a odstraňovať roly.'
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          permitted_roles:
+            explanation: Ak má rola schopnosť vykonávať ktorúkoľvek z vyššie uvedených akcií s rolou, bude môcť vykonávať tieto akcie s rolami špecifikovanými v tomto zozname. Ak má rola napríklad povolenie „Čítať“ a „Priraďovať“ k rolám, ale ako „spravované roly“ má uvedené iba „Pracovník prípadu CP“ a „Správca CP“, bude môcť vidieť iba tie dve roly a nových používateľov bude môcť priradiť iba k týmto dvom rolám. Ak tá istá rola nemá zadané žiadne "Spravované roly", bude môcť vidieť všetky roly a bude môcť vytvárať nové používateľské účty s ľubovoľnou rolou v systéme.
+            label: Ďalšie roly spravované touto rolou
+          read:
+            explanation: Možnosť zobraziť roly
+            label: Náhľad
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“ na stránke zobraziť rolu, aktualizovať povolenia roly a uloženie roly.
+            label: Upraviť
+        explanation: Určuje, ktoré akcie môže používateľ vykonávať v systéme Primero.
+        label: Roly
+      system:
+        actions:
+          manage:
+            explanation: Možnosť zobrazenia a aktualizácie informácií o kontaktných údajoch systému, nastavenia predvolených notifikácií a uvítacích emailov a synchronizovaných serverov. Toto oprávnenie je zvyčajne vyhradené pre správcu systému.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+        explanation: Rôzne nastavenia konfigurácie v systéme.
+        label: Systém
+      tracing_request:
+        actions:
+          change_log:
+            explanation: Používateľ môže zobraziť históriu všetkých zmien vykonaných v zázname od jeho vytvorenia. To zahŕňa hodnoty zaznamenané pre všetky polia.
+            label: Denník zmien
+          create:
+            explanation: Možnosť vytvoriť požiadavku na sledovanie
+            label: Vytvoriť
+          enable_disable_record:
+            explanation: Možnosť zakázať alebo povoliť požiadavku na sledovanie. "Zakázané" požiadavky na sledovanie sa predvolene nezobrazujú v zozname "Požiadavky na sledovanie". Používatelia môžu zobraziť zakázané požiadavky na sledovanie v zozname žiadostí o sledovanie použitím filtra.
+            label: Povoliť / Zakázať
+          export_case_pdf:
+            explanation: Používateľ môže vygenerovať export súboru PDF zo "zoznamu žiadostí o sledovanie" alebo zo stránok  "žiadosť o sledovanie", ktoré obsahujú všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero alebo všetky záznamy, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, v ktorom sa informácie zobrazujú.
+            label: Exportovať do PDF
+          export_csv:
+            explanation: 'Používateľ môže vygenerovať export súboru CSV zo "zoznamu žiadosti o sledovanie" alebo  "zobraziť stránky na žiadosti o sledovanie", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero záznamov alebo všetky záznamy registra, ku ktorým má používateľ prístup. '
+            label: Exportovať do CSV
+          export_custom:
+            explanation: Používateľ môže vygenerovať export súboru XLS zo "Zoznamu Požiadavky na sledovanie" alebo zo stránok zobrazujúce "Požiadavky na sledovanie", ktoré obsahujú vlastnú množinu formulárov alebo polí pre jednu, viacero alebo všetky požiadavky na sledovanie, ku ktorým má používateľ prístup. V tomto exporte je každý formulár zastúpený na vlastnej karte v rámci súboru XLS. Používateľ si môže vybrať, ktoré formuláre alebo polia chce zahrnúť do exportu pomocou modálu "Vlastný Export". Upozorňujeme, že používatelia môžu do exportu zahrnúť formuláre a polia iba vtedy, ak majú  prístup na ich zobrazenie pri prezeraní žiadosti o sledovanie v aplikácii.
+            label: Vlastný Export
+          export_json:
+            explanation: Používateľ môže vygenerovať export súboru JSON zo "Zoznamu Požiadavky na sledovanie" alebo zo stránok zobrazujúce "Požiadavky na sledovanie", ktorý obsahuje všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero prípadov alebo všetky prípady, ku ktorým má používateľ prístup. Tento export sa používa hlavne pre tých, ktorí chcú exportovať prípady z aktuálneho systému Primero a následne ich importovať do iného systému. Formát JSON je strojovo čitateľný a pre väčšinu používateľov nie je praktický.
+            label: Exportovať do JSON
+          export_list_view_csv:
+            explanation: Používateľ môže vygenerovať export súboru CSV zo stránky "zoznam požiadaviek na sledovanie", ktorá obsahuje rovnaké polia, aké sa pre daného používateľa zobrazujú v zozname požiadaviek na sledovanie. Vykonáva sa len zo stránky so zoznamom požiadaviek na sledovanie.
+            label: Náhľad do exportného zoznamu CSV
+          export_pdf:
+            explanation: Používateľ môže vygenerovať export súboru PDF zo "zoznamu žiadostí o sledovanie" alebo zo stránok  "žiadosť o sledovanie", ktoré obsahujú všetky polia, ku ktorým má aktuálny používateľ prístup, pre jeden, viacero alebo všetky záznamy, ku ktorým má používateľ prístup. V exportovanom súbore PDF sú informácie uvedené najprv podľa prípadu a potom sú ďalej usporiadané podľa formulára, v ktorom sa informácie zobrazujú.
+            label: Exportovať do PDF
+          export_xls:
+            explanation: 'Používateľ môže vygenerovať export súboru XLS zo "Zoznamu Požiadavky na sledovanie" alebo zo stránok zobrazujúce "Požiadavky na sledovanie", ktoré obsahujú všetky polia, ku ktorým má aktuálny používateľ prístup, pre jednu, viacero alebo všetky Požiadavky na sledovanie, ku ktorým má používateľ prístup. V tomto exporte je každý formulár zastúpený na vlastnej karte v rámci súboru XLS. POZNÁMKA: Formát XLS nespracováva znaky, ktoré nie sú latinkou (napr. arabčina, bengálčina).'
+            label: Export do programu Excel (súbor XLS)
+          flag:
+            explanation: Možnosť pridať príznak k žiadosti o sledovanie. Používatelia s týmto povolením môžu tiež odstrániť príznaky, ktoré pridali k žiadosti o sledovanie.
+            label: Príznak
+          import:
+            explanation: Umožňuje používateľovi vytvoriť jeden alebo viacero nových prípadov ich importovaním zo súboru CSV, Excel alebo JSON. Pre správny import informácii, musí byť importovaný súbor "veľmi" špeciálne naformátovaný. Táto funkcia by mala byť dostupná iba pre správcov s pokročilými technickými zručnosťami a hlbokými znalosťami o tom, ako sa v Primero formátujú údaje. Dá sa to urobiť iba zo stránky Zoznam prípadov.
+            label: Import
+          manage:
+            explanation: Umožňuje používateľovi vykonávať všetky dostupné akcie pri žiadostiach o sledovanie. Povolenie „Spravovať“ v podstate znamená „všetko“.
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť požiadavku na sledovanie. Roly s možnosťou zobraziť požiadavky na sledovanie by mali mať možnosť zobraziť aj typ záznamu možných zhod.
+            label: Náhľad
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“, aktualizovať informácie o žiadosti na sledovanie a kliknúť na „Uložiť“. Umožňuje tiež používateľovi zakázať alebo povoliť požiadavku na sledovanie
+            label: Upraviť
+        explanation: Predstavuje jednotlivca, ktorý sa snaží nájsť a znovu sa s spojiť s prípadom
+        label: Žiadosť na sledovanie
+      transfer:
+        actions:
+          transfer:
+            explanation: To znamená, že rola sa zobrazí ako možnosť pre „Typ príjemcu“, keď používateľ vykoná externé odporúčanie. Ak si používateľ vyberie túto rolu ako typ prevodu, export, ktorý Primero vygeneruje, keď používateľ odošle prevod, bude obsahovať iba informácie, ktoré sa nachádzajú vo formulároch, ku ktorým má táto rola prístup. Ak si napríklad používateľ vyberie ako typ príjemcu „Poskytovateľ lekárskych služieb“ a rola Poskytovateľa lekárskej služby má prístup len k formulárom "Základné problémy s identitou a ochranou", exportný súbor, ktorý Primero exportuje na externý prenos, bude obsahovat polia, ktoré sú v týchto dvoch formulároch.
+            label: Dá sa táto rola použiť na externé prevody?
+        label: Prevod
+      user:
+        actions:
+          agency_read:
+            explanation: Možnosť zobraziť iba používateľské účty v agentúre aktuálneho používateľa. To tiež ovplyvňuje, s ktorými používateľskými účtami môže aktuálny používateľ vykonávať ďalšie akcie. Napríklad, ak má aktuálny používateľ oprávnenie na „Písanie“ používateľov, ale má aj oprávnenie na „Čítanie“ prostredníctvom agentúry, bude môcť upravovať iba používateľské účty, ktoré sú v ich vlastnej agentúre. Podobne, ak má aktuálny používateľ povolenie „Spravovať“ používateľov, ale má povolenie „Agentúra čítať“, bude môcť vytvárať používateľov iba pre svoju vlastnú agentúru. 
+            label: Zobraziť (v rámci Agentúry)
+          create:
+            explanation: Možnosť vytvoriť používateľský účet.
+            label: Vytvoriť
+          manage:
+            explanation: 'Umožňuje používateľovi vykonávať všetky dostupné akcie na používateľoch. Povolenie „Spravovať“ v podstate znamená „všetko“. DÔLEŽITÉ: Toto tiež dáva možnosť vytvárať nové používateľské účty.'
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť používateľské účty. V predvolenom nastavení má každý používateľ možnosť zobraziť a upravovať informácie o svojom používateľskom účte (napr. heslo, e-mail).
+            label: Náhľad
+          write:
+            explanation: Umožňuje kliknúť na tlačidlo „Upraviť“ na stránke zobraziť používateľa, aktualizovať informácie o používateľovi a uložiť. Upozorňujeme, že toto povolenie tiež umožňuje zakázať používateľské účty.
+            label: Upraviť
+        explanation: Predstavuje individuálne Používateľské konto.
+        label: Používatelia
+      user_group:
+        actions:
+          assign:
+            explanation: Umožňuje vybrať skupinu používateľov pri vytváraní alebo úprave používateľského účtu. Upozorňujeme, že ak má aktuálny používateľ úroveň prístupu „iba záznamy alebo používatelia v mojej skupine“, bude si môcť vybrať iba jednu alebo viacero *svojich* skupín používateľov pre používateľský účet, ktorý vytvára alebo upravuje. To znamená, že správca s možnosťou priraďovania skupín používateľov bude môcť pridať používateľa iba do skupín používateľov, do ktorých správca momentálne patrí. Toto povolenie je potrebné pre každú rolu, ktorá bude vytvárať alebo upravovať používateľské účty.
+            label: Prideliť
+          create:
+            explanation: Možnosť vytvoriť skupinu používateľov..
+            label: Vytvoriť
+          delete:
+            explanation: Možnosť vytvoriť skupinu používateľov..
+            label: Vymazať
+          manage:
+            explanation: 'Umožňuje používateľovi vykonávať všetky dostupné akcie v skupinách používateľov. Povolenie „Spravovať“ v podstate znamená „všetko“. DÔLEŽITÉ: Toto tiež dáva možnosť vytvárať a odstraňovať skupiny používateľov.'
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+          read:
+            explanation: Možnosť zobraziť skupiny používateľov.
+            label: Náhľad
+          write:
+            explanation: Možnosť upravovať skupiny používateľov.
+            label: Upraviť
+        explanation: Predstavuje tím alebo spolupracujúcu skupinu používateľov, ktorí môžu zdieľať záznamy. Správcovia môžu zvyčajne vidieť všetky záznamy spravované sociálnymi pracovníkmi vo svojich skupinách používateľov.
+        label: Používateľské skupiny
+      webhook:
+        actions:
+          read:
+            label: Náhľad
+            explanation: Možnosť zobraziť zoznam a prehľad konfigurácie webhooku cez API
+          write:
+            label: Upraviť
+            explanation: Možnosť vytvárať a upravovať konfiguráciu webhooku cez API
+          create:
+            explanation: Možnosť vytvoriť konfiguráciu webhooku cez API.
+            label: Vytvoriť
+          delete:
+            explanation: Možnosť odstrániť konfiguráciu webhooku cez API.
+            label: Odstrániť
+          manage:
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+      activity_log:
+        actions:
+          transfer:
+            explanation: 'Používateľ môže kliknúť do sekcie "Denník aktivít" na palubnej doske a zobraziť protokol všetkých prijatých alebo odmietnutých prevodov pre prípady, ku ktorým má prístup. '
+            label: Prevody
+          manage:
+            label: Spravovať (všetky povolenia pre tento typ zdroja)
+        label: Denník aktivít
+  potential_match:
+    case_id: IČ prípadu
+    child_age: Vek
+    child_gender: Pohlavie
+    child_id: 'IČ dieťaťa #'
+    inquirer_id: IČ žiadateľa
+    inquirer_tr_name: žiadosť na sledovanie
+    inquiry_date: Dátum podania žiadosti
+    name: Meno
+    score: Bodovať
+    social_worker: Sociálny pracovník
+    social_worker_agency: Agentúra
+    tracing_request_id: IČ Žiadosti na sledovanie
+    trace: Stopa
+    likelihood_likely: Pravdepodobné
+    likelihood_possible: Možné
+  potential_matches:
+    display: Zobrazujú sa možné zhody pre %{type} %{id}
+  reassign:
+    multiple_error: Nastala chyba. %{select_records} prípadov nepriradených.
+    multiple_successfully: '%{select_records} prípadov bolo úspešne priradených'
+    notes_label: Poznámky
+    successfully: Úspešne preradené
+    user_mandatory_label: Príjemca je povinný
+    users_label: Príjemca
+  record_information:
+    assigned_user_names: Iní priradení používatelia
+    created_at: Záznam vytvorený pri
+    created_by: Záznam vytvorený podľa
+    created_organization: Vytvorené Agentúrou
+    current_owner_separator: Súčasný majiteľ
+    module_id: Modul
+    owned_by: Kód pracovníka
+    owned_by_agency_id: Agentúra
+    owned_by_text: Pole/prípad/sociálny pracovník
+    previously_owned_by: Predchádzajúci vlastník
+    previously_owned_by_agency: Predchádzajúca Agentúra
+    reassigned_tranferred_on: 'Preradené / Prevedené '
+    record_history_separator: História záznamov
+    last_updated_at: Naposledy aktualizované o
+    last_updated_by: Naposledy Aktualizované Kým
+  record_panel:
+    record_information: Informácie o zázname
+  referral:
+    type_of_recipient: Typ príjemcu
+    type_of_referral_required: TVyžaduje sa typ odporúčania
+    agency_label: Agentúra
+    is_remote_label: Odvolávate sa na vzdialený systém?
+    location_label: Miesto
+    notes_label: Poznámky
+    notes_on_referral: Poznámky k odporúčaniu
+    note_on_referral_from_provider: Poznámky k odporúčaniu od poskytovateľa
+    provided_consent_label: Vo formulároch nie je uvedený súhlas.
+    recipient_label: Príjemca
+    refer_anyway_label: Napriek tomu odporučiť?
+    service_label: Služba
+    success: '%{record_type} %{id} úspešne odporúčaní'
+    user_mandatory_label: Príjemca je povinný
+    date: Dátum
+    rejected_reason: Dôvod odmietnutia
+  report:
+    aggregate_by: Zoskupiť podľa riadkov
+    attribute: Atribút
+    constraint: Obmedzenie
+    date_ranges:
+      date: Deň
+      month: Mesiac
+      quarter: Štvrťrok
+      quarter_abbr: Q%{quarter}
+      week: Týždeň
+      year: Rok
+    description: Popis
+    disabled:
+      explanation: Ak túto správu zakážete, nezobrazí sa v dostupných prehľadoch.
+      label: Zakázané
+    exclude_empty_rows: Nezobrazovať prázdne riadky
+    disaggregate_by: Zoskupiť podľa stĺpca
+    filters:
+      label: Filter správ
+      label_new: Nový filter správ
+      attribute: Filter
+      value: S
+      not_null: Nie je prázdny?
+      less_than: Menej ako
+      greater_than: Viac než
+      equal_to: Rovná sa
+      not_blank: Nie je prázdny
+      is: Je
+      before: Pred
+      after: Po
+      delete_filter_message: Naozaj chcete odstrániť tento filter?
+    group_ages: Použiť vekové rozpätia
+    group_dates_by: Použiť rozsah dátumov
+    is_graph: Vygenerovať graf?
+    messages:
+      delete_success: Správa bola úspešne vymazaná.
+      success: Správa bola úspešne vytvorená.
+      updated: Správa bola úspešne aktualizovaná.
+    modules: Moduly
+    name: Meno
+    name_mandatory: Meno je povinné
+    no_data: Pre túto správu neexistujú žiadne údaje
+    no_filters_added: Neboli pridané žiadne filtre
+    not_selected: Nevybraté
+    record_type: Typ záznamu
+    total: Celkom
+    value: Hodnota
+  reports:
+    delete_report: Odstrániť správu
+    delete_report_message: Naozaj chcete odstrániť túto správu? Odstránenie nie je možné vrátiť späť. Kliknutím na tlačidlo OK správu odstránite.
+    label: Správy
+    register_new_report: Vytvoriť správu
+    translations:
+      edit: Upraviť preklady
+      manage: Spravovať preklady
+      select_language: Zvoliť si jazyk
+    error_loading: Chyba pri Načítavaní Správy (Správ)
+  request_transfer:
+    notes_label: Poznámky
+    submit_label: Pošlite žiadosť
+    success: Žiadosť o prevod bola odoslaná
+  role:
+    agency_ids_label: Agentúry riadené touto úlohou/rolou
+    copy_failure: Chyba pri kopírovaní roly. Uistite sa, že názov nie je v konflikte s inou rolou.
+    copy_success: Rola bola úspešne skopírovaná.
+    create: Vytvoriť rolu
+    delete_header: Odstrániť rolu
+    description: Popis
+    edit: Upraviť rolu
+    error_in_updating: Chyba pri aktualizácii podrobností o role.
+    group_permission_label: Na aké záznamy má táto rola vplyv?
+    label: Rola
+    manager: Správca
+    messages:
+      confirmation: Naozaj chcete odstrániť túto rolu? Odstránenie nie je možné vrátiť späť. Kliknutím na tlačidlo OK rolu odstránite.
+      created: Rola bola úspešne vytvorená.
+      deleted: Rola bola úspešne vymazaná.
+      updated: Rola bola úspešne aktualizovaná.
+    name: Meno
+    referral_label: Dá sa táto rola použiť na odporúčanie?
+    reporting_location_level_label: Aký typ umiestnenia by sa mal použiť na vykazovanie tejto roly?
+    role_ids_label: Ďalšie roly spravované touto rolou
+    successfully_updated: Podrobnosti roly boli úspešne aktualizované.
+    transfer_label: Dá sa táto rola použiť na prevod?
+    hide: Skryť
+    read: Zobraziť
+    read_write: Zobraziť a upraviť
+  roles:
+    label: Roly
+  saved_search:
+    deleted: Vyhľadávanie bolo úspešne odstránené.
+    filters_tab: Filtre
+    no_filters: Nie sú vybraté žiadne filtre
+    save_success: Vyhľadávanie bolo úspešne uložené.
+    saved_searches_tab: Uložiené vyhľadávania
+    title_description: Naozaj chcete odstrániť toto uložené vyhľadávanie?
+    title_modal: Odstrániť uložené vyhľadávania
+  saved_searches:
+    no_save_searches: Nemáte žiadne uložené vyhľadávania.
+    save_search: Uložiť vyhľadávanie
+  settings:
+    navigation:
+      agencies: Agentúry
+      audit_logs: Denník auditu
+      configurations: Konfigurácie
+      contact_information: Kontaktné informácie
+      forms: Formuláre
+      locations: Miesta
+      lookups: Vyhľadávania
+      user_groups: Používateľské skupiny
+      users: Používatelia
+      roles: Roly
+      code_of_conduct: Etický Kódex
+    title: Nastavenia
+  system_settings:
+    label: Systémové nastavenia
+  task:
+    due_date: 'Dátum splatnosti '
+    id: IČ#
+    name: Meno
+    priorities:
+      high_level: Vysoký
+      low_level: Nízky
+      medium_level: Stredný
+      no_action_level: Žiadna činnosť
+    priority: Úroveň priority
+    status: Stav
+    statuses:
+      overdue: Oneskorený
+      upcoming_soon: Takmer splatný
+    type: Typ činnosti
+    types:
+      assessment: Hodnotenie
+      case_plan: Plán riešenia prípadu
+      follow_up: Sledovať - %{subtype}
+      service: Služba - %{subtype}
+  tracing_request:
+    label: Žiadosť o sledovanie
+    has_match: Má zhodu
+    find_match: Nájsť zhodu
+    back_to_traces: Späť na stopy
+    back_to_potential_matches: Späť na možné zhody
+    traces: Stopy
+    trace: Stopa
+    match: Zhoda
+    matches: Zhody
+    unmatch: Ne-zhodné
+    messages:
+      already_matched: V systéme už existuje zhoda so žiadateľom, ktorý hľadá toto dieťa.
+      disabled: Požiadavka na sledovanie je zakázaná
+      nothing_found: Nič sa nenašlo
+      update_success: 'Požiadavka na sledovanie %{record_id} bola úspešne aktualizovaná.'
+      creation_success: Záznam o žiadosť na sledovanie bol úspešne vytvorený.
+      update_success_queue: 'Požiadavka na sledovanie %{record_id} bola úspešne aktualizovaná na pozadí.'
+      creation_success_queue: Záznam o žiadosť na sledovanie bol úspešne vytvorený v pozadí.
+      match_action: Sledovanie %{trace_id} bolo úspešne spárované s prípadom %{record_id}.
+      unmatch_action: Sledovanie %{trace_id} bolo úspešne zrušené s prípadom %{record_id}.
+  registry_record:
+    messages:
+      update_success: 'Záznam v registry %{record_id} bol úspešne aktualizovaný.'
+      creation_success: 'Záznam bol úspešne vytvorený.'
+      disabled: Záznam v registri je zakázaný
+  tracing_requests:
+    date_of_inquiry: Dátum podania žiadosti
+    disable_dialog_title: Zakázať požiadavku na sledovanie
+    disable_dialog: Kliknutím na tlačidlo OK sa stav tejto žiadosti o sledovanie zmení na Zakázané.
+    disable_success: Žiadosť o sledovanie bola úspešne zakázaná
+    enable_dialog: Kliknutím na tlačidlo OK sa stav tejto žiadosti o sledovanie zmení na Povolené.
+    enable_dialog_title: Povoliť požiadavku na sledovanie
+    enable_success: Žiadosť o sledovanie bola úspešne povolená.
+    id: Identifikačné číslo
+    filter_by:
+      by_date: K dátumu
+      location_separation: Miesto oddelenia
+      separation_cause: Príčina odlúčenia
+      status: Stav
+    label: Sledovanie požiadaviek
+    name_of_inquirer: Meno žiadateľa
+    inquirer: Žiadateľ
+    name: Meno
+    register_new_tracing_request: Nová požiadavka o sledovanie
+    selectable_date_options:
+      inquiry_date: Dátum podania žiadosti
+    selected_records: '%{select_records} vybraná(é) požiadavka(y) na sledovanie'
+    selected_all_records: 'Vyberte všetky %{total_records} žiadosti o sledovanie, ktoré zodpovedajú tomuto dotazu.'
+    show_tracing_request: 'Žiadosť na sledovanie IČ %{short_id}'
+    tracing_requests: Sledovanie požiadaviek
+    export: Export
+  registry_records:
+    id: Identifikačné číslo
+    label: Záznamy v registri
+    name: Meno
+    registry_no: Číslo registra
+    location: Miesto
+    registration_date: Dátum registrácie
+    selected_records: '%{select_records} vybrané záznamy v registri'
+    selected_all_records: 'Vyberte všetky %{total_records} záznamy registra, ktoré zodpovedajú tomuto dotazu.'
+    disable_dialog_title: Zakázať záznam v registri
+    disable_dialog: Kliknutím na tlačidlo OK, stav tohto záznamu v registri sa zmení na Zakázané.
+    disable_success: Záznam v registri bol úspešne zakázaný.
+    enable_dialog_title: Povoliť záznam v registri
+    enable_dialog: Kliknutím na tlačidlo OK, stav tohto záznamu v registri sa zmení na Povolené.
+    enable_success: Záznam v registri bol úspešne povolený.
+    filter_by:
+      by_date: K dátumu
+      status: Stav
+    selectable_date_options:
+      registration_date: Dátum registrácie
+    show_registry_record: 'IČ záznamu v registri'
+    register_new_registry_record: Nový záznam registrov
+    export: Export
+    mark_for_offline:
+      title: Označiť pre režim offline
+      text: Naozaj chcete označiť tieto záznamy na offline použitie?
+      success: záznamy boli úspešne označené na použitie offline
+  transfer:
+    label: Prevod
+    agency_label: Agentúra
+    consent_from_individual_label: Dostali ste súhlas od jednotlivca na uskutočnenie tohto prevodu?
+    consent_label: záznamy bez súhlasu.
+    consent_override_label: Prajete si prepísať toto nastavenie?
+    is_remote_label: Prenášate na remote systém?
+    location_label: Miesto
+    notes_label: Poznámky
+    provided_consent_label: Vo formulároch nie je uvedený súhlas.
+    recipient_label: Príjemca
+    select_label: Vybrať...
+    success: Úspešne prevedené
+    transfer_label: Napriek tomu chcete urobiť prevod?
+    user_mandatory: Príjemca je povinný
+    rejected_reason: Dôvod odmietnutia
+  transfer_assignment:
+    title: Prevody a Zadania
+  transition:
+    agency_label: Agentúra
+    assigned_by: Pridelil
+    consent_individual_transfer_value:
+      true_label: 'Áno'
+      false_label: 'Nie'
+    consent_overridden_value:
+      false_label: 'Nie'
+      true_label: 'Áno'
+    errors:
+      consent: Súhlas nebol poskytnutý
+      to_user_can_receive: Tento používateľ nemôže prijať tento záznam
+    individual_consent: Pracovník prípadu dostal súhlas od jednotlivca na uskutočnenie tohto prevodu?
+    no_consent_share: Súhlas so zdieľaním nastavenia?
+    notes: Poznámky
+    recipient: Príjemca
+    rejected: Zdôvodnenie odmietnutia
+    requested_by: Vyžiadané od
+    service_label: Služby
+    responded_at: Odpovedal o
+    status:
+      accepted: Prijatý
+      done: 'Hotovo '
+      in_progress: Čakajúci
+      inprogress: Čakajúci
+      rejected: Odmietnuté
+      revoked: Odvolaný
+    type:
+      assign: Prideliť
+      reassign: Prideliť
+      referral: Odporúčanie
+      external_referral: Externé odporúčanie
+      transfer: Prevod
+      transferRequest: Žiadosť o prevod
+  user:
+    agency_office: Kancelária agentúry (polia GBV)
+    code: Používateľský kód
+    disabled: Zakázané
+    email: Email
+    full_name: Meno a priezvisko
+    identity_provider: Poskytovateľ identity
+    invalid_provider_username: 'Neplatný formát používateľského mena. Príklad: my.username@%{domain}'
+    label: Používateľ
+    language: Jazyk
+    locale: Lokalita
+    location: Miesto
+    messages:
+      confirmation: Naozaj chcete odstrániť tohto používateľa? Odstránenie nie je možné vrátiť späť. Kliknutím na tlačidlo OK odstránite používateľa.
+      created: Používateľ bol úspešne vytvorený.
+      failure: Vyskytla sa chyba, kontaktujte podporu.
+      new_confirm_html: Chystáte sa pozvať používateľa <b>%{username}</b> z <b>%{identity}</b> s rolou<b>%{role}</b> používať Primero. Potvrdzujúci e-mail bude odoslaný na adresu <b>%{email}</b>. Chcete pokračovať?
+      new_confirm_non_identity_html: Chystáte sa pozvať používateľa <b>%{username}</b> s rolou <b>%{role}</b> používať Primero. Potvrdzujúci e-mail bude odoslaný na adresu <b>%{email}</b>. Chcete pokračovať?
+      not_found: Používateľ s daným IČ sa nenašiel
+      password_changed_successfully: Heslo úspešne zmenené
+      passwords_do_not_match: nezhoduje sa so súčasným heslom
+      time_zone_updated: Zmena bola úspešne aktualizovaná.
+      updated: Používateľ bol úspešne aktualizovaný.
+    organization: Organizácia
+    agency: Agentúra
+    services_help_text: Ak nevyberiete služby, tomuto Používateľovi budú pridelené služby jeho Agentúry.
+    password_setting:
+      label: Ako má Primero nastaviť heslo používateľa?
+      self: Nastavím heslo
+      user: Užívateľ nastaví heslo použitím uvítacieho emailu
+      help_text: Pamätajte, ak vy, ako správca nastavíte heslo manuálne, budete ho musieť zdeliť s používateľom bezpečným spôsobom.
+    password_reset_header: Odoslať email na obnovenie hesla
+    password_reset_text: Ak kliknete "Odoslať," užívateľ dostane email s odkazom na obnovenie hesla
+    password_reset_request: Odoslať email na obnovenie hesla
+    password: Heslo
+    password_confirmation: Potvrdenie hesla
+    phone: Telefón
+    position: Poloha
+    provider_username_help: 'Príklad: my.username@%{domain}'
+    role_id: Rola
+    send_mail: Chcete dostávať emailové notifikácie?
+    user_group_unique_ids: Používateľské skupiny
+    user_name: Používateľské meno
+    services: Služby
+    welcome_email:
+      subject: 'Vitajte v %{system}!'
+      greeting: 'Vitajte v %{system}!'
+      body_native: 'Boli ste pridaný ako %{role_name}. Prosím kontaktujte %{admin_full_name} (%{admin_email}) pre ďalšie inštrukcie na prácu s %{host}.'
+      sso:
+        body: 'Boli ste pridaný ako %{role_name}.'
+        step1: 'Choďte na %{host}a kliknite %{identity_provider}.'
+        step2: 'Prihlásiť sa %{identity_provider} s vašim účtom %{user_name}.'
+        step3: 'Použite rovnaké heslo aké používate na svojom %{identity_provider}konte.'
+        footer: 'Prosím kontaktujte %{admin_full_name} (%{admin_email}) pre ďalšie detaily.'
+      otp:
+        body: 'Boli ste pridaný ako %{role_name}.'
+        step1: 'Prosím kontaktujte %{admin_full_name}(%{admin_email})pre získanie používateľského mena.'
+        step2: 'Choďte na %{host}a kliknite na "prihláste sa s Primero používateľským menom.".'
+        step3: 'Prihláste sa pomocou používateľského mena a dočasného hesla %{otp}.'
+        step4: 'Po výzve. obnovte heslo.'
+      url_label: Primero
+      enabled_label: Odoslať uvítací e-mail?
+      text_label: Uvítací text e-mailu
+    password_reset:
+      subject: 'Pokyny na obnovenie hesla'
+      email_greeting: "Vážený %{full_name},"
+      email_body1: "Niekto požiadal o nastavenie Vášho hesla pre %{host_href}. Na spustenie práce kliknite na url nižšie:"
+      email_body2: "Tento link expiruje o %{hours} hodinu/hodiny a môže byť použitý iba raz. Prosím ignorujte tento email, ak ste nepožiadali o reset hesla alebo, ak sa nový Primero používateľ neprihlásil namiesto Vás. Ak platnosť linku vypršala,  kliknite na %{reset_request_href}pre opätovné požiadanie resetu hesla."
+      email_body_link: tu
+      request_submitted: "Žiadosť o obnovenie hesla bola odoslaná"
+      success: "Heslo bolo úspešne zmenené"
+      errors:
+        reset_password_token: "Neplatný token na obnovenie hesla"
+        password_confirmation: "Heslo sa musí zhodovať"
+    onboard_email:
+      subject: "Registrácia do %{system}"
+      greeting: "Vážený %{full_name},"
+      body1: "Vitajte v Primero!"
+      body2: "Boli ste pridelení ako správca nasadenia pre %{host_href}. %{reset_notification}"
+      body2_reset_notification: "Dostanete ďalší email s výzvou k resetovaniu svojho hesla."
+      body3: "Ste zodpovedný zabezpečit bezpečnú a včasnú implementáciu. Za každé vydanie, musíte mať dokončený plán implementácie so stratégiou integrácie a správy používateľov s protokolom zdieľania informácií. Zodpovedáte aj za to, aby podpísané Podmienky používania boli k dispozícii pre všetky používateľské agentúry."
+  user_group:
+    associated_agencies: Agentúry priradené k tejto skupine používateľov
+    description: Popis
+    disabled:
+      explanation: Ak túto skupinu používateľov zakážete, už nebudete mať možnosť priradiť ho k užívateľským účtom.
+      label: Zakázané
+    messages:
+      created: Používateľská skupina bola úspešne vytvorená.
+      updated: Používateľská skupina bola úspešne aktualizovaná.
+    name: Meno
+  user_groups:
+    label: Používateľská skupina
+  users:
+    label: Používatelia
+    headers:
+      full_name: Celé meno
+      user_name: Používateľské meno
+      position: Poloha
+      agency: Agentúra
+  devise:
+    failure:
+      already_authenticated: "Už ste prihlásený."
+      invalid: "Neplatné %{authentication_keys}alebo heslo."
+      locked: "Váš účet je uzamknutý."
+      last_attempt: "Máte ešte jeden pokus predtým, než váš účet bude uzamknutý."
+  admin:
+    locations:
+      selected_records: '%{select_records} poloha(y) vybraná'
+      selected_all_records: Vyberte všetky %{total_records} prípady, ktoré zodpovedajú tomuto dotazu.
+      updated: '%{updated_records}polohy aktualizované'

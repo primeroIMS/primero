@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Organizations that users who manage the the data in Primero belong to.
+# rubocop:disable Metrics/ClassLength
 class Agency < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -214,3 +215,4 @@ class Agency < ApplicationRecord
     self.logo_enabled = false
   end
 end
+# rubocop:enable Metrics/ClassLength

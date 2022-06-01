@@ -79,8 +79,7 @@ const Component = ({ getValues }) => {
       rest={{
         disabled: isSelectedSubform,
         onClick: handleExistingFieldDialog,
-        fullWidth: true,
-        className: css.existingFieldButton
+        fullWidth: true
       }}
       keepTextOnMobile
     />
@@ -104,15 +103,14 @@ const Component = ({ getValues }) => {
         confirmButtonLabel=""
         dialogTitle={i18n.t("fields.add_field")}
       >
-        <div>
+        <div className={css.actionBtns}>
           <ActionButton
             icon={<FormatListBulletedIcon />}
             text="fields.add_new_field"
             type={ACTION_BUTTON_TYPES.default}
             rest={{
               onClick: handleCustomFieldSelectorDialog,
-              fullWidth: true,
-              className: css.existingFieldButton
+              fullWidth: true
             }}
             keepTextOnMobile
           />
@@ -122,10 +120,11 @@ const Component = ({ getValues }) => {
             text="buttons.cancel"
             type={ACTION_BUTTON_TYPES.default}
             cancel
+            variant="contained"
+            color="default"
             rest={{
               onClick: handleClose,
-              fullWidth: true,
-              className: css.cancelButton
+              fullWidth: true
             }}
             keepTextOnMobile
           />

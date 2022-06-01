@@ -146,6 +146,11 @@ export const getLocationsAvailable = state => !state.getIn(["forms", "options", 
 
 export const getExportRequirePassword = state => state.getIn([NAMESPACE, "exportRequirePassword"], false);
 
+export const getRegistryTypes = (state, type) =>
+  state
+    .getIn(["application", "systemOptions", "registry_types"], fromJS([]))
+    .find(registryType => registryType.get("id") === type, null, fromJS({}));
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);

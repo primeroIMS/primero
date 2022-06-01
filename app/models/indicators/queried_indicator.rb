@@ -15,6 +15,10 @@ module Indicators
       name
     end
 
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
     def query(sunspot, user)
       this = self
       sunspot.instance_eval do
@@ -33,6 +37,10 @@ module Indicators
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
 
     def stat_query_strings(_, owner, user)
       scope_query_strings +

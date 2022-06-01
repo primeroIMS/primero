@@ -2,12 +2,12 @@ import collections from "./collections";
 import { DB_COLLECTIONS_NAMES, METHODS } from "./constants";
 
 const syncIndexedDB = async (
-  db = { recordType: "", collection: "" },
+  db = { recordType: "", collection: "", online: true },
   json,
   method = METHODS.WRITE,
   transactionCallback
 ) => {
-  const { recordType, collection } = db;
+  const { recordType, collection, online, params } = db;
 
   const getCollection = (() => {
     switch (collection) {
@@ -38,6 +38,9 @@ const syncIndexedDB = async (
       case DB_COLLECTIONS_NAMES.PRIMERO: {
         return collections.Primero;
       }
+      case DB_COLLECTIONS_NAMES.TRANSLATIONS: {
+        return collections.Translations;
+      }
       default: {
         return false;
       }
@@ -52,7 +55,9 @@ const syncIndexedDB = async (
       collection,
       json,
       db,
-      transactionCallback
+      transactionCallback,
+      online,
+      params
     });
 
     return result;

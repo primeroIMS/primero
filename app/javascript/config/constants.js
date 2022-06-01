@@ -14,7 +14,9 @@ import {
   ADMIN_ACTIONS,
   VIEW_INCIDENTS_FROM_CASE,
   VIEW_KPIS,
-  SHOW_SUMMARY
+  SHOW_SUMMARY,
+  READ_MANAGED_REPORTS,
+  READ_REGISTRY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
 
@@ -47,19 +49,23 @@ export const TRACING_REQUEST = "tracing_request";
 export const TRACING_REQUESTS = "tracing_requests";
 export const INCIDENT = "incident";
 export const INCIDENTS = "incidents";
+export const REGISTRY_RECORD = "registry_record";
+export const REGISTRY_RECORDS = "registry_records";
 
 // Type of records available singular (key): plural (value)
 export const RECORD_TYPES = {
   [CASES]: CASE,
   [TRACING_REQUESTS]: TRACING_REQUEST,
   [INCIDENTS]: INCIDENT,
+  [REGISTRY_RECORDS]: REGISTRY_RECORD,
   all: "all"
 };
 
 export const RECORD_TYPES_PLURAL = {
   [CASE]: CASES,
   [TRACING_REQUEST]: TRACING_REQUESTS,
-  [INCIDENT]: INCIDENTS
+  [INCIDENT]: INCIDENTS,
+  [REGISTRY_RECORD]: REGISTRY_RECORDS
 };
 
 // Max Age allowed in age ranges
@@ -117,10 +123,14 @@ export const RECORD_PATH = {
   traces: "traces",
   user_groups: "user_groups",
   users: "users",
-  activity_log: "activity_log"
+  activity_log: "activity_log",
+  registry_records: "registry_records"
 };
 
 export const RECORD_INFORMATION_GROUP = "record_information";
+
+export const IDENTIFICATION_REGISTRATION = "identification_registration";
+
 export const VIOLATION_GROUP = "violations";
 
 export const RECORD_OWNER = "record_owner";
@@ -133,9 +143,13 @@ export const APPROVALS = "approvals";
 
 export const INCIDENT_FROM_CASE = "incident_from_case";
 
+export const REGISTRY_FROM_CASE = "registry_from_case";
+
 export const CHANGE_LOGS = "change_logs";
 
 export const SUMMARY = "summary";
+
+export const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
 
 export const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -172,6 +186,7 @@ export const ROUTES = {
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
+  insights: "/insights",
   key_performance_indicators: "/key_performance_indicators",
   support: "/support",
   tasks: "/tasks",
@@ -181,7 +196,8 @@ export const ROUTES = {
   sandbox_ui: "/primero",
   password_reset: "/password_reset",
   activity_log: "/activity_log",
-  password_reset_request: "/password_reset_request"
+  password_reset_request: "/password_reset_request",
+  registry_records: "/registry_records"
 };
 
 export const PERMITTED_URL = [
@@ -196,6 +212,7 @@ export const PERMITTED_URL = [
   ROUTES.cases,
   ROUTES.tracing_requests,
   ROUTES.incidents,
+  ROUTES.registry_records,
   ROUTES.code_of_conduct,
   ROUTES.password_reset_request
 ];
@@ -240,7 +257,8 @@ export const LOOKUPS = {
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
   legitimate_basis: "lookup-legitimate-basis",
-  legitimate_basis_explanations: "lookup-legitimate-basis-explanations"
+  legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
+  verification_status: "lookup lookup-verification-status"
 };
 
 export const ADMIN_NAV = [
@@ -370,14 +388,24 @@ export const APPLICATION_NAV = (permissions, userId) => {
       actions: READ_RECORDS,
       validateWithUserPermissions: true
     },
-    // {
-    //   name: "navigation.potential_match",
-    //   to: ROUTES.matches,
-    //   icon: "matches",
-    //   resources: RESOURCES.potential_matches,
-    //   actions: READ_RECORDS,
-    //   disableOffline: true
-    // },
+    {
+      name: "navigation.registry_records",
+      to: ROUTES.registry_records,
+      icon: "registry_records",
+      jewelCount: "registry_record",
+      resources: RESOURCES.registry_records,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true
+    },
+    {
+      name: "navigation.insights",
+      to: ROUTES.insights,
+      icon: "insights",
+      resources: RESOURCES.managed_reports,
+      actions: READ_MANAGED_REPORTS,
+      disableOffline: true,
+      validateWithUserPermissions: true
+    },
     {
       name: "navigation.reports",
       to: ROUTES.reports,
@@ -516,7 +544,8 @@ export const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
-  [SUMMARY]: SHOW_SUMMARY
+  [SUMMARY]: SHOW_SUMMARY,
+  [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD
 });
 
 export const VIOLATIONS_FORM = [
@@ -525,7 +554,8 @@ export const VIOLATIONS_FORM = [
   "recruitment_violation_wrapper",
   "sexual_violence_violation_wrapper",
   "abduction_violation_wrapper",
-  "attack_on_violation_wrapper",
+  "attack_on_hospitals_violation_wrapper",
+  "attack_on_schools_violation_wrapper",
   "military_use_violation_wrapper",
   "denial_humanitarian_access_violation_wrapper"
 ];
@@ -544,10 +574,23 @@ export const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "recruitment",
   "sexual_violence",
   "abduction",
-  "attack_on",
+  "attack_on_hospitals",
+  "attack_on_schools",
   "military_use",
   "denial_humanitarian_access"
 ];
+
+export const VIOLATION_FORMS_MAPPING = Object.freeze({
+  killing: "killing_violation_wrapper",
+  maiming: "maiming_violation_wrapper",
+  recruitment: "recruitment_violation_wrapper",
+  sexual_violence: "sexual_violence_violation_wrapper",
+  abduction: "abduction_violation_wrapper",
+  attack_on_hospitals: "attack_on_hospitals_violation_wrapper",
+  attack_on_schools: "attack_on_schools_violation_wrapper",
+  military_use: "military_use_violation_wrapper",
+  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper"
+});
 
 export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "individual_victims",
@@ -557,4 +600,31 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
   "responses"
 ];
 
+export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
+
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"];
+
+export const CHART_COLORS = Object.freeze({
+  blue: "rgb(0, 147, 186)",
+  grey: "rgb(89, 89, 82)",
+  purple: "rgb(124, 52, 123)",
+  green: "rgb(131, 158, 60)",
+  red: "rgb(208, 16, 27)",
+  orange: "rgb(231, 113, 45)",
+  yellow: "rgb(242, 195, 23)"
+});
 export const SUBFORM_READONLY_FIELD_NAMES = ["matched_case_comparison"];
+
+export const Q1 = "Q1";
+export const Q2 = "Q2";
+export const Q3 = "Q3";
+export const Q4 = "Q4";
+
+export const QUARTERS_TO_NUMBER = Object.freeze({
+  [Q1]: 1,
+  [Q2]: 2,
+  [Q3]: 3,
+  [Q4]: 4
+});
+
+export const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);

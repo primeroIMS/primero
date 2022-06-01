@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # This concern encapsulates monitoring/reporting business logic
+# rubocop:disable  Metrics/ModuleLength
 module IncidentMonitoringReporting
   extend ActiveSupport::Concern
 
@@ -335,3 +336,4 @@ module IncidentMonitoringReporting
     end
   end
 end
+# rubocop:enable  Metrics/ModuleLength

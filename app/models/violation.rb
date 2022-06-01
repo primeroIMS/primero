@@ -8,9 +8,8 @@ class Violation < ApplicationRecord
   # include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
   # include Indexable
 
-  TYPES = %w[
-    killing maiming recruitment sexual_violence abduction attack_on military_use denial_humanitarian_access
-  ].freeze
+  TYPES = %w[killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use
+             denial_humanitarian_access].freeze
   MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
 
   has_and_belongs_to_many :individual_victims

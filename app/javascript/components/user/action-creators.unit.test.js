@@ -117,7 +117,8 @@ describe("User - Action Creators", () => {
       "refreshToken",
       "resetPassword",
       "setAuthenticatedUser",
-      "setUser"
+      "setUser",
+      "showLoginDialog"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");

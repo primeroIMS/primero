@@ -27,6 +27,7 @@ const Component = ({
   submitAllFields,
   useFormMode,
   renderBottom,
+  showTitle = true,
   submitAlways,
   formClassName,
   registerFields,
@@ -84,6 +85,7 @@ const Component = ({
   const renderFormSections = () =>
     formSections.map(formSection => (
       <FormSection
+        showTitle={showTitle}
         formSection={formSection}
         key={formSection.unique_id}
         errors={errors}
@@ -156,6 +158,7 @@ Component.propTypes = {
   registerFields: PropTypes.array,
   renderBottom: PropTypes.func,
   resetAfterSubmit: PropTypes.bool,
+  showTitle: PropTypes.bool,
   submitAllFields: PropTypes.bool,
   submitAlways: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,

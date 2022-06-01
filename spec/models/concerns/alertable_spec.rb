@@ -229,10 +229,18 @@ describe Alertable do
         expect(Child.alert_count(@user_b)).to eq(3)
       end
     end
+
+    after do
+      clean_data(
+        SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+        PrimeroProgram, PrimeroModule, Referral, FormSection
+      )
+    end
   end
 
   describe 'alert on record update' do
-    before :each do
+    before do
+      clean_data(SystemSettings, Child)
       SystemSettings.create!(
         changes_field_to_form: { notes_section: 'notes' }
       )
@@ -257,13 +265,9 @@ describe Alertable do
       expect(alert.type).to eq('notes')
       expect(alert.form_sidebar_id).to eq('notes')
     end
-  end
-
-  after :each do
-    clean_data(
-      SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
-      PrimeroProgram, PrimeroModule, Referral, FormSection
-    )
+    after do
+      clean_data(SystemSettings, Child)
+    end
   end
 
   context 'when a incident_from_case alert exists' do
@@ -364,5 +368,12 @@ describe Alertable do
         end
       end
     end
+  end
+
+  after do
+    clean_data(
+      SystemSettings, Role, Agency, User, Child, Alert, UserGroup,
+      PrimeroProgram, PrimeroModule, Referral, FormSection
+    )
   end
 end

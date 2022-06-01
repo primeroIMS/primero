@@ -112,7 +112,9 @@ const SelectInput = ({ commonInputProps, metaInputProps, options: allOptions, fo
       return i18n.t(displayText) || "";
     }
 
-    return displayName || displayText || freeSoloDisplayText || "";
+    const displayNameI18n = Array.isArray(displayName) ? i18n.t(displayName.join(".")) : displayName;
+
+    return displayNameI18n || displayText || freeSoloDisplayText || "";
   };
 
   const optionsUseIntegerIds = Number.isInteger(options?.[0]?.id);

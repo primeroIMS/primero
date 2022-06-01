@@ -463,31 +463,38 @@ describe("<RecordForm /> - Selectors", () => {
               so: ""
             },
             editable: true,
+            form_section_id: null,
             href: null,
             guiding_questions: "",
             help_text: {},
+            hidden_text_field: false,
             hide_on_view_page: false,
             link_to_form: "",
+            module_ids: null,
             multi_select: null,
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
             option_strings_condition: null,
             order: null,
+            parent_form: null,
             required: true,
             selected_value: null,
+            showIf: null,
             show_on_minify_form: true,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
+            watchedInputs: null,
             subform_section_configuration: null,
             tick_box_label: {},
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
             tally: {},
-            collapse: null
+            collapse: null,
+            calculation: {}
           }
         ],
         is_nested: null
@@ -541,31 +548,38 @@ describe("<RecordForm /> - Selectors", () => {
               so: ""
             },
             editable: true,
+            form_section_id: null,
             guiding_questions: "",
             href: null,
             help_text: {},
+            hidden_text_field: false,
             hide_on_view_page: false,
             link_to_form: "",
+            module_ids: null,
             multi_select: null,
             name: "name_first",
             option_strings_source: null,
             option_strings_text: null,
             option_strings_condition: null,
             order: null,
+            parent_form: null,
             required: true,
             selected_value: null,
+            showIf: null,
             show_on_minify_form: true,
             subform_section_id: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
+            watchedInputs: null,
             subform_section_configuration: null,
             tick_box_label: {},
             display_conditions_record: [],
             display_conditions_subform: [],
             autosum_total: true,
             tally: {},
-            collapse: null
+            collapse: null,
+            calculation: {}
           }
         ],
         is_nested: null
@@ -590,7 +604,8 @@ describe("<RecordForm /> - Selectors", () => {
           name: "Basic Identity",
           order: 10,
           formId: "basic_identity",
-          is_first_tab: true
+          is_first_tab: true,
+          display_conditions: []
         })
       })
     });
@@ -605,7 +620,8 @@ describe("<RecordForm /> - Selectors", () => {
             name: "Documents Form",
             order: 10,
             formId: "documents_form",
-            is_first_tab: true
+            is_first_tab: true,
+            display_conditions: []
           })
         })
       );
@@ -615,7 +631,8 @@ describe("<RecordForm /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(record).to.deep.equal(expectedNav);
+      expect([...record.keys()]).to.deep.equal([...expectedNav.keys()]);
+      expect([...record.values()]).to.deep.equal([...expectedNav.values()]);
     });
 
     it("should not return form groupName", () => {
@@ -643,7 +660,8 @@ describe("<RecordForm /> - Selectors", () => {
         }
       );
 
-      expect(record).to.be.equal(expected);
+      expect([...record.keys()]).to.deep.equal([...expected.keys()]);
+      expect([...record.values()]).to.deep.equal([...expected.values()]);
     });
 
     context("when the summary form exist", () => {

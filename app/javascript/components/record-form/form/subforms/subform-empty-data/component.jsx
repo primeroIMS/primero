@@ -2,16 +2,19 @@ import PropTypes from "prop-types";
 import ErrorIcon from "@material-ui/icons/Error";
 
 import css from "../styles.css";
+import { useI18n } from "../../../../i18n";
 
 import { NAME } from "./constants";
 
-const Component = ({ i18n, subformName }) => {
+const Component = ({ subformName, single = false }) => {
+  const i18n = useI18n();
+
   return (
     <div className={css.emptySubformContainer}>
       <ErrorIcon />
       <span>
         <strong>{i18n.t("forms.subform_not_found", { subform_name: subformName })}</strong>
-        {i18n.t("forms.subform_need_to_be_added")}
+        {i18n.t(single ? "forms.subform_need_to_be_added_single" : "forms.subform_need_to_be_added")}
       </span>
     </div>
   );
@@ -20,7 +23,7 @@ const Component = ({ i18n, subformName }) => {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  i18n: PropTypes.object.isRequired,
+  single: PropTypes.bool,
   subformName: PropTypes.string
 };
 

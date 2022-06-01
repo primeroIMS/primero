@@ -110,21 +110,9 @@
   justify-content: space-between;
   margin: 1.5em 0;
 
-  & button {
-    font-weight: bold;
-    font-size: var(--fs-13);
-    height: 25px;
-  }
-
-  & button:not(.clearDefaultButton) {
-    color: var(--c-blue);
-    background: var(--c-white);
-    border: 1px solid var(--c-blue);
-
-    &:hover {
-      color: var(--c-white);
-      background: var(--c-blue);
-    }
+  & button:disabled {
+    cursor: not-allowed;
+    pointer-events: visible;
   }
 }
 

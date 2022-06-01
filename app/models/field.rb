@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Model for Field
+# rubocop:disable Metrics/ClassLength
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -20,6 +21,7 @@ class Field < ApplicationRecord
   TICK_BOX = 'tick_box'
   TALLY_FIELD = 'tally_field'
   CUSTOM = 'custom'
+  CALCULATED = 'calculated'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
@@ -67,7 +69,7 @@ class Field < ApplicationRecord
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
       'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
-      { 'subform_section_configuration' => {} }
+      { 'subform_section_configuration' => {} }, { 'tally' => [:id, display_text: {}] }, { 'calculation' => {} }
     ]
   end
   # rubocop:enable Metrics/MethodLength
@@ -162,6 +164,7 @@ class Field < ApplicationRecord
   end
 
   def options_list(locale: I18n.locale, lookups: nil)
+    return [] if option_strings_source == 'violations'
     return unless [SELECT_BOX, RADIO_BUTTON, TICK_BOX].include?(type)
     return option_strings_text(locale) if option_strings_text.present?
     return options_list_tickbox(locale) if type == Field::TICK_BOX
@@ -254,14 +257,18 @@ class Field < ApplicationRecord
     options_hash.each do |key, value|
       next if option_keys_en.exclude?(key) # Do not add any translations that do not have an English translation
 
-      os = options&.find { |o| o['id'] == key }
-      if os.present?
-        os['display_text'] = value
-      else
-        options << { 'id' => key, 'display_text' => value }
-      end
+      update_option(options, key, value)
     end
     send("option_strings_text_#{locale}=", options)
+  end
+
+  def update_option(options, key, value)
+    os = options&.find { |o| o['id'] == key }
+    if os.present?
+      os['display_text'] = value
+    else
+      options << { 'id' => key, 'display_text' => value }
+    end
   end
 
   # Names should only have lower case alpha, numbers and underscores
@@ -332,3 +339,4 @@ class Field < ApplicationRecord
       option[:display_text].with_indifferent_access[:en].present?
   end
 end
+# rubocop:enable Metrics/ClassLength

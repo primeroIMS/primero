@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Concern of Historical
+# rubocop:disable  Metrics/ModuleLength
 module Historical
   extend ActiveSupport::Concern
 
@@ -156,3 +157,4 @@ module Historical
     diff
   end
 end
+# rubocop:enable  Metrics/ModuleLength

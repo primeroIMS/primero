@@ -12,10 +12,10 @@ const Options = {
 
     if (isLocations) {
       await DB.clear(collection);
-      DB.put("manifests", { name: db?.manifest, collection });
+      DB.put({ store: "manifests", data: { name: db?.manifest, collection } });
     }
 
-    await DB.bulkAdd(collection, data);
+    await DB.bulkAdd({ store: collection, data });
 
     return data;
   }
