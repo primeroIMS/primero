@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
@@ -17,8 +18,8 @@ import ComparedForms from "../compared-forms";
 import { FORMS } from "../../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
 import PhotoArray from "../../../../field-types/attachments/photo-array";
-import AttachmentPreview from "../../../../field-types/attachments/attachment-preview";
-import { ATTACHMENT_TYPES } from "../../../../field-types/attachments/constants";
+import AudioArray from "../../../../../../form/fields/audio-array";
+import fieldRowCss from "../field-rows/styles.css";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
 import { getComparisons } from "./utils";
@@ -63,11 +64,27 @@ const Component = ({
   const casePhotos = potentialMatch
     .getIn(["case", "photos"], fromJS([]))
     .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
-  const caseAudios = potentialMatch.getIn(["case", "recorded_audio"], fromJS([]));
+  const caseAudios = potentialMatch.getIn(["case", "recorded_audio"], fromJS([])).reduce(
+    (acc, audio) =>
+      acc.concat({
+        id: audio.get("id"),
+        attachment_url: audio.get("attachment_url"),
+        file_name: audio.get("file_name")
+      }),
+    []
+  );
   const tracingRequestPhotos = record
     .get("photos", fromJS([]))
     .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
-  const tracingRequestAudios = record.get("recorded_audio", fromJS([]));
+  const tracingRequestAudios = record.get("recorded_audio", fromJS([])).reduce(
+    (acc, audio) =>
+      acc.concat({
+        id: audio.get("id"),
+        attachment_url: audio.get("attachment_url"),
+        file_name: audio.get("file_name")
+      }),
+    []
+  );
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
@@ -158,7 +175,7 @@ const Component = ({
   return (
     <>
       <TraceActions {...traceActionsProps} />
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid container item>
           {renderText && alreadyMatchedMessage && (
             <Grid item xs={12}>
@@ -180,38 +197,40 @@ const Component = ({
           </Grid>
         </Grid>
         <FieldRows comparisons={topComparisons} />
-        <Grid container item className={css.fieldRow} spacing={2}>
+        <Grid container item className={css.fieldRow} spacing={4}>
           <Grid item xs={6}>
             <h2>{i18n.t("tracing_request.tracing_request_photos")}</h2>
-            <PhotoArray isGallery images={tracingRequestPhotos} />
+            {isEmpty(tracingRequestPhotos) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <PhotoArray isGallery images={tracingRequestPhotos} />
+            )}
           </Grid>
           <Grid item xs={6}>
             <h2>{i18n.t("tracing_request.case_photos")}</h2>
-            <PhotoArray isGallery images={casePhotos} />
+            {isEmpty(casePhotos) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <PhotoArray isGallery images={casePhotos} />
+            )}
           </Grid>
         </Grid>
-        <Grid container item className={css.fieldRow} spacing={2}>
+        <Grid container item className={css.fieldRow} spacing={4}>
           <Grid item xs={6}>
             <h2>{i18n.t("tracing_request.tracing_request_audios")}</h2>
-            {tracingRequestAudios.map(audio => (
-              <AttachmentPreview
-                key={audio.get("id")}
-                name={audio.get("file_name")}
-                attachment={ATTACHMENT_TYPES.audio}
-                attachmentUrl={audio.get("attachment_url")}
-              />
-            ))}
+            {isEmpty(tracingRequestAudios) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <AudioArray attachments={tracingRequestAudios} />
+            )}
           </Grid>
           <Grid item xs={6}>
             <h2>{i18n.t("tracing_request.case_audios")}</h2>
-            {caseAudios.map(audio => (
-              <AttachmentPreview
-                key={audio.get("id")}
-                name={audio.get("file_name")}
-                attachment={ATTACHMENT_TYPES.audio}
-                attachmentUrl={audio.get("attachment_url")}
-              />
-            ))}
+            {isEmpty(caseAudios) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <AudioArray attachments={caseAudios} />
+            )}
           </Grid>
         </Grid>
         <ComparedForms forms={comparedForms} />

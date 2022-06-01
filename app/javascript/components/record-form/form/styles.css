@@ -147,9 +147,23 @@
   padding: 4px;
 }
 
+.imgCurrent{
+  display: flex;
+  width: 200px;
+  height: 180px;
+  align-items: center;
+  justify-content: center;
+}
+
 .imgGalleryWrapper {
   display: flex;
-  overflow: auto;
+  align-items: center;
+  width: 100%;
+
+  & img {
+    max-width: 100%;
+    max-heigth: 100%;
+  }
 }
 
 .imgGallery {
@@ -304,5 +318,18 @@
 
   & svg {
     color: var(--c-gold-yellow)
+  }
+}
+
+
+@media (max-width:959.95px) {
+  .imgCurrent {
+    height: 80px;
+  }
+
+  .imgGalleryWrapper {
+    & button {
+      padding: 0px;
+    }
   }
 }
