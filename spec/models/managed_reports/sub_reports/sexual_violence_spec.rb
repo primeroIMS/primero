@@ -11,7 +11,7 @@ describe ManagedReports::SubReports::SexualViolence do
 
   it 'return an Array of instance' do
     expect(rape.indicators).to be_an_instance_of(Array)
-    expect(rape.indicators.size).to eq(4)
+    expect(rape.indicators.size).to eq(5)
   end
 
   it 'return a Hash of Lookups' do
