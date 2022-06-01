@@ -20,10 +20,12 @@ const Component = ({ title, values, fields }) => {
   ) : null;
 
   return (
-    <>
-      {title}
-      {renderShortUniqueId} {renderChipStatus}
-    </>
+    <div className={css.container}>
+      <div className={css.title}>
+        {title} {renderShortUniqueId}
+      </div>
+      <div>{renderChipStatus}</div>
+    </div>
   );
 };
 
