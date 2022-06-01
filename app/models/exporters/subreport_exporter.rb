@@ -15,7 +15,7 @@ class Exporters::SubreportExporter < ValueObject
 
   def export
     self.current_row = 0
-    self.data = managed_report.data[id]
+    self.data = managed_report.data[id][:data]
     self.worksheet = workbook.add_worksheet(build_worksheet_name)
     worksheet.tab_color = tab_color
     load_lookups
@@ -229,7 +229,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def load_lookups
-    subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'lookups')
+    subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'metadata', 'lookups')
     self.lookups = subreport_lookups.reduce({}) do |acc, (key, value)|
       next acc.merge(key => LocationService.instance) if key == 'reporting_location'
 
