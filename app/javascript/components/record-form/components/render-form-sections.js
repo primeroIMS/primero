@@ -78,7 +78,7 @@ const renderFormSections =
   ) =>
   (fs, setFieldValue, handleSubmit, values, dirty) => {
     const externalRecordForms = externalForms
-      ? externalForms(selectedForm, setFieldValue, handleSubmit, values, dirty)
+      ? externalForms(selectedForm, setFieldValue, handleSubmit, values, dirty, fs)
       : null;
 
     if (externalRecordForms) {

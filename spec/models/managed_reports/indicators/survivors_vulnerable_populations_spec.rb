@@ -149,9 +149,9 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
     expect(vulnerable_populations_data).to match_array(
       [
         { 'id' => 'survivors_disability_type', 'total' => 4 },
+        { 'id' => 'other_vulnerable_child', 'total' => 2 },
         { 'id' => 'separated_child', 'total' => 2 },
-        { 'id' => 'unaccompanied_minor', 'total' => 1 },
-        { 'id' => 'other_vulnerable_child', 'total' => 2 }
+        { 'id' => 'unaccompanied_minor', 'total' => 1 }
       ]
     )
   end
@@ -174,9 +174,9 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       expect(vulnerable_populations_data).to match_array(
         [
           { 'id' => 'survivors_disability_type', 'total' => 3 },
+          { 'id' => 'other_vulnerable_child', 'total' => 2 },
           { 'id' => 'separated_child', 'total' => 1 },
-          { 'id' => 'unaccompanied_minor', 'total' => 1 },
-          { 'id' => 'other_vulnerable_child', 'total' => 2 }
+          { 'id' => 'unaccompanied_minor', 'total' => 1 }
         ]
       )
     end
@@ -199,9 +199,9 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       expect(vulnerable_populations_data).to match_array(
         [
           { 'id' => 'survivors_disability_type', 'total' => 4 },
+          { 'id' => 'other_vulnerable_child', 'total' => 2 },
           { 'id' => 'separated_child', 'total' => 2 },
-          { 'id' => 'unaccompanied_minor', 'total' => 1 },
-          { 'id' => 'other_vulnerable_child', 'total' => 2 }
+          { 'id' => 'unaccompanied_minor', 'total' => 1 }
         ]
       )
     end

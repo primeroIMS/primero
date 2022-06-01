@@ -1414,6 +1414,26 @@ en:
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
+    summary_mrm:
+      label: Summary of the Incident
+      fields:
+        children_multiple_violation:
+          label: Children with multiple violations
+        summary_of_incident:
+          label: Summary of the Incident
+        incident_total_tally:
+          label: Number of victims
+          boys: Boys
+          girls: Girls
+          unknown: Unknown
+        incident_date:
+          label: Date of the incident
+        incident_location:
+          label: Incident location
+        incident_description:
+          label: Account of Incident
+        incident_update:
+          label: Update of Incident
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
