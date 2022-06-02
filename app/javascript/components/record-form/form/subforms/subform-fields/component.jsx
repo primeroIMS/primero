@@ -36,7 +36,8 @@ const Component = ({
   values,
   formik,
   parentForm,
-  isViolationAssociation
+  isViolationAssociation,
+  entryFilter = false
 }) => {
   const i18n = useI18n();
 
@@ -135,6 +136,10 @@ const Component = ({
             return false;
           }
 
+          if (entryFilter && !entryFilter(values?.[index])) {
+            return false;
+          }
+
           return (
             <ListItem
               onClick={handleEdit(index)}
@@ -201,6 +206,7 @@ Component.displayName = SUBFORM_FIELDS;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
   isTracesSubform: PropTypes.bool,
