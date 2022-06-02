@@ -3,6 +3,7 @@
 import { fromJS, List } from "immutable";
 
 import NAMESPACE from "./namespace";
+import { MEDATADA_INDICATORS } from "./constants";
 
 export const getInsight = state => {
   return state.getIn(["records", NAMESPACE, "selectedReport"], fromJS({}));
@@ -15,7 +16,7 @@ export const getInsightFilter = (state, filter) => {
 export const getIsGroupedInsight = (state, subReport) =>
   state
     .getIn(["records", NAMESPACE, "selectedReport", "report_data", subReport], fromJS({}))
-    .filterNot((_value, key) => ["lookups"].includes(key))
+    .filterNot((_value, key) => MEDATADA_INDICATORS.includes(key))
     .valueSeq()
     .some(elems => List.isList(elems) && elems.some(elem => elem.get("group_id")));
 
