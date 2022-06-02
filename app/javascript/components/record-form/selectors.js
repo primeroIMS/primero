@@ -467,7 +467,7 @@ export const getReadOnlyFields = createCachedSelector(
   getWritableFields,
   (formSections, writableFields) => {
     const readOnlyFields = formSections.flatMap(formSection => formSection.fields);
-    const writableFieldMap = writableFields.reduce((acc, field) => ({ ...acc, [field.name]: true }), {});
+    const writableFieldMap = writableFields.reduce((acc, field) => ({ ...acc, [field?.name]: true }), {});
 
     return readOnlyFields.filter(field => !writableFieldMap[field.name]);
   }

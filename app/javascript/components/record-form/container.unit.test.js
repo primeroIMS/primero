@@ -1002,7 +1002,6 @@ describe("<RecordForms /> - Component", () => {
               permissions: {
                 cases: MANAGE
               },
-              permittedForms: {},
               modules: ["primeromodule-cp"]
             }
           }),

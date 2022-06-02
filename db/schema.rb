@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
     t.string "record_type"
     t.uuid "record_id"
     t.index ["agency_id"], name: "index_alerts_on_agency_id"
-    t.index ["record_type", "record_id"], name: "index_alerts_on_record"
+    t.index ["record_type", "record_id"], name: "index_alerts_on_record_type_and_record_id"
     t.index ["user_id"], name: "index_alerts_on_user_id"
   end
 
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_075916) do
     t.boolean "is_current", default: false, null: false
     t.jsonb "metadata"
     t.index ["field_name"], name: "index_attachments_on_field_name"
-    t.index ["record_type", "record_id"], name: "index_attachments_on_record"
+    t.index ["record_type", "record_id"], name: "index_attachments_on_record_type_and_record_id"
   end
 
   create_table "audit_logs", id: :serial, force: :cascade do |t|
