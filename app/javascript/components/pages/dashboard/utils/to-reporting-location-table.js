@@ -1,3 +1,5 @@
+import last from "lodash/last";
+
 import { dataToJS } from "../../../../libs";
 import { INDICATOR_NAMES } from "../constants";
 
@@ -68,7 +70,7 @@ export default (data, reportingLocationConfig, i18n, locations) => {
   const locationsByCode = {};
 
   locations.forEach(location => {
-    locationsByCode[location.get("code")] = location.get("name").get(i18n.locale);
+    locationsByCode[location.get("code")] = last(location.get("name").get(i18n.locale).split(":"));
   });
 
   const result = dataToJS(data);
