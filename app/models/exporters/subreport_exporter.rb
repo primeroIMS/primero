@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export Subreports
+# rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
   INITIAL_CHART_WIDTH = 384
   INITIAL_CHART_HEIGHT = 460
@@ -150,16 +151,14 @@ class Exporters::SubreportExporter < ValueObject
     INITIAL_CHART_WIDTH + (row_count * EXCEL_COLUMN_WIDTH)
   end
 
-  def transform_entries(entries)
-    entries.reduce([]) do |acc, (key, value)|
-      next(acc) if key == :lookups
-
-      acc << [key, transform_indicator_values(value)]
+  def transform_entries
+    data[:order].map do |key|
+      [key, transform_indicator_values(data[key])]
     end
   end
 
   def write_indicators
-    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
+    transform_entries.each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
       if grouped_by.present?
@@ -230,7 +229,8 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_lookups
     subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'lookups')
-    self.lookups = subreport_lookups.reduce({}) do |acc, (key, value)|
+
+    self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
       next acc.merge(key => LocationService.instance) if key == 'reporting_location'
 
       acc.merge(key => Lookup.values(value, nil, { locale: locale }))
@@ -261,3 +261,4 @@ class Exporters::SubreportExporter < ValueObject
     I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
   end
 end
+# rubocop:enable Metrics/ClassLength
