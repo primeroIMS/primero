@@ -52,7 +52,9 @@ describe("<Insights /> - Selectors", () => {
                       group_id: "group_1",
                       data: [{ id: "option_1", total: 10 }]
                     }
-                  ]
+                  ],
+                  lookups: { indicator_1: "lookup-indicator_1" },
+                  order: ["indicator_1"]
                 }
               }
             }

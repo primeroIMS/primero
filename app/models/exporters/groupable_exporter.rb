@@ -45,9 +45,10 @@ module Exporters::GroupableExporter
   end
 
   def columns_number
-    return 1 if groups&.values.blank?
+    columns = groups&.values&.reduce(0) { |acc, val| acc + val.size }
+    return 1 unless columns.present? && columns.positive?
 
-    groups&.values&.reduce(0) { |acc, val| acc + val.size } || 1
+    columns
   end
 
   def write_grey_row
