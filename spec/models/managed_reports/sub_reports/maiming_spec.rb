@@ -16,6 +16,6 @@ describe ManagedReports::SubReports::Maiming do
 
   it 'return a Hash of Lookups' do
     expect(maining.lookups).to be_an_instance_of(Hash)
-    expect(maining.lookups.size).to eq(3)
+    expect(maining.lookups.size).to eq(5)
   end
 end
