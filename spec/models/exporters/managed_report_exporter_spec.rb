@@ -143,7 +143,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 5,
-        health_medical_referral_subform_section: [{unique_id: '001'}],
+        health_medical_referral_subform_section: [{ unique_id: '001', service_medical_referral: 'referred' }],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
