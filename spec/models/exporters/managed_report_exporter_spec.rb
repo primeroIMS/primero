@@ -186,7 +186,7 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'should export the excel' do
-        expect(workbook.sheets.size).to eq(3)
+        expect(workbook.sheets.size).to eq(4)
       end
 
       describe 'Incidents subreport' do
@@ -666,18 +666,19 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'should export all the sheets' do
-        expect(workbook_all.sheets.size).to eq(3)
+        expect(workbook_all.sheets.size).to eq(4)
       end
 
       it 'should export the excel' do
-        expect(workbook_all.sheets.size).to eq(3)
-        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors])
+        expect(workbook_all.sheets.size).to eq(4)
+        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors Referrals])
       end
 
       it 'prints subreports headers' do
         expect(workbook_all.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
         expect(workbook_all.sheet(1).row(1)).to match_array(['Perpetrators', nil, nil])
         expect(workbook_all.sheet(2).row(1)).to match_array(['Survivors', nil, nil])
+        expect(workbook_all.sheet(3).row(1)).to match_array(['Referrals'])
       end
     end
   end
