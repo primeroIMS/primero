@@ -9,7 +9,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
         id: 1,
         code: "1506060",
         type: "sub_district",
-        name: { en: "My District" }
+        name: { en: "MyCountry:MyProvince:My District" }
       }
     ]);
 

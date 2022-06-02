@@ -3,6 +3,7 @@ import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
+import last from "lodash/last";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import memoize from "proxy-memoize";
@@ -201,7 +202,7 @@ const reportingLocations = memoize((state, options) => {
       return {
         id,
         // eslint-disable-next-line camelcase
-        display_text
+        display_text: last(display_text.split(":"))
       };
     });
 });
