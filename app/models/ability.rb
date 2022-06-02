@@ -11,6 +11,7 @@ class Ability
   def initialize(user)
     alias_user_actions
     @user = user
+    @permitted_form_fields_service = PermittedFormFieldsService.instance
     can_index
     can_access_self(user)
     can_search(user)
@@ -164,18 +165,17 @@ class Ability
   end
 
   def configure_record_attachments
-    permitted_form_fields_service = PermittedFormFieldsService.instance
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(permitted_form_fields_service, user, instance)
+      permitted_to_access_attachment?(user, instance)
     end
 
     can(%i[write destroy], Attachment) do |instance|
-      permitted_to_access_attachment?(permitted_form_fields_service, user, instance, true)
+      permitted_to_access_attachment?(user, instance, true)
     end
   end
 
-  def permitted_to_access_attachment?(permitted_form_fields_service, user, instance, write = false)
-    permitted_form_fields_service.permitted_field_names(
+  def permitted_to_access_attachment?(user, instance, write = false)
+    @permitted_form_fields_service.permitted_field_names(
       user.role,
       Record.map_name(instance.record_type),
       write
