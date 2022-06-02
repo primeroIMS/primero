@@ -23,7 +23,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.violations.description',
         subreports: %w[
           killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools
-          attack_on_hospitals
+          attack_on_hospitals military_use
         ],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
