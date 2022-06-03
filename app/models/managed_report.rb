@@ -23,7 +23,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.violations.description',
         subreports: %w[
           killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools
-          attack_on_hospitals
+          attack_on_hospitals military_use
         ],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
@@ -89,6 +89,6 @@ class ManagedReport < ValueObject
   end
 
   def verified_value
-    filters&.find { |filter| filter.field_name == 'verified_ctfmr_technical' }&.value
+    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
   end
 end

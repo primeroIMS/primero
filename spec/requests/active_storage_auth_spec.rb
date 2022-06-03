@@ -101,6 +101,19 @@ describe ActiveStorageAuth do
   end
 
   describe 'Record attachments' do
+    let(:photo_form) do
+      photo_form = FormSection.new(
+        unique_id: 'photo_form',
+        name: { en: 'Photo Form' },
+        parent_form: 'case',
+        visible: true,
+        fields: [
+          Field.new(name: 'photos', type: Field::PHOTO_UPLOAD_BOX, display_name_i18n: { en: 'Photos' }, visible: true)
+        ]
+      )
+      photo_form.save && photo_form
+    end
+
     let(:role) do
       permissions = Permission.new(
         resource: Permission::CASE,
@@ -109,7 +122,26 @@ describe ActiveStorageAuth do
         ]
       )
       role = Role.new(permissions: [permissions])
-      role.save(validate: false) && role
+      role.save(validate: false)
+
+      FormPermission.create!(form_section: photo_form, role: role)
+
+      role
+    end
+
+    let(:role_preview_record) do
+      permissions = Permission.new(
+        resource: Permission::CASE,
+        actions: [
+          Permission::DISPLAY_VIEW_PAGE
+        ]
+      )
+      role = Role.new(permissions: [permissions])
+      role.save(validate: false)
+
+      FormPermission.create!(form_section: photo_form, role: role)
+
+      role
     end
 
     let(:user1) do
@@ -119,6 +151,11 @@ describe ActiveStorageAuth do
 
     let(:user2) do
       user = User.new(user_name: 'user2', role: role)
+      user.save(validate: false) && user
+    end
+
+    let(:user3) do
+      user = User.new(user_name: 'user3', role: role_preview_record)
       user.save(validate: false) && user
     end
 
@@ -154,8 +191,17 @@ describe ActiveStorageAuth do
       expect(response.content_type).to eq('image/jpeg')
     end
 
+    it 'can be read by authenticated users who can preview the record' do
+      sign_in(user3)
+      get case_with_photo.photo_url
+      follow_redirect!
+
+      expect(response).to have_http_status(200)
+      expect(response.content_type).to eq('image/jpeg')
+    end
+
     after(:each) do
-      clean_data(Attachment, Child, User, Role)
+      clean_data(Attachment, Child, User, FormPermission, Role, FormSection)
     end
   end
 
@@ -222,7 +268,7 @@ describe ActiveStorageAuth do
     end
 
     after(:each) do
-      clean_data(BulkExport, User, Role)
+      clean_data(BulkExport, User, Role, FormSection)
     end
   end
 

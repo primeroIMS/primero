@@ -193,22 +193,17 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
 
           return state.updateIn(fieldsPath, data =>
             data.push(
-              fromJS(
-                transformValues(
-                  {
-                    ...Object.values(payload.data)[0],
-                    order: lastOrder
-                  },
-                  true
-                )
-              )
+              fromJS({
+                ...Object.values(payload.data)[0],
+                order: lastOrder
+              })
             )
           );
         }
 
         const selectedSubformField = state.getIn(["selectedSubform", "fields", fieldIndex]);
 
-        const mergedField = selectedSubformField.merge(fromJS(transformValues(payload.data[fieldName], true)));
+        const mergedField = selectedSubformField.merge(fromJS(payload.data[fieldName]));
 
         return state.setIn(["selectedSubform", "fields", fieldIndex], mergedField);
       }

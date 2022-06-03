@@ -103,7 +103,7 @@ class Exporters::IncidentsSubreportExporter < Exporters::SubreportExporter
   end
 
   def write_indicators
-    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
+    transform_entries.each do |(indicator_key, indicator_values)|
       next if COMBINED_INDICATORS.include?(indicator_key)
 
       if grouped_by.present?

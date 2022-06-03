@@ -1893,6 +1893,7 @@ en:
         escaped: 'Escaped'
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
+        received_response: Children Received Response
     gbv_statistics:
       name: GBV Statistics
       description: ''

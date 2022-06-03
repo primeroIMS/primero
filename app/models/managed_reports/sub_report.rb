@@ -9,6 +9,7 @@ class ManagedReports::SubReport < ValueObject
       acc.merge(indicator.id => indicator.build(current_user, params).data)
     end
     self.data = data.merge(lookups: lookups) if lookups.present?
+    self.data = data.merge(order: order)
   end
 
   def id; end
@@ -19,5 +20,9 @@ class ManagedReports::SubReport < ValueObject
 
   def lookups
     {}
+  end
+
+  def order
+    indicators.map(&:id)
   end
 end

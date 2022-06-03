@@ -18,7 +18,8 @@ class ManagedReports::SubReports::Abduction < ManagedReports::SubReport
   def lookups
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::ReportingLocation.id => 'Location'
+      ManagedReports::Indicators::ReportingLocation.id => 'Location',
+      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options'
     }
   end
 

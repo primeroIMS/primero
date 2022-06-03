@@ -11,12 +11,12 @@ describe ManagedReports::SubReports::SexualViolence do
 
   it 'return an Array of instance' do
     expect(rape.indicators).to be_an_instance_of(Array)
-    expect(rape.indicators.size).to eq(4)
+    expect(rape.indicators.size).to eq(5)
   end
 
   it 'return a Hash of Lookups' do
     expect(rape.lookups).to be_an_instance_of(Hash)
-    expect(rape.lookups.size).to eq(3)
+    expect(rape.lookups.size).to eq(4)
   end
 
   it 'return Lookups keys as values' do
@@ -25,6 +25,7 @@ describe ManagedReports::SubReports::SexualViolence do
         lookup-armed-force-group-or-other-party
         Location
         lookup-mrm-sexual-violence-type
+        lookup-violation-tally-options
       ]
     )
   end
