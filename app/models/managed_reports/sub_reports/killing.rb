@@ -9,6 +9,7 @@ class ManagedReports::SubReports::Killing < ManagedReports::SubReport
   def indicators
     [
       ManagedReports::Indicators::ViolationTally,
+      ManagedReports::Indicators::ViolationTallyResponse,
       ManagedReports::Indicators::Perpetrators,
       ManagedReports::Indicators::ReportingLocation,
       ManagedReports::Indicators::AttackType

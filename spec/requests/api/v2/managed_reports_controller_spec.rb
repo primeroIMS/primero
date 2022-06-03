@@ -60,7 +60,7 @@ describe Api::V2::ManagedReportsController, type: :request do
       expect(json['data']['id']).to eq('violations')
       expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data])
       expect(json['data']['report_data']['killing'].keys).to match_array(
-        %w[violation perpetrators reporting_location attack_type lookups order]
+        %w[violation perpetrators reporting_location attack_type lookups order received_response]
       )
     end
 

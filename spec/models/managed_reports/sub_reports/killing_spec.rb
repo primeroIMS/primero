@@ -11,7 +11,7 @@ describe ManagedReports::SubReports::Killing do
 
   it 'return an Array of instance' do
     expect(killing.indicators).to be_an_instance_of(Array)
-    expect(killing.indicators.size).to eq(4)
+    expect(killing.indicators.size).to eq(5)
   end
 
   it 'return a Hash of Lookups' do
