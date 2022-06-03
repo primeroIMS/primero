@@ -166,7 +166,7 @@ class Ability
 
   def configure_record_attachments
     can(:read, Attachment) do |instance|
-      permitted_to_access_attachment?(permitted_form_fields_service, user, instance) ||
+      permitted_to_access_attachment?(user, instance) ||
         permitted_to_view_attachment?(user, instance)
     end
 
