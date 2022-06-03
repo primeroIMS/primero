@@ -7,6 +7,7 @@ class ManagedReports::Indicators::GBVCaseContext < ManagedReports::SqlReportIndi
       'gbv_case_context'
     end
 
+    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
@@ -22,7 +23,9 @@ class ManagedReports::Indicators::GBVCaseContext < ManagedReports::SqlReportIndi
         #{user_scope_query(current_user)&.prepend('and ')}
         group by context
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+        order by context
       }
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

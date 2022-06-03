@@ -138,12 +138,12 @@ describe ManagedReports::Indicators::GBVCaseContext do
 
     expect(data).to match_array(
       [
-        { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
-        { 'id' => 'possible_sexual_slavery', 'total' => 2 },
-        { 'id' => 'intimate_partner_violence', 'total' => 1 },
+        { 'id' => 'child_sexual_abuse', 'total' => 4 },
         { 'id' => 'early_marriage', 'total' => 1 },
         { 'id' => 'harmful_traditional_practice', 'total' => 1 },
-        { 'id' => 'child_sexual_abuse', 'total' => 4 }
+        { 'id' => 'intimate_partner_violence', 'total' => 1 },
+        { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
+        { 'id' => 'possible_sexual_slavery', 'total' => 2 }
       ]
     )
   end
@@ -154,8 +154,8 @@ describe ManagedReports::Indicators::GBVCaseContext do
 
       expect(data).to match_array(
         [
-          { 'id' => 'intimate_partner_violence', 'total' => 1 },
-          { 'id' => 'child_sexual_abuse', 'total' => 1 }
+          { 'id' => 'child_sexual_abuse', 'total' => 1 },
+          { 'id' => 'intimate_partner_violence', 'total' => 1 }
         ]
       )
     end
@@ -165,11 +165,11 @@ describe ManagedReports::Indicators::GBVCaseContext do
 
       expect(data).to match_array(
         [
-          { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
+          { 'id' => 'child_sexual_abuse', 'total' => 3 },
           { 'id' => 'early_marriage', 'total' => 1 },
-          { 'id' => 'possible_sexual_slavery', 'total' => 2 },
           { 'id' => 'harmful_traditional_practice', 'total' => 1 },
-          { 'id' => 'child_sexual_abuse', 'total' => 3 }
+          { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
+          { 'id' => 'possible_sexual_slavery', 'total' => 2 }
         ]
       )
     end
@@ -179,9 +179,9 @@ describe ManagedReports::Indicators::GBVCaseContext do
 
       expect(data).to match_array(
         [
-          { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
+          { 'id' => 'child_sexual_abuse', 'total' => 1 },
           { 'id' => 'early_marriage', 'total' => 1 },
-          { 'id' => 'child_sexual_abuse', 'total' => 1 }
+          { 'id' => 'possible_sexual_exploitation', 'total' => 1 }
         ]
       )
     end
@@ -191,12 +191,12 @@ describe ManagedReports::Indicators::GBVCaseContext do
 
       expect(data).to match_array(
         [
-          { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
-          { 'id' => 'possible_sexual_slavery', 'total' => 2 },
-          { 'id' => 'intimate_partner_violence', 'total' => 1 },
+          { 'id' => 'child_sexual_abuse', 'total' => 4 },
           { 'id' => 'early_marriage', 'total' => 1 },
           { 'id' => 'harmful_traditional_practice', 'total' => 1 },
-          { 'id' => 'child_sexual_abuse', 'total' => 4 }
+          { 'id' => 'intimate_partner_violence', 'total' => 1 },
+          { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
+          { 'id' => 'possible_sexual_slavery', 'total' => 2 }
         ]
       )
     end
@@ -223,8 +223,8 @@ describe ManagedReports::Indicators::GBVCaseContext do
               group_id: 2020,
               data: [
                 { 'id' => 'child_sexual_abuse', 'total' => 2 },
-                { 'id' => 'possible_sexual_slavery', 'total' => 1 },
-                { 'id' => 'intimate_partner_violence', 'total' => 1 }
+                { 'id' => 'intimate_partner_violence', 'total' => 1 },
+                { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             },
             {
@@ -238,9 +238,9 @@ describe ManagedReports::Indicators::GBVCaseContext do
             {
               group_id: 2022,
               data: [
-                { 'id' => 'possible_sexual_slavery', 'total' => 1 },
                 { 'id' => 'child_sexual_abuse', 'total' => 1 },
-                { 'id' => 'harmful_traditional_practice', 'total' => 1 }
+                { 'id' => 'harmful_traditional_practice', 'total' => 1 },
+                { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             }
           ]
@@ -274,8 +274,8 @@ describe ManagedReports::Indicators::GBVCaseContext do
             {
               group_id: '2020-09',
               data: [
-                { 'id' => 'possible_sexual_slavery', 'total' => 1 },
-                { 'id' => 'child_sexual_abuse', 'total' => 1 }
+                { 'id' => 'child_sexual_abuse', 'total' => 1 },
+                { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             },
             { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] }, { group_id: '2020-12', data: [] },
@@ -285,9 +285,9 @@ describe ManagedReports::Indicators::GBVCaseContext do
             {
               group_id: '2021-09',
               data: [
-                { 'id' => 'possible_sexual_exploitation', 'total' => 1 },
                 { 'id' => 'child_sexual_abuse', 'total' => 1 },
-                { 'id' => 'early_marriage', 'total' => 1 }
+                { 'id' => 'early_marriage', 'total' => 1 },
+                { 'id' => 'possible_sexual_exploitation', 'total' => 1 }
               ]
             },
             { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] }, { group_id: '2021-12', data: [] },
@@ -297,8 +297,8 @@ describe ManagedReports::Indicators::GBVCaseContext do
             {
               group_id: '2022-10',
               data: [
-                { 'id' => 'harmful_traditional_practice', 'total' => 1 },
                 { 'id' => 'child_sexual_abuse', 'total' => 1 },
+                { 'id' => 'harmful_traditional_practice', 'total' => 1 },
                 { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             }
@@ -327,16 +327,16 @@ describe ManagedReports::Indicators::GBVCaseContext do
               group_id: '2020-Q3',
               data: [
                 { 'id' => 'child_sexual_abuse', 'total' => 2 },
-                { 'id' => 'possible_sexual_slavery', 'total' => 1 },
-                { 'id' => 'intimate_partner_violence', 'total' => 1 }
+                { 'id' => 'intimate_partner_violence', 'total' => 1 },
+                { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
             {
               group_id: '2021-Q3',
               data: [
-                { 'id' => 'early_marriage', 'total' => 1 },
                 { 'id' => 'child_sexual_abuse', 'total' => 1 },
+                { 'id' => 'early_marriage', 'total' => 1 },
                 { 'id' => 'possible_sexual_exploitation', 'total' => 1 }
               ]
             },
@@ -345,9 +345,9 @@ describe ManagedReports::Indicators::GBVCaseContext do
             {
               group_id: '2022-Q4',
               data: [
+                { 'id' => 'child_sexual_abuse', 'total' => 1 },
                 { 'id' => 'harmful_traditional_practice', 'total' => 1 },
-                { 'id' => 'possible_sexual_slavery', 'total' => 1 },
-                { 'id' => 'child_sexual_abuse', 'total' => 1 }
+                { 'id' => 'possible_sexual_slavery', 'total' => 1 }
               ]
             }
           ]
