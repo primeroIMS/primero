@@ -1,4 +1,10 @@
-import { FieldRecord, FormSectionRecord, LABEL_FIELD, TICK_FIELD } from "../../../../../../../form";
+import {
+  DOCUMENT_RECORD_FIELD,
+  FieldRecord,
+  FormSectionRecord,
+  LABEL_FIELD,
+  TICK_FIELD
+} from "../../../../../../../form";
 
 export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => ({
   showOn: FieldRecord({
@@ -39,14 +45,25 @@ export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => 
   })
 });
 
-export const visibilityForm = ({ fieldName, fields = [], i18n, isNested = false, limitedProductionSite }) => {
+export const visibilityForm = ({
+  fieldName,
+  fieldType,
+  fields = [],
+  i18n,
+  isNested = false,
+  limitedProductionSite
+}) => {
   const { showOn, visible, mobileVisible, hideOnViewPage, showOnMinifyForm, onCollapsedSubform } = visibilityFields({
     fieldName,
     i18n,
     limitedProductionSite
   });
 
-  const row = [visible, mobileVisible, hideOnViewPage].concat(isNested ? onCollapsedSubform : showOnMinifyForm);
+  const miniFormField = fieldType === DOCUMENT_RECORD_FIELD ? [] : [showOnMinifyForm];
+
+  const row = [visible, mobileVisible, hideOnViewPage].concat(
+    isNested && fieldType !== DOCUMENT_RECORD_FIELD ? onCollapsedSubform : miniFormField
+  );
 
   return FormSectionRecord({
     unique_id: "field_visibility",

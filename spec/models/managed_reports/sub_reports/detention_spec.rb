@@ -16,6 +16,6 @@ describe ManagedReports::SubReports::Detention do
 
   it 'return a Hash of Lookups' do
     expect(detention.lookups).to be_an_instance_of(Hash)
-    expect(detention.lookups.size).to eq(2)
+    expect(detention.lookups.size).to eq(3)
   end
 end

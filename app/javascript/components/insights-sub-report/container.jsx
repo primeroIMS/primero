@@ -19,12 +19,13 @@ import {
   buildInsightColumns,
   buildSingleInsightsData,
   buildInsightValues,
+  buildReportData,
   getLookupValue,
   formatAgeRange
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { COMBINED_INDICATORS, GROUPED_BY_FILTER, NAME } from "./constants";
+import { GROUPED_BY_FILTER, NAME } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -69,9 +70,7 @@ const Component = () => {
 
   const totalText = i18n.t("managed_reports.total");
 
-  const reportData = insight
-    .getIn(["report_data", subReport, "data"], fromJS({}))
-    .groupBy((_value, key) => ((COMBINED_INDICATORS[subReport] || []).includes(key) ? "single" : "aggregate"));
+  const reportData = buildReportData(insight, subReport);
 
   const translateId = valueID => i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
 

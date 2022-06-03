@@ -16,7 +16,7 @@ describe ManagedReports::SubReports::Recruitment do
 
   it 'return a Hash of Lookups' do
     expect(recruitment.lookups).to be_an_instance_of(Hash)
-    expect(recruitment.lookups.size).to eq(4)
+    expect(recruitment.lookups.size).to eq(5)
   end
 
   it 'return Lookups keys as values' do
@@ -26,6 +26,7 @@ describe ManagedReports::SubReports::Recruitment do
         Location
         lookup-combat-role-type
         lookup-recruitment-factors
+        lookup-violation-tally-options
       ]
     )
   end

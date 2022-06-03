@@ -12,7 +12,8 @@ class ManagedReports::SubReport < ValueObject
       metadata: {
         display_graph: display_graph,
         lookups: lookups,
-        table_type: table_type
+        table_type: table_type,
+        order: order
       }
     }
   end
@@ -33,5 +34,9 @@ class ManagedReports::SubReport < ValueObject
 
   def lookups
     {}
+  end
+
+  def order
+    indicators.map(&:id)
   end
 end

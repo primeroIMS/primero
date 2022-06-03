@@ -1917,6 +1917,7 @@ en:
         escaped: 'Escaped'
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
+        received_response: Children Received Response
     gbv_statistics:
       name: GBV Statistics
       description: ''
@@ -1927,6 +1928,7 @@ en:
         incidents: Incidents
         perpetrators: Perpetrators
         survivors: Survivors
+        referrals: Referrals
       sub_reports:
         combined: Incidents
         total: Number of GBV Incidents Reported
@@ -1947,6 +1949,17 @@ en:
         marital_status: Marital Status of Survivors
         displacement_status: Displacement Status of Survivors
         displacement_incident: Stage of Displacement at time of Incident
+        incidents_first_point_of_contact: Number of Incidents where your organization is the first point of contact
+        incidents_from_other_service_provider: Incidents Referred from Other Service Providers
+        number_of_services_provided: Number of Services Provided for Incidents
+        number_of_services_provided_other: New Incident Referrals to Other Service Providers
+        service_safehouse_referral: Safe House/Safe Shelter Referral
+        service_medical_referral: Health/Medical Referral
+        service_psycho_referral: Psychosocial/Counseling Services
+        service_legal_referral: Legal Assistance Services
+        service_police_referral: Police or Other Type of Security Services
+        service_livelihoods_referral: Livelihoods Services
+        service_protection_referral: Child Protection Services
         vulnerable_populations: Vulnerable Populations
         survivors_disability_type: With Disabilities
     success_message: Successfully generated the export file
