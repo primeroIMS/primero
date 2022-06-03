@@ -20,7 +20,8 @@ class ManagedReports::SubReports::SexualViolence < ManagedReports::SubReport
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::ReportingLocation.id => 'Location',
-      ManagedReports::Indicators::SexualViolenceType.id => 'lookup-mrm-sexual-violence-type'
+      ManagedReports::Indicators::SexualViolenceType.id => 'lookup-mrm-sexual-violence-type',
+      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options'
     }
   end
 
