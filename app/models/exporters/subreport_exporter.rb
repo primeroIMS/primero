@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Class to export Subreports
+# rubocop:disable Metrics/ClassLength
 class Exporters::SubreportExporter < ValueObject
   INITIAL_CHART_WIDTH = 384
   INITIAL_CHART_HEIGHT = 460
@@ -56,12 +57,25 @@ class Exporters::SubreportExporter < ValueObject
   def write_params
     worksheet.set_row(current_row, 20)
     # TODO: Will this be problematic for arabic languages?
-    params = date_range_param + filter_by_date_param + verification_status_param
+    params = params_list
     return unless params.present?
 
     params += [formats[:black]]
-    worksheet.merge_range_type('rich_string', current_row, 0, current_row, 1, *params)
+    worksheet.merge_range_type('rich_string', current_row, 0, current_row, 3, *params)
     self.current_row += 1
+  end
+
+  def params_list
+    view_by_param + date_range_param + date_range_values_param + filter_by_date_param + verification_status_param
+  end
+
+  def view_by_param
+    return [] unless grouped_by_param.present?
+
+    [
+      formats[:bold_blue], "#{I18n.t('fields.date_range.view_by', locale: locale)}: ",
+      formats[:black], "#{I18n.t("managed_reports.date_range.#{grouped_by_param.value}", locale: locale)} / "
+    ]
   end
 
   def date_range_param
@@ -70,6 +84,22 @@ class Exporters::SubreportExporter < ValueObject
     [
       formats[:bold_blue], "#{I18n.t('fields.date_range_field', locale: locale)}: ",
       formats[:black], "#{date_range_display_text} / "
+    ]
+  end
+
+  def date_range_values_param
+    return [] unless managed_report.date_range_value.blank?
+
+    custom_date_value(:from) + custom_date_value(:to)
+  end
+
+  def custom_date_value(date_value)
+    value = managed_report.date_range_filter&.send(date_value)
+    return [] if value.blank?
+
+    [
+      formats[:bold_blue], "#{I18n.t("fields.date_range.#{date_value}", locale: locale)}: ",
+      formats[:black], "#{value} / "
     ]
   end
 
@@ -150,16 +180,14 @@ class Exporters::SubreportExporter < ValueObject
     INITIAL_CHART_WIDTH + (row_count * EXCEL_COLUMN_WIDTH)
   end
 
-  def transform_entries(entries)
-    entries.reduce([]) do |acc, (key, value)|
-      next(acc) if key == :lookups
-
-      acc << [key, transform_indicator_values(value)]
+  def transform_entries
+    data[:order].map do |key|
+      [key, transform_indicator_values(data[key])]
     end
   end
 
   def write_indicators
-    transform_entries(data.entries).each do |(indicator_key, indicator_values)|
+    transform_entries.each do |(indicator_key, indicator_values)|
       next unless indicator_values.is_a?(Array)
 
       if grouped_by.present?
@@ -230,7 +258,8 @@ class Exporters::SubreportExporter < ValueObject
 
   def load_lookups
     subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'lookups')
-    self.lookups = subreport_lookups.reduce({}) do |acc, (key, value)|
+
+    self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
       next acc.merge(key => LocationService.instance) if key == 'reporting_location'
 
       acc.merge(key => Lookup.values(value, nil, { locale: locale }))
@@ -261,3 +290,4 @@ class Exporters::SubreportExporter < ValueObject
     I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
   end
 end
+# rubocop:enable Metrics/ClassLength

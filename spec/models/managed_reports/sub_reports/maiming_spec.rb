@@ -11,11 +11,11 @@ describe ManagedReports::SubReports::Maiming do
 
   it 'return an Array of instance' do
     expect(maining.indicators).to be_an_instance_of(Array)
-    expect(maining.indicators.size).to eq(4)
+    expect(maining.indicators.size).to eq(5)
   end
 
   it 'return a Hash of Lookups' do
     expect(maining.lookups).to be_an_instance_of(Hash)
-    expect(maining.lookups.size).to eq(3)
+    expect(maining.lookups.size).to eq(5)
   end
 end

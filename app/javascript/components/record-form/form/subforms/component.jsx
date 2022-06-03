@@ -19,7 +19,9 @@ const Component = ({
   parentTitle,
   parentValues,
   violationOptions,
-  renderAsAccordion
+  renderAsAccordion,
+  entryFilter = false,
+  customTitle = false
 }) => {
   const { name } = field;
 
@@ -45,6 +47,8 @@ const Component = ({
             parentValues={parentValues}
             violationOptions={violationOptions}
             renderAsAccordion={renderAsAccordion}
+            entryFilter={entryFilter}
+            customTitle={customTitle}
           />
         )}
       </FieldArray>
@@ -55,6 +59,8 @@ const Component = ({
 Component.displayName = SUBFORM_FIELD;
 
 Component.propTypes = {
+  customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,

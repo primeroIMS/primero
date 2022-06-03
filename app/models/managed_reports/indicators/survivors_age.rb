@@ -7,7 +7,6 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
       'age'
     end
 
-    # rubocop:disable Metrics/AbcSize
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
@@ -24,6 +23,5 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

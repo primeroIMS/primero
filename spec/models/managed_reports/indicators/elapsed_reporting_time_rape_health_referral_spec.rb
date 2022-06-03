@@ -92,7 +92,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         gbv_sexual_violence_type: 'rape',
         health_medical_referral_subform_section:
           [
-            { unique_id: '001' }
+            { unique_id: '001', service_medical_referral: 'referred' }
           ]
       }
     ).save!
@@ -104,7 +104,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         gbv_sexual_violence_type: 'rape',
         health_medical_referral_subform_section:
           [
-            { unique_id: '001' }
+            { unique_id: '001', service_medical_referral: 'referred' }
           ]
       }
     ).save!
@@ -116,7 +116,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         gbv_sexual_violence_type: 'rape',
         health_medical_referral_subform_section:
           [
-            { unique_id: '001' }
+            { unique_id: '001', service_medical_referral: 'service_provided_by_your_agency' }
           ]
       }
     ).save!
@@ -128,7 +128,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         gbv_sexual_violence_type: 'rape',
         health_medical_referral_subform_section:
           [
-            { unique_id: '001' }
+            { unique_id: '001', service_medical_referral: 'service_provided_by_your_agency' }
           ]
       }
     ).save!
@@ -137,7 +137,11 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
       {
         incident_date: Date.new(2022, 8, 8),
         date_of_first_report: Date.new(2022, 10, 8),
-        gbv_sexual_violence_type: 'rape'
+        gbv_sexual_violence_type: 'rape',
+        health_medical_referral_subform_section:
+          [
+            { unique_id: '001', service_medical_referral: 'service_unavailable' }
+          ]
       }
     ).save!
   end

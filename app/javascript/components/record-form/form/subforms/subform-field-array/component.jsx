@@ -31,7 +31,9 @@ const Component = ({
   parentTitle,
   parentValues,
   violationOptions,
-  renderAsAccordion = false
+  renderAsAccordion = false,
+  entryFilter = false,
+  customTitle = false
 }) => {
   const {
     display_name: displayName,
@@ -51,7 +53,7 @@ const Component = ({
 
   const { open, index } = openDialog;
 
-  const title = displayName?.[i18n.locale] || displayName?.[i18n.defaultLocale];
+  const title = customTitle || displayName?.[i18n.locale] || displayName?.[i18n.defaultLocale];
 
   const isTraces = isTracesSubform(recordType, formSection);
 
@@ -89,6 +91,7 @@ const Component = ({
         isViolationAssociation={isViolationAssociation}
         formik={formik}
         parentForm={form}
+        entryFilter={entryFilter}
       />
     </List>
   );
@@ -158,6 +161,8 @@ Component.displayName = SUBFORM_FIELD_ARRAY;
 
 Component.propTypes = {
   arrayHelpers: PropTypes.object.isRequired,
+  customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  entryFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.bool]),
   field: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired,
