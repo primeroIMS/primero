@@ -10,9 +10,6 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
     end
 
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
         select key as name, 'total' as key,
@@ -25,7 +22,7 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' is not null
         and violations.data->>'is_late_verification' = 'true'
-        #{date_range_query(date_param(params['incident_date']), 'violations')&.prepend('and ')}
+        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         group by key, violations.data ->> 'type'
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by
@@ -33,11 +30,10 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
       }
     end
 
-    def date_param(incident_date_param)
-      ctfmr_verified_date_param = incident_date_param.clone
-      ctfmr_verified_date_param.field_name = 'ctfmr_verified_date'
-      ctfmr_verified_date_param
+    def date_filter
+      'ctfmr_verified_date'
     end
+
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity

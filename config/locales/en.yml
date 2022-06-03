@@ -2993,6 +2993,8 @@ en:
             label: Violations
           gbv_statistics:
             label: GBV Statistics
+          ghn_report:
+            label: Global Horizontal Note
       matching_configuration:
         actions:
           manage:

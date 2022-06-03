@@ -38,9 +38,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.ghn_report.description',
         subreports: %w[ghn_report],
         permitted_filters: [
-          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
-          date_of_first_report: {},
-          incident_date: {}, ctfmr_verified_date: {}
+          :grouped_by, ghn_date_filter: {}
         ],
         module_id: PrimeroModule::MRM
       )

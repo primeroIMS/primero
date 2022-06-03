@@ -8,6 +8,15 @@ module ManagedReports::GhnIndicatorHelper
 
   # ClassMethods
   module ClassMethods
+    def date_filter
+      'incident_date'
+    end
+
+    def date_filter_param(filter)
+      filter.field_name = date_filter
+      filter
+    end
+
     def groups
       %w[boys girls unknown total].map { |group| [group, []] }.to_h
     end

@@ -23,6 +23,7 @@ const INCIDENT_DATE = "incident_date";
 const DATE_OF_REPORT = "date_of_report";
 const VERIFIED = "verified";
 const VERIFICATION_STATUS = "verification_status";
+const GHN_DATE_FILTER = "ghn_date_filter";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -175,7 +176,7 @@ export const INSIGHTS_CONFIG = {
       defaultFilterValues: {
         [GROUPED_BY]: QUARTER,
         [DATE_RANGE]: THIS_QUARTER,
-        [DATE]: INCIDENT_DATE
+        [DATE]: GHN_DATE_FILTER
       }
     }
   },
