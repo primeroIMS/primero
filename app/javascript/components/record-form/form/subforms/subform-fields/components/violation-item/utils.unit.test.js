@@ -38,7 +38,30 @@ describe("<ViolationItem /> - utils", () => {
         name: "violation_tally",
         visible: true,
         type: "tally_field",
-        display_name: { en: "violation count" }
+        display_name: { en: "violation count", fr: "Nombre de violations" },
+        tally: [
+          {
+            id: "boys",
+            display_text: {
+              en: "Boys",
+              fr: "Garçons"
+            }
+          },
+          {
+            id: "girls",
+            display_text: {
+              en: "Girls",
+              fr: "Filles"
+            }
+          },
+          {
+            id: "unknown",
+            display_text: {
+              en: "Unknown",
+              fr: "Inconnu"
+            }
+          }
+        ]
       })
     ];
     const currentValues = {
@@ -50,7 +73,13 @@ describe("<ViolationItem /> - utils", () => {
 
     it("should return a short violation values as label", () => {
       expect(helpers.getViolationTallyLabel(fields, currentValues, locale)).to.deep.equal(
-        "violation count: boys: (1) girls: (2)"
+        "violation count: Boys: (1) Girls: (2)"
+      );
+    });
+
+    it("should return the values translated as label", () => {
+      expect(helpers.getViolationTallyLabel(fields, currentValues, "fr")).to.deep.equal(
+        "Nombre de violations: Garçons: (1) Filles: (2)"
       );
     });
 

@@ -143,7 +143,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 5,
-        health_medical_referral_subform_section: [{unique_id: '001'}],
+        health_medical_referral_subform_section: [{ unique_id: '001', service_medical_referral: 'referred' }],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -186,7 +186,7 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'should export the excel' do
-        expect(workbook.sheets.size).to eq(3)
+        expect(workbook.sheets.size).to eq(4)
       end
 
       describe 'Incidents subreport' do
@@ -318,12 +318,11 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
-                nil, nil, nil, nil, nil
-              ]
-            )
+            result = '<html><b>View By: </b>Month / <b>Date Range: </b>Custom / '\
+            "<b>From: </b>#{(Date.today - 2.month).strftime('%Y-%m-%d')} / "\
+            "<b>To: </b>#{(Date.today + 2.month).strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil, nil, nil, nil])
           end
 
           it 'prints indicator tables' do
@@ -437,12 +436,11 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>Custom / <b>Date: </b>Date of Incident / </html>',
-                nil, nil
-              ]
-            )
+            result = '<html><b>View By: </b>Year / <b>Date Range: </b>Custom / '\
+            "<b>From: </b>#{(Date.today - 1.year).strftime('%Y-%m-%d')} / "\
+            "<b>To: </b>#{(Date.today.end_of_year).strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil])
           end
 
           it 'prints indicator tables' do
@@ -555,12 +553,10 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints report params' do
-            expect(workbook_grouped.sheet(0).row(2)).to match_array(
-              [
-                '<html><b>Date Range: </b>This Quarter / <b>Date: </b>Date of Incident / </html>',
-                nil
-              ]
-            )
+            result = '<html><b>View By: </b>Quarter / <b>Date Range: </b>This Quarter / '\
+            '<b>Date: </b>Date of Incident / </html>'
+
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil])
           end
 
           it 'prints indicator tables' do
@@ -666,18 +662,125 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'should export all the sheets' do
-        expect(workbook_all.sheets.size).to eq(3)
+        expect(workbook_all.sheets.size).to eq(4)
       end
 
       it 'should export the excel' do
-        expect(workbook_all.sheets.size).to eq(3)
-        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors])
+        expect(workbook_all.sheets.size).to eq(4)
+        expect(workbook_all.sheets).to match_array(%w[Incidents Perpetrators Survivors Referrals])
       end
 
       it 'prints subreports headers' do
         expect(workbook_all.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
         expect(workbook_all.sheet(1).row(1)).to match_array(['Perpetrators', nil, nil])
         expect(workbook_all.sheet(2).row(1)).to match_array(['Survivors', nil, nil])
+        expect(workbook_all.sheet(3).row(1)).to match_array(['Referrals'])
+      end
+    end
+
+    context 'order' do
+      let(:workbook) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today.beginning_of_quarter,
+              to: Date.today.end_of_quarter
+            )
+          ],
+          { output_to_file: false }
+        )
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      it 'should export indicators in the correct order' do
+        expect(workbook.sheet(0).row(5).at(0)).to eq('Incidents')
+        expect(workbook.sheet(0).row(7).at(0)).to eq('Number of GBV Incidents Reported')
+        expect(workbook.sheet(0).row(8).at(0)).to eq('Number of Incidents of Sexual Violence Reported')
+        expect(workbook.sheet(0).row(9).at(0)).to eq(
+          'Number of Incidents Reported by Survivors with Prior GBV Incidents'
+        )
+        expect(workbook.sheet(0).row(12).at(0)).to eq('Incident Type')
+        expect(workbook.sheet(0).row(42).at(0)).to eq('Incident Time of Day')
+        expect(workbook.sheet(0).row(72).at(0)).to eq('Time Between Incident and Report Date')
+        expect(workbook.sheet(0).row(100).at(0)).to eq(
+          'Incidents of Rape, Time Elapsed between Incident and Report Date'
+        )
+        expect(workbook.sheet(0).row(128).at(0)).to eq(
+          'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)'
+        )
+        expect(workbook.sheet(0).row(156).at(0)).to eq('Incident Location')
+      end
+    end
+
+    describe 'when there is no data' do
+      let(:workbook_no_data) do
+        data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
+          nil,
+          [
+            SearchFilters::DateRange.new(
+              field_name: 'incident_date',
+              from: Date.today + 1.month,
+              to: Date.today + 2.month
+            ),
+            SearchFilters::Value.new(
+              field_name: 'grouped_by',
+              value: 'month'
+            )
+          ],
+          { output_to_file: false }
+        )
+
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      context 'should render report' do
+        it 'prints subreport headers' do
+          expect(workbook_no_data.sheet(0).row(1)).to match_array(['Incidents'])
+        end
+
+        it 'prints report params' do
+          result = '<html><b>View By: </b>Month / <b>Date Range: </b>Custom / '\
+          "<b>From: </b>#{(Date.today + 1.month).strftime('%Y-%m-%d')} / "\
+          "<b>To: </b>#{(Date.today + 2.month).strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
+
+          expect(workbook_no_data.sheet(0).row(2)).to match_array([result])
+        end
+
+        it 'prints indicator tables' do
+          expect(workbook_no_data.sheet(0).row(7)).to match_array(
+            ['Number of GBV Incidents Reported']
+          )
+          expect(workbook_no_data.sheet(0).row(8)).to match_array(
+            ['Number of Incidents Reported by Survivors with Prior GBV Incidents']
+          )
+          expect(workbook_no_data.sheet(0).row(9)).to match_array(
+            ['Number of Incidents of Sexual Violence Reported']
+          )
+
+          expect(workbook_no_data.sheet(0).row(12)).to match_array(
+            ['Incident Type']
+          )
+
+          expect(workbook_no_data.sheet(0).row(14)).to match_array(
+            ['Incident Time of Day']
+          )
+
+          expect(workbook_no_data.sheet(0).row(16)).to match_array(
+            ['Time Between Incident and Report Date']
+          )
+          expect(workbook_no_data.sheet(0).row(18)).to match_array(
+            ['Incidents of Rape, Time Elapsed between Incident and Report Date']
+          )
+          expect(workbook_no_data.sheet(0).row(20)).to match_array(
+            [
+              'Incidents of Rape, Time Elapsed between Incident and Report Date (Health Service or Referral)'
+            ]
+          )
+
+          expect(workbook_no_data.sheet(0).row(22)).to match_array(['Incident Location'])
+        end
       end
     end
   end

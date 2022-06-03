@@ -79,7 +79,9 @@ describe("<SubformField />", () => {
       "isReadWriteForm",
       "parentValues",
       "i18n",
-      "renderAsAccordion"
+      "renderAsAccordion",
+      "entryFilter",
+      "customTitle"
     ].forEach(property => {
       expect(componentsProps).to.have.property(property);
       delete componentsProps[property];

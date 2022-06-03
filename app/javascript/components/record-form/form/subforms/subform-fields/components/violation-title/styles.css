@@ -3,3 +3,15 @@
   border: solid 1px var(--c-blue);
   background-color: var(--c-blue);
 }
+
+.container {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-top: 0.1em;
+}
