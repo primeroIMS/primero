@@ -19,6 +19,20 @@ describe Exporters::ManagedReportExporter do
     )
 
     Lookup.create_or_update!(
+      unique_id: 'lookup-gbv-case-context',
+      name_en: 'GBV Case Context',
+      locked: true,
+      lookup_values: [
+        { id: 'intimate_partner_violence', display_text: 'Intimate Partner Violence' },
+        { id: 'child_sexual_abuse', display_text: 'Child Sexual Abuse' },
+        { id: 'early_marriage', display_text: 'Early Marriage' },
+        { id: 'possible_sexual_exploitation', display_text: 'Possible Sexual Exploitation' },
+        { id: 'possible_sexual_slavery', display_text: 'Possible Sexual Slavery' },
+        { id: 'harmful_traditional_practice', display_text: 'Harmful Traditional Practice' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Lookup.create_or_update!(
       unique_id: 'lookup-gbv-incident-timeofday',
       name_en: 'GBV Incident Time Of Day',
       lookup_values_en: [
@@ -117,6 +131,7 @@ describe Exporters::ManagedReportExporter do
         module_id: 'primeromodule-gbv',
         incident_timeofday: 'evening_night',
         incident_location_type: 'garden',
+        goods_money_exchanged: true,
         age: 7,
         alleged_perpetrator: [
           {
@@ -245,6 +260,12 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(0).row(158)).to eq(['Bush/Forest', 1])
           expect(workbook.sheet(0).row(159)).to eq(['Garden/Cultivated Field', 1])
           expect(workbook.sheet(0).row(160)).to eq(['School', 1])
+
+          expect(workbook.sheet(0).row(186)).to eq(['Case Context', nil])
+          expect(workbook.sheet(0).row(187)).to eq([nil, 'Total'])
+          expect(workbook.sheet(0).row(188)).to eq(['Child Sexual Abuse', 2])
+          expect(workbook.sheet(0).row(189)).to eq(['Early Marriage', 1])
+          expect(workbook.sheet(0).row(190)).to eq(['Possible Sexual Exploitation', 1])
         end
       end
 

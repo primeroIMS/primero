@@ -17,7 +17,8 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::ElapsedReportingTime,
       ManagedReports::Indicators::ElapsedReportingTimeRape,
       ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral,
-      ManagedReports::Indicators::IncidentLocationType
+      ManagedReports::Indicators::IncidentLocationType,
+      ManagedReports::Indicators::GBVCaseContext
     ].freeze
   end
   # rubocop:enable Metrics/MethodLength
@@ -29,7 +30,8 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::ElapsedReportingTime.id => 'lookup-elapsed-reporting-time',
       ManagedReports::Indicators::ElapsedReportingTimeRape.id => 'lookup-elapsed-reporting-time',
       ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral.id => 'lookup-elapsed-reporting-time',
-      ManagedReports::Indicators::IncidentLocationType.id => 'lookup-gbv-incident-location-type'
+      ManagedReports::Indicators::IncidentLocationType.id => 'lookup-gbv-incident-location-type',
+      ManagedReports::Indicators::GBVCaseContext.id => 'lookup-gbv-case-context'
     }.freeze
   end
 end

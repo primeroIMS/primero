@@ -1925,6 +1925,7 @@ en:
         marital_status: Marital Status of Survivors
         displacement_status: Displacement Status of Survivors
         displacement_incident: Stage of Displacement at time of Incident
+        gbv_case_context: Case Context
         incidents_first_point_of_contact: Number of Incidents where your organization is the first point of contact
         incidents_from_other_service_provider: Incidents Referred from Other Service Providers
         number_of_services_provided: Number of Services Provided for Incidents
