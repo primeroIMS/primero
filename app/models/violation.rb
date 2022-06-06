@@ -59,13 +59,13 @@ class Violation < ApplicationRecord
   end
 
   def calculate_late_verifications
-    return unless data['ctfmr_verified_date'].present? && data['ctfmr_verified'].present?
+    return unless data['ctfmr_verified'] == 'verified'
 
     data['is_late_verification'] = late_verification?
   end
 
   def late_verification?
-    incident_date_last_quarter? && data['ctfmr_verified'] == 'verified' && verified_this_quarter?
+    incident_date_last_quarter? && verified_this_quarter?
   end
 
   def incident_date_last_quarter?

@@ -181,7 +181,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def transform_entries
-    data[:order].map do |key|
+    metadata_property('order').map do |key|
       [key, transform_indicator_values(data[key])]
     end
   end
@@ -257,7 +257,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def load_lookups
-    subreport_lookups = managed_report.data.with_indifferent_access.dig(id, 'metadata', 'lookups')
+    subreport_lookups = metadata_property('lookups')
 
     self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
       next acc.merge(key => LocationService.instance) if key == 'reporting_location'
@@ -288,6 +288,10 @@ class Exporters::SubreportExporter < ValueObject
     return unless verified_value.present? && verified_value == 'verified'
 
     I18n.t('managed_reports.violations.filter_options.verified', locale: locale)
+  end
+
+  def metadata_property(property)
+    managed_report.data.with_indifferent_access.dig(id, 'metadata', property)
   end
 end
 # rubocop:enable Metrics/ClassLength

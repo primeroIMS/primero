@@ -22,43 +22,47 @@ describe("<InsightsSubReport />/utils/buildReportData", () => {
           subreports: ["incidents", "perpetrators", "survivors"],
           report_data: {
             incidents: {
-              elapsed_reporting_time: [
-                {
-                  group_id: "2022-04",
-                  data: [
-                    {
-                      id: "2_weeks_1_month",
-                      total: 1
-                    }
-                  ]
+              data: {
+                elapsed_reporting_time: [
+                  {
+                    group_id: "2022-04",
+                    data: [
+                      {
+                        id: "2_weeks_1_month",
+                        total: 1
+                      }
+                    ]
+                  }
+                ],
+                total: [
+                  {
+                    group_id: "2022-04",
+                    data: [
+                      {
+                        id: "incidents",
+                        total: 2
+                      }
+                    ]
+                  }
+                ],
+                incident_timeofday: [
+                  {
+                    group_id: "2022-04",
+                    data: [
+                      {
+                        id: "morning",
+                        total: 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              metadata: {
+                order: ["total", "incident_timeofday", "elapsed_reporting_time"],
+                lookups: {
+                  incident_timeofday: "lookup-gbv-incident-timeofday",
+                  elapsed_reporting_time: "lookup-elapsed-reporting-time"
                 }
-              ],
-              total: [
-                {
-                  group_id: "2022-04",
-                  data: [
-                    {
-                      id: "incidents",
-                      total: 2
-                    }
-                  ]
-                }
-              ],
-              incident_timeofday: [
-                {
-                  group_id: "2022-04",
-                  data: [
-                    {
-                      id: "morning",
-                      total: 1
-                    }
-                  ]
-                }
-              ],
-              order: ["total", "incident_timeofday", "elapsed_reporting_time"],
-              lookups: {
-                incident_timeofday: "lookup-gbv-incident-timeofday",
-                elapsed_reporting_time: "lookup-elapsed-reporting-time"
               }
             }
           }

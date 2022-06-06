@@ -32,8 +32,8 @@ describe ManagedReports::Indicators::UnverifiedInformation do
       nil,
       {
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
-        'incident_date' => SearchFilters::DateRange.new(
-          field_name: 'incident_date',
+        'ghn_date_filter' => SearchFilters::DateRange.new(
+          field_name: 'ghn_date_filter',
           from: '2021-04-01',
           to: '2022-06-10'
         )
