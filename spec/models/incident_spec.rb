@@ -538,32 +538,6 @@ describe Incident do
     end
   end
 
-  describe 'elapsed_reporting_time' do
-    before do
-      @incident = Incident.create!(
-        data: { incident_date: Date.new(2020, 8, 10), date_of_first_report: Date.new(2020, 8, 12) }
-      )
-    end
-
-    it 'sets the elapsed reporting time when a incident is created' do
-      expect(@incident.elapsed_reporting_time).to eq('0_3_days')
-    end
-
-    it 'clears the elapsed reporting time if the incident_date is removed' do
-      @incident.incident_date = nil
-      @incident.save!
-
-      expect(@incident.elapsed_reporting_time).to be_nil
-    end
-
-    it 'clears the elapsed reporting time if the date_of_first_report is removed' do
-      @incident.date_of_first_report = nil
-      @incident.save!
-
-      expect(@incident.elapsed_reporting_time).to be_nil
-    end
-  end
-
   describe '#verification_status_list', search: true do
     before do
       @incident = Incident.create!(data: { incident_date: Date.today, status: 'open' })
