@@ -1832,7 +1832,7 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
-    filter_by: 
+    filter_by:
       date: Date
       verification_status: Verification Status
     date_range:
@@ -1877,6 +1877,8 @@ en:
         detention_released: Released
         detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
+        perpetrators_incidents: Number of incidents by Perpetrators
+        reporting_location_incidents: Number of incidents by Region
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type
         boys: Boys
@@ -1900,7 +1902,7 @@ en:
       filter_options:
         date_of_first_report: Date of Interview
         incident_date: Date of Incident
-      reports: 
+      reports:
         incidents: Incidents
         perpetrators: Perpetrators
         survivors: Survivors
@@ -1909,7 +1911,7 @@ en:
         combined: Incidents
         total: Number of GBV Incidents Reported
         gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents
         gbv_sexual_violence_type: Incident Type
         incident_timeofday: Incident Time of Day
         elapsed_reporting_time: Time Between Incident and Report Date
@@ -3133,7 +3135,7 @@ en:
           agency_read:
             explanation: Ability to view all reports. The numbers in each report
               will reflect only those records which are accessible to users
-              in the current user's Agency. This permission is often used 
+              in the current user's Agency. This permission is often used
               for agency administrators.
             label: View (agency-based data)
         explanation: Aggregate data analysis tool. Includes table and graph representations of data.
