@@ -22,7 +22,7 @@ import AudioArray from "../../../../../../form/fields/audio-array";
 import fieldRowCss from "../field-rows/styles.css";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
-import { getComparisons } from "./utils";
+import { getComparisons, toAttachmentArray } from "./utils";
 import css from "./styles.css";
 
 const Component = ({
@@ -64,27 +64,11 @@ const Component = ({
   const casePhotos = potentialMatch
     .getIn(["case", "photos"], fromJS([]))
     .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
-  const caseAudios = potentialMatch.getIn(["case", "recorded_audio"], fromJS([])).reduce(
-    (acc, audio) =>
-      acc.concat({
-        id: audio.get("id"),
-        attachment_url: audio.get("attachment_url"),
-        file_name: audio.get("file_name")
-      }),
-    []
-  );
+  const caseAudios = toAttachmentArray(potentialMatch.getIn(["case", "recorded_audio"], fromJS([])));
   const tracingRequestPhotos = record
     .get("photos", fromJS([]))
     .reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
-  const tracingRequestAudios = record.get("recorded_audio", fromJS([])).reduce(
-    (acc, audio) =>
-      acc.concat({
-        id: audio.get("id"),
-        attachment_url: audio.get("attachment_url"),
-        file_name: audio.get("file_name")
-      }),
-    []
-  );
+  const tracingRequestAudios = toAttachmentArray(record.get("recorded_audio", fromJS([])));
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
