@@ -901,6 +901,62 @@ describe("<RecordForm /> - Selectors", () => {
       // Using toJS() since FieldRecord has empty mutable attributes
       expect(result.toList().toJS()).to.deep.equal(expected.toJS());
     });
+
+    it("does not return the excluded fields for the show_on_minify_form fields", () => {
+      const expected = fromJS([
+        FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      ]);
+      const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
+
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toList().toJS()).to.deep.equal([]);
+    });
+
+    it("it returns the show_on_minify_form fields as common fields", () => {
+      const expected = fromJS({
+        name_first: FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      });
+      const result = selectors.getCommonMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
+
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toJS()).to.deep.equal(expected.toJS());
+    });
   });
 
   describe("getRecordInformationForms", () => {

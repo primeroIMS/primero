@@ -418,12 +418,16 @@ export const getRecordFields = createCachedSelector(getRecordForms, formSections
   formSections.flatMap(formSection => formSection.fields)
 )(defaultCacheSelectorOptions);
 
-export const getMiniFormFields = (state, recordType, primeroModule) => {
+export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 
   return (recordForms || fromJS([]))
     .flatMap(form => form.get("fields"))
-    .filter(field => field.show_on_minify_form)
+    .filter(
+      field =>
+        field.show_on_minify_form &&
+        (isEmpty(excludeFieldNames) || (!isEmpty(excludeFieldNames) && !excludeFieldNames.includes(field.name)))
+    )
     .map(field => {
       const fieldRecord = FieldRecord(field);
 
@@ -431,6 +435,12 @@ export const getMiniFormFields = (state, recordType, primeroModule) => {
         ? fieldRecord.set("option_strings_source_id_key", "unique_id")
         : fieldRecord;
     });
+};
+
+export const getCommonMiniFormFields = (state, recordType, primeroModule, fieldNames) => {
+  return getMiniFormFields(state, recordType, primeroModule)
+    .filter(field => fieldNames.includes(field.name))
+    .reduce((acc, elem) => acc.merge(fromJS({ [elem.name]: elem })), fromJS({}));
 };
 
 export const getDataProtectionInitialValues = state =>
