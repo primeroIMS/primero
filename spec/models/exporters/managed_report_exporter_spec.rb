@@ -197,6 +197,7 @@ describe Exporters::ManagedReportExporter do
           ],
           { output_to_file: false }
         )
+
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 

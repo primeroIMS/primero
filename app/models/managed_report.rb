@@ -31,6 +31,16 @@ class ManagedReport < ValueObject
           incident_date: {}, ctfmr_verified_date: {}
         ],
         module_id: PrimeroModule::MRM
+      ),
+      Permission::GHN_REPORT => ManagedReport.new(
+        id: 'ghn_report',
+        name: 'managed_reports.ghn_report.name',
+        description: 'managed_reports.ghn_report.description',
+        subreports: %w[ghn_report],
+        permitted_filters: [
+          :grouped_by, ghn_date_filter: {}
+        ],
+        module_id: PrimeroModule::MRM
       )
     }.freeze
   end

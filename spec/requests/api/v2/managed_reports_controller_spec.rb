@@ -59,8 +59,11 @@ describe Api::V2::ManagedReportsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('violations')
       expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data])
-      expect(json['data']['report_data']['killing'].keys).to match_array(
-        %w[violation perpetrators reporting_location attack_type lookups order received_response]
+      expect(json['data']['report_data']['killing']['data'].keys).to match_array(
+        %w[violation perpetrators reporting_location attack_type received_response]
+      )
+      expect(json['data']['report_data']['killing']['metadata'].keys).to match_array(
+        %w[lookups order table_type display_graph]
       )
     end
 

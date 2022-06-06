@@ -117,6 +117,7 @@ describe("Verifying config constant", () => {
       "Q2",
       "Q3",
       "Q4",
+      "GHN_REPORT_SUBREPORTS",
       "SUMMARY_INCIDENT_MRM",
       "VIOLATION_FORMS_MAPPING"
     ].forEach(property => {

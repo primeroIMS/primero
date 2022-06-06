@@ -1849,6 +1849,30 @@ en:
       custom: Custom
     no_data: No data exists for this insight
     no_data_table: No table data exists for this insight
+    ghn_report:
+      name: Global Horizontal Note
+      description: ''
+      reports:
+        ghn_report: Global Horizontal Note
+      sub_reports:
+        verified_information: Verified Information
+        late_verification: Late Verification
+        unverified_information: Unverified Information
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and/or other forms of sexual violence
+        rape: Rape and/or other forms of sexual violence
+        abduction: Abduction
+        attack_on_hospitals: Attacks on hospital(s)
+        attack_on_schools: Attacks on school(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
+        detention: Detention
+        boys: Boys
+        girls: Girls
+        total: Total
+        unknown: Unknown
     violations:
       name: Violations
       description: ''
@@ -2985,6 +3009,8 @@ en:
             label: Violations
           gbv_statistics:
             label: GBV Statistics
+          ghn_report:
+            label: Global Horizontal Note
       matching_configuration:
         actions:
           manage:
