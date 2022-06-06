@@ -186,21 +186,6 @@ const Component = ({
     record
   };
 
-  const navProps = {
-    firstTab,
-    formNav,
-    handleToggleNav,
-    isNew: containerMode.isNew,
-    mobileDisplay,
-    recordType: params.recordType,
-    selectedForm,
-    selectedRecord: record ? record.get("id") : null,
-    toggleNav,
-    primeroModule: selectedModule.primeroModule,
-    hasForms: !loadingForm && forms.size > 0,
-    formikValuesForNav
-  };
-
   useEffect(() => {
     if (params.id && !loadingRecord && recordAttachments.size && !isProcessingSomeAttachment) {
       dispatch(clearRecordAttachments(params.id, params.recordType));
@@ -288,7 +273,7 @@ const Component = ({
 
   const handleFormikValues = useCallback(values => setFormikValuesForNav(values), []);
 
-  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
+  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && !formNav.isEmpty() && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
@@ -316,13 +301,29 @@ const Component = ({
     transitionProps
   });
 
+  const navSelectedRecords = record ? record.get("id") : null;
+  const hasForms = !loadingForm && forms.size > 0;
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
         {renderRecordFormToolbar}
         <div className={containerClasses}>
           <div className={navContainerClasses}>
-            <Nav {...navProps} />
+            <Nav
+              firstTab={firstTab}
+              formNav={formNav}
+              handleToggleNav={handleToggleNav}
+              isNew={containerMode.isNew}
+              mobileDisplay={mobileDisplay}
+              recordType={params.recordType}
+              selectedForm={selectedForm}
+              selectedRecord={navSelectedRecords}
+              toggleNav={toggleNav}
+              primeroModule={selectedModule.primeroModule}
+              hasForms={hasForms}
+              formikValuesForNav={formikValuesForNav}
+            />
           </div>
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
