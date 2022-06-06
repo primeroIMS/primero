@@ -164,10 +164,10 @@ export const getFieldDefaultValue = field => {
 
   if (field.type === TALLY_FIELD) {
     const tallyDefaultValues = field.tally.reduce((acc, value) => {
-      return { ...acc, [value.id]: "" };
+      return { ...acc, [value.id]: null };
     }, {});
 
-    const tallyTotal = field.autosum_total ? { total: "" } : {};
+    const tallyTotal = field.autosum_total ? { total: null } : {};
 
     return field.selected_value || { ...tallyDefaultValues, ...tallyTotal };
   }
