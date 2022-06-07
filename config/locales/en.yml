@@ -1849,6 +1849,7 @@ en:
       custom: Custom
     no_data: No data exists for this insight
     no_data_table: No table data exists for this insight
+    incomplete_data: Incomplete Data
     ghn_report:
       name: Global Horizontal Note
       description: ''

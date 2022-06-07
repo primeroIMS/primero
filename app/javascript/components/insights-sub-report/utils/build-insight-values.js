@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 import first from "lodash/first";
-import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 
 import { YEAR } from "../../insights/constants";
@@ -92,10 +91,13 @@ export default {
   ghn_report: ({ data, getLookupValue, key }) => {
     return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
   },
-  default: ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues }) => {
+  default: ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues, incompleteDataLabel }) => {
     if (data === 0) return [];
 
-    const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+    const lookupDisplayTexts = [
+      ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
+      incompleteDataLabel
+    ];
 
     const sortByFn = elem => first(elem.row);
 
@@ -108,7 +110,7 @@ export default {
       return sortWithSortedArray(rows, ageRanges, sortByFn);
     }
 
-    if (!isEmpty(lookupDisplayTexts)) {
+    if (lookupDisplayTexts.length > 1) {
       return sortWithSortedArray(rows, lookupDisplayTexts, sortByFn);
     }
 
