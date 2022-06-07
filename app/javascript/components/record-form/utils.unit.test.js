@@ -282,8 +282,8 @@ describe("<RecordForms /> - utils", () => {
         field_3: true,
         field_4: "2010-01-05",
         field_5: ["value_1"],
-        field_6: { test1: "", test2: "", total: "" },
-        field_7: { test3: "", test4: "" }
+        field_6: { test1: null, test2: null, total: null },
+        field_7: { test3: null, test4: null }
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);

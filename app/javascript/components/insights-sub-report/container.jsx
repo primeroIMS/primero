@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
+import isNil from "lodash/isNil";
 
 import { getAgeRanges } from "../application/selectors";
 import { getLoading, getErrors } from "../index-table/selectors";
@@ -72,7 +73,15 @@ const Component = () => {
 
   const reportData = buildReportData(insight, subReport);
 
-  const translateId = valueID => i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
+  const incompleteDataLabel = i18n.t("managed_reports.incomplete_data");
+
+  const translateId = valueID => {
+    if (isNil(valueID)) {
+      return incompleteDataLabel;
+    }
+
+    return i18n.t(`managed_reports.${id}.sub_reports.${valueID}`, { defaultValue: valueID });
+  };
 
   const subReportTitle = key => i18n.t(["managed_reports", id, "sub_reports", key].join("."));
 
@@ -103,13 +112,15 @@ const Component = () => {
                     isGrouped,
                     groupedBy,
                     localizeDate: i18n.localizeDate,
-                    totalText
+                    totalText,
+                    incompleteDataLabel
                   })}
                   values={buildInsightValues[insightMetadata.get("table_type")]({
                     getLookupValue: lookupValue,
                     data: singleInsightsTableData,
                     isGrouped,
-                    groupedBy
+                    groupedBy,
+                    incompleteDataLabel
                   })}
                   showPlaceholder
                   name={namespace}
@@ -134,7 +145,8 @@ const Component = () => {
                         isGrouped,
                         groupedBy,
                         ageRanges,
-                        lookupValues: lookups[valueKey]
+                        lookupValues: lookups[valueKey],
+                        incompleteDataLabel
                       })}
                       showDetails
                       hideLegend
@@ -148,7 +160,8 @@ const Component = () => {
                       groupedBy,
                       localizeDate: i18n.localizeDate,
                       totalText,
-                      getLookupValue: lookupValue
+                      getLookupValue: lookupValue,
+                      incompleteDataLabel
                     })}
                     values={buildInsightValues[insightMetadata.get("table_type")]({
                       getLookupValue: lookupValue,
@@ -157,7 +170,8 @@ const Component = () => {
                       isGrouped,
                       groupedBy,
                       ageRanges,
-                      lookupValues: lookups[valueKey]
+                      lookupValues: lookups[valueKey],
+                      incompleteDataLabel
                     })}
                     showPlaceholder
                     name={namespace}
