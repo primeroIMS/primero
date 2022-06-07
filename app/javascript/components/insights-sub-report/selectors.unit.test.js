@@ -47,14 +47,18 @@ describe("<Insights /> - Selectors", () => {
             selectedReport: {
               report_data: {
                 subreport_1: {
-                  indicator_1: [
-                    {
-                      group_id: "group_1",
-                      data: [{ id: "option_1", total: 10 }]
-                    }
-                  ],
-                  lookups: { indicator_1: "lookup-indicator_1" },
-                  order: ["indicator_1"]
+                  data: {
+                    indicator_1: [
+                      {
+                        group_id: "group_1",
+                        data: [{ id: "option_1", total: 10 }]
+                      }
+                    ]
+                  },
+                  metadata: {
+                    lookups: { indicator_1: "lookup-indicator_1" },
+                    order: ["indicator_1"]
+                  }
                 }
               }
             }
