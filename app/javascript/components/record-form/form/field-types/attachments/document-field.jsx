@@ -20,6 +20,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useThemeHelper } from "../../../../../libs";
 import TickField from "../tick-field";
+import { MODULES } from "../../../../../config";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -42,6 +43,7 @@ const DocumentField = ({
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const isMRM = arrayHelpers?.form?.values?.module_id === MODULES.MRM;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -157,13 +159,16 @@ const DocumentField = ({
             {mode.isShow || deleteButton}
           </div>
 
-          <Box my={2}>
-            <TickField
-              {...supportingInputsProps}
-              label={i18n.t("fields.document.is_current")}
-              name={fields.isCurrent}
-            />
-          </Box>
+          {!isMRM && (
+            <Box my={2}>
+              <TickField
+                {...supportingInputsProps}
+                label={i18n.t("fields.document.is_current")}
+                name={fields.isCurrent}
+              />
+            </Box>
+          )}
+
           <Box my={2}>
             <FastField
               component={TextField}
