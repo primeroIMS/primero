@@ -107,7 +107,7 @@ const Component = () => {
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
                 <TableValues
                   useInsightsHeader
-                  columns={buildInsightColumns.default({
+                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
                     value: singleInsightsTableData,
                     isGrouped,
                     groupedBy,
@@ -115,7 +115,7 @@ const Component = () => {
                     totalText,
                     incompleteDataLabel
                   })}
-                  values={buildInsightValues.default({
+                  values={buildInsightValues[insightMetadata.get("table_type")]({
                     getLookupValue: lookupValue,
                     data: singleInsightsTableData,
                     isGrouped,
