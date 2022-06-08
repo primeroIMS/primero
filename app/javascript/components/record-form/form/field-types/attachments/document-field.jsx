@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
@@ -38,12 +39,14 @@ const DocumentField = ({
   field
 }) => {
   const i18n = useI18n();
+  const params = useParams();
 
   const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
-  const isMRM = arrayHelpers?.form?.values?.module_id === MODULES.MRM;
+  const primeroModule = arrayHelpers?.form?.values?.module_id || params.module;
+  const isMRM = primeroModule === MODULES.MRM;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
