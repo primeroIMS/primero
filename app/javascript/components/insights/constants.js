@@ -175,7 +175,7 @@ export const INSIGHTS_CONFIG = {
       ].map(filter => FieldRecord(filter)),
       defaultFilterValues: {
         [GROUPED_BY]: QUARTER,
-        [DATE_RANGE]: THIS_QUARTER,
+        [DATE_RANGE]: LAST_QUARTER,
         [DATE]: GHN_DATE_FILTER
       }
     }
