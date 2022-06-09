@@ -114,6 +114,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'morning',
         incident_location_type: 'forest',
         age: 3,
+        service_referred_from: 'unknown',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -163,7 +164,6 @@ describe Exporters::ManagedReportExporter do
           {
             primary_perpetrator: 'primary',
             age_group: '0_11',
-            perpetrator_occupation: 'occupation_1',
             perpetrator_relationship: 'primary_caregiver'
           },
           {
@@ -305,9 +305,10 @@ describe Exporters::ManagedReportExporter do
 
           expect(workbook.sheet(1).row(95)).to eq(['Alleged Primary Perpetrator Occupation', nil])
           expect(workbook.sheet(1).row(96)).to eq([nil, 'Total'])
-          expect(workbook.sheet(1).row(97)).to eq(['Occupation 1', 3])
+          expect(workbook.sheet(1).row(97)).to eq(['Occupation 1', 2])
           expect(workbook.sheet(1).row(98)).to eq(['Occupation 2', 2])
           expect(workbook.sheet(1).row(99)).to eq(['Unknown', 1])
+          expect(workbook.sheet(1).row(100)).to eq(['Incomplete Data', 1])
         end
       end
     end
@@ -334,6 +335,14 @@ describe Exporters::ManagedReportExporter do
           Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
         end
 
+        let(:year_range) do
+          [
+            nil, (Date.today - 2.month).strftime('%Y-%b'), (Date.today - 1.month).strftime('%Y-%b'),
+            Date.today.strftime('%Y-%b'), (Date.today + 1.month).strftime('%Y-%b'),
+            (Date.today + 2.month).strftime('%Y-%b')
+          ]
+        end
+
         context 'Incidents subreport' do
           it 'prints subreport headers' do
             expect(workbook_grouped.sheet(0).row(1)).to match_array(['Incidents', nil, nil, nil, nil, nil])
@@ -348,12 +357,6 @@ describe Exporters::ManagedReportExporter do
           end
 
           it 'prints indicator tables' do
-            year_range = [
-              nil, (Date.today - 2.month).strftime('%Y-%b'), (Date.today - 1.month).strftime('%Y-%b'),
-              Date.today.strftime('%Y-%b'), (Date.today + 1.month).strftime('%Y-%b'),
-              (Date.today + 2.month).strftime('%Y-%b')
-            ]
-
             expect(workbook_grouped.sheet(0).row(5)).to match_array(
               ['Incidents', nil, nil, nil, nil, nil]
             )
@@ -427,6 +430,19 @@ describe Exporters::ManagedReportExporter do
               ['Garden/Cultivated Field', 0, 0, 1, 0, 0]
             )
             expect(workbook_grouped.sheet(0).row(155)).to match_array(['School', 0, 0, 1, 0, 0])
+          end
+
+          it 'prints the referrals subreport' do
+            expect(workbook_grouped.sheet(3).row(1)).to match_array(
+              ['Referrals', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(3).row(7)).to match_array(
+              ['Incidents Referred from Other Service Providers', nil, nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(3).row(8)).to match_array(year_range)
+            expect(workbook_grouped.sheet(3).row(9)).to match_array(
+              ['Incidents Referred from Other Service Providers', 0, 0, 1, 0, 0]
+            )
           end
         end
       end
@@ -696,7 +712,7 @@ describe Exporters::ManagedReportExporter do
         expect(workbook_all.sheet(0).row(1)).to match_array(['Incidents', nil, nil])
         expect(workbook_all.sheet(1).row(1)).to match_array(['Perpetrators', nil, nil])
         expect(workbook_all.sheet(2).row(1)).to match_array(['Survivors', nil, nil])
-        expect(workbook_all.sheet(3).row(1)).to match_array(['Referrals'])
+        expect(workbook_all.sheet(3).row(1)).to match_array(['Referrals', nil, nil])
       end
     end
 
