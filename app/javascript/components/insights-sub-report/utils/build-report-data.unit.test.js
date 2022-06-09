@@ -70,17 +70,9 @@ describe("<InsightsSubReport />/utils/buildReportData", () => {
         "incidents"
       );
 
-      expect(result).to.deep.equal(
-        fromJS({
-          single: {
-            total: [{ group_id: "2022-04", data: [{ id: "incidents", total: 2 }] }]
-          },
-          aggregate: {
-            incident_timeofday: [{ group_id: "2022-04", data: [{ id: "morning", total: 1 }] }],
-            elapsed_reporting_time: [{ group_id: "2022-04", data: [{ id: "2_weeks_1_month", total: 1 }] }]
-          }
-        })
-      );
+      expect([...result.keys()]).to.deep.equal(["single", "aggregate"]);
+      expect([...result.get("single").keys()]).to.deep.equal(["total"]);
+      expect([...result.get("aggregate").keys()]).to.deep.equal(["incident_timeofday", "elapsed_reporting_time"]);
     });
   });
 });
