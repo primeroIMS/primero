@@ -12,7 +12,9 @@ import { SUBFORM_HEADER } from "../constants";
 import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../../config";
 import { getShortIdFromUniqueId } from "../../../../records/utils";
 
-const Component = ({ field, values, locale, displayName, index, isViolationSubform }) => {
+import { ListItemTextSecondary } from "./components";
+
+const Component = ({ field, values, locale, displayName, index, isViolationSubform, associatedViolations }) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
   const renderShortId =
@@ -86,7 +88,16 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
     }
 
     return (
-      <ListItemText id="subform-header-button" classes={itemClasses}>
+      <ListItemText
+        id="subform-header-button"
+        classes={itemClasses}
+        secondary={
+          <ListItemTextSecondary
+            associatedViolations={associatedViolations}
+            violationsIDs={values[index]?.violations_ids}
+          />
+        }
+      >
         <div className={css.listItemText}>
           {renderShortId && <span>{renderShortId}</span>}
           {subformValues}
@@ -101,6 +112,7 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
 Component.displayName = SUBFORM_HEADER;
 
 Component.propTypes = {
+  associatedViolations: PropTypes.object,
   displayName: PropTypes.object,
   field: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,

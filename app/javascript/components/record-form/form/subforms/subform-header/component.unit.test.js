@@ -1,4 +1,5 @@
 import { fromJS } from "immutable";
+import { ListItemText } from "@material-ui/core";
 
 import { setupMountedComponent } from "../../../../../test";
 import { FieldRecord, FormSectionRecord } from "../../../records";
@@ -152,5 +153,54 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>", () => {
     const { component } = setupMountedComponent(SubformHeader, props, initialState);
 
     expect(component.text()).to.be.equal("Places visited in town (2)");
+  });
+
+  context("When is not violation subform and there is collapsed fields", () => {
+    let component;
+    const props = {
+      field: FieldRecord({
+        name: "questions",
+        subform_section_id: {
+          fields: [
+            FieldRecord({
+              name: "places_visited_town",
+              type: "tally_field",
+              display_name: {
+                en: "Places visited in town"
+              },
+              tally: [
+                { id: "grocery_store", display_text: "Grocery Store" },
+                { id: "cafe", display_text: "Cafe" }
+              ]
+            })
+          ],
+          collapsed_field_names: ["places_visited_town"]
+        }
+      }),
+      values: [{ unique_id: "ab123cde", places_visited_town: { grocery_store: 1, cafe: 1, total: 2 } }],
+      locale: "en",
+      displayName: { en: "Testing" },
+      index: 0,
+      onClick: () => {},
+      isViolationSubform: false
+    };
+
+    beforeEach(() => {
+      ({ component } = setupMountedComponent(SubformHeader, props, initialState));
+    });
+
+    it("should render ListItemText ", () => {
+      expect(component.find(ListItemText)).lengthOf(1);
+    });
+
+    it("should accept valid props", () => {
+      const listItemTextProps = { ...component.find(ListItemText).props() };
+
+      ["id", "classes", "secondary", "children"].forEach(property => {
+        expect(listItemTextProps).to.have.property(property);
+        delete listItemTextProps[property];
+      });
+      expect(listItemTextProps).to.be.empty;
+    });
   });
 });
