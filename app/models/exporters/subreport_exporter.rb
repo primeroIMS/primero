@@ -232,6 +232,8 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def value_display_text(elem, indicator_lookups)
+    return I18n.t('managed_reports.incomplete_data') if elem['id'].nil?
+
     if indicator_lookups.blank?
       return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
     end
