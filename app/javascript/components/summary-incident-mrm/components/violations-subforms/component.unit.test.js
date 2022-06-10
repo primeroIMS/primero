@@ -16,7 +16,12 @@ describe("<ViolationsSubforms />", () => {
     owned_by: "aa",
     owned_by_agency_id: "aa",
     sex: "aa",
-    killing: []
+    killing: [
+      {
+        unique_id: 1,
+        sample_key: "sample_value"
+      }
+    ]
   };
 
   const props = {

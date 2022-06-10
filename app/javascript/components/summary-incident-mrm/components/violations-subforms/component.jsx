@@ -15,7 +15,7 @@ const Component = ({ recordType, formSections, values }) => {
     const subFormWrapper = VIOLATION_FORMS_MAPPING[uniqueID];
     const parentSubform = formSections.find(form => form.unique_id === subFormWrapper);
 
-    if (!parentSubform) {
+    if (!parentSubform || isEmpty(values[uniqueID])) {
       return null;
     }
     const fieldSubform = parentSubform.fields.find(field => field.name === uniqueID);
