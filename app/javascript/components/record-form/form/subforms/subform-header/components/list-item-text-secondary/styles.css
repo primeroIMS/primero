@@ -3,3 +3,15 @@
   align-items: center;
   margin-bottom: 0.1em;
 }
+
+.item {
+  width: 100%;
+
+  & div:before {
+    top: 50%;
+    transform: translateY(-50%);
+    content: "•";
+    margin-right: 0.4em;
+    margin-left: 0.4em;
+  }
+}
