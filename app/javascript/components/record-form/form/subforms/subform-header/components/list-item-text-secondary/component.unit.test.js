@@ -17,6 +17,6 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>/components/<ListItemTextSe
 
     expect(component.find(ListItemTextSecondary)).lengthOf(1);
     expect(component.find(ListItemTextSecondary).find("h4")).lengthOf(1);
-    expect(component.find(ListItemTextSecondary).find("div")).lengthOf(3);
+    expect(component.find(ListItemTextSecondary).find("div")).lengthOf(5);
   });
 });
