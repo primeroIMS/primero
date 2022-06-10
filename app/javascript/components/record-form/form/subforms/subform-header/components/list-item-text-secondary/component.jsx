@@ -19,7 +19,9 @@ const Component = ({ associatedViolations, violationsIDs }) => {
       <h4 className={css.title}>{i18n.t("incident.violation.associated_violations")}</h4>
       {violationsKeys.map(violationKey => {
         return (
-          <div id={`div-list-item-seconday-${violationKey}`}>{i18n.t(`incident.violation.types.${violationKey}`)}</div>
+          <div id={`id-div-list-item-seconday-${violationKey}`} key={`key-list-item-seconday-${violationKey}`}>
+            {i18n.t(`incident.violation.types.${violationKey}`)}
+          </div>
         );
       })}
     </div>
