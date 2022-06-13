@@ -1437,8 +1437,10 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
+    violation_summary: Summary
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -2928,6 +2930,10 @@ en:
             explanation: User can generate a specialized XLS file export which allows
               for data exchange with the GBV Incident Recorder tool.
             label: Export incident recorder xls
+          export_mrm_violation_xls:
+            explanation: User can generate a specialized Excel (XLS file) export for MRM Violations.
+              This action is available on the Incident show page and Incident list.
+            label: Export MRM Violations to Excel (XLS file)
           export_json:
             explanation: User can generate a JSON file export from the incident list
               or incident show pages, which contains all fields to which the current

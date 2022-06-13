@@ -177,7 +177,7 @@ class Permission < ValueObject
     ],
     INCIDENT => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG,
+      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS,
       MANAGE
     ],
     TRACING_REQUEST => [
@@ -241,7 +241,6 @@ class Permission < ValueObject
 
     # TODO: This replaces the old method that just listed all actions in an array
     # TODO: The result of this is 113 actions vs 86 in the old method
-    # TODO: The only permission NOT returned by this method that was in the old method:  export_mrm_violation_xls
     def actions
       Permission::RESOURCE_ACTIONS.values.flatten.uniq
     end

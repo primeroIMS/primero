@@ -8,8 +8,7 @@ class ExportService
         Exporters::IncidentRecorderExporter, Exporters::CsvListViewExporter, Exporters::CsvExporter,
         Exporters::ExcelExporter, Exporters::JsonExporter, Exporters::PhotoWallExporter, Exporters::UNHCRCsvExporter,
         Exporters::DuplicateIdCsvExporter, Exporters::SelectedFieldsExcelExporter, Exporters::IncidentRecorderExporter,
-        Exporters::RolePermissionsExporter
-        # , Expoxrters::MRMViolationExporter
+        Exporters::RolePermissionsExporter, Exporters::MRMViolationExporter
       ].find do |exporter|
         exporter.id == format.to_s && exporter.supported_models.include?(record_type)
       end
@@ -19,6 +18,9 @@ class ExportService
       return unless params[:export_format] && params[:record_type]
 
       params_hash = DestringifyService.destringify(params.except(:password).to_h, true)
+      if params[:export_format] == Exporters::MRMViolationExporter.id
+        params_hash['filters'] = params_hash['filters'].merge('module_id' => PrimeroModule::MRM)
+      end
       export = bulk_export_class(params[:export_format]).new(params_hash)
       export.owner = user
       export
