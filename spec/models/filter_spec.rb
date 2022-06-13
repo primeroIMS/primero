@@ -19,7 +19,7 @@ describe Filter do
       form_sections: [FormSection.create!(name: 'form_2')],
       module_options: {
         user_group_filter: true
-      },
+      }
     )
     @cp = PrimeroModule.create!(
       unique_id: 'primeromodule-cp',
@@ -28,6 +28,14 @@ describe Filter do
       associated_record_types: %w[case tracing_request incident],
       primero_program: @program,
       form_sections: [FormSection.create!(name: 'form_1')]
+    )
+    @mrm = PrimeroModule.create!(
+      unique_id: 'primeromodule-mrm',
+      name: 'MRM',
+      description: 'Child Protection',
+      associated_record_types: %w[incident],
+      primero_program: @program,
+      form_sections: [FormSection.create!(name: 'form_3')]
     )
     @role_a = Role.create!(
       name: 'Test Role 1',
@@ -40,6 +48,14 @@ describe Filter do
       unique_id: 'test-role-2',
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
       modules: [@cp, @gbv]
+    )
+    @role_c = Role.create!(
+      name: 'Test Role 3',
+      unique_id: 'test-role-3',
+      permissions: [
+        Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE])
+      ],
+      modules: [@mrm]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @group1 = UserGroup.create!(name: 'Group1')
@@ -63,6 +79,15 @@ describe Filter do
       email: 'test_user_2@localhost.com',
       agency_id: @agency_a.id,
       role: @role_b
+    )
+    @user_c = User.create!(
+      full_name: 'Test User 3',
+      user_name: 'test_user_3',
+      password: 'a12345678',
+      password_confirmation: 'a12345678',
+      email: 'test_user_3@localhost.com',
+      agency_id: @agency_a.id,
+      role: @role_c
     )
     SystemSettings.create!(
       primary_age_range: 'primary',
@@ -223,6 +248,57 @@ describe Filter do
           @filters_cp_gbv.dig(0, 'cases')
                         .find { |filter| filter.name == 'cases.filter_by.by_date' }
                         .options[:en]).to eq(filter_by_date_cp)
+      end
+    end
+  end
+
+  context 'when MRM' do
+    before do
+      @filters_mrm = [{ incidents: Filter.filters(@user_c, 'incident') }]
+    end
+
+    it 'returns filters' do
+      expect(@filters_mrm.count).to eq(1)
+    end
+    describe 'incident filters' do
+      it 'has 12 filters' do
+        expect(@filters_mrm.first[:incidents].count).to eq(12)
+        expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
+          %w[
+            cases.filter_by.flag
+            incidents.filter_by.status
+            incidents.filter_by.violations
+            cases.filter_by.age_range
+            incidents.filter_by.children
+            incidents.filter_by.verification_status
+            incidents.filter_by.incident_location
+            location.base_types.
+            incidents.filter_by.by_date
+            incidents.filter_by.armed_force_group_name
+            incidents.filter_by.armed_force_group_type
+            cases.filter_by.enabled_disabled
+          ]
+        )
+      end
+
+      it 'has status filter' do
+        expect(@filters_mrm.first[:incidents]).to include(
+          have_attributes(
+            name: 'incidents.filter_by.status',
+            field_name: 'status',
+            type: 'checkbox'
+          )
+        )
+      end
+
+      it 'has violation_category filter' do
+        expect(@filters_mrm.first[:incidents]).to include(
+          have_attributes(
+            name: 'incidents.filter_by.violations',
+            field_name: 'violation_category',
+            type: 'multi_select'
+          )
+        )
       end
     end
   end
