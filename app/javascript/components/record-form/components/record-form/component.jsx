@@ -19,7 +19,7 @@ import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
-import { getLoadingState, getErrors, getSelectedForm, getReadOnlyFields } from "../../selectors";
+import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
@@ -88,9 +88,6 @@ const Component = ({
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
-  const readOnlyFields = useMemoizedSelector(state =>
-    getReadOnlyFields(state, { recordType: selectedModule.recordType, primeroModule: selectedModule.primeroModule })
-  );
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -111,7 +108,7 @@ const Component = ({
         const saveMethod = containerMode.isEdit ? "update" : "save";
         const { incidentPath, ...formValues } = values;
 
-        const writableValues = compactReadOnlyFields(formValues, readOnlyFields);
+        const writableValues = compactReadOnlyFields(formValues, forms);
 
         const body = {
           data: {

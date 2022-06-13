@@ -31,6 +31,7 @@ import {
   TALLY_FIELD
 } from "./constants";
 import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
+import { RECORD_FORM_PERMISSION } from "./form/constants";
 
 const FIELD_TYPES_WITHOUT_DEFAULT = Object.freeze([SUBFORM_SECTION, PHOTO_FIELD, AUDIO_FIELD, DOCUMENT_FIELD]);
 
@@ -100,16 +101,24 @@ export const emptyValues = element => Object.values(element).every(isEmpty);
 
 export const compactValues = (values, initialValues) => difference(values, initialValues);
 
-export const compactReadOnlyFields = (values, readOnlyFields) => {
-  const readOnlyFieldMap = readOnlyFields.reduce((acc, field) => ({ ...acc, [field.name]: true }), {});
+export const compactReadOnlyFields = (values, formSections) => {
+  const results = Object.create(null);
+  const readOnlyFieldMap = Object.create(null);
+  const readOnlyFields = formSections
+    .filter(formSection => formSection.userPermission === RECORD_FORM_PERMISSION.read)
+    .flatMap(formSection => formSection.fields.map(field => field.name));
 
-  return Object.entries(values).reduce((acc, [key, value]) => {
+  readOnlyFields.forEach(field => {
+    readOnlyFieldMap[field] = true;
+  });
+
+  Object.entries(values).forEach(([key, value]) => {
     if (!readOnlyFieldMap[key]) {
-      return { ...acc, [key]: value };
+      results[key] = value;
     }
+  });
 
-    return acc;
-  }, {});
+  return results;
 };
 
 export const compactBlank = values =>

@@ -62,7 +62,8 @@ export const FormSectionRecord = Record({
   subform_append_only: false,
   subform_prevent_item_removal: false,
   unique_id: "",
-  visible: null
+  visible: null,
+  userPermission: null
 });
 
 export const Option = Record({
