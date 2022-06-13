@@ -6,21 +6,17 @@ import DateFnsUtils from "@date-io/date-fns";
 import I18nProvider from "./components/i18n";
 import { ApplicationProvider } from "./components/application";
 import { routes } from "./config";
-import { checkUserAuthentication } from "./components/user";
-import { loginSystemSettings } from "./components/login";
 import configureStore, { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
-import { fetchSandboxUI } from "./components/application/action-creators";
 import ThemeProvider from "./theme-provider";
 import "mui-nepali-datepicker-reactjs/dist/index.css";
+import { getAppResources } from "./components/user/action-creators";
 
 const store = configureStore();
 
-const App = () => {
-  store.dispatch(fetchSandboxUI());
-  store.dispatch(checkUserAuthentication());
-  store.dispatch(loginSystemSettings());
+store.dispatch(getAppResources);
 
+const App = () => {
   window.I18n.fallbacks = true;
 
   return (

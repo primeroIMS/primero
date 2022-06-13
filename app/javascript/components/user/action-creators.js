@@ -1,12 +1,13 @@
 import { RECORD_PATH, METHODS, ROUTES } from "../../config";
 import { DB_COLLECTIONS_NAMES } from "../../db";
-import { loadApplicationResources } from "../application/action-creators";
+import { fetchSandboxUI, loadApplicationResources } from "../application/action-creators";
 import { SET_USER_LOCALE } from "../i18n";
 import { SET_DIALOG } from "../action-dialog/actions";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { QUEUE_READY } from "../../libs/queue/constants";
 import connectivityActions from "../connectivity/actions";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
+import { loginSystemSettings } from "../login";
 
 import actions from "./actions";
 
@@ -97,3 +98,9 @@ export const resetPassword = data => ({
     }
   }
 });
+
+export async function getAppResources(dispatch) {
+  dispatch(fetchSandboxUI());
+  dispatch(checkUserAuthentication());
+  dispatch(loginSystemSettings());
+}

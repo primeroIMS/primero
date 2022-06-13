@@ -64,14 +64,18 @@ import { reducer as formFiltersReducer } from "./components/form-filters";
 import { reducer as insightsReducer } from "./components/insights";
 import { RECORD_TYPES } from "./config";
 
+const initialState = null;
+
 const rootReducer = {
   records: reduceReducers(
+    initialState,
     combineReducers({
       ...{
         ...Object.keys(RECORD_TYPES).reduce((r, i) => {
           const o = r;
 
           o[i] = reduceReducers(
+            initialState,
             recordsReducer(i),
             indexFiltersReducer(i),
             requestApprovalReducer(i),
@@ -81,9 +85,10 @@ const rootReducer = {
           return o;
         }, {})
       },
-      reports: reduceReducers(reportsListReducer, reportReducer, reportFormReducer),
-      insights: reduceReducers(insightsListReducer, insightsReducer, insightsSubReportReducer),
+      reports: reduceReducers(initialState, reportsListReducer, reportReducer, reportFormReducer),
+      insights: reduceReducers(initialState, insightsListReducer, insightsReducer, insightsSubReportReducer),
       transitions: reduceReducers(
+        initialState,
         recordActionsTransitionsReducer,
         transitionsReducer,
         transferRequestReducer,
@@ -91,24 +96,24 @@ const rootReducer = {
       ),
       ...potentialMatchesReducer,
       ...taskListReducer,
-      users: reduceReducers(usersListReducer, usersFormReducer),
-      agencies: reduceReducers(agenciesListReducer, agenciesFormReducer),
-      roles: reduceReducers(rolesListReducer),
-      user_groups: reduceReducers(userGroupsListReducer, userGroupsFormReducer),
+      users: reduceReducers(initialState, usersListReducer, usersFormReducer),
+      agencies: reduceReducers(initialState, agenciesListReducer, agenciesFormReducer),
+      roles: reduceReducers(initialState, rolesListReducer),
+      user_groups: reduceReducers(initialState, userGroupsListReducer, userGroupsFormReducer),
       ...dashboardReducer,
       ...exportListReducer,
-      support: reduceReducers(contactInformationReducer, supportReducer),
+      support: reduceReducers(initialState, contactInformationReducer, supportReducer),
       ...flaggingReducer,
       ...savedSearchesReducer,
       ...changeLogsReducers,
       codeOfConduct: adminCodeOfConductReducer,
       admin: combineReducers({
-        forms: reduceReducers(adminFormListReducer, adminFormBuilderReducer),
-        audit_logs: reduceReducers(AuditLogsReducers),
-        roles: reduceReducers(rolesListReducer, rolesFormReducer),
-        lookups: reduceReducers(lookupsListReducer, AdminLookupsFormReducers),
-        configurations: reduceReducers(configurationsListReducer, configurationsFormReducer),
-        locations: reduceReducers(locationsListReducer, locationsImportReducer)
+        forms: reduceReducers(initialState, adminFormListReducer, adminFormBuilderReducer),
+        audit_logs: reduceReducers(initialState, AuditLogsReducers),
+        roles: reduceReducers(initialState, rolesListReducer, rolesFormReducer),
+        lookups: reduceReducers(initialState, lookupsListReducer, AdminLookupsFormReducers),
+        configurations: reduceReducers(initialState, configurationsListReducer, configurationsFormReducer),
+        locations: reduceReducers(initialState, locationsListReducer, locationsImportReducer)
       }),
       activity_logs: activityLogReducer,
       ...kpiReducer
@@ -116,7 +121,7 @@ const rootReducer = {
     transferApprovalReducer,
     revokeModalReducer
   ),
-  user: reduceReducers(userReducer, accountReducer, codesOfConductReducer),
+  user: reduceReducers(initialState, userReducer, accountReducer, codesOfConductReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,

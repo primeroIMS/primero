@@ -241,16 +241,11 @@ export const getRecordForms = createCachedSelector(
     const permittedFormIds = state.getIn(["user", "permittedForms"], fromJS([]));
 
     if (query.writable || query.readOnly) {
-      return permittedFormIds.entrySeq().reduce((acc, [key, value]) => {
-        if (
-          (query.writable && value === RECORD_FORM_PERMISSION.read) ||
-          (query.readOnly && value === RECORD_FORM_PERMISSION.readWrite)
-        ) {
-          return acc;
-        }
-
-        return acc.merge(fromJS({ [key]: value }));
-      }, fromJS({}));
+      return permittedFormIds.filter(
+        (key, value) =>
+          (query.readOnly && value === RECORD_FORM_PERMISSION.readWrite) ||
+          (query.writable && value === RECORD_FORM_PERMISSION.read)
+      );
     }
 
     return permittedFormIds;
@@ -258,7 +253,7 @@ export const getRecordForms = createCachedSelector(
   getLocale,
   (_state, query) => query,
   (formSections, formObject, permittedFormIDs, appLocale, query) => {
-    if (!formSections) return null;
+    if (formSections.isEmpty()) return formSections;
 
     const selectedForms = forms({
       ...query,
@@ -269,7 +264,9 @@ export const getRecordForms = createCachedSelector(
 
     const denormalizedForms = denormalizeFormData(OrderedMap(selectedForms.map(form => form.id)), formObject);
 
-    return denormalizedForms.valueSeq();
+    return denormalizedForms
+      .map(formSection => formSection.set("userPermission", permittedFormIDs.get(formSection.unique_id)))
+      .valueSeq();
   }
 )(defaultCacheSelectorOptions);
 

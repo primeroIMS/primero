@@ -7,7 +7,7 @@ export const setFilters = ({ recordType, data }) => ({
 
 export const applyFilters =
   ({ recordType, data }) =>
-  dispatch => {
+  async dispatch => {
     dispatch(setFilters({ recordType, data }));
 
     dispatch({
