@@ -4,11 +4,11 @@ import { cleanUpFilters } from "../records/utils";
 
 import actions from "./actions";
 
-export const fetchInsights = data => ({
+export const fetchInsights = ({ data }) => ({
   type: actions.FETCH_INSIGHTS,
   api: {
     path: "managed_reports",
-    params: cleanUpFilters(data.options)
+    params: cleanUpFilters(data)
   }
 });
 

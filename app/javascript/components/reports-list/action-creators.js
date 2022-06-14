@@ -4,12 +4,12 @@ import { cleanUpFilters } from "../records/utils";
 
 import { FETCH_REPORTS } from "./actions";
 
-export const fetchReports = data => {
+export const fetchReports = ({ data }) => {
   return {
     type: FETCH_REPORTS,
     api: {
       path: "reports",
-      params: cleanUpFilters(data.options)
+      params: cleanUpFilters(data)
     }
   };
 };
