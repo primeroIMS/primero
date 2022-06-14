@@ -26,13 +26,13 @@ describe("<Reports /> - Action Creators", () => {
   it("should check the 'fetchReports' action creator to return the correct object", () => {
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    const data = { options: { page: 1, per: 20 } };
+    const data = { data: { page: 1, per: 20 } };
 
     dispatch(actionCreators.fetchReports(data));
     const firstCall = dispatch.getCall(0);
 
     expect(firstCall.returnValue.type).to.equal(FETCH_REPORTS);
     expect(firstCall.returnValue.api.path).to.equal("reports");
-    expect(firstCall.returnValue.api.params).to.deep.equal(data.options);
+    expect(firstCall.returnValue.api.params).to.deep.equal(data.data);
   });
 });
