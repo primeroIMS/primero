@@ -1409,6 +1409,7 @@ en:
       violence_type: Violence Type
       armed_force_group_name: Armed Force Group Name
       armed_force_group_type: Armed Force Group Type
+      violations: Violations
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
@@ -1896,6 +1897,7 @@ en:
         denial_humanitarian_access: Denial of humanitarian access for children
         detention: Detention
       sub_reports:
+        children: Children
         combined: Violations
         denial_humanitarian_access: Denial of humanitarian
         denial_type: Type of denials

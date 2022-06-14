@@ -6,7 +6,7 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
 
   class << self
     def id
-      'violation'
+      'children'
     end
 
     # rubocop:disable Metrics/AbcSize
