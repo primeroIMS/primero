@@ -3,13 +3,13 @@ my:
   'false': 'မဟုတ်ပါ'
   accepted: လက်ခံပြီးပြီ
   cancel: ဖျက်သိမ်းသည်
-  connection_lost: လောလောဆယ် အင်တာနက်နှင့်ချိတ်ထားဆက်ခြင်းမရှိပါ။
+  connection_lost: လတ်တလောအခြေအနေတွင် အင်တာနက်နှင့်ချိတ်ထားဆက်ခြင်းမရှိပါ။
   connected: ချိတ်ဆက်ထားသည်
   clear: ရှင်းလင်းသည်၊
   sandbox_ui: စနစ် အသုံးပြုပုံ သရုပ်ပြခြင်း။
   description: ရှင်းလင်းဖော်ပြချက်
-  form: မှ
-  minimum_reportable_fields: "အနည်းဆုံး သတင်းပို့နိုင်သော fields များ"
+  form: ပုံစံ
+  minimum_reportable_fields: "အနည်းဆုံး သတင်းပို့နိုင်သော fields ဖြစ်ရပ်စပ်ဆက်အကြောင်းအရင်းများ %{record_type}"
   name: အမည်
   offline: ဤ application သည် အင်တာနက်နှင့်ချိတ်ဆက်ခြင်းမရှိပါ။
   unavailable_offline: အော့ဖ်လိုင်း မရနိုင်ပါ။
@@ -18,26 +18,26 @@ my:
   or_label: သို့မဟုတ်
   select_provider: ဝန်ဆောင်မှုပေးသူ ကိုရွေးချယ်ပါ
   select_language: ဘာသာစကားကိုရွေးချယ်ပါ
-  log_in_primero_idp: အသုံးပြုသူအမည် ဖြင့်ဝင်ရောက်ပါ။
+  log_in_primero_idp: "အသုံးပြုသူအမည် %{idp_name} ဖြင့်ဝင်ရောက်ပါ။"
   offline_submitted_changes: သင်သည် လောလောဆယ် အင်တာနက်နှင့်ချိတ်ထားဆက်ခြင်းမရှိပါ။ အင်တာနက် ချိတ်ဆက်၍ရသောအခါတွင် သင်၏ပြောင်းလဲမှုများကို တင်သွင်းပါမည်။
   updated: နောက်ဆုံးအခြေအနေနှင့်အညီ ပြုပြင်မွမ်းမံထားသည်
   sync:
-    success: "ဖြစ်ရပ်မှတ်တမ်းများကိုအောင်မြင်စွာ ထပ်တူပြုထားသည်။"
+    success: "%{records}ဖြစ်ရပ်မှတ်တမ်းများကိုအောင်မြင်စွာ ထပ်တူပြုထားသည်။"
     error:
-      create: စတင်တည်ဆောက်၍မရပါ။ ကျေးဇူးပြု၍ အကူအညီကို ဆက်သွယ်ပါ။
-      update: "(၁% မှ ၂%သို့ အပ်ဒိတ်ပြုလုပ်မှု မအောင်မြင်ပါ။ ပံ့ပိုးကူညီသူထံသို့ ဆက်သွယ်ပါ။ "
+      create: "ပြုလုပ်၍မရပါ%{record_type}။ ကျေးဇူးပြု၍ အကူအညီပေးကဏ္ဍ ကိုဆက်သွယ်ပါ။"
+      update: "%{record_type} %{short_id} သို့ အပ်ဒိတ်ပြုလုပ်မှု မအောင်မြင်ပါ။ ကျေးဇူးပြု၍ အကူအညီပေးကဏ္ဍ ကိုဆက်သွယ်ပါ။ "
 
   actions:
     approvals: အတည်ပြုချက်များ
     button: ဆောင်ရွက်ချက်များ
-    close: ပိတ်မည်
+    close: စာရင်းပိတ်
     description:
       invalid: မမှန်ကန်သောမှတ်တမ်း
       valid: မှန်ကန်သောမှတ်တမ်း
-    disable: ပိတ်သည်
+    disable: အသုံးပြု၍မရသောဖြစ်ရပ်
     enable: စတင်လုပ်ဆောင်စေသည်
     incident_details_from_case: ဖြစ်စဉ်ကို ထည့်သွင်းပါ
-    incident_from_case: ဖြစ်စဉ်ကို စတင်ပြုလုပ်ပါ
+    incident_from_case: ဖြစ်စဉ်ကို စတင်စာရင်းသွင်းရန်
     next: ရှေ့သို့
     notes: မှတ်စုများထည့်ပါ
     previous: ယခင်
@@ -45,8 +45,9 @@ my:
     request_approval: အတည်ပြုချက်တောင်းခံပါ။
     revoke: ပြန်ရုပ်သိမ်းသည်
     save: သိမ်းဆည်းပါ
-    services_from_case_creation_success: ဝန်ဆောင်မှုပေးခြင်းကိုအောင်မြင်စွာ စတင်ပြုလုပ်ပြီးပါပြီ။
+    services_from_case_creation_success: ဝန်ဆောင်မှုပေးခြင်းမှတ်တမ်းကို အောင်မြင်စွာပြုလုပ်ပြီးပါပြီ။
     services_section_from_case: ဝန်ဆောင်မှုပေးခြင်းကို ထည့်သွင်းပါ
+    mark_for_offline: အော့ဖ်လိုင်းအတွက် မှတ်သားပါ
   agencies:
     label: အဖွဲ့အစည်း
     translations:
@@ -57,19 +58,19 @@ my:
     description: ရှင်းလင်းဖော်ပြချက်
     disabled: ပိတ်ထားသည်
     exclude_agency_from_lookups: ဤအဖွဲ့အစည်းကို ရှာဖွေမှုများနှင့် စစ်ထုတ်မှုများမှ ဖယ်ထုတ်ပါ။
-    exclude_agency_from_lookups_help: အေဂျင်စီတွင် အသုံးပြုသူများမရှိလျှင် ၎င်းကိုစစ်ဆေးပါ (ဥပမာ၊ အေဂျင်စီ ၏အမှတ်တံဆိပ်ကို ဖော်ပြရန်အတွက် အေဂျင်စီများမှထည့်သွင်းထားခြင်းဖြစ်သည်။
+    exclude_agency_from_lookups_help: အေဂျင်စီတွင် အသုံးပြုသူများမရှိလျှင် ၎င်းကိုစစ်ဆေးပါ (ဥပမာ - သက်ဆိုင်ရာသတင်းအချက်အလက်များရယူနိုင်ရန် အေဂျင်စီ မှ ၎င်းတို့ အဖွဲ့အစည်းအမှတ်တံဆိပ်ကို ထည့်သွင်ဖော်ပးထားခြင်း။
     label: အဖွဲ့အစည်း
     logo_enabled: Primero တွင် ဤအေဂျင်စီ၏ အမှတ်တံဆိပ် ကို ပြသမလား။
     logo_enabled_help: Primero တွင် ဤအေဂျင်စီ၏ အမှတ်တံဆိပ် ကို ပြသမလား။
     logo_icon: အမှတ်တံဆိပ် သင်္ကေတ
-    logo_icon_help: ၎င်းသည် သေးငယ်သော screen အရွယ်အစားများ၊ tablets များနှင့် ဖုန်းများတွင် ပေါ်လာမည်ဖြစ်သည်။ ၎င်းသည် square တစ်ခုဖြစ်သင့်သည်။
-    logo_large: လိုဂိုအကြီး
-    logo_large_help: ၎င်းသည် ကြီးမားသော screen အရွယ်အစားများနှင့် PDF export လုပ်သည့်အခါတွင် ပေါ်လာလိမ့်မည်။ ၎င်းသည် အမြင့်ထက် အလျားပိုရှည်သော rectangle တစ်ခုဖြစ်သင့်သည်။
+    logo_icon_help: ၎င်းသည် မျက်နှာပြင်အရွယ်အစားသေးငယ်သော tablets များနှင့် ဖုန်းများတွင် မြင်ရနိုင်ပြီး ၎င်းသည် square တစ်ခုအနေဖြင့်ပေါ်လာလိမ့်မည်။
+    logo_large: အမှတ်တံဆိပ် အကြီး
+    logo_large_help: PDF export လုပ်သည့်အခါတွင် ၎င်းသည် ကြီးမားသော screen အရွယ်အစားများနှင့်  ပေါ်လာလိမ့်မည်။ အမြင့်ထက် အလျားပိုရှည်သော rectangle တစ်ခုဖြစ်သင့်သည်။
     messages:
       created: အဖွဲ့အစည်းကိုအောင်မြင်စွာ စတင်ပြုလုပ် ပြီးပါပြီ။
       updated: အဖွဲ့အစည်းကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ပြီးပါပြီ။
     name: အဖွဲ့အစည်းအမည်
-    pdf_logo_option: PDF export လုပ်ရန်တွက် အဖွဲ့အစည်း အမှတ်တံဆိပ် ရနိုင်ပါသလား။
+    pdf_logo_option: အဖွဲ့အစည်း အမှတ်တံဆိပ်သည်  PDF export လုပ်ရန်တွက် ဖြစ်နိုင်ပါသလား။
     pdf_logo_option_help: 'မှတ်ချက်- အသုံးပြုသူများ၏ အေဂျင်စီလိုဂိုများကို မူရင်းအတိုင်း ရနိုင်သောကြောင့် အသုံးပြုသူအားလုံးမှ  လိုဂိုကို ရရှိနိုင်စေရန်အတွက် စစ်ဆေးကြည့်ပါ။'
     services: အဖွဲ့အစည်း၏ ဝန်ဆောင်မှုများ
     terms_of_use: အသုံးပြုမှုစည်းမျဉ်းများ
@@ -97,16 +98,16 @@ my:
     action: အရေးယူဆောင်ရွက်မှု
     description: ရှင်းလင်းဖော်ပြချက်
     record_owner: မှတ်တမ်း၏ ပိုင်ရှင်
-    timestamp: ညှိနှိုင်းထားသော ကမ္ဘာလုံးဆိုင်ရာအချိန် (UTC) စတင်ချိန်မှ ယခုအချိန်အထိရောက်ရှိချိန်
+    timestamp: "ညှိနှိုင်းထားသော ကမ္ဘာလုံးဆိုင်ရာအချိန် "
     user_name: အသုံးပြုသူ၏ အမည်
   bulk_export:
     file_name: ဖိုင်
     record_type: အမျိုးအစား
-    retry: ဤ export မမှန်ကန်ပါ ကျေးဇူးပြု၍ သင်၏ export ကိုပြန်လည်ပြုလုပ်ပါ
+    retry: ဤ export သတင်းအချက်အလက်ထုတ်ယူမှု မမှန်ကန်ပါ ကျေးဇူးပြု၍ သင်၏ export သတင်းအချက်အလက်ထုတ်ယူမှုကိုပြန်လည်ပြုလုပ်ပါ
     started_on: စတင်ခဲ့သည်
     status: ဖြစ်ရပ်အခြေအနေ
   form_export:
-    label: Export Form ဖွဲ့စည်းမှု ပုံစံ
+    label: Export Form သတင်းအချက်အလက်ထုတ်ယူမှု ဖောင်ပုံစံ ဖွဲ့စည်းမှု
     include_hidden: လျှို့ဝှက် forms များနှင့် fields များ ထည့်သွင်းမလား။
     file_name: သင့်ကိုယ်ပိုင်ဖိုင်အမည် ပြုလုပ်ပါ (ရွေးချယ်နိုင်သည်)
     success_message: Export ဖိုင်ကို အောင်မြင်စွာ ထုတ်လုပ်ပြီးစီးပါပြီ။
@@ -131,25 +132,25 @@ my:
     clear_default: ပုံသေသတ်မှတ်ထားသည်များကို ရှင်းလင်းပါ။
     clear_selection: ရွေးချယ်မှုကို ရှင်းလင်းပါ။
     clear: ရှင်းလင်းသည်၊
-    close: ပိတ်မည်
+    close: စာရင်းပိတ်
     continue: ရှေ့ဆက်သွားပါ။
-    create_case: ဖြစ်ရပ်ကို စတင်ပြုလုပ်ပါ
-    create_incident: ဖြစ်စဉ်ကို စတင်ပြုလုပ်ပါ
+    create_case: ဖြစ်ရပ်  စတင်စာရင်းသွင်းရန်
+    create_incident: ဖြစ်စဉ်ကို စတင်စာရင်းသွင်းရန်
     create_new_record: "အသစ်ပြုလုပ်သည် %{model}"
-    delete: ဖျက်သိမ်းသည်
-    disable: မလုပ်ဆောင်နိုင်စေရန်ပြုလုပ်သည်
-    disable_photo_wall: ဓာတ်ပုံနံရံကို မလုပ်ဆောင်နိုင်ရန်ပြုလုပ်သည်
+    delete: ဖျက်သည်
+    disable: လုပ်ဆောင်၍မရနိုင်ပါ
+    disable_photo_wall: ဓာတ်ပုံအများအပြားထည့်သွင်း မလုပ်ဆောင်နိုင်ရန်ပြုလုပ်သည်
     done: ပြုလုပ်ပြီး
     download: ဒေါင်းလုဒ်
     edit: တည်းဖြတ်ခြင်း
     edit_subform: ဖောင်ပုံစံခွဲကို ပြင်ဆင်ခြင်း
     enable: စတင်လုပ်ဆောင်စေသည်
-    enable_photo_wall: ဓာတ်ပုံနံရံကို စတင်လုပ်ဆောင်နိုင်ရန်ပြုလုပ်သည်
-    export: Export
-    filter: စစ်ထုတ်သည့်အရာကို အသုံးပြုပါ
-    filter_clear: စစ်ထုတ်သည့်အရာကို ရှင်းထုတ်ပါ
-    filter_label: 'စစ်ထုတ်သည့်အရာ:'
-    filter_restore: စနစ်ချိန်ညှိချက်များအတိုင်း ပြန်ထားပါ
+    enable_photo_wall: ဓာတ်ပုံများထည့်သွင်းနိုင်ရန်ပြုလုပ်သည်
+    export: အချက်အလက်များထုတ်ယူခြင်း
+    filter: ရွေးချယ်စစ်ထုတ်သည့်အရာကို အသုံးပြုပါ
+    filter_clear: "ရွေးချယ်စစ်ထုတ်သည့်အရာကို ရှင်းလင်းပါ "
+    filter_label: 'ရွေးချယ်စစ်ထုတ်သည့်အရာ'
+    filter_restore: စနစ်ချိန်ညှိချက်များအားမူလအတိုင်း ပြန်ထားပါ
     find_tracing_match: ခြေရာခံရန်တူညီမှုများကို ရှာဖွေပါ
     flag_model: "အမှတ်အသားပြုခြင်း %{model}"
     flag_records: အမှတ်အသားပြုခြင်း
@@ -162,15 +163,15 @@ my:
     mark_for_mobile: မိုဘိုင်းဖုန်း အတွက်မှတ်သားပါ
     new: အသစ်
     ok: သဘောတူသည်
-    print: Print
-    reassign: "တာဝန်ပေးခြင်း %{model}"
-    referral: "လွှဲပြောင်းညွှန်းပို့ခြင်း %{model}"
-    referral_again: ထပ်မံ လွှဲပြောင်းညွှန်းပို့ပါ
-    reject: ငြင်းဆိုသည်
+    print: Print - ပရင့်ထုတ်ခြင်း - ပုံနှိပ်မိတ္တူထုတ် ခြင်း
+    reassign: တာဝန်ပေးသည့်
+    referral: "ညွှန်းပို့လွှဲပြောင်း "
+    referral_again: "ထပ်မံ လွှဲပြောင်းညွှန်းပို့ခြင်း "
+    reject: ငြင်းဆိုသည်/ပယ်ဖျက်ခြင်း
     remove_referrals: လွှဲပြောင်းညွှန်ပို့မှုကို ဖယ်ရှားသည်
-    reorder: မှတ်တမ်းတင်ခြင်း
+    reorder: မှတ်တမ်းတင်ခြင်း/ မှတ်တမ်းယူသူ
     request_approval: အတည်ပြုချက်တောင်းခံပါ။
-    request_transfer: လွှဲပြောင်းရန် လွှဲပြောင်းခြင်း
+    request_transfer: လွှဲပြောင်းရန် တောင်းခံခြင်း
     reunite: ပြန်လည်ပေါင်းစည်းခြင်း
     save: သိမ်းဆည်းသည်၊
     save_and_add_service_provision: သိမ်းဆည်းခြင်းနှင့် ဝန်ဆောင်မှုပေးခြင်းကို ထည့်သွင်းခြင်း
@@ -183,29 +184,38 @@ my:
     sort_by_tr: ခြေရာခံရန် တောင်းဆိုမှုများ
     sync: ထပ်တူကျသည်။
     submit: တင်သွင်းခြင်း
-    transfer: "လွှဲပြောင်းမှု%{model}"
+    transfer: လွှဲပြောင်း
     unflag_model: "အမှတ်အသားဖျက်သိမ်းခြင်း %{model}"
-    unflag_model_history: "အမှတ်အသား ရာဇဝင် %{model}"
+    unflag_model_history: "အမှတ်အသားပြုလုပ်ခဲ့မှု %{model}"
     unmark_for_mobile: မိုဘိုင်းဖုန်း အတွက်မှတ်သားမှုကို ပယ်ဖျက်ပါ
     update: နောက်ဆုံးအခြေအနေနှင့်အညီ ပြုပြင်မွမ်းမံသည်
     view: ကြည့်ရန်
     view_flags_history: မှတ်တမ်းရာဇဝင်ကို ကြည့်သည်
     return_to_case: ဖြစ်ရပ်သို့ ပြန်သွားရန်
-
   case:
-    label: ဖြစ်ရပ် အိုင်ဒီ
-    create_new_case: ဖြစ်ရပ်အသစ် စတင်ပြုလုပ်ရန်
+    label: ဖြစ်ရပ်
+    create_new_case: ဖြစ်ရပ်အသစ် စာရင်းသွင်းရန်
+    add_new: အသစ်ထည့်ပါ
+    back_to_case: ဖြစ်ရပ်သို့ ပြန်သွားရန်
+    back_to_results: ရလဒ်များသို့ ပြန်သွားရန်
+    back_to_search: ရှာဖွေခြင်းသို့ ပြန်သွားရန်
+    search_by: ရှာဖွေရန်
+    search_for: "အတွက် ရှာဖွေပါ %{record_type}"
+    results: ရလဒ်များ
+    details: အသေးစိတ်
+    select: ရွေးချယ်ပါ
+    deselect: မရွေးချယ်ပါ
     enter_id_number: ရှိပြီးမှတ်တမ်းတစ်ခုကိုရှာရန် ID နံပါတ်ကိုရိုက်ထည့်ပါ
     id_search_no_results: "စနစ်အတွင်း %{id}နှင့်ကိုက်ညီသူမရှိပါ၊ ကျေးဇူးပြု၍ မှတ်တမ်းအသစ်တစ်ခုပြုလုပ်ပါ။"
     messages:
       disabled: ဖြစ်ရပ်ကို ပိတ်ထားသည်
       update_success: '%{record_id} ဖြစ်ရပ်ကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
-      update_success_queue: 'ဖြစ်ရပ်ကို နောက်ခံတွင် နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
+      update_success_queue: 'ဖြစ်ရပ်ကို %{record_id} နောက်ခံတွင် နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
       creation_success: 'ဖြစ်ရပ်မှတ်တမ်းကိုအောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်'
       creation_success_queue: 'ဖြစ်ရပ်မှတ်တမ်းကို နောက်ခံတွင် အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်။'
       already_matched: ဤ စုံစမ်းမေးမြန်းမှုသည် သင့်ဖြစ်ရပ်နှင့် ကိုက်ညီပြီးဖြစ်သည်။
       already_matched_not_current_case: ဤစုံစမ်းမှုမေးမြန်းမှုနှင့် ကိုက်ညီသော ဖြစ်ရပ်တစ်ခု စနစ်တွင် ရှိနှင့်ပြီးဖြစ်သည်။
-      not_found_case: တူညီသော ဖြစ်ရပ်မတွေ့ပါ။ ဖြစ်ရပ် အသစ်တစ်ခု စတင်ပြုလုပ်ပါ။
+      not_found_case: "တူညီသော ဖြစ်ရပ်မတွေ့ပါ \"%{search_value}\".  ဖြစ်ရပ် အသစ်တစ်ခု စတင်ပြုလုပ်ပါ။"
       introductory_sentence: "ဖြစ်ရပ်စီမံခန့်ခွဲမှုဝန်ဆောင်မှုများလက်ခံရယူရန်နှင့် ၎င်းတို့၏ဒေတာများကို Primero တွင်သိမ်းဆည်းရန်အတွက် တစ်ဦးချင်းစီ၏သဘောတူညီချက်ကို ကျေးဇူးပြုပြီး သတ်မှတ်ပေးပါ။  "
       consent_agreements_required: ကျေးဇူးပြု၍ သဘောတူညီ ခွင့်ပြုချက်များမှ အနည်းဆုံးရွေးချယ်ခွင့်တစ်ခုကို ရွေးပါ။
       legitimate_basis_required: ကျေးဇူးပြု၍ တရားဝင် အခြေခံအမျိုးအစားခွဲခြားမှုများမှးမှ အနည်းဆုံးရွေးချယ်ခွင့်တစ်ခုကို ရွေးပါ။
@@ -218,21 +228,21 @@ my:
     legitimate_basis: "သက်ဆိုင်သည့်ဆက်စက်မှုရှိသည့် အမျိုးအစားအားလုံးကို ရွေးပါ။ "
     workflow:
       assessment: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း
-      case_plan: ဖြစ်ရပ်အတွက် အစီအစဉ်
+      case_plan: ဖြစ်ရပ်အတွက်အစီအစဉ်
       closed: ပိတ်သိမ်းခဲ့ပြီးဖြစ်သည်
       created_on: " တွင်စတင်ပြုလုပ်ခဲ့သည်"
       in_progress: ဆောင်ရွက်ဆဲ
       new: အသစ်
-      on_label: 'တွင်'
-      reopened: ပြန်လည်ဖွင့်လှစ်ခဲ့သည်
+      on_label: 'တွင် /ဖွင့်'
+      reopened: ပြန်လည်ဖွင့်သည်
       service_implemented: ဝန်ဆောင်မှုကို အကောင်အထည်ဖေါ်ပြီးဖြစ်သည်
       services_implemented: ဝန်ဆောင်မှုကို အကောင်အထည်ဖေါ်ပြီးဖြစ်သည်
   linkedincidents:
-    label: ""
+    label: ဖြစ်စဉ်များကို ဆက်စပ်သည်
   activity_log:
-    label: ""
-    accepted_transfer: ''
-    rejected_transfer: ''
+    label: ဆောင်ရွက်မှုမှတ်တမ်း
+    accepted_transfer: '%{from}မှ %{record_type} %{record_id} လွှဲပြောင်းခြင်းကို %{to}လက်ခံခဲ့သည်။'
+    rejected_transfer: '%{from}မှ  %{record_type} %{record_id}လွှဲပြောင်းခြင်းကို %{to} ပယ်ချခဲ့သည်။'
   cases:
     action_plan: လုပ်ငန်းအစီအစဉ်
     age: အသက်
@@ -244,16 +254,16 @@ my:
     approval_radio_accept: အတည်ပြုသည်
     approval_radio_reject: အတည်မပြုပါ။
     approval_select: "..... အတွက် ဖောင်ပုံစံ"
-    approved_success_action_plan: 'အတည်ပြုပြီး'
-    approved_success_assessment: 'အတည်ပြုပြီး'
-    approved_success_bia: 'အတည်ပြုပြီး'
-    approved_success_case_plan: 'အတည်ပြုပြီး'
-    approved_success_closure: 'အတည်ပြုပြီး'
-    approved_success_gbv_closure: 'အတည်ပြုပြီး'
+    approved_success_action_plan: '%{approval_label} - အတည်ပြုပြီး'
+    approved_success_assessment: '%{approval_label} - အတည်ပြုပြီး'
+    approved_success_bia: '%{approval_label} - အတည်ပြုပြီး'
+    approved_success_case_plan: '%{approval_label} - အတည်ပြုပြီး'
+    approved_success_closure: '%{approval_label} - အတည်ပြုပြီး'
+    approved_success_gbv_closure: '%{approval_label} - အတည်ပြုပြီး'
     assessment: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း
-    case_opening_date: ဖြစ်ရပ်ဖွင့်လှစ်သည့် ရက်စွဲ
+    case_opening_date: ဖြစ်ရပ်စာရင်းဖွင့်လှစ်သည့် ရက်စွဲ
     case_plan: ဖြစ်ရပ်အစီအစဉ်
-    case_worker_code: ဖြစ်ရပ်လုပ်သား ကုဒ်နံပါတ်
+    case_worker_code: ဖြစ်ရပ်စီမံခန့်ခွဲသူ ကုဒ်နံပါတ်
     clear_filter: ရှင်းလင်းသည်၊
     close_dialog: OK ကို နှိပ်ခြင်းဖြင့် ဤဖြစ်ရပ်ကို ပိတ်သိမ်းပြီးဖြစ်ရပ် အဖြစ် ပြောင်းလဲပါမည်။
     close_dialog_title: ဖြစ်ရပ်ကို ပိတ်သိမ်းပါ
@@ -266,14 +276,18 @@ my:
     enable_dialog: OK ကို နှိပ်ခြင်းဖြင့် ဤဖြစ်ရပ်ကို အသုံးပြုနိုင်သော အခြေအနေသို့ပြောင်းလဲပါမည်။
     enable_dialog_title: ဖြစ်ရပ်ကို အသုံးပြုနိုင်အောင်ဖွင့်သည်
     enable_success: ဖြစ်ရပ်ကို အသုံးပြုနိုင်အောင် အောင်မြင်စွာ ဖွင့်ပြီးပါပြီ။
-    export: Export
+    export: Export သတင်းအချက်အလက်ထုတ်ယူခြင်း
+    mark_for_offline:
+      title: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
+      text: အော့ဖ်လိုင်းဖြစ်နေချိန်တွင် အသုံးပြုရန်အတွက် ဤ ဖြစ်ရပ်များကို အမှတ်အသားပြုလိုသည်မှာ သေချာပါသလား။
+      success: အော့ဖ်လိုင်းအသုံးပြုမှုအတွက် ဖြစ်ရပ်များကို အောင်မြင်စွာ အမှတ်အသားပြုပြီးဖြစ်သည်။
     filter_by:
-      3month_inactivity: ၃ လနှင့် အထက်အတွက်
+      3month_inactivity: 3 လနှင့်အထက်အတွက်
       action_plan: လုပ်ငန်းအစီအစဉ်
-      age_0_5: ၀-၅
-      age_12_17: ၁၂-၁၇
-      age_18_more: ၁၈+
-      age_6_11: ၆-၁၁
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
       age_range: "အသက်အပိုင်းအခြား:"
       agency: အဖွဲ့အစည်း
       approval_status: အတည်ပြုချက်များ အခြေအနေ
@@ -283,7 +297,7 @@ my:
         rejected: ငြင်းဆိုသည်
       bia: BIA
       by_date: ရက်စွဲအလိုက် -
-      case_open_date: ဖြစ်ရပ်ဖွင့်လှစ်သည့် ရက်စွဲ-
+      case_open_date: ဖြစ်ရပ်စာရင်းဖွင့်လှစ်သည့် ရက်စွဲ
       case_plan: ဖြစ်ရပ် အစီအစဉ်
       closed: ပိတ်သိမ်းခဲ့ပြီးဖြစ်သည်
       closure: ပိတ်သိမ်းခြင်း။
@@ -294,7 +308,7 @@ my:
       duplicate: ထပ်နေသည်
       enabled_disabled: "အသုံးပြုနိုင်အောင်ဖွင့်ပါ / အသုံးမပြုနိုင်အောင်ပိတ်ပါ "
       female:  မ
-      flag: အမှတ်အသားပြုခဲ့သူ
+      flag: အမှတ်အသားပြုခဲ့သည်
       flag_label: အမှတ်အသားပြုခဲ့သလား။
       gbv_closure: ကျား/မရေးရာ မတော်မတရားပြုမှုမူဖြစ်ရပ် ပိတ်သိမ်းခြင်း။
       high: မြင့်
@@ -302,11 +316,11 @@ my:
       male: ကျား၊
       medium: အလယ်အလတ်
       mobile: လက်ကိုင်တယ်လီဖုန်း
-      mobile_label: လက်ကိုင်ဖုန်းအတွက် မှတ်သားခြင်း
+      mobile_label: လက်ကိုင်ဖုန်းအတွက် မှတ်သားလိုပါသလား။
       my_cases: ကျွန်ုပ် ကိုင်တွယ်သော ဖြစ်ရပ်များ
       no_action: အရေးယူဆောင်ရွက်မှုမရှိပါ
       no_activity: ဆောင်ရွက်မှုမရှိ
-      open: ဖွင့်လှစ်သည်
+      open: ဖွင့်သည်
       other: အခြား
       photo: ဓါတ်ပုံ-
       photo_label: "ဓါတ်ပုံရှိပါသလား?"
@@ -326,12 +340,12 @@ my:
       workflow: လုပ်ငန်းစီးဆင်းမှုအလိုက် ဖြစ်ရပ်
     flag_summary: အမှတ်အသားး၏ အကျဉ်းချုပ်
     full_name: အမည် အပြည့်အစုံ
-    gbv_closure: GBV ပိတ်သိမ်းခြင်း။
+    gbv_closure: ကျား/မရေးရာ မတော်မတရားပြုမှုမူဖြစ်ရပ် ပိတ်သိမ်းခြင်း။
     hide_name: အမည်ကို ဖျောက်ထားပါ
     hide_name_error: သင့်အပြောင်းအလဲများကိုသိမ်းဆည်းစဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ကျေးဇူးပြု၍ ထပ်မံပြုလုပ်ပါ။
     id: ID နံပါတ်
     label: ဖြစ်ရပ်များ
-    my_filters: "ကျွန်ုပ်၏ စစ်ထုတ်သည့်အရာ:"
+    my_filters: ကျွန်ုပ်၏ ရွေးချယ်စစ်ထုတ်သည့်အရာ
     name: အမည်
     notes_dialog_title: မှတ်စုများထည့်ပါ
     notes_form_notes: မှတ်ချက်များ
@@ -348,50 +362,50 @@ my:
     quick_view:
       tracing_message: 'မှတ်ချက် -၎င်းကလေးကိုရှာဖွေနေသောသူနှင့် တူညီသူကို စနစ်အတွင်းတွေ့ရှိပါသည်။ အကယ်၍ ကလေးကဆန္ဒရှိပါက နောက်ထပ်အရေးယူမှုဆောင်ရွက်မှုများအတွက် ဤမှတ်တမ်းမှ လူမှုရေးဝန်ထမ်းအားဆက်သွယ်ပါ။'
     referral_done: "'ပြီးပါပြီ' ကို နှိပ်လျှင် ဤဖြစ်ရပ်နှင့် ဆက်စပ်နေသော ညွှန်းပို့လွှဲပြောင်းခြင်းလုပ်ငန်း ပြီးဖြစ်ပါသည်။ 'ပြီးပါပြီ' ကို နှိပ်လိုက်သည်နှင့် သင်သည် ဤမှတ်တမ်းသို့ ဝင်ရောက်ခွင့် မရှိတော့ပါ။ "
-    referral_done_success: ညွှန်းပို့လွှဲအပ် ပြီးပါပြီ
-    referral_accepted_header: ညွှန်းပို့လွှဲအပ်မူကို လက်ခံပါသည်
+    referral_done_success: ညွှန်းပို့ခြင်းကို လုပ်ဆောင်ပြီးပါပြီ
+    referral_accepted_header: ညွှန်းပို့ခြင်းကို လက်ခံပါသည်။
     referral_accepted: သင်သေချာပါသလား။ ဤညွှန်းပို့လွှဲအပ်မှုချက်နှင့် ဆက်စပ်သော အလုပ်များကို ပြီးမြောက်ရန် သင်သည် ယခု တာဝန်ယူရမည်ဖြစ်ပါသည်။
-    referral_accepted_success: ညွှန်းပို့လွှဲအပ်မှုကို လက်ခံပြီးပြီ
+    referral_accepted_success: ညွှန်းပို့ခြင်းကို လုပ်ဆောင်ပြီးပါပြီ
     referral_rejected: "'ငြင်းပယ်ရန်' ကိုနှိပ်ခြင်းဖြင့် သင်သည် ဤညွှန်းပို့လွှဲအပ်မှုအား ယခုအချိန်တွင် လက်ခံရန် အဆင်သင့်မဖြစ်သေးကြောင်း ညွှန်ပြနေပါသည်။ ဤညွှန်းပို့လွှဲအပ်မှုကို သင် ငြင်းပယ်သည့် အကြောင်းရင်းကို ထည့်သွင်းပါ။ 'ငြင်းပယ်' ကိုနှိပ်လိုက်သည်နှင့် သင်သည် ဤဖြစ်ရပ်မှတ်တမ်းသို့ ဝင်ရောက်ခွင့်မရှိတော့ပါ။"
-    referral_rejected_success: ညွှန်းပို့လွှဲအပ်မှုကို ငြင်းဆိုထားသည်
+    referral_rejected_success: ညွှန်းပို့ခြင်းကို  ငြင်းဆိုထားသည်
     register_new_case: ဖြစ်ရပ်အသစ်
     registration_date: စာရင်းသွင်းသည့် နေ့စွဲ
-    rejected_success_action_plan: 'အတည်မပြုပါ'
-    rejected_success_assessment: 'အတည်မပြုပါ'
-    rejected_success_bia: 'အတည်မပြုပါ'
-    rejected_success_case_plan: 'အတည်မပြုပါ'
-    rejected_success_closure: 'အတည်မပြုပါ'
-    rejected_success_gbv_closure: 'အတည်မပြုပါ'
+    rejected_success_action_plan: '%{approval_label} - အတည်မပြုပါ'
+    rejected_success_assessment: '%{approval_label} - အတည်မပြုပါ'
+    rejected_success_bia: '%{approval_label} - အတည်မပြုပါ'
+    rejected_success_case_plan: '%{approval_label} - အတည်မပြုပါ'
+    rejected_success_closure: '%{approval_label} - အတည်မပြုပါ'
+    rejected_success_gbv_closure: '%{approval_label} - အတည်မပြုပါ'
     reopen_dialog: OK ကို နှိပ်ခြင်းဖြင့် ဤဖြစ်ရပ်ကို လက်ရှိဖွင့်ထားသောာ ဖြစ်ရပ် အဖြစ် ပြောင်းလဲပါမည်။
     reopen_dialog_title: ပြန်လည်ဖွင့်လှစ်သည့် ဖြစ်ရပ်
-    reopen_success: ဖြစ်ရပ်ကို အောင်မြင်စွာ ပြန်လည်ဖွင့်လှစ်ပြီးပါပြီ
-    request_approval_failure: အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ အကူအညီကို ဆက်သွယ်ပါ။
+    reopen_success: ဖြစ်ရပ်ကို အောင်မြင်စွာ ပြန်လည်ဖွင့်ပြီးပါပြီ
+    request_approval_failure: အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ အကူအညီကဏ္ဍကို ဆက်သွယ်ပါ။
     request_approval_select: အတွက် ခွင့်ပြုချက်တောင်းခံခြင်း။
-    request_approval_success_action_plan: ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။
-    request_approval_success_assessment: ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။
-    request_approval_success_case_plan: ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။
-    request_approval_success_closure: ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။
-    request_approval_success_gbv_closure: ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။
+    request_approval_success_action_plan: "%{approval_label} ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။"
+    request_approval_success_assessment: "%{approval_label} ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။"
+    request_approval_success_case_plan: "%{approval_label} ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။"
+    request_approval_success_closure: "%{approval_label} ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။"
+    request_approval_success_gbv_closure: "%{approval_label} ဖောင်ပုံစံအတွက် အတည်ပြုချက်တောင်းခံခြင်း။"
     request_approval_type_of_case_plan: ဖြစ်ရပ်အစီအစဉ် အတည်ပြုချက် အမျိုးအစား
     request_approve_action_plan: ဖြစ်ရပ်အစီအစဉ်ကို အတည်ပြုမည်လား
     request_approve_bia: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်းကို အတည်ပြုမည်လား။
     request_approve_case_plan: ဖြစ်ရပ်အစီအစဉ်ကို အတည်ပြုမည်လား
     request_approve_closure: ပိတ်သိမ်းမှုကို အတည်ပြုမည်လား
     request_approve_gbv_closure: "ကျား/မအခြေပြုမတော်မတရားပြုမူမှု ဖြစ်ရပ်ပိတ်သိမ်းရန် ခွင့်ပြုပါသလား?"
-    revoke_failure: ဖျက်သိမ်းနေစဉ် အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ အကူအညီကို ဆက်သွယ်ပါ။
-    revoke_message: "'ရုပ်သိမ်းရန်' ကိုနှိပ်ခြင်းဖြင့် သင်၏ဝင်ရောက်ခွင့်ကို ဖယ်ရှားပါမည်။"
-    revoke_success_message: ဖြစ်ရပ်အား ရုပ်သိမ်းလိုက်သည်။
+    revoke_failure: "%{transition_type}ဖျက်သိမ်းနေစဉ် အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ အကူအညီကဏ္ဍ ကို ဆက်သွယ်ပါ။"
+    revoke_message: "'ရုပ်သိမ်းရန်' ကိုနှိပ်ခြင်းဖြင့် %{transition_type} လက်ခံသူ၏ဝင်ရောက်ခွင့်ကို ဖယ်ရှားပါမည်။"
+    revoke_success_message: "%{case_id} %{transition_type}ဖြစ်ရပ်အား {recipient_username} ရုပ်သိမ်းလိုက်သည်။"
     save_filter: သိမ်းဆည်းသည်၊
     selected_all_records: "ဤမေးခွန်းနှင့် ကိုက်ညီသော %{total_records} ဖြစ်ရပ်များအားလုံးကို ရွေးပါ။"
-    selected_records: 'ရွေးချယ်ထားသော ဖြစ်ရပ်(များ)'
+    selected_records: '%{select_records} ရွေးချယ်ထားသော ဖြစ်ရပ်(များ)'
     sex: လိင်
-    show_case: 'ဖြစ်ရပ် ID'
-    social_worker: လူမှုရေးလုပ်သား
+    show_case: 'ဖြစ်ရပ် ID %{short_id}'
+    social_worker: လူမှုရေး ဝန်ထမ်း/လူမှုရေးဖြစ်ရပ်စီမံခန့်ခွဲသူ
     status: ဖြစ်ရပ်အခြေအနေ
     summary:
       label: အနှစ်ချုပ်
       find_match: တူညီချက်များကို ရှာဖွေပါ
-      matched_trace: 'ကိုက်ညီမှုရှိသည်#'
+      matched_trace: 'ကိုက်ညီမှုရှိသည်#%{trace_id}'
       cannot_find_matches: ကိုက်ညီမှုများကို ရှာမတွေ့ပါ။ ခြေရာခံရန် ရည်ရွယ်ချက်အတွက် အချက်အလက်များကို ထုတ်ဖော်ရန် ဤဖြစ်ရပ်မှ သဘောတူညီချက်ကို မရရှိပါ။
       matched: ကိုက်ညီသည်။
       fields:
@@ -413,9 +427,9 @@ my:
           label: ကလေး၏ဆန္ဒများကိုကြည့်ပါ။
     survivor_code: ရှင်သန်ကျန်ရစ်သူ ကုဒ်နံပါတ်
     transfer_accepted: "'လက်ခံသည်' ကိုနှိပ်ခြင်းဖြင့် သင်သည် ဤဖြစ်ရပ်အတွက်ဖြေရှင်းဆောင်ရွက်ရန် တာဝန်ကို လက်ခံပါသည်။ 'လက်ခံသည်' ကိုနှိပ်လိုက်သည်နှင့် သင်သည် စနစ်အတွင်းရှိ မှတ်တမ်းပိုင်ရှင် ဖြစ်လာမည်ဖြစ်သည်။ "
-    transfer_managed_user_accepted: ""
-    transfer_managed_user_rejected: ""
-    transfer_accepted_rejected: ဖြစ်ရပ်လွှဲပြောင်းမှုကို  ငြင်းပယ်ခဲ့သည်။
+    transfer_managed_user_accepted: "'လက်ခံသည်' ကိုနှိပ်ပါက ဤဖြစ်ရပ်အတွက် %{transitioned_to}တာဝန်ရှိပါမည်။ 'လက်ခံသည်' ကို နှိပ်လိုက်သည်နှင့် %{transitioned_to} စနစ်အတွင်းရှိ မှတ်တမ်းပိုင်ရှင် ဖြစ်လာမည်ဖြစ်သည်။"
+    transfer_managed_user_rejected: "'ငြင်းပယ်ရန်' ကိုနှိပ်ခြင်းဖြင့် သင်သည် ဤဖြစ်ရပ်အတွက်  %{transitioned_to}တာဝန်ယူရန် အဆင်သင့်မဖြစ်သေးကြောင်း ဖော်ပြနေပါသည်။ ဤဖြစ်ရပ်ကိုကိုင်တွယ်ဖြေရှင်းရန် သင်ငြင်းဆိုရသည့် အကြောင်းပြချက်ကို ထည့်သွင်းဖော်ပြပါ။ 'ငြင်းပယ်' ကို နှိပ်လိုက်သည်နှင့် %{transitioned_to} ဤဖြစ်ရပ်မှတ်တမ်းသို့ ဝင်ရောက်ခွင့်မရှိတော့ပါ။"
+    transfer_accepted_rejected: "%{record_id}ဖြစ်ရပ်လွှဲပြောင်းမှုကို  ငြင်းပယ်ခဲ့သည်။"
     transfer_accepted_success: ဖြစ်ရပ်လွှဲပြောင်းမှုကို အောင်မြင်စွာ လက်ခံခဲ့သည်။
     transfer_reject_reason_label: ငြင်းပယ်ရသည့် အကြောင်းအရင်း
     transfer_rejected: "'ငြင်းပယ်ရန်' ကိုနှိပ်ခြင်းဖြင့် သင်သည် ဤဖြစ်ရပ်အတွက် တာဝန်ယူရန် အဆင်သင့်မဖြစ်သေးကြောင်း ဖော်ပြနေပါသည်။ ဤဖြစ်ရပ်ကိုကိုင်တွယ်ဖြေရှင်းရန် သင်ငြင်းဆိုရသည့် အကြောင်းပြချက်ကို ထည့်သွင်းဖော်ပြပါ။ 'ငြင်းပယ်' ကို နှိပ်လိုက်သည်နှင့် သင်သည် ဤဖြစ်ရပ်မှတ်တမ်းသို့ ဝင်ရောက်ခွင့်မရှိတော့ပါ။"
@@ -424,15 +438,15 @@ my:
     filters:
       form: ပုံစံ
       field: Field
-    add_subform: 'ဖောင်ပုံစံခွဲထည့်သွင်းမှု ကိုထည့်ထားသည်။'
-    changes_subform: 'ဖောင်ပုံစံခွဲသို့ ပြောင်းလဲမှုများ'
+    add_subform: '%{subform_name}ဖောင်ပုံစံခွဲထည့်သွင်းမှု %{short_id}ကိုထည့်ပါ'
+    changes_subform: '%{subform_name} ဖောင်ပုံစံခွဲသို့ ပြောင်းလဲမှုများ'
     create: မှတ်တမ်း စတင်ပြုလုပ်မည်
-    deleted_subform: 'ဖောင်ပုံစံခွဲထည့်သွင်းမှုကို ဖယ်ရှားခဲ့သည်။'
-    label: အမှတ်တံဆိပ် လိုဂိုအား ပြောင်းလဲမည်။
+    deleted_subform: '%{subform_name}ဖောင်ပုံစံခွဲထည့်သွင်းမှုကို ဖယ်ရှားပါ။ #%{short_id}'
+    label: မှတ်တမ်းကို ပြောင်းပါ။
     see_details: အသေးစိတ်ကို ကြည့်ပါ။
-    change: 'မှ           သို့'
-    updated_subform: '%{short_id}ဖောင်ပုံစံခွဲသို့ ဖြည့်သွင်း %{subform_name}အပ်းဒိပ်လုပ်ပြီးဖြစ်သည်။'
-    update_subform: 'ဖောင်ပုံစံခွဲသို့%{subform_name} အပ်းဒိပ်လုပ်ပါ'
+    change: '%{from_value}မှ  %{to_value} သို့'
+    updated_subform: '%{short_id}ဖောင်ပုံစံခွဲသို့ ဖြည့်သွင်း %{subform_name}အပ်ဒိပ်လုပ်ပြီးဖြစ်သည်။'
+    update_subform: 'ဖောင်ပုံစံခွဲသို့%{subform_name} အပ်ဒိပ်လုပ်ပါ'
     from: မှ
     to: သို့
   children:
@@ -478,7 +492,7 @@ my:
       organization: အဖွဲ့အစည်း
       other_information: အခြားသတင်းအချက်အလက်များ
       phone: ဖုန်း
-      position: အနေအထား
+      position: ရာထူး
       primero_version: Primero ဗားရှင်း
       support_forum: ပံ့ပိုးမှုဖိုရမ်
       system_version: စနစ် ဗားရှင်း
@@ -486,10 +500,10 @@ my:
     updated: အဆက်အသွယ်များ၏ သတင်းအချက်အလက်များကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။
   code_of_conduct:
     field:
-      title: ခေါင်းစဥ်
+      title: ဂုဏ်ပုဒ်
       content: အကြောင်းအရာ
       created_on: တွင်စတင်ပြုလုပ်ခဲ့သည်
-      created_by: စတင်ပြုလုပ်သူ
+      created_by: မှပြုလုပ်ခဲ့သည်
     info_label: ကျင့်ဝတ်စည်းမျဥ်း
     updated: ကျင့်ဝတ်စည်းမျဥ်းကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ပြီးပါပြီ။
   dashboard:
@@ -501,23 +515,23 @@ my:
     approval_action_plan_approved: အတည်ပြုပြီးစီးခြင်း
     approval_action_plan_pending: ဆိုင်းငံ့ထားသည်
     approval_action_plan_pending_group: လုပ်ငန်းအစီအစဉ်
-    approval_action_plan_rejected: ငြင်းဆိုသည်
+    approval_action_plan_rejected: ငြင်းဆိုသည်/ပယ်ဖျက်သည်။
     approval_assessment_approved: အတည်ပြုပြီးစီးခြင်း
     approval_assessment_pending: ဆိုင်းငံ့ထားသည်
     approval_assessment_pending_group: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း
-    approval_assessment_rejected: ငြင်းဆိုသည်
+    approval_assessment_rejected: ငြင်းဆိုသည်/ပယ်ဖျက်သည်။
     approval_case_plan_approved: အတည်ပြုပြီးစီးခြင်း
     approval_case_plan_pending: ဆိုင်းငံ့ထားသည်
     approval_case_plan_pending_group: ဖြစ်ရပ်အစီအစဉ်
-    approval_case_plan_rejected: ငြင်းဆိုသည်
+    approval_case_plan_rejected: ငြင်းဆိုသည်/ပယ်ဖျက်သည်။
     approval_closure_approved: အတည်ပြုပြီးစီးခြင်း
     approval_closure_pending: ဆိုင်းငံ့ထားသည်
     approval_closure_pending_group: ပိတ်သိမ်းခြင်း။
-    approval_closure_rejected: ငြင်းဆိုသည်
+    approval_closure_rejected: ငြင်းဆိုသည်/ပယ်ဖျက်သည်။
     approval_gbv_closure_approved: အတည်ပြုပြီးစီးခြင်း
     approval_gbv_closure_pending: ဆိုင်းငံ့ထားသည်
     approval_gbv_closure_pending_group: ကျား/မအခြေပြု မတော်မတရားပြုမှုမူဖြစ်ရပ် ပိတ်သိမ်းခြင်း။
-    approval_gbv_closure_rejected: ငြင်းဆိုသည်
+    approval_gbv_closure_rejected: ငြင်းဆိုသည်/ပယ်ဖျက်သည်။
     approvals: အတည်ပြုချက်များ
     approvals_action_plan: လုပ်ငန်းအစီအစဉ်
     approvals_assessment: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း
@@ -526,7 +540,7 @@ my:
     approvals_gbv_closure: ကျား/မအခြေပြု မတော်မတရားပြုမှုမူဖြစ်ရပ် ပိတ်သိမ်းခြင်း။
     approved: အတည်ပြုပြီးစီးခြင်း
     assessment: အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း
-    awaiting_acceptance: လက်ခံမှုကို စောင့်မျှော်နေပါတယ်။
+    awaiting_acceptance: လက်ခံမှုကို စောင့်ဆိုင်းနေပါတယ်။
     cases_by_social_worker_total: စုစုပေါင်း
     cases_by_social_worker_new_or_updated: အသစ် နှင့် ပြန်လည်ပြင်ဆင်ခြင်း
     case_id: 'ဖြစ်ရပ် အိုင်ဒီနံပါတ်'
@@ -536,16 +550,16 @@ my:
     case_risk: ဖြစ်ရပ်ဆန်းစစ်သုံးသပ်ခြင်းအဆင့်အလိုက် ဖြစ်ရပ်များ
     case_stat_by_approval_type: အတည်ပြုချက်များ
     case_stat_by_assessment_level: ဖြစ်ရပ်ဆန်းစစ်သုံးသပ်ခြင်းအဆင့်အလိုက် ဖြစ်ရပ်များ
-    case_stat_referrals: လွှဲပြောင်းညွန်းပို့ခြင်းများ
+    case_stat_referrals: ညွှန်းပို့မှုမျာ
     case_stats: ဖြစ်ရပ်များ
-    case_worker: ဖြစ်ရပ်လုပ်သား
-    cases_by_social_worker: လူမှုရေးလုပ်သားအလိုက် ဖြစ်ရပ်များ
+    case_worker: ဖြစ်ရပ်စီမံခန့်ခွဲသူ
+    cases_by_social_worker: ဖြစ်ရပ်စီမံခန့်ခွဲသူအလိုက် ဖြစ်ရပ်များ
     cases_by_task_overdue: ရက်ကျော်နေပြီဖြစ်သည့် လုပ်ငန်းတာဝန်များ
     cases_by_workflow: လုပ်ငန်းစီးဆင်းမှုအလိုက် ဖြစ်ရပ်များ
     cases_this_week: ယခုရက်သတ္တပတ်အတွင်း ဖြစ်ရပ်ပေါင်း
     cases_to_assign: သတ်မှတ်တာဝန်ပေးမည့် ဖြစ်ရပ်များ
     closed: ပိတ်သိမ်းခဲ့ပြီးဖြစ်သည်
-    closed_last_week: အသစ် <span>(ယခင်အပတ်)</span>
+    closed_last_week: ပိတ်ခဲ့သည့် <span>(ယခင်အပတ်)</span>
     closed_this_week: ပိတ်ခဲ့သည့်<span>(ယခုအပတ်)</span>
     comprehensive_need_intervention: ဘက်စုံတုံ့ပြန်မှု
     count_new_bia_approvals:
@@ -576,12 +590,12 @@ my:
       other: 'သင့်ထံတွင် %{stat}<span> %{stat_type}အန္တရာယ်ရှိသည့် ဖြစ်ရပ်</span>ခု ရှိသည်'
     count_waiting_for_acceptance_transfers: "သင့်ထံတွင် %{stat}လွှဲပြောင်းပေးမှုများ </span>စောင့်ဆိုင်းနေသည့် </span> သင့်၏လက်ခံမှုကို"
     current_owner: လက်ရှိပိုင်ရှင်
-    dash_case_incident_overview: ကျွန်ုပ်၏ ဖြစ်ရပ်များ
-    dash_group_overview: ကျွန်ုပ်အုပ်စု၏ ဖြစ်ရပ်များ
+    dash_case_incident_overview: ကျွန်ုပ်စီမံခန့်ခွဲနေသော ဖြစ်ရပ်များ
+    dash_group_overview: ကျွန်ုပ်အဖွဲ့မှစီမံခန့်ခွဲနေသော ဖြစ်ရပ်များ
     dash_shared_from_my_team: ကျွန်ုပ်၏အဖွဲ့မှ မျှဝေထားသည်။
     dash_shared_with_me: ကျွန်ုပ်နှင့်အတူ မျှဝေထားသည်။
     dash_shared_with_my_team: ကျွန်ုပ်၏အဖွဲ့နှင့်အတူ မျှဝေထားသည်။
-    dash_shared_with_my_team_overview: ""
+    dash_shared_with_my_team_overview: ကျွန်ုပ်၏အဖွဲ့နှင့် မျှဝေထားသည် (ခြုံငုံသုံးသပ်ချက်)
     dash_shared_with_others: အခြားသူများနှင့်အတူ မျှဝေထားသည်။
     dash_national_admin_summary: "Administrator အနှစ်ချုပ် "
     date: ရက်စွဲ
@@ -597,14 +611,14 @@ my:
     forms: ဖောင်ပုံစံများ tab
     geographic_area: ပထဝီအလိုက်နယ်မြေဒေသ
     group_overview_closed: ပိတ်သိမ်းခဲ့ပြီးဖြစ်သည်
-    group_overview_open: ဖွင့်လှစ်သည်
+    group_overview_open: ဖွင့်သည်
     high_level: မြင့်
-    high_risk: အမြင့်ဆုံး ဦးစားပေးမှု
+    high_risk: အမြင့်ဆုံး ဦးစားပေးရန်
     immediate_response: ချက်ချင်းတုံ့ပြန်မှု
     in_progress: ဆောင်ရွက်ဆဲ
     incident_id: 'ဖြစ်စဉ် #ID'
     incident_location: ဖြစ်စဉ်ဖြစ်ပွားခဲ့သည့် နေရာ
-    incident_status_open: ဖွင့်လှစ်သည်
+    incident_status_open: ဖွင့်သည်
     last_updated: နောက်ဆုံးအခြေအနေနှင့်အညီပြုပြင်ခဲ့သည့် အချိန်
     link_see_all: အားလုံးကိုကြည့်ရန်
     low_level: နိမ့်
@@ -644,24 +658,24 @@ my:
     number_of_victims: ကျူးလွန်ခံရသူအရေအတွက်
     number_of_violations: ချိုးဖောက်မှုအရေအတွက်
     number_of_violations_verified: စစ်ဆေးအတည်ပြုပြီးသည့် ချိုးဖောက်မှုများ
-    open: ဖွင့်လှစ်သည်
+    open: ဖွင့်သည်
     open_cases: လက်ရှိဖွင့်ထားသော ဖြစ်ရပ်များ
     open_incidents: ၀န်ဆောင်မှုရယူနေဆဲဖြစ်သော ဖြစ်စဉ်များ
     outstanding_transfers: လက်ကျန် လွှဲပြောင်းမှုများ
     overdue_activities: ရက်ကျော်လွန်နေသည့်ဆောင်ရွက်မှုများ
     overdue_cases_to_assign: သတ်မှတ်ပေးရန် ရက်ကျော်လွန်နေသည့်ဖြစ်ရပ်များ
-    overdue_cases_to_assign_high: ""
-    overdue_cases_to_assign_low: ""
+    overdue_cases_to_assign_high: သင့်တွင်  1 နာရီထက် ပိုကြာသော အမှုများရှိခဲ့သည်။
+    overdue_cases_to_assign_low: သင့်တွင် ၃ နာရီထက် ပိုကြာသော အမှုများရှိခဲ့သည်။
     overview: ခြုံငုံသုံးသပ်ချက်
     pending: ဆိုင်းငံ့ထားသည်
     pending_approvals: ဆိုင်းငံ့ထားသော အတည်ပြုချက်များ
     pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
     protection_concern: ကာကွယ်စောင့်ရှောက်ရေးအတွက်စိုးရိမ်ပူပန်မှုများ
     protection_concerns: ကာကွယ်စောင့်ရှောက်ရေးအတွက်စိုးရိမ်ပူပန်မှုများ-
-    range12+: ၁၂+
-    range4: ၀-၄
-    range4_8: ၄-၈
-    range8_12: ၈-၁၂
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
     recent_activities: လတ်တလောဆောင်ရွက်မှုများ
     recently_flagged_child: အမှတ်အသားပြုထားသည့် လတ်တလောဖြစ်ရပ်များ
     recently_flagged_incident: အမှတ်အသားပြုလုပ်ထားသည့် လတ်တလောဖြစ်စဉ်များ
@@ -676,22 +690,22 @@ my:
     services: ဝန်ဆောင်မှုများ
     services_implemented: ဝန်ဆောင်မှုများအကောင်အထည်ဖေါ်ပြီးဖြစ်သည်
     shared_from_my_team_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
-    shared_from_my_team_referrals: ညွှန်းပို့လွှဲအပ်မှုများ
+    shared_from_my_team_referrals: ညွှန်းပို့မှုများ
     shared_from_my_team_rejected_transfers: ညွှန်းပို့လွှဲအပ်မှုကို ငြင်းဆိုခဲ့သည်
-    shared_with_me_new_referrals: ညွှန်းပို့လွှဲအပ်မှုအသစ်များ
-    shared_with_me_total_referrals: ညွှန်းပို့လွှဲအပ်မှု စုစုပေါင်း
-    shared_with_me_transfers_awaiting_acceptance: လွှဲပြောင်းခြင်းအား လက်ခံမှုကို စောင့်ဆိုင်းနေသည်
-    shared_with_my_team_pending_transfers_overview: ""
+    shared_with_me_new_referrals: ညွှန်းပို့မှုအသစ်များ
+    shared_with_me_total_referrals: ညွှန်းပို့မှု စုစုပေါင်း
+    shared_with_me_transfers_awaiting_acceptance: လွှဲပြောင်းလက်ခံမှုကို စောင့်မျှော်နေပါသည်။
+    shared_with_my_team_pending_transfers_overview: လွှဲပြောင်းလက်ခံမှုကို စောင့်ဆိုင်းနေပါသည်။
     shared_with_my_team_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
-    shared_with_my_team_referrals: ညွှန်းပို့လွှဲအပ်မှု
+    shared_with_my_team_referrals: ညွှန်းပို့မှုများ
     shared_with_others_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
-    shared_with_others_referrals: ညွှန်းပို့လွှဲအပ်မှု
+    shared_with_others_referrals: ညွှန်းပို့မှုများ
     shared_with_others_rejected_transfers: ညွှန်းပို့လွှဲအပ်မှုကို ငြင်းဆိုခဲ့သည်
     status_of_cases: ဖြစ်ရပ်များ၏ အခြေအနေ
     system_user: စနစ်
     total: စုစုပေါင်း
     total_cases: ဖြစ်ရပ် စုစုပေါင်း
-    total_referred: ညွှန်းပို့လွှဲအပ်မှု စုစုပေါင်း
+    total_referred: ညွှန်းပို့မှု စုစုပေါင်း
     tr_stats: ခြေရာခံရန် တောင်းဆိုမှုများ
     transers_awaiting_acceptance: လွှဲပြောင်းခြင်းအား လက်ခံမှုကို စောင့်ဆိုင်းနေသည်
     transfers_by_social_worker: လူမှုရေးလုပ်သားအလိုက် လွှဲပြောင်းပေးမှုများ
@@ -701,7 +715,7 @@ my:
     with_new_incidents: ဖြစ်စဉ်အသစ်များနှင့်အတူ
     without_incidents: ဖြစ်စဉ်များမရှိဘဲ
     worker_count_referrals_total:
-      other: '<span>%{case_worker}</span>တွင် %{stat}ညွှန်းပို့လွှဲအပ်မှု<span>စုစုပေါင်း</span>'
+      other: '%{case_worker}တွင် %{stat}ညွှန်းပို့လွှဲအပ်မှု စုစုပေါင်း'
     worker_count_total:
       other: '<span>%{case_worker}</span>ရှိသည် %{stat}ဖြစ်ရပ် <span>စုစုပေါင်း</span>'
     workflow: လုပ်ငန်းဆောင်ရွက်မှုလမ်းကြောင်း
@@ -715,7 +729,7 @@ my:
     assign: ' %{user}သင့်အား %{record_type}နောက်ဆက်တွဲ့ လေ့လာမှုပြုလုပ်ရန် တာဝန်ပေးခဲ့သည်။%{record_id}
 
        '
-    assign_subject: 'သင့်ကို တာဝန်ပေးသည်။'
+    assign_subject: '%{record_type}: %{id} - သင့်ကို တာဝန်ပေးသည်။'
     approval_request: 'အသုံးပြုသူ %{user}သည် %{approval_type} အတွက် ခွင့်ပြုချက်တောင်းခံသည်။%{case_id}ဖြစ်ရပ်အတွက်ဖြစ်သည်'
     approval_request_subject: 'ဖြစ်ရပ် %{id} - အတည်ပြုချက်တောင်းခံမှု'
     approval_response: 'အသုံးပြုသူ %{user}သည် %{status}ရှိပြီး %{approval_type} အတွက် ခွင့်ပြုချက်တောင်းခံသည်။%{case_id}ဖြစ်ရပ်အတွက်ဖြစ်သည်'
@@ -736,14 +750,14 @@ my:
     transfer_request_html: 'Primero အသုံးပြုသူ %{user}%{agency}မှ ဤ %{record_type}၏ <strong>%{record_id}</strong> မှတ်တမ်း၏ ပိုင်ဆိုင်မှုကို လွှဲပြောင်းပေးရန်တောင်းဆိုနေပါသည်၊ ၎င်းတို့သည် ၎င်းတို့နယ်မြေရှိလူတစ်ဦးချင်းစီအတွက်%{record_type} စီမံခန့်ခွဲမှုဆိုင်ရာ ဝန်ဆောင်မှုပေးနိုင်ရန်ဖြစ်သည်။ အကယ်၍ ဤလွှဲပြောင်းမှုကိုသင်လက်ခံပါက ဤအီးမေးလ်၏ %{record_type}ID link ကိုနှိပ်ပြီး Primero တွင် %{record_type}ကိုဖွင့်ပါ။ ထို့နောက် လွှဲပြောင်းမှုကိုစတင်ဆောင်ရွက်ပါ။'
     transfer_request_notes_html: 'တောင်းဆိုချက်ပြုလုပ်သူတစ်ဦးချင်းစီထံမှ မှတ်စုများ -%{request_transfer_notes}'
   encrypt:
-    export_type: export အမျိုးအစား
+    export_type: export သတင်းအချက်အလက်ထုတ်ယူမှုအမျိုးအစား
     file_name: သင့်ကိုယ်ပိုင်ဖိုင်အမည် ပြုလုပ်ပါ (ရွေးချယ်နိုင်သည်)
-    password_extra_info: ဤစကားဝှက်သည် export လုပ်ထားသောဖိုင်နှင့်ဆက်စပ်နေပြီး နောင်တွင်ဤဖိုင်ကိုဖွင့်သူမည်သူမဆို ရိုက်ထည့်ရန်လိုအပ်ပါမည်။
+    password_extra_info: စကားဝှက်သည် အနည်းဆုံး စာလုံး 8 လုံးရှိရမည်။ ဤစကားဝှက်သည် export သတင်းအချက်အလက်ထုတ်ယူထားသောဖိုင်နှင့်ဆက်စပ်နေပြီး နောင်တွင်ဤဖိုင်ကိုဖွင့်သူမည်သူမဆို ရိုက်ထည့်ရန်လိုအပ်ပါမည်။
     password_label: ကျေးဇူးပြု၍ သင်၏ဖိုင်ကိုစာဝှက်ရန် စကားဝှက်ကိုရေးပါ။
   error_message:
-    address_fields: သင်သည် ဤဖောင်ပေါ်တွင် fields များကို လိပ်စာတပ်ပေးရန်လိုအပ်သည်။
-    address_form_fields: သင်သည် ဤဖောင်ပေါ်တွင် fields များကို လိပ်စာတပ်ပေးရန်လိုအပ်သည်။
-    address_subform_fields: 'မမှန်ကန်သော  fields များရှိသည်။'
+    address_fields: "သင်သည် %{forms} ဖောင်ပေါ်တွင် %{fields} fields များကို လိပ်စာတပ်ပေးရန်လိုအပ်သည်။"
+    address_form_fields: "သင်သည် ဤဖောင်ပေါ်တွင် %{fields} fields များကို လိပ်စာတပ်ပေးရန်လိုအပ်သည်။"
+    address_subform_fields: '%{subform}မှာ %{fields}မမှန်ကန်သော  fields များရှိသည်။'
   error_page:
     not_authorized:
       code: 403
@@ -762,7 +776,7 @@ my:
         terms_of_use_format: ဖိုင်သည် png ဖြစ်သင့်သည်။
         name_present: ကွက်လပ်မဖြစ်ရပါ
       child:
-        age: အသက်သည် (၀) နှင့် (၁၃၀) အကြားဖြစ်ရမည်
+        age: အသက်သည် 0 နှင့် 130 အကြားဖြစ်ရမည်
         date_of_birth: ဒီဖြစ်ရပ်အတွက် မှန်ကန်သော မွေးနေ့သက္ကရာဇ်ကို ရေးသွင်းပါ။
       export_configuration:
         opt_out_field_does_not_exist: သတ်မှတ်ထားသော opt_out field သည်မှတ်တမ်းထဲတွင်မရှိပါ။
@@ -776,23 +790,23 @@ my:
         unique_location_code: ထို တည်နေရာကုဒ်နံပါတ် ရှိပြီးဖြစ်သည်၊ ကျေးဇူးပြု၍ အခြားတည်နေရာကုဒ်နံပါတ်ကိုထည့်သွင်းပါ
       lookup:
         being_used: ဤရှာဖွေမှုကိုအသုံးပြုနေသည့်အတွက် ဖျက်၍ မရပါ
-        name_present: အမည်သည်ကွက်လပ်မဖြစ်ရပါ
+        name_present: အမည်နေရာတွင် ကွက်လပ်မဖြစ်ရပါ
         values_ids_blank: lookup_value id သည် ကွပ်လပ်ဖြစ်နေသည်။
       primero_module:
         associated_record_types: အနည်းဆုံးမှတ်တမ်းအမျိုးအစားတစ်ခုသည် ဤ မော်ဂျူး နှင့်ဆက်စပ်မှုရှိရမည်
         form_section_ids: အနည်းဆုံးဖောင်ပုံစံတစ်ခုသည် ဤ module နှင့် ဆက်စပ်နေရပါမည်။
-        name_present: အမည်သည်ကွက်လပ်မဖြစ်ရပါ
+        name_present: အမည်နေရာတွင် ကွက်လပ်မဖြစ်ရပါ
         unique_name: ထို မော်ဂျူးအမည် ရှိပြီးဖြစ်သည်၊ ကျေးဇူးပြု၍ အခြားအမည်ထည့်သွင်းပါ
       report:
         module_presence: မော်ဂျူးသည်ကွက်လပ်မဖြစ်ရပါ
         module_syntax: အစီရင်ခံစာ မော်ဂျူး အားလုံးသည် ရှိပြီးဖြစ်ရမည်
-        name_presence: အမည်သည်ကွက်လပ်မဖြစ်ရပါ
+        name_presence: အမည်နေရာတွင် ကွက်လပ်မဖြစ်ရပါ
       role:
         permission_presence: ကျေးဇူးပြု၍ အနည်းဆုံး ခွင့်ပြုချက်တစ်ခုထည့်ပါ
       user:
-        email: "ကျေးဇူးပြု၍ မှန်ကန်သော အီးမေးလ်လိပ်စာကို ရေးသွင်းပါ။"
+        email: "ကျေးဇူးပြု၍ မှန်ကန်သော အီးမေးလ်လိပ်စာကို ရေးသွင်းပါ။ (ဥပမာ- 'name@example.org')"
         password_mismatch: စကားဝှက် field များတွင် တူညီသောစကားဝှက်မတွေ့ပါ
-        password_length: စကားဝှက်သည် အနည်းဆုံး စာလုံးများဖြစ်ရမည်။
+        password_length: "စကားဝှက်သည် အနည်းဆုံး %{min} စာလုံးများဖြစ်ရမည်။"
         email_uniqueness: ဤအီးမေးလ်လိပ်စာဖြင့် အသုံးပြုသူတစ်ဦးရှိနှင့်ပြီးဖြစ်သည်။ ကျေးဇူးပြု၍ အခြားတစ်ခုထည့်ပါ။
       code_of_conduct:
         title_present: ခေါင်းစဉ် ကွက်လပ် မဖြစ်ရပါ။
@@ -814,12 +828,12 @@ my:
     custom_exports:
       all: စိတ်ကြိုက်
       choose_fields: ပုံစံတစ်ခုအတွက် သီးသန့် field တစ်ခုကို သင်ရွေးလိုပါသလား။
-      empty_fields_forms: ကျေးဇူးပြု၍ export လုပ်ရန် ပုံစံအချို့ သို့မဟုတ် field များကိုရွေးပါ။
-      empty_format: ကျေးဇူးပြု၍ export လုပ်ရန် format တစ်ခုကိုရွေးပါ။
-      empty_module: ကျေးဇူးပြု၍ export လုပ်ရန် module တစ်ခုကိုရွေးပါ။
+      empty_fields_forms: ကျေးဇူးပြု၍ export သတင်းအချက်အလက်ထုတ်ယူရန် ပုံစံအချို့ သို့မဟုတ် field များကိုရွေးပါ။
+      empty_format: ကျေးဇူးပြု၍ export သတင်းအချက်အလက်ထုတ်ယူရန် format တစ်ခုကိုရွေးပါ။
+      empty_module: ကျေးဇူးပြု၍ export သတင်းအချက်အလက်ထုတ်ယူရန် module တစ်ခုကိုရွေးပါ။
       empty_password: ကျေးဇူးပြု၍ သင်၏ဖိုင်ကိုစာဝှက်ရန် စကားဝှက်ကိုရေးပါ။
       field_label: Field
-      fields: export လုပ်ရန် Field များကို ရွေးချယ်ပါ
+      fields: export သတင်းအချက်အလက်ထုတ်ယူရန် Field များကို ရွေးချယ်ပါ
       form_label: မှ
       format_label: Format ကိုရွေးချယ်ပါ
       forms: ရွေးချယ်ထားသည့် ပုံစံများကို export လုပ်ပါ
@@ -831,12 +845,12 @@ my:
       custom_header: စိတ်ကြိုက်ပြင်ဆင်ထားသော ခေါင်းစီး
       signatures: အတွက် လက်မှတ်လိုင်းများ ပါ၀င်သည်
       include_implementation_logos: အကောင်အထည်ဖော်မှု အမှတ်တံဆိပ်များ ထည့်သွင်းမလား။
-      include_implementation_logos_help_text: ၎င်းတွင် navigation menu နှင့် login page တွင် ပေါ်လာသည့် လိုဂိုများ ပါဝင်သည်။
+      include_implementation_logos_help_text: ၎င်းတွင် navigation menu လမ်းညွှန် စာရင်း နှင့် login page စတင်ဝင်ရောက်သည့်စာမျက်နှာတွင် ပေါ်လာသည့် လိုဂိုများ ပါဝင်သည်။
       include_agency_logo: အဖွဲ့အစည်း၏ အမှတ်တံဆိပ်ကို ထည့်သွင်းမလား။
       include_other_logos: အခြားအမှတ်တံဆိပ်များကို ထည့်သွင်းမလား။
     duplicate_id_csv:
       all: မိတ္တူ အိုင်ဒီ
-      female_abbreviation: မိန်းမ
+      female_abbreviation: "မ "
       headers:
         age: အသက်
         case_id: ဖြစ်ရပ် အိုင်ဒီ
@@ -847,13 +861,13 @@ my:
         progress_id: တိုးတက်မှု ID
         sex_mapping_m_f_u: လိင်-
         other_agency_id: ဆေးရုံကုဒ်နံပါတ် နှင့် လူနာအမှတ်
-      male_abbreviation: ယောကျ်ား
-      unknown_abbreviation: U
-    exported: Export ဖိုင်ကို အောင်မြင်စွာ ထုတ်လုပ်ပြီးစီးပါပြီ။
-    exported_error: Export ဖိုင်ကို ထုတ်လုပ်ရာတွင် အမှားရှိသည်။
+      male_abbreviation: "ကျား "
+      unknown_abbreviation: U -  under -  အသက်အောက်
+    exported: Export သတင်းအချက်အလက်ထုတ်ယူမှုဖိုင်ကို အောင်မြင်စွာ ထုတ်ပြီးပါပြီ။
+    exported_error: Export သတင်းအချက်အလက်ထုတ်ယူမှုဖိုင်ကို ထုတ်ရာတွင် အမှားရှိသည်။
     forms:
-      button: Export ပုံစံ
-      label: တင်ပို့ခြင်း
+      button: Export သတင်းအချက်အလက်ထုတ်ယူပုံစံ
+      label: သတင်းအချက်အလက်ထုတ်ယူခြင်း
       header:
         form_group: ဖောင်ပုံစံ အုပ်စု
         form_name: ဖောင်ပုံစံအမည်
@@ -878,31 +892,36 @@ my:
         agency: အဖွဲ့အစည်းများ
         user: အသုံးပြုသူများ
         reportinglocation: အစီရင်ခံခြင်း တည်နေရာများ
-        subforms: 'ပုံစံခွဲ-'
+        subforms: 'ပုံစံခွဲ- %{subform_name}'
         collapsed_fields: 'ဖြည့်သွင်းထားသော နေရာများ%{fields}'
         country: နိုင်ငံများ
+      summary_header:
+        form_group: Primero ဖောင်ပုံစံ အုပ်စု
+        form: Primero ဖောင်ပုံစံများ
+        status: ဖြစ်ရပ်အခြေအနေ
+        notes: မှတ်ချက်များ
 
-    go_to_exports: ဒေါင်းလုဒ်လုပ်ရန် Exports စာမျက်နှာသို့ သွားပါ။
+    go_to_exports: ဒေါင်းလုဒ်လုပ်ရန် Exports သတင်းအချက်အလက်ထုတ်ယူမှုစာမျက်နှာသို့ သွားပါ။
     incident_recorder_xls:
       all: ဖြစ်စဉ်ကို မှတ်တမ်းတင်ခြင်း
       one: ဖြစ်စဉ်ကို မှတ်တမ်းတင်ခြင်း
       selected: ဖြစ်စဉ်မှတ်တမ်းကို ရွေးချယ်ထားသည်
     json:
-      all: JSON
-      one: JSON
-      selected: JSON သို့ ရွေးချယ်ခဲ့သည်
+      all: "JSON - JavaScript Object Notation "
+      one: JSON - JavaScript Object Notation
+      selected: JSON - JavaScript Object Notation သို့ ရွေးချယ်ခဲ့သည်
     list_view_csv:
-      all: ကြည့်ရှုခြင်း ဇယားကို Export လုပ်ပါ
+      all: ကြည့်ရှုခြင်း ဇယားကို Export သတင်းအချက်အလက်ထုတ်ယူမှုလုပ်ပါ
       selected: CSV သို့ ရွေးချယ်ခဲ့သည်
     messages:
-      no_exporter: Exporter အား သတ်မှတ်ထားခြင်းမရှိပါ။
+      no_exporter: Exporter သတင်းအချက်အလက်ထုတ်ယူသူအားသတ်မှတ်ထားခြင်းမရှိပါ။
     mrm_violation_xls:
       all: MRM ချိုးဖောက်မှုများ
       one: MRM ချိုးဖောက်မှုများ
       selected: MRM ချိုးဖောက်မှုများအတွက် ရွေးချယ်ခဲ့သည်
     no_records: မှတ်တမ်းများ မရှိပါ
     pdf:
-      all: PDF
+      all: PDF (ကုဒ်ဝှက်မထားပါ)
       one: PDF
       selected: PDF သို့ ရွေးချယ်ခဲ့သည်
     pdf_exports:
@@ -916,15 +935,15 @@ my:
       caseworker_name: ဖြစ်ရပ်လုပ်သား အမည်
       caseworker_agency: ဖြစ်ရပ်လုပ်သား အဖွဲ့အစည်း
     photowall:
-      all: ဓါတ်ပုံများတင်ထားသည့်နံရံ
+      all: ဓါတ်ပုံများတင်ထားသည့်နေရာ/နံရံ
       flag_suspect_record: သံသယ မှတ်တမ်းအဖြစ် အမှတ်အသားပြထားသည်။
       no_photos_available: ဓာတ်ပုံများ မရရှိနိုင်ပါ။
-      one: ဓါတ်ပုံများတင်ထားသည့်နံရံ
+      one: ဓါတ်ပုံများတင်ထားသည့်နေရာ/နံရံ
       reunited: ပြန်လည်ပေါင်းစည်းခဲ့သည်
-      selected: ဓါတ်ပုံများတင်ထားသည့်နံရံသို့ ရွေးချယ်ခဲ့သည်
-      success_message: ဓာတ်ပုံထည့်သွင်းခြင်းမပြုပဲ Photowall Cases ဖန်တီးနိုင်မည်မဟုတ်ပါ။
-    printed: 'ပုံနှိပ်သည်။'
-    queueing: export ဖိုင်ကို ထုတ်လုပ်နေသည်
+      selected: ဓါတ်ပုံများတင်ထားသည့်နေရာ/နံရံသို့ ရွေးချယ်ခဲ့သည်
+      success_message: "ဓာတ်ပုံထည့်သွင်းခြင်းမပြုပဲ Photowall %{file_name}ဖြစ်ရပ်ဖန်တီးနိုင်မည်မဟုတ်ပါ။"
+    printed: 'ပုံနှိပ်သည် -%{date}'
+    queueing: "%{file_name} export သတင်းအချက်အလက်ထုတ်ယူမှု ဖိုင်ကို ထုတ်လုပ်နေသည်"
     selected_xls:
       all: Excel
       one: Excel
@@ -932,7 +951,7 @@ my:
       selected_fields: ရွေးချယ်ထားသော Fields များ
     unhcr_csv:
       all: UNHCR
-      female_abbreviation: မိန်းမ
+      female_abbreviation: "မ "
       headers:
         age: အသက်
         case_status: ဖြစ်ရပ်အခြေအနေ
@@ -948,7 +967,7 @@ my:
         individual_progress_id: တစ်ဦးချင်းစီ၏ တိုးတက်မှု ID
         locations_by_level: နေရပ်လိပ်စာ (စခန်း၊ အကွက်နှင့် အခြားသက်ဆိုင်သောလိပ်စာအဆင့်များ၊ ဥပမာ- နားခိုရာအိမ်၏ GPS ကိုသြဒီနိတ်များ)
         long_id: ID အရှည်
-        moha_id: MOHA ID
+        moha_id: MOHA ID - ပြည်ထဲရေးမှသတ်မှတ်ပေးထားသော ID
         name_of_caregiver: အုပ်ထိန်းသူ၏အမည်အပြည့်အစုံ
         name_of_child_last_first: ကလေး၏အမည်အပြည့်အစုံ
         primary_protection_concerns: ကာကွယ်စောင့်ရှောက်ရေးအတွက် အဓိကစိုးရိမ်ပူပန်မှုများ-
@@ -960,10 +979,10 @@ my:
         short_id: ID အတို
         vulnerability_code: ထိခိုက်လွယ်ခြင်း ကုဒ်နံပါတ်
         vulnerability_details_code: ထိခိုက်လွယ်မှု အသေးစိတ်ပြ ကုဒ်နံပါတ်
-      male_abbreviation: ယောကျ်ား
+      male_abbreviation: "ကျား "
       one: UNHCR
       selected: UNHCR သို့ ရွေးချယ်ခဲ့သည်
-      unknown_abbreviation: U
+      unknown_abbreviation: U - under - အသက်အောက်
     xlsx:
       all: Excel
       one: Excel
@@ -972,15 +991,25 @@ my:
     csv_hxl_location:
       messages:
         success: တည်နေရာများကို အောင်မြင်စွာ တင်သွင်းပြီးပါပြီ။
-        no_data: 'တင်သွင်းခြင်း မလုပ်ဆောင်ပါ- ဒေတာမ၀င်ပါ။'
-        csv_parse_error: 'တင်သွင်းခြင်း မလုပ်ဆောင်ပါ- CSV ဒေတာကို ခွဲခြမ်းစိတ်ဖြာရာတွင် အမှားအယွင်းရှိသည်။'
-        error: 'Row ကို မလုပ်ဆောင်ပါ-'
-        db_error: 'စတင်ပြုလုပ်ခြင်းအမှား'
-        locale_invalid: 'ကျော်သွားခြင်း- နေရာဒေသ မမှန်ကန်ပါ။'
-        insert_all_error: 'တင်သွင်းခြင်း မလုပ်ဆောင်ပါ- Database အမှား'
+        no_data: 'တင်သွင်းခြင်း မအောင်မြင်ပါ- ဒေတာမ၀င်ပါ။'
+        csv_parse_error: 'တင်သွင်းခြင်း မအောင်မြင်ပါ- CSV ဒေတာကို ခွဲခြမ်းစိတ်ဖြာရာတွင် အမှားအယွင်းရှိသည်။'
+        error: 'အတန်းနံပါတ်%{row_number} မလုပ်ဆောင်ပါ : %{message}'
+        db_error: 'စတင်ဖန်တီးခြင်းအမှား %{location_code}:%{message}'
+        locale_invalid: 'ကျော်သွားခြင်း %{column_name}: နေရာဒေသ မမှန်ကန်ပါ။'
+        insert_all_error: 'သတင်းအချက်အလက်တင်သွင်းခြင်း မအောင်မြင်ပါ- Database အမှား -%{message}'
+    csv_record:
+      messages:
+        success: မှတ်တမ်းများကို အောင်မြင်စွာ တင်သွင်းပြီးပါပြီ။
+        no_data: 'Import သွင်းခြင်း မလုပ်ဆောင်ပါ- မည်သည့်ဒေတာမှ မဝင်ပါ။'
+        no_file: 'Import သွင်းခြင်း မလုပ်ဆောင်ပါ- ဖိုင်မရှိပါ။'
+        csv_parse_error: 'Import သွင်းခြင်း မလုပ်ဆောင်ပါ - CSV ဒေတာကို ခွဲခြမ်းစိတ်ဖြာရာတွင် အမှားအယွင်းရှိသည်။'
+        error: 'အတန်းနံပါတ် %{row_number}   မလုပ်ဆောင်ပါ :%{message}'
+        db_error: 'စတင်ဖန်တီးခြင်းအမှား %{location_code}:%{message}'
+        locale_invalid: 'ကျော်သွားခြင်း %{column_name}: နေရာဒေသ မမှန်ကန်ပါ။'
+        insert_all_error: 'သတင်းအချက်အလက်တင်သွင်းခြင်း မအောင်မြင်ပါ- Database အမှား -%{message}'
   sync_record:
     failed: 'နောက်ဆုံး ထပ်တူကျအောင်လုပ်ခြင်း- မအောင်မြင်ပါ။'
-    last: 'နောက်ဆုံး ထပ်တူကျအောင်လုပ်ခြင်း'
+    last: 'နောက်ဆုံး ထပ်တူကျအောင်လုပ်ခြင်း - %{date_time}'
     not_found: 'နောက်ဆုံး ထပ်တူကျအောင်လုပ်ခြင်း- Data ရှာမတွေ့ပါ.'
     retrieving: Data ပြန်လည်ရယူခြင်း။
     see_details: အသေးစိတ်ကို ကြည့်ပါ။
@@ -991,7 +1020,7 @@ my:
     add_new_field: Field အသစ် စတင်ပြုလုပ်ရန်
     add_existing_field: ရှိပြီသား Field ကိုထည့်ပါ
     add_field: Field ကိုထည့်ပါ
-    add_field_type: ထည့်ပါ
+    add_field_type: "ထည့်ပါ %{file_type}"
     audio:
       current: လက်ရှိအသံ
     audio_upload_box: အသံဖိုင်တင်ခြင်း။
@@ -1013,6 +1042,7 @@ my:
       date_range: "ရက်စွဲအပိုင်းအခြား:"
       from: မှ
       to: သို့
+      view_by: ကြည့်ရန်
     date_range_field: "ရက်စွဲအပိုင်းအခြား:"
     date_time: ရက်စွဲ-အချိန်
     db_name: DB အမည်
@@ -1045,9 +1075,9 @@ my:
       add_new_photo_button_text: အခြာဓါတ်ပုံကို ထည့်ပါ
       add_photo_label: ဓါတ်ပုံထည့်ပါ
       document_description: စာရွက်စာတမ်းအား ရှင်းလင်းဖော်ပြချက်
-      document_file_restrictions_message: ဖိုင်များသည် ၂ မက်ဂါဘိုက် က်မပိုရပါ (executable (.exe) ဖိုင်များကို တင်၍ မရပါ) ။
+      document_file_restrictions_message: ဖိုင်များသည် 2 MB  ထက်မပိုရပါ (executable (.exe) ဖိုင်များကို တင်၍ မရပါ) ။
       no_file_selected: မည်သည့်ဖိုင်မျှရွေးချယ်ထားခြင်းမရှိပါ
-      photo_file_restrictions_message: ဓါတ်ပုံများသည် နှင့် အသံဖိုင်များသည် ၁၀ မက်ဂါဘိုက် က်မပိုစေသင့်ပါ။ ဖိုင်ဆိုက် သေးလေကောင်းလေဖြစ်ပါသည်။
+      photo_file_restrictions_message: ဓါတ်ပုံများသည် နှင့် အသံဖိုင်များသည် 10mb ထက်မပိုစေသင့်ပါ။ ဖိုင်ဆိုက် သေးလေကောင်းလေဖြစ်ပါသည်။
       recorded_audio_label: အသံဖမ်းထားသည့် အသံ
       select_file_button_text: ဖိုင်ကိုရွေးချယ်ပါ
     find_lookup: Lookup ကိုရှာပါ။
@@ -1083,7 +1113,7 @@ my:
     remove: ဖယ်ရှားသည်
     remove_attachment_confirmation: ဤပူးတွဲပါဖိုင်ကို ဖယ်ရှားလိုသည်မှာ သေချာပါသလား။
     required: မဖြစ်မနေ လိုအပ်သည်။
-    required_field: 'လိုအပ်သည်'
+    required_field: '%{field}လိုအပ်သည်'
     search_existing: ရှိပြီသား Field များကိုရှာပါ
     select_box: Drop Down ကိုရွေးပါ
     select_date_validation: နေ့စွဲအတည်ပြုသည့်နည်းလမ်းကိုရွေးချယ်ပါ
@@ -1105,6 +1135,8 @@ my:
     subform_sort_by: အစဥ်လိုက်စီခြင်း
     successfully_added: field ကိုအောင်မြင်စွာထည့်ပြီးပါပြီ
     tally_field: တာလီရေတွက်သည့် field
+    tally_items: တာလီ အမျိုးအစား
+    tally_items_maximum: (5 အများဆုံး)
     text_area: စာသားများထည့်သွင်းရန်နေရာ
     text_field: စာသားများထည့်သွင်းရန် နေရာ
     textarea: စာသားများထည့်သွင်းရန်နေရာ
@@ -1128,7 +1160,7 @@ my:
     flag_added: အမှတ်အသားကို အောင်မြင်စွာထည့်ပြီးပါပြီ
     flag_date: အမှတ်အသားပြုသည့် ရက်စွဲ
     flag_reason: အမှတ်အသားပြုသည့် အကြောင်းအရာ
-    flag_reason_maximun_label: အများဆုံး စာလုံး ၂၅၅ လုံး။
+    flag_reason_maximun_label: အများဆုံး စာလုံး 255 လုံး။
     flag_resolved: ဖြေရှင်းပြီး အမှတ်အသား
     flags_tab: အမှတ်အသားများ
     no_flags: အမှတ်အသားများမတွေ့ပါ။
@@ -1158,7 +1190,7 @@ my:
       must_be_english: အင်္ဂလိပ်လိုထည့်သွင်းရပါမည်။
       related_groups: အသုံးပြုသူများအတွက် ဖောင်ပုံစံကို ဆက်စပ်အုပ်စုတစ်ခုတွင် ထည့်သွင်းပါ။
       summariaze_purpose: ဖောင်၏ရည်ရွယ်ချက် အကျဉ်းချုပ်။ အင်္ဂလိပ်လိုထည့်သွင်းရပါမည်။
-    invalid_characters_field: 'မမှန်ကန်သော စာလုံးများ ပါရှိသည်။'
+    invalid_characters_field: '%{field}မမှန်ကန်သော စာလုံးများ ပါရှိသည်။'
     label: ပုံစံများ
     manage: စီမံခန့်ခွဲသည်
     messages:
@@ -1187,12 +1219,15 @@ my:
       tracing_request: ခြေရာခံရန် တောင်းဆိုမှုများ
       transfers_assignments: လွှဲပြောင်းမှုများ / ဖြစ်ရပ်တာဝန်များ
       violation: ချိုးဖောက်မှု
-    required_field: 'လိုအပ်သော field တစ်ခုဖြစ်သည်။'
+      registry_details: မှတ်ပုံတင်အသေးစိပ်
+      registry_record: မှတ်ပုံတင်မှတ်တမ်း
+    required_field: '%{field}သည်လိုအပ်သော field တစ်ခုဖြစ်သည်။'
     select_label: ရွေးချယ်ပါ
-    settings: ဆက်တင် (ချိန်ညှိချက်)
+    settings: ဆက်တင် -ချိန်ညှိချက်
     show_on: ပြပါ။
     subform_need_to_be_added: သူတို့ထပ်ထည့်ဖို့ လိုတယ်။
-    subform_not_found: မတွေ့ပါ။
+    subform_need_to_be_added_single: ၎င်းကို ထပ်ဖြည့်ဖို့ လိုပါတယ်။
+    subform_not_found: "%{subform_name}ကိုမတွေ့ပါ။"
     title: ဖောင်ပုံစံ ခေါင်းစဥ်
     translations:
       edit: ဘာသာပြန်ဆိုမှုများကို တည်းဖြတ်ပါ။
@@ -1231,7 +1266,7 @@ my:
     label: ပင်မ စာမျက်နှာ
     language: ဘာသာစကား
     manage_system_users: ဆာဗာထပ်တူပြုခြင်းကို အသုံးပြုသောသူများအား စီမံခန့်ခွဲခြင်း
-    my: မြန်မာ (ယူနီကုဒ်)
+    my: မြန်မာ ယူနီကုဒ်
     pt: ပေါ်တူဂီ
     pt-BR: ပေါ်တူဂီ - (ဘရာဇီး)
     records_need_attention: သတိပြုရန်လိုအပ်သော မှတ်တမ်းများ
@@ -1245,15 +1280,25 @@ my:
   incident:
     associated_case: "ဆက်စပ် ဖြစ်ရပ်-"
     messages:
-      creation_success: "ဖြစ်စဉ်မှတ်တမ်း %{record_id}ကို အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်"
+      creation_success: ဖြစ်စဉ်မှတ်တမ်း ကို အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်
       creation_success_queue: ဖြစ်စဉ်မှတ်တမ်းကို နောက်ခံတွင် အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်
       disabled: ဖြစ်စဉ်ကို အသုံးမပြုနိုင်အောင် ပိတ်ထားသည်
       update_success: '%{record_id} ဖြစ်စဉ်ကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
-      update_success_queue: 'ဖြစ်စဉ်ကို နောက်ခံတွင် နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
+      update_success_queue: 'ဖြစ်စဉ် %{record_id}ကို နောက်ခံတွင် နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
     violation:
-      back_to_violations: ""
+      update_and_return: 'မွမ်းမံပြင်ဆင်ပြီး %{association}သို့ပြန်သွားပါ။'
+      save_and_return: 'ထည့်ပြီး %{association}သို့ပြန်သွားပါ။'
       pending: အတည်ပြုရန်ဆိုင်းငံ့ထားသည့်အစီရင်ခံစာ
       title: ချိုးဖောက်မှုများ
+      types:
+        killing: ကလေးသူငယ်များကို သတ်ဖြတ်ခြင်း
+        maiming: ကလေးသူငယ်များကို ကိုယ်လက်အင်္ဂါချို့တဲ့စေခြင်း
+        recruitment: တပ်သားစုဆောင်းခြင်းနှင့်/သို့မဟုတ် ကလေးသူငယ်များအားအသုံးပြုခြင်း။
+        sexual_violence: မုဒိမ်းမှု နှင့်/သို့မဟုတ် အခြားသော လိင်ပိုင်းဆိုင်ရာ အကြမ်းဖက်မှု
+        abduction: အဓမ္မသွေးဆောင်ဖြားယောင်းခြင်း
+        attack_on: စာသင်ကျောင်း(များ) နှင့်/သို့မဟုတ် ဆေးရုံ(များ)ကို တိုက်ခိုက်ခြင်း၊
+        military_use: စာသင်ကျောင်း(များ) နှင့်/သို့မဟုတ် ဆေးရုံ(များ)ကို စစ်ရေးအရ အသုံးပြုခြင်း၊
+        denial_humanitarian_access: ကလေးသူငယ်များအတွက် လူသားချင်းစာနာထောက်ထားမှု လက်လှမ်းမှီရေးကို ငြင်းပယ်ဟန့်တားခြင်း။
   incidents:
     disable_dialog: OK ကို နှိပ်ခြင်းဖြင့် ဤဖြစ်စဉ်ကို အသုံးမပြုနိုင်သော ဖြစ်ရပ် အဖြစ် ပြောင်းလဲပါမည်။
     disable_dialog_title: ဖြစ်စဉ်ကို ပိတ်ပါ။
@@ -1266,28 +1311,28 @@ my:
     date_of_incident: ဖြစ်စဉ် နေ့စွဲ
     incident_location: ဖြစ်စဉ်ဖြစ်ပွားခဲ့သည့် နေရာ
     violations: ချိုးဖောက်မှုများ
-    export: Export
+    export: Export -အချက်အလက်ထုတ်ယူခြင်း
     label: ဖြစ်စဉ်များ
     filter_by:
       boys: ယောက်ျားလေးများ
       by_date: ရက်စွဲအလိုက် -
-      children: ""
+      children: ကလေးများ
       girls: မိန်းကလေးငယ်များ
       incident_location: ဖြစ်စဉ်ဖြစ်ပွားခဲ့သည့် နေရာ
       unaccompanied_separated_status: "ကာကွယ်စောင့်ရှောက်မှုအခြေအနေ:"
       unknown: မသိ
-      verification_status: ""
+      verification_status: အတည်ပြုမှုအခြေအနေ
       violence_type: အကြမ်းဖက်မှုအမျိုးအစား
-      armed_force_group_name: ""
-      armed_force_group_type: ""
+      armed_force_group_name: လက်နက်ကိုင်အဖွဲ့အမည်
+      armed_force_group_type: လက်နက်ကိုင်တပ်ဖွဲ့ အမျိုးအစား
     register_new_incident: ဖြစ်စဉ်အသစ်
     selectable_date_options:
       date_of_first_report: တွေ့ဆုံမေးမြန်းမှုပြုလုပ်သည့် ရက်စွဲ
       incident_date_derived: ဖြစ်စဉ်ဖြစ်ပွားခဲ့သည့် ရက်စွဲ
-    selected_records: 'ရွေးချယ်ထားသော ဖြစ်စဉ်(များ)'
+    selected_records: '%{select_records}ရွေးချယ်ထားသော ဖြစ်စဉ်(များ)'
     selected_all_records: 'ဤမေးခွန်းနှင့် ကိုက်ညီသော %{total_records} ဖြစ်စဉ်များအားလုံးကို ရွေးပါ။'
     survivor_code: ရှင်သန်ကျန်ရစ်သူ ကုဒ်နံပါတ်
-    show_incident: 'ဖြစ်စဉ် ID'
+    show_incident: 'ဖြစ်စဉ် ID %{short_id}'
     social_worker: လူမှုရေးလုပ်သား
     violence_type: အကြမ်းဖက်မှုအမျိုးအစား
     type_violence: အကြမ်းဖက်မှုအမျိုးအစား
@@ -1307,124 +1352,124 @@ my:
     time_periods:
       all_time: 'အချိန်အားလုံး'
       current_month: "လက်ရှိလ"
-      last_3_months: "လွန်ခဲ့သည့် သုံးလ"
-      last_6_months: "လွန်ခဲ့သည့် ခြောက်လ"
+      last_3_months: "လွန်ခဲ့သည့် 3 လ"
+      last_6_months: "လွန်ခဲ့သည့် 6 လ"
       last_1_year: "မနှစ်က"
-      0-3days: "၀ မှ ၃ ရက်အတွင်း"
-      4-5days: "၄ မှ ၅ ရက်အတွင်း"
-      6-14days: "၆ မှ ၁၄ ရက်အတွင်း"
-      15-30days: "၁၅ - ၃၀ ရက်အတွင်း"
-      1-3months: "၁ - ၃ လအတွင်း"
-      4months: "> ၃ လ"
-      1-month: "< ၁ လ"
-      3-6months: "၃ - ၆ လအတွင်း"
-      7-months: "> ၆ လ"
+      0-3days: "0 - 3 ရက်အတွင်း"
+      4-5days: "4 - 5  ရက်အတွင်း"
+      6-14days: "6 - 14 ရက်အတွင်း"
+      15-30days: "15 - 30 ရက်အတွင်း"
+      1-3months: "1 - 3 လအတွင်း"
+      4months: "> 3 လ"
+      1-month: "< 1 လ"
+      3-6months: "3 - 6 လအတွင်း"
+      7-months: "> 6 လ"
     helptext:
       helptext: "ဤ KPI အကြောင်း လေ့လာပါ။"
     number_of_cases:
-      title: "၁။ မှတ်တမ်းတင်ထားသော ဖြစ်ရပ်အရေအတွက်"
+      title: "1 ။ မှတ်တမ်းတင်ထားသော ဖြစ်ရပ်အရေအတွက်"
       reporting_site: "အစီရင်ခံခြင်းဆိုက်"
       helptext: |
         ဤအညွှန်ကိန်းသည် သတင်းပို့သည့်ဆိုက်တစ်ခုလျှင် လစဉ် ဖြစ်ရပ်အသစ်မည်မျှဖွင့်လှစ်သည်ကို ရေတွက်သည်။
-        အစီရင်ခံခြင်းဆိုက်ကို အသုံးပြုသူအဖွဲ့အစည်းက ဝန်ဆောင်မှုပေးနေသည့် ဆိုက်နှင့် ဖြစ်ရပ်ကို ဝန်ဆောင်မှုပေးသူကို အစီရင်ခံသည့်နေရာအဖြစ် နားလည်သည်။
+        အစီရင်ခံခြင်းဆိုက်ကို အသုံးပြုသူအဖွဲ့အစည်းက ဝန်ဆောင်မှုပေးနေသည့် နေရာ နှင့် ဖြစ်ရပ်ကို ဝန်ဆောင်မှုပေးသူကို အစီရင်ခံသည့်နေရာအဖြစ် နားလည်သည်။
     number_of_incidents:
-      title: "၂။ မှတ်တမ်းတင်ထားသော ဖြစ်စဉ်များ အရေအတွက်"
-      reporting_site: "အစီရင်ခံခြင်းဆိုက်"
+      title: "2။ မှတ်တမ်းတင်ထားသော ဖြစ်စဉ်များ အရေအတွက်"
+      reporting_site: "အစီရင်ခံခြင်းနေရာ/ဆိုက်"
       helptext: |
         ဤအညွှန်းကိန်းသည် အစီရင်ခံသည့်ဆိုက်တစ်ခုစီတွင် လစဉ်ဖွင့်လှစ်သည့် ဖြစ်စဉ်အသစ်အရေအတွက်ကို ရေတွက်သည်။
-        အစီရင်ခံခြင်းဆိုက်ကို အသုံးပြုသူအဖွဲ့အစည်းက ဝန်ဆောင်မှုပေးနေသည့် ဆိုက်နှင့် ဖြစ်စဉ်ကို ဝန်ဆောင်မှုပေးသူကို အစီရင်ခံသည့်နေရာအဖြစ် နားလည်သည်။
+        အစီရင်ခံခြင်းဆိုက်ကို အသုံးပြုသူအဖွဲ့အစည်းက ဝန်ဆောင်မှုပေးနေသည့် နေရာနှင့် ဖြစ်စဉ်ကို ဝန်ဆောင်မှုပေးသူကို အစီရင်ခံသည့်နေရာအဖြစ် နားလည်သည်။
     reporting_delay:
-      title: "၃. အစီရင်ခံမှု နောက်ကျသည်"
+      title: "3. အစီရင်ခံမှု နောက်ကျသည်"
       delay: "နောက်ကျသည်"
       total_incidents: "အဖြစ်အပျက်များ စုစုပေါင်း"
       helptext: |
-        ဤအညွှန်းကိန်းသည် အသက်ရှင်ကျန်ရစ်သူ GBV တွေ့ကြုံခံစားခဲ့ရသည့်အချိန်နှင့် အသက်ရှင်ကျန်ရစ်သူသည် ဝန်ဆောင်မှုပေးသူတစ်ဦးထံ ပထမဆုံးသတင်းပေးပို့သည့်ကြားတွင် ကုန်ဆုံးသွားသည့်ရက်အရေအတွက်ကို ရေတွက်ပြီး အမျိုးအစားခွဲခြားပေးသည်။ ၎င်းသည် ဖြစ်စဉ်ကို အသုံးပြုသူအဖွဲ့အစည်းထံ ပထမဆုံးအစီရင်ခံသည့်အချိန်ပေါ်မူတည်၍ တွက်ချက်ထားသည်။ ဒေတာကို မတူညီသော အချိန်ကြာချိန်များပေါ်မူတည်၍ အမျိုးအစားခွဲထားသည် (၁-၃ ရက်၊ ၄-၅ရက်၊ ၆-၁၄ ရက်၊ ၁၅-၃၀ ရက်၊ ၁ လကျော်၊ ၃ လကျော်)။
+        ဤအညွှန်းကိန်းသည် အသက်ရှင်ကျန်ရစ်သူ GBV တွေ့ကြုံခံစားခဲ့ရသည့်အချိန်နှင့် အသက်ရှင်ကျန်ရစ်သူသည် ဝန်ဆောင်မှုပေးသူတစ်ဦးထံ ပထမဆုံးသတင်းပေးပို့သည့်ကြားတွင် ကုန်ဆုံးသွားသည့်ရက်အရေအတွက်ကို ရေတွက်ပြီး အမျိုးအစားခွဲခြားပေးသည်။ ၎င်းသည် ဖြစ်စဉ်ကို အသုံးပြုသူအဖွဲ့အစည်းထံ ပထမဆုံးအစီရင်ခံသည့်အချိန်ပေါ်မူတည်၍ တွက်ချက်ထားသည်။ ဒေတာကို မတူညီသော အချိန်ကြာချိန်များပေါ်မူတည်၍ အမျိုးအစားခွဲထားသည် (0-3 ရက်၊ 4-5 ရက်၊ 6-14  ရက်၊ 15-30 ရက်၊ 1 လကျော်၊ 3 လကျော်)။
     service_access_delay:
       title: "ဝန်ဆောင်မှုရယူရန် နှောင့်နှေးခြင်း။"
       delay: "နှောင့်နှေးခြင်း။"
       total_incidents: "စုစုပေါင်း ဖြစ်စဉ်များ"
     assessment_status:
-      title: "အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း အခြေအနေ"
+      title: "4. အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း အခြေအနေ"
       completed: "ဆောင်ရွက်ပြီးစီးပါပြီ။"
       completed_supervisor_approved: "ဆောင်ရွက်ပြီးစီးပြီး ကြီးကြပ်ရေးမှူးက အတည်ပြုပြီးပါပြီ။"
       helptext: |
         ဤအညွှန်းကိန်းသည် အကဲဖြတ်မှုပုံစံကို ပြီးမြောက်စေသည့် လက်ရှိဖြစ်ရပ်များ၏ အချိုးအစားကို တွက်ချက်သည်။ 
         ရှင်သန်ကျန်ရစ်သူ အကဲဖြတ်ဆန်းစစ်သုံးသပ်ခြင်း ပုံစံ အတွင်း မဖြစ်မနေ ဖြည့်ရမည့် fields များပြီးမြောက်ပါက အကဲဖြတ်ခြင်းကို ပြီးမြောက်သည်ဟု ယူဆပါသည်။
     completed_case_safety_plans:
-      title: "ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုံခြုံရေးအစီအစဉ်များ "
+      title: "5.ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုံခြုံရေးအစီအစဉ်များ "
       completed: "ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုံခြုံရေးအစီအစဉ်များ "
       helptext: |
         ဤအညွှန်းကိန်းသည် ဘေးကင်းရေးအစီအစဥ်ကို လိုအပ်သည်ဟု မှတ်ယူထားကာပြီးမြောက်ခဲ့သည့် လက်ရှိဖြစ်ရပ်များ၏အချိုးအစား (ဥပမာ- ရင်းနှီးဖော်ရွေသော အကြမ်းဖက်မှု၊ သတ်သေခြင်း/လူသတ်မှုအန္တရာယ်၊ ကလေးသူငယ်ကာကွယ်မှု)။ 
-        Safety Plan ဖောင်တွင် မဖြစ်မနေပါရှိရမည့် fields အားလုံး ပြီးပြည့်စုံသောအခါတွင် ဘေးကင်းရေး အစီအစဉ်ကို ပြီးမြောက်သည်ဟု ယူဆပါသည်။
+        Safety Plan ဘေးကင်းရေးအစီအစဥ်ဖောင်တွင် မဖြစ်မနေပါရှိရမည့် fields အားလုံး ပြီးပြည့်စုံသောအခါတွင် ဘေးကင်းရေး အစီအစဉ်ကို ပြီးမြောက်သည်ဟု ယူဆပါသည်။
     completed_case_action_plans:
-      title: "၆။ ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်များ "
+      title: "6.  ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်များ "
       completed: "ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်"
       label: "ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်"
       helptext: |
         ဤအညွှန်းကိန်းသည် ဖြေရှင်းဆောင်ရွက်နေဆဲ ဖြစ်ရပ်များ၏ ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်ရေးဆွဲမှုပြီး‌မြောက်ကြောင်း ညွှန်းဆိုပါသည်။ ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်ပြည်စုံစွာ ဖြည့်သွင်းရမည့် အချက်များ ပြည့်စုံပြီဖြစ်ပါသည်
     completed_supervisor_approved_case_action_plans:
-      title: "ကြီးကြပ်သူမှ အတည်ပြုထားသော ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်များ "
+      title: "7. ကြီးကြပ်သူမှ အတည်ပြုထားသော ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်များ "
       completed_and_approved: "ကြီးကြပ်သူမှ အတည်ပြုထားသော ဆောင်ရွက်ပြီးစီးသည့် ဖြစ်ရပ်လုပ်ငန်းအစီအစဉ်များ "
       helptext: |
         ဤအညွှန်းကိန်းသည် ဖြစ်ရပ်ဆောင်ရွက်မှုအစီအစဉ်တစ်ခုပြီးမြောက်ပြီး ကြီးကြပ်သူမှ အတည်ပြုထားသည့် လက်ရှိဖြစ်ရပ်များ၏ အချိုးအစားကို တွက်ချက်ပါသည်။လုပ်ငန်းဆောင်ရွက်မှုအစီအစဉ် ဖောင်အတွင်း မဖြစ်မနေပါရှိရမည့် fields အားလုံး ပြီးပြည့်စုံသောအခါတွင်  ဖြစ်ရပ်ဆောင်ရွက်မှုအစီအစဉ်တစ်ခုကို ပြီးမြောက်သည်ဟု ယူဆပါသည်။ ဖြစ်ရပ်လုပ်သားမှ ဖြစ်ရပ်အစီအစဉ်အတွက် အတည်ပြုချက်တောင်းခံပြီး ကြီးကြပ်သူသည် မူဝါဒနှင့်အညီ အတည်ပြုသောအခါတွင် ဖြစ်ရပ်အစီအစဉ်ကို အတည်ပြုသည်ဟု ယူဆပါသည်။
     services_provided:
-      title: "၈။ ပုံပိုးမှုပေးခဲ့သည့် ဝန်ဆောင်မှု"
+      title: "8. ပုံပိုးမှုပေးခဲ့သည့် ဝန်ဆောင်မှု"
       service: "ဝန်ဆောင်မှု"
       count: "ပုံပိုးမှုပေးခဲ့သည့် အချိန်"
-      male: "ကျား"
-      female: "မ"
-      0-11: "၀-၁၁"
-      12-17: "၁၂-၁၇"
-      ">18": ">၁၈"
+      male: "အမျိုးသား"
+      female: "အမျိုးသမီး"
+      0-11: "0-11"
+      12-17: "12-17"
+      ">18": ">18 "
       disability: "မသန်စွမ်းမှု"
       no_disability: "မသန်စွမ်းမှု မရှိပါ။"
       helptext: |
         ဤအညွှန်းကိန်းသည် ဖြစ်ရပ်စီမံခန့်ခွဲရေးလုပ်ငန်းစဉ်တွင် အသက်ရှင်ကျန်ရစ်သူများအား ပံ့ပိုးပေးသည့် ဝန်ဆောင်မှုအမျိုးအစား(များ)ကို ရေတွက်သည်။ ပံ့ပိုးပေးထားသော ဝန်ဆောင်မှုအရ၊ အခြားဝန်ဆောင်မှုများသို့ လွှဲပြောင်းပေးပို့ခြင်း သို့မဟုတ် ဌာနတွင်း လွှဲပြောင်းပေးမှုများမှ ပံ့ပိုးပေးသော ဝန်ဆောင်မှုမဟုတ်ဘဲ အသုံးပြုသူအဖွဲ့အစည်းအတွင်းမှ ဆောင်ရွက်ပေးသည့် ဝန်ဆောင်မှုကို ဆိုလိုပါသည်။
     average_referrals:
-      title: "ပျမ်းမျှ ညွှန်းပို့လွှဲအပ်မှုများ"
+      title: "9. ပျမ်းမျှ ညွှန်းပို့လွှဲအပ်မှုများ"
       label: "ဖြစ်ရပ်တစ်ခုရှိ ပျမ်းမျှ လွှဲပြောင်းညွှန်းပို့မှုများ"
       helptext: |
         ဤအညွှန်းကိန်းသည် ဖြစ်ရပ်ဖွင့်သည်ဖြစ်စေ ၊ပိတ်သည်ဖြစ်စေဖြစ်ရပ်အားလုံးတွင် မှတ်တမ်းတင်ထားသော ဖြစ်ရပ်တစ်ခုစီအတွက် (ဝန်ဆောင်မှုအမျိုးအစားအားလုံးအတွက်) ပျမ်းမျှညွှန်းပို့လွဲအပ်မှုအရေအတွက်ကို ရေတွက်သည်။ ၎င်းတွင် မူဝါဒမှတဆင့် လုပ်ဆောင်သော ညွှန်းပို့လွှဲပြောင်းပေးမှုများသာမက case tab တွင် မှတ်တမ်းတင်ထားသော  ညွှန်းပို့လွှဲပြောင်းပေးမှုများလည်း ပါဝင်သည်။
     referrals_per_service:
       title: "ဝန်ဆောင်မှုအလိုက် ညွှန်းပို့လွှဲအပ်မှုများ"
     average_followup_meetings_per_case:
-      title: "ဖြစ်ရပ်တစ်ခုရှိ နောက်ဆက်တွဲအစည်းအဝေးများ ပျမ်းမျှ အရေအတွက်"
+      title: "10. ဖြစ်ရပ်တစ်ခုရှိ နောက်ဆက်တွဲအစည်းအဝေးများ ပျမ်းမျှ အရေအတွက်"
       label: "ဖြစ်ရပ်တစ်ခုရှိ နောက်ဆက်တွဲအစည်းအဝေးများ ပျမ်းမျှ အရေအတွက်"
       helptext: |
         ဤအညွှန်းကိန်းသည် မူဝါဒပေါ်ရှိ ဖြစ်ရပ်လုပ်သားတစ်ဦးစီ၏လက်ရှိဖြစ်ရပ်တိုင်းအတွက် ပြုလုပ်သည့် နောက်ဆက်တွဲအစည်းအဝေးများ၏ ပျမ်းမျှအရေအတွက်ကို ရေတွက်ပါသည်။
         နောက်ဆက်တွဲအစည်းအဝေးသည် ကနဦးအင်တာဗျူး/ထုတ်ဖော်ပြီးနောက် ဖြစ်ရပ်လုပ်သားနှင့် အသက်ရှင်ကျန်ရစ်သူကြား တွေ့ဆုံမှုတစ်ခုဖြစ်သည်။
     time_from_case_open_to_close:
-      title: "၁၁. ဖြစ်ရပ်ဖွင့်ချိန်မှ ဖြစ်ရပ်ပိတ်ချိန်ထိ ကြာချိန်"
+      title: "11. ဖြစ်ရပ်ဖွင့်ချိန်မှ ဖြစ်ရပ်ပိတ်ချိန်ထိ ကြာချိန်"
       time: "အချိန်"
       percent: "ဖြစ်ရပ်များ၏ ရာခိုင်နှုန်း"
       helptext: |
-        ဤအညွှန်းကိန်းသည် ဖြစ်ရပ်များကို ဖွင့်ထားချိန်မည်မျှကြာသည်၊ ဖြစ်ရပ်စီမံခန့်ခွဲမှုလုပ်ငန်းစဉ်သည် ကနဦးအစီရင်ခံစာမှ သုံးစွဲသူအဖွဲ့အစည်းသို့ အမှုပိတ်သိမ်းရန် အချိန်မည်မျှကြာသည်ကို တိုင်းတာသည်။ အချိန်ကာလကို အောက်ပါအချိန်ဘောင်ဖြင့် ပိုင်းခြားထားသည်- ၁ လအောက်၊ ၁ နှင့် ၃ လအကြား; ၃-၆ လအကြား; ၆ လကျော်။
+        ဤအညွှန်းကိန်းသည် ဖြစ်ရပ်များကို ဖွင့်ထားချိန်မည်မျှကြာသည်၊ ဖြစ်ရပ်စီမံခန့်ခွဲမှုလုပ်ငန်းစဉ်သည် ကနဦးအစီရင်ခံစာမှ သုံးစွဲသူအဖွဲ့အစည်းသို့ အမှုပိတ်သိမ်းရန် အချိန်မည်မျှကြာသည်ကို တိုင်းတာသည်။ အချိန်ကာလကို အောက်ပါအချိန်ဘောင်ဖြင့် ပိုင်းခြားထားသည်- 1 လအောက်၊ 1 နှင့် 3 လအကြား; 3-6 လအကြား; 6 လကျော်။
     case_closure_rate:
-      title: "၁၂။ ဖြစ်ရပ်ပိတ်သိမ်းမှု အရေအတွက်"
-      reporting_site: "အစီရင်ခံခြင်းဆိုက်"
+      title: "12. ဖြစ်ရပ်ပိတ်သိမ်းမှု အရေအတွက်"
+      reporting_site: "အစီရင်ခံခြင်းနေရာ/ဆိုက်"
       helptext: |
         ဤအညွှန်းကိန်းသည် အစီရင်ခံဆိုက်တစ်ခုအတွက် တစ်လလျှင် ပိတ်ထားသော ဖြစ်ရပ်အရေအတွက်ကို တိုင်းတာသည်။ အစီရင်ခံခြင်းဆိုက်ကို အသုံးပြုသူအဖွဲ့အစည်းက ဝန်ဆောင်မှုပေးနေသည့် ဆိုက်နှင့် ဖြစ်ရပ်ကို ဝန်ဆောင်မှုပေးသူကို အစီရင်ခံသည့်နေရာအဖြစ် နားလည်သည်။
     client_satisfaction_rate:
-      title: "လူမှုရေးရာ ဝန်ဆောင်မှုရယူသူ၏ စိတ်ကျေနပ်မှုနှုန်း"
+      title: "13. လူမှုရေးရာ ဝန်ဆောင်မှုရယူသူ၏ စိတ်ကျေနပ်မှုနှုန်း"
       label: "လူမှုရေးရာ ဝန်ဆောင်မှုရယူသူ၏ စိတ်ကျေနပ်မှု"
       invalid: "လောလောဆယ် ဤအရာကို မတွက်နိုင်သေးပါ။"
       helptext: |
         ဤအညွှန်းကိန်းသည် ၎င်းတို့အား ပေးထားသော ဖြစ်ရပ်စီမံခန့်ခွဲမှုဝန်ဆောင်မှုများကို ကျေနပ်နှစ်သက်သည့် လူမှုရေးရာဝန်ဆောင်မှု လိုအပ်သူ၏ တုံ့ပြန်ချက်စစ်တမ်းကို ပြီးမြောက်ခဲ့သော အသက်ရှင်ကျန်ရစ်သူ ရာခိုင်နှုန်းကို တိုင်းတာသည်။ အသက်ရှင်ကျန်ရစ်သူအား ဝန်ဆောင်မှုပေးသည့် ဖြစ်ရပ်လုပ်သားမှလွဲ၍ အခြားဝန်ထမ်းတစ်ဦးမှ GBVIMS+ ရှိ လူမှုရေးရာဝန်ဆောင်မှု လိုအပ်သူ၏တုံ့ပြန်ချက်ဖောင်ကို ဖြည့်စွက်ခြင်းဖြင့် ဤညွှန်ပြချက်ကို အကြောင်းကြားပါသည်။
     supervisor_to_caseworker_ratio:
-      title: "ကြီးကြပ်သူ နှင့် ဖြစ်ရပ်လုပ်သားအချိုး"
+      title: "14. ကြီးကြပ်သူ နှင့် ဖြစ်ရပ်လုပ်သားအချိုး"
       label: "ကြီးကြပ်သူတစ်ီဥးရှိ ဖြစ်ရပ်လုပ်သားများ"
       helptext: |
         ဤအညွှန်းကိန်းသည် ကြီးကြပ်ရေးမှူးက ကြီးကြပ်နေသည့် ဖြစ်ရပ်လုပ်သားအရေအတွက်- ကြီးကြပ်သူမှ ဖြစ်ရပ်လုပ်သားအချိုး။ ဤတွက်ချက်မှုသည် မူဝါဒအရ ခွဲဝေပေးထားသော စနစ်အခန်းကဏ္ဍများအပေါ် အခြေခံထားသည်။
     case_load:
-      title: "၁၅။ ဖြစ်ရပ်အရေအတွက်"
+      title: "15.  ဖြစ်ရပ်အရေအတွက်"
       case_load: "ဖြစ်ရပ်အရေအတွက်"
       percent: "ဖြစ်ရပ်လုပ်သား နှင့် ဖြစ်ရပ်ပမာဏတို့၏ ရာခိုင်နှုန်း"
-      10cases: "<  ၁၀ ဖြစ်ရပ်များ"
-      20cases: "၁၁ -၂၀ ဖြစ်ရပ်များ"
-      21-30cases: "၂၁ မှ ၃၀ ဖြစ်ရပ်များ"
-      30cases: "> ၃၀ ဖြစ်ရပ်များ"
+      10cases: "< 10 ဖြစ်ရပ်များ"
+      20cases: "11 - 20 ဖြစ်ရပ်များ"
+      21-30cases: "21 - 30 ဖြစ်ရပ်များ"
+      30cases: "> 30 ဖြစ်ရပ်များ"
       helptext: |
-        ဤအညွှန်းကိန်းသည် လက်ရှိဖြစ်ရပ်များအပေါ် အခြေခံ၍ လုပ်ဆောင်နိုင်သော ဖြစ်ရပ်လုပ်သားတစ်ဦးလျှင် ပျမ်းမျှ ဖြစ်ရပ်အရေအတွက်ကို တိုင်းတာသည်။ဖြစ်ရပ်လုပ်သားများနှင့် ဖြစ်ရပ်များ၏ အချိုးကို အောက်ပါ ခွဲခြမ်းစိတ်ဖြာမှုအပေါ် အခြေခံ၍ ပိုင်းခြားထားပါသည်- ၁၀ ထက်နည်းသော ဖြစ်ရပ်များ၊ ၁၀ မှ ၂၀ အကြားဖွင့်ထားသောဖြစ်ရပ်များ၊ ၂၁ မှ ၃၀ အကြား၊ ဖွင့်ထားသောဖြစ်ရပ်ပေါင်း 30 ကျော်။
+        ဤအညွှန်းကိန်းသည် လက်ရှိဖြစ်ရပ်များအပေါ် အခြေခံ၍ လုပ်ဆောင်နိုင်သော ဖြစ်ရပ်လုပ်သားတစ်ဦးလျှင် ပျမ်းမျှ ဖြစ်ရပ်အရေအတွက်ကို တိုင်းတာသည်။ဖြစ်ရပ်လုပ်သားများနှင့် ဖြစ်ရပ်များ၏ အချိုးကို အောက်ပါ ခွဲခြမ်းစိတ်ဖြာမှုအပေါ် အခြေခံ၍ ပိုင်းခြားထားပါသည် 10 ထက်နည်းသော ဖြစ်ရပ်များ၊ 10-20 အကြားဖွင့်ထားသောဖြစ်ရပ်များ၊ 21-30 အကြား၊ ဖွင့်ထားသောဖြစ်ရပ်ပေါင်း 30 ကျော်။
     date_range_dialog:
       title: "စိတ်ကြိုက်ရက်စွဲအပိုင်းအခြား"
       description: "ဤပြောင်းလဲမှုကို အသုံးပြုပြီးသည်နှင့်၊ အောက်ပါရက်စွဲနှစ်ခုကြားမှ ဒေတာကို ရွေးချယ်ပါမည်။"
@@ -1438,8 +1483,9 @@ my:
   location:
     base_types:
       camp: စခန်း
-      chiefdom: (မျိုးနွယ်စု) ခေါင်းဆောင်
+      chiefdom: မျိုးနွယ်စုခေါင်းဆောင်
       city: မြို့
+      community: ရပ်ရွာတွင်နေထိုင်သော အုပ်စု
       country: နိုင်ငံ
       county: နိုင်ငံ
       district: ခရိုင်
@@ -1453,7 +1499,11 @@ my:
       sub-district: ခရိုင်ခွဲ
       village: ကျေးရွာ
       zone: ဇုံ
-      township: မြို့နယ်
+      association: အသင်းအဖွဲ့
+      division: ဌာနခွဲ
+      central_warehouse: ဗဟို ဂိုဒေါင်
+      warehouse: ဂိုဒေါင်
+      buyingstation: စျေးဝယ် စခန်း
     label: တည်နေရာ
     name: အမည်
     code: ကုဒ်နံပါတ်
@@ -1482,14 +1532,14 @@ my:
       case_plan_approved: ဖြစ်ရပ်အစီအစဥ် အတည်ပြုထားသည်
       case_plan_rejected: ဖြစ်ရပ်အစီအစဥ် ငြင်းပယ်ထားသည်
       case_plan_requested: ဖြစ်ရပ်အစီအစဥ် တောင်းဆိုထားသည်
-      close: ပိတ်သည်
+      close: စာရင်းပိတ်
       create: စတင်ပြုလုပ်သည်
       create_bulk: အစုလိုက် စတင်ပြုလုပ်ပါ။
       delete: ဖျက်သိမ်းပါ
       destroy: ဖျက်ဆီးပါ။
       detach: ခွဲထုတ်ပါ။
       enable_disable_record: မှတ်တမ်းကို ပိတ်ရန် ဖွင့်ပါ။
-      export: Export
+      export: Export သတင်းအချက်အလက်ထုတ်ယူခြင်း
       flag: အမှတ်အသားပြုခြင်း
       import: တင်သွင်းခြင်း
       incident_details_from_case: ဖြစ်ရပ်၏ ဖြစ်ပွားပုံအသေးစိတ်
@@ -1526,15 +1576,15 @@ my:
       'false': ငြင်းဆိုနေသည်
       gbv_closure: ကျား/မအခြေပြု မတော်မတရားပြုမှုမူဖြစ်ရပ် ပိတ်သိမ်းခြင်းပုံစံ
       'true': လက်ခံသည်
-    assessment_approved: "အတွက် အတည်ပြုခြင်း"
-    assessment_requested: "အတွက် တောင်းခံခြင်း။"
+    assessment_approved: "%{approval_label}အတွက် အတည်ပြုခြင်း"
+    assessment_requested: "%{approval_label}အတွက် တောင်းခံခြင်း။"
     bulk_index: အားလုံးကို စာရင်းပြုစုပါ။
     by_user: အသုံးပြုသူက
-    case_plan_approved: "အတွက် အတည်ပြုခြင်း"
-    case_plan_requested: "အတွက် တောင်းခံခြင်း။"
-    close: ပိတ်သည်
+    case_plan_approved: "%{approval_label}အတွက် အတည်ပြုခြင်း"
+    case_plan_requested: "%{approval_label}အတွက် တောင်းခံခြင်း။"
+    close: စာရင်းပိတ်
     closure_approved: "%{approval_label}အတွက် အတည်ပြုခဲ့သည်။"
-    closure_requested: "အတွက် တောင်းခံခြင်း။"
+    closure_requested: "%{approval_label}အတွက် တောင်းခံခြင်း။"
     consent_count: သဘောတူညီမှုအရေအတွက်
     copy: ကူးယူနေသည်
     create: စတင်ပြုလုပ်နေသည်
@@ -1574,7 +1624,7 @@ my:
       permission: ခွင့်ပြုချက်များ
       dashboard: ဒက်ရှ်ဘုတ်
       report: အစီရင်ခံစာ
-      bulk_export: အစုလိုက် တင်ပို့ခြင်း။
+      bulk_export: အစုလိုက် သတင်းအချက်အလက်ထုတ်ယူခြင်း။
       saved_search: သိမ်းဆည်းရှာဖွေမှု
       role: အခန်းကဏ္ဍ
       incident: ဖြစ်စဉ်
@@ -1643,14 +1693,86 @@ my:
     no_options: ဤရှာဖွေမှုတွင် လောလောဆယ် ရွေးချယ်စရာမရှိပါ။
     translation_label: ဘာသာပြန်စာသား
     values: ရွေးချယ်စရာများ
+  managed_reports:
+    label: ထိုးထွင်းသိမြင်ခြင်း
+    total: စုစုပေါင်း
+    filter_by: 
+      date: ရက်စွဲ
+      verification_status: အတည်ပြုမှုအခြေအနေ
+    date_range:
+      month: လ
+      quarter: သုံးလပါတ်
+      year: နှစ်
+    date_range_options:
+      this_quarter: ယခုသုံးလပါတ်
+      last_quarter: နောက်ဆုံးသုံးလပါတ်
+      this_month: ယခုလ
+      last_month: ပြီးခဲ့သည့်လ
+      this_year: ယခုနှစ်
+      last_year: ပြီးခဲ့သည့်နှစ်
+      custom: စိတ်ကြိုက်
+    no_data: ဤထိုးထွင်းသိမြင်မှုအတွက် အချက်အလက်မရှိပါ။
+    no_data_table: ဤထိုးထွင်းသိမြင်မှုအတွက် ဇယားအချက်အလက်မရှိပါ။
+    violations:
+      name: ချိုးဖောက်မှုများ
+      description: ''
+      filter_options:
+        incident_date: ဖြစ်စဉ် နေ့စွဲ
+        date_of_report: အစီရင်ခံစာ ရက်စွဲ
+        ctfmr_verified_date: အတည်ပြုသည့်နေ့စွဲ
+      reports:
+        killing: ကလေးသူငယ်များကို သတ်ဖြတ်ခြင်း
+        maiming: ကလေးသူငယ်များကို ကိုယ်လက်အင်္ဂါချို့တဲ့စေခြင်း
+        recruitment: တပ်သားစုဆောင်းခြင်းနှင့်/သို့မဟုတ် ကလေးသူငယ်များအားအသုံးပြုခြင်း။
+        sexual_violence: မုဒိမ်းမှု နှင့်/သို့မဟုတ် အခြားသော လိင်ပိုင်းဆိုင်ရာ အကြမ်းဖက်မှု
+        abduction: အဓမ္မသွေးဆောင်ဖြားယောင်းခြင်း
+        attack_on: စာသင်ကျောင်း(များ) နှင့်/သို့မဟုတ် ဆေးရုံ(များ)ကို တိုက်ခိုက်ခြင်း၊
+        military_use: စာသင်ကျောင်း(များ) နှင့်/သို့မဟုတ် ဆေးရုံ(များ)ကို စစ်ရေးအရ အသုံးပြုခြင်း၊
+        denial_humanitarian_access: ကလေးသူငယ်များအတွက် လူသားချင်းစာနာထောက်ထားမှု လက်လှမ်းမှီရေးကို ငြင်းပယ်ဟန့်တားခြင်း။
+      sub_reports:
+        combined: ချိုးဖောက်မှုများ
+        detention_detained: ချုပ်နှောင်ထားဆဲ
+        detention_released: လွှတ်ပေးခဲ့သည်။
+        perpetrators: ကျူးလွန်သူ ကလေးအရေအတွက်
+        reporting_location: ဒေသအလိုက် ကလေးအရေအတွက်
+        attack_type: တိုက်ခိုက်မှုအမျိုးအစားအလိုက် ကလေးအရေအတွက်
+        boys: ယောက်ျားလေးများ
+        girls: မိန်းခလေးငယ်များ
+        unknown: မသိ
+        total: စုစုပေါင်း
+    gbv_statistics:
+      name: GBV စာရင်းအင်းများ
+      description: ''
+      filter_options:
+        date_of_first_report: တွေ့ဆုံမေးမြန်းမှု ပြုလုပ်သည့် ရက်စွဲ
+        incident_date: ဖြစ်စဉ် နေ့စွဲ
+      reports: 
+        incidents: ဖြစ်စဉ်များ
+        perpetrators: ကျူးလွန်သူများ
+      sub_reports:
+        combined: ဖြစ်စဉ်များ
+        total: GBV ဖြစ်စဉ်များ အစီရင်ခံထားသော အရေအတွက်
+        gbv_sexual_violence: အစီရင်ခံထားသော လိင်ပိုင်းဆိုင်ရာ အကြမ်းဖက် ဖြစ်ပွားမှုအရေအတွက်
+        gbv_previous_incidents: ယခင် GBV ဖြစ်စဉ်များ နှင့်အတူ အသက်ရှင်ကျန်ရစ်သူများမှ အစီရင်ခံထားသော ဖြစ်စဉ်များ အရေအတွက် 
+        gbv_sexual_violence_type: ဖြစ်စဉ် အမျိုးအစား
+        incident_timeofday: အခင်းဖြစ်ပွားချိန်
+        elapsed_reporting_time: ဖြစ်စဉ် နှင့် အစီရင်ခံစာ ရက်စွဲကြား အချိန်
+        elapsed_reporting_time_rape: မုဒိမ်းမှု ဖြစ်စဉ်များ၊ ဖြစ်စဉ် နှင့် အစီရင်ခံစာ ရက်စွဲကြား ကုန်ဆုံးသွားသော အချိန်
+        incident_location_type: ဖြစ်စဉ်ဖြစ်ပွားခဲ့သည့် နေရာ
+        number_of_perpetrators: မူလပြစ်မှုကျူးလွန်သူအရေအတွက်
+        perpetrator_relationship: စွပ်စွဲထားသော မူလပြစ်မှုကျူးလွန်သူ နှင့် အသက်ရှင်ကျန်ရစ်သူတို့၏ ပတ်သက်မှု
+        perpetrator_age_group: စွပ်စွဲထားသော မူလပြစ်မှုကျူးလွန်သူ၏ အသက်အုပ်စု
+        perpetrator_occupation: စွပ်စွဲထားသောမူလပြစ်မှုကျူးလွန်သူ၏ အလုပ်အကိုင်
   messages:
-    alert_items: သင့်တွင်မှတ်သားစရာအချက်များရှိသည်။
+    alert_items: "သင့်တွင် %{items}မှတ်သားစရာအချက်များရှိသည်။"
     alerts_for:
-      approval: အတွက် အတည်ပြုချက်ကို ဆိုင်းငံ့ထားသည်။
+      approval: "%{form_section_name}အတွက် အတည်ပြုချက်ကို ဆိုင်းငံ့ထားသည်။"
       field_change: '%{form_section_name}တွင် အပ်ဒိပ်လုပ်ခဲ့သည်။%{alert_time}'
       transfer_request: "လွှဲပြောင်းပေးရန် တောင်းဆိုချက်အသစ်ကို  %{date} မှ%{user}တွင်%{agency} ပြုလုပ်ခဲ့သည်။"
+      duplicate_field: "စနစ်တွင်ရှိသော အခြား ဖြစ်ရပ်တစ်ခု မှာ ဤအရာနှင့် တူညီသော%{field_name} ရှိသည်"
     cannot_edit: ဤအရာကို သင်ပြင်ဆင်လို့ မရနိုင်ပါ။
     confirmation_message: OK ကိုနှိပ်ပါက သိမ်းဆည်းထားခြင်းမရှိသော မည်သည့်ပြောင်းလဲမှုကိုမဆို ဖယ်ရှားပြီး စာရင်းမြင်ကွင်းသို့ပြန်သွားပါမည်။ မှတ်တမ်းသို့ပြန်သွားရန် Cancel ကိုနှိပ်ပါ။
+    confirmation_message_subform: OK ကိုနှိပ်ခြင်းဖြင့် ဤအရာအတွက် မသိမ်းဆည်းရသေးသော ပြောင်းလဲမှုများကို ဖယ်ပစ်ပါမည်။ ပြောင်းလဲမှုများ ဆက်လက်ပြုလုပ်ရန် ပယ်ဖျက်ရန် နှိပ်ပါ။
     dashboard_offline: သင်သည် အင်တာနက်ဖြင့် ချိတ်ဆက်မှုမရရှိသေးပါ။ အင်တာနက်ချိတ်ဆက်မှု ပြန်လည်ရရှိသောအခါ  dashboard သည် အပြည့်အဝလုပ်ဆောင်နိုင်မည်ဖြစ်သည်။
     field_name_on_form_name: '%{field_name}''အကွက်'' ပေါ်ရှိ %{form_name}ဖောင်ပုံစံ။'
     logout_confirmation: သင်လုပ်ဆောင်နေသော အပိုင်းကို ဆက်လက်လုပ်ဆောင်လိုပါသလား။
@@ -1662,21 +1784,22 @@ my:
     no_changes: သင်သည် field ပြောင်းလဲမှုများ မပြုလုပ်ခဲ့ပါ။
     not_available: မရရှိနိုင်ပါ။
     record_list:
-      column_header_tooltip: အတွက်စီသည်
+      column_header_tooltip: "%{column}အတွက်စီသည်"
       of: ၏
       no_match: ဝမ်းနည်းပါသည်၊ တူညီသောမှတ်တမ်းများမတွေ့ပါ။
       rows_per_page: စာမျက်နှာတစ်မျက်နှာရှိ အတန်းများ
       sort: စီသည်
   navigation:
-    bulk_exports: အစုလိုက် EXPORTS ပြုလုပ်ခြင်း
+    bulk_exports: သတင်းအချက်အလက်ထုတ်ယူမှုပြုလုပ်ခြင်း
     cases: ဖြစ်ရပ်များ
     home: ပင်မ စာမျက်နှာ
     key_performance_indicators: Pulse/KPIs
     incidents: ဖြစ်စဉ်များ
     logout: စနစ်အတွင်းမှ ထွက်သည်
     reports: အစီရင်ခံစာများ
+    insights: ထိုးထွင်းသိမြင်ခြင်း
     search: ရှာဖွေရန်
-    settings: ဆက်တင် (ချိန်ညှိချက်)
+    settings: ဆက်တင် ချိန်ညှိချက်
     support: ပံ့ပိုးမှု အကူအညီ
     support_menu:
       contact_information: ဆက်သွယ်ရန်သတင်းအချက်အလက်များ
@@ -1685,7 +1808,8 @@ my:
       system_information: စနစ် သတင်းအချက်အလက်များ
     tasks: လုပ်ငန်းတာဝန်များ
     tracing_request: တောင်းဆိုမှုများကို ခြေရာခံခြင်း
-    activity_log: ""
+    activity_log: ဆောင်ရွက်မှုမှတ်တမ်း
+    registry_records: မှတ်ပုံတင်
   notes:
     note_success: မှတ်စုကို အောင်မြင်စွာ ထည့်သွင်းပြီးပါပြီ
   permissions:
@@ -1699,24 +1823,24 @@ my:
       agency_read: အဖွဲ့အစည်း ဖတ်ရန်
       all: မှတ်တမ်းအားလုံး သို့မဟုတ် အသုံးပြုသူအားလုံးကိုဝင်ရောက်ခွင့်ပြုခြင်း
       approvals_assessment: '%{approval_label}'
-      approvals_assessment_pending: 'ဆိုင်းငံ့ထားသည်။'
+      approvals_assessment_pending: '%{approval_label}ဆိုင်းငံ့ထားသည်။'
       approvals_case_plan: '%{approval_label}'
-      approvals_case_plan_pending: 'ဆိုင်းငံ့ထားသည်။'
+      approvals_case_plan_pending: '%{approval_label}ဆိုင်းငံ့ထားသည်။'
       approvals_closure: '%{approval_label}'
-      approvals_closure_pending: 'ဆိုင်းငံ့ထားသည်။'
-      approve_action_plan: အတည်ပြုသည်
-      approve_assessment: ပုံစံကို အတည်ပြုသည်
-      approve_case_plan: ဖြစ်ရပ်အတွက် အစီအစဉ်ကို အတည်ပြုသည်
-      approve_closure: ပိတ်သိမ်းမှုပုံစံကို အတည်ပြုသည်
-      approve_gbv_closure: ပုံစံကို အတည်ပြုသည်
-      assign: တာဝန်ပေးသည်/ သတ်မှတ်သည်
+      approvals_closure_pending: '%{approval_label}ဆိုင်းငံ့ထားသည်။'
+      approve_action_plan: "%{approval_label}ကိုအတည်ပြုသည်"
+      approve_assessment: "%{approval_label}ပုံစံကို အတည်ပြုသည်"
+      approve_case_plan: "%{approval_label}ကို အတည်ပြုသည်"
+      approve_closure: "%{approval_label}ပုံစံကို အတည်ပြုသည်"
+      approve_gbv_closure: "%{approval_label}ပုံစံကို အတည်ပြုသည်"
+      assign: တာဝန်ပေးသည်
       assign_within_agency: အဖွဲ့အစည်းအတွင်း သတ်မှတ်ခြင်း
       assign_within_user_group: အသုံးပြုသူအုပ်စုများအတွင်း သတ်မှတ်ခြင်း
       audit_log: စာရင်းစစ်မှတ်တမ်းများ
       case: ဖြစ်ရပ်
       case_approvals: ဖြစ်ရပ်အတည်ပြုချက်များ
       case_assignments_referrals_transfers: ဖြစ်ရပ်တာဝန်များ၊ လွှဲပြောင်းညွှန်ပို့မှုများနှင့် လွှဲပြောင်းမှုများ
-      case_exports: ဖြစ်ရပ် export များ
+      case_exports: ဖြစ်ရပ် export သတင်းအချက်အလက်ထုတ်ယူခြင်း များ
       case_overview: ကျွန်ုပ်၏ ဖြစ်ရပ်များ
       case_risk: ဖြစ်ရပ်ဆန်းစစ်သုံးသပ်ခြင်းအဆင့်အလိုက် ဖြစ်ရပ်များ
       cases_by_task_overdue_assessment: ဆန်းစစ်သုံးသပ်ခြင်း ပြုလုပ်ရန် နောက်ကျနေသော ဖြစ်ရပ်များကို ကြည့်ပါ။
@@ -1724,7 +1848,7 @@ my:
       cases_by_task_overdue_followups: ဝန်ဆောင်မှုပေးရန် နောက်ကျနေသော ဖြစ်ရပ်များကို ကြည့်ပါ
       cases_by_task_overdue_services: ဝန်ဆောင်မှုပေးရန် နောက်ကျနေသော ဖြစ်ရပ်များကို ကြည့်ပါ
       cases_managed_other_users: အခြားအသုံးပြုသူများက စီမံခန့်ခွဲသည့် ဖြစ်ရပ်များ
-      close: ပိတ်မည်
+      close: စာရင်းပိတ်
       consent_override: သဘောတူညီချက်ကိုပယ်ဖျက်ပါ
       copy: ကူးယူသည်
       copy_of: မိတ္တူ
@@ -1755,18 +1879,20 @@ my:
       display_view_page: မြင်ကွင်း စာမျက်နှာတွင် ပြသထားခြင်း
       duplicate: ရှာဖွေခြင်းကို မိတ္တူပွားခြင်း
       enable_disable_record: အသုံးမပြုနိုင်အောင် ပိတ်ခြင်း
-      export_case_pdf: ဖြစ်ရပ် pdf ကိုexport လုပ်ပါ
+      export_case_pdf: ဖြစ်ရပ် pdf ကိုexport သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
       export_csv: csv ကို export လုပ်ပါ
-      export_custom: custom export လုပ်ပါ
-      export_duplicate_id_csv: မိတ္တူများကို export လုပ်ပါ
-      export_json: json ကို export လုပ်ပါ
-      export_list_view_csv: export စာရင်းကြည့်ရန် csv
-      export_mrm_violation_xls: mrm ချိုးဖောက်မှု xls ကိုexport လုပ်ပါ
-      export_pdf: pdf ကိုexport လုပ်ပါ
-      export_photowall: ဓါတ်ပုံများတင်ထားသည့်နံရံကို Export လုပ်ပါ
-      export_unhcr_csv: unhcr csv ကို export လုပ်ပါ
-      export_xls: xls ကို export လုပ်ပါ
+      export_custom: custom export စိတ်ကြိုက်ရွေးချယ်ထားသောသတင်းအချက်အလက်ထုတ်ယူခြင်း လုပ်ပါ
+      export_duplicate_id_csv: မိတ္တူများကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_json: json ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_list_view_csv: export သတင်းအချက်အလက်ထုတ်ယူခြင်းစာရင်းကြည့်ရန် csv
+      export_mrm_violation_xls: mrm ချိုးဖောက်မှု xls ကိုexport သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_pdf: pdf ကိုexport သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_photowall: ဓါတ်ပုံများတင်ထားသည့်နံရံကို Export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_unhcr_csv: unhcr csv ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
+      export_xls: xls ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်း လုပ်ပါ
       find_tracing_match: ဖြစ်ရပ်မှ ခြေရာခံရန်တူညီမှုများကို ရှာဖွေပါ
+      view_registry_record: မှတ်ပုံတင်မှတ်တမ်း ကြည့်ပါ
+      add_registry_record: မှတ်ပုံတင်မှတ်တမ်းအသစ်ထည့်ပါ
       flag: အမှတ်အသားပြုခြင်း
       form: ဖောင်ပုံစံများ
       group: မှတ်တမ်းများအားလုံး သို့မဟုတ် ကျွုန်ပ်အဖွဲ့ရှိ အသုံးပြုသူများအားလုံးကို ဝင်ရောက်ခွင့်ပြုခြင်း
@@ -1778,6 +1904,7 @@ my:
       kpi: Pulse/KPIs
       lookup: ရှာဖွေခြင်းများ
       manage: စီမံခန့်ခွဲသည်
+      mark_for_offline: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
       matching_configuration: စီစဉ်ဖွဲ့စည်းမှု ကိုက်ညှိခြင်း
       metadata: ပုံစံများ၊ ရှာဖွေခြင်း
       potential_match: အလားအလာရှိသည့် ကိုက်ညီမှု
@@ -1788,15 +1915,17 @@ my:
       receive_transfer: လွှဲပြောင်းမှုကို လက်ခံရရှိသည်
       referral: လွှဲပြောင်းညွန်းပို့ခြင်း
       referral_from_service: ဝန်ဆောင်မှုပုံစံမှ  လွှဲပြောင်းညွန်းပို့သည့်ဖြစ်ရပ်
+      registry_record: မှတ်ပုံတင်
       remove_assigned_users: အခြားသတ်မှတ်ထားသောအသုံးပြုသူများအားဖယ်ရှားပါ (လွှဲပြောင်းညွန်းပို့ခြင်းများ)
       reopen: ပြန်လည်ဖွင့်လှစ်သည်
       report: အစီရင်ခံစာ
+      managed_report: ထိုးထွင်းသိမြင်ခြင်း
       request_approval: ခွင့်ပြုချက်တောင်းခံမှု
-      request_approval_action_plan: အတည်ပြုချက်ကိုတောင်းခံခြင်း
-      request_approval_assessment: အတည်ပြုချက်ကိုတောင်းခံခြင်း
-      request_approval_case_plan: အတည်ပြုချက်ကိုတောင်းခံခြင်း
-      request_approval_closure: အတည်ပြုချက်ကိုတောင်းခံခြင်း
-      request_approval_gbv_closure: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+      request_approval_action_plan: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
+      request_approval_assessment: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
+      request_approval_case_plan: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
+      request_approval_closure: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
+      request_approval_gbv_closure: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
       request_transfer: လွှဲပြောင်းရန် တောင်းဆိုခြင်း
       role: အခန်းကဏ္ဍ
       save_search: ရှာဖွေကြည့်ရှုမှုများကို မှတ်သားထားသည်။
@@ -1807,7 +1936,7 @@ my:
       services_section_from_case: ဝန်ဆောင်မှုပေးခြင်းကို အခြားသုံးစွဲသူ၏ဖြစ်ရပ်တွင်ဖြည့်ပါ
       specific_roles: သတ်မှတ်ထားသောအခန်းကဏ္ဍများ၏စာရင်းကိုရယူပါ
       sync_external: ပြင်ပအချက်အလက်စီမံခန့်ခွဲမှုစနစ်နှင့် ထပ်တူပြုပါ။
-      sync_mobile: လက်ကိုင်ဖုန်းနှင့် Sync ပြုလုပ်ခြင်း
+      sync_mobile: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
       system: စနစ်
       tracing_request: ခြေရာခံရန် တောင်းဆိုမှုများ
       transfer: လွှဲပြောင်းခြင်း
@@ -1822,7 +1951,7 @@ my:
       workflow: လုပ်ငန်းဆောင်ရွက်မှုလမ်းကြောင်း - ဖြစ်ရပ်လုပ်ငန်းများ တစ်ခုစီ
       workflow_team: လုပ်ငန်းဆောင်ရွက်မှုလမ်းကြောင်း - အဖွဲ့ဖြစ်ရပ်များ
       write: ရေးသားခြင်း
-      activity_log: ""
+      activity_log: ဆောင်ရွက်မှုမှတ်တမ်း
     resource:
       kpi:
         actions:
@@ -1839,7 +1968,7 @@ my:
             explanation: အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ပံ့ပိုးမှုပေးဆဲ ဖြစ်ရပ်များအတွက်၊ ပျမ်းမျှအားဖြင့် ပြီးမြောက်သော ဖြစ်ရပ်ဆန်းစစ်ခြင်းအစီအစဉ် အချိုးအစားကို သိမြင်နိုင်ပါသည်။
             label: ပျမ်းမျှ လွှဲပြောင်းညွှန်းပို့မှုများ
           kpi_case_closure_rate:
-            explanation: တစ်လလျှင် ဆိုက်တစ်ခုစီတွင် ဖြစ်ရပ်ပေါင်းမည်မျှ ပိတ်ထားသည်ကို ကြည့်ရှုနိုင်သည်။
+            explanation: တစ်လလျှင် နေရာ/ဆိုက်တစ်ခုစီတွင် ဖြစ်ရပ်ပေါင်းမည်မျှ ပိတ်ထားသည်ကို ကြည့်ရှုနိုင်သည်။
             label: ဖြစ်ရပ်ပိတ်သိမ်းမှု အရေအတွက်
           kpi_case_load:
             explanation: ဖြစ်ရပ်လုပ်သားတစ်ဦးစီတွင် ပျမ်းမျှဖွင့်ထားသော ဖြစ်ရပ်အရေအတွက်ကို ကြည့်ရှုနိုင်မှု။
@@ -1860,7 +1989,7 @@ my:
             explanation: အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့်ကိစ္စများအတွက် လိုအပ်ချက်အမျိုးအစားတစ်ခုစီရှိ ရည်မှန်းချက် ပန်းတိုင်များ၏ ရာခိုင်နှုန်းမည်မျှပြည့်မှီသည်ကို မြင်တွေ့နိုင်မည်ဖြစ်သည်။
             label: မျှော်မှန်းချက်ပန်းတိုင်များပြည့်မှီစေရန် တိုးတက်မှု
           kpi_number_of_cases:
-            explanation: ဆိုက်တစ်ခုတွင် တစ်လလျှင် အသစ်အစီရင်ခံထားသော ဖြစ်ရပ်များ မည်မျှဖွင့်လှစ်ထားသည်ကို ကြည့်ရှုနိုင်မှု
+            explanation: နေရာ/ဆိုက်တစ်ခုတွင် တစ်လလျှင် အသစ်အစီရင်ခံထားသော ဖြစ်ရပ်များ မည်မျှဖွင့်လှစ်ထားသည်ကို ကြည့်ရှုနိုင်မှု
             label: ဖြစ်ရပ်များ အရေအတွက်
           kpi_number_of_incidents:
             explanation: ဆိုက်တစ်ခုတွင် တစ်လလျှင် အသစ်အစီရင်ခံထားသော ဖြစ်ရပ်များ မည်မျှဖွင့်လှစ်ထားသည်ကို ကြည့်ရှုနိုင်မှု
@@ -1895,35 +2024,40 @@ my:
           write:
             explanation: အေဂျင်စီများဆိုင်ရာ အချက်အလက်များကို တည်းဖြတ်နိုင်မှု။ ၎င်းသည် စနစ်အတွင်းရှိ အေဂျင်စီအားလုံးနှင့် သက်ဆိုင်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ
             label: ပြင်ဆင်သည်
+        explanation: Primero ကိုအသုံးပြုသော အဖွဲ့ဝင်များပါရှိသော အဖွဲ့အစည်းကို ကိုယ်စားပြုသည်။ အေဂျင်စီများသည် အသုံးပြုသူအုပ်စုများမှ သီးခြားတည်ရှိပါသည်။
         label: အဖွဲ့အစည်း
       audit_log:
         actions:
           read:
-            explanation: အသုံးပြုသူအား လုပ်ဆောင်ချက်အမျိုးအစား၊ မှတ်တမ်း ID နှင့် လုပ်ဆောင်မှုအချိန်တို့ကို ပိုင်းခြား၍ စနစ်အတွင်း လုပ်ဆောင်သည့် လုပ်ဆောင်ချက်အားလုံး၏စာရင်းကို ကြည့်ရှုပြီး စစ်ထုတ်ခွင့်ပြုသည်။၎င်းသည် စနစ်အတွင်းရှိ အသုံးပြုသူအားလုံး၏ လုပ်ဆောင်ချက်များကို ပြသထားသောကြောင့် နိုင်ငံအဆင့် သို့မဟုတ် အေဂျင်စီအဆင့် စီမံခန့်ခွဲသူများအတွက် အသင့်တော်ဆုံးဖြစ်သည်။ စာရင်းစစ်မှတ်တမ်းတွင် လုပ်ဆောင်ချက်တစ်ခုစီတွင်ပါ၀င်သော မှတ်တမ်းများအကြောင်း ပုဂ္ဂိုလ်ရေးအရ ခွဲခြားသိမြင်နိုင်သော အချက်အလက်များကို မပြသကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။
+            explanation: အသုံးပြုသူအား လုပ်ဆောင်ချက်အမျိုးအစား၊ မှတ်တမ်း ID နှင့် လုပ်ဆောင်မှုအချိန်တို့ကို ပိုင်းခြား၍ စနစ်အတွင်း လုပ်ဆောင်ချက်အားလုံး၏စာရင်းကို ကြည့်ရှုပြီး စစ်ထုတ်ခွင့်ပြုသည်။၎င်းသည် စနစ်အတွင်းရှိ အသုံးပြုသူအားလုံး၏ လုပ်ဆောင်ချက်များကို ပြသထားသောကြောင့် နိုင်ငံအဆင့် သို့မဟုတ် အေဂျင်စီအဆင့် စီမံခန့်ခွဲသူများအတွက် အသင့်တော်ဆုံးဖြစ်သည်။ စာရင်းစစ်မှတ်တမ်းတွင် လုပ်ဆောင်ချက်တစ်ခုစီတွင်ပါ၀င်သော မှတ်တမ်းများအကြောင်း ပုဂ္ဂိုလ်ရေးအရ ခွဲခြားသိမြင်နိုင်သော အချက်အလက်များကို မပြသကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။
             label: ကြည့်ရန်
+        explanation: စနစ်တွင် လုပ်ဆောင်သမျှ လုပ်ဆောင်ချက်အားလုံးကို စစ်ထုတ်နိုင်သောစာရင်း။ ဖြစ်ရပ်များ၊ ဖြစ်စဉ်များ၊ သို့မဟုတ် ခြေရာခံခြင်း တောင်းဆိုချက်များတွင် ဖော်ထုတ်နိုင်သော အချက်အလက် မပါဝင်ပါ။
         label: စားရင်စစ်မှတ်တမ်း
       case:
         actions:
           add_note:
             explanation: အသုံးပြုသူတစ်ဦးအား "မှတ်စုများ" ဖောင်ပုံစံခွဲသို့ ထည့်သွင်းရန် ခွင့်ပြုသည် (တစ်ခါတစ်ရံ "မှတ်ချက်များ" ဟုလည်း ခေါ်သည်)။ အသုံးပြုသူသည် case show page ရှိ "Add Notes" ခလုတ်ကို နှိပ်ခြင်းဖြင့် ၎င်းကို ပြုလုပ်ပါသည်။ ဤလုပ်ဆောင်ချက်သည် ဖြစ်ရပ်များကို တည်းဖြတ်နိုင်စွမ်းမရှိသော မန်နေဂျာများအတွက် အထူးအသုံးဝင်သည်၊ သို့သော် အမှုတွဲအလုပ်သမားအတွက် ဖြစ်ရပ်တစ်ခုသို့ သတိပေးချက်များကို ထည့်လိုပါသည်။ဤနည်းအားဖြင့်၊ မှတ်စုတစ်ခုထည့်ခြင်းသည် အမှတ်အသားထည့်ခြင်းနှင့် ဆင်တူသည်။ မှတ်စုထည့်ခြင်း၏ အားသာချက်မှာ မန်နေဂျာသည် ဖြစ်ရပ်တစ်ခုသို့ မှတ်စုတစ်ခုထည့်သောအခါ၊ ဖြစ်ရပ်လုပ်သားသည် ၎င်းတို့၏မိုဘိုင်းစက်ပစ္စည်းပေါ်ရှိ အမှုအား ကြည့်ရှုသည့်အခါတွင် အကြောင်းကြားချက်တစ်ခု ပေါ်လာမည်ဖြစ်သည်။
             label: ဖြစ်ရပ်တစ်ခုသို့ မှတ်စုများထည့်ပါ။
+          add_registry_record:
+            explanation: အသုံးပြုသူတစ်ဦးအား မှတ်ပုံတင်ခြင်းအသေးစိတ်ပုံစံမှ ဖြစ်ရပ်တစ်ခုသို့ မှတ်ပုံတင်ရန် လင့်ခ်လုပ်ခွင့်ပြုသည်။ အသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ် နှင့်ချိတ်ဆက်ထားပြီးဖြစ်သော မှတ်ပုံတင်ခြင်းကို လင့်ခ်ဖြုတ်ရန်လည်း ခွင့်ပြုပါသည်။
+            label: ဖြစ်ရပ်မှ မှတ်ပုံတင်မှတ်တမ်းကို ထည့်/မွမ်းမံပါ။
           approve_action_plan:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "%{approval_label}အတည်ပြုသည်"
           approve_assessment:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "ဖောင်ပုံစံကို %{approval_label}အတည်ပြုသည်"
           approve_bia:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "ပုံစံကို %{approval_label}အတည်ပြုသည်"
           approve_case_plan:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "အတည်ပြုသည်%{approval_label}"
           approve_closure:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "ဖောင်%{approval_label}ပုံစံကို အတည်ပြုသည်"
           approve_gbv_closure:
-            explanation: မန်နေဂျာတစ်ဦးအား ၎င်းတို့၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် ခွင့်ပြုသည်။
+            explanation: "မန်နေဂျာတစ်ဦးအား ၎င်း၏ ဖြစ်ရပ်လုပ်သားများ၏ ဖြစ်ရပ်များအတွက် အတည်ပြုရန် %{approval_label}ခွင့်ပြုသည်။"
             label: "ဖောင်ပုံစံကို%{approval_label} အတည်ပြုသည်"
           assign:
             explanation: "အသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်မူရင်းမှတ်တမ်းပိုင်ရှင်မှ စနစ်ရှိ အခြားအသုံးပြုသူထံသို့ ဖြစ်ရပ်တစ်ခုပေးပို့ခွင့်ပြုသည်။ ဤလုပ်ဆောင်ချက်အတွက် ကလေး၏ ခွင့်ပြုချက် မလိုအပ်ပါ။ လွှဲပြောင်းမှုများနှင့်မတူဘဲ၊ လက်ခံသူသည် အဆိုပါတာဝန်ကို လက်ခံရန် သို့မဟုတ် ငြင်းပယ်ရန် အခွင့်အရေး မရှိပါ။ "
@@ -1939,7 +2073,7 @@ my:
             label: အမှတ်တံဆိပ် လိုဂိုအား ပြောင်းလဲမည်။
           close:
             explanation: အသုံးပြုသူတစ်ဦးအား ဖွင့်ထားသောဖြစ်ရပ်အား ပိတ်သိမ်းခြင်းအခြေအနေသို့  ပြောင်းလဲ သတ်မှတ်ခွင့်ပြုသည်။
-            label: ပိတ်မည်
+            label: စာရင်းပိတ်
           consent_override:
             explanation: သဘောတူညီချက်မရရှိသည့်ဖြစ်ရပ်အတွက် ညွှန်းပို့လွှဲအပ်မှု သို့မဟုတ် လွှဲပြောင်းမှုပြုလုပ်ရန် အသုံးပြုသူကို ခွင့်ပြုသည်။
             label: "ညွှန်းပိုခြင်း သို့မဟုတ် လွှဲပြောင်းသည့်အခါ သဘောတူညီချက်မရှိခြင်းကို အစားထိုးပါ။ "
@@ -1954,33 +2088,33 @@ my:
             label: "အသုံးပြုနိုင်အောင်ဖွင့်ပါ / အသုံးမပြုနိုင်အောင်ပိတ်ပါ "
           export_case_pdf:
             explanation: အသုံးပြုသူသည် စာရင်း သို့မဟုတ် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ PDF ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ PDF ထုတ်ယူခြင်းဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းစီကို ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
-            label: pdf ကိုexport လုပ်ပါ
+            label: pdf ကိုexport သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_csv:
             explanation: 'အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ CSV ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ မှတ်ချက်- CSV ထုတ်ယူမှုသည် လက်တင်မဟုတ်သော အက္ခရာများ (ဥပမာ အာရဗီ၊ ဘင်္ဂလာ) ကို ဖတ်နိုင်သော format ဖြင့် မဖော်ပြပါ။ '
             label: CSV ကို ထုတ်ယူပါ။
           export_custom:
             explanation: "အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ် ဖြစ်ပွားမှုပြသသည့် စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းတွင် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် စိတ်ကြိုက်ဖောင်ပုံစံများ သို့မဟုတ် field များ၊တစ်ခု၊ မျိုးစုံ သို့မဟုတ် ဖြစ်ရပ်အားလုံး ပါရှိပါသည်။၊ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ Custom Export modal ကို အသုံးပြု၍ ထုတ်ယူမှုတွင် ထည့်သွင်းလိုသော ဖောင် သို့မဟုတ် အကွက်များကို အသုံးပြုသူက ရွေးချယ်နိုင်သည်။ အသုံးပြုသူများသည် အပလီကေးရှင်းရှိ ဖြစ်ရပ်ကိုကြည့်ရှုသည့်အခါ အဆိုပါပုံစံများနှင့် အကွက်များကို မြင်နိုင်စွမ်းရှိပြီးသားဖြစ်မှသာ ထုတ်ယူမှုတွင် ဖောင်နှင့်အကွက်များ ထည့်သွင်းနိုင်သည်ကို သတိပြုပါ။ "
-            label: custom export လုပ်ပါ
+            label: custom export စိတ်ကြိုက်ရွေးချယ်ထားသောသတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_duplicate_id_csv:
             explanation: တူညီသောနိုင်ငံသားစီစစ်ရေးfield ပါရှိသော ဖြစ်ရပ်များ၏ CSV export ကို ဖန်တီးပါ (configuration အပေါ်မူတည်၍ မတူညီသော အညွှန်းတစ်ခုရှိနိုင်သည်)။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
             label: ထပ်တူဖြစ်နေမှုများကို ထုတ်ယူပါ။
           export_json:
             explanation: အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ JSON ဖိုင်ကို export လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ ဤ export ကို လက်ရှိ Primero စနစ်မှ ဖြစ်ရပ်များကို export လုပ်လိုပြီး ၎င်းတို့ကို မတူညီသော Primero စနစ်သို့ import လုပ်လိုသူများအတွက် သို့မဟုတ် အခြားသော သတင်းအချက်အလက် စီမံခန့်ခွဲမှုစနစ်သို့ import လုပ်လိုသူများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ JSON format သည် စက်ဖြင့်ဖတ်နိုင်သော်လည်း အသုံးပြုသူအများစုအတွက် လက်တွေ့မကျပါ။
-            label: json ကို export လုပ်ပါ
+            label: json ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_list_view_csv:
             explanation: အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်းတွင် ထိုအသုံးပြုသူအတွက် ပေါ်လာသည့် တူညီသော fields များပါရှိသော ဖြစ်ရပ်စာရင်းစာမျက်နှာမှ CSV ဖိုင်ထုတ်ယူမှုကို ဖန်တီးနိုင်သည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
-            label: စာရင်းကို CSV ပုံစံကြည့်ရန် export လုပ်ပါ။
+            label: စာရင်းကို CSV ပုံစံကြည့်ရန် export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ။
           export_pdf:
-            explanation: အသုံးပြုသူသည် စာရင်း သို့မဟုတ် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ PDF ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ PDF ထုတ်ယူခြင်းဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းစီကို ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
-            label: pdf ကိုexport လုပ်ပါ
+            explanation: အသုံးပြုသူသည် စာရင်း သို့မဟုတ် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ PDF ဖိုင်ကို ထုတ်လွှယူနိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ PDF ထုတ်ယူခြင်းဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းစီကို ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
+            label: pdf ကိုexportထုတ်ယူပါ
           export_photowall:
-            explanation: အသုံးပြုသူအား ရွေးချယ်ထားသော ဖြစ်ရပ်အားလုံး၏ ဓာတ်ပုံများပါရှိသော ဖြစ်ရပ်စာရင်းစာမျက်နှာမှ ဖိုင်တစ်ခုကို တင်ပို့ခွင့်ပြုသည်။ ဤ export ကို မိသားစုခြေရာခံခြင်းနှင့် ပြန်လည်ပေါင်းစည်းခြင်းလုပ်ငန်းများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
-            label: ဓါတ်ပုံနံရံကို Export လုပ်ပါ
+            explanation: အသုံးပြုသူအား ရွေးချယ်ထားသော ဖြစ်ရပ်အားလုံး၏ ဓာတ်ပုံများပါရှိသော ဖြစ်ရပ်စာရင်းစာမျက်နှာမှ ဖိုင်တစ်ခုကို တင်ပို့ခွင့်ပြုသည်။ ဤ export သတင်းအချက်အလက်ထုတ်ယူခြင်းကို မိသားစုခြေရာခံခြင်းနှင့် ပြန်လည်ပေါင်းစည်းခြင်းလုပ်ငန်းများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
+            label: ဓါတ်ပုံနံရံကို Export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_unhcr_csv:
-            label: UNHCR CSV ကိုexport လုပ်ပါ
+            label: UNHCR CSV ကိုexport သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_xls:
             explanation: 'အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ ထုတ်ယူနိုင်သော XLS ဖိုင်ကို ထုတ်လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ မှတ်ချက်-XLS ဖော်မတ်သည် လက်တင်မဟုတ်သော အက္ခရာများ (ဥပမာ အာရဗီ၊ ဘင်္ဂလာ) ကို ဖတ်နိုင်သော ဖော်မတ်ဖြင့် ပြန်ဆိုသော်လည်း CSV ထုတ်ယူမှု မပြုလုပ်ပါ။'
-            label: Excel ( xls ဖိုင် ) ကို export လုပ်ပါ
+            label: Excel ( xls ဖိုင် ) ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           find_tracing_match:
             explanation: Family Tracing နှင့် ပြန်လည်ပေါင်းစည်းရေး လုပ်ဆောင်ချက်တို့ပါရှိသည့် အကြောင်းအရာများအတွက် သီးသန့်အသုံးပြုသည်။ ဤခွင့်ပြုချက်ဖြင့် အသုံးပြုသူများသည် ဖြစ်ရပ်ဖော်ပြ စာမျက်နှာရှိ "ခြေရာခံကိုက်ညီမှုကို ရှာဖွေရန်" ခလုတ်ကို တွေ့ရပါမည်။ ၎င်းကို နှိပ်လိုက်သောအခါ၊ ၎င်းတို့သည် ၎င်းတို့၏ ဖြစ်ရပ်အတွက် ဖြစ်နိုင်ချေရှိသော ကိုက်ညီမှုရှိသော စနစ်ရှိ ခြေရာခံတောင်းဆိုမှုစာရင်းကို ရောက်ရှိမည်ဖြစ်သည်။
             label: ဖြစ်ရပ်မှ ကိုက်ညီသည့် ခြေရာခံမှု ရှာဖွေပါ
@@ -1991,28 +2125,28 @@ my:
             explanation: အသုံးပြုသူကို CSV၊ Excel သို့မဟုတ် JSON ဖိုင်မှ import သွင်းခြင်းဖြင့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်အသစ်များကို ဖန်တီးခွင့်ပြုသည်။ အချက်အလက်များကို မှန်ကန်စွာ တင်သွင်းနိုင်ရန် အတွက် တင်သွင်းထားသော ဖိုင်ကို *very* အထူးပြုလုပ်ထားသည့် format ဖြင့်လုပ်ရပါမည်။ အဆင့်မြင့်နည်းပညာဆိုင်ရာ ကျွမ်းကျင်မှုများနှင့် Primero တွင် ဒေတာကို ဖော်မတ်ချထားပုံနှင့်ပတ်သက်သော နက်နက်နဲနဲ သိရှိသော စီမံခန့်ခွဲရေးအသုံးပြုသူများအတွက်သာ ဤလုပ်ဆောင်ချက်ကို ရရှိသင့်ပါသည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
             label: တင်သွင်းခြင်း
           incident_details_from_case:
-            explanation: "ရှာဖွေမှုရလဒ်များတွင် သင်တွေ့ရှိထားသော ဖြစ်ရပ်တစ်ခုရှိ Incident Details ပုံစံခွဲအတွက် ထည့်သွင်းနိုင်သော်လည်း သင်ဝင်ရောက်ခွင့်မရှိပါ။ အသုံးပြုသူသည် ဖြစ်ရပ်တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်များကို ရွေးချယ်ခြင်းဖြင့် ရှာဖွေမှုရလဒ်စာမျက်နှာမှ လုပ်ဆောင်ချက်ကို လုပ်ဆောင်ပြီး လုပ်ဆောင်ချက်မီနူးမှ \"ဖြစ်ရပ်ကို ထည့်ပါ\" ကို ရွေးချယ်ရပါမည်။ ထို့နောက် အသုံးပြုသူသည် ဝန်ဆောင်မှုတစ်ခုနှင့်ပတ်သက်သော အချက်အလက်များကို ထည့်သွင်းနိုင်ပြီး တင်သွင်းနိုင်သည့် Incident Details အမျိုးအစားခွဲတွင် ကွက်လပ်အားလုံးပါရှိသော ပုံစံတစ်ခုကို တွေ့ပါမည်။ ဤလုပ်ဆောင်ချက်သည် ရှာဖွေမှုရလဒ်စာမျက်နှာတွင်သာ လုပ်ဆောင်နိုင်သောကြောင့်  \"အခြားအသုံးပြုသူများပိုင်ဆိုင်သည့် ဖြစ်ရပ်မှတ်တမ်းများကို ရှာဖွေရန်\" ခွင့်ပြုချက်ရရှိပြီးဖြစ်သင့်သည်။ "
+            explanation: "ရှာဖွေမှုရလဒ်များတွင် သင်တွေ့ရှိထားသော ဖြစ်ရပ်တစ်ခုရှိ Incident Details ပုံစံခွဲအတွက် ထည့်သွင်းနိုင်သော်လည်း သင်ဝင်ရောက်ခွင့်မရှိပါ။ အသုံးပြုသူသည် ဖြစ်ရပ်တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်များကို ရွေးချယ်ခြင်းဖြင့် ရှာဖွေမှုရလဒ်စာမျက်နှာမှ လုပ်ဆောင်ချက်ကို လုပ်ဆောင်ပြီး ၎င်း၏မီနူးမှ \"ဖြစ်ရပ်ကို ထည့်ပါ\" ကို ရွေးချယ်ရပါမည်။ ထို့နောက် အသုံးပြုသူသည် ဝန်ဆောင်မှုတစ်ခုနှင့်ပတ်သက်သော အချက်အလက်များကို ထည့်သွင်းနိုင်ပြီး တင်သွင်းနိုင်သည့် Incident Details အမျိုးအစားခွဲတွင် ကွက်လပ်အားလုံးပါရှိသော ပုံစံတစ်ခုကို တွေ့ပါမည်။ ဤပြုလုပ်မှုသည် ရှာဖွေမှုရလဒ်စာမျက်နှာတွင်သာ လုပ်ဆောင်နိုင်သောကြောင့်  \"အခြားအသုံးပြုသူများပိုင်ဆိုင်သည့် ဖြစ်ရပ်မှတ်တမ်းများကို ရှာဖွေရန်\" ခွင့်ပြုချက်ရရှိပြီးဖြစ်သင့်သည်။ "
             label: ရှာဖွေမှုရလဒ်များစာမျက်နှာမှ အခြားအသုံးပြုသူ၏ဖြစ်ရပ်တွင် ဖြစ်စဉ်အသေးစိတ်အချက်အလက်များကို ထည့်ပါ။
           incident_from_case:
             explanation: "ဤခွင့်ပြုချက်သည် သုံးစွဲသူအား \"ဖြစ်ရပ်ဖန်တီးရန်\" ခလုတ်ကို နှိပ်ရန် ခွင့်ပြုသည်။ ၎င်းတွင် ဖြစ်ရပ်မှကူးယူထားသော အချက်အလက်အချို့ပါ၀င်သည့် အဖြစ်အပျက်တစ်ခု ပါဝင်သည်။ GBV ကျား/မရေးရာ အခြေပြု မတော်မတရားပြုမူမှု ဖြစ်ရပ်များအတွက် ခလုတ်သည် ပြခန်းစာမျက်နှာ၏ထိပ်တွင်ရှိပြီး ဖြစ်ရပ်တစ်ခုလုံးနှင့်ပတ်သက်သည့် အချက်အလက်များနှင့် သက်ဆိုင်ပါသည်။ အချို့သော အဖြစ်အပျက်ကို ခြေရာခံသည့် အခြေအနေများတွင်၊ ဤခလုတ်သည် \"ဖြစ်ရပ်အသေးစိတ်များ\" ပုံစံခွဲပေါ်တွင် ရှိနေသည်။ ဤအခြေအနေတွင်၊ ခလုတ်ကိုနှိပ်လိုက်သည့် အဖြစ်အပျက်အသေးစိတ်ပုံစံခွဲမှ အချက်အလက်အချို့ကို ဖြစ်ရပ်တစ်ခုလုံးမှ ကူးယူနိုင်ပါသည်။ ဉပမာ။ ။ အဖြစ်အပျက်အသစ်တွင် တစ်ဦးချင်းဖြစ်ရပ်အသေးစိတ်ပုံစံခွဲမှ \"အကြမ်းဖက်မှုအမျိုးအစား\" အကွက်ပါဝင်ပြီး ဖြစ်ရပ်၏အသက်နှင့် လိင်အမျိုးအစားလည်း ပါဝင်ပါသည်။ မှတ်ချက်။ ။ အသုံးပြုသူအား ဖန်တီးခဲ့သည့်လင့်ခ်တွင် အဖြစ်အပျက် ကြည့်ရှုနိုင်စေပါသည်။ "
             label: ဖြစ်ရပ်တစ်ခုမှ ဖြစ်စဉ်တစ်ခုကို စတင်ပြုလုပ်ပါ
           manage:
-            explanation: အသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်များတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "အရာရာ" ကို ဆိုလိုသည်။
+            explanation: အသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်များတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံ" ကို ဆိုလိုသည်။
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
           read:
             explanation: ဖြစ်ရပ်တစ်ခုကို ကြည့်ရှုနိုင်မှု
             label: ကြည့်ရန်
           receive_referral:
-            explanation: အသုံးပြုသူတစ်ဦးအား ညွှန်းပို့လွဲအပ်မှုတစ်ခုလက်ခံခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ညွှန်းပို့လွှဲပြောင်းဆောင်ရွက်ချက်၏ ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ဤခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
+            explanation: အသုံးပြုသူတစ်ဦးအား ညွှန်းပို့လွဲအပ်မှုတစ်ခုလက်ခံခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ညွှန်းပို့လွှဲပြောင်းဆောင်ရွက်ချက်၏ ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ ခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
             label: ညွှန်းပို့လွှဲအပ်မူကို လက်ခံရရှိသည်
           receive_referral_different_module:
-            explanation: အသုံးပြုသူတစ်ဦးအားမတူညီသော Primero မော်ဂျူးတွင် ဖန်တီးထားသည့် မှတ်တမ်းတစ်ခု၏ ညွန်းပို့လွဲပြောင်းမှုကို လက်ခံရယူရန် ခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ထိုမှတ်တမ်းအတွက် ညွှန်းပို့လွှဲပြောင်းဆောင်ရွက်ချက် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ဤခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
+            explanation: အသုံးပြုသူတစ်ဦးအားမတူညီသော Primero မော်ဂျူးတွင် ဖန်တီးထားသည့် မှတ်တမ်းတစ်ခု၏ ညွန်းပို့လွဲပြောင်းမှုကို လက်ခံရယူရန် ခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ထိုမှတ်တမ်းအတွက် ညွှန်းပို့လွှဲပြောင်းဆောင်ရွက်ချက် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ ခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
             label: မတူညီသော မော်ဂျူးတစ်ခုရှိ အသုံးပြုသူတစ်ဦးထံမှ ညွှန်းပို့လွှဲအပ်မူကို လက်ခံပါ။
           receive_transfer:
-            explanation: အသုံးပြုသူတစ်ဦးအား လွဲပြောင်းမှုတစ်ခုလက်ခံခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် လွှဲပြောင်းဆောင်ရွက်မှု၏ ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ဤခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
+            explanation: အသုံးပြုသူတစ်ဦးအား လွဲပြောင်းမှုတစ်ခုလက်ခံခွင့်ပြုသည်။ တစ်စုံတစ်ဦးသည် လွှဲပြောင်းမှုပုံစံတွင် လက်ခံသူအား ရှာဖွေနေချိန်တွင် ခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် လွှဲပြောင်းဆောင်ရွက်မှု၏ ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာပြီး ၊ခွင့်ပြုချက်မရှိသော အသုံးပြုသူများသည် ဖြစ်နိုင်ချေရှိသော လက်ခံသူများအဖြစ် ပေါ်လာလိမ့်မည်မဟုတ်ပေ။
             label: လွှဲပြောင်းမှုကို လက်ခံရရှိသည်
           referral:
-            explanation: အသုံးပြုသူတစ်ဦးသည် အခြားအသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်တစ်ခုအား ယာယီဝင်ရောက်ခွင့်ပေးရန် ခွင့်ပြုသည်။ လွှဲပြောင်းပေးမှုကို လက်ခံသူသည် ၎င်းတို့၏ ဖြစ်ရပ်များကို လုပ်ဆောင်နိုင်သည့်အတွက် ရည်ညွှန်းထားသော ဖြစ်ရပ်အပေါ် တွင်လည်း တူညီသော လုပ်ဆောင်မှုများအားလုံးကို ဆောင်ရွက်နိုင်မည်ဖြစ်သည်။ လက်ခံသူသည် ဖြစ်ရပ်အား ဝင်ရောက်ကြည့်ရှုရန် မလိုအပ်တော့သည့်အခါ၊ ညွှန်းပို့လွှဲအပ်မှုများနှင့် လွှဲပြောင်းမှုပုံစံခွဲရှိ "ပြီးပြီ" ခလုတ်ကို နှိပ်နိုင်ပြီး ဖြစ်ရပ်တွင် ဝင်ရောက်သုံးစွဲခွင့် ဆုံးရှုံးမည်ဖြစ်သည်။ လွှဲပြောင်းပေးပို့မှုများကို လက်ခံနိုင်စွမ်းရှိသည့် အခန်းကဏ္ဍရှိသော အသုံးပြုသူတစ်ဦးထံသို့သာ ဖြစ်ရပ်တစ်ခုကို သင် လွဲပြောင်းနိုင်ပါသည်။
+            explanation: အသုံးပြုသူတစ်ဦးသည် အခြားအသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်တစ်ခုအား ယာယီဝင်ရောက်ခွင့်ပေးရန် ခွင့်ပြုသည်။ လွှဲပြောင်းပေးမှုကို လက်ခံသူသည် ၎င်းတို့၏ ဖြစ်ရပ်များကို လုပ်ဆောင်နိုင်သည့်အတွက် ရည်ညွှန်းထားသော ဖြစ်ရပ်အပေါ် တွင်လည်း တူညီသော လုပ်ဆောင်မှုများအားလုံးကို ဆောင်ရွက်နိုင်မည်ဖြစ်သည်။ လက်ခံသူသည် ဖြစ်ရပ်အား ဝင်ရောက်ကြည့်ရှုရန် မလိုအပ်တော့သည့်အခါ၊ ညွှန်းပို့လွှဲအပ်မှုများနှင့် လွှဲပြောင်းမှုပုံစံခွဲရှိ "ပြီးပြီ" ခလုတ်ကို နှိပ်နိုင်ပြီး ဖြစ်ရပ်တွင် ဝင်ရောက်သုံးစွဲခွင့် ထပ်မံ မရရှိနိုင်တော့ပါ။ လွှဲပြောင်းပေးပို့မှုများကို လက်ခံနိုင်စွမ်းရှိသည့် အခန်းကဏ္ဍရှိသော အသုံးပြုသူတစ်ဦးထံသို့သာ ဖြစ်ရပ်တစ်ခုကို သင် လွဲပြောင်းနိုင်ပါသည်။
             label: ညွှန်းပို့လွှဲအပ်မှု
           referral_from_service:
             explanation: ဝန်ဆောင်မှုဖောင်ပုံစံခွဲတွင် အသုံးပြုသူကို "လွှဲအပ်" ခလုတ်ကို ကြည့်ရှုခွင့်ပြုသည်။ အသုံးပြုသူသည် ဤခလုတ်ကို နှိပ်သောအခါ၊ ဝန်ဆောင်မှုအမျိုးအစား၊ အေဂျင်စီ၊ ဝန်ဆောင်မှုပေးသူနှင့် တည်နေရာအကွက်များကို ပိတ်ထားခြင်းဖြင့် လွှဲပြောင်းမှုပုံစံပေါ်လာမည်ဖြစ်ပြီး၊ သို့သော် သုံးစွဲသူက လွှဲအပ်သည့်ခလုတ်ကိုနှိပ်ပြီးသည့်အခါ ဝန်ဆောင်မှုပုံစံခွဲအတွင်းရှိ အဆိုပါကွက်လပ်များအတွက် အချက်အလက်များကို အလိုအလျောက်ဖြည့်ပေးမည်ဖြစ်သည်။
@@ -2024,44 +2158,44 @@ my:
             explanation: အသုံးပြုသူတစ်ဦးအား လက်ရှိပိတ်ထားသည့် ဖြစ်ရပ်ကို ဖွင့်လှစ် ခွင့်ပြုသည်။
             label: ပြန်လည်ဖွင့်လှစ်သည်
           request_approval_action_plan:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_approval_assessment:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_approval_bia:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_approval_case_plan:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_approval_closure:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_approval_gbv_closure:
-            explanation: အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။
-            label: အတည်ပြုချက်ကိုတောင်းခံခြင်း
+            explanation: "အသုံးပြုသူတစ်ဦး (များသောအားဖြင့် ဖြစ်ရပ်လုပ်သားတစ်ဦး) အား ၎င်းတို့၏မန်နေဂျာမှ ၎င်းတို့၏ ဖြစ်ရပ်များ%{approval_label}ကို အတည်ပြုရန် တောင်းဆိုခွင့်ပြုသည်။"
+            label: "%{approval_label}အတည်ပြုချက်ကိုတောင်းခံခြင်း"
           request_transfer:
-            explanation: "\"View Modal\" တွင် \"Request Transfer\" ခလုတ်ကိုပြသပါ။ ခလုတ်သည် သုံးစွဲသူအား ဖြစ်ရပ်၏ လက်ရှိမှတ်တမ်းပိုင်ရှင်ထံ အီးမေးလ်မှတစ်ဆင့် ပုဂ္ဂိုလ်ရေးသီးသန့်မှတ်စုဖြင့် မက်ဆေ့ချ်ပေးပို့ပါမည်၊ မှတ်တမ်းပိုင်ရှင်မှ တောင်းဆိုချက်ကို ပေးပို့သည့်အသုံးပြုသူထံ လွှဲပြောင်းပေးရန် တောင်းဆိုခွင့်ပြုသည်။ ဤအရာသည် ကလေးများ မကြာခဏ အရပ်ဒေသပြောင်းသည့် အခြေအနေမျိုးတွင် အသုံးဝင်ပြီး မိတ္တူပွားမှုမှတ်တမ်းကို ရှောင်ရှားရန်အတွက် ကလေးနှင့်ပတ်သက်သော အချက်အလက်များကို ပေးပို့ရန် ဖြစ်ရပ်လုပ်ငန်းဆောင်ရွက်သူ တစ်ဦးမှ အခြားတစ်ဉီးသို့ ပေးပို့ရာတွင် ထပ်နေမှုကို ရှောင်ရှားနိုင် ပါသည်။ "
+            explanation: "\"View Modal\" တွင် \"Request Transfer\" ခလုတ်ကိုရှာဖွေပါ ။ ခလုတ်သည် သုံးစွဲသူအား ဖြစ်ရပ်၏ လက်ရှိမှတ်တမ်းပိုင်ရှင်ထံ အီးမေးလ်မှတစ်ဆင့် ပုဂ္ဂိုလ်ရေးသီးသန့်မှတ်စုဖြင့် မက်ဆေ့ချ်ပေးပို့ပါမည်၊ မှတ်တမ်းပိုင်ရှင်မှ တောင်းဆိုချက်ကို ပေးပို့သည့်အသုံးပြုသူထံ လွှဲပြောင်းပေးရန် တောင်းဆိုခွင့်ပြုသည်။ ဤအရာသည် ကလေးများ မကြာခဏ အရပ်ဒေသပြောင်းသည့် အခြေအနေမျိုးတွင် အသုံးဝင်ပြီး မိတ္တူပွားမှုမှတ်တမ်းကို ရှောင်ရှားရန်အတွက် ကလေးနှင့်ပတ်သက်သော အချက်အလက်များကို ပေးပို့ရန် ဖြစ်ရပ်လုပ်ငန်းဆောင်ရွက်သူ တစ်ဦးမှ အခြားတစ်ဉီးသို့ ပေးပို့ရာတွင် ထပ်နေမှုကို ရှောင်ရှားနိုင် ပါသည်။ "
             label: လွှဲပြောင်းရန် တောင်းဆိုခြင်း
           search_owned_by_others:
             explanation: အသုံးပြုသူတစ်ဦးအား အများအားဖြင့် ဝင်ရောက်ကြည့်ရှုခွင့်မရှိသည့် မှတ်တမ်းများကို ရှာဖွေခွင့်ပြုသည်၊ ၎င်းတို့သည် ထိုဖြစ်ရပ်၏ မှတ်တမ်းပိုင်ရှင်မဟုတ်သောကြောင့် သို့မဟုတ် (မန်နေဂျာများအတွက်) ၊မှတ်တမ်းပိုင်ရှင်သည် ၎င်းတို့၏အသုံးပြုသူအုပ်စုများတွင် မရှိသောကြောင့် သော်လည်းကောင်းဖြစ်သည်။ အသုံးပြုသူသည် ရှာဖွေမှုရလဒ်များတွင် ဖြစ်ရပ်ကိုမြင်ရသော်လည်း ထိုဖြစ်ရပ်အတွက် case show page သို့ ကလစ်နှိပ်၍မရပါ၊ ဆိုလိုသည်မှာ ဖြစ်ရပ်နှင့်ပတ်သက်သည့်အသေးစိတ်အချက်အလက်များကို ၎င်းတို့မြင်နိုင်မည်မဟုတ်ကြောင်း သတိပြုပါ။
-            label: အခြားအသုံးပြုသူများပိုင်သည့် ဖြစ်ရပ်မှတ်တမ်းများကိုရှာဖွေပါ
+            label: အခြားအသုံးပြုသူများ၏ ဖြစ်ရပ်မှတ်တမ်းများကိုရှာဖွေပါ
           service_provision_incident_details:
-            explanation: Add Incident modal ၏အောက်ခြေတွင် "Save and Add Service Provision" ဟုတံဆိပ်တပ်ထားသောခလုတ်ကိုအသုံးပြုသူကိုမြင်နိုင်ပါသည်။ ဤခလုတ်ကိုနှိပ်ခြင်းဖြင့် ဖြစ်ရပ်နှင့်ပတ်သက်ပြီး လက်ရှိထည့်သွင်းထားသည့် အချက်အလက်ကို သိမ်းဆည်းမည်ဖြစ်ပြီး၊ ထို့နောက် သုံးစွဲသူအား Add Service Provision modal သို့ တိုက်ရိုက်ယူဆောင်သွားမည်ဖြစ်သည်။ ဤလုပ်ဆောင်ချက်သည် Add Incident နှင့် Add Service Provision လုပ်ဆောင်ချက်များနှင့် တိုက်ရိုက်ချိတ်ဆက်ထားသောကြောင့်၊ ထိုအခန်းကဏ္ဍတွင် "Add Incident Details to another user's case" နှင့် "Add Service provision to another user's case" ခွင့်ပြုချက်များပါရှိပါက အဲဒီအခန်းကဏ္ဍတစ်ခုသို့ ဤခွင့်ပြုချက်ကို ပေးရခြင်းသည်သာ အဓိပ္ပာယ်ရှိပေသည်။
+            explanation: Add Incident modal ၏အောက်ခြေတွင် "Save and Add Service Provision" ဟုရေးထားသောခလုတ်ကိုအသုံးပြုသူ တွေ့မြင်နိုင်ပါသည်။ ဤခလုတ်ကိုနှိပ်ခြင်းဖြင့် ဖြစ်ရပ်နှင့်ပတ်သက်ပြီး လက်ရှိထည့်သွင်းထားသည့် အချက်အလက်ကို သိမ်းဆည်းမည်ဖြစ်ပြီး၊ ထို့နောက် သုံးစွဲသူအား Add Service Provision modal သို့ တိုက်ရိုက်ရောက်သွားမည်ဖြစ်သည်။ ဤလုပ်ဆောင်ချက်သည် Add Incident နှင့် Add Service Provision လုပ်ဆောင်ချက်များနှင့် တိုက်ရိုက်ချိတ်ဆက်ထားသောကြောင့်၊ ထိုအခန်းကဏ္ဍတွင် "Add Incident Details to another user's case" နှင့် "Add Service provision to another user's case" ခွင့်ပြုချက်များပါရှိပါက ၎င်းအခန်းကဏ္ဍတစ်ခုသို့  ခွင့်ပြုချက်ကို ပေးရခြင်းသာ ဖြစ်သည်။
             label: ဖြစ်စဉ်အသေးစိတ်ပုံစံတွင် ဝန်ဆောင်မှုပေးခြင်း ခလုပ်ကိုထည့်ပါ
           services_section_from_case:
-            explanation: ရှာဖွေမှုရလဒ်များတွင် သင်တွေ့ရှိထားသော ဖြစ်ရပ်တစ်ခုတွင် ဝန်ဆောင်မှုဖောင်ပုံစံခွဲ ထည့်သွင်းနိုင်သော်လည်း သင်ဝင်ရောက်ခွင့်မရှိပါ။ တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်များကို ရွေးချယ်ခြင်း၊ လုပ်ဆောင်ချက်မီနူးမှ "Add Service Provision" ကို ရွေးချယ်ခြင်းဖြင့် အသုံးပြုသူက ဤလုပ်ဆောင်ချက်ကို ဆောင်ရွက်နိုင်သည်။ ထို့နောက် အသုံးပြုသူသည် ဝန်ဆောင်မှုပုံစံခွဲပုံစံတွင် fields အားလုံးပါ၀င်သည့် ပုံစံတစ်ခုကိုတွေ့မြင်ရပြီး ၎င်းတို့သည် ဝန်ဆောင်မှုတစ်ခုနှင့်ပတ်သက်သည့် အချက်အလက်များကို ထည့်သွင်းပြီး တင်သွင်းနိုင်သည်။ ဤလုပ်ဆောင်ချက်သည် ရှာဖွေမှုရလဒ်စာမျက်နှာမှသာ လုပ်ဆောင်နိုင်သောကြောင့် ၎င်းတို့တွင် "အခြားအသုံးပြုသူများ ပိုင်ဆိုင်သည့် ဖြစ်ရပ်မှတ်တမ်းများကို ရှာဖွေရန်" ခွင့်ပြုချက်ပါရှိမှသာ ဤခွင့်ပြုချက်ရရှိရန် အခန်းကဏ္ဍတစ်ခုအတွက် အဓိပ္ပာယ်ရှိမည်ဖြစ်သည်။
+            explanation: ရှာဖွေမှုရလဒ်များတွင် သင်တွေ့ရှိထားသော ဖြစ်ရပ်တစ်ခု၏ ဝန်ဆောင်မှုဖောင်ပုံစံခွဲ ထည့်သွင်းနိုင်သော်လည်း သင်ဝင်ရောက်ခွင့်မရှိပါ။ တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်များကို ရွေးချယ်ခြင်း၊ လုပ်ဆောင်ချက်မီနူးမှ "Add Service Provision" ကို ရွေးချယ်ခြင်းဖြင့် အသုံးပြုသူက ဤလုပ်ဆောင်ချက်ကို ဆောင်ရွက်နိုင်သည်။ ထို့နောက် အသုံးပြုသူသည် ဝန်ဆောင်မှုပုံစံခွဲပုံစံတွင် fields အားလုံးပါ၀င်သည့် ပုံစံတစ်ခုကိုတွေ့မြင်ရပြီး ၎င်းတို့သည် ဝန်ဆောင်မှုတစ်ခုနှင့်ပတ်သက်သည့် အချက်အလက်များကို ထည့်ကာ တင်သွင်းနိုင်သည်။ ဤလုပ်ဆောင်ချက်သည် ရှာဖွေမှုရလဒ်စာမျက်နှာမှသာ လုပ်ဆောင်နိုင်သောကြောင့် ၎င်းတို့တွင် "အခြားအသုံးပြုသူများ ပိုင်ဆိုင်သည့် ဖြစ်ရပ်မှတ်တမ်းများကို ရှာဖွေရန်" ခွင့်ပြုချက်ပါရှိမှသာ ဤခွင့်ပြုချက်ရရှိရန် အခန်းကဏ္ဍတစ်ခုအတွက် အဓိပ္ပာယ်ရှိမည်ဖြစ်သည်။
             label: ဝန်ဆောင်မှုပေးခြင်းကို အခြားသုံးစွဲသူ၏ဖြစ်ရပ်တွင်ဖြည့်ပါ
           sync_external:
             explanation: ပြင်ပသတင်းအချက်အလက်စီမံခန့်ခွဲမှုစနစ်နှင့် မှတ်တမ်းတစ်ခုကို ထပ်တူပြုနိုင်မှု
             label: ပြင်ပသတင်းအချက်အလက်စီမံခန့်ခွဲမှုစနစ်နှင့် ထပ်တူပြုပါ။
           sync_mobile:
-            explanation: "ယခုခွင့်ပြုချက်သည် ယေဘူယျအားဖြင့် သုံးစွဲသူအား မိုဘိုင်းအက်ပလီကေးရှင်းကို အသုံးပြုခွင့်ပေးခြင်းဖြစ်သည်။ ပထမဦးစွာ၊ ၎င်းသည် အသုံးပြုသူအား အဖြစ်အပျက်စာရင်းနှင့် ဖြစ်ပွားမှုပြသသည့်စာမျက်နှာများတွင် ပေါ်နေသည့် \" မိုဘိုင်း ကို ခြစ်ရန်\" နှင့် \" မိုဘိုင်း ကိုမခြစ်ရန်\" လုပ်ဆောင်ချက်များကို ကြည့်ရှုနိုင်စေပါသည်။ မိုဘိုင်းအတွက် အဖြစ်အပျက်တစ်ခုကို အမှတ်အသားပြုခြင်းသည် အသုံးပြုသူ၏ မိုဘိုင်းစက်ပစ္စည်းနှင့် ဝဘ်အက်ပလီကေးရှင်းကြားတွင် အဖြစ်အပျက်တစ်ခုအား ထပ်တူဖြစ်သင့်သည်၊ မိုဘိုင်းအတွက် အဖြစ်အပျက်တစ်ခုကို အမှတ်အသားပြုခြင်းဖြင့် ထပ်တူပြုခြင်းကို ရပ်တန့်သွားစေသည်။ ဤခွင့်ပြုချက်မရှိဘဲ အသုံးပြုသူများသည် ၎င်းတို့၏မိုဘိုင်းစက်ပစ္စည်းများကို ဝဘ်အက်ပလီကေးရှင်းနှင့် ယေဘုယျအားဖြင့် ထပ်တူပြုလုပ်၍မရပါ၊ ဆိုလိုသည်မှာ အဖြစ်အပျက်များကို စီမံခန့်ခွဲရန် မိုဘိုင်းအက်ပ်ကို အသုံးမပြုနိုင်ပါ။ "
-            label: လက်ကိုင်ဖုန်းနှင့် Sync ပြုလုပ်ခြင်း
+            explanation: အသုံးပြုသူကို အော့ဖ်လိုင်းအသုံးပြုမှုအတွက် ဖြစ်ရပ်များကို ၀ှက်ထားရန် ခွင့်ပြုသည်။
+            label: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
           transfer:
             explanation: "အသုံးပြုသူတစ်ဦးအား လက်ရှိဖြစ်ရပ်မှတ်တမ်းပိုင်ရှင်မှ ညွှန်းပို့မှုများကို လက်ခံနိုင်သည့်စနစ်ဖြင့် ဖြစ်ရပ်ကို ပေးပို့ခွင့်ပြုသည်။ သို့ရာတွင် ညွှန်းပို့လက်ခံသူမှ \"လက်ခံသည်\" တိုင်အောင် ဖြစ်ရပ်၏မှတ်တမ်းပိုင်ရှင်သည် မပြောင်းလဲပါ။ လက်ခံသူက ညွှန်းပို့မှုကို \"ပယ်ချ\" ပါက ဖြစ်ရပ်သို့ ဝင်ရောက်ခွင့်ဆုံးရှုံးသွားမည်ဖြစ်ပြီး မူရင်းမှတ်တမ်းပိုင်ရှင်သာ ဝင်ရောက်ခွင့်ရှိမည်ဖြစ်ပါသည်။ "
-            label: လွှဲပြောင်းမှု
+            label: လွှဲပြောင်း
           view_photo:
             explanation: အသုံးပြုသူတစ်ဦးအား case list view မှ case ၏ ဓာတ်ပုံများကို ကြည့်ရှုခွင့်ပြုသည်။ ဤခွင့်ပြုချက်မရှိဘဲ၊ အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်းဇယား၏ "ဓာတ်ပုံ" ကော်လံ သို့မဟုတ် ထိုနေရာတွင် ပေါ်လာသည့် ဓာတ်ပုံအိုင်ကွန်များကို မမြင်ရပါ။ ဤခွင့်ပြုချက်သည် သုံးစွဲသူအား "View Modal" တွင် ကလေး၏ဓာတ်ပုံများကို မြင်နိုင်စေပါသည်။
             label: ဖြစ်ရပ်စာရင်းမှဓာတ်ပုံကိုကြည့်ပါ။
@@ -2071,48 +2205,55 @@ my:
           view_protection_concerns_filter:
             explanation: အသုံးပြုသူအား ဖြစ်ရပ်စာရင်း စာမျက်နှာတွင် ကာကွယ်ရေးဆိုင်ရာ စိုးရိမ်မှုများ စစ်ထုတ်မှုကို ကြည့်ရှုခွင့်ပြုသည်။
             label: ဖြစ်ရပ်စာရင်းစာမျက်နှာရှိ ကာကွယ်စောင့်ရှောက်ရေးအတွက်စိုးရိမ်ပူပန်မှုများ စစ်ထုတ်မှုကိုကြည့်ပါ
+          view_registry_record:
+            explanation: အသုံးပြုသူတစ်ဦးအား ဖြစ်ရပ်တစ်ခုနှင့် ချိတ်ဆက်ထားသော မှတ်ပုံတင်ခြင်း၏ အချက်အလက်များကို ကြည့်ရှုခွင့်ပြုသည်။ ဖြစ်ရပ် ရှိ မှတ်ပုံတင်ခြင်းအသေးစိတ်ပုံစံကို အသုံးပြုသူအား ကြည့်ရှုနိုင်စေပါသည်။
+            label: ဖြစ်ရပ်မှ မှတ်ပုံတင်မှတ်တမ်းကို ကြည့်ပါ။
           write:
             explanation: " ဖြစ်ရပ်အတွက် အချက်အလက်ကို အပ်ဒိတ်လုပ်ရန်နှင့် \"သိမ်းဆည်းရန်\" အတွက်\"တည်းဖြတ်ရန်\" ခလုတ်ကို နှိပ်ပါ။"
             label: ပြင်ဆင်သည်
           accept_or_reject_transfer:
-            explanation: ""
-            label: ""
+            explanation: သင့်အဖွဲ့တွင်ရှိသော အခြားအသုံးပြုသူတစ်ဦးကိုယ်စား လွှဲပြောင်းမှုကို လက်ခံရန် သို့မဟုတ် ငြင်းပယ်ရန် သုံးစွဲသူအား ခွင့်ပြုပါ (ဥပမာ၊ ကြီးကြပ်သူတစ်ဦးသည် ၎င်းတို့၏ လူမှုရေလုပ်သားထံ ပေးပို့ထားသည့် လွှဲပြောင်းမှုကို လက်ခံခြင်း)။
+            label: သင့်အဖွဲ့ရှိ အခြားအသုံးပြုသူအတွက် လွှဲပြောင်းမှုကို လက်ခံ သို့မဟုတ် ငြင်းပယ်ပါ။
           list_case_names:
-            explanation: ""
-            label: ""
+            explanation: မန်နေဂျာများသည် ဖြစ်ရပ်စာရင်း ရှိ ဖြစ်ရပ် အမည်များကို အများအားဖြင့် မမြင်နိုင်ပါ။ မန်နေဂျာတစ်ဦးတွင် ဤခွင့်ပြုချက်ရှိပါက၊ ၎င်းတို့သည် စာရင်းထဲတွင် အမည်များကို မြင်နိုင်မည်ဖြစ်သည်။
+            label: မန်နေဂျာဖြစ်ပါက ဖြစ်ရပ်စာရင်း တွင် ဖြစ်ရပ် အမည်များကို ကြည့်ရှုနိုင်ပါသည်။
+          mark_for_offline:
+            explanation: အသုံးပြုသူကို အော့ဖ်လိုင်းအသုံးပြုမှုအတွက် ဖြစ်ရပ်တစ်ခုကို ၀ှက်ထားရန် ခွင့်ပြုသည်။
+            label: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
+        explanation: ကလေးတစ်ဦးချင်း၊ အသက်ရှင်ကျန်ရစ်သူ သို့မဟုတ် အခြားအကျိုးခံစားခွင့်ရှိသူကို ကိုယ်စားပြုသည်။
         label: ဖြစ်ရပ်
       dashboard:
         actions:
           approvals_action_plan:
             explanation: ဆိုင်းငံ့ထားသော၊ အတည်ပြုထားသော သို့မဟုတ် ငြင်းပယ်ခံရသည့် လုပ်ဆောင်ချက်အစီအစဉ် အတည်ပြုချက်တောင်းဆိုမှုများဖြင့် လက်ရှိအသုံးပြုသူ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: ဖြစ်ရပ်လုပ်သား အတည်ပြုချက်များ
+            label: "ဖြစ်ရပ်လုပ်သား %{approval_label}အတည်ပြုချက်များ"
           approvals_action_plan_pending:
             explanation: ဆိုင်းငံ့ထားသော လုပ်ငန်းစီအစဥ်အတည်ပြုချက်တောင်းဆိုချက်များပါရှိသော မန်နေဂျာ၏အဖွဲ့ရှိ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: မန်နေဂျာ အတည်ပြုချက်များ
+            label: "မန်နေဂျာ %{approval_label}အတည်ပြုချက်များ"
           approvals_assessment:
             explanation: လက်ရှိအသုံးပြုသူ၏ ဆိုင်းငံ့ထားသော၊ အတည်ပြုထားသော သို့မဟုတ် ငြင်းပယ်ခံရသည့် အကဲဖြတ်ဆန်းစစ်မှုဆိုင်ရာ အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: ဖြစ်ရပ်လုပ်သား အတည်ပြုချက်များ
+            label: "ဖြစ်ရပ်လုပ်သား %{approval_label}အတည်ပြုချက်များ"
           approvals_assessment_pending:
             explanation: မန်နေဂျာအဖွဲ့ရှိ ဆိုင်းငံ့ထားသော အကဲဖြတ်ဆန်းစစ်မှုဆိုင်ရာ အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: မန်နေဂျာ အတည်ပြုချက်များ
+            label: "မန်နေဂျာ %{approval_label}အတည်ပြုချက်များ"
           approvals_case_plan:
             explanation: လက်ရှိအသုံးပြုသူ၏ ဆိုင်းငံ့ထားသော၊ အတည်ပြုထားသော သို့မဟုတ် ငြင်းပယ်ခံရသည့် ဖြစ်ရပ်အစီအစဥ်ဆိုင်ရာ အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: ဖြစ်ရပ်လုပ်သား အတည်ပြုချက်များ
+            label: "ဖြစ်ရပ်လုပ်သား %{approval_label}အတည်ပြုချက်များ"
           approvals_case_plan_pending:
             explanation: မန်နေဂျာအဖွဲ့ရှိ ဆိုင်းငံ့ထားသော ဖြစ်ရပ်အစီအစဥ်ဆိုင်ရာ  အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: မန်နေဂျာ အတည်ပြုချက်များ
+            label: "မန်နေဂျာ %{approval_label}အတည်ပြုချက်များ"
           approvals_closure:
             explanation: လက်ရှိအသုံးပြုသူ၏ ဆိုင်းငံ့ထားသော၊ အတည်ပြုထားသော သို့မဟုတ် ငြင်းပယ်ခံရသည့် ဖြစ်ရပ်ပိတ်သိမ်းခြင်းဆိုင်ရာ အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: ဖြစ်ရပ်လုပ်သား အတည်ပြုချက်များ
+            label: "ဖြစ်ရပ်လုပ်သား %{approval_label}အတည်ပြုချက်များ"
           approvals_closure_pending:
             explanation: မန်နေဂျာအဖွဲ့ရှိ ဆိုင်းငံ့ထားသော ဖြစ်ရပ်ပိတ်သိမ်းခြင်းဆိုင်ရာ အတည်ပြုချက်တောင်းခံခြင်းများ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: မန်နေဂျာ အတည်ပြုချက်များ
+            label: "မန်နေဂျာ %{approval_label}အတည်ပြုချက်များ"
           approvals_gbv_closure:
             explanation: ဆိုင်းငံ့ထားသော၊ အတည်ပြုထားသော သို့မဟုတ် ငြင်းပယ်ခံရသည့် GBV ပိတ်သိမ်းခြင်းဆိုင်ရာ အတည်ပြုချက်တောင်းဆိုမှုများဖြင့် လက်ရှိအသုံးပြုသူ၏ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: ဖြစ်ရပ်လုပ်သား အတည်ပြုချက်များ
+            label: "ဖြစ်ရပ်လုပ်သား %{approval_label}အတည်ပြုချက်များ"
           approvals_gbv_closure_pending:
             explanation: ဆိုင်းငံ့ထားသော GBV ပိတ်သိမ်းခြင်း အတည်ပြုချက် တောင်းဆိုချက်များပါရှိသော မန်နေဂျာ၏အဖွဲ့ရှိ ဖြစ်ရပ်အရေအတွက်ကို ပြသည်။
-            label: မန်နေဂျာ အတည်ပြုချက်များ
+            label: "မန်နေဂျာ %{approval_label}အတည်ပြုချက်များ"
           case_overview:
             explanation: စုစုပေါင်းနှင့် ဖြစ်ရပ်အသစ်များကဲ့သို့ ကိန်းဂဏန်းများ ပါဝင်သည့် ပင်မစာမျက်နှာထိပ်ရှိ Dashboard ခြုံငုံသုံးသပ်ချက်ကဒ်
             label: Dashboard ခြုံငုံသုံးသပ်ချက်
@@ -2162,18 +2303,18 @@ my:
             explanation: အခြားအသုံးပြုသူများမှ ၎င်းတို့အတွက်ပေးထားသော ဝန်ဆောင်မှုကို ပေါင်းထည့်ထားသည့် ဖြစ်ရပ်အရေအတွက်ကို ပြသသည်။ ဤနံပါတ်သည် dashboard ၏ ပင်မကဏ္ဍတွင် ပေါ်လာသည်။
             label: ဝန်ဆောင်မှုပေးခြင်း အမျိုးအစားအလိုက် ဖြစ်ရပ်များ
           dash_shared_from_my_team:
-            explanation: ၎င်းတို့၏အဖွဲ့ရှိ သုံးစွဲသူတစ်ဦးစီက စီမံခန့်ခွဲသည့် 'အခြားအသုံးပြုသူများထံ ညွှန်းပို့လွှဲအပ် (သို့) လွှဲပြောင်းပေးနေသည့်' ဖြစ်ရပ်အရေအတွက်ကို မန်နေဂျာတစ်ဦးကို ပြသသည်။
+            explanation: ၎င်းတို့၏အဖွဲ့ရှိ သုံးစွဲသူတစ်ဦးစီက စီမံခန့်ခွဲသည့် 'အခြားအသုံးပြုသူများထံ ညွှန်းပို့လွှဲအပ် သို့မဟုတ် လွှဲပြောင်းပေးနေသည့်' ဖြစ်ရပ်အရေအတွက်ကို မန်နေဂျာတစ်ဦးကို ပြသသည်။
             label: ကျွန်ုပ်၏အဖွဲ့မှ မျှဝေထားသည်။
           dash_shared_with_me:
             explanation: သင့်ထံ ညွှန်းပို့ သို့မဟုတ် လွှဲပြောင်းပေးထားသည့် အမှုပေါင်း မည်မျှရှိသည်ကို ပြသပါ။
             label: ကျွန်ုပ်နှင့်အတူ မျှဝေထားသည်။
           dash_shared_with_my_team:
-            explanation: ၎င်းတို့၏အဖွဲ့ရှိ သုံးစွဲသူတစ်ဦးစီထံ ညွှန်းပို့လွှဲအပ် (သို့) လွှဲပြောင်းထားသည့် ဖြစ်ရပ်အရေအတွက်ကို မန်နေဂျာတစ်ဦးကို ပြသသည်။
+            explanation: ၎င်းတို့၏အဖွဲ့ရှိ သုံးစွဲသူတစ်ဦးစီထံ ညွှန်းပို့လွှဲအပ် သို့မဟုတ် လွှဲပြောင်းထားသည့် ဖြစ်ရပ်အရေအတွက်ကို မန်နေဂျာတစ်ဦးကို ပြသသည်။
             label: ကျွန်ုပ်၏အဖွဲ့နှင့်အတူ မျှဝေထားသည်။
           dash_shared_with_my_team_overview:
-            label: ""
+            label: ကျွန်ုပ်၏အဖွဲ့နှင့် မျှဝေထားသည် (ခြုံငုံသုံးသပ်ချက်)
           dash_shared_with_others:
-            explanation: ကျွန်ုပ်၏ ဖြစ်ရပ်များတွင် လက်ရှိ ညွှန်းပို့လွဲပြောင်းမှုများ၊ ဆိုင်းငံ့ထားသော လွှဲပြောင်းမှုများ သို့မဟုတ် ငြင်းပယ်ထားသော လွှဲပြောင်းမှုများ မည်မျှရှိသည်ကို ပြသသည်။ ဖြစ်ရပ်များကို ကိုယ်တိုင်မစီမံခန့်ခွဲပါက မန်နေဂျာများအတွက် ပုံမှန်အားဖြင့်တော့ မဟုတ်ပါ။
+            explanation: ကျွန်ုပ်၏ဖြစ်ရပ်များတွင် လက်ရှိ ညွှန်းပို့လွဲပြောင်းမှုများ၊ ဆိုင်းငံ့ထားသော လွှဲပြောင်းမှုများ သို့မဟုတ် ငြင်းပယ်ထားသော လွှဲပြောင်းမှုများ မည်မျှရှိသည်ကို ပြသသည်။ ဖြစ်ရပ်များကို ကိုယ်တိုင် မစီမံသည့်တိုင်အောင်ဤခြေအနေသည့် မန်နေဂျာများအနေအတွက်သမရိုးကျအတိုင်းမဖြစ်နိုင်ပါ။
             label: အခြားသူများနှင့်အတူ မျှဝေထားသည်။
           dash_show_none_values:
             explanation: အန္တရာယ်အဆင့်အလိုက် ဖြစ်ရပ်များကိုခွဲခြမ်းစိတ်ဖြာထားသည့် dashboard များအားလုံးတွင် နောက်ထပ် "အန္တရာယ်မရှိသောအဆင့်" အမျိုးအစားကို ပေါင်းထည့်သည်။ အထူးသဖြင့် အန္တရာယ်အဆင့် fields များအတွက် လေးခု‌မြောက် "အန္တရာယ်မရှိ" ရွေးချယ်မှုပါရှိသော configuration များအတွက် ဖြစ်သည်။
@@ -2193,39 +2334,44 @@ my:
           workflow_team:
             explanation: မန်နေဂျာတစ်ဦးအား ဖြစ်ရပ်စီမံခန့်ခွဲမှုလုပ်ငန်းစဉ်၏ အဆင့်တစ်ခုစီတွင် ၎င်းတို့၏လူမှုရေးလုပ်သားများ၏ ဖြစ်ရပ်ပေါင်းမည်မျှရှိသည်ကိုပြသသည့် ဇယားကိုကြည့်ရှုခွင့်ပြုသည်။
             label: Workflow နှင့် ဖြစ်ရပ်လုပ်ငန်းဆောင်ရွက်သူ  ဖြစ်ရပ်များ
+        explanation: ပင်မစာမျက်နှာတွင် ပေါ်လာသည့် အကျဉ်းချုပ်အချက်အလက်များကို ညွှန်ပြသည်။
         label: ဒက်ရှ်ဘုတ်
       disabled:
-        explanation: အကယ်၍ ဤအခန်းကဏ္ဍကို သင်ပိတ်ထားပါက၊ ၎င်းကို အသုံးပြုသူအကောင့်များသို့ သင် သတ်မှတ်ပေးနိုင်စွမ်းမရှိတော့ပါ။
+        explanation: အကယ်၍ ဤအခန်းကဏ္ဍကို သင်ပိတ်ထားပါက၊ ၎င်းကို အသုံးပြုသူအကောင့်များအားသင်အနေဖြင့် သတ်မှတ်ပေးနိုင်စွမ်းမရှိတော့ပါ။
         label: ပိတ်ထားသည်
       duplicate:
         actions:
           read:
             explanation: အမည်၊ အမည်ဝှက် ၊ လိင်၊ အသက်၊ နှင့် နိုင်ငံသား အပါအဝင် စံသတ်မှတ်ချက်များစွာကို အသုံးပြု၍ စနစ်ရှိ ဖြစ်ရပ်အားလုံးအတွက် အဆင့်မြင့်ရှာဖွေမှု ပြုလုပ်ရန် အသုံးပြုသူကို ခွင့်ပြုသည်။
             label: ကြည့်ရန်
+        explanation: စီမံခန့်ခွဲသူများအတွက် အဆင့်မြင့်ဖြစ်ရပ်ရှာဖွေမှု။
         label: ထပ်တူညီသော ရှာဖွေမှု
       forms:
         case:
-          explanation: 'ဖြစ်ရပ်များ၏ သတင်းအချက်အလက်များ ဖြည့်သွင်းထားသည့်ဖောင်များကို အသုံးပြုသူမှ ကြည့်ရှုလိုသည့် အချက်အလက်များကိုသာ လက်လှမ်းမှီနိုင်စေရန်ကန့်သပ်ထားသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် Record Owner ဖောင်ကိုသာ ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကုန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ '
+          explanation: 'ဖြစ်ရပ်၏ သတင်းအချက်အလက် ဖြည့်သွင်းထားသည့်ဖောင်များကို အသုံးပြုသူမှ ကြည့်ရှုလိုသည့် အချက်အလက်များကိုသာ လက်လှမ်းမှီနိုင်စေရန်ကန့်သပ်ထားသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် Record Owner ဖောင်ကိုသာ ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကုန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ '
           label: ဖောင်ပုံစံများ - ဖြစ်ရပ်
         incident:
-          explanation: 'အသုံးပြုသူတစ်ဦး၏ ခြေရာခံခြင်းတောင်းဆိုမှုများတွင် ဝင်ရောက်ခွင့်ကို ကန့်သတ်ခြင်းဖြင့် အဖြစ်အပျက်တစ်ခုအတွက် သိမြင်နိုင်သည့်အချက်အလက်များကို ကန့်သတ်ထားသည်။ ပမာအားဖြင့်၊ အသုံးပြုသူသည် Record Owner ဖောင်ကိုသာ ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကုန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ မှတ်ချက်။ ။ ဖောင်များကို ကန့်သပ်ထားခြင်းမရှိပါက၊ အဖြစ်အပျက်များအတွက် ဖောင်အားလုံးသို့ ဝင်ရောက်ခွင့်ရှိသည်ဟု ဆိုလိုသည်။'
+          explanation: 'အသုံးပြုသူတစ်ဦး၏ ဖြစ်စဉ်များတွင် ဝင်ရောက်ခွင့်ကို ကန့်သတ်ခြင်းအားဖြင့် အဖြစ်အပျက်တစ်ခုအတွက် သိမြင်နိုင်သည့်အချက်အလက်များကို ကန့်သတ်ထားသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် Record Owner ဖောင်ကို ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကုန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ မှတ်ချက်။ ။ ဖောင်များကို ကန့်သပ်ထားခြင်းမရှိပါက၊ အဖြစ်အပျက်များအတွက် ဖောင်အားလုံးသို့ ဝင်ရောက်ခွင့်ရှိသည်ဟု ဆိုလိုသည်။'
           label: ဖောင်ပုံစံများ - ဖြစ်စဉ်
         tracing_request:
-          explanation: 'ဖြစ်ရပ်များ၏ သတင်းအချက်အလက်များ ဖြည့်သွင်းထားသည့်ဖောင်များကို အသုံးပြုသူမှ ကြည့်ရှုလိုသည့် အချက်အလက်များကိုသာ လက်လှမ်းမှီနိုင်စေရန်ကန့်သပ်ထားသည်။ ထိုအစား အသုံးပြုသူသည် Record Owner ဖောင်ကိုသာ ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကုန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ မှတ်ချက်- ဖောင်များကို မသတ်မှတ်ထားပါက ခြေရာခံခြင်းတောင်းဆိုမှုများအတွက် ဖောင်များအားလုံးသို့ ဝင်ရောက်ခွင့်ရှိသည်ဟု ဆိုလိုသည်။'
+          explanation: 'ဖြစ်ရပ်၏ သတင်းအချက်အလက် ဖြည့်သွင်းထားသည့်ဖောင်များကို အသုံးပြုသူမှ ကြည့်ရှုလိုသည့် အချက်အလက်များကိုသာ လက်လှမ်းမှီနိုင်စေရန်ကန့်သပ်ထားသည်။ ထိုအစား အသုံးပြုသူသည် Record Owner ဖောင်ကိုသာ ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ မှတ်ချက်- ဖောင်များကို မသတ်မှတ်ထားပါက ခြေရာခံခြင်းတောင်းဆိုမှုများအတွက် ဖောင်များအားလုံးသို့ ဝင်ရောက်ခွင့်ရှိသည်ဟု ဆိုလိုသည်။'
           label: "ဖောင်ပုံစံများ - ခြေရာခံတောင်းဆိုမှု "
+        registry_record:
+          explanation: 'အသုံးပြုသူတစ်ဦး၏ မှတ်ပုံတင်ထားသော ဖောင်များတွင် ဝင်ရောက်ခွင့်ကို ကန့်သတ်ခြင်းအားဖြင့် မှတ်ပုံတင်တစ်ခုအတွက် သိမြင်နိုင်သည့်အချက်အလက်များကို ကန့်သတ်ထားသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် Record Owner ဖောင်ကို ဝင်ခွင့်ရပါက၊ ထိုဖောင်ပေါ်ရှိ အကွက်များတွင်ပါရှိသော အချက်အလက်များကိုသာ တွေ့မြင်နိုင်မည်ဖြစ်သည်။ လက်ရှိအသုံးပြုသူ၏ ဖောင်ပုံစံဖွဲ့စည်းပုံ စီမံခန့်ခွဲနိုင်စွမ်းကို ကန့်သတ်ထားရှိပါသည်။ ဖောင်အသုံးပြုခွင့်ကို ကန့်သတ်ခြင်းဖြင့် ၎င်းတို့၏ configure လုပ်နိုင်သော ဖောင်များကို ကန့်သတ်ထားသည်။ မှတ်ချက်။ ။ ဖောင်များကို ကန့်သပ်ထားခြင်းမရှိပါက၊ မှတ်ပုံတင်ခြင်းများအတွက် ဖောင်အားလုံးသို့ ဝင်ရောက်ခွင့်ရှိသည်ဟု ဆိုလိုသည်။'
+          label: ဖောင်ပုံစံများ - မှတ်ပုံတင်
       group:
         actions:
           admin_only:
             explanation: ဆိုလိုသည်မှာ ဤအခန်းကဏ္ဍရှိသော အသုံးပြုသူများသည် အစီရင်ခံစာများ၊ ဖောင်ပုံစံနှင့် ရှာဖွေမှုဖွဲ့စည်းပုံ၊ အသုံးပြုသူများ၊ အခန်းကဏ္ဍများနှင့် အသုံးပြုသူအုပ်စုများကဲ့သို့သော စနစ်၏ စီမံခန့်ခွဲခြင်းနှင့် ဆက်စပ်သောအရာများကိုသာ မြင်နိုင်မည်ဖြစ်သည်။ ၎င်းတို့သည် တစ်ဦးချင်းဖြစ်ရပ်များ၊ ခြေရာခံတောင်းဆိုမှုများ သို့မဟုတ် ဖြစ်စဉ်များကို မြင်တွေ့မည်မဟုတ်ပါ။
             label: မှတ်တမ်းများမရှိပါ - Admin လုပ်ဆောင်ချက်များသာ လုပ်ဆောင်နိုင်သည်
           agency:
-            explanation: ဤအခန်းကဏ္ဍသည် ၎င်းတို့၏အဖွဲ့အစည်းရှိ သုံးစွဲသူအားလုံးက စီမံခန့်ခွဲသည့် မှတ်တမ်းများကို ဝင်ရောက်ကြည့်ရှုနိုင်သည်။ အကယ်၍ အသုံးပြုသူသည် အသုံးပြုသူများထံ ဝင်ရောက်ခွင့်ရှိပါက၊ ၎င်းတို့သည် ၎င်းတို့၏အေဂျင်စီရှိ အသုံးပြုသူအားလုံးကို ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။
+            explanation: ဤအခန်းကဏ္ဍသည် ၎င်းတို့၏အဖွဲ့အစည်းရှိ သုံးစွဲသူအားလုံးက စီမံခန့်ခွဲသည့် မှတ်တမ်းများကို ဝင်ရောက်ကြည့်ရှုနိုင်သည်။ အကယ်၍ အသုံးပြုသူသည် အသုံးပြုသူများထံ ဝင်ရောက်ခွင့်ရှိပါက၊ ၎င်းတို့သည် ၎င်းတို့၏အေဂျင်စီရှိ အခြားအသုံးပြုသူအားလုံးထံသို့ ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။
             label: ကျွုန်ပ်အဖွဲ့အစည်းရှိ မှတ်တမ်းများ သို့မဟုတ် အသုံးပြုသူများအားလုံး။
           all:
             explanation: အခန်းကဏ္ဍသည် သူတို့ကိုယ်တိုင် ပိုင်သည့် မည်သည့်အသုံးပြုသူအုပ်စုကိုမဆို စနစ်အတွင်းရှိ မှတ်တမ်းများ၊ အသုံးပြုသူများနှင့် အသုံးပြုသူအုပ်စုများအားလုံးကို ဝင်ရောက်ကြည့်ရှုနိုင်ပါသည်။
             label: မှတ်တမ်းအားလုံး သို့မဟုတ် အသုံးပြုသူအားလုံးကိုဝင်ရောက်ခွင့်ပြုခြင်း
           group:
-            explanation: "  အသုံးပြုသူများသည်  ၎င်းတို့၏ အသုံးပြုသူများ အုပ်စုတွင် စီမံခန့်ခွဲထားသည့် မှတ်တမ်းများကို ဝင်ရောက်ကြည့်ရှုနိုင်သည်။၎င်းတို့၏ အသုံးပြုသူများ အုပ်စုအတွင်းရှိ မှတ်တမ်းများကို သာဝင်ရောက်ကြည့်ရှုနိုင်မည်ဖြစ်သည်။ "
+            explanation: " အသုံးပြုသူများသည်  ၎င်းတို့၏ အသုံးပြုသူများ အုပ်စုတွင် စီမံခန့်ခွဲထားသည့် မှတ်တမ်းများကို ဝင်ရောက်ကြည့်ရှုနိုင်သည်။၎င်းတို့၏ အသုံးပြုသူများ အုပ်စုအတွင်းရှိ မှတ်တမ်းများကို သာဝင်ရောက်ကြည့်ရှုနိုင်မည်ဖြစ်သည်။ "
             label: မှတ်တမ်းများအားလုံး သို့မဟုတ် ကျွုန်ပ်အဖွဲ့ရှိ အသုံးပြုသူများအားလုံးကို ဝင်ရောက်ခွင့်ပြုခြင်း
           self:
             explanation: "ဒီအခန်းကဏ္ဍသည် ၎င်းတို့၏ကိုယ်ပိုင်မှတ်တမ်းများ (ဖြစ်ရပ်များ၊ ခြေရာခံတောင်းဆိုမှုများ သို့မဟုတ် ဖြစ်စဉ်များ) ကို ဝင်ရောက်ကြည့်ရှုနိုင်ပြီး ၎င်းတို့၏ကိုယ်ပိုင် အသုံးပြုသူအကောင့်ကို ပြင်ဆင်နိုင်သည်။ "
@@ -2235,42 +2381,42 @@ my:
       incident:
         actions:
           change_log:
-            explanation: အသုံးပြုသူသည် ၎င်းကို စတင်ပြုလုပ်ပြီးကတည်းက မှတ်တမ်းတွင် ပြုလုပ်ထားသည့် ပြောင်းလဲမှုအားလုံး၏ မှတ်တမ်းကို ကြည့်ရှုနိုင်သည်။ ၎င်းတွင် field အားလုံးအတွက် မှတ်တမ်းတင်ထားသော တန်ဖိုးများ ပါဝင်သည်။
+            explanation: အသုံးပြုသူသည် စတင်ပြုလုပ်ပြီးကတည်းက  ပြုလုပ်ထားသည့် ပြောင်းလဲမှုအားလုံး၏ မှတ်တမ်းကို ကြည့်ရှုနိုင်သည်။ ၎င်းတွင် field အားလုံးအတွက် မှတ်တမ်းတင်ထားသော အဓိကအချက်များ ပါဝင်သည်။
             label: မှတ်တမ်းကို ပြောင်းပါ။
           create:
             explanation: ဖြစ်စဉ်တစ်ခုဖန်တီးနိုင်မှု
             label: စတင်ပြုလုပ်သည်
           enable_disable_record:
-            explanation: ဖြစ်စဉ်တစ်ခုကို ပိတ်ရန် သို့မဟုတ် ဖွင့်ရန် စွမ်းရည်။ "ပိတ်ထားသည်" ဖြစ်စဉ်များသည် ဖြစ်စဉ်စာရင်းတွင် ပုံသေအားဖြင့် မပေါ်ပါ။ အသုံးပြုသူများသည် စစ်ထုတ်မှုတစ်ခုကို အသုံးပြုခြင်းဖြင့် ဖြစ်စဉ်စာရင်းတွင် ပိတ်ထားရသော ဖြစ်စဉ်များကို ကြည့်ရှုနိုင်သည်။
+            explanation: ဖြစ်စဉ်တစ်ခုကို ပိတ်နိုင်ရန် သို့မဟုတ်ဖွင့်နိုင်ရန် ။ "ပိတ်ထားသည်" ဖြစ်စဉ်များသည် ဖြစ်စဉ်စာရင်းတွင် ပုံသေအားဖြင့် မပေါ်ပါ။ အသုံးပြုသူများသည် စစ်ထုတ်မှုတစ်ခုကို အသုံးပြုခြင်းဖြင့် ဖြစ်စဉ်စာရင်းတွင် ပိတ်ထားရသော ဖြစ်စဉ်များကို ကြည့်ရှုနိုင်သည်။
             label: "အသုံးပြုနိုင်အောင်ဖွင့်ပါ / အသုံးမပြုနိုင်အောင်ပိတ်ပါ "
           export_case_pdf:
-            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်များစာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export လုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field အားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။PDF export ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
-            label: pdf ကိုexport လုပ်ပါ
+            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်များစာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်း လုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field အားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။PDF export သတင်းအချက်အလက်ထုတ်ယူခြင်း ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
+            label: pdf အနေဖြင့် export သတင်းအချက်အလက်ထုတ်ယူခြင်း လုပ်ပါ
           export_csv:
-            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်စာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ CSV ဖိုင်ကို export လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field အားလုံးပါဝင်သည့်၊  ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။
-            label: CSV ကိုexport လုပ်ပါ
+            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်စာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ CSV ဖိုင်ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field အားလုံးပါဝင်သည့်၊  ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။
+            label: CSV အနေဖြင့် export သတင်းအချက်အလက်ထုတ်ယူခြင်း လုပ်ပါ
           export_custom:
-            label: custom export လုပ်ပါ
+            label: custom export စိတ်ကြိုက်ပုံစံဖြင့်သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်ပါ
           export_incident_recorder_xls:
-            explanation: အသုံးပြုသူသည် GBV Incident Recorder ကိရိယာဖြင့် ဒေတာဖလှယ်နိုင်စေသည့် အထူးပြု XLS ဖိုင် တင်ပို့မှုကို ဖန်တီးနိုင်သည်။
-            label: ဖြစ်စဉ်မှတ်တမ်းတင်မှု xls ကို Export လုပ်ခြင်း
+            explanation: အသုံးပြုသူသည် GBV Incident Recorder ကိရိယာဖြင့် ဒေတာဖလှယ်နိုင်စေသည့် အထူးပြု XLS ဖိုင် ထုတ်ယူမှုကို ဖန်တီးနိုင်သည်။
+            label: ဖြစ်စဉ်မှတ်တမ်းတင်မှု xls ဖိုင်အနေဖြင့်  Export သတင်းအချက်အလက်ထုတ်ယူမှုလုပ်ခြင်း
           export_json:
-            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်စာရင်း သို့မဟုတ် ဖြစ်စဉ်ဖော်ပြစာမျက်နှာများမှ JSON ဖိုင်ကို export လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်စဉ်အားလုံးတွင် ပါဝင်ပါသည်။ ဤ export ကို လက်ရှိ Primero စနစ်မှ ဖြစ်စဉ်များကို export လုပ်လိုပြီး ၎င်းတို့ကို မတူညီသော Primero စနစ်သို့ import လုပ်လိုသူများအတွက် သို့မဟုတ် အခြားသော သတင်းအချက်အလက် စီမံခန့်ခွဲမှုစနစ်သို့ import လုပ်လိုသူများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ JSON format သည် စက်ဖြင့်ဖတ်နိုင်သော်လည်း အသုံးပြုသူအများစုအတွက် လက်တွေ့မကျပါ။
-            label: json ကို export လုပ်ပါ
+            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်စာရင်း သို့မဟုတ် ဖြစ်စဉ်ဖော်ပြစာမျက်နှာများမှ JSON JavaScript Object Notation ဖိုင်ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်စဉ်အားလုံးတွင် ပါဝင်ပါသည်။ ဤ export ကို လက်ရှိ Primero စနစ်မှ ဖြစ်စဉ်များကို export လုပ်လိုပြီး ၎င်းတို့ကို မတူညီသော Primero စနစ်သို့ import လုပ်လိုသူများအတွက် သို့မဟုတ် အခြားသော သတင်းအချက်အလက် စီမံခန့်ခွဲမှုစနစ်သို့ import လုပ်လိုသူများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ JSON format သည် စက်ဖြင့်ဖတ်နိုင်သော်လည်း အသုံးပြုသူအများစုအတွက် လက်တွေ့မကျပါ။
+            label: json ဖိုင်အနေဖြင့် export သတင်းအချက်အလက်ထုတ်ယူပါလုပ်ပါ
           export_list_view_csv:
             explanation: အသုံးပြုသူသည် ဖြစ်စဉ်စာရင်းတွင် ထိုအသုံးပြုသူအတွက် ပေါ်လာသည့် တူညီသောfields များပါရှိသော ဖြစ်စဉ်စာရင်းစာမျက်နှာမှ CSV ဖိုင်ထုတ်ယူမှုကို ဖန်တီးနိုင်သည်။ ဖြစ်စဉ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
-            label: စာရင်းကို CSV ပုံစံကြည့်ရန် export လုပ်ပါ။
+            label: စာရင်းကို CSV ပုံစံကြည့်ရန် export သတင်းအချက်အလက်ထုတ်ယူပါလုပ်ပါ။
           export_pdf:
-            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်များစာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export လုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field များအားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။PDF export ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
-            label: pdf ကိုexport လုပ်ပါ
+            explanation: အသုံးပြုသူသည် ဖြစ်စဉ်များစာရင်း သို့မဟုတ် ဖြစ်စဉ်ပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export သတင်းအချက်အလက်ထုတ်ယူခြင်းလုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field များအားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အားလုံးအတွက် ပါဝင်ပါသည်။PDF export ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
+            label: pdf ဖိုင်အဖြစ် export သတင်းအချက်အလက်ထုတ်ယူပါလုပ်ပါ
           export_xls:
-            explanation: "အသုံးပြုသူသည် အဖြစ်အပျက်များစာရင်း သို့မဟုတ် အဖြစ်အပျက် ဖြစ်ပွားမှုပြသသည့် စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် စိတ်ကြိုက်ပုံစံများ သို့မဟုတ် အကွက်များပါရှိပါသည်။၊ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ Custom Export modal ကို အသုံးပြု၍ ထုတ်ယူမှုတွင် ထည့်သွင်းလိုသော ဖောင် သို့မဟုတ် အကွက်များကို အသုံးပြုသူက ရွေးချယ်နိုင်သည်။ အသုံးပြုသူများသည် အပလီကေးရှင်းရှိ ဖြစ်ရပ်ကိုကြည့်ရှုသည့်အခါ အဆိုပါပုံစံများနှင့် အကွက်များကို မြင်နိုင်စွမ်းရှိပြီးသားဖြစ်မှသာ ထုတ်ယူမှုတွင် ဖောင်နှင့်အကွက်များ ထည့်သွင်းနိုင်သည်ကို သတိပြုပါ။ "
+            explanation: "အသုံးပြုသူသည် အဖြစ်အပျက်များစာရင်း သို့မဟုတ် အဖြစ်အပျက် ဖြစ်ပွားမှုပြသသည့် စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်ယူနိုင်သည်၊ အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် စိတ်ကြိုက်ပုံစံများ သို့မဟုတ် အကွက်များပါရှိပါသည်။၊ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ Custom Export modal ကို အသုံးပြု၍ ထုတ်ယူမှုတွင် ထည့်သွင်းလိုသော ဖောင် သို့မဟုတ် အကွက်များကို အသုံးပြုသူက ရွေးချယ်နိုင်သည်။ အသုံးပြုသူများသည် အပလီကေးရှင်းရှိ ဖြစ်ရပ်ကိုကြည့်ရှုသည့်အခါ အဆိုပါပုံစံများနှင့် အကွက်များကို မြင်နိုင်စွမ်းရှိပြီးသားဖြစ်မှသာ ထုတ်ယူမှုတွင် ဖောင်နှင့်အကွက်များ ထည့်သွင်းနိုင်သည်ကို သတိပြုပါ။ "
             label: Excel ( xls ဖိုင် ) ကို export လုပ်ပါ
           flag:
-            explanation: ဖြစ်ရပ်တစ်ခုတွင် အမှတ်အသားတစ်ခုထည့်နိုင်သည်။ ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ဖြစ်ရပ်တစ်ခုတွင် ၎င်းတို့ထည့်သွင်းထားသော အမှတ်အသားများကို ဖယ်ရှားနိုင်သည်။
+            explanation: ဖြစ်ရပ်တစ်ခုတွင် အမှတ်အသားတစ်ခုထည့်နိုင်သည်။ ခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ဖြစ်ရပ်တစ်ခုတွင် ၎င်းတို့ထည့်သွင်းထားသော အမှတ်အသားများကို ဖယ်ရှားနိုင်သည်။
             label: အမှတ်အသားပြုခြင်း
           import:
-            explanation: အသုံးပြုသူကို CSV၊ Excel သို့မဟုတ် JSON ဖိုင်မှ import သွင်းခြင်းဖြင့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်စဉ်အသစ်များကို ဖန်တီးခွင့်ပြုသည်။ အချက်အလက်များကို မှန်ကန်စွာ တင်သွင်းနိုင်ရန် အတွက် တင်သွင်းထားသော ဖိုင်ကို *very* အထူးပြုလုပ်ထားသည့် format ဖြင့်လုပ်ရပါမည်။ အဆင့်မြင့်နည်းပညာဆိုင်ရာ ကျွမ်းကျင်မှုများနှင့် Primero တွင် ဒေတာကို ဖော်မတ်ချထားပုံနှင့်ပတ်သက်သော နက်နက်နဲနဲ သိရှိသော စီမံခန့်ခွဲရေးအသုံးပြုသူများအတွက်သာ ဤလုပ်ဆောင်ချက်ကို ရရှိသင့်ပါသည်။ ဖြစ်စဉ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
+            explanation: အသုံးပြုသူကို CSV၊ Excel သို့မဟုတ် JSON ဖိုင်မှ import သွင်းခြင်းဖြင့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်စဉ်အသစ်များကို ဖန်တီးခွင့်ပြုသည်။ အချက်အလက်များကို မှန်ကန်စွာ တင်သွင်းနိုင်ရန် အတွက် တင်သွင်းထားသော ဖိုင်ကို *very* အထူးပြုလုပ်ထားသည့် format ဖြင့်လုပ်ရပါမည်။ အဆင့်မြင့်နည်းပညာဆိုင်ရာ ကျွမ်းကျင်မှုများနှင့် Primero တွင် ဒေတာ ဖော်မတ်ချထားပုံအား သေသေချာချာသိရှိသော စီမံခန့်ခွဲရေးအသုံးပြုသူများအတွက်သာ ဤလုပ်ဆောင်ချက်ကို ရရှိသင့်ပါသည်။ ဖြစ်စဉ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
             label: တင်သွင်းခြင်း
           manage:
             explanation: အသုံးပြုသူတစ်ဦးအား ဖြစ်စဉ်များတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "အရာအားလုံး" ကို ဆိုလိုသည်။
@@ -2284,31 +2430,40 @@ my:
           write:
             explanation: "\"တည်းဖြတ်ရန်\" ခလုတ်ကို နှိပ်ခြင်း၊ ဖြစ်စဉ်ဆိုင်ရာ အချက်အလက်ကို နောက်ဆုံးအခြေအနေနှင့်အညီ ပြုပြင်မွမ်းမံခြင်းနှင့် \"သိမ်းဆည်းရန်\" ကို နှိပ်နိုင်သည်။ အသုံးပြုသူအား ဖြစ်စဉ်တစ်ခုကို ပိတ်ရန် သို့မဟုတ် ဖွင့်ရန်လည်း ခွင့်ပြုသည်။"
             label: ပြင်ဆင်သည်
+        explanation: ဖြစ်ပျက်ခဲ့သည့် အဖြစ်အပျက်ကို ကိုယ်စားပြုသည်။ ၎င်းတို့သည် အများအားဖြင့် အလွဲသုံးစားလုပ်ခြင်း သို့မဟုတ် အကြမ်းဖက်မှု ဖြစ်စဉ်များဖြစ်ပြီး ၎င်းတို့သည် တရားဥပဒေစိုးမိုးရေးနှင့် ကြုံတွေ့ရမှုများကဲ့သို့ ဖြစ်ရပ်များနှင့်လည်း ဆက်စပ်နိုင်သည်။ ဖြစ်စဉ်များသည် ဖြစ်ရပ်များနှင့် ဆက်စပ်နေတတ်သည်။
         label: ဖြစ်စဉ်
       is_manager:
-        explanation: ယေဘူယျအားဖြင့် အခြားအသုံးပြုသူများကို ကြီးကြပ်သည့် မည်သည့်အသုံးပြုသူ၏အခန်းကဏ္ဍနှင့်မဆို အကျုံးဝင်သည်။ ၎င်းသည် အသုံးပြုသူတစ်ဦးအား အဖွဲ့တစ်ခုကို စီမံခန့်ခွဲရာတွင် အထောက်အကူဖြစ်စေသော dashboard များနှင့်  filter များကို ကြည့်ရှုနိုင်စေပါသည်။
+        explanation: ယေဘူယျအားဖြင့် အခြားအသုံးပြုသူများကို ကြီးကြပ်သည့် အသုံးပြုသူ၏ မည်သည့်အခန်းကဏ္ဍနှင့်မဆို အကျုံးဝင်သည်။ ၎င်းသည် အသုံးပြုသူတစ်ဦးအား အဖွဲ့တစ်ခုကို စီမံခန့်ခွဲရာတွင် အထောက်အကူဖြစ်စေသော dashboard များနှင့်  filter များကို ကြည့်ရှုနိုင်စေပါသည်။
         label: မန်နေဂျာလား။
+      managed_report:
+        actions:
+          violations:
+            label: ချိုးဖောက်မှုများ
+          gbv_statistics:
+            label: GBV စာရင်းအင်းများ
       matching_configuration:
         actions:
           manage:
-            explanation: ခြေရာခံခြင်းတောင်းဆိုမှုနှင့် ဖြစ်ရပ်များကြား ကိုက်ညီမှုများကို ရှာဖွေရန် field များနှိုင်းယှဉ်ထားသည်ကို ထိန်းချုပ်နိုင်သည်။ ၎င်းသည် စနစ်တစ်ခုလုံးတွင် ဘယ်လောက်ကိုက်ညီမှုရှိကြောင်းကို ထိန်းချုပ်ထားသောကြောင့်၊ ဤခွင့်ပြုချက်ကို ယေဘူယျအားဖြင့် စနစ်စီမံခန့်ခွဲသူမှသာ ရရှိသင့်ပါသည်။
+            explanation: ခြေရာခံခြင်းတောင်းဆိုမှုနှင့် ဖြစ်ရပ်များကြား ကိုက်ညီမှုများကို ရှာဖွေရန် field များနှိုင်းယှဉ်ထားသည်ကို ထိန်းချုပ်နိုင်သည်။ ၎င်းသည် စနစ်တစ်ခုလုံးတွင် မည်မျှကိုက်ညီမှုရှိကြောင်းကို ထိန်းချုပ်ထားသောကြောင့်၊ ဤခွင့်ပြုချက်ကို ယေဘူယျအားဖြင့် စနစ်စီမံခန့်ခွဲသူမှသာ ရရှိသင့်ပါသည်။
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
+        explanation: မိသားစုခြေရာခံခြင်းနှင့် ပြန်လည်ပေါင်းစည်းခြင်းအတွင်း လမ်းကြောင်းရှာဖွေခြင်းတောင်းဆိုမှုများကို ဖြစ်ရပ်များနှင့် နှိုင်းယှဉ်ရန် မည်သည့် fields များအသုံးပြုသည်ကို ထိန်းချုပ်သည်။
         label: စီစဉ်ဖွဲ့စည်းမှု ကိုက်ညှိခြင်း
       metadata:
         actions:
           manage:
             explanation: "ဖောင်များကို ဖန်တီးခြင်း၊ တည်းဖြတ်ခြင်း၊ ဘာသာပြန်ခြင်း နှင့် ပယ်ဖျက်ခြင်းများ၊ ဖောင်အကွက်များနှင့် ရှာဖွေမှုများ ပြုလုပ်နိုင်ပါသည်။ ခွင့်ပြုချက်ရှိသော အသုံးပြုသူတစ်ဦးသည် ၎င်းတို့ဝင်ရောက်ခွင့်ရှိသည့် ဖောင်များကိုသာ စီမံခန့်ခွဲနိုင်မည်ဖြစ်ကြောင်း ကျေးဇူးပြု၍ သတိပြုပါ။ အသုံးပြုသူကိုယ်စား စနစ်စီမံခန့်ခွဲပံပိုးသူမှ ဖြစ်ရပ်မှတ်တမ်းဖောင်ကို ကြည့်ရှုနိုင်ပါသည်။ ၎င်းတို့သည် ဤဖောင်ပုံစံဖွဲ့စည်းပုံကို ဘယ်သောအခါမှ မွမ်းမံပြင်ဆင်နိုင်မည်မဟုတ်ပါ။ "
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
+        explanation: Primero ဖောင်ပုံစံများ နှင့် Fields များကို configure လုပ်နိုင်စွမ်းအပြင် ၎င်းတို့အတွင်းအသုံးပြုထားသော Lookup options များကိုလည်း ထိန်းချုပ်ပါသည်။
         label: ပုံစံများ၊ ရှာဖွေခြင်း
       module:
         actions:
           cp:
-            label: CP
+            label: CP - ကလေးသူငယ်ကာကွယ်စောင့်ရှောက်ရေး
           gbv:
-            label: GBV
+            label: GBV - ကျား/မ အခြေပြုအကြမ်းဖက်မှု
           mrm:
             label: MRM
-        explanation: ဤအခန်းကဏ္ဍအတွက် ဆောင်ရွက်ရန် မည်သည့် မော်ဂျူးများကို ထိန်းချုပ်ပါသနည်း
+        explanation: ဤအခန်းကဏ္ဍအတွက် ဆောင်ရွက်သည့် မော်ဂျူးများကို ထိန်းချုပ်ပါသည်
         label: မော်ဂျူးများ
       potential_match:
         actions:
@@ -2325,9 +2480,48 @@ my:
       referral:
         actions:
           refer:
-            explanation: "သုံးစွဲသူသည် ပြင်ပသို့ ညွှန်းပို့မှု လုပ်ဆောင်သည့်အခါ \"လက်ခံသူ အမျိုးအစား\" အတွက် ရွေးချယ်စရာတစ်ခုအဖြစ် အခန်းကဏ္ဍပေါ်လာမည်ဖြစ်သည်။ အသုံးပြုသူသည် ဤအခန်းကဏ္ဍကို ညွှန်းပို့မှုအမျိုးအစားအဖြစ် ရွေးချယ်ပါက လွှဲပြောင်းပေးပို့မှုကို ထည့်သွင်းသည့်အခါ ဤအခန်းကဏ္ဍမှ ဝင်ရောက်အသုံးပြုနိုင်သည့် ဖောင်များတွင်သာ တွေ့ရသည့် အချက်အလက်ပါရှိပါသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် လက်ခံသူအမျိုးအစားအဖြစ် \"ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ\" ကို ရွေးချယ်ပါက၊ ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ၏ အခန်းကဏ္ဍသည် အခြေခံ အထောက်အထားနှင့် အကာအကွယ်ပေးရေးဆိုင်ရာ စိုးရိမ်မှုပုံစံများကိုသာ ဝင်ရောက်ခွင့်ရှိပါမည်။ Primero မှ ပြင်ပသို့ ညွှန်းပို့မှုအတွက် တင်ပို့သည့် ဖိုင်ကိုသာ ရရှိမည်ဖြစ်သည်။  "
+            explanation: "သုံးစွဲသူသည် ပြင်ပသို့ ညွှန်းပို့မှု လုပ်ဆောင်သည့်အခါ \"လက်ခံသူ အမျိုးအစား\" အတွက် ရွေးချယ်စရာတစ်ခုအဖြစ် အခန်းကဏ္ဍပေါ်လာမည်ဖြစ်သည်။ အသုံးပြုသူသည် ဤအခန်းကဏ္ဍကို ညွှန်းပို့မှုအမျိုးအစားအဖြစ် ရွေးချယ်ပါက လွှဲပြောင်းပေးပို့မှုကို ထည့်သွင်းသည့်အခါ ဤအခန်းကဏ္ဍမှ ဝင်ရောက်အသုံးပြုနိုင်သည့် ဖောင်များတွင်သာ တွေ့ရသည့် အချက်အလက်ပါရှိပါသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် လက်ခံသူအမျိုးအစားအဖြစ် \"ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ\" ကို ရွေးချယ်ပါက၊ ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ၏ အခန်းကဏ္ဍသည် အခြေခံ အထောက်အထားနှင့် အကာအကွယ်ပေးရေးဆိုင်ရာ စိုးရိမ်မှုပုံစံများကိုသာ ဝင်ရောက်ခွင့်ရှိပါမည်။ Primero မှ ပြင်ပသို့ ညွှန်းပို့မှုအတွက် ထုတ်ယူသည့် ဖိုင်ကိုသာ ရရှိမည်ဖြစ်သည်။  "
             label: "ဤအခန်းကဏ္ဍကို ပြင်ပသို့လွှဲပြောင်းညွှန်းပို့ရာတွင် အသုံးပြုနိုင်ပါသလား?"
-        label: ညွှန်းပို့လွှဲအပ်မှု
+        label: ညွှန်းပို့မှု
+      registry_record:
+        actions:
+          change_log:
+            explanation: အသုံးပြုသူသည် ၎င်းကို ဖန်တီးပြီးကတည်းက မှတ်တမ်း ပြုလုပ်ထားသည့် ပြောင်းလဲမှုအားလုံး၏ မှတ်တမ်းကို ကြည့်ရှုနိုင်သည်။ ၎င်းတွင် fields အားလုံးအတွက် မှတ်တမ်းတင်ထားသော တန်ဖိုးများ ပါဝင်သည်။
+            label: မှတ်တမ်းကို ပြောင်းပါ။
+          create:
+            explanation: မှတ်ပုံတင် မှတ်တမ်းတစ်ခုဖန်တီးနိုင်မှု
+            label: စတင်ပြုလုပ်သည်
+          enable_disable_record:
+            explanation: မှတ်ပုံတင်မှတ်တမ်းကို disable သို့မဟုတ် enable လုပ်နိုင်စွမ်း။ "Disabled " လုပ်ထားသည့် မှတ်တမ်းများသည် မှတ်ပုံတင်စာရင်းတွင် ပုံသေအားဖြင့် မပေါ်ပါ။ အသုံးပြုသူများသည် စစ်ထုတ်မှုတစ်ခုကို အသုံးပြုခြင်းဖြင့် မှတ်ပုံတင်စာရင်းတွင် ပိတ်ထားသော  မှတ်ပုံတင် မှတ်တမ်းများကို ကြည့်ရှုနိုင်သည်။
+            label: "အသုံးပြုနိုင်အောင်ဖွင့်ပါ / အသုံးမပြုနိုင်အောင်ပိတ်ပါ "
+          export_csv:
+            explanation: 'အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ CSV ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် မှတ်ပုံတင်မှတ်တမ်းအားလုံးတွင် ပါဝင်ပါသည်။ မှတ်ချက်- CSV ထုတ်ယူမှုသည် လက်တင်မဟုတ်သော အက္ခရာများ (ဥပမာ အာရဗီ၊ ဘင်္ဂလာ) ကို ဖတ်နိုင်သော format ဖြင့် မဖော်ပြပါ။ '
+            label: CSV ဖိုင်အဖြစ် export လုပ်ပါ
+          export_json:
+            explanation: အသုံးပြုသူသည် မှတ်ပုံတင်စာရင်းမှ သို့မဟုတ် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields များအားလုံးပါရှိသော မှတ်ပုံတင်စာရင်း သို့မဟုတ် ပြသသည့်စာမျက်နှာများမှ JSON ဖိုင်ကို ထုတ်ယူနိုင်သည်။ JSON ဖော်မတ်သည် စက်ဖြင့်ဖတ်နိုင်သော်လည်း အသုံးပြုသူအများစုအတွက် လက်တွေ့မကျပါ။
+            label: json ဖိုင်အနေဖြစ် export လုပ်ပါ
+          export_xls:
+            explanation: 'အသုံးပြုသူသည် မှတ်ပုံတင်စာရင်းမှ သို့မဟုတ် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံးပါရှိသော မှတ်ပုံတင်စာရင်း သို့မဟုတ် ပြသသည့်စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်ယူနိုင်သည်။
+
+              မှတ်ချက်-  XLS ထုတ်ယူမှုသည် လက်တင်မဟုတ်သော အက္ခရာများ (ဥပမာ အာရဗီ၊ ဘင်္ဂလာ) ကို ဖတ်နိုင်သော format ဖြင့် မဖော်ပြပါ။ '
+            label: Excel ( xls ဖိုင် ) ကို export လုပ်ပါ
+          flag:
+            explanation: မှတ်ပုံတင် မှတ်တမ်းတစ်ခုတွင် အမှတ်အသားတစ်ခုထည့်နိုင်သည်။ ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် မှတ်ပုံတင်ခြင်းမှတ်တမ်းတွင် ထည့်သွင်းထားသော အမှတ်အသားများကို ဖယ်ရှားနိုင်သည်။
+            label: အမှတ်အသား
+          manage:
+            explanation: အသုံးပြုသူတစ်ဦးအား မှတ်ပုံတင်မှတ်တမ်းများတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံ" ကို ဆိုလိုသည်။
+            label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
+          read:
+            explanation: မှတ်ပုံတင်မှတ်တမ်းများကို ကြည့်ရှုနိုင်မှု
+            label: ကြည့်ရန်
+          write:
+            explanation: မှတ်ပုံတင်မှတ်တမ်းအတွက် အချက်အလက်ကို အပ်ဒိတ်လုပ်ရန်အတွက်"တည်းဖြတ်ရန်" ခလုတ်ကို နှိပ်ပါ။ ထို့နောက် "သိမ်းဆည်းရန်" ခလုတ်ကို နှိပ်ပါ။
+            label: ပြင်ဆင်သည်
+          sync_mobile:
+            explanation: အသုံးပြုသူအား အော့ဖ်လိုင်းအသုံးပြုမှုအတွက် မှတ်ပုံတင်မှတ်တမ်းများကို ဝှက်ထားရန် ခွင့်ပြုသည်။
+            label: အော့ဖ်လိုင်းအတွက် မှတ်သားပါ
+        explanation: ၎င်းသည် ဖြစ်စဉ်များ သို့မဟုတ် ဖြစ်ရပ်များကဲ့သို့ အခြားမှတ်တမ်းများနှင့် ချိတ်ဆက်ရန်လိုအပ်သည့် လူတစ်ဦးချင်း သို့မဟုတ် အဖွဲ့အစည်းတစ်ခုကို ကိုယ်စားပြုနိုင်သည်၊ အလွန်များပြားပြီး အချက်အလက်အသစ်များဖြင့် ထပ်ခါတလဲလဲ မွမ်းမံပြင်ဆင်ထားသည်။ ၎င်းတို့သည် ရှာဖွေမှုများနှင့် ဆင်တူသော်လည်း ဝင်ရောက်မှုတစ်ခုစီအတွက် ပိုမိုရှုပ်ထွေးသော အချက်အလက်အစုံပါရှိသည်။
+        label: မှတ်ပုံတင်မှတ်တမ်း
       report:
         actions:
           create:
@@ -2335,7 +2529,7 @@ my:
             label: စတင်ပြုလုပ်သည်
           group_read:
             explanation: အစီရင်ခံစာအားလုံးကိုကြည့်ရှုနိုင်မှု။ အစီရင်ခံစာတစ်ခုစီရှိ နံပါတ်များသည် လက်ရှိအသုံးပြုသူ၏ အသုံးပြုသူအုပ်စုများရှိ သုံးစွဲသူများထံ ဝင်ရောက်နိုင်သည့် မှတ်တမ်းများကိုသာ ထင်ဟပ်စေမည်ဖြစ်သည်။ ဤခွင့်ပြုချက်ကို ဒေသခံ၊ ဒေသဆိုင်ရာ သို့မဟုတ် ၎င်းတို့၏အဖွဲ့ သို့မဟုတ် အဖွဲ့အစည်း၏ စွမ်းဆောင်ရည်ကို ထိုးထွင်းသိမြင်လိုသော အေဂျင်စီ စီမံခန့်ခွဲသူများအတွက် မကြာခဏ အသုံးပြုပါသည်။ ဤခွင့်ပြုချက်သည် သုံးစွဲသူအား အစီရင်ခံစာတစ်ခုမှ ဒေတာကို ထုတ်ယူနိုင်စေပါသည်။
-            label: ကြည့်ရှုခြင်း (အုပ်စုအခြေပြုအချက်အလက်)
+            label: ကြည့်ခြင်း (အုပ်စုလိုက်အခြေပြုအချက်အလက်)
           manage:
             explanation: အသုံးပြုသူတစ်ဦးအား အဖွဲ့အစည်းများတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "အရာအားလုံး" ကို ဆိုလိုသည်။
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
@@ -2345,6 +2539,7 @@ my:
           write:
             explanation: အစီရင်ခံစာများအားလုံးကို တည်းဖြတ်နိုင်မှု (အခြားအသုံးပြုသူများမှ ဖန်တီးထားသည့်အရာများအပါအဝင်)။
             label: ပြင်ဆင်သည်
+        explanation: ဒေတာစုစည်းမှု ခွဲခြမ်းစိတ်ဖြာခြင်းကိရိယာ။ ဒေတာကို ကိုယ်စားပြုသည့် ဇယားနှင့် ဂရပ်ဖော်ပြချက်များ ပါဝင်သည်။
         label: အစီရင်ခံစာ
       reporting_location_level:
         explanation: 'ဒက်ရှ်ဘုတ်များ၊ စစ်ထုတ်မှုများ၊ လွှဲပြောင်းမှုပုံစံများနှင့် လွှဲပြောင်းမှုပုံစံများရှိ အခန်းကဏ္ဍအတွက် တည်နေရာအဆင့်ကို ထိန်းချုပ်မည်ဖြစ်သည်။ အကယ်၍ သင်သည် ဤအကွက်ကို ကွက်လပ်ထားခဲ့ပါက၊ ဤအခန်းကဏ္ဍအတွက် စနစ်တွင် ပုံသေအစီရင်ခံခြင်းတည်နေရာအဆင့်ကို မြင်တွေ့ရမည်ဖြစ်သည်။ '
@@ -2370,17 +2565,19 @@ my:
             explanation: "အကယ်၍ ခန်းကဏ္ဍတစ်ခုတွင် အထက်ဖော်ပြပါ လုပ်ဆောင်ချက်များကို လုပ်ဆောင်နိုင်စွမ်းရှိပါက ဤစာရင်းတွင် သတ်မှတ်ထားသည့် အခန်းကဏ္ဍများတွင် ယင်းလုပ်ဆောင်ချက်များကို လုပ်ဆောင်နိုင်မည်ဖြစ်သည်။ ဥပမာအားဖြင့်၊ အကယ်၍ အခန်းကဏ္ဍတစ်ခုတွင် \"Read\" နှင့် \"Assign\" ခွင့်ပြုချက်ရှိသော်လည်း ကလေးသူငယ်ကာကွယ်စောင့်ရှောက်ရေး ဖြစ်ရပ်လုပ်ငန်းဆောင်ရွက်သူနှင့်  ကလေးသူငယ်ကာကွယ်စောင့်ရှောက်ရေး မန်နေဂျာတို့ကို  \"Managed Roles\" အဖြစ် စာရင်းသွင်းထားမှသာ ၎င်းတို့ကို မြင်နိုင်မည်ဖြစ်သည်။ အခန်းကဏ္ဍနှစ်ခုနှင့် သုံးစွဲသူအသစ်များကို ထိုအခန်းကဏ္ဍနှစ်ခုတွင်သာ သတ်မှတ်နိုင်မည်ဖြစ်သည်။ တူညီသောအခန်းကဏ္ဍတွင် \"စီမံအုပ်ချုပ်မှုအခန်းကဏ္ဍ\" သတ်မှတ်ထားပါက အခန်းကဏ္ဍအားလုံးကိုမြင်နိုင်မည်ဖြစ်ပြီး စနစ်အတွင်းရှိမည်သည့်အခန်းကဏ္ဍမှမဆို role အသစ်များကို ဖန်တီးနိုင်မည်ဖြစ်သည်။ "
             label: ဤအခန်းကဏ္ဍက စီမံခန့်ခွဲသည့် အခြားအခန်းကဏ္ဍ
           read:
-            explanation: အခန်းကဏ္ဍများကို မြင်နိုင်စွမ်းရှိသည်။
+            explanation: အခန်းကဏ္ဍများကို မြင်နိုင်သည်။
             label: ကြည့်ရန်
           write:
             explanation: ခွင့်ပြုချက်များကို အပ်ဒိတ်လုပ်ပြီးနောက် အခန်းကဏ္ဍကို သိမ်းဆည်းနိုင်သည်။ပြခန်းစာမျက်နှာရှိ "တည်းဖြတ်ရန်" ခလုတ်ကို နှိပ်ပါ။
             label: ပြင်ဆင်သည်
+        explanation: Primero တွင် အသုံးပြုသူလုပ်ဆောင်နိုင်သည့် လုပ်ဆောင်ချက်များကို ညွှန်ပြသည်။
         label: အခန်းကဏ္ဍ
       system:
         actions:
           manage:
             explanation: "စနစ်အဆက်အသွယ်အချက်အလက်၊ သတိပေးချက်နှင့် အီးမေးလ်ဆက်တင်များ၊ နှင့် ထပ်တူပြုထားသည့် ဆာဗာများဆိုင်ရာ အချက်အလက်များကို ကြည့်ရှုခြင်းနှင့် အပ်ဒိတ်လုပ်နိုင်ပါသည်။ ဤခွင့်ပြုချက်ကို စနစ်စီမံခန့်ခွဲသူအတွက် သီးသန့်ထားရှိသည်။ "
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
+        explanation: အမျိုးမျိုးသော စနစ် - ကျယ်ပြန့်သော ဖွဲ့စည်းမှုဆက်တင်များ။
         label: စနစ်
       tracing_request:
         actions:
@@ -2395,16 +2592,16 @@ my:
             label: "အသုံးပြုနိုင်အောင်ဖွင့်ပါ / အသုံးမပြုနိုင်အောင်ပိတ်ပါ "
           export_case_pdf:
             explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုများစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုမှုပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export လုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field များအားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် မှတ်တမ်းအားလုံးပါဝင်ပါသည် ။ PDF export ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
-            label: pdf ကို export လုပ်ပါ
+            label: pdf ဖိုင်အဖြစ် export လုပ်ပါ
           export_csv:
-            explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုချက်စာမျက်နှာများမှ CSV ဖိုင်ကို ထုတ်ယူနိုင်ပြီး၊ လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် အကွက်အားလုံးပါဝင်သည့်  ခြေရာခံတောင်းဆိုမှုအားလုံးရရှိနိုင်ပါသည်။
-            label: CSV ကိုexport လုပ်ပါ
+            explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုချက်စာမျက်နှာများကို CSV ဖိုင်အဖြစ်ထုတ်ယူနိုင်ပြီး၊ လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် အကွက်အားလုံးပါဝင်သည့်  ခြေရာခံတောင်းဆိုမှုအားလုံးရရှိနိုင်ပါသည်။
+            label: CSV ဖိုင်အဖြစ် export လုပ်ပါ
           export_custom:
-            explanation: "အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုမှုပြသသည့် စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်လွှတ်နိုင်သည်၊ ၎င်းတွင် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် စိတ်ကြိုက်ဖောင်ပုံစံများ သို့မဟုတ် field များ၊တစ်ခု၊ မျိုးစုံ သို့မဟုတ် ခြေရာခံတောင်းဆိုမှု အားလုံး ပါရှိပါသည်။၊ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ Custom Export modal ကို အသုံးပြု၍ ထုတ်ယူမှုတွင် ထည့်သွင်းလိုသော ဖောင် သို့မဟုတ် fields များကို အသုံးပြုသူက ရွေးချယ်နိုင်သည်။ အသုံးပြုသူများသည် အပလီကေးရှင်းရှိ ခြေရာခံတောင်းဆိုမှုကိုကြည့်ရှုသည့်အခါ အဆိုပါဖောင်ပုံစံများနှင့် fields များကို မြင်နိုင်စွမ်းရှိပြီးသားဖြစ်မှသာ ထုတ်ယူမှုတွင် ဖောင်နှင့်fieldsများ ထည့်သွင်းနိုင်သည်ကို သတိပြုပါ။ "
-            label: custom export လုပ်ပါ
+            explanation: "အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုမှုပြသသည့် စာမျက်နှာများမှ XLS ဖိုင်ကို ထုတ်ယူနိုင်သည်၊ ၎င်းတွင် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် စိတ်ကြိုက်ဖောင်ပုံစံများ သို့မဟုတ် field များ၊တစ်ခု၊ မျိုးစုံ သို့မဟုတ် ခြေရာခံတောင်းဆိုမှု အားလုံး ပါရှိပါသည်။၊ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ Custom Export modal ကို အသုံးပြု၍ ထုတ်ယူမှုတွင် ထည့်သွင်းလိုသော ဖောင် သို့မဟုတ် fields များကို အသုံးပြုသူက ရွေးချယ်နိုင်သည်။ အသုံးပြုသူများသည် အပလီကေးရှင်းရှိ ခြေရာခံတောင်းဆိုမှုကိုကြည့်ရှုသည့်အခါ အဆိုပါဖောင်ပုံစံများနှင့် fields များကို မြင်နိုင်စွမ်းရှိပြီးသားဖြစ်မှသာ ထုတ်ယူမှုတွင် ဖောင်နှင့်fieldsများ ထည့်သွင်းနိုင်သည်ကို သတိပြုပါ။ "
+            label: custom စိတ်ကြိုက်ဖိုင်ပုံစံ ဖြင့် export လုပ်ပါ
           export_json:
             explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုမှုဖော်ပြစာမျက်နှာများမှ JSON ဖိုင်ကို export လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ခြေရာခံတောင်းဆိုမှုအားလုံးတွင် ပါဝင်ပါသည်။ ဤ export ကို လက်ရှိ Primero စနစ်မှ ဖြစ်ရပ်များကို export လုပ်လိုပြီး ၎င်းတို့ကို မတူညီသော Primero စနစ်သို့ import လုပ်လိုသူများအတွက် သို့မဟုတ် အခြားသော သတင်းအချက်အလက် စီမံခန့်ခွဲမှုစနစ်သို့ import လုပ်လိုသူများအတွက် အဓိကအားဖြင့် အသုံးပြုပါသည်။ JSON format သည် စက်ဖြင့်ဖတ်နိုင်သော်လည်း အသုံးပြုသူအများစုအတွက် လက်တွေ့မကျပါ။
-            label: json ကို export လုပ်ပါ
+            label: json ဖိုင်အနေဖြစ် export လုပ်ပါ
           export_list_view_csv:
             explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုစာရင်းတွင် ထိုအသုံးပြုသူအတွက် ပေါ်လာသည့် တူညီသောfields များပါရှိသော ခြေရာခံတောင်းဆိုမှုစာရင်းစာမျက်နှာမှ CSV ဖိုင်ထုတ်ယူမှုကို ဖန်တီးနိုင်သည်။ ခြေရာခံတောင်းဆိုမှုစာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
             label: စာရင်းကို CSV ပုံစံကြည့်ရန် export လုပ်ပါ။
@@ -2412,14 +2609,14 @@ my:
             explanation: အသုံးပြုသူသည် ခြေရာခံတောင်းဆိုမှုများစာရင်း သို့မဟုတ် ခြေရာခံတောင်းဆိုမှုပြသသည့်စာမျက်နှာများမှ PDF ဖိုင်ကို export လုပ်နိုင်ပြီး၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် field များအားလုံးပါဝင်သည့်၊ ဖြစ်စဉ်တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် မှတ်တမ်းအားလုံးပါဝင်ပါသည် ။ PDF export ဖိုင်တွင် အချက်အလက်များကို ဖြစ်ရပ်တစ်ခုချင်းအလိုက် ဦးစွာဖော်ပြထားပြီး အချက်အလက်များပေါ်လာသည့်ပုံစံဖြင့် ထပ်မံဖွဲ့စည်းထားသည်။
             label: pdf ကိုexport လုပ်ပါ
           export_xls:
-            explanation: ''
-            label: ""
+            explanation: 'အသုံးပြုသူသည် ဖြစ်ရပ်စာရင်း သို့မဟုတ် ဖြစ်ရပ်ဖော်ပြစာမျက်နှာများမှ ထုတ်ယူနိုင်သော XLS ဖိုင်ကို ထုတ်လုပ်နိုင်သည်၊ ၎င်းသည် လက်ရှိအသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် fields အားလုံး၊ တစ်ခု၊ အများအပြား သို့မဟုတ် အသုံးပြုသူဝင်ရောက်ခွင့်ရှိသည့် ဖြစ်ရပ်အားလုံးတွင် ပါဝင်ပါသည်။ ဤထုတ်ယူမှုတွင်၊ ဖောင်တစ်ခုစီကို XLS ဖိုင်အတွင်း ၎င်း၏ကိုယ်ပိုင်တက်ဘ်တွင် ကိုယ်စားပြုထားသည်။ မှတ်ချက်-XLS ဖော်မတ်သည် လက်တင်မဟုတ်သော အက္ခရာများ (ဥပမာ အာရဗီ၊ ဘင်္ဂလာ) ကို ဖတ်နိုင်သော ဖော်မတ်ဖြင့် ပြန်ဆိုသော်လည်း CSV ထုတ်ယူမှု မပြုလုပ်ပါ။'
+            label: Excel ( xls ဖိုင် ) ကို export လုပ်ပါ
           flag:
             explanation: ခြေရာခံတောင်းဆိုမှုတွင် အမှတ်အသားတစ်ခုထည့်နိုင်သည်။ ဤခွင့်ပြုချက်ရှိသော အသုံးပြုသူများသည် ခြေရာခံခြင်းတောင်းဆိုမှုတွင် ၎င်းတို့ထည့်သွင်းထားသော အမှတ်အသားများကို ဖယ်ရှားနိုင်သည်။
             label: အမှတ်အသားပြုခြင်း
           import:
-            explanation: အသုံးပြုသူကို CSV၊ Excel သို့မဟုတ် JSON ဖိုင်မှ import သွင်းခြင်းဖြင့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်အသစ်များကို ဖန်တီးခွင့်ပြုသည်။ အချက်အလက်များကို မှန်ကန်စွာ တင်သွင်းနိုင်ရန် အတွက် တင်သွင်းထားသော ဖိုင်ကို *very* အထူးပြုလုပ်ထားသည့် format ဖြင့်လုပ်ရပါမည်။ အဆင့်မြင့်နည်းပညာဆိုင်ရာ ကျွမ်းကျင်မှုများနှင့် Primero တွင် ဒေတာကို ဖော်မတ်ချထားပုံနှင့်ပတ်သက်သော နက်နက်နဲနဲ သိရှိသော စီမံခန့်ခွဲရေးအသုံးပြုသူများအတွက်သာ ဤလုပ်ဆောင်ချက်ကို ရရှိသင့်ပါသည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
-            label: တင်သွင်းခြင်း
+            explanation: အသုံးပြုသူကို CSV၊ Excel သို့မဟုတ် JSON ဖိုင်မှ import လုပ်ခြင်း အချက်အလက်သွင်းခြင်း ဖြင့် တစ်ခု သို့မဟုတ် တစ်ခုထက်ပိုသော ဖြစ်ရပ်အသစ်များကို ဖန်တီးခွင့်ပြုသည်။ အချက်အလက်များကို မှန်ကန်စွာ တင်သွင်းနိုင်ရန် အတွက် တင်သွင်းထားသော ဖိုင်ကို *very* အထူးပြုလုပ်ထားသည့် format ဖြင့်လုပ်ရပါမည်။ အဆင့်မြင့်နည်းပညာဆိုင်ရာ ကျွမ်းကျင်မှု နှင့် Primero တွင် ဒေတာကို ဖော်မတ်ချထားပုံကို သေသေချာချာ သိရှိသော စီမံခန့်ခွဲရေးအသုံးပြုသူများအတွက်သာ ဤလုပ်ဆောင်ချက်ကို ရရှိသင့်ပါသည်။ ဖြစ်ရပ်စာရင်းစာမျက်နှာမှသာလျှင် လုပ်ဆောင်ခဲ့သည်။
+            label: တင်သွင်းသည်
           manage:
             explanation: ခြေရာခံခြင်းတောင်းဆိုမှုများတွင် ရရှိနိုင်သောလုပ်ဆောင်ချက်အားလုံးကို အသုံးပြုသူတစ်ဦးအား ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "အရာအားလုံး" ကို ဆိုလိုသည်။
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
@@ -2429,17 +2626,18 @@ my:
           write:
             explanation: "\"တည်းဖြတ်ရန်\" ခလုတ်ကို နှိပ်ခြင်း၊ ခြေရာခံခြင်းတောင်းဆိုမှုဆိုင်ရာ အချက်အလက်ကို နောက်ဆုံးအခြေအနေနှင့်အညီ ပြုပြင်မွမ်းမံခြင်းနှင့် \"သိမ်းဆည်းရန်\" ကို နှိပ်နိုင်သည်။ အသုံးပြုသူကို ခြေရာခံခြင်းတောင်းဆိုမှုကို ပိတ်ရန် သို့မဟုတ် ဖွင့်ရန်လည်း ခွင့်ပြုသည်။"
             label: ပြင်ဆင်သည်
+        explanation: အုပ်ထိန်းသူမဲ့ခြင်း သို့မဟုတ် မိသားစုနှင့် ကွဲကွာနေသော ဖြစ်ရပ်တစ်ခုအား ရှာဖွေပြီး ပြန်လည်ပေါင်းစည်းရန် ကြိုးစားနေသည့် တစ်ဦးချင်းစီကို ကိုယ်စားပြုသည်။
         label: "ခြေရာခံတောင်းဆိုမှု "
       transfer:
         actions:
           transfer:
             explanation: သုံးစွဲသူသည် ပြင်ပသို့ ညွှန်းပို့မှု လုပ်ဆောင်သည့်အခါ "လက်ခံသူ အမျိုးအစား" အတွက် ရွေးချယ်စရာတစ်ခုအဖြစ် အခန်းကဏ္ဍပေါ်လာမည်ဖြစ်သည်။ အသုံးပြုသူသည် ဤအခန်းကဏ္ဍကို လွှဲပြောင်းမှုအမျိုးအစားအဖြစ် ရွေးချယ်ပါက လွှဲပြောင်းပေးပို့မှုကို ထည့်သွင်းသည့်အခါ ဤအခန်းကဏ္ဍမှ ဝင်ရောက်အသုံးပြုနိုင်သည့် ဖောင်များတွင်သာ တွေ့ရသည့် အချက်အလက်ပါရှိပါသည်။ ဥပမာအားဖြင့်၊ အသုံးပြုသူသည် လက်ခံသူအမျိုးအစားအဖြစ် "ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ" ကို ရွေးချယ်ပါက၊ ကျန်းမာရေးဆိုင်ရာ ဝန်ဆောင်မှုပေးသူ၏ အခန်းကဏ္ဍသည် အခြေခံ အထောက်အထားနှင့် ကာကွယ်စောင့်ရှောက်မှုဆိုင်ရာ စိုးရိမ်မှုပုံစံများကိုသာ ဝင်ရောက်ခွင့်ရှိပါမည်။ Primero မှ ပြင်ပသို့ လွှဲပြောင်းမှုအတွက် တင်ပို့သည့် ဖိုင်ကိုသာ ရရှိမည်ဖြစ်သည်။
             label: "ဤအခန်းကဏ္ဍကို ပြင်ပသို့လွှဲပြောင်းရာတွင် အသုံးပြုနိုင်ပါသလား?"
-        label: လွှဲပြောင်းမှု
+        label: လွှဲပြောင်းသည်
       user:
         actions:
           agency_read:
-            explanation: လက်ရှိအသုံးပြုသူ၏အေဂျင်စီသည် မိမိတို့ အဖွဲ့အစည်းတွင်းရှိ အသုံးပြုသူအကောင့်များကိုသာ ကြည့်ရှုနိုင်မည်ဖြစ်သည်။  လက်ရှိအသုံးပြုသူ၏ အခြားလုပ်ဆောင်ချက်များကို လုပ်ဆောင်နိုင်သည့် သုံးစွဲသူအကောင့်များကိုလည်း သက်ရောက်မှုရှိပါသည်။ ဥပမာအားဖြင့်၊ လက်ရှိအသုံးပြုသူတွင် သုံးစွဲသူများအတွက် "ရေးရန်" ခွင့်ပြုချက်နှငက့် gency Read ခွင့်ပြုချက်လည်း ရှိပါက ၎င်းတို့အေဂျင်စီရှိ အသုံးပြုသူအကောင့်များကိုသာ တည်းဖြတ်နိုင်မည်ဖြစ်ပါသည်။ အလားတူ၊ လက်ရှိအသုံးပြုသူသည် သုံးစွဲသူများအတွက် "စီမံရန်" ခွင့်ပြုချက်ရှိပြီး "အေဂျင်စီဖတ်ရန်" လည်းခွင့်ပြုချက်ရှိပါက၊ ၎င်းတို့၏ကိုယ်ပိုင်အေဂျင်စီအတွက် အသုံးပြုသူများကိုသာ ဖန်တီးနိုင်မည်ဖြစ်သည်။
+            explanation: လက်ရှိအသုံးပြုသူ၏အေဂျင်စီသည် မိမိတို့ အဖွဲ့အစည်းတွင်းရှိ အသုံးပြုသူအကောင့်များကိုသာ ကြည့်ရှုနိုင်မည်ဖြစ်သည်။  လက်ရှိအသုံးပြုသူ၏ အခြားလုပ်ဆောင်ချက်များကို လုပ်ဆောင်နိုင်သည့် သုံးစွဲသူအကောင့်များကိုလည်း သက်ရောက်မှုရှိပါသည်။ ဥပမာအားဖြင့်၊ လက်ရှိအသုံးပြုသူတွင် သုံးစွဲသူများအတွက် "ရေးရန်" ခွင့်ပြုချက်နှင့် agency Read ခွင့်ပြုချက်လည်း ရှိပါက ၎င်းတို့အေဂျင်စီရှိ အသုံးပြုသူအကောင့်များကိုသာ တည်းဖြတ်နိုင်မည်ဖြစ်ပါသည်။ အလားတူ၊ လက်ရှိအသုံးပြုသူသည် သုံးစွဲသူများအတွက် "စီမံရန်" ခွင့်ပြုချက်ရှိပြီး "အေဂျင်စီဖတ်ရန်" လည်းခွင့်ပြုချက်ရှိပါက၊ ၎င်းတို့၏ကိုယ်ပိုင်အေဂျင်စီအတွက် အသုံးပြုသူများကိုသာ ဖန်တီးနိုင်မည်ဖြစ်သည်။
             label: ကြည့်ရန် ( အဖွဲ့အစည်းအတွင်း)
           create:
             explanation: အသုံးပြုသူအုပ်စုကို စတင်ဖန်တီးနိုင်မှု။
@@ -2453,18 +2651,19 @@ my:
           write:
             explanation: ပြသအသုံးပြုသူစာမျက်နှာရှိ "တည်းဖြတ်ရန်" ခလုတ်ကိုနှိပ်နိုင်ခြင်း၊ အသုံးပြုသူနှင့်ပတ်သက်သောအချက်အလက်များကိုအပ်ဒိတ်လုပ်ပြီးနောက်သိမ်းဆည်းပါ။ ဤခွင့်ပြုချက်သည် အသုံးပြုသူအကောင့်များကို ပိတ်ရန်လည်း လုပ်ဆောင်နိုင်သည်ကို ကျေးဇူးပြု၍ သတိပြုပါ။
             label: ပြင်ဆင်သည်
+        explanation: တစ်ဦးချင်းအသုံးပြုသူအကောင့်ကိုကိုယ်စားပြုသည်။
         label: အသုံးပြုသူများ
       user_group:
         actions:
           assign:
-            explanation: "အသုံးပြုသူအကောင့်တစ်ခုကို ဖန်တီးခြင်း သို့မဟုတ် တည်းဖြတ်သည့်အခါ အသုံးပြုသူအုပ်စုများကို ရွေးချယ်နိုင်မှု။ အကယ်၍ လက်ရှိအသုံးပြုသူတွင် \"တစ်ခုတည်းသောမှတ်တမ်းများ သို့မဟုတ် ဖွဲ့ရှိအသုံးပြုသူများ\" အဆင့် ဝင်ရောက်ခွင့်ရှိပါက ၎င်းတို့ဖန်တီးနေသောအသုံးပြုသူအကောင့်အတွက် သို့မဟုတ် တည်းဖြတ်သည့်အသုံးပြုသူအကောင့်အတွက် *၎င်းတို့၏ကိုယ်ပိုင်* အသုံးပြုသူအုပ်စုများထဲမှ တစ်ခု သို့မဟုတ် တစ်ခုထက်ပို၍ ရွေးချယ်နိုင်ပါမည်။ ဆိုလိုသည်မှာ အသုံးပြုသူအုပ်စုများကို သတ်မှတ်ပေးနိုင်စွမ်းရှိသော မန်နေဂျာသည် လက်ရှိမန်နေဂျာပိုင်ဆိုင်သည့် အသုံးပြုသူအုပ်စုများအတွင်းသို့သာ အသုံးပြုသူတစ်ဦးကို ထည့်သွင်းနိုင်မည်ဖြစ်သည်။ အသုံးပြုသူအကောင့်များ ဖန်တီးခြင်း သို့မဟုတ် တည်းဖြတ်မည့် မည်သည့်အခန်းကဏ္ဍအတွက်မဆို ဤခွင့်ပြုချက်လိုအပ်ပါသည်။ "
+            explanation: "အသုံးပြုသူအကောင့်တစ်ခုကို ဖန်တီးခြင်း သို့မဟုတ် တည်းဖြတ်သည့်အခါ အသုံးပြုသူအုပ်စုများကို ရွေးချယ်နိုင်မှု။ အကယ်၍ လက်ရှိအသုံးပြုသူတွင် \"တစ်ခုတည်းသောမှတ်တမ်းများ သို့မဟုတ် အဖွဲ့ရှိအသုံးပြုသူများ\" အဆင့် ဝင်ရောက်ခွင့်ရှိပါက ၎င်းတို့ဖန်တီးနေသောအသုံးပြုသူအကောင့်အတွက် သို့မဟုတ် တည်းဖြတ်သည့်အသုံးပြုသူအကောင့်အတွက် *၎င်းတို့၏ကိုယ်ပိုင်* အသုံးပြုသူအုပ်စုများထဲမှ တစ်ခု သို့မဟုတ် တစ်ခုထက်ပို၍ ရွေးချယ်နိုင်ပါမည်။ ဆိုလိုသည်မှာ အသုံးပြုသူအုပ်စုများကို သတ်မှတ်ပေးနိုင်စွမ်းရှိသော မန်နေဂျာသည် လက်ရှိမန်နေဂျာပိုင်ဆိုင်သည့် အသုံးပြုသူအုပ်စုများအတွင်းသို့သာ အသုံးပြုသူတစ်ဦးကို ထည့်သွင်းနိုင်မည်ဖြစ်သည်။ အသုံးပြုသူအကောင့်များ ဖန်တီးခြင်း သို့မဟုတ် တည်းဖြတ်မည့် မည်သည့်အခန်းကဏ္ဍအတွက်မဆို ဤခွင့်ပြုချက်လိုအပ်ပါသည်။ "
             label: တာဝန်ပေးသည်
           create:
             explanation: အသုံးပြုသူအုပ်စုကို စတင်ဖန်တီးနိုင်မှု။
             label: စတင်ပြုလုပ်သည်
           delete:
             explanation: အသုံးပြုသူအုပ်စုကို ဖျက်နိုင်မှု။
-            label: ဖျက်သိမ်းပါ
+            label: ဖျက်သည်
           manage:
             explanation: 'အသုံးပြုသူအုပ်စုများတွင် ရရှိနိုင်သော လုပ်ဆောင်ချက်များအားလုံးကို လုပ်ဆောင်ရန် အသုံးပြုသူတစ်ဦးအား ခွင့်ပြုသည်။ "စီမံခန့်ခွဲခြင်း" ခွင့်ပြုချက်သည် အခြေခံအားဖြင့် "အရာအားလုံး" ကို ဆိုလိုသည်။ အရေးကြီးသည်- ၎င်းသည် အသုံးပြုသူအုပ်စုများကို အသစ်ဖန်တီးခြင်းနှင့် ဖျက်သိမ်းခြင်းတို့ကိုလည်း လုပ်ဆောင်နိုင်စေပါသည်။'
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
@@ -2474,6 +2673,7 @@ my:
           write:
             explanation: အသုံးပြုသူအုပ်စုများကို တည်းဖြတ်နိုင်မှု။
             label: ပြင်ဆင်သည်
+        explanation: အချက်အလက်မျှဝေနိုင်သော အဖွဲ့ သို့မဟုတ် ပူးပေါင်းဆောင်ရွက်သော အသုံးပြုသူအုပ်စုကို ကိုယ်စားပြုသည်။ မန်နေဂျာများသည် ၎င်းတို့၏အသုံးပြုသူအုပ်စုများရှိ လူမှုရေးလုပ်သားများက စီမံခန့်ခွဲသော မှတ်တမ်းအားလုံးကို ပုံမှန်အားဖြင့် မြင်နိုင်သည်။
         label: အသုံးပြုသူ အုပ်စုများ
       webhook:
         actions:
@@ -2488,19 +2688,19 @@ my:
             label: စတင်ပြုလုပ်သည်
           delete:
             explanation: API မှတစ်ဆင့် webhook configuration တစ်ခုကို ဖျက်နိုင်မှု။
-            label: ဖျက်သိမ်းပါ
+            label: ဖျက်သည်
           manage:
             label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
             explanation:
       activity_log:
         actions:
           transfer:
-            explanation: ""
-            label: ""
+            explanation: အသုံးပြုသူသည် Dashboard ၏ လုပ်ဆောင်ချက်မှတ်တမ်း အပိုင်းကိုနှိပ်နိုင်ပြီး ၎င်းတို့ဝင်ရောက်နိုင်သော ဖြစ်ရပ်များ အတွက် လက်ခံထားသော သို့မဟုတ် ငြင်းပယ်ထားသော လွှဲပြောင်းမှုများအားလုံး၏ မှတ်တမ်းကို ကြည့်ရှုနိုင်သည်။
+            label: လွှဲပြောင်းမှုများ
           manage:
-            label: ""
+            label: စီမံခန့်ခွဲပါ (ဤအရင်းအမြစ်အမျိုးအစားအတွက် ခွင့်ပြုချက်အားလုံးကို)
             explanation:
-        label: ""
+        label: ဆောင်ရွက်မှုမှတ်တမ်း
   potential_match:
     case_id: ဖြစ်ရပ်အမှတ်စဉ်
     child_age: အသက်
@@ -2511,28 +2711,29 @@ my:
     inquiry_date: စုံစမ်းမေးမြန်းမှုပြုလုပ်သည့် ရက်စွဲ
     name: အမည်
     score: ရမှတ်
-    social_worker: "လူမှုရေးလုပ်သား:"
+    social_worker: လူမှုရေး ဝန်ထမ်း/လူမှုရေးဖြစ်ရပ်စီမံခန့်ခွဲသူ
     social_worker_agency: အဖွဲ့အစည်း
     tracing_request_id: ခြေရာခံခြင်းပြုလုပ်ရန် အမှတ်စဉ်တောင်းဆိုခြင်း
     trace: ခြေရာခံခြင်း
-    likelihood_likely: ဆင်တူနိုင်ချေရှိသော
+    likelihood_likely: ဖြစ်နိုင်ချေရှိသော
     likelihood_possible: ဖြစ်နိုင်ချေရှိသော
   potential_matches:
     display: "%{type}%{id}တို့အတွက် အလားအလာရှိသည့် ကိုက်ညီသူများကို ပြသခြင်း"
   reassign:
-    multiple_error: အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်။ ဖြစ်ရပ်(များ) ကို တာဝန်သတ်မှတ်မပေးပါ။
-    multiple_successfully: 'ဖြစ်ရပ်(များ)ကို အောင်မြင်စွာ သတ်မှတ်ပေးခဲ့ပါသည်။'
+    multiple_error: "အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်။ %{select_records}ဖြစ်ရပ်(များ)ကို တာဝန်သတ်မှတ်မပေးပါ။"
+    multiple_successfully: '%{select_records}ဖြစ်ရပ်(များ)ကို အောင်မြင်စွာ သတ်မှတ် တာဝန်ခွဲပေးခဲ့ပါသည်။'
     notes_label: မှတ်စုများ
     successfully: အောင်မြင်စွာ ပြန်လည်သတ်မှတ်ခဲ့ပြီးဖြစ်ပါသည်။
     user_mandatory_label: လက်ခံသူ လိုအပ်ပါသည်။
     users_label: လက်ခံသူ
   record_information:
     assigned_user_names: အခြား တာဝန်သတ်မှတ်ပေးထားသော အသုံးပြုသူများ
+    created_at: မှတ်တမ်း ဖန်တီးထားသည့်အချိန်
     created_by: ဖန်တီးထားသော မှတ်တမ်း
     created_organization: " အဖွဲ့အစည်းမှ စတင်ပြုလုပ်ထားသည်။"
     current_owner_separator: လက်ရှိပိုင်ရှင်
     module_id: "မော်ဂျူး "
-    owned_by: ဖြစ်ရပ်လုပ်သား ကုဒ်နံပါတ်
+    owned_by: ဖြစ်ရပ်စီမံခန့်ခွဲသူ ကုဒ်နံပါတ်
     owned_by_agency_id: အဖွဲ့အစည်း
     owned_by_text: ကွင်းဆင်း / ဖြစ်ရပ် / လူမှုရေးလုပ်သား
     previously_owned_by: "ယခင်ပိုင်ရှင် "
@@ -2540,6 +2741,7 @@ my:
     reassigned_tranferred_on: ပြန်လည်တာဝန်သတ်မှတ်ပြီး/ လွှဲပြောင်းပြီး
     record_history_separator: မှတ်တမ်းသမိုင်း
     last_updated_at: နောက်ဆုံးပြုပြင်ခဲ့သည့် အချိန်
+    last_updated_by: နောက်ဆုံးပြုပြင်ခဲ့သူ
   record_panel:
     record_information: မှတ်တမ်း၏ သတင်းအချက်အလက်များ
   referral:
@@ -2549,7 +2751,7 @@ my:
     is_remote_label: သင်သည် အဝေးပို့စနစ်ကို ပြောင်းလဲမှုပြုလုပ်နေပါသလား
     location_label: တည်နေရာ
     notes_label: မှတ်စုများ
-    notes_on_referral: ညွှန်းပို့လွှဲပြောင်းမှုဆိုင်ရာမှတ်စုများ
+    notes_on_referral: ညွှန်းပို့မှုဆိုင်ရာမှတ်စုများ
     note_on_referral_from_provider: ဝန်ဆောင်မှုပေးသူထံမှ ညွှန်းပို့လွှဲအပ်မှုဆိုင်ရာမှတ်စုများ
     provided_consent_label: ဖောင်ပုံစံတွင် သဘောတူခွင့်ပြုချက် ကိုဖော်ပြထားခြင်းမရှိပါ။
     recipient_label: လက်ခံသူ
@@ -2614,7 +2816,7 @@ my:
     translations:
       edit: ဘာသာပြန်ဆိုမှုများကို တည်းဖြတ်ပါ။
       manage: ဘာသာပြန်ဆိုမှုများကို စီမံပါ
-      select_language: ဘာသာစကားတစ်ခုကိုရွေးချယ်ပါ
+      select_language: ဘာသာစကားကိုရွေးချယ်ပါ
     error_loading: အစီရင်ခံစာ(များ)ကို Loading လုပ်ရာတွင် အမှားရှိသည်။
   request_transfer:
     notes_label: မှတ်စုများ
@@ -2711,11 +2913,16 @@ my:
       disabled: ခြေရာခံတောင်းဆိုမှုကို ပိတ်ထားသည်။
       nothing_found: မည်သည့်အရာမျှမှမတွေ့ပါ။
       update_success: 'ခြေရာခံမှုတောင်းဆိုမှု %{record_id}ကို နောက်ဆုံးအခြေအနေနှင့်အညီ အောင်မြင်စွာပြင်ဆင်ခဲ့သည်။'
-      creation_success: "ခြေရာခံမှုတောင်းဆိုမှုမှတ်တမ်း %{record_id}ကို အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်"
-      update_success_queue: 'ခြေရာခံတောင်းဆိုမှုကို နောက်ခံတွင် အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်။'
+      creation_success: ခြေရာခံမှုတောင်းဆိုမှုမှတ်တမ်း ကို အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်
+      update_success_queue: '%{record_id}ခြေရာခံတောင်းဆိုမှုကို နောက်ခံတွင် အောင်မြင်စွာ ပြုပြင်မွမ်းမံပြီးဖြစ်သည်။'
       creation_success_queue: ခြေရာခံတောင်းဆိုမှုကို နောက်ခံတွင် အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်။
       match_action: "%{record_id}ဖြစ်ရပ် နှင့် ရှာဖွေမှု%{trace_id} ကိုက်ညီပါသည်။"
       unmatch_action: "%{record_id}ဖြစ်ရပ် နှင့် ရှာဖွေမှု %{trace_id}မကိုက်ညီပါသည်။"
+  registry_record:
+    messages:
+      update_success: '%{record_id}မှတ်ပုံတင်မှတ်တမ်းကို အောင်မြင်စွာမွမ်းမံ ပြီးပါပြီ။'
+      creation_success: 'မှတ်ပုံတင်မှတ်တမ်းကို အောင်မြင်စွာအသစ်ဖန်တီး ပြီးပါပြီ။'
+      disabled: မှတ်ပုံတင်မှတ်တမ်းကို အသုံးပြု၍မရပါ။
   tracing_requests:
     date_of_inquiry: စုံစမ်းမေးမြန်းမှုပြုလုပ်သည့် ရက်စွဲ
     disable_dialog_title: ခြေရာခံတောင်းဆိုမှု ကိုပိတ်ပါ။
@@ -2737,13 +2944,40 @@ my:
     register_new_tracing_request: ခြေရာခံရန် တောင်းဆိုမှုအသစ်များ
     selectable_date_options:
       inquiry_date: စုံစမ်းမေးမြန်းမှုပြုလုပ်သည့် ရက်စွဲ
-    selected_records: 'ရွေးချယ်ထားသော ခြေရာခံတောင်းဆိုမှု(များ)'
+    selected_records: 'ရွေးချယ်ထားသော %{select_records}ခြေရာခံတောင်းဆိုမှု(များ)'
     selected_all_records: 'ဤမေးခွန်းနှင့် ကိုက်ညီသော ခြေရာခံတောင်းဆိုမှုအားလုံးကို ရွေးပါ။%{total_records}'
-    show_tracing_request: 'ခြေရာခံတောင်းဆိုမှု ID'
+    show_tracing_request: 'ခြေရာခံတောင်းဆိုမှု ID%{short_id}'
     tracing_requests: ခြေရာခံတောင်းဆိုမှုများ
-    export: "ထုတ်လွှတ်ခြင်းများ "
+    export: "အချက်အလက်ထုတ်ယူခြင်းများ "
+  registry_records:
+    id: အိုင်ဒီနံပါတ်
+    label: မှတ်ပုံတင်မှတ်တမ်းများ
+    name: အမည်
+    registry_no: မှတ်ပုံတင်စာရင်းနံပါတ်
+    location: မြို့နယ်
+    registration_date: စာရင်းသွင်းသည့် နေ့စွဲ
+    selected_records: 'ရွေးချယ်ထားသော %{select_records}မှတ်ပုံတင်မှတ်တမ်း(များ)'
+    selected_all_records: 'ဤမေးခွန်းနှင့် ကိုက်ညီသော %{total_records}မှတ်ပုံတင်မှတ်တမ်းအားလုံးကို ရွေးပါ။'
+    disable_dialog_title: မှတ်ပုံတင်မှတ်တမ်းကို အသုံးပြု၍မရအောင်ပိတ်ပါ
+    disable_dialog: OK ကိုနှိပ်ခြင်းဖြင့် ဤမှတ်ပုံတင်မှတ်တမ်း၏ အခြေအနေကို အသုံးပြု၍မရအောင် ပြောင်းပေးပါမည်။
+    disable_success: မှတ်ပုံတင်မှတ်တမ်းကို အောင်မြင်စွာ အသုံးပြု၍မရအောင် ပိတ်ထားသည်။
+    enable_dialog_title: မှတ်ပုံတင်မှတ်တမ်းကို ဖွင့်ပါ။
+    enable_dialog: OK ကိုနှိပ်ခြင်းဖြင့် ဤမှတ်ပုံတင်မှတ်တမ်း၏ အခြေအနေကို အသုံးပြု၍ရအောင် ဖွင့်ပေးပါမည်။
+    enable_success: မှတ်ပုံတင်ခြင်း မှတ်တမ်းကို အောင်မြင်စွာ ဖွင့်ပြီးပါပြီ။
+    filter_by:
+      by_date: ရက်စွဲအလိုက် -
+      status: ဖြစ်ရပ်အခြေအနေ
+    selectable_date_options:
+      registration_date: မှတ်ပုံတင်သည့် ရက်စွဲ-
+    show_registry_record: 'မှတ်ပုံတင်မှတ်တမ်း အိုင်ဒီနံပါတ် :%{short_id}'
+    register_new_registry_record: မှတ်ပုံတင်မှတ်တမ်း အသစ်
+    export: အချက်အလက်ထုတ်ယူခြင်း
+    mark_for_offline:
+      title: အော့ဖ်လိုင်းအတွက် အမှတ်အသားပြုလုပ်ပါ။
+      text: အော့ဖ်လိုင်းဖြစ်နေချိန်တွင် အသုံးပြုရန်အတွက် ဤမှတ်ပုံတင်စာရင်းမှတ်တမ်းများကို အမှတ်အသားပြုလိုသည်မှာ သေချာပါသလား။
+      success: အော့ဖ်လိုင်းအသုံးပြုမှုအတွက် မှတ်ပုံတင်စာရင်းမှတ်တမ်းများကို အောင်မြင်စွာ အမှတ်အသားပြုထားသည်။
   transfer:
-    label: ""
+    label: လွှဲပြောင်း
     agency_label: အဖွဲ့အစည်း
     consent_from_individual_label: ဤလွှဲပြောင်းမှုပြုလုပ်ရန် သင်တစ်ဦးချင်းထံမှ ခွင့်ပြုချက်ရပါသလား။
     consent_label: မှတ်တမ်းများတွင် သဘောတူညီမှုကို ဖေါ်ပြမထားပါ
@@ -2754,11 +2988,12 @@ my:
     provided_consent_label: ဖောင်ပုံစံတွင် သဘောတူခွင့်ပြုချက် ကိုဖော်ပြထားခြင်းမရှိပါ။
     recipient_label: လက်ခံသူ
     select_label: ရွေးချယ်ပါ
-    success: "%{record_type}%{id} အား အောင်မြင်စွာ လွှဲပြောင်းမှု ပြုလုပ်ပြီးဖြစ်ပါသည်"
+    success: အောင်မြင်စွာ လွှဲပြောင်းမှု ပြုလုပ်ပြီးဖြစ်ပါသည်
     transfer_label: မည်သို့ဆိုစေ လွှဲပြောင်းပါ
     user_mandatory: အသုံးပြုသူအမည် လိုအပ်ပါသည်
+    rejected_reason: ငြင်းပယ်ရသည့် အကြောင်းအရင်း
   transfer_assignment:
-    title: လွှဲပြောင်းမှုများနှင့် ဖြစ်ရပ်တာဝန်များ
+    title: လွှဲပြောင်းမှုများ / ဖြစ်ရပ်တာဝန်များ
   transition:
     agency_label: အဖွဲ့အစည်း
     assigned_by: တာဝန်ပေးသူ
@@ -2785,7 +3020,7 @@ my:
       in_progress: ဆိုင်းငံ့ထားသည်
       inprogress: ဆိုင်းငံ့ထားသည်
       rejected: ငြင်းဆိုထားသည်
-      revoked: ""
+      revoked: ပြန်ရုပ်သိမ်းခဲ့သည်
     type:
       assign: တာဝန်ပေးသည်
       reassign: တာဝန်ပေးသည်
@@ -2800,7 +3035,7 @@ my:
     email: အီးမေးလ်
     full_name: နာမည်အပြည့်အစုံ
     identity_provider: "အထောက်အထားပေးသူ "
-    invalid_provider_username: 'အသုံးပြုသူအမည် Format  မမှန်ပါ။ ဥပမာ- my.username@'
+    invalid_provider_username: 'အသုံးပြုသူအမည် Format  မမှန်ပါ။ ဥပမာ: my.username@ %{domain}'
     label: အသုံးပြုသူ
     language: ဘာသာစကား
     locale: နေရာဒေသ
@@ -2809,8 +3044,8 @@ my:
       confirmation: သင်ဤအသုံးပြုသူကို ဖျက်ချင်သည်မှာ သေချာပါသလား။ ဖျက်ပြီးသည်များ ပြန်မရနိုင်ပါ။ အသုံးပြုသူကိုဖျက်ရန် OK ကိုနှိပ်ပါ။
       created: အသုံးပြုသူကိုအောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်
       failure: အမှားတစ်ခု ဖြစ်ပွားခဲ့သည်၊ ကျေးဇူးပြု၍ အကူအညီကို ဆက်သွယ်ပါ။
-      new_confirm_html: Primero ကိုအသုံးပြုရန် အခန်းကဏ္ဍဖြင့် အသုံးပြုသူကို သင် ဖိတ်ကြားတော့မည်ဖြစ်သည်။ အတည်ပြုအီးမေးလ်ကို  သို့ပေးပို့ပါမည်။ ရှေ့ဆက်လိုပါသလား။
-      new_confirm_non_identity_html: Primero ကို အသုံးပြုရန် အခန်းကဏ္ဍဖြင့် အသုံးပြုသူကို သင် ဖိတ်ကြားတော့မည်ဖြစ်သည်။ အတည်ပြုအီးမေးလ်ကို သို့ပေးပို့ပါမည်။ ရှေ့ဆက်လိုပါသလား။
+      new_confirm_html: "Primero ကိုအသုံးပြုရန် အသုံးပြုသူကို%{username} %{identity}မှ%{role}အခန်းကဏ္ဍဖြင့် ဖိတ်ကြားတော့မည်ဖြစ်သည်။ အတည်ပြုအီးမေးလ်ကို 4 %{email} သို့ပေးပို့ပါမည်။ ရှေ့ဆက်လိုပါသလား။"
+      new_confirm_non_identity_html: "Primero ကိုအသုံးပြုရန် အသုံးပြုသူကို%{username} %{role}အခန်းကဏ္ဍဖြင့် ဖိတ်ကြားတော့မည်ဖြစ်သည်။ အတည်ပြုအီးမေးလ်ကို  %{email} သို့ပေးပို့ပါမည်။ ရှေ့ဆက်လိုပါသလား။"
       not_found: ပေးထားသောအိုင်ဒီနှင့်တူသည့်အသုံးပြုသူကိုရှာမတွေ့ပါ
       password_changed_successfully: စကားဝှက်ကိုအောင်မြင်စွာပြောင်းလဲပြီးပါပြီ
       passwords_do_not_match: လက်ရှိစကားဝှက်နှင့် မကိုက်ညီပါ
@@ -2831,36 +3066,36 @@ my:
     password_confirmation: စကားဝှက်အတည်ပြုခြင်း။
     phone: ဖုန်း
     position: " ရာထူး"
-    provider_username_help: 'နမူနာ : my.username@'
+    provider_username_help: 'နမူနာ : my.username@%{domain}'
     role_id: အခန်းကဏ္ဍ
     send_mail: "အီးမေးလ် အသိပေးချက်များကို လက်ခံရရှိပါသလား?"
     user_group_unique_ids: အသုံးပြုသူအုပ်စုများ
     user_name: အသုံးပြုသူအမည်
     services: ဝန်ဆောင်မှုများ
     welcome_email:
-      subject: 'မှကြိုဆိုပါသည်။'
-      greeting: 'Primero မှကြိုဆိုပါသည်။'
-      body_native: 'သင်အား ( ) တစ်ဦးအဖြစ်ထည့်သွင်းထားသည်။ ကျေးဇူးပြု၍ () ဖြင့် အလုပ်စတင်လုပ်ဆောင်ရန် နောက်ဆက်တွဲ ညွှန်ကြားချက်များအတွက် ( ) ကိုကျေးဇူးပြု၍ ဆက်သွယ်ပါ။'
+      subject: '%{system}မှကြိုဆိုပါသည်။'
+      greeting: '%{system}မှကြိုဆိုပါသည်။'
+      body_native: 'သင်အား %{role_name}တစ်ဦးအဖြစ်ထည့်သွင်းထားသည်။ ကျေးဇူးပြု၍ %{admin_full_name}(%{admin_email})ဖြင့် အလုပ်စတင်လုပ်ဆောင်ရန် နောက်ဆက်တွဲ ညွှန်ကြားချက်များအတွက် %{host}ကိုကျေးဇူးပြု၍ ဆက်သွယ်ပါ။'
       sso:
-        body: 'သင့်အား .. အဖြစ် ထည့်သွင်းထားသည်။'
-        step1: '.... သွားပြီး ....... ကိုနှိပ်ပါ။'
-        step2: 'သင့် အကောင့်ဖြင့် ဝင်ရောက်ပါ။'
-        step3: 'သင့်အကောင့်အတွက် အမြဲတမ်းအသုံးပြုနေသည့် တူညီသောစကားဝှက်ကို အသုံးပြုပါ။'
-        footer: 'နောက်ထပ်အသေးစိတ်အချက်အလက်များအတွက် ကျေးဇူးပြု၍ ....(သို့) ဆက်သွယ်ပါ။'
+        body: 'သင့်အား %{role_name}အဖြစ် ထည့်သွင်းထားသည်။'
+        step1: '%{host} သွားပြီး %{identity_provider}ကိုနှိပ်ပါ။'
+        step2: 'သင့် %{identity_provider}အကောင့် %{user_name}ဖြင့်ဝင်ရောက်ပါ။'
+        step3: 'သင့် %{identity_provider}အကောင့်အတွက် အမြဲတမ်းအသုံးပြုနေသည့် တူညီသောစကားဝှက်ကို အသုံးပြုပါ။'
+        footer: 'နောက်ထပ်အသေးစိတ်အချက်အလက်များအတွက် ကျေးဇူးပြု၍ %{admin_full_name}%{admin_email}(သို့) ဆက်သွယ်ပါ။'
       otp:
-        body: 'သင့်အား .. အဖြစ် ထည့်သွင်းထားသည်။'
-        step1: 'သင်၏အသုံးပြုသူအမည်ကို လက်ခံရရှိရန် ..... (သို့) ဆက်သွယ်ပါ။'
-        step2: '....သို့သွား၍ "Primero အသုံးပြုသူအမည်ဖြင့် အကောင့်ဝင်ပါ။" ကိုနှိပ်ပါ။'
-        step3: 'သင်၏အသုံးပြုသူအမည်နှင့် ယာယီစကားဝှက်ဖြင့် ဝင်ရောက်ပါ။'
+        body: 'သင့်အား %{role_name} အဖြစ် ထည့်သွင်းထားသည်။'
+        step1: 'သင်၏အသုံးပြုသူအမည်ကို လက်ခံရရှိရန် %{admin_full_name}(%{admin_email})သို့ ဆက်သွယ်ပါ။'
+        step2: '%{host}သို့သွား၍ "Primero အသုံးပြုသူအမည်ဖြင့် အကောင့်ဝင်ပါ။" ကိုနှိပ်ပါ။'
+        step3: 'သင်၏အသုံးပြုသူအမည်နှင့် ယာယီစကားဝှက်ဖြင့် ဝင်ရောက်ပါ။%{otp}.'
         step4: 'အကြောင်းကြားသောအခါ၊ သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ပါ။'
       url_label: Primero
       enabled_label: နှုတ်ခွန်းဆက် အီးမေးလ်ပို့လိုပါသလား
       text_label: နှုတ်ခွန်းဆက် အီးမေးလ် စာသားများ
     password_reset:
-      subject: ''
-      email_greeting: "ချစ်လှစွာသော၊"
-      email_body1: "တစ်စုံတစ်ဦးသည် သင့်စကားဝှက်ကို ... အတွက် သတ်မှတ်ရန် တောင်းဆိုခဲ့သည်။ စတင်ရန် အောက်ပါ url ကို နှိပ်ပါ။"
-      email_body2: "ဤလင့်ခ်သည် နာရီပိုင်းအတွင်း သက်တမ်းကုန်ဆုံးမည်ဖြစ်ပြီး တစ်ကြိမ်သာ အသုံးပြုနိုင်သည်။ စကားဝှက် ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုမှု မပြုလုပ်ခဲ့ပါက သို့မဟုတ် Primero အသုံးပြုသူအသစ်သည် သင့်ကိုယ်စား စာရင်းမသွင်းပါက ဤအီးမေးလ်ကို လျစ်လျူရှုပါ။ အထက်ဖော်ပြပါလင့်ခ်သည် သက်တမ်းကုန်သွားပါက၊ စကားဝှက်ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုချက်ကို ပြန်လည်ပေးပို့ရန် ကျေးဇူးပြု၍ နှိပ်ပါ။"
+      subject: 'စကားဝှက်ညွှန်ကြားချက်များကို ပြန်လည်သတ်မှတ်ပါ။'
+      email_greeting: "ချစ်လှစွာသော %{full_name}"
+      email_body1: "တစ်စုံတစ်ဦးသည် သင့်စကားဝှက်ကို %{host_href}အတွက် သတ်မှတ်ရန် တောင်းဆိုခဲ့သည်။ စတင်ရန် အောက်ပါ url ကို နှိပ်ပါ။"
+      email_body2: "ဤလင့်ခ်သည် %{hours}နာရီပိုင်းအတွင်း သက်တမ်းကုန်ဆုံးမည်ဖြစ်ပြီး တစ်ကြိမ်သာ အသုံးပြုနိုင်သည်။ စကားဝှက် ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုမှု မပြုလုပ်ခဲ့ပါက သို့မဟုတ် Primero အသုံးပြုသူအသစ်သည် သင့်ကိုယ်စား စာရင်းမသွင်းပါက ဤအီးမေးလ်ကို လျစ်လျူရှုပါ။ အထက်ဖော်ပြပါလင့်ခ်သည် သက်တမ်းကုန်သွားပါက၊ စကားဝှက်ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုချက်ကို ပြန်လည်ပေးပို့ရန် ကျေးဇူးပြု၍ %{reset_request_href}နှိပ်ပါ။"
       email_body_link: ဤနေရာ
       request_submitted: "စကားဝှက် ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုချက်ကို တင်သွင်းခဲ့သည်။"
       success: "စကားဝှက်ကို အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။"
@@ -2869,15 +3104,16 @@ my:
         password_confirmation: "စကားဝှက် ကိုက်ညီရပါမည်။"
     onboard_email:
       subject: "စတင်ရန် %{system}"
-      greeting: "ချစ်လှစွာသော၊"
+      greeting: "ချစ်လှစွာသော %{full_name}"
       body1: "Primero မှကြိုဆိုပါသည်။"
-      body2: "သင်သည် .... အတွက် အကောင်အထည်ဖော်ရန် စီမံခန့်ခွဲသူအဖြစ် သတ်မှတ်ခြင်းခံရသည်။"
+      body2: "သင်သည် %{host_href}အတွက် အကောင်အထည်ဖော်ရန် စီမံခန့်ခွဲသူအဖြစ် သတ်မှတ်ခြင်းခံရသည်။%{reset_notification}"
       body2_reset_notification: "သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ရန် သင့်အား တောင်းဆိုသည့် နောက်ထပ်အီးမေးလ်တစ်စောင်ကို လက်ခံရရှိမည်ဖြစ်သည်။"
       body3: "သင့်တွင် လုံခြုံမှုရှိပြီး အချိန်မီအကောင်အထည်ဖော်ရန်  တာဝန်ရှိပါသည်။ ထုတ်လွှင့်မှုတစ်ခုစီအတွက်၊ စတင်အသုံးပြုသူ၊ အသုံးပြုသူစီမံခန့်ခွဲမှုဗျူဟာနှင့် သတင်းအချက်အလက်မျှဝေခြင်းဆိုင်ရာ ပရိုတိုကောတို့နှင့်အတူ အကောင်အထည်ဖော်မှုအစီအစဉ်ကို ပြီးမြောက်ထားသင့်သည်။ အသုံးပြုသူအဖွဲ့အစည်းအားလုံးအတွက် လက်မှတ်ရေးထိုးထားသော အသုံးပြုမှုစည်းမျဥ်းများ ဖိုင်တွင်းရှိကြောင်း သေချာစေရန်အတွက် သင်သည်လည်း တာဝန်ရှိပါသည်။ "
   user_group:
+    associated_agencies: အသုံးပြုသောအဖွဲ့နှင့် ဆက်စပ်သောအဖွဲ့အစည်းများ
     description: ရှင်းလင်းဖော်ပြချက်
     disabled:
-      explanation: အကယ်၍ ဤအသုံးပြုသူအုပ်စုကို သင်ပိတ်ထားပါက၊ ၎င်းကို အသုံးပြုသူအကောင့်များသို့ သင်သတ်မှတ်ပေးနိုင်စွမ်းမရှိတော့ပါ။
+      explanation: အကယ်၍ ဤအသုံးပြုသူအုပ်စုကို သင်ပိတ်ထားပါက၊ ၎င်းတို့၏ အသုံးပြုသူအကောင့်များအား သင်သတ်မှတ်ပေး တာဝန်ခွဲဝေနိုင်စွမ်းမရှိတော့ပါ။
       label: ပိတ်ထားသည်
     messages:
       created: အသုံးပြုသူအုပ်စုကိုအောင်မြင်စွာ စတင်ပြုလုပ်ပြီးပြီ။
@@ -2895,11 +3131,11 @@ my:
   devise:
     failure:
       already_authenticated: "သင်သည် စနစ်အတွင်း ဝင်ရောက်ပြီးဖြစ်သည်။"
-      invalid: "အသုံးပြုသူအမည် သို့မဟုတ် စကားဝှက် မမှန်ကန်ပါ"
+      invalid: "%{authentication_keys} သို့မဟုတ် စကားဝှက် မမှန်ကန်ပါ"
       locked: "သင့်အကောင့်ကို လော့ခ်ချထားသည်။"
-      last_attempt: "သင့်အကောင့်ကို လော့ခ်မချမီ နောက်ထပ်ကြိုးစားမှုတစ်ခုရှိသေးသည်။"
+      last_attempt: "သင့်အကောင့်ကို လော့ခ်မချမီ နောက်ထပ်ကြိုးစားမှုတစ်ခုရှိသည်။"
   admin:
     locations:
-      selected_records: '... တည်နေရာ(များ)ကို ရွေးထားသည်။'
+      selected_records: '%{select_records}... တည်နေရာ(များ)ကို ရွေးထားသည်။'
       selected_all_records: "ဤမေးခွန်းနှင့် ကိုက်ညီသော %{total_records} ဖြစ်ရပ်များအားလုံးကို ရွေးပါ။"
-      updated: '.. တည်နေရာ(များ)ကို နောက်ဆုံးအခြေအနေနှင့်အညီ ပြုပြင်မွမ်းမံထားသည်'
+      updated: '%{updated_records}တည်နေရာ(များ)ကို အပ်ဒိတ်လုပ်ပါ'
