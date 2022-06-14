@@ -1,6 +1,12 @@
 import { FormSectionRecord, FieldRecord } from "../../../records";
 
-import { ORDER_OF_FORMS, VIOLATION_TALLY, VIOLATIONS_FIELDS } from "./constants";
+import {
+  ORDER_OF_FORMS,
+  VIOLATION_TALLY,
+  VIOLATIONS_FIELDS,
+  VIOLATION_TALLY_ESTIMATED,
+  DENIAL_HUMANITARIAN_ACCESS
+} from "./constants";
 
 /* eslint-disable import/prefer-default-export */
 export const buildFormViolations = (violationField, forms) => {
@@ -15,8 +21,13 @@ export const buildFormViolations = (violationField, forms) => {
     .valueSeq()
     .map(field => field.first());
 
-  const violationTally = violationFields.filter(field => field.name === VIOLATION_TALLY);
-  const otherViolationsFields = violationFields.filter(field => field.name !== VIOLATION_TALLY);
+  const filter =
+    violationField.name === DENIAL_HUMANITARIAN_ACCESS
+      ? [VIOLATION_TALLY, VIOLATION_TALLY_ESTIMATED]
+      : [VIOLATION_TALLY];
+
+  const violationTally = violationFields.filter(field => filter.includes(field.name));
+  const otherViolationsFields = violationFields.filter(field => !filter.includes(field.name));
 
   const fields = ORDER_OF_FORMS.reduce((acc, curr) => {
     if (curr === VIOLATION_TALLY) return [...acc, ...violationTally];
