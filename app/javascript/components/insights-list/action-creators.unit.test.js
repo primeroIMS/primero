@@ -25,17 +25,17 @@ describe("<Reports /> - Action Creators", () => {
   });
 
   it("should check the 'fetchInsights' action creator to return the correct object", () => {
-    const data = { options: { page: 1, per: 20 } };
+    const metadata = { data: { page: 1, per: 20 } };
 
     const expected = {
       type: actions.FETCH_INSIGHTS,
       api: {
         path: "managed_reports",
-        params: data.options
+        params: metadata.data
       }
     };
 
-    expect(actionCreators.fetchInsights(data)).to.deep.equals(expected);
+    expect(actionCreators.fetchInsights(metadata)).to.deep.equals(expected);
   });
 
   it("should check the 'setFilters' action creator to return the correct object", () => {
