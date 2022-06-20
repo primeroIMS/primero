@@ -1,76 +1,85 @@
-import sortBy from "lodash/sortBy";
 import first from "lodash/first";
 import isUndefined from "lodash/isUndefined";
+import last from "lodash/last";
+import isPlainObject from "lodash/isPlainObject";
+import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
+import sortBy from "lodash/sortBy";
 
 import { dataToJS, displayNameHelper } from "../../../../libs";
-import { INDICATOR_NAMES } from "../constants";
 
 const translateSingleLabel = (key, data, locale) => {
   if (key === "") return key;
 
+  const displayText = data?.filter(d => d.id === key)[0]?.display_text;
+
   // eslint-disable-next-line camelcase
-  return displayNameHelper(data?.filter(d => d.id === key)[0]?.display_text, locale);
+  return isPlainObject(displayText) ? displayNameHelper(displayText, locale) : displayText;
 };
-const getFormattedList = (values, listKey) => {
-  const formattedList = sortBy(
-    values.map(r => {
-      return Object.entries(r).reduce((acc, obj) => {
-        const [key, val] = obj;
+const getFormattedList = (values, listKey, sort) => {
+  const formattedList = values.map(r => {
+    return Object.entries(r).reduce((acc, obj) => {
+      const [key, val] = obj;
 
-        return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
-      }, {});
-    }),
-    [elem => elem[""]]
-  );
+      return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
+    }, {});
+  });
 
-  return formattedList;
+  return sort ? sortBy(formattedList, [elem => elem[""]]) : formattedList;
 };
 
-export default (data, localeLabels, locale) => {
+export default (data, columnLabels, rowLabels, locale) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const indicator = result.indicators[INDICATOR_NAMES.WORKFLOW_TEAM];
+    const indicator = last(Object.values(result.indicators));
     const indicatorData = indicator[first(Object.keys(indicator))] || {};
 
     const columnKeys = Object.keys(indicatorData);
-    const columns = (columnKeys.includes("") ? columnKeys : columnKeys.concat(""))
-      .reduce((acum, value) => {
-        return [...acum, { name: value, label: translateSingleLabel(value, localeLabels, locale) }];
+    const columns = [{ id: "", display_text: "" }, ...columnLabels]
+      .reduce((acc, elem) => {
+        if (columnKeys.includes(elem.id) || elem.id === "") {
+          return [...acc, { name: elem.id, label: translateSingleLabel(elem.id, columnLabels, locale) }];
+        }
+
+        return acc;
       }, [])
       .filter(column => !isUndefined(column.label));
 
     const { "": removed, ...rows } = indicator;
 
-    const values = Object.entries(rows).reduce((acum, value) => {
-      const [user, userValue] = value;
-      const columnValues = columns.reduce((a, o) => {
-        return {
-          ...a,
-          [o.name]: o.name === "" ? user : userValue[o.name]
-        };
+    const isRowLabelsEmpty = isEmpty(rowLabels);
+
+    const sortedRows = isRowLabelsEmpty
+      ? Object.entries(rows)
+      : rowLabels.reduce((acc, elem) => {
+          if (!isNil(rows[elem.id])) {
+            return [...acc, [elem.display_text, rows[elem.id]]];
+          }
+
+          return acc;
+        }, []);
+
+    const values = sortedRows.reduce((acum, elem) => {
+      const [key, value] = elem;
+      const columnValues = columns.reduce((acc, column) => {
+        if (!isNil(value)) {
+          return {
+            ...acc,
+            [column.name]: column.name === "" ? key : value[column.name]
+          };
+        }
+
+        return acc;
       }, []);
 
       return [...acum, columnValues];
     }, []);
 
     return {
-      columns: sortBy(columns, item => {
-        const labels = localeLabels.map(({ id }) => id);
-        const index = labels.indexOf(item.name);
-
-        if (item.name === "") {
-          return -1;
-        }
-
-        if (!labels.includes(item.name)) {
-          return 0;
-        }
-
-        return index + 1;
-      }),
-      data: getFormattedList(values, "count"),
-      query: getFormattedList(values, "query")
+      columns,
+      data: getFormattedList(values, "count", isRowLabelsEmpty),
+      query: getFormattedList(values, "query", isRowLabelsEmpty)
     };
   }
 

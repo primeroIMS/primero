@@ -29,6 +29,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   SHARED_WITH_MY_TEAM: "dashboard.dash_shared_with_my_team",
   SHARED_WITH_MY_TEAM_OVERVIEW: "dashboard.dash_shared_with_my_team_overview",
   SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "dashboard.dash_violations_category_verification_status",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
 });
@@ -45,7 +46,8 @@ export const INDICATOR_NAMES = Object.freeze({
   PROTECTION_CONCERNS_ALL_CASES: "protection_concerns_all_cases",
   PROTECTION_CONCERNS_OPEN_CASES: "protection_concerns_open_cases",
   PROTECTION_CONCERNS_NEW_THIS_WEEK: "protection_concerns_new_this_week",
-  PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week"
+  PROTECTION_CONCERNS_CLOSED_THIS_WEEK: "protection_concerns_closed_this_week",
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "violations_category_verification_status"
 });
 
 export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([

@@ -657,6 +657,7 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
+    dash_violations_category_verification_status: Number of violations per verification status
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -2779,6 +2780,10 @@ en:
               transfers, or rejected transfers. Not typically for managers, unless
               they manage cases themselves.
             label: Shared With Others
+          dash_violations_category_verification_status:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by verification status.
+            label: MRM - Number of violations per verification status
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations

@@ -202,7 +202,8 @@ describe("Verifying config constant", () => {
           "gender",
           "legitimate_basis",
           "legitimate_basis_explanations",
-          "verification_status"
+          "verification_status",
+          "violation_type"
         );
         expect(constants.RECORD_INFORMATION).to.be.an("array");
         expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
