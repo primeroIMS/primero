@@ -13,7 +13,8 @@ class ManagedReports::SubReport < ValueObject
         display_graph: display_graph,
         lookups: lookups,
         table_type: table_type,
-        order: order
+        order: order,
+        indicators_subcolumns: indicators_subcolumns
       }
     }
   end
@@ -38,5 +39,16 @@ class ManagedReports::SubReport < ValueObject
 
   def order
     indicators.map(&:id)
+  end
+
+  def indicators_subcolumns
+    {}
+  end
+
+  def sub_column_items(lookup_unique_id)
+    lookup = Lookup.find_by(unique_id: lookup_unique_id)
+    return [] if lookup.blank?
+
+    lookup.lookup_values.map{|lk| lk['id']}
   end
 end

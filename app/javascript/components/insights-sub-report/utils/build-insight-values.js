@@ -44,7 +44,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
             .get(year, fromJS([]))
             .flatMap(value => {
               return value.get("data").map(dataElem => {
-                const values = subColumnItems
+                const values = subColumnItems.length
                   ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
                   : [dataElem.get("total")];
 
@@ -63,7 +63,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
 
   const groupComparator = getGroupComparator(groupedBy);
 
-  const columnsNumber = subColumnItems
+  const columnsNumber = subColumnItems.length
     ? subColumnItems.length * Object.values(groups).flat().length
     : Object.values(groups).flat().length;
 
@@ -75,7 +75,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
       const previousYears = new Array(yearIndex).fill(0, 0, yearIndex);
       const columnsWritten = previousYears.reduce((acc, _value, index) => acc + groups[years[index]].length, 0);
       // index + 1 because the first value is the title of the row
-      const columnInitialIndex = subColumnItems
+      const columnInitialIndex = subColumnItems.length
         ? subColumnItems.length * (columnsWritten || 0) + 1
         : columnsWritten + 1;
 
@@ -84,7 +84,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
           .get(`${year}-${group}`, fromJS([]))
           .flatMap(value =>
             value.get("data").map(dataElem => {
-              const values = subColumnItems
+              const values = subColumnItems.length
                 ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
                 : [dataElem.get("total")];
 
@@ -93,7 +93,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
           )
           .toArray();
 
-        const columnsCurrentGroup = subColumnItems ? subColumnItems.length * index : index;
+        const columnsCurrentGroup = subColumnItems.length ? subColumnItems.length * index : index;
 
         buildRows({
           tuples,
@@ -130,7 +130,7 @@ export default {
     ageRanges,
     lookupValues,
     incompleteDataLabel,
-    subColumnItems
+    subColumnItems = fromJS([])
   }) => {
     if (data === 0) return [];
 
@@ -143,7 +143,7 @@ export default {
 
     const rows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems })
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems: subColumnItems.toJS() })
         : buildSingleRows({ data, getLookupValue, key });
 
     if (key === "age") {

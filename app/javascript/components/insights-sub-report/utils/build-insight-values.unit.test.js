@@ -251,7 +251,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         key: "key",
         isGrouped: true,
         groupedBy: "month",
-        subColumnItems: ["boys", "girls", "total"],
+        subColumnItems: fromJS(["boys", "girls", "total"]),
         data: fromJS([
           {
             group_id: "2021-10",

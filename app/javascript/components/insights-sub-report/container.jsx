@@ -22,7 +22,6 @@ import {
   buildInsightValues,
   buildReportData,
   getLookupValue,
-  getSubColumnItems,
   formatAgeRange
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
@@ -56,6 +55,7 @@ const Component = () => {
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
+  const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
 
   const lookups = useOptions({ source: insightLookups });
 
@@ -163,7 +163,7 @@ const Component = () => {
                       totalText,
                       getLookupValue: lookupValue,
                       incompleteDataLabel,
-                      subColumnItems: getSubColumnItems(valueKey, lookups?.violation)
+                      subColumnItems: indicatorsSubcolumns.get(valueKey, fromJS([]))
                     })}
                     values={buildInsightValues[insightMetadata.get("table_type")]({
                       getLookupValue: lookupValue,
@@ -174,7 +174,7 @@ const Component = () => {
                       ageRanges,
                       lookupValues: lookups[valueKey],
                       incompleteDataLabel,
-                      subColumnItems: getSubColumnItems(valueKey, lookups?.violation)
+                      subColumnItems: indicatorsSubcolumns.get(valueKey, fromJS([]))
                     })}
                     showPlaceholder
                     name={namespace}

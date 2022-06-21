@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import { YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
@@ -27,9 +29,9 @@ export default {
   ghn_report: ({ value, getLookupValue }) => {
     return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
   },
-  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems }) => {
+  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = fromJS([]) }) => {
     if (isGrouped && groupedBy) {
-      return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems);
+      return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems.toJS());
     }
 
     return [{ label: totalText }];

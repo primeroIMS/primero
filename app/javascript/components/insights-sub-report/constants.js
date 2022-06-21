@@ -4,11 +4,3 @@ export const COMBINED_INDICATORS = {
 };
 export const GROUPED_BY_FILTER = "grouped_by";
 export const REPORTING_LOCATION_INSIGHTS = ["reporting_location", "reporting_location_detention"];
-export const INSIGHTS_WITH_SUBCOLUMNS_ITEMS = [
-  "perpetrators",
-  "reporting_location",
-  "type_of_use",
-  "factors_of_recruitment",
-  "sexual_violence_type",
-  "abducted_status"
-];
