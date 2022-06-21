@@ -22,6 +22,7 @@ import {
   buildInsightValues,
   buildReportData,
   getLookupValue,
+  getSubColumnItems,
   formatAgeRange
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
@@ -97,10 +98,10 @@ const Component = () => {
   }[insightMetadata.get("table_type")];
 
   return (
-    <>
+    <div className={css.container}>
       <LoadingIndicator {...loadingIndicatorProps}>
         <div className={css.subReportContent}>
-          <div className={css.subReportTables}>
+          <div>
             <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
             {singleInsightsTableData.size > 0 && (
               <>
@@ -161,7 +162,8 @@ const Component = () => {
                       localizeDate: i18n.localizeDate,
                       totalText,
                       getLookupValue: lookupValue,
-                      incompleteDataLabel
+                      incompleteDataLabel,
+                      subColumnItems: getSubColumnItems(valueKey, lookups?.violation)
                     })}
                     values={buildInsightValues[insightMetadata.get("table_type")]({
                       getLookupValue: lookupValue,
@@ -171,7 +173,8 @@ const Component = () => {
                       groupedBy,
                       ageRanges,
                       lookupValues: lookups[valueKey],
-                      incompleteDataLabel
+                      incompleteDataLabel,
+                      subColumnItems: getSubColumnItems(valueKey, lookups?.violation)
                     })}
                     showPlaceholder
                     name={namespace}
@@ -182,7 +185,7 @@ const Component = () => {
           </div>
         </div>
       </LoadingIndicator>
-    </>
+    </div>
   );
 };
 

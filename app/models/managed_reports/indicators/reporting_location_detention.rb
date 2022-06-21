@@ -6,7 +6,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
 
   class << self
     def id
-      'reporting_location'
+      'reporting_location_detention'
     end
 
     # rubocop:disable Metrics/AbcSize

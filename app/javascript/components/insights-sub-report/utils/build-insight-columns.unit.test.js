@@ -24,6 +24,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         groupedBy: "year",
         isGrouped: true,
         localizeDate: (_key, value) => value,
+        subColumnItems: [],
         value: fromJS([
           {
             group_id: 2022,
@@ -50,9 +51,9 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
       });
 
       expect(columns).to.deep.equal([
-        { label: "2022", colspan: 1 },
-        { label: "2023", colspan: 1 },
-        { label: "2024", colspan: 1 }
+        { label: "2022", colspan: 1, subItems: [] },
+        { label: "2023", colspan: 1, subItems: [] },
+        { label: "2024", colspan: 1, subItems: [] }
       ]);
     });
   });
@@ -63,6 +64,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         groupedBy: "month",
         isGrouped: true,
         localizeDate: format,
+        subColumnItems: ["boys", "girls"],
         value: fromJS([
           {
             group_id: "2022-01",
@@ -89,9 +91,9 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
       });
 
       expect(columns).to.deep.equal([
-        { label: "2022", items: ["Jan"], colspan: 1 },
-        { label: "2023", items: ["Feb"], colspan: 1 },
-        { label: "2024", items: ["Jan"], colspan: 1 }
+        { label: "2022", items: ["Jan"], colspan: 2, subItems: ["boys", "girls"] },
+        { label: "2023", items: ["Feb"], colspan: 2, subItems: ["boys", "girls"] },
+        { label: "2024", items: ["Jan"], colspan: 2, subItems: ["boys", "girls"] }
       ]);
     });
   });

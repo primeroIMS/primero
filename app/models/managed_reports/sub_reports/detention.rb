@@ -17,9 +17,9 @@ class ManagedReports::SubReports::Detention < ManagedReports::SubReport
 
   def lookups
     {
-      ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::ReportingLocation.id => 'Location',
-      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options'
+      ManagedReports::Indicators::PerpetratorsDetention.id => 'lookup-armed-force-group-or-other-party',
+      ManagedReports::Indicators::ReportingLocationDetention.id => 'Location',
+      ManagedReports::Indicators::ViolationTallyDetention.id => 'lookup-violation-tally-options'
     }
   end
 end

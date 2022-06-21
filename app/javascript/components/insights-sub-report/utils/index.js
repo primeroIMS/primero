@@ -1,10 +1,12 @@
 export { default as buildChartValues } from "./build-chart-values";
+export { default as buildGroupedSubItemColumns } from "./build-grouped-sub-item-columns";
 export { default as buildInsightColumns } from "./build-insight-columns";
 export { default as buildInsightValues } from "./build-insight-values";
 export { default as buildReportData } from "./build-report-data";
 export { default as buildSingleInsightsData } from "./build-single-insights-data";
 export { default as getLookupValue } from "./get-lookup-value";
 export { default as getGroupComparator } from "./get-group-comparator";
+export { default as getSubColumnItems } from "./get-sub-column-items";
 export { default as monthComparator } from "./month-comparator";
 export { default as yearComparator } from "./year-comparator";
 export { default as quarterComparator } from "./quarter-comparator";

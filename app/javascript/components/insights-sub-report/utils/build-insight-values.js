@@ -11,23 +11,26 @@ import sortWithSortedArray from "./sort-with-sorted-array";
 
 const buildRows = ({ tuples, rows, columnIndex, columnsNumber }) => {
   tuples.forEach(tuple => {
-    const [lookupValue, value] = tuple;
+    const [lookupValue, ...values] = tuple;
 
-    const existing = rows.find(elem => first(elem) === lookupValue);
+    const existingIndex = rows.findIndex(elem => first(elem) === lookupValue);
 
-    if (existing) {
-      existing[columnIndex] = value;
+    if (existingIndex !== -1) {
+      // eslint-disable-next-line no-param-reassign
+      rows[existingIndex] = [
+        ...rows[existingIndex].slice(0, columnIndex),
+        ...values,
+        ...rows[existingIndex].slice(columnIndex + values.length)
+      ];
     } else {
-      rows.push(
-        [lookupValue]
-          .concat(new Array(columnsNumber).fill(0, 0, columnsNumber))
-          .fill(value, columnIndex, columnIndex + 1)
-      );
+      const newRow = [lookupValue].concat(new Array(columnsNumber).fill(0, 0, columnsNumber));
+
+      rows.push([...newRow.slice(0, columnIndex), ...values, ...newRow.slice(columnIndex + values.length)]);
     }
   });
 };
 
-const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
+const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems }) => {
   const groups = getDataGroups(data, groupedBy);
 
   const groupedData = data.groupBy(value => value.get("group_id").toString());
@@ -39,7 +42,15 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
         .reduce((acc, year, index) => {
           const tuples = groupedData
             .get(year, fromJS([]))
-            .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
+            .flatMap(value => {
+              return value.get("data").map(dataElem => {
+                const values = subColumnItems
+                  ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
+                  : [dataElem.get("total")];
+
+                return [getLookupValue(key, dataElem), ...values];
+              });
+            })
             .toArray();
 
           buildRows({ tuples, rows: acc, columnsNumber: groups.length, columnIndex: index + 1 });
@@ -52,7 +63,9 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
 
   const groupComparator = getGroupComparator(groupedBy);
 
-  const columnsNumber = Object.values(groups).flat().length;
+  const columnsNumber = subColumnItems
+    ? subColumnItems.length * Object.values(groups).flat().length
+    : Object.values(groups).flat().length;
 
   const years = Object.keys(groups);
 
@@ -62,15 +75,32 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy }) => {
       const previousYears = new Array(yearIndex).fill(0, 0, yearIndex);
       const columnsWritten = previousYears.reduce((acc, _value, index) => acc + groups[years[index]].length, 0);
       // index + 1 because the first value is the title of the row
-      const columnInitialIndex = columnsWritten + 1;
+      const columnInitialIndex = subColumnItems
+        ? subColumnItems.length * (columnsWritten || 0) + 1
+        : columnsWritten + 1;
 
       groups[year].sort(groupComparator).forEach((group, index) => {
         const tuples = groupedData
           .get(`${year}-${group}`, fromJS([]))
-          .flatMap(value => value.get("data").map(dataElem => [getLookupValue(key, dataElem), dataElem.get("total")]))
+          .flatMap(value =>
+            value.get("data").map(dataElem => {
+              const values = subColumnItems
+                ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
+                : [dataElem.get("total")];
+
+              return [getLookupValue(key, dataElem), ...values];
+            })
+          )
           .toArray();
 
-        buildRows({ tuples, rows: acc1, columnIndex: columnInitialIndex + index, columnsNumber });
+        const columnsCurrentGroup = subColumnItems ? subColumnItems.length * index : index;
+
+        buildRows({
+          tuples,
+          rows: acc1,
+          columnIndex: columnInitialIndex + columnsCurrentGroup,
+          columnsNumber
+        });
       });
 
       return acc1;
@@ -91,7 +121,17 @@ export default {
   ghn_report: ({ data, getLookupValue, key }) => {
     return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
   },
-  default: ({ getLookupValue, data, key, isGrouped, groupedBy, ageRanges, lookupValues, incompleteDataLabel }) => {
+  default: ({
+    getLookupValue,
+    data,
+    key,
+    isGrouped,
+    groupedBy,
+    ageRanges,
+    lookupValues,
+    incompleteDataLabel,
+    subColumnItems
+  }) => {
     if (data === 0) return [];
 
     const lookupDisplayTexts = [
@@ -103,7 +143,7 @@ export default {
 
     const rows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy })
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems })
         : buildSingleRows({ data, getLookupValue, key });
 
     if (key === "age") {

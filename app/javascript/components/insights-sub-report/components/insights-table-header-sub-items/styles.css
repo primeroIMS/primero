@@ -1,0 +1,5 @@
+.tableRowSubHeader  {
+  & th {
+    border-right: 1px solid var(--c-light-grey-2);
+  }
+}
