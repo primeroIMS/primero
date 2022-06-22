@@ -82,7 +82,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
               };
             case "complete":
               return {
-                sort: false,
+                sort: !online,
                 disableOnClick: true,
                 customBodyRender: value => {
                   return value ? (
@@ -103,9 +103,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
         })(column.get("name"));
 
         return {
-          label: [...iconColumns, COMPLETE].includes(column.get("name"))
-            ? " "
-            : i18n.t(`${recordType}.${column.get("name")}`),
+          label: [...iconColumns].includes(column.get("name")) ? " " : i18n.t(`${recordType}.${column.get("name")}`),
           name: column.get("field_name") || " ",
           id: column.get("id_search"),
           options: {

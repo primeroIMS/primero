@@ -148,10 +148,6 @@ describe("<IndexTable />", () => {
     ({ component } = setupMountedComponent(IndexTable, props, initialState));
   });
 
-  it("should render LoadingIndicator", () => {
-    expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
-  });
-
   it("should render MUIDataTable", () => {
     expect(component.find(MUIDataTable)).to.have.lengthOf(1);
   });
