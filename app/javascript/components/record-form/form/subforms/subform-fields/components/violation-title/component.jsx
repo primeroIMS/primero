@@ -14,16 +14,18 @@ const Component = ({ title, values, fields }) => {
   const violationVerifiedField = fields.find(field => field.name === VIOLATION_STATUS);
   const optionsStrings = useOptions({ source: violationVerifiedField?.option_strings_source });
   const violationStatusLabel = getVerifiedValue(optionsStrings, values);
-  const renderShortUniqueId = shortUniqueId ? ` - ${shortUniqueId}` : null;
+  const renderShortUniqueId = shortUniqueId ? `- ${shortUniqueId} ` : null;
   const renderChipStatus = violationStatusLabel ? (
     <Chip label={violationStatusLabel} size="small" className={css.chipStatus} />
   ) : null;
 
   return (
-    <>
-      {title}
-      {renderShortUniqueId} {renderChipStatus}
-    </>
+    <div className={css.container}>
+      <div className={css.title}>
+        {title} {renderShortUniqueId}
+      </div>
+      <div>{renderChipStatus}</div>
+    </div>
   );
 };
 

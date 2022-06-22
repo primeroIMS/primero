@@ -10,7 +10,7 @@ import { localesToRender } from "../utils";
 import FormSection from "../../../../../form/components/form-section";
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { useI18n } from "../../../../../i18n";
-import { useMemoizedSelector } from "../../../../../../libs";
+import { reduceMapToObject, useMemoizedSelector } from "../../../../../../libs";
 import { submitHandler, whichFormMode } from "../../../../../form";
 import { getSelectedSubform } from "../../selectors";
 import css from "../styles.css";
@@ -19,7 +19,6 @@ import { useApp } from "../../../../../application";
 import { TranslatableOptions } from "./components";
 import { translationsFieldForm, validationSchema } from "./forms";
 import { NAME, FIELD_TRANSLATIONS_FORM } from "./constants";
-import { reduceMapToObject } from "./utils";
 
 const Component = ({ currentValues, field, isNested, mode, onClose, open, onSuccess }) => {
   const i18n = useI18n();

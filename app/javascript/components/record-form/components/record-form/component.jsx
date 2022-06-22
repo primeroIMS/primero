@@ -19,7 +19,7 @@ import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import { SERVICES_SUBFORM } from "../../../record-actions/add-service/constants";
-import { getLoadingState, getErrors, getSelectedForm, getReadOnlyFields } from "../../selectors";
+import { getLoadingState, getErrors, getSelectedForm } from "../../selectors";
 import { clearDataProtectionInitialValues, clearValidationErrors, setPreviousRecord } from "../../action-creators";
 import Nav from "../../nav";
 import { RecordForm, RecordFormToolbar } from "../../form";
@@ -88,9 +88,6 @@ const Component = ({
   const isProcessingSomeAttachment = useMemoizedSelector(state =>
     getIsProcessingSomeAttachment(state, params.recordType)
   );
-  const readOnlyFields = useMemoizedSelector(state =>
-    getReadOnlyFields(state, { recordType: selectedModule.recordType, primeroModule: selectedModule.primeroModule })
-  );
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -111,7 +108,7 @@ const Component = ({
         const saveMethod = containerMode.isEdit ? "update" : "save";
         const { incidentPath, ...formValues } = values;
 
-        const writableValues = compactReadOnlyFields(formValues, readOnlyFields);
+        const writableValues = compactReadOnlyFields(formValues, forms);
 
         const body = {
           data: {
@@ -184,21 +181,6 @@ const Component = ({
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule.primeroModule,
     record
-  };
-
-  const navProps = {
-    firstTab,
-    formNav,
-    handleToggleNav,
-    isNew: containerMode.isNew,
-    mobileDisplay,
-    recordType: params.recordType,
-    selectedForm,
-    selectedRecord: record ? record.get("id") : null,
-    toggleNav,
-    primeroModule: selectedModule.primeroModule,
-    hasForms: !loadingForm && forms.size > 0,
-    formikValuesForNav
   };
 
   useEffect(() => {
@@ -288,7 +270,7 @@ const Component = ({
 
   const handleFormikValues = useCallback(values => setFormikValuesForNav(values), []);
 
-  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && formNav && firstTab;
+  const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && !formNav.isEmpty() && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
   const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
@@ -316,13 +298,29 @@ const Component = ({
     transitionProps
   });
 
+  const navSelectedRecords = record ? record.get("id") : null;
+  const hasForms = !loadingForm && forms.size > 0;
+
   return (
     <PageContainer twoCol>
       <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
         {renderRecordFormToolbar}
         <div className={containerClasses}>
           <div className={navContainerClasses}>
-            <Nav {...navProps} />
+            <Nav
+              firstTab={firstTab}
+              formNav={formNav}
+              handleToggleNav={handleToggleNav}
+              isNew={containerMode.isNew}
+              mobileDisplay={mobileDisplay}
+              recordType={params.recordType}
+              selectedForm={selectedForm}
+              selectedRecord={navSelectedRecords}
+              toggleNav={toggleNav}
+              primeroModule={selectedModule.primeroModule}
+              hasForms={hasForms}
+              formikValuesForNav={formikValuesForNav}
+            />
           </div>
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm

@@ -14,19 +14,25 @@ import FormSectionField from "../form/components/form-section-field";
 import { CONTROLS_GROUP, DATE_CONTROLS, DATE_CONTROLS_GROUP, INSIGHTS_CONFIG } from "../insights/constants";
 import { fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
+import { get } from "../form/utils";
 
 import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
 const Component = ({ moduleID, id, subReport, toggleControls }) => {
-  const insightsConfig = INSIGHTS_CONFIG[moduleID];
+  const insightsConfig = get(INSIGHTS_CONFIG, [moduleID, id], {});
   const { defaultFilterValues } = insightsConfig;
 
   const i18n = useI18n();
   const formMethods = useForm({
     mode: "onChange",
-    resolver: yupResolver(validations(i18n)),
+    resolver: yupResolver(
+      validations(
+        i18n,
+        insightsConfig.filters.map(filter => filter.name)
+      )
+    ),
     ...(defaultFilterValues && { defaultValues: insightsConfig.defaultFilterValues })
   });
   const formMode = whichFormMode("new");
@@ -74,7 +80,7 @@ const Component = ({ moduleID, id, subReport, toggleControls }) => {
   };
 
   const filterInputs = (filterGroup = CONTROLS_GROUP) =>
-    insightsConfigFilters[filterGroup].map(filter => {
+    insightsConfigFilters[filterGroup]?.map(filter => {
       const FilterInput = filter?.watchedInputs ? WatchedFormSectionField : FormSectionField;
 
       return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} />;

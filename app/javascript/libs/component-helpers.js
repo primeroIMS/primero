@@ -1,4 +1,4 @@
-import { isImmutable, List, Map } from "immutable";
+import { isImmutable, List, Map, Record } from "immutable";
 import { addHours, format, parseISO } from "date-fns";
 import isString from "lodash/isString";
 
@@ -73,3 +73,26 @@ export const endOfDay = date => parseISO(date.toISOString().replace(/T.+/, "").c
 
 export const hasApiDateFormat = value =>
   isString(value) && Boolean(value.match(ISO_DATE_REGEX) || value.match(ISO_DATE_TIME_REGEX));
+
+export const reduceMapToObject = data => {
+  if (data && (data?.length || data?.size) <= 0) {
+    return null;
+  }
+
+  if (data instanceof List) {
+    return data.reduce((acc, curr) => [...acc, reduceMapToObject(curr)], []);
+  }
+
+  if (data instanceof Map) {
+    return data.entrySeq().reduce((acc, [key, value]) => ({ ...acc, [key]: reduceMapToObject(value) }), {});
+  }
+
+  if (data instanceof Record) {
+    return data
+      .toSeq()
+      .entrySeq()
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: reduceMapToObject(value) }), {});
+  }
+
+  return data;
+};

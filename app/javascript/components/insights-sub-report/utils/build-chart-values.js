@@ -1,7 +1,6 @@
 import { fromJS } from "immutable";
 import take from "lodash/take";
 import sortBy from "lodash/sortBy";
-import isEmpty from "lodash/isEmpty";
 import first from "lodash/first";
 import last from "lodash/last";
 
@@ -18,7 +17,7 @@ const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts }) => {
     return sortWithSortedArray(tuples, ageRanges, sortByFn);
   }
 
-  if (!isEmpty(lookupDisplayTexts)) {
+  if (lookupDisplayTexts.length > 1) {
     return sortWithSortedArray(tuples, lookupDisplayTexts, sortByFn);
   }
 
@@ -32,7 +31,7 @@ const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts }) => {
     return sortWithSortedArray(entries, ageRanges, sortByFn);
   }
 
-  if (!isEmpty(lookupDisplayTexts)) {
+  if (lookupDisplayTexts.length > 1) {
     return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn);
   }
 
@@ -97,11 +96,15 @@ export default ({
   isGrouped,
   groupedBy,
   ageRanges,
-  lookupValues
+  lookupValues,
+  incompleteDataLabel
 }) => {
   if (!value) return {};
 
-  const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+  const lookupDisplayTexts = [
+    ...(lookupValues?.map(lookupValue => lookupValue.display_text) || []),
+    incompleteDataLabel
+  ];
 
   if (isGrouped && groupedBy) {
     return buildGroupedChartValues({

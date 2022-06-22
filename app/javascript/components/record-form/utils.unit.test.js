@@ -282,8 +282,8 @@ describe("<RecordForms /> - utils", () => {
         field_3: true,
         field_4: "2010-01-05",
         field_5: ["value_1"],
-        field_6: { test1: "", test2: "", total: "" },
-        field_7: { test3: "", test4: "" }
+        field_6: { test1: null, test2: null, total: null },
+        field_7: { test3: null, test4: null }
       };
 
       expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
@@ -614,6 +614,43 @@ describe("<RecordForms /> - utils", () => {
 
   describe("compactReadOnlyFields", () => {
     it("removes all the readOnlyFields from the values object", () => {
+      const formSections = fromJS([
+        FormSectionRecord({
+          unique_id: "form_1",
+          userPermission: "r",
+          fields: [
+            FieldRecord({
+              name: "field_2",
+              type: TICK_FIELD,
+              visible: true
+            }),
+            FieldRecord({
+              name: "field_4",
+              type: DATE_FIELD,
+              visible: true
+            })
+          ]
+        }),
+        FormSectionRecord({
+          unique_id: "form_2",
+          userPermission: "rw",
+          fields: [
+            FieldRecord({ name: "field_1", visible: true }),
+            FieldRecord({
+              name: "field_1",
+              type: SELECT_FIELD,
+              multi_select: true,
+              visible: true
+            }),
+            FieldRecord({
+              name: "field_3",
+              type: DATE_FIELD,
+              visible: true
+            })
+          ]
+        })
+      ]);
+
       expect(
         utils.compactReadOnlyFields(
           {
@@ -622,7 +659,7 @@ describe("<RecordForms /> - utils", () => {
             field_3: "value 3",
             field_4: "value 4"
           },
-          fromJS([FieldRecord({ name: "field_2" }), FieldRecord({ name: "field_4" })])
+          formSections
         )
       ).to.deep.equals({ field_1: "value 1", field_3: "value 3" });
     });

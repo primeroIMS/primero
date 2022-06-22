@@ -12,7 +12,7 @@ import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
-import { serviceHasReferFields } from "../../utils";
+import { serviceHasReferFields, buildAssociatedViolations } from "../../utils";
 import ActionDialog from "../../../../action-dialog";
 import Jewel from "../../../../jewel";
 import { useI18n } from "../../../../i18n";
@@ -105,6 +105,8 @@ const Component = ({
           ?.getIn(["errors", subformField.get("unique_id"), index], false)
     );
 
+  const associatedViolations = buildAssociatedViolations(name, formik?.values);
+
   if (values && values.length > 0) {
     let sortedValues = [];
 
@@ -155,6 +157,7 @@ const Component = ({
                 values={values}
                 onClick={handleEdit(index)}
                 isViolationSubform={isViolationSubform}
+                associatedViolations={entryFilter && associatedViolations}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}

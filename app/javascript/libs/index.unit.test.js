@@ -32,6 +32,7 @@ describe("libs/index", () => {
       "mergeRecord",
       "namespaceActions",
       "normalizeTimezone",
+      "reduceMapToObject",
       "rejectKeys",
       "toBase64",
       "toIdentifier",

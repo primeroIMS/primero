@@ -1,14 +1,14 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { usePermissions, ACTIONS } from "../../permissions";
-import { useMemoizedSelector } from "../../../libs";
+import { reduceMapToObject, useMemoizedSelector } from "../../../libs";
 import { getFieldsWithNamesForMinifyForm, getMiniFormFields } from "../../record-form";
-import Form, { FORM_MODE_SHOW } from "../../form";
+import Form, { AUDIO_RECORD_FIELD, FORM_MODE_SHOW, PHOTO_RECORD_FIELD } from "../../form";
 
 import viewModalForm from "./form";
 import TransferRequest from "./transfer-request";
@@ -48,10 +48,15 @@ const ViewModal = ({ close, openViewModal, currentRecord, recordType }) => {
     caseId
   };
 
-  const initialValues = (currentRecord || fromJS({})).reduce(
-    (acc, value, key) => ({ ...acc, [key]: value instanceof List ? [...value] : value }),
-    {}
-  );
+  const recordObject = reduceMapToObject(currentRecord || fromJS({}));
+
+  const initialValues = miniFormFields.reduce((acc, field) => {
+    if ([AUDIO_RECORD_FIELD, PHOTO_RECORD_FIELD].includes(field.get("type"))) {
+      return { ...acc, [field.name]: acc[field.name] || [] };
+    }
+
+    return acc;
+  }, recordObject);
 
   const onSubmit = () => {};
 

@@ -21,7 +21,8 @@ class ManagedReports::SubReports::Recruitment < ManagedReports::SubReport
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::ReportingLocation.id => 'Location',
       ManagedReports::Indicators::TypeOfUse.id => 'lookup-combat-role-type',
-      ManagedReports::Indicators::FactorsOfRecruitment.id => 'lookup-recruitment-factors'
+      ManagedReports::Indicators::FactorsOfRecruitment.id => 'lookup-recruitment-factors',
+      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options'
     }
   end
 

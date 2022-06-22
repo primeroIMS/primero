@@ -6,7 +6,7 @@ describe("buildCollapsedFields", () => {
   const i18n = { t: v => v };
 
   context("when collapsedFieldNames or fields are empty", () => {
-    it("should return enpty array", () => {
+    it("should return empty array", () => {
       const result = buildCollapsedFields({});
 
       expect(result).to.deep.equal([]);

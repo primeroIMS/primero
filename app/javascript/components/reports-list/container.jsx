@@ -6,7 +6,6 @@ import { push } from "connected-react-router";
 import DisableOffline from "../disable-offline";
 import PageContainer, { PageHeading, PageContent } from "../page";
 import { useI18n } from "../i18n";
-import LoadingIndicator from "../loading-indicator";
 import { ROUTES } from "../../config";
 import { usePermissions, CREATE_RECORDS } from "../permissions";
 import { displayNameHelper, useMemoizedSelector } from "../../libs";
@@ -17,15 +16,12 @@ import { useMetadata } from "../records";
 import IndexTable from "../index-table";
 
 import { fetchReports } from "./action-creators";
-import { selectReports, selectLoading } from "./selectors";
 import NAMESPACE from "./namespace";
 
 const Reports = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
 
-  const reports = useMemoizedSelector(state => selectReports(state));
-  const isLoading = useMemoizedSelector(state => selectLoading(state));
   const metadata = useMemoizedSelector(state => getMetadata(state, NAMESPACE));
 
   const canAddReport = usePermissions(NAMESPACE, CREATE_RECORDS);
@@ -68,19 +64,17 @@ const Reports = () => {
       <PageContainer>
         <PageHeading title={i18n.t("reports.label")}>{newReportBtn}</PageHeading>
         <PageContent>
-          <LoadingIndicator hasData={reports.size > 0} loading={isLoading} type="reports">
-            <IndexTable
-              title={i18n.t("reports.label")}
-              columns={columns}
-              recordType={NAMESPACE}
-              onTableChange={fetchReports}
-              onRowClick={handleRowClick}
-              defaultFilters={metadata}
-              bypassInitialFetch
-              options={{ selectableRows: "none" }}
-              checkOnline
-            />
-          </LoadingIndicator>
+          <IndexTable
+            title={i18n.t("reports.label")}
+            columns={columns}
+            recordType={NAMESPACE}
+            onTableChange={fetchReports}
+            onRowClick={handleRowClick}
+            defaultFilters={metadata}
+            bypassInitialFetch
+            options={{ selectableRows: "none" }}
+            checkOnline
+          />
         </PageContent>
       </PageContainer>
     </div>

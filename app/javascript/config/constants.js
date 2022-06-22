@@ -602,7 +602,9 @@ export const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
 
 export const MRM_INSIGHTS_SUBREPORTS = [...VIOLATIONS_SUBFORM_UNIQUE_IDS, "detention"];
 
-export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors"];
+export const GBV_INSIGHTS_SUBREPORTS = ["incidents", "perpetrators", "survivors", "referrals"];
+
+export const GHN_REPORT_SUBREPORTS = ["ghn_report"];
 
 export const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",

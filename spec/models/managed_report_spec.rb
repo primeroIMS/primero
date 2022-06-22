@@ -12,16 +12,17 @@ describe ManagedReport do
 
     it 'return a Hash of ManagedReport' do
       expect(managed_reports).to be_an_instance_of(Hash)
-      expect(managed_reports.size).to eq(2)
+      expect(managed_reports.size).to eq(3)
     end
 
     it 'should have gbv_statistics and violation keys' do
-      expect(managed_reports.keys).to match_array([Permission::GBV_STATISTICS_REPORT, Permission::VIOLATION_REPORT])
+      expect(managed_reports.keys).to match_array([Permission::GBV_STATISTICS_REPORT,
+                                                   Permission::VIOLATION_REPORT, Permission::GHN_REPORT])
     end
 
     it 'should return subreports of gbv_statistics' do
       expect(managed_reports[Permission::GBV_STATISTICS_REPORT].subreports).to match_array(
-        %w[incidents perpetrators survivors]
+        %w[incidents perpetrators survivors referrals]
       )
     end
 
@@ -36,7 +37,7 @@ describe ManagedReport do
         managed_reports[Permission::VIOLATION_REPORT].subreports
       ).to match_array(
         %w[killing maiming detention sexual_violence attack_on_hospitals attack_on_schools
-           denial_humanitarian_access abduction recruitment]
+           denial_humanitarian_access abduction recruitment military_use]
       )
     end
 

@@ -25,7 +25,10 @@ module Exporters::GroupableExporter
   end
 
   def groups_list
-    data.except(:lookup).values.first.map { |group| group[:group_id].to_s.split('-') }
+    groups = data.except(:lookup).values.find(&:present?)
+    return [] unless groups.present?
+
+    groups.map { |group| group[:group_id].to_s.split('-') }
   end
 
   def data_groups
@@ -45,7 +48,10 @@ module Exporters::GroupableExporter
   end
 
   def columns_number
-    groups&.values&.reduce(0) { |acc, val| acc + val.size } || 1
+    columns = groups&.values&.reduce(0) { |acc, val| acc + val.size }
+    return 1 unless columns.present? && columns.positive?
+
+    columns
   end
 
   def write_grey_row

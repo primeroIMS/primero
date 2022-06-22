@@ -14,8 +14,10 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
   const totalName = `${name}.total`;
   const tallyValues = compact(field.tally.map(option => getIn(formik.values, [name, option.id])));
   const errors = getIn(formik.errors, name);
-  const renderError = buildTallyErrors(errors);
-  const renderErrorOnHelperText = errors && { error: true };
+  const touched = getIn(formik.touched, name);
+  const hasError = errors && touched;
+  const renderError = hasError && buildTallyErrors(errors);
+  const renderErrorOnHelperText = hasError && { error: true };
 
   useEffect(() => {
     if (!mode.isShow && field.autosum_total) {
@@ -27,14 +29,14 @@ const TallyField = ({ name, formik, field, helperText, InputLabelProps, label, m
 
   return (
     <div className={css.tallyContainer}>
-      <InputLabel htmlFor={name} {...InputLabelProps} error={!!errors}>
+      <InputLabel htmlFor={name} {...InputLabelProps} error={hasError}>
         {label}
       </InputLabel>
       <div className={css.inputTally}>
         {field.tally.map(option => (
-          <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={!!errors} {...rest} />
+          <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={hasError} {...rest} />
         ))}
-        <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} error={!!errors} />
+        <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} error={hasError} />
       </div>
       <FormHelperText {...renderErrorOnHelperText}>{renderError || helperText}</FormHelperText>
     </div>

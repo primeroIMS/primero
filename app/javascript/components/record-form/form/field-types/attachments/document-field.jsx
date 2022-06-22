@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-for */
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-material-ui";
 import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@material-ui/core";
@@ -20,6 +21,7 @@ import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import ActionDialog from "../../../../action-dialog";
 import { useThemeHelper } from "../../../../../libs";
 import TickField from "../tick-field";
+import { MODULES } from "../../../../../config";
 
 import { buildAttachmentFieldsObject } from "./utils";
 import AttachmentInput from "./attachment-input";
@@ -37,11 +39,14 @@ const DocumentField = ({
   field
 }) => {
   const i18n = useI18n();
+  const params = useParams();
 
   const { isRTL } = useThemeHelper();
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const primeroModule = arrayHelpers?.form?.values?.module_id || params.module;
+  const isMRM = primeroModule === MODULES.MRM;
 
   const fields = buildAttachmentFieldsObject(name, index);
 
@@ -157,13 +162,16 @@ const DocumentField = ({
             {mode.isShow || deleteButton}
           </div>
 
-          <Box my={2}>
-            <TickField
-              {...supportingInputsProps}
-              label={i18n.t("fields.document.is_current")}
-              name={fields.isCurrent}
-            />
-          </Box>
+          {!isMRM && (
+            <Box my={2}>
+              <TickField
+                {...supportingInputsProps}
+                label={i18n.t("fields.document.is_current")}
+                name={fields.isCurrent}
+              />
+            </Box>
+          )}
+
           <Box my={2}>
             <FastField
               component={TextField}

@@ -1,5 +1,6 @@
 export { default as addSubformEntries } from "./add-subform-entries";
 export { default as appendDisabledUser } from "./append-disabled-user";
+export { default as buildAssociatedViolations } from "./build-associated-violations";
 export { default as buildCollapsedFields } from "./build-collapsed-fields";
 export { default as buildOptions } from "./build-options";
 export { default as buildSubformValues } from "./build-subform-values";

@@ -132,7 +132,8 @@ module Historical
   end
 
   # TODO: For performance reasons, consider caching this and assuming that
-  #       by the time the before_save callback is invoked, all changes have taken place
+  #       by the time the before_save callback is invoked, all changes have taken place,
+  # Also should we move this to another concern for other models to use?
   def changes_to_save_for_record
     changes_to_save_for_record = {}
     if will_save_change_to_attribute?('data')

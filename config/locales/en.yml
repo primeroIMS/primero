@@ -1375,6 +1375,7 @@ en:
       update_success: 'Incident %{record_id} was successfully updated.'
       update_success_queue: 'Incident %{record_id} was successfully updated in background.'
     violation:
+      associated_violations: "Associated Violations:"
       update_and_return: 'Update and Return to %{association}'
       save_and_return: 'Add and Return to %{association}'
       pending: Pending Verification
@@ -1383,7 +1384,7 @@ en:
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
-        sexual_violence: Rape and/or other forms of sexual violence
+        sexual_violence: Rape and other forms of sexual violence
         abduction: Abduction
         attack_on: Attacks on school(s) and/or hospital(s)
         attack_on_hospitals: Attacks on hospital(s)
@@ -1841,7 +1842,7 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
-    filter_by: 
+    filter_by:
       date: Date
       verification_status: Verification Status
     date_range:
@@ -1858,6 +1859,31 @@ en:
       custom: Custom
     no_data: No data exists for this insight
     no_data_table: No table data exists for this insight
+    incomplete_data: Incomplete Data
+    ghn_report:
+      name: Global Horizontal Note
+      description: ''
+      reports:
+        ghn_report: Global Horizontal Note
+      sub_reports:
+        verified_information: Verified Information
+        late_verification: Late Verification
+        unverified_information: Unverified Information
+        killing: Killing of Children
+        maiming: Maiming of Children
+        recruitment: Recruitment and/or use of children
+        sexual_violence: Rape and other forms of sexual violence
+        rape: Rape and other forms of sexual violence
+        abduction: Abduction
+        attack_on_hospitals: Attacks on hospital(s)
+        attack_on_schools: Attacks on school(s)
+        military_use: Military use of school(s) and/or hospital(s)
+        denial_humanitarian_access: Denial of humanitarian access for children
+        detention: Detention
+        boys: Boys
+        girls: Girls
+        total: Total
+        unknown: Unknown
     violations:
       name: Violations
       description: ''
@@ -1870,8 +1896,8 @@ en:
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
-        sexual_violence: Rape and/or other forms of sexual violence
-        rape: Rape and/or other forms of sexual violence
+        sexual_violence: Rape and other forms of sexual violence
+        rape: Rape and other forms of sexual violence
         abduction: Abduction
         attack_on_hospitals: Attacks on hospital(s)
         attack_on_schools: Attacks on school(s)
@@ -1886,6 +1912,8 @@ en:
         detention_released: Released
         detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
+        perpetrators_incidents: Number of incidents by Perpetrators
+        reporting_location_incidents: Number of incidents by Region
         reporting_location: Number of Children by Region
         attack_type: Number of Children by Attack Type
         boys: Boys
@@ -1902,21 +1930,23 @@ en:
         escaped: 'Escaped'
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
+        received_response: Children Received Response
     gbv_statistics:
       name: GBV Statistics
       description: ''
       filter_options:
         date_of_first_report: Date of Interview
         incident_date: Date of Incident
-      reports: 
+      reports:
         incidents: Incidents
         perpetrators: Perpetrators
         survivors: Survivors
+        referrals: Referrals
       sub_reports:
         combined: Incidents
         total: Number of GBV Incidents Reported
         gbv_sexual_violence: Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents 
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents
         gbv_sexual_violence_type: Incident Type
         incident_timeofday: Incident Time of Day
         elapsed_reporting_time: Time Between Incident and Report Date
@@ -1932,6 +1962,18 @@ en:
         marital_status: Marital Status of Survivors
         displacement_status: Displacement Status of Survivors
         displacement_incident: Stage of Displacement at time of Incident
+        gbv_case_context: Case Context
+        incidents_first_point_of_contact: Number of Incidents where your organization is the first point of contact
+        incidents_from_other_service_provider: Incidents Referred from Other Service Providers
+        number_of_services_provided: Number of Services Provided for Incidents
+        number_of_services_provided_other: New Incident Referrals to Other Service Providers
+        service_safehouse_referral: Safe House/Safe Shelter Referral
+        service_medical_referral: Health/Medical Referral
+        service_psycho_referral: Psychosocial/Counseling Services
+        service_legal_referral: Legal Assistance Services
+        service_police_referral: Police or Other Type of Security Services
+        service_livelihoods_referral: Livelihoods Services
+        service_protection_referral: Child Protection Services
         vulnerable_populations: Vulnerable Populations
         survivors_disability_type: With Disabilities
     success_message: Successfully generated the export file
@@ -2979,6 +3021,8 @@ en:
             label: Violations
           gbv_statistics:
             label: GBV Statistics
+          ghn_report:
+            label: Global Horizontal Note
       matching_configuration:
         actions:
           manage:
@@ -3129,7 +3173,7 @@ en:
           agency_read:
             explanation: Ability to view all reports. The numbers in each report
               will reflect only those records which are accessible to users
-              in the current user's Agency. This permission is often used 
+              in the current user's Agency. This permission is often used
               for agency administrators.
             label: View (agency-based data)
         explanation: Aggregate data analysis tool. Includes table and graph representations of data.

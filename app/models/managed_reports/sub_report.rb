@@ -5,10 +5,25 @@ class ManagedReports::SubReport < ValueObject
   attr_accessor :data
 
   def build_report(current_user, params = {})
-    self.data = indicators.reduce({}) do |acc, indicator|
-      acc.merge(indicator.id => indicator.build(current_user, params).data)
-    end
-    self.data = data.merge(lookups: lookups) if lookups.present?
+    self.data = {
+      data: indicators.reduce({}) do |acc, indicator|
+        acc.merge(indicator.id => indicator.build(current_user, params).data)
+      end,
+      metadata: {
+        display_graph: display_graph,
+        lookups: lookups,
+        table_type: table_type,
+        order: order
+      }
+    }
+  end
+
+  def display_graph
+    true
+  end
+
+  def table_type
+    'default'
   end
 
   def id; end
@@ -19,5 +34,9 @@ class ManagedReports::SubReport < ValueObject
 
   def lookups
     {}
+  end
+
+  def order
+    indicators.map(&:id)
   end
 end

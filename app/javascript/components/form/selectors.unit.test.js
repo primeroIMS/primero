@@ -88,6 +88,13 @@ describe("Forms - Selectors", () => {
           },
           lookupViolenceType,
           lookup2
+        ],
+        locations: [
+          { id: 1, code: "MC", admin_level: 0, name: { en: "MyCountry" } },
+          { id: 2, code: "MCMP1", admin_level: 1, name: { en: "MyProvince1" } },
+          { id: 3, code: "MCMP2", admin_level: 1, name: { en: "MyProvince2" } },
+          { id: 4, code: "MCMP1MD1", admin_level: 2, name: { en: "MyDistrict1" } },
+          { id: 5, code: "MCMP2MD2", admin_level: 2, name: { en: "MyDistrict2" } }
         ]
       },
       fields: [
@@ -100,7 +107,17 @@ describe("Forms - Selectors", () => {
     application: {
       agencies,
       managedRoles: roles,
-      roles
+      roles,
+      reportingLocationConfig: {
+        field_key: "owned_by_location",
+        admin_level: 2,
+        admin_level_map: {
+          1: ["province"],
+          2: ["district"]
+        },
+        hierarchy_filter: [],
+        label_keys: ["district"]
+      }
     },
     user: {
       agencyId: 1,
@@ -357,6 +374,21 @@ describe("Forms - Selectors", () => {
           localizeDate: value => value
         })
       ).to.deep.equals(expected);
+    });
+  });
+
+  describe("when optionStringsSource is REPORTING_LOCATIONS", () => {
+    it("should disabled the agencies that are not permitted for the current user", () => {
+      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)(stateWithLookups, {
+        source: OPTION_TYPES.REPORTING_LOCATIONS
+      });
+
+      const expected = [
+        { id: "MCMP1MD1", display_text: "MyDistrict1" },
+        { id: "MCMP2MD2", display_text: "MyDistrict2" }
+      ];
+
+      expect(options).to.deep.equal(expected);
     });
   });
 

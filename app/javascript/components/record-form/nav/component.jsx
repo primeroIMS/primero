@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import PropTypes from "prop-types";
-import { List, IconButton, Drawer } from "@material-ui/core";
+import { List, Drawer } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import Divider from "@material-ui/core/Divider";
-import CloseIcon from "@material-ui/icons/Close";
-import { withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { useI18n } from "../../i18n";
 import { INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES, RECORD_OWNER } from "../../../config";
@@ -23,9 +22,10 @@ import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
 import useOptions from "../../form/use-options";
 
 import { NAME } from "./constants";
-import { NavGroup, RecordInformation } from "./components";
+import { RecordInformation } from "./components";
 import css from "./styles.css";
-import buildFormGroupData from "./utils";
+import CloseButtonNavBar from "./components/close-button-nav-bar";
+import FormGroup from "./components/form-groups";
 
 const Component = ({
   firstTab,
@@ -39,13 +39,14 @@ const Component = ({
   toggleNav,
   primeroModule,
   selectedForm,
-  history,
   formikValuesForNav
 }) => {
   const i18n = useI18n();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
-  const dispatch = useDispatch();
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })
@@ -62,41 +63,43 @@ const Component = ({
       checkVisible: true
     })
   );
+  const recordInformationFormIds = useMemoizedSelector(state =>
+    getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
+  );
 
   const formGroupLookup = useOptions({
     source: buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-"))
   });
 
-  const recordInformationFormIds = useMemoizedSelector(state =>
-    getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
-  );
-
   const firstSelectedForm = selectedRecordForm?.first();
 
-  const handleClick = args => {
-    const { group, formId, parentItem } = args;
+  const handleClick = useCallback(
+    args => {
+      const { group, formId, parentItem } = args;
 
-    setPreviousGroup(group);
-    if (group !== open) {
-      setOpen(group);
-    } else if (parentItem && group === open) {
-      setOpen("");
-    }
+      setPreviousGroup(group);
+      if (group !== open) {
+        setOpen(group);
+      } else if (parentItem && group === open) {
+        setOpen("");
+      }
 
-    if (parentItem) {
-      if ((open === "" || group === open) && (previousGroup === "" || previousGroup === group)) {
-        dispatch(setSelectedForm(selectedForm));
+      if (parentItem) {
+        if ((open === "" || group === open) && (previousGroup === "" || previousGroup === group)) {
+          dispatch(setSelectedForm(selectedForm));
+        } else {
+          dispatch(setSelectedForm(formId));
+        }
       } else {
         dispatch(setSelectedForm(formId));
       }
-    } else {
-      dispatch(setSelectedForm(formId));
-    }
 
-    if (!parentItem && mobileDisplay) {
-      handleToggleNav();
-    }
-  };
+      if (!parentItem && mobileDisplay) {
+        handleToggleNav();
+      }
+    },
+    [mobileDisplay, dispatch, open, previousGroup]
+  );
 
   const handleWithoutSelectedForm = () => {
     dispatch(setSelectedForm(firstTab.unique_id));
@@ -158,70 +161,51 @@ const Component = ({
     }
   }, [history.action, firstSelectedForm?.form_group_id]);
 
-  const renderCloseButtonNavBar = mobileDisplay && (
-    <div className={css.closeButtonRecordNav}>
-      <IconButton onClick={handleToggleNav} className={css.closeIconButtonRecordNav}>
-        <CloseIcon />
-      </IconButton>
-    </div>
-  );
-  const drawerProps = {
-    anchor: "left",
-    open: toggleNav,
-    onClose: handleToggleNav,
-    classes: {
-      paper: css.drawerPaper
-    }
-  };
+  const drawerClasses = { paper: css.drawerPaper };
 
-  if (formNav) {
-    const [...formGroups] = formNav.values();
+  if (!formNav) return null;
 
-    const renderFormGroups = formGroups.reduce((acc, formGroup) => {
-      const group = buildFormGroupData(formGroup, formikValuesForNav);
+  const [...formGroups] = formNav.values();
 
-      if (!group.size) {
-        return acc;
-      }
-
-      return [
-        ...acc,
-        <NavGroup
-          group={group}
-          handleClick={handleClick}
-          isNew={isNew}
-          open={open}
-          key={formGroup.keySeq().first()}
-          recordAlerts={recordAlerts}
-          selectedForm={selectedForm}
-          validationErrors={validationErrors}
-          formGroupLookup={formGroupLookup}
-        />
-      ];
-    }, []);
-
-    return (
-      <>
-        <ConditionalWrapper condition={mobileDisplay} wrapper={Drawer} {...drawerProps}>
-          {renderCloseButtonNavBar}
-          <List className={css.listRecordNav}>
-            <RecordInformation
+  return (
+    <>
+      <ConditionalWrapper
+        condition={mobileDisplay}
+        wrapper={Drawer}
+        anchor="left"
+        open={toggleNav}
+        onClose={handleToggleNav}
+        classes={drawerClasses}
+      >
+        <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
+        <List className={css.listRecordNav}>
+          <RecordInformation
+            handleClick={handleClick}
+            open={open}
+            recordAlerts={recordAlerts}
+            selectedForm={selectedForm}
+            formGroupLookup={formGroupLookup}
+            primeroModule={primeroModule}
+          />
+          <Divider />
+          {formGroups.map(formGroup => (
+            <FormGroup
+              formikValuesForNav={formikValuesForNav}
               handleClick={handleClick}
+              isNew={isNew}
               open={open}
               recordAlerts={recordAlerts}
               selectedForm={selectedForm}
+              validationErrors={validationErrors}
               formGroupLookup={formGroupLookup}
-              primeroModule={primeroModule}
+              formGroup={formGroup}
+              key={formGroup.keySeq().first()}
             />
-            <Divider />
-            {renderFormGroups}
-          </List>
-        </ConditionalWrapper>
-      </>
-    );
-  }
-
-  return null;
+          ))}
+        </List>
+      </ConditionalWrapper>
+    </>
+  );
 };
 
 Component.displayName = NAME;
@@ -232,7 +216,6 @@ Component.propTypes = {
   formNav: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   hasForms: PropTypes.bool,
-  history: PropTypes.object,
   isNew: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
@@ -242,4 +225,9 @@ Component.propTypes = {
   toggleNav: PropTypes.bool
 };
 
-export default withRouter(Component);
+export default memo(Component, (prev, next) => {
+  const { formNav: prevFormNav, ...restPrev } = prev;
+  const { formNav: nextFormNav, ...restNext } = next;
+
+  return restPrev === restNext && prevFormNav.equals(nextFormNav);
+});

@@ -16,13 +16,11 @@ const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
   }
 
   const label = isTotal ? i18n.t("fields.total") : displayNameHelper(option.display_text, i18n.locale);
-  const disabled = isTotal ? { disabled: true } : null;
 
   const fieldProps = {
     name,
     field: { type: NUMERIC_FIELD },
     label,
-    disabled,
     variant: "outlined",
     autoComplete: "off",
     fullWidth: false,
@@ -33,7 +31,7 @@ const TallyFieldContainer = ({ name, option, isTotal, ...rest }) => {
         root: css.tallyInputLabel
       }
     },
-    ...rest
+    ...{ ...rest, disabled: isTotal }
   };
 
   return <TextField {...fieldProps} />;

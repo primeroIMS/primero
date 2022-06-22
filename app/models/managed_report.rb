@@ -13,7 +13,7 @@ class ManagedReport < ValueObject
         id: 'gbv_statistics',
         name: 'managed_reports.gbv_statistics.name',
         description: 'managed_reports.gbv_statistics.description',
-        subreports: %w[incidents perpetrators survivors],
+        subreports: %w[incidents perpetrators survivors referrals],
         permitted_filters: [:grouped_by, date_of_first_report: {}, incident_date: {}],
         module_id: PrimeroModule::GBV
       ),
@@ -23,12 +23,22 @@ class ManagedReport < ValueObject
         description: 'managed_reports.violations.description',
         subreports: %w[
           killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools
-          attack_on_hospitals
+          attack_on_hospitals military_use
         ],
         permitted_filters: [
           :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
           date_of_first_report: {},
           incident_date: {}, ctfmr_verified_date: {}
+        ],
+        module_id: PrimeroModule::MRM
+      ),
+      Permission::GHN_REPORT => ManagedReport.new(
+        id: 'ghn_report',
+        name: 'managed_reports.ghn_report.name',
+        description: 'managed_reports.ghn_report.description',
+        subreports: %w[ghn_report],
+        permitted_filters: [
+          :grouped_by, ghn_date_filter: {}
         ],
         module_id: PrimeroModule::MRM
       )
@@ -89,6 +99,6 @@ class ManagedReport < ValueObject
   end
 
   def verified_value
-    filters&.find { |filter| filter.field_name == 'verified_ctfmr_technical' }&.value
+    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
   end
 end

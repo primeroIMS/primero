@@ -118,7 +118,8 @@ describe("User - Action Creators", () => {
       "resetPassword",
       "setAuthenticatedUser",
       "setUser",
-      "showLoginDialog"
+      "showLoginDialog",
+      "getAppResources"
     ].forEach(method => {
       expect(creators).to.have.property(method);
       expect(creators[method]).to.be.a("function");

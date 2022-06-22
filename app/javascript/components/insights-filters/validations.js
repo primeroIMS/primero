@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty";
+import pick from "lodash/pick";
 import { object, string } from "yup";
 
 import {
@@ -21,8 +22,8 @@ const customDateValidation = (i18n, from = false) =>
     )
   });
 
-export default i18n =>
-  object().shape({
+export default (i18n, filters) => {
+  const validations = {
     date: string()
       .nullable()
       .ensure()
@@ -42,4 +43,7 @@ export default i18n =>
       }),
     from: customDateValidation(i18n, true),
     to: customDateValidation(i18n)
-  });
+  };
+
+  return object().shape(pick(validations, filters));
+};

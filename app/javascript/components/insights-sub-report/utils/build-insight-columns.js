@@ -20,10 +20,15 @@ const buildGroupedColumns = (value, groupedBy, localizeDate) => {
   }));
 };
 
-export default ({ value, isGrouped, groupedBy, localizeDate, totalText }) => {
-  if (isGrouped && groupedBy) {
-    return buildGroupedColumns(value, groupedBy, localizeDate);
-  }
+export default {
+  ghn_report: ({ value, getLookupValue }) => {
+    return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
+  },
+  default: ({ value, isGrouped, groupedBy, localizeDate, totalText }) => {
+    if (isGrouped && groupedBy) {
+      return buildGroupedColumns(value, groupedBy, localizeDate);
+    }
 
-  return [{ label: totalText }];
+    return [{ label: totalText }];
+  }
 };
