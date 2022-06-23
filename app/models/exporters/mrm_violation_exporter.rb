@@ -29,7 +29,7 @@ module Exporters
     # rubocop:enable Style/ClassAndModuleChildren
     class << self
       def id
-        'mrm_violation_xlsx'
+        'mrm_violation_xls'
       end
 
       def mime_type
@@ -54,7 +54,7 @@ module Exporters
 
     def export(records, user, options = {})
       establish_export_constraints(records, user, options)
-      violations = records.map(&:violations).flatten
+      violations = Incident.where(id: records).joins(:violations).includes(:violations).map(&:violations).flatten
       write_violations(violations)
       write_violation_associations(violations)
     end
