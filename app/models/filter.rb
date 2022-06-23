@@ -225,6 +225,13 @@ class Filter < ValueObject
     protection_concerns type_of_risk
   ].freeze
 
+  VIOLATION_FILTER = Filter.new(
+    name: 'incidents.filter_by.violations',
+    field_name: 'violation_category',
+    option_strings_source: 'lookup-violation-type',
+    type: 'multi_select'
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -371,14 +378,18 @@ class Filter < ValueObject
       [PHOTO]
     end
 
+    # rubocop:disable Metrics/AbcSize
     def incident_filters(user)
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
-      filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user) + [AGE_RANGE]
+      filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user)
+      filters += violation_filter(user)
+      filters += [AGE_RANGE]
       filters += children_verification_and_location_filters(user)
       filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
       filters << ENABLED
       filters
     end
+    # rubocop:enable Metrics/AbcSize
 
     def violence_type_filter(user)
       user.module?(PrimeroModule::GBV) ? [VIOLENCE_TYPE] : []
@@ -400,6 +411,11 @@ class Filter < ValueObject
       user.module?(PrimeroModule::MRM) ? [INCIDENT_STATUS] : [STATUS]
     end
 
+    def violation_filter(user)
+      return [] unless user.module?(PrimeroModule::MRM)
+
+      [VIOLATION_FILTER]
+    end
 
     def children_verification_and_location_filters(user)
       filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS] : []
