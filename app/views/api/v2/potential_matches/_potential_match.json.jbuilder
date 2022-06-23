@@ -10,9 +10,9 @@ json.case do
   json.sex potential_match.child.sex
   json.owned_by potential_match.child.owned_by
   json.owned_by_agency_id potential_match.child.owned_by_agency_id
-  json.photos potential_match.child.current_photos.map(&:to_h_api) if current_user.can?(:view_photo, PotentialMatch)
+  json.photos potential_match.child&.current_photos&.map(&:to_h_api) if current_user.can?(:view_photo, PotentialMatch)
   if current_user.can?(:view_audio, PotentialMatch)
-    json.recorded_audio potential_match.child.current_audios.map(&:to_h_api)
+    json.recorded_audio potential_match.child&.current_audios&.map(&:to_h_api)
   end
 end
 json.trace do

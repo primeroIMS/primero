@@ -175,20 +175,20 @@ class Ability
     end
   end
 
-  def permitted_to_access_attachment?(user, instance, write = false)
+  def permitted_to_access_attachment?(user, attachment, write = false)
     @permitted_form_fields_service.permitted_field_names(
       user.role,
-      Record.map_name(instance.record_type),
+      Record.map_name(attachment.record_type),
       write
-    ).include?(instance.field_name) && (
-      permitted_to_access_record?(user, instance.record) || user.can_preview?(instance.record.class)
+    ).include?(attachment.field_name) && (
+      permitted_to_access_record?(user, attachment.record) || user.can_preview?(attachment.record.class)
     )
   end
 
-  def permitted_to_view_attachment?(user, instance)
-    permitted_to_access_record?(user, instance.record) && (
-      (instance.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
-        instance.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
+  def permitted_to_view_attachment?(user, attachment)
+    permitted_to_access_record?(user, attachment.record) && (
+      (attachment.attachment_type == Attachment::IMAGE && user.can?(:view_photo, PotentialMatch)) || (
+        attachment.attachment_type == Attachment::AUDIO && user.can?(:view_audio, PotentialMatch)
       )
     )
   end

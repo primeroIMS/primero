@@ -31,13 +31,13 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
 
   if (!images) return null;
 
-  const handleOnClick = index => handleToggle(index);
+  const handleOnClick = index => () => handleToggle(index);
 
   const renderImages = () => {
     return images.map((image, index) => {
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-        <div key={image} className={imageClasses} onClick={() => handleOnClick(index)}>
+        <div key={image} className={imageClasses} onClick={handleOnClick(index)}>
           <img src={image} alt="Record" className={css.img} />
         </div>
       );
@@ -70,7 +70,7 @@ const PhotoArray = ({ images = [], isGallery = false }) => {
         {prevButton}
         {isGallery ? (
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-          <div className={css.imgCurrent} onClick={() => handleOnClick(selected.index)}>
+          <div className={css.imgCurrent} onClick={handleOnClick(selected.index)}>
             <img src={images[selected.index]} alt="" />
           </div>
         ) : (
