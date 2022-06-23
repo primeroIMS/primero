@@ -19,7 +19,7 @@ const Component = ({ value, optionsStringSource, optionsStringText, isViolationS
   if (isEmpty(value)) return <>{value}</>;
 
   if (!isEmpty(optionsStringSource)) {
-    const { display_text: displayText } = optionsStrings.find(o => o.id === value) || {};
+    const { display_text: displayText } = optionsStrings?.find(o => o.id === value) || {};
 
     if (!Array.isArray(value)) {
       return (
