@@ -15,7 +15,7 @@ class ArchiveBulkExports < PeriodicJob
 
   def archive_old_exports
     BulkExport.where.not(status: BulkExport::ARCHIVED)
-              .where('completed_on <= ?', BulkExport.ARCHIVE_CUTOFF.days.ago)
+              .where('started_on <= ?', BulkExport::ARCHIVE_CUTOFF.days.ago)
               .find_in_batches(batch_size: 500) do |batch|
       batch.each(&:archive!)
     end

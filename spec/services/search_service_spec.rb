@@ -241,4 +241,44 @@ describe SearchService, search: true do
       expect(search.results.first.name).to eq(@correct_match.name)
     end
   end
+
+  describe 'Violation Search' do
+    before :example do
+      Sunspot.setup(Incident) do
+        string('violation_category', multiple: true)
+      end
+      @correct_match_a = Incident.create!(
+        data: {
+          violation_category: %w[killing attack_on_hospitals],
+          created_at: 1.months.ago,
+          incident_id: '04274225-8c68-4ce1-b10b-be18b9f88531'
+        }
+      )
+      @correct_match_b = Incident.create!(
+        data: {
+          violation_category: %w[maiming],
+          created_at: 1.months.ago,
+          incident_id: '9448d2fa-5d81-4c0b-9522-bb2617adaa52'
+        }
+      )
+      @incorrect_match = Incident.create!(
+        data: {
+          violation_category: %w[recruitment],
+          created_at: DateTime.current,
+          incident_id: '7d93d75e-588b-449f-b94e-a28d301c6594'
+        }
+      )
+      Sunspot.commit
+    end
+
+    it 'search with filters' do
+      filter = SearchFilters::Value.new(field_name: 'violation_category', value: %w[killing maiming])
+      search = SearchService.search(Incident, filters: [filter], sort: { 'created_at' => 'desc' })
+
+      expect(search.total).to eq(2)
+      expect(search.results.map(&:incident_id)).to match_array(
+        [@correct_match_a.incident_id, @correct_match_b.incident_id]
+      )
+    end
+  end
 end

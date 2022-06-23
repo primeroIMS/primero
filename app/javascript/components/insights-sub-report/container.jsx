@@ -11,12 +11,12 @@ import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 import { clearSelectedReport } from "../reports-form/action-creators";
-import BarChartGraphic from "../charts/bar-chart";
 import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
 
+import DefaultIndicator from "./components/default-indicator";
+import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
 import {
-  buildChartValues,
   buildInsightColumns,
   buildSingleInsightsData,
   buildInsightValues,
@@ -97,6 +97,14 @@ const Component = () => {
     default: TableValues
   }[insightMetadata.get("table_type")];
 
+  function getIndicator(indicator) {
+    if (indicator === "multiple_violations") {
+      return MultipleViolationsIndicator;
+    }
+
+    return DefaultIndicator;
+  }
+
   return (
     <div className={css.container}>
       <LoadingIndicator {...loadingIndicatorProps}>
@@ -132,56 +140,32 @@ const Component = () => {
             {reportData
               .get("aggregate", fromJS({}))
               .entrySeq()
-              .map(([valueKey, value]) => (
-                <div key={valueKey} className={css.section}>
-                  <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
-                  {displayGraph && (
-                    <BarChartGraphic
-                      data={buildChartValues({
-                        totalText,
-                        getLookupValue: lookupValue,
-                        localizeDate: i18n.localizeDate,
-                        value,
-                        valueKey,
-                        isGrouped,
-                        groupedBy,
-                        ageRanges,
-                        lookupValues: lookups[valueKey],
-                        incompleteDataLabel
-                      })}
-                      showDetails
-                      hideLegend
-                    />
-                  )}
-                  <TableComponent
-                    useInsightsHeader
-                    columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                      value,
-                      isGrouped,
-                      groupedBy,
-                      localizeDate: i18n.localizeDate,
-                      totalText,
-                      getLookupValue: lookupValue,
-                      incompleteDataLabel,
-                      subColumnItems: indicatorsSubcolumns.get(valueKey, fromJS([]))
-                    })}
-                    values={buildInsightValues[insightMetadata.get("table_type")]({
-                      getLookupValue: lookupValue,
-                      data: value,
-                      key: valueKey,
-                      isGrouped,
-                      groupedBy,
-                      ageRanges,
-                      lookupValues: lookups[valueKey],
-                      incompleteDataLabel,
-                      subColumnItems: indicatorsSubcolumns.get(valueKey, fromJS([]))
-                    })}
-                    showPlaceholder
-                    name={namespace}
+              .map(([valueKey, value]) => {
+                const Indicator = getIndicator(valueKey);
+                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]))
+
+                return (
+                  <Indicator
+                    key={valueKey}
+                    valueKey={valueKey}
+                    value={value}
+                    ageRanges={ageRanges}
+                    displayGraph={displayGraph}
                     emptyMessage={emptyMessage}
+                    groupedBy={groupedBy}
+                    incompleteDataLabel={incompleteDataLabel}
+                    insightMetadata={insightMetadata}
+                    isGrouped={isGrouped}
+                    lookups={lookups}
+                    lookupValue={lookupValue}
+                    namespace={namespace}
+                    subReportTitle={subReportTitle}
+                    TableComponent={TableComponent}
+                    totalText={totalText}
+                    subColumnItems={subColumnItems}
                   />
-                </div>
-              ))}
+                );
+              })}
           </div>
         </div>
       </LoadingIndicator>

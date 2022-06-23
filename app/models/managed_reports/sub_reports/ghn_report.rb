@@ -10,7 +10,8 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
     [
       ManagedReports::Indicators::VerifiedInformation,
       ManagedReports::Indicators::LateVerification,
-      ManagedReports::Indicators::UnverifiedInformation
+      ManagedReports::Indicators::UnverifiedInformation,
+      ManagedReports::Indicators::MultipleViolations
     ]
   end
 
