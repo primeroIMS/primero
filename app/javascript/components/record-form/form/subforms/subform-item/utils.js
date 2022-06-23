@@ -1,3 +1,5 @@
+import groupBy from "lodash/groupBy";
+
 import { FormSectionRecord, FieldRecord } from "../../../records";
 
 import {
@@ -26,12 +28,13 @@ export const buildFormViolations = (violationField, forms) => {
       ? [VIOLATION_TALLY, VIOLATION_TALLY_ESTIMATED]
       : [VIOLATION_TALLY];
 
-  const violationTally = violationFields.filter(field => filter.includes(field.name));
-  const otherViolationsFields = violationFields.filter(field => !filter.includes(field.name));
+  const { violationTally, otherViolationsFields } = groupBy(violationFields, field => {
+    return filter.includes(field.name) ? "violationTally" : "otherViolationsFields";
+  });
 
   const fields = ORDER_OF_FORMS.reduce((acc, curr) => {
-    if (curr === VIOLATION_TALLY) return [...acc, ...violationTally];
-    if (curr === VIOLATIONS_FIELDS) return [...acc, ...otherViolationsFields];
+    if (curr === VIOLATION_TALLY) return [...acc, ...(violationTally || [])];
+    if (curr === VIOLATIONS_FIELDS) return [...acc, ...(otherViolationsFields || [])];
 
     const subformField = formFields.find(field => field.name === curr);
 
