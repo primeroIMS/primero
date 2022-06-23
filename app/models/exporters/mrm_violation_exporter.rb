@@ -151,7 +151,7 @@ module Exporters
     end
 
     def write_violation_id_headers(worksheet)
-      worksheet.merge_range(@header_row - 1, 0, 1, 1, I18n.t('incidents.id'), @format_black)
+      worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @format_black)
       worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
       worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
       worksheet.write(@header_row, 2, I18n.t('incidents.violation_type'))
