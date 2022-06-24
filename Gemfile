@@ -34,7 +34,7 @@ gem 'rack-attack',         '>= 6.3.1'  # Rack middleware to rate limit sensetive
 gem 'rails',               '6.1.6'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
-gem 'rubyzip',             '~> 1.3.0', # Zip and encrypt exported files
+gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.1'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
@@ -66,7 +66,7 @@ group :development, :test do
   # TODO: This is needed to read .xlsx files for validation in the exporter tests.
   # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
   # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
-  gem 'roo',                        '~> 2.8'
+  gem 'roo',                        '~> 2.9'
   gem 'rspec',                      '~> 3.10'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.1'
