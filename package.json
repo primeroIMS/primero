@@ -120,7 +120,7 @@
     "minimist-lite": "^2.2.1",
     "mocha": "^9.2.2",
     "msal": "^1.4.6",
-    "mui-datatables": "3.0.1",
+    "mui-datatables": "^3.8.5",
     "mui-nepali-datepicker-reactjs": "^1.1.4",
     "mutationobserver-shim": "^0.3.5",
     "nock": "^10.0.6",

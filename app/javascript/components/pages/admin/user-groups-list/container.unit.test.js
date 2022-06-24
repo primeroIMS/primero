@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
 import { Button, TableCell, TableHead } from "@material-ui/core";
-import last from "lodash/last";
 
 import { setupMountedComponent, listHeaders, lookups, stub } from "../../../../test";
 import IndexTable from "../../../index-table";
@@ -105,7 +104,7 @@ describe("<UserGroupsList />", () => {
       type: "user_groups/SET_USER_GROUPS_FILTER"
     };
 
-    const action = last(component.props().store.getActions());
+    const action = component.props().store.getActions()[1];
 
     expect(action.type).to.deep.equals(expectedAction.type);
     expect(action.payload.data).to.deep.equals(expectedAction.payload.data);

@@ -135,8 +135,8 @@ describe("<LocationsList />", () => {
       type: "locations/SET_LOCATIONS_FILTER"
     };
 
-    expect(component.props().store.getActions()[3].data).to.deep.equals(expectedAction.data);
-    expect(component.props().store.getActions()[3].type).to.deep.equals(expectedAction.type);
+    expect(component.props().store.getActions()[1].data).to.deep.equals(expectedAction.data);
+    expect(component.props().store.getActions()[1].type).to.deep.equals(expectedAction.type);
   });
 
   afterEach(() => {
