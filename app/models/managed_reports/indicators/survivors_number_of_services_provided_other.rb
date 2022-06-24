@@ -2,6 +2,7 @@
 
 # An indicator that returns the survivors by number of services provided
 class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < ManagedReports::SqlReportIndicator
+  OTHER_REFERRALS = "'internal_referral', 'external_referral', 'referred'"
   class << self
     def id
       'number_of_services_provided_other'
@@ -23,7 +24,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
             count(*) as total
           from
             incidents
-          where data ->> 'service_safehouse_referral' <> 'service_provided_by_your_agency'
+          where data ->> 'service_safehouse_referral' in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -41,7 +42,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_medical_referral text
             )
-          where service_medical_referral <> 'service_provided_by_your_agency'
+          where service_medical_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -59,7 +60,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_psycho_referral text
             )
-          where service_psycho_referral <> 'service_provided_by_your_agency'
+          where service_psycho_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -77,7 +78,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_legal_referral text
             )
-          where service_legal_referral <> 'service_provided_by_your_agency'
+          where service_legal_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -95,7 +96,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_police_referral text
             )
-          where service_police_referral <> 'service_provided_by_your_agency'
+          where service_police_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -113,7 +114,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_livelihoods_referral text
             )
-          where service_livelihoods_referral <> 'service_provided_by_your_agency'
+          where service_livelihoods_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
@@ -131,7 +132,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
               unique_id text,
               service_protection_referral text
             )
-          where service_protection_referral <> 'service_provided_by_your_agency'
+          where service_protection_referral in (#{OTHER_REFERRALS})
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}
