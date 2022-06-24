@@ -14,8 +14,13 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const verificationLabels = useOptions({ source: LOOKUPS.verification_status });
-  const violationTypeLabels = useOptions({ source: LOOKUPS.violation_type });
+  const { verificationStatus, violationType } = useOptions({
+    source: [
+      ["verificationStatus", LOOKUPS.verification_status],
+      ["violationType", LOOKUPS.violation_type]
+    ]
+  });
+
   const violationsCategoryVerificationStatus = useMemoizedSelector(state =>
     getViolationsCategoryVerificationStatus(state)
   );
@@ -30,7 +35,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.incidents}
           title={i18n.t("dashboard.dash_violations_category_verification_status")}
-          {...toListTable(violationsCategoryVerificationStatus, verificationLabels, violationTypeLabels, i18n.locale)}
+          {...toListTable(violationsCategoryVerificationStatus, verificationStatus, violationType, i18n.locale)}
         />
       </OptionsBox>
     </Permission>

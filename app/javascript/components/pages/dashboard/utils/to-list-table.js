@@ -17,8 +17,8 @@ const translateSingleLabel = (key, data, locale) => {
   return isPlainObject(displayText) ? displayNameHelper(displayText, locale) : displayText;
 };
 const getFormattedList = (values, listKey, sort) => {
-  const formattedList = values.map(r => {
-    return Object.entries(r).reduce((acc, obj) => {
+  const formattedList = values.map(value => {
+    return Object.entries(value).reduce((acc, obj) => {
       const [key, val] = obj;
 
       return { ...acc, [key]: typeof val === "object" ? val[listKey] : val };
