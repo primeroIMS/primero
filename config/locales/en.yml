@@ -259,7 +259,6 @@ en:
     accepted_transfer: '%{to} accepted transfer of %{record_type} %{record_id} from %{from}'
     rejected_transfer: '%{to} rejected transfer of  %{record_type} %{record_id} from %{from}'
   cases:
-    complete: Available offline?
     action_plan: Action Plan
     age: Age
     age_estimated: Estimated Age?
@@ -1391,7 +1390,6 @@ en:
     enable_dialog_title: Enable Incident
     enable_success: Successfully enabled incidents.
     id: ID#
-    complete: Available offline?
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
     incident_location: Incident Location
@@ -3671,7 +3669,6 @@ en:
     enable_dialog_title: Enable Tracing Request
     enable_success: Successfully enabled trancing request.
     id: ID
-    complete: Available offline?
     filter_by:
       by_date: By Date
       location_separation: Separation Location
@@ -3691,7 +3688,6 @@ en:
     export: Export
   registry_records:
     id: ID
-    complete: Available offline?
     label: Registry Records
     name: Name
     registry_no: Registry Number

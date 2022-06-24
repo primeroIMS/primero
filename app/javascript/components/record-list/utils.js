@@ -4,6 +4,7 @@
 
 import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
+import OfflinePin from "@material-ui/icons/OfflinePin";
 
 import { ToggleIconCell } from "../index-table";
 import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../config";
@@ -12,7 +13,6 @@ import DisableOffline from "../disable-offline";
 
 import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "./constants";
 import PhotoColumnBody from "./components/photo-column-body";
-import PhotoColumnHeader from "./components/photo-column-header";
 
 export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
@@ -46,17 +46,10 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
             case ALERTS_COLUMNS.photo:
               return {
                 disableOnClick: true,
-                // eslint-disable-next-line react/no-multi-comp, react/display-name
-                customHeadRender: (columnMeta, handleToggleColumn) => (
-                  <PhotoColumnHeader
-                    css={css}
-                    columnMeta={columnMeta}
-                    handleToggleColumn={handleToggleColumn}
-                    key={`photo-column-${name}`}
-                    i18n={i18n}
-                    recordType={recordType}
-                  />
-                ),
+                customHeadLabelRender: columnMeta => i18n.t(`${recordType}.${columnMeta.name}`),
+                setCellHeaderProps: () => {
+                  return { style: { width: "45px" } };
+                },
                 // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, { rowIndex }) =>
                   disableColumnOffline({ component: PhotoColumnBody, props: { value, css }, rowIndex })
@@ -82,6 +75,7 @@ export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordA
               };
             case "complete":
               return {
+                customHeadLabelRender: () => <OfflinePin className={css.iconHeader} />,
                 sort: !online,
                 disableOnClick: true,
                 customBodyRender: value => {
