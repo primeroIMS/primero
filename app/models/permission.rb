@@ -111,6 +111,7 @@ class Permission < ValueObject
   DISPLAY_VIEW_PAGE = 'display_view_page'
   REQUEST_TRANSFER = 'request_transfer'
   VIEW_PHOTO = 'view_photo'
+  VIEW_AUDIO = 'view_audio'
   INCIDENT_FROM_CASE = 'incident_from_case'
   INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
   VIEW_INCIDENT_FROM_CASE = 'view_incident_from_case'
@@ -196,7 +197,7 @@ class Permission < ValueObject
     REPORT => [READ, GROUP_READ, AGENCY_READ, CREATE, WRITE, MANAGE],
     MANAGED_REPORT => [VIOLATION_REPORT, GBV_STATISTICS_REPORT, GHN_REPORT],
     METADATA => [MANAGE],
-    POTENTIAL_MATCH => [READ],
+    POTENTIAL_MATCH => [READ, VIEW_AUDIO, VIEW_PHOTO, MANAGE],
     DUPLICATE => [READ],
     SYSTEM => [MANAGE],
     CONFIGURATION => [MANAGE],
