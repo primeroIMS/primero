@@ -16,5 +16,18 @@ module Indicators
       scope: OPEN_CLOSED_ENABLED,
       scope_to_owned_by_groups: true
     ).freeze
+
+    def self.violation_category_region(role)
+      reporting_location_config = role&.reporting_location_config || SystemSettings.current.reporting_location_config
+      admin_level = reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+
+      PivotedIndicator.new(
+        name: 'violations_category_region',
+        record_model: ::Incident,
+        pivots: ["incident_location#{admin_level}", 'violation_category'],
+        scope: OPEN_CLOSED_ENABLED,
+        scope_to_owned_by_groups: true
+      ).freeze
+    end
   end
 end

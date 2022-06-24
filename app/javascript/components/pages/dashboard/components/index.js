@@ -11,3 +11,4 @@ export { default as Flags } from "./flags";
 export { default as CasesBySocialWorker } from "./cases-by-social-worker";
 export { default as CasesToAssign } from "./cases-to-assign";
 export { default as ViolationsCategoryVerificationStatus } from "./violations-category-verification-status";
+export { default as ViolationsCategoryRegion } from "./violations-category-region";

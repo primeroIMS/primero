@@ -30,6 +30,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   SHARED_WITH_MY_TEAM_OVERVIEW: "dashboard.dash_shared_with_my_team_overview",
   SHARED_WITH_OTHERS: "dashboard.dash_shared_with_others",
   VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "dashboard.dash_violations_category_verification_status",
+  VIOLATIONS_CATEGORY_REGION: "dashboard.dash_violations_category_region",
   WORKFLOW_TEAM: "dashboard.workflow_team",
   WORKFLOW: "dashboard.workflow"
 });
