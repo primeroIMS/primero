@@ -15,8 +15,12 @@ import { NAME } from "./constants";
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
 
-  const locations = useOptions({ source: OPTION_TYPES.LOCATION });
-  const violationTypeLabels = useOptions({ source: LOOKUPS.violation_type });
+  const { locations, violationTypes } = useOptions({
+    source: [
+      ["locations", OPTION_TYPES.LOCATION],
+      ["violationTypes", LOOKUPS.violation_type]
+    ]
+  });
   const violationsCategoryRegion = useMemoizedSelector(state => getViolationsCategoryRegion(state));
 
   return (
@@ -29,7 +33,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.incidents}
           title={i18n.t("dashboard.dash_violations_category_region")}
-          {...toListTable(violationsCategoryRegion, violationTypeLabels, locations, i18n.locale)}
+          {...toListTable(violationsCategoryRegion, violationTypes, locations, i18n.locale)}
         />
       </OptionsBox>
     </Permission>
