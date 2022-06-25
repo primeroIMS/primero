@@ -52,6 +52,7 @@ describe("Verifying config constant", () => {
       "DASH_SHARED_WITH_MY_TEAM",
       "DASH_SHARED_WITH_OTHERS",
       "DASH_TASKS",
+      "DASH_VIOLATIONS_CATEGORY_REGION",
       "DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS",
       "DASH_WORKFLOW_TEAM",
       "DASH_WORKFLOW",

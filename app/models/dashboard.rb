@@ -17,6 +17,7 @@ class Dashboard < ValueObject
     cases_by_task_overdue_followups
     dash_cases_to_assign
     dash_national_admin_summary
+    dash_violations_category_region
   ].freeze
 
   # Note: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -278,6 +279,14 @@ class Dashboard < ValueObject
         Indicators::Case.closed_last_week, Indicators::Case.closed_this_week
       ]
     )
+  end
+
+  def self.dash_violations_category_region(role = nil)
+    Dashboard.new(
+      name: 'dash_violations_category_region',
+      type: 'indicator',
+      indicators: [Indicators::Incident.violation_category_region(role)]
+    ).freeze
   end
 end
 # rubocop:enable Metrics/ClassLength

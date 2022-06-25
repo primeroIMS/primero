@@ -53,8 +53,10 @@ export default (data, columnLabels, rowLabels, locale) => {
     const sortedRows = isRowLabelsEmpty
       ? Object.entries(rows)
       : rowLabels.reduce((acc, elem) => {
-          if (!isNil(rows[elem.id])) {
-            return [...acc, [elem.display_text, rows[elem.id]]];
+          const elemId = elem.id.toLowerCase();
+
+          if (!isNil(rows[elemId])) {
+            return [...acc, [elem.display_text, rows[elemId]]];
           }
 
           return acc;

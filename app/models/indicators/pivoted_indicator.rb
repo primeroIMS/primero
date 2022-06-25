@@ -48,6 +48,8 @@ module Indicators
     end
 
     def row_stats(rows, owner, user, name_map)
+      return {} unless rows.present?
+
       rows.each_with_object({}) do |row, stats|
         stats[row['value']] = row['pivot'].map do |pivot|
           stat = {

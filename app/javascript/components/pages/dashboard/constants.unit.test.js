@@ -53,6 +53,7 @@ describe("Verifying config constant", () => {
       "SHARED_WITH_MY_TEAM",
       "SHARED_WITH_MY_TEAM_OVERVIEW",
       "SHARED_WITH_OTHERS",
+      "VIOLATIONS_CATEGORY_REGION",
       "VIOLATIONS_CATEGORY_VERIFICATION_STATUS",
       "WORKFLOW_TEAM",
       "WORKFLOW"

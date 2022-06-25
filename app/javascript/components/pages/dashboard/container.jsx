@@ -24,6 +24,7 @@ import {
   Flags,
   CasesBySocialWorker,
   CasesToAssign,
+  ViolationsCategoryRegion,
   ViolationsCategoryVerificationStatus
 } from "./components";
 import NAMESPACE from "./namespace";
@@ -82,6 +83,7 @@ const Dashboard = () => {
             <ReportingLocation loadingIndicator={indicatorProps} />
             <ProtectionConcern loadingIndicator={indicatorProps} />
             <ViolationsCategoryVerificationStatus loadingIndicator={indicatorProps} />
+            <ViolationsCategoryRegion loadingIndicator={indicatorProps} />
           </Grid>
           <Grid item xl={3} md={4} xs={12}>
             <Flags loadingIndicator={flagsIndicators} />
