@@ -74,6 +74,9 @@ export const getApprovalsGbvClosure = state => getDashboardByName(state, DASHBOA
 
 export const getWorkflowTeamCases = state => getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
 
+export const getViolationsCategoryVerificationStatus = state =>
+  getDashboardByName(state, DASHBOARD_NAMES.VIOLATIONS_CATEGORY_VERIFICATION_STATUS);
+
 export const getReportingLocation = state => getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
 
 export const getApprovalsAssessmentPending = state =>

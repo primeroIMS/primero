@@ -127,6 +127,12 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING_GROUP]
   ).freeze
 
+  DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = Dashboard.new(
+    name: 'dash_violations_category_verification_status',
+    type: 'indicator',
+    indicators: [Indicators::Incident::VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
+  ).freeze
+
   def self.cases_by_task_overdue_assessment
     Dashboard.new(
       name: 'cases_by_task_overdue_assessment',

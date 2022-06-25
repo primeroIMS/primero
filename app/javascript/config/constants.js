@@ -258,7 +258,8 @@ export const LOOKUPS = {
   gender: "lookup-gender",
   legitimate_basis: "lookup-legitimate-basis",
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
-  verification_status: "lookup lookup-verification-status"
+  verification_status: "lookup-verification-status",
+  violation_type: "lookup-violation-type"
 };
 
 export const ADMIN_NAV = [

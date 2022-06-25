@@ -107,6 +107,7 @@ class Permission < ValueObject
   DASH_SHARED_WITH_MY_TEAM_OVERVIEW = 'dash_shared_with_my_team_overview'
   DASH_CASE_INCIDENT_OVERVIEW = 'dash_case_incident_overview'
   DASH_NATIONAL_ADMIN_SUMMARY = 'dash_national_admin_summary'
+  DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = 'dash_violations_category_verification_status'
   SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
   DISPLAY_VIEW_PAGE = 'display_view_page'
   REQUEST_TRANSFER = 'request_transfer'
@@ -159,6 +160,7 @@ class Permission < ValueObject
   VIOLATION_REPORT = 'violations'
   GBV_STATISTICS_REPORT = 'gbv_statistics'
   GHN_REPORT = 'ghn_report'
+  VIOLATIONS_CATEGORY_VERIFICATION_STATUS = 'violations_category_verification_status'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -211,7 +213,7 @@ class Permission < ValueObject
       DASH_PROTECTION_CONCERNS_BY_LOCATION, DASH_SHOW_NONE_VALUES,
       DASH_TASKS, DASH_FLAGS, DASH_SHARED_WITH_ME, DASH_SHARED_WITH_OTHERS, DASH_GROUP_OVERVIEW,
       DASH_SHARED_WITH_MY_TEAM, DASH_SHARED_WITH_MY_TEAM_OVERVIEW, DASH_SHARED_FROM_MY_TEAM,
-      DASH_CASE_INCIDENT_OVERVIEW, DASH_NATIONAL_ADMIN_SUMMARY
+      DASH_CASE_INCIDENT_OVERVIEW, DASH_NATIONAL_ADMIN_SUMMARY, DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS
     ],
     AUDIT_LOG => [READ],
     MATCHING_CONFIGURATION => [MANAGE],
