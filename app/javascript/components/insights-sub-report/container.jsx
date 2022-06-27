@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
@@ -26,7 +25,7 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { GROUPED_BY_FILTER, NAME } from "./constants";
+import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 
@@ -59,17 +58,8 @@ const Component = () => {
   const lookups = useOptions({ source: insightLookups });
 
   const emptyMessage = i18n.t("managed_reports.no_data_table");
-
-  const loadingIndicatorProps = {
-    overlay: true,
-    emptyMessage,
-    hasData: !!insight.getIn(["report_data", subReport], false),
-    type: namespace,
-    loading,
-    errors
-  };
-
   const totalText = i18n.t("managed_reports.total");
+  const violationsText = i18n.t("managed_reports.violations_total");
 
   const reportData = buildReportData(insight, subReport);
 
@@ -96,100 +86,104 @@ const Component = () => {
     default: TableValues
   }[insightMetadata.get("table_type")];
 
+  const hasData = !!insight.getIn(["report_data", subReport], false);
+
   return (
-    <>
-      <LoadingIndicator {...loadingIndicatorProps}>
-        <div className={css.subReportContent}>
-          <div className={css.subReportTables}>
-            <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            {singleInsightsTableData.size > 0 && (
-              <>
-                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-                <TableValues
-                  useInsightsHeader
-                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                    value: singleInsightsTableData,
-                    isGrouped,
-                    groupedBy,
-                    localizeDate: i18n.localizeDate,
-                    totalText,
-                    incompleteDataLabel
-                  })}
-                  values={buildInsightValues[insightMetadata.get("table_type")]({
-                    getLookupValue: lookupValue,
-                    data: singleInsightsTableData,
-                    isGrouped,
-                    groupedBy,
-                    incompleteDataLabel
-                  })}
-                  showPlaceholder
-                  name={namespace}
-                  emptyMessage={emptyMessage}
-                />
-              </>
-            )}
-            {reportData
-              .get("aggregate", fromJS({}))
-              .entrySeq()
-              .map(([valueKey, value]) => (
-                <div key={valueKey} className={css.section}>
-                  <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
-                  {displayGraph && (
-                    <BarChartGraphic
-                      data={buildChartValues({
-                        totalText,
-                        getLookupValue: lookupValue,
-                        localizeDate: i18n.localizeDate,
-                        value,
-                        valueKey,
-                        isGrouped,
-                        groupedBy,
-                        ageRanges,
-                        lookupValues: lookups[valueKey],
-                        incompleteDataLabel
-                      })}
-                      showDetails
-                      hideLegend
-                    />
-                  )}
-                  <TableComponent
-                    useInsightsHeader
-                    columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                      value,
-                      isGrouped,
-                      groupedBy,
-                      localizeDate: i18n.localizeDate,
+    <LoadingIndicator
+      overlay
+      emptyMessage={emptyMessage}
+      hasData={hasData}
+      type={namespace}
+      loading={loading}
+      errors={errors}
+    >
+      <div className={css.subReportContent}>
+        <div className={css.subReportTables}>
+          <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
+          {singleInsightsTableData.size > 0 && (
+            <>
+              <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+              <TableValues
+                useInsightsHeader
+                columns={buildInsightColumns[insightMetadata.get("table_type")]({
+                  value: singleInsightsTableData,
+                  isGrouped,
+                  groupedBy,
+                  localizeDate: i18n.localizeDate,
+                  totalText,
+                  incompleteDataLabel
+                })}
+                values={buildInsightValues[insightMetadata.get("table_type")]({
+                  getLookupValue: lookupValue,
+                  data: singleInsightsTableData,
+                  isGrouped,
+                  groupedBy,
+                  incompleteDataLabel
+                })}
+                showPlaceholder
+                name={namespace}
+                emptyMessage={emptyMessage}
+              />
+            </>
+          )}
+          {reportData
+            .get("aggregate", fromJS({}))
+            .entrySeq()
+            .map(([valueKey, value]) => (
+              <div key={valueKey} className={css.section}>
+                <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
+                {displayGraph && (
+                  <BarChartGraphic
+                    data={buildChartValues({
                       totalText,
                       getLookupValue: lookupValue,
-                      incompleteDataLabel
-                    })}
-                    values={buildInsightValues[insightMetadata.get("table_type")]({
-                      getLookupValue: lookupValue,
-                      data: value,
-                      key: valueKey,
+                      localizeDate: i18n.localizeDate,
+                      value,
+                      valueKey,
                       isGrouped,
                       groupedBy,
                       ageRanges,
                       lookupValues: lookups[valueKey],
                       incompleteDataLabel
                     })}
-                    showPlaceholder
-                    name={namespace}
-                    emptyMessage={emptyMessage}
+                    showDetails
+                    hideLegend
                   />
-                </div>
-              ))}
-          </div>
+                )}
+                <TableComponent
+                  useInsightsHeader
+                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
+                    value,
+                    isGrouped,
+                    groupedBy,
+                    localizeDate: i18n.localizeDate,
+                    totalText: GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText,
+                    getLookupValue: lookupValue,
+                    incompleteDataLabel
+                  })}
+                  values={buildInsightValues[insightMetadata.get("table_type")]({
+                    getLookupValue: lookupValue,
+                    data: value,
+                    key: valueKey,
+                    isGrouped,
+                    groupedBy,
+                    ageRanges,
+                    lookupValues: lookups[valueKey],
+                    incompleteDataLabel,
+                    totalText
+                  })}
+                  showPlaceholder
+                  name={namespace}
+                  emptyMessage={emptyMessage}
+                />
+              </div>
+            ))}
         </div>
-      </LoadingIndicator>
-    </>
+      </div>
+    </LoadingIndicator>
   );
 };
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  mode: PropTypes.string.isRequired
-};
 
 export default Component;

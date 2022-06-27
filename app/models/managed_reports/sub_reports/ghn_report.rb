@@ -9,8 +9,11 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
   def indicators
     [
       ManagedReports::Indicators::VerifiedInformation,
+      ManagedReports::Indicators::VerifiedInformationViolations,
       ManagedReports::Indicators::LateVerification,
-      ManagedReports::Indicators::UnverifiedInformation
+      ManagedReports::Indicators::LateVerificationViolations,
+      ManagedReports::Indicators::UnverifiedInformation,
+      ManagedReports::Indicators::UnverifiedInformationViolations
     ]
   end
 
