@@ -657,6 +657,8 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
+    dash_violations_category_verification_status: Number of violations per verification status
+    dash_violations_category_region: Number of violations per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1409,6 +1411,7 @@ en:
       violence_type: Violence Type
       armed_force_group_name: Armed Force Group Name
       armed_force_group_type: Armed Force Group Type
+      violations: Violations
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
@@ -1438,8 +1441,10 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
+    violation_summary: Summary
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -1874,6 +1879,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        multiple_violations: Children with multiple violations
         detention: Detention
         boys: Boys
         girls: Girls
@@ -1900,6 +1906,7 @@ en:
         denial_humanitarian_access: Denial of humanitarian access for children
         detention: Detention
       sub_reports:
+        children: Children
         combined: Violations
         denial_humanitarian_access: Denial of humanitarian
         denial_type: Type of denials
@@ -2783,6 +2790,14 @@ en:
               transfers, or rejected transfers. Not typically for managers, unless
               they manage cases themselves.
             label: Shared With Others
+          dash_violations_category_verification_status:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by verification status.
+            label: MRM - Number of violations per verification status
+          dash_violations_category_region:
+            explanation: Shows how many MRM violations have occurred in each region,
+              broken down by violation type.
+            label: MRM - Number of violations per region
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations
@@ -2933,6 +2948,10 @@ en:
             explanation: User can generate a specialized XLS file export which allows
               for data exchange with the GBV Incident Recorder tool.
             label: Export incident recorder xls
+          export_mrm_violation_xls:
+            explanation: User can generate a specialized Excel (XLS file) export for MRM Violations.
+              This action is available on the Incident show page and Incident list.
+            label: Export MRM Violations to Excel (XLS file)
           export_json:
             explanation: User can generate a JSON file export from the incident list
               or incident show pages, which contains all fields to which the current

@@ -75,6 +75,12 @@ export const ALL_EXPORT_TYPES = Object.freeze([
     permission: ACTIONS.EXPORT_INCIDENT_RECORDER,
     format: EXPORT_FORMAT.EXCEL,
     recordTypes: [RECORD_PATH.incidents]
+  }),
+  Object.freeze({
+    id: "mrm_violation_xls",
+    permission: ACTIONS.EXPORT_MRM_VIOLATION_XLS,
+    format: EXPORT_FORMAT.EXCEL,
+    recordTypes: [RECORD_PATH.incidents]
   })
 ]);
 
