@@ -72,6 +72,7 @@ function Component({
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
+        subColumnItemsSize={subColumnItems?.size}
       />
     </div>
   );

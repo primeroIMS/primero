@@ -142,7 +142,7 @@ const Component = () => {
               .entrySeq()
               .map(([valueKey, value]) => {
                 const Indicator = getIndicator(valueKey);
-                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]))
+                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]));
 
                 return (
                   <Indicator

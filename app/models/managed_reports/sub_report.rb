@@ -49,6 +49,6 @@ class ManagedReports::SubReport < ValueObject
     lookup = Lookup.find_by(unique_id: lookup_unique_id)
     return [] if lookup.blank?
 
-    lookup.lookup_values.map{|lk| lk['id']}
+    lookup.lookup_values.map { |lk| lk['id'] }
   end
 end

@@ -15,3 +15,7 @@
     border-right: none;
   }
 }
+
+.emptyCell {
+  min-width: 11em;
+}

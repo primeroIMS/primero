@@ -14,7 +14,8 @@ const TableValues = ({
   showPlaceholder = false,
   name = "",
   emptyMessage = "",
-  useInsightsHeader = false
+  useInsightsHeader = false,
+  subColumnItemsSize
 }) => {
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
@@ -25,10 +26,10 @@ const TableValues = ({
       ) : (
         <Table className={css.table}>
           <TableHead className={css.tableHeader}>
-            <Header columns={columns} />
+            <Header columns={columns} subColumnItemsSize={subColumnItemsSize} />
           </TableHead>
           <TableBody>
-            <TableRows values={values} />
+            <TableRows values={values} subColumnItemsSize={subColumnItemsSize} />
           </TableBody>
         </Table>
       )}
@@ -43,6 +44,7 @@ TableValues.propTypes = {
   emptyMessage: PropTypes.string,
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
+  subColumnItemsSize: PropTypes.number,
   useInsightsHeader: PropTypes.bool,
   values: PropTypes.array
 };

@@ -12,7 +12,7 @@ class Exporters::SubreportExporter < ValueObject
 
   attr_accessor :id, :data, :workbook, :tab_color, :formats, :current_row,
                 :worksheet, :managed_report, :locale, :lookups, :grouped_by,
-                :years, :groups
+                :years, :groups, :indicators_subcolumns
 
   def export
     self.current_row = 0
@@ -20,6 +20,7 @@ class Exporters::SubreportExporter < ValueObject
     self.worksheet = workbook.add_worksheet(build_worksheet_name)
     worksheet.tab_color = tab_color
     load_lookups
+    load_indicators_subcolumns
     build_groups
     write_export
   end
@@ -262,10 +263,16 @@ class Exporters::SubreportExporter < ValueObject
     subreport_lookups = metadata_property('lookups')
 
     self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
-      next acc.merge(key => LocationService.instance) if key == 'reporting_location'
+      if %w[reporting_location reporting_location_detention].include?(key)
+        next acc.merge(key => LocationService.instance)
+      end
 
       acc.merge(key => Lookup.values(value, nil, { locale: locale }))
     end
+  end
+
+  def load_indicators_subcolumns
+    self.indicators_subcolumns = metadata_property('indicators_subcolumns')
   end
 
   def date_display_text

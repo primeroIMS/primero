@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(Lookup, Incident)
+    clean_data(Lookup, Incident, Role, Agency, User)
 
     SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
 
@@ -674,6 +674,156 @@ describe Exporters::ManagedReportExporter do
               ['Garden/Cultivated Field', 1]
             )
             expect(workbook_grouped.sheet(0).row(155)).to match_array(['School', 1])
+          end
+        end
+      end
+
+      context 'when indicators_subcolumns is present' do
+        before(:each) do
+          Lookup.create_or_update!(
+            unique_id: 'lookup-violation-tally-options',
+            name_en: 'Violation Tally Options',
+            lookup_values_en: [
+              { id: 'boys', display_text: 'Boys' },
+              { id: 'girls', display_text: 'Girls' },
+              { id: 'unknown', display_text: 'Unknown' },
+              { id: 'total', display_text: 'Total' }
+            ].map(&:with_indifferent_access)
+          )
+
+          Lookup.create_or_update!(
+            unique_id: 'lookup-armed-force-group-or-other-party',
+            name_en: 'Armed Force Group Or Other Party',
+            lookup_values: [
+              { id: 'armed_force_1', display_text: 'Armed Force 1' },
+              { id: 'armed_group_1', display_text: 'Armed Group 1' },
+              { id: 'other_party_1', display_text: 'Other Party 1' },
+              { id: 'unknown', display_text: 'Unknown' }
+            ].map(&:with_indifferent_access)
+          )
+
+          Lookup.create_or_update!(
+            unique_id: 'lookup-attack-type',
+            name_en: 'Attack Type',
+            lookup_values_en: [
+              { id: 'aerial_attack', display_text: 'Aerial attack' },
+              { id: 'arson', display_text: 'Arson' },
+              { id: 'suicide_attack', display_text: 'Suicide attack' },
+              { id: 'other', display_text: 'Other' }
+            ].map(&:with_indifferent_access)
+          )
+
+          incident1 = Incident.create!(data: { incident_date: Date.new(2022, 5, 8), status: 'open' })
+          incident2 = Incident.create!(data: { incident_date: Date.new(2022, 2, 8), status: 'open' })
+          incident3 = Incident.create!(data:  { incident_date: Date.new(2022, 3, 18), status: 'open' })
+          incident4 = Incident.create!(data:  { incident_date: Date.new(2022, 4, 28), status: 'open' })
+
+          violation1 = Violation.create!(
+            data: {
+              type: 'killing', attack_type: 'arson',
+              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+            },
+            incident_id: incident1.id
+          )
+
+          violation2 = Violation.create!(
+            data: {
+              type: 'killing', attack_type: 'aerial_attack',
+              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+            },
+            incident_id: incident2.id
+          )
+
+          violation3 = Violation.create!(
+            data: {
+              type: 'killing', attack_type: 'aerial_attack',
+              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 4, 'total': 6 }
+            },
+            incident_id: incident3.id
+          )
+
+          violation4 = Violation.create!(
+            data: {
+              type: 'killing', attack_type: 'suicide_attack',
+              violation_tally: { 'boys': 3, 'girls': 1, 'unknown': 1, 'total': 5 }
+            },
+            incident_id: incident4.id
+          )
+
+          violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_1' })]
+          violation2.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_1' })]
+          violation3.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_group_1' })]
+          violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'other_party_1' })]
+          Role.create!(
+            name: 'All Role 1',
+            unique_id: 'all-role-1',
+            group_permission: Permission::ALL,
+            permissions: [
+              Permission.new(
+                resource: Permission::MANAGED_REPORT,
+                actions: [
+                  Permission::VIOLATION_REPORT
+                ]
+              )
+            ]
+          )
+          Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
+        end
+        let(:all_user) do
+          User.create!(
+            full_name: 'all User',
+            user_name: 'all_user',
+            email: 'all_user@localhost.com',
+            agency_id: Agency.first.id,
+            role: Role.first
+          )
+        end
+
+        let(:workbook_grouped) do
+          data = ManagedReport.list[Permission::VIOLATION_REPORT].export(
+            all_user,
+            [
+              SearchFilters::DateRange.new(
+                field_name: 'incident_date',
+                from: Date.new(2022, 2, 1),
+                to: Date.new(2022, 6, 30)
+              ),
+              SearchFilters::Value.new(
+                field_name: 'grouped_by',
+                value: 'quarter'
+              )
+            ],
+            { output_to_file: false }
+          )
+
+          Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        end
+
+        context 'killing subreport' do
+          it 'print subrerport headers' do
+            expect(workbook_grouped.sheet(0).row(1).compact.first).to eq('Killing of Children')
+          end
+
+          it 'print indicator without subcolumuns' do
+            expect(workbook_grouped.sheet(0).row(5).compact.first).to eq('Children')
+            expect(workbook_grouped.sheet(0).row(6)[0..2]).to match_array([nil, '2022-Q1', '2022-Q2'])
+            expect(workbook_grouped.sheet(0).row(7)[0..2]).to match_array(['Boys', 2, 4])
+            expect(workbook_grouped.sheet(0).row(8)[0..2]).to match_array(['Girls', 2, 2])
+            expect(workbook_grouped.sheet(0).row(9)[0..2]).to match_array(['Unknown', 5, 2])
+            expect(workbook_grouped.sheet(0).row(10)[0..2]).to match_array(['Total', 9, 8])
+          end
+
+          it 'print indicators with subcolumuns' do
+            expect(workbook_grouped.sheet(0).row(37).compact.first).to eq('Number of Children by Perpetrators')
+            expect(workbook_grouped.sheet(0).row(38)).to match_array(
+              [nil, '2022-Q1', nil, nil, nil, '2022-Q2', nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(39)).to match_array(
+              [nil, 'Boys', 'Girls', 'Unknown', 'Total', 'Boys', 'Girls', 'Unknown', 'Total']
+            )
+            expect(workbook_grouped.sheet(0).row(40)).to match_array(['Armed Force 1', 1, 1, 1, 3, 1, 1, 1, 3])
+            expect(workbook_grouped.sheet(0).row(41)).to match_array(['Armed Group 1', 1, 1, 4, 6, 0, 0, 0, 0])
+            expect(workbook_grouped.sheet(0).row(42)).to match_array(['Other Party 1', 0, 0, 0, 0, 3, 1, 1, 5])
           end
         end
       end

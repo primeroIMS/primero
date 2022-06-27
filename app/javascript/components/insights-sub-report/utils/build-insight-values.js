@@ -36,15 +36,18 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
   const groupedData = data.groupBy(value => value.get("group_id").toString());
 
   if (groupedBy === YEAR) {
+    const columnsNumber = subColumnItems?.length ? subColumnItems.length * groups.length : groups.length;
+
     return (
       groups
         // .sort(yearComparator)
         .reduce((acc, year, index) => {
+          const columnIndex = subColumnItems?.length ? index * subColumnItems?.length + 1 : index + 1;
           const tuples = groupedData
             .get(year, fromJS([]))
             .flatMap(value => {
               return value.get("data").map(dataElem => {
-                const values = subColumnItems.length
+                const values = subColumnItems?.length
                   ? subColumnItems.map(lkOrder => dataElem.get(lkOrder) || 0)
                   : [dataElem.get("total")];
 
@@ -53,7 +56,7 @@ const buildGroupedRows = ({ getLookupValue, data, key, groupedBy, subColumnItems
             })
             .toArray();
 
-          buildRows({ tuples, rows: acc, columnsNumber: groups.length, columnIndex: index + 1 });
+          buildRows({ tuples, rows: acc, columnsNumber, columnIndex });
 
           return acc;
         }, [])
