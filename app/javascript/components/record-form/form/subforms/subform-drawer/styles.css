@@ -25,6 +25,7 @@
 @media (max-width:959.95px) {
   .subformDrawer {
     max-width: 100%;
+    width: 90%;
   }
   .title {
     & h1 {

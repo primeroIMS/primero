@@ -5,6 +5,13 @@
 class AgeRange < Range
   MAX = 999
   MIN = -1
+  DEFAULT_AGE_RANGES = [
+    AgeRange.new(0, 4).freeze,
+    AgeRange.new(5, 11).freeze,
+    AgeRange.new(12, 17).freeze,
+    AgeRange.new(18, 59).freeze,
+    AgeRange.new(60, MAX).freeze
+  ].freeze
 
   class << self
     def from_string(string_range)

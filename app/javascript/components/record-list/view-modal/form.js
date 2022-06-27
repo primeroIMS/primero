@@ -5,10 +5,8 @@ import { FieldRecord, FormSectionRecord, OPTION_TYPES, SELECT_FIELD, TEXT_FIELD 
 
 import { COMMON_FIELD_NAMES, OWNABLE_FIELD_NAMES } from "./constants";
 
-const commonFieldsForm = commonFields => {
-  const miniFormFields = commonFields.filter(field => field.show_on_minify_form);
-
-  return miniFormFields.isEmpty()
+const commonFieldsForm = commonFields =>
+  commonFields.isEmpty()
     ? []
     : [
         FormSectionRecord({
@@ -16,16 +14,15 @@ const commonFieldsForm = commonFields => {
           fields: [
             {
               row: compact([
-                miniFormFields.get(COMMON_FIELD_NAMES.SEX),
-                miniFormFields.get(COMMON_FIELD_NAMES.DATE_OF_BIRTH),
-                miniFormFields.get(COMMON_FIELD_NAMES.AGE),
-                miniFormFields.get(COMMON_FIELD_NAMES.ESTIMATED)
+                commonFields.get(COMMON_FIELD_NAMES.SEX),
+                commonFields.get(COMMON_FIELD_NAMES.DATE_OF_BIRTH),
+                commonFields.get(COMMON_FIELD_NAMES.AGE),
+                commonFields.get(COMMON_FIELD_NAMES.ESTIMATED)
               ])
             }
           ]
         })
       ];
-};
 
 export default (i18n, commonFields, miniFormFields) =>
   fromJS([

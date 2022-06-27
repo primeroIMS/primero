@@ -23,3 +23,14 @@ export const getComparisons = ({ fields = [], comparedFields, includeEmpty }) =>
     })
     .filter(comparison => comparison?.field);
 };
+
+export const toAttachmentArray = attachments =>
+  attachments.reduce(
+    (acc, audio) =>
+      acc.concat({
+        id: audio.get("id"),
+        attachment_url: audio.get("attachment_url"),
+        file_name: audio.get("file_name")
+      }),
+    []
+  );
