@@ -411,33 +411,20 @@ export const getFieldsByName = (state, names = fromJS([])) => {
   return state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => names.includes(field.name));
 };
 
-export const getFieldsWithNames = createCachedSelector(
-  getFields,
-  (_state, names) => names,
-  (fields, names) => {
-    return fields
-      .valueSeq()
-      .filter(field => names.includes(field.name))
-      .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
-  }
-)(defaultCacheSelectorOptions);
-
 export const getRecordFields = createCachedSelector(getRecordForms, formSections =>
   formSections.flatMap(formSection => formSection.fields)
 )(defaultCacheSelectorOptions);
 
-export const getFieldsWithNamesForMinifyForm = (state, names) =>
-  getFields(state)
-    .valueSeq()
-    .filter(field => names.includes(field.name) && field.show_on_minify_form)
-    .reduce((acc, elem) => acc.set(elem.get("name"), elem), fromJS({}));
-
-export const getMiniFormFields = (state, recordType, primeroModule, exclude = []) => {
+export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 
   return (recordForms || fromJS([]))
     .flatMap(form => form.get("fields"))
-    .filter(field => field.show_on_minify_form && !exclude.includes(field.name))
+    .filter(
+      field =>
+        field.show_on_minify_form &&
+        (isEmpty(excludeFieldNames) || (!isEmpty(excludeFieldNames) && !excludeFieldNames.includes(field.name)))
+    )
     .map(field => {
       const fieldRecord = FieldRecord(field);
 
@@ -445,6 +432,12 @@ export const getMiniFormFields = (state, recordType, primeroModule, exclude = []
         ? fieldRecord.set("option_strings_source_id_key", "unique_id")
         : fieldRecord;
     });
+};
+
+export const getCommonMiniFormFields = (state, recordType, primeroModule, fieldNames) => {
+  return getMiniFormFields(state, recordType, primeroModule)
+    .filter(field => fieldNames.includes(field.name))
+    .reduce((acc, elem) => acc.merge(fromJS({ [elem.name]: elem })), fromJS({}));
 };
 
 export const getDataProtectionInitialValues = state =>

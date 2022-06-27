@@ -15,6 +15,7 @@ import { ACTIONS } from "../../permissions";
 import { fetchAlerts } from "../../nav/action-creators";
 import { INCIDENT_DIALOG } from "../constants";
 import { useMemoizedSelector } from "../../../libs";
+import { useApp } from "../../application";
 
 import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import { validationSchema } from "./utils";
@@ -24,6 +25,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
   const formikRef = useRef();
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { online } = useApp();
 
   const form = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -73,7 +75,7 @@ const Component = ({ open, close, pending, recordType, selectedRowsIndex, setPen
     initialValues: initialFormValues,
     validateOnBlur: false,
     validateOnChange: false,
-    validationSchema: validationSchema(subformSectionID, i18n),
+    validationSchema: validationSchema(subformSectionID, { i18n, online }),
     innerRef: formikRef,
     onSubmit: (values, { setSubmitting }) => {
       const body = {

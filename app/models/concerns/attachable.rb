@@ -8,10 +8,13 @@ module Attachable
 
   MAX_ATTACHMENTS = 100
   PHOTOS_FIELD_NAME = 'photos'
+  AUDIOS_FIELD_NAME = 'recorded_audio'
 
   included do
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
     has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
+             as: :record, class_name: 'Attachment'
+    has_many :current_audios, -> { where(field_name: AUDIOS_FIELD_NAME).order('date DESC NULLS LAST') },
              as: :record, class_name: 'Attachment'
     validate :maximum_attachments_exceeded
 

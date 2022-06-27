@@ -7,8 +7,6 @@ export {
   getAttachmentForms,
   getErrors,
   getFields,
-  getFieldsWithNames,
-  getFieldsWithNamesForMinifyForm,
   getFirstTab,
   getFormNav,
   getLoadingState,

@@ -14,13 +14,15 @@ import {
   TALLY_FIELD
 } from "../constants";
 
+import { apiSelectOffline } from "./utils";
+
 const MAX_PERMITTED_INTEGER = 2147483647;
 
-export const fieldValidations = (field, i18n) => {
+export const fieldValidations = (field, { i18n, online = false }) => {
   const { multi_select: multiSelect, name, type, required } = field;
   const validations = {};
 
-  if (field.visible === false) {
+  if (field.visible === false || apiSelectOffline(online, field.option_strings_source)) {
     return validations;
   }
 
@@ -46,7 +48,7 @@ export const fieldValidations = (field, i18n) => {
     }
   } else if (SUBFORM_SECTION === type) {
     const subformSchema = field.subform_section_id.fields.map(sf => {
-      return fieldValidations(sf, i18n);
+      return fieldValidations(sf, { i18n, online });
     });
 
     validations[name] = array().of(
