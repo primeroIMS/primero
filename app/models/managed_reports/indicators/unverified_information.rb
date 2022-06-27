@@ -27,7 +27,6 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
         and violations.data->>'ctfmr_verified' = 'report_pending_verification'
         group by key, violations.data ->> 'type'
-        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by
         name
       }
