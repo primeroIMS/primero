@@ -11,7 +11,3 @@ json.name trace.name
 json.age trace.age
 json.sex trace.sex
 json.matched_case_comparison trace.matched_case_comparison if trace.matched_case_id.present?
-json.photos trace.tracing_request.current_photos&.map(&:to_h_api) if current_user.can?(:view_photo, PotentialMatch)
-if current_user.can?(:view_audio, PotentialMatch)
-  json.recorded_audio trace.tracing_request.current_audios&.map(&:to_h_api)
-end
