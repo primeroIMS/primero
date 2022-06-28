@@ -25,7 +25,6 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         and violations.data->>'ctfmr_verified' = 'report_pending_verification'
         and violations.data ->> 'type' != 'denial_humanitarian_access'
         group by key, violations.data ->> 'type'
-        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by
         name
       }

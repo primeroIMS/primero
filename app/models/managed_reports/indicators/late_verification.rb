@@ -25,7 +25,6 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         and violations.data ->> 'type' != 'denial_humanitarian_access'
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         group by key, violations.data ->> 'type'
-        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by
         name
       }
