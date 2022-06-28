@@ -122,7 +122,15 @@ const buildSingleRows = ({ getLookupValue, data, key }) =>
 
 export default {
   ghn_report: ({ data, getLookupValue, key }) => {
-    return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
+    const grouped = data.some(fs => fs.get("group_id"));
+
+    if (data === 0) return [];
+
+    if (grouped) {
+      return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
+    }
+
+    return buildSingleRows({ data, getLookupValue, key });
   },
   default: ({
     getLookupValue,

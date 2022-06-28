@@ -141,6 +141,13 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
         incident_date: Date.new(2021, 3, 12)
       }
     ).save!
+    Incident.new_with_user(
+      all_user,
+      {
+        unaccompanied_separated_status: 'no',
+        incident_date: Date.new(2021, 3, 10)
+      }
+    ).save!
   end
 
   it 'returns data for the survivors vulnerable populations indicator' do

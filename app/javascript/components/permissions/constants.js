@@ -48,6 +48,8 @@ export const ACTIONS = {
   DASH_TASKS: "dash_tasks",
   DASH_WORKFLOW_TEAM: "workflow_team",
   DASH_WORKFLOW: "workflow",
+  DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS: "dash_violations_category_verification_status",
+  DASH_VIOLATIONS_CATEGORY_REGION: "dash_violations_category_region",
   DELETE: "delete",
   DISPLAY_VIEW_PAGE: "display_view_page",
   ENABLE_DISABLE_RECORD: "enable_disable_record",

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { ButtonBase, Typography, TablePagination } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import { ROWS_PER_PAGE_OPTIONS } from "../../../config/constants";
@@ -24,13 +25,12 @@ const Component = ({
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
-
-  const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords;
-
+  const allRecordsSelected = Object.values(selectedRecords).flat()?.length === totalRecords && totalRecords > 0;
+  const hasSelectedRows = !isEmpty(selectedRows?.data);
   const recordTypeLabel = Array.isArray(recordType) ? recordType.join(".") : recordType;
 
   const selectedRecordsMessage = i18n.t(`${recordTypeLabel}.selected_records`, {
-    select_records: allRecordsSelected ? totalRecords : selectedRows?.data.length
+    select_records: allRecordsSelected ? totalRecords : selectedRows?.data?.length
   });
 
   const selectAllMessage = allRecordsSelected
@@ -48,7 +48,7 @@ const Component = ({
     setSelectedRecords(selectAllRecords(totalRecords, perPage));
   };
 
-  const selectAllButton = selectedRows && selectedRows.data.length === displayData?.length && (
+  const selectAllButton = selectedRows && selectedRows?.data?.length === displayData?.length && (
     <div className={css.customToolbarButton}>
       <ButtonBase id="select-all-button" className={css.selectAllButton} onClick={handleClick}>
         {selectAllMessage}
@@ -56,7 +56,7 @@ const Component = ({
     </div>
   );
 
-  const renderSelectedRecordMessage = (allRecordsSelected || selectedRows?.data.length) && (
+  const renderSelectedRecordMessage = (allRecordsSelected || hasSelectedRows) && (
     <div className={css.customToolbarTitle}>
       <Typography component="h6">{selectedRecordsMessage}</Typography>
     </div>
@@ -81,6 +81,7 @@ const Component = ({
 
   const handleLabelDisplayRow = ({ from, to, count }) => `${from}-${to} ${i18n.t("messages.record_list.of")} ${count}`;
 
+  const rowsSelected = allRecordsSelected || hasSelectedRows;
   const paginationProps = {
     count: totalRecords,
     page: page - 1,
@@ -97,8 +98,12 @@ const Component = ({
   return (
     <div className={css.customToolbarFull}>
       <div className={css.firstGroup}>
-        {renderSelectedRecordMessage}
-        {canSelectAll && selectAllButton}
+        {rowsSelected ? (
+          <>
+            {renderSelectedRecordMessage}
+            {canSelectAll && selectAllButton}
+          </>
+        ) : null}
       </div>
       <div className={css.lastGroup}>
         <TablePagination {...paginationProps} />

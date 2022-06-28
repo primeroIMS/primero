@@ -274,7 +274,7 @@ class Report < ApplicationRecord
   end
 
   def group_by_ages
-    age_ranges = system_age_ranges
+    age_ranges = SystemSettings.primary_age_ranges
     pivots.each do |pivot|
       next unless group_ages?(pivot)
 
@@ -291,12 +291,6 @@ class Report < ApplicationRecord
     /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) &&
       field_map[pivot].present? &&
       field_map[pivot]['type'] == 'numeric_field'
-  end
-
-  def system_age_ranges
-    sys = SystemSettings.current
-    primary_range = sys.primary_age_range
-    sys.age_ranges[primary_range]
   end
 
   def group_by_dates(pivot_fields, group_dates_by)
@@ -448,7 +442,7 @@ class Report < ApplicationRecord
 
   def result_pivots(response, pivots_string, is_numeric)
     result_pivots = []
-    response['facet_counts']['facet_fields'][pivots_string].each do |v|
+    response.dig('facet_counts', 'facet_fields', pivots_string)&.each do |v|
       if v.class == String
         result_pivots << (is_numeric ? { 'value' => v.to_i } : { 'value' => v })
       else
@@ -460,7 +454,7 @@ class Report < ApplicationRecord
 
   def get_by_pivot_facet(filter_query, pivots_string, mincount)
     response = SolrUtils.sunspot_rsolr.get('select', params: pivot_params(filter_query, pivots_string, mincount))
-    response['facet_counts']['facet_pivot'][pivots_string]
+    response.dig('facet_counts', 'facet_pivot', pivots_string) || []
   end
 
   def field_params(filter_query, pivots_string, mincount)
@@ -526,7 +520,7 @@ class Report < ApplicationRecord
   end
 
   def filter_value(attribute, value)
-    "#{attribute}:(" + value.map { |v| v == 'not_null' ? '[* TO *]' : v.to_s }.join(' OR ') + ')'
+    "#{attribute}:(" + value.map { |v| v == 'not_null' ? '[* TO *]' : Sunspot::Util.escape(v.to_s) }.join(' OR ') + ')'
   end
 
   def solr_record_type(record_type)

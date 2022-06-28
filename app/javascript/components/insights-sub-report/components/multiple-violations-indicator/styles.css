@@ -24,10 +24,11 @@
   display: inline-block;
 }
 
+/* TODO: Add back for click thrus
 .listItem:hover {
   background: var(--c-light-grey);
   cursor: pointer;
-}
+} */
 
 .listDivider {
   border-bottom: 1px solid var(--c-warm-grey-2);

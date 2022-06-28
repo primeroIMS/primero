@@ -1,7 +1,3 @@
-.nothingFound {
-  font-style: italic;
-}
-
 .recordId {
   color: var(--c-red);
 }
@@ -12,5 +8,11 @@
 
   & span {
     font-weight: bold;
+  }
+}
+
+.fieldRow {
+  & audio {
+    width: 100%;
   }
 }

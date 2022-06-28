@@ -657,6 +657,8 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
+    dash_violations_category_verification_status: Number of violations per verification status
+    dash_violations_category_region: Number of violations per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1439,8 +1441,10 @@ en:
     survivor_code: Survivor Code
     show_incident: 'Incident ID %{short_id}'
     social_worker: Social Worker
+    violation_type: Violation Type
     violence_type: Violence Type
     type_violence: Type of Violence
+    violation_summary: Summary
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -1834,6 +1838,7 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
+    violations_total: Violations
     filter_by:
       date: Date
       verification_status: Verification Status
@@ -1858,9 +1863,12 @@ en:
       reports:
         ghn_report: Global Horizontal Note
       sub_reports:
-        verified_information: Verified Information
-        late_verification: Late Verification
-        unverified_information: Unverified Information
+        verified_information: Verified Information - Victims
+        late_verification: Late Verification - Victims
+        unverified_information: Unverified Information - Victims
+        verified_information_violations: Verified Information - Violations
+        late_verification_violations: Late Verification - Violations
+        unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
@@ -2784,6 +2792,14 @@ en:
               transfers, or rejected transfers. Not typically for managers, unless
               they manage cases themselves.
             label: Shared With Others
+          dash_violations_category_verification_status:
+            explanation: Shows how many MRM violations of each type have occurred,
+              broken down by verification status.
+            label: MRM - Number of violations per verification status
+          dash_violations_category_region:
+            explanation: Shows how many MRM violations have occurred in each region,
+              broken down by violation type.
+            label: MRM - Number of violations per region
           dash_show_none_values:
             explanation: Adds an additional "No Risk Level" category to all dashboards
               which break down cases by risk level. This is specifically for configurations
@@ -2934,6 +2950,10 @@ en:
             explanation: User can generate a specialized XLS file export which allows
               for data exchange with the GBV Incident Recorder tool.
             label: Export incident recorder xls
+          export_mrm_violation_xls:
+            explanation: User can generate a specialized Excel (XLS file) export for MRM Violations.
+              This action is available on the Incident show page and Incident list.
+            label: Export MRM Violations to Excel (XLS file)
           export_json:
             explanation: User can generate a JSON file export from the incident list
               or incident show pages, which contains all fields to which the current
@@ -3059,6 +3079,18 @@ en:
               Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work.
               Allows user to see the Tracing Summary form on Cases.
             label: View
+          view_audio:
+            explanation: Controls whether a user searching for a tracing match can see the audio files for the
+              Case or Tracing Request associated with a  Potential Match.
+            label: View Audio
+          view_photo:
+            explanation: Controls whether a user searching for a tracing match can see the photos for the
+              Case or Tracing Request associated with a  Potential Match.
+            label: View Photos
+          manage:
+            explanation: Allows a user to perform all available actions on Potential Matches.
+              The "Manage" permission essentially means "everything".
+            label: Manage
         label: Potential Match
       primero_configuration:
         actions:
@@ -3650,6 +3682,10 @@ en:
     match: Match
     matches: Matches
     unmatch: Un-match
+    tracing_request_photos: Photos for this Tracing Request
+    case_photos: Photos for this Case
+    tracing_request_audios: Audio for this Tracing Request
+    case_audios: Audio for this Case
     messages:
       already_matched: There is already a match in the system with an Inquirer looking for this child.
       disabled: Tracing Request is disabled

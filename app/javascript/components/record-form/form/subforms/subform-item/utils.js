@@ -1,6 +1,14 @@
+import groupBy from "lodash/groupBy";
+
 import { FormSectionRecord, FieldRecord } from "../../../records";
 
-import { ORDER_OF_FORMS, VIOLATION_TALLY, VIOLATIONS_FIELDS } from "./constants";
+import {
+  ORDER_OF_FORMS,
+  VIOLATION_TALLY,
+  VIOLATIONS_FIELDS,
+  VIOLATION_TALLY_ESTIMATED,
+  DENIAL_HUMANITARIAN_ACCESS
+} from "./constants";
 
 /* eslint-disable import/prefer-default-export */
 export const buildFormViolations = (violationField, forms) => {
@@ -15,12 +23,18 @@ export const buildFormViolations = (violationField, forms) => {
     .valueSeq()
     .map(field => field.first());
 
-  const violationTally = violationFields.filter(field => field.name === VIOLATION_TALLY);
-  const otherViolationsFields = violationFields.filter(field => field.name !== VIOLATION_TALLY);
+  const filter =
+    violationField.name === DENIAL_HUMANITARIAN_ACCESS
+      ? [VIOLATION_TALLY, VIOLATION_TALLY_ESTIMATED]
+      : [VIOLATION_TALLY];
+
+  const { violationTally, otherViolationsFields } = groupBy(violationFields, field => {
+    return filter.includes(field.name) ? "violationTally" : "otherViolationsFields";
+  });
 
   const fields = ORDER_OF_FORMS.reduce((acc, curr) => {
-    if (curr === VIOLATION_TALLY) return [...acc, ...violationTally];
-    if (curr === VIOLATIONS_FIELDS) return [...acc, ...otherViolationsFields];
+    if (curr === VIOLATION_TALLY) return [...acc, ...(violationTally || [])];
+    if (curr === VIOLATIONS_FIELDS) return [...acc, ...(otherViolationsFields || [])];
 
     const subformField = formFields.find(field => field.name === curr);
 

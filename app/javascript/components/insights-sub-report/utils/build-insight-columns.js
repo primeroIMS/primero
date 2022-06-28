@@ -26,8 +26,14 @@ const buildGroupedColumns = (value, groupedBy, localizeDate, subColumnItems) => 
 };
 
 export default {
-  ghn_report: ({ value, getLookupValue }) => {
-    return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
+  ghn_report: ({ value, getLookupValue, totalText }) => {
+    const grouped = value.some(fs => fs.get("group_id"));
+
+    if (grouped) {
+      return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
+    }
+
+    return [{ label: totalText }];
   },
   default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = fromJS([]) }) => {
     if (isGrouped && groupedBy) {

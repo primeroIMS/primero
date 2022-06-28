@@ -36,9 +36,7 @@ class SystemSettings < ApplicationRecord
   end
 
   def registry_types
-    return if system_options.blank?
-
-    system_options['registry_types']
+    system_options&.[]('registry_types')
   end
 
   def set_version
@@ -86,7 +84,7 @@ class SystemSettings < ApplicationRecord
     return unless super.present?
 
     result = {}
-    # We stores JSON Objects in a jsonb column and Range is not a proper JSON Object
+    # We store JSON Objects in a jsonb column and Range is not a proper JSON Object
     # so upon fetching ranges from jsonb column, they need to be recreated
     super.each do |name, range_array|
       result[name] = range_array.map { |r| AgeRange.from_string(r) }
@@ -142,8 +140,8 @@ class SystemSettings < ApplicationRecord
 
     def primary_age_ranges
       sys = SystemSettings.current
-      primary_range = sys.primary_age_range
-      sys.age_ranges[primary_range]
+      primary_range = sys&.primary_age_range
+      sys&.age_ranges&.[](primary_range) || AgeRange::DEFAULT_AGE_RANGES
     end
   end
 end
