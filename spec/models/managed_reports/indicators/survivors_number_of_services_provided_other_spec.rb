@@ -136,13 +136,13 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
 
     expect(data).to match_array(
       [
-        { 'id' => 'service_legal_referral', 'total' => 1 },
+        { 'id' => 'service_legal_referral', 'total' => 0 },
         { 'id' => 'service_livelihoods_referral', 'total' => 1 },
         { 'id' => 'service_medical_referral', 'total' => 2 },
         { 'id' => 'service_police_referral', 'total' => 1 },
         { 'id' => 'service_protection_referral', 'total' => 1 },
         { 'id' => 'service_psycho_referral', 'total' => 1 },
-        { 'id' => 'service_safehouse_referral', 'total' => 4 },
+        { 'id' => 'service_safehouse_referral', 'total' => 2 }
       ]
     )
   end
@@ -169,13 +169,13 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
 
       expect(data).to match_array(
         [
-          { 'id' => 'service_legal_referral', 'total' => 1 },
+          { 'id' => 'service_legal_referral', 'total' => 0 },
           { 'id' => 'service_livelihoods_referral', 'total' => 1 },
           { 'id' => 'service_medical_referral', 'total' => 0 },
           { 'id' => 'service_police_referral', 'total' => 1 },
           { 'id' => 'service_protection_referral', 'total' => 1 },
           { 'id' => 'service_psycho_referral', 'total' => 1 },
-          { 'id' => 'service_safehouse_referral', 'total' => 3 }
+          { 'id' => 'service_safehouse_referral', 'total' => 1 }
         ]
       )
     end
@@ -186,12 +186,12 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
       expect(data).to match_array(
         [
           { 'id' => 'service_medical_referral', 'total' => 0 },
-          { 'id' => 'service_legal_referral', 'total' => 1 },
+          { 'id' => 'service_legal_referral', 'total' => 0 },
           { 'id' => 'service_livelihoods_referral', 'total' => 0 },
           { 'id' => 'service_police_referral', 'total' => 0 },
           { 'id' => 'service_protection_referral', 'total' => 0 },
           { 'id' => 'service_psycho_referral', 'total' => 1 },
-          { 'id' => 'service_safehouse_referral', 'total' => 2 }
+          { 'id' => 'service_safehouse_referral', 'total' => 1 }
         ]
       )
     end
@@ -202,12 +202,12 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
       expect(data).to match_array(
         [
           { 'id' => 'service_medical_referral', 'total' => 2 },
-          { 'id' => 'service_legal_referral', 'total' => 1 },
+          { 'id' => 'service_legal_referral', 'total' => 0 },
           { 'id' => 'service_livelihoods_referral', 'total' => 1 },
           { 'id' => 'service_police_referral', 'total' => 1 },
           { 'id' => 'service_protection_referral', 'total' => 1 },
           { 'id' => 'service_psycho_referral', 'total' => 1 },
-          { 'id' => 'service_safehouse_referral', 'total' => 4 }
+          { 'id' => 'service_safehouse_referral', 'total' => 2 }
         ]
       )
     end
@@ -234,11 +234,9 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
               group_id: 2020,
               data:
                 [
-                  { 'id' => 'service_legal_referral', 'total' => 1 },
                   { 'id' => 'service_livelihoods_referral', 'total' => 1 },
                   { 'id' => 'service_police_referral', 'total' => 1 },
-                  { 'id' => 'service_protection_referral', 'total' => 1 },
-                  { 'id' => 'service_safehouse_referral', 'total' => 2 }
+                  { 'id' => 'service_protection_referral', 'total' => 1 }
                 ]
             },
             {
@@ -277,11 +275,9 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
             {
               group_id: '2020-10',
               data: [
-                { 'id' => 'service_legal_referral', 'total' => 1 },
                 { 'id' => 'service_livelihoods_referral', 'total' => 1 },
                 { 'id' => 'service_police_referral', 'total' => 1 },
-                { 'id' => 'service_protection_referral', 'total' => 1 },
-                { 'id' => 'service_safehouse_referral', 'total' => 2 }
+                { 'id' => 'service_protection_referral', 'total' => 1 }
               ]
             },
             { group_id: '2020-11', data: [] },
@@ -328,21 +324,19 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
               group_id: '2020-Q4',
               data:
                 [
-                  { 'id' => 'service_legal_referral', 'total' => 1 },
                   { 'id' => 'service_livelihoods_referral', 'total' => 1 },
                   { 'id' => 'service_police_referral', 'total' => 1 },
-                  { 'id' => 'service_protection_referral', 'total' => 1 },
-                  { 'id' => 'service_safehouse_referral', 'total' => 2 }
+                  { 'id' => 'service_protection_referral', 'total' => 1 }
                 ]
             },
             {
               group_id: '2021-Q1',
               data:
               [
-                  { 'id' => 'service_medical_referral', 'total' => 2 },
-                  { 'id' => 'service_psycho_referral', 'total' => 1 },
-                  { 'id' => 'service_safehouse_referral', 'total' => 2 }
-                ]
+                { 'id' => 'service_medical_referral', 'total' => 2 },
+                { 'id' => 'service_psycho_referral', 'total' => 1 },
+                { 'id' => 'service_safehouse_referral', 'total' => 2 }
+              ]
             }
           ]
         )

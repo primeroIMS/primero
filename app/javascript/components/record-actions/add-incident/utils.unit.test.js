@@ -7,7 +7,7 @@ describe("record-actions/add-incident/utils", () => {
     const subformSection = {
       fields: [{ name: "test1", type: "text_field", required: true, display_name: { en: "Test" } }]
     };
-    const result = validationSchema(subformSection, i18n).fields.test1;
+    const result = validationSchema(subformSection, { i18n }).fields.test1;
 
     expect(result).to.be.an("object");
     expect(result.type).to.equal("string");

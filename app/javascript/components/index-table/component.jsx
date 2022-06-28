@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 
 import { useMemoizedSelector } from "../../libs";
-import LoadingIndicator from "../loading-indicator";
 import { getLoadingState } from "../record-form/selectors";
 
 import { NAME } from "./config";
@@ -17,19 +16,15 @@ const Component = props => {
 
   const dataIsLoading = loading || formsAreLoading;
   const loadingIndicatorType = targetRecordType || recordType;
-  const hasData = !dataIsLoading && Boolean(data?.size);
 
   return (
-    <LoadingIndicator
-      hasData={hasData}
-      overlay
-      fromTableList
+    <Datatable
+      data={data}
+      {...props}
       errors={errors}
       loading={dataIsLoading}
-      type={loadingIndicatorType}
-    >
-      <Datatable data={data} {...props} />
-    </LoadingIndicator>
+      loadingIndicatorType={loadingIndicatorType}
+    />
   );
 };
 

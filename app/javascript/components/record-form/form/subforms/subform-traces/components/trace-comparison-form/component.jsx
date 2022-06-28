@@ -1,10 +1,11 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
+import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES, RECORD_PATH } from "../../../../../../../config";
 import { useI18n } from "../../../../../../i18n";
@@ -12,12 +13,16 @@ import { getShortIdFromUniqueId } from "../../../../../../records/utils";
 import { getFields, getRecordFormsByUniqueId, getOrderedRecordForms } from "../../../../../selectors";
 import { fetchMatchedTraces, getMatchedTraces, selectRecord, setMachedCaseForTrace } from "../../../../../../records";
 import TraceActions from "../trace-actions";
-import FieldRow from "../field-row";
+import FieldRows from "../field-rows";
+import ComparedForms from "../compared-forms";
 import { FORMS } from "../../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
+import PhotoArray from "../../../../field-types/attachments/photo-array";
+import AudioArray from "../../../../../../form/fields/audio-array";
+import fieldRowCss from "../field-rows/styles.css";
 
 import { NAME, TOP_FIELD_NAMES } from "./constants";
-import { getComparisons } from "./utils";
+import { getComparisons, toAttachmentArray } from "./utils";
 import css from "./styles.css";
 
 const Component = ({
@@ -56,6 +61,14 @@ const Component = ({
   const traceShortId = getShortIdFromUniqueId(potentialMatch.getIn(["trace", "id"]));
   const caseShortId = potentialMatch.getIn(["case", "case_id_display"]);
   const caseId = potentialMatch.getIn(["case", "id"]);
+  const casePhotos = potentialMatch
+    .getIn(["case", "photos"], fromJS([]))
+    ?.reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
+  const caseAudios = toAttachmentArray(potentialMatch.getIn(["case", "recorded_audio"], fromJS([])) || fromJS([]));
+  const tracingRequestPhotos = record
+    .get("photos", fromJS([]))
+    ?.reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
+  const tracingRequestAudios = toAttachmentArray(record.get("recorded_audio", fromJS([])) || fromJS([]));
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
@@ -125,40 +138,6 @@ const Component = ({
       })
     );
 
-  const renderFieldRows = comparisons =>
-    comparisons.length &&
-    comparisons.map(comparison => (
-      <FieldRow
-        field={comparison.field}
-        traceValue={comparison.traceValue}
-        caseValue={comparison.caseValue}
-        match={comparison.match}
-        key={comparison.field.name}
-      />
-    ));
-
-  const renderForms = () =>
-    comparedForms.map(comparedForm => {
-      const { form, comparisons, index } = comparedForm;
-
-      return (
-        <Fragment key={`${form?.unique_id}-${index}`}>
-          <Grid container item>
-            <Grid item xs={12}>
-              <h2>{form?.name[i18n.locale]}</h2>
-            </Grid>
-          </Grid>
-          {renderFieldRows(comparisons) || (
-            <Grid container item>
-              <Grid item xs={12}>
-                <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
-              </Grid>
-            </Grid>
-          )}
-        </Fragment>
-      );
-    });
-
   useEffect(() => {
     if (matchedCaseId) {
       setSelectedForm(FORMS.trace);
@@ -180,7 +159,7 @@ const Component = ({
   return (
     <>
       <TraceActions {...traceActionsProps} />
-      <Grid container spacing={2}>
+      <Grid container spacing={4}>
         <Grid container item>
           {renderText && alreadyMatchedMessage && (
             <Grid item xs={12}>
@@ -201,8 +180,44 @@ const Component = ({
             </h2>
           </Grid>
         </Grid>
-        {renderFieldRows(topComparisons)}
-        {renderForms()}
+        <FieldRows comparisons={topComparisons} />
+        <Grid container item className={css.fieldRow} spacing={4}>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.tracing_request_photos")}</h2>
+            {isEmpty(tracingRequestPhotos) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <PhotoArray isGallery images={tracingRequestPhotos} />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.case_photos")}</h2>
+            {isEmpty(casePhotos) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <PhotoArray isGallery images={casePhotos} />
+            )}
+          </Grid>
+        </Grid>
+        <Grid container item className={css.fieldRow} spacing={4}>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.tracing_request_audios")}</h2>
+            {isEmpty(tracingRequestAudios) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <AudioArray attachments={tracingRequestAudios} />
+            )}
+          </Grid>
+          <Grid item xs={6}>
+            <h2>{i18n.t("tracing_request.case_audios")}</h2>
+            {isEmpty(caseAudios) ? (
+              <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
+            ) : (
+              <AudioArray attachments={caseAudios} />
+            )}
+          </Grid>
+        </Grid>
+        <ComparedForms forms={comparedForms} />
       </Grid>
     </>
   );

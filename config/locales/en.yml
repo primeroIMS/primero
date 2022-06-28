@@ -1838,6 +1838,7 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
+    violations_total: Violations
     filter_by:
       date: Date
       verification_status: Verification Status
@@ -1862,9 +1863,12 @@ en:
       reports:
         ghn_report: Global Horizontal Note
       sub_reports:
-        verified_information: Verified Information
-        late_verification: Late Verification
-        unverified_information: Unverified Information
+        verified_information: Verified Information - Victims
+        late_verification: Late Verification - Victims
+        unverified_information: Unverified Information - Victims
+        verified_information_violations: Verified Information - Violations
+        late_verification_violations: Late Verification - Violations
+        unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
@@ -3073,6 +3077,18 @@ en:
               Access to Potential Matches is necessary for Family Tracing and Reunification (FTR) work.
               Allows user to see the Tracing Summary form on Cases.
             label: View
+          view_audio:
+            explanation: Controls whether a user searching for a tracing match can see the audio files for the
+              Case or Tracing Request associated with a  Potential Match.
+            label: View Audio
+          view_photo:
+            explanation: Controls whether a user searching for a tracing match can see the photos for the
+              Case or Tracing Request associated with a  Potential Match.
+            label: View Photos
+          manage:
+            explanation: Allows a user to perform all available actions on Potential Matches.
+              The "Manage" permission essentially means "everything".
+            label: Manage
         label: Potential Match
       primero_configuration:
         actions:
@@ -3664,6 +3680,10 @@ en:
     match: Match
     matches: Matches
     unmatch: Un-match
+    tracing_request_photos: Photos for this Tracing Request
+    case_photos: Photos for this Case
+    tracing_request_audios: Audio for this Tracing Request
+    case_audios: Audio for this Case
     messages:
       already_matched: There is already a match in the system with an Inquirer looking for this child.
       disabled: Tracing Request is disabled

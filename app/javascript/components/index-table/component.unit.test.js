@@ -2,7 +2,6 @@ import { fromJS, List } from "immutable";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Typography, Checkbox, TablePagination } from "@material-ui/core";
 
-import LoadingIndicator from "../loading-indicator";
 import { setupMountedComponent, fake } from "../../test";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
@@ -146,10 +145,6 @@ describe("<IndexTable />", () => {
 
   beforeEach(() => {
     ({ component } = setupMountedComponent(IndexTable, props, initialState));
-  });
-
-  it("should render LoadingIndicator", () => {
-    expect(component.find(LoadingIndicator)).to.have.lengthOf(1);
   });
 
   it("should render MUIDataTable", () => {

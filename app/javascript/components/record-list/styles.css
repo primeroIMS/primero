@@ -72,3 +72,8 @@
 .filterContainer {
   margin: 0 var(--sp-2);
 }
+
+.iconHeader {
+  width: .8em;
+  height: .8em;
+}

@@ -36,7 +36,7 @@ describe("<RecordList /> - Selectors", () => {
     });
 
     it("should return empty object when records empty", () => {
-      const expected = fromJS({ data: [] });
+      const expected = fromJS({ data: [], metadata: {} });
       const records = selectors.getRecords(stateWithNoRecords, recordType);
 
       expect(records).to.deep.equal(expected);

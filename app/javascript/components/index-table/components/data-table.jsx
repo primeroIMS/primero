@@ -19,43 +19,51 @@ import CustomToolbarSelect from "../custom-toolbar-select";
 import { buildComponentColumns, useTranslatedRecords } from "../utils";
 import { useApp } from "../../application";
 
+import TableLoadingIndicator from "./table-loading-indicator";
+
 const Datatable = ({
   arrayColumnsToString,
-  canSelectAll,
-  title,
-  columns,
-  recordType,
-  onTableChange,
-  defaultFilters,
-  options: tableOptionsProps,
-  targetRecordType,
-  onRowClick,
   bypassInitialFetch,
+  canSelectAll,
+  checkOnline = false,
+  columns,
+  data,
+  defaultFilters,
+  errors,
+  isRowSelectable,
+  loading,
+  loadingIndicatorType,
+  localizedFields,
+  onRowClick,
+  onTableChange,
+  options: tableOptionsProps,
+  recordType,
   selectedRecords,
   setSelectedRecords,
-  localizedFields,
   showCustomToolbar,
-  isRowSelectable,
-  data,
-  useReportingLocations,
-  checkOnline = false
+  targetRecordType,
+  title,
+  useReportingLocations
 }) => {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useApp();
 
-  const [sortDir, setSortDir] = useState();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
 
-  const { order, order_by: orderBy } = filters || {};
+  const hasData = !loading && Boolean(data?.size);
+  const order = filters.get("order");
+  const orderBy = filters.get("order_by");
   const componentColumns = buildComponentColumns(
     typeof columns === "function" ? columns(data) : columns,
     order,
     orderBy
   );
   const columnsName = componentColumns.map(col => col.name);
+
+  const [sortDir, setSortDir] = useState(order);
 
   const records = data.get("data");
   const per = data.getIn(["metadata", "per"], 20);
@@ -177,7 +185,6 @@ const Datatable = ({
         [currentPage]: allRowsSelected.map(ars => ars.dataIndex)
       });
     },
-    onColumnSortChange: () => selectedRecords && setSelectedRecords({}),
     onTableChange: handleTableChange,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
@@ -234,9 +241,28 @@ const Datatable = ({
         }))
       : tableData;
 
+  const components = {
+    // eslint-disable-next-line react/display-name, react/no-multi-comp
+    TableBody: props => (
+      <TableLoadingIndicator
+        {...props}
+        loading={loading}
+        hasData={hasData}
+        errors={errors}
+        loadingIndicatorType={loadingIndicatorType}
+      />
+    )
+  };
+
   return (
     <ConditionalWrapper condition={validRecordTypes} wrapper={ThemeProvider} theme={theme}>
-      <MUIDataTable title={title} columns={componentColumns} options={options} data={dataWithAlertsColumn} />
+      <MUIDataTable
+        title={title}
+        columns={componentColumns}
+        options={options}
+        data={dataWithAlertsColumn}
+        components={components}
+      />
     </ConditionalWrapper>
   );
 };
@@ -251,7 +277,10 @@ Datatable.propTypes = {
   columns: PropTypes.oneOfType([PropTypes.object, PropTypes.func, PropTypes.array]),
   data: PropTypes.instanceOf(List),
   defaultFilters: PropTypes.object,
+  errors: PropTypes.array,
   isRowSelectable: PropTypes.func,
+  loading: PropTypes.bool,
+  loadingIndicatorType: PropTypes.string,
   localizedFields: PropTypes.arrayOf(PropTypes.string),
   onRowClick: PropTypes.func,
   onTableChange: PropTypes.func.isRequired,
