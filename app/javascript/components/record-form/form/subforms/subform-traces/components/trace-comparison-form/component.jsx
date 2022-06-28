@@ -65,10 +65,12 @@ const Component = ({
     .getIn(["case", "photos"], fromJS([]))
     ?.reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
   const caseAudios = toAttachmentArray(potentialMatch.getIn(["case", "recorded_audio"], fromJS([])) || fromJS([]));
-  const tracingRequestPhotos = record
-    .get("photos", fromJS([]))
+  const tracingRequestPhotos = potentialMatch
+    .getIn(["trace", "photos"], fromJS([]))
     ?.reduce((acc, attachment) => acc.concat(attachment.get("attachment_url")), []);
-  const tracingRequestAudios = toAttachmentArray(record.get("recorded_audio", fromJS([])) || fromJS([]));
+  const tracingRequestAudios = toAttachmentArray(
+    potentialMatch.getIn(["trace", "recorded_audio"], fromJS([])) || fromJS([])
+  );
   const traceId = potentialMatch.getIn(["trace", "id"]);
   const comparedFields = potentialMatch.getIn(["comparison", "case_to_trace"], fromJS([]));
   const familyFields = potentialMatch.getIn(["comparison", "family_to_inquirer"], fromJS([]));
