@@ -30,11 +30,10 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         name
       }
     end
+    # rubocop:enable Metrics/MethodLength
 
     def date_filter
       'ctfmr_verified_date'
     end
-
-    # rubocop:enable Metrics/MethodLength
   end
 end

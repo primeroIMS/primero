@@ -31,11 +31,10 @@ class ManagedReports::Indicators::VerifiedInformationViolations < ManagedReports
           id
       }
     end
+    # rubocop:enable Metrics/MethodLength
 
     def build_results(results, _params = {})
       results.to_a
     end
-
-    # rubocop:enable Metrics/MethodLength
   end
 end

@@ -31,6 +31,7 @@ class ManagedReports::Indicators::LateVerificationViolations < ManagedReports::S
           id
       }
     end
+    # rubocop:enable Metrics/MethodLength
 
     def date_filter
       'ctfmr_verified_date'
@@ -39,7 +40,5 @@ class ManagedReports::Indicators::LateVerificationViolations < ManagedReports::S
     def build_results(results, _params = {})
       results.to_a
     end
-
-    # rubocop:enable Metrics/MethodLength
   end
 end
