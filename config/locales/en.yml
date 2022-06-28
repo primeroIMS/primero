@@ -1838,6 +1838,7 @@ en:
     generated_on: Generated On
     label: Insights
     total: Total
+    violations_total: Violations
     filter_by:
       date: Date
       verification_status: Verification Status
@@ -1862,9 +1863,12 @@ en:
       reports:
         ghn_report: Global Horizontal Note
       sub_reports:
-        verified_information: Verified Information
-        late_verification: Late Verification
-        unverified_information: Unverified Information
+        verified_information: Verified Information - Victims
+        late_verification: Late Verification - Victims
+        unverified_information: Unverified Information - Victims
+        verified_information_violations: Verified Information - Violations
+        late_verification_violations: Late Verification - Violations
+        unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
         recruitment: Recruitment and/or use of children
