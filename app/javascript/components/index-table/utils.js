@@ -46,7 +46,7 @@ export function useTranslatedRecords({
   localizedFields,
   columnsName,
   validRecordTypes,
-  useReportingLocations
+  useReportingLocations = true
 }) {
   const i18n = useI18n();
 

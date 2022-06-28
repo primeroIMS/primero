@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { List } from "immutable";
 
-import { STRING_SOURCES_TYPES } from "../config";
+import { LOOKUPS, STRING_SOURCES_TYPES } from "../config";
 
 import displayNameHelper from "./display-name-helper";
 
@@ -11,7 +11,7 @@ const getValueFromOptions = (allAgencies, allLookups, locations, locale, optionS
   }
   const valueToTranslated = typeof value === "boolean" ? value.toString() : value;
 
-  if (optionSelected === STRING_SOURCES_TYPES.LOCATION) {
+  if ([STRING_SOURCES_TYPES.LOCATION, LOOKUPS.reporting_locations].includes(optionSelected)) {
     return locations.find(location => location.id === valueToTranslated)?.display_text;
   }
 
