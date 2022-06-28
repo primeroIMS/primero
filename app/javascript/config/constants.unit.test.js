@@ -200,6 +200,7 @@ describe("Verifying config constant", () => {
           "gbv_violence_type",
           "cp_violence_type",
           "gender",
+          "gender_unknown",
           "legitimate_basis",
           "legitimate_basis_explanations",
           "verification_status",
