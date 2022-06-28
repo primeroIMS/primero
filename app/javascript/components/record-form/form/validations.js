@@ -14,7 +14,7 @@ import {
   TALLY_FIELD
 } from "../constants";
 
-import { apiSelectOffline } from "./utils";
+import { isFieldRequired } from "./utils";
 
 const MAX_PERMITTED_INTEGER = 2147483647;
 
@@ -22,7 +22,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
   const { multi_select: multiSelect, name, type, required } = field;
   const validations = {};
 
-  if (field.visible === false || apiSelectOffline(online, field.option_strings_source)) {
+  if (field.visible === false || !isFieldRequired(online, field.option_strings_source, required)) {
     return validations;
   }
 
