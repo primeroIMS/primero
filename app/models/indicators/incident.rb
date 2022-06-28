@@ -18,7 +18,7 @@ module Indicators
     ).freeze
 
     def self.violation_category_region(role)
-      admin_level = role&.reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
 
       PivotedIndicator.new(
         name: 'violations_category_region',
