@@ -25,7 +25,7 @@ describe("<RecordForm>/form/validations", () => {
         }
       };
 
-      const schema = object().shape(validations.fieldValidations(subformField, { i18n }));
+      const schema = object().shape(validations.fieldValidations(subformField, { i18n, online: true }));
 
       context("when the required field is present", () => {
         it("should be valid", () => {
