@@ -2,7 +2,7 @@
 
 const AudioArray = ({ attachments }) => {
   return attachments.map(attachment => (
-    <div>
+    <div key={attachment.id}>
       <audio id={attachment.file_name} controls>
         <source src={attachment.attachment_url} />
       </audio>

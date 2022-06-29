@@ -14,6 +14,7 @@ import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
 import { getDataProtectionInitialValues } from "../selectors";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 import renderFormSections from "../components/render-form-sections";
+import { useApp } from "../../application";
 
 import { RECORD_FORM_NAME } from "./constants";
 import { fieldValidations } from "./validations";
@@ -40,6 +41,7 @@ const RecordForm = ({
 }) => {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { online } = useApp();
 
   const [initialValues, setInitialValues] = useState(mode.isNew ? constructInitialValues(forms.values()) : {});
   const [formTouched, setFormTouched] = useState({});
@@ -63,7 +65,7 @@ const RecordForm = ({
       return Object.assign(
         {},
         obj,
-        ...item.fields.filter(field => !field.disabled).map(field => fieldValidations(field, i18n))
+        ...item.fields.filter(field => !field.disabled).map(field => fieldValidations(field, { i18n, online }))
       );
     }, {});
 

@@ -17,6 +17,9 @@ Metrics/BlockLength:
     - lib/tasks/*
     - spec/**/*
 
+Metrics/ClassLength:
+  Max: 125
+
 Metrics/MethodLength:
   Exclude:
     - db/migrate/*

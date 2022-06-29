@@ -25,7 +25,7 @@ describe("<RecordForm>/form/validations", () => {
         }
       };
 
-      const schema = object().shape(validations.fieldValidations(subformField, i18n));
+      const schema = object().shape(validations.fieldValidations(subformField, { i18n, online: true }));
 
       context("when the required field is present", () => {
         it("should be valid", () => {
@@ -76,21 +76,21 @@ describe("<RecordForm>/form/validations", () => {
         };
 
         it("should not be valid if it is empty", () => {
-          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
           const formData = { cities: [] };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
 
         it("should not be valid if it is null", () => {
-          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
           const formData = { cities: null };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
 
         it("should not be valid if it is not present", () => {
-          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...selectField, required: true }, { i18n }));
           const formData = {};
 
           expect(schema.isValidSync(formData)).to.be.false;
@@ -108,21 +108,21 @@ describe("<RecordForm>/form/validations", () => {
         };
 
         it("should be valid if it is empty", () => {
-          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const schema = object().shape(validations.fieldValidations(selectField, { i18n }));
           const formData = { cities: [] };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });
 
         it("should be valid if it is null", () => {
-          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const schema = object().shape(validations.fieldValidations(selectField, { i18n }));
           const formData = { cities: null };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });
 
         it("should be valid if it is not present", () => {
-          const schema = object().shape(validations.fieldValidations(selectField, i18n));
+          const schema = object().shape(validations.fieldValidations(selectField, { i18n }));
           const formData = {};
 
           expect(schema.isValidSync(formData)).to.be.true;
@@ -142,14 +142,14 @@ describe("<RecordForm>/form/validations", () => {
 
       context("and the field is empty", () => {
         it("should be invalid if the field is visible", () => {
-          const schema = object().shape(validations.fieldValidations(textField, i18n));
+          const schema = object().shape(validations.fieldValidations(textField, { i18n }));
           const formData = { first_name: null };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
 
         it("should be valid if the field is not visible", () => {
-          const schema = object().shape(validations.fieldValidations({ ...textField, visible: false }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...textField, visible: false }, { i18n }));
           const formData = { first_name: null };
 
           expect(schema.isValidSync(formData)).to.be.true;
@@ -171,19 +171,19 @@ describe("<RecordForm>/form/validations", () => {
 
       context("and it is not required", () => {
         it("should be valid if it is empty", () => {
-          const schema = object().shape(validations.fieldValidations(tallyField, i18n));
+          const schema = object().shape(validations.fieldValidations(tallyField, { i18n }));
           const formData = { tally_name: {} };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });
         it("should be valid if it the children's values are empty", () => {
-          const schema = object().shape(validations.fieldValidations(tallyField, i18n));
+          const schema = object().shape(validations.fieldValidations(tallyField, { i18n }));
           const formData = { tally_name: { test1: "" } };
 
           expect(schema.isValidSync(formData)).to.be.true;
         });
         it("should be valid if it at least one of its childrens have values", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, { i18n }));
           const formData = { tally_name: { test1: 1, test2: "" } };
 
           expect(schema.isValidSync(formData)).to.be.true;
@@ -192,19 +192,19 @@ describe("<RecordForm>/form/validations", () => {
 
       context("and it is required", () => {
         it("should not be valid if it is empty", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, { i18n }));
           const formData = { tally_name: {} };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
         it("should NOT be valid if it the children's values are empty", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, { i18n }));
           const formData = { tally_name: { test1: "", test2: "" } };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
         it("should be valid if it at least one of its childrens have values", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField, required: true }, { i18n }));
           const formData = { tally_name: { test1: 1, test2: "" } };
 
           expect(schema.isValidSync(formData)).to.be.true;
@@ -213,13 +213,13 @@ describe("<RecordForm>/form/validations", () => {
 
       context("and check min and max values", () => {
         it("should be invalid if one of its childrens have values not between min and max", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, { i18n }));
           const formData = { tally_name: { test1: 1, test2: -2 } };
 
           expect(schema.isValidSync(formData)).to.be.false;
         });
         it("should be valid if one of its childrens have values between min and max", () => {
-          const schema = object().shape(validations.fieldValidations({ ...tallyField }, i18n));
+          const schema = object().shape(validations.fieldValidations({ ...tallyField }, { i18n }));
           const formData = { tally_name: { test1: 1, test2: 3 } };
 
           expect(schema.isValidSync(formData)).to.be.true;

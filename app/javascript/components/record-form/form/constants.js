@@ -23,10 +23,12 @@ export const RECORD_FORM_PERMISSION = {
   readWrite: "rw"
 };
 
-export const VIOLATION_ASSOCIACTIONS_SUBFOM = [
+export const VIOLATION_ASSOCIATIONS_SUBFORM = [
   "individual_victims",
   "perpetrators",
   "group_victims",
   "sources",
   "responses"
 ];
+
+export const ASYNC_OPTIONS = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];

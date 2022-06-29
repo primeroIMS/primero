@@ -24,3 +24,4 @@ export { default as serviceIsReferrable } from "./service-is-referrable";
 export { default as shouldFieldUpdate } from "./should-field-update";
 export { default as updateSubformEntries } from "./update-subform-entries";
 export { default as withStickyOption } from "./with-sticky-option";
+export { default as isFieldRequired } from "./is-field-required";

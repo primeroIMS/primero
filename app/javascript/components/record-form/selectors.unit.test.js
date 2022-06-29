@@ -873,122 +873,6 @@ describe("<RecordForm /> - Selectors", () => {
     });
   });
 
-  describe("getFieldsWithNames", () => {
-    it("should return an object with the field names", () => {
-      const expected = fromJS({ document_field: R.FieldRecord(fields["2"]) });
-      const result = selectors.getFieldsWithNames(stateWithRecords, ["document_field"]);
-
-      expect(result).to.deep.equal(expected);
-    });
-  });
-
-  describe("getFieldsWithNamesForMinifyForm", () => {
-    it("should return an object with the field names for minify_form", () => {
-      const fieldsForMinifyForm = {
-        1: {
-          name: "name_first",
-          type: "text_field",
-          editable: true,
-          disabled: null,
-          visible: true,
-          display_name: {
-            en: "First Name",
-            fr: "",
-            ar: "",
-            "ar-LB": "",
-            so: "",
-            es: ""
-          },
-          subform_section_id: null,
-          help_text: {},
-          multi_select: null,
-          option_strings_source: null,
-          option_strings_text: null,
-          guiding_questions: "",
-          required: true,
-          date_validation: "default_date_validation",
-          href: null,
-          show_on_minify_form: true
-        },
-        2: {
-          name: "document_field",
-          type: "document_upload_box",
-          editable: true,
-          disabled: null,
-          visible: true,
-          display_name: {
-            en: "Document",
-            fr: "",
-            ar: "",
-            "ar-LB": "",
-            so: "",
-            es: ""
-          },
-          subform_section_id: null,
-          help_text: {},
-          multi_select: null,
-          option_strings_source: null,
-          option_strings_text: null,
-          guiding_questions: "",
-          required: true,
-          date_validation: "default_date_validation",
-          href: null
-        },
-        3: {
-          name: "age",
-          type: "text_field",
-          editable: true,
-          disabled: null,
-          visible: true,
-          display_name: {
-            en: "Age",
-            fr: "",
-            ar: ""
-          },
-          show_on_minify_form: true,
-          help_text: {},
-          multi_select: null,
-          option_strings_source: null,
-          option_strings_text: null,
-          guiding_questions: "",
-          required: true,
-          date_validation: "default_date_validation",
-          href: null
-        },
-        4: {
-          name: "age",
-          type: "text_field",
-          editable: true,
-          disabled: null,
-          visible: true,
-          display_name: {
-            en: "Age",
-            fr: "",
-            ar: ""
-          },
-          show_on_minify_form: false,
-          help_text: {},
-          multi_select: null,
-          option_strings_source: null,
-          option_strings_text: null,
-          guiding_questions: "",
-          required: true,
-          date_validation: "default_date_validation",
-          href: null
-        }
-      };
-      const stateForMinifyForm = fromJS({
-        forms: {
-          fields: mapEntriesToRecord(fieldsForMinifyForm, R.FieldRecord)
-        }
-      });
-      const expected = fromJS({ age: R.FieldRecord(fieldsForMinifyForm["3"]) });
-      const result = selectors.getFieldsWithNamesForMinifyForm(stateForMinifyForm, ["age"]);
-
-      expect(result).to.deep.equal(expected);
-    });
-  });
-
   describe("getMiniFormFields", () => {
     it("should return show_on_minify_form fields for non nested forms", () => {
       const expected = fromJS([
@@ -1016,6 +900,62 @@ describe("<RecordForm /> - Selectors", () => {
 
       // Using toJS() since FieldRecord has empty mutable attributes
       expect(result.toList().toJS()).to.deep.equal(expected.toJS());
+    });
+
+    it("does not return the excluded fields for the show_on_minify_form fields", () => {
+      const expected = fromJS([
+        FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      ]);
+      const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
+
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toList().toJS()).to.deep.equal([]);
+    });
+
+    it("it returns the show_on_minify_form fields as common fields", () => {
+      const expected = fromJS({
+        name_first: FieldRecord({
+          name: "name_first",
+          type: "text_field",
+          visible: true,
+          display_name: {
+            en: "First Name",
+            fr: "",
+            ar: "",
+            "ar-LB": "",
+            so: "",
+            es: ""
+          },
+          help_text: {},
+          tick_box_label: {},
+          date_validation: "default_date_validation",
+          required: true,
+          show_on_minify_form: true,
+          selected_value: null
+        })
+      });
+      const result = selectors.getCommonMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
+
+      // Using toJS() since FieldRecord has empty mutable attributes
+      expect(result.toJS()).to.deep.equal(expected.toJS());
     });
   });
 

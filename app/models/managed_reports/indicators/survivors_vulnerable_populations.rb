@@ -34,6 +34,7 @@ class ManagedReports::Indicators::SurvivorsVulnerablePopulations < ManagedReport
             count(*) as total
           from incidents
           where data ->> 'unaccompanied_separated_status' is not null
+          and data ->> 'unaccompanied_separated_status' <> 'no'
           #{date_range_query(date_param)&.prepend('and ')}
           #{equal_value_query(params['module_id'])&.prepend('and ')}
           #{user_scope_query(current_user)&.prepend('and ')}

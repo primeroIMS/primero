@@ -7,10 +7,9 @@ import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import SearchableSelect from "../../../searchable-select";
-import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser } from "../utils";
+import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser, isFieldRequired } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
@@ -18,6 +17,7 @@ import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 import { OPTION_TYPES } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { RECORD_TYPES } from "../../../../config";
+import { ASYNC_OPTIONS } from "../constants";
 
 const SelectFieldContainer = ({
   field,
@@ -46,7 +46,8 @@ const SelectFieldContainer = ({
     multi_select: multiSelect,
     selected_value: selectedDefaultValue,
     option_strings_source: optionStringsSource,
-    option_strings_text: optionStringsText
+    option_strings_text: optionStringsText,
+    required
   } = field;
   const option = optionStringsSource || optionStringsText;
   const fieldValue = typeof value === "boolean" ? String(value) : value;
@@ -109,16 +110,14 @@ const SelectFieldContainer = ({
     );
   };
 
-  const endpointLookups = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];
-
-  const disableOfflineEndpointOptions = !online && endpointLookups.includes(option);
+  const apiSelectOptionsOffline = !isFieldRequired(online, option, required) && ASYNC_OPTIONS.includes(option);
 
   const inputHelperText = () => {
     if (error && touched) {
       return error;
     }
 
-    if (disableOfflineEndpointOptions) {
+    if (apiSelectOptionsOffline) {
       return i18n.t("offline");
     }
 
@@ -178,7 +177,7 @@ const SelectFieldContainer = ({
     id: name,
     error: error && touched ? error : null,
     name,
-    isDisabled: !filteredOptions || mode.isShow || disabled || disableOfflineEndpointOptions,
+    isDisabled: !filteredOptions || mode.isShow || disabled || apiSelectOptionsOffline,
     helperText: inputHelperText(),
     isClearable: true,
     isLoading: selectIsLoading(name),
