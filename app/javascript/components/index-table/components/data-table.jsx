@@ -2,7 +2,7 @@
 
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { fromJS, List } from "immutable";
@@ -48,9 +48,9 @@ const Datatable = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useApp();
-
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
+  const internalTableState = useRef({});
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
 
   const hasData = !loading && Boolean(data?.size);
@@ -97,22 +97,38 @@ const Datatable = ({
     }
   }, [columns]);
 
+  const setOrderByParam = name => {
+    const customSortFields = {
+      photo: "has_photo"
+    };
+
+    if (Object.keys(customSortFields).includes(name)) {
+      return customSortFields[name];
+    }
+
+    if (name === "complete" && online) {
+      return undefined;
+    }
+
+    return name;
+  };
+
   const selectedFilters = (options, action, tableState) => {
     const { sortOrder } = tableState;
 
     switch (action) {
       case "sort": {
-        const customSortFields = {
-          photo: "has_photo"
-        };
         const { direction, name } = sortOrder;
+        const orderByParam = setOrderByParam(name);
+        const defaultOptions = options.set("page", page === 0 ? 1 : page);
 
         setSortDir(sortOrder);
 
-        return options
-          .set("order", direction)
-          .set("order_by", Object.keys(customSortFields).includes(name) ? customSortFields[name] : name)
-          .set("page", page === 0 ? 1 : page);
+        if (orderByParam) {
+          return defaultOptions.set("order", direction).set("order_by", orderByParam);
+        }
+
+        return defaultOptions;
       }
       case "changePage":
         return options.set("page", tableState.page >= page ? page + 1 : page - 1);
@@ -122,6 +138,7 @@ const Datatable = ({
   };
 
   const handleTableChange = (action, tableState) => {
+    internalTableState.current = tableState;
     const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
@@ -140,6 +157,10 @@ const Datatable = ({
     }
   };
 
+  const handleTableInit = (_action, tableState) => {
+    internalTableState.current = tableState;
+  };
+
   const currentPage = page - 1;
 
   const selectedRecordsOnCurrentPage =
@@ -150,12 +171,12 @@ const Datatable = ({
     <CustomToolbarSelect
       displayData={displayData}
       recordType={recordType}
-      perPage={per}
+      perPage={internalTableState.current?.rowsPerPage || 20}
       selectedRecords={selectedRecords}
       selectedRows={selectedRows}
       setSelectedRecords={setSelectedRecords}
-      totalRecords={total}
-      page={page}
+      totalRecords={internalTableState.current?.count}
+      page={internalTableState.current?.page}
       fetchRecords={onTableChange}
       selectedFilters={defaultFilters.merge(filters)}
       canSelectAll={canSelectAll}
@@ -186,6 +207,7 @@ const Datatable = ({
       });
     },
     onTableChange: handleTableChange,
+    onTableInit: handleTableInit,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
     enableNestedDataAccess: ".",
