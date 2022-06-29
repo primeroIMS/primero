@@ -45,7 +45,7 @@ module Exporters
       super(output_file_path)
       self.worksheets = {}
       self.workbook = WriteXLSX.new(buffer)
-      @format_black = workbook.add_format(color: '#231F20', center_across: 1)
+      build_formats
     end
 
     def complete
@@ -60,6 +60,15 @@ module Exporters
     end
 
     private
+
+    def build_formats
+      @formats = {
+        black: workbook.add_format(color: '#231F20'),
+        centered_black: workbook.add_format(color: '#231F20', center_across: 1),
+        date: workbook.add_format(num_format: 'dd-mm-yyyy'),
+        date_time: workbook.add_format(num_format: 'dd-mm-yyyyThh:mm:ss.sss')
+      }
+    end
 
     def incident_form_fields
       return @incident_form_fields if @incident_form_fields.present?
@@ -151,7 +160,7 @@ module Exporters
     end
 
     def write_violation_id_headers(worksheet)
-      worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @format_black)
+      worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @formats[:centered_black])
       worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
       worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
       worksheet.write(@header_row, 2, I18n.t('incidents.violation_type'))
@@ -161,7 +170,7 @@ module Exporters
     def write_violation_type_header(start_column, end_column, worksheet, violation_fields, type)
       if violation_fields.size > 1
         worksheet.merge_range(
-          0, start_column, 0, end_column, I18n.t("incident.violation.types.#{type}"), @format_black
+          0, start_column, 0, end_column, I18n.t("incident.violation.types.#{type}"), @formats[:centered_black]
         )
       else
         worksheet.write(0, end_column, I18n.t("incident.violation.types.#{type}"))
@@ -195,7 +204,7 @@ module Exporters
         tally_row,
         @header_column + field.tally.size,
         field.display_name(locale),
-        @format_black
+        @formats[:centered_black]
       )
       write_tally_option_headers(worksheet, field)
     end
@@ -262,10 +271,43 @@ module Exporters
     def write_field_data(worksheet, record, field)
       if field.type == Field::TALLY_FIELD
         write_tally_data(worksheet, record, field)
+      elsif [Field::TEXT_FIELD, Field::TEXT_AREA].include?(field.type)
+        write_string_data(worksheet, record, field)
+      elsif field.type == Field::DATE_FIELD
+        write_date_data(worksheet, record, field)
       else
         worksheet.write(@record_row, @record_column, export_value(record.data[field.name], field))
         @record_column += 1
       end
+    end
+
+    def write_string_data(worksheet, record, field)
+      field_value = export_value(record.data[field.name], field)
+      if field_value.present?
+        worksheet.write_string(@record_row, @record_column, field_value, @formats[:black])
+      else
+        worksheet.write_blank(@record_row, @record_column, @formats[:black])
+      end
+      @record_column += 1
+    end
+
+    def write_date_data(worksheet, record, field)
+      date_format = field.date_include_time ? @formats[:date_time] : @formats[:date]
+      field_value = record_date_value(record, field)
+      if field_value.present?
+        worksheet.write_date_time(@record_row, @record_column, field_value, date_format)
+      else
+        worksheet.write_blank(@record_row, @record_column, @formats[:black])
+      end
+      @record_column += 1
+    end
+
+    def record_date_value(record, field)
+      field_value = record.data[field.name]
+      return unless field_value.present?
+      return field_value.strftime('%Y-%m-%dT%H:%M:%S.%L') if field.date_include_time
+
+      record.data[field.name].strftime('%Y-%m-%dT')
     end
 
     def write_tally_data(worksheet, record, field)
