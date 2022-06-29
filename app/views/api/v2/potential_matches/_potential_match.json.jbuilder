@@ -17,6 +17,12 @@ json.case do
 end
 json.trace do
   json.partial! 'api/v2/traces/trace', trace: potential_match.trace
+  if current_user.can?(:view_photo, PotentialMatch)
+    json.photos potential_match.trace.tracing_request.current_photos&.map(&:to_h_api)
+  end
+  if current_user.can?(:view_audio, PotentialMatch)
+    json.recorded_audio potential_match.trace.tracing_request.current_audios&.map(&:to_h_api)
+  end
 end
 json.comparison do
   json.merge!(potential_match.comparison)
