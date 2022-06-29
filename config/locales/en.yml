@@ -284,6 +284,7 @@ en:
     close_dialog_title: Close Case
     close_success: Successfully closed case
     closure: Closure
+    complete: Available Offline
     date_of_birth: Date of Birth
     disable_dialog: Clicking OK will change the status of this case to Disabled.
     disable_dialog_title: Disable Case
@@ -1392,6 +1393,7 @@ en:
     enable_dialog_title: Enable Incident
     enable_success: Successfully enabled incidents.
     id: ID#
+    complete: Available Offline
     date_of_interview: Date of Interview
     date_of_incident: Date of Incident
     incident_location: Incident Location
@@ -3710,6 +3712,7 @@ en:
     enable_dialog_title: Enable Tracing Request
     enable_success: Successfully enabled trancing request.
     id: ID
+    complete: Available Offline
     filter_by:
       by_date: By Date
       location_separation: Separation Location
@@ -3742,6 +3745,7 @@ en:
     enable_dialog_title: Enable Registry Record
     enable_dialog: Clicking OK will change the status of this registry record to Enabled.
     enable_success: Successfully enabled registry record.
+    complete: Available Offline
     filter_by:
       by_date: By Date
       status: Status

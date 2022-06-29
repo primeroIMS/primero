@@ -9,7 +9,7 @@ import { fetchReferralUsers } from "../../../record-actions/transitions/action-c
 import SearchableSelect from "../../../searchable-select";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser, apiSelectOffline } from "../utils";
+import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser, isFieldRequired } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
@@ -17,6 +17,7 @@ import { REFERRAL_TYPE } from "../../../record-actions/transitions";
 import { OPTION_TYPES } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { RECORD_TYPES } from "../../../../config";
+import { ASYNC_OPTIONS } from "../constants";
 
 const SelectFieldContainer = ({
   field,
@@ -45,7 +46,8 @@ const SelectFieldContainer = ({
     multi_select: multiSelect,
     selected_value: selectedDefaultValue,
     option_strings_source: optionStringsSource,
-    option_strings_text: optionStringsText
+    option_strings_text: optionStringsText,
+    required
   } = field;
   const option = optionStringsSource || optionStringsText;
   const fieldValue = typeof value === "boolean" ? String(value) : value;
@@ -108,7 +110,7 @@ const SelectFieldContainer = ({
     );
   };
 
-  const apiSelectOptionsOffline = apiSelectOffline(online, option);
+  const apiSelectOptionsOffline = !isFieldRequired(online, option, required) && ASYNC_OPTIONS.includes(option);
 
   const inputHelperText = () => {
     if (error && touched) {

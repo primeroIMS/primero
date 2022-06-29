@@ -1,14 +1,14 @@
 import isEmpty from "lodash/isEmpty";
 import pick from "lodash/pick";
 
-import { VIOLATION_ASSOCIACTIONS_SUBFOM } from "../constants";
+import { VIOLATION_ASSOCIATIONS_SUBFORM } from "../constants";
 
 export default (values, uniqueId) => {
   if (isEmpty(values)) {
     return {};
   }
 
-  const valuesToEvaluate = pick(values, ...VIOLATION_ASSOCIACTIONS_SUBFOM);
+  const valuesToEvaluate = pick(values, ...VIOLATION_ASSOCIATIONS_SUBFORM);
 
   return Object.entries(valuesToEvaluate).reduce((acc, curr) => {
     const [key, currentValues] = curr;

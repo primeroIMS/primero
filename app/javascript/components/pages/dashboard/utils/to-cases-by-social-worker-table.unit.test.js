@@ -5,6 +5,7 @@ import { CASES_BY_SOCIAL_WORKER_COLUMNS } from "../components/cases-by-social-wo
 import toCasesBySocialWorkerTable from "./to-cases-by-social-worker-table";
 
 describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
+  const i18n = { t: value => value };
   const casesBySocialWorker = fromJS({
     name: "dashboard.dash_cases_by_social_worker",
     type: "indicator",
@@ -37,7 +38,6 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
   });
 
   it("should convert data to plain JS", () => {
-    const i18n = { t: value => value };
     const expected = {
       columns: CASES_BY_SOCIAL_WORKER_COLUMNS.map(name => ({
         name,
@@ -78,5 +78,47 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
     };
 
     expect(toCasesBySocialWorkerTable(casesBySocialWorker, i18n)).to.deep.equal(expected);
+  });
+
+  it("keeps the data and query in the same order", () => {
+    const dashboardData = fromJS({
+      name: "dashboard.dash_cases_by_social_worker",
+      type: "indicator",
+      indicators: {
+        cases_by_social_worker_total: {
+          primero_cp: {
+            count: 1,
+            query: ["record_state=true", "status=open", "owned_by=primero_cp"]
+          },
+          primero_cp_ar: {
+            count: 1,
+            query: ["record_state=true", "status=open", "owned_by=primero_cp_ar"]
+          },
+          primero: {
+            count: 1,
+            query: ["record_state=true", "status=open", "owned_by=primero"]
+          }
+        },
+        cases_by_social_worker_new_or_updated: {
+          primero_cp: {
+            count: 0,
+            query: ["record_state=true", "status=open", "not_edited_by_owner=true", "owned_by=primero_cp"]
+          },
+          primero_cp_ar: {
+            count: 0,
+            query: ["record_state=true", "status=open", "not_edited_by_owner=true", "owned_by=primero_cp_ar"]
+          },
+          primero: {
+            count: 0,
+            query: ["record_state=true", "status=open", "owned_by=primero"]
+          }
+        }
+      }
+    });
+    const tableData = toCasesBySocialWorkerTable(dashboardData, i18n);
+    const expected = ["primero", "primero_cp", "primero_cp_ar"];
+
+    expect(tableData.data.map(elem => elem[0])).to.deep.equal(expected);
+    expect(tableData.query.map(elem => elem.case_worker)).to.deep.equal(expected);
   });
 });
