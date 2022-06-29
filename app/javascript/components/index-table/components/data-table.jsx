@@ -105,10 +105,6 @@ const Datatable = ({
       return customSortFields[name];
     }
 
-    if (name === "complete") {
-      return undefined;
-    }
-
     return name;
   };
 

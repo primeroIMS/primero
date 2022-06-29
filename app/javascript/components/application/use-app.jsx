@@ -1,4 +1,4 @@
-import { useContext, createContext, useMemo } from "react";
+import { useContext, createContext } from "react";
 import PropTypes from "prop-types";
 import { isEqual } from "lodash";
 
@@ -14,9 +14,7 @@ const ApplicationProvider = ({ children }) => {
 
   const appData = useMemoizedSelector(state => getAppData(state), isEqual);
 
-  const value = useMemo(() => ({ ...appData, online }), [online, appData]);
-
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  return <Context.Provider value={{ ...appData, online }}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";
