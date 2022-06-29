@@ -84,7 +84,7 @@ const Component = ({
   const rowsSelected = allRecordsSelected || hasSelectedRows;
   const paginationProps = {
     count: totalRecords,
-    page: page - 1,
+    page,
     rowsPerPage: perPage,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     component: "div",
