@@ -2,7 +2,7 @@
 
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { fromJS, List } from "immutable";
@@ -50,7 +50,6 @@ const Datatable = ({
   const { online } = useApp();
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
-  const internalTableState = useRef({});
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
 
   const hasData = !loading && Boolean(data?.size);
@@ -106,7 +105,7 @@ const Datatable = ({
       return customSortFields[name];
     }
 
-    if (name === "complete" && online) {
+    if (name === "complete") {
       return undefined;
     }
 
@@ -138,7 +137,6 @@ const Datatable = ({
   };
 
   const handleTableChange = (action, tableState) => {
-    internalTableState.current = tableState;
     const options = defaultFilters.merge(filters);
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const { rowsPerPage } = tableState;
@@ -157,10 +155,6 @@ const Datatable = ({
     }
   };
 
-  const handleTableInit = (_action, tableState) => {
-    internalTableState.current = tableState;
-  };
-
   const currentPage = page - 1;
 
   const selectedRecordsOnCurrentPage =
@@ -171,12 +165,12 @@ const Datatable = ({
     <CustomToolbarSelect
       displayData={displayData}
       recordType={recordType}
-      perPage={internalTableState.current?.rowsPerPage || 20}
+      perPage={per}
       selectedRecords={selectedRecords}
       selectedRows={selectedRows}
       setSelectedRecords={setSelectedRecords}
-      totalRecords={internalTableState.current?.count}
-      page={internalTableState.current?.page}
+      totalRecords={total}
+      page={page}
       fetchRecords={onTableChange}
       selectedFilters={defaultFilters.merge(filters)}
       canSelectAll={canSelectAll}
@@ -207,7 +201,6 @@ const Datatable = ({
       });
     },
     onTableChange: handleTableChange,
-    onTableInit: handleTableInit,
     rowsPerPageOptions: ROWS_PER_PAGE_OPTIONS,
     page: currentPage,
     enableNestedDataAccess: ".",
