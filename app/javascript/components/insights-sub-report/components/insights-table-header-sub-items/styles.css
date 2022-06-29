@@ -1,0 +1,13 @@
+.tableRowSubHeader  {
+  & th {
+    border-right: 1px solid var(--c-light-grey-2);
+  }
+}
+
+.tableCell {
+  background-color: var(--c-light-grey);
+}
+
+.tableCellCenterClass {
+  text-align: center;
+}

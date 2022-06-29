@@ -243,4 +243,49 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
       ]);
     });
   });
+
+  context("when subColumnItems entry is present", () => {
+    it("returns rows with subcolums items", () => {
+      const values = buildInsightValues.default({
+        getLookupValue: (_key, value) => value.get("id"),
+        key: "key",
+        isGrouped: true,
+        groupedBy: "month",
+        subColumnItems: fromJS(["boys", "girls", "total"]),
+        data: fromJS([
+          {
+            group_id: "2021-10",
+            data: [
+              { id: "option_2", boys: 2, girls: 1, total: 3 },
+              { id: "option_3", boys: 2, girls: 3, total: 5 }
+            ]
+          },
+          {
+            group_id: "2021-12",
+            data: [{ id: "option_2", boys: 2, girls: 2, total: 4 }]
+          },
+          {
+            group_id: "2022-01",
+            data: [
+              { id: "option_1", boys: 2, total: 1 },
+              { id: "option_2", boys: 2, girls: 1, total: 2 }
+            ]
+          },
+          {
+            group_id: "2022-02",
+            data: [
+              { id: "option_1", boys: 2, girls: 1, total: 3 },
+              { id: "option_2", girls: 1, total: 1 }
+            ]
+          }
+        ])
+      });
+
+      expect(values).to.deep.equals([
+        { colspan: 0, row: ["option_1", 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 1, 3] },
+        { colspan: 0, row: ["option_2", 2, 1, 3, 2, 2, 4, 2, 1, 2, 0, 1, 1] },
+        { colspan: 0, row: ["option_3", 2, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+      ]);
+    });
+  });
 });

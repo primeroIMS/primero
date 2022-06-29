@@ -63,7 +63,7 @@ describe Api::V2::ManagedReportsController, type: :request do
         %w[children perpetrators reporting_location attack_type received_response]
       )
       expect(json['data']['report_data']['killing']['metadata'].keys).to match_array(
-        %w[lookups order table_type display_graph]
+        %w[lookups order table_type display_graph indicators_subcolumns]
       )
     end
 

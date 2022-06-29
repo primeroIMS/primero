@@ -6,7 +6,7 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
 
   class << self
     def id
-      'perpetrators'
+      'perpetrator_detention'
     end
 
     # rubocop:disable Metrics/MethodLength

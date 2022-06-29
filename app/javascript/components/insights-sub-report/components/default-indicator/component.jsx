@@ -16,6 +16,7 @@ function Component({
   lookups,
   lookupValue,
   namespace,
+  subColumnItems,
   subReportTitle,
   TableComponent,
   totalText,
@@ -54,7 +55,8 @@ function Component({
           localizeDate: i18n.localizeDate,
           totalText,
           getLookupValue: lookupValue,
-          incompleteDataLabel
+          incompleteDataLabel,
+          subColumnItems
         })}
         values={buildInsightValues[insightMetadata.get("table_type")]({
           getLookupValue: lookupValue,
@@ -64,11 +66,13 @@ function Component({
           groupedBy,
           ageRanges,
           lookupValues: lookups[valueKey],
-          incompleteDataLabel
+          incompleteDataLabel,
+          subColumnItems
         })}
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
+        subColumnItemsSize={subColumnItems?.size}
       />
     </div>
   );
@@ -87,6 +91,7 @@ Component.propTypes = {
   lookups: PropTypes.object,
   lookupValue: PropTypes.func,
   namespace: PropTypes.string,
+  subColumnItems: PropTypes.array,
   subReportTitle: PropTypes.func,
   TableComponent: PropTypes.node,
   totalText: PropTypes.string,

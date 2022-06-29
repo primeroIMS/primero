@@ -54,6 +54,7 @@ const Component = () => {
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
+  const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
 
   const lookups = useOptions({ source: insightLookups });
 
@@ -97,74 +98,78 @@ const Component = () => {
   }
 
   return (
-    <LoadingIndicator
-      overlay
-      emptyMessage={emptyMessage}
-      hasData={hasData}
-      type={namespace}
-      loading={loading}
-      errors={errors}
-    >
-      <div className={css.subReportContent}>
-        <div className={css.subReportTables}>
-          <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-          {singleInsightsTableData.size > 0 && (
-            <>
-              <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-              <TableValues
-                useInsightsHeader
-                columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                  value: singleInsightsTableData,
-                  isGrouped,
-                  groupedBy,
-                  localizeDate: i18n.localizeDate,
-                  totalText,
-                  incompleteDataLabel
-                })}
-                values={buildInsightValues[insightMetadata.get("table_type")]({
-                  getLookupValue: lookupValue,
-                  data: singleInsightsTableData,
-                  isGrouped,
-                  groupedBy,
-                  incompleteDataLabel
-                })}
-                showPlaceholder
-                name={namespace}
-                emptyMessage={emptyMessage}
-              />
-            </>
-          )}
-
-          {reportData
-            .get("aggregate", fromJS({}))
-            .entrySeq()
-            .map(([valueKey, value]) => {
-              const Indicator = getIndicator(valueKey);
-
-              return (
-                <Indicator
-                  key={valueKey}
-                  valueKey={valueKey}
-                  value={value}
-                  ageRanges={ageRanges}
-                  displayGraph={displayGraph}
+    <div className={css.container}>
+      <LoadingIndicator
+        overlay
+        emptyMessage={emptyMessage}
+        hasData={hasData}
+        type={namespace}
+        loading={loading}
+        errors={errors}
+      >
+        <div className={css.subReportContent}>
+          <div>
+            <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
+            {singleInsightsTableData.size > 0 && (
+              <>
+                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+                <TableValues
+                  useInsightsHeader
+                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
+                    value: singleInsightsTableData,
+                    isGrouped,
+                    groupedBy,
+                    localizeDate: i18n.localizeDate,
+                    totalText,
+                    incompleteDataLabel
+                  })}
+                  values={buildInsightValues[insightMetadata.get("table_type")]({
+                    getLookupValue: lookupValue,
+                    data: singleInsightsTableData,
+                    isGrouped,
+                    groupedBy,
+                    incompleteDataLabel
+                  })}
+                  showPlaceholder
+                  name={namespace}
                   emptyMessage={emptyMessage}
-                  groupedBy={groupedBy}
-                  incompleteDataLabel={incompleteDataLabel}
-                  insightMetadata={insightMetadata}
-                  isGrouped={isGrouped}
-                  lookups={lookups}
-                  lookupValue={lookupValue}
-                  namespace={namespace}
-                  subReportTitle={subReportTitle}
-                  TableComponent={TableComponent}
-                  totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
                 />
-              );
-            })}
+              </>
+            )}
+
+            {reportData
+              .get("aggregate", fromJS({}))
+              .entrySeq()
+              .map(([valueKey, value]) => {
+                const Indicator = getIndicator(valueKey);
+                const subColumnItems = indicatorsSubcolumns.get(valueKey, fromJS([]));
+
+                return (
+                  <Indicator
+                    key={valueKey}
+                    valueKey={valueKey}
+                    value={value}
+                    ageRanges={ageRanges}
+                    displayGraph={displayGraph}
+                    emptyMessage={emptyMessage}
+                    groupedBy={groupedBy}
+                    incompleteDataLabel={incompleteDataLabel}
+                    insightMetadata={insightMetadata}
+                    isGrouped={isGrouped}
+                    lookups={lookups}
+                    lookupValue={lookupValue}
+                    namespace={namespace}
+                    subReportTitle={subReportTitle}
+                    TableComponent={TableComponent}
+                    totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
+                    subColumnItems={subColumnItems}
+                  />
+                );
+              })}
+          </div>
         </div>
-      </div>
-    </LoadingIndicator>
+      </LoadingIndicator>
+    </div>
   );
 };
 
