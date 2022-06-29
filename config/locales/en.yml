@@ -1424,7 +1424,7 @@ en:
       label: Summary of the Incident
       fields:
         children_multiple_violation:
-          label: Children with multiple violations
+          label: Children affected by multiple violations
         summary_of_incident:
           label: Summary of the Incident
         incident_total_tally:
