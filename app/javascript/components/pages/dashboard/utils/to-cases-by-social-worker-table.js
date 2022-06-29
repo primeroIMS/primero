@@ -25,12 +25,13 @@ export default (indicators, i18n) => {
     [elem => first(elem)]
   );
 
-  const query = rows.map(row => {
+  const query = data.map(row => {
+    const socialWorker = first(row);
     const values = columnValues
-      .map(column => ({ [column]: newData.indicators[column][row]?.query }))
+      .map(column => ({ [column]: newData.indicators[column][socialWorker]?.query }))
       .reduce((prev, curr) => ({ ...curr, ...prev }), {});
 
-    return { [firstColumn]: row, ...values };
+    return { [firstColumn]: socialWorker, ...values };
   });
 
   return {
