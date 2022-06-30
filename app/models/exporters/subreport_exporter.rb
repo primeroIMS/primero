@@ -263,7 +263,7 @@ class Exporters::SubreportExporter < ValueObject
     subreport_lookups = metadata_property('lookups')
 
     self.lookups = (subreport_lookups || []).reduce({}) do |acc, (key, value)|
-      if %w[reporting_location reporting_location_detention].include?(key)
+      if %w[reporting_location reporting_location_detention reporting_location_denial].include?(key)
         next acc.merge(key => LocationService.instance)
       end
 
