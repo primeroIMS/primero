@@ -110,7 +110,8 @@ const SelectFieldContainer = ({
     );
   };
 
-  const apiSelectOptionsOffline = !isFieldRequired(online, option, required) && ASYNC_OPTIONS.includes(option);
+  const apiSelectOptionsOffline =
+    !isFieldRequired(online, option, required) && ASYNC_OPTIONS.includes(option) && required;
 
   const inputHelperText = () => {
     if (error && touched) {
