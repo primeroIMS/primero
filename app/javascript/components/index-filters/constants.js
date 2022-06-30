@@ -26,7 +26,10 @@ export const HIDDEN_FIELDS = [
   "has_incidents"
 ];
 
-export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
+export const PRIMARY_FILTERS = {
+  default: ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"],
+  individual_victims: ["sex", "age"]
+};
 
 export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
 

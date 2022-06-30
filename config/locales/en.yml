@@ -1229,6 +1229,9 @@ en:
     less: Less...
     more: More...
     save_filters: Save
+    categories:
+      violations: Violations
+      individual_victims: Individual Victims
   flags:
     add_flag_tab: Add New Flag
     date: 'Date:'
