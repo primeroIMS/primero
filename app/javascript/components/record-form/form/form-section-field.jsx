@@ -33,7 +33,7 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import TallyField from "./field-types/tally-field";
 import css from "./styles.css";
-import { isFieldRequired } from "./utils";
+import { asyncFieldOffline } from "./utils";
 
 const FormSectionField = ({
   name,
@@ -104,7 +104,7 @@ const FormSectionField = ({
     InputLabelProps: {
       htmlFor: name,
       shrink: true,
-      required: isFieldRequired(online, optionStringsSource, required),
+      required: asyncFieldOffline(online, optionStringsSource) ? false : required,
       classes: {
         root: css.inputLabel
       }
