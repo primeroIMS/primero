@@ -48,7 +48,6 @@ const Datatable = ({
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { online } = useApp();
-
   const { theme } = useThemeHelper({ overrides: recordListTheme });
 
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
@@ -97,22 +96,34 @@ const Datatable = ({
     }
   }, [columns]);
 
+  const setOrderByParam = name => {
+    const customSortFields = {
+      photo: "has_photo"
+    };
+
+    if (Object.keys(customSortFields).includes(name)) {
+      return customSortFields[name];
+    }
+
+    return name;
+  };
+
   const selectedFilters = (options, action, tableState) => {
     const { sortOrder } = tableState;
 
     switch (action) {
       case "sort": {
-        const customSortFields = {
-          photo: "has_photo"
-        };
         const { direction, name } = sortOrder;
+        const orderByParam = setOrderByParam(name);
+        const defaultOptions = options.set("page", page === 0 ? 1 : page);
 
         setSortDir(sortOrder);
 
-        return options
-          .set("order", direction)
-          .set("order_by", Object.keys(customSortFields).includes(name) ? customSortFields[name] : name)
-          .set("page", page === 0 ? 1 : page);
+        if (orderByParam) {
+          return defaultOptions.set("order", direction).set("order_by", orderByParam);
+        }
+
+        return defaultOptions;
       }
       case "changePage":
         return options.set("page", tableState.page >= page ? page + 1 : page - 1);
