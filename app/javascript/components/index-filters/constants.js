@@ -26,10 +26,7 @@ export const HIDDEN_FIELDS = [
   "has_incidents"
 ];
 
-export const PRIMARY_FILTERS = {
-  default: ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"],
-  individual_victims: ["sex", "age"]
-};
+export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
 
 export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
 
@@ -39,3 +36,18 @@ export const MY_CASES_FILTER_NAME = "my_cases";
 
 export const OR_FILTER_NAME = "or";
 export const DEFAULT_SELECTED_RECORDS_VALUE = {};
+
+export const INDIVIDUAL_VICTIM_FILTER_NAMES = Object.freeze([
+  "individual_violations",
+  "individual_age",
+  "individual_sex",
+  "victim_deprived_liberty_security_reasons",
+  "reasons_deprivation_liberty",
+  "victim_facilty_victims_held",
+  "torture_punishment_while_deprivated_liberty"
+]);
+
+export const FILTER_CATEGORY = Object.freeze({
+  incidents: "incidents",
+  individual_victims: "individual_victims"
+});

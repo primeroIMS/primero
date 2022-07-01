@@ -15,6 +15,7 @@ class Incident < ApplicationRecord
   include Kpi::GBVIncident
   include ReportableLocation
   include GenderBasedViolence
+  include MonitoringReportingMechanism
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(
@@ -29,6 +30,7 @@ class Incident < ApplicationRecord
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
+  has_many :individual_victims, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 

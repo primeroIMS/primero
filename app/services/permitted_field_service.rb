@@ -28,6 +28,8 @@ class PermittedFieldService
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+    reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[

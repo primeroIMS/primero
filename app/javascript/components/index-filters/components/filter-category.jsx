@@ -2,15 +2,19 @@ import PropTypes from "prop-types";
 
 import SelectInput from "../../form/fields/select-input";
 import { useI18n } from "../../i18n";
+import { FILTER_CATEGORY } from "../constants";
 
 import css from "./styles.css";
 
 const FilterCategory = ({ formMethods }) => {
   const i18n = useI18n();
-  const options = [
-    { id: "incidents", display_text: i18n.t("filters.categories.violations") },
-    { id: "individual_victims", display_text: i18n.t("filters.categories.individual_victims") }
-  ];
+  const options = Object.values(FILTER_CATEGORY).map(
+    elem => ({
+      id: elem,
+      display_text: i18n.t(`filters.categories.${elem === FILTER_CATEGORY.incidents ? "violations" : elem}`)
+    }),
+    []
+  );
 
   return (
     <div className={css.filterCategory}>

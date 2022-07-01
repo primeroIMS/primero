@@ -5,6 +5,7 @@ import { useDispatch, batch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 import merge from "lodash/merge";
+import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@material-ui/core";
@@ -47,7 +48,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams,
+    shouldUnregister: false
   });
 
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
@@ -101,7 +103,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = compactFilters(data);
+    const payload = omit(compactFilters(data), "filter_category");
 
     resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));
