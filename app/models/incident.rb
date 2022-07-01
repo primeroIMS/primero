@@ -255,13 +255,15 @@ class Incident < ApplicationRecord
     if @violations_to_save.present?
       violations_result += @violations_to_save.select { |violation| violations_ids.include?(violation.id) }
     end
-    violations_result += Violation.where(id: saved_violations) if saved_violations
+    violations_result += Violation.where(id: saved_violations) if saved_violations.present?
 
     violations_result
   end
 
   def violations_already_saved(violations_ids)
-    @violations_to_save.present? ? @violations_to_save.map(&:id) - violations_ids : violations_ids
+    return violations_ids if @violations_to_save.blank?
+
+    @violations_to_save.map(&:id) - (violations_ids.is_a?(Array) ? violations_ids : [violations_ids])
   end
 
   def reporting_location_property

@@ -7,7 +7,7 @@ import { parseExpression } from "../../../../../libs/expressions";
 import FormSectionField from "../../form-section-field";
 import { fieldsToRender } from "../subform-field-array/utils";
 import { SUBFORM_SECTION } from "../../../constants";
-import { buildViolationOptions, getOptionStringsTags } from "../../utils";
+import { buildViolationOptions, getOptionStringsTags, getViolationIdsForAssociations } from "../../utils";
 import { useI18n } from "../../../../i18n";
 import SubformFieldSubform from "../subform-field-subform";
 import uuid from "../../../../../libs/uuid";
@@ -58,7 +58,11 @@ const Component = ({
       const parentUniqueId = parentValues?.unique_id;
 
       if (!isEmpty(values[VIOLATION_IDS_NAME]) || parentUniqueId) {
-        const violationIdsValues = isEmpty(values[VIOLATION_IDS_NAME]) ? [parentUniqueId] : values[VIOLATION_IDS_NAME];
+        const violationIdsValues = getViolationIdsForAssociations(
+          field.name,
+          values[VIOLATION_IDS_NAME],
+          parentUniqueId
+        );
 
         setFieldValue(VIOLATION_IDS_NAME, violationIdsValues);
       }
