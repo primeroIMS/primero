@@ -8,4 +8,8 @@ export const GHN_VIOLATIONS_INDICATORS_IDS = [
   "late_verification_violations",
   "unverified_information_violations"
 ];
-export const REPORTING_LOCATION_INSIGHTS = ["reporting_location", "reporting_location_detention"];
+export const REPORTING_LOCATION_INSIGHTS = [
+  "reporting_location",
+  "reporting_location_detention",
+  "reporting_location_denial"
+];
