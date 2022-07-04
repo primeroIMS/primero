@@ -27,4 +27,22 @@ describe("buildCollapsedFields", () => {
       });
     });
   });
+
+  context("when values does not include any violation", () => {
+    it("should return an object", () => {
+      const result = buildAssociatedViolations("individual_victims", {
+        violation_category: ["killing", "maiming"],
+        killing: [{ unique_id: 1, another_key: "a" }],
+        random: [
+          { unique_id: 2, another_key: "b" },
+          { unique_id: 3, another_key: "c" }
+        ],
+        source: [{ unique_id: 4, another_key: "d" }]
+      });
+
+      expect(result).to.deep.equal({
+        killing: [1]
+      });
+    });
+  });
 });

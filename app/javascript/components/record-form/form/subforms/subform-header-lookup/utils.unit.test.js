@@ -60,5 +60,22 @@ describe("subform-header-lookup/utils.js", () => {
 
       expect(utils.getMultiSelectValues(values, source)).to.be.equals("Test 1, Test 2");
     });
+
+    it("returns empty string when values does exist in the source", () => {
+      const source = [
+        {
+          id: "test_1",
+          display_text: "Test 1"
+        },
+        {
+          id: "test_2",
+          display_text: "Test 2"
+        }
+      ];
+
+      const randomValues = ["random_value"];
+
+      expect(utils.getMultiSelectValues(randomValues, source)).to.be.equals("");
+    });
   });
 });
