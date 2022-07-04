@@ -333,7 +333,7 @@ module Exporters
         model = @record_with_all_fields.first
         expect(workbook.sheet(0).row(2)).to eq(
           [
-            model.incident_id, '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
+            '111-22-ir', '111-222', 'test01', I18n.l(model.date_of_first_report), I18n.l(model.incident_date),
             I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
