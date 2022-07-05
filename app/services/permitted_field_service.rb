@@ -28,6 +28,9 @@ class PermittedFieldService
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+  ].freeze
+
+  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
     individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
   ].freeze
@@ -85,6 +88,7 @@ class PermittedFieldService
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
+    @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
