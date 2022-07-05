@@ -1411,7 +1411,7 @@ en:
       unknown: Unknown
       verification_status: Verification Status
       violence_type: Violence Type
-      armed_force_group_name: Armed Force Group Name
+      armed_force_group_party_name: Armed force, group, or other party
       armed_force_group_type: Armed Force Group Type
       violations: Violations
     register_new_incident: New Incident

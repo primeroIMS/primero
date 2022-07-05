@@ -579,6 +579,45 @@ describe Incident do
     end
   end
 
+  describe '#armed_force_group_party_names', search: true do
+    before do
+      @incident = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      @incident2 = Incident.create!(data: { incident_date: Date.today, status: 'open' })
+      Violation.create!(
+        incident_id: @incident.id,
+        perpetrators: [
+          Perpetrator.new(data: { armed_force_group_party_name: 'armed_force_1' })
+        ]
+      )
+      Violation.create!(
+        incident_id: @incident.id,
+        perpetrators: [
+          Perpetrator.new(data: { armed_force_group_party_name: 'other' })
+        ]
+      )
+      Violation.create!(
+        incident_id: @incident2.id,
+        perpetrators: [
+          Perpetrator.new(data: { armed_force_group_party_name: 'armed_force_1' })
+        ]
+      )
+      Incident.reindex
+      Sunspot.commit
+    end
+
+    it 'can find an incident by armed_force_group_party_names' do
+      search_result = SearchService.search(
+        Incident,
+        filters: [
+          SearchFilters::Value.new(field_name: 'armed_force_group_party_names', value: 'other')
+        ]
+      ).results
+      expect(search_result).to have(1).incident
+      expect(search_result.first.incident_id).to eq(@incident.incident_id)
+      expect(search_result.first.incident_code).to eq(@incident.incident_code)
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})

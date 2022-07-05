@@ -29,6 +29,7 @@ class Incident < ApplicationRecord
   )
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
+  has_many :perpetrators, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 
@@ -87,6 +88,7 @@ class Incident < ApplicationRecord
     string :verification_status, multiple: true do
       verification_status_list
     end
+    string :armed_force_group_party_names, multiple: true
   end
 
   after_initialize :set_unique_id
@@ -272,6 +274,10 @@ class Incident < ApplicationRecord
     return [] unless violations.any?
 
     violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
+  end
+
+  def armed_force_group_party_names
+    perpetrators.pluck(Arel.sql("perpetrators.data->>'armed_force_group_party_name'")).uniq.compact
   end
 end
 # rubocop:enable Metrics/ClassLength

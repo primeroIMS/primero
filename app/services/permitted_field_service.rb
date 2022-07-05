@@ -28,6 +28,7 @@ class PermittedFieldService
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    armed_force_group_party_names
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
