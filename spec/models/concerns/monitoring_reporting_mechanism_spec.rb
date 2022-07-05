@@ -2,7 +2,11 @@
 
 require 'rails_helper'
 
-describe MonitoringReportingMechanism do
+describe MonitoringReportingMechanism, search: true do
+  before do
+    clean_data(Incident, Violation, IndividualVictim)
+  end
+
   let(:incident_1) do
     Incident.create!(
       violations: [
@@ -21,7 +25,14 @@ describe MonitoringReportingMechanism do
               }
             )
           ]
-        ),
+        )
+      ]
+    )
+  end
+
+  let(:incident_2) do
+    Incident.create!(
+      violations: [
         Violation.new(
           type: 'killing',
           individual_victims:
@@ -58,31 +69,89 @@ describe MonitoringReportingMechanism do
     )
   end
 
-  it 'returns the violation type for the individual victims' do
-    expect(incident_1.individual_victims_violation_types).to match_array(%w[killing maiming])
+  before do
+    incident_1
+    incident_2
+    Incident.reindex
+    Sunspot.commit
   end
 
-  it 'returns the age for the individual victims' do
-    expect(incident_1.individual_victims_age).to match_array([10, 3, 15])
+  it 'can find incidents where individual victims are linked to a violation type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'individual_violations', value: 'maiming')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
   end
 
-  it 'returns the sex for the individual victims' do
-    expect(incident_1.individual_victims_sex).to match_array(%w[male female])
+  it 'can find incidents where individual victims have an age' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'individual_age', value: '10')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_1.id)
   end
 
-  it 'returns the victim_deprived_liberty_security_reasons for the individual victims' do
-    expect(incident_1.individual_victims_deprived_liberty_security_reasons).to match_array(%w[yes no unknown])
+  it 'can find incidents where individual victims have a sex' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'individual_sex', value: 'female')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
   end
 
-  it 'returns the reasons_deprivation_liberty for the individual victims' do
-    expect(incident_1.individual_victims_reasons_deprivation_liberty).to match_array(%w[reason_1 reason_2])
+  it 'can find incidents where individual victims have a victim_deprived_liberty_security_reasons' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'victim_deprived_liberty_security_reasons', value: 'unknown')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
   end
 
-  it 'returns the facilty_victims_held for the individual victims' do
-    expect(incident_1.individual_victims_facilty_victims_held).to match_array(%w[facility_1 facility_2])
+  it 'can find incidents where individual victims have a reasons_deprivation_liberty' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'reasons_deprivation_liberty', value: 'reason_1')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_1.id)
   end
 
-  it 'returns the torture_punishment_while_deprivated_liberty for the individual victims' do
-    expect(incident_1.individual_victims_torture_punishment_while_deprivated_liberty).to match_array(%w[yes no])
+  it 'can find incidents where individual victims have a facilty_victims_held' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'victim_facilty_victims_held', value: 'facility_2')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
+  end
+
+  it 'can find incidents where individual victims have a torture_punishment_while_deprivated_liberty' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'torture_punishment_while_deprivated_liberty', value: 'no'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_1.id)
   end
 end
