@@ -11,6 +11,9 @@ class Violation < ApplicationRecord
   TYPES = %w[killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use
              denial_humanitarian_access].freeze
   MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
+  VERIFICATION_STATUS = %w[
+    verified report_pending_verification not_mrm verification_found_that_incident_did_not_occur
+  ].freeze
 
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims

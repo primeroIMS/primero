@@ -139,6 +139,10 @@ const Component = ({
       foundOption = filterOptions.find(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
     }
 
+    if (!foundOption) {
+      return option;
+    }
+
     return getOptionName(foundOption, i18n);
   };
 

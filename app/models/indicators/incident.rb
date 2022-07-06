@@ -4,18 +4,22 @@
 module Indicators
   # Incident Class for Indicators
   class Incident
-    OPEN_CLOSED_ENABLED = [
+    OPEN_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
-      SearchFilters::ValueList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
+      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
-    VIOLATIONS_CATEGORY_VERIFICATION_STATUS = PivotedIndicator.new(
-      name: 'violations_category_verification_status',
-      record_model: ::Incident,
-      pivots: %w[violation_category verification_status],
-      scope: OPEN_CLOSED_ENABLED,
-      scope_to_owned_by_groups: true
-    ).freeze
+    def self.violation_category_verification_status
+      Violation::TYPES.each_with_object([]) do |violation_type, acc|
+        Violation::VERIFICATION_STATUS.each do |verification_status|
+          indicator_name = "#{violation_type}_#{verification_status}"
+          acc << QueriedIndicator.new(
+            name: indicator_name, record_model: ::Incident, scope_to_owned_by_groups: true,
+            queries: OPEN_ENABLED + [SearchFilters::Value.new(field_name: indicator_name, value: true)]
+          )
+        end
+      end
+    end
 
     def self.violation_category_region(role)
       admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
@@ -24,7 +28,7 @@ module Indicators
         name: 'violations_category_region',
         record_model: ::Incident,
         pivots: ["incident_location#{admin_level}", 'violation_category'],
-        scope: OPEN_CLOSED_ENABLED,
+        scope: OPEN_ENABLED,
         scope_to_owned_by_groups: true
       ).freeze
     end

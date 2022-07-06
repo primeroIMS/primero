@@ -1,7 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 import isObject from "lodash/isObject";
 
-import { APPROVALS, APPROVALS_TYPES } from "../../config";
+import { APPROVALS, APPROVALS_TYPES, VIOLATION_TYPE } from "../../config";
 
 import { FILTER_TYPES } from "./constants";
 import {
@@ -63,4 +63,55 @@ export const buildNameFilter = (item, i18n, approvalsLabels) => {
     default:
       return i18n.t(item);
   }
+};
+
+export const combineFilters = data => {
+  if (data.violation_category && data.verification_status) {
+    const combinedFilters = data.violation_category.reduce((acc, violationCategory) => {
+      const filterCombinations = data.verification_status.reduce((acc2, verificationStatus) => {
+        return { ...acc2, [`${violationCategory}_${verificationStatus}`]: ["true"] };
+      }, {});
+
+      return { ...acc, ...filterCombinations };
+    }, {});
+
+    const combined = { ...data, ...combinedFilters };
+
+    delete combined.verification_status;
+    delete combined.violation_category;
+
+    return combined;
+  }
+
+  return data;
+};
+
+export const splitFilters = data => {
+  const violationTypes = Object.values(VIOLATION_TYPE);
+
+  return Object.entries(data).reduce((acc, [key, value]) => {
+    const violationCategory = violationTypes.find(violationType => key.startsWith(violationType));
+
+    if (violationCategory) {
+      const verificationStatus = key.replace(`${violationCategory}_`, "");
+
+      if (verificationStatus) {
+        const violationCategories = isEmpty(acc.violation_category) ? [] : acc.violation_category;
+
+        if (!violationCategories.includes(violationCategory)) {
+          violationCategories.push(violationCategory);
+        }
+
+        const verificationStatuses = isEmpty(acc.verification_status) ? [] : acc.verification_status;
+
+        if (!verificationStatuses.includes(verificationStatus)) {
+          verificationStatuses.push(verificationStatus);
+        }
+
+        return { ...acc, violation_category: violationCategories, verification_status: verificationStatuses };
+      }
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
 };

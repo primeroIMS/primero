@@ -19,7 +19,7 @@ import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 import { useMemoizedSelector } from "../../libs";
 
-import { filterType, compactFilters } from "./utils";
+import { filterType, compactFilters, splitFilters, combineFilters } from "./utils";
 import {
   DEFAULT_SELECTED_RECORDS_VALUE,
   HIDDEN_FIELDS,
@@ -56,7 +56,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : splitFilters(queryParams)
   });
 
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
@@ -197,7 +197,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = compactFilters(data);
+    const payload = combineFilters(compactFilters(data));
 
     resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));

@@ -83,6 +83,7 @@ class PermittedFieldService
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
+    @permitted_field_names += permitted_mrm_filter_field_names if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
@@ -198,6 +199,14 @@ class PermittedFieldService
   def permitted_mrm_entities_schema
     (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
       schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
+    end
+  end
+
+  def permitted_mrm_filter_field_names
+    Violation::TYPES.each_with_object([]) do |violation_type, acc|
+      Violation::VERIFICATION_STATUS.each do |verification_status|
+        acc << "#{violation_type}_#{verification_status}"
+      end
     end
   end
 end
