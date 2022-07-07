@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-describe ManagedReports::Indicators::AbductedStatus do
+describe ManagedReports::Indicators::AbductionReasons do
   before do
-    clean_data(Incident, Violation, IndividualVictim, UserGroup, User, Agency, Role)
+    clean_data(Incident, Violation, UserGroup, User, Agency, Role)
 
     permissions = [
       Permission.new(
@@ -99,7 +99,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 },
-        abduction_regained_freedom: 'false'
+        abduction_purpose_single: 'extortion'
       },
       incident_id: incident1.id
     )
@@ -107,7 +107,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 },
-        abduction_regained_freedom: 'unknown'
+        abduction_purpose_single: 'punishment'
       },
       incident_id: incident2.id
     )
@@ -122,8 +122,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
-        abduction_regained_freedom: 'true',
-        abduction_regained_freedom_how: ['escape']
+        abduction_purpose_single: 'forced_labour'
       },
       incident_id: incident4.id
     )
@@ -131,71 +130,68 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 5, 'unknown': 2, 'total': 9 },
-        abduction_regained_freedom: 'true',
-        abduction_regained_freedom_how: ['payment_of_ransom']
+        abduction_purpose_single: 'extortion'
       },
       incident_id: incident5.id
     )
   end
 
   it 'returns data for violation tally indicator' do
-    abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(
+    abduction_reasons_data = ManagedReports::Indicators::AbductionReasons.build(
       nil,
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction') }
     ).data
 
-    expect(abducted_status_data).to match_array(
+    expect(abduction_reasons_data).to match_array(
       [
-        { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
-        { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 },
-        { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 },
-        { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 }
+        { id: 'extortion', boys: 3, girls: 7, total: 15, unknown: 5 },
+        { id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 },
+        { id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }
       ]
     )
   end
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
-      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@self_user).data
+      abduction_reasons_data = ManagedReports::Indicators::AbductionReasons.build(@self_user).data
 
-      expect(abducted_status_data).to match_array(
+      expect(abduction_reasons_data).to match_array(
         [
-          { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }
+          { id: 'extortion', boys: 1, girls: 2, total: 6, unknown: 3 }
         ]
       )
     end
 
     it 'returns group records for a group scope' do
-      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@group_user).data
+      abduction_reasons_data = ManagedReports::Indicators::AbductionReasons.build(@group_user).data
 
-      expect(abducted_status_data).to match_array(
+      expect(abduction_reasons_data).to match_array(
         [
-          { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
-          { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
-          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
+          { id: 'extortion', boys: 2, girls: 5, total: 9, unknown: 2 },
+          { id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 },
+          { id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }
         ]
       )
     end
 
     it 'returns agency records for an agency scope' do
-      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@agency_user).data
+      abduction_reasons_data = ManagedReports::Indicators::AbductionReasons.build(@agency_user).data
 
-      expect(abducted_status_data).to match_array(
+      expect(abduction_reasons_data).to match_array(
         [
-          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
+          { id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }
         ]
       )
     end
 
     it 'returns all records for an all scope' do
-      abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(@all_user).data
+      abduction_reasons_data = ManagedReports::Indicators::AbductionReasons.build(@all_user).data
 
-      expect(abducted_status_data).to match_array(
+      expect(abduction_reasons_data).to match_array(
         [
-          { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
-          { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 },
-          { boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 },
-          { boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }
+          { id: 'extortion', boys: 3, girls: 7, total: 15, unknown: 5 },
+          { id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 },
+          { id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }
         ]
       )
     end
@@ -204,7 +200,7 @@ describe ManagedReports::Indicators::AbductedStatus do
   describe 'grouped by' do
     context 'when is year' do
       it 'should return results grouped by year' do
-        data = ManagedReports::Indicators::AbductedStatus.build(
+        data = ManagedReports::Indicators::AbductionReasons.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
@@ -219,13 +215,13 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }] },
-            { group_id: 2021, data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
+            { group_id: 2020, data: [{ id: 'extortion', boys: 1, girls: 2, total: 6, unknown: 3 }] },
+            { group_id: 2021, data: [{ id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }] },
             {
               group_id: 2022,
               data: [
-                { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
-                { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }
+                { id: 'extortion', boys: 2, girls: 5, total: 9, unknown: 2 },
+                { id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 }
               ]
             }
           ]
@@ -235,7 +231,7 @@ describe ManagedReports::Indicators::AbductedStatus do
 
     context 'when is month' do
       it 'should return results grouped by month' do
-        data = ManagedReports::Indicators::AbductedStatus.build(
+        data = ManagedReports::Indicators::AbductionReasons.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
@@ -250,14 +246,14 @@ describe ManagedReports::Indicators::AbductedStatus do
 
         expect(data).to match_array(
           [
-            { group_id: '2021-08', data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
+            { group_id: '2021-08', data: [{ id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
             { group_id: '2022-01', data: [] },
-            { group_id: '2022-02', data: [{ boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 }] },
-            { group_id: '2022-03', data: [{ boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }] }
+            { group_id: '2022-02', data: [{ id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 }] },
+            { group_id: '2022-03', data: [{ id: 'extortion', boys: 2, girls: 5, total: 9, unknown: 2 }] }
           ]
         )
       end
@@ -265,7 +261,7 @@ describe ManagedReports::Indicators::AbductedStatus do
 
     context 'when is quarter' do
       it 'should return results grouped by quarter' do
-        data = ManagedReports::Indicators::AbductedStatus.build(
+        data = ManagedReports::Indicators::AbductionReasons.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
@@ -281,19 +277,16 @@ describe ManagedReports::Indicators::AbductedStatus do
         expect(data).to match_array(
           [
             { group_id: '2020-Q2', data: [] },
-            { group_id: '2020-Q3', data: [{ boys: 1, girls: 2, id: 'still_being_held', total: 6, unknown: 3 }] },
+            { group_id: '2020-Q3', data: [{ id: 'extortion', boys: 1, girls: 2, total: 6, unknown: 3 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ boys: 1, girls: 1, id: 'unknown', total: 3, unknown: 1 }] },
+            { group_id: '2021-Q3', data: [{ id: 'punishment', boys: 1, girls: 1, total: 3, unknown: 1 }] },
             { group_id: '2021-Q4', data: [] },
-            {
-              group_id: '2022-Q1',
-              data: [
-                { boys: 2, girls: 3, id: 'escaped', total: 7, unknown: 2 },
-                { boys: 2, girls: 5, id: 'released', total: 9, unknown: 2 }
-              ]
-            }
+            { group_id: '2022-Q1', data: [
+              { id: 'extortion', boys: 2, girls: 5, total: 9, unknown: 2 },
+              { id: 'forced_labour', boys: 2, girls: 3, total: 7, unknown: 2 }
+            ] }
           ]
         )
       end
