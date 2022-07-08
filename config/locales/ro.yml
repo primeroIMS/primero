@@ -133,7 +133,7 @@ ro:
     clear: Golire
     close: Închidere
     continue: Continuă
-    create_case: Creare caz
+    create_case: Creare înregistrare
     create_incident: Creare incident
     create_new_record: Creează un nou%{model}
     delete: Șterge
@@ -179,7 +179,7 @@ ro:
     save_changes: Salvare modificări
     select: Selectează
     send: Trimite
-    sort_by_case: Cazuri
+    sort_by_case: Înregistrări
     sort_by_tr: Solicitări urmărire
     sync: Sincronizare
     submit: Trimite
@@ -190,12 +190,12 @@ ro:
     update: Actualizat
     view: Vizualizare
     view_flags_history: Vizualizare istoric
-    return_to_case: Înapoi la caz
+    return_to_case: Înapoi la înregistrare
   case:
-    label: Caz
-    create_new_case: Creare caz nou
+    label: Înregistrare
+    create_new_case: Creare înregistrare nouă
     add_new: Adaugă nou
-    back_to_case: Înapoi la caz
+    back_to_case: Înapoi la înregistrare
     back_to_results: Înapoi la rezultate
     back_to_search: Înapoi la Căutare
     search_by: Căutare în funcție de
@@ -207,22 +207,22 @@ ro:
     enter_id_number: Introdu ID-ul pentru a căuta o înregistrare existentă
     id_search_no_results: Nu există corespondent în sistem pentru „%{search_query}”. Vă rugăm să creați o înregistrare nouă.
     messages:
-      disabled: Cazul este dezactivat
-      update_success: 'Cazul %{record_id}a fost actualizat cu succes.'
-      update_success_queue: 'Cazul %{record_id}a fost actualizat cu succes în fundal.'
+      disabled: Înregistrarea este dezactivată
+      update_success: 'Înregistrarea %{record_id}a fost actualizată cu succes.'
+      update_success_queue: 'Înregistrarea %{record_id}a fost actualizată cu succes în fundal.'
       creation_success: 'Registru cazuri creat cu succes.'
       creation_success_queue: 'Registru cazuri creat cu succes în fundal.'
       already_matched: Acest solicitant a fost deja asociat cu cazul tău.
-      already_matched_not_current_case: Există deja un caz în sistem care se potrivește cu acest solicitant.
-      not_found_case: Nu au fost identificate cazuri care să se potrivească cu "%{search_value}". Creare caz nou.
+      already_matched_not_current_case: Există deja o înregistrare în sistem care se potrivește cu acest solicitant.
+      not_found_case: Nu au fost identificate cazuri care să se potrivească cu "%{search_value}". Creare înregistrare nouă.
       introductory_sentence: Te rugăm să incluzi consimțământul persoanei de a primi servicii asociate managementului de caz și de a avea datele stocate în Primero.
       consent_agreements_required: Te rugăm să selectați cel puțin o opțiune din acordurile de consimțământ.
       legitimate_basis_required: Te rugăm să selectezi cel puțin o opțiune din clasificările legitime de bază.
-    save: Salvare caz
-    save_text: Înainte de a continua, salvează modificările aduse cazului.
-    skip_and_create: Omiteți și creați un caz nou
-    search_existing: Căutare cazuri existente
-    search_helper_text: De ce? Pentru a preveni crearea de cazuri duplicate.
+    save: Salvare înregistrare
+    save_text: Înainte de a continua, salvează modificările aduse înregistrării.
+    skip_and_create: Omiteți și creați o înregistrare nouă
+    search_existing: Căutare înregistrări existente
+    search_helper_text: De ce? Pentru a preveni crearea de înregistrări duplicat.
     consent_agreements: Selectează toate acordurile de consimțământ care se aplică
     legitimate_basis: Selectează toate clasificările legitime de bază care se aplică.
     workflow:
@@ -260,13 +260,13 @@ ro:
     approved_success_closure: '%{approval_label}- Aprobat'
     approved_success_gbv_closure: '%{approval_label}- Aprobat'
     assessment: Evaluare
-    case_opening_date: Dată deschidere caz
+    case_opening_date: Dată deschidere înregistrare
     case_plan: Plan servicii
     case_worker_code: Cod responsabil caz
     clear_filter: Golire
     close_dialog: Selectând OK vei modifica statusul cazului în Închis.
-    close_dialog_title: Închidere caz
-    close_success: Caz închis cu succes
+    close_dialog_title: Închidere înregistrare
+    close_success: Înregistrare închisă cu succes
     closure: Închidere
     date_of_birth: Data nașterii
     disable_dialog: Selectând OK vei modifica statusul cazului în Dezactivat.
@@ -278,8 +278,8 @@ ro:
     export: Export
     mark_for_offline:
       title: Marchează pentru offline
-      text: Sigur dorești marcarea acestor cazuri pentru a fi utilizate atunci când ești offline?
-      success: Cazuri marcate cu succes pentru uz offline
+      text: Sigur dorești marcarea acestor înregistrări pentru a fi utilizate atunci când ești offline?
+      success: Înregistrări marcate cu succes pentru uz offline
     filter_by:
       3month_inactivity: Pentru 3+ luni
       action_plan: Plan intervenții
@@ -296,14 +296,14 @@ ro:
         rejected: Respins
       bia: BIA/ Evaluare a interesului superior al copilului
       by_date: În funcție de Dată
-      case_open_date: Dată deschidere caz
+      case_open_date: Dată deschidere înregistrare
       case_plan: Plan servicii
       closed: Închis
       closure: Închidere
       current_location: Locația curentă
       date: Data
       displacement_status: Status strămutare
-      district: District
+      district: Localitate
       duplicate: Duplicat
       enabled_disabled: Activat/ Dezactivat
       female: Feminin
@@ -316,34 +316,34 @@ ro:
       medium: Mediu
       mobile: Mobil
       mobile_label: Marcat pentru mobil?
-      my_cases: Cazurile mele
+      my_cases: Înregistrările mele
       no_action: Nicio acțiune
       no_activity: Nicio activitate
       open: Deschide
       other: Altceva
       photo: Fotografie
       photo_label: Are fotografie?
-      protection_concerns: Preocupări protecție
+      protection_concerns: Suspiciuni risc
       protection_status: Status Protecție
       record_state: Stare Înregistrare
-      referred_cases: Cazuri referite către mine
+      referred_cases: Înregistrări referite către mine
       registration_date: Dată înregistrare
       risk_level: Nivel risc
       sex: Sex
-      social_worker: Asistentul social/ responsabilul de caz
+      social_worker: Utilizator
       status: Status
       transferred: Transferat
       type_of_risk: Tip risc
-      urgent_protection_concern: Preocupări protecție urgente
+      urgent_protection_concern: Suspiciuni risc urgente
       user_group: Grup utilizatori
-      workflow: Cazuri în funcție de Fluxuri
+      workflow: Înregistrări în funcție de Fluxuri
     flag_summary: Sumar marcaje
     full_name: Nume întreg
     gbv_closure: Închidere GBV/ Violență pe bază pe gen
     hide_name: Ascundere Nume
     hide_name_error: A apărut o eroare la salvarea modificărilor. Te rugăm să încerci din nou.
     id: ID#
-    label: Cazuri
+    label: Înregistrări
     my_filters: Filtrele mele
     name: Nume
     notes_dialog_title: Adăugare notițe
@@ -359,7 +359,7 @@ ro:
     photo: Fotografie
     photos: Fotografie
     quick_view:
-      tracing_message: 'Notă: Există o potrivire în sistem - un solicitant care caută acest copil. Contactați asistentul social asociat acestei înregistrări pentru pașii următori, dacă copilul dorește.'
+      tracing_message: 'Notă: Există o potrivire în sistem - un solicitant care caută acest copil. Contactați utilizatorul asociat acestei înregistrări pentru pașii următori, dacă copilul dorește.'
     referral_done: Selectând „Finalizat” ai încheiat partea de referire asociată acestui caz. După ce selectezi opțiunea „Finalizat” nu vei mai avea acces la această înregistrare.
     referral_done_success: Referire făcută
     referral_accepted_header: Acceptare referire
@@ -367,7 +367,7 @@ ro:
     referral_accepted_success: Referire acceptată
     referral_rejected: Selectând „Resping” este echivalent cu faptul că nu ești pregătit, pentru moment, să îți asumi responsabilitatea pentru această referire. Te rugăm să introduci un motiv pentru respingerea acestei referiri; odată selectată opțiunea „Resping”, nu vei mai avea acces la detaliile cazului.
     referral_rejected_success: Referire respinsă
-    register_new_case: Caz nou
+    register_new_case: Înregistrare nouă
     registration_date: Dată înregistrare
     rejected_success_action_plan: '%{approval_label}- Neaprobat'
     rejected_success_assessment: '%{approval_label}- Neaprobat'
@@ -375,9 +375,9 @@ ro:
     rejected_success_case_plan: '%{approval_label}- Neaprobat'
     rejected_success_closure: '%{approval_label}- Neaprobat'
     rejected_success_gbv_closure: '%{approval_label}- Neaprobat'
-    reopen_dialog: Selectând OK vei modifica statusul cazului în Deschis.
-    reopen_dialog_title: Redeschide caz
-    reopen_success: Caz redeschis cu succes
+    reopen_dialog: Selectând OK vei modifica statusul înregistrării în Deschis.
+    reopen_dialog_title: Redeschide înregistrare
+    reopen_success: Înregistrare redeschisă cu succes
     request_approval_failure: S-a produs o eroare, te rugăm să contactezi echipa de suport.
     request_approval_select: Solicită aprobare pentru
     request_approval_success_action_plan: Aprobare solicitată pentru formularul %{approval_label}.
@@ -395,11 +395,11 @@ ro:
     revoke_message: Selecția "Revocare" elimină accesul %{transition_type}la caz.
     revoke_success_message: Caz %{case_id}%{transition_type}către %{recipient_username}revocată.
     save_filter: Salvează
-    selected_all_records: Selectează toate %{total_records}cazuri care se potrivesc cu această interogare.
+    selected_all_records: Selectează toate %{total_records}înregistrări care se potrivesc cu această interogare.
     selected_records: '%{select_records} caz(uri) selectat(e)'
     sex: Sex
-    show_case: 'ID caz: %{short_id}'
-    social_worker: Asistent social
+    show_case: 'ID copil: %{short_id}'
+    social_worker: Utilizator
     status: Status
     summary:
       label: Sumar
@@ -451,8 +451,8 @@ ro:
   children:
     selectable_date_options:
       assessment_requested_on: Dată Evaluare
-      closure_approved_date: 'Dată închidere caz'
-      created_at: Dată deschidere caz
+      closure_approved_date: 'Dată închidere înregistrare'
+      created_at: Dată deschidere înregistrare
       date_case_plan_initiated: Dată plan servicii
       date_of_creation: Dată creare
       registration_date: Dată înregistrare
@@ -491,7 +491,7 @@ ro:
       organization: Organizație
       other_information: Alte informații
       phone: Număr de telefon
-      position: Poziție
+      position: Funcție
       primero_version: Versiunea Primero
       support_forum: Forum suport
       system_version: Versiunea de sistem
@@ -508,7 +508,7 @@ ro:
   dashboard:
     activity: Activitate
     admin_only: Selectează %{links}pentru a face modificări în aplicație.
-    all_cases: Toate cazurile
+    all_cases: Toate înregistrările
     all_services_implemented: Toate serviciile implementate
     and: 'și'
     approval_action_plan_approved: Aprobat
@@ -544,27 +544,27 @@ ro:
     cases_by_social_worker_new_or_updated: Nou și Actualizat
     case_id: '#ID caz'
     case_management_service: Serviciu management de caz
-    case_overview: Cazurile mele
+    case_overview: Înregistrările mele
     case_plan: Plan de servicii
-    case_risk: Cazuri în funcție de Nivelul evaluării
+    case_risk: Înregistrări în funcție de Nivelul de risc
     case_stat_by_approval_type: Aprobări
-    case_stat_by_assessment_level: Cazuri în funcție de Nivelul evaluării
+    case_stat_by_assessment_level: Înregistrări în funcție de Nivelul de risc
     case_stat_referrals: Referiri
-    case_stats: Cazuri
+    case_stats: Înregistrări
     case_worker: Responsabil de caz
-    cases_by_social_worker: Cazuri în funcție de Asistent social
+    cases_by_social_worker: Înregistrări în funcție de Utilizator
     cases_by_task_overdue: Sarcini restante
-    cases_by_workflow: Cazuri în funcție de Fluxuri
-    cases_this_week: Cazuri săptămâna curentă
-    cases_to_assign: Cazuri de asignat
+    cases_by_workflow: Înregistrări în funcție de Fluxuri
+    cases_this_week: Înregistrări săptămâna curentă
+    cases_to_assign: Înregistrări de asignat
     closed: Închis
     closed_last_week: Închis (săptămâna trecută)
     closed_this_week: Închis (săptămâna curentă)
     comprehensive_need_intervention: Răspuns cuprinzător
     count_waiting_for_acceptance_transfers: Ai %{stat}transferuri care așteaptă aprobare.
     current_owner: Proprietar actual
-    dash_case_incident_overview: Cazurile mele
-    dash_group_overview: Cazurile din Grupul meu
+    dash_case_incident_overview: Înregistrările mele
+    dash_group_overview: Înregistrările din Grupul meu
     dash_shared_from_my_team: Partajat din Echipa mea
     dash_shared_with_me: Partajat cu Mine
     dash_shared_with_my_team: Partajat cu Echipa mea
@@ -579,7 +579,7 @@ ro:
     flagged_by: 'Marcat de către:'
     flagged_by_me: Marcat de către Mine
     flagged_by_other: Marcat de către Altcineva
-    flagged_cases: Cazuri marcate
+    flagged_cases: Înregistrări marcate
     follow_up: Revenire
     forms: FORMULARE
     geographic_area: Zona geografică
@@ -599,12 +599,12 @@ ro:
     match_result: Potrivire rezultate
     medium_level: Mediu
     medium_risk: Prioritate medie
-    missed_cases: Cazuri lipsă
+    missed_cases: Înregistrări lipsă
     name: Nume
     name_or_survivor_code: Nume sau cod supraviețuitor
     near_deadline: Aproape de deadline
     new: Nou și Actualizat
-    new_child_assigned_to_you: Noi Cazuri asignate către Tine
+    new_child_assigned_to_you: Noi Înregistrări asignate către Tine
     new_incident: Incidente noi
     new_incident_assigned_to_you: Noi incidente asignate
     new_last_week: Nou (săptămâna trecută)
@@ -615,7 +615,7 @@ ro:
     no_action_risk: Nicio acțiune
     no_case_stats: Nu sunt statistici pentru Caz
     no_caseworker_data: Nu sunt date despre Responsabil caz
-    no_flagged_child: Niciun caz marcat
+    no_flagged_child: Nicio înregistrare marcată
     no_flagged_incident: Incidente nemarcate
     no_open_incidents: Incidente nedeschise
     no_overdue_activities: Fără activități restante
@@ -626,27 +626,27 @@ ro:
     number_of_violations: Număr abuzuri
     number_of_violations_verified: Abuzuri verificate
     open: Deschide
-    open_cases: Cazuri deschise
+    open_cases: Înregistrări deschise
     open_incidents: Incidente deschise
     outstanding_transfers: Transferuri restante
     overdue_activities: Activități restante
-    overdue_cases_to_assign: Cazuri restante de asignat
-    overdue_cases_to_assign_high: Ai aceste cazuri de mai mult de 1 oră
-    overdue_cases_to_assign_low: Ai aceste cazuri de mai mult de 3 ore
+    overdue_cases_to_assign: Înregistrări restante de asignat
+    overdue_cases_to_assign_high: Ai aceste înregistrări de mai mult de 1 oră
+    overdue_cases_to_assign_low: Ai aceste înregistrări de mai mult de 3 ore
     overview: Sumar
     pending: În așteptare
     pending_approvals: Aprobări în așteptare
     pending_transfers: Transferuri în așteptare
-    protection_concern: Preocupare protecție
-    protection_concerns: Preocupări protecție
+    protection_concern: Suspiciune risc
+    protection_concerns: Suspiciuni risc
     range12+: 12+
     range4: 0-4
     range4_8: 4-8
     range8_12: 8-12
     recent_activities: Activități recente
-    recently_flagged_child: Cazuri marcate recent
+    recently_flagged_child: Înregistrări marcate recent
     recently_flagged_incident: Incidente marcate recent
-    referrals_by_social_worker: Referiri în funcție de Asistent social
+    referrals_by_social_worker: Referiri în funcție de Utilizator
     registration: Înregistrare
     rejected: Respins
     rejected_transfers: Transferuri respinse
@@ -668,21 +668,21 @@ ro:
     shared_with_others_pending_transfers: Transferuri în așteptare
     shared_with_others_referrals: Referiri
     shared_with_others_rejected_transfers: Transferuri respinse
-    status_of_cases: Status Cazuri
+    status_of_cases: Status Înregistrări
     system_user: Sistem
     total: Total
-    total_cases: Total Cazuri
+    total_cases: Total Înregistrări
     total_referred: Total Referiri
     tr_stats: Solicitări urmărire
     transers_awaiting_acceptance: Tranferuri pentru acceptare
-    transfers_by_social_worker: Transferuri în funcție de Asistent social
+    transfers_by_social_worker: Transferuri în funcție de Utilizator
     users: Iconiță SETĂRI
     violence_type: Tip violență
     with_incidents: Cu incidente
     with_new_incidents: Cu noi incidente
     without_incidents: Fără incidente
     workflow: Fluxuri
-    workflow_team: Fluxuri - Cazuri echipe
+    workflow_team: Fluxuri - Înregistrări echipe
     you_have: 'Ai'
   disabled:
     status:
@@ -697,7 +697,7 @@ ro:
     approval_response_subject: 'Caz: %{id} - Răspuns aprobare'
     referral: '%{user}de la %{agency}a referit %{record_type}către tine: %{record_id}pentru %{service_type}.'
     transfer: '%{user}a transferat %{record_type}către tine: %{record_id}.'
-    transfer_request_subject: Transfer solicitat pentru unul din cazurile tale.
+    transfer_request_subject: Transfer solicitat pentru una din înregistrările tale.
     transfer_subject: '%{record_type}: %{id}- Transfer'
     referral_subject: '%{record_type}: %{id} - Referire'
     transfer_request: 'Utilizatorul Primero %{user}de la %{agency}solicită transferul proprietății asupra%{record_type} înregistrarea %{record_id} pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
@@ -888,8 +888,8 @@ ro:
       date: Data
       recipient_name: Nume beneficiar
       recipient_agency: Organizație/ instituție Beneficiar
-      caseworker_name: Nume responsabil de caz
-      caseworker_agency: Organizație/ instituție responsabil de caz
+      caseworker_name: Nume utilizator
+      caseworker_agency: Organizație/ instituție utilizator
     photowall:
       all: Galerie foto
       flag_suspect_record: Înregistrare marcată sau suspectă
@@ -897,7 +897,7 @@ ro:
       one: Galerie foto
       reunited: Reunificare
       selected: Selecție pentru galeria foto
-      success_message: Creare galerie foto %{file_name}. Cazurile fără fotografii nu vor fi incluse aici.
+      success_message: Creare galerie foto %{file_name}. Înregistrările fără fotografii nu vor fi incluse aici.
     printed: 'Printat: %{date}'
     queueing: Generare fișier export %{file_name}
     selected_xls:
@@ -910,7 +910,7 @@ ro:
       female_abbreviation: F
       headers:
         age: Vârsta
-        case_status: Status caz
+        case_status: Status înregistrare
         causes_of_separation: Cazuri de separare
         country_of_origin: Țara de origine
         cpims_code: Cod CPIMS
@@ -924,12 +924,12 @@ ro:
         locations_by_level: Adresa (tabără, bloc, adăpost, coordonate GPS etc.)
         long_id: ID lung
         moha_id: ID MOHA (Ministerul Afacerilor Interne)
-        name_of_caregiver: Numele întreg al îngrijitorului
+        name_of_caregiver: Numele întreg al persoanei de îngrijire
         name_of_child_last_first: Numele intreg al copilului
-        primary_protection_concerns: Preocupări Protecție Primară
+        primary_protection_concerns: Suspiciuni risc primare
         progres_id: ID progres
         reunification_status: Status reunificare
-        secondary_protection_concerns: Preocupări Protecție Secundară
+        secondary_protection_concerns: Suspiciuni risc secundare
         sex: Sex
         sex_mapping_m_f_u: Sex
         short_id: ID scurt
@@ -1162,15 +1162,15 @@ ro:
     record_type: Tip înregistrare
     record_types:
       approvals: Aprobări
-      case: Caz
-      child: Caz
+      case: Înregistrare
+      child: Înregistrare
       incident: Incident
       individual_victim: Victimă individuală
       potential_match: Potrivire potențială
-      record_information: Informații despre înregistrare
+      record_information: Informații înregistrare
       referrals: Referiri
       reportable_follow_up: Revenire
-      reportable_protection_concern: Preocupare protecție
+      reportable_protection_concern: Suspiciune risc
       reportable_service: Serviciu
       tracing_request: Solicitare urmărire
       transfers_assignments: Transferuri/ Sarcini
@@ -1181,7 +1181,7 @@ ro:
     select_label: Selectează
     settings: Setări
     show_on: Afișează pe
-    subform_need_to_be_added: E nevoie să fie adăugați.
+    subform_need_to_be_added: E nevoie să fie adăugat.
     subform_need_to_be_added_single: Trebuie să fie adăugat.
     subform_not_found: Nu a fost găsit %{subform_name}.
     title: Denumire formular
@@ -1289,7 +1289,7 @@ ro:
     selected_all_records: 'Selectează toate incidentele %{total_records} care se potrivesc cu această interogare.'
     survivor_code: Cod supraviețuitor
     show_incident: 'Incident ID %{short_id}'
-    social_worker: Asistent social
+    social_worker: Utilizator
     violence_type: Tip abuz
     type_violence: Tip abuz
   key_performance_indicators:
@@ -1298,7 +1298,7 @@ ro:
     case_action_planning: "Planificare Plan intervenții"
     case_action_plan_implementation: "Implementare Plan intervenții caz"
     case_follow_up: "Revenire la caz"
-    case_closure: "Închidere caz"
+    case_closure: "Închidere înregistrare"
     feedback: "Feedback"
     other: "Altceva"
     date_format: "%b %Y"
@@ -1325,7 +1325,7 @@ ro:
     number_of_cases:
       title: "1. Număr cazuri înregistrate "
       reporting_site: "Locație Raportare"
-      helptext: "Acest indicator măsoară numărul de cazuri nou deschise pe lună per Locație Raportare. \nPrin Locație Raportare se înțelege locația unde Utilizator Organizație furnizează servicii și\nunde cazul a fost raportat furnizorului de servicii.\n"
+      helptext: "Acest indicator măsoară numărul de înregistrări nou deschise pe lună per Locație Raportare. \nPrin Locație Raportare se înțelege locația unde Utilizator Organizație furnizează servicii și\nunde cazul a fost raportat furnizorului de servicii.\n"
     number_of_incidents:
       title: "2. Număr de incidente înregistrate"
       reporting_site: "Locație Raportare"
@@ -1387,8 +1387,8 @@ ro:
       label: "Număr mediu referiri per caz"
       helptext: |
         Acest indicator contorizează numărul mediu de referiri pentru fiecare caz înregistrat (pentru toate tipurile
-        de servicii) îpentru toate cazurile, indiferent dacă cazul este activ/deschis sau închis. Include și referiri
-        înregistrate pe tab-ul de caz, nu doar referiri făcute prin intermediul platformei.
+        de servicii) pentru toate înregistrările, indiferent dacă înregistrarea este activă/deschisă sau închisă. Include și referiri
+        înregistrate pe tab-ul de înregistrare, nu doar referiri făcute prin intermediul platformei.
     referrals_per_service:
       title: "Referiri în funcție de Serviciu"
     average_followup_meetings_per_case:
@@ -1401,7 +1401,7 @@ ro:
     time_from_case_open_to_close:
       title: "11. Intervalul de timp de la Deschidere caz la Închidere caz"
       time: "Interval de timp"
-      percent: "Procent de cazuri"
+      percent: "Procent de Înregistrări"
       helptext: |
         Acest indicator măsoară cât timp sunt menținute deschise cazurile, cât timp durează managementul de caz
         de la raportarea inițială către Utilizator Organizație și până la închiderea cazului. Intervalul de timp este
@@ -1451,7 +1451,7 @@ ro:
       community: Comunitate
       country: Țară
       county: Județ
-      district: District
+      district: Localitate
       governorate: Guvernorat
       locality: Localitate
       other: Altceva
@@ -1459,7 +1459,7 @@ ro:
       region: Regiune
       site: Sit
       state: Stat
-      sub-district: Sub-district
+      sub-district: Sub-localitate
       village: Sat
       zone: Zona
       association: Formă asociere
@@ -1747,12 +1747,12 @@ ro:
     record_list:
       column_header_tooltip: Sortare pentru %{column}
       of: al
-      no_match: Din păcate, nu au fost găsite înregistrări care să se potrivească
+      no_match: Din păcate, căutarea nu returnează înregistrări
       rows_per_page: Rânduri pe pagină
       sort: Sortare
   navigation:
     bulk_exports: Exporturi
-    cases: Cazuri
+    cases: Copii
     home: Acasă
     key_performance_indicators: KPI-uri
     incidents: Incidente
@@ -1802,9 +1802,9 @@ ro:
       case_approvals: Aprobări Caz
       case_assignments_referrals_transfers: Evaluări, referiri și transferuri pe caz
       case_exports: Export cazuri
-      case_overview: Cazurile mele
-      case_risk: Cazuri în funcție de Nivelul evaluării
-      cases_by_task_overdue_assessment: Vizualizare Cazuri în funcție de Sarcina Evaluare restantă
+      case_overview: Înregistrările mele
+      case_risk: Înregistrări în funcție de Nivelul de risc
+      cases_by_task_overdue_assessment: Vizualizare Înregistrări în funcție de Sarcina Evaluare restantă
       cases_by_task_overdue_case_plan: Vizualizare Cazuri în funcție de Sarcina Plan servicii restant
       cases_by_task_overdue_followups: Vizualizare Cazuri în funcție de Sarcina Servicii restante
       cases_by_task_overdue_services: Vizualizare Cazuri în funcție de Sarcina Servicii restante
@@ -1814,17 +1814,17 @@ ro:
       copy: Copiază
       copy_of: Copie a
       create: Creează
-      dash_case_incident_overview: Cazurile mele/ Incidente
-      dash_cases_by_social_worker: Vizualizare cazuri în funcție de Asistent social
+      dash_case_incident_overview: Înregistrările mele/ Incidente
+      dash_cases_by_social_worker: Vizualizare înregistrări în funcție de Utilizator
       dash_cases_by_task_overdue: Vizualizare cazuri în funcție de Sarcină restantă
-      dash_cases_by_workflow: Vizualizare Cazuri în funcție de Fluxuri
+      dash_cases_by_workflow: Vizualizare Înregistrări în funcție de Fluxuri
       dash_cases_to_assign: Vizualizare Cazuri pentru asignare
-      dash_group_overview: Cazurile din Grupul meu
-      dash_manager_transfers: Vizualizare Transferuri manager
+      dash_group_overview: Înregistrările din Grupul meu
+      dash_manager_transfers: Vizualizare Transferuri coordonator
       dash_matching_results: Vizualizare Potriviri
-      dash_protection_concerns: Vizualizare Preocupări protecție
-      dash_protection_concerns_by_location: Vizualizare Preocupări protecție în funcție de Locație
-      dash_referrals_by_socal_worker: Vizualizare Referiri în funcție de Asistent social
+      dash_protection_concerns: Vizualizare Suspiciuni risc
+      dash_protection_concerns_by_location: Vizualizare Suspiciuni risc în funcție de Locație
+      dash_referrals_by_socal_worker: Vizualizare Referiri în funcție de Utilizator
       dash_reporting_location: Vizualizare Locații Raportare
       dash_service_provisions: Vizualizare Furnizări servicii
       dash_shared_from_my_team: Partajat din Echipa mea
@@ -1833,7 +1833,7 @@ ro:
       dash_shared_with_others: Partajat cu Alții
       dash_show_none_values: Vizualizare Lipsă Valori
       dash_tasks: Vizualizare Sarcini
-      dash_transfers_by_socal_worker: Vizualizare Transferuri în funcție de Asistent social
+      dash_transfers_by_socal_worker: Vizualizare Transferuri în funcție de Utilizator
       dash_national_admin_summary: Sumar administrator
       dashboard: Dashboard
       delete: Șterge
@@ -1906,11 +1906,11 @@ ro:
       view_approvals: Vizualizează Aprobări
       view_assessment: Vizualizează Evaluare
       view_photo: Vizualizare fotografie
-      view_protection_concerns_filter: Vizualizare Filtru Preocupări protecție
+      view_protection_concerns_filter: Vizualizare Filtru Suspiciuni risc
       view_response: Vizualizează Răspunsuri
       webhook: Webhook
-      workflow: Fluxuri - Cazuri individuale
-      workflow_team: Fluxuri - Cazuri echipe
+      workflow: Fluxuri - Înregistrări individuale
+      workflow_team: Fluxuri - Înregistrări echipe
       write: Scrie
       activity_log: Istoric Activitate
     resource:
@@ -1926,7 +1926,7 @@ ro:
             explanation: Posibilitatea de a vedea, pentru cazurile active la care utilizatorul are acces, numărul mediu de reveniri realizate într-o perioadă de timp stabilită.
             label: Medie Reveniri per Caz
           kpi_average_referrals:
-            explanation: Posibilitatea de a vedea, pentru toate cazurile active la care utilizatorul are acces, numărul mediu de referiri efectuate către fiecare tip de servicii.
+            explanation: Posibilitatea de a vedea, pentru toate înregistrările active la care utilizatorul are acces, numărul mediu de referiri efectuate către fiecare tip de servicii.
             label: Medie Referiri
           kpi_case_closure_rate:
             explanation: Posibilitatea de a vedea câte cazuri au fost închise la fiecare locație pe lună.
@@ -1951,7 +1951,7 @@ ro:
             label: Progres realizat în direcția atingerii obiectivelor
           kpi_number_of_cases:
             explanation: Posibilitatea de a vedea câte cazuri nou raportate sunt deschise în fiecare lună per locație.
-            label: Număr de cazuri
+            label: Număr de înregistrări
           kpi_number_of_incidents:
             explanation: Posibilitatea de a vedea câte cazuri nou raportate sunt deschise în fiecare lună per locație.
             label: Număr de incidente
@@ -1959,13 +1959,13 @@ ro:
             explanation: Posibilitatea de a vedea, pentru toate incidentele la care utilizatorul are acces, numărul de zile care au trecut între momentul în care supraviețuitorul a experimentat GBV/ Violență pe bază de gen și momentul în care supraviețuitorul a raportat evenimentul ​​unui furnizor de servicii.
             label: Întârziere raportare
           kpi_services_provided:
-            explanation: Posibilitatea de a vedea, pentru toate cazurile la care utilizatorul are acces, ce tipuri de servicii au fost furnizate de organizație în interior.
+            explanation: Posibilitatea de a vedea, pentru toate înregistrările la care utilizatorul are acces, ce tipuri de servicii au fost furnizate de organizație în interior.
             label: Servicii furnizate
           kpi_supervisor_to_caseworker_ratio:
             explanation: Posibilitatea de a vedea raportul dintre responsabilii caz și supervizori.
             label: Raport Supervizori - Responsabili caz
           kpi_time_from_case_open_to_close:
-            explanation: Posibilitatea de a vedea, pentru toate cazurile la care utilizatorul are acces, cât timp sunt ținute deschise.
+            explanation: Posibilitatea de a vedea, pentru toate înregistrările la care utilizatorul are acces, cât timp sunt ținute deschise.
             label: Intervalul de timp de la Deschidere caz la Închidere caz
         label: KPI
       agency:
@@ -1992,33 +1992,33 @@ ro:
           read:
             explanation: Permite utilizatorului să vadă și să filtreze o listă cu toate acțiunile efectuate în sistem, defalcate în funcție de utilizator, tip de acțiune, ID-ul înregistrării și ora acțiunii. Această opțiune este potrivită pentru utilizatorii cu rol de administrator de la nivel național sau de la nivel de organizație/ instituție, deoarece arată acțiunile efectuate de către toți utilizatorii din sistem. Te rugăm să reții că jurnalul de audit nu afișează date de identificare a persoanei.
             label: Vizualizare
-        explanation: Listă filtrabilă a tuturor acțiunilor efectuate în sistem. Nu include informații de identificare despre Cazuri, Incidente sau Solicitări urmărire.
+        explanation: Listă filtrabilă a tuturor acțiunilor efectuate în sistem. Nu include informații de identificare despre Înregistrări, Incidente sau Solicitări urmărire.
         label: Istoric Audit
       case:
         actions:
           add_note:
-            explanation: Permite unui utilizator să adauge o intrare în subformularul „Notițe” (numit uneori și „Comentarii”). Utilizatorul face acest lucru selectând butonul „Adăugare notițe” de pe pagina de prezentare a cazului. Această acțiune este utilă în special pentru managerii care nu au permisiunea de a edita cazuri, dar doresc să reamintească responsabilului de caz de un caz. În acest fel, adăugarea unei notițe este similară cu adăugarea unui marcaj. Avantajul adăugării unei notițe este că, atunci când managerul adaugă o notiță la un caz, va apărea o notificare pe caz pentru responsabilul de caz atunci când acesta vizualizează cazul pe dispozitivul său mobil.
+            explanation: Permite unui utilizator să adauge o intrare în subformularul „Notițe” (numit uneori și „Comentarii”). Utilizatorul face acest lucru selectând butonul „Adăugare notițe” de pe pagina de prezentare a înregistrării. Această acțiune este utilă în special pentru coordonatorii care nu au permisiunea de a edita înregistrări, dar doresc să reamintească utilizatorului Primero de o înregistrare. În acest fel, adăugarea unei notițe este similară cu adăugarea unui marcaj. Avantajul adăugării unei notițe este că, atunci când coordonatorul adaugă o notiță la o înregistrare, va apărea o notificare pe înregistrare pentru utilizator atunci când acesta vizualizează înregistrarea pe dispozitivul său mobil.
             label: Adaugă Notițe la un caz
           add_registry_record:
             explanation: Permite unui utilizator să conecteze un Registru la un caz din formularul Registru detalii. De asemenea, permite unui utilizator să deconecteze orice Registru anterior conectat la caz.
             label: Adaugă/ Actualizează Registru înregistrare din Caz
           approve_action_plan:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobare %{approval_label}
           approve_assessment:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobă formular %{approval_label}
           approve_bia:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobă formular %{approval_label}
           approve_case_plan:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobă %{approval_label}
           approve_closure:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobă formular %{approval_label}
           approve_gbv_closure:
-            explanation: Permite unui manager să aprobe %{approval_label} pentru cazurile responsabililor de caz
+            explanation: Permite unui coordonator să aprobe %{approval_label} pentru înregistrările utilizatorilor
             label: Aprobă formular %{approval_label}
           assign:
             explanation: Permite unui utilizator să transmită un caz de la deținătorul său inițial oricărui alt utilizator din sistem. Nu este necesar consimțământul copilului pentru această acțiune. Spre deosebire de transferuri, beneficiarului nu i se oferă șansa de a accepta sau de a respinge.
@@ -2042,39 +2042,39 @@ ro:
             explanation: Posibilitatea de a crea un caz
             label: Creează
           display_view_page:
-            explanation: Dacă un utilizator efectuează o căutare pentru un caz la care nu are acces, această opțiune îi permite să vadă un mic modal cu informații de bază despre caz, chiar dacă utilizatorul nu poate da click pe caz pentru a vedea toate informațiile acestuia. Câmpurile care apar în acest „Vizualizare Modal” sunt câmpuri care au fost configurate la „Afișare pe Formular scurt”. Acest mod este, de asemenea, util pentru utilizatorii care efectuează acțiuni de Urmărire și Reunificare familie, deoarece „Vizualizare Modal” este disponibil pentru accesul utilizatorului atunci când examinează cazuri care au apărut ca „Potriviri potențiale” la o solicitare de urmărire.
+            explanation: Dacă un utilizator efectuează o căutare pentru o înregistrare la care nu are acces, această opțiune îi permite să vadă un mic modal cu informații de bază despre înregistrare, chiar dacă utilizatorul nu poate da click pe înregistrare pentru a vedea toate informațiile acesteia. Câmpurile care apar în acest „Vizualizare Modal” sunt câmpuri care au fost configurate la „Afișare pe Formular scurt”. Acest mod este, de asemenea, util pentru utilizatorii care efectuează acțiuni de Urmărire și Reunificare familie, deoarece „Vizualizare Modal” este disponibil pentru accesul utilizatorului atunci când examinează înregistrare care au apărut ca „Potriviri potențiale” la o solicitare de urmărire.
             label: Afișează pagină vizualizare
           enable_disable_record:
-            explanation: Posibilitatea de a dezactiva sau activa un caz. Cazurile „Dezactivate” nu apar implicit în lista de cazuri. Utilizatorii pot vedea cazurile dezactivate în lista de cazuri aplicând un filtru. Primero nu permite utilizatorilor să șteargă cazuri; în schimb, un utilizator poate să dezactiveze un caz dacă dorește. De exemplu, dacă un utilizator a creat un caz din greșeală sau dacă datele pentru cazul respectiv nu sunt bune, utilizatorul ar trebui să îl dezactiveze.
+            explanation: Posibilitatea de a dezactiva sau activa o înregistrare. Înregistrările „Dezactivate” nu apar implicit în lista de înregistrări. Utilizatorii pot vedea înregistrările dezactivate în lista de înregistrări aplicând un filtru. Primero nu permite utilizatorilor să șteargă cazuri; în schimb, un utilizator poate să dezactiveze o înregistrare dacă dorește. De exemplu, dacă un utilizator a creat o înregistrare din greșeală sau dacă datele pentru înregistrarea respectivă nu sunt bune, utilizatorul ar trebui să o dezactiveze.
             label: Activare/ dezactivare
           export_case_pdf:
-            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de înregistrări sau din paginile de prezentare a înregistrărilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după înregistrare și apoi organizate în funcție de formularul în care sunt completate.
             label: Export caz PDF
           export_csv:
-            explanation: 'Utilizatorul poate genera un fișier CSV pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. NOTĂ: Formatul CSV nu redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care să poată fi citit.'
+            explanation: 'Utilizatorul poate genera un fișier CSV pentru export din lista de înregistrări sau din paginile de prezentare a înregistrărilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. NOTĂ: Formatul CSV nu redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care să poată fi citit.'
             label: Export CSV
           export_custom:
-            explanation: Utilizatorul poate genera un export XLS din lista de cazuri sau din paginile de prezentare a cazurilor, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate cazurile la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează un caz în aplicație.
+            explanation: Utilizatorul poate genera un export XLS din lista de înregistrări sau din paginile de prezentare a înregistrărilor, care conține un set personalizat de formulare sau câmpuri, pentru una, mai multe sau pentru toate înregistrările la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează o înregistrare în aplicație.
             label: Export personalizat
           export_duplicate_id_csv:
             explanation: Creează un export CSV al cazurilor cu au același câmp ID național (poate avea o etichetă diferită, în funcție de configurație). Poate fi efectuat doar din pagina cu liste de cazuri.
             label: Export duplicate
           export_json:
-            explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte cazuri din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
+            explanation: Utilizatorul poate genera un  fișier JSON pentru export din lista de înregistrări sau din paginile de prezentare a înregistrărilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate înregistrările la care are acces utilizatorul. Acest export este utilizat în principal pentru cei care doresc să exporte înregistrări din sistemul actual Primero și apoi să le importe într-un alt sistem Primero sau într-un alt sistem de management al informațiilor. Formatul JSON este adaptat pentru sisteme informatice și este mai puțin accesibil utilizatorilor.
             label: Export JSON
           export_list_view_csv:
             explanation: Utilizatorul poate genera un export CSV din pagina cu liste de cazuri care să conțină aceleași câmpuri ce apar pentru respectivul utilizator în lista de cazuri. Poate fi efectuat doar din pagina cu lista de cazuri.
             label: Export tip listă CSV
           export_pdf:
-            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
+            explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de înregistrări sau din paginile de prezentare a înregistrărilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după înregistrare și apoi organizate în funcție de formularul în care sunt completate.
             label: Export caz PDF
           export_photowall:
-            explanation: Permite utilizatorului să exporte un fișier din pagina cu lista de cazuri care conține fotografiile tuturor cazurilor selectate. Acest export este utilizat în principal pentru activitățile de Urmărire și Reunificare a familiei. Poate fi efectuat doar din pagina cu liste de cazuri.
+            explanation: Permite utilizatorului să exporte un fișier din pagina cu lista de înregistrări care conține fotografiile tuturor înregistrărilor selectate. Acest export este utilizat în principal pentru activitățile de Urmărire și Reunificare a familiei. Poate fi efectuat doar din pagina cu liste de înregistrări.
             label: Export galerie foto
           export_unhcr_csv:
             label: Export UNHCR CSV
           export_xls:
-            explanation: 'Utilizatorul poate genera un fișier XLS pentru export din lista de cazuri sau din paginile de prezentare a cazurilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate cazurile la care are acces utilizatorul. În acest export, fiecare formular este reprezentat în propriul tab în cadrul fișierului XLS. NOTĂ: Formatul XLS redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care poate fi citit, în timp ce exportul CSV nu face asta.'
+            explanation: 'Utilizatorul poate genera un fișier XLS pentru export din lista de înregistrări sau din paginile de prezentare a înregistrărilor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru unul, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În acest export, fiecare formular este reprezentat în propriul tab în cadrul fișierului XLS. NOTĂ: Formatul XLS redă caractere non-latine (de exemplu, Arabă, Bangla) într-un format care poate fi citit, în timp ce exportul CSV nu face asta.'
             label: Export Excel (XLS)
           find_tracing_match:
             explanation: Acesta este utilizat exclusiv pentru contexte cu activități de Urmărire și Reunificare a familiei. Utilizatorii cu această permisiune vor vedea un buton „Găsire Potrivire Urmărire” pe pagina de afișare a cazului. Când dau click pe el, vor ajunge la o listă de solicitări de urmărire în sistem care reprezintăt potenţiale potriviri pentru cazul lor.
@@ -2083,16 +2083,16 @@ ro:
             explanation: Posibilitatea de a adăuga un marcaj la un Caz. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la un Caz.
             label: Marcaj
           import:
-            explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
+            explanation: Permite utilizatorului să creeze unul sau mai multe înregistrări noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de înregistrări.
             label: Import
           incident_details_from_case:
-            explanation: Posibilitatea de a adăuga o intrare în subformularul Detalii incident pentru un caz pe care l-ai găsit în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând unul sau mai multe cazuri, apoi selectând „Adăugare incident” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Detalii incident, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
+            explanation: Posibilitatea de a adăuga o intrare în subformularul Detalii incident pentru o înregistrăre pe care ai găsit-o în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând una sau mai multe înregistrări, apoi selectând „Adăugare incident” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Detalii incident, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
             label: Adăugă Detalii incident în cazul altui utilizator din pagina cu rezultatele căutării
           incident_from_case:
-            explanation: Opțiunea permite utilizatorului să selecteze butonul „Creează Incident”. Aceasta generează un incident care poate conține unele informații copiate din caz. Pentru cazurile de tip GBV/ Violență pe bază de gen, acest buton se află în partea de sus a paginii de prezentare a cazului și corespunde cu informațiile despre caz per ansamblu. În unele contexte precum cele de urmărire a incidentelor, acest buton se află în subformularul „Detalii incident”. În această situație, unele informații pot fi copiate din subformularul „Detalii incident” unde a fost apăsat butonul, precum și din caz, per ansamblu. Astfel, noul incident creat poate conține câmpul „Tip de violență” din subformularul cu detalii despre incident, dar poate conține și vârsta și sexul cazului în sine. Această permisiune permite, de asemenea, utilizatorului să vadă un link către incidentul care a fost creat.
+            explanation: Opțiunea permite utilizatorului să selecteze butonul „Creează Incident”. Aceasta generează un incident care poate conține unele informații copiate din înregistrare. Pentru înregistrările de tip GBV/ Violență pe bază de gen, acest buton se află în partea de sus a paginii de prezentare a înregistrării și corespunde cu informațiile despre înregistrăre per ansamblu. În unele contexte precum cele de urmărire a incidentelor, acest buton se află în subformularul „Detalii incident”. În această situație, unele informații pot fi copiate din subformularul „Detalii incident” unde a fost apăsat butonul, precum și din înregistrare, per ansamblu. Astfel, noul incident creat poate conține câmpul „Tip de violență” din subformularul cu detalii despre incident, dar poate conține și vârsta și sexul înregistrării în sine. Această permisiune permite, de asemenea, utilizatorului să vadă un link către incidentul care a fost creat.
             label: Creare Incident din Caz
           manage:
-            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra cazurilor. Permisiunea „Gestionează” înseamnă în esență „totul”.
+            explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra înregistrărilor. Permisiunea „Gestionează” înseamnă în esență „totul”.
             label: Gestionează (toate permisiunile pentru acest tip de resursă)
           read:
             explanation: Posibilitatea de a vizualiza un caz
@@ -2107,7 +2107,7 @@ ro:
             explanation: Permite unui utilizator să primească un transfer. Utilizatorii cu această permisiune vor apărea ca destinatari potențiali ai unei acțiuni de transfer, în timp ce utilizatorii fără această permisiune nu vor apărea ca destinatari potențiali atunci când cineva caută un destinatar în fereastra modal de transfer.
             label: Primește transfer
           referral:
-            explanation: Permite unui utilizator să acorde temporar acces la un caz unui alt utilizator. Destinatarul referirii va putea efectua aceleași acțiuni asupra cazului referit pe care le poate efectua asupra propriilor cazuri. Când destinatarul nu mai are nevoie de acces la caz, poate da click pe butonul „Efectuat” din subformularul Referiri și Transferuri și va pierde accesul la caz. Puteți trimite un caz doar unui utilizator al cărui rol are permisiunea de a primi referiri.
+            explanation: Permite unui utilizator să acorde temporar acces la o înregistrare unui alt utilizator. Destinatarul referirii va putea efectua aceleași acțiuni asupra înregistrării referite pe care le poate efectua asupra propriilor înregistrări. Când destinatarul nu mai are nevoie de acces la înregistrare, poate da click pe butonul „Efectuat” din subformularul Referiri și Transferuri și va pierde accesul la înregistrare. Puteți trimite o înregistrare doar unui utilizator al cărui rol are permisiunea de a primi referiri.
             label: Referire
           referral_from_service:
             explanation: Permite utilizatorului să vadă butonul „Referire” din subformularul Servicii. Când utilizatorul dă clic pe acest buton, modalul de referiri va apărea cu câmpurile Tip de serviciu, Organizație/ instituție, Furnizor servicii și Locație dezactivate, dar completate automat cu informații pentru acele câmpuri din subformularul Servicii pentru care utilizatorul a dat click pe butonul Referire.
@@ -2146,13 +2146,13 @@ ro:
             explanation: Permite utilizatorului să vadă butonul „Salvare și Adăugare Furnizare Servicii” în partea de jos a modalului Adăugare incident. Selectând acest buton, sunt salvate informațiile introduse în prezent despre incident, după care utilizatorul este dus direct la modalul Adăugare Furnizare Servicii. Deoarece această acțiune este direct legată de acțiunile Adăugare incident și Adăugare Furnizare Servicii, este logic să acorzi această permisiune unui rol doar dacă acel rol are și permisiunile „Adăugare detalii incident în cazul altui utilizator” și „Adăugare furnizare servicii  în cazul altui utilizator”.
             label: Vezi butonul Adăugare Furnizare Servicii de pe Modalul Detalii Incident
           services_section_from_case:
-            explanation: Posibilitatea de a adăuga o intrare în subformularul Servicii pentru un caz pe care l-ai găsit în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând unul sau mai multe cazuri, apoi selectând „Adăugare furnizor servicii” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Servicii, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
+            explanation: Posibilitatea de a adăuga o intrare în subformularul Servicii pentru o înregistrare pe care ai găsit-o în rezultatele căutării, dar la care nu ai acces. Utilizatorul efectuează această acțiune din pagina cu rezultatele căutării selectând una sau mai multe înregistrări, apoi selectând „Adăugare furnizor servicii” din meniul de acțiuni. Utilizatorul vede apoi un modal care conține toate câmpurile din subformularul Servicii, unde poate introduce și trimite informații despre un serviciu. Deoarece această acțiune poate fi efectuată numai din pagina cu rezultatele căutării, are sens ca un rol să aibă această permisiune numai dacă are și permisiunea „Căutare înregistrări deținute de alți utilizatori”.
             label: Adăugă Furnizare servicii în cazul altui utilizator
           sync_external:
             explanation: Posibilitatea de a sincroniza o Înregistrare cu un sistem extern de gestionare a informațiilor
             label: Sincronizare cu un sistem extern de management al informației
           sync_mobile:
-            explanation: Permite utilizatorului să memoreze în cache cazuri pentru utilizare offline.
+            explanation: Permite utilizatorului să memoreze în cache înregistrări pentru utilizare offline.
             label: Marchează pentru offline
           transfer:
             explanation: Permite unui utilizator să trimită un caz de la proprietarul actual al înregistrării oricărui utilizator din sistem având permisiunea de a primi transferuri. Proprietarul cazului nu se schimbă decât în momentul în care destinatarul transferului „Acceptă” transferul. Dacă destinatarul „Respinge” transferul, destinatarul pierde accesul la caz, iar cazul își păstrează proprietarul inițial.
@@ -2164,8 +2164,8 @@ ro:
             explanation: La vizualizarea unui caz, utilizatorul poate vedea o listă de Incidente legate de caz, împreună cu câteva informații rezumative despre fiecare.
             label: Vizualizare Incidente din Caz
           view_protection_concerns_filter:
-            explanation: Permite utilizatorului să vadă un filtru pentru Preocupări protecție pe pagina listei de cazuri
-            label: Vizualizează filtru Preocupări protecție pe pagina listei de cazuri
+            explanation: Permite utilizatorului să vadă un filtru pentru Suspiciuni risc pe pagina listei de cazuri
+            label: Vizualizează filtru Suspiciuni risc pe pagina listei de cazuri
           view_registry_record:
             explanation: Permite unui utilizator să vadă informațiile oricărui Registru legat la un caz. De asemenea, permite utilizatorului să vadă formularul Registrului detalii pentru caz.
             label: Vizualizare Registru înregistrare din Caz
@@ -2173,10 +2173,10 @@ ro:
             explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informații în caz și de a selecta „Salvare”
             label: Editează
           accept_or_reject_transfer:
-            explanation: 'Permite utilizatorului să accepte sau să respingă un transfer în numele altui utilizator care face parte din echipa ta (de ex: un supervizor care acceptă un transfer ce a fost făcut către asistentul său social).'
+            explanation: 'Permite utilizatorului să accepte sau să respingă un transfer în numele altui utilizator care face parte din echipa ta (de ex: un supervizor care acceptă un transfer ce a fost făcut către utilizatorul său).'
             label: Acceptă sau respinge transferul pentru un alt utilizator din echipă.
           list_case_names:
-            explanation: De obicei, managerii nu pot vedea numele cazurilor în Lista de cazuri. Dacă un manager are această permisiune, va putea vedea numele în listă.
+            explanation: De obicei, coordonatorii nu pot vedea numele cazurilor în Lista de înregistrări. Dacă un coordonator are această permisiune, va putea vedea numele în listă.
             label: Dacă manager, poate vedea numele cazurilor în Lista de cazuri.
           mark_for_offline:
             explanation: Permite utilizatorului să memoreze în cache un Caz pentru utilizare offline.
@@ -2219,50 +2219,50 @@ ro:
             explanation: Sumar, în partea de sus a paginii de deschidere, care include informații despre Total și Cazuri noi
             label: Dashboard Sumar
           case_risk:
-            explanation: Arată câte cazuri sunt la fiecare nivel de risc.
-            label: Cazuri în funcție de nivelul de risc
+            explanation: Arată câte înregistrări sunt la fiecare nivel de risc.
+            label: Înregistrări în funcție de nivelul de risc
           cases_by_task_overdue_assessment:
-            explanation: Permite unui manager să vadă câte cazuri au sarcini de Evaluare restante pentru fiecare dintre responsabilii de caz.
+            explanation: Permite unui coordonator să vadă câte înregistrări au sarcini de Evaluare restante pentru fiecare dintre utilizatori.
             label: 'Sarcini restante Evaluare '
           cases_by_task_overdue_case_plan:
-            explanation: Permite unui manager să vadă câte cazuri au sarcini restante asociate Planului de servicii, pentru fiecare dintre responsabilii de caz.
+            explanation: Permite unui coordonator să vadă câte înregistrări au sarcini restante asociate Planului de servicii, pentru fiecare dintre utilizatori.
             label: Sarcini restante Plan servicii
           cases_by_task_overdue_followups:
-            explanation: Permite unui manager să vadă câte cazuri au sarcini restante de Revenire pentru fiecare dintre lucrătorii de caz.
+            explanation: Permite unui coordonator să vadă câte cazuri au sarcini restante de Revenire pentru fiecare dintre utilizatori.
             label: Sarcini restante Revenire
           cases_by_task_overdue_services:
-            explanation: Permite unui manager să vadă câte cazuri au sarcini restante de Servicii pentru fiecare dintre lucrătorii de caz.
+            explanation: Permite unui coordonator să vadă câte înregistrări au sarcini restante de Servicii pentru fiecare dintre utilizatori.
             label: Sarcini restante Servicii
           dash_case_incident_overview:
             explanation: .
-            label: Sumar - Cazurile mele/ Incidente
+            label: Sumar - Înregistrările mele/ Incidente
           dash_cases_by_social_worker:
             explanation: Tabel care arată cum sunt gestionate de către fiecare utilizator din grupurile de utilizatori ale utilizatorului curent totalul de cazuri deschise și numărul de cazuri noi. Fiecare rând reprezintă un utilizator din grupurile de utilizatori ale utilizatorului curent, în timp ce „Total” și „Nou” sunt cele două coloane.
-            label: Vizualizare cazuri În funcție de Asistent social
+            label: Vizualizare înregistrări în funcție de Utilizator
           dash_cases_to_assign:
             explanation: 'IMPORTANT: Numai pentru manageri. Afișează numărul de cazuri deținute direct de utilizatorul curent (ar trebui să fie un manager). Acest dashboard asumă că managerii nu își gestionează propriile cazuri și că, dacă un manager are propriile cazuri, ar trebui să atribuie aceste cazuri responsabililor de caz din echipa lor.'
-            label: (Pentru manageri) Cazuri pe care trebuie să le asignez oamenilor din echipa mea
+            label: (Pentru manageri) Înregistrări pe care trebuie să le asignez oamenilor din echipa mea
           dash_flags:
             explanation: Afișează o listă a marcajelor pe care alți utilizatori le-au adăugat în înregistrările mele, precum și marcaje pe care le-am adăugat în înregistrările altor utilizatori.
             label: Înregistrări marcate
           dash_group_overview:
             explanation: Afișează unui manager numărul de cazuri deschise și închise gestionate de utilizatorii din echipa lor.
-            label: Cazurile din Grupul meu
+            label: Înregistrările din Grupul meu
           dash_matching_results:
             explanation: EROARE. Acest dashboard nu este funcțional și va fi eliminat în v2.
             label: Vizualizare rezultate Potrivire
           dash_protection_concerns:
-            explanation: Tabel care arată câte cazuri au fiecare dintre preocupările de protecție. Fiecare rând al tabelului reprezintă o preocupare de protecție, în timp ce coloanele indică stări diferite pentru cazuri („Toate cazurile”, „Cazurile deschise”, „Nou (săptămâna aceasta),” „Închis (săptămâna aceasta)”)
-            label: Cazuri în funcție de Preocupări protecție
+            explanation: Tabel care arată câte înregistrări sunt pe fiecare dintre suspiciunile de risc. Fiecare rând al tabelului reprezintă o suspiciune de risc, în timp ce coloanele indică stări diferite pentru înregistrări („Toate înregistrările”, „Înregistrări deschise”, „Nou (săptămâna aceasta),” „Închis (săptămâna aceasta)”)
+            label: Înregistrări în funcție de Suspiciuni risc
           dash_protection_concerns_by_location:
-            explanation: Este același cu dashboard-ul „Vizualizare Preocupări protecție”, cu excepția faptului că utilizatorul poate selecta o locație dintr-un meniu derulant pentru a afișa statistici privind prevalența preocupărilor de protecție, specific pentru locația respectivă.
-            label: Vizualizare Preocupări protecție în funcție de Locație
+            explanation: Este același cu dashboard-ul „Vizualizare Suspiciuni risc”, cu excepția faptului că utilizatorul poate selecta o locație dintr-un meniu derulant pentru a afișa statistici privind prevalența suspiciunilor de risc, specific pentru locația respectivă.
+            label: Vizualizare Suspiciuni risc în funcție de Locație
           dash_reporting_location:
-            explanation: Tabel care arată câte cazuri există în fiecare locație (la un singur nivel de specificitate, cum ar fi „Provincie” sau „District”). Fiecare rând al tabelului reprezintă o locație, iar coloanele indică stări diferite pentru cazuri ("CAZURI DESCHISE", "NOU (SĂPTĂMÂNA TRECUTĂ)," "NOU (SĂPTĂMÂNA CURENTĂ)," "ÎNCHIS (SĂPTĂMÂNA TRECUTĂ)," "ÎNCHIS(SĂPTĂMÂNĂ CURENTĂ)"). Utilizat de obicei pentru conturi de manager sau administrator.
-            label: Cazuri în funcție de Locație raportare
+            explanation: Tabel care arată câte înregistrări există în fiecare locație (la un singur nivel de specificitate, cum ar fi „Regiune” sau „Localitate”). Fiecare rând al tabelului reprezintă o locație, iar coloanele indică stări diferite pentru cazuri ("ÎNREGISTRĂRI DESCHISE", "NOU (SĂPTĂMÂNA TRECUTĂ)," "NOU (SĂPTĂMÂNA CURENTĂ)," "ÎNCHIS (SĂPTĂMÂNA TRECUTĂ)," "ÎNCHIS (SĂPTĂMÂNĂ CURENTĂ)"). Utilizat de obicei pentru conturi de coordonator sau administrator.
+            label: Înregistrări în funcție de Locație raportare
           dash_service_provisions:
             explanation: Afișează numărul de cazuri cărora alți utilizatori le-au adăugat furnizori de servicii. Acest număr apare în secțiunea principală a dashboard-ului.
-            label: Cazuri în funcție de tip Furnizare servicii
+            label: Înregistrări în funcție de tip Furnizare servicii
           dash_shared_from_my_team:
             explanation: Arată unui manager numărul de cazuri gestionate de fiecare utilizator din echipa sa, cazuri care sunt fie referite, fie transferate către alți utilizatori
             label: Partajat din Echipa mea
@@ -2275,13 +2275,13 @@ ro:
           dash_shared_with_my_team_overview:
             label: Partajat cu Echipa mea (Sumar)
           dash_shared_with_others:
-            explanation: 'Arată câte din cazurile mele au referiri active, transferuri în așteptare sau transferuri respinse. Nu vizează managerii în mod normal; doar dacă au cazuri în gestionare. '
+            explanation: 'Arată câte din înregistrările mele au referiri active, transferuri în așteptare sau transferuri respinse. Nu vizează coordonatorii în mod normal; doar dacă au înregistrări în gestionare. '
             label: Partajat cu Alții
           dash_show_none_values:
-            explanation: Adaugă o categorie suplimentară „Fără risc” în toate dashboard-urile care defalcă cazurile în funcție de nivelul de risc. Acest lucru este specific pentru configurațiile care au o a patra opțiune „Fără risc” pentru câmpurile referitoare la nivelul de risc.
-            label: Vizualizare cazuri având "Niciun nivel de risc" în Dashboard evaluare
+            explanation: Adaugă o categorie suplimentară „Fără risc” în toate dashboard-urile care defalcă înregistrările în funcție de nivelul de risc. Acest lucru este specific pentru configurațiile care au o a patra opțiune „Fără risc” pentru câmpurile referitoare la nivelul de risc.
+            label: Vizualizare înregistrări având "Niciun nivel de risc" în Dashboard evaluare
           dash_tasks:
-            explanation: Permite utilizatorului să vadă pagina Sarcini. Acestă opțiune ar trebui folosită pentru responsabilii de caz și pentru furnizorii de servicii, întrucât numerele vor fi specific pentru cazurile pe care le gestionezi direct. În schimb, managerii ar trebui să aibă acces la dashboard-ul „Vizualizare Cazuri în funcție de Sarcină restantă”, deoarece aceasta le permite să vadă sarcinile întârziate pentru toți cei din grupurile lor de utilizatori.
+            explanation: Permite utilizatorului să vadă pagina Sarcini. Acestă opțiune ar trebui folosită pentru utilizatori și pentru furnizorii de servicii, întrucât numerele vor fi specific pentru înregistrările pe care le gestionezi direct. În schimb, coordonatorii ar trebui să aibă acces la dashboard-ul „Vizualizare Înregistrări în funcție de Sarcină restantă”, deoarece aceasta le permite să vadă sarcinile întârziate pentru toți cei din grupurile lor de utilizatori.
             label: Pagină Sarcini
           dash_national_admin_summary:
             explanation: Afișează numărul total de cazuri deschise în sistem, numărul de cazuri noi create în fiecare dintre ultimele două săptămâni și numărul de cazuri închise în fiecare dintre ultimele două săptămâni.
@@ -2290,11 +2290,11 @@ ro:
             explanation: Pentru fiecare tip de răspuns arată câte cazuri, pe niveluri de risc, au servicii care sunt aproape de termenul limită de finalizare sau în întârziere.
             label: Vizualizare răspunsuri
           workflow:
-            explanation: Permite unui responsabil de caz să vadă, pe un grafic tip plăcintă, câte dintre cazurile sale se află în fiecare etapă a procesului de management de caz.
-            label: Cazuri defalcate în funcție de fluxuri
+            explanation: Permite unui utilizator să vadă, pe un grafic tip plăcintă, câte dintre înregistrările sale se află în fiecare etapă a procesului de înregistrare.
+            label: Înregistrări defalcate în funcție de fluxuri
           workflow_team:
-            explanation: Permite unui manager să vadă un tabel care arată câte dintre cazurile asistenților săi sociali sunt în fiecare etapă a procesului de management de caz.
-            label: Cazuri în funcție de Fluxuri și Responsabil caz
+            explanation: Permite unui coordonator să vadă un tabel care arată câte dintre cazurile utilizatorilor săi sunt în fiecare etapă a procesului de înregistrare.
+            label: Înregistrări în funcție de Fluxuri și Responsabil caz
         explanation: Selectează ce informații rezumative apar pe pagina principală.
         label: Dashboard
       disabled:
@@ -2303,13 +2303,13 @@ ro:
       duplicate:
         actions:
           read:
-            explanation: Permite utilizatorului să efectueze căutări avansate pentru fiecare dintre cazurile din sistem, folosind o serie de criterii, inclusiv Nume, Pseudonim, Sex, Vârstă și Naționalitate.
+            explanation: Permite utilizatorului să efectueze căutări avansate pentru fiecare dintre înregistrările din sistem, folosind o serie de criterii, inclusiv Nume, Pseudonim, Sex, Vârstă și Naționalitate.
             label: Vizualizare
         explanation: Căutare avansată de cazuri pentru administratori.
         label: Căutare duplicate
       forms:
         case:
-          explanation: 'Limitarea accesului unui utilizator la formularele despre cazuri limitează informațiile pe care utilizatorul le poate vedea despre un incident. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele pentru cazuri.'
+          explanation: 'Limitarea accesului unui utilizator la formularele despre înregistrări limitează informațiile pe care utilizatorul le poate vedea despre un incident. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele pentru cazuri.'
           label: Formulare - Caz
         incident:
           explanation: 'Limitarea accesului unui utilizator la formularele de incidente limitează informațiile pe care utilizatorul le poate vedea despre un incident. De exemplu, dacă utilizatorul are acces doar la formularul Proprietar înregistrări, va putea vedea doar informațiile conținute în câmpurile din formularul respectiv. Dacă utilizatorul actual are acces limitat la formulare și are capacitatea de a gestiona configurația formularului, limitarea accesului la formular limitează și formularele pe care le poate configura. NOTĂ: Dacă niciun formular nu este specificat, înseamnă că rolul are acces la toate formularele pentru incidente.'
@@ -2371,7 +2371,7 @@ ro:
             explanation: Utilizatorul poate genera un fișier PDF pentru export din lista de incidente sau din paginile de prezentare a incidentelor, cuprinzând toate câmpurile la care are acces utilizatorul, pentru una, mai multe sau pentru toate înregistrările la care are acces utilizatorul. În fișierul PDF exportat, informațiile sunt listate mai întâi după caz și apoi organizate în funcție de formularul în care sunt completate.
             label: Export PDF
           export_xls:
-            explanation: Utilizatorul poate genera un export XLS din lista de incidente sau din paginile de prezentare a incidentelor, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate cazurile la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează un caz în aplicație.
+            explanation: Utilizatorul poate genera un export XLS din lista de incidente sau din paginile de prezentare a incidentelor, care conține un set personalizat de formulare sau câmpuri, pentru unul, mai multe sau pentru toate înregistrările la care utilizatorul are acces. În acest export, fiecare formular este localizat în propriul tab în cadrul fișierului XLS. Utilizatorul poate selecta ce formulare sau câmpuri dorește să fie incluse în export utilizând modalul Personalizare Export. Te rugăm să reții că utilizatorii pot include formulare și câmpuri în export numai dacă au deja permisiunea de a vedea acele formulare și câmpuri atunci când vizualizează o înregistrare în aplicație.
             label: Export Excel (XLS)
           flag:
             explanation: Posibilitatea de a adăuga un marcaj la un Incident. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la un Incident.
@@ -2391,7 +2391,7 @@ ro:
           write:
             explanation: Posibilitatea de a utiliza butonul „Editare”, de a actualiza informațiile despre incident și de a selecta „Salvare”. În plus, permite utilizatorului să dezactiveze sau să activeze un incident.
             label: Editare
-        explanation: Reprezintă un eveniment care a avut loc. Acestea sunt de obicei incidente de abuz sau violență, deși pot corespunde și unor evenimente precum întâlniri cu forțele de ordine. Incidentele sunt adesea legate de Cazuri.
+        explanation: Reprezintă un eveniment care a avut loc. Acestea sunt de obicei incidente de abuz sau violență, deși pot corespunde și unor evenimente precum întâlniri cu forțele de ordine. Incidentele sunt adesea legate de înregistrări.
         label: Incident
       is_manager:
         explanation: Se aplică oricărui rol de utilizator care, în general, supervizează alți utilizatori. Acest lucru permite unui utilizator să vadă dashboard-uri și filtre care îl ajută pe utilizator să gestioneze o echipă.
@@ -2405,7 +2405,7 @@ ro:
       matching_configuration:
         actions:
           manage:
-            explanation: Posibilitatea de a controla ce câmpuri sunt comparate pentru a găsi potriviri între solicitarea de urmărire și cazuri. Deoarece aceasta controlează modul în care se execută potrivirea în întregul sistem, permisiune ar trebui, în general, să fie disponibilă numai pentru administratorul de sistem.
+            explanation: Posibilitatea de a controla ce câmpuri sunt comparate pentru a găsi potriviri între solicitarea de urmărire și înregistrări. Deoarece aceasta controlează modul în care se execută potrivirea în întregul sistem, permisiune ar trebui, în general, să fie disponibilă numai pentru administratorul de sistem.
             label: Gestionează (toate permisiunile pentru acest tip de resursă)
         explanation: Controlează ce câmpuri sunt folosite pentru a compara Solicitări urmărire cu Cazurile în timpul Urmăririi și Reunificării familiei.
         label: Configurație Potrivire
@@ -2429,7 +2429,7 @@ ro:
       potential_match:
         actions:
           read:
-            explanation: Reprezintă legătura dintre o Solicitare urmărire și un Caz. Accesul la Potriviri potențiale este necesar pentru activitatea de Urmărire și Reunificare a Familiei (FTR). Permite utilizatorului să vadă formularul Rezumat urmărire pe Cazuri.
+            explanation: Reprezintă legătura dintre o Solicitare urmărire și o Înregistrare. Accesul la Potriviri potențiale este necesar pentru activitatea de Urmărire și Reunificare a Familiei (FTR). Permite utilizatorului să vadă formularul Rezumat urmărire pe Înregistrări.
             label: Vizualizare
         label: Potrivire potențială
       primero_configuration:
@@ -2441,7 +2441,7 @@ ro:
       referral:
         actions:
           refer:
-            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de referire, exportul pe care Primero îl generează atunci când utilizatorul trimite referirea va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Preocupări protecție, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
+            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de referire, exportul pe care Primero îl generează atunci când utilizatorul trimite referirea va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Suspiciuni risc, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
             label: Poate fi folosit acest rol pentru Referiri externe?
         label: Referire
       registry_record:
@@ -2574,7 +2574,7 @@ ro:
             explanation: Posibilitatea de a adăuga un marcaj la o solicitare urmărire. Utilizatorii cu această permisiune pot, de asemenea, să elimine marcajele pe care le-au adăugat la o solicitare de urmărire.
             label: Marcaj
           import:
-            explanation: Permite utilizatorului să creeze unul sau mai multe cazuri noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de cazuri.
+            explanation: Permite utilizatorului să creeze una sau mai multe înregistrări noi importându-le dintr-un fișier CSV, Excel sau JSON. Fișierul importat trebuie să fie formatat *foarte* specific pentru ca informațiile să fie importate corect. Această funcție ar trebui să fie disponibilă numai pentru utilizatorii cu rol de administrator, având abilități tehnice avansate și cunoștințe aprofundate despre modul în care datele sunt formatate în Primero. De efectuat numai din pagina cu lista de înregistrări.
             label: Import
           manage:
             explanation: Permite unui utilizator să efectueze toate acțiunile disponibile asupra solicitărilor de urmărire. Permisiunea „Gestionează” înseamnă în esență „totul”.
@@ -2590,7 +2590,7 @@ ro:
       transfer:
         actions:
           transfer:
-            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de transfer, exportul pe care Primero îl generează atunci când utilizatorul trimite  transferul va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Preocupări protecție, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
+            explanation: Aceasta înseamnă că rolul va apărea ca o opțiune pentru „Tip destinatar” atunci când utilizatorul efectuează o referire externă. Dacă utilizatorul alege acest rol ca tip de transfer, exportul pe care Primero îl generează atunci când utilizatorul trimite  transferul va conține doar informații care se găsesc în formularele la care are acces acest rol. De exemplu, dacă utilizatorul alege „Furnizor servicii medicale” ca tip de destinatar, iar rolul de Furnizor de servicii medicale are acces doar la formularele Identitate de bază și Suspiciuni risc, fișierul de export pe care Primero îl exportă pentru referirea externă va conține câmpurile care sunt în aceste două formulare.
             label: Poate fi folosit acest rol pentru transferuri externe?
         label: Transfer
       user:
@@ -2632,7 +2632,7 @@ ro:
           write:
             explanation: Posibilitatea de a edita Grupuri utilizatori
             label: Editare
-        explanation: Reprezintă o echipă sau un grup colaborativ de utilizatori care pot partaja informații. Managerii pot vedea de obicei toate înregistrările gestionate de asistenții sociali din propriile Grupuri de utilizatori.
+        explanation: Reprezintă o echipă sau un grup colaborativ de utilizatori care pot partaja informații. Coordonatorii pot vedea de obicei toate înregistrările gestionate de utilizatorii din propriile Grupuri de utilizatori.
         label: Grupuri utilizatori
       webhook:
         actions:
@@ -2653,7 +2653,7 @@ ro:
       activity_log:
         actions:
           transfer:
-            explanation: Utilizatorul poate da click în secțiunea Istoric Activitate a dashboard-ului și poate vedea istoricul cu toate transferurile acceptate sau respinse pentru cazurile la care are acces.
+            explanation: Utilizatorul poate da click în secțiunea Istoric Activitate a dashboard-ului și poate vedea istoricul cu toate transferurile acceptate sau respinse pentru înregistrările la care are acces.
             label: Transferuri
           manage:
             label: Gestionează (toate permisiunile pentru acest tip de resursă)
@@ -2668,7 +2668,7 @@ ro:
     inquiry_date: data interogării
     name: Nume
     score: Scor
-    social_worker: Asistent social
+    social_worker: Utilizator
     social_worker_agency: Organizația/ instituția
     tracing_request_id: ID Solicitare urmărire
     trace: Urmărire
@@ -2690,9 +2690,9 @@ ro:
     created_organization: Creat de organizația/ instituția
     current_owner_separator: Proprietar actual
     module_id: Modul
-    owned_by: Cod Responsabil caz
+    owned_by: Cod utilizator
     owned_by_agency_id: Organizația/ instituția
-    owned_by_text: Asistentul social/ responsabilul de caz
+    owned_by_text: Utilizator
     previously_owned_by: Proprietar anterior
     previously_owned_by_agency: Organizația/ instituția anterioară
     reassigned_tranferred_on: 'Reasignat/ Transferat '
@@ -2700,7 +2700,7 @@ ro:
     last_updated_at: Ultima actualizare la
     last_updated_by: Ultima actualizare de către
   record_panel:
-    record_information: Istoric informații
+    record_information: Informații utilizatori
   referral:
     type_of_recipient: Tip beneficiar
     type_of_referral_required: Tip Referire este obligatoriu
@@ -3022,7 +3022,7 @@ ro:
     password: Parolă
     password_confirmation: Confirmare parolă
     phone: Telefon
-    position: Poziție
+    position: Funcție
     provider_username_help: 'Exemplu: utilizatorul.meu@%{domain}'
     role_id: Rol
     send_mail: Primește notificări prin e-mail?
@@ -3083,7 +3083,7 @@ ro:
     headers:
       full_name: Nume întreg
       user_name: Utilizator
-      position: Poziție
+      position: Funcție
       agency: Organizația/ instituția
   devise:
     failure:
@@ -3094,5 +3094,5 @@ ro:
   admin:
     locations:
       selected_records: '%{select_records}locație (locații) selectate'
-      selected_all_records: Selectează toate %{total_records}cazuri care se potrivesc cu această interogare.
+      selected_all_records: Selectează toate %{total_records}înregistrările care se potrivesc cu această interogare.
       updated: '%{updated_records} locație (locații) actualizat(e) '
