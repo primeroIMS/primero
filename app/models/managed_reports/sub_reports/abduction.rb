@@ -11,7 +11,8 @@ class ManagedReports::SubReports::Abduction < ManagedReports::SubReport
       ManagedReports::Indicators::ViolationTally,
       ManagedReports::Indicators::Perpetrators,
       ManagedReports::Indicators::ReportingLocation,
-      ManagedReports::Indicators::AbductedStatus
+      ManagedReports::Indicators::AbductedStatus,
+      ManagedReports::Indicators::AbductionReasons
     ]
   end
 
@@ -19,7 +20,8 @@ class ManagedReports::SubReports::Abduction < ManagedReports::SubReport
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::ReportingLocation.id => 'Location',
-      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options'
+      ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options',
+      ManagedReports::Indicators::AbductionReasons.id => 'lookup-abduction-purpose'
     }
   end
 
@@ -33,7 +35,8 @@ class ManagedReports::SubReports::Abduction < ManagedReports::SubReport
     {
       ManagedReports::Indicators::Perpetrators.id => sub_column_items,
       ManagedReports::Indicators::ReportingLocation.id => sub_column_items,
-      ManagedReports::Indicators::AbductedStatus.id => sub_column_items
+      ManagedReports::Indicators::AbductedStatus.id => sub_column_items,
+      ManagedReports::Indicators::AbductionReasons.id => sub_column_items
     }
   end
 end
