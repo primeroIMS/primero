@@ -1434,7 +1434,7 @@ en:
       label: Summary of the Incident
       fields:
         children_multiple_violation:
-          label: Children with multiple violations
+          label: Children affected by multiple violations
         summary_of_incident:
           label: Summary of the Incident
         incident_total_tally:
@@ -1926,11 +1926,13 @@ en:
         detention_released: Released
         detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
+        perpetrators_denial: Number of Violations by Perpetrators
         perpetrator_detention: Number of Children by Perpetrators
         perpetrators_incidents: Number of incidents by Perpetrators
         reporting_location_incidents: Number of incidents by Region
         reporting_location: Number of Children by Region
         reporting_location_detention: Number of Children by Region
+        reporting_location_denial: Number of Violations by Region
         attack_type: Number of Children by Attack Type
         boys: Boys
         girls: Girls

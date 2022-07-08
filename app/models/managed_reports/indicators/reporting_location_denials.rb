@@ -6,7 +6,7 @@ class ManagedReports::Indicators::ReportingLocationDenials < ManagedReports::Sql
 
   class << self
     def id
-      'reporting_location'
+      'reporting_location_denial'
     end
 
     # rubocop:disable Metrics/AbcSize
