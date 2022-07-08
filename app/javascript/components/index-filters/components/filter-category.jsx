@@ -11,7 +11,7 @@ const FilterCategory = ({ formMethods }) => {
   const options = Object.values(FILTER_CATEGORY).map(
     elem => ({
       id: elem,
-      display_text: i18n.t(`filters.categories.${elem === FILTER_CATEGORY.incidents ? "violations" : elem}`)
+      display_text: i18n.t(`filters.categories.${elem}`)
     }),
     []
   );

@@ -1231,6 +1231,7 @@ en:
     save_filters: Save
     categories:
       violations: Violations
+      incidents: Incidents
       individual_victims: Individual Victims
   flags:
     add_flag_tab: Add New Flag
