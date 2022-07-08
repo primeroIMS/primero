@@ -18,7 +18,8 @@ import { useMemoizedSelector, displayNameHelper } from "../../../libs";
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
 import css from "./styles.css";
-import { TASK_TYPES, TASK_STATUS } from "./constants";
+import { TASK_STATUS } from "./constants";
+import { getTranslatedValue } from "./utils";
 
 const TaskList = () => {
   const i18n = useI18n();
@@ -59,27 +60,14 @@ const TaskList = () => {
             : {}),
           ...(c.name === "type"
             ? {
-                // eslint-disable-next-line react/no-multi-comp, react/display-name
                 customBodyRender: (value, tableMeta) => {
-                  const recordData = data.get("data").get(tableMeta.rowIndex);
-                  const lookupAction = recordData.get("detail");
-
-                  const translatedValue =
-                    value === TASK_TYPES.SERVICE
-                      ? lookupServiceType.find(
-                          serviceType => serviceType.id === lookupAction
-                          // eslint-disable-next-line camelcase
-                        )?.display_text
-                      : lookupFollowupType.find(
-                          followup => followup.id === lookupAction
-                          // eslint-disable-next-line camelcase
-                        )?.display_text;
-
-                  const renderValue = [TASK_TYPES.SERVICE, TASK_TYPES.FOLLOW_UP].includes(value)
-                    ? i18n.t(`task.types.${value}`, {
-                        subtype: translatedValue
-                      })
-                    : i18n.t(`task.types.${value}`);
+                  const renderValue = getTranslatedValue(
+                    value,
+                    data.get("data").get(tableMeta.rowIndex).get("detail"),
+                    lookupServiceType,
+                    lookupFollowupType,
+                    i18n.t
+                  );
 
                   return <span>{renderValue}</span>;
                 }
