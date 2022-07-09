@@ -15,27 +15,25 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-          select key as name, sum(value::integer), 'total' as key
+          select subquery.key as name, count(subquery.id) as sum, 'total' as key
             #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')} from (
-              select distinct on(violations.id, key) key,
+              select iv.id as id,
               #{grouped_date_query(params['grouped_by'],
                                    filter_date(params),
                                    table_name_for_query(params))&.concat(' as group_id,')}
-              value
+              iv.data->>'individual_sex' as key
               from individual_victims iv
               inner join individual_victims_violations ivv on ivv.individual_victim_id = iv.id
               inner join violations violations on violations.id = ivv.violation_id
               inner join incidents incidents
                 on incidents.id = violations.incident_id
                 #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-              cross join json_each_text((violations."data"->>'violation_tally')::JSON)
               where (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
-              and violations."data"->>'violation_tally' is not null
               #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
               #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-          ) keys_values
+          ) as subquery
           group by key
           #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
           order by

@@ -713,6 +713,16 @@ describe Exporters::ManagedReportExporter do
             ].map(&:with_indifferent_access)
           )
 
+          Lookup.create_or_update!(
+            unique_id: 'lookup-gender-unknown-total',
+            name_en: 'Violation Tally Options',
+            lookup_values_en: [
+              { id: 'male', display_text: 'Male' },
+              { id: 'female', display_text: 'Female' },
+              { id: 'unknown', display_text: 'Unknown' }
+            ].map(&:with_indifferent_access)
+          )
+
           incident1 = Incident.create!(data: { incident_date: Date.new(2022, 5, 8), status: 'open' })
           incident2 = Incident.create!(data: { incident_date: Date.new(2022, 2, 8), status: 'open' })
           incident3 = Incident.create!(data:  { incident_date: Date.new(2022, 3, 18), status: 'open' })

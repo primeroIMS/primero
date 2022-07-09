@@ -18,7 +18,13 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
 
       %{
         select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as name,
-        'total' as key,
+        iv.data->>'individual_sex' as key,
+        sum(count(iv.id)) over (partition by
+          (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
+          #{grouped_date_query(params['grouped_by'],
+                               filter_date(params),
+                               table_name_for_query(params))&.prepend(', ')}
+        )::integer as total,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
@@ -35,7 +41,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
-        group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
+        group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
       }
@@ -48,6 +54,15 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     def user_reporting_location_admin_level(current_user)
       # Adding one since admin level start from 0, but string on postgres start from 1
       current_user.role.incident_reporting_location_config&.admin_level.to_i + 1
+    end
+
+    def build_data_values(values)
+      values.each_with_object([]) do |curr, acc|
+        current_group = acc.find { |group| group[:id] == curr['name'] }
+        next current_group[curr['key'].to_sym] = curr['sum'] if current_group.present?
+
+        acc << { id: curr['name'], curr['key'].to_sym => curr['sum'], total: curr['total'] }
+      end
     end
   end
 end
