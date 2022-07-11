@@ -1,4 +1,4 @@
-import { fromJS } from "immutable";
+import {fromJS, List} from "immutable";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
@@ -226,6 +226,10 @@ const lookupValues = createCachedSelector(
   (_state, options) => options,
   (locale, data, options) => {
     const { fullLookup, source } = options;
+
+    if (List.isList(source)) {
+      return [];
+    }
 
     const lookup = data.find(option => option.get("unique_id") === source.replace(/lookup /, ""), null, fromJS({}));
 

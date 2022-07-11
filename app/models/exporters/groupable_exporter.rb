@@ -118,7 +118,8 @@ module Exporters::GroupableExporter
 
   def write_group_header(start_index, year, subitems_size)
     sort_group(year).each_with_index do |group, group_index|
-      group_header_label = "#{year}-#{translate_group(group)}"
+      translated_group = translate_group(group)
+      group_header_label = header_include_year? ? "#{year}-#{translated_group}" : translated_group
       if subitems_size == 1
         worksheet.write(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
         next
@@ -243,6 +244,7 @@ module Exporters::GroupableExporter
 
   def write_grouped_indicator_data(indicator_values, options, indicator_key)
     grouped_data = indicator_values.group_by { |value| value['group_id'].to_s }
+
     years.each_with_index do |year, year_index|
       if grouped_by_year?
         write_year_data(grouped_data, options, year_index, year, indicator_key)
@@ -342,6 +344,10 @@ module Exporters::GroupableExporter
 
   def calculate_position(*args)
     args.sum
+  end
+
+  def header_include_year?
+    true
   end
 end
 # rubocop:enable Metrics/ModuleLength
