@@ -103,7 +103,8 @@ module Api::V2::Concerns::Record
   end
 
   def find_record
-    record = model_class.find(params[:id])
+    model_query = current_user.module?(PrimeroModule::MRM) ? model_class.eager_load(:individual_victims) : model_class
+    record = model_query.find(params[:id])
     # Alias the record to a more specific name: @child, @incident, @tracing_request
     instance_variable_set("@#{model_class.name.underscore}", record)
   end

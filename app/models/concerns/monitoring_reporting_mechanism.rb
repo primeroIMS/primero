@@ -24,7 +24,6 @@ module MonitoringReportingMechanism
       string :victim_facilty_victims_held, multiple: true do
         individual_victims_facilty_victims_held
       end
-
       string :torture_punishment_while_deprivated_liberty, multiple: true do
         individual_victims_torture_punishment_while_deprivated_liberty
       end
@@ -36,30 +35,26 @@ module MonitoringReportingMechanism
   end
 
   def individual_victims_age
-    individual_victims.pluck(Arel.sql("individual_victims.data->>'individual_age'")).uniq.compact
+    individual_victims.map(&:individual_age).uniq.compact
   end
 
   def individual_victims_sex
-    individual_victims.pluck(Arel.sql("individual_victims.data->>'individual_sex'")).uniq.compact
+    individual_victims.map(&:individual_sex).uniq.compact
   end
 
   def individual_victims_deprived_liberty_security_reasons
-    individual_victims.pluck(
-      Arel.sql("individual_victims.data->>'victim_deprived_liberty_security_reasons'")
-    ).uniq.compact
+    individual_victims.map(&:victim_deprived_liberty_security_reasons).uniq.compact
   end
 
   def individual_victims_reasons_deprivation_liberty
-    individual_victims.pluck(Arel.sql("individual_victims.data->>'reasons_deprivation_liberty'")).uniq.compact
+    individual_victims.map(&:reasons_deprivation_liberty).uniq.compact
   end
 
   def individual_victims_facilty_victims_held
-    individual_victims.pluck(Arel.sql("individual_victims.data->>'facilty_victims_held'")).uniq.compact
+    individual_victims.map(&:facilty_victims_held).uniq.compact
   end
 
   def individual_victims_torture_punishment_while_deprivated_liberty
-    individual_victims.pluck(
-      Arel.sql("individual_victims.data->>'torture_punishment_while_deprivated_liberty'")
-    ).uniq.compact
+    individual_victims.map(&:torture_punishment_while_deprivated_liberty).uniq.compact
   end
 end
