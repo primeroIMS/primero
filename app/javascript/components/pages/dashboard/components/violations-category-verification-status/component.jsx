@@ -10,6 +10,7 @@ import useOptions from "../../../../form/use-options";
 import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
+import { transformToPivotedDashboard } from "./utils";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
@@ -25,6 +26,8 @@ const Component = ({ loadingIndicator }) => {
     getViolationsCategoryVerificationStatus(state)
   );
 
+  const transformed = transformToPivotedDashboard(violationsCategoryVerificationStatus);
+
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS}>
       <OptionsBox
@@ -35,7 +38,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.incidents}
           title={i18n.t("dashboard.dash_violations_category_verification_status")}
-          {...toListTable(violationsCategoryVerificationStatus, verificationStatus, violationType, i18n.locale)}
+          {...toListTable(transformed, verificationStatus, violationType, i18n.locale)}
         />
       </OptionsBox>
     </Permission>

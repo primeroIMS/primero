@@ -33,6 +33,7 @@ class PermittedFieldService
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
     individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
+    violation_with_verification_status
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[

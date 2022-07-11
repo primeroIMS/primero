@@ -6,55 +6,47 @@ module MonitoringReportingMechanism
 
   included do
     searchable do
-      string :individual_violations, multiple: true do
-        individual_victims_violation_types
-      end
-      integer :individual_age, multiple: true do
-        individual_victims_age
-      end
-      string :individual_sex, multiple: true do
-        individual_victims_sex
-      end
-      string :victim_deprived_liberty_security_reasons, multiple: true do
-        individual_victims_deprived_liberty_security_reasons
-      end
-      string :reasons_deprivation_liberty, multiple: true do
-        individual_victims_reasons_deprivation_liberty
-      end
-      string :victim_facilty_victims_held, multiple: true do
-        individual_victims_facilty_victims_held
-      end
-      string :torture_punishment_while_deprivated_liberty, multiple: true do
-        individual_victims_torture_punishment_while_deprivated_liberty
-      end
+      %i[
+        individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+        reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
+        violation_with_verification_status
+      ].each { |field| string(field, multiple: true) }
     end
   end
 
-  def individual_victims_violation_types
+  def individual_violations
     violations.joins(:individual_victims).pluck(Arel.sql("violations.data->>'type'")).uniq.compact
   end
 
-  def individual_victims_age
+  def individual_age
     individual_victims.map(&:individual_age).uniq.compact
   end
 
-  def individual_victims_sex
+  def individual_sex
     individual_victims.map(&:individual_sex).uniq.compact
   end
 
-  def individual_victims_deprived_liberty_security_reasons
+  def victim_deprived_liberty_security_reasons
     individual_victims.map(&:victim_deprived_liberty_security_reasons).uniq.compact
   end
 
-  def individual_victims_reasons_deprivation_liberty
+  def reasons_deprivation_liberty
     individual_victims.map(&:reasons_deprivation_liberty).uniq.compact
   end
 
-  def individual_victims_facilty_victims_held
+  def victim_facilty_victims_held
     individual_victims.map(&:facilty_victims_held).uniq.compact
   end
 
-  def individual_victims_torture_punishment_while_deprivated_liberty
+  def torture_punishment_while_deprivated_liberty
     individual_victims.map(&:torture_punishment_while_deprivated_liberty).uniq.compact
+  end
+
+  def violation_with_verification_status
+    violations.each_with_object([]) do |violation, memo|
+      next unless violation.type.present? && violation.ctfmr_verified.present?
+
+      memo << "#{violation.type}_#{violation.ctfmr_verified}"
+    end.uniq
   end
 end
