@@ -15,6 +15,6 @@ module MonitoringReportingMechanism
       next unless violation.type.present? && violation.ctfmr_verified.present?
 
       memo << "#{violation.type}_#{violation.ctfmr_verified}"
-    end
+    end.uniq
   end
 end

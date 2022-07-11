@@ -16,6 +16,7 @@ describe MonitoringReportingMechanism, search: true do
     Incident.create!(
       violations: [
         Violation.new(data: { type: 'killing', ctfmr_verified: 'not_mrm' }),
+        Violation.new(data: { type: 'maiming', ctfmr_verified: 'report_pending_verification' }),
         Violation.new(data: { type: 'maiming', ctfmr_verified: 'report_pending_verification' })
       ]
     )
@@ -27,6 +28,14 @@ describe MonitoringReportingMechanism, search: true do
     incident_2
     Incident.reindex
     Sunspot.commit
+  end
+
+  it 'contains the violations with verification status' do
+    expect(incident_2.violation_with_verification_status).to match_array(
+      %w[
+        killing_not_mrm maiming_report_pending_verification
+      ]
+    )
   end
 
   it 'can find an incident with a violation of type killing and verified' do
@@ -44,7 +53,9 @@ describe MonitoringReportingMechanism, search: true do
     search_result = SearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'violation_with_verification_status', value: 'maiming_report_pending_verification')
+        SearchFilters::Value.new(
+          field_name: 'violation_with_verification_status', value: 'maiming_report_pending_verification'
+        )
       ]
     ).results
     expect(search_result.size).to eq(1)
