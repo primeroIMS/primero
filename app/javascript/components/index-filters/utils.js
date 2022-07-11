@@ -119,7 +119,7 @@ export const calculateFilters = ({
     ...queryParamsFilter,
     ...(!more ? selectedFromMoreSection : [])
   ]);
-}
+};
 
 export const combineFilters = data => {
   if (data.violation_category && data.verification_status) {
