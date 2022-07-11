@@ -11,7 +11,7 @@ module Record
   attr_writer :location_service
 
   included do
-    store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile, :module_id
+    store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
     # Indicates if the update was performed through the API.
     attribute :record_user_update, :boolean
