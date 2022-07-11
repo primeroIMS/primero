@@ -6,7 +6,7 @@ export default (fieldName, values) => {
   }
 
   return values?.violation_category.reduce((acc, violation) => {
-    if (!values[violation].length) return acc;
+    if (!values[violation]?.length) return acc;
 
     return { ...acc, [violation]: values[violation].map(val => val.unique_id) };
   }, {});
