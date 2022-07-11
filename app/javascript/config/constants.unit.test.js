@@ -108,6 +108,8 @@ describe("Verifying config constant", () => {
       "VIOLATIONS_FORM",
       "VIOLATIONS_SUBFORM_UNIQUE_IDS",
       "VIOLATION_GROUP",
+      "VIOLATION_VERIFICATION_STATUS",
+      "VIOLATION_TYPE",
       "GBV_INSIGHTS_SUBREPORTS",
       "CHART_COLORS",
       "REGISTRY_FROM_CASE",

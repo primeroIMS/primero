@@ -4,16 +4,16 @@
 module Indicators
   # Incident Class for Indicators
   class Incident
-    OPEN_CLOSED_ENABLED = [
+    OPEN_ENABLED = [
       SearchFilters::Value.new(field_name: 'record_state', value: true),
-      SearchFilters::ValueList.new(field_name: 'status', values: [Record::STATUS_OPEN, Record::STATUS_CLOSED])
+      SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
-    VIOLATIONS_CATEGORY_VERIFICATION_STATUS = PivotedIndicator.new(
+    VIOLATIONS_CATEGORY_VERIFICATION_STATUS = FacetedIndicator.new(
       name: 'violations_category_verification_status',
       record_model: ::Incident,
-      pivots: %w[violation_category verification_status],
-      scope: OPEN_CLOSED_ENABLED,
+      facet: 'violation_with_verification_status',
+      scope: OPEN_ENABLED,
       scope_to_owned_by_groups: true
     ).freeze
 
@@ -24,7 +24,7 @@ module Indicators
         name: 'violations_category_region',
         record_model: ::Incident,
         pivots: ["incident_location#{admin_level}", 'violation_category'],
-        scope: OPEN_CLOSED_ENABLED,
+        scope: OPEN_ENABLED,
         scope_to_owned_by_groups: true
       ).freeze
     end

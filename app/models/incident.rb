@@ -15,6 +15,7 @@ class Incident < ApplicationRecord
   include Kpi::GBVIncident
   include ReportableLocation
   include GenderBasedViolence
+  include MonitoringReportingMechanism
   # include IncidentMonitoringRecording #TODO: Refactor with Violations
 
   store_accessor(

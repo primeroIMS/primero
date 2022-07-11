@@ -634,3 +634,22 @@ export const QUARTERS_TO_NUMBER = Object.freeze({
 });
 
 export const QUARTERS = Object.freeze([Q1, Q2, Q3, Q4]);
+
+export const VIOLATION_TYPE = Object.freeze({
+  killing: "killing",
+  maiming: "maiming",
+  recruitment: "recruitment",
+  sexual_violence: "sexual_violence",
+  abduction: "abduction",
+  attack_on_hospitals: "attack_on_hospitals",
+  attack_on_schools: "attack_on_schools",
+  military_use: "military_use",
+  denial_humanitarian_access: "denial_humanitarian_access"
+});
+
+export const VIOLATION_VERIFICATION_STATUS = Object.freeze({
+  verified: "verified",
+  report_pending_verification: "report_pending_verification",
+  not_mrm: "not_mrm",
+  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
+});
