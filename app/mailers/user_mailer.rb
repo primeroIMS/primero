@@ -72,7 +72,9 @@ class UserMailer < ApplicationMailer
       header: I18n.t("#{prefix}body", role_name: user.role.name, locale: user.locale),
       step1: I18n.t("#{prefix}step1", admin_full_name: admin.full_name, admin_email: admin.email, locale: user.locale),
       step2: I18n.t("#{prefix}step2", host: root_url, locale: user.locale),
-      step3: I18n.t("#{prefix}step3", otp: one_time_password, locale: user.locale),
+      # TODO: OTP is currently an empty string to avoid re-translation. Address when we change the message.
+      step3: I18n.t("#{prefix}step3", otp: '', locale: user.locale),
+      otp: one_time_password,
       step4: I18n.t("#{prefix}step4", locale: user.locale),
       footer: ''
     }
