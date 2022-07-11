@@ -1891,7 +1891,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
-        multiple_violations: Children with multiple violations
+        multiple_violations: Children affected by multiple violations
         detention: Detention
         boys: Boys
         girls: Girls
@@ -1946,6 +1946,7 @@ en:
         still_being_held: Still being held
         released: 'Released'
         escaped: 'Escaped'
+        abduction_reasons: Reasons for Abduction
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
         received_response: Children Received Response

@@ -400,6 +400,12 @@ describe Incident do
 
   describe '#associations_as_data' do
     let(:incident) { Incident.create!(unique_id: '1a2b3c', incident_code: '987654', description: 'this is a test') }
+    let(:incident2) do
+      Incident.create!(
+        unique_id: '15e65cf1-6980-4c7c-a591-94f900f5d721',
+        incident_code: '6980', description: 'this is a second test'
+      )
+    end
 
     before(:each) do
       clean_data(Incident, Violation, IndividualVictim)
@@ -535,6 +541,48 @@ describe Incident do
         data['unique_id'] = '53baed05-a012-42e9-ad8d-5c5660ac5159'
       end
       expect(individual_victim['name']).to eq('individual2')
+    end
+
+    context 'when add a new violation with its response' do
+      it 'insert the violation and violation association' do
+        data_to_update = {
+          'responses' => [
+            {
+              'intervention_action_notes' => 'random test',
+              'violations_ids' => 'dca4d9fa-9522-49fb-8050-1d92497669f4',
+              'intervention_armed_force_group' => 'test',
+              'intervention_task_force_type' => %w[public_statement none_required],
+              'unique_id' => '535d15f1-f01a-4884-86e8-7de9333b49b3'
+            }
+          ],
+          'killing' => [
+            {
+              'attack_type' => 'direct_attack',
+              'weapon_type' => 'airstrike',
+              'type' => 'killing',
+              'unique_id' => 'dca4d9fa-9522-49fb-8050-1d92497669f4',
+              'violation_tally' => { 'boys' => 3, 'girls' => 1, 'total' => 4, 'unknown' => 0 }
+            }
+
+          ]
+        }
+        incident2.update_properties(fake_user, data_to_update)
+        incident2.save!
+        killing_data = incident2.associations_as_data('user')['killing']
+        responses_data = incident2.associations_as_data('user')['responses']
+        killing_unique_ids = killing_data.map { |data| data['unique_id'] }
+        responses_unique_ids = responses_data.map { |data| data['unique_id'] }
+
+        expect(killing_unique_ids.count).to eq(1)
+        expect(killing_unique_ids).to match_array(
+          %w[dca4d9fa-9522-49fb-8050-1d92497669f4]
+        )
+
+        expect(responses_unique_ids.count).to eq(1)
+        expect(responses_unique_ids).to match_array(
+          %w[535d15f1-f01a-4884-86e8-7de9333b49b3]
+        )
+      end
     end
   end
 

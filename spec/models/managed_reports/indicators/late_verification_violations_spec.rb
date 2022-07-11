@@ -4,6 +4,8 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::LateVerificationViolations do
   before do
+    travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
+
     clean_data(Incident, Violation)
 
     incident = Incident.create!(data: { incident_date: Date.new(2022, 1, 23), status: 'open' })
@@ -33,6 +35,10 @@ describe ManagedReports::Indicators::LateVerificationViolations do
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
       incident_id: incident.id
     )
+  end
+
+  after do
+    travel_back
   end
 
   it 'return data for late verification indicator' do
