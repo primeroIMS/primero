@@ -60,10 +60,6 @@ module Exporters
       end
     end
 
-    before do
-      clean_data(Incident, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
-    end
-
     let(:incident_form) do
       FormSection.create!(
         name: 'incident_form',
@@ -117,8 +113,11 @@ module Exporters
       user
     end
 
-    let(:incident_1) do
-      Incident.create!(
+    before do
+      clean_data(Incident, Role, UserGroup, User, Agency, Field, FormSection, PrimeroProgram, PrimeroModule)
+
+      @incident1 = Incident.create!(
+        id: '20b60ced-b862-41db-ab17-2dc5048ea925',
         data: { incident_field_1: 'Incident 1 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
@@ -136,10 +135,8 @@ module Exporters
           )
         ]
       )
-    end
-
-    let(:incident_2) do
-      Incident.create!(
+      @incident2 = Incident.create!(
+        id: '27e16e07-c284-4929-9655-422d564aed87',
         data: { incident_field_1: 'Incident 2 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
@@ -162,10 +159,8 @@ module Exporters
           )
         ]
       )
-    end
-
-    let(:incident_3) do
-      Incident.create!(
+      @incident3 = Incident.create!(
+        id: '445c5a67-1ba2-478d-bd76-c94327516725',
         data: { incident_field_1: 'Incident 3 - Value 1', owned_by: 'user_mrm' },
         violations: [
           Violation.new(
@@ -194,7 +189,7 @@ module Exporters
 
     describe 'Export' do
       let(:workbook) do
-        data = MRMViolationExporter.export([incident_1, incident_2, incident_3], user)
+        data = MRMViolationExporter.export([@incident1, @incident2, @incident3], user)
         Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
       end
 
@@ -256,8 +251,8 @@ module Exporters
       it 'prints the violation data' do
         expect(workbook.sheet(0).row(4)).to eq(
           [
-            incident_1.id, incident_1.violations[0].id, 'Killing of Children',
-            "Killing of Children - Killing Value 1 - #{incident_1.violations[0].id[0..4]}",
+            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
+            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
             'Incident 1 - Value 1', nil,
             nil, nil,
             1, 3, 0, 4,
@@ -266,8 +261,8 @@ module Exporters
         )
         expect(workbook.sheet(0).row(5)).to eq(
           [
-            incident_2.id, incident_2.violations[0].id, 'Maiming of Children',
-            "Maiming of Children - #{incident_2.violations[0].id[0..4]}",
+            @incident2.id, @incident2.violations[0].id, 'Maiming of Children',
+            "Maiming of Children - #{@incident2.violations[0].id[0..4]}",
             'Incident 2 - Value 1', nil,
             nil, nil,
             1, 0, 1, 2,
@@ -276,8 +271,8 @@ module Exporters
         )
         expect(workbook.sheet(0).row(6)).to eq(
           [
-            incident_2.id, incident_2.violations[1].id, 'Abduction',
-            "Abduction - #{incident_2.violations[1].id[0..4]}",
+            @incident2.id, @incident2.violations[1].id, 'Abduction',
+            "Abduction - #{@incident2.violations[1].id[0..4]}",
             'Incident 2 - Value 1', nil,
             nil, nil,
             1, 0, 0, 1,
@@ -286,8 +281,8 @@ module Exporters
         )
         expect(workbook.sheet(0).row(7)).to eq(
           [
-            incident_3.id, incident_3.violations[0].id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{incident_3.violations[0].id[0..4]}",
+            @incident3.id, @incident3.violations[0].id, 'Attacks on hospital(s)',
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}",
             'Incident 3 - Value 1', nil,
             nil, nil,
             1, 2, 1, 4,
@@ -297,8 +292,8 @@ module Exporters
 
         expect(workbook.sheet(0).row(8)).to eq(
           [
-            incident_3.id, incident_3.violations[1].id, 'Military use of school(s) and/or hospital(s)',
-            "Military use of school(s) and/or hospital(s) - Military Value 1 - #{incident_3.violations[1].id[0..4]}",
+            @incident3.id, @incident3.violations[1].id, 'Military use of school(s) and/or hospital(s)',
+            "Military use of school(s) and/or hospital(s) - Military Value 1 - #{@incident3.violations[1].id[0..4]}",
             'Incident 3 - Value 1', nil,
             nil, nil,
             1, 1, 1, 3,
@@ -310,55 +305,55 @@ module Exporters
       it 'prints the associations data' do
         expect(workbook.sheet(1).row(3)).to eq(
           [
-            incident_3.id, incident_3.violations.first.id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{incident_3.violations[0].id[0..4]}", 'Incident 3 Source Value 1'
+            @incident3.id, @incident3.violations.first.id, 'Attacks on hospital(s)',
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}", 'Incident 3 Source Value 1'
           ]
         )
         expect(workbook.sheet(2).row(3)).to eq(
           [
-            incident_2.id, incident_2.violations[1].id, 'Abduction',
-            "Abduction - #{incident_2.violations[1].id[0..4]}", 'Incident 2 Perpetrator Value 1'
+            @incident2.id, @incident2.violations[1].id, 'Abduction',
+            "Abduction - #{@incident2.violations[1].id[0..4]}", 'Incident 2 Perpetrator Value 1'
           ]
         )
         expect(workbook.sheet(3).row(3)).to eq(
           [
-            incident_1.id, incident_1.violations[0].id, 'Killing of Children',
-            "Killing of Children - Killing Value 1 - #{incident_1.violations[0].id[0..4]}",
+            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
+            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
             'Incident 1 IV Value 1'
           ]
         )
         expect(workbook.sheet(3).row(4)).to eq(
           [
-            incident_2.id, incident_2.violations[0].id, 'Maiming of Children',
-            "Maiming of Children - #{incident_2.violations[0].id[0..4]}",
+            @incident2.id, @incident2.violations[0].id, 'Maiming of Children',
+            "Maiming of Children - #{@incident2.violations[0].id[0..4]}",
             'Incident 2 IV Value 1'
           ]
         )
         expect(workbook.sheet(3).row(5)).to eq(
           [
-            incident_3.id, incident_3.violations[0].id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{incident_3.violations[0].id[0..4]}",
+            @incident3.id, @incident3.violations[0].id, 'Attacks on hospital(s)',
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}",
             'Incident 3 IV Value 1'
           ]
         )
         expect(workbook.sheet(3).row(5)).to eq(
           [
-            incident_3.id, incident_3.violations[0].id, 'Attacks on hospital(s)',
-            "Attacks on hospital(s) - #{incident_3.violations[0].id[0..4]}",
+            @incident3.id, @incident3.violations[0].id, 'Attacks on hospital(s)',
+            "Attacks on hospital(s) - #{@incident3.violations[0].id[0..4]}",
             'Incident 3 IV Value 1'
           ]
         )
         expect(workbook.sheet(4).row(3)).to eq(
           [
-            incident_1.id, incident_1.violations[0].id, 'Killing of Children',
-            "Killing of Children - Killing Value 1 - #{incident_1.violations[0].id[0..4]}",
+            @incident1.id,@incident1.violations[0].id, 'Killing of Children',
+            "Killing of Children - Killing Value 1 - #{@incident1.violations[0].id[0..4]}",
             'Incident 1 GV Value 1'
           ]
         )
         expect(workbook.sheet(5).row(3)).to eq(
           [
-            incident_3.id, incident_3.violations[1].id, 'Military use of school(s) and/or hospital(s)',
-            "Military use of school(s) and/or hospital(s) - Military Value 1 - #{incident_3.violations[1].id[0..4]}",
+            @incident3.id, @incident3.violations[1].id, 'Military use of school(s) and/or hospital(s)',
+            "Military use of school(s) and/or hospital(s) - Military Value 1 - #{@incident3.violations[1].id[0..4]}",
             'Incident 3 Response Value 1'
           ]
         )
