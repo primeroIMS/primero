@@ -175,11 +175,6 @@ class Filter < ValueObject
     field_name: 'armed_force_group_names',
     option_strings_source: 'lookup-armed-force-group-name'
   )
-  ARMED_FORCE_GROUP_TYPE = Filter.new(
-    name: 'incidents.filter_by.armed_force_group_type',
-    field_name: 'perpetrator_sub_categories',
-    option_strings_source: 'lookup-armed-force-group-type'
-  )
   TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
     field_name: 'status',
@@ -437,7 +432,7 @@ class Filter < ValueObject
     end
 
     def armed_force_group_filters(user)
-      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP, ARMED_FORCE_GROUP_TYPE] : []
+      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP] : []
     end
 
     def tracing_request_filter(user)
