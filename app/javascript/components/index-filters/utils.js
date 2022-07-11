@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import isObject from "lodash/isObject";
+import omit from "lodash/omit";
 
 import { APPROVALS, APPROVALS_TYPES, VIOLATION_TYPE } from "../../config";
 
@@ -68,19 +69,15 @@ export const buildNameFilter = (item, i18n, approvalsLabels) => {
 export const combineFilters = data => {
   if (data.violation_category && data.verification_status) {
     const combinedFilters = data.violation_category.reduce((acc, violationCategory) => {
-      const filterCombinations = data.verification_status.reduce((acc2, verificationStatus) => {
-        return { ...acc2, [`${violationCategory}_${verificationStatus}`]: ["true"] };
-      }, {});
+      const combined = data.verification_status.map(verificationStatus => `${violationCategory}_${verificationStatus}`);
 
-      return { ...acc, ...filterCombinations };
-    }, {});
+      return [...acc, ...combined];
+    }, []);
 
-    const combined = { ...data, ...combinedFilters };
-
-    delete combined.verification_status;
-    delete combined.violation_category;
-
-    return combined;
+    return {
+      ...omit(data, ["verification_status", "violation_category"]),
+      violation_with_verification_status: combinedFilters
+    };
   }
 
   return data;
@@ -88,30 +85,34 @@ export const combineFilters = data => {
 
 export const splitFilters = data => {
   const violationTypes = Object.values(VIOLATION_TYPE);
+  const violationWithVerificationStatus = data.violation_with_verification_status;
 
-  return Object.entries(data).reduce((acc, [key, value]) => {
-    const violationCategory = violationTypes.find(violationType => key.startsWith(violationType));
+  if (violationWithVerificationStatus) {
+    const splittedFilters = violationWithVerificationStatus.reduce(
+      (acc, elem) => {
+        const violationCategory = violationTypes.find(violationType => elem.startsWith(violationType));
 
-    if (violationCategory) {
-      const verificationStatus = key.replace(`${violationCategory}_`, "");
+        if (violationCategory) {
+          const verificationStatus = elem.replace(`${violationCategory}_`, "");
 
-      if (verificationStatus) {
-        const violationCategories = isEmpty(acc.violation_category) ? [] : acc.violation_category;
+          if (verificationStatus) {
+            if (!acc.violation_category.includes(violationCategory)) {
+              acc.violation_category = [...acc.violation_category, violationCategory];
+            }
 
-        if (!violationCategories.includes(violationCategory)) {
-          violationCategories.push(violationCategory);
+            if (!acc.verification_status.includes(verificationStatus)) {
+              acc.verification_status = [...acc.verification_status, verificationStatus];
+            }
+          }
         }
 
-        const verificationStatuses = isEmpty(acc.verification_status) ? [] : acc.verification_status;
+        return acc;
+      },
+      { violation_category: [], verification_status: [] }
+    );
 
-        if (!verificationStatuses.includes(verificationStatus)) {
-          verificationStatuses.push(verificationStatus);
-        }
+    return { ...omit(data, "violation_with_verification_status"), ...splittedFilters };
+  }
 
-        return { ...acc, violation_category: violationCategories, verification_status: verificationStatuses };
-      }
-    }
-
-    return { ...acc, [key]: value };
-  }, {});
+  return data;
 };

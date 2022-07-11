@@ -62,10 +62,12 @@ describe("<IndexFilters /> - Utils", () => {
 
       const expected = {
         record_state: ["true"],
-        killing_verified: ["true"],
-        killing_report_pending_verification: ["true"],
-        maiming_verified: ["true"],
-        maiming_report_pending_verification: ["true"]
+        violation_with_verification_status: [
+          "killing_verified",
+          "killing_report_pending_verification",
+          "maiming_verified",
+          "maiming_report_pending_verification"
+        ]
       };
 
       expect(combineFilters(data)).to.deep.equal(expected);
@@ -94,10 +96,12 @@ describe("<IndexFilters /> - Utils", () => {
     it("splits the violation_category and verification_status if both are present", () => {
       const data = {
         record_state: ["true"],
-        killing_verified: ["true"],
-        killing_report_pending_verification: ["true"],
-        maiming_verified: ["true"],
-        maiming_report_pending_verification: ["true"]
+        violation_with_verification_status: [
+          "killing_verified",
+          "killing_report_pending_verification",
+          "maiming_verified",
+          "maiming_report_pending_verification"
+        ]
       };
 
       const expected = {

@@ -30,6 +30,8 @@ class PermittedFieldService
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
   ].freeze
 
+  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[violation_with_verification_status]
+
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
@@ -83,7 +85,7 @@ class PermittedFieldService
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
-    @permitted_field_names += permitted_mrm_filter_field_names if user.module?(PrimeroModule::MRM)
+    @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
@@ -199,14 +201,6 @@ class PermittedFieldService
   def permitted_mrm_entities_schema
     (Violation::TYPES + Violation::MRM_ASSOCIATIONS_KEYS).each_with_object({}) do |entry, schema|
       schema[entry] = { 'type' => %w[array null], 'items' => { 'type' => 'object' } }
-    end
-  end
-
-  def permitted_mrm_filter_field_names
-    Violation::TYPES.each_with_object([]) do |violation_type, acc|
-      Violation::VERIFICATION_STATUS.each do |verification_status|
-        acc << "#{violation_type}_#{verification_status}"
-      end
     end
   end
 end

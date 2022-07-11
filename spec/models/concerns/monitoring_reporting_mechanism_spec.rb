@@ -33,7 +33,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = SearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'killing_verified', value: 'true')
+        SearchFilters::Value.new(field_name: 'violation_with_verification_status', value: 'killing_verified')
       ]
     ).results
     expect(search_result.size).to eq(1)
@@ -44,7 +44,7 @@ describe MonitoringReportingMechanism, search: true do
     search_result = SearchService.search(
       Incident,
       filters: [
-        SearchFilters::Value.new(field_name: 'maiming_report_pending_verification', value: 'true')
+        SearchFilters::Value.new(field_name: 'violation_with_verification_status', value: 'maiming_report_pending_verification')
       ]
     ).results
     expect(search_result.size).to eq(1)

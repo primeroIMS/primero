@@ -131,7 +131,7 @@ class Dashboard < ValueObject
   DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = Dashboard.new(
     name: 'dash_violations_category_verification_status',
     type: 'indicator',
-    indicators: Indicators::Incident.violation_category_verification_status
+    indicators: [Indicators::Incident::VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
   ).freeze
 
   def self.cases_by_task_overdue_assessment

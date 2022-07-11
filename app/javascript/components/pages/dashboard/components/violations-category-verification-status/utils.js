@@ -20,8 +20,24 @@ export const transformToPivotedDashboard = data => {
               return {
                 ...acc2,
                 [statusId]: {
-                  count: data.getIn(["indicators", `${violationTypeId}_${statusId}`, "count"], 0),
-                  query: data.getIn(["indicators", `${violationTypeId}_${statusId}`, "query"], [])
+                  count: data.getIn(
+                    [
+                      "indicators",
+                      "violations_category_verification_status",
+                      `${violationTypeId}_${statusId}`,
+                      "count"
+                    ],
+                    0
+                  ),
+                  query: data.getIn(
+                    [
+                      "indicators",
+                      "violations_category_verification_status",
+                      `${violationTypeId}_${statusId}`,
+                      "query"
+                    ],
+                    []
+                  )
                 }
               };
             }, {})

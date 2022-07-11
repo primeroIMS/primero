@@ -9,17 +9,13 @@ module Indicators
       SearchFilters::Value.new(field_name: 'status', value: Record::STATUS_OPEN)
     ].freeze
 
-    def self.violation_category_verification_status
-      Violation::TYPES.each_with_object([]) do |violation_type, acc|
-        Violation::VERIFICATION_STATUS.each do |verification_status|
-          indicator_name = "#{violation_type}_#{verification_status}"
-          acc << QueriedIndicator.new(
-            name: indicator_name, record_model: ::Incident, scope_to_owned_by_groups: true,
-            queries: OPEN_ENABLED + [SearchFilters::Value.new(field_name: indicator_name, value: true)]
-          )
-        end
-      end
-    end
+    VIOLATIONS_CATEGORY_VERIFICATION_STATUS = FacetedIndicator.new(
+      name: 'violations_category_verification_status',
+      record_model: ::Incident,
+      facet: 'violation_with_verification_status',
+      scope: OPEN_ENABLED,
+      scope_to_owned_by_groups: true
+    ).freeze
 
     def self.violation_category_region(role)
       admin_level = role&.incident_reporting_location_config&.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL

@@ -23,41 +23,43 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/violations-category-v
             name: "dashboard.dash_violations_category_verification_status",
             type: "indicator",
             indicators: {
-              killing_verified: {
-                count: 7,
-                query: [
-                  "owned_by_groups=usergroup-primero-mrm",
-                  "record_state=true",
-                  "status=open",
-                  "killing_verified=true"
-                ]
-              },
-              killing_report_pending_verification: {
-                count: 1,
-                query: [
-                  "owned_by_groups=usergroup-primero-mrm",
-                  "record_state=true",
-                  "status=open",
-                  "killing_report_pending_verification=true"
-                ]
-              },
-              maiming_verified: {
-                count: 4,
-                query: [
-                  "owned_by_groups=usergroup-primero-mrm",
-                  "record_state=true",
-                  "status=open",
-                  "maiming_verified=true"
-                ]
-              },
-              maiming_report_pending_verification: {
-                count: 1,
-                query: [
-                  "owned_by_groups=usergroup-primero-mrm",
-                  "record_state=true",
-                  "status=open",
-                  "maiming_report_pending_verification=true"
-                ]
+              violations_category_verification_status: {
+                killing_verified: {
+                  count: 7,
+                  query: [
+                    "owned_by_groups=usergroup-primero-mrm",
+                    "record_state=true",
+                    "status=open",
+                    "killing_verified=true"
+                  ]
+                },
+                killing_report_pending_verification: {
+                  count: 1,
+                  query: [
+                    "owned_by_groups=usergroup-primero-mrm",
+                    "record_state=true",
+                    "status=open",
+                    "killing_report_pending_verification=true"
+                  ]
+                },
+                maiming_verified: {
+                  count: 4,
+                  query: [
+                    "owned_by_groups=usergroup-primero-mrm",
+                    "record_state=true",
+                    "status=open",
+                    "maiming_verified=true"
+                  ]
+                },
+                maiming_report_pending_verification: {
+                  count: 1,
+                  query: [
+                    "owned_by_groups=usergroup-primero-mrm",
+                    "record_state=true",
+                    "status=open",
+                    "maiming_report_pending_verification=true"
+                  ]
+                }
               }
             }
           }
