@@ -31,6 +31,8 @@ class PermittedFieldService
     armed_force_group_party_names
   ].freeze
 
+  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[armed_force_group_party_names]
+
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
@@ -84,6 +86,7 @@ class PermittedFieldService
     return permitted_field_names_from_action_name if action_name.present?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
+    @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
     @permitted_field_names += permitted_form_field_service.permitted_field_names(
       user.role, model_class.parent_form, writeable
     )
