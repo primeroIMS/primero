@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(Lookup, Incident, Role, Agency, User)
+    clean_data(Lookup, Incident, Role, Agency, User, Violation)
     travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
 
     SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
@@ -182,55 +182,6 @@ describe Exporters::ManagedReportExporter do
         ]
       }
     )
-
-    incident0 = Incident.create!(data: { incident_date: Date.new(2022, 4, 23), status: 'open' })
-    incident1 = Incident.create!(data: { incident_date: Date.new(2022, 6, 4), statsus: 'open' })
-    incident2 = Incident.create!(data: { incident_date: Date.new(2022, 6, 4), statsus: 'open' })
-
-
-    violation1 = Violation.create!(
-      data: { type: 'killing', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
-      incident_id: incident0.id
-    )
-
-    violation2 = Violation.create!(
-      data: { type: 'abduction', ctfmr_verified: 'verified',
-              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
-      incident_id: incident1.id
-    )
-
-    Violation.create!(
-      data: { type: 'maiming', ctfmr_verified: 'report_pending_verification', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
-      incident_id: incident0.id
-    )
-
-    Violation.create!(
-      data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
-              violation_tally: { 'boys': 3, 'girls': 4, 'unknown': 5, 'total': 12 } },
-      incident_id: incident0.id
-    )
-
-    Violation.create!(
-      data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
-              violation_tally: { 'boys': 3, 'girls': 4, 'unknown': 5, 'total': 12 } },
-      incident_id: incident0.id
-    )
-
-    violation1.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 9,
-                                       individual_multiple_violations: 'true',
-                                       unique_id: '8b79234d-6d22-47b6-a7ad-927207676667' })
-    ]
-
-    violation2.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
-                                       individual_multiple_violations: 'true',
-                                       unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80' })
-    ]
-
-    violation1.save!
-    violation2.save!
   end
 
   after do
@@ -238,70 +189,6 @@ describe Exporters::ManagedReportExporter do
   end
 
   describe 'Export' do
-    context 'when is a export of GHN' do
-      let(:workbook) do
-        data = ManagedReport.list[Permission::GHN_REPORT].export(
-          nil,
-          [
-            SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
-            SearchFilters::DateRange.new(
-              field_name: 'ghn_date_filter',
-              from: '2022-01-01',
-              to: '2022-06-10'
-            )
-          ],
-          { output_to_file: false }
-        )
-
-        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
-      end
-
-      it 'should export the excel' do
-        expect(workbook.sheets.size).to eq(1)
-      end
-
-      it 'prints subreport headers' do
-        expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil])
-      end
-
-      it 'prints report params' do
-        expect(workbook.sheet(0).row(2)).to eq(
-                                              [
-                                                '<html><b>View By: </b>Quarter / <b>Date Range: </b>Custom / <b>From: </b>2022-01-01 / <b>To: </b>2022-06-10 / </html>',
-                                                nil,
-                                                nil,
-                                                nil,
-                                                nil
-                                              ]
-                                            )
-      end
-
-      it 'prints indicator tables' do
-        expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil])
-        expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-        expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8])
-        expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-        expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4])
-
-        expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil])
-        expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil])
-        expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
-
-        expect(workbook.sheet(0).row(116)).to eq(['Unverified Information - Victims', nil, nil, nil, nil])
-        expect(workbook.sheet(0).row(117)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-        expect(workbook.sheet(0).row(118)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-        expect(workbook.sheet(0).row(119)).to eq(['Maiming of Children', 2, 3, 2, 7])
-
-        expect(workbook.sheet(0).row(144)).to eq(['Unverified Information - Violations', nil, nil, nil, nil])
-        expect(workbook.sheet(0).row(145)).to eq([nil, 'Total', nil, nil, nil])
-        expect(workbook.sheet(0).row(146)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
-
-        expect(workbook.sheet(0).row(173)).to eq([nil, 'Associated Violations', nil, nil, nil])
-        expect(workbook.sheet(0).row(174)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil])
-        expect(workbook.sheet(0).row(175)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil])
-      end
-    end
-
     context 'when is a export of GBV statistics' do
       let(:workbook) do
         data = ManagedReport.list[Permission::GBV_STATISTICS_REPORT].export(
@@ -1087,6 +974,120 @@ describe Exporters::ManagedReportExporter do
 
           expect(workbook_no_data.sheet(0).row(22)).to match_array(['Incident Location'])
         end
+      end
+    end
+
+    context 'when is a export of GHN' do
+      let(:workbook) do
+        data = ManagedReport.list[Permission::GHN_REPORT].export(
+          nil,
+          [
+            SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
+            SearchFilters::DateRange.new(
+              field_name: 'ghn_date_filter',
+              from: '2022-01-01',
+              to: '2022-06-10'
+            )
+          ],
+          { output_to_file: false }
+        )
+
+        Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      end
+
+      before do
+        incident0 = Incident.create!(data: { incident_date: Date.new(2022, 4, 23), status: 'open', module_id: 'primeromodule-mrm' })
+        incident1 = Incident.create!(data: { incident_date: Date.new(2022, 6, 4), statsus: 'open', module_id: 'primeromodule-mrm' })
+
+
+        violation1 = Violation.create!(
+          data: { type: 'killing', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+          incident_id: incident0.id
+        )
+
+        violation2 = Violation.create!(
+          data: { type: 'abduction', ctfmr_verified: 'verified',
+                  violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
+          incident_id: incident1.id
+        )
+
+        Violation.create!(
+          data: { type: 'maiming', ctfmr_verified: 'report_pending_verification', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+          incident_id: incident0.id
+        )
+
+        Violation.create!(
+          data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
+                  violation_tally: { 'boys': 3, 'girls': 4, 'unknown': 5, 'total': 12 } },
+          incident_id: incident0.id
+        )
+
+        Violation.create!(
+          data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
+                  violation_tally: { 'boys': 3, 'girls': 4, 'unknown': 5, 'total': 12 } },
+          incident_id: incident0.id
+        )
+
+        violation1.individual_victims = [
+          IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 9,
+                                           individual_multiple_violations: 'true',
+                                           unique_id: '8b79234d-6d22-47b6-a7ad-927207676667' })
+        ]
+
+        violation2.individual_victims = [
+          IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
+          IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
+                                           individual_multiple_violations: 'true',
+                                           unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80' })
+        ]
+
+        violation1.save!
+        violation2.save!
+      end
+
+      it 'should export the excel' do
+        expect(workbook.sheets.size).to eq(1)
+      end
+
+      it 'prints subreport headers' do
+        expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil])
+      end
+
+      it 'prints report params' do
+        expect(workbook.sheet(0).row(2)).to eq(
+                                              [
+                                                '<html><b>View By: </b>Quarter / <b>Date Range: </b>Custom / <b>From: </b>2022-01-01 / <b>To: </b>2022-06-10 / </html>',
+                                                nil,
+                                                nil,
+                                                nil,
+                                                nil
+                                              ]
+                                            )
+      end
+
+      it 'prints indicator tables' do
+        expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil])
+        expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
+        expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8])
+        expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
+        expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4])
+
+        expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil])
+        expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil])
+        expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+
+        expect(workbook.sheet(0).row(116)).to eq(['Unverified Information - Victims', nil, nil, nil, nil])
+        expect(workbook.sheet(0).row(117)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
+        expect(workbook.sheet(0).row(118)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
+        expect(workbook.sheet(0).row(119)).to eq(['Maiming of Children', 2, 3, 2, 7])
+
+        expect(workbook.sheet(0).row(144)).to eq(['Unverified Information - Violations', nil, nil, nil, nil])
+        expect(workbook.sheet(0).row(145)).to eq([nil, 'Total', nil, nil, nil])
+        expect(workbook.sheet(0).row(146)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+
+        expect(workbook.sheet(0).row(173)).to eq([nil, 'Associated Violations', nil, nil, nil])
+        expect(workbook.sheet(0).row(174)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil])
+        expect(workbook.sheet(0).row(175)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil])
       end
     end
   end
