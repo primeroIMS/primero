@@ -28,10 +28,9 @@ class PermittedFieldService
     transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
     created_at has_incidents short_id record_state sex age registration_date
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
-    armed_force_group_party_names
   ].freeze
 
-  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[armed_force_group_party_names]
+  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[armed_force_group_party_names].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
