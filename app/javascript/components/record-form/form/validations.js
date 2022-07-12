@@ -13,13 +13,21 @@ import {
   SELECT_FIELD,
   TALLY_FIELD
 } from "../constants";
+import { buildOperator } from "../../../libs/expressions/utils";
 
 import { asyncFieldOffline } from "./utils";
 
 const MAX_PERMITTED_INTEGER = 2147483647;
 
 export const fieldValidations = (field, { i18n, online = false }) => {
-  const { multi_select: multiSelect, name, type, required, option_strings_source: optionStringsSource } = field;
+  const {
+    multi_select: multiSelect,
+    name,
+    type,
+    required,
+    option_strings_source: optionStringsSource,
+    display_conditions_subform: displayConditionsSubform
+  } = field;
   const validations = {};
 
   if (field.visible === false || asyncFieldOffline(online, optionStringsSource)) {
@@ -93,21 +101,50 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       })
     );
   }
+
   if (required) {
     const requiredMessage = i18n.t("form_section.required_field", {
       field: field.display_name[i18n.locale]
     });
 
-    if (type === TICK_FIELD) {
-      validations[name] = bool().required(requiredMessage).oneOf([true], requiredMessage);
-    } else if (type === SELECT_FIELD && multiSelect) {
-      validations[name] = array().required(requiredMessage).min(1, requiredMessage);
-    } else if (type === TALLY_FIELD) {
-      validations[name] = validations[name].test(name, requiredMessage, value => {
-        return compact(Object.values(value)).length > 0;
+    switch (true) {
+      case type === TICK_FIELD:
+        validations[name] = bool().oneOf([true], requiredMessage);
+        break;
+      case type === SELECT_FIELD && multiSelect:
+        validations[name] = array().min(1, requiredMessage);
+        break;
+      case type === TALLY_FIELD:
+        validations[name] = validations[name].test(name, requiredMessage, value => {
+          return compact(Object.values(value)).length > 0;
+        });
+        break;
+      default:
+        validations[name] = validations[name] || string();
+        break;
+    }
+
+    const schema = validations[name] || string();
+
+    if (displayConditionsSubform) {
+      const [operator, condition] = Object.entries(displayConditionsSubform)[0];
+      const [relatedField] = Object.entries(condition)[0];
+
+      validations[name] = schema.when(relatedField, {
+        is: relatedFieldValue => {
+          return buildOperator(operator, condition).evaluate({ [relatedField]: relatedFieldValue });
+        },
+        then: schema.required(requiredMessage),
+        otherwise: schema.notRequired()
       });
     } else {
-      validations[name] = (validations[name] || string()).nullable().required(requiredMessage);
+      if (!([TICK_FIELD, SELECT_FIELD, TALLY_FIELD].includes(type) || (type !== SELECT_FIELD && multiSelect))) {
+        validations[name] = schema.nullable();
+      }
+
+      if (![TALLY_FIELD].includes(type)) {
+        validations[name] = schema.required(requiredMessage);
+      }
     }
   }
 

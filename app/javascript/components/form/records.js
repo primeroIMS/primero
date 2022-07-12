@@ -20,7 +20,7 @@ export const FieldRecord = Record({
   disableClearable: false,
   disabled: null,
   display_conditions_record: [],
-  display_conditions_subform: [],
+  display_conditions_subform: undefined,
   display_name: fromJS({}),
   downloadButtonLabel: "",
   editable: true,
