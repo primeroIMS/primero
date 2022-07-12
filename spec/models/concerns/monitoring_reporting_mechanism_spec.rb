@@ -16,6 +16,9 @@ describe MonitoringReportingMechanism, search: true do
             type: 'killing',
             ctfmr_verified: 'verified'
           },
+          perpetrators: [
+            Perpetrator.new(data: { armed_force_group_party_name: 'armed_force_1' })
+          ],
           individual_victims:
           [
             IndividualVictim.new(
@@ -39,6 +42,9 @@ describe MonitoringReportingMechanism, search: true do
       violations: [
         Violation.new(
           data: { type: 'killing' },
+          perpetrators: [
+            Perpetrator.new(data: { armed_force_group_party_name: 'other' })
+          ],
           individual_victims:
           [
             IndividualVictim.new(
@@ -212,5 +218,16 @@ describe MonitoringReportingMechanism, search: true do
     ).results
     expect(search_result.size).to eq(1)
     expect(search_result.first.id).to eq(incident_3.id)
+  end
+
+  it 'can find an incident by armed_force_group_party_names' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'armed_force_group_party_names', value: 'other')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
   end
 end

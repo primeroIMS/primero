@@ -9,7 +9,7 @@ module MonitoringReportingMechanism
       %i[
         individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
-        violation_with_verification_status verification_status
+        violation_with_verification_status verification_status armed_force_group_party_names
       ].each { |field| string(field, multiple: true) }
     end
   end
@@ -52,5 +52,9 @@ module MonitoringReportingMechanism
 
   def verification_status
     violations.map(&:ctfmr_verified).uniq.compact
+  end
+
+  def armed_force_group_party_names
+    perpetrators.map(&:armed_force_group_party_name).uniq.compact
   end
 end

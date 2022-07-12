@@ -274,7 +274,7 @@ describe Filter do
             incidents.filter_by.incident_location
             location.base_types.
             incidents.filter_by.by_date
-            incidents.filter_by.armed_force_group_name
+            incidents.filter_by.armed_force_group_party_name
             cases.filter_by.enabled_disabled
             incidents.filter_by.individual_violations
             incidents.filter_by.individual_age

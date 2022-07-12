@@ -6,6 +6,8 @@ class Perpetrator < ApplicationRecord
 
   has_and_belongs_to_many :violations
 
+  store_accessor(:data, :armed_force_group_party_name)
+
   # TODO: returns the names of the armed_force.name and armed_group.name
   def armed_force_group_name
     []

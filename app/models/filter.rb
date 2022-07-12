@@ -170,10 +170,10 @@ class Filter < ValueObject
     field_name: 'unaccompanied_separated_status',
     option_strings_source: 'lookup-unaccompanied-separated-status'
   )
-  ARMED_FORCE_GROUP = Filter.new(
-    name: 'incidents.filter_by.armed_force_group_name',
-    field_name: 'armed_force_group_names',
-    option_strings_source: 'lookup-armed-force-group-name'
+  ARMED_FORCE_GROUP_PARTY = Filter.new(
+    name: 'incidents.filter_by.armed_force_group_party_name',
+    field_name: 'armed_force_group_party_names',
+    option_strings_source: 'lookup-armed-force-group-or-other-party'
   )
   TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
@@ -483,7 +483,7 @@ class Filter < ValueObject
     end
 
     def armed_force_group_filters(user)
-      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP] : []
+      user.module?(PrimeroModule::MRM) ? [ARMED_FORCE_GROUP_PARTY] : []
     end
 
     def tracing_request_filter(user)

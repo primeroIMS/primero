@@ -22,7 +22,7 @@ class Api::V2::IncidentsController < ApplicationApiController
   def find_record
     model_query = model_class
     if current_user.module?(PrimeroModule::MRM)
-      model_query = model_class.eager_load(:violations, individual_victims: :violations)
+      model_query = model_class.eager_load(:violations, :perpetrators, individual_victims: :violations)
     end
     record = model_query.find(params[:id])
     # Alias the record to a more specific name: @child, @incident, @tracing_request
