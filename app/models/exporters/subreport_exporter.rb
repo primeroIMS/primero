@@ -133,7 +133,7 @@ class Exporters::SubreportExporter < ValueObject
     self.current_row += 1
   end
 
-  def write_table_header(indicator_key)
+  def write_table_header(indicator_key, total_i18n_key = 'managed_reports.total')
     write_grey_row
 
     worksheet.set_row(current_row, 30)
@@ -144,12 +144,12 @@ class Exporters::SubreportExporter < ValueObject
     )
     self.current_row += 1
 
-    write_total_row
+    write_total_row(total_i18n_key)
   end
 
-  def write_total_row
+  def write_total_row(total_i18n_key)
     worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t('managed_reports.total', locale: locale), formats[:bold_blue])
+    worksheet.write(current_row, 1, I18n.t(total_i18n_key, locale: locale), formats[:bold_blue])
     self.current_row += 1
   end
 
@@ -233,7 +233,7 @@ class Exporters::SubreportExporter < ValueObject
   end
 
   def value_display_text(elem, indicator_lookups)
-    return I18n.t('managed_reports.incomplete_data') if elem['id'].nil?
+    return I18n.t('managed_reports.incomplete_data') if elem.is_a?(Hash) && elem['id'].nil?
 
     if indicator_lookups.blank?
       return I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", default: elem['id'])
@@ -247,7 +247,10 @@ class Exporters::SubreportExporter < ValueObject
       return indicator_lookups.find_by_code(elem['id'])&.name_i18n&.dig(I18n.locale.to_s)
     end
 
-    indicator_lookups.find { |lookup_value| lookup_value['id'] == elem['id'] }&.dig('display_text')
+    indicator_lookups.find do |lookup_value|
+      value = elem.is_a?(String) ? elem : elem['id']
+      lookup_value['id'] == value
+    end&.dig('display_text')
   end
 
   def transform_indicator_values(values)
@@ -259,6 +262,10 @@ class Exporters::SubreportExporter < ValueObject
     end
   end
 
+  def find_lookup(value)
+    Lookup.values(value, nil, { locale: locale })
+  end
+
   def load_lookups
     subreport_lookups = metadata_property('lookups')
 
@@ -267,7 +274,9 @@ class Exporters::SubreportExporter < ValueObject
         next acc.merge(key => LocationService.instance)
       end
 
-      acc.merge(key => Lookup.values(value, nil, { locale: locale }))
+      lookup_obj = value.is_a?(Array) ? value.map { |l| [l, find_lookup(l)] }.to_h : find_lookup(value)
+
+      acc.merge(key => lookup_obj)
     end
   end
 

@@ -18,6 +18,12 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
     ]
   end
 
+  def lookups
+    {
+      ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender lookup-violation-type]
+    }.freeze
+  end
+
   def display_graph
     false
   end

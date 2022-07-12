@@ -1887,6 +1887,7 @@ en:
         girls: Girls
         total: Total
         unknown: Unknown
+        associated_violations: Associated Violations
     violations:
       name: Violations
       description: ''
