@@ -1425,6 +1425,7 @@ en:
       reasons_deprivation_liberty: What are the reasons for the deprivation of liberty?
       victim_facilty_victims_held: Please select the facility where the victim(s) was/were being held
       torture_punishment_while_deprivated_liberty: Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty?
+      verified_ghn_reported: Specify the GHN in which this incident was included
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
