@@ -14,7 +14,8 @@ describe MonitoringReportingMechanism, search: true do
         Violation.new(
           data: {
             type: 'killing',
-            ctfmr_verified: 'verified'
+            ctfmr_verified: 'verified',
+            verified_ghn_reported: ['2022-q2']
           },
           perpetrators: [
             Perpetrator.new(data: { armed_force_group_party_name: 'armed_force_1' })
@@ -41,7 +42,10 @@ describe MonitoringReportingMechanism, search: true do
     Incident.create!(
       violations: [
         Violation.new(
-          data: { type: 'killing' },
+          data: {
+            type: 'killing',
+            verified_ghn_reported: ['2022-q1'],
+          },
           perpetrators: [
             Perpetrator.new(data: { armed_force_group_party_name: 'other' })
           ],
@@ -229,5 +233,18 @@ describe MonitoringReportingMechanism, search: true do
     ).results
     expect(search_result.size).to eq(1)
     expect(search_result.first.id).to eq(incident_2.id)
+  end
+
+  it 'can find an incident by verified_ghn_reported' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::ValueList.new(field_name: 'verified_ghn_reported', values: %w[2022-q1 2022-q2])
+      ],
+      sort: { 'short_id': 'asc' }
+    ).results
+
+    expect(search_result.size).to eq(2)
+    expect(search_result.map(&:id)).to match_array([incident_1.id, incident_2.id])
   end
 end

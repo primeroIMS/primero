@@ -269,6 +269,13 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no-unknown'
   )
 
+  VERIFIED_GHN_REPORTED = Filter.new(
+    name: 'incidents.filter_by.verified_ghn_reported',
+    field_name: 'verified_ghn_reported',
+    type: 'multi_select',
+    option_strings_source: 'lookup-verified-ghn-reported'
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -464,7 +471,7 @@ class Filter < ValueObject
     end
 
     def children_verification_and_location_filters(user)
-      filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS] : []
+      filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS, VERIFIED_GHN_REPORTED] : []
       filters += location_filters(user)
       filters
     end

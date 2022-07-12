@@ -261,8 +261,8 @@ describe Filter do
       expect(@filters_mrm.count).to eq(1)
     end
     describe 'incident filters' do
-      it 'has 18 filters' do
-        expect(@filters_mrm.first[:incidents].count).to eq(18)
+      it 'has 19 filters' do
+        expect(@filters_mrm.first[:incidents].count).to eq(19)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
             cases.filter_by.flag
@@ -271,6 +271,7 @@ describe Filter do
             cases.filter_by.age_range
             incidents.filter_by.children
             incidents.filter_by.verification_status
+            incidents.filter_by.verified_ghn_reported
             incidents.filter_by.incident_location
             location.base_types.
             incidents.filter_by.by_date
@@ -303,6 +304,17 @@ describe Filter do
             name: 'incidents.filter_by.violations',
             field_name: 'violation_category',
             type: 'multi_select'
+          )
+        )
+      end
+
+      it 'has verified_ghn_reported filter' do
+        expect(@filters_mrm.first[:incidents]).to include(
+          have_attributes(
+            name: 'incidents.filter_by.verified_ghn_reported',
+            field_name: 'verified_ghn_reported',
+            type: 'multi_select',
+            option_strings_source: 'lookup-verified-ghn-reported'
           )
         )
       end
