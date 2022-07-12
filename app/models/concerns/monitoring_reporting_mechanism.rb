@@ -9,13 +9,13 @@ module MonitoringReportingMechanism
       %i[
         individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
-        violation_with_verification_status
+        violation_with_verification_status verification_status
       ].each { |field| string(field, multiple: true) }
     end
   end
 
   def individual_violations
-    violations.joins(:individual_victims).pluck(Arel.sql("violations.data->>'type'")).uniq.compact
+    individual_victims.map { |individual_victim| individual_victim.violations.map(&:type) }.flatten.uniq.compact
   end
 
   def individual_age
@@ -48,5 +48,9 @@ module MonitoringReportingMechanism
 
       memo << "#{violation.type}_#{violation.ctfmr_verified}"
     end.uniq
+  end
+
+  def verification_status
+    violations.map(&:ctfmr_verified).uniq.compact
   end
 end

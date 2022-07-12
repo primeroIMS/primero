@@ -546,10 +546,7 @@ class Filter < ValueObject
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
-
-  def individual_age_options(opts = {})
-    age_options(opts)
-  end
+  alias individual_age_options age_options
 
   def owned_by_groups_options(_opts = {})
     enabled_user_groups = UserGroup.where(disabled: false).map do |user_group|

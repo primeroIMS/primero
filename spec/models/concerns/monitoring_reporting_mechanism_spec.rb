@@ -202,4 +202,15 @@ describe MonitoringReportingMechanism, search: true do
     expect(search_result.size).to eq(1)
     expect(search_result.first.id).to eq(incident_3.id)
   end
+
+  it 'can find an incident by verification_status' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'verification_status', value: 'not_mrm')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_3.id)
+  end
 end
