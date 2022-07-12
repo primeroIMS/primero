@@ -7,7 +7,7 @@ export const FieldRecord = Record({
   date_validation: null,
   disabled: null,
   display_conditions_record: [],
-  display_conditions_subform: [],
+  display_conditions_subform: undefined,
   display_name: {},
   editable: null,
   form_section_id: null,
