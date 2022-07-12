@@ -15,7 +15,7 @@ class Incident < ApplicationRecord
   include Kpi::GBVIncident
   include ReportableLocation
   include GenderBasedViolence
-  # include IncidentMonitoringRecording #TODO: Refactor with Violations
+  include MonitoringReportingMechanism
 
   store_accessor(
     :data,
@@ -30,6 +30,7 @@ class Incident < ApplicationRecord
 
   has_many :violations, dependent: :destroy, inverse_of: :incident
   has_many :perpetrators, through: :violations
+  has_many :individual_victims, through: :violations
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
   after_save :save_violations_and_associations
 
@@ -85,10 +86,6 @@ class Incident < ApplicationRecord
     filterable_id_fields.each { |f| string("#{f}_filterable", as: "#{f}_filterable_sci") { data[f] } }
     quicksearch_fields.each { |f| text_index(f) }
     sortable_text_fields.each { |f| string("#{f}_sortable", as: "#{f}_sortable_sci") { data[f] } }
-    string :verification_status, multiple: true do
-      verification_status_list
-    end
-    string :armed_force_group_party_names, multiple: true
   end
 
   after_initialize :set_unique_id
@@ -270,16 +267,6 @@ class Incident < ApplicationRecord
 
   def reporting_location_property
     'incident_reporting_location_config'
-  end
-
-  def verification_status_list
-    return [] unless violations.any?
-
-    violations.pluck(Arel.sql("data->>'ctfmr_verified'")).uniq.compact
-  end
-
-  def armed_force_group_party_names
-    perpetrators.pluck(Arel.sql("perpetrators.data->>'armed_force_group_party_name'")).uniq.compact
   end
 end
 # rubocop:enable Metrics/ClassLength

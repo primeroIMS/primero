@@ -36,3 +36,18 @@ export const MY_CASES_FILTER_NAME = "my_cases";
 
 export const OR_FILTER_NAME = "or";
 export const DEFAULT_SELECTED_RECORDS_VALUE = {};
+
+export const INDIVIDUAL_VICTIM_FILTER_NAMES = Object.freeze([
+  "individual_violations",
+  "individual_age",
+  "individual_sex",
+  "victim_deprived_liberty_security_reasons",
+  "reasons_deprivation_liberty",
+  "victim_facilty_victims_held",
+  "torture_punishment_while_deprivated_liberty"
+]);
+
+export const FILTER_CATEGORY = Object.freeze({
+  incidents: "incidents",
+  individual_victims: "individual_victims"
+});

@@ -1229,6 +1229,9 @@ en:
     less: Less...
     more: More...
     save_filters: Save
+    categories:
+      violations: Violations
+      individual_victims: Individual Victims
   flags:
     add_flag_tab: Add New Flag
     date: 'Date:'
@@ -1414,6 +1417,13 @@ en:
       armed_force_group_party_name: Armed force, group, or other party
       armed_force_group_type: Armed Force Group Type
       violations: Violations
+      individual_violations: Individual Violations
+      individual_age: Individual Age
+      individual_sex: Individual Sex
+      victim_deprived_liberty_security_reasons: Deprived of Liberty
+      reasons_deprivation_liberty: What are the reasons for the deprivation of liberty?
+      victim_facilty_victims_held: Please select the facility where the victim(s) was/were being held
+      torture_punishment_while_deprivated_liberty: Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty?
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
@@ -1887,6 +1897,7 @@ en:
         girls: Girls
         total: Total
         unknown: Unknown
+        associated_violations: Associated Violations
     violations:
       name: Violations
       description: ''
