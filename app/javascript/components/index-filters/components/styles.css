@@ -103,6 +103,10 @@
   transform: scaleX(-1);
 }
 
+.filterCategory {
+  padding: 5px 0;
+}
+
 @media (min-width:960px) {
   .tab {
     min-width: 100px;

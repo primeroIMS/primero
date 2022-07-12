@@ -6,8 +6,40 @@ module MonitoringReportingMechanism
 
   included do
     searchable do
-      string :violation_with_verification_status, multiple: true
+      %i[
+        individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+        reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
+        violation_with_verification_status verification_status
+      ].each { |field| string(field, multiple: true) }
     end
+  end
+
+  def individual_violations
+    individual_victims.map { |individual_victim| individual_victim.violations.map(&:type) }.flatten.uniq.compact
+  end
+
+  def individual_age
+    individual_victims.map(&:individual_age).uniq.compact
+  end
+
+  def individual_sex
+    individual_victims.map(&:individual_sex).uniq.compact
+  end
+
+  def victim_deprived_liberty_security_reasons
+    individual_victims.map(&:victim_deprived_liberty_security_reasons).uniq.compact
+  end
+
+  def reasons_deprivation_liberty
+    individual_victims.map(&:reasons_deprivation_liberty).uniq.compact
+  end
+
+  def victim_facilty_victims_held
+    individual_victims.map(&:facilty_victims_held).uniq.compact
+  end
+
+  def torture_punishment_while_deprivated_liberty
+    individual_victims.map(&:torture_punishment_while_deprivated_liberty).uniq.compact
   end
 
   def violation_with_verification_status
@@ -16,5 +48,9 @@ module MonitoringReportingMechanism
 
       memo << "#{violation.type}_#{violation.ctfmr_verified}"
     end.uniq
+  end
+
+  def verification_status
+    violations.map(&:ctfmr_verified).uniq.compact
   end
 end

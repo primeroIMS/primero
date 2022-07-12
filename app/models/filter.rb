@@ -227,6 +227,48 @@ class Filter < ValueObject
     type: 'multi_select'
   )
 
+  INDIVIDUAL_VIOLATIONS = Filter.new(
+    name: 'incidents.filter_by.individual_violations',
+    field_name: 'individual_violations',
+    option_strings_source: 'lookup-violation-type'
+  )
+
+  INDIVIDUAL_AGE = Filter.new(
+    name: 'incidents.filter_by.individual_age',
+    field_name: 'individual_age',
+    type: 'multi_toggle'
+  )
+
+  INDIVIDUAL_SEX = Filter.new(
+    name: 'incidents.filter_by.individual_sex',
+    field_name: 'individual_sex',
+    option_strings_source: 'lookup-gender-unknown'
+  )
+
+  DEPRIVED_LIBERTY_SECURITY_REASONS = Filter.new(
+    name: 'incidents.filter_by.victim_deprived_liberty_security_reasons',
+    field_name: 'victim_deprived_liberty_security_reasons',
+    option_strings_source: 'lookup-yes-no-unknown'
+  )
+
+  REASONS_DEPRIVATION_LIBERTY = Filter.new(
+    name: 'incidents.filter_by.reasons_deprivation_liberty',
+    field_name: 'reasons_deprivation_liberty',
+    option_strings_source: 'lookup-reasons-deprivation-liberty'
+  )
+
+  VICTIM_FACILTY_VICTIMS_HELD = Filter.new(
+    name: 'incidents.filter_by.victim_facilty_victims_held',
+    field_name: 'victim_facilty_victims_held',
+    option_strings_source: 'lookup-detention-facility-type'
+  )
+
+  TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY = Filter.new(
+    name: 'incidents.filter_by.torture_punishment_while_deprivated_liberty',
+    field_name: 'torture_punishment_while_deprivated_liberty',
+    option_strings_source: 'lookup-yes-no-unknown'
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -382,9 +424,18 @@ class Filter < ValueObject
       filters += children_verification_and_location_filters(user)
       filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
       filters << ENABLED
+      filters += mrm_incident_filters if user.module?(PrimeroModule::MRM)
       filters
     end
     # rubocop:enable Metrics/AbcSize
+
+    def mrm_incident_filters
+      [
+        INDIVIDUAL_VIOLATIONS, INDIVIDUAL_AGE, INDIVIDUAL_SEX,
+        DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
+        VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY
+      ]
+    end
 
     def violence_type_filter(user)
       user.module?(PrimeroModule::GBV) ? [VIOLENCE_TYPE] : []
@@ -491,11 +542,11 @@ class Filter < ValueObject
   end
 
   def age_options(_opts = {})
-    system_settings = SystemSettings.current
-    self.options = system_settings.age_ranges[system_settings.primary_age_range].map do |age_range|
+    self.options = SystemSettings.primary_age_ranges.map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
+  alias individual_age_options age_options
 
   def owned_by_groups_options(_opts = {})
     enabled_user_groups = UserGroup.where(disabled: false).map do |user_group|
@@ -603,7 +654,8 @@ class Filter < ValueObject
           approval_status_action_plan approval_status_gbv_closure].include? field_name
       approval_status_options
     elsif %w[
-      owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date registry_records_by_date
+      owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
+      registry_records_by_date individual_age
     ].include? field_name
       opts = { user: user, record_type: record_type }
       send("#{field_name}_options", opts)

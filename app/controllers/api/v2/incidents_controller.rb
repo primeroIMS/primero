@@ -18,4 +18,14 @@ class Api::V2::IncidentsController < ApplicationApiController
               @record.associations_as_data_keys.select { |association| association.in?(record_params.keys) }
     @updated_field_names = changes & @permitted_field_names
   end
+
+  def find_record
+    model_query = model_class
+    if current_user.module?(PrimeroModule::MRM)
+      model_query = model_class.eager_load(:violations, individual_victims: :violations)
+    end
+    record = model_query.find(params[:id])
+    # Alias the record to a more specific name: @child, @incident, @tracing_request
+    instance_variable_set("@#{model_class.name.underscore}", record)
+  end
 end

@@ -30,7 +30,11 @@ class PermittedFieldService
     reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
   ].freeze
 
-  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[violation_with_verification_status]
+  PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
+    individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+    reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
+    violation_with_verification_status
+  ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id

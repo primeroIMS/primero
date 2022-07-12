@@ -54,7 +54,7 @@ module Exporters
 
     def export(records, user, options = {})
       establish_export_constraints(records, user, options)
-      violations = Incident.where(id: records).joins(:violations).includes(:violations).map(&:violations).flatten
+      violations = Violation.where(incident_id: records).order(:incident_id)
       write_violations(violations)
       write_violation_associations(violations)
     end

@@ -261,8 +261,8 @@ describe Filter do
       expect(@filters_mrm.count).to eq(1)
     end
     describe 'incident filters' do
-      it 'has 11 filters' do
-        expect(@filters_mrm.first[:incidents].count).to eq(11)
+      it 'has 18 filters' do
+        expect(@filters_mrm.first[:incidents].count).to eq(18)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
             cases.filter_by.flag
@@ -276,6 +276,13 @@ describe Filter do
             incidents.filter_by.by_date
             incidents.filter_by.armed_force_group_name
             cases.filter_by.enabled_disabled
+            incidents.filter_by.individual_violations
+            incidents.filter_by.individual_age
+            incidents.filter_by.individual_sex
+            incidents.filter_by.victim_deprived_liberty_security_reasons
+            incidents.filter_by.reasons_deprivation_liberty
+            incidents.filter_by.victim_facilty_victims_held
+            incidents.filter_by.torture_punishment_while_deprivated_liberty
           ]
         )
       end
