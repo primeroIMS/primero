@@ -1952,6 +1952,8 @@ en:
         abducted_status: Status of Abducted
         facility_attack_type: Type of violation
         received_response: Children Received Response
+        male: Male
+        female: Female
     gbv_statistics:
       name: GBV Statistics
       description: ''

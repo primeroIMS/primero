@@ -135,55 +135,55 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
     violation1 = Violation.create!(data: { type: 'killing' }, incident_id: incident1.id)
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation2 = Violation.create!(data: { type: 'killing' }, incident_id: incident2.id)
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation3 = Violation.create!(data: { type: 'maiming' }, incident_id: incident2.id)
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation4 = Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation5 = Violation.create!(data: { type: 'abduction' }, incident_id: incident3.id)
     violation5.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation6 = Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
     violation6.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation7 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation7.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation8 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation8.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation9 = Violation.create!(data: { type: 'abduction' }, incident_id: incident4.id)
     violation9.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
     ]
 
     violation10 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation10.individual_victims = [
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
 
@@ -193,7 +193,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
         @self_user
       ).data
 
-      expect(reporting_location_data).to match_array([{ id: 'E1', total: 1 }])
+      expect(reporting_location_data).to match_array([{ id: 'E1', male: 1, total: 1 }])
     end
 
     it 'returns group records for a group scope' do
@@ -202,7 +202,10 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ id: 'E1', total: 7 }, { id: 'E2', total: 4 }]
+        [
+          { id: 'E1', female: 2, male: 3, unknown: 2, total: 7 },
+          { id: 'E2', female: 1, male: 2, unknown: 1, total: 4 }
+        ]
       )
     end
 
@@ -212,7 +215,10 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ id: 'E1', total: 2 }, { id: 'E2', total: 4 }]
+        [
+          { female: 1, id: 'E1', male: 1, total: 2 },
+          { female: 1, id: 'E2', male: 2, total: 4, unknown: 1 }
+        ]
       )
     end
 
@@ -222,7 +228,10 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
       ).data
 
       expect(reporting_location_data).to match_array(
-        [{ id: 'E1', total: 8 }, { id: 'E2', total: 4 }]
+        [
+          { female: 2, id: 'E1', male: 4, total: 8, unknown: 2 },
+          { female: 1, id: 'E2', male: 2, total: 4, unknown: 1 }
+        ]
       )
     end
   end
@@ -245,9 +254,15 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ id: 'E1', total: 1 }] },
-            { group_id: 2021, data: [{ id: 'E1', total: 2 }] },
-            { group_id: 2022, data: [{ id: 'E1', total: 5 }, { id: 'E2', total: 4 }] }
+            { group_id: 2020, data: [{ id: 'E1', male: 1, total: 1 }] },
+            { group_id: 2021, data: [{ id: 'E1', male: 1, female: 1, total: 2 }] },
+            {
+              group_id: 2022,
+              data: [
+                { id: 'E1', female: 1, male: 2, unknown: 2, total: 5 },
+                { id: 'E2', female: 1, male: 2, unknown: 1, total: 4 }
+              ]
+            }
           ]
         )
       end
@@ -270,16 +285,16 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'E1', total: 1 }] },
+            { group_id: '2020-08', data: [{ id: 'E1', male: 1, total: 1 }] },
             { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
             { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
             { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] },
-            { group_id: '2021-05', data: [{ id: 'E1', total: 2 }] },
+            { group_id: '2021-05', data: [{ id: 'E1', female: 1, male: 1, total: 2 }] },
             { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
             { group_id: '2021-09', data: [] }, { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] }, { group_id: '2022-01', data: [] },
-            { group_id: '2022-02', data: [{ id: 'E2', total: 4 }] },
-            { group_id: '2022-03', data: [{ id: 'E1', total: 5 }] }
+            { group_id: '2022-02', data: [{ id: 'E2', female: 1, male: 2, unknown: 1, total: 4 }] },
+            { group_id: '2022-03', data: [{ id: 'E1', female: 1, male: 2, total: 5, unknown: 2 }] }
           ]
         )
       end
@@ -302,11 +317,17 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'E1', total: 1 }] },
+            { group_id: '2020-Q3', data: [{ id: 'E1', male: 1, total: 1 }] },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] },
-            { group_id: '2021-Q2', data: [{ id: 'E1', total: 2 }] },
+            { group_id: '2021-Q2', data: [{ id: 'E1', female: 1, male: 1, total: 2 }] },
             { group_id: '2021-Q3', data: [] }, { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'E1', total: 5 }, { id: 'E2', total: 4 }] }
+            {
+              group_id: '2022-Q1',
+              data: [
+                { id: 'E1', female: 1, male: 2, unknown: 2, total: 5 },
+                { id: 'E2', female: 1, male: 2, total: 4, unknown: 1 }
+              ]
+            }
           ]
         )
       end
