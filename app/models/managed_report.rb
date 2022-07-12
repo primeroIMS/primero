@@ -40,7 +40,7 @@ class ManagedReport < ValueObject
         permitted_filters: [
           :grouped_by, ghn_date_filter: {}
         ],
-        module_id: PrimeroModule::MRM,
+        module_id: PrimeroModule::MRM
       )
     }.freeze
   end

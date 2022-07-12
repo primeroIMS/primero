@@ -1,4 +1,4 @@
-import {fromJS, List} from "immutable";
+import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
