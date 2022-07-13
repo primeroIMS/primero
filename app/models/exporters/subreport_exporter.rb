@@ -248,7 +248,7 @@ class Exporters::SubreportExporter < ValueObject
     end
 
     indicator_lookups.find do |lookup_value|
-      value = elem.is_a?(String) ? elem : elem['id']
+      value = elem.is_a?(Hash) ? elem['id'] : elem
       lookup_value['id'] == value
     end&.dig('display_text')
   end
