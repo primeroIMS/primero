@@ -99,7 +99,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 },
-        abduction_regained_freedom: 'false'
+        abduction_regained_freedom: 'no'
       },
       incident_id: incident1.id
     )
@@ -122,7 +122,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
-        abduction_regained_freedom: 'true',
+        abduction_regained_freedom: 'yes',
         abduction_regained_freedom_how: ['escape']
       },
       incident_id: incident4.id
@@ -131,7 +131,7 @@ describe ManagedReports::Indicators::AbductedStatus do
       data: {
         type: 'abduction',
         violation_tally: { 'boys': 2, 'girls': 5, 'unknown': 2, 'total': 9 },
-        abduction_regained_freedom: 'true',
+        abduction_regained_freedom: 'yes',
         abduction_regained_freedom_how: ['payment_of_ransom']
       },
       incident_id: incident5.id

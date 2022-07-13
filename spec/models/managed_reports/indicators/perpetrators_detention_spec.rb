@@ -96,26 +96,26 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     violation1 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident1.id)
     violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation2 = Violation.create!(data: { type: 'killing', attack_type: 'aerial_attack' }, incident_id: incident2.id)
     violation2.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation3 = Violation.create!(data: { type: 'maiming', attack_type: 'aerial_attack' }, incident_id: incident3.id)
     violation3.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_3' })]
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation4 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident4.id)
     violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_4' })]
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'false' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'no' }),
       IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end

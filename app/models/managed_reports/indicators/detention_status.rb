@@ -42,7 +42,7 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
                   inner join individual_victims_violations ivv on violations.id = ivv.violation_id
                   inner join individual_victims iv on ivv.individual_victim_id = iv.id
                   WHERE iv."data"->>'depriviation_liberty_date' is not null
-                  and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
+                  and (iv.data->>'victim_deprived_liberty_security_reasons') = 'yes'
                   #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
                   #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
                   #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}

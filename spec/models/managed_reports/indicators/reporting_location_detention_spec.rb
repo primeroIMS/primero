@@ -135,54 +135,54 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
 
     violation1 = Violation.create!(data: { type: 'killing' }, incident_id: incident1.id)
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation2 = Violation.create!(data: { type: 'killing' }, incident_id: incident2.id)
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation3 = Violation.create!(data: { type: 'maiming' }, incident_id: incident2.id)
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation4 = Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation5 = Violation.create!(data: { type: 'abduction' }, incident_id: incident3.id)
     violation5.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation6 = Violation.create!(data: { type: 'killing' }, incident_id: incident3.id)
     violation6.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation7 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation7.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation8 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation8.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation9 = Violation.create!(data: { type: 'abduction' }, incident_id: incident4.id)
     violation9.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation10 = Violation.create!(data: { type: 'killing' }, incident_id: incident4.id)
     violation10.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' }),
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
       IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end
