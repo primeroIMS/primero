@@ -115,7 +115,7 @@ const DateField = ({ displayName, name, helperText, mode, formik, InputProps, fo
           },
           onChange,
           disableFuture: rest.field && rest.field.get("date_validation") === NOT_FUTURE_DATE,
-          error: !!(fieldError && fieldTouched)
+          error: fieldError && formik.submitCount > 0
         };
 
         return (

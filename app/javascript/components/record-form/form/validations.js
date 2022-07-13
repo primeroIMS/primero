@@ -120,7 +120,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         });
         break;
       default:
-        validations[name] = validations[name] || string();
+        validations[name] = (validations[name] || string()).nullable();
         break;
     }
 
