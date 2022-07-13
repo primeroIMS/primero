@@ -1046,7 +1046,7 @@ describe Exporters::ManagedReportExporter do
 
         violation2.individual_victims = [
           IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-          IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
+          IndividualVictim.create!(data: { individual_age: 3,
                                            individual_multiple_violations: 'true',
                                            unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80' })
         ]
