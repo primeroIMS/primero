@@ -25,16 +25,16 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                                  table_name_for_query(params))&.concat(' as group_id,')}
             (
               case
-              when (violations."data"->>'abduction_regained_freedom' = 'false')
+              when (violations."data"->>'abduction_regained_freedom' = 'no')
                 then 'still_being_held'
-              when (violations."data"->>'abduction_regained_freedom' = 'true'
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
                 and (
                   'escape' = ANY(
                     ARRAY(SELECT jsonb_array_elements_text(violations.data->'abduction_regained_freedom_how'))
                   ))
                 )
                 then 'escaped'
-              when (violations."data"->>'abduction_regained_freedom' = 'true'
+              when (violations."data"->>'abduction_regained_freedom' = 'yes'
                 and (
                   ('escape' <> ANY(
                     ARRAY(SELECT jsonb_array_elements_text(violations.data->'abduction_regained_freedom_how'))

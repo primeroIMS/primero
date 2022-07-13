@@ -102,7 +102,7 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation1.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
+          victim_deprived_liberty_security_reasons: 'yes',
           depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
           depriviation_liberty_end_date: Date.today - 1.day,
           individual_sex: 'female'
@@ -116,7 +116,7 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation2.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
+          victim_deprived_liberty_security_reasons: 'yes',
           depriviation_liberty_date: Date.today.beginning_of_month - 1.month,
           depriviation_liberty_end_date: Date.today - 3.days,
           individual_sex: 'unknown'
@@ -130,7 +130,7 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation3.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
+          victim_deprived_liberty_security_reasons: 'yes',
           depriviation_liberty_date: Date.today.beginning_of_month,
           individual_sex: 'male'
         }
@@ -143,7 +143,7 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation4.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
+          victim_deprived_liberty_security_reasons: 'yes',
           depriviation_liberty_date: Date.today.beginning_of_month,
           depriviation_liberty_end_date: Date.today + 3.days,
           individual_sex: 'female'
@@ -151,7 +151,7 @@ describe ManagedReports::Indicators::DetentionStatus do
       ),
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'true',
+          victim_deprived_liberty_security_reasons: 'yes',
           depriviation_liberty_date: Date.today,
           depriviation_liberty_end_date: Date.today + 3.days,
           individual_sex: 'male'
@@ -165,7 +165,7 @@ describe ManagedReports::Indicators::DetentionStatus do
     violation5.individual_victims = [
       IndividualVictim.create!(
         data: {
-          victim_deprived_liberty_security_reasons: 'false',
+          victim_deprived_liberty_security_reasons: 'no',
           depriviation_liberty_date: Date.today.beginning_of_year,
           individual_sex: 'unknown'
         }

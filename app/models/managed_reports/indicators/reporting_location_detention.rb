@@ -40,7 +40,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-        and (iv.data->>'victim_deprived_liberty_security_reasons') = 'true'
+        and (iv.data->>'victim_deprived_liberty_security_reasons') = 'yes'
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name

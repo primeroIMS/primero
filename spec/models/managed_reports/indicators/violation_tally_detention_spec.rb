@@ -98,35 +98,35 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
       incident_id: incident1.id
     )
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation2 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
       incident_id: incident2.id
     )
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation3 = Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 } },
       incident_id: incident3.id
     )
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation4 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
       incident_id: incident4.id
     )
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'true' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation5 = Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
