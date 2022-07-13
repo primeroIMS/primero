@@ -4,7 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
 import qs from "qs";
 import isEmpty from "lodash/isEmpty";
-import merge from "lodash/merge";
+import merge from "deepmerge";
 import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";

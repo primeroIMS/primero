@@ -248,7 +248,7 @@ class Filter < ValueObject
   DEPRIVED_LIBERTY_SECURITY_REASONS = Filter.new(
     name: 'incidents.filter_by.victim_deprived_liberty_security_reasons',
     field_name: 'victim_deprived_liberty_security_reasons',
-    option_strings_source: 'lookup-yes-no-unknown'
+    option_strings_source: 'lookup-mrm-yes-no-unknown'
   )
 
   REASONS_DEPRIVATION_LIBERTY = Filter.new(
@@ -266,7 +266,7 @@ class Filter < ValueObject
   TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY = Filter.new(
     name: 'incidents.filter_by.torture_punishment_while_deprivated_liberty',
     field_name: 'torture_punishment_while_deprivated_liberty',
-    option_strings_source: 'lookup-yes-no-unknown'
+    option_strings_source: 'lookup-mrm-yes-no-unknown'
   )
 
   VERIFIED_GHN_REPORTED = Filter.new(

@@ -3,98 +3,123 @@
 require 'rails_helper'
 
 describe MonitoringReportingMechanism, search: true do
-  before do
-    clean_data(Incident, Violation, IndividualVictim)
+  let(:user_1) do
+    primero_module = PrimeroModule.new(name: 'CP')
+
+    role = Role.new(permissions: [], modules: [primero_module])
+    role.save(validate: false)
+
+    group1 = UserGroup.create!(name: 'Group1')
+
+    user = User.new(user_name: 'user1', role: @role, user_groups: [group1])
+    user.save(validate: false)
+    user
   end
 
   let(:incident_1) do
-    Incident.create!(
-      data: { incident_date: '2022-04-08' },
-      violations: [
-        Violation.new(
-          data: {
-            type: 'killing',
-            ctfmr_verified: 'verified',
-            verified_ghn_reported: ['2022-q2']
-          },
-          perpetrators: [
-            Perpetrator.new(data: { armed_force_group_party_name: 'armed_force_1' })
-          ],
-          individual_victims:
-          [
-            IndividualVictim.new(
-              data: {
-                individual_age: 10,
-                individual_sex: 'male',
-                victim_deprived_liberty_security_reasons: 'yes',
-                reasons_deprivation_liberty: 'reason_1',
-                facilty_victims_held: 'facility_1',
-                torture_punishment_while_deprivated_liberty: 'no'
-              }
-            )
-          ]
-        )
-      ]
+    incident1 = Incident.new_with_user(
+      user_1,
+      {
+        'incident_date' => '2022-04-08',
+        'killing' => [
+          {
+            'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
+            'ctfmr_verified' => 'verified',
+            'verified_ghn_reported' => ['2022-q2'],
+            'type' => 'killing'
+          }
+        ],
+        'perpetrators' => [
+          {
+            'unique_id' => 'a32b70de-9132-4c89-be8d-67e85a69ec68',
+            'armed_force_group_party_name' => 'armed_force_1',
+            'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
+          }
+        ],
+        'individual_victims' => [
+          {
+            'unique_id' => 'c32b70de-9132-4c89-be8d-77e85a69ec68',
+            'individual_age' => 10,
+            'individual_sex' => 'male',
+            'victim_deprived_liberty_security_reasons' => 'yes',
+            'reasons_deprivation_liberty' => 'reason_1',
+            'facilty_victims_held' => 'facility_1',
+            'torture_punishment_while_deprivated_liberty' => 'no',
+            'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
+          }
+        ]
+      }
     )
+    incident1.save!
+    incident1
   end
 
   let(:incident_2) do
-    Incident.create!(
-      violations: [
-        Violation.new(
-          data: {
-            type: 'killing',
-            verified_ghn_reported: ['2022-q1'],
+    incident2 = Incident.new_with_user(
+      user_1,
+      {
+        'killing' => [
+          {
+            'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
+            'verified_ghn_reported' => ['2022-q1'],
+            'type' => 'killing'
+          }
+        ],
+        'maiming' => [
+          'unique_id' => '5255e66c-5e57-4291-af2a-0acd50c1de72',
+          'type' => 'maiming'
+        ],
+        'perpetrators' => [
+          {
+            'armed_force_group_party_name' => 'other',
+            'violations_ids' => ['f37ccb6e-9f85-473e-890e-7037e8ece397']
+          }
+        ],
+        'individual_victims' => [
+          {
+            'individual_age' => 3,
+            'individual_sex' => 'male',
+            'victim_deprived_liberty_security_reasons' => 'unknown',
+            'reasons_deprivation_liberty' => 'reason_2',
+            'facilty_victims_held' => 'facility_2',
+            'torture_punishment_while_deprivated_liberty' => 'yes',
+            'violations_ids' => ['f37ccb6e-9f85-473e-890e-7037e8ece397']
           },
-          perpetrators: [
-            Perpetrator.new(data: { armed_force_group_party_name: 'other' })
-          ],
-          individual_victims:
-          [
-            IndividualVictim.new(
-              data: {
-                individual_age: 3,
-                individual_sex: 'male',
-                victim_deprived_liberty_security_reasons: 'unknown',
-                reasons_deprivation_liberty: 'reason_2',
-                facilty_victims_held: 'facility_2',
-                torture_punishment_while_deprivated_liberty: 'yes'
-              }
-            )
-          ]
-        ),
-        Violation.new(
-          data: { type: 'maiming' },
-          individual_victims:
-          [
-            IndividualVictim.new(
-              data: {
-                individual_age: 15,
-                individual_sex: 'female',
-                victim_deprived_liberty_security_reasons: 'no',
-                reasons_deprivation_liberty: nil,
-                facilty_victims_held: 'facility_1',
-                torture_punishment_while_deprivated_liberty: 'yes'
-              }
-            )
-          ]
-        )
-      ]
+          {
+            'individual_age' => 15,
+            'individual_sex' => 'female',
+            'victim_deprived_liberty_security_reasons' => 'no',
+            'reasons_deprivation_liberty' => nil,
+            'facilty_victims_held' => 'facility_1',
+            'torture_punishment_while_deprivated_liberty' => 'yes',
+            'violations_ids' => ['5255e66c-5e57-4291-af2a-0acd50c1de72']
+          }
+        ]
+      }
     )
+    incident2.save!
+    incident2
   end
 
   let(:incident_3) do
-    Incident.create!(
-      violations: [
-        Violation.new(data: { type: 'killing', ctfmr_verified: 'not_mrm' }),
-        Violation.new(data: { type: 'maiming', ctfmr_verified: 'report_pending_verification' }),
-        Violation.new(data: { type: 'maiming', ctfmr_verified: 'report_pending_verification' })
-      ]
+    incident3 = Incident.new_with_user(
+      user_1,
+      {
+        'killing' => [
+          { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm' }
+        ],
+        'maiming' => [
+          { 'type' => 'maiming', 'ctfmr_verified' => 'report_pending_verification' },
+          { 'type' => 'maiming', 'ctfmr_verified' => 'report_pending_verification' }
+        ]
+      }
     )
+    incident3.save!
+    incident3
   end
 
   before do
-    clean_data(Incident, Violation)
+    clean_data(User, UserGroup, Role, PrimeroModule, Incident, Violation, IndividualVictim)
     incident_1
     incident_2
     incident_3

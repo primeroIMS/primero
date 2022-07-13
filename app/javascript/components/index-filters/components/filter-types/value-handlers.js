@@ -11,7 +11,8 @@ const CUSTOM_FILTERS = {
 };
 
 const valueGetters = {
-  age: value => ageParser(value)
+  age: value => ageParser(value),
+  individual_age: value => ageParser(value)
 };
 
 const customCheckBoxFilters = {
