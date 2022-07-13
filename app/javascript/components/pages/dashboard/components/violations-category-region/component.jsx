@@ -11,6 +11,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import { OPTION_TYPES } from "../../../../form";
 
 import { NAME } from "./constants";
+import { getVerifiedData } from "./utils";
 
 const Component = ({ loadingIndicator }) => {
   const i18n = useI18n();
@@ -25,6 +26,8 @@ const Component = ({ loadingIndicator }) => {
   });
   const violationsCategoryRegion = useMemoizedSelector(state => getViolationsCategoryRegion(state));
 
+  const verifiedData = getVerifiedData(violationsCategoryRegion);
+
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION}>
       <OptionsBox
@@ -35,7 +38,7 @@ const Component = ({ loadingIndicator }) => {
         <DashboardTable
           pathname={ROUTES.incidents}
           title={i18n.t("dashboard.dash_violations_category_region")}
-          {...toListTable(violationsCategoryRegion, violationTypes, reportingLocations, i18n.locale)}
+          {...toListTable(verifiedData, violationTypes, reportingLocations, i18n.locale)}
         />
       </OptionsBox>
     </Permission>
