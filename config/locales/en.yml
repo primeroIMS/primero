@@ -659,7 +659,7 @@ en:
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
     dash_violations_category_verification_status: Number of violations per verification status
-    dash_violations_category_region: Number of violations per region
+    dash_violations_category_region: Number of verified violations per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview

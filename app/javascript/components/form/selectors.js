@@ -9,7 +9,12 @@ import { createSelectorCreator, defaultMemoize } from "reselect";
 import memoize from "proxy-memoize";
 
 import { RECORD_PATH } from "../../config";
-import { getReportingLocationConfig, getRoles, getUserGroups } from "../application/selectors";
+import {
+  getIncidentReportingLocationConfig,
+  getReportingLocationConfig,
+  getRoles,
+  getUserGroups
+} from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 import {
   getAssignedAgency,
@@ -166,13 +171,25 @@ const agenciesCurrentUser = createCachedSelector(
 
 const locationList = memoize(state => state.getIn(["forms", "options", "locations"], fromJS([])));
 
-const locationsParser = (data, { includeAdminLevel, locale }) => {
+const getLocationName = (location, { adminLevel, locale }) => {
+  const locationName = displayNameHelper(location.get("name"), locale);
+
+  if (adminLevel) {
+    const splittedName = locationName.includes("::") ? locationName.split("::") : locationName.split(":");
+
+    return splittedName[adminLevel] || locationName;
+  }
+
+  return locationName;
+};
+
+const locationsParser = (data, { includeAdminLevel, locale, adminLevel }) => {
   return data.reduce(
     (prev, current) => [
       ...prev,
       {
         id: current.get("code"),
-        display_text: displayNameHelper(current.get("name"), locale),
+        display_text: getLocationName(current, { adminLevel, locale }),
         ...(includeAdminLevel && { admin_level: current.get("admin_level") })
       }
     ],
@@ -180,11 +197,19 @@ const locationsParser = (data, { includeAdminLevel, locale }) => {
   );
 };
 
-const locations = memoize((state, options) => {
+const locations = memoize(([state, options]) => {
   const locale = getLocale(state);
   const data = locationList(state);
 
-  return locationsParser(data, { ...options, locale });
+  const reportingLocationData = options?.useIncidentReportingLocationConfig
+    ? getIncidentReportingLocationConfig(state)
+    : getReportingLocationConfig(state);
+
+  return locationsParser(data, {
+    ...options,
+    locale,
+    adminLevel: options?.useReportingLocationName && reportingLocationData?.get("admin_level")
+  });
 });
 
 const reportingLocations = memoize((state, options) => {
