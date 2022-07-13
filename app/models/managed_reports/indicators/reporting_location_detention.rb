@@ -36,6 +36,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         inner join individual_victims_violations ivv on violations .id = ivv.violation_id
         inner join individual_victims iv on ivv.individual_victim_id = iv.id
         WHERE incidents.data->>'reporting_location_hierarchy' is not null
+        and iv.data->>'individual_sex' is not null
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
