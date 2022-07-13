@@ -100,7 +100,8 @@ describe ManagedReports::Indicators::ViolationTallyDetention do
     violation1.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
       IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes' })
     ]
     violation2 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },

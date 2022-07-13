@@ -107,6 +107,14 @@ describe ManagedReports::Indicators::DetentionStatus do
           depriviation_liberty_end_date: Date.today - 1.day,
           individual_sex: 'female'
         }
+      ),
+
+      IndividualVictim.create!(
+        data: {
+          victim_deprived_liberty_security_reasons: 'yes',
+          depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
+          depriviation_liberty_end_date: Date.today - 1.day,
+        }
       )
     ]
     violation2 = Violation.create!(

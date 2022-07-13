@@ -29,6 +29,7 @@ class ManagedReports::Indicators::ViolationTallyDetention < ManagedReports::SqlR
                 on incidents.id = violations.incident_id
                 #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
               where (iv.data->>'victim_deprived_liberty_security_reasons') = 'yes'
+              and iv.data->>'individual_sex' is not null
               #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
               #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}

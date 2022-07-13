@@ -183,6 +183,7 @@ describe ManagedReports::Indicators::ReportingLocationDetention do
     violation10.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
       IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes' }),
       IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'unknown' })
     ]
   end

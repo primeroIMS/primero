@@ -97,7 +97,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
     violation1.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' })
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes' })
     ]
 
     violation2 = Violation.create!(data: { type: 'killing', attack_type: 'aerial_attack' }, incident_id: incident2.id)
