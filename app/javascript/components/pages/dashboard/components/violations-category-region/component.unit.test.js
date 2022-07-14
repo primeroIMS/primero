@@ -25,33 +25,33 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
             indicators: {
               violations_category_region: {
                 region_1: {
-                  category_1: {
+                  killing_verified: {
                     count: 5,
-                    query: ["record_state=true", "category=category_1"]
+                    query: ["record_state=true", "category=killing_verified"]
                   },
-                  category_2: {
+                  maiming_verified: {
                     count: 2,
-                    query: ["record_state=true", "category=category_2"]
+                    query: ["record_state=true", "category=maiming_verified"]
                   }
                 },
                 region_2: {
-                  category_1: {
+                  killing_verified: {
                     count: 0,
-                    query: ["record_state=true", "category=category_1"]
+                    query: ["record_state=true", "category=killing_verified"]
                   },
-                  category_2: {
+                  maiming_verified: {
                     count: 1,
-                    query: ["record_state=true", "category=category_2"]
+                    query: ["record_state=true", "category=maiming_verified"]
                   }
                 },
                 "": {
-                  category_1: {
+                  killing_verified: {
                     count: 0,
-                    query: ["record_state=true", "category=category_1"]
+                    query: ["record_state=true", "category=killing_verified"]
                   },
-                  category_2: {
+                  maiming_verified: {
                     count: 0,
-                    query: ["record_state=true", "category=category_2"]
+                    query: ["record_state=true", "category=maiming_verified"]
                   }
                 }
               }
@@ -71,8 +71,8 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
             unique_id: "lookup-violation-type",
             name: { en: "Violation type" },
             values: [
-              { id: "category_1", display_text: { en: "Category 1" } },
-              { id: "category_2", display_text: { en: "Category 2" } }
+              { id: "killing", display_text: { en: "Killing" } },
+              { id: "maiming", display_text: { en: "Maiming" } }
             ]
           }
         ],
@@ -116,12 +116,12 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
     expect(tableCells).to.have.lengthOf(3);
   });
 
-  it("should render Status 1 column", () => {
-    expect(tableCells.at(1).text()).to.equal("Category 1");
+  it("should render Killing column", () => {
+    expect(tableCells.at(1).text()).to.equal("Killing");
   });
 
-  it("should render Status 2 column", () => {
-    expect(tableCells.at(2).text()).to.equal("Category 2");
+  it("should render Maiming column", () => {
+    expect(tableCells.at(2).text()).to.equal("Maiming");
   });
 
   describe("when the data is loading", () => {

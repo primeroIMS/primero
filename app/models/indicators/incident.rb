@@ -23,10 +23,8 @@ module Indicators
       PivotedIndicator.new(
         name: 'violations_category_region',
         record_model: ::Incident,
-        pivots: ["incident_location#{admin_level}", 'violation_category'],
-        scope: OPEN_ENABLED + [
-          SearchFilters::Value.new(field_name: 'verification_status', value: 'verified')
-        ],
+        pivots: ["incident_location#{admin_level}", 'violation_with_verification_status'],
+        scope: OPEN_ENABLED,
         scope_to_owned_by_groups: true
       ).freeze
     end
