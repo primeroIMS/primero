@@ -45,7 +45,7 @@ class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
   def write_violations(elem)
     violations = elem[:data][:violations].map do |v|
       I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{v}", locale: locale)
-    end.join("\n")
+    end.join(",\n")
     worksheet.write(current_row, 1, violations)
   end
 
