@@ -10,6 +10,8 @@ module MonitoringReportingMechanism
         individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
+        violation_with_weapon_type violation_with_facility_impact violation_with_facility_attack_type
+        child_role abduction_purpose_single military_use_type types_of_aid_disrupted_denial
       ].each { |field| string(field, multiple: true) }
     end
   end
@@ -60,5 +62,46 @@ module MonitoringReportingMechanism
 
   def verified_ghn_reported
     violations.map(&:verified_ghn_reported).uniq.compact
+  end
+
+  def violation_with_weapon_type
+    violations.each_with_object([]) do |violation, memo|
+      next unless violation.type.present? && violation.weapon_type.present?
+
+      memo << "#{violation.type}_#{violation.weapon_type}"
+    end.uniq
+  end
+
+  def violation_with_facility_impact
+    violations.each_with_object([]) do |violation, memo|
+      next unless violation.type.present? && violation.facility_impact.present?
+
+      memo << "#{violation.type}_#{violation.facility_impact}"
+    end.uniq
+  end
+
+  def child_role
+    violations.map(&:child_role).uniq.compact
+  end
+
+  def abduction_purpose_single
+    violations.map(&:abduction_purpose_single).uniq.compact
+  end
+
+  # TODO: this is a multiselect field
+  def violation_with_facility_attack_type
+    violations.each_with_object([]) do |violation, memo|
+      next unless violation.type.present? && violation.facility_attack_type.present?
+
+      memo << "#{violation.type}_#{violation.facility_attack_type}"
+    end.uniq
+  end
+
+  def military_use_type
+    violations.map(&:military_use_type).uniq.compact
+  end
+
+  def types_of_aid_disrupted_denial
+    violations.map(&:types_of_aid_disrupted_denial).uniq.compact
   end
 end
