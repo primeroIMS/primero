@@ -36,7 +36,7 @@ class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
   def write_child_information(indicator_key, elem)
     child_information = [
       elem[:data][:unique_id].last(7),
-      display_text_from_lookup(elem[:data][:individual_sex], lookups[indicator_key]['lookup-gender']),
+      display_text_from_lookup(elem[:data][:individual_sex], lookups[indicator_key]['lookup-gender-unknown-total']),
       elem[:data][:individual_age]
     ].compact.join(' - ')
     worksheet.write(current_row, 0, child_information)

@@ -20,7 +20,7 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
 
   def lookups
     {
-      ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender lookup-violation-type]
+      ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type]
     }.freeze
   end
 
