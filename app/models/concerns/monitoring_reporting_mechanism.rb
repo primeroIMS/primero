@@ -7,10 +7,12 @@ module MonitoringReportingMechanism
   included do
     searchable do
       %i[
-        individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+        individual_violations individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
       ].each { |field| string(field, multiple: true) }
+
+      integer :individual_age, multiple: true
     end
   end
 
