@@ -17,18 +17,20 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
       admin_level = user_reporting_location_admin_level(current_user)
 
       %{
-        select (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as name,
-        iv.data->>'individual_sex' as key,
-        sum(count(iv.id)) over (partition by
-          (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
-          #{grouped_date_query(params['grouped_by'],
-                               filter_date(params),
-                               table_name_for_query(params))&.prepend(', ')}
-        )::integer as total,
+        select
+        subquery.name, subquery.key,
+        count(id) as sum,
+        sum(count(id)) over (partition by subquery.name
+          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+          )::integer as total
+           #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+        from (
+        select distinct on(iv.id) iv.id as id,
+        (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}] as name,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
-        count(iv.id) as sum
+        iv.data->>'individual_sex' as key
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
@@ -42,6 +44,8 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         and (iv.data->>'victim_deprived_liberty_security_reasons') = 'yes'
+        order by iv.id, name
+        ) subquery
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name

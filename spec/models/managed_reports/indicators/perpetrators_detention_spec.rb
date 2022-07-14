@@ -94,31 +94,43 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     incident4.save!
 
     violation1 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident1.id)
-    violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
     violation1.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes' }),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes' })
+      IndividualVictim.create!(data: {
+                                 individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes',
+                                 entity_responsible_deprivation_liberty: 'armed_force'
+                               }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'yes',
+                                       entity_responsible_deprivation_liberty: 'armed_force' }),
+      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'yes',
+                                       entity_responsible_deprivation_liberty: 'armed_group' })
     ]
 
     violation2 = Violation.create!(data: { type: 'killing', attack_type: 'aerial_attack' }, incident_id: incident2.id)
-    violation2.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
     violation2.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes' })
+      IndividualVictim.create!(data: { individual_sex: 'male', victim_deprived_liberty_security_reasons: 'yes',
+                                       entity_responsible_deprivation_liberty: 'other_party_to_the_conflict' })
     ]
 
     violation3 = Violation.create!(data: { type: 'maiming', attack_type: 'aerial_attack' }, incident_id: incident3.id)
-    violation3.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_3' })]
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes',
+                                       entity_responsible_deprivation_liberty: 'crossfire' }),
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'yes',
+                                       entity_responsible_deprivation_liberty: 'unknown' })
     ]
 
     violation4 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident4.id)
-    violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_4' })]
     violation4.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'no' }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'unknown' })
+      IndividualVictim.create!(data: { individual_sex: 'female', victim_deprived_liberty_security_reasons: 'no',
+                                       entity_responsible_deprivation_liberty: 'armed_group' }),
+      IndividualVictim.create!(data: { individual_sex: 'unknown', victim_deprived_liberty_security_reasons: 'unknown',
+                                       entity_responsible_deprivation_liberty: 'armed_group' })
     ]
+
+    individual_victims = IndividualVictim.create!(data: { individual_sex: 'unknown',
+                                                          victim_deprived_liberty_security_reasons: 'unknown',
+                                                          entity_responsible_deprivation_liberty: 'unknown' })
+    individual_victims.violations = [violation2, violation4]
   end
 
   it 'returns data for perpetrators indicator' do
@@ -127,7 +139,12 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     ).data
 
     expect(perpetrators_data).to match_array(
-      [{ id: 'armed_force_2', male: 2, unknown: 1, total: 3 }, { id: 'armed_force_3', female: 1, total: 1 }]
+      [
+        { id: 'armed_force', unknown: 1, total: 2, male: 1 },
+        { id: 'crossfire', female: 1, total: 1 },
+        { id: 'other_party_to_the_conflict', male: 1, total: 1 },
+        { id: 'unknown', female: 1, total: 1 }
+      ]
     )
   end
 
@@ -135,14 +152,21 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
     it 'returns owned records for a self scope' do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@self_user).data
 
-      expect(perpetrators_data).to match_array([{ id: 'armed_force_2', male: 1, unknown: 1, total: 2 }])
+      expect(perpetrators_data).to match_array([
+                                                 { id: 'armed_force', unknown: 1, total: 2, male: 1 }
+
+                                               ])
     end
 
     it 'returns group records for a group scope' do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@group_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ id: 'armed_force_2', male: 1, total: 1 }, { id: 'armed_force_3', female: 1, total: 1 }]
+        [
+          { id: 'crossfire', female: 1, total: 1 },
+          { id: 'other_party_to_the_conflict', male: 1, total: 1 },
+          { id: 'unknown', female: 1, total: 1 }
+        ]
       )
     end
 
@@ -150,7 +174,11 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@agency_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ id: 'armed_force_2', male: 1, total: 1 }, { id: 'armed_force_3', female: 1, total: 1 }]
+        [
+          { id: 'crossfire', female: 1, total: 1 },
+          { id: 'other_party_to_the_conflict', male: 1, total: 1 },
+          { id: 'unknown', female: 1, total: 1 }
+        ]
       )
     end
 
@@ -158,7 +186,12 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
       perpetrators_data = ManagedReports::Indicators::PerpetratorsDetention.build(@all_user).data
 
       expect(perpetrators_data).to match_array(
-        [{ id: 'armed_force_2', male: 2, unknown: 1, total: 3 }, { id: 'armed_force_3', female: 1, total: 1 }]
+        [
+          { id: 'armed_force', male: 1, unknown: 1, total: 2 },
+          { id: 'crossfire', female: 1, total: 1 },
+          { id: 'other_party_to_the_conflict', male: 1, total: 1 },
+          { id: 'unknown', female: 1, total: 1 }
+        ]
       )
     end
   end
@@ -180,9 +213,9 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ id: 'armed_force_2', male: 1, unknown: 1, total: 2 }] },
-            { group_id: 2021, data: [{ id: 'armed_force_2', male: 1, total: 1 }] },
-            { group_id: 2022, data: [{ id: 'armed_force_3', female: 1, total: 1 }] }
+            { group_id: 2020, data: [{ id: 'armed_force', male: 1, unknown: 1, total: 2 }] },
+            { group_id: 2021, data: [{ id: 'other_party_to_the_conflict', male: 1, total: 1 }] },
+            { group_id: 2022, data: [{ id: 'crossfire', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }] }
           ]
         )
       end
@@ -204,7 +237,7 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'armed_force_2', male: 1, unknown: 1, total: 2 }] },
+            { group_id: '2020-08', data: [{ id: 'armed_force', male: 1, unknown: 1, total: 2 }] },
             { group_id: '2020-09', data: [] },
             { group_id: '2020-10', data: [] },
             { group_id: '2020-11', data: [] },
@@ -216,13 +249,15 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
             { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'armed_force_2', male: 1, total: 1 }] },
+            { group_id: '2021-08', data: [{ id: 'other_party_to_the_conflict', male: 1, total: 1 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
             { group_id: '2022-01', data: [] },
-            { group_id: '2022-02', data: [{ id: 'armed_force_3', female: 1, total: 1 }] }
+            { group_id: '2022-02', data: [
+              { id: 'crossfire', female: 1, total: 1 }, { id: 'unknown', female: 1, total: 1 }
+            ] }
           ]
         )
       end
@@ -244,13 +279,15 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'armed_force_2', male: 1, unknown: 1, total: 2 }] },
+            { group_id: '2020-Q3', data: [{ id: 'armed_force', male: 1, unknown: 1, total: 2 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'armed_force_2', male: 1, total: 1 }] },
+            { group_id: '2021-Q3', data: [{ id: 'other_party_to_the_conflict', male: 1, total: 1 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'armed_force_3', female: 1, total: 1 }] }
+            { group_id: '2022-Q1', data: [
+              { id: 'crossfire', female: 1, total: 1 }, { female: 1, id: 'unknown', total: 1 }
+            ] }
           ]
         )
       end
