@@ -229,7 +229,7 @@ class Incident < ApplicationRecord
   def save_violations_and_associations
     save_violations
     save_violations_associations
-    reindex_violations_and_associations
+    reindex_violations_and_associations if @violations_to_save.present? || @associations_to_save.present?
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
