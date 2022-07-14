@@ -173,7 +173,8 @@ class Filter < ValueObject
   ARMED_FORCE_GROUP_PARTY = Filter.new(
     name: 'incidents.filter_by.armed_force_group_party_name',
     field_name: 'armed_force_group_party_names',
-    option_strings_source: 'lookup-armed-force-group-or-other-party'
+    option_strings_source: 'lookup-armed-force-group-or-other-party',
+    type: 'multi_select'
   )
   TRACING_REQUEST_STATUS = Filter.new(
     name: 'tracing_requests.filter_by.status',
