@@ -88,12 +88,13 @@ module MonitoringReportingMechanism
     violations.map(&:abduction_purpose_single).uniq.compact
   end
 
-  # TODO: this is a multiselect field
   def violation_with_facility_attack_type
     violations.each_with_object([]) do |violation, memo|
       next unless violation.type.present? && violation.facility_attack_type.present?
 
-      memo << "#{violation.type}_#{violation.facility_attack_type}"
+      violation.facility_attack_type.each do |attack_type|
+        memo << "#{violation.type}_#{attack_type}"
+      end
     end.uniq
   end
 
