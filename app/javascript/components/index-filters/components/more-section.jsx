@@ -27,7 +27,7 @@ const MoreSection = ({
     defaultFilter: false
   };
 
-  if (recordType !== RECORD_PATH.cases) {
+  if (![RECORD_PATH.cases, RECORD_PATH.incidents].includes(recordType)) {
     return null;
   }
 

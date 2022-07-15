@@ -26,17 +26,6 @@ export const HIDDEN_FIELDS = [
   "has_incidents"
 ];
 
-export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
-
-export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
-
-export const OR_FIELDS = ["owned_by", "assigned_user_names"];
-
-export const MY_CASES_FILTER_NAME = "my_cases";
-
-export const OR_FILTER_NAME = "or";
-export const DEFAULT_SELECTED_RECORDS_VALUE = {};
-
 export const INDIVIDUAL_VICTIM_FILTER_NAMES = Object.freeze([
   "individual_violations",
   "individual_age",
@@ -46,6 +35,32 @@ export const INDIVIDUAL_VICTIM_FILTER_NAMES = Object.freeze([
   "victim_facilty_victims_held",
   "torture_punishment_while_deprivated_liberty"
 ]);
+
+export const PRIMARY_FILTERS = {
+  cases: ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"],
+  incidents: [
+    "age",
+    "flagged",
+    "incident_location2",
+    "violation_category",
+    "child_types",
+    "verification_status",
+    "verified_ghn_reported",
+    "incident_location",
+    "incidents_by_date",
+    "armed_force_group_party_names",
+    ...INDIVIDUAL_VICTIM_FILTER_NAMES
+  ]
+};
+
+export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
+
+export const OR_FIELDS = ["owned_by", "assigned_user_names"];
+
+export const MY_CASES_FILTER_NAME = "my_cases";
+
+export const OR_FILTER_NAME = "or";
+export const DEFAULT_SELECTED_RECORDS_VALUE = {};
 
 export const FILTER_CATEGORY = Object.freeze({
   incidents: "incidents",

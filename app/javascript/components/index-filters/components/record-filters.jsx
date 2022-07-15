@@ -22,19 +22,18 @@ const RecordFilters = ({
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const defaultFilterNames = defaultFilters.map(t => t.field_name);
 
-  const currentFilters =
-    recordType === RECORD_PATH.cases
-      ? calculateFilters({
-          defaultFilters,
-          primaryFilters,
-          defaultFilterNames,
-          filters,
-          locale: i18n.locale,
-          more,
-          moreSectionKeys,
-          queryParamsKeys
-        })
-      : filters;
+  const currentFilters = [RECORD_PATH.cases, RECORD_PATH.incidents].includes(recordType)
+    ? calculateFilters({
+        defaultFilters,
+        primaryFilters,
+        defaultFilterNames,
+        filters,
+        locale: i18n.locale,
+        more,
+        moreSectionKeys,
+        queryParamsKeys
+      })
+    : filters;
 
   return currentFilters.map(filter => {
     const Filter = filterType(filter.type);

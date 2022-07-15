@@ -32,7 +32,7 @@ const TabFilters = ({
   const filterCategory = useWatch({ control: formMethods.control, name: "filter_category" });
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType, filterCategory));
   const hasPrimeroModuleMRM = useMemoizedSelector(state => hasPrimeroModule(state, MODULES.MRM));
-  const allPrimaryFilters = filters.filter(filter => PRIMARY_FILTERS.includes(filter.field_name));
+  const allPrimaryFilters = filters.filter(filter => PRIMARY_FILTERS[recordType].includes(filter.field_name));
   const allDefaultFilters = filters.filter(filter => [...defaultFilters.keys()].includes(filter.field_name));
 
   return (
