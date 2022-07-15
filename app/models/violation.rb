@@ -20,7 +20,8 @@ class Violation < ApplicationRecord
   belongs_to :incident
 
   store_accessor :data,
-                 :unique_id, :violation_tally, :verified, :type, :ctfmr_verified_date, :ctfmr_verified, :verified_ghn_reported
+                 :unique_id, :violation_tally, :verified, :type, :ctfmr_verified_date, :ctfmr_verified,
+                 :verified_ghn_reported, :is_late_verification
 
   after_initialize :set_unique_id
 

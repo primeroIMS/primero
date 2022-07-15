@@ -25,6 +25,7 @@ describe MonitoringReportingMechanism, search: true do
           {
             'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
             'ctfmr_verified' => 'verified',
+            'ctfmr_verified_date' => Date.today.beginning_of_quarter,
             'verified_ghn_reported' => ['2022-q2'],
             'type' => 'killing'
           }
@@ -271,5 +272,18 @@ describe MonitoringReportingMechanism, search: true do
 
     expect(search_result.size).to eq(2)
     expect(search_result.map(&:id)).to match_array([incident_1.id, incident_2.id])
+  end
+
+  it 'can find an incident with a late verified violation' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::ValueList.new(field_name: 'late_verified_violations', values: %w[killing])
+      ],
+      sort: { 'short_id': 'asc' }
+    ).results
+
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_1.id)
   end
 end

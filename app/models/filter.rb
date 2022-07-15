@@ -277,6 +277,14 @@ class Filter < ValueObject
     option_strings_source: 'lookup-verified-ghn-reported'
   )
 
+  LATE_VERIFIED_VIOLATIONS = Filter.new(
+    name: 'incidents.filter_by.late_verified_violations',
+    field_name: 'has_late_verified_violations',
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t('incidents.filter_by.late_verified_violations', locale: locale) }] }
+    end.inject(&:merge)
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -441,7 +449,8 @@ class Filter < ValueObject
       [
         INDIVIDUAL_VIOLATIONS, INDIVIDUAL_AGE, INDIVIDUAL_SEX,
         DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
-        VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY
+        VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
+        LATE_VERIFIED_VIOLATIONS
       ]
     end
 

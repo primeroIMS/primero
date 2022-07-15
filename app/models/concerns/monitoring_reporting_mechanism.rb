@@ -10,7 +10,10 @@ module MonitoringReportingMechanism
         individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
+        late_verified_violations
       ].each { |field| string(field, multiple: true) }
+
+      boolean(:has_late_verified_violations) { late_verified_violations? }
     end
   end
 
@@ -48,6 +51,18 @@ module MonitoringReportingMechanism
 
       memo << "#{violation.type}_#{violation.ctfmr_verified}"
     end.uniq
+  end
+
+  def late_verified_violations
+    violations.each_with_object([]) do |violation, memo|
+      next unless violation.type.present? && violation.is_late_verification
+
+      memo << violation.type
+    end.uniq
+  end
+
+  def late_verified_violations?
+    violations.any?(&:is_late_verification)
   end
 
   def verification_status
