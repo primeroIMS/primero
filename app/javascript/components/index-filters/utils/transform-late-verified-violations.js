@@ -9,7 +9,7 @@ export default {
 
     return {
       violation_category: lateVerifiedViolations,
-      has_late_verified_violations: true
+      has_late_verified_violations: [true]
     };
   }
 };

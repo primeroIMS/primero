@@ -1,3 +1,5 @@
+import { fromJS } from "immutable";
+
 import showMyCasesFilter from "./show-my-cases-filter";
 import isDateFieldFromValue from "./is-date-field-from-value";
 
