@@ -1,1 +1,76 @@
 ku-IQ:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "xls هنارتنا تۆمارا بوویەرێ "
+  exports:
+    incident_recorder_xls:
+      all:  تومارا بوویەرێ
+      one:  تومارا بوویەرێ
+      selected:  ده ست نیشانکری بۆ تۆمارا بوویەرێ
+      "yes": "بەلێ"
+      "no": "نەخێر"
+      gender:
+        male: "نێر"
+        female: "مێ"
+        both: "نێر و مێ"
+      age_group:
+        age: "تەمەن"
+        61_older: "٦١ سال و مه زنتر"
+        unknown: "ناهێتە زانین"
+        header: "گروپێ تەمەنێ گومانلێکریێ دیارکری"
+      age_type:
+        adult: "مەزن"
+        minor: "بچیک"
+        both: "مەزن و بچیک"
+        unknown: "ناهێتە زانین"
+        header: "جورێ تەمەنێ گومانلێکریێ دیارکری"
+      service_referral:
+        undecided: "بریار لسه ر نەهاتیە دان "
+      headers:
+        incident_id: "ناسناما بوویەرێ"
+        survivor_code: "کودێ رزگاربوویی"
+        case_manager_code: "کودێ رێڤەبەرێ کەیسی"
+        case_worker_code: "کودێ کارکەرێ کەیسی"
+        date_of_interview: "رێکه فتا چاڤپێکەفتنێ"
+        date_of_incident: "رێکه فتا بوویەرێ"
+        date_of_birth: "رێکه فتا ژدایکبوونێ"
+        sex: "رەگەز"
+        ethnicity: "نەژاد"
+        country_of_origin: "وەلاتێ رەسەن"
+        marital_status: "بارودوخێ مەدەنی یان هەڤژینیێ"
+        displacement_status: "بارودوخێ ئاوارەبوونێ ل دەما راپۆرتێ"
+        disability_type: "کەسێ خودان پێدڤیێن تایبه ت"
+        unaccompanied_separated_status: "زارۆکێ بێ چاڤدێر یان جودابوویی"
+        stage_of_displacement: "قوناغا ئاوارەبوونێ ل بوویەرێ"
+        time_of_day: "دەمێ بوویەرێ د رۆژێ دا"
+        location: "جهێ بوویەرێ"
+        county: "وەلاتێ بوویەرێ"
+        district: "دەڤەرا بوویەرێ"
+        camp_town: "په ناگه ها بوویەرێ یان باژارۆک"
+        camp: "په ناگه ها بوویەرێ"
+        gbv_type: "جورێ تۆندووتیژیا رەگەزی"
+        harmful_traditional_practice: "نەریتێن کەلتوری یێن زیانبەخش"
+        goods_money_exchanged: "پارە، کەلوپەل و مفا و یان ئالوگوریا خزمەتگۆزاریان"
+        abduction_type: "جورێ رەڤاندنێ"
+        previously_reported: "بەری نوکە ئەڤ رویدانە راپورتکریە؟"
+        gbv_previous_incidents: "رویدانێن بەرێ یێن تۆندووتیژیا رەگەزی"
+        number_primary_perpetrators: "نەخێر. تاوانبارین گومانلێکریێن سەرەکی"
+        perpetrator:
+          sex: "رەگەزێ تاوانبارێ گومانلێکری"
+          former: "رویدانا بەرێ دگەل ڤی گومانلێگری"
+          relationship: "تاوانبارێ گومانلێکری - پەیوەندیا رزگاربووی"
+          occupation: "کارێ تاوانبارێ گومانلێکری"
+          age_group: "گروپێ تەمەنێ تاوانبارێ گومانلێکری"
+          age_type: "جورێ تەمەنێ تاوانبارێ گومانلێکری"
+        service:
+          referred_from: "هاتیە رەوانەکرن بوتە ژ؟"
+          safehouse_referral: "مالا ئارام یان پەناگەهەک"
+          medical_referral: "خزمەتگوزاریێن ساخلەمی یان پزیشکی"
+          psycho_referral: "خزمەتگوزاریێن دەروونی"
+          wants_legal_action: "کارێ یاسایی دڤێت؟"
+          legal_referral: "خزمەتگوزاریێن هاریکاریا یاسایی"
+          police_referral: "پولیس یان ئەکتەرێن دی یێن ئێمناهیێ"
+          livelihoods_referral: "پروگرامێ ژیارێ"
+          protection_referral: "خزمەتێن پاراستنا زاورکا یان خزمەتێن پەروەردەیی"
+        consent: "رازەمەندی هاتیە دان"
+        agency_code: "کودێ ئاژانسا راپورتکرنێ"

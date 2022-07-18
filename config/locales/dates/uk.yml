@@ -19,7 +19,6 @@ uk:
       - Пт
       - Сб
     abbr_month_names:
-      - ~
       - Січень
       - Лютий
       - Березень
@@ -41,7 +40,6 @@ uk:
       - П`ятниця
       - Субота
     month_names:
-      - ~
       - Січень
       - Лютий
       - Березень
@@ -55,15 +53,15 @@ uk:
       - Листопад
       - Грудень
     formats:
-      default: "%d-%b-%Y"
-      with_time: "%d-%b-%Y %H:%M"
-      rtl: "%Y-%b-%d"
-      rtl_with_time: "%M:%H %Y-%b-%d"
+      default: "%d-%b-%Р"
+      with_time: "%d-%b-%Р %Г:%Х"
+      rtl: "%Р-%b-%d"
+      rtl_with_time: "%Х:%Г %Р-%b-%d"
   time:
     formats:
-      default: "%d-%b-%Y"
-      with_time: "%d-%b-%Y %H:%M"
-      rtl: "%Y-%b-%d"
-      rtl_with_time: "%M:%H %Y-%b-%d"
+      default: "%d-%b-%Р"
+      with_time: "%d-%b-%Р %Г:%Х"
+      rtl: "%Р-%b-%d"
+      rtl_with_time: "%Х:%Г %Р-%b-%d"
   'true': "Так"
   'false': "Ні"
