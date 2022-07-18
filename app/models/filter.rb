@@ -320,6 +320,14 @@ class Filter < ValueObject
     option_strings_source: 'lookup-aid-service-type'
   )
 
+  LATE_VERIFIED_VIOLATIONS = Filter.new(
+    name: 'incidents.filter_by.late_verified_violations',
+    field_name: 'has_late_verified_violations',
+    options: I18n.available_locales.map do |locale|
+      { locale => [{ id: 'true', display_name: I18n.t('incidents.filter_by.late_verified_violations', locale: locale) }] }
+    end.inject(&:merge)
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -487,7 +495,8 @@ class Filter < ValueObject
         VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
         VIOLATION_WITH_WEAPON_TYPE, VIOLATION_WITH_FACILITY_IMPACT,
         VIOLATION_WITH_FACILITY_ATTACK_TYPE, CHILD_ROLE, ABDUCTION_PURPOSE_SINGLE,
-        MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL
+        MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL,
+        LATE_VERIFIED_VIOLATIONS
       ]
     end
 
