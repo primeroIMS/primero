@@ -277,21 +277,21 @@ class Filter < ValueObject
     option_strings_source: 'lookup-verified-ghn-reported'
   )
 
-  VIOLATION_WITH_WEAPON_TYPE = Filter.new(
-    name: 'incidents.filter_by.violation_with_weapon_type',
-    field_name: 'violation_with_weapon_type',
+  WEAPON_TYPE = Filter.new(
+    name: 'incidents.filter_by.weapon_type',
+    field_name: 'weapon_type',
     option_strings_source: 'lookup-weapon-type'
   )
 
-  VIOLATION_WITH_FACILITY_IMPACT = Filter.new(
-    name: 'incidents.filter_by.violation_with_facility_impact',
-    field_name: 'violation_with_facility_impact',
+  FACILITY_IMPACT = Filter.new(
+    name: 'incidents.filter_by.facility_impact',
+    field_name: 'facility_impact',
     option_strings_source: 'lookup-facility-impact-type'
   )
 
-  VIOLATION_WITH_FACILITY_ATTACK_TYPE = Filter.new(
-    name: 'incidents.filter_by.violation_with_facility_attack_type',
-    field_name: 'violation_with_facility_attack_type',
+  FACILITY_ATTACK_TYPE = Filter.new(
+    name: 'incidents.filter_by.facility_attack_type',
+    field_name: 'facility_attack_type',
     type: 'multi_select',
     option_strings_source: 'lookup-facility-attack-type'
   )
@@ -493,8 +493,8 @@ class Filter < ValueObject
         INDIVIDUAL_VIOLATIONS, INDIVIDUAL_AGE, INDIVIDUAL_SEX,
         DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
         VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
-        VIOLATION_WITH_WEAPON_TYPE, VIOLATION_WITH_FACILITY_IMPACT,
-        VIOLATION_WITH_FACILITY_ATTACK_TYPE, CHILD_ROLE, ABDUCTION_PURPOSE_SINGLE,
+        WEAPON_TYPE, FACILITY_IMPACT,
+        FACILITY_ATTACK_TYPE, CHILD_ROLE, ABDUCTION_PURPOSE_SINGLE,
         MILITARY_USE_TYPE, TYPES_OF_AID_DISRUPTED_DENIAL,
         LATE_VERIFIED_VIOLATIONS
       ]

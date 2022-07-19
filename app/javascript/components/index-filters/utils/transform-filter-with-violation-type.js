@@ -5,7 +5,7 @@ export default ({ name, filters }) => ({
   filters,
   combine(data) {
     const combinedFilters = data.violation_category.reduce((acc, violationCategory) => {
-      const combined = data.verification_status.map(verificationStatus => `${violationCategory}_${verificationStatus}`);
+      const combined = data[this.filters[1]].map(verificationStatus => `${violationCategory}_${verificationStatus}`);
 
       return [...acc, ...combined];
     }, []);

@@ -36,22 +36,17 @@ export const INDIVIDUAL_VICTIM_FILTER_NAMES = Object.freeze([
   "torture_punishment_while_deprivated_liberty"
 ]);
 
-export const PRIMARY_FILTERS = {
-  cases: ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"],
-  incidents: [
-    "age",
-    "flagged",
-    "incident_location2",
-    "violation_category",
-    "child_types",
-    "verification_status",
-    "verified_ghn_reported",
-    "incident_location",
-    "incidents_by_date",
-    "armed_force_group_party_names",
-    ...INDIVIDUAL_VICTIM_FILTER_NAMES
-  ]
-};
+export const VIOLATIONS_FILTER_NAMES = Object.freeze([
+  "weapon_type",
+  "facility_impact",
+  "facility_attack_type",
+  "child_role",
+  "abduction_purpose_single",
+  "military_use_type",
+  "types_of_aid_disrupted_denial"
+]);
+
+export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
 
 export const DEFAULT_FILTERS = ["fields", "status", "record_state", "id_search"];
 
@@ -64,5 +59,6 @@ export const DEFAULT_SELECTED_RECORDS_VALUE = {};
 
 export const FILTER_CATEGORY = Object.freeze({
   incidents: "incidents",
-  individual_victims: "individual_victims"
+  individual_victims: "individual_victims",
+  violations: "violations"
 });

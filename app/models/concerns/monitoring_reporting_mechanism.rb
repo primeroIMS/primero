@@ -11,8 +11,8 @@ module MonitoringReportingMechanism
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
         violation_with_weapon_type violation_with_facility_impact violation_with_facility_attack_type
-        child_role abduction_purpose_single military_use_type types_of_aid_disrupted_denial
-        late_verified_violations
+        child_role abduction_purpose_single military_use_type types_of_aid_disrupted_denial weapon_type facility_impact
+        facility_attack_type late_verified_violations
       ].each { |field| string(field, multiple: true) }
 
       boolean(:has_late_verified_violations) { late_verified_violations? }
@@ -77,6 +77,18 @@ module MonitoringReportingMechanism
 
   def verified_ghn_reported
     violations.map(&:verified_ghn_reported).uniq.compact
+  end
+
+  def weapon_type
+    violations.map(&:weapon_type).uniq.compact
+  end
+
+  def facility_impact
+    violations.map(&:facility_impact).uniq.compact
+  end
+
+  def facility_attack_type
+    violations.map(&:facility_attack_type).uniq.compact
   end
 
   def violation_with_weapon_type
