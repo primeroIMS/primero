@@ -537,42 +537,55 @@ es-GT:
     comprehensive_need_intervention: Respuesta Integral
     count_new_bia_approvals:
       one: '%{stat} nuevas Aprobaciones de%{stat_type}'
+      many: '%{stat} nuevas %{stat_type}Aprobaciones   '
       other: '%{stat} nuevas %{stat_type}Aprobaciones   '
     count_new_case_plan_approvals:
       one: '%{stat} nuevas %{stat_type} Aprobaciones'
+      many: '%{stat} nuevas %{stat_type} Aprobaciones'
       other: '%{stat} nuevas %{stat_type} Aprobaciones'
     count_new_closure_approvals:
       one: '%{stat} nuevas %{stat_type} Aprobaciones'
+      many: '%{stat} nuevas %{stat_type} Aprobaciones'
       other: '%{stat} nuevas %{stat_type} Aprobaciones'
     count_pending_approval_total:
       one: Tú tienes %{stat}pendiente %{stat_type} Aprobaciones
+      many: Tienes%{stat}pendiente %{stat_type}Aprobaciones
       other: Tienes%{stat}pendiente %{stat_type}Aprobaciones
     count_pending_transfers:
       one: Tiene %{stat}Transferencias pendientes
+      many: Tienes %{stat} Transferencias pendientes
       other: Tienes %{stat} Transferencias pendientes
     count_records_new:
       one: y %{stat} <span>nuevo</span> caso
+      many: y %{stat} nuevos casos
       other: y %{stat} nuevos casos
     count_records_total:
       one: Tiene %{stat} <span>caso</span> total
+      many: Tiene %{stat} casos totales
       other: Tiene %{stat} casos totales
     count_referrals_new:
       one: y %{stat} <span>referencia</span> nueva
+      many: y %{stat} referencias nuevas
       other: y %{stat} referencias nuevas
     count_referrals_total:
       one: Tiene %{stat} <span>referencia</span> total
+      many: Tiene %{stat} referencias totales
       other: Tiene %{stat} referencias totales
     count_rejected_approval_total:
       one: y %{stat}aprobaciones %{stat_type}rechazadas
+      many: y  %{stat}aprobaciones %{stat_type}rechazadas
       other: y  %{stat}aprobaciones %{stat_type}rechazadas
     count_rejected_transfers:
       one: y %{stat}transferencias rechazadas
+      many: y %{stat}transferencias rechazadas
       other: y %{stat}transferencias rechazadas
     count_risk_level_new:
       one: y %{stat} <span>nuevo</span> <span>%{stat_type} riesgo</span> caso
+      many: y %{stat} nuevo %{stat_type} riesgo casos
       other: y %{stat} nuevo %{stat_type} riesgo casos
     count_risk_level_total:
       one: Tiene %{stat} <span>%{stat_type} riesgo </span> caso
+      many: Tiene %{stat} %{stat_type} riesgo casos
       other: Tiene %{stat} %{stat_type} riesgo casos
     count_waiting_for_acceptance_transfers: Tiene %{stat} Transferencias esperando su aceptación
     current_owner: Propietario Actual
@@ -610,12 +623,15 @@ es-GT:
     low_risk: 'Prioridad Baja '
     manager_count_closed_total:
       one: y %{stat} <span>caso</span>cerrado
+      many: y %{stat} casos cerrados
       other: y %{stat} casos cerrados
     manager_count_open_total:
       one: Tiene %{stat} <span>caso</span> abierto
+      many: Tiene %{stat} casos abiertos
       other: Tiene %{stat} casos abiertos
     manager_transfers_totals:
       one: Tienes %{stat} transferencias %{stat_type}
+      many: Tienes %{stat}transferencias %{stat_type}
       other: Tienes %{stat}transferencias %{stat_type}
     match_result: Resultados de Coconcordancias
     medium_level: Medio
@@ -701,9 +717,11 @@ es-GT:
     without_incidents: Sin Incidentes
     worker_count_referrals_total:
       one: <span>%{case_worker}</span> tiene %{stat} <span>referencia</span> total
+      many: '%{case_worker} tiene %{stat} referencias totales'
       other: '%{case_worker} tiene %{stat} referencias totales'
     worker_count_total:
       one: <span>%{case_worker}</span> tiene %{stat} <span>caso</span>total
+      many: '%{case_worker} tiene %{stat} casos totales'
       other: '%{case_worker} tiene %{stat} casos totales'
     workflow: Flujo de Trabajo
     workflow_team: Flujo de Trabajo - Casos de Equipos
@@ -1335,16 +1353,9 @@ es-GT:
       title: "8. Servicios Prestados"
       service: "Servicio"
       count: "Número de Veces que se Prestó"
-      helptext: |
-        Este indicador cuenta el tipo de servicio(s) prestados a lo(a)s sobrevivientes en el proceso de gestión del caso.
-        Por servicio prestado, queremos decir el servicio que es prestado por la Organización Usuaria internamente (in-house), no el servicio prestado mediante la referencia a otros servicios.
     average_referrals:
       title: "9. Promedio de Referencias"
       label: "Promedio de referencias por caso"
-      helptext: |
-        Este indicador cuenta el número promedio de referencias de cada caso registrado (para todos los tipos de
-        servicios) para todos los casos. Incluye referencias registradas en la pestaña del caso, no sólo las referencias realizadas
-        a través de la plataforma.
     referrals_per_service:
       title: "Referencias Por Servicio"
     average_followup_meetings_per_case:
@@ -1354,17 +1365,7 @@ es-GT:
         Este indicador cuenta el número promedio de reuniones de seguimiento efectuadas para cada caso activo
         de cada trabajador(a) en la plataforma. Una reunión de seguimiento es una reunión entre el/la trabajador(a) y
         el/la sobreviviente, y se lleva a cabo después de la entrevista inicial.
-    goal_progress_per_need:
-      title: "11. Progreso logrado hacia los Objetivos"
-      need: "Necesidad"
-      safety: "Seguridad"
-      health: "Salud"
-      psychosocial: "Psicosocial"
-      justice: "Justicia"
-      other: "Otro"
-      helptext: "Este indicador mide el porcentaje de casos para los cuales las metas se han cumplido o \nestán en progreso por tipo de necesidad (seguridad, salud, psicosocial, legal/justicia). Este indicador es alimentado\npor la sección \"Progreso hecho hacia las metas\" debajo de la sección \"Seguimiento\" del formulario\ndel Plan de Acción.\n"
     time_from_case_open_to_close:
-      title: "12. Tiempo Desde la Apertura del Caso hasta el Cierre del Caso"
       time: "Hora"
       percent: "Porcentaje de Casos"
       helptext: |
@@ -1372,14 +1373,12 @@ es-GT:
         de gestión del caso desde el reporte inicial a la Organización Usuaria hasta el cierre del caso. Este período de tiempo
         es desglosado en los siguientes períodos: menos de 1 mes; entre 1 y 3 meses; entre 3-6 meses; más de 6 meses.
     case_closure_rate:
-      title: "Razón (ratio) de Cierre de Casos"
       reporting_site: "Lugar del Reporte"
       helptext: |
         Este indicador mide el conteo de casos cerrados por mes, por lugar del reporte. Se entiende como lugar del reporte
         al lugar en donde la Organización Usuaria está prestando servicios y en donde el
         incidente fue reportado a la prestadora de servicios.
     client_satisfaction_rate:
-      title: "14. Razón (ratio) de Satisfacción de Cliente"
       label: "Satisfacción de Cliente"
       helptext: |
         Este indicador mide el porcentaje de sobrevivientes que completaron el Cuestionario de Retroalimentación de Clientes
@@ -1387,12 +1386,9 @@ es-GT:
         alimentado mediante el llenado del formulario de Retroalimentación de Clientes en GBVIMS+ por parte de un miembro del personal que
         no sea la Trabajadora del caso que prestó el servicio a el/la sobreviviente.
     supervisor_to_caseworker_ratio:
-      title: "Razón de Supervisor(a) por Trabajadora de Casos"
       label: "Trabajadore(a)s de Casos por Supervisor(a)"
       helptext: "Este indicador es el número de trabajadoras de casos que un(a) supervisor(a) está supervisando: la razón de supevisor(a) por \nTrabajadora de casos. Este cálculo se basa en los roles del sistema asignados en la plataforma.\n"
     case_load:
-      title: "16. Carga de Casos Asignados"
-      case_load: "Carga de Casos Asignados"
       percent: "porcentaje de trabajadoras de casos con carga de casos asignados"
       10cases: "< 10 Casos"
       20cases: "11 - 20 Casos"
@@ -1776,7 +1772,6 @@ es-GT:
       services_section_from_case: Agregar la Prestación de Servicios al caso de otro(a) usuario(a)
       specific_roles: Acceso a listas específicas de roles
       sync_external: 'Sincronizar con un sistema externo de gestión de información '
-      sync_mobile: Sincronizar con dispositivo móvil
       system: Sistema
       tracing_request: Solicitud de Localización
       transfer: Puede utilizarse para transferir
@@ -1807,10 +1802,8 @@ es-GT:
             label: Promedio de Referencias
           kpi_case_closure_rate:
             explanation: Habilitado(a) para ver cuántos casos se cerraron en cada lugar por mes.
-            label: Razón (ratio) de Cierre de Casos
           kpi_case_load:
             explanation: Habilitado(a) para ver el número de casos abiertos que tiene una trabajadora de casos
-            label: Carga de Casos Asignados
           kpi_client_satisfaction_rate:
             explanation: Habilitado(a) para ver, de cada caso al que el/la usuario(a) tiene acceso, cuál es la razón (ratio) de sobrevivientes que completaron la Encuesta de Retroalimentación y que estaban satisfecho(a)s.
             label: Razón (ratio) de Satisfacción de el/la Cliente
@@ -1843,7 +1836,6 @@ es-GT:
             label: Razón de Supervisor(a) por Trabajadora de Casos
           kpi_time_from_case_open_to_close:
             explanation: Habilitado(a) para ver, de los casos activos a los que el/la usuario(a) tiene acceso, cuánto tiempo se mantiene abierto un caso.
-            label: Tiempo Desde la Apertura del Caso hasta el Cierre del Caso
         label: Indicadores Clave de Rendimiento (KPI)
       agency:
         actions:
@@ -2020,9 +2012,6 @@ es-GT:
           sync_external:
             explanation: Habilitado(a) para sincronizar un Registro con un sistema externo de gestión de información
             label: 'Sincronizar con un sistema externo de gestión de información '
-          sync_mobile:
-            explanation: Este permiso generalmente le permite a el/la usuario(a) usar la aplicación móvil. En primer lugar, le permite ver las acciones "Marcar para Móvil" y "Desmarcar para Móvil", que aparecen en las páginas de listado de casos y presentación de casos. Marcar un caso para móvil indica que la información de ese caso debe estar sincronizada entre el dispositivo móvil de el/la usuario(a) y la aplicación web, mientras que desmarcar un caso del móvil, detiene esta sincronización. Lo(a)s usuario(a) sin este permiso tampoco pueden sincronizar sus dispositivos móviles con la aplicación web en general, lo que significa que no pueden usar la aplicación móvil para la gestión de casos.
-            label: Sincronizar con dispositivo móvil
           transfer:
             explanation: Permite a un(a) usuario(a) enviar un caso desde su actual propietario(a) del registro a cualquier usuario(a) en el sistema que esté habilitado(a) para recibir transferencias. No obstante, el/la propietario(a) del registro del caso no cambia, sino hasta que el/la destinatario(a) de la transferencia la "acepta". Si en lugar de ello el/la destinatario(a) "rechaza" la transferencia, el/la destinatario(a) pierde acceso al caso, y dicho caso conserva a su propietario(a) original.
             label: 'Transferir '
@@ -2137,9 +2126,6 @@ es-GT:
           dash_national_admin_summary:
             explanation: Muestra el total de Casos abiertos en el sistema, el número de Casos nuevos creados en cada una de las dos últimas semanas, y el número de Casos cerrados en cada una de las dos últimas semanas.
             label: Resumen de Administrador(a)
-          view_protection_concerns_filter:
-            explanation: Permite a el/la usuario(a) ver un filtro de inquietudes de protección en la página de lista de casos.
-            label: Vista del Filtro de Inquietudes de Protección en la página de listado de casos
           view_response:
             explanation: 'Para cada tipo de respuesta, muestra cuántos casos en cada nivel se riesgo tienen servicios cuya finalización está cerca de la fecha límite, o bien vencida. '
             label: ver Respuestas
@@ -2164,7 +2150,6 @@ es-GT:
           explanation: 'Limitar el acceso de un(a) usuario(a) a los formularios de casos limita la información que puede ver el/la usuario sobre un incidente. Por ejemplo, si el/la usuario(a) sólo tiene acceso al formulario de Propietario(a) del Registro, sólo podrá ver la información contenida en los campos de ese formulario. Si el/la usuario(a) actual tiene acceso limitado al formulario y está habilitado(a) para administrar la configuración del formulario, limitar su acceso al formulario también limita los formularios a los que puede configurar. NOTA: Si no se especifican los formularios, significa que el rol tiene acceso a todos los formularios de casos.'
           label: Formularios - Caso
         incident:
-          explanation: 'Limitar el acceso de un(a) usuario(a) a los formularios de solicitudes de localización limita la información que puede ver el/la usuario sobre un incidente. Por ejemplo, si el/la usuario(a) sólo tiene acceso al formulario de Propietario(a) del Registro, sólo podrá ver la información contenida en los campos de ese formulario. Si el/la usuario(a) actual tiene acceso limitado al formulario y está habilitado(a) para administrar la configuración del formulario, limitar su acceso al formulario limita también los formularios a los que puede configurar. NOTA: Si no se especifican los formularios, significa que el rol tiene acceso a todos los formularios para incidentes.'
           label: Formularios - Incidente
         tracing_request:
           explanation: 'Limitar el acceso de un(a) usuario(a) a los formularios de solicitudes de localización limita la información que puede ver el/la usuario sobre una solicitud de localización. Por ejemplo, si el/la usuario(a) sólo tiene acceso al formulario de Propietario(a) del Registro, sólo podrá ver la información contenida en los campos de ese formulario. Si el/la usuario(a) actual tiene acceso limitado al formulario y está habilitado(a) para administrar la configuración del formulario, limitar su  acceso a formularios también limita los formularios a los que puede configurar. NOTA: Si no se especifican los formularios, significa que el rol tiene acceso a todos los formularios de Solicitudes de Localización.'
@@ -2466,7 +2451,6 @@ es-GT:
     previously_owned_by_agency: Agencia Anterior
     reassigned_tranferred_on: Reasignado /Transferido En
     record_history_separator: Historia del Registro
-    last_updated_at: Última actualización a las
   record_panel:
     record_information: Información del Registro
   referral:
@@ -2681,8 +2665,6 @@ es-GT:
     success: Transferido correctamente
     transfer_label: ¿Transferir de todas formas?
     user_mandatory: Se requiere destinatario(a)
-  transfer_assignment:
-    title: TRANSFERENCIAS Y ASIGNACIONES
   transition:
     agency_label: Agencia
     assigned_by: Asignado Por

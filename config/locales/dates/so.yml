@@ -1,0 +1,67 @@
+so:
+  date:
+    today: 'maanta'
+    clear: 'Cadee'
+    abbr_day_names_short:
+      - Axad
+      - Isniin
+      - Salaasa
+      - Arbaco
+      - Khamiis
+      - Jimce
+      - Sabti
+    abbr_day_names:
+      - Axad
+      - Isniin
+      - Salaasa
+      - Arbaca
+      - Khamiis
+      - Jimce
+      - sabti
+    abbr_month_names:
+      - Janaayo
+      - Febraayo
+      - Marso
+      - Abril
+      - Meey
+      - Juun
+      - Luulyo
+      - Agoosta
+      - Sebtembar
+      - Oktoobar
+      - Nofembar
+      - Dhisenbar
+    day_names:
+      - Axad
+      - Isniin
+      - Salaasa
+      - Arbaca
+      - Khamiis
+      - Jimco
+      - Sabti
+    month_names:
+      - Jnaayo
+      - Febraayo
+      - Maarso
+      - Abril
+      - Meey
+      - Juun
+      - Luulyo
+      - Agoosto
+      - Sebtembar
+      - Octoobar
+      - Nofembar
+      - Dhiseenbar
+    formats:
+      default: "%d-b-%Y"
+      with_time: "%d-5b-%Y%H:%M"
+      rtl: "%Y-%b-1%d"
+      rtl_with_time: "%M:%H%Y-%b-1%d"
+  time:
+    formats:
+      default: "1%d-%b-%Y"
+      with_time: "1%d-%b-%Y%H:%M"
+      rtl: "%Y-%b-1%d"
+      rtl_with_time: "%M:%H%Y-%b-1%d"
+  'true': "Haa"
+  'false': "Maya"

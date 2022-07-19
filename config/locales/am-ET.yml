@@ -1,0 +1,1779 @@
+am-ET:
+  'true': 'አዎ'
+  'false': 'አይደለም'
+  accepted: ተቀባይነት አግኝቷል
+  cancel: ተሰርዟል
+  connection_lost: የኢንተርኔት መስመሩ ተቋርጧል
+  connected: ኢንተርኔት ተገናኝቷል
+  clear: ግልጽ ነው
+  sandbox_ui: ማሳያ
+  description: መግለጫ
+  form: ቅጽ
+  minimum_reportable_fields: "በሪፖርቱ መካተት ያለባቸው ጉዳዮች  "
+  name: ስም
+  offline: ከኢንተርኔት ውጪ
+  unavailable_offline: ኢንተርኔት የለም
+  online: መስመር ላይ
+  yes_label: 'አዎ'
+  or_label: ወይም
+  select_provider: አገልገግሎት ሰጪውን ይምረጡ
+  select_language: ቋንቋ ይምረጡ
+  log_in_primero_idp: የተጠቃሚውን ስም መዝግበው ይግቡ
+  offline_submitted_changes: 'ከኢንተርኔት ግንኙነት ውጭ ነዎት፡፡ ያደረጉት ለውጥ ኢንተርኔት ሲያገኙ ይላካል፡፡ '
+  updated: አዘምን
+  sync:
+    success: "የተመዘገበው መረጃ በተሳካ ሁኔታ ገብቷ"
+    error:
+      create: ለመስራት አልተቻለም፡፡ እባክዎ እርዳታ ይጠይቁ፡፡
+      update: ውድቅ ተደርጓል፡፡ እባክዎ እርዳታ ይጠይቁ፡፡
+  actions:
+    approvals: ማረጋገጫ
+    button: ድርጊት
+    close: ዝጋ
+    description:
+      invalid: ተቀባይነት የሌለው ማህደር
+      valid: ተቀባይነት ያለው ማህደር
+    disable: ከስራ ውጪ
+    enable: የሚሰራ
+    incident_details_from_case: ድርጊት መክፈት
+    incident_from_case: ድርጊት መፍጠር
+    next: ቀጣይ
+    notes: ማስታወሻ ያስቀምጡ
+    previous: ከዚህ በፊት
+    reopen: ዳግም መክፈት
+    request_approval: ለማጽደቅ የተጠየቀ
+    revoke: ውድቅ ማድረግ
+    save: ውድቅ ማድረግ
+    services_from_case_creation_success: የአገልግሎት መስጫ ማህደር በተሳካ ሁኔታ ተፈጥሯል
+    services_section_from_case: አገልግሎት ጨምር
+    mark_for_offline: ከኢንተርኔት ውጭ ምልክት ማድረግ
+  agencies:
+    label: ድርጅት
+    translations:
+      manage: ትርጉሞችን መቆጣጠር
+  agency:
+    agency_logos: የድርጅቱ አርማ
+    code: 'የድርጅቱ መለያ '
+    description: መግለጫ
+    disabled: ከስራ  ውጭ የተደረገ
+    exclude_agency_from_lookups: ይህን ድርጅት ከምልከታና ከማጣራት ፈቃድ ውጪ ማድረግ
+    exclude_agency_from_lookups_help: 'ድርጅቱ መጠቀሚያ ገጽ እንደሌለው እዚህ ጋር አረጋግጥ
+
+
+      ( ምሳሌ ድርጅቱ የተካተተ ስለሆነ የድርጅቱ አርማው መላክ አለበት'
+    label: ድርጅት
+    logo_enabled: የድርጅቱን ምልክት በፕሪሜሮ ላይ ማሳየት
+    logo_enabled_help: የድርጅቱን ምልክት በፕሪሜሮ ላይ ማሳየት
+    logo_icon: ምልክቱን ማጽደቅ
+    logo_icon_help: ይሄ በትንሽ ስክሪን መጠኖች፣ ታብሌቶች እና ስልኮች ላይ ይታያል። ይህ ካሬ መሆን አለበት
+    logo_large: ትልቅ አርማ
+    logo_large_help: ይህ በትላልቅ የስክሪን መጠኖች እና በፒዲኤፍ ወደ ውጭ በሚላኩ ነገሮች ላይ ይታያል። ይህ አራት ማዕዘን መሆን አለበት, ርዝመቱ ከቁመቱ ይረዝማል.
+    messages:
+      created: ኤጀንሲ በተሳካ ሁኔታ ተገኝቷል
+      updated: ኤጀንሲ በተሳካ ሁኔታ ተልይቷል/ታውቋል።
+    name: የኤጀንሲው ስም
+    pdf_logo_option: ' አርማ ለባለሙያ ይዘጋጅ?'
+    pdf_logo_option_help: 'ማሳሰቢያ፡ የተጠቃሚ ኤጀንሲ ሎጎዎች  በአንድም በሌላ አንደሚገኙ ይታወቃል፣ስለዚህ እርስዎ ይህ አርማ ለሁሉም ተጠቃሚዎች እንዲገኝ ከፈለጉ ብቻ ነው የሚያረጋግጡት።'
+    services: የኤጀንሲ አገልግሎት
+    terms_of_use: የአጠቃቀም ስምምነት
+    terms_of_use_help: ፒዲኤፍ ፋይል ብቻ የተፈቀዳ
+    terms_of_use_download_button: ፒዲኤፍ አውርድ
+    terms_of_use_enabled: አጠቃላይ ውል ሲታይ
+  approvals:
+    approved_by: የጸደቀው በ
+    case_plan_type_label: የድጋፍ እቅድ አይነት
+    manager_comments_label: የሀላፊ አስተያየቶች
+    rejected_by: ውድቅ ተደርጓል በ
+    requested_by: የተጠየቀው በ
+    requested_for_label: እንዲጸድቅ ተጠይቋል ለ
+    requested_for_title: 'እንዲጸድቅ ተጠይቋል '
+    response_for_label: 'ማጽደቅ '
+    response_for_title: 'ማጽደቅ '
+    action_plan: የድርጊት መርሀግብር
+    gbv_closure: የጾታዊ ጥቃት ኬዝ መዝጋት
+    status:
+      approved: ጸድቋል
+      pending: ያላለቀ/በመጠባበቅ ላይ
+      rejected: ውድቅ ተደርጓል
+      requested: ተጠይቋል
+  audit_log:
+    action: ተግባር
+    description: መግለጫ
+    record_owner: የመዝገብ ባለቤት
+    timestamp: ጊዜ
+    user_name: ተፈጽሟል በ
+  bulk_export:
+    file_name: ፋይል
+    record_type: አይነት
+    retry: ይህ ወደ ውጭ መላክ ልክ ያልሆነ ነው። እባክህ ወደ ውጭ መላክህን እንደገና ለመፍጠር ሞክር።
+    started_on: ተጀምሯል
+    status: ሁኔታ
+  form_export:
+    label: የአቀማመጥ ፎርም
+    include_hidden: የማይታዩ ቅጾችን እና መስኮችን ያካትቱ?
+    file_name: የራስዎን የፋይል ስም ይፍጠሩ (አማራጭ)
+    success_message: ወደ ውጭ የሚላከው ፋይል በተሳካ ሁኔታ ፈጥሯል።
+  buttons:
+    accept: መቀበል
+    add: አክል
+    add_another_option: ሌላ አማራጭ ጨምር
+    add_note: ማስታወሻዎችን ያክሉ
+    apply: ያመልክቱ
+    approvals: ማጽደቂያዎች
+    approve_action_plan: የድርጊት መርሃ ግብር አጽድቅ
+    approve_bia: የህጻኑን ጥቅምና ደህንነት መሰረት ያጽድቁ
+    approve_case_plan: የጉዳይ እቅድ አጽድቅ
+    approve_closure: መዘጋትን አጽድቅ
+    approve_gbv_closure: የጾታዊ ጥቃት ፎርም መዝጋት
+    back: መመለስ
+    bundle_export: የማዋቀር ቅርቅብ
+    bundle_import: 'የማዋቀር ዝርጋታ
+
+
+       '
+    cancel: ሰርዝ
+    change_password: የሚስጥር ቁልፍ ይቀይሩ
+    check_status: ሁኔታን ያረጋግጡ
+    clear_default: ነባሪውን ያጽዱ
+    clear_selection: 'የተመረጠውን ያጥፉ
+
+
+       '
+    clear: ' ያጥፉ
+
+
+       '
+    close: 'መዝጋት
+
+
+       '
+    continue: 'ይቀጥሉ
+
+
+       '
+    create_case: የጉዳይ/ኬዝ ይፍጠሩ
+    create_incident: ድርጊት መፍጠር
+    create_new_record: አዲስ ፍጠር
+    delete: አጥፋ
+    disable: የጠፋ
+    disable_photo_wall: ፎቶዎችን አጥፋ
+    done: ተከናውኗል
+    download: አውርድ
+    edit: ጻፍ
+    edit_subform: ንዑስ ቅጽ ማዘጋጀት
+    enable: ማዘጋጀት
+    enable_photo_wall: ፎቶ ማዘጋጀት
+    export: ማስተላለፍ
+    filter: '<br>የማጣራት ስራ ይስሩ
+
+
+       '
+    filter_clear: 'የተጣሩትን ያጥፉ
+
+
+       '
+    filter_label: 'ማጣራት
+
+
+       '
+    filter_restore: ወደ የስርዓት ቅንብሮች  መልስ
+    find_tracing_match: 'የመፈለግያ ተዛማጅ ያግኙ
+
+       '
+    flag_model: 'ጥቆማ/ማሳያ
+
+       '
+    flag_records: 'ጥቆማ/ማሳያ
+
+       '
+    flags: 'ጥቆማ/ማሳያ
+
+       '
+    guidance: መመሪያ
+    guiding_questions: 'መመሪያ ጥያቄዎች
+
+       '
+    import: 'መቀበል/ማምጣት
+
+       '
+    login: 'መግባት
+
+
+       '
+    logout: መውጣት
+    mark_for_mobile: 'የሞባይል ምልክት ያድርጉ
+
+       '
+    new: 'አዲስ
+
+       '
+    ok: 'አዎ/እሽ
+
+       '
+    print: 'ማተም
+
+       '
+    reassign: 'መመደብ
+
+       '
+    referral: 'ሪፈር/ሽኝት
+
+       
+
+       '
+    referral_again: 'እንደገና ሪፈር/ሽኝት
+
+       
+
+       '
+    reject: 'ውድቅ ማድረግ
+
+       '
+    remove_referrals: 'ሪፈር አለማድረግ/አለመሸኘት
+
+       '
+    reorder: 'እንደገና ማድረግ/ማዘዝ
+
+       '
+    request_approval: ማጽደቅን ጠይቅ
+    request_transfer: 'ሽግግር መጠየቅ
+
+       '
+    reunite: 'እንደገና መዋሀድ
+
+       '
+    save: 'አስቀምጥ/መዝግብ
+
+       '
+    save_and_add_service_provision: 'አስቀምጥ እና የአገልግሎት አሰጣጥ
+
+       ጨምር'
+    save_and_return: አስቀምጥ እና ተመለስ
+    save_continue: 'አስቀምጥና ቀጥል
+
+       '
+    save_changes: 'የተቀመጠውን/የተመዘገበውን ቀይር
+
+       '
+    select: 'ምረጥ
+
+       '
+    send: 'ላክ/ኪ
+
+       '
+    sort_by_case: 'ጉዳይ
+
+       '
+    sort_by_tr: 'የፍለጋ ጥያቄ
+
+       '
+    sync: 'አመሳክር
+
+       '
+    submit: 'አስረክብ
+
+       '
+    transfer: 'ማስተላለፍ
+
+       '
+    unflag_model: ከጥቆማ/ማሳያ ማስወገድ
+    unflag_model_history: የምልክት ብዛት
+    unmark_for_mobile: 'የሞባይል ምልክት አስወግድ
+
+       '
+    update: 'አዲስ ሁኔታዎች ካሉ አሳይ
+
+       '
+    view: 'እይ
+
+       '
+    view_flags_history: 'ታሪኮችን እይ
+
+       '
+    return_to_case: 'ወደጉዳይ መመለስ
+
+       '
+  case:
+    label: ጉዳይ
+    create_new_case: 'አዲስ ጉዳይ
+
+       ፍጠር'
+    add_new: 'አዲስ ጨምር
+
+       '
+    back_to_case: ወደ ጉዳይ ተመለስ
+    back_to_results: 'ወደ ውጤት
+
+        ተመለስ'
+    back_to_search: ወደ ፍለጋ ተመለስ
+    search_by: ፍለጋ በ
+    search_for: 'ፍለጋ ለ
+
+       '
+    results: 'ውጤቶች
+
+       '
+    details: 'ዝርዝር
+
+       '
+    select: ምረጥ
+    deselect: 'አትምረጥ
+
+       '
+    enter_id_number: ነባር መዝገብ ለመፈለግ የመታወቂያ ቁጥሩን ያስገቡ
+    id_search_no_results: በስርዓቱ ውስጥ የሚገናኝ ምንም ተዛማጅ የለም. እባክዎ አዲስ መዝገብ ይፍጠሩ።
+    messages:
+      disabled: "ጉዳዩ አይሰራም/ጠፍቷል\n \n "
+      update_success: 'ጉዳዩ በተሳካ ሁኔታ ተስተካክሏል።'
+      update_success_queue: 'ጉዳዩ በተሳካ ሁኔታ ተስተካክሏል።
+
+         '
+      creation_success: 'የጉዳይ መዝገብ በተሳካ ሁኔታ ተፈጥሯል።'
+      creation_success_queue: 'የጉዳይ መዝገብ በተሳካ ሁኔታ ከመነሻው ጀምሮ
+
+         ተፈጥሯል።'
+      already_matched: ይህ ጠያቂ አስቀድሞ ከጉዳይዎ ጋር ተመሳስሏል።
+      already_matched_not_current_case: በስርዓቱ ውስጥ ከዚህ ጠያቂ ጋር የተዛመደ ጉዳይ አለ።
+      not_found_case: ከ"" ጋር የሚዛመድ ምንም ጉዳይ አልተገኘም። አዲስ ጉዳይ ይፍጠሩ።
+      introductory_sentence: እባክዎን የግለሰቡን የጉዳይ አስተዳደር አገልግሎቶችን ለመቀበል እና የጉዳይ አያያዙን በፕሪሜሮ ውስጥ እንዲቀመጥ የግለሰቡን ፍቃድ ይግለጹ።
+      consent_agreements_required: እባክዎ ከፈቃድ ስምምነቶች ውስጥ ቢያንስ አንድ አማራጭ ይምረጡ።
+      legitimate_basis_required: እባክዎ ከህጋዊ መሰረት ምደባዎች ቢያንስ አንድ አማራጭ ይምረጡ
+    save: 'ጉዳዮችን ይመዝግቡ/ያስቀምጡ
+
+       '
+    save_text: ከመቀጠልዎ በፊት እባክዎ ለውጦችዎን በጉዳዩ ላይ ያስቀምጡ።
+    skip_and_create: ይዝለሉ እና አዲስ  ጉደይ ይፍጠሩ
+    search_existing: ያሉትን ጉዳዮች ይፈልጉ
+    search_helper_text: 'ለምን? የተደጋገሙ ጉዳዮች እንዳይፈጠሩ ለመከላከል.
+
+       '
+    consent_agreements: 'የሚመለከተውን ሁሉንም የስምምነት ፎርሞች
+
+        ይምረጡ'
+    legitimate_basis: የሚመለከተውን ሁሉንም ህጋዊ መሠረት መግለጫዎች ይምረጡ
+    workflow:
+      assessment: 'ዳሰሳ
+
+         '
+      case_plan: 'የድጋፍ ዕቅድ
+
+         '
+      closed: 'የጉዳይ መዝጋት
+
+         '
+      created_on: 'የተፈጠረው በ
+
+         '
+      in_progress: 'በሂደት ላይ
+
+         '
+      new: 'አዲስ
+
+         '
+      on_label: 'ላይ'
+      reopened: እንደገና ተከፍቷል።
+      service_implemented: አገልግሎት ተተግብሯል።
+      services_implemented: አገልግሎት ተተግብሯል።
+  linkedincidents:
+    label: የተገናኙ ክስተቶች
+  activity_log:
+    label: የእንቅስቃሴ  ማስታወሻ
+    accepted_transfer: 'ተቀባይነት ያለው ማስተላለፍ ከ'
+    rejected_transfer: 'ተቀባይነት አላገኘም
+
+       '
+  cases:
+    action_plan: የድርጊት መርሀግብር
+    age: ዕድሜ
+    age_estimated: 'የእድሜ ክልል
+
+       '
+    agency: 'ተቋም/ድርጅት
+
+       '
+    apply_filter: ማመልከት/ያመልክቱ
+    approval_comments: 'አስተያየቶች
+
+       '
+    approval_radio: 'እፈልጋለሁ
+
+       '
+    approval_radio_accept: 'ማጽደቅ '
+    approval_radio_reject: 'አይጸድቅም
+
+       '
+    approval_select: ቅጽ ለ
+    approved_success_action_plan: 'ጸድቋል
+
+       '
+    approved_success_assessment: 'ጸድቋል
+
+       '
+    approved_success_bia: 'ጸድቋል
+
+       '
+    approved_success_case_plan: 'ጸድቋል
+
+       '
+    approved_success_closure: 'ጸድቋል
+
+       '
+    approved_success_gbv_closure: 'ጸድቋል
+
+       '
+    assessment: ዳሰሳ
+    case_opening_date: 'ጉዳዩ መክፈቻ ቀን
+
+       '
+    case_plan: የድጋፍ ዕቅድ
+    case_worker_code: 'የጉዳይ ባለሙያ መለያ ቁጥር
+
+       '
+    clear_filter: ማስወገድ
+    close_dialog: 'ኦኬ ቁልፍን መጫን
+
+       የዚህን ጉዳይ ሁኔታ ወደ ዝግ ይለውጠዋል'
+    close_dialog_title: 'ጉዳይ መዝጋት
+
+       
+
+       '
+    close_success: በተሳካ ሁኔታ ጉዳዩ ተዘግቷል
+    closure: 'መዝጋት
+
+       '
+    date_of_birth: የትውልድ ቀን
+    disable_dialog: "ኦኬ ቁልፍን መጫን\n የዚህን ጉዳይ ያጠፋዋል\n "
+    disable_dialog_title: 'ኬዝ ማጥፋት
+
+       '
+    disable_success: 'ኬዙ በሚገባ ጠፍቷል
+
+       '
+    enable_dialog: 'ኦኬ ቁልፉን መጫን የጠፉ ኬዞችን ይመልሳል
+
+       '
+    enable_dialog_title: 'ጉዳዩን አብራ/መልስ
+
+       '
+    enable_success: 'ጉዳዩ በሚገባ ተመልሷል
+
+       '
+    export: 'ማሻገር
+
+       '
+    mark_for_offline:
+      title: 'ለማጥፋት ምልክት ያርጉ
+
+         '
+      text: እርግጠኛ ነዎት ከመስመር ውጭ በሚሆኑበት ጊዜ እነዚህን ጉዳዮች ለመጠቀም ምልክት ማድረግ ይፈልጋሉ?
+      success: ጉዳዮች በተሳካ ሁኔታ ከመስመር ውጭ ለመጠቀም ምልክት የተደረገባቸው
+    filter_by:
+      3month_inactivity: 'ለ3 ወር በላይ
+
+         '
+      action_plan: የድርጊት መርሀግብር
+      age_0_5: 0-5
+      age_12_17: 12-17
+      age_18_more: 18+
+      age_6_11: 6-11
+      age_range: የዕድሜ ክልል
+      agency: ኤጀንሲ
+      approval_status: የማጽደቂያ ሁኔታ
+      approvals:
+        approved: ጸድቋል
+        pending: ያላለቀ/በመጠባበቅ ላይ
+        rejected: ውድቅ ተደርጓል
+      bia: 'የህጻን ጥቅምና ደህንነት ዳሰሳ
+
+         '
+      by_date: 'በቀን
+
+         '
+      case_open_date: 'ጉዳይ የሚከፈትበት ቀን
+
+         '
+      case_plan: የድጋፍ ዕቅድ
+      closed: 'ተዘግቷል
+
+         '
+      closure: የጉዳይ መዝጋት
+      current_location: 'አሁን ያለበት አድራሻ
+
+         '
+      date: 'ቀን
+
+         '
+      displacement_status: 'የመፈናቀል ሁኔታ
+
+         '
+      district: 'ወረዳ
+
+         '
+      duplicate: 'ድግግሞሽ/ዳግም
+
+         '
+      enabled_disabled: 'በርታል/ጠፍቷል
+
+         '
+      female: 'ሴት
+
+         '
+      flag: 'ማሳየት/መጠቆም
+
+         
+
+         '
+      flag_label: 'ማሳየት/መጠቆም
+
+         
+
+         '
+      gbv_closure: የጾታዊ ጥቃት ኬዝ መዝጋት
+      high: ከፍተኛ
+      low: ዝቅተኛ
+      male: 'ወንድ
+
+         '
+      medium: መካከለኛ
+      mobile: 'ስልክ
+
+         '
+      mobile_label: 'የሞባይል ምልክት ተደርጓል
+
+         '
+      my_cases: 'የኔ ጉዳይ
+
+         '
+      no_action: የለም ተግባር
+      no_activity: 'የተከናወነ ተግባር የለም
+
+         '
+      open: ክፈት
+      other: 'ሌሎች
+
+         '
+      photo: 'ፎቶ
+
+         '
+      photo_label: 'ፎቶ አለ
+
+         '
+      protection_concerns: 'የጥበቃ ስጋት
+
+         '
+      protection_status: 'የጥበቃ ሁኔታ
+
+         '
+      record_state: 'የመረጃ ሁኔታ
+
+         '
+      referred_cases: 'ጉዳዩ ወደ እኔ ተላልፏል
+
+         '
+      registration_date: 'የምዝገባ ቀን
+
+         '
+      risk_level: 'የስጋት ደረጃ
+
+         '
+      sex: 'ጾታ
+
+         '
+      social_worker: 'ጉዳይ/ምድብ/ሶሻልወርከር
+
+         '
+      status: 'ሁኔታ
+
+         '
+      transferred: 'ተልልፏል
+
+         '
+      type_of_risk: 'የጉዳት አይነት
+
+         
+
+         '
+      urgent_protection_concern: አስቸኳይ የጉዳት አይነት
+      user_group: 'የተጠቃሚዎች ቡድን
+
+         '
+      workflow: "የጉዳይ ሂደት \n "
+    flag_summary: አሳይ  ማጠቃለያ
+    full_name: 'ሙሉ ስም
+
+       '
+    gbv_closure: የጾታዊ ጥቃት ኬዝ መዝጋት
+    hide_name: 'ስሙን ከልል/ደብቅ
+
+       '
+    hide_name_error: ለውጦችዎን በሚያስቀምጡበት ጊዜ ስህተት ተፈጥሯል። እባክዎ ዳግም ይሞክሩ.
+    id: 'መለያ ቁጥር
+
+       '
+    label: ጉዳይ
+    my_filters: 'የኔ ማጣርያ/መለያ
+
+       '
+    name: ስም
+    notes_dialog_title: ማስታወሻ ያስቀምጡ
+    notes_form_notes: 'ማስታወሻዎች
+
+       '
+    notes_form_subject: ጉዳይ
+    ok: 'እሽ/ኦኬ ቁልፍ
+
+       '
+    order_by:
+      label: 'የታዘዘው በ
+
+         '
+      most_recently: 'የቅርብ
+
+         '
+      name: ስም
+    owned_by: የመዝገብ ባለቤት
+    owned_by_agency: የመዝገብ ባለቤት
+    photo: ፎቶ
+    photos: ፎቶ
+    quick_view:
+      tracing_message: 'ማሳሰቢያ፡ ይህን ህጻን ከሚፈልግ ጠያቂ ጋር በመረጃው ውስጥ ግንኙነት አለው። በመሆኑም ለተጨማሪ ህጻኑ ፍላጎት ካለው ሶሻል ወርከሩን ያግኙና ያናግሩ  
+
+         '
+    referral_done: '''ተከናውኗል'' የሚለውን ከተጫኑ  ከዚህ ጉዳይ ጋር የተያያዘውን የሪፈራል ስራ እንደጨረሱ ያሳያል። አንዴ ''ተከናውኗል'' የሚለውን ከተጫኑ ማግኘት አይችሉም
+
+       '
+    referral_done_success: 'ሪፈር ተደርጓል
+
+       '
+    referral_accepted_header: 'ሪፈር ተቀባይነት አግኝቷል
+
+       '
+    referral_accepted: 'እርግጠኛ ነዎት? ከሪፈራል ጋር በተያያዘ ስራዎችን አጠናቀዋል
+
+       '
+    referral_accepted_success: ሪፈር ተደርጓል
+    referral_rejected: ''' ውድቅ ማድረግ'' የሚለውን ከተጫኑ በዚህ ጊዜ ለሪፈራል ሃላፊነት ለመቀበል ዝግጁ እንዳልሆናችሁ እያሳያችሁ ነው። እባክዎ ይህንን ሪፈራል ውድቅ ያደረጉበትን ምክንያት ያሳዩ። አንዴ ''ውድቅ ማድረግ''  የሚለውን ከተጫኑ ዳግም ወደዚህ ጉዳይ መመለስ አይችሉም።
+
+
+       '
+    referral_rejected_success: 'ሪፈራል ውድቅ ተደርጓል
+
+
+       '
+    register_new_case: 'አዲስ ጉዳይ
+
+
+       '
+    registration_date: የምዝገባ ቀን
+    rejected_success_action_plan: 'አልጸደቀም
+
+
+       '
+    rejected_success_assessment: 'አልጸደቀም
+
+
+       '
+    rejected_success_bia: 'አልጸደቀም
+
+
+       '
+    rejected_success_case_plan: 'አልጸደቀም
+
+
+       '
+    rejected_success_closure: 'አልጸደቀም
+
+
+       '
+    rejected_success_gbv_closure: 'አልጸደቀም
+
+
+       '
+    reopen_dialog: ኦኬ ቁልፍን መጫን የዚህን ጉዳይ ሁኔታ እንዲከፈት ያደርገዋል
+    reopen_dialog_title: የጉዳይ ዳግም መክፈት
+    reopen_success: ጉዳይ በሚገባ ዳግም ተከፍቷል
+    request_approval_failure: ስህተት ተፍጥሯል እባክዎ ማስተካከያ ይጠይቁ
+    request_approval_select: ማጽደቅን ጠይቅ
+    request_approval_success_action_plan: ለማጽደቅ ተጠይቋል።
+    request_approval_success_assessment: ለማጽደቅ ተጠይቋል።
+    request_approval_success_case_plan: ለማጽደቅ ተጠይቋል።
+    request_approval_success_closure: ለማጽደቅ ተጠይቋል።
+    request_approval_success_gbv_closure: ለማጽደቅ ተጠይቋል።
+    request_approval_type_of_case_plan: የጉዳይ እቅድ ማጽደቅ አይነት
+    request_approve_action_plan: 'የድርጊት መርሃ ግብር ማጽደቅ?
+
+       '
+    request_approve_bia: 'ዳሰሳ ማጽደቅ?
+
+       '
+    request_approve_case_plan: 'የድጋፍ እቅድ ማጽደቅ?
+
+       '
+    request_approve_closure: 'የጉዳይ ማጽደቅ?
+
+       '
+    request_approve_gbv_closure: 'የፆታዊ ጥቃት የጉዳይ መዝጋት
+
+       '
+    revoke_failure: 'ስህተት ተፈጥሯል እባክዎ ተጨማሪ ድጋፍ ይጠይቁ
+
+       '
+    revoke_message: 'ሻር የሚለውን በመጫን ተቀባዩ ጉዳዩን ማግኘት እንዳይችል ያደርጋሉ
+
+       '
+    revoke_success_message: 'ጉዳዩ ተሽሯል
+
+       '
+    save_filter: አስቀምጥ/መዝግብ
+    selected_all_records: 'ከዚህ ጠያቂ ጋር የሚገናኙ ሁሉም ጉዳዮችን ምረጥ
+
+       '
+    selected_records: 'ጉዳዩ/ዮች ተመርጧል
+
+       '
+    sex: ጾታ
+    show_case: 'የጉዳዩ መለያ ቁጥር
+
+       '
+    social_worker: 'ሶሻል ወርከር
+
+       '
+    status: ሁኔታ
+    summary:
+      label: 'ማጠቃለያ
+
+         '
+      find_match: 'ተዛማጅ/ግንኙነት ያላቸውን አግኝ
+
+         '
+      matched_trace: 'ተዛማጅ#
+
+         '
+      cannot_find_matches: 'ተዛማጆችን ማግኘት አልተቻለም። ከህጻኑ ጋር ግንኙነት ያላቸውን መረጃዎች ለመፈለግ  የስምምነት ፈቃድ አልተወሰደም።
+
+         '
+      matched: 'ተዛምዷል
+
+         '
+      fields:
+        consent_for_tracing:
+          label: 'የስምምነት ፈቃድ ተወስዷል ከህጻኑ ጋር ተዛማጅነት ያላቸውን መረጃዎች ለመፈለግና ለማገናኘት
+
+             '
+          help_text: 'ይህ ቦታ ''አይደለም'' ከሆነ፣ የህጻኑ የጉዳይ መዝገብ ከጠያቂ ፍለጋ ጥያቄዎች ጋር ለማዛመድ የሚታይ ነገር የለም።
+
+             '
+        wishes_child_family_tracing:
+          label: 'ህጻኑ የቤተሰብ አባላትን ማግኘት ይፈልጋል?
+
+             '
+        wishes_reunification:
+          label: 'ህጻኑ ወደ ቤተሰብ መወሀድ ይፈልጋል?
+
+             '
+          options:
+            yes_as_soon_as_possible: አዎ, በተቻለ ፍጥነት
+            yes_but_later: አዎ ፣ ግን በኋላ
+            not_sure: እርግጠኛ ያልሆነ
+            'no': 'አይደለም
+
+               '
+        data_confidentiality_link:
+          label: 'የመረጃዎችን ሚስጥር ጠባቂነት ተመልከት
+
+             '
+        child_wishes_link:
+          label: 'የህጻኑን ፍላጎት አስተውል
+
+             '
+    survivor_code: 'ያገገመ/ከጉዳት የተረፈ መለያ ቁጥር
+
+       '
+    transfer_accepted: ''' ተቀበል''  የሚለውን ቁልፍ በመጫን ከዚህ ጉዳይ ጋር በተያያዘ በሀላፊነት ለመስራት ተስማምተዋል አንዴ ተቀብያለሁ የሚለውን ከተጫኑ በቀጣይ ጉዳዩን የሚከታተሉ ባለሙ ይሆናሉ
+
+       '
+    transfer_managed_user_accepted: ''' ተቀበል'' የሚለውን ቁልፍ በመጫን ከዚህ ጉዳይ ጋር በተያያዘ በሀላፊነት ለመስራት ተስማምተዋል አንዴ ተቀብያለሁ የሚለውን ከተጫኑ በቀጣይ ጉዳዩን የሚከታተሉ ባለሙ ይሆናሉ'
+    transfer_managed_user_rejected: '''ውድቅ ማድረግ'' የሚለውን ቁልፍ ከተጫኑ ከዚህ ጉዳይ ጋር በቴያዘ በሀላፊነት ለመስራት አልተስማሙም ማለት ነው፡፡ ለምን እንዳልተቀበሉ/እንዳልተስማሙ መግለጫ ያስቀምጡ
+
+       '
+    transfer_accepted_rejected: 'የተላለፈው ጉዳይ ውድቅ ተደርጓል
+
+       '
+    transfer_accepted_success: 'የተላለፈው ጉዳይ ተቀባይነት አግኝቷል
+
+       '
+    transfer_reject_reason_label: 'ውድቅ የተደረገበት ምክንያት
+
+       '
+    transfer_rejected: ''' ውድቅ ማድረግ'' የሚለውን ከተጫኑ ጉዳይ ሃላፊነት ለመቀበል ዝግጁ እንዳልሆናችሁ እያሳያችሁ ነው። እባክዎ ይህንን ሪፈራል ውድቅ ያደረጉበትን ምክንያት ያሳዩ። አንዴ ''ውድቅ ማድረግ''  የሚለውን ከተጫኑ ዳግም ወደዚህ ጉዳይ መመለስ አይችሉም።'
+    view_name: 'ስም/ስሟን እዩ
+
+       '
+  change_logs:
+    filters:
+      form: ቅጽ
+      field: 'ምድብ
+
+         '
+    add_subform: 'የንዑስ ቅጽ ተጨምሯል#
+
+       '
+    changes_subform: 'ንዑስ ቅጽ ተቀይሯል
+
+       '
+    create: 'ማህደር ተፈጥሯል/ተዘጋጅቷል
+
+       '
+    deleted_subform: 'ንዑስ ቅጽ ተወግዷል'
+    label: መግቢያ ቀይር
+    see_details: በዝርዝር ይመልከቱ
+    change: 'ከ “ ”   እስከ “”'
+    updated_subform: 'ንዑስ ቅጾችን እንደገና ማየት/ማዘመን#'
+    update_subform: 'ንዑስ ቅጾችን እንደገና ማየት/ማዘመን'
+    from: ከ
+    to: ለ
+  children:
+    selectable_date_options:
+      assessment_requested_on: የዳሰሳ ቀን
+      closure_approved_date: 'ጉዳዩ የሚዘጋበት ቀን'
+      created_at: ጉዳዩ የተከፈተበት ቀን
+      date_case_plan_initiated: የድጋፍ እቅድ ቀን
+      date_of_creation: የተፈጠረበት ቀን
+      registration_date: የተመዘገበበት ቀን
+  configurations:
+    apply_label: 'እርግጠኛ  ይሁኑ ? ወደ ሲስተሙ ከመለከቱ ወደ አጠቃላይ ስተሙ መረጃ እያስገቡ ነው ፡፡ እያንዳንዱን የሚያስገቡትን መረጃ በአግባቡ መመዝገብና ማስቀመጥዋን እንዳይዘነጉ በአግባቡ ካላስቀመጡዋቸው በስተቀር  መልሰው ማግኘት አይችሉም።
+
+       '
+    apply_label_bold: 'ለውጥ በሚደረግበት ጊዜ ለተወሰኑ ደቂቃዎች ፕሪሜሮ ላይሰራ ይችላል
+
+       '
+    version_mismatch_tooltip: 'እባክዎ አዳዲስ የፕሪሜሮ አሰራሮችን እስኪጠቀሙ ይጠብቁ
+
+       '
+    send_header: 'ወደ ዋናው ክፍል ይላኩ
+
+       '
+    send_text: 'እርግጠኛ ነዎት ላክ የሚለውን ከተጫኑ ወደ ዋናው ማቀነባበርያ ሲስተም እየላኩ ነው የሲስተም ተቆጣጣሪ እስካላስተካከለውና ምላሽ እስካልሰተ አይሰራም
+
+       
+
+       '
+    attributes:
+      created_by: የተፈጠረው በ
+      date_created: የተፈጠረበት ቀን
+      description: መግለጫ
+      last_applied_by: 'በመጨረሻ ያመለከተው በ
+
+         '
+      last_applied_on: 'በመጨረሻ ያመለከተው በ
+
+         '
+      name: ስም
+      version: 'የማዋቀር ክፍል
+
+         '
+      primero_version: 'የፕሪሜሮ ክፍል
+
+         '
+    delete_label: እርግጠኛ ነዎት ይህን ማድረግ ይፈልጋሉ? ይህ ውቅር ከተፈጠረ ጀምሮ ያሉትን ሁሉንም ቅንብሮች ይወክላል። አንዴ ይህን ውቅር  ከሰረዙት ወደ ኋላ ተመልሰው እነዚህን ቅንብሮች መልሰው ማግኘት አይችሉም።
+    explanation: 'አስቀምጥ/መዝግብ የሚለውን ቁልፍ መጫን የሁሉም የአሁኑ የውቅረት ቅንጅቶች (ለምሳሌ ሚናዎች፣ ኤጀንሲዎች፣ ቅጾች) በዚህ ጊዜ መዝገብ ይፈጥራል። ከመዘገቡ በኋላ፣ እነዚህን ለውጦች ወደ ሌላ  ምሳሌ መግፋት ይችላሉ። ለወደፊቱ፣ ለመመለስ የሚፈልጉትን የውቅረት ለውጦችን ካደረጉ፣ በዚህ ጊዜ ያደረጓቸውን ሁሉንም የውቅረት ለውጦች ወደነበሩበት ለመመለስ ይህንን የውቅር መዝገብ መተግበር ይችላሉ።
+
+       '
+    label: የማዋቀር ዝርጋታ
+    label_new: የማዋቀር ዝርጋታ
+    messages:
+      applied: 'የውቅር ሂደቱ በሚገባ ተተገብሯል
+
+         '
+      created: 'የማዋቀረ/ማመሳጠር ሂደቱ በሚገባ ተፈጥሯል
+
+         '
+      deleted: 'የማዋቀረ/ማመሳጠር ሂደቱ በሚገባ ጠፍቷል
+
+         '
+      updated: 'የማዋቀረ/ማመሳጠር ሂደቱ በሚገባ ተስተካክሏል
+
+         '
+      sent: 'የውቅር ሂደቱን ወደ ስራ ማስገባት፡፡ እባክዎ  የተስተካከለውን የውቅር ሂደት ለመጠቀም ተመልከት።
+
+         '
+    not_allowed: 'አልተፈቀደም
+
+       '
+    unavailable_server: "ማከናወኛው ለጊዜው አይሰራም \n "
+  contact:
+    field:
+      email: 'ኢ-ሜል
+
+         '
+      location: 'አድራሻ/መገኛ ቦታ
+
+         '
+      name: ስም
+      organization: 'ተቋም
+
+         '
+      other_information: 'ሌሎች መረጃዎች
+
+         '
+      phone: 'ስልክ
+
+         '
+      position: 'የሙያ ደረጃ
+
+         '
+      primero_version: 'የፕሪሜሮ ክፍል
+
+         '
+      support_forum: 'የድጋፍ ቅጽ
+
+         '
+      system_version: 'የሲስተም ክፍል
+
+         '
+    info_label: 'የመገናኛ መረጃዎች/ስልክ
+
+       '
+    updated: 'የማግኛ መረጃዎች/ስልክ በሚገባ ዘምኗል/ተከልሷል
+
+       '
+  code_of_conduct:
+    field:
+      title: 'ማእረግ
+
+         '
+      content: 'ይዘት
+
+         '
+      created_on: የተፈጠረው በ
+      created_by: የተፈጠረው በ
+    info_label: 'የስነምግባር መርሆዎች/እሴቶች
+
+       '
+    updated: 'የስነምግባር መርሆዎች/እሴቶች ተወስዷል
+
+       '
+  dashboard:
+    activity: 'ተግባራት
+
+       '
+    admin_only: 'ይህን ይጫኑ ለመቀየር
+
+       '
+    all_cases: 'ሁሉም ጉዳዮች
+
+       '
+    all_services_implemented: 'ሁሉም አገልግሎቶች ተተግብረዋል
+
+       '
+    and: 'እና
+
+       '
+    approval_action_plan_approved: ጸድቋል
+    approval_action_plan_pending: ያላለቀ/በመጠባበቅ ላይ
+    approval_action_plan_pending_group: የድርጊት መርሀግብር
+    approval_action_plan_rejected: ውድቅ ተደርጓል
+    approval_assessment_approved: ጸድቋል
+    approval_assessment_pending: ያላለቀ/በመጠባበቅ ላይ
+    approval_assessment_pending_group: ዳሰሳ
+    approval_assessment_rejected: ውድቅ ተደርጓል
+    approval_case_plan_approved: ጸድቋል
+    approval_case_plan_pending: ያላለቀ/በመጠባበቅ ላይ
+    approval_case_plan_pending_group: የድጋፍ ዕቅድ
+    approval_case_plan_rejected: ውድቅ ተደርጓል
+    approval_closure_approved: ጸድቋል
+    approval_closure_pending: ያላለቀ/በመጠባበቅ ላይ
+    approval_closure_pending_group: መዝጋት
+    approval_closure_rejected: ውድቅ ተደርጓል
+    approval_gbv_closure_approved: ጸድቋል
+    approval_gbv_closure_pending: ያላለቀ/በመጠባበቅ ላይ
+    approval_gbv_closure_pending_group: የጾታዊ ጥቃት ኬዝ መዝጋት
+    approval_gbv_closure_rejected: ውድቅ ተደርጓል
+    approvals: ማጽደቂያዎች
+    approvals_action_plan: የድርጊት መርሀግብር
+    approvals_assessment: ዳሰሳ
+    approvals_case_plan: የድጋፍ ዕቅድ
+    approvals_closure: የጉዳይ መዝጋት
+    approvals_gbv_closure: የጾታዊ ጥቃት ኬዝ መዝጋት
+    approved: ጸድቋል
+    assessment: ዳሰሳ
+    awaiting_acceptance: "ተቀባይነት ለማግኘት በመጠባበቅ ላይ \n "
+    cases_by_social_worker_total: 'አጠቃላይ
+
+       '
+    cases_by_social_worker_new_or_updated: 'አዲስና ዘምኗል
+
+       '
+    case_id: 'የጉዳይ #መለያ ቁጥር
+
+       '
+    case_management_service: 'የጉዳይ አያያዝ አገልግሎት
+
+       '
+    case_overview: የኔ ጉዳይ
+    case_plan: የድጋፍ ዕቅድ
+    case_risk: 'ኬዞች በዳሰሳ ደረጃ
+
+       '
+    case_stat_by_approval_type: 'ማጽደቅ '
+    case_stat_by_assessment_level: ኬዞች በዳሰሳ ደረጃ
+    case_stat_referrals: 'ሪፈራል
+
+       '
+    case_stats: ጉዳይ
+    case_worker: የጉዳይ ባለሙያ
+    cases_by_social_worker: 'ጉዳዮች በሶሻልወርከር
+
+       '
+    cases_by_task_overdue: 'እያንዳንዱ ተግባራት
+
+       '
+    cases_by_workflow: 'ኬዞች በስራ አካሄድ
+
+       '
+    cases_this_week: 'የሳምንቱ ጉዳዮች
+
+       '
+    cases_to_assign: 'የተመደቡ ኬዞች
+
+       '
+    closed: ተዘግቷል
+    closed_last_week: 'ባለፈው ሳምንት ተዘግቷል
+
+       '
+    closed_this_week: 'በዚህ ሳምንት ተዘግቷል
+
+       '
+    comprehensive_need_intervention: 'አጠቃላይ ምላሽ
+
+       '
+    current_owner: ባለቤት
+    dash_case_incident_overview: የኔ ጉዳይ
+    dash_group_overview: ጉዳይ
+    dash_shared_from_my_team: ከቡድኔ የተጋራ
+    dash_shared_with_me: ለኔ የተጋራ
+    dash_shared_with_my_team: 'ለቡድኔ የተጋራ
+
+
+       '
+    dash_shared_with_my_team_overview: ለቡድኔ የተጋራ (ለሌሎች የተጋራ)
+    dash_shared_with_others: ለሌሎች የተጋራ
+    dash_national_admin_summary: የአስተዳዳሪ ማጠቃለያ
+    date: ቀን
+    date_of_incident: የተከሰተበት ቀን
+    date_of_interview: 'ቃለመጠይቅ የተደረገበት ቀን
+
+
+       '
+    due: ዘግይቷል
+    flagged: ማሳየት/መጠቆም
+    flagged_by: 'ማሳየት/መጠቆም በ'
+    flagged_by_me: በእኔ ታይቷል
+    flagged_by_other: በሆነሰው ታይቷል
+    flagged_cases: የታዩ ኬዞች
+    follow_up: ክትትል
+    forms: ቅጾች
+    geographic_area: አካባቢ
+    group_overview_closed: ተዘግቷል
+    group_overview_open: ክፈት
+    high_level: ከፍተኛ
+    high_risk: ከፈተኛ ትኩረት
+    immediate_response: አፋጣኝ ምላሽ
+    in_progress: በሂደት ላይ
+    incident_id: 'የክስተት መመዝገቢያ ኮድ ቁጥር'
+    incident_location: የተከሰተበት አድራሻ
+    incident_status_open: ክፈት
+    last_updated: የታየበት የመጨረሻ ቀን
+    link_see_all: 'ሁሉም እዩ
+
+
+       '
+    low_level: ዝቅተኛ
+    low_risk: 'ዝቅተኛ ቅድሚያ/ትኩረት
+
+
+       '
+    match_result: 'የማዛመድ ውጤት
+
+
+       '
+    medium_level: መካከለኛ
+    medium_risk: 'መካከለኛ ትኩረት/ቅድሚያ
+
+
+       '
+    missed_cases: 'የጠፉ/የተረሱ ጉዳዮች
+
+
+       '
+    name: ስም
+    name_or_survivor_code: ስም/ያገገመ/ከጉዳት የተረፈ መለያ ቁጥርስ
+    no_caseworker_data: የጉዳይ ባለሙያ መረጃ  የለም
+    no_flagged_child: እንዲታዩ የተመረጡ ኬዞች የሉም
+  exports:
+    custom_exports:
+      form_label: ቅጽ
+    json:
+      all: ጄኤስኦኤን
+  fields:
+    file_upload_box:
+      photo_file_restrictions_message: 'ፎቶዎች ከ10 ሜባ መብለጥ የለባቸውም። የድምጽ ፋይሎች ከ10ሜባ መብለጥ የለባቸውም። አነስተኛ የሆነው ተመራጭ ነው
+
+         '
+      recorded_audio_label: 'የተቀዳ ድምጽ
+
+         '
+      select_file_button_text: ፋይል ይምረጡ
+    find_lookup: ፍለጋን ያግኙ
+    form_name: የቅጹ ስም
+    future_date_not_valid: 'ወደፊት አይሆንም
+
+       '
+    guidance: "ምክር \n "
+    guiding_questions: "የምክክር ጥያቄዎች \n "
+    hide_on_view_page: 'ገጾችን አሳይ
+
+       '
+    label: 'መደብ
+
+       '
+    mobile_visible: ስልክ
+    move_to: 'አንቀሳቅስ
+
+       '
+    multi_select: ብዙ አማራጮችን መምረጥ ይችላል።
+  home:
+    records_need_attention: ትኩረት የሚሹ ማህደሮች
+  location:
+    base_types:
+      country: ሀገር
+  logger:
+    actions:
+      update: ማዘመን
+      user_password_reset_request: የተገልጋዮች የይለፍ ቃል ማስተከከል ጥያቄ
+      webhook: ድህረ ገጽ
+    approve_form:
+      action_plan: የድርጊት ዕቅድ ቅጽ
+      bia: የህጻናት ጥቅም ማስጠበቂያ ጥናት ቅጽ
+      case_plan: የጉዳይ እቅድ ቅጽ
+      closure: የመዝጊያ ቅጽ
+      'false': ውድቅ ማድረግ
+      gbv_closure: የጾታዊ ጥቃት መዝጊያ ቅጽ
+      'true': ማጽደቅ
+    assessment_approved: "ማጽደቅ"
+    assessment_requested: "የተጠየቀ"
+    bulk_index: ሁሉንም ዘርዝር
+    case_plan_approved: "ማጽደቅ"
+    case_plan_requested: "የተጠየቀ"
+    closure_approved: "ማጽደቅ"
+    closure_requested: "የተጠየቀ"
+    consent_count: 'የስምምነት ቁጥር
+
+       '
+    copy: 'ቅዳ
+
+       '
+    create: 'መፍጠር
+
+       '
+    create_subform: 'ንዑስ ቅጽ ፍጠር
+
+       '
+    destroy: 'ማጥፋት
+
+       '
+    edit: 'መዝግብ
+
+       '
+    enable_disable_record: 'አብራ/አጥፋ
+
+       '
+    export: 'መረጃውን አስተላልፉ
+
+       '
+    flag: 'አሳይ/አውለብልብ
+
+       '
+    flag_records: 'አሳይ/አውለብልብ
+
+       '
+    graph_data: 'መረጃዎችን ይመልከቱ
+
+       '
+    hide_name:
+      protect: 'ስም ደብቅ
+
+         '
+      view: 'ስም እዩ
+
+         '
+    index: 'ቅጅዎችን ዘርዝር
+
+       '
+    list: ' ዘርዝር
+
+       '
+    login: ግባ
+    logout: ዘግተው ይውጡ
+    lookups_for_field: ምድቦችን ፈልግ
+    mark_for_mobile:
+      'false': ሞባይል ምልክት አይደረግ
+      'true': ሞባይል ምልክት አድረግ
+    match_record: የማዛመድ መዝገብ
+    permitted_field_list: የምድብ ዝርዝር
+    quick_view: በፍጥነት መመልከት
+    reassign: 'የምድብ '
+    resources:
+      audit_log: 'የመዝገብ ጉድኝት
+
+
+         '
+      user: 'ተጠቃሚ
+
+
+         '
+      agency: 'ተቋም
+
+
+         '
+      user_group: 'የተጠቃሚ ቡድኖች
+
+
+         '
+      child: 'ህጻን
+
+
+         '
+      alert: 'ማንቂ/ደወል
+
+
+         '
+      form_section: ቅፅ
+      lookup: ተመልከት
+      system_settings: 'የሲስተም ስርዓት
+
+
+         '
+      permission: 'ፈቃድ
+
+
+         '
+      dashboard: 'ዳሽቦርድ
+
+
+         '
+      report: 'ሪፖርት
+
+
+         '
+    request_approval:
+      closure: 'የጉዳይ እቅድ ቅጽ እንዲጸድቅ መጠየቅ '
+      gbv_closure: ጾታን መሰረት ያደረጉ ጥቃቶች ጉዳይ ለመዝጋት ጥያቄ ማቅረብ
+    request_transfer: የማዘዋወር ጥያቄን መላክ
+    request_transfer_view: የማዘዋወር ጥያቄዎችን መመልከት
+    save_subform: ንዑስ ቅጾችን ማስቀምጥ
+    search: ኤ.ፒ.አይ
+    show: መመልከት
+    show_alerts: ማንቂዎችን መመልከት
+    to: ለ
+    to_user: ወደ ስርዓቱ ተገልጋይ
+    transfer: ማስተላለፍ
+    transfer_status:
+      Accepted: ተቀባይነት ያገኘ ማስተላለፍ
+      Rejected: ተቀባይነት ያላገኘ ማስተላለፍ
+    unflag: የማውለብለብ ምልክቱን አጥፋ
+    update: ማዘመን
+  login:
+    label: ግባ
+    password:
+      label: የይለፍ ቃል
+    password_confirmation:
+      label: የይለፍ ቃል ማረጋገጫ
+    password_match:
+      label: 'የይለፍ ቃሉ ተመሳሳይ መሆን አለበት '
+    provider_title: ከ---ጋር
+    title: ግባ
+    username: የተጠቃሚ ስም
+    password_reset_modal: የይለፍ ቃል እንደገና መስጠት
+    password_reset_modal_text: ፕሪሜሮ የይለፍ ቃል ማደሻ መረጃ በኢ-ሜይል ይልካል
+    password_reset_email: ኢ-ሜይል
+    forgot_password: ኢ-ሜይል
+    email:
+      label: ኢ-ሜይል
+  lookup:
+    create: አዲስ ፍለጋ
+    enabled_label: እንዲሰራ ማድረግ
+    english_label: የእንግሊዝኛ ጽሁፍ
+    label: ፍለጋ
+    language_label: ቋንቋ
+    messages:
+      cannot_create: ፍለጋ መፍጠር አይቻልም
+      correct_errors: 'እባክዎ ቀጥሎ ያሉትን ስህተቶች አስተካክለው እንደገና ያስገቡ'
+      created: ፍለጋው በተሳካ ሁኔታ ተፈጥሯል
+      updated: ፍለጋው በተሳካ ሁኔታ ዘምኗል
+    name: ስም
+    no_options: ይህ ፍለጋ ሌላ አማራጭ የለውም
+    translation_label: ጽሁፍ መተርጎም
+    values: አማራጮች
+  managed_reports:
+    label: 'ጥልቅ እይታ '
+    total: ድምር
+    filter_by:
+      date: ቀን
+      verification_status: 'የማረጋገጫ ሁኔታ '
+    date_range:
+      month: ወር
+      quarter: 'ሩብ '
+      year: 'ዓመት '
+    date_range_options:
+      this_quarter: 'በዚህ ሩብ ዓመት '
+      last_quarter: 'ባለፈው ሩብ ዓመት '
+      this_month: 'በዚህ ወር '
+      last_month: 'ባለፈው ወር '
+      this_year: በዚህ ዓመት
+      last_year: ባለፈው ዓመት
+      custom: ልማድ
+    no_data: 'ለግንዛቤ የሚረዳ ምንም መረጃ አልተገኘም '
+    no_data_table: ለግንዛቤ የሚረዳ የተደራጀ መረጃ አልተገኘም
+    violations:
+      name: ጥሰቶች
+      filter_options:
+        incident_date: ድርጊቱ የተፈጸመበት ቀን
+        date_of_report: ሪፖርት የተደረገበት ቀን
+        ctfmr_verified_date: የተረጋገጠበት ቀን
+      reports:
+        killing: ህጻናትን መግደል
+        maiming: የህጻናትን አካል ማጉደል
+        recruitment: ህጻናትን ለመጠቀሚያነት መመልመል/መጠቀም
+        sexual_violence: አስገድዶ መድፈር/ሌላ አይነት ጾታዊ ጥቃት
+        abduction: ጠለፋ
+        attack_on: በትምህርት ቤት/በሆስፒታሎች ሚፈጸሙ ጥቃቶች
+        military_use: ትምህርት ቤቶችን/ሆስፒታሎችን ለወታደራዊ ዓላማ መጠቀም
+        denial_humanitarian_access: ለህጻናት ሰብዓዊ ድጋፎችን መከልከል
+      sub_reports:
+        combined: ጥሰቶች
+        detention_detained: በቁጥጥር ስር ውለው መቆየት
+        detention_released: ተለቀቀ/መለቀቅ
+        perpetrators: በጥቃት ፈጻሚዎች ስር ያሉ ህጻናት
+        reporting_location: የህጻናት ቁጥር በክልል
+        attack_type: የህጻናት ቁጥር በደረሰባቸው ጥቃት ዓይነት
+        boys: ወንዶች
+        girls: ሴቶች
+        unknown: የማይታወቅ
+        total: አጠቃላይ ድምር
+    gbv_statistics:
+      name: ፆታን መሰረት ያደረጉ ጥቃቶች መረጃ
+      filter_options:
+        date_of_first_report: የቃለ ምልልስ ቀን
+        incident_date: ድርጊቱ የተፈጸመበት ቀን
+      reports:
+        incidents: ድርጊቶች
+        perpetrators: ድርጊቱን/ጥቃቱን ፈጻሚዎች
+      sub_reports:
+        combined: ድርጊቶች
+        total: ሪፖርት የተደረጉ ፆታን መሰረት ያደረጉ ጥቃቶች ብዛት
+        gbv_sexual_violence: ሪፖርት የተደረጉ ወሲባዊ ጥቃቶች ብዛት
+        gbv_previous_incidents: ጾታዊ ጥቃት በደረሰባቸው አካላት ሪፖርት የተደረጉ ጉዳዮች ብዛት
+        gbv_sexual_violence_type: የድርጊቱ ዓይነት
+        incident_timeofday: ድርጊቱ የተሰጸመበት ቀንና ሰዓት
+        elapsed_reporting_time: ድርጊቱ የተፈጸመበትና ሪፖርት የተደረገበት ቀን ልዩነት
+        elapsed_reporting_time_rape: የአስገድዶ መድፈር ድርጊት፡ ድርጊቱ የተፈጸመበት ቀንና ሪፖርት የተደረገበት ቀን ልዩነት
+        incident_location_type: ድርጊቱ የተፈጸመበት ቦታ
+        number_of_perpetrators: ተቀዳሚ ወንጀል ፈጻሚዎች ብዛት
+        perpetrator_relationship: ወንጀሉን ፈጽሟል የተባለው ሰው ጥቃት ከደረሰበት ህጻን ጋር ያለው ዝምድና
+        perpetrator_age_group: ወንጀሉን ፈጽሟል የተባለው ሰው የዕድሜ ምድብ
+        perpetrator_occupation: ወንጀሉን ፈጽሟል የተባለው ሰው ስራ
+  messages:
+    alert_items: ዝርዝር ማስታወሻ አለህ/አለሽ
+    alerts_for:
+      approval: ፈቃድ በመጠባበቅ ላይ
+      field_change: 'በመሻሻል ላይ የነበረ'
+      transfer_request: አዲስ የዝውውር ጥያቄ ቀርቧል
+      duplicate_field: ከዚጉዳይ ጋር ተመሳሳይ ሌላ ጉዳይ አለ
+    cannot_edit: ማስተካከል አይቻልም
+    confirmation_message: አዎ የሚለውን ከተጫኑ ያልተመዘገቡ ለውጦች ጠፍተው ወደ ዝርዝር እይታ ይመለሳሉ፡፡ ወደ መዝገቡ ለመመለስ አጥፋ የሚለውን ይጫኑ
+    confirmation_message_subform: አዎ የሚለውን ከተጫኑ እዚህ ውስጥ ያልተመዘገቡ ለውጦች ይጠፋሉ፡፡  ለውጦችን ለማስቀጠል አጥፋ የሚለውን ይጫኑ፡፡
+    dashboard_offline: 'ከበይነ-መረብ ግንኙነት ውጭ ነዎት፡፡ የመረጃ መመዝገቢያ ሰሌዳው የበይነ መረብ ግንኙነት እንዳገኙ ሙሉ በሙሉ አገልግሎት ወደመስጠት ይመለሳል፡፡ '
+    field_name_on_form_name: 'ቅጹ ላይ ያለ ቦታ'
+    logout_confirmation: ተጨማሪ ቆይታ ይፈልጋሉ
+    logout_offline_warning: ዘግተው  መውጣት ይፈልጋሉ፤ የበይነ መረብ ግንኙነት እስኪያገኙ ድረስ ተመልሰው መግባት አይችሉም፡፡ ከበይነ መረብ ግንኙነት ውጪ ያደረጉት ለውጥ ይጠፋል፡፡
+    logout_warning: በ5 ደቂቃ ውስጥ የሚዘጋ ይሆናል
+    logout_dialog_header: ከበይነ መረብ ግንኙነት ውጪ ዘግተህ ውጣ
+    logout_confirmation_title: ዘግቶ ለመውጣት ማረጋገጫ
+    logout_confirmation_text: ዘግቶ ለመውጣት ስለመፈለግዎ እርግጠኛ ነዎት
+    no_changes: ምንም አይነት ለውጥ አላደረጉም
+    not_available: አልተገኘም
+    record_list:
+      column_header_tooltip: 'ለመለየት '
+      of: የ
+      no_match: ይቅርታ ተመሳሳይ የምዝገባ መረጃ የለም
+      rows_per_page: 'በአንድ ገጽ ያለ መስመር ብዛት '
+      sort: ለይ
+  navigation:
+    bulk_exports: የተላኩ
+    cases: ጉዳዮች
+    home: መኖሪያ
+    key_performance_indicators: ዋና/ቁልፍ የአፈጻጸም አመላካቾች
+    incidents: ድርጊቶች
+    logout: ዘግተህ ውጣ
+    reports: ሪፖርቶች
+    insights: ጥልቅ እይታዎች
+    search: ፈልግ
+    settings: መች የት
+    support: ድጋፍ
+    support_menu:
+      contact_information: የግንኙነት መረጃ
+      code_of_conduct: የስነምግባር ደንብ
+      terms_of_use: የአጠቃቀም ሁኔታ
+      system_information: የመረጃ ዘዴ
+    tasks: ስራዎች
+    tracing_request: ለመፈለግ መጠየቅ
+    activity_log: የተግባር ማሰረታወሻ
+    registry_records: መዝገብ ቤት
+  notes:
+    note_success: ማስታወሻው በተሳካ ሁኔታ ተጨምሯል
+  permissions:
+    label: ፈቃዶች
+    permission:
+      All: ሁሉም
+      add_note: ማስታዎሻ አክል
+      admin_only: መመዝገብ አይቻልም - ለማስተዳደር ብቻ
+      administrator_read: በአስተዳደሩ የተነበበ
+      agency: ድርጅት
+      agency_read: በድርጅቱ የተነበበ
+      all: ሁሉንም መረጃዎች/ ተገለልገጋየዮች  አግኝ
+      approvals_assessment_pending: 'በሂደት ላይ '
+      approvals_case_plan_pending: 'በሂደት ላይ '
+      approvals_closure_pending: 'በሂደት ላይ '
+      approve_action_plan: አጽድቅ
+      approve_assessment: ቅጹን አጽድቅ
+      approve_case_plan: አጽድቅ
+      approve_closure: ቅጹን አጽድቅ
+      approve_gbv_closure: ቅጹን አጽድቅ
+      assign: መድብ
+      assign_within_agency: በተቋሙ ውስጥ መመደብ
+      assign_within_user_group: በስርዓቱ ተገልጋይ ምድቦች ውስጥ መመደብ
+      audit_log: የማስታወሻ ቁጥጥር
+      case: ጉዳይ
+      case_approvals: ጉዳይ ማጽደቅ
+      case_assignments_referrals_transfers: ጉዳይ መመደብ፣ ቅብብሎሽ እና ማስተላለፍ
+      case_exports: ወጪ የሆነ ጉዳይ
+      case_overview: የኔ ጉዳዮች
+      case_risk: በዳሰሳ ጥናት ላይ ያሉ ጉዳዮችን ተመልከት
+      cases_by_task_overdue_assessment: ቀሪ የዳሰሳ ጥናት ያላቸው ጉዳዮች
+      cases_by_task_overdue_case_plan: ቀሪ የዕቅድ ስራት ያላቸው ጉዳዮችን ተመልከት
+      cases_by_task_overdue_followups: 'ቀሪ አገልግሎት ያላቸው ጉዳዮችን ተመልከት '
+      cases_by_task_overdue_services: 'ቀሪ አገልግሎት ያላቸው ጉዳዮችን ተመልከት '
+      cases_managed_other_users: በሌሎች ተገልጋዮች የተያዙ ጉዳዮች
+      close: ዝጋ
+      consent_override: ስምምነት ያልተሰጠበት
+      copy: ቅጂ
+      copy_of: የ-----ቅጂ
+      create: ፍጠር
+      dash_case_incident_overview: የኔ ጉዳዮች/ክስተቶች
+      dash_cases_by_social_worker: በየጉዳይ አያያዝ ባለሙያዎች የተያዙ ጉዳዮችን አሳይ
+      dash_cases_by_task_overdue: ቀሪ ስራ ያለባቸውን ጉዳዮች አሳይ
+      dash_cases_by_workflow: ጉዳዮችን በስራ ፍሰታቸው አሳይ
+      dash_cases_to_assign: ጉዳዮችን ለመመደብ ተመልከት
+      dash_group_overview: የኔ ቡድን ጉዳዮች
+      dash_manager_transfers: ከአስተዳዳሪ የተላኩትን ተመልከት
+      dash_matching_results: የማዛመድ ውጤቶችን ተመልከት
+      dash_protection_concerns: የጥበቃ ፍላጎቶችን ተመልከት
+      dash_protection_concerns_by_location: የጥበቃ ፍላጎቶችን በአካባቢ ተመልከት
+      dash_referrals_by_socal_worker: በማህበራዊ ጉዳይ ባለሙያ የተደረጉ ቅብብሎሾችን ተመልከት
+      dash_reporting_location: ሪፖርት የተደረገባቸውን አካባቢዎች ተመልከት
+      dash_service_provisions: አገልግሎት አሰጣጡን ተመልከት
+      dash_shared_from_my_team: ከኔ ቡድን የተጋራ
+      dash_shared_with_me: ወደ እኔ የተጋራ
+      dash_shared_with_my_team: ከኔ ቡድን የተጋራ
+      dash_shared_with_others: ከሌሎች ጋር የተጋራ
+      dash_show_none_values: ቁጥር የሌላቸውን አሳይ
+      dash_tasks: ተግባራትን ማየት
+      dash_transfers_by_socal_worker: በማህበራዊ ጉዳይ ባለሙያ የተላለፉ ጉዳዮችን ተመልከት
+      dash_national_admin_summary: የአስተዳዳሪው ማጠቃለያ ጽሁፍ
+      dashboard: የመረጃ ሰሌዳ
+      delete: አጥፋ
+      display_view_page: የታዩ ገጾችን አሳይ
+      duplicate: ተመሳሳይ ፍለጋ
+      enable_disable_record: ከስራ ውጭ
+      export_case_pdf: በፒዲኤፍ ወጪ አድርግ
+      export_csv: በሲ.ኤስ.ቪ ወጪ አድርግ
+      export_custom: በልኩ ወጪ አድርግ
+      export_duplicate_id_csv: ተመሳሳይ ግልባጭ ወጪ አድርግ
+      export_json: ወጪ ለማድረግ የተዘጋጀ
+      export_list_view_csv: በዝርዝር በሲ.ኤስ.ቪ ወጪ አድርግ
+      export_mrm_violation_xls: የኤም.አር.ኤም ይቶችን በኤክስ.ኤል.ኤስ. አውጣ
+      export_pdf: በፒዲኤፍ ወጪ አድርግ
+      export_photowall: የፎቶ ምስል ወጪ አድርግ
+      export_unhcr_csv: በዩ.ኤን.ኤች.ሲ.አር ሲ.ኤስ.ቪ ወጪ አድርግ
+      export_xls: በኤክስ.ኤል.ኤስ. ወጪ አድርግ
+      find_tracing_match: ተመሳሳይ ጉዳዮችን ፈልግ
+      view_registry_record: የመዝገብ ቤት መረጃዎችን ተመልከት
+      add_registry_record: የመዝገብ ቤት መረጃዎችን አክል
+      flag: ምልክት ማሳየት/ማውለብለብ
+      form: ቅጾች
+      group: በኔ ቡድን ያሉ ተገልጋዮችን/መረጃዎችን አግኝ
+      group_read: የቡድን ንባብ
+      import: ገቢ
+      incident: ክስተት/ድርጊት
+      incident_details_from_case: በሌላ አካል በተያዘ ጉዳይ ላይ ተጨማሪ ክስተቶችን አክል
+      incident_from_case: ከአንድ ጉዳይ ላይ ክስተቶችን ፍጠር/ለይ
+      kpi: ቁልፍ የአፈጻጸም አመላካቾች
+      lookup: ፍለጋ
+      manage: ማስተዳደር
+      mark_for_offline: ከበይነ መረብ ውጭ ለመስራት ምልክት አድርግ
+      matching_configuration: ተመሳሳዮችን ማገጣጠም
+      metadata: ቅጾች፣ ፍለጋ
+      potential_match: ተቀራራቢ አቻ
+      primero_configuration: መጫን
+      read: ማንበብ
+      reassign: እንደገና መመደብ
+      receive_referral: በቅብብሎሽ መረከብ
+      receive_transfer: በዝውውር መረከብ
+      referral: ለቅብብሎሽ ልንጠቀመው የምንችል
+      referral_from_service: ከአገልግሎት ቅጽ ላይ ጉዳይን ማስተላለፍ
+      registry_record: 'መዝገብ ቤት '
+      remove_assigned_users: የተመደቡ ተገልጋዮችን /ቅብብሎሾችን/ እወግድ
+      reopen: ዳግም መክፈት
+      report: ሪፖርት
+      managed_report: ጥልቅ እይታ
+      request_approval: ለማጽደቅ መጠየቅ
+      request_approval_action_plan: ለማጽደቅ መጠየቅ
+      request_approval_assessment: ለማጽደቅ መጠየቅ
+      request_approval_case_plan: ለማጽደቅ መጠየቅ
+      request_approval_closure: ለማጽደቅ መጠየቅ
+      request_approval_gbv_closure: ለማጽደቅ መጠየቅ
+      request_transfer: ለማስተላለፍ መጠየቅ
+      role: ሚና
+      save_search: 'ፍልጋዎችን መዝግበህ አስቀምጥ '
+      saved_search: ተመዝግበው የተቀመጡ ፍለጋዎች
+      search_owned_by_others: በሌሎች ተጠቃሚዎች የተያዙ የጉዳይ መዝገቦችን ፈልግ
+      self: የኔን ተገልጋዮች/መዝገቦች ብቻ አግኝ
+      service_provision_incident_details: 'ከድርጊት/ክስተቱ ዝርዝር ላይ የሚሰጡ አገልግሎቶችን ጨምር የሚል ቁልፍ ተመልከት '
+      services_section_from_case: 'በሌላ የስርዓቱ ተገልጋይ ጉዳይ ላይ የሚሰጡ አገልግሎቶችን ጨምር '
+      specific_roles: የተለዩ ተግባራትን ዝርዝር አግኝ
+      sync_external: -    ከሌላ የመረጃ አያያዝ ስርዓት ጋር አገናኝ
+      sync_mobile: ከበይነ መረብ ግንኙነት ውጪ ለመስራት ምልክት አድርግ
+      system: ስርዓት
+      tracing_request: 'የተጠየቀ ቅጅ '
+      transfer: 'ለማዘዋወር መጠቀም የሚቻል '
+      user: ተጠቃሚ
+      user_group: 'የተጠቃሚዎች ቡድን '
+      view_approvals: ፈቃድ የተሰጠባቸውን ተመልከት
+      view_assessment: የዳሳ ጥናት ተመልከት
+      view_photo: ፎቶ/ምስል ተመልከት
+      view_protection_concerns_filter: የተለዩ ዋነኛ የጥበቃ ፍላጎቶችን ተመልከት
+      view_response: ምላሾችን ተመልከት
+      webhook: ድረ-ገጽ መቆለፊያ
+      workflow: የስራ ፍሰት - የግለሰብ ጉዳዮች
+      workflow_team: የስራ ፍሰት - የቡድን ጉዳዮች
+      write: ጻፍ
+      activity_log: የተግባር ማስታወሻ
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: ዋና ጉዳዮችን/ቁልፍ የውጤት አመላካቾችን የመለየት ችሎታ
+            label: ዋና ጉዳዮችን/ቁልፍ የውጤት አመላካቾችን አግኝ
+          kpi_assessment_status:
+            explanation: 'በተገልጋዩ ከተያዙ ጉዳዮችን መካከል የምን ያህሉ የዳሰሳ ጥናትን እንዳጠናቀቁ የማየት ችሎታ '
+            label: ዳሰሳ ጥናቱ ያለበት ደረጃ
+          kpi_average_followup_meetings_per_case:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮች መካከል በተወሰነ የጊዜ ገደብ ውስጥ የተደረጉ አማካይ ክትትሎች ብዛት የማየት ችሎታ
+            label: ለእያንዳንዱ ጉዳይ የሚደረግ አማካይ የክትትል ስብሰባዎች ብዛት
+          kpi_average_referrals:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮችን መካከል አገልግሎት እንዲያገኙ በቅብብሎሽ የተላኩ ጉዳዮች አማካይ ብዛት በአገልግሎት አይነት የማየት ችሎታ
+            label: አማካይ በቅብብሎሽ የተላኩ ጉዳዮች
+          kpi_case_closure_rate:
+            explanation: በእያንዳንዱ የስራ ቦታ  በወር በአማካይ የሚዘጉ ጉዳዮችን የማየት ችሎታ
+            label: የተዘጉ ጉዳዮችን ቁጠር
+          kpi_case_load:
+            explanation: እያንዳንዱ የጉዳይ አያያዝ ባለሙያ በአማካይ ምን ያህል ጉዳዮችን እንደያዘ የማየት ችሎታ
+            label: የጉዳይ ብዛት
+          kpi_client_satisfaction_rate:
+            explanation: ባለሙያው ከያዛቸው ጉዳዮች መካከል፣ የምላሽ ዳሰሳ ጥናት ላይ እርካታቸውን የገለጹ ተጠቃሚዎች በአማካይ የመለየት ችሎታ
+            label: የደንበኞች የእርካታ ደረጃ
+          kpi_completed_case_action_plans:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮችን መካከል የምን ያህሉ የድጋፍ እቅድ እንደተሰራላቸው የማየት ችሎታ
+            label: 'የተጠናቀቁ የጉዳይ ድርጊት እቅዶች '
+          kpi_completed_case_safety_plans:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮችን መካከል ደህንነቱ የተጠበቀ እቅድ የሚያስፈልጋቸውና የተጠናቀቁ ጉዳዮች ብዛት የመለየት ችሎታ
+            label: 'የተጠናቀቁ የጉዳይ ደህንነት መጠበቂያ ዕቅዶች '
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮች መካከል በሱፐርቫይዘሮች የጸደቁ የጉዳይ ድርጊት እቅዶችን የማየት ችሎታ
+            label: የተጠናቀቀና በሱፐርቫይዘር የጸደቀ የድርጊት እቅድ
+          kpi_goal_progress_per_need:
+            explanation: በተገልጋዩ ከተያዙ ጉዳዮችን መካከል በፐርሰንት የምን ያህሉን ጉዳዮች የተቀመጠ ግብ በትክክል ማሳካት እንደተቻለ የማየት ችሎታ
+            label: ግቡን ለማሳካት የታዩ ለውጦች/መሻሻሎች
+          kpi_number_of_cases:
+            explanation: በእያንዳንዱ የስራ ቦታ በየወሩ ሪፖርት የሚደረጉ አዳዲስ ጉዳዮችን ብዛት የማየት ችሎታ
+            label: የጉዳዮች ብዛት
+          kpi_number_of_incidents:
+            explanation: በእያንዳንዱ የስራ ቦታ በየወሩ ሪፖርት የሚደረጉ አዳዲስ ጉዳዮችን ብዛት የማየት ችሎታ
+            label: የድርጊቶች ብዛት
+          kpi_reporting_delay:
+            explanation: ለባለሙያው ከቀረቡ ክስተቶች ውስጥ ጾታን መሰረት ያደረገው ጥቃት የተፈጸመበትና ሪፖርት በተደረገበት ቀናት መካከል ያለውን ልዩነት የማየት ችሎታ
+            label: 'ሪፖርት ለማድረግ ያለው የቆይታ ጊዜ/መዘግየት '
+          kpi_services_provided:
+            explanation: ባለሙያው ከያዛቸው ጉዳዮች መካከል ምን አይነት አገልግሎቶችን በቤት ውስጥ እንዳገኙ የማት ችሎታ
+            label: የተሰጡ አገልግሎቶች
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: የሱፐርቫይዘርና የጉዳይ አያያዝ ባለሙያዎችን ምጥጥን የማየት ችሎታ
+            label: የሱፐርቫይዘርና የጉዳይ አያያዝ ባለሙያዎችን ምጥጥን
+          kpi_time_from_case_open_to_close:
+            explanation: ባለሙያው የያዛቸው ጉዳዮች ለምን ያህል ጊዜ ክፍት ሆነው እንደቆዩ የማየት ችሎታ
+            label: ጉዳዩ ከተከፈተበት አንስቶ እስኪዘጋ ድረስ ያለው ጊዜ
+        label: ቁልፍ የአፈጻጸም/የውጤት አመላካች
+      agency:
+        actions:
+          assign:
+            explanation: የተገልጋይ አካውንት ሲከፈት/ሲሻሻል ድርጅቶችን የመምረጥ ችሎታ፡፡ ተገልጋዩ ይህ ፈቃድ ከተሰጠው እና ድርጅቱ ለተገልጋዮች ፈቃድ መሰጠቱን ካነበበ መጨመር የሚችሉት በራሳቸው ድርጅት ውስጥ ብቻ ይሆናል፡፡  
+            label: መመደብ
+          create:
+            explanation: ድርጅት የመጨመር/ የመፍጠር ችሎታ
+            label: መፍጠር
+          manage:
+            explanation: 'ባለሙያው በድርጅቶች ውስጥ ያሉ ሁሉንምድርጊቶች እንዲፈጽም ፍቀድ፡፡ ሁሉንም አስፈላጊ የ “ማስተዳደር” ፈቃድ ማለት ነው፡፡ ይህም አዲስ ድርጅቶችን መጨመርን ያጠቃልላል፡፡'
+            label: ማስተዳደር (ለሉንም አይነነት ተመሳሳይ ሃብት ፈቃዶች)
+          read:
+            explanation: ድርጅቶችን የማየት ችሎታ
+            label: መመልከት
+          write:
+            explanation: የድርጅቶችን መረጃ የማስተካከል ችሎታ፤ ይህ ማለት በዚህ ስርዓት የተጠቀሱ ሁሉንም ድርጅቶች ላይ የሚሰራ መሆኑን ይወቁ፤
+            label: ማስተካከል
+        explanation: 'ፐሪሜሮን የሚጠቀሙ ሌሎች ተቋማት ጋር ተቋሙን ወክሎ የሚቀርብ፡፡ '
+        label: ድርጅት
+      audit_log:
+        actions:
+          read:
+            explanation: 'ባለሙያዎች በዚህ ስርዓት ውስጥ ሊጣሩ የሚችሉ የተከናወኑ ሁሉም ተግባራትን፣ በባለሙያዎች የተሰበሩ፣ የተከናወኑ ድርጊቶች፣ የማህደር መታወቂያ፣ እና ተግባራቱ የተከናወኑበት ጊዜን እንዲመለከቱ ይፈቅዳል፡፡ ይህ ተግባር በሁሉም የስርዓቱ ተገልጋዮች የተከናወኑ ተግባራትን ለማየት የሚረዳ በመሆኑ በተለይም በፌዴራል ወይም በተቋም ደረጃ ላሉ ጉዳይ አስተዳዳሪዎች የተመቸ ነው፡፡ የቁጥጥር ማስታወሻው በእያንዳንዱ ተግባራት ውስጥ ያሉ የግል መረጃዎችን የማያሳይ መሆኑን ማስታው ይገባል፡፡ '
+            label: ማየት
+        explanation: በዚህ ስርዓት ውስጥ ሊጣሩ የሚችሉ የተከናወኑ ሁሉም ተግባራት፡፡ ይህ ግን የማን ጉዳይ፣ ክስተት፣ የፍለጋ ጥያዎችን መሆኑን የሚያካትት አይሆንም
+        label: የቁጥጥር ማስታወሻ
+      case:
+        actions:
+          add_note:
+            explanation: የዚህ ስርዓት ተጠቃሚዎች በማስታዎሻ ንዑስ ቅጽ ላይ ማንኛውም ግብዓት መጨመር እንዲችሉ ይፈቅዳል፡፡ ተጠቃሚዎች በጉዳይ ማሳያ ገጽ ላይ “ማስታወሻ ጨምር”  የሚለውን በመንካት ይሄን ማድረግ ይችላሉ፡፡ ይህ ተግባር በመዋነኛነት ጉዳዮችን ለማስተካከል ፈቃድ የሌላቸው ነገር ግን በጉዳዮች ዙሪያ ለጉዳይ አያያዝ ባለሙያዎች ማስታወሻ ለመስጠት እንዲችሉ የጉዳይ አስተዳዳሪዎችን የሚጠቅም ነው፡፡  በዚህ አካሄድ ማስታወሻ መጨመር ማለት ምልክት ከማሳየት ጋር ተመሳሳይ ነው፡፡ ማስታወሻ ዎችን መጨመር የሚኖረውን  ጥቅም በተመለከተ ጉዳይ አስተዳዳሪው ማስታወሻ ዎችን ሲጨምር ጉዳዩን የያዘው ባለሙያ  የማንቂያ ምልክት እንዲደርው ያደርጋል፡፡
+            label: በጉዳዩ ላይ ማስታወሻ ጨምር
+          add_registry_record:
+            explanation: 'የዚህ ስርዓት ተገልጋዮች መዝገብ ቤቱንና ጉዳዩ ከመዝገብ ቤት ዝርዝር ቅጽ ጋር ማያያዝ እንዲችሉ መፍቀድ፡፡ እንዲሁም ቀደም ብለው የተያያዙ ጉዳዮችን ከመዝገብ ላይ ማንሳትን መፍቀድ፡፡ '
+            label: የጉዳዩን መዝገብ መጨመር/ ማዘመን
+          approve_action_plan:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅ መፍቀድ
+            label: አጽድቅ
+          approve_assessment:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅ መፍቀድ
+            label: ፎርሙን ማፅደቅ
+          approve_bia:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅለት መፍቀድ
+            label: ፎርሙን ማፅደቅ
+          approve_case_plan:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅለት መፍቀድ
+            label: ማፅደቅ
+          approve_closure:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅለት መፍቀድ
+            label: ፎርሙን ማፅደቅ
+          approve_gbv_closure:
+            explanation: የጉዳይ አስተዳዳሪው ለጉዳይ አያያዝ ባለሙያው እንዲያጸድቅለት መፍቀድ
+            label: ፎርሙን ማፅደቅ
+          assign:
+            explanation: የስርዓቱ ተገልጋይ የጉዳዩ ዋና መዝገቦችን ለሌሎች በስርዓቱ ውስጥ ላሉ ድርጅቶች እንዲልክ መፍቀድ፡፡ ይህ ሲሆን የህጻናቱ ስምምነት አያስፈልግም፡፡ ከጉዳይ ማዘዋወር በተለየ መልኩ ተቀባዩ አካል የተላከለትን የመቀበል/ያለመቀበል አማራጭ አይኖረውም፡፡
+            label: መመደብ
+          assign_within_agency:
+            explanation: የስርዓቱ ተገልጋይ የጉዳዩ ዋና መዝገቦችን ለሌሎች በስርዓቱ ውስጥ ላሉ ድርጅቶች እንዲልክ መፍቀድ፡፡ ይህ ሲሆን የህጻናቱ ስምምነት አያስፈልግም፡፡ ከጉዳይ ማዘዋወር በተለየ መልኩ ተቀባዩ አካል የተላከለትን የመቀበል/ያለመቀበል አማራጭ አይኖረውም፡፡
+            label: በድርጅቱ ውስጥ ላለ ሌላ የስርዓቱ ተገልጋይ መመደብ
+          assign_within_user_group:
+            explanation: የስርዓቱ ተገልጋይ የጉዳዩ ዋና መዝገቦችን ለሌሎች በስርዓቱ ውስጥ ላሉ ተገልጋይ ቡድኖች እንዲልክ መፍቀድ፡፡ ይህ ሲሆን የህጻናቱ ስምምነት አያስፈልግም፡፡ ጉዳይ ከማዘዋወር በተለየ መልኩ ተቀባዩ አካል የተላከለትን የመቀበል/ያለመቀበል አማራጭ አይኖረውም፡፡
+            label: በቡድኑ ውስጥ ላለ የስርዓቱ ተገልጋይ መመደብ
+          change_log:
+            explanation: ተገልጋዩ መዝገቡ ከተከፈተ ጀምሮ ያሉ ለውጦችን ማየት ይችላል፡፡ ይህም በሁሉም መስኮች የተመዘገቡ ነገሮችን በሙሉ ያካትታል፡፡
+            label: የለውጥ ማስታወሻ
+          close:
+            explanation: ክፍት ሆኖ የቆየን ጉዳይ ለመዝጋት ለስርዓቱ ተገልጋይ ፈቃድ ይሰጣል፡፡
+            label: ዝጋ
+          consent_override:
+            explanation: 'ተገልጋዩ ስምምነት ያልተሰጠባቸውን ጉዳዮች በቅብብሎሽ/ በዝውውር ለመላክ ፈቃድ ይሰጣል፡፡ '
+            label: ለቅብብሎሽ/ ጉዳይ ለማዘዋወር በተደጋጋሚ የስምምነት ቃል አለማግኘት
+          create:
+            explanation: ጉዳይ የመፍጠር ችሎታ
+            label: ፍጠር
+          display_view_page:
+            explanation: 'ተገልጋዩ ያልተፈቀደለትን መረጃ ለማየት ሲፈልግ ምንም እንኳን የጉዳዩ ሙሉ መረጃ ገብቶ ለማየት ባይችልም የተወሰኑ ዋና መረጃዎችን ለማየት ፈቃድ ይሰጣል፡፡ “ማየት የሚቻል” በሚለው ዝርዝር ውስጥ ታዩ የሚችሉት ቀደም ተብለው “በአጭሩ አሳይ” በሚል ዝርዝር የተጫኑ ናቸው፡፡ ይህ “ማየት የሚቻል” በሚል የሚኖረው የፈቃድ ይዘት  ተገልጋዮች የያዙት ጉዳይ ጋር ተመሳሳይ ሊሆኑ ከሚችሉ ሌሎች ጉዳዮች ጋር በመሆኑ  በተለይም ቤተሰብ በማፈላግና በማቀላቀል ላይ ያሉ የስርዓቱ ተገልጋዮችን የሚጠቅም ይሆናል፡፡ '
+            label: ገጹን አሳይ
+          enable_disable_record:
+            explanation: ጉዳዮችን ከስራ ውጭ ማድረግ/ወደስራ መመለስ፡፡ “ከስራ ውጭ” የሆኑ ጉዳዮች ከጉዳይ ዝርዝር ውጪ ይሆናሉ፡፡ ከጉዳይ ውጪ የሆኑ ጉዳዮችን ተገልጋዩ ማጥሪያ በሚለው አማራጭ ተጠቅሞ ዝርዝራቸውን ማየት ይችላል፡፡ ፕሪሜሮ ጉዳዮችን ማጥፋት ስለማይፈቅድ፣ተገልጋዩ እን አማራጭ ከስራ ውጪ አድርግ የሚለውን መጠቀም ይችላል፡፡ ለምሳሌ ተገልጋዩ አንድን ጉዳይ በስህተት ቢፈጥር ወይ ደግሞ ጉዳዩ መጥፎ የሚባሉ መረጃዎች ቢኖረው ተገልጋዩ ይህንን ጉዳይ ከስራ ውጭ ማድረግ ይጠበቅበታል፡፡
+            label: ከስራ ውጭ ማድረግ/ ወደስራ መመለስ
+          export_case_pdf:
+            explanation: 'ተገልጋዩ ከጉዳይ ማሳያ ገጽ/ዝርዝር የአንድ ወይም የብዙ ጉዳዮችን መረጃዎች የፒ.ዲ.ኤፍ ፋይል ማውጣት ይችላል፡፡ በፒ.ዲ.ኤፍ የሚወጣው መረጃ በመጀመሪያ የጉዳዮች ዝርዝር ይታያል በመቀጠል በየቅጾች የተመዘገቡ መረጃዎች ተደራጅተው ይታያሉ፡፡  '
+            label: ጉዳዮን በፒ.ዲ.ኤፍ አውጣ
+          export_csv:
+            explanation: 'ተገልጋዩ ከጉዳይ ማሳያ ገጽ/ዝርዝር የአንድ ወይም የብዙ ጉዳዮችን መረጃዎች የሲ.ኤስ.ቪ ፋይል ማውጣት ይችላል፡፡  ማስታወሻ፡ በሲ.ኤስ.ቪ የሚወጡ መረጃዎች የላቲን ላልሆኑ ፊደላት (ምሳሌ የአረብ) በጽሁፍ ተተርጉመው አይወጡም፡፡'
+            label: በሲ.ኤስ.ቪ አውጣ
+          export_custom:
+            explanation: 'ተገልጋዩ ከጉዳይ ማሳያ ገጽ/ዝርዝር የአንድ ወይም የብዙ ጉዳዮችን መረጃዎች የያዜ ቅጾችን የኤክስ.ኤል.ኤስ ፋይል ማውጣት ይችላል፡፡ በዚመልኩ የሚወጣ እያንዳንዱ ቅጽ የኤክስ.ኤል.ኤስ መረጃ የራሱ በሆነ የማንጠልጠያ ምልክት ይወከላል፡፡ ተገልጋዩ መረጃዎች ምን ምን ተካቶባቸው መውጣት እንዳለባቸው መምረጥ ይችላል፡፡ ነገር ግን ተገልጋዩ ማካተትና ማውጣት የሚችላቸው ቅጾችና መረጃዎች ለማየት ፈቃድ የተሰጠው መረጃዎችን ብቻ መሆኑን ማስታወስ ይገባል፡፡ '
+            label: በልኩ ወጪ አድርግ
+          export_duplicate_id_csv:
+            explanation: 'ተመሳሳይ ብሄራዊ መለያ መደብ ላላቸው ጉዳዮች በሲ.ኤስ.ቪ ወጪ ማድረጊያ ፍጠር፡፡ (እንደ አጫጫናቸው ምንአልባት የተለያየ ምልክት ሊኖራቸው ይችላል)፡፡ይህ የሚደረገው ከጉዳዮች ዝርዝር ገጽ ላይ ብቻ ነው፡፡    '
+            label: ተመሳሳይ ቅጅዎችን ወጪ አድርግ
+          export_json:
+            explanation: 'የዚህ ስርዓት ተጠቃሚዎች ለማየት ከተፈቀደላቸው አንድ፣ ብዛት ያላቸው ወይም ሁሉንም ጉዳዮች፤ ከጉዳዮች ዝርዝር/ከጉዳይ ማሳያ ገጽ ላይ መረጃዎችን በጄ.ኤስ.ኦ.ኤን ወጪ ማድረግ ይችላሉ፡፡ ይህን ማድረግ  ጉዳዮችን ከዚህኛው ፕሪሜሮ ስርዓት ወጪ በማድረግ ወደ ሌላ የፐሪሜሮ ስርዓት ወይም ወደ ሌላ የመረጃ አያያዝና አስተዳደር ቋት ገቢ ለማድረግ የሚጠቅም ይሆናል፡፡ የጄ.ኤስ.ኦ.ኤን አቀራረብ በማሽን ብቻ የሚነበብ በመሆኑ በአብዛኛው ተገልጋዮች ዘንድ አይተገበርም፡፡ '
+            label: በጄ.ኤስ.ኦ.ኤን ወጪ አድርግ
+          export_list_view_csv:
+            explanation: የዚህ ስርዓት ተገልጋዮች ከጉዳይ ዝርዝር ገጽ ላይ የሲ.ኤስ.ቪ መረጃዎችን ወጪ ማድረግ ይችላል፡፡ ይህን ማድረግ የሚቻለው ከጉዳይ ዝርዝር ገጽ ላይ ብቻ ነው፡፡
+            label: ዝርዝር ማሳያ በሲ.ኤስ.ቪ ወጪ አድርግ  
+          export_pdf:
+            explanation: 'የዚህ ስርዓት ተጠቃሚዎች ለማየት ከተፈቀደላቸው አንድ፣ ብዛት ያላቸው ወይም ሁሉንም ጉዳዮች፤ ከጉዳዮች ዝርዝር/ከጉዳይ ማሳያ ገጽ ላይ መረጃዎችን በፒ.ዲ.ኤፍ ወጪ ማድረግ ይችላሉ፡፡ በፒ.ዲ.ኤፍ የሚወጣ ፋይል ላይ መረጃዎች በመጀመሪያ በጉዳይ ተዘርዝረው ይቀመጣሉ፡፡ በተጨማሪም መረጃዎችን በያዙ ቅጾች ይደራጃል፡፡ '
+            label: ጉዳዩን በፒ.ዲ.ኤፍ ወጪ አድርግ
+          export_photowall:
+            explanation: የዚህ ስርዓት ተገልጋዮች ከጉዳይ ዝርዝር ገጽ ላይ ምስሎችን የያዙ የተመረጡ ጉዳዮችን ወጪ ለማድረግ ይፈቅዳል፡፡ በዚህ መልኩ ወጪ ማድረግ በዋነኛነት ቤተሰብ ለማፈላለግና ለማቀላቀል ስራ ይጠቅማል፡፡ ይህን ማድረግ የሚቻለው ከጉዳይ ዝርዝር ገጽ ላይ ብቻ ይሆናል፡፡   
+            label: ምስል ወጪ አድርግ
+          export_unhcr_csv:
+            label: በዩ.ኤን.ኤች.ሲ.አር ሲ.ኤስ.ቪ ወጪ አድርግ
+          export_xls:
+            explanation: 'የዚህ ስርዓት ተገልጋዮች ለማየት ከተፈቀደላቸው አንድ፣ ብዛት ያላቸው ወይም ሁሉንም ጉዳዮች፤ ከጉዳይ ዝርዝር/ማሳያ ገጽ ላይ በኤክስ.ኤል.ኤስ ፋይል ወጪ ማድረግ ይችላል፡፡ በዚመልኩ የሚወጣ እያንዳንዱ ቅጽ የኤክስ.ኤል.ኤስ መረጃ የራሱ በሆነ የማንጠልጠያ ምልክት ይወከላል፡፡ ማስታወሻ፡ በሲ.ኤስ.ቪ ወጪ ከማድረግ በተለየ መልኩ  የኤክስ.ኤል.ኤስ አቀራረብ የላቲን ያልሆኑ ጽሁፎችንም (አረብ፣ ባንግላ) ተርጉሞ በሚነበብ መልኩ ምላሽ የሚሰጥ ይሆናል፡፡  '
+            label: የኤክስ.ኤል.ኤስ ወጪ
+  referral:
+    date: Date
+    rejected_reason: Rejection Reason
+  report:
+    aggregate_by: በተርታ ማስቀመጥ
+    attribute: Attribute
+    constraint: Constraint
+    date_ranges:
+      date: Day
+      month: Month
+      quarter: Quarter
+  user:
+    messages:
+      not_found: በተሰጠው መለያ ያለውን ተጠቃሚ ማግኘት አልተቻለም
+  user_group:
+    associated_agencies: 'ከተጠቃሚ ቡድኖች ጋር የተያያዙ ድርጅቶች '
+    description: መግለጫ
+    disabled:
+      explanation: 'ይህንን የተጠቃሚዎች ቡድን ከአገልግሎት ውጭ ካደረጉ፤ ካሁን በኋላ ወደ ተጠቃሚው መዝገብ/አካውንት መመደብ አይችሉም፡፡ '
+      label: ከአገልግሎት ውጭ የተደረገ
+    messages:
+      created: የተጠቃሚዎች ቡድን በተሳካ ሁኔታ ተፈጥሯል
+      updated: 'የተጠቃሚዎች ቡድን በተሳካ ሁኔታ ዘምኗል '
+    name: ስም
+  user_groups:
+    label: 'የተጠቃሚዎች ቡድን '
+  users:
+    label: ተጠቃሚዎች
+    headers:
+      full_name: ሙሉ ስም
+      user_name: የተጠቃሚው ስም
+      position: የስራ መደብ
+      agency: ድርጅት
+  devise:
+    failure:
+      already_authenticated: "ወደ ስርዓቱ ቀደም ብለው ገብተዋል"
+      invalid: "የተሳሳተ……./የይለፍ ቃል"
+      locked: "አካውንትህ/ሽ ተዘግቷል"
+      last_attempt: "አካውንትህ ከመዘጋቱ በፊት 1 ተጨማሪ ሙከራ አለህ/ሽ"
+  admin:
+    locations:
+      selected_records: '%{select_records} location(s) selected'
+      selected_all_records: ሁሉንም የ1%{ሁሉንም_ማህደሮች} ማዛመድ የሚጠይቁ ጉዳዮች  ምረጥ/ጭ
+      updated: '1%(የዘመኑ ማህደሮች) የዘመኑ ቦታ(ዎች)'
