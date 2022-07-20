@@ -280,9 +280,7 @@ class Filter < ValueObject
   LATE_VERIFIED_VIOLATIONS = Filter.new(
     name: 'incidents.filter_by.late_verified_violations',
     field_name: 'has_late_verified_violations',
-    options: I18n.available_locales.map do |locale|
-      { locale => [{ id: 'true', display_name: I18n.t('incidents.filter_by.late_verified_violations', locale: locale) }] }
-    end.inject(&:merge)
+    option_strings_source: 'lookup-yes-no'
   )
 
   class << self
@@ -450,7 +448,6 @@ class Filter < ValueObject
         INDIVIDUAL_VIOLATIONS, INDIVIDUAL_AGE, INDIVIDUAL_SEX,
         DEPRIVED_LIBERTY_SECURITY_REASONS, REASONS_DEPRIVATION_LIBERTY,
         VICTIM_FACILTY_VICTIMS_HELD, TORTURE_PUNISHMENT_WHILE_DEPRIVATED_LIBERTY,
-        LATE_VERIFIED_VIOLATIONS
       ]
     end
 
@@ -481,7 +478,12 @@ class Filter < ValueObject
     end
 
     def children_verification_and_location_filters(user)
-      filters = user.module?(PrimeroModule::MRM) ? [CHILDREN, VERIFICATION_STATUS, VERIFIED_GHN_REPORTED] : []
+      filters = []
+
+      if user.module?(PrimeroModule::MRM)
+        filters = [CHILDREN, VERIFICATION_STATUS, LATE_VERIFIED_VIOLATIONS, VERIFIED_GHN_REPORTED]
+      end
+
       filters += location_filters(user)
       filters
     end
