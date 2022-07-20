@@ -14,8 +14,10 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
       %{
         SELECT DISTINCT
           jsonb_build_object(
-            'unique_id', individual_victims.data->>'unique_id', 
-            'individual_sex', individual_victims.data->>'individual_sex', 
+            'unique_id', individual_victims.data->>'unique_id',
+            'incident_id', incidents.id,
+            'incident_short_id', incidents.data->>'short_id',
+            'individual_sex', individual_victims.data->>'individual_sex',
             'individual_age', individual_victims.data->>'individual_age',
             'violations', jsonb_agg(violations.data ->> 'type')
           ) AS data
@@ -27,7 +29,7 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
         WHERE individual_victims.data->>'individual_multiple_violations' = 'true'
         #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
-        GROUP BY individual_victims.id
+        GROUP BY individual_victims.id, incidents.id
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
       }
     end
