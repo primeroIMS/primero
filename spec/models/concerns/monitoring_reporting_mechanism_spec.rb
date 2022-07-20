@@ -136,6 +136,9 @@ describe MonitoringReportingMechanism, search: true do
         ],
         'abduction' => [
           { 'type' => 'abduction', 'abduction_purpose_single' => 'extortion' }
+        ],
+        'killing' => [
+          { 'type' => 'abduction', 'weapon_type' => 'baton' }
         ]
       }
     )
@@ -148,7 +151,11 @@ describe MonitoringReportingMechanism, search: true do
       user_1,
       {
         'attack_on_hospitals' => [
-          { 'type' => 'attack_on_hospitals', 'facility_attack_type' => ['attack_on_medical_personnel'] }
+          {
+            'type' => 'attack_on_hospitals',
+            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital_s],
+            'facility_impact' => 'serious_damage'
+          }
         ],
         'denial_humanitarian_access' => [
           { 'type' => 'denial_humanitarian_access', 'types_of_aid_disrupted_denial' => 'food' }
@@ -394,6 +401,45 @@ describe MonitoringReportingMechanism, search: true do
     ).results
     expect(search_result.size).to eq(1)
     expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by facility_attack_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'facility_attack_type',
+          value: 'threat_of_attack_on_hospital_s'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by facility_impact' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'facility_impact',
+          value: 'serious_damage'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by weapon_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'weapon_type', value: 'baton')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
   end
 
   it 'can find an incident with a late verified violation' do
