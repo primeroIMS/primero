@@ -157,7 +157,8 @@ const Component = ({
                 values={values}
                 onClick={handleEdit(index)}
                 isViolationSubform={isViolationSubform}
-                associatedViolations={entryFilter && associatedViolations}
+                renderSecondaryText={Boolean(entryFilter)}
+                associatedViolations={associatedViolations}
               />
               <ListItemSecondaryAction classes={{ root: css.listActions }}>
                 {isTracesSubform && <TracingRequestStatus values={values[index]} />}
