@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { buildTableColumns } from "./utils";
+import buildTableColumns from "./build-table-columns";
 
 const i18n = {
   t: name => {
@@ -10,7 +10,7 @@ const i18n = {
   }
 };
 
-describe("<RecordList /> - buildTableColumns", () => {
+describe("<RecordList />/utils - buildTableColumns", () => {
   it("should return list of columns for table", () => {
     const expected = [
       { label: "James", name: "James", id: false, options: {} },

@@ -6,15 +6,14 @@ import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 import OfflinePin from "@material-ui/icons/OfflinePin";
 
-import { ToggleIconCell } from "../index-table";
-import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../config";
-import { ConditionalWrapper } from "../../libs";
-import DisableOffline from "../disable-offline";
+import { ToggleIconCell } from "../../index-table";
+import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../../config";
+import { ConditionalWrapper } from "../../../libs";
+import DisableOffline from "../../disable-offline";
+import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
+import PhotoColumnBody from "../components/photo-column-body";
 
-import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "./constants";
-import PhotoColumnBody from "./components/photo-column-body";
-
-export const buildTableColumns = (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
+export default (allowedColumns, i18n, recordType, css, recordAvailable, online) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;

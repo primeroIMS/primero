@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
-import { push } from "connected-react-router";
+import { push, replace } from "connected-react-router";
 import qs from "qs";
 
 import IndexTable from "../index-table";
@@ -25,7 +25,7 @@ import { NAME, DEFAULT_FILTERS } from "./constants";
 import FilterContainer from "./filter-container";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
-import { getListHeaders, getMetadata } from "./selectors";
+import { getListHeaders, getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
 import ViewModal from "./view-modal";
 
@@ -44,6 +44,7 @@ const Container = ({ match, location }) => {
   const [currentRecord, setCurrentRecord] = useState(null);
   const [selectedRecords, setSelectedRecords] = useState({});
 
+  const filtersQueryString = useMemoizedSelector(state => getAppliedFiltersAsQueryString(state, recordType));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const headers = useMemoizedSelector(state => getListHeaders(state, recordType));
   const filters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
@@ -57,7 +58,7 @@ const Container = ({ match, location }) => {
 
   const fromDashboard = useMemo(() => Boolean(new URLSearchParams(search).get("fromDashboard")), [search]);
 
-  const defaultFilters = fromJS({ filter_category: recordType, ...DEFAULT_FILTERS }).merge(metadata);
+  const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
 
   useMetadata(recordType, metadata, applyFilters, "data", {
     defaultFilterFields: Object.keys(queryParams).length ? queryParams : defaultFilters.toJS(),
@@ -95,6 +96,14 @@ const Container = ({ match, location }) => {
       dispatch(clearCaseFromIncident());
     });
   }, []);
+
+  useEffect(() => {
+    const currentQueryString = location.search.replace("?", "");
+
+    if (filtersQueryString && currentQueryString !== filtersQueryString) {
+      dispatch(replace({ search: filtersQueryString }));
+    }
+  }, [location, filtersQueryString]);
 
   const handleViewModalClose = useCallback(() => {
     setOpenViewModal(false);
