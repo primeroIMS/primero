@@ -22,7 +22,8 @@ const Component = ({
   index,
   isViolationSubform,
   associatedViolations,
-  renderSecondaryText = false
+  renderSecondaryText = false,
+  parentTitle
 }) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
@@ -69,7 +70,8 @@ const Component = ({
             optionsStringText,
             isViolationSubform,
             displayName: displayNameCollapsedField,
-            associatedViolations
+            associatedViolations,
+            parentTitle
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;
@@ -129,6 +131,7 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
+  parentTitle: PropTypes.string,
   renderSecondaryText: PropTypes.bool,
   values: PropTypes.array.isRequired
 };

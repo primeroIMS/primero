@@ -16,7 +16,8 @@ const Component = ({
   optionsStringText,
   isViolationSubform,
   displayName,
-  associatedViolations
+  associatedViolations,
+  parentTitle
 }) => {
   const i18n = useI18n();
   const optionSource =
@@ -28,11 +29,13 @@ const Component = ({
 
   if (!isEmpty(optionsStringSource)) {
     if (optionsStringSource === "violations") {
-      const associatedViolationsLabels = buildAssociatedViolationsLabels(associatedViolations, value);
+      const associatedViolationsLabels =
+        parentTitle ||
+        i18n.t(`incident.violation.types.${buildAssociatedViolationsLabels(associatedViolations, value)}`);
 
       return (
         <span>
-          {i18n.t(`incident.violation.types.${associatedViolationsLabels}`)} - {getShortIdFromUniqueId(value)}
+          {associatedViolationsLabels} - {getShortIdFromUniqueId(value)}
         </span>
       );
     }
@@ -90,6 +93,7 @@ Component.propTypes = {
   isViolationSubform: PropTypes.bool,
   optionsStringSource: PropTypes.string,
   optionsStringText: PropTypes.array,
+  parentTitle: PropTypes.string,
   value: PropTypes.string
 };
 
