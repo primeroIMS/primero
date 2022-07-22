@@ -202,7 +202,7 @@ describe NotificationMailer, type: :mailer do
         expect(mail.text_part.body.encoded).to match('حوّل لك user1 Case التالي')
       end
     end
-    
+
     describe 'assign' do
       before do
         @assign = Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
