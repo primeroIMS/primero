@@ -21,9 +21,8 @@ class Violation < ApplicationRecord
 
   store_accessor :data,
                  :unique_id, :violation_tally, :verified, :type, :ctfmr_verified_date, :ctfmr_verified,
-                 :verified_ghn_reported, :weapon_type, :facility_impact, :child_role,
-                 :abduction_purpose_single, :facility_attack_type, :military_use_type, :types_of_aid_disrupted_denial,
-                 :is_late_verification
+                 :verified_ghn_reported, :is_late_verification, :weapon_type, :facility_impact, :child_role,
+                 :abduction_purpose_single, :facility_attack_type, :military_use_type, :types_of_aid_disrupted_denial
 
   after_initialize :set_unique_id
 
@@ -62,24 +61,15 @@ class Violation < ApplicationRecord
   end
 
   def calculate_late_verifications
-    return unless data['ctfmr_verified'] == 'verified'
+    return unless ctfmr_verified == 'verified'
 
-    data['is_late_verification'] = late_verification?
+    self.is_late_verification = late_verification?
   end
 
   def late_verification?
-    incident_date_last_quarter? && verified_this_quarter?
-  end
+    return false unless ctfmr_verified_date.present? && incident.incident_date.present?
 
-  def incident_date_last_quarter?
-    last_quarter = Date.today - 3.month
-    incident.data['incident_date'] < last_quarter.end_of_quarter
-  end
-
-  def verified_this_quarter?
-    return false unless data['ctfmr_verified_date'].present?
-
-    data['ctfmr_verified_date'].between?(Date.today.beginning_of_quarter, Date.today.end_of_quarter)
+    ctfmr_verified_date > incident.incident_date.end_of_quarter
   end
 
   # TODO: Refactor on incident_monitoring_reporting concern

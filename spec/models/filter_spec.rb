@@ -261,7 +261,7 @@ describe Filter do
       expect(@filters_mrm.count).to eq(1)
     end
     describe 'incident filters' do
-      it 'has 20 filters' do
+      it 'has 27 filters' do
         expect(@filters_mrm.first[:incidents].count).to eq(27)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
