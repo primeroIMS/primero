@@ -10,7 +10,8 @@ describe("<RecordForm>/form/subforms/<SubformHeader/>/components/<ListItemTextSe
         maiming: [2, 3],
         denials: [5, 6, 7]
       },
-      violationsIDs: [1, 3]
+      violationsIDs: [1, 3],
+      renderSecondaryText: true
     };
 
     const { component } = setupMountedComponent(ListItemTextSecondary, props);

@@ -63,7 +63,8 @@ describe MonitoringReportingMechanism, search: true do
           {
             'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
             'verified_ghn_reported' => ['2022-q1'],
-            'type' => 'killing'
+            'type' => 'killing',
+            'weapon_type' => 'airstrike'
           }
         ],
         'maiming' => [
@@ -119,11 +120,59 @@ describe MonitoringReportingMechanism, search: true do
     incident3
   end
 
+  let(:incident_4) do
+    incident4 = Incident.new_with_user(
+      user_1,
+      {
+        'military_use' => [
+          {
+            'type' => 'military_use',
+            'facility_impact' => 'total_destruction',
+            'military_use_type' => 'military_use_of_school'
+          }
+        ],
+        'recruitment' => [
+          { 'type' => 'recruitment', 'child_role' => 'combatant' }
+        ],
+        'abduction' => [
+          { 'type' => 'abduction', 'abduction_purpose_single' => 'extortion' }
+        ],
+        'killing' => [
+          { 'type' => 'abduction', 'weapon_type' => 'baton' }
+        ]
+      }
+    )
+    incident4.save!
+    incident4
+  end
+
+  let(:incident_5) do
+    incident5 = Incident.new_with_user(
+      user_1,
+      {
+        'attack_on_hospitals' => [
+          {
+            'type' => 'attack_on_hospitals',
+            'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital_s],
+            'facility_impact' => 'serious_damage'
+          }
+        ],
+        'denial_humanitarian_access' => [
+          { 'type' => 'denial_humanitarian_access', 'types_of_aid_disrupted_denial' => 'food' }
+        ]
+      }
+    )
+    incident5.save!
+    incident5
+  end
+
   before do
     clean_data(User, UserGroup, Role, PrimeroModule, Incident, Violation, IndividualVictim)
     incident_1
     incident_2
     incident_3
+    incident_4
+    incident_5
     Incident.reindex
     Sunspot.commit
   end
@@ -272,6 +321,125 @@ describe MonitoringReportingMechanism, search: true do
 
     expect(search_result.size).to eq(2)
     expect(search_result.map(&:id)).to match_array([incident_1.id, incident_2.id])
+  end
+
+  it 'can find an incident by violation_with_weapon_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'violation_with_weapon_type', value: 'killing_airstrike')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_2.id)
+  end
+
+  it 'can find an incident by violation_with_facility_impact' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'violation_with_facility_impact', value: 'military_use_total_destruction')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
+  end
+
+  it 'can find an incident by child_role' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'child_role', value: 'combatant')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
+  end
+
+  it 'can find an incident by abduction_purpose_single' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'abduction_purpose_single', value: 'extortion')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
+  end
+
+  it 'can find an incident by violation_with_facility_attack_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'violation_with_facility_attack_type',
+          value: 'attack_on_hospitals_attack_on_medical_personnel'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by military_use_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'military_use_type', value: 'military_use_of_school')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
+  end
+
+  it 'can find an incident by types_of_aid_disrupted_denial' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'types_of_aid_disrupted_denial', value: 'food')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by facility_attack_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'facility_attack_type',
+          value: 'threat_of_attack_on_hospital_s'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by facility_impact' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(
+          field_name: 'facility_impact',
+          value: 'serious_damage'
+        )
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_5.id)
+  end
+
+  it 'can find an incident by weapon_type' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::Value.new(field_name: 'weapon_type', value: 'baton')
+      ]
+    ).results
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_4.id)
   end
 
   it 'can find an incident with a late verified violation' do

@@ -9,7 +9,19 @@ const filterTransformations = [
     name: "violation_with_verification_status",
     filters: ["violation_category", "verification_status"]
   }),
-  transformLateVerifiedViolations
+  transformLateVerifiedViolations,
+  transformFilterWithViolationType({
+    name: "violation_with_weapon_type",
+    filters: ["violation_category", "weapon_type"]
+  }),
+  transformFilterWithViolationType({
+    name: "violation_with_facility_impact",
+    filters: ["violation_category", "facility_impact"]
+  }),
+  transformFilterWithViolationType({
+    name: "violation_with_facility_attack_type",
+    filters: ["violation_category", "facility_attack_type"]
+  })
 ];
 
 export default {

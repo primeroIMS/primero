@@ -14,7 +14,17 @@ import { getShortIdFromUniqueId } from "../../../../records/utils";
 
 import { ListItemTextSecondary } from "./components";
 
-const Component = ({ field, values, locale, displayName, index, isViolationSubform, associatedViolations }) => {
+const Component = ({
+  field,
+  values,
+  locale,
+  displayName,
+  index,
+  isViolationSubform,
+  associatedViolations,
+  renderSecondaryText = false,
+  parentTitle
+}) => {
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
   const renderShortId =
@@ -59,7 +69,9 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
             optionsStringSource,
             optionsStringText,
             isViolationSubform,
-            displayName: displayNameCollapsedField
+            displayName: displayNameCollapsedField,
+            associatedViolations,
+            parentTitle
           };
 
           return <SubformLookupHeader {...lookupComponentProps} />;
@@ -93,6 +105,7 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
         classes={itemClasses}
         secondary={
           <ListItemTextSecondary
+            renderSecondaryText={renderSecondaryText}
             associatedViolations={associatedViolations}
             violationsIDs={values[index]?.violations_ids}
           />
@@ -118,6 +131,8 @@ Component.propTypes = {
   index: PropTypes.number.isRequired,
   isViolationSubform: PropTypes.bool,
   locale: PropTypes.string.isRequired,
+  parentTitle: PropTypes.string,
+  renderSecondaryText: PropTypes.bool,
   values: PropTypes.array.isRequired
 };
 

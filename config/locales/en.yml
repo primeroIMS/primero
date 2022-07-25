@@ -1426,6 +1426,13 @@ en:
       victim_facilty_victims_held: Please select the facility where the victim(s) was/were being held
       torture_punishment_while_deprivated_liberty: Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty?
       verified_ghn_reported: Specify the GHN in which this incident was included
+      weapon_type: 'Type of weapon/method used'
+      facility_impact: 'Type and extent of physical impact'
+      facility_attack_type: 'Type of health-related violation'
+      child_role: 'What role did the child(ren) play in the armed force/group?'
+      abduction_purpose_single: 'Purpose of the abduction'
+      military_use_type: 'Type of military use'
+      types_of_aid_disrupted_denial: 'Type of aid/service denied/disrupted.'
       late_verified_violations: Late verified violations
     register_new_incident: New Incident
     selectable_date_options:

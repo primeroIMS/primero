@@ -14,7 +14,8 @@ describe("<IndexFilters /> - Constants", () => {
       "DEFAULT_FILTERS",
       "DEFAULT_SELECTED_RECORDS_VALUE",
       "FILTER_CATEGORY",
-      "INDIVIDUAL_VICTIM_FILTER_NAMES"
+      "INDIVIDUAL_VICTIM_FILTER_NAMES",
+      "VIOLATIONS_FILTER_NAMES"
     ].forEach(property => {
       expect(clone).to.have.property(property);
       delete clone[property];
