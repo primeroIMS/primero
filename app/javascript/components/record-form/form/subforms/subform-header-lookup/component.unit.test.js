@@ -139,4 +139,20 @@ describe("<SubformLookupHeader /> - Form - Subforms", () => {
 
     expect(component.text()).to.be.equal("Testing Display Name: Region");
   });
+
+  context("when optionsStringSource is violations", () => {
+    it("should render a label with violation type", () => {
+      const props = {
+        value: "53d06bac-e072-4a7f-ac86-38548e727022",
+        optionsStringSource: "violations",
+        associatedViolations: {
+          killing: ["53d06bac-e072-4a7f-ac86-38548e727022"]
+        }
+      };
+
+      const { component } = setupMountedComponent(SubformLookupHeader, props, initialState);
+
+      expect(component.text()).to.be.equal("incident.violation.types.killing - e727022");
+    });
+  });
 });

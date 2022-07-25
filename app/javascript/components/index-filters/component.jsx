@@ -20,7 +20,7 @@ import { DEFAULT_FILTERS } from "../record-list/constants";
 import { useMemoizedSelector } from "../../libs";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, HIDDEN_FIELDS } from "./constants";
-import { compactFilters, splitFilters, combineFilters } from "./utils";
+import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
 import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
@@ -48,7 +48,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : splitFilters(queryParams),
+    defaultValues: isEmpty(queryParams)
+      ? merge(defaultFiltersPlainObject, filterToList)
+      : transformFilters.split(queryParams),
     shouldUnregister: false
   });
 
@@ -103,7 +105,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   ];
 
   const handleSubmit = useCallback(data => {
-    const payload = omit(combineFilters(compactFilters(data)), "filter_category");
+    const payload = omit(transformFilters.combine(compactFilters(data)), "filter_category");
 
     resetSelectedRecords();
     dispatch(applyFilters({ recordType, data: payload }));

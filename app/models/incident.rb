@@ -229,7 +229,7 @@ class Incident < ApplicationRecord
   def save_violations_and_associations
     save_violations
     save_violations_associations
-    reindex_violations_and_associations
+    reindex_violations_and_associations if @violations_to_save.present? || @associations_to_save.present?
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to index the latest data
@@ -263,21 +263,17 @@ class Incident < ApplicationRecord
   # Returns a list of Violations to be associated with
   # Violation::MRM_ASSOCIATIONS_KEYS (perpetrators, victims...) on API update
   def violations_for_associated(violations_ids)
+    ids = (violations_ids.is_a?(Array) ? violations_ids : [violations_ids])
     violations_result = []
-    saved_violations = violations_already_saved(violations_ids)
+
     if @violations_to_save.present?
-      violations_result += @violations_to_save.select { |violation| violations_ids.include?(violation.id) }
+      violations_result += @violations_to_save.select { |violation| ids.include?(violation.id) }
     end
-    violations_result += Violation.where(id: saved_violations) if saved_violations.present?
+    violations_result += Violation.where(id: ids - violations_result.map(&:id))
 
     violations_result
   end
 
-  def violations_already_saved(violations_ids)
-    return violations_ids if @violations_to_save.blank?
-
-    @violations_to_save.map(&:id) - (violations_ids.is_a?(Array) ? violations_ids : [violations_ids])
-  end
 
   def reporting_location_property
     'incident_reporting_location_config'

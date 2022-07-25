@@ -22,7 +22,7 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
-            iv.id as id,
+            distinct on(iv.id) iv.id as id,
             #{grouped_date_query(params['grouped_by'],
                                  filter_date(params),
                                  table_name_for_query(params))&.concat(' as group_id,')}
