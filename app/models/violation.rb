@@ -21,7 +21,8 @@ class Violation < ApplicationRecord
 
   store_accessor :data,
                  :unique_id, :violation_tally, :verified, :type, :ctfmr_verified_date, :ctfmr_verified,
-                 :verified_ghn_reported, :is_late_verification
+                 :verified_ghn_reported, :is_late_verification, :weapon_type, :facility_impact, :child_role,
+                 :abduction_purpose_single, :facility_attack_type, :military_use_type, :types_of_aid_disrupted_denial
 
   after_initialize :set_unique_id
 

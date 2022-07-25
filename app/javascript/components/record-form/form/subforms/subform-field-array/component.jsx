@@ -92,6 +92,7 @@ const Component = ({
         formik={formik}
         parentForm={form}
         entryFilter={entryFilter}
+        parentTitle={parentTitle}
       />
     </List>
   );
