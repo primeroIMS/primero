@@ -113,7 +113,7 @@ const Container = ({ match, location }) => {
 
   const handleDrawer = useCallback(() => {
     setDrawer(!drawer);
-  }, []);
+  }, [drawer]);
 
   const clearSelectedRecords = useCallback(() => {
     setSelectedRecords({});
