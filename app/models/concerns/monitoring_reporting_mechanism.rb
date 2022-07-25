@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 # MRM-related model
+# rubocop:disable Metrics/ModuleLength
 module MonitoringReportingMechanism
   extend ActiveSupport::Concern
 
   included do
     searchable do
       %i[
-        individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
+        individual_violations individual_sex victim_deprived_liberty_security_reasons
         reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
         violation_with_weapon_type violation_with_facility_impact violation_with_facility_attack_type
@@ -15,6 +16,7 @@ module MonitoringReportingMechanism
         facility_attack_type late_verified_violations
       ].each { |field| string(field, multiple: true) }
 
+      integer(:individual_age, multiple: true)
       boolean(:has_late_verified_violations) { late_verified_violations? }
     end
   end
@@ -133,3 +135,4 @@ module MonitoringReportingMechanism
     violations.map(&:types_of_aid_disrupted_denial).uniq.compact
   end
 end
+# rubocop:enable Metrics/ModuleLength
