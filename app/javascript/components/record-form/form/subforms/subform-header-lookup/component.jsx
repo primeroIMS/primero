@@ -6,10 +6,19 @@ import { SUBFORM_LOOKUP_HEADER_NAME } from "../constants";
 import useOptions from "../../../../form/use-options";
 import { CUSTOM_STRINGS_SOURCE } from "../../constants";
 import { OPTION_TYPES } from "../../../../form";
+import { getShortIdFromUniqueId } from "../../../../records/utils";
 
-import { getMultiSelectValues } from "./utils";
+import { getMultiSelectValues, buildAssociatedViolationsLabels } from "./utils";
 
-const Component = ({ value, optionsStringSource, optionsStringText, isViolationSubform, displayName }) => {
+const Component = ({
+  value,
+  optionsStringSource,
+  optionsStringText,
+  isViolationSubform,
+  displayName,
+  associatedViolations,
+  parentTitle
+}) => {
   const i18n = useI18n();
   const optionSource =
     optionsStringSource === CUSTOM_STRINGS_SOURCE.user ? OPTION_TYPES.REFER_TO_USERS : optionsStringSource;
@@ -19,6 +28,17 @@ const Component = ({ value, optionsStringSource, optionsStringText, isViolationS
   if (isEmpty(value)) return <>{value}</>;
 
   if (!isEmpty(optionsStringSource)) {
+    if (optionsStringSource === "violations") {
+      const associatedViolationsLabels =
+        parentTitle ||
+        i18n.t(`incident.violation.types.${buildAssociatedViolationsLabels(associatedViolations, value)}`);
+
+      return (
+        <span>
+          {associatedViolationsLabels} - {getShortIdFromUniqueId(value)}
+        </span>
+      );
+    }
     const { display_text: displayText } = optionsStrings?.find(o => o.id === value) || {};
 
     if (!Array.isArray(value)) {
@@ -68,10 +88,12 @@ Component.defaultProps = {
 };
 
 Component.propTypes = {
+  associatedViolations: PropTypes.object,
   displayName: PropTypes.object,
   isViolationSubform: PropTypes.bool,
   optionsStringSource: PropTypes.string,
   optionsStringText: PropTypes.array,
+  parentTitle: PropTypes.string,
   value: PropTypes.string
 };
 

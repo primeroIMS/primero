@@ -45,4 +45,17 @@ describe("buildCollapsedFields", () => {
       });
     });
   });
+
+  context("when field is responses", () => {
+    it("should return object if recieve VIOLATIONS_SUBFORM_UNIQUE_IDS as type", () => {
+      const result = buildAssociatedViolations("responses", {
+        type: "killing",
+        unique_id: 4
+      });
+
+      expect(result).to.deep.equal({
+        killing: [4]
+      });
+    });
+  });
 });
