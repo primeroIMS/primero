@@ -16,7 +16,7 @@ export const getVerifiedData = data => {
         .entrySeq()
         .reduce((acc, [key, value]) => {
           violationTypeIds.forEach(type => {
-            acc[key] = { ...acc[key], [type]: value.get(`${type}_verified`) };
+            acc[key] = { ...acc[key], [type]: value.get(`${type}_verified`, 0) };
           });
 
           return acc;
