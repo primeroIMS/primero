@@ -1428,7 +1428,7 @@ en:
       verified_ghn_reported: Specify the GHN in which this incident was included
       weapon_type: 'Type of weapon/method used'
       facility_impact: 'Type and extent of physical impact'
-      facility_attack_type: 'Type of health-related violation'
+      facility_attack_type: 'Type of health- or education-related violation'
       child_role: 'What role did the child(ren) play in the armed force/group?'
       abduction_purpose_single: 'Purpose of the abduction'
       military_use_type: 'Type of military use'
