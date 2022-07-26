@@ -342,12 +342,18 @@ describe("<RecordList />", () => {
     };
 
     expect(component.find(RecordListToolbar)).to.have.lengthOf(1);
-    ["title", "recordType", "handleDrawer", "currentPage", "selectedRecords", "clearSelectedRecords"].forEach(
-      property => {
-        expect(recordListToolbarProps).to.have.property(property);
-        delete recordListToolbarProps[property];
-      }
-    );
+    [
+      "clearSelectedRecords",
+      "currentPage",
+      "handleDrawer",
+      "handleSortDrawer",
+      "recordType",
+      "selectedRecords",
+      "title"
+    ].forEach(property => {
+      expect(recordListToolbarProps).to.have.property(property);
+      delete recordListToolbarProps[property];
+    });
     expect(recordListToolbarProps).to.be.empty;
   });
 
