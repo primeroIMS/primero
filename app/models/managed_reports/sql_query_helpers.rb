@@ -14,6 +14,19 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
+    def equal_value_query_multiple(param, table_name = nil, map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        [
+          "#{quoted_query(table_name, 'data')} #> '{#{field_name}}' ?| array[:values]",
+          values: param.values
+        ]
+      )
+    end
+
     def date_range_query(param, table_name = nil)
       return unless param.present?
 
