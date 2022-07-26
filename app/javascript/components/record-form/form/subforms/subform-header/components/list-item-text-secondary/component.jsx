@@ -7,10 +7,10 @@ import { NAME } from "./constants";
 import css from "./styles.css";
 import { buildAssociatedViolationsKeys } from "./utils";
 
-const Component = ({ associatedViolations, violationsIDs }) => {
+const Component = ({ associatedViolations, violationsIDs, renderSecondaryText = false }) => {
   const i18n = useI18n();
 
-  if (isEmpty(associatedViolations) || isEmpty(violationsIDs)) return null;
+  if (!renderSecondaryText || isEmpty(associatedViolations) || isEmpty(violationsIDs)) return null;
 
   const violationsKeys = buildAssociatedViolationsKeys(associatedViolations, violationsIDs);
 
@@ -32,6 +32,7 @@ const Component = ({ associatedViolations, violationsIDs }) => {
 
 Component.propTypes = {
   associatedViolations: PropTypes.object,
+  renderSecondaryText: PropTypes.bool,
   violationsIDs: PropTypes.array
 };
 

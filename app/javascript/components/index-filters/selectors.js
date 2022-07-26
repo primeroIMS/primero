@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import { RECORD_TYPES_PLURAL } from "../../config";
 
-import { FILTER_CATEGORY, INDIVIDUAL_VICTIM_FILTER_NAMES } from "./constants";
+import { FILTER_CATEGORY, INDIVIDUAL_VICTIM_FILTER_NAMES, VIOLATIONS_FILTER_NAMES } from "./constants";
 
 export const getFiltersByRecordType = (state, recordType, filterCategory) => {
   const filters = state.getIn(["user", "filters", recordType], fromJS([]));
@@ -12,8 +12,16 @@ export const getFiltersByRecordType = (state, recordType, filterCategory) => {
       return filters.filter(filter => INDIVIDUAL_VICTIM_FILTER_NAMES.includes(filter.field_name));
     }
 
+    if (filterCategory === FILTER_CATEGORY.violations) {
+      return filters.filter(filter => VIOLATIONS_FILTER_NAMES.includes(filter.field_name));
+    }
+
     if (filterCategory === FILTER_CATEGORY.incidents) {
-      return filters.filter(filter => !INDIVIDUAL_VICTIM_FILTER_NAMES.includes(filter.field_name));
+      return filters.filter(
+        filter =>
+          !INDIVIDUAL_VICTIM_FILTER_NAMES.includes(filter.field_name) &&
+          !VIOLATIONS_FILTER_NAMES.includes(filter.field_name)
+      );
     }
   }
 
