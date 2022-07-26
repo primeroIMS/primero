@@ -17,7 +17,7 @@ import { currentUser } from "../user";
 import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { useMemoizedSelector } from "../../libs";
+import { overwriteMerge, useMemoizedSelector } from "../../libs";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, HIDDEN_FIELDS } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
@@ -49,8 +49,10 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const methods = useForm({
     defaultValues: isEmpty(queryParams)
-      ? merge(defaultFiltersPlainObject, filterToList)
-      : transformFilters.split(queryParams),
+      ? merge({ ...defaultFiltersPlainObject, filter_category: recordType }, filterToList, {
+          arrayMerge: overwriteMerge
+        })
+      : { ...transformFilters.split(queryParams), filter_category: recordType },
     shouldUnregister: false
   });
 
@@ -72,9 +74,6 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, []);
 
   useEffect(() => {
-    if (tabIndex === 0) {
-      methods.reset(merge(queryParams, { ...filterToList, filter_category: recordType }));
-    }
     if (tabIndex === 1) {
       dispatch(fetchSavedSearches());
     }
@@ -90,7 +89,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
         }
       });
       setMoreSectionFilters({});
-      methods.reset(filtersToApply);
+      methods.reset({ ...filtersToApply, filter_category: recordType });
       resetSelectedRecords();
       dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
@@ -117,7 +116,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const handleClear = useCallback(() => {
     resetSelectedRecords();
-    methods.reset(defaultFiltersPlainObject);
+    methods.reset({ ...defaultFiltersPlainObject, filter_category: recordType });
     batch(() => {
       dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
       dispatch(push({}));
