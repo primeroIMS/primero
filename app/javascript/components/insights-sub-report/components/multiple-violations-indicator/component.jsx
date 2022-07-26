@@ -35,7 +35,10 @@ function Component({ subReportTitle, value, valueKey }) {
       <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
       <List dense disablePadding classes={{ root: indicatorCss.list }}>
         {value.map((item, index) => (
-          <NavLink to={`/${RECORD_TYPES_PLURAL.incident}/${item.getIn(["data", "incident_id"])}`}>
+          <NavLink
+            key={item.getIn(["data", "incident_id"])}
+            to={`/${RECORD_TYPES_PLURAL.incident}/${item.getIn(["data", "incident_id"])}`}
+          >
             <ListItem
               component="li"
               classes={{ divider: indicatorCss.listDivider, root: indicatorCss.listItem }}
@@ -50,7 +53,7 @@ function Component({ subReportTitle, value, valueKey }) {
                     </h4>
                     <ul className={indicatorCss.secondaryList}>
                       {item.getIn(["data", "violations"], []).map(violation => (
-                        <li>{i18n.t(["incident.violation.types", violation].join("."))}</li>
+                        <li key={violation}>{i18n.t(["incident.violation.types", violation].join("."))}</li>
                       ))}
                     </ul>
                     <h4 className={indicatorCss.secondaryTitle}>
