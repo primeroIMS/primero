@@ -280,6 +280,7 @@ class Filter < ValueObject
   WEAPON_TYPE = Filter.new(
     name: 'incidents.filter_by.weapon_type',
     field_name: 'weapon_type',
+    type: 'multi_select',
     option_strings_source: 'lookup-weapon-type'
   )
 
@@ -305,6 +306,7 @@ class Filter < ValueObject
   ABDUCTION_PURPOSE_SINGLE = Filter.new(
     name: 'incidents.filter_by.abduction_purpose_single',
     field_name: 'abduction_purpose_single',
+    type: 'multi_select',
     option_strings_source: 'lookup-abduction-purpose'
   )
 
