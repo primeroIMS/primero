@@ -55,8 +55,6 @@ describe ManagedReports::Indicators::IndividualViolationType do
       }
     ).data
 
-    binding.pry
-
     expect(data).to match_array(
       [{ group_id: '2021-Q2', data: [{ id: 'attack_on_schools', total: 1 }, { id: 'killing', total: 2 }] },
        { group_id: '2021-Q3', data: [] },
