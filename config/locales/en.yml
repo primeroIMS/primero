@@ -1864,6 +1864,7 @@ en:
     filter_by:
       date: Date
       verification_status: Verification Status
+      violation_type: Violation Type
     date_range:
       month: Month
       quarter: Quarter
@@ -1879,6 +1880,16 @@ en:
     no_data: No data exists for this insight
     no_data_table: No table data exists for this insight
     incomplete_data: Incomplete Data
+    individual_children:
+      name: Individual Children
+      description: ''
+      reports:
+        individual_children: Individual Children
+      sub_reports:
+        individual_age: Individual Children by Age
+        individual_violation_type: Individual Children by Violation Type
+        individual_region: Individual Children by Region
+        individual_perpetrator: Individual Children by Perpetrator
     ghn_report:
       name: Global Horizontal Note
       description: ''
@@ -1935,7 +1946,6 @@ en:
         denial_type: Type of denials
         detention_detained: Remain Detained
         detention_released: Released
-        detention_status: Status of Detained children
         perpetrators: Number of Children by Perpetrators
         perpetrators_denial: Number of Violations by Perpetrators
         perpetrator_detention: Number of Children by Perpetrators
@@ -3066,6 +3076,8 @@ en:
             label: GBV Statistics
           ghn_report:
             label: Global Horizontal Note
+          individual_children:
+            label: Individual Children
       matching_configuration:
         actions:
           manage:

@@ -554,5 +554,5 @@ export const getLookupsByIDs = (state, ids) => {
 
   return state
     .getIn(["forms", "options", "lookups"], fromJS([]))
-    .filter(lookup => ids.includes(`lookup ${lookup.get("unique_id")}`), fromJS([]));
+    .filter(lookup => ids.map(keys => keys.replace("lookup ", "")).includes(lookup.get("unique_id")), fromJS([]));
 };

@@ -13,7 +13,7 @@ module ManagedReports::GhnIndicatorHelper
     end
 
     def date_filter_param(filter)
-      filter.field_name = date_filter
+      filter.field_name = date_filter if filter.present?
       filter
     end
 
