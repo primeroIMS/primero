@@ -19,4 +19,12 @@
   &:not(:last-of-type) {
     border-bottom: 0;
   }
+
+  & .sortField {
+    flex: 1 1 auto;
+  }
+
+  & .sortDir {
+    flex-grow: 0;
+  }
 }

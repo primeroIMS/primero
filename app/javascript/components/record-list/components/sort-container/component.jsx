@@ -43,20 +43,28 @@ const SortContainer = ({ columns, open, onClose, recordType, applyFilters }) => 
           {sortableColumns.map(column => (
             <>
               <div className={css.sortableColumn}>
-                <ArrowUpwardIcon />
-                <FormControlLabel
-                  value={`${column.name}_asc`}
-                  control={<Radio />}
-                  label={column.label?.trim() || i18n.t(`${recordType}.${column.name}`)}
-                />
+                <div className={css.sortField}>
+                  <FormControlLabel
+                    value={`${column.name}_asc`}
+                    control={<Radio />}
+                    label={column.label?.trim() || i18n.t(`${recordType}.${column.name}`)}
+                  />
+                </div>
+                <div className={css.sortDir}>
+                  <ArrowUpwardIcon />
+                </div>
               </div>
               <div className={css.sortableColumn}>
-                <ArrowDownwardIcon />
-                <FormControlLabel
-                  value={`${column.name}_desc`}
-                  control={<Radio />}
-                  label={column.label?.trim() || i18n.t(`${recordType}.${column.name}`)}
-                />
+                <div className={css.sortField}>
+                  <FormControlLabel
+                    value={`${column.name}_desc`}
+                    control={<Radio />}
+                    label={column.label?.trim() || i18n.t(`${recordType}.${column.name}`)}
+                  />
+                </div>
+                <div className={css.sortDir}>
+                  <ArrowDownwardIcon />
+                </div>
               </div>
             </>
           ))}
