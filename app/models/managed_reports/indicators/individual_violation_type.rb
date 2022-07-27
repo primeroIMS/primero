@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the type of use of violation type Recruitment
+# An indicator that returns the individual violation types
 class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
 
@@ -10,6 +10,8 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
     end
 
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def sql(current_user, params = {})
       %{
         SELECT
@@ -35,7 +37,8 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
         order by name
       }
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

@@ -19,7 +19,7 @@ class ManagedReports::SubReports::IndividualChildren < ManagedReports::SubReport
     {
       ManagedReports::Indicators::IndividualViolationType.id => 'lookup-violation-type',
       ManagedReports::Indicators::IndividualRegion.id => 'ReportingLocation',
-      ManagedReports::Indicators::IndividualPerpetrator => 'lookup-perpetrator-category-type'
+      ManagedReports::Indicators::IndividualPerpetrator.id => 'lookup-perpetrator-category-type'
     }.freeze
   end
 

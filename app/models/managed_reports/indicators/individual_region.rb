@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the type of use of violation type Recruitment
+# An indicator that returns the individual region
 class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
 
@@ -10,13 +10,15 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
     end
 
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def sql(current_user, params = {})
       %{
        select
        incidents.data ->> 'incident_location' as name, 'total' as key,
        #{grouped_date_query(params['grouped_by'],
-                           filter_date(params),
-                           table_name_for_query(params))&.concat(' as group_id,')}
+                            filter_date(params),
+                            table_name_for_query(params))&.concat(' as group_id,')}
        count(*) as sum
        from
        violations violations
@@ -34,9 +36,8 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
        order by name
       }
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-    #
-
-    #         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

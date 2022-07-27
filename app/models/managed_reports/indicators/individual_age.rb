@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# An indicator that returns the type of use of violation type Recruitment
+# An indicator that returns the individual age
 class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndicator
   include ManagedReports::MRMIndicatorHelper
 
@@ -10,6 +10,8 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
     end
 
     # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/AbcSize
     def sql(current_user, params = {})
       %{
         select
@@ -36,7 +38,8 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
         order by name
       }
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
-
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

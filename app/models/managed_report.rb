@@ -76,7 +76,7 @@ class ManagedReport < ValueObject
   end
 
   def subreport_params(params)
-    filtered_params = (params || []).select { |param| permitted_filter_names.include?(param.field_name) }
+    filtered_params = (params || []).compact.select { |param| permitted_filter_names.include?(param.field_name) }
     filtered_params << SearchFilters::Value.new(field_name: 'module_id', value: module_id) if id == 'gbv_statistics'
 
     filtered_params.reduce({}) { |acc, param| acc.merge(param.field_name => param) }
@@ -112,6 +112,6 @@ class ManagedReport < ValueObject
   end
 
   def verified_value
-    filters&.find { |filter| filter.field_name == 'ctfmr_verified' }&.value
+    filters&.find { |filter| filter&.field_name == 'ctfmr_verified' }&.value
   end
 end
