@@ -479,7 +479,7 @@ class Filter < ValueObject
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
       filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user)
       filters += violation_filter(user)
-      filters += [AGE_RANGE]
+      filters += [AGE_RANGE] if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
       filters += children_verification_and_location_filters(user)
       filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
       filters << ENABLED
