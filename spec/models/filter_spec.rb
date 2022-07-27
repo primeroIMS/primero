@@ -236,6 +236,12 @@ describe Filter do
                                                                        type: 'checkbox'))
       end
 
+      it 'has age_range filter' do
+        expect(@filters_cp_gbv[0]['cases']).to include(have_attributes(name: 'cases.filter_by.age_range',
+                                                                       field_name: 'age',
+                                                                       type: 'multi_toggle'))
+      end
+
       it 'has date options' do
         filter_by_date_cp = [
           { id: 'registration_date', display_name: 'Date of Registration' },
@@ -262,13 +268,12 @@ describe Filter do
     end
     describe 'incident filters' do
       it 'has 27 filters' do
-        expect(@filters_mrm.first[:incidents].count).to eq(27)
+        expect(@filters_mrm.first[:incidents].count).to eq(26)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
             cases.filter_by.flag
             incidents.filter_by.status
             incidents.filter_by.violations
-            cases.filter_by.age_range
             incidents.filter_by.children
             incidents.filter_by.verification_status
             incidents.filter_by.verified_ghn_reported
