@@ -113,7 +113,7 @@ const Component = ({
         setInputValue(selected);
       }
     }
-  }, [filterOptions, fieldName]);
+  }, [filterOptions.length, fieldName]);
 
   const handleChange = (event, value) => {
     handleFilterChange({
