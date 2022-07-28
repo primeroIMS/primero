@@ -14,7 +14,7 @@ import {
   SELECT_FIELD,
   TALLY_FIELD
 } from "../constants";
-import { buildOperator } from "../../../libs/expressions/utils";
+import { parseExpression } from "../../../libs/expressions";
 
 import { asyncFieldOffline } from "./utils";
 
@@ -138,11 +138,6 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array().min(1, requiredMessage);
         break;
-      case type === TALLY_FIELD:
-        validations[name] = validations[name].test(name, requiredMessage, value => {
-          return compact(Object.values(value)).length > 0;
-        });
-        break;
       default:
         validations[name] = (validations[name] || string()).nullable();
         break;
@@ -151,16 +146,22 @@ export const fieldValidations = (field, { i18n, online = false }) => {
     const schema = validations[name] || string();
 
     if (displayConditionsSubform || displayConditionsRecord) {
-      const { operator, condition, relatedField } = conditionalFieldAttrs(
-        displayConditionsSubform || displayConditionsRecord
-      );
+      const { relatedField } = conditionalFieldAttrs(displayConditionsSubform || displayConditionsRecord);
 
       validations[name] = schema.when(relatedField, {
         is: relatedFieldValue => {
-          return buildOperator(operator, condition).evaluate({ [relatedField]: relatedFieldValue });
+          return parseExpression(displayConditionsSubform || displayConditionsRecord).evaluate({
+            [relatedField]: relatedFieldValue
+          });
         },
-        then: schema.required(requiredMessage),
-        otherwise: schema.notRequired()
+        then:
+          type !== TALLY_FIELD
+            ? schema.required(requiredMessage)
+            : currentSchema =>
+                currentSchema.test(name, requiredMessage, value => {
+                  return compact(Object.values(value)).length > 0;
+                }),
+        otherwise: type !== TALLY_FIELD ? schema.notRequired() : currentSchema => currentSchema.notRequired()
       });
     } else {
       if (!([TICK_FIELD, SELECT_FIELD, TALLY_FIELD].includes(type) || (type !== SELECT_FIELD && multiSelect))) {
@@ -169,6 +170,12 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
       if (![TALLY_FIELD].includes(type)) {
         validations[name] = schema.required(requiredMessage);
+      }
+
+      if (type === TALLY_FIELD) {
+        validations[name] = schema.test(name, requiredMessage, value => {
+          return compact(Object.values(value)).length > 0;
+        });
       }
     }
   }
