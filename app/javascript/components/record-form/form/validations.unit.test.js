@@ -268,6 +268,48 @@ describe("<RecordForm>/form/validations", () => {
           expect(schema.isValidSync(formData)).to.be.true;
         });
       });
+
+      context("and has conditions display", () => {
+        const tallyFieldWithDisplayConditions = {
+          ...tallyField,
+          required: true,
+          display_conditions_record: {
+            or: [
+              {
+                in: {
+                  violation_category: ["killing"]
+                }
+              },
+              {
+                in: {
+                  violation_category: ["maiming"]
+                }
+              }
+            ]
+          }
+        };
+
+        it("should be invalid if field is empty and conditions make it required", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { violation_category: ["killing"] };
+
+          expect(schema.isValidSync(formData)).to.be.false;
+        });
+
+        it("should be valid if field is NOT empty and it is required by other field", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { tally_name: { test1: 1, test2: 3 }, violation_category: ["killing"] };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+
+        it("should be valid if field is empty and conditions make it NOT required", () => {
+          const schema = object().shape(validations.fieldValidations(tallyFieldWithDisplayConditions, { i18n }));
+          const formData = { violation_category: ["test"] };
+
+          expect(schema.isValidSync(formData)).to.be.true;
+        });
+      });
     });
   });
 });

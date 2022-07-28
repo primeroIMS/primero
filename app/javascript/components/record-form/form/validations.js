@@ -2,6 +2,7 @@
 import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
 import compact from "lodash/compact";
+import first from "lodash/first";
 
 import {
   NUMERIC_FIELD,
@@ -13,11 +14,33 @@ import {
   SELECT_FIELD,
   TALLY_FIELD
 } from "../constants";
-import { buildOperator } from "../../../libs/expressions/utils";
+import { parseExpression } from "../../../libs/expressions";
 
 import { asyncFieldOffline } from "./utils";
 
 const MAX_PERMITTED_INTEGER = 2147483647;
+
+function conditionRelatedField(condition) {
+  if (Array.isArray(condition)) {
+    const [, firstCondition] = Object.entries(first(condition))[0];
+
+    return conditionRelatedField(firstCondition);
+  }
+
+  const [relatedField] = Object.entries(condition)[0];
+
+  return relatedField;
+}
+
+function conditionalFieldAttrs(conditions) {
+  const [operator, condition] = Object.entries(conditions)[0];
+
+  return {
+    operator,
+    condition,
+    relatedField: conditionRelatedField(condition)
+  };
+}
 
 export const fieldValidations = (field, { i18n, online = false }) => {
   const {
@@ -26,7 +49,8 @@ export const fieldValidations = (field, { i18n, online = false }) => {
     type,
     required,
     option_strings_source: optionStringsSource,
-    display_conditions_subform: displayConditionsSubform
+    display_conditions_subform: displayConditionsSubform,
+    display_conditions_record: displayConditionsRecord
   } = field;
   const validations = {};
 
@@ -114,11 +138,6 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array().min(1, requiredMessage);
         break;
-      case type === TALLY_FIELD:
-        validations[name] = validations[name].test(name, requiredMessage, value => {
-          return compact(Object.values(value)).length > 0;
-        });
-        break;
       default:
         validations[name] = (validations[name] || string()).nullable();
         break;
@@ -126,16 +145,23 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
     const schema = validations[name] || string();
 
-    if (displayConditionsSubform) {
-      const [operator, condition] = Object.entries(displayConditionsSubform)[0];
-      const [relatedField] = Object.entries(condition)[0];
+    if (displayConditionsSubform || displayConditionsRecord) {
+      const { relatedField } = conditionalFieldAttrs(displayConditionsSubform || displayConditionsRecord);
 
       validations[name] = schema.when(relatedField, {
         is: relatedFieldValue => {
-          return buildOperator(operator, condition).evaluate({ [relatedField]: relatedFieldValue });
+          return parseExpression(displayConditionsSubform || displayConditionsRecord).evaluate({
+            [relatedField]: relatedFieldValue
+          });
         },
-        then: schema.required(requiredMessage),
-        otherwise: schema.notRequired()
+        then:
+          type !== TALLY_FIELD
+            ? schema.required(requiredMessage)
+            : currentSchema =>
+                currentSchema.test(name, requiredMessage, value => {
+                  return compact(Object.values(value)).length > 0;
+                }),
+        otherwise: type !== TALLY_FIELD ? schema.notRequired() : currentSchema => currentSchema.notRequired()
       });
     } else {
       if (!([TICK_FIELD, SELECT_FIELD, TALLY_FIELD].includes(type) || (type !== SELECT_FIELD && multiSelect))) {
@@ -144,6 +170,12 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
       if (![TALLY_FIELD].includes(type)) {
         validations[name] = schema.required(requiredMessage);
+      }
+
+      if (type === TALLY_FIELD) {
+        validations[name] = schema.test(name, requiredMessage, value => {
+          return compact(Object.values(value)).length > 0;
+        });
       }
     }
   }
