@@ -1973,6 +1973,7 @@ en:
         received_response: Children Received Response
         male: Male
         female: Female
+        military_use_type_of_use: Number of violations by type of use
     gbv_statistics:
       name: GBV Statistics
       description: ''
