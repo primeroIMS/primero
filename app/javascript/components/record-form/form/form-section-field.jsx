@@ -20,6 +20,7 @@ import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
 import { OPTION_TYPES } from "../../form";
 import { useApp } from "../../application";
+import { RECORD_TYPES } from "../../../config";
 
 import { GuidingQuestions } from "./components";
 import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
@@ -79,6 +80,7 @@ const FormSectionField = ({
       options: violationOptions || options || optionsStringsText,
       useUniqueId: OPTION_TYPES.AGENCY === filterOptionStringSource,
       fullUsers: true,
+      useIncidentReportingLocationConfig: recordType === RECORD_TYPES.incidents,
       ...selectorOptions
     }),
     [i18n.locale, options, optionsStringsText, filterOptionStringSource]

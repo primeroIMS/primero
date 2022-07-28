@@ -25,7 +25,7 @@ const useOptions = (config = {}) => {
             const selector = getOptions(src);
 
             // TODO: Refactor. The locations selector uses proxy-memoize. This is a workaround to pass options
-            if (src === OPTION_TYPES.LOCATION) {
+            if ([OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(src)) {
               return [key, selector([state, { ...selectorConfig, source: src, locale, localizeDate }])];
             }
 
@@ -35,7 +35,7 @@ const useOptions = (config = {}) => {
       }
       const selector = getOptions(source);
 
-      if (source === OPTION_TYPES.LOCATION) {
+      if ([OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(source)) {
         return filterTaggedOptions(selector([state, { ...selectorConfig, locale, localizeDate }]), tags);
       }
 
