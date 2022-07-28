@@ -2,6 +2,7 @@
 import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
 import compact from "lodash/compact";
+import first from "lodash/first";
 
 import {
   NUMERIC_FIELD,
@@ -19,6 +20,28 @@ import { asyncFieldOffline } from "./utils";
 
 const MAX_PERMITTED_INTEGER = 2147483647;
 
+function conditionRelatedField(condition) {
+  if (Array.isArray(condition)) {
+    const [, firstCondition] = Object.entries(first(condition))[0];
+
+    return conditionRelatedField(firstCondition);
+  }
+
+  const [relatedField] = Object.entries(condition)[0];
+
+  return relatedField;
+}
+
+function conditionalFieldAttrs(conditions) {
+  const [operator, condition] = Object.entries(conditions)[0];
+
+  return {
+    operator,
+    condition,
+    relatedField: conditionRelatedField(condition)
+  };
+}
+
 export const fieldValidations = (field, { i18n, online = false }) => {
   const {
     multi_select: multiSelect,
@@ -26,7 +49,8 @@ export const fieldValidations = (field, { i18n, online = false }) => {
     type,
     required,
     option_strings_source: optionStringsSource,
-    display_conditions_subform: displayConditionsSubform
+    display_conditions_subform: displayConditionsSubform,
+    display_conditions_record: displayConditionsRecord
   } = field;
   const validations = {};
 
@@ -126,9 +150,10 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
     const schema = validations[name] || string();
 
-    if (displayConditionsSubform) {
-      const [operator, condition] = Object.entries(displayConditionsSubform)[0];
-      const [relatedField] = Object.entries(condition)[0];
+    if (displayConditionsSubform || displayConditionsRecord) {
+      const { operator, condition, relatedField } = conditionalFieldAttrs(
+        displayConditionsSubform || displayConditionsRecord
+      );
 
       validations[name] = schema.when(relatedField, {
         is: relatedFieldValue => {
