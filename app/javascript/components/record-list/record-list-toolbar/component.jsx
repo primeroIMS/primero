@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Hidden, IconButton } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import SortIcon from "@material-ui/icons/Sort";
+import ImportExportIcon from "@material-ui/icons/ImportExport";
 
 import { PageHeading } from "../../page";
 import RecordActions from "../../record-actions";
@@ -25,7 +25,7 @@ const Component = ({
     <PageHeading title={title}>
       <Hidden mdUp>
         <IconButton onClick={handleSortDrawer} color="primary">
-          <SortIcon />
+          <ImportExportIcon />
         </IconButton>
         <IconButton onClick={handleDrawer} color="primary">
           <FilterListIcon />

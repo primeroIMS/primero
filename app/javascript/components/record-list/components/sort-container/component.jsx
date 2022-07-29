@@ -11,6 +11,8 @@ import { getFilters } from "../../../index-table";
 
 import css from "./styles.css";
 
+const EXCLUDED_COLUMNS = Object.freeze(["case_id_display"]);
+
 const SortContainer = ({ columns, open, onClose, recordType, applyFilters }) => {
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
   const dispatch = useDispatch();
@@ -19,7 +21,11 @@ const SortContainer = ({ columns, open, onClose, recordType, applyFilters }) => 
 
   const sortableColumns =
     tableColumns.filter(
-      column => column.sort !== false && column.options.sort !== false && column.options.display !== false
+      column =>
+        column.sort !== false &&
+        column.options.sort !== false &&
+        column.options.display !== false &&
+        !EXCLUDED_COLUMNS.includes(column.name)
     ) || fromJS([]);
 
   const onChange = data => {
