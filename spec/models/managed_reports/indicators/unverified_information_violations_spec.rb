@@ -6,8 +6,12 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
   before do
     clean_data(Incident, Violation)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2021, 5, 23), status: 'open' })
-    incident1 = Incident.create!(data: { incident_date: Date.new(2022, 4, 4), status: 'open' })
+    incident = Incident.create!(
+      data: { incident_date: Date.new(2021, 5, 23), date_of_first_report: Date.new(2021, 5, 23), status: 'open' }
+    )
+    incident1 = Incident.create!(
+      data: { incident_date: Date.new(2022, 4, 4), date_of_first_report: Date.new(2022, 4, 4), status: 'open' }
+    )
 
     Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 },

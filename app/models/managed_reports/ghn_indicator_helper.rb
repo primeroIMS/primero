@@ -9,7 +9,7 @@ module ManagedReports::GhnIndicatorHelper
   # ClassMethods
   module ClassMethods
     def date_filter
-      'incident_date'
+      'date_of_first_report'
     end
 
     def date_filter_param(filter)

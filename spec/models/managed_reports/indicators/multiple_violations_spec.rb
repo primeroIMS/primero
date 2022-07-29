@@ -84,13 +84,22 @@ describe ManagedReports::Indicators::MultipleViolations do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
+    incident1 = Incident.new_with_user(
+      @self_user, { incident_date: Date.new(2020, 8, 8), date_of_first_report: Date.new(2020, 8, 8), status: 'open' }
+    )
     incident1.save!
-    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
+    incident2 = Incident.new_with_user(
+      @group_user, { incident_date: Date.new(2021, 8, 8), date_of_first_report: Date.new(2021, 8, 8), status: 'open' }
+    )
     incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
+    incident3 = Incident.new_with_user(
+      @agency_user,
+      { incident_date: Date.new(2022, 2, 18), date_of_first_report: Date.new(2022, 2, 18), status: 'open' }
+    )
     incident3.save!
-    @incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
+    @incident4 = Incident.new_with_user(
+      @all_user, { incident_date: Date.new(2022, 3, 28), date_of_first_report: Date.new(2022, 3, 28), status: 'open' }
+    )
     @incident4.save!
 
     violation1 = Violation.create!(data: { type: 'killing', attack_type: 'arson' }, incident_id: incident1.id)
