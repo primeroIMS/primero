@@ -9,7 +9,7 @@ describe ManagedReports::Indicators::IndividualPerpetrator do
     incident = Incident.create!(data: { incident_date: Date.new(2021, 5, 23), status: 'open' })
 
     Lookup.create_or_update!(
-      unique_id: 'lookup-perpetrator-category-type',
+      unique_id: 'lookup-armed-force-group-or-other-party',
       name_en: 'Armed Force Group Or Other Party',
       lookup_values: [
         { id: 'armed_force_1', display_text: 'Armed Force 1' },
@@ -41,7 +41,7 @@ describe ManagedReports::Indicators::IndividualPerpetrator do
       )
     ]
 
-    violation1.perpetrators = [Perpetrator.create!(data: { perpetrator_category: 'armed_force_1' })]
+    violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_1' })]
 
     violation2 = Violation.create!(
       data: { type: 'attack_on_schools', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
@@ -57,7 +57,7 @@ describe ManagedReports::Indicators::IndividualPerpetrator do
       )
     ]
 
-    violation2.perpetrators = [Perpetrator.create!(data: { perpetrator_category: 'armed_force_2' })]
+    violation2.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
   end
 
   it 'return data for individual age indicator' do

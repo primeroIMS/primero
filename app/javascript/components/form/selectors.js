@@ -3,7 +3,6 @@ import isEmpty from "lodash/isEmpty";
 import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
-import last from "lodash/last";
 import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import memoize from "proxy-memoize";
@@ -212,24 +211,24 @@ const locations = memoize(([state, options]) => {
   });
 });
 
-const reportingLocations = memoize((state, options) => {
+// REFACTOR: This and the selector above could actually be a single selector.
+const reportingLocations = memoize(([state, options]) => {
   const locale = getLocale(state);
   const data = locationList(state);
-  const locationData = locationsParser(data, { ...options, locale, includeAdminLevel: true });
-  const getReportingLocationConfigData = getReportingLocationConfig(state);
 
-  return locationData
-    .filter(location => location.admin_level === getReportingLocationConfigData.get("admin_level"))
-    .map(location => {
-      // eslint-disable-next-line camelcase
-      const { id, display_text } = location;
+  const reportingLocationData = options?.useIncidentReportingLocationConfig
+    ? getIncidentReportingLocationConfig(state)
+    : getReportingLocationConfig(state);
 
-      return {
-        id,
-        // eslint-disable-next-line camelcase
-        display_text: last(display_text.split(":"))
-      };
-    });
+  return locationsParser(
+    data.filter(location => location.get("admin_level") >= reportingLocationData.get("admin_level")),
+    {
+      ...options,
+      includeAdminLevel: true,
+      locale,
+      adminLevel: reportingLocationData?.get("admin_level")
+    }
+  );
 });
 
 const modules = createCachedSelector(moduleList, data => {
@@ -531,9 +530,12 @@ export const getValueFromOtherField = (state, fields, values) => {
       ?.get(current.key, "");
 
     if (current.optionStringSource && current.setWhenEnabledInSource) {
-      const options = current.optionStringSource
-        ? getOptions(current.optionStringSource)(state, { source: current.optionStringSource, useUniqueId: true })
-        : [];
+      const isLocationSource = [OPTION_TYPES.LOCATION, OPTION_TYPES.REPORTING_LOCATIONS].includes(
+        current.optionStringSource
+      );
+      const options = isLocationSource
+        ? getOptions(current.optionStringSource)([state, { source: current.optionStringSource, useUniqueId: true }])
+        : getOptions(current.optionStringSource)(state, { source: current.optionStringSource, useUniqueId: true });
       const selectedOption = options.find(option => option.id === value);
 
       if (selectedOption && !selectedOption.disabled) {

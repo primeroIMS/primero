@@ -4,7 +4,16 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::IndividualRegion do
   before do
-    clean_data(Incident, Violation, Location, IndividualVictim)
+    clean_data(SystemSettings, Incident, Violation, Location, IndividualVictim)
+
+    SystemSettings.create!(
+      default_locale: 'en',
+      incident_reporting_location_config: {
+        field_key: 'incident_location',
+        admin_level: 1,
+        admin_level_map: { '1' => ['state'], '2' => ['province'] }
+      }
+    )
 
     Location.create!(placename: 'Guinea', type: 'county', location_code: 'GUI')
     Location.create!(placename: 'Kindia', type: 'district', location_code: 'GUI123', hierarchy_path: 'GUI.GUI123')

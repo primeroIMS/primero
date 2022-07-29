@@ -15,7 +15,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
     def sql(current_user, params = {})
       %{
         select
-        perpetrators.data ->> 'perpetrator_category' as name, 'total' as key,
+        perpetrators.data ->> 'armed_force_group_party_name' as name, 'total' as key,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
                              table_name_for_query(params))&.concat(' as group_id,')}
@@ -31,7 +31,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query_multiple(params['violation_type'], 'violations', 'type')&.prepend('and ')}
-        group by perpetrators.data ->> 'perpetrator_category', name
+        group by perpetrators.data ->> 'armed_force_group_party_name', name
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by name
       }

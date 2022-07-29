@@ -25,6 +25,9 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
        inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
        inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
        inner join incidents on violations.incident_id = incidents.id
+       inner join locations
+         on locations.location_code = incidents.data->>'incident_location'
+         and locations.admin_level >= #{SystemSettings.current.incident_reporting_location_config.admin_level}
        #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
        where #{date_range_query(params['incident_date'], 'incidents')}
        #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}

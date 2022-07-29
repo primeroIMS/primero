@@ -1,7 +1,7 @@
 import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
-import { LOOKUPS, STRING_SOURCES_TYPES } from "../../config";
+import { LOOKUPS, RECORD_TYPES_PLURAL, STRING_SOURCES_TYPES } from "../../config";
 import { displayNameHelper, valueFromOptionSource } from "../../libs";
 import useMemoizedSelector, { useProxySelector } from "../../libs/use-memoized-selector";
 import { getLookupsByIDs } from "../form/selectors";
@@ -46,7 +46,8 @@ export function useTranslatedRecords({
   localizedFields,
   columnsName,
   validRecordTypes,
-  useReportingLocations = true
+  useReportingLocations = true,
+  recordType
 }) {
   const i18n = useI18n();
 
@@ -79,7 +80,8 @@ export function useTranslatedRecords({
   const locations = useOptions({
     source: useReportingLocations ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION,
     run: optionsList.includes(LOOKUPS.reporting_locations) || optionsList.includes(STRING_SOURCES_TYPES.LOCATION),
-    filterOptions: options => options.filter(location => locationIDS.includes(location.id))
+    filterOptions: options => options.filter(location => locationIDS.includes(location.id)),
+    useIncidentReportingLocationConfig: recordType === RECORD_TYPES_PLURAL.incident
   });
 
   if (localizedFields) {

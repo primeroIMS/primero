@@ -379,13 +379,16 @@ describe("Forms - Selectors", () => {
 
   describe("when optionStringsSource is REPORTING_LOCATIONS", () => {
     it("should disabled the agencies that are not permitted for the current user", () => {
-      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)(stateWithLookups, {
-        source: OPTION_TYPES.REPORTING_LOCATIONS
-      });
+      const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)([
+        stateWithLookups,
+        {
+          source: OPTION_TYPES.REPORTING_LOCATIONS
+        }
+      ]);
 
       const expected = [
-        { id: "MCMP1MD1", display_text: "MyDistrict1" },
-        { id: "MCMP2MD2", display_text: "MyDistrict2" }
+        { id: "MCMP1MD1", display_text: "MyDistrict1", admin_level: 2 },
+        { id: "MCMP2MD2", display_text: "MyDistrict2", admin_level: 2 }
       ];
 
       expect(options).to.deep.equal(expected);
