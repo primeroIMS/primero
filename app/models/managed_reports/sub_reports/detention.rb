@@ -17,7 +17,7 @@ class ManagedReports::SubReports::Detention < ManagedReports::SubReport
 
   def lookups
     {
-      ManagedReports::Indicators::PerpetratorsDetention.id => 'lookup-perpetrator-category-type',
+      ManagedReports::Indicators::PerpetratorsDetention.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::ReportingLocationDetention.id => 'Location',
       ManagedReports::Indicators::ViolationTallyDetention.id => 'lookup-gender-unknown-total'
     }
