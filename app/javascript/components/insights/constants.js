@@ -6,7 +6,7 @@ import {
   GHN_REPORT_SUBREPORTS,
   INDIVIDUAL_CHILDREN
 } from "../../config/constants";
-import { DATE_FIELD, FieldRecord, SELECT_FIELD } from "../form";
+import { DATE_FIELD, FieldRecord, SELECT_FIELD, HIDDEN_FIELD } from "../form";
 
 const DATE_RANGE_OPTIONS = "date_range_options";
 const VIEW_BY = "view_by";
@@ -173,7 +173,13 @@ export const INSIGHTS_CONFIG = {
     ghn_report: {
       ids: GHN_REPORT_SUBREPORTS,
       localeKeys: [MANAGED_REPORTS, GHN_REPORT_SUBREPORTS, REPORTS],
-      filters: [...SHARED_FILTERS].map(filter => FieldRecord(filter)),
+      filters: [
+        ...SHARED_FILTERS,
+        {
+          name: DATE,
+          type: HIDDEN_FIELD
+        }
+      ].map(filter => FieldRecord(filter)),
       defaultFilterValues: {
         [GROUPED_BY]: QUARTER,
         [DATE_RANGE]: LAST_QUARTER,
