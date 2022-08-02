@@ -1437,6 +1437,8 @@ en:
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
+      mrm_date_of_first_report: Date of initial report to CTFMR member
+      ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'
