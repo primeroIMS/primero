@@ -658,8 +658,8 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
-    dash_violations_category_verification_status: Number of violations per verification status
-    dash_violations_category_region: Number of verified violations per region
+    dash_violations_category_verification_status: Total number of violations per verification status
+    dash_violations_category_region: Total number of verified violations per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
