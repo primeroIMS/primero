@@ -34,6 +34,7 @@ describe MonitoringReportingMechanism, search: true do
           {
             'unique_id' => 'a32b70de-9132-4c89-be8d-67e85a69ec68',
             'armed_force_group_party_name' => 'armed_force_1',
+            'perpetrator_category' => 'crossfire',
             'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
           }
         ],
@@ -74,6 +75,7 @@ describe MonitoringReportingMechanism, search: true do
         'perpetrators' => [
           {
             'armed_force_group_party_name' => 'other',
+            'perpetrator_category' => 'armed_group',
             'violations_ids' => ['f37ccb6e-9f85-473e-890e-7037e8ece397']
           }
         ],
@@ -447,6 +449,19 @@ describe MonitoringReportingMechanism, search: true do
       Incident,
       filters: [
         SearchFilters::ValueList.new(field_name: 'late_verified_violations', values: %w[killing])
+      ],
+      sort: { 'short_id': 'asc' }
+    ).results
+
+    expect(search_result.size).to eq(1)
+    expect(search_result.first.id).to eq(incident_1.id)
+  end
+
+  it 'can find an incident by type of perpetrator' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::ValueList.new(field_name: 'perpetrator_category', values: %w[crossfire])
       ],
       sort: { 'short_id': 'asc' }
     ).results
