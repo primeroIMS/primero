@@ -36,5 +36,9 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
     def build_results(results, _params = {})
       results.to_a
     end
+
+    def date_filter
+      'incident_date'
+    end
   end
 end

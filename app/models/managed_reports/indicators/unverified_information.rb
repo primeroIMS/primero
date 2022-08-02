@@ -30,5 +30,9 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
       }
     end
     # rubocop:enable Metrics/MethodLength
+
+    def date_filter
+      'incident_date'
+    end
   end
 end

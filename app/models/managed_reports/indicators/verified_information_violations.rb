@@ -24,7 +24,7 @@ class ManagedReports::Indicators::VerifiedInformationViolations < ManagedReports
           OR violations.data ->> 'type' = 'attack_on_schools'
           OR violations.data ->> 'type' = 'denial_humanitarian_access')
           and violations.data->>'ctfmr_verified' = 'verified'
-          #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
+          #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         GROUP BY
         violations.data ->> 'type'
         ORDER BY

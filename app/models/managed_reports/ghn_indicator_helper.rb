@@ -9,7 +9,7 @@ module ManagedReports::GhnIndicatorHelper
   # ClassMethods
   module ClassMethods
     def date_filter
-      'date_of_first_report'
+      'ctfmr_verified_date'
     end
 
     def date_filter_param(filter)

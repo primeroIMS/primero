@@ -736,6 +736,7 @@ describe Exporters::ManagedReportExporter do
           violation1 = Violation.create!(
             data: {
               type: 'killing', attack_type: 'arson',
+              ctfmr_verified_date: Date.new(2022, 5, 8),
               violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
             },
             incident_id: incident1.id
@@ -744,6 +745,7 @@ describe Exporters::ManagedReportExporter do
           violation2 = Violation.create!(
             data: {
               type: 'killing', attack_type: 'aerial_attack',
+              ctfmr_verified_date: Date.new(2022, 2, 8),
               violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
             },
             incident_id: incident2.id
@@ -752,6 +754,7 @@ describe Exporters::ManagedReportExporter do
           violation3 = Violation.create!(
             data: {
               type: 'killing', attack_type: 'aerial_attack',
+              ctfmr_verified_date: Date.new(2022, 3, 18),
               violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 4, 'total': 6 }
             },
             incident_id: incident3.id
@@ -760,6 +763,7 @@ describe Exporters::ManagedReportExporter do
           violation4 = Violation.create!(
             data: {
               type: 'killing', attack_type: 'suicide_attack',
+              ctfmr_verified_date: Date.new(2022, 4, 28),
               violation_tally: { 'boys': 3, 'girls': 1, 'unknown': 1, 'total': 5 }
             },
             incident_id: incident4.id
@@ -1027,6 +1031,7 @@ describe Exporters::ManagedReportExporter do
           data: {
             type: 'killing',
             ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
             violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 }
           },
           incident_id: incident0.id
@@ -1034,6 +1039,7 @@ describe Exporters::ManagedReportExporter do
 
         violation2 = Violation.create!(
           data: { type: 'abduction', ctfmr_verified: 'verified',
+                  ctfmr_verified_date: Date.new(2022, 6, 4),
                   violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
           incident_id: incident1.id
         )
@@ -1055,6 +1061,7 @@ describe Exporters::ManagedReportExporter do
 
         Violation.create!(
           data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
+                  ctfmr_verified_date: Date.new(2022, 4, 23),
                   violation_tally: { 'boys': 3, 'girls': 4, 'unknown': 5, 'total': 12 } },
           incident_id: incident0.id
         )
@@ -1086,14 +1093,14 @@ describe Exporters::ManagedReportExporter do
 
       it 'prints report params' do
         expect(workbook.sheet(0).row(2)).to eq(
-                                              [
-                                                '<html><b>View By: </b>Quarter / <b>Date Range: </b>Custom / <b>From: </b>2022-01-01 / <b>To: </b>2022-06-10 / </html>',
-                                                nil,
-                                                nil,
-                                                nil,
-                                                nil
-                                              ]
-                                            )
+          [
+            '<html><b>View By: </b>Quarter / <b>Date Range: </b>Custom / <b>From: </b>2022-01-01 / <b>To: </b>2022-06-10 / </html>',
+            nil,
+            nil,
+            nil,
+            nil
+          ]
+        )
       end
 
       it 'prints indicator tables' do
