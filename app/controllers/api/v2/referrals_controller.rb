@@ -18,7 +18,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def update
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.process!(update_params)
+    @transition.process!(current_user, update_params)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/update'
   end
@@ -33,7 +33,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def destroy
     authorize! :update, @record
     @transition = Referral.find(params[:id])
-    @transition.revoke!
+    @transition.revoke!(current_user)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -65,7 +65,8 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     referral = Referral.new(permitted)
     referral.transitioned_by = current_user.user_name
     referral.record = record
-    referral.save! && referral
+    record.update_last_updated_by(current_user)
+    record.save! && referral.save! && referral
   end
 
   def authorize_create!(record)

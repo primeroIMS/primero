@@ -6,20 +6,22 @@ class Referral < Transition
     self.status = Transition::STATUS_INPROGRESS
     mark_service_referred(service_record)
     perform_system_referral unless remote
+    record.last_updated_by = transitioned_by
     record.save! if record.has_changes_to_save?
   end
 
-  def reject!(rejected_reason = nil)
+  def reject!(user, rejected_reason = nil)
     return unless in_progress?
 
     self.status = Transition::STATUS_REJECTED
     self.rejected_reason = rejected_reason
     self.responded_at = DateTime.now
     remove_assigned_user
+    record.update_last_updated_by(user)
     record.save! && save!
   end
 
-  def done!(rejection_note = nil)
+  def done!(user, rejection_note = nil)
     return unless accepted?
 
     self.status = Transition::STATUS_DONE
@@ -27,12 +29,14 @@ class Referral < Transition
     mark_service_implemented(current_service_record)
     mark_rejection(rejection_note, current_service_record)
     remove_assigned_user
+    record.update_last_updated_by(user)
     record.save! && save!
   end
 
-  def revoke!
+  def revoke!(user)
     self.status = Transition::STATUS_REVOKED
     remove_assigned_user
+    record.update_last_updated_by(user)
     record.save! && save!
   end
 
@@ -44,18 +48,18 @@ class Referral < Transition
     save!
   end
 
-  def process!(params)
+  def process!(user, params)
     requested_status = params[:status]
 
     return if requested_status == status
 
     case requested_status
     when Transition::STATUS_REJECTED
-      reject!(params[:rejected_reason])
+      reject!(user, params[:rejected_reason])
     when Transition::STATUS_ACCEPTED
       accept!
     when Transition::STATUS_DONE
-      done!(params[:rejection_note])
+      done!(user, params[:rejection_note])
     end
   end
 
