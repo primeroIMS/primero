@@ -17,6 +17,7 @@ module MonitoringReportingMechanism
       ].each { |field| string(field, multiple: true) }
 
       integer(:individual_age, multiple: true)
+      date(:ctfmr_verified_date, multiple: true)
       boolean(:has_late_verified_violations) { late_verified_violations? }
     end
   end
@@ -137,6 +138,10 @@ module MonitoringReportingMechanism
 
   def types_of_aid_disrupted_denial
     violations.map(&:types_of_aid_disrupted_denial).uniq.compact
+  end
+
+  def ctfmr_verified_date
+    violations.map(&:ctfmr_verified_date).uniq.compact
   end
 end
 # rubocop:enable Metrics/ModuleLength

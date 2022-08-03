@@ -65,6 +65,7 @@ describe MonitoringReportingMechanism, search: true do
             'unique_id' => 'f37ccb6e-9f85-473e-890e-7037e8ece397',
             'verified_ghn_reported' => ['2022-q1'],
             'type' => 'killing',
+            'ctfmr_verified_date' => Date.today.end_of_quarter,
             'weapon_type' => 'airstrike'
           }
         ],
@@ -110,7 +111,7 @@ describe MonitoringReportingMechanism, search: true do
       user_1,
       {
         'killing' => [
-          { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm' }
+          { 'type' => 'killing', 'ctfmr_verified' => 'not_mrm', 'ctfmr_verified_date' => Date.today.end_of_quarter }
         ],
         'maiming' => [
           { 'type' => 'maiming', 'ctfmr_verified' => 'report_pending_verification' },
@@ -468,5 +469,18 @@ describe MonitoringReportingMechanism, search: true do
 
     expect(search_result.size).to eq(1)
     expect(search_result.first.id).to eq(incident_1.id)
+  end
+
+  it 'can find an incident by ctfmr_verified_date' do
+    search_result = SearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::ValueList.new(field_name: 'ctfmr_verified_date', values: [Date.today.end_of_quarter])
+      ],
+      sort: { 'short_id': 'asc' }
+    ).results
+
+    expect(search_result.size).to eq(2)
+    expect(search_result.map(&:id)).to match_array([incident_2.id, incident_3.id])
   end
 end

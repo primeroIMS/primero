@@ -685,15 +685,33 @@ class Filter < ValueObject
     self.options = I18n.available_locales.map do |locale|
       locale_options = []
       locale_options << date_of_first_report_options(locale) if opts[:user].module?(PrimeroModule::GBV)
+      if opts[:user].module?(PrimeroModule::MRM)
+        locale_options << date_of_first_report_options(locale, 'mrm_date_of_first_report')
+        locale_options << ctfmr_verified_date_options(locale)
+      end
       locale_options << incident_date_derived_options(locale)
       { locale => locale_options }
     end.inject(&:merge)
   end
 
-  def date_of_first_report_options(locale)
+  def date_of_first_report_options(locale, label_key = 'date_of_first_report')
     {
       id: 'date_of_first_report',
-      display_name: I18n.t('incidents.selectable_date_options.date_of_first_report', locale: locale)
+      display_name: I18n.t("incidents.selectable_date_options.#{label_key}", locale: locale)
+    }
+  end
+
+  def mrm_date_of_first_report_options(locale)
+    {
+      id: 'date_of_first_report',
+      display_name: I18n.t('incidents.selectable_date_options.mrm_date_of_first_report', locale: locale)
+    }
+  end
+
+  def ctfmr_verified_date_options(locale)
+    {
+      id: 'ctfmr_verified_date',
+      display_name: I18n.t('incidents.selectable_date_options.ctfmr_verified_date', locale: locale)
     }
   end
 

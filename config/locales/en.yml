@@ -658,8 +658,8 @@ en:
     dash_shared_with_my_team_overview: Shared with my Team (Overview)
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
-    dash_violations_category_verification_status: Number of violations per verification status
-    dash_violations_category_region: Number of verified violations per region
+    dash_violations_category_verification_status: Total number of violations per verification status
+    dash_violations_category_region: Total number of verified violations per region
     date: Date
     date_of_incident: Date of Incident
     date_of_interview: Date of Interview
@@ -1438,6 +1438,8 @@ en:
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date
+      mrm_date_of_first_report: Date of initial report to CTFMR member
+      ctfmr_verified_date: Date of Verification decision by CTFMR
       incident_date_derived: Incident Date
     selected_records: '%{select_records} incident(s) selected'
     selected_all_records: 'Select all %{total_records} incidents that match this query.'

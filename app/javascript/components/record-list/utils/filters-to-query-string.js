@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List, Map } from "immutable";
 
 const paramQueryString = (key, value) => {
   if (List.isList(value)) {
@@ -8,6 +8,16 @@ const paramQueryString = (key, value) => {
       }
 
       return `${prev}&${key}[${index}]=${elem}`;
+    }, "");
+  }
+
+  if (Map.isMap(value)) {
+    return value.entrySeq().reduce((prev, [elemKey, elemValue]) => {
+      if (!prev) {
+        return `${key}[${elemKey}]=${elemValue}`;
+      }
+
+      return `${prev}&${key}[${elemKey}]=${elemValue}`;
     }, "");
   }
 
