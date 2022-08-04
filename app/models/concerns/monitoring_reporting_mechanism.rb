@@ -13,7 +13,7 @@ module MonitoringReportingMechanism
         violation_with_verification_status verification_status armed_force_group_party_names verified_ghn_reported
         violation_with_weapon_type violation_with_facility_impact violation_with_facility_attack_type
         child_role abduction_purpose_single military_use_type types_of_aid_disrupted_denial weapon_type facility_impact
-        facility_attack_type late_verified_violations
+        facility_attack_type late_verified_violations perpetrator_category
       ].each { |field| string(field, multiple: true) }
 
       integer(:individual_age, multiple: true)
@@ -76,6 +76,10 @@ module MonitoringReportingMechanism
 
   def armed_force_group_party_names
     perpetrators.map(&:armed_force_group_party_name).uniq.compact
+  end
+
+  def perpetrator_category
+    perpetrators.map(&:perpetrator_category).uniq.compact
   end
 
   def verified_ghn_reported

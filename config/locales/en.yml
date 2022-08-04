@@ -1434,6 +1434,7 @@ en:
       military_use_type: 'Type of military use'
       types_of_aid_disrupted_denial: 'Type of aid/service denied/disrupted.'
       late_verified_violations: Late verified violations
+      perpetrator_category: Type of Perpetrator
     register_new_incident: New Incident
     selectable_date_options:
       date_of_first_report: Interview Date

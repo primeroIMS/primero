@@ -328,6 +328,13 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no'
   )
 
+  PERPETRATOR_CATEGORY = Filter.new(
+    name: 'incidents.filter_by.perpetrator_category',
+    field_name: 'perpetrator_category',
+    type: 'multi_select',
+    option_strings_source: 'lookup-perpetrator-category-type',
+  )
+
   class << self
     def filters(user, record_type)
       filters = case record_type
@@ -481,7 +488,8 @@ class Filter < ValueObject
       filters += violation_filter(user)
       filters += [AGE_RANGE] if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
       filters += children_verification_and_location_filters(user)
-      filters += [INCIDENT_DATE] + unaccompanied_filter(user) + armed_force_group_filters(user)
+      filters += [INCIDENT_DATE] + unaccompanied_filter(user)
+      filters += perpetrator_category_filters(user) + armed_force_group_filters(user)
       filters << ENABLED
       filters += mrm_incident_filters if user.module?(PrimeroModule::MRM)
       filters
@@ -546,6 +554,10 @@ class Filter < ValueObject
 
     def unaccompanied_filter(user)
       user.module?(PrimeroModule::GBV) ? [UNACCOMPANIED_PROTECTION_STATUS] : []
+    end
+
+    def perpetrator_category_filters(user)
+      user.module?(PrimeroModule::MRM) ? [PERPETRATOR_CATEGORY] : []
     end
 
     def armed_force_group_filters(user)
