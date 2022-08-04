@@ -6,32 +6,52 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
   before do
     clean_data(Incident, Violation)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2021, 5, 23), status: 'open' })
-    incident1 = Incident.create!(data: { incident_date: Date.new(2022, 4, 4), status: 'open' })
+    incident = Incident.create!(
+      data: { incident_date: Date.new(2021, 5, 23), date_of_first_report: Date.new(2021, 5, 23), status: 'open' }
+    )
+    incident1 = Incident.create!(
+      data: { incident_date: Date.new(2022, 4, 4), date_of_first_report: Date.new(2022, 4, 4), status: 'open' }
+    )
 
     Violation.create!(
-      data: { type: 'attack_on_schools', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+      data: {
+        type: 'attack_on_schools',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2021, 5, 23),
+        violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 }
+      },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_schools', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+      data: { type: 'attack_on_schools',
+              ctfmr_verified_date: Date.new(2021, 5, 23),
+              violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+      data: { type: 'killing',
+              ctfmr_verified_date: Date.new(2021, 5, 23),
+              violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', ctfmr_verified: 'verified',
+      data: { type: 'attack_on_hospitals',
+              ctfmr_verified_date: Date.new(2022, 4, 4),
+              ctfmr_verified: 'verified',
               violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
       incident_id: incident1.id
     )
 
     Violation.create!(
-      data: { type: 'denial_humanitarian_access', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: {
+        type: 'denial_humanitarian_access',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2021, 5, 23),
+        violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 }
+      },
       incident_id: incident.id
     )
   end

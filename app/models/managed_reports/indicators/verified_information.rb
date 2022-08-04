@@ -21,7 +21,7 @@ class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlRepor
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' is not null
-        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
+        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         and violations.data->>'ctfmr_verified' = 'verified'
         and violations.data ->> 'type' != 'denial_humanitarian_access'
         group by key, violations.data ->> 'type'

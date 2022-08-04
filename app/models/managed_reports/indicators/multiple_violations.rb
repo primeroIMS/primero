@@ -28,7 +28,7 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
           INNER JOIN individual_victims ON individual_victims.id = individual_victims_violations.individual_victim_id
         WHERE individual_victims.data->>'individual_multiple_violations' = 'true'
         #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
+        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         GROUP BY individual_victims.id, incidents.id
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
       }
