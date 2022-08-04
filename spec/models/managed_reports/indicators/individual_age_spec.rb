@@ -9,7 +9,7 @@ describe ManagedReports::Indicators::IndividualAge do
     incident = Incident.create!(data: { incident_date: Date.new(2021, 5, 23), status: 'open' })
 
     violation1 = Violation.create!(
-      data: { type: 'attack_on_schools', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+      data: { type: 'killing', ctfmr_verified: 'verified', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
       incident_id: incident.id
     )
 
@@ -28,7 +28,7 @@ describe ManagedReports::Indicators::IndividualAge do
     ]
 
     violation2 = Violation.create!(
-      data: { type: 'attack_on_schools', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
+      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 } },
       incident_id: incident.id
     )
 
