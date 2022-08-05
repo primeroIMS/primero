@@ -24,6 +24,7 @@ class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlRepor
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         and violations.data->>'ctfmr_verified' = 'verified'
         and violations.data ->> 'type' != 'denial_humanitarian_access'
+        and violations.data ->> 'is_late_verification' != 'true'
         group by key, violations.data ->> 'type'
         order by
         name

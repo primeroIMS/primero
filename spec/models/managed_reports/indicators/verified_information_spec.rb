@@ -41,7 +41,13 @@ describe ManagedReports::Indicators::VerifiedInformation do
 
     Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
-      ctfmr_verified_date: Date.new(2021, 5, 23) },
+              ctfmr_verified_date: Date.new(2021, 5, 23) },
+      incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: { type: 'maiming', violation_tally: { 'boys': 10, 'girls': 20, 'unknown': 30, 'total': 60 },
+              ctfmr_verified_date: Date.new(2021, 5, 23), is_late_verification: true },
       incident_id: incident.id
     )
   end
