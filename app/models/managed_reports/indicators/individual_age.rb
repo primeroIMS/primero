@@ -24,7 +24,7 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
           select distinct
             individual_victims_violations.individual_victim_id AS id,
             individual_victims.data ->> 'individual_age' as individual_age,
-            jsonb_build_object('incident_date', incidents.data ->> 'incident_date') as data
+            incidents.data as data
           from
             violations violations
             inner join incidents incidents
