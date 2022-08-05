@@ -27,7 +27,7 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
           select distinct
             individual_victims_violations.individual_victim_id AS id,
             incidents.data ->> 'incident_location' as incident_location,
-            jsonb_build_object('incident_date', incidents.data ->> 'incident_date') as data
+            incidents.data as data
           from
             violations violations
             inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id

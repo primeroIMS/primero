@@ -74,7 +74,7 @@ describe ManagedReports::Indicators::IndividualPerpetrator do
     ).data
 
     expect(data).to match_array(
-      [{ group_id: '2021-Q2', data: [{ id: 'armed_force_1', total: 1 }, { id: 'armed_force_2', total: 1 }] },
+      [{ group_id: '2021-Q2', data: [{ id: 'armed_force_1', total: 2 }, { id: 'armed_force_2', total: 1 }] },
        { group_id: '2021-Q3', data: [] },
        { group_id: '2021-Q4', data: [] },
        { group_id: '2022-Q1', data: [] },
