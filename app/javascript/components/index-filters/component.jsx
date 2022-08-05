@@ -31,7 +31,8 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const queryParams = qs.parse(location.search.replace("?", ""));
+  const queryString = location.search.replace("?", "");
+  const queryParams = qs.parse(queryString);
 
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
@@ -48,11 +49,9 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams)
-      ? merge({ ...defaultFiltersPlainObject, filter_category: recordType }, filterToList, {
-          arrayMerge: overwriteMerge
-        })
-      : { ...transformFilters.split(queryParams), filter_category: recordType },
+    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: recordType }, filterToList, {
+      arrayMerge: overwriteMerge
+    }),
     shouldUnregister: false
   });
 
@@ -97,6 +96,10 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
+
+  useEffect(() => {
+    methods.reset({ ...transformFilters.split(queryParams), filter_category: recordType });
+  }, [queryString]);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
