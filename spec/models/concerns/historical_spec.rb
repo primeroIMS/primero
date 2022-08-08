@@ -4,7 +4,19 @@ require 'rails_helper'
 
 describe Historical do
   before do
-    clean_data(RecordHistory, Child)
+    clean_data(RecordHistory, Child, UserGroup, User)
+
+    @user_group1 = UserGroup.new(name: 'User Group 1')
+    @user_group2 = UserGroup.new(name: 'User Group 2')
+    @user_a = User.new(
+      full_name: 'Test User 1',
+      user_name: 'test_user_1',
+      password: 'a12345678',
+      password_confirmation: 'a12345678',
+      email: 'test_user_1@localhost.com',
+      user_groups: [@user_group1, @user_group2]
+    )
+    @user_a.save(validate: false)
 
     @inst = Child.new(
       data: {
@@ -154,6 +166,15 @@ describe Historical do
       child.name = 'Bob'
       child.save!
       child.last_updated_at.should == DateTime.parse('2010-01-17 19:05:00UTC')
+    end
+  end
+
+  describe 'created_by_groups' do
+    it 'sets the created_by_groups field' do
+      @child = Child.new_with_user(@user_a, { first_name: 'Name 1', age: 10 })
+      @child.save!
+
+      expect(@child.created_by_groups).to match_array([@user_group1.unique_id, @user_group2.unique_id])
     end
   end
 

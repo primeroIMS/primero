@@ -1,7 +1,7 @@
 import isEmpty from "lodash/isEmpty";
 
 import { displayNameHelper } from "../../../libs";
-import { ALLOWED_FIELD_TYPES } from "../constants";
+import { ALLOWED_FIELD_NAMES, ALLOWED_FIELD_TYPES } from "../constants";
 
 import { buildLocationFields, buildField } from "./build-field";
 
@@ -32,7 +32,11 @@ export default (data, i18n, isReportable, reportingLocationConfig, minimumReport
     const name = form.get("name");
 
     const filteredFields = fields
-      .filter(field => ALLOWED_FIELD_TYPES.includes(field.get("type")) && field.get("visible") === true)
+      .filter(
+        field =>
+          (ALLOWED_FIELD_TYPES.includes(field.get("type")) || ALLOWED_FIELD_NAMES.includes(field.get("name"))) &&
+          field.get("visible") === true
+      )
       .reduce((prev, current) => {
         const lookup = current.get("option_strings_source")?.replace(/lookup /, "");
 
