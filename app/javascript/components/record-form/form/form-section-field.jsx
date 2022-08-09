@@ -19,6 +19,7 @@ import {
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
 import { OPTION_TYPES } from "../../form";
+import { useApp } from "../../application";
 
 import { GuidingQuestions } from "./components";
 import { CUSTOM_STRINGS_SOURCE, FORM_SECTION_FIELD_NAME } from "./constants";
@@ -32,6 +33,7 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import TallyField from "./field-types/tally-field";
 import css from "./styles.css";
+import { asyncFieldOffline } from "./utils";
 
 const FormSectionField = ({
   name,
@@ -48,6 +50,7 @@ const FormSectionField = ({
   tags
 }) => {
   const i18n = useI18n();
+  const { online } = useApp();
   const {
     type,
     help_text: helpText,
@@ -101,7 +104,7 @@ const FormSectionField = ({
     InputLabelProps: {
       htmlFor: name,
       shrink: true,
-      required,
+      required: asyncFieldOffline(online, optionStringsSource) ? false : required,
       classes: {
         root: css.inputLabel
       }

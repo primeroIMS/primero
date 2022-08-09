@@ -12,7 +12,13 @@
       <ol>
         <li><%= @email_body[:step1] %></li>
         <li><%= @email_body[:step2] %></li>
-        <li><%= @email_body[:step3] %></li>
+        <li>
+          <%= @email_body[:step3] %>
+          <% if @email_body[:otp].present? %>
+            <br/>
+            <strong><%= @email_body[:otp] %></strong>
+          <% end %>
+        </li>
         <% if @email_body[:step4].present? %>
           <li><%= @email_body[:step4] %></li>
         <% end %>

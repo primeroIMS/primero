@@ -139,8 +139,8 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<TraceComparison
   });
 
   it("should render not found for forms without comparison data", () => {
-    expect(component.find("h2").at(3).text()).to.equal("Second Form");
-    expect(component.find(Grid).find("span").at(13).text()).to.equal("tracing_request.messages.nothing_found");
+    expect(component.find("h2").at(7).text()).to.equal("Second Form");
+    expect(component.find(Grid).find("span").at(17).text()).to.equal("tracing_request.messages.nothing_found");
   });
 
   it("should not render already matched message", () => {

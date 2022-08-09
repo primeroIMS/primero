@@ -14,8 +14,8 @@ const Component = ({ activityData }) => {
   });
 
   const { datetime, displayId, recordType, type } = activityData;
-  const lowerCasedRecordType = recordType.toLowerCase();
-  const upperCasedDisplayId = displayId.toUpperCase();
+  const lowerCasedRecordType = recordType?.toLowerCase();
+  const upperCasedDisplayId = displayId?.toUpperCase();
 
   const message = getActivityMessage(
     { ...activityData, displayId: upperCasedDisplayId, recordType: lowerCasedRecordType },

@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-import last from "lodash/last";
 import { Button, TableCell, TableHead } from "@material-ui/core";
 
 import { setupMountedComponent, lookups, stub } from "../../../../test";
@@ -109,7 +108,7 @@ describe("<RolesList />", () => {
       type: "roles/SET_ROLES_FILTER"
     };
 
-    const action = last(component.props().store.getActions());
+    const action = component.props().store.getActions()[1];
 
     expect(action.type).to.deep.equals(expectedAction.type);
     expect(action.payload.data).to.deep.equals(expectedAction.payload.data);

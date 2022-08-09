@@ -695,7 +695,6 @@ pt:
       service_provision_incident_details: 'Ver Botão de Adicionar Prestação de Serviço nos Detalhes do Incidente Modal '
       services_section_from_case: 'Adicionar prestação de Serviço para o caso de outro usuário '
       specific_roles: Acessar lista de funções especificadas
-      sync_mobile: 'Sincronizar com dispositivo móvel '
       system: 'Sistema '
       tracing_request: Solicitação de Rastreamento
       user: 'Usuários '

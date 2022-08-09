@@ -53,4 +53,22 @@ describe("<RecordForm>/form/subforms/<TraceComparisonForm> - utils", () => {
       });
     });
   });
+
+  describe("toAttachmentArray", () => {
+    it("returns an array witht the attachment information", () => {
+      const expected = [
+        { id: "0001", attachment_url: "/audio/1.mp3", file_name: "1.mp3" },
+        { id: "0002", attachment_url: "/audio/2.mp3", file_name: "2.mp3" }
+      ];
+
+      expect(
+        utils.toAttachmentArray(
+          fromJS([
+            { id: "0001", attachment_url: "/audio/1.mp3", file_name: "1.mp3" },
+            { id: "0002", attachment_url: "/audio/2.mp3", file_name: "2.mp3" }
+          ])
+        )
+      ).to.deep.equals(expected);
+    });
+  });
 });

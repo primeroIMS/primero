@@ -7,10 +7,9 @@ import { useApp } from "../../../application";
 import { useI18n } from "../../../i18n";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
 import SearchableSelect from "../../../searchable-select";
-import { CUSTOM_STRINGS_SOURCE } from "../constants";
 import { getUserFilters } from "../../../record-actions/transitions/components/utils";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
-import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser } from "../utils";
+import { buildOptions, getSelectFieldDefaultValue, handleChangeOnServiceUser, asyncFieldOffline } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
 import { getOptionsAreLoading } from "../../selectors";
 import { getLoading } from "../../../record-list/selectors";
@@ -109,16 +108,14 @@ const SelectFieldContainer = ({
     );
   };
 
-  const endpointLookups = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];
-
-  const disableOfflineEndpointOptions = !online && endpointLookups.includes(option);
+  const apiSelectOptionsOffline = asyncFieldOffline(online, option);
 
   const inputHelperText = () => {
     if (error && touched) {
       return error;
     }
 
-    if (disableOfflineEndpointOptions) {
+    if (apiSelectOptionsOffline) {
       return i18n.t("offline");
     }
 
@@ -178,7 +175,7 @@ const SelectFieldContainer = ({
     id: name,
     error: error && touched ? error : null,
     name,
-    isDisabled: !filteredOptions || mode.isShow || disabled || disableOfflineEndpointOptions,
+    isDisabled: !filteredOptions || mode.isShow || disabled || apiSelectOptionsOffline,
     helperText: inputHelperText(),
     isClearable: true,
     isLoading: selectIsLoading(name),

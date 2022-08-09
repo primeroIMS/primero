@@ -378,10 +378,10 @@ describe Report do
         )
       )
 
-      Child.create!(data: { status:'closed', worklow:'closed', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status:'closed', worklow:'closed', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status:'open', worklow:'open', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status:'closed', worklow:'closed', sex: 'male', module_id: @module.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'male', module_id: @module.unique_id })
       Child.reindex
       Sunspot.commit
     end
@@ -423,15 +423,12 @@ describe Report do
           module_id: @module.unique_id,
           graph: true,
           exclude_empty_rows: true,
-          aggregate_by: ['sex', 'status'],
+          aggregate_by: %w[sex status],
           disaggregate_by: [],
           filters: [
             {
               attribute: 'status',
-              value: [
-                'open',
-                'closed'
-              ]
+              value: %w[open closed]
             }
           ]
         )
@@ -439,8 +436,69 @@ describe Report do
 
       it 'should return 3 female and 1 male total' do
         @report.build_report
-        expect(@report.values).to eq({["female", "closed"]=>2,["female", "open"]=>1,["female", ""]=>3,["male", "closed"]=>1,["male", ""]=>1,["", ""]=>nil})
+        expect(@report.values).to eq(
+          {
+            %w[female closed] => 2, %w[female open] => 1, ['female', ''] => 3,
+            %w[male closed] => 1, ['male', ''] => 1, ['', ''] => nil
+          }
+        )
       end
+    end
+  end
+
+  describe 'agency report scope', search: true do
+    let(:agency) { Agency.create!(name: 'Test Agency', agency_code: 'TA1', services: ['Test type']) }
+    let(:agency_with_space) do
+      Agency.create!(name: 'Test Agency with Space', agency_code: 'TA TA', services: ['Test type'])
+    end
+
+    let(:case_worker) do
+      user = User.new(user_name: 'case_worker', agency_id: agency.id)
+      user.save(validate: false) && user
+    end
+
+    let(:service_provider) do
+      user = User.new(
+        user_name: 'service_provider', agency_id: agency_with_space.id)
+      user.save(validate: false) && user
+    end
+
+    before(:each) do
+      clean_data(User, Agency, Child, Report)
+      child = Child.create!(
+        data: {
+          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          services_section: [
+            {
+              unique_id: '1', service_type: 'alternative_care',
+              service_implemented_day_time: Time.now,
+              service_implementing_agency: 'AGENCY WITH SPACE',
+              service_implementing_agency_individual: 'service_provider'
+            }
+          ],
+          owned_by: case_worker.user_name,
+          assigned_user_names: [service_provider.user_name]
+        }
+      )
+      child.index_nested_reportables
+      Child.reindex
+      Sunspot.commit
+    end
+
+    let(:report) do
+      Report.new(
+        name: 'Services',
+        record_type: 'reportable_service',
+        module_id: @module.unique_id,
+        aggregate_by: ['service_type'],
+        disaggregate_by: ['service_implemented'],
+        permission_filter: { 'attribute' => 'associated_user_agencies', 'value' => [agency_with_space.unique_id] }
+      )
+    end
+
+    it 'can be seen by the agency scope even if the agency has blank spaces in it unique_id' do
+      report.build_report
+      expect(report.data[:values][%w[alternative_care implemented]]).to eq(1)
     end
   end
 end

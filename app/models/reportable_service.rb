@@ -25,6 +25,9 @@ class ReportableService
     extend ReportableNestedRecord::Searchable
     configure_searchable(ReportableService)
 
+    %w[service_response_type service_type service_implemented].each do |field|
+      string(field, as: "#{field}_sci".to_sym) { object_value(field) }
+    end
     time :service_due_date
   end
 

@@ -18,6 +18,7 @@ import SubformDialogFields from "../subform-dialog-fields";
 import ViolationActions from "../subform-fields/components/violation-actions";
 import ViolationTitle from "../subform-fields/components/violation-title";
 import uuid from "../../../../../libs/uuid";
+import { useApp } from "../../../../application";
 
 const Component = ({
   arrayHelpers,
@@ -42,6 +43,7 @@ const Component = ({
   isViolationAssociation,
   violationOptions
 }) => {
+  const { online } = useApp();
   const [initialValues, setInitialValues] = useState({});
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const childFormikRef = useRef();
@@ -57,7 +59,7 @@ const Component = ({
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
   const buildSchema = () => {
-    const subformSchema = field.subform_section_id.fields.map(sf => fieldValidations(sf, i18n));
+    const subformSchema = field.subform_section_id.fields.map(sf => fieldValidations(sf, { i18n, online }));
 
     return object().shape(Object.assign({}, ...subformSchema));
   };

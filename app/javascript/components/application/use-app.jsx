@@ -14,9 +14,7 @@ const ApplicationProvider = ({ children }) => {
 
   const appData = useMemoizedSelector(state => getAppData(state), isEqual);
 
-  const value = { ...appData, online };
-
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  return <Context.Provider value={{ ...appData, online }}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";
