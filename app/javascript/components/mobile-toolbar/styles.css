@@ -26,6 +26,11 @@
     margin: 0 1.125em;
     height: 2.5em;
   }
+
+  & .menuAlert {
+    position: absolute;
+    margin-left: 1em;
+  }
 }
 
 .toolbar-demo {

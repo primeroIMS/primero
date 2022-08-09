@@ -131,7 +131,10 @@ const Nav = () => {
 
   return (
     <nav className={css.nav}>
-      <MobileToolbar openDrawer={handleToggleDrawer(true)} />
+      <MobileToolbar
+        openDrawer={handleToggleDrawer(true)}
+        hasUnsubmittedOfflineChanges={hasUnsubmittedOfflineChanges}
+      />
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"
