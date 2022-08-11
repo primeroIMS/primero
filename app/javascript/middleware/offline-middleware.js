@@ -1,14 +1,14 @@
 import { getServerStatus } from "../components/connectivity/action-creators";
 import { METHODS } from "../config";
 
-import { isOnline, isServerOnline, retrieveData, queueData, queueFetch, userToggleOffline } from "./utils";
+import { isOnline, isServerOnline, userToggleOffline, retrieveData, queueData, queueFetch } from "./utils";
 
 const offlineMiddleware = store => next => action => {
   const online = isOnline(store);
   const serverOnline = isServerOnline(store);
   const userToggledOffline = userToggleOffline(store);
 
-  if (!action?.api?.path || (online && serverOnline) || !userToggledOffline) {
+  if (!action?.api?.path || (online && serverOnline && !userToggledOffline)) {
     return next(action);
   }
 
