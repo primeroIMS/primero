@@ -10,7 +10,8 @@ const DEFAULT_STATE = fromJS({
   serverOnline: true,
   pendingUserLogin: false,
   queueStatus: QUEUE_PENDING,
-  serverStatusRetries: 0
+  serverStatusRetries: 0,
+  fieldMode: false
 });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
@@ -30,6 +31,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("queueStatus", payload);
     case actions.PENDING_USER_LOGIN:
       return state.set("pendingUserLogin", payload);
+    case actions.USER_TOGGLE_OFFLINE:
+      return state.set("fieldMode", payload);
     default:
       return state;
   }

@@ -10,11 +10,11 @@ import { getAppData } from "./selectors";
 const Context = createContext();
 
 const ApplicationProvider = ({ children }) => {
-  const { online } = useConnectivityStatus();
+  const { online, fieldMode } = useConnectivityStatus();
 
   const appData = useMemoizedSelector(state => getAppData(state), isEqual);
 
-  return <Context.Provider value={{ ...appData, online }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ ...appData, online, fieldMode }}>{children}</Context.Provider>;
 };
 
 ApplicationProvider.displayName = "ApplicationProvider";

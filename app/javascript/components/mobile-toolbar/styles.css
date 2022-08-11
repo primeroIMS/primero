@@ -54,6 +54,12 @@
 
 @media (max-width: 959.95px) {
   .toolbar, .toolbar-demo {
-    justify-content: space-between;
+    & img {
+      margin: 0;
+    }
+
+    & div {
+      flex: 1;
+    }
   }
 }

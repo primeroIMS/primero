@@ -1,0 +1,15 @@
+.icon {
+  min-width: 2.5em;
+}
+
+.listText {
+  font-size: var(--fs-14);
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.container {
+  padding: 8px 16px !important;
+}

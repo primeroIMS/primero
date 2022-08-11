@@ -10,12 +10,17 @@ describe("components/connectivity/action-creator.js", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["setNetworkStatus", "getServerStatus", "checkServerStatus", "setQueueStatus", "setPendingUserLogin"].forEach(
-      property => {
-        expect(creators).to.have.property(property);
-        delete creators[property];
-      }
-    );
+    [
+      "setNetworkStatus",
+      "getServerStatus",
+      "checkServerStatus",
+      "setQueueStatus",
+      "setPendingUserLogin",
+      "setUserToggleOffline"
+    ].forEach(property => {
+      expect(creators).to.have.property(property);
+      delete creators[property];
+    });
 
     expect(creators).to.be.empty;
   });

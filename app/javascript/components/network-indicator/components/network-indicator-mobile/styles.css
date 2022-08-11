@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  gap: var(--sp-1);
+  flex: 0 !important;
+}
+
+.icon {
+  flex: initial !important;
+  align-items: center;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  line-height: .9em;
+  align-self: center;
+
+  & div:first-of-type {
+    font-weight: 800;
+    font-size: var(--fs-13);
+  }
+
+  & div:last-of-type {
+    font-size: var(--fs-9);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+}
+
+.online {
+  color: var(--c-solid-green)
+}
+
+.offline {
+  color: var(--c-gold-yellow)
+}
+
+.fieldMode {
+  color: var(--c-dark-grey);
+}

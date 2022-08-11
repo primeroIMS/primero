@@ -9,7 +9,13 @@ import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { useMemoizedSelector } from "../../libs";
 
-import { selectBrowserStatus, selectNetworkStatus, selectServerStatusRetries, selectQueueStatus } from "./selectors";
+import {
+  selectBrowserStatus,
+  selectNetworkStatus,
+  selectServerStatusRetries,
+  selectQueueStatus,
+  selectUserToggleOffline
+} from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
 import { CHECK_SERVER_INTERVAL, CHECK_SERVER_RETRY_INTERVAL } from "./constants";
 
@@ -18,6 +24,7 @@ const useConnectivityStatus = () => {
   const { refreshUserToken } = useRefreshUserToken();
 
   const online = useMemoizedSelector(state => selectNetworkStatus(state));
+  const userToggledOffline = useMemoizedSelector(state => selectUserToggleOffline(state));
   const authenticated = useMemoizedSelector(state => getIsAuthenticated(state));
   const queueStatus = useMemoizedSelector(state => selectQueueStatus(state));
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
@@ -32,6 +39,18 @@ const useConnectivityStatus = () => {
     }
 
     return dispatchServerStatus;
+  };
+
+  const removeConnectionListeners = () => {
+    window.removeEventListener("online", handleNetworkChange(true));
+    window.removeEventListener("offline", handleNetworkChange(false));
+  };
+
+  const setConnectionListeners = () => {
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("online", handleNetworkChange(true));
+      window.addEventListener("offline", handleNetworkChange(false));
+    }
   };
 
   useEffect(() => {
@@ -72,16 +91,20 @@ const useConnectivityStatus = () => {
   }, [online, authenticated, queueStatus]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.addEventListener) {
-      window.addEventListener("online", handleNetworkChange(true));
-      window.addEventListener("offline", handleNetworkChange(false));
-    }
+    setConnectionListeners();
 
     return () => {
-      window.removeEventListener("online", handleNetworkChange(true));
-      window.removeEventListener("offline", handleNetworkChange(false));
+      removeConnectionListeners();
     };
   }, []);
+
+  useEffect(() => {
+    if (userToggledOffline) {
+      removeConnectionListeners();
+    } else {
+      setConnectionListeners();
+    }
+  }, [userToggledOffline]);
 
   return { online };
 };

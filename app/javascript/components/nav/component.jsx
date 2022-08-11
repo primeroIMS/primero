@@ -63,6 +63,10 @@ const Nav = () => {
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
+      if (menuEntry.component) {
+        return <menuEntry.component />;
+      }
+
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
       const jewelCount = jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable);
