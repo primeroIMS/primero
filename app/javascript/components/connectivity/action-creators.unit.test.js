@@ -16,7 +16,8 @@ describe("components/connectivity/action-creator.js", () => {
       "checkServerStatus",
       "setQueueStatus",
       "setPendingUserLogin",
-      "setUserToggleOffline"
+      "setUserToggleOffline",
+      "setFieldMode"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];

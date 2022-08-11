@@ -19,7 +19,6 @@ import {
   READ_REGISTRY_RECORD
 } from "../components/permissions/constants";
 import getAdminResources from "../components/pages/admin/utils/get-admin-resources";
-import FieldMode from "../components/network-indicator/components/field-mode";
 
 export const PASSWORD_MIN_LENGTH = 8;
 
@@ -438,7 +437,7 @@ export const APPLICATION_NAV = (permissions, userId) => {
       divider: true
     },
     {
-      component: FieldMode
+      component: "fieldMode"
     },
     { name: "username", to: `${ROUTES.account}/${userId}`, icon: "account", disableOffline: true },
     {

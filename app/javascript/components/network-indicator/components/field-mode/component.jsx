@@ -1,4 +1,4 @@
-import { ListItem, ListItemIcon, ListItemText, Switch } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -7,6 +7,7 @@ import { setUserToggleOffline } from "../../../connectivity/action-creators";
 import ListIcon from "../../../list-icon";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFieldMode } from "../../../application/selectors";
+import ToggleSwitch from "../toggle-switch/component";
 
 import css from "./styles.css";
 
@@ -47,7 +48,7 @@ function Component() {
         <ListIcon icon={mode.icon} />
       </ListItemIcon>
       <ListItemText classes={{ primary: css.listText }}>{i18n.t("field_mode", { mode: mode.text })}</ListItemText>
-      <Switch onChange={handleStatusChange} value={isChecked} />
+      <ToggleSwitch color="default" onChange={handleStatusChange} value={isChecked} />
     </ListItem>
   );
 }
