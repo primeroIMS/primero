@@ -242,7 +242,6 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
           dispatch(clearSelectedSubform());
           dialogClose();
         } else {
-          console.log("[FieldDialog#onSubmit]: subformData", subformData);
           dispatch(updateSelectedSubform(subformData));
         }
       }
