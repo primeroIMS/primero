@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable react/display-name, react/no-multi-comp */
 import { memo, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { batch, useDispatch } from "react-redux";
@@ -12,7 +11,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import { RADIO_FIELD, SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
-import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector } from "../../../../../../libs";
 import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
@@ -25,6 +23,7 @@ import {
   setNewSubform,
   clearSelectedField
 } from "../../action-creators";
+import FieldsForm from "../fields-form";
 import SubformFieldsList from "../subform-fields-list";
 import ClearButtons from "../clear-buttons";
 import { NEW_FIELD } from "../../constants";
@@ -33,6 +32,7 @@ import { getOptions } from "../../../../../record-form/selectors";
 import { getLabelTypeField } from "../utils";
 import FieldTranslationsDialog, { NAME as FieldTranslationsDialogName } from "../field-translations-dialog";
 import { SUBFORM_GROUP_BY, SUBFORM_SECTION_CONFIGURATION, SUBFORM_SORT_BY } from "../field-list-item/constants";
+import FieldDialogLabel from "../field-dialog-label";
 import { useApp } from "../../../../../application";
 
 import css from "./styles.css";
@@ -108,7 +108,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
   const openFieldDialog = dialogOpen[ADMIN_FIELDS_DIALOG];
   const openTranslationDialog = dialogOpen[FieldTranslationsDialogName];
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (onClose) {
       onClose();
     }
@@ -129,11 +129,11 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
     if (selectedFieldName === NEW_FIELD) {
       setDialog({ dialog: CUSTOM_FIELD_SELECTOR_DIALOG, open: true });
     }
-  };
+  }, [selectedSubform, selectedFieldName, isNested]);
 
-  const backToFieldDialog = () => {
+  const backToFieldDialog = useCallback(() => {
     setDialog({ dialog: ADMIN_FIELDS_DIALOG, open: true });
-  };
+  }, []);
 
   const editDialogTitle = isSubformField(selectedField)
     ? (selectedSubform.get("name") && displayNameHelper(selectedSubform.get("name"), i18n.locale)) || ""
@@ -242,6 +242,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
           dispatch(clearSelectedSubform());
           dialogClose();
         } else {
+          console.log("[FieldDialog#onSubmit]: subformData", subformData);
           dispatch(updateSelectedSubform(subformData));
         }
       }
@@ -266,29 +267,9 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
     });
   };
 
-  const renderForms = () =>
-    fieldsForm.map(formSection => (
-      <FormSection
-        formSection={formSection}
-        key={formSection.unique_id}
-        formMode={formMode}
-        formMethods={formMethods}
-      />
-    ));
-
   const memoizedSetValue = useCallback((path, value) => setValue(path, value, { shouldDirty: true }), []);
 
-  const renderClearButtons = () =>
-    isSubformField(selectedField) && (
-      <ClearButtons
-        subformField={selectedField}
-        subformSortBy={subformSortBy}
-        subformGroupBy={subformGroupBy}
-        setValue={memoizedSetValue}
-      />
-    );
-
-  const onUpdateTranslation = data => {
+  const onUpdateTranslation = useCallback(data => {
     getObjectPath("", data || []).forEach(path => {
       const value = get(data, path);
       const {
@@ -301,29 +282,7 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
 
       setValue(path, value, { shouldDirty: true });
     });
-  };
-
-  const renderTranslationsDialog = () =>
-    openTranslationDialog ? (
-      <FieldTranslationsDialog
-        onClose={backToFieldDialog}
-        open={openTranslationDialog}
-        mode={mode}
-        isNested={isNested}
-        field={selectedField}
-        currentValues={getValues({ nest: true })}
-        onSuccess={onUpdateTranslation}
-      />
-    ) : null;
-
-  const renderAnotherFormLabel = () => {
-    const currentFormId = isNested ? selectedSubform.get("id") : parseInt(formId, 10);
-    const fieldFormId = selectedField.get("form_section_id");
-
-    return fieldFormId && fieldFormId !== currentFormId ? (
-      <p className={css.anotherFormLabel}>{i18n.t("fields.copy_from_another_form")}</p>
-    ) : null;
-  };
+  }, []);
 
   useEffect(() => {
     if (openFieldDialog && selectedField?.toSeq()?.size) {
@@ -365,8 +324,13 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
     <>
       <ActionDialog {...modalProps}>
         <form className={css.fieldDialog} onSubmit={handleSubmit(onSubmit)} id={FIELD_FORM}>
-          {renderAnotherFormLabel()}
-          {renderForms()}
+          <FieldDialogLabel
+            formId={formId}
+            isNested={isNested}
+            selectedField={selectedField}
+            selectedSubform={selectedSubform}
+          />
+          <FieldsForm fieldsForm={fieldsForm} formMode={formMode} formMethods={formMethods} />
           {isSubformField(selectedField) && (
             <SubformFieldsList
               formMethods={formMethods}
@@ -375,9 +339,26 @@ const Component = ({ formId, mode, onClose, onSuccess, parentForm }) => {
               subformGroupBy={subformGroupBy}
             />
           )}
-          {renderClearButtons()}
+          {isSubformField(selectedField) && (
+            <ClearButtons
+              subformField={selectedField}
+              subformSortBy={subformSortBy}
+              subformGroupBy={subformGroupBy}
+              setValue={memoizedSetValue}
+            />
+          )}
         </form>
-        {renderTranslationsDialog()}
+        {openTranslationDialog && (
+          <FieldTranslationsDialog
+            onClose={backToFieldDialog}
+            open={openTranslationDialog}
+            mode={mode}
+            isNested={isNested}
+            field={selectedField}
+            currentValues={getValues({ nest: true })}
+            onSuccess={onUpdateTranslation}
+          />
+        )}
       </ActionDialog>
     </>
   );
