@@ -5,6 +5,7 @@ import { METHODS } from "../../config";
 import DB from "../../db/db";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import { setQueueData } from "../../components/connectivity/action-creators";
 import transformOfflineRequest from "../transform-offline-request";
 import EventManager from "../messenger";
 import { queueIndexedDB } from "../../db";
@@ -54,6 +55,8 @@ class Queue {
       }
 
       this.queue.shift();
+
+      this.dispatch(setQueueData(this.queue));
 
       if (!this.hasWork()) {
         this.notifySuccess();
@@ -161,6 +164,8 @@ class Queue {
           this.finished(item.fromQueue);
         }
       }
+
+      this.dispatch(setQueueData(this.queue));
 
       this.working = false;
     }

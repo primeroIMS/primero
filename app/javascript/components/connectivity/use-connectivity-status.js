@@ -8,9 +8,10 @@ import { clearDialog, selectDialog } from "../action-dialog";
 import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { useMemoizedSelector } from "../../libs";
+import DB, { DB_STORES } from "../../db";
 
 import { selectBrowserStatus, selectNetworkStatus, selectServerStatusRetries, selectQueueStatus } from "./selectors";
-import { checkServerStatus, setQueueStatus } from "./action-creators";
+import { checkServerStatus, setQueueData, setQueueStatus } from "./action-creators";
 import { CHECK_SERVER_INTERVAL, CHECK_SERVER_RETRY_INTERVAL } from "./constants";
 
 const useConnectivityStatus = () => {
@@ -23,6 +24,12 @@ const useConnectivityStatus = () => {
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
   const serverStatusRetries = useMemoizedSelector(state => selectServerStatusRetries(state));
   const browserStatus = useMemoizedSelector(state => selectBrowserStatus(state));
+
+  const fetchQueue = async () => {
+    const queueData = await DB.getAll(DB_STORES.OFFLINE_REQUESTS);
+
+    dispatch(setQueueData(queueData));
+  };
 
   const handleNetworkChange = (isOnline, delay = CHECK_SERVER_INTERVAL) => {
     const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline));
@@ -63,12 +70,20 @@ const useConnectivityStatus = () => {
   useEffect(() => {
     const ready = online && authenticated && queueStatus === QUEUE_READY;
 
-    Queue.ready = ready;
-    Queue.dispatch = dispatch;
+    const startQueue = async () => {
+      Queue.ready = ready;
+      Queue.dispatch = dispatch;
 
-    if (ready && Queue.hasWork()) {
-      Queue.start();
-    }
+      if (ready) {
+        await fetchQueue();
+      }
+
+      if (ready && Queue.hasWork()) {
+        Queue.start();
+      }
+    };
+
+    startQueue();
   }, [online, authenticated, queueStatus]);
 
   useEffect(() => {

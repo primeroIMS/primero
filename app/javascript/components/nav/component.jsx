@@ -19,7 +19,6 @@ import { getPermissions } from "../user";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 import { hasQueueData } from "../connectivity/selectors";
-import useQueue from "../resync-records/use-queue";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -40,8 +39,6 @@ const Nav = () => {
   }, []);
 
   const { demo } = useApp();
-
-  useQueue();
 
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
   const userId = useMemoizedSelector(state => getUserId(state), isEqual);

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 
 import Queue from "../../libs/queue";
@@ -10,12 +11,11 @@ import ActionButton from "../action-button";
 import { useMemoizedSelector } from "../../libs";
 import { getQueueData } from "../connectivity/selectors";
 
-import useQueue from "./use-queue";
-
 function Component() {
   const i18n = useI18n();
   const title = i18n.t("navigation.support_menu.resync");
   const data = useMemoizedSelector(state => getQueueData(state));
+  const [pending, setPending] = useState(false);
 
   const columns = [
     {
@@ -40,8 +40,6 @@ function Component() {
     }
   ];
 
-  useQueue();
-
   const options = {
     ...defaultTableOptions({ simple: true }),
     selectToolbarPlacement: "none",
@@ -65,12 +63,19 @@ function Component() {
 
   const handleResync = () => {
     Queue.triggerProcess();
+    if (Queue.ready && Queue.hasWork()) {
+      setPending(true);
+    }
   };
+
+  useEffect(() => {
+    setPending(false);
+  }, [data]);
 
   return (
     <>
       <PageHeading title={title} noElevation noPadding>
-        <ActionButton onClick={handleResync} text="resync_records.resync" />
+        <ActionButton onClick={handleResync} text="resync_records.resync" pending={pending} />
       </PageHeading>
       <MUIDataTable title={title} columns={columns} options={options} data={parsedData} />
     </>
