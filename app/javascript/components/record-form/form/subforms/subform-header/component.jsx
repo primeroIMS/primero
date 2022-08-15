@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { ListItemText } from "@material-ui/core";
+import clsx from "clsx";
 
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD, TALLY_FIELD } from "../../../constants";
 import SubformLookupHeader from "../subform-header-lookup";
@@ -9,14 +10,20 @@ import SubformHeaderTally from "../subform-header-tally";
 import ViolationItem from "../subform-fields/components/violation-item";
 import css from "../styles.css";
 import { SUBFORM_HEADER } from "../constants";
-import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS } from "../../../../../config";
+import { VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS, LOCALE_KEYS } from "../../../../../config";
 import { getShortIdFromUniqueId } from "../../../../records/utils";
+import { useI18n } from "../../../../i18n";
 
 import { ListItemTextSecondary } from "./components";
 
 const Component = ({ field, values, locale, displayName, index, isViolationSubform, associatedViolations }) => {
+  const i18n = useI18n();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
   const itemClasses = { primary: css.listText };
+  const listItemTextClasses = clsx({
+    [css.listItemText]: true,
+    [css.listItemNepaliItem]: i18n.locale === LOCALE_KEYS.ne
+  });
   const renderShortId =
     // eslint-disable-next-line camelcase
     VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS.includes(field.name) && getShortIdFromUniqueId(values[index]?.unique_id);
@@ -98,7 +105,7 @@ const Component = ({ field, values, locale, displayName, index, isViolationSubfo
           />
         }
       >
-        <div className={css.listItemText}>
+        <div className={listItemTextClasses}>
           {renderShortId && <span>{renderShortId}</span>}
           {subformValues}
         </div>

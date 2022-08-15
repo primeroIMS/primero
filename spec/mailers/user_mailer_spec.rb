@@ -61,7 +61,8 @@ describe UserMailer, type: :mailer do
         header: 'You have been added as a Social Worker.',
         step1: 'Please contact Admin (admin@test.org) to receive your user name.',
         step2: 'Go to https://localhost:3000/ and click "login with Primero user name.".',
-        step3: 'Login with your user name and the temporary password OTP123.',
+        step3: 'Login with your user name and the temporary password .',
+        otp: 'OTP123',
         step4: 'When prompted, reset your password.'
       }
 
@@ -69,6 +70,7 @@ describe UserMailer, type: :mailer do
       expect(body).to include(expected[:step1])
       expect(body).to include(expected[:step2])
       expect(body).to include(expected[:step3])
+      expect(body).to include(expected[:otp])
       expect(body).to include(expected[:step4])
     end
   end
