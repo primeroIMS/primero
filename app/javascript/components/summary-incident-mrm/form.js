@@ -65,14 +65,5 @@ export const fields = i18n => [
     },
     visible: true,
     disabled: true
-  },
-  {
-    name: FIELD_NAMES.incident_update,
-    type: TEXT_AREA,
-    display_name: {
-      [i18n.locale]: i18n.t(generateI18nPath("incident_update.label"))
-    },
-    visible: true,
-    disabled: true
   }
 ];
