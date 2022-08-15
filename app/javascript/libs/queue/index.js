@@ -54,7 +54,7 @@ class Queue {
         };
       }
 
-      this.queue.shift();
+      this.queue = this.queue.filter(current => current.fromQueue !== action.fromQueue);
 
       this.dispatch(setQueueData(this.queue));
 
@@ -67,34 +67,34 @@ class Queue {
       if (!this.working) this.process();
     });
 
-    EventManager.subscribe(QUEUE_FINISHED, () => {
-      this.tries += 1;
+    EventManager.subscribe(QUEUE_FAILED, id => {
+      const handleFailed = async () => {
+        const action = await queueIndexedDB.failed(id);
 
-      const action = head(this.queue);
+        const queueFiltered = this.queue.filter(current => current.fromQueue !== id);
 
-      if (action) {
-        action.processed = false;
-      }
+        if (action && action.tries < QUEUE_ALLOWED_RETRIES) {
+          action.processed = false;
+          this.queue = [...queueFiltered, action];
+        } else {
+          this.queue = queueFiltered;
+          this.onAttachmentError(action);
+        }
 
-      if (this.tries === 3) {
-        this.queue.shift();
-        this.tries = 0;
+        if (!this.hasWork()) {
+          this.notifySuccess();
+        }
 
-        this.onAttachmentError(action);
-      }
+        this.force = false;
 
-      if (!this.hasWork()) {
-        this.notifySuccess();
-      }
+        if (!this.working) this.process();
+      };
 
-      if (!this.working) this.process();
-
-      this.force = false;
+      handleFailed();
     });
 
-    EventManager.subscribe(QUEUE_FAILED, id => {
-      queueIndexedDB.failed(id);
-      this.finished(id, true);
+    EventManager.subscribe(QUEUE_FINISHED, id => {
+      this.finished(id);
     });
 
     this.fromDB();
@@ -120,15 +120,10 @@ class Queue {
     }
   }
 
-  finished(id, failed = false) {
-    const queueFiltered = this.queue.filter(current => current.fromQueue !== id);
-    const queueItem = this.queue.find(current => current.fromQueue === id);
+  finished(id) {
+    this.queue = this.queue.filter(current => current.fromQueue !== id);
 
-    if (queueItem && failed && queueItem.tries < QUEUE_ALLOWED_RETRIES) {
-      this.queue = [...queueFiltered, queueItem];
-    } else {
-      this.queue = queueFiltered;
-    }
+    this.dispatch(setQueueData(this.queue));
 
     if (!this.working) this.process();
   }
@@ -136,6 +131,7 @@ class Queue {
   async triggerProcess() {
     this.force = true;
     await this.fromDB();
+    this.dispatch(setQueueData(this.queue));
     this.process(true);
   }
 
@@ -157,15 +153,7 @@ class Queue {
         });
 
         item.processed = true;
-      } else {
-        this.working = false;
-
-        if (item) {
-          this.finished(item.fromQueue);
-        }
       }
-
-      this.dispatch(setQueueData(this.queue));
 
       this.working = false;
     }

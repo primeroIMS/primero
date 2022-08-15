@@ -62,15 +62,15 @@ function Component() {
   }, []);
 
   const handleResync = () => {
-    Queue.triggerProcess();
-    if (Queue.ready && Queue.hasWork()) {
+    if (data.size) {
       setPending(true);
     }
+    Queue.triggerProcess();
   };
 
   useEffect(() => {
     setPending(false);
-  }, [data]);
+  }, [data.size]);
 
   return (
     <>

@@ -17,11 +17,11 @@ const queueIndexedDB = {
   failed: async index => {
     const request = await DB.getRecord(DB_STORES.OFFLINE_REQUESTS, index);
 
-    await DB.put(
-      DB_STORES.OFFLINE_REQUESTS,
-      { ...request, tries: (request.tries || 0) + 1, last_attempt: new Date() },
-      { fromQueue: index }
-    );
+    return DB.put({
+      store: DB_STORES.OFFLINE_REQUESTS,
+      data: { ...request, tries: (request.tries || 0) + 1, last_attempt: new Date() },
+      key: { fromQueue: index }
+    });
   },
 
   delete: async index => {
