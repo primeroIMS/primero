@@ -1,6 +1,8 @@
+import PropTypes from "prop-types";
 import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 import SignalWifi4BarIcon from "@material-ui/icons/SignalWifi4Bar";
 import clsx from "clsx";
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 
 import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
@@ -9,7 +11,7 @@ import { CONNECTED, CONNECTION_LOST, FIELD_MODE_OFFLINE } from "../../../connect
 
 import css from "./styles.css";
 
-function Component() {
+function Component({ mobile }) {
   const i18n = useI18n();
   const { online, fieldMode } = useApp();
 
@@ -36,19 +38,36 @@ function Component() {
 
   const containerClasses = clsx(css.container, css[mode.color]);
 
+  if (mobile) {
+    return (
+      <div className={containerClasses}>
+        <div className={css.icon}>
+          <mode.icon color={mode.color} />
+        </div>
+        <div className={css.textContainer}>
+          <div>{i18n.t(mode.text)}</div>
+          <div>{i18n.t(mode.textStatus)}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className={containerClasses}>
-      <div className={css.icon}>
+    <ListItem classes={{ root: css.containerClasses }}>
+      <ListItemIcon className={css.icon}>
         <mode.icon color={mode.color} />
-      </div>
-      <div className={css.textContainer}>
-        <div>{i18n.t(mode.text)}</div>
-        <div>{i18n.t(mode.textStatus)}</div>
-      </div>
-    </div>
+      </ListItemIcon>
+      <ListItemText classes={{ primary: css.listText }} secondary={i18n.t(mode.textStatus)}>
+        {i18n.t(mode.text)}
+      </ListItemText>
+    </ListItem>
   );
 }
 
-Component.displayName = "FieldMode";
+Component.displayName = "NetworkStatus";
+
+Component.propTypes = {
+  mobile: PropTypes.bool
+};
 
 export default Component;

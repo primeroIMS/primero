@@ -8,7 +8,7 @@ import { useI18n } from "../i18n";
 import { useMemoizedSelector } from "../../libs";
 import { getFieldMode } from "../application/selectors";
 
-import NetworkIndicatorMobile from "./components/network-indicator-mobile";
+import NetworkStatus from "./components/network-status";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
@@ -25,9 +25,7 @@ const Component = ({ mobile }) => {
     [css.mobile]: mobile
   });
 
-  if (mobile) {
-    return <NetworkIndicatorMobile />;
-  }
+  return <NetworkStatus mobile={mobile} />;
 
   if (fieldMode) {
     return false;

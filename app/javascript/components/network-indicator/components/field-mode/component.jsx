@@ -1,5 +1,4 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -8,15 +7,16 @@ import ListIcon from "../../../list-icon";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFieldMode } from "../../../application/selectors";
 import ToggleSwitch from "../toggle-switch/component";
+import { selectUserToggleOffline } from "../../../connectivity/selectors";
 
 import css from "./styles.css";
 
 function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const fieldMode = useMemoizedSelector(state => getFieldMode(state));
 
-  const [isChecked, setIsChecked] = useState(false);
+  const fieldMode = useMemoizedSelector(state => getFieldMode(state));
+  const fieldModeStatus = useMemoizedSelector(state => selectUserToggleOffline(state));
 
   if (!fieldMode) {
     return false;
@@ -25,7 +25,6 @@ function Component() {
   const handleStatusChange = event => {
     const { checked } = event.target;
 
-    setIsChecked(checked);
     dispatch(setUserToggleOffline(checked));
   };
 
@@ -40,7 +39,7 @@ function Component() {
       icon: "connected",
       color: "action"
     }
-  }[isChecked];
+  }[fieldModeStatus];
 
   return (
     <ListItem classes={{ root: css.container }}>
@@ -48,7 +47,7 @@ function Component() {
         <ListIcon icon={mode.icon} />
       </ListItemIcon>
       <ListItemText classes={{ primary: css.listText }}>{i18n.t("field_mode", { mode: mode.text })}</ListItemText>
-      <ToggleSwitch color="default" onChange={handleStatusChange} value={isChecked} />
+      <ToggleSwitch color="default" onChange={handleStatusChange} value={fieldModeStatus} />
     </ListItem>
   );
 }

@@ -74,33 +74,35 @@ export const getServerStatus = () => ({
 });
 
 export function setFieldMode(dispatch) {
-  dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
-
   dispatch(setNetworkStatus(false));
+}
+
+export const checkServerStatus = isOnline => (dispatch, getState) => {
+  const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
+
+  if (userToggledOffline) {
+    setFieldMode(dispatch);
+  } else {
+    dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
+
+    dispatch(setNetworkStatus(isOnline));
+    if (isOnline) {
+      dispatch(getServerStatus(isOnline));
+    } else {
+      dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
+    }
+  }
+};
+
+export const setUserToggleOffline = payload => dispatch => {
+  dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
+  dispatch(closeSnackbar(CONNECTED));
+
   dispatch({
     type: ENQUEUE_SNACKBAR,
     ...onlineSnackbar(false, { forMiddleware: true, message: FIELD_MODE_OFFLINE })
   });
-}
 
-export const checkServerStatus =
-  (isOnline, userToggledOffline = false) =>
-  dispatch => {
-    if (userToggledOffline) {
-      setFieldMode(dispatch);
-    } else {
-      dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
-
-      dispatch(setNetworkStatus(isOnline));
-      if (isOnline) {
-        dispatch(getServerStatus(isOnline));
-      } else {
-        dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
-      }
-    }
-  };
-
-export const setUserToggleOffline = payload => dispatch => {
   dispatch({
     type: actions.USER_TOGGLE_OFFLINE,
     payload
