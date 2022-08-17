@@ -17,9 +17,7 @@ describe("Application - Reducers", () => {
 
   const systemOptions = {
     show_alerts: true,
-    welcome_email_enabled: true,
     code_of_conduct_enabled: true,
-    notification_email_enabled: true,
     due_date_from_appointment_date: true
   };
 

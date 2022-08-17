@@ -5,7 +5,7 @@ require 'rails_helper'
 describe UserMailer, type: :mailer do
   before do
     system_settings = instance_double(
-      'SystemSettings', notification_email_enabled: true, system_name: 'Test CPIMS+'
+      'SystemSettings', system_name: 'Test CPIMS+'
     )
     allow(SystemSettings).to receive(:current).and_return(system_settings)
     allow(User).to receive(:find).with(1).and_return(user)

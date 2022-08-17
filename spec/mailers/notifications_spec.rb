@@ -5,13 +5,12 @@ require 'rails_helper'
 describe NotificationMailer, type: :mailer do
   before do
     clean_data(SystemSettings)
-    SystemSettings.create(default_locale: 'en', notification_email_enabled: true, unhcr_needs_codes_mapping: {},
-                          changes_field_to_form: {})
+    SystemSettings.create(default_locale: 'en', unhcr_needs_codes_mapping: {}, changes_field_to_form: {})
   end
 
   describe 'approvals' do
     before do
-      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role)
+      clean_data(PrimeroProgram, PrimeroModule, Field, FormSection, Lookup, User, UserGroup, Role, Agency)
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id:'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{'id' => 'value1', 'display_text' => 'value1'}])
       role = create(:role, is_manager: true)
