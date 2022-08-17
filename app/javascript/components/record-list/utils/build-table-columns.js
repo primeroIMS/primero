@@ -5,6 +5,7 @@
 import { fromJS } from "immutable";
 import { Tooltip } from "@material-ui/core";
 import OfflinePin from "@material-ui/icons/OfflinePin";
+import isNil from "lodash/isNil";
 
 import { ToggleIconCell } from "../../index-table";
 import { RECORD_PATH, RECORD_TYPES, DATE_TIME_FORMAT } from "../../../config";
@@ -24,6 +25,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
       const { component: Component, props = {}, value, rowIndex } = args || {};
       const rowAvailable = recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
       const parsedValue = Array.isArray(value) ? value.join(", ") : value;
+      const columnValue = isNil(parsedValue) ? "" : parsedValue;
 
       return (
         <ConditionalWrapper
@@ -32,7 +34,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online) 
           offlineTextKey="unavailable_offline"
           overrideCondition={!rowAvailable}
         >
-          <>{Component !== undefined ? <Component {...props} /> : parsedValue || ""}</>
+          <>{Component !== undefined ? <Component {...props} /> : columnValue}</>
         </ConditionalWrapper>
       );
     };

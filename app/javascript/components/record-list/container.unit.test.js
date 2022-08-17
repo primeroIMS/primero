@@ -1,7 +1,8 @@
 import { Route } from "react-router-dom";
 import { fromJS, OrderedMap } from "immutable";
-import { TableCell } from "@material-ui/core";
+import { TableCell, TableRow } from "@material-ui/core";
 
+import { ConditionalWrapper } from "../../libs";
 import Filters from "../index-filters";
 import IndexTable from "../index-table";
 import { ACTIONS } from "../permissions";
@@ -29,7 +30,8 @@ describe("<RecordList />", () => {
             short_id: "e15acbe",
             name: "Jose",
             record_state: true,
-            module_id: "primeromodule-cp"
+            module_id: "primeromodule-cp",
+            age: 0
           },
           {
             id: "7d55b677-c9c4-7c6c-7a41-bfa1c3f74d1c",
@@ -37,7 +39,8 @@ describe("<RecordList />", () => {
             short_id: "7d55b67",
             name: "Carlos",
             record_state: true,
-            module_id: "primeromodule-cp"
+            module_id: "primeromodule-cp",
+            age: 5
           }
         ],
         metadata: { total: 2, per: 20, page: 1 },
@@ -53,7 +56,10 @@ describe("<RecordList />", () => {
     user: {
       modules: ["primeromodule-cp"],
       listHeaders: {
-        cases: [{ id: "name", name: "Name", field_name: "name" }]
+        cases: [
+          { id: "name", name: "Name", field_name: "name" },
+          { id: "age", name: "Age", field_name: "age" }
+        ]
       },
       filters: {
         cases: [
@@ -327,7 +333,7 @@ describe("<RecordList />", () => {
   });
 
   it("opens the view modal when a record is clicked", () => {
-    component.find(TableCell).at(3).simulate("click");
+    component.find(TableCell).at(4).simulate("click");
 
     expect(component.find(ViewModal).props().openViewModal).to.be.true;
   });
@@ -363,6 +369,12 @@ describe("<RecordList />", () => {
       offlineComponent.find(TableCell).at(3).simulate("click");
 
       expect(component.find(ViewModal).props().openViewModal).to.be.false;
+    });
+  });
+
+  describe("when age is 0", () => {
+    it("renders a 0 in the cell ", () => {
+      expect(component.find(TableRow).at(1).find(TableCell).at(2).find(ConditionalWrapper).text()).to.equal("0");
     });
   });
 });
