@@ -9,6 +9,11 @@
   align-items: center;
 }
 
+.listIcon {
+  min-width: 2.5em;
+  color: inherit;
+}
+
 .textContainer {
   display: flex;
   flex-direction: column;
@@ -37,4 +42,31 @@
 
 .fieldMode {
   color: var(--c-dark-grey);
+}
+
+.navLink {
+  text-decoration: none;
+  padding: 0 16px !important;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.listText {
+  font-size: var(--fs-14);
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.listTextSecondary {
+  font-size: var(--fs-9);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: inherit;
+}
+
+.listTextRoot {
+  cursor: default;
 }

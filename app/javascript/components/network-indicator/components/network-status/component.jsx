@@ -37,6 +37,7 @@ function Component({ mobile }) {
   }[getConnectionStatus(online, fieldMode)];
 
   const containerClasses = clsx(css.container, css[mode.color]);
+  const listItemClasses = clsx(css.navLink, css[mode.color]);
 
   if (mobile) {
     return (
@@ -53,11 +54,14 @@ function Component({ mobile }) {
   }
 
   return (
-    <ListItem classes={{ root: css.containerClasses }}>
-      <ListItemIcon className={css.icon}>
-        <mode.icon color={mode.color} />
+    <ListItem classes={{ root: listItemClasses }}>
+      <ListItemIcon className={css.listIcon}>
+        <mode.icon />
       </ListItemIcon>
-      <ListItemText classes={{ primary: css.listText }} secondary={i18n.t(mode.textStatus)}>
+      <ListItemText
+        classes={{ root: css.listTextRoot, primary: css.listText, secondary: css.listTextSecondary }}
+        secondary={i18n.t(mode.textStatus)}
+      >
         {i18n.t(mode.text)}
       </ListItemText>
     </ListItem>

@@ -80,11 +80,11 @@ export function setFieldMode(dispatch) {
 export const checkServerStatus = isOnline => (dispatch, getState) => {
   const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
 
+  dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
+
   if (userToggledOffline) {
     setFieldMode(dispatch);
   } else {
-    dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
-
     dispatch(setNetworkStatus(isOnline));
     if (isOnline) {
       dispatch(getServerStatus(isOnline));
@@ -96,7 +96,6 @@ export const checkServerStatus = isOnline => (dispatch, getState) => {
 
 export const setUserToggleOffline = payload => dispatch => {
   dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
-  dispatch(closeSnackbar(CONNECTED));
 
   dispatch({
     type: ENQUEUE_SNACKBAR,

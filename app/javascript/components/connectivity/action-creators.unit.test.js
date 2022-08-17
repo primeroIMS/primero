@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
@@ -36,9 +37,9 @@ describe("components/connectivity/action-creator.js", () => {
   });
 
   it("should create an action to check server status", () => {
-    const store = configureStore([thunk])({});
+    const store = configureStore([thunk])(fromJS({}));
 
-    actionCreators.checkServerStatus(true)(store.dispatch);
+    actionCreators.checkServerStatus(true)(store.dispatch, store.getState);
 
     const expectedActions = store.getActions();
 
