@@ -111,7 +111,7 @@ describe("<SelectField />", () => {
           name: "service_delivery_location",
           optionsSelector: () => ({
             source: OPTION_TYPES.REPORTING_LOCATIONS,
-            splittedReportingLocation: false
+            usePlacename: false
           })
         },
         initialState,

@@ -76,7 +76,7 @@ const SelectFieldContainer = ({
         ? { filterOptions: agencyFilterOptions, includeServices: true, tags }
         : {
             tags,
-            splittedReportingLocation:
+            usePlacename:
               OPTION_TYPES.REPORTING_LOCATIONS === optionStringsSource &&
               SERVICE_SECTION_FIELDS.deliveryLocation !== name
           }

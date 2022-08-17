@@ -80,7 +80,7 @@ export const form = ({
           option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS,
           clearDependentValues: [TRANSITIONED_TO_FIELD],
           watchedInputs: [TRANSFER_FIELD],
-          extraSelectorOptions: { splittedReportingLocation: false },
+          extraSelectorOptions: { usePlacename: false },
           handleWatchedInputs: ({ [TRANSFER_FIELD]: consent }) => ({ disabled: !(consent || providedConsent) })
         }),
         FieldRecord({

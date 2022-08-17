@@ -398,7 +398,7 @@ describe("Forms - Selectors", () => {
         stateWithLookups,
         {
           source: OPTION_TYPES.REPORTING_LOCATIONS,
-          splittedReportingLocation: false
+          usePlacename: false
         }
       ]);
 

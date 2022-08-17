@@ -59,7 +59,7 @@ const localReferralFields = ({ i18n, recordType, recordModuleID, isReferralFromS
       showIf: values => !values[FIELDS.REMOTE],
       option_strings_source: OPTION_TYPES.REPORTING_LOCATIONS,
       clearDependentValues: [FIELDS.TRANSITIONED_TO],
-      extraSelectorOptions: { splittedReportingLocation: false },
+      extraSelectorOptions: { usePlacename: false },
       order: 6
     },
     {
