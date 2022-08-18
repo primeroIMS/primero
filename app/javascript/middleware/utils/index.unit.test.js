@@ -31,7 +31,8 @@ describe("middleware/utils/index.js", () => {
       "isServerOnline",
       "handleReturnUrl",
       "isAuthenticated",
-      "redirectTo"
+      "redirectTo",
+      "userToggleOffline"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(modules).to.have.property(property);

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
@@ -8,10 +8,10 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
 import { getListStyle } from "../../../forms-list/utils";
-import FieldListItem from "../field-list-item";
 import { reorderFields } from "../../action-creators";
 import { getCopiedFields, getRemovedFields, getSelectedFields } from "../../selectors";
 import { getFieldsAttribute, setFieldDataInFormContext } from "../utils";
+import Fields from "../fields";
 
 import { NAME } from "./constants";
 import css from "./styles.css";
@@ -87,26 +87,12 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
     });
   }, [removedFields]);
 
-  const handleDragEnd = result => {
-    dispatch(reorderFields(result.draggableId, result.destination.index, isNested));
-  };
-
-  const renderFields = () =>
-    fields.map((field, index) => {
-      const id = field.get("id") || field.get("subform_section_temp_id");
-
-      return (
-        <FieldListItem
-          formMethods={formMethods}
-          subformField={subformField}
-          field={field}
-          index={index}
-          subformSortBy={subformSortBy}
-          subformGroupBy={subformGroupBy}
-          key={`${field.get("name")}_${id}`}
-        />
-      );
-    });
+  const handleDragEnd = useCallback(
+    result => {
+      dispatch(reorderFields(result.draggableId, result.destination.index, isNested));
+    },
+    [isNested]
+  );
 
   const nameClasses = clsx([css.fieldColumn, css.fieldName, css.fieldHeader]);
   const fieldTypeClasses = clsx([css.fieldColumn, css.fieldHeader]);
@@ -131,7 +117,13 @@ const Component = ({ formMethods, subformField, subformSortBy, subformGroupBy })
                 {renderColumn(i18n.t("fields.subform_group_by"))}
                 <div className={fieldShowClasses}>{i18n.t("fields.show")}</div>
               </div>
-              {renderFields()}
+              <Fields
+                fields={fields}
+                formMethods={formMethods}
+                subformField={subformField}
+                subformGroupBy={subformGroupBy}
+                subformSortBy={subformSortBy}
+              />
               {provided.placeholder}
             </div>
           )}

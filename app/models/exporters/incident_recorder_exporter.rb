@@ -261,7 +261,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def props
       ##### ADMINISTRATIVE INFORMATION #####
       {
-        'incident_id' => 'incident_id',
+        'incident_id' => 'incidentid_ir',
         'survivor_code' => 'survivor_code',
         'case_manager_code' => case_manager_code_props,
         'date_of_interview' => 'date_of_first_report',
@@ -380,9 +380,9 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def perpetrator_former_props
       lambda do |model|
         former_perpetrators = primary_alleged_perpetrator(model).map { |ap| ap['former_perpetrator'] }.reject(&:nil?)
-        if former_perpetrators.include? true
+        if former_perpetrators.include? 'true'
           I18n.t('exports.incident_recorder_xls.yes')
-        elsif former_perpetrators.all? { |is_fp| is_fp == false }
+        elsif former_perpetrators.all? { |is_fp| is_fp == 'false' }
           I18n.t('exports.incident_recorder_xls.no')
         end
       end

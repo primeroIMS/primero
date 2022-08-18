@@ -9,7 +9,13 @@ import { useRefreshUserToken } from "../user";
 import { LOGIN_DIALOG } from "../login-dialog";
 import { useMemoizedSelector } from "../../libs";
 
-import { selectBrowserStatus, selectNetworkStatus, selectServerStatusRetries, selectQueueStatus } from "./selectors";
+import {
+  selectBrowserStatus,
+  selectNetworkStatus,
+  selectServerStatusRetries,
+  selectQueueStatus,
+  selectUserToggleOffline
+} from "./selectors";
 import { checkServerStatus, setQueueStatus } from "./action-creators";
 import { CHECK_SERVER_INTERVAL, CHECK_SERVER_RETRY_INTERVAL } from "./constants";
 
@@ -18,6 +24,7 @@ const useConnectivityStatus = () => {
   const { refreshUserToken } = useRefreshUserToken();
 
   const online = useMemoizedSelector(state => selectNetworkStatus(state));
+  const fieldMode = useMemoizedSelector(state => selectUserToggleOffline(state));
   const authenticated = useMemoizedSelector(state => getIsAuthenticated(state));
   const queueStatus = useMemoizedSelector(state => selectQueueStatus(state));
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
@@ -25,13 +32,25 @@ const useConnectivityStatus = () => {
   const browserStatus = useMemoizedSelector(state => selectBrowserStatus(state));
 
   const handleNetworkChange = (isOnline, delay = CHECK_SERVER_INTERVAL) => {
-    const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline));
+    const dispatchServerStatus = () => dispatch(checkServerStatus(isOnline, fieldMode));
 
     if (isOnline) {
       return debounce(dispatchServerStatus, delay);
     }
 
     return dispatchServerStatus;
+  };
+
+  const removeConnectionListeners = () => {
+    window.removeEventListener("online", handleNetworkChange(true));
+    window.removeEventListener("offline", handleNetworkChange(false));
+  };
+
+  const setConnectionListeners = () => {
+    if (typeof window !== "undefined" && window.addEventListener) {
+      window.addEventListener("online", handleNetworkChange(true));
+      window.addEventListener("offline", handleNetworkChange(false));
+    }
   };
 
   useEffect(() => {
@@ -42,7 +61,7 @@ const useConnectivityStatus = () => {
     if (!online && browserStatus && serverStatusRetries >= 3) {
       handleNetworkChange(true, CHECK_SERVER_RETRY_INTERVAL)();
     }
-  }, [browserStatus, online, serverStatusRetries]);
+  }, [browserStatus, online, serverStatusRetries, fieldMode]);
 
   useEffect(() => {
     if (!online) {
@@ -72,18 +91,14 @@ const useConnectivityStatus = () => {
   }, [online, authenticated, queueStatus]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && window.addEventListener) {
-      window.addEventListener("online", handleNetworkChange(true));
-      window.addEventListener("offline", handleNetworkChange(false));
-    }
+    setConnectionListeners();
 
     return () => {
-      window.removeEventListener("online", handleNetworkChange(true));
-      window.removeEventListener("offline", handleNetworkChange(false));
+      removeConnectionListeners();
     };
   }, []);
 
-  return { online };
+  return { online, fieldMode };
 };
 
 export default useConnectivityStatus;

@@ -22,3 +22,5 @@ export const selectBrowserStatus = state => state.getIn([NAMESPACE, "online"], f
 export const selectServerStatusRetries = state => state.getIn([NAMESPACE, "serverStatusRetries"], 0);
 
 export const selectQueueStatus = state => state.getIn([NAMESPACE, "queueStatus"], QUEUE_PENDING);
+
+export const selectUserToggleOffline = state => state.getIn([NAMESPACE, "fieldMode"], false);

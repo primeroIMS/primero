@@ -10,9 +10,11 @@ describe("pages/admin/<FormList>/components - index", () => {
       "FiltersExpansionPanel",
       "FormFilters",
       "FormGroup",
+      "FormGroupList",
       "FormSection",
-      "TableRow",
-      "ReorderActions"
+      "FormSectionList",
+      "ReorderActions",
+      "TableRow"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
