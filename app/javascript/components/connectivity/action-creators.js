@@ -95,6 +95,11 @@ export const checkServerStatus = isOnline => (dispatch, getState) => {
   }
 };
 
+export const setQueueData = payload => ({
+  type: actions.SET_QUEUE_DATA,
+  payload
+});
+
 export const setUserToggleOffline = payload => dispatch => {
   dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
 

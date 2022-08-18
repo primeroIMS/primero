@@ -41,6 +41,10 @@ describe("<Support /> - utils", () => {
           id: "code_of_conduct",
           text: "navigation.support_menu.code_of_conduct",
           disabled: false
+        },
+        {
+          id: "resync",
+          text: "navigation.support_menu.resync"
         }
       ];
       const result = utils.menuList(i18n, false);

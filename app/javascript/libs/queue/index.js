@@ -1,11 +1,14 @@
 import head from "lodash/head";
+import uniqBy from "lodash/uniqBy";
 
 import { METHODS } from "../../config";
 import DB from "../../db/db";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS } from "../../components/notifier";
 import { SET_ATTACHMENT_STATUS } from "../../components/records/actions";
+import { setQueueData } from "../../components/connectivity/action-creators";
 import transformOfflineRequest from "../transform-offline-request";
 import EventManager from "../messenger";
+import { queueIndexedDB } from "../../db";
 
 import { deleteFromQueue, messageQueueFailed, messageQueueSkip, messageQueueSuccess } from "./utils";
 import {
@@ -16,7 +19,8 @@ import {
   QUEUE_FINISHED,
   QUEUE_FAILED,
   QUEUE_SKIP,
-  QUEUE_SUCCESS
+  QUEUE_SUCCESS,
+  QUEUE_ALLOWED_RETRIES
 } from "./constants";
 
 class Queue {
@@ -25,6 +29,7 @@ class Queue {
     this.success = {};
     this.tries = 0;
     this.working = false;
+    this.force = false;
 
     EventManager.subscribe(QUEUE_ADD, action => {
       this.add(action);
@@ -49,7 +54,9 @@ class Queue {
         };
       }
 
-      this.queue.shift();
+      this.queue = this.queue.filter(current => current.fromQueue !== action.fromQueue);
+
+      this.dispatch(setQueueData(this.queue));
 
       if (!this.hasWork()) {
         this.notifySuccess();
@@ -60,27 +67,30 @@ class Queue {
       if (!this.working) this.process();
     });
 
-    EventManager.subscribe(QUEUE_FAILED, () => {
-      this.tries += 1;
+    EventManager.subscribe(QUEUE_FAILED, id => {
+      const handleFailed = async () => {
+        const action = await queueIndexedDB.failed(id);
 
-      const action = head(this.queue);
+        const queueFiltered = this.queue.filter(current => current.fromQueue !== id);
 
-      if (action) {
-        action.processed = false;
-      }
+        if (action && action.tries < QUEUE_ALLOWED_RETRIES) {
+          action.processed = false;
+          this.queue = [...queueFiltered, action];
+        } else {
+          this.queue = queueFiltered;
+          this.onAttachmentError(action);
+        }
 
-      if (this.tries === 3) {
-        this.queue.shift();
-        this.tries = 0;
+        if (!this.hasWork()) {
+          this.notifySuccess();
+        }
 
-        this.onAttachmentError(action);
-      }
+        this.force = false;
 
-      if (!this.hasWork()) {
-        this.notifySuccess();
-      }
+        if (!this.working) this.process();
+      };
 
-      if (!this.working) this.process();
+      handleFailed();
     });
 
     EventManager.subscribe(QUEUE_FINISHED, id => {
@@ -95,7 +105,7 @@ class Queue {
   async fromDB() {
     const offlineRequests = (await DB.getAll("offline_requests")) || [];
 
-    this.add(offlineRequests);
+    this.add(uniqBy(offlineRequests, "fromQueue"));
   }
 
   start() {
@@ -103,7 +113,7 @@ class Queue {
   }
 
   add(actions) {
-    this.queue = this.queue.concat(actions);
+    this.queue = uniqBy(this.queue.concat(actions), "fromQueue");
 
     if (!this.working) {
       this.process();
@@ -113,7 +123,16 @@ class Queue {
   finished(id) {
     this.queue = this.queue.filter(current => current.fromQueue !== id);
 
+    this.dispatch(setQueueData(this.queue));
+
     if (!this.working) this.process();
+  }
+
+  async triggerProcess() {
+    this.force = true;
+    await this.fromDB();
+    this.dispatch(setQueueData(this.queue));
+    this.process(true);
   }
 
   process() {
@@ -122,7 +141,7 @@ class Queue {
 
       const item = head(this.queue);
 
-      if (item && !item?.processed) {
+      if (item && !item?.processed && ((item.tries || 0) < QUEUE_ALLOWED_RETRIES || this.force)) {
         this.onAttachmentProcess(item);
 
         const action = item;

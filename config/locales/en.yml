@@ -211,6 +211,15 @@ en:
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
+  resync_records:
+    id: ID
+    record_type: Record Type
+    action: Action
+    date: Date
+    last_attempt: Last Attempt
+    create: Create
+    update: Update
+    resync: Submit
   case:
     label: Case
     create_new_case: Create New Case
@@ -476,6 +485,7 @@ en:
       you are rejecting this case; once you click ‘Reject’ you will no longer have
       access to this case record.
     view_name: View Name
+    sort_by: Sort By
   change_logs:
     filters:
       form: Form
@@ -1447,6 +1457,7 @@ en:
     social_worker: Social Worker
     violence_type: Violence Type
     type_violence: Type of Violence
+    sort_by: Sort By
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Case Assessment"
@@ -2020,6 +2031,7 @@ en:
       code_of_conduct: Code of Conduct
       terms_of_use: Terms of Use
       system_information: System Information
+      resync: Unsubmitted Offline Changes
     tasks: Tasks
     tracing_request: Tracing Request
     activity_log: Activity Log
@@ -3710,6 +3722,7 @@ en:
     show_tracing_request: 'Tracing Request ID %{short_id}'
     tracing_requests: Tracing Requests
     export: Export
+    sort_by: Sort By
   registry_records:
     id: ID
     label: Registry Records

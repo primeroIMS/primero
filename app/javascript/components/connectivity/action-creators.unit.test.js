@@ -12,13 +12,14 @@ describe("components/connectivity/action-creator.js", () => {
     const creators = { ...actionCreators };
 
     [
-      "setNetworkStatus",
-      "getServerStatus",
       "checkServerStatus",
-      "setQueueStatus",
+      "getServerStatus",
+      "setFieldMode",
+      "setNetworkStatus",
       "setPendingUserLogin",
-      "setUserToggleOffline",
-      "setFieldMode"
+      "setQueueData",
+      "setQueueStatus",
+      "setUserToggleOffline"
     ].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
@@ -44,7 +45,8 @@ describe("components/connectivity/action-creator.js", () => {
     const expectedActions = store.getActions();
 
     expect(expectedActions[0].type).to.eql(CLOSE_SNACKBAR);
-    expect(expectedActions[1].type).to.eql(actions.NETWORK_STATUS);
-    expect(expectedActions[2].type).to.eql(actions.SERVER_STATUS);
+    expect(expectedActions[1].type).to.eql(CLOSE_SNACKBAR);
+    expect(expectedActions[2].type).to.eql(actions.NETWORK_STATUS);
+    expect(expectedActions[3].type).to.eql(actions.SERVER_STATUS);
   });
 });
