@@ -14,6 +14,7 @@ describe("<NetworkIndicator />", () => {
       fromJS({ connectivity: { online: true, serverOnline: true, fieldMode: false } })
     );
 
+    expect(component.find(CheckIcon)).to.have.lengthOf(1);
     expect(component.find(SignalWifiOffIcon)).to.have.lengthOf(0);
     expect(component.find("span").text()).to.equal("online");
   });

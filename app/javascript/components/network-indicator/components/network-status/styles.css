@@ -1,7 +1,6 @@
 .container {
   display: flex;
   gap: var(--sp-1);
-  flex: 0 !important;
 }
 
 .icon {

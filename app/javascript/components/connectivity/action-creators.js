@@ -85,6 +85,7 @@ export const checkServerStatus = isOnline => (dispatch, getState) => {
   if (userToggledOffline) {
     setFieldMode(dispatch);
   } else {
+    dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
     dispatch(setNetworkStatus(isOnline));
     if (isOnline) {
       dispatch(getServerStatus(isOnline));

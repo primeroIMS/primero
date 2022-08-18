@@ -25,10 +25,8 @@ const Component = ({ mobile }) => {
     [css.mobile]: mobile
   });
 
-  return <NetworkStatus mobile={mobile} />;
-
   if (fieldMode) {
-    return false;
+    return <NetworkStatus mobile={mobile} />;
   }
 
   return (
