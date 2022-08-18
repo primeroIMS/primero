@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
   before :each do
-    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct)
+    clean_data(FormSection, PrimeroModule, Role, User, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup)
 
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -594,6 +594,31 @@ describe Api::V2::UsersController, type: :request do
       expect(json['errors'].size).to eq(2)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users')
       expect(json['errors'].map { |e| e['detail'] }).to contain_exactly('password', 'password_confirmation')
+    end
+
+    it 'create a new record with send_mail false' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
+        ]
+      )
+      params = {
+        data: {
+          full_name: 'Random User',
+          user_name: 'random_user',
+          password: 'b12345678',
+          password_confirmation: 'b12345678',
+          email: 'random_user@localhost.com',
+          agency_id: @agency_a.id,
+          role_unique_id: @role.unique_id,
+          send_mail: false
+        }
+      }
+      post '/api/v2/users', params: params, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['user_name']).to eq(params[:data][:user_name])
+      expect(json['data']['send_mail']).to eq(params[:data][:send_mail])
     end
   end
 

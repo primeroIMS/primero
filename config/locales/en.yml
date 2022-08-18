@@ -17,7 +17,9 @@ en:
   accepted: Accepted
   cancel: Cancel
   connection_lost: Currently in offline mode
+  field_mode_offline: Currently in field mode
   connected: Connected
+  no_connection: No Connection
   clear: Clear
   sandbox_ui: Demo
   description: Description
@@ -25,6 +27,9 @@ en:
   minimum_reportable_fields: "Minimum reportable fields %{record_type}"
   name: Name
   offline: Offline
+  field_mode: "Field Mode: %{mode}"
+  field_mode_on: "On"
+  field_mode_off: "Off"
   unavailable_offline: Unavailable offline
   online: Online
   yes_label: 'Yes'

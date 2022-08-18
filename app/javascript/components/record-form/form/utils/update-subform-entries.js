@@ -9,11 +9,7 @@ import buildViolationSubform from "./build-violation-subform";
 
 export default (formik, fieldName, currentIndex, values, isViolation) => {
   if (!isViolation) {
-    return formik.setFieldValue(
-      `${fieldName}[${currentIndex}]`,
-      compactBlank(omit(values, SUBFORM_READONLY_FIELD_NAMES)),
-      false
-    );
+    return formik.setFieldValue(`${fieldName}[${currentIndex}]`, omit(values, SUBFORM_READONLY_FIELD_NAMES), false);
   }
 
   const currentViolationData = omit(values, VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS);

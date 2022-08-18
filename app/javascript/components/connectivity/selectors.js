@@ -26,3 +26,5 @@ export const selectQueueStatus = state => state.getIn([NAMESPACE, "queueStatus"]
 export const getQueueData = state => state.getIn([NAMESPACE, "queueData"], fromJS([]));
 
 export const hasQueueData = state => !getQueueData(state).isEmpty();
+
+export const selectUserToggleOffline = state => state.getIn([NAMESPACE, "fieldMode"], false);

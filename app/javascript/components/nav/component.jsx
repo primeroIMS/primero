@@ -19,6 +19,7 @@ import { getPermissions } from "../user";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
 import { hasQueueData } from "../connectivity/selectors";
+import FieldMode from "../network-indicator/components/field-mode";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -65,6 +66,14 @@ const Nav = () => {
 
   const permittedMenuEntries = menuEntries => {
     return menuEntries.map(menuEntry => {
+      if (menuEntry.component) {
+        const CustomComponent = {
+          fieldMode: FieldMode
+        }[menuEntry.component];
+
+        return <CustomComponent />;
+      }
+
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
       const jewelCount =

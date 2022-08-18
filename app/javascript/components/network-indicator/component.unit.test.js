@@ -11,7 +11,7 @@ describe("<NetworkIndicator />", () => {
     const { component } = setupMountedComponent(
       NetworkIndicator,
       {},
-      fromJS({ connectivity: { online: true, serverOnline: true } })
+      fromJS({ connectivity: { online: true, serverOnline: true, fieldMode: false } })
     );
 
     expect(component.find(CheckIcon)).to.have.lengthOf(1);

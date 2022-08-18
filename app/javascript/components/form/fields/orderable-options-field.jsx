@@ -1,19 +1,16 @@
 /* eslint-disable react/no-multi-comp */
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useFieldArray, useWatch } from "react-hook-form";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import isNil from "lodash/isNil";
-import AddIcon from "@material-ui/icons/Add";
-import CloseIcon from "@material-ui/icons/Close";
 
 import { useI18n } from "../../i18n";
 import { getListStyle } from "../../pages/admin/forms-list/utils";
-import DraggableOption from "../components/draggable-option";
+import OrderableOptionList from "../components/orderable-option-list";
+import OrderableOptionButtons from "../components/orderable-option-buttons";
 import { generateIdForNewOption } from "../utils/handle-options";
-import ActionButton from "../../action-button";
-import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 
 import { ORDERABLE_OPTIONS_FIELD_NAME } from "./constants";
 import css from "./styles.css";
@@ -32,69 +29,23 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
 
   const { fields, append, remove, move } = useFieldArray({ control, name, keyName: "fieldID" });
 
-  const handleDragEnd = ({ source, destination }) => {
+  const handleDragEnd = useCallback(({ source, destination }) => {
     if (destination) {
       move(source.index, destination.index);
     }
-  };
+  }, []);
 
-  const onClearDefault = () => {
+  const onClearDefault = useCallback(() => {
     setValue(`${fieldName}.selected_value`, "", { shouldDirty: true });
-  };
+  }, [fieldName]);
 
-  const onAddOption = () => {
+  const onAddOption = useCallback(() => {
     append({ id: generateIdForNewOption(), isNew: true, display_text: { en: "" }, disabled: true });
-  };
+  }, []);
 
-  const onRemoveValue = index => {
+  const onRemoveValue = useCallback(index => {
     remove(index);
-  };
-
-  const renderOptions = () =>
-    fields.map((option, index) => (
-      <DraggableOption
-        defaultOptionId={watchSelectedValue}
-        optionFieldName={optionFieldName || "option_strings_text"}
-        name={fieldName}
-        option={option}
-        index={index}
-        key={option.fieldID}
-        onRemoveClick={onRemoveValue}
-        formMethods={formMethods}
-        formMode={formMode}
-        showDefaultAction={showDefaultAction}
-        showDeleteAction={showDeleteAction}
-        showDisableOption={showDisableOption}
-      />
-    ));
-
-  // eslint-disable-next-line react/display-name
-  const renderActionButtons = () =>
-    showActionButtons ? (
-      <div className={css.optionsFieldActions}>
-        <ActionButton
-          id="add-another-options"
-          icon={<AddIcon />}
-          text="buttons.add_another_option"
-          type={ACTION_BUTTON_TYPES.default}
-          disabled={disabledAddAction}
-          rest={{
-            onClick: onAddOption
-          }}
-        />
-        {showDefaultAction && (
-          <ActionButton
-            icon={<CloseIcon />}
-            text="buttons.clear_default"
-            type={ACTION_BUTTON_TYPES.default}
-            cancel
-            rest={{
-              onClick: onClearDefault
-            }}
-          />
-        )}
-      </div>
-    ) : null;
+  }, []);
 
   const lastColumnTitle = formMode.get("isNew") ? i18n.t("fields.remove") : i18n.t("fields.enabled");
   const renderLastColumn = (formMode.get("isNew") && showDeleteAction) || showDisableOption;
@@ -121,13 +72,31 @@ const OrderableOptionsField = ({ commonInputProps, metaInputProps, showActionBut
                 {showDefaultAction && <div className={fieldRowClasses}>{i18n.t("fields.default")}</div>}
                 {renderLastColumn && <div className={fieldRowClasses}>{lastColumnTitle}</div>}
               </div>
-              {renderOptions()}
+              <OrderableOptionList
+                defaultOptionId={watchSelectedValue}
+                fieldName={fieldName}
+                fields={fields}
+                formMethods={formMethods}
+                formMode={formMode}
+                onRemoveValue={onRemoveValue}
+                optionFieldName={optionFieldName}
+                showDefaultAction={showDefaultAction}
+                showDeleteAction={showDeleteAction}
+                showDisableOption={showDisableOption}
+              />
               {provided.placeholder}
             </div>
           )}
         </Droppable>
       </DragDropContext>
-      {renderActionButtons()}
+      {showActionButtons && (
+        <OrderableOptionButtons
+          disabledAddAction={disabledAddAction}
+          onAddOption={onAddOption}
+          onClearDefault={onClearDefault}
+          showDefaultAction={showDefaultAction}
+        />
+      )}
     </div>
   );
 };
