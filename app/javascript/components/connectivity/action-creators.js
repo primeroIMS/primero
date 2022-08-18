@@ -3,11 +3,25 @@ import { ROUTES } from "../../config";
 import { SNACKBAR_VARIANTS, closeSnackbar, ENQUEUE_SNACKBAR } from "../notifier";
 
 import actions from "./actions";
-import { CONNECTION_LOST, CONNECTED } from "./constants";
+import { CONNECTION_LOST, CONNECTED, FIELD_MODE_OFFLINE } from "./constants";
 
-const onlineSnackbar = (isOnline, forMiddleware = false) => {
+function getMessageKey(isOnline, message) {
+  if (message === FIELD_MODE_OFFLINE) {
+    return FIELD_MODE_OFFLINE;
+  }
+
+  if (isOnline) {
+    return CONNECTED;
+  }
+
+  return CONNECTION_LOST;
+}
+
+const onlineSnackbar = (isOnline, opts = { forMiddleware: false, message: undefined }) => {
+  const { forMiddleware, message } = opts;
   const snackbarType = isOnline ? SNACKBAR_VARIANTS.success : SNACKBAR_VARIANTS.warning;
-  const messageKey = isOnline ? CONNECTED : CONNECTION_LOST;
+  const messageKey = getMessageKey(isOnline, message);
+
   const options = {
     anchorOrigin: {
       vertical: "top",
@@ -54,17 +68,45 @@ export const getServerStatus = () => ({
   api: {
     path: ROUTES.check_server_health,
     external: true,
-    successCallback: [{ action: actions.SERVER_STATUS, payload: true }, onlineSnackbar(true, true)],
-    failureCallback: [{ action: actions.SERVER_STATUS, payload: false }, onlineSnackbar(false, true)]
+    successCallback: [{ action: actions.SERVER_STATUS, payload: true }, onlineSnackbar(true, { forMiddleware: true })],
+    failureCallback: [{ action: actions.SERVER_STATUS, payload: false }, onlineSnackbar(false, { forMiddleware: true })]
   }
 });
 
-export const checkServerStatus = isOnline => dispatch => {
+export function setFieldMode(dispatch) {
+  dispatch(setNetworkStatus(false));
+}
+
+export const checkServerStatus = isOnline => (dispatch, getState) => {
+  const userToggledOffline = getState().getIn(["connectivity", "fieldMode"]);
+
   dispatch(closeSnackbar(isOnline ? CONNECTION_LOST : CONNECTED));
-  dispatch(setNetworkStatus(isOnline));
-  if (isOnline) {
-    dispatch(getServerStatus(isOnline));
+
+  if (userToggledOffline) {
+    setFieldMode(dispatch);
   } else {
-    dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, true) });
+    dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
+    dispatch(setNetworkStatus(isOnline));
+    if (isOnline) {
+      dispatch(getServerStatus(isOnline));
+    } else {
+      dispatch({ type: ENQUEUE_SNACKBAR, ...onlineSnackbar(isOnline, { forMiddleware: true }) });
+    }
   }
+};
+
+export const setUserToggleOffline = payload => dispatch => {
+  dispatch(closeSnackbar(FIELD_MODE_OFFLINE));
+
+  dispatch({
+    type: ENQUEUE_SNACKBAR,
+    ...onlineSnackbar(false, { forMiddleware: true, message: FIELD_MODE_OFFLINE })
+  });
+
+  dispatch({
+    type: actions.USER_TOGGLE_OFFLINE,
+    payload
+  });
+
+  dispatch(checkServerStatus(!payload, payload));
 };
