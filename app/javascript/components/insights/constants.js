@@ -186,7 +186,8 @@ export const INSIGHTS_CONFIG = {
       localeKeys: [MANAGED_REPORTS, GBV_STATISTICS, REPORTS],
       defaultFilterValues: {
         [GROUPED_BY]: MONTH,
-        [DATE_RANGE]: LAST_MONTH
+        [DATE_RANGE]: LAST_MONTH,
+        [DATE]: INCIDENT_DATE
       },
       filters: [
         ...SHARED_FILTERS,
