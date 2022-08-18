@@ -16,4 +16,8 @@ class Assign < Transition
   def consent_given?
     true
   end
+
+  def notified_statuses
+    [Transition::STATUS_DONE]
+  end
 end
