@@ -21,7 +21,7 @@ import useOptions from "../../../form/use-options";
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
 import NAMESPACE from "./namespace";
-import { FormGroup, FormSection, FormFilters, ReorderActions } from "./components";
+import { FormGroupList, FormFilters, ReorderActions } from "./components";
 import {
   clearFormsReorder,
   enableReorder,
@@ -99,41 +99,11 @@ const Component = () => {
     }
   };
 
-  const renderFormSections = () =>
-    allFormGroupsLookups &&
-    allFormGroupsLookups?.length > 0 &&
-    formSectionsByGroup.map((group, index) => {
-      const formGroupID = group.first().get("form_group_id");
-
-      const formGroupName = currentFormGroupsLookups[formGroupID];
-
-      return (
-        <FormGroup
-          name={formGroupName}
-          index={index}
-          key={formGroupID}
-          id={formGroupID}
-          isDragDisabled={!isReorderEnabled}
-        >
-          <FormSection group={group} collection={formGroupID} isDragDisabled={!isReorderEnabled} />
-        </FormGroup>
-      );
-    });
-
   const handleExport = dialog => setDialog({ dialog, open: true });
 
   const handleNew = () => {
     dispatch(push(`${pathname}/new`));
   };
-
-  const newFormBtn = canAddForms ? (
-    <FormAction
-      actionHandler={handleNew}
-      text={i18n.t("buttons.new")}
-      startIcon={<AddIcon />}
-      options={{ hide: limitedProductionSite }}
-    />
-  ) : null;
 
   const onClickReorder = () => {
     dispatch(enableReorder(true));
@@ -161,7 +131,14 @@ const Component = () => {
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
-        {newFormBtn}
+        {canAddForms && (
+          <FormAction
+            actionHandler={handleNew}
+            text={i18n.t("buttons.new")}
+            startIcon={<AddIcon />}
+            options={{ hide: limitedProductionSite }}
+          />
+        )}
       </PageHeading>
       <PageContent>
         <FormExporter
@@ -194,7 +171,13 @@ const Component = () => {
                       ref={provided.innerRef}
                       style={getListStyle(snapshot.isDraggingOver)}
                     >
-                      {renderFormSections()}
+                      {allFormGroupsLookups && allFormGroupsLookups?.length && (
+                        <FormGroupList
+                          formSectionsByGroup={formSectionsByGroup}
+                          formGroupsLookups={currentFormGroupsLookups}
+                          isReorderEnabled={isReorderEnabled}
+                        />
+                      )}
                       {provided.placeholder}
                     </div>
                   )}

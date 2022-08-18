@@ -3,9 +3,8 @@ import { Droppable } from "react-beautiful-dnd";
 import clsx from "clsx";
 
 import { useI18n } from "../../../../../i18n";
+import FormSectionList from "../form-section-list";
 import css from "../../styles.css";
-import TableRow from "../table-row";
-import { displayNameHelper } from "../../../../../../libs";
 
 const Component = ({ group, collection, isDragDisabled }) => {
   const i18n = useI18n();
@@ -22,33 +21,7 @@ const Component = ({ group, collection, isDragDisabled }) => {
             <div>{i18n.t("form_section.record_type")}</div>
             <div>{i18n.t("form_section.module")}</div>
           </div>
-          {group
-            .toList()
-            .sortBy(form => form.order)
-            .map((formSection, index) => {
-              const {
-                name,
-                module_ids: modules,
-                parent_form: parentForm,
-                unique_id: uniqueID,
-                editable,
-                id
-              } = formSection;
-
-              return (
-                <TableRow
-                  name={displayNameHelper(name, i18n.locale)}
-                  modules={modules}
-                  parentForm={parentForm}
-                  index={index}
-                  uniqueID={uniqueID}
-                  key={uniqueID}
-                  editable={editable}
-                  id={id}
-                  isDragDisabled={isDragDisabled}
-                />
-              );
-            })}
+          <FormSectionList formSectionList={group.toList()} isDragDisabled={isDragDisabled} />
           {provided.placeholder}
         </div>
       )}
