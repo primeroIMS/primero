@@ -7,3 +7,4 @@ export const QUEUE_SUCCESS = "queue-success";
 export const QUEUE_PENDING = "pending";
 export const QUEUE_READY = "ready";
 export const QUEUE_HALTED = "halted";
+export const QUEUE_ALLOWED_RETRIES = 3;

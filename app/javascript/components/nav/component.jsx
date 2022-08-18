@@ -18,6 +18,7 @@ import NetworkIndicator from "../network-indicator";
 import { getPermissions } from "../user";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useI18n } from "../i18n";
+import { hasQueueData } from "../connectivity/selectors";
 import FieldMode from "../network-indicator/components/field-mode";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
@@ -45,6 +46,7 @@ const Nav = () => {
   const dataAlerts = useMemoizedSelector(state => selectAlerts(state), isEqual);
   const permissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
+  const hasUnsubmittedOfflineChanges = useMemoizedSelector(state => hasQueueData(state));
 
   const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
 
@@ -74,7 +76,10 @@ const Nav = () => {
 
       const jewel = dataAlerts.get(menuEntry?.jewelCount, null);
       const route = `/${menuEntry.to.split("/").filter(Boolean)[0]}`;
-      const jewelCount = jewel || (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable);
+      const jewelCount =
+        jewel ||
+        (canManageMetadata && route === ROUTES.admin && !hasLocationsAvailable) ||
+        (hasUnsubmittedOfflineChanges && route === ROUTES.support);
       const renderedMenuEntries = (
         <MenuEntry
           key={menuEntry.to}
@@ -132,7 +137,10 @@ const Nav = () => {
 
   return (
     <nav className={css.nav}>
-      <MobileToolbar openDrawer={handleToggleDrawer(true)} />
+      <MobileToolbar
+        openDrawer={handleToggleDrawer(true)}
+        hasUnsubmittedOfflineChanges={hasUnsubmittedOfflineChanges}
+      />
       <Hidden mdUp implementation="css">
         <Drawer
           variant="temporary"

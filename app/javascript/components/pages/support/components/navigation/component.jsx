@@ -1,11 +1,16 @@
 import PropTypes from "prop-types";
 import { List, ListItem, ListItemText, Drawer } from "@material-ui/core";
 
-import { ConditionalWrapper } from "../../../../../libs";
+import { ConditionalWrapper, useMemoizedSelector } from "../../../../../libs";
+import Jewel from "../../../../jewel";
+import { hasQueueData } from "../../../../connectivity/selectors";
+import { SUPPORT_FORMS } from "../../constants";
 
 import { NAME } from "./constants";
 
 const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, selectedItem, toggleNav }) => {
+  const hasUnsubmittedOfflineChanges = useMemoizedSelector(state => hasQueueData(state));
+
   const drawerProps = {
     anchor: "left",
     open: toggleNav,
@@ -30,6 +35,7 @@ const Component = ({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     return (
       <ListItem button key={id} onClick={handleClick} selected={selected} disabled={disabled} classes={classes}>
         <ListItemText key={id} primary={text} />
+        {hasUnsubmittedOfflineChanges && id === SUPPORT_FORMS.resync && <Jewel isForm />}
       </ListItem>
     );
   });
