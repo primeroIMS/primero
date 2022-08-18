@@ -261,7 +261,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def props
       ##### ADMINISTRATIVE INFORMATION #####
       {
-        'incident_id' => 'incident_id',
+        'incident_id' => 'incidentid_ir',
         'survivor_code' => 'survivor_code',
         'case_manager_code' => case_manager_code_props,
         'date_of_interview' => 'date_of_first_report',
