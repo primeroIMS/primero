@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
 
 import Queue from "../../libs/queue";
@@ -61,12 +61,12 @@ function Component() {
     ];
   }, []);
 
-  const handleResync = () => {
+  const handleResync = useCallback(() => {
     if (data.size) {
       setPending(true);
     }
     Queue.triggerProcess();
-  };
+  }, [data.size]);
 
   useEffect(() => {
     setPending(false);
