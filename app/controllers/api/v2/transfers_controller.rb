@@ -65,12 +65,12 @@ class Api::V2::TransfersController < Api::V2::RecordResourceController
 
     case requested_status
     when Transition::STATUS_ACCEPTED
-      transition.accept!
+      transition.accept!(current_user)
     when Transition::STATUS_REVOKED
-      transition.revoke!
+      transition.revoke!(current_user)
     when Transition::STATUS_REJECTED
       transition.rejected_reason = params[:data][:rejected_reason]
-      transition.reject!
+      transition.reject!(current_user)
     end
   end
 end
