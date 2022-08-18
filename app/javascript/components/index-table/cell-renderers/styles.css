@@ -46,3 +46,23 @@
   font-size: var(--fs-16);
   color: var(--c-dark-grey);
 }
+
+.readonly {
+  & fieldset {
+    border: none;
+  }
+
+  & input {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  & input::placeholder {
+    color: var(--c-black) !important;
+  }
+
+  & input:hover {
+    background-color: #F5F4F6;
+    border: #F5F4F6;
+  }
+}

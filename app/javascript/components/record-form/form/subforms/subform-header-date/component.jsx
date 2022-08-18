@@ -3,7 +3,10 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
 import { SUBFORM_HEADER_DATE } from "../constants";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../../config";
+import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
+import NepaliCalendar from "../../../../nepali-calendar-input";
+
+import css from "./styles.css";
 
 const Component = ({ value, includeTime }) => {
   const i18n = useI18n();
@@ -12,6 +15,20 @@ const Component = ({ value, includeTime }) => {
 
   const dateFormat = includeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
   const dateValue = i18n.localizeDate(value, dateFormat);
+
+  if (i18n.locale === LOCALE_KEYS.ne) {
+    return (
+      <div className={css.readonly}>
+        <NepaliCalendar
+          dateProps={{
+            value,
+            disabled: true,
+            InputProps: { readOnly: true, autoComplete: "new-password", disableUnderline: true }
+          }}
+        />
+      </div>
+    );
+  }
 
   return <span>{dateValue}</span>;
 };

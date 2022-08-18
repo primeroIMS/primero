@@ -1658,6 +1658,7 @@ en:
       warehouse: Warehouse
       buyingstation: Buying Station
       township: Township
+      municipality: Municipality
     label: Location
     name: Name
     code: Code
