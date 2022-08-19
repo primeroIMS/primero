@@ -24,7 +24,7 @@ const Component = ({ rowAvailable, wrapper, value, valueWithTime }) => {
         />
       </div>
     ) : (
-      parsedValue || ""
+      <>{parsedValue || ""}</>
     );
 
   return (
