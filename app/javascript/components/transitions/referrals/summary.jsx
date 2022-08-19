@@ -5,6 +5,7 @@ import TransitionActions from "../components/menu-actions";
 import TransitionStatus from "../TransitionStatus";
 import { useI18n } from "../../i18n";
 import { REFERRAL_SUMMARY_NAME } from "../constants";
+import DateTransitionsSummary from "../components/date-transitions-summary";
 
 const Summary = ({ transition, classes, showMode, recordType }) => {
   const i18n = useI18n();
@@ -19,8 +20,7 @@ const Summary = ({ transition, classes, showMode, recordType }) => {
     <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={4}>
         <div className={classes.wrapper}>
-          {/* TODO: The date should be localized */}
-          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+          <DateTransitionsSummary value={transition.created_at} />
           <div className={classes.titleHeader}>
             {i18n.t(`transition.type.${transition.remote ? "external_referral" : "referral"}`)}
           </div>

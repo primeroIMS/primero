@@ -5,6 +5,7 @@ import { Grid } from "@material-ui/core";
 import { useI18n } from "../../i18n";
 import TransitionStatus from "../TransitionStatus";
 import TransitionActions from "../components/menu-actions";
+import DateTransitionsSummary from "../components/date-transitions-summary";
 
 const TransferSummary = ({ transition, classes, showMode, recordType }) => {
   const i18n = useI18n();
@@ -19,8 +20,7 @@ const TransferSummary = ({ transition, classes, showMode, recordType }) => {
     <Grid container spacing={2} alignItems="center">
       <Grid item md={9} xs={9}>
         <div className={classes.wrapper}>
-          {/* TODO: The date should be localized */}
-          <div className={classes.date}>{i18n.localizeDate(transition.created_at)}</div>
+          <DateTransitionsSummary value={transition.created_at} />
           <div className={classes.titleHeader}>{i18n.t("transition.type.transfer")}</div>
         </div>
       </Grid>

@@ -10,6 +10,7 @@ import { ButtonBase } from "@material-ui/core";
 
 import generateKey from "../../../charts/table-values/utils";
 import { useI18n } from "../../../i18n";
+import { DateCell } from "../../../index-table";
 import css from "../../styles.css";
 
 import { NAME } from "./constants";
@@ -44,7 +45,9 @@ const Component = ({ item }) => {
       </TimelineSeparator>
       <TimelineContent>
         <div className={css.itemContainer}>
-          <div className={css.itemHeader}>{i18n.l("date.formats.with_time", item.date)}</div>
+          <div className={css.itemHeader}>
+            <DateCell value={item.date} withTime />
+          </div>
           <div>
             {item.title} {renderSeeDetail}
           </div>
