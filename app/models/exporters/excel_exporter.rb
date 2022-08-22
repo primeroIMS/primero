@@ -101,7 +101,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def form_name(form)
-    form.name(locale.to_s).sub(%r{[\[\]:*?\/\\]}, ' ')
+    form.name(locale.to_s).gsub(%r{[\[\]:*?\/\\]}, ' ')
   end
 
   def format_form_name(name)
