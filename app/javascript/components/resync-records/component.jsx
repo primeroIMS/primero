@@ -43,7 +43,8 @@ function Component() {
   const options = {
     ...defaultTableOptions({ simple: true }),
     selectToolbarPlacement: "none",
-    elevation: 3
+    elevation: 3,
+    rowHover: data.size > 0
   };
 
   const translateMethods = method => i18n.t(`resync_records.${method === METHODS.POST ? "create" : "update"}`);
