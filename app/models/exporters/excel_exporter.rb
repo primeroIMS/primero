@@ -26,7 +26,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records, user, options = {})
-    self.locale = user.locale || I18n.locale
+    self.locale = user&.locale || I18n.locale
     establish_export_constraints(records, user, options)
     constraint_subforms
     build_worksheets_with_headers
