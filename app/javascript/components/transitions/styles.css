@@ -149,6 +149,7 @@
 
 .readonly {
   pointer-events: none;
+  max-width: 5.5em;
   & fieldset {
     border: none;
   }
