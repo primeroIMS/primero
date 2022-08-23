@@ -168,7 +168,7 @@ export const getFieldDefaultValue = field => {
   }
 
   if (field.type === TICK_FIELD) {
-    return field.selected_value || false;
+    return field.selected_value === true || field.selected_value === "t" || field.selected_value === "true";
   }
 
   if (field.type === TALLY_FIELD) {
