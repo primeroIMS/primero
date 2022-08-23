@@ -9,6 +9,11 @@ $RAILS_ENV:
     user_name: $SMTP_USER
     password: $SMTP_PASSWORD
     enable_starttls_auto: $SMTP_STARTTLS_AUTO
+    openssl_verify_mode: $SMTP_OPENSSL_VERIFY_MODE
+    ssl: $SMTP_SSL
+    tls: $SMTP_TLS
+    open_timeout: $SMTP_OPEN_TIMEOUT
+    read_timeout: $SMTP_READ_TIMEOUT
   notifications:
     host: $MAILER_NOTIFICATION_HOST
   default_options:
