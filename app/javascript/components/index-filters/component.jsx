@@ -17,7 +17,8 @@ import { useI18n } from "../i18n";
 import { RECORD_PATH } from "../../config";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
-import { useMemoizedSelector } from "../../libs";
+import { reduceMapToObject, useMemoizedSelector } from "../../libs";
+import { getAppliedFilters } from "../record-list";
 
 import { filterType, compactFilters } from "./utils";
 import {
@@ -56,12 +57,14 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams
+    defaultValues: isEmpty(queryParams) ? merge(defaultFiltersPlainObject, filterToList) : queryParams,
+    shouldUnregister: false
   });
 
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType));
   const userName = useMemoizedSelector(state => currentUser(state));
+  const appliedFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
 
   const ownedByLocation = `${reportingLocationConfig.get("field_key")}${reportingLocationConfig.get("admin_level")}`;
 
@@ -190,6 +193,11 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
       setFilterToList(DEFAULT_FILTERS);
     }
   }, [rerender]);
+
+  useEffect(() => {
+    // TODO: This might not be necessary once the query params get persisted
+    methods.reset(reduceMapToObject(appliedFilters));
+  }, []);
 
   const tabs = [
     { name: i18n.t("saved_search.filters_tab"), selected: true },
