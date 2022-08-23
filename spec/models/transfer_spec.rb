@@ -133,7 +133,7 @@ describe Transfer do
     end
 
     it 'should have a entry in record histories' do
-      expect(@case.ordered_histories.first.user_name).to eq(@user2.user_name)
+      expect(@case.ordered_histories.order(id: :desc).first.user_name).to eq(@user2.user_name)
     end
 
     describe 'change ownership' do
@@ -425,7 +425,7 @@ describe Transfer do
         @case.update_properties(@user, { consent_for_services: true })
 
         @rejected_transfer.reject!(@user1)
-        expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
+        expect(@case.ordered_histories.order(id: :desc).first.user_name).to eq(@user1.user_name)
       end
     end
   end
