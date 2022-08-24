@@ -664,4 +664,18 @@ describe("<RecordForms /> - utils", () => {
       ).to.deep.equals({ field_1: "value 1", field_3: "value 3" });
     });
   });
+
+  describe("getFieldDefaultValue", () => {
+    context("when the field type is TICK_FIELD", () => {
+      it("returns true if selected_value is either true, 't' or 'true'", () => {
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "true" })).to.be.true;
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: true })).to.be.true;
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "t" })).to.be.true;
+      });
+
+      it("returns false if selected_value is not true, 't' or 'true'", () => {
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "wrong" })).to.be.false;
+      });
+    });
+  });
 });
