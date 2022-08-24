@@ -4,18 +4,11 @@
 class ApplicationMailer < ActionMailer::Base
   layout 'mailer'
 
-  before_action :mail_allowed!
-
   rescue_from StandardError do |error|
     log_mailer_error(error)
   end
 
   protected
-
-  def mail_allowed!
-    SystemSettings.current.notification_email_enabled ||
-      raise(Errors::MailNotConfiguredError)
-  end
 
   def log_mailer_error(error)
     case error

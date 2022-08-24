@@ -368,7 +368,7 @@ class User < ApplicationRecord
   end
 
   def send_welcome_email(admin_user)
-    return unless email && SystemSettings.current&.welcome_email_enabled
+    return unless email
     return if identity_provider&.sync_identity?
 
     UserMailJob.perform_later(id, admin_user.id)
