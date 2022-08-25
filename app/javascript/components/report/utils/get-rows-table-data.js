@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty";
 import get from "lodash/get";
+import isNil from "lodash/isNil";
 
 import formattedDate from "./formatted-date";
 import sortByDate from "./sort-by-date";
@@ -18,20 +19,19 @@ export default (data, columns, i18n) => {
   rowEntries.forEach(entry => {
     const [key, value] = entry;
     const qtyOfParentKeys = rows.length;
+    const total = isNil(value._total) ? value[i18n.t("report.total")] : value._total;
 
     if (qtyOfParentKeys >= 2) {
-      accum.push([key, true, value._total || value[i18n.t("report.total")]]);
+      accum.push([key, true, total]);
       const result = sortByDate(Object.keys(value))
         .filter(val => !["_total", i18n.t("report.total")].includes(val))
         .map(rowDisplayName => {
           const values = columnPaths.map(child => get(value[rowDisplayName], child, 0));
+          const rowTotal = isNil(value[rowDisplayName]._total)
+            ? value[rowDisplayName][i18n.t("report.total")]
+            : value[rowDisplayName]._total;
 
-          return [
-            rowDisplayName,
-            false,
-            ...values,
-            value[rowDisplayName]._total || value[rowDisplayName][i18n.t("report.total")]
-          ];
+          return [rowDisplayName, false, ...values, rowTotal];
         });
 
       // Set rest of keys
@@ -48,7 +48,7 @@ export default (data, columns, i18n) => {
 
       const dateOrKey = formattedDate(key, i18n);
 
-      accum.push([dateOrKey, false, ...values, value._total || value[i18n.t("report.total")]]);
+      accum.push([dateOrKey, false, ...values, total]);
     }
   });
 
