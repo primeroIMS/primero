@@ -24,9 +24,14 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def export(records, user, _options = {})
+    self.locale = user.locale
     list_headers = list_headers(records, user)
+    csv_export = build_csv_export(records, list_headers, user)
+    buffer.write(csv_export)
+  end
 
-    csv_export = CSVSafe.generate do |rows|
+  def build_csv_export(records, list_headers, user)
+    CSVSafe.generate do |rows|
       next unless list_headers
 
       rows << headers(list_headers) if @called_first_time.nil?
@@ -36,7 +41,6 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
         rows << row(record, list_headers, user)
       end
     end
-    buffer.write(csv_export)
   end
 
   def list_headers(records, user)

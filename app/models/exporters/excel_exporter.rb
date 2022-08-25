@@ -26,6 +26,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export(records, user, options = {})
+    self.locale = user&.locale || I18n.locale
     establish_export_constraints(records, user, options)
     constraint_subforms
     build_worksheets_with_headers
@@ -105,7 +106,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def format_form_name(name)
-    name.encode('iso-8859-1', undef: :replace, replace: '').strip.truncate(31)
+    name.strip.truncate(31)
   end
 
   def write_record(record)
