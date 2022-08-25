@@ -1,18 +1,60 @@
-/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-restricted-syntax, no-plusplus */
+
+const hasMergedRows = () => [...document.querySelectorAll("tr td").entries()].some(([, row]) => row.colSpan > 1);
+
+const buildHeaders = (headers, mergedRows = false) => {
+  const headerRows = mergedRows ? [""] : [];
+
+  for (const value of headers.entries()) {
+    const column = value[1];
+
+    if (column.colSpan > 1) {
+      for (let i = 0; i < column.colSpan; i++) {
+        headerRows.push(column.innerText);
+      }
+    } else {
+      headerRows.push(column.innerText);
+    }
+  }
+
+  return headerRows;
+};
 
 export const tableToCsv = tableSelector => {
   const tableData = [];
   const rows = document.querySelectorAll(tableSelector);
+  const mergedRows = hasMergedRows();
+
+  let mergedRowText = "";
 
   for (const row of rows) {
-    const rowData = [];
+    const headers = buildHeaders(row.querySelectorAll("th"), mergedRows);
 
-    for (const value of row.querySelectorAll("th, td").entries()) {
-      const column = value[1];
+    if (headers.filter(header => header !== "").length) {
+      tableData.push(headers.join(","));
+    } else {
+      const dataRow = [];
 
-      rowData.push(column.innerText);
+      for (const value of row.querySelectorAll("tr td").entries()) {
+        const column = value[1];
+
+        if (mergedRows) {
+          dataRow[0] = mergedRowText;
+        }
+
+        if (column.colSpan > 1) {
+          mergedRowText = column.innerText;
+          dataRow[0] = mergedRowText;
+
+          for (let i = 0; i < column.colSpan; i++) {
+            dataRow.push("");
+          }
+        } else {
+          dataRow.push(column.innerText);
+        }
+      }
+      tableData.push(dataRow.join(","));
     }
-    tableData.push(rowData.join(","));
   }
 
   return tableData.join("\n");
