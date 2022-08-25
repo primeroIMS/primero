@@ -19,7 +19,7 @@ import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 import { overwriteMerge, useMemoizedSelector } from "../../libs";
 
-import { DEFAULT_SELECTED_RECORDS_VALUE, HIDDEN_FIELDS } from "./constants";
+import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
 import { compactFilters, transformFilters } from "./utils";
 import { Search } from "./components/filter-types";
 import { applyFilters, setFilters } from "./action-creators";
@@ -49,7 +49,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   };
 
   const methods = useForm({
-    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: recordType }, filterToList, {
+    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: FILTER_CATEGORY.incidents }, filterToList, {
       arrayMerge: overwriteMerge
     }),
     shouldUnregister: false
@@ -88,7 +88,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
         }
       });
       setMoreSectionFilters({});
-      methods.reset({ ...filtersToApply, filter_category: recordType });
+      methods.reset({ ...filtersToApply, filter_category: FILTER_CATEGORY.incidents });
       resetSelectedRecords();
       dispatch(applyFilters({ recordType, data: compactFilters(filtersToApply) }));
 
@@ -98,7 +98,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
   }, [rerender]);
 
   useEffect(() => {
-    methods.reset({ ...transformFilters.split(queryParams), filter_category: recordType });
+    methods.reset({ ...transformFilters.split(queryParams), filter_category: methods.getValues("filter_category") });
   }, [queryString]);
 
   const tabs = [
@@ -119,7 +119,7 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
 
   const handleClear = useCallback(() => {
     resetSelectedRecords();
-    methods.reset({ ...defaultFiltersPlainObject, filter_category: recordType });
+    methods.reset({ ...defaultFiltersPlainObject, filter_category: methods.getValues("filter_category") });
     batch(() => {
       dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
       dispatch(push({}));
