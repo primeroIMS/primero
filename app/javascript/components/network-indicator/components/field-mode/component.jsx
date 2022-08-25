@@ -1,5 +1,6 @@
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
 
 import { useI18n } from "../../../i18n";
 import { setUserToggleOffline } from "../../../connectivity/action-creators";
@@ -7,7 +8,6 @@ import ListIcon from "../../../list-icon";
 import { useMemoizedSelector } from "../../../../libs";
 import { getFieldMode } from "../../../application/selectors";
 import ToggleSwitch from "../toggle-switch/component";
-import { selectUserToggleOffline } from "../../../connectivity/selectors";
 
 import css from "./styles.css";
 
@@ -16,7 +16,22 @@ function Component() {
   const dispatch = useDispatch();
 
   const fieldMode = useMemoizedSelector(state => getFieldMode(state));
-  const fieldModeStatus = useMemoizedSelector(state => selectUserToggleOffline(state));
+
+  const [fieldModeStatus, setFieldModeStatus] = useState(localStorage.getItem("fieldMode") === "true");
+
+  const setFieldMode = checked => {
+    setFieldModeStatus(checked);
+
+    dispatch(setUserToggleOffline(checked));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("fieldMode", fieldModeStatus);
+  }, [fieldModeStatus]);
+
+  useEffect(() => {
+    dispatch(setUserToggleOffline(fieldModeStatus));
+  }, []);
 
   if (!fieldMode) {
     return false;
@@ -25,7 +40,7 @@ function Component() {
   const handleStatusChange = event => {
     const { checked } = event.target;
 
-    dispatch(setUserToggleOffline(checked));
+    setFieldMode(checked);
   };
 
   const mode = {
@@ -47,7 +62,7 @@ function Component() {
         <ListIcon icon={mode.icon} />
       </ListItemIcon>
       <ListItemText classes={{ primary: css.listText }}>{i18n.t("field_mode", { mode: mode.text })}</ListItemText>
-      <ToggleSwitch color="default" onChange={handleStatusChange} value={fieldModeStatus} />
+      <ToggleSwitch color="default" onChange={handleStatusChange} checked={fieldModeStatus} />
     </ListItem>
   );
 }

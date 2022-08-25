@@ -28,7 +28,7 @@ const Datatable = ({
   checkOnline = false,
   columns,
   data,
-  defaultFilters,
+  defaultFilters = fromJS({}),
   errors,
   isRowSelectable,
   loading,
@@ -53,8 +53,8 @@ const Datatable = ({
   const filters = useMemoizedSelector(state => getFilters(state, recordType));
 
   const hasData = !loading && Boolean(data?.size);
-  const order = filters.get("order");
-  const orderBy = filters.get("order_by");
+  const order = filters?.get("order");
+  const orderBy = filters?.get("order_by");
   const componentColumns = buildComponentColumns(
     typeof columns === "function" ? columns(data) : columns,
     order,
