@@ -26,7 +26,8 @@ import {
   HIDDEN_FIELDS,
   PRIMARY_FILTERS,
   MY_CASES_FILTER_NAME,
-  OR_FILTER_NAME
+  OR_FILTER_NAME,
+  ID_SEARCH
 } from "./constants";
 import { Search } from "./components/filter-types";
 import { getFiltersByRecordType } from "./selectors";
@@ -215,18 +216,24 @@ const Component = ({ recordType, defaultFilters, setSelectedRecords }) => {
     setOpen(true);
   };
 
-  const handleClear = useCallback(() => {
-    resetSelectedRecords();
-    methods.reset(defaultFiltersPlainObject);
-    dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
+  const handleClear = useCallback(
+    setIdSearch => {
+      resetSelectedRecords();
+      methods.reset({
+        ...defaultFiltersPlainObject,
+        ...(setIdSearch && { [ID_SEARCH]: true })
+      });
+      dispatch(setFilters({ recordType, data: defaultFiltersPlainObject }));
 
-    dispatch(push({}));
+      dispatch(push({}));
 
-    setMoreSectionFilters({});
-    setReset(true);
-    setMore(false);
-    setFilterToList(DEFAULT_FILTERS);
-  }, [recordType, defaultFiltersPlainObject]);
+      setMoreSectionFilters({});
+      setReset(true);
+      setMore(false);
+      setFilterToList(DEFAULT_FILTERS);
+    },
+    [recordType, defaultFiltersPlainObject]
+  );
 
   const handleChangeTabs = (event, value) => setTabIndex(value);
 
