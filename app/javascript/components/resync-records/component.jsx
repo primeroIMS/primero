@@ -10,6 +10,7 @@ import { PageHeading } from "../page";
 import ActionButton from "../action-button";
 import { useMemoizedSelector } from "../../libs";
 import { getQueueData } from "../connectivity/selectors";
+import DisableOffline from "../disable-offline";
 
 function Component() {
   const i18n = useI18n();
@@ -76,7 +77,9 @@ function Component() {
   return (
     <>
       <PageHeading title={title} noElevation noPadding>
-        <ActionButton onClick={handleResync} text="resync_records.resync" pending={pending} />
+        <DisableOffline button>
+          <ActionButton onClick={handleResync} text="resync_records.resync" pending={pending} />
+        </DisableOffline>
       </PageHeading>
       <MUIDataTable title={title} columns={columns} options={options} data={parsedData} />
     </>
