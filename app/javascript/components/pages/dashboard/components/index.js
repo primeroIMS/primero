@@ -10,5 +10,6 @@ export { default as ProtectionConcern } from "./protection-concern";
 export { default as Flags } from "./flags";
 export { default as CasesBySocialWorker } from "./cases-by-social-worker";
 export { default as CasesToAssign } from "./cases-to-assign";
+export { default as PerpetratorArmedForceGroupPartyNames } from "./perpetrator-armed-force-group-party-names";
 export { default as ViolationsCategoryVerificationStatus } from "./violations-category-verification-status";
 export { default as ViolationsCategoryRegion } from "./violations-category-region";
