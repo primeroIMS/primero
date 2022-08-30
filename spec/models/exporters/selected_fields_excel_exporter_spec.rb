@@ -408,7 +408,7 @@ describe Exporters::SelectedFieldsExcelExporter do
     let(:workbook) do
       data = Exporters::SelectedFieldsExcelExporter.export(
         @record_with_special_id,
-        @user,
+        @user_en,
         field_names: %w[name_first]
       )
       Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
